@@ -1,0 +1,14 @@
+<Files .htaccess>
+Order Allow,Deny
+Deny from all
+</Files>
+
+<Files config.inc.php>
+Order Deny,Allow
+Deny from all
+</Files>
+
+<Files config.dist.php>
+Order Deny,Allow
+Deny from all
+</Files>

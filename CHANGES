@@ -1,0 +1,73 @@
+Rosario Student Information System - CHANGES
+
+Changes in 1.0
+---------------
+- forked Centre SIS v.3.0.1
+- added theme WPadmin
+- added CSS tags for the new theme
+- delete old themes
+- replaced modules icon set
+- added <label> on checkbox and radio
+- added favicon
+- removed Common Name
+- added ability to add Student/User Photo directly from the Student/User screen via jQueryForm
+- upgraded PostgreSQL functions now compatible with PostgreSQL v.9
+- removed LO
+- added Discpline Module
+- added Student Billing Module
+- added gettext on every string in RosarioSIS
+- replaced date() by strftime() for dates in locale
+- added custom currency
+- delete folder vendor/
+- delete folder language/
+- delete functions/DrawPNG.fnc.php
+- delete functions/DrawBlock.fnc.php
+- removed function DrawRoundedRect()
+- moved function ReindexResults() to ListOutput.fnc.php and delete functions/ReindexResults.fnc.php
+- delete functions/StripChars.fnc.php
+- delete modules/Grades/ReportCards_gpa.php
+- delete labels_test.php
+- delete Top.php
+- delete modules/Attendance/config.inc.php
+- delete modules/misc/Directory.php
+- moved static Javascript code in Warehouse.php to assets/js/warehouse.js
+- moved static Javascript code in Side.php to assets/js/side.js
+- replaced PHP/SWF Charts by jqPlot
+- replaced htmldoc by wkhtmltopdf
+- replaced HTML 3 code by HTML 5 code
+- added .htaccess for security
+- added password encryption
+- added Grades/GradebookBreakdown.php for teachers
+- added Custom Module SQL
+- added event repeat for the calendar
+- added School uses a Rotation of Numbered Days option
+- added possibility to attach a file to Portal Notes
+- added possibility to add more than one period to a Course Period
+- added PostgreSQL Database Backup
+- added Students/StudentBreakdown.php
+- added Scheduling/MasterScheduleReport.php
+- added TinyMCE to letters
+- added School Year over two calendar years option
+- added School Configuration
+- changed short names to full names (School Periods & Attendance Codes) in Grades/ReportCards.php & Grades/FinalGrades.php
+- fixed errors Deprecated: Functions ereg_replace(), eregi_replace(), ereg(), 
+- fixed errors various PHP Warnings and Notices
+- bugfix: text encoding passed to HTMLDOC
+- bugfix: Eligibility add the same activity more than once
+- bugfix: Eligibility Add Activity no Search when student already selected
+- bugfix: Food Service no balance
+- bugfix: Discipline search when only saving
+- bugfix: Portal Notes not displayed when pn.START_DATE IS NULL
+- bugfix: ListOutput.fnc.php search when only saving
+- bugfix: ListOutput.fnc.php bug ngettext when the plural form is not registered as this in the rosariosis.po file
+- bugfix: School Setup no save button if no admin
+- bugfix: Internet Explorer Quirks Mode <!DOCTYPE> not valid
+- bugfix: EditReportCardGrades.php 3 SQL related bugs
+- bugfix: MassRequests.php Choose a Course window closing
+- bugfix: SQL bug invalid sort order, program wide
+- bugfix: SQL bug invalid amount in StudentBilling
+- bugfix: minutes not numeric in School_Setup/Calendar.php
+- bugfix: teacher's school is NULL in Scheduling/MassRequests.php
+- bugfix: no student found when student logged in in functions/Search.fnc.php
+- bugfix: SQL bug no course period in the marking period in Users/TeacherPrograms.php
+- bugfix: SQL bug START_DATE or END_DATE is null in School_Setup/MarkingPeriods.php

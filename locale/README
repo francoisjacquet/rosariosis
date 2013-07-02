@@ -1,0 +1,13 @@
+The /locale folder contains the localization files.
+The structure of the subfolders and files must be as follow:
+For example, for a french translation:
+
+locale/
+	fr_FR.utf8/
+		LC_MESSAGES/
+			rosariosis.mo
+			rosariosis.po
+		
+Note: "fr_FR.utf8" is the name of the French locale on Ubuntu distributions. On Windows platforms, the locale will be named "fra_FRA". Also, do not forget to set the name of the locale in the /config.inc.php file and to rename the country flag image file in /assets/flags accordingly!
+
+Note 2: The localization system is gettext, and the *.po files can be edited with the freeware Poedit.

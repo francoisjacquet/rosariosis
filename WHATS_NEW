@@ -1,0 +1,51 @@
+Rosario Student Information System - WHATS_NEW
+
+New in 1.0
+-----------
+Themes
+- New logo
+- New theme: WPadmin inspired by Wordpress' admin theme
+- New icon set
+
+Translation
+- Every string in RosarioSIS now translatable
+- Full french and spanish translation
+- Dates translation
+- Custom Currency
+- Handbooks/Help in spanish
+
+Students
+- Added ability to add/change Photo directly from the Student/User screen
+- Added student breakdown adapted from Focus SIS v.2.3
+- Added TinyMCE to letters
+
+Grades
+- Added gradebook breakdown adapted from Focus SIS v.2.3
+
+School Setup
+- Added PostgreSQL database backup
+- Added School uses a Rotation of Numbered Days option
+- Added possibility to attach a file to Portal Notes
+- Added ability to repeat a calendar event
+- Added School Configuration
+
+Scheduling
+- Added master schedule report
+- Added possibility to add more than one period to a Course Period
+
+Discipline 
+- Added module adapted from Focus SIS v.2.3
+
+Student Billing 
+- Added module adapted from Focus SIS v.2.3
+
+Password Encryption
+
+Moodle
+- Added Moodle integration
+
+Breakdowns
+- jqPlot Javascript charts replace PHP/SWF Charts
+
+PDF
+- Replaced htmldoc by wkhtmltopdf

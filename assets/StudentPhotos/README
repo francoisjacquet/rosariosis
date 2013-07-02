@@ -1,0 +1,11 @@
+This directory holds the student photos.
+
+You should create one subdirectory for every school year, and store student pictures in as <student_id>.JPG
+For example:
+
+2009
+       1.JPG
+       2.JPG
+2010
+       1.JPG
+       2.JPG

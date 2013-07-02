@@ -1,0 +1,104 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Untitled</TITLE><STYLE type="text/css">
+font.dis{
+    color: #483D8B;
+    font-style: italic;
+   }
+   font.code{
+    color: red;
+   }
+   font.imcode{
+
+    color: blue;
+   }
+</STYLE>
+</HEAD>
+<BODY>
+<H1>
+         DHTML tip message version 1.5
+      </H1>
+      <H3 align="center">
+         Before using the generator get an idea of how this script works
+      </H3>
+      <H3>
+         About the script:
+      </H3>
+<P>My script creates a comprehensive DHTML tip message to help describe
+         important links on your webpage. Modeled after a similar script by
+         Eric Bosrup, it is extremely versatile in its placement and special
+         effects to render as the tooltip is being displayed. The script
+         supports over 26 different configuration parameters! Overall an
+         excellent script that works cross browser (IE4+, NS4+, Opera 7+).</P><H3>
+         To be able to use the generator easily you should know the following:
+      </H3>
+	<OL>
+		<LI>Every tip message is created from a combination of one Text array
+            and one Style array the word array in JavaScript means collection.</LI>
+		<LI>The Text and the Style arrays consist the tip message&#39;s
+            configuration values.</LI>
+		<LI>Every Text and Style have a index number which will be used as a
+            reference to them.</LI>
+		<LI>The index number of the Text and Style array should be consecutive
+            e.g. Text[0],Text[1] , Style[0],Style[1].</LI>
+		<LI>You then implement the tips in the links [(A) tags or href tags] by
+            using the <B>STM</B> function which means show tip message.<BR></LI>
+		<LI>In the <B>STM</B> function you choose which Text and Style array or
+            in other words configuration will be used for this tip</LI>
+	</OL>
+<P>this is how the script should be implemented on your web site.<BR><BR><FONT class="code">&lt;HTML&gt;<BR>&lt;HEAD&gt;<BR><FONT class="dis">// Make sure that you upload the main15.js to your
+         server and include a link to it as the following</FONT><BR><FONT class="imcode">&lt;SCRIPT language=&quot;JavaScript1.2&quot;
+         src=&quot;main15.js&quot;
+         type=&quot;text/javascript&quot;&quot;&gt;&lt;/SCRIPT&gt;</FONT><BR>&lt;TITLE&gt;&lt;/TITLE&gt;<BR>&lt;/HEAD&gt;<BR>&lt;BODY&gt;<BR><BR><FONT class="dis">// The following code is the &lt;div&gt; tag which
+         is needed for the tip message work. The &lt;div&gt; tag should be
+         right under the &lt;body&gt; tag NO where else will do!. In the
+         generator you will be given the option of specifying the ID of the
+         &lt;div&gt; tag. After generation if you changed the div tag&#39;s ID
+         or removed it or miss placed it where it should be under the body tag
+         the script will popup an alter box telling you that something is wrong
+         with the div tag.</FONT><BR><FONT class="imcode">&lt;DIV id=&quot;tiplayer&quot;
+         style=&quot;visibility:hidden;position:absolute;z-index:1000;top:-100;&quot;&gt;&lt;/DIV&gt;</FONT><BR><BR><FONT class="dis">// And now for the Text and Style array
+         configuration.<BR>Lets say that you wanted to create 3 tip messages that look the same
+         (Same Style array used) with different text and title (different Text
+         arrays used) for each tip. If so your code should look should look
+         something like this but with your configuration of course.</FONT><BR><FONT class="imcode">&lt;SCRIPT language=&quot;JavaScript1.2&quot;
+         &gt;<BR><BR><FONT class="dis">//The Text array parameters come in the following
+         order Text[...]=[title,text]<BR></FONT> <FONT color="#008080">Text[0]</FONT>=[&quot;this is title
+         one&quot;,&quot;this is text one&quot;]<BR><FONT color="#FF0066">Text[1]</FONT>=[&quot;this is title
+         two&quot;,&quot;this is text two&quot;]<BR><FONT color="#FF00FF">Text[2]</FONT>=[&quot;this is title
+         three&quot;,&quot;this is text three&quot;]<BR><BR><FONT class="dis">//The Style array parameters come in the following
+         order
+         Style[...]=[titleColor,TitleBgColor,TitleBgImag,TitleTextAlign,TitleFontFace,TitleFontSize,TextColor,TextBgColor,TextBgImag,TextTextAlign,TextFontFace,<BR>TextFontSize,Width,Height,BorderSize,BorderColor,Textpadding,transition
+         number,Transition duration,Transparency level,shadow type,shadow
+         color,Appearance behavior,TipPositionType,Xpos,Ypos]<BR></FONT> <FONT color="#666633">Style[0]</FONT>=[&quot;white&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,,&quot;black&quot;,&quot;#ffffcc&quot;,&quot;&quot;,&quot;&quot;,&quot;&quot;,,,,2,&quot;#b22222&quot;,2,24,0.5,0,2,&quot;gray&quot;,,2,,13]<BR><BR><FONT class="dis">// these are global settings</FONT><BR>var TipId=&quot;tiplayer&quot; <FONT class="dis">// should be the same
+         as &lt;div&gt; tag&#39;s id</FONT><BR>var FiltersEnabled = 1 <FONT class="dis">// should be the set as to 1
+         if your going to use visual effects if not set to 0</FONT><BR>mig_clay()<BR><BR>&lt;/SCRIPT&gt;</FONT><BR><BR><FONT class="dis">// Now that we created our Text and Style arrays
+         needed lets implement them in the link tags by using a reference to
+         the arrays by their index number in the STM function</FONT><BR><FONT class="imcode">&lt;a href=&quot;your url&quot;
+         onMouseOver=&quot;<FONT color="#CC0099">stm(</FONT><FONT color="#008080">Text[0]</FONT>,<FONT color="#666633">Style[0]</FONT><FONT color="#CC0099">)</FONT>&quot; onMouseOut=&quot;<FONT color="#CC0099">htm()</FONT>&quot;&gt;Tip One&lt;/A&gt;<BR>&lt;a href=&quot;your url&quot; onMouseOver=&quot;<FONT color="#CC0099">stm(</FONT><FONT color="#FF0066">Text[1]</FONT>,<FONT color="#666633">Style[0]</FONT><FONT color="#CC0099">)</FONT>&quot;
+         onMouseOut=&quot;<FONT color="#CC0099">htm()</FONT>&quot;&gt;Tip
+         two&lt;/A&gt;<BR>&lt;a href=&quot;your url&quot; onMouseOver=&quot;<FONT color="#CC0099">stm(</FONT><FONT color="#FF00FF">Text[2]</FONT>,<FONT color="#666633">Style[0]</FONT><FONT color="#CC0099">)</FONT>&quot;
+         onMouseOut=&quot;<FONT color="#CC0099">htm()</FONT>&quot;&gt;Tip
+         three&lt;/A&gt;<BR><BR></FONT> <FONT class="dis">//Of course you may create more links using
+         the same code these are three tips exactly the same</FONT><BR><FONT class="imcode">&lt;a href=&quot;your url&quot;
+         onMouseOver=&quot;<FONT color="#CC0099">stm(</FONT><FONT color="#FF0066">Text[1]</FONT>,<FONT color="#666633">Style[0]</FONT><FONT color="#CC0099">)</FONT>&quot; onMouseOut=&quot;<FONT color="#CC0099">htm()</FONT>&quot;&gt;Tip four&lt;/A&gt;<BR>&lt;a href=&quot;your url&quot; onMouseOver=&quot;<FONT color="#CC0099">stm(</FONT><FONT color="#FF0066">Text[1]</FONT>,<FONT color="#666633">Style[0]</FONT><FONT color="#CC0099">)</FONT>&quot;
+         onMouseOut=&quot;<FONT color="#CC0099">htm()</FONT>&quot;&gt;Tip
+         five&lt;/A&gt;<BR>&lt;a href=&quot;your url&quot; onMouseOver=&quot;<FONT color="#CC0099">stm(</FONT><FONT color="#FF0066">Text[1]</FONT>,<FONT color="#666633">Style[0]</FONT><FONT color="#CC0099">)</FONT>&quot;
+         onMouseOut=&quot;<FONT color="#CC0099">htm()</FONT>&quot;&gt;tip
+         six&lt;/A&gt;</FONT><BR>&lt;/BODY&gt;<BR>&lt;/HTML&gt;</FONT><BR><BR><B>Note:</B><BR><FONT class="dis">If your going to use the same code on many pages its
+         recommend that you use an external .js file to do that simply copy the
+         array configuration code WITH OUT THE SCRIPT TAGS JUST WHAT&#39;S
+         BETWEEN IT and save it as style.js and include and link to it just
+         like the main15.js but the link to the style.js should be in the body
+         tag just under the div tag and also be sure to up load it to your
+         server.</FONT></P><H3>
+         Well that&#39;s all you need to know I hope I explained well pleas
+         look at the demo.html before generating<BR>If your having problems pleas email me and I may help you create your
+         tips.<BR>pleas email me if your using the script so i may list your website!
+      </H3>
+      <H3>
+         Author: Essam Gamal (Migoicons)<BR>Email:<a href="mailto:migoicons@hotmail.com?subject=from a client">migoicons@hotmail.com</a><BR>Website: <A href="http://migoicons.tripod.com" target="_blank" title="click to go to my web site ">http://migoicons.tripod.com</A>
+      </H3><BR><BR>
+</BODY>
+</HTML>

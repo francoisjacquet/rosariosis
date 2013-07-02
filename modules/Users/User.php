@@ -1,0 +1,349 @@
+<?php
+if(User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id'] && $_REQUEST['staff_id']!=User('STAFF_ID') && $_REQUEST['staff_id']!='new')
+{
+	if(User('USERNAME'))
+	{
+		echo "You're not allowed to do this! This attempted violation has been logged and your IP address was captured.";
+		Warehouse('footer');
+		if($RosarioNotifyAddress)
+		{
+			//modif Francois: add email headers
+			$headers = 'From:'.$RosarioNotifyAddress."\r\n";
+			$headers .= 'Return-Path:'.$RosarioNotifyAddress."\r\n"; 
+			$headers .= 'Reply-To:'.$RosarioNotifyAddress . "\r\n" . 'X-Mailer:PHP/' . phpversion();
+			$params = '-f '.$RosarioNotifyAddress;
+
+			mail($RosarioNotifyAddress, 'HACKING ATTEMPT', "INSERT INTO HACKING_LOG (HOST_NAME,IP_ADDRESS,LOGIN_DATE,VERSION,PHP_SELF,DOCUMENT_ROOT,SCRIPT_NAME,MODNAME,USERNAME) values('$_SERVER[SERVER_NAME]','$_SERVER[REMOTE_ADDR]','".date('Y-m-d')."','$RosarioVersion','$_SERVER[PHP_SELF]','$_SERVER[DOCUMENT_ROOT]','$_SERVER[SCRIPT_NAME]','$_REQUEST[modname] - tried to access user','".User('USERNAME')."')", $headers, $params);
+		}
+	}
+	exit;
+}
+
+if(!$_REQUEST['include'])
+{
+	$_REQUEST['include'] = 'General_Info';
+	$_REQUEST['category_id'] = '1';
+}
+elseif(!$_REQUEST['category_id'])
+{
+	if($_REQUEST['include']=='General_Info')
+		$_REQUEST['category_id'] = '1';
+	elseif($_REQUEST['include']=='Schedule')
+		$_REQUEST['category_id'] = '2';
+	elseif($_REQUEST['include']!='Other_Info')
+	{
+		$include = DBGet(DBQuery("SELECT ID FROM STAFF_FIELD_CATEGORIES WHERE INCLUDE='$_REQUEST[include]'"));
+		$_REQUEST['category_id'] = $include[1]['ID'];
+	}
+}
+	
+if(User('PROFILE')!='admin')
+{
+	if(User('PROFILE_ID'))
+		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Users/User.php&category_id=$_REQUEST[category_id]' AND CAN_EDIT='Y'"));
+	else
+		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Users/User.php&category_id=$_REQUEST[category_id]' AND CAN_EDIT='Y'"),array(),array('MODNAME'));
+	if($can_edit_RET)
+		$_ROSARIO['allow_edit'] = true;
+}
+
+if($_REQUEST['modfunc']=='update')
+{
+	if(count($_REQUEST['month_staff']))
+	{
+		foreach($_REQUEST['month_staff'] as $column=>$value)
+		{
+			$_REQUEST['staff'][$column] = $_REQUEST['day_staff'][$column].'-'.$_REQUEST['month_staff'][$column].'-'.$_REQUEST['year_staff'][$column];
+			if($_REQUEST['staff'][$column]=='--')
+				$_REQUEST['staff'][$column] = '';
+			elseif(!VerifyDate($_REQUEST['staff'][$column]))
+			{
+				unset($_REQUEST['staff'][$column]);
+				$note = "The invalid date could not be saved.";
+			}
+		}
+	}
+	unset($_REQUEST['day_staff']); unset($_REQUEST['month_staff']); unset($_REQUEST['year_staff']);
+
+	if($_REQUEST['staff']['SCHOOLS'])
+	{
+		foreach($_REQUEST['staff']['SCHOOLS'] as $school_id=>$yes)
+			$schools .= ','.$school_id;
+		$_REQUEST['staff']['SCHOOLS'] = $schools.',';
+	}
+/*	else
+		$_REQUEST['staff']['SCHOOLS'] = $_POST['staff'] = '';*/
+
+	if(count($_POST['staff']) && (User('PROFILE')=='admin' || basename($_SERVER['PHP_SELF'])=='index.php'))
+	{
+		//modif Francois: Moodle integrator / password
+		if (!empty($_REQUEST['staff']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
+		{
+			BackPrompt(_('Please enter a valid password'));				
+		}
+		if(UserStaffID() && $_REQUEST['staff_id']!='new')
+		{
+			$profile_RET = DBGet(DBQuery("SELECT PROFILE,PROFILE_ID,USERNAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
+
+			if(isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']!=$profile_RET[1]['PROFILE_ID'])
+			{
+				if($_REQUEST['staff']['PROFILE']=='admin')
+					$_REQUEST['staff']['PROFILE_ID'] = '1';
+				elseif($_REQUEST['staff']['PROFILE']=='teacher')
+					$_REQUEST['staff']['PROFILE_ID'] = '2';
+				elseif($_REQUEST['staff']['PROFILE']=='parent')
+					$_REQUEST['staff']['PROFILE_ID'] = '3';
+			}
+
+			if($_REQUEST['staff']['PROFILE_ID'])
+				DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".UserStaffID()."'");
+			elseif(isset($_REQUEST['staff']['PROFILE_ID']) && $profile_RET[1]['PROFILE_ID'])
+			{
+				DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".UserStaffID()."'");
+				DBQuery("INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT) SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT FROM STAFF s,PROFILE_EXCEPTIONS e WHERE s.STAFF_ID='".UserStaffID()."' AND s.PROFILE_ID=e.PROFILE_ID");
+			}
+
+			// CHANGE THE USERNAME
+			if($_REQUEST['staff']['USERNAME'] && $_REQUEST['staff']['USERNAME']!=$profile_RET[1]['USERNAME'])
+			{
+				$existing_staff = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."'"));
+				if(count($existing_staff))
+					BackPrompt(_('A user with that username already exists for the current school year. Choose a different username and try again.'));
+			}
+
+			$sql = "UPDATE STAFF SET ";
+			$go = false;
+			foreach($_REQUEST['staff'] as $column_name=>$value)
+			{
+//modif Francois: add password encryption
+				if ($column_name!=='PASSWORD')
+				{
+					$sql .= "$column_name='".str_replace("\'","''",str_replace("`","''",$value))."',";
+					$go = true;
+				}
+				if ($column_name=='PASSWORD' && $value!==str_repeat('*',8))
+				{
+					$sql .= "$column_name='".encrypt_password($value)."',";
+					$go = true;
+				}
+			}
+			$sql = substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."'";
+			if(User('PROFILE')=='admin' && $go)
+				DBQuery($sql);
+
+//modif Francois: Moodle integrator
+			$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
+		}
+		else
+		{
+			//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME, PROFILE is null
+			if (empty($_REQUEST['staff']['FIRST_NAME']) || empty($_REQUEST['staff']['LAST_NAME']) || empty($_REQUEST['staff']['PROFILE']))
+			{
+				BackPrompt(_('Please fill in the required fields'));
+			}
+			//modif Francois: Moodle integrator
+			//username, password, email required
+			if (MOODLE_INTEGRATOR && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['PASSWORD']) || empty($_REQUEST['staff']['EMAIL'])))
+			{
+				BackPrompt(_('Please fill in the required fields'));
+			}
+			if($_REQUEST['staff']['PROFILE']=='admin')
+				$_REQUEST['staff']['PROFILE_ID'] = '1';
+			elseif($_REQUEST['staff']['PROFILE']=='teacher')
+				$_REQUEST['staff']['PROFILE_ID'] = '2';
+			elseif($_REQUEST['staff']['PROFILE']=='parent')
+				$_REQUEST['staff']['PROFILE_ID'] = '3';
+
+			$existing_staff = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."'"));
+			if(count($existing_staff))
+				BackPrompt(_('A user with that username already exists for the current school year. Choose a different username and try again.'));
+			$staff_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID'.FROM_DUAL));
+			$staff_id = $staff_id[1]['STAFF_ID'];
+
+			$sql = "INSERT INTO STAFF ";
+			$fields = 'SYEAR,STAFF_ID,';
+			$values = "'".UserSyear()."','".$staff_id."',";
+
+			if(basename($_SERVER['PHP_SELF'])=='index.php')
+			{
+				$fields .= 'PROFILE,';
+				$values = "'".Config('SYEAR')."'".substr($values,strpos($values,','))."'none',";
+			}
+
+			foreach($_REQUEST['staff'] as $column=>$value)
+			{
+				if($value)
+				{
+					$fields .= $column.',';
+//modif Francois: add password encryption
+					if ($column!=='PASSWORD')
+						$values .= "'".str_replace("\'","''",$value)."',";
+					else
+						$values .= "'".encrypt_password($value)."',";
+				}
+			}
+			$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+			DBQuery($sql);
+			
+//modif Francois: Moodle integrator
+			$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
+			$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+			
+			$_REQUEST['staff_id'] = $staff_id;
+		}
+	}
+
+	if($_REQUEST['include']!='General_Info' && $_REQUEST['include']!='Schedule' && $_REQUEST['include']!='Other_Info')
+		if(!strpos($_REQUEST['include'],'/'))
+			include('modules/Users/includes/'.$_REQUEST['include'].'.inc.php');
+		else
+			include('modules/'.$_REQUEST['include'].'.inc.php');
+
+	unset($_REQUEST['staff']);
+	unset($_REQUEST['modfunc']);
+	unset($_SESSION['_REQUEST_vars']['staff']);
+	unset($_SESSION['_REQUEST_vars']['modfunc']);
+
+	if(User('STAFF_ID')==$_REQUEST['staff_id'])
+	{
+		unset($_ROSARIO['User']);
+		echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';
+	}
+}
+
+if(basename($_SERVER['PHP_SELF'])!='index.php')
+{
+	if($_REQUEST['staff_id']=='new')
+	{
+		$_ROSARIO['HeaderIcon'] = 'Users.png';
+		DrawHeader(_('Add a User'));
+	}
+	else
+		DrawHeader(ProgramTitle());
+		Search('staff_id',$extra);
+}
+else
+	DrawHeader('Create Account');
+	
+//modif Francois: Moodle integrator
+echo $moodleError;
+
+if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
+{
+	if(DeletePrompt(_('User')))
+	{
+		DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".UserStaffID()."'");
+		DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".UserStaffID()."'");
+		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'");
+		DBQuery("DELETE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'");
+//modif Francois: Moodle integrator
+		$moodleError = Moodle($_REQUEST['modname'], 'core_user_delete_users');
+		unset($_SESSION['staff_id']);
+		unset($_REQUEST['staff_id']);
+		unset($_REQUEST['modfunc']);
+		unset($_SESSION['_REQUEST_vars']['staff_id']);
+		unset($_SESSION['_REQUEST_vars']['modfunc']);
+		echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';
+		Search('staff_id',$extra);
+	}
+}
+
+if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_SELF'])!='index.php') || !$_REQUEST['staff']['USERNAME']) && $_REQUEST['modfunc']!='delete')
+{
+	if($_REQUEST['staff_id']!='new')
+	{
+		$sql = "SELECT s.STAFF_ID,s.TITLE,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
+						s.USERNAME,s.PASSWORD,s.SCHOOLS,s.PROFILE,s.PROFILE_ID,s.PHONE,s.EMAIL,s.LAST_LOGIN,s.SYEAR,s.ROLLOVER_ID
+				FROM STAFF s WHERE s.STAFF_ID='".UserStaffID()."'";
+		$staff = DBGet(DBQuery($sql));
+		$staff = $staff[1];
+		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST">';
+	}
+	elseif(basename($_SERVER['PHP_SELF'])!='index.php')
+		echo '<FORM name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST">';
+	else
+		echo '<FORM action="index.php?modfunc=create_account" METHOD="POST">';
+
+	if(basename($_SERVER['PHP_SELF'])!='index.php')
+	{
+		if(UserStaffID() && UserStaffID()!=User('STAFF_ID') && UserStaffID()!=$_SESSION['STAFF_ID'] && User('PROFILE')=='admin' && AllowEdit())
+			$delete_button = '<INPUT type="button" value="'._('Delete').'" onclick="window.location=\'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete\'">';
+	}
+
+	if($_REQUEST['staff_id']!='new')
+	{
+		//modif Francois: add translation
+		$titles_array = array('Mr'=>_('Mr'),'Mrs'=>_('Mrs'),'Ms'=>_('Ms'),'Miss'=>_('Miss'),'Dr'=>_('Dr'));
+		$suffixes_array = array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V'));
+		
+		$name = $titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']].' - '.$staff['STAFF_ID'];
+	}
+	DrawHeader($name,$delete_button.SubmitButton(_('Save')));
+
+	if(User('PROFILE_ID'))
+		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
+	else
+		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
+	$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
+	$profile = $profile[1]['PROFILE'];
+	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ".($profile?strtoupper($profile).'=\'Y\'':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE"));
+
+	foreach($categories_RET as $category)
+	{
+		if($can_use_RET['Users/User.php&category_id='.$category['ID']])
+		{
+				if($category['ID']=='1')
+					$include = 'General_Info';
+				elseif($category['ID']=='2')
+					$include = 'Schedule';
+				elseif($category['INCLUDE'])
+					$include = $category['INCLUDE'];
+				else
+					$include = 'Other_Info';
+
+			$tabs[] = array('title'=>$category['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&include=$include&category_id=".$category['ID']);
+		}
+	}
+
+	$_ROSARIO['selected_tab'] = "Modules.php?modname=$_REQUEST[modname]&include=$_REQUEST[include]";
+	if($_REQUEST['category_id'])
+		$_ROSARIO['selected_tab'] .= '&category_id='.$_REQUEST['category_id'];
+
+	echo '<BR />';
+	PopTable('header',$tabs,'width="100%"');
+
+	if(!strpos($_REQUEST['include'],'/'))
+		include('modules/Users/includes/'.$_REQUEST['include'].'.inc.php');
+	else
+	{
+		include('modules/'.$_REQUEST['include'].'.inc.php');
+		$separator = '<HR>';
+		include('modules/Users/includes/Other_Info.inc.php');
+	}
+	PopTable('footer');
+	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '</FORM>';
+
+	//modif Francois: user photo upload using jQuery form
+	//move this form into General_Info.inc.php's form via Javascript
+	if (AllowEdit() && $moveFormUserPhotoHere && !isset($_REQUEST['_ROSARIO_PDF']))
+	{
+		?>
+		<form method="POST" enctype="multipart/form-data" id="formUserPhoto" action="modules/misc/PhotoUpload.php" style="display:none;">
+			<br />
+			<input type="file" id="photo" name="photo" accept="image/*" />
+			<input type="hidden" id="userId" name="userId" value="<?php echo UserStaffID(); ?>" />
+			<input type="hidden" id="sYear" name="sYear" value="<?php echo UserSyear(); ?>" />
+			<input type="hidden" id="photoPath" name="photoPath" value="<?php echo $UserPicturesPath; ?>" />
+			<input type="hidden" id="modname" name="modname" value="<?php echo $_REQUEST['modname']; ?>" />
+			<input type="hidden" id="Error1" name="Error1" value="<?php echo _('Error: File size > %01.2fMb: %01.2fMb'); ?>" />
+			<input type="hidden" id="Error3" name="Error2" value="<?php echo _('Error: Wrong file type: %s (JPG required)'); ?>" />
+			<BR /><span class="legend-gray"><?php echo _('User Photo'); ?> (.jpg)</span>
+
+			<BR /><div style="float: right;"><input type="submit" value="<?php echo _('Submit'); ?>" style="margin-right:2px;" /></div>
+			<BR /><span id="outputUserPhoto"></span>
+		</form>
+		<?php
+	}
+}
+?>

@@ -1,0 +1,130 @@
+Rosario Student Information System - INSTALLATION DIRECTIONS
+
+-------------------------------------------------------------------------------
+Version 1.0
+-------------------------------------------------------------------------------
+January 2013
+
+NOTE: Before Installing RosarioSIS, you must read and agree to the included
+license.
+
+RosarioSIS is a web based application which relies on other facilities such as
+a web server, PHP server-side scripting, and postgres database server.  For
+RosarioSIS to work you must first have your web server working, PHP working,
+postgres working. username/password authentication working.  Setting these
+up varies a lot with platform, operating system, and distribution so it is
+well beyond to scope of this brief install document. RosarioSIS 1.0 was
+tested on a Windows 7 x64 with Apache 2.2.21, Postgres 9.1, and PHP 5.3.9 
+(EasyPHP 5.3.9) and on a Ubuntu Server 12.04 with Apache 2.2.22, Postgres 9.1, 
+and PHP 5.3.10 and through Mozilla Firefox.
+
+
+Installing the Package
+----------------------
+
+Unzip the RosarioSIS distribution to a directory that is accessible to your web
+browser. Edit the config.inc.php file to set the configuration variables as 
+appropriate for your installation.
+
+  $DatabaseServer is the host name or ip for the database server
+  $DatabaseUsername is the username used for authenticating the database
+  $DatabasePassword is the password used for authenticating the database
+  $DatabaseName is the database name
+  $DatabasePort is the socket port number for accessing the database server
+
+  $RosarioPath is full path to RosarioSIS installation, you can define it 
+	statically for your installation or the runtime value derived from the 
+	__FILE__ magic constant should work
+  $pg_dumpPath is full path to the postgres database dump utility pg_dump
+  $wkhtmltopdfPath full path to wkhtmltopdf for pdf 'printing'
+  $wkhtmltopdfAssetsPath is path where wkhtmltopdf will access the assets/
+    directory, possibly different than how the user's web browser finds it,
+    empty string means no translation
+  $StudentPicturesPath relative path to student pictures
+  $UserPicturesPath relative path to user pictures
+
+  $RosarioTitle is the program title
+  $RosarioAdmins is a comma separated list of admin's which have special login
+    privileges
+  $RosarioNotifyAddress is email address to send error notifications
+  $DefaultSyear is current school year.  The $DefaultSyear needs to exist in
+    the database and the only year in the default database (rosariosis.sql) is
+    2013 so this should be set to 2013 for a new install.
+  $RosarioModules controls which modules to use, most of the standard modules
+    are required though and should be left to 'true'
+
+Now, you're ready to setup the RosarioSIS database. If you have access to the
+command prompt for your server, follow these instructions.  If you're using
+phpPGAdmin or a similar tool, import the rosariosis.sql file included in
+this package.
+
+	1) Open a command prompt window.
+	2) Login as the postgres user
+		ex) server$ su - postgres
+	3) Login to the postgres database server using the template1 database
+		ex) server$ psql template1
+	4) Create the rosariosis database
+		ex) template1=# CREATE DATABASE rosariosis;
+	5) Skip to step 6 if used in an American / English-speaking environment.
+			If your data will include non-standard English characters (like
+			characters with accent marks), you'll have to create your database
+			with a different character encoding (the default is unicode).
+			ex) createdb rosariosis -E UTF8
+			UTF8 is Unicode, 8-bit -- useful for all languages.
+			See http://www.postgresql.org/docs/9.1/interactive/multibyte.html for
+			more information.
+	6) Logout of the database server
+		ex) template1=# \q
+	7) Run the RosarioSIS sql file
+		ex) server$ psql rosariosis < YOUR_ROSARIO_INSTALL_DIRECTORY/rosariosis.sql > rosariosis.log
+
+Notice, you will see several lines beginning "NOTICE:  ALTER TABLE / ADD PRIMARY
+KEY will create implicit index " after completing direction 6.  Disregard these
+messages.
+
+If you run into permissions problems involving rosariosis.log, simply remove the " > rosariosis.log"
+from the command
+
+You will have to start postmaster with the -i option, telling postmaster to accept
+TCP/IP connections.  Also, the pg_hba.conf file may have to be altered to specify the
+server's TCP/IP address.
+
+That's it!... now, point your browser to:
+
+	http://yourdomain.com/INSTALL_LOCATION/index.php
+
+and login as 'admin' password 'admin'.  With this login, you can create new
+users, and change and delete the three template users.  Since students can not
+be deleted the template student should be changed to a proper student and the
+template photo deleted.
+
+
+Installing wkhtmltopdf
+----------------------
+
+Install instructions for Ubuntu/Debian:
+Note: for a 64bits distribution, replace 'i386' with 'amd64'.
+
+	1) Download the latest executable (.11 rc1) :
+	server$ wget https://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.11.0_rc1-static-i386.tar.bz2
+
+	2) Uncompress it :
+	server$ tar -vxf wkhtmltopdf-0.11.0_rc1-static-i386.tar.bz2
+
+	3) Rename it :
+	server$ mv wkhtmltopdf-i386 wkhtmltopdf
+
+	4) Chmod it to executable :
+	server$ chmod a+x wkhtmltopdf
+
+	5) Place it into /usr/bin :
+	server$ sudo mv wkhtmltopdf /usr/bin
+
+
+Additional Configuration
+------------------------
+
+In addition to the main config.inc.php file there are optional module configuration
+files, also named config.inc.php but located in the modules directories.  Most user
+configuration variables are in these files to simplify upgrades until such configurations
+are moved to the database. See the module specific config files for details.
