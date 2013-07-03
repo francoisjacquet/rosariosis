@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-28 16:08-0500\n"
-"PO-Revision-Date: 2013-06-30 15:51-0500\n"
+"PO-Revision-Date: 2013-07-02 19:17-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -2036,7 +2036,7 @@ msgstr "Reportes"
 #: modules/Attendance/Menu.php:6 modules/Eligibility/Menu.php:7
 #: modules/Grades/Menu.php:11
 msgid "Teacher Completion"
-msgstr "Finalización Docente"
+msgstr "Control Docente"
 
 #: modules/Attendance/Menu.php:7
 msgid "Average Daily Attendance"
@@ -3537,7 +3537,7 @@ msgstr "Menús del Día"
 #: modules/Food_Service/Menu.php:15 modules/Food_Service/Menu.php:27
 #: modules/Food_Service/Menu.php:35
 msgid "Meal Items"
-msgstr "Artículos de Comida"
+msgstr "Elementos de Comida"
 
 #: modules/Food_Service/Menu.php:16
 msgid "Meals"
@@ -3551,8 +3551,8 @@ msgstr "Vista Preliminar de Pantalla"
 #: modules/Food_Service/MenuItems.php:195
 msgid "Meal Item"
 msgid_plural "Meal Items"
-msgstr[0] "Artículo de Comida"
-msgstr[1] "Artículos de Comida"
+msgstr[0] "Elemento de Comida"
+msgstr[1] "Elementos de Comida"
 
 #: modules/Food_Service/MenuItems.php:79
 #: modules/Food_Service/TakeMenuCounts.php:146
@@ -3591,7 +3591,7 @@ msgstr "Artículo de %s"
 #: modules/Food_Service/MenuItems.php:145
 #, php-format
 msgid "%s Items"
-msgstr "Artículos de %s"
+msgstr "Elementos de %s"
 
 #: modules/Food_Service/MenuItems.php:155
 #: modules/Food_Service/MenuItems.php:158
@@ -3716,7 +3716,7 @@ msgstr "Usted a hecho cuentas de comida hoy para esta hora."
 
 #: modules/Food_Service/TakeMenuCounts.php:161
 msgid "Items"
-msgstr "Artículos"
+msgstr "Elementos"
 
 #: modules/Food_Service/TakeMenuCounts.php:179
 msgid "Ineligible Student"
@@ -3741,8 +3741,8 @@ msgstr "Número Total"
 #: modules/Food_Service/TeacherCompletion.php:132
 msgid "Item Total"
 msgid_plural "Item Totals"
-msgstr[0] "Total de Artículos"
-msgstr[1] "Totales de Artículos"
+msgstr[0] "Total de Elementos"
+msgstr[1] "Totales de Elementos"
 
 #: modules/Food_Service/User.inc.php:34
 #: modules/Food_Service/Users/Accounts.php:120
@@ -7310,7 +7310,7 @@ msgstr "Buscar todas las instituciones por defecto"
 
 #: modules/Users/Preferences.php:171
 msgid "Theme"
-msgstr "Tema"
+msgstr "Diseño"
 
 #: modules/Users/Preferences.php:188
 msgid "PDF List Header Color"

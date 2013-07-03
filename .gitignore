@@ -208,8 +208,5 @@ pip-log.txt
 .coverage
 .tox
 
-#Translations
-*.mo
-
 #Mr Developer
 .mr.developer.cfg
