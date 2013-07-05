@@ -214,7 +214,7 @@ if(empty($_REQUEST['modfunc']))
 	$types_RET = DBGet($QI);
 
 	if($_REQUEST['assignment_id']!='new' && $_REQUEST['assignment_type_id']!='new')
-		$delete_button = "<INPUT type=button value=\""._('Delete')."\" onClick='javascript:window.location=\"Modules.php?modname=$_REQUEST[modname]&modfunc=delete&assignment_type_id=$_REQUEST[assignment_type_id]&assignment_id=$_REQUEST[assignment_id]\"'>";
+		$delete_button = '<INPUT type="button" value="'._('Delete').'" onClick="javascript:window.location=\'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&assignment_type_id='.$_REQUEST['assignment_type_id'].'&assignment_id='.$_REQUEST['assignment_id'].'\'" />';
 
 	// ADDING & EDITING FORM
 	if($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='new')

@@ -152,7 +152,7 @@ if(empty($_REQUEST['modfunc']))
 	$categories_RET = DBGet($QI);
 
 	if(AllowEdit() && $_REQUEST['id']!='new' && $_REQUEST['category_id']!='new' && ($_REQUEST['id'] || $_REQUEST['category_id']))
-		$delete_button = '<INPUT type="button" value="'._('Delete').'" onClick=\'javascript:window.location="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&category_id='.$_REQUEST['category_id'].'&id='.$_REQUEST['id'].'"\' />';
+		$delete_button = '<INPUT type="button" value="'._('Delete').'" onClick="javascript:window.location=\'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&category_id='.$_REQUEST['category_id'].'&id='.$_REQUEST['id'].'\'" />';
 
 	// ADDING & EDITING FORM
 	if($_REQUEST['id'] && $_REQUEST['id']!='new')

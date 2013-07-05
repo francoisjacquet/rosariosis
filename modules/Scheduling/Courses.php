@@ -448,7 +448,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 	if($_REQUEST['modfunc']!='choose_course')
 	{
 		if(AllowEdit())
-			$delete_button = '<INPUT type="button" value="'._('Delete').'" onClick=\'javascript:window.location="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id='.$_REQUEST['course_period_id'].'"\'>';
+			$delete_button = '<INPUT type="button" value="'._('Delete').'" onClick="javascript:window.location=\'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id='.$_REQUEST['course_period_id'].'\'" />';
 		// ADDING & EDITING FORM
 		if($_REQUEST['course_period_id'])
 		{
