@@ -63,7 +63,6 @@ if(!defined('WAREHOUSE_PHP'))
 <?php			if(basename($_SERVER['PHP_SELF'])!='index.php'): ?>
 <noscript><META http-equiv="REFRESH" content="0; url=index.php?modfunc=logout&amp;reason=javascript" /></noscript>
 <script type="text/javascript" src="assets/js/tipmessage/main15.js"></script>
-<script type="text/javascript" src="assets/js/warehouse.js"></script>
 <?php			endif; ?>
 <?php			if(basename($_SERVER['PHP_SELF'])=='index.php'): ?>
 <?php			endif; ?>
@@ -72,7 +71,11 @@ if(!defined('WAREHOUSE_PHP'))
 
 			break;
 			case "footer":
-				echo '<BR />';
+//modif Francois: Javascript load optimization
+?>
+<BR />
+<script type="text/javascript" src="assets/js/warehouse.js" defer></script>
+<?php
 //modif Francois: load calendar Javascript only if required
 				if (isset($_ROSARIO['PrepareDate'])): ?>
 <link rel="stylesheet" type="text/css" media="all" href="assets/js/jscalendar/calendar-blue.css" />

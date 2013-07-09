@@ -90,7 +90,6 @@ unset($_REQUEST['modfunc']);
 <head>
 <meta charset="UTF-8" />
 <link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
-<script type="text/javascript" src="assets/js/side.js"></script>
 <?php echo $addJavascripts; ?>
 <title><?php echo Config('TITLE'); ?></title>
 </head>
@@ -299,6 +298,8 @@ foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 }
 //modif Francois: fin css WPadmin
 echo '</div>';//id="adminmenu"
-
-echo '</TD></TR></TABLE></BODY></HTML>';
+//modif Francois: Javascript load optimization
 ?>
+</TD></TR></TABLE>
+<script type="text/javascript" src="assets/js/side.js" defer></script>
+</BODY></HTML>
