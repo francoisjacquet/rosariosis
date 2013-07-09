@@ -177,7 +177,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
     echo '<BR />&copy; 2004-2009 <A HREF="http://www.miller-group.net">The Miller Group, Inc</A>';
     echo '<br />&copy; 2009 <a href="http://www.glenn-abbey.com">Glenn Abbey Software, Inc</a>';
     echo '<br />&copy; 2009 <a href="http://www.centresis.org">Learners Circle, LLC</a>';
-    echo '<br />&copy; 2012-2013 François Jacquet';
+    echo '<br />&copy; 2012-2013 <a href="http://www.rosariosis.org">François Jacquet</a>';
     echo '</span>';
 	PopTable("footer");
 	echo "<BR />";

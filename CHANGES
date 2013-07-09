@@ -1,5 +1,14 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.1
+---------------
+- added link to rosariosis.org in index.php
+- added ability to modifiy and delete periods to an existing Course Period
+- Javascript load optimization
+- bugfix: remove modules with no programs
+- bugfix: delete buttons with malformed onclick parameter
+
+
 Changes in 1.0
 ---------------
 - forked Centre SIS v.3.0.1
