@@ -91,7 +91,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 			if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 			{
 				//modif Francois: added SQL constraint TITLE (course_subjects & courses) & SHORT_NAME, TEACHER_ID (course_periods) & PERIOD_ID (course_period_school_periods) are not null
-				if (!((isset($columns['TITLE']) && empty($columns['TITLE'])) || ($table_name=='COURSE_PERIODS' && ((isset($columns['SHORT_NAME']) && empty($columns['SHORT_NAME'])) || (isset($columns['TEACHER_ID']) && empty($columns['TEACHER_ID'])))) || (isset($columns['PERIOD_ID']) && empty($columns['PERIOD_ID']))))
+				if (!((isset($columns['TITLE']) && empty($columns['TITLE'])) || ($table_name=='COURSE_PERIODS' && ((isset($columns['SHORT_NAME']) && empty($columns['SHORT_NAME'])) || (isset($columns['TEACHER_ID']) && empty($columns['TEACHER_ID'])))) || (strpos($id,'new')!==false && !empty($columns['PERIOD_ID']) && !isset($columns['DAYS']))))
 				{
 					if($columns['TOTAL_SEATS'] && !is_numeric($columns['TOTAL_SEATS']))
 						$columns['TOTAL_SEATS'] = preg_replace('/[^0-9]+/','',$columns['TOTAL_SEATS']);
@@ -181,14 +181,11 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							$title_temp = '';
 							foreach ($other_school_p as $school_p)
 							{
-								if ($columns['PERIOD_ID']==$school_p['PERIOD_ID'])
-									break;
-								
 								$school_p_title = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='$school_p[PERIOD_ID]' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 								
 			//modif Francois: days display to locale		
 								$nb_days = strlen($school_p['DAYS']);
-								$columns_DAYS_locale = $nb_days > 1?' '._('Days'):($nb_days == 0 ? '' : ' '._('Day'));
+								$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
 								for ($i = 0; $i < $nb_days; $i++) {
 									$columns_DAYS_locale .= substr($days_convert[substr($school_p['DAYS'], $i, 1)],0,3) . '.';
 								}
@@ -200,34 +197,39 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 									$title_temp .= $school_p_title[1]['TITLE'].' - ';
 							}
 							
-							$period = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='$columns[PERIOD_ID]' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-							if (empty($period))
-								$period = DBGet(DBQuery("SELECT sp.TITLE FROM SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE sp.PERIOD_ID=cpsp.PERIOD_ID AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".$id."' AND sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."'"));
-
-							if (empty($columns['DAYS']))
-							{
-								$days = DBGet(DBQuery("SELECT DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".$id."'"));
-								$columns['DAYS'] = $days[1]['DAYS'];
-							}
-		//modif Francois: days display to locale						
-							$nb_days = strlen($school_p['DAYS']);
-							$columns_DAYS_locale = $nb_days > 1?' '._('Days'):($nb_days == 0 ? '' : ' '._('Day'));
-							for ($i = 0; $i < $nb_days; $i++) {
-								$columns_DAYS_locale .= substr($days_convert[substr($columns['DAYS'], $i, 1)],0,3) . '.';
-							}
-							
 							if (!isset($base_title))
 							{
 								$current_cp = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='$_REQUEST[course_period_id]'"));
 								$base_title = substr($current_cp[1]['TITLE'], strpos($current_cp[1]['TITLE'], (GetMP($current_cp[1]['MARKING_PERIOD_ID'],'MP')!='FY' ? GetMP($current_cp[1]['MARKING_PERIOD_ID'],'SHORT_NAME') : $current_cp[1]['SHORT_NAME'])), strlen($current_cp[1]['TITLE']));
 							}
 								
-							if(strlen($columns['DAYS'])<5)
-	//							$mp_title .= $columns['DAYS'].' - ';
-								$title = $period[1]['TITLE'].$columns_DAYS_locale.' - '.$title_temp.$base_title;
+							if(!empty($columns['DAYS']))
+							{
+								//modif Francois: days display to locale	
+								$nb_days = strlen($columns['DAYS']);
+								$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
+								for ($i = 0; $i < $nb_days; $i++) {
+									$columns_DAYS_locale .= substr($days_convert[substr($columns['DAYS'], $i, 1)],0,3) . '.';
+								}
+
+								$period = DBGet(DBQuery("SELECT sp.TITLE FROM SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE sp.PERIOD_ID=cpsp.PERIOD_ID AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".$id."' AND sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."'"));
+								
+								if (strlen($columns['DAYS'])<5)
+//									$mp_title .= $columns['DAYS'].' - ';
+									$title = $period[1]['TITLE'].$columns_DAYS_locale.' - '.$title_temp.$base_title;
+								else
+									$title = $period[1]['TITLE'].' - '.$title_temp.$base_title;
+							}
 							else
-								$title = $period[1]['TITLE'].' - '.$title_temp.$base_title;
+								$title = $title_temp.$base_title;
+
 							DBQuery("UPDATE COURSE_PERIODS SET TITLE='".$title."' WHERE COURSE_PERIOD_ID='$_REQUEST[course_period_id]'");
+							
+							if (empty($columns['DAYS'])) //delete school period
+							{
+								DBQuery("DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".$id."'");
+								break; //no update
+							}
 						}
 
 						foreach($columns as $column=>$value)
@@ -312,8 +314,15 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						//modif Francois: multiple school period for a course period
 						elseif($table_name=='COURSE_PERIOD_SCHOOL_PERIODS')
 						{
-							if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID))
+							//modif Francois: add new school period to existing course period
+							if (isset($columns['PERIOD_ID']) && empty($columns['PERIOD_ID']))
 								break;
+								
+							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='$_REQUEST[course_period_id]'"), array(), array('PERIOD_ID'));
+							
+							if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID) || in_array($columns['PERIOD_ID'], array_keys($other_school_p)))
+								break;
+								
 							$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
 							
 							$id_school_p = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_PERIOD_SCHOOL_PERIODS_SEQ').' AS ID'.FROM_DUAL));
@@ -323,7 +332,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 		//modif Francois: days display to locale						
 							$nb_days = strlen($columns['DAYS']);
-							$columns_DAYS_locale = $nb_days > 1?' '._('Days'):($nb_days == 0 ? '' : ' '._('Day'));
+							$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
 							for ($i = 0; $i < $nb_days; $i++) {
 								$columns_DAYS_locale .= substr($days_convert[substr($columns['DAYS'], $i, 1)],0,3) . '.';
 							}
@@ -568,15 +577,29 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			do 
 			{
 				$i++;
+				//modif Francois: add new school period to existing course period
+				if (!$new && $i > count($RET2))
+				{
+					$new = true;
+					$not_really_new = true;
+					unset($school_period);
+				}
 				if (!$new)
 					$school_period = $RET2[$i];
 				else
 					$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] = 'new' . $i;
 				$header .= '<TR id="schoolPeriod'.$i.'">';
-				$header .= '<TD>' . SelectInput($school_period['PERIOD_ID'],'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]',($school_period['PERIOD_ID']?'':'<span style="color:red">')._('Period').($school_period['PERIOD_ID']?'':'</span>'),$periods) . '</TD>';
+				//modif Francois: existing school period not modifiable
+				if (!$new)
+					$header .= '<TD>' . $periods[$school_period['PERIOD_ID']] . '<BR /><span class="legend-gray">' ._('Period'). '</span></TD>';
+				else
+					$header .= '<TD>' . SelectInput($school_period['PERIOD_ID'],'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]',($school_period['PERIOD_ID']?'':'<span style="color:red">')._('Period').($school_period['PERIOD_ID']?'':'</span>'),$periods) . '</TD>';
 				$header .= '<TD>';
 				if($new==false && Preferences('HIDDEN')=='Y')
+				{
 					$header .= '<DIV id="divtables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]"><div class="onclick" onclick=\'addHTML("';
+					$header .= str_replace('"','\"', '<input type="hidden" name="tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]" value="'.$school_period['PERIOD_ID'].'" />');
+				}
 				$header .= '<TABLE><TR>';
 
 				foreach($days as $day)
@@ -587,7 +610,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 						$value = '';
 
 	//				$header .= '<TD>'.str_replace('"','\"',CheckboxInput($value,'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DAYS]['.$day.']',($day=='U'?'S':$day),$checked,false,'','',false)).'</TD>';
-					$header_temp = '<TD>'.CheckboxInput($value,'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]['.$day.']',substr($days_convert[$day],0,3),$checked,false,'','',false).'</TD>';
+					$header_temp = '<TD>'.CheckboxInput($value,'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]['.$day.']',substr($days_convert[$day],0,3),$checked,$new,'','',false).'</TD>';
 					if($new==false && Preferences('HIDDEN')=='Y')
 						$header .= str_replace('"','\"',$header_temp);
 					else
@@ -604,16 +627,21 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					}
 					$school_period['DAYS'] = $school_period_locale;
 					$header .= '","divtables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]",true);\'><span class="underline-dots">'.$school_period['DAYS'].'</span></div></DIV>';
-				}	
+				}
+
 				$header .= '<span class="'.($school_period['DAYS']?'legend-gray':'legend-red').'">'._('Meeting Days').'</span>';
 				$header .= '</TD>';
 				$header .= '</TR>';
 				
+				if ($not_really_new)
+					$new = false;
 				if ($new)
 					break;
-			} while ( $i < count($RET2) );
+			} while ( $i <= count($RET2) );
 			
-			$header .= ($new?'<TR><TD><a href="#" onclick="newSchoolPeriod()"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Period').'</a></TD></TR>':'');
+			$header .= '<TR><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod()' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').'"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Period').'</a></TD></TR>';
+			if (!$new)
+				$header .= '<script type="text/javascript">document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
 			?>
 			<script type="text/javascript">
 				var nbSchoolPeriods = <?php echo $i; ?>;
