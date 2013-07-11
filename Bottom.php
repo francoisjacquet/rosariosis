@@ -4,13 +4,10 @@ include "./Warehouse.php";
 if($_REQUEST['modfunc']=='print')
 {
 //modif Francois: call PDFStart to generate Print PDF
-	$orientation = 'portrait';
-	if($_REQUEST['expanded_view'] || $_SESSION['orientation'] == 'landscape')
-	{
-		$orientation = 'landscape';
-		unset($_SESSION['orientation']);
-	}
-	$print_data = PDFStart('--webpage --quiet -t pdf14 --jpeg --no-links --'.$orientation.' --footer t --header . --left 0.5in --top 0.5in');
+	if($_REQUEST['expanded_view'])
+		$_SESSION['orientation'] = 'landscape';
+		
+	$print_data = PDFStart();
 	
 	$_REQUEST = $_SESSION['_REQUEST_vars'];
 	$_REQUEST['_ROSARIO_PDF'] = true;
@@ -18,7 +15,7 @@ if($_REQUEST['modfunc']=='print')
 		$modname = substr($_REQUEST['modname'],0,strpos($_REQUEST['modname'],'?'));
 	else
 		$modname = $_REQUEST['modname'];
-	if(!$htmldocPath)
+	if(!$wkhtmltopdfPath)
 		$_ROSARIO['allow_edit'] = false;
 	//ob_start();
 //modif Francois: remove languages/English/
