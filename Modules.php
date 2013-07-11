@@ -30,7 +30,8 @@ if($_REQUEST['modname'])
 		
 	if(isset($_REQUEST['_ROSARIO_PDF']) && $_REQUEST['_ROSARIO_PDF']=='true')
 		ob_start();
-	if(strpos($_REQUEST['modname'],'?')!==false)
+	//modif Francois: replaced ? with & in modname
+	/*if(strpos($_REQUEST['modname'],'?')!==false)
 	{
 		$modname = substr($_REQUEST['modname'],0,strpos($_REQUEST['modname'],'?'));
 		$vars = substr($_REQUEST['modname'],(strpos($_REQUEST['modname'],'?')+1));
@@ -42,7 +43,7 @@ if($_REQUEST['modname'])
 			$_REQUEST[$code[0]] = $code[1];
 		}
 	}
-	else
+	else*/
 		$modname = $_REQUEST['modname'];
 
 //	if(!$_REQUEST['LO_save'] && !isset($_REQUEST['_ROSARIO_PDF']) && (strpos($modname,'misc/')===false || $modname=='misc/Registration.php' || $modname=='misc/Export.php' || $modname=='misc/Portal.php'))

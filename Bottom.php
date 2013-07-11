@@ -11,9 +11,10 @@ if($_REQUEST['modfunc']=='print')
 	
 	$_REQUEST = $_SESSION['_REQUEST_vars'];
 	$_REQUEST['_ROSARIO_PDF'] = true;
-	if(strpos($_REQUEST['modname'],'?')!==false)
+	//modif Francois: replaced ? with & in modname
+	/*if(strpos($_REQUEST['modname'],'?')!==false)
 		$modname = substr($_REQUEST['modname'],0,strpos($_REQUEST['modname'],'?'));
-	else
+	else*/
 		$modname = $_REQUEST['modname'];
 	if(!$wkhtmltopdfPath)
 		$_ROSARIO['allow_edit'] = false;
