@@ -71,7 +71,7 @@ if(empty($_REQUEST['modfunc']))
                 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'&mp_id='.$mp_id.'" method="POST">';
                             DrawHeader('',SubmitButton(_('Save')));
                             echo '<BR />';
-                $sql = 'SELECT * FROM history_marking_periods WHERE SCHOOL_ID = '.UserSchool().' ORDER BY POST_END_DATE';
+                $sql = 'SELECT * FROM history_marking_periods WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY POST_END_DATE';
             
                     $functions = array( 'MP_TYPE'=>'makeSelectInput',
                                         'NAME'=>'makeTextInput',

@@ -26,7 +26,7 @@ list of (
 	$roleid = 5;
 	
 	//get the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$student_id." AND \"column\"='student_id'"));
+	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'"));
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -37,7 +37,7 @@ list of (
 	}
 	
 	//gather the Moodle course ID
-	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$_SESSION['MassSchedule.php']['course_period_id']." AND \"column\"='course_period_id'"));
+	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_SESSION['MassSchedule.php']['course_period_id']."' AND \"column\"='course_period_id'"));
 	if (count($courseid))
 	{
 		$courseid = (int)$courseid[1]['MOODLE_ID'];

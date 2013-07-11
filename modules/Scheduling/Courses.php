@@ -246,7 +246,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							if($table_name=='COURSE_PERIODS') 
 							{
 								//if Course Period is already in Moodle
-								$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$_REQUEST['course_period_id']." AND \"column\"='course_period_id'"));
+								$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));
 								if (count($moodle_id))
 								{
 									$moodleError = Moodle($_REQUEST['modname'], 'core_course_update_courses');

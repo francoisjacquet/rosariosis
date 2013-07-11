@@ -108,7 +108,7 @@ list of (
 )*/
 
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$id." AND \"column\"='staff_id'"));
+	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$id."' AND \"column\"='staff_id'"));
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -122,7 +122,7 @@ list of (
 	global $moodle_contextlevel, $moodle_instance;
 	$moodle_contextlevel = CONTEXT_USER;
 	//gather the Moodle user ID
-	$moodle_instance = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$student['STUDENT_ID']." AND \"column\"='student_id'"));
+	$moodle_instance = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student['STUDENT_ID']."' AND \"column\"='student_id'"));
 	if (count($moodle_instance))
 	{
 		$moodle_instance = (int)$moodle_instance[1]['MOODLE_ID'];

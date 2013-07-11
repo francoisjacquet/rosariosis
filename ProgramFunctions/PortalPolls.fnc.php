@@ -4,8 +4,8 @@
 function PortalPollsVote($poll_id, $votes_array)
 {
 	//get poll:
-	$poll_RET = DBGet(DBQuery('SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES FROM PORTAL_POLLS WHERE ID='.$poll_id));
-	$poll_questions_RET = DBGet(DBQuery('SELECT ID, QUESTION, OPTIONS, VOTES FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='.$poll_id.' ORDER BY ID'));
+	$poll_RET = DBGet(DBQuery("SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES FROM PORTAL_POLLS WHERE ID='".$poll_id."'"));
+	$poll_questions_RET = DBGet(DBQuery("SELECT ID, QUESTION, OPTIONS, VOTES FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='".$poll_id."' ORDER BY ID"));
 	if (!$poll_RET || !$poll_questions_RET)
 		return ErrorMessage(array('Poll does not exist'));//should never be displayed, so do not translate
 		
@@ -55,7 +55,7 @@ function PortalPollsVote($poll_id, $votes_array)
 	}
 	
 	//submit query
-	DBQuery("UPDATE PORTAL_POLLS SET EXCLUDED_USERS='".$excluded_users."', VOTES_NUMBER=(SELECT CASE WHEN VOTES_NUMBER ISNULL THEN 1 ELSE VOTES_NUMBER+1 END FROM PORTAL_POLLS WHERE ID=".$poll_id.") WHERE ID=".$poll_id);
+	DBQuery("UPDATE PORTAL_POLLS SET EXCLUDED_USERS='".$excluded_users."', VOTES_NUMBER=(SELECT CASE WHEN VOTES_NUMBER ISNULL THEN 1 ELSE VOTES_NUMBER+1 END FROM PORTAL_POLLS WHERE ID='".$poll_id."') WHERE ID='".$poll_id."'");
 	
 	return PortalPollsVotesDisplay($poll_id, $poll_RET[1]['DISPLAY_VOTES'], $poll_questions_RET, (empty($poll_RET[1]['VOTES_NUMBER'])? 1 : $poll_RET[1]['VOTES_NUMBER']+1));
 }
@@ -66,8 +66,8 @@ function PortalPollsDisplay($value,$name)
 
 	$poll_id = $THIS_RET['ID'];
 	//get poll:
-	$poll_RET = DBGet(DBQuery('SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES FROM PORTAL_POLLS WHERE ID='.$poll_id));
-	$poll_questions_RET = DBGet(DBQuery('SELECT ID, QUESTION, OPTIONS, TYPE, VOTES FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='.$poll_id.' ORDER BY ID'));
+	$poll_RET = DBGet(DBQuery("SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES FROM PORTAL_POLLS WHERE ID='".$poll_id."'"));
+	$poll_questions_RET = DBGet(DBQuery("SELECT ID, QUESTION, OPTIONS, TYPE, VOTES FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='".$poll_id."' ORDER BY ID"));
 	if (!$poll_RET || !$poll_questions_RET)
 		return ErrorMessage(array('Poll does not exist'));//should never be displayed, so do not translate
 	

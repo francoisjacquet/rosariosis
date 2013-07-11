@@ -31,7 +31,7 @@ list of (
 	$description = (!empty($columns['ASSIGNED_DATE']) ? _('Assigned Date').': '.ProperDate($columns['ASSIGNED_DATE']).'<br />' : '').$columns['DESCRIPTION'];
 	$format = 1;
 	//gather the Moodle course ID
-	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".UserCoursePeriod()." AND \"column\"='course_period_id'"));
+	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserCoursePeriod()."' AND \"column\"='course_period_id'"));
 	if (count($courseid))
 	{
 		$courseid = (int)$courseid[1]['MOODLE_ID'];
@@ -129,7 +129,7 @@ list of (
 	$assignment_id = $_REQUEST['assignment_id'];
 	if (!empty($id))
 		$assignment_id = $id; //update
-	$eventid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$assignment_id." AND \"column\"='assignment_id'"));
+	$eventid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$assignment_id."' AND \"column\"='assignment_id'"));
 	if (count($eventid))
 	{
 		$eventid = (int)$eventid[1]['MOODLE_ID'];

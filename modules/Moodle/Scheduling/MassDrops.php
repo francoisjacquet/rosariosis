@@ -20,7 +20,7 @@ list of (
 )
 */
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$student_id." AND \"column\"='student_id'"));
+	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'"));
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -38,7 +38,7 @@ list of (
 	$moodle_contextlevel = CONTEXT_COURSE;
 	$rosario_id = $_SESSION['MassDrops.php']['course_period_id'];
 	//gather the Moodle course ID
-	$moodle_instance = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$rosario_id." AND \"column\"='course_period_id'"));
+	$moodle_instance = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='course_period_id'"));
 	if (count($moodle_instance))
 	{
 		$moodle_instance = (int)$moodle_instance[1]['MOODLE_ID'];

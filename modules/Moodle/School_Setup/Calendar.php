@@ -96,7 +96,7 @@ object {
 	if (empty($calendar_event_id)) //case: update event
 		$calendar_event_id = $_REQUEST['event_id'];
 		
-	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('calendar_event_id', ".$calendar_event_id.", ".$response['events'][0]['id'].")");
+	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('calendar_event_id', '".$calendar_event_id."', ".$response['events'][0]['id'].")");
 	return null;
 }
 
@@ -119,7 +119,7 @@ list of (
 */
 	
 	//gather the Moodle Event ID
-	$eventid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$_REQUEST['event_id']." AND \"column\"='calendar_event_id'"));
+	$eventid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['event_id']."' AND \"column\"='calendar_event_id'"));
 	if (count($eventid))
 	{
 		$eventid = (int)$eventid[1]['MOODLE_ID'];
@@ -149,7 +149,7 @@ function core_calendar_delete_calendar_events_response($response)
 	$rosario_id = $_REQUEST['event_id'];
 	
 	//delete the reference the moodlexrosario cross-reference table:
-	DBQuery("DELETE FROM MOODLEXROSARIO WHERE \"column\" = 'calendar_event_id' AND rosario_id = ".$rosario_id);
+	DBQuery("DELETE FROM MOODLEXROSARIO WHERE \"column\" = 'calendar_event_id' AND rosario_id = '".$rosario_id."'");
 	
 	return null;
 }

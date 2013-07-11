@@ -293,7 +293,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] = '<TABLE>';
 
 		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'.Localize('colon',_('Include on Transcript')).'</b><INPUT type="hidden" name="SCHOOL_ID" value="'.UserSchool().'"><BR /></TD></TR>';
-        $mp_types = DBGet(DBQuery("SELECT DISTINCT MP_TYPE FROM MARKING_PERIODS WHERE NOT MP_TYPE IS NULL AND SCHOOL_ID = ".UserSchool()),array(),array());
+        $mp_types = DBGet(DBQuery("SELECT DISTINCT MP_TYPE FROM MARKING_PERIODS WHERE NOT MP_TYPE IS NULL AND SCHOOL_ID='".UserSchool()."'"),array(),array());
         $extra['extra_header_left'] .= '<TR><TD style="text-align:right">'._('Marking Periods').':</TD><TD><TABLE><TR><TD><TABLE>';
 //modif Francois: add translation
 		$marking_periods_locale = array('Year'=>_('Year'), 'Semester'=>_('Semester'), 'Quarter'=>_('Quarter'));

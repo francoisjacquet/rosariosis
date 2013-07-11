@@ -80,7 +80,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 		echo '<TABLE class="width-100p">';
 		echo '<TR><TD class="width-100p valign-top">';
 
-		$RET = DBGet(DBQuery('SELECT fsti.DESCRIPTION,fsti.AMOUNT FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti WHERE fst.ACCOUNT_ID='.$student['ACCOUNT_ID'].' AND fst.STUDENT_ID='.UserStudentID().' AND fst.SYEAR='.UserSyear().' AND fst.SHORT_NAME=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\' AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND \'tomorrow\' AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID'));
+		$RET = DBGet(DBQuery('SELECT fsti.DESCRIPTION,fsti.AMOUNT FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti WHERE fst.ACCOUNT_ID=\''.$student['ACCOUNT_ID'].'\' AND fst.STUDENT_ID=\''.UserStudentID().'\' AND fst.SYEAR=\''.UserSyear().'\' AND fst.SHORT_NAME=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\' AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND \'tomorrow\' AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID'));
 
 		$columns = array('DESCRIPTION'=>_('Item'),'AMOUNT'=>_('Amount'));
         $singular = sprintf(_('Earlier %s Sale'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);

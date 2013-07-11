@@ -22,7 +22,7 @@ list of (
 */
 	
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$_SESSION['STAFF_ID']." AND \"column\"='staff_id'"));
+	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_SESSION['STAFF_ID']."' AND \"column\"='staff_id'"));
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -71,7 +71,7 @@ list of (
 	if ($response[0]['noteid'] == -1)
 		return ErrorMessage(array($response[0]['errormessage']), 'error');
 	
-	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('portal_note_id', ".$portal_note_id.", ".$response[0]['noteid'].")");
+	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('portal_note_id', '".$portal_note_id."', ".$response[0]['noteid'].")");
 	return null;
 }
 
@@ -91,7 +91,7 @@ function core_notes_delete_notes_object()
 */
 	
 	//gather the Moodle note ID
-	$noteid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$_REQUEST['id']." AND \"column\"='portal_note_id'"));
+	$noteid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['id']."' AND \"column\"='portal_note_id'"));
 	if (count($noteid))
 	{
 		$noteid = (int)$noteid[1]['MOODLE_ID'];
@@ -131,7 +131,7 @@ list of (
 	if (is_array($response[0]))
 		return ErrorMessage(array('Code: '.$response[0]['warningcode'].' - '.$response[0]['message']), 'error');
 	
-	DBQuery("DELETE FROM MOODLEXROSARIO WHERE \"column\"='portal_note_id' AND rosario_id=".$_REQUEST['id']);
+	DBQuery("DELETE FROM MOODLEXROSARIO WHERE \"column\"='portal_note_id' AND rosario_id='".$_REQUEST['id']."'");
 	return null;
 }
 
@@ -157,7 +157,7 @@ list of (
 */
 	//gather the Moodle note ID
 	$rosario_id = $id;
-	$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$rosario_id." AND \"column\"='portal_note_id'"));
+	$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='portal_note_id'"));
 	if (count($moodle_id))
 	{
 		$moodle_id = (int)$moodle_id[1]['MOODLE_ID'];
@@ -169,7 +169,7 @@ list of (
 	$publishstate = 'site';
 	
 	//gather new note title and content as only one of the two maybe updated but the two are needed
-	$portal_note = DBGet(DBQuery("SELECT title, content FROM portal_notes WHERE id=".$rosario_id));
+	$portal_note = DBGet(DBQuery("SELECT title, content FROM portal_notes WHERE id='".$rosario_id."'"));
 	$text = $portal_note[1]['TITLE']."\n\n".$portal_note[1]['CONTENT'];
 	
 	$format = 2;

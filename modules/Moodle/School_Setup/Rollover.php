@@ -46,7 +46,7 @@ list of (
 	$shortname = $rolled_course_period['SHORT_NAME'];
 	
 	//get the Moodle category
-	$categoryid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$rolled_course_period['COURSE_ID']." AND \"column\"='course_id'"));
+	$categoryid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rolled_course_period['COURSE_ID']."' AND \"column\"='course_id'"));
 	if (count($categoryid))
 	{
 		$categoryid = (int)$categoryid[1]['MOODLE_ID'];
@@ -110,7 +110,7 @@ list of (
 	} 
 )*/
 	
-	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('course_period_id', ".$rolled_course_period['COURSE_PERIOD_ID'].", ".$response[0]['id'].")");
+	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('course_period_id', '".$rolled_course_period['COURSE_PERIOD_ID']."', ".$response[0]['id'].")");
 	return null;
 }
 
@@ -140,7 +140,7 @@ list of (
 	$roleid = 3;
 	
 	//get the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$rolled_course_period['TEACHER_ID']." AND \"column\"='staff_id'"));
+	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rolled_course_period['TEACHER_ID']."' AND \"column\"='staff_id'"));
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
@@ -151,7 +151,7 @@ list of (
 	}
 	
 	//gather the Moodle course ID
-	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=".$rolled_course_period['COURSE_PERIOD_ID']." AND \"column\"='course_period_id'"));
+	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rolled_course_period['COURSE_PERIOD_ID']."' AND \"column\"='course_period_id'"));
 	if (count($courseid))
 	{
 		$courseid = (int)$courseid[1]['MOODLE_ID'];

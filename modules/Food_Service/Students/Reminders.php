@@ -101,7 +101,7 @@ if(empty($_REQUEST['modfunc']))
 	$extra['SELECT'] .= ',coalesce(fssa.STATUS,\'Active\') AS STATUS,fsa.BALANCE';
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$warning.'\' AND fsa.BALANCE >= 0) AS WARNING';
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= \''.$minimum.'\') AS NEGATIVE';
-	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < '.$minimum.') AS MINIMUM';
+	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$minimum.'\') AS MINIMUM';
 	if(!strpos($extra['FROM'],'fssa'))
 	{
 		$extra['FROM'] .= ',FOOD_SERVICE_STUDENT_ACCOUNTS fssa';

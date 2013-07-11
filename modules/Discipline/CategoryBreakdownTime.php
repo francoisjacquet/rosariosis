@@ -38,7 +38,7 @@ if(!$_REQUEST['timeframe'])
 
 if($_REQUEST['category_id'])
 {
-	$category_RET = DBGet(DBQuery("SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u WHERE f.ID='".$_REQUEST['category_id']."' AND u.DISCIPLINE_FIELD_ID=f.ID"));
+	$category_RET = DBGet(DBQuery("SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u WHERE f.ID='".$_REQUEST['category_id']."' AND u.DISCIPLINE_FIELD_ID=f.ID AND u.SYEAR='".UserSyear()."' AND u.SCHOOL_ID='".UserSchool()."'"));
 	$category_RET[1]['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category_RET[1]['SELECT_OPTIONS']));
 	$category_RET[1]['SELECT_OPTIONS'] = explode("\r",$category_RET[1]['SELECT_OPTIONS']);
 }

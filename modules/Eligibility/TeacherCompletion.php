@@ -51,7 +51,7 @@ else
 $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER ");
 $periods_RET = DBGet($QI);
 
-$period_select =  "<SELECT name=period><OPTION value=''>"._('All')."</OPTION>";
+$period_select =  '<SELECT name="period"><OPTION value="">'._('All').'</OPTION>';
 foreach($periods_RET as $period)
 	$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED="SELECTED"':'').">".$period['TITLE'].'</OPTION>';
 $period_select .= '</SELECT>';

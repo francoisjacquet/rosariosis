@@ -158,7 +158,7 @@ if(empty($_REQUEST['modfunc']))
 			$LO_columns = array('DESCRIPTION'=>_('Item Description'),'SHORT_NAME'=>_('Short Name'),'ICON'=>_('Icon'),'PRICE'=>_('Student Price'));
 			if(UserStudentID())
 			{
-				$discount = DBGet(DBQuery('SELECT DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='.UserStudentID()));
+				$discount = DBGet(DBQuery('SELECT DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID=\''.UserStudentID().'\''));
 				$discount = $discount[1]['DISCOUNT'];
 
 				if($discount=='Reduced')

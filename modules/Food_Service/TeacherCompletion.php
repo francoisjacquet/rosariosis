@@ -30,10 +30,10 @@ switch($day)
 $QI = DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE SYEAR=sp.SYEAR AND PERIOD_ID=sp.PERIOD_ID AND DOES_FS_COUNTS='Y') ORDER BY sp.SORT_ORDER");
 $periods_RET = DBGet($QI);
 
-$period_select =  "<SELECT name=period><OPTION value=''>"._('All')."</OPTION>";
+$period_select =  '<SELECT name="period"<OPTION value="">'._('All').'</OPTION>';
 foreach($periods_RET as $period)
-	$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED="SELECTED"':'').">".$period['TITLE']."</OPTION>";
-$period_select .= "</SELECT>";
+	$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED="SELECTED"':'').">".$period['TITLE'].'</OPTION>';
+$period_select .= '</SELECT>';
 
 //modif Francois: multiple school periods for a course period
 $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,s.STAFF_ID

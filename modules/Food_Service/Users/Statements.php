@@ -45,7 +45,7 @@ if(UserStaffID())
 			// get details of each transaction
 			foreach($RET as $key=>$value)
 			{
-				$tmpRET = DBGet(DBQuery('SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID='.$value['TRANSACTION_ID']));
+				$tmpRET = DBGet(DBQuery('SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=\''.$value['TRANSACTION_ID'].'\''));
 //modif Francois: add translation
 				foreach($tmpRET as $RET_key=>$RET_val) {
 					$tmpRET[$RET_key]=array_map('options_locale', $RET_val);
