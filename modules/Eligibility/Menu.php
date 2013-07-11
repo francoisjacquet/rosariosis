@@ -20,7 +20,7 @@ $menu['Eligibility']['parent'] = array(
 					);
 
 $menu['Users']['admin'] += array(
-						'Users/TeacherPrograms.php?include=Eligibility/EnterEligibility.php'=>_('Enter Eligibility')
+						'Users/TeacherPrograms.php&include=Eligibility/EnterEligibility.php'=>_('Enter Eligibility')
 					);
 
 $exceptions['Eligibility'] = array(
@@ -28,6 +28,6 @@ $exceptions['Eligibility'] = array(
 					);
 
 $exceptions['Users'] += array(
-						'Users/TeacherPrograms.php?include=Eligibility/EnterEligibility.php'=>true
+						'Users/TeacherPrograms.php&include=Eligibility/EnterEligibility.php'=>true
 					);
 ?>

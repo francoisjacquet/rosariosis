@@ -5,7 +5,7 @@ $menu['Attendance']['admin'] = array(
 						1=>_('Reports'),
 						'Attendance/TeacherCompletion.php'=>_('Teacher Completion'),
 						'Attendance/Percent.php'=>_('Average Daily Attendance'),
-						'Attendance/Percent.php?list_by_day=true'=>_('Average Attendance by Day'),
+						'Attendance/Percent.php&list_by_day=true'=>_('Average Attendance by Day'),
 						'Attendance/DailySummary.php'=>_('Attendance Chart'),
 						'Attendance/StudentSummary.php'=>_('Absence Summary'),
 						2=>_('Utilities'),
@@ -14,7 +14,7 @@ $menu['Attendance']['admin'] = array(
 						3=>_('Setup'),
 						'Attendance/AttendanceCodes.php'=>_('Attendance Codes'),
 						4=>_('Teacher Programs'),
-						'Users/TeacherPrograms.php?include=Attendance/TakeAttendance.php'=>_('Take Attendance')
+						'Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php'=>_('Take Attendance')
 					);
 
 $menu['Attendance']['teacher'] = array(
@@ -29,7 +29,7 @@ $menu['Attendance']['parent'] = array(
 					);
 
 $menu['Users']['admin'] += array(
-						'Users/TeacherPrograms.php?include=Attendance/TakeAttendance.php'=>_('Take Attendance')
+						'Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php'=>_('Take Attendance')
 					);
 
 $exceptions['Attendance'] = array(
