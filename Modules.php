@@ -23,6 +23,11 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 
 if($_REQUEST['modname'])
 {
+	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+	//example: Modules.php?modname=misc/../../../../../../../../../../../../../etc/passwd&bypass=Transcripts.php
+	if (strpos($_REQUEST['modname'], '.php')===false || strpos($_REQUEST['modname'], '..')!==false || !is_file('modules/'.$_REQUEST['modname']))
+		HackingLog();
+		
 	if(isset($_REQUEST['_ROSARIO_PDF']) && $_REQUEST['_ROSARIO_PDF']=='true')
 		ob_start();
 	if(strpos($_REQUEST['modname'],'?')!==false)
@@ -79,20 +84,9 @@ if($_REQUEST['modname'])
 	else
 	{
 		if(User('USERNAME'))
-		{
-			echo _('You\'re not allowed to use this program!').' '._('This attempted violation has been logged and your IP address was captured.');
-			Warehouse('footer');
-			if($RosarioNotifyAddress)
-			{
-				//modif Francois: add email headers
-				$headers = 'From:'.$RosarioNotifyAddress."\r\n";
-				$headers .= 'Return-Path:'.$RosarioNotifyAddress."\r\n"; 
-				$headers .= 'Reply-To:'.$RosarioNotifyAddress . "\r\n" . 'X-Mailer:PHP/' . phpversion();
-				$params = '-f '.$RosarioNotifyAddress;
-				
-				@mail($RosarioNotifyAddress,'HACKING ATTEMPT',"INSERT INTO HACKING_LOG (HOST_NAME,IP_ADDRESS,LOGIN_DATE,VERSION,PHP_SELF,DOCUMENT_ROOT,SCRIPT_NAME,MODNAME,USERNAME) values('$_SERVER[SERVER_NAME]','$_SERVER[REMOTE_ADDR]','".date('Y-m-d')."','$RosarioVersion','$_SERVER[PHP_SELF]','$_SERVER[DOCUMENT_ROOT]','$_SERVER[SCRIPT_NAME]','$_REQUEST[modname]','".User('USERNAME')."')", $headers, $params);
-			}
-		}
+			//modif Francois: create HackingLog function to centralize code
+			HackingLog();
+			
 		exit;
 	}
 

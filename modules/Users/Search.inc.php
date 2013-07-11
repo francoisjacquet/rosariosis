@@ -210,7 +210,11 @@ else
 				$modname = substr($_REQUEST['next_modname'],0,strpos($_REQUEST['next_modname'],'&'));
 			if($_REQUEST['modname'])
 				$_REQUEST['modname'] = $modname;
-			include('modules/'.$modname);
+			//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+			if (strpos($modname, '.php')===false || strpos($modname, '..')!==false || !is_file('modules/'.$modname))	
+				HackingLog();
+			else
+				include('modules/'.$modname);
 		}
 	}
 	else

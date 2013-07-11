@@ -17,10 +17,13 @@ if($_REQUEST['modfunc']=='print')
 		$modname = $_REQUEST['modname'];
 	if(!$wkhtmltopdfPath)
 		$_ROSARIO['allow_edit'] = false;
-	//ob_start();
-//modif Francois: remove languages/English/
-//	include('languages/English/'.$modname);
-	include('modules/'.$modname);
+		
+	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+	if (strpos($modname, '.php')===false || strpos($modname, '..')!==false || !is_file('modules/'.$modname))	
+		HackingLog();
+	else
+		include('modules/'.$modname);
+		
 //modif Francois: call PDFStop to generate Print PDF
 	PDFStop($print_data);
 }
