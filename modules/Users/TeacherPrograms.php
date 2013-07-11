@@ -101,7 +101,7 @@ if(UserStaffID())
 	echo '<TABLE style="border:1px solid #000000; margin:0 auto; width:95%;"><TR><TD>';
 
 	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-	if (strpos($_REQUEST['include'], '.php')===false || strpos($_REQUEST['include'], '..')!==false || !is_file('modules/'.$_REQUEST['include']))	
+	if (substr($_REQUEST['include'], -4, 4)!='.php' || strpos($_REQUEST['include'], '..')!==false || !is_file('modules/'.$_REQUEST['include']))	
 		HackingLog();
 	else
 		include('modules/'.$_REQUEST['include']);

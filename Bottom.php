@@ -20,7 +20,7 @@ if($_REQUEST['modfunc']=='print')
 		$_ROSARIO['allow_edit'] = false;
 		
 	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-	if (strpos($modname, '.php')===false || strpos($modname, '..')!==false || !is_file('modules/'.$modname))	
+	if (substr($modname, -4, 4)!='.php' || strpos($modname, '..')!==false || !is_file('modules/'.$modname))	
 		HackingLog();
 	else
 		include('modules/'.$modname);

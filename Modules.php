@@ -23,11 +23,6 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 
 if($_REQUEST['modname'])
 {
-	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-	//example: Modules.php?modname=misc/../../../../../../../../../../../../../etc/passwd&bypass=Transcripts.php
-	if (strpos($_REQUEST['modname'], '.php')===false || strpos($_REQUEST['modname'], '..')!==false || !is_file('modules/'.$_REQUEST['modname']))
-		HackingLog();
-		
 	if(isset($_REQUEST['_ROSARIO_PDF']) && $_REQUEST['_ROSARIO_PDF']=='true')
 		ob_start();
 	//modif Francois: replaced ? with & in modname
@@ -72,8 +67,8 @@ if($_REQUEST['modname'])
 		}
 	}
 	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-	//if(substr($_REQUEST['modname'],0,5)=='misc/')
 	//allow PHP scripts in misc/ one by one in place of the whole folder
+	//if(substr($_REQUEST['modname'],0,5)=='misc/')
 	if (!$allowed && in_array($_REQUEST['modname'], array('misc/ChooseCourse.php', 'misc/ChooseCourse.php', 'misc/Portal.php', 'misc/ViewContact.php')))
 		$allowed = true;
 
