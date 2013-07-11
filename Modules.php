@@ -71,7 +71,10 @@ if($_REQUEST['modname'])
 			}
 		}
 	}
-	if(substr($_REQUEST['modname'],0,5)=='misc/')
+	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+	//if(substr($_REQUEST['modname'],0,5)=='misc/')
+	//allow PHP scripts in misc/ one by one in place of the whole folder
+	if (!$allowed && in_array($_REQUEST['modname'], array('misc/ChooseCourse.php', 'misc/ChooseCourse.php', 'misc/Portal.php', 'misc/ViewContact.php')))
 		$allowed = true;
 
 	if($allowed)
