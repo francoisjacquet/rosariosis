@@ -85,7 +85,7 @@ Array
 	)
 */
 	
-	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('staff_id', ".$id.", ".$response[0]['id'].")");
+	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('staff_id', '".$id."', ".$response[0]['id'].")");
 	return null;
 }
 

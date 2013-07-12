@@ -50,7 +50,7 @@ function PortalPollsVote($poll_id, $votes_array)
 		$voted_array[$question['ID']] = implode('||', $voted_array[$question['ID']]);
 		
 		//submit query
-		DBQuery("UPDATE PORTAL_POLL_QUESTIONS SET VOTES='".$voted_array[$question['ID']]."' WHERE ID=".$question['ID']);
+		DBQuery("UPDATE PORTAL_POLL_QUESTIONS SET VOTES='".$voted_array[$question['ID']]."' WHERE ID='".$question['ID']."'");
 		$poll_questions_RET[$key]['VOTES'] = $voted_array[$question['ID']];
 	}
 	
