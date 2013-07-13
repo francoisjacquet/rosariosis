@@ -12,7 +12,12 @@ function GetStaffList(& $extra)
 			{
 				$select = ',LAST_LOGIN';
 				$extra['columns_after']['LAST_LOGIN'] = _('Last Login');
-				$functions['LAST_LOGIN'] = 'makeLogin';
+				$functions['LAST_LOGIN'] = '_makeLogin';
+				
+				//modif Francois: add failed login to expanded view
+				$select .= ',FAILED_LOGIN';
+				$extra['columns_after']['FAILED_LOGIN'] = _('Failed Login');
+				$functions['FAILED_LOGIN'] = '_makeLogin';
 
 				$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE FROM STAFF_FIELDS cf WHERE ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StaffFieldsView' AND USER_ID='".User('STAFF_ID')."')='Y'".($extra['staff_fields']['view']?" OR cf.ID IN (".$extra['staff_fields']['view'].")":'').") ORDER BY cf.SORT_ORDER,cf.TITLE"));
 
@@ -158,9 +163,22 @@ function makeProfile($value)
 	return $return;
 }
 
-function makeLogin($value)
+function _makeLogin($value,$title)
 {
-	if($value)
-		return ProperDate(substr($value,0,10)).substr($value,10);
+	//modif Francois: add failed login to expanded view
+	if ($title == 'LAST_LOGIN')
+	{
+		if(empty($value))
+			return '<img src="assets/x.png" height="16" />';
+		else
+			return ProperDate(substr($value,0,10)).substr($value,10);
+	}
+	if ($title == 'FAILED_LOGIN')
+	{
+		if(empty($value))
+			return '0';
+		else
+			return $value;
+	}
 }
 ?>
