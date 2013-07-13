@@ -41,7 +41,9 @@ if($_REQUEST['month_schedule'] && $_POST['month_schedule'])
 		foreach($columns as $column=>$value)
 		{
 			$_REQUEST['schedule'][$id][$start_date][$column] = $_REQUEST['day_schedule'][$id][$start_date][$column].'-'.$value.'-'.$_REQUEST['year_schedule'][$id][$start_date][$column];
-			if($_REQUEST['schedule'][$id][$start_date][$column]=='--')
+			//modif Francois: bugfix SQL bug when incomplete END_DATE
+			//if($_REQUEST['schedule'][$id][$start_date][$column]=='--')
+			if(strlen($_REQUEST['schedule'][$id][$start_date][$column]) < 11)
 				$_REQUEST['schedule'][$id][$start_date][$column] = '';
 		}
 	}
