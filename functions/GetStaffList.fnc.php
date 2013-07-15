@@ -12,12 +12,12 @@ function GetStaffList(& $extra)
 			{
 				$select = ',LAST_LOGIN';
 				$extra['columns_after']['LAST_LOGIN'] = _('Last Login');
-				$functions['LAST_LOGIN'] = '_makeLogin';
+				$functions['LAST_LOGIN'] = 'makeLogin';
 				
 				//modif Francois: add failed login to expanded view
 				$select .= ',FAILED_LOGIN';
 				$extra['columns_after']['FAILED_LOGIN'] = _('Failed Login');
-				$functions['FAILED_LOGIN'] = '_makeLogin';
+				$functions['FAILED_LOGIN'] = 'makeLogin';
 
 				$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE FROM STAFF_FIELDS cf WHERE ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StaffFieldsView' AND USER_ID='".User('STAFF_ID')."')='Y'".($extra['staff_fields']['view']?" OR cf.ID IN (".$extra['staff_fields']['view'].")":'').") ORDER BY cf.SORT_ORDER,cf.TITLE"));
 
@@ -163,7 +163,7 @@ function makeProfile($value)
 	return $return;
 }
 
-function _makeLogin($value,$title)
+function makeLogin($value,$title='LAST_LOGIN')
 {
 	//modif Francois: add failed login to expanded view
 	if ($title == 'LAST_LOGIN')
