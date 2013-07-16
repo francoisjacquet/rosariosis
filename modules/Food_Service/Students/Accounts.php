@@ -64,7 +64,7 @@ Widgets('fsa_status');
 Widgets('fsa_barcode');
 Widgets('fsa_account_id');
 
-$extra['SELECT'] .= ",coalesce(fssa.STATUS,'Active') AS STATUS";
+$extra['SELECT'] .= ",coalesce(fssa.STATUS,'"._('Active')."') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
 if(!strpos($extra['FROM'],'fssa'))
 {
@@ -72,7 +72,7 @@ if(!strpos($extra['FROM'],'fssa'))
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 }
 $extra['functions'] += array('BALANCE'=>'red');
-$extra['columns_after'] = array('BALANCE'=>'Balance','STATUS'=>'Status');
+$extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 
 Search('student_id',$extra);
 

@@ -85,7 +85,7 @@ StaffWidgets('fsa_barcode');
 StaffWidgets('fsa_exists_Y');
 
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
-$extra['SELECT'] .= ",(SELECT coalesce(STATUS,'Active') FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
+$extra['SELECT'] .= ",(SELECT coalesce(STATUS,'"._('Active')."') FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
 $extra['functions'] += array('BALANCE'=>'red');
 $extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 
