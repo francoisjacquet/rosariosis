@@ -302,7 +302,9 @@ if($_REQUEST['values'] && $_POST['values'])
 			{
 				$percent = $grade = '';
 				$sql .= "GRADE_PERCENT=NULL";
-				$sql .= ",REPORT_CARD_GRADE_ID=NULL,GRADE_LETTER=NULL,WEIGHTED_GP='NULL',UNWEIGHTED_GP='NULL',GP_SCALE='NULL'";
+				//modif Francois: bugfix SQL bug 'NULL' instead of NULL
+				//$sql .= ",REPORT_CARD_GRADE_ID=NULL,GRADE_LETTER=NULL,WEIGHTED_GP='NULL',UNWEIGHTED_GP='NULL',GP_SCALE='NULL'";
+				$sql .= ",REPORT_CARD_GRADE_ID=NULL,GRADE_LETTER=NULL,WEIGHTED_GP=NULL,UNWEIGHTED_GP=NULL,GP_SCALE=NULL";
 				$sql .= ",COURSE_TITLE='".$course_RET[1]['COURSE_NAME']."'";
 				$sql .= ",CREDIT_ATTEMPTED='".$course_RET[1]['CREDITS']."'";
 				$sql .= ",CREDIT_EARNED='0'";
