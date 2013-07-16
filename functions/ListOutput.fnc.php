@@ -2,6 +2,8 @@
 
 function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,$group=array(),$options=array())
 {
+	global $_ROSARIO;
+	
 	if(!isset($options['save']))
 		$options['save'] = '1';
 	if(!isset($options['print']))
