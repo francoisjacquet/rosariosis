@@ -363,17 +363,23 @@ function makeParents($student_id,$column)
 			$THIS_RET['PARENTS'] .= '<TABLE class="cellpadding-0 cellspacing-0">';
 			foreach($people_RET as $person)
 			{
+				//modif Francois: PrintClassLists with all contacts
 				if($person['CUSTODY']=='Y')
-					$color = '#00FF00';
+					//$color = '#00FF00';
+					$img = 'gavel_button.png';
 				elseif($person['EMERGENCY']=='Y')
-					$color = '#FFFF00';
+					//$color = '#FFFF00';
+					$img = 'emergency_button.png';
 				else
-					$color = '#FF0000';
+					//$color = '#FF0000';
+					$img = '';
 
 				if($_REQUEST['_ROSARIO_PDF'])
-					$THIS_RET['PARENTS'] .= '<TR><TD style="width:2px; background-color:'.$color.';"></TD><TD>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</TD></TR>';
+					//$THIS_RET['PARENTS'] .= '<TR><TD style="width:2px; background-color:'.$color.';"></TD><TD>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</TD></TR>';
+					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? '<img src="assets/'.$img.'" height="12" />&nbsp;' : '').$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</div>';
 				else
-					$THIS_RET['PARENTS'] .= '<TR><TD style="width:2px; background-color:'.$color.';"></TD><TD><A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php?person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</A></TD></TR>';
+					//$THIS_RET['PARENTS'] .= '<TR><TD style="width:2px; background-color:'.$color.';"></TD><TD><A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php?person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</A></TD></TR>';
+					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? '<img src="assets/'.$img.'" height="12" />&nbsp;' : '').'<A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php?person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</A></div>';
 			}
 			if($_REQUEST['_ROSARIO_PDF'])
 				$THIS_RET['PARENTS'] = substr($THIS_RET['PARENTS'],0,-2);

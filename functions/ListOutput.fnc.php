@@ -376,19 +376,33 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			{
 				$start = 1;
 				$stop = $result_count;
-				//modif Francois: wkhtmltopdf
-				//if($cols>8 || $_REQUEST['expanded_view'])
-				if($cols>10 || $_REQUEST['expanded_view'])
+				if($cols>8 || $_REQUEST['expanded_view'])
 				{
 					//modif Francois: wkhtmltopdf
 					$_SESSION['orientation'] = 'landscape';
 					//$repeat_headers = 17;
-					$repeat_headers = 29;
+					$repeat_headers = 16;						
 				}
 				else
+				{
 					//$repeat_headers = 28;
 					//modif Francois: wkhtmltopdf
-					$repeat_headers = 48;
+					//modif Francois: PrintClassLists with all contacts
+					if (isset($_ROSARIO['makeParents']) && empty($_ROSARIO['makeParents']))
+					{
+						if ($cols<5)
+							$repeat_headers = 28;
+						else
+							$repeat_headers = 17;
+					}	
+					else
+					{
+						if ($cols<5)
+							$repeat_headers = 48;
+						else
+							$repeat_headers = 28;
+					}
+				}
 				if($options['print'])
 				{
 //modif Francois: bug PDF

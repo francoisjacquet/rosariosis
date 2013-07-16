@@ -2,7 +2,7 @@
 include_once('ProgramFunctions/miscExport.fnc.php');
 //echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
 $extra['extra_search'] .= '<TR><TD></TD><TD><DIV id="fields_div"></DIV></TD></TR>';
-$extra['extra_search'] .= '<TR><TD></TD><TD><INPUT type="hidden" name="relation"><INPUT type="hidden" name="residence"><INPUT type="hidden" name="mailing"><INPUT type="hidden" name="bus_pickup"><INPUT type="hidden" name="bus_dropoff"></TD></TR>';
+$extra['extra_search'] .= '<TR><TD></TD><TD><INPUT type="hidden" name="relation" /><INPUT type="hidden" name="residence" /><INPUT type="hidden" name="mailing" /><INPUT type="hidden" name="bus_pickup" /><INPUT type="hidden" name="bus_dropoff" /></TD></TR>';
 $extra['action'] .= '" onsubmit="document.forms[0].relation.value=document.getElementById(\'relation\').value; document.forms[0].residence.value=document.getElementById(\'residence\').checked; document.forms[0].mailing.value=document.getElementById(\'Mailing\').checked; document.forms[0].bus_pickup.value=document.getElementById(\'bus_pickup\').checked; document.forms[0].bus_dropoff.value=document.getElementById(\'bus_dropoff\').checked;';
 $extra['new'] = true;
 
@@ -29,11 +29,12 @@ if($_REQUEST['fields']['ADDRESS'] || $_REQUEST['fields']['CITY'] || $_REQUEST['f
 	{
 		$extra['SELECT'] .= ',ssm.STUDENT_ID AS PARENTS';
 		$view_other_RET['ALL_CONTACTS'][1]['VALUE']='Y';
-		if($_REQUEST['relation']!='')
-		{
+		//modif Francois: PrintClassLists with all contacts
+		//if($_REQUEST['relation']!='')
+		//{
 			$_ROSARIO['makeParents'] = $_REQUEST['relation'];
 			//$extra['STUDENTS_JOIN_ADDRESS'] .= " AND EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.ADDRESS_ID=sam.ADDRESS_ID AND ".($_REQUEST['relation']!='!'?"lower(sjp.STUDENT_RELATION) LIKE '".strtolower($_REQUEST['relation'])."%'":"sjp.STUDENT_RELATION IS NULL").") ";
-		}
+		//}
 	}
 }
 $extra['SELECT'] .= ',ssm.NEXT_SCHOOL,ssm.CALENDAR_ID,ssm.SYEAR,ssm.SCHOOL_ID AS SCHOOL_NUMBER,s.*';
@@ -267,29 +268,29 @@ else
 		if(ParseMLField($category,'default')=='Address')
 		{
 //modif Francois: add <label> on checkbox
-			echo '<TD><label><INPUT type="checkbox" name="residence" value="Y">&nbsp;'._('Residence').'</label></TD>';
+			echo '<TD><label><INPUT type="checkbox" id="residence" value="Y" />&nbsp;'._('Residence').'</label></TD>';
 //modif Francois: disable mailing address display
 			if (Config('STUDENTS_USE_MAILING'))
-				echo '<TD><label><INPUT type="checkbox" name="mailing" value="Y">&nbsp;'._('Mailing').'</label></TD>';
+				echo '<TD><label><INPUT type="checkbox" id="mailing" value="Y" />&nbsp;'._('Mailing').'</label></TD>';
 			else
 				echo '<TD>&nbsp;</TD>';
 				
 			echo '</TR><TR>';
-			echo '<TD><label><INPUT type="checkbox" name="bus_pickup" value="Y">&nbsp;'._('Bus Pickup').'</label></TD>';
-			echo '<TD><label><INPUT type="checkbox" name="bus_dropoff" value="Y">&nbsp;'._('Bus Dropoff').'</label></TD>';
+			echo '<TD><label><INPUT type="checkbox" id="bus_pickup" value="Y" />&nbsp;'._('Bus Pickup').'</label></TD>';
+			echo '<TD><label><INPUT type="checkbox" id="bus_dropoff" value="Y" />&nbsp;'._('Bus Dropoff').'</label></TD>';
 			echo '</TR><TR>';
 		}
 		foreach($fields as $field=>$title)
 		{
 			$i++;
-            echo '<TD><label><INPUT type="checkbox" onclick=\'addHTML("'.str_replace('"','\"','<LI>'.ParseMLField($title).'</LI>').'","names_div",false);addHTML("'.str_replace('"','\"','<INPUT type="hidden" name="fields['.$field.']" value="Y">').'","fields_div",false);this.disabled=true\'>&nbsp;'.ParseMLField($title).'</label>';
+            echo '<TD><label><INPUT type="checkbox" onclick=\'addHTML("'.str_replace('"','\"','<LI>'.ParseMLField($title).'</LI>').'","names_div",false);addHTML("'.str_replace('"','\"','<INPUT type="hidden" name="fields['.$field.']" value="Y" />').'","fields_div",false);this.disabled=true\' />&nbsp;'.ParseMLField($title).'</label>';
 			if(ParseMLField($category,'default')=='Address' && $field=='PARENTS')
 			{
 				$relations_RET = DBGet(DBQuery("SELECT DISTINCT STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE ORDER BY STUDENT_RELATION"));
-				$select = '<SELECT name=relation><OPTION value="">'._('N/A');
+				$select = '<SELECT id="relation"><OPTION value="">'._('N/A');
 				foreach($relations_RET as $relation)
 					if($relation['STUDENT_RELATION']!='')
-						$select .= '<OPTION value='.$relation['STUDENT_RELATION'].'>'.$relation['STUDENT_RELATION'];
+						$select .= '<OPTION value="'.$relation['STUDENT_RELATION'].'">'.$relation['STUDENT_RELATION'];
 					else
 						$select .= '<OPTION value="!">'._('No Value');
 				$select .= '</SELECT>';
