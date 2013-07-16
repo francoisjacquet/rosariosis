@@ -11,8 +11,6 @@ function PDFStart($css = true, $margins = array())
 	$_REQUEST['_ROSARIO_PDF'] = true;
 	$pdfitems['css'] = $css;
 	$pdfitems['margins'] = $margins;
-	$pdfitems['orientation'] = $_SESSION['orientation'];
-	unset($_SESSION['orientation']);
 	ob_start();
 	return $pdfitems;
 }

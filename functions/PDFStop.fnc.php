@@ -4,6 +4,9 @@ function PDFStop($handle)
 {	//global $htmldocPath,$htmldocAssetsPath;
 	global $wkhtmltopdfPath,$wkhtmltopdfAssetsPath,$locale;
 	
+	$handle['orientation'] = $_SESSION['orientation'];
+	unset($_SESSION['orientation']);
+
 	$html_content = ob_get_clean();
 	
 	//convert to HTML page with CSS		
