@@ -1,5 +1,24 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.2
+---------------
+- replace ? with & in modname parameter
+- security fix, see http://www.securiteam.com/securitynews/6S02U1P6BI.html
+- removed modname var scan
+- added HackingLog function
+- SQL queries fix: put quotes around all PHP variables
+- adapt Bottom.php to wkhtmltopdf
+- added Failed Login to the expanded view of staff listing
+- bugfix: SQL bug when incomplete END_DATE in Schedule.php
+- bugfix: PrintClassLists with all contacts
+- bugfix: PDF orientation
+- bugfix: wkhtmltopdf screen resolution on linux, see https://code.google.com/p/wkhtmltopdf/issues/detail?id=118
+- removed staff_exceptions table data in rosariosis.sql
+- bugfix: SQL bug 'NULL' instead of NULL in InputFinalGrades.php
+- relate users to Default School in rosariosis.sql
+- added translations
+
+
 Changes in 1.1
 ---------------
 - added link to rosariosis.org in index.php
