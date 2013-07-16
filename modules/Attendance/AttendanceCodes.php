@@ -125,7 +125,7 @@ if(empty($_REQUEST['modfunc']))
 	{
 		$sql = "SELECT ID,TITLE,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE";
 		$functions = array('TITLE'=>'_makeTextInput','SORT_ORDER'=>'_makeTextInput');
-		$LO_columns = array('TITLE'=>'Title','SORT_ORDER'=>'Sort Order');
+		$LO_columns = array('TITLE'=>_('Title'),'SORT_ORDER'=>_('Sort Order'));
 
 		$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'));
 		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&table=new";
