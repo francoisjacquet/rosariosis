@@ -90,7 +90,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Delete') && User('P
 		unset($_SESSION['UserSchool']);
 		echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';
 		//unset($_REQUEST);
-		//$_REQUEST['modname'] = "School_Setup/Schools.php?new_school=true";
+		//$_REQUEST['modname'] = "School_Setup/Schools.php&new_school=true";
 		$_REQUEST['new_school'] = 'true';
 		unset($_REQUEST['modfunc']);
         UpdateSchoolArray(UserSchool());

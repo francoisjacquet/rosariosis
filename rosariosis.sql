@@ -3558,7 +3558,7 @@ INSERT INTO moodlexrosario VALUES ('staff_id', 1, 2);
 
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/PortalNotes.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Schools.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Schools.php?new_school=true', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Schools.php&new_school=true', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/CopySchool.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/MarkingPeriods.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Calendar.php', 'Y', 'Y');
@@ -3958,7 +3958,7 @@ INSERT INTO staff VALUES (2013, 3, 1, NULL, 'Parent', 'Parent', 'P', NULL, 'pare
 INSERT INTO staff_exceptions VALUES (1, 'Food_Service/TeacherCompletion.php', 'Y', 'Y');
 INSERT INTO staff_exceptions VALUES (1, 'School_Setup/PortalNotes.php', 'Y', 'Y');
 INSERT INTO staff_exceptions VALUES (1, 'School_Setup/Schools.php', 'Y', 'Y');
-INSERT INTO staff_exceptions VALUES (1, 'School_Setup/Schools.php?new_school=true', 'Y', 'Y');
+INSERT INTO staff_exceptions VALUES (1, 'School_Setup/Schools.php&new_school=true', 'Y', 'Y');
 INSERT INTO staff_exceptions VALUES (1, 'School_Setup/CopySchool.php', 'Y', 'Y');
 INSERT INTO staff_exceptions VALUES (1, 'School_Setup/MarkingPeriods.php', 'Y', 'Y');
 INSERT INTO staff_exceptions VALUES (1, 'School_Setup/Calendar.php', 'Y', 'Y');

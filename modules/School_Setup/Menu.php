@@ -6,7 +6,7 @@ $menu['School_Setup']['admin'] = array(
 //modif Francois: add Database Backup
 						'School_Setup/DatabaseBackup.php' =>_('Database Backup'),
 						'School_Setup/Schools.php'=>_('School Information'),
-						'School_Setup/Schools.php?new_school=true'=>_('Add a School'),
+						'School_Setup/Schools.php&new_school=true'=>_('Add a School'),
 						'School_Setup/CopySchool.php'=>_('Copy School'),
 						'School_Setup/MarkingPeriods.php'=>_('Marking Periods'),
 						'School_Setup/Calendar.php'=>_('Calendars'),
@@ -32,7 +32,7 @@ $menu['School_Setup']['parent'] = array(
 
 $exceptions['School_Setup'] = array(
 						'School_Setup/PortalNotes.php'=>true,
-						'School_Setup/Schools.php?new_school=true'=>true,
+						'School_Setup/Schools.php&new_school=true'=>true,
 						'School_Setup/Rollover.php'=>true
 					);
 //modif Francois: add translation

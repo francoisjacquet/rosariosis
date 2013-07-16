@@ -21,6 +21,6 @@ $menu['Users']['parent'] = array(
 						'Users/Preferences.php'=>_('My Preferences')
 					);
 $exceptions['Users'] = array(
-						'Users/User.php?staff_id=new'=>true
+						'Users/User.php&staff_id=new'=>true
 					);
 ?>
