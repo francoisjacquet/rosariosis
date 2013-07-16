@@ -1,5 +1,6 @@
 <?php
-DrawHeader(_('Teacher Programs').' - '.ProgramTitle($_REQUEST['modname'].'&include='.$_REQUEST['include']));
+$_REQUEST['modname'] = $_REQUEST['modname'].'&include='.$_REQUEST['include'];
+DrawHeader(_('Teacher Programs').' - '.ProgramTitle($_REQUEST['modname']));
 
 if(UserStaffID())
 {
@@ -12,10 +13,6 @@ if(UserStaffID())
 }
 
 $extra['profile'] = 'teacher';
-//modif Francois: bugfix include var not reported in staff listing
-$extra['action'] = '&include='.$_REQUEST['include'];
-$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'];
-$extra['link']['FULL_NAME']['variables'] = array('staff_id'=>'STAFF_ID');
 Search('staff_id',$extra);
 
 if(UserStaffID())
