@@ -65,9 +65,7 @@ if($_REQUEST['modname'])
 		foreach($programs as $program=>$title)
 		{
 //modif Francois: fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF
-			if (strpos($program, '&') !== false)
-				$program = substr($program, 0, strpos($program, '&'));
-			if($_REQUEST['modname']==$program)
+			if($_REQUEST['modname']==$program || (strpos($program, $_REQUEST['modname'])=== 0 && strpos($_SERVER['QUERY_STRING'], $program)=== 8))
 			{
 				$allowed = true;
 				break;

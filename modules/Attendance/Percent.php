@@ -1,5 +1,5 @@
 <?php
-DrawHeader(ProgramTitle($_REQUEST['modname'].(isset($_REQUEST['list_by_day']) ? '&list_by_day='.$_REQUEST['list_by_day'] : '')));
+DrawHeader(ProgramTitle($_REQUEST['modname'].(!empty($_REQUEST['list_by_day']) ? '&list_by_day='.$_REQUEST['list_by_day'] : '')));
 if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start'])
 {
 	while(!VerifyDate($start_date = $_REQUEST['day_start'].'-'.$_REQUEST['month_start'].'-'.$_REQUEST['year_start']))
