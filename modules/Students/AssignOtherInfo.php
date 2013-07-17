@@ -56,7 +56,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		elseif($next_school=='' && !$calendar)
 //			$note = '<IMG SRC=assets/warning_button.png>'._('No data was entered.');
 			$note = '<div class="updated"><IMG SRC="assets/warning_button.png">&nbsp;'._('No data was entered.').'</div>';
-				var_dump($update);
+				//var_dump($update);
 
 		if($next_school!='')
 			DBQuery("UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='".$next_school."' WHERE SYEAR='".UserSyear()."' AND STUDENT_ID IN (".substr($students,1).") ");

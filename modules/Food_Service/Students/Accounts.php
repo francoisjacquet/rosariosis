@@ -41,7 +41,7 @@ if($_REQUEST['modfunc']=='update')
 						DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".str_replace("\'","''",trim($_REQUEST['food_service']['BARCODE']))."'");
 						DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".str_replace("\'","''",trim($_REQUEST['food_service']['BARCODE']))."'");
 					}
-					DBQuery($sql);var_dump($sql);
+					DBQuery($sql);
 				}
 				else
 					$error = ErrorMessage(array(_('Please enter valid Numeric data.')));
@@ -113,7 +113,7 @@ if(!$_REQUEST['modfunc'] && UserStudentID())
 	// warn if account non-existent (balance query failed)
 	if($student['BALANCE']=='')
 	{
-		var_dump($student['ACCOUNT_ID']);
+		//var_dump($student['ACCOUNT_ID']);
 		echo TextInput(array($student['ACCOUNT_ID'],'<span style="color:red">'.$student['ACCOUNT_ID'].'</span>'),'food_service[ACCOUNT_ID]',_('Account ID'),'size=12 maxlength=10');
 		$warning = _('Non-existent account!');
 		echo button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace("'",'&#39;',$warning).'"],tipmessageStyle);\' onMouseOut=\'htm()\'');
