@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-07-13 13:44-0500\n"
-"PO-Revision-Date: 2013-07-13 13:44-0500\n"
+"PO-Revision-Date: 2013-07-18 12:37-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -1640,7 +1640,7 @@ msgstr "Cursos"
 #: modules/Students/PeopleFields.php:109
 #: modules/Students/StudentFields.php:113 modules/Users/UserFields.php:114
 msgid "Please enter a valid Sort Order."
-msgstr "Entre un Typo y una Ordenación valida por favor."
+msgstr "Entre un Orden valido por favor."
 
 #: modules/Attendance/AttendanceCodes.php:79
 #: modules/Discipline/DisciplineForm.php:116
@@ -1735,7 +1735,7 @@ msgstr "Nombre Corto"
 #: modules/Students/StudentFields.php:295 modules/Users/UserFields.php:229
 #: modules/Users/UserFields.php:258
 msgid "Sort Order"
-msgstr "Ordenación"
+msgstr "Orden"
 
 #: modules/Attendance/AttendanceCodes.php:109
 #: modules/Food_Service/ActivityReport.php:92
