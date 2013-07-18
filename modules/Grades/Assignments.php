@@ -36,101 +36,107 @@ if($_REQUEST['tables'] && $_POST['tables'])
 		//modif Francois: fix SQL bug invalid numeric data
         if (!isset($columns['POINTS']) || (is_numeric($columns['POINTS']) && intval($columns['POINTS'])>=0))
 		{
-			if($id!='new')
+			//modif Francois: fix SQL bug invalid sort order
+			if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 			{
-				if($columns['ASSIGNMENT_TYPE_ID'] && $columns['ASSIGNMENT_TYPE_ID']!=$_REQUEST['assignment_type_id'])
-					$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
-
-				$sql = "UPDATE $table SET ";
-
-				//if(!$columns['COURSE_ID'] && $table=='GRADEBOOK_ASSIGNMENTS')
-				//	$columns['COURSE_ID'] = 'N';
-
-				foreach($columns as $column=>$value)
+				if($id!='new')
 				{
-					if($column=='DUE_DATE' || $column=='ASSIGNED_DATE')
+					if($columns['ASSIGNMENT_TYPE_ID'] && $columns['ASSIGNMENT_TYPE_ID']!=$_REQUEST['assignment_type_id'])
+						$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
+
+					$sql = "UPDATE $table SET ";
+
+					//if(!$columns['COURSE_ID'] && $table=='GRADEBOOK_ASSIGNMENTS')
+					//	$columns['COURSE_ID'] = 'N';
+
+					foreach($columns as $column=>$value)
 					{
-						if(!VerifyDate($value))
-							BackPrompt(_('Some dates were not entered correctly.'));
-					}
-					elseif($column=='COURSE_ID' && $value=='Y' && $table=='GRADEBOOK_ASSIGNMENTS')
-					{
-						$value = $course_id;
-						$sql .= 'COURSE_PERIOD_ID=NULL,';
-					}
-					elseif($column=='COURSE_ID' && $table=='GRADEBOOK_ASSIGNMENTS')
-					{
-						$column = 'COURSE_PERIOD_ID';
-						$value = UserCoursePeriod();
-						$sql .= 'COURSE_ID=NULL,';
-					}
-					elseif($column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
-						$value = preg_replace('/[^0-9.]/','',$value) / 100;
+						if($column=='DUE_DATE' || $column=='ASSIGNED_DATE')
+						{
+							if(!VerifyDate($value))
+								BackPrompt(_('Some dates were not entered correctly.'));
+						}
+						elseif($column=='COURSE_ID' && $value=='Y' && $table=='GRADEBOOK_ASSIGNMENTS')
+						{
+							$value = $course_id;
+							$sql .= 'COURSE_PERIOD_ID=NULL,';
+						}
+						elseif($column=='COURSE_ID' && $table=='GRADEBOOK_ASSIGNMENTS')
+						{
+							$column = 'COURSE_PERIOD_ID';
+							$value = UserCoursePeriod();
+							$sql .= 'COURSE_ID=NULL,';
+						}
+						elseif($column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
+							$value = preg_replace('/[^0-9.]/','',$value) / 100;
 
 
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+						$sql .= $column."='".str_replace("\'","''",$value)."',";
+					}
+					$sql = substr($sql,0,-1) . " WHERE ".substr($table,10,-1)."_ID='$id'";
+					$go = true;
+					$gradebook_assignment_update = true;
 				}
-				$sql = substr($sql,0,-1) . " WHERE ".substr($table,10,-1)."_ID='$id'";
-				$go = true;
-				$gradebook_assignment_update = true;
+				else
+				{
+					$sql = "INSERT INTO $table ";
+
+					if($table=='GRADEBOOK_ASSIGNMENTS')
+					{
+						if($columns['ASSIGNMENT_TYPE_ID'])
+						{
+							$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
+							unset($columns['ASSIGNMENT_TYPE_ID']);
+						}
+						$id = DBGet(DBQuery("SELECT ".db_seq_nextval('GRADEBOOK_ASSIGNMENTS_SEQ').' AS ID '.FROM_DUAL));
+						$id = $id[1]['ID'];
+						$fields = "ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,STAFF_ID,MARKING_PERIOD_ID,";
+						$values = $id.",'".$_REQUEST['assignment_type_id']."','".User('STAFF_ID')."','".UserMP()."',";
+						$_REQUEST['assignment_id'] = $id;
+					}
+					elseif($table=='GRADEBOOK_ASSIGNMENT_TYPES')
+					{
+						$id = DBGet(DBQuery("SELECT ".db_seq_nextval('GRADEBOOK_ASSIGNMENT_TYPES_SEQ').' AS ID '.FROM_DUAL));
+						$id = $id[1]['ID'];
+						$fields = "ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,";
+						$values = $id.",'".User('STAFF_ID')."','$course_id',";
+						$_REQUEST['assignment_type_id'] = $id;
+					}
+
+					$go = false;
+
+					if(!$columns['COURSE_ID'] && $_REQUEST['table']=='GRADEBOOK_ASSIGNMENTS')
+						$columns['COURSE_ID'] = 'N';
+
+					foreach($columns as $column=>$value)
+					{
+						if($column=='DUE_DATE' || $column=='ASSIGNED_DATE')
+						{
+							if(!VerifyDate($value))
+								BackPrompt(_('Some dates were not entered correctly.'));
+						}
+						elseif($column=='COURSE_ID' && $value=='Y')
+							$value = $course_id;
+						elseif($column=='COURSE_ID')
+						{
+							$column = 'COURSE_PERIOD_ID';
+							$value = UserCoursePeriod();
+						}
+						elseif($column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
+							$value = preg_replace('/[^0-9.]/','',$value) / 100;
+
+						if($value!='')
+						{
+							$fields .= $column.',';
+							$values .= "'".str_replace("\'","''",$value)."',";
+							$go = true;
+						}
+					}
+					$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+				}
 			}
 			else
-			{
-				$sql = "INSERT INTO $table ";
-
-				if($table=='GRADEBOOK_ASSIGNMENTS')
-				{
-					if($columns['ASSIGNMENT_TYPE_ID'])
-					{
-						$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
-						unset($columns['ASSIGNMENT_TYPE_ID']);
-					}
-					$id = DBGet(DBQuery("SELECT ".db_seq_nextval('GRADEBOOK_ASSIGNMENTS_SEQ').' AS ID '.FROM_DUAL));
-					$id = $id[1]['ID'];
-					$fields = "ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,STAFF_ID,MARKING_PERIOD_ID,";
-					$values = $id.",'".$_REQUEST['assignment_type_id']."','".User('STAFF_ID')."','".UserMP()."',";
-					$_REQUEST['assignment_id'] = $id;
-				}
-				elseif($table=='GRADEBOOK_ASSIGNMENT_TYPES')
-				{
-					$id = DBGet(DBQuery("SELECT ".db_seq_nextval('GRADEBOOK_ASSIGNMENT_TYPES_SEQ').' AS ID '.FROM_DUAL));
-					$id = $id[1]['ID'];
-					$fields = "ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,";
-					$values = $id.",'".User('STAFF_ID')."','$course_id',";
-					$_REQUEST['assignment_type_id'] = $id;
-				}
-
-				$go = false;
-
-				if(!$columns['COURSE_ID'] && $_REQUEST['table']=='GRADEBOOK_ASSIGNMENTS')
-					$columns['COURSE_ID'] = 'N';
-
-				foreach($columns as $column=>$value)
-				{
-					if($column=='DUE_DATE' || $column=='ASSIGNED_DATE')
-					{
-						if(!VerifyDate($value))
-							BackPrompt(_('Some dates were not entered correctly.'));
-					}
-					elseif($column=='COURSE_ID' && $value=='Y')
-						$value = $course_id;
-					elseif($column=='COURSE_ID')
-					{
-						$column = 'COURSE_PERIOD_ID';
-						$value = UserCoursePeriod();
-					}
-					elseif($column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
-						$value = preg_replace('/[^0-9.]/','',$value) / 100;
-
-					if($value!='')
-					{
-						$fields .= $column.',';
-						$values .= "'".str_replace("\'","''",$value)."',";
-						$go = true;
-					}
-				}
-				$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
-			}
+				echo ErrorMessage(array(_('Please enter a valid Sort Order.')));
 		}
 		else
 			echo ErrorMessage(array(_('Please enter valid Numeric data.')));
