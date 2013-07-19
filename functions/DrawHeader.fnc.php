@@ -7,7 +7,7 @@ function DrawHeader($left='',$right='',$center='')
 	{
 		$_ROSARIO['DrawHeader'] = '';
 		if($_ROSARIO['HeaderIcon'])
-			$left = '<IMG src="assets/icons/'.$_ROSARIO['HeaderIcon'].'" height="48" /> '.$left; //modif Francois: icones
+			$left = '<IMG src="assets/icons/'.$_ROSARIO['HeaderIcon'].'" height="32" /> '.$left; //modif Francois: icones
 	}
 
 	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR>';
