@@ -26,8 +26,13 @@ if($_REQUEST['student_id'])
 	if($_REQUEST['student_id']!=$_SESSION['student_id'])
 	{
 		$_SESSION['student_id'] = $_REQUEST['student_id'];
-		if($_REQUEST['period'] && $_REQUEST['period']!=$_SESSION['UserCoursePeriod'])
-			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
+		//modif Francois: bugfix SQL bug course period
+		/*if($_REQUEST['period'] && $_REQUEST['period']!=$_SESSION['UserCoursePeriod'])
+			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
+		if ($_REQUEST['period'])
+			list($CoursePeriod, $CoursePeriodSchoolPeriod) = explode('.', $_REQUEST['period']);
+		if ($CoursePeriod!=$_SESSION['UserCoursePeriod'])
+			$_SESSION['UserCoursePeriod'] = $CoursePeriod;
 		echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';
 	}
 }
@@ -36,16 +41,27 @@ else
 	if($_SESSION['student_id'])
 	{
 		unset($_SESSION['student_id']);
-		if($_REQUEST['period'] && $_REQUEST['period']!=$_SESSION['UserCoursePeriod'])
-			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
+		//modif Francois: bugfix SQL bug course period
+		/*if($_REQUEST['period'] && $_REQUEST['period']!=$_SESSION['UserCoursePeriod'])
+			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
+		if ($_REQUEST['period'])
+			list($CoursePeriod, $CoursePeriodSchoolPeriod) = explode('.', $_REQUEST['period']);
+		if ($CoursePeriod!=$_SESSION['UserCoursePeriod'])
+			$_SESSION['UserCoursePeriod'] = $CoursePeriod;
 		echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';
 	}
 }
 if($_REQUEST['period'])
 {
-	if($_REQUEST['period']!=$_SESSION['UserCoursePeriod'])
+	//modif Francois: bugfix SQL bug course period
+	/*if($_REQUEST['period']!=$_SESSION['UserCoursePeriod'])
 	{
-		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
+		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
+	list($CoursePeriod, $CoursePeriodSchoolPeriod) = explode('.', $_REQUEST['period']);
+		
+	if ($CoursePeriod!=$_SESSION['UserCoursePeriod'])
+	{
+		$_SESSION['UserCoursePeriod'] = $CoursePeriod;
 		if($_REQUEST['student_id'])
 		{
 			if($_REQUEST['student_id']!=$_SESSION['student_id'])
