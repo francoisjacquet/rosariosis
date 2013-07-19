@@ -163,8 +163,10 @@ if (isset($_POST['votes']) && is_array($_POST['votes']))
 	error_reporting(E_ALL ^ E_NOTICE);
 	require('config.inc.php');
 	require('database.inc.php');
+
+	//modif Francois: remove IgnoreFiles
 	// Load functions.
-	if($handle = opendir("functions"))
+	/*if($handle = opendir('functions'))
 	{
 		if(!is_array($IgnoreFiles))
 			$IgnoreFiles=Array();
@@ -175,6 +177,13 @@ if (isset($_POST['votes']) && is_array($_POST['votes']))
 			if($file!='.' && $file!='..' && !in_array($file,$IgnoreFiles))
 				require_once('functions/'.$file);
 		}
+	}*/
+	$functions = scandir('functions/');
+	foreach ($functions as $function)
+	{
+		//filter PHP files
+		if ( strrchr($function, '.') == '.php' )
+			require_once('functions/'.$function);
 	}
 	
 	foreach ($_POST['votes'] as $poll_id=>$votes_array)

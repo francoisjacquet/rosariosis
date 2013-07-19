@@ -169,7 +169,8 @@ if(empty($_REQUEST['modfunc']))
 	{
 		echo '<TABLE>';
 		echo '<TR><TD style="text-align:right; vertical-align: top;"><span style="color:gray">'._('Theme').'</span></TD><TD><TABLE><TR>';
-		if($handle = opendir($RosarioPath.'assets/themes/'))
+		//modif Francois: remove IgnoreFiles
+		/*if($handle = opendir($RosarioPath.'assets/themes/'))
 		{
 			while(false !== ($file = readdir($handle)))
 			{
@@ -182,7 +183,20 @@ if(empty($_REQUEST['modfunc']))
 				}
 			}
 			closedir($handle);
+		}*/
+		$themes = scandir('assets/themes/');
+		foreach ($themes as $theme)
+		{
+			//filter directories
+			if ( is_dir('assets/themes/'.$theme) && $theme != '.' && $theme != '..' )
+			{
+					echo '<TD><label><INPUT type="radio" name="values[Preferences][THEME]" value="'.$theme.'"'.((Preferences('THEME')==$theme)?' checked':'').'> '.$theme.'</label></TD>';
+					$count++;
+					if($count%3==0)
+						echo '</TR><TR>';			
+			}
 		}
+		
 		echo '</TR></TABLE></TD></TR>';
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		echo '<TR><TD style="text-align:right"><span style="color:gray">'._('PDF List Header Color').'</span></TD><TD><TABLE><TR>';

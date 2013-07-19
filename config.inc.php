@@ -2,9 +2,11 @@
 if(!defined('CONFIG_INC'))
 {
 	define('CONFIG_INC',1);
+	
+	//modif Francois: remove IgnoreFiles
 	// IgnoreFiles should contain any names of files or folders
 	// which should be ignored by the function inclusion system.
-	$IgnoreFiles = Array('.DS_Store','CVS','.svn');
+	//$IgnoreFiles = Array('.DS_Store','CVS','.svn');
 
 	// Database Setup
 	$DatabaseType = 'postgres';		// oracle, postgres

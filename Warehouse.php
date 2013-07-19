@@ -10,8 +10,9 @@ if(!defined('WAREHOUSE_PHP'))
 	require_once('config.inc.php');
 	require_once('database.inc.php');
     
+	//modif Francois: remove IgnoreFiles
 	// Load functions.
-	if($handle = opendir('functions'))
+	/*if($handle = opendir('functions'))
 	{
 		if(!is_array($IgnoreFiles))
 			$IgnoreFiles=Array();
@@ -22,7 +23,16 @@ if(!defined('WAREHOUSE_PHP'))
 			if($file!='.' && $file!='..' && !in_array($file,$IgnoreFiles))
 				require_once('functions/'.$file);
 		}
+	}*/
+	$functions = scandir('functions/');
+	foreach ($functions as $function)
+	{
+		//filter PHP files
+		if ( strrchr($function, '.') == '.php' )
+			require_once('functions/'.$function);
 	}
+
+	
 
 	// Start Session.
     session_name('RosarioSIS');
