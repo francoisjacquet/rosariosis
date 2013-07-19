@@ -1,5 +1,16 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.2.2
+----------------
+- bugfix: SQL bug invalid sort order & numeric data in Assignments.php
+- disable remaining vra_dump
+- translation correction
+- removed IgnoreFiles
+- added query string to HackingLog
+- bugfix: SQL bug course period in Grades.php
+- reduced header icon size
+
+
 Changes in 1.2
 ---------------
 - replace ? with & in modname parameter
