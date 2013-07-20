@@ -450,7 +450,7 @@ function db_show_error($sql,$failnote,$additional='')
 
 function DBEscapeString($input)
 {
-	//return pg_escape_string($input);
-	return str_replace("'","''",$input);
+	return pg_escape_string($input);
+	//return str_replace("'","''",$input);
 }
 ?>

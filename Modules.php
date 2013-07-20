@@ -2,7 +2,7 @@
 error_reporting(E_ALL ^ E_NOTICE);
 //error_reporting(E_ERROR);
 include 'Warehouse.php';
-//array_rwalk($_REQUEST,'DBEscapeString');
+array_rwalk($_REQUEST,'DBEscapeString');
 
 //modif Francois: add TinyMCE to the textarea (see modules/Students/Letters.php & modules/Grades/HonorRollSubject.php & modules/Grades/HonorRoll.php)
 if (($_REQUEST['modname']=='Students/Letters.php' && isset($_REQUEST['letter_text'])) || (($_REQUEST['modname']=='Grades/HonorRollSubject.php' || $_REQUEST['modname']=='Grades/HonorRoll.php') && isset($_REQUEST['honor_roll_text'])))
@@ -10,9 +10,9 @@ if (($_REQUEST['modname']=='Students/Letters.php' && isset($_REQUEST['letter_tex
 	$REQUEST_letter_text = $_REQUEST['letter_text'];
 	$REQUEST_honor_roll_text = $_REQUEST['honor_roll_text'];
 }
-if ((!$_REQUEST['modname']=='Students/Letters.php' || !isset($_REQUEST['letter_text'])) && (!$_REQUEST['modname']=='Grades/HonorRollSubject.php' || !isset($_REQUEST['honor_roll_text'])) && (!$_REQUEST['modname']=='Grades/HonorRoll.php' || !isset($_REQUEST['honor_roll_text'])))
+/*if ((!$_REQUEST['modname']=='Students/Letters.php' || !isset($_REQUEST['letter_text'])) && (!$_REQUEST['modname']=='Grades/HonorRollSubject.php' || !isset($_REQUEST['honor_roll_text'])) && (!$_REQUEST['modname']=='Grades/HonorRoll.php' || !isset($_REQUEST['honor_roll_text'])))
 	if(!get_magic_quotes_gpc())
-		array_rwalk($_REQUEST,'addslashes');
+		array_rwalk($_REQUEST,'addslashes');*/
 
 array_rwalk($_REQUEST,'strip_tags');
 
