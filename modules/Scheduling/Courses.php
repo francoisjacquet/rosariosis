@@ -187,7 +187,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								$nb_days = strlen($school_p['DAYS']);
 								$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
 								for ($i = 0; $i < $nb_days; $i++) {
-									$columns_DAYS_locale .= substr($days_convert[substr($school_p['DAYS'], $i, 1)],0,3) . '.';
+									$columns_DAYS_locale .= mb_substr($days_convert[substr($school_p['DAYS'], $i, 1)],0,3,'UTF-8') . '.';
 								}
 								
 								if(strlen($school_p['DAYS'])<5)
@@ -209,7 +209,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								$nb_days = strlen($columns['DAYS']);
 								$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
 								for ($i = 0; $i < $nb_days; $i++) {
-									$columns_DAYS_locale .= substr($days_convert[substr($columns['DAYS'], $i, 1)],0,3) . '.';
+									$columns_DAYS_locale .= mb_substr($days_convert[substr($columns['DAYS'], $i, 1)],0,3,'UTF-8') . '.';
 								}
 
 								$period = DBGet(DBQuery("SELECT sp.TITLE FROM SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE sp.PERIOD_ID=cpsp.PERIOD_ID AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".$id."' AND sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."'"));
@@ -334,7 +334,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							$nb_days = strlen($columns['DAYS']);
 							$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
 							for ($i = 0; $i < $nb_days; $i++) {
-								$columns_DAYS_locale .= substr($days_convert[substr($columns['DAYS'], $i, 1)],0,3) . '.';
+								$columns_DAYS_locale .= mb_substr($days_convert[substr($columns['DAYS'], $i, 1)],0,3,'UTF-8') . '.';
 							}
 							
 							if(strlen($columns['DAYS'])<5)
@@ -610,7 +610,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 						$value = '';
 
 	//				$header .= '<TD>'.str_replace('"','\"',CheckboxInput($value,'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DAYS]['.$day.']',($day=='U'?'S':$day),$checked,false,'','',false)).'</TD>';
-					$header_temp = '<TD>'.CheckboxInput($value,'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]['.$day.']',substr($days_convert[$day],0,3),$checked,$new,'','',false).'</TD>';
+					$header_temp = '<TD>'.CheckboxInput($value,'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]['.$day.']',mb_substr($days_convert[$day],0,3,'UTF-8'),$checked,$new,'','',false).'</TD>';
 					if($new==false && Preferences('HIDDEN')=='Y')
 						$header .= str_replace('"','\"',$header_temp);
 					else
@@ -623,7 +623,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					//modif Francois: days display to locale						
 					$school_period_locale = '';
 					for ($j = 0; $j < strlen($school_period['DAYS']); $j++) {
-						$school_period_locale .= substr($days_convert[substr($school_period['DAYS'], $j, 1)],0,3) . '.&nbsp;';
+						$school_period_locale .= mb_substr($days_convert[substr($school_period['DAYS'], $j, 1)],0,3,'UTF-8') . '.&nbsp;';
 					}
 					$school_period['DAYS'] = $school_period_locale;
 					$header .= '","divtables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]",true);\'><span class="underline-dots">'.$school_period['DAYS'].'</span></div></DIV>';
