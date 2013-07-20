@@ -57,6 +57,7 @@ if(!defined('WAREHOUSE_PHP'))
     bindtextdomain('rosariosis', $LocalePath);    //binds the messages domain to the locale folder
     bind_textdomain_codeset('rosariosis','UTF-8');     //ensures text returned is utf-8, quite often this is iso-8859-1 by default
     textdomain('rosariosis');    //sets the domain name, this means gettext will be looking for a file called rosariosis.mo
+	mb_internal_encoding('UTF-8'); //modif Francois: multibyte strings
 	
 	function Warehouse($mode)
 	{	global $_ROSARIO,$locale;
