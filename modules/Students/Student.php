@@ -19,8 +19,8 @@ elseif(!$_REQUEST['category_id'])
 		$_REQUEST['category_id'] = $include[1]['ID'];
 	}
 
-//if(strpos($_REQUEST['modname'],'?include='))
-//	$_REQUEST['modname'] = substr($_REQUEST['modname'],0,strpos($_REQUEST['modname'],'?include='));
+//if(mb_strpos($_REQUEST['modname'],'?include='))
+//	$_REQUEST['modname'] = mb_substr($_REQUEST['modname'],0,mb_strpos($_REQUEST['modname'],'?include='));
 
 if(User('PROFILE')!='admin')
 {
@@ -93,7 +93,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						$sql .= "',";
 					}
 				}
-				$sql = substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."'";
+				$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."'";
 				DBQuery($sql);
 //modif Francois: Moodle integrator
 				if ($_REQUEST['moodle_create_student'])
@@ -111,7 +111,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$sql = "UPDATE STUDENT_ENROLLMENT SET ";
 				foreach($_REQUEST['values']['STUDENT_ENROLLMENT'][UserStudentID()] as $column=>$value)
 					$sql .= "$column='".str_replace("\'","''",str_replace('&#39;',"''",$value))."',";
-				$sql = substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'";
+				$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'";
 				DBQuery($sql);
 			}
 		}
@@ -176,7 +176,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					}
 				}
 			}
-			$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			DBQuery($sql);
 			
 //modif Francois: Moodle integrator
@@ -197,7 +197,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					$values .= "'".str_replace("\'","''",$value)."',";
 				}
 			}
-			$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			DBQuery($sql);
 
 			// create default food service account for this student
@@ -217,7 +217,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		SaveData(array('STUDENT_MEDICAL_ALERTS'=>"ID='__ID__'",'STUDENT_MEDICAL'=>"ID='__ID__'",'STUDENT_MEDICAL_VISITS'=>"ID='__ID__'",'fields'=>array('STUDENT_MEDICAL'=>'ID,STUDENT_ID,','STUDENT_MEDICAL_ALERTS'=>'ID,STUDENT_ID,','STUDENT_MEDICAL_VISITS'=>'ID,STUDENT_ID,'),'values'=>array('STUDENT_MEDICAL'=>db_seq_nextval('STUDENT_MEDICAL_SEQ').",'".UserStudentID()."',",'STUDENT_MEDICAL_ALERTS'=>db_seq_nextval('STUDENT_MEDICAL_ALERTS_SEQ').",'".UserStudentID()."',",'STUDENT_MEDICAL_VISITS'=>db_seq_nextval('STUDENT_MEDICAL_VISITS_SEQ').",'".UserStudentID()."',")));
 
 	if($_REQUEST['include']!= 'General_Info' && $_REQUEST['include']!= 'Address' && $_REQUEST['include']!= 'Medical' && $_REQUEST['include']!= 'Other_Info')
-		if(!strpos($_REQUEST['include'],'/'))
+		if(!mb_strpos($_REQUEST['include'],'/'))
 			include('modules/Students/includes/'.$_REQUEST['include'].'.inc.php');
 		else
 			include('modules/'.$_REQUEST['include'].'.inc.php');
@@ -320,7 +320,7 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 		echo '<BR />';
 		echo PopTable('header',$tabs,'width="100%"');
 
-		if(!strpos($_REQUEST['include'],'/'))
+		if(!mb_strpos($_REQUEST['include'],'/'))
 			include('modules/Students/includes/'.$_REQUEST['include'].'.inc.php');
 		else
 		{
@@ -356,7 +356,7 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 
 	}
 	else
-		if(!strpos($_REQUEST['include'],'/'))
+		if(!mb_strpos($_REQUEST['include'],'/'))
 			include('modules/Students/includes/'.$_REQUEST['include'].'.inc.php');
 		else
 		{

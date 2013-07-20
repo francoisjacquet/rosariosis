@@ -182,7 +182,7 @@ function mySearch($type,$extra='')
 			if($_REQUEST['teacher_id'])
 				$where .= " AND cp.TEACHER_ID='$_REQUEST[teacher_id]'";
 			if($_REQUEST['first'])
-				$where .= " AND UPPER(s.FIRST_NAME) LIKE '".strtoupper($_REQUEST['first'])."%'";
+				$where .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 			if($_REQUEST['w_course_period_id'])
 				if($_REQUEST['w_course_period_id_which']=='course')
 					$where .= " AND cp.COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."')";

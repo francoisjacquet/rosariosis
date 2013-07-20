@@ -196,12 +196,12 @@ function Widgets($item,&$myextra=null)
 						$extra['columns_after']['CUM_WEIGHTED_FACTOR'] = _('Weighted GPA');
 						$extra['columns_after']['CUM_UNWEIGHTED_FACTOR'] = _('Unweighted GPA');
 					}
-					/*if(strpos($extra['FROM'],'STUDENT_GPA_CALCULATED sgc')===false)
+					/*if(mb_strpos($extra['FROM'],'STUDENT_GPA_CALCULATED sgc')===false)
 					{
 						$extra['FROM'] .= ",STUDENT_GPA_CALCULATED sgc";
 						$extra['WHERE'] .= " AND sgc.STUDENT_ID=s.STUDENT_ID AND sgc.MARKING_PERIOD_ID='".$_REQUEST['gpa_term']."'";
 					}*/
-					if(strpos($extra['FROM'],'STUDENT_MP_STATS sms')===false)
+					if(mb_strpos($extra['FROM'],'STUDENT_MP_STATS sms')===false)
 					{
 						$extra['FROM'] .= ",STUDENT_MP_STATS sms";
 						$extra['WHERE'] .= " AND sms.STUDENT_ID=s.STUDENT_ID AND sms.MARKING_PERIOD_ID='".$_REQUEST['gpa_term']."'";
@@ -230,12 +230,12 @@ function Widgets($item,&$myextra=null)
 						$_REQUEST['class_rank_low'] = $temp;
 					}
 //modif Francois: remove STUDENT_GPA_CALCULATED table
-					/*if(strpos($extra['FROM'],'STUDENT_GPA_CALCULATED sgc')===false)
+					/*if(mb_strpos($extra['FROM'],'STUDENT_GPA_CALCULATED sgc')===false)
 					{
 						$extra['FROM'] .= ",STUDENT_GPA_CALCULATED sgc";
 						$extra['WHERE'] .= " AND sgc.STUDENT_ID=s.STUDENT_ID AND sgc.MARKING_PERIOD_ID='".$_REQUEST['class_rank_term']."'";
 					}*/
-					if(strpos($extra['FROM'],'STUDENT_MP_STATS sms')===false)
+					if(mb_strpos($extra['FROM'],'STUDENT_MP_STATS sms')===false)
 					{
 						$extra['FROM'] .= ",STUDENT_MP_STATS sms";
 						$extra['WHERE'] .= " AND sms.STUDENT_ID=s.STUDENT_ID AND sms.MARKING_PERIOD_ID='".$_REQUEST['class_rank_term']."'";
@@ -248,7 +248,7 @@ function Widgets($item,&$myextra=null)
 //modif Francois: replace Cumulative by Full Year
 				//$extra['search'] .= "<TR><TD style="text-align:right; width:120px:">"._('Class Rank').'<BR /><label><INPUT type="radio" name="class_rank_term" value=CUM checked />&nbsp;'._('Cumulative').'</label> &nbsp;<label><INPUT type="radio" name="class_rank_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label> &nbsp;<label><INPUT type="radio" name="class_rank_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME');
 				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Class Rank').'<BR />'.(GetMP($MPfy = GetParentMP('FY',GetParentMP('SEM',UserMP())),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="class_rank_term" value="'.$MPfy.'">&nbsp;'.GetMP($MPfy,'SHORT_NAME').'</label>&nbsp; ':'').(GetMP($MPsem = GetParentMP('SEM',UserMP()),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="class_rank_term" value="'.$MPsem.'">&nbsp;'.GetMP($MPsem,'SHORT_NAME').'</label> &nbsp;':'').(GetMP($MPtrim = UserMP(),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="class_rank_term" value="'.$MPtrim.'" checked />&nbsp;'.GetMP($MPtrim,'SHORT_NAME').'</label>':'');
-				if(strlen($pros = GetChildrenMP('PRO',UserMP())))
+				if(mb_strlen($pros = GetChildrenMP('PRO',UserMP())))
 				{
 					$pros = explode(',',str_replace("'",'',$pros));
 					foreach($pros as $pro)
@@ -273,12 +273,12 @@ function Widgets($item,&$myextra=null)
 							$_ROSARIO['SearchTerms'] .= $letter_grades_RET[$grade][1]['TITLE'].', ';
 					}
 					if(!$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] = substr($_ROSARIO['SearchTerms'],0,-2).'<BR />';
-					$extra['WHERE'] .= " AND ".($_REQUEST['letter_grade_exclude']=='Y'?'NOT ':'')."EXISTS (SELECT '' FROM STUDENT_REPORT_CARD_GRADES sg3 WHERE sg3.STUDENT_ID=ssm.STUDENT_ID AND sg3.SYEAR=ssm.SYEAR AND sg3.REPORT_CARD_GRADE_ID IN (".substr($letter_grades,1).") AND sg3.MARKING_PERIOD_ID='".$_REQUEST['letter_grade_term']."' )";
+						$_ROSARIO['SearchTerms'] = mb_substr($_ROSARIO['SearchTerms'],0,-2).'<BR />';
+					$extra['WHERE'] .= " AND ".($_REQUEST['letter_grade_exclude']=='Y'?'NOT ':'')."EXISTS (SELECT '' FROM STUDENT_REPORT_CARD_GRADES sg3 WHERE sg3.STUDENT_ID=ssm.STUDENT_ID AND sg3.SYEAR=ssm.SYEAR AND sg3.REPORT_CARD_GRADE_ID IN (".mb_substr($letter_grades,1).") AND sg3.MARKING_PERIOD_ID='".$_REQUEST['letter_grade_term']."' )";
 				}
 
 				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Grade').'<BR /><label><INPUT type="checkbox" name="letter_grade_exclude" value="Y">&nbsp;'._('Did not receive').'</label><BR /><label><INPUT type="radio" name="letter_grade_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label>&nbsp; <label><INPUT type="radio" name="letter_grade_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME').'</label>';
-				if(strlen($pros = GetChildrenMP('PRO',UserMP())))
+				if(mb_strlen($pros = GetChildrenMP('PRO',UserMP())))
 				{
 					$pros = explode(',',str_replace("'",'',$pros));
 					foreach($pros as $pro)
@@ -346,8 +346,8 @@ function Widgets($item,&$myextra=null)
 						break;
 					}
 
-					$start_date = strtoupper(date('d-M-y',time() - ($today-$START_DAY)*60*60*24));
-					$end_date = strtoupper(date('d-M-y',time()));
+					$start_date = mb_strtoupper(date('d-M-y',time() - ($today-$START_DAY)*60*60*24));
+					$end_date = mb_strtoupper(date('d-M-y',time()));
 					$extra['WHERE'] .= " AND (SELECT count(*) FROM ELIGIBILITY e WHERE ssm.STUDENT_ID=e.STUDENT_ID AND e.SYEAR=ssm.SYEAR AND e.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' AND e.ELIGIBILITY_CODE='FAILING') > '0'";
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Eligibility')).' </b>'._('Ineligible').'<BR />';
@@ -650,7 +650,7 @@ function Widgets($item,&$myextra=null)
 				{
 				if($_REQUEST['fsa_balance']!='')
 				{
-					if (!strpos($extra['FROM'],'fssa'))
+					if (!mb_strpos($extra['FROM'],'fssa'))
 					{
 						$extra['FROM'] .= ',FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 						$extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID';
@@ -669,7 +669,7 @@ function Widgets($item,&$myextra=null)
 				{
 				if($_REQUEST['fsa_discount'])
 				{
-					if(!strpos($extra['FROM'],'fssa'))
+					if(!mb_strpos($extra['FROM'],'fssa'))
 					{
 						$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 						$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
@@ -692,7 +692,7 @@ function Widgets($item,&$myextra=null)
 				if($RosarioModules['Food_Service'])
 				{
 				if($_REQUEST['fsa_status']) {
-					if (!strpos($extra['FROM'],'fssa'))
+					if (!mb_strpos($extra['FROM'],'fssa'))
 					{
 						$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 						$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
@@ -711,7 +711,7 @@ function Widgets($item,&$myextra=null)
 				{
 				if($_REQUEST['fsa_barcode'])
 				{
-					if (!strpos($extra['FROM'],'fssa'))
+					if (!mb_strpos($extra['FROM'],'fssa'))
 					{
 						$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 						$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
@@ -729,7 +729,7 @@ function Widgets($item,&$myextra=null)
 				{
 				if($_REQUEST['fsa_account_id'])
 				{
-					if (!strpos($extra['FROM'],'fssa'))
+					if (!mb_strpos($extra['FROM'],'fssa'))
 					{
 						$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 						$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";

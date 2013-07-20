@@ -232,7 +232,7 @@ function db_case($array)
 			$string=" decode( ";
 			foreach($array as $value)
 				$string.="$value,";
-			$string[strlen($string)-1]=")";
+			$string[mb_strlen($string)-1]=")";
 			$string.=" ";
 		break;
 		case 'postgres':
@@ -245,10 +245,10 @@ function db_case($array)
 			{
 				$value = $array[$i];
 
-				if($value=="''" && substr($string,-1)=='=')
+				if($value=="''" && mb_substr($string,-1)=='=')
 				{
 					$value = ' IS NULL';
-					$string = substr($string,0,-1);
+					$string = mb_substr($string,0,-1);
 				}
 
 				$string.="$value";
@@ -268,17 +268,17 @@ function db_case($array)
 }
 
 // String position.
-function db_strpos($args)
+function db_mb_strpos($args)
 {	global $DatabaseType;
 
 	if($DatabaseType=='postgres')
-		$ret = 'strpos(';
+		$ret = 'mb_strpos(';
 	else
 		$ret = 'instr(';
 
 	foreach($args as $value)
 		$ret .= $value . ',';
-	$ret = substr($ret,0,-1) . ')';
+	$ret = mb_substr($ret,0,-1) . ')';
 
 	return $ret;
 }
@@ -322,8 +322,8 @@ function db_properties($table)
 		case 'oracle':
 			$sql="SELECT COLUMN_NAME, DATA_TYPE, DATA_LENGTH, DATA_PRECISION,
 				DATA_SCALE, NULLABLE, DATA_DEFAULT
-				FROM ALL_TAB_COLUMNS WHERE TABLE_NAME='".strtoupper($table)."'
-				AND OWNER='".strtoupper($DatabaseUsername)."' ORDER BY COLUMN_ID";
+				FROM ALL_TAB_COLUMNS WHERE TABLE_NAME='".mb_strtoupper($table)."'
+				AND OWNER='".mb_strtoupper($DatabaseUsername)."' ORDER BY COLUMN_ID";
 			$result = DBQuery($sql);
 			while($row=db_fetch_row($result))
 			{
@@ -352,47 +352,47 @@ function db_properties($table)
 					a.attlen AS length,a.atttypmod AS lengthvar,
 					a.attnotnull AS notnull
 				FROM pg_class c, pg_attribute a, pg_type t
-				WHERE c.relname = '".strtolower($table)."'
+				WHERE c.relname = '".mb_strtolower($table)."'
 					and a.attnum > 0 and a.attrelid = c.oid
 					and a.atttypid = t.oid ORDER BY a.attnum";
 			$result = DBQuery($sql);
 			while($row = db_fetch_row($result))
 			{
-				$properties[strtoupper($row['FIELD'])]['TYPE'] = strtoupper($row['TYPE']);
-				if(strtoupper($row['TYPE'])=="NUMERIC")
+				$properties[mb_strtoupper($row['FIELD'])]['TYPE'] = mb_strtoupper($row['TYPE']);
+				if(mb_strtoupper($row['TYPE'])=="NUMERIC")
 				{
-					$properties[strtoupper($row['FIELD'])]['SIZE'] = ($row['LENGTHVAR'] >> 16) & 0xffff;
-					$properties[strtoupper($row['FIELD'])]['SCALE'] = ($row['LENGTHVAR'] -4) & 0xffff;
+					$properties[mb_strtoupper($row['FIELD'])]['SIZE'] = ($row['LENGTHVAR'] >> 16) & 0xffff;
+					$properties[mb_strtoupper($row['FIELD'])]['SCALE'] = ($row['LENGTHVAR'] -4) & 0xffff;
 				}
 				else
 				{
 					if($row['LENGTH']>0)
-						$properties[strtoupper($row['FIELD'])]['SIZE'] = $row['LENGTH'];
+						$properties[mb_strtoupper($row['FIELD'])]['SIZE'] = $row['LENGTH'];
 					elseif($row['LENGTHVAR']>0)
-						$properties[strtoupper($row['FIELD'])]['SIZE'] = $row['LENGTHVAR']-4;
+						$properties[mb_strtoupper($row['FIELD'])]['SIZE'] = $row['LENGTHVAR']-4;
 				}
 				if ($row['NOTNULL']=='t')
-					$properties[strtoupper($row['FIELD'])]['NULL'] = "N";
+					$properties[mb_strtoupper($row['FIELD'])]['NULL'] = "N";
 				else
-					$properties[strtoupper($row['FIELD'])]['NULL'] = "Y";
+					$properties[mb_strtoupper($row['FIELD'])]['NULL'] = "Y";
 			}
 		break;
 		case 'mysql':
 			$result = DBQuery("SHOW COLUMNS FROM $table");
 			while($row = db_fetch_row($result))
 			{
-				$properties[strtoupper($row['FIELD'])]['TYPE'] = strtoupper($row['TYPE'],strpos($row['TYPE'],'('));
-				if(!$pos = strpos($row['TYPE'],','))
-					$pos = strpos($row['TYPE'],')');
+				$properties[mb_strtoupper($row['FIELD'])]['TYPE'] = mb_strtoupper($row['TYPE'],mb_strpos($row['TYPE'],'('));
+				if(!$pos = mb_strpos($row['TYPE'],','))
+					$pos = mb_strpos($row['TYPE'],')');
 				else
-					$properties[strtoupper($row['FIELD'])]['SCALE'] = substr($row['TYPE'],$pos+1);
+					$properties[mb_strtoupper($row['FIELD'])]['SCALE'] = mb_substr($row['TYPE'],$pos+1);
 
-				$properties[strtoupper($row['FIELD'])]['SIZE'] = substr($row['TYPE'],strpos($row['TYPE'],'(')+1,$pos);
+				$properties[mb_strtoupper($row['FIELD'])]['SIZE'] = mb_substr($row['TYPE'],mb_strpos($row['TYPE'],'(')+1,$pos);
 
 				if($row['NULL']!='')
-					$properties[strtoupper($row['FIELD'])]['NULL'] = "Y";
+					$properties[mb_strtoupper($row['FIELD'])]['NULL'] = "Y";
 				else
-					$properties[strtoupper($row['FIELD'])]['NULL'] = "N";
+					$properties[mb_strtoupper($row['FIELD'])]['NULL'] = "N";
 			}
 		break;
 	}
@@ -450,6 +450,7 @@ function db_show_error($sql,$failnote,$additional='')
 
 function DBEscapeString($input)
 {
+	//return pg_escape_string($input);
 	return str_replace("'","''",$input);
 }
 ?>

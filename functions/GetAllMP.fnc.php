@@ -27,8 +27,8 @@ function GetAllMP($mp,$marking_period_id='0')
 				{
 					$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = "'$fy','$value[PARENT_ID]','$value[MARKING_PERIOD_ID]'";
 					$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] .= ','.GetChildrenMP($mp,$value['MARKING_PERIOD_ID']);
-					if(substr($_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']],-1)==',')
-						$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = substr($_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']],0,-1);
+					if(mb_substr($_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']],-1)==',')
+						$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = mb_substr($_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']],0,-1);
 				}
 			break;
 
@@ -118,7 +118,7 @@ function GetChildrenMP($mp,$marking_period_id='0')
 					foreach($value as $qtr)
 						$_ROSARIO['GetChildrenMP'][$mp]['0'] .= ",'$qtr[MARKING_PERIOD_ID]'";
 				}
-				$_ROSARIO['GetChildrenMP'][$mp]['0'] = substr($_ROSARIO['GetChildrenMP'][$mp]['0'],1);
+				$_ROSARIO['GetChildrenMP'][$mp]['0'] = mb_substr($_ROSARIO['GetChildrenMP'][$mp]['0'],1);
 			}
 			return $_ROSARIO['GetChildrenMP'][$mp]['0'];
 		break;
@@ -133,7 +133,7 @@ function GetChildrenMP($mp,$marking_period_id='0')
 				{
 					foreach($value as $qtr)
 						$_ROSARIO['GetChildrenMP'][$mp][$sem] .= ",'$qtr[MARKING_PERIOD_ID]'";
-					$_ROSARIO['GetChildrenMP'][$mp][$sem] = substr($_ROSARIO['GetChildrenMP'][$mp][$sem],1);
+					$_ROSARIO['GetChildrenMP'][$mp][$sem] = mb_substr($_ROSARIO['GetChildrenMP'][$mp][$sem],1);
 				}
 			}
 			return $_ROSARIO['GetChildrenMP'][$mp][$marking_period_id];
@@ -151,7 +151,7 @@ function GetChildrenMP($mp,$marking_period_id='0')
 				{
 					foreach($value as $pro)
 						$_ROSARIO['GetChildrenMP'][$mp][$qtr] .= ",'$pro[MARKING_PERIOD_ID]'";
-					$_ROSARIO['GetChildrenMP'][$mp][$qtr] = substr($_ROSARIO['GetChildrenMP'][$mp][$qtr],1);
+					$_ROSARIO['GetChildrenMP'][$mp][$qtr] = mb_substr($_ROSARIO['GetChildrenMP'][$mp][$qtr],1);
 				}
 			}
 			return $_ROSARIO['GetChildrenMP'][$mp][$marking_period_id];

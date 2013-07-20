@@ -5,12 +5,12 @@
 //'Subject area|Course Title'
 //This function simply returns the course title
 function CourseTitle ($courseTitle, $title='') {
-	return (strrchr($courseTitle, '|') ? substr(strrchr($courseTitle, '|'),1) : $courseTitle);
+	return (mb_strrchr($courseTitle, '|') ? mb_substr(mb_strrchr($courseTitle, '|'),1) : $courseTitle);
 }
 
 //This function simply returns the subject area
 function CourseTitleArea ($courseTitle, $title='') {
-	return (strstr($courseTitle, '|', true) ? strstr($courseTitle, '|', true) : '');
+	return (mb_strstr($courseTitle, '|', true) ? mb_strstr($courseTitle, '|', true) : '');
 }
 
 ?>

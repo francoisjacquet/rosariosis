@@ -37,14 +37,14 @@ $end = time();
 if(!$_REQUEST['start_date'])
 {
 	$start_time = $start;
-	$start_date = strtoupper(date('d-M-y',$start_time));
-	$end_date = strtoupper(date('d-M-y',$end));
+	$start_date = mb_strtoupper(date('d-M-y',$start_time));
+	$end_date = mb_strtoupper(date('d-M-y',$end));
 }
 else
 {
 	$start_time = $_REQUEST['start_date'];
-	$start_date = strtoupper(date('d-M-y',$start_time));
-	$end_date = strtoupper(date('d-M-y',$start_time+60*60*24*7));
+	$start_date = mb_strtoupper(date('d-M-y',$start_time));
+	$end_date = mb_strtoupper(date('d-M-y',$start_time+60*60*24*7));
 }
 
 
@@ -93,6 +93,6 @@ else
 
 function _makeLower($word)
 {
-	return ucwords(strtolower($word));
+	return ucwords(mb_strtolower($word));
 }
 ?>

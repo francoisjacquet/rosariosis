@@ -17,7 +17,7 @@ if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start']
 		$_REQUEST['day_start']--;
 }
 else
-	$start_date = '01-'.strtoupper(date('M-y'));
+	$start_date = '01-'.mb_strtoupper(date('M-y'));
 
 if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
 {
@@ -68,7 +68,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		}
 	}
 
-	$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+	$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 	DBQuery($sql);
 //modif Francois: css WPadmin
 	$note = '<div class="updated"><IMG SRC="assets/check.png" class="alignImg"> '._('That discipline incident has been referred to an administrator.').'</div>';
@@ -79,7 +79,7 @@ if($_REQUEST['values'] && $_POST['values'])
 }
 
 DrawHeader(ProgramTitle());
-if(strlen($note)>0)
+if(mb_strlen($note)>0)
 	echo $note;
 
 //if(!$_REQUEST['student_id'])

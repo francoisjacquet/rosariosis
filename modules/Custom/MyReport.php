@@ -61,7 +61,7 @@ if(empty($_REQUEST['modfunc']))
 		for($i=1; $i<=$maxTV; $i++)
                         $LO_columns += array('TITLE_'.$i=>_('Title').' '.$i,'VALUE_'.$i=>_('Value').' '.$i);
 		DrawHeader($header_left);
-		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',substr($_ROSARIO['SearchTerms'],0,-6)));
+		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 		if(!$_REQUEST['LO_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
@@ -94,8 +94,8 @@ function _makeTV($value,$column)
 		//echo '<pre>'; var_dump($person_RET); echo '</pre>';
 	}
 
-	$tv = substr($column,0,5);
-	$i = substr($column,6);
+	$tv = mb_substr($column,0,5);
+	$i = mb_substr($column,6);
 	return $person_RET[$i][$tv];
 }
 ?>

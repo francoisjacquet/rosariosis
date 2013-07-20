@@ -30,7 +30,7 @@ function _make_school_id($value,$column)
 	if($value!='')
 	{
 		$value = trim($value,',');
-		if(strpos($value,','))
+		if(mb_strpos($value,','))
 			$value = '';
 	}
 	return $value;

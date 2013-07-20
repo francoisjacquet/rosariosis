@@ -188,7 +188,7 @@ elseif($_REQUEST['modfunc']!='create_account')
 //modif Francois: fix bug Internet Explorer Quirks Mode, add DOCTYPE
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<HTML lang="<?php echo substr($locale,0,2); ?>" <?php echo (substr($locale,0,2)=='he' || substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
+<HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
 <HEAD>
 	<TITLE><?php echo Config('TITLE'); ?></TITLE>
 	<meta charset="UTF-8" />

@@ -59,7 +59,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			echo '<TR class="center"><TD colspan="32"></TD><TD colspan="3"><B>'._('MTD').'</B></TD></TR>';
             /* TRANSLATORS: Abreviation for month */
-			echo '<TR class="center"><TD><B>'.mb_substr(_('Month'),0,3,'UTF-8').'</B></TD>';
+			echo '<TR class="center"><TD><B>'.mb_substr(_('Month'),0,3).'</B></TD>';
 			for($day=1; $day<=31; $day++)
 				echo '<TD><B>'.($day<10?'&nbsp;':'').$day.'</B></TD>';
             /* TRANSLATORS: Abreviations for Absences, Tardy and Position */
@@ -76,7 +76,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			for ($month=$first_month; $month<=$last_month; $month++)
 			if($month!=7 && $month!=6 || $calendar_RET[$month] || $attendance_RET[$month])
 			{
-				echo '<TR><TD>'.mb_substr($months[$month],0,3,'UTF-8').'</TD>';
+				echo '<TR><TD>'.mb_substr($months[$month],0,3).'</TD>';
 				$abs = $tdy = $pos = 0;
 				for($day=1; $day<=31; $day++)
 				{
@@ -171,6 +171,6 @@ function _makeChooseCheckbox($value,$title)
 
 function _makeTeacher($teacher,$column)
 {
-	return substr($teacher,strrpos(str_replace(' - ',' ^ ',$teacher),'^')+2);
+	return mb_substr($teacher,mb_strrpos(str_replace(' - ',' ^ ',$teacher),'^')+2);
 }
 ?>

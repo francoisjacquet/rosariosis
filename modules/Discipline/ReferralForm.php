@@ -23,7 +23,7 @@ if($_REQUEST['values'] && $_POST['values'])
 
 			foreach($columns as $column=>$value)
 				$sql .= $column."='".str_replace("\'","''",$value)."',";
-			$sql = substr($sql,0,-1) . " WHERE ID='$id'";
+			$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 			$go = true;
 		}
 		else
@@ -49,7 +49,7 @@ if($_REQUEST['values'] && $_POST['values'])
 					}
 				}
 			
-				$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 	
 				switch($columns['TYPE'])
 				{

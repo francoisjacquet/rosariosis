@@ -14,7 +14,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$course_mp = $course_mp[1]['MARKING_PERIOD_ID'];
 		$course_mp_table = GetMP($course_mp,'MP');
 
-		if($course_mp_table!='FY' && $course_mp!=$_REQUEST['marking_period_id'] && strpos(GetChildrenMP($course_mp_table,$course_mp),"'".$_REQUEST['marking_period_id']."'")===false)
+		if($course_mp_table!='FY' && $course_mp!=$_REQUEST['marking_period_id'] && mb_strpos(GetChildrenMP($course_mp_table,$course_mp),"'".$_REQUEST['marking_period_id']."'")===false)
 			BackPrompt(_('You cannot schedule a student into this course during this marking period.').' '.sprintf(_('This course meets on %s.'),GetMP($course_mp)));
 
 		$mp_table = GetMP($_REQUEST['marking_period_id'],'MP');

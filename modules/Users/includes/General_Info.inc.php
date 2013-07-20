@@ -92,7 +92,7 @@ if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		echo '<DIV id="user_name"><div class="onclick" onclick=\'addHTML("';
 		
-		$toEscape = '<TABLE><TR><TD>'.SelectInput($staff['TITLE'],'staff[TITLE]',_('Title'),$titles_array,'','',false).'</TD><TD>'.TextInput($staff['FIRST_NAME'],'staff[FIRST_NAME]',_('First Name'),'maxlength=50 required',false).'</TD><TD>'.TextInput($staff['MIDDLE_NAME'],'staff[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'</TD><TD>'.TextInput($staff['LAST_NAME'],'staff[LAST_NAME]',_('Last Name'),'maxlength=50 required',false).'</TD><TD>'.SelectInput($staff['NAME_SUFFIX'],'staff[NAME_SUFFIX]',_('Suffix'),$suffixes_array,'','',false).'</TD></TR></TABLE>';
+		$toEscape = '<TABLE><TR><TD>'.SelectInput(str_replace("'",'&#39;',$staff['TITLE']),'staff[TITLE]',_('Title'),$titles_array,'','',false).'</TD><TD>'.TextInput(str_replace("'",'&#39;',$staff['FIRST_NAME']),'staff[FIRST_NAME]',_('First Name'),'maxlength=50 required',false).'</TD><TD>'.TextInput(str_replace("'",'&#39;',$staff['MIDDLE_NAME']),'staff[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'</TD><TD>'.TextInput(str_replace("'",'&#39;',$staff['LAST_NAME']),'staff[LAST_NAME]',_('Last Name'),'maxlength=50 required',false).'</TD><TD>'.SelectInput(str_replace("'",'&#39;',$staff['NAME_SUFFIX']),'staff[NAME_SUFFIX]',_('Suffix'),$suffixes_array,'','',false).'</TD></TR></TABLE>';
 		echo str_replace('"','\"',$toEscape);
 
 		echo '","user_name",true);\'><span class="underline-dots">'.$titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']].'</span></div></DIV><span class="legend-gray">'._('Name').'</span>';
@@ -185,7 +185,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 		{
 			if($i%3==0)
 				echo '</TR><TR>';
-			echo '<TD>'.CheckboxInput(((strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'],'',false,'<IMG SRC="assets/check.png" width="15">','<IMG SRC="assets/x.png" width="15">').'</TD>';
+			echo '<TD>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'],'',false,'<IMG SRC="assets/check.png" width="15">','<IMG SRC="assets/x.png" width="15">').'</TD>';
 			$i++;
 		}
 		echo '</TR></TABLE>';

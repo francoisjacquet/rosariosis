@@ -19,9 +19,9 @@ function ProgramTitle($modname='')
 				if($modname==$program)
 				{
 					if($_ROSARIO['HeaderIcon']!==false)
-						if(substr($modname,0,25)=='Users/TeacherPrograms.php')
-//							$_ROSARIO['HeaderIcon'] = substr($modname,34,strpos($modname,'/',34)-34).'.gif';
-							$_ROSARIO['HeaderIcon'] = substr($modname,34,strpos($modname,'/',34)-34).'.png'; //modif Francois: icons
+						if(mb_substr($modname,0,25)=='Users/TeacherPrograms.php')
+//							$_ROSARIO['HeaderIcon'] = mb_substr($modname,34,mb_strpos($modname,'/',34)-34).'.gif';
+							$_ROSARIO['HeaderIcon'] = mb_substr($modname,34,mb_strpos($modname,'/',34)-34).'.png'; //modif Francois: icons
 						else
 //							$_ROSARIO['HeaderIcon'] = $modcat.'.gif';
 							$_ROSARIO['HeaderIcon'] = $modcat.'.png'; //modif Francois: icones

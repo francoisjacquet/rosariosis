@@ -139,7 +139,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						}
 					}
 					if($_REQUEST['elements']['period_absences']=='Y')
-						if(strpos($mps[$last_mp][1]['DOES_ATTENDANCE'],',0,')!==false)
+						if(mb_strpos($mps[$last_mp][1]['DOES_ATTENDANCE'],',0,')!==false)
 							$grades_RET[$i]['ABSENCES'] = $mps[$last_mp][1]['YTD_ABSENCES'].' / '.$mps[$last_mp][1]['MP_ABSENCES'];
 						else
 							$grades_RET[$i]['ABSENCES'] = _('N/A');
@@ -284,7 +284,7 @@ function _makeChooseCheckbox($value,$title)
 
 function _makeTeacher($teacher,$column)
 {
-	return substr($teacher,strrpos(str_replace(' - ',' ^ ',$teacher),'^')+2);
+	return mb_substr($teacher,mb_strrpos(str_replace(' - ',' ^ ',$teacher),'^')+2);
 }
 
 function _makeComments($value,$column)

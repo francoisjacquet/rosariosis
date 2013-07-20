@@ -47,7 +47,7 @@ function _students($value,$column)
 	$RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa WHERE s.STUDENT_ID=fsa.STUDENT_ID AND fsa.ACCOUNT_ID='".$value."'"));
 	foreach($RET as $student)
 		$ret .= $student['FULL_NAME'].'<BR />';
-	$ret = substr($ret,0,-4);
+	$ret = mb_substr($ret,0,-4);
 	return $ret;
 }
 

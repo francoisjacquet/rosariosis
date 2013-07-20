@@ -171,7 +171,7 @@ if($_REQUEST['modfunc']=='detail')
 	{
 		if($_REQUEST['values'])
 		{
-			$_REQUEST['values']['SCHOOL_DATE'] = date('d-m-Y', mktime(0,0,0,intval(MonthNWSwitch(substr($_REQUEST['values']['SCHOOL_DATE'], 3, 3),'tonum')),intval(substr($_REQUEST['values']['SCHOOL_DATE'], 0, 2)),intval(substr($_REQUEST['values']['SCHOOL_DATE'], 7, 4))));
+			$_REQUEST['values']['SCHOOL_DATE'] = date('d-m-Y', mktime(0,0,0,intval(MonthNWSwitch(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 3, 3),'tonum')),intval(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 0, 2)),intval(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 7, 4))));
 			
 			if($_REQUEST['event_id']!='new')
 			{
@@ -180,7 +180,7 @@ if($_REQUEST['modfunc']=='detail')
 				foreach($_REQUEST['values'] as $column=>$value)
 					$sql .= $column."='".str_replace("\'","''",$value)."',";
 
-				$sql = substr($sql,0,-1) . " WHERE ID='$_REQUEST[event_id]'";
+				$sql = mb_substr($sql,0,-1) . " WHERE ID='$_REQUEST[event_id]'";
 				DBQuery($sql);
 //modif Francois: Moodle integrator
 				if (MOODLE_INTEGRATOR)
@@ -207,7 +207,7 @@ if($_REQUEST['modfunc']=='detail')
 				do {
 					if ($i>0)//school date + 1 day
 					{
-						$_REQUEST['values']['SCHOOL_DATE'] = date('d-m-Y', mktime(0,0,0,intval(substr($_REQUEST['values']['SCHOOL_DATE'], 3, 2)),intval(substr($_REQUEST['values']['SCHOOL_DATE'], 0, 2))+1,intval(substr($_REQUEST['values']['SCHOOL_DATE'], 6, 4))));
+						$_REQUEST['values']['SCHOOL_DATE'] = date('d-m-Y', mktime(0,0,0,intval(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 3, 2)),intval(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 0, 2))+1,intval(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 6, 4))));
 					}
 					$sql = "INSERT INTO CALENDAR_EVENTS ";
 
@@ -226,7 +226,7 @@ if($_REQUEST['modfunc']=='detail')
 							$go = true;
 						}
 					}
-					$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 					if($go)
 					{
@@ -350,7 +350,7 @@ if($_REQUEST['modfunc']=='list_events')
 		if($min_date[1]['MIN_DATE'])
 			$start_date = $min_date[1]['MIN_DATE'];
 		else
-			$start_date = '01-'.strtoupper(date('M-y'));
+			$start_date = '01-'.mb_strtoupper(date('M-y'));
 	}
 
 	if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
@@ -364,7 +364,7 @@ if($_REQUEST['modfunc']=='list_events')
 		if($max_date[1]['MAX_DATE'])
 			$end_date = $max_date[1]['MAX_DATE'];
 		else
-			$end_date = strtoupper(date('d-M-y'));
+			$end_date = mb_strtoupper(date('d-M-y'));
 	}
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" METHOD="POST">';
@@ -448,7 +448,7 @@ if(empty($_REQUEST['modfunc']))
 		}
 		$link = SelectInput($_REQUEST['calendar_id'],'calendar_id','',$options,false," onchange='document.location.href=\"".PreparePHP_SELF($_REQUEST,array('calendar_id')).'&amp;calendar_id="+this.form.calendar_id.value;\' ',false).'<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create">'.button('add')._('Create new calendar').'</A> | <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create&calendar_id='.$_REQUEST['calendar_id'].'">'._('Recreate this calendar').'</A>&nbsp; <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_calendar&calendar_id='.$_REQUEST['calendar_id'].'">'.button('remove').' '._('Delete this calendar').'</A>';
 	}
-	DrawHeader(PrepareDate(strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)).' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=list_events&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('List Events').'</A>',SubmitButton(_('Save')));
+	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)).' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=list_events&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('List Events').'</A>',SubmitButton(_('Save')));
 	DrawHeader($link);
 	if(count($error))
 		echo ErrorMessage($error,'fatal');
@@ -480,7 +480,7 @@ if(empty($_REQUEST['modfunc']))
 	for($i=1;$i<=$last;$i++)
 	{
 		$day_time = mktime(0,0,0,$_REQUEST['month'],$i,$_REQUEST['year']);
-		$date = strtoupper(date('d-M-y',$day_time));
+		$date = mb_strtoupper(date('d-M-y',$day_time));
 
 		echo '<TD class="valign-top" style="width:105px; height:100%; background-color:'.($calendar_RET[$date][1]['MINUTES']?$calendar_RET[$date][1]['MINUTES']=='999'?'#EEFFEE':'#EEEEFF':'#FFEEEE').';"><table style="width:105px; height:inherit;"><tr><td style="width:5px;" class="valign-top">'.$i.'</td><td>';
 		if(AllowEdit())

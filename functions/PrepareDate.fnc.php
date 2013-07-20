@@ -36,11 +36,11 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 	if($options['C'])
 		$_ROSARIO['PrepareDate']++;
 
-	if(strlen($date)==9) // ORACLE
+	if(mb_strlen($date)==9) // ORACLE
 	{
-		$day = substr($date,0,2);
-		$month = substr($date,3,3);
-		$year = substr($date,7,2);
+		$day = mb_substr($date,0,2);
+		$month = mb_substr($date,3,3);
+		$year = mb_substr($date,7,2);
 		if($year=='00' && ($month=='000' && $day=='00'))
 			$year = '0000';
 		else
@@ -48,19 +48,19 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 
 		$return .= '<!-- '.$year.MonthNWSwitch($month,'tonum').$day.' -->';
 	}
-	elseif(strlen($date)==10) // POSTGRES
+	elseif(mb_strlen($date)==10) // POSTGRES
 	{
-		$day = substr($date,8,2);
-		$month = MonthNWSwitch(substr($date,5,2),'tochar');
-		$year = substr($date,0,4);
+		$day = mb_substr($date,8,2);
+		$month = MonthNWSwitch(mb_substr($date,5,2),'tochar');
+		$year = mb_substr($date,0,4);
 
 		$return .= '<!-- '.$year.MonthNWSwitch($month,'tonum').$day.' -->';
 	}
-	else //strlen($date)==11 ORACLE with 4-digit year
+	else //mb_strlen($date)==11 ORACLE with 4-digit year
 	{
-		$day = substr($date,0,2);
-		$month = substr($date,3,3);
-		$year = substr($date,7,4);
+		$day = mb_substr($date,0,2);
+		$month = mb_substr($date,3,3);
+		$year = mb_substr($date,7,4);
 		$return .= '<!-- '.$year.MonthNWSwitch($month,'tonum').$day.' -->';
 	}
 
@@ -95,7 +95,7 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 
 		for($i=1;$i<=31;$i++)
 		{
-			if(strlen($i)==1)
+			if(mb_strlen($i)==1)
 				$print = '0'.$i;
 			else
 				$print = $i;

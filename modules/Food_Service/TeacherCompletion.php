@@ -6,7 +6,7 @@ if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
 else
 {
 	$_REQUEST['day_date'] = date('d');
-	$_REQUEST['month_date'] = strtoupper(date('M'));
+	$_REQUEST['month_date'] = mb_strtoupper(date('M'));
 	$_REQUEST['year_date'] = date('y');
 	$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
 }
@@ -23,7 +23,7 @@ switch($day)
 		$day = 'H';
 	break;
 	default:
-		$day = substr($day,0,1);
+		$day = mb_substr($day,0,1);
 	break;
 }
 

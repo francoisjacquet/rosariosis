@@ -7,7 +7,7 @@ if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start']
 		$_REQUEST['day_start']--;
 }
 else
-	$start_date = '01-'.strtoupper(date('M-y'));
+	$start_date = '01-'.mb_strtoupper(date('M-y'));
 
 if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
 {

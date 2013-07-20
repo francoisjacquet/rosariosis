@@ -37,9 +37,9 @@ else
 			if($result===false)
 				$errstring = pg_last_error($connection);
 
-			if(strpos($errstring,'config: permission denied')!==false)
+			if(mb_strpos($errstring,'config: permission denied')!==false)
 				$error[] = 'The database was created with the wrong permissions.  The user specified in the config.inc.php file does not have permission to access the rosario database.  Use the super-user (postgres) or recreate the database adding \connect - YOUR_USERNAME to the top of the rosario.sql file.';
-			elseif(strpos($errstring,'elation "config" does not exist')!==false)
+			elseif(mb_strpos($errstring,'elation "config" does not exist')!==false)
 				$error[] = 'At least one of the tables does not exist.  Make sure you ran the rosario.sql file as described in the INSTALL file.';
 			elseif($errstring)
 				$error[] = $errstring;

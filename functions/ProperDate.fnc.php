@@ -8,26 +8,26 @@ function ProperDate($date='',$length='long')
 {
 	if($date)
 	{
-	if(strlen($date)==9) // ORACLE
+	if(mb_strlen($date)==9) // ORACLE
 	{
 		$months_number = array('JAN'=>'01','FEB'=>'02','MAR'=>'03','APR'=>'04','MAY'=>'05','JUN'=>'06','JUL'=>'07','AUG'=>'08','SEP'=>'09','OCT'=>'10','NOV'=>'11','DEC'=>'12');
-		$year = substr($date,7,2);
+		$year = mb_substr($date,7,2);
 		$year = ($year<50?'20':'19').$year;
-		$month = $months_number[strtoupper(substr($date,3,3))];
-		$day = substr($date,0,2);
+		$month = $months_number[mb_strtoupper(mb_substr($date,3,3))];
+		$day = mb_substr($date,0,2);
 	}
-	elseif(strlen($date)==10) // POSTGRES
+	elseif(mb_strlen($date)==10) // POSTGRES
 	{
-		$year = substr($date,0,4);
-		$month = substr($date,5,2);
-		$day = substr($date,8,2);
+		$year = mb_substr($date,0,4);
+		$month = mb_substr($date,5,2);
+		$day = mb_substr($date,8,2);
 	}
-	else //strlen($date)==11 ORACLE with 4-digit year
+	else //mb_strlen($date)==11 ORACLE with 4-digit year
 	{
 		$months_number = array('JAN'=>'01','FEB'=>'02','MAR'=>'03','APR'=>'04','MAY'=>'05','JUN'=>'06','JUL'=>'07','AUG'=>'08','SEP'=>'09','OCT'=>'10','NOV'=>'11','DEC'=>'12');
-		$year = substr($date,7,4);
-		$day = substr($date,0,2);
-		$month = $months_number[strtoupper(substr($date,3,3))];
+		$year = mb_substr($date,7,4);
+		$day = mb_substr($date,0,2);
+		$month = $months_number[mb_strtoupper(mb_substr($date,3,3))];
 	}
 	$comment = '<!-- '.$year.$month.$day.' -->';
 

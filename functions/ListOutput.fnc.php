@@ -148,15 +148,15 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			if($result_count && !empty($_REQUEST['LO_search']) && $_REQUEST['LO_search']!=_('Search'))
 			{
 				$_REQUEST['LO_search'] = $search_term = str_replace('\\\"','"',$_REQUEST['LO_search']);
-				$_REQUEST['LO_search'] = $search_term = preg_replace('/[^a-zA-Z0-9 _"]*/','',strtolower($search_term));
+				$_REQUEST['LO_search'] = $search_term = preg_replace('/[^a-zA-Z0-9 _"]*/','',mb_strtolower($search_term));
 
-				if(substr($search_term,0,0)!='"' && substr($search_term,-1)!='"')
+				if(mb_substr($search_term,0,0)!='"' && mb_substr($search_term,-1)!='"')
 				{
 					$search_term = str_replace('"','',$search_term);
-					while($space_pos = strpos($search_term,' '))
+					while($space_pos = mb_strpos($search_term,' '))
 					{
-						$terms[strtolower(substr($search_term,0,$space_pos))] = 1;
-						$search_term = substr($search_term,($space_pos+1));
+						$terms[mb_strtolower(mb_substr($search_term,0,$space_pos))] = 1;
+						$search_term = mb_substr($search_term,($space_pos+1));
 					}
 					$terms[trim($search_term)] = 1;
 				}
@@ -175,14 +175,14 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$values[$key] = 0;
 					foreach($value as $name=>$val)
 					{
-						$val = preg_replace('/[^a-zA-Z0-9 _]+/','',strtolower($val));
-						if(strtolower($_REQUEST['LO_search'])==$val)
+						$val = preg_replace('/[^a-zA-Z0-9 _]+/','',mb_strtolower($val));
+						if(mb_strtolower($_REQUEST['LO_search'])==$val)
 							$values[$key] += 25;
 						foreach($terms as $term=>$one)
 						{
 //modif Francois: remove ereg
 //							if(ereg($term,$val))
-							if(strpos($val,$term)!==FALSE)
+							if(mb_strpos($val,$term)!==FALSE)
 								$values[$key] += 3;
 						}
 					}
@@ -221,10 +221,10 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			{
 				foreach($result as $sort)
 				{
-					if(substr($sort[$_REQUEST['LO_sort']],0,4)!='<!--')
+					if(mb_substr($sort[$_REQUEST['LO_sort']],0,4)!='<!--')
 						$sort_array[] = $sort[$_REQUEST['LO_sort']];
 					else
-						$sort_array[] = substr($sort[$_REQUEST['LO_sort']],4,strpos($sort[$_REQUEST['LO_sort']],'-->')-5);
+						$sort_array[] = mb_substr($sort[$_REQUEST['LO_sort']],4,mb_strpos($sort[$_REQUEST['LO_sort']],'-->')-5);
 				}
 				if($_REQUEST['LO_direction']==-1)
 					$dir = SORT_DESC;
@@ -348,7 +348,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 							else
 								$pages .= $i.', ';
 						}
-						$pages = substr($pages,0,-2) . "<BR />";
+						$pages = mb_substr($pages,0,-2) . "<BR />";
 					}
 					else
 					{
@@ -359,7 +359,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 							else
 								$pages .= $i.', ';
 						}
-						$pages = substr($pages,0,-2) . " ... ";
+						$pages = mb_substr($pages,0,-2) . " ... ";
 						for($i=ceil($result_count/$num_displayed)-2;$i<=ceil($result_count/$num_displayed);$i++)
 						{
 							if($i!=$_REQUEST['page'])
@@ -367,7 +367,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 							else
 								$pages .= $i.', ';
 						}
-						$pages = substr($pages,0,-2) . ' &nbsp;<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;page=' . ($_REQUEST['page'] +1) . '">'._('Next Page').'</A><BR />';
+						$pages = mb_substr($pages,0,-2) . ' &nbsp;<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;page=' . ($_REQUEST['page'] +1) . '">'._('Next Page').'</A><BR />';
 					}
 					echo sprintf(_('Go to Page %s'),$pages);
 					echo '</TD></TR></TABLE>';
@@ -408,10 +408,10 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				if($options['print'])
 				{
 //modif Francois: bug PDF
-/*					$html = explode('<div style="page-break-after: always;"></div>',strtolower(ob_get_contents()));
+/*					$html = explode('<div style="page-break-after: always;"></div>',mb_strtolower(ob_get_contents()));
 					$html = $html[count($html)-1];
 					echo '</TD></TR></TABLE>';
-					$br = (substr_count($html,'<BR />')) + (substr_count($html,'</p>')) + (substr_count($html,'</tr>')) + (substr_count($html,'</h1>')) + (substr_count($html,'</h2>')) + (substr_count($html,'</h3>')) + (substr_count($html,'</h4>')) + (substr_count($html,'</h5>'));
+					$br = (mb_substr_count($html,'<BR />')) + (mb_substr_count($html,'</p>')) + (mb_substr_count($html,'</tr>')) + (mb_substr_count($html,'</h1>')) + (mb_substr_count($html,'</h2>')) + (mb_substr_count($html,'</h3>')) + (mb_substr_count($html,'</h4>')) + (mb_substr_count($html,'</h5>'));
 					if($br%2!=0)
 					{
 						$br++;

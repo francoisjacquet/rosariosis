@@ -5,7 +5,7 @@
 function DrawTab($title,$link='')
 {
     $title = ParseMLField($title);
-	if(substr($title,0,1)!='<')
+	if(mb_substr($title,0,1)!='<')
 		$title = str_replace(" ","&nbsp;",$title);
 /*	if(!$tabcolor)
 		$tabcolor = Preferences('HEADER');*/

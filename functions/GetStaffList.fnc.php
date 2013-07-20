@@ -117,13 +117,13 @@ function appendStaffSQL($sql,$extra)
 	}
 	if($_REQUEST['last'])
 	{
-		$sql .= " AND UPPER(s.LAST_NAME) LIKE '".strtoupper($_REQUEST['last'])."%'";
+		$sql .= " AND UPPER(s.LAST_NAME) LIKE '".mb_strtoupper($_REQUEST['last'])."%'";
 		if(!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Last Name starts with')).' </b></span>'.$_REQUEST['last'].'<BR />';
 	}
 	if($_REQUEST['first'])
 	{
-		$sql .= " AND UPPER(s.FIRST_NAME) LIKE '".strtoupper($_REQUEST['first'])."%'";
+		$sql .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 		if(!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('First Name starts with')).' </b></span>'.$_REQUEST['first'].'<BR />';
 	}
@@ -135,7 +135,7 @@ function appendStaffSQL($sql,$extra)
 	}
 	if($_REQUEST['username'])
 	{
-		$sql .= " AND UPPER(s.USERNAME) LIKE '".strtoupper($_REQUEST['username'])."%'";
+		$sql .= " AND UPPER(s.USERNAME) LIKE '".mb_strtoupper($_REQUEST['username'])."%'";
 		if(!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('UserName starts with')).' </b></span>'.$_REQUEST['username'].'<BR />';
 	}
@@ -171,7 +171,7 @@ function makeLogin($value,$title='LAST_LOGIN')
 		if(empty($value))
 			return '<img src="assets/x.png" height="16" />';
 		else
-			return ProperDate(substr($value,0,10)).substr($value,10);
+			return ProperDate(mb_substr($value,0,10)).mb_substr($value,10);
 	}
 	if ($title == 'FAILED_LOGIN')
 	{

@@ -6,7 +6,7 @@ if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start']
 		$_REQUEST['day_start']--;
 }
 else
-	$start_date = '01-'.strtoupper(date('M-y'));
+	$start_date = '01-'.mb_strtoupper(date('M-y'));
 
 if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
 {
@@ -103,7 +103,7 @@ if(empty($_REQUEST['modfunc']))
 	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').$advanced_link,SubmitButton(_('Go')));
 	echo '</FORM>';
 	if($_ROSARIO['SearchTerms'])
-		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',substr($_ROSARIO['SearchTerms'],0,-6)));
+		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 
 	if($_REQUEST['list_by_day']=='true')
 	{

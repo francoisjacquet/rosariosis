@@ -88,7 +88,7 @@ if($_REQUEST['submit']['print'])
 		if($skip%7==0)
 			echo '<TR style="height:0px;">';
 		$day_time = mktime(0,0,0,$_REQUEST['month'],$i,$_REQUEST['year']);
-		$date = strtoupper(date('d-M-y',$day_time));
+		$date = mb_strtoupper(date('d-M-y',$day_time));
 
 		echo '<TD style="width:100px;" class="valign-top"><b>'.$i.'</b>';
 
@@ -141,7 +141,7 @@ else
 	$LO_columns = array('ID'=>_('ID'),'SCHOOL_DATE'=>_('Date'),'DESCRIPTION'=>_('Description'));
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" METHOD="POST">';
-	DrawHeader(PrepareDate(strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)),SubmitButton(_('Save'),'submit[save]').'<INPUT type="submit" value="'._('Generate Menu').'" name="submit[print]" />');
+	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)),SubmitButton(_('Save'),'submit[save]').'<INPUT type="submit" value="'._('Generate Menu').'" name="submit[print]" />');
 	echo '<BR />';
 
 	$tabs = array();

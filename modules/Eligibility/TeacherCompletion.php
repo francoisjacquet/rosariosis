@@ -38,14 +38,14 @@ $end = time();
 if(!$_REQUEST['start_date'])
 {
 	$start_time = $start;
-	$start_date = strtoupper(date('d-M-y',$start_time));
-	$end_date = strtoupper(date('d-M-y',$end));
+	$start_date = mb_strtoupper(date('d-M-y',$start_time));
+	$end_date = mb_strtoupper(date('d-M-y',$end));
 }
 else
 {
 	$start_time = $_REQUEST['start_date'];
-	$start_date = strtoupper(date('d-M-y',$start_time));
-	$end_date = strtoupper(date('d-M-y',$start_time+60*60*24*7));
+	$start_date = mb_strtoupper(date('d-M-y',$start_time));
+	$end_date = mb_strtoupper(date('d-M-y',$start_time+60*60*24*7));
 }
 
 $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER ");

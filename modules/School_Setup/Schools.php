@@ -16,7 +16,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 				{
 					$sql .= $column."='".str_replace("\'","''",$value)."',";
 				}
-				$sql = substr($sql,0,-1) . " WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'";
+				$sql = mb_substr($sql,0,-1) . " WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'";
 				DBQuery($sql);
 				echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';
 				$note[] = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('This school has been modified.');

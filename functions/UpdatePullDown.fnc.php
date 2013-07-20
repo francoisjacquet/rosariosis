@@ -10,9 +10,9 @@ function UpdatePullDown($form,$select,$values,$id,$text)
 		$array .= "new Array(";
 		foreach($category as $value)
 			$array .= "'$value[$text]',";
-		$array = substr($array,0,-1).'),';
+		$array = mb_substr($array,0,-1).'),';
 	}
-	$array = substr($array,0,-1).')';
+	$array = mb_substr($array,0,-1).')';
 	
 	// PREPARE JS ARRAY OF THE IDS
 	$ids_array = "new Array(";
@@ -22,9 +22,9 @@ function UpdatePullDown($form,$select,$values,$id,$text)
 		$ids_array .= "new Array(";
 		foreach($category as $value)
 			$ids_array .= "'$value[$id]',";
-		$ids_array = substr($ids_array,0,-1).'),';
+		$ids_array = mb_substr($ids_array,0,-1).'),';
 	}		
-	$ids_array = substr($ids_array,0,-1).')';
+	$ids_array = mb_substr($ids_array,0,-1).')';
 	
 	return "onChange=\"javascript:updatePullDown(window.document.$form.$select,this.selectedIndex,$array,$ids_array);\"";
 }

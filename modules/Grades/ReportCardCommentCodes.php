@@ -25,9 +25,9 @@ if($_REQUEST['modfunc']=='update')
 							$sql .= $column."='".str_replace("\'","''",$value)."',";
 
 						if($_REQUEST['tab_id']!='new')
-							$sql = substr($sql,0,-1) . " WHERE ID='$id'";
+							$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 						else
-							$sql = substr($sql,0,-1) . " WHERE ID='$id'";
+							$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 						DBQuery($sql);
 					}
 					else
@@ -53,7 +53,7 @@ if($_REQUEST['modfunc']=='update')
 								$values .= '\''.str_replace("\'","''",$value).'\',';
 								$go = true;
 							}
-						$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 						if($go)
 							DBQuery($sql);

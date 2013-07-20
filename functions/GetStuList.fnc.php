@@ -5,7 +5,7 @@
 function GetStuList(&$extra=array())
 {	global $contacts_RET,$view_other_RET,$_ROSARIO;
 
-	if((empty($extra['SELECT_ONLY']) || strpos($extra['SELECT_ONLY'],'GRADE_ID')!==false) && !isset($extra['functions']['GRADE_ID']))
+	if((empty($extra['SELECT_ONLY']) || mb_strpos($extra['SELECT_ONLY'],'GRADE_ID')!==false) && !isset($extra['functions']['GRADE_ID']))
 		$functions = array('GRADE_ID'=>'GetGrade');
 	else
 		$functions = array();
@@ -114,7 +114,7 @@ function GetStuList(&$extra=array())
 			if($view_address_RET)
 			{
 				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam.".$view_address_RET."='Y') LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) ".$extra['FROM'];
-				$extra['columns_after'] += array('ADDRESS'=>_(ucwords(strtolower(str_replace('_',' ',$view_address_RET)))).' '._('Address'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode'));
+				$extra['columns_after'] += array('ADDRESS'=>_(ucwords(mb_strtolower(str_replace('_',' ',$view_address_RET)))).' '._('Address'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode'));
 				if($view_address_RET!='MAILING')
 					$select .= ",a.ADDRESS_ID,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,ssm.STUDENT_ID AS PARENTS";
 				else
@@ -201,7 +201,7 @@ function GetStuList(&$extra=array())
 			else
 			{
 				if(User('SCHOOLS'))
-					$sql .= " AND ssm.SCHOOL_ID IN (".substr(str_replace(',',"','",User('SCHOOLS')),2,-2).") ";
+					$sql .= " AND ssm.SCHOOL_ID IN (".mb_substr(str_replace(',',"','",User('SCHOOLS')),2,-2).") ";
 				$extra['columns_after']['LIST_SCHOOL_ID'] = 'School';
 				$functions['LIST_SCHOOL_ID'] = 'GetSchool';
 			}
@@ -325,10 +325,10 @@ function removeDot00($value,$column)
 
 function makePhone($phone,$column='')
 {
-	if(strlen($phone)==10)
-		$return .= '('.substr($phone,0,3).')'.substr($phone,3,7).'-'.substr($phone,7);
-	if(strlen($phone)=='7')
-		$return .= substr($phone,0,3).'-'.substr($phone,3);
+	if(mb_strlen($phone)==10)
+		$return .= '('.mb_substr($phone,0,3).')'.mb_substr($phone,3,7).'-'.mb_substr($phone,7);
+	if(mb_strlen($phone)=='7')
+		$return .= mb_substr($phone,0,3).'-'.mb_substr($phone,3);
 	else
 		$return .= $phone;
 
@@ -349,7 +349,7 @@ function makeParents($student_id,$column)
 		{
 		if($_ROSARIO['makeParents'])
 			if($_ROSARIO['makeParents']!='!')
-				$constraint = " AND (lower(sjp.STUDENT_RELATION) LIKE '".strtolower($_ROSARIO['makeParents'])."%')";
+				$constraint = " AND (lower(sjp.STUDENT_RELATION) LIKE '".mb_strtolower($_ROSARIO['makeParents'])."%')";
 			else
 				$constraint = " AND sjp.STUDENT_RELATION IS NULL";
 		if($view_other_RET['ALL_CONTACTS'][1]['VALUE']=='Y')
@@ -382,7 +382,7 @@ function makeParents($student_id,$column)
 					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? '<img src="assets/'.$img.'" height="12" />&nbsp;' : '').'<A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php?person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</A></div>';
 			}
 			if($_REQUEST['_ROSARIO_PDF'])
-				$THIS_RET['PARENTS'] = substr($THIS_RET['PARENTS'],0,-2);
+				$THIS_RET['PARENTS'] = mb_substr($THIS_RET['PARENTS'],0,-2);
 			$THIS_RET['PARENTS'] .= '</TABLE>';
 		}
 		}
@@ -416,13 +416,13 @@ function appendSQL($sql,$extra=array())
 	}
 	if($_REQUEST['last'])
 	{
-		$sql .= " AND LOWER(s.LAST_NAME) LIKE '".strtolower($_REQUEST['last'])."%'";
+		$sql .= " AND LOWER(s.LAST_NAME) LIKE '".mb_strtolower($_REQUEST['last'])."%'";
 		if(!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Last Name starts with')).' </b></span>'.$_REQUEST['last'].'<BR />';
 	}
 	if($_REQUEST['first'])
 	{
-		$sql .= " AND LOWER(s.FIRST_NAME) LIKE '".strtolower($_REQUEST['first'])."%'";
+		$sql .= " AND LOWER(s.FIRST_NAME) LIKE '".mb_strtolower($_REQUEST['first'])."%'";
 		if(!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('First Name starts with')).' </b></span>'.$_REQUEST['first'].'<BR />';
 	}
@@ -450,7 +450,7 @@ function appendSQL($sql,$extra=array())
 	}
 	if($_REQUEST['addr'])
 	{
-		$sql .= " AND (LOWER(a.ADDRESS) LIKE '%".strtolower($_REQUEST['addr'])."%' OR LOWER(a.CITY) LIKE '".strtolower($_REQUEST['addr'])."%' OR LOWER(a.STATE)='".strtolower($_REQUEST['addr'])."' OR ZIPCODE LIKE '".$_REQUEST['addr']."%')";
+		$sql .= " AND (LOWER(a.ADDRESS) LIKE '%".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.CITY) LIKE '".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.STATE)='".mb_strtolower($_REQUEST['addr'])."' OR ZIPCODE LIKE '".$_REQUEST['addr']."%')";
 		if(!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Address contains')).' </b></span>'.$_REQUEST['addr'].'<BR />';
 	}

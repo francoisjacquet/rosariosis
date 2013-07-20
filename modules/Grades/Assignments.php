@@ -73,7 +73,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 
 						$sql .= $column."='".str_replace("\'","''",$value)."',";
 					}
-					$sql = substr($sql,0,-1) . " WHERE ".substr($table,10,-1)."_ID='$id'";
+					$sql = mb_substr($sql,0,-1) . " WHERE ".mb_substr($table,10,-1)."_ID='$id'";
 					$go = true;
 					$gradebook_assignment_update = true;
 				}
@@ -132,7 +132,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 							$go = true;
 						}
 					}
-					$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 				}
 			}
 			else
@@ -294,7 +294,7 @@ if(empty($_REQUEST['modfunc']))
 		$errors = ($RET['DATE_ERROR']=='Y'?'<span style="color:red">'._('Due date is before assigned date!').'</span><BR />':'');
 		$errors .= ($RET['ASSIGNED_ERROR']=='Y'?'<span style="color:red">'._('Assigned date is after end of quarter!').'</span><BR />':'');
 		$errors .= ($RET['DUE_ERROR']=='Y'?'<span style="color:red">'._('Due date is after end of quarter!').'</span><BR />':'');
-		$header .= '<TR><TD class="valign-top" colspan="2">'.substr($errors,0,-6).'</TD></TR>';
+		$header .= '<TR><TD class="valign-top" colspan="2">'.mb_substr($errors,0,-6).'</TD></TR>';
 		$header .= '</TABLE>';
 	}
 	elseif($_REQUEST['assignment_type_id'])

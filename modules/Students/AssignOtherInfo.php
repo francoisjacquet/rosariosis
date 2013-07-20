@@ -50,18 +50,18 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		}
 
 		if($values_count && $students_count)
-			DBQuery('UPDATE STUDENTS SET '.substr($update,1).' WHERE STUDENT_ID IN ('.substr($students,1).')');
+			DBQuery('UPDATE STUDENTS SET '.mb_substr($update,1).' WHERE STUDENT_ID IN ('.mb_substr($students,1).')');
 		elseif($note)
-			$note = substr($note,0,strpos($note,'. '));
+			$note = mb_substr($note,0,mb_strpos($note,'. '));
 		elseif($next_school=='' && !$calendar)
 //			$note = '<IMG SRC=assets/warning_button.png>'._('No data was entered.');
 			$note = '<div class="updated"><IMG SRC="assets/warning_button.png">&nbsp;'._('No data was entered.').'</div>';
 				//var_dump($update);
 
 		if($next_school!='')
-			DBQuery("UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='".$next_school."' WHERE SYEAR='".UserSyear()."' AND STUDENT_ID IN (".substr($students,1).") ");
+			DBQuery("UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='".$next_school."' WHERE SYEAR='".UserSyear()."' AND STUDENT_ID IN (".mb_substr($students,1).") ");
 		if($calendar)
-			DBQuery("UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='".$calendar."' WHERE SYEAR='".UserSyear()."' AND STUDENT_ID IN (".substr($students,1).") ");
+			DBQuery("UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='".$calendar."' WHERE SYEAR='".UserSyear()."' AND STUDENT_ID IN (".mb_substr($students,1).") ");
 
 		if(!$note)
 			$note = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('The specified information was applied to the selected students.');

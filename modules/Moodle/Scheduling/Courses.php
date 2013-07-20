@@ -267,7 +267,7 @@ list of (
 )
 */
 	//add the year to the course name
-	$fullname = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.substr($mp_title, 0, strlen($mp_title)-3);
+	$fullname = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.mb_substr($mp_title, 0, mb_strlen($mp_title)-3);
 	$shortname = $columns['SHORT_NAME'];
 	
 	//get the Moodle category
@@ -559,7 +559,7 @@ list of (
 */
 
 	//add the year to the course name
-	$fullname = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.substr($mp_title, 0, strlen($mp_title)-3);
+	$fullname = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.mb_substr($mp_title, 0, mb_strlen($mp_title)-3);
 	
 	//get the Moodle course ID
 	$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));

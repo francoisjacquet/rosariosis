@@ -69,7 +69,7 @@ if($_REQUEST['modfunc']=='courses')
 	$columns = array('TITLE'=>_('Course'),'COUNT_REQUESTS'=>_('Requests'));
 	if($_REQUEST['include_child_mps'])
 	{
-		$OFT_string = mb_substr(_('Open'),0,1, 'UTF-8').'&#124;'.mb_substr(_('Filled'),0,1, 'UTF-8').'&#124;'.mb_substr(_('Total'),0,1, 'UTF-8');
+		$OFT_string = mb_substr(_('Open'),0,1).'&#124;'.mb_substr(_('Filled'),0,1).'&#124;'.mb_substr(_('Total'),0,1);
 		//modif Francois: fix error Missing argument 1
 		foreach(explode(',',GetAllMP('')) as $mp)
 		{

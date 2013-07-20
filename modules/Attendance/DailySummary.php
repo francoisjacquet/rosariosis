@@ -6,7 +6,7 @@ if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start']
 		$_REQUEST['day_start']--;
 }
 else
-	$start_date = '01-'.strtoupper(date('M-y'));
+	$start_date = '01-'.mb_strtoupper(date('M-y'));
 
 if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
 {
@@ -29,7 +29,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 			foreach($columns as $column=>$value)
 				$sql .= $column."='".str_replace("\'","''",$value)."',";
 
-			$sql = substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$school_date."' AND PERIOD_ID='".$_REQUEST['period_id']."' AND STUDENT_ID='".$student_id."'";
+			$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$school_date."' AND PERIOD_ID='".$_REQUEST['period_id']."' AND STUDENT_ID='".$student_id."'";
 			DBQuery($sql);
 			UpdateAttendanceDaily($student_id,$school_date);
 		}
@@ -211,11 +211,11 @@ function _makeColor($value,$column)
 	{
 		$ac = $att_RET[$THIS_RET['STUDENT_ID']][$column][1]['STATE_VALUE'];
 		if($ac=='0.0')
-			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#FF0000;">'.substr($attendance_codes_locale['A'],0,3).'</TD></TR></TABLE>';
+			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#FF0000;">'.mb_substr($attendance_codes_locale['A'],0,3).'</TD></TR></TABLE>';
 		elseif($ac > 0 && $ac < 1)
-			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#FFCC00;">'.substr($attendance_codes_locale['H'],0,3).'</TD></TR></TABLE>';
+			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#FFCC00;">'.mb_substr($attendance_codes_locale['H'],0,3).'</TD></TR></TABLE>';
 		elseif($ac == 1)
-			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#00FF00;">'.substr($attendance_codes_locale['P'],0,3).'</TD></TR></TABLE>';
+			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#00FF00;">'.mb_substr($attendance_codes_locale['P'],0,3).'</TD></TR></TABLE>';
 	}
 }
 
@@ -234,7 +234,7 @@ function _makePeriodColor($name,$state_code,$default_code)
 		$color = '#0000FF';
 
 	if($color) // && $state_code!='1.0')
-		return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:'.$color.';">'.(empty($attendance_codes_locale[$name])?$name:substr($attendance_codes_locale[$name],0,3)).'</TD></TR></TABLE>';
+		return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:'.$color.';">'.(empty($attendance_codes_locale[$name])?$name:mb_substr($attendance_codes_locale[$name],0,3)).'</TD></TR></TABLE>';
 	else
 		return false;
 }
@@ -242,7 +242,7 @@ function _makePeriodColor($name,$state_code,$default_code)
 function makeCodePulldown($value,$student_id,$date)
 {	global $THIS_RET,$attendance_codes,$_ROSARIO;
 
-	$date = substr($date,1,4).'-'.substr($date,5,2).'-'.substr($date,7);
+	$date = mb_substr($date,1,4).'-'.mb_substr($date,5,2).'-'.mb_substr($date,7);
 
 	if(!$_ROSARIO['code_options'])
 	{

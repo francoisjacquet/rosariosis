@@ -96,7 +96,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			if($_REQUEST['contact'][$student_id])
 			{
-				$tmp_username = $username = trim(strpos($students[1]['EMAIL'],'@')!==false?substr($students[1]['EMAIL'],0,strpos($students[1]['EMAIL'],'@')):$students[1]['EMAIL']);
+				$tmp_username = $username = trim(mb_strpos($students[1]['EMAIL'],'@')!==false?mb_substr($students[1]['EMAIL'],0,mb_strpos($students[1]['EMAIL'],'@')):$students[1]['EMAIL']);
 				$i = 1;
 				while(DBGet(DBQuery("SELECT STAFF_ID FROM STAFF WHERE upper(USERNAME)=upper('$username') AND SYEAR='".UserSyear()."'")))
 					$username = $tmp_username.$i++;
@@ -224,7 +224,7 @@ if(empty($_REQUEST['modfunc']))
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	if(strpos($THIS_RET['EMAIL'],'@'))
+	if(mb_strpos($THIS_RET['EMAIL'],'@'))
 		return '&nbsp;&nbsp;<INPUT type="checkbox" name="student['.$value.']" value="'.$value.'">';
 	else
 		return '';

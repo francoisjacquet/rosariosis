@@ -51,7 +51,7 @@ if(!$_SESSION['staff_id'] && User('PROFILE')=='parent')
 
 if(!$_SESSION['UserSchool'])
 {
-	if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && (!User('SCHOOLS') || strpos(User('SCHOOLS'),','.User('CURRENT_SCHOOL_ID').',')!==false))
+	if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && (!User('SCHOOLS') || mb_strpos(User('SCHOOLS'),','.User('CURRENT_SCHOOL_ID').',')!==false))
 		$_SESSION['UserSchool'] = User('CURRENT_SCHOOL_ID');
 	elseif(User('PROFILE')=='student')
 		$_SESSION['UserSchool'] = trim(User('SCHOOLS'),',');
@@ -86,7 +86,7 @@ unset($_REQUEST['modfunc']);
 //modif Francois: fix bug Internet Explorer Quirks Mode, add DOCTYPE
 ?>
 <!DOCTYPE html> 
-<HTML lang="<?php echo substr($locale,0,2); ?>" <?php echo (substr($locale,0,2)=='he' || substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
+<HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
 <head>
 <meta charset="UTF-8" />
 <link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
@@ -108,7 +108,7 @@ echo '<TD class="width-100p valign-top">
 	&nbsp;".mb_convert_case(iconv('','UTF-8',strftime('%A %B %d, %Y')), MB_CASE_TITLE, "UTF-8")."<BR />";
 if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 {
-	$schools = substr(str_replace(",","','",User('SCHOOLS')),2,-2);
+	$schools = mb_substr(str_replace(",","','",User('SCHOOLS')),2,-2);
 	$QI = DBQuery("SELECT ID,TITLE,SHORT_NAME FROM SCHOOLS WHERE SYEAR='".UserSyear()."'".($schools?" AND ID IN ($schools)":''));
 	$RET = DBGet($QI);
 
@@ -236,11 +236,11 @@ if(User('PROFILE')=='teacher')
 			$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
 		
 		$period_days = '';
-		for ($i=0; $i<strlen($period['DAYS']); $i++)
+		for ($i=0; $i<mb_strlen($period['DAYS']); $i++)
 		{
-			$period_days .= mb_substr($days_convert[$period['DAYS'][$i]],0,3,'UTF-8').'.';
+			$period_days .= mb_substr($days_convert[$period['DAYS'][$i]],0,3).'.';
 		}
-		echo '<OPTION value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['TITLE'].(strlen($period['DAYS'])<5?(strlen($period['DAYS'])<2?' '._('Day').' '.$period_days.' - ':' '._('Days').' '.$period_days.' - '):' - ').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME').' - ':'').$period['CP_SHORT_NAME'].'</OPTION>';
+		echo '<OPTION value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['TITLE'].(mb_strlen($period['DAYS'])<5?(mb_strlen($period['DAYS'])<2?' '._('Day').' '.$period_days.' - ':' '._('Days').' '.$period_days.' - '):' - ').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME').' - ':'').$period['CP_SHORT_NAME'].'</OPTION>';
 	}
 	if(!$found)
 	{
@@ -285,7 +285,7 @@ foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 		foreach($keys as $key_index=>$file)
 		{
 			$title = $_ROSARIO['Menu'][$modcat][$file];
-			if(stripos($file,'http://') !== false)
+			if(mb_stripos($file,'http://') !== false)
 				echo '<TR><TD><A HREF="'.$file.'" target="_blank">'.$title.'</A></TD></TR>';
 			elseif(!is_numeric($file))
 				echo '<TR><TD><A HREF="Modules.php?modname='.$file.'" target="body" onclick="javascript:parent.help.location=\'Bottom.php?modname='.$file.'\'; selectedMenuLink(this);">'.$title.'</A></TD></TR>';

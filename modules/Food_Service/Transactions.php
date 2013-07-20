@@ -55,7 +55,7 @@ function red($value)
 function is_money($value)
 {
 	if($value > 0) {
-		if (strpos($value,'.')) return $value;
+		if (mb_strpos($value,'.')) return $value;
 		elseif ($value >= 100) return $value/100;
 		else return $value;
 	}

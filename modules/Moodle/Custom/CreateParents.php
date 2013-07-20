@@ -41,14 +41,14 @@ list of (
 		)} 
 )
 */
-	$username = strtolower($username);
+	$username = mb_strtolower($username);
 	$password = $password;
 	$firstname = $user['FIRST_NAME'];
 	$lastname = $user['LAST_NAME'];
 	$email = $students[1]['EMAIL'];
 	$auth = 'manual';
 	$idnumber = (string)$id;
-	$lang = substr($locale,0,2);
+	$lang = mb_substr($locale,0,2);
 	
 	$users = array(
 				array(

@@ -58,9 +58,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			//modif Francois: add Template
 			$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
 			if (!$template_update)
-				DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$_REQUEST['honor_roll_text']."')");
+				DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_honor_roll_text."')");
 			else
-				DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$_REQUEST['honor_roll_text']."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
+				DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_honor_roll_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
 
 			$no_margins = array('top'=> 0, 'bottom'=> 0, 'left'=> 0, 'right'=> 0);
 			$handle = PDFStart(false, $no_margins);
@@ -77,7 +77,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 				echo '<TABLE style="margin:auto auto; height:77%;">';
 				
-				$honor_roll_text = $_REQUEST['honor_roll_text'];
+				$honor_roll_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_honor_roll_text)));
 				$honor_roll_text = str_replace(array('__FULL_NAME__','__FIRST_NAME__','__LAST_NAME__','__MIDDLE_NAME__','__GRADE_ID__','__SCHOOL_ID__','__SUBJECT__'),array($student['FULL_NAME'],$student['FIRST_NAME'],$student['LAST_NAME'],$student['MIDDLE_NAME'],$student['GRADE_ID'],$school_info_RET[1]['TITLE'],$_REQUEST['subject']),$honor_roll_text);
 				$honor_roll_text = ($student['HIGH_HONOR']=='Y'? str_replace(_('Honor Roll'),_('High Honor Roll'),$honor_roll_text) : $honor_roll_text);
 				
@@ -125,7 +125,7 @@ if(empty($_REQUEST['modfunc']))
 			pagebreak_separator : '<div style="page-break-after: always;"></div>',
 
 			// Language
-			language : "<?php echo substr($locale,0,2); ?>",
+			language : "<?php echo mb_substr($locale,0,2); ?>",
 			
 			// Theme options
 			theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,undo,redo,|,image,code,cleanup,help",
@@ -185,7 +185,7 @@ if(empty($_REQUEST['modfunc']))
 		foreach ($frames as $frame)
 		{
 			//filter images
-			if ( in_array( strtolower(strrchr($frame, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
+			if ( in_array( mb_strtolower(mb_strrchr($frame, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
 			{
 				//if ($i % 5 == 0) //change table row each five thumbnails
 					//$extra['extra_header_left'] .= '</TR><TR>';

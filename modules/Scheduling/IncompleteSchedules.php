@@ -80,7 +80,7 @@ else
 function _preparePeriods($value,$name)
 {	global $THIS_RET,$schedule_RET;
 
-	$period_id = substr($name,7);
+	$period_id = mb_substr($name,7);
 	if(!$schedule_RET[$THIS_RET['STUDENT_ID']][$period_id])
 //modif Francois: css WPadmin
 //		return '<TABLE cellpadding=0 cellspacing=0 style=LO_field><TR><TD><IMG SRC=assets/x.png></TD></TR></TABLE>';

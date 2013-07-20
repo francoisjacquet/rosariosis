@@ -224,7 +224,7 @@ function _makeMultipleInput($column,$name,$request)
 			if($i%2==0)
 				$table .= '</TR><TR>';
 //modif Francois: add <label> on checkbox
-			$table .= '<TD><label><INPUT type="checkbox" name="'.$request.'['.$column.'][]" value="'.str_replace(array("'",'"'),array('&#39;','&quot;'),$option).'"'.(strpos($value[$column],'||'.$option.'||')!==false?' checked':'').'> '.str_replace(array("'",'"'),array('&#39;','&quot;'),$option).'</label></TD>';
+			$table .= '<TD><label><INPUT type="checkbox" name="'.$request.'['.$column.'][]" value="'.str_replace(array("'",'"'),array('&#39;','&quot;'),$option).'"'.(mb_strpos($value[$column],'||'.$option.'||')!==false?' checked':'').'> '.str_replace(array("'",'"'),array('&#39;','&quot;'),$option).'</label></TD>';
 			$i++;
 		}
 		$table .= '</TR><TR><TD colspan="2">';
@@ -237,14 +237,14 @@ function _makeMultipleInput($column,$name,$request)
 		{
 			echo str_replace('"', '\"', $table);
 			echo '","div'.$request.'['.$column.']",true);\' >';
-			echo '<span class="underline-dots">'.($value[$column]!=''?str_replace('||',', ',substr($value[$column],2,-2)):'-').'</span>';
+			echo '<span class="underline-dots">'.($value[$column]!=''?str_replace('||',', ',mb_substr($value[$column],2,-2)):'-').'</span>';
 			echo '</div></DIV>';
 		}
 		else
 			echo $table;
 	}
 	else
-		echo ($value[$column]!=''?str_replace('||',', ',substr($value[$column],2,-2)):'-').'<BR />';
+		echo ($value[$column]!=''?str_replace('||',', ',mb_substr($value[$column],2,-2)):'-').'<BR />';
 
 	echo '<span class="legend-gray">'.$name.'</span>';
 }

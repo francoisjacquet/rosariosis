@@ -25,7 +25,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					$sql .= $column."='".str_replace("\'","''",$value)."',";
 				}
-				$sql = substr($sql,0,-1) . " WHERE PERIOD_ID='$id'";
+				$sql = mb_substr($sql,0,-1) . " WHERE PERIOD_ID='$id'";
 				DBQuery($sql);
 			}
 			else
@@ -45,7 +45,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 						$go = true;
 					}
 				}
-				$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 				if($go)
 					DBQuery($sql);
@@ -120,9 +120,9 @@ function _makeTimeInput($value,$name)
 	else
 		$id = 'new';
 
-	$hour = substr($value,0,strpos($value,':'));
-	$minute = substr($value,strpos($value,':'),strpos($value,' '));
-	$m = substr($value,strpos($value,' '));
+	$hour = mb_substr($value,0,mb_strpos($value,':'));
+	$minute = mb_substr($value,mb_strpos($value,':'),mb_strpos($value,' '));
+	$m = mb_substr($value,mb_strpos($value,' '));
 
 	for($i=1;$i<=11;$i++)
 		$hour_options[$i] = ''.$i;

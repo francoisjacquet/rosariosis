@@ -64,7 +64,7 @@ else
 
 	$extra['FROM'] .= ',DISCIPLINE_REFERRALS r ';
 	$extra['WHERE'] .= " AND r.STUDENT_ID=ssm.STUDENT_ID AND r.SYEAR=ssm.SYEAR ";
-	if(strpos($extra['FROM'],'DISCIPLINE_REFERRALS dr')!==false)
+	if(mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS dr')!==false)
 		$extra['WHERE'] .= ' AND r.ID=dr.ID';
 	
 	$extra['group'] = array('STUDENT_ID');
@@ -107,20 +107,20 @@ else
 					if($column=='ENTRY_DATE' || $column=='STAFF_ID')
 						continue;
 
-					if($categories_RET[substr($column,9)][1]['DATA_TYPE']=='textarea' && !$end_tr)
+					if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='textarea' && !$end_tr)
 					{
 						$end_tr = true;
 						//echo '</TR></TABLE>';
 					}
-					elseif($categories_RET[substr($column,9)][1]['DATA_TYPE']=='textarea')
+					elseif($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='textarea')
 						echo '<BR />';
 					
-					if($categories_RET[substr($column,9)][1]['DATA_TYPE']!='textarea')
+					if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']!='textarea')
 					{
-						if($categories_RET[substr($column,9)][1]['DATA_TYPE']=='checkbox')
-							DrawHeader('<span style="color:gray">'.$categories_RET[substr($column,9)][1]['TITLE'].': </span> '.($referral[$column] == 'Y' ? '<img src="assets/check.png" class="alignImg" />' : '<img src="assets/x.png" class="alignImg" />'));
+						if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='checkbox')
+							DrawHeader('<span style="color:gray">'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </span> '.($referral[$column] == 'Y' ? '<img src="assets/check.png" class="alignImg" />' : '<img src="assets/x.png" class="alignImg" />'));
 						else
-							DrawHeader('<span style="color:gray">'.$categories_RET[substr($column,9)][1]['TITLE'].': </span><b> '.$referral[$column].'</b>');
+							DrawHeader('<span style="color:gray">'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </span><b> '.$referral[$column].'</b>');
 					}
 					else
 						DrawHeader($referral[$column]);

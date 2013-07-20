@@ -10,8 +10,8 @@ function WrapTabs($tabs,$selected='',&$selected_key='')
 		$rows[0] = '<div class="h3multi">';
 		foreach($tabs as $key=>$tab)
 		{
-			if(substr($tab['title'],0,1)!='<')
-				$tab_len = strlen($tab['title']);
+			if(mb_substr($tab['title'],0,1)!='<')
+				$tab_len = mb_strlen($tab['title']);
 			else
 				$tab_len = 0;
 
@@ -35,7 +35,7 @@ function WrapTabs($tabs,$selected='',&$selected_key='')
 	{
 //modif Francois: remove ereg
 //		if(!ereg("<!--BOTTOM-->",$rows[$key]))
-		if(strpos($rows[$key],"<!--BOTTOM-->")===FALSE)
+		if(mb_strpos($rows[$key],"<!--BOTTOM-->")===FALSE)
 		{
 			$table .= $rows[$key];
 			$i++;

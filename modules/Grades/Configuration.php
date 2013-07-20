@@ -100,7 +100,7 @@ if(count($grades))
 	foreach($grades as $course_period_id=>$cp_grades)
 	{
 		$table = '<TABLE>';
-		$table .= '<TR><TD rowspan="2" style="text-align:right; width: 100px">'.$cp_grades[1]['COURSE_TITLE'].' - '.substr($cp_grades[1]['CP_TITLE'],0,strrpos(str_replace(' - ',' ^ ',$cp_grades[1]['CP_TITLE']),'^')).'</TD>';
+		$table .= '<TR><TD rowspan="2" style="text-align:right; width: 100px">'.$cp_grades[1]['COURSE_TITLE'].' - '.mb_substr($cp_grades[1]['CP_TITLE'],0,mb_strrpos(str_replace(' - ',' ^ ',$cp_grades[1]['CP_TITLE']),'^')).'</TD>';
 		foreach($cp_grades as $grade)
 			$table .= '<TD><B>'.$grade['TITLE'].'</B></TD>';
 		$table .= '</TR>';

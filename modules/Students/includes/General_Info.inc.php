@@ -87,7 +87,7 @@ if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		echo '<DIV id="student_name"><div class="onclick" onclick=\'addHTML("';
 		
-		$toEscape = '<TABLE><TR><TD>'.TextInput($student['FIRST_NAME'],'students[FIRST_NAME]',_('First Name'),'size=12 maxlength=50 required',false).'</TD><TD>'.TextInput($student['MIDDLE_NAME'],'students[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'</TD><TD>'.TextInput($student['LAST_NAME'],'students[LAST_NAME]',_('Last Name'),'size=12 maxlength=50 required',false).'</TD><TD>'.SelectInput($student['NAME_SUFFIX'],'students[NAME_SUFFIX]',_('Suffix'),array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V')),'','',false).'</TD></TR></TABLE>';
+		$toEscape = '<TABLE><TR><TD>'.TextInput(str_replace("'",'&#39;',$student['FIRST_NAME']),'students[FIRST_NAME]',_('First Name'),'size=12 maxlength=50 required',false).'</TD><TD>'.TextInput(str_replace("'",'&#39;',$student['MIDDLE_NAME']),'students[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'</TD><TD>'.TextInput(str_replace("'",'&#39;',$student['LAST_NAME']),'students[LAST_NAME]',_('Last Name'),'size=12 maxlength=50 required',false).'</TD><TD>'.SelectInput(str_replace("'",'&#39;',$student['NAME_SUFFIX']),'students[NAME_SUFFIX]',_('Suffix'),array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V')),'','',false).'</TD></TR></TABLE>';
 		echo str_replace('"','\"',$toEscape);
 		
 		echo '","student_name",true);\'><span class="underline-dots">'.$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].'</span></div></DIV><span class="legend-gray">'._('Name').'</span>';
@@ -152,7 +152,7 @@ echo '</TD>';
 echo '<TD>';
 //echo TextInput($student['PASSWORD'],'students[PASSWORD]','Password');
 //modif Francois: add password encryption
-//echo TextInput(array($student['PASSWORD'],str_repeat('*',strlen($student['PASSWORD']))),'students[PASSWORD]',($student['USERNAME']&&!$student['PASSWORD']?'<span style="color:red">':'')._('Password').($student['USERNAME']&&!$student['PASSWORD']?'</span>':''));
+//echo TextInput(array($student['PASSWORD'],str_repeat('*',mb_strlen($student['PASSWORD']))),'students[PASSWORD]',($student['USERNAME']&&!$student['PASSWORD']?'<span style="color:red">':'')._('Password').($student['USERNAME']&&!$student['PASSWORD']?'</span>':''));
 echo TextInput((!$student['PASSWORD'] || $_REQUEST['moodle_create_student'] ?'':str_repeat('*',8)),'students[PASSWORD]',(($student['USERNAME'] || $_REQUEST['moodle_create_student']) &&!$student['PASSWORD']?'<span class="legend-red">':'').($_REQUEST['moodle_create_student']?'<SPAN style="cursor:help" title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('Password').($_REQUEST['moodle_create_student']?'*</SPAN>':'').(($student['USERNAME'] || $_REQUEST['moodle_create_student']) &&!$student['PASSWORD']?'</span>':''),'autocomplete=off'.($_REQUEST['moodle_create_student'] ? ' required' : ''), ($_REQUEST['moodle_create_student'] ? false : true));
 echo '</TD>';
 

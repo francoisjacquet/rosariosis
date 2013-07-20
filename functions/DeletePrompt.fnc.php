@@ -15,7 +15,7 @@ function DeletePrompt($title,$action='Delete')
 	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
 	{
 		echo '<BR />';
-		PopTable('header',_('Confirm').(strpos($action,' ')===false?' '.($action=='Delete'?_('Delete'):$action):''));
+		PopTable('header',_('Confirm').(mb_strpos($action,' ')===false?' '.($action=='Delete'?_('Delete'):$action):''));
 		echo '<span class="center"><h4>'.sprintf(_('Are you sure you want to %s that %s?'),($action=='Delete'?_('Delete'):$action),$title).'</h4><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST"><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onclick="javascript:self.history.go(-1);"></FORM></span>';
 		PopTable('footer');
 		return false;

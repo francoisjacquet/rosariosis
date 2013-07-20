@@ -15,13 +15,13 @@ else
 	{
 		$date = $min_date[1]['MIN_DATE'];
 		$_REQUEST['day_date'] = date('d',strtotime($date));
-		$_REQUEST['month_date'] = strtoupper(date('M',strtotime($date)));
+		$_REQUEST['month_date'] = mb_strtoupper(date('M',strtotime($date)));
 		$_REQUEST['year_date'] = date('y',strtotime($date));
 	}
 	else
 	{
 		$_REQUEST['day_date'] = date('d');
-		$_REQUEST['month_date'] = strtoupper(date('M'));
+		$_REQUEST['month_date'] = mb_strtoupper(date('M'));
 		$_REQUEST['year_date'] = date('y');
 		$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
 	}
@@ -43,7 +43,7 @@ if($_REQUEST['month_schedule'] && $_POST['month_schedule'])
 			$_REQUEST['schedule'][$id][$start_date][$column] = $_REQUEST['day_schedule'][$id][$start_date][$column].'-'.$value.'-'.$_REQUEST['year_schedule'][$id][$start_date][$column];
 			//modif Francois: bugfix SQL bug when incomplete END_DATE
 			//if($_REQUEST['schedule'][$id][$start_date][$column]=='--')
-			if(strlen($_REQUEST['schedule'][$id][$start_date][$column]) < 11)
+			if(mb_strlen($_REQUEST['schedule'][$id][$start_date][$column]) < 11)
 				$_REQUEST['schedule'][$id][$start_date][$column] = '';
 		}
 	}
@@ -67,7 +67,7 @@ if($_REQUEST['schedule'] && $_POST['schedule'])
 		{
 			$sql .= $column."='".str_replace("\'","''",$value)."',";
 		}
-		$sql = substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND START_DATE='".$start_date."'";
+		$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND START_DATE='".$start_date."'";
 		DBQuery($sql);
 
 		if($columns['START_DATE'] || $columns['END_DATE'])
@@ -191,8 +191,8 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course')
 
 	for ($j = 1; $j <= count($schedule_RET); $j++) {
 		$columns_DAYS_locale = '';
-		for ($i = 0; $i < strlen($schedule_RET[$j]['DAYS']); $i++) {
-			$columns_DAYS_locale .= substr($days_convert[substr($schedule_RET[$j]['DAYS'], $i, 1)],0,3) . '.&nbsp;';
+		for ($i = 0; $i < mb_strlen($schedule_RET[$j]['DAYS']); $i++) {
+			$columns_DAYS_locale .= mb_substr($days_convert[mb_substr($schedule_RET[$j]['DAYS'], $i, 1)],0,3) . '.&nbsp;';
 		}
 		$schedule_RET[$j]['DAYS'] = $columns_DAYS_locale;
 	}*/
@@ -264,14 +264,14 @@ if($_REQUEST['modfunc']=='choose_course')
 		$days_conflict = false;
 		foreach($period_RET as $existing)
 		{
-			if(strlen($mp_RET[1]['DAYS'])+strlen($existing['DAYS'])>7)
+			if(mb_strlen($mp_RET[1]['DAYS'])+mb_strlen($existing['DAYS'])>7)
 			{
 				$days_conflict = true;
 				break;
 			}
 			else
 				foreach(_str_split($mp_RET[1]['DAYS']) as  $i)
-					if(strpos($existing['DAYS'],$i)!==false)
+					if(mb_strpos($existing['DAYS'],$i)!==false)
 					{
 						$days_conflict = true;
 						break 2;
@@ -396,10 +396,10 @@ function VerifySchedule(&$schedule)
 			if(!$conflicts[$i] || !$conflicts[$j])
 				// the following two if's are equivalent, the second matches the 'Add a Course' logic, the first is the demorgan equivalent and easier to follow
 				// if -not- marking periods don't overlap -or- dates don't overlap (i ends and j starts after i -or- j ends and i starts after j) then check further
-				//if(! (strpos(GetAllMP(GetMP($schedule[$i]['MARKING_PERIOD_ID'],'MP'),$schedule[$i]['MARKING_PERIOD_ID']),"'".$schedule[$j]['MARKING_PERIOD_ID']."'")===false
+				//if(! (mb_strpos(GetAllMP(GetMP($schedule[$i]['MARKING_PERIOD_ID'],'MP'),$schedule[$i]['MARKING_PERIOD_ID']),"'".$schedule[$j]['MARKING_PERIOD_ID']."'")===false
 				//|| $schedule[$i]['END_EPOCH'] && $schedule[$j]['START_EPOCH']>$schedule[$i]['END_EPOCH'] || $schedule[$j]['END_EPOCH'] && $schedule[$i]['START_EPOCH']>$schedule[$j]['END_EPOCH']))
 				// if marking periods overlap -and- dates overlap (i doesn't end or j starts before i ends -and- j doesn't end or i starts before j ends) check further
-				if(strpos(GetAllMP(GetMP($schedule[$i]['MARKING_PERIOD_ID'],'MP'),$schedule[$i]['MARKING_PERIOD_ID']),"'".$schedule[$j]['MARKING_PERIOD_ID']."'")!==false
+				if(mb_strpos(GetAllMP(GetMP($schedule[$i]['MARKING_PERIOD_ID'],'MP'),$schedule[$i]['MARKING_PERIOD_ID']),"'".$schedule[$j]['MARKING_PERIOD_ID']."'")!==false
 				&& (!$schedule[$i]['END_EPOCH'] || $schedule[$j]['START_EPOCH']<=$schedule[$i]['END_EPOCH']) && (!$schedule[$j]['END_EPOCH'] || $schedule[$i]['START_EPOCH']<=$schedule[$j]['END_EPOCH']))
 					// should not be enrolled in the same course with overlapping marking periods and dates
 					if($schedule[$i]['COURSE_ID']==$schedule[$j]['COURSE_ID'])
@@ -408,11 +408,11 @@ function VerifySchedule(&$schedule)
 						// if different periods then okay
 						if($schedule[$i]['PERIOD_ID']==$schedule[$j]['PERIOD_ID'])
 							// should not be enrolled in the same period on the same day
-							if(strlen($schedule[$i]['DAYS'])+strlen($schedule[$j]['DAYS'])>7)
+							if(mb_strlen($schedule[$i]['DAYS'])+mb_strlen($schedule[$j]['DAYS'])>7)
 								$conflicts[$i] = $conflicts[$j] = true;
 							else
 								foreach(_str_split($schedule[$i]['DAYS']) as $k)
-									if(strpos($schedule[$j]['DAYS'],$k)!==false)
+									if(mb_strpos($schedule[$j]['DAYS'],$k)!==false)
 									{
 										$conflicts[$i] = $conflicts[$j] = true;
 										break;
@@ -425,9 +425,9 @@ function VerifySchedule(&$schedule)
 function _str_split($str)
 {
 	$ret = array();
-	$len = strlen($str);
+	$len = mb_strlen($str);
 	for($i=0;$i<$len;$i++)
-		$ret [] = substr($str,$i,1);
+		$ret [] = mb_substr($str,$i,1);
 	return $ret;
 }
 ?>

@@ -16,7 +16,7 @@ include $staticpath.'/ProgramFunctions/_makeLetterGrade.fnc.php';
 if(!$_REQUEST['assignment_id'])
 	$_REQUEST['assignment_id'] = 'totals';
 
-//modif Francois: fix errors relation «course_weights» doesnt exist & columns c.grad_subject_id & cp.does_grades & cp.does_gpa do not exist
+//modif Francois: fix errors relation Â«course_weightsÂ» doesnt exist & columns c.grad_subject_id & cp.does_grades & cp.does_gpa do not exist
 //$course_id = DBGet(DBQuery("SELECT c.GRAD_SUBJECT_ID,cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHORT_NAME AS COURSE_NUM,cw.CREDITS,cw.GPA_MULTIPLIER,cp.DOES_GRADES,cp.GRADE_SCALE_ID,cp.DOES_GPA as AFFECTS_GPA FROM COURSE_PERIODS cp,COURSES c,COURSE_WEIGHTS cw WHERE cw.COURSE_ID=cp.COURSE_ID AND cw.COURSE_WEIGHT=cp.COURSE_WEIGHT AND c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
 $course_id = DBGet(DBQuery("SELECT cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHORT_NAME AS COURSE_NUM,cp.GRADE_SCALE_ID FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
 $grade_scale_id = $course_id[1]['GRADE_SCALE_ID'];
@@ -80,7 +80,7 @@ if($_REQUEST['assignment_id']=='totals')
 }
 elseif(!is_numeric($_REQUEST['assignment_id']))
 {
-	$type_id = substr($_REQUEST['assignment_id'],6);
+	$type_id = mb_substr($_REQUEST['assignment_id'],6);
 	$extra['SELECT_ONLY'] .= "ssm.STUDENT_ID,'' AS LETTER_GRADE";
 	$extra['functions'] = array('LETTER_GRADE'=>'_makeGrade');
 
@@ -138,7 +138,7 @@ if(!$_REQUEST['chart_type'])
 			{
 				$jsData .= "[".$chart['chart_data'][0][$i].", ".$chart['chart_data'][1][$i]."],";
 			}
-			$jsData = substr($jsData, 0, strlen($jsData) - 1);
+			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
 			$jsData .= "];\n";
 		} else { //pie chart
 			$jsData = 'var datapie = [';
@@ -147,7 +147,7 @@ if(!$_REQUEST['chart_type'])
 				if ($chart['chart_data'][1][$i] > 0) //remove empty slices not to overload the legends
 					$jsData .= "['".$chart['chart_data'][0][$i]."', ".$chart['chart_data'][1][$i]."],";
 			}
-			$jsData = substr($jsData, 0, strlen($jsData) - 1);
+			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
 			$jsData .= "];\n";
 					
 		}

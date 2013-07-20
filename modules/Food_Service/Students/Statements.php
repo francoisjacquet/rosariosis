@@ -7,7 +7,7 @@ Widgets('fsa_account_id');
 
 $extra['SELECT'] .= ",coalesce(fssa.STATUS,'Active') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
-if(!strpos($extra['FROM'],'fssa'))
+if(!mb_strpos($extra['FROM'],'fssa'))
 {
 	$extra['FROM'] = ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";

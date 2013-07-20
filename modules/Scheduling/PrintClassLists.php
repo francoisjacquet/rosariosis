@@ -34,12 +34,12 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
 
 			$course_period_DAYS_locale = '';
-			for ($i = 0; $i < strlen($course_period['DAYS']); $i++) {
-				$course_period_DAYS_locale .= substr($days_convert[substr($course_period['DAYS'], $i, 1)],0,3) . '.&nbsp;';
+			for ($i = 0; $i < mb_strlen($course_period['DAYS']); $i++) {
+				$course_period_DAYS_locale .= mb_substr($days_convert[mb_substr($course_period['DAYS'], $i, 1)],0,3) . '.&nbsp;';
 			}
 			$course_period['DAYS'] = $course_period_DAYS_locale;*/
 			
-			//DrawHeader($course_period['TEACHER'],$course_period['COURSE_TITLE'].' '.GetPeriod($course_period['PERIOD_ID']).($course_period['MARKING_PERIOD_ID']!="$fy_id"?' - '.GetMP($course_period['MARKING_PERIOD_ID']):'').(strlen($course_period['DAYS'])<5?' - '.$course_period['DAYS']:''));
+			//DrawHeader($course_period['TEACHER'],$course_period['COURSE_TITLE'].' '.GetPeriod($course_period['PERIOD_ID']).($course_period['MARKING_PERIOD_ID']!="$fy_id"?' - '.GetMP($course_period['MARKING_PERIOD_ID']):'').(mb_strlen($course_period['DAYS'])<5?' - '.$course_period['DAYS']:''));
 			DrawHeader($course_period['COURSE_TITLE'],$course_period['TITLE']);
 			DrawHeader(GetSchool(UserSchool()),ProperDate(DBDate()));
 
@@ -146,7 +146,7 @@ function mySearch($extra)
 		if($_REQUEST['teacher_id'])
 			$where .= " AND cp.TEACHER_ID='$_REQUEST[teacher_id]'";
 		if($_REQUEST['first'])
-			$where .= " AND UPPER(s.FIRST_NAME) LIKE '".strtoupper($_REQUEST['first'])."%'";
+			$where .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 		if($_REQUEST['w_course_period_id'])
 			if($_REQUEST['w_course_period_id'])
 				if($_REQUEST['w_course_period_id_which']=='course')

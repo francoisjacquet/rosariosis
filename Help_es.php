@@ -146,7 +146,7 @@ else
 	$help['Eligibility/StudentList.php'] = '<p><i>Lista de Estudiante</i> es un reporte que muestra todas las calificaciones y las notas de elegibilidad de su estudiante.</p><p>Usted puede especificar el transcurso de elegibilidad que quiere ver escogiendo las fechas en el menú desplegable en la parte superior de la pantalla y presionando el botón «Ir». La elegibilidad esta entrada cada semana.</p>';
 }
 
-if(strpos($_SERVER['PHP_SELF'],'Help_es.php'))
+if(mb_strpos($_SERVER['PHP_SELF'],'Help_es.php'))
 {
 	switch(User('PROFILE'))
 	{
@@ -172,9 +172,9 @@ if(strpos($_SERVER['PHP_SELF'],'Help_es.php'))
 
 	foreach($help as $program=>$value)
 	{
-		if(strpos($program,'/'))
+		if(mb_strpos($program,'/'))
 		{
-			$modcat = str_replace('_',' ',substr($program,0,strpos($program,'/')));
+			$modcat = str_replace('_',' ',mb_substr($program,0,mb_strpos($program,'/')));
 			if($modcat!=$old_modcat && $RosarioModules[str_replace(' ','_',$modcat)]) //if module activated
 				echo '<div style="page-break-after: always;"></div><TABLE><TR><TD><IMG SRC="assets/icons/'.str_replace(' ','_',$modcat).'.png" height="48"></TD><TD><h1>'._($modcat).'</h1></TD></TR></TABLE><HR>';
 			$old_modcat = $modcat;

@@ -33,7 +33,7 @@ function SaveData($iu_extra,$fields_done=false,$field_names=false)
 				if($field_names[$table][$column])
 					$name = sprintf(_('The value for %s'),$field_names[$table][$column]);
 				else
-					$name = sprintf(_('The value for %s'),ucwords(strtolower(str_replace('_',' ',$column))));
+					$name = sprintf(_('The value for %s'),ucwords(mb_strtolower(str_replace('_',' ',$column))));
 
 				// COLUMN DOESN'T EXIST
 				if(!$table_properties[$column])
@@ -43,9 +43,9 @@ function SaveData($iu_extra,$fields_done=false,$field_names=false)
 				}
 
 				// VALUE IS TOO LONG
-				if($table_properties[$column]['TYPE']=='VARCHAR' && strlen($value) > $table_properties[$column]['SIZE'])
+				if($table_properties[$column]['TYPE']=='VARCHAR' && mb_strlen($value) > $table_properties[$column]['SIZE'])
 				{
-					$value = substr($value,0,$table_properties[$column]['SIZE']);
+					$value = mb_substr($value,0,$table_properties[$column]['SIZE']);
 					$error[] = sprintf(_('%s was too long. It was truncated to fit in the field.'), $name);
 				}
 
@@ -75,9 +75,9 @@ function SaveData($iu_extra,$fields_done=false,$field_names=false)
 					$sql[$table] .= "$column='".str_replace("\'","''",str_replace('&#39;',"''",$value))."',";
 			}
 			if($id=='new')
-				$sql[$table] = 'INSERT INTO '.$table.' (' . $iu_extra['fields'][$table].substr($ins_fields[$table],0,-1) . ') values(' . $iu_extra['values'][$table].substr($ins_values[$table],0,-1) . ')';
+				$sql[$table] = 'INSERT INTO '.$table.' (' . $iu_extra['fields'][$table].mb_substr($ins_fields[$table],0,-1) . ') values(' . $iu_extra['values'][$table].mb_substr($ins_values[$table],0,-1) . ')';
 			else
-				$sql[$table] = 'UPDATE '.$table.' SET '.substr($sql[$table],0,-1).' WHERE '.str_replace('__ID__',$id,$iu_extra[$table]);
+				$sql[$table] = 'UPDATE '.$table.' SET '.mb_substr($sql[$table],0,-1).' WHERE '.str_replace('__ID__',$id,$iu_extra[$table]);
 
 			echo ErrorMessage($error);
 			if($id!='new' || $go==true)

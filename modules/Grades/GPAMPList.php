@@ -9,7 +9,7 @@ if($_REQUEST['search_modfunc'] == 'list')
 //modif Francois: changed MP list to GradeBreakdown.php style
 	/*if(!$_REQUEST['mp'] && GetMP(UserMP(),'POST_START_DATE'))
 		$_REQUEST['mp'] = UserMP();
-	elseif(strpos(GetAllMP('QTR',UserMP()),str_replace('E','',$_REQUEST['mp']))===false && strpos(GetChildrenMP('PRO',UserMP()),"'".$_REQUEST['mp']."'")===false && GetMP(UserMP(),'POST_START_DATE'))
+	elseif(mb_strpos(GetAllMP('QTR',UserMP()),str_replace('E','',$_REQUEST['mp']))===false && mb_strpos(GetChildrenMP('PRO',UserMP()),"'".$_REQUEST['mp']."'")===false && GetMP(UserMP(),'POST_START_DATE'))
 		$_REQUEST['mp'] = UserMP();
 	
 	if(!$_REQUEST['mp'] && GetMP(GetParentMP('SEM',UserMP()),'POST_START_DATE'))
@@ -87,7 +87,7 @@ Widgets('letter_grade');
 //$extra['SELECT'] .= ',sgc.GPA,sgc.WEIGHTED_GPA,sgc.CLASS_RANK';
 $extra['SELECT'] .= ',sms.sum_weighted_factors/sms.gp_credits as sum_weighted_factor, sms.sum_unweighted_factors/sms.gp_credits as sum_unweighted_factor';
 
-if(strpos($extra['FROM'],'STUDENT_MP_STATS sms')===false)
+if(mb_strpos($extra['FROM'],'STUDENT_MP_STATS sms')===false)
 {
 	$extra['FROM'] .= ',STUDENT_MP_STATS sms';
 	$extra['WHERE'] .= " AND sms.STUDENT_ID=ssm.STUDENT_ID AND sms.MARKING_PERIOD_ID='".$_REQUEST['mp']."'";

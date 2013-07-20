@@ -52,11 +52,11 @@ function CustomFields($location,$type='student',$extra=array())
 			{
 				if($value!='')
 				{
-					switch($fields[substr($field_name,7)][1]['TYPE'])
+					switch($fields[mb_substr($field_name,7)][1]['TYPE'])
 					{
 						case 'radio':
 							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].': </b></span>';
+								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b></span>';
 							if($value=='Y')
 							{
 								$string .= " AND s.$field_name='$value' ";
@@ -75,7 +75,7 @@ function CustomFields($location,$type='student',$extra=array())
 
 						case 'codeds':
 							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].': </b></span>';
+								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b></span>';
 							if($value=='!')
 							{
 								$string .= " AND (s.$field_name='' OR s.$field_name IS NULL) ";
@@ -87,7 +87,7 @@ function CustomFields($location,$type='student',$extra=array())
 								$string .= " AND s.$field_name='$value' ";
 								if(!$extra['NoSearchTerms'])
 								{
-									$select_options = str_replace("\n","\r",str_replace("\r\n","\r",$fields[substr($field_name,7)][1]['SELECT_OPTIONS']));
+									$select_options = str_replace("\n","\r",str_replace("\r\n","\r",$fields[mb_substr($field_name,7)][1]['SELECT_OPTIONS']));
 									$select_options = explode("\r",$select_options);
 									foreach($select_options as $option)
 									{
@@ -107,7 +107,7 @@ function CustomFields($location,$type='student',$extra=array())
 
 						case 'exports':
 							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].': </b></span>';
+								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b></span>';
 							if($value=='!')
 							{
 								$string .= " AND (s.$field_name='' OR s.$field_name IS NULL) ";
@@ -119,7 +119,7 @@ function CustomFields($location,$type='student',$extra=array())
 								$string .= " AND s.$field_name='$value' ";
 								if(!$extra['NoSearchTerms'])
 								{
-									$select_options = str_replace("\n","\r",str_replace("\r\n","\r",$fields[substr($field_name,7)][1]['SELECT_OPTIONS']));
+									$select_options = str_replace("\n","\r",str_replace("\r\n","\r",$fields[mb_substr($field_name,7)][1]['SELECT_OPTIONS']));
 									$select_options = explode("\r",$select_options);
 									foreach($select_options as $option)
 									{
@@ -139,7 +139,7 @@ function CustomFields($location,$type='student',$extra=array())
 
 						case 'select':
 							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].': </b></span>';
+								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b></span>';
 							if($value=='!')
 							{
 								$string .= " AND (s.$field_name='' OR s.$field_name IS NULL) ";
@@ -158,7 +158,7 @@ function CustomFields($location,$type='student',$extra=array())
 
 						case 'autos':
 							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].': </b></span>';
+								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b></span>';
 							if($value=='!')
 							{
 								$string .= " AND (s.$field_name='' OR s.$field_name IS NULL) ";
@@ -177,7 +177,7 @@ function CustomFields($location,$type='student',$extra=array())
 
 						case 'edits':
 							if(!$extra['NoSearchTerms'])
-								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].': </b></span>';
+								$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b></span>';
 							if($value=='!')
 							{
 								$string .= " AND (s.$field_name='' OR s.$field_name IS NULL) ";
@@ -186,7 +186,7 @@ function CustomFields($location,$type='student',$extra=array())
 							}
 							elseif($value=='~')
 							{
-								$string .= " AND position('\r'||s.$field_name||'\r' IN '\r'||(SELECT SELECT_OPTIONS FROM ".($type=='staff'?'STAFF':'CUSTOM')."_FIELDS WHERE ID='".substr($field_name,7)."')||'\r')=0 ";
+								$string .= " AND position('\r'||s.$field_name||'\r' IN '\r'||(SELECT SELECT_OPTIONS FROM ".($type=='staff'?'STAFF':'CUSTOM')."_FIELDS WHERE ID='".mb_substr($field_name,7)."')||'\r')=0 ";
 								if(!$extra['NoSearchTerms'])
 									$_ROSARIO['SearchTerms'] .= _('Other Value');
 							}
@@ -205,19 +205,19 @@ function CustomFields($location,$type='student',$extra=array())
 							{
 								$string .= " AND (s.$field_name='' OR s.$field_name IS NULL) ";
 								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].': </b></span>'._('No Value').'<BR />';
+									$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b></span>'._('No Value').'<BR />';
 							}
-							elseif(substr($value,0,2)=='\"' && substr($value,-2)=='\"')
+							elseif(mb_substr($value,0,2)=='\"' && mb_substr($value,-2)=='\"')
 							{
-								$string .= " AND s.$field_name='".substr($value,2,-2)."' ";
+								$string .= " AND s.$field_name='".mb_substr($value,2,-2)."' ";
 								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].': </b></span>'.substr($value,2,-2).'<BR />';
+									$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b></span>'.mb_substr($value,2,-2).'<BR />';
 							}
 							else
 							{
-								$string .= " AND LOWER(s.$field_name) LIKE '".strtolower($value)."%' ";
+								$string .= " AND LOWER(s.$field_name) LIKE '".mb_strtolower($value)."%' ";
 								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].'&nbsp;'.Localize('colon',_('starts with')).' </b></span>'.$value.'<BR />';
+									$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].'&nbsp;'.Localize('colon',_('starts with')).' </b></span>'.$value.'<BR />';
 							}
 						break;
 					}
@@ -228,17 +228,17 @@ function CustomFields($location,$type='student',$extra=array())
 		{
 			foreach($_REQUEST['cust_begin'] as $field_name=>$value)
 			{
-				if($fields[substr($field_name,7)][1]['TYPE']=='numeric')
+				if($fields[mb_substr($field_name,7)][1]['TYPE']=='numeric')
 					$value = preg_replace('/[^0-9.-]+/','',$value);
 
 				if($value!='')
 				{
 					$string .= " AND s.$field_name >= '$value' ";
 					if(!$extra['NoSearchTerms'])
-						if($fields[substr($field_name,7)][1]['TYPE']=='date')
-							$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&ge;</span> </b></span>'.ProperDate($value).'<BR />';
+						if($fields[mb_substr($field_name,7)][1]['TYPE']=='date')
+							$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&ge;</span> </b></span>'.ProperDate($value).'<BR />';
 						else
-							$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&ge;</span> </b></span>'.$value.'<BR />';
+							$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&ge;</span> </b></span>'.$value.'<BR />';
 				}
 			}
 		}
@@ -246,17 +246,17 @@ function CustomFields($location,$type='student',$extra=array())
 		{
 			foreach($_REQUEST['cust_end'] as $field_name=>$value)
 			{
-				if($fields[substr($field_name,7)][1]['TYPE']=='numeric')
+				if($fields[mb_substr($field_name,7)][1]['TYPE']=='numeric')
 					$value = preg_replace('/[^0-9.-]+/','',$value);
 
 				if($value!='')
 				{
 					$string .= " AND s.$field_name <= '$value' ";
 					if(!$extra['NoSearchTerms'])
-						if($fields[substr($field_name,7)][1]['TYPE']=='date')
-							$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&le;</span> </b></span>'.ProperDate($value).'<BR />';
+						if($fields[mb_substr($field_name,7)][1]['TYPE']=='date')
+							$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&le;</span> </b></span>'.ProperDate($value).'<BR />';
 						else
-							$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&le;</span> </b></span>'.$value.'<BR />';
+							$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].' <span class="sizep2">&le;</span> </b></span>'.$value.'<BR />';
 				}
 			}
 		}
@@ -266,7 +266,7 @@ function CustomFields($location,$type='student',$extra=array())
 			{
 				$string .= " AND s.$field_name IS NULL ";
 				if(!$extra['NoSearchTerms'])
-					$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[substr($field_name,7)][1]['TITLE'].': </b></span>'._('No Value').'<BR />';
+					$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].': </b></span>'._('No Value').'<BR />';
 			}
 		}
 

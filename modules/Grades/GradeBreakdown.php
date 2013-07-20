@@ -80,7 +80,7 @@ if(count($grouped_RET))
 			{
 				$chartData .= "[".$grade['GPA_VALUE'].", ".count($grades[$grade['ID']]).'], ';
 			}
-			$chartData = substr($chartData, 0, strlen($chartData) - 2);
+			$chartData = mb_substr($chartData, 0, mb_strlen($chartData) - 2);
 			$chartData .= "];\n";
 			echo $chartData;
 	?>

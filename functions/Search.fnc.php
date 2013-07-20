@@ -74,7 +74,7 @@ function Search($type,$extra=null)
 					echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';
 				}
 				//if(empty($_REQUEST['modfunc']))
- $_REQUEST['modfunc'] = 'search_fnc';
+				$_REQUEST['modfunc'] = 'search_fnc';
 				$_REQUEST['next_modname'] = $_REQUEST['modname'];
 				//if(!$_REQUEST['modname']) $_REQUEST['modname'] = 'Users/Search.php';
 				include('modules/Users/Search.inc.php');

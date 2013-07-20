@@ -68,13 +68,13 @@ if(UserStaffID())
 			$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
 
 		$period_DAYS_locale = '';
-		for ($i = 0; $i < strlen($period['DAYS']); $i++) {
-			$period_DAYS_locale .= mb_substr($days_convert[substr($period['DAYS'], $i, 1)],0,3,'UTF-8') . '.';
+		for ($i = 0; $i < mb_strlen($period['DAYS']); $i++) {
+			$period_DAYS_locale .= mb_substr($days_convert[mb_substr($period['DAYS'], $i, 1)],0,3) . '.';
 		}
 		
 		//modif Francois: add subject areas
-		//$period_select .= '<OPTION value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['SHORT_NAME'].(strlen($period['DAYS'])<5?' ('.$period_DAYS_locale.')':'').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?' '.GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME'):'').' - '.$period['CP_SHORT_NAME'].'</OPTION>';
-		$period_select .= '<OPTION value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['TITLE'].(strlen($period['DAYS'])<5?(strlen($period['DAYS'])<2?' '._('Day').' '.$period_DAYS_locale.' - ':' '._('Days').' '.$period_DAYS_locale.' - '):' - ').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME').' - ':'').$period['CP_SHORT_NAME'].'</OPTION>';
+		//$period_select .= '<OPTION value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['SHORT_NAME'].(mb_strlen($period['DAYS'])<5?' ('.$period_DAYS_locale.')':'').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?' '.GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME'):'').' - '.$period['CP_SHORT_NAME'].'</OPTION>';
+		$period_select .= '<OPTION value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['TITLE'].(mb_strlen($period['DAYS'])<5?(mb_strlen($period['DAYS'])<2?' '._('Day').' '.$period_DAYS_locale.' - ':' '._('Days').' '.$period_DAYS_locale.' - '):' - ').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME').' - ':'').$period['CP_SHORT_NAME'].'</OPTION>';
 
 	}
 	if(!$found)
@@ -102,7 +102,7 @@ if(UserStaffID())
 	echo '<TABLE style="border:1px solid #000000; margin:0 auto; width:95%;"><TR><TD>';
 
 	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-	if (substr($_REQUEST['include'], -4, 4)!='.php' || strpos($_REQUEST['include'], '..')!==false || !is_file('modules/'.$_REQUEST['include']))	
+	if (mb_substr($_REQUEST['include'], -4, 4)!='.php' || mb_strpos($_REQUEST['include'], '..')!==false || !is_file('modules/'.$_REQUEST['include']))	
 		HackingLog();
 	else
 		include('modules/'.$_REQUEST['include']);

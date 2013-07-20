@@ -76,13 +76,13 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					else
 						$sql .= $column."='".str_replace("\'","''",$value)."',";
 				}
-				$sql = substr($sql,0,-1) . " WHERE ID='$id'";
+				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 				DBQuery($sql);
 				
 				$q = 0;
 				foreach($sql_questions as $sql_question)
 				{
-					$sql_question = substr($sql_question,0,-1) . " WHERE ID='$id_questions[$q]'";
+					$sql_question = mb_substr($sql_question,0,-1) . " WHERE ID='$id_questions[$q]'";
 					DBQuery($sql_question);
 					$q++;
 				}
@@ -123,7 +123,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					if($value)
 					{
-						if (strpos($column, 'new') !== false)
+						if (mb_strpos($column, 'new') !== false)
 						{
 							$go_question = 0;
 							$fields_question = 'ID,PORTAL_POLL_ID,';
@@ -140,7 +140,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 								}
 							}
 							if ($go_question)
-								$sql_questions[] = $sql_question.'(' . substr($fields_question,0,-1) . ') values(' . substr($values_question,0,-1) . ')';
+								$sql_questions[] = $sql_question.'(' . mb_substr($fields_question,0,-1) . ') values(' . mb_substr($values_question,0,-1) . ')';
 						}
 						else
 						{
@@ -150,7 +150,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 						}
 					}
 				}
-				$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 				if($go)
 				{
@@ -352,12 +352,12 @@ function _makePublishing($value,$name)
 	$return .= '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD colspan="4"><b>'.Localize('colon',_('Visible To')).'</b></TD></TR><TR>';
 	foreach(array('admin'=>_('Administrator w/Custom'),'teacher'=>_('Teacher w/Custom'),'parent'=>_('Parent w/Custom')) as $profile_id=>$profile)
 //modif Francois: add <label> on checkbox
-		$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').'> '.$profile.'</label></TD>';
+		$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').'> '.$profile.'</label></TD>';
 	$i = 3;
 	foreach($profiles_RET as $profile)
 	{
 		$i++;
-		$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'').'> '._($profile['TITLE']).'</label></TD>';
+		$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'').'> '._($profile['TITLE']).'</label></TD>';
 		if($i%4==0 && $i!=count($profile))
 			$return .= '</TR><TR>';
 	}

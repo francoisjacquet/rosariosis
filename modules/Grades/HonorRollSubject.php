@@ -8,9 +8,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		//modif Francois: add Template
 		$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
 		if (!$template_update)
-			DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$_REQUEST['honor_roll_text']."')");
+			DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_honor_roll_text."')");
 		else
-			DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$_REQUEST['honor_roll_text']."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
+			DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_honor_roll_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
 		
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 		$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
@@ -39,7 +39,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			
 			echo '<TABLE style="margin:0 auto; height:77%;">';
 			
-			$honor_roll_text = $_REQUEST['honor_roll_text'];
+			$honor_roll_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_honor_roll_text)));
 			$honor_roll_text = str_replace(array('__CLIPART__','__FULL_NAME__','__FIRST_NAME__','__LAST_NAME__','__MIDDLE_NAME__','__GRADE_ID__','__SCHOOL_ID__','__SUBJECT__'),array('<img src="assets/ClipArts/'.$_REQUEST['clipart'].'" height="200" />',$student['FULL_NAME'],$student['FIRST_NAME'],$student['LAST_NAME'],$student['MIDDLE_NAME'],$student['GRADE_ID'],$school_info_RET[1]['TITLE'],$_REQUEST['subject']),$honor_roll_text);
 				
 			echo '<TR><TD>'.$honor_roll_text.'</TD></TR></TABLE>';
@@ -84,7 +84,7 @@ if(empty($_REQUEST['modfunc']))
 			pagebreak_separator : '<div style="page-break-after: always;"></div>',
 
 			// Language
-			language : "<?php echo substr($locale,0,2); ?>",
+			language : "<?php echo mb_substr($locale,0,2); ?>",
 			
 			// Theme options
 			theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,undo,redo,|,image,code,cleanup,help",
@@ -142,7 +142,7 @@ if(empty($_REQUEST['modfunc']))
 		foreach ($frames as $frame)
 		{
 			//filter images
-			if ( in_array( strtolower(strrchr($frame, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
+			if ( in_array( mb_strtolower(mb_strrchr($frame, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
 			{
 				$extra['extra_header_left'] .= '<td class="image-radio-list"><label class="image-radio-list"><INPUT type="radio" name="frame" value="'.$frame.'"> <img src="assets/Frames/'.$frame.'" class="image-radio-list" title="'.UCWords(str_replace(array('_', '.jpg', '.jpeg', '.png', '.gif'),array(' ', ''), $frame)).'" /></label></td>';
 				$i++;
@@ -161,7 +161,7 @@ if(empty($_REQUEST['modfunc']))
 		foreach ($cliparts as $clipart)
 		{
 			//filter images
-			if ( in_array( strtolower(strrchr($clipart, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
+			if ( in_array( mb_strtolower(mb_strrchr($clipart, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
 			{
 				$extra['extra_header_left'] .= '<td class="image-radio-list"><label class="image-radio-list"><INPUT type="radio" name="clipart" value="'.$clipart.'"> <img src="assets/ClipArts/'.$clipart.'" class="image-radio-list" title="'.UCWords(str_replace(array('_', '.jpg', '.jpeg', '.png', '.gif'),array(' ', ''), $clipart)).'" /></label></td>';
 				$i++;

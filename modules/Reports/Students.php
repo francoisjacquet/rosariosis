@@ -110,15 +110,15 @@ if($modfunc=='list')
 		}
 	}
 	$select = 'a1.STUDENT_ID'.$select;
-	$where = substr($where,4);
+	$where = mb_substr($where,4);
 	$from = 'STUDENTS a1'.$from;
 
 	if(trim($where)=='')
 		$where .= ' 1=1 ';
 	if($_REQUEST['last'])
-		$where .= "AND a1.LAST_NAME LIKE '".strtoupper($_REQUEST['last'])."%'";
+		$where .= "AND a1.LAST_NAME LIKE '".mb_strtoupper($_REQUEST['last'])."%'";
 	if($_REQUEST['first'])
-		$where .= "AND a1.FIRST_NAME LIKE '".strtoupper($_REQUEST['first'])."%'";
+		$where .= "AND a1.FIRST_NAME LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 	if($_REQUEST['stuid'])
 		$where .= "AND a1.STUDENT_ID = '".$_REQUEST['stuid']."'";
 

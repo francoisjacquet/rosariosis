@@ -41,7 +41,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			{
 				$sql .= $column."='".str_replace("\'","''",$value)."',";
 			}
-			$sql = substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND ID='$id'";
+			$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND ID='$id'";
 			DBQuery($sql);
 		}
 		else
@@ -63,7 +63,7 @@ if($_REQUEST['values'] && $_POST['values'])
 					$go = true;
 				}
 			}
-			$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			
 			if($go)
 				DBQuery($sql);

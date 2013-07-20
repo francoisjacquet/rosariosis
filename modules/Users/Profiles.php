@@ -54,7 +54,7 @@ if($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdi
 	foreach($tmp_menu['Users'] as $profile => $modname_array)
 	{
 		foreach ($modname_array as $modname=>$title)
-			if (strpos($modname, 'TeacherPrograms') !== false)
+			if (mb_strpos($modname, 'TeacherPrograms') !== false)
 				unset ($tmp_menu['Users'][$profile][$modname]);
 	}
 	

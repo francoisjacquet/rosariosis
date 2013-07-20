@@ -263,7 +263,7 @@ function _scheduleRequest($request,$not_parent_id=false)
 					continue 2;
 
 				// SLICE VIOLATES GENDER RESTRICTION
-				if($slice['GENDER_RESTRICTION']!='N' && $slice['GENDER_RESTRICTION']!=substr($request['GENDER'],0,1))
+				if($slice['GENDER_RESTRICTION']!='N' && $slice['GENDER_RESTRICTION']!=mb_substr($request['GENDER'],0,1))
 					continue 2;
 
 				// PARENT VIOLATES TEACHER / PERIOD REQUESTS
@@ -331,7 +331,7 @@ function _moveRequest($request,$not_request=false,$not_parent_id=false)
 					continue 2;
 
 				// SLICE VIOLATES GENDER RESTRICTION
-				if($slice['GENDER_RESTRICTION']!='N' && $slice['GENDER_RESTRICTION']!=substr($request['GENDER'],0,1))
+				if($slice['GENDER_RESTRICTION']!='N' && $slice['GENDER_RESTRICTION']!=mb_substr($request['GENDER'],0,1))
 					continue 2;
 
 				// PARENT VIOLATES TEACHER / PERIOD REQUESTS
@@ -393,14 +393,14 @@ function _isConflict($existing_slice,$slice)
 
 	if($mp_conflict) // only look for a day conflict if there's already an MP conflict
 	{
-		if(strlen($slice['DAYS'])+strlen($existing_slice['DAYS'])>7)
+		if(mb_strlen($slice['DAYS'])+mb_strlen($existing_slice['DAYS'])>7)
 			$days_conflict = true;
 		else
 		{
-			$days_len = strlen($slice['DAYS']);
+			$days_len = mb_strlen($slice['DAYS']);
 			for($i=0;$i<$days_len;$i++)
 			{
-				if(strpos($existing_slice['DAYS'],substr($slice['DAYS'],$i,1))!==false)
+				if(mb_strpos($existing_slice['DAYS'],mb_substr($slice['DAYS'],$i,1))!==false)
 				{
 					$days_conflict = true;
 					break;

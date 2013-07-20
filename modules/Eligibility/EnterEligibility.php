@@ -33,13 +33,13 @@ switch(date('D'))
 
 $days = array(_('Sunday'),_('Monday'),_('Tuesday'),_('Wednesday'),_('Thursday'),_('Friday'),_('Saturday'));
 
-if(strlen($START_MINUTE)==1)
+if(mb_strlen($START_MINUTE)==1)
 	$START_MIN = '0'.$START_MINUTE;
-if(strlen($END_MINUTE)==1)
+if(mb_strlen($END_MINUTE)==1)
 	$END_MINUTE = '0'.$END_MINUTE;
 
-$start_date = strtoupper(date('d-M-y',mktime()-($today-$START_DAY)*60*60*24));
-$end_date = strtoupper(date('d-M-y',mktime()+($END_DAY-$today)*60*60*24));
+$start_date = mb_strtoupper(date('d-M-y',mktime()-($today-$START_DAY)*60*60*24));
+$end_date = mb_strtoupper(date('d-M-y',mktime()+($END_DAY-$today)*60*60*24));
 
 $current_RET = DBGet(DBQuery("SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID'));
 
@@ -81,7 +81,7 @@ if($_REQUEST['modfunc']=='gradebook')
 			$grade = $grades_RET[_makeLetterGrade($total,0,0,'ID')][1];
 			if($grade['GPA_VALUE']=='0' || !$grade['GPA_VALUE'])
 				$code = 'FAILING';
-			elseif(strpos($grade['TITLE'],'D')!==false || $grade['GPA_VALUE']<2)
+			elseif(mb_strpos($grade['TITLE'],'D')!==false || $grade['GPA_VALUE']<2)
 				$code = 'BORDERLINE';
 			else
 				$code = 'PASSING';

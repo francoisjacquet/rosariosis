@@ -80,7 +80,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					}
 					$sql .= $column."='".str_replace("\'","''",$value)."',";
 				}
-				$sql = substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='$id'";
+				$sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='$id'";
 				$go = true;
 			}
 			else
@@ -127,7 +127,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						$go = true;
 					}
 				}
-				$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			}
 
 			// CHECK TO MAKE SURE ONLY ONE MP & ONE GRADING PERIOD IS OPEN AT ANY GIVEN TIME

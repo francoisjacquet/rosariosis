@@ -5,7 +5,7 @@ function PortalNotesFiles($file, &$PortalNotesFilesError)
 	{
 		//extensions white list
 		$white_list = array('.doc', '.docx', '.txt', '.pdf', '.xls', '.xlsx', '.csv', '.jpg', '.jpeg', '.png', '.gif', '.zip', '.ppt', '.pptx', '.mp3', '.wav', '.avi', '.mp4', '.ogg');
-		if ( in_array( strtolower(strrchr($file['name'], '.')), $white_list ) )
+		if ( in_array( mb_strtolower(mb_strrchr($file['name'], '.')), $white_list ) )
 		{
 			if ($file['size'] < 10240000) // file size inf 10Mb
 			{
@@ -21,7 +21,7 @@ function PortalNotesFiles($file, &$PortalNotesFilesError)
 					return $new_file;
 			//errors
 			} else { $PortalNotesFilesError = _('File attached size').' > 10Mb: '. ($file['size']/1024)/1042 .'Mb'; }
-		} else { $PortalNotesFilesError = _('Unauthorized file attached extension').': '.strtolower(strrchr($file['name'], '.')); }
+		} else { $PortalNotesFilesError = _('Unauthorized file attached extension').': '.mb_strtolower(mb_strrchr($file['name'], '.')); }
 	} else { //no file uploaded
 	}
 	return '';

@@ -35,7 +35,7 @@ if($_REQUEST['modfunc']=='update')
 					{
 						$sql .= $column_name."='".str_replace("\'","''",trim($value))."',";
 					}
-					$sql = substr($sql,0,-1)." WHERE STUDENT_ID='".UserStudentID()."'";
+					$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='".UserStudentID()."'";
 					if($_REQUEST['food_service']['BARCODE'])
 					{
 						DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".str_replace("\'","''",trim($_REQUEST['food_service']['BARCODE']))."'");
@@ -66,7 +66,7 @@ Widgets('fsa_account_id');
 
 $extra['SELECT'] .= ",coalesce(fssa.STATUS,'"._('Active')."') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
-if(!strpos($extra['FROM'],'fssa'))
+if(!mb_strpos($extra['FROM'],'fssa'))
 {
 	$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";

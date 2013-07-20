@@ -22,7 +22,7 @@ else
 	if($min_date[1]['MIN_DATE'])
 		$start_date = $min_date[1]['MIN_DATE'];
 	else
-		$start_date = '01-'.strtoupper(date('M-y'));
+		$start_date = '01-'.mb_strtoupper(date('M-y'));
 }
 
 if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
@@ -198,7 +198,7 @@ if($_REQUEST['category_id'])
 				if (is_numeric($chart['chart_data'][0][$i]))
 					$jsData .= "[".$chart['chart_data'][0][$i].", ".$chart['chart_data'][1][$i]."],";
 			}
-			$jsData = substr($jsData, 0, strlen($jsData) - 1);
+			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
 			$jsData .= "];\n";		
 		}
 		elseif ($_REQUEST['chart_type']=='column')
@@ -208,7 +208,7 @@ if($_REQUEST['category_id'])
 			{
 				$jsData .= "'".$tick."', ";
 			}
-			$jsData = substr($jsData, 0, strlen($jsData) - 2);
+			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 2);
 			$jsData .= "];\n";
 			
 			$jsData .= 'var datacolumn = [';
@@ -216,7 +216,7 @@ if($_REQUEST['category_id'])
 			{
 				$jsData .= $data.", ";
 			}
-			$jsData = substr($jsData, 0, strlen($jsData) - 2);
+			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 2);
 			$jsData .= "];\n";
 		} 
 		else //pie chart
@@ -225,9 +225,9 @@ if($_REQUEST['category_id'])
 			for ($i=0; $i<=count($chart['chart_data'][0]); $i++)
 			{
 				//limit label to 30 char max.
-				$jsData .= "['".substr($chart['chart_data'][0][$i], 0, 30)."', ".$chart['chart_data'][1][$i]."],";
+				$jsData .= "['".mb_substr($chart['chart_data'][0][$i], 0, 30)."', ".$chart['chart_data'][1][$i]."],";
 			}
-			$jsData = substr($jsData, 0, strlen($jsData) - 1);
+			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
 			$jsData .= "];\n";
 					
 		}
@@ -237,7 +237,7 @@ if($_REQUEST['category_id'])
 <?php
 	}
 	if ($_ROSARIO['SearchTerms'])
-		$_ROSARIO['SearchTerms'] = ' - '.strip_tags(str_replace('<BR />'," - ",substr($_ROSARIO['SearchTerms'], 0, -6)));
+		$_ROSARIO['SearchTerms'] = ' - '.strip_tags(str_replace('<BR />'," - ",mb_substr($_ROSARIO['SearchTerms'], 0, -6)));
 }
 
 if(empty($_REQUEST['modfunc']))

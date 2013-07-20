@@ -49,7 +49,7 @@ function StaffWidgets($item,&$myextra=NULL)
 
 			case 'permissions_Y':
 			case 'permissions_N':
-				$value = substr($item,12);
+				$value = mb_substr($item,12);
 				$item = 'permissions';
 			case 'permissions':
 				if($RosarioModules['Users'])
@@ -73,7 +73,7 @@ function StaffWidgets($item,&$myextra=NULL)
 				{
 				if($_REQUEST['fsa_balance']!='')
 				{
-					if (!strpos($extra['FROM'],'fssa'))
+					if (!mb_strpos($extra['FROM'],'fssa'))
 					{
 						$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fssa';
 						$extra['WHERE'] .= ' AND fssa.STAFF_ID=s.STAFF_ID';
@@ -94,7 +94,7 @@ function StaffWidgets($item,&$myextra=NULL)
 				{
 				if($_REQUEST['fsa_status'])
 				{
-					if (!strpos($extra['FROM'],'fssa'))
+					if (!mb_strpos($extra['FROM'],'fssa'))
 					{
 						$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fssa';
 						$extra['WHERE'] .= ' AND fssa.STAFF_ID=s.STAFF_ID';
@@ -115,7 +115,7 @@ function StaffWidgets($item,&$myextra=NULL)
 				{
 				if($_REQUEST['fsa_barcode'])
 				{
-					if (!strpos($extra['FROM'],'fssa'))
+					if (!mb_strpos($extra['FROM'],'fssa'))
 					{
 						$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fssa';
 						$extra['WHERE'] .= ' AND fssa.STAFF_ID=s.STAFF_ID';
@@ -130,7 +130,7 @@ function StaffWidgets($item,&$myextra=NULL)
 
 			case 'fsa_exists_N':
 			case 'fsa_exists_Y':
-				$value = substr($item,11);
+				$value = mb_substr($item,11);
 				$item = 'fsa_exists';
 			case 'fsa_exists':
 				if($RosarioModules['Food_Service'])

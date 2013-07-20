@@ -9,7 +9,7 @@ if($_REQUEST['modfunc']=='update')
 			$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
 			foreach($_REQUEST['food_service'] as $column_name=>$value)
 				$sql .= $column_name."='".str_replace("\'","''",trim($value))."',";
-			$sql = substr($sql,0,-1)." WHERE STUDENT_ID='".UserStudentID()."'";
+			$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='".UserStudentID()."'";
 			DBQuery($sql);
 		}
 	}

@@ -53,7 +53,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 								$name = $address['FIRST_NAME'].' '.$address['LAST_NAME'];
 							else
 								$name = $address['FULL_NAME'];
-							$addresses[$key]['MAILING_LABEL'] = $name.'<BR />'.substr($address['MAILING_LABEL'],strpos($address['MAILING_LABEL'],'<!-- -->'));
+							$addresses[$key]['MAILING_LABEL'] = $name.'<BR />'.mb_substr($address['MAILING_LABEL'],mb_strpos($address['MAILING_LABEL'],'<!-- -->'));
 						}
 					}
 					elseif($_REQUEST['to_address']=='family')
@@ -81,7 +81,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 								$student = $previous.' '.$last;
 							$students .= $student.', ';
 						}
-						$addresses = array(1=>array('MAILING_LABEL'=>''.$to_family.'<BR />'.substr($students,0,-2).'<BR />'.substr($addresses[1]['MAILING_LABEL'],strpos($addresses[1]['MAILING_LABEL'],'<!-- -->'))));
+						$addresses = array(1=>array('MAILING_LABEL'=>''.$to_family.'<BR />'.mb_substr($students,0,-2).'<BR />'.mb_substr($addresses[1]['MAILING_LABEL'],mb_strpos($addresses[1]['MAILING_LABEL'],'<!-- -->'))));
 					}
 				}
 				else

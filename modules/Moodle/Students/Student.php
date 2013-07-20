@@ -41,14 +41,14 @@ list of (
 		)} 
 )
 */
-	$username = strtolower($_REQUEST['students']['USERNAME']);
+	$username = mb_strtolower($_REQUEST['students']['USERNAME']);
 	$password = $_REQUEST['students']['PASSWORD'];
 	$firstname = $_REQUEST['students']['FIRST_NAME'];
 	$lastname = $_REQUEST['students']['LAST_NAME'];
 	$email = $_REQUEST['students']['CUSTOM_'.ROSARIO_STUDENTS_EMAIL_FIELD_ID];
 	$auth = 'manual';
 	$idnumber = (string)(!empty($student_id) ? $student_id : UserStudentID());
-	$lang = substr($locale,0,2);
+	$lang = mb_substr($locale,0,2);
 	
 	$users = array(
 				array(
@@ -144,7 +144,7 @@ list of (
 	)} 
 )
 */
-	$username = (!empty($_REQUEST['students']['USERNAME']) ? strtolower($_REQUEST['students']['USERNAME']) : false);
+	$username = (!empty($_REQUEST['students']['USERNAME']) ? mb_strtolower($_REQUEST['students']['USERNAME']) : false);
 	$password = (!empty($_REQUEST['students']['PASSWORD']) ? $_REQUEST['students']['PASSWORD'] : false);
 	$firstname = (!empty($_REQUEST['students']['FIRST_NAME']) ? $_REQUEST['students']['FIRST_NAME'] : false);
 	$lastname = (!empty($_REQUEST['students']['LAST_NAME']) ? $_REQUEST['students']['LAST_NAME'] : false);
@@ -299,7 +299,7 @@ filecontent = base64_encode
 	$moodle_contextlevel = CONTEXT_USER;
 	$rosario_id = $_POST['userId'];
 	//gather the Moodle user ID
-	$column = (strpos($_POST['modname'], 'Users') !== false ? 'staff_id' : 'student_id');
+	$column = (mb_strpos($_POST['modname'], 'Users') !== false ? 'staff_id' : 'student_id');
 	$moodle_instance = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='".$column."'"));
 	if (count($moodle_instance))
 	{

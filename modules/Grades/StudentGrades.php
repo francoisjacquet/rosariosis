@@ -147,10 +147,10 @@ if(!$_REQUEST['id'])
 					default:
 					break;
 				}
-				$LO_ret[] = array('ID'=>$course_period_id,'TITLE'=>$course['COURSE_TITLE'],'TEACHER'=>substr($course_title,strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2),'PERCENT'=>($percent!==false?number_format(100*$percent,1).'%':_('N/A')),'GRADE'=>($percent!==false?'<b>'._makeLetterGrade($percent,$course_period_id,$staff_id).'</b>':_('N/A')),'UNGRADED'=>$ungraded)+($do_stats&&$_REQUEST['do_stats']?array('BAR1'=>$bargraph1,'BAR2'=>$bargraph2):array());
+				$LO_ret[] = array('ID'=>$course_period_id,'TITLE'=>$course['COURSE_TITLE'],'TEACHER'=>mb_substr($course_title,mb_strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2),'PERCENT'=>($percent!==false?number_format(100*$percent,1).'%':_('N/A')),'GRADE'=>($percent!==false?'<b>'._makeLetterGrade($percent,$course_period_id,$staff_id).'</b>':_('N/A')),'UNGRADED'=>$ungraded)+($do_stats&&$_REQUEST['do_stats']?array('BAR1'=>$bargraph1,'BAR2'=>$bargraph2):array());
 			}
 			//else
-				//$LO_ret[] = array('ID'=>$course_period_id,'TITLE'=>$course['COURSE_TITLE'],'TEACHER'=>substr($course_title,strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2));
+				//$LO_ret[] = array('ID'=>$course_period_id,'TITLE'=>$course['COURSE_TITLE'],'TEACHER'=>mb_substr($course_title,mb_strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2));
 		}
 		unset($LO_ret[0]);
 		$link = array('TITLE'=>array('link'=>"Modules.php?modname=$_REQUEST[modname]".($do_stats?"&do_stats=$_REQUEST[do_stats]":''),'variables'=>array('id'=>'ID')));
@@ -169,7 +169,7 @@ else
 	else
 	{
 		$courses_RET = array($_REQUEST['id']=>$courses_RET[$_REQUEST['id']]);
-		DrawHeader('<B>'.$courses_RET[$_REQUEST['id']][1]['COURSE_TITLE'].'</B> - '.substr($courses_RET[$_REQUEST['id']][1]['TITLE'],strrpos(str_replace(' - ',' ^ ',$courses_RET[$_REQUEST['id']][1]['TITLE']),'^')+2),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</A>');
+		DrawHeader('<B>'.$courses_RET[$_REQUEST['id']][1]['COURSE_TITLE'].'</B> - '.mb_substr($courses_RET[$_REQUEST['id']][1]['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$courses_RET[$_REQUEST['id']][1]['TITLE']),'^')+2),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</A>');
 	}
 	if($do_stats)
 //modif Francois: add label on checkbox
@@ -238,7 +238,7 @@ else
 			if($_REQUEST['id']=='all')
 			{
 				//echo '<BR />';
-				DrawHeader('<B>'.substr($course['TITLE'],0,strpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')).'</B> - '.substr($course['TITLE'],strrpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')+2),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</A>');
+				DrawHeader('<B>'.mb_substr($course['TITLE'],0,mb_strpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')).'</B> - '.mb_substr($course['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')+2),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</A>');
 			}
 			unset($LO_ret[0]);
 			ListOutput($LO_ret,$LO_columns,'Assignment','Assignments',array(),array(),array('center'=>false,'save'=>$_REQUEST['id']!='all','search'=>false));

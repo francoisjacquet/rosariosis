@@ -14,11 +14,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		foreach($_REQUEST['period'] as $period_id=>$yes)
 			$periods_list .= ",'".$period_id."'";
-		$periods_list = '('.substr($periods_list,1).')';
+		$periods_list = '('.mb_substr($periods_list,1).')';
 
 		foreach($_REQUEST['student'] as $student_id=>$yes)
 			$students_list .= ",'".$student_id."'";
-		$students_list = '('.substr($students_list,1).')';
+		$students_list = '('.mb_substr($students_list,1).')';
 
 		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,PERIOD_ID,SCHOOL_DATE FROM ATTENDANCE_PERIOD WHERE EXTRACT(MONTH FROM SCHOOL_DATE)='".($_REQUEST['month']*1)."' AND EXTRACT(YEAR FROM SCHOOL_DATE)='$_REQUEST[year]' AND PERIOD_ID IN $periods_list AND STUDENT_ID IN $students_list"),array(),array('STUDENT_ID','SCHOOL_DATE','PERIOD_ID'));
 		$state_code = DBGet(DBQuery("SELECT STATE_CODE FROM ATTENDANCE_CODES WHERE ID='$_REQUEST[absence_code]'"));
@@ -101,17 +101,17 @@ if(empty($_REQUEST['modfunc']))
 		echo '</SELECT></TD></TR>';
 		echo '<TR><TD style="text-align:right">'._('Absence Reason').'</TD><TD><INPUT type="text" name="absence_reason"></TD></TR>';
 		echo '<TR><TD colspan="2" class="center">';
-		$time = mktime(0,0,0,$_REQUEST['month']*1,1,substr($_REQUEST['year'],2));
-		echo PrepareDate(strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true));
+		$time = mktime(0,0,0,$_REQUEST['month']*1,1,mb_substr($_REQUEST['year'],2));
+		echo PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true));
 
 		$skip = date("w",$time);
 		$last = 31;
-		while(!checkdate($_REQUEST['month']*1, $last, substr($_REQUEST['year'],2)))
+		while(!checkdate($_REQUEST['month']*1, $last, mb_substr($_REQUEST['year'],2)))
 			$last--;
 
 		echo '<TABLE><TR>';
 //		echo '<TH>S</TH><TH>M</TH><TH>T</TH><TH>W</TH><TH>Th</TH><TH>F</TH><TH>S</TH></TR><TR>';
-		echo '<TH>'.mb_substr(_('Sunday'),0,3, 'UTF-8').'</TH><TH>'.mb_substr(_('Monday'),0,3, 'UTF-8').'</TH><TH>'.mb_substr(_('Tuesday'),0,3, 'UTF-8').'</TH><TH>'.mb_substr(_('Wednesday'),0,3, 'UTF-8').'</TH><TH>'.mb_substr(_('Thursday'),0,3, 'UTF-8').'</TH><TH>'.mb_substr(_('Friday'),0,3, 'UTF-8').'</TH><TH>'.mb_substr(_('Saturday'),0,3, 'UTF-8').'</TH></TR><TR>';
+		echo '<TH>'.mb_substr(_('Sunday'),0,3).'</TH><TH>'.mb_substr(_('Monday'),0,3).'</TH><TH>'.mb_substr(_('Tuesday'),0,3).'</TH><TH>'.mb_substr(_('Wednesday'),0,3).'</TH><TH>'.mb_substr(_('Thursday'),0,3).'</TH><TH>'.mb_substr(_('Friday'),0,3).'</TH><TH>'.mb_substr(_('Saturday'),0,3).'</TH></TR><TR>';
 		$calendar_RET = DBGet(DBQuery("SELECT SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND MINUTES!='0' AND EXTRACT(MONTH FROM SCHOOL_DATE)='".($_REQUEST['month']*1)."'"),array(),array('SCHOOL_DATE'));
 		for($i=1;$i<=$skip;$i++)
 			echo '<TD></TD>';

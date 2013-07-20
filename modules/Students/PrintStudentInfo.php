@@ -121,7 +121,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$separator = '';
 					if(!$category[1]['INCLUDE'])
 						include('modules/Students/includes/Other_Info.inc.php');
-					elseif(!strpos($category[1]['INCLUDE'],'/'))
+					elseif(!mb_strpos($category[1]['INCLUDE'],'/'))
 						include('modules/Students/includes/'.$category[1]['INCLUDE'].'.inc.php');
 					else
 					{

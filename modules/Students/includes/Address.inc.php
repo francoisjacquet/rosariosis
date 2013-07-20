@@ -63,7 +63,7 @@ if($_REQUEST['values'] && $_POST['values'])
 					$sql .= "',";
 				}
 			}
-			$sql = substr($sql,0,-1) . " WHERE ADDRESS_ID='$_REQUEST[address_id]'";
+			$sql = mb_substr($sql,0,-1) . " WHERE ADDRESS_ID='$_REQUEST[address_id]'";
 			DBQuery($sql);
 			
 //modif Francois: Moodle integrator
@@ -91,7 +91,7 @@ if($_REQUEST['values'] && $_POST['values'])
 					$go = true;
 				}
 			}
-			$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			if($go)
 			{
 				DBQuery($sql);
@@ -117,7 +117,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				{
 					$sql .= $column."='".str_replace("\'","''",$value)."',";
 				}
-				$sql = substr($sql,0,-1) . " WHERE PERSON_ID='$_REQUEST[person_id]'";
+				$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='$_REQUEST[person_id]'";
 				DBQuery($sql);
 			}
 			else
@@ -140,7 +140,7 @@ if($_REQUEST['values'] && $_POST['values'])
 						$go = true;
 					}
 				}
-				$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 				if($go)
 				{
 					DBQuery($sql);
@@ -167,7 +167,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				{
 					$sql .= $column."='".str_replace("\'","''",$value)."',";
 				}
-				$sql = substr($sql,0,-1) . " WHERE ID='$id'";
+				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 				DBQuery($sql);
 			}
 			else
@@ -189,7 +189,7 @@ if($_REQUEST['values'] && $_POST['values'])
 							$go = true;
 						}
 					}
-					$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($vals,0,-1) . ')';
+					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($vals,0,-1) . ')';
 					if($go)
 						DBQuery($sql);
 				}
@@ -205,7 +205,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		{
 			$sql .= $column."='".str_replace("\'","''",$value)."',";
 		}
-		$sql = substr($sql,0,-1) . " WHERE PERSON_ID='$_REQUEST[person_id]' AND STUDENT_ID='".UserStudentID()."'";
+		$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='$_REQUEST[person_id]' AND STUDENT_ID='".UserStudentID()."'";
 		DBQuery($sql);
 	}
 
@@ -217,7 +217,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		{
 			$sql .= $column."='".str_replace("\'","''",$value)."',";
 		}
-		$sql = substr($sql,0,-1) . " WHERE ADDRESS_ID='$_REQUEST[address_id]' AND STUDENT_ID='".UserStudentID()."'";
+		$sql = mb_substr($sql,0,-1) . " WHERE ADDRESS_ID='$_REQUEST[address_id]' AND STUDENT_ID='".UserStudentID()."'";
 		DBQuery($sql);
 	}
 
@@ -329,11 +329,11 @@ if(empty($_REQUEST['modfunc']))
 
 				$relation_list = '';
 				foreach($addresses as $address)
-//modif Francois: fix Warning: strpos(): Empty delimiter
-//					$relation_list .= ($address['STUDENT_RELATION']&&strpos($address['STUDENT_RELATION'].', ',$relation_list)==false?$address['STUDENT_RELATION']:'---').', ';
-					$relation_list .= ($address['STUDENT_RELATION']&&(empty($relation_list)?false:strpos($address['STUDENT_RELATION'].', ',$relation_list))==false?$address['STUDENT_RELATION']:'---').', ';
+//modif Francois: fix Warning: mb_strpos(): Empty delimiter
+//					$relation_list .= ($address['STUDENT_RELATION']&&mb_strpos($address['STUDENT_RELATION'].', ',$relation_list)==false?$address['STUDENT_RELATION']:'---').', ';
+					$relation_list .= ($address['STUDENT_RELATION']&&(empty($relation_list)?false:mb_strpos($address['STUDENT_RELATION'].', ',$relation_list))==false?$address['STUDENT_RELATION']:'---').', ';
 				$address = $addresses[1];
-				$relation_list = substr($relation_list,0,-2);
+				$relation_list = mb_substr($relation_list,0,-2);
 
 				$images = '';
 				if($address['RESIDENCE']=='Y')

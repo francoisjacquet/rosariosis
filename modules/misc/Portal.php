@@ -19,7 +19,7 @@ else document.write("'.sprintf(_('Good Evening, %s.'), User('NAME')).'");</scrip
 
 $welcome = sprintf(_('Welcome to %s!'), Config('TITLE'));
 if($_SESSION['LAST_LOGIN'])
-	$welcome .= '<BR />&nbsp;'.sprintf(_('Your last login was <b>%s</b>.'), ProperDate(substr($_SESSION['LAST_LOGIN'],0,10)).substr($_SESSION['LAST_LOGIN'],10));
+	$welcome .= '<BR />&nbsp;'.sprintf(_('Your last login was <b>%s</b>.'), ProperDate(mb_substr($_SESSION['LAST_LOGIN'],0,10)).mb_substr($_SESSION['LAST_LOGIN'],10));
 if($_REQUEST['failed_login'])
 //modif Francois: css WPadmin add class error for all Warning! of this file
 //	$welcome .= '<BR />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('There have been <b>%d</b> failed login attempts since your last successful login.'),$_REQUEST['failed_login']);
@@ -294,7 +294,7 @@ function _formatContent($value,$column)
 	preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([-\w/_\.]*(\?\S+)?)?)?)@',$value,$matches);
 	if($matches){
 		foreach($matches[0] as $url){
-			$text = (strlen($url) > 50 ? substr($url, 0, 50).'...' : $url); //cut URL text if URL > 50 chars
+			$text = (mb_strlen($url) > 50 ? mb_substr($url, 0, 50).'...' : $url); //cut URL text if URL > 50 chars
 			$replace = '<a href="'.$url.'" target="_blank">'.$text.'</a>';
 			$value = str_replace($url,$replace,$value);
 		}
@@ -306,7 +306,7 @@ function PHPCheck() {
     $ret = '';
     if ((bool)ini_get('safe_mode'))
        $ret .= '&nbsp;WARNING: safe_mode is set to On in your PHP configuration.<br />';
-    if (strpos(ini_get('disable_functions'),'passthru')!==false)
+    if (mb_strpos(ini_get('disable_functions'),'passthru')!==false)
        $ret .= '&nbsp;WARNING: passthru is disabled in your PHP configuration.<br />';
     return $ret;
 }
@@ -336,7 +336,7 @@ function _makeFileAttached($value,$name)
 		//modif Francois: colorbox
 		//colorbox extensions list
 		$colorbox_list = array('.jpg', '.jpeg', '.png', '.gif', '.mp3', '.wav', '.avi', '.mp4', '.ogg');
-		if (in_array( strtolower(strrchr($value, '.')), $colorbox_list ) )
+		if (in_array( mb_strtolower(mb_strrchr($value, '.')), $colorbox_list ) )
 		{
 
 			if (($finfo = finfo_open(FILEINFO_MIME_TYPE)) !== false)
@@ -346,26 +346,26 @@ function _makeFileAttached($value,$name)
 				//Checked on 2012.11.16
 				$browser = $_SERVER['HTTP_USER_AGENT'];
 				$return = '<a href="'.$value.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/download.png" class="alignImg" /> '._('Download').'</a>';
-				if (in_array( strtolower(strrchr($value, '.')), array('.mp3', '.mp4') ) && (stripos($browser, 'Firefox') || stripos($browser, 'Opera'))) //MP3 or MP4 file & not supported in Firefox and Opera
+				if (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.mp3', '.mp4') ) && (mb_stripos($browser, 'Firefox') || mb_stripos($browser, 'Opera'))) //MP3 or MP4 file & not supported in Firefox and Opera
 				{
 					return $return;
 				}
-				elseif (in_array( strtolower(strrchr($value, '.')), array('.ogg') ) && stripos($browser, 'MSIE')) //OGG file & not supported in Internet Explorer
+				elseif (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.ogg') ) && mb_stripos($browser, 'MSIE')) //OGG file & not supported in Internet Explorer
 				{
 					return $return;
 				}
-				elseif (in_array( strtolower(strrchr($value, '.')), array('.wav') ) && (stripos($browser, 'MSIE') || stripos($browser, 'Opera'))) //WAV file & not supported in Internet Explorer and Opera
+				elseif (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.wav') ) && (mb_stripos($browser, 'MSIE') || mb_stripos($browser, 'Opera'))) //WAV file & not supported in Internet Explorer and Opera
 				{
 					return $return;
 				}
 				
-				if (strpos(finfo_file($finfo, $value), 'audio') !== false ) //media audio files
+				if (mb_strpos(finfo_file($finfo, $value), 'audio') !== false ) //media audio files
 				{
 					$return .= '<div><div style="display:none"><audio src="'.$value.'" preload="auto" controls class="audioHtml5" id="colorboxinline'.$filesAttachedCount.'"><p>Your browser does not support the audio element</p></audio></div>';
 					$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>';
 					$loadColorBox = true;
 				}
-				elseif (strpos(finfo_file($finfo, $value), 'video') !== false ) //media video files
+				elseif (mb_strpos(finfo_file($finfo, $value), 'video') !== false ) //media video files
 				{
 					$return .= '<div><div style="display:none"><video src="'.$value.'" preload="auto" controls class="videoHtml5" id="colorboxinline'.$filesAttachedCount.'"><p>Your browser does not support the audio element</p></video></div>';
 					$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>';

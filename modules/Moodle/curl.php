@@ -123,8 +123,8 @@ class curl {
     public function setopt($options = array()) {
         if (is_array($options)) {
             foreach($options as $name => $val){
-                if (stripos($name, 'CURLOPT_') === false) {
-                    $name = strtoupper('CURLOPT_'.$name);
+                if (mb_stripos($name, 'CURLOPT_') === false) {
+                    $name = mb_strtoupper('CURLOPT_'.$name);
                 }
                 $this->options[$name] = $val;
             }
@@ -177,7 +177,7 @@ class curl {
     private function formatHeader($ch, $header)
     {
         $this->count++;
-        if (strlen($header) > 2) {
+        if (mb_strlen($header) > 2) {
             list($key, $value) = explode(" ", rtrim($header, "\r\n"), 2);
             $key = rtrim($key, ':');
             if (!empty($this->response[$key])) {
@@ -194,7 +194,7 @@ class curl {
                 $this->response[$key] = $value;
             }
         }
-        return strlen($header);
+        return mb_strlen($header);
     }
 
     /**
@@ -241,7 +241,7 @@ class curl {
         // set options
         foreach($this->options as $name => $val) {
             if (is_string($name)) {
-                $name = constant(strtoupper($name));
+                $name = constant(mb_strtoupper($name));
             }
             curl_setopt($curl, $name, $val);
         }
@@ -443,7 +443,7 @@ class curl {
         $options['CURLOPT_HTTPGET'] = 1;
 
         if (!empty($params)){
-            $url .= (stripos($url, '?') !== false) ? '&' : '?';
+            $url .= (mb_stripos($url, '?') !== false) ? '&' : '?';
             $url .= http_build_query($params, '', '&');
         }
         return $this->request($url, $options);
@@ -612,7 +612,7 @@ class curl_cache {
         if($dir = opendir($this->dir)){
             while (false !== ($file = readdir($dir))) {
                 if(!is_dir($file) && $file != '.' && $file != '..') {
-                    if(strpos($file, 'u_')!==false){
+                    if(mb_strpos($file, 'u_')!==false){
                         @unlink($this->dir.$file);
                     }
                 }

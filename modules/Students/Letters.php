@@ -40,11 +40,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			//modif Francois: add Template
 			$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
 			if (!$template_update)
-				DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$_REQUEST['letter_text']."')");
+				DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_letter_text."')");
 			else
-				DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$_REQUEST['letter_text']."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
+				DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_letter_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
 
-			$_REQUEST['letter_text'] = nl2br(str_replace("\'","'",str_replace('  ',' &nbsp;',$_REQUEST['letter_text'])));
+			$REQUEST_letter_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_letter_text)));
 
 			$css = true;
 			$handle = PDFStart($css);
@@ -65,7 +65,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if($_REQUEST['mailing_labels']=='Y')
 					echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$student['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
 
-				$letter_text = $_REQUEST['letter_text'];
+				$letter_text = $REQUEST_letter_text;
 				foreach($student as $column=>$value)
 					$letter_text = str_replace('__'.$column.'__',$value,$letter_text);
 
@@ -108,7 +108,7 @@ if(empty($_REQUEST['modfunc']))
 			pagebreak_separator : '<div style="page-break-after: always;"></div>',
 
 			// Language
-			language : "<?php echo substr($locale,0,2); ?>",
+			language : "<?php echo mb_substr($locale,0,2); ?>",
 			
 			// Theme options
 			theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,undo,redo,|,image,code,cleanup,help",

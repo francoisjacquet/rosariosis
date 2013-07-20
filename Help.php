@@ -149,7 +149,7 @@ else
 }
 
 
-if(strpos($_SERVER['PHP_SELF'],'Help.php'))
+if(mb_strpos($_SERVER['PHP_SELF'],'Help.php'))
 {
 	switch(User('PROFILE'))
 	{
@@ -175,9 +175,9 @@ if(strpos($_SERVER['PHP_SELF'],'Help.php'))
 
 	foreach($help as $program=>$value)
 	{
-		if(strpos($program,'/'))
+		if(mb_strpos($program,'/'))
 		{
-			$modcat = str_replace('_',' ',substr($program,0,strpos($program,'/')));
+			$modcat = str_replace('_',' ',mb_substr($program,0,mb_strpos($program,'/')));
 			if($modcat!=$old_modcat && $RosarioModules[str_replace(' ','_',$modcat)]) //if module activated
 				echo '<div style="page-break-after: always;"></div><TABLE><TR><TD><IMG SRC="assets/icons/'.str_replace(' ','_',$modcat).'.png" height="48"></TD><TD><h1>'.$modcat.'</h1></TD></TR></TABLE><HR>';
 			$old_modcat = $modcat;

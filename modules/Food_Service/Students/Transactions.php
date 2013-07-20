@@ -15,13 +15,13 @@ if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 			$id = $id[1]['SEQ_ID'];
 
 			$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION';
-			$values = "'0','".$id."','".($_REQUEST['values']['TYPE']=='Debit' ? -$amount : $amount)."',NULL,'".strtoupper($_REQUEST['values']['OPTION'])."','".str_replace("\'","''",$_REQUEST['values']['OPTION'].' '.$_REQUEST['values']['DESCRIPTION'])."'";
+			$values = "'0','".$id."','".($_REQUEST['values']['TYPE']=='Debit' ? -$amount : $amount)."',NULL,'".mb_strtoupper($_REQUEST['values']['OPTION'])."','".str_replace("\'","''",$_REQUEST['values']['OPTION'].' '.$_REQUEST['values']['DESCRIPTION'])."'";
 			$sql = "INSERT INTO FOOD_SERVICE_TRANSACTION_ITEMS (".$fields.") values (".$values.")";
 			DBQuery($sql);
 
 			$sql1 = "UPDATE FOOD_SERVICE_ACCOUNTS SET TRANSACTION_ID='".$id."',BALANCE=BALANCE+(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$id."') WHERE ACCOUNT_ID='".$account_id."'";
 			$fields = 'TRANSACTION_ID,SYEAR,SCHOOL_ID,ACCOUNT_ID,BALANCE,TIMESTAMP,SHORT_NAME,DESCRIPTION,SELLER_ID';
-			$values = "'".$id."','".UserSyear()."','".UserSchool()."','".$account_id."',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='".$account_id."'),CURRENT_TIMESTAMP,'".strtoupper($_REQUEST['values']['TYPE'])."','".$_REQUEST['values']['TYPE']."','".User('STAFF_ID')."'";
+			$values = "'".$id."','".UserSyear()."','".UserSchool()."','".$account_id."',(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID='".$account_id."'),CURRENT_TIMESTAMP,'".mb_strtoupper($_REQUEST['values']['TYPE'])."','".$_REQUEST['values']['TYPE']."','".User('STAFF_ID')."'";
 			$sql2 = "INSERT INTO FOOD_SERVICE_TRANSACTIONS (".$fields.") values (".$values.")";
 			DBQuery('BEGIN; '.$sql1.'; '.$sql2.'; COMMIT');
 		}
@@ -43,7 +43,7 @@ Widgets('fsa_account_id');
 
 $extra['SELECT'] .= ",coalesce(fssa.STATUS,'Active') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
-if(!strpos($extra['FROM'],'fssa'))
+if(!mb_strpos($extra['FROM'],'fssa'))
 {
 	$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";

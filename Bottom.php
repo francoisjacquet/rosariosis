@@ -12,15 +12,15 @@ if($_REQUEST['modfunc']=='print')
 	$_REQUEST = $_SESSION['_REQUEST_vars'];
 	$_REQUEST['_ROSARIO_PDF'] = true;
 	//modif Francois: replaced ? with & in modname
-	/*if(strpos($_REQUEST['modname'],'?')!==false)
-		$modname = substr($_REQUEST['modname'],0,strpos($_REQUEST['modname'],'?'));
+	/*if(mb_strpos($_REQUEST['modname'],'?')!==false)
+		$modname = mb_substr($_REQUEST['modname'],0,mb_strpos($_REQUEST['modname'],'?'));
 	else*/
 		$modname = $_REQUEST['modname'];
 	if(!$wkhtmltopdfPath)
 		$_ROSARIO['allow_edit'] = false;
 		
 	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-	if (substr($modname, -4, 4)!='.php' || strpos($modname, '..')!==false || !is_file('modules/'.$modname))	
+	if (mb_substr($modname, -4, 4)!='.php' || mb_strpos($modname, '..')!==false || !is_file('modules/'.$modname))	
 		HackingLog();
 	else
 		include('modules/'.$modname);
@@ -33,7 +33,7 @@ else
 //modif Francois: fix bug Internet Explorer Quirks Mode, add DOCTYPE
 ?>
 <!DOCTYPE html>
-<HTML lang="<?php echo substr($locale,0,2); ?>" <?php echo (substr($locale,0,2)=='he' || substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
+<HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
 <HEAD><TITLE><?php echo Config('TITLE'); ?></TITLE>
 <meta charset="UTF-8" />
 <script type="text/javascript">
@@ -76,8 +76,8 @@ function expandFrame(){
     echo '<TD><A HREF="#" onclick="expandFrame();return false;"><IMG SRC="assets/help.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="#" onclick="expandFrame();return false;">'._('Help').'</A></TD>';
     echo '<TD><A HREF="index.php?modfunc=logout" target="_top"><IMG SRC="assets/logout.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="index.php?modfunc=logout" target="_top">'._('Logout').'</A></TD></TR></TABLE>';
 
-	if (file_exists('Help_'.substr($locale, 0, 2).'.php')) //modif Francois: translated help
-		include 'Help_'.substr($locale, 0, 2).'.php';
+	if (file_exists('Help_'.mb_substr($locale, 0, 2).'.php')) //modif Francois: translated help
+		include 'Help_'.mb_substr($locale, 0, 2).'.php';
 	else
 		include 'Help.php';
 //	include 'Menu.php';

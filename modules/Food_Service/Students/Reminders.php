@@ -102,12 +102,12 @@ if(empty($_REQUEST['modfunc']))
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$warning.'\' AND fsa.BALANCE >= 0) AS WARNING';
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= \''.$minimum.'\') AS NEGATIVE';
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$minimum.'\') AS MINIMUM';
-	if(!strpos($extra['FROM'],'fssa'))
+	if(!mb_strpos($extra['FROM'],'fssa'))
 	{
 		$extra['FROM'] .= ',FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 		$extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID';
 	}
-	if(!strpos($extra['FROM'],'fsa'))
+	if(!mb_strpos($extra['FROM'],'fsa'))
 	{
 		$extra['FROM'] .= ',FOOD_SERVICE_ACCOUNTS fsa';
 		$extra['WHERE'] .= ' AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID';
@@ -178,10 +178,10 @@ function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 
 	$note = str_replace('%N',($student['NICKNAME'] ? $student['NICKNAME'] : $student['FIRST_NAME']),$note);
 	$note = str_replace('%F',$student['FIRST_NAME'],$note);
-	$note = str_replace('%g',($student['GENDER'] ? (substr($student['GENDER'],0,1)=='F' ? 'she' : 'he') : 'he/she'),$note);
-	$note = str_replace('%G',($student['GENDER'] ? (substr($student['GENDER'],0,1)=='F' ? 'She' : 'He') : 'He/she'),$note);
-	$note = str_replace('%h',($student['GENDER'] ? (substr($student['GENDER'],0,1)=='F' ? 'her' : 'his') : 'his/her'),$note);
-	$note = str_replace('%H',($student['GENDER'] ? (substr($student['GENDER'],0,1)=='F' ? 'Her' : 'His') : 'His/her'),$note);
+	$note = str_replace('%g',($student['GENDER'] ? (mb_substr($student['GENDER'],0,1)=='F' ? 'she' : 'he') : 'he/she'),$note);
+	$note = str_replace('%G',($student['GENDER'] ? (mb_substr($student['GENDER'],0,1)=='F' ? 'She' : 'He') : 'He/she'),$note);
+	$note = str_replace('%h',($student['GENDER'] ? (mb_substr($student['GENDER'],0,1)=='F' ? 'her' : 'his') : 'his/her'),$note);
+	$note = str_replace('%H',($student['GENDER'] ? (mb_substr($student['GENDER'],0,1)=='F' ? 'Her' : 'His') : 'His/her'),$note);
 //	$note = str_replace('%P',money_format('%i',$payment),$note);
 	$note = str_replace('%P',Currency($payment),$note);
 	$note = str_replace('%T',$target,$note);

@@ -43,7 +43,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			$sql .= "',";
 		}
 	}
-	$sql = substr($sql,0,-1) . " WHERE ID='$_REQUEST[referral_id]'";
+	$sql = mb_substr($sql,0,-1) . " WHERE ID='$_REQUEST[referral_id]'";
 
 	DBQuery($sql);
 	unset($_REQUEST['values']);
@@ -66,7 +66,7 @@ $categories_RET = DBGet(DBQuery("SELECT df.ID,du.TITLE FROM DISCIPLINE_FIELDS df
 //Widgets('all');
 
 $extra['SELECT'] = ',dr.*';
-if(strpos($extra['FROM'],'DISCIPLINE_REFERRALS')===false)
+if(mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS')===false)
 {
 	$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
 	$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SYEAR=ssm.SYEAR AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
@@ -173,15 +173,15 @@ elseif(empty($_REQUEST['modfunc']))
 					{
 						if($i%3==0)
 							$toEscape .= '</TR><TR>';
-						$toEscape .= '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)).'"'.(strpos($RET['CATEGORY_'.$category['ID']],str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)))!==false?' checked':'').' />&nbsp;'.str_replace("'",'&rsquo;',$option).'</label></TD>';
+						$toEscape .= '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)))!==false?' checked':'').' />&nbsp;'.str_replace("'",'&rsquo;',$option).'</label></TD>';
 						$i++;
 					}
 					$toEscape .= '</TR></TABLE>';
 					echo str_replace('"','\"',$toEscape);
-					echo '","divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?str_replace('"','&rdquo;',str_replace('||',', ',substr($RET['CATEGORY_'.$category['ID']],2,-2))):'-').'</span>'.'</div></DIV>';
+					echo '","divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?str_replace('"','&rdquo;',str_replace('||',', ',mb_substr($RET['CATEGORY_'.$category['ID']],2,-2))):'-').'</span>'.'</div></DIV>';
 				}
 				else
-					echo (($RET['CATEGORY_'.$category['ID']]!='')?str_replace('"','&rdquo;',str_replace('||',', ',substr($RET['CATEGORY_'.$category['ID']],2,-2))):'-');
+					echo (($RET['CATEGORY_'.$category['ID']]!='')?str_replace('"','&rdquo;',str_replace('||',', ',mb_substr($RET['CATEGORY_'.$category['ID']],2,-2))):'-');
 			break;
 
 			case 'multiple_radio':
@@ -235,10 +235,10 @@ elseif(empty($_REQUEST['modfunc']))
 
 function _make($value,$column)
 {
-	if(substr_count($value,'-')==2 && VerifyDate($value))
+	if(mb_substr_count($value,'-')==2 && VerifyDate($value))
 		$value = ProperDate($value);
 	elseif(is_numeric($value))
-		$value = ((strpos($value,'.')===false)?$value:rtrim(rtrim($value,'0'),'.'));
+		$value = ((mb_strpos($value,'.')===false)?$value:rtrim(rtrim($value,'0'),'.'));
 //modif Francois: CSS WPadmin
 	elseif ($value == 'Y')
 		$value = '<img src="assets/check.png" height="24" />';

@@ -40,7 +40,7 @@ if($_REQUEST['modfunc']=='update')
                     $sql = 'UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ';
                     foreach($_REQUEST['food_service'] as $column_name=>$value)
                         $sql .= $column_name."='".str_replace("\'","''",trim($value))."',";
-                    $sql = substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
+                    $sql = mb_substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
                     if($_REQUEST['food_service']['BARCODE'])
                     {
                         DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".str_replace("\'","''",trim($_REQUEST['food_service']['BARCODE']))."'");
@@ -73,7 +73,7 @@ if($_REQUEST['modfunc']=='create')
             $fields .= $column_name.',';
             $values .= "'".str_replace("\'","''",trim($value))."',";
         }
-        $sql = 'INSERT INTO FOOD_SERVICE_STAFF_ACCOUNTS ('.substr($fields,0,-1).') values ('.substr($values,0,-1).')';
+        $sql = 'INSERT INTO FOOD_SERVICE_STAFF_ACCOUNTS ('.mb_substr($fields,0,-1).') values ('.mb_substr($values,0,-1).')';
         DBQuery($sql);
 	}
 	unset($_REQUEST['modfunc']);

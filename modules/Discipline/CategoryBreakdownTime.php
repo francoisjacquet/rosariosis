@@ -22,7 +22,7 @@ else
 	if($min_date[1]['MIN_DATE'])
 		$start_date = $min_date[1]['MIN_DATE'];
 	else
-		$start_date = '01-'.strtoupper(date('M-y'));
+		$start_date = '01-'.mb_strtoupper(date('M-y'));
 }
 
 if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
@@ -107,7 +107,7 @@ if($_REQUEST['category_id'])
 			{
 				$tf = str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
 //modif Francois: add translation
-				$chart['chart_data'][$index][0] = _(ucwords(strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
+				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
 			}
 			elseif($_REQUEST['timeframe']=='SYEAR')
 			{
@@ -156,7 +156,7 @@ if($_REQUEST['category_id'])
 			if($_REQUEST['timeframe']=='month')
 			{
 				$tf = str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
-				$chart['chart_data'][$index][0] = _(ucwords(strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
+				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
 			}
 			elseif($_REQUEST['timeframe']=='SYEAR')
 			{
@@ -195,7 +195,7 @@ if($_REQUEST['category_id'])
 		for($i=(MonthNWSwitch($_REQUEST['month_start'],'tonum')*1);$i<=((MonthNWSwitch($_REQUEST['month_end'],'tonum')*1)+12*($_REQUEST['year_end']-$_REQUEST['year_start']));$i++)
 		{
 			$index++;
-			$chart['chart_data'][$index][0] = _(ucwords(strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
+			$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
 			foreach($category_RET[1]['SELECT_OPTIONS'] as $option)
 				$chart['chart_data'][$index][] = (empty($options_count[str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT)][$option]) ? 0 : $options_count[str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT)][$option]);
 		}
@@ -221,7 +221,7 @@ if($_REQUEST['category_id'])
 			for($i=(MonthNWSwitch($_REQUEST['month_start'],'tonum')*1);$i<=((MonthNWSwitch($_REQUEST['month_end'],'tonum')*1)+12*($_REQUEST['year_end']-$_REQUEST['year_start']));$i++)
 			{
 				$index++;
-				$chart['chart_data'][$index][0] = _(ucwords(strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
+				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
 			}
 			for($o=1;$o<=5;$o++)
 			{
@@ -274,7 +274,7 @@ if($_REQUEST['category_id'])
 					else
 						$jsData .= "'".$tick."', ";
 				}
-				$jsData = substr($jsData, 0, strlen($jsData) - 2);
+				$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 2);
 				$jsData .= "];\n";
 				
 			} else {
@@ -291,7 +291,7 @@ if($_REQUEST['category_id'])
 						$jsData .= $data.", ";
 					}
 				}
-				$jsData = substr($jsData, 0, strlen($jsData) - 2);
+				$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 2);
 				$jsData .= "];\n";
 			}
 			$datacolumns ++;
@@ -302,7 +302,7 @@ if($_REQUEST['category_id'])
 <?php
 	}
 	if ($_ROSARIO['SearchTerms'])
-		$_ROSARIO['SearchTerms'] = ' - '.strip_tags(str_replace('<BR />'," - ",substr($_ROSARIO['SearchTerms'], 0, -6)));
+		$_ROSARIO['SearchTerms'] = ' - '.strip_tags(str_replace('<BR />'," - ",mb_substr($_ROSARIO['SearchTerms'], 0, -6)));
 }
 
 

@@ -6,7 +6,7 @@ $fy = GetParentMP('FY',$sem);
 $pros = GetChildrenMP('PRO',UserMP());
 
 // if the UserMP has been changed, the REQUESTed MP may not work
-if(!$_REQUEST['mp'] || strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".ltrim($_REQUEST['mp'],'E')."'")===false)
+if(!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".ltrim($_REQUEST['mp'],'E')."'")===false)
 	$_REQUEST['mp'] = UserMP();
 
 $course_period_id = UserCoursePeriod();
@@ -73,7 +73,7 @@ foreach($commentsB_RET as $id=>$comment)
 	$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'],$comment[1]['TITLE']));
 else
 foreach($commentsB_RET as $id=>$comment)
-	$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'].' - '.(strlen($comment[1]['TITLE']) > 99+3?substr($comment[1]['TITLE'],0,99).'...':$comment[1]['TITLE']),$comment[1]['TITLE']));
+	$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'].' - '.(mb_strlen($comment[1]['TITLE']) > 99+3?mb_substr($comment[1]['TITLE'],0,99).'...':$comment[1]['TITLE']),$comment[1]['TITLE']));
 
 if($_REQUEST['modfunc']=='gradebook')
 {
@@ -140,7 +140,7 @@ if($_REQUEST['modfunc']=='gradebook')
 				if($mp['DOES_EXAM']=='Y')
 					$mps .= "'E$mp[MARKING_PERIOD_ID]',";
 			}
-			$mps = substr($mps,0,-1);
+			$mps = mb_substr($mps,0,-1);
 
 			//modif Francois: select all the course periods (for all the selected mps) of the same course
 			//$percents_RET = DBGet(DBQuery("SELECT STUDENT_ID,GRADE_PERCENT,MARKING_PERIOD_ID FROM STUDENT_REPORT_CARD_GRADES WHERE COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID IN ($mps)"),array(),array('STUDENT_ID'));
@@ -518,7 +518,7 @@ if(!isset($_ROSARIO['allow_edit']))
 $extra['SELECT'] = ",ssm.STUDENT_ID AS REPORT_CARD_GRADE";
 $extra['functions'] = array('REPORT_CARD_GRADE'=>'_makeLetterPercent');
 
-if(substr($_REQUEST['mp'],0,1)!='E' && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
+if(mb_substr($_REQUEST['mp'],0,1)!='E' && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
 	//modif Francois: fix error Warning: Invalid argument supplied for foreach()
 	if (isset($commentsA_RET))
@@ -573,7 +573,7 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 
 	if(AllowEdit())
 	{
-		if(substr($_REQUEST['mp'],0,1)!='E')
+		if(mb_substr($_REQUEST['mp'],0,1)!='E')
 		{
 			$gb_header .= '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=gradebook&mp='.$_REQUEST['mp'].'">'._('Get Gradebook Grades.').'</A>';
 			$prev_mp = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,START_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='".GetMP($_REQUEST['mp'],'MP')."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND START_DATE<'".GetMP($_REQUEST['mp'],'START_DATE')."' ORDER BY START_DATE DESC LIMIT 1"));
@@ -602,7 +602,7 @@ if($_REQUEST['include_inactive']=='Y')
 	$LO_columns += array('ACTIVE'=>_('School Status'),'ACTIVE_SCHEDULE'=>_('Course Status'));
 $LO_columns += array('REPORT_CARD_GRADE'=>(Config('GRADES_DOES_LETTER_PERCENT')<0?_('Letter'):(Config('GRADES_DOES_LETTER_PERCENT')>0?_('Percent'):(Preferences('ONELINE','Gradebook')=='Y'?'<span style="white-space:nowrap;">':'')._('Letter').(Preferences('ONELINE','Gradebook')=='Y'?' ':'<BR />')._('Percent').(Preferences('ONELINE','Gradebook')=='Y'?'</span>':''))));
 
-if(substr($_REQUEST['mp'],0,1)!='E' && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
+if(mb_substr($_REQUEST['mp'],0,1)!='E' && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
 	//modif Francois: fix error Warning: Invalid argument supplied for foreach()
 	if (isset($commentsA_RET))

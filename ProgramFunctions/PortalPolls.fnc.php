@@ -14,7 +14,7 @@ function PortalPollsVote($poll_id, $votes_array)
 	$user_id = $_POST['user_id'];
 	$excluded_user = '|'.$profile_id.':'.$user_id;
 	
-	if (strpos($poll_RET[1]['EXCLUDED_USERS'], $excluded_user) !== false)//!!
+	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'], $excluded_user) !== false)//!!
 		return ErrorMessage(array('User excluded from this poll'));//should never be displayed, so do not translate
 		
 	$excluded_users = $poll_RET[1]['EXCLUDED_USERS'].$excluded_user;
@@ -79,7 +79,7 @@ function PortalPollsDisplay($value,$name)
 		$user_id = User('STUDENT_ID');
 	$excluded_user = '|'.$profile_id.':'.$user_id;
 	
-	if (strpos($poll_RET[1]['EXCLUDED_USERS'], $excluded_user) !== false)
+	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'], $excluded_user) !== false)
 		return PortalPollsVotesDisplay($poll_id, $poll_RET[1]['DISPLAY_VOTES'], $poll_questions_RET, $poll_RET[1]['VOTES_NUMBER']); //user already voted, display votes
 	
 	$PollForm = '';
@@ -182,7 +182,7 @@ if (isset($_POST['votes']) && is_array($_POST['votes']))
 	foreach ($functions as $function)
 	{
 		//filter PHP files
-		if ( strrchr($function, '.') == '.php' )
+		if ( mb_strrchr($function, '.') == '.php' )
 			require_once('functions/'.$function);
 	}
 	

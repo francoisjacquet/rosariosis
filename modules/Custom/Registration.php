@@ -20,7 +20,7 @@ if($_REQUEST['values'])
 	{
 		foreach($_REQUEST['values']['ADDRESS'] as $key=>$columns)
 		{
-			if($columns['ADDRESS'] && !$inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',strtolower($columns['ADDRESS']))])
+			if($columns['ADDRESS'] && !$inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))])
 			{
 				$address_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('ADDRESS_SEQ').' AS ADDRESS_ID '.FROM_DUAL));
 				$address_id[$key] = $address_RET[1]['ADDRESS_ID'];
@@ -33,7 +33,7 @@ if($_REQUEST['values'])
 
 				if($columns['ADDRESS'])
 					$columns += PrepareAddress($columns['ADDRESS']);
-				$columns['PHONE'] = substr(preg_replace('/[^0-9]+/','',$columns['PHONE']),0,7);
+				$columns['PHONE'] = mb_substr(preg_replace('/[^0-9]+/','',$columns['PHONE']),0,7);
 
 				unset($address['ADDRESS']);
 				$go = 0;
@@ -46,17 +46,17 @@ if($_REQUEST['values'])
 						$go = true;
 					}
 				}
-				$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 				if($go)
 				{
 					DBQuery($sql);
 					DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID) values(".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'".UserStudentID()."','".$address_id[$key]."')");
 				}
-				$inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',strtolower($columns['ADDRESS']))] = $address_id[$key];
+				$inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))] = $address_id[$key];
 			}
 			else
-				$address_id[$key] = $inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',strtolower($columns['ADDRESS']))];
+				$address_id[$key] = $inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))];
 		}
 	}
 
@@ -82,7 +82,7 @@ if($_REQUEST['values'])
 						$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
 						$fields = 'ID,PERSON_ID,TITLE,VALUE,';
 						$values = db_seq_nextval('PEOPLE_SEQ').",'".$person_id."','$column','$value',";
-						$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 						DBQuery($sql);
 					}
 				}
@@ -102,7 +102,7 @@ if($_REQUEST['values'])
 						$go = true;
 					}
 				}
-				$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 				if($go)
 				{
@@ -126,7 +126,7 @@ if($_REQUEST['values'])
 			$sql .= "$column_name='".str_replace("\'","''",$value)."',";
 		}
 
-		$sql = substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."'";
+		$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."'";
 		DBQuery($sql);
 	}
 
@@ -340,7 +340,7 @@ $language_options = array('English'=>_('English'),
                             'French, Middle (ca. 1400-1600)'=>'French, Middle (ca. 1400-1600)',
                             'French, Old (ca. 842-1400)'=>'French, Old (ca. 842-1400)',
                             'Fula'=>'Fula',
-                            'G©­'=>'G©­',
+                            'GÂ©Â­'=>'GÂ©Â­',
                             'Gaelic (Scots)'=>'Gaelic (Scots)',
                             'Gallegan'=>'Gallegan',
                             'Oromo'=>'Oromo',
@@ -416,7 +416,7 @@ $language_options = array('English'=>_('English'),
                             'Ladino'=>'Ladino',
                             'Lahnd'=>'Lahnd',
                             'Lamba'=>'Lamba',
-                            'Langue d¡¯oc (post-1500)'=>'Langue d¡¯oc (post-1500)',
+                            'Langue dÂ¡Â¯oc (post-1500)'=>'Langue dÂ¡Â¯oc (post-1500)',
                             'Lao'=>'Lao',
                             'Lapp'=>'Lapp',
                             'Latin'=>'Latin',
@@ -632,35 +632,35 @@ function PrepareAddress($temp)
 	if($regs[0])
 		$address['HOUSE_NO'] = $regs[0];
 
-	$temp_dir = strtoupper(str_replace('.',' ',substr($temp,0,2)));
+	$temp_dir = mb_strtoupper(str_replace('.',' ',mb_substr($temp,0,2)));
 	if($temp_dir=='W ' || $temp_dir=='E ' || $temp_dir=='N ' || $temp_dir=='S ')
 	{
-		$address['DIRECTION'] = substr($temp,0,1);
-		$address['STREET'] = substr($temp,2);
+		$address['DIRECTION'] = mb_substr($temp,0,1);
+		$address['STREET'] = mb_substr($temp,2);
 	}
 	elseif($temp_dir=='NO' || $temp_dir=='SO' || $temp_dir=='WE' || $temp_dir=='EA')
 	{
-		$temp_dir = str_replace('.','',strtoupper(substr($temp,0,strpos($temp,' '))));
+		$temp_dir = str_replace('.','',mb_strtoupper(mb_substr($temp,0,mb_strpos($temp,' '))));
 		switch($temp_dir)
 		{
 			case 'NORTH':
 				$address['DIRECTION'] = 'N';
-				$address['STREET'] = substr($temp,strpos($temp,' '));
+				$address['STREET'] = mb_substr($temp,mb_strpos($temp,' '));
 			break;
 
 			case 'SOUTH':
 				$address['DIRECTION'] = 'S';
-				$address['STREET'] = substr($temp,strpos($temp,' '));
+				$address['STREET'] = mb_substr($temp,mb_strpos($temp,' '));
 			break;
 
 			case 'EAST':
 				$address['DIRECTION'] = 'E';
-				$address['STREET'] = substr($temp,strpos($temp,' '));
+				$address['STREET'] = mb_substr($temp,mb_strpos($temp,' '));
 			break;
 
 			case 'WEST':
 				$address['DIRECTION'] = 'W';
-				$address['STREET'] = substr($temp,strpos($temp,' '));
+				$address['STREET'] = mb_substr($temp,mb_strpos($temp,' '));
 			break;
 
 			default:

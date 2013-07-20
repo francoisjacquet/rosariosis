@@ -26,7 +26,7 @@ if($_REQUEST['modfunc']=='update')
 		{
 			$sql .= $column."='".str_replace("\'","''",$value)."',";
 		}
-		$sql = substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND REQUEST_ID='".$request_id."'";
+		$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND REQUEST_ID='".$request_id."'";
 		DBQuery($sql);
 	}
 	unset($_REQUEST['modfunc']);
@@ -45,7 +45,7 @@ if($_REQUEST['modfunc']=='add')
 if($_REQUEST['modfunc']=='XMLHttpRequest')
 {
 	header("Content-Type: text/xml\n\n");
-    $courses_RET = DBGet(DBQuery("SELECT c.COURSE_ID,c.TITLE FROM COURSES c WHERE ".($_REQUEST['subject_id']?"c.SUBJECT_ID='".$_REQUEST['subject_id']."' AND ":'')."UPPER(c.TITLE) LIKE '".strtoupper($_REQUEST['course_title'])."%' AND c.SYEAR='".UserSyear()."' AND c.SCHOOL_ID='".UserSchool()."'"));
+    $courses_RET = DBGet(DBQuery("SELECT c.COURSE_ID,c.TITLE FROM COURSES c WHERE ".($_REQUEST['subject_id']?"c.SUBJECT_ID='".$_REQUEST['subject_id']."' AND ":'')."UPPER(c.TITLE) LIKE '".mb_strtoupper($_REQUEST['course_title'])."%' AND c.SYEAR='".UserSyear()."' AND c.SCHOOL_ID='".UserSchool()."'"));
 	echo '<?phpxml version="1.0" standalone="yes"?><courses>';
 	if(count($courses_RET))
 	{

@@ -33,13 +33,13 @@ if($_REQUEST['fields']['ADDRESS'] || $_REQUEST['fields']['CITY'] || $_REQUEST['f
 		//if($_REQUEST['relation']!='')
 		//{
 			$_ROSARIO['makeParents'] = $_REQUEST['relation'];
-			//$extra['STUDENTS_JOIN_ADDRESS'] .= " AND EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.ADDRESS_ID=sam.ADDRESS_ID AND ".($_REQUEST['relation']!='!'?"lower(sjp.STUDENT_RELATION) LIKE '".strtolower($_REQUEST['relation'])."%'":"sjp.STUDENT_RELATION IS NULL").") ";
+			//$extra['STUDENTS_JOIN_ADDRESS'] .= " AND EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.ADDRESS_ID=sam.ADDRESS_ID AND ".($_REQUEST['relation']!='!'?"lower(sjp.STUDENT_RELATION) LIKE '".mb_strtolower($_REQUEST['relation'])."%'":"sjp.STUDENT_RELATION IS NULL").") ";
 		//}
 	}
 }
 $extra['SELECT'] .= ',ssm.NEXT_SCHOOL,ssm.CALENDAR_ID,ssm.SYEAR,ssm.SCHOOL_ID AS SCHOOL_NUMBER,s.*';
 if($_REQUEST['fields']['FIRST_INIT'])
-	$extra['SELECT'] .= ',substr(s.FIRST_NAME,1,1) AS FIRST_INIT';
+	$extra['SELECT'] .= ',mb_substr(s.FIRST_NAME,1,1) AS FIRST_INIT';
 if($_REQUEST['fields']['GIVEN_NAME'])
 	$extra['SELECT'] .= ",s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS GIVEN_NAME";
 if($_REQUEST['fields']['COMMON_NAME'])
@@ -141,22 +141,22 @@ if($_REQUEST['search_modfunc']=='list')
 		foreach($_REQUEST['fields'] as $field=>$on)
 		{
 			$columns[$field] = ParseMLField($fields_list[$field]);
-			if(substr($field,0,7)=='CUSTOM_')
+			if(mb_substr($field,0,7)=='CUSTOM_')
 			{
-				if($custom_RET[substr($field,7)][1]['TYPE']=='date' && !$extra['functions'][$field])
+				if($custom_RET[mb_substr($field,7)][1]['TYPE']=='date' && !$extra['functions'][$field])
 					$extra['functions'][$field] = 'ProperDate';
-				elseif($custom_RET[substr($field,7)][1]['TYPE']=='codeds' && !$extra['functions'][$field])
+				elseif($custom_RET[mb_substr($field,7)][1]['TYPE']=='codeds' && !$extra['functions'][$field])
 					$extra['functions'][$field] = 'DeCodeds';
-				elseif($custom_RET[substr($field,7)][1]['TYPE']=='exports' && !$extra['functions'][$field])
+				elseif($custom_RET[mb_substr($field,7)][1]['TYPE']=='exports' && !$extra['functions'][$field])
 					$extra['functions'][$field] = 'DeCodeds';
 			}
-			elseif(substr($field,0,8)=='ADDRESS_')
+			elseif(mb_substr($field,0,8)=='ADDRESS_')
 			{
-				if($address_RET[substr($field,8)][1]['TYPE']=='date' && !$extra['functions'][$field])
+				if($address_RET[mb_substr($field,8)][1]['TYPE']=='date' && !$extra['functions'][$field])
 					$extra['functions'][$field] = 'ProperDate';
-				elseif($address_RET[substr($field,8)][1]['TYPE']=='codeds' && !$extra['functions'][$field])
+				elseif($address_RET[mb_substr($field,8)][1]['TYPE']=='codeds' && !$extra['functions'][$field])
 					$extra['functions'][$field] = 'DeCodeds';
-				elseif($address_RET[substr($field,8)][1]['TYPE']=='exports' && !$extra['functions'][$field])
+				elseif($address_RET[mb_substr($field,8)][1]['TYPE']=='exports' && !$extra['functions'][$field])
 					$extra['functions'][$field] = 'DeCodeds';
 			}
 		}
@@ -195,7 +195,7 @@ if($_REQUEST['search_modfunc']=='list')
 		}
         
 		DrawHeader($header_left);
-		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',substr($_ROSARIO['SearchTerms'],0,-6)));
+		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 		if ($_REQUEST['address_group'])
 			ListOutput($RET,$columns,'Family','Families',array(),$extra['LO_group'],$extra['LO_options']);
 		else

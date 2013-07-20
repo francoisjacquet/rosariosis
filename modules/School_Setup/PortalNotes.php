@@ -63,7 +63,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					$sql .= $column."='".str_replace("\'","''",$value)."',";
 				}
-				$sql = substr($sql,0,-1) . " WHERE ID='$id'";
+				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 				DBQuery($sql);
 //modif Francois: Moodle integrator
 				if (isset($columns['TITLE']) || isset($columns['CONTENT'])) //update note if title or content modified
@@ -120,7 +120,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 						$go = true;
 					}
 				}
-				$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 				if($go && empty($PortalNotesFilesError))
 				{
@@ -239,7 +239,7 @@ function _makeFileAttached($value,$name)
 			//modif Francois: colorbox
 			//colorbox extensions list
 			$colorbox_list = array('.jpg', '.jpeg', '.png', '.gif', '.mp3', '.wav', '.avi', '.mp4', '.ogg');
-			if (in_array( strtolower(strrchr($value, '.')), $colorbox_list ) )
+			if (in_array( mb_strtolower(mb_strrchr($value, '.')), $colorbox_list ) )
 			{
 
 				if (($finfo = finfo_open(FILEINFO_MIME_TYPE)) !== false)
@@ -249,26 +249,26 @@ function _makeFileAttached($value,$name)
 					//Checked on 2012.11.16
 					$browser = $_SERVER['HTTP_USER_AGENT'];
 					$return = '<a href="'.$value.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/download.png" class="alignImg" /> '._('Download').'</a>';
-					if (in_array( strtolower(strrchr($value, '.')), array('.mp3', '.mp4') ) && (stripos($browser, 'Firefox') || stripos($browser, 'Opera'))) //MP3 or MP4 file & not supported in Firefox and Opera
+					if (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.mp3', '.mp4') ) && (mb_stripos($browser, 'Firefox') || mb_stripos($browser, 'Opera'))) //MP3 or MP4 file & not supported in Firefox and Opera
 					{
 						return $return;
 					}
-					elseif (in_array( strtolower(strrchr($value, '.')), array('.ogg') ) && stripos($browser, 'MSIE')) //OGG file & not supported in Internet Explorer
+					elseif (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.ogg') ) && mb_stripos($browser, 'MSIE')) //OGG file & not supported in Internet Explorer
 					{
 						return $return;
 					}
-					elseif (in_array( strtolower(strrchr($value, '.')), array('.wav') ) && (stripos($browser, 'MSIE') || stripos($browser, 'Opera'))) //WAV file & not supported in Internet Explorer and Opera
+					elseif (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.wav') ) && (mb_stripos($browser, 'MSIE') || mb_stripos($browser, 'Opera'))) //WAV file & not supported in Internet Explorer and Opera
 					{
 						return $return;
 					}
 					
-					if (strpos(finfo_file($finfo, $value), 'audio') !== false ) //media audio files
+					if (mb_strpos(finfo_file($finfo, $value), 'audio') !== false ) //media audio files
 					{
 						$return .= '<div><div style="display:none"><audio src="'.$value.'" preload="auto" controls class="audioHtml5" id="colorboxinline'.$filesAttachedCount.'"><p>Your browser does not support the audio element</p></audio></div>';
 						$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>';
 						$loadColorBox = true;
 					}
-					elseif (strpos(finfo_file($finfo, $value), 'video') !== false ) //media video files
+					elseif (mb_strpos(finfo_file($finfo, $value), 'video') !== false ) //media video files
 					{
 						$return .= '<div><div style="display:none"><video src="'.$value.'" preload="auto" controls class="videoHtml5" id="colorboxinline'.$filesAttachedCount.'"><p>Your browser does not support the audio element</p></video></div>';
 						$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>';
@@ -340,12 +340,12 @@ function _makePublishing($value,$name)
 	$return .= '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD colspan="4"><b>'.Localize('colon',_('Visible To')).'</b></TD></TR><TR>';
 	foreach(array('admin'=>_('Administrator w/Custom'),'teacher'=>_('Teacher w/Custom'),'parent'=>_('Parent w/Custom')) as $profile_id=>$profile)
 //modif Francois: add <label> on checkbox
-		$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').'> '.$profile.'</label></TD>';
+		$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').'> '.$profile.'</label></TD>';
 	$i = 3;
 	foreach($profiles_RET as $profile)
 	{
 		$i++;
-		$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'')."> "._($profile['TITLE'])."</label></TD>";
+		$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'')."> "._($profile['TITLE'])."</label></TD>";
 		if($i%4==0 && $i!=count($profile))
 			$return .= '</TR><TR>';
 	}

@@ -28,7 +28,7 @@ if(!defined('WAREHOUSE_PHP'))
 	foreach ($functions as $function)
 	{
 		//filter PHP files
-		if ( strrchr($function, '.') == '.php' )
+		if ( mb_strrchr($function, '.') == '.php' )
 			require_once('functions/'.$function);
 	}
 
@@ -39,7 +39,7 @@ if(!defined('WAREHOUSE_PHP'))
     if ($_SERVER['SCRIPT_NAME']!='/index.php')
         session_set_cookie_params(0,dirname($_SERVER['SCRIPT_NAME']).'/'); //,'',$false,$true);
 	session_start();
-	if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && strpos($_SERVER['PHP_SELF'],'index.php')===false)
+	if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && mb_strpos($_SERVER['PHP_SELF'],'index.php')===false)
 	{
 		header('Location: index.php');
 		exit;
@@ -68,7 +68,7 @@ if(!defined('WAREHOUSE_PHP'))
 //modif Francois: fix bug Internet Explorer Quirks Mode, add DOCTYPE
 ?>
 <!DOCTYPE html>
-<HTML lang="<?php echo substr($locale,0,2); ?>" <?php echo (substr($locale,0,2)=='he' || substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
+<HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
 <HEAD><TITLE><?php echo Config('TITLE'); ?></TITLE>
 <meta charset="UTF-8" />
 <?php			if(basename($_SERVER['PHP_SELF'])!='index.php'): ?>
@@ -91,7 +91,7 @@ if(!defined('WAREHOUSE_PHP'))
 				if (isset($_ROSARIO['PrepareDate'])): ?>
 <link rel="stylesheet" type="text/css" media="all" href="assets/js/jscalendar/calendar-blue.css" />
 <script type="text/javascript" src="assets/js/jscalendar/calendar.js"></script>
-<script type="text/javascript" src="assets/js/jscalendar/lang/calendar-<?php echo substr($locale, 0, 2); ?>.js"></script>
+<script type="text/javascript" src="assets/js/jscalendar/lang/calendar-<?php echo mb_substr($locale, 0, 2); ?>.js"></script>
 <script type="text/javascript" src="assets/js/jscalendar/calendar-setup.js"></script>
 <?php			
 					for($i=1;$i<=$_ROSARIO['PrepareDate'];$i++)

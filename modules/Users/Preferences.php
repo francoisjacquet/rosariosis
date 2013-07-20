@@ -5,7 +5,7 @@ if($_REQUEST['values'] && $_POST['values'])
 {
 	if($_REQUEST['tab']=='password')
 	{
-		if(strtolower($_REQUEST['values']['new'])!=strtolower($_REQUEST['values']['verify']))
+		if(mb_strtolower($_REQUEST['values']['new'])!=mb_strtolower($_REQUEST['values']['verify']))
 			$error = _('Your new passwords did not match.');
 		//modif Francois: Moodle integrator / password
 		elseif (!MoodlePasswordCheck($_REQUEST['values']['new']))
@@ -19,7 +19,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				$password_RET = DBGet(DBQuery("SELECT PASSWORD FROM STAFF WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'"));
 			
 //modif Francois: add password encryption
-//			if(strtolower($password_RET[1]['PASSWORD'])!=strtolower($_REQUEST['values']['current']))
+//			if(mb_strtolower($password_RET[1]['PASSWORD'])!=mb_strtolower($_REQUEST['values']['current']))
 			if(!match_password($password_RET[1]['PASSWORD'],$_REQUEST['values']['current']))
 				$error = _('Your current password was incorrect.');
 			else

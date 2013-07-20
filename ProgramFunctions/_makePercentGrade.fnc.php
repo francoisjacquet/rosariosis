@@ -30,7 +30,7 @@ function _makePercentGrade($grade_id,$course_period_id=0,$staff_id=0)
 	{
 		$prev = $crnt;
 		$crnt = ($does_breakoff=='Y' ? $programconfig[$staff_id][$course_period_id.'-'.$grade['ID']] : $grade['BREAK_OFF']);
-		if(is_numeric($grade_id) ? $grade_id==$grade['ID'] : strtoupper($grade_id)==strtoupper($grade['TITLE']))
+		if(is_numeric($grade_id) ? $grade_id==$grade['ID'] : mb_strtoupper($grade_id)==mb_strtoupper($grade['TITLE']))
 			return ($crnt + ($crnt>$prev ? 100 : $prev)) / 2;
 	}
 	return 0;

@@ -8,20 +8,20 @@ function DateInput($value,$name,$title='',$div=true,$allow_na=true)
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		if($value=='' || $div==false)
-			return PrepareDate($value,'_'.$name,$allow_na).($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+			return PrepareDate($value,'_'.$name,$allow_na).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 		else
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML("';
 			
-			$toEscape = PrepareDate($value,'_'.$name,$allow_na,array('Y'=>1,'M'=>1,'D'=>1)).($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(strpos(strtolower($title),'<span ')===false?'</span>':''):'');
+			$toEscape = PrepareDate($value,'_'.$name,$allow_na,array('Y'=>1,'M'=>1,'D'=>1)).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
 			$return .=  str_replace('"','\"',$toEscape);
 			
-			$return .= '","div'.$name.'",true)\'><span class="underline-dots">'.($value!=''?ProperDate($value):'-').'</span>'.($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= '","div'.$name.'",true)\'><span class="underline-dots">'.($value!=''?ProperDate($value):'-').'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 			return $return;
 		}
 	}
 	else
-		return ($value!=''?ProperDate($value):'-').($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+		return ($value!=''?ProperDate($value):'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 }
 
 function TextInput($value,$name,$title='',$options='',$div=true)
@@ -35,26 +35,26 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 		$value1 = is_array($value) ? $value[1] : $value;
 		$value = is_array($value) ? $value[0] : $value;
 
-		if(strpos($options,'size')===false && $value!='')
-			$options .= ' size='.strlen($value);
-		elseif(strpos($options,'size')===false)
+		if(mb_strpos($options,'size')===false && $value!='')
+			$options .= ' size='.mb_strlen($value);
+		elseif(mb_strpos($options,'size')===false)
 			$options .= ' size=10';
 
 		if(trim($value)=='' || $div==false)
-			return '<INPUT type="text" name="'.$name.'" id="'.$name.'" '.($value || $value==='0'?'value="'.str_replace('"','&quot;',$value).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+			return '<INPUT type="text" name="'.$name.'" id="'.$name.'" '.($value || $value==='0'?'value="'.str_replace('"','&quot;',$value).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 		else
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML("';
 			
-			$toEscape = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.str_replace(array("'",'"'),array('&#39;','&quot;'),$value).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+			$toEscape = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.str_replace(array("'",'"'),array('&#39;','&quot;'),$value).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 			$return .=  str_replace('"','\"',$toEscape);
 			
-			$return .= '","div'.$name.'",true); document.getElementById("input'.$name.'").focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= '","div'.$name.'",true); document.getElementById("input'.$name.'").focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 			return $return;
 		}
 	}
 	else
-		return (((is_array($value)?$value[1]:$value)!='')?(is_array($value)?$value[1]:$value):'-').($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+		return (((is_array($value)?$value[1]:$value)!='')?(is_array($value)?$value[1]:$value):'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 }
 
 function MLTextInput($value,$name,$title='',$options='',$div=true)
@@ -72,9 +72,9 @@ function MLTextInput($value,$name,$title='',$options='',$div=true)
         $value1 = is_array($value) ? $value[1] : $value;
         $value = is_array($value) ? $value[0] : $value;
 
-        if(strpos($options,'size')===false && $value!='')
-            $options .= ' size='.strlen($value);
-        elseif(strpos($options,'size')===false)
+        if(mb_strpos($options,'size')===false && $value!='')
+            $options .= ' size='.mb_strlen($value);
+        elseif(mb_strpos($options,'size')===false)
             $options .= ' size=10';
 
         // ng - foreach possible language
@@ -88,8 +88,8 @@ function MLTextInput($value,$name,$title='',$options='',$div=true)
         $ret .= '</DIV>';
     }
 //modif FRancois: css WPadmin
-//    $ret .= ($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
-    $ret .= ($title!=''?(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':''):'');
+//    $ret .= ($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+    $ret .= ($title!=''?(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
     return $ret;
 }
 
@@ -100,30 +100,30 @@ function TextAreaInput($value,$name,$title='',$options='',$div=true)
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		if(strpos($options,'cols')===false)
+		if(mb_strpos($options,'cols')===false)
 			$options .= ' cols=30';
-		if(strpos($options,'rows')===false)
+		if(mb_strpos($options,'rows')===false)
 			$options .= ' rows=4';
-		$rows = substr($options,strpos($options,'rows')+5,2)*1;
-		$cols = substr($options,strpos($options,'cols')+5,2)*1;
+		$rows = mb_substr($options,mb_strpos($options,'rows')+5,2)*1;
+		$cols = mb_substr($options,mb_strpos($options,'cols')+5,2)*1;
 
 		if($value=='' || $div==false)
-			return '<TEXTAREA name="'.$name.'" id="'.$name.'" '.$options.'>'.$value.'</TEXTAREA>'.($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+			return '<TEXTAREA name="'.$name.'" id="'.$name.'" '.$options.'>'.$value.'</TEXTAREA>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 		else
 //modif Francois: remove ereg
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML("';
 			
-			$toEscape = '<TEXTAREA id="textarea'.$name.'" name="'.$name.'" '.$options.'>'.preg_replace("/[\n\r]/",'\u000D\u000A',str_replace("\r\n",'\u000D\u000A',str_replace(array("'",'"'),array('&#39;','&quot;'),$value))).'</TEXTAREA>'.($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+			$toEscape = '<TEXTAREA id="textarea'.$name.'" name="'.$name.'" '.$options.'>'.preg_replace("/[\n\r]/",'\u000D\u000A',str_replace("\r\n",'\u000D\u000A',str_replace(array("'",'"'),array('&#39;','&quot;'),$value))).'</TEXTAREA>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 			$return .=  str_replace('"','\"',$toEscape);
 			
-			$return .= '","div'.$name.'",true); document.getElementById("textarea'.$name.'").value=unescape(document.getElementById("textarea'.$name.'").value);\'>'.'<TABLE style="height:100%;"><TR><TD>'.((substr_count($value,"\r\n")>$rows)?'<DIV style="overflow:auto; height:'.(15*$rows).'px; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>':'<DIV style="overflow:auto; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>').'</TD></TR></TABLE>'.($title!=''?''.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= '","div'.$name.'",true); document.getElementById("textarea'.$name.'").value=unescape(document.getElementById("textarea'.$name.'").value);\'>'.'<TABLE style="height:100%;"><TR><TD>'.((mb_substr_count($value,"\r\n")>$rows)?'<DIV style="overflow:auto; height:'.(15*$rows).'px; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>':'<DIV style="overflow:auto; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>').'</TD></TR></TABLE>'.($title!=''?''.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 			return $return;
 		}
 			
 	}
 	else
-		return ($value!=''?nl2br($value):'-').($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+		return ($value!=''?nl2br($value):'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 }
 
 function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',$no='No',$div=true,$extra='')
@@ -144,11 +144,11 @@ function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',
 	{
 		if($new || $div==false)
 //modif Francois: add <label> on checkbox
-//			return "<INPUT type=checkbox name=$name value=Y $checked $extra>".($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+//			return "<INPUT type=checkbox name=$name value=Y $checked $extra>".($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 			return '<label><INPUT type="checkbox" name="'.$name.'" value="Y" '.$checked.' '.$extra.' />&nbsp;'.$title.'</label>';
 		else
 		{
-//			return "<DIV id='div$name'><div class=\"onclick\" onclick='javascript:addHTML(\"<INPUT type=hidden name=$name value=\\\"\\\"><INPUT type=checkbox name=$name ".($value?'checked':'')." value=Y ".str_replace('"','\"',$extra).">".($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace(array("'",'"'),array('&#39;','\"'),$title).(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'')."\",\"div$name\",true)'><span class='underline-dots'>".($value?$yes:$no).'</span>'.($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'')."</div></DIV>";
+//			return "<DIV id='div$name'><div class=\"onclick\" onclick='javascript:addHTML(\"<INPUT type=hidden name=$name value=\\\"\\\"><INPUT type=checkbox name=$name ".($value?'checked':'')." value=Y ".str_replace('"','\"',$extra).">".($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace(array("'",'"'),array('&#39;','\"'),$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'')."\",\"div$name\",true)'><span class='underline-dots'>".($value?$yes:$no).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'')."</div></DIV>";
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML("';
 			
 			$toEscape = '<INPUT type="hidden" name="'.$name.'" value="" /><label><INPUT type="checkbox" name="'.$name.'" '.($value?'checked':'').' value="Y" '.$extra.' /> '.str_replace("'",'&#39;',$title).'</label>';
@@ -159,7 +159,7 @@ function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',
 		}
 	}
 	else
-//		return ($value?$yes:$no).($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+//		return ($value?$yes:$no).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 		return ($value?($yes=='Yes'?_('Yes'):$yes):($no=='No'?_('No'):$no)).($title!=''?$title:'');
 }
 
@@ -195,19 +195,19 @@ function SelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$
 		}
 		$select .= '</SELECT>';
 		
-		$select .= '<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(strpos(strtolower($title),'<span ')===false?'</span>':'').'';
+		$select .= '<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'';
 		
 		if($value!='' && $div)
 		{
 			$return .=  str_replace('"','\"',$select);
 
-			$return .= '","div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= '","div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
 		else
 			$return = $select;
 	}
 	else
-		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?('N/A'?_($allow_na):$allow_na):'-'):'-')).($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?('N/A'?_($allow_na):$allow_na):'-'):'-')).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 
 	return $return;
 }
@@ -248,19 +248,19 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
         }
         $select .= '</SELECT>';
 		
-		$select .= '<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(strpos(strtolower($title),'<span ')===false?'</span>':'').'';
+		$select .= '<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'';
 			
         if($value!='' && $div)
 		{
 			$return .=  str_replace('"','\"',$select);
 
-            $return .= '","div'.$name.'",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'.($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+            $return .= '","div'.$name.'",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
 		else
 			$return = $select;
     }
     else
-        $return = ParseMLField((((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')),$locale).($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+        $return = ParseMLField((((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')),$locale).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 
     return $return;
 }
@@ -295,26 +295,26 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 		}
 		$table .= '</TR></TABLE>';
 		
-		$table .= ''.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(strpos(strtolower($title),'<span ')===false?'</span>':'').'';
+		$table .= ''.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'';
 			
 		if($value!='' && $div)
 		{
 			$return .=  str_replace('"','\"',$table);
 
-            $return .= '","div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+            $return .= '","div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
 		else
 			$return = $table;
 	}
 	else
-		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')).($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':'').'':'');
+		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 
 	return $return;
 }
 
 function NoInput($value,$title='')
 {
-	return ($value!=''?$value:'-').($title!=''?'<BR />'.(strpos(strtolower($title),'<span ')===false?'<span style="color:gray">':'').$title.(strpos(strtolower($title),'<span ')===false?'</span>':''):'');
+	return ($value!=''?$value:'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span style="color:gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
 }
 
 function CheckBoxOnclick($name)

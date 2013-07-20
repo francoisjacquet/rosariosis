@@ -5,13 +5,13 @@ if (!defined('CRYPT_SHA512'))
 	
 function encrypt_password($plain) {
 	$password = rand(999999999, 9999999999);
-	$salt = '$6$'.substr(sha1($password), 0, 16	);
+	$salt = '$6$'.mb_substr(sha1($password), 0, 16	);
 	$password = crypt($plain, $salt);
 	return $password;
 }
 
 function match_password($password, $plain) {
-	//$salt = substr($password, 0, 19);
+	//$salt = mb_substr($password, 0, 19);
 	return $password == crypt($plain, $password);
 }
 ?>

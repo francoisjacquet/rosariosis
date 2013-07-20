@@ -275,7 +275,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				ListOutput($grades_RET,$columns,'.','.',array(),array(),array('print'=>false));
 				if($_REQUEST['elements']['comments']=='Y' && ($comments_arr_key || count($comments_arr)))
 				{
-					$gender = substr($mps[key($mps)][1]['GENDER'],0,1);
+					$gender = mb_substr($mps[key($mps)][1]['GENDER'],0,1);
 					/*$personalizations = array('^n'=>($mps[key($mps)][1]['NICKNAME']?$mps[key($mps)][1]['NICKNAME']:$mps[key($mps)][1]['FIRST_NAME']),
 								'^s'=>($gender=='M'?'his':($gender=='F'?'her':'his/her')) );*/
 					$personalizations = array('^n'=>($mps[key($mps)][1]['FIRST_NAME']),'^s'=>($gender=='M'?_('his'):($gender=='F'?_('her'):_('his/her'))) );
@@ -425,6 +425,6 @@ function _makeChooseCheckbox($value,$title)
 
 function _makeTeacher($teacher,$column)
 {
-	return substr($teacher,strrpos(str_replace(' - ',' ^ ',$teacher),'^')+2);
+	return mb_substr($teacher,mb_strrpos(str_replace(' - ',' ^ ',$teacher),'^')+2);
 }
 ?>

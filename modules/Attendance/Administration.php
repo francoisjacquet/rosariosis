@@ -15,9 +15,9 @@ if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
 else
 {
 	//$date = DBDate();
-	$date = strtoupper(date('d-M-Y'));
+	$date = mb_strtoupper(date('d-M-Y'));
 	$_REQUEST['day_date'] = date('d');
-	$_REQUEST['month_date'] = strtoupper(date('M'));
+	$_REQUEST['month_date'] = mb_strtoupper(date('M'));
 	$_REQUEST['year_date'] = date('Y');
 }
 
@@ -77,7 +77,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 				foreach($columns as $column=>$value)
 					$sql .= $column."='".str_replace("\'","''",$value)."',";
 
-				$sql = substr($sql,0,-1) . " WHERE SCHOOL_DATE='$date' AND PERIOD_ID='$period_id' AND STUDENT_ID='$student_id'".$extra_sql;
+				$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='$date' AND PERIOD_ID='$period_id' AND STUDENT_ID='$student_id'".$extra_sql;
 				DBQuery($sql);
 			}
 			else
@@ -102,7 +102,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 						$go = true;
 					}
 				}
-				$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 				if($go)
 					DBQuery($sql);
@@ -244,9 +244,9 @@ else
 		foreach($REQ_codes as $code)
 			$extra['WHERE'] .= "'".$code."',";
 		if($_REQUEST['expanded_view']!='true')
-			$extra2['WHERE'] = $extra['WHERE'] = substr($extra['WHERE'],0,-1) . ')';
+			$extra2['WHERE'] = $extra['WHERE'] = mb_substr($extra['WHERE'],0,-1) . ')';
 		else
-			$extra['WHERE'] = substr($extra['WHERE'],0,-1) . ')';
+			$extra['WHERE'] = mb_substr($extra['WHERE'],0,-1) . ')';
 	}
 	elseif($abs)
 	{
@@ -258,9 +258,9 @@ else
 				$extra['WHERE'] .= "'".$code['ID']."',";
 
 			if($_REQUEST['expanded_view']!='true')
-				$extra2['WHERE'] = $extra['WHERE'] = substr($extra['WHERE'],0,-1) . ')';
+				$extra2['WHERE'] = $extra['WHERE'] = mb_substr($extra['WHERE'],0,-1) . ')';
 			else
-				$extra['WHERE'] = substr($extra['WHERE'],0,-1) . ')';
+				$extra['WHERE'] = mb_substr($extra['WHERE'],0,-1) . ')';
 		}
 	}
 	$extra['WHERE'] .= ')';
@@ -370,7 +370,7 @@ function _makeCodePulldown($value,$title)
 	}
 	else
 	{
-		$period_id = substr($title,7);
+		$period_id = mb_substr($title,7);
 		$code_title = 'SHORT_NAME';
 	}
 

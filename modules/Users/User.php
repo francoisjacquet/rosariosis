@@ -116,7 +116,7 @@ if($_REQUEST['modfunc']=='update')
 					$go = true;
 				}
 			}
-			$sql = substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."'";
+			$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."'";
 			if(User('PROFILE')=='admin' && $go)
 				DBQuery($sql);
 
@@ -156,7 +156,7 @@ if($_REQUEST['modfunc']=='update')
 			if(basename($_SERVER['PHP_SELF'])=='index.php')
 			{
 				$fields .= 'PROFILE,';
-				$values = "'".Config('SYEAR')."'".substr($values,strpos($values,','))."'none',";
+				$values = "'".Config('SYEAR')."'".mb_substr($values,mb_strpos($values,','))."'none',";
 			}
 
 			foreach($_REQUEST['staff'] as $column=>$value)
@@ -171,7 +171,7 @@ if($_REQUEST['modfunc']=='update')
 						$values .= "'".encrypt_password($value)."',";
 				}
 			}
-			$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			DBQuery($sql);
 			
 //modif Francois: Moodle integrator
@@ -183,7 +183,7 @@ if($_REQUEST['modfunc']=='update')
 	}
 
 	if($_REQUEST['include']!='General_Info' && $_REQUEST['include']!='Schedule' && $_REQUEST['include']!='Other_Info')
-		if(!strpos($_REQUEST['include'],'/'))
+		if(!mb_strpos($_REQUEST['include'],'/'))
 			include('modules/Users/includes/'.$_REQUEST['include'].'.inc.php');
 		else
 			include('modules/'.$_REQUEST['include'].'.inc.php');
@@ -275,7 +275,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
 	$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 	$profile = $profile[1]['PROFILE'];
-	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ".($profile?strtoupper($profile).'=\'Y\'':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE"));
+	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ".($profile?mb_strtoupper($profile).'=\'Y\'':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE"));
 
 	foreach($categories_RET as $category)
 	{
@@ -301,7 +301,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 	echo '<BR />';
 	PopTable('header',$tabs,'width="100%"');
 
-	if(!strpos($_REQUEST['include'],'/'))
+	if(!mb_strpos($_REQUEST['include'],'/'))
 		include('modules/Users/includes/'.$_REQUEST['include'].'.inc.php');
 	else
 	{

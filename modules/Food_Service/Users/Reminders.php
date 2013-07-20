@@ -69,7 +69,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$warning.'\' AND fsa.BALANCE >= 0) AS WARNING';
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= \''.$minimum.'\') AS NEGATIVE';
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$minimum.'\') AS MINIMUM';
-	if(!strpos($extra['FROM'],'fsa'))
+	if(!mb_strpos($extra['FROM'],'fsa'))
 	{
 		$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fsa';
 		$extra['WHERE'] .= ' AND fsa.STAFF_ID=s.STAFF_ID';

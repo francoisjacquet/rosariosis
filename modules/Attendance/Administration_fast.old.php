@@ -18,7 +18,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 				foreach($columns as $column=>$value)
 					$sql .= $column."='".str_replace("\'","''",$value)."',";
 
-				$sql = substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$date."' AND COURSE_PERIOD_ID='".$period."' AND STUDENT_ID='".$student_id."'";
+				$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$date."' AND COURSE_PERIOD_ID='".$period."' AND STUDENT_ID='".$student_id."'";
 				DBQuery($sql);
 			}
 			else
@@ -41,7 +41,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 						$go = true;
 					}
 				}
-				$sql .= '(' . substr($fields,0,-1) . ') values(' . substr($values,0,-1) . ')';
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 				
 				if($go)
 					DBQuery($sql);
@@ -104,7 +104,7 @@ else
 		$extra['WHERE'] .= "AND ac.ID IN (";
 		foreach($REQ_codes as $code)
 			$extra['WHERE'] .= "'".$code."',";
-		$extra2['WHERE'] = $extra['WHERE'] = substr($extra['WHERE'],0,-1) . ')';
+		$extra2['WHERE'] = $extra['WHERE'] = mb_substr($extra['WHERE'],0,-1) . ')';
 	}
 	elseif($abs)
 	{
@@ -115,7 +115,7 @@ else
 			foreach($RET as $code)
 				$extra['WHERE'] .= "'".$code['ID']."',";
 		
-			$extra2['WHERE'] = $extra['WHERE'] = substr($extra['WHERE'],0,-1) . ')';	
+			$extra2['WHERE'] = $extra['WHERE'] = mb_substr($extra['WHERE'],0,-1) . ')';	
 		}
 	}
 	$extra['WHERE'] .= ')';
@@ -209,7 +209,7 @@ function _makeCodePulldown($value,$title)
 	}
 	else
 	{
-		$period_id = substr($title,7);
+		$period_id = mb_substr($title,7);
 		$period = $current_schedule_RET[$THIS_RET['STUDENT_ID']][$period_id][1]['COURSE_PERIOD_ID'];
 		
 		foreach($codes_RET as $code)

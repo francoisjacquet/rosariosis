@@ -189,7 +189,7 @@ else
 		}
 		DrawHeader($header_left,$extra['header_right']);
 		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
-		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',substr($_ROSARIO['SearchTerms'],0,-6)));
+		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 		if(!$_REQUEST['LO_save'] && !$extra['suppress_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
@@ -226,14 +226,14 @@ else
 		if($_REQUEST['modname']!=$_REQUEST['next_modname'])
 		{
 			$modname = $_REQUEST['next_modname'];
-			if(strpos($modname,'?'))
-				$modname = substr($_REQUEST['next_modname'],0,strpos($_REQUEST['next_modname'],'?'));
-			if(strpos($modname,'&'))
-				$modname = substr($_REQUEST['next_modname'],0,strpos($_REQUEST['next_modname'],'&'));
+			if(mb_strpos($modname,'?'))
+				$modname = mb_substr($_REQUEST['next_modname'],0,mb_strpos($_REQUEST['next_modname'],'?'));
+			if(mb_strpos($modname,'&'))
+				$modname = mb_substr($_REQUEST['next_modname'],0,mb_strpos($_REQUEST['next_modname'],'&'));
 			if($_REQUEST['modname'])
 				$_REQUEST['modname'] = $modname;
 			//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-			if (substr($modname, -4, 4)!='.php' || strpos($modname, '..')!==false || !is_file('modules/'.$modname))	
+			if (mb_substr($modname, -4, 4)!='.php' || mb_strpos($modname, '..')!==false || !is_file('modules/'.$modname))	
 				HackingLog();
 			else
 				include('modules/'.$modname);

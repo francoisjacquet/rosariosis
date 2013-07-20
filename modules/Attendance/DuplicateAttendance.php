@@ -4,7 +4,7 @@ if(count($_REQUEST['mp_arr']))
 {
         foreach($_REQUEST['mp_arr'] as $mp)
                 $mp_list .= ",'$mp'";
-        $mp_list = substr($mp_list,1);
+        $mp_list = mb_substr($mp_list,1);
         $last_mp = $mp;
 }
 
@@ -319,6 +319,6 @@ elseif($_REQUEST['delete']!='true')
 
 function _makeTeacher($teacher,$column)
 {
-        return substr($teacher,strrpos(str_replace(' - ',' ^ ',$teacher),'^')+2);
+        return mb_substr($teacher,mb_strrpos(str_replace(' - ',' ^ ',$teacher),'^')+2);
 }
 ?>

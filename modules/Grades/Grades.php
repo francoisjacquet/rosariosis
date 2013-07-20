@@ -110,8 +110,8 @@ if($_REQUEST['values'] && $_POST['values'] && $_SESSION['type_id']==$_REQUEST['t
 					$columns['POINTS'] = '-1';
 				else
 				{
-					if(substr($columns['POINTS'],-1)=='%')
-						$columns['POINTS'] = substr($columns['POINTS'],0,-1) * $assignments_RET[$assignment_id][1]['POINTS'] / 100;
+					if(mb_substr($columns['POINTS'],-1)=='%')
+						$columns['POINTS'] = mb_substr($columns['POINTS'],0,-1) * $assignments_RET[$assignment_id][1]['POINTS'] / 100;
 					elseif(!is_numeric($columns['POINTS']))
 						$columns['POINTS'] = _makePercentGrade($columns['POINTS'],UserCoursePeriod()) * $assignments_RET[$assignment_id][1]['POINTS'] / 100;
 					if($columns['POINTS']<0)
@@ -128,7 +128,7 @@ if($_REQUEST['values'] && $_POST['values'] && $_SESSION['type_id']==$_REQUEST['t
 				{
 					$sql .= $column."='".str_replace("\'","''",$value)."',";
 				}
-				$sql = substr($sql,0,-1)." WHERE STUDENT_ID='$student_id' AND ASSIGNMENT_ID='$assignment_id' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'";
+				$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='$student_id' AND ASSIGNMENT_ID='$assignment_id' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'";
 			}
 			elseif($columns['POINTS']!='' || $columns['COMMENT'])
 				$sql = "INSERT INTO GRADEBOOK_GRADES (STUDENT_ID,PERIOD_ID,COURSE_PERIOD_ID,ASSIGNMENT_ID,POINTS,COMMENT) values('$student_id','".UserPeriod()."','".UserCoursePeriod()."','".$assignment_id."','".$columns['POINTS']."','".$columns['COMMENT']."')";
@@ -331,7 +331,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 					$total_points = $assignments_RET[$assignment_id][1]['POINTS'];
 					if($current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS']=='-1')
 						$points = '*';
-					elseif(strpos($current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'],'.'))
+					elseif(mb_strpos($current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'],'.'))
 						$points = rtrim(rtrim($current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'],'0'),'.');
 					else
 						$points = $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'];
@@ -426,7 +426,7 @@ function _makeExtraStuCols($value,$column)
 
 			if($value=='-1')
 				$value = '*';
-			elseif(strpos($value,'.'))
+			elseif(mb_strpos($value,'.'))
 				$value = rtrim(rtrim($value,'0'),'.');
 
 //			return '<TABLE cellspacing=0 cellpadding=1><TR><TD>'.TextInput($value,'values['.$THIS_RET['STUDENT_ID'].']['.$THIS_RET['ASSIGNMENT_ID'].'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'</TD><TD>&nbsp;/&nbsp;</TD><TD>'.$THIS_RET['TOTAL_POINTS'].'</TD></TR></TABLE>';
@@ -478,7 +478,7 @@ function _makeExtraCols($assignment_id,$column)
 	{
 		if($current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS']=='-1')
 			$points = '*';
-		elseif(strpos($current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'],'.'))
+		elseif(mb_strpos($current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'],'.'))
 			$points = rtrim(rtrim($current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'],'0'),'.');
 		else
 			$points = $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'];

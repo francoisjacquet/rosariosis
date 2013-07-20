@@ -4,7 +4,7 @@ if(count($_REQUEST['mp_arr']))
 {
 	foreach($_REQUEST['mp_arr'] as $mp)
 		$mp_list .= ",'$mp'";
-	$mp_list = substr($mp_list,1);
+	$mp_list = mb_substr($mp_list,1);
 }
 
 $extra['search'] = '<TR><TD style="text-align:right">'._('Marking Periods').'</TD><TD><TABLE>';
@@ -170,8 +170,8 @@ else
 					$this_PDF = str_replace('(default[student_mp_comments]['.GetMP($mp,'SORT_ORDER').']['.($c+1).'])','( )',$this_PDF);
 
 				$qtr = str_replace("'",'',GetChildrenMP('SEM',$mp));
-				if(strpos(',',$qtr)!==false)
-					$qtr = substr($qtr,strpos(',',$qtr));
+				if(mb_strpos(',',$qtr)!==false)
+					$qtr = mb_substr($qtr,mb_strpos(',',$qtr));
 
 				foreach($attendance_codes as $attendance_code)
 				{
@@ -219,7 +219,7 @@ else
 			$count_cards++;
 		}
 
-		$cards = substr($cards,0,-1);
+		$cards = mb_substr($cards,0,-1);
 		$sourcefile = tempnam('','html');
 		$FP=@fopen($sourcefile,"w");
 		fwrite($FP,$cards);
