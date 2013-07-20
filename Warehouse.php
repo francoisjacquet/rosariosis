@@ -53,11 +53,11 @@ if(!defined('WAREHOUSE_PHP'))
     $locale = $_SESSION['locale'];
     putenv('LC_ALL='.$locale);
     setlocale(LC_ALL, $locale);
-	setlocale(LC_NUMERIC, 'eng','en_US', 'en_US.utf8'); //modif Francois: numeric separator "."
+	setlocale(LC_NUMERIC, 'english','en_US', 'en_US.utf8'); //modif Francois: numeric separator "."
     bindtextdomain('rosariosis', $LocalePath);    //binds the messages domain to the locale folder
     bind_textdomain_codeset('rosariosis','UTF-8');     //ensures text returned is utf-8, quite often this is iso-8859-1 by default
     textdomain('rosariosis');    //sets the domain name, this means gettext will be looking for a file called rosariosis.mo
-
+	
 	function Warehouse($mode)
 	{	global $_ROSARIO,$locale;
 
