@@ -18,12 +18,12 @@ if($_REQUEST['modfunc']=='update')
 if(empty($_REQUEST['modfunc']))
 
 {
-	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0">';
+	echo '<TABLE class="cellspacing-5 cellpadding-0">';
 	echo '<TR><TD class="valign-top">';
 	$_REQUEST['category_id'] = '2';
 	include('modules/Students/includes/Other_Info.inc.php');
 	echo '</TD></TR><TR><TD class="valign-top">';
-	echo '<TABLE><TR><TD class="valign-top">';
+	//echo '<TABLE><TR><TD class="valign-top">';
 	$table = 'STUDENT_MEDICAL';
 	$functions = array('TYPE'=>'_makeType','MEDICAL_DATE'=>'_makeDate','COMMENTS'=>'_makeComments');
 	$med_RET = DBGet(DBQuery("SELECT ID,TYPE,MEDICAL_DATE,COMMENTS FROM STUDENT_MEDICAL WHERE STUDENT_ID='".UserStudentID()."' ORDER BY MEDICAL_DATE,TYPE"),$functions);
@@ -43,11 +43,12 @@ if(empty($_REQUEST['modfunc']))
 	$link['remove']['variables'] = array('id'=>'ID');
 
 	ListOutput($med_RET,$columns,'Medical Alert','Medical Alerts',$link,array(),array('search'=>false));
+	echo '</TD></TR>';
 
 	if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 	{
 		echo '<TR><TD class="valign-top">';
-		echo '<TABLE><TR><TD class="valign-top">';
+		//echo '<TABLE><TR><TD class="valign-top">';
 		$table = 'STUDENT_MEDICAL_VISITS';
 		$functions = array('SCHOOL_DATE'=>'_makeDate','TIME_IN'=>'_makeComments','TIME_OUT'=>'_makeComments','REASON'=>'_makeComments','RESULT'=>'_makeComments','COMMENTS'=>'_makeComments');
 		$med_RET = DBGet(DBQuery("SELECT ID,SCHOOL_DATE,TIME_IN,TIME_OUT,REASON,RESULT,COMMENTS FROM STUDENT_MEDICAL_VISITS WHERE STUDENT_ID='".UserStudentID()."' ORDER BY SCHOOL_DATE"),$functions);
@@ -56,6 +57,8 @@ if(empty($_REQUEST['modfunc']))
 		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&include=$_REQUEST[include]&modfunc=delete&table=STUDENT_MEDICAL_VISITS&title=".urlencode('visit');
 		$link['remove']['variables'] = array('id'=>'ID');
 		ListOutput($med_RET,$columns,'Nurse Visit','Nurse Visits',$link,array(),array('search'=>false));
+		echo '</TD></TR>';
 	}
+	echo '</TABLE>';
 }
 ?>
