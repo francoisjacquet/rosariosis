@@ -7,12 +7,17 @@ if($_REQUEST['values'] && $_POST['values'])
 			foreach($month_values as $column=>$value)
 			{
 				$_REQUEST['values'][$table][$column] = $_REQUEST['day_values'][$table][$column].'-'.$_REQUEST['month_values'][$table][$column].'-'.$_REQUEST['year_values'][$table][$column];
-				if($_REQUEST['values'][$table][$column]=='--')
+				//modif Francois: bugfix SQL bug when incomplete or non-existent date
+				//if($_REQUEST['values'][$table][$column]=='--')
+				if(mb_strlen($_REQUEST['values'][$table][$column]) < 11)
 					$_REQUEST['values'][$table][$column] = '';
-				elseif(!VerifyDate($_REQUEST['values'][$table][$column]))
+				else
 				{
-					unset($_REQUEST['values'][$table][$column]);
-					$note = _('This date is invalid and could not be saved.');
+					while(!VerifyDate($_REQUEST['values'][$table][$column]))
+					{
+						$_REQUEST['day_values'][$table][$column]--;
+						$_REQUEST['values'][$table][$column] = $_REQUEST['day_values'][$table][$column].'-'.$_REQUEST['month_values'][$table][$column].'-'.$_REQUEST['year_values'][$table][$column];
+					}
 				}
 			}
 	}

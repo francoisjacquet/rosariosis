@@ -6,8 +6,18 @@ if($_REQUEST['month_values'] && $_POST['month_values'])
 		foreach($columns as $column=>$value)
 		{
 			$_REQUEST['values'][$id][$column] = $_REQUEST['day_values'][$id][$column].'-'.$value.'-'.$_REQUEST['year_values'][$id][$column];
-			if($_REQUEST['values'][$id][$column]=='--')
+			//modif Francois: bugfix SQL bug when incomplete or non-existent date
+			//if($_REQUEST['values'][$id][$column]=='--')
+			if(mb_strlen($_REQUEST['values'][$id][$column]) < 11)
 				$_REQUEST['values'][$id][$column] = '';
+			else
+			{
+				while(!VerifyDate($_REQUEST['values'][$id][$column]))
+				{
+					$_REQUEST['day_values'][$id][$column]--;
+					$_REQUEST['values'][$id][$column] = $_REQUEST['day_values'][$id][$column].'-'.$value.'-'.$_REQUEST['year_values'][$id][$column];
+				}
+			}
 		}
 	}
 	$_POST['values'] = $_REQUEST['values'];

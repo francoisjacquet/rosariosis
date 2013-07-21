@@ -17,8 +17,18 @@ function SaveData($iu_extra,$fields_done=false,$field_names=false)
 				foreach($columns as $column=>$value)
 				{
 					$_REQUEST['values'][$table][$id][$column] = $_REQUEST['day_values'][$table][$id][$column].'-'.$value.'-'.$_REQUEST['year_values'][$table][$id][$column];
-					if($_REQUEST['values'][$table][$id][$column]=='--')
+					//modif Francois: bugfix SQL bug when incomplete or non-existent date
+					//if($_REQUEST['values'][$table][$id][$column]=='--')
+					if(mb_strlen($_REQUEST['values'][$table][$id][$column]) < 11)
 						$_REQUEST['values'][$table][$id][$column] = '';
+					else
+					{
+						while(!VerifyDate($_REQUEST['values'][$table][$id][$column]))
+						{
+							$_REQUEST['day_values'][$table][$id][$column]--;
+							$_REQUEST['values'][$table][$id][$column] = $_REQUEST['day_values'][$table][$id][$column].'-'.$value.'-'.$_REQUEST['year_values'][$table][$id][$column];
+						}
+					}
 				}
 			}
 		}
