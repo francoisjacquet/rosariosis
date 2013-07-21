@@ -5,10 +5,14 @@ if($_REQUEST['values'] && $_POST['values'])
 {
 	if($_REQUEST['tab']=='password')
 	{
-		if(mb_strtolower($_REQUEST['values']['new'])!=mb_strtolower($_REQUEST['values']['verify']))
+		$current_password = str_replace("''","'",$_REQUEST['values']['current']);
+		$new_password = str_replace("''","'",$_REQUEST['values']['new']);
+		$verifiy_password = str_replace("''","'",$_REQUEST['values']['verify']);
+		
+		if(mb_strtolower($new_password)!=mb_strtolower($verifiy_password))
 			$error = _('Your new passwords did not match.');
 		//modif Francois: Moodle integrator / password
-		elseif (!MoodlePasswordCheck($_REQUEST['values']['new']))
+		elseif (!MoodlePasswordCheck($new_password))
 			$error = _('Please enter a valid password');				
 		else
 		{
@@ -19,17 +23,17 @@ if($_REQUEST['values'] && $_POST['values'])
 				$password_RET = DBGet(DBQuery("SELECT PASSWORD FROM STAFF WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'"));
 			
 //modif Francois: add password encryption
-//			if(mb_strtolower($password_RET[1]['PASSWORD'])!=mb_strtolower($_REQUEST['values']['current']))
-			if(!match_password($password_RET[1]['PASSWORD'],$_REQUEST['values']['current']))
+//			if(mb_strtolower($password_RET[1]['PASSWORD'])!=mb_strtolower($current_password))
+			if(!match_password($password_RET[1]['PASSWORD'],$current_password))
 				$error = _('Your current password was incorrect.');
 			else
 			{
 
-//				DBQuery("UPDATE STAFF SET PASSWORD='".$_REQUEST['values']['new']."' WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'");
+//				DBQuery("UPDATE STAFF SET PASSWORD='".$new_password."' WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'");
 				if (User('PROFILE')=='student')
-					DBQuery("UPDATE STUDENTS SET PASSWORD='".encrypt_password($_REQUEST['values']['new'])."' WHERE STUDENT_ID='".UserStudentID()."'");
+					DBQuery("UPDATE STUDENTS SET PASSWORD='".encrypt_password($new_password)."' WHERE STUDENT_ID='".UserStudentID()."'");
 				else
-					DBQuery("UPDATE STAFF SET PASSWORD='".encrypt_password($_REQUEST['values']['new'])."' WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'");
+					DBQuery("UPDATE STAFF SET PASSWORD='".encrypt_password($new_password)."' WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'");
 				$note = _('Your new password was saved.');
 				
 				//modif Francois: Moodle integrator

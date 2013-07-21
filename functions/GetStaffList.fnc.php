@@ -119,13 +119,13 @@ function appendStaffSQL($sql,$extra)
 	{
 		$sql .= " AND UPPER(s.LAST_NAME) LIKE '".mb_strtoupper($_REQUEST['last'])."%'";
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Last Name starts with')).' </b></span>'.$_REQUEST['last'].'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Last Name starts with')).' </b></span>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
 	}
 	if($_REQUEST['first'])
 	{
 		$sql .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('First Name starts with')).' </b></span>'.$_REQUEST['first'].'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('First Name starts with')).' </b></span>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
 	}
 	if($_REQUEST['profile'])
 	{
@@ -137,7 +137,7 @@ function appendStaffSQL($sql,$extra)
 	{
 		$sql .= " AND UPPER(s.USERNAME) LIKE '".mb_strtoupper($_REQUEST['username'])."%'";
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('UserName starts with')).' </b></span>'.$_REQUEST['username'].'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('UserName starts with')).' </b></span>'.str_replace("''", "'", $_REQUEST['username']).'<BR />';
 	}
 
 	return $sql;

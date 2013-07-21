@@ -147,10 +147,11 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 //			if($result_count && $_REQUEST['LO_search'] && $_REQUEST['LO_search']!='Search')
 			if($result_count && !empty($_REQUEST['LO_search']) && $_REQUEST['LO_search']!=_('Search'))
 			{
-				$_REQUEST['LO_search'] = $search_term = str_replace('\\\"','"',$_REQUEST['LO_search']);
-				$_REQUEST['LO_search'] = $search_term = preg_replace('/[^a-zA-Z0-9 _"]*/','',mb_strtolower($search_term));
-
-				if(mb_substr($search_term,0,0)!='"' && mb_substr($search_term,-1)!='"')
+				//$_REQUEST['LO_search'] = $search_term = str_replace('\\\"','"',$_REQUEST['LO_search']);
+				//$_REQUEST['LO_search'] = $search_term = preg_replace('/[^a-zA-Z0-9 _"]*/','',mb_strtolower($search_term));
+				$search_term = str_replace("''", "'", $_REQUEST['LO_search']);
+				
+				if(mb_substr($search_term,0,1)!='"' && mb_substr($search_term,-1,1)!='"')
 				{
 					$search_term = str_replace('"','',$search_term);
 					while($space_pos = mb_strpos($search_term,' '))
@@ -175,8 +176,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$values[$key] = 0;
 					foreach($value as $name=>$val)
 					{
-						$val = preg_replace('/[^a-zA-Z0-9 _]+/','',mb_strtolower($val));
-						if(mb_strtolower($_REQUEST['LO_search'])==$val)
+						//$val = preg_replace('/[^a-zA-Z0-9 _]+/','',mb_strtolower($val));
+						//if(mb_strtolower($_REQUEST['LO_search'])==$val)
+						if($search_term==$val)
 							$values[$key] += 25;
 						foreach($terms as $term=>$one)
 						{
@@ -457,7 +459,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				if(!isset($_REQUEST['_ROSARIO_PDF']) && $options['search'])
 				{
 					echo '<TD style="text-align:right">';
-					echo '<INPUT type="text" id="LO_search" name="LO_search" value="" placeholder="'.(($_REQUEST['LO_search'] && $_REQUEST['LO_search']!=_('Search'))?$_REQUEST['LO_search']:_('Search')).'" onkeypress="if(event.keyCode==13 && this.value!=\'\'){document.location.href=\''.PreparePHP_SELF($_REQUEST,array('LO_search','page')).'&amp;LO_search=\'+this.value; return false;}" /><INPUT type="button" value="'._('Go').'" onclick="if(document.getElementById(\'LO_search\').value!=\'\'){document.location.href=\''.PreparePHP_SELF($_REQUEST,array('LO_search','page')).'&amp;LO_search=\'+document.getElementById(\'LO_search\').value;}" /></TD>';
+					echo '<INPUT type="text" id="LO_search" name="LO_search" value="'.str_replace("''", "'", $_REQUEST['LO_search']).'" placeholder="'._('Search').'" onkeypress="if(event.keyCode==13 && this.value!=\'\'){document.location.href=\''.PreparePHP_SELF($_REQUEST,array('LO_search','page')).'&amp;LO_search=\'+this.value; return false;}" /><INPUT type="button" value="'._('Go').'" onclick="if(document.getElementById(\'LO_search\').value!=\'\'){document.location.href=\''.PreparePHP_SELF($_REQUEST,array('LO_search','page')).'&amp;LO_search=\'+document.getElementById(\'LO_search\').value;}" /></TD>';
 					$colspan++;
 				}
 				echo '</TR>';

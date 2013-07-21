@@ -418,13 +418,13 @@ function appendSQL($sql,$extra=array())
 	{
 		$sql .= " AND LOWER(s.LAST_NAME) LIKE '".mb_strtolower($_REQUEST['last'])."%'";
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Last Name starts with')).' </b></span>'.$_REQUEST['last'].'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Last Name starts with')).' </b></span>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
 	}
 	if($_REQUEST['first'])
 	{
 		$sql .= " AND LOWER(s.FIRST_NAME) LIKE '".mb_strtolower($_REQUEST['first'])."%'";
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('First Name starts with')).' </b></span>'.$_REQUEST['first'].'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('First Name starts with')).' </b></span>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
 	}
 	if($_REQUEST['grade'])
 	{
@@ -452,7 +452,7 @@ function appendSQL($sql,$extra=array())
 	{
 		$sql .= " AND (LOWER(a.ADDRESS) LIKE '%".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.CITY) LIKE '".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.STATE)='".mb_strtolower($_REQUEST['addr'])."' OR ZIPCODE LIKE '".$_REQUEST['addr']."%')";
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Address contains')).' </b></span>'.$_REQUEST['addr'].'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Address contains')).' </b></span>'.str_replace("''", "'", $_REQUEST['addr']).'<BR />';
 	}
 
 	return $sql;

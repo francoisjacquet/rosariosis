@@ -43,12 +43,17 @@ if($_REQUEST['modfunc']=='update')
 		foreach($_REQUEST['month_staff'] as $column=>$value)
 		{
 			$_REQUEST['staff'][$column] = $_REQUEST['day_staff'][$column].'-'.$_REQUEST['month_staff'][$column].'-'.$_REQUEST['year_staff'][$column];
-			if($_REQUEST['staff'][$column]=='--')
+			//modif Francois: bugfix SQL bug when incomplete or non-existent date
+			//if($_REQUEST['staff'][$column]=='--')
+			if(mb_strlen($_REQUEST['staff'][$column]) < 11)
 				$_REQUEST['staff'][$column] = '';
-			elseif(!VerifyDate($_REQUEST['staff'][$column]))
+			else
 			{
-				unset($_REQUEST['staff'][$column]);
-				$note = "The invalid date could not be saved.";
+				while(!VerifyDate($_REQUEST['staff'][$column]))
+				{
+					$_REQUEST['day_staff'][$column]--;
+					$_REQUEST['staff'][$column] = $_REQUEST['day_staff'][$column].'-'.$_REQUEST['month_staff'][$column].'-'.$_REQUEST['year_staff'][$column];
+				}
 			}
 		}
 	}
@@ -112,6 +117,7 @@ if($_REQUEST['modfunc']=='update')
 				}
 				if ($column_name=='PASSWORD' && $value!==str_repeat('*',8))
 				{
+					$value = str_replace("''","'",$value);
 					$sql .= "$column_name='".encrypt_password($value)."',";
 					$go = true;
 				}
@@ -168,7 +174,10 @@ if($_REQUEST['modfunc']=='update')
 					if ($column!=='PASSWORD')
 						$values .= "'".str_replace("\'","''",$value)."',";
 					else
+					{
+						$value = str_replace("''","'",$value);
 						$values .= "'".encrypt_password($value)."',";
+					}
 				}
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';

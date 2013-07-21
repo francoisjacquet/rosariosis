@@ -42,12 +42,17 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		foreach($_REQUEST['month_students'] as $column=>$value)
 		{
 			$_REQUEST['students'][$column] = $_REQUEST['day_students'][$column].'-'.$_REQUEST['month_students'][$column].'-'.$_REQUEST['year_students'][$column];
-			if($_REQUEST['students'][$column]=='--')
+			//modif Francois: bugfix SQL bug when incomplete or non-existent date
+			//if($_REQUEST['students'][$column]=='--')
+			if(mb_strlen($_REQUEST['students'][$column]) < 11)
 				$_REQUEST['students'][$column] = '';
-			elseif(!VerifyDate($_REQUEST['students'][$column]))
+			else
 			{
-				unset($_REQUEST['students'][$column]);
-				$note = _('This date is invalid and could not be saved.');
+				while(!VerifyDate($_REQUEST['students'][$column]))
+				{
+					$_REQUEST['day_students'][$column]--;
+					$_REQUEST['students'][$column] = $_REQUEST['day_students'][$column].'-'.$_REQUEST['month_students'][$column].'-'.$_REQUEST['year_students'][$column];
+				}
 			}
 		}
 	}
@@ -76,7 +81,10 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						if ($column!=='PASSWORD')
 							$sql .= "$column='".str_replace("\'","''",str_replace('&#39;',"''",$value))."',";
 						if ($column=='PASSWORD' && $value!==str_repeat('*',8))
+						{
+							$value = str_replace("''","'",$value);
 							$sql .= "$column='".encrypt_password($value)."',";
+						}
 					}
 					else
 					{
@@ -162,7 +170,10 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						if ($column!=='PASSWORD')
 							$values .= "'".str_replace("\'","''",$value)."',";
 						else
+						{
+							$value = str_replace("''","'",$value);
 							$values .= "'".encrypt_password($value)."',";
+						}
 					}
 					else
 					{
