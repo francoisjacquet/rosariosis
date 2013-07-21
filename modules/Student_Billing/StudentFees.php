@@ -39,7 +39,7 @@ if($_REQUEST['values'] && $_POST['values'])
 							
 			foreach($columns as $column=>$value)
 			{
-				$sql .= $column."='".str_replace("\'","''",$value)."',";
+				$sql .= $column."='".$value."',";
 			}
 			$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND ID='$id'";
 			DBQuery($sql);
@@ -59,7 +59,7 @@ if($_REQUEST['values'] && $_POST['values'])
 					if($column=='AMOUNT')
 						$value = preg_replace('/[^0-9.-]/','',$value);
 					$fields .= $column.',';
-					$values .= "'".str_replace("\'","''",$value)."',";
+					$values .= "'".$value."',";
 					$go = true;
 				}
 			}

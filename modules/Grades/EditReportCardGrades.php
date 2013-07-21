@@ -44,7 +44,7 @@ if(UserStudentID())
 					{
 						$sql = "UPDATE student_report_card_grades SET ";
 						foreach($columns as $column=>$value)
-							$sql .= $column."='".str_replace("\'","''",$value)."',";
+							$sql .= $column."='".$value."',";
 						if($_REQUEST['tab_id']!='new')
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 						else
@@ -74,7 +74,7 @@ if(UserStudentID())
 							if($value)
 							{
 								$fields .= $column.',';
-								$values .= '\''.str_replace("\'","''",$value).'\',';
+								$values .= '\''.$value.'\',';
 								$go = true;
 							}
 						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';

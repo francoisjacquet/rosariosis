@@ -233,7 +233,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						}
 
 						foreach($columns as $column=>$value)
-							$sql .= $column."='".str_replace("\'","''",$value)."',";
+							$sql .= $column."='".$value."',";
 
 						$sql = mb_substr($sql,0,-1) . " WHERE ".$where[$table_name]."='$id'";
 						DBQuery($sql);
@@ -353,7 +353,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							if(isset($value))
 							{
 								$fields .= $column.',';
-								$values .= "'".str_replace("\'","''",$value)."',";
+								$values .= "'".$value."',";
 								$go = true;
 							}
 						}

@@ -15,7 +15,7 @@ if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 			$id = $id[1]['SEQ_ID'];
 
 			$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION';
-			$values = "'0','".$id."','".($_REQUEST['values']['TYPE']=='Debit' ? -$amount : $amount)."',NULL,'".mb_strtoupper($_REQUEST['values']['OPTION'])."','".str_replace("\'","''",$_REQUEST['values']['OPTION'].' '.$_REQUEST['values']['DESCRIPTION'])."'";
+			$values = "'0','".$id."','".($_REQUEST['values']['TYPE']=='Debit' ? -$amount : $amount)."',NULL,'".mb_strtoupper($_REQUEST['values']['OPTION'])."','".$_REQUEST['values']['OPTION'].' '.$_REQUEST['values']['DESCRIPTION']."'";
 			$sql = "INSERT INTO FOOD_SERVICE_TRANSACTION_ITEMS (".$fields.") values (".$values.")";
 			DBQuery($sql);
 

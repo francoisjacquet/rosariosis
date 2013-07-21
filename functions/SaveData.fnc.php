@@ -77,12 +77,12 @@ function SaveData($iu_extra,$fields_done=false,$field_names=false)
 					if($value)
 					{
 						$ins_fields[$table] .= $column.',';
-						$ins_values[$table] .= "'".str_replace("\'","''",$value)."',";
+						$ins_values[$table] .= "'".$value."',";
 						$go = true;
 					}
 				}
 				else
-					$sql[$table] .= "$column='".str_replace("\'","''",str_replace('&#39;',"''",$value))."',";
+					$sql[$table] .= "$column='".str_replace('&#39;',"''",$value)."',";
 			}
 			if($id=='new')
 				$sql[$table] = 'INSERT INTO '.$table.' (' . $iu_extra['fields'][$table].mb_substr($ins_fields[$table],0,-1) . ') values(' . $iu_extra['values'][$table].mb_substr($ins_values[$table],0,-1) . ')';

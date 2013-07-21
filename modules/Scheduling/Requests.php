@@ -24,7 +24,7 @@ if($_REQUEST['modfunc']=='update')
 
 		foreach($columns as $column=>$value)
 		{
-			$sql .= $column."='".str_replace("\'","''",$value)."',";
+			$sql .= $column."='".$value."',";
 		}
 		$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND REQUEST_ID='".$request_id."'";
 		DBQuery($sql);

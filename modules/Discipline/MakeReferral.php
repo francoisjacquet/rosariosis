@@ -63,7 +63,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		{
 			$fields .= $column.',';
 			if(!is_array($value))
-				$values .= "'".str_replace("\'","''",str_replace('&quot;','"',$value))."',";
+				$values .= "'".str_replace('&quot;','"',$value)."',";
 			else
 			{
 				$values .= "'||";

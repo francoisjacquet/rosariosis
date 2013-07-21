@@ -42,7 +42,7 @@ if($_REQUEST['values'])
 					if($value)
 					{
 						$fields .= $column.',';
-						$values .= "'".str_replace("\'","''",$value)."',";
+						$values .= "'".$value."',";
 						$go = true;
 					}
 				}
@@ -78,7 +78,7 @@ if($_REQUEST['values'])
 				{
 					if($value)
 					{
-						$value = str_replace("\'","''",$value);
+						$value = $value;
 						$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
 						$fields = 'ID,PERSON_ID,TITLE,VALUE,';
 						$values = db_seq_nextval('PEOPLE_SEQ').",'".$person_id."','$column','$value',";
@@ -98,7 +98,7 @@ if($_REQUEST['values'])
 					if($value)
 					{
 						$fields .= $column.',';
-						$values .= "'".str_replace("\'","''",$value)."',";
+						$values .= "'".$value."',";
 						$go = true;
 					}
 				}
@@ -123,7 +123,7 @@ if($_REQUEST['values'])
 		$sql = "UPDATE STUDENTS SET ";
 		foreach($_REQUEST['values']['STUDENTS'] as $column_name=>$value)
 		{
-			$sql .= "$column_name='".str_replace("\'","''",$value)."',";
+			$sql .= "$column_name='".$value."',";
 		}
 
 		$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."'";

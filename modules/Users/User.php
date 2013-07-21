@@ -112,7 +112,7 @@ if($_REQUEST['modfunc']=='update')
 //modif Francois: add password encryption
 				if ($column_name!=='PASSWORD')
 				{
-					$sql .= "$column_name='".str_replace("\'","''",str_replace("`","''",$value))."',";
+					$sql .= "$column_name='".$value."',";
 					$go = true;
 				}
 				if ($column_name=='PASSWORD' && $value!==str_repeat('*',8))
@@ -172,7 +172,7 @@ if($_REQUEST['modfunc']=='update')
 					$fields .= $column.',';
 //modif Francois: add password encryption
 					if ($column!=='PASSWORD')
-						$values .= "'".str_replace("\'","''",$value)."',";
+						$values .= "'".$value."',";
 					else
 					{
 						$value = str_replace("''","'",$value);

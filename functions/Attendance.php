@@ -69,11 +69,11 @@ function UpdateAttendanceDaily($student_id,$date='',$comment=false)
 
 	$current_RET = DBGet(DBQuery("SELECT MINUTES_PRESENT,STATE_VALUE,COMMENT FROM ATTENDANCE_DAY WHERE STUDENT_ID='$student_id' AND SCHOOL_DATE='$date'"));
 	if(count($current_RET) && $current_RET[1]['MINUTES_PRESENT']!=$total)
-		DBQuery("UPDATE ATTENDANCE_DAY SET MINUTES_PRESENT='$total',STATE_VALUE='$length'".($comment!==false?",COMMENT='".str_replace("\'","''",$comment)."'":'')." WHERE STUDENT_ID='$student_id' AND SCHOOL_DATE='$date'");
+		DBQuery("UPDATE ATTENDANCE_DAY SET MINUTES_PRESENT='$total',STATE_VALUE='$length'".($comment!==false?",COMMENT='".$comment."'":'')." WHERE STUDENT_ID='$student_id' AND SCHOOL_DATE='$date'");
 	elseif(count($current_RET) && $comment!==false && $current_RET[1]['COMMENT']!=$comment)
-		DBQuery("UPDATE ATTENDANCE_DAY SET COMMENT='".str_replace("\'","''",$comment)."' WHERE STUDENT_ID='$student_id' AND SCHOOL_DATE='$date'");
+		DBQuery("UPDATE ATTENDANCE_DAY SET COMMENT='".$comment."' WHERE STUDENT_ID='$student_id' AND SCHOOL_DATE='$date'");
 	elseif(count($current_RET)==0)
-		DBQuery("INSERT INTO ATTENDANCE_DAY (SYEAR,STUDENT_ID,SCHOOL_DATE,MINUTES_PRESENT,STATE_VALUE,MARKING_PERIOD_ID,COMMENT) values('".UserSyear()."','$student_id','$date','$total','$length','".GetCurrentMP('QTR',$date)."','".str_replace("\'","''",$comment)."')");
+		DBQuery("INSERT INTO ATTENDANCE_DAY (SYEAR,STUDENT_ID,SCHOOL_DATE,MINUTES_PRESENT,STATE_VALUE,MARKING_PERIOD_ID,COMMENT) values('".UserSyear()."','$student_id','$date','$total','$length','".GetCurrentMP('QTR',$date)."','".$comment."')");
 }
 
 ?>

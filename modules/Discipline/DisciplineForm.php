@@ -25,7 +25,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				$sql = "UPDATE DISCIPLINE_FIELD_USAGE SET ";
 
 				foreach($columns as $column=>$value)
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+					$sql .= $column."='".$value."',";
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 				$go = true;
 			}
@@ -47,7 +47,7 @@ if($_REQUEST['values'] && $_POST['values'])
 						if($value && $column!='SORT_ORDER' && $column!='SELECT_OPTIONS')
 						{
 							$fields .= $column.',';
-							$values .= "'".str_replace("\'","''",$value)."',";
+							$values .= "'".$value."',";
 							$go = true;
 						}
 					}
@@ -64,7 +64,7 @@ if($_REQUEST['values'] && $_POST['values'])
 						if($value && $column!='DATA_TYPE')
 						{
 							$fields .= $column.',';
-							$values .= "'".str_replace("\'","''",$value)."',";
+							$values .= "'".$value."',";
 						}
 					}
 				

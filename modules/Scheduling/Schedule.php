@@ -73,7 +73,7 @@ if($_REQUEST['schedule'] && $_POST['schedule'])
 
 		foreach($columns as $column=>$value)
 		{
-			$sql .= $column."='".str_replace("\'","''",$value)."',";
+			$sql .= $column."='".$value."',";
 		}
 		$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND START_DATE='".$start_date."'";
 		DBQuery($sql);

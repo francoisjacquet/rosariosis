@@ -14,7 +14,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 
 				foreach($_REQUEST['values'] as $column=>$value)
 				{
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+					$sql .= $column."='".$value."',";
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'";
 				DBQuery($sql);
@@ -29,7 +29,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 					if($column!='ID' && $value)
 					{
 						$fields .= ','.$column;
-						$values .= ",'".str_replace("\'","''",$value)."'";
+						$values .= ",'".$value."'";
 					}
 
 				if($fields && $values)

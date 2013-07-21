@@ -317,7 +317,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			}
 
 			if(isset($columns['comment']))
-				$sql .= $sep."COMMENT='".str_replace("\'","''",$columns['comment'])."'";
+				$sql .= $sep."COMMENT='".$columns['comment']."'";
 			if($sql)
 				$sql = "UPDATE STUDENT_REPORT_CARD_GRADES SET ".$sql." WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'";
 		}
@@ -357,7 +357,7 @@ if($_REQUEST['values'] && $_POST['values'])
 //modif Francois: add CLASS_RANK
 //modif Francois: add Credit Hours
  			$sql = "INSERT INTO STUDENT_REPORT_CARD_GRADES (ID, SYEAR,SCHOOL_ID,STUDENT_ID,COURSE_PERIOD_ID,MARKING_PERIOD_ID,REPORT_CARD_GRADE_ID,GRADE_PERCENT,COMMENT,GRADE_LETTER,WEIGHTED_GP,UNWEIGHTED_GP,GP_SCALE,COURSE_TITLE,CREDIT_ATTEMPTED,CREDIT_EARNED,CLASS_RANK,CREDIT_HOURS)
-				values(".db_seq_nextval('student_report_card_grades_seq').",'".UserSyear()."','".UserSchool()."','".$student_id."','".$course_period_id."','".$_REQUEST['mp']."','".$grade."','".$percent."','".str_replace("\'","''",$columns['comment'])."','".$grades_RET[$grade][1]['TITLE']."','".$weighted."','".$unweighted."','".$scale."','".$course_RET[1]['COURSE_NAME']."','".$course_RET[1]['CREDITS']."','".($weighted&&$weighted>0?$course_RET[1]['CREDITS']:'0')."','".$course_RET[1]['CLASS_RANK']."',".(is_null($course_RET[1]['CREDIT_HOURS']) ? 'NULL' : $course_RET[1]['CREDIT_HOURS']).")";
+				values(".db_seq_nextval('student_report_card_grades_seq').",'".UserSyear()."','".UserSchool()."','".$student_id."','".$course_period_id."','".$_REQUEST['mp']."','".$grade."','".$percent."','".$columns['comment']."','".$grades_RET[$grade][1]['TITLE']."','".$weighted."','".$unweighted."','".$scale."','".$course_RET[1]['COURSE_NAME']."','".$course_RET[1]['CREDITS']."','".($weighted&&$weighted>0?$course_RET[1]['CREDITS']:'0')."','".$course_RET[1]['CLASS_RANK']."',".(is_null($course_RET[1]['CREDIT_HOURS']) ? 'NULL' : $course_RET[1]['CREDIT_HOURS']).")";
 		}
 		else
 			$percent = $grade = '';
@@ -374,7 +374,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			foreach($columns['commentsA'] as $id=>$comment)
 				if($current_commentsA_RET[$student_id][$id])
 					if($comment)
-						DBQuery("UPDATE STUDENT_REPORT_CARD_COMMENTS SET COMMENT='".str_replace("\'","''",$comment)."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND REPORT_CARD_COMMENT_ID='".$id."'");
+						DBQuery("UPDATE STUDENT_REPORT_CARD_COMMENTS SET COMMENT='".$comment."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND REPORT_CARD_COMMENT_ID='".$id."'");
 					else
 						DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND REPORT_CARD_COMMENT_ID='".$id."'");
 				elseif($comment)

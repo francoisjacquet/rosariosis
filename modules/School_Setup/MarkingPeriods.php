@@ -78,7 +78,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						if((!VerifyDate($value) && $value!='') || (($column=='START_DATE' || $column=='END_DATE') && $value==''))
 							BackPrompt(_('Some dates are not valid.'));
 					}
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+					$sql .= $column."='".$value."',";
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='$id'";
 				$go = true;
@@ -123,7 +123,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					if($value)
 					{
 						$fields .= $column.',';
-						$values .= "'".str_replace("\'","''",$value)."',";
+						$values .= "'".$value."',";
 						$go = true;
 					}
 				}

@@ -13,7 +13,7 @@ if($_REQUEST['modfunc']=='update')
 			foreach($_REQUEST['values'] as $column=>$value)
 			{
 				$sql .= "UPDATE CONFIG SET ";
-				$sql .= "CONFIG_VALUE='".str_replace("\'","''",$value)."' WHERE TITLE='".$column."'";
+				$sql .= "CONFIG_VALUE='".$value."' WHERE TITLE='".$column."'";
 				$sql .= " AND SCHOOL_ID='".UserSchool()."';";
 			}
 			DBQuery($sql);

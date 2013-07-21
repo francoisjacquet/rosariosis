@@ -126,7 +126,7 @@ if($_REQUEST['values'] && $_POST['values'] && $_SESSION['type_id']==$_REQUEST['t
 				$sql = "UPDATE GRADEBOOK_GRADES SET ";
 				foreach($columns as $column=>$value)
 				{
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+					$sql .= $column."='".$value."',";
 				}
 				$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='$student_id' AND ASSIGNMENT_ID='$assignment_id' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'";
 			}

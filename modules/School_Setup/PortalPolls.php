@@ -69,12 +69,12 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 						$sql_question_cols = '';
 						foreach($value as $col=>$val)
 						{
-							$sql_question_cols .= $col."='".str_replace("\'","''",$val)."',";
+							$sql_question_cols .= $col."='".$val."',";
 						}
 						$sql_questions[] = $sql_question.$sql_question_cols;
 					}
 					else
-						$sql .= $column."='".str_replace("\'","''",$value)."',";
+						$sql .= $column."='".$value."',";
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 				DBQuery($sql);
@@ -135,7 +135,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 								if ($val)
 								{
 									$fields_question .= $col.',';
-									$values_question .= "'".str_replace("\'","''",$val)."',";
+									$values_question .= "'".$val."',";
 									$go_question = true;
 								}
 							}
@@ -145,7 +145,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 						else
 						{
 							$fields .= $column.',';
-							$values .= "'".str_replace("\'","''",$value)."',";
+							$values .= "'".$value."',";
 							$go = true;
 						}
 					}

@@ -73,13 +73,13 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				foreach($_REQUEST['students'] as $column=>$value)
 				{
 					if($column=='USERNAME' && $value)
-						if(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE USERNAME='".str_replace("\'","''",$value)."' AND STUDENT_ID<>'".UserStudentID()."'")))
+						if(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE USERNAME='".$value."' AND STUDENT_ID<>'".UserStudentID()."'")))
 							$value = '';
 					if(!is_array($value))
 					{
 //modif Francois: add password encryption
 						if ($column!=='PASSWORD')
-							$sql .= "$column='".str_replace("\'","''",str_replace('&#39;',"''",$value))."',";
+							$sql .= "$column='".str_replace('&#39;',"''",$value)."',";
 						if ($column=='PASSWORD' && $value!==str_repeat('*',8))
 						{
 							$value = str_replace("''","'",$value);
@@ -118,7 +118,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			{
 				$sql = "UPDATE STUDENT_ENROLLMENT SET ";
 				foreach($_REQUEST['values']['STUDENT_ENROLLMENT'][UserStudentID()] as $column=>$value)
-					$sql .= "$column='".str_replace("\'","''",str_replace('&#39;',"''",$value))."',";
+					$sql .= "$column='".str_replace('&#39;',"''",$value)."',";
 				$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'";
 				DBQuery($sql);
 			}
@@ -159,7 +159,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			foreach($_REQUEST['students'] as $column=>$value)
 			{
 				if($column=='USERNAME' && $value)
-					if(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE USERNAME='".str_replace("\'","''",$value)."'")))
+					if(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE USERNAME='".$value."'")))
 						$value = '';
 				if($value)
 				{
@@ -168,7 +168,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					{
 //modif Francois: add password encryption
 						if ($column!=='PASSWORD')
-							$values .= "'".str_replace("\'","''",$value)."',";
+							$values .= "'".$value."',";
 						else
 						{
 							$value = str_replace("''","'",$value);
@@ -205,7 +205,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				if($value)
 				{
 					$fields .= $column.',';
-					$values .= "'".str_replace("\'","''",$value)."',";
+					$values .= "'".$value."',";
 				}
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';

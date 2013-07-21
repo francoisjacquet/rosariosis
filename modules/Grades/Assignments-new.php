@@ -63,7 +63,7 @@ if($_REQUEST['modfunc']=='update')
 							$sql .= "COURSE_PERIOD_ID='".UserCoursePeriod()."',";
 						}
 					}
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+					$sql .= $column."='".$value."',";
 				}
 
 				if($_REQUEST['tab_id']!='new')
@@ -120,7 +120,7 @@ if($_REQUEST['modfunc']=='update')
 					if($value!='')
 					{
 						$fields .= $column.',';
-						$values .= "'".str_replace("\'","''",$value)."',";
+						$values .= "'".$value."',";
 						if($column!='ASSIGNMENT_TYPE_ID' && $column!='ASSIGNED_DATE' && $column!='DUE_DATE')
 							$go = true;
 					}

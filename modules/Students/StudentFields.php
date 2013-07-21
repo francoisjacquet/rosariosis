@@ -21,7 +21,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 				$sql = "UPDATE $table SET ";
 
 				foreach($columns as $column=>$value)
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+					$sql .= $column."='".$value."',";
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 				$go = true;
 			}
@@ -99,7 +99,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 					if($value)
 					{
 						$fields .= $column.',';
-						$values .= "'".str_replace("\'","''",$value)."',";
+						$values .= "'".$value."',";
 						$go = true;
 					}
 				}

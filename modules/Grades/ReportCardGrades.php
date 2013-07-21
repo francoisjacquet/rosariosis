@@ -22,7 +22,7 @@ if($_REQUEST['modfunc']=='update')
 							$sql = "UPDATE REPORT_CARD_GRADE_SCALES SET ";
 
 						foreach($columns as $column=>$value)
-							$sql .= $column."='".str_replace("\'","''",$value)."',";
+							$sql .= $column."='".$value."',";
 
 						if($_REQUEST['tab_id']!='new')
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
@@ -50,7 +50,7 @@ if($_REQUEST['modfunc']=='update')
 							if($value)
 							{
 								$fields .= $column.',';
-								$values .= '\''.str_replace("\'","''",$value).'\',';
+								$values .= '\''.$value.'\',';
 								$go = true;
 							}
 						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';

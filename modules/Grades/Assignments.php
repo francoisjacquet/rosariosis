@@ -71,7 +71,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 							$value = preg_replace('/[^0-9.]/','',$value) / 100;
 
 
-						$sql .= $column."='".str_replace("\'","''",$value)."',";
+						$sql .= $column."='".$value."',";
 					}
 					$sql = mb_substr($sql,0,-1) . " WHERE ".mb_substr($table,10,-1)."_ID='$id'";
 					$go = true;
@@ -128,7 +128,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 						if($value!='')
 						{
 							$fields .= $column.',';
-							$values .= "'".str_replace("\'","''",$value)."',";
+							$values .= "'".$value."',";
 							$go = true;
 						}
 					}

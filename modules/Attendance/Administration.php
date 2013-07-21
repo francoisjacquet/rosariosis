@@ -75,7 +75,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 				$sql = "UPDATE $table SET ADMIN='Y',COURSE_PERIOD_ID='".$current_schedule_RET[$student_id][$period_id][1]['COURSE_PERIOD_ID']."',";
 
 				foreach($columns as $column=>$value)
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+					$sql .= $column."='".$value."',";
 
 				$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='$date' AND PERIOD_ID='$period_id' AND STUDENT_ID='$student_id'".$extra_sql;
 				DBQuery($sql);
@@ -98,7 +98,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 					if($value)
 					{
 						$fields .= $column.',';
-						$values .= "'".str_replace("\'","''",$value)."',";
+						$values .= "'".$value."',";
 						$go = true;
 					}
 				}

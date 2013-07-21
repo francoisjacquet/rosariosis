@@ -61,7 +61,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 				foreach($columns as $column=>$value)
 				{
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+					$sql .= $column."='".$value."',";
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 				DBQuery($sql);
@@ -116,7 +116,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					if($value)
 					{
 						$fields .= $column.',';
-						$values .= "'".str_replace("\'","''",$value)."',";
+						$values .= "'".$value."',";
 						$go = true;
 					}
 				}

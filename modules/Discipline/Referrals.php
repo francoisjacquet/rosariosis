@@ -41,7 +41,7 @@ if($_REQUEST['values'] && $_POST['values'])
 	foreach($_REQUEST['values'] as $column_name=>$value)
 	{
 		if(!is_array($value))
-			$sql .= "$column_name='".str_replace("\'","''",str_replace("&rsquo;","''",$value))."',";
+			$sql .= "$column_name='".str_replace("&rsquo;","''",$value)."',";
 		else
 		{
 			$sql .= $column_name."='||";

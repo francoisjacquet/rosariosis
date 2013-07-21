@@ -56,7 +56,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			foreach($_REQUEST['values']['ADDRESS'] as $column=>$value)
 			{
 				if(!is_array($value))
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+					$sql .= $column."='".$value."',";
 				else
 				{
 					$sql .= $column."='||";
@@ -92,7 +92,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				if($value)
 				{
 					$fields .= $column.',';
-					$values .= "'".str_replace("\'","''",$value)."',";
+					$values .= "'".$value."',";
 					$go = true;
 				}
 			}
@@ -120,7 +120,7 @@ if($_REQUEST['values'] && $_POST['values'])
 
 				foreach($_REQUEST['values']['PEOPLE'] as $column=>$value)
 				{
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+					$sql .= $column."='".$value."',";
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='$_REQUEST[person_id]'";
 				DBQuery($sql);
@@ -141,7 +141,7 @@ if($_REQUEST['values'] && $_POST['values'])
 					if($value)
 					{
 						$fields .= $column.',';
-						$values .= "'".str_replace("\'","''",$value)."',";
+						$values .= "'".$value."',";
 						$go = true;
 					}
 				}
@@ -170,7 +170,7 @@ if($_REQUEST['values'] && $_POST['values'])
 
 				foreach($values as $column=>$value)
 				{
-					$sql .= $column."='".str_replace("\'","''",$value)."',";
+					$sql .= $column."='".$value."',";
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
 				DBQuery($sql);
@@ -190,7 +190,7 @@ if($_REQUEST['values'] && $_POST['values'])
 						if($value)
 						{
 							$fields .= $column.',';
-							$vals .= "'".str_replace("\'","''",$value)."',";
+							$vals .= "'".$value."',";
 							$go = true;
 						}
 					}
@@ -208,7 +208,7 @@ if($_REQUEST['values'] && $_POST['values'])
 
 		foreach($_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] as $column=>$value)
 		{
-			$sql .= $column."='".str_replace("\'","''",$value)."',";
+			$sql .= $column."='".$value."',";
 		}
 		$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='$_REQUEST[person_id]' AND STUDENT_ID='".UserStudentID()."'";
 		DBQuery($sql);
@@ -220,7 +220,7 @@ if($_REQUEST['values'] && $_POST['values'])
 
 		foreach($_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] as $column=>$value)
 		{
-			$sql .= $column."='".str_replace("\'","''",$value)."',";
+			$sql .= $column."='".$value."',";
 		}
 		$sql = mb_substr($sql,0,-1) . " WHERE ADDRESS_ID='$_REQUEST[address_id]' AND STUDENT_ID='".UserStudentID()."'";
 		DBQuery($sql);

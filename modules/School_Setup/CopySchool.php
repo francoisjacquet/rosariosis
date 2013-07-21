@@ -19,7 +19,7 @@ if(Prompt(_('Confirm Copy School'),sprintf(_('Are you sure you want to copy the 
 	{
 		$id = DBGet(DBQuery("SELECT ".db_seq_nextval('SCHOOLS_SEQ')." AS ID".FROM_DUAL));
 		$id = $id[1]['ID'];
-		DBQuery("INSERT INTO SCHOOLS (ID,SYEAR,TITLE) values('$id','".UserSyear()."','".str_replace("\'","''",$_REQUEST['title'])."')");
+		DBQuery("INSERT INTO SCHOOLS (ID,SYEAR,TITLE) values('$id','".UserSyear()."','".$_REQUEST['title']."')");
 		DBQuery("UPDATE STAFF SET SCHOOLS=rtrim(SCHOOLS,',')||',$id,' WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOLS IS NOT NULL");
 		foreach($_REQUEST['tables'] as $table=>$value)
 			_rollover($table);
