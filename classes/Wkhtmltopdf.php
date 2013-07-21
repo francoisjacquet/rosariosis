@@ -644,7 +644,7 @@ class Wkhtmltopdf
 
         $content = $this->_exec(str_replace('%input%', $input, $this->_getCommand()));
 
-        if (mb_strpos(mb_strtolower($content['stderr']), 'error'))
+        if (strpos(mb_strtolower($content['stderr']), 'error'))
                 throw new Exception("System error <pre>" . $content['stderr'] . "</pre>");
 
         if (mb_strlen($content['stdout'], 'utf-8') === 0)
@@ -678,7 +678,7 @@ class Wkhtmltopdf
                     header("Content-Type: application/pdf", false);
                     header('Content-Disposition: attachment; filename="' . basename($filename) .'";');
                     header("Content-Transfer-Encoding: binary");
-                    header("Content-Length: " . mb_strlen($result));
+                    header("Content-Length: " . strlen($result));
                     echo $result;
                     $filepath = $this->getFilePath();
                     if (!empty($filepath))
@@ -699,7 +699,7 @@ class Wkhtmltopdf
                     header("Pragme: public");
                     header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
                     header("Last-Modified: " . gmdate('D, d m Y H:i:s') . " GMT");
-                    header("Content-Length: " . mb_strlen($result));
+                    header("Content-Length: " . strlen($result));
                     header('Content-Disposition: inline; filename="' . basename($filename) .'";');
                     echo $result;
                     $filepath = $this->getFilePath();
