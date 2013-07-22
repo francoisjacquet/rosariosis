@@ -377,6 +377,10 @@ h3 span {
 #modulesBody {
 	padding: 0 15px
 }
+img.headerIcon {
+	height:32px;
+	vertical-align:bottom
+}
 .header2 {
 	padding: 2px
 }
