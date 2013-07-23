@@ -12,7 +12,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$_ROSARIO['Preferences']['Preferences']['NAME'][1]['VALUE'] = '';
 
 	$months = array(1=>_('January'),_('February'),_('March'),_('April'),_('May'),_('June'),_('July'),_('August'),_('September'),_('October'),_('November'),_('December'));
-	$custom_RET = DBGet(DBQuery("SELECT TITLE,ID FROM CUSTOM_FIELDS WHERE ID IN('200000000','200000003')"),array(),array('ID'));
+	$custom_RET = DBGet(DBQuery("SELECT TITLE,ID FROM CUSTOM_FIELDS WHERE ID IN ('200000000','200000003')"),array(),array('ID'));
 
 	$extra['SELECT'] = ",ssm.CALENDAR_ID,ssm.START_DATE,ssm.END_DATE";
 	foreach($custom_RET as $id=>$custom)

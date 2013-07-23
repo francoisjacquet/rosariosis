@@ -328,7 +328,7 @@ if(empty($_REQUEST['modfunc']))
 			$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showcertificate" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> '._('Studies Certificate').'</label></TD></TR>';
 			
 			//modif Francois: add Template
-			$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,".User('STAFF_ID').")"), array(), array('STAFF_ID'));
+			$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		}
         //$extra['extra_header_left'] .= '<TR><TD><INPUT type=checkbox name=showsat value=1>SAT Scores</TD></TR>';
         $extra['extra_header_left'] .= '</TABLE>';
