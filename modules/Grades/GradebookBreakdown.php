@@ -11,7 +11,7 @@
 * See COPYRIGHT.txt for copyright notices and details.
 */
 
-include $staticpath.'/ProgramFunctions/_makeLetterGrade.fnc.php';
+include 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 if(!$_REQUEST['assignment_id'])
 	$_REQUEST['assignment_id'] = 'totals';
