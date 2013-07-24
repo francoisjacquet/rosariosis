@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 17:23-0500\n"
-"PO-Revision-Date: 2013-07-24 17:23-0500\n"
+"POT-Creation-Date: 2013-07-24 17:36-0500\n"
+"PO-Revision-Date: 2013-07-24 17:37-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -1168,14 +1168,14 @@ msgstr "Horarios"
 #: modules/Attendance/AttendanceCodes.php:100
 #: modules/Attendance/TeacherCompletion.php:18
 #: modules/Custom/AttendanceSummary.php:58 modules/Scheduling/Courses.php:670
-#: modules/School_Setup/Configuration.php:90
+#: modules/School_Setup/Configuration.php:91
 msgid "Attendance"
 msgstr "Asistencia"
 
 #: functions/Widgets.fnc.php:47 modules/Grades/Menu.php:33
 #: modules/Grades/Transcripts.php:317
-#: modules/School_Setup/Configuration.php:81
-#: modules/School_Setup/Configuration.php:83
+#: modules/School_Setup/Configuration.php:82
+#: modules/School_Setup/Configuration.php:84
 msgid "Grades"
 msgstr "Notas"
 
@@ -1624,7 +1624,7 @@ msgstr "Día Completo"
 #: modules/Grades/FinalGrades.php:200 modules/Grades/ReportCards.php:338
 #: modules/Grades/Transcripts.php:320
 #: modules/School_Setup/MarkingPeriods.php:243
-#: modules/Students/includes/Comments.inc.php:20
+#: modules/Students/includes/Comments.inc.php:23
 #: modules/Students/includes/Medical.inc.php:30
 #: modules/Students/includes/Medical.inc.php:55
 msgid "Comments"
@@ -1830,7 +1830,7 @@ msgstr "Código del Estado"
 #: modules/School_Setup/Calendar.php:323 modules/School_Setup/Calendar.php:451
 #: modules/School_Setup/Calendar.php:559
 #: modules/School_Setup/Configuration.php:59
-#: modules/School_Setup/Configuration.php:103
+#: modules/School_Setup/Configuration.php:104
 #: modules/School_Setup/GradeLevels.php:71
 #: modules/School_Setup/GradeLevels.php:75
 #: modules/School_Setup/MarkingPeriods.php:234
@@ -2272,7 +2272,7 @@ msgstr "Estado Aus"
 #: modules/Grades/ReportCardGrades.php:136
 #: modules/Grades/ReportCardGrades.php:158 modules/Grades/ReportCards.php:113
 #: modules/Grades/StudentGrades.php:206 modules/Grades/Transcripts.php:220
-#: modules/Students/includes/Comments.inc.php:9
+#: modules/Students/includes/Comments.inc.php:12
 #: modules/Student_Billing/DailyTransactions.php:63
 #: modules/Student_Billing/MassAssignFees.php:62
 #: modules/Student_Billing/MassAssignPayments.php:54
@@ -6000,57 +6000,61 @@ msgstr "Marcar Recorrida / Paradero del Transporte Escolar por defecto"
 msgid "Enable Legacy Contact Information"
 msgstr "Activar la Antigua Información de Contacto"
 
-#: modules/School_Setup/Configuration.php:82
+#: modules/School_Setup/Configuration.php:79
+msgid "Use Semester Comments instead of Quarter Comments"
+msgstr "Usar Comentarios Semestrales en lugar de Comentarios Bimestrales"
+
+#: modules/School_Setup/Configuration.php:83
 msgid "Use letter grades only"
 msgstr "Sólo usar notas de letra"
 
-#: modules/School_Setup/Configuration.php:82
+#: modules/School_Setup/Configuration.php:83
 msgid "Use letter and percent grades"
 msgstr "Usar notas de letra y porcentajes"
 
-#: modules/School_Setup/Configuration.php:82
+#: modules/School_Setup/Configuration.php:83
 msgid "Use percent grades only"
 msgstr "Sólo usar porcentajes"
 
-#: modules/School_Setup/Configuration.php:84
+#: modules/School_Setup/Configuration.php:85
 msgid "Hide grade comment except for attendance period courses"
 msgstr ""
 "Ocultar el comentario de la calificación exceptuando los cursos con "
 "asistencia"
 
-#: modules/School_Setup/Configuration.php:85
+#: modules/School_Setup/Configuration.php:86
 msgid "Allow Teachers to edit grades after grade posting period"
 msgstr ""
 "Dejar los Docentes editar las notas después del período de publicación de "
 "notas"
 
-#: modules/School_Setup/Configuration.php:86
+#: modules/School_Setup/Configuration.php:87
 msgid "Enable Anonymous Grade Statistics for Parents and Students"
 msgstr ""
 "Activar las Estadísticas Anónimas de Notas para los Padres y Estudiantes"
 
-#: modules/School_Setup/Configuration.php:87
+#: modules/School_Setup/Configuration.php:88
 msgid "Enable Anonymous Grade Statistics for Administrators and Teachers"
 msgstr ""
 "Activar las Estadísticas Anónimas de Notas para los Administradores y "
 "Docentes"
 
-#: modules/School_Setup/Configuration.php:91
+#: modules/School_Setup/Configuration.php:92
 msgid "Minutes in a Full School Day"
 msgstr "Minutos en un Día de Escuela Completo"
 
-#: modules/School_Setup/Configuration.php:92
 #: modules/School_Setup/Configuration.php:93
+#: modules/School_Setup/Configuration.php:94
 msgid "Leave the field blank to always allow"
 msgstr "Dejar el campo en blanco para permitir siempre"
 
-#: modules/School_Setup/Configuration.php:92
+#: modules/School_Setup/Configuration.php:93
 msgid "Number of days before the school date teachers can edit attendance"
 msgstr ""
 "Número de días antes de la fecha por los cuales los docentes pueden editar "
 "la asistencia"
 
-#: modules/School_Setup/Configuration.php:93
+#: modules/School_Setup/Configuration.php:94
 msgid "Number of days after the school date teachers can edit attendance"
 msgstr ""
 "Número de días después de la fecha por los cuales los docentes pueden editar "
@@ -6953,11 +6957,11 @@ msgstr "Seleccionar Dirección"
 msgid "Select Person"
 msgstr "Seleccionar Persona"
 
-#: modules/Students/includes/Comments.inc.php:27
+#: modules/Students/includes/Comments.inc.php:30
 msgid "If more than one teacher will be adding comments for this student"
 msgstr "Si más de un docente entrara comentarios para este estudiante"
 
-#: modules/Students/includes/Comments.inc.php:28
+#: modules/Students/includes/Comments.inc.php:31
 msgid "Type your name above the comments you enter."
 msgstr "Escribe su nombre arriba de los comentarios que usted entra."
 

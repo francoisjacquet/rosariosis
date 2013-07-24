@@ -3813,6 +3813,7 @@ INSERT INTO program_config VALUES (2013, 1, 'grades', 'GRADES_DO_STATS_STUDENTS_
 INSERT INTO program_config VALUES (2013, 1, 'grades', 'GRADES_DO_STATS_ADMIN_TEACHERS', 'Y');
 INSERT INTO program_config VALUES (2013, 1, 'students', 'STUDENTS_USE_BUS', 'Y');
 INSERT INTO program_config VALUES (2013, 1, 'students', 'STUDENTS_USE_CONTACT', 'Y');
+INSERT INTO program_config VALUES (2013, 1, 'students', 'STUDENTS_SEMESTER_COMMENTS', NULL);
 
 
 --

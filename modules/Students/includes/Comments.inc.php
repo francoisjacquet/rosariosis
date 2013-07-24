@@ -1,19 +1,22 @@
 <?php
-$semester_comments = 0;
+
+//modif Francois: add School Configuration
+$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
+
 //$_ROSARIO['allow_edit'] = true;
 if($_REQUEST['modfunc']=='update')
 {
-	$existing_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_MP_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($semester_comments?GetParentMP('SEM',UserMP()):UserMP())."'"));
+	$existing_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_MP_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."'"));
 	if(!$existing_RET)
-		DBQuery("INSERT INTO STUDENT_MP_COMMENTS (SYEAR,STUDENT_ID,MARKING_PERIOD_ID) values('".UserSyear()."','".UserStudentID()."','".($semester_comments?GetParentMP('SEM',UserMP()):UserMP())."')");
-	SaveData(array('STUDENT_MP_COMMENTS'=>"STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($semester_comments?GetParentMP('SEM',UserMP()):UserMP())."'"),'',array('COMMENT'=>_('Comment')));
+		DBQuery("INSERT INTO STUDENT_MP_COMMENTS (SYEAR,STUDENT_ID,MARKING_PERIOD_ID) values('".UserSyear()."','".UserStudentID()."','".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."')");
+	SaveData(array('STUDENT_MP_COMMENTS'=>"STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."'"),'',array('COMMENT'=>_('Comment')));
 	//unset($_SESSION['_REQUEST_vars']['modfunc']);
 	//unset($_SESSION['_REQUEST_vars']['values']);
 }
 if(empty($_REQUEST['modfunc']))
 
 {
-	$comments_RET = DBGet(DBQuery("SELECT COMMENT FROM STUDENT_MP_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($semester_comments?GetParentMP('SEM',UserMP()):UserMP())."'"));
+	$comments_RET = DBGet(DBQuery("SELECT COMMENT FROM STUDENT_MP_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."'"));
 	echo '<TABLE>';
 	echo '<TR>';
 	echo '<TD style="vertical-align:bottom;">';

@@ -76,6 +76,7 @@ if(empty($_REQUEST['modfunc']))
     echo '<TR style="text-align:left;"><TD>'.CheckboxInput(Config('STUDENTS_USE_MAILING'),'values[CONFIG][STUDENTS_USE_MAILING]',_('Display Mailing Address'),'',false,'<img src="assets/check.png" height="15" />&nbsp;','<img src="assets/x.png" height="15" />&nbsp;').'</TD></TR>';
     echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['STUDENTS_USE_BUS'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_USE_BUS]',_('Check Bus Pickup / Dropoff by default'),'',false,'<img src="assets/check.png" height="15" />&nbsp;','<img src="assets/x.png" height="15" />&nbsp;').'</TD></TR>';
     echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['STUDENTS_USE_CONTACT'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_USE_CONTACT]',_('Enable Legacy Contact Information'),'',false,'<img src="assets/check.png" height="15" />&nbsp;','<img src="assets/x.png" height="15" />&nbsp;').'</TD></TR>';
+    echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_SEMESTER_COMMENTS]',_('Use Semester Comments instead of Quarter Comments'),'',false,'<img src="assets/check.png" height="15" />&nbsp;','<img src="assets/x.png" height="15" />&nbsp;').'</TD></TR>';
 	echo '</TABLE></FIELDSET>';
 	
 	echo '<BR /><FIELDSET><legend><b>'._('Grades').'</b></legend><TABLE>';
