@@ -134,7 +134,7 @@ if($_REQUEST['values'])
 	mail('mgamson@tampabay.rr.com',sprintf(_('New Registration %s %s (%d) has been registered by %s.'),$student[1]['FIRST_NAME'],$student[1]['LAST_NAME'],UserStudentID(),User('NAME')));
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
-echo '<H4>Welcome, '.User('NAME').', to the '.Config('TITLE').'</H4>';
+echo '<H4>Welcome, '.User('NAME').', to the '.ParseMLField(Config('TITLE')).'</H4>';
 $addresses = DBGet(DBQuery("SELECT COUNT(*) AS COUNT FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID='".UserStudentID()."'"));
 echo ''._('We would appreciate it if you would enter just a little bit of information about you and your child to help us out this school year. Thanks!').'';
 if($addresses[1]['COUNT']!=0)

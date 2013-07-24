@@ -1,6 +1,7 @@
 <?php
 //modif Francois: add School Configuration
-$do_stats = Config('GRADES_DO_STATS_STUDENTS_PARENTS') == 'Y' || ((User('PROFILE')=='teacher' || User('PROFILE')=='admin') && Config('GRADES_DO_STATS_ADMIN_TEACHERS') == 'Y');
+$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
+$do_stats = $program_config['GRADES_DO_STATS_STUDENTS_PARENTS'][1]['VALUE'] == 'Y' || ((User('PROFILE')=='teacher' || User('PROFILE')=='admin') && $program_config['GRADES_DO_STATS_ADMIN_TEACHERS'][1]['VALUE'] == 'Y');
 
 require_once('ProgramFunctions/_makeLetterGrade.fnc.php');
 $_ROSARIO['allow_edit'] = false;

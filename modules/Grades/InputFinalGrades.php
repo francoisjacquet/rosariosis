@@ -1,6 +1,9 @@
 <?php
 DrawHeader(ProgramTitle());
 
+//modif Francois: add School Configuration
+$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
+
 $sem = GetParentMP('SEM',UserMP());
 $fy = GetParentMP('FY',$sem);
 $pros = GetChildrenMP('PRO',UserMP());
@@ -367,7 +370,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			DBQuery($sql);
 		}
 		//DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'");
-		if(!(Config('GRADES_DOES_LETTER_PERCENT')<0?$grade:(Config('GRADES_DOES_LETTER_PERCENT')>0?$percent!='':$percent!=''&&$grade)))
+		if(!($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0?$grade:($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0?$percent!='':$percent!=''&&$grade)))
 			$completed = false;
 
 		if (is_array($columns['commentsA']))
@@ -513,7 +516,7 @@ $grade_posting_RET = DBGet(DBQuery("SELECT 1 FROM SCHOOL_MARKING_PERIODS WHERE M
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
 if(!isset($_ROSARIO['allow_edit']))
-	$_ROSARIO['allow_edit'] = (Config('GRADES_TEACHER_ALLOW_EDIT')||$allow_edit)&&!empty($grade_posting_RET);
+	$_ROSARIO['allow_edit'] = ($program_config['GRADES_TEACHER_ALLOW_EDIT'][1]['VALUE']||$allow_edit)&&!empty($grade_posting_RET);
 
 $extra['SELECT'] = ",ssm.STUDENT_ID AS REPORT_CARD_GRADE";
 $extra['functions'] = array('REPORT_CARD_GRADE'=>'_makeLetterPercent');
@@ -600,7 +603,7 @@ else
 $LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>_('RosarioSIS ID'));
 if($_REQUEST['include_inactive']=='Y')
 	$LO_columns += array('ACTIVE'=>_('School Status'),'ACTIVE_SCHEDULE'=>_('Course Status'));
-$LO_columns += array('REPORT_CARD_GRADE'=>(Config('GRADES_DOES_LETTER_PERCENT')<0?_('Letter'):(Config('GRADES_DOES_LETTER_PERCENT')>0?_('Percent'):(Preferences('ONELINE','Gradebook')=='Y'?'<span style="white-space:nowrap;">':'')._('Letter').(Preferences('ONELINE','Gradebook')=='Y'?' ':'<BR />')._('Percent').(Preferences('ONELINE','Gradebook')=='Y'?'</span>':''))));
+$LO_columns += array('REPORT_CARD_GRADE'=>($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0?_('Letter'):($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0?_('Percent'):(Preferences('ONELINE','Gradebook')=='Y'?'<span style="white-space:nowrap;">':'')._('Letter').(Preferences('ONELINE','Gradebook')=='Y'?' ':'<BR />')._('Percent').(Preferences('ONELINE','Gradebook')=='Y'?'</span>':''))));
 
 if(mb_substr($_REQUEST['mp'],0,1)!='E' && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
@@ -615,7 +618,7 @@ if(mb_substr($_REQUEST['mp'],0,1)!='E' && GetMP($_REQUEST['mp'],'DOES_COMMENTS')
 	if(count($commentsB_select) && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 		$LO_columns += array('CB'.$i=>_('Add Comment'));
 }
-if(!Config('GRADES_HIDE_NON_ATTENDANCE_COMMENT') || $course_RET[1]['ATTENDANCE']=='Y')
+if(!$program_config['GRADES_HIDE_NON_ATTENDANCE_COMMENT'][1]['VALUE'] || $course_RET[1]['ATTENDANCE']=='Y')
 	$LO_columns += array('COMMENT'=>_('Comment'));
 
 foreach($categories_RET as $id=>$category)
@@ -652,9 +655,9 @@ function _makeLetterPercent($student_id,$column)
 		$student_count++;
 		$tabindex = $student_count;
 
-		if(Config('GRADES_DOES_LETTER_PERCENT')<0)
+		if($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0)
 			$return = SelectInput($select_grade,'values['.$student_id.'][grade]','',$grades_select,false,'tabindex='.$tabindex,$div);
-		elseif(Config('GRADES_DOES_LETTER_PERCENT')>0)
+		elseif($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0)
 			$return = TextInput($select_percent==''?'':$select_percent.'%',"values[$student_id][percent]",'','size=5 tabindex='.$tabindex,$div);
 		else
 		{
@@ -673,9 +676,9 @@ function _makeLetterPercent($student_id,$column)
 	}
 	else
 	{
-		if(Config('GRADES_DOES_LETTER_PERCENT')<0)
+		if($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0)
 			$return = ($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>');
-		elseif(Config('GRADES_DOES_LETTER_PERCENT')>0)
+		elseif($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0)
 			$return = $select_percent.'%';
 		else
 			$return = (Preferences('ONELINE','Gradebook')=='Y'?'<span style="white-space:nowrap;">':'').($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>').(Preferences('ONELINE','Gradebook')=='Y'?' ':'<BR />').$select_percent.'%'.(Preferences('ONELINE','Gradebook')=='Y'?'</span>':'');

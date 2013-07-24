@@ -91,7 +91,7 @@ unset($_REQUEST['modfunc']);
 <meta charset="UTF-8" />
 <link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
 <?php echo $addJavascripts; ?>
-<title><?php echo Config('TITLE'); ?></title>
+<title><?php echo ParseMLField(Config('TITLE')); ?></title>
 </head>
 <BODY <?php echo ($_REQUEST['modcat']?'onload="openMenu(\''.$_REQUEST['modcat'].'\');" ':''); ?>class="bgcolor">
 <div id="adminmenushadow"></div>

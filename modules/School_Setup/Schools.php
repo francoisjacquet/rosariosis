@@ -39,22 +39,14 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 					$sql = "INSERT INTO SCHOOLS (ID,SYEAR$fields) values('$id','".UserSyear()."'$values)";
 					DBQuery($sql);
 					DBQuery("UPDATE STAFF SET SCHOOLS=rtrim(SCHOOLS,',')||',$id,' WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOLS IS NOT NULL");
-					$_SESSION['UserSchool'] = $id;
 				
-//modif Francois: add School Configuration defaults
-					$sql = "INSERT INTO config VALUES (".$id.", 'SCHOOL_SYEAR_OVER_2_YEARS', 'Y');
-					INSERT INTO config VALUES (".$id.", 'ATTENDANCE_FULL_DAY_MINUTES', '300');
-					INSERT INTO config VALUES (".$id.", 'ATTENDANCE_EDIT_DAYS_BEFORE', NULL);
-					INSERT INTO config VALUES (".$id.", 'ATTENDANCE_EDIT_DAYS_AFTER', NULL);
-					INSERT INTO config VALUES (".$id.", 'GRADES_DOES_LETTER_PERCENT', '0');
-					INSERT INTO config VALUES (".$id.", 'GRADES_HIDE_NON_ATTENDANCE_COMMENT', NULL);
-					INSERT INTO config VALUES (".$id.", 'GRADES_TEACHER_ALLOW_EDIT', NULL);
-					INSERT INTO config VALUES (".$id.", 'GRADES_DO_STATS_STUDENTS_PARENTS', NULL);
-					INSERT INTO config VALUES (".$id.", 'GRADES_DO_STATS_ADMIN_TEACHERS', 'Y');
-					INSERT INTO config VALUES (".$id.", 'STUDENTS_USE_MAILING', NULL);
-					INSERT INTO config VALUES (".$id.", 'STUDENTS_USE_BUS', 'Y');
-					INSERT INTO config VALUES (".$id.", 'STUDENTS_USE_CONTACT', 'Y');";
+//modif Francois: copy School Configuration
+					$sql = "INSERT INTO CONFIG (SCHOOL_ID,CONFIG_VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,CONFIG_VALUE,TITLE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."';";
 					DBQuery($sql);
+					$sql = "INSERT INTO PROGRAM_CONFIG (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."';";
+					DBQuery($sql);
+					
+					$_SESSION['UserSchool'] = $id;
 					
 					echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';
 					unset($_REQUEST['new_school']);
@@ -86,6 +78,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Delete') && User('P
 		DBQuery("UPDATE STAFF SET SCHOOLS=replace(SCHOOLS,',".UserSchool().",',',')");
 //modif Francois: add School Configuration
 		DBQuery("DELETE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
+		DBQuery("DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 
 		unset($_SESSION['UserSchool']);
 		echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';

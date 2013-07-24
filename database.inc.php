@@ -424,7 +424,7 @@ function db_show_error($sql,$failnote,$additional='')
 
 	if($RosarioNotifyAddress)
 	{
-		$message = "System: ".Config('TITLE')." \n";
+		$message = "System: ".ParseMLField(Config('TITLE'))." \n";
 		$message .= "Date: ".date("m/d/Y h:i:s")."\n";
 		$message .= "Page: ".$_SERVER['PHP_SELF'].' '.ProgramTitle()." \n\n";
 		$message .= "Failure Notice:  $failnote \n";

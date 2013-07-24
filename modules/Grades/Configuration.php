@@ -1,4 +1,7 @@
 <?php
+//modif Francois: add School Configuration
+$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
+
 if($_REQUEST['values'])
 {
 	DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'");
@@ -61,7 +64,7 @@ if ($RosarioModules['Eligibility'])
 }
 
 //modif Francois: display grades according to Grades/config.inc.php
-if (Config('GRADES_DOES_LETTER_PERCENT')==0) //if letter AND percent grades
+if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']==0) //if letter AND percent grades
 {
 	echo '<fieldset>';
 	echo '<legend><b>'._('Final Grades').'</b></legend>';

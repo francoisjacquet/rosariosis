@@ -29,12 +29,12 @@ $cc = $RosarioNotifyAddress;
 
 // new for when parent account was created new
 // old for when parent account was existing
-$subject['new'] = Config('TITLE').' '._('New Parent Account');
-$subject['old'] = Config('TITLE').' '._('Updated Parent Account');
+$subject['new'] = ParseMLField(Config('TITLE')).' '._('New Parent Account');
+$subject['old'] = ParseMLField(Config('TITLE')).' '._('Updated Parent Account');
 // ^N=parent name, ^S=list of student names, ^U=username, ^P=password
 $message['new'] = _('Dear').' ^N,
 
-'.sprintf(_('A parent account for the %s has been created to access school information and student information for the following students'), Config('TITLE')).':
+'.sprintf(_('A parent account for the %s has been created to access school information and student information for the following students'), ParseMLField(Config('TITLE'))).':
 ^S
 
 '._('Your account credentials are').':
@@ -45,7 +45,7 @@ $message['new'] = _('Dear').' ^N,
 
 $message['old'] = _('Dear').' ^N,
 
-'.sprintf(_('The following students have been added to your parent account on the %s'), Config('TITLE')).':
+'.sprintf(_('The following students have been added to your parent account on the %s'), ParseMLField(Config('TITLE'))).':
 ^S';
 
 //modif Francois: change parent password generation

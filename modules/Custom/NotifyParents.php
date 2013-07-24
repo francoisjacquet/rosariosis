@@ -22,11 +22,11 @@ $headers .= 'Reply-To:'.$from . "\r\n" . 'X-Mailer:PHP/' . phpversion();
 $params = '-f '.$from;
 
 
-$subject = Config('TITLE').' - '._('Parent Account');
+$subject = ParseMLField(Config('TITLE')).' - '._('Parent Account');
 // ^N=parent name, ^S=list of student names, ^U=username, ^P=password
 $message = _('Dear').' ^N,
 
-'.sprintf(_('A parent account for the %s has been created to access school information and student information for the following students'), Config('TITLE')).':
+'.sprintf(_('A parent account for the %s has been created to access school information and student information for the following students'), ParseMLField(Config('TITLE'))).':
 ^S
 
 '._('Your account credentials are').':

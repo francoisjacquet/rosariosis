@@ -1,4 +1,7 @@
 <?php
+//modif Francois: add School Configuration
+$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
+
 if($_REQUEST['values'] && $_POST['values'])
 {
 	if(count($_REQUEST['month_values']))
@@ -555,7 +558,7 @@ if(empty($_REQUEST['modfunc']))
 				$new = true;
 				$this_address['RESIDENCE'] = 'Y';
 				$this_address['MAILING'] = 'Y';
-				if(Config('STUDENTS_USE_BUS'))
+				if($program_config['STUDENTS_USE_BUS'][1]['VALUE'])
 				{
 					$this_address['BUS_PICKUP'] = 'Y';
 					$this_address['BUS_DROPOFF'] = 'Y';
@@ -648,7 +651,7 @@ if(empty($_REQUEST['modfunc']))
 							echo '</TR>';
 							}
 						}
-						if(AllowEdit() && Config('STUDENTS_USE_CONTACT'))
+						if(AllowEdit() && $program_config['STUDENTS_USE_CONTACT'][1]['VALUE'])
 						{
 							echo '<TR>';
 							echo '<TD style="width:20px;">'.button('add').'</TD>';
@@ -685,7 +688,7 @@ if(empty($_REQUEST['modfunc']))
 								echo '</TR>';
 							}
 						}
-						if(AllowEdit() && Config('STUDENTS_USE_CONTACT'))
+						if(AllowEdit() && $program_config['STUDENTS_USE_CONTACT'][1]['VALUE'])
 						{
 							echo '<TR>';
 							echo '<TD style="width:20px;">'.button('add').'</TD>';

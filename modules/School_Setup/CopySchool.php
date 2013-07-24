@@ -38,9 +38,10 @@ function _rollover($table)
 
 	switch($table)
 	{
-//modif Francois: add School Configuration, copy
+//modif Francois: copy School Configuration
 		case 'CONFIG':
-			DBQuery("INSERT INTO CONFIG (SCHOOL_ID,TITLE,CONFIG_VALUE) SELECT '$id' AS SCHOOL_ID,TITLE,CONFIG_VALUE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
+			DBQuery("INSERT INTO CONFIG (SCHOOL_ID,TITLE,CONFIG_VALUE) SELECT '$id' AS SCHOOL_ID,TITLE,CONFIG_VALUE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."';");
+			DBQuery("INSERT INTO PROGRAM_CONFIG (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE) SELECT '$id' AS SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."';");
 		break;
 
 		case 'SCHOOL_PERIODS':

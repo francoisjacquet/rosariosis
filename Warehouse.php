@@ -69,7 +69,7 @@ if(!defined('WAREHOUSE_PHP'))
 ?>
 <!DOCTYPE html>
 <HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
-<HEAD><TITLE><?php echo Config('TITLE'); ?></TITLE>
+<HEAD><TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
 <meta charset="UTF-8" />
 <?php			if(basename($_SERVER['PHP_SELF'])!='index.php'): ?>
 <noscript><META http-equiv="REFRESH" content="0; url=index.php?modfunc=logout&amp;reason=javascript" /></noscript>

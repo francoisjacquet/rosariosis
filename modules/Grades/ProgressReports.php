@@ -1,6 +1,9 @@
 <?php
 include 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
+//modif Francois: add School Configuration
+$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
+
 $course_period_id = UserCoursePeriod();
 $course_id = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='$course_period_id'"));
 $course_title = $course_id[1]['TITLE'];
@@ -32,10 +35,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$LO_columns += array('DUE_DATE'=>_('Due Date'));
 		// modif Francois: display percent grade according to Configuration
 		$LO_columns += array('POINTS'=>_('Points'));
-		if (Config('GRADES_DOES_LETTER_PERCENT')>=0)
+		if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>=0)
 			$LO_columns['PERCENT_GRADE'] = _('Percent');
 		// modif Francois: display letter grade according to Configuration
-		if (Config('GRADES_DOES_LETTER_PERCENT')<=0)
+		if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0)
 			$LO_columns['LETTER_GRADE'] = _('Letter');
 		//$LO_columns += array('POINTS'=>_('Points'),'PERCENT_GRADE'=>_('Percent'),'LETTER_GRADE'=>_('Letter'),'COMMENT'=>_('Comment'));
 		$LO_columns += array('COMMENT'=>_('Comment'));

@@ -55,7 +55,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				if($_REQUEST['mailing_labels']=='Y')
 					echo '<BR /><BR /><BR />';
-				//DrawHeader(Config('TITLE').' Letter');
+				//DrawHeader(ParseMLField(Config('TITLE')).' Letter');
 				DrawHeader('&nbsp;');
 				DrawHeader($student['FULL_NAME'],$student['STUDENT_ID']);
 				DrawHeader($student['GRADE_ID'],GetSchool(UserSchool()));

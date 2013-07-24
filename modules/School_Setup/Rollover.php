@@ -1,6 +1,6 @@
 <?php
 $next_syear = UserSyear()+1;
-$tables = array('SCHOOLS'=>_('Schools'),'STAFF'=>_('Users'),'SCHOOL_PERIODS'=>_('School Periods'),'SCHOOL_MARKING_PERIODS'=>_('Marking Periods'),'ATTENDANCE_CALENDARS'=>_('Calendars'),'ATTENDANCE_CODES'=>_('Attendance Codes'),'REPORT_CARD_GRADES'=>_('Report Card Grade Codes'),'COURSES'=>_('Courses').'<b>*</b>','STUDENT_ENROLLMENT_CODES'=>_('Student Enrollment Codes'),'STUDENT_ENROLLMENT'=>_('Students').'<b>*</b>','REPORT_CARD_COMMENTS'=>_('Report Card Comment Codes').'<b>*</b>');
+$tables = array('SCHOOLS'=>_('Schools'),'STAFF'=>_('Users'),'SCHOOL_PERIODS'=>_('School Periods'),'SCHOOL_MARKING_PERIODS'=>_('Marking Periods'),'ATTENDANCE_CALENDARS'=>_('Calendars'),'ATTENDANCE_CODES'=>_('Attendance Codes'),'REPORT_CARD_GRADES'=>_('Report Card Grade Codes'),'COURSES'=>_('Courses').'<b>*</b>','STUDENT_ENROLLMENT_CODES'=>_('Student Enrollment Codes'),'STUDENT_ENROLLMENT'=>_('Students').'<b>*</b>','REPORT_CARD_COMMENTS'=>_('Report Card Comment Codes').'<b>*</b>','PROGRAM_CONFIG'=>_('School Configuration'));
 $no_school_tables = array('SCHOOLS'=>true,'STUDENT_ENROLLMENT_CODES'=>true,'STAFF'=>true);
 
 if ($RosarioModules['Eligibility'])
@@ -238,6 +238,12 @@ function Rollover($table)
 
 		case 'FOOD_SERVICE_STAFF_ACCOUNTS':
 			DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET STAFF_ID=(SELECT STAFF_ID FROM STAFF WHERE ROLLOVER_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID) WHERE exists(SELECT * FROM STAFF WHERE ROLLOVER_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID AND SYEAR='$next_syear')");
+		break;
+		
+//modif Francois: add School Configuration
+		case 'PROGRAM_CONFIG':
+			DBQuery("DELETE FROM PROGRAM_CONFIG WHERE SYEAR='$next_syear'");
+            DBQuery("INSERT INTO PROGRAM_CONFIG (SYEAR,SCHOOL_ID,PROGRAM,TITLE,VALUE) SELECT SYEAR+1,SCHOOL_ID,PROGRAM,TITLE,VALUE PROGRAM_CONFIG WHERE SYEAR='".UserSyear()."'");
 		break;
 	}
 }

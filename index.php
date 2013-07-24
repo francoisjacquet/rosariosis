@@ -66,7 +66,7 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 			echo '</HEAD><BODY><FORM action="index.php" method="POST"><INPUT type="hidden" name="USERNAME" value="'.$_REQUEST['USERNAME'].'"><INPUT type="hidden" name="PASSWORD" value="'.$_REQUEST['PASSWORD'].'"><BR />';
 			PopTable('header',_('Confirm Successful Installation'));
 			echo '<span class="center">';
-			echo '<h4>'.sprintf(_('You have successfully installed %s.'), Config('TITLE')).'</h4><BR />';
+			echo '<h4>'.sprintf(_('You have successfully installed %s.'), ParseMLField(Config('TITLE'))).'</h4><BR />';
 			echo '<BR /><INPUT type="submit" name="submit" value="'._('OK').'" />';
 			echo '</span>';
 			PopTable('footer');
@@ -137,7 +137,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 	<tr>
 	<TD style="text-align:right"><img src="assets/themes/'.Preferences('THEME').'/logo.png" /></td>
 	<TD class="center"><form name="loginform" method="post" action="index.php" class="login">
-	<h4>'.Config('TITLE').' </h4>
+	<h4>'.ParseMLField(Config('TITLE')).' </h4>
     <TABLE class="cellpadding-2 cellspacing-0" style="margin:0 auto;">';
 
     // ng - choose language
@@ -168,7 +168,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 	echo '
 	<tr><td colspan="2">
 	<span class="size-3">'.
-	sprintf(_('This is a restricted network. Use of this network, its equipment, and resources is monitored at all times and requires explicit permission from the network administrator and %s. If you do not have this permission in writing, you are violating the regulations of this network and can and will be prosecuted to the full extent of the law. By continuing into this system, you are acknowledging that you are aware of and agree to these terms.'),Config('TITLE'))
+	sprintf(_('This is a restricted network. Use of this network, its equipment, and resources is monitored at all times and requires explicit permission from the network administrator and %s. If you do not have this permission in writing, you are violating the regulations of this network and can and will be prosecuted to the full extent of the law. By continuing into this system, you are acknowledging that you are aware of and agree to these terms.'),ParseMLField(Config('TITLE')))
 	.'</span>
 	<BR /><BR />
 	</td></tr>
@@ -190,7 +190,7 @@ elseif($_REQUEST['modfunc']!='create_account')
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
 <HEAD>
-	<TITLE><?php echo Config('TITLE'); ?></TITLE>
+	<TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
 	<meta charset="UTF-8" />
 	<noscript><META http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&reason=javascript" /></noscript>
 	<link REL="SHORTCUT ICON" HREF="favicon.ico" />

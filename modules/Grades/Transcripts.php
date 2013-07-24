@@ -1,5 +1,8 @@
 <?php
 
+//modif Francois: add School Configuration
+$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
+
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if(count($_REQUEST['mp_type_arr']) && count($_REQUEST['st_arr']))
@@ -177,9 +180,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							$listOutput_RET[$i]['COURSE_TITLE'] = $grade['COURSE_TITLE'];
 						if ($showGrades)
 						{
-							if (Config('GRADES_DOES_LETTER_PERCENT') > 0)
+							if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE'] > 0)
 								$listOutput_RET[$i][$mp_id] = $grade['GRADE_PERCENT'].'%';
-							elseif (Config('GRADES_DOES_LETTER_PERCENT') < 0)
+							elseif ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE'] < 0)
 								$listOutput_RET[$i][$mp_id] = $grade['GRADE_LETTER'];
 							else
 								$listOutput_RET[$i][$mp_id] = $grade['GRADE_LETTER'].'&nbsp;&nbsp;'.$grade['GRADE_PERCENT'].'%';

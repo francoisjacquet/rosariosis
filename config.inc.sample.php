@@ -23,11 +23,9 @@ if(!defined('CONFIG_INC'))
 	$PortalNotesFilesPath = 'assets/PortalNotesFiles/';
 	$FS_IconsPath = 'assets/FS_icons/';
 
-	$RosarioTitle = 'Rosario Student Information System';
 	$RosarioAdmins = '1';			// can be list such as '1,23,50' - note, these should be id's in the DefaultSyear,
 							// otherwise they can't login anyway
 	$RosarioNotifyAddress = '';
-	$DefaultSyear = '2013';
 	$RosarioLocales = array('en_US.utf8');	// Add other languages you want to support here, ex: 'fr_FR.utf8', 'es_ES.utf8', ...
 	$CurrencySymbol = '$'; // locale currency
 	$LocalePath = 'locale'; // Path were the language packs are stored. You need to restart Apache at each change in this directory

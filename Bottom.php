@@ -34,7 +34,7 @@ else
 ?>
 <!DOCTYPE html>
 <HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
-<HEAD><TITLE><?php echo Config('TITLE'); ?></TITLE>
+<HEAD><TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
 <meta charset="UTF-8" />
 <script type="text/javascript">
 size = 30;

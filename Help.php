@@ -189,7 +189,7 @@ if(mb_strpos($_SERVER['PHP_SELF'],'Help.php'))
 		$_REQUEST['modname'] = $program;
 		echo '<h3>';
 		if($program=='default')
-			echo Config('TITLE').' - '.sprintf(_('%s Handbook'),$title).'<BR />'.sprintf(_('version %s'),'1.0');
+			echo ParseMLField(Config('TITLE')).' - '.sprintf(_('%s Handbook'),$title).'<BR />'.sprintf(_('version %s'),'1.0');
 		else
 			echo (ProgramTitle() == 'RosarioSIS' ? str_replace(' ','_',$program) : ProgramTitle());
 		echo '</h3>';

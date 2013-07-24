@@ -7,8 +7,8 @@ if(!UserSyear())
 }
 
 $_ROSARIO['HeaderIcon'] = 'rosario.png'; //modif Francois: icones Educons
-//DrawHeader(Config('TITLE'),'RosarioSIS v.'.$RosarioVersion);
-DrawHeader(Config('TITLE'));
+//DrawHeader(ParseMLField(Config('TITLE')),'RosarioSIS v.'.$RosarioVersion);
+DrawHeader(ParseMLField(Config('TITLE')));
 
 DrawHeader('<script type="text/javascript">
 var currentTime = new Date();
@@ -17,7 +17,7 @@ if (hours < 12) document.write("'.sprintf(_('Good Morning, %s.'), User('NAME')).
 else if (hours < 18) document.write("'.sprintf(_('Good Afternoon, %s.'), User('NAME')).'");
 else document.write("'.sprintf(_('Good Evening, %s.'), User('NAME')).'");</script>');
 
-$welcome = sprintf(_('Welcome to %s!'), Config('TITLE'));
+$welcome = sprintf(_('Welcome to %s!'), ParseMLField(Config('TITLE')));
 if($_SESSION['LAST_LOGIN'])
 	$welcome .= '<BR />&nbsp;'.sprintf(_('Your last login was <b>%s</b>.'), ProperDate(mb_substr($_SESSION['LAST_LOGIN'],0,10)).mb_substr($_SESSION['LAST_LOGIN'],10));
 if($_REQUEST['failed_login'])
