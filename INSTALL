@@ -22,8 +22,8 @@ Installing the Package
 ----------------------
 
 Unzip the RosarioSIS distribution to a directory that is accessible to your web
-browser. Edit the config.inc.php file to set the configuration variables as 
-appropriate for your installation.
+browser. Edit the config.inc.sample.php file to set the configuration variables 
+as appropriate for your installation. Rename the file to config.inc.php.
 
   $DatabaseServer is the host name or ip for the database server
   $DatabaseUsername is the username used for authenticating the database

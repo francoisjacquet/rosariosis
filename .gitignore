@@ -210,3 +210,6 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#RosarioSIS
+config.inc.php
