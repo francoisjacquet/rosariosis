@@ -6,7 +6,7 @@ function DrawHeader($left='',$right='',$center='')
 	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR>';
 //modif Francois: CSS WPadmin
 	if($left)
-		echo '<TD '.$_ROSARIO['DrawHeader'].' style="text-align:left;">&nbsp;'.(!isset($_ROSARIO['DrawHeader'])? (!empty($_ROSARIO['HeaderIcon']) ? '<IMG src="assets/icons/'.$_ROSARIO['HeaderIcon'].'" class="headerIcon" /> '.'<H2>'.$left.'</H2>' : '<H2>'.$left.'</H2>'):$left).'</TD>';
+		echo '<TD '.$_ROSARIO['DrawHeader'].' style="text-align:left;">&nbsp;'.(!isset($_ROSARIO['DrawHeader'])? (!empty($_ROSARIO['HeaderIcon']) ? '<H2>'.'<IMG src="assets/icons/'.$_ROSARIO['HeaderIcon'].'" class="headerIcon" /> '.$left.'</H2>' : '<H2>'.$left.'</H2>'):$left).'</TD>';
 	if($center)
 		echo '<TD '.$_ROSARIO['DrawHeader'].' style="text-align:center">'.(!isset($_ROSARIO['DrawHeader'])? '<H2>'.$center.'</H2>':$center).'</TD>';
 	if($right)
