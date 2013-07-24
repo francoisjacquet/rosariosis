@@ -93,6 +93,11 @@ if(empty($_REQUEST['modfunc']))
 	echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['ATTENDANCE_EDIT_DAYS_AFTER'][1]['VALUE'],'values[PROGRAM_CONFIG][ATTENDANCE_EDIT_DAYS_AFTER]','<SPAN style="cursor:help" class="legend-gray" title="'._('Leave the field blank to always allow').'">'._('Number of days after the school date teachers can edit attendance').'*</SPAN>','maxlength=2 size=2 min=0').'</TD></TR>';
 	echo '</TABLE></FIELDSET>';
 
+	if (MOODLE_INTEGRATOR)
+	{
+		//TODO
+	}
+
 	PopTable('footer');
 	if(AllowEdit())
 		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
