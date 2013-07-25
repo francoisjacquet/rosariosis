@@ -73,7 +73,7 @@ function MLTextInput($value,$name,$title='',$options='',$div=true)
         $value = is_array($value) ? $value[0] : $value;
 
         if(mb_strpos($options,'size')===false && $value!='')
-            $options .= ' size='.mb_strlen($value);
+            $options .= ' size='.(mb_strlen($value) / (mb_substr_count($value, '|') + 1));
         elseif(mb_strpos($options,'size')===false)
             $options .= ' size=10';
 
