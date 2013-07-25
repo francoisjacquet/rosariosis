@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-25 16:09-0500\n"
-"PO-Revision-Date: 2013-07-25 16:09-0500\n"
+"POT-Creation-Date: 2013-07-25 17:05-0500\n"
+"PO-Revision-Date: 2013-07-25 17:05-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -138,8 +138,8 @@ msgid "Language"
 msgstr "Langue"
 
 #: index.php:153 modules/Custom/CreateParents.php:41
-#: modules/Custom/CreateParents.php:172 modules/Custom/NotifyParents.php:33
-#: modules/Custom/NotifyParents.php:98 modules/misc/Export.php:59
+#: modules/Custom/CreateParents.php:172 modules/Custom/NotifyParents.php:86
+#: modules/Custom/NotifyParents.php:109 modules/misc/Export.php:59
 #: modules/misc/Export.php:61 modules/misc/Export.php:210
 #: modules/Students/includes/General_Info.inc.php:149
 #: modules/Users/Search.inc.php:34
@@ -149,7 +149,7 @@ msgid "Username"
 msgstr "Nom Utilisateur"
 
 #: index.php:157 modules/Custom/CreateParents.php:42
-#: modules/Custom/CreateParents.php:172 modules/Custom/NotifyParents.php:34
+#: modules/Custom/CreateParents.php:172
 #: modules/Students/includes/General_Info.inc.php:156
 #: modules/Users/Preferences.php:127 modules/Users/Preferences.php:136
 #: modules/Users/Preferences.php:141
@@ -504,7 +504,7 @@ msgstr "Enseignant"
 
 # 'user_profiles' table
 #: functions/GetStaffList.fnc.php:154 modules/Custom/CreateParents.php:172
-#: modules/Custom/NotifyParents.php:98 modules/Users/Exceptions.php:173
+#: modules/Custom/NotifyParents.php:86 modules/Users/Exceptions.php:173
 #: modules/Users/Profiles.php:242 modules/Users/Search.inc.php:36
 #: modules/Users/Search.inc.php:38 modules/Users/UserFields.php:265
 #: modules/Users/includes/General_Info.inc.php:155
@@ -2383,7 +2383,6 @@ msgid "YTD Totals"
 msgstr "Totaux Annuel"
 
 #: modules/Custom/AttendanceSummary.php:131
-#: modules/Custom/CreateParents.php:176 modules/Custom/NotifyParents.php:102
 #: modules/Eligibility/AddActivity.php:24
 #: modules/Food_Service/Students/Reminders.php:73
 #: modules/Grades/HonorRoll.php:98 modules/Grades/HonorRollSubject.php:58
@@ -2407,16 +2406,15 @@ msgstr "Créer le Rapport des Absences pour les Elèves Sélectionnés"
 msgid "New Parent Account"
 msgstr "Nouveau Compte Parent"
 
-#: modules/Custom/CreateParents.php:33
+#: modules/Custom/CreateParents.php:33 modules/Custom/NotifyParents.php:27
 msgid "Updated Parent Account"
 msgstr "Compte Parent mis à jour"
 
 #: modules/Custom/CreateParents.php:35 modules/Custom/CreateParents.php:46
-#: modules/Custom/NotifyParents.php:27
 msgid "Dear"
 msgstr "Cher(e)"
 
-#: modules/Custom/CreateParents.php:37 modules/Custom/NotifyParents.php:29
+#: modules/Custom/CreateParents.php:37
 #, php-format
 msgid ""
 "A parent account for the %s has been created to access school information "
@@ -2425,11 +2423,11 @@ msgstr ""
 "Un compte parent pour le %s a été créé pour pouvoir accéder aux informations "
 "sur l'école et les élèves suivants"
 
-#: modules/Custom/CreateParents.php:40 modules/Custom/NotifyParents.php:32
+#: modules/Custom/CreateParents.php:40
 msgid "Your account credentials are"
 msgstr "Les détails de votre compte sont"
 
-#: modules/Custom/CreateParents.php:44 modules/Custom/NotifyParents.php:36
+#: modules/Custom/CreateParents.php:44
 msgid ""
 "A link to the SIS website and instructions for access are available on the "
 "school's website"
@@ -2448,15 +2446,15 @@ msgstr ""
 "Vous devez renseigner la variable <b>$email_column</b>pour pouvoir utiliser "
 "ce script."
 
-#: modules/Custom/CreateParents.php:65
+#: modules/Custom/CreateParents.php:65 modules/Custom/NotifyParents.php:17
 msgid ""
-"You must set the <b>$from</b> variable or have a user email address to use "
+"You must set the <b>test mode email</b> or have a user email address to use "
 "this script."
 msgstr ""
-"Vous devez renseigner la variable <b>$from</b> ou posseder une adresse email "
-"pour pouvoir utiliser ce script."
+"Vous devez renseigner l'<b>email du mode de test</b> ou avoir une adresse "
+"email utilisateur pour pouvoir utiliser ce script."
 
-#: modules/Custom/CreateParents.php:165
+#: modules/Custom/CreateParents.php:165 modules/Custom/NotifyParents.php:82
 msgid "Success"
 msgstr "Succès"
 
@@ -2464,16 +2462,17 @@ msgstr "Succès"
 msgid "Email failed"
 msgstr "Echec email"
 
-#: modules/Custom/CreateParents.php:170
+#: modules/Custom/CreateParents.php:170 modules/Custom/NotifyParents.php:82
 msgid "Fail"
 msgstr "Echec"
 
 #: modules/Custom/CreateParents.php:172 modules/Custom/CreateParents.php:200
-#: modules/Custom/NotifyParents.php:98
+#: modules/Custom/NotifyParents.php:86 modules/Custom/NotifyParents.php:99
+#: modules/Custom/NotifyParents.php:109
 msgid "Email"
 msgstr "Email"
 
-#: modules/Custom/CreateParents.php:172 modules/Custom/NotifyParents.php:98
+#: modules/Custom/CreateParents.php:172 modules/Custom/NotifyParents.php:86
 #: modules/Students/includes/Medical.inc.php:55
 msgid "Result"
 msgstr "Résultat"
@@ -2483,6 +2482,11 @@ msgid "Creation Result"
 msgid_plural "Creation Results"
 msgstr[0] "Résultat Création"
 msgstr[1] "Résultats Création"
+
+#: modules/Custom/CreateParents.php:176 modules/Custom/NotifyParents.php:90
+#: modules/Food_Service/Users/Reminders.php:46
+msgid "You must choose at least one user"
+msgstr "Vous devez choisir au moins un utilisateur"
 
 #: modules/Custom/CreateParents.php:189 modules/Custom/CreateParents.php:219
 msgid "Create Parent Accounts for Selected Students"
@@ -2566,19 +2570,23 @@ msgstr "Nom de la Personne"
 msgid "Value"
 msgstr "Valeur"
 
-#: modules/Custom/NotifyParents.php:25
-msgid "Parent Account"
-msgstr "Compte Parent"
-
-#: modules/Custom/NotifyParents.php:99
+#: modules/Custom/NotifyParents.php:87
 msgid "Notification Result"
 msgid_plural "Notification Results"
 msgstr[0] "Résultat de la Notification"
 msgstr[1] "Résultats de la Notification"
 
-#: modules/Custom/NotifyParents.php:129
+#: modules/Custom/NotifyParents.php:99 modules/Scheduling/Scheduler.php:10
+msgid "Test Mode"
+msgstr "Mode Test"
+
+#: modules/Custom/NotifyParents.php:99 modules/Custom/NotifyParents.php:117
 msgid "Notify Selected Parents"
 msgstr "Notifier les Parents Seléctionnés"
+
+#: modules/Custom/NotifyParents.php:109
+msgid "Number of Students Associated"
+msgstr "Nombre d'étudiants associés"
 
 #: modules/Custom/Registration.php:134
 #, php-format
@@ -4011,10 +4019,6 @@ msgid ""
 msgstr ""
 "Vous avez maintenant un <B>solde négatif</B> en dessous du minimum autorisé. "
 "Merci d'envoyer le montant plus %T. Merci!"
-
-#: modules/Food_Service/Users/Reminders.php:46
-msgid "You must choose at least one user"
-msgstr "Vous devez choisir au moins un utilisateur"
 
 #: modules/Food_Service/Users/Reminders.php:54
 #: modules/Food_Service/Users/Reminders.php:83
@@ -5779,10 +5783,6 @@ msgid "Are you sure you want to run the scheduler?"
 msgstr "Etes-vous sur de vouloir lancer le planificateur?"
 
 #: modules/Scheduling/Scheduler.php:10
-msgid "Test Mode"
-msgstr "Mode Test"
-
-#: modules/Scheduling/Scheduler.php:10
 msgid "Delete Current Schedules"
 msgstr "Supprimer l'Emploi du Temps Courant"
 
@@ -7499,6 +7499,13 @@ msgstr "Vaccination"
 #: ProgramFunctions/StudentsUsersInfo.fnc.php:259
 msgid "Physical"
 msgstr "Visite Médicale"
+
+#~ msgid "Parent Account"
+#~ msgstr "Compte Parent"
+
+#, fuzzy
+#~ msgid "You must choose at least one user."
+#~ msgstr "Vous devez choisir au moins un utilisateur"
 
 #~ msgid "A/B"
 #~ msgstr "A/B"
