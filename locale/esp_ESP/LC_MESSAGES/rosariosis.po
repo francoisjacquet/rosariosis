@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 17:36-0500\n"
-"PO-Revision-Date: 2013-07-24 17:37-0500\n"
+"POT-Creation-Date: 2013-07-25 16:08-0500\n"
+"PO-Revision-Date: 2013-07-25 16:10-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -2070,7 +2070,7 @@ msgid "Absence Summary"
 msgstr "Resumen de la Ausencia"
 
 #: modules/Attendance/Menu.php:11 modules/Custom/Menu.php:3
-#: modules/Grades/Menu.php:21
+#: modules/Custom/Menu.php:8 modules/Grades/Menu.php:21
 msgid "Utilities"
 msgstr "Utilidades"
 
@@ -2520,7 +2520,11 @@ msgstr "Mi Reporte"
 msgid "Create Parent Users"
 msgstr "Crear Usuarios Padre"
 
-#: modules/Custom/Menu.php:8
+#: modules/Custom/Menu.php:9
+msgid "Notify Parents"
+msgstr "Notificar los Padres"
+
+#: modules/Custom/Menu.php:12
 msgid "Attendance Summary"
 msgstr "Resumen de la Asistencia"
 
