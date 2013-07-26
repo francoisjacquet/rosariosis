@@ -1,5 +1,5 @@
 <?php
-include 'modules/Grades/config.inc.php';
+
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
@@ -157,29 +157,29 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="radio" name="list" value="" checked /> '._('Certificates').':</label></TD></TR>';
 
 //modif Francois: add TinyMCE to the textarea
-		$extra['extra_header_left'] .= '<TR><TD>&nbsp;</TD></TR><TR><TD style="text-align:right; vertical-align: top;">'._('Text').'</TD><TD colspan="2"><TEXTAREA cols="97" rows="27" name="honor_roll_text" class="tinymce">';
+		$extra['extra_header_left'] .= '<TR><TD>&nbsp;</TD></TR><TR><TD style="text-align:right; vertical-align: top;">'._('Text').'</TD><TD colspan="4"><TEXTAREA cols="97" rows="27" name="honor_roll_text" class="tinymce">';
 		//modif Francois: add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		$extra['extra_header_left'] .= str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']));
 		$extra['extra_header_left'] .= '</TEXTAREA></TD></TR>';
 
-		$extra['extra_header_left'] .= '<TR><TD>&nbsp;</TD><TD colspan="2">'.Localize('colon',_('Substitutions related to students')).'</TD></TR><TR>';
-		$extra['extra_header_left'] .= '<TD>&nbsp;</TD><TD>__FULL_NAME__ = '._('Last, First M').'</TD>';
-		$extra['extra_header_left'] .= '<TD>__LAST_NAME__ = '._('Last Name').'</TD>';
+		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR>';
+		$extra['extra_header_left'] .= '<TD>__FULL_NAME__</TD><TD>= '._('Last, First M').'</TD><TD>&nbsp;</TD>';
+		$extra['extra_header_left'] .= '<TD>__LAST_NAME__</TD><TD>= '._('Last Name').'</TD>';
 		$extra['extra_header_left'] .= '</TR><TR>';
-		$extra['extra_header_left'] .= '<TD>&nbsp;</TD><TD>__FIRST_NAME__ = '._('First Name').'</TD>';
-		$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__ = '._('Middle Name').'</TD>';
+		$extra['extra_header_left'] .= '<TD>__FIRST_NAME__</TD><TD>= '._('First Name').'</TD><TD>&nbsp;</TD>';
+		$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__</TD><TD>= '._('Middle Name').'</TD>';
 		$extra['extra_header_left'] .= '</TR><TR>';
-		$extra['extra_header_left'] .= '<TD>&nbsp;</TD><TD>__SCHOOL_ID__ = '._('School').'</TD>';
-		$extra['extra_header_left'] .= '<TD>__GRADE_ID__ = '._('Grade Level').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR><TD>&nbsp;</TD></TR>';
+		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
+		$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD>';
+		$extra['extra_header_left'] .= '</TR></TABLE></TD></TR>';
 
 //modif Francois: add frames choice
 		$frames = array();
 		if (is_dir('assets/Frames/'))
 			$frames = scandir('assets/Frames/');
 		//no frame first and checked
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align:top;">'._('Frame').'</TD><TD colspan="2"><DIV style="overflow-x:auto; height:160px;"><table class="cellpadding-0 cellspacing-0"><tr><td class="image-radio-list"><label class="image-radio-list"><INPUT type="radio" name="frame" value="" checked /> '._('No frame').'</label></td>';
+		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align:top;">'._('Frame').'</TD><TD><DIV style="overflow-x:auto; height:160px;"><table class="cellpadding-0 cellspacing-0"><tr><td class="image-radio-list"><label class="image-radio-list"><INPUT type="radio" name="frame" value="" checked /> '._('No frame').'</label></td>';
 		//create radio list with thumbnails
 		$i = 1;
 		foreach ($frames as $frame)

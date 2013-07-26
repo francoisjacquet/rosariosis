@@ -297,7 +297,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'.Localize('colon',_('Include on Transcript')).'</b><INPUT type="hidden" name="SCHOOL_ID" value="'.UserSchool().'"><BR /></TD></TR>';
         $mp_types = DBGet(DBQuery("SELECT DISTINCT MP_TYPE FROM MARKING_PERIODS WHERE NOT MP_TYPE IS NULL AND SCHOOL_ID='".UserSchool()."'"),array(),array());
-        $extra['extra_header_left'] .= '<TR><TD style="text-align:right">'._('Marking Periods').':</TD><TD><TABLE><TR><TD><TABLE>';
+        $extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align:top;">'._('Marking Periods').':</TD><TD><TABLE><TR><TD  style="vertical-align:top;"><TABLE>';
 //modif Francois: add translation
 		$marking_periods_locale = array('Year'=>_('Year'), 'Semester'=>_('Semester'), 'Quarter'=>_('Quarter'));
 		foreach($mp_types as $mp_type)
@@ -310,8 +310,8 @@ if(empty($_REQUEST['modfunc']))
 		}
 		$extra['extra_header_left'] .= '</TABLE></TD>';
         $extra['extra_header_left'] .= '<INPUT type="hidden" name="syear" value="'.UserSyear().'">';
-        $extra['extra_header_left'] .= '<TD style="text-align:right; width: 20px;">&nbsp;</TD>';
-        $extra['extra_header_left'] .= '<TD style="text-align:right">&nbsp;&nbsp;&nbsp;&nbsp;'._('Other Options').':</TD>';
+        $extra['extra_header_left'] .= '<TD style="text-align:right; width:20px;">&nbsp;</TD>';
+        $extra['extra_header_left'] .= '<TD style="text-align:right; vertical-align:top;">'._('Other Options').':</TD>';
         $extra['extra_header_left'] .= '<TD><TABLE>';
         //modif Francois: add Show Grades option
 		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showgrades" value="1" checked /> '._('Grades').'</label></TD></TR>';
@@ -343,26 +343,31 @@ if(empty($_REQUEST['modfunc']))
 		if (User('PROFILE')=='admin')
 		{
 			//modif Francois: add Show Studies Certificate option
-			$extra['extra_header_left'] .= '<DIV id="divcertificatetext" style="display:none"><TEXTAREA id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'])).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('Certificate Studies Text')).'</span><BR /><BR />
-			<TABLE><TR><TD colspan="2">'.Localize('colon',_('Substitutions related to students')).'</TD></TR>
-			<TR><TD>__SSECURITY__ = '.str_replace(array("'",'"'),array('&#39;','\"'),$field_SSECURITY[1]['TITLE']).'</TD><TD>&nbsp;</TD></TR>
-			<TR><TD>__FULL_NAME__ = '.str_replace(array("'",'"'),array('&#39;','\"'),_('Last, First M')).'</TD>
-			<TD>__LAST_NAME__ = '.str_replace(array("'",'"'),array('&#39;','\"'),_('Last Name')).'</TD></TR>
-			<TR><TD>__FIRST_NAME__ = '.str_replace(array("'",'"'),array('&#39;','\"'),_('First Name')).'</TD>
-			<TD>__MIDDLE_NAME__ = '.str_replace(array("'",'"'),array('&#39;','\"'),_('Middle Name')).'</TD></TR>
-			<TR><TD>__GRADE_ID__ = '.str_replace(array("'",'"'),array('&#39;','\"'),_('Grade Level')).'</TD>
-			<TD>__NEXT_GRADE_ID__ = '.str_replace(array("'",'"'),array('&#39;','\"'),_('Next Grade')).'</TD></TR>
-			<TR><TD>__SCHOOL_ID__ = '.str_replace(array("'",'"'),array('&#39;','\"'),_('School')).'</TD>
-			<TD>__YEAR__ = '.str_replace(array("'",'"'),array('&#39;','\"'),_('School Year')).'</TD></TR>
-			<TR><TD>__BLOCK2__ = '.str_replace(array("'",'"'),array('&#39;','\"'),_('Text Block 2')).'</TD><TD>&nbsp;</TD></TR>
-			</TABLE></DIV>';
+			$extra['extra_header_left'] .= '<DIV id="divcertificatetext" style="display:none"><TEXTAREA id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'])).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('Certificate Studies Text')).'</span>
+			<TABLE><TR><TD style="text-align:right; vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR>';
+			$extra['extra_header_left'] .= '<TD>__SSECURITY__</TD><TD>= '.str_replace(array("'",'"'),array('&#39;','\"'),$field_SSECURITY[1]['TITLE']).'</TD><TD colspan="3">&nbsp;</TD>';
+			$extra['extra_header_left'] .= '</TR><TR>';
+			$extra['extra_header_left'] .= '<TD>__FULL_NAME__</TD><TD>= '._('Last, First M').'</TD><TD>&nbsp;</TD>';
+			$extra['extra_header_left'] .= '<TD>__LAST_NAME__</TD><TD>= '._('Last Name').'</TD>';
+			$extra['extra_header_left'] .= '</TR><TR>';
+			$extra['extra_header_left'] .= '<TD>__FIRST_NAME__</TD><TD>= '._('First Name').'</TD><TD>&nbsp;</TD>';
+			$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__</TD><TD>= '._('Middle Name').'</TD>';
+			$extra['extra_header_left'] .= '</TR><TR>';
+			$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD><TD>&nbsp;</TD>';
+			$extra['extra_header_left'] .= '<TD>__NEXT_GRADE_ID__</TD><TD>= '._('Next Grade').'</TD>';
+			$extra['extra_header_left'] .= '</TR><TR>';
+			$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
+			$extra['extra_header_left'] .= '<TD>__YEAR__</TD><TD>= '._('School Year').'</TD>';
+			$extra['extra_header_left'] .= '</TR><TR>';
+			$extra['extra_header_left'] .= '<TD>__BLOCK2__</TD><TD>= '._('Text Block 2').'</TD><TD colspan="3">&nbsp;</TD>';
+			$extra['extra_header_left'] .= '</TR></TABLE></TD></TR></TABLE></DIV>';
 		}
 	}
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
 	$extra['new'] = true;
 	$extra['options']['search'] = false;
 	$extra['force_search'] = true;

@@ -144,16 +144,16 @@ if(empty($_REQUEST['modfunc']))
 		//modif Francois: add TinyMCE to the textarea
 		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'._('Letter Text').'</TD><TD><TEXTAREA cols="97" rows="27" name="letter_text" class="tinymce">'.str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'])).'</TEXTAREA></TD></TR>';
 
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'.Localize('colon',_('Substitutions related to students')).'</TD><TD><TABLE><TR>';
+		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR>';
 		$extra['extra_header_left'] .= '<TD>__FULL_NAME__</TD><TD>= '._('Last, First M').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '</TR><TR>';
-		$extra['extra_header_left'] .= '<TD>__FIRST_NAME__</TD><TD>= '._('First Name').'</TD><TD></TD>';
+		$extra['extra_header_left'] .= '<TD>__FIRST_NAME__</TD><TD>= '._('First Name').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__LAST_NAME__</TD><TD>= '._('Last Name').'</TD>';
 		$extra['extra_header_left'] .= '</TR><TR>';
-		$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__</TD><TD>= '._('Middle Name').'</TD><TD></TD>';
+		$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__</TD><TD>= '._('Middle Name').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__STUDENT_ID__</TD><TD>= '._('RosarioSIS ID').'</TD>';
 		$extra['extra_header_left'] .= '</TR><TR>';
-		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD></TD>';
+		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD>';
 		$extra['extra_header_left'] .= '</TR><TR>';
 		if(User('PROFILE')=='admin')
