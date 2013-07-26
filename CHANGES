@@ -1,5 +1,43 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.3
+----------------
+- UTF-8 multibyte strings:
+	- stripos => mb_stripos
+	- strlen => mb_strlen
+	- strpos => mb_strpos
+	- strrchr => mb_strrchr
+	- strrpos => mb_strrpos
+	- strstr => mb_strstr
+	- strtolower => mb_strtolower
+	- strtoupper => mb_strtoupper
+	- substr_count => mb_substr_count
+	- substr => mb_substr
+- DBEscapeString on $_REQUEST vars
+- unescape strings for password encryption / to display / to search
+- removed old string escaping method
+- HTML table fix in Medical.inc.php
+- bugfix: SQL bug when incomplete or non-existent date
+- CSS header icon resize
+- help PDF rework
+- bugfix: no student selected in MassSchedule.php
+- bugfix: include in GradebookBreakdown.php
+- IN operator SQL queries fix
+- deleted config.inc.php, config.dist.php and created config.inc.sample.php
+- added school configuration:
+	- move $RosarioTitle & $DefaultSyear to database
+	- delete Grades/config.inc.php
+	- move $semester_comment to database
+	- move Moodle/config.inc.php to database
+- added Notify Parents custom service
+- HTML table fix in HonorRoll*.php, Letters.php & Transcripts.php
+- added templates to CreateParents.php and NotifyParents.php email text
+- disabled student lists SQL echo
+- removed $DatabaseANSI & $DatabaseType config value
+- removed oracle and mysql cases in database.inc.php
+- updated spanish and french translations
+	
+
 Changes in 1.2.2
 ----------------
 - bugfix: SQL bug invalid sort order & numeric data in Assignments.php

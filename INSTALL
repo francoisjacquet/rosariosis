@@ -1,7 +1,7 @@
 Rosario Student Information System - INSTALLATION DIRECTIONS
 
 -------------------------------------------------------------------------------
-Version 1.2.2
+Version 1.3
 -------------------------------------------------------------------------------
 
 NOTE: Before Installing RosarioSIS, you must read and agree to the included
@@ -123,7 +123,5 @@ Note: for a 64bits distribution, replace 'i386' with 'amd64'.
 Additional Configuration
 ------------------------
 
-In addition to the main config.inc.php file there are optional module configuration
-files, also named config.inc.php but located in the modules directories.  Most user
-configuration variables are in these files to simplify upgrades until such configurations
-are moved to the database. See the module specific config files for details.
+In addition to the main config.inc.php file there are optional module configuration. 
+See the School Configuration in the School Setup module for details.
