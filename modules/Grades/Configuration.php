@@ -63,7 +63,6 @@ if ($RosarioModules['Eligibility'])
 	echo '</fieldset><BR />';
 }
 
-//modif Francois: display grades according to Grades/config.inc.php
 if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']==0) //if letter AND percent grades
 {
 	echo '<fieldset>';

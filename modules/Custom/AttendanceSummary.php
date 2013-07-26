@@ -1,5 +1,5 @@
 <?php
-include 'modules/Grades/config.inc.php';
+
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
