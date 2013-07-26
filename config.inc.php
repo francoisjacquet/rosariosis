@@ -10,7 +10,6 @@ if(!defined('CONFIG_INC'))
 
 	// Database Setup
 	$DatabaseType = 'postgres';		// oracle, postgres
-	$DatabaseANSI = true;			// ANSI compliant flag.
 	$DatabaseServer = 'localhost';	// postgres = host, oracle=SID
 	$DatabaseUsername =  'rosariosis';
 	$DatabasePassword = 'password';
