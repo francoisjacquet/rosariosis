@@ -4094,7 +4094,29 @@ INSERT INTO templates VALUES ('Grades/HonorRollSubject.php', 0, '<div style="tex
 INSERT INTO templates VALUES ('Grades/Transcripts.php', 0, 'The Principal undersigned certify:
 That __FIRST_NAME__ __LAST_NAME__ attended at this school the following courses corresponding to grade __GRADE_ID__ in year __YEAR__ with the following grades and credit hours.
 __BLOCK2__');
+INSERT INTO templates VALUES ('Custom/CreateParents.php', 0, 'Dear __PARENT_NAME__,
 
+A parent account for the __SCHOOL_ID__ has been created to access school information and student information for the following students:
+__ASSOCIATED_STUDENTS__
+
+Your account credentials are:
+Username: __USERNAME__
+Password: __PASSWORD__
+
+A link to the SIS website and instructions for access are available on the school''s website__BLOCK2__Dear __PARENT_NAME__,
+
+The following students have been added to your parent account on the SIS:
+__ASSOCIATED_STUDENTS__');
+INSERT INTO templates VALUES ('Custom/NotifyParents.php', 0, 'Dear __PARENT_NAME__,
+
+A parent account for the __SCHOOL_ID__ has been created to access school information and student information for the following students:
+__ASSOCIATED_STUDENTS__
+
+Your account credentials are:
+Username: __USERNAME__
+Password: __PASSWORD__
+
+A link to the SIS website and instructions for access are available on the school''s website');
 
 --
 -- Data for Name: user_profiles; Type: TABLE DATA; Schema: public; Owner: rosariosis

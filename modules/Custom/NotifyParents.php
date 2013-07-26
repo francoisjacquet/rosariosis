@@ -5,42 +5,38 @@
 
 DrawHeader(ProgramTitle());
 
-// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
-$test_email = $_REQUEST['test_email'];
-
-// Set the from and cc emails here - the emails can be comma separated list of emails.
-if(!empty(User('EMAIL')))
-	$from = $cc = User('EMAIL');
-elseif (!empty($test_email))
-	$from = $test_email;
-else
-	ErrorMessage(array(_('You must set the <b>test mode email</b> or have a user email address to use this script.')),'fatal');
-	
-$headers = "From:".$from."\r\nCc:".(isset($cc) ? $cc.',' : '').$RosarioNotifyAddress."\r\n";
-
-//modif Francois: add email headers
-$headers .= 'Return-Path:'.$from."\r\n"; 
-$headers .= 'Reply-To:'.$from . "\r\n" . 'X-Mailer:PHP/' . phpversion();
-$params = '-f '.$from;
-
-
-$subject = ParseMLField(Config('TITLE')).' - '._('New Parent Account');
-$message = 'Dear __PARENT_NAME__,
-
-A parent account for the __SCHOOL_ID__ has been created to access school information and student information for the following students:
-__ASSOCIATED_STUDENTS__
-
-Your account credentials are:
-Username: __USERNAME__
-Password: __PASSWORD__
-
-A link to the SIS website and instructions for access are available on the school\'s website';
-
-
-// end of user configuration
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
+	// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
+	$test_email = $_REQUEST['test_email'];
+
+	// Set the from and cc emails here - the emails can be comma separated list of emails.
+	if(!empty($test_email))
+		$from = $test_email;
+	elseif (User('EMAIL'))
+		$from = $cc = User('EMAIL');
+	else
+		ErrorMessage(array(_('You must set the <b>test mode email</b> or have a user email address to use this script.')),'fatal');
+		
+	$headers = "From:".$from."\r\nCc:".(isset($cc) ? $cc.',' : '').$RosarioNotifyAddress."\r\n";
+
+	//modif Francois: add email headers
+	$headers .= 'Return-Path:'.$from."\r\n"; 
+	$headers .= 'Reply-To:'.$from . "\r\n" . 'X-Mailer:PHP/' . phpversion();
+	$params = '-f '.$from;
+
+	$subject = ParseMLField(Config('TITLE')).' - '._('New Parent Account');
+
+	//modif Francois: add Template
+	$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Custom/NotifyParents.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
+	if (!$template_update)
+		DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('Custom/NotifyParents.php', '".User('STAFF_ID')."', '".$_REQUEST['inputnotifyparentstext']."')");
+	else
+		DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$_REQUEST['inputnotifyparentstext']."' WHERE MODNAME = 'Custom/NotifyParents.php' AND STAFF_ID = '".User('STAFF_ID')."'");
+
+	$message = $_REQUEST['inputnotifyparentstext'];
+
 	if(count($_REQUEST['staff']))
 	{
 	$st_list = '\''.implode('\',\'',$_REQUEST['staff']).'\'';
@@ -96,7 +92,29 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
-		DrawHeader('<label>'._('Test Mode').'? <label>'._('Email').': <input name="test_email" type="text" /></label>',SubmitButton(_('Notify Selected Parents')));
+		$extra['header_right'] = SubmitButton(_('Notify Selected Parents'));
+		
+		$extra['extra_header_left'] = '<TABLE>';
+
+		//modif Francois: add Template
+		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
+		
+		$template = $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE'];
+
+		$extra['extra_header_left'] .= '<TR><TD>&nbsp;</TD><TD>'.'<label><TEXTAREA name="inputnotifyparentstext" cols="100" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),$template).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('New Parent Account').' - '._('Email Text')).'</span></label></TD></TR>';
+		
+		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR>';
+		$extra['extra_header_left'] .= '<TD>__PARENT_NAME__</TD><TD>= '._('Parent Name').'</TD><TD>&nbsp;</TD>';
+		$extra['extra_header_left'] .= '<TD>__ASSOCIATED_STUDENTS__</TD><TD>= '._('Associated Students').'</TD>';
+		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '<TD>__USERNAME__</TD><TD>= '._('Username').'</TD><TD>&nbsp;</TD>';
+		$extra['extra_header_left'] .= '<TD>__PASSWORD__</TD><TD>= '._('Password').'</TD>';
+		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD colspan="3">&nbsp;</TD>';
+		$extra['extra_header_left'] .= '</TR></TABLE></TD></TR>';
+		
+		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'._('Test Mode').':'.'</TD><TD><label><input name="test_email" type="text" /><BR /><span class="legend-gray">'._('Email').'</span></label></TD></TR>';
+		$extra['extra_header_left'] .= '</TABLE>';
 	}
 
 	$extra['SELECT'] = ",s.STAFF_ID AS CHECKBOX,s.USERNAME,s.EMAIL";
@@ -106,7 +124,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 	$extra['WHERE'] = " AND s.LAST_LOGIN IS NULL";
 	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
 	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'staff\');" /><A>');
-	$extra['columns_after'] = array('ASSOCIATED'=>_('Number of Students Associated'),'USERNAME'=>_('Username'),'EMAIL'=>_('Email'));
+	$extra['columns_after'] = array('ASSOCIATED'=>_('Associated Students'),'USERNAME'=>_('Username'),'EMAIL'=>_('Email'));
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['profile'] = 'parent';
 

@@ -1,6 +1,8 @@
 <?php
-// 23-Aug-2007
 // This script will automatically create parent accounts and associate students based on an email address which is part of the student record.
+
+DrawHeader(ProgramTitle());
+
 // The $email_column corresponds to a student field or an address field which is created for the email address.  The COLUMN_# is the column in the
 // students table or the address table which holds the student contact email address.  You will need to create the column and inspect rosario database
 // to determine the email column and assign it here.
@@ -8,73 +10,58 @@
 // existing address feature).
 // The column name should start with 's.' if a student field or 'a.' if an address field.
 //modif Francois: Moodle Integrator: the "family" email field must be different from the student email field in the Moodle/config.inc.php
-$email_column = ''; //example: 'a.CUSTOM_2'
+$email_column = 'a.CUSTOM_2'; //example: 'a.CUSTOM_2'
+if(empty($email_column))
+	ErrorMessage(array(_('You must set the <b>$email_column</b> variable to use this script.')),'fatal');
 
 // A list of potential users is obtained from the student contacts with an address.  The student must have at least one such contact.  Students which
 // have the same email will be associated to the same user and grouped together in the list and even though each will have contacts listed for selection
 // only that of the first student selected in the group will be used in the creation of the account.
 
-// Parent users are created with the following profile id.  As of Rosario 2.8 non-admin profiles are available and '3' is the default 'parent' profile.
+// Parent users are created with the following profile id. '3' is the default 'parent' profile.
 $profile_id = '3';
 
-// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
-// no accounts are created and no associations are made.  Use this to verify the behavior and email operation before actual use.
-$test_email = '';
-
-// Set the from and cc emails here.  $cc can be comma separated list of emails addresses.
-// If $from is empty then deafult is the user's email address from their rosario staff record.
-// The 'from' email address is automatically prepended to the $cc list and should not be included in the $cc list here..
-$from = '';
-$cc = $RosarioNotifyAddress;
-
-// new for when parent account was created new
-// old for when parent account was existing
-$subject['new'] = ParseMLField(Config('TITLE')).' '._('New Parent Account');
-$subject['old'] = ParseMLField(Config('TITLE')).' '._('Updated Parent Account');
-// ^N=parent name, ^S=list of student names, ^U=username, ^P=password
-$message['new'] = _('Dear').' ^N,
-
-'.sprintf(_('A parent account for the %s has been created to access school information and student information for the following students'), ParseMLField(Config('TITLE'))).':
-^S
-
-'._('Your account credentials are').':
-'._('Username').': ^U
-'._('Password').': ^P
-
-'._('A link to the SIS website and instructions for access are available on the school\'s website');
-
-$message['old'] = _('Dear').' ^N,
-
-'.sprintf(_('The following students have been added to your parent account on the %s'), ParseMLField(Config('TITLE'))).':
-^S';
-
-//modif Francois: change parent password generation
-//$passwords = array('bigbadbug','zigzagzug','disdogbop','bigbedbug','bigredbug','wigwagwug','rubdubdub','fatcatsat');
 
 // end of user configuration
 
-DrawHeader(ProgramTitle());
-
-if(empty($email_column))
-	ErrorMessage(array(_('You must set the <b>$email_column</b> variable to use this script.')),'fatal');
-
-if(empty($from))
-{
-	$from = User('EMAIL');
-	if(!$from)
-		ErrorMessage(array(_('You must set the <b>$from</b> variable or have a user email address to use this script.')),'fatal');
-}
-
-$cc = $from.($cc?','.$cc:'');
-
-$headers = 'From:'.$from."\r\nCc:".$cc."\r\n";
-//modif Francois: add email headers
-$headers .= 'Return-Path:'.$from."\r\n"; 
-$headers .= 'Reply-To:'.$from . "\r\n" . 'X-Mailer:PHP/' . phpversion();
-$params = '-f '.$from;
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
+	// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
+	// no accounts are created and no associations are made.  Use this to verify the behavior and email operation before actual use.
+	$test_email = $_REQUEST['test_email'];
+
+	// Set the from and cc emails here - the emails can be comma separated list of emails.
+	if(!empty($test_email))
+		$from = $test_email;
+	elseif (User('EMAIL'))
+		$from = $cc = User('EMAIL');
+	else
+		ErrorMessage(array(_('You must set the <b>test mode email</b> or have a user email address to use this script.')),'fatal');
+		
+	$headers = "From:".$from."\r\nCc:".(isset($cc) ? $cc.',' : '').$RosarioNotifyAddress."\r\n";
+
+	//modif Francois: add email headers
+	$headers .= 'Return-Path:'.$from."\r\n"; 
+	$headers .= 'Reply-To:'.$from . "\r\n" . 'X-Mailer:PHP/' . phpversion();
+	$params = '-f '.$from;
+
+	// new for when parent account was created new
+	// old for when parent account was existing
+	$subject['new'] = ParseMLField(Config('TITLE')).' '._('New Parent Account');
+	$subject['old'] = ParseMLField(Config('TITLE')).' '._('Updated Parent Account');
+
+	//modif Francois: add Template
+	$createparentstext = $_REQUEST['inputcreateparentstext_new'].'__BLOCK2__'.$_REQUEST['inputcreateparentstext_old'];
+	$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Custom/CreateParents.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
+	if (!$template_update)
+		DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('Custom/CreateParents.php', '".User('STAFF_ID')."', '".$createparentstext."')");
+	else
+		DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$createparentstext."' WHERE MODNAME = 'Custom/CreateParents.php' AND STAFF_ID = '".User('STAFF_ID')."'");
+
+	$message['new'] = $_REQUEST['inputcreateparentstext_new'];
+	$message['old'] = $_REQUEST['inputcreateparentstext_old'];
+
 	if(count($_REQUEST['student']))
 	{
 	$st_list = '\''.implode('\',\'',$_REQUEST['student']).'\'';
@@ -150,13 +137,14 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 				$student_list .= str_replace('&nbsp;',' ',$student['FULL_NAME'])."\r";
 			}
-			$msg = str_replace('^S',$student_list,$message[$account]);
-			$msg = str_replace('^N',$staff['NAME'],$msg);
-			$msg = str_replace('^U',$staff['USERNAME'],$msg);
-//modif Francois: add password encryption
-//			$msg = str_replace('^P',$staff['PASSWORD'],$msg);
-			$msg = str_replace('^P',$password,$msg);
-			$result = @mail(!$test_email ? $students[1]['EMAIL'] : $test_email,utf8_decode($subject[$account]),utf8_decode($msg),$headers,$params);
+			$msg = str_replace('__ASSOCIATED_STUDENTS__',$student_list,$message[$account]);
+			$msg = str_replace('__SCHOOL_ID__',SchoolInfo('TITLE'),$msg);
+			$msg = str_replace('__PARENT_NAME__',$staff['NAME'],$msg);
+			$msg = str_replace('__USERNAME__',$staff['USERNAME'],$msg);
+	//modif Francois: add password encryption
+	//		$msg = str_replace('__PASSWORD__',$staff['PASSWORD'],$msg);
+			$msg = str_replace('__PASSWORD__',$password,$msg);
+			$result = @mail(empty($test_email) ? $students[1]['EMAIL'] : $test_email,utf8_decode($subject[$account]),utf8_decode($msg),$headers,$params);
 
 			$RET[$email][1]['PARENT'] = $staff['NAME'];
 			$RET[$email][1]['USERNAME'] = $staff['USERNAME'];
@@ -164,7 +152,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			if($result)
 				$RET[$email][1]['RESULT'] = _('Success');
 			else
-				$RET[$email][1]['RESULT'] = _('Email failed');
+				$RET[$email][1]['RESULT'] = _('Fail');
 		}
 		else
 			$RET[$email][1]['RESULT'] = _('Fail');
@@ -187,6 +175,29 @@ if(empty($_REQUEST['modfunc']))
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Create Parent Accounts for Selected Students'));
+		
+		$extra['extra_header_left'] = '<TABLE>';
+
+		//modif Francois: add Template
+		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
+		list($template_new, $template_old) = explode('__BLOCK2__', $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE']);
+		
+		$extra['extra_header_left'] .= '<TR><TD>&nbsp;</TD><TD>'.'<label><TEXTAREA name="inputcreateparentstext_new" cols="100" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),$template_new).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('New Parent Account').' - '._('Email Text')).'</span></label></TD></TR>';
+		
+		$extra['extra_header_left'] .= '<TR><TD>&nbsp;</TD><TD>'.'<label><TEXTAREA name="inputcreateparentstext_old" cols="100" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),$template_old).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('Updated Parent Account').' - '._('Email Text')).'</span></label></TD></TR>';
+		
+		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR>';
+		$extra['extra_header_left'] .= '<TD>__PARENT_NAME__</TD><TD>= '._('Parent Name').'</TD><TD>&nbsp;</TD>';
+		$extra['extra_header_left'] .= '<TD>__ASSOCIATED_STUDENTS__</TD><TD>= '._('Associated Students').'</TD>';
+		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '<TD>__USERNAME__</TD><TD>= '._('Username').'</TD><TD>&nbsp;</TD>';
+		$extra['extra_header_left'] .= '<TD>__PASSWORD__</TD><TD>= '._('Password').'</TD>';
+		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD colspan="3">&nbsp;</TD>';
+		$extra['extra_header_left'] .= '</TR></TABLE></TD></TR>';
+		
+		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'._('Test Mode').':'.'</TD><TD><label><input name="test_email" type="text" /><BR /><span class="legend-gray">'._('Email').'</span></label></TD></TR>';
+		$extra['extra_header_left'] .= '</TABLE>';
 	}
 
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX,lower($email_column) AS EMAIL,s.STUDENT_ID AS CONTACT";
@@ -225,7 +236,7 @@ function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
 	if(mb_strpos($THIS_RET['EMAIL'],'@'))
-		return '&nbsp;&nbsp;<INPUT type="checkbox" name="student['.$value.']" value="'.$value.'">';
+		return '&nbsp;&nbsp;<INPUT type="checkbox" name="student['.$value.']" value="'.$value.'" />';
 	else
 		return '';
 }
@@ -244,7 +255,7 @@ function _makeContactSelect($value,$column)
 		$return = '<TABLE class="cellpadding-0 cellspacing-0">';
 		foreach($RET as $contact)
 		{
-			$return .= '<TR><TD>'.($contact['PERSON_ID']?'<INPUT type="radio" name="contact['.$value.']" value='.$contact['PERSON_ID'].$checked.'>':'&nbsp;').'</TD>';
+			$return .= '<TR><TD>'.($contact['PERSON_ID']?'<INPUT type="radio" name="contact['.$value.']" value='.$contact['PERSON_ID'].$checked.' />':'&nbsp;').'</TD>';
 			$return .= '<TD>'.$contact['CONTACT'].'</TD>';
 			$return .= '<TD>('.$contact['STUDENT_RELATION'].')</TD></TR>';
 			$checked = '';

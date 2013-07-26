@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-25 17:05-0500\n"
-"PO-Revision-Date: 2013-07-25 17:05-0500\n"
+"POT-Creation-Date: 2013-07-25 20:12-0500\n"
+"PO-Revision-Date: 2013-07-25 20:13-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -141,10 +141,11 @@ msgstr "Usted debe tener javascript disponible para usar RosarioSIS."
 msgid "Language"
 msgstr "Idioma"
 
-#: index.php:153 modules/Custom/CreateParents.php:41
-#: modules/Custom/CreateParents.php:172 modules/Custom/NotifyParents.php:86
-#: modules/Custom/NotifyParents.php:109 modules/misc/Export.php:59
-#: modules/misc/Export.php:61 modules/misc/Export.php:210
+#: index.php:153 modules/Custom/CreateParents.php:160
+#: modules/Custom/CreateParents.php:193 modules/Custom/NotifyParents.php:82
+#: modules/Custom/NotifyParents.php:110 modules/Custom/NotifyParents.php:127
+#: modules/misc/Export.php:59 modules/misc/Export.php:61
+#: modules/misc/Export.php:210
 #: modules/Students/includes/General_Info.inc.php:149
 #: modules/Users/Search.inc.php:34
 #: modules/Users/includes/General_Info.inc.php:120
@@ -152,8 +153,8 @@ msgstr "Idioma"
 msgid "Username"
 msgstr "Nombre de Usuario"
 
-#: index.php:157 modules/Custom/CreateParents.php:42
-#: modules/Custom/CreateParents.php:172
+#: index.php:157 modules/Custom/CreateParents.php:160
+#: modules/Custom/CreateParents.php:194 modules/Custom/NotifyParents.php:111
 #: modules/Students/includes/General_Info.inc.php:156
 #: modules/Users/Preferences.php:127 modules/Users/Preferences.php:136
 #: modules/Users/Preferences.php:141
@@ -418,8 +419,8 @@ msgstr "Nota"
 msgid "Errors"
 msgstr "Errores"
 
-#: functions/GetMP.fnc.php:19 modules/Grades/Configuration.php:137
-#: modules/Grades/Configuration.php:168 modules/Grades/Configuration.php:171
+#: functions/GetMP.fnc.php:19 modules/Grades/Configuration.php:136
+#: modules/Grades/Configuration.php:167 modules/Grades/Configuration.php:170
 #: modules/School_Setup/MarkingPeriods.php:242
 msgid "Exam"
 msgstr "Examen"
@@ -509,8 +510,8 @@ msgid "Teacher"
 msgstr "Docente"
 
 # 'user_profiles' table
-#: functions/GetStaffList.fnc.php:154 modules/Custom/CreateParents.php:172
-#: modules/Custom/NotifyParents.php:86 modules/Users/Exceptions.php:173
+#: functions/GetStaffList.fnc.php:154 modules/Custom/CreateParents.php:160
+#: modules/Custom/NotifyParents.php:82 modules/Users/Exceptions.php:173
 #: modules/Users/Profiles.php:242 modules/Users/Search.inc.php:36
 #: modules/Users/Search.inc.php:38 modules/Users/UserFields.php:265
 #: modules/Users/includes/General_Info.inc.php:155
@@ -660,7 +661,7 @@ msgstr "Información de Contacto"
 #: functions/GetStuList.fnc.php:414 functions/Search.fnc.php:87
 #: modules/Attendance/DuplicateAttendance.php:210
 #: modules/Attendance/TakeAttendance.php:148
-#: modules/Custom/CreateParents.php:213 modules/Custom/MyReport.php:47
+#: modules/Custom/CreateParents.php:224 modules/Custom/MyReport.php:47
 #: modules/Eligibility/EnterEligibility.php:134
 #: modules/Food_Service/TakeMenuCounts.php:178
 #: modules/Grades/AnomalousGrades.php:88 modules/Grades/Grades.php:194
@@ -681,13 +682,13 @@ msgstr "ID RosarioSIS"
 #: modules/Attendance/Percent.php:117 modules/Attendance/Percent.php:131
 #: modules/Attendance/TakeAttendance.php:148
 #: modules/Custom/AttendanceSummary.php:54
-#: modules/Custom/CreateParents.php:213 modules/Custom/MyReport.php:47
+#: modules/Custom/CreateParents.php:224 modules/Custom/MyReport.php:47
 #: modules/Eligibility/EnterEligibility.php:134
 #: modules/Food_Service/TakeMenuCounts.php:178
 #: modules/Grades/EditReportCardGrades.php:144
 #: modules/Grades/EditReportCardGrades.php:165
 #: modules/Grades/HonorRoll.php:174 modules/Grades/HonorRollSubject.php:128
-#: modules/Grades/Transcripts.php:108 modules/Grades/Transcripts.php:353
+#: modules/Grades/Transcripts.php:108 modules/Grades/Transcripts.php:356
 #: modules/misc/Export.php:59 modules/misc/Export.php:61
 #: modules/misc/Export.php:210 modules/misc/Portal.php:113
 #: modules/misc/Portal.php:240 modules/Scheduling/IncompleteSchedules.php:77
@@ -739,7 +740,7 @@ msgstr ""
 #: functions/Widgets.fnc.php:588 functions/Widgets.fnc.php:641
 #: modules/Custom/Registration.php:601
 #: modules/Discipline/DisciplineForm.php:228
-#: modules/Eligibility/AddActivity.php:46 modules/Grades/Configuration.php:80
+#: modules/Eligibility/AddActivity.php:46 modules/Grades/Configuration.php:79
 #: modules/Grades/FinalGrades.php:145
 #: modules/Grades/GradebookBreakdown.php:280 modules/Grades/Grades.php:294
 #: modules/Grades/Grades.php:376 modules/Grades/Grades.php:398
@@ -963,7 +964,7 @@ msgstr ""
 #: modules/Custom/Registration.php:155 modules/Custom/Registration.php:178
 #: modules/Custom/Registration.php:198 modules/Custom/Registration.php:203
 #: modules/Grades/HonorRoll.php:168 modules/Grades/HonorRollSubject.php:122
-#: modules/Grades/Transcripts.php:350 modules/misc/Export.php:59
+#: modules/Grades/Transcripts.php:351 modules/misc/Export.php:59
 #: modules/misc/Export.php:61 modules/misc/Export.php:210
 #: modules/Reports/Students.php:41 modules/Students/Letters.php:151
 #: modules/Students/includes/Address.inc.php:617
@@ -980,7 +981,7 @@ msgstr "Apellido"
 #: modules/Custom/Registration.php:154 modules/Custom/Registration.php:177
 #: modules/Custom/Registration.php:197 modules/Custom/Registration.php:202
 #: modules/Grades/HonorRoll.php:170 modules/Grades/HonorRollSubject.php:124
-#: modules/Grades/Transcripts.php:351 modules/misc/Export.php:59
+#: modules/Grades/Transcripts.php:353 modules/misc/Export.php:59
 #: modules/misc/Export.php:61 modules/misc/Export.php:210
 #: modules/Reports/Students.php:41 modules/Students/Letters.php:150
 #: modules/Students/includes/Address.inc.php:617
@@ -1809,7 +1810,7 @@ msgstr "Código del Estado"
 #: modules/Grades/Assignments-new.php:239
 #: modules/Grades/Assignments-new.php:249 modules/Grades/Assignments.php:277
 #: modules/Grades/Assignments.php:306 modules/Grades/Configuration.php:25
-#: modules/Grades/Configuration.php:207
+#: modules/Grades/Configuration.php:206
 #: modules/Grades/EditHistoryMarkingPeriods.php:72
 #: modules/Grades/EditHistoryMarkingPeriods.php:104
 #: modules/Grades/EditReportCardGrades.php:154
@@ -1944,8 +1945,8 @@ msgstr "sobre %d paginas."
 #: modules/Attendance/DuplicateAttendance.php:210
 #: modules/Attendance/TakeAttendance.php:148
 #: modules/Attendance/TakeAttendance.php:161
-#: modules/Custom/CreateParents.php:172 modules/Custom/CreateParents.php:213
-#: modules/Custom/CreateParents.php:214 modules/Custom/MyReport.php:47
+#: modules/Custom/CreateParents.php:160 modules/Custom/CreateParents.php:224
+#: modules/Custom/CreateParents.php:225 modules/Custom/MyReport.php:47
 #: modules/Custom/MyReport.php:75 modules/Discipline/MakeReferral.php:115
 #: modules/Discipline/Referrals.php:129
 #: modules/Eligibility/EnterEligibility.php:134
@@ -2245,8 +2246,8 @@ msgstr[1] "Días de Escuela"
 
 #: modules/Attendance/Percent.php:132 modules/Food_Service/MenuReports.php:139
 #: modules/Food_Service/TransactionsReport.php:83
-#: modules/Grades/Assignments-new.php:301 modules/Grades/Configuration.php:151
-#: modules/Grades/Configuration.php:198 modules/Grades/ProgressReports.php:104
+#: modules/Grades/Assignments-new.php:301 modules/Grades/Configuration.php:150
+#: modules/Grades/Configuration.php:197 modules/Grades/ProgressReports.php:104
 #: modules/Grades/Transcripts.php:247 modules/Scheduling/ScheduleReport.php:72
 #: modules/Scheduling/ScheduleReport.php:81
 #: modules/Scheduling/ScheduleReport.php:137
@@ -2342,9 +2343,10 @@ msgid "Student Name"
 msgstr "Nombre del Estudiante"
 
 #: modules/Custom/AttendanceSummary.php:47
+#: modules/Custom/CreateParents.php:196 modules/Custom/NotifyParents.php:113
 #: modules/Food_Service/AssignSchool.php:38
 #: modules/Food_Service/AssignSchool.php:40 modules/Grades/HonorRoll.php:173
-#: modules/Grades/HonorRollSubject.php:127 modules/Grades/Transcripts.php:355
+#: modules/Grades/HonorRollSubject.php:127 modules/Grades/Transcripts.php:359
 #: modules/misc/Export.php:59 modules/misc/Export.php:61
 #: modules/misc/Export.php:210 modules/misc/Portal.php:41
 #: modules/misc/Portal.php:50 modules/misc/Portal.php:59
@@ -2400,7 +2402,7 @@ msgid "YTD Totals"
 msgstr "Totales del Año a la fecha"
 
 #: modules/Custom/AttendanceSummary.php:131
-#: modules/Eligibility/AddActivity.php:24
+#: modules/Custom/CreateParents.php:164 modules/Eligibility/AddActivity.php:24
 #: modules/Food_Service/Students/Reminders.php:73
 #: modules/Grades/HonorRoll.php:98 modules/Grades/HonorRollSubject.php:58
 #: modules/Grades/ProgressReports.php:129
@@ -2419,53 +2421,13 @@ msgstr "Debe escoger por lo menos un estudiante."
 msgid "Create Attendance Report for Selected Students"
 msgstr "Crear Reporte de Asistencia para los Estudiantes Seleccionados"
 
-#: modules/Custom/CreateParents.php:32
-msgid "New Parent Account"
-msgstr "Nueva Cuenta de Padres"
-
-#: modules/Custom/CreateParents.php:33 modules/Custom/NotifyParents.php:27
-msgid "Updated Parent Account"
-msgstr "Cuenta de Padres Actualizada"
-
-#: modules/Custom/CreateParents.php:35 modules/Custom/CreateParents.php:46
-msgid "Dear"
-msgstr "Estimado"
-
-#: modules/Custom/CreateParents.php:37
-#, php-format
-msgid ""
-"A parent account for the %s has been created to access school information "
-"and student information for the following students"
-msgstr ""
-"Una cuenta de padres para el %s ha sido creada para acceder información de "
-"la escuela e información del estudiante para los siguientes estudiantes"
-
-#: modules/Custom/CreateParents.php:40
-msgid "Your account credentials are"
-msgstr "Sus datos de cuenta son"
-
-#: modules/Custom/CreateParents.php:44
-msgid ""
-"A link to the SIS website and instructions for access are available on the "
-"school's website"
-msgstr ""
-"Un link a la pagina del Sistema de Información Académica e instrucciones "
-"para el acceso estan disponibles en la pagina de la escuela"
-
-#: modules/Custom/CreateParents.php:48
-#, php-format
-msgid "The following students have been added to your parent account on the %s"
-msgstr ""
-"Los siguientes estudiantes han sido adicionados a su cuenta de padres en el "
-"%s"
-
-#: modules/Custom/CreateParents.php:59
+#: modules/Custom/CreateParents.php:15
 msgid "You must set the <b>$email_column</b> variable to use this script."
 msgstr ""
 "Usted debe establecer la variable <b>$email_column</b> para usar esta "
 "función."
 
-#: modules/Custom/CreateParents.php:65 modules/Custom/NotifyParents.php:17
+#: modules/Custom/CreateParents.php:40 modules/Custom/NotifyParents.php:20
 msgid ""
 "You must set the <b>test mode email</b> or have a user email address to use "
 "this script."
@@ -2473,45 +2435,71 @@ msgstr ""
 "Usted debe establecer el <b>email del modo de prueba</b> o tener un correo "
 "electronico de usuario para usar esta función."
 
-#: modules/Custom/CreateParents.php:165 modules/Custom/NotifyParents.php:82
+#: modules/Custom/CreateParents.php:51 modules/Custom/CreateParents.php:185
+#: modules/Custom/NotifyParents.php:29 modules/Custom/NotifyParents.php:104
+msgid "New Parent Account"
+msgstr "Nueva Cuenta de Padres"
+
+#: modules/Custom/CreateParents.php:52 modules/Custom/CreateParents.php:187
+msgid "Updated Parent Account"
+msgstr "Cuenta de Padres Actualizada"
+
+#: modules/Custom/CreateParents.php:153 modules/Custom/NotifyParents.php:78
 msgid "Success"
 msgstr "Exito"
 
-#: modules/Custom/CreateParents.php:167
-msgid "Email failed"
-msgstr "Email fallido"
-
-#: modules/Custom/CreateParents.php:170 modules/Custom/NotifyParents.php:82
+#: modules/Custom/CreateParents.php:155 modules/Custom/CreateParents.php:158
+#: modules/Custom/NotifyParents.php:78
 msgid "Fail"
 msgstr "Fallar"
 
-#: modules/Custom/CreateParents.php:172 modules/Custom/CreateParents.php:200
-#: modules/Custom/NotifyParents.php:86 modules/Custom/NotifyParents.php:99
-#: modules/Custom/NotifyParents.php:109
+#: modules/Custom/CreateParents.php:160 modules/Custom/CreateParents.php:199
+#: modules/Custom/CreateParents.php:211 modules/Custom/NotifyParents.php:82
+#: modules/Custom/NotifyParents.php:116 modules/Custom/NotifyParents.php:127
 msgid "Email"
 msgstr "Email"
 
-#: modules/Custom/CreateParents.php:172 modules/Custom/NotifyParents.php:86
+#: modules/Custom/CreateParents.php:160 modules/Custom/NotifyParents.php:82
 #: modules/Students/includes/Medical.inc.php:55
 msgid "Result"
 msgstr "Resultado"
 
-#: modules/Custom/CreateParents.php:173
+#: modules/Custom/CreateParents.php:161
 msgid "Creation Result"
 msgid_plural "Creation Results"
 msgstr[0] "Resultado de la Creación"
 msgstr[1] "Resultados de la Creación"
 
-#: modules/Custom/CreateParents.php:176 modules/Custom/NotifyParents.php:90
-#: modules/Food_Service/Users/Reminders.php:46
-msgid "You must choose at least one user"
-msgstr "Debe escoger por lo menos un usuario"
-
-#: modules/Custom/CreateParents.php:189 modules/Custom/CreateParents.php:219
+#: modules/Custom/CreateParents.php:177 modules/Custom/CreateParents.php:230
 msgid "Create Parent Accounts for Selected Students"
 msgstr "Crear Cuentas de Padres para los Estudiantes Seleccionados"
 
-#: modules/Custom/CreateParents.php:200
+#: modules/Custom/CreateParents.php:185 modules/Custom/CreateParents.php:187
+#: modules/Custom/NotifyParents.php:104
+msgid "Email Text"
+msgstr "Texto del Email"
+
+#: modules/Custom/CreateParents.php:189 modules/Custom/NotifyParents.php:106
+#: modules/Grades/HonorRoll.php:166 modules/Grades/HonorRollSubject.php:120
+#: modules/Grades/Transcripts.php:347 modules/Students/Letters.php:147
+msgid "Substitutions"
+msgstr "Substituciones"
+
+#: modules/Custom/CreateParents.php:190 modules/Custom/NotifyParents.php:107
+msgid "Parent Name"
+msgstr "Nombre del Padre"
+
+#: modules/Custom/CreateParents.php:191 modules/Custom/NotifyParents.php:108
+#: modules/Custom/NotifyParents.php:127
+msgid "Associated Students"
+msgstr "Estudiantes Asociados"
+
+#: modules/Custom/CreateParents.php:199 modules/Custom/NotifyParents.php:116
+#: modules/Scheduling/Scheduler.php:10
+msgid "Test Mode"
+msgstr "Modo de Prueba"
+
+#: modules/Custom/CreateParents.php:211
 #: modules/Students/includes/Address.inc.php:248
 msgid "Contact"
 msgstr "Contacto"
@@ -2590,24 +2578,20 @@ msgstr "Nombre de la Persona"
 msgid "Value"
 msgstr "Valor"
 
-#: modules/Custom/NotifyParents.php:87
+#: modules/Custom/NotifyParents.php:83
 msgid "Notification Result"
 msgid_plural "Notification Results"
 msgstr[0] "Resultado de Notificación"
 msgstr[1] "Resultados de Notificación"
 
-#: modules/Custom/NotifyParents.php:99 modules/Scheduling/Scheduler.php:10
-msgid "Test Mode"
-msgstr "Modo de Prueba"
+#: modules/Custom/NotifyParents.php:86
+#: modules/Food_Service/Users/Reminders.php:46
+msgid "You must choose at least one user"
+msgstr "Debe escoger por lo menos un usuario"
 
-#: modules/Custom/NotifyParents.php:99 modules/Custom/NotifyParents.php:117
+#: modules/Custom/NotifyParents.php:95 modules/Custom/NotifyParents.php:135
 msgid "Notify Selected Parents"
 msgstr "Notificar los Padres Seleccionados"
-
-# 'user_profiles' table
-#: modules/Custom/NotifyParents.php:109
-msgid "Number of Students Associated"
-msgstr "Número de Estudiantes Asociados"
 
 #: modules/Custom/Registration.php:134
 #, php-format
@@ -2959,7 +2943,7 @@ msgstr "Haga Click en el botón derecho para Guardar Imagen Como..."
 #: modules/Food_Service/AssignSchool.php:40
 #: modules/Grades/EditHistoryMarkingPeriods.php:87
 #: modules/Grades/ReportCards.php:203 modules/Grades/Transcripts.php:230
-#: modules/Grades/Transcripts.php:356
+#: modules/Grades/Transcripts.php:360
 msgid "School Year"
 msgstr "Año Escolar"
 
@@ -4159,7 +4143,7 @@ msgid "Due Date"
 msgstr "Fecha de Plazo"
 
 # 'user_profiles' table
-#: modules/Grades/Assignments-new.php:225 modules/Grades/Configuration.php:73
+#: modules/Grades/Assignments-new.php:225 modules/Grades/Configuration.php:72
 #: modules/Grades/Grades.php:163 modules/Grades/Grades.php:232
 #: modules/Grades/Grades.php:257 modules/Grades/InputFinalGrades.php:606
 #: modules/Grades/ProgressReports.php:39 modules/Grades/StudentGrades.php:27
@@ -4361,16 +4345,16 @@ msgstr ""
 msgid "Calculate Eligibility using Cumulative Semester Grades"
 msgstr "Calcular Elegibilidad usando Notas Acumuladas del Semestre"
 
-#: modules/Grades/Configuration.php:70 modules/Grades/Menu.php:13
+#: modules/Grades/Configuration.php:69 modules/Grades/Menu.php:13
 #: modules/Grades/Menu.php:42 modules/Grades/Menu.php:53
 msgid "Final Grades"
 msgstr "Notas Finales"
 
-#: modules/Grades/Configuration.php:73
+#: modules/Grades/Configuration.php:72
 msgid "Input Format"
 msgstr "Formato de Entrada"
 
-#: modules/Grades/Configuration.php:73 modules/Grades/Grades.php:166
+#: modules/Grades/Configuration.php:72 modules/Grades/Grades.php:166
 #: modules/Grades/Grades.php:167 modules/Grades/Grades.php:235
 #: modules/Grades/Grades.php:260 modules/Grades/InputFinalGrades.php:606
 #: modules/Grades/ProgressReports.php:42 modules/Grades/StudentGrades.php:27
@@ -4378,20 +4362,20 @@ msgstr "Formato de Entrada"
 msgid "Letter"
 msgstr "Letra"
 
-#: modules/Grades/Configuration.php:73
+#: modules/Grades/Configuration.php:72
 msgid "Letter Percent"
 msgstr "Letra Porciento"
 
-#: modules/Grades/Configuration.php:83
+#: modules/Grades/Configuration.php:82
 #, php-format
 msgid "Default %s comment code"
 msgstr "Código de comentario %s por defecto"
 
-#: modules/Grades/Configuration.php:101
+#: modules/Grades/Configuration.php:100
 msgid "Score Breakoff Points"
 msgstr "Puntos Limites de la Nota"
 
-#: modules/Grades/Configuration.php:127
+#: modules/Grades/Configuration.php:126
 msgid "Final Grading Percentages"
 msgstr "Porcentajes de la Nota Final"
 
@@ -4615,20 +4599,15 @@ msgstr "Crear Cuadro de Honor para los Estudiantes Seleccionados"
 msgid "Certificates"
 msgstr "Certificados"
 
-#: modules/Grades/HonorRoll.php:166 modules/Grades/HonorRollSubject.php:120
-#: modules/Grades/Transcripts.php:347 modules/Students/Letters.php:147
-msgid "Substitutions related to students"
-msgstr "Susticiones relacionadas con estudiantes"
-
 #: modules/Grades/HonorRoll.php:167 modules/Grades/HonorRollSubject.php:121
-#: modules/Grades/Transcripts.php:349 modules/misc/Export.php:59
+#: modules/Grades/Transcripts.php:350 modules/misc/Export.php:59
 #: modules/misc/Export.php:61 modules/misc/Export.php:210
 #: modules/Students/Letters.php:148
 msgid "Last, First M"
 msgstr "Apellido, Nombres"
 
 #: modules/Grades/HonorRoll.php:171 modules/Grades/HonorRollSubject.php:125
-#: modules/Grades/Transcripts.php:352 modules/misc/Export.php:59
+#: modules/Grades/Transcripts.php:354 modules/misc/Export.php:59
 #: modules/misc/Export.php:61 modules/misc/Export.php:210
 #: modules/Reports/Students.php:41 modules/Students/Letters.php:153
 #: modules/Students/includes/Address.inc.php:617
@@ -4640,11 +4619,11 @@ msgstr "Apellido, Nombres"
 msgid "Middle Name"
 msgstr "Segundo Nombre"
 
-#: modules/Grades/HonorRoll.php:182 modules/Grades/HonorRollSubject.php:139
+#: modules/Grades/HonorRoll.php:182 modules/Grades/HonorRollSubject.php:138
 msgid "Frame"
 msgstr "Borde"
 
-#: modules/Grades/HonorRoll.php:182 modules/Grades/HonorRollSubject.php:139
+#: modules/Grades/HonorRoll.php:182 modules/Grades/HonorRollSubject.php:138
 msgid "No frame"
 msgstr "No borde"
 
@@ -4657,13 +4636,21 @@ msgid "Honor"
 msgstr "Distinción"
 
 #: modules/Grades/HonorRollSubject.php:110
-#: modules/Grades/HonorRollSubject.php:191
+#: modules/Grades/HonorRollSubject.php:190
 msgid "Create Honor Roll by Subject for Selected Students"
 msgstr "Crear Cuadro de Honor por Materia para los Estudiantes Seleccionados"
 
 #: modules/Grades/HonorRollSubject.php:130
-#: modules/Grades/HonorRollSubject.php:214
-#: modules/Grades/HonorRollSubject.php:227 modules/Scheduling/Courses.php:44
+#: modules/Grades/HonorRollSubject.php:157
+msgid "ClipArt"
+msgstr "ClipArt"
+
+#: modules/Grades/HonorRollSubject.php:157
+msgid "No ClipArt"
+msgstr "No ClipArt"
+
+#: modules/Grades/HonorRollSubject.php:213
+#: modules/Grades/HonorRollSubject.php:226 modules/Scheduling/Courses.php:44
 #: modules/Scheduling/Courses.php:410 modules/Scheduling/Courses.php:796
 #: modules/Scheduling/Courses.php:844 modules/Scheduling/Courses.php:848
 #: modules/Scheduling/Courses.php:868 modules/Scheduling/Courses.php:878
@@ -4674,15 +4661,6 @@ msgstr "Crear Cuadro de Honor por Materia para los Estudiantes Seleccionados"
 #: modules/Scheduling/ScheduleReport.php:47
 msgid "Subject"
 msgstr "Materia"
-
-#: modules/Grades/HonorRollSubject.php:131
-#: modules/Grades/HonorRollSubject.php:158
-msgid "ClipArt"
-msgstr "ClipArt"
-
-#: modules/Grades/HonorRollSubject.php:158
-msgid "No ClipArt"
-msgstr "No ClipArt"
 
 #: modules/Grades/InputFinalGrades.php:17
 #: modules/Grades/InputFinalGrades.php:24
@@ -5053,7 +5031,7 @@ msgstr "I.H.A."
 msgid "Signature"
 msgstr "Firma"
 
-#: modules/Grades/Transcripts.php:294 modules/Grades/Transcripts.php:378
+#: modules/Grades/Transcripts.php:294 modules/Grades/Transcripts.php:383
 msgid "Create Transcripts for Selected Students"
 msgstr "Crear Expedientes Académicos para los Estudiantes Seleccionados"
 
@@ -5083,11 +5061,11 @@ msgstr "Intensidad Horaria"
 msgid "Certificate Studies Text"
 msgstr "Texto del Certificado de Estudios"
 
-#: modules/Grades/Transcripts.php:354 modules/School_Setup/GradeLevels.php:65
+#: modules/Grades/Transcripts.php:357 modules/School_Setup/GradeLevels.php:65
 msgid "Next Grade"
 msgstr "Grado Siguiente"
 
-#: modules/Grades/Transcripts.php:357
+#: modules/Grades/Transcripts.php:362
 msgid "Text Block 2"
 msgstr "Bloque de Texto 2"
 
@@ -7539,6 +7517,42 @@ msgstr "Vacuna"
 #: ProgramFunctions/StudentsUsersInfo.fnc.php:259
 msgid "Physical"
 msgstr "Chequeo"
+
+# 'user_profiles' table
+#~ msgid "Number of Students Associated"
+#~ msgstr "Número de Estudiantes Asociados"
+
+#~ msgid "Substitutions related to students"
+#~ msgstr "Susticiones relacionadas con estudiantes"
+
+#~ msgid "Dear"
+#~ msgstr "Estimado"
+
+#~ msgid ""
+#~ "A parent account for the %s has been created to access school information "
+#~ "and student information for the following students"
+#~ msgstr ""
+#~ "Una cuenta de padres para el %s ha sido creada para acceder información "
+#~ "de la escuela e información del estudiante para los siguientes estudiantes"
+
+#~ msgid "Your account credentials are"
+#~ msgstr "Sus datos de cuenta son"
+
+#~ msgid ""
+#~ "A link to the SIS website and instructions for access are available on "
+#~ "the school's website"
+#~ msgstr ""
+#~ "Un link a la pagina del Sistema de Información Académica e instrucciones "
+#~ "para el acceso estan disponibles en la pagina de la escuela"
+
+#~ msgid ""
+#~ "The following students have been added to your parent account on the %s"
+#~ msgstr ""
+#~ "Los siguientes estudiantes han sido adicionados a su cuenta de padres en "
+#~ "el %s"
+
+#~ msgid "Email failed"
+#~ msgstr "Email fallido"
 
 #~ msgid "Parent Account"
 #~ msgstr "Cuenta de Padres"
