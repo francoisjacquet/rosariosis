@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-25 20:12-0500\n"
-"PO-Revision-Date: 2013-07-25 20:13-0500\n"
+"POT-Creation-Date: 2013-07-26 17:39-0500\n"
+"PO-Revision-Date: 2013-07-26 17:40-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -67,7 +67,7 @@ msgstr "Ayuda"
 msgid "Logout"
 msgstr "Salir"
 
-#: database.inc.php:406
+#: database.inc.php:211
 msgid "We have a problem, please contact technical support ..."
 msgstr ""
 "Tenemos un problema, comuníquese con el departamente de soporte técnico por "
@@ -1831,7 +1831,7 @@ msgstr "Código del Estado"
 #: modules/School_Setup/Calendar.php:323 modules/School_Setup/Calendar.php:451
 #: modules/School_Setup/Calendar.php:559
 #: modules/School_Setup/Configuration.php:59
-#: modules/School_Setup/Configuration.php:104
+#: modules/School_Setup/Configuration.php:113
 #: modules/School_Setup/GradeLevels.php:71
 #: modules/School_Setup/GradeLevels.php:75
 #: modules/School_Setup/MarkingPeriods.php:234
@@ -6042,6 +6042,26 @@ msgid "Number of days after the school date teachers can edit attendance"
 msgstr ""
 "Número de días después de la fecha por los cuales los docentes pueden editar "
 "la asistencia"
+
+#: modules/School_Setup/Configuration.php:99
+msgid "Moodle"
+msgstr "Moodle"
+
+#: modules/School_Setup/Configuration.php:100
+msgid "Moodle URL"
+msgstr "URL de Moodle"
+
+#: modules/School_Setup/Configuration.php:105
+msgid "Moodle Token"
+msgstr "Token Moodle"
+
+#: modules/School_Setup/Configuration.php:106
+msgid "Moodle Parent Role ID"
+msgstr "ID del Rol Padre de Moodle"
+
+#: modules/School_Setup/Configuration.php:107
+msgid "RosarioSIS Student email field ID"
+msgstr "ID del campo email Estudiante de RosarioSIS"
 
 #: modules/School_Setup/CopySchool.php:3 modules/School_Setup/Menu.php:17
 #: modules/School_Setup/Rollover.php:3

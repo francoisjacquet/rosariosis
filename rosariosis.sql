@@ -3815,6 +3815,10 @@ INSERT INTO program_config VALUES (2013, 1, 'grades', 'GRADES_DO_STATS_ADMIN_TEA
 INSERT INTO program_config VALUES (2013, 1, 'students', 'STUDENTS_USE_BUS', 'Y');
 INSERT INTO program_config VALUES (2013, 1, 'students', 'STUDENTS_USE_CONTACT', 'Y');
 INSERT INTO program_config VALUES (2013, 1, 'students', 'STUDENTS_SEMESTER_COMMENTS', NULL);
+INSERT INTO program_config VALUES (2013, 1, 'moodle', 'MOODLE_URL', NULL);
+INSERT INTO program_config VALUES (2013, 1, 'moodle', 'MOODLE_TOKEN', NULL);
+INSERT INTO program_config VALUES (2013, 1, 'moodle', 'MOODLE_PARENT_ROLE_ID', NULL);
+INSERT INTO program_config VALUES (2013, 1, 'moodle', 'ROSARIO_STUDENTS_EMAIL_FIELD_ID', NULL);
 
 
 --

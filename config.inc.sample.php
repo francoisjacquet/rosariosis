@@ -44,7 +44,7 @@ if(!defined('CONFIG_INC'))
 		'Custom'=>true
 	);
 
-	//modif Francois: Moodle integrator
+	//modif Francois: Moodle integrator, see /modules/Moodle/config.inc.php for instructions
 	define('MOODLE_INTEGRATOR', false);
 
 	// If session isn't started, start it.

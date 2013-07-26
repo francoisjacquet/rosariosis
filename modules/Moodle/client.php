@@ -8,8 +8,7 @@ require_once('modules/Moodle/curl.php');
 // XML-RPC CALL
 function moodle_xmlrpc_call($functionname, $object)
 {
-	global $moodle_domainnames, $moodle_tokens;
-	$serverurl = $moodle_domainnames[UserSchool()] . '/webservice/xmlrpc/server.php'. '?wstoken=' . $moodle_tokens[UserSchool()];
+	$serverurl = MOODLE_URL . '/webservice/xmlrpc/server.php'. '?wstoken=' . MOODLE_TOKEN;
 	$curl = new curl;
 	//var_dump($object);
 	if (empty($object))

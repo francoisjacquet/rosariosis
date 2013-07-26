@@ -6,18 +6,17 @@
 // 2- Follow the "Allow an external system to control Moodle" steps (Admin > Plugins > Web services > Overview)
 // 	a- The protocol to be enabled is XML-RPC
 // 	b- When you add the Service, select all the web service functions available (except the DEPRECATED ones), then add the required capabilities to the Web Services role
-// 	c- Enter the token and the domain name below
-// 3- Create the Parent role (http://docs.moodle.org/23/en/Parent_role) and then enter the Parent role ID below
+// 	c- Enter the token and the Moodle URL in the School Configuration screen
+// 3- Create the Parent role (http://docs.moodle.org/23/en/Parent_role) and then enter the Parent role ID in the School Configuration screen
 // 4- Allow the Web Services role to assign the Teacher, Student and Parent roles (Admin > Users > Permissions > Define roles > Allow role assignments)
-// 5- Create an email field for the students in RosarioSIS and enter the field ID below
+// 5- Create an email field for the students in RosarioSIS and enter the field ID in the School Configuration screen
 
-global $moodle_domainnames, $moodle_tokens;
-/// SETUP - NEED TO BE CHANGED
-//Note: the array key is the RosarioSIS School ID
-$moodle_domainnames = array(1 => 'http://localhost/moodle25');
-$moodle_tokens = array(1 => 'd6c51ea6ffd9857578722831bcb070e1');
-define('MOODLE_PARENT_ROLE_ID', 10);
-define('ROSARIO_STUDENTS_EMAIL_FIELD_ID', 11);
+$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='moodle'"),array(),array('TITLE'));
+
+define('MOODLE_URL', $program_config['MOODLE_URL'][1]['VALUE']; //example: http://localhost/moodle
+define('MOODLE_TOKEN', $program_config['MOODLE_TOKEN'][1]['VALUE']; //example: d6c51ea6ffd9857578722831bcb070e1
+define('MOODLE_PARENT_ROLE_ID', $program_config['MOODLE_PARENT_ROLE_ID'][1]['VALUE']); //example: 10
+define('ROSARIO_STUDENTS_EMAIL_FIELD_ID', $program_config['ROSARIO_STUDENTS_EMAIL_FIELD_ID'][1]['VALUE']); //example: 11
 
 
 // Context levels definitions
