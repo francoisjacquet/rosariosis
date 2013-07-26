@@ -287,7 +287,7 @@ function GetStuList(&$extra=array())
 		$sql .= ' ORDER BY '.$extra['ORDER_BY'];
 
 	//modif Francois: bugfix if PDF, dont echo SQL
-	if (!isset($_REQUEST['_ROSARIO_PDF']))
+	if (!isset($_REQUEST['_ROSARIO_PDF']) && 0) //activate only for debug purpose
 		echo '<!--'.$sql.'-->';
 
 	return DBGet(DBQuery($sql),$functions,$extra['group']);
