@@ -9,7 +9,6 @@ if(!defined('CONFIG_INC'))
 	//$IgnoreFiles = Array('.DS_Store','CVS','.svn');
 
 	// Database Setup
-	$DatabaseType = 'postgres';		// oracle, postgres
 	$DatabaseServer = 'localhost';	// postgres = host, oracle=SID
 	$DatabaseUsername =  'rosariosis';
 	$DatabasePassword = 'password';

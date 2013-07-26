@@ -4,7 +4,6 @@ if(!defined('CONFIG_INC'))
 	define('CONFIG_INC',1);
 	
 	// Database Setup
-	$DatabaseType = 'postgres';		// oracle, postgres
 	$DatabaseServer = 'localhost';	// postgres = host, oracle=SID
 	$DatabaseUsername = 'rosariosis';
 	$DatabasePassword = 'password';
