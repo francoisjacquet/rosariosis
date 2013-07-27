@@ -1,5 +1,16 @@
 Rosario Student Information System - WHATS_NEW
 
+New in 1.3
+-----------
+Security improved
+
+School Setup
+- Moved all the configuration values inside the config.inc.php files to School Configuration
+
+Custom
+- Added Notify Parents
+
+
 New in 1.2
 -----------
 Security improved
