@@ -14,14 +14,14 @@ if(!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pr
 
 $course_period_id = UserCoursePeriod();
 if(empty($course_period_id))                                  
-	ErrorMessage(array(_('You cannot enter grades for this period.')),'fatal');
+	ErrorMessage(array(_('You cannot enter grades for this course period.')),'fatal');
 
 //modif Francois: add CLASS_RANK
 //modif Francois: add Credit Hours
 //$course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit($course_period_id, '".$_REQUEST['mp']."') AS CREDITS, (SELECT ATTENDANCE FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID) AS ATTENDANCE FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
 $course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit($course_period_id, '".$_REQUEST['mp']."') AS CREDITS, DOES_CLASS_RANK AS CLASS_RANK, c.CREDIT_HOURS FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
 if(!$course_RET[1]['GRADE_SCALE_ID'])                                  
-	ErrorMessage(array(_('You cannot enter grades for this period.')),'fatal');
+	ErrorMessage(array(_('You cannot enter grades for this course period.')),'fatal');
 $course_title = $course_RET[1]['TITLE'];
 $grade_scale_id = $course_RET[1]['GRADE_SCALE_ID'];
 $course_id = $course_RET[1]['COURSE_ID'];

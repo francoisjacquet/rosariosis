@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-26 17:37-0500\n"
-"PO-Revision-Date: 2013-07-26 17:41-0500\n"
+"POT-Creation-Date: 2013-07-26 19:49-0500\n"
+"PO-Revision-Date: 2013-07-26 19:49-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -4647,8 +4647,8 @@ msgstr "Matière"
 
 #: modules/Grades/InputFinalGrades.php:17
 #: modules/Grades/InputFinalGrades.php:24
-msgid "You cannot enter grades for this period."
-msgstr "Vous ne pouvez pas entrer les notes pour cette période."
+msgid "You cannot enter grades for this course period."
+msgstr "Vous ne pouvez pas entrer les notes pour cette classe."
 
 #: modules/Grades/InputFinalGrades.php:36
 #: modules/Grades/ReportCardComments.php:122
