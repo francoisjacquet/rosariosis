@@ -42,13 +42,9 @@ as appropriate for your installation. Rename the file to config.inc.php.
   $StudentPicturesPath relative path to student pictures
   $UserPicturesPath relative path to user pictures
 
-  $RosarioTitle is the program title
   $RosarioAdmins is a comma separated list of admin's which have special login
     privileges
   $RosarioNotifyAddress is email address to send error notifications
-  $DefaultSyear is current school year.  The $DefaultSyear needs to exist in
-    the database and the only year in the default database (rosariosis.sql) is
-    2013 so this should be set to 2013 for a new install.
   $RosarioModules controls which modules to use, most of the standard modules
     are required though and should be left to 'true'
 
