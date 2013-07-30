@@ -195,7 +195,7 @@ function SelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$
 		}
 		$select .= '</SELECT>';
 		
-		$select .= '<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'';
+		$select .= '<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'';
 		
 		if($value!='' && $div)
 		{
