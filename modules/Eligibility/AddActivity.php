@@ -17,21 +17,23 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					DBQuery($sql);
 				}
 			}
-			unset($_REQUEST['modfunc']);
-			$note = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('This activity has been added to the selected students.');
+			$note[] = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('This activity has been added to the selected students.');
 		}
 		else
-			BackPrompt(_('You must choose at least one student.'));
+			$error[] = _('You must choose at least one student.');
 	}
 	else
-		BackPrompt(_('You must choose an activity.'));
+		$error[] = _('You must choose an activity.');
+	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	unset($_REQUEST['modfunc']);
 }
 
 DrawHeader(ProgramTitle());
 
-if($note)
-//	DrawHeader('<IMG SRC=assets/check.png>'.$note);
-	echo ErrorMessage(array($note), 'note');
+if(isset($note))
+	echo ErrorMessage($note, 'note');
+if (isset($error))
+	echo ErrorMessage($error);
 
 if($_REQUEST['search_modfunc']=='list')
 {
