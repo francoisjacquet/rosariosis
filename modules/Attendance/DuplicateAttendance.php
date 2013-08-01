@@ -305,7 +305,7 @@ elseif($_REQUEST['delete']!='true')
                   echo '</TABLE>';
                 }else{
                   echo '</TABLE>';
-                  echo '<BR /><input type="submit" name="submit" value="'._('Delete').'">';
+                  echo '<BR /><input type="submit" name="submit" value="'._('Delete').'" />';
                 }
 
                echo '</form>';
@@ -313,8 +313,7 @@ elseif($_REQUEST['delete']!='true')
 
         }
         else
-                BackPrompt(_('No Students were found.'));
-                //echo "No Students were found";
+			BackPrompt(_('No Students were found.'));
 }
 
 function _makeTeacher($teacher,$column)
