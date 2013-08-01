@@ -60,11 +60,12 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				UpdateAttendanceDaily($student_id,$date,($_REQUEST['absence_reason']?$_REQUEST['absence_reason']:false));
 			}
 		}
-		unset($_REQUEST['modfunc']);
-		$note = _('Absence records were added for the selected students.');
+		$note[] = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('Absence records were added for the selected students.');
 	}
 	else
-		BackPrompt(_('You must choose at least one period and one student.'));
+		$error[] = _('You must choose at least one period and one student.');
+		
+	unset($_REQUEST['modfunc']);
 }
 
 DrawHeader(ProgramTitle());
@@ -136,8 +137,10 @@ if(empty($_REQUEST['modfunc']))
 	}
 	//elseif($note)
 //		DrawHeader('<IMG SRC=assets/check.png class="alignImg">'.$note);
-	if ($note)
-		echo '<div class="updated"><IMG SRC="assets/check.png" class="alignImg">&nbsp;'.$note.'</div>';
+	if (isset($note))
+		echo ErrorMessage($note);;
+	if (isset($error))
+		echo ErrorMessage($error);
 
 	Widgets('course');
 	Widgets('absences');
