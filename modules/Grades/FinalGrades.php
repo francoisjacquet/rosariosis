@@ -167,16 +167,20 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			ListOutput($grades_RET,$columns,'.','.',$link);
 		}
 		else
-			BackPrompt(_('No Students were found.'));
+			$error[] = _('No Students were found.');
 	}
 	else
-		BackPrompt(_('You must choose at least one student and one marking period.'));
+		$error[] = _('You must choose at least one student and one marking period.');
+	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	unset($_REQUEST['modfunc']);
 }
 
 if(empty($_REQUEST['modfunc']))
-
 {
 	DrawHeader(ProgramTitle());
+
+	if (isset($error))
+		echo ErrorMessage($error);
 
 	if($_REQUEST['search_modfunc']=='list')
 	{
