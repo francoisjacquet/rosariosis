@@ -73,10 +73,10 @@ function PortalPollsDisplay($value,$name)
 	
 	//verify if user is in excluded users list (format = '|[profile_id]:[user_id]')
 	$profile_id = User('PROFILE_ID');
-	if($_SESSION['STAFF_ID'])
-		$user_id = User('STAFF_ID');
-	elseif($_SESSION['STUDENT_ID'])
-		$user_id = User('STUDENT_ID');
+	if($profile_id != 0) //modif Francois: call right Student/Staff ID
+		$user_id = UserStaffID();
+	else
+		$user_id = UserStudentID();
 	$excluded_user = '|'.$profile_id.':'.$user_id;
 	
 	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'], $excluded_user) !== false)
@@ -98,7 +98,7 @@ function PortalPollsDisplay($value,$name)
 		</script>';
 		$js_included = true;
 	}
-	$PollForm .= '<div id="divPortalPoll'.$poll_id.'"><form method="POST" class="formPortalPoll" action="ProgramFunctions/PortalPolls.fnc.php"><input type="hidden" name="profile_id" value="'.$profile_id.'" /><input type="hidden" name="user_id" value="'.$user_id.'" /><input type="hidden" name="total_votes_string" value="'._('Total Participants').'" /><TABLE  class="width-100p cellspacing-0">';
+	$PollForm .= '<div id="divPortalPoll'.$poll_id.'" style="max-height:350px; overflow-y:auto;"><form method="POST" class="formPortalPoll" action="ProgramFunctions/PortalPolls.fnc.php"><input type="hidden" name="profile_id" value="'.$profile_id.'" /><input type="hidden" name="user_id" value="'.$user_id.'" /><input type="hidden" name="total_votes_string" value="'._('Total Participants').'" /><input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" /><TABLE  class="width-100p cellspacing-0">';
 		
 	foreach ($poll_questions_RET as $question)
 	{
@@ -126,7 +126,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 {
 	
 	if (!$display_votes)
-		return ErrorMessage(array('<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('Poll completed')),'Note');
+		return ErrorMessage(array('<IMG SRC="assets/check.png" class="alignImg">&nbsp;'.(isset($_POST['poll_completed_string'])? $_POST['poll_completed_string'] : _('Poll completed'))),'Note');
 	
 	$votes_display = '<DIV style="max-height:350px; overflow-y:auto;">'."\n";
 	

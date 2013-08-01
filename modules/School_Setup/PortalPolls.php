@@ -187,7 +187,7 @@ if($_REQUEST['modfunc']!='remove')
 	$QI_questions = DBQuery($sql_questions);
 	$questions_RET = DBGet($QI_questions,array('OPTIONS'=>'_makeOptionsInput'));	
 
-	$sql = "SELECT pp.ID,pp.SORT_ORDER,pp.TITLE,'See_PORTAL_POLL_QUESTIONS' AS OPTIONS, pp.VOTES_NUMBER,pp.START_DATE,pp.END_DATE,pp.PUBLISHED_PROFILES,CASE WHEN pp.END_DATE IS NOT NULL AND pp.END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED FROM PORTAL_POLLS pp WHERE pp.SCHOOL_ID='".UserSchool()."' AND pp.SYEAR='".UserSyear()."' ORDER BY EXPIRED DESC,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC";
+	$sql = "SELECT pp.ID,pp.SORT_ORDER,pp.TITLE,'See_PORTAL_POLL_QUESTIONS' AS OPTIONS, pp.VOTES_NUMBER,pp.START_DATE,pp.END_DATE,pp.PUBLISHED_PROFILES,pp.STUDENTS_TEACHER_ID,CASE WHEN pp.END_DATE IS NOT NULL AND pp.END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED FROM PORTAL_POLLS pp WHERE pp.SCHOOL_ID='".UserSchool()."' AND pp.SYEAR='".UserSyear()."' ORDER BY EXPIRED DESC,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC";
 	$QI = DBQuery($sql);
 	$polls_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','OPTIONS'=>'_makeOptionsInputs','VOTES_NUMBER'=>'_makePollVotes','SORT_ORDER'=>'_makeTextInput','START_DATE'=>'_makePublishing'));
 	
@@ -290,7 +290,7 @@ function _makeOptionsInputs($value,$name)
 				cell.innerHTML = cell.innerHTML.replace(reg, \'new\'+newId);
 			}
 		</script>';
-		$return .= '<DIV style="max-height: 350px; overflow-y: auto;"><TABLE class="cellspacing-0" id="newOptionsTable"><TR><TD><b>'._('Question').'</b></TD><TD><b>'._('Options').'</b></TD><TD><b>'._('Data Type').'</b></TD></TR>'.$value.'<TR><TD>&nbsp;</TD><TD>&nbsp;</TD><TD><a href="#" onclick="newOption()"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Question').'</a></TR></TABLE></DIV>';
+		$return .= '<DIV style="max-height: 350px; overflow-y: auto;"><TABLE class="cellspacing-0" id="newOptionsTable"><TR><TD><b>'._('Question').'</b></TD><TD><b>'._('Options').'</b></TD><TD><b>'._('Data Type').'</b></TD></TR>'.$value.'<TR><TD>&nbsp;</TD><TD>&nbsp;</TD><TD><a href="#" onclick="newOption();return false;"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Question').'</a></TR></TABLE></DIV>';
 	}
 	else
 	{
@@ -347,21 +347,43 @@ function _makePublishing($value,$name)
 	$return .= '<TR><TD colspan="4" style="padding:0">';
 
 	if(!$profiles_RET)
-		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID"));
+		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID WHERE"));
 
 	$return .= '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD colspan="4"><b>'.Localize('colon',_('Visible To')).'</b></TD></TR><TR>';
 	foreach(array('admin'=>_('Administrator w/Custom'),'teacher'=>_('Teacher w/Custom'),'parent'=>_('Parent w/Custom')) as $profile_id=>$profile)
 //modif Francois: add <label> on checkbox
-		$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').'> '.$profile.'</label></TD>';
-	$i = 3;
+		$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').' /> '.$profile.'</label></TD>';
+		
+	//modif Francois: Portal Polls add students teacher
+	$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,',".UserSchool().",')>0) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
+	if(count($teachers_RET))
+	{
+		foreach($teachers_RET as $teacher)
+			$teachers[$teacher['STAFF_ID']] = $teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'];
+	}
+	
+	$i = 0;
 	foreach($profiles_RET as $profile)
 	{
 		$i++;
-		$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'').'> '._($profile['TITLE']).'</label></TD>';
-		if($i%4==0 && $i!=count($profile))
+		if ($profile['ID'] == 0) //student
+			$return .= '</TR><TR>';
+
+		$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'').' /> '._($profile['TITLE']);
+		//modif Francois: Portal Polls add students teacher
+		if ($profile['ID'] == 0) //student
+		{
+			$return .= ': </label></TD>';
+			$return .= '<TD colspan="2">'.SelectInput($THIS_RET['STUDENTS_TEACHER_ID'],'values['.$id.'][STUDENTS_TEACHER_ID]',_('Limit to Teacher'),$teachers, true, '', true).'</TD>';
+			$i = $i +2;
+		}
+		else
+			$return .= '</label></TD>';
+			
+		if($i%3==0 && $i!=count($profile))
 			$return .= '</TR><TR>';
 	}
-	for(;$i%4!=0;$i++)
+	for(;$i%3!=0;$i++)
 		$return .= '<TD>&nbsp;</TD>';
 	$return .= '</TR>';
 	

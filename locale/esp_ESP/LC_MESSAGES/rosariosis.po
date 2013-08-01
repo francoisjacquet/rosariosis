@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-26 19:48-0500\n"
-"PO-Revision-Date: 2013-07-26 19:49-0500\n"
+"POT-Creation-Date: 2013-07-31 13:58-0500\n"
+"PO-Revision-Date: 2013-07-31 13:58-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -274,7 +274,7 @@ msgstr "Sábado"
 
 #: Side.php:243 modules/Attendance/StudentSummary.php:117
 #: modules/misc/Portal.php:59 modules/misc/Portal.php:147
-#: modules/misc/Portal.php:222 modules/misc/Portal.php:280
+#: modules/misc/Portal.php:222 modules/misc/Portal.php:281
 #: modules/Scheduling/Courses.php:188 modules/Scheduling/Courses.php:210
 #: modules/Scheduling/Courses.php:335 modules/Scheduling/PrintSchedules.php:50
 #: modules/School_Setup/Calendar.php:542 modules/School_Setup/Calendar.php:548
@@ -1682,7 +1682,7 @@ msgstr "Categoría"
 #: modules/misc/Portal.php:50 modules/misc/Portal.php:130
 #: modules/misc/Portal.php:139 modules/misc/Portal.php:205
 #: modules/misc/Portal.php:214 modules/misc/Portal.php:263
-#: modules/misc/Portal.php:272 modules/Scheduling/Courses.php:787
+#: modules/misc/Portal.php:273 modules/Scheduling/Courses.php:787
 #: modules/Scheduling/Courses.php:827 modules/School_Setup/Calendar.php:39
 #: modules/School_Setup/Calendar.php:317
 #: modules/School_Setup/GradeLevels.php:65
@@ -2188,7 +2188,7 @@ msgstr "Búsqueda Avanzada"
 #: modules/Grades/HonorRoll.php:90 modules/Grades/HonorRollSubject.php:51
 #: modules/misc/Portal.php:59 modules/misc/Portal.php:90
 #: modules/misc/Portal.php:147 modules/misc/Portal.php:178
-#: modules/misc/Portal.php:222 modules/misc/Portal.php:280
+#: modules/misc/Portal.php:222 modules/misc/Portal.php:281
 #: modules/School_Setup/Calendar.php:303
 #: modules/Students/AddressFields.php:203
 #: modules/Students/AddressFields.php:209
@@ -2353,7 +2353,7 @@ msgstr "Nombre del Estudiante"
 #: modules/misc/Portal.php:90 modules/misc/Portal.php:130
 #: modules/misc/Portal.php:139 modules/misc/Portal.php:147
 #: modules/misc/Portal.php:205 modules/misc/Portal.php:214
-#: modules/misc/Portal.php:222 modules/misc/Portal.php:272
+#: modules/misc/Portal.php:222 modules/misc/Portal.php:273
 #: modules/School_Setup/Configuration.php:70
 #: modules/School_Setup/Schools.php:70 modules/Students/AddDrop.php:27
 #: modules/Students/Letters.php:156
@@ -3405,7 +3405,7 @@ msgstr "Vista Original"
 #: modules/Grades/Assignments-new.php:201 modules/Grades/Assignments.php:292
 #: modules/Grades/StudentGrades.php:262 modules/misc/Portal.php:59
 #: modules/misc/Portal.php:147 modules/misc/Portal.php:222
-#: modules/misc/Portal.php:280 modules/Students/includes/Address.inc.php:636
+#: modules/misc/Portal.php:281 modules/Students/includes/Address.inc.php:636
 #: modules/Students/includes/Address.inc.php:697
 msgid "Description"
 msgstr "Descripción"
@@ -5225,7 +5225,7 @@ msgstr "Usted es un <b>Administrador</b> del sistema."
 #: modules/misc/Portal.php:41 modules/misc/Portal.php:50
 #: modules/misc/Portal.php:130 modules/misc/Portal.php:139
 #: modules/misc/Portal.php:205 modules/misc/Portal.php:214
-#: modules/misc/Portal.php:263 modules/misc/Portal.php:272
+#: modules/misc/Portal.php:263 modules/misc/Portal.php:273
 msgid "Date Posted"
 msgstr "Fecha de Publicación"
 
@@ -5236,7 +5236,7 @@ msgid "File Attached"
 msgstr "Archivo Adjunto"
 
 #: modules/misc/Portal.php:50 modules/misc/Portal.php:139
-#: modules/misc/Portal.php:214 modules/misc/Portal.php:272
+#: modules/misc/Portal.php:214 modules/misc/Portal.php:273
 #: modules/School_Setup/PortalPolls.php:176
 #: modules/School_Setup/PortalPolls.php:194
 #: modules/School_Setup/PortalPolls.php:205
@@ -5246,13 +5246,13 @@ msgstr[0] "Encuesta"
 msgstr[1] "Encuestas"
 
 #: modules/misc/Portal.php:59 modules/misc/Portal.php:147
-#: modules/misc/Portal.php:222 modules/misc/Portal.php:280
+#: modules/misc/Portal.php:222 modules/misc/Portal.php:281
 #: modules/School_Setup/Calendar.php:255 modules/School_Setup/Calendar.php:374
 msgid "Event"
 msgstr "Evento"
 
 #: modules/misc/Portal.php:59 modules/misc/Portal.php:147
-#: modules/misc/Portal.php:222 modules/misc/Portal.php:280
+#: modules/misc/Portal.php:222 modules/misc/Portal.php:281
 msgid "Day With Upcoming Events"
 msgid_plural "Days With Upcoming Events"
 msgstr[0] "Día Con Próximos Eventos"
@@ -5324,18 +5324,18 @@ msgstr "Feliz crianza..."
 msgid "You are a <b>Student</b> on the system."
 msgstr "Eres un <b>Estudiante</b> en el sistema."
 
-#: modules/misc/Portal.php:285
+#: modules/misc/Portal.php:286
 msgid "Happy learning..."
 msgstr "Feliz aprendizaje..."
 
-#: modules/misc/Portal.php:348 modules/misc/Portal.php:389
+#: modules/misc/Portal.php:349 modules/misc/Portal.php:390
 #: modules/School_Setup/PortalNotes.php:251
 #: modules/School_Setup/PortalNotes.php:292
 msgid "Download"
 msgstr "Descargar"
 
-#: modules/misc/Portal.php:365 modules/misc/Portal.php:371
-#: modules/misc/Portal.php:377 modules/misc/Portal.php:384
+#: modules/misc/Portal.php:366 modules/misc/Portal.php:372
+#: modules/misc/Portal.php:378 modules/misc/Portal.php:385
 #: modules/School_Setup/PortalNotes.php:268
 #: modules/School_Setup/PortalNotes.php:274
 #: modules/School_Setup/PortalNotes.php:280
@@ -6294,6 +6294,10 @@ msgstr "Nueva Pregunta"
 #: modules/School_Setup/PortalPolls.php:330
 msgid "Results Display"
 msgstr "Mostrar Resultados"
+
+#: modules/School_Setup/PortalPolls.php:377
+msgid "Limit to Teacher"
+msgstr "Limitar al Docente"
 
 #: modules/School_Setup/Rollover.php:3
 #: modules/Users/includes/General_Info.inc.php:192
@@ -7518,6 +7522,7 @@ msgstr "Listar Clases Para Todas las Instituciones"
 msgid "Total Participants"
 msgstr "Total de Participantes"
 
+#: ProgramFunctions/PortalPolls.fnc.php:101
 #: ProgramFunctions/PortalPolls.fnc.php:129
 msgid "Poll completed"
 msgstr "Encuesta completada"

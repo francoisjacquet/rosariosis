@@ -1972,6 +1972,7 @@ CREATE TABLE portal_polls (
     start_date date,
     end_date date,
     published_profiles character varying(255),
+	students_teacher_id numeric,
     excluded_users text
 );
 
