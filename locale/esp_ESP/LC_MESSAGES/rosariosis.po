@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-31 13:58-0500\n"
-"PO-Revision-Date: 2013-07-31 13:58-0500\n"
+"POT-Creation-Date: 2013-08-01 13:37-0500\n"
+"PO-Revision-Date: 2013-08-01 13:37-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -1406,11 +1406,13 @@ msgstr "Próximo grado en la escuela actual"
 
 #: functions/Widgets.fnc.php:565 modules/Students/AssignOtherInfo.php:243
 #: modules/Students/includes/Enrollment.inc.php:53
+#: ProgramFunctions/miscExport.fnc.php:6
 msgid "Retain"
 msgstr "Mantener"
 
 #: functions/Widgets.fnc.php:565 modules/Students/AssignOtherInfo.php:243
 #: modules/Students/includes/Enrollment.inc.php:53
+#: ProgramFunctions/miscExport.fnc.php:8
 msgid "Do not enroll after this school year"
 msgstr "No matricular después de este año escolar"
 
@@ -7516,6 +7518,10 @@ msgstr "Número de Teléfono"
 #: modules/Users/includes/Schedule.inc.php:5
 msgid "List Courses For All Schools"
 msgstr "Listar Clases Para Todas las Instituciones"
+
+#: ProgramFunctions/miscExport.fnc.php:10
+msgid "Next Grade at "
+msgstr "Próximo Grado en "
 
 #: ProgramFunctions/PortalPolls.fnc.php:101
 #: ProgramFunctions/PortalPolls.fnc.php:154

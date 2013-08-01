@@ -3,11 +3,11 @@ function _makeNextSchool($value,$column)
 {	global $THIS_RET,$_ROSARIO;
 
 	if($value=='0')
-		return 'Retain';
+		return _('Retain');
 	elseif($value=='-1')
-		return 'Do not enroll after this school year';
+		return _('Do not enroll after this school year');
 	elseif($value==$THIS_RET['SCHOOL_ID'])
-		return 'Next Grade at '.GetSchool($value);
+		return _('Next Grade at ').GetSchool($value);
 	else
 		return GetSchool($value);
 }

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS v1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-31 13:54-0500\n"
-"PO-Revision-Date: 2013-07-31 13:54-0500\n"
+"POT-Creation-Date: 2013-08-01 13:35-0500\n"
+"PO-Revision-Date: 2013-08-01 13:36-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -1397,11 +1397,13 @@ msgstr "Classe supérieure dans la même école"
 
 #: functions/Widgets.fnc.php:565 modules/Students/AssignOtherInfo.php:243
 #: modules/Students/includes/Enrollment.inc.php:53
+#: ProgramFunctions/miscExport.fnc.php:6
 msgid "Retain"
 msgstr "Redouble"
 
 #: functions/Widgets.fnc.php:565 modules/Students/AssignOtherInfo.php:243
 #: modules/Students/includes/Enrollment.inc.php:53
+#: ProgramFunctions/miscExport.fnc.php:8
 msgid "Do not enroll after this school year"
 msgstr "Ne pas inscrire après cette année"
 
@@ -5045,7 +5047,7 @@ msgstr "Texte du Certificat d'Études"
 
 #: modules/Grades/Transcripts.php:357 modules/School_Setup/GradeLevels.php:65
 msgid "Next Grade"
-msgstr "Niveau Suivant"
+msgstr "Classe Supérieure"
 
 #: modules/Grades/Transcripts.php:362
 msgid "Text Block 2"
@@ -7479,6 +7481,10 @@ msgstr "Numéro de Téléphone"
 #: modules/Users/includes/Schedule.inc.php:5
 msgid "List Courses For All Schools"
 msgstr "Lister les Cours pour Toutes les Ecoles"
+
+#: ProgramFunctions/miscExport.fnc.php:10
+msgid "Next Grade at "
+msgstr "Classe supérieure dans "
 
 #: ProgramFunctions/PortalPolls.fnc.php:101
 #: ProgramFunctions/PortalPolls.fnc.php:154
