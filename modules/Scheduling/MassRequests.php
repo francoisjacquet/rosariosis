@@ -4,28 +4,43 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if($_SESSION['MassRequests.php'])
 	{
-		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE_REQUESTS WHERE COURSE_ID='".$_REQUEST['MassRequests.php']['course_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
-		foreach($_REQUEST['student'] as $student_id=>$yes)
+		if (is_array($_REQUEST['student']))
 		{
-			if(!$current_RET[$student_id])
+			$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE_REQUESTS WHERE COURSE_ID='".$_REQUEST['MassRequests.php']['course_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
+			foreach($_REQUEST['student'] as $student_id=>$yes)
 			{
-				$sql = "INSERT INTO SCHEDULE_REQUESTS (REQUEST_ID,SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID)
-							values(".db_seq_nextval('SCHEDULE_REQUESTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$student_id."','".$_SESSION['MassRequests.php']['subject_id']."','".$_SESSION['MassRequests.php']['course_id']."',NULL,'".$_REQUEST['with_teacher_id']."','".$_REQUEST['without_teacher_id']."','".$_REQUEST['with_period_id']."','".$_REQUEST['without_period_id']."')";
-				DBQuery($sql);
+				if(!$current_RET[$student_id])
+				{
+					$sql = "INSERT INTO SCHEDULE_REQUESTS (REQUEST_ID,SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID)
+								values(".db_seq_nextval('SCHEDULE_REQUESTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$student_id."','".$_SESSION['MassRequests.php']['subject_id']."','".$_SESSION['MassRequests.php']['course_id']."',NULL,'".$_REQUEST['with_teacher_id']."','".$_REQUEST['without_teacher_id']."','".$_REQUEST['with_period_id']."','".$_REQUEST['without_period_id']."')";
+					DBQuery($sql);
+				}
 			}
+			unset($_REQUEST['modfunc']);
+			$note[] = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('This course has been added as a request for the selected students.');
 		}
-		unset($_REQUEST['modfunc']);
-		$note = _('This course has been added as a request for the selected students.');
+		else
+			$error[] = _('You must choose at least one student.');
 	}
 	else
-		BackPrompt(_('You must choose a course.'));
+		$error[] = _('You must choose a course.');
+		
+	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	unset($_REQUEST['modfunc']);
+	unset($_SESSION['MassRequests.php']);
 }
 
 
 if($_REQUEST['modfunc']!='choose_course')
 {
 	DrawHeader(ProgramTitle());
-	if($_REQUEST['search_modfunc']=='list')
+	
+	if (isset($error))
+		echo ErrorMessage($error);
+	if(isset($note))
+		echo ErrorMessage($note, 'note');
+
+		if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Request to Selected Students')));
@@ -63,9 +78,6 @@ if($_REQUEST['modfunc']!='choose_course')
 		echo '</TD></TR>';
 		echo '</TABLE><BR />';
 	}
-	if($note)
-//		DrawHeader('<IMG SRC=assets/check.png>'.$note);
-		echo '<div class="updated"><IMG SRC="assets/check.png" class="alignImg">&nbsp;'.$note.'</div>';
 }
 
 if(empty($_REQUEST['modfunc']))
