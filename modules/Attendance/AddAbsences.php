@@ -70,6 +70,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 DrawHeader(ProgramTitle());
 
+if (isset($note))
+	echo ErrorMessage($note, 'note');
+if (isset($error))
+	echo ErrorMessage($error);
+
 if(empty($_REQUEST['modfunc']))
 
 {
@@ -135,12 +140,6 @@ if(empty($_REQUEST['modfunc']))
 		echo '</TR></TABLE>';
 		echo '</TD></TR></TABLE></BR>';
 	}
-	//elseif($note)
-//		DrawHeader('<IMG SRC=assets/check.png class="alignImg">'.$note);
-	if (isset($note))
-		echo ErrorMessage($note, 'note');
-	if (isset($error))
-		echo ErrorMessage($error);
 
 	Widgets('course');
 	Widgets('absences');
