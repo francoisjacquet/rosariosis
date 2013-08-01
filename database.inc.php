@@ -235,8 +235,8 @@ function db_show_error($sql,$failnote,$additional='')
 		$message .= "Failure Notice:  $failnote \n";
 		$message .= "Additional Info: $additional \n";
 		$message .= "\n $sql \n";
-		$message .= "Request Array: \n".ShowVar($_REQUEST,'Y', 'N');
-		$message .= "\n\nSession Array: \n".ShowVar($_SESSION,'Y', 'N');
+		$message .= "Request Array: \n".print_r($_REQUEST, true);
+		$message .= "\n\nSession Array: \n".print_r($_SESSION, true);
 		
 		//modif Francois: add email headers
 		$headers = 'From:'.$RosarioNotifyAddress."\r\n";

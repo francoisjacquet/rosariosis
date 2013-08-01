@@ -2,6 +2,21 @@
 error_reporting(E_ALL ^ E_NOTICE);
 //error_reporting(E_ERROR);
 include 'Warehouse.php';
+
+function array_rwalk(&$array, $function)
+{
+	foreach($array as $key => $value)
+	{
+		if(is_array($value))
+		{
+			array_rwalk($value, $function);
+			$array[$key] = $value;
+		}
+		else
+			$array[$key] = $function($value);
+	}
+}
+
 array_rwalk($_REQUEST,'DBEscapeString');
 
 //modif Francois: add TinyMCE to the textarea (see modules/Students/Letters.php & modules/Grades/HonorRollSubject.php & modules/Grades/HonorRoll.php)
