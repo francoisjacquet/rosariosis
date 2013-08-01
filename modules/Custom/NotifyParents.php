@@ -39,53 +39,57 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	if(count($_REQUEST['staff']))
 	{
-	$st_list = '\''.implode('\',\'',$_REQUEST['staff']).'\'';
+		$st_list = '\''.implode('\',\'',$_REQUEST['staff']).'\'';
 
-	$extra['SELECT'] = ",s.FIRST_NAME||' '||s.LAST_NAME AS NAME,s.USERNAME,s.PASSWORD,s.EMAIL";
-	$extra['WHERE'] = " AND s.STAFF_ID IN ($st_list)";
+		$extra['SELECT'] = ",s.FIRST_NAME||' '||s.LAST_NAME AS NAME,s.USERNAME,s.PASSWORD,s.EMAIL";
+		$extra['WHERE'] = " AND s.STAFF_ID IN ($st_list)";
 
-	$RET = GetStaffList($extra);
-	//echo '<pre>'; var_dump($RET); echo '</pre>';
+		$RET = GetStaffList($extra);
+		//echo '<pre>'; var_dump($RET); echo '</pre>';
 
-	$RESULT = array(0=>array());
-	$i = 0;
-	foreach($RET as $staff)
-	{
-		$staff_id = $staff['STAFF_ID'];
+		$RESULT = array(0=>array());
+		$i = 0;
+		foreach($RET as $staff)
+		{
+			$staff_id = $staff['STAFF_ID'];
 
-//modif Francois: change parent password generation
-		$password = $staff['USERNAME'] . rand(1000,9999);
-//modif Francois: add password encryption
-		$password_encrypted = encrypt_password($password);		
-		DBQuery("UPDATE STAFF SET PASSWORD='$password_encrypted' WHERE STAFF_ID='$staff_id'");
-		
-		$students_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju WHERE sju.STAFF_ID='$staff_id' AND s.STUDENT_ID=sju.STUDENT_ID AND sse.STUDENT_ID=sju.STUDENT_ID AND sse.SYEAR='".UserSyear()."' AND sse.END_DATE IS NULL"));
-		//echo '<pre>'; var_dump($students_RET); echo '</pre>';
+	//modif Francois: change parent password generation
+			$password = $staff['USERNAME'] . rand(1000,9999);
+	//modif Francois: add password encryption
+			$password_encrypted = encrypt_password($password);		
+			DBQuery("UPDATE STAFF SET PASSWORD='$password_encrypted' WHERE STAFF_ID='$staff_id'");
+			
+			$students_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju WHERE sju.STAFF_ID='$staff_id' AND s.STUDENT_ID=sju.STUDENT_ID AND sse.STUDENT_ID=sju.STUDENT_ID AND sse.SYEAR='".UserSyear()."' AND sse.END_DATE IS NULL"));
+			//echo '<pre>'; var_dump($students_RET); echo '</pre>';
 
-		$student_list = '';
-		foreach($students_RET as $student)
-			$student_list .= str_replace('&nbsp;',' ',$student['FULL_NAME'])."\r";
+			$student_list = '';
+			foreach($students_RET as $student)
+				$student_list .= str_replace('&nbsp;',' ',$student['FULL_NAME'])."\r";
 
-		$msg = str_replace('__ASSOCIATED_STUDENTS__',$student_list,$message);
-		$msg = str_replace('__SCHOOL_ID__',SchoolInfo('TITLE'),$msg);
-		$msg = str_replace('__PARENT_NAME__',$staff['NAME'],$msg);
-		$msg = str_replace('__USERNAME__',$staff['USERNAME'],$msg);
-//modif Francois: add password encryption
-//		$msg = str_replace('__PASSWORD__',$staff['PASSWORD'],$msg);
-		$msg = str_replace('__PASSWORD__',$password,$msg);
-		$result = @mail(empty($test_email)?$staff['EMAIL']:$test_email,utf8_decode($subject),utf8_decode($msg),$headers,$params);
+			$msg = str_replace('__ASSOCIATED_STUDENTS__',$student_list,$message);
+			$msg = str_replace('__SCHOOL_ID__',SchoolInfo('TITLE'),$msg);
+			$msg = str_replace('__PARENT_NAME__',$staff['NAME'],$msg);
+			$msg = str_replace('__USERNAME__',$staff['USERNAME'],$msg);
+	//modif Francois: add password encryption
+	//		$msg = str_replace('__PASSWORD__',$staff['PASSWORD'],$msg);
+			$msg = str_replace('__PASSWORD__',$password,$msg);
+			$result = @mail(empty($test_email)?$staff['EMAIL']:$test_email,utf8_decode($subject),utf8_decode($msg),$headers,$params);
 
-		$RESULT[] = array('PARENT'=>$staff['FULL_NAME'],'USERNAME'=>$staff['USERNAME'],'EMAIL'=>!$test_email?$staff['EMAIL']:$test_email,'RESULT'=>$result?_('Success'):_('Fail'));
-		$i++;
-	}
-	unset($RESULT[0]);
-	$columns = array('PARENT'=>_('Parent'),'USERNAME'=>_('Username'),'EMAIL'=>_('Email'),'RESULT'=>_('Result'));
-	ListOutput($RESULT,$columns,'Notification Result','Notification Results');
+			$RESULT[] = array('PARENT'=>$staff['FULL_NAME'],'USERNAME'=>$staff['USERNAME'],'EMAIL'=>!$test_email?$staff['EMAIL']:$test_email,'RESULT'=>$result?_('Success'):_('Fail'));
+			$i++;
+		}
+		unset($RESULT[0]);
+		$columns = array('PARENT'=>_('Parent'),'USERNAME'=>_('Username'),'EMAIL'=>_('Email'),'RESULT'=>_('Result'));
+		ListOutput($RESULT,$columns,'Notification Result','Notification Results');
 	}
 	else
-		BackPrompt(_('You must choose at least one user'));
-
+		$error[] = _('You must choose at least one user');
+	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	unset($_REQUEST['modfunc']);
 }
+
+if (isset($error))
+	echo ErrorMessage($error);
 
 if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 {
