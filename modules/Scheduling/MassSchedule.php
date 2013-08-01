@@ -10,44 +10,58 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		if (!empty($_REQUEST['student']))
 		{
 			$start_date = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
-			if(!VerifyDate($start_date))
-				BackPrompt(_('The date you entered is not valid'));
-			$course_mp = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."'"));
-			$course_mp = $course_mp[1]['MARKING_PERIOD_ID'];
-			$course_mp_table = GetMP($course_mp,'MP');
-
-			if($course_mp_table!='FY' && $course_mp!=$_REQUEST['marking_period_id'] && mb_strpos(GetChildrenMP($course_mp_table,$course_mp),"'".$_REQUEST['marking_period_id']."'")===false)
-				BackPrompt(_('You cannot schedule a student into this course during this marking period.').' '.sprintf(_('This course meets on %s.'),GetMP($course_mp)));
-
-			$mp_table = GetMP($_REQUEST['marking_period_id'],'MP');
-
-			$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)"),array(),array('STUDENT_ID'));
-			foreach($_REQUEST['student'] as $student_id=>$yes)
+			if(VerifyDate($start_date))
 			{
-				if(!$current_RET[$student_id])
+				$course_mp = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."'"));
+				$course_mp = $course_mp[1]['MARKING_PERIOD_ID'];
+				$course_mp_table = GetMP($course_mp,'MP');
+
+				if($course_mp_table!='FY' && $course_mp!=$_REQUEST['marking_period_id'] && mb_strpos(GetChildrenMP($course_mp_table,$course_mp),"'".$_REQUEST['marking_period_id']."'")===false)
+					BackPrompt(_('You cannot schedule a student into this course during this marking period.').' '.sprintf(_('This course meets on %s.'),GetMP($course_mp)));
+
+				$mp_table = GetMP($_REQUEST['marking_period_id'],'MP');
+
+				$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)"),array(),array('STUDENT_ID'));
+				foreach($_REQUEST['student'] as $student_id=>$yes)
 				{
-					$sql = "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID,START_DATE)
-								values('".UserSyear()."','".UserSchool()."','".$student_id."','".$_SESSION['MassSchedule.php']['course_id']."','".$_SESSION['MassSchedule.php']['course_period_id']."','".$mp_table."','".$_REQUEST['marking_period_id']."','".$start_date."')";
-					DBQuery($sql);
-					
-	//modif Francois: Moodle integrator
-					$moodleError .= Moodle($_REQUEST['modname'], 'enrol_manual_enrol_users');
+					if(!$current_RET[$student_id])
+					{
+						$sql = "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID,START_DATE)
+									values('".UserSyear()."','".UserSchool()."','".$student_id."','".$_SESSION['MassSchedule.php']['course_id']."','".$_SESSION['MassSchedule.php']['course_period_id']."','".$mp_table."','".$_REQUEST['marking_period_id']."','".$start_date."')";
+						DBQuery($sql);
+						
+		//modif Francois: Moodle integrator
+						$moodleError .= Moodle($_REQUEST['modname'], 'enrol_manual_enrol_users');
+					}
 				}
+				$note[] = _('This course has been added to the selected students\' schedules.');
 			}
-			unset($_REQUEST['modfunc']);
-			unset($_SESSION['_REQUEST_vars']['modfunc']);
-			unset($_SESSION['MassSchedule.php']);
-			$note = _('This course has been added to the selected students\' schedules.');
+			else
+				$error[] = _('The date you entered is not valid');
 		}
-		BackPrompt(_('You must choose at least one student.'));
+		else
+			$error[] = _('You must choose at least one student.');
 	}
 	else
-		BackPrompt(_('You must choose a course.'));
+		$error[] = _('You must choose a course.');
+		
+	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	unset($_REQUEST['modfunc']);
+	unset($_SESSION['MassSchedule.php']);
 }
 
 if($_REQUEST['modfunc']!='choose_course')
 {
 	DrawHeader(ProgramTitle());
+	
+	if (isset($error))
+		echo ErrorMessage($error);
+	if(isset($note))
+		echo ErrorMessage($note, 'note');
+		
+//modif Francois: Moodle integrator
+		echo $moodleError;
+
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
@@ -78,12 +92,6 @@ if($_REQUEST['modfunc']!='choose_course')
 		echo '</TABLE></TD></TR></TABLE><BR />';
 	}
 
-	if($note)
-//		DrawHeader('<IMG SRC=assets/check.png>'.$note);
-		echo '<div class="updated"><IMG SRC="assets/check.png" class="alignImg">&nbsp;'.$note.'</div>';
-
-//modif Francois: Moodle integrator
-		echo $moodleError;
 }
 
 if(empty($_REQUEST['modfunc']))
