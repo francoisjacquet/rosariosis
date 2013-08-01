@@ -138,7 +138,7 @@ if(empty($_REQUEST['modfunc']))
 	//elseif($note)
 //		DrawHeader('<IMG SRC=assets/check.png class="alignImg">'.$note);
 	if (isset($note))
-		echo ErrorMessage($note);;
+		echo ErrorMessage($note, 'note');
 	if (isset($error))
 		echo ErrorMessage($error);
 
