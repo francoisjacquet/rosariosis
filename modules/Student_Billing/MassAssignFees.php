@@ -19,23 +19,26 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		if (is_numeric($_REQUEST['amount']))
 		{
 			$due_date = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
-			if(!VerifyDate($due_date))
-				BackPrompt(_('The date you entered is not valid'));
-
-			foreach($_REQUEST['student'] as $student_id=>$yes)
+			if(VerifyDate($due_date))
 			{
-					$sql = "INSERT INTO BILLING_FEES (STUDENT_ID,ID,TITLE,AMOUNT,SYEAR,SCHOOL_ID,ASSIGNED_DATE,DUE_DATE,COMMENTS)
-								values('".$student_id."',".db_seq_nextval('BILLING_FEES_SEQ').",'".$_REQUEST['title']."','".preg_replace('/[^0-9,.]+/','',$_REQUEST['amount'])."','".UserSyear()."','".UserSchool()."','".DBDate()."','".$due_date."','".$_REQUEST['comments']."')";
-					DBQuery($sql);
+				foreach($_REQUEST['student'] as $student_id=>$yes)
+				{
+						$sql = "INSERT INTO BILLING_FEES (STUDENT_ID,ID,TITLE,AMOUNT,SYEAR,SCHOOL_ID,ASSIGNED_DATE,DUE_DATE,COMMENTS)
+									values('".$student_id."',".db_seq_nextval('BILLING_FEES_SEQ').",'".$_REQUEST['title']."','".preg_replace('/[^0-9,.]+/','',$_REQUEST['amount'])."','".UserSyear()."','".UserSchool()."','".DBDate()."','".$due_date."','".$_REQUEST['comments']."')";
+						DBQuery($sql);
+				}
+				$note[] = '<IMG SRC="assets/check.png" class="alignImg" />&nbsp;'._('That fee has been added to the selected students.');
 			}
-			$note = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._("That fee has been added to the selected students.");
+			else
+				$error[] = _('The date you entered is not valid');
 		}
 		else
-			BackPrompt(_('Please enter a valid Amount.'));
+			$error[] = _('Please enter a valid Amount.');
 	}
 	else
-		BackPrompt(_('You must choose at least one student.'));
+		$error[] = _('You must choose at least one student.');
 		
+	unset($_SESSION['_REQUEST_vars']['modfunc']);
 	unset($_REQUEST['modfunc']);
 }
 
@@ -44,9 +47,11 @@ if(empty($_REQUEST['modfunc']))
 
 {
 	DrawHeader(ProgramTitle());
-	if($note)
-//modif Francois: css WPadmin
-		echo ErrorMessage(array($note), 'note');
+	
+	if (isset($error))
+		echo ErrorMessage($error);
+	if(isset($note))
+		echo ErrorMessage($note, 'note');
 		
 	if($_REQUEST['search_modfunc']=='list')
 	{
