@@ -12,7 +12,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if($_REQUEST['values'][$field_name]!='--')
 //modif Francois: css WPadmin
 //					$note = '<IMG SRC=assets/warning_button.png>'._('The date you specified is not valid, so was not used. The other data was saved.');
-					$note = '<div class="updated"><IMG SRC="assets/warning_button.png">&nbsp;'._('The date you specified is not valid, so was not used. The other data was saved.').'</div>';
+					$note = '<IMG SRC="assets/warning_button.png" />&nbsp;'._('The date you specified is not valid, so was not used. The other data was saved.');
 				unset($_REQUEST['values'][$field_name]);
 			}
 		}
@@ -55,7 +55,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$note = mb_substr($note,0,mb_strpos($note,'. '));
 		elseif($next_school=='' && !$calendar)
 //			$note = '<IMG SRC=assets/warning_button.png>'._('No data was entered.');
-			$note = '<div class="updated"><IMG SRC="assets/warning_button.png" />&nbsp;'._('No data was entered.').'</div>';
+			$note = '<IMG SRC="assets/warning_button.png" />&nbsp;'._('No data was entered.');
 				//var_dump($update);
 
 		if($next_school!='')
@@ -286,8 +286,8 @@ if(empty($_REQUEST['modfunc']))
 		echo '</TD></TR>';
 		echo '</TABLE><BR />';
 	}
-	elseif($note)
-		echo $note;
+	elseif(isset($note))
+		echo ErrorMessage(array($note), 'note');
 
 	//Widgets('activity');
 	//Widgets('course');
