@@ -160,7 +160,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			}
 		}
 		else
-			BackPrompt(_('Please fill in the required fields'));
+			$error[] = _('Please fill in the required fields');
 	}
 
 	if($_REQUEST['values']['PEOPLE_JOIN_CONTACTS'])
@@ -279,9 +279,11 @@ if($_REQUEST['modfunc']=='delete')
 	}
 }
 
+if (isset($error))
+	echo ErrorMessage($error);
+
 //modif Francois: Moodle integrator
 echo $moodleError;
-
 
 if(empty($_REQUEST['modfunc']))
 
