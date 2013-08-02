@@ -16,8 +16,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					DBQuery($sql);
 				}
 			}
-			unset($_REQUEST['modfunc']);
-			$note[] = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('This course has been added as a request for the selected students.');
+			$note[] = '<IMG SRC="assets/check.png" class="alignImg" />&nbsp;'._('This course has been added as a request for the selected students.');
 		}
 		else
 			$error[] = _('You must choose at least one student.');
@@ -40,7 +39,7 @@ if($_REQUEST['modfunc']!='choose_course')
 	if(isset($note))
 		echo ErrorMessage($note, 'note');
 
-		if($_REQUEST['search_modfunc']=='list')
+	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Request to Selected Students')));

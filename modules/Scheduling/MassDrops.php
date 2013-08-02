@@ -97,7 +97,6 @@ if($_REQUEST['modfunc']!='choose_course')
 
 		echo '</TABLE></TD></TR></TABLE><BR />';
 	}
-
 }
 
 if(empty($_REQUEST['modfunc']))

@@ -143,6 +143,6 @@ if($_REQUEST['modfunc']=='choose_course')
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '&nbsp;&nbsp;<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
+	return '&nbsp;&nbsp;<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y" />';
 }
 ?>
