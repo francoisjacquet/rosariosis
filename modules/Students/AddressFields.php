@@ -11,99 +11,101 @@ if($_REQUEST['tables'] && $_POST['tables'])
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
 			//modif Francois: added SQL constraint TITLE is not null
-			if ((isset($columns['TITLE']) && empty($columns['TITLE'])))
-				BackPrompt(_('Please fill in the required fields'));
-
-			if($id!='new')
+			if ((!isset($columns['TITLE']) || !empty($columns['TITLE'])))
 			{
-				if($columns['CATEGORY_ID'] && $columns['CATEGORY_ID']!=$_REQUEST['category_id'])
-					$_REQUEST['category_id'] = $columns['CATEGORY_ID'];
+				if($id!='new')
+				{
+					if($columns['CATEGORY_ID'] && $columns['CATEGORY_ID']!=$_REQUEST['category_id'])
+						$_REQUEST['category_id'] = $columns['CATEGORY_ID'];
 
-				$sql = "UPDATE $table SET ";
+					$sql = "UPDATE $table SET ";
 
-				foreach($columns as $column=>$value)
-					$sql .= $column."='".$value."',";
-				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
-				$go = true;
+					foreach($columns as $column=>$value)
+						$sql .= $column."='".$value."',";
+					$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+					$go = true;
+				}
+				else
+				{
+					$sql = "INSERT INTO $table ";
+
+					if($table=='ADDRESS_FIELDS')
+					{
+						if($columns['CATEGORY_ID'])
+						{
+							$_REQUEST['category_id'] = $columns['CATEGORY_ID'];
+							unset($columns['CATEGORY_ID']);
+						}
+						$id = DBGet(DBQuery("SELECT ".db_seq_nextval('ADDRESS_FIELDS_SEQ').' AS ID '.FROM_DUAL));
+						$id = $id[1]['ID'];
+						$fields = "ID,CATEGORY_ID,";
+						$values = $id.",'".$_REQUEST['category_id']."',";
+						$_REQUEST['id'] = $id;
+
+						switch($columns['TYPE'])
+						{
+							case 'radio':
+								DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id VARCHAR(1)");
+							break;
+
+							case 'text':
+							case 'exports':
+							case 'select':
+							case 'autos':
+							case 'edits':
+								DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id VARCHAR(255)");
+							break;
+
+							case 'codeds':
+								DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id VARCHAR(15)");
+							break;
+
+							case 'multiple':
+								DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id VARCHAR(1000)");
+							break;
+
+							case 'numeric':
+								DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id NUMERIC(10,2)");
+							break;
+
+							case 'date':
+								DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id DATE");
+							break;
+
+							case 'textarea':
+								DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id VARCHAR(5000)");
+							break;
+						}
+						DBQuery("CREATE INDEX ADDRESS_IND$id ON ADDRESS (CUSTOM_$id)");
+					}
+					elseif($table=='ADDRESS_FIELD_CATEGORIES')
+					{
+						$id = DBGet(DBQuery("SELECT ".db_seq_nextval('ADDRESS_FIELD_CATEGORIES_SEQ').' AS ID '.FROM_DUAL));
+						$id = $id[1]['ID'];
+						$fields = "ID,";
+						$values = $id.",";
+						$_REQUEST['category_id'] = $id;
+					}
+
+					$go = false;
+
+					foreach($columns as $column=>$value)
+					{
+						if($value)
+						{
+							$fields .= $column.',';
+							$values .= "'".$value."',";
+							$go = true;
+						}
+					}
+					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+				}
+
+				if($go)
+					DBQuery($sql);
 			}
 			else
-			{
-				$sql = "INSERT INTO $table ";
-
-				if($table=='ADDRESS_FIELDS')
-				{
-					if($columns['CATEGORY_ID'])
-					{
-						$_REQUEST['category_id'] = $columns['CATEGORY_ID'];
-						unset($columns['CATEGORY_ID']);
-					}
-					$id = DBGet(DBQuery("SELECT ".db_seq_nextval('ADDRESS_FIELDS_SEQ').' AS ID '.FROM_DUAL));
-					$id = $id[1]['ID'];
-					$fields = "ID,CATEGORY_ID,";
-					$values = $id.",'".$_REQUEST['category_id']."',";
-					$_REQUEST['id'] = $id;
-
-					switch($columns['TYPE'])
-					{
-						case 'radio':
-							DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id VARCHAR(1)");
-						break;
-
-						case 'text':
-						case 'exports':
-						case 'select':
-						case 'autos':
-						case 'edits':
-							DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id VARCHAR(255)");
-						break;
-
-						case 'codeds':
-							DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id VARCHAR(15)");
-						break;
-
-						case 'multiple':
-							DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id VARCHAR(1000)");
-						break;
-
-						case 'numeric':
-							DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id NUMERIC(10,2)");
-						break;
-
-						case 'date':
-							DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id DATE");
-						break;
-
-						case 'textarea':
-							DBQuery("ALTER TABLE ADDRESS ADD CUSTOM_$id VARCHAR(5000)");
-						break;
-					}
-					DBQuery("CREATE INDEX ADDRESS_IND$id ON ADDRESS (CUSTOM_$id)");
-				}
-				elseif($table=='ADDRESS_FIELD_CATEGORIES')
-				{
-					$id = DBGet(DBQuery("SELECT ".db_seq_nextval('ADDRESS_FIELD_CATEGORIES_SEQ').' AS ID '.FROM_DUAL));
-					$id = $id[1]['ID'];
-					$fields = "ID,";
-					$values = $id.",";
-					$_REQUEST['category_id'] = $id;
-				}
-
-				$go = false;
-
-				foreach($columns as $column=>$value)
-				{
-					if($value)
-					{
-						$fields .= $column.',';
-						$values .= "'".$value."',";
-						$go = true;
-					}
-				}
-				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			}
-
-			if($go)
-				DBQuery($sql);
+				$error = ErrorMessage(array(_('Please fill in the required fields')));
 		}
 		else
 			$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
