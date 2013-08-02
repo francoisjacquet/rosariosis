@@ -65,6 +65,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	else
 		$error[] = _('You must choose at least one period and one student.');
 		
+	unset($_SESSION['_REQUEST_vars']['modfunc']);
 	unset($_REQUEST['modfunc']);
 }
 

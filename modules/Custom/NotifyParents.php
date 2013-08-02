@@ -83,9 +83,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		ListOutput($RESULT,$columns,'Notification Result','Notification Results');
 	}
 	else
+	{
 		$error[] = _('You must choose at least one user');
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
-	unset($_REQUEST['modfunc']);
+		unset($_SESSION['_REQUEST_vars']['modfunc']);
+		unset($_REQUEST['modfunc']);
+	}
 }
 
 if (isset($error))

@@ -161,9 +161,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		ListOutput($RET,$columns,'Creation Result','Creation Results',false,array('EMAIL'));
 	}
 	else
+	{
 		$error[] = _('You must choose at least one student.');
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
-	unset($_REQUEST['modfunc']);
+		unset($_SESSION['_REQUEST_vars']['modfunc']);
+		unset($_REQUEST['modfunc']);
+	}
 }
 
 //modif Francois: Moodle integrator
