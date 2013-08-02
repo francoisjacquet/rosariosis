@@ -55,7 +55,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$note = mb_substr($note,0,mb_strpos($note,'. '));
 		elseif($next_school=='' && !$calendar)
 //			$note = '<IMG SRC=assets/warning_button.png>'._('No data was entered.');
-			$note = '<div class="updated"><IMG SRC="assets/warning_button.png">&nbsp;'._('No data was entered.').'</div>';
+			$note = '<div class="updated"><IMG SRC="assets/warning_button.png" />&nbsp;'._('No data was entered.').'</div>';
 				//var_dump($update);
 
 		if($next_school!='')
@@ -64,17 +64,20 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			DBQuery("UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='".$calendar."' WHERE SYEAR='".UserSyear()."' AND STUDENT_ID IN (".mb_substr($students,1).") ");
 
 		if(!$note)
-			$note = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('The specified information was applied to the selected students.');
-		unset($_REQUEST['modfunc']);
-		unset($_REQUEST['values']);
-		unset($_SESSION['_REQUEST_vars']['modfunc']);
-		unset($_SESSION['_REQUEST_vars']['values']);
+			$note = '<IMG SRC="assets/check.png" class="alignImg" />&nbsp;'._('The specified information was applied to the selected students.');
 	}
 	else
-		BackPrompt(_('You must choose at least one field and one student'));
+		$error[] = _('You must choose at least one field and one student');
+	unset($_REQUEST['modfunc']);
+	unset($_REQUEST['values']);
+	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
 DrawHeader(ProgramTitle());
+
+if (isset($error))
+	echo ErrorMessage($error);
 
 if(empty($_REQUEST['modfunc']))
 {
