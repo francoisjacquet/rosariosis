@@ -24,14 +24,15 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							values(".db_seq_nextval('BILLING_PAYMENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$student_id."','".DBDate()."','".preg_replace('/[^0-9,.]+/','',$_REQUEST['amount'])."','".$_REQUEST['comments']."')";
 				DBQuery($sql);
 			}
-			$note = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('That payment has been added to the selected students.');
+			$note[] = '<IMG SRC="assets/check.png" class="alignImg" />&nbsp;'._('That payment has been added to the selected students.');
 		}
 		else
-			BackPrompt(_('Please enter a valid Amount.'));
+			$error[] = _('Please enter a valid Amount.');
 	}
 	else
-		BackPrompt(_('You must choose at least one student.'));
+		$error[] = _('You must choose at least one student.');
 		
+	unset($_SESSION['_REQUEST_vars']['modfunc']);
 	unset($_REQUEST['modfunc']);
 }
 
@@ -39,9 +40,12 @@ if(empty($_REQUEST['modfunc']))
 
 {
 	DrawHeader(ProgramTitle());
-	if($note)
-		echo ErrorMessage(array($note), 'note');
-
+	
+	if (isset($error))
+		echo ErrorMessage($error);
+	if(isset($note))
+		echo ErrorMessage($note, 'note');
+		
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
