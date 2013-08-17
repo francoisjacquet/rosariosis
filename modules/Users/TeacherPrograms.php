@@ -1,5 +1,8 @@
 <?php
 $_REQUEST['modname'] = $_REQUEST['modname'].'&include='.$_REQUEST['include'];
+//modif Francois: Bugfix $_REQUEST['include'] 2 times in links
+$REQUEST_include = $_REQUEST['include'];
+unset($_REQUEST['include']);
 DrawHeader(_('Teacher Programs').' - '.ProgramTitle($_REQUEST['modname']));
 
 if(UserStaffID())
@@ -102,10 +105,11 @@ if(UserStaffID())
 	echo '<TABLE style="border:1px solid #000000; margin:0 auto; width:95%;"><TR><TD>';
 
 	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-	if (mb_substr($_REQUEST['include'], -4, 4)!='.php' || mb_strpos($_REQUEST['include'], '..')!==false || !is_file('modules/'.$_REQUEST['include']))	
+	//modif Francois: Bugfix $_REQUEST['include'] 2 times in links
+	if (mb_substr($REQUEST_include, -4, 4)!='.php' || mb_strpos($REQUEST_include, '..')!==false || !is_file('modules/'.$REQUEST_include))	
 		HackingLog();
 	else
-		include('modules/'.$_REQUEST['include']);
+		include('modules/'.$REQUEST_include);
 
 	echo '</TD></TR></TABLE>';
 }
