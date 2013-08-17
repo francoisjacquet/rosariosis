@@ -1,5 +1,18 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.3.1
+----------------
+- bugfix: comma escape in SelecInput function
+- added limit visibility to the students of a determined teacher in Portal Polls
+- functions folder sweep, regroup functions & removed 6 files
+- removed BackPrompt & replace with ErrorMessage in AddAbsences.php, CreateParents.php, NotifyParents.php, AddActivity.php, FinalGrades.php, MassDrops.php, MassRequests.php, MassSchedule.php, AddressFields.php, AssignOtherInfo.php, Address.inc.php, PeopleFields.php, StudentFields.php, MassAssignFees.php, MassAssignPayments.php, UserFields.php, 
+- delete FDFReportCards.php
+- bugfix: SQL bug duplicate entry in profile_exceptions
+- bugfix: $_REQUEST['include'] 2 times in links
+- bugfix: urlencoded include & next_modname vars
+- added PHP version check in dagnostic.php
+
+
 Changes in 1.3
 ----------------
 - UTF-8 multibyte strings:

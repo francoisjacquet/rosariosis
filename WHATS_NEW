@@ -6,6 +6,7 @@ Security improved
 
 School Setup
 - Moved all the configuration values inside the config.inc.php files to School Configuration
+- Added limit visibility to the students of a determined teacher in Portal Polls
 
 Custom
 - Added Notify Parents
