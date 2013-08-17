@@ -15,7 +15,7 @@ function PreparePHP_SELF($tmp_REQUEST='',$remove=array(),$add=array())
 		$tmp_REQUEST[$key] = $value;
 
 	$PHP_tmp_SELF = 'Modules.php?modname=' . $tmp_REQUEST['modname'];
-
+	
 	unset($tmp_REQUEST['modname']);
 
 	if(count($tmp_REQUEST))
@@ -34,25 +34,32 @@ function PreparePHP_SELF($tmp_REQUEST='',$remove=array(),$add=array())
 							{
 								foreach($value2 as $key3=>$value3)
 								{
-									$PHP_tmp_SELF .= '&amp;'.$key.'['.$key1.']['.$key2.']['.$key3.']='.urlencode(str_replace('\"','"',$value3));
+									$PHP_tmp_SELF .= '&amp;'.$key.'['.$key1.']['.$key2.']['.$key3.']='.myUrlEncode(str_replace('\"','"',$value3));
 								}
 							}
 							else
-								$PHP_tmp_SELF .= '&amp;'.$key.'['.$key1.']['.$key2.']='.urlencode(str_replace('\"','"',$value2));
+								$PHP_tmp_SELF .= '&amp;'.$key.'['.$key1.']['.$key2.']='.myUrlEncode(str_replace('\"','"',$value2));
 						}
 					}
 					else
-						$PHP_tmp_SELF .= '&amp;'.$key.'['.$key1.']='.urlencode(str_replace('\"','"',$value1));
+						$PHP_tmp_SELF .= '&amp;'.$key.'['.$key1.']='.myUrlEncode(str_replace('\"','"',$value1));
 				}
 			}
 			else
 			{
 				if($value != '')
-					$PHP_tmp_SELF .= '&amp;' . $key . "=" . urlencode(str_replace('\"','"',$value));
+					$PHP_tmp_SELF .= '&amp;' . $key . "=" . myUrlEncode(str_replace('\"','"',$value));
 			}
 		}
 	}
 
 	return $PHP_tmp_SELF;
+}
+
+//modif Francois: Bugfix urlencoded include & next_modname var
+function myUrlEncode($string) {
+     $entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D');
+     $replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "%", "#", "[", "]");
+     return str_replace($entities, $replacements, urlencode($string));
 }
 ?>
