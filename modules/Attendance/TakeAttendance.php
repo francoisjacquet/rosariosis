@@ -25,7 +25,7 @@ if(count($categories_RET)==0)
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
 	echo '</FORM>';
-	ErrorMessage(array(_('You cannot take attendance for this period.')),'fatal');
+	ErrorMessage(array(_('You cannot take attendance for this course period.')),'fatal');
 }
 
 if($_REQUEST['table']=='')
@@ -138,7 +138,7 @@ $date_note .= AllowEdit() ? ' <span style="color:green">'._('You can edit this a
 
 $completed_RET = DBGet(DBQuery("SELECT 'Y' as COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='$date' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
 if(count($completed_RET))
-	$note = ErrorMessage(array('<IMG SRC=assets/check.png class="alignImg">&nbsp;'._('You already have taken attendance today for this period.')),'note');
+	$note = ErrorMessage(array('<IMG SRC="assets/check.png" class="alignImg" />&nbsp;'._('You already have taken attendance today for this period.')),'note');
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note,SubmitButton(_('Save')));
