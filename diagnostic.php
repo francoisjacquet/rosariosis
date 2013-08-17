@@ -2,6 +2,12 @@
 // TRANSLATION: do NOT translate these since error messages need to stay in English for technical support
 error_reporting(1);
 session_start();
+
+//modif Francois: check PHP version
+if (version_compare(PHP_VERSION, '5.3.2') == -1) {
+    $error[] = 'RosarioSIS requires PHP 5.3.2 to run, you version is : ' . PHP_VERSION;
+}
+
 if(!$_SESSION['STAFF_ID'])
 {
 	$unset_username = true;
@@ -79,7 +85,7 @@ function _ErrorMessage($errors,$code='error')
 				$return .= '<b><span style="color:#00CC00">Note:</span></b>';
 			$return .= '<ul>';
 			foreach($errors as $value)
-				$return .= '<LI><span class="size-1">$value</span></LI>'."\n";
+				$return .= '<LI><span class="size-1">'.$value.'</span></LI>'."\n";
 			$return .= '</ul>';
 		}
 			$return .= "</TD></TR></TABLE><BR />";
