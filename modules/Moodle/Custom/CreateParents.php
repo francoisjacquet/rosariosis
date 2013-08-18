@@ -48,7 +48,6 @@ list of (
 	$email = $students[1]['EMAIL'];
 	$auth = 'manual';
 	$idnumber = (string)$id;
-	$lang = mb_substr($locale,0,2);
 	
 	$users = array(
 				array(
@@ -59,7 +58,6 @@ list of (
 					'email' => $email,
 					'auth' => $auth,
 					'idnumber' => $idnumber,
-					'lang' => $lang
 				)
 			);
 	

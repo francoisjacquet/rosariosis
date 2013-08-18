@@ -48,7 +48,6 @@ list of (
 	$email = $_REQUEST['students']['CUSTOM_'.ROSARIO_STUDENTS_EMAIL_FIELD_ID];
 	$auth = 'manual';
 	$idnumber = (string)(!empty($student_id) ? $student_id : UserStudentID());
-	$lang = mb_substr($locale,0,2);
 	
 	$users = array(
 				array(
@@ -59,7 +58,6 @@ list of (
 					'email' => $email,
 					'auth' => $auth,
 					'idnumber' => $idnumber,
-					'lang' => $lang
 				)
 			);
 	
