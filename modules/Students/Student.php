@@ -61,12 +61,16 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 	if((count($_REQUEST['students']) || count($_REQUEST['values'])) && AllowEdit())
 	{
 		//modif Francois: Moodle integrator / password
-		if (!empty($_REQUEST['students']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
-		{
-			BackPrompt(_('Please enter a valid password'));				
-		}
+		if ($_REQUEST['moodle_create_student'] && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
+			BackPrompt(_('Please enter a valid password'));
+			
 		if(UserStudentID() && $_REQUEST['student_id']!='new')
 		{
+			//modif Francois: Moodle integrator / password
+			$old_student_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$_REQUEST['student_id']."' AND \"column\"='student_id'"));
+			if ($old_student_in_moodle && !empty($_REQUEST['students']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
+				BackPrompt(_('Please enter a valid password'));				
+				
 			if(count($_REQUEST['students']))
 			{
 				$sql = "UPDATE STUDENTS SET ";
@@ -80,7 +84,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 //modif Francois: add password encryption
 						if ($column!=='PASSWORD')
 							$sql .= "$column='".str_replace('&#39;',"''",$value)."',";
-						if ($column=='PASSWORD' && $value!==str_repeat('*',8))
+						if ($column=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
 						{
 							$value = str_replace("''","'",$value);
 							$sql .= "$column='".encrypt_password($value)."',";
@@ -124,7 +128,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			}
 		}
 		else
-		{
+		{				
 			if($_REQUEST['assign_student_id'])
 			{
 				$student_id = $_REQUEST['assign_student_id'];
@@ -138,7 +142,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			}
 			//modif Francois: Moodle integrator
 			//username, password, (email) required
-			elseif ($_REQUEST['moodle_create_student'] && (empty($_REQUEST['students']['USERNAME']) || empty($_REQUEST['students']['PASSWORD'])))
+			elseif ($_REQUEST['moodle_create_student'] && empty($_REQUEST['students']['USERNAME']))
 			{
 				BackPrompt(_('Please fill in the required fields'));
 			}

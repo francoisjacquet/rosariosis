@@ -71,10 +71,9 @@ if($_REQUEST['modfunc']=='update')
 	if(count($_POST['staff']) && (User('PROFILE')=='admin' || basename($_SERVER['PHP_SELF'])=='index.php'))
 	{
 		//modif Francois: Moodle integrator / password
-		if (!empty($_REQUEST['staff']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
-		{
-			BackPrompt(_('Please enter a valid password'));				
-		}
+		if (!MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
+			BackPrompt(_('Please enter a valid password'));
+			
 		if(UserStaffID() && $_REQUEST['staff_id']!='new')
 		{
 			$profile_RET = DBGet(DBQuery("SELECT PROFILE,PROFILE_ID,USERNAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
@@ -115,7 +114,7 @@ if($_REQUEST['modfunc']=='update')
 					$sql .= "$column_name='".$value."',";
 					$go = true;
 				}
-				if ($column_name=='PASSWORD' && $value!==str_repeat('*',8))
+				if ($column_name=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
 				{
 					$value = str_replace("''","'",$value);
 					$sql .= "$column_name='".encrypt_password($value)."',";
