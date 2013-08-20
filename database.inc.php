@@ -21,7 +21,7 @@ function db_start()
 		$errormessage = pg_last_error($connection);
 		
         // TRANSLATION: do NOT translate these since error messages need to stay in English for technical support
-    	db_show_error("",sprintf('Could not Connect to Database Server \'%s\'',$DatabaseServer),$errormessage);
+    	db_show_error("",sprintf('Could not Connect to Database Server \'%s\'',$DatabaseServer),$errstring);
 	}
 	return $connection;
 }
