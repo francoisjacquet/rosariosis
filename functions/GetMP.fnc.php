@@ -10,15 +10,9 @@ function GetMP($mp,$column='TITLE')
 
 	if(!isset($_ROSARIO['GetMP']))
 	{
-		$_ROSARIO['GetMP'] = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_EXAM,DOES_COMMENTS FROM SCHOOL_MARKING_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('MARKING_PERIOD_ID'));
+		$_ROSARIO['GetMP'] = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS FROM SCHOOL_MARKING_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('MARKING_PERIOD_ID'));
 	}
 	$suffix = '';
-	if(mb_substr($mp,0,1)=='E')
-	{
-		if($column=='TITLE' || $column=='SHORT_NAME')
-			$suffix = ' '._('Exam');
-		$mp = mb_substr($mp,1);
-	}
 
 	if($mp==0 && $column=='TITLE')
 		return _('Full Year').$suffix;

@@ -7,7 +7,7 @@ $fy = GetParentMP('FY',$sem);
 $pros = GetChildrenMP('PRO',UserMP());
 
 // if the UserMP has been changed, the REQUESTed MP may not work
-if(!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".ltrim($_REQUEST['mp'],'E')."'")===false)
+if(!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
 	$_REQUEST['mp'] = UserMP();
 
 $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=school_periods.PERIOD_ID) ORDER BY SORT_ORDER");
@@ -18,23 +18,19 @@ foreach($periods_RET as $id=>$period)
 	$period_select .= '<OPTION value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED="SELECTED"':'').">".$period[1]['TITLE']."</OPTION>";
 $period_select .= "</SELECT>";
 
-$mp_select = "<SELECT name=mp onChange='this.form.submit();'>";
+$mp_select = '<SELECT name="mp" onChange="this.form.submit();">';
 if($pros!='')
 	foreach(explode(',',str_replace("'",'',$pros)) as $pro)
 		if(GetMP($pro,'DOES_GRADES')=='Y')
 			$mp_select .= '<OPTION value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP($pro)."</OPTION>";
 
-$mp_select .= "<OPTION value=".UserMP().((UserMP()==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP(UserMP())."</OPTION>";
+$mp_select .= '<OPTION value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP(UserMP())."</OPTION>";
 
 if(GetMP($sem,'DOES_GRADES')=='Y')
 	$mp_select .= '<OPTION value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP($sem)."</OPTION>";
-if(GetMP($sem,'DOES_EXAM')=='Y')
-	$mp_select .= '<OPTION value="E'.$sem.'"'.(('E'.$sem==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP($sem)." Exam</OPTION>";
 
 if(GetMP($fy,'DOES_GRADES')=='Y')
 	$mp_select .= '<OPTION value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP($fy)."</OPTION>";
-if(GetMP($fy,'DOES_EXAM')=='Y')
-	$mp_select .= '<OPTION value="E'.$fy.'"'.(('E'.$fy==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP($fy)." Exam</OPTION>";
 $mp_select .= '</SELECT>';
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';

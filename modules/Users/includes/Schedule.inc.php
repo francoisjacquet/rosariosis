@@ -6,7 +6,7 @@ if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 
 	// preload GetMP cache with all schools
 	if($_REQUEST['all_schools']=='Y')
-		$_ROSARIO['GetMP'] = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_EXAM,DOES_COMMENTS FROM SCHOOL_MARKING_PERIODS WHERE SYEAR='".UserSyear()."'"),array(),array('MARKING_PERIOD_ID'));
+		$_ROSARIO['GetMP'] = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS FROM SCHOOL_MARKING_PERIODS WHERE SYEAR='".UserSyear()."'"),array(),array('MARKING_PERIOD_ID'));
 
 	//$columns = array('TITLE'=>_('Course'),'PERIOD_ID'=>_('Period'),'ROOM'=>_('Room'),'MARKING_PERIOD_ID'=>_('Marking Period'));
 	$columns = array('TITLE'=>_('Course'),'COURSE_PERIOD'=>_('Course Period'),'ROOM'=>_('Room'),'MARKING_PERIOD_ID'=>_('Marking Period'));

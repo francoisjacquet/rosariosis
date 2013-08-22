@@ -9,7 +9,7 @@ $fy = GetParentMP('FY',$sem);
 $pros = GetChildrenMP('PRO',UserMP());
 
 // if the UserMP has been changed, the REQUESTed MP may not work
-if(!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".ltrim($_REQUEST['mp'],'E')."'")===false)
+if(!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
 	$_REQUEST['mp'] = UserMP();
 
 $course_period_id = UserCoursePeriod();
@@ -128,20 +128,18 @@ if($_REQUEST['modfunc']=='gradebook')
 		{
 			if(GetMP($_REQUEST['mp'],'MP')=='SEM')
 			{
-				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,'Y' AS DOES_GRADES,NULL AS DOES_EXAM FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND PARENT_ID='$_REQUEST[mp]' UNION SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES,DOES_EXAM FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND MARKING_PERIOD_ID='$_REQUEST[mp]'"));
+				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,'Y' AS DOES_GRADES FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND PARENT_ID='$_REQUEST[mp]' UNION SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND MARKING_PERIOD_ID='$_REQUEST[mp]'"));
 				$prefix = 'SEM-';
 			}
 			else
 			{
-				$RET = DBGet(DBQuery("SELECT q.MARKING_PERIOD_ID,'Y' AS DOES_GRADES,NULL AS DOES_EXAM FROM SCHOOL_MARKING_PERIODS q,SCHOOL_MARKING_PERIODS s WHERE q.MP='QTR' AND s.MP='SEM' AND q.PARENT_ID=s.MARKING_PERIOD_ID AND s.PARENT_ID='$_REQUEST[mp]' UNION SELECT MARKING_PERIOD_ID,DOES_GRADES,DOES_EXAM FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND PARENT_ID='$_REQUEST[mp]' UNION SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES,DOES_EXAM FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND MARKING_PERIOD_ID='$_REQUEST[mp]'"));
+				$RET = DBGet(DBQuery("SELECT q.MARKING_PERIOD_ID,'Y' AS DOES_GRADES FROM SCHOOL_MARKING_PERIODS q,SCHOOL_MARKING_PERIODS s WHERE q.MP='QTR' AND s.MP='SEM' AND q.PARENT_ID=s.MARKING_PERIOD_ID AND s.PARENT_ID='$_REQUEST[mp]' UNION SELECT MARKING_PERIOD_ID,DOES_GRADES FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND PARENT_ID='$_REQUEST[mp]' UNION SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND MARKING_PERIOD_ID='$_REQUEST[mp]'"));
 				$prefix = 'FY-';
 			}
 			foreach($RET as $mp)
 			{
 				if($mp['DOES_GRADES']=='Y')
 					$mps .= "'$mp[MARKING_PERIOD_ID]',";
-				if($mp['DOES_EXAM']=='Y')
-					$mps .= "'E$mp[MARKING_PERIOD_ID]',";
 			}
 			$mps = mb_substr($mps,0,-1);
 
@@ -495,24 +493,20 @@ if($_REQUEST['mp']==UserMP() && GetMP(UserMP(),'POST_START_DATE') && ($time>=str
 	$allow_edit = true;
 $mps_select .= '<OPTION value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP(UserMP())."</OPTION>";
 
-if(($_REQUEST['mp']==$sem || $_REQUEST['mp']=='E'.$sem) && GetMP($sem,'POST_START_DATE') && ($time>=strtotime(GetMP($sem,'POST_START_DATE')) && $time<=strtotime(GetMP($sem,'POST_END_DATE'))))
+if(($_REQUEST['mp']==$sem) && GetMP($sem,'POST_START_DATE') && ($time>=strtotime(GetMP($sem,'POST_START_DATE')) && $time<=strtotime(GetMP($sem,'POST_END_DATE'))))
 	$allow_edit = true;
 if(GetMP($sem,'DOES_GRADES')=='Y')
 	$mps_select .= '<OPTION value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP($sem)."</OPTION>";
-if(GetMP($sem,'DOES_EXAM')=='Y')
-	$mps_select .= '<OPTION value="E'.$sem.'"'.(('E'.$sem==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".sprintf(_('%s Exam'),GetMP($sem))."</OPTION>";
 
-if(($_REQUEST['mp']==$fy || $_REQUEST['mp']=='E'.$fy) && GetMP($fy,'POST_START_DATE') && ($time>=strtotime(GetMP($fy,'POST_START_DATE')) && $time<=strtotime(GetMP($fy,'POST_END_DATE'))))
+if(($_REQUEST['mp']==$fy) && GetMP($fy,'POST_START_DATE') && ($time>=strtotime(GetMP($fy,'POST_START_DATE')) && $time<=strtotime(GetMP($fy,'POST_END_DATE'))))
 	$allow_edit = true;
 if(GetMP($fy,'DOES_GRADES')=='Y')
 	$mps_select .= '<OPTION value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP($fy)."</OPTION>";
-if(GetMP($fy,'DOES_EXAM')=='Y')
-	$mps_select .= '<OPTION value="E'.$fy.'"'.(('E'.$fy==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".sprintf(_('%s Exam'),GetMP($fy))."</OPTION>";
 
 $mps_select .= '</SELECT>';
 
 // modif Francois: add Grade posting dates (see Marking periods) limitation for teachers:
-$grade_posting_RET = DBGet(DBQuery("SELECT 1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".trim($_REQUEST['mp'],'E')."' AND (POST_START_DATE IS NULL OR POST_START_DATE<=CURRENT_DATE) AND (POST_END_DATE IS NULL OR POST_END_DATE>=CURRENT_DATE)"));
+$grade_posting_RET = DBGet(DBQuery("SELECT 1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND (POST_START_DATE IS NULL OR POST_START_DATE<=CURRENT_DATE) AND (POST_END_DATE IS NULL OR POST_END_DATE>=CURRENT_DATE)"));
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
 if(!isset($_ROSARIO['allow_edit']))
@@ -521,7 +515,7 @@ if(!isset($_ROSARIO['allow_edit']))
 $extra['SELECT'] = ",ssm.STUDENT_ID AS REPORT_CARD_GRADE";
 $extra['functions'] = array('REPORT_CARD_GRADE'=>'_makeLetterPercent');
 
-if(mb_substr($_REQUEST['mp'],0,1)!='E' && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
+if(GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
 	//modif Francois: fix error Warning: Invalid argument supplied for foreach()
 	if (isset($commentsA_RET))
@@ -576,20 +570,17 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 
 	if(AllowEdit())
 	{
-		if(mb_substr($_REQUEST['mp'],0,1)!='E')
+		$gb_header .= '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=gradebook&mp='.$_REQUEST['mp'].'">'._('Get Gradebook Grades.').'</A>';
+		$prev_mp = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,START_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='".GetMP($_REQUEST['mp'],'MP')."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND START_DATE<'".GetMP($_REQUEST['mp'],'START_DATE')."' ORDER BY START_DATE DESC LIMIT 1"));
+		$prev_mp = $prev_mp[1];
+		//modif Francois: remove Get previous MP Grades & Comments if course period's marking period is a quarter
+		$mp_is_quarter = DBGet(DBQuery("SELECT '' FROM COURSE_PERIODS WHERE MP='QTR' AND COURSE_PERIOD_ID='".$course_period_id."'"));
+		if($prev_mp && !$mp_is_quarter)
 		{
-			$gb_header .= '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=gradebook&mp='.$_REQUEST['mp'].'">'._('Get Gradebook Grades.').'</A>';
-			$prev_mp = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,START_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='".GetMP($_REQUEST['mp'],'MP')."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND START_DATE<'".GetMP($_REQUEST['mp'],'START_DATE')."' ORDER BY START_DATE DESC LIMIT 1"));
-			$prev_mp = $prev_mp[1];
-			//modif Francois: remove Get previous MP Grades & Comments if course period's marking period is a quarter
-			$mp_is_quarter = DBGet(DBQuery("SELECT '' FROM COURSE_PERIODS WHERE MP='QTR' AND COURSE_PERIOD_ID='".$course_period_id."'"));
-			if($prev_mp && !$mp_is_quarter)
-			{
-				$gb_header .= ' | <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=grades&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Grades'),$prev_mp['TITLE']).'</A>';
-				$gb_header .= ' | <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=comments&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Comments'),$prev_mp['TITLE']).'</A>';
-			}
-			$gb_header .= ' | ';
+			$gb_header .= ' | <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=grades&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Grades'),$prev_mp['TITLE']).'</A>';
+			$gb_header .= ' | <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=comments&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Comments'),$prev_mp['TITLE']).'</A>';
 		}
+		$gb_header .= ' | ';
 		$gb_header .= '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=clearall&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'">'._('Clear All').'</A>';
 	}
 	DrawHeader($gb_header,$tipmessage);
@@ -605,7 +596,7 @@ if($_REQUEST['include_inactive']=='Y')
 	$LO_columns += array('ACTIVE'=>_('School Status'),'ACTIVE_SCHEDULE'=>_('Course Status'));
 $LO_columns += array('REPORT_CARD_GRADE'=>($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0?_('Letter'):($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0?_('Percent'):(Preferences('ONELINE','Gradebook')=='Y'?'<span style="white-space:nowrap;">':'')._('Letter').(Preferences('ONELINE','Gradebook')=='Y'?' ':'<BR />')._('Percent').(Preferences('ONELINE','Gradebook')=='Y'?'</span>':''))));
 
-if(mb_substr($_REQUEST['mp'],0,1)!='E' && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
+if(GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
 	//modif Francois: fix error Warning: Invalid argument supplied for foreach()
 	if (isset($commentsA_RET))

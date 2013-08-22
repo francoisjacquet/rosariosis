@@ -118,9 +118,9 @@ if(count($grades))
 	echo '</fieldset><BR />';
 }
 
-$year = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES,DOES_EXAM FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-$semesters = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES,DOES_EXAM FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-$quarters = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES,DOES_EXAM FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('PARENT_ID'));
+$year = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
+$semesters = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
+$quarters = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('PARENT_ID'));
 
 echo '<fieldset>';
 echo '<legend><b>'._('Final Grading Percentages').'</b></legend>';
@@ -132,19 +132,12 @@ foreach($semesters as $sem)
 		$table .= '<TR><TD rowspan="2" style="vertical-align:middle;">'.$sem['TITLE'].'&nbsp;</TD>';
 		foreach($quarters[$sem['MARKING_PERIOD_ID']] as $qtr)
 			$table .= '<TD>'.$qtr['TITLE'].'&nbsp;</TD>';
-		if($sem['DOES_EXAM']=='Y')
-			$table .= '<TD>'.$sem['TITLE'].' '._('Exam').'</TD>';
 		$table .= '</TR><TR>';
 		$total = 0;
 		foreach($quarters[$sem['MARKING_PERIOD_ID']] as $qtr)
 		{
 			$table .= '<TD><INPUT type="text" name="values[SEM-'.$qtr['MARKING_PERIOD_ID'].']" value="'.$programconfig['SEM-'.$qtr['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
 			$total += $programconfig['SEM-'.$qtr['MARKING_PERIOD_ID']];
-		}
-		if($sem['DOES_EXAM']=='Y')
-		{
-			$table .= '<TD><INPUT type="text" name="values[SEM-E'.$sem['MARKING_PERIOD_ID'].']" value="'.$programconfig['SEM-E'.$sem['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
-			$total += $programconfig['SEM-E'.$sem['MARKING_PERIOD_ID']];
 		}
 		if($total!=100)
 			$table .= '<TD><span style="color:red">'._('Total').' &#8800; 100%!</span></TD>';
@@ -163,11 +156,7 @@ if($year[1]['DOES_GRADES']=='Y')
 			$table .= '<TD><span style="white-space:nowrap;">'.$qtr['TITLE'].'&nbsp;</span></TD>';
 		if($sem['DOES_GRADES']=='Y')
 			$table .= '<TD><span style="white-space:nowrap;">'.$sem['TITLE'].'&nbsp;</span></TD>';
-		if($sem['DOES_EXAM']=='Y')
-			$table .= '<TD><span style="white-space:nowrap;">'.$sem['TITLE'].'&nbsp;</span> '._('Exam').'</TD>';
 	}
-	if($year[1]['DOES_EXAM']=='Y')
-		$table .= '<TD><span style="white-space:nowrap;">'.$year[1]['TITLE'].'&nbsp;</span> '._('Exam').'</TD>';
 	$table .= '</TR><TR>';
 	$total = 0;
 	foreach($semesters as $sem)
@@ -182,16 +171,6 @@ if($year[1]['DOES_GRADES']=='Y')
 			$table .= '<TD><INPUT type="text" name="values[FY-'.$sem['MARKING_PERIOD_ID'].']" value="'.$programconfig['FY-'.$sem['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
 			$total += $programconfig['FY-'.$sem['MARKING_PERIOD_ID']];
 		}
-		if($sem['DOES_EXAM']=='Y')
-		{
-			$table .= '<TD><INPUT type="text" name="values[FY-E'.$sem['MARKING_PERIOD_ID'].']" value="'.$programconfig['FY-E'.$sem['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
-			$total += $programconfig['FY-E'.$sem['MARKING_PERIOD_ID']];
-		}
-	}
-	if($year[1]['DOES_EXAM']=='Y')
-	{
-		$table .= '<TD><INPUT type="text" name="values[FY-E'.$year[1]['MARKING_PERIOD_ID'].']" value="'.$programconfig['FY-E'.$year[1]['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
-		$total += $programconfig['FY-E'.$year[1]['MARKING_PERIOD_ID']];
 	}
 	if($total!=100)
 		$table .= '<TD><span style="color:red; white-space:nowrap;">'._('Total').' &#8800; 100%!</span></TD>';

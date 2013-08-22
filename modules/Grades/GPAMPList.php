@@ -9,7 +9,7 @@ if($_REQUEST['search_modfunc'] == 'list')
 //modif Francois: changed MP list to GradeBreakdown.php style
 	/*if(!$_REQUEST['mp'] && GetMP(UserMP(),'POST_START_DATE'))
 		$_REQUEST['mp'] = UserMP();
-	elseif(mb_strpos(GetAllMP('QTR',UserMP()),str_replace('E','',$_REQUEST['mp']))===false && mb_strpos(GetChildrenMP('PRO',UserMP()),"'".$_REQUEST['mp']."'")===false && GetMP(UserMP(),'POST_START_DATE'))
+	elseif(mb_strpos(GetAllMP('QTR',UserMP()),$_REQUEST['mp'])===false && mb_strpos(GetChildrenMP('PRO',UserMP()),"'".$_REQUEST['mp']."'")===false && GetMP(UserMP(),'POST_START_DATE'))
 		$_REQUEST['mp'] = UserMP();
 	
 	if(!$_REQUEST['mp'] && GetMP(GetParentMP('SEM',UserMP()),'POST_START_DATE'))
@@ -45,7 +45,7 @@ if($_REQUEST['search_modfunc'] == 'list')
 		$_REQUEST['mp'] = $sem;
 	
 	if(GetMP($sem,'DOES_GRADES')=='Y')
-		$mps_select .= '<OPTION value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP($sem).'</OPTION><OPTION value="E'.$sem.'"'.(('E'.$sem==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".sprintf(_('%s Exam'),GetMP($sem)).'</OPTION>';
+		$mps_select .= '<OPTION value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP($sem).'</OPTION>';
 
 //modif Francois: add year to the list
 	if(GetMP($year,'DOES_GRADES')=='Y')
@@ -60,7 +60,7 @@ if($_REQUEST['search_modfunc'] == 'list')
 		$_REQUEST['mp'] = UserMP();
 
 	// Get all the mp's associated with the current mp
-	$mps_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,DOES_EXAM,0,SORT_ORDER FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."')) AND MP='FY' UNION SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,DOES_EXAM,1,SORT_ORDER FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."') AND MP='SEM' UNION SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,DOES_EXAM,2,SORT_ORDER FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."' UNION SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,DOES_EXAM,3,SORT_ORDER FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='".UserMP()."' AND MP='PRO' ORDER BY 5,SORT_ORDER"));
+	$mps_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."')) AND MP='FY' UNION SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,1,SORT_ORDER FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."') AND MP='SEM' UNION SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,2,SORT_ORDER FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."' UNION SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,3,SORT_ORDER FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='".UserMP()."' AND MP='PRO' ORDER BY 5,SORT_ORDER"));
  
 	//bjj keeping search terms
     $PHP_tmp_SELF = PreparePHP_SELF();
@@ -71,8 +71,6 @@ if($_REQUEST['search_modfunc'] == 'list')
 	{
 		if($mp['DOES_GRADES']=='Y' || $mp['MARKING_PERIOD_ID']==UserMP())
 			$mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED="SELECTED"':'').'>'.$mp['TITLE'].'</OPTION>';
-		if($mp['DOES_EXAM']=='Y')
-			$mp_select .= '<OPTION value="E'.$mp['MARKING_PERIOD_ID'].'"'.('E'.$mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED="SELECTED"':'').'>'.sprintf(_('%s Exam'),$mp['TITLE']).'</OPTION>';
 	}
 	$mp_select .= "</SELECT>";
 	

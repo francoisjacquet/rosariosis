@@ -106,7 +106,7 @@ BEGIN
 
         from student_report_card_grades where student_id = s_id
         and cast(marking_period_id as text) = mp_id
-         and not gp_scale = 0 and not marking_period_id LIKE 'E%' group by student_id, marking_period_id
+         and not gp_scale = 0 group by student_id, marking_period_id
         ) as rcg
 WHERE student_id = s_id and cast(marking_period_id as text) = mp_id;
     RETURN 1;
@@ -124,7 +124,7 @@ WHERE student_id = s_id and cast(marking_period_id as text) = mp_id;
             sum(case when class_rank = 'Y' THEN credit_attempted END) as cr_credits
         from student_report_card_grades srcg join marking_periods mp on (cast(mp.marking_period_id as text) = srcg.marking_period_id) left outer join enroll_grade eg on (eg.student_id = srcg.student_id and eg.syear = mp.syear and eg.school_id = mp.school_id)
         where srcg.student_id = s_id and cast(srcg.marking_period_id as text) = mp_id and not srcg.gp_scale = 0 
-        and not srcg.marking_period_id LIKE 'E%' group by srcg.student_id, srcg.marking_period_id, eg.short_name;
+		group by srcg.student_id, srcg.marking_period_id, eg.short_name;
   END IF;
   RETURN 0;
 END
@@ -1697,7 +1697,6 @@ CREATE TABLE school_marking_periods (
     post_start_date date,
     post_end_date date,
     does_grades character varying(1),
-    does_exam character varying(1),
     does_comments character varying(1),
     rollover_id numeric
 );
@@ -1710,7 +1709,7 @@ CREATE TABLE school_marking_periods (
 --
 
 CREATE VIEW marking_periods AS
-    SELECT school_marking_periods.marking_period_id, 'Rosario'::text AS mp_source, school_marking_periods.syear, school_marking_periods.school_id, CASE WHEN ((school_marking_periods.mp)::text = 'FY'::text) THEN 'year'::text WHEN ((school_marking_periods.mp)::text = 'SEM'::text) THEN 'semester'::text WHEN ((school_marking_periods.mp)::text = 'QTR'::text) THEN 'quarter'::text ELSE NULL::text END AS mp_type, school_marking_periods.title, school_marking_periods.short_name, school_marking_periods.sort_order, CASE WHEN (school_marking_periods.parent_id > (0)::numeric) THEN school_marking_periods.parent_id ELSE ((-1))::numeric END AS parent_id, CASE WHEN ((SELECT smp.parent_id FROM school_marking_periods smp WHERE (smp.marking_period_id = school_marking_periods.parent_id)) > (0)::numeric) THEN (SELECT smp.parent_id FROM school_marking_periods smp WHERE (smp.marking_period_id = school_marking_periods.parent_id)) ELSE ((-1))::numeric END AS grandparent_id, school_marking_periods.start_date, school_marking_periods.end_date, school_marking_periods.post_start_date, school_marking_periods.post_end_date, school_marking_periods.does_grades, school_marking_periods.does_exam, school_marking_periods.does_comments FROM school_marking_periods UNION SELECT history_marking_periods.marking_period_id, 'History'::text AS mp_source, history_marking_periods.syear, history_marking_periods.school_id, history_marking_periods.mp_type, history_marking_periods.name AS title, history_marking_periods.short_name, NULL::numeric AS sort_order, history_marking_periods.parent_id, (-1) AS grandparent_id, NULL::date AS start_date, history_marking_periods.post_end_date AS end_date, NULL::date AS post_start_date, history_marking_periods.post_end_date, 'Y'::character varying AS does_grades, NULL::character varying AS does_exam, NULL::character varying AS does_comments FROM history_marking_periods;
+    SELECT school_marking_periods.marking_period_id, 'Rosario'::text AS mp_source, school_marking_periods.syear, school_marking_periods.school_id, CASE WHEN ((school_marking_periods.mp)::text = 'FY'::text) THEN 'year'::text WHEN ((school_marking_periods.mp)::text = 'SEM'::text) THEN 'semester'::text WHEN ((school_marking_periods.mp)::text = 'QTR'::text) THEN 'quarter'::text ELSE NULL::text END AS mp_type, school_marking_periods.title, school_marking_periods.short_name, school_marking_periods.sort_order, CASE WHEN (school_marking_periods.parent_id > (0)::numeric) THEN school_marking_periods.parent_id ELSE ((-1))::numeric END AS parent_id, CASE WHEN ((SELECT smp.parent_id FROM school_marking_periods smp WHERE (smp.marking_period_id = school_marking_periods.parent_id)) > (0)::numeric) THEN (SELECT smp.parent_id FROM school_marking_periods smp WHERE (smp.marking_period_id = school_marking_periods.parent_id)) ELSE ((-1))::numeric END AS grandparent_id, school_marking_periods.start_date, school_marking_periods.end_date, school_marking_periods.post_start_date, school_marking_periods.post_end_date, school_marking_periods.does_grades, school_marking_periods.does_comments FROM school_marking_periods UNION SELECT history_marking_periods.marking_period_id, 'History'::text AS mp_source, history_marking_periods.syear, history_marking_periods.school_id, history_marking_periods.mp_type, history_marking_periods.name AS title, history_marking_periods.short_name, NULL::numeric AS sort_order, history_marking_periods.parent_id, (-1) AS grandparent_id, NULL::date AS start_date, history_marking_periods.post_end_date AS end_date, NULL::date AS post_start_date, history_marking_periods.post_end_date, 'Y'::character varying AS does_grades, NULL::character varying AS does_comments FROM history_marking_periods;
 
 
 

@@ -245,8 +245,6 @@ if(empty($_REQUEST['modfunc']))
 				}
 				$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="mp_arr[]" value="'.$qtr['MARKING_PERIOD_ID'].'"> '.$qtr['TITLE'].'</label></TD>';
 			}
-			if(GetMP($sem,'DOES_EXAM')=='Y')
-				$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="mp_arr[]" value="E'.$sem.'"> '.sprintf(_('%s Exam'),GetMP($sem,'TITLE')).'</label></TD>';
 			if(GetMP($sem,'DOES_GRADES')=='Y')
 				$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="mp_arr[]" value="'.$sem.'"> '.GetMP($sem,'TITLE').'</label></TD>';
 			$extra['extra_header_left'] .= '</TR>';
@@ -256,8 +254,6 @@ if(empty($_REQUEST['modfunc']))
 		{
 			$fy = GetParentMP('FY',$sem);
 			$extra['extra_header_left'] .= '<TD><TABLE><TR>';
-			if(GetMP($fy,'DOES_EXAM')=='Y')
-				$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="mp_arr[]" value="E'.$fy.'"> '.sprintf(_('%s Exam'),GetMP($fy,'TITLE')).'</label></TD>';
 			if(GetMP($fy,'DOES_GRADES')=='Y')
 				$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="mp_arr[]" value="'.$fy.'"> '.GetMP($fy,'TITLE').'</label></TD>';
 			$extra['extra_header_left'] .= '</TR></TABLE></TD>';

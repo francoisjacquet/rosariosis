@@ -208,7 +208,6 @@ if($_REQUEST['modfunc']=='delete')
 }
 
 if(empty($_REQUEST['modfunc']))
-
 {
 //modif Francois: fix SQL bug invalid sort order
 	if(isset($error)) echo $error;
@@ -218,7 +217,7 @@ if(empty($_REQUEST['modfunc']))
 	// ADDING & EDITING FORM
 	if($_REQUEST['marking_period_id'] && $_REQUEST['marking_period_id']!='new')
 	{
-		$sql = "SELECT TITLE,SHORT_NAME,SORT_ORDER,DOES_GRADES,DOES_EXAM,DOES_COMMENTS,
+		$sql = "SELECT TITLE,SHORT_NAME,SORT_ORDER,DOES_GRADES,DOES_COMMENTS,
 						START_DATE,END_DATE,POST_START_DATE,POST_END_DATE
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE MARKING_PERIOD_ID='$_REQUEST[marking_period_id]'";
@@ -239,7 +238,6 @@ if(empty($_REQUEST['modfunc']))
 		$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables['.$_REQUEST['marking_period_id'].'][SHORT_NAME]',(!$RET['SHORT_NAME']?'<span style="color:red">':'')._('Short Name').(!$RET['SHORT_NAME']?'</span>':''), 'required') . '</TD>';
 		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['marking_period_id'].'][SORT_ORDER]',_('Sort Order'),'size=3') . '</TD>';
 		$header .= '<TD><TABLE class="width-100p cellpadding-0"><TR><TD>' . CheckboxInput($RET['DOES_GRADES'],'tables['.$_REQUEST['marking_period_id'].'][DOES_GRADES]',_('Graded'),$checked,$_REQUEST['marking_period_id']=='new','<IMG SRC="assets/check.png" height="15">','<IMG SRC="assets/x.png" height="15">') . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['DOES_EXAM'],'tables['.$_REQUEST['marking_period_id'].'][DOES_EXAM]',_('Exam'),$checked,$_REQUEST['marking_period_id']=='new','<IMG SRC="assets/check.png" height="15">','<IMG SRC="assets/x.png" height="15">') . '</TD>';
 		$header .= '<TD>' . CheckboxInput($RET['DOES_COMMENTS'],'tables['.$_REQUEST['marking_period_id'].'][DOES_COMMENTS]',_('Comments'),$checked,$_REQUEST['marking_period_id']=='new','<IMG SRC="assets/check.png" height="15">','<IMG SRC="assets/x.png" height="15">') . '</TD></TR></TABLE></TD>';
 		$header .= '</TR>';
 		$header .= '<TR>';
