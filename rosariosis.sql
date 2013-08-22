@@ -3912,17 +3912,17 @@ INSERT INTO school_gradelevels VALUES (9, 1, '08', '8th', NULL, 9);
 -- Data for Name: school_marking_periods; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO school_marking_periods VALUES (1, 2013, 'FY', 1, NULL, 'Full Year', 'FY', 1, '2013-08-21', '2014-06-05', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (2, 2013, 'SEM', 1, 1, 'Semester 1', 'S1', 1, '2013-08-21', '2014-01-06', '2014-01-05', '2014-01-06', NULL, NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (3, 2013, 'SEM', 1, 1, 'Semester 2', 'S2', 2, '2014-01-07', '2014-06-05', '2014-06-04', '2014-06-05', NULL, NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (4, 2013, 'QTR', 1, 2, 'Quarter 1', 'Q1', 1, '2013-08-21', '2013-10-10', '2013-10-09', '2013-10-10', 'Y', NULL, 'Y', NULL);
-INSERT INTO school_marking_periods VALUES (5, 2013, 'QTR', 1, 2, 'Quarter 2', 'Q2', 2, '2013-10-11', '2014-01-06', '2014-01-05', '2014-01-06', 'Y', NULL, 'Y', NULL);
-INSERT INTO school_marking_periods VALUES (6, 2013, 'QTR', 1, 3, 'Quarter 3', 'Q3', 3, '2014-01-07', '2014-03-10', '2014-03-09', '2014-03-10', 'Y', NULL, 'Y', NULL);
-INSERT INTO school_marking_periods VALUES (7, 2013, 'QTR', 1, 3, 'Quarter 4', 'Q4', 4, '2014-03-11', '2014-06-05', '2014-06-06', '2014-06-05', 'Y', NULL, 'Y', NULL);
-INSERT INTO school_marking_periods VALUES (8, 2013, 'PRO', 1, 4, 'Midterm 1', 'M1', 1, '2013-08-21', '2013-09-21', '2013-09-20', '2013-09-21', 'Y', NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (9, 2013, 'PRO', 1, 5, 'Midterm 2', 'M2', 2, '2013-10-11', '2013-11-11', '2013-11-10', '2013-11-11', 'Y', NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (10, 2013, 'PRO', 1, 6, 'Midterm 3', 'M3', 3, '2014-01-07', '2014-02-07', '2014-02-06', '2014-02-07', 'Y', NULL, NULL, NULL);
-INSERT INTO school_marking_periods VALUES (11, 2013, 'PRO', 1, 7, 'Midterm 4', 'M4', 4, '2014-03-11', '2014-04-11', '2014-04-10', '2014-04-11', 'Y', NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (1, 2013, 'FY', 1, NULL, 'Full Year', 'FY', 1, '2013-08-21', '2014-06-05', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (2, 2013, 'SEM', 1, 1, 'Semester 1', 'S1', 1, '2013-08-21', '2014-01-06', '2014-01-05', '2014-01-06', NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (3, 2013, 'SEM', 1, 1, 'Semester 2', 'S2', 2, '2014-01-07', '2014-06-05', '2014-06-04', '2014-06-05', NULL, NULL, NULL);
+INSERT INTO school_marking_periods VALUES (4, 2013, 'QTR', 1, 2, 'Quarter 1', 'Q1', 1, '2013-08-21', '2013-10-10', '2013-10-09', '2013-10-10', 'Y', 'Y', NULL);
+INSERT INTO school_marking_periods VALUES (5, 2013, 'QTR', 1, 2, 'Quarter 2', 'Q2', 2, '2013-10-11', '2014-01-06', '2014-01-05', '2014-01-06', 'Y', 'Y', NULL);
+INSERT INTO school_marking_periods VALUES (6, 2013, 'QTR', 1, 3, 'Quarter 3', 'Q3', 3, '2014-01-07', '2014-03-10', '2014-03-09', '2014-03-10', 'Y', 'Y', NULL);
+INSERT INTO school_marking_periods VALUES (7, 2013, 'QTR', 1, 3, 'Quarter 4', 'Q4', 4, '2014-03-11', '2014-06-05', '2014-06-06', '2014-06-05', 'Y', 'Y', NULL);
+INSERT INTO school_marking_periods VALUES (8, 2013, 'PRO', 1, 4, 'Midterm 1', 'M1', 1, '2013-08-21', '2013-09-21', '2013-09-20', '2013-09-21', 'Y', NULL, NULL);
+INSERT INTO school_marking_periods VALUES (9, 2013, 'PRO', 1, 5, 'Midterm 2', 'M2', 2, '2013-10-11', '2013-11-11', '2013-11-10', '2013-11-11', 'Y', NULL, NULL);
+INSERT INTO school_marking_periods VALUES (10, 2013, 'PRO', 1, 6, 'Midterm 3', 'M3', 3, '2014-01-07', '2014-02-07', '2014-02-06', '2014-02-07', 'Y', NULL, NULL);
+INSERT INTO school_marking_periods VALUES (11, 2013, 'PRO', 1, 7, 'Midterm 4', 'M4', 4, '2014-03-11', '2014-04-11', '2014-04-10', '2014-04-11', 'Y', NULL, NULL);
 
 
 --
