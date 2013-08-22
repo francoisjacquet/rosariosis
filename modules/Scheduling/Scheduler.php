@@ -19,6 +19,9 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	ob_flush();
 	flush();
 	set_time_limit(0);
+	
+	//modif Francois: bugfix addHTML is not defined
+	echo '<script type="text/javascript" src="assets/js/warehouse.js"></script>';
 
 	// get the fy marking period id, there should be exactly one fy marking period
 	$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));

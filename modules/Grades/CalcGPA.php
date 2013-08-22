@@ -49,6 +49,8 @@ if($go)
 	unset($_REQUEST['delete_ok']);
 
 	//modif Francois: ending message
+	//modif Francois: bugfix addHTML is not defined
+	echo '<script type="text/javascript" src="assets/js/warehouse.js"></script>';
 	echo '<script type="text/javascript">addHTML("'.str_replace('"','\"','<IMG SRC="assets/check.png" class="alignImg" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),sprintf(_('GPA and class rank for %s has been calculated.'),GetMP($_REQUEST['marking_period_id'])))).'","statusDIV",true);';
 	echo '</script>';
 	ob_end_flush();
