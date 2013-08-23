@@ -20,9 +20,6 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	flush();
 	set_time_limit(0);
 	
-	//modif Francois: bugfix addHTML is not defined
-	echo '<script type="text/javascript" src="assets/js/warehouse.js"></script>';
-
 	// get the fy marking period id, there should be exactly one fy marking period
 	$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
@@ -129,7 +126,9 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 			echo '<script type="text/javascript">'."\r";
 			for($i=$last_percent+1;$i<=$percent;$i++)
 				echo 'cell'.$i.'.bgColor="'.Preferences('HIGHLIGHT').'";'."\r";
-			echo 'addHTML("'.str_replace('"','\"',str_replace(array("'",'"'),array('&#39;','&rdquo;'),sprintf(_('%d%% Done'),$percent))).'","percentDIV",true);'."\r";
+			//modif Francois: bugfix addHTML is not defined
+			//echo 'addHTML("'.str_replace('"','\"',str_replace(array("'",'"'),array('&#39;','&rdquo;'),sprintf(_('%d%% Done'),$percent))).'","percentDIV",true);'."\r";
+			echo 'document.getElementById("percentDIV").innerHTML = "'.str_replace('"','\"',str_replace(array("'",'"'),array('&#39;','&rdquo;'),sprintf(_('%d%% Done'),$percent))).'";'."\r";
 			echo '</script>';
 			ob_flush();
 			flush();
@@ -162,7 +161,9 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	if($_REQUEST['test_mode']!='Y')
 	{
 		echo '<script type="text/javascript">'."\r";
-		echo 'addHTML("'.str_replace('"','\"','<IMG SRC="assets/spinning.gif" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Saving Schedules ...')).' ').'","percentDIV",true);'."\r";
+		//modif Francois: bugfix addHTML is not defined
+		//echo 'addHTML("'.str_replace('"','\"','<IMG SRC="assets/spinning.gif" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Saving Schedules ...')).' ').'","percentDIV",true);'."\r";
+		echo 'document.getElementById("percentDIV").innerHTML = "'.str_replace('"','\"','<IMG SRC="assets/spinning.gif" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Saving Schedules ...')).' ').'";'."\r";
 		echo '</script>';
 		echo str_pad(' ',4096);
 		ob_flush();
@@ -217,7 +218,9 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	if($_REQUEST['test_mode']!='Y' || $_REQUEST['delete']=='Y')
 	{
 		echo '<script type="text/javascript">'."\r";
-		echo 'addHTML("'.str_replace('"','\"','<IMG SRC="assets/spinning.gif" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Optimizing ...')).' ').'","percentDIV",true);'."\r";
+		//modif Francois: bugfix addHTML is not defined
+		//echo 'addHTML("'.str_replace('"','\"','<IMG SRC="assets/spinning.gif" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Optimizing ...')).' ').'","percentDIV",true);'."\r";
+		echo 'document.getElementById("percentDIV").innerHTML = "'.str_replace('"','\"','<IMG SRC="assets/spinning.gif" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Optimizing ...')).' ').'";'."\r";
 		echo '</script>';
 		echo str_pad(' ',4096);
 		ob_flush();
@@ -229,7 +232,9 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 
 	echo '<script type="text/javascript">'."\r";
 //modif Francois: Moodle integrator
-	echo 'addHTML("'.str_replace('"','\"', str_replace(array("'",'"'),array('&#39;','&rdquo;'),$moodleError).'<IMG SRC="assets/check.png" class="alignImg" /> <B>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Done.')).'</B>').'","percentDIV",true);'."\r";
+	//modif Francois: bugfix addHTML is not defined
+	//echo 'addHTML("'.str_replace('"','\"', str_replace(array("'",'"'),array('&#39;','&rdquo;'),$moodleError).'<IMG SRC="assets/check.png" class="alignImg" /> <B>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Done.')).'</B>').'","percentDIV",true);'."\r";
+	echo 'document.getElementById("percentDIV").innerHTML = "'.str_replace('"','\"', str_replace(array("'",'"'),array('&#39;','&rdquo;'),$moodleError).'<IMG SRC="assets/check.png" class="alignImg" /> <B>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Done.')).'</B>').'",";'."\r";
 	echo '</script>';
 	ob_end_flush();
 
