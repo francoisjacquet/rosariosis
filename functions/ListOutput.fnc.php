@@ -514,7 +514,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			if($result_count!=0 && isset($link['add']['first']) && ($stop-$start+1)>=$link['add']['first'])
 			{
 				if($link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'" style="text-align:left;">'.button('add',$link['add']['title'],'"'.$link['add']['link'].'"').'</TD></TR>';
+					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'" style="text-align:left;">'.button('add',$link['add']['title'],$link['add']['link']).'</TD></TR>';
 				elseif($link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
 					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'" style="text-align:left;">'.button('add').$link['add']['span'].'</TD></TR>';
 				elseif($link['add']['html'] && $cols)
@@ -648,7 +648,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				//if($remove && !isset($_REQUEST['_ROSARIO_PDF']))
 				//	$cols++;
 				if(isset($link['add']['link']) && !isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'" style="text-align:left;">'.button('add',$link['add']['title'],'"'.$link['add']['link'].'"').'</TD></TR>';
+					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'" style="text-align:left;">'.button('add',$link['add']['title'],$link['add']['link']).'</TD></TR>';
 				elseif(isset($link['add']['span']) && !isset($_REQUEST['_ROSARIO_PDF']))
 					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'" style="text-align:left;">'.button('add').$link['add']['span'].'</TD></TR>';
 				elseif(isset($link['add']['html']) && $cols)
@@ -687,7 +687,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0"><TR><TD class="center">'.$options['header'].'</TD></TR><TR><TD style="padding: 8px;">';
 
 			if($link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
-				echo '<span class="center">' . button('add',$link['add']['title'],'"'.$link['add']['link'].'"') . '</span></TD></TR></TABLE>';
+				echo '<span class="center">' . button('add',$link['add']['title'],$link['add']['link']) . '</span></TD></TR></TABLE>';
 			elseif(($link['add']['html'] || $link['add']['span']) && count($column_names) && !isset($_REQUEST['_ROSARIO_PDF']))
 			{
 				//$color = $side_color;
