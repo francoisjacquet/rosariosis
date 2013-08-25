@@ -359,8 +359,11 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 				<input type="hidden" id="sYear" name="sYear" value="<?php echo UserSyear(); ?>" />
 				<input type="hidden" id="photoPath" name="photoPath" value="<?php echo $StudentPicturesPath; ?>" />
 				<input type="hidden" id="modname" name="modname" value="<?php echo $_REQUEST['modname']; ?>" />
-				<input type="hidden" id="Error1" name="Error1" value="<?php echo _('Error: File size > %01.2fMb: %01.2fMb'); ?>" />
-				<input type="hidden" id="Error3" name="Error2" value="<?php echo _('Error: Wrong file type: %s (JPG required)'); ?>" />
+				<input type="hidden" id="Error1" name="Error1" value="<?php echo _('Error').': '._('File not uploaded'); ?>" />
+				<input type="hidden" id="Error2" name="Error2" value="<?php echo _('Error').': '._('Wrong file type: %s (JPG required)'); ?>" />
+				<input type="hidden" id="Error3" name="Error3" value="<?php echo _('Error').': '._('File size > %01.2fMb: %01.2fMb'); ?>" />
+				<input type="hidden" id="Error4" name="Error4" value="<?php echo _('Error').': '._('Folder not created').': %s'; ?>" />
+				<input type="hidden" id="Error5" name="Error5" value="<?php echo _('Error').': '._('Folder not writable').': %s'; ?>" />
 				<BR /><span class="legend-gray"><?php echo _('Student Photo'); ?> (.jpg)</span>
 
 				<BR /><div style="float: right;"><input type="submit" value="<?php echo _('Submit'); ?>" style="margin-right:2px;" /></div>

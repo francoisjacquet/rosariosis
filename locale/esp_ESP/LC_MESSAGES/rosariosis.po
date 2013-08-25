@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-22 16:56-0500\n"
-"PO-Revision-Date: 2013-08-22 16:56-0500\n"
+"POT-Creation-Date: 2013-08-24 19:41-0500\n"
+"PO-Revision-Date: 2013-08-24 19:47-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -286,7 +286,7 @@ msgstr "Día"
 #: Side.php:243 modules/misc/Portal.php:90 modules/misc/Portal.php:178
 #: modules/Scheduling/Courses.php:188 modules/Scheduling/Courses.php:210
 #: modules/Scheduling/Courses.php:335 modules/Scheduling/PrintSchedules.php:22
-#: modules/Scheduling/Schedule.php:187
+#: modules/Scheduling/Schedule.php:189
 #: modules/Scheduling/ScheduleReport.php:127
 #: modules/School_Setup/Calendar.php:310 modules/Users/TeacherPrograms.php:80
 #: ProgramFunctions/StudentsUsersInfo.fnc.php:53
@@ -378,7 +378,7 @@ msgstr "comienza con"
 #: functions/DeletePrompt.fnc.php:18 functions/DeletePrompt.fnc.php:34
 #: modules/Attendance/FixDailyAttendance.php:6
 #: modules/Food_Service/includes/DeletePromptX.fnc.php:18
-#: modules/Grades/DeletePromptX.fnc.php:19 modules/Scheduling/Schedule.php:298
+#: modules/Grades/DeletePromptX.fnc.php:19 modules/Scheduling/Schedule.php:300
 #: modules/School_Setup/Rollover.php:39
 msgid "Confirm"
 msgstr "Confirmar"
@@ -402,7 +402,12 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: functions/ErrorMessage.fnc.php:33 functions/GetStuList.fnc.php:267
-#: modules/Scheduling/new_Requests.php:33 modules/Users/Exceptions.php:179
+#: modules/Scheduling/new_Requests.php:33 modules/Students/Student.php:362
+#: modules/Students/Student.php:363 modules/Students/Student.php:364
+#: modules/Students/Student.php:365 modules/Students/Student.php:366
+#: modules/Users/Exceptions.php:179 modules/Users/User.php:336
+#: modules/Users/User.php:337 modules/Users/User.php:338
+#: modules/Users/User.php:339 modules/Users/User.php:340
 msgid "Error"
 msgstr "Error"
 
@@ -419,7 +424,7 @@ msgstr "Nota"
 msgid "Errors"
 msgstr "Errores"
 
-#: functions/GetMP.fnc.php:18 modules/Scheduling/Schedule.php:347
+#: functions/GetMP.fnc.php:18 modules/Scheduling/Schedule.php:349
 msgid "Full Year"
 msgstr "Año Completo"
 
@@ -491,7 +496,7 @@ msgstr "Administrador"
 #: modules/Scheduling/PrintClassLists.php:100
 #: modules/Scheduling/PrintClassPictures.php:142
 #: modules/Scheduling/PrintSchedules.php:22
-#: modules/Scheduling/Requests.php:114 modules/Scheduling/Schedule.php:187
+#: modules/Scheduling/Requests.php:114 modules/Scheduling/Schedule.php:189
 #: modules/Scheduling/ScheduleReport.php:127
 #: modules/Scheduling/UnfilledRequests.php:39
 #: modules/School_Setup/Calendar.php:319 modules/Students/StudentLabels.php:76
@@ -1215,8 +1220,8 @@ msgstr "Cobros"
 #: modules/Scheduling/PrintSchedules.php:81
 #: modules/Scheduling/PrintSchedules.php:99
 #: modules/Scheduling/Requests.php:114 modules/Scheduling/RequestsReport.php:3
-#: modules/Scheduling/RequestsReport.php:6 modules/Scheduling/Schedule.php:187
-#: modules/Scheduling/Schedule.php:210
+#: modules/Scheduling/RequestsReport.php:6 modules/Scheduling/Schedule.php:189
+#: modules/Scheduling/Schedule.php:212
 #: modules/Scheduling/ScheduleReport.php:69
 #: modules/Scheduling/ScheduleReport.php:83
 #: modules/Scheduling/ScheduleReport.php:126 modules/Users/Preferences.php:302
@@ -1424,7 +1429,7 @@ msgstr "Cualquier Valor"
 
 #: functions/Widgets.fnc.php:614 functions/Widgets.fnc.php:620
 #: functions/Widgets.fnc.php:626 modules/Scheduling/AddDrop.php:27
-#: modules/Scheduling/Schedule.php:187 modules/Students/AddDrop.php:27
+#: modules/Scheduling/Schedule.php:189 modules/Students/AddDrop.php:27
 msgid "Enrolled"
 msgstr "Matriculado"
 
@@ -1526,7 +1531,7 @@ msgstr "La fecha seleccionada no es en un trimestre."
 #: modules/Scheduling/PrintSchedules.php:22
 #: modules/Scheduling/PrintSchedules.php:151
 #: modules/Scheduling/PrintSchedules.php:171
-#: modules/Scheduling/Requests.php:114 modules/Scheduling/Schedule.php:187
+#: modules/Scheduling/Requests.php:114 modules/Scheduling/Schedule.php:189
 #: modules/Scheduling/ScheduleReport.php:127
 #: modules/Scheduling/UnfilledRequests.php:39
 #: modules/School_Setup/Periods.php:63 modules/School_Setup/Periods.php:85
@@ -1703,7 +1708,7 @@ msgstr "Título"
 #: modules/Grades/ReportCardCommentCodes.php:111 modules/misc/Portal.php:90
 #: modules/misc/Portal.php:178 modules/Scheduling/Courses.php:535
 #: modules/Scheduling/Courses.php:788 modules/Scheduling/PrintSchedules.php:22
-#: modules/Scheduling/Schedule.php:187
+#: modules/Scheduling/Schedule.php:189
 #: modules/Scheduling/ScheduleReport.php:127
 #: modules/School_Setup/GradeLevels.php:65
 #: modules/School_Setup/MarkingPeriods.php:238
@@ -1821,7 +1826,7 @@ msgstr "Código del Estado"
 #: modules/Scheduling/new_Requests.php:49
 #: modules/Scheduling/new_Requests.php:54 modules/Scheduling/Requests.php:125
 #: modules/Scheduling/Requests.php:129 modules/Scheduling/Schedule.php:105
-#: modules/Scheduling/Schedule.php:212 modules/School_Setup/Calendar.php:170
+#: modules/Scheduling/Schedule.php:214 modules/School_Setup/Calendar.php:170
 #: modules/School_Setup/Calendar.php:323 modules/School_Setup/Calendar.php:451
 #: modules/School_Setup/Calendar.php:559
 #: modules/School_Setup/Configuration.php:59
@@ -2132,8 +2137,8 @@ msgstr "Buscar en Todas las Instituciones"
 #: modules/Reports/Students.php:177 modules/Scheduling/PrintClassLists.php:127
 #: modules/Scheduling/PrintClassPictures.php:169
 #: modules/Students/Search.inc.php:60 modules/Students/Search.inc.php:114
-#: modules/Students/Student.php:366 modules/Users/Search.inc.php:68
-#: modules/Users/User.php:340 ProgramFunctions/PortalPolls.fnc.php:119
+#: modules/Students/Student.php:369 modules/Users/Search.inc.php:68
+#: modules/Users/User.php:343 ProgramFunctions/PortalPolls.fnc.php:119
 msgid "Submit"
 msgstr "Enviar"
 
@@ -4250,11 +4255,11 @@ msgstr ""
 "letra (ver la Escala de Calificaciones) por la escala base de calificaciones "
 "especificada en la configuración de la escuela."
 
-#: modules/Grades/CalcGPA.php:32 modules/Grades/CalcGPA.php:55
+#: modules/Grades/CalcGPA.php:32 modules/Grades/CalcGPA.php:57
 msgid "GPA Calculation"
 msgstr "Cálculo del Promedio"
 
-#: modules/Grades/CalcGPA.php:32 modules/Grades/CalcGPA.php:55
+#: modules/Grades/CalcGPA.php:32 modules/Grades/CalcGPA.php:57
 msgid "Calculate GPA and Class Rank"
 msgstr "Calcular Promedio y Puesto en la Clase"
 
@@ -4266,7 +4271,7 @@ msgstr "Calculando Promedio y Puesto en la Clase"
 msgid "Calculating ..."
 msgstr "Calculando ..."
 
-#: modules/Grades/CalcGPA.php:52
+#: modules/Grades/CalcGPA.php:54
 #, php-format
 msgid "GPA and class rank for %s has been calculated."
 msgstr "Promedio y puesto en la clase para %s ha sido calculado."
@@ -5026,7 +5031,7 @@ msgid "Other Options"
 msgstr "Otras Opciones"
 
 # 'user_profiles' table
-#: modules/Grades/Transcripts.php:318 modules/Students/Student.php:364
+#: modules/Grades/Transcripts.php:318 modules/Students/Student.php:367
 #: modules/Students/includes/General_Info.inc.php:51
 msgid "Student Photo"
 msgstr "Foto del Estudiante"
@@ -5110,7 +5115,7 @@ msgstr "Código Postal"
 #: modules/Scheduling/MasterScheduleReport.php:5
 #: modules/Scheduling/PrintSchedules.php:22
 #: modules/Scheduling/PrintSchedules.php:271
-#: modules/Scheduling/Schedule.php:187 modules/Students/StudentLabels.php:78
+#: modules/Scheduling/Schedule.php:189 modules/Students/StudentLabels.php:78
 #: modules/Students/StudentLabels.php:146
 #: modules/Students/StudentLabels.php:157
 #: modules/Users/includes/Schedule.inc.php:12
@@ -5354,7 +5359,7 @@ msgstr "Encontrar un Estudiante"
 msgid "Search Criteria"
 msgstr "Criterio de Búsqueda"
 
-#: modules/Scheduling/AddDrop.php:27 modules/Scheduling/Schedule.php:187
+#: modules/Scheduling/AddDrop.php:27 modules/Scheduling/Schedule.php:189
 #: modules/Students/AddDrop.php:27
 #: modules/Students/includes/Enrollment.inc.php:50
 msgid "Dropped"
@@ -5685,7 +5690,7 @@ msgid "Priority"
 msgstr "Prioridad"
 
 #: modules/Scheduling/PrintSchedules.php:22
-#: modules/Scheduling/Schedule.php:187
+#: modules/Scheduling/Schedule.php:189
 msgid "Term"
 msgstr "Período"
 
@@ -5738,31 +5743,31 @@ msgstr "Mostrar Cupos Disponibles"
 msgid "Print Schedule"
 msgstr "Imprimir Horario"
 
-#: modules/Scheduling/Schedule.php:185
+#: modules/Scheduling/Schedule.php:187
 msgid "Add a Course"
 msgstr "Agregar un Curso"
 
-#: modules/Scheduling/Schedule.php:259
+#: modules/Scheduling/Schedule.php:261
 msgid "This section is already full."
 msgstr "Este seccion ya esta llena."
 
-#: modules/Scheduling/Schedule.php:266
+#: modules/Scheduling/Schedule.php:268
 msgid "This student is already scheduled into this course."
 msgstr "Ese estudiante ya esta programado en este curso."
 
-#: modules/Scheduling/Schedule.php:289
+#: modules/Scheduling/Schedule.php:291
 msgid "There is already a course scheduled in that period."
 msgstr "Ya existe un curso programado para este período."
 
-#: modules/Scheduling/Schedule.php:298
+#: modules/Scheduling/Schedule.php:300
 msgid "There is a conflict."
 msgstr "Hay un conflicto."
 
-#: modules/Scheduling/Schedule.php:298
+#: modules/Scheduling/Schedule.php:300
 msgid "Are you sure you want to add this section?"
 msgstr "¿Está seguro que quiere agregar esta sección?"
 
-#: modules/Scheduling/Schedule.php:333 modules/Scheduling/Schedule.php:372
+#: modules/Scheduling/Schedule.php:335 modules/Scheduling/Schedule.php:374
 #, php-format
 msgid "(%d seats)"
 msgstr "(%d asientos)"
@@ -5787,20 +5792,20 @@ msgstr "Progreso del Programador"
 msgid "Processing Requests ..."
 msgstr "Procesando Solicitudes ..."
 
-#: modules/Scheduling/Scheduler.php:129
+#: modules/Scheduling/Scheduler.php:131
 #, php-format
 msgid "%d%% Done"
 msgstr "%d%% Echo"
 
-#: modules/Scheduling/Scheduler.php:162
+#: modules/Scheduling/Scheduler.php:166
 msgid "Saving Schedules ..."
 msgstr "Guardando Horarios..."
 
-#: modules/Scheduling/Scheduler.php:217
+#: modules/Scheduling/Scheduler.php:223
 msgid "Optimizing ..."
 msgstr "Optimizando ..."
 
-#: modules/Scheduling/Scheduler.php:229
+#: modules/Scheduling/Scheduler.php:237
 msgid "Done."
 msgstr "Hecho."
 
@@ -6382,13 +6387,28 @@ msgstr ""
 msgid "Number of Days for the Rotation"
 msgstr "Número de Días para la Rotación"
 
-#: modules/School_Setup/includes/PortalNotesFiles.inc.php:23
+#: modules/School_Setup/includes/PortalNotesFiles.inc.php:6
+#: modules/Students/Student.php:362 modules/Users/User.php:336
+msgid "File not uploaded"
+msgstr "Archivo no subido"
+
+#: modules/School_Setup/includes/PortalNotesFiles.inc.php:14
+msgid "Unauthorized file attached extension"
+msgstr "Extensión del archivo adjunto no autorizada"
+
+#: modules/School_Setup/includes/PortalNotesFiles.inc.php:20
 msgid "File attached size"
 msgstr "Tamaño del archivo adjunto"
 
-#: modules/School_Setup/includes/PortalNotesFiles.inc.php:24
-msgid "Unauthorized file attached extension"
-msgstr "Extensión del archivo adjunto no autorizada"
+#: modules/School_Setup/includes/PortalNotesFiles.inc.php:28
+#: modules/Students/Student.php:365 modules/Users/User.php:339
+msgid "Folder not created"
+msgstr "Carpeta no creada"
+
+#: modules/School_Setup/includes/PortalNotesFiles.inc.php:33
+#: modules/Students/Student.php:366 modules/Users/User.php:340
+msgid "Folder not writable"
+msgstr "Carpeta no grabable"
 
 #: modules/Students/AddDrop.php:28
 #: modules/Students/includes/Enrollment.inc.php:73
@@ -6823,15 +6843,15 @@ msgstr "Médico"
 msgid "Create Student in Moodle"
 msgstr "Crear el Estudiante en Moodle"
 
-#: modules/Students/Student.php:362 modules/Users/User.php:336
-#, php-format
-msgid "Error: File size > %01.2fMb: %01.2fMb"
-msgstr "Error: Tamaño del archivo > %01.2fMb: %01.2fMb"
-
 #: modules/Students/Student.php:363 modules/Users/User.php:337
 #, php-format
-msgid "Error: Wrong file type: %s (JPG required)"
-msgstr "Error: Typo de archivo erróneo: %s (JPG necesario)"
+msgid "Wrong file type: %s (JPG required)"
+msgstr "Typo de archivo erróneo: %s (JPG necesario)"
+
+#: modules/Students/Student.php:364 modules/Users/User.php:338
+#, php-format
+msgid "File size > %01.2fMb: %01.2fMb"
+msgstr "Tamaño del archivo > %01.2fMb: %01.2fMb"
 
 #: modules/Students/StudentFields.php:125
 #: modules/Students/StudentFields.php:327
@@ -7461,7 +7481,7 @@ msgstr "Srta."
 msgid "Dr"
 msgstr "Dr."
 
-#: modules/Users/User.php:338 modules/Users/includes/General_Info.inc.php:51
+#: modules/Users/User.php:341 modules/Users/includes/General_Info.inc.php:51
 msgid "User Photo"
 msgstr "Foto del Usuario"
 
