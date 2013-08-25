@@ -105,7 +105,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				if ($columns['FILE_OR_EMBED'] == 'FILE')
 					$columns['FILE_ATTACHED'] = PortalNotesFiles($_FILES['FILE_ATTACHED_FILE'], $PortalNotesFilesError);
 				elseif ($columns['FILE_OR_EMBED'] == 'EMBED')
-					if (parse_url($columns['FILE_ATTACHED_EMBED']) !== false)
+					if (mb_strpos($columns['FILE_ATTACHED_EMBED'], 'http://') !== false)
 						$columns['FILE_ATTACHED'] = $columns['FILE_ATTACHED_EMBED'];
 						
 				unset($columns['FILE_ATTACHED_EMBED'], $columns['FILE_OR_EMBED']);
@@ -184,7 +184,7 @@ if($_REQUEST['modfunc']!='remove')
 	if (!empty($PortalNotesFilesError)) echo ErrorMessage(array($PortalNotesFilesError));
 	ListOutput($notes_RET,$columns,'Note','Notes',$link);
 
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
 }
 
@@ -282,7 +282,7 @@ function _makeFileAttached($value,$name)
 					}
 				}
 			}
-			elseif (parse_url($value) !== false) //embed link
+			elseif (mb_strpos($value, 'http://') !== false) //embed link
 			{
 				$return = '<a href="'.$value.'" title="'.$value.'" class="colorboxiframe"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a>';
 				$loadColorBox = true;
