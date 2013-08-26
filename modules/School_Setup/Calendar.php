@@ -314,7 +314,8 @@ if($_REQUEST['modfunc']=='detail')
 				echo '<TR><TD>'._('Publish Event in Moodle?').'</TD><TD><label><INPUT type="checkbox" name="MOODLE_PUBLISH_EVENT" value="Y" checked> '._('Yes').'</label></TD></TR>';
 		}
 		
-		echo '<TR><TD>'._('Title').'</TD><TD>'.TextInput($RET[1]['TITLE'],'values[TITLE]', '', 'required').'</TD></TR>';
+		//modif Francois: bugfix SQL bug value too long for type character varying(50)
+		echo '<TR><TD>'._('Title').'</TD><TD>'.TextInput($RET[1]['TITLE'],'values[TITLE]', '', 'required maxlength="50"').'</TD></TR>';
 		if($RET[1]['STAFF_ID'])
 			echo '<TR><TD>'._('Teacher').'</TD><TD>'.TextAreaInput($RET[1]['STAFF_ID'],'values[STAFF_ID]').'</TD></TR>';
 		echo '<TR><TD>'._('Notes').'</TD><TD>'.TextAreaInput($RET[1]['DESCRIPTION'],'values[DESCRIPTION]').'</TD></TR>';
