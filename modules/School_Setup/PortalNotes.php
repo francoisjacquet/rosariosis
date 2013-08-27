@@ -105,7 +105,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				if ($columns['FILE_OR_EMBED'] == 'FILE')
 					$columns['FILE_ATTACHED'] = PortalNotesFiles($_FILES['FILE_ATTACHED_FILE'], $PortalNotesFilesError);
 				elseif ($columns['FILE_OR_EMBED'] == 'EMBED')
-					if (mb_strpos($columns['FILE_ATTACHED_EMBED'], 'http://') !== false)
+					if (in_array( mb_strtolower(mb_substr($columns['FILE_ATTACHED_EMBED'], 0, 7)), array('http://', 'https:/') ))
 						$columns['FILE_ATTACHED'] = $columns['FILE_ATTACHED_EMBED'];
 						
 				unset($columns['FILE_ATTACHED_EMBED'], $columns['FILE_OR_EMBED']);
@@ -282,7 +282,7 @@ function _makeFileAttached($value,$name)
 					}
 				}
 			}
-			elseif (mb_strpos($value, 'http://') !== false) //embed link
+			elseif (in_array( mb_strtolower(mb_substr($value, 0, 7)), array('http://', 'https:/') )) //embed link
 			{
 				$return = '<a href="'.$value.'" title="'.$value.'" class="colorboxiframe"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a>';
 				$loadColorBox = true;
