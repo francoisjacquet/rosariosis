@@ -1,5 +1,20 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.3.2
+----------------
+- Moodle create user: remove lang
+- User & student password:
+	- Moodle password check fix
+	- password saving fix
+- translations: update .po project name & plural form syntax
+- remove Semester / Full Year exam
+- bugfix: addHTML is not defined
+- bugfix: SQL bug $_SESSION['student_id'] is not set in Schedule.php
+- embed link detection change in PortalNotes.php
+- file upload rework
+- bugix: SQL bug Event TITLE too long in Calendar.php
+
+
 Changes in 1.3.1
 ----------------
 - bugfix: comma escape in SelecInput function
