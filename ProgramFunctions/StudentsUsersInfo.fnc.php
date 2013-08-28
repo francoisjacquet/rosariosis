@@ -20,7 +20,8 @@ function _makeTextInput($column,$name,$size,$request)
 
 //modif Francois: text field is required
 	//return TextInput($value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$size,$div);
-	return TextInput($value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$size.($field['REQUIRED']=='Y' ? ' required': ''),$div);
+//modif Francois: text field maxlength=255
+	return TextInput($value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$size.' maxlength=255'.($field['REQUIRED']=='Y' ? ' required': ''),$div);
 }
 
 function _makeDateInput($column,$name,$request)
@@ -190,7 +191,8 @@ function _makeTextareaInput($column,$name,$request)
 		$div = true;
 
 //modif Francois: text area is required
-	return TextAreaInput($value[$column],$request.'['.$column.']',$name,($field['REQUIRED']=='Y' ? 'required': ''),$div);
+//modif Francois: textarea field maxlength=5000
+	return TextAreaInput($value[$column],$request.'['.$column.']',$name,'maxlength=5000'.($field['REQUIRED']=='Y' ? ' required': ''),$div);
 }
 
 function _makeMultipleInput($column,$name,$request)
