@@ -38,7 +38,9 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 	unset($_REQUEST['attendance']);
 }
 
-if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || UserStudentID() || User('PROFILE')=='parent' || User('PROFILE')=='student')
+//modif Francois: bugfix bug when Back to Student Search
+//if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || UserStudentID() || User('PROFILE')=='parent' || User('PROFILE')=='student')
+if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	$period_select = '<SELECT name="period_id" onchange="this.form.submit();"><OPTION value=""'.(empty($_REQUEST['period_id'])?' SELECTED="SELECTED"':'').'>'._('Daily').'</OPTION>';
@@ -75,7 +77,9 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || UserStudentID() || 
 
 $cal_RET = DBGet(DBQuery("SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' ORDER BY SCHOOL_DATE"));
 
-if(UserStudentID() || $_REQUEST['student_id'] || User('PROFILE')=='parent')
+//modif Francois: bugfix bug when Back to Student Search
+//if(UserStudentID() || $_REQUEST['student_id'] || User('PROFILE')=='parent')
+if($_REQUEST['student_id'] || User('PROFILE')=='parent')
 {
 	// JUST TO SET USERSTUDENTID()
 	Search('student_id');
@@ -157,7 +161,7 @@ else
 	}
 	else
 	{
-		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||to_char(ap.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm WHERE ap.STUDENT_ID=ssm.STUDENT_ID AND ap.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' AND ap.PERIOD_ID='$_REQUEST[period_id]' AND ap.STUDENT_ID=";
+		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||to_char(ap.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm WHERE ap.STUDENT_ID=ssm.STUDENT_ID AND ap.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' AND ap.STUDENT_ID=";
 	}
 
 	if(count($cal_RET))
@@ -169,7 +173,7 @@ else
 			$extra['functions']['_'.str_replace('-','',$value['SCHOOL_DATE'])] = '_makeColor';
 		}
 	}
-	$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&period_id='.$_REQUEST['period_id'];
+	$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&period_id='.$_REQUEST['period_id'];
 	$extra['link']['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
 
 	Widgets('course');
