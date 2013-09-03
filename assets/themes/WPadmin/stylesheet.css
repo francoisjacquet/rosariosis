@@ -502,3 +502,21 @@ span.center {
 td.BottomButton {
 	vertical-align:middle
 }
+td.BottomButtonMenu {
+	display: none;
+}
+
+/* mobile */
+@media only screen and (max-width: 767px) {
+
+	#modulesBody {
+		padding: 0 2px;
+	}
+	td.BottomButtonMenu {
+		display: inline;
+	}
+	td.BottomButton {
+		display: none;
+	}
+
+}

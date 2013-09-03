@@ -37,15 +37,21 @@ else
 <HEAD><TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
 <meta charset="UTF-8" />
 <script type="text/javascript">
-size = 30;
-function expandFrame(){
-	if(size==30){
-		parent.document.getElementById('mainframeset').rows="*,170";
-		size = 170;
-	}else{
-		parent.document.getElementById('mainframeset').rows="*,30";
-		size = 30;
-	}
+function expandFrameHelp(){
+	sizeHelp = parent.document.getElementById('mainframeset').rows;
+	if(sizeHelp.indexOf('30')!=-1)
+		sizeHelp = "*,170";
+	else
+		sizeHelp = "*,30";
+	parent.document.getElementById('mainframeset').rows = sizeHelp;
+}
+function expandFrameMenu(){
+	sizeMenu = parent.document.getElementById('mainframeset').firstElementChild.cols;
+	if(sizeMenu.indexOf('205')!=-1)
+		sizeMenu = "0,*";
+	else
+		sizeMenu = "205,*";
+	parent.document.getElementById('mainframeset').firstElementChild.cols = sizeMenu;
 }
 </SCRIPT>
 <link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css">
@@ -61,7 +67,7 @@ function expandFrame(){
             case 'course': $back_text = _('Back to Course List'); break;
             default: $back_text = sprintf(_('Back to %s List'),$_SESSION['Back_PHP_SELF']);
         }
-		echo '<TD style="width:24px;"><A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" target="body"><IMG SRC="assets/back.png" height="24"></A></TD><TD class="BottomButton"><A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" target="body">'.$back_text.'</A></TD>';
+		echo '<TD style="width:24px;"><A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'"><IMG SRC="assets/back.png" height="24"></A></TD><TD class="BottomButton"><A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" target="body">'.$back_text.'</A></TD>';
     }
 	if($_SESSION['Search_PHP_SELF'] && (User('PROFILE')=='admin' || User('PROFILE')=='teacher')) {
         switch ($_SESSION['Back_PHP_SELF']) {
@@ -70,11 +76,12 @@ function expandFrame(){
             case 'course': $back_text = _('Back to Course Search'); break;
             default: $back_text = sprintf(_('Back to %s Search'),$_SESSION['Back_PHP_SELF']);
         }
-		echo '<TD style="width:24px;"><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body"><IMG SRC="assets/back.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body">'.$back_text.'</A></TD>';
+		echo '<TD style="width:24px;"><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'"><IMG SRC="assets/back.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body">'.$back_text.'</A></TD>';
 	}
-    echo '<TD><A HREF="Bottom.php?modfunc=print" target="body"><IMG SRC="assets/print.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="Bottom.php?modfunc=print" target="body">'._('Print').'</A></TD>';
-    echo '<TD><A HREF="#" onclick="expandFrame();return false;"><IMG SRC="assets/help.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="#" onclick="expandFrame();return false;">'._('Help').'</A></TD>';
-    echo '<TD><A HREF="index.php?modfunc=logout" target="_top"><IMG SRC="assets/logout.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="index.php?modfunc=logout" target="_top">'._('Logout').'</A></TD></TR></TABLE>';
+    echo '<TD class="BottomButtonMenu"><A HREF="#" onclick="expandFrameMenu();return false;" title="'._('Show / Hide Menu').'"><IMG SRC="assets/house_button.png" height="24" /></A></TD><TD class="BottomButton BottomButtonMenu"><A HREF="#" onclick="expandFrameMenu();return false;">'._('Show / Hide Menu').'</A></TD>';
+    echo '<TD><A HREF="Bottom.php?modfunc=print" target="body" title="'._('Print').'"><IMG SRC="assets/print.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="Bottom.php?modfunc=print" target="body">'._('Print').'</A></TD>';
+    echo '<TD><A HREF="#" onclick="expandFrameHelp();return false;" title="'._('Help').'"><IMG SRC="assets/help.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="#" onclick="expandFrameHelp();return false;">'._('Help').'</A></TD>';
+    echo '<TD><A HREF="index.php?modfunc=logout" target="_top" title="'._('Logout').'"><IMG SRC="assets/logout.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="index.php?modfunc=logout" target="_top">'._('Logout').'</A></TD></TR></TABLE>';
 
 	if (file_exists('Help_'.mb_substr($locale, 0, 2).'.php')) //modif Francois: translated help
 		include 'Help_'.mb_substr($locale, 0, 2).'.php';
