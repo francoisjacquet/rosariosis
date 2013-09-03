@@ -36,7 +36,7 @@ function GetStuList(&$extra=array())
 		if(!count($view_fields_RET) && !isset($view_address_RET) && !isset($view_other_RET['CONTACT_INFO']))
 		{
 //modif Francois: add translation 
-			$extra['columns_after'] = array('CONTACT_INFO'=>'<IMG SRC="assets/down_phone_button.png" width="24">','CUSTOM_200000000'=>_('Gender'),'CUSTOM_200000001'=>_('Ethnicity'),'ADDRESS'=>_('Mailing Address'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode')) + $extra['columns_after'];
+			$extra['columns_after'] = array('CONTACT_INFO'=>'<IMG SRC="assets/down_phone_button.png" height="24">','CUSTOM_200000000'=>_('Gender'),'CUSTOM_200000001'=>_('Ethnicity'),'ADDRESS'=>_('Mailing Address'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode')) + $extra['columns_after'];
 			$select = ',ssm.STUDENT_ID AS CONTACT_INFO,s.CUSTOM_200000000,s.CUSTOM_200000001,coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE ';
 			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam.RESIDENCE='Y') LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) ".$extra['FROM'];
 			$functions['CONTACT_INFO'] = 'makeContactInfo';
@@ -75,7 +75,7 @@ function GetStuList(&$extra=array())
 			if($view_other_RET['CONTACT_INFO'][1]['VALUE']=='Y' && !isset($_REQUEST['_ROSARIO_PDF']))
 			{
 				$select .= ',ssm.STUDENT_ID AS CONTACT_INFO ';
-				$extra['columns_after']['CONTACT_INFO'] = '<IMG SRC="assets/down_phone_button.png" width="24">';
+				$extra['columns_after']['CONTACT_INFO'] = '<IMG SRC="assets/down_phone_button.png" height="24">';
 				$functions['CONTACT_INFO'] = 'makeContactInfo';
 
 				$extra2 = $extra;

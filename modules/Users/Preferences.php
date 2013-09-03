@@ -270,7 +270,7 @@ if(empty($_REQUEST['modfunc']))
                 $field['TITLE']    = ParseMLField($field['TITLE']); 
             }
 		$THIS_RET['ID'] = 'CONTACT_INFO';
-		$custom_fields_RET[-1][1] = array('CATEGORY'=>'<B>'._('Contact Information').'</B>','ID'=>'CONTACT_INFO','TITLE'=>'<IMG SRC="assets/down_phone_button.png" width="24"> '._('Contact Information'),'DISPLAY'=>_make('','DISPLAY'));
+		$custom_fields_RET[-1][1] = array('CATEGORY'=>'<B>'._('Contact Information').'</B>','ID'=>'CONTACT_INFO','TITLE'=>'<IMG SRC="assets/down_phone_button.png" height="24"> '._('Contact Information'),'DISPLAY'=>_make('','DISPLAY'));
 		$THIS_RET['ID'] = 'HOME_PHONE';
 		$custom_fields_RET[-1][] = array('CATEGORY'=>'<B>'._('Contact Information').'</B>','ID'=>'HOME_PHONE','TITLE'=>_('Home Phone Number'),'DISPLAY'=>_make('','DISPLAY'));
 		$THIS_RET['ID'] = 'GUARDIANS';

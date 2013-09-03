@@ -476,18 +476,18 @@ if(empty($_REQUEST['modfunc']))
 						{
 							$ximages = '';
 							if($xstudent['CUSTODY']=='Y')
-								$ximages .= ' <IMG SRC="assets/gavel_button.png" width="24">';
+								$ximages .= ' <IMG SRC="assets/gavel_button.png" height="24">';
 							if($xstudent['EMERGENCY']=='Y')
-								$ximages .= ' <IMG SRC="assets/emergency_button.png" width="24">';
+								$ximages .= ' <IMG SRC="assets/emergency_button.png" height="24">';
 							$warning .= '<b>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$xstudent['FULL_NAME']).'</b> ('.($xstudent['STUDENT_RELATION']?str_replace(array("'",'"'),array('&#39;','&rdquo;'),$xstudent['STUDENT_RELATION']):'---').')'.$ximages.'<BR />';
 						}
 						$images .= ' '.button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',$warning).'"],tipmessageStyle);\' onMouseOut=\'htm()\'');
 					}
 
 					if($contact['CUSTODY']=='Y')
-						$images .= ' <IMG SRC="assets/gavel_button.png" width="24">';
+						$images .= ' <IMG SRC="assets/gavel_button.png" height="24">';
 					if($contact['EMERGENCY']=='Y')
-						$images .= ' <IMG SRC="assets/emergency_button.png" width="24">';
+						$images .= ' <IMG SRC="assets/emergency_button.png" height="24">';
 
 					echo '<A href="#"><TABLE class="cellspacing-0"><TR><TD>'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<BR /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></TD><TD>'.$images.'</TD></TR></TABLE></A>';
 					echo '</TD>';
@@ -568,13 +568,13 @@ if(empty($_REQUEST['modfunc']))
 			}
 
 //modif Francois: css WPadmin
-			echo '<br /><TABLE class="widefat cellspacing-0"><TR><TD>'.CheckboxInput($this_address['RESIDENCE'],'values[STUDENTS_JOIN_ADDRESS][RESIDENCE]','','CHECKED',$new,'<IMG SRC="assets/check.png" width="15">','<IMG SRC="assets/x.png" width="15">').'</TD><TD><IMG SRC="assets/house_button.png" height="24"></TD><TD>'._('Residence').'</TD></TR>';
-			echo '<TR><TD>'.CheckboxInput($this_address['BUS_PICKUP'],'values[STUDENTS_JOIN_ADDRESS][BUS_PICKUP]','','CHECKED',$new,'<IMG SRC="assets/check.png" width=15">','<IMG SRC="assets/x.png" width="15">').'</TD><TD><IMG SRC="assets/bus_button.png" height="24"></TD><TD>'._('Bus Pickup').'</TD></TR>';
-			echo '<TR><TD>'.CheckboxInput($this_address['BUS_DROPOFF'],'values[STUDENTS_JOIN_ADDRESS][BUS_DROPOFF]','','CHECKED',$new,'<IMG SRC="assets/check.png" width="15">','<IMG SRC="assets/x.png" width="15">').'</TD><TD><IMG SRC="assets/bus_button.png" height="24"></TD><TD>'._('Bus Dropoff').'</TD></TR>';
+			echo '<br /><TABLE class="widefat cellspacing-0"><TR><TD>'.CheckboxInput($this_address['RESIDENCE'],'values[STUDENTS_JOIN_ADDRESS][RESIDENCE]','','CHECKED',$new,'<IMG SRC="assets/check.png" height="15" />','<IMG SRC="assets/x.png" height="15" />').'</TD><TD><IMG SRC="assets/house_button.png" height="24" /></TD><TD>'._('Residence').'</TD></TR>';
+			echo '<TR><TD>'.CheckboxInput($this_address['BUS_PICKUP'],'values[STUDENTS_JOIN_ADDRESS][BUS_PICKUP]','','CHECKED',$new,'<IMG SRC="assets/check.png" height="15" />','<IMG SRC="assets/x.png" height="15" />').'</TD><TD><IMG SRC="assets/bus_button.png" height="24" /></TD><TD>'._('Bus Pickup').'</TD></TR>';
+			echo '<TR><TD>'.CheckboxInput($this_address['BUS_DROPOFF'],'values[STUDENTS_JOIN_ADDRESS][BUS_DROPOFF]','','CHECKED',$new,'<IMG SRC="assets/check.png" height="15">','<IMG SRC="assets/x.png" height="15" />').'</TD><TD><IMG SRC="assets/bus_button.png" height="24" /></TD><TD>'._('Bus Dropoff').'</TD></TR>';
 			if(Config('STUDENTS_USE_MAILING') || $this_address['MAIL_CITY'] || $this_address['MAIL_STATE'] || $this_address['MAIL_ZIPCODE'])
 			{
 				echo '<script type="text/javascript"> function show_mailing(checkbox){if(checkbox.checked==true) document.getElementById(\'mailing_address_div\').style.visibility=\'visible\'; else document.getElementById(\'mailing_address_div\').style.visibility=\'hidden\';}</script>';
-				echo '<TR><TD>'.CheckboxInput($this_address['MAILING'],'values[STUDENTS_JOIN_ADDRESS][MAILING]','','CHECKED',$new,'<IMG SRC="assets/check.png" width="15">','<IMG SRC="assets/x.png" width="15">',true,'onclick=show_mailing(this);').'</TD><TD><IMG SRC="assets/mailbox_button.png" height="24"></TD><TD>'._('Mailing Address').'</TD></TR></TABLE>';
+				echo '<TR><TD>'.CheckboxInput($this_address['MAILING'],'values[STUDENTS_JOIN_ADDRESS][MAILING]','','CHECKED',$new,'<IMG SRC="assets/check.png" height="15" />','<IMG SRC="assets/x.png" height="15" />',true,'onclick=show_mailing(this);').'</TD><TD><IMG SRC="assets/mailbox_button.png" height="24" /></TD><TD>'._('Mailing Address').'</TD></TR></TABLE>';
 
 				echo '<DIV id="mailing_address_div" style="visibility: '.(($this_address['MAILING']||$_REQUEST['address_id']=='new')?'visible':'hidden').';">';
 				echo '<br /><TABLE class="widefat cellspacing-0"><TR><TH colspan="3">'._('Mailing Address').'&nbsp;('._('If different than above').')';
@@ -587,7 +587,7 @@ if(empty($_REQUEST['modfunc']))
 				echo '</DIV>';
 			}
 			else
-				echo '<TR><TD>'.CheckboxInput($this_address['MAILING'],'values[STUDENTS_JOIN_ADDRESS][MAILING]','','CHECKED',$new,'<IMG SRC="assets/check.png" width="15">','<IMG SRC=assets/x.png width=15>').'</TD><TD><IMG SRC="assets/mailbox_button.png" height="24"></TD><TD>'._('Mailing Address').'</TD></TR></TABLE>';
+				echo '<TR><TD>'.CheckboxInput($this_address['MAILING'],'values[STUDENTS_JOIN_ADDRESS][MAILING]','','CHECKED',$new,'<IMG SRC="assets/check.png" height="15" />','<IMG SRC="assets/x.png" height="15" />').'</TD><TD><IMG SRC="assets/mailbox_button.png" height="24"></TD><TD>'._('Mailing Address').'</TD></TR></TABLE>';
 		}
 
 		if($_REQUEST['address_id']=='old')
@@ -622,8 +622,8 @@ if(empty($_REQUEST['modfunc']))
 					echo '","person_'.$this_contact['PERSON_ID'].'",true);\'><span class="underline-dots">'.$this_contact['FIRST_NAME'].' '.$this_contact['MIDDLE_NAME'].' '.$this_contact['LAST_NAME'].'</span><BR /><span class="legend-gray">'._('Name').'</span></div></DIV></TD></TR>';
 					echo '<TR><TD>'._makeAutoSelectInputX($this_contact['STUDENT_RELATION'],'STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',_('Relation'),$relation_options).'</TD>';
 					//echo '<TR><TD><TABLE><TR><TD><IMG SRC=assets/gavel_button.gif></TD><TD>'.CheckboxInput($this_contact['CUSTODY'],'values[STUDENTS_JOIN_PEOPLE][CUSTODY]','Custody','','','<IMG SRC=assets/check.png width=15>','<IMG SRC=assets/x.png width=15>').'</TD><TD><IMG SRC=assets/emergency_button.gif></TD><TD>'.CheckboxInput($this_contact['EMERGENCY'],'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]','Emergency','',false,'<IMG SRC=assets/check.png width=15>','<IMG SRC=assets/x.png width=15>').'</TD></TR></TABLE></TD></TR>';
-					echo '<TR><TD><TABLE class="cellspacing-0"><TR><TD>'.CheckboxInput($this_contact['CUSTODY'],'values[STUDENTS_JOIN_PEOPLE][CUSTODY]','','CHECKED',$new,'<IMG SRC="assets/check.png" width="15">','<IMG SRC="assets/x.png" width="15">').'</TD><TD><IMG SRC="assets/gavel_button.png" width="24"></TD><TD>'._('Custody').'</TD></TR>';
-					echo '<TR><TD>'.CheckboxInput($this_contact['EMERGENCY'],'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]','','CHECKED',$new,'<IMG SRC="assets/check.png" width="15">','<IMG SRC="assets/x.png" width="15">').'</TD><TD><IMG SRC="assets/emergency_button.png" width="24"></TD><TD>'._('Emergency').'</TD></TR></TABLE></TD></TR>';
+					echo '<TR><TD><TABLE class="cellspacing-0"><TR><TD>'.CheckboxInput($this_contact['CUSTODY'],'values[STUDENTS_JOIN_PEOPLE][CUSTODY]','','CHECKED',$new,'<IMG SRC="assets/check.png" height="15" />','<IMG SRC="assets/x.png" height="15" />').'</TD><TD><IMG SRC="assets/gavel_button.png" height="24" /></TD><TD>'._('Custody').'</TD></TR>';
+					echo '<TR><TD>'.CheckboxInput($this_contact['EMERGENCY'],'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]','','CHECKED',$new,'<IMG SRC="assets/check.png" height="15" />','<IMG SRC="assets/x.png" height="15" />').'</TD><TD><IMG SRC="assets/emergency_button.png" height="24" /></TD><TD>'._('Emergency').'</TD></TR></TABLE></TD></TR>';
 
 					$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='$_REQUEST[person_id]'"));
 					if($info_apd)
@@ -730,7 +730,7 @@ if(empty($_REQUEST['modfunc']))
 					echo '<TR><TD><TABLE class="cellpadding-0 cellspacing-0"><TR><TD>'._makePeopleInput('','FIRST_NAME','<span style="color:red">'._('First Name').'</span>').'</TD><TD>'._makePeopleInput('','MIDDLE_NAME',_('Middle Name')).'</TD><TD>'._makePeopleInput('','LAST_NAME','<span style="color:red">'._('Last Name').'</span>').'</TD></TR></TABLE></TD></TR>';
 					echo '<TR><TD>'.SelectInput('','values[STUDENTS_JOIN_PEOPLE][STUDENT_RELATION]',_('Relation'),$relation_options,_('N/A')).'</TD></TR>';
 //modif Francois: add <label> on checkbox
-					echo '<TR><TD><TABLE class="cellpadding-0 cellspacing-0"><TR><TD><IMG SRC="assets/gavel_button.png" width="24"></TD><TD><label><INPUT type="checkbox" name="values[STUDENTS_JOIN_PEOPLE][CUSTODY]" value="Y"><BR /><span class="legend-gray"> '._('Custody').'</span></label></TD><TD><IMG SRC="assets/emergency_button.png" width="24"></TD><TD><label><INPUT type="checkbox" name="values[STUDENTS_JOIN_PEOPLE][EMERGENCY]" value="Y"><BR /><span class="legend-gray"> '._('Emergency').'</span></label></TD></TR></TABLE></TD></TR>';
+					echo '<TR><TD><TABLE class="cellpadding-0 cellspacing-0"><TR><TD><IMG SRC="assets/gavel_button.png" height="24" /></TD><TD><label><INPUT type="checkbox" name="values[STUDENTS_JOIN_PEOPLE][CUSTODY]" value="Y"><BR /><span class="legend-gray"> '._('Custody').'</span></label></TD><TD><IMG SRC="assets/emergency_button.png" height="24" /></TD><TD><label><INPUT type="checkbox" name="values[STUDENTS_JOIN_PEOPLE][EMERGENCY]" value="Y"><BR /><span class="legend-gray"> '._('Emergency').'</span></label></TD></TR></TABLE></TD></TR>';
 					echo '</TABLE>';
 					echo '</FIELDSET>';
 					echo '</TD></TR>';

@@ -8,7 +8,7 @@ function Buttons($value1,$value2='')
 	return $buttons;
 }
 
-function button($type,$text='',$link='',$width=18)
+function button($type,$text='',$link='',$height=18)
 {
 //modif Francois: css WPadmin
 	if($link)
@@ -18,7 +18,7 @@ function button($type,$text='',$link='',$width=18)
 	$img_file = 'assets/'.$type.'_button.png';
 	if (!is_file($img_file))
 		$img_file = 'assets/'.$type.'_button.gif';
-	$button .= '<IMG SRC="'.$img_file.'" '.($width?'width="'.$width.'"':'').' style="vertical-align:middle;" />';
+	$button .= '<IMG SRC="'.$img_file.'" '.($height?'height="'.$height.'"':'').' style="vertical-align:middle;" />';
 	if($link)
 		$button .= '</A>';
 
