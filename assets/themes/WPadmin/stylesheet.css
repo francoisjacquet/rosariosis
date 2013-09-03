@@ -512,6 +512,18 @@ td.BottomButtonMenu {
 	#modulesBody {
 		padding: 0 2px;
 	}
+	h2 {
+		font-size:20px;
+		padding:0 8px 7px 0;
+		line-height:20px
+	}
+	img.headerIcon {
+		height:24px;
+		vertical-align:bottom
+	}
+	.postbox h3, .postbox h3 a , .widefat th{
+		font-size:13px
+	}
 	td.BottomButtonMenu {
 		display: inline;
 	}
