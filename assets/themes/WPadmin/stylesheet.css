@@ -521,8 +521,8 @@ td.BottomButtonMenu {
 		height:24px;
 		vertical-align:bottom
 	}
-	.postbox h3, .postbox h3 a , .widefat th{
-		font-size:13px
+	.postbox h3, .postbox h3 a , .widefat th, .widefat th  a{
+		font-size:12px
 	}
 	td.BottomButtonMenu {
 		display: inline;
@@ -530,5 +530,28 @@ td.BottomButtonMenu {
 	td.BottomButton {
 		display: none;
 	}
+	input[type=text],input[type=password],select {
+		max-width: 90px;
+	}
+}
+
+/*responsive tables*/
+@media only screen and (max-width: 40em) { /*640*/
+
+	.rt { display: block; position: relative; width: 100%; }
+	.rt thead { display: block; float: left; }
+	.rt tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
+	.rt thead tr { display: block; }
+	.rt th { display: block; padding: 4px 7px 2px; line-height: 2em; height: 2em; }
+	.rt tbody tr { display: inline-block; vertical-align: top; }
+	.rt td { display: block; line-height: 2em; height: 2em; overflow-y: auto; }
+	.rt img { max-height: 14px; }
+	.rt input, .rt select, .rt textarea { margin:0; }
+	.rt textarea { max-width: 150px; }
+
+	/* sort out borders */
+	.rt th { border-bottom: 0; }
+	.rt td { border-left: 0; border-right: 0; border-bottom: 0; }
+	.rt tbody tr { border-right-width: 1px; border-right-style: solid; }
 
 }

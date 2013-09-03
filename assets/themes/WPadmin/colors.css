@@ -181,3 +181,10 @@ fieldset {
 .legend-red {
 	color: red;
 }
+
+/*responsive tables*/
+@media only screen and (max-width: 40em) {
+
+	.rt tbody tr { border-right-color:#dfdfdf; }
+
+}

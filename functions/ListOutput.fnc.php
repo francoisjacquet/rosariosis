@@ -425,13 +425,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			}
 			// END MISC ---
 
-			// WIDTH = 100%
-			echo '<TABLE class="width-100p cellspacing-0 cellpadding-0">';
-
 			// SEARCH BOX & MORE HEADERS
 			if(!empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
 			{
-				echo '<TR><TD class="width-100p">';
 				echo '<TABLE class="width-100p cellpadding-1">';
 				echo '<TR><TD style="text-align:left;">';
 				if(($singular!='.') && ($plural!='.') && $options['count'])
@@ -466,19 +462,11 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 //modif Francois: remove LOx
 				echo '</TABLE>';
 			}
-			else
-				echo '<TR style="height:0;"><TD class="width-100p" style="height:0; text-align:right;">&nbsp;';
-			// END SEARCH BOX ----
-			echo '</TD></TR>';
 			if(!empty($options['header']))
-				echo '</TABLE><TABLE class="postbox width-100p cellspacing-0 cellpadding-0"><TR><TD class="center">'.$options['header'].'</TD></TR>';
-			echo '<TR><TD style="padding: 8px;">';
+				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE>';
 
-			echo '<TABLE class="widefat width-100p cellspacing-0">';
-			if(!isset($_REQUEST['_ROSARIO_PDF']) && ($stop-$start)>10)
-				echo '<THEAD>';
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
-				echo '<TR>';
+			echo '<TABLE class="widefat width-100p cellspacing-0 rt">';
+			echo '<THEAD>';
 
 			$i = 1;
 			if($remove && !isset($_REQUEST['_ROSARIO_PDF']) && $result_count!=0)
@@ -507,8 +495,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				echo '</TR>';
 			}
 
-			if(!isset($_REQUEST['_ROSARIO_PDF']) && ($stop-$start)>10)
-				echo '</THEAD><TBODY>';
+			echo '</THEAD><TBODY>';
 
 			// mab - enable add link as first or last
 			if($result_count!=0 && isset($link['add']['first']) && ($stop-$start+1)>=$link['add']['first'])
@@ -670,9 +657,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			{
 				if(!isset($_REQUEST['_ROSARIO_PDF']) && ($stop-$start)>10)
 					echo '</TBODY>';
-				echo '</TABLE>';
-				echo '</TD></TR></TABLE>';
-
+				echo '</TABLE><BR />';
 			}
 
 		// END PRINT THE LIST ---

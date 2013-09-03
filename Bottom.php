@@ -67,7 +67,7 @@ function expandFrameMenu(){
             case 'course': $back_text = _('Back to Course List'); break;
             default: $back_text = sprintf(_('Back to %s List'),$_SESSION['Back_PHP_SELF']);
         }
-		echo '<TD style="width:24px;"><A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'"><IMG SRC="assets/back.png" height="24"></A></TD><TD class="BottomButton"><A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" target="body">'.$back_text.'</A></TD>';
+		echo '<TD><A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'"><IMG SRC="assets/back.png" height="24"></A></TD><TD class="BottomButton"><A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" target="body">'.$back_text.'</A></TD>';
     }
 	if($_SESSION['Search_PHP_SELF'] && (User('PROFILE')=='admin' || User('PROFILE')=='teacher')) {
         switch ($_SESSION['Back_PHP_SELF']) {
@@ -76,7 +76,7 @@ function expandFrameMenu(){
             case 'course': $back_text = _('Back to Course Search'); break;
             default: $back_text = sprintf(_('Back to %s Search'),$_SESSION['Back_PHP_SELF']);
         }
-		echo '<TD style="width:24px;"><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'"><IMG SRC="assets/back.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body">'.$back_text.'</A></TD>';
+		echo '<TD><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'"><IMG SRC="assets/back.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body">'.$back_text.'</A></TD>';
 	}
     echo '<TD class="BottomButtonMenu"><A HREF="#" onclick="expandFrameMenu();return false;" title="'._('Show / Hide Menu').'"><IMG SRC="assets/house_button.png" height="24" /></A></TD><TD class="BottomButton BottomButtonMenu"><A HREF="#" onclick="expandFrameMenu();return false;">'._('Show / Hide Menu').'</A></TD>';
     echo '<TD><A HREF="Bottom.php?modfunc=print" target="body" title="'._('Print').'"><IMG SRC="assets/print.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="Bottom.php?modfunc=print" target="body">'._('Print').'</A></TD>';
