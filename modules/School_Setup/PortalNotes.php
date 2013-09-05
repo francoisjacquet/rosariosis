@@ -182,7 +182,9 @@ if($_REQUEST['modfunc']!='remove')
 	echo $moodleError;
 
 	if (!empty($PortalNotesFilesError)) echo ErrorMessage(array($PortalNotesFilesError));
-	ListOutput($notes_RET,$columns,'Note','Notes',$link);
+	//modif Francois: no responsive table
+	$options = array('responsive' => false);
+	ListOutput($notes_RET,$columns,'Note','Notes',$link,array(),$options);
 
 	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
