@@ -177,7 +177,7 @@ if(empty($_REQUEST['modfunc']))
 		$tabs = array(array('title'=>_('Line'),'link'=>str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type=column',$link)),array('title'=>_('Pie'),'link'=>str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type=3d+pie',$link)),array('title'=>_('List'),'link'=>str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type=list',$link)));
 
 		$_ROSARIO['selected_tab'] = str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type='.str_replace(' ','+',$_REQUEST['chart_type']),$link);
-		PopTable('header',$tabs,'',0);
+		PopTable('header',$tabs);
 
 		if($_REQUEST['chart_type']=='list')
 		{

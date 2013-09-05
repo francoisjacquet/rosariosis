@@ -489,6 +489,9 @@ table.cellpadding-5 > td {
 table.cellpadding-6 > td {
 	padding: 6px
 }
+table.popTable {
+	padding: 5px;
+}
 td.valign-top, tr.valign-top {
 	vertical-align: top
 }
@@ -544,6 +547,9 @@ td.BottomButton {
 	}
 	#modulesBody input[type=text],#modulesBody input[type=password],#modulesBody select {
 		max-width: 90px;
+	}
+	table.popTable {
+		padding: 2px;
 	}
 }
 

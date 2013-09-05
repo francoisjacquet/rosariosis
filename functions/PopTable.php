@@ -3,7 +3,7 @@
 // DRAWS A TABLE WITH A BLUE TAB, SURROUNDING SHADOW
 // REQUIRES A TITLE
 
-function PopTable($action,$title='Search',$table_att='',$cell_padding='5')
+function PopTable($action,$title='Search',$table_att='')
 {	global $_ROSARIO;
 
 	if($action=='header')
@@ -27,7 +27,7 @@ function PopTable($action,$title='Search',$table_att='',$cell_padding='5')
 		<TR><TD>';
 
 		// Start content table.
-		echo '<TABLE style="padding:'.$cell_padding.'px;" class="width-100p cellspacing-0"><tr><td>';
+		echo '<TABLE class="width-100p cellspacing-0 popTable"><tr><td>';
 	}
 	elseif($action=='footer')
 	{

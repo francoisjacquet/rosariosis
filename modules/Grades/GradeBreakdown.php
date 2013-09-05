@@ -37,7 +37,7 @@ if(count($grouped_RET))
 
 	$_ROSARIO['selected_tab'] = str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type='.str_replace(' ','+',$_REQUEST['chart_type']),$link);
 	echo '<BR />';
-	PopTable('header',$tabs,'',0);
+	PopTable('header',$tabs);
 
 	if($_REQUEST['chart_type']=='list')
 	{

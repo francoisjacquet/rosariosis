@@ -126,7 +126,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 <BODY onLoad="document.loginform.USERNAME.focus()">
 <BR /><BR />
 <?php
-	PopTable("header",_('RosarioSIS Login'), "width=55%", "5");
+	PopTable("header",_('RosarioSIS Login'), "width=55%");
 //	echo '<span class="center">';
 	if($_REQUEST['reason'])
 		$note[] = _('You must have javascript enabled to use RosarioSIS.');
