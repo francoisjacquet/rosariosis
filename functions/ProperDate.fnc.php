@@ -42,7 +42,8 @@ function ProperDate($date='',$length='long')
 		$sep = ' ';
 
 	//modif Francois: display locale with strftime()
-	return $comment.mb_convert_case(iconv('','UTF-8',strftime((($length=='long' || Preferences('MONTH')!='%B')?Preferences('MONTH'):'%b').$sep.Preferences('DAY').$sep.Preferences('YEAR'),mktime(0,0,0,$month+0,$day+0,$year+0))), MB_CASE_TITLE, "UTF-8");
+	//modif Francois: NOBR on date
+	return $comment.'<span style="white-space:nowrap">'.mb_convert_case(iconv('','UTF-8',strftime((($length=='long' || Preferences('MONTH')!='%B')?Preferences('MONTH'):'%b').$sep.Preferences('DAY').$sep.Preferences('YEAR'),mktime(0,0,0,$month+0,$day+0,$year+0))), MB_CASE_TITLE).'</span>';
 //	return $comment.date((($length=='long' || Preferences('MONTH')!='F')?Preferences('MONTH'):'M').$sep.Preferences('DAY').$sep.Preferences('YEAR'),mktime(0,0,0,$month+0,$day+0,$year+0));
 	}
 }
