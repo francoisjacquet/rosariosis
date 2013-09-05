@@ -9,16 +9,8 @@ function PopTable($action,$title='Search',$table_att='')
 	if($action=='header')
 	{
 //modif Francois: css WPadmin
-		if (!empty($_REQUEST['_ROSARIO_PDF']))
-		{
-			echo '<TABLE class="cellpadding-6" '.$table_att.'>';
-			echo '<TR><TD class="width-100p center" style="background-color:'.Preferences('HEADER').';">';				
-		}
-		else
-		{
-			echo '<TABLE class="postbox cellspacing-0 cellpadding-0" '.$table_att.'>';
-			echo '<TR><TD class="center">';				
-		}
+		echo '<TABLE class="postbox cellspacing-0 cellpadding-0" '.$table_att.'>';
+		echo '<TR><TD class="center">';				
 		if(is_array($title))
 			echo WrapTabs($title,$_ROSARIO['selected_tab']);
 		else
