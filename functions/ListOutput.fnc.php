@@ -20,6 +20,10 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 		$options['cellpadding'] = '6';*/
 	if(!isset($options['header_color']))
 		$options['header_color'] = Preferences('HEADER');
+	//modif Francois: add responsive table option
+	//note: should be set to false when the list table have cell content that occupies more than one line height, like the Portal Notes'
+	if(!isset($options['responsive']))
+		$options['responsive'] = true;
 	if(!$link)
 		$link = array();
 
@@ -465,7 +469,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			if(!empty($options['header']))
 				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE>';
 
-			echo '<TABLE class="widefat width-100p cellspacing-0 rt">';
+			echo '<TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] ? 'rt' : '').'">';
 			echo '<THEAD>';
 
 			$i = 1;
@@ -681,17 +685,17 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 //modif Francois: css WPadmin
 				if($link['add']['html'])
 				{
-					echo '<TABLE class="widefat width-100p cellspacing-0 rt"';
+					echo '<TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] ? 'rt' : '').'"';
 					if($options['center'])
 						echo ' style="margin:0 auto;"';
-					echo '><TR><TH>&nbsp;</TH>';
+					echo '><THEAD><TR><TH>&nbsp;</TH>';
 					foreach($column_names as $key=>$value)
 					{
 						echo '<TH>' . str_replace(' ','&nbsp;',$value) . '</TH>';
 					}
-					echo '</TR>';
+					echo '</TR><THEAD>';
 
-					echo '<TR>';
+					echo '<TBODY><TR>';
 
 					if($link['add']['html']['remove'])
 						echo '<TD>'.$link['add']['html']['remove'].'</TD>';
@@ -702,7 +706,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					{
 						echo '<TD>'.$link['add']['html'][$key].'</TD>';
 					}
-					echo '</TR>';
+					echo '</TR></TBODY>';
 					echo '</TABLE>';
 				}
 				elseif($link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
