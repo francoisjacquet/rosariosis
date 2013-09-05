@@ -545,8 +545,11 @@ td.BottomButton {
 	td.BottomButton {
 		display: none;
 	}
-	#modulesBody input[type=text],#modulesBody input[type=password],#modulesBody select {
+	#modulesBody input[type=text],#modulesBody input[type=file],#modulesBody input[type=password],#modulesBody select {
 		max-width: 90px;
+	}
+	#modulesBody textarea { 
+		max-width: 150px;
 	}
 	table.popTable {
 		padding: 2px;
@@ -570,8 +573,7 @@ td.BottomButton {
 	.rt tbody tr { display: inline-block; vertical-align: top; }
 	.rt td { display: block; line-height: 2em; height: 2em; overflow-y: auto; }
 	.rt img { max-height: 14px; }
-	.rt input, .rt select, .rt textarea { margin:0; }
-	.rt textarea { max-width: 150px; }
+	.rt input, .rt select { margin:0; }
 
 	/* sort out borders */
 	.rt tr { border-right-width: 1px; border-right-style: solid; }
