@@ -63,7 +63,10 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 		$year = mb_substr($date,7,4);
 		$return .= '<!-- '.$year.MonthNWSwitch($month,'tonum').$day.' -->';
 	}
-
+	
+	//modif Francois: NOBR on date input
+	$return .= '<span style="white-space:nowrap">';
+	
 	// MONTH  ---------------
 	if($options['M'])
 	{
@@ -136,6 +139,9 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 	if($options['C'])
 		$return .= '<img src="assets/js/jscalendar/img.png" class="alignImg" id="trigger'.$_ROSARIO['PrepareDate'].'" style="cursor: pointer;"/>';
 
+	//modif Francois: NOBR on date input
+	$return .= '</span>';	
+	
 	if($_REQUEST['_ROSARIO_PDF'])
 		$return = ProperDate($date);
 	return $return;
