@@ -45,18 +45,32 @@ function expandFrameHelp(){
 		sizeHelp = "*,30";
 	parent.document.getElementById('mainframeset').rows = sizeHelp;
 }
-function expandFrameMenu(){
+function expandFrameMenu(onload){
 	sizeMenu = parent.document.getElementById('mainframeset').firstElementChild.cols;
+	textsLink = ['<?php echo _('Show'); ?>','<?php echo _('Hide'); ?>'];
 	if(sizeMenu.indexOf('205')!=-1)
-		sizeMenu = "0,*";
+	{
+		newSizeMenu = "0,*";
+		textLink = (onload ? textsLink[1] : textsLink[0]);
+	}
 	else
-		sizeMenu = "205,*";
-	parent.document.getElementById('mainframeset').firstElementChild.cols = sizeMenu;
+	{
+		newSizeMenu = "205,*";
+		textLink = (onload ? textsLink[0] : textsLink[1]);
+	}
+	if (!onload)
+		parent.document.getElementById('mainframeset').firstElementChild.cols = newSizeMenu;
+	document.getElementById('BottomButtonMenu').firstElementChild.innerHTML = textLink;
+}
+window.onload = function () {
+	expandFrameMenu(true);
+	return false;
 }
 </SCRIPT>
 <link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css">
 </HEAD>
 <BODY id="BottomBody" class="bgcolor">
+<div id="BottomButtonMenu"><A HREF="#" onclick="expandFrameMenu(false);return false;">&nbsp;</A></div>
 <TABLE style="margin:0 auto;"><TR>
 <?php
 //modif Francois: icones
@@ -78,7 +92,6 @@ function expandFrameMenu(){
         }
 		echo '<TD><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'"><IMG SRC="assets/back.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body">'.$back_text.'</A></TD>';
 	}
-    echo '<TD class="BottomButtonMenu"><A HREF="#" onclick="expandFrameMenu();return false;" title="'._('Show / Hide Menu').'"><IMG SRC="assets/house_button.png" height="24" /></A></TD><TD class="BottomButton BottomButtonMenu"><A HREF="#" onclick="expandFrameMenu();return false;">'._('Show / Hide Menu').'</A></TD>';
     echo '<TD><A HREF="Bottom.php?modfunc=print" target="body" title="'._('Print').'"><IMG SRC="assets/print.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="Bottom.php?modfunc=print" target="body">'._('Print').'</A></TD>';
     echo '<TD><A HREF="#" onclick="expandFrameHelp();return false;" title="'._('Help').'"><IMG SRC="assets/help.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="#" onclick="expandFrameHelp();return false;">'._('Help').'</A></TD>';
     echo '<TD><A HREF="index.php?modfunc=logout" target="_top" title="'._('Logout').'"><IMG SRC="assets/logout.png" height="24" /></A></TD><TD class="BottomButton"><A HREF="index.php?modfunc=logout" target="_top">'._('Logout').'</A></TD></TR></TABLE>';

@@ -502,11 +502,26 @@ span.center {
 td.BottomButton {
 	vertical-align:middle
 }
-td.BottomButtonMenu {
+#BottomButtonMenu {
 	display: none;
 }
 
 /* mobile */
+@media only screen and (max-width: 1023px) {
+	#BottomButtonMenu {
+		display: block;
+		float: left;
+		padding: 8px 0 0 8px;
+	}
+	#BottomButtonMenu a:before {
+		content: "\2261";		
+		color: #000;
+		font-size: 3rem;
+		font-weight: bold;
+		vertical-align:top;
+	}
+}
+
 @media only screen and (max-width: 767px) {
 
 	#modulesBody {
@@ -524,22 +539,19 @@ td.BottomButtonMenu {
 	.postbox h3, .postbox h3 a , .widefat th, .widefat th  a{
 		font-size:12px
 	}
-	td.BottomButtonMenu {
-		display: inline;
-	}
 	td.BottomButton {
 		display: none;
 	}
-	input[type=text],input[type=password],select {
+	#modulesBody input[type=text],#modulesBody input[type=password],#modulesBody select {
 		max-width: 90px;
 	}
 }
 
 /*responsive tables*/
-@media only screen and (max-width: 40em) { /*640*/
+@media only screen and (max-width: 640px) { /*640*/
 
 	.rt { display: block; position: relative; width: 100%; }
-	.rt thead { display: block; float: left; }
+	.rt thead { display: block; float: left; max-width: 50%; overflow-x: auto; }
 	.rt tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
 	.rt thead tr { display: block; }
 	.rt th { display: block; padding: 4px 7px 2px; line-height: 2em; height: 2em; }
@@ -550,8 +562,6 @@ td.BottomButtonMenu {
 	.rt textarea { max-width: 150px; }
 
 	/* sort out borders */
-	.rt th { border-bottom: 0; }
-	.rt td { border-left: 0; border-right: 0; border-bottom: 0; }
-	.rt tbody tr { border-right-width: 1px; border-right-style: solid; }
+	.rt tr { border-right-width: 1px; border-right-style: solid; }
 
 }
