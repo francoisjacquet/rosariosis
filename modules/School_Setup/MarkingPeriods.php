@@ -288,6 +288,8 @@ if(empty($_REQUEST['modfunc']))
 	if(!count($fy_RET))
 		$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&mp_term=FY&marking_period_id=new";
 
+	//modif Francois: no responsive table
+	$LO_options['responsive'] = false;
 	ListOutput($fy_RET,$columns,'Year','Years',$link,array(),$LO_options);
 	echo '</TD>';
 
