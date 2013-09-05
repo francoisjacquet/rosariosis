@@ -330,7 +330,7 @@ function _makePublishing($value,$name)
 		$id = 'new';
 
 //modif Francois: remove LO_field
-	$return = '<TABLE class="cellpadding-0 cellspacing-0"><TR><TD><b>'.Localize('colon',_('Visible Between')).'</b></TD><TD style="text-align:right">';
+	$return = '<TABLE class="cellpadding-0 cellspacing-0"><TR class="st"><TD><b>'.Localize('colon',_('Visible Between')).'</b></TD><TD style="text-align:right">';
 	$return .= DateInput($value,"values[$id][$name]").'</TD><TD> '._('to').' </TD><TD>';
 	$return .= DateInput($THIS_RET['END_DATE'],"values[$id][END_DATE]").'</TD></TR>';
 //modif Francois: css WPadmin
@@ -339,7 +339,7 @@ function _makePublishing($value,$name)
 	if(!$profiles_RET)
 		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID"));
 
-	$return .= '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD colspan="4"><b>'.Localize('colon',_('Visible To')).'</b></TD></TR><TR>';
+	$return .= '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD colspan="4"><b>'.Localize('colon',_('Visible To')).'</b></TD></TR><TR class="st">';
 	foreach(array('admin'=>_('Administrator w/Custom'),'teacher'=>_('Teacher w/Custom'),'parent'=>_('Parent w/Custom')) as $profile_id=>$profile)
 //modif Francois: add <label> on checkbox
 		$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').'> '.$profile.'</label></TD>';
@@ -349,7 +349,7 @@ function _makePublishing($value,$name)
 		$i++;
 		$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'')."> "._($profile['TITLE'])."</label></TD>";
 		if($i%4==0 && $i!=count($profile))
-			$return .= '</TR><TR>';
+			$return .= '</TR><TR class="st">';
 	}
 	for(;$i%4!=0;$i++)
 		$return .= '<TD>&nbsp;</TD>';
@@ -357,11 +357,9 @@ function _makePublishing($value,$name)
 	
 //modif Francois: Moodle integrator
 	if (MOODLE_INTEGRATOR && $id == 'new')
-		$return .= '<TR><TD colspan="4"><B>'._('Publish Note in Moodle?').'</B> <label><INPUT type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> '._('Yes').'</label></TD></TR></TABLE>';
-	else
-		$return .= '</TABLE>';
+		$return .= '<TR><TD colspan="4"><B>'._('Publish Note in Moodle?').'</B> <label><INPUT type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> '._('Yes').'</label></TD></TR>';
 		
-	$return .= '</TD></TR></TABLE>';
+	$return .= '</TABLE></TD></TR></TABLE>';
 	return $return;
 }
 ?>
