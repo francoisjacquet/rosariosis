@@ -551,6 +551,12 @@ td.BottomButton {
 	table.popTable {
 		padding: 2px;
 	}
+	
+	/*stackable tables*/
+	.st > td {
+		float: left;
+		width: 100%;
+	}
 }
 
 /*responsive tables*/
