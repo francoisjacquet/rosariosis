@@ -202,7 +202,9 @@ if($_REQUEST['modfunc']!='remove')
 //modif Francois: fix SQL bug invalid sort order
 	if(isset($error)) echo $error;
 	
-	ListOutput($polls_RET,$columns,'Poll','Polls',$link);
+	//modif Francois: no responsive table
+	$options = array('responsive' => false);
+	ListOutput($polls_RET,$columns,'Poll','Polls',$link,array(),$options);
 
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
