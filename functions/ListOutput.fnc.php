@@ -707,7 +707,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						echo '<TD>'.$link['add']['html'][$key].'</TD>';
 					}
 					echo '</TR></TBODY>';
-					echo '</TABLE>';
+					echo '</TABLE><BR />';
 				}
 				elseif($link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
 				{
