@@ -681,7 +681,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 //modif Francois: css WPadmin
 				if($link['add']['html'])
 				{
-					echo '<TABLE class="widefat width-100p cellspacing-0"';
+					echo '<TABLE class="widefat width-100p cellspacing-0 rt"';
 					if($options['center'])
 						echo ' style="margin:0 auto;"';
 					echo '><TR><TH>&nbsp;</TH>';
