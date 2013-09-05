@@ -134,8 +134,8 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 	echo ErrorMessage($note,'note');
 //	echo '</span>';
 	echo '<TABLE>
-	<tr>
-	<TD style="text-align:right"><img src="assets/themes/'.Preferences('THEME').'/logo.png" /></td>
+	<tr class="st">
+	<TD style="text-align:center"><img src="assets/themes/'.Preferences('THEME').'/logo.png" /></td>
 	<TD class="center"><form name="loginform" method="post" action="index.php" class="login">
 	<h4>'.ParseMLField(Config('TITLE')).' </h4>
     <TABLE class="cellpadding-2 cellspacing-0" style="margin:0 auto;">';
