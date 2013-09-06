@@ -380,7 +380,7 @@ function _makeFileAttached($value,$name)
 				}
 			}
 		}
-		elseif (parse_url($value) !== false) //embed link
+		elseif (filter_var($value, FILTER_VALIDATE_URL) !== false) //embed link
 		{
 			$return = '<a href="'.$value.'" title="'.$value.'" class="colorboxiframe"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a>';
 			$loadColorBox = true;
