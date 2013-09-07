@@ -36,9 +36,9 @@ if($_REQUEST['modfunc']=='create')
 	}
 	$message .= '</SELECT>';
 //modif Francois: add <label> on checkbox
-	$message = '<TABLE><TR><TD colspan="7" class="center"><table><tr><td>'.NoInput('<INPUT type="text" name="title"'.($_REQUEST['calendar_id']?' value="'.$title_RET[$default_id]['TITLE'].'"':'').'>',_('Title')).'</td><td><label>'.NoInput('<INPUT type="checkbox" name="default" value="Y"'.($_REQUEST['calendar_id']&&$title_RET[$default_id]['DEFAULT_CALENDAR']=='Y'?' checked':'').'>').' '._('Default Calendar for this School').'</label></td><td>'.NoInput($message,_('Copy Calendar')).'</td></tr></table></TD></TR>';
-	$message .= '<TR><TD colspan="7" class="center"><table><tr><td>'._('From').' '.NoInput(PrepareDate($_REQUEST['calendar_id']&&$title_RET[$default_id]['START_DATE']?$title_RET[$default_id]['START_DATE']:$fy_RET['START_DATE'],'_min')).'</td><td>'._('To').' '.NoInput(PrepareDate($_REQUEST['calendar_id']&&$title_RET[$default_id]['END_DATE']?$title_RET[$default_id]['END_DATE']:$fy_RET['END_DATE'],'_max')).'</td></tr></table></TD></TR>';
-	$message .= '<TR><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[0]"'.($_REQUEST['calendar_id']?' checked':'').'>').' '._('Sunday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[1]" checked />').' '._('Monday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[2]" checked />').' '._('Tuesday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[3]" checked />').' '._('Wednesday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[4]" checked />').' '._('Thursday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[5]" checked />').' '._('Friday').'<label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[6]"'.($_REQUEST['calendar_id']?' checked':'').'>').' '._('Saturday').'</label></TD></TR>';
+	$message = '<TABLE><TR><TD colspan="7"><table><tr class="st"><td>'.NoInput('<INPUT type="text" name="title"'.($_REQUEST['calendar_id']?' value="'.$title_RET[$default_id]['TITLE'].'"':'').'>',_('Title')).'</td><td><label>'.NoInput('<INPUT type="checkbox" name="default" value="Y"'.($_REQUEST['calendar_id']&&$title_RET[$default_id]['DEFAULT_CALENDAR']=='Y'?' checked':'').'>').' '._('Default Calendar for this School').'</label></td><td>'.NoInput($message,_('Copy Calendar')).'</td></tr></table></TD></TR>';
+	$message .= '<TR><TD colspan="7" class="center"><table><tr class="st"><td>'._('From').' '.NoInput(PrepareDate($_REQUEST['calendar_id']&&$title_RET[$default_id]['START_DATE']?$title_RET[$default_id]['START_DATE']:$fy_RET['START_DATE'],'_min')).'</td><td>'._('To').' '.NoInput(PrepareDate($_REQUEST['calendar_id']&&$title_RET[$default_id]['END_DATE']?$title_RET[$default_id]['END_DATE']:$fy_RET['END_DATE'],'_max')).'</td></tr></table></TD></TR>';
+	$message .= '<TR class="st"><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[0]"'.($_REQUEST['calendar_id']?' checked':'').'>').' '._('Sunday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[1]" checked />').' '._('Monday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[2]" checked />').' '._('Tuesday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[3]" checked />').' '._('Wednesday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[4]" checked />').' '._('Thursday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[5]" checked />').' '._('Friday').'<label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[6]"'.($_REQUEST['calendar_id']?' checked':'').'>').' '._('Saturday').'</label></TD></TR>';
 	$message .= '<TR><TD colspan="7" class="center"><table><tr><td>'.NoInput('<INPUT type="text" name="minutes" size="3" maxlength="3">',_('Minutes')).'</td><td><span class="legend-gray">('.($_REQUEST['calendar_id']?_('Default is Full Day if Copy Calendar is N/A.').'<BR />'._('Otherwise Default is minutes from the Copy Calendar'):_('Default is Full Day')).')</span></td></tr></table></TD></TR>';
 	$message .= '</TABLE>';
 	if(Prompt($_REQUEST['calendar_id']?sprintf(_('Recreate %s calendar'),$prompt):_('Create new calendar'),'',$message))
@@ -369,7 +369,7 @@ if($_REQUEST['modfunc']=='list_events')
 	}
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" METHOD="POST">';
-	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('Back to Calendar').'</A>',SubmitButton(_('Go')));
+	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('Back to Calendar').'</A>',SubmitButton(_('Go')));
 	$functions = array('SCHOOL_DATE'=>'ProperDate');
 	$events_RET = DBGet(DBQuery("SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION FROM CALENDAR_EVENTS WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),$functions);
 	ListOutput($events_RET,array('SCHOOL_DATE'=>'Date','TITLE'=>_('Event'),'DESCRIPTION'=>'Description'),'Event','Events');
@@ -469,9 +469,9 @@ if(empty($_REQUEST['modfunc']))
 
 //modif Francois: css WPadmin
 	echo '<TABLE class="cellpadding-3" style="margin:0 auto;"><TR><TD>';
-	echo '<TABLE style="background-color:#EEEEEE;"><TR style="text-align:center; background-color:black;">';
-	echo '<TD><span style="color:white">'._('Sunday').'</span></TD><TD><span style="color:white">'._('Monday').'</span></TD><TD><span style="color:white">'._('Tuesday').'</span></TD><TD><span style="color:white">'._('Wednesday').'</span></TD><TD><span style="color:white">'._('Thursday').'</span></TD><TD><span style="color:white">'._('Friday').'</span></TD><TD><span style="color:white">'._('Saturday')."</span></TD>";
-	echo '</TR><TR>';
+	echo '<TABLE style="background-color:#EEEEEE;" id="calendar"><THEAD><TR style="text-align:center; background-color:black; color:white;">';
+	echo '<TH>'.mb_substr(_('Sunday'),0,3).'<span>'.mb_substr(_('Sunday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Monday'),0,3).'<span>'.mb_substr(_('Monday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Tuesday'),0,3).'<span>'.mb_substr(_('Tuesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Wednesday'),0,3).'<span>'.mb_substr(_('Wednesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Thursday'),0,3).'<span>'.mb_substr(_('Thursday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Friday'),0,3).'<span>'.mb_substr(_('Friday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Saturday'),0,3).'<span>'.mb_substr(_('Saturday'),3).'</span>'.'</TH>';
+	echo '</TR></THEAD><TBODY><TR>';
 
 	if($skip)
 	{
@@ -483,7 +483,7 @@ if(empty($_REQUEST['modfunc']))
 		$day_time = mktime(0,0,0,$_REQUEST['month'],$i,$_REQUEST['year']);
 		$date = mb_strtoupper(date('d-M-y',$day_time));
 
-		echo '<TD class="valign-top" style="width:105px; height:100%; background-color:'.($calendar_RET[$date][1]['MINUTES']?$calendar_RET[$date][1]['MINUTES']=='999'?'#EEFFEE':'#EEEEFF':'#FFEEEE').';"><table style="width:105px; height:inherit;"><tr><td style="width:5px;" class="valign-top">'.$i.'</td><td>';
+		echo '<TD class="valign-top" style="height:100%; background-color:'.($calendar_RET[$date][1]['MINUTES']?$calendar_RET[$date][1]['MINUTES']=='999'?'#EEFFEE':'#EEEEFF':'#FFEEEE').';"><table class="calendar-day'.((AllowEdit() || count($events_RET[$date]) || count($assignments_RET[$date])) ? ' hover' : '').'"><tr><td style="width:5px;" class="valign-top">'.((count($events_RET[$date]) || count($assignments_RET[$date])) ? '<span class="calendar-day-bold">'.$i.'</span>' : $i).'</td><td>';
 		if(AllowEdit())
 		{
 			echo '<TABLE style="width:95px;"><TR><TD style="text-align:right;">';
@@ -554,7 +554,7 @@ if(empty($_REQUEST['modfunc']))
 		if($return_counter%7==0)
 			echo '</TR><TR>';
 	}
-	echo '</TR></TABLE>';
+	echo '</TR></TBODY></TABLE>';
 
 	echo '</TD></TR></TABLE>';
 	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';

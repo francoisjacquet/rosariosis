@@ -45,7 +45,7 @@ if(!defined('CONFIG_INC'))
 	);
 	
 	//modif Francois: Moodle integrator, see /modules/Moodle/config.inc.php for instructions
-	define('MOODLE_INTEGRATOR', true);
+	define('MOODLE_INTEGRATOR', false);
 
 	// If session isn't started, start it.
 	if(!isset($SessionStart))

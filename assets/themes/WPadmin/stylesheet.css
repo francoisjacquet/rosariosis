@@ -508,12 +508,22 @@ td.BottomButton {
 #BottomButtonMenu {
 	display: none;
 }
+/*calendar*/
+#calendar > tbody > tr > td {
+	width: 126px;
+}
+.calendar-day {
+	height:inherit;
+}
 
 /* mobile */
 @media only screen and (max-width: 1023px) {
 	#BottomButtonMenu {
 		display: block;
 		float: left;
+		width: 85px;
+		overflow-x: hidden;
+		white-space: nowrap;
 		padding: 8px 0 0 8px;
 	}
 	#BottomButtonMenu a:before {
@@ -556,14 +566,39 @@ td.BottomButton {
 	}
 	
 	/*stackable tables*/
-	.st > td {
+	tr.st > td {
 		float: left;
 		width: 100%;
+	}
+	
+	/*calendar*/
+	#calendar > thead > tr > th > span {
+		display: none;
+	}
+	#calendar > tbody > tr > td {
+		width: 37px;
+	}
+	.calendar-day {
+		display: block;
+		height: 37px;
+		width: inherit;
+		overflow: hidden;
+		z-index: 1;
+	}
+	.calendar-day.hover:hover {
+		height: auto;
+		width: 126px;
+		z-index:100;
+		position: absolute;
+		background-color: inherit;
+	}
+	.calendar-day-bold {
+		font-weight: bold;
 	}
 }
 
 /*responsive tables*/
-@media only screen and (max-width: 640px) { /*640*/
+@media only screen and (max-width: 640px) {
 
 	.rt { display: block; position: relative; width: 100%; }
 	.rt thead { display: block; float: left; max-width: 50%; overflow-x: auto; }
