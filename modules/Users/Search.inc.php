@@ -72,7 +72,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 				echo '<BR /><TABLE>'.$extra['second_col'].'</TABLE>';
 			echo '</TD></TR>';
 
-			echo '<TR class="valign-top"><TD><TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD>';
+			echo '<TR class="valign-top"><TD colspan="2"><TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD>';
 			if($_REQUEST['advanced']=='Y')
 			{
 				$extra['search'] = '';
