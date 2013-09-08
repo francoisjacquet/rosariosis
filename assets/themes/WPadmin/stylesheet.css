@@ -512,7 +512,16 @@ span.center {
 	vertical-align:middle;
 }
 #BottomButtonMenu {
-	display: none;
+	display: block;
+	float: left;
+	padding: 8px 0 0 8px;
+}
+#BottomButtonMenu a:before {
+	content: "\2261";		
+	color: #000;
+	font-size: 3rem;
+	font-weight: bold;
+	vertical-align:top;
 }
 /*calendar*/
 #calendar > tbody > tr > td {
@@ -523,21 +532,6 @@ span.center {
 }
 
 /* mobile */
-@media only screen and (max-width: 1023px) {
-	#BottomButtonMenu {
-		display: block;
-		float: left;
-		padding: 8px 0 0 8px;
-	}
-	#BottomButtonMenu a:before {
-		content: "\2261";		
-		color: #000;
-		font-size: 3rem;
-		font-weight: bold;
-		vertical-align:top;
-	}
-}
-
 @media only screen and (max-width: 767px) {
 
 	#modulesBody {
