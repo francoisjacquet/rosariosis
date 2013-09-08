@@ -342,9 +342,9 @@ function _makePublishing($value,$name)
 		$id = 'new';
 
 //modif Francois: remove LO_field
-	$return = '<TABLE class="cellpadding-0 cellspacing-0"><TR class="st"><TD><b>'.Localize('colon',_('Visible Between')).'</b></TD><TD style="text-align:right">';
-	$return .= DateInput($value,"values[$id][$name]").'</TD><TD> '._('to').' </TD><TD>';
-	$return .= DateInput($THIS_RET['END_DATE'],"values[$id][END_DATE]").'</TD></TR>';
+	$return = '<TABLE class="cellpadding-0 cellspacing-0"><TR class="st"><TD><b>'.Localize('colon',_('Visible Between')).'</b><BR />';
+	$return .= '<div class="nobr">'.DateInput($value,"values[$id][$name]").' '._('to').' ';
+	$return .= DateInput($THIS_RET['END_DATE'],"values[$id][END_DATE]").'</div></TD></TR>';
 //modif Francois: css WPadmin
 	$return .= '<TR><TD colspan="4" style="padding:0">';
 
@@ -352,9 +352,15 @@ function _makePublishing($value,$name)
 		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID WHERE"));
 
 	$return .= '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD colspan="4"><b>'.Localize('colon',_('Visible To')).'</b></TD></TR><TR class="st">';
+	$i=0;
 	foreach(array('admin'=>_('Administrator w/Custom'),'teacher'=>_('Teacher w/Custom'),'parent'=>_('Parent w/Custom')) as $profile_id=>$profile)
+	{
+		$i++;
 //modif Francois: add <label> on checkbox
 		$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').' /> '.$profile.'</label></TD>';
+		if($i%2==0 && $i!=count($profile))
+			$return .= '</TR><TR class="st">';
+	}
 		
 	//modif Francois: Portal Polls add students teacher
 	$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,',".UserSchool().",')>0) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
@@ -364,28 +370,22 @@ function _makePublishing($value,$name)
 			$teachers[$teacher['STAFF_ID']] = $teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'];
 	}
 	
-	$i = 0;
 	foreach($profiles_RET as $profile)
 	{
 		$i++;
-		if ($profile['ID'] == 0) //student
-			$return .= '</TR><TR class="st">';
-
 		$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'').' /> '._($profile['TITLE']);
 		//modif Francois: Portal Polls add students teacher
 		if ($profile['ID'] == 0) //student
 		{
-			$return .= ': </label></TD>';
-			$return .= '<TD colspan="2">'.SelectInput($THIS_RET['STUDENTS_TEACHER_ID'],'values['.$id.'][STUDENTS_TEACHER_ID]',_('Limit to Teacher'),$teachers, true, '', true).'</TD>';
-			$i = $i +2;
+			$return .= ': </label>'.SelectInput($THIS_RET['STUDENTS_TEACHER_ID'],'values['.$id.'][STUDENTS_TEACHER_ID]',_('Limit to Teacher'),$teachers, true, '', true);
 		}
 		else
 			$return .= '</label></TD>';
 			
-		if($i%3==0 && $i!=count($profile))
+		if($i%2==0 && $i!=count($profile))
 			$return .= '</TR><TR class="st">';
 	}
-	for(;$i%3!=0;$i++)
+	for(;$i%2!=0;$i++)
 		$return .= '<TD>&nbsp;</TD>';
 	$return .= '</TR>';
 	
