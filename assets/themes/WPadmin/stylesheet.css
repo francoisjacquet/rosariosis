@@ -508,8 +508,8 @@ div.nobr div {
 span.center {
 	display: block
 }
-td.BottomButton {
-	vertical-align:middle
+.BottomButton {
+	vertical-align:middle;
 }
 #BottomButtonMenu {
 	display: none;
@@ -527,9 +527,6 @@ td.BottomButton {
 	#BottomButtonMenu {
 		display: block;
 		float: left;
-		width: 85px;
-		overflow-x: hidden;
-		white-space: nowrap;
 		padding: 8px 0 0 8px;
 	}
 	#BottomButtonMenu a:before {
@@ -558,7 +555,7 @@ td.BottomButton {
 	.postbox h3, .postbox h3 a , .widefat th, .widefat th  a{
 		font-size:12px
 	}
-	td.BottomButton {
+	.BottomButton {
 		display: none;
 	}
 	#modulesBody input[type=text],#modulesBody input[type=file],#modulesBody input[type=password],#modulesBody select {

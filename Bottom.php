@@ -45,32 +45,19 @@ function expandFrameHelp(){
 		sizeHelp = "*,30";
 	parent.document.getElementById('mainframeset').rows = sizeHelp;
 }
-function expandFrameMenu(onload){
+function expandFrameMenu(){
 	sizeMenu = parent.document.getElementById('mainframeset').firstElementChild.cols;
-	textsLink = ['<?php echo _('Show'); ?>','<?php echo _('Hide'); ?>'];
 	if(sizeMenu.indexOf('205')!=-1)
-	{
 		newSizeMenu = "0,*";
-		textLink = (onload ? textsLink[1] : textsLink[0]);
-	}
 	else
-	{
 		newSizeMenu = "205,*";
-		textLink = (onload ? textsLink[0] : textsLink[1]);
-	}
-	if (!onload)
-		parent.document.getElementById('mainframeset').firstElementChild.cols = newSizeMenu;
-	document.getElementById('BottomButtonMenu').firstElementChild.innerHTML = textLink;
-}
-window.onload = function () {
-	expandFrameMenu(true);
-	return false;
+	parent.document.getElementById('mainframeset').firstElementChild.cols = newSizeMenu;
 }
 </SCRIPT>
 <link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css">
 </HEAD>
 <BODY id="BottomBody" class="bgcolor">
-<div id="BottomButtonMenu"><A HREF="#" onclick="expandFrameMenu(false);return false;">&nbsp;</A></div>
+<div id="BottomButtonMenu"><A HREF="#" onclick="expandFrameMenu();return false;" title="<?php echo _('Menu'); ?>">&nbsp;<span class="BottomButton"><?php echo _('Menu'); ?></span></A></div>
 <TABLE style="margin:0 auto;"><TR>
 <?php
 //modif Francois: icones
