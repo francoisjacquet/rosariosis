@@ -296,7 +296,7 @@ function _makeStartInput($value,$column)
 	}
 	else
 	{
-		$add = '<TD>'.button('add').'</TD>';
+		$add = button('add').' ';
 		$id = 'new';
 	}
 
@@ -317,7 +317,7 @@ function _makeStartInput($value,$column)
 		$div = true;
 
 //modif Francois: remove LO_field
-	return '<TABLE class="cellspacing-0"><TR>'.$add.'<TD>'.DateInput($value,'values[STUDENT_ENROLLMENT]['.$id.']['.$column.']','',$div,true).'</TD><TD> - </TD><TD>'.SelectInput($THIS_RET['ENROLLMENT_CODE'],'values[STUDENT_ENROLLMENT]['.$id.'][ENROLLMENT_CODE]','',$add_codes,_('N/A'),'style="max-width:150px;"').'</TD></TR></TABLE>';
+	return '<div class="nobr">'.$add.DateInput($value,'values[STUDENT_ENROLLMENT]['.$id.']['.$column.']','',$div,true).' - '.SelectInput($THIS_RET['ENROLLMENT_CODE'],'values[STUDENT_ENROLLMENT]['.$id.'][ENROLLMENT_CODE]','',$add_codes,_('N/A'),'style="max-width:150px;"').'</div>';
 }
 
 function _makeEndInput($value,$column)
@@ -339,7 +339,7 @@ function _makeEndInput($value,$column)
 		}
 	}
 
-	return '<TABLE class="cellspacing-0"><TR><TD>'.DateInput($value,'values[STUDENT_ENROLLMENT]['.$id.']['.$column.']').'</TD><TD> - </TD><TD>'.SelectInput($THIS_RET['DROP_CODE'],'values[STUDENT_ENROLLMENT]['.$id.'][DROP_CODE]','',$drop_codes,_(_('N/A')),'style="max-width:150px;"').'</TD></TR></TABLE>';
+	return '<div class="nobr">'.DateInput($value,'values[STUDENT_ENROLLMENT]['.$id.']['.$column.']').' - '.SelectInput($THIS_RET['DROP_CODE'],'values[STUDENT_ENROLLMENT]['.$id.'][DROP_CODE]','',$drop_codes,_(_('N/A')),'style="max-width:150px;"').'</div>';
 }
 
 function _makeSchoolInput($value,$column)

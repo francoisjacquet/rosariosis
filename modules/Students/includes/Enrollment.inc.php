@@ -85,6 +85,6 @@ else
 	$calendar = $calendars_RET[1]['CALENDAR_ID'];
 	$div = false;
 }
-echo '<TABLE style="margin:0 auto;"><TR><TD>'.SelectInput($calendar,"values[STUDENT_ENROLLMENT][$id][CALENDAR_ID]",(!$calendar||!$div?'<span class="legend-red">':'')._('Calendar').(!$calendar||!$div?'</span>':''),$calendar_options,false,'',$div).'</TD><TD style="width:30px;"></TD><TD>'.SelectInput($next_school,"values[STUDENT_ENROLLMENT][$id][NEXT_SCHOOL]",($next_school==''||!$div?'<span class="legend-red">':'')._('Rolling / Retention Options').(!$next_school||!$div?'</span>':''),$next_school_options,false,'',$div).'</TD></TR></TABLE>';
+echo '<TABLE style="margin:0 auto;"><TR class="st"><TD>'.SelectInput($calendar,"values[STUDENT_ENROLLMENT][$id][CALENDAR_ID]",(!$calendar||!$div?'<span class="legend-red">':'')._('Calendar').(!$calendar||!$div?'</span>':''),$calendar_options,false,'',$div).'</TD><TD style="width:30px;"></TD><TD>'.SelectInput($next_school,"values[STUDENT_ENROLLMENT][$id][NEXT_SCHOOL]",($next_school==''||!$div?'<span class="legend-red">':'')._('Rolling / Retention Options').(!$next_school||!$div?'</span>':''),$next_school_options,false,'',$div).'</TD></TR></TABLE>';
 
 ?>

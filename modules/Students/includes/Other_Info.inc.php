@@ -28,7 +28,7 @@ foreach($fields_RET as $field)
 	{
 		case 'text':
 			if(($i-1)%$per_row==0)
-				echo '<TR>';
+				echo '<TR class="st">';
 			echo '<TD>';
 			
 //modif Francois: Moodle integrator / email field
@@ -46,7 +46,7 @@ foreach($fields_RET as $field)
 
 		case 'autos':
 			if(($i-1)%$per_row==0)
-				echo '<TR>';
+				echo '<TR class="st">';
 			echo '<TD>';
 			echo _makeAutoSelectInput('CUSTOM_'.$field['ID'],$field['TITLE'],'students');
 			echo '</TD>';
@@ -59,7 +59,7 @@ foreach($fields_RET as $field)
 
 		case 'edits':
 			if(($i-1)%$per_row==0)
-				echo '<TR>';
+				echo '<TR class="st">';
 			echo '<TD>';
 			echo _makeAutoSelectInput('CUSTOM_'.$field['ID'],$field['TITLE'],'students');
 			echo '</TD>';
@@ -72,7 +72,7 @@ foreach($fields_RET as $field)
 
 		case 'numeric':
 			if(($i-1)%$per_row==0)
-				echo '<TR>';
+				echo '<TR class="st">';
 			echo '<TD>';
 			echo _makeTextInput('CUSTOM_'.$field['ID'],$field['TITLE'],'size=5 maxlength=10','students');
 			echo '</TD>';
@@ -85,7 +85,7 @@ foreach($fields_RET as $field)
 
 		case 'date':
 			if(($i-1)%$per_row==0)
-				echo '<TR>';
+				echo '<TR class="st">';
 			echo '<TD>';
 			echo _makeDateInput('CUSTOM_'.$field['ID'],$field['TITLE'],'students');
 //modif Francois: display age next to birthdate
@@ -103,7 +103,7 @@ foreach($fields_RET as $field)
 		case 'codeds':
 		case 'select':
 			if(($i-1)%$per_row==0)
-				echo '<TR>';
+				echo '<TR class="st">';
 			echo '<TD>';
 			echo _makeSelectInput('CUSTOM_'.$field['ID'],$field['TITLE'],'students');
 			echo '</TD>';
@@ -116,7 +116,7 @@ foreach($fields_RET as $field)
 
 		case 'multiple':
 			if(($i-1)%$per_row==0)
-				echo '<TR>';
+				echo '<TR class="st">';
 			echo '<TD>';
 			echo _makeMultipleInput('CUSTOM_'.$field['ID'],$field['TITLE'],'students');
 			echo '</TD>';
@@ -129,7 +129,7 @@ foreach($fields_RET as $field)
 
 		case 'radio':
 			if(($i-1)%$per_row==0)
-				echo '<TR>';
+				echo '<TR class="st">';
 			echo '<TD>';
 			echo _makeCheckboxInput('CUSTOM_'.$field['ID'],$field['TITLE'],'students');
 			echo '</TD>';
@@ -152,7 +152,7 @@ foreach($fields_RET as $field)
 	if($field['TYPE']=='textarea')
 	{
 		if(($i-1)%2==0)
-			echo '<TR>';
+			echo '<TR class="st">';
 		echo '<TD>';
 		echo _makeTextareaInput('CUSTOM_'.$field['ID'],$field['TITLE'],'students');
 		echo '</TD>';

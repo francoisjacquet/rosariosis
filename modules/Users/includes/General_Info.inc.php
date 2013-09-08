@@ -1,6 +1,6 @@
 <?php
 echo '<TABLE class="width-100p cellspacing-0 cellpadding-6">';
-echo '<TR>';
+echo '<TR class="st">';
 // IMAGE
 //modif Francois: user photo upload using jQuery form
 if($_REQUEST['staff_id']!='new' && $UserPicturesPath) {
@@ -75,7 +75,7 @@ if($_REQUEST['staff_id']!='new' && $UserPicturesPath) {
 else
 	echo '<TD colspan="2">';
 
-echo '<TABLE class="width-100p cellpadding-5"><TR>';
+echo '<TABLE class="width-100p cellpadding-5"><TR class="st">';
 
 echo '<TD>';
 
@@ -110,7 +110,7 @@ echo '<TD colspan="1">';
 echo NoInput($staff['ROLLOVER_ID'],_('Last Year RosarioSIS ID'));
 echo '</TD>';
 
-echo '</TR><TR>';
+echo '</TR><TR class="st">';
 
 //modif Francois: Moodle integrator
 //username, password required
@@ -147,7 +147,7 @@ echo '<HR>';
 echo '<TABLE class="width-100p cellpadding-6">';
 if(basename($_SERVER['PHP_SELF'])!='index.php')
 {
-	echo '<TR>';
+	echo '<TR class="st">';
 
 	echo '<TD>';
 	echo '<TABLE><TR><TD>';
@@ -196,7 +196,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 	echo '</TD>';
 	echo '</TR>';
 }
-echo '<TR>';
+echo '<TR class="st">';
 echo '<TD>';
 //modif Francois: Moodle integrator
 //email required

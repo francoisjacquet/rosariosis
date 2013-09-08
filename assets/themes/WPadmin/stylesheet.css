@@ -499,6 +499,12 @@ td.valign-top, tr.valign-top {
 	/* <CENTER> && <TD align="center"> */
 	text-align: center
 }
+span.nobr {
+	white-space: nowrap;
+}
+div.nobr div {
+	display: inline;
+}
 span.center {
 	display: block
 }
@@ -601,13 +607,13 @@ td.BottomButton {
 @media only screen and (max-width: 640px) {
 
 	.rt { display: block; position: relative; width: 100%; }
-	.rt thead { display: block; float: left; max-width: 50%; overflow-x: auto; }
+	.rt thead { display: block; float: left; max-width: 30%; overflow-x: auto; }
 	.rt tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
 	.rt thead tr { display: block; }
 	.rt th { display: block; padding: 4px 7px 2px; line-height: 2em; height: 2em; }
 	.rt tbody tr { display: inline-block; vertical-align: top; }
 	.rt td { display: block; line-height: 2em; height: 2em; overflow-y: auto; }
-	.rt img { max-height: 14px; }
+	.rt img { max-height: 1.5em; }
 	.rt input, .rt select { margin:0; }
 
 	/* sort out borders */

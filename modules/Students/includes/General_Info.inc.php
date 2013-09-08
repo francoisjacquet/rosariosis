@@ -1,6 +1,6 @@
 <?php
 echo '<TABLE class="width-100p cellspacing-0 cellpadding-6">';
-echo '<TR>';
+echo '<TR class="st">';
 // IMAGE
 //modif Francois: student photo upload using jQuery form
 if($_REQUEST['student_id']!='new' && $StudentPicturesPath) {
@@ -75,7 +75,7 @@ if($_REQUEST['student_id']!='new' && $StudentPicturesPath) {
 else 
 	echo '<TD colspan="2">';
 
-echo '<TABLE class="width-100p cellpadding-5"><TR>';
+echo '<TABLE class="width-100p cellpadding-5"><TR class="st">';
 
 echo '<TD>';
 if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
@@ -141,7 +141,7 @@ if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool())
 	$_ROSARIO['AllowEdit'][$_REQUEST['modname']] = $AllowEdit;
 }
 
-echo '</TR><TR>';
+echo '</TR><TR class="st">';
 
 //modif Francois: Moodle integrator
 //username, password required
