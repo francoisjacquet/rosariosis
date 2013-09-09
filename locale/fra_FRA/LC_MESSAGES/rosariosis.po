@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-24 19:45-0500\n"
-"PO-Revision-Date: 2013-08-24 19:47-0500\n"
+"PO-Revision-Date: 2013-09-09 16:29-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -2920,7 +2920,7 @@ msgstr "Options"
 #: modules/Grades/GradeBreakdown.php:69
 #: modules/Students/StudentBreakdown.php:260
 msgid "Right Click to Save Image As..."
-msgstr "Clic Droit pour Enregistrer image comme..."
+msgstr "Clic Droit, Enregistrer image comme..."
 
 #: modules/Discipline/CategoryBreakdownTime.php:327
 #: modules/Discipline/ReferralLog.php:90

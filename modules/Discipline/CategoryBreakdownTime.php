@@ -297,7 +297,14 @@ if($_REQUEST['category_id'])
 			$datacolumns ++;
 		}
 		echo $jsData;
+		//modif Francois: responsive labels: limit label to 20 char max.
 ?>
+			if (screen.width<768)
+			{
+				if (window.ticks)
+					for(i=0; i<ticks.length; i++)
+						ticks[i] = ticks[i].substr(0, 20);
+			}
 		</script>
 <?php
 	}
@@ -417,7 +424,7 @@ if(empty($_REQUEST['modfunc']))
 					});
 				});		
 			</script>
-			<div id="chart" style="margin-top:20px; margin-left:20px; width:600px; height:480px;"></div>
+			<div id="chart"></div>
 			<script type="text/javascript" src="assets/js/colorbox/jquery.colorbox-min.js"></script>
 			<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
 			<script type="text/javascript" src="assets/js/jquery.jqplottocolorbox.js"></script>
