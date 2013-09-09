@@ -523,6 +523,11 @@ span.center {
 	font-weight: bold;
 	vertical-align:top;
 }
+tr.address > td {
+	border-style: none dotted none none;
+	border: 1;
+	padding: 0 12px 0 12px;
+}
 /*calendar*/
 #calendar > tbody > tr > td {
 	width: 126px;
@@ -566,6 +571,10 @@ span.center {
 	tr.st > td {
 		float: left;
 		width: 100%;
+	}
+	tr.address > td {
+		border-style: none none dotted none;
+		padding: 12px 0 12px 0;
 	}
 	
 	/*calendar*/

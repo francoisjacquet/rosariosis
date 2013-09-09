@@ -295,7 +295,7 @@ if(empty($_REQUEST['modfunc']))
 	if(count($addresses_RET)==1 && $_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old' && $_REQUEST['address_id']!='0')
 		$_REQUEST['address_id'] = key($addresses_RET).'';
 
-	echo '<TABLE><TR><TD class="valign-top">';
+	echo '<TABLE><TR class="address st"><TD class="valign-top">';
 //modif Francois: css WPadmin
 //	echo '<TABLE class="cellpadding-0 cellspacing-0">';
 	echo '<TABLE class="widefat cellspacing-0">';
@@ -427,7 +427,7 @@ if(empty($_REQUEST['modfunc']))
 	}
 	echo '</TABLE>';
 	echo '</TD>';
-	echo '<TD style="width:10px; border:1; border-style: none dotted none none;">&nbsp;</TD><TD style="width:10px;"></TD>';
+	//echo '<TD style="width:10px; border:1;">&nbsp;</TD>';
 
 	if(isset($_REQUEST['address_id']))
 	{
@@ -540,7 +540,7 @@ if(empty($_REQUEST['modfunc']))
 			$zip_options = _makeAutoSelect('ZIPCODE','ADDRESS',array(array('ZIPCODE'=>$this_address['ZIPCODE']),array('ZIPCODE'=>$this_address['MAIL_ZIPCODE'])),$zip_options);
 
 //modif Francois: css WPadmin
-			echo '<br /><TABLE class="widefat width-100p cellspacing-0"><TR><TH colspan="3">';
+			echo '<TABLE class="widefat width-100p cellspacing-0"><TR><TH colspan="3">';
 			echo _('Address').'</TH></TR>';
 			echo '<TR><TD colspan="3">'.TextInput($this_address['ADDRESS'],'values[ADDRESS][ADDRESS]',_('Street'),$size?'size=20':'').'</TD>';
 			echo '</TR><TR><TD>'._makeAutoSelectInputX($this_address['CITY'],'CITY','ADDRESS',_('City'),$city_options).'</TD>';
@@ -602,7 +602,7 @@ if(empty($_REQUEST['modfunc']))
 
 		if($_REQUEST['person_id'])
 		{
-			echo '<TD style="width:10px; border:1; border-style: none dotted none none;">&nbsp;</TD><TD style="width:10px;"></TD>';
+			//echo '<TD style="width:10px; border:1;">&nbsp;</TD>';
 			echo '<TD class="valign-top">';
 			echo '<INPUT type="hidden" name="person_id" value="'.$_REQUEST['person_id'].'" />';
 
@@ -750,7 +750,7 @@ if(empty($_REQUEST['modfunc']))
 			$categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM ADDRESS_FIELD_CATEGORIES c,ADDRESS_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
 			if($categories_RET)
 			{
-				echo '<TD style="width:10px; border:1; border-style: none dotted none none;">&nbsp;</TD><TD style="width:10px;"></TD>';
+				//echo '<TD style="width:10px; border:1;">&nbsp;</TD>';
 				echo '<TD class="valign-top">';
 				$value = DBGet(DBQuery("SELECT * FROM ADDRESS WHERE ADDRESS_ID='$_REQUEST[address_id]'"));
 				$value = $value[1];
@@ -772,8 +772,8 @@ if(empty($_REQUEST['modfunc']))
 		}
 		echo '</TD>';
 	}
-	else
-		echo '<TD></TD><TD></TD>';
+	/*else
+		echo '<TD></TD><TD></TD>';*/
 	echo '</TR>';
 	echo '</TABLE>';
 	$separator = '<HR>';
