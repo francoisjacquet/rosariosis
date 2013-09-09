@@ -33,7 +33,7 @@ if(empty($_REQUEST['modfunc']))
 	$link['remove']['variables'] = array('id'=>'ID');
 
 	ListOutput($med_RET,$columns,'Immunization or Physical','Immunizations or Physicals',$link,array(),array('search'=>false));
-	echo '</TD><TD class="valign-top">';
+	echo '</TD></TR><TR><TD class="valign-top">';
 	$table = 'STUDENT_MEDICAL_ALERTS';
 	$functions = array('TITLE'=>'_makeComments');
 	$med_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_MEDICAL_ALERTS WHERE STUDENT_ID='".UserStudentID()."' ORDER BY ID"),$functions);
