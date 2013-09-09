@@ -256,7 +256,7 @@ else
 		$fields_list['Schedule']['PERIOD_'.$period['PERIOD_ID']] = $period['TITLE'].' '._('Teacher').' - '._('Room');
 
 	DrawHeader('<OL><SPAN id=names_div></SPAN></OL>');
-	echo '<TABLE><TR><TD class="valign-top">';
+	echo '<TABLE><TR class="st"><TD class="valign-top">';
 	echo '<BR />';
 //modif Francois: css WPadmin
 	PopTable('header',_('Fields'));
