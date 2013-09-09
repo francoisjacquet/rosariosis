@@ -525,7 +525,7 @@ if(empty($_REQUEST['modfunc']))
 				echo '</TR>';
 			}
 
-			echo '</TABLE>';
+			echo '</TABLE><BR />';
 		}
 
 		if($_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='old')
