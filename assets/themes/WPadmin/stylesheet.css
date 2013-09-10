@@ -557,9 +557,6 @@ tr.address > td {
 		height:24px;
 		vertical-align:bottom
 	}
-	.postbox h3, .postbox h3 a , .widefat th, .widefat th  a{
-		font-size:12px
-	}
 	.BottomButton {
 		display: none;
 	}
@@ -627,6 +624,7 @@ tr.address > td {
 	.rt td { display: block; line-height: 2em; height: 2em; overflow-y: auto; }
 	.rt img { max-height: 1.5em; }
 	.rt input, .rt select { margin:0; }
+	.rt th, .rt th a { font-size:12px; }
 
 	/* sort out borders */
 	.rt tr { border-right-width: 1px; border-right-style: solid; }
