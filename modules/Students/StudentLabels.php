@@ -132,7 +132,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] = '<TABLE>';
 
 		$extra['extra_header_left'] .= '<TR><TD colspan="4"><b>'.Localize('colon',_('Include On Labels')).'</b></TD></TR>';
-		$extra['extra_header_left'] .= '<TR>';
+		$extra['extra_header_left'] .= '<TR class="st">';
 //modif Francois: add <label> on radio
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="full_name" value="given" checked /> '._('Last, Given Middle').'</label></TD>';
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="full_name" value="given_natural"> '._('Given Last').'</label></TD>';
@@ -160,11 +160,11 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '</TABLE>';
 		$extra['extra_header_right'] = '<TABLE>';
 
-		$extra['extra_header_right'] .= '<TR><TD style="text-align:right">'._('Starting row').'</TD><TD><SELECT name="start_row">';
+		$extra['extra_header_right'] .= '<TR class="st"><TD style="text-align:right">'._('Starting row').'</TD><TD><SELECT name="start_row">';
 		for($row=1; $row<=$max_rows; $row++)
 			$extra['extra_header_right'] .=  '<OPTION value="'.$row.'">'.$row;
 		$extra['extra_header_right'] .=  '</SELECT></TD></TR>';
-		$extra['extra_header_right'] .= '<TR><TD style="text-align:right">'._('Starting column').'</TD><TD><SELECT name="start_col">';
+		$extra['extra_header_right'] .= '<TR class="st"><TD style="text-align:right">'._('Starting column').'</TD><TD><SELECT name="start_col">';
 		for($col=1; $col<=$max_cols; $col++)
 			$extra['extra_header_right'] .=  '<OPTION value="'.$col.'">'.$col;
 		$extra['extra_header_right'] .= '</SELECT></TD></TR>';
