@@ -116,7 +116,7 @@ if($_REQUEST['modfunc']!='delete')
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&profile_id='.$_REQUEST['profile_id'].'" method="POST">';
 	DrawHeader(_('Select the programs that users of this profile can use and which programs those users can use to save information.'),SubmitButton(_('Save')));
 	echo '<BR />';
-	echo '<TABLE><TR><TD class="valign-top">';
+	echo '<TABLE><TR class="st"><TD class="valign-top">';
 //modif Francois: css WPadmin
 	echo '<TABLE class="widefat cellspacing-0">';
 //	$style = ' style="border:1; border-style: dashed none none none;"';
@@ -164,12 +164,11 @@ if($_REQUEST['modfunc']!='delete')
 			$values = $profiles[$xprofile];
 
 //modif Francois: css WPadmin
-			echo '<TR><TH style="text-align:right; vertical-align: top;">';
-			echo '<b>'._(str_replace('_',' ',$modcat)).'</b></TH><TH style="width:3px;">&nbsp;</TH>';
+			echo '<TR><TD colspan="3"><h4>'._(str_replace('_',' ',$modcat)).'</h4></TD></TR>';
 //modif Francois: add <label> on checkbox
-			echo '<TH><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick="checkAll(this.form,this.form.can_use_'.$modcat.'.checked,\'can_use['.$modcat.'\');">':'').'</label></TH>';
+			echo '<TR><TH style="text-align:right;"><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick="checkAll(this.form,this.form.can_use_'.$modcat.'.checked,\'can_use['.$modcat.'\');">':'').'</label></TH>';
 			if($xprofile=='admin' || $modcat=='Students' || $modcat=='Resources')
-				echo '<TH> &nbsp;<label>'._('Can Edit').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick="checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,\'can_edit['.$modcat.'\');">':'').'</label></TH>';
+				echo '<TH style="text-align:right;"><label>'._('Can Edit').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick="checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,\'can_edit['.$modcat.'\');">':'').'</label></TH>';
 			else
 				echo '<TH>&nbsp;</TH>';
 			echo '<TH>&nbsp;</TH></TR>';
@@ -182,9 +181,9 @@ if($_REQUEST['modfunc']!='delete')
 						$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 						$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
-						echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
+						//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
 
-						echo '<TD style="text-align:right">&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+						echo '<TR><TD style="text-align:right">&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
 						if($xprofile=='admin' || $modcat=='Resources')
 								echo '<TD style="text-align:right">&nbsp;&nbsp;&nbsp;<INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
 						else
@@ -201,8 +200,8 @@ if($_REQUEST['modfunc']!='delete')
 								$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 								$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
-								echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
-								echo '<TD style="text-align:right">&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
+								echo '<TR><TD style="text-align:right">&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
 								echo '<TD style="text-align:right">&nbsp;&nbsp;&nbsp;<INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
 								echo '<TD> &nbsp; &nbsp;'.$title.'</TD></TR>';
 							}
@@ -217,19 +216,19 @@ if($_REQUEST['modfunc']!='delete')
 								$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 								$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
-								echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
-								echo '<TD style="text-align:right">&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
+								echo '<TR><TD style="text-align:right">&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
 								echo '<TD style="text-align:right">&nbsp;&nbsp;&nbsp;<INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
 								echo '<TD> &nbsp; &nbsp;'.$title.'</TD></TR>';
 							}
 						}
 					}
 					else
-						echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD><TD colspan="3" class="center"><b>- '.$title.' -</b></TD></TR>';
+						echo '<TR><TD colspan="3" class="center"><b>- '.$title.' -</b></TD></TR>';
 
 				}
 			}
-			echo '<TR><TD colspan="5" style="text-align:center; height:20px;"></TD></TR>';
+			//echo '<TR><TD colspan="3" style="text-align:center; height:20px;"></TD></TR>';
 		}
 		echo '</TABLE>';
 		PopTable('footer');
