@@ -150,21 +150,21 @@ if(empty($_REQUEST['modfunc']))
 	{
 		echo '<TABLE>';
 //modif Francois: add <label> on radio
-		echo '<TR><TD style="text-align:right; vertical-align: top;"><span style="color:gray">'._('Student Sorting').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][SORT]" value="Name"'.((Preferences('SORT')=='Name')?' checked':'').'> '._('Name').'</label><BR /><label><INPUT type="radio" name="values[Preferences][SORT]" value="Grade"'.((Preferences('SORT')=='Grade')?' checked':'').'> '._('Grade Level').', '.
+		echo '<TR class="st"><TD style="vertical-align: top;"><span style="color:gray">'._('Student Sorting').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][SORT]" value="Name"'.((Preferences('SORT')=='Name')?' checked':'').'> '._('Name').'</label><BR /><label><INPUT type="radio" name="values[Preferences][SORT]" value="Grade"'.((Preferences('SORT')=='Grade')?' checked':'').'> '._('Grade Level').', '.
 		_('Name').'</label></TD></TR>';
-		echo '<TR><TD style="text-align:right; vertical-align: top;"><span style="color:gray">'._('File Export Type').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][DELIMITER]" value="Tab"'.((Preferences('DELIMITER')=='Tab')?' checked':'').'> '._('Tab-Delimited (Excel)').'</label><BR /><label><INPUT type="radio" name="values[Preferences][DELIMITER]" value="CSV"'.((Preferences('DELIMITER')=='CSV')?' checked':'').'> CSV (OpenOffice)</label></TD></TR>';
-		echo '<TR><TD style="text-align:right; vertical-align: top;"><span style="color:gray">'._('Date Export Format').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][E_DATE]" value=""'.((Preferences('E_DATE')=='')?' checked':'').'> '._('Display Options Format').'</label><BR /><label><INPUT type="radio" name="values[Preferences][E_DATE]" value="MM/DD/YYYY"'.((Preferences('E_DATE')=='MM/DD/YYYY')?' checked':'').'> MM/DD/YYYY</label></TD></TR>';
+		echo '<TR class="st"><TD style="vertical-align: top;"><span style="color:gray">'._('File Export Type').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][DELIMITER]" value="Tab"'.((Preferences('DELIMITER')=='Tab')?' checked':'').'> '._('Tab-Delimited (Excel)').'</label><BR /><label><INPUT type="radio" name="values[Preferences][DELIMITER]" value="CSV"'.((Preferences('DELIMITER')=='CSV')?' checked':'').'> CSV (OpenOffice)</label></TD></TR>';
+		echo '<TR class="st"><TD style="vertical-align: top;"><span style="color:gray">'._('Date Export Format').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][E_DATE]" value=""'.((Preferences('E_DATE')=='')?' checked':'').'> '._('Display Options Format').'</label><BR /><label><INPUT type="radio" name="values[Preferences][E_DATE]" value="MM/DD/YYYY"'.((Preferences('E_DATE')=='MM/DD/YYYY')?' checked':'').'> MM/DD/YYYY</label></TD></TR>';
 //modif Francois: add <label> on checkbox
-		echo '<TR><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][E_CODEDS]" value="Y"'.((Preferences('E_CODEDS')=='Y')?' checked':'').'> '.sprintf(_('Export %s fields as stored value'),'<i>'._('Coded Pull-Down').'</i>').'</label></TD></TR>';
-		echo '<TR><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][E_EXPORTS]" value="Y"'.((Preferences('E_EXPORTS')=='Y')?' checked':'').'> '.sprintf(_('Export %s fields as stored value'),'<i>'._('Export Pull-Down').'</i>').'</label></TD></TR>';
+		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][E_CODEDS]" value="Y"'.((Preferences('E_CODEDS')=='Y')?' checked':'').'> '.sprintf(_('Export %s fields as stored value'),'<i>'._('Coded Pull-Down').'</i>').'</label></TD></TR>';
+		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][E_EXPORTS]" value="Y"'.((Preferences('E_EXPORTS')=='Y')?' checked':'').'> '.sprintf(_('Export %s fields as stored value'),'<i>'._('Export Pull-Down').'</i>').'</label></TD></TR>';
 		echo '<TR><TD><BR /></TD><TD><BR /></TD>';
-		echo '<TR><TD></TD><TD><label><INPUT type="checkbox" name=values[Preferences][SEARCH] value="Y"'.((Preferences('SEARCH')=='Y')?' checked':'').'> '._('Display student search screen').'</label></TD></TR>';
+		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name=values[Preferences][SEARCH] value="Y"'.((Preferences('SEARCH')=='Y')?' checked':'').'> '._('Display student search screen').'</label></TD></TR>';
 		if(User('PROFILE')=='admin')
 		{
-			echo '<TR><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][DEFAULT_FAMILIES]" value="Y"'.((Preferences('DEFAULT_FAMILIES')=='Y')?' checked':'').'> '._('Group by family by default').'</label></TD></TR>';
+			echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][DEFAULT_FAMILIES]" value="Y"'.((Preferences('DEFAULT_FAMILIES')=='Y')?' checked':'').'> '._('Group by family by default').'</label></TD></TR>';
 //modif Francois: if only one school, no Search All Schools option
 			if (SchoolInfo('SCHOOLS_NB') > 1)
-				echo '<TR><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][DEFAULT_ALL_SCHOOLS]" value="Y"'.((Preferences('DEFAULT_ALL_SCHOOLS')=='Y')?' checked':'').'> '._('Search all schools by default').'</label></TD></TR>';
+				echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][DEFAULT_ALL_SCHOOLS]" value="Y"'.((Preferences('DEFAULT_ALL_SCHOOLS')=='Y')?' checked':'').'> '._('Search all schools by default').'</label></TD></TR>';
 		}
 		echo '</TABLE>';
 	}
@@ -172,7 +172,7 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['tab']=='display_options')
 	{
 		echo '<TABLE>';
-		echo '<TR><TD style="text-align:right; vertical-align: top;"><span style="color:gray">'._('Theme').'</span></TD><TD><TABLE><TR>';
+		echo '<TR class="st"><TD style="vertical-align: top;"><span style="color:gray">'._('Theme').'</span></TD><TD><TABLE><TR>';
 		//modif Francois: remove IgnoreFiles
 		/*if($handle = opendir($RosarioPath.'assets/themes/'))
 		{
@@ -197,13 +197,13 @@ if(empty($_REQUEST['modfunc']))
 					echo '<TD><label><INPUT type="radio" name="values[Preferences][THEME]" value="'.$theme.'"'.((Preferences('THEME')==$theme)?' checked':'').'> '.$theme.'</label></TD>';
 					$count++;
 					if($count%3==0)
-						echo '</TR><TR>';			
+						echo '</TR><TR class="st">';			
 			}
 		}
 		
 		echo '</TR></TABLE></TD></TR>';
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
-		echo '<TR><TD style="text-align:right"><span style="color:gray">'._('PDF List Header Color').'</span></TD><TD><TABLE><TR>';
+		echo '<TR class="st"><TD><span style="color:gray">'._('PDF List Header Color').'</span></TD><TD><TABLE><TR>';
 		foreach($colors as $color)
 			echo '<TD style="background-color:'.$color.';"><INPUT type="radio" name="values[Preferences][HEADER]" value="'.$color.'"'.((Preferences('HEADER')==$color)?' checked':'').'></TD>';
 		echo '</TR></TABLE></TD></TR>';
@@ -211,14 +211,14 @@ if(empty($_REQUEST['modfunc']))
 //modif Francois: css WPadmin
 //		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
-		echo '<TR><TD style="text-align:right"><span style="color:gray">'._('Highlight Color').'</span></TD><TD><TABLE><TR>';
+		echo '<TR class="st"><TD><span style="color:gray">'._('Highlight Color').'</span></TD><TD><TABLE><TR>';
 		foreach($colors as $color)
 			echo '<TD style="background-color:'.$color.';"><INPUT type="radio" name="values[Preferences][HIGHLIGHT]" value="'.$color.'"'.((Preferences('HIGHLIGHT')==$color)?' checked':'').'></TD>';
 		echo '</TR></TABLE></TD></TR>';
 
 //modif Francois: css WPadmin
 
-		echo '<TR><TD style="text-align:right"><span style="color:gray">'._('Date Format').'</span></TD><TD><SELECT name="values[Preferences][MONTH]">';
+		echo '<TR class="st"><TD><span style="color:gray">'._('Date Format').'</span></TD><TD><SELECT name="values[Preferences][MONTH]">';
 		//modif Francois: display locale with strftime()
 		$values = array('%B','%b','%m');
 //		$values = array('F','M','m','n');
@@ -241,8 +241,8 @@ if(empty($_REQUEST['modfunc']))
 //			echo '<OPTION value="'.$value.'"'.((Preferences('YEAR')==$value || (!Preferences('YEAR') && !$value))?' SELECTED':'').'>'.date($value).'</OPTION>';
 		echo '</SELECT>';
 		echo '</TD></TR>';
-		echo '<TR><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][HIDE_ALERTS]" value="Y"'.((Preferences('HIDE_ALERTS')=='Y')?' checked':'').'> '._('Disable login alerts').'</label></TD></TR>';
-		echo '<TR><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][HIDDEN]" value="Y"'.((Preferences('HIDDEN')=='Y')?' checked':'').'> '._('Display data using hidden fields').'</label></TD></TR>';
+		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][HIDE_ALERTS]" value="Y"'.((Preferences('HIDE_ALERTS')=='Y')?' checked':'').'> '._('Disable login alerts').'</label></TD></TR>';
+		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][HIDDEN]" value="Y"'.((Preferences('HIDDEN')=='Y')?' checked':'').'> '._('Display data using hidden fields').'</label></TD></TR>';
 		echo '</TABLE>';
 	}
 
@@ -255,7 +255,7 @@ if(empty($_REQUEST['modfunc']))
 //modif Francois: add translation
 //modif Francois: password fields are required
 //modif Francois: Moodle integrator / password
-		echo '<TABLE><TR><TD style="text-align:right"><span style="color:gray">'._('Current Password').'</span></TD><TD><INPUT type="password" name="values[current]" required></TD></TR><TR><TD style="text-align:right"><span style="color:gray">'.(MOODLE_INTEGRATOR?'<SPAN title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('New Password').(MOODLE_INTEGRATOR?'*</SPAN>':'').'</span></TD><TD><INPUT type="password" name="values[verify]" required></TD></TR><TR><TD style="text-align:right"><span style="color:gray">'._('Verify New Password').'</span></TD><TD><INPUT type="password" name="values[new]" required></TD></TR></TABLE>';
+		echo '<TABLE><TR class="st"><TD><span style="color:gray">'._('Current Password').'</span></TD><TD><INPUT type="password" name="values[current]" required></TD></TR><TR class="st"><TD><span style="color:gray">'.(MOODLE_INTEGRATOR?'<SPAN title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('New Password').(MOODLE_INTEGRATOR?'*</SPAN>':'').'</span></TD><TD><INPUT type="password" name="values[verify]" required></TD></TR><TR class="st"><TD><span style="color:gray">'._('Verify New Password').'</span></TD><TD><INPUT type="password" name="values[new]" required></TD></TR></TABLE>';
 	}
 
 	if($_REQUEST['tab']=='student_fields')
@@ -323,7 +323,9 @@ if(empty($_REQUEST['modfunc']))
 
 		echo '<INPUT type="hidden" name="values[WidgetsSearch]" />';
 		$columns = array('TITLE'=>_('Widget'),'WIDGET'=>_('Search'));
-		ListOutput($widgets_RET,$columns,'.','.');
+		//modif Francois: no responsive table
+		$LO_options = array('responsive' => false);
+		ListOutput($widgets_RET,$columns,'.','.',array(),array(),$LO_options);
 	}
 
 	if($_REQUEST['tab']=='staff_fields' && User('PROFILE')=='admin')
@@ -340,6 +342,7 @@ if(empty($_REQUEST['modfunc']))
             }
 		echo '<INPUT type="hidden" name="values[StaffFieldsSearch]" /><INPUT type="hidden" name="values[StaffFieldsView]" />';
 		$columns = array('CATEGORY'=>'','TITLE'=>_('Field'),'STAFF_SEARCH'=>_('Search'),'STAFF_DISPLAY'=>_('Expanded View'));
+		//modif Francois: no responsive table
 		ListOutput($custom_fields_RET,$columns,'User Field','User Fields',array(),array(array('CATEGORY')));
 	}
 
@@ -361,7 +364,9 @@ if(empty($_REQUEST['modfunc']))
 
 		echo '<INPUT type="hidden" name="values[StaffWidgetsSearch]" />';
 		$columns = array('TITLE'=>_('Widget'),'STAFF_WIDGET'=>_('Search'));
-		ListOutput($widgets_RET,$columns,'.','.');
+		//modif Francois: no responsive table
+		$LO_options = array('responsive' => false);
+		ListOutput($widgets_RET,$columns,'.','.',array(),array(),$LO_options);
 	}
 
 	echo '</fieldset>';
