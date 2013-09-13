@@ -1,5 +1,5 @@
 <?php
-if($_REQUEST['modfunc']=='save' && AllowEdit())
+if($_REQUEST['modfunc']=='save' && AllowEdit() && is_array($_REQUEST['student']))
 {
 	$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'"),array(),array('STUDENT_ID'));
 	foreach($_REQUEST['student'] as $student_id=>$yes)
@@ -29,6 +29,9 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
+if($note)
+	echo ErrorMessage(array($note),'note');
+
 //modif Francois: Moodle integrator
 echo $moodleError;
 
@@ -57,11 +60,7 @@ if($_REQUEST['modfunc']!='delete')
 			DrawHeader('',SubmitButton(_('Add Selected Students')));
 		}
 
-		if($note)
-//			DrawHeader('<IMG SRC=assets/check.png>'.$note);
-			echo '<div class="updated"><IMG SRC="assets/check.png" class="alignImg">&nbsp;'.$note.'</div>';
-
-		echo '<TABLE style="margin:0 auto;"><TR><TD class="valign-top">';
+		echo '<TABLE><TR><TD class="valign-top" style="margin:0 auto;">';
 		$current_RET = DBGet(DBQuery("SELECT u.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME FROM STUDENTS_JOIN_USERS u,STUDENTS s WHERE s.STUDENT_ID=u.STUDENT_ID AND u.STAFF_ID='".UserStaffID()."'"));
 		$link['remove'] = array('link'=>"Modules.php?modname=$_REQUEST[modname]&modfunc=delete",'variables'=>array('student_id'=>'STUDENT_ID'));
 		ListOutput($current_RET,array('FULL_NAME'=>_('Students')),'Student','Students',$link,array(),array('search'=>false));
