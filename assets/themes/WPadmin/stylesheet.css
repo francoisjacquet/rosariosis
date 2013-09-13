@@ -534,7 +534,7 @@ tr.address > td {
 	width:600px;
 	height:480px;
 }
-.tinymce {
+table.mceLayout, textarea.tinymce {
 	/*cols="97" rows="27"*/
 	width:708px;
 	height:475px; 
@@ -588,9 +588,8 @@ tr.address > td {
 		margin: 0 4px;
 		max-width: 120px;
 	}
-	.tinymce {
-		width:300px;
-		height:300px;
+	table.mceLayout, textarea.tinymce {
+		width: 100% !important;
 	}
 	
 	/*stackable tables*/
