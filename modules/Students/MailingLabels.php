@@ -155,7 +155,7 @@ if(empty($_REQUEST['modfunc']))
 //modif Francois: add translation
 		$extra['extra_header_left'] .= '<TR><TD colspan="5"><b>'._('Address Labels').':</b></TD></TR>';
 //modif Francois: add <label> on radio
-		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="radio" name="to_address" value="" checked /> '._('To Contacts').'</label></TD>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD><label><INPUT type="radio" name="to_address" value="" checked /> '._('To Contacts').'</label></TD>';
 //modif Francois: disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
 		{
@@ -167,7 +167,7 @@ if(empty($_REQUEST['modfunc']))
 			$extra['extra_header_left'] .= '<INPUT type="hidden" name="residence" value="Y" />';
 		}
 		$extra['extra_header_left'] .= '<TD colspan="2"></TD></TR>';
-		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="radio" name="to_address" value="student" /> '._('To Student').'</label></TD>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD><label><INPUT type="radio" name="to_address" value="student" /> '._('To Student').'</label></TD>';
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="student_name" value="given" checked /> '._('Last, Given Middle').'</label></TD>';
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="student_name" value="given_natural" /> '._('Given Last').'</label></TD>';
 		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="radio" name="to_address" value="family" /> '._('To the parents of').'</label></TD>';
@@ -176,11 +176,11 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '</TABLE>';
 		$extra['extra_header_right'] = '<TABLE>';
 
-		$extra['extra_header_right'] .= '<TR><TD style="text-align:right">'._('Starting row').'</TD><TD><SELECT name="start_row">';
+		$extra['extra_header_right'] .= '<TR class="st"><TD style="text-align:right">'._('Starting row').'</TD><TD><SELECT name="start_row">';
 		for($row=1; $row<=$max_rows; $row++)
 			$extra['extra_header_right'] .=  '<OPTION value="'.$row.'">'.$row;
 		$extra['extra_header_right'] .=  '</SELECT></TD></TR>';
-		$extra['extra_header_right'] .= '<TR><TD style="text-align:right">'._('Starting column').'</TD><TD><SELECT name="start_col">';
+		$extra['extra_header_right'] .= '<TR class="st"><TD style="text-align:right">'._('Starting column').'</TD><TD><SELECT name="start_col">';
 		for($col=1; $col<=$max_cols; $col++)
 			$extra['extra_header_right'] .=  '<OPTION value="'.$col.'">'.$col;
 		$extra['extra_header_right'] .= '</SELECT></TD></TR>';
