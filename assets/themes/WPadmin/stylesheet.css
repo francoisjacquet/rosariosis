@@ -579,6 +579,10 @@ tr.address > td {
 	 width:300px;
 	 height:240px;
 	}
+	input[type=submit], input[type=reset], input[type=button] {
+		margin: 0 4px;
+		max-width: 120px;
+	}
 	
 	/*stackable tables*/
 	tr.st > td {
