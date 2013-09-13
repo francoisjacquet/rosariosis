@@ -183,12 +183,12 @@ if($_REQUEST['modfunc']!='delete')
 
 						//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
 
-						echo '<TR><TD style="text-align:right">&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+						echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
 						if($xprofile=='admin' || $modcat=='Resources')
-								echo '<TD style="text-align:right">&nbsp;&nbsp;&nbsp;<INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+								echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
 						else
 							echo '<TD class="center">&nbsp;</TD>';
-						echo'<TD> &nbsp; &nbsp;'.$title.'</TD></TR>';
+						echo'<TD>'.$title.'</TD></TR>';
 
 						if($modcat=='Students' && $file=='Students/Student.php')
 						{
@@ -196,14 +196,14 @@ if($_REQUEST['modfunc']!='delete')
 							foreach($categories_RET as $category)
 							{
 								$file = 'Students/Student.php&category_id='.$category['ID'];
-								$title = ' &nbsp; &nbsp; &rsaquo; '.ParseMLField($category['TITLE']);
+								$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
 								$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 								$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
 								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
-								echo '<TR><TD style="text-align:right">&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
-								echo '<TD style="text-align:right">&nbsp;&nbsp;&nbsp;<INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
-								echo '<TD> &nbsp; &nbsp;'.$title.'</TD></TR>';
+								echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+								echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+								echo '<TD>'.$title.'</TD></TR>';
 							}
 						}
 						elseif($modcat=='Users' && $file=='Users/User.php')
@@ -212,14 +212,14 @@ if($_REQUEST['modfunc']!='delete')
 							foreach($categories_RET as $category)
 							{
 								$file = 'Users/User.php&category_id='.$category['ID'];
-								$title = ' &nbsp; &nbsp; &rsaquo; '.ParseMLField($category['TITLE']);
+								$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
 								$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 								$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
 								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
-								echo '<TR><TD style="text-align:right">&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
-								echo '<TD style="text-align:right">&nbsp;&nbsp;&nbsp;<INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
-								echo '<TD> &nbsp; &nbsp;'.$title.'</TD></TR>';
+								echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+								echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+								echo '<TD>'.$title.'</TD></TR>';
 							}
 						}
 					}

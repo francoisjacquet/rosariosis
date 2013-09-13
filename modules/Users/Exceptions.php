@@ -100,10 +100,9 @@ if(!$staff_RET[1]['PROFILE_ID'])
 		$values = $profiles[$staff_RET[1]['PROFILE']];
 
 //modif Francois: css WPadmin
-		echo '<TR><TH style="text-align:right; vertical-align: top;">';
-		echo '<b>'._(str_replace('_',' ',$modcat)).'</b></TH><TH style="width:3px;">&nbsp;</TH>';
+		echo '<TR><TD colspan="3"><h4>'._(str_replace('_',' ',$modcat)).'</h4></TD></TR>';
 //modif Francois: add <label> on checkbox
-		echo '<TH><label>'.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_use_'.$modcat.'.checked,"can_use['.$modcat.'");\' />':'').' '._('Can Use').'</span></label></TH><TH> &nbsp;<label>'.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,"can_edit['.$modcat.'");\' />':'').' '._('Can Edit').'</span></label></TH><TH>&nbsp;</TH></TR>';
+		echo '<TR><TH style="text-align:right;"><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_use_'.$modcat.'.checked,"can_use['.$modcat.'");\' />':'').'</span></label></TH><TH style="text-align:right;"><label>'._('Can Edit').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,"can_edit['.$modcat.'");\' />':'').'</span></label></TH><TH>&nbsp;</TH></TR>';
 		if(count($values))
 		{
 			foreach($values as $file=>$title)
@@ -113,14 +112,14 @@ if(!$staff_RET[1]['PROFILE_ID'])
 					$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 					$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
-					echo '<TR><TD></TD><TD></TD>';
+					//echo '<TR><TD></TD><TD></TD>';
 
-					echo '<TD>&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+					echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
 					if($staff_RET[1]['PROFILE']=='admin')
-						echo '<TD>&nbsp;&nbsp;&nbsp;<INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+						echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
 					else
-						echo "<TD></TD>";
-					echo "<TD> &nbsp; &nbsp;$title</TD></TR>";
+						echo '<TD class="center">&nbsp;</TD>';
+					echo '<TD>'.$title.'</TD></TR>';
 
 					if($modcat=='Students' && $file=='Students/Student.php')
 					{
@@ -128,14 +127,14 @@ if(!$staff_RET[1]['PROFILE_ID'])
 						foreach($categories_RET as $category)
 						{
 							$file = 'Students/Student.php&category_id='.$category['ID'];
-							$title = ' &nbsp; &nbsp; &rsaquo; '.ParseMLField($category['TITLE']);
+							$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
 							$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 							$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
-							echo "<TR><TD></TD><TD></TD>";
-							echo '<TD>&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
-							echo '<TD>&nbsp;&nbsp;&nbsp;<INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
-							echo "<TD> &nbsp; &nbsp;$title</TD></TR>";
+							//echo "<TR><TD></TD><TD></TD>";
+							echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+							echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+							echo '<TD>'.$title.'</TD></TR>';
 						}
 					}
 					elseif($modcat=='Users' && $file=='Users/User.php')
@@ -144,23 +143,23 @@ if(!$staff_RET[1]['PROFILE_ID'])
 						foreach($categories_RET as $category)
 						{
 							$file = 'Users/User.php&category_id='.$category['ID'];
-							$title = ' &nbsp; &nbsp; &rsaquo; '.ParseMLField($category['TITLE']);
+							$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
 							$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 							$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
-							echo "<TR><TD></TD><TD></TD>";
-							echo '<TD>&nbsp;&nbsp;<INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
-							echo '<TD>&nbsp;&nbsp;&nbsp;<INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
-							echo "<TD> &nbsp; &nbsp;$title</TD></TR>";
+							//echo "<TR><TD></TD><TD></TD>";
+							echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+							echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+							echo '<TD>'.$title.'</TD></TR>';
 						}
 					}
 				}
 				else
-					echo '<TR><TD></TD><TD></TD><TD colspan="3" class="center"><b>- '.$title.' -</b></TD></TR>';
+					echo '<TR><TD colspan="3" class="center"><b>- '.$title.' -</b></TD></TR>';
 
 			}
 		}
-		echo '<TR><TD colspan="5" style="text-align:center; height:20px;"></TD></TR>';
+		//echo '<TR><TD colspan="3" style="text-align:center; height:20px;"></TD></TR>';
 	}
 	echo '</TABLE>';
 	PopTable('footer');
