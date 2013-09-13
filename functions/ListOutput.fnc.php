@@ -470,7 +470,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE>';
 
 			echo '<TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] ? 'rt' : '').'">';
-			echo '<THEAD>';
+			echo '<THEAD><TR>';
 
 			$i = 1;
 			if($remove && !isset($_REQUEST['_ROSARIO_PDF']) && $result_count!=0)
@@ -496,10 +496,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					echo '</TH>';
 					$i++;
 				}
-				echo '</TR>';
 			}
 
-			echo '</THEAD><TBODY>';
+			echo '</TR></THEAD><TBODY>';
 
 			// mab - enable add link as first or last
 			if($result_count!=0 && isset($link['add']['first']) && ($stop-$start+1)>=$link['add']['first'])
