@@ -548,7 +548,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					if($count!=0)
 					{
 						//modif Francois: wkhtmltopdf New page
-						echo '</TABLE><div style="page-break-after: always;"></div><TABLE class="widefat width-100p cellspacing-0">';
+						echo '</TBODY></TABLE><div style="page-break-after: always;"></div><TABLE class="widefat width-100p cellspacing-0"><TBODY>';
 						echo '<div style="page-break-after: always;"></div>';
 					}
 					echo '<TR>';
@@ -659,9 +659,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			}
 			if($result_count!=0)
 			{
-				if(!isset($_REQUEST['_ROSARIO_PDF']) && ($stop-$start)>10)
-					echo '</TBODY>';
-				echo '</TABLE><BR />';
+				echo '</TBODY></TABLE><BR />';
 			}
 
 		// END PRINT THE LIST ---
@@ -670,7 +668,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 		{
 			// mab - problem with table closing if not opened above - do same conditional?
 			if(($result_count > $num_displayed) || (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0))))
-				echo '</TD></TR></TABLE>';
+				echo '</TD></TR></TBODY></TABLE>';
 				
 			if($options['header'])
 				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0"><TR><TD class="center">'.$options['header'].'</TD></TR><TR><TD style="padding: 8px;">';
@@ -693,7 +691,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					{
 						echo '<TH>' . str_replace(' ','&nbsp;',$value) . '</TH>';
 					}
-					echo '</TR><THEAD>';
+					echo '</TR></THEAD>';
 
 					echo '<TBODY><TR>';
 
