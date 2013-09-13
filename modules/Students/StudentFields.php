@@ -195,7 +195,7 @@ if(empty($_REQUEST['modfunc']))
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
 		$header .= '<TABLE class="width-100p cellpadding-3">';
-		$header .= '<TR>';
+		$header .= '<TR class="st">';
  
 //modif Francois: field name required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Field Name').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
@@ -231,7 +231,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</TD>';
 
-		$header .= '</TR><TR>';
+		$header .= '</TR><TR class="st">';
 		$colspan = 2;
 		if($RET['TYPE']=='autos' || $RET['TYPE']=='edits' || $RET['TYPE']=='select' || $RET['TYPE']=='codeds' || $RET['TYPE']=='multiple' || $RET['TYPE']=='exports' || $_REQUEST['id']=='new')
 		{
@@ -254,7 +254,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '" method="POST">';
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
 		$header .= '<TABLE class="width-100p cellpadding-3">';
-		$header .= '<TR>';
+		$header .= '<TR class="st">';
 
 //modif Francois: title required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
@@ -280,7 +280,7 @@ if(empty($_REQUEST['modfunc']))
 	// DISPLAY THE MENU
 	$LO_options = array('save'=>false,'search'=>false); //,'add'=>true);
 
-	echo '<TABLE><TR>';
+	echo '<TABLE><TR class="st">';
 
 	if(count($categories_RET))
 	{
@@ -302,6 +302,8 @@ if(empty($_REQUEST['modfunc']))
 	$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&category_id=new";
 
     $categories_RET = ParseMLArray($categories_RET,'TITLE');
+	//modif Francois: no responsive table
+	$LO_options['responsive'] = false;
 	ListOutput($categories_RET,$columns,'Student Field Category','Student Field Categories',$link,array(),$LO_options);
 	echo '</TD>';
 
