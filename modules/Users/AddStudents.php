@@ -1,20 +1,24 @@
 <?php
-if($_REQUEST['modfunc']=='save' && AllowEdit() && is_array($_REQUEST['student']))
+if($_REQUEST['modfunc']=='save' && AllowEdit())
 {
-	$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'"),array(),array('STUDENT_ID'));
-	foreach($_REQUEST['student'] as $student_id=>$yes)
+	if (is_array($_REQUEST['student']))
 	{
-		if(!$current_RET[$student_id])
+		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'"),array(),array('STUDENT_ID'));
+		foreach($_REQUEST['student'] as $student_id=>$yes)
 		{
-			$sql = "INSERT INTO STUDENTS_JOIN_USERS (STUDENT_ID,STAFF_ID) values('".$student_id."','".UserStaffID()."')";
-			DBQuery($sql);
-//modif Francois: Moodle integrator
-			$moodleError = Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+			if(!$current_RET[$student_id])
+			{
+				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STUDENT_ID,STAFF_ID) values('".$student_id."','".UserStaffID()."')";
+				DBQuery($sql);
+	//modif Francois: Moodle integrator
+				$moodleError = Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+			}
 		}
+		$note = _('The selected user\'s profile now includes access to the selected students.');
 	}
+	$error = _('You must choose at least one student.');
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
-	$note = _('The selected user\'s profile now includes access to the selected students.');
 }
 DrawHeader(ProgramTitle());
 
@@ -31,6 +35,8 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 
 if($note)
 	echo ErrorMessage(array($note),'note');
+if($error)
+	echo ErrorMessage(array($error));
 
 //modif Francois: Moodle integrator
 echo $moodleError;
@@ -60,11 +66,11 @@ if($_REQUEST['modfunc']!='delete')
 			DrawHeader('',SubmitButton(_('Add Selected Students')));
 		}
 
-		echo '<TABLE><TR><TD class="valign-top" style="margin:0 auto;">';
+		echo '<TABLE style="margin:0 auto;"><TR><TD class="valign-top">';
 		$current_RET = DBGet(DBQuery("SELECT u.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME FROM STUDENTS_JOIN_USERS u,STUDENTS s WHERE s.STUDENT_ID=u.STUDENT_ID AND u.STAFF_ID='".UserStaffID()."'"));
 		$link['remove'] = array('link'=>"Modules.php?modname=$_REQUEST[modname]&modfunc=delete",'variables'=>array('student_id'=>'STUDENT_ID'));
 		ListOutput($current_RET,array('FULL_NAME'=>_('Students')),'Student','Students',$link,array(),array('search'=>false));
-		echo '</TD></TR><TR><TD class="valign-top">';
+		echo '</TD></TR><TR><TD class="valign-top" style="margin:0 auto;">';
 
 		$extra['link'] = array('FULL_NAME'=>false);
 		$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";

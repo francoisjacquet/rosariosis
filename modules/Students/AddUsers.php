@@ -1,20 +1,24 @@
 <?php
-if($_REQUEST['modfunc']=='save' && AllowEdit() && is_array($_REQUEST['staff']))
+if($_REQUEST['modfunc']=='save' && AllowEdit())
 {
-	$current_RET = DBGet(DBQuery("SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'"),array(),array('STAFF_ID'));
-	foreach($_REQUEST['staff'] as $staff_id=>$yes)
+	if (is_array($_REQUEST['staff']))
 	{
-		if(!$current_RET[$staff_id])
+		$current_RET = DBGet(DBQuery("SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'"),array(),array('STAFF_ID'));
+		foreach($_REQUEST['staff'] as $staff_id=>$yes)
 		{
-			$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values('".$staff_id."','".UserStudentID()."')";
-			DBQuery($sql);
-//modif Francois: Moodle integrator
-			$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+			if(!$current_RET[$staff_id])
+			{
+				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values('".$staff_id."','".UserStudentID()."')";
+				DBQuery($sql);
+	//modif Francois: Moodle integrator
+				$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+			}
 		}
+		$note = _('The selected user\'s profile now includes access to the selected students.');
 	}
+	$error = _('You must choose at least one user');
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
-	$note = _('The selected user\'s profile now includes access to the selected students.');
 }
 DrawHeader(ProgramTitle());
 
@@ -30,9 +34,10 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 }
 
 if($note)
-//	DrawHeader('<IMG SRC=assets/check.png>'.$note);
 	echo ErrorMessage(array($note),'note');
-
+if($error)
+	echo ErrorMessage(array($error));
+	
 //modif Francois: Moodle integrator
 echo $moodleError;
 
@@ -51,7 +56,7 @@ if($_REQUEST['modfunc']!='delete')
 			DrawHeader('',SubmitButton(_('Add Selected Parents')));
 		}
 
-		echo '<TABLE><TR><TD class="valign-top" style="margin:0 auto;">';
+		echo '<TABLE style="margin:0 auto;"><TR><TD class="valign-top">';
 		$current_RET = DBGet(DBQuery("SELECT u.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,s.LAST_LOGIN FROM STUDENTS_JOIN_USERS u,STAFF s WHERE s.STAFF_ID=u.STAFF_ID AND u.STUDENT_ID='".UserStudentID()."' AND s.SYEAR='".UserSyear()."'"),array('LAST_LOGIN'=>'makeLogin'));
 		$link['remove'] = array('link'=>"Modules.php?modname=$_REQUEST[modname]&modfunc=delete",'variables'=>array('staff_id'=>'STAFF_ID'));
 		ListOutput($current_RET,array('FULL_NAME'=>_('Parents'),'LAST_LOGIN'=>_('Last Login')),'Associated Parent','Associated Parents',$link,array(),array('search'=>false));
