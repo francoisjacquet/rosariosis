@@ -529,10 +529,15 @@ tr.address > td {
 	padding: 0 12px 0 12px;
 }
 #chart {
- margin-top:20px;
- margin-left:20px;
- width:600px;
- height:480px;
+	margin-top:20px;
+	margin-left:20px;
+	width:600px;
+	height:480px;
+}
+.tinymce {
+	/*cols="97" rows="27"*/
+	width:708px;
+	height:475px; 
 }
 /*calendar*/
 #calendar > tbody > tr > td {
@@ -582,6 +587,10 @@ tr.address > td {
 	input[type=submit], input[type=reset], input[type=button] {
 		margin: 0 4px;
 		max-width: 120px;
+	}
+	.tinymce {
+		width:300px;
+		height:300px;
 	}
 	
 	/*stackable tables*/

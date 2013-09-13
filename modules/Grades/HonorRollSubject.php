@@ -72,6 +72,7 @@ if(empty($_REQUEST['modfunc']))
 <script type="text/javascript">
 	// Rosario customed version of TinyMCE jQuery
 	$().ready(function() {
+		var resize_tinymce = (screen.width<768 ? true : false);
 		$('textarea.tinymce').tinymce({
 			// Location of TinyMCE script
 			script_url : 'assets/js/tiny_mce_3.5.8_jquery/tiny_mce.js',
@@ -88,13 +89,14 @@ if(empty($_REQUEST['modfunc']))
 			
 			// Theme options
 			theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,undo,redo,|,image,code,cleanup,help",
-			theme_advanced_buttons2 : "formatselect,fontsizeselect,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,forecolor",
-			theme_advanced_buttons3 : "sub,sup,charmap,blockquote,|,hr,removeformat,visualaid",
-			theme_advanced_buttons4 : "tablecontrols",
+			theme_advanced_buttons2 : "formatselect,fontsizeselect,|,bold,italic,underline,strikethrough",
+			theme_advanced_buttons3 : "justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,forecolor",
+			theme_advanced_buttons4 : "pagebreak,|,sub,sup,charmap,blockquote,|,hr,removeformat,visualaid",
+			theme_advanced_buttons5 : "tablecontrols",
 			theme_advanced_toolbar_location : "top",
 			theme_advanced_toolbar_align : "left",
 			theme_advanced_statusbar_location : "bottom",
-			theme_advanced_resizing : false,
+			theme_advanced_resizing : resize_tinymce, //textarea size fits a PDF page!
 			
 			// Produce BR elements on enter/return instead of P elements
 			forced_root_block : false,
@@ -111,22 +113,22 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] = '<TABLE>';
 //modif Francois: add TinyMCE to the textarea
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'._('Text').'</TD><TD><TEXTAREA cols="97" rows="27" name="honor_roll_text" class="tinymce">';
+		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Text').'</TD><TD><TEXTAREA name="honor_roll_text" class="tinymce">';
 		//modif Francois: add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		$extra['extra_header_left'] .= str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']));
 		$extra['extra_header_left'] .= '</TEXTAREA></TD></TR>';
 
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__FULL_NAME__</TD><TD>= '._('Last, First M').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__LAST_NAME__</TD><TD>= '._('Last Name').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__FIRST_NAME__</TD><TD>= '._('First Name').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__</TD><TD>= '._('Middle Name').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__CLIPART__</TD><TD>= '._('ClipArt').'</TD><TD colspan="3">&nbsp;</TD>';
 		$extra['extra_header_left'] .= '</TR></TABLE></TD></TR>';
 
@@ -135,7 +137,7 @@ if(empty($_REQUEST['modfunc']))
 		if (is_dir('assets/Frames/'))
 			$frames = scandir('assets/Frames/');
 		//no frame first and checked
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align:top;">'._('Frame').'</TD><TD><DIV style="overflow-x:auto; height:160px;"><table class="cellpadding-0 cellspacing-0"><tr><td class="image-radio-list"><label class="image-radio-list"><INPUT type="radio" name="frame" value="" checked /> '._('No frame').'</label></td>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align:top;">'._('Frame').'</TD><TD><DIV style="overflow-x:auto; height:160px;"><table class="cellpadding-0 cellspacing-0"><tr><td class="image-radio-list"><label class="image-radio-list"><INPUT type="radio" name="frame" value="" checked /> '._('No frame').'</label></td>';
 		//create radio list with thumbnails
 		$i = 1;
 		foreach ($frames as $frame)
@@ -154,7 +156,7 @@ if(empty($_REQUEST['modfunc']))
 		if (is_dir('assets/ClipArts/'))
 			$cliparts = scandir('assets/ClipArts/');
 		//no clipart first and checked
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align:top;">'._('ClipArt').'</TD><TD><div style="overflow-x:auto; height:160px;"><table class="cellpadding-0 cellspacing-0"><tr><td class="image-radio-list"><label class="image-radio-list"><INPUT type="radio" name="clipart" value="" checked /> '._('No ClipArt').'</label></td>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align:top;">'._('ClipArt').'</TD><TD><div style="overflow-x:auto; height:160px;"><table class="cellpadding-0 cellspacing-0"><tr><td class="image-radio-list"><label class="image-radio-list"><INPUT type="radio" name="clipart" value="" checked /> '._('No ClipArt').'</label></td>';
 		//create radio list with thumbnails
 		$i = 1;
 		foreach ($cliparts as $clipart)

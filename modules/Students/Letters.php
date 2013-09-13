@@ -96,6 +96,7 @@ if(empty($_REQUEST['modfunc']))
 <script type="text/javascript">
 	// Rosario customed version of TinyMCE jQuery
 	$().ready(function() {
+		var resize_tinymce = (screen.width<768 ? true : false);
 		$('textarea.tinymce').tinymce({
 			// Location of TinyMCE script
 			script_url : 'assets/js/tiny_mce_3.5.8_jquery/tiny_mce.js',
@@ -112,13 +113,14 @@ if(empty($_REQUEST['modfunc']))
 			
 			// Theme options
 			theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,undo,redo,|,image,code,cleanup,help",
-			theme_advanced_buttons2 : "formatselect,fontsizeselect,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,forecolor",
-			theme_advanced_buttons3 : "pagebreak,|,sub,sup,charmap,blockquote,|,hr,removeformat,visualaid",
-			theme_advanced_buttons4 : "tablecontrols",
+			theme_advanced_buttons2 : "formatselect,fontsizeselect,|,bold,italic,underline,strikethrough",
+			theme_advanced_buttons3 : "justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,forecolor",
+			theme_advanced_buttons4 : "pagebreak,|,sub,sup,charmap,blockquote,|,hr,removeformat,visualaid",
+			theme_advanced_buttons5 : "tablecontrols",
 			theme_advanced_toolbar_location : "top",
 			theme_advanced_toolbar_align : "left",
 			theme_advanced_statusbar_location : "bottom",
-			theme_advanced_resizing : false, //textarea size fits a PDF page!
+			theme_advanced_resizing : resize_tinymce, //textarea size fits a PDF page!
 			
 			// Produce BR elements on enter/return instead of P elements
 			forced_root_block : false,
@@ -142,20 +144,20 @@ if(empty($_REQUEST['modfunc']))
 		//modif Francois: add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		//modif Francois: add TinyMCE to the textarea
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'._('Letter Text').'</TD><TD><TEXTAREA cols="97" rows="27" name="letter_text" class="tinymce">'.str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'])).'</TEXTAREA></TD></TR>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Letter Text').'</TD><TD><TEXTAREA name="letter_text" class="tinymce">'.str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'])).'</TEXTAREA></TD></TR>';
 
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__FULL_NAME__</TD><TD>= '._('Last, First M').'</TD><TD>&nbsp;</TD>';
-		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__FIRST_NAME__</TD><TD>= '._('First Name').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__LAST_NAME__</TD><TD>= '._('Last Name').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__</TD><TD>= '._('Middle Name').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__STUDENT_ID__</TD><TD>= '._('RosarioSIS ID').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		if(User('PROFILE')=='admin')
 		{
 			$extra['extra_header_left'] .= '<TD>__TEACHER__</TD><TD>= '._('Attendance Teacher').'</TD><TD></TD>';
