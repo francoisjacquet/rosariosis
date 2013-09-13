@@ -16,16 +16,10 @@ function PopTable($action,$title='Search',$table_att='')
 		else
 			echo DrawTab($title);
 		echo '</TD></TR>
-		<TR><TD>';
-
-		// Start content table.
-		echo '<TABLE class="width-100p cellspacing-0 popTable"><tr><td>';
+		<TR><TD class="popTable">';
 	}
 	elseif($action=='footer')
 	{
-		// Close embeded table.
-		echo '</td></tr></TABLE>';
-
 		echo '</TD>
 		</TR>
 		</TABLE>';
