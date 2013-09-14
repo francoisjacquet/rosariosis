@@ -203,8 +203,8 @@ if($_REQUEST['modfunc']!='remove')
 	if(isset($error)) echo $error;
 	
 	//modif Francois: no responsive table
-	$options = array('responsive' => false);
-	ListOutput($polls_RET,$columns,'Poll','Polls',$link,array(),$options);
+	$LO_options = array('responsive' => false);
+	ListOutput($polls_RET,$columns,'Poll','Polls',$link,array(),$LO_options);
 
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';

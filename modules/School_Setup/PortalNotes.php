@@ -183,8 +183,8 @@ if($_REQUEST['modfunc']!='remove')
 
 	if (!empty($PortalNotesFilesError)) echo ErrorMessage(array($PortalNotesFilesError));
 	//modif Francois: no responsive table
-	$options = array('responsive' => false);
-	ListOutput($notes_RET,$columns,'Note','Notes',$link,array(),$options);
+	$LO_options = array('responsive' => false);
+	ListOutput($notes_RET,$columns,'Note','Notes',$link,array(),$LO_options);
 
 	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
