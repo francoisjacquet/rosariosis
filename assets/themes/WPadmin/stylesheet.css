@@ -539,6 +539,11 @@ table.mceLayout, textarea.tinymce {
 	width:708px;
 	height:475px; 
 }
+/*stackable tables*/
+div.st {
+	float: left;
+	padding: 4px;
+}
 /*calendar*/
 #calendar > tbody > tr > td {
 	width: 126px;
@@ -596,10 +601,6 @@ table.mceLayout, textarea.tinymce {
 	tr.st > td {
 		float: left;
 		width: 100%;
-	}
-	div.st {
-		float: left;
-		padding: 4px;
 	}
 	
 	/*calendar*/
