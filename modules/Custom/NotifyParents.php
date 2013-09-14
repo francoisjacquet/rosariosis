@@ -133,6 +133,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 	$extra['columns_after'] = array('ASSOCIATED'=>_('Associated Students'),'USERNAME'=>_('Username'),'EMAIL'=>_('Email'));
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['profile'] = 'parent';
+	$extra['new'] = true;
 
 	Search('staff_id',$extra);
 
