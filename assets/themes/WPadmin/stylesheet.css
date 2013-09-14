@@ -565,7 +565,7 @@ table.mceLayout, textarea.tinymce {
 	.BottomButton {
 		display: none;
 	}
-	#modulesBody input[type=text],#modulesBody input[type=file],#modulesBody input[type=password],#modulesBody select {
+	#general_table input,#general_table select, #LO_search {
 		max-width: 90px;
 	}
 	#modulesBody textarea { 
