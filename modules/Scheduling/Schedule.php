@@ -102,7 +102,8 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course')
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" METHOD="POST">';
 //modif Francois: add label on checkbox
-	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).' '.'<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Courses').(AllowEdit()?'</label> &nbsp;<label>'.CheckBoxOnclick('include_seats').' '._('Show Available Seats').'</label>':''),SubmitButton(_('Save')));
+	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)),SubmitButton(_('Save')));
+	DrawHeader('<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Courses').(AllowEdit()?'</label> &nbsp;<label>'.CheckBoxOnclick('include_seats').' '._('Show Available Seats').'</label>':''));
 	//modif Francois: remove ProgramLink function
 	//DrawHeader(ProgramLink('Scheduling/PrintSchedules.php',_('Print Schedule'),'&modfunc=save&st_arr[]='.UserStudentID().'&_ROSARIO_PDF=true'));
 	
