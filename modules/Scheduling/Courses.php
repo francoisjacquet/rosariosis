@@ -529,7 +529,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			}
 			
 			$header .= '<TABLE class="width-100p cellpadding-3" id="coursesTable">';
-			$header .= '<TR>';
+			$header .= '<TR class="st">';
 
 //modif Francois: Moodle integrator
 			$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][SHORT_NAME]',($RET['SHORT_NAME']?'':'<span style="color:red">')._('Short Name').($RET['SHORT_NAME']?'':'</span>'),'required', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
@@ -588,7 +588,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					$school_period = $RET2[$i];
 				else
 					$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] = 'new' . $i;
-				$header .= '<TR id="schoolPeriod'.$i.'">';
+				$header .= '<TR id="schoolPeriod'.$i.'" class="st">';
 				//modif Francois: existing school period not modifiable
 				if (!$new)
 					$header .= '<TD>' . $periods[$school_period['PERIOD_ID']] . '<BR /><span class="legend-gray">' ._('Period'). '</span></TD>';
@@ -639,7 +639,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					break;
 			} while ( $i <= count($RET2) );
 			
-			$header .= '<TR><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod()' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').'"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Period').'</a></TD></TR>';
+			$header .= '<TR class="st"><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod()' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').'"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Period').'</a></TD></TR>';
 			if (!$new)
 				$header .= '<script type="text/javascript">document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
 			?>
@@ -652,6 +652,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					// insert table cells to the new row
 					var tr = document.getElementById('schoolPeriod'+nbSchoolPeriods);
 					row.setAttribute('id', 'schoolPeriod'+(nbSchoolPeriods+1));
+					row.setAttribute('class', 'st');					
 					for (i = 0; i < 2; i++) {
 						createCell(row.insertCell(i), tr, i, nbSchoolPeriods+1);
 					}
@@ -665,7 +666,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				}
 			</script>
 			<?php
-			$header .= '<TR>';
+			$header .= '<TR class="st">';
 
 			$categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'"._('Attendance')."' AS TITLE UNION SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 
@@ -723,7 +724,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 			$header .= '</TR>';
 
-			$header .= '<TR>';
+			$header .= '<TR class="st">';
 
 			//$header .= '<TD>' . CheckboxInput($RET['HOUSE_RESTRICTION'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][HOUSE_RESTRICTION]','Restricts House','',$new) . '</TD>';
 			$header .= '<TD>' . CheckboxInput($RET['HALF_DAY'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][HALF_DAY]',_('Half Day'),$checked,$new,'<IMG SRC="assets/check.png" height="15">','<IMG SRC="assets/x.png" height="15">') . '</TD>';
