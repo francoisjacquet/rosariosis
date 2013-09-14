@@ -841,7 +841,8 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 		{
 //modif Francois: add translation
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-			DrawHeader(_('Choose a').' '.($_REQUEST['subject_id']?($_REQUEST['course_id']?($_REQUEST['last_year']=='true'?_('Last Year Course Period'):_('Course Period')):($_REQUEST['last_year']=='true'?_('Last Year Course'):_('Course'))):($_REQUEST['last_year']=='true'?_('Last Year Subject'):_('Subject'))),_('Enrollment Date').' '.PrepareDate($date,'_date',false,array('submit'=>true)),'<label>'.CheckBoxOnclick('include_child_mps')._('Offer Enrollment in Child Marking Periods').'</label>');
+			DrawHeader(_('Choose a').' '.($_REQUEST['subject_id']?($_REQUEST['course_id']?($_REQUEST['last_year']=='true'?_('Last Year Course Period'):_('Course Period')):($_REQUEST['last_year']=='true'?_('Last Year Course'):_('Course'))):($_REQUEST['last_year']=='true'?_('Last Year Subject'):_('Subject'))),_('Enrollment Date').' '.PrepareDate($date,'_date',false,array('submit'=>true)),'');
+			DrawHeader('<label>'.CheckBoxOnclick('include_child_mps').' '._('Offer Enrollment in Child Marking Periods').'</label>');
 			echo '</FORM>';
 		}
 		else
@@ -850,8 +851,6 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 	elseif(!$_REQUEST['subject_id'])
 		DrawHeader(_('Courses'));
 	DrawHeader('','<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&course_modfunc=search&last_year='.$_REQUEST['last_year'].($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['modname']=='Scheduling/Schedule.php'?'&include_child_mps='.$_REQUEST['include_child_mps'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date']:'').'">'._('Search').'</A>&nbsp;');
-
-	echo '<TABLE><TR>';
 
 	if(count($subjects_RET))
 	{
@@ -874,9 +873,10 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 	else
 		$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&subject_id=new";
 
-	echo '<TD class="valign-top">';
+	echo '<div class="st">';
+	$LO_options['responsive'] = false;
 	ListOutput($subjects_RET,$columns,'Subject','Subjects',$link,array(),$LO_options);
-	echo '</TD>';
+	echo '</div>';
 
 	if($_REQUEST['subject_id'] && $_REQUEST['subject_id']!='new')
 	{
@@ -905,9 +905,9 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 		else
 			$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&subject_id=$_REQUEST[subject_id]&course_id=new";
 
-		echo '<TD class="valign-top">';
+		echo '<div class="st">';
 		ListOutput($courses_RET,$columns,'Course','Courses',$link,array(),$LO_options);
-		echo '</TD>';
+		echo '</div>';
 
 		if($_REQUEST['course_id'] && $_REQUEST['course_id']!='new')
 		{
@@ -944,13 +944,11 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
                 if($_REQUEST['modname']=='Scheduling/Schedule.php')
                     $columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
 
-                echo '<TD class="valign-top">';
+				echo '<div class="st">';
                 ListOutput($periods_RET,$columns,'Course Period','Course Periods',$link,array(),$LO_options);
-                echo '</TD>';
+                echo '</div>';
 		}
 	}
-
-	echo '</TR></TABLE>';
 }
 
 if($_REQUEST['modname']=='Scheduling/Courses.php' && $_REQUEST['modfunc']=='choose_course' && $_REQUEST['course_period_id'])
