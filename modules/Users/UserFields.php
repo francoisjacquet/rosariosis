@@ -292,8 +292,6 @@ if(empty($_REQUEST['modfunc']))
 	// DISPLAY THE MENU
 	$LO_options = array('save'=>false,'search'=>false); //,'add'=>true);
 
-	echo '<TABLE><TR class="st">';
-
 	if(count($categories_RET))
 	{
 		if($_REQUEST['category_id'])
@@ -306,7 +304,7 @@ if(empty($_REQUEST['modfunc']))
 		}
 	}
 
-	echo '<TD class="valign-top">';
+	echo '<div class="st">';
 	$columns = array('TITLE'=>_('Category'),'SORT_ORDER'=>_('Order'));
 	$link = array();
 	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=$_REQUEST[modfunc]";
@@ -317,7 +315,7 @@ if(empty($_REQUEST['modfunc']))
 	//modif Francois: no responsive table
 	$LO_options['responsive'] = false;
 	ListOutput($categories_RET,$columns,'User Field Category','User Field Categories',$link,array(),$LO_options);
-	echo '</TD>';
+	echo '</div>';
 
 	// FIELDS
 	if($_REQUEST['category_id'] && $_REQUEST['category_id']!='new' && count($categories_RET))
@@ -337,7 +335,7 @@ if(empty($_REQUEST['modfunc']))
 			}
 		}
 
-		echo '<TD class="valign-top">';
+		echo '<div class="st">';
 		$columns = array('TITLE'=>_('User Field'),'SORT_ORDER'=>_('Order'),'TYPE'=>_('Data Type'));
 		$link = array();
 		$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&category_id=$_REQUEST[category_id]";
@@ -347,10 +345,8 @@ if(empty($_REQUEST['modfunc']))
         $fields_RET = ParseMLArray($fields_RET,'TITLE');
 		ListOutput($fields_RET,$columns,'User Field','User Fields',$link,array(),$LO_options);
 
-		echo '</TD>';
+		echo '</div>';
 	}
-
-	echo '</TR></TABLE>';
 }
 
 function _makeType($value,$name)

@@ -597,6 +597,10 @@ table.mceLayout, textarea.tinymce {
 		float: left;
 		width: 100%;
 	}
+	div.st {
+		float: left;
+		padding: 4px;
+	}
 	
 	/*calendar*/
 	#calendar > thead > tr > th > span {
