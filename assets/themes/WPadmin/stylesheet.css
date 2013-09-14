@@ -489,7 +489,7 @@ table.cellpadding-5 > td {
 table.cellpadding-6 > td {
 	padding: 6px
 }
-table.popTable {
+td.popTable {
 	padding: 5px;
 }
 td.valign-top, tr.valign-top {
@@ -569,9 +569,9 @@ table.mceLayout, textarea.tinymce {
 		max-width: 90px;
 	}
 	#modulesBody textarea { 
-		max-width: 150px;
+		width: 100% !important;
 	}
-	table.popTable {
+	td.popTable {
 		padding: 2px;
 	}
 	tr.address > td {
