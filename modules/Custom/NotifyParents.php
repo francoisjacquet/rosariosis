@@ -107,7 +107,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 		
 		$template = $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE'];
 
-		$extra['extra_header_left'] .= '<TR class="st"><TD>&nbsp;</TD><TD>'.'<label><TEXTAREA name="inputnotifyparentstext" cols="100" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),$template).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('New Parent Account').' - '._('Email Text')).'</span></label></TD></TR>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD>&nbsp;</TD><TD>'.'<label><TEXTAREA name="inputnotifyparentstext" cols="97" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),$template).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('New Parent Account').' - '._('Email Text')).'</span></label></TD></TR>';
 		
 		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__PARENT_NAME__</TD><TD>= '._('Parent Name').'</TD><TD>&nbsp;</TD>';
