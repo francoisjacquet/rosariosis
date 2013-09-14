@@ -107,19 +107,19 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 		
 		$template = $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE'];
 
-		$extra['extra_header_left'] .= '<TR><TD>&nbsp;</TD><TD>'.'<label><TEXTAREA name="inputnotifyparentstext" cols="100" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),$template).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('New Parent Account').' - '._('Email Text')).'</span></label></TD></TR>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD>&nbsp;</TD><TD>'.'<label><TEXTAREA name="inputnotifyparentstext" cols="100" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),$template).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('New Parent Account').' - '._('Email Text')).'</span></label></TD></TR>';
 		
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__PARENT_NAME__</TD><TD>= '._('Parent Name').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__ASSOCIATED_STUDENTS__</TD><TD>= '._('Associated Students').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__USERNAME__</TD><TD>= '._('Username').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__PASSWORD__</TD><TD>= '._('Password').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR>';
+		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD colspan="3">&nbsp;</TD>';
 		$extra['extra_header_left'] .= '</TR></TABLE></TD></TR>';
 		
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align: top;">'._('Test Mode').':'.'</TD><TD><label><input name="test_email" type="text" /><BR /><span class="legend-gray">'._('Email').'</span></label></TD></TR>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Test Mode').':'.'</TD><TD><label><input name="test_email" type="text" /><BR /><span class="legend-gray">'._('Email').'</span></label></TD></TR>';
 		$extra['extra_header_left'] .= '</TABLE>';
 	}
 
