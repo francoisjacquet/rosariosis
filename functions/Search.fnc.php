@@ -91,26 +91,16 @@ function Search($type,$extra=null)
 			if($_REQUEST['advanced']=='Y' || is_array($extra))
 			{
 //modif Francois: add <label> on checkbox
-				echo '<TR><TD style="text-align:right;">'._('Grade Levels').'<BR /><label>'._('Not').'&nbsp;<INPUT type="checkbox" name="grades_not" value="Y"></label><BR /><label>'._('Check All').'&nbsp;<INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades[\');"></label></TD><TD><TABLE>';
+				echo '<TR><TD style="text-align:right;">'._('Grade Levels').'</TD><TD><label><span class="nobr"><INPUT type="checkbox" name="grades_not" value="Y">&nbsp;'._('Not').'</span></label><BR /><label><span class="nobr"><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades[\');">&nbsp;'._('Check All').'</span></label></TD></TR><TR><TD colspan="2" style="max-width:120px;">';
 				foreach($list as $value)
 				{
-					if(!$i)
-					{
-						echo '<TR>';
-						$i = 5;
-					}
-                    echo '<TD><label><INPUT type="checkbox" name="grades['.$value['ID'].']" value="Y"'.(is_array($extra)?($extra[$value['ID']]?' checked':''):($extra==$value['ID']?' checked':'')).'>&nbsp;'.$value['SHORT_NAME'].'</label> &nbsp;</TD>';
-					$i--;
-					if(!$i)
-						echo '</TR>';
+                    echo '<label><span class="nobr"><INPUT type="checkbox" name="grades['.$value['ID'].']" value="Y"'.(is_array($extra)?($extra[$value['ID']]?' checked':''):($extra==$value['ID']?' checked':'')).'>&nbsp;'.$value['SHORT_NAME'].'</span></label> ';
 				}
-				if(!$i)
-					echo '</TR>';
-				echo '</TABLE></TD></TR>';
+				echo '</TD></TR>';
 			}
 			else
 			{
-				echo '<TR><TD style="text-align:right; width:120px:"><label for="grade">'._('Grade Level').'</label></TD><TD><SELECT name="grade" id="grade"><OPTION value="">'._('Not Specified').'</OPTION>';
+				echo '<TR><TD style="text-align:right;"><label for="grade">'._('Grade Level').'</label></TD><TD><SELECT name="grade" id="grade"><OPTION value="">'._('Not Specified').'</OPTION>';
 				foreach($list as $value)
                     echo '<OPTION value="'.$value['ID'].'"'.($extra==$value['ID']?' SELECTED="SELECTED"':'').'>'.$value['TITLE'].'</OPTION>';
 				echo '</SELECT></TD></TR>';

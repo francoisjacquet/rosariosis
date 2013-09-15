@@ -36,10 +36,6 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 			if(!isset($extra))
 				$extra = array();
 			Widgets('user',$extra);
-			if($extra['search'])
-				echo $extra['search'];
-			if($extra['extra_search'])
-				echo $extra['extra_search'];
 			Search('student_fields',is_array($extra['student_fields'])?$extra['student_fields']:array());
 			echo '</TABLE>';
 			echo '</TD><TD>';
@@ -62,9 +58,14 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 			echo '</TABLE>';
 			if($extra['second_col'])
 				echo '<BR /><TABLE>'.$extra['second_col'].'</TABLE>';
-			echo '</TD></TR>';
+			echo '</TD></TR><TR><TD colspan="2"><TABLE>';
+			
+			if($extra['search'])
+				echo $extra['search'];
+			if($extra['extra_search'])
+				echo $extra['extra_search'];
 
-			echo '<TR class="valign-top"><TD colspan="2"><TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD>';
+			echo '</TABLE></TD></TR><TR class="valign-top"><TD colspan="2"><TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD>';
 			if($_REQUEST['advanced']=='Y')
 			{
 				$extra['search'] = '';

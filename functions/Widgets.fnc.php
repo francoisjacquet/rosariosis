@@ -110,7 +110,7 @@ function Widgets($item,&$myextra=null)
 							$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Course Period')).' </b>'.$course[1]['COURSE_TITLE'].': '.$course[1]['TITLE'].'<BR />';
 					}
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Course')."</TD><TD><DIV id=course_div></DIV> <A HREF=# onclick='window.open(\"Modules.php?modname=misc/ChooseCourse.php\",\"\",\"scrollbars=yes,resizable=yes,width=800,height=400\");'>"._('Choose').'</A></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Course').'</TD><TD><DIV id="course_div"></DIV> <A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ChooseCourse.php","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</A></TD></TR>';
 				}
 			break;
 
@@ -135,7 +135,7 @@ function Widgets($item,&$myextra=null)
 							$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Missing Request')).' </b>'.$course[1]['TITLE'].'<BR />';
 					}
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px">'._('Request').'</TD><TD><DIV id="request_div"></DIV> <A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ChooseRequest.php","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</A></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Request').'</TD><TD><DIV id="request_div"></DIV> <A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ChooseRequest.php","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</A></TD></TR>';
 				}
 			break;
 
@@ -282,9 +282,9 @@ function Widgets($item,&$myextra=null)
 				{
 					$pros = explode(',',str_replace("'",'',$pros));
 					foreach($pros as $pro)
-						$extra['search'] .= '<label><INPUT type="radio" name="letter_grade_term" value="'.$pro.'">&nbsp;'.GetMP($pro,'SHORT_NAME').'</label> &nbsp;';
+						$extra['search'] .= '<label><span class="nobr"><INPUT type="radio" name="letter_grade_term" value="'.$pro.'">&nbsp;'.GetMP($pro,'SHORT_NAME').'</span></label>&nbsp;';
 				}
-				$extra['search'] .= "</TD><TD>";
+				$extra['search'] .= '</TD><TD style="max-width: 270px;">';
 //modif Francois: fix error Invalid argument supplied for foreach()
 				if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 				{
@@ -296,10 +296,7 @@ function Widgets($item,&$myextra=null)
 						{
 							foreach($grades as $grade)
 							{
-								if($i%9==0)
-									$extra['search'] .= '<BR />';
-
-								$extra['search'] .= '<label><INPUT type="checkbox" value="Y" name="letter_grade['.$grade['ID'].']">&nbsp;'.$grade['TITLE'].'</label>&nbsp; ';
+								$extra['search'] .= '<label><span class="nobr"><INPUT type="checkbox" value="Y" name="letter_grade['.$grade['ID'].']">&nbsp;'.$grade['TITLE'].'</span></label>&nbsp; ';
 								$i++;
 							}
 						}
