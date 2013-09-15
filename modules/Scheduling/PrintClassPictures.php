@@ -105,11 +105,11 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] = '<TABLE>';
 //modif Francois: add <label> on checkbox
-		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="include_teacher" value="Y" checked /> '._('Include Teacher').'</label></TD>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD><label><INPUT type="checkbox" name="include_teacher" value="Y" checked /> '._('Include Teacher').'</label></TD>';
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="legal_size" value="Y"> '._('Legal Size Paper').'</label></TD>';
-		$extra['extra_header_left'] .= '<TD> <label><INPUT type="checkbox" name="last_year" value="Y"> '._('Use Last Year\'s if Missing').'</label></TD></TR>';
+		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="last_year" value="Y"> '._('Use Last Year\'s if Missing').'</label></TD></TR>';
 		if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
-			$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></TD></TR>';
+			$extra['extra_header_left'] .= '<TR><TD colspan="3"><label><INPUT type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></TD></TR>';
 		$extra['extra_header_left'] .= '</TABLE>';
 	}
 
