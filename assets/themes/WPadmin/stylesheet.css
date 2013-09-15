@@ -633,7 +633,7 @@ div.st {
 @media only screen and (max-width: 640px) {
 
 	.rt { display: block; position: relative; width: 100%; }
-	.rt thead { display: block; float: left; max-width: 30%; overflow-x: auto; }
+	.rt thead { display: block; float: left; max-width: 150px; overflow-x: auto; }
 	.rt tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
 	.rt thead tr { display: block; }
 	.rt th { display: block; padding: 4px 7px 2px; line-height: 2em; height: 2em; }

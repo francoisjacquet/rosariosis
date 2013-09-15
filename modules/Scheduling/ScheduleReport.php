@@ -17,7 +17,8 @@ if($_REQUEST['subject_id'])
 
 		$header2 .= '&students='.$location.'&modfunc=students&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('List Students').'</A> | '.$header2.'&unscheduled=true&students='.$location.'&modfunc=students&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('List Unscheduled Students').'</A>';
 
-		DrawHeader($header,$header2);
+		DrawHeader($header);
+		DrawHeader($header2);
 	}
 	else
 		DrawHeader($header);
@@ -26,7 +27,7 @@ echo '</FORM>';
 
 $LO_options = array('save'=>false,'search'=>false,'print'=>false);
 
-echo '<TABLE><TR>';
+echo '<TABLE class="width-100p"><TR class="st">';
 
 // SUBJECTS ----
 if(!$_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['students']!='courses'))
@@ -44,6 +45,7 @@ if(!$_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['stude
 	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=courses&include_child_mps=$_REQUEST[include_child_mps]";
 	$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID');
 	echo '<TD class="valign-top">';
+	$LO_options['responsive'] = false;
 	ListOutput($RET,array('TITLE'=>_('Subject')),'Subject','Subjects',$link,array(),$LO_options);
 	echo '</TD>';
 }
@@ -80,6 +82,7 @@ if($_REQUEST['modfunc']=='courses')
 	else
 		$columns += array('OPEN_SEATS'=>_('Open'),'FILLED_SEATS'=>_('Filled'),'TOTAL_SEATS'=>_('Total'));
 	echo '<TD class="valign-top">';
+	$LO_options['responsive'] = true;
 	ListOutput($RET,$columns,'Course','Courses',$link,array(),$LO_options);
 	echo '</TD>';
 }
