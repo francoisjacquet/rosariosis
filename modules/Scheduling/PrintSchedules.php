@@ -201,13 +201,13 @@ if(empty($_REQUEST['modfunc']))
 		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Schedules for Selected Students').'" />';
 
 		$extra['extra_header_left'] = '<TABLE>';
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; width: 150px;">'._('Marking Period').'</TD><TD>'.$mp_select.'</TD></TR>';
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; width: 150px;">'._('Include only courses active as of').'</TD><TD>'.PrepareDate('','_include_active_date').'</TD></TR>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Marking Period').'</TD><TD>'.$mp_select.'</TD></TR>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Include only courses active as of').'</TD><TD>'.PrepareDate('','_include_active_date').'</TD></TR>';
 		
 		//modif Francois: add Horizontal format option
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; width: 150px;">'.'<label>'._('Horizontal Format').'&nbsp;<input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" /></label>'.'</TD></TR>';
+		$extra['extra_header_left'] .= '<TR><TD colspan="2">'.'<label><span class="nobr">'._('Horizontal Format').'&nbsp;<input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" /></span></label>'.'</TD></TR>';
 	//modif Francois: add schedule table
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; width: 150px;">'.'<label><input name="schedule_table" type="radio" value="Yes" checked />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" type="radio" value="No" />&nbsp;'._('List').'</label>'.'</TD></TR>';
+		$extra['extra_header_left'] .= '<TR><TD colspan="2">'.'<label><input name="schedule_table" type="radio" value="Yes" checked />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" type="radio" value="No" />&nbsp;'._('List').'</label>'.'</TD></TR>';
 		
 		Widgets('mailing_labels');
 		$extra['extra_header_left'] .= $extra['search'];

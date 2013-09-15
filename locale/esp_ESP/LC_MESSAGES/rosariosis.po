@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-24 19:41-0500\n"
-"PO-Revision-Date: 2013-09-09 16:28-0500\n"
+"PO-Revision-Date: 2013-09-15 15:35-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -5706,7 +5706,7 @@ msgstr "Crear Horarios para los Estudiantes Seleccionados"
 
 #: modules/Scheduling/PrintSchedules.php:205
 msgid "Include only courses active as of"
-msgstr "Incluir solamente clases activas en el"
+msgstr "Incluir solamente clases activas el"
 
 #: modules/Scheduling/PrintSchedules.php:208
 #: modules/Scheduling/Schedule.php:134
