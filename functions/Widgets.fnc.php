@@ -277,7 +277,7 @@ function Widgets($item,&$myextra=null)
 					$extra['WHERE'] .= " AND ".($_REQUEST['letter_grade_exclude']=='Y'?'NOT ':'')."EXISTS (SELECT '' FROM STUDENT_REPORT_CARD_GRADES sg3 WHERE sg3.STUDENT_ID=ssm.STUDENT_ID AND sg3.SYEAR=ssm.SYEAR AND sg3.REPORT_CARD_GRADE_ID IN (".mb_substr($letter_grades,1).") AND sg3.MARKING_PERIOD_ID='".$_REQUEST['letter_grade_term']."' )";
 				}
 
-				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Grade').'<BR /><label><INPUT type="checkbox" name="letter_grade_exclude" value="Y">&nbsp;'._('Did not receive').'</label><BR /><label><INPUT type="radio" name="letter_grade_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label>&nbsp; <label><INPUT type="radio" name="letter_grade_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME').'</label>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Grade').'<BR /><label><INPUT type="checkbox" name="letter_grade_exclude" value="Y">&nbsp;'._('Did not receive').'</label><BR /><label><span class="nobr"><INPUT type="radio" name="letter_grade_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</span></label>&nbsp;<label><span class="nobr"><INPUT type="radio" name="letter_grade_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME').'</span></label>';
 				if(mb_strlen($pros = GetChildrenMP('PRO',UserMP())))
 				{
 					$pros = explode(',',str_replace("'",'',$pros));
