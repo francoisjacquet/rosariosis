@@ -141,10 +141,10 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] = '<TABLE>';
 //modif Francois: add <label> on checkbox
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; width:120px:"> <label>'._('Assigned Date').'&nbsp;<INPUT type="checkbox" value="Y" name="assigned_date"></label></TD>';
+		$extra['extra_header_left'] .= '<TR><TD style="text-align:right;"> <label>'._('Assigned Date').'&nbsp;<INPUT type="checkbox" value="Y" name="assigned_date"></label></TD>';
 		$extra['extra_header_left'] .= '<TD style="text-align:right"> <label>'._('Exclude Ungraded E/C Assignments').'&nbsp;<INPUT type="checkbox" value="Y" name="exclude_ec" checked /></label></TD><TR>';
 
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right; width:120px:"> <label>'._('Due Date').'&nbsp;<INPUT type="checkbox" value="Y" name="due_date" checked /></label></TD>';
+		$extra['extra_header_left'] .= '<TR><TD style="text-align:right;"> <label>'._('Due Date').'&nbsp;<INPUT type="checkbox" value="Y" name="due_date" checked /></label></TD>';
 		$extra['extra_header_left'] .= '<TD style="text-align:right"> <label>'._('Exclude Ungraded Assignments Not Due').'&nbsp;<INPUT type="checkbox" value="Y" name="exclude_notdue"></label></TD></TR>';
 		Widgets('mailing_labels');
 		$extra['extra_header_left'] .= mb_substr($extra['search'],0,-5);

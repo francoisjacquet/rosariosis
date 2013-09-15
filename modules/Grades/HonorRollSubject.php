@@ -225,7 +225,7 @@ function MyWidgets($item)
 					$select .= '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
 			}
 			$select .= '</SELECT>';
-			$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Subject').'</TD><TD>'.$select.'</TD></TR>';
+			$extra['search'] .= '<TR><TD style="text-align:right;">'._('Subject').'</TD><TD>'.$select.'</TD></TR>';
 		break;
 	}
 }

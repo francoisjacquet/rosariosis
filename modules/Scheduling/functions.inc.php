@@ -22,7 +22,7 @@ function MyWidgets($item)
 						$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Last Year Course Period')).' </b></span>'.$course[1]['COURSE_TITLE'].' - '.$course[1]['TITLE'].'<BR />';
 				}
 			}
-			$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Last Year Course').'</TD><TD><DIV id="ly_course_div"></DIV> <A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ChooseCourse.php&last_year=true","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</A></TD></TR>';
+			$extra['search'] .= '<TR><TD style="text-align:right;">'._('Last Year Course').'</TD><TD><DIV id="ly_course_div"></DIV> <A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ChooseCourse.php&last_year=true","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</A></TD></TR>';
 		break;
 	}
 }

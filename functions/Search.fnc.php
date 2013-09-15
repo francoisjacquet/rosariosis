@@ -82,16 +82,16 @@ function Search($type,$extra=null)
 		break;
 
 		case 'general_info':
-			echo '<TR><TD style="text-align:right; width:120px:"><label for="last">'._('Last Name').'</label></TD><TD><input type="text" name="last" id="last" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right; width:120px:"><label for="first">'._('First Name').'</label></TD><TD><input type="text" name="first" id="first" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right; width:120px:"><label for="stuid">'._('RosarioSIS ID').'</label></TD><TD><input type="text" name="stuid" id="stuid" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right; width:120px:"><label for="addr">'._('Address').'</label></TD><TD><input type="text" name="addr" id="addr" size="30"></TD></TR>';
+			echo '<TR><TD style="text-align:right;"><label for="last">'._('Last Name').'</label></TD><TD><input type="text" name="last" id="last" size="30"></TD></TR>';
+			echo '<TR><TD style="text-align:right;"><label for="first">'._('First Name').'</label></TD><TD><input type="text" name="first" id="first" size="30"></TD></TR>';
+			echo '<TR><TD style="text-align:right;"><label for="stuid">'._('RosarioSIS ID').'</label></TD><TD><input type="text" name="stuid" id="stuid" size="30"></TD></TR>';
+			echo '<TR><TD style="text-align:right;"><label for="addr">'._('Address').'</label></TD><TD><input type="text" name="addr" id="addr" size="30"></TD></TR>';
 
 			$list = DBGet(DBQuery("SELECT ID,TITLE,SHORT_NAME FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 			if($_REQUEST['advanced']=='Y' || is_array($extra))
 			{
 //modif Francois: add <label> on checkbox
-				echo '<TR><TD style="text-align:right; width:120px:">'._('Grade Levels').'<BR /><label>'._('Not').'&nbsp;<INPUT type="checkbox" name="grades_not" value="Y"></label><BR /><label>'._('Check All').'&nbsp;<INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades[\');"></label></TD><TD><TABLE>';
+				echo '<TR><TD style="text-align:right;">'._('Grade Levels').'<BR /><label>'._('Not').'&nbsp;<INPUT type="checkbox" name="grades_not" value="Y"></label><BR /><label>'._('Check All').'&nbsp;<INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades[\');"></label></TD><TD><TABLE>';
 				foreach($list as $value)
 				{
 					if(!$i)

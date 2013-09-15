@@ -28,17 +28,17 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 			echo '<TR class="valign-top"><TD>';
 //modif Francois: css WPadmin
 			echo '<TABLE class="width-100p" id="general_table">';
-			echo '<TR><TD style="text-align:right; width:120px:"><label for="last">'._('Last Name').'</label></TD><TD><INPUT type="text" name="last" id="last" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right; width:120px:"><label for="first">'._('First Name').'</label></TD><TD><INPUT type="text" name="first" id="first" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right; width:120px:"><label for="usrid">'._('User ID').'</label></TD><TD><input type="text" name="usrid" id="usrid" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right; width:120px:"><label for="username">'._('Username').'</label></TD><TD><INPUT type="text" name="username" id="username" size="30"></TD></TR>';
+			echo '<TR><TD style="text-align:right;"><label for="last">'._('Last Name').'</label></TD><TD><INPUT type="text" name="last" id="last" size="30"></TD></TR>';
+			echo '<TR><TD style="text-align:right;"><label for="first">'._('First Name').'</label></TD><TD><INPUT type="text" name="first" id="first" size="30"></TD></TR>';
+			echo '<TR><TD style="text-align:right;"><label for="usrid">'._('User ID').'</label></TD><TD><input type="text" name="usrid" id="usrid" size="30"></TD></TR>';
+			echo '<TR><TD style="text-align:right;"><label for="username">'._('Username').'</label></TD><TD><INPUT type="text" name="username" id="username" size="30"></TD></TR>';
 			if(User('PROFILE')=='admin')
 				$options = array(''=>_('N/A'),'admin'=>_('Administrator'),'teacher'=>_('Teacher'),'parent'=>_('Parent'),'none'=>_('No Access'));
 			else
 				$options = array(''=>_('N/A'),'teacher'=>_('Teacher'),'parent'=>_('Parent'));
 			if($extra['profile'])
 				$options = array($extra['profile']=>$options[$extra['profile']]);
-			echo '<TR><TD style="text-align:right; width:120px:"><label for="profile">'._('Profile').'</label></TD><TD><SELECT name="profile" id="profile">';
+			echo '<TR><TD style="text-align:right;"><label for="profile">'._('Profile').'</label></TD><TD><SELECT name="profile" id="profile">';
 			foreach($options as $key=>$val)
 				echo '<OPTION value="'.$key.'">'.$val;
 			echo '</SELECT></TD></TR>';

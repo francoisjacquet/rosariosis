@@ -110,7 +110,7 @@ function Widgets($item,&$myextra=null)
 							$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Course Period')).' </b>'.$course[1]['COURSE_TITLE'].': '.$course[1]['TITLE'].'<BR />';
 					}
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Course')."</TD><TD><DIV id=course_div></DIV> <A HREF=# onclick='window.open(\"Modules.php?modname=misc/ChooseCourse.php\",\"\",\"scrollbars=yes,resizable=yes,width=800,height=400\");'>"._('Choose').'</A></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Course')."</TD><TD><DIV id=course_div></DIV> <A HREF=# onclick='window.open(\"Modules.php?modname=misc/ChooseCourse.php\",\"\",\"scrollbars=yes,resizable=yes,width=800,height=400\");'>"._('Choose').'</A></TD></TR>';
 				}
 			break;
 
@@ -171,7 +171,7 @@ function Widgets($item,&$myextra=null)
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Days Absent').'&nbsp;'.$term.' '._('Between').' </b>'.$_REQUEST['absences_low'].' &amp; '.$_REQUEST['absences_high'].'<BR />';
 				}
 //modif Francois: add <label> on radio
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Days Absent').'<BR /><label><INPUT type="radio" name="absences_term" value="FY" checked />&nbsp;'._('YTD').'</label>&nbsp; <label><INPUT type="radio" name="absences_term" value="SEM">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label>&nbsp; <label><INPUT type="radio" name="absences_term" value="QTR">&nbsp;'.GetMP(UserMP(),'SHORT_NAME').'</label></TD><TD>'._('Between').' <INPUT type="text" name="absences_low" size="3" maxlength="5"> &amp; <INPUT type="text" name="absences_high" size="3" maxlength="5"></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Days Absent').'<BR /><label><INPUT type="radio" name="absences_term" value="FY" checked />&nbsp;'._('YTD').'</label>&nbsp; <label><INPUT type="radio" name="absences_term" value="SEM">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label>&nbsp; <label><INPUT type="radio" name="absences_term" value="QTR">&nbsp;'.GetMP(UserMP(),'SHORT_NAME').'</label></TD><TD>'._('Between').' <INPUT type="text" name="absences_low" size="3" maxlength="5"> &amp; <INPUT type="text" name="absences_high" size="3" maxlength="5"></TD></TR>';
 				}
 			break;
 
@@ -213,8 +213,8 @@ function Widgets($item,&$myextra=null)
 				}
 //modif Francois: add <label> on checkbox
 //modif Francois: replace Cumulative by Full Year
-				//$extra['search'] .= "<TR><TD style="text-align:right; width:120px:">"._('GPA')."<BR /><label><INPUT type=checkbox name=gpa_weighted value=Y>&nbsp;"._('Weighted').'</label><BR /><label><INPUT type="radio" name="gpa_term" value=CUM checked />&nbsp;'._('Cumulative').'</label>&nbsp; <label><INPUT type="radio" name="gpa_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label> &nbsp;<label><INPUT type="radio" name="gpa_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME')."</label></TD><TD>"._('Between')." <INPUT type="text" name=gpa_low size=3 maxlength=5> &amp; <INPUT type="text" name=gpa_high size=3 maxlength=5></TD></TR>";
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('GPA').'<BR /><label><INPUT type="checkbox" name="weighted" value="Y">&nbsp;'._('Weighted').'</label><BR />'.(GetMP($MPfy = GetParentMP('FY',GetParentMP('SEM',UserMP())),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="gpa_term" value="'.$MPfy.'" checked />&nbsp;'.GetMP($MPfy,'SHORT_NAME').'</label>&nbsp; ':'').(GetMP($MPsem = GetParentMP('SEM',UserMP()),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="gpa_term" value="'.$MPsem.'">&nbsp;'.GetMP($MPsem,'SHORT_NAME').'</label> &nbsp;':'').(GetMP($MPtrim = UserMP(),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="gpa_term" value="'.$MPtrim.'" checked />&nbsp;'.GetMP($MPtrim,'SHORT_NAME').'</label>':'').'</TD><TD>'._('Between').' <INPUT type="text" name="gpa_low" size="3" maxlength="5"> &amp; <INPUT type="text" name="gpa_high" size="3" maxlength="5"></TD></TR>';
+				//$extra['search'] .= "<TR><TD style="text-align:right;">"._('GPA')."<BR /><label><INPUT type=checkbox name=gpa_weighted value=Y>&nbsp;"._('Weighted').'</label><BR /><label><INPUT type="radio" name="gpa_term" value=CUM checked />&nbsp;'._('Cumulative').'</label>&nbsp; <label><INPUT type="radio" name="gpa_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label> &nbsp;<label><INPUT type="radio" name="gpa_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME')."</label></TD><TD>"._('Between')." <INPUT type="text" name=gpa_low size=3 maxlength=5> &amp; <INPUT type="text" name=gpa_high size=3 maxlength=5></TD></TR>";
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('GPA').'<BR /><label><INPUT type="checkbox" name="weighted" value="Y">&nbsp;'._('Weighted').'</label><BR />'.(GetMP($MPfy = GetParentMP('FY',GetParentMP('SEM',UserMP())),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="gpa_term" value="'.$MPfy.'" checked />&nbsp;'.GetMP($MPfy,'SHORT_NAME').'</label>&nbsp; ':'').(GetMP($MPsem = GetParentMP('SEM',UserMP()),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="gpa_term" value="'.$MPsem.'">&nbsp;'.GetMP($MPsem,'SHORT_NAME').'</label> &nbsp;':'').(GetMP($MPtrim = UserMP(),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="gpa_term" value="'.$MPtrim.'" checked />&nbsp;'.GetMP($MPtrim,'SHORT_NAME').'</label>':'').'</TD><TD>'._('Between').' <INPUT type="text" name="gpa_low" size="3" maxlength="5"> &amp; <INPUT type="text" name="gpa_high" size="3" maxlength="5"></TD></TR>';
 				}
 			break;
 
@@ -246,8 +246,8 @@ function Widgets($item,&$myextra=null)
 						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Class Rank')).' '._('Between').'</b>'.$_REQUEST['class_rank_low'].' &amp; '.$_REQUEST['class_rank_high'].'<BR />';
 				}
 //modif Francois: replace Cumulative by Full Year
-				//$extra['search'] .= "<TR><TD style="text-align:right; width:120px:">"._('Class Rank').'<BR /><label><INPUT type="radio" name="class_rank_term" value=CUM checked />&nbsp;'._('Cumulative').'</label> &nbsp;<label><INPUT type="radio" name="class_rank_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label> &nbsp;<label><INPUT type="radio" name="class_rank_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME');
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Class Rank').'<BR />'.(GetMP($MPfy = GetParentMP('FY',GetParentMP('SEM',UserMP())),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="class_rank_term" value="'.$MPfy.'">&nbsp;'.GetMP($MPfy,'SHORT_NAME').'</label>&nbsp; ':'').(GetMP($MPsem = GetParentMP('SEM',UserMP()),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="class_rank_term" value="'.$MPsem.'">&nbsp;'.GetMP($MPsem,'SHORT_NAME').'</label> &nbsp;':'').(GetMP($MPtrim = UserMP(),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="class_rank_term" value="'.$MPtrim.'" checked />&nbsp;'.GetMP($MPtrim,'SHORT_NAME').'</label>':'');
+				//$extra['search'] .= "<TR><TD style="text-align:right;">"._('Class Rank').'<BR /><label><INPUT type="radio" name="class_rank_term" value=CUM checked />&nbsp;'._('Cumulative').'</label> &nbsp;<label><INPUT type="radio" name="class_rank_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label> &nbsp;<label><INPUT type="radio" name="class_rank_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME');
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Class Rank').'<BR />'.(GetMP($MPfy = GetParentMP('FY',GetParentMP('SEM',UserMP())),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="class_rank_term" value="'.$MPfy.'">&nbsp;'.GetMP($MPfy,'SHORT_NAME').'</label>&nbsp; ':'').(GetMP($MPsem = GetParentMP('SEM',UserMP()),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="class_rank_term" value="'.$MPsem.'">&nbsp;'.GetMP($MPsem,'SHORT_NAME').'</label> &nbsp;':'').(GetMP($MPtrim = UserMP(),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="class_rank_term" value="'.$MPtrim.'" checked />&nbsp;'.GetMP($MPtrim,'SHORT_NAME').'</label>':'');
 				if(mb_strlen($pros = GetChildrenMP('PRO',UserMP())))
 				{
 					$pros = explode(',',str_replace("'",'',$pros));
@@ -277,7 +277,7 @@ function Widgets($item,&$myextra=null)
 					$extra['WHERE'] .= " AND ".($_REQUEST['letter_grade_exclude']=='Y'?'NOT ':'')."EXISTS (SELECT '' FROM STUDENT_REPORT_CARD_GRADES sg3 WHERE sg3.STUDENT_ID=ssm.STUDENT_ID AND sg3.SYEAR=ssm.SYEAR AND sg3.REPORT_CARD_GRADE_ID IN (".mb_substr($letter_grades,1).") AND sg3.MARKING_PERIOD_ID='".$_REQUEST['letter_grade_term']."' )";
 				}
 
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Grade').'<BR /><label><INPUT type="checkbox" name="letter_grade_exclude" value="Y">&nbsp;'._('Did not receive').'</label><BR /><label><INPUT type="radio" name="letter_grade_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label>&nbsp; <label><INPUT type="radio" name="letter_grade_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME').'</label>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Grade').'<BR /><label><INPUT type="checkbox" name="letter_grade_exclude" value="Y">&nbsp;'._('Did not receive').'</label><BR /><label><INPUT type="radio" name="letter_grade_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label>&nbsp; <label><INPUT type="radio" name="letter_grade_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME').'</label>';
 				if(mb_strlen($pros = GetChildrenMP('PRO',UserMP())))
 				{
 					$pros = explode(',',str_replace("'",'',$pros));
@@ -352,7 +352,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Eligibility')).' </b>'._('Ineligible').'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:"></TD><TD><label><INPUT type="checkbox" name="ineligible" value="Y">&nbsp;'._('Ineligible').'</label></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right; "></TD><TD><label><INPUT type="checkbox" name="ineligible" value="Y">&nbsp;'._('Ineligible').'</label></TD></TR>';
 				}
 			break;
 
@@ -377,7 +377,7 @@ function Widgets($item,&$myextra=null)
 						$select .= '<OPTION value="'.$activity['ID'].'">'.$activity['TITLE'].'</OPTION>';
 				}
 				$select .= '</SELECT>';
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Activity').'</TD><TD>'.$select.'</TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Activity').'</TD><TD>'.$select.'</TD></TR>';
 				}
 			break;
 
@@ -407,7 +407,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Student Billing Balance')).' </b>'._('Between').' '.$_REQUEST['balance_low'].' &amp; '.$_REQUEST['balance_high'].'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Balance').'<BR /></TD><TD>'._('Between').' <INPUT type="text" name="balance_low" size="5" maxlength="10"> &amp; <INPUT type="text" name="balance_high" size="5" maxlength="10"></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Balance').'<BR /></TD><TD>'._('Between').' <INPUT type="text" name="balance_low" size="5" maxlength="10"> &amp; <INPUT type="text" name="balance_high" size="5" maxlength="10"></TD></TR>';
 				}
 			break;
 
@@ -448,7 +448,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Reporter').': </b>'.$users_RET[$_REQUEST['discipline_reporter']][1]['LAST_NAME'].', '.$users_RET[$_REQUEST['discipline_reporter']][1]['FIRST_NAME'].' '.$users_RET[$_REQUEST['discipline_reporter']][1]['MIDDLE_NAME'].'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Reporter').'</TD><TD>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Reporter').'</TD><TD>';
 				$extra['search'] .= '<SELECT name=discipline_reporter><OPTION value="">'._('Not Specified').'</OPTION>';
 				foreach($users_RET as $id=>$user)
 					$extra['search'] .= '<OPTION value='.$id.'>'.$user[1]['LAST_NAME'].', '.$user[1]['FIRST_NAME'].' '.$user[1]['MIDDLE_NAME'].'</OPTION>';
@@ -473,7 +473,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Entered').' '._('On or Before').' </b>'.ProperDate($_REQUEST['discipline_entry_end']).'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Incident Date').'</TD><TD><table class="cellpadding-0 cellspacing-0"><tr><td><span class="sizep2">&ge;</span>&nbsp;</td><td>'.PrepareDate('','_discipline_entry_begin',true,array('short'=>true)).'</td></tr><tr><td><span class="sizep2">&le;</span>&nbsp;</td><td>'.PrepareDate('','_discipline_entry_end',true,array('short'=>true)).'</td></tr></table></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Incident Date').'</TD><TD><table class="cellpadding-0 cellspacing-0"><tr><td><span class="sizep2">&ge;</span>&nbsp;</td><td>'.PrepareDate('','_discipline_entry_begin',true,array('short'=>true)).'</td></tr><tr><td><span class="sizep2">&le;</span>&nbsp;</td><td>'.PrepareDate('','_discipline_entry_end',true,array('short'=>true)).'</td></tr></table></TD></TR>';
 				}
 			break;
 
@@ -485,7 +485,7 @@ function Widgets($item,&$myextra=null)
 				{
 					if($category['TYPE']!='date')
 					{
-						$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'.$category['TITLE'].'</TD><TD>';
+						$extra['search'] .= '<TR><TD style="text-align:right;">'.$category['TITLE'].'</TD><TD>';
 						switch($category['TYPE'])
 						{
 							case 'text':
@@ -562,7 +562,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Next Year')).' </b>'.($_REQUEST['next_year']==UserSchool()?'Next grade at current school':($_REQUEST['next_year']=='0'?'Retain':($_REQUEST['next_year']=='-1'?'Do not enroll after this school year':$schools_RET[$_REQUEST['next_year']][1]['TITLE']))).'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Next Year').'</TD><TD><SELECT name="next_year"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION><OPTION value="'.UserSchool().'">'._('Next grade at current school').'</OPTION><OPTION value="0">'._('Retain').'</OPTION><OPTION value="-1">'._('Do not enroll after this school year').'</OPTION>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Next Year').'</TD><TD><SELECT name="next_year"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION><OPTION value="'.UserSchool().'">'._('Next grade at current school').'</OPTION><OPTION value="0">'._('Retain').'</OPTION><OPTION value="-1">'._('Do not enroll after this school year').'</OPTION>';
 				foreach($schools_RET as $id=>$school)
 					$extra['search'] .= '<OPTION value='.$id.'>'.$school[1]['TITLE'].'</OPTION>';
 				$extra['search'] .= '</SELECT></TD></TR>';
@@ -585,7 +585,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Calendar').': </b>'.($_REQUEST['calendar_not']=='Y'?_('Not').' ':'').$calendars_RET[$_REQUEST['calendar']][1]['TITLE'].'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Calendar').'</TD><TD><label><INPUT type="checkbox" name="calendar_not" value="Y"> '._('Not').' </label><SELECT name="calendar"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Calendar').'</TD><TD><label><INPUT type="checkbox" name="calendar_not" value="Y"> '._('Not').' </label><SELECT name="calendar"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 				foreach($calendars_RET as $id=>$calendar)
 					$extra['search'] .= '<OPTION value="'.$id.'">'.$calendar[1]['TITLE'].'</OPTION>';
 				$extra['search'] .= '</SELECT></TD></TR>';
@@ -625,7 +625,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Enrolled').' '._('On or Before').': </b>'.ProperDate($_REQUEST['enrolled_end']).'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Attendance Start').'</TD><TD><table class="cellpadding-0 cellspacing-0"><tr><td><span class="sizep2">&ge;</span>&nbsp;</td><td>'.PrepareDate('','_enrolled_begin',true,array('short'=>true)).'</td></tr><tr><td><span class="sizep2">&le;</span>&nbsp;</td><td>'.PrepareDate('','_enrolled_end',true,array('short'=>true)).'</td></tr></table></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Attendance Start').'</TD><TD><table class="cellpadding-0 cellspacing-0"><tr><td><span class="sizep2">&ge;</span>&nbsp;</td><td>'.PrepareDate('','_enrolled_begin',true,array('short'=>true)).'</td></tr><tr><td><span class="sizep2">&le;</span>&nbsp;</td><td>'.PrepareDate('','_enrolled_end',true,array('short'=>true)).'</td></tr></table></TD></TR>';
 				}
 			break;
 
@@ -638,7 +638,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Previously Enrolled').': </b>'.($_REQUEST['rolled']=='Y'?_('Yes'):_('No')).'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Previously Enrolled').'</TD><TD><label><INPUT type="radio" value="" name="rolled" checked /> '._('N/A').'</label> &nbsp;<label><INPUT type="radio" value="Y" name="rolled"> '._('Yes').'</label> &nbsp;<label><INPUT type="radio" value="N" name="rolled"> '._('No').'</label></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Previously Enrolled').'</TD><TD><label><INPUT type="radio" value="" name="rolled" checked /> '._('N/A').'</label> &nbsp;<label><INPUT type="radio" value="Y" name="rolled"> '._('Yes').'</label> &nbsp;<label><INPUT type="radio" value="N" name="rolled"> '._('No').'</label></TD></TR>';
 				}
 			break;
 
@@ -660,7 +660,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Balance').': </b><span class="sizep2">'.($_REQUEST['fsa_bal_ge']=='Y'?'&ge;':'&lt;').number_format($_REQUEST['fsa_balance'],2).'</span><BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Balance').'</TD><TD><table class="cellpadding-0 cellspacing-0"><tr><td><label><span class="sizep2">&lt;</span> <INPUT type="radio" name="fsa_bal_ge" value="" checked /></label></td><td rowspan="2"><INPUT type="text" name="fsa_balance" size=10'.($value?' value="'.$value.'"':'').'></label></td></tr><tr><td><label><span class="sizep2">&ge;</span> <INPUT type="radio" name="fsa_bal_ge" value=Y></label></td></tr></table></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Balance').'</TD><TD><table class="cellpadding-0 cellspacing-0"><tr><td><label><span class="sizep2">&lt;</span> <INPUT type="radio" name="fsa_bal_ge" value="" checked /></label></td><td rowspan="2"><INPUT type="text" name="fsa_balance" size=10'.($value?' value="'.$value.'"':'').'></label></td></tr><tr><td><label><span class="sizep2">&ge;</span> <INPUT type="radio" name="fsa_bal_ge" value=Y></label></td></tr></table></TD></TR>';
 				}
 			break;
 
@@ -681,7 +681,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Discount').': </b>'.$_REQUEST['fsa_discount'].'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Discount').'</TD><TD><SELECT name=fsa_discount><OPTION value="">'._('Not Specified').'</OPTION><OPTION value="Full">'._('Full').'</OPTION><OPTION value="Reduced">'._('Reduced').'</OPTION><OPTION value="Free">'._('Free').'</OPTION></SELECT></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Discount').'</TD><TD><SELECT name=fsa_discount><OPTION value="">'._('Not Specified').'</OPTION><OPTION value="Full">'._('Full').'</OPTION><OPTION value="Reduced">'._('Reduced').'</OPTION><OPTION value="Free">'._('Free').'</OPTION></SELECT></TD></TR>';
 				}
 			break;
 
@@ -702,7 +702,7 @@ function Widgets($item,&$myextra=null)
 					else
 						$extra['WHERE'] .= " AND fssa.STATUS='".$_REQUEST['fsa_status']."'";
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Account Status').'</TD><TD><SELECT name=fsa_status><OPTION value="">'._('Not Specified').'</OPTION><OPTION value="Active"'.($value=='active'?' SELECTED="SELECTED"':'').'>'._('Active').'</OPTION><OPTION value="Inactive">'._('Inactive').'</OPTION><OPTION value="Disabled">'._('Disabled').'</OPTION><OPTION value="Closed">'._('Closed').'</OPTION></SELECT></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Account Status').'</TD><TD><SELECT name=fsa_status><OPTION value="">'._('Not Specified').'</OPTION><OPTION value="Active"'.($value=='active'?' SELECTED="SELECTED"':'').'>'._('Active').'</OPTION><OPTION value="Inactive">'._('Inactive').'</OPTION><OPTION value="Disabled">'._('Disabled').'</OPTION><OPTION value="Closed">'._('Closed').'</OPTION></SELECT></TD></TR>';
 				}
 			break;
 
@@ -720,7 +720,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Barcode').': </b>'.$_REQUEST['fsa_barcode'].'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Barcode').'</TD><TD><INPUT type="text" name="fsa_barcode" size="15"></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Barcode').'</TD><TD><INPUT type="text" name="fsa_barcode" size="15"></TD></TR>';
 				}
 			break;
 
@@ -738,7 +738,7 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Account ID').': </b>'.($_REQUEST['fsa_account_id']+0).'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Account ID').'</TD><TD><INPUT type="text" name="fsa_account_id" size="15"></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Account ID').'</TD><TD><INPUT type="text" name="fsa_account_id" size="15"></TD></TR>';
 				}
 			break;
 		}

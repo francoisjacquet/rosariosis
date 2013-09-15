@@ -263,7 +263,7 @@ function MyWidgets($item)
 					$_ROSARIO['SearchTerms'] .= '<b>'._('High Honor Roll').'</b><BR />';
 			}
 //modif Francois: add <label> on checkbox
-			$extra['search'] .= '<TR><TD style="text-align:right; width:120px:">'._('Honor Roll').'</TD><TD><label><INPUT type="checkbox" name="honor_roll" value="Y" checked /> '._('Honor').'</label> <label><INPUT type="checkbox" name="high_honor_roll" value="Y" checked /> '._('High Honor').'</label></TD></TR>';
+			$extra['search'] .= '<TR><TD style="text-align:right;">'._('Honor Roll').'</TD><TD><label><INPUT type="checkbox" name="honor_roll" value="Y" checked /> '._('Honor').'</label> <label><INPUT type="checkbox" name="high_honor_roll" value="Y" checked /> '._('High Honor').'</label></TD></TR>';
 		break;
 	}
 }
