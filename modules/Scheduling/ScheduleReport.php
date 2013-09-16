@@ -27,7 +27,7 @@ echo '</FORM>';
 
 $LO_options = array('save'=>false,'search'=>false,'print'=>false);
 
-echo '<TABLE class="width-100p"><TR class="st">';
+echo '<TABLE><TR class="st">';
 
 // SUBJECTS ----
 if(!$_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['students']!='courses'))
@@ -143,6 +143,8 @@ if($_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_peri
 	echo '</TD>';
 }
 
+echo '</TR></TABLE>';
+
 // LIST STUDENTS ----
 if($_REQUEST['modfunc']=='students')
 {
@@ -176,15 +178,11 @@ if($_REQUEST['modfunc']=='students')
 		$link['FULL_NAME']['link'] = "Modules.php?modname=Scheduling/Schedule.php";
 		$link['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
 	}
-	echo '<TD class="valign-top">';
     if ($_REQUEST['unscheduled']=='true')
 	    ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'CUSTOM_200000004'=>_('Birthdate')),'Unscheduled Student','Unscheduled Students',$link,array(),$LO_options);
     else
         ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'CUSTOM_200000004'=>_('Birthdate')),'Student','Students',$link,array(),$LO_options);
-	echo '</TD>';
 }
-
-echo '</TR></TABLE>';
 
 function calcSeats1($period,&$total_seats,&$filled_seats)
 {
