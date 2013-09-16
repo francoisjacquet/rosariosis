@@ -201,7 +201,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] = '<TABLE>';
 		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'.Localize('colon',_('Include on Grade List')).'</b></TD></TR>';
 
-		$extra['extra_header_left'] .= '<TR><TD></TD><TD><TABLE>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD></TD><TD><TABLE>';
 		$extra['extra_header_left'] .= '<TR>';
 //modif Francois: add <label> on checkbox
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[teacher]" value="Y" checked /> '._('Teacher').'</label></TD>';
@@ -229,10 +229,10 @@ if(empty($_REQUEST['modfunc']))
 
 		//modif Francois: get the title instead of the short marking period name
 		$mps_RET = DBGet(DBQuery("SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('PARENT_ID'));
-		$extra['extra_header_left'] .= '<TR><TD style="text-align:right">'._('Marking Periods').':</TD><TD><TABLE><TR><TD><TABLE>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Marking Periods').':</TD><TD><TABLE><TR><TD><TABLE>';
 		foreach($mps_RET as $sem=>$quarters)
 		{
-			$extra['extra_header_left'] .= '<TR>';
+			$extra['extra_header_left'] .= '<TR class="st">';
 			foreach($quarters as $qtr)
 			{
 				$pro = GetChildrenMP('PRO',$qtr['MARKING_PERIOD_ID']);
