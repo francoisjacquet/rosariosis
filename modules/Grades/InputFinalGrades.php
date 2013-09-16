@@ -74,7 +74,7 @@ $commentsB_select = array();
 if(0)
 foreach($commentsB_RET as $id=>$comment)
 	$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'],$comment[1]['TITLE']));
-else
+elseif (is_array($commentsB_RET))
 foreach($commentsB_RET as $id=>$comment)
 	$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'].' - '.(mb_strlen($comment[1]['TITLE']) > 99+3?mb_substr($comment[1]['TITLE'],0,99).'...':$comment[1]['TITLE']),$comment[1]['TITLE']));
 
@@ -594,7 +594,7 @@ else
 $LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>_('RosarioSIS ID'));
 if($_REQUEST['include_inactive']=='Y')
 	$LO_columns += array('ACTIVE'=>_('School Status'),'ACTIVE_SCHEDULE'=>_('Course Status'));
-$LO_columns += array('REPORT_CARD_GRADE'=>($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0?_('Letter'):($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0?_('Percent'):(Preferences('ONELINE','Gradebook')=='Y'?'<span style="white-space:nowrap;">':'')._('Letter').(Preferences('ONELINE','Gradebook')=='Y'?' ':'<BR />')._('Percent').(Preferences('ONELINE','Gradebook')=='Y'?'</span>':''))));
+$LO_columns += array('REPORT_CARD_GRADE'=>($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0?_('Letter'):($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0?_('Percent'):'<span class="nobr">'._('Letter').' '._('Percent').'</span>')));
 
 if(GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
@@ -656,13 +656,13 @@ function _makeLetterPercent($student_id,$column)
 			{
 				$return = '<DIV id="'.$student_id.'"><div class="onclick" onclick=\'addHTML("';
 				
-				$select = (Preferences('ONELINE','Gradebook')=='Y'?'<span style="white-space:nowrap;">':'').SelectInput($select_grade,'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',false).(Preferences('ONELINE','Gradebook')=='Y'?' ':'<BR />').TextInput($select_percent!=''?$select_percent.'%':'',"values[$student_id][percent]",'','size="5" tabindex="'.($tabindex+=100).'"',false).(Preferences('ONELINE','Gradebook')=='Y'?'</span>':'');
+				$select = '<span class="nobr">'.SelectInput($select_grade,'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',false).' '.TextInput($select_percent!=''?$select_percent.'%':'',"values[$student_id][percent]",'','size="5" tabindex="'.($tabindex+=100).'"',false).'</span>';
 				
 				$return .=  str_replace('"','\"',$select);
-				$return .= '","'.$student_id.'",true);\'><span class="underline-dots">'.(Preferences('ONELINE','Gradebook')=='Y'?'<span style="white-space:nowrap;">':'').($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>').(Preferences('ONELINE','Gradebook')=='Y'?' ':'<BR /><BR />').$select_percent.'%'.(Preferences('ONELINE','Gradebook')=='Y'?'</span>':'').'</span></div></DIV>';
+				$return .= '","'.$student_id.'",true);\'><span class="underline-dots">'.'<span class="nobr">'.($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>').' '.$select_percent.'%'.'</span>'.'</span></div></DIV>';
 			}
 			else
-				$return = (Preferences('ONELINE','Gradebook')=='Y'?'<span style="white-space:nowrap;">':'').SelectInput($select_grade?$select_grade:($select_percent!=''?' ':''),'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',false).(Preferences('ONELINE','Gradebook')=='Y'?' ':'<BR />').TextInput($select_percent!=''?$select_percent.'%':($select_grade?'%':''),"values[$student_id][percent]",'','size="5" tabindex="'.($tabindex+=100).'"',false).(Preferences('ONELINE','Gradebook')=='Y'?'</span>':'');
+				$return = '<span class="nobr">'.SelectInput($select_grade?$select_grade:($select_percent!=''?' ':''),'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',false).' '.TextInput($select_percent!=''?$select_percent.'%':($select_grade?'%':''),"values[$student_id][percent]",'','size="5" tabindex="'.($tabindex+=100).'"',false).'</span>';
 		}
 	}
 	else
@@ -672,7 +672,7 @@ function _makeLetterPercent($student_id,$column)
 		elseif($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0)
 			$return = $select_percent.'%';
 		else
-			$return = (Preferences('ONELINE','Gradebook')=='Y'?'<span style="white-space:nowrap;">':'').($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>').(Preferences('ONELINE','Gradebook')=='Y'?' ':'<BR />').$select_percent.'%'.(Preferences('ONELINE','Gradebook')=='Y'?'</span>':'');
+			$return = '<span class="nobr">'.($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>').' '.$select_percent.'%'.'</span>';
 	}
 
 	return $return;

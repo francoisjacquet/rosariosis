@@ -63,25 +63,22 @@ if ($RosarioModules['Eligibility'])
 	echo '</fieldset><BR />';
 }
 
-if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']==0) //if letter AND percent grades
+$comment_codes_RET = DBGet(DBQuery("SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE FROM REPORT_CARD_COMMENT_CODE_SCALES rccs,REPORT_CARD_COMMENT_CODES rccc WHERE rccs.SCHOOL_ID='".UserSchool()."' AND rccc.SCALE_ID=rccs.ID ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID"),array(),array('ID'));
+
+if($comment_codes_RET)
 {
 	echo '<fieldset>';
 	echo '<legend><b>'._('Final Grades').'</b></legend>';
 	echo '<TABLE>';
 
-	echo '<TR><TD colspan="3"><TABLE><TR><TD colspan="4"><B>'._('Input Format').'</B></TD></TR><TR><TD style="text-align:right"><label><INPUT type="radio" name="values[ONELINE]" value="'.(($programconfig['ONELINE']=='')?' checked':'').'"></TD><TD>'._('Letter').'<BR />'._('Percent').'</label></TD><TD style="text-align:right"><label><INPUT type="radio" name="values[ONELINE]" value="Y"'.(($programconfig['ONELINE']=='Y')?' checked':'').'><span style="white-space:nowrap;"> '._('Letter Percent').'</span></label></TD></TR></TABLE></TD></TR>';
-
-	$comment_codes_RET = DBGet(DBQuery("SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE FROM REPORT_CARD_COMMENT_CODE_SCALES rccs,REPORT_CARD_COMMENT_CODES rccc WHERE rccs.SCHOOL_ID='".UserSchool()."' AND rccc.SCALE_ID=rccs.ID ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID"),array(),array('ID'));
-	if($comment_codes_RET)
+	foreach($comment_codes_RET as $id=>$comments)
 	{
-		foreach($comment_codes_RET as $id=>$comments)
-		{
-		echo '<TR><TD class="valign-top" style="width:30px;"></TD><TD style="text-align:right"><SELECT name="values[COMMENT_'.$id.']><OPTION value="">'._('N/A').'';
-		foreach($comments as $key=>$val)
-			echo '<OPTION value="'.$val['CODE_TITLE'].'"'.($val['CODE_TITLE']==$programconfig['COMMENT_'.$id]?' selected':'').'>'.$val['CODE_TITLE'];
-		echo '</SELECT></TD><TD style="text-align:left;">'.sprintf(_('Default %s comment code'), $comments[1]['TITLE']).'</TD></TR>';
-		}
+	echo '<TR><TD class="valign-top" style="width:30px;"></TD><TD style="text-align:right"><SELECT name="values[COMMENT_'.$id.']><OPTION value="">'._('N/A').'';
+	foreach($comments as $key=>$val)
+		echo '<OPTION value="'.$val['CODE_TITLE'].'"'.($val['CODE_TITLE']==$programconfig['COMMENT_'.$id]?' selected':'').'>'.$val['CODE_TITLE'];
+	echo '</SELECT></TD><TD style="text-align:left;">'.sprintf(_('Default %s comment code'), $comments[1]['TITLE']).'</TD></TR>';
 	}
+
 	echo '</TABLE>';
 	echo '</fieldset><BR />';
 }
