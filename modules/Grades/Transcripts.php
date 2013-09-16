@@ -297,7 +297,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'.Localize('colon',_('Include on Transcript')).'</b><INPUT type="hidden" name="SCHOOL_ID" value="'.UserSchool().'"><BR /></TD></TR>';
         $mp_types = DBGet(DBQuery("SELECT DISTINCT MP_TYPE FROM MARKING_PERIODS WHERE NOT MP_TYPE IS NULL AND SCHOOL_ID='".UserSchool()."'"),array(),array());
-        $extra['extra_header_left'] .= '<TR><TD style="text-align:right; vertical-align:top;">'._('Marking Periods').':</TD><TD><TABLE><TR><TD  style="vertical-align:top;"><TABLE>';
+        $extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align:top;">'._('Marking Periods').':</TD><TD><TABLE><TR class="st"><TD  style="vertical-align:top;"><TABLE>';
 //modif Francois: add translation
 		$marking_periods_locale = array('Year'=>_('Year'), 'Semester'=>_('Semester'), 'Quarter'=>_('Quarter'));
 		foreach($mp_types as $mp_type)
@@ -310,8 +310,7 @@ if(empty($_REQUEST['modfunc']))
 		}
 		$extra['extra_header_left'] .= '</TABLE></TD>';
         $extra['extra_header_left'] .= '<INPUT type="hidden" name="syear" value="'.UserSyear().'">';
-        $extra['extra_header_left'] .= '<TD style="text-align:right; width:20px;">&nbsp;</TD>';
-        $extra['extra_header_left'] .= '<TD style="text-align:right; vertical-align:top;">'._('Other Options').':</TD>';
+        $extra['extra_header_left'] .= '<TD style="vertical-align:top;">'._('Other Options').':</TD>';
         $extra['extra_header_left'] .= '<TD><TABLE>';
         //modif Francois: add Show Grades option
 		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showgrades" value="1" checked /> '._('Grades').'</label></TD></TR>';
