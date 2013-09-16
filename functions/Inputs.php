@@ -283,14 +283,14 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 		if($allow_na!==false)
 		{
 //modif Francois: add <label> on radio
-			$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value=""'.($value==''?' checked':'').' /><BR />'.str_replace(array("'",'"'),array('&#39;','&quot;'),($allow_na=='N/A'?_('N/A'):$allow_na)).'</label></TD><TD>&nbsp;</TD>';
+			$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value=""'.($value==''?' checked':'').' /> '.str_replace(array("'",'"'),array('&#39;','&quot;'),($allow_na=='N/A'?_('N/A'):$allow_na)).'</label></TD>';
 		}
 		if(count($options))
 		{
 			foreach($options as $key=>$val)
 			{
 				$key .= '';
-				$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value="'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$key).'" '.($value==$key && (!($value==false && $value!==$key) || ($value==='0' && $key===0))?'checked':'').' /><BR />'.(is_array($val)?$val[0]:$val).'</label></TD><TD>&nbsp;</TD>';
+				$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value="'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$key).'" '.($value==$key && (!($value==false && $value!==$key) || ($value==='0' && $key===0))?'checked':'').' /> '.(is_array($val)?$val[0]:$val).'</label></TD>';
 			}
 		}
 		$table .= '</TR></TABLE>';
