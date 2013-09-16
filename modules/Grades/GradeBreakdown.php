@@ -103,8 +103,8 @@ if(count($grouped_RET))
 		for ($j=1; $j<=$i; $j++)
 		{
 ?>
-			<div class="gradeBreakdownCol" style="width:520px; float: left;">
-				<div id="chart<?php echo $j; ?>" style="margin-top:20px; margin-left:20px; width:500px; height:300px;"></div>
+			<div class="gradeBreakdownCol" style="float: left;">
+				<div id="chart<?php echo $j; ?>"></div>
 			</div>
 <?php
 		}
