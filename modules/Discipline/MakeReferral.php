@@ -112,24 +112,24 @@ if(UserStudentID() && $_REQUEST['student_id'])
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
 	
 	echo '<TABLE class="width-100p">';
-	echo '<TR><TD style="text-align:right; width:150px"><span style="color:gray">'._('Student').'</span></TD><TD>';
+	echo '<TR class="st"><TD><span style="color:gray">'._('Student').'</span></TD><TD>';
 	$name = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME,NAME_SUFFIX FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
 	echo $name[1]['FIRST_NAME'].'&nbsp;'.($name[1]['MIDDLE_NAME']?$name[1]['MIDDLE_NAME'].' ':'').$name[1]['LAST_NAME'].'&nbsp;'.$name[1]['NAME_SUFFIX'];
 	echo '</TD></TR>';
 
-	echo '<TR><TD style="text-align:right; width:150px"><span style="color:gray">'._('Reporter').'</span></TD><TD>';
+	echo '<TR class="st"><TD><span style="color:gray">'._('Reporter').'</span></TD><TD>';
 	$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
 	echo '<SELECT name="values[STAFF_ID]">';
 	foreach($users_RET as $user)
 		echo '<OPTION value="'.$user['STAFF_ID'].'"'.(User('STAFF_ID')==$user['STAFF_ID']?' SELECTED="SELECTED"':'').'>'.$user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'].'</OPTION>';
 	echo '</SELECT>';
 	echo '</TD></TR>';
-	echo '<TR><TD style="text-align:right; width:150px"><span style="color:gray">'._('Incident Date').'</span></TD><TD>';
+	echo '<TR class="st"><TD><span style="color:gray">'._('Incident Date').'</span></TD><TD>';
 	echo PrepareDate(DBDate(),'_values[ENTRY_DATE]');
 	echo '</TD></TR>';
 	foreach($categories_RET as $category)
 	{
-		echo '<TR><TD style="text-align:right; width:150px"><span style="color:gray">'.$category['TITLE'].'</span></TD><TD>';
+		echo '<TR class="st"><TD><span style="color:gray">'.$category['TITLE'].'</span></TD><TD>';
 		switch($category['DATA_TYPE'])
 		{
 			case 'text':
@@ -161,14 +161,14 @@ if(UserStudentID() && $_REQUEST['student_id'])
 				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 				$options = explode("\r",$category['SELECT_OPTIONS']);
 				
-				echo '<TABLE class="cellpadding-3"><TR>';
+				echo '<TABLE class="cellpadding-3"><TR class="st">';
 				$i = 0;
 				foreach($options as $option)
 				{
-					if($i%3==0)
-						echo '</TR><TR>';
-					echo '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',$option).'" />&nbsp;'.$option.'</label></TD>';
 					$i++;
+					if($i%3==0)
+						echo '</TR><TR class="st">';
+					echo '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',$option).'" />&nbsp;'.$option.'</label></TD>';
 				}
 				echo '</TR></TABLE>';
 			break;
@@ -177,14 +177,14 @@ if(UserStudentID() && $_REQUEST['student_id'])
 				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 				$options = explode("\r",$category['SELECT_OPTIONS']);
 				
-				echo '<TABLE class="cellpadding-3"><TR>';
+				echo '<TABLE class="cellpadding-3"><TR class="st">';
 				$i = 0;
 				foreach($options as $option)
 				{
-					if($i%3==0)
-						echo '</TR><TR>';
-					echo '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','&quot;',$option).'">&nbsp;'.$option.'</label></TD>';
 					$i++;
+					if($i%3==0)
+						echo '</TR><TR class="st">';
+					echo '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','&quot;',$option).'">&nbsp;'.$option.'</label></TD>';
 				}
 				echo '</TR></TABLE>';
 			break;
