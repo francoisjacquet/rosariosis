@@ -126,23 +126,23 @@ elseif(empty($_REQUEST['modfunc']))
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
 
 	echo '<TABLE class="width-100p">';
-	echo '<TR><TD style="text-align:right; width:30px; vertical-align:top;"><span style="color:gray">'._('Student').'</span></TD><TD>';
+	echo '<TR class="st"><TD><span style="color:gray">'._('Student').'</span></TD><TD>';
 	$name = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME,NAME_SUFFIX FROM STUDENTS WHERE STUDENT_ID='".$RET['STUDENT_ID']."'"));
 	echo $name[1]['FIRST_NAME'].'&nbsp;'.($name[1]['MIDDLE_NAME']?$name[1]['MIDDLE_NAME'].' ':'').$name[1]['LAST_NAME'].'&nbsp;'.$name[1]['NAME_SUFFIX'];
 	echo '</TD></TR>';
 
-	echo '<TR><TD style="text-align:right; width:30px; vertical-align: top;"><span style="color:gray">'._('Reporter').'</span></TD><TD>';
+	echo '<TR class="st"><TD><span style="color:gray">'._('Reporter').'</span></TD><TD>';
 	$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
 	foreach($users_RET as $user)
 		$options[$user['STAFF_ID']] = $user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'];
 	echo SelectInput($RET['STAFF_ID'],'values[STAFF_ID]','',$options);
 	echo '</TD></TR>';
-	echo '<TR><TD style="text-align:right; width:30px; vertical-align: top;"><span style="color:gray">'._('Incident Date').'</span></TD><TD>';
+	echo '<TR class="st"><TD><span style="color:gray">'._('Incident Date').'</span></TD><TD>';
 	echo DateInput($RET['ENTRY_DATE'],'values[ENTRY_DATE]');
 	echo '</TD></TR>';
 	foreach($categories_RET as $category)
 	{
-		echo '<TR><TD style="text-align:right; width:30px; vertical-align: top;"><span style="color:gray">'.$category['TITLE'].'</span></TD><TD>';
+		echo '<TR class="st"><TD><span style="color:gray">'.$category['TITLE'].'</span></TD><TD>';
 		switch($category['DATA_TYPE'])
 		{
 			case 'text':
@@ -177,14 +177,14 @@ elseif(empty($_REQUEST['modfunc']))
 					$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 					$options = explode("\r",$category['SELECT_OPTIONS']);
 
-					$toEscape = '<TABLE class="cellpadding-3"><TR>';
+					$toEscape = '<TABLE class="cellpadding-3"><TR class="st">';
 					$i = 0;
 					foreach($options as $option)
 					{
-						if($i%3==0)
-							$toEscape .= '</TR><TR>';
-						$toEscape .= '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)))!==false?' checked':'').' />&nbsp;'.str_replace("'",'&rsquo;',$option).'</label></TD>';
 						$i++;
+						if($i%3==0)
+							$toEscape .= '</TR><TR class="st">';
+						$toEscape .= '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)))!==false?' checked':'').' />&nbsp;'.str_replace("'",'&rsquo;',$option).'</label></TD>';
 					}
 					$toEscape .= '</TR></TABLE>';
 					echo str_replace('"','\"',$toEscape);
@@ -201,14 +201,14 @@ elseif(empty($_REQUEST['modfunc']))
 					$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 					$options = explode("\r",$category['SELECT_OPTIONS']);
 
-					$toEscape = '<TABLE class="cellpadding-3"><TR>';
+					$toEscape = '<TABLE class="cellpadding-3"><TR class="st">';
 					$i = 0;
 					foreach($options as $option)
 					{
-						if($i%3==0)
-							$toEscape .= '</TR><TR>';
-						$toEscape .= '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)).'"'.($RET['CATEGORY_'.$category['ID']]==str_replace('"','&quot;',str_replace("'",'&rsquo;',$option))?' checked':'').'>&nbsp;'.str_replace("'",'&rsquo;',$option).'</label></TD>';
 						$i++;
+						if($i%3==0)
+							$toEscape .= '</TR><TR class="st">';
+						$toEscape .= '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)).'"'.($RET['CATEGORY_'.$category['ID']]==str_replace('"','&quot;',str_replace("'",'&rsquo;',$option))?' checked':'').'>&nbsp;'.str_replace("'",'&rsquo;',$option).'</label></TD>';
 					}
 					$toEscape .= '</TR></TABLE>';
 					echo str_replace('"','\"',$toEscape);
@@ -237,6 +237,7 @@ elseif(empty($_REQUEST['modfunc']))
 		echo '</TD></TR>';
 	}
 	echo '</TABLE>';
+	echo PopTable('footer');
 	if(AllowEdit())
 		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	PopTable('footer');
