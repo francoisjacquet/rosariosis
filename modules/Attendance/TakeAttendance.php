@@ -141,7 +141,8 @@ if(count($completed_RET))
 	$note = ErrorMessage(array('<IMG SRC="assets/check.png" class="alignImg" />&nbsp;'._('You already have taken attendance today for this period.')),'note');
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
-DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note,SubmitButton(_('Save')));
+DrawHeader('',SubmitButton(_('Save')));
+DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note);
 //DrawHeader($note);
 echo $note;
 
@@ -168,9 +169,9 @@ function _makeRadio($value,$title)
 
 	$colors = array('P'=>'#00FF00','A'=>'#FF0000','H'=>'#FFCC00','T'=>'#0000FF');
 	if($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']==mb_substr($title,5))
-		return '<TABLE style="margin:0 auto; '.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[$value]?' background-color:'.$colors[$value].';':''):' background-color:#000000;').'"><TR><TD><INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked /></TD></TR></TABLE>';
+		return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[$value]?'background-color:'.$colors[$value].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
 	else
-		return '<TABLE style="margin:0 auto;"><TR><TD><INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'></TD></TR></TABLE>';
+		return '<div style="float:left;">&nbsp;&nbsp;<INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'>&nbsp;&nbsp;</div>';
 }
 
 function _makeRadioSelected($value,$title)
@@ -180,11 +181,11 @@ function _makeRadioSelected($value,$title)
 	$colors1 = array('P'=>'#DDFFDD','A'=>'#FFDDDD','H'=>'#FFEEDD','T'=>'#DDDDFF');
 	if($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']!='')
 		if($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']==mb_substr($title,5))
-			return '<TABLE style="margin:0 auto; '.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[$value]?' background-color:'.$colors[$value].';':''):' background-color:#000000;').'"><TR><TD><INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked /></TD></TR></TABLE>';
+			return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[$value]?'background-color:'.$colors[$value].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
 		else
-			return '<TABLE style="margin:0 auto;"><TR><TD><INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'></TD></TR></TABLE>';
+			return '<div style="float:left;">&nbsp;&nbsp;<INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'>&nbsp;&nbsp;</div>';
 	else
-		return '<TABLE style="margin:0 auto; '.($colors1[$value]?' background-color:'.$colors1[$value].';':'').'"><TR><TD><INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked /></TD></TR></TABLE>';
+		return '<div style="'.($colors1[$value]?'background-color:'.$colors1[$value].';':'').'; float:left;">&nbsp;&nbsp;<INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
 }
 
 function _makeTipMessage($value,$title)
