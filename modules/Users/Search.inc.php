@@ -45,10 +45,6 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 			if(!isset($extra))
 				$extra = array();
 			StaffWidgets('user',$extra);
-			if($extra['search'])
-				echo $extra['search'];
-			if($extra['extra_search'])
-				echo $extra['extra_search'];
 			Search('staff_fields',is_array($extra['staff_fields'])?$extra['staff_fields']:array());
 			echo '</TABLE>';
 			echo '</TD><TD>';
@@ -68,11 +64,16 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 			echo Buttons(_('Submit'),_('Reset'));
 			echo '</TD></TR>';
 			echo '</TABLE>';
-			if($extra['second_col'])
-				echo '<BR /><TABLE>'.$extra['second_col'].'</TABLE>';
-			echo '</TD></TR>';
+			echo '</TD></TR><TR><TD colspan="2"><TABLE>';
 
-			echo '<TR class="valign-top"><TD colspan="2"><TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD>';
+			if($extra['search'])
+				echo $extra['search'];
+			if($extra['extra_search'])
+				echo $extra['extra_search'];
+			if($extra['second_col'])
+				echo $extra['second_col'];
+				
+			echo '</TABLE></TD></TR><TR class="valign-top"><TD colspan="2"><TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD>';
 			if($_REQUEST['advanced']=='Y')
 			{
 				$extra['search'] = '';
@@ -98,8 +99,6 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 			else
 				echo '<TR><TD><BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'Y')).'">'._('Advanced Search').'</A>';
 			echo '</TD></TR></TABLE></TD>';
-			//if($extra['second_col'])
-			//	echo '<TD>'.$extra['second_col'].'</TD>';
 			echo '</TR>';
 
 			echo '</TABLE>';
