@@ -285,7 +285,8 @@ foreach($types_RET as $id=>$type)
 	$tabs[] = array('title'=>$type[1]['TITLE'].($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?'|'.number_format(100*$type[1]['FINAL_GRADE_PERCENT'],0).'%':''),'link'=>"Modules.php?modname=$_REQUEST[modname]&type_id=$id".($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'')."&include_inactive=$_REQUEST[include_inactive]&include_all=$_REQUEST[include_all]")+($type[1]['COLOR']?array('color'=>$type[1]['COLOR']):array());
 
 //modif Francois: add label on checkbox
-DrawHeader($type_select.$assignment_select,$_REQUEST['assignment_id']?SubmitButton(_('Save')):'','<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Students').'</label> &nbsp;<label>'.CheckBoxOnclick('include_all').'&nbsp;'._('Include Inactive Assignments').'</label>');
+DrawHeader($type_select.$assignment_select,$_REQUEST['assignment_id']?SubmitButton(_('Save')):'');
+DrawHeader('<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Students').'</label> &nbsp;<label>'.CheckBoxOnclick('include_all').'&nbsp;'._('Include Inactive Assignments').'</label>');
 if($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all')
 {
     $assigned_date = $assignments_RET[$_REQUEST['assignment_id']][1]['ASSIGNED_DATE'];
