@@ -59,11 +59,11 @@ if($_REQUEST['search_modfunc'] || User('PROFILE')=='parent' || User('PROFILE')==
 	if (is_null($begin_year))
 		ErrorMessage(array(_('There are no calendars yet setup.')), 'fatal');
 	
-	$date_select = '<OPTION value="'.$start.'">'.date('M d, Y',$start).' - '.date('M d, Y',$end).'</OPTION>';
+	$date_select = '<OPTION value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</OPTION>';
 	for($i=$start-(60*60*24*7);$i>=$begin_year;$i-=(60*60*24*7))
-		$date_select .= '<OPTION value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED="SELECTED"':'').'>'.date('M d, Y',$i).' - '.date('M d, Y',($i+1+(($END_DAY-$START_DAY))*60*60*24)).'</OPTION>';
+		$date_select .= '<OPTION value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED="SELECTED"':'').'>'.ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</OPTION>';
 	
-	DrawHeader('<SELECT name="start_date">'.$date_select.'</SELECT>'.$period_select,SubmitButton(_('Go')));
+	DrawHeader('<SELECT name="start_date">'.$date_select.'</SELECT>'.$period_select.' '.SubmitButton(_('Go')));
 	echo '</FORM>';
 }
 
