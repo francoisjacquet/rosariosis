@@ -1,10 +1,8 @@
 <?php
 
-function DBDate($type='oracle')
+function DBDate($type='')
 {
-	if($type=='oracle')
-		return mb_strtoupper(date('d-M-y'));
-	elseif($type=='postgres')
+	if($type=='postgres')
 		return date('Y-m-d');
 	return mb_strtoupper(date('d-M-Y'));
 }

@@ -7,7 +7,7 @@ else
 {
 	$_REQUEST['day_start'] = '01';
 	$_REQUEST['month_start'] = mb_strtoupper(date('M'));
-	$_REQUEST['year_start'] = date('y');
+	$_REQUEST['year_start'] = date('Y');
 	$start_date = $_REQUEST['day_start'].'-'.$_REQUEST['month_start'].'-'.$_REQUEST['year_start'];
 }
 
@@ -18,7 +18,7 @@ else
 {
 	$_REQUEST['day_end'] = date('d');
 	$_REQUEST['month_end'] = mb_strtoupper(date('M'));
-	$_REQUEST['year_end'] = date('y');
+	$_REQUEST['year_end'] = date('Y');
 	$end_date = $_REQUEST['day_end'].'-'.$_REQUEST['month_end'].'-'.$_REQUEST['year_end'];
 }
 
