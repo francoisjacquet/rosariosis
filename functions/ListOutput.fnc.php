@@ -469,7 +469,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			if(!empty($options['header']))
 				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0" style="margin-bottom:0px;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE>';
 
-			echo '<TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] ? 'rt' : '').'">';
+			echo '<TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
 			echo '<THEAD><TR>';
 
 			$i = 1;
@@ -682,7 +682,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 //modif Francois: css WPadmin
 				if($link['add']['html'])
 				{
-					echo '<TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] ? 'rt' : '').'"';
+					echo '<TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'"';
 					if($options['center'])
 						echo ' style="margin:0 auto;"';
 					echo '><THEAD><TR><TH>&nbsp;</TH>';
