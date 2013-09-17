@@ -136,7 +136,7 @@ else
 
 	$events_RET[0] = array(); // make sure indexing from 1
 	foreach($calendar_RET as $school_date=>$value)
-		$events_RET[] = array('ID'=>'new','SCHOOL_DATE'=>ProperDate($school_date),'DESCRIPTION'=>TextInput('','food_service['.$school_date.'][text]','','size=35').($description_select ? '<SELECT name="food_service['.$school_date.'][select]">'.$description_select : ''));
+		$events_RET[] = array('ID'=>'new','SCHOOL_DATE'=>ProperDate($school_date),'DESCRIPTION'=>TextInput('','food_service['.$school_date.'][text]','','size=20').($description_select ? '<SELECT name="food_service['.$school_date.'][select]">'.$description_select : ''));
 	unset($events_RET[0]);
 	$LO_columns = array('ID'=>_('ID'),'SCHOOL_DATE'=>_('Date'),'DESCRIPTION'=>_('Description'));
 
@@ -166,6 +166,6 @@ function makeDescriptionInput($value,$name)
 	if($calendar_RET[$THIS_RET['SCHOOL_DATE']])
 		unset($calendar_RET[$THIS_RET{'SCHOOL_DATE'}]);
 
-	return TextInput($value,'food_service['.$THIS_RET['SCHOOL_DATE'].'][text]','','size=35');
+	return TextInput($value,'food_service['.$THIS_RET['SCHOOL_DATE'].'][text]','','size=20');
 }
 ?>
