@@ -93,10 +93,10 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 		$date_select .= '<OPTION value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED="SELECTED"':'').">".ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</OPTION>';
 	
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-	DrawHeader('<SELECT name="start_date">'.$date_select.'</SELECT>',SubmitButton(_('Go')));
+	DrawHeader('<SELECT name="start_date">'.$date_select.'</SELECT> '.SubmitButton(_('Go')));
 	echo '</FORM>';
 
-	echo '<TABLE class="width-100p"><TR><TD style="width:50%;" class="valign-top">';
+	echo '<div class="st">';
 	
 	$RET = DBGet(DBQuery("SELECT em.STUDENT_ID,em.ACTIVITY_ID,ea.TITLE,ea.START_DATE,ea.END_DATE FROM ELIGIBILITY_ACTIVITIES ea,STUDENT_ELIGIBILITY_ACTIVITIES em WHERE em.SYEAR='".UserSyear()."' AND em.STUDENT_ID='".UserStudentID()."' AND em.SYEAR=ea.SYEAR AND em.ACTIVITY_ID=ea.ID ORDER BY ea.START_DATE"),array('START_DATE'=>'ProperDate','END_DATE'=>'ProperDate'));
 
@@ -119,13 +119,13 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 	ListOutput($RET,$columns,'Activity','Activities',$link);
 	echo '</FORM>';
 
-	echo '</TD><TD style="width:50%;" class="valign-top">';
+	echo '</div><div class="st">';
 	
 	$RET = DBGet(DBQuery("SELECT e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE FROM ELIGIBILITY e,COURSES c,COURSE_PERIODS cp WHERE e.STUDENT_ID='".UserStudentID()."' AND e.SYEAR='".UserSyear()."' AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.COURSE_ID=c.COURSE_ID AND e.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date'"),array('ELIGIBILITY_CODE'=>'_makeLower'));
 	$columns = array('COURSE_TITLE'=>_('Course'),'ELIGIBILITY_CODE'=>_('Grade'));
 	ListOutput($RET,$columns,'Course','Courses');
 	
-	echo '</TD></TR></TABLE>';
+	echo '</div>';
 }
 
 function _makeLower($word)
