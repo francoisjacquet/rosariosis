@@ -276,7 +276,7 @@ if(empty($_REQUEST['modfunc']))
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
 		$header .= '<TABLE class="width-100p cellpadding-3">';
-		$header .= '<TR>';
+		$header .= '<TR class="st">';
 
 //modif Francois: title & points are required
 		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_id'].'][TITLE]',($RET['TITLE']?'':'<span style="color:red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</TD>';
@@ -286,7 +286,7 @@ if(empty($_REQUEST['modfunc']))
 			$assignment_type_options[$type['ASSIGNMENT_TYPE_ID']] = $type['TITLE'];
 
 		$header .= '<TD>' . SelectInput($RET['ASSIGNMENT_TYPE_ID']?$RET['ASSIGNMENT_TYPE_ID']:$_REQUEST['assignment_type_id'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNMENT_TYPE_ID]',_('Assignment Type'),$assignment_type_options,false) . '</TD>';
-		$header .= '</TR><TR>';
+		$header .= '</TR><TR class="st">';
 		$header .= '<TD class="valign-top">' . DateInput($new && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$RET['ASSIGNED_DATE'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNED_DATE]',_('Assigned'),!$new) . '</TD>';
 		$header .= '<TD class="valign-top">' . DateInput($new && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$RET['DUE_DATE'],'tables['.$_REQUEST['assignment_id'].'][DUE_DATE]',_('Due'),!$new) . '</TD>';
 		$header .= '<TD rowspan="2" colspan="2">' . TextareaInput($RET['DESCRIPTION'],'tables['.$_REQUEST['assignment_id'].'][DESCRIPTION]',_('Description')) . '</TD>';
@@ -305,7 +305,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '" method="POST">';
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
 		$header .= '<TABLE class="width-100p cellpadding-3">';
-		$header .= '<TR>';
+		$header .= '<TR class="st">';
 
 //modif Francois: title is required
 		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_type_id'].'][TITLE]',($RET['TITLE']?'':'<span style="color:red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</TD>';
@@ -318,7 +318,7 @@ if(empty($_REQUEST['modfunc']))
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		foreach($colors as $color)
 		{
-			$color_select[$color] = array('<TABLE class="width-100p cellspacing-0 cellpadding-0" style="background-color:'.$color.';"><TR><TD>&nbsp;</TD></TR></TABLE>','<TABLE class="cellpadding-1 cellspacing-0" style="width:30px;"><TR><TD style="background-color:'.$color.';">&nbsp;</TD></TR></TABLE>');
+			$color_select[$color] = array('<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
 		}
 //modif Francois: add translation
 		$header .= '<TD>' .  RadioInput($RET['COLOR'],'tables['.$_REQUEST['assignment_type_id'].'][COLOR]',_('Color'),$color_select) . '</TD>';
@@ -335,9 +335,7 @@ if(empty($_REQUEST['modfunc']))
 	}
 
 	// DISPLAY THE MENU
-	$LO_options = array('save'=>false,'search'=>false,'add'=>true);
-
-	echo '<TABLE><TR>';
+	$LO_options = array('save'=>false,'search'=>false,'add'=>true,'responsive'=>false);
 
 	if(count($types_RET))
 	{
@@ -351,7 +349,7 @@ if(empty($_REQUEST['modfunc']))
 		}
 	}
 
-	echo '<TD class="valign-top">';
+	echo '<div class="st">';
 	$columns = array('TITLE'=>_('Assignment Type'),'SORT_ORDER'=>_('Order'));
 	$link = array();
 	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=$_REQUEST[modfunc]";
@@ -360,7 +358,7 @@ if(empty($_REQUEST['modfunc']))
 	$link['add']['first'] = 5; // number before add link moves to top
 
 	ListOutput($types_RET,$columns,'Assignment Type','Assignment Types',$link,array(),$LO_options);
-	echo '</TD>';
+	echo '</div>';
 
 
 	// ASSIGNMENTS
@@ -382,7 +380,7 @@ if(empty($_REQUEST['modfunc']))
 			}
 		}
 
-		echo '<TD class="valign-top">';
+		echo '<div class="st">';
 		$columns = array('TITLE'=>_('Assignment'),'POINTS'=>_('Points'));
 		$link = array();
 		$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&assignment_type_id=$_REQUEST[assignment_type_id]";
@@ -392,10 +390,8 @@ if(empty($_REQUEST['modfunc']))
 
 		ListOutput($assn_RET,$columns,'Assignment','Assignments',$link,array(),$LO_options);
 
-		echo '</TD>';
+		echo '</div>';
 	}
-
-	echo '</TR></TABLE>';
 }
 
 function _makePercent($value,$column)
