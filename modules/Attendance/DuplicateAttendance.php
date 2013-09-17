@@ -26,58 +26,65 @@ $extra['force_search'] = true;
 if($_REQUEST['delete']=='true')
 {
         //DeletePrompt(_('Duplicate Attendance Record'));
-        if(DeletePrompt(_('Duplicate Attendance Record')))
-        {
-                $i = 0;
-                $ii = 0;
-                $iii = 0;
-                $sid = $_REQUEST['studentidx'];
-                $cnt = $_REQUEST['deletecheck'];
-                $pid = $_REQUEST['periodidx'];
-                $sdt = $_REQUEST['schooldatex'];
+        if(!empty($_REQUEST['deletecheck']))
+		{
+			if (DeletePrompt(_('Duplicate Attendance Record')))
+			{
+					$i = 0;
+					$ii = 0;
+					$iii = 0;
+					$sid = $_REQUEST['studentidx'];
+					$cnt = $_REQUEST['deletecheck'];
+					$pid = $_REQUEST['periodidx'];
+					$sdt = $_REQUEST['schooldatex'];
 
-                foreach($cnt as $a => $val_dchck){
-                        $val1 = $val_dchck;
-                        if($val1 >= 0){
-                              //echo "$val1 |";
-                              foreach($sid as $b => $val_sid){
-                                      $val2 = $val_sid;
-                                      if($val1 == $i){
-                                              //echo "$val2 - $i||| ";
-                                              foreach($pid as $c => $val_pid){
-                                                    $val3 = $val_pid;
-                                                    if($val1 == $ii){
-                                                            //echo "$val1 - $val2 - $val3 ||| ";
-                                                            foreach($sdt as $d => $val_sdt){
-                                                                    $val4 = $val_sdt;
-                                                                    if($val1 == $iii){
-                                                                                //echo "$val1 - $val2 - $val3 - $val4 ||| ";
-                                                                                DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".$val2."' AND SCHOOL_DATE='".$val4."' AND COURSE_PERIOD_ID='".$val3."'");
-                                                                    }
-                                                                    $iii++;
-                                                            }
-                                                            $iii = 0;
-                                                    }
-                                                    $ii++;
-                                              }
-                                              $ii = 0;
-                                      }
-                                      $i++;
-                              }
-                              $i = 0;
-                        }
-                }
+					foreach($cnt as $a => $val_dchck){
+							$val1 = $val_dchck;
+							if($val1 >= 0){
+								  //echo "$val1 |";
+								  foreach($sid as $b => $val_sid){
+										  $val2 = $val_sid;
+										  if($val1 == $i){
+												  //echo "$val2 - $i||| ";
+												  foreach($pid as $c => $val_pid){
+														$val3 = $val_pid;
+														if($val1 == $ii){
+																//echo "$val1 - $val2 - $val3 ||| ";
+																foreach($sdt as $d => $val_sdt){
+																		$val4 = $val_sdt;
+																		if($val1 == $iii){
+																					//echo "$val1 - $val2 - $val3 - $val4 ||| ";
+																					DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".$val2."' AND SCHOOL_DATE='".$val4."' AND COURSE_PERIOD_ID='".$val3."'");
+																		}
+																		$iii++;
+																}
+																$iii = 0;
+														}
+														$ii++;
+												  }
+												  $ii = 0;
+										  }
+										  $i++;
+								  }
+								  $i = 0;
+							}
+					}
 
-                //foreach($sid as $b => $val_sid){
-                //        $val2 = $val_sid;
-                //        echo "$val2| ";
-                //}
+					//foreach($sid as $b => $val_sid){
+					//        $val2 = $val_sid;
+					//        echo "$val2| ";
+					//}
 
-                DrawHeader(ProgramTitle());
-//modif Francois: css WPadmin
-                echo '<div class="updated"><IMG SRC="assets/check.png" class="alignImg">&nbsp;'. _('The duplicate records have been deleted.') . '</div>';
-
+					DrawHeader(ProgramTitle());
+	//modif Francois: css WPadmin
+					echo '<div class="updated"><IMG SRC="assets/check.png" class="alignImg">&nbsp;'. _('The duplicate records have been deleted.') . '</div>';
+			}
         }
+		else
+		{
+			unset($_REQUEST['delete']);
+			$error[] = _('You must choose at least one student.');
+		}
 }
 
 if((!$_REQUEST['search_modfunc'] || $_ROSARIO['modules_search']) && $_REQUEST['delete']!='true')
@@ -172,7 +179,9 @@ elseif($_REQUEST['delete']!='true')
                $result1 = GetStuList($extra);
 
                DrawHeader(ProgramTitle());
-               //echo ErrorMessage(array($delete_message), 'note');
+			   
+				if (isset($error))
+					echo ErrorMessage($error);
 
                echo '<form action="Modules.php?modname=Attendance/DuplicateAttendance.php&modfunc=&search_modfunc=list&next_modname=Attendance/DuplicateAttendance.php&delete=true" method="POST">';
                DrawHeader('',SubmitButton(_('Delete')));
@@ -204,14 +213,14 @@ elseif($_REQUEST['delete']!='true')
 
                echo '<BR />';
 //modif Francois: css WPadmin
-               echo '<BR />&nbsp;<BR /><table class="widefat cellspacing-0" style="margin:0 auto;">';
-              echo '<TR><TH class="column_heading"><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'deletecheck\');" /> &nbsp</TH>';
+               echo '<BR />&nbsp;<BR /><table class="widefat cellspacing-0 rt" style="margin:0 auto;">';
+              echo '<THEAD><TR><TH class="column_heading"><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'deletecheck\');" /> &nbsp</TH>';
 //modif Francois: add translation 
                echo '<TH>'._('Student').' ('._('RosarioSIS ID').')</TH>';
                echo '<TH>'._('Course').' ('._('Course Period ID').')</TH>';
                echo '<TH>'._('Course Start Date').'</TH>';
                echo '<TH>'._('Course End Date').'</TH>';
-               echo '<TH>'._('Attendance Date').'</TH></TR>';
+               echo '<TH>'._('Attendance Date').'</TH></TR></THEAD><TBODY>';
 
                $URIcount = 0;
                $count = 0;
@@ -301,10 +310,10 @@ elseif($_REQUEST['delete']!='true')
                     //echo "$studentid | $courseid";
                }
                if($count == 0){
-                  echo '<tr><td colspan="6"><b>'._('No Duplicates Found').'</td></tr>';
-                  echo '</TABLE>';
+                  echo '<tr><td><b>'._('No Duplicates Found').'</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+                  echo '</TBODY></TABLE>';
                 }else{
-                  echo '</TABLE>';
+                  echo '</TBODY></TABLE>';
                   echo '<BR /><input type="submit" name="submit" value="'._('Delete').'" />';
                 }
 
