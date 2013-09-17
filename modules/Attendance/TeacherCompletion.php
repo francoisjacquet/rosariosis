@@ -29,7 +29,8 @@ foreach($periods_RET as $id=>$period)
 $period_select .= "</SELECT>";
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).' - '.$period_select,$category_select);
+DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).' - '.$period_select);
+DrawHeader('',$category_select);
 echo '</FORM>';
 
 //modif Francois: days numbered
