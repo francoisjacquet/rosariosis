@@ -188,11 +188,11 @@ kbd,code {
 }
 div.error {
 	padding:0 .6em;
-	margin:5px 15px 2px;
+	margin:5px 0;
 }
 div.updated {
 	padding:2px 9px;
-	margin:5px 15px 2px;
+	margin:5px 0;
 }
 h2,.subtitle {
 	font-weight:normal;
