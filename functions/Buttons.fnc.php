@@ -19,19 +19,12 @@ function button($type,$text='',$link='',$height=18)
 	if (!is_file($img_file))
 		$img_file = 'assets/'.$type.'_button.gif';
 	$button .= '<IMG SRC="'.$img_file.'" '.($height?'height="'.$height.'"':'').' style="vertical-align:middle;" />';
-	if($link)
-		$button .= '</A>';
 
 	if($text)
-	{
-		$button .= '<b>';
-		if($link)
-			$button .= '<A HREF='.$link.'>'; //dont put "" round the link href to let Javascript code insert
-		$button .= $text;
-		if($link)
-			$button .= '</A>';
-		$button .= '</b><BR />';
-	}
+		$button .= '<b>'.$text.'</b>';
+	
+	if($link)
+		$button .= '</A>';
 
 	return $button;
 }
