@@ -20,7 +20,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 				unset($_SESSION['List_PHP_SELF']);
 			}
 			echo '<script type="text/javascript">parent.help.location.reload();</script>';
-//			echo '<BR />';
+			echo '<BR />';
 			PopTable('header',$extra['search_title']?$extra['search_title']:_('Find a User'));
 			echo '<FORM name="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="POST">';
 			echo '<TABLE>';
