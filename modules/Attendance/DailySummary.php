@@ -72,7 +72,7 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 		$period_select .= '<OPTION value="PERIOD"'.($_REQUEST['period_id']?' SELECTED="SELECTED"':'').'>'._('By Period').'</OPTION>';
 	$period_select .= '</SELECT>';
 	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
-	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$period_select.' : <INPUT type="submit" value="'._('Go').'" />');
+	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$period_select.' : <INPUT type="submit" value="'._('Go').'" />');
 }
 
 $cal_RET = DBGet(DBQuery("SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' ORDER BY SCHOOL_DATE"));
