@@ -10,7 +10,7 @@ if($_REQUEST['modfunc']!='delete' && !$_REQUEST['subject_id'])
 		$_REQUEST['subject_id'] = $subjects_RET[1]['SUBJECT_ID'];
 }
 
-$LO_options = array('save'=>false,'search'=>false);
+$LO_options = array('save'=>false,'search'=>false,'responsive'=>false);
 
 if($_REQUEST['course_modfunc']=='search')
 {
@@ -40,12 +40,12 @@ if($_REQUEST['course_modfunc']=='search')
 
 		$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=$_REQUEST[modfunc]&last_year=$_REQUEST[last_year]".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['modname']=='Scheduling/Schedule.php'?"&include_child_mps=$_REQUEST[include_child_mps]&year_date=$_REQUEST[year_date]&month_date=$_REQUEST[month_date]&day_date=$_REQUEST[day_date]":'');
 		$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID');
-		echo '<TABLE><TR><TD class="valign-top">';
+		echo '<div class="st">';
 		ListOutput($subjects_RET,array('TITLE'=>'Subject'),'Subject','Subjects',$link,array(),$LO_options);
 
 		$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=$_REQUEST[modfunc]&last_year=$_REQUEST[last_year]".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['modname']=='Scheduling/Schedule.php'?"&include_child_mps=$_REQUEST[include_child_mps]&year_date=$_REQUEST[year_date]&month_date=$_REQUEST[month_date]&day_date=$_REQUEST[day_date]":'');
 		$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID','course_id'=>'COURSE_ID');
-		echo '</TD><TD class="valign-top">';
+		echo '</div><div class="st">';
 		ListOutput($courses_RET,array('TITLE'=>_('Course')),'Course','Courses',$link,array(),$LO_options);
 
 		$columns = array('TITLE'=>_('Course Period'));
@@ -59,9 +59,9 @@ if($_REQUEST['course_modfunc']=='search')
 		}
 		if($_REQUEST['modname']=='Scheduling/Schedule.php')
 			$columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
-		echo '</TD><TD class="valign-top">';
+		echo '</div><div class="st">';
 		ListOutput($periods_RET,$columns,'Course Period','Course Periods',$link,array(),$LO_options);
-		echo '</TD></TR></TABLE>';
+		echo '</div>';
 	}
 }
 
@@ -875,7 +875,6 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 		$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&subject_id=new";
 
 	echo '<div class="st">';
-	$LO_options['responsive'] = false;
 	ListOutput($subjects_RET,$columns,'Subject','Subjects',$link,array(),$LO_options);
 	echo '</div>';
 
