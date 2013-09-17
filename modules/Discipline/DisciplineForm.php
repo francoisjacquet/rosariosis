@@ -126,7 +126,7 @@ if($_REQUEST['modfunc']=='delete')
 
 if($_REQUEST['modfunc']=='delete_usage')
 {
-	if(DeletePrompt(_('category from this school\'s referral form'),'remove'))
+	if(DeletePrompt(_('Category'),_('Don\'t use')))
 	{
 		$id = $_REQUEST['id'];
 		DBQuery("DELETE FROM DISCIPLINE_FIELD_USAGE WHERE ID='$id'");
@@ -234,7 +234,7 @@ function _makeRemove($value,$column)
 	if($THIS_RET['USAGE_ID'])
 	{
 		$return = button('remove',_('Don\'t use'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_usage&id='.$THIS_RET['USAGE_ID'].'"');
-		$return .= button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&id='.$THIS_RET['ID'].'"');
+		$return .= '&nbsp;'.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&id='.$THIS_RET['ID'].'"');
 	}
 	else
 		$return = button('add',_('Use at this school'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add_usage&id='.$THIS_RET['ID'].'"');
