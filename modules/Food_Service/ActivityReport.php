@@ -88,22 +88,23 @@ $types = array('DEPOSIT'=>array('DESCRIPTION'=>_('Deposit'),'COUNT'=>0,'AMOUNT'=
 foreach($menus_RET as $menu)
 	$types += array($menu['TITLE']=>array('DESCRIPTION'=>$menu['TITLE'],'COUNT'=>0,'AMOUNT'=>0,'ITEMS'=>$items));
 
-$type_select = _('Type').'<SELECT name="type_select"><OPTION value="">'._('Not Specified').'</OPTION>';
+$type_select = '<span class="nobr">'._('Type').' <SELECT name="type_select"><OPTION value="">'._('Not Specified').'</OPTION>';
 foreach($types as $short_name=>$type)
 	$type_select .= '<OPTION value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' SELECTED="SELECTED"' : '').'>'.$type['DESCRIPTION'].'</OPTION>';
-$type_select .= '</SELECT>';
+$type_select .= '</SELECT></span>';
 
 $staff_RET = DBGet(DBquery('SELECT STAFF_ID,FIRST_NAME||\' \'||LAST_NAME AS FULL_NAME FROM STAFF WHERE SYEAR=\''.UserSyear().'\' AND SCHOOLS LIKE \'%,'.UserSchool().',%\' AND PROFILE=\'admin\' ORDER BY LAST_NAME'));
 
-$staff_select = _('User').'<SELECT name=staff_select><OPTION value="">'._('Not Specified').'</OPTION>';
+$staff_select = '<span class="nobr">'._('User').' <SELECT name=staff_select><OPTION value="">'._('Not Specified').'</OPTION>';
 foreach($staff_RET as $staff)
 	$staff_select .= '<OPTION value="'.$staff['STAFF_ID'].'"'.($_REQUEST['staff_select']==$staff['STAFF_ID'] ? ' SELECTED="SELECTED"' : '').'>'.$staff['FULL_NAME'].'</OPTION>';
-$staff_select .= '</SELECT>';
+$staff_select .= '</SELECT></span>';
 
 $PHP_tmp_SELF = PreparePHP_SELF();
 echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
 //modif Francois: add label on checkbox
-DrawHeader(PrepareDate($date,'_date').' : '.$type_select.' : '.$staff_select.' : <INPUT type=submit value='._('Go').'>','<label>'.CheckBoxOnclick('by_name').' '._('Sort by Name').'</label>');
+DrawHeader(PrepareDate($date,'_date').' : '.$type_select.' : '.$staff_select.' : <INPUT type=submit value='._('Go').'>');
+DrawHeader('<label>'.CheckBoxOnclick('by_name').' '._('Sort by Name').'</label>');
 echo '</FORM>';
 
 if($_REQUEST['type_select'])
