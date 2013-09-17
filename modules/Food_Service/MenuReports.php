@@ -122,11 +122,11 @@ if($_REQUEST['type_select']=='sales')
 		foreach($discounts as $discount=>$value)
 		{
 			$total = array_sum($types[$user][$discount]);
-			$TMP_types[] = array('TYPE'=>$user,'DISCOUNT'=>$discount,'ELLIGIBLE'=>number_format($value['ELLIGIBLE'],1),'DAYS_POSSIBLE'=>number_format($value['DAYS']/$value['ELLIGIBLE'],1),'TOTAL_ELLIGIBLE'=>$value['DAYS'],'PARTICIPATED'=>$value['PARTICIPATED'],'TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('format',$types[$user][$discount]);
+			$TMP_types[] = array('TYPE'=>$user,'DISCOUNT'=>$discount,'ELLIGIBLE'=>number_format($value['ELLIGIBLE'],1),'DAYS_POSSIBLE'=>number_format((!empty($value['ELLIGIBLE']) ? $value['DAYS']/$value['ELLIGIBLE'] : 0),1),'TOTAL_ELLIGIBLE'=>$value['DAYS'],'PARTICIPATED'=>$value['PARTICIPATED'],'TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('format',$types[$user][$discount]);
 		}
 		$total = array_sum($types_totals[$user]);
 //modif Francois: add translation
-		$TMP_types[] = array('TYPE'=>'<b>'.$user.'</b>','DISCOUNT'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.number_format($users_totals[$user]['DAYS']/$users_totals[$user]['ELLIGIBLE'],1).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals[$user]['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals[$user]['PARTICIPATED'].'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals[$user]);
+		$TMP_types[] = array('TYPE'=>'<b>'.$user.'</b>','DISCOUNT'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.number_format((!empty($users_totals[$user]['ELLIGIBLE']) ? $users_totals[$user]['DAYS']/$users_totals[$user]['ELLIGIBLE'] : 0),1).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals[$user]['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals[$user]['PARTICIPATED'].'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals[$user]);
 		unset($TMP_types[0]);
 		$LO_types[] = $TMP_types;
 	}
@@ -169,7 +169,9 @@ else
 
 $PHP_tmp_SELF = PreparePHP_SELF();
 echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
-DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <INPUT type=submit value='._('Go').'>',$type_select);
+DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <INPUT type="submit" value="'._('Go').'" />');
+DrawHeader($type_select);
+echo '<BR />';
 
 $tabs = array();
 foreach($menus_RET as $id=>$menu)
