@@ -280,7 +280,7 @@ if(empty($_REQUEST['modfunc']))
 	$advanced_link = ' <A HREF="#" onclick=\'remote = window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=search&category_id='.$_REQUEST['category_id'].'&chart_type='.$_REQUEST['chart_type'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&include_top=false","","scrollbars=yes,resizable=yes,width=700,height=600"); remote.opener = window;\'>'._('Advanced').'</A>';
 
 	DrawHeader($select);
-	DrawHeader(' &nbsp; &nbsp; <B>'._('Report Timeframe').': </B>'.PrepareDate($start_date,'_start').' - '.PrepareDate($end_date,'_end').$advanced_link,SubmitButton(_('Go')));
+	DrawHeader('<B>'._('Report Timeframe').': </B>'.PrepareDate($start_date,'_start').' - '.PrepareDate($end_date,'_end').$advanced_link,SubmitButton(_('Go')));
 
 	echo '<BR />';
 	if($_REQUEST['category_id'])
@@ -300,7 +300,8 @@ if(empty($_REQUEST['modfunc']))
 			foreach($chart['chart_data'][1] as $key=>$value)
 				$chart_data[] = array('TITLE'=>$chart['chart_data'][0][$key],'VALUE'=>$value);
 			unset($chart_data[0]);
-			ListOutput($chart_data,array('TITLE'=>_('Option'),'VALUE'=>_('Number of Referrals')),'Option','Options');
+			$LO_options['responsive'] = false;
+			ListOutput($chart_data,array('TITLE'=>_('Option'),'VALUE'=>_('Number of Referrals')),'Option','Options',array(),array(),$LO_options);
 		}
 		else
 		{

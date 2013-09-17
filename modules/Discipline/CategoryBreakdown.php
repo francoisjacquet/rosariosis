@@ -285,7 +285,8 @@ if(empty($_REQUEST['modfunc']))
 			foreach($chart['chart_data'][1] as $key=>$value)
 				$chart_data[] = array('TITLE'=>$chart['chart_data'][0][$key],'VALUE'=>$value);
 			unset($chart_data[0]);
-			ListOutput($chart_data,array('TITLE'=>_('Option'),'VALUE'=>_('Number of Referrals')),_('Option'),_('Options'));
+			$LO_options['responsive'] = false;
+			ListOutput($chart_data,array('TITLE'=>_('Option'),'VALUE'=>_('Number of Referrals')),'Option','Options',array(),array(),$LO_options);
 		}
 		else
 		{

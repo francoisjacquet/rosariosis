@@ -53,7 +53,8 @@ if(count($grouped_RET))
 		foreach($grades_RET as $grade)
 			$columns[$grade['ID']] = $grade['TITLE'];
 
-		ListOutput($teachers_RET,$columns,'Teacher','Teachers');
+		$LO_options['responsive'] = false;
+		ListOutput($teachers_RET,$columns,'Teacher','Teachers',array(),array(),$LO_options);
 	}
 	else
 	{
