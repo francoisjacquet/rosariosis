@@ -290,7 +290,7 @@ if(empty($_REQUEST['modfunc']))
 	}
 
 	// DISPLAY THE MENU
-	$LO_options = array('save'=>false,'search'=>false); //,'add'=>true);
+	$LO_options = array('save'=>false,'search'=>false,'responsive'=>false);
 
 	if(count($categories_RET))
 	{
@@ -312,8 +312,6 @@ if(empty($_REQUEST['modfunc']))
 	$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&category_id=new";
 
     $categories_RET = ParseMLArray($categories_RET,'TITLE');
-	//modif Francois: no responsive table
-	$LO_options['responsive'] = false;
 	ListOutput($categories_RET,$columns,'User Field Category','User Field Categories',$link,array(),$LO_options);
 	echo '</div>';
 
