@@ -467,7 +467,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				echo '</TABLE>';
 			}
 			if(!empty($options['header']))
-				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE>';
+				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0" style="margin-bottom:0px;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE>';
 
 			echo '<TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] ? 'rt' : '').'">';
 			echo '<THEAD><TR>';
@@ -670,10 +670,10 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				echo '</TD></TR></TBODY></TABLE>';
 				
 			if($options['header'])
-				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0"><TR><TD class="center">'.$options['header'].'</TD></TR><TR><TD style="padding: 8px;">';
+				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0" style="margin-bottom:0px;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE>';
 
 			if($link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
-				echo '<span class="center">' . button('add',$link['add']['title'],$link['add']['link']) . '</span></TD></TR></TABLE>';
+				echo '<span class="center">' . button('add',$link['add']['title'],$link['add']['link']) . '</span>';
 			elseif(($link['add']['html'] || $link['add']['span']) && count($column_names) && !isset($_REQUEST['_ROSARIO_PDF']))
 			{
 				//$color = $side_color;
@@ -714,9 +714,6 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					echo '><TR><TD style="text-align:left;">'.button('add').$link['add']['span'].'</TD></TR></TABLE>';
 				}
 			}
-				
-			if($options['header'])
-				echo '</TD></TR></TABLE>';
 		}
 		if($result_count!=0)
 		{
