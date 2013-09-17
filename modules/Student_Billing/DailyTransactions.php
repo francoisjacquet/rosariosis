@@ -30,7 +30,7 @@ else
 	$end_date = DBDate();
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-DrawHeader(' &nbsp; &nbsp; <B>'._('Report Timeframe').': </B>'.PrepareDate($start_date,'_start').' - '.PrepareDate($end_date,'_end').' <INPUT type="submit" value="'._('Go').'" />');
+DrawHeader('<B>'._('Report Timeframe').': </B>'.PrepareDate($start_date,'_start').' - '.PrepareDate($end_date,'_end').' <INPUT type="submit" value="'._('Go').'" />');
 echo '</FORM>';
 
 // sort by date since the list is two lists merged and not already properly sorted
