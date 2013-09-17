@@ -70,7 +70,7 @@ if($start && $begin_year)
 		$date_select .= '<OPTION value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED="SELECTED"':'').'>'.ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</OPTION>';
 }
 
-DrawHeader(_('Timeframe').': <SELECT name="start_date">'.$date_select.'</SELECT> - '._('Period').': '.$period_select,SubmitButton(_('Go')));
+DrawHeader(_('Timeframe').': <SELECT name="start_date">'.$date_select.'</SELECT> - '._('Period').': '.$period_select.' '.SubmitButton(_('Go')));
 echo '</FORM>';
 
 //modif Francois: multiple school periods for a course period
