@@ -15,13 +15,12 @@ else
 	$tabcolor_s = Preferences('HEADER'); $textcolor_s = '#FFFFFF';
 	$tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
 }*/
-$header = '<TABLE class="cellpadding-0 cellspacing-0" style="height:14px;"><TR>';
 //modif Francois: remove DrawTab params
-$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Students'),"Modules.php?modname=$_REQUEST[modname]&type=student").'</TD>';
-$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Users'),"Modules.php?modname=$_REQUEST[modname]&type=staff").'</TD>';
-$header .= '<TD style="width:10px;"></TD></TR></TABLE>';
+$header = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&type=student">'._('Students').'</a>';
+$header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&type=staff">'._('Users').'</a>';
 
-DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle(),(User('PROFILE')=='student'?'':'<TABLE style="background-color:#ffffff;"><TR><TD>'.$header.'</TD></TR></TABLE>'));
+DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle());
+User('PROFILE')=='student'?'':DrawHeader($header);
 
 if($_REQUEST['modfunc']=='delete')
 {

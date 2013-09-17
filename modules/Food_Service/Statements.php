@@ -27,13 +27,12 @@ if($_REQUEST['type'])
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
 
-$header = '<TABLE class="cellpadding-0 cellspacing-0" style="height:14px;"><TR>';
 //modif Francois: remove DrawTab params
-$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Students'),"Modules.php?modname=$_REQUEST[modname]&day_start=$_REQUEST[day_start]&month_start=$_REQUEST[month_start]&year_start=$_REQUEST[year_start]&day_end=$_REQUEST[day_end]&month_end=$_REQUEST[month_end]&year_end=$_REQUEST[year_end]&type=student").'</TD>';
-$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Users'),   "Modules.php?modname=$_REQUEST[modname]&day_start=$_REQUEST[day_start]&month_start=$_REQUEST[month_start]&year_start=$_REQUEST[year_start]&day_end=$_REQUEST[day_end]&month_end=$_REQUEST[month_end]&year_end=$_REQUEST[year_end]&type=staff").'</TD>';
-$header .= '<TD style="width:10px;"></TD></TR></TABLE>';
+$header = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&month_start='.$_REQUEST['month_start'].'&year_start='.$_REQUEST['year_start'].'&day_end='.$_REQUEST['day_end'].'&month_end='.$_REQUEST['month_end'].'&year_end='.$_REQUEST['year_end'].'&type=student">'._('Students').'</a>';
+$header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&month_start='.$_REQUEST['month_start'].'&year_start='.$_REQUEST['year_start'].'&day_end='.$_REQUEST['day_end'].'&month_end='.$_REQUEST['month_end'].'&year_end='.$_REQUEST['year_end'].'&type=staff">'._('Users').'</a>';
 
-DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle(),(User('PROFILE')=='student'?'':'<TABLE><TR><TD>'.$header.'</TD></TR></TABLE>'));
+DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle());
+User('PROFILE')=='student'?'':DrawHeader($header);
 
 if($_REQUEST['modfunc']=='delete')
 {

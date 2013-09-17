@@ -22,13 +22,12 @@ else
 	$tabcolor_s = Preferences('HEADER'); $textcolor_s = '#FFFFFF';
 	$tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
 }*/
-$header = '<TABLE class="cellpadding-0 cellspacing-0" style="height:14px;"><TR>';
 //modif Francois: remove DrawTab params
-$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Students'),"Modules.php?modname=$_REQUEST[modname]&modfunc=select&menu_id=$_REQUEST[menu_id]&fsa_type=student").'</TD>';
-$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Users'),"Modules.php?modname=$_REQUEST[modname]&modfunc=select&menu_id=$_REQUEST[menu_id]&fsa_type=staff").'</TD>';
-$header .= '<TD style="width:10px;"></TD></TR></TABLE>';
+$header = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=select&menu_id='.$_REQUEST['menu_id'].'&fsa_type=student">'._('Students').'</a>';
+$header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=select&menu_id='.$_REQUEST['menu_id'].'&fsa_type=staff">'._('Users').'</a>';
 
-DrawHeader(($_SESSION['FSA_type']=='staff' ? _('User') : _('Student')).' &minus; '.ProgramTitle(),(User('PROFILE')=='student'?'':'<TABLE style="background-color:#ffffff;"><TR><TD>'.$header.'</TD></TR></TABLE>'));
+DrawHeader(($_SESSION['FSA_type']=='staff' ? _('User') : _('Student')).' &minus; '.ProgramTitle());
+User('PROFILE')=='student'?'':DrawHeader($header);
 
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
 if(!$_REQUEST['menu_id'])
