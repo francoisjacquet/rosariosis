@@ -38,7 +38,7 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
-	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$period_select.' : <INPUT type="submit" value="'._('Go').'" />');
+	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$period_select.' : <INPUT type="submit" value="'._('Go').'" />');
 	echo '</FORM>';
 }
 
