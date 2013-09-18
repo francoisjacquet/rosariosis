@@ -63,6 +63,7 @@ if(count($calendars_RET))
 	foreach($calendars_RET as $calendar)
 		$calendar_options[$calendar['CALENDAR_ID']] = $calendar['TITLE'];
 }
+
 if($_REQUEST['student_id']!='new')
 {
 	if(count($RET))
@@ -70,7 +71,9 @@ if($_REQUEST['student_id']!='new')
 	else
 		$id = 'new';
 
+	ob_start();
 	ListOutput($RET,$columns,'Enrollment Record','Enrollment Records',$link,array(),array('save'=>false,'search'=>false));
+	$LO = ob_get_clean();
 	if($id!='new')
 		$next_school = $RET[count($RET)]['NEXT_SCHOOL'];
 	if($id!='new')
@@ -80,11 +83,17 @@ if($_REQUEST['student_id']!='new')
 else
 {
 	$id = 'new';
+	ob_start();
 	ListOutput($RET,$columns,'Enrollment Record','Enrollment Records',$link,array(),array('count'=>false));
+	$LO = ob_get_clean();
 	$next_school = UserSchool();
 	$calendar = $calendars_RET[1]['CALENDAR_ID'];
 	$div = false;
 }
+
 echo '<TABLE style="margin:0 auto;"><TR class="st"><TD>'.SelectInput($calendar,"values[STUDENT_ENROLLMENT][$id][CALENDAR_ID]",(!$calendar||!$div?'<span class="legend-red">':'')._('Calendar').(!$calendar||!$div?'</span>':''),$calendar_options,false,'',$div).'</TD><TD style="width:30px;"></TD><TD>'.SelectInput($next_school,"values[STUDENT_ENROLLMENT][$id][NEXT_SCHOOL]",($next_school==''||!$div?'<span class="legend-red">':'')._('Rolling / Retention Options').(!$next_school||!$div?'</span>':''),$next_school_options,false,'',$div).'</TD></TR></TABLE>';
 
+PopTable('footer');
+echo $LO;
+echo '<TABLE><TR><TD>';
 ?>
