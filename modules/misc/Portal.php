@@ -31,10 +31,11 @@ switch (User('PROFILE'))
 		//DrawHeader($welcome.'<BR />&nbsp;'._('You are an <b>Administrator</b> on the system.<BR />').PHPCheck().versionCheck());
 		DrawHeader($welcome.'<BR />&nbsp;'._('You are an <b>Administrator</b> on the system.').'<BR />'.PHPCheck());
 
+		include_once('ProgramFunctions/PortalPollsNotes.fnc.php');
 //modif Francois: file attached to portal notes
 //modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 //        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent'));
-        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL) AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent','FILE_ATTACHED'=>'_makeFileAttached'));
+        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL) AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent','FILE_ATTACHED'=>'makeFileAttached'));
 
 		if(count($notes_RET))
 		{
@@ -42,7 +43,6 @@ switch (User('PROFILE'))
 		}
 
 //modif Francois: Portal Polls
-		include_once('ProgramFunctions/PortalPolls.fnc.php');
         $polls_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pp.TITLE||'</B>' AS TITLE,'options' AS OPTIONS,pp.ID FROM PORTAL_POLLS pp,SCHOOLS s,STAFF st WHERE pp.SYEAR='".UserSyear()."' AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL) AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pp.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pp.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pp.PUBLISHED_PROFILES)>0) AND s.ID=pp.SCHOOL_ID AND s.SYEAR=pp.SYEAR ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','OPTIONS'=>'PortalPollsDisplay'));
 
 		if(count($polls_RET))
@@ -121,9 +121,10 @@ switch (User('PROFILE'))
 	case 'teacher':
 		DrawHeader($welcome.'<BR />&nbsp;'._('You are a <b>Teacher</b> on the system.'));
 
+		include_once('ProgramFunctions/PortalPollsNotes.fnc.php');
 //modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 //        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',teacher,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent'));
-        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL) AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',teacher,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent','FILE_ATTACHED'=>'_makeFileAttached'));
+        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL) AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',teacher,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent','FILE_ATTACHED'=>'makeFileAttached'));
 
 		if(count($notes_RET))
 		{
@@ -131,7 +132,6 @@ switch (User('PROFILE'))
 		}
 
 //modif Francois: Portal Polls
-		include_once('ProgramFunctions/PortalPolls.fnc.php');
         $polls_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pp.TITLE||'</B>' AS TITLE,'options' AS OPTIONS,pp.ID FROM PORTAL_POLLS pp,SCHOOLS s,STAFF st WHERE pp.SYEAR='".UserSyear()."' AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL) AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pp.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pp.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pp.PUBLISHED_PROFILES)>0) AND s.ID=pp.SCHOOL_ID AND s.SYEAR=pp.SYEAR ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','OPTIONS'=>'PortalPollsDisplay'));
 
 		if(count($polls_RET))
@@ -196,9 +196,10 @@ switch (User('PROFILE'))
 	case 'parent':
 		DrawHeader($welcome.'<BR />&nbsp;'._('You are a <b>Parent</b> on the system.'));
 
+		include_once('ProgramFunctions/PortalPollsNotes.fnc.php');
 //modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 //        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='".User('STAFF_ID')."' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent'));
-        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL) AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='".User('STAFF_ID')."' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent','FILE_ATTACHED'=>'_makeFileAttached'));
+        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL) AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='".User('STAFF_ID')."' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent','FILE_ATTACHED'=>'makeFileAttached'));
 
 		if(count($notes_RET))
 		{
@@ -206,7 +207,6 @@ switch (User('PROFILE'))
 		}
 
 //modif Francois: Portal Polls
-		include_once('ProgramFunctions/PortalPolls.fnc.php');
         $polls_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pp.TITLE||'</B>' AS TITLE,'options' AS OPTIONS,pp.ID FROM PORTAL_POLLS pp,SCHOOLS s,STAFF st WHERE pp.SYEAR='".UserSyear()."' AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL) AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pp.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pp.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pp.PUBLISHED_PROFILES)>0) AND s.ID=pp.SCHOOL_ID AND s.SYEAR=pp.SYEAR ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','OPTIONS'=>'PortalPollsDisplay'));
 
 		if(count($polls_RET))
@@ -254,9 +254,10 @@ switch (User('PROFILE'))
 	case 'student':
 		DrawHeader($welcome.'<BR />&nbsp;'._('You are a <b>Student</b> on the system.'));
 
+		include_once('ProgramFunctions/PortalPollsNotes.fnc.php');
 //modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 //        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s WHERE pn.SYEAR='".UserSyear()."' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND pn.SCHOOL_ID='".UserSchool()."' AND  position(',0,' IN pn.PUBLISHED_PROFILES)>0 AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent'));
-        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED FROM PORTAL_NOTES pn,SCHOOLS s WHERE pn.SYEAR='".UserSyear()."' AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL) AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND pn.SCHOOL_ID='".UserSchool()."' AND position(',0,' IN pn.PUBLISHED_PROFILES)>0 AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent','FILE_ATTACHED'=>'_makeFileAttached'));
+        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID FROM PORTAL_NOTES pn,SCHOOLS s WHERE pn.SYEAR='".UserSyear()."' AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL) AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND pn.SCHOOL_ID='".UserSchool()."' AND position(',0,' IN pn.PUBLISHED_PROFILES)>0 AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent','FILE_ATTACHED'=>'makeFileAttached'));
 
 		if(count($notes_RET))
 		{
@@ -264,7 +265,6 @@ switch (User('PROFILE'))
 		}
 
 //modif Francois: Portal Polls
-		include_once('ProgramFunctions/PortalPolls.fnc.php');
 		//modif Francois: Portal Polls add students teacher
         $polls_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,pp.TITLE,'options' AS OPTIONS,pp.ID FROM PORTAL_POLLS pp,SCHOOLS s WHERE pp.SYEAR='".UserSyear()."' AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL) AND (pp.END_DATE>=CURRENT_DATE OR pp.END_DATE IS NULL) AND pp.SCHOOL_ID='".UserSchool()."' AND position(',0,' IN pp.PUBLISHED_PROFILES)>0 AND s.ID=pp.SCHOOL_ID AND s.SYEAR=pp.SYEAR AND (pp.STUDENTS_TEACHER_ID IS NULL OR pp.STUDENTS_TEACHER_ID IN (SELECT cp.TEACHER_ID FROM SCHEDULE sch, COURSE_PERIODS cp WHERE sch.SYEAR='".UserSyear()."' AND sch.SCHOOL_ID='".UserSchool()."' AND sch.STUDENT_ID='".UserStudentID()."' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)) ORDER BY pp.SORT_ORDER,pp.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','OPTIONS'=>'PortalPollsDisplay'));
 
@@ -316,97 +316,6 @@ function PHPCheck() {
 //modif Francois: add translation
 function _eventDay($string, $key) {
 	return _(trim($string));
-}
-
-//modif Francois: file attached to portal notes
-function _makeFileAttached($value,$name)
-{	global $PortalNotesFilesPath;
-	static $filesAttachedCount = 0;
-	static $js_included = false;
-
-	$loadColorBox = false;
-	
-	if (empty($value))
-	{
-		$return = '&nbsp;';
-	}			
-	else
-	{
-		$filesAttachedCount ++;
-		
-		//modif Francois: colorbox
-		//colorbox extensions list
-		$colorbox_list = array('.jpg', '.jpeg', '.png', '.gif', '.mp3', '.wav', '.avi', '.mp4', '.ogg');
-		if (in_array( mb_strtolower(mb_strrchr($value, '.')), $colorbox_list ) )
-		{
-
-			if (($finfo = finfo_open(FILEINFO_MIME_TYPE)) !== false)
-			{
-				//modif Francois: detects if an audio or video embedded in HTML5 will be rendered
-				//https://developer.mozilla.org/en-US/docs/Media_formats_supported_by_the_audio_and_video_elements
-				//Checked on 2012.11.16
-				$browser = $_SERVER['HTTP_USER_AGENT'];
-				$return = '<a href="'.$value.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/download.png" class="alignImg" /> '._('Download').'</a>';
-				if (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.mp3', '.mp4') ) && (mb_stripos($browser, 'Firefox') || mb_stripos($browser, 'Opera'))) //MP3 or MP4 file & not supported in Firefox and Opera
-				{
-					return $return;
-				}
-				elseif (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.ogg') ) && mb_stripos($browser, 'MSIE')) //OGG file & not supported in Internet Explorer
-				{
-					return $return;
-				}
-				elseif (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.wav') ) && (mb_stripos($browser, 'MSIE') || mb_stripos($browser, 'Opera'))) //WAV file & not supported in Internet Explorer and Opera
-				{
-					return $return;
-				}
-				
-				if (mb_strpos(finfo_file($finfo, $value), 'audio') !== false ) //media audio files
-				{
-					$return .= '<div><div style="display:none"><audio src="'.$value.'" preload="auto" controls class="audioHtml5" id="colorboxinline'.$filesAttachedCount.'"><p>Your browser does not support the audio element</p></audio></div>';
-					$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>';
-					$loadColorBox = true;
-				}
-				elseif (mb_strpos(finfo_file($finfo, $value), 'video') !== false ) //media video files
-				{
-					$return .= '<div><div style="display:none"><video src="'.$value.'" preload="auto" controls class="videoHtml5" id="colorboxinline'.$filesAttachedCount.'"><p>Your browser does not support the audio element</p></video></div>';
-					$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>';
-					$loadColorBox = true;
-					
-				} 
-				else //image files
-				{
-					$return = '<a href="'.$value.'" class="colorbox" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a>';
-					$loadColorBox = true;
-				}
-			}
-		}
-		elseif (filter_var($value, FILTER_VALIDATE_URL) !== false) //embed link
-		{
-			$return = '<a href="'.$value.'" title="'.$value.'" class="colorboxiframe"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a>';
-			$loadColorBox = true;
-		}
-		else
-		{
-			$return = '<a href="'.$value.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/download.png" class="alignImg" /> '._('Download').'</a>';
-		}
-	}
-	
-	if ($loadColorBox && !$js_included)
-	{
-		$return .= includeOnceJquery();
-		$return .= '<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
-		<script type="text/javascript" src="assets/js/colorbox/jquery.colorbox-min.js"></script>
-		<script type="text/javascript">
-			$(document).ready(function(){
-				$(\'.colorbox\').colorbox();
-				$(\'.colorboxinline\').colorbox({inline:true});
-				$(\'.colorboxiframe\').colorbox({iframe:true, innerWidth:425, innerHeight:344});
-			});
-		</script>';
-		
-		$js_included = true;
-	}
-	return $return;
 }
 
 ?>

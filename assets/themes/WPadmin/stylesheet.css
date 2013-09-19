@@ -551,6 +551,9 @@ div.st {
 .calendar-day {
 	height:inherit;
 }
+/*responsive tables*/
+.rt .link2colorBox { display: none; }
+
 
 /* mobile */
 @media only screen and (max-width: 767px) {
@@ -642,8 +645,12 @@ div.st {
 	.rt img { max-height: 1.5em; }
 	.rt input, .rt select { margin:0; }
 	.rt th, .rt th a { font-size:12px; }
+	.rt td:hover { overflow-y: visible; min-height: 2em; height: 100%; }
 
+	.rt .link2colorBox { display: inline; }
+	.rt .link2colorBox + .rt2colorBox { display: none; }
+	.rt2colorBox { background-color: #fff; overflow-y: visible; }
+	
 	/* sort out borders */
 	.rt tr { border-right-width: 1px; border-right-style: solid; }
-
 }

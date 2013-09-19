@@ -1,5 +1,6 @@
 <?php
 //modif Francois: Portal Polls inspired by Portal Notes
+include('ProgramFunctions/PortalPollsNotes.fnc.php');
 
 if($_REQUEST['day_values'] && $_POST['day_values'])
 {
@@ -189,11 +190,11 @@ if($_REQUEST['modfunc']!='remove')
 
 	$sql = "SELECT pp.ID,pp.SORT_ORDER,pp.TITLE,'See_PORTAL_POLL_QUESTIONS' AS OPTIONS, pp.VOTES_NUMBER,pp.START_DATE,pp.END_DATE,pp.PUBLISHED_PROFILES,pp.STUDENTS_TEACHER_ID,CASE WHEN pp.END_DATE IS NOT NULL AND pp.END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED FROM PORTAL_POLLS pp WHERE pp.SCHOOL_ID='".UserSchool()."' AND pp.SYEAR='".UserSyear()."' ORDER BY EXPIRED DESC,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC";
 	$QI = DBQuery($sql);
-	$polls_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','OPTIONS'=>'_makeOptionsInputs','VOTES_NUMBER'=>'_makePollVotes','SORT_ORDER'=>'_makeTextInput','START_DATE'=>'_makePublishing'));
+	$polls_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','OPTIONS'=>'_makeOptionsInputs','VOTES_NUMBER'=>'_makePollVotes','SORT_ORDER'=>'_makeTextInput','START_DATE'=>'makePublishing'));
 	
 	$columns = array('TITLE'=>_('Title'),'OPTIONS'=>_('Poll'),'VOTES_NUMBER'=>_('Results'),'SORT_ORDER'=>_('Sort Order'),'START_DATE'=>_('Publishing Options'));
 	//,'START_TIME'=>'Start Time','END_TIME'=>'End Time'
-	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'OPTIONS'=>_makeOptionsInputs('','OPTIONS'),'VOTES_NUMBER'=>_makePollVotes('','VOTES_NUMBER'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'START_DATE'=>_makePublishing('','START_DATE'));
+	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'OPTIONS'=>_makeOptionsInputs('','OPTIONS'),'VOTES_NUMBER'=>_makePollVotes('','VOTES_NUMBER'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'START_DATE'=>makePublishing('','START_DATE'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id'=>'ID');
 
@@ -202,9 +203,7 @@ if($_REQUEST['modfunc']!='remove')
 //modif Francois: fix SQL bug invalid sort order
 	if(isset($error)) echo $error;
 	
-	//modif Francois: no responsive table
-	$LO_options = array('responsive' => false);
-	ListOutput($polls_RET,$columns,'Poll','Polls',$link,array(),$LO_options);
+	ListOutput($polls_RET,$columns,'Poll','Polls',$link);
 
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
@@ -270,9 +269,14 @@ function _makeOptionsInputs($value,$name)
 		$value = _makeOptionsInput('','OPTIONS');
 	}
 
+	
+	//modif Francois: responsive rt td too large
+	$return .= includeOnceColorBox('divPollOptions'.$id);
+	$return .= '<div id="divPollOptions'.$id.'" style="max-height: 350px; overflow-y: auto;" class="rt2colorBox">';
+	
 	if ($id == 'new')
 	{
-		$return = '<script type="text/javascript">
+		$return .= '<script type="text/javascript">
 			function newOption()
 			{
 				var table = document.getElementById(\'newOptionsTable\');
@@ -292,12 +296,13 @@ function _makeOptionsInputs($value,$name)
 				cell.innerHTML = cell.innerHTML.replace(reg, \'new\'+newId);
 			}
 		</script>';
-		$return .= '<DIV style="max-height: 350px; overflow-y: auto;"><TABLE class="cellspacing-0" id="newOptionsTable"><TR><TD><b>'._('Question').'</b></TD><TD><b>'._('Options').'</b></TD><TD><b>'._('Data Type').'</b></TD></TR>'.$value.'<TR><TD>&nbsp;</TD><TD>&nbsp;</TD><TD><a href="#" onclick="newOption();return false;"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Question').'</a></TR></TABLE></DIV>';
+		$return .= '<TABLE class="cellspacing-0 widefat" id="newOptionsTable"><TR><TD><b>'._('Question').'</b></TD><TD><b>'._('Options').'</b></TD><TD><b>'._('Data Type').'</b></TD></TR>'.$value.'<TR><TD>&nbsp;</TD><TD>&nbsp;</TD><TD><a href="#" onclick="newOption();return false;"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Question').'</a></TR></TABLE>';
 	}
 	else
 	{
-		$return = '<DIV style="max-height: 350px; overflow-y: auto;"><TABLE class="cellspacing-0"><TR><TD><b>'._('Question').'</b></TD><TD><b>'._('Options').'</b></TD><TD><b>'._('Data Type').'</b></TD></TR>'.$value.'</TABLE></DIV>';
+		$return .= '<TABLE class="cellspacing-0 widefat"><TR><TD><b>'._('Question').'</b></TD><TD><b>'._('Options').'</b></TD><TD><b>'._('Data Type').'</b></TD></TR>'.$value.'</TABLE>';
 	}
+	$return .= '</div>';
 		
 	return $return;
 }
@@ -325,73 +330,10 @@ function _makePollVotes($value,$name)
 		if (empty($value))
 			return CheckboxInput($votes_display_RET[1]['DISPLAY_VOTES'],"values[".$THIS_RET['ID']."][DISPLAY_VOTES]",_('Results Display'));
 			
-		include_once('ProgramFunctions/PortalPolls.fnc.php');
-		return CheckboxInput($votes_display_RET[1]['DISPLAY_VOTES'],"values[".$poll_id."][DISPLAY_VOTES]",_('Results Display')).PortalPollsVotesDisplay($poll_id, true, $poll_questions_RET,$value);
+		return '<div style="float:left;">'.CheckboxInput($votes_display_RET[1]['DISPLAY_VOTES'],"values[".$poll_id."][DISPLAY_VOTES]",_('Results Display')).'</div>&nbsp;&nbsp;'.PortalPollsVotesDisplay($poll_id, true, $poll_questions_RET,$value);
 	}
 	else
 		return CheckboxInput('',"values[new][DISPLAY_VOTES]",_('Results Display'),'',true);
 
-}
-
-function _makePublishing($value,$name)
-{	global $THIS_RET,$profiles_RET;
-
-	if($THIS_RET['ID'])
-		$id = $THIS_RET['ID'];
-	else
-		$id = 'new';
-
-//modif Francois: remove LO_field
-	$return = '<TABLE class="cellpadding-0 cellspacing-0"><TR class="st"><TD><b>'.Localize('colon',_('Visible Between')).'</b><BR />';
-	$return .= '<div class="nobr">'.DateInput($value,"values[$id][$name]").' '._('to').' ';
-	$return .= DateInput($THIS_RET['END_DATE'],"values[$id][END_DATE]").'</div></TD></TR>';
-//modif Francois: css WPadmin
-	$return .= '<TR><TD colspan="4" style="padding:0">';
-
-	if(!$profiles_RET)
-		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID WHERE"));
-
-	$return .= '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD colspan="4"><b>'.Localize('colon',_('Visible To')).'</b></TD></TR><TR class="st">';
-	$i=0;
-	foreach(array('admin'=>_('Administrator w/Custom'),'teacher'=>_('Teacher w/Custom'),'parent'=>_('Parent w/Custom')) as $profile_id=>$profile)
-	{
-		$i++;
-//modif Francois: add <label> on checkbox
-		$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').' /> '.$profile.'</label></TD>';
-		if($i%2==0 && $i!=count($profile))
-			$return .= '</TR><TR class="st">';
-	}
-		
-	//modif Francois: Portal Polls add students teacher
-	$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,',".UserSchool().",')>0) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
-	if(count($teachers_RET))
-	{
-		foreach($teachers_RET as $teacher)
-			$teachers[$teacher['STAFF_ID']] = $teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'];
-	}
-	
-	foreach($profiles_RET as $profile)
-	{
-		$i++;
-		$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'').' /> '._($profile['TITLE']);
-		//modif Francois: Portal Polls add students teacher
-		if ($profile['ID'] == 0) //student
-		{
-			$return .= ': </label>'.SelectInput($THIS_RET['STUDENTS_TEACHER_ID'],'values['.$id.'][STUDENTS_TEACHER_ID]',_('Limit to Teacher'),$teachers, true, '', true);
-		}
-		else
-			$return .= '</label></TD>';
-			
-		if($i%2==0 && $i!=count($profile))
-			$return .= '</TR><TR class="st">';
-	}
-	for(;$i%2!=0;$i++)
-		$return .= '<TD>&nbsp;</TD>';
-	$return .= '</TR>';
-	
-	$return .= '</TABLE>';
-		
-	$return .= '</TD></TR></TABLE>';
-	return $return;
 }
 ?>
