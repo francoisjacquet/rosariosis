@@ -288,8 +288,11 @@ switch (User('PROFILE'))
 }
 
 function _formatContent($value,$column)
-{
- 	$value = nl2br($value);
+{	global $THIS_RET;
+
+	$id = $THIS_RET['ID'];
+
+	$value = nl2br($value);
 	
 	//modif Francois: transform URL to links
 	preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([-\w/_\.]*(\?\S+)?)?)?)@',$value,$matches);
@@ -299,8 +302,12 @@ function _formatContent($value,$column)
 			$replace = '<a href="'.$url.'" target="_blank">'.$text.'</a>';
 			$value = str_replace($url,$replace,$value);
 		}
-	}	
-	return $value;
+	}
+	//modif Francois: responsive rt td too large
+	$return .= includeOnceColorBox('divNoteContent'.$id);
+	$return .= '<DIV id="divNoteContent'.$id.'" class="rt2colorBox">'.$value.'</DIV>';
+	
+	return $return;
 }
 
 function PHPCheck() {

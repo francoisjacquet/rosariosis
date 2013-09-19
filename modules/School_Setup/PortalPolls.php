@@ -330,7 +330,7 @@ function _makePollVotes($value,$name)
 		if (empty($value))
 			return CheckboxInput($votes_display_RET[1]['DISPLAY_VOTES'],"values[".$THIS_RET['ID']."][DISPLAY_VOTES]",_('Results Display'));
 			
-		return '<div style="float:left;">'.CheckboxInput($votes_display_RET[1]['DISPLAY_VOTES'],"values[".$poll_id."][DISPLAY_VOTES]",_('Results Display')).'</div>&nbsp;&nbsp;'.PortalPollsVotesDisplay($poll_id, true, $poll_questions_RET,$value);
+		return '<div'.CheckboxInput($votes_display_RET[1]['DISPLAY_VOTES'],"values[".$poll_id."][DISPLAY_VOTES]",_('Results Display')).'</div><div style="float:left;">'.PortalPollsVotesDisplay($poll_id, true, $poll_questions_RET,$value).'</div>';
 	}
 	else
 		return CheckboxInput('',"values[new][DISPLAY_VOTES]",_('Results Display'),'',true);

@@ -236,7 +236,7 @@ function makePublishing($value,$name)
 		$i++;
 		$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'').' /> '._($profile['TITLE']);
 		//modif Francois: Portal Polls add students teacher
-		if ($profile['ID'] == 0) //student
+		if ($profile['ID'] == 0 && isset($THIS_RET['OPTIONS'])) //student & verify this is not a Portal Note!
 		{
 			$return .= ': </label>'.SelectInput($THIS_RET['STUDENTS_TEACHER_ID'],'values['.$id.'][STUDENTS_TEACHER_ID]',_('Limit to Teacher'),$teachers, true, '', true);
 		}
@@ -336,8 +336,8 @@ function makeFileAttached($value,$name)
 	{
 		$id = 'new';
 		
-		$return = '<div style="float:left;"><label><input type="radio" name="values[new][FILE_OR_EMBED]" value="FILE">&nbsp;<input type="file" id="'.$name.'_FILE" name="'.$name.'_FILE" size="14" /></label>&nbsp;</div>';
-		$return .= '<label><input type="radio" name="values[new][FILE_OR_EMBED]" value="EMBED" onclick="javascript:document.getElementById(\'values[new]['.$name.'_EMBED]\').focus();">&nbsp;'._('Embed Link').': <input type="text" id="values[new]['.$name.'_EMBED]" name="values[new]['.$name.'_EMBED]" size="14"></label>';
+		$return = '<div><label><input type="radio" name="values[new][FILE_OR_EMBED]" value="FILE">&nbsp;<input type="file" id="'.$name.'_FILE" name="'.$name.'_FILE" size="14" /></label></div>';
+		$return .= '<div style="float:left;"><label><input type="radio" name="values[new][FILE_OR_EMBED]" value="EMBED" onclick="javascript:document.getElementById(\'values[new]['.$name.'_EMBED]\').focus();">&nbsp;'._('Embed Link').': <input type="text" id="values[new]['.$name.'_EMBED]" name="values[new]['.$name.'_EMBED]" size="14"></label></div>';
 	}
 		
 	if ($loadColorBox)

@@ -645,8 +645,10 @@ div.st {
 	.rt img { max-height: 1.5em; }
 	.rt input, .rt select { margin:0; }
 	.rt th, .rt th a { font-size:12px; }
+	
+	/*rt td too large*/
+	.rt input, .rt textarea { max-width: 150px; }
 	.rt td:hover { overflow-y: visible; min-height: 2em; height: 100%; }
-
 	.rt .link2colorBox { display: inline; }
 	.rt .link2colorBox + .rt2colorBox { display: none; }
 	.rt2colorBox { background-color: #fff; overflow-y: visible; }
