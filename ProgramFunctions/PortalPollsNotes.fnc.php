@@ -207,12 +207,12 @@ function makePublishing($value,$name)
 	$return .= DateInput($value,"values[$id][$name]").' '._('to').' ';
 	$return .= DateInput($THIS_RET['END_DATE'],"values[$id][END_DATE]").'</TD></TR>';
 //modif Francois: css WPadmin
-	$return .= '<TR><TD colspan="4" style="padding:0;">';
+	$return .= '<TR><TD style="padding:0;">';
 
 	if(!$profiles_RET)
 		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID WHERE"));
 
-	$return .= '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD colspan="4"><b>'.Localize('colon',_('Visible To')).'</b></TD></TR><TR class="st">';
+	$return .= '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD colspan="2"><b>'.Localize('colon',_('Visible To')).'</b></TD></TR><TR class="st">';
 	$i=0;
 	foreach(array('admin'=>_('Administrator w/Custom'),'teacher'=>_('Teacher w/Custom'),'parent'=>_('Parent w/Custom')) as $profile_id=>$profile)
 	{
@@ -250,9 +250,11 @@ function makePublishing($value,$name)
 		$return .= '<TD>&nbsp;</TD>';
 	$return .= '</TR>';
 	
-	$return .= '</TABLE>';
+	//modif Francois: Moodle integrator
+	if (MOODLE_INTEGRATOR && $id == 'new' && !isset($THIS_RET['OPTIONS'])) //& verify this is not a Portal Poll!
+		$return .= '<TR class="st"><TD colspan="2"><B>'._('Publish Note in Moodle?').'</B> <label><INPUT type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> '._('Yes').'</label></TD></TR>';
 		
-	$return .= '</TD></TR></TABLE></DIV>';
+	$return .= '</TABLE></TD></TR></TABLE></DIV>';
 	return $return;
 }
 
