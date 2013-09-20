@@ -428,14 +428,9 @@ span[class^=legend] {
 	margin-bottom: 7px;
 	display: block
 }
-#BottomBody {
-	height: 30px;
-	overflow-y: hidden
-}
 #BottomHelp {
-	height:140px;
 	overflow-y:scroll;
-	margin-left: 12px
+	margin-left: 8px;
 }
 #SideLogo {
 	margin-left: 25px;
@@ -509,12 +504,11 @@ span.center {
 	display: block
 }
 .BottomButton {
-	vertical-align:middle;
+	vertical-align:super;
 }
 #BottomButtonMenu {
-	display: block;
 	float: left;
-	padding: 8px 0 0 8px;
+	padding: 6px 0 0 6px;
 }
 #BottomButtonMenu a:before {
 	content: "\2261";		
@@ -573,7 +567,7 @@ div.st {
 	.BottomButton {
 		display: none;
 	}
-	#general_table input,#general_table select, #LO_search {
+	#general_table input, input[id=USERNAME], input[id=PASSWORD], #general_table select, #LO_search {
 		max-width: 90px;
 	}
 	#modulesBody textarea { 
@@ -636,12 +630,12 @@ div.st {
 @media only screen and (max-width: 640px) {
 
 	.rt { display: block; position: relative; width: 100%; }
-	.rt thead { display: block; float: left; max-width: 150px; overflow-x: auto; }
+	.rt thead { display: block; float: left; max-width: 130px; }
 	.rt tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
 	.rt thead tr { display: block; }
 	.rt th { display: block; padding: 4px 7px 2px; line-height: 2em; height: 2em; }
 	.rt tbody tr { display: inline-block; vertical-align: top; }
-	.rt td { display: block; line-height: 2em; height: 2em; overflow-y: auto; }
+	.rt td { display: block; line-height: 2em; height: 2em; }
 	.rt img { max-height: 1.5em; }
 	.rt input, .rt select { margin:0; }
 	.rt th, .rt th a { font-size:12px; }
