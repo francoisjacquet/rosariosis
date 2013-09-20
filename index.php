@@ -123,7 +123,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 <meta name="robots" content="noindex,nofollow" />
 <link REL="SHORTCUT ICON" HREF="favicon.ico">
 </HEAD>
-<BODY onLoad="document.loginform.USERNAME.focus()">
+<BODY>
 <BR /><BR />
 <?php
 	PopTable("header",_('RosarioSIS Login'), 'style="max-width:550px;"');
