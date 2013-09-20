@@ -71,6 +71,7 @@ if(!defined('WAREHOUSE_PHP'))
 <HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
 <HEAD><TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
 <?php			if(basename($_SERVER['PHP_SELF'])!='index.php'): ?>
 <noscript><META http-equiv="REFRESH" content="0; url=index.php?modfunc=logout&amp;reason=javascript" /></noscript>
 <script type="text/javascript" src="assets/js/tipmessage/main15.js"></script>

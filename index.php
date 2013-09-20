@@ -126,7 +126,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 <BODY onLoad="document.loginform.USERNAME.focus()">
 <BR /><BR />
 <?php
-	PopTable("header",_('RosarioSIS Login'), "width=55%");
+	PopTable("header",_('RosarioSIS Login'), 'style="max-width:550px;"');
 //	echo '<span class="center">';
 	if($_REQUEST['reason'])
 		$note[] = _('You must have javascript enabled to use RosarioSIS.');
@@ -192,6 +192,7 @@ elseif($_REQUEST['modfunc']!='create_account')
 <HEAD>
 	<TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
 	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
 	<noscript><META http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&reason=javascript" /></noscript>
 	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
 </HEAD>
