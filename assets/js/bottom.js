@@ -44,6 +44,7 @@ function touchScroll(id){
 
 		document.getElementById(id).addEventListener("touchmove", function(event) {
 			this.scrollTop=scrollStartPos-event.touches[0].pageY;
+			event.preventDefault();
 		},false);
 	}
 }

@@ -62,5 +62,44 @@ function setMLvalue(id,loc,value){
 //tipmessage
 var TipId="Migoicons";var FiltersEnabled = 0;
 var tipmessageStyle = ["#21759b","#ececec","","","Georgia,Times New Roman",,"#555","#f9f9f9","","","sans-serif",,,,2,"#ececec",2,,,,,"",,,0,23];
-if (typeof(mig_clay) == "function")
-	window.onload = function() { mig_clay(); };
+
+//touchScroll, enables overflow:auto on mobile
+//https://gist.github.com/chrismbarr/4107472
+function touchScroll(el){
+	var scrollStartPos=0;
+
+	el.addEventListener("touchstart", function(event) {
+		scrollStartPos=this.scrollLeft+event.touches[0].pageX;
+	},false);
+
+	el.addEventListener("touchmove", function(event) {
+		if ((this.scrollLeft < this.scrollWidth-this.offsetWidth &&
+			this.scrollLeft+event.touches[0].pageX < scrollStartPos-5) ||
+			(this.scrollLeft != 0 && this.scrollLeft+event.touches[0].pageX > scrollStartPos+5))
+				event.preventDefault(); 
+		this.scrollLeft=scrollStartPos-event.touches[0].pageX;
+	},false);
+}
+function isTouchDevice(){
+	try{
+		document.createEvent("TouchEvent");
+		return true;
+	}catch(e){
+		return false;
+	}
+}
+
+window.onload = function(){
+	if (document.loginform)
+		document.loginform.USERNAME.focus();
+	if (typeof(mig_clay) == "function")
+		mig_clay();
+		
+	if (isTouchDevice())
+	{
+		var els = document.getElementsByClassName('rt');
+		Array.prototype.forEach.call(els, function(el) {
+			touchScroll(el.tBodies[0]);
+		});
+	}
+};
