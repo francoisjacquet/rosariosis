@@ -20,15 +20,15 @@ function expandFrameMenu(){
 	var widthMenu = '100%';
 	if(sizeMenu.indexOf('205')!=-1)
 	{
-		newSizeMenu = "0,*";
+		sizeMenu = "0,*";
 		displayMenu = 'none';
 		widthMenu = '0%';
 	}
 	else
-		newSizeMenu = "205,*";
+		sizeMenu = "205,*";
 	parent.side.document.body.style.width = widthMenu;
 	parent.side.document.body.style.display = displayMenu;
-	parent.document.getElementById('mainframeset').firstElementChild.cols = newSizeMenu;
+	parent.document.getElementById('mainframeset').firstElementChild.cols = sizeMenu;
 }
 
 //touchScroll, enables overflow:auto on mobile
