@@ -1,5 +1,24 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.3.3
+----------------
+- bugix: JS bug mig_clay is not defined in warehouse.js
+- bugix: division by zero in MenuReports.php
+- bugix: SQL bug more than one residence address
+- bugix: no student selected in DuplicateAttendance.php
+- bugix: SelectInput with no title
+- bugix: escape Course Title in ChooseRequest.php
+- bugix: nothing displayed if user selected in NotifyParents.php
+- bugix: nothing displayed after user search in Exceptions.php
+- bugix: add Parent/Student nobody selected
+- bugix: URL filter for Portal Note's files attached
+- bugix: SQL bug cpsp reference missing in AddAbsences.php
+- bugix: update Medical fields
+- bugixes: DailySummary.php:
+	- bug when Back to Student Search
+	- SQL bug PERIOD_ID numeric
+	- modname not set
+
 Changes in 1.3.2
 ----------------
 - Moodle create user: remove lang
