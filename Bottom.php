@@ -70,20 +70,10 @@ else
 		include 'Help_'.mb_substr($locale, 0, 2).'.php';
 	else
 		include 'Help.php';
-//	include 'Menu.php';
 
 	$profile = User('PROFILE');
 
 	echo '<DIV id="BottomHelp" style="display:none; height:0px;">';
-/*	if($_REQUEST['modcat'])
-	{
-		echo '<b>'.str_replace('_',' ',$_REQUEST['modcat']);
-		echo ' : '.$_ROSARIO['Menu'][$_REQUEST['modcat']][$_REQUEST['modname']];
-		echo '</b>';
-	}
-	else*/
-//modif Francois: add help in a popup
-	//echo '<b>'._('Welcome to Rosario Help').'</b>';
 
 	if($help[$_REQUEST['modname']])
 	{
