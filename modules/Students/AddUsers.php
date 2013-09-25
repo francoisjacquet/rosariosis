@@ -1,20 +1,25 @@
 <?php
 if($_REQUEST['modfunc']=='save' && AllowEdit())
 {
-	$current_RET = DBGet(DBQuery("SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'"),array(),array('STAFF_ID'));
-	foreach($_REQUEST['staff'] as $staff_id=>$yes)
+	if (is_array($_REQUEST['staff']))
 	{
-		if(!$current_RET[$staff_id])
+		$current_RET = DBGet(DBQuery("SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'"),array(),array('STAFF_ID'));
+		foreach($_REQUEST['staff'] as $staff_id=>$yes)
 		{
-			$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values('".$staff_id."','".UserStudentID()."')";
-			DBQuery($sql);
-//modif Francois: Moodle integrator
-			$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+			if(!$current_RET[$staff_id])
+			{
+				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values('".$staff_id."','".UserStudentID()."')";
+				DBQuery($sql);
+	//modif Francois: Moodle integrator
+				$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+			}
 		}
+		$note = _('The selected user\'s profile now includes access to the selected students.');
 	}
+	else
+		$error = _('You must choose at least one user');
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
-	$note = _('The selected user\'s profile now includes access to the selected students.');
 }
 DrawHeader(ProgramTitle());
 
@@ -30,8 +35,9 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 }
 
 if($note)
-//	DrawHeader('<IMG SRC=assets/check.png>'.$note);
 	echo ErrorMessage(array($note),'note');
+if($error)
+	echo ErrorMessage(array($error));
 
 //modif Francois: Moodle integrator
 echo $moodleError;
