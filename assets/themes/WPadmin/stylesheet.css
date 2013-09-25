@@ -645,7 +645,7 @@ div.st {
 	.rt td:hover { overflow-y: visible; min-height: 2em; height: 100%; }
 	.rt .link2colorBox { display: inline; }
 	.rt .link2colorBox + .rt2colorBox { display: none; }
-	.rt2colorBox { background-color: #fff; overflow-y: visible; }
+	.rt2colorBox { background-color: #fff; overflow:auto; }
 	
 	/* sort out borders */
 	.rt tr { border-right-width: 1px; border-right-style: solid; }

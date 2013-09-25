@@ -24,12 +24,13 @@ function includeOnceColorBox($rt2colorBoxDiv = false)
 		$(document).ready(function(){
 			$(\'.colorbox\').colorbox();
 			$(\'.colorboxiframe\').colorbox({iframe:true, innerWidth:iframeInnerWidth});
-			$(\'.colorboxinline\').colorbox({inline:true' : '');
-	
-	//modif Francois: responsive rt td too large
-	//responsive mode: 300px large, inline content
-	$return .= ($rt2colorBoxDiv && !$included ? ', innerWidth:300' : '');
-	$return .= (!$included ? '});
+			$(\'.colorboxinline\').colorbox({inline:true, maxWidth:\'95%\', maxHeight:\'95%\', scrolling:true';
+	$return .= ($rt2colorBoxDiv ? ', onOpen: function(){
+				if (isTouchDevice())
+					touchScrollColorbox(document.getElementById(\''.$rt2colorBoxDiv.'\'));
+			}' : '');
+	$return .= (!$included ? '
+			});
 		});
 	</script>' : '');
 	$return .= ($rt2colorBoxDiv ? '<div class="link2colorBox"><a class="colorboxinline" href="#'.$rt2colorBoxDiv.'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>' : '');

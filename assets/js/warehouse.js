@@ -66,19 +66,44 @@ var tipmessageStyle = ["#21759b","#ececec","","","Georgia,Times New Roman",,"#55
 //touchScroll, enables overflow:auto on mobile
 //https://gist.github.com/chrismbarr/4107472
 function touchScroll(el){
-	var scrollStartPos=0;
+	var scrollStartPosY=0;
+	var scrollStartPosX=0;
 
 	el.addEventListener("touchstart", function(event) {
-		scrollStartPos=this.scrollLeft+event.touches[0].pageX;
+		scrollStartPosY=this.scrollTop+event.touches[0].pageY;
+		scrollStartPosX=this.scrollLeft+event.touches[0].pageX;
 	},false);
 
 	el.addEventListener("touchmove", function(event) {
-		if ((this.scrollLeft < this.scrollWidth-this.offsetWidth &&
-			this.scrollLeft+event.touches[0].pageX < scrollStartPos-5) ||
-			(this.scrollLeft != 0 && this.scrollLeft+event.touches[0].pageX > scrollStartPos+5))
+		if ((this.scrollTop < this.scrollHeight-this.offsetHeight &&
+			this.scrollTop+event.touches[0].pageY < scrollStartPosY-5) ||
+			(this.scrollTop != 0 && this.scrollTop+event.touches[0].pageY > scrollStartPosY+5))
 				event.preventDefault(); 
-		this.scrollLeft=scrollStartPos-event.touches[0].pageX;
+		if ((this.scrollLeft < this.scrollWidth-this.offsetWidth &&
+			this.scrollLeft+event.touches[0].pageX < scrollStartPosX-5) ||
+			(this.scrollLeft != 0 && this.scrollLeft+event.touches[0].pageX > scrollStartPosX+5))
+				event.preventDefault(); 
+		this.scrollTop=scrollStartPosY-event.touches[0].pageY;
+		this.scrollLeft=scrollStartPosX-event.touches[0].pageX;
 	},false);
+}
+function touchScrollColorbox(el){
+    var startY=0;
+    var startX=0;
+    el.addEventListener('touchstart', function(event) {
+        startY=event.targetTouches[0].screenY;
+        startX=event.targetTouches[0].screenX;
+    });
+    el.addEventListener('touchmove', function(event) {
+        event.preventDefault();
+        var posy=event.targetTouches[0].screenY;
+        var h=document.getElementById("cboxLoadedContent");
+        var posx=event.targetTouches[0].screenX;
+        h.scrollTop=h.scrollTop-(posy-startY);
+        h.scrollLeft=h.scrollLeft-(posx-startX);
+        startY = posy;
+        startX = posx;
+    });
 }
 function isTouchDevice(){
 	try{
