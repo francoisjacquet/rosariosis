@@ -122,11 +122,11 @@ if($_REQUEST['type_select']=='sales')
 		foreach($discounts as $discount=>$value)
 		{
 			$total = array_sum($types[$user][$discount]);
-			$TMP_types[] = array('TYPE'=>$user,'DISCOUNT'=>$discount,'ELLIGIBLE'=>number_format($value['ELLIGIBLE'],1),'DAYS_POSSIBLE'=>number_format($value['DAYS']/$value['ELLIGIBLE'],1),'TOTAL_ELLIGIBLE'=>$value['DAYS'],'PARTICIPATED'=>$value['PARTICIPATED'],'TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('format',$types[$user][$discount]);
+			$TMP_types[] = array('TYPE'=>$user,'DISCOUNT'=>$discount,'ELLIGIBLE'=>number_format($value['ELLIGIBLE'],1),'DAYS_POSSIBLE'=>(!empty($value['ELLIGIBLE']) ? number_format($value['DAYS']/$value['ELLIGIBLE'],1) : 0),'TOTAL_ELLIGIBLE'=>$value['DAYS'],'PARTICIPATED'=>$value['PARTICIPATED'],'TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('format',$types[$user][$discount]);
 		}
 		$total = array_sum($types_totals[$user]);
 //modif Francois: add translation
-		$TMP_types[] = array('TYPE'=>'<b>'.$user.'</b>','DISCOUNT'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.number_format($users_totals[$user]['DAYS']/$users_totals[$user]['ELLIGIBLE'],1).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals[$user]['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals[$user]['PARTICIPATED'].'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals[$user]);
+		$TMP_types[] = array('TYPE'=>'<b>'.$user.'</b>','DISCOUNT'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.(!empty($users_totals[$user]['ELLIGIBLE']) ? number_format($users_totals[$user]['DAYS']/$users_totals[$user]['ELLIGIBLE'],1) : 0).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals[$user]['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals[$user]['PARTICIPATED'].'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals[$user]);
 		unset($TMP_types[0]);
 		$LO_types[] = $TMP_types;
 	}
