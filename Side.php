@@ -89,6 +89,7 @@ unset($_REQUEST['modfunc']);
 <HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
 <link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
 <?php echo $addJavascripts; ?>
 <title><?php echo ParseMLField(Config('TITLE')); ?></title>
