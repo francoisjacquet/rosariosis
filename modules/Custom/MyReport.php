@@ -29,7 +29,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['WHERE'] .= CustomFields('where','student',array('NoSearchTerms'=>$extra['NoSearchTerms']));
 		if($_REQUEST['address_group'])
 		{
-			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID=ssm.STUDENT_ID AND RESIDENCE='Y'),-ssm.STUDENT_ID) AS FAMILY_ID";
+			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID=ssm.STUDENT_ID AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
 			$extra['group'] = $LO_group = array('FAMILY_ID','STUDENT_ID');
 			//$LO_group = array(array('FAMILY_ID','STUDENT_ID'));
 			$LO_columns = array('FAMILY_ID'=>_('Address ID'));
