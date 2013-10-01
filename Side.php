@@ -280,7 +280,7 @@ foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 	{
 		$keys = array_keys($_ROSARIO['Menu'][$modcat]);
 
-		echo '<A href="Modules.php?modname='.$modcat.'/Search.php" class="menu-top" onclick="openMenu(\''.$modcat.'\');" target="body"><IMG SRC="assets/icons/'.$modcat.'.png" height="32" style="vertical-align:middle;">&nbsp;'._(str_replace('_',' ',$modcat)).'</A><DIV id="menu_visible'.$modcat.'" class="wp-submenu" style="display:none;"></DIV>';
+		echo '<A href="Modules.php?modname='.$modcat.'/Search.php" class="menu-top" onclick="openMenu(\''.$modcat.'\');" target="body"><IMG SRC="assets/icons/'.$modcat.'.png" height="32" style="vertical-align:middle;">&nbsp;'._(str_replace('_',' ',$modcat)).'</A><DIV id="menu_visible'.$modcat.'" class="wp-submenu"></DIV>';
 		echo '<DIV id="menu_hidden'.$modcat.'" style="display:none;"><TABLE class="width-100p cellspacing-0 cellpadding-0">';
 		//foreach($_ROSARIO['Menu'][$modcat] as $file=>$title)
 		foreach($keys as $key_index=>$file)
