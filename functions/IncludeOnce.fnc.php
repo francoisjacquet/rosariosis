@@ -24,7 +24,7 @@ function includeOnceColorBox($rt2colorBoxDiv = false)
 		$(document).ready(function(){
 			$(\'.colorbox\').colorbox();
 			$(\'.colorboxiframe\').colorbox({iframe:true, innerWidth:iframeInnerWidth});
-			$(\'.colorboxinline\').colorbox({inline:true, maxWidth:\'95%\', maxHeight:\'95%\', scrolling:true';
+			$(\'.colorboxinline\').colorbox({inline:true, maxWidth:\'95%\', maxHeight:\'95%\', scrolling:true' : '');
 	$return .= ($rt2colorBoxDiv ? ', onOpen: function(){
 				if (isTouchDevice())
 					touchScrollColorbox(document.getElementById(\''.$rt2colorBoxDiv.'\'));
