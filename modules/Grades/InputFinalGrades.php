@@ -71,12 +71,9 @@ foreach($grades_RET as $key=>$grade)
 	$grades_select += array($grade['ID']=>array($grade['TITLE'],'<b>'.$grade['TITLE'].'</b>'));
 }
 $commentsB_select = array();
-if(0)
-foreach($commentsB_RET as $id=>$comment)
-	$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'],$comment[1]['TITLE']));
-else
-foreach($commentsB_RET as $id=>$comment)
-	$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'].' - '.(mb_strlen($comment[1]['TITLE']) > 99+3?mb_substr($comment[1]['TITLE'],0,99).'...':$comment[1]['TITLE']),$comment[1]['TITLE']));
+if(is_array($commentsB_RET))
+	foreach($commentsB_RET as $id=>$comment)
+		$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'].' - '.(mb_strlen($comment[1]['TITLE']) > 99+3?mb_substr($comment[1]['TITLE'],0,99).'...':$comment[1]['TITLE']),$comment[1]['TITLE']));
 
 if($_REQUEST['modfunc']=='gradebook')
 {
