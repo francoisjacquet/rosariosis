@@ -62,7 +62,6 @@ if(count($grouped_RET))
 		//$_REQUEST['_ROSARIO_PDF'] = 'true';
 
 ?>
-		<script type="text/javascript" src="assets/js/jquery.js"></script>
 		<script type="text/javascript" src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 		<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />	

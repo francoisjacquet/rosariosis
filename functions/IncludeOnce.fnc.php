@@ -1,19 +1,9 @@
 <?php
 
-//modif Francois: include once Jquery
-function includeOnceJquery()
-{
-	static $included = false;
-	$return = (!$included ? '<script src="assets/js/jquery.js" type="text/javascript" charset="utf-8"></script>' : '');
-	$included = true;
-	return $return;
-}
-
 //modif Francois: include once ColorBox
 function includeOnceColorBox($rt2colorBoxDiv = false)
 {
 	static $included = false;
-	$return .= includeOnceJquery();
 	//modif Francois: responsive rt td too large
 	$return .= (!$included ? '<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
 	<script type="text/javascript" src="assets/js/colorbox/jquery.colorbox-min.js"></script>
@@ -25,7 +15,7 @@ function includeOnceColorBox($rt2colorBoxDiv = false)
 			$(\'.colorbox\').colorbox();
 			$(\'.colorboxiframe\').colorbox({iframe:true, innerWidth:iframeInnerWidth});
 			$(\'.colorboxinline\').colorbox({inline:true, maxWidth:\'95%\', maxHeight:\'95%\', scrolling:true' : '');
-	$return .= ($rt2colorBoxDiv ? ', onOpen: function(){
+	$return .= (!$included && $rt2colorBoxDiv ? ', onOpen: function(){
 				if (isTouchDevice())
 					touchScrollColorbox(document.getElementById(\''.$rt2colorBoxDiv.'\'));
 			}' : '');
@@ -33,7 +23,7 @@ function includeOnceColorBox($rt2colorBoxDiv = false)
 			});
 		});
 	</script>' : '');
-	$return .= ($rt2colorBoxDiv ? '<div class="link2colorBox"><a class="colorboxinline" href="#'.$rt2colorBoxDiv.'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>' : '');
+	$return .= (!$included && $rt2colorBoxDiv ? '<div class="link2colorBox"><a class="colorboxinline" href="#'.$rt2colorBoxDiv.'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>' : '');
 
 	$included = true;
 	return $return;

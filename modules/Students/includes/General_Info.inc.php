@@ -6,8 +6,6 @@ echo '<TR class="st">';
 if($_REQUEST['student_id']!='new' && $StudentPicturesPath) {
 	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])) {
 ?>
-	<script type='text/javascript' src='assets/js/jquery.js'></script>
-	<script type='text/javascript' src='assets/js/jquery.form.js'></script>
 	<script type='text/javascript'> 
 		$(document).ready(function() {
 			//move form inside the main student form!

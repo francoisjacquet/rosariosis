@@ -265,9 +265,7 @@ if(!$_REQUEST['modfunc'])
 			//$_REQUEST['_ROSARIO_PDF'] = 'true';
 //modif Francois: jqplot charts
 //modif Francois: colorbox
-?>
-			<script type="text/javascript" src="assets/js/jquery.js"></script>
-			
+?>			
 			<script type="text/javascript" src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
 			<script type="text/javascript">	
