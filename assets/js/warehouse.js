@@ -1,4 +1,4 @@
-//file included in Warehouse.php
+//Modules.php JS
 var locked;
 function addHTML(html,id,replace){
 	if(locked!=false){
@@ -113,10 +113,56 @@ function isTouchDevice(){
 		return false;
 	}
 }
+function ajaxLink(link){
+	//alert(link.onclick);
+	//will work only if in the onclick there is no error!
+	if (link.href.indexOf('#')==1 || link.target=='_blank' || link.target=='_top') //internal/external/index.php anchor
+		return true;
+	var target = link.target;
+	if (!target)
+	{
+		if (link.href.indexOf('Modules.php')==1)
+			target = 'body';
+		else
+			return true;
+	}
+	
+	$.get(link.href, function(data) {
+		$('#'+target).html(data);
+		$('#'+target+' a').each(function(){ $(this).click(function(){ return ajaxLink(this); }); });
+		$('#'+target+' form').each(function(){ ajaxPostForm(this); });
+	})
+	.fail(function() {
+		alert( "error" );
+	})
+	return false;
+}
+function ajaxPostForm(form){
+	//alert(form.action);
+	//alert(form.method);
+	
+	var target = form.target;
+	if (!target)
+		//if (form.action.indexOf('Modules.php')==1)
+			target = 'body';
+	
+	
+	$(form).ajaxForm({
+		beforeSubmit: function(a,f,o) {
+			//disable all submit buttons
+			$('#'+target+' input[type="submit"]').disabled;
+		},
+		success: function(data) {
+			$('#'+target).html(data);
+			$('#'+target+' a').each(function(){ $(this).click(function(){ return ajaxLink(this); }); });
+			$('#'+target+' form').each(function(){ ajaxPostForm(this); });
+		}
+	});
+	return false;
+}
 
+//onload
 window.onload = function(){
-	if (document.loginform)
-		document.loginform.USERNAME.focus();
 	if (typeof(mig_clay) == "function")
 		mig_clay();
 		
@@ -126,5 +172,66 @@ window.onload = function(){
 		Array.prototype.forEach.call(els, function(el) {
 			touchScroll(el.tBodies[0]);
 		});
+		touchScroll(document.getElementById('footerhelp'));
 	}
+	$('a').each(function(){ $(this).click(function(){ return ajaxLink(this); }); });
+	$('form').each(function(){ ajaxPostForm(this); });
 };
+
+//Side.php JS
+var old_modcat = false;
+function openMenu(modcat)
+{
+	visible = document.getElementById("menu_visible"+modcat);
+	visible.innerHTML = document.getElementById("menu_hidden"+modcat).innerHTML;
+	visible.style.display = "block";
+	if(old_modcat!=false && old_modcat!=modcat){
+		oldVisible = document.getElementById("menu_visible"+old_modcat);
+		oldVisible.innerHTML = "";
+		oldVisible.style.display = "none";					
+	}
+	document.getElementById("modcat_input").value=modcat;
+	old_modcat = modcat;
+}
+function selectedMenuLink(a)
+{
+	if (oldA = document.getElementById("selectedMenuLink"))
+		oldA.id = "";
+	a.id = "selectedMenuLink";
+}
+
+//Bottom.php JS
+function expandHelp(){
+	var heightFooter = document.getElementById('footer').style.height;
+	var displayHelp = 'block';
+	var heightHelp = '140px';
+	if(heightFooter == '170px')
+	{
+		heightFooter = '30px';
+		displayHelp = 'none';
+		heightHelp = '0px';
+	}
+	else
+		heightFooter = '170px';
+	document.getElementById('footerhelp').style.display = displayHelp;
+	document.getElementById('footerhelp').style.height = heightHelp;
+	document.getElementById('footer').style.height = heightFooter;
+}
+function expandMenu(){
+	var heightMenu = document.getElementById('menu').style.height;
+	var widthMenu = '205px';
+	var return_val = true;
+	if (heightMenu == '0px')
+		heightMenu = '';
+	else
+	{
+		heightMenu = '0px';
+		widthMenu = '0px';
+		return_val = false;
+	}
+	document.getElementById('menu').style.height = heightMenu;
+	document.getElementById('menuback').style.height = heightMenu;
+	document.getElementById('menu').style.width = widthMenu;
+	document.getElementById('menuback').style.width = widthMenu;
+	return return_val;
+}
