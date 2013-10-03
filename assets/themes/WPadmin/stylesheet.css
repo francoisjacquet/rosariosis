@@ -442,7 +442,6 @@ span[class^=legend] {
 	margin-bottom:4px;
 	margin-top:2px
 }
-#SideTitle{display:none;}
 
 td.image-radio-list {
 	height: 160px;
@@ -645,8 +644,7 @@ div.st {
 		position: relative !important;
 		border: 0;
 	}
-	#SideLogo{display:none;}
-	#SideTitle{display:inline;padding:2px;}
+	#SideLogo{width:130px;margin:2px;max-height:118px;float:right;}
 	#menu{margin-bottom:0;}
 	#adminmenu a.menu-top {padding:2px 5px;}
 	.menu-top img {height: 24px;}
