@@ -1,6 +1,19 @@
 @import url("colors.css");
 
-#adminmenu,#adminmenu .wp-submenu {
+#wrap{height:auto;min-height:100%;width:100%;position:relative}
+#menuback,#menu{width:205px}
+#menuback{position:absolute;top:0;bottom:0;z-index:-1}
+#menuback,#menu{border-width:0 1px 0 0;border-style:solid}
+#menu{position:relative;float:left}
+#menushadow{position:absolute;top:0;right:0;bottom:0;width:6px;z-index:20}
+#body,#menu{margin-bottom:30px;}
+#footer{clear:both;display:block;position:fixed;z-index:99999;bottom:0;left:0;height:30px;width:100%;background-color:#ececec;}
+#footerwrap{height:24px;margin-top:3px;margin-bottom:3px;text-align:center;}
+#footerhelp{display:none;height:0px;background-color:white;overflow-y:scroll;padding-left:8px;}
+.mod{overflow: hidden;}
+.mod:after{content:"";display:table;clear:both;}
+
+#adminmenu,.wp-submenu {
 	width:100%
 }
 
@@ -261,10 +274,6 @@ label {
 	margin:0;
 	overflow:hidden
 }
- #adminmenu a.menu-top {
-	font-size:15px;
-	line-height:18px
-}
 /*ajout*/
 #adminmenu .menu-inter {
 	font-size:14px;
@@ -278,7 +287,7 @@ label {
 }
 #adminmenu a.menu-top {
 	font-weight:400;
-	/*line-height:18px;*/
+	font-size:15px;
 	min-width:10em;
 	padding:5px 5px;
 	border-width:1px 0 1px;
@@ -374,7 +383,7 @@ h3 span {
 	vertical-align:middle;
 	height: 24px
 }
-#modulesBody {
+#body {
 	padding: 0 15px
 }
 img.headerIcon {
@@ -428,15 +437,12 @@ span[class^=legend] {
 	margin-bottom: 7px;
 	display: block
 }
-#BottomHelp {
-	overflow-y:scroll;
-	margin-left: 8px;
-}
 #SideLogo {
 	margin-left: 25px;
 	margin-bottom:4px;
 	margin-top:2px
 }
+#SideTitle{display:none;}
 
 td.image-radio-list {
 	height: 160px;
@@ -552,7 +558,7 @@ div.st {
 /* mobile */
 @media only screen and (max-width: 767px) {
 
-	#modulesBody {
+	#body {
 		padding: 0 2px;
 	}
 	h2 {
@@ -626,9 +632,26 @@ div.st {
 	}
 }
 
-/*responsive tables*/
 @media only screen and (max-width: 640px) {
 
+	/* quick smartphone reset */
+	.mod {
+		display: block !important;
+		float: none !important;
+		clear: none !important;
+		width: auto !important;
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+		position: relative !important;
+		border: 0;
+	}
+	#SideLogo{display:none;}
+	#SideTitle{display:inline;padding:2px;}
+	#menu{margin-bottom:0;}
+	#adminmenu a.menu-top {padding:2px 5px;}
+	.menu-top img {height: 24px;}
+	
+	/*responsive tables*/
 	.rt { display: block; position: relative; width: 100%; }
 	.rt thead { display: block; float: left; max-width: 130px; }
 	.rt tbody { display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap; }
@@ -639,6 +662,7 @@ div.st {
 	.rt img { max-height: 1.5em; }
 	.rt input, .rt select { margin:0; }
 	.rt th, .rt th a { font-size:12px; }
+	.rt tr { border-right-width: 1px; border-right-style: solid; }
 	
 	/*rt td too large*/
 	.rt input, .rt textarea { max-width: 150px; }
@@ -647,6 +671,4 @@ div.st {
 	.rt .link2colorBox + .rt2colorBox { display: none; }
 	.rt2colorBox { background-color: #fff; overflow:auto; }
 	
-	/* sort out borders */
-	.rt tr { border-right-width: 1px; border-right-style: solid; }
 }
