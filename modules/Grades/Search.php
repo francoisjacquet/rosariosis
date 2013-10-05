@@ -9,7 +9,7 @@ else
 $modcat = 'Grades';
 if(AllowUse($_REQUEST['modname']))
 {
-	echo '<SCRIPT type="text/javascript">parent.help.location="Bottom.php?modcat='.$modcat.'&modname='.$_REQUEST['modname'].'";</SCRIPT>';
+	//echo '<SCRIPT type="text/javascript">parent.help.location="Bottom.php?modcat='.$modcat.'&modname='.$_REQUEST['modname'].'";</SCRIPT>';
 	include("modules/$_REQUEST[modname]");
 }
 ?>
