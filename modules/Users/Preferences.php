@@ -62,7 +62,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		if($_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['THEME']!=$current_RET['Preferences']['THEME'][1]['VALUE'])
 		{
 			echo '<script type="text/javascript">';
-			echo 'parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;';
+			echo 'var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);';
 			echo "parent.help.location='Bottom.php?modcat=Users&modname=$_REQUEST[modname]';";
 			echo '</script>';
 		}

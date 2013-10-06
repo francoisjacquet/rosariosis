@@ -169,7 +169,7 @@ if(isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 	if(UserStudentID() != $_REQUEST['student_id'])
 	{
 		$_SESSION['student_id'] = $_REQUEST['student_id'];
-		echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';
+		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 	}
 
 	$functions = array('ATTENDANCE_CODE'=>'_makeCodePulldown','ATTENDANCE_TEACHER_CODE'=>'_makeCode','ATTENDANCE_REASON'=>'_makeReasonInput','COMMENT'=>'_makeReason');

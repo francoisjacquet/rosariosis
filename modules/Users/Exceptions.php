@@ -9,7 +9,7 @@ if(UserStaffID())
 	if($profile[1]['PROFILE_ID'] || $profile[1]['PROFILE']=='none')
 	{
 		unset($_SESSION['staff_id']);
-		echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';
+		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 	}
 }
 
