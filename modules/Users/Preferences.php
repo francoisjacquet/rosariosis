@@ -63,7 +63,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		{
 			echo '<script type="text/javascript">';
 			echo 'var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);';
-			echo "parent.help.location='Bottom.php?modcat=Users&modname=$_REQUEST[modname]';";
+			//echo "parent.help.location='Bottom.php?modcat=Users&modname=$_REQUEST[modname]';";
 			echo '</script>';
 		}
 		if($_REQUEST['tab']=='student_fields' || $_REQUEST['tab']=='widgets' || $_REQUEST['tab']=='staff_fields' || $_REQUEST['tab']=='staff_widgets')

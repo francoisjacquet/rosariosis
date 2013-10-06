@@ -22,7 +22,7 @@ else
 }
 
 $modcat = 'Food_Service';
-echo '<SCRIPT type="text/javascript">parent.help.location="Bottom.php?modcat='.$modcat.'&modname='.$_REQUEST['modname'].'";</SCRIPT>';
+//echo '<SCRIPT type="text/javascript">parent.help.location="Bottom.php?modcat='.$modcat.'&modname='.$_REQUEST['modname'].'";</SCRIPT>';
 include("modules/$_REQUEST[modname]");
 
 function _make_school_id($value,$column)
