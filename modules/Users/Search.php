@@ -17,7 +17,7 @@ elseif(AllowUse('Users/Preferences.php'))
 }
 if($_REQUEST['modname'])
 {
-	//echo '<SCRIPT type="text/javascript">parent.help.location="Bottom.php?modcat='.$modcat.'&modname='.$_REQUEST['modname'].'";</SCRIPT>';
+	echo '<SCRIPT type="text/javascript">modname="'.$_REQUEST['modname'].'";</SCRIPT>';
 	include("modules/$_REQUEST[modname]");
 }
 ?>
