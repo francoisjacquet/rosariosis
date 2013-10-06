@@ -70,7 +70,7 @@ if(empty($_REQUEST['modfunc']))
 				$_SESSION['Back_PHP_SELF'] = 'student';
 				unset($_SESSION['Search_PHP_SELF']);
 			}
-			echo '<script type="text/javascript">parent.help.location.reload();</script>';
+			echo '<script type="text/javascript">var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link);</script>';
 		}
 		ListOutput($students_RET,$LO_columns,'Student','Students',false,$LO_group);
 	}

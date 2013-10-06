@@ -19,7 +19,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 				$_SESSION['Back_PHP_SELF'] = 'staff';
 				unset($_SESSION['List_PHP_SELF']);
 			}
-			echo '<script type="text/javascript">parent.help.location.reload();</script>';
+			echo '<script type="text/javascript">var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link);</script>';
 			echo '<BR />';
 			PopTable('header',$extra['search_title']?$extra['search_title']:_('Find a User'));
 			echo '<FORM name="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="POST">';
@@ -179,7 +179,7 @@ else
 				$_SESSION['Back_PHP_SELF'] = 'staff';
 				unset($_SESSION['Search_PHP_SELF']);
 			}
-			echo '<script type="text/javascript">parent.help.location.reload();</script>';
+			echo '<script type="text/javascript">var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link);</script>';
 		}
 		if($extra['profile'])
 			ListOutput($staff_RET,$columns,$singular,$plural,$link,false,$extra['options']);
