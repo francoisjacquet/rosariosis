@@ -15,7 +15,7 @@ $time = mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']);
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='create')
+if($_REQUEST['modfunc']=='create' && AllowEdit())
 {
 	$fy_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 	$fy_RET = $fy_RET[1];
@@ -109,7 +109,7 @@ if($_REQUEST['modfunc']=='create')
 	}
 }
 
-if($_REQUEST['modfunc']=='delete_calendar')
+if($_REQUEST['modfunc']=='delete_calendar' && AllowEdit())
 {
 	if(DeletePrompt(_('Calendar')))
 	{
@@ -447,7 +447,7 @@ if(empty($_REQUEST['modfunc']))
 			if($title['DEFAULT_CALENDAR']=='Y')
 				$defaults++;
 		}
-		$link = SelectInput($_REQUEST['calendar_id'],'calendar_id','',$options,false," onchange='document.location.href=\"".PreparePHP_SELF($_REQUEST,array('calendar_id')).'&amp;calendar_id="+this.form.calendar_id.value;\' ',false).'<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create">'.button('add')._('Create new calendar').'</A> | <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create&calendar_id='.$_REQUEST['calendar_id'].'">'._('Recreate this calendar').'</A>&nbsp; <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_calendar&calendar_id='.$_REQUEST['calendar_id'].'">'.button('remove').' '._('Delete this calendar').'</A>';
+		$link = SelectInput($_REQUEST['calendar_id'],'calendar_id','',$options,false,' onchange="ajaxPostForm(this.form,true);" ',false).'<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create">'.button('add')._('Create new calendar').'</A> | <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create&calendar_id='.$_REQUEST['calendar_id'].'">'._('Recreate this calendar').'</A>&nbsp; <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_calendar&calendar_id='.$_REQUEST['calendar_id'].'">'.button('remove').' '._('Delete this calendar').'</A>';
 	}
 	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)).' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=list_events&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('List Events').'</A>',SubmitButton(_('Save')));
 	DrawHeader($link);
