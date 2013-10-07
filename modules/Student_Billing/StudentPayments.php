@@ -17,7 +17,7 @@ if(!$_REQUEST['print_statements'])
 //Widgets('all');
 Search('student_id');
 
-if($_REQUEST['values'] && $_POST['values'])
+if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
@@ -68,7 +68,7 @@ if($_REQUEST['values'] && $_POST['values'])
 	unset($_REQUEST['values']);
 }
 
-if($_REQUEST['modfunc']=='remove')
+if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Payment')))
 	{
@@ -77,7 +77,7 @@ if($_REQUEST['modfunc']=='remove')
 	}
 }
 
-if($_REQUEST['modfunc']=='refund')
+if($_REQUEST['modfunc']=='refund' && AllowEdit())
 {
 	if(DeletePrompt(_('Payment'),_('Refund')))
 	{

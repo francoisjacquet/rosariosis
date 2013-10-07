@@ -17,7 +17,7 @@ if(!$_REQUEST['print_statements'])
 //Widgets('all');
 Search('student_id',$extra);
 
-if($_REQUEST['values'] && $_POST['values'])
+if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	if(count($_REQUEST['month_']))
 	{
@@ -72,7 +72,7 @@ if($_REQUEST['values'] && $_POST['values'])
 	unset($_REQUEST['values']);
 }
 
-if($_REQUEST['modfunc']=='remove')
+if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Fee')))
 	{
@@ -82,7 +82,7 @@ if($_REQUEST['modfunc']=='remove')
 	}
 }
 
-if($_REQUEST['modfunc']=='waive')
+if($_REQUEST['modfunc']=='waive' && AllowEdit())
 {
 	if(DeletePrompt(_('Fee'),_('Waive')))
 	{
