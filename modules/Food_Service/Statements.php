@@ -34,7 +34,7 @@ $header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&day_start='
 DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle());
 User('PROFILE')=='student'?'':DrawHeader($header);
 
-if($_REQUEST['modfunc']=='delete')
+if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
 	if($_REQUEST['item_id']!='')
