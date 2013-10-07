@@ -64,7 +64,7 @@ if($_REQUEST['month_schedule'] && $_POST['month_schedule'])
 	$_POST['schedule'] = $_REQUEST['schedule'];
 }
 
-if($_REQUEST['schedule'] && $_POST['schedule'])
+if($_REQUEST['schedule'] && $_POST['schedule'] && AllowEdit())
 {
 	foreach($_REQUEST['schedule'] as $course_period_id=>$start_dates)
 	foreach($start_dates as $start_date=>$columns)
