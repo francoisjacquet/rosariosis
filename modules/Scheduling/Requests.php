@@ -5,7 +5,7 @@ if($_REQUEST['modfunc']!='XMLHttpRequest')
 Widgets('request');
 Search('student_id',$extra);
 
-if($_REQUEST['modfunc']=='remove')
+if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Request')))
 	{
@@ -16,7 +16,7 @@ if($_REQUEST['modfunc']=='remove')
 	}
 }
 
-if($_REQUEST['modfunc']=='update')
+if($_REQUEST['modfunc']=='update' && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $request_id=>$columns)
 	{
@@ -32,7 +32,7 @@ if($_REQUEST['modfunc']=='update')
 	unset($_REQUEST['modfunc']);
 }
 
-if($_REQUEST['modfunc']=='add')
+if($_REQUEST['modfunc']=='add' && AllowEdit())
 {
     $course_id = $_REQUEST['course'];
 	$subject_id = DBGet(DBQuery("SELECT SUBJECT_ID FROM COURSES WHERE COURSE_ID='".$course_id."'"));
