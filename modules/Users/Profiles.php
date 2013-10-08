@@ -206,7 +206,7 @@ if($_REQUEST['modfunc']!='delete')
 								echo '<TD>'.$title.'</TD></TR>';
 							}
 						}
-						elseif($modcat=='Users' && $file=='Users/User.php')
+						elseif($xprofile=='admin' && $modcat=='Users' && $file=='Users/User.php')
 						{
 							$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 							foreach($categories_RET as $category)
