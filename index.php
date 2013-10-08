@@ -114,12 +114,17 @@ if($_REQUEST['modfunc']=='create_account')
 
 if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='create_account')
 {
-	Warehouse('header');
 ?>
-<script type="text/javascript">
-	if(parent.frames.length > 0)
-		parent.location.href = 'index.php?modfunc=logout';
-</script>
+<!doctype html>
+<HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
+<HEAD>
+	<TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<noscript><META http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&reason=javascript" /></noscript>
+	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
+</HEAD>
 <meta name="robots" content="noindex,nofollow" />
 <link REL="SHORTCUT ICON" HREF="favicon.ico">
 </HEAD>
@@ -179,29 +184,31 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
     echo '<br />&copy; 2012-2013 <a href="http://www.rosariosis.org">François Jacquet</a>';
     echo '</span>';
 	PopTable("footer");
-	echo "<BR />";
-	Warehouse("footer");
+	echo '<BR /></BODY></HTML>';
 }
 elseif($_REQUEST['modfunc']!='create_account')
 {
-//modif Francois: fix bug Internet Explorer Quirks Mode, add DOCTYPE
+	Warehouse('header');
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
-<HEAD>
-	<TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width" />
-	<noscript><META http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&reason=javascript" /></noscript>
-	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
-</HEAD>
-<frameset id="mainframeset" rows="*,30" border="0" framespacing="0">
-	<frameset cols="205,*" border="0">
-		<frame name="side" src="Side.php" frameborder="0" />
-		<frame name="body" src="Modules.php?modname=<?php echo ($_REQUEST['modname']='misc/Portal.php'); ?>&failed_login=<?php echo $failed_login; ?>" frameborder="0" />
-	</frameset>
-	<frame name="help" src="Bottom.php" frameborder="0" />
-</frameset>
+<div id="wrap">
+	<footer id="footer" class="mod">
+		<?php include('Bottom.php'); ?>
+	</footer>	
+	<div id="menuback" class="mod"></div>
+	<aside id="menu" class="mod">
+		<?php include('Side.php'); ?>
+	</aside>
+	
+	<div id="body" tabindex="0" role="main" class="mod">	
+	<?php 
+		$_REQUEST['modname']='misc/Portal.php';
+		$_REQUEST['failed_login']=$failed_login;
+		include('Modules.php'); 
+	?>
+	</div>
+	<div style="clear:both;"></div>
+</div><!-- wrap -->
+</BODY>
 </HTML>
 <?php
 }
