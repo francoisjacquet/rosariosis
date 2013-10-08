@@ -39,7 +39,7 @@ if(!$_REQUEST['menu_id'])
 else
 		$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 
-if($_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_service'])
+if($_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_service'] & AllowEdit())
 {
 	$events_RET = DBGet(DBQuery("SELECT ID,to_char(SCHOOL_DATE,'dd-MON-yy') AS SCHOOL_DATE FROM CALENDAR_EVENTS WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',$time_last)."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'"),array(),array('SCHOOL_DATE'));
 	//echo '<pre>'; var_dump($events_RET); echo '</pre>';
