@@ -33,15 +33,20 @@ array_rwalk($_REQUEST,'strip_tags');
 
 if(!isset($_REQUEST['_ROSARIO_PDF']))
 {
-	Warehouse('header');
+	//Warehouse('header');
 
 	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 	//allow PHP scripts in misc/ one by one in place of the whole folder
 	//if(mb_strpos($_REQUEST['modname'],'misc/')===false)
-	if (!in_array($_REQUEST['modname'], array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')))
-		echo '<script type="text/javascript">if(window == top  && (!window.opener || window.opener.location.href.substring(0,(window.opener.location.href.indexOf("&")!=-1?window.opener.location.href.indexOf("&"):window.opener.location.href.replace("#","").length))!=window.location.href.substring(0,(window.location.href.indexOf("&")!=-1?window.location.href.indexOf("&"):window.location.href.replace("#","").length)))) window.location.href = "index.php";</script>';
-	echo '</HEAD><BODY id="modulesBody">';
-	echo '<DIV id="Migoicons" style="visibility:hidden;position:absolute;z-index:1000;top:-100px"></DIV>';
+	/*if (!in_array($_REQUEST['modname'], array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')))
+		echo '<script type="text/javascript">if(window == top  && (!window.opener || window.opener.location.href.substring(0,(window.opener.location.href.indexOf("&")!=-1?window.opener.location.href.indexOf("&"):window.opener.location.href.replace("#","").length))!=window.location.href.substring(0,(window.location.href.indexOf("&")!=-1?window.location.href.indexOf("&"):window.location.href.replace("#","").length)))) window.location.href = "index.php";</script>';*/
+	if (in_array($_REQUEST['modname'], array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($_REQUEST['modname'] == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail')) //popups
+	{
+		Warehouse('header');
+		echo '<script type="text/javascript">if(window == top  && (!window.opener)) window.location.href = "index.php";</script>';
+	}
+	elseif ($_REQUEST['modname'] !== 'misc/Portal.php' && (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest')) //AJAX check
+		HackingLog(); //no direct access		
 }
 
 if($_REQUEST['modname'])
@@ -119,5 +124,7 @@ if($_REQUEST['modname'])
 if(!isset($_REQUEST['_ROSARIO_PDF']))
 {
 	Warehouse('footer');
+	if (in_array($_REQUEST['modname'], array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($_REQUEST['modname'] == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail'))
+		Warehouse('footer_plain');
 }
 ?>
