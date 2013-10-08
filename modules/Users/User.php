@@ -309,13 +309,16 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 	echo '<BR />';
 	PopTable('header',$tabs,'width="100%"');
 
-	if(!mb_strpos($_REQUEST['include'],'/'))
-		include('modules/Users/includes/'.$_REQUEST['include'].'.inc.php');
-	else
+	if ($can_use_RET['Users/User.php&category_id='.$_REQUEST['category_id']])
 	{
-		include('modules/'.$_REQUEST['include'].'.inc.php');
-		$separator = '<HR>';
-		include('modules/Users/includes/Other_Info.inc.php');
+		if(!mb_strpos($_REQUEST['include'],'/'))
+			include('modules/Users/includes/'.$_REQUEST['include'].'.inc.php');
+		else
+		{
+			include('modules/'.$_REQUEST['include'].'.inc.php');
+			$separator = '<HR>';
+			include('modules/Users/includes/Other_Info.inc.php');
+		}
 	}
 	PopTable('footer');
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
