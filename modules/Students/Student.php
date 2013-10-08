@@ -335,13 +335,16 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 		echo '<BR />';
 		echo PopTable('header',$tabs,'width="100%"');
 
-		if(!mb_strpos($_REQUEST['include'],'/'))
-			include('modules/Students/includes/'.$_REQUEST['include'].'.inc.php');
-		else
+		if ($can_use_RET['Students/Student.php&category_id='.$_REQUEST['category_id']])
 		{
-			include('modules/'.$_REQUEST['include'].'.inc.php');
-			$separator = '<HR>';
-			include('modules/Students/includes/Other_Info.inc.php');
+			if(!mb_strpos($_REQUEST['include'],'/'))
+				include('modules/Students/includes/'.$_REQUEST['include'].'.inc.php');
+			else
+			{
+				include('modules/'.$_REQUEST['include'].'.inc.php');
+				$separator = '<HR>';
+				include('modules/Students/includes/Other_Info.inc.php');
+			}
 		}
 		echo PopTable('footer');
 		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
@@ -373,7 +376,7 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 		}
 
 	}
-	else
+	elseif ($can_use_RET['Students/Student.php&category_id='.$_REQUEST['category_id']])
 		if(!mb_strpos($_REQUEST['include'],'/'))
 			include('modules/Students/includes/'.$_REQUEST['include'].'.inc.php');
 		else
