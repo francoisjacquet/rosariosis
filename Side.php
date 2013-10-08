@@ -37,7 +37,7 @@ if($_REQUEST['modfunc']=='update' && $_POST)
 			unset($_SESSION['UserMP']);
 		$_SESSION['student_id'] = $_REQUEST['student_id'];
 	}
-	$addJavascripts .= '<script type="text/javascript">parent.body.location="'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'])).'";</script>';
+	$addJavascripts .= '<script type="text/javascript">var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'])).'"; body_link.target = "body"; alert(body_link.href);ajaxLink(body_link);</script>';
 }
 
 if(!$_SESSION['UserSyear'])
@@ -72,38 +72,30 @@ if($_REQUEST['student_id']=='new')
 	unset($_SESSION['student_id']);
 	unset($_SESSION['_REQUEST_vars']['student_id']);
 	unset($_SESSION['_REQUEST_vars']['search_modfunc']);
-	$addJavascripts .= '<script type="text/javascript">parent.body.location="'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'";</script>';
+	$addJavascripts .= '<script type="text/javascript">var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'"; body_link.target = "body"; ajaxLink(body_link);</script>';
 }
 if($_REQUEST['staff_id']=='new')
 {
 	unset($_SESSION['staff_id']);
 	unset($_SESSION['_REQUEST_vars']['staff_id']);
 	unset($_SESSION['_REQUEST_vars']['search_modfunc']);
-	$addJavascripts .= '<script type="text/javascript">parent.body.location="'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'";</script>';
+	$addJavascripts .= '<script type="text/javascript">var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'"; body_link.target = "body"; ajaxLink(body_link);</script>';
 }
 unset($_REQUEST['modfunc']);
 
-//modif Francois: fix bug Internet Explorer Quirks Mode, add DOCTYPE
+echo $addJavascripts;
+if (isset($_REQUEST['modcat']))
+	echo '<script type="text/javascript">openMenu("'.$_REQUEST['modcat'].'");</script>';
 ?>
-<!DOCTYPE html> 
-<HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width" />
-<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
-<?php echo $addJavascripts; ?>
-<title><?php echo ParseMLField(Config('TITLE')); ?></title>
-</head>
-<BODY <?php echo ($_REQUEST['modcat']?'onload="openMenu(\''.$_REQUEST['modcat'].'\');" ':''); ?>class="bgcolor">
-<div id="adminmenushadow"></div>
+<div id="menushadow"></div>
 <?php
 // User Information
 echo '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD>';
-echo '<A HREF="index.php" target="_top"><img src="assets/themes/'.Preferences('THEME').'/logo.png" id="SideLogo" /></A>';
 echo '</TD></TR><TR>';
 //modif Francois: strftime for locale date date('l F j, Y')
-echo '<TD class="width-100p valign-top">
-	<FORM action="Side.php?modfunc=update" method="POST">
+echo '<TD class="width-100p valign-top">';
+echo '<A HREF="index.php" target="_top"><img src="assets/themes/'.Preferences('THEME').'/logo.png" id="SideLogo" /></A>';
+echo '<FORM action="Side.php?modfunc=update" method="POST" target="menu">
 	<INPUT type="hidden" name="modcat" value="" id="modcat_input">
 	&nbsp;<b>'.User('NAME')."</b><BR />
 	&nbsp;".mb_convert_case(iconv('','UTF-8',strftime('%A %B %d, %Y')), MB_CASE_TITLE, "UTF-8")."<BR />";
@@ -119,7 +111,7 @@ if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 		DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID='".UserSchool()."' WHERE STAFF_ID='".User('STAFF_ID')."'");
 	}
 
-	echo '<SELECT name="school" onChange="document.forms[0].submit();" style="width:180px;">';
+	echo '<SELECT name="school" onChange="ajaxPostForm(this.form,true);" style="width:180px;">';
 	foreach($RET as $school)
 		echo '<OPTION value="'.$school[ID].'"'.((UserSchool()==$school['ID'])?' SELECTED="SELECTED"':'').">".($school['SHORT_NAME']?$school['SHORT_NAME']:$school['TITLE']).'</OPTION>';
 
@@ -133,7 +125,7 @@ if(User('PROFILE')=='parent')
 	if(!UserStudentID())
 		$_SESSION['student_id'] = $RET[1]['STUDENT_ID'];
 
-	echo '<SELECT name="student_id" onChange="document.forms[0].submit();">';
+	echo '<SELECT name="student_id" onChange="ajaxPostForm(this.form,true);">';
 	if(count($RET))
 	{
 		foreach($RET as $student)
@@ -163,7 +155,7 @@ if(1)
 else
 	$years_RET = array(1=>array('SYEAR'=>Config('SYEAR')));
 
-echo '<SELECT name="syear" onChange="document.forms[0].submit();">';
+echo '<SELECT name="syear" onChange="ajaxPostForm(this.form,true);">';
 foreach($years_RET as $year)
 //modif Francois: school year over one/two calendar years format
 //	echo '<OPTION value="'.$year['SYEAR'].'"'.((UserSyear()==$year['SYEAR'])?' SELECTED="SELECTED"':'').'>'.$year['SYEAR'].'-'.($year['SYEAR']+1).'</OPTION>';
@@ -171,7 +163,7 @@ foreach($years_RET as $year)
 echo '</SELECT><BR />';
 
 $RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER"));
-echo '<SELECT name="mp" onChange="document.forms[0].submit();">';
+echo '<SELECT name="mp" onChange="ajaxPostForm(this.form,true);">';
 if(count($RET))
 {
 	if(!UserMP())
@@ -207,7 +199,7 @@ if(User('PROFILE')=='teacher')
 		$_SESSION['unset_student'] = true;
 	}
 
-	echo '<BR /><SELECT name="period" onChange="document.forms[0].submit();" style="width:180px;">';
+	echo '<BR /><SELECT name="period" onChange="ajaxPostForm(this.form,true);" style="width:180px;">';
 	$optgroup = FALSE;
 	foreach($RET as $period)
 	{
@@ -258,7 +250,7 @@ if(UserStudentID() && (User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
 {
 	$sql = "SELECT FIRST_NAME||' '||coalesce(MIDDLE_NAME,' ')||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'";
 	$RET = DBGet(DBQuery($sql));
-	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0" style="background-color:#333366;"><TR><TD><A HREF="Side.php?student_id=new&modcat='.$_REQUEST['modcat'].'"><IMG SRC="assets/x.png" height="17" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Students/Student.php')?'<A HREF="Modules.php?modname=Students/Student.php&student_id='.UserStudentID().'" target="body">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Students/Student.php')?'</A>':'').'</B></TD></TR></TABLE>';
+	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0" style="background-color:#333366;"><TR><TD><A HREF="Side.php?student_id=new&modcat='.$_REQUEST['modcat'].'" target="menu"><IMG SRC="assets/x.png" height="17" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Students/Student.php')?'<A HREF="Modules.php?modname=Students/Student.php&student_id='.UserStudentID().'">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Students/Student.php')?'</A>':'').'</B></TD></TR></TABLE>';
 }
 if(UserStaffID() && (User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
 {
@@ -266,7 +258,7 @@ if(UserStaffID() && (User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
 		echo '<div style="height:5px;"></div>';
 	$sql = "SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'";
 	$RET = DBGet(DBQuery($sql));
-	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0" style="background-color:'.(UserStaffID()==User('STAFF_ID')?'#663333':'#336633').';"><TR><TD><A HREF="Side.php?staff_id=new&modcat='.$_REQUEST['modcat'].'"><IMG SRC="assets/x.png" height="17" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Users/User.php')?'<A HREF="Modules.php?modname=Users/User.php&staff_id='.UserStaffID().'" target="body">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Users/User.php')?'</A>':'').'</B></TD></TR></TABLE>';
+	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0" style="background-color:'.(UserStaffID()==User('STAFF_ID')?'#663333':'#336633').';"><TR><TD><A HREF="Side.php?staff_id=new&modcat='.$_REQUEST['modcat'].'" target="menu"><IMG SRC="assets/x.png" height="17" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Users/User.php')?'<A HREF="Modules.php?modname=Users/User.php&staff_id='.UserStaffID().'">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Users/User.php')?'</A>':'').'</B></TD></TR></TABLE>';
 }
 //modif Francois: css WPadmin
 echo '<BR /><div id="adminmenu">';
@@ -280,8 +272,7 @@ foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 	{
 		$keys = array_keys($_ROSARIO['Menu'][$modcat]);
 
-		echo '<A href="Modules.php?modname='.$modcat.'/Search.php" class="menu-top" onclick="openMenu(\''.$modcat.'\');" target="body"><IMG SRC="assets/icons/'.$modcat.'.png" height="32" style="vertical-align:middle;">&nbsp;'._(str_replace('_',' ',$modcat)).'</A><DIV id="menu_visible'.$modcat.'" class="wp-submenu"></DIV>';
-		echo '<DIV id="menu_hidden'.$modcat.'" style="display:none;"><TABLE class="width-100p cellspacing-0 cellpadding-0">';
+		echo '<A href="Modules.php?modname='.$modcat.'/Search.php" class="menu-top" onclick="openMenu(\''.$modcat.'\');"><IMG SRC="assets/icons/'.$modcat.'.png" height="32" style="vertical-align:middle;">&nbsp;'._(str_replace('_',' ',$modcat)).'</A><DIV id="menu_'.$modcat.'" class="wp-submenu"><TABLE class="width-100p cellspacing-0 cellpadding-0">';
 		//foreach($_ROSARIO['Menu'][$modcat] as $file=>$title)
 		foreach($keys as $key_index=>$file)
 		{
@@ -289,9 +280,9 @@ foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 			if(mb_stripos($file,'http://') !== false)
 				echo '<TR><TD><A HREF="'.$file.'" target="_blank">'.$title.'</A></TD></TR>';
 			elseif(!is_numeric($file))
-				echo '<TR><TD><A HREF="Modules.php?modname='.$file.'" target="body" onclick="parent.help.location=\'Bottom.php?modname='.$file.'\'; selectedMenuLink(this);">'.$title.'</A></TD></TR>';
+				echo '<TR><TD><A HREF="Modules.php?modname='.$file.'" onclick="selMenuA(this);modname=\''.$file.'\';">'.$title.'</A></TD></TR>';
 			elseif($keys[$key_index+1] && !is_numeric($keys[$key_index+1]))
-				echo '<TR><TD colspan="2" style="height:3px;"></TD></TR><TR><TD colspan="2" class="menu-inter">&nbsp;'.$title.'</TD></TR>';
+				echo '<TR><TD style="height:3px;"></TD></TR><TR><TD class="menu-inter">&nbsp;'.$title.'</TD></TR>';
 		}
 		echo '</TABLE></DIV>';
 
@@ -302,5 +293,3 @@ echo '</div>';//id="adminmenu"
 //modif Francois: Javascript load optimization
 ?>
 </TD></TR></TABLE>
-<script type="text/javascript" src="assets/js/side.js" defer></script>
-</BODY></HTML>
