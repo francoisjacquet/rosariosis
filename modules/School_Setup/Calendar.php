@@ -15,7 +15,7 @@ $time = mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']);
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='create')
+if($_REQUEST['modfunc']=='create' && AllowEdit())
 {
 	$fy_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 	$fy_RET = $fy_RET[1];
@@ -109,7 +109,7 @@ if($_REQUEST['modfunc']=='create')
 	}
 }
 
-if($_REQUEST['modfunc']=='delete_calendar')
+if($_REQUEST['modfunc']=='delete_calendar' && AllowEdit())
 {
 	if(DeletePrompt(_('Calendar')))
 	{
