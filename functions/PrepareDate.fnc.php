@@ -18,19 +18,11 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 		$extraM = "style='width:65;' ";
 	if($options['submit']==true)
 	{
-		if($options['C'])
-		{
-		$e = "onchange='document.location.href=\"".PreparePHP_SELF($_REQUEST,array('month'.$title,'day'.$title,'year'.$title))."&amp;month$title=\"+this.form.month$title.value+\"&amp;day$title=\"+this.form.day$title.value+\"&amp;year$title=\"+this.form.year$title.value;'";
+		$e = 'onchange="ajaxPostForm(this.form,true);"';
+		//$e = "onchange='document.location.href=\"".PreparePHP_SELF($_REQUEST,array('month'.$title,'day'.$title,'year'.$title))."&amp;month$title=\"+this.form.month$title.value+\"&amp;day$title=\"+this.form.day$title.value+\"&amp;year$title=\"+this.form.year$title.value;'";
 		$extraM .= $e;
 		$extraD .= $e;
 		$extraY .= $e;
-		}
-		else
-		{
-		$extraM .= "onchange='document.location.href=\"".PreparePHP_SELF($_REQUEST,array('month'.$title))."&amp;month$title=\"+this.form.month$title.value;'";
-		$extraD .= "onchange='document.location.href=\"".PreparePHP_SELF($_REQUEST,array('day'.$title))."&amp;day$title=\"+this.form.day$title.value;'";
-		$extraY .= "onchange='document.location.href=\"".PreparePHP_SELF($_REQUEST,array('year'.$title))."&amp;year$title=\"+this.form.year$title.value;'";
-		}
 	}
 
 	if($options['C'])
