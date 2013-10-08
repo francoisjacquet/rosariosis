@@ -3,7 +3,7 @@ include 'modules/Grades/DeletePromptX.fnc.php';
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='update')
+if($_REQUEST['modfunc']=='update' & AllowEdit())
 {
 	if($_REQUEST['values'] && $_POST['values'])
 	{
@@ -55,7 +55,7 @@ if($_REQUEST['modfunc']=='update')
 	unset($_REQUEST['modfunc']);
 }
 
-if($_REQUEST['modfunc']=='remove')
+if($_REQUEST['modfunc']=='remove' & AllowEdit())
 {
 	if($_REQUEST['tab_id']=='new')
 	{
