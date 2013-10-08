@@ -28,20 +28,31 @@ if($_REQUEST['modfunc']=='print')
 //modif Francois: call PDFStop to generate Print PDF
 	PDFStop($print_data);
 }
+elseif($_REQUEST['modfunc']=='help')
+{
+	if (file_exists('Help_'.mb_substr($locale, 0, 2).'.php')) //modif Francois: translated help
+		include 'Help_'.mb_substr($locale, 0, 2).'.php';
+	else
+		include 'Help.php';
+
+	$profile = User('PROFILE');
+
+
+	if($help[$_REQUEST['modname']])
+	{
+		if($student==true)
+			$help[$_REQUEST['modname']] = str_replace('your child','yourself',str_replace('your child\'s','your',$help[$_REQUEST['modname']]));
+
+		echo $help[$_REQUEST['modname']];
+	}
+	else
+		echo $help['default'];
+}
 else
 {
-//modif Francois: fix bug Internet Explorer Quirks Mode, add DOCTYPE
 ?>
-<!DOCTYPE html>
-<HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
-<HEAD><TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
-<meta charset="UTF-8" />
-<script type="text/javascript" src="assets/js/bottom.js"></script>
-<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css">
-</HEAD>
-<BODY class="bgcolor">
-<div id="BottomButtonMenu"><A HREF="#" onclick="expandFrameMenu();return false;" title="<?php echo _('Menu'); ?>">&nbsp;<span class="BottomButton"><?php echo _('Menu'); ?></span></A></div>
-<TABLE style="margin:0 auto;" class="cellpadding-0 cellspacing-0"><TR><TD>
+<div id="footerwrap">
+<span id="BottomButtonMenu"><A HREF="#" onclick="expandMenu(); return false;" title="<?php echo _('Menu'); ?>">&nbsp;<span class="BottomButton"><?php echo _('Menu'); ?></span></A></span>
 <?php
 //modif Francois: icones
 	if($_SESSION['List_PHP_SELF'] && (User('PROFILE')=='admin' || User('PROFILE')=='teacher')) {
@@ -63,29 +74,8 @@ else
 		echo '<span><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'"><IMG SRC="assets/back.png" height="24" />&nbsp;<span class="BottomButton">'.$back_text.'</span></A>&nbsp;&nbsp;</span>';
 	}
     echo '<span><A HREF="Bottom.php?modfunc=print" target="body" title="'._('Print').'"><IMG SRC="assets/print.png" height="24" />&nbsp;<span class="BottomButton">'._('Print').'</span></A>&nbsp;&nbsp;</span>';
-    echo '<span><A HREF="#" onclick="expandFrameHelp();return false;" title="'._('Help').'"><IMG SRC="assets/help.png" height="24" />&nbsp;<span class="BottomButton">'._('Help').'</span></A>&nbsp;&nbsp;</span>';
-    echo '<span><A HREF="index.php?modfunc=logout" target="_top" title="'._('Logout').'"><IMG SRC="assets/logout.png" height="24" />&nbsp;<span class="BottomButton">'._('Logout').'</span></A>&nbsp;&nbsp;</span></TD></TR></TABLE>';
-
-	if (file_exists('Help_'.mb_substr($locale, 0, 2).'.php')) //modif Francois: translated help
-		include 'Help_'.mb_substr($locale, 0, 2).'.php';
-	else
-		include 'Help.php';
-
-	$profile = User('PROFILE');
-
-	echo '<DIV id="BottomHelp" style="display:none; height:0px;">';
-
-	if($help[$_REQUEST['modname']])
-	{
-		if($student==true)
-			$help[$_REQUEST['modname']] = str_replace('your child','yourself',str_replace('your child\'s','your',$help[$_REQUEST['modname']]));
-
-		echo $help[$_REQUEST['modname']];
-	}
-	else
-		echo $help['default'];
-	echo '</DIV>';
-	echo '</BODY>';
-	echo '</HTML>';
+    echo '<span><A HREF="#" onclick="expandHelp();return false;" title="'._('Help').'"><IMG SRC="assets/help.png" height="24" />&nbsp;<span class="BottomButton">'._('Help').'</span></A>&nbsp;&nbsp;</span>';
+    echo '<span><A HREF="index.php?modfunc=logout" target="_top" title="'._('Logout').'"><IMG SRC="assets/logout.png" height="24" />&nbsp;<span class="BottomButton">'._('Logout').'</span></A>&nbsp;&nbsp;</span></div>';
+	echo '<DIV id="footerhelp"></DIV>';
 }
 ?>
