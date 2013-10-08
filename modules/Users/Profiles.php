@@ -129,11 +129,11 @@ if($_REQUEST['modfunc']!='delete')
 		foreach($profiles_RET[$profiles] as $id=>$profile)
 		{
 			if($_REQUEST['profile_id']!='' && $id==$_REQUEST['profile_id'])
-				echo '<TR id="selected_tr" class="highlight"><TD>'.(AllowEdit()&&$id>3?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"',20):'&nbsp;').'</TD><TD '.$style.' onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&profile_id='.$id.'\';">';
+				echo '<TR id="selected_tr" class="highlight"><TD>'.(AllowEdit()&&$id>3?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"',20):'&nbsp;').'</TD><TD '.$style.'>';
 			else
-				echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="background-color:transparent;";\' onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&profile_id='.$id.'\';"><TD>'.(AllowEdit()&&$id>3?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"',20):'&nbsp;').'</TD><TD'.$style.'>';
+				echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="background-color:transparent;";\'><TD>'.(AllowEdit()&&$id>3?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"',20):'&nbsp;').'</TD><TD'.$style.'>';
 //			echo '<A style="cursor: pointer;">'.($id>3?'':'<b>').''.$profile[1]['TITLE'].' &nbsp; '.($id>3?'':'</b>').'</A>';
-			echo '<A href="#">'._($profile[1]['TITLE']).' &nbsp; </A>';
+			echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&profile_id='.$id.'">'._($profile[1]['TITLE']).' &nbsp; </A>';
 			echo '</TD>';
 			echo '<TD'.$style.'><IMG SRC="assets/arrow_right.gif"></TD>';
 			echo '</TR>';
