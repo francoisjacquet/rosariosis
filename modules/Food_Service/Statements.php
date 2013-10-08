@@ -35,7 +35,7 @@ $header .= '<TD style="width:10px;"></TD></TR></TABLE>';
 
 DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle(),(User('PROFILE')=='student'?'':'<TABLE><TR><TD>'.$header.'</TD></TR></TABLE>'));
 
-if($_REQUEST['modfunc']=='delete')
+if($_REQUEST['modfunc']=='delete' & AllowEdit())
 {
 	require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
 	if($_REQUEST['item_id']!='')
