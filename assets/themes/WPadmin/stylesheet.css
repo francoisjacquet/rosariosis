@@ -272,7 +272,8 @@ label {
 	list-style:none;
 	padding:0;
 	margin:0;
-	overflow:hidden
+	overflow:hidden;
+	display:none;
 }
 /*ajout*/
 #adminmenu .menu-inter {
@@ -510,6 +511,9 @@ span.center {
 }
 .BottomButton {
 	vertical-align:super;
+}
+#BottomButtonMenu .BottomButton {
+	vertical-align:baseline;
 }
 #BottomButtonMenu {
 	float: left;
