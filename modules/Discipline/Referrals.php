@@ -32,7 +32,7 @@ if($_REQUEST['month_values'] && $_POST['month_values'])
 	$_POST['values'] = $_REQUEST['values'];
 }
 
-if($_REQUEST['values'] && $_POST['values'])
+if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	$sql = "UPDATE DISCIPLINE_REFERRALS SET ";
 
@@ -62,7 +62,7 @@ if($_REQUEST['values'] && $_POST['values'])
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='remove')
+if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Referral')))
 	{
