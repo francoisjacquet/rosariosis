@@ -65,28 +65,28 @@ if(!defined('WAREHOUSE_PHP'))
 		switch($mode)
 		{
 			case 'header':
-//modif Francois: fix bug Internet Explorer Quirks Mode, add DOCTYPE
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
-<HEAD><TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width" />
-<?php			if(basename($_SERVER['PHP_SELF'])!='index.php'): ?>
-<noscript><META http-equiv="REFRESH" content="0; url=index.php?modfunc=logout&amp;reason=javascript" /></noscript>
-<script type="text/javascript" src="assets/js/tipmessage/main15.js"></script>
-<?php			endif; ?>
-<?php			if(basename($_SERVER['PHP_SELF'])=='index.php'): ?>
-<?php			endif; ?>
-<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
+<HEAD>
+	<TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
+	<noscript><META http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&reason=javascript" /></noscript>
+	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
+	<script type="text/javascript" src="assets/js/jquery.js"></script>
+	<script type="text/javascript" src="assets/js/jquery.form.js"></script>
+	<script type="text/javascript" src="assets/js/tipmessage/main15.js"></script>
+	<script type="text/javascript" src="assets/js/warehouse.js"></script>
+</HEAD>
+<BODY>
+<DIV id="Migoicons" style="visibility:hidden;position:absolute;z-index:1000;top:-100px"></DIV>
 <?php
-
 			break;
-			case "footer":
-//modif Francois: Javascript load optimization
+			case 'footer':
 ?>
 <BR />
-<script type="text/javascript" src="assets/js/warehouse.js" defer></script>
 <?php
 //modif Francois: load calendar Javascript only if required
 				if (isset($_ROSARIO['PrepareDate'])): ?>
@@ -111,6 +111,8 @@ if(!defined('WAREHOUSE_PHP'))
 </script>
 <?php				}
 				endif;
+			break;
+			case 'footer_plain':
 				echo '</BODY></HTML>';
 			break;
 		}
