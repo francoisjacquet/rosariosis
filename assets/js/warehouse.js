@@ -87,24 +87,6 @@ function touchScroll(el){
 		this.scrollLeft=scrollStartPosX-event.touches[0].pageX;
 	},false);
 }
-function touchScrollColorbox(el){
-    var startY=0;
-    var startX=0;
-    el.addEventListener('touchstart', function(event) {
-        startY=event.targetTouches[0].screenY;
-        startX=event.targetTouches[0].screenX;
-    });
-    el.addEventListener('touchmove', function(event) {
-        event.preventDefault();
-        var posy=event.targetTouches[0].screenY;
-        var h=document.getElementById("cboxLoadedContent");
-        var posx=event.targetTouches[0].screenX;
-        h.scrollTop=h.scrollTop-(posy-startY);
-        h.scrollLeft=h.scrollLeft-(posx-startX);
-        startY = posy;
-        startX = posx;
-    });
-}
 function isTouchDevice(){
 	try{
 		document.createEvent("TouchEvent");
@@ -113,52 +95,53 @@ function isTouchDevice(){
 		return false;
 	}
 }
-function ajaxLink(link){
-	//alert(link.onclick);
+function ajaxLink(link){	
 	//will work only if in the onclick there is no error!
 	if (link.href.indexOf('#')==1 || link.target=='_blank' || link.target=='_top') //internal/external/index.php anchor
 		return true;
 	var target = link.target;
 	if (!target)
 	{
-		if (link.href.indexOf('Modules.php')==1)
+		if (link.href.indexOf('Modules.php')!=-1)
 			target = 'body';
 		else
 			return true;
 	}
 	
-	$.get(link.href, function(data) {
-		$('#'+target).html(data);
-		$('#'+target+' a').each(function(){ $(this).click(function(){ return ajaxLink(this); }); });
-		$('#'+target+' form').each(function(){ ajaxPostForm(this); });
+	$.get(link.href, function(data){
+		ajaxSuccess(data,target);
 	})
-	.fail(function() {
-		alert( "error" );
+	.fail(function(){
+		alert('Error: ajaxLink get '+link.href);
 	})
 	return false;
 }
-function ajaxPostForm(form){
-	//alert(form.action);
-	//alert(form.method);
-	
+function ajaxPostForm(form,submit){
 	var target = form.target;
 	if (!target)
-		//if (form.action.indexOf('Modules.php')==1)
+		//if (form.action.indexOf('Modules.php')!=-1)
 			target = 'body';
 	
-	
-	$(form).ajaxForm({
-		beforeSubmit: function(a,f,o) {
+	var options = {
+		beforeSubmit: function(a,f,o){
 			//disable all submit buttons
 			$('#'+target+' input[type="submit"]').disabled;
 		},
-		success: function(data) {
-			$('#'+target).html(data);
-			$('#'+target+' a').each(function(){ $(this).click(function(){ return ajaxLink(this); }); });
-			$('#'+target+' form').each(function(){ ajaxPostForm(this); });
+		success: function(data){
+			ajaxSuccess(data,target);
 		}
-	});
+	};
+	if (submit)
+		$(form).ajaxSubmit(options);
+	else
+		$(form).ajaxForm(options);
 	return false;
+}
+function ajaxSuccess(data,target){
+	$('#'+target).html(data);
+	$('html, body').animate({scrollTop:$('#body').offset().top - 20}, 'slow');
+	$('#'+target+' a').each(function(){ $(this).bind('click', function(){ return ajaxLink(this); }); });
+	$('#'+target+' form').each(function(){ ajaxPostForm(this,false); });
 }
 
 //onload
@@ -174,26 +157,24 @@ window.onload = function(){
 		});
 		touchScroll(document.getElementById('footerhelp'));
 	}
-	$('a').each(function(){ $(this).click(function(){ return ajaxLink(this); }); });
-	$('form').each(function(){ ajaxPostForm(this); });
+	$('a').each(function(){ $(this).bind('click', function(){ return ajaxLink(this); }); });
+	$('form').each(function(){ ajaxPostForm(this,false); });
 };
 
 //Side.php JS
 var old_modcat = false;
 function openMenu(modcat)
 {
-	visible = document.getElementById("menu_visible"+modcat);
-	visible.innerHTML = document.getElementById("menu_hidden"+modcat).innerHTML;
+	visible = document.getElementById("menu_"+modcat);
 	visible.style.display = "block";
 	if(old_modcat!=false && old_modcat!=modcat){
-		oldVisible = document.getElementById("menu_visible"+old_modcat);
-		oldVisible.innerHTML = "";
+		oldVisible = document.getElementById("menu_"+old_modcat);
 		oldVisible.style.display = "none";					
 	}
 	document.getElementById("modcat_input").value=modcat;
 	old_modcat = modcat;
 }
-function selectedMenuLink(a)
+function selMenuA(a)
 {
 	if (oldA = document.getElementById("selectedMenuLink"))
 		oldA.id = "";
@@ -201,6 +182,7 @@ function selectedMenuLink(a)
 }
 
 //Bottom.php JS
+var modname='default', old_modname='';
 function expandHelp(){
 	var heightFooter = document.getElementById('footer').style.height;
 	var displayHelp = 'block';
@@ -212,7 +194,19 @@ function expandHelp(){
 		heightHelp = '0px';
 	}
 	else
+	{
 		heightFooter = '170px';
+		if (modname!=old_modname)
+		{
+			$.get("Bottom.php?modfunc=help&modname="+modname, function(data){
+				$('#footerhelp').html(data);
+			})
+			.fail(function(){
+				alert('Error: expandHelp ajax get '+modname);
+			})
+			old_modname = modname;
+		}
+	}
 	document.getElementById('footerhelp').style.display = displayHelp;
 	document.getElementById('footerhelp').style.height = heightHelp;
 	document.getElementById('footer').style.height = heightFooter;
