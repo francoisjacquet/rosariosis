@@ -162,7 +162,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	unset($_SESSION['_REQUEST_vars']['tables']);
 }
 
-if($_REQUEST['modfunc']=='delete')
+if($_REQUEST['modfunc']=='delete' & AllowEdit())
 {
 	$extra = array();
 	switch($_REQUEST['mp_term'])
