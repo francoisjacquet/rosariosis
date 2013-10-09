@@ -34,21 +34,21 @@ function PreparePHP_SELF($tmp_REQUEST='',$remove=array(),$add=array())
 							{
 								foreach($value2 as $key3=>$value3)
 								{
-									$PHP_tmp_SELF .= '&amp;'.$key.'['.$key1.']['.$key2.']['.$key3.']='.myUrlEncode(str_replace('\"','"',$value3));
+									$PHP_tmp_SELF .= '&'.$key.'['.$key1.']['.$key2.']['.$key3.']='.myUrlEncode(str_replace('\"','"',$value3));
 								}
 							}
 							else
-								$PHP_tmp_SELF .= '&amp;'.$key.'['.$key1.']['.$key2.']='.myUrlEncode(str_replace('\"','"',$value2));
+								$PHP_tmp_SELF .= '&'.$key.'['.$key1.']['.$key2.']='.myUrlEncode(str_replace('\"','"',$value2));
 						}
 					}
 					else
-						$PHP_tmp_SELF .= '&amp;'.$key.'['.$key1.']='.myUrlEncode(str_replace('\"','"',$value1));
+						$PHP_tmp_SELF .= '&'.$key.'['.$key1.']='.myUrlEncode(str_replace('\"','"',$value1));
 				}
 			}
 			else
 			{
 				if($value != '')
-					$PHP_tmp_SELF .= '&amp;' . $key . "=" . myUrlEncode(str_replace('\"','"',$value));
+					$PHP_tmp_SELF .= '&' . $key . "=" . myUrlEncode(str_replace('\"','"',$value));
 			}
 		}
 	}
