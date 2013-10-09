@@ -369,7 +369,6 @@ if(empty($_REQUEST['modfunc']))
 
 				$i++;
 				//echo '<A style="cursor: pointer;">';
-				$link = 'onclick="document.location.href=\'\';"';
 				if($_REQUEST['address_id']==$address['ADDRESS_ID'])
 					echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"',20):'').'</TD><TD style="color:white;" '.$style.'>';
 				else
@@ -455,7 +454,6 @@ if(empty($_REQUEST['modfunc']))
 					$style .= ' ';
 
 					$i++;
-					$link = 'onclick="document.location.href=\'\';"';
 					if(AllowEdit())
 						$remove_button = button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"',20);
 					else
