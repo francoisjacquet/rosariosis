@@ -266,12 +266,14 @@ $stu_RET = GetStuList($extra);
 //echo '<pre>'; var_dump($stu_RET); echo '</pre>';
 
 //modif Francois: add translation
-$type_select = '<SELECT name=type_id onchange="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'].($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&type_id=\'+this.options[selectedIndex].value"><OPTION value=""'.(!$_REQUEST['type_id']?' SELECTED="SELECTED"':'').'>'._('All').'</OPTION>';
+$type_select = '<script type="text/javascript">var type_idonchange = document.createElement("a"); type_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'].($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&type_id="; type_idonchange.target = "body";</script>';
+$type_select .= '<SELECT name="type_id" onchange="type_idonchange.href += this.options[selectedIndex].value; ajaxLink(type_idonchange);"><OPTION value=""'.(!$_REQUEST['type_id']?' SELECTED="SELECTED"':'').'>'._('All').'</OPTION>';
 foreach($types_RET as $id=>$type)
 	$type_select .= '<OPTION value="'.$id.'"'.($_REQUEST['type_id']==$id?' SELECTED="SELECTED"':'').'>'.$type[1]['TITLE'].'</OPTION>';
 $type_select .= '</SELECT>';
 
-$assignment_select = '<SELECT name=assignment_id onchange="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'].'&type_id='.$_REQUEST['type_id'].'&assignment_id=\'+this.options[selectedIndex].value"><OPTION value="">'._('Totals').'</OPTION><OPTION value="all"'.(($_REQUEST['assignment_id']=='all' && !UserStudentID())?' SELECTED="SELECTED"':'').'>'._('All').'</OPTION>';
+$assignment_select = '<script type="text/javascript">var assignment_idonchange = document.createElement("a"); assignment_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'].'&type_id='.$_REQUEST['type_id'].'&assignment_id="; assignment_idonchange.target = "body";</script>';
+$assignment_select .= '<SELECT name="assignment_id" onchange="assignment_idonchange.href += this.options[selectedIndex].value; ajaxLink(assignment_idonchange);"><OPTION value="">'._('Totals').'</OPTION><OPTION value="all"'.(($_REQUEST['assignment_id']=='all' && !UserStudentID())?' SELECTED="SELECTED"':'').'>'._('All').'</OPTION>';
 if(UserStudentID() && $_REQUEST['assignment_id']=='all')
 	$assignment_select .= '<OPTION value="all" SELECTED="SELECTED">'.$stu_RET[1]['FULL_NAME'].'</OPTION>';
 foreach($assignments_RET as $id=>$assignment)
