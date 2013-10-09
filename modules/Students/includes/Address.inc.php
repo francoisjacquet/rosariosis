@@ -369,14 +369,14 @@ if(empty($_REQUEST['modfunc']))
 
 				$i++;
 				//echo '<A style="cursor: pointer;">';
-				$link = 'onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'\';"';
+				$link = 'onclick="document.location.href=\'\';"';
 				if($_REQUEST['address_id']==$address['ADDRESS_ID'])
-					echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"',20):'').'</TD><TD '.$link.' style="color:white;" '.$style.'>';
+					echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"',20):'').'</TD><TD style="color:white;" '.$style.'>';
 				else
-					echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'\';" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="backgroud-color:transparent; color:black;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"',20):'').'</TD><TD '.$link.' '.$style.'>';
-				echo '<A href="#">'.$address['ADDRESS'].'<BR />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</A>';
+					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"',20):'').'</TD><TD '.$style.'>';
+				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<BR />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</A>';
 				echo '</TD>';
-				echo '<TD'.$style.'><A href="#"><IMG SRC="assets/arrow_right.gif"></A></TD>';
+				echo '<TD'.$style.'><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'"><IMG SRC="assets/arrow_right.gif"></A></TD>';
 				echo '</TR>';
 			}
 			echo '<TR><TD colspan="3" style="height:40px;"></TD></TR>';
@@ -390,39 +390,39 @@ if(empty($_REQUEST['modfunc']))
 	{
 		$style = '';
 		if($_REQUEST['address_id']=='new')
-			echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=new\';" class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD style="color:white;" '.$style.'>';
+			echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD style="color:white;" '.$style.'>';
 		else
-			echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=new\';" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="backgroud-color:transparent; color:black;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
-		echo '<A href="#">'._('Add a <b>New</b> Address').' &nbsp; </A>';
+			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
+		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=new">'._('Add a <b>New</b> Address').' &nbsp; </A>';
 		echo '</TD>';
-		echo '<TD'.$style.'><IMG SRC="assets/arrow_right.gif"></TD>';
+		echo '<TD'.$style.'><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=new"><IMG SRC="assets/arrow_right.gif"></A></TD>';
 		echo '</TR>';
 
 		if($_REQUEST['address_id']=='old')
-			echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=old\';" class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD style="color:white;" '.$style.'>';
+			echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD style="color:white;" '.$style.'>';
 		else
-			echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=old\';" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="backgroud-color:transparent; color:black;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
-		echo '<A href="#">'._('Add an <b>Existing</b> Address').' &nbsp; </A>';
+			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
+		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=old">'._('Add an <b>Existing</b> Address').' &nbsp; </A>';
 		echo '</TD>';
-		echo '<TD'.$style.'><IMG SRC="assets/arrow_right.gif"></TD>';
+		echo '<TD'.$style.'><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=old"><IMG SRC="assets/arrow_right.gif"></A></TD>';
 		echo '</TR>';
 
 		if($_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='new')
-			echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=new\';" class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD '.$link.' style="color:white;" '.$style.'>';
+			echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD '.$link.' style="color:white;" '.$style.'>';
 		else
-			echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=new\';" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="backgroud-color:transparent; color:black;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
-		echo '<A href="#">'._('Add a <b>New</b> Contact<BR />without an Address').' &nbsp; </A>';
+			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
+		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=new">'._('Add a <b>New</b> Contact<BR />without an Address').' &nbsp; </A>';
 		echo '</TD>';
-		echo '<TD'.$style.'><IMG SRC="assets/arrow_right.gif"></TD>';
+		echo '<TD'.$style.'><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=new"><IMG SRC="assets/arrow_right.gif"></A></TD>';
 		echo '</TR>';
 
 		if($_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='old')
-			echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=old\';" class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD '.$link.' style="color:white;" '.$style.'>';
+			echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD '.$link.' style="color:white;" '.$style.'>';
 		else
-			echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=old\';" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="backgroud-color:transparent; color:black;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
-		echo '<A href="#">'._('Add an <b>Existing</b> Contact<BR />without an Address').' &nbsp; </A>';
+			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
+		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=old">'._('Add an <b>Existing</b> Contact<BR />without an Address').' &nbsp; </A>';
 		echo '</TD>';
-		echo '<TD'.$style.'><IMG SRC="assets/arrow_right.gif"></TD>';
+		echo '<TD'.$style.'><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=old"><IMG SRC="assets/arrow_right.gif"></A></TD>';
 		echo '</TR>';
 	}
 	echo '</TABLE>';
@@ -455,15 +455,15 @@ if(empty($_REQUEST['modfunc']))
 					$style .= ' ';
 
 					$i++;
-					$link = 'onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'\';"';
+					$link = 'onclick="document.location.href=\'\';"';
 					if(AllowEdit())
 						$remove_button = button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"',20);
 					else
 						$remove_button = '';
 					if($_REQUEST['person_id']==$contact['PERSON_ID'])
-						echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.$remove_button.'</TD><TD onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'\';" style="color:white;" '.$style.'>';
+						echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.$remove_button.'</TD><TD style="color:white;" '.$style.'>';
 					else
-						echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="backgroud-color:transparent; color:black;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.$remove_button.'</TD><TD '.$link.' '.$style.'>';
+						echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.$remove_button.'</TD><TD '.$style.'>';
 
 					$images = '';
 
@@ -489,9 +489,9 @@ if(empty($_REQUEST['modfunc']))
 					if($contact['EMERGENCY']=='Y')
 						$images .= ' <IMG SRC="assets/emergency_button.png" height="24">';
 
-					echo '<A href="#"><TABLE class="cellspacing-0"><TR><TD>'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<BR /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></TD><TD>'.$images.'</TD></TR></TABLE></A>';
+					echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><TABLE class="cellspacing-0"><TR><TD>'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<BR /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></TD><TD>'.$images.'</TD></TR></TABLE></A>';
 					echo '</TD>';
-					echo '<TD'.$style.' '.$link.' style="text-align:right; vertical-align: middle;"> &nbsp; <IMG SRC="assets/arrow_right.gif"></TD>';
+					echo '<TD'.$style.' style="text-align:right; vertical-align: middle;"> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><IMG SRC="assets/arrow_right.gif"></a></TD>';
 					echo '</TR>';
 				}
 			}
@@ -504,24 +504,24 @@ if(empty($_REQUEST['modfunc']))
 //				$style = ' style="border-color: gray; border:1; border-style: solid none none none;"';
 				$style = '';
 				if($_REQUEST['person_id']=='new')
-					echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=new\';" class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD style="color:white;" '.$style.'>';
+					echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD style="color:white;" '.$style.'>';
 				else
-					echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=new\';" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="backgroud-color:transparent; color:black;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
+					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
 
-				echo '<A href="#">'._('Add a <b>New</b> Contact').'</A>';
+				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=new">'._('Add a <b>New</b> Contact').'</A>';
 				echo '</TD>';
-				echo '<TD'.$style.' style="text-align:right; vertical-align: middle;"> &nbsp; <IMG SRC="assets/arrow_right.gif"></TD>';
+				echo '<TD'.$style.' style="text-align:right;"> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=new"><IMG SRC="assets/arrow_right.gif"></A></TD>';
 				echo '</TR>';
 
 				$style = ' border-color: gray; border:1; border-style: none none;';
 				if($_REQUEST['person_id']=='old')
-					echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=old\';" class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD style="color:white;'.$style.'">';
+					echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD style="color:white;">';
 				else
-					echo '<TR onclick="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=old\';" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="backgroud-color:transparent; color:black;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
+					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD>';
 
-				echo '<A href="#">'._('Add an <b>Existing</b> Contact').'</A>';
+				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=old">'._('Add an <b>Existing</b> Contact').'</A>';
 				echo '</TD>';
-				echo '<TD'.$style.' style="text-align:right; vertical-align: middle;"> &nbsp; <IMG SRC="assets/arrow_right.gif"></TD>';
+				echo '<TD'.$style.' style="text-align:right;"> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=old"><IMG SRC="assets/arrow_right.gif"></A></TD>';
 				echo '</TR>';
 			}
 
