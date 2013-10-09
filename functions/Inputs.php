@@ -319,6 +319,10 @@ function NoInput($value,$title='')
 
 function CheckBoxOnclick($name)
 {
-	return '<INPUT type="checkbox" name="'.$name.'" value="Y"'.($_REQUEST[$name]=='Y'?' checked onclick=\'document.location.href="'.PreparePHP_SELF($_REQUEST,array(),array($name=>'')).'";\'':' onclick=\'document.location.href="'.PreparePHP_SELF($_REQUEST,array(),array($name=>'Y')).'";\'').' />';
+	static $link_nb = 0;
+	$return .= '<script type="text/javascript">var CheckBoxOnclick'.$link_nb.' = document.createElement("a"); CheckBoxOnclick'.$link_nb.'.href = "'.PreparePHP_SELF($_REQUEST,array(),($_REQUEST[$name]=='Y'?array($name=>''):array($name=>'Y'))).'"; CheckBoxOnclick'.$link_nb.'.target = "body";</script>';
+	$return .= '<INPUT type="checkbox" name="'.$name.'" value="Y"'.($_REQUEST[$name]=='Y'?' checked':'').' onclick=\'ajaxLink(CheckBoxOnclick'.$link_nb.');\' />';
+	$link_nb++;
+	return $return;
 }
 ?>
