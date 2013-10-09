@@ -85,7 +85,10 @@ function changeStyle(tag,over)
 
 function doOnClick(course)
 {
-	document.location.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&course="+course;
+	var courseonclick = document.createElement("a");
+	courseonclick.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&course="+course;
+	courseonclick.target = "body";
+	ajaxLink(courseonclick);
 }
 
 function processRequest()
