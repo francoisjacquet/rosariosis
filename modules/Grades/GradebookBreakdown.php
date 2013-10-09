@@ -45,7 +45,8 @@ $sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ST
 $types_RET = DBGet(DBQuery($sql));
 
 $assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,TITLE,POINTS FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".User('STAFF_ID')."' AND ((COURSE_ID='$course_id' AND STAFF_ID='".User('STAFF_ID')."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."') AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC"));
-$assignment_select = '<SELECT name=assignment_id onchange="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&assignment_id=\'+this.options[selectedIndex].value"><OPTION value="totals"'.($_REQUEST['assignment_id']=='totals'?' SELECTED="SELECTED"':'').'>'._('Totals').'</OPTION>';
+$assignment_select = '<script type="text/javascript">var assignment_idonchange = document.createElement("a"); assignment_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&assignment_id="; assignment_idonchange.target = "body";</script>';
+$assignment_select .= '<SELECT name="assignment_id" id="assignment_id" onchange="assignment_idonchange.href += this.options[selectedIndex].value; ajaxLink(assignment_idonchange);"><OPTION value="totals"'.($_REQUEST['assignment_id']=='totals'?' SELECTED="SELECTED"':'').'>'._('Totals').'</OPTION>';
 foreach($types_RET as $type)
 {
 	$assignment_select .= '<OPTION value="totals'.$type['ASSIGNMENT_TYPE_ID'].'"'.(($_REQUEST['assignment_id']==('totals'.$type['ASSIGNMENT_TYPE_ID']))?' SELECTED="SELECTED"':'').'>'.$type['TITLE'].'</OPTION>';
