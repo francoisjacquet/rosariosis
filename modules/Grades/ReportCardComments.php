@@ -94,11 +94,13 @@ if(empty($_REQUEST['modfunc']))
 		if(!$_REQUEST['course_id'] || !$courses_RET[$_REQUEST['course_id']])
 			$_REQUEST['course_id'] = key($courses_RET).'';
 
-		$subject_select = '<SELECT name=subject_id onchange="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&subject_id=\'+this.options[selectedIndex].value">';
+		$subject_select = '<script type="text/javascript">var subject_idonchange = document.createElement("a"); subject_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&subject_id="; subject_idonchange.target = "body";</script>';
+		$subject_select .= '<SELECT name="subject_id" onchange="subject_idonchange.href += this.options[selectedIndex].value; ajaxLink(subject_idonchange);">';
 		foreach($subjects_RET as $id=>$subject)
 			$subject_select .= '<OPTION value="'.$id.'"'.($_REQUEST['subject_id']==$id?' SELECTED="SELECTED"':'').'>'.$subject[1]['TITLE'].'</OPTION>';
 		$subject_select .= '</SELECT>';
-		$course_select = '<SELECT name=course_id onchange="document.location.href=\'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id=\'+this.options[selectedIndex].value">';
+		$course_select = '<script type="text/javascript">var course_idonchange = document.createElement("a"); course_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id="; course_idonchange.target = "body";</script>';
+		$course_select .= '<SELECT name="course_id" onchange="course_idonchange.href += this.options[selectedIndex].value; ajaxLink(course_idonchange);">';
 		foreach($courses_RET as $id=>$course)
 			$course_select .= '<OPTION value="'.$id.'"'.($_REQUEST['course_id']==$id?' SELECTED="SELECTED"':'').'>'.$course[1]['TITLE'].'</OPTION>';
 		$course_select .= '</SELECT>';
