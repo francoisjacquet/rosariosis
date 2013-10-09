@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-09-19 15:10-0500\n"
-"PO-Revision-Date: 2013-09-19 15:10-0500\n"
+"PO-Revision-Date: 2013-10-09 16:44-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -115,7 +115,7 @@ msgid ""
 "You will be notified when it has been verified by a school administrator."
 msgstr ""
 "Usted sera notificado cuándo se ha verificado por un administrador de la "
-"escuela."
+"institución."
 
 #: index.php:92
 msgid "Incorrect username or password."
@@ -640,7 +640,7 @@ msgstr "Estado"
 #: functions/GetStuList.fnc.php:247 modules/Grades/AnomalousGrades.php:100
 #: modules/Grades/Grades.php:196 modules/Grades/InputFinalGrades.php:596
 msgid "School Status"
-msgstr "Estado de la Escuela"
+msgstr "Estado de la Institución"
 
 #: functions/GetStuList.fnc.php:248 modules/Grades/AnomalousGrades.php:100
 #: modules/Grades/Grades.php:196 modules/Grades/InputFinalGrades.php:596
@@ -1412,7 +1412,7 @@ msgstr "Año Siguiente"
 #: functions/Widgets.fnc.php:562 modules/Students/AssignOtherInfo.php:246
 #: modules/Students/includes/Enrollment.inc.php:53
 msgid "Next grade at current school"
-msgstr "Próximo grado en la escuela actual"
+msgstr "Próximo grado en la institución actual"
 
 #: functions/Widgets.fnc.php:562 modules/Students/AssignOtherInfo.php:246
 #: modules/Students/includes/Enrollment.inc.php:53
@@ -2393,7 +2393,7 @@ msgstr "Nombre del Estudiante"
 #: modules/Students/includes/Enrollment.inc.php:50
 #: modules/Users/includes/Schedule.inc.php:15
 msgid "School"
-msgstr "Escuela"
+msgstr "Institución"
 
 #: modules/Custom/AttendanceSummary.php:47
 #: modules/Grades/EditHistoryMarkingPeriods.php:147
@@ -3094,7 +3094,7 @@ msgstr "Texto Largo"
 
 #: modules/Discipline/DisciplineForm.php:240
 msgid "Use at this school"
-msgstr "Usar para esta escuela"
+msgstr "Usar para esta institución"
 
 #: modules/Discipline/MakeReferral.php:84
 msgid "That discipline incident has been referred to an administrator."
@@ -3482,13 +3482,13 @@ msgstr "ID"
 #: modules/Food_Service/AssignSchool.php:39
 msgid "Student Transaction w/o School"
 msgid_plural "Student Transactions w/o School"
-msgstr[0] "Transacción del Estudiante sin la Escuela"
+msgstr[0] "Transacción del Estudiante sin la Institución"
 msgstr[1] "Transacciones del Estudiante sin la Escuela"
 
 #: modules/Food_Service/AssignSchool.php:41
 msgid "User Transaction w/o School"
 msgid_plural "User Transactions w/o School"
-msgstr[0] "Transacción del Usuario sin la Escuela"
+msgstr[0] "Transacción del Usuario sin la Institución"
 msgstr[1] "Transacciones del Usuario sin la Escuela"
 
 #: modules/Food_Service/BalanceReport.php:60
@@ -4267,7 +4267,7 @@ msgstr ""
 "Los Promedios ponderados y no ponderados son calculados dividiendo los "
 "puntos ponderados y no ponderados de nota configurados para cada nota de "
 "letra (ver la Escala de Calificaciones) por la escala base de calificaciones "
-"especificada en la configuración de la escuela."
+"especificada en la configuración de la institución."
 
 #: modules/Grades/CalcGPA.php:32 modules/Grades/CalcGPA.php:57
 msgid "GPA Calculation"
@@ -5009,7 +5009,7 @@ msgstr "Portal"
 #: modules/misc/Export.php:61 modules/misc/Export.php:210
 #: modules/School_Setup/Schools.php:130
 msgid "School Number"
-msgstr "Número de la Escuela"
+msgstr "Número de la Institución"
 
 #: modules/Grades/Transcripts.php:150 modules/Grades/Transcripts.php:330
 msgid "Studies Certificate"
@@ -5327,15 +5327,15 @@ msgstr "Esta persona no tiene información en el sistema."
 
 #: modules/Reports/Students.php:42
 msgid "Current School"
-msgstr "Escuela Actual"
+msgstr "Institución Actual"
 
 #: modules/Reports/Students.php:42
 msgid "Previous School"
-msgstr "La Escuela Anterior"
+msgstr "La Institución Anterior"
 
 #: modules/Reports/Students.php:42
 msgid "Next School"
-msgstr "Próxima Escuela"
+msgstr "Próxima Institución"
 
 #: modules/Reports/Students.php:43
 msgid "Birth Place"
@@ -5854,7 +5854,7 @@ msgstr "Por Defecto"
 
 #: modules/School_Setup/Calendar.php:39
 msgid "Default Calendar for this School"
-msgstr "Calendario Por Defecto para esta Escuela"
+msgstr "Calendario Por Defecto para esta Institución"
 
 #: modules/School_Setup/Calendar.php:39
 msgid "Copy Calendar"
@@ -5923,11 +5923,11 @@ msgstr "Lista de Eventos"
 
 #: modules/School_Setup/Calendar.php:459
 msgid "This school has more than one default calendar!"
-msgstr "Esta escuela tiene más de un calendario por defecto!"
+msgstr "Esta institución tiene más de un calendario por defecto!"
 
 #: modules/School_Setup/Calendar.php:459
 msgid "This school does not have a default calendar!"
-msgstr "Esta escuela no tiene un calendario por defecto!"
+msgstr "Esta institución no tiene un calendario por defecto!"
 
 #: modules/School_Setup/Calendar.php:492 modules/School_Setup/Calendar.php:497
 msgid "All Day"
@@ -5935,7 +5935,7 @@ msgstr "Todo el Día"
 
 #: modules/School_Setup/Configuration.php:35
 msgid "The school configuration has been modified."
-msgstr "La configuración de esta escuela ha sido modificada."
+msgstr "La configuración de esta institución ha sido modificada."
 
 #: modules/School_Setup/Configuration.php:66
 msgid "Default School Year"
@@ -6044,7 +6044,7 @@ msgstr "ID del campo email Estudiante de RosarioSIS"
 #: modules/School_Setup/CopySchool.php:3 modules/School_Setup/Menu.php:17
 #: modules/School_Setup/Rollover.php:3
 msgid "School Configuration"
-msgstr "Configuración de la Escuela"
+msgstr "Configuración de la Institución"
 
 #: modules/School_Setup/CopySchool.php:3 modules/School_Setup/Rollover.php:3
 msgid "School Periods"
@@ -6064,25 +6064,26 @@ msgstr "Códigos de Actividad de Elegibilidad"
 
 #: modules/School_Setup/CopySchool.php:12
 msgid "New School's Title"
-msgstr "Nuevo Nombre de la Escuela"
+msgstr "Nuevo Nombre de la Institución"
 
 #: modules/School_Setup/CopySchool.php:12
 msgid "New School"
-msgstr "Nueva Escuela"
+msgstr "Nueva Institución"
 
 #: modules/School_Setup/CopySchool.php:16
 msgid "Confirm Copy School"
-msgstr "Confirme el Copiar la Escuela"
+msgstr "Confirme el Copiar la Institución"
 
 #: modules/School_Setup/CopySchool.php:16
 #, php-format
 msgid "Are you sure you want to copy the data for %s to a new school?"
-msgstr "Está seguro que desea copiar la información de %s a la escuela nueva?"
+msgstr ""
+"Está seguro que desea copiar la información de %s a la nueva institución?"
 
 #: modules/School_Setup/CopySchool.php:30
 #, php-format
 msgid "The data have been copied to a new school called \"%s\"."
-msgstr "La información ha sido copiada a la nueva escuela llamada \"%s\"."
+msgstr "La información ha sido copiada a la nueva institución llamada \"%s\"."
 
 #: modules/School_Setup/DatabaseBackup.php:50 modules/School_Setup/Menu.php:7
 msgid "Database Backup"
@@ -6174,15 +6175,15 @@ msgstr "Encuestas del Portal"
 #: modules/School_Setup/Menu.php:8 modules/School_Setup/Menu.php:21
 #: modules/School_Setup/Menu.php:29
 msgid "School Information"
-msgstr "Información de la Escuela"
+msgstr "Información de la Institución"
 
 #: modules/School_Setup/Menu.php:9 modules/School_Setup/Schools.php:107
 msgid "Add a School"
-msgstr "Agregar una Escuela"
+msgstr "Agregar una Institución"
 
 #: modules/School_Setup/Menu.php:10
 msgid "Copy School"
-msgstr "Copiar una Escuela"
+msgstr "Copiar una Institución"
 
 #: modules/School_Setup/Menu.php:12 modules/School_Setup/Menu.php:23
 #: modules/School_Setup/Menu.php:30 modules/School_Setup/Rollover.php:3
@@ -6195,7 +6196,7 @@ msgstr "Transferir"
 
 #: modules/School_Setup/Menu.php:39
 msgid "School Setup"
-msgstr "Escuela"
+msgstr "Institución"
 
 #: modules/School_Setup/Periods.php:76
 msgid "Length (minutes)"
@@ -6317,11 +6318,11 @@ msgstr "La información ha sido traslada."
 
 #: modules/School_Setup/Schools.php:22
 msgid "This school has been modified."
-msgstr "Esta escuela ha sido modificada"
+msgstr "Esta institución ha sido modificada"
 
 #: modules/School_Setup/Schools.php:118
 msgid "School Name"
-msgstr "Nombre de la Escuela"
+msgstr "Nombre de la Institución"
 
 #: modules/School_Setup/Schools.php:124
 msgid "Principal of School"
@@ -6335,7 +6336,8 @@ msgstr "Escala Base de Calificaciones"
 msgid ""
 "Leave the field blank if the school does not use a Rotation of Numbered Days"
 msgstr ""
-"Deja el campo en blanco si la Escuela no usa una Rotación de Días Enumerados"
+"Deja el campo en blanco si la Institución no usa una Rotación de Días "
+"Enumerados"
 
 #: modules/School_Setup/Schools.php:133 modules/School_Setup/Schools.php:135
 msgid "Number of Days for the Rotation"
