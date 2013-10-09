@@ -97,8 +97,9 @@ if(empty($_REQUEST['modfunc']))
 
 		$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
 //modif Francois: css WPadmin
-		echo '<TABLE style="margin:0 auto;"><TR><TD>';
-		echo '<span class="center"><SELECT name=category_id onchange="document.location.href=\''.PreparePHP_SELF($_REQUEST,array('category_id')).'&amp;category_id=\'+this.form.category_id.value;"><OPTION value="">'._('All Categories').'</OPTION>';
+		echo '<TABLE style="margin:0 auto;"><TR><TD><span class="center">';
+		echo '<script type="text/javascript">var category_idonchange = document.createElement("a"); category_idonchange.href = "'.PreparePHP_SELF($_REQUEST,array('category_id')).'&category_id="; category_idonchange.target = "body";</script>';
+		echo '<SELECT name="category_id" onchange="category_idonchange.href += this.options[selectedIndex].value; ajaxLink(category_idonchange);"><OPTION value="">'._('All Categories').'</OPTION>';
 		foreach($categories_RET as $category)
 			echo '<OPTION value="'.$category['ID'].'"'.($_REQUEST['category_id']==$category['ID']?' SELECTED="SELECTED"':'').'>'.ParseMLField($category['TITLE']).'</OPTION>';
 		echo '</SELECT>';
