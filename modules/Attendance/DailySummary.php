@@ -201,15 +201,15 @@ function _makeColor($value,$column)
 		$ac = $att_RET[$THIS_RET['STUDENT_ID']][$column][1]['ATTENDANCE_CODE'];
 		if($attendance_codes[$ac][1]['DEFAULT_CODE']=='Y')
 //modif Francois: remove LO_field
-			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#00FF00;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</TD></TR></TABLE>';
+			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 		elseif($attendance_codes[$ac][1]['STATE_CODE']=='P')
-			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#0000FF;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</TD></TR></TABLE>';
+			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 		elseif($attendance_codes[$ac][1]['STATE_CODE']=='A')
-			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#FF0000;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</TD></TR></TABLE>';
+			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 		elseif($attendance_codes[$ac][1]['STATE_CODE']=='H')
-			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#FFCC00;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</TD></TR></TABLE>';
+			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 		elseif($ac)
-			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#FFFF00;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</TD></TR></TABLE>';
+			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 	}
 	else
 	{
