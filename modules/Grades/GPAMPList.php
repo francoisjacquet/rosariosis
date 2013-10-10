@@ -37,7 +37,7 @@ if($_REQUEST['search_modfunc'] == 'list')
 		}
 	}
 
-	$mps_select = '<SELECT name="mp" onChange="this.form.submit();">';
+	$mps_select = '<SELECT name="mp" onChange="ajaxPostForm(this.form,true);">';
 	
 	if(GetMP(UserMP(),'DOES_GRADES')=='Y')
 		$mps_select .= '<OPTION value="'.UserMP().'">'.GetMP(UserMP()).'</OPTION>';

@@ -27,7 +27,7 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 		//modif Francois: multiple school periods for a course period
 		//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND EXISTS(SELECT '' FROM COURSE_PERIODS cp WHERE cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0".(User('PROFILE')=='teacher'?" AND cp.PERIOD_ID='".UserPeriod()."'":'').") ORDER BY sp.SORT_ORDER"));
 		$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND EXISTS(SELECT '' FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE  cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0".(User('PROFILE')=='teacher'?" AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'":'').") ORDER BY sp.SORT_ORDER"));
-		$period_select = '<SELECT name="period_id" onchange="this.form.submit();"><OPTION value="">'._('Daily').'</OPTION>';
+		$period_select = '<SELECT name="period_id" onchange="ajaxPostForm(this.form,true);"><OPTION value="">'._('Daily').'</OPTION>';
 		if(count($periods_RET))
 		{
 			foreach($periods_RET as $period)

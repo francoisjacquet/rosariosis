@@ -43,7 +43,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF();
-	$period_select = '<SELECT name="period_id" onchange="this.form.submit();"><OPTION value=""'.(empty($_REQUEST['period_id'])?' SELECTED="SELECTED"':'').'>'._('Daily').'</OPTION>';
+	$period_select = '<SELECT name="period_id" onchange="ajaxPostForm(this.form,true);"><OPTION value=""'.(empty($_REQUEST['period_id'])?' SELECTED="SELECTED"':'').'>'._('Daily').'</OPTION>';
 	if(!UserStudentID() && !$_REQUEST['student_id'])
 	{
 		if(User('PROFILE')=='admin')

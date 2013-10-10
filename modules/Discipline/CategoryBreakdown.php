@@ -254,7 +254,7 @@ if(empty($_REQUEST['modfunc']))
 	DrawHeader(ProgramTitle());
 	
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE df.DATA_TYPE NOT IN ('textarea','text','date') AND du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
-	$select = '<SELECT name=category_id onchange="this.form.submit();"><OPTION value="">'._('Please choose a category').'</OPTION>';
+	$select = '<SELECT name=category_id onchange="ajaxPostForm(this.form,true);"><OPTION value="">'._('Please choose a category').'</OPTION>';
 	
 	if(count($categories_RET))
 	{

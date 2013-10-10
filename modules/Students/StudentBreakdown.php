@@ -219,7 +219,7 @@ if(!$_REQUEST['modfunc'])
 	
 	$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID FROM CUSTOM_FIELDS WHERE TYPE NOT IN ('textarea','text','date','log','holder') ORDER BY SORT_ORDER,TITLE"),array(),array('CATEGORY_ID'));
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"),array(),array('ID'));
-	$select = '<SELECT name=category_id onchange="this.form.submit();"><OPTION value="">'._('Please choose a student field').'</OPTION>';
+	$select = '<SELECT name=category_id onchange="ajaxPostForm(this.form,true);"><OPTION value="">'._('Please choose a student field').'</OPTION>';
 	
 	if(count($fields_RET))
 	{

@@ -13,12 +13,12 @@ if(!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pr
 $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=school_periods.PERIOD_ID) ORDER BY SORT_ORDER");
 $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
-$period_select = '<SELECT name="period" onChange="this.form.submit();"><OPTION value="">'._('All').'</OPTION>';
+$period_select = '<SELECT name="period" onChange="ajaxPostForm(this.form,true);"><OPTION value="">'._('All').'</OPTION>';
 foreach($periods_RET as $id=>$period)
 	$period_select .= '<OPTION value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED="SELECTED"':'').">".$period[1]['TITLE']."</OPTION>";
 $period_select .= "</SELECT>";
 
-$mp_select = '<SELECT name="mp" onChange="this.form.submit();">';
+$mp_select = '<SELECT name="mp" onChange="ajaxPostForm(this.form,true);">';
 if($pros!='')
 	foreach(explode(',',str_replace("'",'',$pros)) as $pro)
 		if(GetMP($pro,'DOES_GRADES')=='Y')
