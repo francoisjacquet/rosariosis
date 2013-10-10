@@ -73,7 +73,7 @@ else
         }
 		echo '<span><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'"><IMG SRC="assets/back.png" height="24" />&nbsp;<span class="BottomButton">'.$back_text.'</span></A>&nbsp;&nbsp;</span>';
 	}
-    echo '<span><A HREF="Bottom.php?modfunc=print" target="body" title="'._('Print').'"><IMG SRC="assets/print.png" height="24" />&nbsp;<span class="BottomButton">'._('Print').'</span></A>&nbsp;&nbsp;</span>';
+    echo '<span><A HREF="Bottom.php?modfunc=print" target="_blank" title="'._('Print').'"><IMG SRC="assets/print.png" height="24" />&nbsp;<span class="BottomButton">'._('Print').'</span></A>&nbsp;&nbsp;</span>';
     echo '<span><A HREF="#" onclick="expandHelp();return false;" title="'._('Help').'"><IMG SRC="assets/help.png" height="24" />&nbsp;<span class="BottomButton">'._('Help').'</span></A>&nbsp;&nbsp;</span>';
     echo '<span><A HREF="index.php?modfunc=logout" target="_top" title="'._('Logout').'"><IMG SRC="assets/logout.png" height="24" />&nbsp;<span class="BottomButton">'._('Logout').'</span></A>&nbsp;&nbsp;</span></div>';
 	echo '<DIV id="footerhelp"></DIV>';

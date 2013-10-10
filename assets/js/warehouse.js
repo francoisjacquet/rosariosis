@@ -121,6 +121,11 @@ function ajaxPostForm(form,submit){
 	if (!target)
 		//if (form.action.indexOf('Modules.php')!=-1)
 			target = 'body';
+	if (form.action.indexOf('_ROSARIO_PDF')!=-1) //print PDF
+	{
+		form.target = '_blank';
+		return true;
+	}
 	
 	var options = {
 		beforeSubmit: function(a,f,o){

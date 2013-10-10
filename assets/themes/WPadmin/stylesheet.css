@@ -674,3 +674,7 @@ div.st {
 	.rt2colorBox { background-color: #fff; overflow:auto; }
 	
 }
+/*wkhtmltopdf reset*/
+input[type=submit], input[type=reset], input[type=button] {
+	max-width: none !important;
+}
