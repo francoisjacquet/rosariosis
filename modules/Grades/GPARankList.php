@@ -68,7 +68,7 @@ if($_REQUEST['search_modfunc'] == 'list')
     $PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
 	
-	$mp_select = '<SELECT name="mp" onchange="document.forms[0].submit();">';
+	$mp_select = '<SELECT name="mp" onchange="ajaxPostForm(this.form,true);">';
 	foreach($mps_RET as $mp)
 	{
 		if($mp['DOES_GRADES']=='Y' || $mp['MARKING_PERIOD_ID']==UserMP())

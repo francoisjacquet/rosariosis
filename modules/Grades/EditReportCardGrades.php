@@ -139,7 +139,7 @@ if(UserStudentID())
             $mp_id = "0";
         }
         $mpselect = '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
-        $mpselect .= '<SELECT name="mp_id" onchange="document.forms[0].submit();">';
+        $mpselect .= '<SELECT name="mp_id" onchange="ajaxPostForm(this.form,true);">';
         foreach ($gmp as $id=>$mparray){
             $mpselect .= '<OPTION value="'.$id.'"'.(($id==$mp_id)?' SELECTED="SELECTED"':'').">".$mparray['schoolyear'].' '.$mparray['mp_name'].', '._('Grade Level').' '.$mparray['grade_level']."</OPTION>";
         }

@@ -41,7 +41,7 @@ if(UserStaffID())
 		$_SESSION['UserCoursePeriodSchoolPeriod'] = $RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
 	}
 
-	$period_select = '<SELECT name="period" onChange="document.forms[0].submit();">';
+	$period_select = '<SELECT name="period" onChange="ajaxPostForm(this.form,true);">';
 	$optgroup = FALSE;
 	foreach($RET as $period)
 	{
