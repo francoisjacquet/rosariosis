@@ -1,5 +1,12 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.3.4
+----------------
+- bugix: mass drop students did not work properly
+- bugix: invalid argument supplied for foreach() in InputFinalGrades.php
+- security fixes: update, save, delete & create not accessible to non admins in
+	- Referrals.php, ReportCardCommentCodes.php, ReportCardComments.php, ReportCardGrades.php, MenuItems.php, StudentFees.php & StudentPayments.php, MarkingPeriods.php, Statements.php, DailyMenus.php, Requests.php, Schedule.php, Student.php, User.php, Calendar.php
+
 Changes in 1.3.3
 ----------------
 - bugix: JS bug mig_clay is not defined in warehouse.js
