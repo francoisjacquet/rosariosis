@@ -678,3 +678,7 @@ div.st {
 input[type=submit], input[type=reset], input[type=button] {
 	max-width: none !important;
 }
+tr.st > td {
+	float: none;
+	width: auto;
+}
