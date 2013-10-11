@@ -2,26 +2,26 @@ Rosario Student Information System - CHANGES
 
 Changes in 1.3.4
 ----------------
-- bugix: mass drop students did not work properly
-- bugix: invalid argument supplied for foreach() in InputFinalGrades.php
+- bugfix: mass drop students did not work properly
+- bugfix: invalid argument supplied for foreach() in InputFinalGrades.php
 - security fixes: update, save, delete & create not accessible to non admins in
 	- Referrals.php, ReportCardCommentCodes.php, ReportCardComments.php, ReportCardGrades.php, MenuItems.php, StudentFees.php & StudentPayments.php, MarkingPeriods.php, Statements.php, DailyMenus.php, Requests.php, Schedule.php, Student.php, User.php, Calendar.php
 
 Changes in 1.3.3
 ----------------
-- bugix: JS bug mig_clay is not defined in warehouse.js
-- bugix: division by zero in MenuReports.php
-- bugix: SQL bug more than one residence address
-- bugix: no student selected in DuplicateAttendance.php
-- bugix: SelectInput with no title
-- bugix: escape Course Title in ChooseRequest.php
-- bugix: nothing displayed if user selected in NotifyParents.php
-- bugix: nothing displayed after user search in Exceptions.php
-- bugix: add Parent/Student nobody selected
-- bugix: URL filter for Portal Note's files attached
-- bugix: SQL bug cpsp reference missing in AddAbsences.php
-- bugix: update Medical fields
-- bugixes: DailySummary.php:
+- bugfix: JS bug mig_clay is not defined in warehouse.js
+- bugfix: division by zero in MenuReports.php
+- bugfix: SQL bug more than one residence address
+- bugfix: no student selected in DuplicateAttendance.php
+- bugfix: SelectInput with no title
+- bugfix: escape Course Title in ChooseRequest.php
+- bugfix: nothing displayed if user selected in NotifyParents.php
+- bugfix: nothing displayed after user search in Exceptions.php
+- bugfix: add Parent/Student nobody selected
+- bugfix: URL filter for Portal Note's files attached
+- bugfix: SQL bug cpsp reference missing in AddAbsences.php
+- bugfix: update Medical fields
+- bugfixes: DailySummary.php:
 	- bug when Back to Student Search
 	- SQL bug PERIOD_ID numeric
 	- modname not set
