@@ -245,7 +245,7 @@ if($_REQUEST['modfunc']=='detail')
 					$i++;
 				} while(is_numeric($_REQUEST['REPEAT']) && $i<=$_REQUEST['REPEAT']);
 			}
-			echo '<SCRIPT type="text/javascript">opener.document.location = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; window.close();</script>';
+			echo '<SCRIPT type="text/javascript">var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
 			unset($_REQUEST['values']);
 			unset($_SESSION['_REQUEST_vars']['values']);
 		}
@@ -265,7 +265,7 @@ if($_REQUEST['modfunc']=='detail')
 					exit;
 				}
 			}
-			echo '<SCRIPT type="text/javascript">opener.document.location = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; window.close();</script>';
+			echo '<SCRIPT type="text/javascript">var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
 			unset($_REQUEST['values']);
 			unset($_SESSION['_REQUEST_vars']['values']);
 			unset($_REQUEST['button']);
