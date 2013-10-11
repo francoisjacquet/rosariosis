@@ -342,7 +342,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				if($stop > $result_count)
 					$stop = $result_count;
 
-				if($result_count > $num_displayed)
+				/*if($result_count > $num_displayed)
 				{
 					$where_message = "".sprintf(_('Displaying %d through %d'),$start,$stop)."";
 					if(ceil($result_count/$num_displayed) <= 10)
@@ -378,7 +378,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					echo sprintf(_('Go to Page %s'),$pages);
 					echo '</TD></TR></TABLE>';
 					echo '<BR />';
-				}
+				}*/
 			}
 			else
 			{
@@ -480,7 +480,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				$i++;
 			}
 
-			if($result_count!=0 && $cols && !isset($_REQUEST['_ROSARIO_PDF']))
+			if($result_count!=0 && $cols)
 			{
 				foreach($column_names as $key=>$value)
 				{
@@ -488,13 +488,22 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						$direction = -1 * $_REQUEST['LO_direction'];
 					else
 						$direction = 1;
-					echo '<TH>';
-					echo '<A ';
-					if($options['sort'])
-						echo 'HREF="'.$PHP_tmp_SELF.'&amp;page='.$_REQUEST['page'].'&amp;LO_sort='.$key.'&amp;LO_direction='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'');
-					echo '">'.ParseMLField($value).'</A>';
-//modif Francois: remove LOy
-					echo '</TH>';
+					if (isset($_REQUEST['_ROSARIO_PDF']))
+					{
+						echo '<TD style="background-color:'.$options['header_color'].';"><span style="color:#FFFFFF; " class="size-1"><b>';
+						echo ParseMLField($value);
+						echo '</b></span></TD>';
+					}
+					else
+					{
+						echo '<TH>';
+						echo '<A ';
+						if($options['sort'])
+							echo 'HREF="'.$PHP_tmp_SELF.'&amp;page='.$_REQUEST['page'].'&amp;LO_sort='.$key.'&amp;LO_direction='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'');
+						echo '">'.ParseMLField($value).'</A>';
+	//modif Francois: remove LOy
+						echo '</TH>';
+					}
 					$i++;
 				}
 			}
@@ -543,7 +552,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$color = $item['row_color'];
 				else
 					$color = '';
-				if(isset($_REQUEST['_ROSARIO_PDF']) && $count%$repeat_headers==0)
+				/*if(isset($_REQUEST['_ROSARIO_PDF']) && $count%$repeat_headers==0)
 				{
 					if($count!=0)
 					{
@@ -561,7 +570,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						}
 					}
 					echo '</TR>';
-				}
+				}*/
 				echo '<TR>';
 				$count++;
 				if($remove && !isset($_REQUEST['_ROSARIO_PDF']))
