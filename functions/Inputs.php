@@ -170,7 +170,9 @@ function SelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$
 
 	// mab - support array style $option values
 	// mab - append current val to select list if not in list
-	if ($value!='' && $options[$value]=='')
+	if (is_array($value))
+		$value = $value[0];
+	if ($value!='' && !array_key_exists($value,$options))
 		$options[$value] = array($value,'<span style="color:red">'.$value.'</span>');
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
