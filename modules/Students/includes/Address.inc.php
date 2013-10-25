@@ -661,13 +661,13 @@ if(empty($_REQUEST['modfunc']))
 							echo '<TD style="width:20px;">'.button('add').'</TD>';
 							if($info_apd)
 							{
-								echo '<TD>'.(count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','',$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','')).'</TD>';
-								echo '<TD>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]','').'</TD>';
+								echo '<TD>'.(count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','',$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','','maxlength=100')).'</TD>';
+								echo '<TD>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]','','maxlength=100').'</TD>';
 							}
 							else
 							{
-								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="'._('Example Phone').'"></TD>';
-								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="(xxx) xxx-xxxx"></TD>';
+								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="'._('Example Phone').'" maxlength=100 /></TD>';
+								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="(xxx) xxx-xxxx" maxlength=100 /></TD>';
 							}
 							echo '</TR>';
 						}
@@ -685,7 +685,7 @@ if(empty($_REQUEST['modfunc']))
 									echo '<TD></TD>';
                                 echo '<TD><DIV id="info_'.$info['ID'].'"><div class="onclick" onclick=\'addHTML("';
 								
-								$toEscape = '<TABLE><TR><TD>'.TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','',false).'<BR />'.str_replace("'",'&#39;',_makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID'],false)).'</TD></TR></TABLE>';
+								$toEscape = '<TABLE><TR><TD>'.TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','maxlength=100',false).'<BR />'.str_replace("'",'&#39;',_makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID'],false)).'</TD></TR></TABLE>';
 								echo str_replace('"','\"',$toEscape);
 								
 								echo '","info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><BR /><span class="legend-gray">'.$info['TITLE'].'</span></div></DIV></TD>';
@@ -697,8 +697,8 @@ if(empty($_REQUEST['modfunc']))
 							echo '<TR>';
 							echo '<TD style="width:20px;">'.button('add').'</TD>';
 //							echo '<TD style="border-color: #BBBBBB; border: 1; border-style: solid none none none;">'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]','Value').'<BR />';
-							echo '<TD>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]',_('Value'));
-							echo (count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'))).'</TD>';
+							echo '<TD>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]',_('Value'),'maxlength=100');
+							echo (count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),'maxlength=100')).'</TD>';
 							echo '</TR>';
 						}
 					}
