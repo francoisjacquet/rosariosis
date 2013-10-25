@@ -6,5 +6,4 @@
 $city_options = array();
 $state_options = array();
 $zip_options = array();
-$relation_options = array(_('Father')=>_('Father'),_('Mother')=>_('Mother'),_('Emergency')=>_('Emergency'));
 ?>

@@ -608,7 +608,7 @@ if(empty($_REQUEST['modfunc']))
 
 			if($_REQUEST['person_id']!='old')
 			{
-				$relation_options = _makeAutoSelect('STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',$this_contact['STUDENT_RELATION'],$relation_options);
+				$relation_options = _makeAutoSelect('STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',$this_contact['STUDENT_RELATION'],array());
 
 //modif Francois: css WPadmin
 				echo '<TABLE class="widefat cellspacing-0"><TR><TH>'._('Contact Information').'</TH></TR>';
@@ -620,7 +620,7 @@ if(empty($_REQUEST['modfunc']))
 					echo str_replace('"','\"',$toEscape);
 					
 					echo '","person_'.$this_contact['PERSON_ID'].'",true);\'><span class="underline-dots">'.$this_contact['FIRST_NAME'].' '.$this_contact['MIDDLE_NAME'].' '.$this_contact['LAST_NAME'].'</span><BR /><span class="legend-gray">'._('Name').'</span></div></DIV></TD></TR>';
-					echo '<TR><TD>'._makeAutoSelectInputX($this_contact['STUDENT_RELATION'],'STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',_('Relation'),$relation_options).'</TD>';
+					echo '<TR><TD>'._makeAutoSelectInputX($this_contact['STUDENT_RELATION'],'STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',_('Relation'),array()).'</TD>';
 					//echo '<TR><TD><TABLE><TR><TD><IMG SRC=assets/gavel_button.gif></TD><TD>'.CheckboxInput($this_contact['CUSTODY'],'values[STUDENTS_JOIN_PEOPLE][CUSTODY]','Custody','','','<IMG SRC=assets/check.png width=15>','<IMG SRC=assets/x.png width=15>').'</TD><TD><IMG SRC=assets/emergency_button.gif></TD><TD>'.CheckboxInput($this_contact['EMERGENCY'],'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]','Emergency','',false,'<IMG SRC=assets/check.png width=15>','<IMG SRC=assets/x.png width=15>').'</TD></TR></TABLE></TD></TR>';
 					echo '<TR><TD><TABLE class="cellspacing-0"><TR><TD>'.CheckboxInput($this_contact['CUSTODY'],'values[STUDENTS_JOIN_PEOPLE][CUSTODY]','','CHECKED',$new,'<IMG SRC="assets/check.png" height="15" />','<IMG SRC="assets/x.png" height="15" />').'</TD><TD><IMG SRC="assets/gavel_button.png" height="24" /></TD><TD>'._('Custody').'</TD></TR>';
 					echo '<TR><TD>'.CheckboxInput($this_contact['EMERGENCY'],'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]','','CHECKED',$new,'<IMG SRC="assets/check.png" height="15" />','<IMG SRC="assets/x.png" height="15" />').'</TD><TD><IMG SRC="assets/emergency_button.png" height="24" /></TD><TD>'._('Emergency').'</TD></TR></TABLE></TD></TR>';
