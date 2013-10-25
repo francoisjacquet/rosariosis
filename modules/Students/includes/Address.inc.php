@@ -1,6 +1,8 @@
 <?php
 //modif Francois: add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
+// set this to false to disable auto-pull-downs for the contact info Description field
+$info_apd = true;
 
 if($_REQUEST['values'] && $_POST['values'])
 {
@@ -535,9 +537,9 @@ if(empty($_REQUEST['modfunc']))
 			else
 				$size = false;
 
-			$city_options = _makeAutoSelect('CITY','ADDRESS',array(array('CITY'=>$this_address['CITY']),array('CITY'=>$this_address['MAIL_CITY'])),$city_options);
-			$state_options = _makeAutoSelect('STATE','ADDRESS',array(array('STATE'=>$this_address['STATE']),array('STATE'=>$this_address['MAIL_STATE'])),$state_options);
-			$zip_options = _makeAutoSelect('ZIPCODE','ADDRESS',array(array('ZIPCODE'=>$this_address['ZIPCODE']),array('ZIPCODE'=>$this_address['MAIL_ZIPCODE'])),$zip_options);
+			$city_options = _makeAutoSelect('CITY','ADDRESS',array(array('CITY'=>$this_address['CITY']),array('CITY'=>$this_address['MAIL_CITY'])),array());
+			$state_options = _makeAutoSelect('STATE','ADDRESS',array(array('STATE'=>$this_address['STATE']),array('STATE'=>$this_address['MAIL_STATE'])),array());
+			$zip_options = _makeAutoSelect('ZIPCODE','ADDRESS',array(array('ZIPCODE'=>$this_address['ZIPCODE']),array('ZIPCODE'=>$this_address['MAIL_ZIPCODE'])),array());
 
 //modif Francois: css WPadmin
 			echo '<br /><TABLE class="widefat width-100p cellspacing-0"><TR><TH colspan="3">';
@@ -580,9 +582,9 @@ if(empty($_REQUEST['modfunc']))
 				echo '<br /><TABLE class="widefat cellspacing-0"><TR><TH colspan="3">'._('Mailing Address').'&nbsp;('._('If different than above').')';
 				echo '</TH></TR>';
 				echo '<TR><TD colspan="3">'.TextInput($this_address['MAIL_ADDRESS'],'values[ADDRESS][MAIL_ADDRESS]',_('Street'),!$this_address['MAIL_ADDRESS']?'size=20':'').'</TD></TR>';
-				echo '<TR><TD>'._makeAutoSelectInputX($this_address['MAIL_CITY'],'MAIL_CITY','ADDRESS',_('City'),$city_options).'</TD>';
-				echo '<TD>'._makeAutoSelectInputX($this_address['MAIL_STATE'],'MAIL_STATE','ADDRESS',_('State'),$state_options).'</TD>';
-				echo '<TD>'._makeAutoSelectInputX($this_address['MAIL_ZIPCODE'],'MAIL_ZIPCODE','ADDRESS',_('Zip'),$zip_options).'</TD></TR>';
+				echo '<TR><TD>'._makeAutoSelectInputX($this_address['MAIL_CITY'],'MAIL_CITY','ADDRESS',_('City'),array()).'</TD>';
+				echo '<TD>'._makeAutoSelectInputX($this_address['MAIL_STATE'],'MAIL_STATE','ADDRESS',_('State'),array()).'</TD>';
+				echo '<TD>'._makeAutoSelectInputX($this_address['MAIL_ZIPCODE'],'MAIL_ZIPCODE','ADDRESS',_('Zip'),array()).'</TD></TR>';
 				echo '</TABLE>';
 				echo '</DIV>';
 			}
@@ -608,7 +610,7 @@ if(empty($_REQUEST['modfunc']))
 
 			if($_REQUEST['person_id']!='old')
 			{
-				$relation_options = _makeAutoSelect('STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',$this_contact['STUDENT_RELATION'],$relation_options);
+				$relation_options = _makeAutoSelect('STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',$this_contact['STUDENT_RELATION'],array());
 
 //modif Francois: css WPadmin
 				echo '<TABLE class="widefat cellspacing-0"><TR><TH>'._('Contact Information').'</TH></TR>';
@@ -627,7 +629,7 @@ if(empty($_REQUEST['modfunc']))
 
 					$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='$_REQUEST[person_id]'"));
 					if($info_apd)
-						$info_options = _makeAutoSelect('TITLE','PEOPLE_JOIN_CONTACTS',$info_RET,$info_options_x);
+						$info_options = _makeAutoSelect('TITLE','PEOPLE_JOIN_CONTACTS',$info_RET,array());
 
 					echo '<TR><TD>';
 
@@ -686,7 +688,7 @@ if(empty($_REQUEST['modfunc']))
 								$toEscape = '<TABLE><TR><TD>'.TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','',false).'<BR />'.str_replace("'",'&#39;',_makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID'],false)).'</TD></TR></TABLE>';
 								echo str_replace('"','\"',$toEscape);
 								
-								echo '","info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><BR /><span class="'.($info_options_x[$info['TITLE']]?'legend-gray':'legend-blue').'">'.$info['TITLE'].'</span></div></DIV></TD>';
+								echo '","info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><BR /><span class="legend-gray">'.$info['TITLE'].'</span></div></DIV></TD>';
 								echo '</TR>';
 							}
 						}
@@ -695,7 +697,7 @@ if(empty($_REQUEST['modfunc']))
 							echo '<TR>';
 							echo '<TD style="width:20px;">'.button('add').'</TD>';
 //							echo '<TD style="border-color: #BBBBBB; border: 1; border-style: solid none none none;">'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]','Value').'<BR />';
-							echo '<TD>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]',_('Value')).'<BR /><BR />';
+							echo '<TD>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]',_('Value'));
 							echo (count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'))).'</TD>';
 							echo '</TR>';
 						}
