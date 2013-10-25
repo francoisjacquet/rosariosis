@@ -1,6 +1,8 @@
 <?php
 //modif Francois: add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
+// set this to false to disable auto-pull-downs for the contact info Description field
+$info_apd = true;
 
 if($_REQUEST['values'] && $_POST['values'])
 {
@@ -180,7 +182,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			}
 			else
 			{
-				if($info_apd || $values['TITLE'] && $values['TITLE']!=_('Example Phone') && $values['VALUE'] && $values['VALUE']!='(xxx) xxx-xxxx')
+				if($info_apd || ($values['TITLE'] && $values['VALUE']))
 				{
 					$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
 
@@ -625,7 +627,7 @@ if(empty($_REQUEST['modfunc']))
 
 					$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='$_REQUEST[person_id]'"));
 					if($info_apd)
-						$info_options = _makeAutoSelect('TITLE','PEOPLE_JOIN_CONTACTS',$info_RET,$info_options_x);
+						$info_options = _makeAutoSelect('TITLE','PEOPLE_JOIN_CONTACTS',$info_RET,$array());
 
 					echo '<TR><TD>';
 
@@ -662,8 +664,8 @@ if(empty($_REQUEST['modfunc']))
 							}
 							else
 							{
-								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="'._('Example Phone').'"></TD>';
-								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="(xxx) xxx-xxxx"></TD>';
+								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="'._('Example Phone').'" name="values[PEOPLE_JOIN_CONTACTS][new][TITLE]" /></TD>';
+								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="(xxx) xxx-xxxx" name="values[PEOPLE_JOIN_CONTACTS][new][VALUE]" /></TD>';
 							}
 							echo '</TR>';
 						}
@@ -684,7 +686,7 @@ if(empty($_REQUEST['modfunc']))
 								$toEscape = '<TABLE><TR><TD>'.TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','',false).'<BR />'.str_replace("'",'&#39;',_makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID'],false)).'</TD></TR></TABLE>';
 								echo str_replace('"','\"',$toEscape);
 								
-								echo '","info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><BR /><span class="'.($info_options_x[$info['TITLE']]?'legend-gray':'legend-blue').'">'.$info['TITLE'].'</span></div></DIV></TD>';
+								echo '","info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><BR /><span class="legend-gray">'.$info['TITLE'].'</span></div></DIV></TD>';
 								echo '</TR>';
 							}
 						}

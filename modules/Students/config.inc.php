@@ -7,6 +7,4 @@ $city_options = array();
 $state_options = array();
 $zip_options = array();
 $relation_options = array(_('Father')=>_('Father'),_('Mother')=>_('Mother'),_('Emergency')=>_('Emergency'));
-if($info_apd)
-	$info_options_x = array(_('Phone')=>_('Phone'),_('Cell Phone')=>_('Cell Phone'),_('Work Phone')=>_('Work Phone'),_('Employer')=>_('Employer'));
 ?>
