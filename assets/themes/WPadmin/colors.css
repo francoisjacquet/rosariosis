@@ -186,7 +186,7 @@ fieldset {
 }
 
 /*responsive tables*/
-@media only screen and (max-width: 40em) {
+@media only screen and (max-width: 1023px) {
 
 	.rt tr { border-right-color:#dfdfdf; }
 

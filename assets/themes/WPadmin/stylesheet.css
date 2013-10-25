@@ -557,10 +557,26 @@ div.st {
 /*responsive tables*/
 .rt .link2colorBox { display: none; }
 
-
 /* mobile */
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 640px) {
 
+	/* quick smartphone reset */
+	.mod {
+		display: block !important;
+		float: none !important;
+		clear: none !important;
+		width: auto !important;
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+		position: relative !important;
+		border: 0;
+	}
+	
+	#SideLogo{width:130px;margin:2px;max-height:118px;float:right;}
+	#menu{margin-bottom:0;}
+	#adminmenu a.menu-top {padding:2px 5px;}
+	.menu-top img {height: 24px;}
+	
 	#body {
 		padding: 0 2px;
 	}
@@ -635,24 +651,8 @@ div.st {
 	}
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 1023px) {
 
-	/* quick smartphone reset */
-	.mod {
-		display: block !important;
-		float: none !important;
-		clear: none !important;
-		width: auto !important;
-		margin-left: 0 !important;
-		margin-right: 0 !important;
-		position: relative !important;
-		border: 0;
-	}
-	#SideLogo{width:130px;margin:2px;max-height:118px;float:right;}
-	#menu{margin-bottom:0;}
-	#adminmenu a.menu-top {padding:2px 5px;}
-	.menu-top img {height: 24px;}
-	
 	/*responsive tables*/
 	.rt { display: block; position: relative; width: 100%; }
 	.rt thead { display: block; float: left; max-width: 130px; }
@@ -673,12 +673,4 @@ div.st {
 	.rt .link2colorBox + .rt2colorBox { display: none; }
 	.rt2colorBox { background-color: #fff; overflow:auto; }
 	
-}
-/*wkhtmltopdf reset*/
-input[type=submit], input[type=reset], input[type=button] {
-	max-width: none !important;
-}
-tr.st > td {
-	float: none;
-	width: auto;
 }
