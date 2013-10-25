@@ -666,8 +666,8 @@ if(empty($_REQUEST['modfunc']))
 							}
 							else
 							{
-								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="'._('Example Phone').'" maxlength=100 /></TD>';
-								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="(xxx) xxx-xxxx" maxlength=100 /></TD>';
+								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="'._('Example Phone').'" name="values[PEOPLE_JOIN_CONTACTS][new][TITLE]" maxlength=100 /></TD>';
+								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="(xxx) xxx-xxxx" name="values[PEOPLE_JOIN_CONTACTS][new][VALUE]" maxlength=100 /></TD>';
 							}
 							echo '</TR>';
 						}
