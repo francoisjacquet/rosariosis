@@ -1,5 +1,13 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.3.5
+----------------
+- bugfix: illegal offset type in Inputs.php
+- bugfix: delete imposible in Student screens
+- forgot name of contact info input in Address.inc.php
+- add maxlength=100 to contact info input
+- remove Students config.inc.php
+
 Changes in 1.3.4
 ----------------
 - bugfix: mass drop students did not work properly
