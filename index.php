@@ -63,7 +63,7 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 		if(Config('LOGIN')=='No')
 		{
 			Warehouse('header');
-			echo '</HEAD><BODY><FORM action="index.php" method="POST"><INPUT type="hidden" name="USERNAME" value="'.$_REQUEST['USERNAME'].'"><INPUT type="hidden" name="PASSWORD" value="'.$_REQUEST['PASSWORD'].'"><BR />';
+			echo '<FORM action="index.php" method="POST"><INPUT type="hidden" name="USERNAME" value="'.$_REQUEST['USERNAME'].'"><INPUT type="hidden" name="PASSWORD" value="'.$_REQUEST['PASSWORD'].'"><BR />';
 			PopTable('header',_('Confirm Successful Installation'));
 			echo '<span class="center">';
 			echo '<h4>'.sprintf(_('You have successfully installed %s.'), ParseMLField(Config('TITLE'))).'</h4><BR />';
