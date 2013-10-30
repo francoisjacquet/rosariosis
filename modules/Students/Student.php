@@ -334,6 +334,7 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 
 		echo '<BR />';
 		echo PopTable('header',$tabs,'width="100%"');
+		$PopTable_opened = true;
 
 		if ($can_use_RET['Students/Student.php&category_id='.$_REQUEST['category_id']])
 		{
