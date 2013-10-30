@@ -569,7 +569,7 @@ CREATE TABLE billing_fees (
 --
 
 CREATE SEQUENCE billing_fees_seq
-    START WITH 4
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -582,7 +582,7 @@ CREATE SEQUENCE billing_fees_seq
 -- Name: billing_fees_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('billing_fees_seq', 4, false);
+SELECT pg_catalog.setval('billing_fees_seq', 1, false);
 
 
 --
@@ -609,7 +609,7 @@ CREATE TABLE billing_payments (
 --
 
 CREATE SEQUENCE billing_payments_seq
-    START WITH 4
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -622,7 +622,7 @@ CREATE SEQUENCE billing_payments_seq
 -- Name: billing_payments_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('billing_payments_seq', 4, false);
+SELECT pg_catalog.setval('billing_payments_seq', 1, false);
 
 
 --
@@ -1023,7 +1023,7 @@ CREATE TABLE discipline_fields (
 --
 
 CREATE SEQUENCE discipline_fields_seq
-    START WITH 9
+    START WITH 6
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1036,7 +1036,7 @@ CREATE SEQUENCE discipline_fields_seq
 -- Name: discipline_fields_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('discipline_fields_seq', 9, false);
+SELECT pg_catalog.setval('discipline_fields_seq', 6, true);
 
 
 --
@@ -1067,7 +1067,7 @@ CREATE TABLE discipline_referrals (
 --
 
 CREATE SEQUENCE discipline_referrals_seq
-    START WITH 4
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1080,7 +1080,7 @@ CREATE SEQUENCE discipline_referrals_seq
 -- Name: discipline_referrals_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('discipline_referrals_seq', 4, false);
+SELECT pg_catalog.setval('discipline_referrals_seq', 1, false);
 
 
 --
@@ -1120,7 +1120,7 @@ CREATE TABLE eligibility_activities (
 --
 
 CREATE SEQUENCE eligibility_activities_seq
-    START WITH 1
+    START WITH 3
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -1133,7 +1133,7 @@ CREATE SEQUENCE eligibility_activities_seq
 -- Name: eligibility_activities_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('eligibility_activities_seq', 9, true);
+SELECT pg_catalog.setval('eligibility_activities_seq', 3, true);
 
 
 --
@@ -1914,7 +1914,7 @@ CREATE SEQUENCE portal_notes_seq
 -- Name: portal_notes_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('portal_notes_seq', 1, true);
+SELECT pg_catalog.setval('portal_notes_seq', 1, false);
 
 
 --
@@ -1951,7 +1951,7 @@ CREATE SEQUENCE portal_poll_questions_seq
 -- Name: portal_poll_questions_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('portal_poll_questions_seq', 1, true);
+SELECT pg_catalog.setval('portal_poll_questions_seq', 1, false);
 
 
 --
@@ -1996,7 +1996,7 @@ CREATE SEQUENCE portal_polls_seq
 -- Name: portal_polls_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('portal_polls_seq', 1, true);
+SELECT pg_catalog.setval('portal_polls_seq', 1, false);
 
 
 --
@@ -2180,7 +2180,7 @@ CREATE TABLE report_card_comments (
 --
 
 CREATE SEQUENCE report_card_comments_seq
-    START WITH 1
+    START WITH 3
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2193,7 +2193,7 @@ CREATE SEQUENCE report_card_comments_seq
 -- Name: report_card_comments_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('report_card_comments_seq', 9, true);
+SELECT pg_catalog.setval('report_card_comments_seq', 3, true);
 
 
 --
@@ -2235,7 +2235,7 @@ CREATE SEQUENCE report_card_grade_scales_seq
 -- Name: report_card_grade_scales_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('report_card_grade_scales_seq', 4, true);
+SELECT pg_catalog.setval('report_card_grade_scales_seq', 1, true);
 
 
 --
@@ -2555,7 +2555,7 @@ CREATE SEQUENCE staff_field_categories_seq
 -- Name: staff_field_categories_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('staff_field_categories_seq', 3, false);
+SELECT pg_catalog.setval('staff_field_categories_seq', 3, true);
 
 
 --
@@ -2604,7 +2604,7 @@ SELECT pg_catalog.setval('staff_fields_seq', 1, true);
 --
 
 CREATE SEQUENCE staff_seq
-    START WITH 4
+    START WITH 3
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -2617,7 +2617,7 @@ CREATE SEQUENCE staff_seq
 -- Name: staff_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('staff_seq', 4, false);
+SELECT pg_catalog.setval('staff_seq', 3, true);
 
 
 --
@@ -2725,7 +2725,7 @@ CREATE SEQUENCE student_field_categories_seq
 -- Name: student_field_categories_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('student_field_categories_seq', 1, false);
+SELECT pg_catalog.setval('student_field_categories_seq', 5, true);
 
 
 --
@@ -3371,9 +3371,9 @@ INSERT INTO discipline_fields VALUES (6, 'Comments', '', 'textarea', 'CATEGORY_6
 -- Data for Name: eligibility_activities; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO eligibility_activities VALUES (7, 2013, 1, 'Boy''s Basketball', '2013-10-01', '2014-04-14');
-INSERT INTO eligibility_activities VALUES (8, 2013, 1, 'Chess Team', '2013-09-01', '2014-06-04');
-INSERT INTO eligibility_activities VALUES (9, 2013, 1, 'Girl''s Basketball', '2013-10-01', '2014-04-15');
+INSERT INTO eligibility_activities VALUES (1, 2013, 1, 'Boy''s Basketball', '2013-10-01', '2014-04-14');
+INSERT INTO eligibility_activities VALUES (2, 2013, 1, 'Chess Team', '2013-09-01', '2014-06-04');
+INSERT INTO eligibility_activities VALUES (3, 2013, 1, 'Girl''s Basketball', '2013-10-01', '2014-04-15');
 
 
 --
@@ -3848,16 +3848,16 @@ INSERT INTO program_config VALUES (2013, 1, 'moodle', 'ROSARIO_STUDENTS_EMAIL_FI
 -- Data for Name: report_card_comments; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO report_card_comments VALUES (7, 2013, 1, NULL, NULL, NULL, 1, '^n Fails to Meet Course Requirements');
-INSERT INTO report_card_comments VALUES (8, 2013, 1, NULL, NULL, NULL, 2, '^n Comes to ^s Class Unprepared');
-INSERT INTO report_card_comments VALUES (9, 2013, 1, NULL, NULL, NULL, 3, '^n Exerts Positive Influence in Class');
+INSERT INTO report_card_comments VALUES (1, 2013, 1, NULL, NULL, NULL, 1, '^n Fails to Meet Course Requirements');
+INSERT INTO report_card_comments VALUES (2, 2013, 1, NULL, NULL, NULL, 2, '^n Comes to ^s Class Unprepared');
+INSERT INTO report_card_comments VALUES (3, 2013, 1, NULL, NULL, NULL, 3, '^n Exerts Positive Influence in Class');
 
 
 --
 -- Data for Name: report_card_grade_scales; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO report_card_grade_scales VALUES (4, 2013, 1, 'Main', NULL, NULL, NULL, 1, 3, NULL, NULL);
+INSERT INTO report_card_grade_scales VALUES (1, 2013, 1, 'Main', NULL, NULL, NULL, 1, 3, NULL, NULL);
 
 
 --
