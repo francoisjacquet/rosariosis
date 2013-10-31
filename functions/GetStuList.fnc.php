@@ -379,7 +379,7 @@ function makeParents($student_id,$column)
 					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? '<img src="assets/'.$img.'" height="12" />&nbsp;' : '').$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</div>';
 				else
 					//$THIS_RET['PARENTS'] .= '<TR><TD style="width:2px; background-color:'.$color.';"></TD><TD><A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php?person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</A></TD></TR>';
-					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? '<img src="assets/'.$img.'" height="12" />&nbsp;' : '').'<A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php?person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</A></div>';
+					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? '<img src="assets/'.$img.'" height="12" />&nbsp;' : '').'<A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php&person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</A></div>';
 			}
 			if($_REQUEST['_ROSARIO_PDF'])
 				$THIS_RET['PARENTS'] = mb_substr($THIS_RET['PARENTS'],0,-2);
