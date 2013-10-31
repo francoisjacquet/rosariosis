@@ -3,7 +3,7 @@ include_once('ProgramFunctions/miscExport.fnc.php');
 //echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
 $extra['extra_search'] .= '<TR><TD></TD><TD><DIV id="fields_div"></DIV></TD></TR>';
 $extra['extra_search'] .= '<TR><TD></TD><TD><INPUT type="hidden" name="relation" /><INPUT type="hidden" name="residence" /><INPUT type="hidden" name="mailing" /><INPUT type="hidden" name="bus_pickup" /><INPUT type="hidden" name="bus_dropoff" /></TD></TR>';
-$extra['action'] .= '" onsubmit="document.forms[0].relation.value=document.getElementById(\'relation\').value; document.forms[0].residence.value=document.getElementById(\'residence\').checked; document.forms[0].mailing.value=document.getElementById(\'Mailing\').checked; document.forms[0].bus_pickup.value=document.getElementById(\'bus_pickup\').checked; document.forms[0].bus_dropoff.value=document.getElementById(\'bus_dropoff\').checked;';
+$extra['action'] .= '" onsubmit="document.search.relation.value=document.getElementById(\'relation\').value; document.search.residence.value=document.getElementById(\'residence\').checked; document.search.mailing.value=document.getElementById(\'mailing\').checked; document.search.bus_pickup.value=document.getElementById(\'bus_pickup\').checked; document.search.bus_dropoff.value=document.getElementById(\'bus_dropoff\').checked;"';
 $extra['new'] = true;
 
 $_ROSARIO['CustomFields'] = true;
@@ -273,7 +273,7 @@ else
 			if (Config('STUDENTS_USE_MAILING'))
 				echo '<TD><label><INPUT type="checkbox" id="mailing" value="Y" />&nbsp;'._('Mailing').'</label></TD>';
 			else
-				echo '<TD>&nbsp;</TD>';
+				echo '<TD>&nbsp;<INPUT type="hidden" id="mailing" value="" /></TD>';
 				
 			echo '</TR><TR>';
 			echo '<TD><label><INPUT type="checkbox" id="bus_pickup" value="Y" />&nbsp;'._('Bus Pickup').'</label></TD>';

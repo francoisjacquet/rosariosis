@@ -2,7 +2,7 @@
 
 DrawHeader(ProgramTitle());
 
-$extra['header_left'] .= sprintf(_('Include courses active as of %s'),PrepareDate('','_include_active_date'));
+//$extra['header_left'] .= sprintf(_('Include courses active as of %s'),PrepareDate('','_include_active_date'));
 
 MyWidgets('birthmonth');
 MyWidgets('birthday');
