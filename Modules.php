@@ -40,7 +40,7 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 	//if(mb_strpos($_REQUEST['modname'],'misc/')===false)
 	/*if (!in_array($_REQUEST['modname'], array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')))
 		echo '<script type="text/javascript">if(window == top  && (!window.opener || window.opener.location.href.substring(0,(window.opener.location.href.indexOf("&")!=-1?window.opener.location.href.indexOf("&"):window.opener.location.href.replace("#","").length))!=window.location.href.substring(0,(window.location.href.indexOf("&")!=-1?window.location.href.indexOf("&"):window.location.href.replace("#","").length)))) window.location.href = "index.php";</script>';*/
-	if (in_array($_REQUEST['modname'], array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($_REQUEST['modname'] == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail') || (in_array($_REQUEST['modname'], array('Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php')) && $_REQUEST['modfunc'] == 'choose_course')) //popups
+	if (in_array($_REQUEST['modname'], array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($_REQUEST['modname'] == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail') || (in_array($_REQUEST['modname'], array('Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php')) && $_REQUEST['modfunc'] == 'choose_course') || (in_array($_REQUEST['modname'], array('Students/StudentBreakdown.php', 'Discipline/CategoryBreakdown.php', 'Discipline/CategoryBreakdownTime.php', 'Discipline/StudentFieldBreakdown.php')) && $_REQUEST['modfunc']=='search')) //popups
 	{
 		Warehouse('header');
 		echo '<script type="text/javascript">if(window == top  && (!window.opener)) window.location.href = "index.php";</script>';
@@ -125,7 +125,7 @@ if($_REQUEST['modname'])
 if(!isset($_REQUEST['_ROSARIO_PDF']))
 {
 	Warehouse('footer');
-	if (in_array($_REQUEST['modname'], array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($_REQUEST['modname'] == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail') || (in_array($_REQUEST['modname'], array('Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php')) && $_REQUEST['modfunc'] == 'choose_course'))
+	if (in_array($_REQUEST['modname'], array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($_REQUEST['modname'] == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail') || (in_array($_REQUEST['modname'], array('Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php')) && $_REQUEST['modfunc'] == 'choose_course') || (in_array($_REQUEST['modname'], array('Students/StudentBreakdown.php', 'Discipline/CategoryBreakdown.php', 'Discipline/CategoryBreakdownTime.php', 'Discipline/StudentFieldBreakdown.php')) && $_REQUEST['modfunc']=='search'))
 	{
 		echo '</div>';//#body
 		Warehouse('footer_plain');
