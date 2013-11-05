@@ -11,6 +11,8 @@
 * See COPYRIGHT.txt for copyright notices and details.
 */
 
+DrawHeader(ProgramTitle());
+
 if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start'])
 {
 	while(!VerifyDate($start_date = $_REQUEST['day_start'].'-'.$_REQUEST['month_start'].'-'.$_REQUEST['year_start']))
@@ -52,7 +54,7 @@ if($_REQUEST['modfunc']=='search')
 	//Widgets('all');
 	$extra['force_search'] = true;
 	$extra['search_title'] = _('Advanced');
-	$extra['action'] = "&category_id=$_REQUEST[category_id]&chart_type=".str_replace(' ','+',$_REQUEST['chart_type'])."&day_start=$_REQUEST[day_start]&day_end=$_REQUEST[day_end]&month_start=$_REQUEST[month_start]&month_end=$_REQUEST[month_end]&year_start=$_REQUEST[year_start]&year_end=$_REQUEST[year_end]&modfunc=&search_modfunc= target=body onsubmit='window.close();'";
+	$extra['action'] = "&category_id=$_REQUEST[category_id]&chart_type=".str_replace(' ','+',$_REQUEST['chart_type'])."&day_start=$_REQUEST[day_start]&day_end=$_REQUEST[day_end]&month_start=$_REQUEST[month_start]&month_end=$_REQUEST[month_end]&year_start=$_REQUEST[year_start]&year_end=$_REQUEST[year_end]&modfunc=&search_modfunc= target=body";
 	Search('student_id',$extra);
 
 }
@@ -318,7 +320,6 @@ if(empty($_REQUEST['modfunc']))
 {
 	unset($_REQUEST['PHPSESSID']);
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&amp;chart_type='.str_replace(' ','+',$_REQUEST['chart_type']).'" method="POST">';
-	DrawHeader(ProgramTitle());
 	
 	$categories_RET = DBGet(DBQuery("SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u WHERE u.DISCIPLINE_FIELD_ID=f.ID AND f.DATA_TYPE NOT IN ('textarea','text','date') AND u.SYEAR='".UserSyear()."' AND u.SCHOOL_ID='".UserSchool()."' ORDER BY u.SORT_ORDER"));
 	$select = '<SELECT name=category_id onchange="ajaxPostForm(this.form,true);"><OPTION value="">'._('Please choose a category').'</OPTION>';
@@ -329,7 +330,7 @@ if(empty($_REQUEST['modfunc']))
 			$select .= '<OPTION value="'.$category['ID'].'"'.(($_REQUEST['category_id']==$category['ID'])?' SELECTED="SELECTED"':'').'>'.$category['TITLE'].'</OPTION>';
 	}
 	$select .= '</SELECT>';
-	$advanced_link = ' <A HREF="#" onclick=\'remote = window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=search&category_id='.$_REQUEST['category_id'].'&chart_type='.$_REQUEST['chart_type'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&include_top=false","","scrollbars=yes,resizable=yes,width=700,height=600"); remote.opener = window;\'>'._('Advanced').'</A>';
+	$advanced_link = ' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=search&category_id='.$_REQUEST['category_id'].'&chart_type='.$_REQUEST['chart_type'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&include_top=false">'._('Advanced').'</A>';
 
 	DrawHeader($select);
 	DrawHeader(_('Timeframe').': <label><INPUT type="radio" name=timeframe value=month'.($_REQUEST['timeframe']=='month'?' checked':'').'>&nbsp;'._('Month').'</label> &nbsp;<label><INPUT type="radio" name=timeframe value=SYEAR'.($_REQUEST['timeframe']=='SYEAR'?' checked':'').'>&nbsp;'._('School Year').'</label>');
