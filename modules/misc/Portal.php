@@ -31,6 +31,25 @@ switch (User('PROFILE'))
 		//DrawHeader($welcome.'<BR />&nbsp;'._('You are an <b>Administrator</b> on the system.<BR />').PHPCheck().versionCheck());
 		DrawHeader($welcome.'<BR />&nbsp;'._('You are an <b>Administrator</b> on the system.').'<BR />'.PHPCheck());
 
+		//modif Francois: Discipline new referrals alert
+		if(AllowUse('Discipline/Referrals.php') && User('LAST_LOGIN'))
+		{
+			$extra = array();
+			$extra['SELECT_ONLY'] = 'count(*) AS COUNT';
+			$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
+			$extra['WHERE'] = ' AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SYEAR=ssm.SYEAR AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '."'".User('LAST_LOGIN')."' AND '".DBDate()."'";
+			
+			$disc_RET = GetStuList($extra);
+
+			if($disc_RET[1]['COUNT']>0)
+			{
+				$message = '<A HREF="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin='.User('LAST_LOGIN').'&discipline_entry_end='.DBDate().'"><img src="assets/icons/Discipline.png" class="alignImg" /> ';
+				$message .= sprintf(ngettext('%d new referral', '%d new referrals', $disc_RET[1]['COUNT']), $disc_RET[1]['COUNT']);
+				$message .= '</A>';	
+				DrawHeader($message);
+			}
+		}
+		
 //modif Francois: file attached to portal notes
 //modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 //        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent'));
