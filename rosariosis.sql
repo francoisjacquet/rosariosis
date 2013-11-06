@@ -1000,7 +1000,7 @@ CREATE SEQUENCE discipline_field_usage_seq
 -- Name: discipline_field_usage_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('discipline_field_usage_seq', 14, true);
+SELECT pg_catalog.setval('discipline_field_usage_seq', 6, true);
 
 
 --
@@ -3317,10 +3317,10 @@ INSERT INTO custom_fields VALUES (200000011, 'textarea', NULL, 'Doctor''s Note C
 -- Data for Name: discipline_field_usage; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO discipline_field_usage VALUES (9, 3, 2013, 1, 'Parents Contacted By Teacher', '', 4);
-INSERT INTO discipline_field_usage VALUES (10, 4, 2013, 1, 'Parent Contacted by Administrator', '', 5);
-INSERT INTO discipline_field_usage VALUES (11, 6, 2013, 1, 'Comments', '', 6);
-INSERT INTO discipline_field_usage VALUES (12, 1, 2013, 1, 'Violation', 'Skipping Class
+INSERT INTO discipline_field_usage VALUES (1, 3, 2013, 1, 'Parents Contacted By Teacher', '', 4);
+INSERT INTO discipline_field_usage VALUES (2, 4, 2013, 1, 'Parent Contacted by Administrator', '', 5);
+INSERT INTO discipline_field_usage VALUES (3, 6, 2013, 1, 'Comments', '', 6);
+INSERT INTO discipline_field_usage VALUES (4, 1, 2013, 1, 'Violation', 'Skipping Class
 Profanity, vulgarity, offensive language
 Insubordination (Refusal to Comply, Disrespectful Behavior)
 Inebriated (Alcohol or Drugs)
@@ -3329,11 +3329,11 @@ Harassment
 Fighting
 Public Display of Affection
 Other', 1);
-INSERT INTO discipline_field_usage VALUES (13, 2, 2013, 1, 'Detention Assigned', '10 Minutes
+INSERT INTO discipline_field_usage VALUES (5, 2, 2013, 1, 'Detention Assigned', '10 Minutes
 20 Minutes
 30 Minutes
 Discuss Suspension', 2);
-INSERT INTO discipline_field_usage VALUES (14, 5, 2013, 1, 'Suspensions (Office Only)', 'Half Day
+INSERT INTO discipline_field_usage VALUES (6, 5, 2013, 1, 'Suspensions (Office Only)', 'Half Day
 In School Suspension
 1 Day
 2 Days
