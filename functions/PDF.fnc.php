@@ -30,7 +30,7 @@ function PDFStop($handle)
 		$html .= '<link rel="stylesheet" type="text/css" href="assets/themes/'.Preferences('THEME').'/stylesheet.css" />';
 	//modif Francois: bugfix wkhtmltopdf screen resolution on linux
 	//see: https://code.google.com/p/wkhtmltopdf/issues/detail?id=118
-	$html .= '<TITLE>'.str_replace(_('Print').' ','',ProgramTitle()).'</TITLE></HEAD><BODY><div style="width:1024px" id="pdf">'.$html_content.'</div></BODY></HTML>';
+	$html .= '<TITLE>'.str_replace(_('Print').' ','',ProgramTitle()).'</TITLE></HEAD><BODY><div style="width:'.((!empty($handle['orientation']) && $handle['orientation'] == 'landscape') ? '1448' : '1024').'px" id="pdf">'.$html_content.'</div></BODY></HTML>';
 
 	//modif Francois: wkhtmltopdf
 	if (!empty($wkhtmltopdfPath))
