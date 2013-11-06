@@ -79,6 +79,10 @@ if(!defined('WAREHOUSE_PHP'))
 	<script type="text/javascript" src="assets/js/jquery.form.js"></script>
 	<script type="text/javascript" src="assets/js/tipmessage/main15.js"></script>
 	<script type="text/javascript" src="assets/js/warehouse.js"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="assets/js/jscalendar/calendar-blue.css" />
+	<script type="text/javascript" src="assets/js/jscalendar/calendar.js"></script>
+	<script type="text/javascript" src="assets/js/jscalendar/lang/calendar-<?php echo mb_substr($locale, 0, 2); ?>.js"></script>
+	<script type="text/javascript" src="assets/js/jscalendar/calendar-setup.js"></script>			
 </HEAD>
 <BODY>
 <DIV id="Migoicons" style="visibility:hidden;position:absolute;z-index:1000;top:-100px"></DIV>
@@ -88,13 +92,7 @@ if(!defined('WAREHOUSE_PHP'))
 ?>
 <BR />
 <?php
-//modif Francois: load calendar Javascript only if required
-				if (isset($_ROSARIO['PrepareDate'])): ?>
-<link rel="stylesheet" type="text/css" media="all" href="assets/js/jscalendar/calendar-blue.css" />
-<script type="text/javascript" src="assets/js/jscalendar/calendar.js"></script>
-<script type="text/javascript" src="assets/js/jscalendar/lang/calendar-<?php echo mb_substr($locale, 0, 2); ?>.js"></script>
-<script type="text/javascript" src="assets/js/jscalendar/calendar-setup.js"></script>
-<?php			
+				if (isset($_ROSARIO['PrepareDate'])): 
 					for($i=1;$i<=$_ROSARIO['PrepareDate'];$i++)
 					{
 ?>
