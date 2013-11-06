@@ -31,6 +31,25 @@ switch (User('PROFILE'))
 		//DrawHeader($welcome.'<BR />&nbsp;'._('You are an <b>Administrator</b> on the system.<BR />').PHPCheck().versionCheck());
 		DrawHeader($welcome.'<BR />&nbsp;'._('You are an <b>Administrator</b> on the system.').'<BR />'.PHPCheck());
 
+		//modif Francois: Discipline new referrals alert
+		if(AllowUse('Discipline/Referrals.php') && User('LAST_LOGIN'))
+		{
+			$extra = array();
+			$extra['SELECT_ONLY'] = 'count(*) AS COUNT';
+			$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
+			$extra['WHERE'] = ' AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SYEAR=ssm.SYEAR AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '."'".User('LAST_LOGIN')."' AND '".DBDate()."'";
+			
+			$disc_RET = GetStuList($extra);
+
+			if($disc_RET[1]['COUNT']>0)
+			{
+				$message = '<A HREF="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin='.User('LAST_LOGIN').'&discipline_entry_end='.DBDate().'"><img src="assets/icons/Discipline.png" class="alignImg" /> ';
+				$message .= sprintf(ngettext('%d new referral', '%d new referrals', $disc_RET[1]['COUNT']), $disc_RET[1]['COUNT']);
+				$message .= '</A>';	
+				DrawHeader($message);
+			}
+		}
+		
 		include_once('ProgramFunctions/PortalPollsNotes.fnc.php');
 //modif Francois: file attached to portal notes
 //modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
