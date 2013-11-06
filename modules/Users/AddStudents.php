@@ -16,7 +16,8 @@ if($_REQUEST['modfunc']=='save' && AllowEdit())
 		}
 		$note = _('The selected user\'s profile now includes access to the selected students.');
 	}
-	$error = _('You must choose at least one student.');
+	else
+		$error = _('You must choose at least one student.');
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 }
