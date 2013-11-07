@@ -1,7 +1,7 @@
 <?php
 
 $max_cols = 3;
-$max_rows = 13;
+$max_rows = 26;
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
@@ -45,17 +45,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$skipRET[-$i] = array('LAST_NAME'=>' ');
 
 			$handle = PDFstart();
-			//echo '<!-- MEDIA SIZE 8.5x11in -->';
-			echo '<!-- MEDIA TOP 0.5in -->';
-			echo '<!-- MEDIA BOTTOM 0.25in -->';
-			echo '<!-- MEDIA LEFT 0.25in -->';
-			echo '<!-- MEDIA RIGHT 0.25in -->';
-			echo '<!-- FOOTER RIGHT "" -->';
-			echo '<!-- FOOTER LEFT "" -->';
-			echo '<!-- FOOTER CENTER "" -->';
-			echo '<!-- HEADER RIGHT "" -->';
-			echo '<!-- HEADER LEFT "" -->';
-			echo '<!-- HEADER CENTER "" -->';
 			echo '<table style="height: 100%" class="width-100p cellspacing-0 cellpadding-0">';
 
 			$cols = 0;
@@ -64,7 +53,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			{
 				if($cols<1)
 					echo '<tr>';
-				echo '<td style="text-align:center; width:33%; vertical-align: middle;">';
+				echo '<td style="text-align:center; width:33%; vertical-align: middle; padding-bottom: 8px;">';
 				if($_REQUEST['full_name']=='given')
 					$name = $student['LAST_NAME'].', '.$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'];
 				elseif($_REQUEST['full_name']=='given_natural')
@@ -89,7 +78,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				if($rows==$max_rows)
 				{
-					echo '</table><!--NEW PAGE -->';
+					echo '</table>';
+					echo '<div style="page-break-after: always;"></div>';
 					echo '<table style="height: 100%" class="width-100p cellspacing-0 cellpadding-0">';
 					$rows = 0;
 				}
@@ -108,8 +98,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					echo '</tr>';
 				echo '</table>';
 			}
-			//echo '</body></html>';
-			echo '</body>';
 			PDFstop($handle);
 		}
 		else
