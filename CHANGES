@@ -1,5 +1,24 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.4
+----------------
+- added discipline_categories to discipline Widget
+- wkhtmltopdf update for StudentLabels.php
+- activate Custom service Attendance Summary
+- bugfix: escape double quotes in stm() tipmessage
+- bugfix: discipline_entry_begin Date format
+- add Discipline new referrals Portal alert
+- set width to 1448px for landscape PDF
+- bugfix: ViewContacts.php not accessible
+- SQL bugs: sequences start values fix
+
+Upgrade from 1.3x
+-----------------
+- execute those 3 SQL statements to fix RosarioSIS database:
+SELECT pg_catalog.setval('staff_field_categories_seq', 3, true);
+SELECT pg_catalog.setval('student_field_categories_seq', 5, true);
+INSERT INTO profile_exceptions VALUES (1, 'Custom/AttendanceSummary.php', 'Y', 'Y');
+
 Changes in 1.3.5
 ----------------
 - bugfix: illegal offset type in Inputs.php
