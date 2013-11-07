@@ -66,11 +66,10 @@ function Widgets($item,&$myextra=null)
 					Widgets('fsa_barcode',$extra);
 					$extra['search'] .= '</TABLE></TD></TR>';
 				}
-				if($RosarioModules['Discipline'] && (!$_ROSARIO['Widgets']['discipline'] || !$_ROSARIO['Widgets']['discipline_categories']))
+				if($RosarioModules['Discipline'] && !$_ROSARIO['Widgets']['discipline'])
 				{
 					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'discipline_table\');" href="#"><IMG SRC="assets/arrow_right.gif" id="discipline_table_arrow" height="12"> <B>'._('Discipline').'</B></A><BR /><TABLE id="discipline_table" style="display:none;" class="widefat width-100p cellspacing-0">';
 					Widgets('discipline',$extra);
-					Widgets('discipline_categories',$extra);
 					$extra['search'] .= '</TABLE></TD></TR>';
 				}
 				if($RosarioModules['Student_Billing'] && (!$_ROSARIO['Widgets']['balance']))
@@ -455,17 +454,21 @@ function Widgets($item,&$myextra=null)
 				$extra['search'] .= '</SELECT>';
 				$extra['search'] .= '</TD></TR>';
 
+				$discipline_entry_begin_for_ProperDate = $_REQUEST['discipline_entry_begin'];
+				if (mb_strlen($_REQUEST['discipline_entry_begin']) > 10) //date = LAST_LOGIN = date + time
+					$discipline_entry_begin_for_ProperDate = mb_substr($_REQUEST['discipline_entry_begin'], 0, 10);
+					
 				if($_REQUEST['discipline_entry_begin'] && $_REQUEST['discipline_entry_end'])
 				{
 					$extra['WHERE'] .= " AND dr.ENTRY_DATE BETWEEN '$_REQUEST[discipline_entry_begin]' AND '$_REQUEST[discipline_entry_end]' ";
 					if(!$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Date').' '._('Between').': </b>'.ProperDate($_REQUEST['discipline_entry_begin']).'<b> '._('and').' </b>'.ProperDate($_REQUEST['discipline_entry_end']).'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Date').' '._('Between').': </b>'.ProperDate($discipline_entry_begin_for_ProperDate).'<b> '._('and').' </b>'.ProperDate($_REQUEST['discipline_entry_end']).'<BR />';
 				}
 				elseif($_REQUEST['discipline_entry_begin'])
 				{
 					$extra['WHERE'] .= " AND dr.ENTRY_DATE>='$_REQUEST[discipline_entry_begin]' ";
 					if(!$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Entered').' '._('On or After').' </b>'.ProperDate($_REQUEST['discipline_entry_begin']).'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Entered').' '._('On or After').' </b>'.ProperDate($discipline_entry_begin_for_ProperDate).'<BR />';
 				}
 				elseif($_REQUEST['discipline_entry_end'])
 				{
