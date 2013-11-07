@@ -23,7 +23,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	if(count($RET))
 	{
-		$school_RET = DBGet(DBQuery("SELECT SCHOOL_NUMBER FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+		$school_RET = DBGet(DBQuery("SELECT TITLE FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 		// override default options
 		$options="--webpage --quiet -t pdf12 --jpeg --no-links --portrait --footer t --header . --left 0.25in --right 0.25in --top 0.5in --size 8.5x11in --bodyfont Courier --fontsize 8";
 		$handle = PDFStart($options);
@@ -46,7 +46,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			echo '<TR class="center"><TD><B>'._('Student Name').'</B></TD><TD><B>ID#</B></TD><TD><B>'._('School').' / '._('Year').'</B></TD></TR>';
 //modif Francois: school year over one/two calendar years format
-			echo '<TR><TD class="center">'.$student['FULL_NAME'].'</TD><TD class="center">'.$student['STUDENT_ID'].'</TD><TD class="center">'.$school_RET[1]['SCHOOL_NUMBER'].' / '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</TD></TR>';
+			echo '<TR><TD class="center">'.$student['FULL_NAME'].'</TD><TD class="center">'.$student['STUDENT_ID'].'</TD><TD class="center">'.$school_RET[1]['TITLE'].' / '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</TD></TR>';
 
 
 			echo '<TR><TD colspan="3"><span class="sizep1"><B>'._('Demographics').'</B></span><TABLE style="width:98%; margin:0 auto;" class="cellpadding-0 cellspacing-0">';
