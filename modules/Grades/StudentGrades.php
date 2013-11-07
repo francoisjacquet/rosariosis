@@ -265,7 +265,7 @@ function _makeTipTitle($value,$column)
 			$tip_title .= ($tip_title?'<BR />':'').Localize('colon',_('Assigned')).' '.ProperDate($THIS_RET['ASSIGNED_DATE']);
 		if($THIS_RET['DUE_DATE'])
 			$tip_title .= ($tip_title?'<BR />':'').Localize('colon',_('Due')).' '.ProperDate($THIS_RET['DUE_DATE']);
-		$tip_title = '<A HREF=# onMouseOver=\'stm(["'._('Details').'","'.str_replace("'",'&#39;',$tip_title).'"],tipmessageStyle);\' onMouseOut=\'htm()\'>'.$value.'</A>';
+		$tip_title = '<A HREF=# onMouseOver=\'stm(["'._('Details').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tip_title)).'"],tipmessageStyle);\' onMouseOut=\'htm()\'>'.$value.'</A>';
 	}
 	else
 		$tip_title = $value;
