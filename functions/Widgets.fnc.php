@@ -472,69 +472,48 @@ function Widgets($item,&$myextra=null)
 				}
 				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Incident Date').'</TD><TD><table class="cellpadding-0 cellspacing-0"><tr><td><span class="sizep2">&ge;</span>&nbsp;</td><td>'.PrepareDate('','_discipline_entry_begin',true,array('short'=>true)).'</td></tr><tr><td><span class="sizep2">&le;</span>&nbsp;</td><td>'.PrepareDate('','_discipline_entry_end',true,array('short'=>true)).'</td></tr></table></TD></TR>';
 				}
-			break;
+			/*break;
 
-			case 'discipline_categories':
+			case 'discipline_categories':*/
 				if($RosarioModules['Discipline'])
 				{
-				$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,OPTIONS FROM DISCIPLINE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TYPE!='textarea'"));
+				$categories_RET = DBGet(DBQuery("SELECT f.ID,u.TITLE,f.DATA_TYPE,u.SELECT_OPTIONS FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u WHERE u.DISCIPLINE_FIELD_ID=f.ID AND u.SYEAR='".UserSyear()."' AND u.SCHOOL_ID='".UserSchool()."' AND f.DATA_TYPE!='textarea'"));
 				foreach($categories_RET as $category)
 				{
-					if($category['TYPE']!='date')
+					if($category['DATA_TYPE']!='date')
 					{
-						$extra['search'] .= '<TR><TD style="text-align:right;">'.$category['TITLE'].'</TD><TD>';
-						switch($category['TYPE'])
+						$extra['search'] .= '<TR><TD width="150">'.$category['TITLE'].'</TD><TD>';
+						switch($category['DATA_TYPE'])
 						{
 							case 'text':
-								$extra['search'] .= '<INPUT type="text" name="discipline['.$category['ID'].']">';
+								$extra['search'] .= '<INPUT type="text" name="discipline['.$category['ID'].']" />';
 								if($_REQUEST['discipline'][$cateogory['ID']])
 									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." LIKE '".$_REQUEST['discipline'][$cateogory['ID']]."%' ";
 							break;
 							case 'checkbox':
-								$extra['search'] .= '<INPUT type="checkbox" name="discipline['.$category['ID'].']" value="Y">';
+								$extra['search'] .= '<INPUT type="checkbox" name="discipline['.$category['ID'].']" value="Y" />';
 								if($_REQUEST['discipline'][$cateogory['ID']])
 									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." = 'Y' ";
 							break;
 							case 'numeric':
-								if($_REQUEST['discipline_begin'][$category['ID']] && $_REQUEST['discipline_end'][$category['ID']])
-								{
-									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." BETWEEN '".$_REQUEST['discipline_begin'][$category['ID']]."' AND '".$_REQUEST['discipline_end'][$category['ID']]."' ";
-									if(!$extra['NoSearchTerms'])
-										$_ROSARIO['SearchTerms'] .= '<b>'.$category['TITLE'].' <span class="sizep2">&ge;</span> </b>'.$_REQUEST['discipline_begin'][$category['ID']].'<b> '._('and').' <span class="sizep2">&le;</span> </b>'.$_REQUEST['discipline_end'][$category['ID']].'<BR />';
-								}
-								elseif($_REQUEST['discipline_begin'][$category['ID']])
-								{
-									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID'].">='".$_REQUEST['discipline_begin'][$category['ID']]."' ";
-									if(!$extra['NoSearchTerms'])
-										$_ROSARIO['SearchTerms'] .= '<b>'.$category['TITLE'].' <span class="sizep2">&ge;</span> </b>'.$_REQUEST['discipline_begin'][$category['ID']].'<BR />';
-								}
-								elseif($_REQUEST['discipline_end'][$category['ID']])
-								{
-									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']."<='".$_REQUEST['discipline_end'][$category['ID']]."' ";
-									if(!$extra['NoSearchTerms'])
-										$_ROSARIO['SearchTerms'] .= '<b>'.$category['TITLE'].' <span class="sizep2">&le;</span> </b>'.$_REQUEST['discipline_end'][$category['ID']].'<BR />';
-								}
-								$extra['search'] .= '<span class="sizep2">&ge;</span> <INPUT type="text" name="discipline_begin['.$category['ID'].']" size="3" maxlength="11"> <span class="sizep2">&le;</span> <INPUT type="text" name="discipline_end['.$category['ID'].']" size="3" maxlength="11">';
+								$extra['search'] .= '<small>'._('Between').' </small><INPUT type="text" name="discipline_begin['.$category['ID'].']" size="3" maxlength="11" /> & <INPUT type="text" name="discipline_end['.$category['ID'].']" size="3" maxlength="11" />';
+								if($_REQUEST['discipline_begin'][$cateogory['ID']] && $_REQUEST['discipline_begin'][$cateogory['ID']])
+									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." BETWEEN '".$_REQUEST['discipline_begin'][$cateogory['ID']]."' AND '".$_REQUEST['discipline_end'][$cateogory['ID']]."' ";
 							break;
 							case 'multiple_checkbox':
 							case 'multiple_radio':
 							case 'select':
-								$category['OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['OPTIONS']));
-								$category['OPTIONS'] = explode("\r",$category['OPTIONS']);
-
-								$extra['search'] .= '<SELECT name=discipline['.$category['ID'].']><OPTION value="">'._('Not Specified').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
-								foreach($category['OPTIONS'] as $option)
+								$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
+								$category['SELECT_OPTIONS'] = explode("\r",$category['SELECT_OPTIONS']);
+								
+								$extra['search'] .= '<SELECT name="discipline['.$category['ID'].']"><OPTION value="">'._('N/A').'</OPTION>';
+								foreach($category['SELECT_OPTIONS'] as $option)
 									$extra['search'] .= '<OPTION value="'.$option.'">'.$option.'</OPTION>';
 								$extra['search'] .= '</SELECT>';
-								if($_REQUEST['discipline'][$category['ID']])
-								{
-									if($_REQUEST['discipline'][$category['ID']]=='!')
-										$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." IS NULL ";
-									elseif($category['TYPE']=='multiple_radio' || $category['TYPE']=='select')
-										$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']."='".$_REQUEST['discipline'][$category['ID']]."' ";
-									elseif($category['TYPE']=='multiple_checkbox')
-										$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." LIKE '%||".$_REQUEST['discipline'][$category['ID']]."||%' ";
-								}
+								if(($category['DATA_TYPE']=='multiple_radio' || $category['DATA_TYPE']=='select') && $_REQUEST['discipline'][$category['ID']])
+									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." = '".$_REQUEST['discipline'][$category['ID']]."' ";
+								elseif($category['DATA_TYPE']=='multiple_checkbox' && $_REQUEST['discipline'][$category['ID']])
+									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." LIKE '%||".$_REQUEST['discipline'][$category['ID']]."||%' ";
 							break;
 						}
 						$extra['search'] .= '</TD></TR>';
