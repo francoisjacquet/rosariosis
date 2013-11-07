@@ -3758,6 +3758,7 @@ INSERT INTO profile_exceptions VALUES (0, 'Resources/Redirect.php&to=translate',
 INSERT INTO profile_exceptions VALUES (1, 'Custom/MyReport.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Custom/CreateParents.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Custom/NotifyParents.php', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'Custom/AttendanceSummary.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Discipline/MakeReferral.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Discipline/Referrals.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Discipline/CategoryBreakdown.php', 'Y', 'Y');
