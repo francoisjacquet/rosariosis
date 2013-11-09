@@ -54,11 +54,13 @@ if(UserStudentID())
 					elseif($columns['COURSE_TITLE'])
 					{
 						$sql = 'INSERT INTO student_report_card_grades ';
-	//modif Francois: fix bug SQL ID=NULL
-	//					$fields = 'SCHOOL_ID, STUDENT_ID, MARKING_PERIOD_ID, ';
-						$fields = 'ID, SCHOOL_ID, STUDENT_ID, MARKING_PERIOD_ID, ';
-	//					$values = UserSchool().", $student_id, $mp_id, ";
-						$values = db_seq_nextval('student_report_card_grades_seq').','.UserSchool().", $student_id, $mp_id, ";
+	//modif Francois: fix bug SQL SYEAR=NULL
+						$syear = DBGet(DBQuery("SELECT syear FROM marking_periods WHERE marking_period_id='".$mp_id."'"));
+						$syear = $syear[1]['SYEAR'];
+	//					$fields = 'ID, SCHOOL_ID, STUDENT_ID, MARKING_PERIOD_ID, ';
+						$fields = 'ID, SCHOOL_ID, STUDENT_ID, MARKING_PERIOD_ID, SYEAR, ';
+	//					$values = db_seq_nextval('student_report_card_grades_seq').','.UserSchool().", $student_id, $mp_id, ";
+						$values = db_seq_nextval('student_report_card_grades_seq').",'".UserSchool()."', '".$student_id."', '".$mp_id."', '".$syear."', ";
 						if(!$columns['GP_SCALE']) $columns['GP_SCALE'] = SchoolInfo('REPORTING_GP_SCALE');
 						if(!$columns['CREDIT_ATTEMPTED']) $columns['CREDIT_ATTEMPTED'] = 1;
 						if(!$columns['CREDIT_EARNED']){
