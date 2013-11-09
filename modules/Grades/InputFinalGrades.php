@@ -2,7 +2,7 @@
 DrawHeader(ProgramTitle());
 
 //modif Francois: add School Configuration
-$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
+$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
 
 $sem = GetParentMP('SEM',UserMP());
 $fy = GetParentMP('FY',$sem);
@@ -627,7 +627,7 @@ echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 echo '</FORM>';
 
 function _makeLetterPercent($student_id,$column)
-{	global $THIS_RET,$current_RET,$import_RET,$grades_select,$student_count,$tabindex,$grade_scale_id;
+{	global $THIS_RET,$current_RET,$import_RET,$grades_select,$student_count,$tabindex,$grade_scale_id,$program_config;
 
 	if($import_RET[$student_id])
 	{

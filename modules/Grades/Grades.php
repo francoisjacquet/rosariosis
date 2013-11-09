@@ -7,7 +7,7 @@
 DrawHeader(_('Gradebook').' - '.ProgramTitle());
 
 //modif Francois: add School Configuration
-$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
+$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
 
 include 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
