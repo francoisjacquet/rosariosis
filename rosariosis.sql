@@ -3858,7 +3858,7 @@ INSERT INTO report_card_comments VALUES (3, 2013, 1, NULL, NULL, NULL, 3, '^n Ex
 -- Data for Name: report_card_grade_scales; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO report_card_grade_scales VALUES (1, 2013, 1, 'Main', NULL, NULL, NULL, 1, 3, NULL, NULL);
+INSERT INTO report_card_grade_scales VALUES (1, 2013, 1, 'Main', NULL, NULL, NULL, 1, NULL, 4, NULL);
 
 
 --
