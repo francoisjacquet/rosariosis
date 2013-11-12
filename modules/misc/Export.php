@@ -51,7 +51,7 @@ if(!$extra['functions'])
 if($_REQUEST['search_modfunc']=='list')
 {
 	if (empty($_REQUEST['fields']))
-		BackPrompt(_('You must choose at least one field'));
+		echo ErrorMessage(array(_('You must choose at least one field')), 'fatal');
 	if(!$fields_list)
 	{
 //modif Francois: disable mailing address display
