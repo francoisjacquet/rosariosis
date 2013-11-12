@@ -97,6 +97,7 @@ if((!$_REQUEST['search_modfunc'] || $_ROSARIO['modules_search']) && $_REQUEST['d
 }
 elseif($_REQUEST['delete']!='true')
 {
+	$extra['WHERE'] .= appendSQL('',$extra);
         $RET = GetStuList($extra);
 
 	if (isset($_REQUEST['page'])){
