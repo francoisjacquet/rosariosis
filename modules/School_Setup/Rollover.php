@@ -38,27 +38,38 @@ DrawHeader(ProgramTitle());
 //modif Francois: school year over one/two calendar years format
 if(Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to roll the data for %s to the next school year?'),FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS'))),$table_list))
 {
-	if($_REQUEST['tables']['COURSES'] && ((!$_REQUEST['tables']['STAFF'] && $exists_RET['STAFF'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_PERIODS'] && $exists_RET['SCHOOL_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['ATTENDANCE_CALENDARS'] && $exists_RET['ATTENDANCE_CALENDARS'][1]['COUNT']<1) || (!$_REQUEST['tables']['REPORT_CARD_GRADES'] && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT']<1)))
-		BackPrompt(_('You <i>must</i> roll users, school periods, marking periods, calendars, and report card codes at the same time or before rolling courses.'));
-	if($_REQUEST['tables']['REPORT_CARD_COMMENTS'] && ((!$_REQUEST['tables']['COURSES'] && $exists_RET['COURSES'][1]['COUNT']<1)))
-		BackPrompt(_('You <i>must</i> roll courses at the same time or before rolling report card comments.'));
-	if(count($_REQUEST['tables']))
+	if(!($_REQUEST['tables']['COURSES'] && ((!$_REQUEST['tables']['STAFF'] && $exists_RET['STAFF'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_PERIODS'] && $exists_RET['SCHOOL_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['ATTENDANCE_CALENDARS'] && $exists_RET['ATTENDANCE_CALENDARS'][1]['COUNT']<1) || (!$_REQUEST['tables']['REPORT_CARD_GRADES'] && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT']<1))))
 	{
-		foreach($_REQUEST['tables'] as $table=>$value)
+		if(!($_REQUEST['tables']['REPORT_CARD_COMMENTS'] && ((!$_REQUEST['tables']['COURSES'] && $exists_RET['COURSES'][1]['COUNT']<1))))
 		{
-			//if($exists_RET[$table][1]['COUNT']>0)
-			//	DBQuery("DELETE FROM $table WHERE SYEAR='".$next_syear."'".(!$no_school_tables[$table]?" AND SCHOOL_ID='".UserSchool()."'":''));
-			Rollover($table);
+			if(count($_REQUEST['tables']))
+			{
+				foreach($_REQUEST['tables'] as $table=>$value)
+				{
+					//if($exists_RET[$table][1]['COUNT']>0)
+					//	DBQuery("DELETE FROM $table WHERE SYEAR='".$next_syear."'".(!$no_school_tables[$table]?" AND SCHOOL_ID='".UserSchool()."'":''));
+					Rollover($table);
+				}
+			}
 		}
+		else
+			$error[] = _('You <i>must</i> roll courses at the same time or before rolling report card comments.');
 	}
+	else
+		$error[] = _('You <i>must</i> roll users, school periods, marking periods, calendars, and report card codes at the same time or before rolling courses.');
+
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 //	DrawHeader('<IMG SRC=assets/check.png>'._('The data have been rolled.'),'<INPUT type=submit value="'._('OK').'">');
 
 //modif Francois: Moodle integrator
 	echo $moodleError;
 
-	echo '<div class="updated"><IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('The data have been rolled.'),'<INPUT type="submit" value="'._('OK').'" /></div>';
-	echo '</FORM>';
+	if (!isset($error))
+		echo ErrorMessage(array('<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('The data have been rolled.')), 'note');
+	else
+		echo ErrorMessage($error);
+		
+	echo '<span class="center"><INPUT type="submit" value="'._('OK').'" /></span></FORM>';
 	unset($_SESSION['_REQUEST_vars']['tables']);
 	unset($_SESSION['_REQUEST_vars']['delete_ok']);
 }
