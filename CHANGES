@@ -1,5 +1,16 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.4.1
+----------------
+- SQL: fix report_card_grades' grade_scale_id
+- Moodle errors fix in Rollover.php
+- take in account Search options in DuplicateAttendance.php
+- bugfix: escape double quotes in stm() tipmessage
+- bugfix: grades PROGRAM_CONFIG (School Config)
+- SQL: add gp_scale value to Main grade scale
+- SQL: add reporting_gp_scale value to Default School
+- SQL bug: SYEAR=NULL in EditReportCardGrades.php
+
 Changes in 1.4
 ----------------
 - added discipline_categories to discipline Widget
