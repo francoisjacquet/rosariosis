@@ -64,7 +64,7 @@ if(Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to rol
 }
 
 function Rollover($table)
-{	global $next_syear,$RosarioModules;
+{	global $next_syear,$RosarioModules,$moodleError;
 
 	switch($table)
 	{
