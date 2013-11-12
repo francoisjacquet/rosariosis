@@ -31,7 +31,7 @@ $extra['second_col'] .= '</TABLE></fieldset></TD></TR>';
 
 //Widgets('all');
 $extra['force_search'] = true;
-
+$extra['action'] .= '&_ROSARIO_PDF=true';
 
 if(!$_REQUEST['search_modfunc'] || $_REQUEST['search_modfunc']=='search' || $_ROSARIO['modules_search'])
 {
@@ -75,6 +75,7 @@ else
 
 	if(count($RET))
 	{
+		$handle = PDFStart();
 		foreach($RET as $student_id=>$referrals)
 		{
 			unset($_ROSARIO['DrawHeader']);
@@ -130,6 +131,7 @@ else
 			echo '<BR />';
 			echo '<div style="page-break-after: always;"></div>';
 		}
+		PDFStop($handle);
 	}
 	else
 		BackPrompt(_('No Students were found.'));
