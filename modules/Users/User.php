@@ -72,7 +72,10 @@ if($_REQUEST['modfunc']=='update')
 	{
 		//modif Francois: Moodle integrator / password
 		if (!MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
-			BackPrompt(_('Please enter a valid password'));
+		{
+			$error[] = _('Please enter a valid password');
+			goto error_exit;
+		}
 			
 		if(UserStaffID() && $_REQUEST['staff_id']!='new')
 		{
@@ -101,7 +104,10 @@ if($_REQUEST['modfunc']=='update')
 			{
 				$existing_staff = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."'"));
 				if(count($existing_staff))
-					BackPrompt(_('A user with that username already exists for the current school year. Choose a different username and try again.'));
+				{
+					$error[] = _('A user with that username already exists for the current school year. Choose a different username and try again.');
+					goto error_exit;
+				}
 			}
 
 			$sql = "UPDATE STAFF SET ";
@@ -133,13 +139,15 @@ if($_REQUEST['modfunc']=='update')
 			//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME, PROFILE is null
 			if (empty($_REQUEST['staff']['FIRST_NAME']) || empty($_REQUEST['staff']['LAST_NAME']) || empty($_REQUEST['staff']['PROFILE']))
 			{
-				BackPrompt(_('Please fill in the required fields'));
+				$error[] = _('Please fill in the required fields');
+				goto error_exit;
 			}
 			//modif Francois: Moodle integrator
 			//username, password, email required
 			if (MOODLE_INTEGRATOR && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['PASSWORD']) || empty($_REQUEST['staff']['EMAIL'])))
 			{
-				BackPrompt(_('Please fill in the required fields'));
+				$error[] = _('Please fill in the required fields');
+				goto error_exit;
 			}
 			if($_REQUEST['staff']['PROFILE']=='admin')
 				$_REQUEST['staff']['PROFILE_ID'] = '1';
@@ -150,7 +158,10 @@ if($_REQUEST['modfunc']=='update')
 
 			$existing_staff = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."'"));
 			if(count($existing_staff))
-				BackPrompt(_('A user with that username already exists for the current school year. Choose a different username and try again.'));
+			{
+				$error[] = _('A user with that username already exists for the current school year. Choose a different username and try again.');
+				goto error_exit;
+			}
 			$staff_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID'.FROM_DUAL));
 			$staff_id = $staff_id[1]['STAFF_ID'];
 
@@ -188,6 +199,9 @@ if($_REQUEST['modfunc']=='update')
 			
 			$_REQUEST['staff_id'] = $staff_id;
 		}
+		error_exit:
+		if ($error && !UserStaffID())
+			$_REQUEST['staff_id'] = 'new';
 	}
 
 	if($_REQUEST['include']!='General_Info' && $_REQUEST['include']!='Schedule' && $_REQUEST['include']!='Other_Info')
@@ -224,6 +238,8 @@ else
 	
 //modif Francois: Moodle integrator
 echo $moodleError;
+
+echo ErrorMessage($error);
 
 if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
 {

@@ -62,14 +62,20 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 	{
 		//modif Francois: Moodle integrator / password
 		if ($_REQUEST['moodle_create_student'] && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
-			BackPrompt(_('Please enter a valid password'));
+		{
+			$error[] = _('Please enter a valid password');
+			goto error_exit;
+		}
 			
 		if(UserStudentID() && $_REQUEST['student_id']!='new')
 		{
 			//modif Francois: Moodle integrator / password
 			$old_student_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$_REQUEST['student_id']."' AND \"column\"='student_id'"));
 			if ($old_student_in_moodle && !empty($_REQUEST['students']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
-				BackPrompt(_('Please enter a valid password'));				
+			{
+				$error[] = _('Please enter a valid password');
+				goto error_exit;
+			}
 				
 			if(count($_REQUEST['students']))
 			{
@@ -133,18 +139,23 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			{
 				$student_id = $_REQUEST['assign_student_id'];
 				if(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='$student_id'"))))
-					BackPrompt(_('That RosarioSIS ID is already taken. Please select a different one.'));
+				{
+					$error[] = _('That RosarioSIS ID is already taken. Please select a different one.');
+					goto error_exit;
+				}
 			}
 			//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME, GRADE_ID is null
 			elseif (empty($_REQUEST['students']['FIRST_NAME']) || empty($_REQUEST['students']['LAST_NAME']) || empty($_REQUEST['values']['STUDENT_ENROLLMENT']['new']['GRADE_ID']))
 			{
-				BackPrompt(_('Please fill in the required fields'));
+				$error[] = _('Please fill in the required fields');
+				goto error_exit;
 			}
 			//modif Francois: Moodle integrator
 			//username, password, (email) required
 			elseif ($_REQUEST['moodle_create_student'] && empty($_REQUEST['students']['USERNAME']))
 			{
-				BackPrompt(_('Please fill in the required fields'));
+				$error[] = _('Please fill in the required fields');
+				goto error_exit;
 			}
 			else
 			{
@@ -226,6 +237,9 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			$_SESSION['student_id'] = $_REQUEST['student_id'] = $student_id;
 			$new_student = true;
 		}
+		error_exit:
+		if ($error && !UserStudentID())
+			$_REQUEST['student_id'] = 'new';
 	}
 
 	if($_REQUEST['values'] && $_REQUEST['include']== 'Medical')
@@ -256,6 +270,7 @@ else
 //modif Francois: Moodle integrator
 echo $moodleError;
 
+echo ErrorMessage($error);
 
 Search('student_id');
 
