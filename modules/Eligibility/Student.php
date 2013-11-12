@@ -14,9 +14,9 @@ if($_REQUEST['modfunc']=='add' && AllowEdit())
 	$activity_RET = DBGet(DBQuery("SELECT ACTIVITY_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE STUDENT_ID='".UserStudentID()."' AND ACTIVITY_ID='".$_REQUEST['new_activity']."' AND SYEAR='".UserSyear()."'"));
 
 	if(count($activity_RET))
-		BackPrompt(_('The activity you selected is already assigned to this student!'));
-		
-	DBQuery("INSERT INTO STUDENT_ELIGIBILITY_ACTIVITIES (STUDENT_ID,ACTIVITY_ID,SYEAR) values('".UserStudentID()."','".$_REQUEST['new_activity']."','".UserSyear()."')");
+		echo ErrorMessage(array(_('The activity you selected is already assigned to this student!')));
+	else
+		DBQuery("INSERT INTO STUDENT_ELIGIBILITY_ACTIVITIES (STUDENT_ID,ACTIVITY_ID,SYEAR) values('".UserStudentID()."','".$_REQUEST['new_activity']."','".UserSyear()."')");
 	unset($_REQUEST['modfunc']);
 }
 
