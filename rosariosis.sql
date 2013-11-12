@@ -3865,21 +3865,21 @@ INSERT INTO report_card_grade_scales VALUES (1, 2013, 1, 'Main', NULL, NULL, NUL
 -- Data for Name: report_card_grades; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO report_card_grades VALUES (1, 2013, 1, 'A+', 1, 4.00, 97, 'Consistently superior', 4, NULL);
-INSERT INTO report_card_grades VALUES (2, 2013, 1, 'A', 2, 4.00, 93, 'Superior', 4, NULL);
-INSERT INTO report_card_grades VALUES (3, 2013, 1, 'A-', 3, 3.75, 90, NULL, 4, NULL);
-INSERT INTO report_card_grades VALUES (4, 2013, 1, 'B+', 4, 3.50, 87, NULL, 4, NULL);
-INSERT INTO report_card_grades VALUES (5, 2013, 1, 'B', 5, 3.00, 83, 'Above average', 4, NULL);
-INSERT INTO report_card_grades VALUES (6, 2013, 1, 'B-', 6, 2.75, 80, NULL, 4, NULL);
-INSERT INTO report_card_grades VALUES (7, 2013, 1, 'C+', 7, 2.50, 77, NULL, 4, NULL);
-INSERT INTO report_card_grades VALUES (8, 2013, 1, 'C', 8, 2.00, 73, 'Average', 4, NULL);
-INSERT INTO report_card_grades VALUES (9, 2013, 1, 'C-', 9, 1.75, 70, NULL, 4, NULL);
-INSERT INTO report_card_grades VALUES (10, 2013, 1, 'D+', 10, 1.50, 67, NULL, 4, NULL);
-INSERT INTO report_card_grades VALUES (11, 2013, 1, 'D', 11, 1.00, 63, 'Below average', 4, NULL);
-INSERT INTO report_card_grades VALUES (12, 2013, 1, 'D-', 12, 0.75, 60, NULL, 4, NULL);
-INSERT INTO report_card_grades VALUES (13, 2013, 1, 'F', 13, 0.00, 0, 'Failing', 4, NULL);
-INSERT INTO report_card_grades VALUES (14, 2013, 1, 'I', 14, 0.00, 0, 'Incomplete', 4, NULL);
-INSERT INTO report_card_grades VALUES (15, 2013, 1, 'N/A', 15, 0.00, NULL, NULL, 4, NULL);
+INSERT INTO report_card_grades VALUES (1, 2013, 1, 'A+', 1, 4.00, 97, 'Consistently superior', 1, NULL);
+INSERT INTO report_card_grades VALUES (2, 2013, 1, 'A', 2, 4.00, 93, 'Superior', 1, NULL);
+INSERT INTO report_card_grades VALUES (3, 2013, 1, 'A-', 3, 3.75, 90, NULL, 1, NULL);
+INSERT INTO report_card_grades VALUES (4, 2013, 1, 'B+', 4, 3.50, 87, NULL, 1, NULL);
+INSERT INTO report_card_grades VALUES (5, 2013, 1, 'B', 5, 3.00, 83, 'Above average', 1, NULL);
+INSERT INTO report_card_grades VALUES (6, 2013, 1, 'B-', 6, 2.75, 80, NULL, 1, NULL);
+INSERT INTO report_card_grades VALUES (7, 2013, 1, 'C+', 7, 2.50, 77, NULL, 1, NULL);
+INSERT INTO report_card_grades VALUES (8, 2013, 1, 'C', 8, 2.00, 73, 'Average', 1, NULL);
+INSERT INTO report_card_grades VALUES (9, 2013, 1, 'C-', 9, 1.75, 70, NULL, 1, NULL);
+INSERT INTO report_card_grades VALUES (10, 2013, 1, 'D+', 10, 1.50, 67, NULL, 1, NULL);
+INSERT INTO report_card_grades VALUES (11, 2013, 1, 'D', 11, 1.00, 63, 'Below average', 1, NULL);
+INSERT INTO report_card_grades VALUES (12, 2013, 1, 'D-', 12, 0.75, 60, NULL, 1, NULL);
+INSERT INTO report_card_grades VALUES (13, 2013, 1, 'F', 13, 0.00, 0, 'Failing', 1, NULL);
+INSERT INTO report_card_grades VALUES (14, 2013, 1, 'I', 14, 0.00, 0, 'Incomplete', 1, NULL);
+INSERT INTO report_card_grades VALUES (15, 2013, 1, 'N/A', 15, 0.00, NULL, NULL, 1, NULL);
 
 
 --
