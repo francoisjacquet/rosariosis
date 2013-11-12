@@ -239,6 +239,12 @@ else
 		}
 	}
 	else
-		BackPrompt(_('No Students were found.'));
+	{		
+		DrawHeader('',$extra['header_right']);
+		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
+		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
+
+		echo ErrorMessage(array(_('No Students were found.')));
+	}
 }
 ?>

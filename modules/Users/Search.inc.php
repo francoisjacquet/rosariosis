@@ -217,6 +217,12 @@ else
 		}
 	}
 	else
-		BackPrompt(_('No Users were found.'));
+	{		
+		DrawHeader('',$extra['header_right']);
+		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
+		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
+
+		echo ErrorMessage(array(_('No Users were found.')));
+	}
 }
 ?>
