@@ -76,7 +76,10 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					{
 						//modif Francois: fix SQL bug START_DATE or END_DATE is null
 						if((!VerifyDate($value) && $value!='') || (($column=='START_DATE' || $column=='END_DATE') && $value==''))
-							BackPrompt(_('Some dates are not valid.'));
+						{
+							$error[] = _('Not all of the dates were entered correctly.');
+							goto error_exit;
+						}
 					}
 					$sql .= $column."='".$value."',";
 				}
@@ -118,7 +121,10 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					{
 						//modif Francois: fix SQL bug START_DATE or END_DATE is null
 						if(!VerifyDate($value) && $value!='' || (($column=='START_DATE' || $column=='END_DATE') && $value==''))
-							BackPrompt(_('Not all of the dates were entered correctly.'));
+						{
+							$error[] = _('Not all of the dates were entered correctly.');
+							goto error_exit;
+						}
 					}
 					if($value)
 					{
@@ -147,17 +153,24 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 			));
 
 			if(count($dates_RET))
-				BackPrompt(sprintf(_('The beginning and end dates you specified for this marking period overlap with those of "%s".'),GetMP($dates_RET[1]['MARKING_PERIOD_ID']))." "._("Only one marking period can be open at any time."));
+			{
+				$error[] = sprintf(_('The beginning and end dates you specified for this marking period overlap with those of "%s".'),GetMP($dates_RET[1]['MARKING_PERIOD_ID']))." "._("Only one marking period can be open at any time.");
+				goto error_exit;
+			}
 			if(count($posting_RET))
-				BackPrompt(sprintf(_('The grade posting dates you specified for this marking period overlap with those of "%s".'),GetMP($posting_RET[1]['MARKING_PERIOD_ID']))." "._("Only one grade posting period can be open at any time."));
+			{
+				$error[] = sprintf(_('The grade posting dates you specified for this marking period overlap with those of "%s".'),GetMP($posting_RET[1]['MARKING_PERIOD_ID']))." "._("Only one grade posting period can be open at any time.");
+				goto error_exit;
+			}
 
 
 			if($go)
 				DBQuery($sql);
 		}
 		else
-			$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+			$error[] = _('Please enter a valid Sort Order.');
 	}
+	error_exit:
 	unset($_REQUEST['tables']);
 	unset($_SESSION['_REQUEST_vars']['tables']);
 }
@@ -210,7 +223,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 if(empty($_REQUEST['modfunc']))
 {
 //modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
+	if(isset($error)) echo ErrorMessage($error);
 	if($_REQUEST['marking_period_id']!='new')
 		$delete_button = '<INPUT type="button" value="'._('Delete').'" onClick="javascript:window.location=\'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&mp_term='.$_REQUEST['mp_term'].'&year_id='.$_REQUEST['year_id'].'&semester_id='.$_REQUEST['semester_id'].'&quarter_id='.$_REQUEST['quarter_id'].'&marking_period_id='.$_REQUEST['marking_period_id'].'\'" />';
 
