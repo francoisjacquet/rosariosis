@@ -97,6 +97,7 @@ if(!defined('WAREHOUSE_PHP'))
 					{
 ?>
 <script type="text/javascript">
+if (document.getElementById('trigger<?php echo $i; ?>'))
 	Calendar.setup({
 		monthField     :    "monthSelect<?php echo $i; ?>",
 		dayField       :    "daySelect<?php echo $i; ?>",
