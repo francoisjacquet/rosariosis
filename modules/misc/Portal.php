@@ -10,13 +10,12 @@ $_ROSARIO['HeaderIcon'] = 'rosario.png'; //modif Francois: icones Educons
 //DrawHeader(ParseMLField(Config('TITLE')),'RosarioSIS v.'.$RosarioVersion);
 DrawHeader(ParseMLField(Config('TITLE')));
 
-DrawHeader('<script type="text/javascript">
+DrawHeader('<span id="salute"></span><script type="text/javascript">
 var currentTime = new Date();
 var hours = currentTime.getHours();
 if (hours < 12) document.getElementById("salute").innerHTML="'.sprintf(_('Good Morning, %s.'), User('NAME')).'";
 else if (hours < 18) document.getElementById("salute").innerHTML="'.sprintf(_('Good Afternoon, %s.'), User('NAME')).'";
-else document.getElementById("salute").innerHTML="'.sprintf(_('Good Evening, %s.'), User('NAME')).'";</script>
-<span id="salute"></span>');
+else document.getElementById("salute").innerHTML="'.sprintf(_('Good Evening, %s.'), User('NAME')).'";</script>');
 
 $welcome = sprintf(_('Welcome to %s!'), ParseMLField(Config('TITLE')));
 if($_SESSION['LAST_LOGIN'])
