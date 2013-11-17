@@ -482,7 +482,7 @@ if(empty($_REQUEST['modfunc']))
 		$day_time = mktime(0,0,0,$_REQUEST['month'],$i,$_REQUEST['year']);
 		$date = mb_strtoupper(date('d-M-y',$day_time));
 
-		echo '<TD class="valign-top" style="height:100%; background-color:'.($calendar_RET[$date][1]['MINUTES']?$calendar_RET[$date][1]['MINUTES']=='999'?'#EEFFEE':'#EEEEFF':'#FFEEEE').';"><table class="calendar-day'.((AllowEdit() || count($events_RET[$date]) || count($assignments_RET[$date])) ? ' hover' : '').'"><tr><td style="width:5px;" class="valign-top">'.((count($events_RET[$date]) || count($assignments_RET[$date])) ? '<span class="calendar-day-bold">'.$i.'</span>' : $i).'</td><td>';
+		echo '<TD class="valign-top" style="height:100%; background-color:'.($calendar_RET[$date][1]['MINUTES']?$calendar_RET[$date][1]['MINUTES']=='999'?'#EEFFEE':'#EEEEFF':'#FFEEEE').';"><table class="calendar-day'.((AllowEdit() || $calendar_RET[$date][1]['MINUTES']) ? ' hover' : '').'"><tr><td style="width:5px;" class="valign-top">'.((count($events_RET[$date]) || count($assignments_RET[$date])) ? '<span class="calendar-day-bold">'.$i.'</span>' : $i).'</td><td>';
 		if(AllowEdit())
 		{
 			echo '<TABLE style="width:95px;"><TR><TD style="text-align:right;">';
