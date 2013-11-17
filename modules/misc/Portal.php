@@ -13,9 +13,10 @@ DrawHeader(ParseMLField(Config('TITLE')));
 DrawHeader('<script type="text/javascript">
 var currentTime = new Date();
 var hours = currentTime.getHours();
-if (hours < 12) document.write("'.sprintf(_('Good Morning, %s.'), User('NAME')).'");
-else if (hours < 18) document.write("'.sprintf(_('Good Afternoon, %s.'), User('NAME')).'");
-else document.write("'.sprintf(_('Good Evening, %s.'), User('NAME')).'");</script>');
+if (hours < 12) document.getElementById("salute").innerHTML="'.sprintf(_('Good Morning, %s.'), User('NAME')).'";
+else if (hours < 18) document.getElementById("salute").innerHTML="'.sprintf(_('Good Afternoon, %s.'), User('NAME')).'";
+else document.getElementById("salute").innerHTML="'.sprintf(_('Good Evening, %s.'), User('NAME')).'";</script>
+<span id="salute"></span>');
 
 $welcome = sprintf(_('Welcome to %s!'), ParseMLField(Config('TITLE')));
 if($_SESSION['LAST_LOGIN'])
