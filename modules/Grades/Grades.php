@@ -33,9 +33,11 @@ if($_REQUEST['student_id'])
 		/*if($_REQUEST['period'] && $_REQUEST['period']!=$_SESSION['UserCoursePeriod'])
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
 		if ($_REQUEST['period'])
+		{
 			list($CoursePeriod, $CoursePeriodSchoolPeriod) = explode('.', $_REQUEST['period']);
-		if ($CoursePeriod!=$_SESSION['UserCoursePeriod'])
-			$_SESSION['UserCoursePeriod'] = $CoursePeriod;
+			if ($CoursePeriod!=$_SESSION['UserCoursePeriod'])
+				$_SESSION['UserCoursePeriod'] = $CoursePeriod;
+		}
 		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 	}
 }
@@ -48,9 +50,11 @@ else
 		/*if($_REQUEST['period'] && $_REQUEST['period']!=$_SESSION['UserCoursePeriod'])
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
 		if ($_REQUEST['period'])
+		{
 			list($CoursePeriod, $CoursePeriodSchoolPeriod) = explode('.', $_REQUEST['period']);
-		if ($CoursePeriod!=$_SESSION['UserCoursePeriod'])
-			$_SESSION['UserCoursePeriod'] = $CoursePeriod;
+			if ($CoursePeriod!=$_SESSION['UserCoursePeriod'])
+				$_SESSION['UserCoursePeriod'] = $CoursePeriod;
+		}
 		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 	}
 }
