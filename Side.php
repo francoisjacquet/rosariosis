@@ -37,7 +37,7 @@ if($_REQUEST['modfunc']=='update' && $_POST)
 			unset($_SESSION['UserMP']);
 		$_SESSION['student_id'] = $_REQUEST['student_id'];
 	}
-	$addJavascripts .= '<script type="text/javascript">var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'])).'"; body_link.target = "body"; alert(body_link.href);ajaxLink(body_link);</script>';
+	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'])).'"; body_link.target = "body"; ajaxLink(body_link);';
 }
 
 if(!$_SESSION['UserSyear'])
@@ -72,20 +72,21 @@ if($_REQUEST['student_id']=='new')
 	unset($_SESSION['student_id']);
 	unset($_SESSION['_REQUEST_vars']['student_id']);
 	unset($_SESSION['_REQUEST_vars']['search_modfunc']);
-	$addJavascripts .= '<script type="text/javascript">var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'"; body_link.target = "body"; ajaxLink(body_link);</script>';
+	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'"; body_link.target = "body"; ajaxLink(body_link);';
 }
 if($_REQUEST['staff_id']=='new')
 {
 	unset($_SESSION['staff_id']);
 	unset($_SESSION['_REQUEST_vars']['staff_id']);
 	unset($_SESSION['_REQUEST_vars']['search_modfunc']);
-	$addJavascripts .= '<script type="text/javascript">var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'"; body_link.target = "body"; ajaxLink(body_link);</script>';
+	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'"; body_link.target = "body"; ajaxLink(body_link);';
 }
 unset($_REQUEST['modfunc']);
 
-echo $addJavascripts;
-if (isset($_REQUEST['modcat']))
-	echo '<script type="text/javascript">openMenu("'.$_REQUEST['modcat'].'");</script>';
+if (!empty($_REQUEST['modcat']))
+	$addJavascripts .= 'openMenu("'.$_REQUEST['modcat'].'");';
+if (!empty($addJavascripts))
+	echo '<script type="text/javascript">'.$addJavascripts.'</script>';
 ?>
 <div id="menushadow"></div>
 <?php
