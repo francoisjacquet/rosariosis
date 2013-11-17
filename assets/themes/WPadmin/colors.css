@@ -8,7 +8,7 @@ textarea,input[type="text"],input[type="password"],input[type="file"],input[type
 textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type="file"]:focus,input[type="button"]:focus,input[type="submit"]:focus,input[type="reset"]:focus,input[type="email"]:focus,input[type="number"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="url"]:focus,select:focus{
 	border-color:#bbb
 }
-kbd,code{
+code{
 	background:#eaeaea
 }
 input[readonly]{
@@ -33,7 +33,7 @@ body{
 }
 .postbox .h3multi h3 {
 	background-color:transparent;
-	background-image:none;
+	background-image:none
 }
 .postbox .h3selected h3 {
 	background-color:#f9f9f9;
@@ -54,8 +54,7 @@ body{
 .widefat tr:nth-child(even){
 	background-color:#f9f9f9
 }
-#adminmenu div.wp-submenu, .highlight, .widefat tr.highlight
-{
+#adminmenu div.wp-submenu, .highlight, .widefat tr.highlight{
 	background-color:#fff;
 }
 div.error{
@@ -145,7 +144,7 @@ a,#adminmenu a{
 #adminmenushadow{
 	background-image:url(menu-shadow.png);
 	background-position:top right;
-	background-repeat:repeat-y;
+	background-repeat:repeat-y
 }
 #adminmenu a.menu-top,#adminmenu .wp-submenu .wp-submenu-head{
 	border-top-color:#f9f9f9;
@@ -164,30 +163,28 @@ a,#adminmenu a{
 .header2 {
 	background-color:#f9f9f9;
 	border-bottom: 1px solid #dfdfdf;
-	border-top: 1px solid #fff;
+	border-top: 1px solid #fff
 }
 #courses_div {
-	background-color:white;
+	background-color:white
 }
 fieldset {
-	border-color:#dfdfdf;
+	border-color:#dfdfdf
 }
 .bgcolor {
-	background-color:#ececec;
+	background-color:#ececec
 }
 .legend-gray {
-	color: gray;
+	color: gray
 }
 .legend-blue {
-	color: blue;
+	color: blue
 }
 .legend-red {
-	color: red;
+	color: red
 }
 
 /*responsive tables*/
 @media only screen and (max-width: 1023px) {
-
-	.rt tr { border-right-color:#dfdfdf; }
-
+	.rt tr { border-right-color:#dfdfdf }
 }
