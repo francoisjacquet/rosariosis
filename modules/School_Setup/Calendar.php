@@ -468,7 +468,6 @@ if(empty($_REQUEST['modfunc']))
 	$skip = date("w",$time);
 
 //modif Francois: css WPadmin
-	echo '<TABLE class="cellpadding-3" style="margin:0 auto;"><TR><TD>';
 	echo '<TABLE style="background-color:#EEEEEE;" id="calendar"><THEAD><TR style="text-align:center; background-color:black; color:white;">';
 	echo '<TH>'.mb_substr(_('Sunday'),0,3).'<span>'.mb_substr(_('Sunday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Monday'),0,3).'<span>'.mb_substr(_('Monday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Tuesday'),0,3).'<span>'.mb_substr(_('Tuesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Wednesday'),0,3).'<span>'.mb_substr(_('Wednesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Thursday'),0,3).'<span>'.mb_substr(_('Thursday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Friday'),0,3).'<span>'.mb_substr(_('Friday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Saturday'),0,3).'<span>'.mb_substr(_('Saturday'),3).'</span>'.'</TH>';
 	echo '</TR></THEAD><TBODY><TR>';
@@ -556,7 +555,6 @@ if(empty($_REQUEST['modfunc']))
 	}
 	echo '</TR></TBODY></TABLE>';
 
-	echo '</TD></TR></TABLE>';
 	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
 }

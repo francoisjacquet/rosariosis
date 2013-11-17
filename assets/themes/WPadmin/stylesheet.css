@@ -548,6 +548,9 @@ div.st {
 	padding: 4px;
 }
 /*calendar*/
+#calendar {
+	margin:0 auto;
+}
 #calendar > tbody > tr > td {
 	width: 126px;
 }
@@ -626,15 +629,18 @@ div.st {
 	}
 	
 	/*calendar*/
+	#calendar {
+		margin:0 0;
+	}
 	#calendar > thead > tr > th > span {
 		display: none;
 	}
 	#calendar > tbody > tr > td {
-		width: 37px;
+		width: 32px;
 	}
 	.calendar-day {
 		display: block;
-		height: 37px;
+		height: 32px;
 		width: inherit;
 		overflow: hidden;
 		z-index: 1;
