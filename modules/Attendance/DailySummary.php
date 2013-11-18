@@ -203,23 +203,23 @@ function _makeColor($value,$column)
 //modif Francois: remove LO_field
 			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 		elseif($attendance_codes[$ac][1]['STATE_CODE']=='P')
-			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
+			return '<div style="float:left; background-color:#6666FF; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 		elseif($attendance_codes[$ac][1]['STATE_CODE']=='A')
-			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
+			return '<div style="float:left; background-color:#FF0000; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 		elseif($attendance_codes[$ac][1]['STATE_CODE']=='H')
-			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
+			return '<div style="float:left; background-color:#FFCC00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 		elseif($ac)
-			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
+			return '<div style="float:left; background-color:#FFFF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 	}
 	else
 	{
 		$ac = $att_RET[$THIS_RET['STUDENT_ID']][$column][1]['STATE_VALUE'];
 		if($ac=='0.0')
-			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#FF0000;">'.mb_substr($attendance_codes_locale['A'],0,3).'</TD></TR></TABLE>';
+			return '<div style="float:left; background-color:#FF0000; padding:0 8px;">'.mb_substr($attendance_codes_locale['A'],0,3).'</div>';
 		elseif($ac > 0 && $ac < 1)
-			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#FFCC00;">'.mb_substr($attendance_codes_locale['H'],0,3).'</TD></TR></TABLE>';
+			return '<div style="float:left; background-color:#FFCC00; padding:0 8px;">'.mb_substr($attendance_codes_locale['H'],0,3).'</div>';
 		elseif($ac == 1)
-			return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:#00FF00;">'.mb_substr($attendance_codes_locale['P'],0,3).'</TD></TR></TABLE>';
+			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.mb_substr($attendance_codes_locale['P'],0,3).'</div>';
 	}
 }
 
@@ -235,10 +235,10 @@ function _makePeriodColor($name,$state_code,$default_code)
 	elseif($state_code=='P' || is_numeric($state_code))
 		$color = '#FFCC00';
 	elseif($state_code=='T')
-		$color = '#0000FF';
+		$color = '#6666FF';
 
 	if($color) // && $state_code!='1.0')
-		return '<TABLE class="cellpadding-0 cellspacing-0" style="width:10px;"><TR><TD style="background-color:'.$color.';">'.(empty($attendance_codes_locale[$name])?$name:mb_substr($attendance_codes_locale[$name],0,3)).'</TD></TR></TABLE>';
+		return '<div style="float:left; background-color:'.$color.'; padding:0 8px;">'.(empty($attendance_codes_locale[$name])?$name:mb_substr($attendance_codes_locale[$name],0,3)).'</div>';
 	else
 		return false;
 }
