@@ -191,11 +191,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						{
 							if (!isset($listOutput_RET[$i]['CREDIT_EARNED']))
 							{
-								$listOutput_RET[$i]['CREDIT_EARNED'] = $grade['CREDIT_EARNED'];
+								$listOutput_RET[$i]['CREDIT_EARNED'] = sprintf('%01.2f', $grade['CREDIT_EARNED']);
 								$total_credit_earned += $grade['CREDIT_EARNED'];
 								$total_credit_attempted += $grade['CREDIT_ATTEMPTED'];
 								if (!empty($course_area))
-									$listOutput_RET[$course_area]['CREDIT_EARNED'] += $grade['CREDIT_EARNED'];
+									$listOutput_RET[$course_area]['CREDIT_EARNED'] += sprintf('%01.2f', $grade['CREDIT_EARNED']);
 							}
 						}
 						if ($showCreditHours)
