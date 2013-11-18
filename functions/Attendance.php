@@ -68,7 +68,7 @@ function UpdateAttendanceDaily($student_id,$date='',$comment=false)
 		$length = '0.0';
 
 	$current_RET = DBGet(DBQuery("SELECT MINUTES_PRESENT,STATE_VALUE,COMMENT FROM ATTENDANCE_DAY WHERE STUDENT_ID='$student_id' AND SCHOOL_DATE='$date'"));
-	if(count($current_RET) && $current_RET[1]['MINUTES_PRESENT']!=$total)
+	if(count($current_RET) && ($current_RET[1]['MINUTES_PRESENT']!=$total || $current_RET[1]['STATE_VALUE']!=$length))
 		DBQuery("UPDATE ATTENDANCE_DAY SET MINUTES_PRESENT='$total',STATE_VALUE='$length'".($comment!==false?",COMMENT='".$comment."'":'')." WHERE STUDENT_ID='$student_id' AND SCHOOL_DATE='$date'");
 	elseif(count($current_RET) && $comment!==false && $current_RET[1]['COMMENT']!=$comment)
 		DBQuery("UPDATE ATTENDANCE_DAY SET COMMENT='".$comment."' WHERE STUDENT_ID='$student_id' AND SCHOOL_DATE='$date'");
