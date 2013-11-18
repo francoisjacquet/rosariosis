@@ -49,7 +49,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 		$days_convert = array('U'=>_('Day').' 7','M'=>_('Day').' 1','T'=>_('Day').' 2','W'=>_('Day').' 3','H'=>_('Day').' 4','F'=>_('Day').' 5','S'=>_('Day').' 6');
 	
-	$schedule_table_RET = DBGet(DBQuery("SELECT cp.ROOM,cs.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS,stu.STUDENT_ID,sta.FIRST_NAME||' '||sta.LAST_NAME AS FULL_NAME FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp,STUDENTS stu,SCHEDULE sch,STAFF sta,COURSE_SUBJECTS cs WHERE cp.COURSE_ID=c.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND cp.SYEAR='".UserSyear()."' AND s.ID=cp.SCHOOL_ID AND s.ID='".UserSchool()."' AND s.SYEAR=cp.SYEAR AND sp.PERIOD_ID=cpsp.PERIOD_ID AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID  AND sch.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($_REQUEST['mp_id'],'MP'),$_REQUEST['mp_id']).") AND stu.STUDENT_ID IN ($st_list) AND stu.STUDENT_ID=sch.STUDENT_ID AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sta.STAFF_ID=cp.TEACHER_ID AND sp.LENGTH < ".(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)." ORDER BY sp.SORT_ORDER"),array('TITLE'=>'CourseTitle', 'DAYS'=>'_GetDays'),array('STUDENT_ID','SCHOOL_PERIOD'));
+	$schedule_table_RET = DBGet(DBQuery("SELECT cp.ROOM,cs.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS,stu.STUDENT_ID,sta.FIRST_NAME||' '||sta.LAST_NAME AS FULL_NAME FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp,STUDENTS stu,SCHEDULE sch,STAFF sta,COURSE_SUBJECTS cs WHERE cp.COURSE_ID=c.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND cp.SYEAR='".UserSyear()."' AND s.ID=cp.SCHOOL_ID AND s.ID='".UserSchool()."' AND s.SYEAR=cp.SYEAR AND sp.PERIOD_ID=cpsp.PERIOD_ID AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID  AND sch.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($_REQUEST['mp_id'],'MP'),$_REQUEST['mp_id']).") AND stu.STUDENT_ID IN ($st_list) AND stu.STUDENT_ID=sch.STUDENT_ID AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sta.STAFF_ID=cp.TEACHER_ID AND sp.LENGTH <= ".(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)." ORDER BY sp.SORT_ORDER"),array('TITLE'=>'CourseTitle', 'DAYS'=>'_GetDays'),array('STUDENT_ID','SCHOOL_PERIOD'));
 	//modif Francois: note the "sp.LENGTH < (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
 	
 	$columns_table = array('SCHOOL_PERIOD' => _('Periods'));
@@ -61,7 +61,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	
 	if(count($RET))
 	{
-		$handle = PDFStart("--webpage --quiet -t pdf14 --jpeg --no-links --portrait --footer t --header . --left 0.2in --top 0.0in --bottom 0.2in --right 0.2in");
+		$handle = PDFStart();
 		if ($_REQUEST['schedule_table'] == 'No')	
 			foreach($RET as $student_id=>$courses)
 			{
