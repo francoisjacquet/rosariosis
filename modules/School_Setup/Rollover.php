@@ -11,7 +11,7 @@ if ($RosarioModules['Food_Service'])
 	
 if($RosarioModules['Discipline'])
 //modif Francois: discipline_field_usage rollover
-	$tables += array('DISCIPLINE_CATEGORIES'=>_('Referral Form'), 'DISCIPLINE_FIELD_USAGE'=>_('Referrals'));
+	$tables += array(/*'DISCIPLINE_CATEGORIES'=>_('Referral Form'), */'DISCIPLINE_FIELD_USAGE'=>_('Referral Form'));
 
 $table_list = '<TABLE style="float: left">';
 foreach($tables as $table=>$name)
