@@ -13,7 +13,7 @@
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['values'] && $_POST['values'])
+if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
@@ -87,7 +87,7 @@ if($_REQUEST['values'] && $_POST['values'])
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
-if($_REQUEST['modfunc']=='delete')
+if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if(DeletePrompt(_('Category')))
 	{
@@ -108,8 +108,11 @@ if(empty($_REQUEST['modfunc']))
 	
 	$columns = array('TITLE'=>_('Title'),'SORT_ORDER'=>_('Sort Order'),'TYPE'=>_('Data Type'),'OPTIONS'=>_('Options'));
 	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'OPTIONS'=>_makeTextAreaInput('','OPTIONS'),'TYPE'=>_makeType('','TYPE'));
-	$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=delete";
-	$link['remove']['variables'] = array('id'=>'ID');
+	if (AllowEdit())
+	{
+		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=delete";
+		$link['remove']['variables'] = array('id'=>'ID');
+	}
 	
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
