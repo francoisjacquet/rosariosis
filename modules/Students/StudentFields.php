@@ -2,7 +2,7 @@
 DrawHeader(ProgramTitle());
 //$_ROSARIO['allow_edit'] = true;
 
-if($_REQUEST['tables'] && $_POST['tables'])
+if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 {
 	$table = $_REQUEST['table'];
 	foreach($_REQUEST['tables'] as $id=>$columns)
@@ -118,7 +118,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 	unset($_REQUEST['tables']);
 }
 
-if($_REQUEST['modfunc']=='delete')
+if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if($_REQUEST['id'])
 	{
