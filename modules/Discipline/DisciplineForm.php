@@ -13,7 +13,7 @@
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['values'] && $_POST['values'])
+if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
@@ -111,7 +111,7 @@ if($_REQUEST['values'] && $_POST['values'])
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
-if($_REQUEST['modfunc']=='delete')
+if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if(DeletePrompt(_('Category')))
 	{
@@ -124,7 +124,7 @@ if($_REQUEST['modfunc']=='delete')
 	}
 }
 
-if($_REQUEST['modfunc']=='delete_usage')
+if($_REQUEST['modfunc']=='delete_usage' && AllowEdit())
 {
 	if(DeletePrompt(_('Category'),_('Don\'t use')))
 	{
@@ -135,7 +135,7 @@ if($_REQUEST['modfunc']=='delete_usage')
 	}
 }
 
-if($_REQUEST['modfunc']=='add_usage')
+if($_REQUEST['modfunc']=='add_usage' && AllowEdit())
 {
 	DBQuery("INSERT INTO DISCIPLINE_FIELD_USAGE (ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,TITLE,SELECT_OPTIONS,SORT_ORDER) SELECT ".db_seq_nextval('DISCIPLINE_FIELD_USAGE_SEQ')." AS ID,'".$_REQUEST['id']."' AS DISCIPLINE_FIELD_ID,'".UserSyear()."' AS SYEAR,'".UserSchool()."' AS SCHOOL_ID,TITLE,NULL AS SELECT_OPTIONS,NULL AS SORT_ORDER FROM DISCIPLINE_FIELDS WHERE ID='".$_REQUEST['id']."'");
 	unset($_REQUEST['modfunc']);
@@ -231,13 +231,15 @@ function _makeTextAreaInput($value,$name)
 function _makeRemove($value,$column)
 {	global $THIS_RET;
 	
-	if($THIS_RET['USAGE_ID'])
-	{
-		$return = button('remove',_('Don\'t use'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_usage&id='.$THIS_RET['USAGE_ID'].'"');
-		$return .= '&nbsp;'.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&id='.$THIS_RET['ID'].'"');
-	}
-	else
-		$return = button('add',_('Use at this school'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add_usage&id='.$THIS_RET['ID'].'"');
+	$return = '';
+	if (AllowEdit())
+		if($THIS_RET['USAGE_ID'])
+		{
+			$return = button('remove',_('Don\'t use'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_usage&id='.$THIS_RET['USAGE_ID'].'"');
+			$return .= '&nbsp;'.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&id='.$THIS_RET['ID'].'"');
+		}
+		else
+			$return = button('add',_('Use at this school'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add_usage&id='.$THIS_RET['ID'].'"');
 
 	return $return;
 }
