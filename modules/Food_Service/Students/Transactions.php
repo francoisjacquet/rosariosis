@@ -108,7 +108,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 		$columns = array('TYPE'=>_('Type'),'DESCRIPTION'=>_('Description'),'AMOUNT'=>_('Amount'));
 
 		ListOutput($RET,$columns,'Earlier Transaction','Earlier Transactions',$link,false,array('save'=>false,'search'=>false));
-		echo '<span class="center">'.SubmitButton(_('Save'),'save').'</span>';
+		echo '<br /><span class="center">'.SubmitButton(_('Save'),'save').'</span>';
 
 		echo '</TD></TR></TABLE>';
 	}
