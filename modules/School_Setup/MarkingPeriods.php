@@ -224,8 +224,11 @@ if(empty($_REQUEST['modfunc']))
 {
 //modif Francois: fix SQL bug invalid sort order
 	if(isset($error)) echo ErrorMessage($error);
-	if($_REQUEST['marking_period_id']!='new')
-		$delete_button = '<INPUT type="button" value="'._('Delete').'" onClick="javascript:window.location=\'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&mp_term='.$_REQUEST['mp_term'].'&year_id='.$_REQUEST['year_id'].'&semester_id='.$_REQUEST['semester_id'].'&quarter_id='.$_REQUEST['quarter_id'].'&marking_period_id='.$_REQUEST['marking_period_id'].'\'" />';
+	if(AllowEdit() && $_REQUEST['marking_period_id']!='new')
+	{
+		$delete_button = '<script type="text/javascript">var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&mp_term='.$_REQUEST['mp_term'].'&year_id='.$_REQUEST['year_id'].'&semester_id='.$_REQUEST['semester_id'].'&quarter_id='.$_REQUEST['quarter_id'].'&marking_period_id='.$_REQUEST['marking_period_id'].'"; delete_link.target = "body";</script>';
+		$delete_button .= '<INPUT type="button" value="'._('Delete').'" onClick="javascript:ajaxLink(delete_link);" />';
+	}
 
 	// ADDING & EDITING FORM
 	if($_REQUEST['marking_period_id'] && $_REQUEST['marking_period_id']!='new')

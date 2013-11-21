@@ -1,5 +1,8 @@
 <?php
 
+if($_REQUEST['modfunc']!='choose_course')
+	DrawHeader(ProgramTitle());
+		
 unset($_SESSION['_REQUEST_vars']['subject_id']);unset($_SESSION['_REQUEST_vars']['course_id']);unset($_SESSION['_REQUEST_vars']['course_period_id']);
 
 // if only one subject, select it automatically -- works for Course Setup and Choose a Course
@@ -14,7 +17,6 @@ $LO_options = array('save'=>false,'search'=>false,'responsive'=>false);
 
 if($_REQUEST['course_modfunc']=='search')
 {
-	DrawHeader(ProgramTitle());
 	echo '<BR />';
 	PopTable('header',_('Search'));
 	echo '<FORM name="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&course_modfunc=search&last_year='.$_REQUEST['last_year'].'" method="POST">';
@@ -442,8 +444,6 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 
 if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUEST['course_modfunc'])
 {
-	if($_REQUEST['modfunc']!='choose_course')
-		DrawHeader(ProgramTitle());
 //modif Francois: fix SQL bug invalid sort order
 	if(isset($error)) echo $error;
 	
@@ -457,7 +457,10 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 	if($_REQUEST['modfunc']!='choose_course')
 	{
 		if(AllowEdit())
-			$delete_button = '<INPUT type="button" value="'._('Delete').'" onClick="javascript:window.location=\'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id='.$_REQUEST['course_period_id'].'\'" />';
+		{
+			$delete_button = '<script type="text/javascript">var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id='.$_REQUEST['course_period_id'].'"; delete_link.target = "body";</script>';
+			$delete_button .= '<INPUT type="button" value="'._('Delete').'" onClick="javascript:ajaxLink(delete_link);" />';
+		}
 		// ADDING & EDITING FORM
 		if($_REQUEST['course_period_id'])
 		{
