@@ -1,7 +1,9 @@
 <?php
 require_once('modules/Grades/DeletePromptX.fnc.php');
 
-if($_REQUEST['modfunc']=='delete')
+DrawHeader(ProgramTitle());
+
+if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 //modif Francois: add translation
 	if(($dp=DeletePromptX(_('Final Grade'))))
@@ -97,8 +99,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		if(count($RET))
 		{
-			DrawHeader(ProgramTitle());
-
 			$columns = array('FULL_NAME'=>_('Student'),'COURSE_TITLE'=>_('Course'));
 			if($_REQUEST['elements']['teacher']=='Y')
 				$columns += array('TEACHER'=>_('Teacher'));
@@ -159,7 +159,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 			}
 
-			if(count($_REQUEST['mp_arr'])==1)
+			if(count($_REQUEST['mp_arr'])==1 && AllowEdit())
 			{
 				$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array(),array('modfunc'=>'delete'));
 				$link['remove']['variables'] = array('student_id'=>'STUDENT_ID','course_period_id'=>'COURSE_PERIOD_ID','marking_period_id'=>'MARKING_PERIOD_ID');
@@ -183,7 +183,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 if(empty($_REQUEST['modfunc']))
 {
-	DrawHeader(ProgramTitle());
 
 	if (isset($error))
 		echo ErrorMessage($error);
