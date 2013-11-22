@@ -8,6 +8,13 @@ Responsive design
 - Retractable menu
 - Responsive tables
 
+Changes in 1.4.2
+----------------
+- Security fixes: delete & save not accessible to non admins in 
+	- AddressFields.php, PeopleFields.php, StudentFields.php, UserFields.php, Transactions.php, ActivityReport.php, ReferralForm.php, DisciplineForm.php, FinalGrades.php
+- SQL bugs: COURSE_PERIOD_SCHOOL_PERIODS, SCHOOLS, DISCIPLINE_CATEGORIES, PROGRAM_CONFIG & COURSE_PERIODS Rollover
+- Bugfix UserCoursePeriod not set correctly in Grades.php
+
 Changes in 1.4.1
 ----------------
 - SQL: fix report_card_grades' grade_scale_id
