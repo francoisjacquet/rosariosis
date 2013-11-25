@@ -164,6 +164,17 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array(),array('modfunc'=>'delete'));
 				$link['remove']['variables'] = array('student_id'=>'STUDENT_ID','course_period_id'=>'COURSE_PERIOD_ID','marking_period_id'=>'MARKING_PERIOD_ID');
 			}
+			if(!isset($_REQUEST['_ROSARIO_PDF']))
+			{
+				$commentsB_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NULL ORDER BY SORT_ORDER"),array(),array('ID'));
+				if(count($commentsB_RET))
+				{
+					foreach($commentsB_RET as $comment)
+						$tipmessage .= $comment[1]['SORT_ORDER'].' - '.str_replace("'",'&acute;',$comment[1]['TITLE']).'<BR />';
+					$tipmessage = button('comment',_('Comment Codes'),'"#" onmouseover=\'stm(["'._('Report Card Comments').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tipmessage)).'"],tipmessageStyle);\' onmouseout=\'htm()\'',24);
+					DrawHeader('',$tipmessage);
+				}
+			}
 			ListOutput($grades_RET,$columns,'.','.',$link);
 		}
 		else
