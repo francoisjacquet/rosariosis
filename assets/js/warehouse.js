@@ -170,6 +170,7 @@ window.onload = function(){
 var old_modcat = false;
 function openMenu(modname)
 {
+	modname=decodeURIComponent(modname);
 	var modcat = modname.substr(0, modname.indexOf('/'));
 	visible = document.getElementById("menu_"+modcat);
 	visible.style.display = "block";
