@@ -38,7 +38,7 @@ if($_REQUEST['student_id'])
 			if ($CoursePeriod!=$_SESSION['UserCoursePeriod'])
 				$_SESSION['UserCoursePeriod'] = $CoursePeriod;
 		}
-		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 	}
 }
 else
@@ -55,7 +55,7 @@ else
 			if ($CoursePeriod!=$_SESSION['UserCoursePeriod'])
 				$_SESSION['UserCoursePeriod'] = $CoursePeriod;
 		}
-		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 	}
 }
 if($_REQUEST['period'])
@@ -76,7 +76,7 @@ if($_REQUEST['period'])
 		}
 		else
 			unset($_SESSION['student_id']);
-		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 	}
 }
 

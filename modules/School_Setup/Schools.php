@@ -18,7 +18,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'";
 				DBQuery($sql);
-				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 				$note[] = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('This school has been modified.');
 			}
 			else
@@ -48,7 +48,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 					
 					$_SESSION['UserSchool'] = $id;
 					
-					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 					unset($_REQUEST['new_school']);
 				}
 			}
@@ -81,7 +81,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Delete') && User('P
 		DBQuery("DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 
 		unset($_SESSION['UserSchool']);
-		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 		//unset($_REQUEST);
 		//$_REQUEST['modname'] = "School_Setup/Schools.php&new_school=true";
 		$_REQUEST['new_school'] = 'true';

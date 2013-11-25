@@ -83,8 +83,8 @@ if($_REQUEST['staff_id']=='new')
 }
 unset($_REQUEST['modfunc']);
 
-if (!empty($_REQUEST['modcat']))
-	$addJavascripts .= 'openMenu("'.$_REQUEST['modcat'].'");';
+if (!empty($_REQUEST['modname']))
+	$addJavascripts .= 'openMenu("'.$_REQUEST['modname'].'");';
 if (!empty($addJavascripts))
 	echo '<script type="text/javascript">'.$addJavascripts.'</script>';
 ?>
@@ -97,7 +97,7 @@ echo '</TD></TR><TR>';
 echo '<TD class="width-100p valign-top">';
 echo '<A HREF="index.php" target="_top"><img src="assets/themes/'.Preferences('THEME').'/logo.png" id="SideLogo" /></A>';
 echo '<FORM action="Side.php?modfunc=update" method="POST" target="menu">
-	<INPUT type="hidden" name="modcat" value="" id="modcat_input">
+	<INPUT type="hidden" name="modname" value="" id="modname_input">
 	&nbsp;<b>'.User('NAME')."</b><BR />
 	&nbsp;".mb_convert_case(iconv('','UTF-8',strftime('%A %B %d, %Y')), MB_CASE_TITLE, "UTF-8")."<BR />";
 if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
@@ -273,7 +273,7 @@ foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 	{
 		$keys = array_keys($_ROSARIO['Menu'][$modcat]);
 
-		echo '<A href="Modules.php?modname='.$modcat.'/Search.php" class="menu-top" onclick="openMenu(\''.$modcat.'\');"><IMG SRC="assets/icons/'.$modcat.'.png" height="32" style="vertical-align:middle;">&nbsp;'._(str_replace('_',' ',$modcat)).'</A><DIV id="menu_'.$modcat.'" class="wp-submenu"><TABLE class="width-100p cellspacing-0 cellpadding-0">';
+		echo '<A href="Modules.php?modname='.$modcat.'/Search.php" class="menu-top"><IMG SRC="assets/icons/'.$modcat.'.png" height="32" style="vertical-align:middle;">&nbsp;'._(str_replace('_',' ',$modcat)).'</A><DIV id="menu_'.$modcat.'" class="wp-submenu"><TABLE class="width-100p cellspacing-0 cellpadding-0">';
 		//foreach($_ROSARIO['Menu'][$modcat] as $file=>$title)
 		foreach($keys as $key_index=>$file)
 		{
@@ -281,7 +281,7 @@ foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 			if(mb_stripos($file,'http://') !== false)
 				echo '<TR><TD><A HREF="'.$file.'" target="_blank">'.$title.'</A></TD></TR>';
 			elseif(!is_numeric($file))
-				echo '<TR><TD><A HREF="Modules.php?modname='.$file.'" onclick="selMenuA(this);modname=\''.$file.'\';">'.$title.'</A></TD></TR>';
+				echo '<TR><TD><A HREF="Modules.php?modname='.$file.'" onclick="var modname=\''.$file.'\'; selMenuA(modname);">'.$title.'</A></TD></TR>';
 			elseif($keys[$key_index+1] && !is_numeric($keys[$key_index+1]))
 				echo '<TR><TD style="height:3px;"></TD></TR><TR><TD class="menu-inter">&nbsp;'.$title.'</TD></TR>';
 		}

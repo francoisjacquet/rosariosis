@@ -52,7 +52,7 @@ if($_REQUEST['modfunc']!='delete')
 		if($profile[1]['PROFILE']!='parent')
 		{
 			unset($_SESSION['staff_id']);
-			echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+			echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 		}
 	}
 

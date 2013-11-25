@@ -9,7 +9,7 @@ else
 $modcat = 'Grades';
 if(AllowUse($_REQUEST['modname']))
 {
-	echo '<SCRIPT type="text/javascript">modname="'.$_REQUEST['modname'].'"; $(\'#menu a[href$="'.$_REQUEST['modname'].'"]:first\').each(function(){selMenuA(this);});</SCRIPT>';
+	echo '<SCRIPT type="text/javascript">modname="'.$_REQUEST['modname'].'"; openMenu(modname);</SCRIPT>';
 	include("modules/$_REQUEST[modname]");
 }
 ?>

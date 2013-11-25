@@ -168,22 +168,24 @@ window.onload = function(){
 
 //Side.php JS
 var old_modcat = false;
-function openMenu(modcat)
+function openMenu(modname)
 {
+	var modcat = modname.substr(0, modname.indexOf('/'));
 	visible = document.getElementById("menu_"+modcat);
 	visible.style.display = "block";
 	if(old_modcat!=false && old_modcat!=modcat){
 		oldVisible = document.getElementById("menu_"+old_modcat);
 		oldVisible.style.display = "none";					
 	}
-	document.getElementById("modcat_input").value=modcat;
 	old_modcat = modcat;
+	selMenuA(modname);
 }
-function selMenuA(a)
+function selMenuA(modname)
 {
 	if (oldA = document.getElementById("selectedMenuLink"))
 		oldA.id = "";
-	a.id = "selectedMenuLink";
+	 $('#menu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
+	document.getElementById("modname_input").value=encodeURIComponent(modname);
 }
 
 //Bottom.php JS

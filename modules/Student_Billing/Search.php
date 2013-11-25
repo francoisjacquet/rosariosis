@@ -16,6 +16,10 @@
 	$_REQUEST['modname'] = "Student_Billing/StudentFees.php"; 
 
 $modcat = 'Student_Billing';
-include("modules/$_REQUEST[modname]");
+if(AllowUse($_REQUEST['modname']))
+{
+	echo '<SCRIPT type="text/javascript">modname="'.$_REQUEST['modname'].'"; openMenu(modname);</SCRIPT>';
+	include("modules/$_REQUEST[modname]");
+}
 
 ?>

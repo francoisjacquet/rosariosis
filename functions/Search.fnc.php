@@ -9,7 +9,7 @@ function Search($type,$extra=null)
 			if($_REQUEST['bottom_back'])
 			{
 				unset($_SESSION['student_id']);
-				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 			}
 			if($_SESSION['unset_student'])
 			{
@@ -28,7 +28,7 @@ function Search($type,$extra=null)
 				else
 					unset($_SESSION['student_id']);
 				if(!isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 			}
 			elseif(!UserStudentID() || $extra['new']==true)
 			{
@@ -37,7 +37,7 @@ function Search($type,$extra=null)
 					//modif Francois: fix bug no student found when student logged in
 					if (User('PROFILE')!=='student')
 						unset($_SESSION['student_id']);
-					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 				}
 				$_REQUEST['next_modname'] = $_REQUEST['modname'];
 				include('modules/Students/Search.inc.php');
@@ -50,7 +50,7 @@ function Search($type,$extra=null)
 			if($_REQUEST['bottom_back'])
 			{
 				unset($_SESSION['staff_id']);
-				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 			}
 
 			if($_REQUEST['staff_id'])
@@ -64,14 +64,14 @@ function Search($type,$extra=null)
 				else
 					unset($_SESSION['staff_id']);
 				if(!isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 			}
 			elseif(!UserStaffID() || $extra['new']==true)
 			{
 				if(UserStaffID())
 				{
 					unset($_SESSION['staff_id']);
-					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modcat="+document.getElementById("modcat_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 				}
 				//if(empty($_REQUEST['modfunc']))
 				$_REQUEST['modfunc'] = 'search_fnc';
