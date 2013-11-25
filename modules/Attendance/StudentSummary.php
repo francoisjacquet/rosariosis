@@ -131,6 +131,6 @@ function _makeStateValue($value)
 function _makeColor($value,$state_code)
 {
 	$colors = array('P'=>'#00FF00','A'=>'#FF0000','H'=>'#FFCC00','T'=>'#0000FF');
-	return '<TABLE'.($colors[$state_code]?' style="background-color:'.$colors[$state_code].';"':'').' class="cellspacing-0"><TR><TD>'.$value.'</TD></TR></TABLE>';
+	return '<div style="float:left;'.($colors[$state_code]?' background-color:'.$colors[$state_code].';':'').' padding:0 8px;">'.$value.'</div>';
 }
 ?>
