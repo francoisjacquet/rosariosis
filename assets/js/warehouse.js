@@ -144,7 +144,8 @@ function ajaxPostForm(form,submit){
 }
 function ajaxSuccess(data,target){
 	$('#'+target).html(data);
-	$('html, body').animate({scrollTop:$('#body').offset().top - 20}, 'slow');
+	if (scrollTop=='Y')
+		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
 	$('#'+target+' a').each(function(){ $(this).bind('click', function(){ return ajaxLink(this); }); });
 	$('#'+target+' form').each(function(){ ajaxPostForm(this,false); });
 }

@@ -56,7 +56,8 @@ function Preferences($item='',$program='Preferences')
 				// 'YEAR'=>'Y',
 				'DEFAULT_ALL_SCHOOLS'=>'N',
 				'ASSIGNMENT_SORTING'=>'ASSIGNMENT_ID',
-				'ANOMALOUS_MAX'=>'100'
+				'ANOMALOUS_MAX'=>'100',
+				'SCROLL_TOP'=>'Y'
 				);
 
 	if(!isset($_ROSARIO['Preferences'][$program][$item][1]['VALUE']))

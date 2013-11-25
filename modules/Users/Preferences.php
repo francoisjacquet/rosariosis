@@ -59,6 +59,8 @@ if($_REQUEST['values'] && $_POST['values'])
 			$_REQUEST['values']['Preferences']['HIDE_ALERTS'] = 'N';
 		if($_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['HIDDEN']!='Y')
 			$_REQUEST['values']['Preferences']['HIDDEN'] = 'N';
+		if($_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['SCROLL_TOP']!='Y')
+			$_REQUEST['values']['Preferences']['SCROLL_TOP'] = 'N';
 		if($_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['THEME']!=$current_RET['Preferences']['THEME'][1]['VALUE'])
 		{
 			echo '<script type="text/javascript">';
@@ -242,6 +244,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '</TD></TR>';
 		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][HIDE_ALERTS]" value="Y"'.((Preferences('HIDE_ALERTS')=='Y')?' checked':'').'> '._('Disable login alerts').'</label></TD></TR>';
 		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][HIDDEN]" value="Y"'.((Preferences('HIDDEN')=='Y')?' checked':'').'> '._('Display data using hidden fields').'</label></TD></TR>';
+		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][SCROLL_TOP]" value="Y"'.((Preferences('SCROLL_TOP')=='Y')?' checked':'').'> '._('Automatically scroll to the top of the page').'</label></TD></TR>';
 		echo '</TABLE>';
 	}
 
