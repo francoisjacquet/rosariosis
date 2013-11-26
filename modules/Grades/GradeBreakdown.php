@@ -37,27 +37,35 @@ if(count($grouped_RET))
 
 	$_ROSARIO['selected_tab'] = str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type='.str_replace(' ','+',$_REQUEST['chart_type']),$link);
 	echo '<BR />';
-	PopTable('header',$tabs);
 
 	if($_REQUEST['chart_type']=='list')
 	{
-		foreach($grouped_RET as $staff_id=>$grades)
+		$columns = array();
+		
+		$columns = array('GRADES'=>_('Grades'));
+		foreach($grades_RET as $grade)
 		{
 			$i++;
-			$teachers_RET[$i]['FULL_NAME'] = $grades[key($grades)][1]['FULL_NAME']; 
-			foreach($grades_RET as $grade)
-				$teachers_RET[$i][$grade['ID']] = count($grades[$grade['ID']]);
+			$teachers_RET[$i]['GRADES'] = $grade['TITLE'];
 		}
-		
-		$columns = array('FULL_NAME'=>_('Teacher'));
-		foreach($grades_RET as $grade)
-			$columns[$grade['ID']] = $grade['TITLE'];
+			
+		foreach($grouped_RET as $staff_id=>$grades)
+		{
+			$columns[$staff_id] = $grades[key($grades)][1]['FULL_NAME'];
+			foreach($grades_RET as $grade)
+			{
+				$j++;
+				$teachers_RET[$j][$staff_id] = count($grades[$grade['ID']]);
+			}
+		}
 
-		$LO_options['responsive'] = false;
-		ListOutput($teachers_RET,$columns,'Teacher','Teachers',array(),array(),$LO_options);
+		$LO_options['header'] = WrapTabs($tabs,str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type=list',$link));
+		ListOutput($teachers_RET,$columns,'Grade','Grades',array(),array(),$LO_options);
 	}
 	else
 	{
+		PopTable('header',$tabs);
+		
 		$_REQUEST['modfunc'] = 'SendChartData';
 		//$_REQUEST['_ROSARIO_PDF'] = 'true';
 
@@ -113,8 +121,8 @@ if(count($grouped_RET))
 		<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
 		<script type="text/javascript" src="assets/js/jquery.jqplottocolorbox.js"></script>
 <?php
+		PopTable('footer');
 	}
-	PopTable('footer');
 
 } else {
 
