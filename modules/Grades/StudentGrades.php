@@ -265,7 +265,7 @@ function _makeTipTitle($value,$column)
 			$tip_title .= ($tip_title?'<BR />':'').Localize('colon',_('Assigned')).' '.ProperDate($THIS_RET['ASSIGNED_DATE']);
 		if($THIS_RET['DUE_DATE'])
 			$tip_title .= ($tip_title?'<BR />':'').Localize('colon',_('Due')).' '.ProperDate($THIS_RET['DUE_DATE']);
-		$tip_title = '<A HREF=# onMouseOver=\'stm(["'._('Details').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tip_title)).'"],tipmessageStyle);\' onMouseOut=\'htm()\'>'.$value.'</A>';
+		$tip_title = '<A HREF="#" onMouseOver=\'stm(["'._('Details').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tip_title)).'"],tipmessageStyle); return false;\' onMouseOut="htm();">'.$value.'</A>';
 	}
 	else
 		$tip_title = $value;
@@ -296,17 +296,27 @@ function bargraph1($x,$lo=0,$avg=0,$hi=0,$max=0)
 				$w4 = round(100*($hi-$x)/$scale); $c4 = '#ff0000'; $legendc4 = $x;
 			}
 			$w3 = 100-$w1-$w2-$w4-$w5;
-			return '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR>'.($w1>0?'<TD style="width:'.$w1.'%;"></TD>':'').($w2>0?'<TD style="width:'.$w2.'%; background-color:#00a000;"></TD>':'').'<TD style="width:0%; background-color:'.$c2.'; cursor:pointer;" title="'.$legendc2.'" >&nbsp;</TD>'.($w3>0?'<TD style="width:'.$w3.'%; background-color:#00a000;"></TD>':'').'<TD style="width:0%; background-color:'.$c4.'; cursor:pointer;" title="'.$legendc4.'">&nbsp;</TD>'.($w4>0?'<TD style="width:'.$w4.'%; background-color:#00a000;"></TD>':'').($w5>0?'<TD style="width:'.$w5.'%;"></TD>':'').'</TR></TABLE>';
+			
+			$correction = 4;
+			if ($w1>0 && $w5>0)
+				$correction = 2;
+				
+			return '<div style="float:left; width:150px; border: #333 1px solid;">'.($w1>0?'<div style="width:'.($w1 - $correction).'%;float:left; background-color:#fff;">&nbsp;</div>':'').($w2>0?'<div style="width:'.$w2.'%; background-color:#00a000;float:left;">&nbsp;</div>':'').'<div style="width:2%; background-color:'.$c2.'; cursor:pointer;float:left;" title="'.$legendc2.'" >&nbsp;</div>'.($w3>0?'<div style="width:'.$w3.'%; background-color:#00a000;float:left;">&nbsp;</div>':'').'<div style="width:2%; background-color:'.$c4.'; cursor:pointer;float:left;" title="'.$legendc4.'">&nbsp;</div>'.($w4>0?'<div style="width:'.$w4.'%; background-color:#00a000;float:left;">&nbsp;</div>':'').($w5>0?'<div style="width:'.($w5 - $correction).'%;float:left;background-color:#fff;">&nbsp;</div>':'').'</div>';
 		}
 		else
 		{
 			$w2 = round(100*($avg-$lo)/$scale);
 			$w4 = round(100*($hi-$avg)/$scale);
-			return '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR>'.($w1>0?'<TD style="width:'.$w1.'%;"></TD>':'').($w2>0?'<TD style="width:'.$w2.'%; background-color:#00a000;"></TD>':'').'<TD style="width:0%; background-color:#00a000;">&nbsp;</TD>'.($w4>0?'<TD style="width:'.$w4.'%; background-color:#00a000;"></TD>':'').($w5>0?'<TD style="width:'.$w5.'%;"></TD>':'').'</TR></TABLE>';
+			
+			$correction = 2;
+			if ($w1>0 && $w5>0)
+				$correction = 1;
+				
+			return '<div style="float:left; width:150px; border: #333 1px solid;">'.($w1>0?'<div style="width:'.($w1 - $correction).'%;float:left; background-color:#fff;float:left;">&nbsp;</div>':'').($w2>0?'<div style="width:'.$w2.'%; background-color:#00a000;float:left;">&nbsp;</div>':'').'<div style="width:2%; background-color:#00a000;float:left;">&nbsp;</div>'.($w4>0?'<div style="width:'.$w4.'%; background-color:#00a000;float:left;">&nbsp;</div>':'').($w5>0?'<div style="width:'.($w5 - $correction).'%;float:left;">&nbsp;</div>':'').'</div>';
 		}
 	}
 	else
-		return '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD class="width-100p">&nbsp;</TD></TR></TABLE>';
+		return '<div style="float:left;">&nbsp;</div>';
 }
 
 //modif Francois: fix error Missing argument 3 & 2
@@ -319,9 +329,9 @@ function bargraph2($x,$lo=0,$hi=0)
 			$w1 = round(100*$lo/$scale);
 			$w3 = round(100*$hi/$scale);
 			$w2 = 100-$w1-$w3;
-			return '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR>'.($w1>0||$lower>0?'<TD style="width:'.$w1.'%;"></TD>':'').'<TD style="width:'.$w2.'%; background-color:#ff0000">&nbsp;</TD>'.($w3>0||$higher>0?'<TD style="width:'.$w3.'%;"></TD>':'').'</TR></TABLE>';
+			return '<div style="float:left; width:150px; border: #333 1px solid;">'.($w1>0||$lower>0?'<div style="width:'.$w1.'%; background-color:#fff;float:left;">&nbsp;</div>':'').'<div style="width:'.$w2.'%; background-color:#ff0000;float:left;">&nbsp;</div>'.($w3>0||$higher>0?'<div style="width:'.$w3.'%; background-color:#fff;float:left;">&nbsp;</div>':'').'</div>';
 	}
 	else
-		return '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD class="width-100p">&nbsp;</TD></TR></TABLE>';
+		return '<div style="float:left;">&nbsp;</div>';
 }
 ?>
