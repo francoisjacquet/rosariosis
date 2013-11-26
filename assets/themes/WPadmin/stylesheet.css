@@ -30,7 +30,6 @@ html,body{
 }
 body{
 	font-family:sans-serif;
-	font-size:12px;
 	line-height:1.4em
 }
 *{
@@ -282,8 +281,6 @@ label{
 .postbox{
 	margin-bottom:20px;
 	padding:0;
-	border-width:1px;
-	border-style:solid;
 	line-height:1
 }
 .postbox h3{

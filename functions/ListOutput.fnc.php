@@ -430,6 +430,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			// END MISC ---
 
 			// SEARCH BOX & MORE HEADERS
+			if(!empty($options['header']))
+				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
+				
 			if(!empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
 			{
 				echo '<TABLE class="width-100p cellpadding-1">';
@@ -467,8 +470,6 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 //modif Francois: remove LOx
 				echo '</TABLE>';
 			}
-			if(!empty($options['header']))
-				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0" style="margin-bottom:0px; border-bottom:none;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px;">';
 
 			echo '<TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
 			echo '<THEAD><TR>';
