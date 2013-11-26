@@ -576,7 +576,7 @@ div.st{
 		border-style: none none dotted none;
 		padding: 12px 0 12px 0
 	}
-	#chart{
+	#chart, .chart{
 		margin-top:0;
 		margin-left:0;
 		width:300px;

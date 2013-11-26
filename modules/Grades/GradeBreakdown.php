@@ -112,7 +112,7 @@ if(count($grouped_RET))
 		{
 ?>
 			<div class="gradeBreakdownCol" style="float: left;">
-				<div id="chart<?php echo $j; ?>"></div>
+				<div id="chart<?php echo $j; ?>" class="chart"></div>
 			</div>
 <?php
 		}
