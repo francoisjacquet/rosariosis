@@ -180,7 +180,7 @@ if(empty($_REQUEST['modfunc']))
 		if (is_dir('assets/Frames/'))
 			$frames = scandir('assets/Frames/');
 		//no frame first and checked
-		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align:top;">'._('Frame').'</TD><TD><DIV style="overflow-x:auto; height:160px;"><table class="cellpadding-0 cellspacing-0"><tr><td class="image-radio-list"><label class="image-radio-list"><INPUT type="radio" name="frame" value="" checked /> '._('No frame').'</label></td>';
+		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align:top;">'._('Frame').'</TD><TD><DIV style="overflow-x:auto; height:160px;" id="framesList"><table class="cellpadding-0 cellspacing-0"><tr><td class="image-radio-list" style="height: auto;"><label class="image-radio-list"><INPUT type="radio" name="frame" value="" checked /> '._('No frame').'</label></td>';
 		//create radio list with thumbnails
 		$i = 1;
 		foreach ($frames as $frame)
@@ -196,6 +196,8 @@ if(empty($_REQUEST['modfunc']))
 		}
 		$extra['extra_header_left'] .= '</tr></table></DIV></TD></TR>';
 		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] .= '<script type="text/javascript">if (isTouchDevice()) {touchScroll(document.getElementById(\'framesList\'));}</script>';
+
 	}
 
 	if(!isset($_REQUEST['_ROSARIO_PDF']))
