@@ -143,9 +143,10 @@ if(empty($_REQUEST['modfunc']))
 	}
 
 	$_ROSARIO['selected_tab'] = "Modules.php?modname=$_REQUEST[modname]&amp;tab=".$_REQUEST['tab'];
-	PopTable('header',$tabs);
-
-	echo '<fieldset>';
+	if (!in_array($_REQUEST['tab'], array('student_fields','staff_fields')))
+		PopTable('header',$tabs);
+	else //modif Francois: Responsive student/staff fields preferences
+		$LO_options['header'] = WrapTabs($tabs,$_ROSARIO['selected_tab']);
 
 	if($_REQUEST['tab']=='student_listing')
 	{
@@ -292,7 +293,7 @@ if(empty($_REQUEST['modfunc']))
 			$columns = array('CATEGORY'=>'','TITLE'=>_('Field'),'SEARCH'=>_('Search'),'DISPLAY'=>_('Expanded View'));
 		else
 			$columns = array('CATEGORY'=>'','TITLE'=>_('Field'),'DISPLAY'=>_('Expanded View'));
-		ListOutput($custom_fields_RET,$columns,'.','.',array(),array(array('CATEGORY')));
+		ListOutput($custom_fields_RET,$columns,'.','.',array(),array(array('CATEGORY')),$LO_options);
 	}
 
 	if($_REQUEST['tab']=='widgets')
@@ -345,7 +346,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<INPUT type="hidden" name="values[StaffFieldsSearch]" /><INPUT type="hidden" name="values[StaffFieldsView]" />';
 		$columns = array('CATEGORY'=>'','TITLE'=>_('Field'),'STAFF_SEARCH'=>_('Search'),'STAFF_DISPLAY'=>_('Expanded View'));
 		//modif Francois: no responsive table
-		ListOutput($custom_fields_RET,$columns,'User Field','User Fields',array(),array(array('CATEGORY')));
+		ListOutput($custom_fields_RET,$columns,'User Field','User Fields',array(),array(array('CATEGORY')),$LO_options);
 	}
 
 	if($_REQUEST['tab']=='staff_widgets' && User('PROFILE')=='admin')
@@ -371,8 +372,9 @@ if(empty($_REQUEST['modfunc']))
 		ListOutput($widgets_RET,$columns,'.','.',array(),array(),$LO_options);
 	}
 
-	echo '</fieldset>';
-	PopTable('footer');
+	if (!in_array($_REQUEST['tab'], array('student_fields','staff_fields')))
+		PopTable('footer');
+
 	echo '<span class="center"><INPUT type="submit" value="'._('Save').'" /></span>';
 	echo '</FORM>';
 }
