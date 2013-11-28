@@ -140,12 +140,7 @@ a,#adminmenu a{
 	background-color:#ececec;
 	border-color:#ccc
 }
-#adminmenushadow{
-	background-image:url(menu-shadow.png);
-	background-position:top right;
-	background-repeat:repeat-y
-}
-#adminmenu a.menu-top,#adminmenu .wp-submenu .wp-submenu-head{
+#adminmenu a.menu-top{
 	border-top-color:#f9f9f9;
 	border-bottom-color:#dfdfdf
 }
