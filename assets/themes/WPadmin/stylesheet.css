@@ -10,7 +10,7 @@
 #footer{clear:both;display:block;position:fixed;z-index:99999;bottom:0;left:0;height:30px;width:100%;background-color:#ececec;}
 #footerwrap{height:24px;margin-top:3px;margin-bottom:3px;text-align:center;}
 #footerhelp{display:none;height:0px;background-color:white;overflow-y:scroll;padding-left:8px;}
-.mod{overflow: hidden;}
+.mod{overflow:hidden;}
 .mod:after{content:"";display:table;clear:both;}
 
 input[type=text],input[type=password],textarea{
@@ -19,8 +19,8 @@ input[type=text],input[type=password],textarea{
 	box-sizing:border-box;
 }
 input[type=checkbox],input[type=radio]{
-	margin-bottom: 0px;
-	margin-right: 0px;
+	margin-bottom:0px;
+	margin-right:0px;
 	vertical-align:text-bottom
 }
 html,body{
@@ -36,8 +36,8 @@ body{
     font-size:12px
 }
 a{
-    -webkit-transition: color 0.2s ease-out 0s;
-    transition: color 0.2s ease-out 0s
+    -webkit-transition:color 0.2s ease-out 0s;
+    transition:color 0.2s ease-out 0s
 }
 iframe,img{
 	border:0
@@ -54,7 +54,7 @@ input,select{
 }
 a,input,select{
 	outline:0;
-	text-decoration: none
+	text-decoration:none
 }
 blockquote,q{
 	quotes:none
@@ -194,12 +194,12 @@ h2{
 select option{
 	padding:2px
 }
-input[type=submit], input[type=reset], input[type=button]{
+input[type=submit],input[type=reset],input[type=button]{
 	text-decoration:none;
 	font-size:12px!important;
 	line-height:14px;
 	padding:3px 10px;
-	margin: 0 8px;
+	margin:0 8px;
 	cursor:pointer;
 	border-width:1px;
 	border-style:solid;
@@ -224,7 +224,7 @@ label{
 	margin:0;
 	padding:0
 }
-#adminmenu *, .widefat th{
+#adminmenu *,.widefat th{
 	-webkit-user-select:none;
 	-moz-user-select:none;
 	user-select:none
@@ -272,31 +272,31 @@ label{
 }
 .postbox h3{
 	padding:6px 10px;
-	border: 0
+	border:0
 }
 .postbox .h3multi h3{
-	display: inline-block;
-	/* IE7 inline-block hack: */
-	zoom: 1;
-    *display: inline
+	display:inline-block;
+	/* IE7 inline-block hack:*/
+	zoom:1;
+    *display:inline
 }
-.postbox h3, .postbox .h3multi{
+.postbox h3,.postbox .h3multi{
 	margin:0;
 	-webkit-user-select:none;
 	-moz-user-select:none;
 	user-select:none
 }
-.postbox h3, .postbox h3 a{
+.postbox h3,.postbox h3 a{
 	font-size:15px;
 	font-weight:normal
 }
 .postbox .h3multi{
 	border-bottom-width:1px;
 	border-bottom-style:solid;
-	width: 100%;
-	padding-left: 0px;
-	padding-right: 0px;
-	overflow-y: hidden
+	width:100%;
+	padding-left:0px;
+	padding-right:0px;
+	overflow-y:hidden
 }
 th a{
 	display:block;
@@ -337,17 +337,17 @@ h3 span{
 /*added*/
 .alignImg{
 	vertical-align:middle;
-	height: 24px
+	height:24px
 }
 #body{
-	padding: 0 15px
+	padding:0 15px
 }
 img.headerIcon{
 	height:32px;
 	vertical-align:bottom
 }
 .header2{
-	padding: 2px
+	padding:2px
 }
 #courses_div{
 	position:absolute;
@@ -368,7 +368,7 @@ img.headerIcon{
 .sizep2{
 	font-size:14px
 }
-form.login input[type=text], form.login input[type=password]{
+form.login input[type=text],form.login input[type=password]{
 	font-weight:200;
 	font-size:14px;
 	width:100%;
@@ -385,77 +385,77 @@ form.login input[type=text], form.login input[type=password]{
 	border-bottom-color:gray
 }
 span[class^=legend]{
-	margin-top: 5px;
-	margin-bottom: 7px;
-	display: block
+	margin-top:5px;
+	margin-bottom:7px;
+	display:block
 }
 #SideLogo{
-	margin-left: 25px;
+	margin-left:25px;
 	margin-bottom:4px;
 	margin-top:2px
 }
 td.image-radio-list{
-	height: 160px;
-	padding: 0;
-	margin: 0;
-	float: left;
-	position: relative
+	height:160px;
+	padding:0;
+	margin:0;
+	float:left;
+	position:relative
 }
 label.image-radio-list{
 	padding:0px 20px
 }
 img.image-radio-list{
-	vertical-align: top;
-	max-width: 150px;
-	max-height: 150px
+	vertical-align:top;
+	max-width:150px;
+	max-height:150px
 }
 div.onclick{
 	cursor:pointer
 }
 table.cellspacing-0{
 	/*cellspacing="0"*/
-	border-spacing: 0
+	border-spacing:0
 }
 .width-100p{
 	/*width="100%"*/
-	width: 100%
+	width:100%
 }
 table.cellpadding-0 > td{
-	padding: 0px
+	padding:0px
 }
 table.cellpadding-1 > td{
-	padding: 1px
+	padding:1px
 }
 table.cellpadding-2 > td{
-	padding: 2px
+	padding:2px
 }
 table.cellpadding-3 > td{
-	padding: 3px
+	padding:3px
 }
 table.cellpadding-5 > td{
-	padding: 5px
+	padding:5px
 }
 table.cellpadding-6 > td{
-	padding: 6px
+	padding:6px
 }
 td.popTable{
-	padding: 5px;
+	padding:5px;
 }
-td.valign-top, tr.valign-top{
-	vertical-align: top
+td.valign-top,tr.valign-top{
+	vertical-align:top
 }
 .center{
 	/*<CENTER> && <TD align="center">*/
-	text-align: center
+	text-align:center
 }
 span.nobr{
-	white-space: nowrap
+	white-space:nowrap
 }
 div.nobr div{
-	display: inline
+	display:inline
 }
 span.center{
-	display: block
+	display:block
 }
 .BottomButton{
 	vertical-align:super
@@ -464,20 +464,20 @@ span.center{
 	vertical-align:baseline
 }
 #BottomButtonMenu{
-	float: left;
-	padding: 6px 0 0 6px
+	float:left;
+	padding:6px 0 0 6px
 }
 #BottomButtonMenu a:before{
-	content: "\2261";		
-	color: #000;
-	font-size: 3rem;
-	font-weight: bold;
+	content:"\2261";		
+	color:#000;
+	font-size:3rem;
+	font-weight:bold;
 	vertical-align:top
 }
 tr.address > td{
-	border-style: none dotted none none;
-	border: 1;
-	padding: 0 12px 0 12px
+	border-style:none dotted none none;
+	border:1;
+	padding:0 12px 0 12px
 }
 #chart{
 	margin-top:20px;
@@ -485,55 +485,55 @@ tr.address > td{
 	width:600px;
 	height:480px
 }
-table.mceLayout, textarea.tinymce{
+table.mceLayout,textarea.tinymce{
 	/*cols="97" rows="27"*/
 	width:708px;
 	height:475px 
 }
 /*stackable tables*/
 div.st{
-	float: left;
-	padding: 4px
+	float:left;
+	padding:4px
 }
 /*calendar*/
 #calendar{
 	margin:0 auto
 }
 #calendar > tbody > tr > td{
-	width: 126px
+	width:126px
 }
 .calendar-day{
 	height:inherit
 }
 /*responsive tables*/
 .rt .link2colorBox{
-	display: none
+	display:none
 }
 
 /*mobile*/
-@media only screen and (max-width: 640px){
+@media only screen and (max-width:640px){
 	/*quick smartphone reset*/
 	.mod{
-		display: block !important;
-		float: none !important;
-		clear: none !important;
-		width: auto !important;
-		margin-left: 0 !important;
-		margin-right: 0 !important;
-		position: relative !important;
-		border: 0
+		display:block !important;
+		float:none !important;
+		clear:none !important;
+		width:auto !important;
+		margin-left:0 !important;
+		margin-right:0 !important;
+		position:relative !important;
+		border:0
 	}
 	#SideLogo{
 		width:130px;margin:2px;max-height:118px;float:right
 	}
-	#menu{
+	#menu,#body{
 		margin-bottom:0
 	}
 	.menu-top img{
-		height: 24px
+		height:24px
 	}
 	#body{
-		padding: 0 2px
+		padding:0 2px
 	}
 	h2{
 		font-size:20px;
@@ -545,94 +545,94 @@ div.st{
 		vertical-align:bottom
 	}
 	.BottomButton{
-		display: none
+		display:none
 	}
-	#general_table input, input[id=USERNAME], input[id=PASSWORD], #general_table select, #LO_search{
-		max-width: 90px
+	#general_table input,input[id=USERNAME],input[id=PASSWORD],#general_table select,#LO_search{
+		max-width:90px
 	}
 	#modulesBody textarea{ 
-		width: 100% !important
+		width:100% !important
 	}
 	td.popTable{
-		padding: 2px
+		padding:2px
 	}
 	tr.address > td{
-		border-style: none none dotted none;
-		padding: 12px 0 12px 0
+		border-style:none none dotted none;
+		padding:12px 0 12px 0
 	}
-	#chart, .chart{
+	#chart,.chart{
 		margin-top:0;
 		margin-left:0;
 		width:300px;
 		height:240px
 	}
-	input[type=submit], input[type=reset], input[type=button]{
-		margin: 0 4px;
-		max-width: 120px
+	input[type=submit],input[type=reset],input[type=button]{
+		margin:0 4px;
+		max-width:120px
 	}
-	table.mceLayout, textarea.tinymce{
-		width: 100% !important
+	table.mceLayout,textarea.tinymce{
+		width:100% !important
 	}
 	/*stackable tables*/
 	tr.st > td{
-		float: left;
-		width: 100%
+		float:left;
+		width:100%
 	}
 	/*calendar*/
 	#calendar{
 		margin:0 0
 	}
 	#calendar > thead > tr > th > span{
-		display: none
+		display:none
 	}
 	#calendar > tbody > tr > td{
-		width: 32px
+		width:32px
 	}
 	.calendar-day{
-		display: block;
-		height: 32px;
-		width: inherit;
-		overflow: hidden;
-		z-index: 1
+		display:block;
+		height:32px;
+		width:inherit;
+		overflow:hidden;
+		z-index:1
 	}
 	.calendar-day.hover:hover{
-		height: auto;
-		width: 126px;
+		height:auto;
+		width:126px;
 		z-index:100;
-		position: absolute;
-		background-color: inherit
+		position:absolute;
+		background-color:inherit
 	}
 	.calendar-day-bold{
-		font-weight: bold
+		font-weight:bold
 	}
 }
 
-@media only screen and (max-width: 1023px){
+@media only screen and (max-width:1023px){
 	/*responsive tables*/
-	.rt{ display: block; position: relative; width: 100% }
-	.rt thead{ display: block; float: left; max-width: 130px; }
-	.rt tbody{ display: block; width: auto; position: relative; overflow-x: auto; white-space: nowrap }
-	.rt thead tr{ display: block }
-	.rt th{ display: block; padding: 4px 7px 2px; line-height: 2em; height: 2em }
-	.rt tbody tr{ display: inline-block; vertical-align: top }
-	.rt td{ display: block; line-height: 2em; height: 2em }
-	.rt img{ max-height: 1.5em }
-	.rt input, .rt select{ margin:0 }
-	.rt th, .rt th a{ font-size:12px }
-	.rt tr{ border-right-width: 1px; border-right-style: solid }
+	.rt{ display:block; position:relative; width:100% }
+	.rt thead{ display:block; float:left; max-width:130px; }
+	.rt tbody{ display:block; width:auto; position:relative; overflow-x:auto; white-space:nowrap }
+	.rt thead tr{ display:block }
+	.rt th{ display:block; padding:4px 7px 2px; line-height:2em; height:2em }
+	.rt tbody tr{ display:inline-block; vertical-align:top }
+	.rt td{ display:block; line-height:2em; height:2em }
+	.rt img{ max-height:1.5em }
+	.rt input,.rt select{ margin:0 }
+	.rt th,.rt th a{ font-size:12px }
+	.rt tr{ border-right-width:1px; border-right-style:solid }
 	/*rt td too large*/
-	.rt input, .rt textarea{ max-width: 150px }
-	.rt td:hover{ overflow-y: visible; min-height: 2em; height: 100% }
-	.rt .link2colorBox{ display: inline }
-	.rt .link2colorBox + .rt2colorBox{ display: none }
-	.rt2colorBox{ background-color: #fff; overflow:auto }
+	.rt input,.rt textarea{ max-width:150px }
+	.rt td:hover{ overflow-y:visible; min-height:2em; height:100% }
+	.rt .link2colorBox{ display:inline }
+	.rt .link2colorBox + .rt2colorBox{ display:none }
+	.rt2colorBox{ background-color:#fff; overflow:auto }
 }
 
 /*wkhtmltopdf reset*/
-#pdf input[type=submit], #pdf input[type=reset], #pdf input[type=button]{
-	max-width: none !important
+#pdf input[type=submit],#pdf input[type=reset],#pdf input[type=button]{
+	max-width:none !important
 }
 #pdf tr.st > td{
-	float: none;
-	width: auto
+	float:none;
+	width:auto
 }
