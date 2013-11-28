@@ -23,7 +23,7 @@ if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'
 	}
 	
 	unset($_REQUEST['modfunc']);
-//	DrawHeader('<IMG SRC=assets/check.png>&nbsp;'._('The Daily Attendance for that timeframe has been recalculated.'));
-	echo '<div class="updated"><IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('The Daily Attendance for that timeframe has been recalculated.').'</div>';
+//	DrawHeader('<IMG SRC=assets/check_button.png>&nbsp;'._('The Daily Attendance for that timeframe has been recalculated.'));
+	echo '<div class="updated"><IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The Daily Attendance for that timeframe has been recalculated.').'</div>';
 }
 ?>

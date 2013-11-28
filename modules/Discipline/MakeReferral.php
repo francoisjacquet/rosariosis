@@ -81,7 +81,7 @@ if($_REQUEST['values'] && $_POST['values'])
 	$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 	DBQuery($sql);
 //modif Francois: css WPadmin
-	$note = '<div class="updated"><IMG SRC="assets/check.png" class="alignImg"> '._('That discipline incident has been referred to an administrator.').'</div>';
+	$note = '<div class="updated"><IMG SRC="assets/check_button.png" class="alignImg" /> '._('That discipline incident has been referred to an administrator.').'</div>';
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['values']);
 	unset($_REQUEST['student_id']);

@@ -456,7 +456,7 @@ if(empty($_REQUEST['modfunc']))
 	if(AllowEdit() && $defaults!=1)
 //modif Francois: css WPadmin
 //		DrawHeader('<IMG src=assets/warning_button.png><span style="color:red"> '.($defaults?_('This school has more than one default calendar!'):_('This school does not have a default calendar!')).'</span>');
-		echo '<div class="updated"><IMG SRC="assets/check.png" class="alignImg">&nbsp;'.($defaults?_('This school has more than one default calendar!'):_('This school does not have a default calendar!')).'</div>';
+		echo '<div class="updated"><IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'.($defaults?_('This school has more than one default calendar!'):_('This school does not have a default calendar!')).'</div>';
 	echo '<BR />';
 
 	$events_RET = DBGet(DBQuery("SELECT ID,to_char(SCHOOL_DATE,'dd-MON-yy') AS SCHOOL_DATE,TITLE,DESCRIPTION FROM CALENDAR_EVENTS WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',mktime(0,0,0,$_REQUEST['month'],$last,$_REQUEST['year']))."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('SCHOOL_DATE'));
@@ -488,7 +488,7 @@ if(empty($_REQUEST['modfunc']))
 			echo '<TABLE style="width:95px;"><TR><TD style="text-align:right;">';
 			if($calendar_RET[$date][1]['MINUTES']=='999')
 //modif Francois: icones
-				echo CheckboxInput($calendar_RET[$date],"all_day[$date]",'','',false,'<IMG SRC="assets/check.png" height="16">', '', true, 'title="'._('All Day').'" style="height: 18px;"');
+				echo CheckboxInput($calendar_RET[$date],"all_day[$date]",'','',false,'<IMG SRC="assets/check_button.png" height="16">', '', true, 'title="'._('All Day').'" style="height: 18px;"');
 			elseif($calendar_RET[$date][1]['MINUTES'])
 				echo TextInput($calendar_RET[$date][1]['MINUTES'],"minutes[$date]",'','size=3');
 			else

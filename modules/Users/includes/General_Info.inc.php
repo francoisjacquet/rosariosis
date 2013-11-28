@@ -183,7 +183,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 		{
 			if($i%3==0)
 				echo '</TR><TR>';
-			echo '<TD>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'],'',false,'<IMG SRC="assets/check.png" width="15">','<IMG SRC="assets/x.png" width="15">').'</TD>';
+			echo '<TD>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'],'',false,'<IMG SRC="assets/check_button.png" width="15">','<IMG SRC="assets/x_button.png" width="15">').'</TD>';
 			$i++;
 		}
 		echo '</TR></TABLE>';

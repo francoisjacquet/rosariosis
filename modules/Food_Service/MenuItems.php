@@ -243,7 +243,7 @@ function makeCheckboxInput($value,$name)
 	else
 		$id = 'new';
 
-	return CheckboxInput($value,"values[$id][$name]",'',$value,$id=='new','<IMG SRC="assets/check.png" height="15">','<IMG SRC="assets/x.png" height="15">');
+	return CheckboxInput($value,"values[$id][$name]",'',$value,$id=='new','<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">');
 }
 
 function makeIcon($value,$name)

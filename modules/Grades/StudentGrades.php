@@ -146,10 +146,10 @@ if(!$_REQUEST['id'])
 				switch($ungraded)
 				{
 					case 0:
-					$ungraded = '<img src="assets/x.png" height="15" />';
+					$ungraded = '<img src="assets/x_button.png" height="15" />';
 					break;
 					case 1:
-					$ungraded = '<img src="assets/check.png" height="15" />';
+					$ungraded = '<img src="assets/check_button.png" height="15" />';
 					break;
 					default:
 					break;

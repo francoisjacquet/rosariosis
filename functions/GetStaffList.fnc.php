@@ -169,7 +169,7 @@ function makeLogin($value,$title='LAST_LOGIN')
 	if ($title == 'LAST_LOGIN')
 	{
 		if(empty($value))
-			return '<img src="assets/x.png" height="16" />';
+			return '<img src="assets/x_button.png" height="16" />';
 		else
 			return ProperDate(mb_substr($value,0,10)).mb_substr($value,10);
 	}

@@ -83,10 +83,10 @@ function _preparePeriods($value,$name)
 	$period_id = mb_substr($name,7);
 	if(!$schedule_RET[$THIS_RET['STUDENT_ID']][$period_id])
 //modif Francois: css WPadmin
-//		return '<TABLE cellpadding=0 cellspacing=0 style=LO_field><TR><TD><IMG SRC=assets/x.png></TD></TR></TABLE>';
-		return '<IMG SRC="assets/x.png" height="15">';
+//		return '<TABLE cellpadding=0 cellspacing=0 style=LO_field><TR><TD><IMG SRC=assets/x_button.png></TD></TR></TABLE>';
+		return '<IMG SRC="assets/x_button.png" height="15">';
 	else
 //		return '';
-		return '<IMG SRC="assets/check.png" height="15">';
+		return '<IMG SRC="assets/check_button.png" height="15">';
 }
 ?>

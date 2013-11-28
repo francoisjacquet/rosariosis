@@ -23,7 +23,7 @@ if($_SESSION['LAST_LOGIN'])
 if($_REQUEST['failed_login'])
 //modif Francois: css WPadmin add class error for all Warning! of this file
 //	$welcome .= '<BR />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('There have been <b>%d</b> failed login attempts since your last successful login.'),$_REQUEST['failed_login']);
-	$welcome .= '<BR /><div class="error"><p><IMG SRC="assets/x.png" class="alignImg">&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('There have been <b>%d</b> failed login attempts since your last successful login.'),$_REQUEST['failed_login']).'</p></div>';
+	$welcome .= '<BR /><div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('There have been <b>%d</b> failed login attempts since your last successful login.'),$_REQUEST['failed_login']).'</p></div>';
 
 switch (User('PROFILE'))
 {
@@ -105,7 +105,7 @@ switch (User('PROFILE'))
 			
 			if (count($RET))
 			{
-				echo '<div class="error"><p><IMG SRC="assets/x.png" class="alignImg">&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.Localize('colon',_('Teachers have missing attendance data')).'</p></div>';
+				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.Localize('colon',_('Teachers have missing attendance data')).'</p></div>';
 				ListOutput($RET,array('SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'SCHOOL'=>_('School')),'Course Period with missing attendance data','Course Periods with missing attendance data',array(),array('COURSE_PERIOD_ID'),array('save'=>false,'search'=>false));
 //				echo '';
 			}
@@ -118,7 +118,7 @@ switch (User('PROFILE'))
 		    $staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
 		    $staff = $staff[1];
 		    if($staff['BALANCE'] && $staff['BALANCE']<0)
-			    echo '<div class="error"><p><IMG SRC="assets/x.png" class="alignImg">&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE']).'</p></div>';
+			    echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE']).'</p></div>';
 
 		    // warn if students with way low food service balances
 		    $extra['SELECT'] = ',fssa.STATUS,fsa.BALANCE';
@@ -128,7 +128,7 @@ switch (User('PROFILE'))
 		    $RET = GetStuList($extra);
 		    if (count($RET))
             {
-			    echo '<p><div class="error"><p><IMG SRC="assets/x.png" class="alignImg">&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.Localize('colon',_('Some students have food service balances below -$10.00')).'</p></div>';
+			    echo '<p><div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.Localize('colon',_('Some students have food service balances below -$10.00')).'</p></div>';
 			    ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'BALANCE'=>_('Balance')),'Student','Students',array(),array(),array('save'=>false,'search'=>false));
 //			    echo '</p>';
   		    }
@@ -193,7 +193,7 @@ switch (User('PROFILE'))
 			
 			if (count($RET))
 			{
-				echo '<div class="error"><p><IMG SRC="assets/x.png" class="alignImg">&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.Localize('colon',_('You have missing attendance data')).'</div></p>';
+				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.Localize('colon',_('You have missing attendance data')).'</div></p>';
 				ListOutput($RET,array('SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher')),'Course Period with missing attendance data','Course Periods with missing attendance data',array(),array('COURSE_PERIOD_ID'),array('save'=>false,'search'=>false));
 //				echo '</p>';
 			}
@@ -206,7 +206,7 @@ switch (User('PROFILE'))
 		$staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
 		$staff = $staff[1];
 		if($staff['BALANCE'] && $staff['BALANCE']<0)
-			echo '<div class="error"><p><IMG SRC="assets/x.png" class="alignImg">&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE']).'</p></div>';
+			echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE']).'</p></div>';
 		}
 
 		echo '<p>&nbsp;'._('Happy teaching...').'</p>';
@@ -255,7 +255,7 @@ switch (User('PROFILE'))
 		$RET = GetStuList($extra);
 		if (count($RET))
 		{
-			echo '<div class="error"><p><IMG SRC="assets/x.png" class="alignImg">&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'._('You have students with food service balance below $5.00 - please deposit at least the Minimum Deposit into you children\'s accounts.').'</p></div>';
+			echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'._('You have students with food service balance below $5.00 - please deposit at least the Minimum Deposit into you children\'s accounts.').'</p></div>';
 			ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'ACCOUNT_ID'=>_('Account ID'),'BALANCE'=>_('Balance'),'DEPOSIT'=>_('Minimum Deposit')),'Student','Students',array(),array(),array('save'=>false,'search'=>false));
 //			echo '</p>';
 		}
@@ -264,7 +264,7 @@ switch (User('PROFILE'))
 		$staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
 		$staff = $staff[1];
 		if($staff['BALANCE'] && $staff['BALANCE']<0)
-			echo '<div class="error"><p><IMG SRC="assets/x.png" class="alignImg">&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE']).'</p></div>';
+			echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE']).'</p></div>';
 		}
 
 		echo '<p>&nbsp;'._('Happy parenting...').'</p>';

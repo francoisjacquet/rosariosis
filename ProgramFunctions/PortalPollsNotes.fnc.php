@@ -117,7 +117,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	$js_included = $js_included_is_voting;
 	
 	if (!$display_votes)
-		return ErrorMessage(array('<IMG SRC="assets/check.png" class="alignImg">&nbsp;'.(isset($_POST['poll_completed_string'])? $_POST['poll_completed_string'] : _('Poll completed'))),'Note');
+		return ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'.(isset($_POST['poll_completed_string'])? $_POST['poll_completed_string'] : _('Poll completed'))),'Note');
 	
 	//modif Francois: responsive rt td too large
 	$votes_display .= includeOnceColorBox('divPortalPoll'.$poll_id);

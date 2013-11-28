@@ -77,7 +77,7 @@ if($_REQUEST['delete']=='true')
 
 					DrawHeader(ProgramTitle());
 	//modif Francois: css WPadmin
-					echo '<div class="updated"><IMG SRC="assets/check.png" class="alignImg">&nbsp;'. _('The duplicate records have been deleted.') . '</div>';
+					echo '<div class="updated"><IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'. _('The duplicate records have been deleted.') . '</div>';
 			}
         }
 		else

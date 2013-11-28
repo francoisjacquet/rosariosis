@@ -60,7 +60,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				UpdateAttendanceDaily($student_id,$date,($_REQUEST['absence_reason']?$_REQUEST['absence_reason']:false));
 			}
 		}
-		$note[] = '<IMG SRC="assets/check.png" class="alignImg" />&nbsp;'._('Absence records were added for the selected students.');
+		$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('Absence records were added for the selected students.');
 	}
 	else
 		$error[] = _('You must choose at least one period and one student.');

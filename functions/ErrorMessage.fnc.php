@@ -30,7 +30,7 @@ function ErrorMessage($errors,$code='error')
 		if(count($errors)==1)
 		{
 			if($code=='error' || $code=='fatal')
-				$return .= '<div class="error"><p><IMG SRC="assets/x.png" class="alignImg">&nbsp;<b>'.Localize('colon',_('Error')).'</b> ';
+				$return .= '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<b>'.Localize('colon',_('Error')).'</b> ';
 			else
 				$return .= '<div class="updated"><p><b>'.Localize('colon',_('Note')).'</b> ';
 			$return .= ($errors[0]?$errors[0]:$errors[1]) .'</p>';
@@ -38,7 +38,7 @@ function ErrorMessage($errors,$code='error')
 		else
 		{
 			if($code=='error' || $code=='fatal')
-				$return .= '<div class="error"><p><IMG SRC="assets/x.png" class="alignImg">&nbsp;<b>'.Localize('colon',_('Errors'))."</b></p>";
+				$return .= '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<b>'.Localize('colon',_('Errors'))."</b></p>";
 			else
 				$return .= '<div class="updated"><p>&nbsp;<b>'.Localize('colon',_('Note')).'</b></p>';
 			$return .= '<ul>';

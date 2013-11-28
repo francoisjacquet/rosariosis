@@ -25,7 +25,7 @@ function _makeChooseCheckbox($value,$title)
 function x($value)
 {
 	if($value)
-		return '<IMG SRC="assets/check.png" height="15" />';
+		return '<IMG SRC="assets/check_button.png" height="15" />';
 	else
 		return '&nbsp;';
 }

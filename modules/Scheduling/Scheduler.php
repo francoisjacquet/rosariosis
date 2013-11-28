@@ -233,8 +233,8 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	echo '<script type="text/javascript">'."\r";
 //modif Francois: Moodle integrator
 	//modif Francois: bugfix addHTML is not defined
-	//echo 'addHTML("'.str_replace('"','\"', str_replace(array("'",'"'),array('&#39;','&rdquo;'),$moodleError).'<IMG SRC="assets/check.png" class="alignImg" /> <B>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Done.')).'</B>').'","percentDIV",true);'."\r";
-	echo 'document.getElementById("percentDIV").innerHTML = "'.str_replace('"','\"', str_replace(array("'",'"'),array('&#39;','&rdquo;'),$moodleError).'<IMG SRC="assets/check.png" class="alignImg" /> <B>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Done.')).'</B>').'",";'."\r";
+	//echo 'addHTML("'.str_replace('"','\"', str_replace(array("'",'"'),array('&#39;','&rdquo;'),$moodleError).'<IMG SRC="assets/check_button.png" class="alignImg" /> <B>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Done.')).'</B>').'","percentDIV",true);'."\r";
+	echo 'document.getElementById("percentDIV").innerHTML = "'.str_replace('"','\"', str_replace(array("'",'"'),array('&#39;','&rdquo;'),$moodleError).'<IMG SRC="assets/check_button.png" class="alignImg" /> <B>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Done.')).'</B>').'",";'."\r";
 	echo '</script>';
 	ob_end_flush();
 

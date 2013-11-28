@@ -64,7 +64,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			DBQuery("UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='".$calendar."' WHERE SYEAR='".UserSyear()."' AND STUDENT_ID IN (".mb_substr($students,1).") ");
 
 		if(!$note)
-			$note = '<IMG SRC="assets/check.png" class="alignImg" />&nbsp;'._('The specified information was applied to the selected students.');
+			$note = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The specified information was applied to the selected students.');
 	}
 	else
 		$error[] = _('You must choose at least one field and one student');

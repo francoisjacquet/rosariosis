@@ -38,7 +38,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							$moodleError .= Moodle($_REQUEST['modname'], 'core_role_unassign_roles');
 						}
 					}
-					$note[] = '<IMG SRC="assets/check.png" class="alignImg">&nbsp;'._('This course has been dropped for the selected students\' schedules.');
+					$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('This course has been dropped for the selected students\' schedules.');
 				}
 				else
 					$error[] = _('You cannot schedule a student into that course during this marking period.').' '.sprintf(_('This course meets on %s.'),GetMP($course_mp));

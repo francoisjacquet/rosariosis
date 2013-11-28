@@ -124,7 +124,7 @@ if($date != DBDate())
 
 $completed = DBGet(DBQuery('SELECT count(\'Y\') AS COMPLETED FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND MENU_ID=\''.$_REQUEST['menu_id'].'\''));
 if($completed[1]['COMPLETED'])
-	$note = ErrorMessage(array('<IMG SRC="assets/check.png" class="alignImg">'._('You have taken lunch counts today for this period.')),'note');
+	$note = ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />'._('You have taken lunch counts today for this period.')),'note');
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note,SubmitButton(_('Save')));

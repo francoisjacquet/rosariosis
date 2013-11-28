@@ -17,7 +17,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					DBQuery($sql);
 				}
 			}
-			$note[] = '<IMG SRC="assets/check.png" class="alignImg" />&nbsp;'._('This activity has been added to the selected students.');
+			$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('This activity has been added to the selected students.');
 		}
 		else
 			$error[] = _('You must choose at least one student.');
