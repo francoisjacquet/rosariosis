@@ -58,7 +58,11 @@ function PDFStop($handle)
 			$wkhtmltopdf->setHtml($html);
 			
 			//MODE_EMBEDDED displays PDF in browser, MODE_DOWNLOAD forces PDF download
-			$wkhtmltopdf->output(Wkhtmltopdf::MODE_EMBEDDED, str_replace(array(_('Print').' ', ' '),array('', '_'),utf8_decode(ProgramTitle())).'.pdf');
+			//modif Francois: force PDF DOWNLOAD for Android mobile & tablet
+			if (mb_stripos($_SERVER['HTTP_USER_AGENT'],'android') !== false)
+				$wkhtmltopdf->output(Wkhtmltopdf::MODE_DOWNLOAD, str_replace(array(_('Print').' ', ' '),array('', '_'),utf8_decode(ProgramTitle())).'.pdf');
+			else
+				$wkhtmltopdf->output(Wkhtmltopdf::MODE_EMBEDDED, str_replace(array(_('Print').' ', ' '),array('', '_'),utf8_decode(ProgramTitle())).'.pdf');
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
