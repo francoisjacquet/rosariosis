@@ -120,13 +120,11 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 <HEAD>
 	<TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
 	<meta charset="UTF-8" />
+	<meta name="robots" content="noindex,nofollow" />
 	<meta name="viewport" content="width=device-width" />
 	<noscript><META http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&reason=javascript" /></noscript>
 	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
-</HEAD>
-<meta name="robots" content="noindex,nofollow" />
-<link REL="SHORTCUT ICON" HREF="favicon.ico">
 </HEAD>
 <BODY>
 <BR /><BR />
@@ -177,12 +175,12 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 	<BR /><BR />
 	</td></tr>
 	</table>';
-	echo '<span class="center">RosarioSIS '.sprintf(_('version %s'),$RosarioVersion);
-    echo '<BR />&copy; 2004-2009 <A HREF="http://www.miller-group.net">The Miller Group, Inc</A>';
-    echo '<br />&copy; 2009 <a href="http://www.glenn-abbey.com">Glenn Abbey Software, Inc</a>';
-    echo '<br />&copy; 2009 <a href="http://www.centresis.org">Learners Circle, LLC</a>';
-    echo '<br />&copy; 2012-2013 <a href="http://www.rosariosis.org">François Jacquet</a>';
-    echo '</span>';
+	echo '<span class="center">RosarioSIS '.sprintf(_('version %s'),$RosarioVersion).'
+	<BR />&copy; 2004-2009 <A HREF="http://www.miller-group.net">The Miller Group, Inc</A>
+	<br />&copy; 2009 <a href="http://www.glenn-abbey.com">Glenn Abbey Software, Inc</a>
+	<br />&copy; 2009 <a href="http://www.centresis.org">Learners Circle, LLC</a>
+	<br />&copy; 2012-2013 <a href="http://www.rosariosis.org">François Jacquet</a>
+	</span>';
 	PopTable("footer");
 	echo '<BR /></BODY></HTML>';
 }
