@@ -39,7 +39,7 @@ if($_REQUEST['fields']['ADDRESS'] || $_REQUEST['fields']['CITY'] || $_REQUEST['f
 }
 $extra['SELECT'] .= ',ssm.NEXT_SCHOOL,ssm.CALENDAR_ID,ssm.SYEAR,ssm.SCHOOL_ID AS SCHOOL_NUMBER,s.*';
 if($_REQUEST['fields']['FIRST_INIT'])
-	$extra['SELECT'] .= ',mb_substr(s.FIRST_NAME,1,1) AS FIRST_INIT';
+	$extra['SELECT'] .= ',SUBSTR(s.FIRST_NAME,1,1) AS FIRST_INIT';
 if($_REQUEST['fields']['GIVEN_NAME'])
 	$extra['SELECT'] .= ",s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS GIVEN_NAME";
 if($_REQUEST['fields']['COMMON_NAME'])
