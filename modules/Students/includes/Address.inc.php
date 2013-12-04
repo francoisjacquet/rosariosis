@@ -551,7 +551,7 @@ if(empty($_REQUEST['modfunc']))
 			{
 				$display_address = urlencode($this_address['ADDRESS'].', '.($this_address['CITY']?' '.$this_address['CITY'].', ':'').$this_address['STATE'].($this_address['ZIPCODE']?' '.$this_address['ZIPCODE']:''));
 				$link = 'http://google.com/maps?q='.$display_address;
-				echo '<TR><TD class="valign-top" colspan="3"><A HREF="#" onclick=\'window.open("'.$link.'","","scrollbars=yes,resizable=yes,width=800,height=700");\'><IMG SRC="assets/compass_rose_button.png" class="alignImg" />&nbsp;'._('Map It').'</A></TD></TR>';
+				echo '<TR><TD class="valign-top" colspan="3"><A HREF="#" onclick=\'window.open("'.$link.'","","scrollbars=yes,resizable=yes,width=800,height=700"); return false;\'><IMG SRC="assets/compass_rose_button.png" class="alignImg" />&nbsp;'._('Map It').'</A></TD></TR>';
 			}
 			echo '</TABLE>';
 

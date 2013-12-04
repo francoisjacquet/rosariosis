@@ -47,10 +47,6 @@ if($_REQUEST['values'] && $_POST['values'])
 
 		if($_REQUEST['tab']=='student_listing' && $_REQUEST['values']['Preferences']['SEARCH']!='Y')
 			$_REQUEST['values']['Preferences']['SEARCH'] = 'N';
-		if($_REQUEST['tab']=='student_listing' && $_REQUEST['values']['Preferences']['E_CODEDS']!='Y')
-			$_REQUEST['values']['Preferences']['E_CODEDS'] = 'N';
-		if($_REQUEST['tab']=='student_listing' && $_REQUEST['values']['Preferences']['E_EXPORTS']!='Y')
-			$_REQUEST['values']['Preferences']['E_EXPORTS'] = 'N';
 		if($_REQUEST['tab']=='student_listing' && User('PROFILE')=='admin' && $_REQUEST['values']['Preferences']['DEFAULT_FAMILIES']!='Y')
 			$_REQUEST['values']['Preferences']['DEFAULT_FAMILIES'] = 'N';
 		if($_REQUEST['tab']=='student_listing' && User('PROFILE')=='admin' && $_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS']!='Y')
@@ -157,8 +153,6 @@ if(empty($_REQUEST['modfunc']))
 		echo '<TR class="st"><TD style="vertical-align: top;"><span style="color:gray">'._('File Export Type').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][DELIMITER]" value="Tab"'.((Preferences('DELIMITER')=='Tab')?' checked':'').'> '._('Tab-Delimited (Excel)').'</label><BR /><label><INPUT type="radio" name="values[Preferences][DELIMITER]" value="CSV"'.((Preferences('DELIMITER')=='CSV')?' checked':'').'> CSV (OpenOffice)</label></TD></TR>';
 		echo '<TR class="st"><TD style="vertical-align: top;"><span style="color:gray">'._('Date Export Format').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][E_DATE]" value=""'.((Preferences('E_DATE')=='')?' checked':'').'> '._('Display Options Format').'</label><BR /><label><INPUT type="radio" name="values[Preferences][E_DATE]" value="MM/DD/YYYY"'.((Preferences('E_DATE')=='MM/DD/YYYY')?' checked':'').'> MM/DD/YYYY</label></TD></TR>';
 //modif Francois: add <label> on checkbox
-		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][E_CODEDS]" value="Y"'.((Preferences('E_CODEDS')=='Y')?' checked':'').'> '.sprintf(_('Export %s fields as stored value'),'<i>'._('Coded Pull-Down').'</i>').'</label></TD></TR>';
-		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][E_EXPORTS]" value="Y"'.((Preferences('E_EXPORTS')=='Y')?' checked':'').'> '.sprintf(_('Export %s fields as stored value'),'<i>'._('Export Pull-Down').'</i>').'</label></TD></TR>';
 		echo '<TR><TD><BR /></TD><TD><BR /></TD>';
 		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name=values[Preferences][SEARCH] value="Y"'.((Preferences('SEARCH')=='Y')?' checked':'').'> '._('Display student search screen').'</label></TD></TR>';
 		if(User('PROFILE')=='admin')
