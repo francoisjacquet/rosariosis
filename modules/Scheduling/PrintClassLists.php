@@ -74,10 +74,7 @@ if(empty($_REQUEST['modfunc']))
 		$_REQUEST['search_modfunc'] = 'select';
 		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Class Lists for Selected Course Periods').'" />';
 
-		$extra['extra_header_left'] = '<TABLE>';
-//modif Francois: add <label> on checkbox
-		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></TD></TR>';
-		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] = '<TABLE><TR><TD><label><INPUT type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></TD></TR></TABLE>';
 
 		$Search = 'mySearch';
 		include('modules/misc/Export.php');
@@ -134,7 +131,7 @@ if(empty($_REQUEST['modfunc']))
 
 function mySearch($extra)
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&search_modfunc=list&_ROSARIO_PDF=true'.$extra['action'].'" method="POST">';
+	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&search_modfunc=list&_ROSARIO_PDF=true'.$extra['action'].'" method="POST" name="search">';
 
 	DrawHeader('',$extra['header_right']);
 	DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
