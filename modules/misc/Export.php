@@ -51,7 +51,10 @@ if(!$extra['functions'])
 if($_REQUEST['search_modfunc']=='list')
 {
 	if (empty($_REQUEST['fields']))
-		echo ErrorMessage(array(_('You must choose at least one field')), 'fatal');
+		if (isset($_REQUEST['_ROSARIO_PDF']))
+			BackPrompt(_('You must choose at least one field'));
+		else
+			echo ErrorMessage(array(_('You must choose at least one field')), 'fatal');
 	if(!$fields_list)
 	{
 //modif Francois: disable mailing address display
