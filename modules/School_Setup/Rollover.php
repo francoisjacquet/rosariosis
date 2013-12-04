@@ -131,14 +131,19 @@ function Rollover($table)
 			//modif Francois: ROLL Gradebook Config's Final Grading Percentages
 			$db_case_array = array('puc.TITLE');
 			
-			$quarters_next = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,ROLLOVER_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-			foreach($quarters_next as $qtr)
+			$mp_next = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,ROLLOVER_ID,MP FROM SCHOOL_MARKING_PERIODS WHERE (MP='QTR' OR MP='SEM') AND SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
+			foreach($mp_next as $mp)
 			{
-				$db_case_array[] = "'FY-".$qtr['ROLLOVER_ID']."'";
-				$db_case_array[] = "'FY-".$qtr['MARKING_PERIOD_ID']."'";
+				$db_case_array[] = "'FY-".$mp['ROLLOVER_ID']."'";
+				$db_case_array[] = "'FY-".$mp['MARKING_PERIOD_ID']."'";
+				if ($mp['MP'] == 'QTR')
+				{
+					$db_case_array[] = "'SEM-".$mp['ROLLOVER_ID']."'";
+					$db_case_array[] = "'SEM-".$mp['MARKING_PERIOD_ID']."'";
+				}
 			}
 			
-			DBQuery("UPDATE PROGRAM_USER_CONFIG puc SET TITLE=(SELECT (".db_case($db_case_array).") FROM STAFF s WHERE puc.TITLE LIKE 'FY-%' AND puc.PROGRAM='Gradebook' AND puc.USER_ID=s.STAFF_ID AND s.SYEAR='$next_syear') FROM STAFF s WHERE puc.TITLE LIKE 'FY-%' AND puc.PROGRAM='Gradebook' AND puc.USER_ID=s.STAFF_ID AND s.SYEAR='$next_syear'");
+			DBQuery("UPDATE PROGRAM_USER_CONFIG puc SET TITLE=(SELECT (".db_case($db_case_array).") FROM STAFF s WHERE (puc.TITLE LIKE 'FY-%' OR puc.TITLE LIKE 'SEM-%') AND puc.PROGRAM='Gradebook' AND puc.USER_ID=s.STAFF_ID AND s.SYEAR='$next_syear') FROM STAFF s WHERE (puc.TITLE LIKE 'FY-%' OR puc.TITLE LIKE 'SEM-%') AND puc.PROGRAM='Gradebook' AND puc.USER_ID=s.STAFF_ID AND s.SYEAR='$next_syear'");
 			break;
 
 		case 'COURSES':
