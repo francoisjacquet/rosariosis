@@ -22,7 +22,7 @@ if(empty($_REQUEST['modfunc']))
 	echo '<TD style="vertical-align:bottom;">';
 	echo '<b>'.$mp['TITLE'].' '._('Comments').'</b><BR />';
 //modif Francois: remove maxlength limitation as it is not technically needed
-	echo '<TEXTAREA id="textarea" name="values[STUDENT_MP_COMMENTS]['.UserStudentID().'][COMMENT]" cols="66" rows="27"'.(AllowEdit()?'':' readonly').'>';	
+	echo '<TEXTAREA id="textarea" name="values[STUDENT_MP_COMMENTS]['.UserStudentID().'][COMMENT]" cols="66" rows="27" style="width:100%;"'.(AllowEdit()?'':' readonly').'>';	
 	echo $comments_RET[1]['COMMENT'];
 	echo '</TEXTAREA>';
 	echo '</TD>';
