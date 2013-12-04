@@ -169,8 +169,6 @@ if(UserStudentID())
 	if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0)
 		$LO_columns['LETTER_GRADE'] = _('Letter');
 	$LO_columns += array('TITLE'=>_('Assignment'),'POINTS'=>_('Points'),/*'PERCENT_GRADE'=>_('Percent'),*/'LETTER_GRADE'=>_('Letter'),'COMMENT'=>_('Comment'));
-	$item = _('Assignment');
-	$items = _('Assignments');
 	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&include_inactive=$_REQUEST[include_inactive]&include_all=$_REQUEST[include_all]";
 	$link['TITLE']['variables'] = array('type_id'=>'ASSIGNMENT_TYPE_ID','assignment_id'=>'ASSIGNMENT_ID');
 
@@ -198,8 +196,6 @@ else
 		$LO_columns += array('STUDENT_ID'=>_('RosarioSIS ID'));
 	if($_REQUEST['include_inactive']=='Y')
 		$LO_columns += array('ACTIVE'=>_('School Status'),'ACTIVE_SCHEDULE'=>_('Course Status'));
-	$item = _('Student');
-	$items = _('Students');
 	$link['FULL_NAME']['link'] = "Modules.php?modname=$_REQUEST[modname]&include_inactive=$_REQUEST[include_inactive]&include_all=$_REQUEST[include_all]&type_id=$_REQUEST[type_id]&assignment_id=all";
 	$link['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
 
@@ -307,7 +303,12 @@ if(!UserStudentID() && $_REQUEST['assignment_id']=='all')
 	$LO_options['yscroll'] = true;
 
 $LO_options['header'] = WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&type_id=".($_REQUEST['type_id']?$_REQUEST['type_id']:($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all'?$assignments_RET[$_REQUEST['assignment_id']][1]['ASSIGNMENT_TYPE_ID']:'')).($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'')."&include_inactive=$_REQUEST[include_inactive]&include_all=$_REQUEST[include_all]");
-ListOutput($stu_RET,$LO_columns,$item,$items,$link,array(),$LO_options);
+echo '<BR />';
+if (UserStudentID())
+	ListOutput($stu_RET,$LO_columns,'Assignment','Assignments',$link,array(),$LO_options);
+else
+	ListOutput($stu_RET,$LO_columns,'Student','Students',$link,array(),$LO_options);
+
 echo $_REQUEST['assignment_id']?'<span class="center">'.SubmitButton(_('Save')).'</span>':'';
 echo '</FORM>';
 
