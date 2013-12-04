@@ -72,7 +72,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			DrawHeader(_('Progress Report'));
 			DrawHeader($student['FULL_NAME'],$student['STUDENT_ID']);
 			DrawHeader($student['GRADE_ID'],GetSchool(UserSchool()));
-			DrawHeader($course_title,GetMP(GetCurrentMP('QTR',DBDate())));
+			DrawHeader($course_title,GetMP(UserMP()));
 			DrawHeader(ProperDate(DBDate()));
 
 			if($_REQUEST['mailing_labels']=='Y')
