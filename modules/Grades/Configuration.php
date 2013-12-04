@@ -127,7 +127,7 @@ foreach($semesters as $sem)
 	if($sem['DOES_GRADES']=='Y')
 	{
 		$table = '<TABLE>';
-		$table .= '<TR class="st"><TD><span style="white-space:nowrap;">'.$sem['TITLE'].':&nbsp;</span></TD>';
+		$table .= '<TR class="st"><TD><span style="white-space:nowrap;"><span style="color:gray;">'.$sem['TITLE'].'</span>&nbsp;</span></TD>';
 		$total = 0;
 		foreach($quarters[$sem['MARKING_PERIOD_ID']] as $qtr)
 		{
@@ -145,7 +145,7 @@ foreach($semesters as $sem)
 if($year[1]['DOES_GRADES']=='Y')
 {
 	$table = '<TABLE>';
-	$table .= '<TR class="st"><TD>'.$year[1]['TITLE'].':&nbsp;</TD>';
+	$table .= '<TR class="st"><TD><span style="color:gray;">'.$year[1]['TITLE'].'</span>&nbsp;</TD>';
 	$total = 0;
 	foreach($semesters as $sem)
 	{
