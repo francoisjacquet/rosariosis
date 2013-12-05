@@ -1,5 +1,123 @@
 @import url("colors.css");
 
+/*mobile*/
+@media only screen and (max-width:640px){
+	/*quick smartphone reset*/
+	.mod{
+		display:block !important;
+		float:none !important;
+		clear:none !important;
+		width:auto !important;
+		margin-left:0 !important;
+		margin-right:0 !important;
+		position:relative !important;
+		border:0
+	}
+	#SideLogo{
+		width:130px;margin:2px;max-height:118px;float:right
+	}
+	#menu,#body{
+		margin-bottom:0
+	}
+	.menu-top img{
+		height:24px
+	}
+	#body{
+		padding:0 2px
+	}
+	h2{
+		font-size:20px;
+		padding:0 8px 7px 0;
+		line-height:20px
+	}
+	img.headerIcon{
+		height:24px;
+		vertical-align:bottom
+	}
+	.BottomButton{
+		display:none
+	}
+	#general_table input,input[id=USERNAME],input[id=PASSWORD],#general_table select,#LO_search{
+		max-width:90px
+	}
+	#modulesBody textarea{ 
+		width:100% !important
+	}
+	td.popTable{
+		padding:2px
+	}
+	tr.address > td{
+		border-style:none none dotted none;
+		padding:12px 0 12px 0
+	}
+	#chart,.chart{
+		margin-top:0;
+		margin-left:0;
+		width:300px;
+		height:240px
+	}
+	input[type=submit],input[type=reset],input[type=button]{
+		margin:0 4px;
+		max-width:120px
+	}
+	table.mceLayout,textarea.tinymce{
+		width:100% !important
+	}
+	/*stackable tables*/
+	tr.st > td{
+		float:left;
+		width:100%
+	}
+	/*calendar*/
+	#calendar{
+		margin:0 0
+	}
+	#calendar > thead > tr > th > span{
+		display:none
+	}
+	#calendar > tbody > tr > td{
+		width:32px
+	}
+	.calendar-day{
+		display:block;
+		height:32px;
+		width:inherit;
+		overflow:hidden;
+		z-index:1
+	}
+	.calendar-day.hover:hover{
+		height:auto;
+		width:126px;
+		z-index:100;
+		position:absolute;
+		background-color:inherit
+	}
+	.calendar-day-bold{
+		font-weight:bold
+	}
+}
+
+@media only screen and (max-width:1023px){
+	/*responsive tables*/
+	.rt{ display:block; position:relative; width:100% }
+	.rt thead{ display:block; float:left; max-width:130px; }
+	.rt tbody{ display:block; width:auto; position:relative; overflow-x:auto; white-space:nowrap }
+	.rt thead tr{ display:block }
+	.rt th{ display:block; padding:4px 7px 2px; line-height:2em; height:2em }
+	.rt tbody tr{ display:inline-block; vertical-align:top }
+	.rt td{ display:block; line-height:2em; height:2em }
+	.rt img{ max-height:1.5em }
+	.rt input,.rt select{ margin:0 }
+	.rt th,.rt th a{ font-size:12px }
+	.rt tr{ border-right-width:1px; border-right-style:solid }
+	/*rt td too large*/
+	.rt input,.rt textarea{ max-width:150px }
+	.rt td:hover{ overflow-y:visible; min-height:2em; height:100% }
+	.rt .link2colorBox{ display:inline }
+	.rt .link2colorBox + .rt2colorBox{ display:none }
+	.rt2colorBox{ background-color:#fff; overflow:auto }
+}
+
 #wrap{height:auto;min-height:100%;width:100%;position:relative}
 #menuback,#menu{width:205px}
 #menuback{position:absolute;top:0;bottom:0;z-index:-1}
@@ -508,124 +626,6 @@ div.st{
 /*responsive tables*/
 .rt .link2colorBox{
 	display:none
-}
-
-/*mobile*/
-@media only screen and (max-width:640px){
-	/*quick smartphone reset*/
-	.mod{
-		display:block !important;
-		float:none !important;
-		clear:none !important;
-		width:auto !important;
-		margin-left:0 !important;
-		margin-right:0 !important;
-		position:relative !important;
-		border:0
-	}
-	#SideLogo{
-		width:130px;margin:2px;max-height:118px;float:right
-	}
-	#menu,#body{
-		margin-bottom:0
-	}
-	.menu-top img{
-		height:24px
-	}
-	#body{
-		padding:0 2px
-	}
-	h2{
-		font-size:20px;
-		padding:0 8px 7px 0;
-		line-height:20px
-	}
-	img.headerIcon{
-		height:24px;
-		vertical-align:bottom
-	}
-	.BottomButton{
-		display:none
-	}
-	#general_table input,input[id=USERNAME],input[id=PASSWORD],#general_table select,#LO_search{
-		max-width:90px
-	}
-	#modulesBody textarea{ 
-		width:100% !important
-	}
-	td.popTable{
-		padding:2px
-	}
-	tr.address > td{
-		border-style:none none dotted none;
-		padding:12px 0 12px 0
-	}
-	#chart,.chart{
-		margin-top:0;
-		margin-left:0;
-		width:300px;
-		height:240px
-	}
-	input[type=submit],input[type=reset],input[type=button]{
-		margin:0 4px;
-		max-width:120px
-	}
-	table.mceLayout,textarea.tinymce{
-		width:100% !important
-	}
-	/*stackable tables*/
-	tr.st > td{
-		float:left;
-		width:100%
-	}
-	/*calendar*/
-	#calendar{
-		margin:0 0
-	}
-	#calendar > thead > tr > th > span{
-		display:none
-	}
-	#calendar > tbody > tr > td{
-		width:32px
-	}
-	.calendar-day{
-		display:block;
-		height:32px;
-		width:inherit;
-		overflow:hidden;
-		z-index:1
-	}
-	.calendar-day.hover:hover{
-		height:auto;
-		width:126px;
-		z-index:100;
-		position:absolute;
-		background-color:inherit
-	}
-	.calendar-day-bold{
-		font-weight:bold
-	}
-}
-
-@media only screen and (max-width:1023px){
-	/*responsive tables*/
-	.rt{ display:block; position:relative; width:100% }
-	.rt thead{ display:block; float:left; max-width:130px; }
-	.rt tbody{ display:block; width:auto; position:relative; overflow-x:auto; white-space:nowrap }
-	.rt thead tr{ display:block }
-	.rt th{ display:block; padding:4px 7px 2px; line-height:2em; height:2em }
-	.rt tbody tr{ display:inline-block; vertical-align:top }
-	.rt td{ display:block; line-height:2em; height:2em }
-	.rt img{ max-height:1.5em }
-	.rt input,.rt select{ margin:0 }
-	.rt th,.rt th a{ font-size:12px }
-	.rt tr{ border-right-width:1px; border-right-style:solid }
-	/*rt td too large*/
-	.rt input,.rt textarea{ max-width:150px }
-	.rt td:hover{ overflow-y:visible; min-height:2em; height:100% }
-	.rt .link2colorBox{ display:inline }
-	.rt .link2colorBox + .rt2colorBox{ display:none }
-	.rt2colorBox{ background-color:#fff; overflow:auto }
 }
 
 /*wkhtmltopdf reset*/
