@@ -95,6 +95,7 @@ function isTouchDevice(){
 		return false;
 	}
 }
+
 function ajaxLink(link){	
 	//will work only if in the onclick there is no error!
 	var target = link.target;
@@ -107,7 +108,6 @@ function ajaxLink(link){
 		else
 			return true;
 	}
-	
 	$.get(link.href, function(data){
 		ajaxSuccess(data,target);
 	})
@@ -128,12 +128,11 @@ function ajaxPostForm(form,submit){
 	}
 	
 	var options = {
-		beforeSubmit: function(a,f,o){
-			//disable all submit buttons
-			$('#'+target+' input[type="submit"]').disabled;
-		},
 		success: function(data){
 			ajaxSuccess(data,target);
+		},
+		error: function(){
+			alert('Error: ajaxPostForm '+form.action);
 		}
 	};
 	if (submit)
@@ -146,9 +145,15 @@ function ajaxSuccess(data,target){
 	$('#'+target).html(data);
 	if (scrollTop=='Y')
 		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
-	$('#'+target+' a').each(function(){ $(this).bind('click', function(){ return ajaxLink(this); }); });
+	$('a').unbind('click').click(function(){ return ajaxLink(this); });
 	$('#'+target+' form').each(function(){ ajaxPostForm(this,false); });
+	$('input[type="submit"],input[type="button"]').enabled;
 }
+//Before AJAX
+$(document).ajaxSend(function(e,r,s){
+	$('input[type="submit"],input[type="button"]').disabled;
+	$('a').click(function(ev){ ev.preventDefault(); ev.stopPropagation(); return false; });
+});
 
 //onload
 window.onload = function(){
