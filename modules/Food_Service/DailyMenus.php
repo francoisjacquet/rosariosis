@@ -65,32 +65,32 @@ if($_REQUEST['submit']['print'])
 
 	$skip = date("w",$time);
 
-	echo '<!-- MEDIA TOP 1in --><P><span class="center">';
-	echo '<TABLE style="border: solid 2px; background-color: #fff;" class="cellpadding-3">'."\n";
+	echo '<!-- MEDIA TOP 1in --><P class="center">';
+	echo '<TABLE style="background-color: #fff;" class="cellpadding-3 width-100p">'."\n";
 	if($_REQUEST['_ROSARIO_PDF'])
 		if(is_file('assets/dailymenu'.UserSchool().'.jpg'))
 		{
-			echo '<TR class="center"><TD colspan="7"><img src="assets/dailymenu'.UserSchool().'.jpg"></TD></TR>'."\n";
+			echo '<TR class="center"><TD colspan="3"><img src="assets/dailymenu'.UserSchool().'.jpg" /></TD></TR>'."\n";
 		}
 		else
-			echo '<TR class="center"><TD colspan="7"><span style="color:black" class="sizep2"><b>'.GetSchool(UserSchool()).'</b></span></TD></TR>'."\n";
+			echo '<TR class="center"><TD colspan="3"><span style="color:black" class="sizep2"><b>'.GetSchool(UserSchool()).'</b></span></TD></TR>'."\n";
 //modif Francois: display locale with strftime()
-	echo '<TR class="center"><TD colspan="2">'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD><TD colspan="3"><span style="color:black" class="sizep2"><b>'.ProperDate(date('Y.m.d',mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']))).'</b></span></TD><TD colspan="2">'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD></TR>'."\n";
-	echo '<TR style="text-align:center; background-color:#808080">'."\n";
-	echo '<TD style="width:100px;"><span style="color:white"><b>'._('Sunday').'</b></span></TD><TD style="width:100px;"><span style="color:white"><b>'._('Monday').'</b></span></TD><TD style="width:100px;"><span style="color:white"><b>'._("Tuesday").'</b></span></TD><TD style="width:100px;"><span style="color:white"><b>'._("Wednesday").'</b></span></TD><TD style="width:100px;"><span style="color:white"><b>'._("Thursday").'</b></span></TD><TD style="width:100px;"><span style="color:white"><b>'._("Friday").'</b></span></TD><TD style="width:100px;"><span style="color:white"><b>'._("Saturday").'</b></span></TD>'."\n";
-	echo '</TR>';
+	echo '<TR class="center"><TD>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD><TD><span style="color:black" class="sizep2"><b>'.ProperDate(date('Y.m.d',mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']))).'</b></span></TD><TD>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD></TR></TABLE>'."\n";
+	echo '<TABLE style="border: solid 2px; background-color: #fff;" class="cellpadding-3" id="calendar"><THEAD><TR style="text-align:center; background-color:#808080; color:white;">'."\n";
+	echo '<TH>'.mb_substr(_('Sunday'),0,3).'<span>'.mb_substr(_('Sunday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Monday'),0,3).'<span>'.mb_substr(_('Monday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Tuesday'),0,3).'<span>'.mb_substr(_('Tuesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Wednesday'),0,3).'<span>'.mb_substr(_('Wednesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Thursday'),0,3).'<span>'.mb_substr(_('Thursday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Friday'),0,3).'<span>'.mb_substr(_('Friday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Saturday'),0,3).'<span>'.mb_substr(_('Saturday'),3).'</span>'.'</TH>'."\n";
+	echo '</TR></THEAD><TBODY>';
 
 	if($skip)
-		echo '<TR style="height:100px;"><TD style="background-color:#C0C0C0;" colspan="'.$skip.'">&nbsp;</TD>'."\n";
+		echo '<TR><TD style="background-color:#C0C0C0;" colspan="'.$skip.'">&nbsp;</TD>'."\n";
 
 	for($i = 1; $i <= $last; $i++)
 	{
 		if($skip%7==0)
-			echo '<TR style="height:0px;">';
+			echo '<TR>';
 		$day_time = mktime(0,0,0,$_REQUEST['month'],$i,$_REQUEST['year']);
 		$date = mb_strtoupper(date('d-M-y',$day_time));
 
-		echo '<TD style="width:100px;" class="valign-top"><b>'.$i.'</b>';
+		echo '<TD class="valign-top" style="height:100%; '.(count($events_RET[$date]) ? 'background-color:#ffaaaa;' : '').'"><TABLE class="calendar-day'.(count($events_RET[$date]) ? ' hover"><TR><TD><b>'.$i.'</b>' : '"><TR><TD>'.$i);
 
 		if(count($events_RET[$date]))
 		{
@@ -101,7 +101,7 @@ if($_REQUEST['submit']['print'])
 				echo '<BR />'.htmlspecialchars($event['DESCRIPTION'],ENT_QUOTES);
 			}
 		}
-		echo '</TD>';
+		echo '</TD></TR></TABLE></TD>';
 
 		$skip++;
 
@@ -111,8 +111,7 @@ if($_REQUEST['submit']['print'])
 	if($skip%7!=0)
 		echo '<TD style="background-color:#C0C0C0;" colspan="'.(7-$skip%7).'">&nbsp;</TD></TR>';
 
-	echo '</TABLE>';
-	echo '</span></P>';
+	echo '</TBODY></TABLE></P>';
 }
 else
 {
