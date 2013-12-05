@@ -34,8 +34,8 @@ function Search($type,$extra=null)
 			{
 				if(UserStudentID())
 				{
-					//modif Francois: fix bug no student found when student logged in
-					if (User('PROFILE')!=='student')
+					//modif Francois: fix bug no student found when student/parent logged in
+					if (User('PROFILE')!=='student' && User('PROFILE')!=='parent')
 						unset($_SESSION['student_id']);
 					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 				}
