@@ -188,7 +188,7 @@ function _makeColor($value,$column)
 {	global $THIS_RET,$att_RET,$att_sql,$attendance_codes;
 
 	//modif Francois: add translation:
-	$attendance_codes_locale = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half'));
+	$attendance_codes_locale = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half Day'));
 		
 	if(!$att_RET[$THIS_RET['STUDENT_ID']])
 		$att_RET[$THIS_RET['STUDENT_ID']] = DBGet(DBQuery($att_sql.$THIS_RET['STUDENT_ID']),array(),array('SHORT_DATE'));
@@ -215,18 +215,18 @@ function _makeColor($value,$column)
 	{
 		$ac = $att_RET[$THIS_RET['STUDENT_ID']][$column][1]['STATE_VALUE'];
 		if($ac=='0.0')
-			return '<div style="float:left; background-color:#FF0000; padding:0 8px;">'.mb_substr($attendance_codes_locale['A'],0,3).'</div>';
+			return '<div style="float:left; background-color:#FF0000; padding:0 8px;" title="'.$attendance_codes_locale['A'].'">'.mb_substr($attendance_codes_locale['A'],0,3).'</div>';
 		elseif($ac > 0 && $ac < 1)
-			return '<div style="float:left; background-color:#FFCC00; padding:0 8px;">'.mb_substr($attendance_codes_locale['H'],0,3).'</div>';
+			return '<div style="float:left; background-color:#FFCC00; padding:0 8px;" title="'.$attendance_codes_locale['H'].'">'.mb_substr($attendance_codes_locale['H'],0,3).'</div>';
 		elseif($ac == 1)
-			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.mb_substr($attendance_codes_locale['P'],0,3).'</div>';
+			return '<div style="float:left; background-color:#00FF00; padding:0 8px;" title="'.$attendance_codes_locale['P'].'">'.mb_substr($attendance_codes_locale['P'],0,3).'</div>';
 	}
 }
 
 function _makePeriodColor($name,$state_code,$default_code)
 {
 	//modif Francois: add translation:
-	$attendance_codes_locale = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half'));
+	$attendance_codes_locale = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half Day'));
 
 	if($state_code=='A' || $state_code=='0.0')
 		$color = '#FF0000';
@@ -238,7 +238,7 @@ function _makePeriodColor($name,$state_code,$default_code)
 		$color = '#6666FF';
 
 	if($color) // && $state_code!='1.0')
-		return '<div style="float:left; background-color:'.$color.'; padding:0 8px;">'.(empty($attendance_codes_locale[$name])?$name:mb_substr($attendance_codes_locale[$name],0,3)).'</div>';
+		return '<div style="float:left; background-color:'.$color.'; padding:0 8px;" title="'.$attendance_codes_locale[$name].'">'.(empty($attendance_codes_locale[$name])?$name:mb_substr($attendance_codes_locale[$name],0,3)).'</div>';
 	else
 		return false;
 }
