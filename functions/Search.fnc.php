@@ -34,8 +34,8 @@ function Search($type,$extra=null)
 			{
 				if(UserStudentID())
 				{
-					//modif Francois: fix bug no student found when student logged in
-					if (User('PROFILE')!=='student')
+					//modif Francois: fix bug no student found when student/parent logged in
+					if (User('PROFILE')!=='student' && User('PROFILE')!=='parent')
 						unset($_SESSION['student_id']);
 					echo '<script type="text/javascript">parent.side.location="'.$_SESSION['Side_PHP_SELF'].'?modcat="+parent.side.document.forms[0].modcat.value;</script>';
 				}
