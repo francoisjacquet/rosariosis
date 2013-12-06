@@ -1,12 +1,24 @@
 Rosario Student Information System - CHANGES
 
-Changes in 2.0b
+Changes in 2.0b2
 ----------------
 Responsive design
 - Compatible with smartphones and tablets
 - AJAX design
 - Retractable menu
 - Responsive tables
+
+Changes in 1.4.3
+----------------
+- Fix attendance color codes in StudentSummary.php
+- Add Comment Codes tipmessage in FinalGrades.php
+- Fix COURSE_PERIOD_SCHOOL_PERIODS Rollover
+- Display grades according to GRADES_DOES_LETTER_PERCENT in StudentGrades.php
+- ROLL Gradebook Config's Final Grading Percentages
+- SQL bug: DOES_BREAKOFF grades displayed twice in Gradebook Config
+- SQL bug: First Name initial in Export.php
+- Bugfix: date of the day outside Quarter in ProgressReport.php
+- Bugfix: no student found when parent logged in
 
 Changes in 1.4.2
 ----------------
