@@ -622,6 +622,7 @@ if(count($categories_RET) && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 	if($categories_RET[$_REQUEST['tab_id']][1]['COLOR'])
 		$LO_options['header_color'] = $categories_RET[$_REQUEST['tab_id']][1]['COLOR'];
 }
+echo '<BR />';
 ListOutput($stu_RET,$LO_columns,'Student','Students',false,array(),$LO_options);
 echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 echo '</FORM>';
