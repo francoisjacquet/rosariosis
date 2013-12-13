@@ -78,7 +78,35 @@ function MLTextInput($value,$name,$title='',$options='',$div=true)
             $options .= ' size=10';
 
         // ng - foreach possible language
-        $ret = '<DIV><INPUT type="hidden" id="'.$name.'" name="'.$name.'" value="'.$value.'" />';
+		$ret = '<script type="text/javascript">
+function setMLvalue(id,loc,value){
+	res = document.getElementById(id).value.split("|");
+	if(loc=="") {
+		if (value == "") {
+			alert("The first translation string cannot be empty.");
+			value = "Something";
+		}
+		res[0] = value;
+	} else {
+		found = 0;
+		for (i=1;i<res.length;i++) {
+			if (res[i].substring(0,loc.length) == loc) {
+				found = 1;
+				if (value == "") {
+					for (j=i+1;j<res.length;j++)
+						res[j-1] = res[j];
+					res.pop();
+				} else {
+					res[i] = loc+":"+value;
+				}
+			}
+		}    
+		if ((found == 0) && (value != "")) res.push(loc+":"+value);
+	}
+	document.getElementById(id).value = res.join("|");                                
+}
+</script>';
+        $ret .= '<DIV><INPUT type="hidden" id="'.$name.'" name="'.$name.'" value="'.$value.'" />';
         
         foreach ($RosarioLocales as $id=>$loc) {
             $ret .= '<label><IMG src="assets/flags/'.$loc.'.png" height="24" style="vertical-align:middle;" /> ';

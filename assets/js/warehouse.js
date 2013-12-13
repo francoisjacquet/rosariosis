@@ -26,32 +26,6 @@ function switchMenu(id){
 		document.getElementById(id+'_arrow').height = 12;
 	}
 }
-function setMLvalue(id,loc,value){
-	res = document.getElementById(id).value.split('|');
-	if(loc=='') {
-		if (value == '') {
-			alert('The first translation string cannot be empty.');
-			value = 'Something';
-		}
-		res[0] = value;
-	} else {
-		found = 0;
-		for (i=1;i<res.length;i++) {
-			if (res[i].substring(0,loc.length) == loc) {
-				found = 1;
-				if (value == '') {
-					for (j=i+1;j<res.length;j++)
-						res[j-1] = res[j];
-					res.pop();
-				} else {
-					res[i] = loc+':'+value;
-				}
-			}
-		}    
-		if ((found == 0) && (value != '')) res.push(loc+':'+value);
-	}
-	document.getElementById(id).value = res.join('|');                                
-}
 
 //tipmessage
 var TipId="Migoicons";var FiltersEnabled = 0;
