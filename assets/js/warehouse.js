@@ -183,12 +183,11 @@ function openMenu(modname)
 {
 	modname=decodeURIComponent(modname);
 	var modcat = modname.substr(0, modname.indexOf('/'));
-	visible = document.getElementById("menu_"+modcat);
+	if (!(visible = document.getElementById("menu_"+modcat)))
+		visible = document.getElementById("menu_"+(modcat = old_modcat));
 	visible.style.display = "block";
-	if(old_modcat!=false && old_modcat!=modcat){
-		oldVisible = document.getElementById("menu_"+old_modcat);
-		oldVisible.style.display = "none";					
-	}
+	if(old_modcat!=false && old_modcat!=modcat)
+		document.getElementById("menu_"+old_modcat).style.display = "none";
 	old_modcat = modcat;
 	selMenuA(modname);
 }
@@ -196,7 +195,7 @@ function selMenuA(modname)
 {
 	if (oldA = document.getElementById("selectedMenuLink"))
 		oldA.id = "";
-	 $('#adminmenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
+	$('#adminmenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
 	document.getElementById("modname_input").value=encodeURIComponent(modname);
 }
 
