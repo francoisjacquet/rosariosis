@@ -114,10 +114,21 @@ function ajaxSuccess(data,target){
 		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
 	$('#'+target+' form').each(function(){ ajaxPostForm(this,false); });
 	reactivateLinks();
+	scroll();
 }
 function reactivateLinks(){
 	$('a').unbind('click').click(function(){ return ajaxLink(this); });
 	$('input[type="submit"],input[type="button"]').enabled;
+}
+function scroll(){
+	if (isTouchDevice())
+	{
+		var els = document.getElementsByClassName('rt');
+		Array.prototype.forEach.call(els, function(el) {
+			touchScroll(el.tBodies[0]);
+		});
+		touchScroll(document.getElementById('footerhelp'));
+	}
 }
 //Before AJAX
 $(document).ajaxSend(function(e,r,s){
@@ -129,15 +140,7 @@ $(document).ajaxSend(function(e,r,s){
 window.onload = function(){
 	if (typeof(mig_clay) == "function")
 		mig_clay();
-		
-	if (isTouchDevice())
-	{
-		var els = document.getElementsByClassName('rt');
-		Array.prototype.forEach.call(els, function(el) {
-			touchScroll(el.tBodies[0]);
-		});
-		touchScroll(document.getElementById('footerhelp'));
-	}
+	scroll();
 	$('a').click(function(){ return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
 };
