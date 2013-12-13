@@ -52,30 +52,30 @@ else
 {
 ?>
 <div id="footerwrap">
-<span id="BottomButtonMenu"><A HREF="#" onclick="expandMenu(); return false;" title="<?php echo _('Menu'); ?>">&nbsp;<span class="BottomButton"><?php echo _('Menu'); ?></span></A></span>
+<a id="BottomButtonMenu" HREF="#" onclick="expandMenu(); return false;" title="<?php echo _('Menu'); ?>" class="BottomButton">&nbsp;<span><?php echo _('Menu'); ?></span></A>
 <?php
 //modif Francois: icones
 	if($_SESSION['List_PHP_SELF'] && (User('PROFILE')=='admin' || User('PROFILE')=='teacher')) {
         switch ($_SESSION['Back_PHP_SELF']) {
-            case 'student': $back_text = _('Back to Student List'); break;
-            case 'staff': $back_text = _('Back to User List'); break;
-            case 'course': $back_text = _('Back to Course List'); break;
-            default: $back_text = sprintf(_('Back to %s List'),$_SESSION['Back_PHP_SELF']);
+            case 'student': $back_text = _('Student List'); break;
+            case 'staff': $back_text = _('User List'); break;
+            case 'course': $back_text = _('Course List'); break;
+            default: $back_text = sprintf(_('%s List'),$_SESSION['Back_PHP_SELF']);
         }
-		echo '<span><A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'"><IMG SRC="assets/back.png" height="24">&nbsp;<span class="BottomButton">'.$back_text.'</span></A>&nbsp;&nbsp;</span>';
+		echo '<A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'" class="BottomButton"><IMG SRC="assets/back.png" height="32" />&nbsp;<span>'.$back_text.'</span></A>&nbsp;&nbsp;';
     }
 	if($_SESSION['Search_PHP_SELF'] && (User('PROFILE')=='admin' || User('PROFILE')=='teacher')) {
         switch ($_SESSION['Back_PHP_SELF']) {
-            case 'student': $back_text = _('Back to Student Search'); break;
-            case 'staff': $back_text = _('Back to User Search'); break;
-            case 'course': $back_text = _('Back to Course Search'); break;
-            default: $back_text = sprintf(_('Back to %s Search'),$_SESSION['Back_PHP_SELF']);
+            case 'student': $back_text = _('Student Search'); break;
+            case 'staff': $back_text = _('User Search'); break;
+            case 'course': $back_text = _('Course Search'); break;
+            default: $back_text = sprintf(_('%s Search'),$_SESSION['Back_PHP_SELF']);
         }
-		echo '<span><A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'"><IMG SRC="assets/back.png" height="24" />&nbsp;<span class="BottomButton">'.$back_text.'</span></A>&nbsp;&nbsp;</span>';
+		echo '<A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'" class="BottomButton"><IMG SRC="assets/back.png" height="32" />&nbsp;<span>'.$back_text.'</span></A>&nbsp;&nbsp;';
 	}
-    echo '<span><A HREF="Bottom.php?modfunc=print" target="_blank" title="'._('Print').'"><IMG SRC="assets/print.png" height="24" />&nbsp;<span class="BottomButton">'._('Print').'</span></A>&nbsp;&nbsp;</span>';
-    echo '<span><A HREF="#" onclick="expandHelp();return false;" title="'._('Help').'"><IMG SRC="assets/help.png" height="24" />&nbsp;<span class="BottomButton">'._('Help').'</span></A>&nbsp;&nbsp;</span>';
-    echo '<span><A HREF="index.php?modfunc=logout" target="_top" title="'._('Logout').'"><IMG SRC="assets/logout.png" height="24" />&nbsp;<span class="BottomButton">'._('Logout').'</span></A>&nbsp;&nbsp;</span></div>';
+    echo '<A HREF="Bottom.php?modfunc=print" target="_blank" title="'._('Print').'" class="BottomButton"><IMG SRC="assets/print.png" height="32" />&nbsp;<span>'._('Print').'</span></A>&nbsp;&nbsp;';
+    echo '<A HREF="#" onclick="expandHelp();return false;" title="'._('Help').'" class="BottomButton"><IMG SRC="assets/help.png" height="32" />&nbsp;<span>'._('Help').'</span></A>&nbsp;&nbsp;';
+    echo '<A HREF="index.php?modfunc=logout" target="_top" title="'._('Logout').'" class="BottomButton"><IMG SRC="assets/logout.png" height="32" />&nbsp;<span>'._('Logout').'</span></A>&nbsp;&nbsp;</div>';
 	echo '<DIV id="footerhelp"></DIV>';
 }
 ?>
