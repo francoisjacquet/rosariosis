@@ -7,9 +7,9 @@
 #menu{position:relative;float:left}
 #menushadow{position:absolute;top:0;right:0;bottom:0;width:6px;z-index:20}
 #body,#menu{margin-bottom:38px;}
-#footer{clear:both;display:block;position:fixed;z-index:99999;bottom:0;left:0;height:38px;width:100%;background-color:#ececec;}
+#footer{clear:both;position:fixed;z-index:99999;bottom:0;left:0;height:38px;width:100%;background-color:#ececec;}
 #footerwrap{height:32px;margin-top:3px;margin-bottom:3px;text-align:center;}
-#footerhelp{display:none;height:0px;background-color:white;overflow-y:scroll;padding-left:8px;}
+#footerhelp{display:none;height:140px;background-color:white;overflow-y:scroll;padding-left:8px;}
 .mod{overflow:hidden;}
 .mod:after{content:"";display:table;clear:both;}
 
@@ -504,7 +504,6 @@ div.st{
 @media only screen and (max-width:640px){
 	/*quick smartphone reset*/
 	.mod{
-		display:block !important;
 		float:none !important;
 		clear:none !important;
 		width:auto !important;
@@ -564,6 +563,26 @@ div.st{
 		float:left;
 		width:100%
 	}
+}
+
+@media only screen and (max-width:1023px){
+	/*responsive tables*/
+	.rt{ display:block; position:relative; width:100% }
+	.rt thead{ display:block; float:left; max-width:130px; }
+	.rt tbody{ display:block; width:auto; position:relative; overflow-x:auto; white-space:nowrap }
+	.rt thead tr{ display:block }
+	.rt th{ display:block; padding:4px 7px 2px; line-height:2em; height:2em }
+	.rt tbody tr{ display:inline-block; vertical-align:top }
+	.rt td{ display:block; line-height:2em; height:2em }
+	.rt img{ max-height:2em }
+	.rt input,.rt select{ margin:0 }
+	.rt tr{ border-right-width:1px; border-right-style:solid }
+	/*rt td too large*/
+	.rt input,.rt select,.rt textarea{ max-width:150px }
+	.rt .link2colorBox{ display:inline }
+	.rt .link2colorBox + .rt2colorBox{ display:none }
+	.rt2colorBox{ background-color:#fff; overflow:auto }
+	
 	/*calendar*/
 	#calendar{
 		margin:0 0
@@ -591,23 +610,4 @@ div.st{
 	.calendar-day-bold{
 		font-weight:bold
 	}
-}
-
-@media only screen and (max-width:1023px){
-	/*responsive tables*/
-	.rt{ display:block; position:relative; width:100% }
-	.rt thead{ display:block; float:left; max-width:130px; }
-	.rt tbody{ display:block; width:auto; position:relative; overflow-x:auto; white-space:nowrap }
-	.rt thead tr{ display:block }
-	.rt th{ display:block; padding:4px 7px 2px; line-height:2em; height:2em }
-	.rt tbody tr{ display:inline-block; vertical-align:top }
-	.rt td{ display:block; line-height:2em; height:2em }
-	.rt img{ max-height:2em }
-	.rt input,.rt select{ margin:0 }
-	.rt tr{ border-right-width:1px; border-right-style:solid }
-	/*rt td too large*/
-	.rt input,.rt select,.rt textarea{ max-width:150px }
-	.rt .link2colorBox{ display:inline }
-	.rt .link2colorBox + .rt2colorBox{ display:none }
-	.rt2colorBox{ background-color:#fff; overflow:auto }
 }

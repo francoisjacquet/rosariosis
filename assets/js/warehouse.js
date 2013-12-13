@@ -205,16 +205,14 @@ var modname='default', old_modname='';
 function expandHelp(){
 	var heightFooter = document.getElementById('footer').style.height;
 	var displayHelp = 'block';
-	var heightHelp = '140px';
-	if(heightFooter == '170px')
+	if(heightFooter == '178px')
 	{
-		heightFooter = '30px';
+		heightFooter = '38px';
 		displayHelp = 'none';
-		heightHelp = '0px';
 	}
 	else
 	{
-		heightFooter = '170px';
+		heightFooter = '178px';
 		if (modname!=old_modname)
 		{
 			$.get("Bottom.php?modfunc=help&modname="+modname, function(data){
@@ -227,24 +225,14 @@ function expandHelp(){
 		}
 	}
 	document.getElementById('footerhelp').style.display = displayHelp;
-	document.getElementById('footerhelp').style.height = heightHelp;
 	document.getElementById('footer').style.height = heightFooter;
 }
 function expandMenu(){
-	var heightMenu = document.getElementById('menu').style.height;
-	var widthMenu = '205px';
-	var return_val = true;
-	if (heightMenu == '0px')
-		heightMenu = '';
+	var displayMenu = document.getElementById('menu').style.display;
+	if (displayMenu=='none')
+		displayMenu = 'block';
 	else
-	{
-		heightMenu = '0px';
-		widthMenu = '0px';
-		return_val = false;
-	}
-	document.getElementById('menu').style.height = heightMenu;
-	document.getElementById('menuback').style.height = heightMenu;
-	document.getElementById('menu').style.width = widthMenu;
-	document.getElementById('menuback').style.width = widthMenu;
-	return return_val;
+		displayMenu = 'none';
+	document.getElementById('menu').style.display = displayMenu;
+	document.getElementById('menuback').style.display = displayMenu;
 }
