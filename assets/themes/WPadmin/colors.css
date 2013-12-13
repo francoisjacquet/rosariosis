@@ -182,3 +182,9 @@ fieldset {
 @media only screen and (max-width: 1023px) {
 	.rt tr { border-right-color:#dfdfdf }
 }
+@media only screen and (max-width:640px){
+	#adminmenu .wp-submenu a:hover{
+		background-color:transparent;
+		color:#21759b
+	}
+}
