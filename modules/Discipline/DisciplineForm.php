@@ -223,7 +223,12 @@ function _makeTextAreaInput($value,$name)
 	if($id=='usage')
 		return $value;
 	elseif($id=='new' || $THIS_RET['DATA_TYPE']=='multiple_checkbox' || $THIS_RET['DATA_TYPE']=='multiple_radio' || $THIS_RET['DATA_TYPE']=='select')
-		return TextAreaInput(str_replace('"','\"',$value),'values['.$id.']['.$name.']');
+	{
+		//modif Francois: responsive rt td too large
+		$return .= includeOnceColorBox('divTextAreaContent'.$id);
+		$return .= '<DIV id="divTextAreaContent'.$id.'" class="rt2colorBox">'.TextAreaInput(str_replace('"','\"',$value),'values['.$id.']['.$name.']','','',false).'</DIV>';
+		return $return;
+	}
 	else
 		return _('N/A');
 }
