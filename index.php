@@ -147,7 +147,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
           echo '<tr style="text-align:right"><TD style="text-align:right"><b>'._('Language').'</b></td>';
           echo '<td style="text-align:left;">';
           foreach ($RosarioLocales as $loc)
-              echo '<A href="'.$_SERVER['PHP_SELF'].'?locale='.$loc.'"><IMG src="assets/flags/'.$loc.'.png" height="20" /></A>&nbsp;&nbsp;';
+              echo '<A href="'.$_SERVER['PHP_SELF'].'?locale='.$loc.'"><IMG src="assets/flags/'.$loc.'.png" height="32" /></A>&nbsp;&nbsp;';
           echo '</TD>';
     }
     

@@ -81,7 +81,7 @@ function MLTextInput($value,$name,$title='',$options='',$div=true)
         $ret = '<DIV><INPUT type="hidden" id="'.$name.'" name="'.$name.'" value="'.$value.'" />';
         
         foreach ($RosarioLocales as $id=>$loc) {
-            $ret .= '<label><IMG src="assets/flags/'.$loc.'.png" height="20" style="vertical-align:middle;" /> ';
+            $ret .= '<label><IMG src="assets/flags/'.$loc.'.png" height="24" style="vertical-align:middle;" /> ';
             $ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options." onchange=\"javascript:setMLvalue('$name','".($id==0?'':$loc)."',this.value);\"",false);
             $ret .= '</label><BR />';
         }
