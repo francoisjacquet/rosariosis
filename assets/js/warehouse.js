@@ -7,8 +7,7 @@ function addHTML(html,id,replace){
 	}
 }
 function checkAll(form,value,name_like){
-	if(value==true) checked = true;
-	else checked = false;
+	var checked = (value==true)?true:false;
 
 	for(i=0;i<form.elements.length;i++){
 		if(form.elements[i].type=='checkbox' && form.elements[i].name!='controller' && form.elements[i].name.substr(0,name_like.length)==name_like)
@@ -94,7 +93,6 @@ function ajaxPostForm(form,submit){
 		form.target = '_blank';
 		return true;
 	}
-	
 	var options = {
 		success: function(data){
 			ajaxSuccess(data,target);
@@ -169,16 +167,9 @@ function selMenuA(modname)
 //Bottom.php JS
 var modname='default', old_modname='';
 function expandHelp(){
-	var heightFooter = document.getElementById('footer').style.height;
-	var displayHelp = 'block';
-	if(heightFooter == '178px')
+	var heightFooter = (document.getElementById('footer').style.height=='178px')?'38px':'178px';
+	if (heightFooter=='178px')
 	{
-		heightFooter = '38px';
-		displayHelp = 'none';
-	}
-	else
-	{
-		heightFooter = '178px';
 		if (modname!=old_modname)
 		{
 			$.get("Bottom.php?modfunc=help&modname="+modname, function(data){
@@ -190,7 +181,7 @@ function expandHelp(){
 			old_modname = modname;
 		}
 	}
-	document.getElementById('footerhelp').style.display = displayHelp;
+	$('#footerhelp').toggle();
 	document.getElementById('footer').style.height = heightFooter;
 }
 function expandMenu(){
