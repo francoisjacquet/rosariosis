@@ -436,7 +436,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			if(!empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
 			{
 				echo '<TABLE class="width-100p cellpadding-1">';
-				echo '<TR><TD style="text-align:left;">';
+				echo '<TR class="st"><TD style="text-align:left;">';
 				if(($singular!='.') && ($plural!='.') && $options['count'])
 				{
 					if($display_count>0)
