@@ -113,6 +113,7 @@ function ajaxLink(link){
 	})
 	.fail(function(){
 		alert('Error: ajaxLink get '+link.href);
+		reactivateLinks();
 	})
 	return false;
 }
@@ -133,6 +134,7 @@ function ajaxPostForm(form,submit){
 		},
 		error: function(){
 			alert('Error: ajaxPostForm '+form.action);
+			reactivateLinks();
 		}
 	};
 	if (submit)
@@ -145,8 +147,11 @@ function ajaxSuccess(data,target){
 	$('#'+target).html(data);
 	if (scrollTop=='Y')
 		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
-	$('a').unbind('click').click(function(){ return ajaxLink(this); });
 	$('#'+target+' form').each(function(){ ajaxPostForm(this,false); });
+	reactivateLinks();
+}
+function reactivateLinks(){
+	$('a').unbind('click').click(function(){ return ajaxLink(this); });
 	$('input[type="submit"],input[type="button"]').enabled;
 }
 //Before AJAX
@@ -168,7 +173,7 @@ window.onload = function(){
 		});
 		touchScroll(document.getElementById('footerhelp'));
 	}
-	$('a').each(function(){ $(this).bind('click', function(){ return ajaxLink(this); }); });
+	$('a').click(function(){ return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
 };
 
