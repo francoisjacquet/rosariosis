@@ -88,7 +88,6 @@ function ajaxLink(link){
 function ajaxPostForm(form,submit){
 	var target = form.target;
 	if (!target)
-		//if (form.action.indexOf('Modules.php')!=-1)
 			target = 'body';
 	if (form.action.indexOf('_ROSARIO_PDF')!=-1) //print PDF
 	{
@@ -155,7 +154,7 @@ function openMenu(modname)
 		visible = document.getElementById("menu_"+(modcat = old_modcat));
 	visible.style.display = "block";
 	if(old_modcat!=false && old_modcat!=modcat)
-		document.getElementById("menu_"+old_modcat).style.display = "none";
+		$("#menu_"+old_modcat).hide();
 	old_modcat = modcat;
 	selMenuA(modname);
 }
@@ -164,7 +163,7 @@ function selMenuA(modname)
 	if (oldA = document.getElementById("selectedMenuLink"))
 		oldA.id = "";
 	$('#adminmenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
-	document.getElementById("modname_input").value=encodeURIComponent(modname);
+	$("#modname_input").value=encodeURIComponent(modname);
 }
 
 //Bottom.php JS
@@ -186,7 +185,7 @@ function expandHelp(){
 				$('#footerhelp').html(data);
 			})
 			.fail(function(){
-				alert('Error: expandHelp ajax get '+modname);
+				alert('Error: expandHelp '+modname);
 			})
 			old_modname = modname;
 		}
@@ -195,11 +194,5 @@ function expandHelp(){
 	document.getElementById('footer').style.height = heightFooter;
 }
 function expandMenu(){
-	var displayMenu = document.getElementById('menu').style.display;
-	if (displayMenu=='none')
-		displayMenu = 'block';
-	else
-		displayMenu = 'none';
-	document.getElementById('menu').style.display = displayMenu;
-	document.getElementById('menuback').style.display = displayMenu;
+	$('#menu,#menuback').toggle();
 }
