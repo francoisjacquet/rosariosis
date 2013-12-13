@@ -47,8 +47,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 			StaffWidgets('user',$extra);
 			Search('staff_fields',is_array($extra['staff_fields'])?$extra['staff_fields']:array());
 			echo '</TABLE>';
-			echo '</TD><TD>';
-			echo '<TABLE class="width-100p"><TR><TD class="center"><BR />';
+			echo '</TD><TR><TD class="center">';
 			if($extra['search_second_col'])
 				echo $extra['search_second_col'];
 			if(User('PROFILE')=='admin')
@@ -62,9 +61,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 				echo '<label><INPUT type="checkbox" name="include_inactive" value="Y"> '._('Include Parents of Inactive Students').'</label><BR />';
 			echo '<BR />';
 			echo Buttons(_('Submit'),_('Reset'));
-			echo '</TD></TR>';
-			echo '</TABLE>';
-			echo '</TD></TR><TR><TD colspan="2"><TABLE>';
+			echo '</TD></TR><TR><TD><TABLE>';
 
 			if($extra['search'])
 				echo $extra['search'];
@@ -73,7 +70,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 			if($extra['second_col'])
 				echo $extra['second_col'];
 				
-			echo '</TABLE></TD></TR><TR class="valign-top"><TD colspan="2"><TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD>';
+			echo '</TABLE></TD></TR><TR class="valign-top"><TD><TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD>';
 			if($_REQUEST['advanced']=='Y')
 			{
 				$extra['search'] = '';
