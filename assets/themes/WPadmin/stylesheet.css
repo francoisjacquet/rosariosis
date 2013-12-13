@@ -533,8 +533,8 @@ div.st{
 	.BottomButton span{
 		display:none
 	}
-	#general_table input,input[id=USERNAME],input[id=PASSWORD],#general_table select,#LO_search{
-		max-width:90px
+	#search input,#search select,input[id=USERNAME],input[id=PASSWORD],#LO_search{
+		max-width:120px
 	}
 	#modulesBody textarea{ 
 		width:100% !important
@@ -606,7 +606,7 @@ div.st{
 	.rt input,.rt select{ margin:0 }
 	.rt tr{ border-right-width:1px; border-right-style:solid }
 	/*rt td too large*/
-	.rt input,.rt textarea{ max-width:150px }
+	.rt input,.rt select,.rt textarea{ max-width:150px }
 	.rt .link2colorBox{ display:inline }
 	.rt .link2colorBox + .rt2colorBox{ display:none }
 	.rt2colorBox{ background-color:#fff; overflow:auto }
