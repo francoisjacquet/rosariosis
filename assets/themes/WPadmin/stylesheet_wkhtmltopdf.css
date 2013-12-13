@@ -6,10 +6,10 @@
 #menuback,#menu{border-width:0 1px 0 0;border-style:solid}
 #menu{position:relative;float:left}
 #menushadow{position:absolute;top:0;right:0;bottom:0;width:6px;z-index:20}
-#body,#menu{margin-bottom:30px;}
-#footer{clear:both;display:block;position:fixed;z-index:99999;bottom:0;left:0;height:30px;width:100%;background-color:#ececec;}
-#footerwrap{height:24px;margin-top:3px;margin-bottom:3px;text-align:center;}
-#footerhelp{display:none;height:0px;background-color:white;overflow-y:scroll;padding-left:8px;}
+#body,#menu{margin-bottom:38px;}
+#footer{clear:both;position:fixed;z-index:99999;bottom:0;left:0;height:38px;width:100%;background-color:#ececec;}
+#footerwrap{height:32px;margin-top:3px;margin-bottom:3px;text-align:center;}
+#footerhelp{display:none;height:140px;background-color:white;overflow-y:scroll;padding-left:8px;}
 .mod{overflow:hidden;}
 .mod:after{content:"";display:table;clear:both;}
 
@@ -33,7 +33,7 @@ body{
 	line-height:1.4em
 }
 *{
-    font-size:12px
+    font-size:14px
 }
 a{
     -webkit-transition:color 0.2s ease-out 0s;
@@ -154,7 +154,6 @@ code{
 	border-bottom:none
 }
 .widefat td{
-	font-size:12px;
 	padding:4px 7px 2px;
 	vertical-align:top
 }
@@ -164,10 +163,6 @@ code{
 .widefat th {
 	padding:6px 10px;
 	line-height:1.3em;
-	font-size:14px
-}
-.widefat th  a{
-	font-size:14px
 }
 .widefat th input{
 	margin:0 0 0 8px;
@@ -190,9 +185,8 @@ select option{
 }
 input[type=submit],input[type=reset],input[type=button]{
 	text-decoration:none;
-	font-size:12px!important;
 	line-height:14px;
-	padding:3px 10px;
+	padding:6px 10px;
 	margin:0 8px;
 	cursor:pointer;
 	border-width:1px;
@@ -230,7 +224,6 @@ label{
 	display:none
 }
 #adminmenu .menu-inter{
-	font-size:14px;
 	border-width:1px 0 0;
 	border-style:solid
 }
@@ -331,7 +324,7 @@ h3 span{
 /*added*/
 .alignImg{
 	vertical-align:middle;
-	height:24px
+	height:32px
 }
 #body{
 	padding:0 15px
@@ -351,20 +344,20 @@ img.headerIcon{
 	display:none
 }
 .size-3{
-	font-size:10px
-}
-.size-1{
 	font-size:11px
 }
-.sizep1{
+.size-1{
 	font-size:13px
 }
+.sizep1{
+	font-size:15px
+}
 .sizep2{
-	font-size:14px
+	font-size:16px
 }
 form.login input[type=text],form.login input[type=password]{
 	font-weight:200;
-	font-size:14px;
+	font-size:20px;
 	width:100%;
 	padding:3px;
 	margin-top:2px;
@@ -452,16 +445,19 @@ span.center{
 	display:block
 }
 .BottomButton{
+	padding-top:16px;
+}
+.BottomButton span{
 	vertical-align:super
 }
-#BottomButtonMenu .BottomButton{
+#BottomButtonMenu span{
 	vertical-align:baseline
 }
 #BottomButtonMenu{
 	float:left;
-	padding:6px 0 0 6px
+	padding:6px 0 6px 6px
 }
-#BottomButtonMenu a:before{
+#BottomButtonMenu:before{
 	content:"\2261";		
 	color:#000;
 	font-size:3rem;
@@ -504,3 +500,64 @@ div.st{
 	display:none
 }
 
+/*mobile*/
+@media only screen and (max-width:640px){
+	/*quick smartphone reset*/
+	.mod{
+		float:none !important;
+		clear:none !important;
+		width:auto !important;
+		margin-left:0 !important;
+		margin-right:0 !important;
+		position:relative !important;
+		border:0
+	}
+	#SideLogo{
+		width:130px;margin:2px;max-height:118px;float:right
+	}
+	#menu,#body{
+		margin-bottom:0
+	}
+	.menu-top img{
+		height:24px
+	}
+	#body{
+		padding:0 2px
+	}
+	h2{
+		font-size:20px;
+		padding:0 8px 7px 0;
+		line-height:20px
+	}
+	.BottomButton span{
+		display:none
+	}
+	#search input,#search select,input[id=USERNAME],input[id=PASSWORD],#LO_search{
+		max-width:120px
+	}
+	#modulesBody textarea{ 
+		width:100% !important
+	}
+	td.popTable{
+		padding:2px
+	}
+	tr.address > td{
+		border-style:none none dotted none;
+		padding:12px 0 12px 0
+	}
+	#chart,.chart{
+		margin-top:0;
+		margin-left:0;
+		width:300px;
+		height:240px
+	}
+	input[type=submit],input[type=reset],input[type=button]{
+		margin:0 4px;
+		max-width:120px
+	}
+	/*stackable tables*/
+	tr.st > td{
+		float:left;
+		width:100%
+	}
+}
