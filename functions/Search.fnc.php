@@ -1,7 +1,7 @@
 <?php
 
 function Search($type,$extra=null)
-{	global $_ROSARIO;
+{	global $_ROSARIO,$program_loaded;
 
 	switch($type)
 	{
@@ -9,7 +9,7 @@ function Search($type,$extra=null)
 			if($_REQUEST['bottom_back'])
 			{
 				unset($_SESSION['student_id']);
-				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname='.rawurlencode($program_loaded).'"; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 			}
 			if($_SESSION['unset_student'])
 			{
@@ -50,7 +50,7 @@ function Search($type,$extra=null)
 			if($_REQUEST['bottom_back'])
 			{
 				unset($_SESSION['staff_id']);
-				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname='.rawurlencode($program_loaded).'"; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 			}
 
 			if($_REQUEST['staff_id'])

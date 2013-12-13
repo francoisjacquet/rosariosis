@@ -88,6 +88,7 @@ if($_REQUEST['modname'])
 			if($_REQUEST['modname']==$program || (mb_strpos($program, $_REQUEST['modname'])=== 0 && mb_strpos($_SERVER['QUERY_STRING'], $program)=== 8))
 			{
 				$allowed = true;
+				$program_loaded = $program;
 				break;
 			}
 		}
