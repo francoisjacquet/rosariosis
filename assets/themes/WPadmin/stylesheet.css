@@ -555,9 +555,6 @@ div.st{
 		margin:0 4px;
 		max-width:120px
 	}
-	table.mceLayout,textarea.tinymce{
-		width:100% !important
-	}
 	/*stackable tables*/
 	tr.st > td{
 		float:left;
@@ -609,5 +606,9 @@ div.st{
 	}
 	.calendar-day-bold{
 		font-weight:bold
+	}
+	
+	table.mceLayout,textarea{
+		width:100% !important
 	}
 }
