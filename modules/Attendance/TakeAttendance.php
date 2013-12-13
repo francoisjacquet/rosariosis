@@ -133,8 +133,8 @@ $stu_RET = GetStuList($extra);
 if($attendance_reason)
 	$columns += array('ATTENDANCE_REASON'=>_('Office Comment'));
 
-$date_note = $date!=DBDate() ? ' <span style="color:red">'._('The selected date is not today').'</span> |' : '';
-$date_note .= AllowEdit() ? ' <span style="color:green">'._('You can edit this attendance').'</span>':' <span style="color:red">'._('You cannot edit this attendance').'</span>';
+$date_note = $date!=DBDate() ? ' <span style="color:red" class="nobr">'._('The selected date is not today').'</span> |' : '';
+$date_note .= AllowEdit() ? ' <span style="color:green" class="nobr">'._('You can edit this attendance').'</span>':' <span style="color:red" class="nobr">'._('You cannot edit this attendance').'</span>';
 
 $completed_RET = DBGet(DBQuery("SELECT 'Y' as COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='$date' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
 if(count($completed_RET))
