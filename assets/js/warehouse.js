@@ -191,7 +191,7 @@ function selMenuA(modname)
 {
 	if (oldA = document.getElementById("selectedMenuLink"))
 		oldA.id = "";
-	 $('#menu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
+	 $('#adminmenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
 	document.getElementById("modname_input").value=encodeURIComponent(modname);
 }
 
