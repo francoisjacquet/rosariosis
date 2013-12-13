@@ -6,12 +6,6 @@ function addHTML(html,id,replace){
 		else document.getElementById(id).innerHTML = document.getElementById(id).innerHTML + html;
 	}
 }
-function changeHTML(show,hide){
-	for(key in show)
-		document.getElementById(key).innerHTML = document.getElementById(show[key]).innerHTML;
-	for(i=0;i<hide.length;i++)
-		document.getElementById(hide[i]).innerHTML = '';
-}
 function checkAll(form,value,name_like){
 	if(value==true) checked = true;
 	else checked = false;

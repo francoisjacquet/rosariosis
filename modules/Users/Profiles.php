@@ -144,6 +144,14 @@ if($_REQUEST['modfunc']!='delete')
 
 	if(AllowEdit())
 	{
+		echo '<script type="text/javascript">
+function changeHTML(show,hide){
+	for(key in show)
+		document.getElementById(key).innerHTML = document.getElementById(show[key]).innerHTML;
+	for(i=0;i<hide.length;i++)
+		document.getElementById(hide[i]).innerHTML = "";
+}
+</script>';
 		echo '<TR id="new_tr" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="background-color:transparent;";\' onclick=\'document.getElementById("selected_tr").onmouseover="this.style.backgroundColor=\"'.Preferences('HIGHLIGHT').'\";"; document.getElementById("selected_tr").onmouseout="this.style.cssText=\"background-color:transparent;\";"; document.getElementById("selected_tr").style.cssText="background-color:transparent;"; changeHTML({"new_id_div":"new_id_content"},["main_div"]);document.getElementById("new_tr").onmouseover="";document.getElementById("new_tr").onmouseout="";this.onclick="";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
 		echo '<A href="#">'._('Add a User Profile').'</A>&nbsp;<BR /><DIV id=new_id_div></DIV>';
 		echo '</TD>';
