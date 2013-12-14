@@ -80,7 +80,6 @@ function ajaxLink(link){
 	})
 	.fail(function(){
 		alert('Error: ajaxLink get '+link.href);
-		reactivateLinks();
 	})
 	return false;
 }
@@ -99,7 +98,6 @@ function ajaxPostForm(form,submit){
 		},
 		error: function(){
 			alert('Error: ajaxPostForm '+form.action);
-			reactivateLinks();
 		}
 	};
 	if (submit)
@@ -113,27 +111,18 @@ function ajaxSuccess(data,target){
 	if (scrollTop=='Y')
 		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
 	$('#'+target+' form').each(function(){ ajaxPostForm(this,false); });
-	reactivateLinks();
+	$('#'+target+' a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	scroll();
 }
-function reactivateLinks(){
-	$('a').unbind('click').click(function(){ return ajaxLink(this); });
-	$('input[type="submit"],input[type="button"]').enabled;
-}
-function scroll(){
-	if (isTouchDevice())
-	{
-		var els = document.getElementsByClassName('rt');
-		Array.prototype.forEach.call(els, function(el) {
-			touchScroll(el.tBodies[0]);
-		});
-		touchScroll(document.getElementById('footerhelp'));
-	}
-}
-//Before AJAX
-$(document).ajaxSend(function(e,r,s){
+//disable links while AJAX
+var disableLinks = false;
+$(document).ajaxStart(function(){
+	disableLinks = true;
 	$('input[type="submit"],input[type="button"]').disabled;
-	$('a').click(function(ev){ ev.preventDefault(); ev.stopPropagation(); return false; });
+});
+$(document).ajaxStop(function(){
+	disableLinks = false;
+	$('input[type="submit"],input[type="button"]').enabled;
 });
 
 //onload
@@ -141,9 +130,18 @@ window.onload = function(){
 	if (typeof(mig_clay) == "function")
 		mig_clay();
 	scroll();
-	$('a').click(function(){ return ajaxLink(this); });
+	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
 };
+function scroll(){
+	if (isTouchDevice())
+	{
+		var els = document.getElementsByClassName('rt');
+		Array.prototype.forEach.call(els, function(el) {
+			touchScroll(el.tBodies[0]);
+		});
+	}
+}
 
 //Side.php JS
 var old_modcat = false;
@@ -164,7 +162,7 @@ function selMenuA(modname)
 	if (oldA = document.getElementById("selectedMenuLink"))
 		oldA.id = "";
 	$('#adminmenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
-	$("#modname_input").value=encodeURIComponent(modname);
+	document.getElementById("modname_input").value=encodeURIComponent(modname);
 }
 
 //Bottom.php JS
@@ -177,6 +175,8 @@ function expandHelp(){
 		{
 			$.get("Bottom.php?modfunc=help&modname="+modname, function(data){
 				$('#footerhelp').html(data);
+				if (isTouchDevice())
+					touchScroll(document.getElementById('footerhelp'));
 			})
 			.fail(function(){
 				alert('Error: expandHelp '+modname);
