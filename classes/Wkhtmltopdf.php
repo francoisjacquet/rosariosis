@@ -673,10 +673,10 @@ class Wkhtmltopdf
                     header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
                     header("Last-Modified: " . gmdate('D, d m Y H:i:s') . " GMT");
                     header("Content-Type: application/force-download");
-                    header("Content-Type: application/octec-stream", false);
                     header("Content-Type: application/download", false);
                     header("Content-Type: application/pdf", false);
-                    header('Content-Disposition: attachment; filename="' . basename($filename) .'";');
+                    header("Content-Type: application/octet-stream", false);
+                    header('Content-Disposition: attachment; filename="' . basename($filename) .'"');
                     header("Content-Transfer-Encoding: binary");
                     header("Content-Length: " . strlen($result));
                     echo $result;
