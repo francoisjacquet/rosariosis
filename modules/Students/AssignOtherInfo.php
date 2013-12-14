@@ -97,7 +97,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
 //modif Francois: css WPadmin
-		echo '<TABLE style="margin:0 auto;"><TR><TD><span class="center">';
+		echo '<span class="center">';
 		echo '<script type="text/javascript">var category_idonchange = document.createElement("a"); category_idonchange.href = "'.PreparePHP_SELF($_REQUEST,array('category_id')).'&category_id="; category_idonchange.target = "body";</script>';
 		echo '<SELECT name="category_id" onchange="category_idonchange.href += this.options[selectedIndex].value; ajaxLink(category_idonchange);"><OPTION value="">'._('All Categories').'</OPTION>';
 		foreach($categories_RET as $category)
@@ -153,7 +153,7 @@ if(empty($_REQUEST['modfunc']))
 					}
 				}
 				echo '<TR><TD style="text-align:right"><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
-				echo '</TD></TR>';
+				//echo '</TD></TR>';
 			}
 		}
 		if(count($fields_RET['autos']))
@@ -184,7 +184,7 @@ if(empty($_REQUEST['modfunc']))
 				}
 
 				echo '<TR><TD style="text-align:right"><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
-				echo '</TD></TR>';
+				//echo '</TD></TR>';
 			}
 		}
 		if(count($fields_RET['edits']))
@@ -206,7 +206,7 @@ if(empty($_REQUEST['modfunc']))
 				$select_options['---'] = '-'. _('Edit') .'-';
 
 				echo '<TR><TD style="text-align:right"><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
-				echo '</TD></TR>';
+				//echo '</TD></TR>';
 			}
 		}
 		if(count($fields_RET['exports']))
@@ -284,8 +284,7 @@ if(empty($_REQUEST['modfunc']))
 			echo '</TR>';
 			echo '</TABLE>';
 		}
-		echo '</TD></TR>';
-		echo '</TABLE><BR />';
+		echo '<BR />';
 	}
 	elseif(isset($note))
 		echo ErrorMessage(array($note), 'note');
@@ -331,7 +330,7 @@ function _makeDateInput($column)
 
 function _makeSelectInput($column,$options)
 {
-	return SelectInput('','values['.$column.']','',$options,_('N/A'),"style='max-width:250;'");
+	return SelectInput('','values['.$column.']','',$options,_('N/A'),"style='max-width:190px;'");
 }
 
 function _makeCheckboxInput($column,$name)
