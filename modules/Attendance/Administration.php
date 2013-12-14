@@ -351,7 +351,7 @@ function _makePhone($value,$column)
 	}
 	else
 		$tipmessage = _('This student has no contact information.');
-	return button('phone','','"#" onMouseOver=\'stm(["'._('Contact Information').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tipmessage)).'"],tipmessageStyle);\' onMouseOut=\'htm()\'');
+	return button('phone','','"#" onMouseOver=\'stm(["'._('Contact Information').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tipmessage)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\'');
 }
 
 function _makeCodePulldown($value,$title)

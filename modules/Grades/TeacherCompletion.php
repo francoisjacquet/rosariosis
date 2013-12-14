@@ -68,7 +68,7 @@ if(!$_REQUEST['period'])
 		foreach($periods as $period)
 		{
 			if(!isset($_REQUEST['_ROSARIO_PDF']))
-				$staff_RET[$i][$period['PERIOD_ID']] .= button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver=\'stm(["'._('Course Title').'","'.str_replace('"','\"',str_replace("'",'&#39;',$period['COURSE_TITLE'])).'"],tipmessageStyle);\' onMouseOut=\'htm()\'').' ';
+				$staff_RET[$i][$period['PERIOD_ID']] .= button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver=\'stm(["'._('Course Title').'","'.str_replace('"','\"',str_replace("'",'&#39;',$period['COURSE_TITLE'])).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\'').' ';
 			else
 				$staff_RET[$i][$period['PERIOD_ID']] = $period['COMPLETED']=='Y'?_('Yes').' ':_('No').' ';
 		}

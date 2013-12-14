@@ -192,7 +192,7 @@ function _makeTipMessage($value,$title)
 {	global $THIS_RET,$StudentPicturesPath;
 
 	if($StudentPicturesPath && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.$THIS_RET['STUDENT_ID'].'.jpg','r') || $file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.$THIS_RET['STUDENT_ID'].'.jpg','r')))
-		return '<DIV onMouseOver=\'stm(["'.str_replace('"','\"',str_replace("'",'&#39;',$THIS_RET['FULL_NAME'])).'","<IMG SRC=\"'.str_replace('\\','\\\\',$picture_path).'\" width=\"150\">"],tipmessageStyle);\' onMouseOut=\'htm()\'>'.$value.'</DIV>';
+		return '<DIV onMouseOver=\'stm(["'.str_replace('"','\"',str_replace("'",'&#39;',$THIS_RET['FULL_NAME'])).'","<IMG SRC=\"'.str_replace('\\','\\\\',$picture_path).'\" width=\"150\">"],tipmessageStyle); return false;\' onMouseOut=\'htm()\'>'.$value.'</DIV>';
 	else
 		return $value;
 }

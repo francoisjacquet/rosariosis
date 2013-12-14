@@ -48,7 +48,7 @@ if(!$_REQUEST['modfunc'] && UserStudentID())
 	{
 		echo TextInput(array($student['ACCOUNT_ID'],'<span style="color:red">'.$student['ACCOUNT_ID'].'</span>'),'food_service[ACCOUNT_ID]',_('Account ID'),'size=12 maxlength=10');
 		$warning = _('Non-existent account!');
-		echo button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle);\' onMouseOut=\'htm()\'');
+		echo button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\'');
 	}
 	else
 	 	echo TextInput($student['ACCOUNT_ID'],'food_service[ACCOUNT_ID]','Account ID','size=12 maxlength=10');
@@ -58,7 +58,7 @@ if(!$_REQUEST['modfunc'] && UserStudentID())
 		$warning = Localize('colon',_('Other students associated with the same account')).'<BR />';
 		foreach($xstudents as $xstudent)
 			$warning .= '&nbsp;'.str_replace('\'','&#39;',$xstudent['FULL_NAME']).'<BR />';
-		echo button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle);\' onMouseOut=\'htm()\'');
+		echo button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\'');
 	}
 	echo '</TD>';
 	$options = array('Inactive'=>_('Inactive'),'Disabled'=>_('Disabled'),'Closed'=>_('Closed'));

@@ -331,7 +331,7 @@ if(empty($_REQUEST['modfunc']))
 							$ximages .= ' <IMG SRC="assets/mailbox_button.png" height="24">';
 						$warning .= '<b>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$xstudent['FULL_NAME']).'</b>'.$ximages.'';
 					}
-					echo '<TH>'.button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle);\' onMouseOut=\'htm()\'').'</TH>';
+					echo '<TH>'.button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\'').'</TH>';
 				}
 				else
 					echo '<TH>&nbsp;</TH>';
@@ -481,7 +481,7 @@ if(empty($_REQUEST['modfunc']))
 								$ximages .= ' <IMG SRC="assets/emergency_button.png" height="24">';
 							$warning .= '<b>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$xstudent['FULL_NAME']).'</b> ('.($xstudent['STUDENT_RELATION']?str_replace(array("'",'"'),array('&#39;','&rdquo;'),$xstudent['STUDENT_RELATION']):'---').')'.$ximages.'<BR />';
 						}
-						$images .= ' '.button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle);\' onMouseOut=\'htm()\'');
+						$images .= ' '.button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\'');
 					}
 
 					if($contact['CUSTODY']=='Y')
