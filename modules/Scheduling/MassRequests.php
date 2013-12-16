@@ -113,7 +113,7 @@ if($_REQUEST['modfunc']=='choose_course')
 		$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'"));
 		$course_title = $course_title[1]['TITLE'];
 
-		echo '<script type="text/javascript">opener.document.getElementById("course_div").innerHTML = "'.$course_title.'"; window.close();</script>';
+		echo '<script type="text/javascript">opener.document.getElementById("course_div").innerHTML = "'.str_replace(array("'",'"'),array('&#39;','&quot;'),$course_title).'"; window.close();</script>';
 		
 	}
 }
