@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-12 18:24-0500\n"
-"PO-Revision-Date: 2013-12-12 18:25-0500\n"
+"PO-Revision-Date: 2013-12-16 17:04-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -5382,7 +5382,7 @@ msgstr "Permettre l'Echelle de Notation Professeur"
 
 #: modules/Scheduling/Courses.php:752
 msgid "Parent Course Period"
-msgstr "Période de Cours pour les Parents"
+msgstr "Période de Cours Parente"
 
 #: modules/Scheduling/Courses.php:780
 msgid "New Course"
