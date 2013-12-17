@@ -65,7 +65,7 @@ if(isset($_REQUEST['modname']))
 			if($modname==$program || (mb_strpos($program, $modname)=== 0 && mb_strpos($_SERVER['QUERY_STRING'], $program)=== 8))
 			{
 				$allowed = true;
-				$modname = $program; //eg: "Student_Billing/Statements.php&_ROSARIO_PDF"
+				$program_loaded = $program; //eg: "Student_Billing/Statements.php&_ROSARIO_PDF"
 				break;
 			}
 		}
