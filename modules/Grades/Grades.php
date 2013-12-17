@@ -469,7 +469,7 @@ function _makeExtraStuCols($value,$column)
 }
 
 function _makeExtraCols($assignment_id,$column)
-{	global $THIS_RET,$assignments_RET,$current_RET,$old_student_id,$student_count,$tabindex,$count_students,$max_allowed;
+{	global $THIS_RET,$assignments_RET,$current_RET,$old_student_id,$student_count,$tabindex,$count_students,$max_allowed,$program_config;
 
 	if($THIS_RET['STUDENT_ID']!=$old_student_id)
 	{
@@ -494,7 +494,7 @@ function _makeExtraCols($assignment_id,$column)
 			if($points!='*')
 //				return '<TABLE cellspacing=0 cellpadding=0><TR align=center><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<HR>'.$total_points.'</TD><TD>&nbsp;'.($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'<span style="color:red">':''):'<span style="color:gray">').Percent($points/$total_points,0).($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'</span>':''):'').'<BR />&nbsp;<B>'._makeLetterGrade($points/$total_points).'</B>'.'</TD></TR></TABLE>';
 // modif Francois: display letter grade according to Configuration
-				return TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, false).'&nbsp;/&nbsp;'.$total_points.($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0 ? '' : '&nbsp;&minus;&nbsp;'.($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'<span style="color:red">':''):'<span style="color:gray">').Percent($points/$total_points,0).($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'</span>':''):'')).'&nbsp;&minus;&nbsp;<B>'._makeLetterGrade($points/$total_points).'</B>';
+				return TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, false).'&nbsp;/&nbsp;'.$total_points.($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0 ? '' : '&nbsp;&minus;&nbsp;'.($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'<span style="color:red">':''):'<span style="color:gray">').Percent($points/$total_points,0).($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'</span>':''):'')).($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>=0 ? '' : '&nbsp;&minus;&nbsp;<B>'._makeLetterGrade($points/$total_points).'</B>');
 			else
 //				return '<TABLE cellspacing=0 cellpadding=1><TR align=center><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<HR>'.$total_points.'</TD><TD>&nbsp;'._('N/A').'<BR />&nbsp;'._('N/A').'</TD></TR></TABLE>';
 				return TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, false).'&nbsp;/&nbsp;'.$total_points.'&nbsp;&minus;&nbsp;'._('N/A').'&nbsp;&minus;&nbsp;'._('N/A').'</TD></TR></TABLE>';
