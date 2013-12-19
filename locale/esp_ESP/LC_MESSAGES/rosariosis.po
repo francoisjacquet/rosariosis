@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-19 17:47-0500\n"
-"PO-Revision-Date: 2013-12-19 18:38-0500\n"
+"PO-Revision-Date: 2013-12-19 18:55-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -2911,7 +2911,7 @@ msgstr "Lista"
 msgid "Option"
 msgid_plural "Options"
 msgstr[0] "Opción"
-msgstr[1] "Opciónes"
+msgstr[1] "Opciones"
 
 #: modules/Discipline/CategoryBreakdown.php:290
 #: modules/Discipline/StudentFieldBreakdown.php:305
@@ -6730,7 +6730,7 @@ msgstr "Emergencia"
 
 #: modules/Students/PeopleFields.php:264
 msgid "Note: All unchecked means applies to all contacts"
-msgstr "Nota: Todos no marcados aplica a todos los contactos"
+msgstr "Nota: Todos no marcados significa aplica a todos los contactos"
 
 #: modules/Students/PrintStudentInfo.php:155
 #: modules/Students/PrintStudentInfo.php:196
