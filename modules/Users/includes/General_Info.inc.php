@@ -31,7 +31,7 @@ if($_REQUEST['staff_id']!='new' && $UserPicturesPath) {
 					$('#outputUserPhoto').html('<img src="assets/spinning.gif" />');
 				},
 				success: function(data) {
-					if (data.indexOf('Error') == 18) {
+					if (data.indexOf('Error') == -1) {
 						$('#formUserPhoto').css('display', 'none');
 						formUserPhotoVisible = 0;
 						$('#divUserPhoto').html('<img src="'+ data +'?cacheKiller='+ Math.round(Math.random()*1000000) +'" width="150" id="userImg" />');
