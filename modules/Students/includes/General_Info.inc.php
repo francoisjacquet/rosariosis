@@ -7,39 +7,40 @@ if($_REQUEST['student_id']!='new' && $StudentPicturesPath) {
 	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])) {
 ?>
 	<script type='text/javascript'> 
-		$(document).ready(function() {
-			//move form inside the main student form!
-			$('#formStudentPhoto').appendTo('#divFormStudentPhoto');
-			//toggle visibility of the form and photo
-			var formStudentPhotoVisible = 0;
-			$('#aFormStudentPhoto').click(function () {
-				if (!formStudentPhotoVisible) {
-					$('#formStudentPhoto').css('display', 'inline');
-					$('#studentImg').css('display', 'none');
-					formStudentPhotoVisible = 1;
-				} else {
-					$('#formStudentPhoto').css('display', 'none');
-					$('#studentImg').css('display', 'inline');
-					formStudentPhotoVisible = 0;
-				}
-			});
+	//move form inside the main student form!
+	$('#formStudentPhoto').appendTo('#divFormStudentPhoto');
+	//toggle visibility of the form and photo
+	var formStudentPhotoVisible = 0;
+	$('#aFormStudentPhoto').click(function () {
+		if (!formStudentPhotoVisible) {
+			$('#formStudentPhoto').css('display', 'inline');
+			$('#studentImg').css('display', 'none');
+			formStudentPhotoVisible = 1;
+		} else {
+			$('#formStudentPhoto').css('display', 'none');
+			$('#studentImg').css('display', 'inline');
+			formStudentPhotoVisible = 0;
+		}
+	});
 
-			$('#formStudentPhoto').ajaxForm({ //send the photo in AJAX
-				beforeSubmit: function(a,f,o) {
-					$('#outputStudentPhoto').html('<img src="assets/spinning.gif" />');
-				},
-				success: function(data) {
-					if (data.indexOf('Error') == -1) {
-						$('#formStudentPhoto').css('display', 'none');
-						formStudentPhotoVisible = 0;
-						$('#divStudentPhoto').html('<img src="'+ data +'?cacheKiller='+ Math.round(Math.random()*1000000) +'" width="150" id="studentImg" />');
-						$('#outputStudentPhoto').html('');
-					} else {
-						$('#outputStudentPhoto').html(data);
-					}
+	setTimeout(function() {
+		$('#formStudentPhoto').ajaxFormUnbind();
+		$('#formStudentPhoto').ajaxForm({ //send the photo in AJAX
+			beforeSubmit: function(a,f,o) {
+				$('#outputStudentPhoto').html('<img src="assets/spinning.gif" />');
+			},
+			success: function(data) {
+				if (data.indexOf('Error') == -1) {
+					$('#formStudentPhoto').css('display', 'none');
+					formStudentPhotoVisible = 0;
+					$('#divStudentPhoto').html('<img src="'+ data +'?cacheKiller='+ Math.round(Math.random()*1000000) +'" width="150" id="studentImg" />');
+					$('#outputStudentPhoto').html('');
+				} else {
+					$('#outputStudentPhoto').html(data);
 				}
-			});
-		}); 
+			}
+		});
+	}, 1);
 	</script> 
 <?php }
 	echo '<TD style="width:150px;" class="valign-top">';

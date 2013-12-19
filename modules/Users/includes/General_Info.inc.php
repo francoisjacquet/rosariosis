@@ -7,39 +7,40 @@ if($_REQUEST['staff_id']!='new' && $UserPicturesPath) {
 	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])) {
 ?>
 	<script type='text/javascript'> 
-		$(document).ready(function() {
-			//move form inside the main user form!
-			$('#formUserPhoto').appendTo('#divFormUserPhoto');
-			//toggle visibility of the form and photo
-			var formUserPhotoVisible = 0;
-			$('#aFormUserPhoto').click(function () {
-				if (!formUserPhotoVisible) {
-					$('#formUserPhoto').css('display', 'inline');
-					$('#userImg').css('display', 'none');
-					formUserPhotoVisible = 1;
-				} else {
-					$('#formUserPhoto').css('display', 'none');
-					$('#userImg').css('display', 'inline');
-					formUserPhotoVisible = 0;
-				}
-			});
+	//move form inside the main user form!
+	$('#formUserPhoto').appendTo('#divFormUserPhoto');
+	//toggle visibility of the form and photo
+	var formUserPhotoVisible = 0;
+	$('#aFormUserPhoto').click(function () {
+		if (!formUserPhotoVisible) {
+			$('#formUserPhoto').css('display', 'inline');
+			$('#userImg').css('display', 'none');
+			formUserPhotoVisible = 1;
+		} else {
+			$('#formUserPhoto').css('display', 'none');
+			$('#userImg').css('display', 'inline');
+			formUserPhotoVisible = 0;
+		}
+	});
 
-			$('#formUserPhoto').ajaxForm({ //send the photo in AJAX
-				beforeSubmit: function(a,f,o) {
-					$('#outputUserPhoto').html('<img src="assets/spinning.gif" />');
-				},
-				success: function(data) {
-					if (data.indexOf('Error') == 18) {
-						$('#formUserPhoto').css('display', 'none');
-						formUserPhotoVisible = 0;
-						$('#divUserPhoto').html('<img src="'+ data +'?cacheKiller='+ Math.round(Math.random()*1000000) +'" width="150" id="userImg" />');
-						$('#outputUserPhoto').html('');
-					} else {
-						$('#outputUserPhoto').html(data);
-					}
+	setTimeout(function() {
+		$('#formUserPhoto').ajaxFormUnbind();
+		$('#formUserPhoto').ajaxForm({ //send the photo in AJAX
+			beforeSubmit: function(a,f,o) {
+				$('#outputUserPhoto').html('<img src="assets/spinning.gif" />');
+			},
+			success: function(data) {
+				if (data.indexOf('Error') == -1) {
+					$('#formUserPhoto').css('display', 'none');
+					formUserPhotoVisible = 0;
+					$('#divUserPhoto').html('<img src="'+ data +'?cacheKiller='+ Math.round(Math.random()*1000000) +'" width="150" id="userImg" />');
+					$('#outputUserPhoto').html('');
+				} else {
+					$('#outputUserPhoto').html(data);
 				}
-			});
-		}); 
+			}
+		});
+	}, 1);
 	</script> 
 <?php }
 	echo '<TD style="width:150px;" class="valign-top">';
