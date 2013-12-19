@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-06 16:07-0500\n"
-"PO-Revision-Date: 2013-12-16 17:07-0500\n"
+"PO-Revision-Date: 2013-12-19 16:18-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -4163,7 +4163,7 @@ msgstr "La date de début est après la date d'échéance !"
 
 #: modules/Grades/Assignments-new.php:276 modules/Grades/Assignments.php:296
 msgid "Due date is after end of quarter!"
-msgstr "La date d'échéance est après la fin du trimestre !"
+msgstr "La date d'échéance est après la fin du bimestre!"
 
 #: modules/Grades/Assignments-new.php:276 modules/Grades/Assignments.php:294
 msgid "Due date is before assigned date!"
@@ -4392,7 +4392,7 @@ msgstr "Semestre"
 #: modules/School_Setup/MarkingPeriods.php:349
 #: modules/School_Setup/MarkingPeriods.php:355
 msgid "Quarter"
-msgstr "Trimestre"
+msgstr "Bimestre"
 
 #: modules/Grades/EditReportCardGrades.php:14 modules/Grades/HonorRoll.php:88
 #: modules/Grades/HonorRollSubject.php:49 modules/Scheduling/Courses.php:564
@@ -4923,7 +4923,7 @@ msgstr "Inclure sur le Bulletin de Notes"
 
 #: modules/Grades/ReportCards.php:348
 msgid "Other Attendance this quarter"
-msgstr "Autres Absences ce trimestre"
+msgstr "Autres Absences ce bimestre"
 
 #: modules/Grades/StudentGrades.php:23
 msgid "Expand All"
