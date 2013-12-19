@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-12 18:23-0500\n"
-"PO-Revision-Date: 2013-12-16 17:04-0500\n"
+"PO-Revision-Date: 2013-12-19 16:08-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -1517,7 +1517,7 @@ msgstr "Razón de la Ausencia"
 #: modules/Attendance/Administration.php:45
 #: modules/Attendance/TakeAttendance.php:69
 msgid "The selected date is not in a school quarter."
-msgstr "La fecha seleccionada no es en un trimestre."
+msgstr "La fecha seleccionada no es en un bimestre."
 
 #: modules/Attendance/Administration.php:210
 #: modules/Attendance/Administration_fast.old.php:79
@@ -4161,7 +4161,7 @@ msgstr[1] "Tipos de Tarea"
 
 #: modules/Grades/Assignments-new.php:274 modules/Grades/Assignments.php:298
 msgid "Assigned date is after end of quarter!"
-msgstr "La fecha asignada esta después del fin del trimestre!"
+msgstr "La fecha asignada esta después del fin del bimestre!"
 
 #: modules/Grades/Assignments-new.php:274
 msgid "Assigned date is after due date!"
@@ -4169,7 +4169,7 @@ msgstr "Fecha de asignación esta luego de la fecha de plazo!"
 
 #: modules/Grades/Assignments-new.php:276 modules/Grades/Assignments.php:299
 msgid "Due date is after end of quarter!"
-msgstr "Feha de plazo esta luego del fin del trimestro!"
+msgstr "La fecha de plazo esta después del fin del bimestre!"
 
 #: modules/Grades/Assignments-new.php:276 modules/Grades/Assignments.php:297
 msgid "Due date is before assigned date!"
@@ -4382,7 +4382,7 @@ msgstr "Semestre"
 #: modules/School_Setup/MarkingPeriods.php:363
 #: modules/School_Setup/MarkingPeriods.php:369
 msgid "Quarter"
-msgstr "Trimestre"
+msgstr "Bimestre"
 
 #: modules/Grades/EditReportCardGrades.php:14 modules/Grades/HonorRoll.php:88
 #: modules/Grades/HonorRollSubject.php:49 modules/Scheduling/Courses.php:567
@@ -4503,7 +4503,7 @@ msgstr "Ausencias Diarias del Año a la fecha"
 
 #: modules/Grades/FinalGrades.php:224 modules/Grades/ReportCards.php:342
 msgid "Daily Absences this quarter"
-msgstr "Ausencias diarias este trimestre"
+msgstr "Ausencias diarias este bimestre"
 
 #: modules/Grades/FinalGrades.php:226 modules/Grades/FinalGrades.php:230
 #: modules/Grades/ReportCards.php:344
@@ -4923,7 +4923,7 @@ msgstr "Incluir en el Boletín de Calificaciones"
 
 #: modules/Grades/ReportCards.php:348
 msgid "Other Attendance this quarter"
-msgstr "Otra Asistencia este Semestre"
+msgstr "Otra Asistencia este bimestre"
 
 #: modules/Grades/StudentGrades.php:23
 msgid "Expand All"
