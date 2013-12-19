@@ -86,7 +86,7 @@ if(!$_REQUEST['period'])
 	foreach($periods_RET as $id=>$period)
 		$columns[$id] = $period[1]['TITLE'];
 
-	ListOutput($staff_RET,$columns,_('Teacher who takes attendance'),_('Teachers who take attendance'));
+	ListOutput($staff_RET,$columns,'Teacher who takes attendance','Teachers who take attendance');
 }
 else
 {
