@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-12 18:23-0500\n"
-"PO-Revision-Date: 2013-12-19 16:08-0500\n"
+"PO-Revision-Date: 2013-12-19 16:26-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -4245,8 +4245,8 @@ msgid ""
 "school setup."
 msgstr ""
 "Los Promedios ponderados y no ponderados son calculados dividiendo los "
-"puntos ponderados y no ponderados de nota configurados para cada nota de "
-"letra (ver la Escala de Calificaciones) por la escala base de calificaciones "
+"puntos ponderados y no ponderados de nota configurados para cada nota (ver "
+"la Escala de Calificaciones) por la escala base de calificaciones "
 "especificada en la configuración de la institución."
 
 #: modules/Grades/CalcGPA.php:32 modules/Grades/CalcGPA.php:57
@@ -4316,12 +4316,11 @@ msgstr "Fecha de Plazo por defecto a la fecha"
 
 #: modules/Grades/Configuration.php:47
 msgid "Hide letter grades for all gradebook assignments"
-msgstr ""
-"Ocultar las notas de letra para todas las tareas del libro de calificaciones"
+msgstr "Ocultar las notas para todas las tareas del libro de calificaciones"
 
 #: modules/Grades/Configuration.php:48
 msgid "Minimum assignment points for letter grade"
-msgstr "Puntuación minima de la tarea para la nota de letra"
+msgstr "Puntuación minima de la tarea para la nota"
 
 #: modules/Grades/Configuration.php:49
 msgid "Allowed maximum percent in Anomalous grades"
@@ -4543,7 +4542,7 @@ msgstr "Análisis de Nota"
 #: modules/Grades/ProgressReports.php:42 modules/Grades/StudentGrades.php:30
 #: modules/Grades/StudentGrades.php:214
 msgid "Letter"
-msgstr "Letra"
+msgstr "Nota"
 
 #: modules/Grades/Grades.php:291
 msgid "Include Inactive Assignments"
@@ -5953,11 +5952,11 @@ msgstr "Usar Comentarios Semestrales en lugar de Comentarios Bimestrales"
 
 #: modules/School_Setup/Configuration.php:83
 msgid "Use letter grades only"
-msgstr "Sólo usar notas de letra"
+msgstr "Sólo usar notas"
 
 #: modules/School_Setup/Configuration.php:83
 msgid "Use letter and percent grades"
-msgstr "Usar notas de letra y porcentajes"
+msgstr "Usar notas y porcentajes"
 
 #: modules/School_Setup/Configuration.php:83
 msgid "Use percent grades only"
