@@ -1,6 +1,6 @@
 Rosario Student Information System - CHANGES
 
-Changes in 2.0b3
+Changes in 2.0b4
 ----------------
 Responsive design
 - Compatible with smartphones and tablets
@@ -8,6 +8,18 @@ Responsive design
 - Retractable menu
 - Responsive tables
 - Bigger texts, icons and buttons
+
+Changes in 1.4.4
+----------------
+- Escape course title & period title in popups
+- Correct "Parent Course Period" translations
+- Display letter grade according to Configuration in Grades.php
+- Bugfix: AJAX User photo upload error handling
+- Remove semester exam & "trimestre" => "bimestre" in Help files
+- Update translations: "quarter" => "bimestre"
+- Spanish translation: "letter"/"letter grade" = "nota"
+- Update spanish translation: correct misspellings
+- Adjust min course period length to appear in table in PrintSchedules.php
 
 Changes in 1.4.3
 ----------------
