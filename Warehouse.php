@@ -41,7 +41,7 @@ if(!defined('WAREHOUSE_PHP'))
 	session_start();
 	if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && mb_strpos($_SERVER['PHP_SELF'],'index.php')===false)
 	{
-		echo '<script type="text/javascript">var index_link = document.createElement("a"); index_link.href = "index.php?modfunc=logout"; index_link.target = "_top"; ajaxLink(index_link);</script>';
+		echo '<script type="text/javascript">window.location.href = "index.php?modfunc=logout";</script>';
 		exit;
 	}
 
