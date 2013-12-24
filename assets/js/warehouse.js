@@ -78,8 +78,8 @@ function ajaxLink(link){
 	$.get(link.href, function(data){
 		ajaxSuccess(data,target);
 	})
-	.fail(function (x, status, error) {
-		alert("ajaxLink get Status: " + status + " - Error: " + error);
+	.fail(function(x,st,err){
+		alert("ajaxLink get Status: "+st+" - Error: "+err);
     });
 	return false;
 }
@@ -96,8 +96,8 @@ function ajaxPostForm(form,submit){
 		success: function(data){
 			ajaxSuccess(data,target);
 		},
-		error: function (x, status, error) {
-			alert("ajaxPostForm get Status: " + status + " - Error: " + error);
+		error: function(x,st,err){
+			alert("ajaxPostForm get Status: "+st+" - Error: "+err);
 		}
 	};
 	if (submit)
