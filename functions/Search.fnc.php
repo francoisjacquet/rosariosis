@@ -25,11 +25,11 @@ function Search($type,$extra=null)
 					$_SESSION['student_id'] = $_REQUEST['student_id'];
 					if($_REQUEST['school_id'])
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
+					if(!isset($_REQUEST['_ROSARIO_PDF']))
+						echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname='.rawurlencode($program_loaded).'"; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 				}
 				else
 					unset($_SESSION['student_id']);
-				if(!isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 			}
 			elseif(!UserStudentID() || $extra['new']==true)
 			{
@@ -62,11 +62,11 @@ function Search($type,$extra=null)
 					$_SESSION['staff_id'] = $_REQUEST['staff_id'];
 					if($_REQUEST['school_id'])
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
+					if(!isset($_REQUEST['_ROSARIO_PDF']))
+						echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname='.rawurlencode($program_loaded).'"; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 				}
 				else
 					unset($_SESSION['staff_id']);
-				if(!isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 			}
 			elseif(!UserStaffID() || $extra['new']==true)
 			{
