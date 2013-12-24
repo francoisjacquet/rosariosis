@@ -78,9 +78,9 @@ function ajaxLink(link){
 	$.get(link.href, function(data){
 		ajaxSuccess(data,target);
 	})
-	.fail(function(){
-		alert('Error: ajaxLink get '+link.href);
-	})
+	.fail(function (x, status, error) {
+		alert("ajaxLink get Status: " + status + " - Error: " + error);
+    });
 	return false;
 }
 function ajaxPostForm(form,submit){
@@ -96,8 +96,8 @@ function ajaxPostForm(form,submit){
 		success: function(data){
 			ajaxSuccess(data,target);
 		},
-		error: function(){
-			alert('Error: ajaxPostForm '+form.action);
+		error: function (x, status, error) {
+			alert("ajaxPostForm get Status: " + status + " - Error: " + error);
 		}
 	};
 	if (submit)
@@ -108,11 +108,11 @@ function ajaxPostForm(form,submit){
 }
 function ajaxSuccess(data,target){
 	$('#'+target).html(data);
-	if (scrollTop=='Y')
-		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
 	$('#'+target+' form').each(function(){ ajaxPostForm(this,false); });
 	$('#'+target+' a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	scroll();
+	if (scrollTop=='Y')
+		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
 }
 //disable links while AJAX
 var disableLinks = false;
