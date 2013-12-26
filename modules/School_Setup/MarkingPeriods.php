@@ -78,7 +78,8 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						if((!VerifyDate($value) && $value!='') || (($column=='START_DATE' || $column=='END_DATE') && $value==''))
 						{
 							$error[] = _('Not all of the dates were entered correctly.');
-							goto error_exit;
+							//goto error_exit; //modif Francois: goto avail. in PHP 5.3, use break instead
+							break 2;
 						}
 					}
 					$sql .= $column."='".$value."',";
@@ -123,7 +124,8 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						if(!VerifyDate($value) && $value!='' || (($column=='START_DATE' || $column=='END_DATE') && $value==''))
 						{
 							$error[] = _('Not all of the dates were entered correctly.');
-							goto error_exit;
+							//goto error_exit; //modif Francois: goto avail. in PHP 5.3, use break instead
+							break 2;
 						}
 					}
 					if($value)
@@ -155,12 +157,14 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 			if(count($dates_RET))
 			{
 				$error[] = sprintf(_('The beginning and end dates you specified for this marking period overlap with those of "%s".'),GetMP($dates_RET[1]['MARKING_PERIOD_ID']))." "._("Only one marking period can be open at any time.");
-				goto error_exit;
+				//goto error_exit; //modif Francois: goto avail. in PHP 5.3, use break instead
+				break 1;
 			}
 			if(count($posting_RET))
 			{
 				$error[] = sprintf(_('The grade posting dates you specified for this marking period overlap with those of "%s".'),GetMP($posting_RET[1]['MARKING_PERIOD_ID']))." "._("Only one grade posting period can be open at any time.");
-				goto error_exit;
+				//goto error_exit; //modif Francois: goto avail. in PHP 5.3, use break instead
+				break 1;
 			}
 
 
@@ -170,7 +174,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 		else
 			$error[] = _('Please enter a valid Sort Order.');
 	}
-	error_exit:
+	//error_exit: //modif Francois: goto avail. in PHP 5.3, use break instead
 	unset($_REQUEST['tables']);
 	unset($_SESSION['_REQUEST_vars']['tables']);
 }

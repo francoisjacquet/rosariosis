@@ -64,20 +64,20 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		if ($_REQUEST['moodle_create_student'] && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
 		{
 			$error[] = _('Please enter a valid password');
-			goto error_exit;
+			//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 		}
 			
-		if(UserStudentID() && $_REQUEST['student_id']!='new')
+		if(UserStudentID() && $_REQUEST['student_id']!='new' && !isset($error))
 		{
 			//modif Francois: Moodle integrator / password
 			$old_student_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$_REQUEST['student_id']."' AND \"column\"='student_id'"));
 			if ($old_student_in_moodle && !empty($_REQUEST['students']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
 			{
 				$error[] = _('Please enter a valid password');
-				goto error_exit;
+				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 				
-			if(count($_REQUEST['students']))
+			if(count($_REQUEST['students']) && !isset($error))
 			{
 				$sql = "UPDATE STUDENTS SET ";
 				foreach($_REQUEST['students'] as $column=>$value)
@@ -124,7 +124,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
 			}
 
-			if(count($_REQUEST['values']['STUDENT_ENROLLMENT'][UserStudentID()]))
+			if(count($_REQUEST['values']['STUDENT_ENROLLMENT'][UserStudentID()]) && !isset($error))
 			{
 				$sql = "UPDATE STUDENT_ENROLLMENT SET ";
 				foreach($_REQUEST['values']['STUDENT_ENROLLMENT'][UserStudentID()] as $column=>$value)
@@ -133,31 +133,31 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				DBQuery($sql);
 			}
 		}
-		else
-		{				
+		elseif (!isset($error))
+		{
 			if($_REQUEST['assign_student_id'])
 			{
 				$student_id = $_REQUEST['assign_student_id'];
 				if(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='$student_id'"))))
 				{
 					$error[] = _('That RosarioSIS ID is already taken. Please select a different one.');
-					goto error_exit;
+					//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 				}
 			}
 			//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME, GRADE_ID is null
 			elseif (empty($_REQUEST['students']['FIRST_NAME']) || empty($_REQUEST['students']['LAST_NAME']) || empty($_REQUEST['values']['STUDENT_ENROLLMENT']['new']['GRADE_ID']))
 			{
 				$error[] = _('Please fill in the required fields');
-				goto error_exit;
+				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 			//modif Francois: Moodle integrator
 			//username, password, (email) required
 			elseif ($_REQUEST['moodle_create_student'] && empty($_REQUEST['students']['USERNAME']))
 			{
 				$error[] = _('Please fill in the required fields');
-				goto error_exit;
+				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
-			else
+			elseif (!isset($error))
 			{
 				do
 				{
@@ -166,78 +166,81 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				}
 				while(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))));
 			}
-
-			$sql = "INSERT INTO STUDENTS ";
-			$fields = 'STUDENT_ID,';
-			$values = "'".$student_id."',";
-
-			foreach($_REQUEST['students'] as $column=>$value)
+			
+			if (!isset($error))
 			{
-				if($column=='USERNAME' && $value)
-					if(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE USERNAME='".$value."'")))
-						$value = '';
-				if($value)
+				$sql = "INSERT INTO STUDENTS ";
+				$fields = 'STUDENT_ID,';
+				$values = "'".$student_id."',";
+
+				foreach($_REQUEST['students'] as $column=>$value)
 				{
-					$fields .= $column.',';
-					if(!is_array($value))
+					if($column=='USERNAME' && $value)
+						if(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE USERNAME='".$value."'")))
+							$value = '';
+					if($value)
 					{
-//modif Francois: add password encryption
-						if ($column!=='PASSWORD')
-							$values .= "'".$value."',";
+						$fields .= $column.',';
+						if(!is_array($value))
+						{
+	//modif Francois: add password encryption
+							if ($column!=='PASSWORD')
+								$values .= "'".$value."',";
+							else
+							{
+								$value = str_replace("''","'",$value);
+								$values .= "'".encrypt_password($value)."',";
+							}
+						}
 						else
 						{
-							$value = str_replace("''","'",$value);
-							$values .= "'".encrypt_password($value)."',";
+							$values .= "'||";
+							foreach($value as $val)
+							{
+								if($val)
+									$values .= $val.'||';
+							}
+							$values .= "',";
 						}
-					}
-					else
-					{
-						$values .= "'||";
-						foreach($value as $val)
-						{
-							if($val)
-								$values .= $val.'||';
-						}
-						$values .= "',";
 					}
 				}
-			}
-			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			DBQuery($sql);
-			
-//modif Francois: Moodle integrator
-			if ($_REQUEST['moodle_create_student'])
-				$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+				DBQuery($sql);
+				
+	//modif Francois: Moodle integrator
+				if ($_REQUEST['moodle_create_student'])
+					$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
 
-			$sql = "INSERT INTO STUDENT_ENROLLMENT ";
-			$fields = 'ID,STUDENT_ID,SYEAR,SCHOOL_ID,';
-			$values = "".db_seq_nextval('STUDENT_ENROLLMENT_SEQ').",'".$student_id."','".UserSyear()."','".UserSchool()."',";
+				$sql = "INSERT INTO STUDENT_ENROLLMENT ";
+				$fields = 'ID,STUDENT_ID,SYEAR,SCHOOL_ID,';
+				$values = "".db_seq_nextval('STUDENT_ENROLLMENT_SEQ').",'".$student_id."','".UserSyear()."','".UserSchool()."',";
 
-			$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['START_DATE'] = $_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE'];
+				$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['START_DATE'] = $_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE'];
 
-			foreach($_REQUEST['values']['STUDENT_ENROLLMENT']['new'] as $column=>$value)
-			{
-				if($value)
+				foreach($_REQUEST['values']['STUDENT_ENROLLMENT']['new'] as $column=>$value)
 				{
-					$fields .= $column.',';
-					$values .= "'".$value."',";
+					if($value)
+					{
+						$fields .= $column.',';
+						$values .= "'".$value."',";
+					}
 				}
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+				DBQuery($sql);
+
+				// create default food service account for this student
+				$sql = "INSERT INTO FOOD_SERVICE_ACCOUNTS (ACCOUNT_ID,BALANCE,TRANSACTION_ID) values('".$student_id."','0.00','0')";
+				DBQuery($sql);
+
+				// associate with default food service account and assign other defaults
+				$sql = "INSERT INTO FOOD_SERVICE_STUDENT_ACCOUNTS (STUDENT_ID,DISCOUNT,BARCODE,ACCOUNT_ID) values('".$student_id."','','','".$student_id."')";
+				DBQuery($sql);
+
+				$_SESSION['student_id'] = $_REQUEST['student_id'] = $student_id;
+				$new_student = true;
 			}
-			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			DBQuery($sql);
-
-			// create default food service account for this student
-			$sql = "INSERT INTO FOOD_SERVICE_ACCOUNTS (ACCOUNT_ID,BALANCE,TRANSACTION_ID) values('".$student_id."','0.00','0')";
-			DBQuery($sql);
-
-			// associate with default food service account and assign other defaults
-			$sql = "INSERT INTO FOOD_SERVICE_STUDENT_ACCOUNTS (STUDENT_ID,DISCOUNT,BARCODE,ACCOUNT_ID) values('".$student_id."','','','".$student_id."')";
-			DBQuery($sql);
-
-			$_SESSION['student_id'] = $_REQUEST['student_id'] = $student_id;
-			$new_student = true;
 		}
-		error_exit:
+		//error_exit: //modif Francois: goto avail. in PHP 5.3
 		if ($error && !UserStudentID())
 			$_REQUEST['student_id'] = 'new';
 	}

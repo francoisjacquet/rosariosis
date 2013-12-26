@@ -74,10 +74,10 @@ if($_REQUEST['modfunc']=='update')
 		if (!MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
 		{
 			$error[] = _('Please enter a valid password');
-			goto error_exit;
+			//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 		}
 			
-		if(UserStaffID() && $_REQUEST['staff_id']!='new')
+		if(UserStaffID() && $_REQUEST['staff_id']!='new' && !isset($error))
 		{
 			$profile_RET = DBGet(DBQuery("SELECT PROFILE,PROFILE_ID,USERNAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 
@@ -106,48 +106,51 @@ if($_REQUEST['modfunc']=='update')
 				if(count($existing_staff))
 				{
 					$error[] = _('A user with that username already exists for the current school year. Choose a different username and try again.');
-					goto error_exit;
+					//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 				}
 			}
-
-			$sql = "UPDATE STAFF SET ";
-			$go = false;
-			foreach($_REQUEST['staff'] as $column_name=>$value)
+			
+			if (!isset($error))
 			{
-//modif Francois: add password encryption
-				if ($column_name!=='PASSWORD')
+				$sql = "UPDATE STAFF SET ";
+				$go = false;
+				foreach($_REQUEST['staff'] as $column_name=>$value)
 				{
-					$sql .= "$column_name='".$value."',";
-					$go = true;
+	//modif Francois: add password encryption
+					if ($column_name!=='PASSWORD')
+					{
+						$sql .= "$column_name='".$value."',";
+						$go = true;
+					}
+					if ($column_name=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
+					{
+						$value = str_replace("''","'",$value);
+						$sql .= "$column_name='".encrypt_password($value)."',";
+						$go = true;
+					}
 				}
-				if ($column_name=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
-				{
-					$value = str_replace("''","'",$value);
-					$sql .= "$column_name='".encrypt_password($value)."',";
-					$go = true;
-				}
-			}
-			$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."'";
-			if(User('PROFILE')=='admin' && $go)
-				DBQuery($sql);
+				$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."'";
+				if(User('PROFILE')=='admin' && $go)
+					DBQuery($sql);
 
-//modif Francois: Moodle integrator
-			$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
+	//modif Francois: Moodle integrator
+				$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
+			}
 		}
-		else
+		elseif (!isset($error))
 		{
 			//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME, PROFILE is null
 			if (empty($_REQUEST['staff']['FIRST_NAME']) || empty($_REQUEST['staff']['LAST_NAME']) || empty($_REQUEST['staff']['PROFILE']))
 			{
 				$error[] = _('Please fill in the required fields');
-				goto error_exit;
+				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 			//modif Francois: Moodle integrator
 			//username, password, email required
-			if (MOODLE_INTEGRATOR && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['PASSWORD']) || empty($_REQUEST['staff']['EMAIL'])))
+			if (MOODLE_INTEGRATOR && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['PASSWORD']) || empty($_REQUEST['staff']['EMAIL'])) && !isset($error))
 			{
 				$error[] = _('Please fill in the required fields');
-				goto error_exit;
+				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 			if($_REQUEST['staff']['PROFILE']=='admin')
 				$_REQUEST['staff']['PROFILE_ID'] = '1';
@@ -160,46 +163,50 @@ if($_REQUEST['modfunc']=='update')
 			if(count($existing_staff))
 			{
 				$error[] = _('A user with that username already exists for the current school year. Choose a different username and try again.');
-				goto error_exit;
+				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
-			$staff_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID'.FROM_DUAL));
-			$staff_id = $staff_id[1]['STAFF_ID'];
-
-			$sql = "INSERT INTO STAFF ";
-			$fields = 'SYEAR,STAFF_ID,';
-			$values = "'".UserSyear()."','".$staff_id."',";
-
-			if(basename($_SERVER['PHP_SELF'])=='index.php')
+			
+			if (!isset($error))
 			{
-				$fields .= 'PROFILE,';
-				$values = "'".Config('SYEAR')."'".mb_substr($values,mb_strpos($values,','))."'none',";
-			}
+				$staff_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID'.FROM_DUAL));
+				$staff_id = $staff_id[1]['STAFF_ID'];
 
-			foreach($_REQUEST['staff'] as $column=>$value)
-			{
-				if($value)
+				$sql = "INSERT INTO STAFF ";
+				$fields = 'SYEAR,STAFF_ID,';
+				$values = "'".UserSyear()."','".$staff_id."',";
+
+				if(basename($_SERVER['PHP_SELF'])=='index.php')
 				{
-					$fields .= $column.',';
-//modif Francois: add password encryption
-					if ($column!=='PASSWORD')
-						$values .= "'".$value."',";
-					else
+					$fields .= 'PROFILE,';
+					$values = "'".Config('SYEAR')."'".mb_substr($values,mb_strpos($values,','))."'none',";
+				}
+
+				foreach($_REQUEST['staff'] as $column=>$value)
+				{
+					if($value)
 					{
-						$value = str_replace("''","'",$value);
-						$values .= "'".encrypt_password($value)."',";
+						$fields .= $column.',';
+	//modif Francois: add password encryption
+						if ($column!=='PASSWORD')
+							$values .= "'".$value."',";
+						else
+						{
+							$value = str_replace("''","'",$value);
+							$values .= "'".encrypt_password($value)."',";
+						}
 					}
 				}
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+				DBQuery($sql);
+				
+	//modif Francois: Moodle integrator
+				$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
+				$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+				
+				$_REQUEST['staff_id'] = $staff_id;
 			}
-			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			DBQuery($sql);
-			
-//modif Francois: Moodle integrator
-			$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
-			$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
-			
-			$_REQUEST['staff_id'] = $staff_id;
 		}
-		error_exit:
+		//error_exit: //modif Francois: goto avail. in PHP 5.3
 		if ($error && !UserStaffID())
 			$_REQUEST['staff_id'] = 'new';
 	}
