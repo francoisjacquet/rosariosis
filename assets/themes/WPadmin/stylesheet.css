@@ -157,9 +157,6 @@ code{
 	padding:4px 7px 2px;
 	vertical-align:top
 }
-.widefat td p,.widefat td ol,.widefat td ul{
-	font-size:12px
-}
 .widefat th {
 	padding:6px 10px;
 	line-height:1.3em;
@@ -579,7 +576,8 @@ div.st{
 	.rt .link2colorBox{ display:inline }
 	.rt .link2colorBox + .rt2colorBox{ display:none }
 	.rt2colorBox{ background-color:#fff; overflow:auto }
-	
+	.rt div.error, .rt div.updated{ padding:0;	margin:0 }
+
 	/*calendar*/
 	#calendar{
 		margin:0 0
