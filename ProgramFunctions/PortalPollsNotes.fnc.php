@@ -108,14 +108,12 @@ function PortalPollsDisplay($value,$name)
 	$PollForm .= '</TD></TR></TABLE><P><input type="submit" value="'._('Submit').'" /></P></form></div>';
 	$PollForm .= '<script type="text/javascript">setTimeout(function() {
 		$("#formPortalPoll'.$poll_id.'").ajaxFormUnbind();
-		alert("la");
 		$("#formPortalPoll'.$poll_id.'").ajaxForm({
 			beforeSubmit: function(a,f,o) {
 				$("#divPortalPoll'.$poll_id.'").html("<img src=\"assets/spinning.gif\" />");
 			},
 			success: function(data) {
 				$("#divPortalPoll'.$poll_id.'").html(data);
-				alert("ici");
 			}
 		});
 	}, 1);
