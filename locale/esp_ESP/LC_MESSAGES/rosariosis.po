@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-19 17:47-0500\n"
-"PO-Revision-Date: 2013-12-19 18:55-0500\n"
+"PO-Revision-Date: 2013-12-30 17:34-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -6038,7 +6038,7 @@ msgstr "Horas"
 
 #: modules/School_Setup/CopySchool.php:3 modules/School_Setup/Rollover.php:3
 msgid "Report Card Grade Codes"
-msgstr "Códigos de Grados del Boletín de Calificaciones"
+msgstr "Notas del Boletín de Calificaciones"
 
 #: modules/School_Setup/CopySchool.php:3 modules/School_Setup/Rollover.php:3
 msgid "Report Card Comment Codes"
