@@ -311,20 +311,26 @@ function _formatContent($value,$column)
 
 	$id = $THIS_RET['ID'];
 
-	$value = nl2br($value);
+	$value_br = nl2br($value);
 	
 	//modif Francois: transform URL to links
-	preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([-\w/_\.]*(\?\S+)?)?)?)@',$value,$matches);
+	$value_br_url = $value_br;
+	preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([-\w/_\.]*(\?\S+)?)?)?)@',$value_br_url,$matches);
 	if($matches){
 		foreach($matches[0] as $url){
 			$text = (mb_strlen($url) > 50 ? mb_substr($url, 0, 50).'...' : $url); //cut URL text if URL > 50 chars
 			$replace = '<a href="'.$url.'" target="_blank">'.$text.'</a>';
-			$value = str_replace($url,$replace,$value);
+			$value_br_url = str_replace($url,$replace,$value_br_url);
 		}
 	}
 	//modif Francois: responsive rt td too large
-	$return .= includeOnceColorBox('divNoteContent'.$id);
-	$return .= '<DIV id="divNoteContent'.$id.'" class="rt2colorBox">'.$value.'</DIV>';
+	if ($value_br==$value && mb_strlen($value) < 50)
+		$return = $value_br_url;
+	else
+	{
+		$return = includeOnceColorBox('divNoteContent'.$id);
+		$return .= '<DIV id="divNoteContent'.$id.'" class="rt2colorBox">'.$value_br_url.'</DIV>';
+	}
 	
 	return $return;
 }
