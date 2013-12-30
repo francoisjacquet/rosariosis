@@ -142,6 +142,9 @@ function scroll(){
 		});
 	}
 }
+if (isTouchDevice())
+	$(document).bind("cbox_complete", function(){ touchScroll(document.getElementById("cboxLoadedContent")); alert("ici"); });
+
 
 //Side.php JS
 var old_modcat = false;
