@@ -215,6 +215,9 @@ function _makeContentInput($value,$name)
 	else
 		$id = 'new';
 
-	return TextareaInput($value,"values[$id][$name]",'','rows=5');
+	$return = includeOnceColorBox('divNoteContent'.$id);
+	$return .= '<DIV id="divNoteContent'.$id.'" class="rt2colorBox">'.TextareaInput($value,"values[$id][$name]",'','rows=5').'</DIV>';
+	
+	return $return;
 }
 ?>
