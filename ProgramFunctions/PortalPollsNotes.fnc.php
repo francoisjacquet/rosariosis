@@ -35,7 +35,7 @@ function PortalPollsVote($poll_id, $votes_array)
 		else //first vote
 		{
 			$voted_array[$question['ID']] = array();
-			$options_array = explode("\r", $question['OPTIONS']);
+			$options_array = explode('<br />', nl2br($question['OPTIONS']));
 			if (is_array($votes_array[$question['ID']])) //multiple
 			{
 				foreach ($options_array as $option_nb => $option_label)
@@ -87,12 +87,12 @@ function PortalPollsDisplay($value,$name)
 	//modif Francois: responsive rt td too large
 	$PollForm .= includeOnceColorBox('divPortalPoll'.$poll_id);
 	
-	$PollForm .= '<div id="divPortalPoll'.$poll_id.'" style="max-height:350px; overflow-y:auto;" class="rt2colorBox"><form method="POST" class="formPortalPoll" action="ProgramFunctions/PortalPolls.fnc.php"><input type="hidden" name="profile_id" value="'.$profile_id.'" /><input type="hidden" name="user_id" value="'.$user_id.'" /><input type="hidden" name="total_votes_string" value="'._('Total Participants').'" /><input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" /><TABLE class="width-100p cellspacing-0 widefat">';
+	$PollForm .= '<div id="divPortalPoll'.$poll_id.'" class="rt2colorBox"><form method="POST" id="formPortalPoll'.$poll_id.'" action="ProgramFunctions/PortalPollsNotes.fnc.php"><input type="hidden" name="profile_id" value="'.$profile_id.'" /><input type="hidden" name="user_id" value="'.$user_id.'" /><input type="hidden" name="total_votes_string" value="'._('Total Participants').'" /><input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" /><TABLE class="width-100p cellspacing-0 widefat">';
 		
 	foreach ($poll_questions_RET as $question)
 	{
 		$PollForm .= '<TR><TD style="vertical-align:top;"><b>'.$question['QUESTION'].'</b></TD><TD><TABLE class="width-100p cellspacing-0">';
-		$options_array = explode("\r", $question['OPTIONS']);
+		$options_array = explode('<br />', nl2br($question['OPTIONS']));
 		$checked = true;
 		foreach ($options_array as $option_nb => $option_label)
 		{
@@ -106,6 +106,20 @@ function PortalPollsDisplay($value,$name)
 	}
 	
 	$PollForm .= '</TD></TR></TABLE><P><input type="submit" value="'._('Submit').'" /></P></form></div>';
+	$PollForm .= '<script type="text/javascript">setTimeout(function() {
+		$("#formPortalPoll'.$poll_id.'").ajaxFormUnbind();
+		alert("la");
+		$("#formPortalPoll'.$poll_id.'").ajaxForm({
+			beforeSubmit: function(a,f,o) {
+				$("#divPortalPoll'.$poll_id.'").html("<img src=\"assets/spinning.gif\" />");
+			},
+			success: function(data) {
+				$("#divPortalPoll'.$poll_id.'").html(data);
+				alert("ici");
+			}
+		});
+	}, 1);
+</script>';
 	
 	return $PollForm;	
 	
@@ -120,8 +134,11 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 		return ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'.(isset($_POST['poll_completed_string'])? $_POST['poll_completed_string'] : _('Poll completed'))),'Note');
 	
 	//modif Francois: responsive rt td too large
-	$votes_display .= includeOnceColorBox('divPortalPoll'.$poll_id);
-	$votes_display .= '<DIV id="divPortalPoll'.$poll_id.'" style="max-height:350px; overflow-y:auto;" class="rt2colorBox">'."\n";
+	if (!$js_included_is_voting)
+	{
+		$votes_display .= includeOnceColorBox('divPortalPoll'.$poll_id);
+		$votes_display .= '<DIV id="divPortalPoll'.$poll_id.'" class="rt2colorBox">'."\n";
+	}
 	
 	foreach ($poll_questions_RET as $question)
 	{
@@ -135,7 +152,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 			$total_votes += $votes;
 
 		//options
-		$options_array = explode("\r", $question['OPTIONS']);
+		$options_array = explode('<br />', nl2br($question['OPTIONS']));
 		for ($i=0; $i < count($options_array); $i++)
 		{
 			$percent = round(($votes_array[$i]/$total_votes)*100);
@@ -144,7 +161,9 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 		$votes_display .= '</TABLE><BR />'."\n";
 	}
 	
-	$votes_display .= '<p>'.(isset($_POST['total_votes_string'])? $_POST['total_votes_string'] : _('Total Participants')).': '.$votes_number.'</p></DIV>'."\n"; 
+	$votes_display .= '<p>'.(isset($_POST['total_votes_string'])? $_POST['total_votes_string'] : _('Total Participants')).': '.$votes_number.'</p>';
+	if (!$js_included_is_voting)
+		$votes_display .= '</DIV>'; 
 	
 	return $votes_display;
 }
