@@ -3245,7 +3245,6 @@ INSERT INTO attendance_codes VALUES (4, 2013, 1, 'Excused Absence', 'E', 'offici
 --
 
 INSERT INTO config VALUES (0, 'LOGIN', 'No');
-INSERT INTO config VALUES (0, 'SYEAR', '2013');
 INSERT INTO config VALUES (0, 'TITLE', 'Rosario Student Information System');
 INSERT INTO config VALUES (1, 'SCHOOL_SYEAR_OVER_2_YEARS', 'Y');
 INSERT INTO config VALUES (1, 'ATTENDANCE_FULL_DAY_MINUTES', '300');

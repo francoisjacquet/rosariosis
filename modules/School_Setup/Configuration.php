@@ -18,7 +18,7 @@ if($_REQUEST['modfunc']=='update')
 				$sql .= "UPDATE CONFIG SET ";
 				$sql .= "CONFIG_VALUE='".$value."' WHERE TITLE='".$column."'";
 				
-				$school_independant_values = array('SYEAR','TITLE'); //Default School Year and Program Title
+				$school_independant_values = array('TITLE'); //Program Title
 				if (in_array($column,$school_independant_values))
 					$sql .= " AND SCHOOL_ID='0';";
 				else
@@ -63,7 +63,6 @@ if(empty($_REQUEST['modfunc']))
 	$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('TITLE'));
 	
 	echo '<FIELDSET><legend><b>'.ParseMLField(Config('TITLE')).'</b></legend><TABLE>';
-	echo '<TR style="text-align:left;"><TD>'.TextInput(Config('SYEAR'),'values[CONFIG][SYEAR]',_('Default School Year'),'maxlength=4 size=4 required').'</TD></TR>';
 	echo '<TR style="text-align:left;"><TD>'.MLTextInput(Config('TITLE'),'values[CONFIG][TITLE]',_('Program Title'),'required').'</TD></TR>';
 	echo '</TABLE></FIELDSET>';
 
