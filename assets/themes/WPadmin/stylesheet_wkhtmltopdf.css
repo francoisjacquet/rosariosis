@@ -157,9 +157,6 @@ code{
 	padding:4px 7px 2px;
 	vertical-align:top
 }
-.widefat td p,.widefat td ol,.widefat td ul{
-	font-size:12px
-}
 .widefat th {
 	padding:6px 10px;
 	line-height:1.3em;
@@ -498,4 +495,8 @@ div.st{
 /*responsive tables*/
 .rt .link2colorBox{
 	display:none
+}
+.divPortalPoll{
+	max-height:350px;
+	overflow-y:auto
 }

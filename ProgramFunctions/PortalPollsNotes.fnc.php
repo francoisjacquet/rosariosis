@@ -87,7 +87,7 @@ function PortalPollsDisplay($value,$name)
 	//modif Francois: responsive rt td too large
 	$PollForm .= includeOnceColorBox('divPortalPoll'.$poll_id);
 	
-	$PollForm .= '<div id="divPortalPoll'.$poll_id.'" class="rt2colorBox"><form method="POST" id="formPortalPoll'.$poll_id.'" action="ProgramFunctions/PortalPollsNotes.fnc.php"><input type="hidden" name="profile_id" value="'.$profile_id.'" /><input type="hidden" name="user_id" value="'.$user_id.'" /><input type="hidden" name="total_votes_string" value="'._('Total Participants').'" /><input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" /><TABLE class="width-100p cellspacing-0 widefat">';
+	$PollForm .= '<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox"><form method="POST" id="formPortalPoll'.$poll_id.'" action="ProgramFunctions/PortalPollsNotes.fnc.php"><input type="hidden" name="profile_id" value="'.$profile_id.'" /><input type="hidden" name="user_id" value="'.$user_id.'" /><input type="hidden" name="total_votes_string" value="'._('Total Participants').'" /><input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" /><TABLE class="width-100p cellspacing-0 widefat">';
 		
 	foreach ($poll_questions_RET as $question)
 	{
@@ -135,7 +135,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	if (!$js_included_is_voting)
 	{
 		$votes_display .= includeOnceColorBox('divPortalPoll'.$poll_id);
-		$votes_display .= '<DIV id="divPortalPoll'.$poll_id.'" class="rt2colorBox">'."\n";
+		$votes_display .= '<DIV id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">'."\n";
 	}
 	
 	foreach ($poll_questions_RET as $question)
