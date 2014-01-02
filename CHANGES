@@ -9,6 +9,15 @@ Responsive design
 - Responsive tables
 - Bigger texts, icons and buttons
 
+Changes in 1.4.5
+----------------
+- Move SYEAR from config table to config.inc.php
+- Do NOT roll students where next grade is NULL
+
+Upgrade from 1.4x
+-----------------
+- please recreate the config.inc.php from config.inc.sample.php, or add the line "$DefaultSyear = '2013';"
+
 Changes in 1.4.4
 ----------------
 - Escape course title & period title in popups
