@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-19 17:47-0500\n"
-"PO-Revision-Date: 2013-12-30 17:34-0500\n"
+"POT-Creation-Date: 2014-01-07 18:56-0500\n"
+"PO-Revision-Date: 2014-01-07 18:57-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -310,13 +310,13 @@ msgstr "Días"
 #: modules/Grades/Assignments.php:231 modules/Grades/DeletePromptX.fnc.php:19
 #: modules/Grades/DeletePromptX.fnc.php:20 modules/Scheduling/Courses.php:462
 #: modules/School_Setup/Calendar.php:253 modules/School_Setup/Calendar.php:326
-#: modules/School_Setup/MarkingPeriods.php:230
+#: modules/School_Setup/MarkingPeriods.php:234
 #: modules/School_Setup/Schools.php:68 modules/School_Setup/Schools.php:112
 #: modules/Students/AddressFields.php:159
 #: modules/Students/PeopleFields.php:159
 #: modules/Students/StudentFields.php:167
 #: modules/Student_Billing/functions.inc.php:24
-#: modules/Student_Billing/functions.inc.php:37 modules/Users/User.php:285
+#: modules/Student_Billing/functions.inc.php:37 modules/Users/User.php:292
 #: modules/Users/UserFields.php:167
 msgid "Delete"
 msgstr "Eliminar"
@@ -337,7 +337,7 @@ msgstr "Eliminar"
 #: modules/Students/StudentBreakdown.php:86
 #: modules/Students/StudentBreakdown.php:95
 #: modules/Student_Billing/functions.inc.php:114
-#: ProgramFunctions/PortalPollsNotes.fnc.php:255
+#: ProgramFunctions/PortalPollsNotes.fnc.php:272
 msgid "Yes"
 msgstr "Sí"
 
@@ -408,12 +408,12 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #: functions/ErrorMessage.fnc.php:33 functions/GetStuList.fnc.php:267
-#: modules/Scheduling/new_Requests.php:33 modules/Students/Student.php:381
-#: modules/Students/Student.php:382 modules/Students/Student.php:383
-#: modules/Students/Student.php:384 modules/Students/Student.php:385
-#: modules/Users/Exceptions.php:177 modules/Users/User.php:358
-#: modules/Users/User.php:359 modules/Users/User.php:360
-#: modules/Users/User.php:361 modules/Users/User.php:362
+#: modules/Scheduling/new_Requests.php:33 modules/Students/Student.php:384
+#: modules/Students/Student.php:385 modules/Students/Student.php:386
+#: modules/Students/Student.php:387 modules/Students/Student.php:388
+#: modules/Users/Exceptions.php:177 modules/Users/User.php:365
+#: modules/Users/User.php:366 modules/Users/User.php:367
+#: modules/Users/User.php:368 modules/Users/User.php:369
 msgid "Error"
 msgstr "Error"
 
@@ -712,8 +712,8 @@ msgstr "Grado"
 #: modules/Grades/GradeBreakdown.php:63 modules/Users/Preferences.php:303
 msgid "Grade"
 msgid_plural "Grades"
-msgstr[0] "Nota"
-msgstr[1] "Notas"
+msgstr[0] "Calificación"
+msgstr[1] "Calificaciones"
 
 #: functions/GetStuList.fnc.php:438 modules/Grades/ProgressReports.php:190
 msgid "Excluded"
@@ -734,10 +734,10 @@ msgstr ""
 "Este intento de violación ha sido registrado y si dirección IP fue capturada."
 
 #: functions/IncludeOnce.fnc.php:20
-#: ProgramFunctions/PortalPollsNotes.fnc.php:309
-#: ProgramFunctions/PortalPollsNotes.fnc.php:315
-#: ProgramFunctions/PortalPollsNotes.fnc.php:321
-#: ProgramFunctions/PortalPollsNotes.fnc.php:328
+#: ProgramFunctions/PortalPollsNotes.fnc.php:326
+#: ProgramFunctions/PortalPollsNotes.fnc.php:332
+#: ProgramFunctions/PortalPollsNotes.fnc.php:338
+#: ProgramFunctions/PortalPollsNotes.fnc.php:345
 msgid "View Online"
 msgstr "Ver en línea"
 
@@ -1166,16 +1166,16 @@ msgstr "Horarios"
 #: modules/Attendance/AttendanceCodes.php:100
 #: modules/Attendance/TeacherCompletion.php:18
 #: modules/Custom/AttendanceSummary.php:56 modules/Scheduling/Courses.php:674
-#: modules/School_Setup/Configuration.php:91
+#: modules/School_Setup/Configuration.php:90
 msgid "Attendance"
 msgstr "Asistencia"
 
 #: functions/Widgets.fnc.php:47 modules/Grades/GradeBreakdown.php:45
 #: modules/Grades/Menu.php:33 modules/Grades/Transcripts.php:316
-#: modules/School_Setup/Configuration.php:82
-#: modules/School_Setup/Configuration.php:84
+#: modules/School_Setup/Configuration.php:81
+#: modules/School_Setup/Configuration.php:83
 msgid "Grades"
-msgstr "Notas"
+msgstr "Calificaciones"
 
 #: functions/Widgets.fnc.php:55 functions/Widgets.fnc.php:350
 #: modules/Grades/Configuration.php:57 modules/Users/Preferences.php:305
@@ -1336,7 +1336,7 @@ msgstr "Con"
 
 #: functions/Widgets.fnc.php:267 modules/Grades/ReportCardGrades.php:75
 msgid "Report Card Grade"
-msgstr "Nota del Boletín de Calificaciones"
+msgstr "Calificación del Boletín de Calificaciones"
 
 #: functions/Widgets.fnc.php:280
 msgid "Did not receive"
@@ -1621,7 +1621,7 @@ msgstr "Día Completo"
 #: modules/Attendance/Administration_fast.old.php:79
 #: modules/Grades/FinalGrades.php:220 modules/Grades/ReportCards.php:338
 #: modules/Grades/Transcripts.php:319
-#: modules/School_Setup/MarkingPeriods.php:257
+#: modules/School_Setup/MarkingPeriods.php:261
 #: modules/Students/includes/Comments.inc.php:23
 #: modules/Students/includes/Medical.inc.php:27
 #: modules/Students/includes/Medical.inc.php:48
@@ -1641,7 +1641,7 @@ msgstr "Cursos"
 #: modules/Grades/ReportCardCommentCodes.php:63
 #: modules/Grades/ReportCardComments.php:51 modules/Scheduling/Courses.php:382
 #: modules/School_Setup/GradeLevels.php:44
-#: modules/School_Setup/MarkingPeriods.php:171
+#: modules/School_Setup/MarkingPeriods.php:175
 #: modules/School_Setup/PortalNotes.php:137
 #: modules/School_Setup/PortalPolls.php:165
 #: modules/Students/AddressFields.php:111
@@ -1684,7 +1684,7 @@ msgstr "Categoría"
 #: modules/Scheduling/Courses.php:831 modules/School_Setup/Calendar.php:39
 #: modules/School_Setup/Calendar.php:318
 #: modules/School_Setup/GradeLevels.php:65
-#: modules/School_Setup/MarkingPeriods.php:253
+#: modules/School_Setup/MarkingPeriods.php:257
 #: modules/School_Setup/Periods.php:76
 #: modules/School_Setup/PortalNotes.php:171
 #: modules/School_Setup/PortalPolls.php:195
@@ -1710,7 +1710,7 @@ msgstr "Título"
 #: modules/Scheduling/Schedule.php:190
 #: modules/Scheduling/ScheduleReport.php:130
 #: modules/School_Setup/GradeLevels.php:65
-#: modules/School_Setup/MarkingPeriods.php:254
+#: modules/School_Setup/MarkingPeriods.php:258
 #: modules/School_Setup/Periods.php:76 modules/School_Setup/Schools.php:129
 #: modules/Students/EnrollmentCodes.php:65
 msgid "Short Name"
@@ -1731,7 +1731,7 @@ msgstr "Nombre Corto"
 #: modules/Grades/ReportCardComments.php:176
 #: modules/Grades/ReportCardGrades.php:158 modules/Scheduling/Courses.php:832
 #: modules/School_Setup/GradeLevels.php:65
-#: modules/School_Setup/MarkingPeriods.php:255
+#: modules/School_Setup/MarkingPeriods.php:259
 #: modules/School_Setup/Periods.php:76
 #: modules/School_Setup/PortalNotes.php:171
 #: modules/School_Setup/PortalPolls.php:195
@@ -1829,10 +1829,10 @@ msgstr "Código del Estado"
 #: modules/School_Setup/Calendar.php:324 modules/School_Setup/Calendar.php:452
 #: modules/School_Setup/Calendar.php:558
 #: modules/School_Setup/Configuration.php:59
-#: modules/School_Setup/Configuration.php:113
+#: modules/School_Setup/Configuration.php:112
 #: modules/School_Setup/GradeLevels.php:71
 #: modules/School_Setup/GradeLevels.php:75
-#: modules/School_Setup/MarkingPeriods.php:249
+#: modules/School_Setup/MarkingPeriods.php:253
 #: modules/School_Setup/Periods.php:82 modules/School_Setup/Periods.php:86
 #: modules/School_Setup/PortalNotes.php:178
 #: modules/School_Setup/PortalNotes.php:189
@@ -1846,7 +1846,7 @@ msgstr "Código del Estado"
 #: modules/Students/EnrollmentCodes.php:71
 #: modules/Students/EnrollmentCodes.php:75
 #: modules/Students/PeopleFields.php:191 modules/Students/PeopleFields.php:250
-#: modules/Students/Student.php:309 modules/Students/Student.php:366
+#: modules/Students/Student.php:312 modules/Students/Student.php:369
 #: modules/Students/StudentFields.php:199
 #: modules/Students/StudentFields.php:258
 #: modules/Student_Billing/StudentFees.php:127
@@ -1856,7 +1856,7 @@ msgstr "Código del Estado"
 #: modules/Users/Exceptions.php:92 modules/Users/Exceptions.php:165
 #: modules/Users/Preferences.php:119 modules/Users/Preferences.php:372
 #: modules/Users/Profiles.php:117 modules/Users/Profiles.php:243
-#: modules/Users/User.php:297 modules/Users/User.php:343
+#: modules/Users/User.php:304 modules/Users/User.php:350
 #: modules/Users/UserFields.php:198 modules/Users/UserFields.php:257
 msgid "Save"
 msgstr "Guardar"
@@ -1909,7 +1909,7 @@ msgstr "Transcurso"
 #: modules/Food_Service/Users/Statements.php:20
 #: modules/Scheduling/AddDrop.php:21 modules/School_Setup/Calendar.php:372
 #: modules/Students/AddDrop.php:21
-#: ProgramFunctions/PortalPollsNotes.fnc.php:207
+#: ProgramFunctions/PortalPollsNotes.fnc.php:224
 msgid "to"
 msgstr "a"
 
@@ -2149,8 +2149,8 @@ msgstr "Buscar en Todas las Instituciones"
 #: modules/Reports/Students.php:177 modules/Scheduling/PrintClassLists.php:124
 #: modules/Scheduling/PrintClassPictures.php:169
 #: modules/Students/Search.inc.php:55 modules/Students/Search.inc.php:110
-#: modules/Students/Student.php:388 modules/Users/Search.inc.php:63
-#: modules/Users/User.php:365 ProgramFunctions/PortalPollsNotes.fnc.php:108
+#: modules/Students/Student.php:391 modules/Users/Search.inc.php:63
+#: modules/Users/User.php:372 ProgramFunctions/PortalPollsNotes.fnc.php:108
 msgid "Submit"
 msgstr "Enviar"
 
@@ -2228,7 +2228,7 @@ msgstr "Fecha"
 #: modules/Food_Service/ServeMenus.php:26
 #: modules/Food_Service/Statements.php:31
 #: modules/Food_Service/Transactions.php:19
-#: modules/School_Setup/Configuration.php:75
+#: modules/School_Setup/Configuration.php:74
 #: modules/School_Setup/Rollover.php:3 modules/Users/AddStudents.php:73
 msgid "Students"
 msgstr "Estudiantes"
@@ -2365,7 +2365,7 @@ msgstr "Nombre del Estudiante"
 #: modules/misc/Portal.php:158 modules/misc/Portal.php:166
 #: modules/misc/Portal.php:225 modules/misc/Portal.php:233
 #: modules/misc/Portal.php:241 modules/misc/Portal.php:292
-#: modules/School_Setup/Configuration.php:70
+#: modules/School_Setup/Configuration.php:69
 #: modules/School_Setup/Schools.php:70 modules/Students/AddDrop.php:27
 #: modules/Students/Letters.php:157
 #: modules/Students/includes/Enrollment.inc.php:50
@@ -2376,9 +2376,9 @@ msgstr "Institución"
 #: modules/Custom/AttendanceSummary.php:45
 #: modules/Grades/EditHistoryMarkingPeriods.php:147
 #: modules/Grades/Transcripts.php:302
-#: modules/School_Setup/MarkingPeriods.php:185
-#: modules/School_Setup/MarkingPeriods.php:298
-#: modules/School_Setup/MarkingPeriods.php:305
+#: modules/School_Setup/MarkingPeriods.php:189
+#: modules/School_Setup/MarkingPeriods.php:302
+#: modules/School_Setup/MarkingPeriods.php:309
 msgid "Year"
 msgstr "Año"
 
@@ -3133,12 +3133,12 @@ msgid "Please choose a student field"
 msgstr "Escoge un campo de estudiante por favor"
 
 #: modules/Eligibility/Activities.php:83
-#: modules/School_Setup/MarkingPeriods.php:261
+#: modules/School_Setup/MarkingPeriods.php:265
 msgid "Begins"
 msgstr "Comienza"
 
 #: modules/Eligibility/Activities.php:83 modules/Eligibility/Student.php:118
-#: modules/School_Setup/MarkingPeriods.php:262
+#: modules/School_Setup/MarkingPeriods.php:266
 msgid "Ends"
 msgstr "Termina"
 
@@ -3178,7 +3178,7 @@ msgstr "Usted solamente puede entrar elegibilidad desde %s %s hasta %s %s."
 
 #: modules/Eligibility/EnterEligibility.php:132
 msgid "Use Gradebook Grades"
-msgstr "Usar las Notas del Libro de Calificaciones"
+msgstr "Usar las Calificaciones del Libro de Calificaciones"
 
 #: modules/Eligibility/EntryTimes.php:75
 msgid "Allow Eligibility Posting"
@@ -3251,7 +3251,7 @@ msgstr[1] "Docentes que no han entrado la elegibilidad"
 #: modules/Food_Service/Users/ActivityReport.php:32
 #: modules/Food_Service/Users/Statements.php:56
 #: modules/Users/Search.inc.php:148 modules/Users/Search.inc.php:185
-#: modules/Users/User.php:246
+#: modules/Users/User.php:253
 msgid "User"
 msgstr "Usuario"
 
@@ -4051,16 +4051,16 @@ msgstr "Incluir"
 
 #: modules/Grades/AnomalousGrades.php:11
 msgid "Missing Grades"
-msgstr "Notas Faltantes"
+msgstr "Calificaciones Faltantes"
 
 #: modules/Grades/AnomalousGrades.php:11
 msgid "Excused and Negative Grades"
-msgstr "Excusado y Notas Negativas"
+msgstr "Excusado y Calificaciones Negativas"
 
 #: modules/Grades/AnomalousGrades.php:11
 #, php-format
 msgid "Exceed %d%% and Extra Credit Grades"
-msgstr "Excede %d%% y las Notas con Crédito Extra"
+msgstr "Excede %d%% y las Calificaciones con Crédito Extra"
 
 #: modules/Grades/AnomalousGrades.php:82 modules/Grades/AnomalousGrades.php:88
 msgid "Problem"
@@ -4091,14 +4091,14 @@ msgstr[1] "Tareas"
 #: modules/Grades/AnomalousGrades.php:112
 msgid "Anomalous Grade"
 msgid_plural "Anomalous Grades"
-msgstr[0] "Nota con Anomalía"
-msgstr[1] "Notas con Anomalía"
+msgstr[0] "Calificación con Anomalía"
+msgstr[1] "Calificaciones con Anomalía"
 
 #: modules/Grades/AnomalousGrades.php:114
 msgid "Student with Anomalous Grades"
 msgid_plural "Students with Anomalous Grades"
-msgstr[0] "Estudiante con Anomalías en Notas"
-msgstr[1] "Estudiantes con Anomalías en Notas"
+msgstr[0] "Estudiante con Anomalías en Calificaciones"
+msgstr[1] "Estudiantes con Anomalías en Calificaciones"
 
 #: modules/Grades/AnomalousGrades.php:120
 msgid "Missing"
@@ -4177,8 +4177,8 @@ msgstr "La fecha de plazo esta antes de la fecha de asignación!"
 #: modules/Students/AddressFields.php:108
 #: modules/Students/PeopleFields.php:108 modules/Students/Student.php:150
 #: modules/Students/Student.php:157 modules/Students/StudentFields.php:113
-#: modules/Students/includes/Address.inc.php:165 modules/Users/User.php:142
-#: modules/Users/User.php:149 modules/Users/UserFields.php:113
+#: modules/Students/includes/Address.inc.php:165 modules/Users/User.php:145
+#: modules/Users/User.php:152 modules/Users/UserFields.php:113
 msgid "Please fill in the required fields"
 msgstr "Por favor llene los campos requeridos"
 
@@ -4210,7 +4210,7 @@ msgstr "Plazo"
 
 #: modules/Grades/Assignments.php:317
 msgid "Percent of Final Grade"
-msgstr "Porcentaje de la Nota Final"
+msgstr "Porcentaje de la Calificación Final"
 
 #: modules/Grades/Assignments.php:318
 msgid "Percent Total"
@@ -4243,9 +4243,9 @@ msgid ""
 "school setup."
 msgstr ""
 "Los Promedios ponderados y no ponderados son calculados dividiendo los "
-"puntos ponderados y no ponderados de nota configurados para cada nota (ver "
-"la Escala de Calificaciones) por la escala base de calificaciones "
-"especificada en la configuración de la institución."
+"puntos ponderados y no ponderados de calificación configurados para cada "
+"calificación (ver la Escala de Calificaciones) por la escala base de "
+"calificaciones especificada en la configuración de la institución."
 
 #: modules/Grades/CalcGPA.php:32 modules/Grades/CalcGPA.php:57
 msgid "GPA Calculation"
@@ -4278,7 +4278,7 @@ msgstr "Tareas"
 
 #: modules/Grades/Configuration.php:37
 msgid "Score Rounding"
-msgstr "Aproximar Nota"
+msgstr "Aproximar Calificación"
 
 #: modules/Grades/Configuration.php:37
 msgid "Up"
@@ -4302,7 +4302,7 @@ msgstr "Lo más nuevo primero"
 
 #: modules/Grades/Configuration.php:44
 msgid "Weight Grades"
-msgstr "Ponderar Notas"
+msgstr "Ponderar Calificaciones"
 
 #: modules/Grades/Configuration.php:45
 msgid "Assigned Date defaults to today"
@@ -4314,15 +4314,16 @@ msgstr "Fecha de Plazo por defecto a la fecha"
 
 #: modules/Grades/Configuration.php:47
 msgid "Hide letter grades for all gradebook assignments"
-msgstr "Ocultar las notas para todas las tareas del libro de calificaciones"
+msgstr ""
+"Ocultar las calificaciones para todas las tareas del libro de calificaciones"
 
 #: modules/Grades/Configuration.php:48
 msgid "Minimum assignment points for letter grade"
-msgstr "Puntuación minima de la tarea para la nota"
+msgstr "Puntuación minima de la tarea para la calificación"
 
 #: modules/Grades/Configuration.php:49
 msgid "Allowed maximum percent in Anomalous grades"
-msgstr "Porcentaje maximo permitido en las Notas con Anomalía"
+msgstr "Porcentaje maximo permitido en las Calificaciones con Anomalía"
 
 #: modules/Grades/Configuration.php:50
 msgid ""
@@ -4334,12 +4335,12 @@ msgstr ""
 
 #: modules/Grades/Configuration.php:59
 msgid "Calculate Eligibility using Cumulative Semester Grades"
-msgstr "Calcular Elegibilidad usando Notas Acumuladas del Semestre"
+msgstr "Calcular Elegibilidad usando Calificaciones Acumuladas del Semestre"
 
 #: modules/Grades/Configuration.php:69 modules/Grades/Menu.php:13
 #: modules/Grades/Menu.php:42 modules/Grades/Menu.php:53
 msgid "Final Grades"
-msgstr "Notas Finales"
+msgstr "Calificaciones Finales"
 
 #: modules/Grades/Configuration.php:77
 #, php-format
@@ -4348,11 +4349,11 @@ msgstr "Código de comentario %s por defecto"
 
 #: modules/Grades/Configuration.php:95
 msgid "Score Breakoff Points"
-msgstr "Puntos Limites de la Nota"
+msgstr "Puntos Limites de la Calificación"
 
 #: modules/Grades/Configuration.php:124
 msgid "Final Grading Percentages"
-msgstr "Porcentajes de la Nota Final"
+msgstr "Porcentajes de la Calificación Final"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:63
 #: modules/Grades/EditHistoryMarkingPeriods.php:103
@@ -4363,21 +4364,21 @@ msgstr[1] "Períodos a Calificar Históricos"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:86
 msgid "Grade Post Date"
-msgstr "Fecha de Publicación de la Nota"
+msgstr "Fecha de Publicación de la Calificación"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:147
 #: modules/Grades/Transcripts.php:302
-#: modules/School_Setup/MarkingPeriods.php:193
-#: modules/School_Setup/MarkingPeriods.php:331
-#: modules/School_Setup/MarkingPeriods.php:337
+#: modules/School_Setup/MarkingPeriods.php:197
+#: modules/School_Setup/MarkingPeriods.php:335
+#: modules/School_Setup/MarkingPeriods.php:341
 msgid "Semester"
 msgstr "Semestre"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:147
 #: modules/Grades/Transcripts.php:302
-#: modules/School_Setup/MarkingPeriods.php:200
-#: modules/School_Setup/MarkingPeriods.php:363
-#: modules/School_Setup/MarkingPeriods.php:369
+#: modules/School_Setup/MarkingPeriods.php:204
+#: modules/School_Setup/MarkingPeriods.php:367
+#: modules/School_Setup/MarkingPeriods.php:373
 msgid "Quarter"
 msgstr "Bimestre"
 
@@ -4393,7 +4394,7 @@ msgstr "Período a Calificar"
 
 #: modules/Grades/EditReportCardGrades.php:97
 msgid "Student Grade"
-msgstr "Nota del Estudiante"
+msgstr "Calificación del Estudiante"
 
 #: modules/Grades/EditReportCardGrades.php:148
 msgid "Add another marking period"
@@ -4424,11 +4425,11 @@ msgstr "Percentaje"
 
 #: modules/Grades/EditReportCardGrades.php:215
 msgid "Grade Points"
-msgstr "Puntos de la Nota"
+msgstr "Puntos de la Calificación"
 
 #: modules/Grades/EditReportCardGrades.php:216
 msgid "Unweighted Grade Points"
-msgstr "Puntos de la Nota No Ponderado"
+msgstr "Puntos de la Calificación No Ponderado"
 
 #: modules/Grades/EditReportCardGrades.php:217
 #: modules/Grades/ReportCardGrades.php:141
@@ -4460,7 +4461,7 @@ msgstr "Eliminar Período Académico"
 
 #: modules/Grades/FinalGrades.php:9
 msgid "Final Grade"
-msgstr "Nota Final"
+msgstr "Calificación Final"
 
 #: modules/Grades/FinalGrades.php:106
 msgid "Abs<BR />YTD / MP"
@@ -4483,11 +4484,11 @@ msgstr "Debe escoger por lo menos un período a calificar y un estudiante."
 
 #: modules/Grades/FinalGrades.php:206 modules/Grades/FinalGrades.php:291
 msgid "Create Grade Lists for Selected Students"
-msgstr "Crear Listas de Notas para los Estudiantes Seleccionados"
+msgstr "Crear Listas de Calificaciones para los Estudiantes Seleccionados"
 
 #: modules/Grades/FinalGrades.php:212
 msgid "Include on Grade List"
-msgstr "Incluir en la Lista de Notas"
+msgstr "Incluir en la Lista de Calificaciones"
 
 # 'user_profiles' table
 #: modules/Grades/FinalGrades.php:221 modules/Grades/ReportCards.php:339
@@ -4532,7 +4533,7 @@ msgstr "Número de Estudiantes"
 #: modules/Grades/GradeBreakdown.php:83 modules/Grades/Menu.php:12
 #: modules/Grades/Menu.php:39
 msgid "Grade Breakdown"
-msgstr "Análisis de Nota"
+msgstr "Análisis de Calificación"
 
 #: modules/Grades/Grades.php:170 modules/Grades/Grades.php:171
 #: modules/Grades/Grades.php:235 modules/Grades/Grades.php:260
@@ -4540,7 +4541,7 @@ msgstr "Análisis de Nota"
 #: modules/Grades/ProgressReports.php:42 modules/Grades/StudentGrades.php:30
 #: modules/Grades/StudentGrades.php:214
 msgid "Letter"
-msgstr "Nota"
+msgstr "Calificación"
 
 #: modules/Grades/Grades.php:291
 msgid "Include Inactive Assignments"
@@ -4644,7 +4645,7 @@ msgstr "Materia"
 #: modules/Grades/InputFinalGrades.php:17
 #: modules/Grades/InputFinalGrades.php:24
 msgid "You cannot enter grades for this course period."
-msgstr "Usted no puede entrar notas para esta clase."
+msgstr "Usted no puede entrar calificaciones para esta clase."
 
 #: modules/Grades/InputFinalGrades.php:36
 #: modules/Grades/ReportCardComments.php:124
@@ -4654,32 +4655,32 @@ msgstr "General"
 #: modules/Grades/InputFinalGrades.php:567
 #, php-format
 msgid "Grade Posting dates: %s - %s"
-msgstr "Fechas de Publicación de Notas: %s - %s"
+msgstr "Fechas de Publicación de Calificaciones: %s - %s"
 
 #: modules/Grades/InputFinalGrades.php:570
 msgid "These grades are complete."
-msgstr "Estas notas estan completas."
+msgstr "Estas calificaciones estan completas."
 
 #: modules/Grades/InputFinalGrades.php:570
 msgid "These grades are NOT complete."
-msgstr "Estas notas NO estan completas."
+msgstr "Estas calificaciones NO estan completas."
 
 #: modules/Grades/InputFinalGrades.php:570
 msgid "You can edit these grades."
-msgstr "Usted puede editar estas notas."
+msgstr "Usted puede editar estas calificaciones."
 
 #: modules/Grades/InputFinalGrades.php:570
 msgid "You can not edit these grades."
-msgstr "Usted no puede editar estas notas."
+msgstr "Usted no puede editar estas calificaciones."
 
 #: modules/Grades/InputFinalGrades.php:574
 msgid "Get Gradebook Grades."
-msgstr "Obtener las Notas del Libro de Calificaciones."
+msgstr "Obtener las Calificaciones del Libro de Calificaciones."
 
 #: modules/Grades/InputFinalGrades.php:581
 #, php-format
 msgid "Get %s Grades"
-msgstr "Obtener las Notas de %s"
+msgstr "Obtener las Calificaciones de %s"
 
 #: modules/Grades/InputFinalGrades.php:582
 #, php-format
@@ -4718,7 +4719,7 @@ msgstr "Expedientes Académicos"
 
 #: modules/Grades/Menu.php:10 modules/Grades/Menu.php:41
 msgid "Student Grades"
-msgstr "Notas de los Estudiantes"
+msgstr "Calificaciones de los Estudiantes"
 
 #: modules/Grades/Menu.php:14 modules/Grades/Menu.php:43
 msgid "GPA / Class Rank List"
@@ -4738,22 +4739,22 @@ msgstr "Períodos a Calificar Históricos"
 
 #: modules/Grades/Menu.php:22
 msgid "Edit Student Grades"
-msgstr "Editar Notas del Estudiante"
+msgstr "Editar Calificaciones del Estudiante"
 
 #: modules/Grades/Menu.php:24 modules/Grades/Menu.php:30
 #: modules/Grades/Menu.php:60
 msgid "Input Final Grades"
-msgstr "Entrar Notas Finales"
+msgstr "Entrar Calificaciones Finales"
 
 #: modules/Grades/Menu.php:25 modules/Grades/Menu.php:52
 #: modules/Grades/Menu.php:61
 msgid "Gradebook Grades"
-msgstr "Notas del Libro de Calificaciones"
+msgstr "Calificaciones del Libro de Calificaciones"
 
 #: modules/Grades/Menu.php:26 modules/Grades/Menu.php:36
 #: modules/Grades/Menu.php:62
 msgid "Anomalous Grades"
-msgstr "Notas con Anomalía"
+msgstr "Calificaciones con Anomalía"
 
 #: modules/Grades/Menu.php:37
 msgid "Progress Reports"
@@ -4770,7 +4771,7 @@ msgstr "Reporte de Progreso"
 #: modules/Grades/ProgressReports.php:104
 #, php-format
 msgid "%s of grade"
-msgstr "%s de la nota"
+msgstr "%s de la calificación"
 
 #: modules/Grades/ProgressReports.php:140
 #: modules/Grades/ProgressReports.php:168
@@ -4850,7 +4851,7 @@ msgstr "Valor de Promedio"
 
 #: modules/Grades/ReportCardGrades.php:134
 msgid "Unweighted GP Value"
-msgstr "Valor de Nota No Ponderada"
+msgstr "Valor de Calificación No Ponderada"
 
 #: modules/Grades/ReportCardGrades.php:158
 msgid "Gradescale"
@@ -4936,11 +4937,11 @@ msgstr "Sin Calificación"
 
 #: modules/Grades/StudentGrades.php:35 modules/Grades/StudentGrades.php:218
 msgid "Grade Range"
-msgstr "Gama de Notas"
+msgstr "Gama de Calificaciones"
 
 #: modules/Grades/StudentGrades.php:167 modules/Grades/StudentGrades.php:259
 msgid "There are no grades available for this student."
-msgstr "No hay notas disponibles para este estudiante."
+msgstr "No hay calificaciones disponibles para este estudiante."
 
 #: modules/Grades/StudentGrades.php:179 modules/Grades/StudentGrades.php:252
 msgid "Back to Totals"
@@ -4952,7 +4953,7 @@ msgstr "Puntos / Posible"
 
 #: modules/Grades/StudentGrades.php:247
 msgid "No Grade"
-msgstr "No Nota"
+msgstr "No Calificación"
 
 #: modules/Grades/StudentGrades.php:278
 msgid "Details"
@@ -4965,18 +4966,18 @@ msgstr "Promedio"
 #: modules/Grades/TeacherCompletion.php:81
 msgid "Teacher who enters grades"
 msgid_plural "Teachers who enter grades"
-msgstr[0] "Docente que entra las notas"
-msgstr[1] "Docentes que entran las notas"
+msgstr[0] "Docente que entra las calificaciones"
+msgstr[1] "Docentes que entran las calificaciones"
 
 #: modules/Grades/TeacherCompletion.php:98
 #, php-format
 msgid "Teacher who enters grades for %s"
-msgstr "Docente que entra las notas para %s"
+msgstr "Docente que entra las calificaciones para %s"
 
 #: modules/Grades/TeacherCompletion.php:98
 #, php-format
 msgid "Teachers who enter grades for %s"
-msgstr "Docentes que entran las notas para %s"
+msgstr "Docentes que entran las calificaciones para %s"
 
 #: modules/Grades/Transcripts.php:139 modules/School_Setup/Schools.php:126
 #: modules/School_Setup/Schools.php:128
@@ -5015,7 +5016,7 @@ msgid "Other Options"
 msgstr "Otras Opciones"
 
 # 'user_profiles' table
-#: modules/Grades/Transcripts.php:317 modules/Students/Student.php:386
+#: modules/Grades/Transcripts.php:317 modules/Students/Student.php:389
 #: modules/Students/includes/General_Info.inc.php:50
 msgid "Student Photo"
 msgstr "Foto del Estudiante"
@@ -5889,7 +5890,7 @@ msgstr "Publicar el Evento en Moodle?"
 
 #: modules/School_Setup/Calendar.php:321
 msgid "Notes"
-msgstr "Anotaciones"
+msgstr "Notas"
 
 #: modules/School_Setup/Calendar.php:372
 msgid "Back to Calendar"
@@ -5924,106 +5925,103 @@ msgid "The school configuration has been modified."
 msgstr "La configuración de esta institución ha sido modificada."
 
 #: modules/School_Setup/Configuration.php:66
-msgid "Default School Year"
-msgstr "Año Escolar por Defecto"
-
-#: modules/School_Setup/Configuration.php:67
 msgid "Program Title"
 msgstr "Titulo del Programa"
 
-#: modules/School_Setup/Configuration.php:72
+#: modules/School_Setup/Configuration.php:71
 msgid "School year over two calendar years"
 msgstr "Año escolar sobre dos años calendarios"
 
-#: modules/School_Setup/Configuration.php:76
+#: modules/School_Setup/Configuration.php:75
 msgid "Display Mailing Address"
 msgstr "Mostrar Dirección de Correo"
 
-#: modules/School_Setup/Configuration.php:77
+#: modules/School_Setup/Configuration.php:76
 msgid "Check Bus Pickup / Dropoff by default"
 msgstr "Marcar Recorrida / Paradero del Transporte Escolar por defecto"
 
-#: modules/School_Setup/Configuration.php:78
+#: modules/School_Setup/Configuration.php:77
 msgid "Enable Legacy Contact Information"
 msgstr "Activar la Antigua Información de Contacto"
 
-#: modules/School_Setup/Configuration.php:79
+#: modules/School_Setup/Configuration.php:78
 msgid "Use Semester Comments instead of Quarter Comments"
 msgstr "Usar Comentarios Semestrales en lugar de Comentarios Bimestrales"
 
-#: modules/School_Setup/Configuration.php:83
+#: modules/School_Setup/Configuration.php:82
 msgid "Use letter grades only"
-msgstr "Sólo usar notas"
+msgstr "Sólo usar calificaciones"
 
-#: modules/School_Setup/Configuration.php:83
+#: modules/School_Setup/Configuration.php:82
 msgid "Use letter and percent grades"
-msgstr "Usar notas y porcentajes"
+msgstr "Usar calificaciones y porcentajes"
 
-#: modules/School_Setup/Configuration.php:83
+#: modules/School_Setup/Configuration.php:82
 msgid "Use percent grades only"
 msgstr "Sólo usar porcentajes"
 
-#: modules/School_Setup/Configuration.php:85
+#: modules/School_Setup/Configuration.php:84
 msgid "Hide grade comment except for attendance period courses"
 msgstr ""
 "Ocultar el comentario de la calificación exceptuando los cursos con "
 "asistencia"
 
-#: modules/School_Setup/Configuration.php:86
+#: modules/School_Setup/Configuration.php:85
 msgid "Allow Teachers to edit grades after grade posting period"
 msgstr ""
-"Dejar los Docentes editar las notas después del período de publicación de "
-"notas"
+"Dejar los Docentes editar las calificaciones después del período de "
+"publicación de calificaciones"
 
-#: modules/School_Setup/Configuration.php:87
+#: modules/School_Setup/Configuration.php:86
 msgid "Enable Anonymous Grade Statistics for Parents and Students"
 msgstr ""
-"Activar las Estadísticas Anónimas de Notas para los Padres y Estudiantes"
+"Activar las Estadísticas Anónimas de Calificaciones para los Padres y "
+"Estudiantes"
 
-#: modules/School_Setup/Configuration.php:88
+#: modules/School_Setup/Configuration.php:87
 msgid "Enable Anonymous Grade Statistics for Administrators and Teachers"
 msgstr ""
-"Activar las Estadísticas Anónimas de Notas para los Administradores y "
-"Docentes"
+"Activar las Estadísticas Anónimas de Calificaciones para los Administradores "
+"y Docentes"
 
-#: modules/School_Setup/Configuration.php:92
+#: modules/School_Setup/Configuration.php:91
 msgid "Minutes in a Full School Day"
 msgstr "Minutos en un Día de Escuela Completo"
 
+#: modules/School_Setup/Configuration.php:92
 #: modules/School_Setup/Configuration.php:93
-#: modules/School_Setup/Configuration.php:94
 msgid "Leave the field blank to always allow"
 msgstr "Dejar el campo en blanco para permitir siempre"
 
-#: modules/School_Setup/Configuration.php:93
+#: modules/School_Setup/Configuration.php:92
 msgid "Number of days before the school date teachers can edit attendance"
 msgstr ""
 "Número de días antes de la fecha por los cuales los docentes pueden editar "
 "la asistencia"
 
-#: modules/School_Setup/Configuration.php:94
+#: modules/School_Setup/Configuration.php:93
 msgid "Number of days after the school date teachers can edit attendance"
 msgstr ""
 "Número de días después de la fecha por los cuales los docentes pueden editar "
 "la asistencia"
 
-#: modules/School_Setup/Configuration.php:99
+#: modules/School_Setup/Configuration.php:98
 msgid "Moodle"
 msgstr "Moodle"
 
-#: modules/School_Setup/Configuration.php:100
+#: modules/School_Setup/Configuration.php:99
 msgid "Moodle URL"
 msgstr "URL de Moodle"
 
-#: modules/School_Setup/Configuration.php:105
+#: modules/School_Setup/Configuration.php:104
 msgid "Moodle Token"
 msgstr "Token Moodle"
 
-#: modules/School_Setup/Configuration.php:106
+#: modules/School_Setup/Configuration.php:105
 msgid "Moodle Parent Role ID"
 msgstr "ID del Rol Padre de Moodle"
 
-#: modules/School_Setup/Configuration.php:107
+#: modules/School_Setup/Configuration.php:106
 msgid "RosarioSIS Student email field ID"
 msgstr "ID del campo email Estudiante de RosarioSIS"
 
@@ -6038,7 +6036,7 @@ msgstr "Horas"
 
 #: modules/School_Setup/CopySchool.php:3 modules/School_Setup/Rollover.php:3
 msgid "Report Card Grade Codes"
-msgstr "Notas del Boletín de Calificaciones"
+msgstr "Calificaciones del Boletín de Calificaciones"
 
 #: modules/School_Setup/CopySchool.php:3 modules/School_Setup/Rollover.php:3
 msgid "Report Card Comment Codes"
@@ -6097,11 +6095,11 @@ msgid "New Progress Period"
 msgstr "Nuevo Período de Calificaciones"
 
 #: modules/School_Setup/MarkingPeriods.php:80
-#: modules/School_Setup/MarkingPeriods.php:125
+#: modules/School_Setup/MarkingPeriods.php:126
 msgid "Not all of the dates were entered correctly."
 msgstr "No todas las fechas fueron introducidas correctamente."
 
-#: modules/School_Setup/MarkingPeriods.php:157
+#: modules/School_Setup/MarkingPeriods.php:159
 #, php-format
 msgid ""
 "The beginning and end dates you specified for this marking period overlap "
@@ -6110,38 +6108,39 @@ msgstr ""
 "Las fechas especificadas de inicio y fin para este período de calificaciones "
 "se cruzan con las de \"%s\"."
 
-#: modules/School_Setup/MarkingPeriods.php:157
+#: modules/School_Setup/MarkingPeriods.php:159
 msgid "Only one marking period can be open at any time."
 msgstr "Únicamente un período de calificaciones puede ser abierto a la vez."
 
-#: modules/School_Setup/MarkingPeriods.php:162
+#: modules/School_Setup/MarkingPeriods.php:165
 #, php-format
 msgid ""
 "The grade posting dates you specified for this marking period overlap with "
 "those of \"%s\"."
 msgstr ""
-"Las fechas de publicación de notas que ha especificado se cruzan con las de "
-"\"%s\"."
+"Las fechas de publicación de calificaciones que ha especificado se cruzan "
+"con las de \"%s\"."
 
-#: modules/School_Setup/MarkingPeriods.php:162
+#: modules/School_Setup/MarkingPeriods.php:165
 msgid "Only one grade posting period can be open at any time."
 msgstr ""
-"Sólo un período de publicación de notas puede estar abierto al mismo tiempo."
+"Sólo un período de publicación de calificaciones puede estar abierto al "
+"mismo tiempo."
 
-#: modules/School_Setup/MarkingPeriods.php:256
+#: modules/School_Setup/MarkingPeriods.php:260
 msgid "Graded"
 msgstr "Calificado"
 
-#: modules/School_Setup/MarkingPeriods.php:263
+#: modules/School_Setup/MarkingPeriods.php:267
 msgid "Grade Posting Begins"
-msgstr "Publicación de Notas"
+msgstr "Publicación de Calificaciones"
 
-#: modules/School_Setup/MarkingPeriods.php:264
+#: modules/School_Setup/MarkingPeriods.php:268
 msgid "Grade Posting Ends"
-msgstr "Finalización Publicación de Notas"
+msgstr "Finalización Publicación de Calificaciones"
 
-#: modules/School_Setup/MarkingPeriods.php:394
-#: modules/School_Setup/MarkingPeriods.php:400
+#: modules/School_Setup/MarkingPeriods.php:398
+#: modules/School_Setup/MarkingPeriods.php:404
 msgid "Progress Period"
 msgid_plural "Progress Periods"
 msgstr[0] "Período Intermedio"
@@ -6327,7 +6326,7 @@ msgid "Number of Days for the Rotation"
 msgstr "Número de Días para la Rotación"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:5
-#: modules/Students/Student.php:381 modules/Users/User.php:358
+#: modules/Students/Student.php:384 modules/Users/User.php:365
 msgid "File not uploaded"
 msgstr "Archivo no subido"
 
@@ -6340,12 +6339,12 @@ msgid "File attached size"
 msgstr "Tamaño del archivo adjunto"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:18
-#: modules/Students/Student.php:384 modules/Users/User.php:361
+#: modules/Students/Student.php:387 modules/Users/User.php:368
 msgid "Folder not created"
 msgstr "Carpeta no creada"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:21
-#: modules/Students/Student.php:385 modules/Users/User.php:362
+#: modules/Students/Student.php:388 modules/Users/User.php:369
 msgid "Folder not writable"
 msgstr "Carpeta no grabable"
 
@@ -6642,7 +6641,7 @@ msgid "Student Info"
 msgstr "Información del Estudiante"
 
 # 'user_profiles' table
-#: modules/Students/Menu.php:4 modules/Students/Student.php:265
+#: modules/Students/Menu.php:4 modules/Students/Student.php:268
 msgid "Add a Student"
 msgstr "Agregar un Estudiante"
 
@@ -6753,16 +6752,16 @@ msgid "That RosarioSIS ID is already taken. Please select a different one."
 msgstr ""
 "Este ID RosarioSIS esta ya asignado. Selectione uno diferente por favor."
 
-#: modules/Students/Student.php:322
+#: modules/Students/Student.php:325
 msgid "Create Student in Moodle"
 msgstr "Crear el Estudiante en Moodle"
 
-#: modules/Students/Student.php:382 modules/Users/User.php:359
+#: modules/Students/Student.php:385 modules/Users/User.php:366
 #, php-format
 msgid "Wrong file type: %s (JPG required)"
 msgstr "Typo de archivo erróneo: %s (JPG necesario)"
 
-#: modules/Students/Student.php:383 modules/Users/User.php:360
+#: modules/Students/Student.php:386 modules/Users/User.php:367
 #, php-format
 msgid "File size > %01.2fMb: %01.2fMb"
 msgstr "Tamaño del archivo > %01.2fMb: %01.2fMb"
@@ -6903,37 +6902,37 @@ msgstr "Primer Día de Clase del Año Escolar"
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:293 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
 msgid "Jr"
 msgstr ""
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:293 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
 msgid "Sr"
 msgstr ""
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:293 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
 msgid "II"
 msgstr ""
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:293 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
 msgid "III"
 msgstr ""
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:293 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
 msgid "IV"
 msgstr ""
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:293 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
 msgid "V"
 msgstr ""
 
@@ -7161,7 +7160,7 @@ msgstr "Datos Personales"
 msgid "User Info"
 msgstr "Información del Usuario"
 
-#: modules/Users/Menu.php:4 modules/Users/User.php:230
+#: modules/Users/Menu.php:4 modules/Users/User.php:237
 msgid "Add a User"
 msgstr "Agregar un Usuario"
 
@@ -7365,7 +7364,7 @@ msgstr "Escoga un Usuario"
 msgid "No Users were found."
 msgstr "No Usuarios encontrados."
 
-#: modules/Users/User.php:108 modules/Users/User.php:162
+#: modules/Users/User.php:108 modules/Users/User.php:165
 msgid ""
 "A user with that username already exists for the current school year. Choose "
 "a different username and try again."
@@ -7373,27 +7372,27 @@ msgstr ""
 "Un usuario con este nombre de usuario existe para el año escolar. Intente "
 "con otro nombre de usuario."
 
-#: modules/Users/User.php:292 modules/Users/includes/General_Info.inc.php:82
+#: modules/Users/User.php:299 modules/Users/includes/General_Info.inc.php:82
 msgid "Mr"
 msgstr "Sr."
 
-#: modules/Users/User.php:292 modules/Users/includes/General_Info.inc.php:82
+#: modules/Users/User.php:299 modules/Users/includes/General_Info.inc.php:82
 msgid "Mrs"
 msgstr "Srs."
 
-#: modules/Users/User.php:292 modules/Users/includes/General_Info.inc.php:82
+#: modules/Users/User.php:299 modules/Users/includes/General_Info.inc.php:82
 msgid "Ms"
 msgstr "Sra."
 
-#: modules/Users/User.php:292 modules/Users/includes/General_Info.inc.php:82
+#: modules/Users/User.php:299 modules/Users/includes/General_Info.inc.php:82
 msgid "Miss"
 msgstr "Srta."
 
-#: modules/Users/User.php:292 modules/Users/includes/General_Info.inc.php:82
+#: modules/Users/User.php:299 modules/Users/includes/General_Info.inc.php:82
 msgid "Dr"
 msgstr "Dr."
 
-#: modules/Users/User.php:363 modules/Users/includes/General_Info.inc.php:50
+#: modules/Users/User.php:370 modules/Users/includes/General_Info.inc.php:50
 msgid "User Photo"
 msgstr "Foto del Usuario"
 
@@ -7438,49 +7437,49 @@ msgid "Next Grade at "
 msgstr "Próximo Grado en "
 
 #: ProgramFunctions/PortalPollsNotes.fnc.php:90
-#: ProgramFunctions/PortalPollsNotes.fnc.php:147
+#: ProgramFunctions/PortalPollsNotes.fnc.php:162
 msgid "Total Participants"
 msgstr "Total de Participantes"
 
 #: ProgramFunctions/PortalPollsNotes.fnc.php:90
-#: ProgramFunctions/PortalPollsNotes.fnc.php:120
+#: ProgramFunctions/PortalPollsNotes.fnc.php:132
 msgid "Poll completed"
 msgstr "Encuesta completada"
 
-#: ProgramFunctions/PortalPollsNotes.fnc.php:206
+#: ProgramFunctions/PortalPollsNotes.fnc.php:223
 msgid "Visible Between"
 msgstr "Visible Entre"
 
-#: ProgramFunctions/PortalPollsNotes.fnc.php:215
+#: ProgramFunctions/PortalPollsNotes.fnc.php:232
 msgid "Visible To"
 msgstr "Visible para"
 
-#: ProgramFunctions/PortalPollsNotes.fnc.php:217
+#: ProgramFunctions/PortalPollsNotes.fnc.php:234
 msgid "Administrator w/Custom"
 msgstr "Administrador Configurado"
 
-#: ProgramFunctions/PortalPollsNotes.fnc.php:217
+#: ProgramFunctions/PortalPollsNotes.fnc.php:234
 msgid "Teacher w/Custom"
 msgstr "Docente Configurado"
 
-#: ProgramFunctions/PortalPollsNotes.fnc.php:217
+#: ProgramFunctions/PortalPollsNotes.fnc.php:234
 msgid "Parent w/Custom"
 msgstr "Padre Configurado"
 
-#: ProgramFunctions/PortalPollsNotes.fnc.php:241
+#: ProgramFunctions/PortalPollsNotes.fnc.php:258
 msgid "Limit to Teacher"
 msgstr "Limitar al Docente"
 
-#: ProgramFunctions/PortalPollsNotes.fnc.php:255
+#: ProgramFunctions/PortalPollsNotes.fnc.php:272
 msgid "Publish Note in Moodle?"
 msgstr "Publicar la Nota en Moodle?"
 
-#: ProgramFunctions/PortalPollsNotes.fnc.php:292
-#: ProgramFunctions/PortalPollsNotes.fnc.php:333
+#: ProgramFunctions/PortalPollsNotes.fnc.php:309
+#: ProgramFunctions/PortalPollsNotes.fnc.php:350
 msgid "Download"
 msgstr "Descargar"
 
-#: ProgramFunctions/PortalPollsNotes.fnc.php:342
+#: ProgramFunctions/PortalPollsNotes.fnc.php:361
 msgid "Embed Link"
 msgstr "Enlace \"Embed\""
 
@@ -7499,6 +7498,9 @@ msgstr "Vacuna"
 #: ProgramFunctions/StudentsUsersInfo.fnc.php:261
 msgid "Physical"
 msgstr "Chequeo"
+
+#~ msgid "Default School Year"
+#~ msgstr "Año Escolar por Defecto"
 
 #~ msgid "Teachers who take attendance"
 #~ msgstr "Docentes que toman la asistencia"
@@ -7789,7 +7791,7 @@ msgstr "Chequeo"
 #~ msgstr "Tipos de Tarea"
 
 #~ msgid "Students with Anomalous Grades"
-#~ msgstr "Estudiantes con Anomalías en Notas"
+#~ msgstr "Estudiantes con Anomalías en Calificaciones"
 
 #, fuzzy
 #~ msgid "Course Periods with missing attendance data"
@@ -7824,7 +7826,8 @@ msgstr "Chequeo"
 #~ msgstr "Cuando Usted quiere recalcular la asistencia diaria?"
 
 #~ msgid "The grades for that marking period have been recalculated."
-#~ msgstr "Las notas para el período a calificar han sido recalculadas."
+#~ msgstr ""
+#~ "Las calificaciones para el período a calificar han sido recalculadas."
 
 #, fuzzy
 #~ msgid ""
@@ -7867,7 +7870,7 @@ msgstr "Chequeo"
 #~ msgstr "Eventos"
 
 #~ msgid "Letter Grade"
-#~ msgstr "Nota de Letra"
+#~ msgstr "Calificación de Letra"
 
 #~ msgid "Days of Week"
 #~ msgstr "Días de la Semana"
