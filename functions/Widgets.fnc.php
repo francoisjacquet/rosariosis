@@ -296,7 +296,7 @@ function Widgets($item,&$myextra=null)
 						{
 							foreach($grades as $grade)
 							{
-								$extra['search'] .= '<label><span class="nobr"><INPUT type="checkbox" value="Y" name="letter_grade['.$grade['ID'].']">&nbsp;'.$grade['TITLE'].'</span></label>&nbsp; ';
+								$extra['search'] .= '<label><INPUT type="checkbox" value="Y" name="letter_grade['.$grade['ID'].']">'.$grade['TITLE'].'</label>&nbsp; ';
 								$i++;
 							}
 						}
