@@ -376,7 +376,8 @@ span[class^=legend]{
 #SideLogo{
 	margin-left:25px;
 	margin-bottom:4px;
-	margin-top:2px
+	margin-top:2px;
+	max-width:150px
 }
 td.image-radio-list{
 	height:160px;
@@ -514,7 +515,7 @@ div.st{
 		border:0
 	}
 	#SideLogo{
-		width:130px;margin:2px;max-height:118px;float:right
+		max-width:130px;margin:2px;max-height:130px;float:right
 	}
 	#menu,#body{
 		margin-bottom:0
