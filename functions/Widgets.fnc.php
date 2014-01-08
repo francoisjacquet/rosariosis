@@ -29,7 +29,8 @@ function Widgets($item,&$myextra=null)
 					Widgets('rolled',$extra);
 					$extra['search'] .= '</TABLE></TD></TR>';
 				}
-				if($RosarioModules['Scheduling'] && (!$_ROSARIO['Widgets']['course'] || !$_ROSARIO['Widgets']['request']) && User('PROFILE')=='admin')
+				//if($RosarioModules['Scheduling'] && (!$_ROSARIO['Widgets']['course'] || !$_ROSARIO['Widgets']['request']) && User('PROFILE')=='admin')
+				if($RosarioModules['Scheduling'] && !$_ROSARIO['Widgets']['course'] && User('PROFILE')=='admin')
 				{
 					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'scheduling_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="scheduling_table_arrow" height="12"> <B>'._('Scheduling').'</B></A><BR /><TABLE id="scheduling_table" style="display:none;" class="widefat width-100p cellspacing-0">';
 					Widgets('course',$extra);
