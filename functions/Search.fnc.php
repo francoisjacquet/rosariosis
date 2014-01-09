@@ -8,10 +8,15 @@ function Search($type,$extra=null)
 		case 'student_id':
 			if($_REQUEST['bottom_back'])
 			{
-				unset($_SESSION['student_id']);
 				if (mb_strpos($modname,'Search.php')===false)
+				{
 					//echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname='.rawurlencode($program_loaded).'"; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
-					echo '<script type="text/javascript">modname="'.$program_loaded.'"; openMenu(modname);</script>';
+					if (isset($_SESSION['student_id']))
+						echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname="'.$program_loaded.'"; ajaxLink(menu_link);</script>';
+					else
+						echo '<script type="text/javascript">modname="'.$program_loaded.'"; openMenu(modname);</script>';
+				}
+				unset($_SESSION['student_id']);
 			}
 			if($_SESSION['unset_student'])
 			{
@@ -41,8 +46,10 @@ function Search($type,$extra=null)
 				{
 					//modif Francois: fix bug no student found when student/parent logged in
 					if (User('PROFILE')!=='student' && User('PROFILE')!=='parent')
+					{
 						unset($_SESSION['student_id']);
-					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
+						echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
+					}
 				}
 				$_REQUEST['next_modname'] = $_REQUEST['modname'];
 				include('modules/Students/Search.inc.php');
@@ -54,10 +61,15 @@ function Search($type,$extra=null)
 			if (!is_array($extra)) $extra = array('profile'=>$extra);
 			if($_REQUEST['bottom_back'])
 			{
-				unset($_SESSION['staff_id']);
 				if (mb_strpos($modname,'Search.php')===false)
+				{
 					//echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname='.rawurlencode($program_loaded).'"; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
-					echo '<script type="text/javascript">modname="'.$program_loaded.'"; openMenu(modname);</script>';
+					if (isset($_SESSION['staff_id']))
+						echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname="'.$program_loaded.'"; ajaxLink(menu_link);</script>';
+					else
+						echo '<script type="text/javascript">modname="'.$program_loaded.'"; openMenu(modname);</script>';
+				}
+				unset($_SESSION['staff_id']);
 			}
 
 			if($_REQUEST['staff_id'])
