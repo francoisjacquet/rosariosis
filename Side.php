@@ -83,8 +83,7 @@ if($_REQUEST['staff_id']=='new')
 }
 unset($_REQUEST['modfunc']);
 
-if (!empty($_REQUEST['modname']))
-	$addJavascripts .= 'openMenu("'.$_REQUEST['modname'].'");';
+$addJavascripts .= 'openMenu('.(!empty($_REQUEST['modname']) ? '"'.$_REQUEST['modname'].'"' : 'modname').');';
 if (!empty($addJavascripts))
 	echo '<script type="text/javascript">'.$addJavascripts.'</script>';
 ?>
@@ -251,7 +250,7 @@ if(UserStudentID() && (User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
 {
 	$sql = "SELECT FIRST_NAME||' '||coalesce(MIDDLE_NAME,' ')||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'";
 	$RET = DBGet(DBQuery($sql));
-	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0" style="background-color:#333366;"><TR><TD><A HREF="Side.php?student_id=new&modname='.$_REQUEST['modname'].'" target="menu"><IMG SRC="assets/x_button.png" height="24" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Students/Student.php')?'<A HREF="Modules.php?modname=Students/Student.php&student_id='.UserStudentID().'">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Students/Student.php')?'</A>':'').'</B></TD></TR></TABLE>';
+	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0" style="background-color:#333366;"><TR><TD><A HREF="Side.php?student_id=new" target="menu"><IMG SRC="assets/x_button.png" height="24" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Students/Student.php')?'<A HREF="Modules.php?modname=Students/Student.php&student_id='.UserStudentID().'">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Students/Student.php')?'</A>':'').'</B></TD></TR></TABLE>';
 }
 if(UserStaffID() && (User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
 {
@@ -259,7 +258,7 @@ if(UserStaffID() && (User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
 		echo '<div style="height:5px;"></div>';
 	$sql = "SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'";
 	$RET = DBGet(DBQuery($sql));
-	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0" style="background-color:'.(UserStaffID()==User('STAFF_ID')?'#663333':'#336633').';"><TR><TD><A HREF="Side.php?staff_id=new&modname='.$_REQUEST['modname'].'" target="menu"><IMG SRC="assets/x_button.png" height="24" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Users/User.php')?'<A HREF="Modules.php?modname=Users/User.php&staff_id='.UserStaffID().'">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Users/User.php')?'</A>':'').'</B></TD></TR></TABLE>';
+	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0" style="background-color:'.(UserStaffID()==User('STAFF_ID')?'#663333':'#336633').';"><TR><TD><A HREF="Side.php?staff_id=new" target="menu"><IMG SRC="assets/x_button.png" height="24" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Users/User.php')?'<A HREF="Modules.php?modname=Users/User.php&staff_id='.UserStaffID().'">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Users/User.php')?'</A>':'').'</B></TD></TR></TABLE>';
 }
 //modif Francois: css WPadmin
 echo '<BR /><div id="adminmenu">';

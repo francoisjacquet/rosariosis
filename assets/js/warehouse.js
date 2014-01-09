@@ -150,15 +150,18 @@ if (isTouchDevice())
 var old_modcat = false;
 function openMenu(modname)
 {
-	modname=decodeURIComponent(modname);
-	var modcat = modname.substr(0, modname.indexOf('/'));
-	if (!(visible = document.getElementById("menu_"+modcat)))
-		visible = document.getElementById("menu_"+(modcat = old_modcat));
-	visible.style.display = "block";
-	if(old_modcat!=false && old_modcat!=modcat)
-		$("#menu_"+old_modcat).hide();
-	old_modcat = modcat;
-	selMenuA(modname);
+	if (modname!='default')
+	{
+		modname=decodeURIComponent(modname);
+		var modcat = modname.substr(0, modname.indexOf('/'));
+		if (!(visible = document.getElementById("menu_"+modcat)))
+			visible = document.getElementById("menu_"+(modcat = old_modcat));
+		visible.style.display = "block";
+		if(old_modcat!=false && old_modcat!=modcat)
+			$("#menu_"+old_modcat).hide();
+		old_modcat = modcat;
+		selMenuA(modname);
+	}
 }
 function selMenuA(modname)
 {
