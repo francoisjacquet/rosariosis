@@ -152,7 +152,6 @@ function openMenu(modname)
 {
 	if (modname!='default')
 	{
-		modname=decodeURIComponent(modname);
 		var modcat = modname.substr(0, modname.indexOf('/'));
 		if (!(visible = document.getElementById("menu_"+modcat)))
 			visible = document.getElementById("menu_"+(modcat = old_modcat));
@@ -168,7 +167,6 @@ function selMenuA(modname)
 	if (oldA = document.getElementById("selectedMenuLink"))
 		oldA.id = "";
 	$('#adminmenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
-	document.getElementById("modname_input").value=encodeURIComponent(modname);
 }
 
 //Bottom.php JS
