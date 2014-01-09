@@ -103,7 +103,7 @@ if(empty($_REQUEST['modfunc']))
 		foreach($categories_RET as $category)
 			echo '<OPTION value="'.$category['ID'].'"'.($_REQUEST['category_id']==$category['ID']?' SELECTED="SELECTED"':'').'>'.ParseMLField($category['TITLE']).'</OPTION>';
 		echo '</SELECT>';
-		echo '</span><TABLE class="widefat cellspacing-0">';
+		echo '</span><TABLE class="widefat cellspacing-0" style="margin:0 auto;">';
 		if(count($fields_RET['text']))
 		{
 			foreach($fields_RET['text'] as $field)
