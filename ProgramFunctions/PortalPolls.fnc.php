@@ -35,7 +35,7 @@ function PortalPollsVote($poll_id, $votes_array)
 		else //first vote
 		{
 			$voted_array[$question['ID']] = array();
-			$options_array = explode("\r", $question['OPTIONS']);
+			$options_array = explode('<br />', nl2br($question['OPTIONS']));
 			if (is_array($votes_array[$question['ID']])) //multiple
 			{
 				foreach ($options_array as $option_nb => $option_label)
@@ -103,7 +103,7 @@ function PortalPollsDisplay($value,$name)
 	foreach ($poll_questions_RET as $question)
 	{
 		$PollForm .= '<TR><TD><b>'.$question['QUESTION'].'</b></TD><TD><TABLE class="width-100p cellspacing-0">';
-		$options_array = explode("\r", $question['OPTIONS']);
+		$options_array = explode('<br />', nl2br($question['OPTIONS']));
 		$checked = true;
 		foreach ($options_array as $option_nb => $option_label)
 		{
@@ -142,7 +142,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 			$total_votes += $votes;
 
 		//options
-		$options_array = explode("\r", $question['OPTIONS']);
+		$options_array = explode('<br />', nl2br($question['OPTIONS']));
 		for ($i=0; $i < count($options_array); $i++)
 		{
 			$percent = round(($votes_array[$i]/$total_votes)*100);
