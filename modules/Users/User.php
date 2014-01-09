@@ -225,7 +225,7 @@ if($_REQUEST['modfunc']=='update')
 	if(User('STAFF_ID')==$_REQUEST['staff_id'])
 	{
 		unset($_ROSARIO['User']);
-		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 	}
 }
 
@@ -263,7 +263,7 @@ if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php'
 		unset($_REQUEST['modfunc']);
 		unset($_SESSION['_REQUEST_vars']['staff_id']);
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
-		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
+		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 		Search('staff_id',$extra);
 	}
 }
