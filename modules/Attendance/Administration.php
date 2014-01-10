@@ -188,7 +188,7 @@ if(isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 											AND s.COURSE_ID=c.COURSE_ID
 											AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=p.PERIOD_ID AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0
 											AND s.STUDENT_ID='".$_REQUEST['student_id']."' AND ('$date' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '$date'>=s.START_DATE))
-											AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number FROM attendance_calendar WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<='$date' AND end_date>='$date' AND mp='SEM') AND school_date<='$date') AS INT) FOR 1) IN cpsp.DAYS)>0
+											AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number FROM attendance_calendar WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<='$date' AND end_date>='$date' AND mp='QTR') AND school_date<='$date') AS INT) FOR 1) IN cpsp.DAYS)>0
 											AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_DATE='$date' AND ac.MINUTES!='0'
 										ORDER BY p.SORT_ORDER"),$functions);
 	} else {
