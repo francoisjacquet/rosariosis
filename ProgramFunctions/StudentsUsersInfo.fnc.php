@@ -208,12 +208,8 @@ function _makeMultipleInput($column,$name,$request)
 				$options[$option] = $option;
 		}
 
-		$escape_array = array('&#39;','&quot;');
 		if($value[$column]!='')
-		{
-			echo '<DIV id="div'.$request.'['.$column.']"><div class="onclick" onclick=\'javascript:addHTML("';
-			$escape_array = array('&#39;','');
-		}
+			$return = '<DIV id="div'.$request.'['.$column.']"><div class="onclick" onclick=\'javascript:addHTML(html'.$request.$column;
 		
 		$table = '<TABLE class="cellpadding-3">';
 		if(count($options)>12)
@@ -230,7 +226,7 @@ function _makeMultipleInput($column,$name,$request)
 			if($i%2==0)
 				$table .= '</TR><TR>';
 //modif Francois: add <label> on checkbox
-			$table .= '<TD><label><INPUT type="checkbox" name="'.$request.'['.$column.'][]" value="'.str_replace(array("'",'"'),$escape_array,$option).'"'.(mb_strpos($value[$column],'||'.$option.'||')!==false?' checked':'').'> '.str_replace("'",'&#39;',$option).'</label></TD>';
+			$table .= '<TD><label><INPUT type="checkbox" name="'.$request.'['.$column.'][]" value="'.htmlspecialchars($option).'"'.(mb_strpos($value[$column],'||'.$option.'||')!==false?' checked':'').'> '.str_replace("'",'&#39;',$option).'</label></TD>';
 			$i++;
 		}
 		$table .= '</TR><TR><TD colspan="2">';
@@ -241,8 +237,8 @@ function _makeMultipleInput($column,$name,$request)
 		$table .= '</TD></TR></TABLE>';
 		if($value[$column]!='')
 		{
-			echo str_replace('"', '\"', $table);
-			echo '","div'.$request.'['.$column.']",true);\' >';
+			echo '<script type="text/javascript">var html'.$request.$column.'=\''.$table.'\';</script>'.$return;
+			echo ',"div'.$request.'['.$column.']",true);\' >';
 			echo '<span class="underline-dots">'.($value[$column]!=''?str_replace('||',', ',mb_substr($value[$column],2,-2)):'-').'</span>';
 			echo '</div></DIV>';
 		}
