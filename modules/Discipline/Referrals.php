@@ -184,7 +184,7 @@ elseif(empty($_REQUEST['modfunc']))
 						$i++;
 						if($i%3==0)
 							$toEscape .= '</TR><TR class="st">';
-						$toEscape .= '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)))!==false?' checked':'').' />&nbsp;'.str_replace("'",'&rsquo;',$option).'</label></TD>';
+						$toEscape .= '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','',str_replace("'",'&rsquo;',$option)).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)))!==false?' checked':'').' />&nbsp;'.str_replace("'",'&rsquo;',$option).'</label></TD>';
 					}
 					$toEscape .= '</TR></TABLE>';
 					echo str_replace('"','\"',$toEscape);
@@ -208,7 +208,7 @@ elseif(empty($_REQUEST['modfunc']))
 						$i++;
 						if($i%3==0)
 							$toEscape .= '</TR><TR class="st">';
-						$toEscape .= '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','&quot;',str_replace("'",'&rsquo;',$option)).'"'.($RET['CATEGORY_'.$category['ID']]==str_replace('"','&quot;',str_replace("'",'&rsquo;',$option))?' checked':'').'>&nbsp;'.str_replace("'",'&rsquo;',$option).'</label></TD>';
+						$toEscape .= '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','',str_replace("'",'&rsquo;',$option)).'"'.($RET['CATEGORY_'.$category['ID']]==str_replace('"','&quot;',str_replace("'",'&rsquo;',$option))?' checked':'').'>&nbsp;'.str_replace("'",'&rsquo;',$option).'</label></TD>';
 					}
 					$toEscape .= '</TR></TABLE>';
 					echo str_replace('"','\"',$toEscape);
