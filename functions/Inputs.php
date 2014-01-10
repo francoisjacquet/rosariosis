@@ -46,10 +46,10 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML("';
 			
-			$toEscape = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.str_replace(array("'",'"'),array('&#39;','&quot;'),$value).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+			$toEscape = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.str_replace(array("'",'"'),array('&#39;',''),$value).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 			$return .=  str_replace('"','\"',$toEscape);
 			
-			$return .= '","div'.$name.'",true); document.getElementById("input'.$name.'").focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= '","div'.$name.'",true);document.getElementById("input'.$name.'").focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 			return $return;
 		}
 	}
@@ -114,7 +114,7 @@ function TextAreaInput($value,$name,$title='',$options='',$div=true)
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML("';
 			
-			$toEscape = '<TEXTAREA id="textarea'.$name.'" name="'.$name.'" '.$options.'>'.preg_replace("/[\n\r]/",'\u000D\u000A',str_replace("\r\n",'\u000D\u000A',str_replace(array("'",'"'),array('&#39;','&quot;'),$value))).'</TEXTAREA>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+			$toEscape = '<TEXTAREA id="textarea'.$name.'" name="'.$name.'" '.$options.'>'.preg_replace("/[\n\r]/",'\u000D\u000A',str_replace("\r\n",'\u000D\u000A',str_replace(array("'",'"'),array('&#39;',''),$value))).'</TEXTAREA>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 			$return .=  str_replace('"','\"',$toEscape);
 			
 			$return .= '","div'.$name.'",true); document.getElementById("textarea'.$name.'").value=unescape(document.getElementById("textarea'.$name.'").value);\'>'.'<TABLE style="height:100%;"><TR><TD>'.((mb_substr_count($value,"\r\n")>$rows)?'<DIV style="overflow:auto; height:'.(15*$rows).'px; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>':'<DIV style="overflow:auto; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>').'</TD></TR></TABLE>'.($title!=''?''.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
@@ -177,22 +177,26 @@ function SelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
+		$escape_array = array('&#39;','&quot;');
 		if($value!='' && $div)
+		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML("';
+			$escape_array = array('&#39;','');
+		}
 		
 		$select = '<SELECT name="'.$name.'" id="'.$name.'" '.$extra.'>';
 
 		if($allow_na!==false)
 		{
 //modif Francois: add translation
-			$select .= '<OPTION value="">'.str_replace(array("'",'"'),array('&#39;','&quot;'),($allow_na=='N/A'?_('N/A'):$allow_na)).'</OPTION>';
+			$select .= '<OPTION value="">'.str_replace("'",'&#39;',($allow_na=='N/A'?_('N/A'):$allow_na)).'</OPTION>';
 		}
 		if(count($options))
 		{
 			foreach($options as $key=>$val)
 			{
 				$key .= '';
-				$select .= '<OPTION value="'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$key).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED="SELECTED"':'').'>'.str_replace(array("'",'"'),array('&#39;','&quot;'),(is_array($val)?$val[0]:$val)).'</OPTION>';
+				$select .= '<OPTION value="'.str_replace(array("'",'"'),$escape_array,$key).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED="SELECTED"':'').'>'.str_replace(array("'",'"'),array('&#39;','&quot;'),(is_array($val)?$val[0]:$val)).'</OPTION>';
 			}
 		}
 		$select .= '</SELECT>';
@@ -231,21 +235,25 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
 
     if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
     {
-        if($value!='' && $div)
+		$escape_array = array('&#39;','&quot;');
+		if($value!='' && $div)
+		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML("';
+			$escape_array = array('&#39;','');
+		}
 			
 		$select = '<SELECT name="'.$name.'" id="'.$name.'" '.$extra.'>';
 			
         if($allow_na!==false)
         {
-			$select .= '<OPTION value="">'.str_replace(array("'",'"'),array('&#39;','&quot;'),($allow_na=='N/A'?_('N/A'):$allow_na)).'</OPTION>';
+			$select .= '<OPTION value="">'.str_replace("'",'&#39;',($allow_na=='N/A'?_('N/A'):$allow_na)).'</OPTION>';
         }
         if(count($options))
         {
             foreach($options as $key=>$val)
             {
                 $key .= '';
-                $select .= '<OPTION value="'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$key).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED="SELECTED"':'').'>'.str_replace(array("'",'"'),array('&#39;','&quot;'),(is_array($val)?ParseMLField($val[0], $locale):ParseMLField($val, $locale))).'</OPTION>';
+                $select .= '<OPTION value="'.str_replace(array("'",'"'),$escape_array,$key).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED="SELECTED"':'').'>'.str_replace"'",'&#39;',(is_array($val)?ParseMLField($val[0], $locale):ParseMLField($val, $locale))).'</OPTION>';
             }
         }
         $select .= '</SELECT>';
@@ -277,22 +285,26 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
+		$escape_array = array('&#39;','&quot;');
 		if($value!='' && $div)
+		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML("';
+			$escape_array = array('&#39;','');
+		}
 		
 		$table = '<TABLE class="cellpadding-0 cellspacing-0" '.$extra.'><TR class="center">';
 			
 		if($allow_na!==false)
 		{
 //modif Francois: add <label> on radio
-			$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value=""'.($value==''?' checked':'').' /><BR />'.str_replace(array("'",'"'),array('&#39;','&quot;'),($allow_na=='N/A'?_('N/A'):$allow_na)).'</label></TD><TD>&nbsp;</TD>';
+			$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value=""'.($value==''?' checked':'').' /><BR />'.str_replace("'",'&#39;',($allow_na=='N/A'?_('N/A'):$allow_na)).'</label></TD><TD>&nbsp;</TD>';
 		}
 		if(count($options))
 		{
 			foreach($options as $key=>$val)
 			{
 				$key .= '';
-				$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value="'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$key).'" '.($value==$key && (!($value==false && $value!==$key) || ($value==='0' && $key===0))?'checked':'').' /><BR />'.(is_array($val)?$val[0]:$val).'</label></TD><TD>&nbsp;</TD>';
+				$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value="'.str_replace(array("'",'"'),$escape_array,$key).'" '.($value==$key && (!($value==false && $value!==$key) || ($value==='0' && $key===0))?'checked':'').' /><BR />'.str_replace("'",'&#39;',(is_array($val)?$val[0]:$val)).'</label></TD><TD>&nbsp;</TD>';
 			}
 		}
 		$table .= '</TR></TABLE>';
