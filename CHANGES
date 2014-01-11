@@ -1,6 +1,6 @@
 Rosario Student Information System - CHANGES
 
-Changes in 2.0b4
+Changes in 2.0
 ----------------
 Responsive design
 - Compatible with smartphones and tablets
@@ -8,15 +8,22 @@ Responsive design
 - Retractable menu
 - Responsive tables
 - Bigger texts, icons and buttons
+Known bugs
+- PDF printing in Android browser not working
+- Scroll colorbox in Android browser
+
+Upgrade from 1.4x
+-----------------
+- please recreate the config.inc.php file from config.inc.sample.php, or add the line "$DefaultSyear = '2013';"
 
 Changes in 1.4.5
 ----------------
 - Move SYEAR from config table to config.inc.php
 - Do NOT roll students where next grade is NULL
-
-Upgrade from 1.4x
------------------
-- please recreate the config.inc.php from config.inc.sample.php, or add the line "$DefaultSyear = '2013';"
+- Explode Portal Polls questions change method
+- SQL bugfix string begins with single quote in database.inc.php
+- Bugfix: inputs with double quotes in Inputs.php, Referrals.php, StudentsUsersInfo.php
+- Bugfix: Student Attendance when days numbered in Administration.php
 
 Changes in 1.4.4
 ----------------
