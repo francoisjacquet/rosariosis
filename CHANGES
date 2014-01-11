@@ -4,10 +4,14 @@ Changes in 1.4.5
 ----------------
 - Move SYEAR from config table to config.inc.php
 - Do NOT roll students where next grade is NULL
+- Explode Portal Polls questions change method
+- SQL bugfix string begins with single quote in database.inc.php
+- Bugfix: inputs with double quotes in Inputs.php, Referrals.php, StudentsUsersInfo.php
+- Bugfix: Student Attendance when days numbered in Administration.php
 
 Upgrade from 1.4x
 -----------------
-- please recreate the config.inc.php from config.inc.sample.php, or add the line "$DefaultSyear = '2013';"
+- please recreate the config.inc.php file from config.inc.sample.php, or add the line "$DefaultSyear = '2013';"
 
 Changes in 1.4.4
 ----------------
