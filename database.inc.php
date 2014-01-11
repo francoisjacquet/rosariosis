@@ -32,7 +32,7 @@ function DBQuery($sql)
 	$connection = db_start();
 
 	// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support
-	$sql = preg_replace("/([,\(=])[\r\n\t ]*''([, ])/",'\\1NULL\\2',$sql);
+	$sql = preg_replace("/([,\(=])[\r\n\t ]*''[\r\n\t]*([,\) ])/",'\\1NULL\\2',$sql);
 	$result = @pg_exec($connection,$sql);
 	if($result===false)
 	{
