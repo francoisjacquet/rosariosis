@@ -8,6 +8,7 @@ Changes in 1.4.5
 - SQL bugfix string begins with single quote in database.inc.php
 - Bugfix: inputs with double quotes in Inputs.php, Referrals.php, StudentsUsersInfo.php
 - Bugfix: Student Attendance when days numbered in Administration.php
+- SQL bugfix statement ends with '' in database.inc.php
 
 Upgrade from 1.4x
 -----------------
