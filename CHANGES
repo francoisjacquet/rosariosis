@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.4.6
+----------------
+- SQL bugfix statement ends with '' in database.inc.php
+
 Changes in 1.4.5
 ----------------
 - Move SYEAR from config table to config.inc.php
