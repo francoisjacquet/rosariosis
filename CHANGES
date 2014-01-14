@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.0.1
+----------------
+- SQL bugfix statement ends with '' in database.inc.php
+
 Changes in 2.0
 ----------------
 Responsive design
