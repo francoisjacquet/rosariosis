@@ -110,7 +110,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			foreach($all_commentsA_RET as $comment)
 				$columns['C'.$comment[1]['ID']] = $comment[1]['TITLE'];
-			$columns['COMMENT'] = _('Comment');
+			if (count($_REQUEST['mp_arr']) > 1)
+				$columns['COMMENT'] = _('Comments');
+			else
+				$columns['COMMENT'] = _('Comment');
 		}
 
 		$handle = PDFStart();
@@ -137,7 +140,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						
 						if($_REQUEST['elements']['comments']=='Y')
 						{
-							$sep = '';
+							$sep = '; ';
+							$temp_grades_COMMENTS = $grades_RET[$i]['COMMENT'];
 							//modif Francois: fix error Invalid argument supplied for foreach()
 //modif Francois: get the comments of all MPs
 							//if (is_array($comments_RET[$student_id][$course_period_id][$last_mp]))
@@ -158,18 +162,20 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 										}
 										else
 											$grades_RET[$i]['COMMENT'] .= $sep.$commentsB_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
-										$sep = ', ';
 										$comments_arr[$comment['REPORT_CARD_COMMENT_ID']] = $comment['SORT_ORDER'];
 									}
 								}
 							}
 							if($mps[$mp][1]['COMMENT_TITLE'])
 								$grades_RET[$i]['COMMENT'] .= $sep.$mps[$mp][1]['COMMENT_TITLE'];
+							if ($grades_RET[$i]['COMMENT'] == $temp_grades_COMMENTS)
+								$grades_RET[$i]['COMMENT'] .= $sep._('None');
 						}
 						
 						$last_mp = $mp;
 					}
 				}
+				$grades_RET[$i]['COMMENT'] = substr($grades_RET[$i]['COMMENT'],2);
 				if($_REQUEST['elements']['period_absences']=='Y')
 					if($mps[$last_mp][1]['DOES_ATTENDANCE'])
 						$grades_RET[$i]['ABSENCES'] = $mps[$last_mp][1]['YTD_ABSENCES'].' / '.$mps[$last_mp][1]['MP_ABSENCES'];
