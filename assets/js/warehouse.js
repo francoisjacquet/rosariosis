@@ -143,7 +143,7 @@ function scroll(){
 	}
 }
 if (isTouchDevice())
-	$(document).bind("cbox_complete", function(){ touchScroll(document.getElementById("cboxLoadedContent")); alert("ici"); });
+	$(document).bind("cbox_complete", function(){ touchScroll(document.getElementById("cboxLoadedContent")); });
 
 
 //Side.php JS
