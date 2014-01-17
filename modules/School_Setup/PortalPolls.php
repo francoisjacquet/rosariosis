@@ -296,7 +296,7 @@ function _makeOptionsInputs($value,$name)
 				cell.innerHTML = cell.innerHTML.replace(reg, \'new\'+newId);
 			}
 		</script>';
-		$return .= '<TABLE class="cellspacing-0 widefat" id="newOptionsTable"><TR><TD><b>'._('Question').'</b></TD><TD><b>'._('Options').'</b></TD><TD><b>'._('Data Type').'</b></TD></TR>'.$value.'<TR><TD>&nbsp;</TD><TD>&nbsp;</TD><TD><a href="#" onclick="newOption();return false;"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Question').'</a></TR></TABLE>';
+		$return .= '<TABLE class="cellspacing-0 widefat" id="newOptionsTable"><TR><TD><b>'._('Question').'</b></TD><TD><b>'._('Options').'</b></TD><TD><b>'._('Data Type').'</b></TD></TR>'.$value.'<TR><TD colspan="3" style="text-align:right;"><a href="#" onclick="newOption();return false;"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Question').'</a></TR></TABLE>';
 	}
 	else
 	{
