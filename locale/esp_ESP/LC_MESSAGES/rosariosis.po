@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-07 18:56-0500\n"
-"PO-Revision-Date: 2014-01-07 18:57-0500\n"
+"PO-Revision-Date: 2014-01-19 14:59-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -188,11 +188,11 @@ msgid ""
 "be prosecuted to the full extent of the law. By continuing into this system, "
 "you are acknowledging that you are aware of and agree to these terms."
 msgstr ""
-"Esta es una red restringida. El uso de esta red, su equipo, y recursos esta "
+"Esta es una red restringida. El uso de esta red, su equipo, y recursos está "
 "monitoriada todo el tiempo y requiere permiso explícito del administrador de "
-"red y %s. Si Usted no tiene permiso escrito, usted esta violando las "
+"red y %s. Si Usted no tiene permiso escrito, usted está violando las "
 "regulaciones de esta red y puede ser procesado siguiendo toda la ley "
-"extendida. Continuando dentro del sistema, usted esta conociendo y "
+"extendida. Continuando dentro del sistema, usted está conociendo y "
 "acceptando los terminos y condiciones."
 
 #: Side.php:227 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
@@ -436,7 +436,7 @@ msgstr "Año Completo"
 
 #: functions/GetMP.fnc.php:32
 msgid "You are not currently in a marking period"
-msgstr "Usted no esta actualmente en un período a calificar"
+msgstr "Usted no está actualmente en un período a calificar"
 
 #: functions/GetStaffList.fnc.php:14 modules/misc/Export.php:213
 #: modules/Students/AddUsers.php:63
@@ -2627,7 +2627,7 @@ msgstr "Información sobre su esposo o compañero"
 
 #: modules/Custom/Registration.php:152
 msgid "Leave this section blank if you are separated."
-msgstr "Dejar esta sección en blanco si Usted esta separado."
+msgstr "Dejar esta sección en blanco si Usted está separado."
 
 #: modules/Custom/Registration.php:161
 msgid "Your Address"
@@ -3211,7 +3211,7 @@ msgstr "Entrar Elegibilidad"
 
 #: modules/Eligibility/Student.php:17
 msgid "The activity you selected is already assigned to this student!"
-msgstr "La actividad seleccionada ya esta asignada al estudiante!"
+msgstr "La actividad seleccionada ya está asignada al estudiante!"
 
 #: modules/Eligibility/Student.php:85 modules/Eligibility/StudentList.php:60
 #: modules/Food_Service/DailyMenus.php:27
@@ -3714,7 +3714,7 @@ msgstr ""
 
 #: modules/Food_Service/TakeMenuCounts.php:87
 msgid "This period does not meet on the selected date."
-msgstr "Esta hora no esta en la fecha seleccionada."
+msgstr "Esta hora no está en la fecha seleccionada."
 
 #: modules/Food_Service/TakeMenuCounts.php:127
 msgid "You have taken lunch counts today for this period."
@@ -3768,7 +3768,7 @@ msgstr "¿Está seguro que quiere asignar este código de barras?"
 #: modules/Food_Service/Users/Accounts.php:34
 #, php-format
 msgid "That barcode is already assigned to Student <B>%s</B>."
-msgstr "Ese código de barras ya esta asignado al Estudiante <B>%s</B>."
+msgstr "Ese código de barras ya está asignado al Estudiante <B>%s</B>."
 
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Students/Accounts.php:25
@@ -3782,7 +3782,7 @@ msgstr ""
 #: modules/Food_Service/Users/Accounts.php:25
 #, php-format
 msgid "That barcode is already assigned to User <B>%s</B>."
-msgstr "Este código de barras ya esta asignado al Usuario <B>%s</B>."
+msgstr "Este código de barras ya está asignado al Usuario <B>%s</B>."
 
 #: modules/Food_Service/Students/Accounts.php:47
 #: modules/Grades/Assignments.php:142
@@ -3818,7 +3818,7 @@ msgid ""
 "%N's lunch account is getting low.  Please send in at least %P with %h "
 "reminder slip.  THANK YOU!"
 msgstr ""
-"La cuenta de comida de %N esta por vencerse. Por favor envie por lo menos %P "
+"La cuenta de comida de %N está por vencerse. Por favor envie por lo menos %P "
 "con el recordatorio. Gracias!"
 
 #: modules/Food_Service/Students/Reminders.php:17
@@ -3843,8 +3843,8 @@ msgid ""
 "estimated so %h account will have a zero balance at the end of the school "
 "year.  Please send in the requested amount with %h reminder slip.  THANK YOU!"
 msgstr ""
-"La cuenta de comida de %N esta por vencerse. La cantidad requerida para el "
-"pago esta estimada por que la cuenta de %h tendra un saldo de cero al final "
+"La cuenta de comida de %N está por vencerse. La cantidad requerida para el "
+"pago está estimada por que la cuenta de %h tendra un saldo de cero al final "
 "del año escolar. Por favor envie la cantidad pedida con el recordatorio. "
 "Gracias!"
 
@@ -3854,7 +3854,7 @@ msgid ""
 "current balance to finish the year with a zero balance.  Please send in the "
 "requested amount with %h reminder slip.  THANK YOU!"
 msgstr ""
-"La cuenta de comida de %N esta por vencerse. Esta estimado que %g necesita "
+"La cuenta de comida de %N está por vencerse. Esta estimado que %g necesita "
 "un saldo actual cerca de %T para terminar el año con un saldo de cero. Por "
 "favor envie la cantidad pedida con el recordatorio. Gracias!"
 
@@ -3995,7 +3995,7 @@ msgid ""
 "Your lunch account is getting low.  Please send in at least %P with your "
 "reminder slip.  THANK YOU!"
 msgstr ""
-"Su cuenta de comida esta por vencerse. Por favor envie por lo menos %P con "
+"Su cuenta de comida está por vencerse. Por favor envie por lo menos %P con "
 "su recordatorio. Gracias!"
 
 #: modules/Food_Service/Users/Reminders.php:6
@@ -4159,19 +4159,19 @@ msgstr[1] "Tipos de Tarea"
 
 #: modules/Grades/Assignments-new.php:274 modules/Grades/Assignments.php:298
 msgid "Assigned date is after end of quarter!"
-msgstr "La fecha asignada esta después del fin del bimestre!"
+msgstr "La fecha asignada está después del fin del bimestre!"
 
 #: modules/Grades/Assignments-new.php:274
 msgid "Assigned date is after due date!"
-msgstr "La fecha de asignación esta después de la fecha de plazo!"
+msgstr "La fecha de asignación está después de la fecha de plazo!"
 
 #: modules/Grades/Assignments-new.php:276 modules/Grades/Assignments.php:299
 msgid "Due date is after end of quarter!"
-msgstr "La fecha de plazo esta después del fin del bimestre!"
+msgstr "La fecha de plazo está después del fin del bimestre!"
 
 #: modules/Grades/Assignments-new.php:276 modules/Grades/Assignments.php:297
 msgid "Due date is before assigned date!"
-msgstr "La fecha de plazo esta antes de la fecha de asignación!"
+msgstr "La fecha de plazo está antes de la fecha de asignación!"
 
 #: modules/Grades/Assignments.php:34 modules/Scheduling/Courses.php:379
 #: modules/Students/AddressFields.php:108
@@ -4549,7 +4549,7 @@ msgstr "Incluir Tareas Inactivas"
 
 #: modules/Grades/Grades.php:297
 msgid "Assignment is Due"
-msgstr "Tarea esta Aplazada"
+msgstr "Tarea está Aplazada"
 
 #: modules/Grades/HonorRoll.php:32
 #, php-format
@@ -4826,7 +4826,7 @@ msgstr "Categoría de Comentarios del Boletín de Calificaciones"
 #: modules/Grades/ReportCardComments.php:112
 #: modules/Grades/ReportCardGrades.php:104
 msgid "This course is not graded."
-msgstr "Esta clase no esta calificada."
+msgstr "Esta clase no está calificada."
 
 #: modules/Grades/ReportCardComments.php:123
 #: modules/Grades/StudentGrades.php:174
@@ -5468,7 +5468,7 @@ msgstr "Esta clase se da en el %s."
 #: modules/Scheduling/MassDrops.php:47 modules/Scheduling/MassSchedule.php:40
 #: modules/Student_Billing/MassAssignFees.php:33
 msgid "The date you entered is not valid"
-msgstr "La fecha introducida no esta válida"
+msgstr "La fecha introducida no está válida"
 
 #: modules/Scheduling/MassDrops.php:53 modules/Scheduling/MassRequests.php:25
 #: modules/Scheduling/MassSchedule.php:46
@@ -5727,11 +5727,11 @@ msgstr "Agregar un Curso"
 
 #: modules/Scheduling/Schedule.php:262
 msgid "This section is already full."
-msgstr "Este sección ya esta llena."
+msgstr "Este sección ya está llena."
 
 #: modules/Scheduling/Schedule.php:269
 msgid "This student is already scheduled into this course."
-msgstr "Ese estudiante ya esta programado en este curso."
+msgstr "Ese estudiante ya está programado en este curso."
 
 #: modules/Scheduling/Schedule.php:292
 msgid "There is already a course scheduled in that period."
