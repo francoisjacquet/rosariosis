@@ -14,8 +14,5 @@ case 'translate':
 	$redir_url = 'http://translate.centresis.org/';
 	break;
 }
-echo '<form name="RosarioArgs" method="post"  action="'.$redir_url.'" target="_blank">';
+echo '<script type="text/javascript">window.open("'.$redir_url.'", "_blank");</script>';
 ?>
-</form>
-<script type="text/javascript">document.RosarioArgs.submit();</script>
-<noscript>You must have JavaScript enabled to use the <a href="http://www.rosariosis.org">RosarioSIS</a> Online Resources.</noscript>
