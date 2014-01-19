@@ -11,7 +11,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 
-		$t_grades = DBGet(DBQuery("select * from transcript_grades where student_id in (".$st_list.") and mp_type in (".$mp_type_list.") and school_id=".$_REQUEST['SCHOOL_ID']." and syear=".$_REQUEST['syear']." ORDER BY end_date"),array(),array('STUDENT_ID', 'MARKING_PERIOD_ID'));
+		$t_grades = DBGet(DBQuery("select * from transcript_grades where student_id in (".$st_list.") and mp_type in (".$mp_type_list.") and school_id='".$_REQUEST['SCHOOL_ID']."' and syear='".$_REQUEST['syear']."' ORDER BY mp_type, end_date"),array(),array('STUDENT_ID', 'MARKING_PERIOD_ID'));
 		
 		if(count($t_grades))
 		{
@@ -189,9 +189,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						}
 						if ($showCredits)
 						{
-							if (!isset($listOutput_RET[$i]['CREDIT_EARNED']))
+							if ((strpos($mp_type_list, 'year')!==false && $grade['MP_TYPE']!='quarter' && $grade['MP_TYPE']!='semester') || (strpos($mp_type_list, 'semester')!==false && $grade['MP_TYPE']!='quarter') || (strpos($mp_type_list, 'year')===false && strpos($mp_type_list, 'semester')===false && $grade['MP_TYPE']=='quarter'))
 							{
-								$listOutput_RET[$i]['CREDIT_EARNED'] = sprintf('%01.2f', $grade['CREDIT_EARNED']);
+								$listOutput_RET[$i]['CREDIT_EARNED'] += sprintf('%01.2f', $grade['CREDIT_EARNED']);
 								$total_credit_earned += $grade['CREDIT_EARNED'];
 								$total_credit_attempted += $grade['CREDIT_ATTEMPTED'];
 								if (!empty($course_area))
@@ -223,6 +223,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				array_unshift($listOutput_RET,'start_array_to_1');
 				unset($listOutput_RET[0]);
 				//var_dump($listOutput_RET);exit;
+				echo '<BR />';
 				ListOutput($listOutput_RET,$columns,'.','.',false);
 			
 				//School Year
