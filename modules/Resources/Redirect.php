@@ -14,7 +14,7 @@ case 'translate':
 	$redir_url = 'http://translate.centresis.org/';
 	break;
 }
-echo '<form name="RosarioArgs" method="post"  action="'.$redir_url.'">';
+echo '<form name="RosarioArgs" method="post"  action="'.$redir_url.'" target="_blank">';
 ?>
 </form>
 <script type="text/javascript">document.RosarioArgs.submit();</script>
