@@ -1,5 +1,12 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.0.3
+----------------
+- Format multiple comments in report cards
+- Resource module functioning
+- Transcripts printing corrections
+- Rollover: add Scale Value & Honor Roll by Subject GPA
+
 Changes in 2.0.2
 ----------------
 - SQL bugfix string begins with single quotes in database.inc.php
