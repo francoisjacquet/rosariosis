@@ -1,5 +1,10 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.4.8
+----------------
+- Transcripts printing corrections
+- Rollover: add Scale Value & Honor Roll by Subject GPA
+
 Changes in 1.4.7
 ----------------
 - SQL bugfix string begins with single quotes in database.inc.php
