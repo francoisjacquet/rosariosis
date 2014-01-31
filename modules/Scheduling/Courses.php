@@ -376,7 +376,11 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					}
 				}
 				else
+				{
 					$error = ErrorMessage(array(_('Please fill in the required fields')));
+					if ($table_name=='COURSE_PERIODS')
+						break 2; //skip COURSE_PERIOD_SCHOOL_PERIODS
+				}
 			}
 			else
 				$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
