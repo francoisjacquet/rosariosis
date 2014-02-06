@@ -6,7 +6,6 @@ $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='"
 //$_ROSARIO['allow_edit'] = true;
 if($_REQUEST['modfunc']=='update')
 {
-	var_dump($_REQUEST);
 	//modif Francois: add time and user to comments "comment thread" like
 	$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] = date('Y-m-d G:i:s').'|'.User('STAFF_ID')."||".$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'];
 	$existing_RET = DBGet(DBQuery("SELECT STUDENT_ID, COMMENT FROM STUDENT_MP_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."'"));
