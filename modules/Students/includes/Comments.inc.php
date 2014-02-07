@@ -36,22 +36,25 @@ if(empty($_REQUEST['modfunc']))
 	//modif Francois: add time and user to comments "comment thread" like
 	echo '<TR>';
 	echo '<TD style="vertical-align:bottom;">';
-	$comments = explode('||', $comments_RET[1]['COMMENT']);
-	foreach($comments as $comment)
+	if (!empty($comments_RET[1]['COMMENT']))
 	{
-		if(is_array(list($timestamp, $staff_id) = explode('|', $comment)) && is_numeric($staff_id))
+		$comments = explode('||', $comments_RET[1]['COMMENT']);
+		foreach($comments as $comment)
 		{
-			if (User('STAFF_ID') == $staff_id)
-				$staff_name = User('NAME');
-			else
+			if(is_array(list($timestamp, $staff_id) = explode('|', $comment)) && is_numeric($staff_id))
 			{
-				$staff_name_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND USERNAME=(SELECT USERNAME FROM STAFF WHERE SYEAR='".Config('SYEAR')."' AND STAFF_ID='".$staff_id."')"));
-				$staff_name = $staff_name_RET[1]['NAME'];
+				if (User('STAFF_ID') == $staff_id)
+					$staff_name = User('NAME');
+				else
+				{
+					$staff_name_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND USERNAME=(SELECT USERNAME FROM STAFF WHERE SYEAR='".Config('SYEAR')."' AND STAFF_ID='".$staff_id."')"));
+					$staff_name = $staff_name_RET[1]['NAME'];
+				}
+				echo '<em>'.ProperDate(mb_substr($timestamp,0,10)).mb_substr($timestamp,10).', '.$staff_name.':</em>';
 			}
-			echo '<em>'.ProperDate(mb_substr($timestamp,0,10)).mb_substr($timestamp,10).', '.$staff_name.':</em>';
+			else
+				echo '<div style="background-color:white; padding:10px; margin-bottom:15px ; border-bottom:1px solid black;">'.nl2br($comment).'</div>';
 		}
-		else
-			echo '<div style="background-color:white; padding:10px; margin-bottom:15px ; border-bottom:1px solid black;">'.nl2br($comment).'</div>';
 	}
 	echo '</TD>';
 	echo '</TR>';
