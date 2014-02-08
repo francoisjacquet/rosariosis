@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-06 15:59-0500\n"
-"PO-Revision-Date: 2014-02-06 15:59-0500\n"
+"POT-Creation-Date: 2014-02-08 18:06-0500\n"
+"PO-Revision-Date: 2014-02-08 18:06-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -1623,7 +1623,7 @@ msgstr "Día Completo"
 #: modules/Grades/FinalGrades.php:220 modules/Grades/ReportCards.php:114
 #: modules/Grades/ReportCards.php:344 modules/Grades/Transcripts.php:320
 #: modules/School_Setup/MarkingPeriods.php:261
-#: modules/Students/includes/Comments.inc.php:28
+#: modules/Students/includes/Comments.inc.php:27
 #: modules/Students/includes/Medical.inc.php:27
 #: modules/Students/includes/Medical.inc.php:48
 msgid "Comments"
@@ -2039,7 +2039,15 @@ msgstr "De"
 msgid "When do you want to recalculate the daily attendance?"
 msgstr "Cuándo Usted quiere recalcular la asistencia diaria?"
 
-#: modules/Attendance/FixDailyAttendance.php:27
+#: modules/Attendance/FixDailyAttendance.php:10 modules/Attendance/Menu.php:12
+msgid "Recalculate Daily Attendance"
+msgstr "Recalcular Asistencia Diaria"
+
+#: modules/Attendance/FixDailyAttendance.php:11 modules/Grades/CalcGPA.php:38
+msgid "Calculating ..."
+msgstr "Calculando ..."
+
+#: modules/Attendance/FixDailyAttendance.php:38
 msgid "The Daily Attendance for that timeframe has been recalculated."
 msgstr "La Asistencia Diaria para este transcurso ha sido recalculada"
 
@@ -2087,10 +2095,6 @@ msgstr "Resumen de la Ausencia"
 #: modules/Custom/Menu.php:8 modules/Grades/Menu.php:21
 msgid "Utilities"
 msgstr "Utilidades"
-
-#: modules/Attendance/Menu.php:12
-msgid "Recalculate Daily Attendance"
-msgstr "Recalcular Asistencia Diaria"
 
 #: modules/Attendance/Menu.php:13
 msgid "Delete Duplicate Attendance"
@@ -2287,7 +2291,7 @@ msgstr "Estado Aus"
 #: modules/Grades/ReportCardGrades.php:136
 #: modules/Grades/ReportCardGrades.php:158 modules/Grades/ReportCards.php:116
 #: modules/Grades/StudentGrades.php:216 modules/Grades/Transcripts.php:220
-#: modules/Students/includes/Comments.inc.php:17
+#: modules/Students/includes/Comments.inc.php:16
 #: modules/Student_Billing/DailyTransactions.php:63
 #: modules/Student_Billing/MassAssignFees.php:67
 #: modules/Student_Billing/MassAssignPayments.php:58
@@ -4259,10 +4263,6 @@ msgstr "Calcular Promedio y Puesto en la Clase"
 #: modules/Grades/CalcGPA.php:37
 msgid "Calculating GPA and class rank"
 msgstr "Calculando Promedio y Puesto en la Clase"
-
-#: modules/Grades/CalcGPA.php:38
-msgid "Calculating ..."
-msgstr "Calculando ..."
 
 #: modules/Grades/CalcGPA.php:54
 #, php-format
@@ -7491,6 +7491,9 @@ msgstr "Vacuna"
 #: ProgramFunctions/StudentsUsersInfo.fnc.php:265
 msgid "Physical"
 msgstr "Chequeo"
+
+#~ msgid "Calculating Daily Attendance"
+#~ msgstr "Calculando la Asistencia Diaria"
 
 #~ msgid "If more than one teacher will be adding comments for this student"
 #~ msgstr "Si más de un docente entrara comentarios para este estudiante"

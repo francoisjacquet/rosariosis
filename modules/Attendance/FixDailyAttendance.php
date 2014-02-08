@@ -5,6 +5,15 @@ DrawHeader(ProgramTitle());
 $message = '<TABLE><TR><TD colspan="7" class="center">'._('From').' '.PrepareDate(DBDate(),'_min').' '._('to').' '.PrepareDate(DBDate(),'_max').'</TD></TR></TABLE>';
 if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'),$message))
 {
+	//modif Francois: display notice while calculating daily attendance
+	echo '<BR />';
+	PopTable('header',_('Recalculate Daily Attendance'));
+	echo '<DIV id="messageDIV" style="align-text:center;"><IMG SRC="assets/spinning.gif"> '._('Calculating ...').' </DIV>';
+	PopTable('footer');
+	ob_flush();
+	flush();
+	set_time_limit(0);
+	
 	$current_RET = DBGet(DBQuery("SELECT DISTINCT to_char(SCHOOL_DATE,'dd-MON-yy') as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('SCHOOL_DATE'));
 	$students_RET = GetStuList();
 
@@ -23,7 +32,11 @@ if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'
 	}
 	
 	unset($_REQUEST['modfunc']);
-//	DrawHeader('<IMG SRC=assets/check_button.png>&nbsp;'._('The Daily Attendance for that timeframe has been recalculated.'));
-	echo '<div class="updated"><IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The Daily Attendance for that timeframe has been recalculated.').'</div>';
+	
+	//modif Francois: display notice while calculating daily attendance
+	echo '<script type="text/javascript">'."\r";
+	echo 'var msg_done=\'<div class="updated"><IMG SRC="assets/check_button.png" class="alignImg">&nbsp;'._('The Daily Attendance for that timeframe has been recalculated.').'</div>\';';
+	echo 'document.getElementById("messageDIV").innerHTML = msg_done;'."\r";
+	echo '</script>';
 }
 ?>
