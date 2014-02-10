@@ -156,7 +156,7 @@ elseif(empty($_REQUEST['modfunc']))
 			break;
 
 			case 'textarea':
-				echo TextAreaInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','','rows=4 cols=30');
+				echo TextAreaInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','','maxlength=5000 rows=4 cols=30');
 				//echo '<TEXTAREA name=values[CATEGORY_'.$category['ID'].'] rows=4 cols=30>'.$RET['CATEGORY_'.$category['ID']].'</TEXTAREA>';
 			break;
 

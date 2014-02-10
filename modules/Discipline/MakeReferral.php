@@ -143,7 +143,7 @@ if(UserStudentID() && $_REQUEST['student_id'])
 			break;
 	
 			case 'textarea':
-				echo TextAreaInput('','values[CATEGORY_'.$category['ID'].']','','rows=4 cols=30');
+				echo TextAreaInput('','values[CATEGORY_'.$category['ID'].']','','maxlength=5000 rows=4 cols=30');
 				//echo '<TEXTAREA name="values[CATEGORY_'.$category['ID'].']" rows="4" cols="30"></TEXTAREA>';
 			break;
 	

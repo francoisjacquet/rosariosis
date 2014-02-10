@@ -226,7 +226,7 @@ function _makeTextAreaInput($value,$name)
 	{
 		//modif Francois: responsive rt td too large
 		$return .= includeOnceColorBox('divTextAreaContent'.$id);
-		$return .= '<DIV id="divTextAreaContent'.$id.'" class="rt2colorBox">'.TextAreaInput(str_replace('"','\"',$value),'values['.$id.']['.$name.']','','',false).'</DIV>';
+		$return .= '<DIV id="divTextAreaContent'.$id.'" class="rt2colorBox">'.TextAreaInput($value,'values['.$id.']['.$name.']','','',false).'</DIV>';
 		return $return;
 	}
 	else
