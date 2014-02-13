@@ -63,14 +63,15 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 		if(Config('LOGIN')=='No')
 		{
 			Warehouse('header');
-			echo '<FORM action="index.php" method="POST"><INPUT type="hidden" name="USERNAME" value="'.$_REQUEST['USERNAME'].'"><INPUT type="hidden" name="PASSWORD" value="'.$_REQUEST['PASSWORD'].'"><BR />';
+			echo '<FORM action="index.php" method="POST"><BR />';
 			PopTable('header',_('Confirm Successful Installation'));
 			echo '<span class="center">';
 			echo '<h4>'.sprintf(_('You have successfully installed %s.'), ParseMLField(Config('TITLE'))).'</h4><BR />';
-			echo '<BR /><INPUT type="submit" name="submit" value="'._('OK').'" />';
+			echo '<BR /><INPUT type="submit" name="submit" id="submit" value="'._('OK').'" />';
 			echo '</span>';
 			PopTable('footer');
 			echo '</FORM>';
+			echo '<script type="text/javascript">$(\'#submit\').click(function(){ $(\'form\').ajaxFormUnbind(); });</script>';
 			Warehouse('footer_plain');
 			DBQuery("UPDATE CONFIG SET CONFIG_VALUE='Yes' WHERE TITLE='LOGIN'");
 			exit;
