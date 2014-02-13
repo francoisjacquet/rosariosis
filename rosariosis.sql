@@ -4080,6 +4080,7 @@ INSERT INTO students VALUES (1, 'Student', 'Student', 'S', NULL, 'student', '$6$
 -- Data for Name: students_join_users; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
+INSERT INTO students_join_users VALUES (1, 3);
 
 
 --
