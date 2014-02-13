@@ -1,5 +1,13 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.1
+----------------
+- SQL bugfix: skip COURSE_PERIOD_SCHOOL_PERIODS in Courses.php
+- Add time and user to comments "comment thread" like
+- Display notice while recalculating daily attendance
+- Delete ReferralForm.php (use DisciplineForm.php instead)
+- Discipline TextAreaInput fixes
+
 Changes in 2.0.3
 ----------------
 - Format multiple comments in report cards
