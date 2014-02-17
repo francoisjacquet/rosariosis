@@ -1,5 +1,12 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.1.1
+----------------
+- Unbind ajaxForm in Successful Install form
+- Bugfix false low food service balance alert
+- Link example parent to example student in rosariosis.sql
+- Bugfix escape chosen course in ChooseCourse.php
+
 Changes in 2.1
 ----------------
 - SQL bugfix: skip COURSE_PERIOD_SCHOOL_PERIODS in Courses.php
