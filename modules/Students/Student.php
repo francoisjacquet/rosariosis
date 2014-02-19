@@ -137,12 +137,17 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		{
 			if($_REQUEST['assign_student_id'])
 			{
-				$student_id = $_REQUEST['assign_student_id'];
-				if(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='$student_id'"))))
+				if(is_numeric($_REQUEST['assign_student_id']))
 				{
-					$error[] = _('That RosarioSIS ID is already taken. Please select a different one.');
-					//goto error_exit; //modif Francois: goto avail. in PHP 5.3
+					$student_id = $_REQUEST['assign_student_id'];
+					if(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='$student_id'"))))
+					{
+						$error[] = _('That RosarioSIS ID is already taken. Please select a different one.');
+						//goto error_exit; //modif Francois: goto avail. in PHP 5.3
+					}
 				}
+				else
+					$error[] = _('Please enter valid Numeric data.');
 			}
 			//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME, GRADE_ID is null
 			elseif (empty($_REQUEST['students']['FIRST_NAME']) || empty($_REQUEST['students']['LAST_NAME']) || empty($_REQUEST['values']['STUDENT_ENROLLMENT']['new']['GRADE_ID']))
