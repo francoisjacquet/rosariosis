@@ -8,6 +8,8 @@ $menu['School_Setup']['admin'] = array(
 						'School_Setup/Schools.php'=>_('School Information'),
 						'School_Setup/Schools.php&new_school=true'=>_('Add a School'),
 						'School_Setup/CopySchool.php'=>_('Copy School'),
+//modif Francois: add School Fields
+						'School_Setup/SchoolFields.php'=>_('School Fields'),
 						'School_Setup/MarkingPeriods.php'=>_('Marking Periods'),
 						'School_Setup/Calendar.php'=>_('Calendars'),
 						'School_Setup/Periods.php'=>_('Periods'),

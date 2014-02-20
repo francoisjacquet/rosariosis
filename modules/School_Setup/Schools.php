@@ -134,6 +134,44 @@ if(empty($_REQUEST['modfunc']))
 	elseif (!empty($schooldata['NUMBER_DAYS_ROTATION'])) //do not show if no rotation set
 		echo '<TR style="text-align:left;"><TD colspan="3">'.TextInput($schooldata['NUMBER_DAYS_ROTATION'],'values[NUMBER_DAYS_ROTATION]',_('Number of Days for the Rotation'),'maxlength=1 size=1 min=1').'</TD></TR>';
 
+	//modif Francois: add School Fields
+	$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,DEFAULT_SELECTION,REQUIRED FROM SCHOOL_FIELDS ORDER BY SORT_ORDER,TITLE"));
+	$fields_RET = ParseMLArray($fields_RET,'TITLE');
+	
+	if(count($fields_RET))
+		echo '<TR style="text-align:left;"><TD colspan="3"><hr /></TD></TR>';
+		
+	foreach($fields_RET as $field)
+	{
+		$value_custom = DBGet(DBQuery("SELECT CUSTOM_".$field['ID']." FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+		switch($field['TYPE'])
+		{
+			case 'text':
+				echo '<TR style="text-align:left;"><TD colspan="3">';
+				echo TextInput($value_custom[1]['CUSTOM_'.$field['ID']],'values[CUSTOM_'.$field['ID'].']',$field['TITLE']);
+				echo '</TD></TR>';
+				break;
+
+			case 'numeric':
+				echo '<TR style="text-align:left;"><TD colspan="3">';
+				echo TextInput($value_custom[1]['CUSTOM_'.$field['ID']],'values[CUSTOM_'.$field['ID'].']',$field['TITLE'],'size=5 maxlength=10');
+				echo '</TD></TR>';
+				break;
+
+			case 'date':
+				echo '<TR style="text-align:left;"><TD colspan="3">';
+				echo DateInput($value_custom[1]['CUSTOM_'.$field['ID']],'values[CUSTOM_'.$field['ID'].']',$field['TITLE']);
+				echo '</TD></TR>';
+				break;
+		}
+		if($field['TYPE']=='textarea')
+		{
+			echo '<TR style="text-align:left;"><TD colspan="3">';
+			echo TextAreaInput($value_custom[1]['CUSTOM_'.$field['ID']],'values[CUSTOM_'.$field['ID'].']',$field['TITLE']);
+			echo '</TD></TR>';
+		}
+	}
+	
 	echo '</TABLE></FIELDSET>';
 	PopTable('footer');
 	if(User('PROFILE')=='admin' && AllowEdit())

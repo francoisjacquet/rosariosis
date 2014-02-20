@@ -2367,6 +2367,43 @@ SELECT pg_catalog.setval('schedule_seq', 1, false);
 
 
 --
+-- Name: school_fields; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+--
+
+CREATE TABLE school_fields (
+    id numeric NOT NULL,
+    type character varying(10) NOT NULL,
+    title character varying(1000) NOT NULL,
+    sort_order numeric,
+    required character varying(1),
+    default_selection character varying(255)
+);
+
+
+
+
+--
+-- Name: school_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
+--
+
+CREATE SEQUENCE school_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+
+
+--
+-- Name: school_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
+--
+
+SELECT pg_catalog.setval('school_seq', 1, true);
+
+
+--
 -- Name: school_gradelevels_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
 --
 
@@ -3552,6 +3589,7 @@ INSERT INTO profile_exceptions VALUES (1, 'School_Setup/PortalNotes.php', 'Y', '
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Schools.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Schools.php&new_school=true', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/CopySchool.php', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'School_Setup/SchoolFields.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/MarkingPeriods.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Calendar.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'School_Setup/Periods.php', 'Y', 'Y');
