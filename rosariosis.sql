@@ -327,12 +327,10 @@ SELECT pg_catalog.setval('address_field_categories_seq', 1, false);
 CREATE TABLE address_fields (
     id numeric NOT NULL,
     type character varying(10) NOT NULL,
-    search character varying(1),
     title character varying(1000) NOT NULL,
     sort_order numeric,
     select_options character varying(10000),
     category_id numeric,
-    system_field character(1),
     required character varying(1),
     default_selection character varying(255)
 );
@@ -893,12 +891,10 @@ CREATE TABLE custom (
 CREATE TABLE custom_fields (
     id numeric NOT NULL,
     type character varying(10) NOT NULL,
-    search character varying(1),
     title character varying(1000) NOT NULL,
     sort_order numeric,
     select_options character varying(10000),
     category_id numeric,
-    system_field character(1),
     required character varying(1),
     default_selection character varying(255)
 );
@@ -1784,12 +1780,10 @@ SELECT pg_catalog.setval('people_field_categories_seq', 1, false);
 CREATE TABLE people_fields (
     id numeric NOT NULL,
     type character varying(10),
-    search character varying(1),
     title character varying(1000),
     sort_order numeric,
     select_options character varying(10000),
     category_id numeric,
-    system_field character(1),
     required character varying(1),
     default_selection character varying(255)
 );
@@ -2602,12 +2596,10 @@ SELECT pg_catalog.setval('staff_field_categories_seq', 3, true);
 CREATE TABLE staff_fields (
     id numeric NOT NULL,
     type character varying(10) NOT NULL,
-    search character varying(1),
     title character varying(1000) NOT NULL,
     sort_order numeric,
     select_options character varying(10000),
     category_id numeric,
-    system_field character(1),
     required character varying(1),
     default_selection character varying(255)
 );
