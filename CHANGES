@@ -1,5 +1,23 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.2
+----------------
+- SQL bugfix index row size exceeds maximum 2172 for index in *Fields.php & DisciplineForm.php
+- SQL bugfix RosarioSIS ID assigned not numeric error
+- Add School Fields:
+	-created School_Setup/SchoolFields.php
+	-add program to School_Setup/Menu.php
+	-add program to PROFILE_EXCEPTIONS table
+	-add SCHOOL_FIELDS table
+	-create INDEXes for SCHOOL_FIELDS table
+	-rollover School Fields
+	-update translations
+- Remove search + system_field in *_FIELDS tables
+
+Upgrade from 2.x
+----------------
+- Execute the SQL commands to install School Fields, see https://gist.github.com/francoisjacquet/9118591
+
 Changes in 2.1.1
 ----------------
 - Unbind ajaxForm in Successful Install form
