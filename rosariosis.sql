@@ -5298,6 +5298,20 @@ CREATE INDEX schedule_requests_ind8 ON schedule_requests USING btree (request_id
 
 
 --
+-- Name: school_desc_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+--
+
+CREATE INDEX school_desc_ind ON school_fields USING btree (id);
+
+
+--
+-- Name: school_desc_ind2; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
+--
+
+CREATE INDEX school_desc_ind2 ON school_fields USING btree (type);
+
+
+--
 -- Name: school_gradelevels_ind1; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
 --
 
