@@ -225,8 +225,8 @@ if(empty($_REQUEST['modfunc']))
 								},
 								highlighter: {
 									show: true,
-									showLabel: true,
 									tooltipAxes: 'x',
+									formatString:'<span style="font-size:larger;font-weight:bold;">%s</span>',
 								},
 								title: '<?php echo $title.' '._('Breakdown'); ?>'
 							});

@@ -311,8 +311,8 @@ if(empty($_REQUEST['modfunc']))
 						var plotline = $.jqplot('chart',[dataline], {
 							highlighter: {
 								show: true,
-								showLabel: true,
 								tooltipAxes: 'x',
+								formatString:'<span style="font-size:larger;font-weight:bold;">%s</span>',
 							},
 							title: '<?php echo ParseMLField($category_RET[1]['TITLE']).' '._('Breakdown').$_ROSARIO['SearchTerms']; ?>'
 						});
