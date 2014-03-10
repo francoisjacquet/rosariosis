@@ -471,7 +471,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				echo '</TABLE>';
 			}
 
-			echo '<TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
+			echo '<div style="overflow-x:auto;"><TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
 			echo '<THEAD><TR>';
 
 			$i = 1;
@@ -669,7 +669,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			}
 			if($result_count!=0)
 			{
-				echo '</TBODY></TABLE><BR />';
+				echo '</TBODY></TABLE></div><BR />';
 			}
 			if($options['header'])
 				echo '</div>';
@@ -695,7 +695,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 //modif Francois: css WPadmin
 				if($link['add']['html'])
 				{
-					echo '<TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'"';
+					echo '<div style="overflow-x:auto;"><TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'"';
 					if($options['center'])
 						echo ' style="margin:0 auto;"';
 					echo '><THEAD><TR><TH>&nbsp;</TH>';
@@ -717,7 +717,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						echo '<TD>'.$link['add']['html'][$key].'</TD>';
 					}
 					echo '</TR></TBODY>';
-					echo '</TABLE><BR />';
+					echo '</TABLE></div><BR />';
 				}
 				elseif($link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
 				{
