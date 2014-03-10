@@ -383,7 +383,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 						else
 							return _('N/A');
 					else
-						return 'E/C';
+						return _('E/C');
 				}
 			}
 		break;
@@ -451,7 +451,7 @@ function _makeExtraStuCols($value,$column)
 				else
 					return _('N/A');
 			else
-				return 'E/C';
+				return _('E/C');
 		break;
 
 		case 'LETTER_GRADE':

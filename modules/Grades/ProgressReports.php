@@ -201,11 +201,11 @@ function _makeExtra($value,$column)
 				if($THIS_RET['DUE'] || $value!='')
 					return Percent($value/$THIS_RET['TOTAL_POINTS'],1);
 				else
-					return 'not due';
+					return _('Not due');
 			else
 				return _('N/A');
 		else
-			return 'e/c';
+			return _('E/C');
 	}
 	elseif($column=='LETTER_GRADE')
 	{
@@ -214,11 +214,11 @@ function _makeExtra($value,$column)
 				if($THIS_RET['DUE'] || $value!='')
 					return _makeLetterGrade($value/$THIS_RET['TOTAL_POINTS']);
 				else
-					return 'not due';
+					return _('Not due');
 			else
 				return _('N/A');
 		else
-			return 'e/c';
+			return _('E/C');
 	}
 }
 
