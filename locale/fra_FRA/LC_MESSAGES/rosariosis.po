@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-20 11:58-0500\n"
-"PO-Revision-Date: 2014-02-20 12:01-0500\n"
+"POT-Creation-Date: 2014-03-10 16:11-0500\n"
+"PO-Revision-Date: 2014-03-10 16:47-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -4530,6 +4530,14 @@ msgstr "Inclure les Devoirs Inactifs"
 msgid "Assignment is Due"
 msgstr "Le Devoir est Du"
 
+# E/C = Extra Credit
+# Context: assignments
+#: modules/Grades/Grades.php:386 modules/Grades/Grades.php:454
+#: modules/Grades/Grades.php:507 modules/Grades/ProgressReports.php:208
+#: modules/Grades/ProgressReports.php:221 modules/Grades/StudentGrades.php:247
+msgid "E/C"
+msgstr "Crédit Extra"
+
 #: modules/Grades/HonorRoll.php:32
 #, php-format
 msgid "%s Honor Roll"
@@ -4769,6 +4777,11 @@ msgstr "Exclure les Devoirs non Notés non Dus"
 #: modules/Grades/ProgressReports.php:149
 msgid "Group by Assignment Category"
 msgstr "Grouper par Catégorie d'Assignement"
+
+#: modules/Grades/ProgressReports.php:204
+#: modules/Grades/ProgressReports.php:217
+msgid "Not due"
+msgstr "Pas de rendu"
 
 #: modules/Grades/ReportCardCommentCodes.php:75
 #: modules/Grades/ReportCardComments.php:71

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-20 11:56-0500\n"
-"PO-Revision-Date: 2014-02-20 12:03-0500\n"
+"POT-Creation-Date: 2014-03-10 16:06-0500\n"
+"PO-Revision-Date: 2014-03-10 16:46-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -4549,6 +4549,14 @@ msgstr "Incluir Tareas Inactivas"
 msgid "Assignment is Due"
 msgstr "Tarea está Aplazada"
 
+# E/C =  Extra Credit
+# Context: assignments
+#: modules/Grades/Grades.php:386 modules/Grades/Grades.php:454
+#: modules/Grades/Grades.php:507 modules/Grades/ProgressReports.php:208
+#: modules/Grades/ProgressReports.php:221 modules/Grades/StudentGrades.php:247
+msgid "E/C"
+msgstr "Puntos Extra"
+
 #: modules/Grades/HonorRoll.php:32
 #, php-format
 msgid "%s Honor Roll"
@@ -4779,7 +4787,7 @@ msgstr "Crear Reportes de Progreso para los Estudiantes Seleccionados"
 # E/C = Extra Credit
 #: modules/Grades/ProgressReports.php:145
 msgid "Exclude Ungraded E/C Assignments"
-msgstr "Excluir las Tareas con Creditos Extra sin Calificación"
+msgstr "Excluir las Tareas con Puntos Extra sin Calificación"
 
 #: modules/Grades/ProgressReports.php:148
 msgid "Exclude Ungraded Assignments Not Due"
@@ -4788,6 +4796,11 @@ msgstr "Excluir las Tareas sin Calificación No Aplazadas"
 #: modules/Grades/ProgressReports.php:149
 msgid "Group by Assignment Category"
 msgstr "Agrupar por Categoría de Tarea"
+
+#: modules/Grades/ProgressReports.php:204
+#: modules/Grades/ProgressReports.php:217
+msgid "Not due"
+msgstr "No se debe entregar"
 
 #: modules/Grades/ReportCardCommentCodes.php:75
 #: modules/Grades/ReportCardComments.php:71
