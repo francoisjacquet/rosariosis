@@ -1,5 +1,12 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.2.1
+----------------
+- Larger Tooltips for jqplot graphs
+- Overflow-x scroll on ListOutput tables
+- Replace TABLE with one line grade display in Grades.php
+- Added "E/C" and "Not due" translations
+
 Changes in 2.2
 ----------------
 - SQL bugfix index row size exceeds maximum 2172 for index in *Fields.php & DisciplineForm.php
