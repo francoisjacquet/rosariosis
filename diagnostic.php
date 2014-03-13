@@ -18,12 +18,36 @@ if(!file_exists('./Warehouse.php'))
 	$error[] = 'The diagnostic.php file needs to be in the RosarioSIS directory to be able to run.  Please move it there, and run it again.';
 else
 {
+	//modif Francois: verify PHP extensions and php.ini
+	$inipath = php_ini_loaded_file();
+
+	if ($inipath)
+		$inipath = ' Loaded php.ini: ' . $inipath;
+	else
+		$inipath = ' Note: No php.ini file is loaded!';
+
+	//gettext
+	if (!extension_loaded('gettext'))
+	{
+		$error[] = 'PHP extensions: RosarioSIS relies on the gettext extensions. See the php.ini file to activate it.'.$inipath;
+		echo _ErrorMessage($error,'fatal');
+	}
+	//mbstring
+	if (!extension_loaded('mbstring'))
+	{
+		$error[] = 'PHP extensions: RosarioSIS relies on the mbstring extensions. See the php.ini file to activate it.'.$inipath;
+		echo _ErrorMessage($error,'fatal');
+	}
+	//xmlrpc
+	if (!extension_loaded('xmlrpc'))
+		$error[] = 'PHP extensions: RosarioSIS relies on the xmlrpc extensions (only used by the Moodle integration). See the php.ini file to activate it.'.$inipath;
+
 	include './Warehouse.php';
 	if(!@opendir("$RosarioPath/functions"))
 		$error[] = 'The value for $RosarioPath in config.inc.php is not correct or else the functions directory does not have the correct permissions to be read by the webserver.  Make sure $RosarioPath points to the RosarioSIS installation directory and that it is readable by all users.';
 
 	if(!function_exists('pg_connect'))
-		$error[] = 'PHP was not compiled with PostgreSQL support.  You need to recompile PHP using the --with-pgsql option for RosarioSIS to work.';
+		$error[] = 'The pgsql extension (see the php.ini file) is not activated OR PHP was not compiled with PostgreSQL support. You may need to recompile PHP using the --with-pgsql option for RosarioSIS to work.';
 	else
 	{
 			if($DatabaseServer!='localhost')
@@ -44,9 +68,9 @@ else
 				$errstring = pg_last_error($connection);
 
 			if(mb_strpos($errstring,'config: permission denied')!==false)
-				$error[] = 'The database was created with the wrong permissions.  The user specified in the config.inc.php file does not have permission to access the rosario database.  Use the super-user (postgres) or recreate the database adding \connect - YOUR_USERNAME to the top of the rosario.sql file.';
+				$error[] = 'The database was created with the wrong permissions.  The user specified in the config.inc.php file does not have permission to access the rosario database.  Use the super-user (postgres) or recreate the database adding \connect - YOUR_USERNAME to the top of the rosariosis.sql file.';
 			elseif(mb_strpos($errstring,'elation "config" does not exist')!==false)
-				$error[] = 'At least one of the tables does not exist.  Make sure you ran the rosario.sql file as described in the INSTALL file.';
+				$error[] = 'At least one of the tables does not exist.  Make sure you ran the rosariosis.sql file as described in the INSTALL file.';
 			elseif($errstring)
 				$error[] = $errstring;
 		}
@@ -68,7 +92,7 @@ function _ErrorMessage($errors,$code='error')
 {
 	if($errors)
 	{
-		$return .= '<TABLE><TR><TD style="text-align:left;">';
+		$return .= '<TABLE cellpadding="10"><TR><TD style="text-align:left;"><p style="font-size:larger;">';
 		if(count($errors)==1)
 		{
 			if($code=='error' || $code=='fatal')
@@ -85,15 +109,15 @@ function _ErrorMessage($errors,$code='error')
 				$return .= '<b><span style="color:#00CC00">Note:</span></b>';
 			$return .= '<ul>';
 			foreach($errors as $value)
-				$return .= '<LI><span class="size-1">'.$value.'</span></LI>'."\n";
+				$return .= '<LI>'.$value.'</LI>'."\n";
 			$return .= '</ul>';
 		}
-			$return .= "</TD></TR></TABLE><BR />";
+			$return .= "</p></TD></TR></TABLE><BR />";
 
 		if($code=='fatal')
 		{
 			echo $return;
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
+			if(!isset($_REQUEST['_ROSARIO_PDF']) && function_exists('Warehouse'))
 				Warehouse('footer');
 			exit;
 		}
