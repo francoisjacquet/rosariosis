@@ -1,5 +1,14 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.2.2
+----------------
+- Diagnostic: verifiy PHP extensions and php.ini
+- Move scrollTop to header in Warehouse.php
+- Update check_button image reference in Courses.php
+- Custom Prompt function to Cancel on Schedule conflict in Schedule.php
+- Base Grading Scale required in Schools.php
+- Bugfix remove "-" from javascript var name in Inputs.php
+
 Changes in 2.2.1
 ----------------
 - Larger Tooltips for jqplot graphs
