@@ -29,8 +29,8 @@ if(UserStudentID())
 
         if ($_REQUEST['SMS_GRADE_LEVEL'] && $mp_id) {
             $updatestats = "UPDATE student_mp_stats SET grade_level_short = '".$_REQUEST['SMS_GRADE_LEVEL']."'
-                            WHERE marking_period_id = $mp_id     
-                            AND student_id = $student_id";
+                            WHERE marking_period_id = '$mp_id'     
+                            AND student_id = '$student_id'";
             DBQuery($updatestats);
         }    
         if (is_array($_REQUEST['values']))
