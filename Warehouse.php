@@ -86,6 +86,7 @@ if(!defined('WAREHOUSE_PHP'))
 </HEAD>
 <BODY>
 <DIV id="Migoicons" style="visibility:hidden;position:absolute;z-index:1000;top:-100px"></DIV>
+<script type="text/javascript">var scrollTop="<?php echo Preferences('SCROLL_TOP'); ?>";</script>
 <?php
 			break;
 			case 'footer':

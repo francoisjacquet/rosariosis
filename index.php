@@ -189,7 +189,6 @@ elseif($_REQUEST['modfunc']!='create_account')
 {
 	Warehouse('header');
 ?>
-<script type="text/javascript">var scrollTop="<?php echo Preferences('SCROLL_TOP'); ?>";</script>
 <div id="wrap">
 	<footer id="footer" class="mod">
 		<?php include('Bottom.php'); ?>
