@@ -687,7 +687,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				if(mb_strpos($RET['DOES_ATTENDANCE'],','.$value['ID'].',')!==false)
 				{
 					$val = 'Y';
-					$img = 'check';
+					$img = 'check_button';
 				}
 				else
 				{
