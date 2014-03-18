@@ -1,5 +1,13 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.2.3
+----------------
+- SQL bugfix Balance Widget
+- Change to AJAX form in MenuReports.php
+- Timeframe fix in TransactionsReport.php
+- Exclude Lunch Payment from Balances
+- Invert Balance calculus in Widgets.fnc.php
+
 Changes in 2.2.2
 ----------------
 - Diagnostic: verifiy PHP extensions and php.ini
