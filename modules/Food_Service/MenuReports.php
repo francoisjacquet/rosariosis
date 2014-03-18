@@ -96,7 +96,7 @@ $types_totals = array('Student'=>$items,
 
 $types_columns = $items_columns;
 
-$type_select = '<SELECT name=type_select onchange="this.form.submit()"><OPTION value=participation'.($_REQUEST['type_select']=='sales' ? '' : ' selected').'>'._('Participation').'</OPTION><OPTION value=sales'.($_REQUEST['type_select']=='sales' ? ' selected' : '').'>'._('Sales').'</OPTION></SELECT>';
+$type_select = '<SELECT name="type_select" onchange="ajaxPostForm(this.form,true);"><OPTION value=participation'.($_REQUEST['type_select']=='sales' ? '' : ' selected').'>'._('Participation').'</OPTION><OPTION value="sales"'.($_REQUEST['type_select']=='sales' ? ' selected' : '').'>'._('Sales').'</OPTION></SELECT>';
 
 //$calendars_RET = DBGet(DBQuery("SELECT acs.CALENDAR_ID,(SELECT count(1) FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID=acs.CALENDAR_ID AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS DAY_COUNT FROM ATTENDANCE_CALENDARS acs WHERE acs.SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
