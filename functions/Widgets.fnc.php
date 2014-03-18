@@ -401,7 +401,7 @@ function Widgets($item,&$myextra=null)
 						$_REQUEST['balance_high'] = $_REQUEST['balance_low'];
 						$_REQUEST['balance_low'] = $temp;
 					}
-					$extra['WHERE'] .= " AND (coalesce((SELECT sum(f.AMOUNT) FROM BILLING_FEES f WHERE f.STUDENT_ID=ssm.STUDENT_ID AND f.SYEAR=ssm.SYEAR),0)+(SELECT coalesce(sum(f.BALANCE),0) FROM FOOD_SERVICE_TRANSACTIONS f WHERE f.STUDENT_ID=ssm.STUDENT_ID AND f.SYEAR=ssm.SYEAR)-coalesce((SELECT sum(p.AMOUNT) FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID=ssm.STUDENT_ID AND p.SYEAR=ssm.SYEAR),0)) BETWEEN '$_REQUEST[balance_low]' AND '$_REQUEST[balance_high]' ";
+					$extra['WHERE'] .= " AND (coalesce((SELECT sum(f.AMOUNT) FROM BILLING_FEES f WHERE f.STUDENT_ID=ssm.STUDENT_ID AND f.SYEAR=ssm.SYEAR),0)-coalesce((SELECT sum(p.AMOUNT) FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID=ssm.STUDENT_ID AND p.SYEAR=ssm.SYEAR AND (p.LUNCH_PAYMENT!='Y' OR p.LUNCH_PAYMENT IS NULL)),0)) BETWEEN '$_REQUEST[balance_low]' AND '$_REQUEST[balance_high]' ";
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Student Billing Balance')).' </b>'._('Between').' '.$_REQUEST['balance_low'].' &amp; '.$_REQUEST['balance_high'].'<BR />';
 				}
