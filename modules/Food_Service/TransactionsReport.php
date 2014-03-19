@@ -44,7 +44,7 @@ $types_columns = array('CASH'=>_('Cash'),'CHECK'=>_('Check'),'CREDIT CARD'=>_('C
 
 $PHP_tmp_SELF = PreparePHP_SELF();
 echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
-DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <INPUT type=submit value="'>_('Go').'">');
+DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <INPUT type=submit value="'._('Go').'">');
 echo '</FORM>';
 
 $RET = DBGet(DBQuery("SELECT 'Student' AS TYPE,fst.SHORT_NAME,fsti.SHORT_NAME AS ITEM_SHORT_NAME,sum(fsti.AMOUNT) AS AMOUNT FROM       FOOD_SERVICE_TRANSACTION_ITEMS fsti,      FOOD_SERVICE_TRANSACTIONS fst WHERE fst.SHORT_NAME NOT IN (SELECT TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID='".UserSchool()."') AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID AND fst.SYEAR='".UserSyear()."' AND fst.SCHOOL_ID='".UserSchool()."' AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1 GROUP BY fst.SHORT_NAME,fsti.SHORT_NAME"),array('ITEM_SHORT_NAME'=>'bump_amount'));
