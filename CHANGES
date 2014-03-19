@@ -1,5 +1,15 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.4.9
+----------------
+- SQL bugfix: skip COURSE_PERIOD_SCHOOL_PERIODS
+- Bugfix escape chosen course
+- SQL bugfix Balance Widget
+- SQL bugfix index row size exceeds maximum 2712 for index
+- Bugfix Replace TABLE with one line grade display in Grades.php
+- Remove '-' from javascript var name in Inputs.php
+- Typo timeframe reappeared in TransactionsReport.php
+
 Changes in 1.4.8
 ----------------
 - Transcripts printing corrections
