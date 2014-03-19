@@ -71,6 +71,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					$usage_sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 		
+					$create_index = true;
 					switch($columns['DATA_TYPE'])
 					{
 						case 'checkbox':
@@ -94,9 +95,11 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 						
 						case 'textarea':
 							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(5000)");
+							$create_index = false; //modif Francois: SQL bugfix index row size exceeds maximum 2712 for index
 						break;
 					}
-					DBQuery("CREATE INDEX DISCIPLINE_REFERRALS_IND$id ON DISCIPLINE_REFERRALS (CATEGORY_$id)");
+					if ($create_index)
+						DBQuery("CREATE INDEX DISCIPLINE_REFERRALS_IND$id ON DISCIPLINE_REFERRALS (CATEGORY_$id)");
 					DBQuery($usage_sql);
 				}
 			}

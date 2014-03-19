@@ -42,6 +42,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						$values = $id.",'".$_REQUEST['category_id']."',";
 						$_REQUEST['id'] = $id;
 
+						$create_index = true;
 						switch($columns['TYPE'])
 						{
 							case 'radio':
@@ -74,9 +75,11 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 							case 'textarea':
 								DBQuery("ALTER TABLE STUDENTS ADD CUSTOM_$id VARCHAR(5000)");
+								$create_index = false; //modif Francois: SQL bugfix index row size exceeds maximum 2712 for index
 							break;
 						}
-						DBQuery("CREATE INDEX CUSTOM_IND$id ON STUDENTS (CUSTOM_$id)");
+						if ($create_index)
+							DBQuery("CREATE INDEX CUSTOM_IND$id ON STUDENTS (CUSTOM_$id)");
 					}
 					elseif($table=='STUDENT_FIELD_CATEGORIES')
 					{
