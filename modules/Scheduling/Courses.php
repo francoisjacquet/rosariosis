@@ -789,7 +789,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			echo '<FORM action="Modules.php?modname='.$_REQUEST[modname].'&subject_id='.$_REQUEST[subject_id].'&course_id='.$_REQUEST[course_id].'" method="POST">';
 			DrawHeader($title,$delete_button.SubmitButton(_('Save')));
 			$header .= '<TABLE class="width-100p cellpadding-3">';
-			$header .= '<TR>';
+			$header .= '<TR class="st">';
 
 //modif Francois: title required
 			$header .= '<TD>' . TextInput($RET['TITLE'],'tables[COURSES]['.$_REQUEST['course_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
