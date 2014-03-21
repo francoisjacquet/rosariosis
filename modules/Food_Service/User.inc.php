@@ -32,7 +32,7 @@ if(!$_REQUEST['modfunc'] && UserStaffID())
 	if(!$staff['ACCOUNT_ID'])
 	{
 		$warning = _('This user does not have a Meal Account.');
-		echo '<BR />'.button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\'');
+		echo '<BR />'.button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"');
 	}
 	echo '</TD>';
 
