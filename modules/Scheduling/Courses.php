@@ -646,7 +646,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					break;
 			} while ( $i <= count($RET2) );
 			
-			$header .= '<TR class="st"><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod()' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').'"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Period').'</a></TD></TR>';
+			$header .= '<TR class="st"><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Period').'</a></TD></TR>';
 			if (!$new)
 				$header .= '<script type="text/javascript">document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
 			?>
