@@ -195,9 +195,6 @@ strip_tags(str_replace('<BR />',"\n",$_ROSARIO['SearchTerms']));
 ?>
 			if (screen.width<768)
 			{
-				if (window.dataline)
-					for(i=0; i<dataline.length; i++)
-						dataline[i][0] = dataline[i][0].substr(0, 20);
 				if (window.ticks)
 					for(i=0; i<ticks.length; i++)
 						ticks[i] = ticks[i].substr(0, 20);
