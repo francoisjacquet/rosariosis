@@ -213,7 +213,7 @@ echo '<B>'.sprintf(Localize('colon',_('Information about %s %s')),$student[1]['F
 echo '<TABLE>';
 echo '<TR>';
 echo '<TD>';
-if ($custom_fields_RET['200000004'])
+if ($custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
 	echo DateInput($student['CUSTOM_200000004'],'birth_date',ParseMLField($custom_fields_RET['200000004'][1]['TITLE']));
 echo '</TD>';
 echo '<TD>';
@@ -223,7 +223,7 @@ echo '</TD>';
 echo '</TR>';
 echo '<TR>';
 echo '<TD>';
-if ($custom_fields_RET['200000001'])
+if ($custom_fields_RET['200000001'] && $custom_fields_RET['200000001'][1]['TYPE'] == 'select')
 {
 	$select_options = array();
 	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000001'][1]['SELECT_OPTIONS']);
@@ -234,7 +234,7 @@ if ($custom_fields_RET['200000001'])
 echo '</TD>';
 echo '<TD>';
 
-if ($custom_fields_RET['200000005'])
+if ($custom_fields_RET['200000005'] && $custom_fields_RET['200000005'][1]['TYPE'] == 'select')
 {
 	$select_options = array();
 	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000005'][1]['SELECT_OPTIONS']);
@@ -247,7 +247,7 @@ echo '</TR>';
 
 echo '<TR>';
 echo '<TD>';
-if ($custom_fields_RET['200000000'])
+if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 {
 	$select_options = array();
 	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000000'][1]['SELECT_OPTIONS']);
