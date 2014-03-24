@@ -331,10 +331,22 @@ if($_REQUEST['values'] && $_POST['values'])
 					$percent = '999.9';
 				elseif($percent<0)
 					$percent = '0';
-				if($columns['grade'])
-					$grade = $columns['grade'];
+				if($columns['grade'] || $percent!='')
+				{
+					$grade = ($columns['grade']?$columns['grade']:_makeLetterGrade($percent/100,$course_period_id,0,'ID'));
+					$letter = $grades_RET[$grade][1]['TITLE'];
+					$weighted = $grades_RET[$grade][1]['WEIGHTED_GP'];
+					$unweighted = $grades_RET[$grade][1]['UNWEIGHTED_GP'];
+					
+					//modif Francois: add precision to year weighted GPA if not year course period
+					if (GetMP($_REQUEST['mp'],'MP')=='FY' && $course_period_mp!='FY')
+					{
+						$weighted = $percent/100*$grades_RET[$grade][1]['GP_SCALE'];
+					}
+					$scale = $grades_RET[$grade][1]['GP_SCALE'];
+				}
 				else
-					$grade = ($percent!=''?_makeLetterGrade($percent/100,$course_period_id,0,'ID'):'');
+					$grade = $letter = $weighted = $unweighted = $scale = '';
 			}
 			elseif($columns['grade'])
 			{
@@ -353,7 +365,6 @@ if($_REQUEST['values'] && $_POST['values'])
 			}
 			else
 				$percent = $grade = $letter = $weighted = $unweighted = $scale = '';
-
 //modif Francois: fix bug SQL ID=NULL
 //modif Francois: add CLASS_RANK
 //modif Francois: add Credit Hours
