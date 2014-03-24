@@ -22,6 +22,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000"),array(),array('ID'));
 			if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 				$extra['SELECT'] .= ',s.CUSTOM_200000000 AS GENDER';
+			else
+				$extra['SELECT'] .= ',"None" AS GENDER';
 				
 		}
 	//modif Francois: multiple school periods for a course period
