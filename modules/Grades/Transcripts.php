@@ -44,12 +44,16 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			s.student_id 
 			, s.first_name
 			, s.last_name
-			, s.middle_name
-			, s.custom_200000000 as gender
-			, s.custom_200000003 as ssecurity
-			, s.custom_200000004 as birthdate".
+			, s.middle_name";
+			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000003, 200000004)"),array(),array('ID'));
+			if ($custom_fields_RET['200000000'])
+				$students_dataquery .= ", s.custom_200000000 as gender";
+			if ($custom_fields_RET['200000000'])
+				$students_dataquery .= ", s.custom_200000003 as ssecurity";
+			if ($custom_fields_RET['200000000'])
+				$students_dataquery .= ", s.custom_200000004 as birthdate";
 			//, s.custom_200000012 as estgraddate
-			", a.address
+			$students_dataquery .= ", a.address
 			, a.city
 			, a.state
 			, a.zipcode
