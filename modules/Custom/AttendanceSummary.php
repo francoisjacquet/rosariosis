@@ -48,8 +48,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 
 			echo '<TR><TD colspan="3"><span class="sizep1"><B>'._('Demographics').'</B></span><TABLE style="width:98%; margin:0 auto;" class="cellpadding-0 cellspacing-0">';
-			echo '<TR><TD style="text-align:right">'.ParseMLField($custom_RET[200000000][1]['TITLE']).':&nbsp;</TD><TD>'.$student['CUSTOM_200000000'].'</TD><TD style="text-align:right">'._('Status').':&nbsp;</TD><TD>'._($student['STATUS']).'</TD></TR>';
-			echo '<TR><TD style="text-align:right">'.ParseMLField($custom_RET[200000003][1]['TITLE']).':&nbsp;</TD><TD>'.$student['CUSTOM_200000003'].'</TD><TD style="text-align:right">'._('Grade Level').':&nbsp;</TD><TD>'.$student['GRADE_ID'].'</TD></TR>';
+			echo '<TR>';
+			foreach($custom_RET as $id=>$custom)
+				echo '<TD style="text-align:right">'.ParseMLField($custom_RET[$id][1]['TITLE']).':&nbsp;</TD><TD>'.$student['CUSTOM_'.$id].'</TD>';
+			echo '</TR>';
+			echo '<TR><TD style="text-align:right">'._('Status').':&nbsp;</TD><TD>'._($student['STATUS']).'</TD><TD style="text-align:right">'._('Grade Level').':&nbsp;</TD><TD>'.$student['GRADE_ID'].'</TD></TR>';
 			echo '</TABLE></TD></TR>';
 
 
