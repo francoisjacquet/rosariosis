@@ -4,8 +4,12 @@ DrawHeader(ProgramTitle());
 
 //$extra['header_left'] .= sprintf(_('Include courses active as of %s'),PrepareDate('','_include_active_date'));
 
-MyWidgets('birthmonth');
-MyWidgets('birthday');
+$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000004 AND TYPE='date'"),array(),array('ID'));
+if ($custom_fields_RET['200000004'])
+{
+	MyWidgets('birthmonth');
+	MyWidgets('birthday');
+}
 include('modules/misc/Export.php');
 
 function MyWidgets($item)

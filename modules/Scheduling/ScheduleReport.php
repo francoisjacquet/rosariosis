@@ -148,9 +148,20 @@ echo '</TR></TABLE>';
 // LIST STUDENTS ----
 if($_REQUEST['modfunc']=='students')
 {
+	$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000004 AND TYPE='date'"),array(),array('ID'));
+	$sql_birthdate = '';
+	$function_birthdate = array();
+	$column_birthdate = array();
+	if ($custom_fields_RET['200000004'])
+	{
+		$sql_birthdate = ',s.CUSTOM_200000004';
+		$function_birthdate = array('CUSTOM_200000004'=>'ShortDate');
+		$column_birthdate = array('CUSTOM_200000004'=>ParseMLField($custom_fields_RET['200000004'][1]['TITLE']));
+	}
+	
 	if($_REQUEST['unscheduled']=='true')
 	{
-		$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,s.STUDENT_ID,s.CUSTOM_200000004,ssm.GRADE_ID
+		$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,s.STUDENT_ID".$sql_birthdate.",ssm.GRADE_ID
 				FROM SCHEDULE_REQUESTS sr,STUDENTS s,STUDENT_ENROLLMENT ssm
 				WHERE (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)) AND s.STUDENT_ID=sr.STUDENT_ID AND s.STUDENT_ID=ssm.STUDENT_ID AND ssm.SYEAR='".UserSyear()."' AND ssm.SCHOOL_ID='".UserSchool()."' ";
 		if($_REQUEST['course_id'])
@@ -161,7 +172,7 @@ if($_REQUEST['modfunc']=='students')
 	}
 	else
 	{
-		$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,s.STUDENT_ID,s.CUSTOM_200000004,ssm.GRADE_ID
+		$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,s.STUDENT_ID".$sql_birthdate.",ssm.GRADE_ID
 				FROM SCHEDULE ss,STUDENTS s,STUDENT_ENROLLMENT ssm
 				WHERE ('".DBDate()."' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL) AND (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)) AND s.STUDENT_ID=ss.STUDENT_ID AND s.STUDENT_ID=ssm.STUDENT_ID AND ssm.SYEAR='".UserSyear()."' AND ssm.SCHOOL_ID='".UserSchool()."' ";
 		if($_REQUEST['course_period_id'])
@@ -170,7 +181,7 @@ if($_REQUEST['modfunc']=='students')
 			$sql .= "AND ss.COURSE_ID='$_REQUEST[course_id]'";
 	}
 	$sql .= ' ORDER BY s.LAST_NAME,s.FIRST_NAME';
-	$RET = DBGet(DBQuery($sql),array('CUSTOM_200000004'=>'ShortDate','GRADE_ID'=>'GetGrade'));
+	$RET = DBGet(DBQuery($sql),array('GRADE_ID'=>'GetGrade') + $function_birthdate);
 
 	$link = array();
 	if(AllowUse('Scheduling/Schedule.php'))
@@ -179,9 +190,9 @@ if($_REQUEST['modfunc']=='students')
 		$link['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
 	}
     if ($_REQUEST['unscheduled']=='true')
-	    ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'CUSTOM_200000004'=>_('Birthdate')),'Unscheduled Student','Unscheduled Students',$link,array(),$LO_options);
+	    ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level')) + $column_birthdate,'Unscheduled Student','Unscheduled Students',$link,array(),$LO_options);
     else
-        ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'CUSTOM_200000004'=>_('Birthdate')),'Student','Students',$link,array(),$LO_options);
+        ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level')) + $column_birthdate,'Student','Students',$link,array(),$LO_options);
 }
 
 function calcSeats1($period,&$total_seats,&$filled_seats)
