@@ -23,9 +23,9 @@ function MyWidgets($item)
 				if(!$extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Birth Month')).' </b></span>'.$options[$_REQUEST['birthmonth']].'<BR />';
 			}
-			$extra['search'] .= '<TR><TD style="text-align:right;"><label for="birthmonth">'._('Birth Month').'</label></TD><TD><SELECT name="birthmonth" id="birthmonth"><OPTION value="">'._('N/A');
+			$extra['search'] .= '<TR><TD style="text-align:right;"><label for="birthmonth">'._('Birth Month').'</label></TD><TD><SELECT name="birthmonth" id="birthmonth"><OPTION value="">'._('N/A').'</OPTION>';
 			foreach($options as $key=>$val)
-				 $extra['search'] .= '<OPTION value="'.$key.'">'.$val;
+				 $extra['search'] .= '<OPTION value="'.$key.'">'.$val.'</OPTION>';
 			$extra['search'] .= '</SELECT></TD></TR>';
 		break;
 		case 'birthday':
@@ -38,9 +38,9 @@ function MyWidgets($item)
 				if(!$extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Birth Day')).' </b></span>'.$options[$_REQUEST['birthday']].'<BR />';
 			}
-			$extra['search'] .= '<TR><TD style="text-align:right;"><label for="birthday">'._('Birth Day').'</label></TD><TD><SELECT name="birthday" id="birthday"><OPTION value="">'._('N/A');
+			$extra['search'] .= '<TR><TD style="text-align:right;"><label for="birthday">'._('Birth Day').'</label></TD><TD><SELECT name="birthday" id="birthday"><OPTION value="">'._('N/A').'</OPTION>';
 			foreach($options as $key=>$val)
-				 $extra['search'] .= '<OPTION value="'.$key.'">'.$val;
+				 $extra['search'] .= '<OPTION value="'.$key.'">'.$val.'</OPTION>';
 			$extra['search'] .= '</SELECT></TD></TR>';
 		break;
 	}
