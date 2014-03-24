@@ -38,10 +38,7 @@
 */
 $sysyear = UserSyear();
 
-$fields['STUDENTS'] = array('FIRST_NAME'=>_('First Name'),'LAST_NAME'=>_('Last Name'),'MIDDLE_NAME'=>_('Middle Name'),
-							'CURRENT_SCHOOL'=>_('Current School'),'PREVIOUS_SCHOOL'=>_('Previous School'),'NEXT_SCHOOL'=>_('Next School'),
-							'BIRTH_DATE'=>_('Birthdate'),'BIRTH_PLACE'=>_('Birth Place')
-						 );
+$fields['STUDENTS'] = array('FIRST_NAME'=>_('First Name'),'LAST_NAME'=>_('Last Name'),'MIDDLE_NAME'=>_('Middle Name'));
 
 /*
 $fields[AS_ISAT] = array('READ_SCALE_SCORE'=>'Scaled Reading Score','MATH_SCALE_SCORE'=>'Scaled Math Score');
