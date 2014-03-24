@@ -207,21 +207,30 @@ echo _makeInput('values[PEOPLE][8][extra][Cell]',_('Cell Phone'),'','size=30');
 echo '</TD></TR></TABLE>';
 echo '</TD></TR></TABLE>';
 echo '<HR>';
+$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS WHERE ID IN (200000001, 200000003, 200000004')"),array(),array('ID'));
 $student = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
 echo '<B>'.sprintf(Localize('colon',_('Information about %s %s')),$student[1]['FIRST_NAME'],$student[1]['LAST_NAME']).'</B>';
 echo '<TABLE>';
 echo '<TR>';
 echo '<TD>';
-echo DateInput($student['CUSTOM_200000004'],'birth_date',_('Birthdate'));
+if ($custom_fields_RET['200000004'])
+	echo DateInput($student['CUSTOM_200000004'],'birth_date',$custom_fields_RET['200000004'][1]['TITLE']);
 echo '</TD>';
 echo '<TD>';
-echo _makeInput('values[STUDENTS][CUSTOM_200000003]',_('SSN'));
+if ($custom_fields_RET['200000003'])
+	echo _makeInput('values[STUDENTS][CUSTOM_200000003]',$custom_fields_RET['200000003'][1]['TITLE']);
 echo '</TD>';
 echo '</TR>';
 echo '<TR>';
 echo '<TD>';
-$ethnic_options = array('White, Non-Hispanic'=>_('White, Non-Hispanic'),'Black, Non-Hispanic'=>_('Black, Non-Hispanic'),'Amer. Indian or Alaskan Native'=>_('Amer. Indian or Alaskan Native'),'Asian or Pacific Islander'=>_('Asian or Pacific Islander'),'Hispanic'=>_('Hispanic'),'Other'=>_('Other'));
-echo SelectInput($student['CUSTOM_200000001'],'values[STUDENTS][CUSTOM_200000001]',_('Ethnicity'),$ethnic_options);
+if ($custom_fields_RET['200000001'])
+{
+	$ethnic_options = array();
+	$ethnic_options_array = explode('<br />', nl2br($custom_fields_RET['200000001'][1]['SELECT_OPTIONS']);
+	foreach ($ethnic_options_array as $ethnic_option)
+		$ethnic_options[$ethnic_option] = $ethnic_option;
+	echo SelectInput($student['CUSTOM_200000001'],'values[STUDENTS][CUSTOM_200000001]',$custom_fields_RET['200000001'][1]['TITLE'],$ethnic_options);
+}
 echo '</TD>';
 echo '<TD>';
 // Note: only the most common languages are translated ... we do not want to burden our translators on the rest!

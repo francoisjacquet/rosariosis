@@ -6,9 +6,11 @@ if(empty($_REQUEST['modfunc']))
 {
 	if($_REQUEST['search_modfunc']=='list')
 	{
+		$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000001)"));
 		$address_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM ADDRESS_FIELDS"));
 		$people_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM PEOPLE_FIELDS"));
-		$extra['SELECT'] = ",s.CUSTOM_200000000,s.CUSTOM_200000001";
+		foreach($custom_fields_RET as $field)
+			$extra['SELECT'] .= ",s.CUSTOM_".$field['ID'];
 		$extra['SELECT'] .= ",a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,a.PHONE";
 		foreach($address_fields_RET as $field)
 			$extra['SELECT'] .= ",a.CUSTOM_".$field['ID']." AS ADDRESS_".$field['ID'];
@@ -45,7 +47,8 @@ if(empty($_REQUEST['modfunc']))
 		}
 		$students_RET = GetStuList($extra);
 		$LO_columns += array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>_('RosarioSIS ID'),'GRADE_ID'=>_('Grade Level'));
-		$LO_columns += array('CUSTOM_200000000'=>_('Gender'),'CUSTOM_200000001'=>_('Ethnicity'));
+		foreach($custom_fields_RET as $field)
+			$LO_columns += array('CUSTOM_'.$field['ID']=>ParseMLField($field['TITLE']));
 		
 //modif Francois: disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))

@@ -36,16 +36,22 @@ function GetStuList(&$extra=array())
 		if(!count($view_fields_RET) && !isset($view_address_RET) && !isset($view_other_RET['CONTACT_INFO']))
 		{
 //modif Francois: add translation 
-			$extra['columns_after'] = array('CONTACT_INFO'=>'<IMG SRC="assets/down_phone_button.png" height="24">','CUSTOM_200000000'=>_('Gender'),'CUSTOM_200000001'=>_('Ethnicity'),'ADDRESS'=>_('Mailing Address'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode')) + $extra['columns_after'];
-			$select = ',ssm.STUDENT_ID AS CONTACT_INFO,s.CUSTOM_200000000,s.CUSTOM_200000001,coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE ';
+			$extra['columns_after'] = array('ADDRESS'=>_('Mailing Address'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode')) + $extra['columns_after'];
+			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000001)"));
+			$select = '';
+			foreach($custom_fields_RET as $field)
+			{
+				$extra['columns_after'] = array('CUSTOM_'.$field['ID']=>ParseMLField($field['TITLE'])) + $extra['columns_after'];
+				// if gender and ethnicity are converted to codeds or exports type
+				if ($field['TYPE']=='codeds' || $field['TYPE']=='exports')
+					$functions['CUSTOM_'.$field['ID']] = 'DeCodeds';
+				$select .= ',s.CUSTOM_'.$field['ID'];
+			}
+			$extra['columns_after'] = array('CONTACT_INFO'=>'<IMG SRC="assets/down_phone_button.png" height="24">') + $extra['columns_after'];
+			
+			$select .= ',ssm.STUDENT_ID AS CONTACT_INFO,coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE ';
 			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam.RESIDENCE='Y') LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) ".$extra['FROM'];
 			$functions['CONTACT_INFO'] = 'makeContactInfo';
-			$RET = DBGet(DBQuery("SELECT ID,TYPE FROM CUSTOM_FIELDS WHERE ID IN ('200000000','200000001')"),array(),array('ID'));
-			// if gender and ethnicity are converted to codeds or exports type
-			if($RET['200000000'][1]['TYPE']=='codeds' || $RET['200000000'][1]['TYPE']=='exports')
-				$functions['CUSTOM_200000000'] = 'DeCodeds';
-			if($RET['200000001'][1]['TYPE']=='codeds' || $RET['200000001'][1]['TYPE']=='exports')
-				$functions['CUSTOM_200000001'] = 'DeCodeds';
 			$extra['singular'] = 'Student Address';
 			$extra['plural'] = 'Student Addresses';
 
