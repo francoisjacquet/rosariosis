@@ -1,5 +1,18 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.2.4
+----------------
+- Remove config.dist.php rule in .htaccess
+- Responsive COURSE table
+- Remove dataline label limit to 20 chars in *Breakdown.php
+- Do not go back to top onclick tipmessage and newSchoolPeriod
+- Escape apostrophe in Inputs values
+- Responsive Eligibility Student screen
+- Ethnicity, Gender, Social Security & Birthdate fields and type tests
+- Remove STUDENTS table fields in Reports/Students.php
+- Update spanish & french translations
+- Insert GP_SCALE when Percent grade added 1st time
+
 Changes in 2.2.3
 ----------------
 - SQL bugfix Balance Widget
