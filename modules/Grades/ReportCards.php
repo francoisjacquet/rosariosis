@@ -19,8 +19,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					WHERE ac.ID=ap.ATTENDANCE_CODE AND ac.STATE_CODE='A' AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID AND sg1.MARKING_PERIOD_ID=cast(ap.MARKING_PERIOD_ID as text) AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";
         if($_REQUEST['elements']['comments']=='Y')
 		{
-			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS WHERE ID=200000000"),array(),array('ID'));
-			if ($custom_fields_RET['200000000'])
+			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000"),array(),array('ID'));
+			if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 				$extra['SELECT'] .= ',s.CUSTOM_200000000 AS GENDER';
 				
 		}

@@ -24,8 +24,8 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
 	
-	$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS WHERE ID=200000000"),array(),array('ID'));
-	if ($custom_fields_RET['200000000'])
+	$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000"),array(),array('ID'));
+	if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 		$sql_gender = ',s.CUSTOM_200000000 as GENDER';
 	else
 		$sql_gender = ',"None" as GENDER';
