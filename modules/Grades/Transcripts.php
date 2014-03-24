@@ -46,11 +46,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			, s.last_name
 			, s.middle_name";
 			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000003, 200000004)"),array(),array('ID'));
-			if ($custom_fields_RET['200000000'])
+			if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 				$students_dataquery .= ", s.custom_200000000 as gender";
-			if ($custom_fields_RET['200000000'])
+			if ($custom_fields_RET['200000003'])
 				$students_dataquery .= ", s.custom_200000003 as ssecurity";
-			if ($custom_fields_RET['200000000'])
+			if ($custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
 				$students_dataquery .= ", s.custom_200000004 as birthdate";
 			//, s.custom_200000012 as estgraddate
 			$students_dataquery .= ", a.address
@@ -107,16 +107,22 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '<span>'.$student_data['CITY'].(!empty($student_data['STATE'])?', '.$student_data['STATE']:'').(!empty($student_data['ZIPCODE'])?'  '.$student_data['ZIPCODE']:'').'</span>';
 				
 				echo '<table class="cellspacing-0 cellpadding-5 center" style="width:300px; margin-top:10px;"><tr>';
-				echo '<td style="border:solid black; border-width:1px 0 1px 1px; font-size:x-small;">'._('Birthdate').'</td>';
-				echo '<td style="border:solid black; border-width:1px 0 1px 1px; font-size:x-small;">'._('Gender').'</td>';
+				if ($custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
+					echo '<td style="border:solid black; border-width:1px 0 1px 1px; font-size:x-small;">'.ParseMLField($custom_fields_RET['200000004'][1]['TITLE']).'</td>';
+				if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
+					echo '<td style="border:solid black; border-width:1px 0 1px 1px; font-size:x-small;">'.ParseMLField($custom_fields_RET['200000000'][1]['TITLE']).'</td>';
 				echo '<td style="border:solid black; border-width:1px; font-size:x-small;">'._('Grade Level').'</td>';
 				echo '</tr><tr>';
-				$dob = explode('-', $student_data['BIRTHDATE']);
-				if (!empty($dob))
-					echo '<td style="font-size:small;">'.$dob[1].'/'.$dob[2].'/'.$dob[0].'</td>';
-				else
-					echo '<td>&nbsp;</td>';
-				echo '<td style="font-size:small;">'._($student_data['GENDER']).'</td>';
+				if ($custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
+				{
+					$dob = explode('-', $student_data['BIRTHDATE']);
+					if (!empty($dob))
+						echo '<td style="font-size:small;">'.$dob[1].'/'.$dob[2].'/'.$dob[0].'</td>';
+					else
+						echo '<td>&nbsp;</td>';
+				}
+				if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
+					echo '<td style="font-size:small;">'.$student_data['GENDER'].'</td>';
 				echo '<td style="font-size:small;">'.$student_data['GRADE_LEVEL'].'</td>';
 				echo '</tr></table>';
 				
