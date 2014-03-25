@@ -158,7 +158,7 @@ if(empty($_REQUEST['modfunc']))
 		$LO_columns = array('TITLE'=>_('Comment'),'SORT_ORDER'=>_('Sort Order'));
 
 		$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
-		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=-1';
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=-1';
 		$link['remove']['variables'] = array('id'=>'ID');
 		$link['add']['html']['remove'] = button('add');
 
@@ -190,7 +190,7 @@ if(empty($_REQUEST['modfunc']))
 		}
         
         $link['add']['html'] = array('TITLE'=>makeCommentsInput('','TITLE'),'SCALE_ID'=>makeCommentsInput('','SCALE_ID'),'SORT_ORDER'=>makeCommentsInput('','SORT_ORDER'));
-		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'];
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'];
 		$link['remove']['variables'] = array('id'=>'ID');
 		$link['add']['html']['remove'] = button('add');
 
