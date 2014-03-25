@@ -201,6 +201,7 @@ if(empty($_REQUEST['modfunc']))
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader($subject_select.' : '.$course_select,SubmitButton(_('Save')));
+	echo '<br />';
 //modif Francois: fix SQL bug invalid sort order
 	if(isset($error)) echo $error;
 
