@@ -32,7 +32,7 @@ $current_completed = count(DBGet(DBQuery("SELECT '' FROM GRADES_COMPLETED WHERE 
 $grades_RET = DBGet(DBQuery("SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP, rcg.UNWEIGHTED_GP ,gs.GP_SCALE  FROM REPORT_CARD_GRADES rcg, REPORT_CARD_GRADE_SCALES gs WHERE rcg.grade_scale_id = gs.id AND rcg.SYEAR='".UserSyear()."' AND rcg.SCHOOL_ID='".UserSchool()."' AND rcg.GRADE_SCALE_ID='$grade_scale_id' ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER"),array(),array('ID'));
 
 $categories_RET = DBGet(DBQuery("SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER FROM REPORT_CARD_COMMENT_CATEGORIES rc WHERE rc.COURSE_ID='".$course_id."' AND (SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID)>0
-			UNION SELECT 0,'All Courses',NULL,2,NULL WHERE (SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID='0' AND SYEAR='".UserSyear()."')>0
+			UNION SELECT 0,'"._('All Courses')."',NULL,2,NULL WHERE (SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID='0' AND SYEAR='".UserSyear()."')>0
 			UNION SELECT -1,'"._('General')."',NULL,3,NULL WHERE (SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID IS NULL AND SYEAR='".UserSyear()."')>0
 			ORDER BY 4,SORT_ORDER"),array(),array('ID'));
 if($_REQUEST['tab_id']=='' || !$categories_RET[$_REQUEST['tab_id']])
