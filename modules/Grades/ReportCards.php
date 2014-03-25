@@ -97,7 +97,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$addresses_RET = GetStuList($extra);
 	}
 
-    $comment_codes_RET = DBGet(DBQuery("SELECT TITLE,COMMENT FROM REPORT_CARD_COMMENT_CODES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY (SELECT SORT_ORDER FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE ID=SCALE_ID),SORT_ORDER,ID"));
+    $comment_codes_RET = DBGet(DBQuery("SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID"));
 
 	if(count($RET))
 	{
@@ -295,21 +295,34 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					echo '<BR /><TABLE class="width-100p"><TR><TD colspan="2"><b>'._('Explanation of Comment Codes').'</b></TD>';
 					$i = 0;
+					$scale_title = '';
 					if($comments_arr_key)
                         foreach($comment_codes_RET as $comment)
                         {
-                            if($i++%3==0)
+                            if($i++%3==0 || $scale_title != $comment['SCALE_TITLE'])
+							{
                                 echo '</TR><TR class="valign-top">';
+								if ($scale_title != $comment['SCALE_TITLE'])
+								{
+									echo '<TD colspan="2">&nbsp;</TD></TR><TR class="valign-top"><TD colspan="2">'._('Comment Scale').': '.$comment['SCALE_TITLE'].', '.$comment['SCALE_COMMENT'].'</TD></TR><TR class="valign-top">';
+									$i = 1;
+								}
+							}
                             echo '<TD>('.$comment['TITLE'].'): '.$comment['COMMENT'].'</TD>';
+							$scale_title = $comment['SCALE_TITLE'];
                         }
+					$i = 0;
+					echo '</TR><TR><TD colspan="2">&nbsp;</TD>';
 					foreach($comments_arr as $comment=>$so)
 					{
 						if($i++%3==0)
 							echo '</TR><TR class="valign-top">';
 						if($commentsA_RET[$comment])
 							echo '<TD style="width:33%;">'.$commentsA_RET[$comment][1]['SORT_ORDER'].': '.str_replace(array_keys($personalizations),$personalizations,$commentsA_RET[$comment][1]['TITLE']).'</TD>';
-						else
+						elseif($commentsB_RET[$comment])
 							echo '<TD style="width:33%;">'.$commentsB_RET[$comment][1]['SORT_ORDER'].': '.str_replace(array_keys($personalizations),$personalizations,$commentsB_RET[$comment][1]['TITLE']).'</TD>';
+						else
+							$i--;
 					}
 					echo '</TR></TABLE>';
 				}
