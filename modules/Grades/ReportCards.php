@@ -304,7 +304,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
                                 echo '</TR><TR class="valign-top">';
 								if ($scale_title != $comment['SCALE_TITLE'])
 								{
-									echo '<TD colspan="2">&nbsp;</TD></TR><TR class="valign-top"><TD colspan="2">'._('Comment Scale').': '.$comment['SCALE_TITLE'].', '.$comment['SCALE_COMMENT'].'</TD></TR><TR class="valign-top">';
+									echo '<TD colspan="2">&nbsp;</TD></TR><TR class="valign-top"><TD colspan="2">'._('Comment Scale').': '.$comment['SCALE_TITLE'].(!empty($comment['SCALE_COMMENT']) ? ', '.$comment['SCALE_COMMENT'] : '').'</TD></TR><TR class="valign-top">';
 									$i = 1;
 								}
 							}
