@@ -400,46 +400,50 @@ if($_REQUEST['values'] && $_POST['values'])
 				$old[$comment['REPORT_CARD_COMMENT_ID']] = $i;
 		// create change list
 		$change = array();
-		foreach($columns['commentsB'] as $i=>$comment)
-			$change[$i] = array('REPORT_CARD_COMMENT_ID'=>0);
+		if (is_array($columns['commentsB']))
+			foreach($columns['commentsB'] as $i=>$comment)
+				$change[$i] = array('REPORT_CARD_COMMENT_ID'=>0);
 		// prune changes already in current set and reserve if in change list
-		foreach($columns['commentsB'] as $i=>$comment)
-			if($comment)
-				if($old[$comment])
-				{
-					if($change[$old[$comment]])
-						$change[$old[$comment]]['REPORT_CARD_COMMENT_ID'] = $comment;
-					$columns['commentsB'][$i] = false;
-				}
-		// assign changes at their index if possible
-		$new = array();
-		foreach($columns['commentsB'] as $i=>$comment)
-			if($comment)
-				if(!$new[$comment])
-				{
-					if(!$change[$i]['REPORT_CARD_COMMENT_ID'])
+		if (is_array($columns['commentsB']))
+			foreach($columns['commentsB'] as $i=>$comment)
+				if($comment)
+					if($old[$comment])
 					{
-						$change[$i]['REPORT_CARD_COMMENT_ID'] = $comment;
-						$new[$comment] = $i;
+						if($change[$old[$comment]])
+							$change[$old[$comment]]['REPORT_CARD_COMMENT_ID'] = $comment;
 						$columns['commentsB'][$i] = false;
 					}
-				}
-				else
-					$columns['commentsB'][$i] = false;
+		// assign changes at their index if possible
+		$new = array();
+		if (is_array($columns['commentsB']))
+			foreach($columns['commentsB'] as $i=>$comment)
+				if($comment)
+					if(!$new[$comment])
+					{
+						if(!$change[$i]['REPORT_CARD_COMMENT_ID'])
+						{
+							$change[$i]['REPORT_CARD_COMMENT_ID'] = $comment;
+							$new[$comment] = $i;
+							$columns['commentsB'][$i] = false;
+						}
+					}
+					else
+						$columns['commentsB'][$i] = false;
 		// assign remaining changes to first available
 		reset($change);
-		foreach($columns['commentsB'] as $i=>$comment)
-			if($comment)
-			{
-				if(!$new[$comment])
+		if (is_array($columns['commentsB']))
+			foreach($columns['commentsB'] as $i=>$comment)
+				if($comment)
 				{
-					while($change[key($change)]['REPORT_CARD_COMMENT_ID'])
-						next($change);
-					$change[key($change)]['REPORT_CARD_COMMENT_ID'] = $comment;
-					$new[$comment] = key($change);
+					if(!$new[$comment])
+					{
+						while($change[key($change)]['REPORT_CARD_COMMENT_ID'])
+							next($change);
+						$change[key($change)]['REPORT_CARD_COMMENT_ID'] = $comment;
+						$new[$comment] = key($change);
+					}
+					$columns['commentsB'][$i] = false;
 				}
-				$columns['commentsB'][$i] = false;
-			}
 
 		// update the db
 		foreach($change as $i=>$comment)
