@@ -692,7 +692,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				else
 				{
 					$val = '';
-					$img = 'x';
+					$img = 'x_button';
 				}
 
 				$header_temp = '<TD>'.CheckboxInput($val,'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_ATTENDANCE]['.$value['ID'].']',$value['TITLE'],$checked,false,'','',false).'</TD>';
