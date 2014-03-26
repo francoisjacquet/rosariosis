@@ -107,7 +107,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		if($_REQUEST['elements']['period_absences']=='Y')
 			//$columns += array('ABSENCES'=>_('Abs<BR />YTD / MP'));
 			$columns += array('ABSENCES'=>_('Absences'));
-		if(count($_REQUEST['mp_arr'])>3)
+		if(count($_REQUEST['mp_arr'])>2)
 			$mp_TITLE = 'SHORT_NAME';
 		else
 			$mp_TITLE = 'TITLE';
@@ -117,10 +117,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			foreach($all_commentsA_RET as $comment)
 				$columns['C'.$comment[1]['ID']] = $comment[1]['TITLE'];
-			if (count($_REQUEST['mp_arr']) > 1)
-				$columns['COMMENT'] = _('Comments');
-			else
-				$columns['COMMENT'] = _('Comment');
+			$columns['COMMENT'] = _('Comments');
 		}
 
 		$handle = PDFStart();
@@ -148,6 +145,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						if($_REQUEST['elements']['comments']=='Y')
 						{
 							$sep = '; ';
+							$sep_mp = ' | ';
+							$grades_RET[$i]['COMMENT'] .= (empty($grades_RET[$i]['COMMENT'])?'':$sep_mp);
 							$temp_grades_COMMENTS = $grades_RET[$i]['COMMENT'];
 							//modif Francois: fix error Invalid argument supplied for foreach()
 //modif Francois: get the comments of all MPs
@@ -158,31 +157,32 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 								foreach($comments_RET[$student_id][$course_period_id][$mp] as $comment)
 								{
 									if($all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']])
-										$grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']] = $comment['COMMENT']!=' '?$comment['COMMENT']:'&middot;';
+										$grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT']!=' ' ? (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).$comment['COMMENT'] : (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).'&middot;';
 									else
 									{
+										$sep_tmp = empty($grades_RET[$i]['COMMENT']) || mb_substr($grades_RET[$i]['COMMENT'],-3)==$sep_mp ? '' : $sep;
 										if($commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']])
 										{
-											$grades_RET[$i]['COMMENT'] .= $sep.$commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
+											$grades_RET[$i]['COMMENT'] .= $sep_tmp.$commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
 											$grades_RET[$i]['COMMENT'] .= '('.($comment['COMMENT']!=' '?$comment['COMMENT']:'&middot;').')';
 											$comments_arr_key = true;
 										}
 										else
-											$grades_RET[$i]['COMMENT'] .= $sep.$commentsB_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
-										$comments_arr[$comment['REPORT_CARD_COMMENT_ID']] = $comment['SORT_ORDER'];
+											$grades_RET[$i]['COMMENT'] .= $sep_tmp.$commentsB_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
+										$comments_arr[$grades_RET[$i]['COURSE_TITLE']][$comment['REPORT_CARD_COMMENT_ID']] = $comment['SORT_ORDER'];
 									}
 								}
 							}
 							if($mps[$mp][1]['COMMENT_TITLE'])
-								$grades_RET[$i]['COMMENT'] .= $sep.$mps[$mp][1]['COMMENT_TITLE'];
+								$grades_RET[$i]['COMMENT'] .= (empty($grades_RET[$i]['COMMENT']) || mb_substr($grades_RET[$i]['COMMENT'],-3)==$sep_mp ? '' : $sep).$mps[$mp][1]['COMMENT_TITLE'];
 							if ($grades_RET[$i]['COMMENT'] == $temp_grades_COMMENTS)
-								$grades_RET[$i]['COMMENT'] .= $sep._('None');
+								$grades_RET[$i]['COMMENT'] .= (empty($grades_RET[$i]['COMMENT']) || mb_substr($grades_RET[$i]['COMMENT'],-3)==$sep_mp ? '' : $sep)._('None');
 						}
 						
 						$last_mp = $mp;
 					}
 				}
-				$grades_RET[$i]['COMMENT'] = substr($grades_RET[$i]['COMMENT'],2);
+
 				if($_REQUEST['elements']['period_absences']=='Y')
 					if($mps[$last_mp][1]['DOES_ATTENDANCE'])
 						$grades_RET[$i]['ABSENCES'] = $mps[$last_mp][1]['YTD_ABSENCES'].' / '.$mps[$last_mp][1]['MP_ABSENCES'];
@@ -304,26 +304,49 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
                                 echo '</TR><TR class="valign-top">';
 								if ($scale_title != $comment['SCALE_TITLE'])
 								{
-									echo '<TD colspan="2">&nbsp;</TD></TR><TR class="valign-top"><TD colspan="2">'._('Comment Scale').': '.$comment['SCALE_TITLE'].(!empty($comment['SCALE_COMMENT']) ? ', '.$comment['SCALE_COMMENT'] : '').'</TD></TR><TR class="valign-top">';
-									$i = 1;
+									echo ($i == 1 ? '' : '<TD colspan="2">&nbsp;</TD></TR><TR class="valign-top">').'<TD colspan="2">'._('Comment Scale').': '.$comment['SCALE_TITLE'].(!empty($comment['SCALE_COMMENT']) ? ', '.$comment['SCALE_COMMENT'] : '').'</TD></TR><TR class="valign-top">';
+									$i = 4;
 								}
 							}
                             echo '<TD>('.$comment['TITLE'].'): '.$comment['COMMENT'].'</TD>';
 							$scale_title = $comment['SCALE_TITLE'];
                         }
-					$i = 0;
-					echo '</TR><TR><TD colspan="2">&nbsp;</TD>';
-					foreach($comments_arr as $comment=>$so)
-					{
-						if($i++%3==0)
-							echo '</TR><TR class="valign-top">';
-						if($commentsA_RET[$comment])
-							echo '<TD style="width:33%;">'.$commentsA_RET[$comment][1]['SORT_ORDER'].': '.str_replace(array_keys($personalizations),$personalizations,$commentsA_RET[$comment][1]['TITLE']).'</TD>';
-						elseif($commentsB_RET[$comment])
-							echo '<TD style="width:33%;">'.$commentsB_RET[$comment][1]['SORT_ORDER'].': '.str_replace(array_keys($personalizations),$personalizations,$commentsB_RET[$comment][1]['TITLE']).'</TD>';
-						else
-							$i--;
-					}
+					$course_title = '';
+					$i = $j = 0;
+					$commentsB_displayed = array();
+					$commentsB_txt = '</TR><TR><TD colspan="2">&nbsp;</TD></TR><TR class="valign-top"><TD colspan="2">'._('General Comments').'</TD>';
+					foreach($comments_arr as $comment_course_title=>$comments)
+						foreach ($comments as $comment=>$sort_order)
+						{
+							if($commentsA_RET[$comment])
+							{
+								if($i++%3==0 || $course_title != $comment_course_title)
+								{
+									$commentsA_txt .= '</TR><TR class="valign-top">';
+									if ($course_title != $comment_course_title)
+									{
+										$commentsA_txt .= '<TD colspan="2">&nbsp;</TD></TR><TR class="valign-top"><TD colspan="2">'._('Comments').': '.$comment_course_title.'</TD></TR><TR class="valign-top">';
+										$i = 1;
+									}
+								}
+								$commentsA_txt .= '<TD style="width:33%;">'.$commentsA_RET[$comment][1]['SORT_ORDER'].': '.str_replace(array_keys($personalizations),$personalizations,$commentsA_RET[$comment][1]['TITLE']).'</TD>';
+								$commentsA_display = true;
+								$course_title = $comment_course_title;
+							}
+							if($commentsB_RET[$comment] && !in_array($commentsB_RET[$comment][1]['SORT_ORDER'], $commentsB_displayed))
+							{
+								if($j++%3==0)
+									$commentsB_txt .= '</TR><TR class="valign-top">';
+									
+								$commentsB_txt .= '<TD style="width:33%;">'.$commentsB_RET[$comment][1]['SORT_ORDER'].': '.str_replace(array_keys($personalizations),$personalizations,$commentsB_RET[$comment][1]['TITLE']).'</TD>';
+								$commentsB_display = true;
+								$commentsB_displayed[] = $commentsB_RET[$comment][1]['SORT_ORDER'];
+							}
+						}
+					if ($commentsA_display)
+						echo $commentsA_txt;
+					if ($commentsB_display)
+						echo $commentsB_txt;
 					echo '</TR></TABLE>';
 				}
 				echo '<div style="page-break-after: always;"></div>';
