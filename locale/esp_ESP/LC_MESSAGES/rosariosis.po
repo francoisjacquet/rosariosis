@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-23 22:02-0500\n"
-"PO-Revision-Date: 2014-03-23 22:04-0500\n"
+"POT-Creation-Date: 2014-03-26 16:23-0500\n"
+"PO-Revision-Date: 2014-03-26 16:23-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -491,7 +491,7 @@ msgstr "Administrador"
 #: modules/Grades/FinalGrades.php:104 modules/Grades/FinalGrades.php:217
 #: modules/Grades/GradeBreakdown.php:129 modules/Grades/HonorRoll.php:87
 #: modules/Grades/HonorRollSubject.php:48 modules/Grades/ReportCards.php:106
-#: modules/Grades/ReportCards.php:348 modules/Grades/StudentGrades.php:28
+#: modules/Grades/ReportCards.php:384 modules/Grades/StudentGrades.php:28
 #: modules/Grades/TeacherCompletion.php:77
 #: modules/Grades/TeacherCompletion.php:98 modules/misc/Export.php:70
 #: modules/misc/Export.php:73 modules/misc/Export.php:259
@@ -628,12 +628,12 @@ msgid "Status"
 msgstr "Estado"
 
 #: functions/GetStuList.fnc.php:253 modules/Grades/AnomalousGrades.php:100
-#: modules/Grades/Grades.php:198 modules/Grades/InputFinalGrades.php:597
+#: modules/Grades/Grades.php:198 modules/Grades/InputFinalGrades.php:612
 msgid "School Status"
 msgstr "Estado de la Institución"
 
 #: functions/GetStuList.fnc.php:254 modules/Grades/AnomalousGrades.php:100
-#: modules/Grades/Grades.php:198 modules/Grades/InputFinalGrades.php:597
+#: modules/Grades/Grades.php:198 modules/Grades/InputFinalGrades.php:612
 msgid "Course Status"
 msgstr "Estado del Curso"
 
@@ -658,7 +658,7 @@ msgstr "Información de Contacto"
 #: modules/Eligibility/EnterEligibility.php:134
 #: modules/Food_Service/TakeMenuCounts.php:178
 #: modules/Grades/AnomalousGrades.php:88 modules/Grades/Grades.php:196
-#: modules/Grades/InputFinalGrades.php:595 modules/misc/Export.php:62
+#: modules/Grades/InputFinalGrades.php:610 modules/misc/Export.php:62
 #: modules/misc/Export.php:64 modules/misc/Export.php:213
 #: modules/Scheduling/AddDrop.php:27
 #: modules/Scheduling/IncompleteSchedules.php:77
@@ -748,9 +748,9 @@ msgstr "Ver en línea"
 #: modules/Grades/Grades.php:384 modules/Grades/Grades.php:406
 #: modules/Grades/Grades.php:408 modules/Grades/Grades.php:452
 #: modules/Grades/Grades.php:462 modules/Grades/Grades.php:464
-#: modules/Grades/Grades.php:504 modules/Grades/InputFinalGrades.php:728
-#: modules/Grades/InputFinalGrades.php:750
-#: modules/Grades/InputFinalGrades.php:752
+#: modules/Grades/Grades.php:504 modules/Grades/InputFinalGrades.php:743
+#: modules/Grades/InputFinalGrades.php:765
+#: modules/Grades/InputFinalGrades.php:767
 #: modules/Grades/ProgressReports.php:206
 #: modules/Grades/ProgressReports.php:219
 #: modules/Grades/ReportCardComments.php:171
@@ -1611,8 +1611,9 @@ msgid "Full Day"
 msgstr "Día Completo"
 
 #: modules/Attendance/Administration_fast.old.php:79
-#: modules/Grades/FinalGrades.php:220 modules/Grades/ReportCards.php:121
-#: modules/Grades/ReportCards.php:351 modules/Grades/Transcripts.php:330
+#: modules/Grades/FinalGrades.php:220 modules/Grades/ReportCards.php:120
+#: modules/Grades/ReportCards.php:328 modules/Grades/ReportCards.php:387
+#: modules/Grades/Transcripts.php:330
 #: modules/School_Setup/MarkingPeriods.php:261
 #: modules/Students/includes/Comments.inc.php:27
 #: modules/Students/includes/Medical.inc.php:27
@@ -1650,7 +1651,7 @@ msgstr "Entre un Orden valido por favor."
 #: modules/Food_Service/MenuItems.php:135 modules/Food_Service/Menus.php:75
 #: modules/Grades/AnomalousGrades.php:98 modules/Grades/Grades.php:161
 #: modules/Grades/ReportCardComments.php:188
-#: modules/Grades/ReportCardComments.php:211
+#: modules/Grades/ReportCardComments.php:212
 #: modules/Grades/StudentGrades.php:209 modules/Students/AddressFields.php:299
 #: modules/Students/PeopleFields.php:298
 #: modules/Students/StudentFields.php:302 modules/Users/UserFields.php:314
@@ -1802,12 +1803,12 @@ msgstr "Código del Estado"
 #: modules/Grades/EditHistoryMarkingPeriods.php:104
 #: modules/Grades/EditReportCardGrades.php:156
 #: modules/Grades/EditReportCardGrades.php:260 modules/Grades/Grades.php:290
-#: modules/Grades/Grades.php:312 modules/Grades/InputFinalGrades.php:561
-#: modules/Grades/InputFinalGrades.php:627
+#: modules/Grades/Grades.php:312 modules/Grades/InputFinalGrades.php:576
+#: modules/Grades/InputFinalGrades.php:642
 #: modules/Grades/ReportCardCommentCodes.php:145
 #: modules/Grades/ReportCardCommentCodes.php:157
 #: modules/Grades/ReportCardComments.php:203
-#: modules/Grades/ReportCardComments.php:215
+#: modules/Grades/ReportCardComments.php:216
 #: modules/Grades/ReportCardGrades.php:172
 #: modules/Grades/ReportCardGrades.php:181 modules/Scheduling/Courses.php:516
 #: modules/Scheduling/Courses.php:790 modules/Scheduling/Courses.php:830
@@ -1969,8 +1970,8 @@ msgstr "sobre %d páginas."
 #: modules/Food_Service/Students/Statements.php:30
 #: modules/Food_Service/Students/Statements.php:74
 #: modules/Grades/FinalGrades.php:102 modules/Grades/Grades.php:194
-#: modules/Grades/Grades.php:310 modules/Grades/InputFinalGrades.php:595
-#: modules/Grades/InputFinalGrades.php:626 modules/misc/Export.php:205
+#: modules/Grades/Grades.php:310 modules/Grades/InputFinalGrades.php:610
+#: modules/Grades/InputFinalGrades.php:641 modules/misc/Export.php:205
 #: modules/misc/Portal.php:133 modules/misc/Portal.php:260
 #: modules/Reports/Students.php:129 modules/Scheduling/AddDrop.php:27
 #: modules/Scheduling/IncompleteSchedules.php:77
@@ -2007,7 +2008,7 @@ msgstr "No hay Duplicados Encontrados"
 #: modules/Attendance/DuplicateAttendance.php:320
 #: modules/Custom/AttendanceSummary.php:129
 #: modules/Discipline/ReferralLog.php:137 modules/Grades/FinalGrades.php:182
-#: modules/Grades/ProgressReports.php:126 modules/Grades/ReportCards.php:322
+#: modules/Grades/ProgressReports.php:126 modules/Grades/ReportCards.php:358
 #: modules/Grades/Transcripts.php:289
 #: modules/Scheduling/PrintClassPictures.php:83
 #: modules/Scheduling/PrintRequests.php:73
@@ -2272,15 +2273,15 @@ msgstr "Estado Aus"
 #: modules/Attendance/StudentSummary.php:115
 #: modules/Grades/AnomalousGrades.php:98 modules/Grades/FinalGrades.php:114
 #: modules/Grades/Grades.php:164 modules/Grades/Grades.php:171
-#: modules/Grades/Grades.php:229 modules/Grades/InputFinalGrades.php:614
+#: modules/Grades/Grades.php:229 modules/Grades/InputFinalGrades.php:629
 #: modules/Grades/ProgressReports.php:44
 #: modules/Grades/ReportCardCommentCodes.php:111
 #: modules/Grades/ReportCardCommentCodes.php:132
 #: modules/Grades/ReportCardComments.php:158
 #: modules/Grades/ReportCardComments.php:176
-#: modules/Grades/ReportCardComments.php:213
+#: modules/Grades/ReportCardComments.php:214
 #: modules/Grades/ReportCardGrades.php:136
-#: modules/Grades/ReportCardGrades.php:158 modules/Grades/ReportCards.php:123
+#: modules/Grades/ReportCardGrades.php:158
 #: modules/Grades/StudentGrades.php:216 modules/Grades/Transcripts.php:230
 #: modules/Students/includes/Comments.inc.php:16
 #: modules/Student_Billing/DailyTransactions.php:63
@@ -3837,7 +3838,7 @@ msgid "Include All Courses"
 msgstr "Incluir Todas las Clases"
 
 #: modules/Grades/AnomalousGrades.php:8 modules/Grades/Grades.php:291
-#: modules/Grades/InputFinalGrades.php:561
+#: modules/Grades/InputFinalGrades.php:576
 #: modules/Scheduling/PrintClassLists.php:77
 #: modules/Scheduling/PrintClassPictures.php:112
 #: modules/Students/Search.inc.php:53 modules/Students/Search.inc.php:138
@@ -3937,7 +3938,7 @@ msgstr "Fecha de Plazo"
 # 'user_profiles' table
 #: modules/Grades/Assignments-new.php:225 modules/Grades/Grades.php:167
 #: modules/Grades/Grades.php:232 modules/Grades/Grades.php:257
-#: modules/Grades/InputFinalGrades.php:598
+#: modules/Grades/InputFinalGrades.php:613
 #: modules/Grades/ProgressReports.php:39 modules/Grades/StudentGrades.php:32
 #: modules/Grades/StudentGrades.php:211
 msgid "Percent"
@@ -4264,17 +4265,17 @@ msgstr "Calificación Final"
 msgid "Abs<BR />YTD / MP"
 msgstr "Aus<BR />Año a la fecha / Período Académico"
 
-#: modules/Grades/FinalGrades.php:174 modules/Grades/InputFinalGrades.php:557
+#: modules/Grades/FinalGrades.php:174 modules/Grades/InputFinalGrades.php:572
 #: modules/Grades/Menu.php:19 modules/Grades/Menu.php:48
 msgid "Comment Codes"
 msgstr "Códigos de Comentarios"
 
-#: modules/Grades/FinalGrades.php:174 modules/Grades/InputFinalGrades.php:557
+#: modules/Grades/FinalGrades.php:174 modules/Grades/InputFinalGrades.php:572
 #: modules/Grades/Menu.php:18 modules/Grades/Menu.php:47
 msgid "Report Card Comments"
 msgstr "Comentarios del Boletín de Calificaciones"
 
-#: modules/Grades/FinalGrades.php:189 modules/Grades/ReportCards.php:325
+#: modules/Grades/FinalGrades.php:189 modules/Grades/ReportCards.php:361
 #: modules/Grades/Transcripts.php:292
 msgid "You must choose at least one student and one marking period."
 msgstr "Debe escoger por lo menos un período a calificar y un estudiante."
@@ -4288,28 +4289,28 @@ msgid "Include on Grade List"
 msgstr "Incluir en la Lista de Calificaciones"
 
 # 'user_profiles' table
-#: modules/Grades/FinalGrades.php:221 modules/Grades/ReportCards.php:352
+#: modules/Grades/FinalGrades.php:221 modules/Grades/ReportCards.php:388
 msgid "Percents"
 msgstr "Porcentajes"
 
-#: modules/Grades/FinalGrades.php:223 modules/Grades/ReportCards.php:354
+#: modules/Grades/FinalGrades.php:223 modules/Grades/ReportCards.php:390
 msgid "Year-to-date Daily Absences"
 msgstr "Ausencias Diarias del Año a la fecha"
 
-#: modules/Grades/FinalGrades.php:224 modules/Grades/ReportCards.php:355
+#: modules/Grades/FinalGrades.php:224 modules/Grades/ReportCards.php:391
 msgid "Daily Absences this quarter"
 msgstr "Ausencias diarias este bimestre"
 
 #: modules/Grades/FinalGrades.php:226 modules/Grades/FinalGrades.php:230
-#: modules/Grades/ReportCards.php:357
+#: modules/Grades/ReportCards.php:393
 msgid "Other Attendance Year-to-date"
 msgstr "Otra Asistencia del Año a la Fecha"
 
-#: modules/Grades/FinalGrades.php:235 modules/Grades/ReportCards.php:366
+#: modules/Grades/FinalGrades.php:235 modules/Grades/ReportCards.php:402
 msgid "Period-by-period absences"
 msgstr "Ausencias por clase"
 
-#: modules/Grades/FinalGrades.php:242 modules/Grades/ReportCards.php:373
+#: modules/Grades/FinalGrades.php:242 modules/Grades/ReportCards.php:409
 #: modules/Grades/Transcripts.php:311 modules/School_Setup/CopySchool.php:3
 #: modules/School_Setup/Menu.php:13 modules/School_Setup/Menu.php:24
 #: modules/School_Setup/Rollover.php:3
@@ -4334,7 +4335,7 @@ msgstr "Análisis de Calificación"
 
 #: modules/Grades/Grades.php:170 modules/Grades/Grades.php:171
 #: modules/Grades/Grades.php:235 modules/Grades/Grades.php:260
-#: modules/Grades/InputFinalGrades.php:598
+#: modules/Grades/InputFinalGrades.php:613
 #: modules/Grades/ProgressReports.php:42 modules/Grades/StudentGrades.php:30
 #: modules/Grades/StudentGrades.php:214
 msgid "Letter"
@@ -4452,56 +4453,62 @@ msgstr "Materia"
 msgid "You cannot enter grades for this course period."
 msgstr "Usted no puede entrar calificaciones para esta clase."
 
+#: modules/Grades/InputFinalGrades.php:35
+#: modules/Grades/ReportCardComments.php:123
+#: modules/Grades/StudentGrades.php:174
+msgid "All Courses"
+msgstr "Todos los Cursos"
+
 #: modules/Grades/InputFinalGrades.php:36
 #: modules/Grades/ReportCardComments.php:124
 msgid "General"
 msgstr "General"
 
-#: modules/Grades/InputFinalGrades.php:567
+#: modules/Grades/InputFinalGrades.php:582
 #, php-format
 msgid "Grade Posting dates: %s - %s"
 msgstr "Fechas de Publicación de Calificaciones: %s - %s"
 
-#: modules/Grades/InputFinalGrades.php:570
+#: modules/Grades/InputFinalGrades.php:585
 msgid "These grades are complete."
 msgstr "Estas calificaciones estan completas."
 
-#: modules/Grades/InputFinalGrades.php:570
+#: modules/Grades/InputFinalGrades.php:585
 msgid "These grades are NOT complete."
 msgstr "Estas calificaciones NO estan completas."
 
-#: modules/Grades/InputFinalGrades.php:570
+#: modules/Grades/InputFinalGrades.php:585
 msgid "You can edit these grades."
 msgstr "Usted puede editar estas calificaciones."
 
-#: modules/Grades/InputFinalGrades.php:570
+#: modules/Grades/InputFinalGrades.php:585
 msgid "You can not edit these grades."
 msgstr "Usted no puede editar estas calificaciones."
 
-#: modules/Grades/InputFinalGrades.php:574
+#: modules/Grades/InputFinalGrades.php:589
 msgid "Get Gradebook Grades."
 msgstr "Obtener las Calificaciones del Libro de Calificaciones."
 
-#: modules/Grades/InputFinalGrades.php:581
+#: modules/Grades/InputFinalGrades.php:596
 #, php-format
 msgid "Get %s Grades"
 msgstr "Obtener las Calificaciones de %s"
 
-#: modules/Grades/InputFinalGrades.php:582
+#: modules/Grades/InputFinalGrades.php:597
 #, php-format
 msgid "Get %s Comments"
 msgstr "Obtener los Comentarios de %s"
 
-#: modules/Grades/InputFinalGrades.php:585
+#: modules/Grades/InputFinalGrades.php:600
 msgid "Clear All"
 msgstr "Vaciar Todo"
 
-#: modules/Grades/InputFinalGrades.php:609
+#: modules/Grades/InputFinalGrades.php:624
 #, php-format
 msgid "Comment %d"
 msgstr "Comentario %d"
 
-#: modules/Grades/InputFinalGrades.php:611
+#: modules/Grades/InputFinalGrades.php:626
 msgid "Add Comment"
 msgstr "Agregar un Comentario"
 
@@ -4614,6 +4621,7 @@ msgstr "Escala de Calificaciones del Boletín de Calificaciones"
 
 #: modules/Grades/ReportCardCommentCodes.php:116
 #: modules/Grades/ReportCardCommentCodes.php:132
+#: modules/Grades/ReportCards.php:307
 msgid "Comment Scale"
 msgstr "Escala de Comentario"
 
@@ -4637,11 +4645,6 @@ msgstr "Categoría de Comentarios del Boletín de Calificaciones"
 #: modules/Grades/ReportCardGrades.php:104
 msgid "This course is not graded."
 msgstr "Esta clase no está calificada."
-
-#: modules/Grades/ReportCardComments.php:123
-#: modules/Grades/StudentGrades.php:174
-msgid "All Courses"
-msgstr "Todos los Cursos"
 
 #: modules/Grades/ReportCardComments.php:145
 msgid "Comment Category"
@@ -4721,15 +4724,19 @@ msgstr "su"
 msgid "Explanation of Comment Codes"
 msgstr "Explicación de los Códigos de Comentario"
 
-#: modules/Grades/ReportCards.php:337 modules/Grades/ReportCards.php:425
+#: modules/Grades/ReportCards.php:317
+msgid "General Comments"
+msgstr "Comentarios Generales"
+
+#: modules/Grades/ReportCards.php:373 modules/Grades/ReportCards.php:461
 msgid "Create Report Cards for Selected Students"
 msgstr "Crear Boletín de Calificaciones para los Estudiantes Seleccionados"
 
-#: modules/Grades/ReportCards.php:343
+#: modules/Grades/ReportCards.php:379
 msgid "Include on Report Card"
 msgstr "Incluir en el Boletín de Calificaciones"
 
-#: modules/Grades/ReportCards.php:361
+#: modules/Grades/ReportCards.php:397
 msgid "Other Attendance this quarter"
 msgstr "Otra Asistencia este bimestre"
 
@@ -7361,9 +7368,6 @@ msgstr "Chequeo"
 
 #~ msgid "Preferred Hospital"
 #~ msgstr "Hospital Preferido"
-
-#~ msgid "Medical Comments"
-#~ msgstr "Comentarios Médicos"
 
 #~ msgid "Current School"
 #~ msgstr "Institución Actual"
