@@ -40,7 +40,7 @@ else
 	}
 	//xmlrpc
 	if (!extension_loaded('xmlrpc'))
-		$error[] = 'PHP extensions: RosarioSIS relies on the xmlrpc extensions (only used by the Moodle integration). See the php.ini file to activate it.'.$inipath;
+		$error[] = 'PHP extensions: RosarioSIS relies on the xmlrpc extensions (only used by to connect to Moodle). See the php.ini file to activate it.'.$inipath;
 
 	include './Warehouse.php';
 	if(!@opendir("$RosarioPath/functions"))
@@ -80,7 +80,6 @@ else
 echo _ErrorMessage($error,'error');
 if(!count($error))
 	echo '<h3>Your RosarioSIS installation is properly configured.</h3>';
-phpinfo();
 
 if($unset_username)
 {
