@@ -1,5 +1,15 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.2.5
+----------------
+- Bugfix: Invalid argument supplied for foreach() in InputFinalGrades.php
+- Bugfix added remove parameters in ReportCardComments.php
+- Organize Report Cards Comments Codes in ReportCards.php
+- X button reference fix in Courses.php
+- Update french & spanish translations
+- SQL bugfix: remove search + system_field in CUSTOM_FIELDS INSERTS in rosariosis.sql
+- fr_FR.utf8 & es_ES.utf8 locales works on Windows: unify locales files & directories
+
 Changes in 2.2.4
 ----------------
 - Remove config.dist.php rule in .htaccess
