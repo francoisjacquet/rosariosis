@@ -8,6 +8,8 @@ locale/
 			rosariosis.mo
 			rosariosis.po
 		
-Note: "fr_FR.utf8" is the name of the French locale on Ubuntu distributions. On Windows platforms, the locale will be named "fra_FRA" (see http://msdn.microsoft.com/en-us/library/39cwe7zf%28v=vs.100%29.aspx). Also, do not forget to set the name of the locale in the /config.inc.php file and to rename the country flag image file in /assets/flags accordingly!
+Note: "fr_FR.utf8" is the name of the French locale. Do not forget to install the locale first (on Ubuntu):
+locale -a
+sudo apt-get install language-pack-fr
 
 Note 2: The localization system is gettext, and the *.po files can be edited with the freeware Poedit.
