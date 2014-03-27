@@ -33,7 +33,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			if($_REQUEST['mailing_labels']=='Y')
 				echo '<BR /><BR /><BR />';
-			DrawHeader(_('Student Info'), '<img src="assets/school_logo.jpg" height="100" />');
+			if (file_exists($logo_pic='assets/school_logo.jpg') || file_exists($logo_pic='assets/school_logo.sample.jpg'))
+				DrawHeader(_('Student Info'), '<img src="'.$logo_pic.'" height="100" />');
+			else
+				DrawHeader(_('Student Info'), '<div style="height:100px;">&nbsp;</div>');			
 			DrawHeader($student['FULL_NAME'],GetSchool(UserSchool()));
 			DrawHeader($student['STUDENT_ID'],GetGrade($student['GRADE_ID']));
 			DrawHeader(ProperDate(DBDate()));
