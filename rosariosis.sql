@@ -3314,25 +3314,25 @@ INSERT INTO config VALUES (1, 'STUDENTS_USE_MAILING', NULL);
 -- Data for Name: custom_fields; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
 
-INSERT INTO custom_fields VALUES (200000000, 'select', NULL, 'Gender', 0, 'Male
-Female', 1, 'Y', 'Y', NULL);
-INSERT INTO custom_fields VALUES (200000001, 'select', NULL, 'Ethnicity', 1, 'White, Non-Hispanic
+INSERT INTO custom_fields VALUES (200000000, 'select', 'Gender', 0, 'Male
+Female', 1, 'Y', NULL);
+INSERT INTO custom_fields VALUES (200000001, 'select', 'Ethnicity', 1, 'White, Non-Hispanic
 Black, Non-Hispanic
 Amer. Indian or Alaskan Native
 Asian or Pacific Islander
 Hispanic
-Other', 1, 'Y', 'Y', NULL);
-INSERT INTO custom_fields VALUES (200000002, 'text', NULL, 'Common Name', 2, NULL, 1, 'Y', NULL, NULL);
-INSERT INTO custom_fields VALUES (200000003, 'text', NULL, 'Social Security', 3, NULL, 1, 'Y', NULL, NULL);
-INSERT INTO custom_fields VALUES (200000004, 'date', NULL, 'Birthdate', 4, NULL, 1, 'Y', NULL, NULL);
-INSERT INTO custom_fields VALUES (200000005, 'select', NULL, 'Language', 5, 'English
-Spanish', 1, 'Y', NULL, NULL);
-INSERT INTO custom_fields VALUES (200000006, 'text', NULL, 'Physician', 6, NULL, 2, 'Y', NULL, NULL);
-INSERT INTO custom_fields VALUES (200000007, 'text', NULL, 'Physician Phone', 7, NULL, 2, 'Y', NULL, NULL);
-INSERT INTO custom_fields VALUES (200000008, 'text', NULL, 'Preferred Hospital', 8, NULL, 2, 'Y', NULL, NULL);
-INSERT INTO custom_fields VALUES (200000009, 'textarea', NULL, 'Comments', 9, NULL, 2, 'Y', NULL, NULL);
-INSERT INTO custom_fields VALUES (200000010, 'radio', NULL, 'Has Doctor''s Note', 10, NULL, 2, 'Y', NULL, NULL);
-INSERT INTO custom_fields VALUES (200000011, 'textarea', NULL, 'Doctor''s Note Comments', 11, NULL, 2, 'Y', NULL, NULL);
+Other', 1, 'Y', NULL);
+INSERT INTO custom_fields VALUES (200000002, 'text', 'Common Name', 2, NULL, 1, NULL, NULL);
+INSERT INTO custom_fields VALUES (200000003, 'text', 'Social Security', 3, NULL, 1, NULL, NULL);
+INSERT INTO custom_fields VALUES (200000004, 'date', 'Birthdate', 4, NULL, 1, NULL, NULL);
+INSERT INTO custom_fields VALUES (200000005, 'select', 'Language', 5, 'English
+Spanish', 1, NULL, NULL);
+INSERT INTO custom_fields VALUES (200000006, 'text', 'Physician', 6, NULL, 2, NULL, NULL);
+INSERT INTO custom_fields VALUES (200000007, 'text', 'Physician Phone', 7, NULL, 2, NULL, NULL);
+INSERT INTO custom_fields VALUES (200000008, 'text', 'Preferred Hospital', 8, NULL, 2, NULL, NULL);
+INSERT INTO custom_fields VALUES (200000009, 'textarea', 'Comments', 9, NULL, 2, NULL, NULL);
+INSERT INTO custom_fields VALUES (200000010, 'radio', 'Has Doctor''s Note', 10, NULL, 2, NULL, NULL);
+INSERT INTO custom_fields VALUES (200000011, 'textarea', 'Doctor''s Note Comments', 11, NULL, 2, NULL, NULL);
 
 
 --
