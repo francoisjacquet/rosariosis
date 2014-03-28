@@ -1,5 +1,15 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.3
+----------------
+- Bugfix display in PrintStudentInfo.php in Medical.inc.php
+- Remove phpinfo() for security reasons in diagnostic.php
+- Upload school logo in Configuration.php:
+	- remove school_logo.sample.jpg
+	- add SchoolLogo.inc.php
+	- update tests for school logo
+	- upload error strings + "School logo" update translations
+
 Changes in 2.2.5
 ----------------
 - Bugfix: Invalid argument supplied for foreach() in InputFinalGrades.php
