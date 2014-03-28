@@ -63,7 +63,7 @@ if(empty($_REQUEST['modfunc']))
 	if (!empty($error))
 		echo ErrorMessage($error, 'error');
 		
-	echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" METHOD="POST" onsubmit="if (document.getElementById(\'LOGO_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=\"assets/spinning.gif\" />\';">';
+	echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" METHOD="POST" onsubmit="if (document.getElementById(\'LOGO_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=assets/spinning.gif />\';">';
 	if(AllowEdit())
 		DrawHeader('',SubmitButton(_('Save')));
 	echo '<BR />';
