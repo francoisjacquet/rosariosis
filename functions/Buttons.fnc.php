@@ -12,7 +12,7 @@ function button($type,$text='',$link='',$height=18)
 {
 //modif Francois: css WPadmin
 	if($link)
-		$button .= '<A HREF='.$link.($type=='remove'? ' title="'._('Delete').'"' : '').'>'; //dont put "" round the link href to let Javascript code insert
+		$button .= '<A HREF='.$link.($type=='remove' && empty($text)? ' title="'._('Delete').'"' : '').'>'; //dont put "" round the link href to let Javascript code insert
 	
 //modif Francois: icones
 	$img_file = 'assets/'.$type.'_button.png';
