@@ -174,7 +174,7 @@ if($_REQUEST['modfunc']!='remove')
 	$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove";
 	$link['remove']['variables'] = array('id'=>'ID');
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST[modname].'&modfunc=update" method="POST" enctype="multipart/form-data">';
+	echo '<FORM action="Modules.php?modname='.$_REQUEST[modname].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=assets/spinning.gif />\';">';
 	DrawHeader('',SubmitButton(_('Save')));
 //modif Francois: fix SQL bug invalid sort order
 	if(isset($error)) echo $error;
