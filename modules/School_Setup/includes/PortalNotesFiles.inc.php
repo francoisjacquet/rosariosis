@@ -11,7 +11,7 @@ function PortalNotesFiles($file, &$PortalNotesFilesError)
 			
 	$size_limit = 10240000; // file size must be < 10Mb
 	if ($file['size'] > $size_limit)
-		$PortalNotesFilesError = sprintf(_('File size > %01.2fMb: %01.2fMb',(($size_limit/1024)/1024),(($file['size']/1024)/1024));
+		$PortalNotesFilesError = sprintf(_('File size > %01.2fMb: %01.2fMb'),(($size_limit/1024)/1024),(($file['size']/1024)/1024));
 
 	//if current sYear folder doesnt exist, create it!
 	if (!is_dir($PortalNotesFilesPath))
