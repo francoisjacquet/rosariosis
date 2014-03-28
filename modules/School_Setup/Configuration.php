@@ -8,6 +8,15 @@ DrawHeader(ProgramTitle());
 
 if($_REQUEST['modfunc']=='update')
 {
+	//modif Francois: upload school logo
+	if ($_FILES['LOGO_FILE'])
+	{
+		include('modules/School_Setup/includes/SchoolLogo.inc.php');
+		$error_logo = SchoolLogo($_FILES['LOGO_FILE']);
+		 if (!empty($error_logo))
+			$error[] = $error_logo;
+	}
+
 	if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{
 		if ((empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE'])) && (empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_AFTER']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_AFTER'])) && (empty($_REQUEST['values']['CONFIG']['SCHOOL_NUMBER_DAYS_ROTATION']) || is_numeric($_REQUEST['values']['CONFIG']['SCHOOL_NUMBER_DAYS_ROTATION'])) && (empty($_REQUEST['values']['CONFIG']['MOODLE_PARENT_ROLE_ID']) || is_numeric($_REQUEST['values']['CONFIG']['MOODLE_PARENT_ROLE_ID'])) && (empty($_REQUEST['values']['CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID']) || is_numeric($_REQUEST['values']['CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'])))
@@ -69,6 +78,8 @@ if(empty($_REQUEST['modfunc']))
 	echo '<BR /><FIELDSET><legend><b>'._('School').'</b></legend><TABLE>';
 //modif Francois: school year over one/two calendar years format
 	echo '<TR style="text-align:left;"><TD>'.CheckboxInput(Config('SCHOOL_SYEAR_OVER_2_YEARS'),'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]',_('School year over two calendar years'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+	//modif Francois: upload school logo
+	echo '<TR style="text-align:left;"><TD>'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<br /><img src="assets/school_logo_'.UserSchool().'.jpg?cache_killer='.rand().'" width="120" /><br />' : '').'<input type="file" id="LOGO_FILE" name="LOGO_FILE" size="14" accept="image/jpeg" /><br /><span class="legend-gray">'._('School logo').' (.jpg)</span></TD></TR>';
 	echo '</TABLE></FIELDSET>';
 	
 	echo '<BR /><FIELDSET><legend><b>'._('Students').'</b></legend><TABLE>';

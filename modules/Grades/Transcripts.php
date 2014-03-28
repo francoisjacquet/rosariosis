@@ -129,9 +129,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '</td>';
 
 				//School logo
+				$logo_pic =  'assets/school_logo_'.UserSchool().'.jpg';
 				$picwidth = 120;
 				echo '<td style="width:'.$picwidth.'px;">';
-				if (file_exists($logo_pic='assets/school_logo.jpg') || file_exists($logo_pic='assets/school_logo.sample.jpg')){
+				if (file_exists($logo_pic)){
 					echo '<img src="'.$logo_pic.'" width="'.$picwidth.'" />';
 				}
 

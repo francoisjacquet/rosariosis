@@ -205,8 +205,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if($_REQUEST['mailing_labels']=='Y')
 					echo '<BR /><BR /><BR />';
 				//modif Francois: add school logo
-				$picwidth = 110;
-				if (file_exists($logo_pic='assets/school_logo.jpg') || file_exists($logo_pic='assets/school_logo.sample.jpg'))
+				$logo_pic =  'assets/school_logo_'.UserSchool().'.jpg';
+				$picwidth = 120;
+				if (file_exists($logo_pic))
 					echo '<TABLE><TR><TD style="width:'.$picwidth.'px;"><img src="'.$logo_pic.'" width="'.$picwidth.'" /></TD><TD class="width-100p">';
 				DrawHeader(_('Report Card'));
 				DrawHeader($mps[key($mps)][1]['FULL_NAME'],$mps[key($mps)][1]['STUDENT_ID']);
