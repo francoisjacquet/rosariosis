@@ -9,6 +9,8 @@ Changes in 2.3
 	- add SchoolLogo.inc.php
 	- update tests for school logo
 	- upload error strings + "School logo" update translations
+	- add spinning.gif while uploading logo
+- Add spinning.gif while uploading file attached in PortalNotes.php
 
 Changes in 2.2.5
 ----------------
