@@ -7,10 +7,11 @@ function PortalNotesFiles($file, &$PortalNotesFilesError)
 	//extensions white list
 	$white_list = array('.doc', '.docx', '.txt', '.pdf', '.xls', '.xlsx', '.csv', '.jpg', '.jpeg', '.png', '.gif', '.zip', '.ppt', '.pptx', '.mp3', '.wav', '.avi', '.mp4', '.ogg');
 	if ( !in_array( mb_strtolower(mb_strrchr($file['name'], '.')), $white_list ) )
-		$PortalNotesFilesError = _('Unauthorized file attached extension').': '.mb_strtolower(mb_strrchr($file['name'], '.')); 
+		$PortalNotesFilesError = _('Unauthorized file extension').': '.mb_strtolower(mb_strrchr($file['name'], '.')); 
 			
-	if ($file['size'] > 10240000) // file size must be < 10Mb
-		$PortalNotesFilesError = _('File attached size').' > 10Mb: '. ($file['size']/1024)/1024 .'Mb';
+	$size_limit = 10240000; // file size must be < 10Mb
+	if ($file['size'] > $size_limit)
+		$PortalNotesFilesError = sprintf(_('File size > %01.2fMb: %01.2fMb',(($size_limit/1024)/1024),(($file['size']/1024)/1024));
 
 	//if current sYear folder doesnt exist, create it!
 	if (!is_dir($PortalNotesFilesPath))

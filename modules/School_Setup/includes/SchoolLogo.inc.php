@@ -7,10 +7,11 @@ function SchoolLogo($file)
 	//extensions white list
 	$white_list = array('.jpg', '.jpeg');
 	if ( !in_array( mb_strtolower(mb_strrchr($file['name'], '.')), $white_list ) )
-		$SchoolLogoError = _('Unauthorized file extension').': '.mb_strtolower(mb_strrchr($file['name'], '.')); 
+		$SchoolLogoError = sprintf(_('Wrong file type: %s (JPG required)'),$file['type']); 
 			
-	if ($file['size'] > 2048000) // file size must be < 2Mb
-		$SchoolLogoError = _('File size').' > 2Mb: '. ($file['size']/1024)/1024 .'Mb';
+	$size_limit = 2097152; // file size must be < 2Mb
+	if ($file['size'] > $size_limit)
+		$SchoolLogoError = sprintf(_('File size > %01.2fMb: %01.2fMb'),(($size_limit/1024)/1024),(($file['size']/1024)/1024));
 
 	if (!is_writable('assets/'))
 		$SchoolLogoError = _('Folder not writable').': assets/'; //see PHP user rights

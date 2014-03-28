@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-26 16:23-0500\n"
-"PO-Revision-Date: 2014-03-26 16:24-0500\n"
+"POT-Creation-Date: 2014-03-28 10:57-0500\n"
+"PO-Revision-Date: 2014-03-28 10:57-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -1146,14 +1146,14 @@ msgstr "Planification"
 #: modules/Attendance/AttendanceCodes.php:100
 #: modules/Attendance/TeacherCompletion.php:18
 #: modules/Custom/AttendanceSummary.php:59 modules/Scheduling/Courses.php:678
-#: modules/School_Setup/Configuration.php:90
+#: modules/School_Setup/Configuration.php:101
 msgid "Attendance"
 msgstr "Présence"
 
 #: functions/Widgets.fnc.php:48 modules/Grades/GradeBreakdown.php:45
 #: modules/Grades/Menu.php:33 modules/Grades/Transcripts.php:327
-#: modules/School_Setup/Configuration.php:81
-#: modules/School_Setup/Configuration.php:83
+#: modules/School_Setup/Configuration.php:92
+#: modules/School_Setup/Configuration.php:94
 msgid "Grades"
 msgstr "Notes"
 
@@ -1803,8 +1803,8 @@ msgstr "Code Region"
 #: modules/Scheduling/Schedule.php:215 modules/School_Setup/Calendar.php:170
 #: modules/School_Setup/Calendar.php:324 modules/School_Setup/Calendar.php:452
 #: modules/School_Setup/Calendar.php:558
-#: modules/School_Setup/Configuration.php:59
-#: modules/School_Setup/Configuration.php:112
+#: modules/School_Setup/Configuration.php:68
+#: modules/School_Setup/Configuration.php:123
 #: modules/School_Setup/GradeLevels.php:71
 #: modules/School_Setup/GradeLevels.php:75
 #: modules/School_Setup/MarkingPeriods.php:253
@@ -1909,7 +1909,7 @@ msgstr "Les enregistrements redondants on été suprimés."
 #: modules/Scheduling/MassSchedule.php:43
 #: modules/Scheduling/PrintSchedules.php:184 modules/Students/Letters.php:81
 #: modules/Students/MailingLabels.php:140
-#: modules/Students/PrintStudentInfo.php:142
+#: modules/Students/PrintStudentInfo.php:147
 #: modules/Students/StudentLabels.php:107
 #: modules/Student_Billing/MassAssignFees.php:39
 #: modules/Student_Billing/MassAssignPayments.php:33
@@ -1997,7 +1997,7 @@ msgstr "Aucun Duplicat Trouvé"
 #: modules/Scheduling/PrintRequests.php:73
 #: modules/Scheduling/PrintSchedules.php:181 modules/Students/Letters.php:78
 #: modules/Students/MailingLabels.php:137
-#: modules/Students/PrintStudentInfo.php:139
+#: modules/Students/PrintStudentInfo.php:144
 #: modules/Students/Search.inc.php:245 modules/Students/StudentLabels.php:104
 #: modules/Student_Billing/Statements.php:83
 msgid "No Students were found."
@@ -2207,7 +2207,7 @@ msgstr "Date"
 #: modules/Food_Service/ServeMenus.php:26
 #: modules/Food_Service/Statements.php:31
 #: modules/Food_Service/Transactions.php:19
-#: modules/School_Setup/Configuration.php:74
+#: modules/School_Setup/Configuration.php:85
 #: modules/School_Setup/Rollover.php:3 modules/Users/AddStudents.php:73
 msgid "Students"
 msgstr "Elèves"
@@ -2344,7 +2344,7 @@ msgstr "Nom de l'Elève"
 #: modules/misc/Portal.php:159 modules/misc/Portal.php:167
 #: modules/misc/Portal.php:226 modules/misc/Portal.php:234
 #: modules/misc/Portal.php:242 modules/misc/Portal.php:293
-#: modules/School_Setup/Configuration.php:69
+#: modules/School_Setup/Configuration.php:78
 #: modules/School_Setup/Schools.php:70 modules/Students/AddDrop.php:27
 #: modules/Students/Letters.php:157
 #: modules/Students/includes/Enrollment.inc.php:50
@@ -3571,7 +3571,7 @@ msgstr "Ce code barre est déjà assigné à l'Utilisateur <B>%s</B>."
 #: modules/Grades/Assignments.php:142
 #: modules/Grades/EditReportCardGrades.php:89
 #: modules/Grades/ReportCardGrades.php:63
-#: modules/School_Setup/Configuration.php:41
+#: modules/School_Setup/Configuration.php:50
 #: modules/School_Setup/Periods.php:55 modules/School_Setup/Schools.php:59
 #: modules/Students/Student.php:150
 msgid "Please enter valid Numeric data."
@@ -5697,107 +5697,111 @@ msgstr "Cette école n'a pas de calendrier par defaut !"
 msgid "All Day"
 msgstr "Journée Entière"
 
-#: modules/School_Setup/Configuration.php:35
+#: modules/School_Setup/Configuration.php:44
 msgid "The school configuration has been modified."
 msgstr "La configuration de cette école a été modifiée."
 
-#: modules/School_Setup/Configuration.php:66
+#: modules/School_Setup/Configuration.php:75
 msgid "Program Title"
 msgstr "Nom du Programme"
 
-#: modules/School_Setup/Configuration.php:71
+#: modules/School_Setup/Configuration.php:80
 msgid "School year over two calendar years"
 msgstr "Année scolaire sur deux années civiles"
 
-#: modules/School_Setup/Configuration.php:75
+#: modules/School_Setup/Configuration.php:82
+msgid "School logo"
+msgstr "Logo de l'Ecole"
+
+#: modules/School_Setup/Configuration.php:86
 msgid "Display Mailing Address"
 msgstr "Montrer l'Adresse de Courrier"
 
-#: modules/School_Setup/Configuration.php:76
+#: modules/School_Setup/Configuration.php:87
 msgid "Check Bus Pickup / Dropoff by default"
 msgstr "Cocher Ramassage / Dépose Car Scolaire par défaut"
 
-#: modules/School_Setup/Configuration.php:77
+#: modules/School_Setup/Configuration.php:88
 msgid "Enable Legacy Contact Information"
 msgstr "Activer les Anciennes Coordonnées du Contact"
 
-#: modules/School_Setup/Configuration.php:78
+#: modules/School_Setup/Configuration.php:89
 msgid "Use Semester Comments instead of Quarter Comments"
 msgstr ""
 "Utiliser des Commentaires Semestriels au lieu de Commentaires Bimestriels"
 
-#: modules/School_Setup/Configuration.php:82
+#: modules/School_Setup/Configuration.php:93
 msgid "Use letter grades only"
 msgstr "Utiliser seulement les notes lettrées"
 
-#: modules/School_Setup/Configuration.php:82
+#: modules/School_Setup/Configuration.php:93
 msgid "Use letter and percent grades"
 msgstr "Utiliser les notes lettrées et les pourcentages"
 
-#: modules/School_Setup/Configuration.php:82
+#: modules/School_Setup/Configuration.php:93
 msgid "Use percent grades only"
 msgstr "Utiliser seulement les pourcentages"
 
-#: modules/School_Setup/Configuration.php:84
+#: modules/School_Setup/Configuration.php:95
 msgid "Hide grade comment except for attendance period courses"
 msgstr ""
 "Cacher le commentaire de note excepté pour les cours dont les présences sont "
 "comptées"
 
-#: modules/School_Setup/Configuration.php:85
+#: modules/School_Setup/Configuration.php:96
 msgid "Allow Teachers to edit grades after grade posting period"
 msgstr ""
 "Permettre aux enseignants de saisir les notes après la période de saisie des "
 "notes"
 
-#: modules/School_Setup/Configuration.php:86
+#: modules/School_Setup/Configuration.php:97
 msgid "Enable Anonymous Grade Statistics for Parents and Students"
 msgstr "Activer les Statistiques Anonymes des Notes pour les Parents et Elèves"
 
-#: modules/School_Setup/Configuration.php:87
+#: modules/School_Setup/Configuration.php:98
 msgid "Enable Anonymous Grade Statistics for Administrators and Teachers"
 msgstr ""
 "Activer les Statistiques Anonymes des Notes pour les Administrateurs et "
 "Enseignants"
 
-#: modules/School_Setup/Configuration.php:91
+#: modules/School_Setup/Configuration.php:102
 msgid "Minutes in a Full School Day"
 msgstr "Minutes dans une Journée d'Ecole Entière"
 
-#: modules/School_Setup/Configuration.php:92
-#: modules/School_Setup/Configuration.php:93
+#: modules/School_Setup/Configuration.php:103
+#: modules/School_Setup/Configuration.php:104
 msgid "Leave the field blank to always allow"
 msgstr "Laisser le champ vide pour permettre tout le temps"
 
-#: modules/School_Setup/Configuration.php:92
+#: modules/School_Setup/Configuration.php:103
 msgid "Number of days before the school date teachers can edit attendance"
 msgstr ""
 "Nombre de jours avant la date du jour pour lesquels les professeurs peuvent "
 "éditer les absences"
 
-#: modules/School_Setup/Configuration.php:93
+#: modules/School_Setup/Configuration.php:104
 msgid "Number of days after the school date teachers can edit attendance"
 msgstr ""
 "Nombre de jours après la date du jour pour lesquels les professeurs peuvent "
 "éditer les absences"
 
-#: modules/School_Setup/Configuration.php:98
+#: modules/School_Setup/Configuration.php:109
 msgid "Moodle"
 msgstr "Moodle"
 
-#: modules/School_Setup/Configuration.php:99
+#: modules/School_Setup/Configuration.php:110
 msgid "Moodle URL"
 msgstr "URL de Moodle"
 
-#: modules/School_Setup/Configuration.php:104
+#: modules/School_Setup/Configuration.php:115
 msgid "Moodle Token"
 msgstr "Token Moodle"
 
-#: modules/School_Setup/Configuration.php:105
+#: modules/School_Setup/Configuration.php:116
 msgid "Moodle Parent Role ID"
 msgstr "ID de Rôle Parent de Moodle"
 
-#: modules/School_Setup/Configuration.php:106
+#: modules/School_Setup/Configuration.php:117
 msgid "RosarioSIS Student email field ID"
 msgstr "ID du champ email Elève de RosarioSIS"
 
@@ -6159,27 +6163,40 @@ msgid "Number of Days for the Rotation"
 msgstr "Nombre de Jours de la Rotation"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:5
+#: modules/School_Setup/includes/SchoolLogo.inc.php:5
 #: modules/Students/Student.php:389 modules/Users/User.php:365
 msgid "File not uploaded"
 msgstr "Fichier non uploadé"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:10
-msgid "Unauthorized file attached extension"
-msgstr "Extension du fichier joint non autorisée"
+msgid "Unauthorized file extension"
+msgstr "Extension du fichier non autorisée"
 
-#: modules/School_Setup/includes/PortalNotesFiles.inc.php:13
-msgid "File attached size"
-msgstr "Taille du fichier joint"
+#: modules/School_Setup/includes/PortalNotesFiles.inc.php:14
+#: modules/School_Setup/includes/SchoolLogo.inc.php:14
+#: modules/Students/Student.php:391 modules/Users/User.php:367
+#, php-format
+msgid "File size > %01.2fMb: %01.2fMb"
+msgstr "Taille du fichier > %01.2fMo: %01.2fMo"
 
-#: modules/School_Setup/includes/PortalNotesFiles.inc.php:18
+#: modules/School_Setup/includes/PortalNotesFiles.inc.php:19
 #: modules/Students/Student.php:392 modules/Users/User.php:368
+#, php-format
 msgid "Folder not created"
 msgstr "Dossier non créé"
 
-#: modules/School_Setup/includes/PortalNotesFiles.inc.php:21
+#: modules/School_Setup/includes/PortalNotesFiles.inc.php:22
+#: modules/School_Setup/includes/SchoolLogo.inc.php:17
 #: modules/Students/Student.php:393 modules/Users/User.php:369
+#, php-format
 msgid "Folder not writable"
 msgstr "Impossible d'écrire dans le Dossier"
+
+#: modules/School_Setup/includes/SchoolLogo.inc.php:10
+#: modules/Students/Student.php:390 modules/Users/User.php:366
+#, php-format
+msgid "Wrong file type: %s (JPG required)"
+msgstr "Mauvais type de fichier: %s (JPG requis)"
 
 #: modules/Students/AddDrop.php:28
 #: modules/Students/includes/Enrollment.inc.php:75
@@ -6440,7 +6457,8 @@ msgid "Starting column"
 msgstr "Colonne de Départ"
 
 #: modules/Students/Menu.php:3 modules/Students/Menu.php:24
-#: modules/Students/Menu.php:33 modules/Students/PrintStudentInfo.php:36
+#: modules/Students/Menu.php:33 modules/Students/PrintStudentInfo.php:39
+#: modules/Students/PrintStudentInfo.php:41
 msgid "Student Info"
 msgstr "Informations Elève"
 
@@ -6534,8 +6552,8 @@ msgstr "Urgence"
 msgid "Note: All unchecked means applies to all contacts"
 msgstr "Note: Tout décoché signifie s'applique à tous les contacts"
 
-#: modules/Students/PrintStudentInfo.php:155
-#: modules/Students/PrintStudentInfo.php:196
+#: modules/Students/PrintStudentInfo.php:160
+#: modules/Students/PrintStudentInfo.php:201
 msgid "Print Info for Selected Students"
 msgstr "Imprimer les Informations pour le Elèves Sélectionnés"
 
@@ -6558,16 +6576,6 @@ msgstr ""
 #: modules/Students/Student.php:330
 msgid "Create Student in Moodle"
 msgstr "Créer Elève dans Moodle"
-
-#: modules/Students/Student.php:390 modules/Users/User.php:366
-#, php-format
-msgid "Wrong file type: %s (JPG required)"
-msgstr "Mauvais type de fichier: %s (JPG requis)"
-
-#: modules/Students/Student.php:391 modules/Users/User.php:367
-#, php-format
-msgid "File size > %01.2fMb: %01.2fMb"
-msgstr "Taille du fichier > %01.2fMo: %01.2fMo"
 
 #: modules/Students/StudentFields.php:191
 msgid "New Student Field"
@@ -7274,6 +7282,9 @@ msgstr "Vaccination"
 #: ProgramFunctions/StudentsUsersInfo.fnc.php:265
 msgid "Physical"
 msgstr "Visite Médicale"
+
+#~ msgid "File attached size"
+#~ msgstr "Taille du fichier joint"
 
 #~ msgid "Gender"
 #~ msgstr "Genre"
