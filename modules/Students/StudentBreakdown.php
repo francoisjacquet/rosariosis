@@ -290,11 +290,11 @@ if(!$_REQUEST['modfunc'])
 			elseif($_REQUEST['chart_type']=='column')
 			{
 ?>
-				<!--<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
-				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+				<!--<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>-->
 				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
 				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
-				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+				<!--<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>-->
 				<script type="text/javascript">
 					$(document).ready(function(){
 						var plotcolumn = $.jqplot('chart', [datacolumn], {
@@ -306,7 +306,7 @@ if(!$_REQUEST['modfunc'])
 								},
 								pointLabels: { show: true }
 							},
-							axes: {
+							/*axes: {
 								// yaxis: { autoscale: true },
 								xaxis: {
 									renderer: $.jqplot.CategoryAxisRenderer,
@@ -316,11 +316,11 @@ if(!$_REQUEST['modfunc'])
 										angle:-20
 									}
 								},
-							},
+							},*/
 							title: '<?php echo ParseMLField($category_RET[1]['TITLE']).' '._('Breakdown').$_ROSARIO['SearchTerms']; ?>'
 						});
 					});
-				</script>-->
+				</script>
 <?php
 			} 
 			else //pie chart
