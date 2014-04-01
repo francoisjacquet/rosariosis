@@ -344,7 +344,6 @@ if(!$_REQUEST['modfunc'])
 			<div id="chart"></div>
 			<script type="text/javascript" src="assets/js/colorbox/jquery.colorbox-min.js"></script>
 			<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
-			<script type="text/javascript" src="assets/js/jquery.jqplottocolorbox.js"></script>
 <?php
 			unset($_REQUEST['_ROSARIO_PDF']);
 		}
