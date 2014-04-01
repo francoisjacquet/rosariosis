@@ -9,7 +9,7 @@ DrawHeader(ProgramTitle());
 if($_REQUEST['modfunc']=='update')
 {
 	//modif Francois: upload school logo
-	if ($_FILES['LOGO_FILE'])
+	if ($_FILES['LOGO_FILE'] && AllowEdit())
 	{
 		include('modules/School_Setup/includes/SchoolLogo.inc.php');
 		$error_logo = SchoolLogo($_FILES['LOGO_FILE']);
