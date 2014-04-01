@@ -279,7 +279,7 @@ if(!$_REQUEST['modfunc'])
 							highlighter: {
 								show: true,
 								tooltipAxes: 'both',
-								formatString:'<span style="font-size:larger;font-weight:bold;">%s; %s</span>',
+								/*formatString:'<span style="font-size:larger;font-weight:bold;">%s; %s</span>',*/
 							},
 							title: '<?php echo ParseMLField($category_RET[1]['TITLE']).' '._('Breakdown').$_ROSARIO['SearchTerms']; ?>'
 						});
@@ -326,7 +326,7 @@ if(!$_REQUEST['modfunc'])
 			else //pie chart
 			{
 ?>		
-				<!--<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
 				<script type="text/javascript">
 					$(document).ready(function(){ 
 						var plotpie = $.jqplot('chart', [datapie], {
@@ -337,7 +337,7 @@ if(!$_REQUEST['modfunc'])
 							title: '<?php echo ParseMLField($category_RET[1]['TITLE']).' '._('Breakdown').$_ROSARIO['SearchTerms']; ?>'
 						});
 					});	
-				</script>-->
+				</script>
 <?php
 			}	
 ?>
