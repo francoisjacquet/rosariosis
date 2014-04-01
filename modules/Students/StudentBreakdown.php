@@ -165,7 +165,7 @@ strip_tags(str_replace('<BR />',"\n",$_ROSARIO['SearchTerms']));
 			$jsData = 'var ticks = [';
 			foreach ($chart['chart_data'][0] as $tick)
 			{
-				$jsData .= "'".$tick."', ";
+				$jsData .= "'".str_replace("'", "\'", htmlspecialchars($tick))."', ";
 			}
 			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 2);
 			$jsData .= "];\n";
@@ -184,7 +184,7 @@ strip_tags(str_replace('<BR />',"\n",$_ROSARIO['SearchTerms']));
 			for ($i=0; $i<=count($chart['chart_data'][0]); $i++)
 			{
 				//limit label to 30 char max.
-				$jsData .= "['".mb_substr($chart['chart_data'][0][$i], 0, 30)."', ".$chart['chart_data'][1][$i]."],";
+				$jsData .= "['".htmlspecialchars(mb_substr($chart['chart_data'][0][$i], 0, 30),ENT_QUOTES)."', ".$chart['chart_data'][1][$i]."],";
 			}
 			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
 			$jsData .= "];\n";
@@ -266,7 +266,8 @@ if(!$_REQUEST['modfunc'])
 			<script type="text/javascript" src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
 			<script type="text/javascript">	
-				var saveImgText = '<?php echo _('Right Click to Save Image As...'); ?>';
+				var saveImgText = '<?php echo htmlspecialchars(_('Right Click to Save Image As...'),ENT_QUOTES); ?>';
+				var chartTitle = '<?php echo htmlspecialchars(sprintf(_('%s Breakdown'),ParseMLField($category_RET[1]['TITLE'])).$_ROSARIO['SearchTerms'],ENT_QUOTES); ?>';
 			</script>
 <?php
 			if (isset($chartline)) //modif Francois: line chart
@@ -281,7 +282,7 @@ if(!$_REQUEST['modfunc'])
 								tooltipAxes: 'both',
 								formatString:'<span style="font-size:larger;font-weight:bold;">%s; %s</span>',
 							},
-							title: '<?php echo ParseMLField($category_RET[1]['TITLE']).' '._('Breakdown').$_ROSARIO['SearchTerms']; ?>'
+							title: chartTitle
 						});
 					});		
 				</script>
@@ -317,7 +318,7 @@ if(!$_REQUEST['modfunc'])
 									}
 								},
 							},
-							title: '<?php echo ParseMLField($category_RET[1]['TITLE']).' '._('Breakdown').$_ROSARIO['SearchTerms']; ?>'
+							title: chartTitle
 						});
 					});
 				</script>
@@ -334,7 +335,7 @@ if(!$_REQUEST['modfunc'])
 								renderer:$.jqplot.PieRenderer,
 							},
 							legend:{show:true},
-							title: '<?php echo ParseMLField($category_RET[1]['TITLE']).' '._('Breakdown').$_ROSARIO['SearchTerms']; ?>'
+							title: chartTitle
 						});
 					});	
 				</script>

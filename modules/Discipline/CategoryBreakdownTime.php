@@ -68,9 +68,6 @@ if($_REQUEST['category_id'])
 	elseif($_REQUEST['timeframe']=='SYEAR')
 		$timeframe = 'dr.SYEAR';
 
-	$chart['chart_type'] = $_REQUEST['chart_type'];
-	$chart['series_switch'] = true;
-	
 	if($category_RET[1]['DATA_TYPE']=='multiple_radio' || $category_RET[1]['DATA_TYPE']=='select')
 	{
 		$extra = array();
@@ -274,7 +271,7 @@ if($_REQUEST['category_id'])
 					if ($jump)
 						$jump = false;
 					else
-						$jsData .= "'".$tick."', ";
+						$jsData .= "'".str_replace("'", "\'", htmlspecialchars($tick))."', ";
 				}
 				$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 2);
 				$jsData .= "];\n";
@@ -381,7 +378,8 @@ if(empty($_REQUEST['modfunc']))
 			<script type="text/javascript" src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
 			<script type="text/javascript">	
-				var saveImgText = '<?php echo _('Right Click to Save Image As...'); ?>';
+				var saveImgText = '<?php echo htmlspecialchars(_('Right Click to Save Image As...'),ENT_QUOTES); ?>';
+				var chartTitle = '<?php echo htmlspecialchars(sprintf(_('%s Breakdown'),ParseMLField($category_RET[1]['TITLE'])).$_ROSARIO['SearchTerms'],ENT_QUOTES); ?>';
 			</script>
 			<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
 			<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
@@ -422,7 +420,7 @@ if(empty($_REQUEST['modfunc']))
 							location: 'e',
 							placement: 'outside'
 						},     
-						title: '<?php echo ParseMLField($category_RET[1]['TITLE']).' '._('Breakdown').$_ROSARIO['SearchTerms']; ?>'
+						title: chartTitle
 					});
 				});		
 			</script>

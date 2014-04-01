@@ -104,13 +104,6 @@ elseif($_REQUEST['assignment_id'])
 
 if(!$_REQUEST['chart_type'])
 	$_REQUEST['chart_type'] = 'column';
-
-//		$_REQUEST['modfunc'] = 'SendChartData';
-
-//if($_REQUEST['modfunc']=='SendChartData' || $_REQUEST['chart_type']=='list')
-//{
-	$chart['chart_type'] = $_REQUEST['chart_type'];
-	$chart['series_switch'] = true;
 	
 	if($category_RET[1]['TYPE']=='select' || true)
 	{
@@ -146,7 +139,7 @@ if(!$_REQUEST['chart_type'])
 			for ($i=1; $i<=count($chart['chart_data'][0]); $i++)
 			{
 				if ($chart['chart_data'][1][$i] > 0) //remove empty slices not to overload the legends
-					$jsData .= "['".$chart['chart_data'][0][$i]."', ".$chart['chart_data'][1][$i]."],";
+					$jsData .= "['".htmlspecialchars($chart['chart_data'][0][$i],ENT_QUOTES)."', ".$chart['chart_data'][1][$i]."],";
 			}
 			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
 			$jsData .= "];\n";
@@ -209,7 +202,8 @@ if(empty($_REQUEST['modfunc']))
 			<script type="text/javascript" src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
 			<script type="text/javascript">	
-				var saveImgText = '<?php echo _('Right Click to Save Image As...'); ?>';
+				var saveImgText = '<?php echo htmlspecialchars(_('Right Click to Save Image As...'),ENT_QUOTES); ?>';
+				var chartTitle = '<?php echo htmlspecialchars(sprintf(_('%s Breakdown'),$title),ENT_QUOTES); ?>';
 			</script>
 <?php
 			if($_REQUEST['chart_type']=='column')
@@ -228,7 +222,7 @@ if(empty($_REQUEST['modfunc']))
 									tooltipAxes: 'x',
 									formatString:'<span style="font-size:larger;font-weight:bold;">%s</span>',
 								},
-								title: '<?php echo $title.' '._('Breakdown'); ?>'
+								title: chartTitle
 							});
 						});		
 				</script>
@@ -243,7 +237,7 @@ if(empty($_REQUEST['modfunc']))
 								renderer:$.jqplot.PieRenderer,
 							},
 							legend:{show:true},
-							title: '<?php echo $title.' '._('Breakdown'); ?>'
+							title: chartTitle
 						});
 					});	
 				</script>

@@ -74,13 +74,13 @@ if(count($grouped_RET))
 		<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />	
 		<script type="text/javascript">
-			var saveImgText = '<?php echo _('Right Click to Save Image As...'); ?>';
+			var saveImgText = '<?php echo htmlspecialchars(_('Right Click to Save Image As...'),ENT_QUOTES); ?>';
 			$(document).ready(function(){
 <?php
 		foreach($grouped_RET as $staff_id=>$grades)
 		{
 			$i++;
-			$chartData = 'var chartTitle'.$i." = '".$grades[key($grades)][1]['FULL_NAME'].' - '.$UserMPTitle.' - '._('Grade Breakdown')."';\n"; 
+			$chartData = 'var chartTitle'.$i." = '".htmlspecialchars($grades[key($grades)][1]['FULL_NAME'].' - '.$UserMPTitle.' - '._('Grade Breakdown'),ENT_QUOTES)."';\n"; 
 			$chartData .= 'var jsData'.$i.' = [';
 			foreach($grades_RET as $grade)
 			{

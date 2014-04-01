@@ -65,10 +65,6 @@ if($_REQUEST['modfunc']=='search')
 //{
 if($_REQUEST['category_id'])
 {
-	$chart['chart_type'] = $_REQUEST['chart_type'];
-	$chart['series_switch'] = true;
-	$chart['draw_text']  = array(array('x'=>0,'y'=>5,'width'=>$width+200,'height'=>200,'h_align'=>'center','v_align'=>'top','rotation'=>0,'text'=>wordwrap($category_RET[1]['TITLE'].' '._('Breakdown'),40,"\r"),'font'=>'Arial','color'=>'000000','alpha'=>25,'size'=>24));
-	
 	if($category_RET[1]['DATA_TYPE']=='multiple_radio' || $category_RET[1]['DATA_TYPE']=='select')
 	{
 		$extra = array();
@@ -202,7 +198,7 @@ if($_REQUEST['category_id'])
 			$jsData = 'var ticks = [';
 			foreach ($chart['chart_data'][0] as $tick)
 			{
-				$jsData .= "'".$tick."', ";
+				$jsData .= "'".str_replace("'", "\'", htmlspecialchars($tick))."', ";
 			}
 			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 2);
 			$jsData .= "];\n";
@@ -221,7 +217,7 @@ if($_REQUEST['category_id'])
 			for ($i=0; $i<=count($chart['chart_data'][0]); $i++)
 			{
 				//limit label to 30 char max.
-				$jsData .= "['".mb_substr($chart['chart_data'][0][$i], 0, 30)."', ".$chart['chart_data'][1][$i]."],";
+				$jsData .= "['".htmlspecialchars(mb_substr($chart['chart_data'][0][$i], 0, 30),ENT_QUOTES)."', ".$chart['chart_data'][1][$i]."],";
 			}
 			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
 			$jsData .= "];\n";
@@ -296,7 +292,8 @@ if(empty($_REQUEST['modfunc']))
 			<script type="text/javascript" src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
 			<script type="text/javascript">	
-				var saveImgText = '<?php echo _('Right Click to Save Image As...'); ?>';
+				var saveImgText = '<?php echo htmlspecialchars(_('Right Click to Save Image As...'),ENT_QUOTES); ?>';
+				var chartTitle = '<?php echo htmlspecialchars(sprintf(_('%s Breakdown'),ParseMLField($category_RET[1]['TITLE'])).$_ROSARIO['SearchTerms'],ENT_QUOTES); ?>';
 			</script>
 <?php
 			if (isset($chartline)) //modif Francois: line chart
@@ -311,7 +308,7 @@ if(empty($_REQUEST['modfunc']))
 								tooltipAxes: 'x',
 								formatString:'<span style="font-size:larger;font-weight:bold;">%s</span>',
 							},
-							title: '<?php echo ParseMLField($category_RET[1]['TITLE']).' '._('Breakdown').$_ROSARIO['SearchTerms']; ?>'
+							title: chartTitle
 						});
 					});		
 				</script>
@@ -347,7 +344,7 @@ if(empty($_REQUEST['modfunc']))
 									}
 								},
 							},
-							title: '<?php echo ParseMLField($category_RET[1]['TITLE']).' '._('Breakdown').$_ROSARIO['SearchTerms']; ?>'
+							title: chartTitle
 						});
 					});		
 				</script>
@@ -364,7 +361,7 @@ if(empty($_REQUEST['modfunc']))
 								renderer:$.jqplot.PieRenderer,
 							},
 							legend:{show:true},
-							title: '<?php echo ParseMLField($category_RET[1]['TITLE']).' '._('Breakdown').$_ROSARIO['SearchTerms']; ?>'
+							title: chartTitle
 						});
 					});	
 				</script>
