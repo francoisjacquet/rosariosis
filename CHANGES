@@ -1,5 +1,11 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.3.1
+----------------
+- Not title on remove button if has label in Buttons.fnc.php
+- Display School logo in School Information
+- Bugfix graphs in Android: load jquery.jqplottocolorbox.js if screen width>=768
+
 Changes in 2.3
 ----------------
 - Bugfix display in PrintStudentInfo.php in Medical.inc.php
