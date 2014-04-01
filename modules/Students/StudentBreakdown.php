@@ -287,7 +287,7 @@ if(!$_REQUEST['modfunc'])
 				</script>
 <?php
 			}
-			elseif($_REQUEST['chart_type']=='column' && false)
+			elseif($_REQUEST['chart_type']=='column')
 			{
 ?>
 				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
@@ -344,7 +344,7 @@ if(!$_REQUEST['modfunc'])
 			<div id="chart"></div>
 			<script type="text/javascript" src="assets/js/colorbox/jquery.colorbox-min.js"></script>
 			<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
-			<script type="text/javascript" src="assets/js/jquery.jqplottocolorbox.js"></script>
+			<!--<script type="text/javascript" src="assets/js/jquery.jqplottocolorbox.js"></script>-->
 <?php
 			unset($_REQUEST['_ROSARIO_PDF']);
 		}
