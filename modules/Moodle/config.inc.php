@@ -8,7 +8,7 @@
 // 	b- When you add the Service, select all the web service functions available (except the DEPRECATED ones), then add the required capabilities to the Web Services role
 // 	c- Enter the token and the Moodle URL in the School Configuration screen
 // 3- Create the Parent role (http://docs.moodle.org/23/en/Parent_role) and then enter the Parent role ID in the School Configuration screen
-// 4- Allow the Web Services role to assign the Teacher, Student and Parent roles (Admin > Users > Permissions > Define roles > Allow role assignments)
+// 4- Allow the Web Services role to assign the Manager, Teacher, Student and Parent roles (Admin > Users > Permissions > Define roles > Allow role assignments)
 // 5- Create an email field for the students in RosarioSIS and enter the field ID in the School Configuration screen
 
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='moodle'"),array(),array('TITLE'));
