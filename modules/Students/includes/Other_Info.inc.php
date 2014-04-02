@@ -17,9 +17,6 @@ echo '<TABLE class="cellpadding-5">';
 $i = 1;
 $per_row = $category_RET[1]['COLUMNS']?$category_RET[1]['COLUMNS']:'3';
 
-//modif Francois: Moodle integrator / email field
-if ($_REQUEST['moodle_create_student'])
-	include('modules/Moodle/config.inc.php');
 
 foreach($fields_RET as $field)
 {
