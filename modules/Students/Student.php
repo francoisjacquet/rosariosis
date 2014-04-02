@@ -1,4 +1,9 @@
 <?php
+
+//modif Francois: Moodle integrator / email field
+if ($_REQUEST['moodle_create_student'])
+	include('modules/Moodle/config.inc.php');
+	
 if(!$_REQUEST['include'])
 {
 	$_REQUEST['include'] = 'General_Info';
@@ -157,7 +162,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			}
 			//modif Francois: Moodle integrator
 			//username, password, (email) required
-			elseif ($_REQUEST['moodle_create_student'] && empty($_REQUEST['students']['USERNAME']))
+			elseif ($_REQUEST['moodle_create_student'] && (empty($_REQUEST['students']['USERNAME']) || empty($_REQUEST['students']['CUSTOM_'.ROSARIO_STUDENTS_EMAIL_FIELD_ID])))
 			{
 				$error[] = _('Please fill in the required fields');
 				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
