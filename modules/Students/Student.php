@@ -245,6 +245,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$new_student = true;
 			}
 		}
+		$_REQUEST['moodle_create_student'] = false;
 		//error_exit: //modif Francois: goto avail. in PHP 5.3
 		if ($error && !UserStudentID())
 			$_REQUEST['student_id'] = 'new';
