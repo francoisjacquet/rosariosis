@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-28 10:57-0500\n"
-"PO-Revision-Date: 2014-03-28 10:57-0500\n"
+"POT-Creation-Date: 2014-04-01 18:06-0500\n"
+"PO-Revision-Date: 2014-04-01 18:06-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -328,10 +328,10 @@ msgstr "Eliminar"
 #: functions/StaffWidgets.fnc.php:145 functions/Widgets.fnc.php:620
 #: functions/Widgets.fnc.php:622 modules/Attendance/TeacherCompletion.php:81
 #: modules/Attendance/TeacherCompletion.php:103
-#: modules/Discipline/CategoryBreakdown.php:107
-#: modules/Discipline/CategoryBreakdownTime.php:142
-#: modules/Discipline/StudentFieldBreakdown.php:123
-#: modules/Discipline/StudentFieldBreakdown.php:135
+#: modules/Discipline/CategoryBreakdown.php:103
+#: modules/Discipline/CategoryBreakdownTime.php:139
+#: modules/Discipline/StudentFieldBreakdown.php:120
+#: modules/Discipline/StudentFieldBreakdown.php:132
 #: modules/Grades/TeacherCompletion.php:73
 #: modules/Grades/TeacherCompletion.php:94
 #: modules/School_Setup/Calendar.php:314
@@ -348,10 +348,10 @@ msgstr "Sí"
 #: functions/StaffWidgets.fnc.php:145 functions/Widgets.fnc.php:620
 #: functions/Widgets.fnc.php:622 modules/Attendance/TeacherCompletion.php:81
 #: modules/Attendance/TeacherCompletion.php:103
-#: modules/Discipline/CategoryBreakdown.php:109
-#: modules/Discipline/CategoryBreakdownTime.php:143
-#: modules/Discipline/StudentFieldBreakdown.php:123
-#: modules/Discipline/StudentFieldBreakdown.php:137
+#: modules/Discipline/CategoryBreakdown.php:105
+#: modules/Discipline/CategoryBreakdownTime.php:140
+#: modules/Discipline/StudentFieldBreakdown.php:120
+#: modules/Discipline/StudentFieldBreakdown.php:134
 #: modules/Grades/TeacherCompletion.php:73
 #: modules/Grades/TeacherCompletion.php:94
 #: modules/Students/StudentBreakdown.php:86
@@ -369,7 +369,7 @@ msgstr "No"
 #: functions/Search.fnc.php:265 functions/Search.fnc.php:280
 #: functions/Widgets.fnc.php:538 functions/Widgets.fnc.php:546
 #: functions/Widgets.fnc.php:561 functions/Widgets.fnc.php:569
-#: modules/Discipline/StudentFieldBreakdown.php:87 modules/misc/Export.php:298
+#: modules/Discipline/StudentFieldBreakdown.php:84 modules/misc/Export.php:298
 #: modules/Students/StudentBreakdown.php:53
 msgid "No Value"
 msgstr "No Valor"
@@ -541,7 +541,7 @@ msgstr "Dirección de Correo"
 #: modules/Custom/Registration.php:164 modules/Custom/Registration.php:183
 #: modules/misc/Export.php:62 modules/misc/Export.php:64
 #: modules/misc/Export.php:218 modules/misc/Export.php:220
-#: modules/School_Setup/Schools.php:120
+#: modules/School_Setup/Schools.php:121
 #: modules/Students/includes/Address.inc.php:546
 #: modules/Students/includes/Address.inc.php:583
 msgid "City"
@@ -552,7 +552,7 @@ msgstr "Ciudad"
 #: modules/Custom/Registration.php:165 modules/Custom/Registration.php:184
 #: modules/misc/Export.php:62 modules/misc/Export.php:64
 #: modules/misc/Export.php:218 modules/misc/Export.php:220
-#: modules/School_Setup/Schools.php:120
+#: modules/School_Setup/Schools.php:121
 #: modules/Students/includes/Address.inc.php:547
 #: modules/Students/includes/Address.inc.php:584
 msgid "State"
@@ -565,7 +565,7 @@ msgstr "Código Postal"
 
 #: functions/GetStuList.fnc.php:123 functions/Search.fnc.php:110
 #: modules/Custom/Registration.php:163 modules/Custom/Registration.php:182
-#: modules/misc/Export.php:218 modules/School_Setup/Schools.php:119
+#: modules/misc/Export.php:218 modules/School_Setup/Schools.php:120
 #: modules/Students/includes/Address.inc.php:269
 #: modules/Students/includes/Address.inc.php:544
 msgid "Address"
@@ -699,7 +699,7 @@ msgstr "Grado"
 #: modules/Eligibility/Student.php:121 modules/Eligibility/StudentList.php:90
 #: modules/Grades/EditReportCardGrades.php:214
 #: modules/Grades/GradebookBreakdown.php:70
-#: modules/Grades/GradebookBreakdown.php:200
+#: modules/Grades/GradebookBreakdown.php:193
 #: modules/Grades/GradeBreakdown.php:63 modules/Users/Preferences.php:303
 msgid "Grade"
 msgid_plural "Grades"
@@ -744,7 +744,7 @@ msgstr "Ver en línea"
 #: modules/Discipline/DisciplineForm.php:236
 #: modules/Eligibility/AddActivity.php:48 modules/Grades/Configuration.php:74
 #: modules/Grades/FinalGrades.php:145
-#: modules/Grades/GradebookBreakdown.php:288 modules/Grades/Grades.php:297
+#: modules/Grades/GradebookBreakdown.php:282 modules/Grades/Grades.php:297
 #: modules/Grades/Grades.php:384 modules/Grades/Grades.php:406
 #: modules/Grades/Grades.php:408 modules/Grades/Grades.php:452
 #: modules/Grades/Grades.php:462 modules/Grades/Grades.php:464
@@ -836,9 +836,9 @@ msgstr "Buscar"
 
 #: functions/ListOutput.fnc.php:466 modules/Attendance/DailySummary.php:75
 #: modules/Attendance/Percent.php:103 modules/Attendance/StudentSummary.php:41
-#: modules/Discipline/CategoryBreakdown.php:266
-#: modules/Discipline/CategoryBreakdownTime.php:337
-#: modules/Discipline/StudentFieldBreakdown.php:281
+#: modules/Discipline/CategoryBreakdown.php:262
+#: modules/Discipline/CategoryBreakdownTime.php:334
+#: modules/Discipline/StudentFieldBreakdown.php:278
 #: modules/Eligibility/Student.php:96 modules/Eligibility/StudentList.php:66
 #: modules/Eligibility/TeacherCompletion.php:73
 #: modules/Food_Service/ActivityReport.php:106
@@ -848,7 +848,7 @@ msgstr "Buscar"
 #: modules/Food_Service/TransactionsReport.php:47
 #: modules/Food_Service/Students/Statements.php:38
 #: modules/Food_Service/Users/Statements.php:20
-#: modules/Grades/GradebookBreakdown.php:176 modules/Scheduling/AddDrop.php:21
+#: modules/Grades/GradebookBreakdown.php:169 modules/Scheduling/AddDrop.php:21
 #: modules/School_Setup/Calendar.php:372 modules/Students/AddDrop.php:21
 #: modules/Students/StudentBreakdown.php:236
 #: modules/Student_Billing/DailyTotals.php:33
@@ -1703,7 +1703,7 @@ msgstr "Título"
 #: modules/Scheduling/ScheduleReport.php:130
 #: modules/School_Setup/GradeLevels.php:65
 #: modules/School_Setup/MarkingPeriods.php:258
-#: modules/School_Setup/Periods.php:76 modules/School_Setup/Schools.php:129
+#: modules/School_Setup/Periods.php:76 modules/School_Setup/Schools.php:130
 #: modules/Students/EnrollmentCodes.php:65
 msgid "Short Name"
 msgstr "Nombre Corto"
@@ -1830,7 +1830,7 @@ msgstr "Código del Estado"
 #: modules/School_Setup/PortalPolls.php:208
 #: modules/School_Setup/SchoolFields.php:149
 #: modules/School_Setup/Schools.php:5 modules/School_Setup/Schools.php:112
-#: modules/School_Setup/Schools.php:178 modules/Students/AddressFields.php:194
+#: modules/School_Setup/Schools.php:179 modules/Students/AddressFields.php:194
 #: modules/Students/AddressFields.php:253
 #: modules/Students/AssignOtherInfo.php:90
 #: modules/Students/AssignOtherInfo.php:302
@@ -1880,7 +1880,7 @@ msgstr "Por Hora"
 
 #: modules/Attendance/DailySummary.php:75 modules/Attendance/Percent.php:103
 #: modules/Attendance/StudentSummary.php:41
-#: modules/Discipline/CategoryBreakdownTime.php:336
+#: modules/Discipline/CategoryBreakdownTime.php:333
 #: modules/Eligibility/TeacherCompletion.php:73
 #: modules/Food_Service/MenuReports.php:172
 #: modules/Food_Service/TransactionsReport.php:47
@@ -2124,11 +2124,11 @@ msgstr "Resumen Diario"
 
 #: modules/Attendance/Percent.php:23 modules/Attendance/Percent.php:102
 #: modules/Discipline/CategoryBreakdown.php:58
-#: modules/Discipline/CategoryBreakdown.php:263
+#: modules/Discipline/CategoryBreakdown.php:259
 #: modules/Discipline/CategoryBreakdownTime.php:56
-#: modules/Discipline/CategoryBreakdownTime.php:333
+#: modules/Discipline/CategoryBreakdownTime.php:330
 #: modules/Discipline/StudentFieldBreakdown.php:59
-#: modules/Discipline/StudentFieldBreakdown.php:278
+#: modules/Discipline/StudentFieldBreakdown.php:275
 #: modules/Students/StudentBreakdown.php:32
 #: modules/Students/StudentBreakdown.php:234
 msgid "Advanced"
@@ -2388,7 +2388,7 @@ msgid "MTD"
 msgstr "Mes a la fecha"
 
 #: modules/Custom/AttendanceSummary.php:63
-#: modules/Discipline/CategoryBreakdownTime.php:336
+#: modules/Discipline/CategoryBreakdownTime.php:333
 msgid "Month"
 msgstr "Mes"
 
@@ -2537,7 +2537,7 @@ msgstr "Calle"
 
 #: modules/Custom/MyReport.php:55 modules/Custom/MyReport.php:57
 #: modules/Custom/Registration.php:167 modules/Custom/Registration.php:186
-#: modules/Grades/Transcripts.php:147 modules/School_Setup/Schools.php:123
+#: modules/Grades/Transcripts.php:147 modules/School_Setup/Schools.php:124
 #: modules/Students/includes/Address.inc.php:549
 msgid "Phone"
 msgstr "Teléfono"
@@ -2631,7 +2631,7 @@ msgid "Your Address"
 msgstr "Su Dirección"
 
 #: modules/Custom/Registration.php:166 modules/Custom/Registration.php:185
-#: modules/School_Setup/Schools.php:121
+#: modules/School_Setup/Schools.php:122
 #: modules/Students/includes/Address.inc.php:548
 #: modules/Students/includes/Address.inc.php:585
 msgid "Zip"
@@ -2654,53 +2654,37 @@ msgstr "Relacion con el Estudiante"
 msgid "Information about %s %s"
 msgstr "Información sobre %s %s"
 
-#: modules/Discipline/CategoryBreakdown.php:70
-#: modules/Discipline/CategoryBreakdown.php:314
-#: modules/Discipline/CategoryBreakdown.php:350
-#: modules/Discipline/CategoryBreakdown.php:367
-#: modules/Discipline/CategoryBreakdownTime.php:425
-#: modules/Discipline/StudentFieldBreakdown.php:329
-#: modules/Discipline/StudentFieldBreakdown.php:365
-#: modules/Discipline/StudentFieldBreakdown.php:382
-#: modules/Grades/GradebookBreakdown.php:231
-#: modules/Grades/GradebookBreakdown.php:246
-#: modules/Students/StudentBreakdown.php:284
-#: modules/Students/StudentBreakdown.php:320
-#: modules/Students/StudentBreakdown.php:337
-msgid "Breakdown"
-msgstr "Análisis"
-
-#: modules/Discipline/CategoryBreakdown.php:255
-#: modules/Discipline/CategoryBreakdownTime.php:325
+#: modules/Discipline/CategoryBreakdown.php:251
+#: modules/Discipline/CategoryBreakdownTime.php:322
 msgid "Please choose a category"
 msgstr "Escoge una categoría por favor"
 
-#: modules/Discipline/CategoryBreakdown.php:266
-#: modules/Discipline/CategoryBreakdownTime.php:337
-#: modules/Discipline/StudentFieldBreakdown.php:281
+#: modules/Discipline/CategoryBreakdown.php:262
+#: modules/Discipline/CategoryBreakdownTime.php:334
+#: modules/Discipline/StudentFieldBreakdown.php:278
 #: modules/Student_Billing/DailyTotals.php:33
 #: modules/Student_Billing/DailyTransactions.php:33
 msgid "Report Timeframe"
 msgstr "Transcurso del Reporte"
 
-#: modules/Discipline/CategoryBreakdown.php:274
-#: modules/Discipline/CategoryBreakdownTime.php:345
-#: modules/Discipline/StudentFieldBreakdown.php:289
+#: modules/Discipline/CategoryBreakdown.php:270
+#: modules/Discipline/CategoryBreakdownTime.php:342
+#: modules/Discipline/StudentFieldBreakdown.php:286
 #: modules/Students/StudentBreakdown.php:244
 msgid "Column"
 msgstr "Columna"
 
-#: modules/Discipline/CategoryBreakdown.php:274
-#: modules/Discipline/StudentFieldBreakdown.php:289
-#: modules/Grades/GradebookBreakdown.php:185
+#: modules/Discipline/CategoryBreakdown.php:270
+#: modules/Discipline/StudentFieldBreakdown.php:286
+#: modules/Grades/GradebookBreakdown.php:178
 #: modules/Students/StudentBreakdown.php:244
 msgid "Pie"
 msgstr "Gráfico"
 
-#: modules/Discipline/CategoryBreakdown.php:274
-#: modules/Discipline/CategoryBreakdownTime.php:345
-#: modules/Discipline/StudentFieldBreakdown.php:289
-#: modules/Grades/GradebookBreakdown.php:185
+#: modules/Discipline/CategoryBreakdown.php:270
+#: modules/Discipline/CategoryBreakdownTime.php:342
+#: modules/Discipline/StudentFieldBreakdown.php:286
+#: modules/Grades/GradebookBreakdown.php:178
 #: modules/Grades/GradeBreakdown.php:36 modules/Grades/HonorRoll.php:157
 #: modules/Reports/Students.php:140 modules/Scheduling/PrintSchedules.php:210
 #: modules/Scheduling/Schedule.php:135
@@ -2708,32 +2692,41 @@ msgstr "Gráfico"
 msgid "List"
 msgstr "Lista"
 
-#: modules/Discipline/CategoryBreakdown.php:287
-#: modules/Discipline/CategoryBreakdownTime.php:353
-#: modules/Discipline/CategoryBreakdownTime.php:372
-#: modules/Discipline/StudentFieldBreakdown.php:302
-#: modules/Grades/GradebookBreakdown.php:200
+#: modules/Discipline/CategoryBreakdown.php:283
+#: modules/Discipline/CategoryBreakdownTime.php:350
+#: modules/Discipline/CategoryBreakdownTime.php:369
+#: modules/Discipline/StudentFieldBreakdown.php:299
+#: modules/Grades/GradebookBreakdown.php:193
 #: modules/Students/StudentBreakdown.php:257
 msgid "Option"
 msgid_plural "Options"
 msgstr[0] "Opción"
 msgstr[1] "Opciones"
 
-#: modules/Discipline/CategoryBreakdown.php:287
-#: modules/Discipline/StudentFieldBreakdown.php:302
+#: modules/Discipline/CategoryBreakdown.php:283
+#: modules/Discipline/StudentFieldBreakdown.php:299
 msgid "Number of Referrals"
 msgstr "Número de Sanciones"
 
-#: modules/Discipline/CategoryBreakdown.php:299
-#: modules/Discipline/CategoryBreakdownTime.php:384
-#: modules/Discipline/StudentFieldBreakdown.php:314
-#: modules/Grades/GradebookBreakdown.php:212
+#: modules/Discipline/CategoryBreakdown.php:295
+#: modules/Discipline/CategoryBreakdownTime.php:381
+#: modules/Discipline/StudentFieldBreakdown.php:311
+#: modules/Grades/GradebookBreakdown.php:205
 #: modules/Grades/GradeBreakdown.php:77
 #: modules/Students/StudentBreakdown.php:269
 msgid "Right Click to Save Image As..."
 msgstr "Clic Botón Derecho, Guardar Imagen Como..."
 
-#: modules/Discipline/CategoryBreakdownTime.php:336
+#: modules/Discipline/CategoryBreakdown.php:296
+#: modules/Discipline/CategoryBreakdownTime.php:382
+#: modules/Discipline/StudentFieldBreakdown.php:312
+#: modules/Grades/GradebookBreakdown.php:206
+#: modules/Students/StudentBreakdown.php:270
+#, php-format
+msgid "%s Breakdown"
+msgstr "Análisis de %s"
+
+#: modules/Discipline/CategoryBreakdownTime.php:333
 #: modules/Discipline/ReferralLog.php:91
 #: modules/Food_Service/AssignSchool.php:38
 #: modules/Food_Service/AssignSchool.php:40
@@ -2926,7 +2919,7 @@ msgstr "Fecha de Entrada"
 msgid "Referral"
 msgstr "Sanción"
 
-#: modules/Discipline/StudentFieldBreakdown.php:263
+#: modules/Discipline/StudentFieldBreakdown.php:260
 #: modules/Students/StudentBreakdown.php:219
 msgid "Please choose a student field"
 msgstr "Escoge un campo de estudiante por favor"
@@ -4317,13 +4310,13 @@ msgstr "Ausencias por clase"
 msgid "Marking Periods"
 msgstr "Períodos a Calificar"
 
-#: modules/Grades/GradebookBreakdown.php:185
+#: modules/Grades/GradebookBreakdown.php:178
 #: modules/Grades/GradeBreakdown.php:36
 msgid "Line"
 msgstr "Línea"
 
 # 'user_profiles' table
-#: modules/Grades/GradebookBreakdown.php:200
+#: modules/Grades/GradebookBreakdown.php:193
 #: modules/Students/StudentBreakdown.php:257
 msgid "Number of Students"
 msgstr "Número de Estudiantes"
@@ -4796,14 +4789,14 @@ msgstr "Docente que entra las calificaciones para %s"
 msgid "Teachers who enter grades for %s"
 msgstr "Docentes que entran las calificaciones para %s"
 
-#: modules/Grades/Transcripts.php:149 modules/School_Setup/Schools.php:126
-#: modules/School_Setup/Schools.php:128
+#: modules/Grades/Transcripts.php:149 modules/School_Setup/Schools.php:127
+#: modules/School_Setup/Schools.php:129
 msgid "Website"
 msgstr "Portal"
 
 #: modules/Grades/Transcripts.php:151 modules/misc/Export.php:62
 #: modules/misc/Export.php:64 modules/misc/Export.php:213
-#: modules/School_Setup/Schools.php:130
+#: modules/School_Setup/Schools.php:131
 msgid "School Number"
 msgstr "Número de la Institución"
 
@@ -5743,6 +5736,7 @@ msgid "School year over two calendar years"
 msgstr "Año escolar sobre dos años calendarios"
 
 #: modules/School_Setup/Configuration.php:82
+#: modules/School_Setup/Schools.php:117
 msgid "School logo"
 msgstr "Logo de la Institución"
 
@@ -6178,26 +6172,26 @@ msgstr[1] "Campos de Institución"
 msgid "This school has been modified."
 msgstr "Esta institución ha sido modificada"
 
-#: modules/School_Setup/Schools.php:118
+#: modules/School_Setup/Schools.php:119
 msgid "School Name"
 msgstr "Nombre de la Institución"
 
-#: modules/School_Setup/Schools.php:124
+#: modules/School_Setup/Schools.php:125
 msgid "Principal of School"
 msgstr "Director"
 
-#: modules/School_Setup/Schools.php:131
+#: modules/School_Setup/Schools.php:132
 msgid "Base Grading Scale"
 msgstr "Escala Base de Calificaciones"
 
-#: modules/School_Setup/Schools.php:133
+#: modules/School_Setup/Schools.php:134
 msgid ""
 "Leave the field blank if the school does not use a Rotation of Numbered Days"
 msgstr ""
 "Deja el campo en blanco si la Institución no usa una Rotación de Días "
 "Enumerados"
 
-#: modules/School_Setup/Schools.php:133 modules/School_Setup/Schools.php:135
+#: modules/School_Setup/Schools.php:134 modules/School_Setup/Schools.php:136
 msgid "Number of Days for the Rotation"
 msgstr "Número de Días para la Rotación"
 
@@ -6220,14 +6214,12 @@ msgstr "Tamaño del archivo > %01.2fMb: %01.2fMb"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:19
 #: modules/Students/Student.php:392 modules/Users/User.php:368
-#, php-format
 msgid "Folder not created"
 msgstr "Carpeta no creada"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:22
 #: modules/School_Setup/includes/SchoolLogo.inc.php:17
 #: modules/Students/Student.php:393 modules/Users/User.php:369
-#, php-format
 msgid "Folder not writable"
 msgstr "Carpeta no grabable"
 
