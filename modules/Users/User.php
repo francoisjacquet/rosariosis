@@ -71,7 +71,7 @@ if($_REQUEST['modfunc']=='update')
 	if(count($_POST['staff']) && (User('PROFILE')=='admin' || basename($_SERVER['PHP_SELF'])=='index.php'))
 	{
 		//modif Francois: Moodle integrator / password
-		if (!MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
+		if ($_REQUEST['moodle_create_user'] && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
 		{
 			$error[] = _('Please enter a valid password');
 			//goto error_exit; //modif Francois: goto avail. in PHP 5.3
@@ -133,8 +133,14 @@ if($_REQUEST['modfunc']=='update')
 				if(User('PROFILE')=='admin' && $go)
 					DBQuery($sql);
 
-	//modif Francois: Moodle integrator
-				$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
+//modif Francois: Moodle integrator
+				if ($_REQUEST['moodle_create_user'])
+				{
+					$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
+					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+				}
+				else
+					$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
 			}
 		}
 		elseif (!isset($error))
@@ -147,7 +153,7 @@ if($_REQUEST['modfunc']=='update')
 			}
 			//modif Francois: Moodle integrator
 			//username, password, email required
-			if (MOODLE_INTEGRATOR && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['PASSWORD']) || empty($_REQUEST['staff']['EMAIL'])) && !isset($error))
+			elseif ($_REQUEST['moodle_create_user'] && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['EMAIL'])))
 			{
 				$error[] = _('Please fill in the required fields');
 				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
@@ -200,12 +206,16 @@ if($_REQUEST['modfunc']=='update')
 				DBQuery($sql);
 				
 	//modif Francois: Moodle integrator
-				$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
-				$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+				if ($_REQUEST['moodle_create_user'])
+				{
+					$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
+					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+				}
 				
 				$_REQUEST['staff_id'] = $staff_id;
 			}
 		}
+		$_REQUEST['moodle_create_user'] = false;
 		//error_exit: //modif Francois: goto avail. in PHP 5.3
 		if ($error && !UserStaffID())
 			$_REQUEST['staff_id'] = 'new';
@@ -303,6 +313,20 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 	}
 	DrawHeader($name,$delete_button.SubmitButton(_('Save')));
 
+//modif Francois: Moodle integrator
+		//propose to create user in Moodle: if 1) this is a creation, 2) this is an already created student but not in Moodle yet
+		
+	if (MOODLE_INTEGRATOR && AllowEdit())
+	{
+		//2) verifiy if the user is in Moodle:
+		$old_user_in_moodle = false;
+		if (!empty($staff['STAFF_ID']))
+			$old_user_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$staff['STAFF_ID']."' AND \"column\"='staff_id'"));
+		
+		if ($_REQUEST['staff_id']=='new' || !$old_user_in_moodle)
+			DrawHeader('<label>'.CheckBoxOnclick('moodle_create_user').'&nbsp;'._('Create User in Moodle').'</label>');
+	}
+	
 	if(User('PROFILE_ID'))
 		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
 	else

@@ -83,7 +83,7 @@ Array
 	)
 */
 	
-	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('staff_id', '".$staff_id."', ".$response[0]['id'].")");
+	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('staff_id', '".(!empty($staff_id) ? $staff_id : UserStaffID())."', ".$response[0]['id'].")");
 	return null;
 }
 
@@ -237,7 +237,7 @@ list of (
 )*/
 
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$staff_id."' AND \"column\"='staff_id'"));
+	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".(!empty($staff_id) ? $staff_id : UserStaffID())."' AND \"column\"='staff_id'"));
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
