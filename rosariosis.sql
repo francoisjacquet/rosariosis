@@ -3740,6 +3740,7 @@ INSERT INTO profile_exceptions VALUES (3, 'Users/User.php&category_id=1', 'Y', N
 INSERT INTO profile_exceptions VALUES (3, 'Users/User.php&category_id=2', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Users/User.php&category_id=3', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Scheduling/Schedule.php', 'Y', NULL);
+INSERT INTO profile_exceptions VALUES (3, 'Scheduling/PrintSchedules.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Scheduling/PrintClassPictures.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Scheduling/Requests.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/StudentGrades.php', 'Y', NULL);
@@ -3765,6 +3766,7 @@ INSERT INTO profile_exceptions VALUES (0, 'Students/Student.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Students/Student.php&category_id=1', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Students/Student.php&category_id=3', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Scheduling/Schedule.php', 'Y', NULL);
+INSERT INTO profile_exceptions VALUES (0, 'Scheduling/PrintSchedules.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Scheduling/PrintClassPictures.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Scheduling/Requests.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/StudentGrades.php', 'Y', NULL);
