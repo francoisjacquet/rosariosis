@@ -75,7 +75,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		if(UserStudentID() && $_REQUEST['student_id']!='new' && !isset($error))
 		{
 			//modif Francois: Moodle integrator / password
-			$old_student_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$_REQUEST['student_id']."' AND \"column\"='student_id'"));
+			$old_student_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".UserStudentID()."' AND \"column\"='student_id'"));
 			if ($old_student_in_moodle && !empty($_REQUEST['students']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
 			{
 				$error[] = _('Please enter a valid password');

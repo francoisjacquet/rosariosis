@@ -79,6 +79,14 @@ if($_REQUEST['modfunc']=='update')
 			
 		if(UserStaffID() && $_REQUEST['staff_id']!='new' && !isset($error))
 		{
+			//modif Francois: Moodle integrator / password
+			$old_user_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'"));
+			if ($old_user_in_moodle && !empty($_REQUEST['staff']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
+			{
+				$error[] = _('Please enter a valid password');
+				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
+			}
+			
 			$profile_RET = DBGet(DBQuery("SELECT PROFILE,PROFILE_ID,USERNAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 
 			if(isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']!=$profile_RET[1]['PROFILE_ID'])
