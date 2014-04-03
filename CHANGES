@@ -1,5 +1,18 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.3.2
+----------------
+- Escape jqPlot graph strings in *Breakdown.php
+- Update french & spanish translations
+- Bugfix create student in Moodle in Student.php
+- Move Moodle config include to Student.php
+- Verify email upon student creation in Moodle
+- Allow assign manager role with Moodle integrator
+- Choose whether to create user in Moodle or not
+- Un/assign manager role on Moodle user update
+- Moodle password check on user/student update
+- Remove hardcoded country in Moodle/Students/Student.php
+
 Changes in 2.3.1
 ----------------
 - Not title on remove button if has label in Buttons.fnc.php
