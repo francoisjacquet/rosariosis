@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-01 18:06-0500\n"
-"PO-Revision-Date: 2014-04-01 18:07-0500\n"
+"POT-Creation-Date: 2014-04-03 15:08-0500\n"
+"PO-Revision-Date: 2014-04-03 15:08-0500\n"
 "Last-Translator: Francois <www.alternative@free.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -311,7 +311,7 @@ msgstr "Jours"
 #: modules/Students/PeopleFields.php:162
 #: modules/Students/StudentFields.php:170
 #: modules/Student_Billing/functions.inc.php:24
-#: modules/Student_Billing/functions.inc.php:37 modules/Users/User.php:292
+#: modules/Student_Billing/functions.inc.php:37 modules/Users/User.php:314
 #: modules/Users/UserFields.php:170
 msgid "Delete"
 msgstr "Effacer"
@@ -403,12 +403,12 @@ msgid "Cancel"
 msgstr "Annuler"
 
 #: functions/ErrorMessage.fnc.php:33 functions/GetStuList.fnc.php:273
-#: modules/Scheduling/new_Requests.php:33 modules/Students/Student.php:389
-#: modules/Students/Student.php:390 modules/Students/Student.php:391
-#: modules/Students/Student.php:392 modules/Students/Student.php:393
-#: modules/Users/Exceptions.php:177 modules/Users/User.php:365
-#: modules/Users/User.php:366 modules/Users/User.php:367
-#: modules/Users/User.php:368 modules/Users/User.php:369
+#: modules/Scheduling/new_Requests.php:33 modules/Students/Student.php:395
+#: modules/Students/Student.php:396 modules/Students/Student.php:397
+#: modules/Students/Student.php:398 modules/Students/Student.php:399
+#: modules/Users/Exceptions.php:177 modules/Users/User.php:401
+#: modules/Users/User.php:402 modules/Users/User.php:403
+#: modules/Users/User.php:404 modules/Users/User.php:405
 msgid "Error"
 msgstr "Erreur"
 
@@ -1822,7 +1822,7 @@ msgstr "Code Region"
 #: modules/Students/EnrollmentCodes.php:71
 #: modules/Students/EnrollmentCodes.php:75
 #: modules/Students/PeopleFields.php:194 modules/Students/PeopleFields.php:253
-#: modules/Students/Student.php:317 modules/Students/Student.php:374
+#: modules/Students/Student.php:323 modules/Students/Student.php:380
 #: modules/Students/StudentFields.php:202
 #: modules/Students/StudentFields.php:261
 #: modules/Student_Billing/StudentFees.php:127
@@ -1832,7 +1832,7 @@ msgstr "Code Region"
 #: modules/Users/Exceptions.php:92 modules/Users/Exceptions.php:165
 #: modules/Users/Preferences.php:119 modules/Users/Preferences.php:372
 #: modules/Users/Profiles.php:117 modules/Users/Profiles.php:243
-#: modules/Users/User.php:304 modules/Users/User.php:350
+#: modules/Users/User.php:326 modules/Users/User.php:386
 #: modules/Users/UserFields.php:201 modules/Users/UserFields.php:260
 msgid "Save"
 msgstr "Sauver"
@@ -2126,8 +2126,8 @@ msgstr "Chercher Toutes les Ecoles"
 #: modules/Reports/Students.php:174 modules/Scheduling/PrintClassLists.php:124
 #: modules/Scheduling/PrintClassPictures.php:169
 #: modules/Students/Search.inc.php:55 modules/Students/Search.inc.php:110
-#: modules/Students/Student.php:396 modules/Users/Search.inc.php:63
-#: modules/Users/User.php:372 ProgramFunctions/PortalPollsNotes.fnc.php:108
+#: modules/Students/Student.php:402 modules/Users/Search.inc.php:63
+#: modules/Users/User.php:408 ProgramFunctions/PortalPollsNotes.fnc.php:108
 msgid "Submit"
 msgstr "Valider"
 
@@ -3024,7 +3024,7 @@ msgstr[1] "Enseignants qui n'ont pas entré l'éligibilité"
 #: modules/Food_Service/Users/ActivityReport.php:32
 #: modules/Food_Service/Users/Statements.php:56
 #: modules/Users/Search.inc.php:148 modules/Users/Search.inc.php:185
-#: modules/Users/User.php:253
+#: modules/Users/User.php:275
 msgid "User"
 msgstr "Utilisateur"
 
@@ -3566,7 +3566,7 @@ msgstr "Ce code barre est déjà assigné à l'Utilisateur <B>%s</B>."
 #: modules/Grades/ReportCardGrades.php:63
 #: modules/School_Setup/Configuration.php:50
 #: modules/School_Setup/Periods.php:55 modules/School_Setup/Schools.php:59
-#: modules/Students/Student.php:150
+#: modules/Students/Student.php:155
 msgid "Please enter valid Numeric data."
 msgstr "Merci de renter des données Numériques valides."
 
@@ -3953,10 +3953,10 @@ msgstr "La date d'échéance est avant la date de début !"
 #: modules/Grades/Assignments.php:34 modules/Scheduling/Courses.php:380
 #: modules/School_Setup/SchoolFields.php:78
 #: modules/Students/AddressFields.php:111
-#: modules/Students/PeopleFields.php:111 modules/Students/Student.php:155
-#: modules/Students/Student.php:162 modules/Students/StudentFields.php:116
-#: modules/Students/includes/Address.inc.php:165 modules/Users/User.php:145
-#: modules/Users/User.php:152 modules/Users/UserFields.php:116
+#: modules/Students/PeopleFields.php:111 modules/Students/Student.php:160
+#: modules/Students/Student.php:167 modules/Students/StudentFields.php:116
+#: modules/Students/includes/Address.inc.php:165 modules/Users/User.php:163
+#: modules/Users/User.php:170 modules/Users/UserFields.php:116
 msgid "Please fill in the required fields"
 msgstr "Merci de remplir les champs requis"
 
@@ -4806,7 +4806,7 @@ msgstr "Inclure sur le Livret Scolaire"
 msgid "Other Options"
 msgstr "Autres Options"
 
-#: modules/Grades/Transcripts.php:328 modules/Students/Student.php:394
+#: modules/Grades/Transcripts.php:328 modules/Students/Student.php:400
 #: modules/Students/includes/General_Info.inc.php:50
 msgid "Student Photo"
 msgstr "Photo Elève"
@@ -6158,7 +6158,7 @@ msgstr "Nombre de Jours de la Rotation"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:5
 #: modules/School_Setup/includes/SchoolLogo.inc.php:5
-#: modules/Students/Student.php:389 modules/Users/User.php:365
+#: modules/Students/Student.php:395 modules/Users/User.php:401
 msgid "File not uploaded"
 msgstr "Fichier non uploadé"
 
@@ -6168,24 +6168,24 @@ msgstr "Extension du fichier non autorisée"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:14
 #: modules/School_Setup/includes/SchoolLogo.inc.php:14
-#: modules/Students/Student.php:391 modules/Users/User.php:367
+#: modules/Students/Student.php:397 modules/Users/User.php:403
 #, php-format
 msgid "File size > %01.2fMb: %01.2fMb"
 msgstr "Taille du fichier > %01.2fMo: %01.2fMo"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:19
-#: modules/Students/Student.php:392 modules/Users/User.php:368
+#: modules/Students/Student.php:398 modules/Users/User.php:404
 msgid "Folder not created"
 msgstr "Dossier non créé"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:22
 #: modules/School_Setup/includes/SchoolLogo.inc.php:17
-#: modules/Students/Student.php:393 modules/Users/User.php:369
+#: modules/Students/Student.php:399 modules/Users/User.php:405
 msgid "Folder not writable"
 msgstr "Impossible d'écrire dans le Dossier"
 
 #: modules/School_Setup/includes/SchoolLogo.inc.php:10
-#: modules/Students/Student.php:390 modules/Users/User.php:366
+#: modules/Students/Student.php:396 modules/Users/User.php:402
 #, php-format
 msgid "Wrong file type: %s (JPG required)"
 msgstr "Mauvais type de fichier: %s (JPG requis)"
@@ -6454,7 +6454,7 @@ msgstr "Colonne de Départ"
 msgid "Student Info"
 msgstr "Informations Elève"
 
-#: modules/Students/Menu.php:4 modules/Students/Student.php:273
+#: modules/Students/Menu.php:4 modules/Students/Student.php:279
 msgid "Add a Student"
 msgstr "Ajouter un Elève"
 
@@ -6555,17 +6555,18 @@ msgstr "Imprimer les Informations pour le Elèves Sélectionnés"
 msgid "Expanded View"
 msgstr "Affichage Complet"
 
-#: modules/Students/Student.php:66 modules/Students/Student.php:76
+#: modules/Students/Student.php:71 modules/Students/Student.php:81
 #: modules/Users/Preferences.php:16 modules/Users/User.php:76
+#: modules/Users/User.php:86
 msgid "Please enter a valid password"
 msgstr "Merci de renter un mot de passe valide."
 
-#: modules/Students/Student.php:145
+#: modules/Students/Student.php:150
 msgid "That RosarioSIS ID is already taken. Please select a different one."
 msgstr ""
 "Cet ID RosarioSIS est déjà utilisé. Choisissez en un autre s'il vous plaît."
 
-#: modules/Students/Student.php:330
+#: modules/Students/Student.php:336
 msgid "Create Student in Moodle"
 msgstr "Créer Elève dans Moodle"
 
@@ -6681,37 +6682,37 @@ msgstr "Date de Début d'Attendance cette Année Scolaire"
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:322 modules/Users/includes/General_Info.inc.php:83
 msgid "Jr"
 msgstr "Jr"
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:322 modules/Users/includes/General_Info.inc.php:83
 msgid "Sr"
 msgstr "Sr"
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:322 modules/Users/includes/General_Info.inc.php:83
 msgid "II"
 msgstr "II"
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:322 modules/Users/includes/General_Info.inc.php:83
 msgid "III"
 msgstr "III"
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:322 modules/Users/includes/General_Info.inc.php:83
 msgid "IV"
 msgstr "IV"
 
 #: modules/Students/includes/General_Info.inc.php:84
 #: modules/Students/includes/General_Info.inc.php:89
-#: modules/Users/User.php:300 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:322 modules/Users/includes/General_Info.inc.php:83
 msgid "V"
 msgstr "V"
 
@@ -6758,7 +6759,7 @@ msgid_plural "Nurse Visits"
 msgstr[0] "Visite Médicale"
 msgstr[1] "Visites Médicales"
 
-#: modules/Students/includes/Other_Info.inc.php:93
+#: modules/Students/includes/Other_Info.inc.php:90
 msgid "Age"
 msgstr "Age"
 
@@ -6937,7 +6938,7 @@ msgstr "Informations Générales"
 msgid "User Info"
 msgstr "Informations Utilisateur"
 
-#: modules/Users/Menu.php:4 modules/Users/User.php:237
+#: modules/Users/Menu.php:4 modules/Users/User.php:259
 msgid "Add a User"
 msgstr "Ajouter un Utilisateur"
 
@@ -7140,7 +7141,7 @@ msgstr "Choisir un Utilisateur"
 msgid "No Users were found."
 msgstr "Aucun utilisateur trouvé."
 
-#: modules/Users/User.php:108 modules/Users/User.php:165
+#: modules/Users/User.php:116 modules/Users/User.php:183
 msgid ""
 "A user with that username already exists for the current school year. Choose "
 "a different username and try again."
@@ -7148,27 +7149,31 @@ msgstr ""
 "Un utilisateur avec ce nom d'utilisateur existe déjà pour l'année scolaire "
 "en cours. Choisissez un nom d'utilisateur différent et réessayez."
 
-#: modules/Users/User.php:299 modules/Users/includes/General_Info.inc.php:82
+#: modules/Users/User.php:321 modules/Users/includes/General_Info.inc.php:82
 msgid "Mr"
 msgstr "M."
 
-#: modules/Users/User.php:299 modules/Users/includes/General_Info.inc.php:82
+#: modules/Users/User.php:321 modules/Users/includes/General_Info.inc.php:82
 msgid "Mrs"
 msgstr "MM."
 
-#: modules/Users/User.php:299 modules/Users/includes/General_Info.inc.php:82
+#: modules/Users/User.php:321 modules/Users/includes/General_Info.inc.php:82
 msgid "Ms"
 msgstr "Mme"
 
-#: modules/Users/User.php:299 modules/Users/includes/General_Info.inc.php:82
+#: modules/Users/User.php:321 modules/Users/includes/General_Info.inc.php:82
 msgid "Miss"
 msgstr "Mlle"
 
-#: modules/Users/User.php:299 modules/Users/includes/General_Info.inc.php:82
+#: modules/Users/User.php:321 modules/Users/includes/General_Info.inc.php:82
 msgid "Dr"
 msgstr "Dr."
 
-#: modules/Users/User.php:370 modules/Users/includes/General_Info.inc.php:50
+#: modules/Users/User.php:339
+msgid "Create User in Moodle"
+msgstr "Créer Utilisateur dans Moodle"
+
+#: modules/Users/User.php:406 modules/Users/includes/General_Info.inc.php:50
 msgid "User Photo"
 msgstr "Photo Utilisateur"
 
