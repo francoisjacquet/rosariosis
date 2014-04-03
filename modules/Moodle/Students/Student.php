@@ -167,19 +167,19 @@ list of (
 	//Address and Phone not possible...
 	//$address = (!empty($_REQUEST['values']['ADDRESS']['ADDRESS']) ? $_REQUEST['values']['ADDRESS']['ADDRESS'] : false);
 	$city = (!empty($_REQUEST['values']['ADDRESS']['CITY']) ? $_REQUEST['values']['ADDRESS']['CITY'] : false);
-	$country = 'CO'; //Hardcoded (Colombia)
+	//$country = 'CO'; //Hardcoded (Colombia)
 	//$phone1 = (!empty($_REQUEST['values']['ADDRESS']['PHONE']) ? $_REQUEST['values']['ADDRESS']['PHONE'] : false);
 	
 	/*if ($address)
 		$user['address'] = $address;*/
 	if ($city)
 		$user['city'] = $city;
-	$user['country'] = $country;
+	//$user['country'] = $country;
 	/*if ($phone1)
 		$user['phone1'] = $phone1;*/
 	
 	//if none of the above user fields are updated, no object returned
-	if (count($user) < 3)
+	if (count($user) < 2)
 		return null;
 		
 	$users = array($user);
