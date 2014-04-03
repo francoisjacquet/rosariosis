@@ -308,6 +308,69 @@ function core_role_assign_roles_response($response)
 
 
 
+//core_role_unassign_roles function
+//TODO get rid of local_getcontexts_get_contexts function call when context not needed? (https://tracker.moodle.org/browse/MDL-39153)
+function core_role_unassign_roles_object()
+{
+	//first, gather the necessary variables
+	global $_REQUEST;
+	
+	
+	//then, convert variables for the Moodle object:
+/*
+list of ( 
+	object {
+		roleid int   //Role to assign to the user
+		userid int   //The user that is going to be assigned
+		contextid int   //The context to unassign the user role from
+	} 
+)
+*/
+	//gather the Moodle user ID
+	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'"));
+	if (count($userid))
+	{
+		$userid = (int)$userid[1]['MOODLE_ID'];
+	}
+	else
+	{
+		return null;
+	}
+
+	//only unassign if profile not manager
+	if(!isset($_REQUEST['staff']['PROFILE']) || $_REQUEST['staff']['PROFILE'] == 'admin')
+	{
+		return null;
+	}
+	
+	//admin's roleid = manager = 1
+	//teacher's roleid = teacher = 3
+	//parent's roleid = parent = RoleToBeCreated
+	//student's roleid = student = 5
+	
+	//only unassign manager role
+	$roleid = 1;
+	$contextid = 1; // System
+	
+	$unassignments = array(
+						array(
+							'roleid' => $roleid,
+							'userid' => $userid,
+							'contextid' => $contextid,
+						)
+					);
+	
+	return array($unassignments);
+}
+
+
+function core_role_unassign_roles_response($response)
+{
+	return null;
+}
+
+
+
 //core_files_upload function
 function core_files_upload_object()
 {

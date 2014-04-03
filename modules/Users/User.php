@@ -140,7 +140,11 @@ if($_REQUEST['modfunc']=='update')
 					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
 				}
 				else
+				{
 					$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
+					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_unassign_roles');
+					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+				}
 			}
 		}
 		elseif (!isset($error))
