@@ -671,7 +671,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			{
 				echo '</TBODY></TABLE></div><BR />';
 			}
-			if($options['header'])
+			if(!empty($options['header']))
 				echo '</div>';
 
 		// END PRINT THE LIST ---
@@ -682,7 +682,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			if(($result_count > $num_displayed) || (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0))))
 				echo '</TD></TR></TBODY></TABLE>';
 				
-			if($options['header'] && $link['add'])
+			if(!empty($options['header']))
 				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0" style="margin-bottom:0px; border-bottom:0px;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
 
 			if($link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
@@ -727,7 +727,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					echo '><TR><TD style="text-align:left;">'.button('add').$link['add']['span'].'</TD></TR></TABLE>';
 				}
 			}
-			if($options['header'] && $link['add'])
+			if(!empty($options['header']))
 				echo '</div>';
 		}
 		if($result_count!=0)
