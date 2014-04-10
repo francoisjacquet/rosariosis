@@ -114,7 +114,8 @@ if(empty($_REQUEST['modfunc']))
 	PopTable('header',$school_name);
 	echo '<FIELDSET><TABLE>';
 
-	echo '<TR style="text-align:left;"><TD colspan="3">'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<img src="assets/school_logo_'.UserSchool().'.jpg" style="max-width:225px; max-height:225px;" /><br /><span class="legend-gray">'._('School logo').'</span>' : '').'</TD></TR>';
+	if ($_REQUEST['new_school']!='true')
+		echo '<TR style="text-align:left;"><TD colspan="3">'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<img src="assets/school_logo_'.UserSchool().'.jpg" style="max-width:225px; max-height:225px;" /><br /><span class="legend-gray">'._('School logo').'</span>' : '').'</TD></TR>';
 //modif Francois: school name field required
 	echo '<TR style="text-align:left;"><TD colspan="3">'.TextInput($schooldata['TITLE'],'values[TITLE]',(!$schooldata['TITLE']?'<span class="legend-red">':'')._('School Name').(!$schooldata['TITLE']?'</span>':''),'required maxlength=100').'</TD></TR>';
 	echo '<TR style="text-align:left;"><TD colspan="3">'.TextInput($schooldata['ADDRESS'],'values[ADDRESS]',_('Address'),'maxlength=100').'</TD></TR>';
