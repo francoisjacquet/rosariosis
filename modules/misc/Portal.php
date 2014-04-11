@@ -121,6 +121,7 @@ switch (User('PROFILE'))
 			    echo '<div class="error"><p><IMG SRC="assets/x.png" class="alignImg">&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE']).'</p></div>';
 
 		    // warn if students with way low food service balances
+			$extra = array();
 		    $extra['SELECT'] = ',fssa.STATUS,fsa.BALANCE';
 		    $extra['FROM'] = ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 		    $extra['WHERE'] = ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NULL AND fsa.BALANCE<\'-10\'';
