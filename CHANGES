@@ -1,5 +1,13 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.3.3
+----------------
+- Add PrintSchedules to student/parent profile by default
+- Only verify xmlrpc PHP extension if Moodle integrator
+- Do not display logo if "Add a School"
+- Display ListOutput header if no result & if no add link
+- rosariosis.sql for 2014: rosariosis2014.sql
+
 Changes in 2.3.2
 ----------------
 - Escape jqPlot graph strings in *Breakdown.php
