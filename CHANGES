@@ -1,5 +1,15 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.4.10
+-----------------
+- Escape apostrophe in Inputs values
+- Insert GP_SCALE when Percent grade added 1st time
+- Convert PortalNotesFiles.inc.php to UTF8
+- Unify Windows / Linux locales:
+	- Spanish: esp_ESP => es_ES.utf8
+	- French: fra_FRA => fr_FR.utf8
+- Bugfix: reset GetStuList query for Food Service balance alert
+
 Changes in 1.4.9
 ----------------
 - SQL bugfix: skip COURSE_PERIOD_SCHOOL_PERIODS
