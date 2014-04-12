@@ -281,7 +281,7 @@ else
 
 	$columns = array();
 	$extra['SELECT'] .= ',s.STUDENT_ID AS PHONE';
-	$extra['functions']['PHONE'] = '_makePhone';
+	$extra['functions']['PHONE'] = 'makeContactInfo';
 	if($_REQUEST['table']=='0')
 	{
 		$extra['SELECT'] .= ",(SELECT STATE_VALUE FROM ATTENDANCE_DAY WHERE STUDENT_ID=ssm.STUDENT_ID AND SCHOOL_DATE='$date') AS STATE_VALUE";
@@ -327,31 +327,6 @@ else
 
 	echo '<BR /><span class="center">'.SubmitButton(_('Update')).'</span>';
 	echo "</FORM>";
-}
-
-function _makePhone($value,$column)
-{	global $contacts_RET;
-
-	if(count($contacts_RET[$value]))
-	{
-		foreach($contacts_RET[$value] as $person)
-		{
-			if($person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'])
-				$tipmessage .= $person[1]['STUDENT_RELATION'].': '.$person[1]['FIRST_NAME'].' '.$person[1]['LAST_NAME'].'<BR />';
-			$tipmessage .= '<TABLE>';
-			if($person[1]['PHONE'])
-				$tipmessage .= '<TR><TD style="text-align:right"><span style="color:gray">'._('Home Phone').'</span> </TD><TD>'.$person[1]['PHONE'].'</TD></TR>';
-			foreach($person as $info)
-			{
-				if($info['TITLE'] || $info['VALUE'])
-					$tipmessage .= '<TR><TD style="text-align:right"><span style="color:gray">'.$info['TITLE'].'</span></TD><TD>'.$info['VALUE'].'</TD></TR>';
-			}
-			$tipmessage .= '</TABLE>';
-		}
-	}
-	else
-		$tipmessage = _('This student has no contact information.');
-	return button('phone','','"#" onMouseOver=\'stm(["'._('Contact Information').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tipmessage)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"');
 }
 
 function _makeCodePulldown($value,$title)

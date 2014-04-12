@@ -129,7 +129,7 @@ else
 
 	$columns = array();
 	$extra['SELECT'] .= ',NULL AS STATE_VALUE,NULL AS PHONE';
-	$extra['functions']['PHONE'] = '_makePhone';
+	$extra['functions']['PHONE'] = 'makeContactInfo';
 	$extra['functions']['STATE_VALUE'] = '_makeStateValue';
 	$extra['columns_before']['PHONE'] = 'Contact';
 	$extra['columns_after']['STATE_VALUE'] = 'Present';
@@ -163,31 +163,6 @@ else
 	Search('student_id',$extra);
 
 	echo "</FORM>";
-}
-
-function _makePhone($value,$column)
-{	global $THIS_RET,$contacts_RET;
-
-	if(count($contacts_RET[$THIS_RET['STUDENT_ID']]))
-	{
-		foreach($contacts_RET[$THIS_RET['STUDENT_ID']] as $person)
-		{
-			if($person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'])
-				$tipmessage .= $person[1]['STUDENT_RELATION'].': '.$person[1]['FIRST_NAME'].' '.$person[1]['LAST_NAME'].'<BR />';
-			$tipmessage .= '<TABLE>';
-			if($person[1]['PHONE'])
-				$tipmessage .= '<TR><TD align=right><font color=gray>'._('Home Phone').'</font> </TD><TD>'.$person[1]['PHONE'].'</TD></TR>';
-			foreach($person as $info)
-			{
-				if($info['TITLE'] || $info['VALUE'])
-					$tipmessage .= '<TR><TD align=right><font color=gray>'.$info['TITLE'].'</font></TD><TD>'.$info['VALUE'].'</TD></TR>';
-			}
-			$tipmessage .= '</TABLE>';
-		}
-	}
-	else
-		$tipmessage = _('This student has no contact information.');
-	return button('phone','','# onMouseOver=\'stm(["'._('Contact Information').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tipmessage)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"');
 }
 
 function _makeCodePulldown($value,$title)
