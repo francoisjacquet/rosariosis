@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-03 15:08-0500\n"
-"PO-Revision-Date: 2014-04-03 15:08-0500\n"
-"Last-Translator: Francois <www.alternative@free.fr>\n"
+"POT-Creation-Date: 2014-04-24 18:09-0500\n"
+"PO-Revision-Date: 2014-04-24 18:09-0500\n"
+"Last-Translator: François <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -533,7 +533,7 @@ msgstr "Adresse de Courrier"
 #: modules/Custom/Registration.php:164 modules/Custom/Registration.php:183
 #: modules/misc/Export.php:62 modules/misc/Export.php:64
 #: modules/misc/Export.php:218 modules/misc/Export.php:220
-#: modules/School_Setup/Schools.php:121
+#: modules/School_Setup/Schools.php:122
 #: modules/Students/includes/Address.inc.php:546
 #: modules/Students/includes/Address.inc.php:583
 msgid "City"
@@ -544,7 +544,7 @@ msgstr "Ville"
 #: modules/Custom/Registration.php:165 modules/Custom/Registration.php:184
 #: modules/misc/Export.php:62 modules/misc/Export.php:64
 #: modules/misc/Export.php:218 modules/misc/Export.php:220
-#: modules/School_Setup/Schools.php:121
+#: modules/School_Setup/Schools.php:122
 #: modules/Students/includes/Address.inc.php:547
 #: modules/Students/includes/Address.inc.php:584
 msgid "State"
@@ -557,15 +557,13 @@ msgstr "Code Postal"
 
 #: functions/GetStuList.fnc.php:123 functions/Search.fnc.php:110
 #: modules/Custom/Registration.php:163 modules/Custom/Registration.php:182
-#: modules/misc/Export.php:218 modules/School_Setup/Schools.php:120
+#: modules/misc/Export.php:218 modules/School_Setup/Schools.php:121
 #: modules/Students/includes/Address.inc.php:269
 #: modules/Students/includes/Address.inc.php:544
 msgid "Address"
 msgstr "Adresse"
 
 #: functions/GetStuList.fnc.php:134 functions/GetStuList.fnc.php:313
-#: modules/Attendance/Administration.php:343
-#: modules/Attendance/Administration_fast.old.php:179
 #: modules/misc/Export.php:62 modules/misc/Export.php:64
 #: modules/misc/Export.php:218 modules/misc/Export.php:220
 msgid "Home Phone"
@@ -629,13 +627,11 @@ msgstr "Statut Ecole"
 msgid "Course Status"
 msgstr "Statut Cours"
 
-#: functions/GetStuList.fnc.php:323 modules/Attendance/Administration.php:353
-#: modules/Attendance/Administration_fast.old.php:189
+#: functions/GetStuList.fnc.php:323
 msgid "This student has no contact information."
 msgstr "Le profil de cet élève n'est pas renseigné."
 
-#: functions/GetStuList.fnc.php:324 modules/Attendance/Administration.php:354
-#: modules/Attendance/Administration_fast.old.php:190
+#: functions/GetStuList.fnc.php:324
 #: modules/Students/includes/Address.inc.php:242
 #: modules/Students/includes/Address.inc.php:614
 #: modules/Users/Preferences.php:270 modules/Users/Preferences.php:272
@@ -1007,7 +1003,7 @@ msgstr "Modifier"
 
 #: functions/Search.fnc.php:286 functions/Search.fnc.php:288
 #: functions/StaffWidgets.fnc.php:64 functions/StaffWidgets.fnc.php:145
-#: modules/Attendance/Administration.php:417
+#: modules/Attendance/Administration.php:392
 #: modules/Attendance/TeacherCompletion.php:26
 #: modules/Eligibility/TeacherCompletion.php:54
 #: modules/Food_Service/TeacherCompletion.php:33
@@ -1565,11 +1561,11 @@ msgstr "Remarque du Jour"
 msgid "Current Student"
 msgstr "Elève Selectionné"
 
-#: modules/Attendance/Administration.php:419
+#: modules/Attendance/Administration.php:394
 msgid "Not Present"
 msgstr "Pas Présent"
 
-#: modules/Attendance/Administration.php:437
+#: modules/Attendance/Administration.php:412
 #: modules/Attendance/StudentSummary.php:124
 #: modules/Food_Service/Students/Reminders.php:161
 #: modules/Food_Service/Students/Reminders.php:164
@@ -1581,7 +1577,7 @@ msgstr "Pas Présent"
 msgid "None"
 msgstr "Aucun"
 
-#: modules/Attendance/Administration.php:439
+#: modules/Attendance/Administration.php:414
 #: modules/Attendance/AttendanceCodes.php:179
 #: modules/Attendance/DailySummary.php:191
 #: modules/Attendance/DailySummary.php:229
@@ -1590,7 +1586,7 @@ msgstr "Aucun"
 msgid "Half Day"
 msgstr "Demi-Journée"
 
-#: modules/Attendance/Administration.php:441
+#: modules/Attendance/Administration.php:416
 #: modules/Attendance/StudentSummary.php:128
 msgid "Full Day"
 msgstr "Journée Entière"
@@ -1688,7 +1684,7 @@ msgstr "Nom"
 #: modules/Scheduling/ScheduleReport.php:130
 #: modules/School_Setup/GradeLevels.php:65
 #: modules/School_Setup/MarkingPeriods.php:258
-#: modules/School_Setup/Periods.php:76 modules/School_Setup/Schools.php:130
+#: modules/School_Setup/Periods.php:76 modules/School_Setup/Schools.php:131
 #: modules/Students/EnrollmentCodes.php:65
 msgid "Short Name"
 msgstr "Abbréviation"
@@ -1815,7 +1811,7 @@ msgstr "Code Region"
 #: modules/School_Setup/PortalPolls.php:208
 #: modules/School_Setup/SchoolFields.php:149
 #: modules/School_Setup/Schools.php:5 modules/School_Setup/Schools.php:112
-#: modules/School_Setup/Schools.php:179 modules/Students/AddressFields.php:194
+#: modules/School_Setup/Schools.php:180 modules/Students/AddressFields.php:194
 #: modules/Students/AddressFields.php:253
 #: modules/Students/AssignOtherInfo.php:90
 #: modules/Students/AssignOtherInfo.php:302
@@ -2517,7 +2513,7 @@ msgstr "Rue"
 
 #: modules/Custom/MyReport.php:55 modules/Custom/MyReport.php:57
 #: modules/Custom/Registration.php:167 modules/Custom/Registration.php:186
-#: modules/Grades/Transcripts.php:147 modules/School_Setup/Schools.php:124
+#: modules/Grades/Transcripts.php:147 modules/School_Setup/Schools.php:125
 #: modules/Students/includes/Address.inc.php:549
 msgid "Phone"
 msgstr "Téléphone"
@@ -2612,7 +2608,7 @@ msgid "Your Address"
 msgstr "Votre adresse"
 
 #: modules/Custom/Registration.php:166 modules/Custom/Registration.php:185
-#: modules/School_Setup/Schools.php:122
+#: modules/School_Setup/Schools.php:123
 #: modules/Students/includes/Address.inc.php:548
 #: modules/Students/includes/Address.inc.php:585
 msgid "Zip"
@@ -4207,6 +4203,7 @@ msgstr "Points de Notation non pondérés"
 
 #: modules/Grades/EditReportCardGrades.php:217
 #: modules/Grades/ReportCardGrades.php:141
+#: modules/Grades/ReportCardGrades.php:158
 msgid "Grade Scale"
 msgstr "Echelle de Notation"
 
@@ -4641,10 +4638,6 @@ msgid "Unweighted GP Value"
 msgstr "Valeur Note Non-Pondérée"
 
 #: modules/Grades/ReportCardGrades.php:158
-msgid "Gradescale"
-msgstr "Echelle de Notation"
-
-#: modules/Grades/ReportCardGrades.php:158
 msgid "Scale Value"
 msgstr "Valeur de l'Echelle"
 
@@ -4770,14 +4763,14 @@ msgstr "Enseignant qui saisi les notes pour %s"
 msgid "Teachers who enter grades for %s"
 msgstr "Enseignants qui saisissent les notes pour %s"
 
-#: modules/Grades/Transcripts.php:149 modules/School_Setup/Schools.php:127
-#: modules/School_Setup/Schools.php:129
+#: modules/Grades/Transcripts.php:149 modules/School_Setup/Schools.php:128
+#: modules/School_Setup/Schools.php:130
 msgid "Website"
 msgstr "Site web"
 
 #: modules/Grades/Transcripts.php:151 modules/misc/Export.php:62
 #: modules/misc/Export.php:64 modules/misc/Export.php:213
-#: modules/School_Setup/Schools.php:131
+#: modules/School_Setup/Schools.php:132
 msgid "School Number"
 msgstr "Numéro de l'école"
 
@@ -5179,7 +5172,7 @@ msgid "Not Graded"
 msgstr "Non Noté"
 
 #: modules/Scheduling/Courses.php:738
-msgid "Allow Teacher Gradescale"
+msgid "Allow Teacher Grade Scale"
 msgstr "Permettre l'Echelle de Notation Professeur"
 
 #: modules/Scheduling/Courses.php:756
@@ -5703,7 +5696,7 @@ msgid "School year over two calendar years"
 msgstr "Année scolaire sur deux années civiles"
 
 #: modules/School_Setup/Configuration.php:82
-#: modules/School_Setup/Schools.php:117
+#: modules/School_Setup/Schools.php:118
 msgid "School logo"
 msgstr "Logo de l'Ecole"
 
@@ -6133,26 +6126,26 @@ msgstr[1] "Champs Ecole"
 msgid "This school has been modified."
 msgstr "Cette école a été modifiée."
 
-#: modules/School_Setup/Schools.php:119
+#: modules/School_Setup/Schools.php:120
 msgid "School Name"
 msgstr "Nom de l'école"
 
-#: modules/School_Setup/Schools.php:125
+#: modules/School_Setup/Schools.php:126
 msgid "Principal of School"
 msgstr "Directeur"
 
-#: modules/School_Setup/Schools.php:132
+#: modules/School_Setup/Schools.php:133
 msgid "Base Grading Scale"
 msgstr "Base de l'échelle de notation"
 
-#: modules/School_Setup/Schools.php:134
+#: modules/School_Setup/Schools.php:135
 msgid ""
 "Leave the field blank if the school does not use a Rotation of Numbered Days"
 msgstr ""
 "Laisser le champ vide si l'école n'utilise pas une Rotation de Jours "
 "Numérotés"
 
-#: modules/School_Setup/Schools.php:134 modules/School_Setup/Schools.php:136
+#: modules/School_Setup/Schools.php:135 modules/School_Setup/Schools.php:137
 msgid "Number of Days for the Rotation"
 msgstr "Nombre de Jours de la Rotation"
 
@@ -7279,6 +7272,9 @@ msgstr "Vaccination"
 #: ProgramFunctions/StudentsUsersInfo.fnc.php:265
 msgid "Physical"
 msgstr "Visite Médicale"
+
+#~ msgid "Gradescale"
+#~ msgstr "Echelle de Notation"
 
 #~ msgid "File attached size"
 #~ msgstr "Taille du fichier joint"

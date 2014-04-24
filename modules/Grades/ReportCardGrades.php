@@ -155,7 +155,7 @@ if(empty($_REQUEST['modfunc']))
 	{
 		$sql = 'SELECT * FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID=\''.UserSchool().'\' AND SYEAR=\''.UserSyear().'\' ORDER BY SORT_ORDER,ID';
 		$functions = array('TITLE'=>'makeTextInput','GP_SCALE'=>'makeTextInput','COMMENT'=>'makeTextInput','HHR_GPA_VALUE'=>'makeGradesInput','HR_GPA_VALUE'=>'makeGradesInput','HRS_GPA_VALUE'=>'makeGradesInput','SORT_ORDER'=>'makeTextInput');
-		$LO_columns = array('TITLE'=>_('Gradescale'),'GP_SCALE'=>_('Scale Value'),'COMMENT'=>_('Comment'),'HHR_GPA_VALUE'=>_('High Honor Roll GPA Min'),'HR_GPA_VALUE'=>_('Honor Roll GPA Min'),'HRS_GPA_VALUE'=>_('Honor Roll by Subject GPA Min'),'SORT_ORDER'=>_('Sort Order'));
+		$LO_columns = array('TITLE'=>_('Grade Scale'),'GP_SCALE'=>_('Scale Value'),'COMMENT'=>_('Comment'),'HHR_GPA_VALUE'=>_('High Honor Roll GPA Min'),'HR_GPA_VALUE'=>_('Honor Roll GPA Min'),'HRS_GPA_VALUE'=>_('Honor Roll by Subject GPA Min'),'SORT_ORDER'=>_('Sort Order'));
 
 		$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'GP_SCALE'=>makeTextInput('', 'GP_SCALE'),'COMMENT'=>makeTextInput('','COMMENT'),'HHR_GPA_VALUE'=>makeGradesInput('','HHR_GPA_VALUE'),'HR_GPA_VALUE'=>makeGradesInput('','HR_GPA_VALUE'),'HRS_GPA_VALUE'=>makeGradesInput('','HRS_GPA_VALUE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
 		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&tab_id=new";
