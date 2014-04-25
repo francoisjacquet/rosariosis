@@ -46,6 +46,9 @@ function PDFStop($handle)
 			
 			$wkhtmltopdf->setBinPath($wkhtmltopdfPath);
 			
+			if (Preferences('PAGE_SIZE') != 'A4')
+				$wkhtmltopdf->setPageSize(Wkhtmltopdf::SIZE_LETTER);
+				
 			if (!empty($handle['orientation']) && $handle['orientation'] == 'landscape')
 				$wkhtmltopdf->setOrientation(Wkhtmltopdf::ORIENTATION_LANDSCAPE);
 			
