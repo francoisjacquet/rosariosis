@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-25 17:30-0500\n"
-"PO-Revision-Date: 2014-04-25 17:34-0500\n"
+"PO-Revision-Date: 2014-04-25 17:56-0500\n"
 "Last-Translator: François <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -7046,7 +7046,6 @@ msgid "Automatically scroll to the top of the page"
 msgstr "Remonter automatiquement en haut de page"
 
 #: modules/Users/Preferences.php:249
-#, fuzzy
 msgid "US Letter"
 msgstr "Lettre"
 
