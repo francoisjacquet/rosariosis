@@ -196,14 +196,8 @@ if(empty($_REQUEST['modfunc']))
 						echo '</TR><TR class="st">';			
 			}
 		}
+		echo '</TR></TABLE></TD></TR>';
 		
-		echo '</TR></TABLE></TD></TR>';
-		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
-		echo '<TR class="st"><TD><span style="color:gray">'._('PDF List Header Color').'</span></TD><TD><TABLE><TR>';
-		foreach($colors as $color)
-			echo '<TD style="background-color:'.$color.';"><INPUT type="radio" name="values[Preferences][HEADER]" value="'.$color.'"'.((Preferences('HEADER')==$color)?' checked':'').'></TD>';
-		echo '</TR></TABLE></TD></TR>';
-
 //modif Francois: css WPadmin
 //		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
@@ -251,6 +245,13 @@ if(empty($_REQUEST['modfunc']))
 		foreach($page_sizes as $page_size=>$title)
 			echo '<TD><label><INPUT type="radio" name="values[Preferences][PAGE_SIZE]" value="'.$page_size.'"'.((Preferences('PAGE_SIZE')==$page_size)?' checked':'').' /> '.$title.'</label></TD>';
 		echo '</TR></TABLE></TD></TR>';
+		
+		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
+		echo '<TR class="st"><TD><span style="color:gray">'._('PDF List Header Color').'</span></TD><TD><TABLE><TR>';
+		foreach($colors as $color)
+			echo '<TD style="background-color:'.$color.';"><INPUT type="radio" name="values[Preferences][HEADER]" value="'.$color.'"'.((Preferences('HEADER')==$color)?' checked':'').'></TD>';
+		echo '</TR></TABLE></TD></TR>';
+
 		echo '</TABLE>';
 	}
 
