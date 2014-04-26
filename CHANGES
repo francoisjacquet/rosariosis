@@ -1,5 +1,14 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.3.4
+----------------
+- Replace _makePhone with makeContactInfo in Administration.php
+- Link to Windows locale resource in locale/README
+- Bugfix Javascript typo error in Scheduler.php
+- Print Options preferences (Add page size (A4 or US Letter) option)
+- Update french & spanish translations
+- Move PDF List Header Color from display to print options
+
 Changes in 2.3.3
 ----------------
 - Add PrintSchedules to student/parent profile by default
