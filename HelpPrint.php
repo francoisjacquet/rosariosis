@@ -35,9 +35,9 @@
 			$old_modcat = $modcat;
 		}
 		$_REQUEST['modname'] = $program;
-		echo '<h3>';
+		echo '<h3 style="page-break-after: avoid;">';
 		if($program=='default')
-			echo ParseMLField(Config('TITLE')).' - '.sprintf(_('%s Handbook'),$title).'<BR />'.sprintf(_('version %s'),'1.0');
+			echo ParseMLField(Config('TITLE')).' - '.sprintf(_('%s Handbook'),$title).'<BR />'.sprintf(_('version %s'),'1.1');
 		else
 			echo (ProgramTitle() == 'RosarioSIS' ? str_replace(' ','_',$program) : ProgramTitle());
 		echo '</h3>';
