@@ -1,8 +1,7 @@
 <?php
-$_REQUEST["modname"] = "Resources/Redirect.php";
-$_REQUEST['to'] = "forums";
+$_REQUEST["modname"] = "Resources/Resources.php";
 
-if(AllowUse($_REQUEST['modname'].'&to=forums'))
+if(AllowUse($_REQUEST['modname']))
 {
 	echo '<SCRIPT type="text/javascript">modname="'.$_REQUEST['modname'].'"; openMenu(modname);</SCRIPT>';
 	include("modules/$_REQUEST[modname]");

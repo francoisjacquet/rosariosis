@@ -2274,6 +2274,37 @@ SELECT pg_catalog.setval('report_card_grades_seq', 15, true);
 
 
 --
+-- Name: resources; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace:
+--
+ 
+CREATE TABLE resources (
+	id numeric NOT NULL,
+	school_id numeric NOT NULL,
+	title character varying(256),
+	link character varying(1000)
+);
+ 
+ 
+--
+-- Name: resources_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
+--
+ 
+CREATE SEQUENCE resources_seq
+START WITH 3
+INCREMENT BY 1
+NO MINVALUE
+NO MAXVALUE
+CACHE 1;
+
+
+--
+-- Name: resources_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
+--
+ 
+SELECT pg_catalog.setval('resources_seq', 3, true);
+
+
+--
 -- Name: schedule; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
 --
 
