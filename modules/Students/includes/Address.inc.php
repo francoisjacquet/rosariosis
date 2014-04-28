@@ -4,7 +4,7 @@ $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='"
 // set this to false to disable auto-pull-downs for the contact info Description field
 $info_apd = true;
 
-if($_REQUEST['values'] && $_POST['values'])
+if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	if(count($_REQUEST['month_values']))
 	{
@@ -235,7 +235,7 @@ if($_REQUEST['values'] && $_POST['values'])
 	unset($_REQUEST['values']);
 }
 
-if($_REQUEST['modfunc']=='delete')
+if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if($_REQUEST['contact_id'])
 	{

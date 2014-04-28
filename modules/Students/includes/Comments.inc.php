@@ -4,7 +4,7 @@
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
 
 //$_ROSARIO['allow_edit'] = true;
-if($_REQUEST['modfunc']=='update')
+if($_REQUEST['modfunc']=='update' && AllowEdit())
 {
 	//modif Francois: add time and user to comments "comment thread" like
 	$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] = date('Y-m-d G:i:s').'|'.User('STAFF_ID')."||".$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'];

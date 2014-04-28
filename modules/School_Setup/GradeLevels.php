@@ -1,5 +1,5 @@
 <?php
-if($_REQUEST['values'] && $_POST['values'])
+if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
@@ -47,7 +47,7 @@ if($_REQUEST['values'] && $_POST['values'])
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='remove')
+if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Grade Level')))
 	{

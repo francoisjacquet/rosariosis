@@ -1,7 +1,7 @@
 <?php
 include_once('ProgramFunctions/StudentsUsersInfo.fnc.php');
 
-if($_REQUEST['modfunc']=='delete' && User('PROFILE')=='admin')
+if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
 		echo '</FORM>';
