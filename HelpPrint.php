@@ -13,7 +13,7 @@
 			$title = _('Parent');
 		break;
 		
-		case 'parent':
+		case 'student':
 			$title = _('Student');
 		break;
 	}
