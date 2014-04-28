@@ -3711,10 +3711,7 @@ INSERT INTO profile_exceptions VALUES (1, 'Food_Service/DailyMenus.php', 'Y', 'Y
 INSERT INTO profile_exceptions VALUES (1, 'Food_Service/MenuItems.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Food_Service/Menus.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Food_Service/Kiosk.php', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Resources/Redirect.php&to=doc', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Resources/Redirect.php&to=videohelp', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Resources/Redirect.php&to=forums', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (1, 'Resources/Redirect.php&to=translate', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'Resources/Resources.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (2, 'School_Setup/Schools.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'School_Setup/MarkingPeriods.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'School_Setup/Calendar.php', 'Y', NULL);
@@ -3756,10 +3753,7 @@ INSERT INTO profile_exceptions VALUES (2, 'Food_Service/Accounts.php', 'Y', NULL
 INSERT INTO profile_exceptions VALUES (2, 'Food_Service/Statements.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'Food_Service/DailyMenus.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (2, 'Food_Service/MenuItems.php', 'Y', NULL);
-INSERT INTO profile_exceptions VALUES (2, 'Resources/Redirect.php&to=doc', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (2, 'Resources/Redirect.php&to=videohelp', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (2, 'Resources/Redirect.php&to=forums', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (2, 'Resources/Redirect.php&to=translate', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (2, 'Resources/Resources.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'School_Setup/Schools.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'School_Setup/Calendar.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Students/Student.php', 'Y', NULL);
@@ -3787,10 +3781,7 @@ INSERT INTO profile_exceptions VALUES (3, 'Food_Service/Accounts.php', 'Y', NULL
 INSERT INTO profile_exceptions VALUES (3, 'Food_Service/Statements.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Food_Service/DailyMenus.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Food_Service/MenuItems.php', 'Y', NULL);
-INSERT INTO profile_exceptions VALUES (3, 'Resources/Redirect.php&to=doc', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (3, 'Resources/Redirect.php&to=videohelp', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (3, 'Resources/Redirect.php&to=forums', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (3, 'Resources/Redirect.php&to=translate', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (3, 'Resources/Resources.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'School_Setup/Schools.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'School_Setup/Calendar.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Students/Student.php', 'Y', NULL);
@@ -3813,10 +3804,7 @@ INSERT INTO profile_exceptions VALUES (0, 'Food_Service/Accounts.php', 'Y', NULL
 INSERT INTO profile_exceptions VALUES (0, 'Food_Service/Statements.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Food_Service/DailyMenus.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Food_Service/MenuItems.php', 'Y', NULL);
-INSERT INTO profile_exceptions VALUES (0, 'Resources/Redirect.php&to=doc', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (0, 'Resources/Redirect.php&to=videohelp', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (0, 'Resources/Redirect.php&to=forums', 'Y', 'Y');
-INSERT INTO profile_exceptions VALUES (0, 'Resources/Redirect.php&to=translate', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (0, 'Resources/Resources.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Custom/MyReport.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Custom/CreateParents.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Custom/NotifyParents.php', 'Y', 'Y');
@@ -3944,6 +3932,15 @@ INSERT INTO report_card_grades VALUES (14, 2013, 1, 'I', 14, 0.00, 0, 'Incomplet
 INSERT INTO report_card_grades VALUES (15, 2013, 1, 'N/A', 15, 0.00, NULL, NULL, 1, NULL);
 
 
+--
+-- Data for Name: resources; Type: TABLE DATA; Schema: public; Owner: rosariosis
+--
+
+INSERT INTO resources VALUES (1, 1, 'RosarioSIS Wiki', 'https://github.com/francoisjacquet/rosariosis/wiki');
+INSERT INTO resources VALUES (2, 1, 'Print Handbook', 'Help.php');
+INSERT INTO resources VALUES (3, 1, 'Imprimir Manual', 'Help_es.php');
+ 
+ 
 --
 -- Data for Name: schedule; Type: TABLE DATA; Schema: public; Owner: rosariosis
 --
