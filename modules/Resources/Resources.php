@@ -52,7 +52,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 
 if($_REQUEST['modfunc']!='remove')
 {
-	$sql = "SELECT ID,TITLE,LINK FROM RESOURCES WHERE SCHOOL_ID='".UserSchool()."'";
+	$sql = "SELECT ID,TITLE,LINK FROM RESOURCES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY ID";
 	$QI = DBQuery($sql);
 	$grades_RET = DBGet($QI,array('TITLE'=>'makeTextInput','LINK'=>'makeLink'));
 
@@ -91,8 +91,25 @@ function makeLink($value,$name)
 {	global $THIS_RET;
 
 	if (AllowEdit())
-		return makeTextInput($value,$name);
-		
-	return '<a href="'.$value.'" target="_blank">'.$value.'</a>';
+	{
+		if($THIS_RET['ID'])
+			return '<div><div style="float:left;"><a href="'.$value.'" target="_blank">'._('Link').'</a>&nbsp;</div>'.makeTextInput($value,$name).'</div>';
+		else
+			return makeTextInput($value,$name);
+	}
+	
+	//truncate links > 100 chars
+	$truncated_link = $value;
+	if (mb_strlen($truncated_link) > 100)
+	{
+		$separator = '/.../';
+		$separatorlength = mb_strlen($separator) ;
+		$maxlength = 100 - $separatorlength;
+		$start = $maxlength / 2 ;
+		$trunc =  mb_strlen($truncated_link) - $maxlength;
+		$truncated_link = substr_replace($truncated_link, $separator, $start, $trunc);
+	}
+	 
+	return '<a href="'.$value.'" target="_blank">'.$truncated_link.'</a>';
 }
 ?>
