@@ -172,7 +172,7 @@ function selMenuA(modname)
 //Bottom.php JS
 var modname='default', old_modname='';
 function expandHelp(){
-	var heightFooter = (document.getElementById('footer').style.height=='178px')?'38px':'178px';
+var heightFooter = (document.getElementById('footer').style.height=='178px')?'38px':'178px';
 	if (heightFooter=='178px')
 	{
 		if (modname!=old_modname)
@@ -187,8 +187,10 @@ function expandHelp(){
 			})
 			old_modname = modname;
 		}
+		$('#footerhelp').show();
 	}
-	$('#footerhelp').toggle();
+	else
+		$('#footerhelp').hide();
 	document.getElementById('footer').style.height = heightFooter;
 }
 function expandMenu(){
