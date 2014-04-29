@@ -184,7 +184,7 @@ if($_REQUEST['search_modfunc']=='list')
 				$_SESSION['Back_PHP_SELF'] = 'student';
 				unset($_SESSION['Search_PHP_SELF']);
 			}
-			echo '<script type="text/javascript">var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link);</script>';
+			echo '<script type="text/javascript">var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
 		}
 		if(!isset($_REQUEST['_ROSARIO_PDF']))
 		{
