@@ -35,7 +35,7 @@
 			$old_modcat = $modcat;
 		}
 		$_REQUEST['modname'] = $program;
-		echo '<h3 style="page-break-after: avoid;">';
+		echo '<div style="page-break-inside: avoid;"><h3>';
 		if($program=='default')
 			echo ParseMLField(Config('TITLE')).' - '.sprintf(_('%s Handbook'),$title).'<BR />'.sprintf(_('version %s'),'1.1');
 		else
@@ -45,7 +45,7 @@
 		if($student==true)
 			$value = str_replace('your child','yourself',str_replace('your child\'s','your',$value));
 		echo $value;
-		echo '</TD></TR></TABLE><BR />';
+		echo '</TD></TR></TABLE></div><BR />';
 	}
 	PDFStop($handle);
 ?>
