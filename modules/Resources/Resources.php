@@ -92,7 +92,7 @@ function makeLink($value,$name)
 
 	if (AllowEdit())
 	{
-		if($THIS_RET['ID'])
+		if($value)
 			return '<div><div style="float:left;"><a href="'.$value.'" target="_blank">'._('Link').'</a>&nbsp;</div>'.makeTextInput($value,$name).'</div>';
 		else
 			return makeTextInput($value,$name);
