@@ -48,7 +48,7 @@ foreach($help as $program=>$value)
 	if($program=='default')
 		echo ParseMLField(Config('TITLE')).' - '.sprintf(_('%s Handbook'),$title).'<BR />'.sprintf(_('version %s'),'1.1');
 	else
-		echo (ProgramTitle() == 'RosarioSIS' ? str_replace(' ','_',$program) : ProgramTitle());
+		echo (ProgramTitle() == 'RosarioSIS' ? $program : ProgramTitle());
 	echo '</h3>';
 	echo '<TABLE class="width-100p cellpadding-5"><TR><TD class="header2">';
 	if($student==true)
@@ -56,6 +56,7 @@ foreach($help as $program=>$value)
 	echo $value;
 	echo '</TD></TR></TABLE></div><BR />';
 }
+echo '<div style="text-align:center;font-weight:bold;"><a href="http://www.rosariosis.org/">http://www.rosariosis.org/</a></div>';
 $_REQUEST['modname'] = '';
 PDFStop($handle);
 ?>
