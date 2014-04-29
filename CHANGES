@@ -1,5 +1,25 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.4
+----------------
+- Resources module rework:
+	- RosarioSIS Wiki
+	- Print handbook
+	- Add your links
+- Help & Print Handbook rework:
+	- Move Help.php to Help_en.php
+	- Unique link to call handbook print: Help.php
+- Update spanish & french translations
+- Security fixes: add AllowEdit() check when update or remove in an Admin program
+- Bugfix Javascript bug expandHelp
+- Avoid orphan h3 program titles in the PDF handbook
+- wkhtmltopdf CSS: bigger font size (16px)
+- Add link to bottom of handbook
+
+Upgrade from 2.x
+----------------
+- Execute the SQL commands to install Resources, see https://gist.github.com/francoisjacquet/11379623
+
 Changes in 2.3.4
 ----------------
 - Replace _makePhone with makeContactInfo in Administration.php
