@@ -1,6 +1,4 @@
 <?php
-error_reporting(0);
-include 'Warehouse.php';
 // DEFAULT
 if(User('PROFILE')=='admin')
 	$help['default'] = '<p>Como administrador, usted puede crear las instituciones en el sistema, modificar estudiantes y usuarios, y acceder a los reportes esenciales sobre los estudiantes.</p><p>Usted tiene acceso a cualquier institución en el sistema. Para escoger una institución para trabajar, seleccione la institución desde el menú desplegable en el marco izquierdo. El programa refrescara automáticamente el espacio de trabajo con la nueva institución. De la misma manera, usted también puede cambiar el año escolar y el periodo a calificar.</p><p>Usando RosarioSIS, usted vera aparecer otras opciones en el marco izquierdo. Cuando usted selecciona un estudiante para trabajar, el nombre del estudiante aparece debajo del menú desplegable del periodo a calificar. Cambiando de servicio, usted sigue trabajando con el estudiante. Si usted quiere trabajar con otro estudiante, haga click sobre la cruz roja al lado del nombre del estudiante. Usted también puede acceder rápidamente a los Datos Personales del estudiante haciendo click sobre el nombre del estudiante. Igualmente ocurre, cuando usted selecciona un usuario para trabajar.</p><p>Cuando usted hace click sobre cualquier icono del marco izquierdo, podrá ver una lista de los servicios disponibles en el módulo. Haciendo click sobre cualquier titulo de servicio, este se abrirá en el marco principal, y se actualizará el marco de ayuda (abajo).</p><p>En muchos lugares de RosarioSIS, usted podrá ver listas de datos que están modificables. A menudo, usted deberá hacer click primero sobre el dato que usted quiere cambiar para tener acceso a el campo de entrada.</p><p>Usted puede salir de RosarioSIS en cualquier momento haciendo click sobre el enlace «Salir» en el marco inferior.</p>';
@@ -143,10 +141,5 @@ else
 {
 	$help['Eligibility/Student.php'] = '<p><i>Pantalla Estudiante</i> muestra las actividades de su estudiante y las calificaciones de elegibilidad del transcurso actual.<p>Usted puede especificar el periodo de elegibilidad que quiere ver escogiendo las fechas en el menú desplegable en la parte superior de la pantalla. La elegibilidad está entrada cada semana.</p>';
 	$help['Eligibility/StudentList.php'] = '<p><i>Lista de Estudiante</i> es un reporte que muestra todas las calificaciones y las calificaciones de elegibilidad de su estudiante.</p><p>Usted puede especificar el transcurso de elegibilidad que quiere ver escogiendo las fechas en el menú desplegable en la parte superior de la pantalla y presionando el botón «Ir». La elegibilidad está entrada cada semana.</p>';
-}
-
-if(mb_strpos($_SERVER['PHP_SELF'],'Help_es.php'))
-{
-	include('HelpPrint.php');
 }
 ?>

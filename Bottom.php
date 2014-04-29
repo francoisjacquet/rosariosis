@@ -33,7 +33,7 @@ elseif($_REQUEST['modfunc']=='help')
 	if (file_exists('Help_'.mb_substr($locale, 0, 2).'.php')) //modif Francois: translated help
 		include 'Help_'.mb_substr($locale, 0, 2).'.php';
 	else
-		include 'Help.php';
+		include 'Help_en.php';
 
 	$profile = User('PROFILE');
 
