@@ -6,6 +6,8 @@ Changes in 2.4
 	- RosarioSIS Wiki
 	- Print handbook
 	- Add your links
+	- delete Redirect.php
+	- create Resources.php
 - Help & Print Handbook rework:
 	- Move Help.php to Help_en.php
 	- Unique link to call handbook print: Help.php
