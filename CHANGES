@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.4.1
+----------------
+- Update 2014 SQL: add Resources table in rosariosis2014.sql
+
 Changes in 2.4
 ----------------
 - Resources module rework:
