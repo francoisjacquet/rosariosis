@@ -345,15 +345,19 @@ function _makeExtraAssnCols($assignment_id,$column)
 
 					//modif Francois: default points
 					$points = $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'];
+					$div = true;
 					if (is_null($points))
+					{
 						$points = $assignments_RET[$assignment_id][1]['DEFAULT_POINTS'];
+						$div = false;
+					}
 					if($points=='-1')
 						$points = '*';
 					elseif(mb_strpos($points,'.'))
 						$points = rtrim(rtrim($points,'0'),'.');
 
 //					return '<TABLE cellspacing=0 cellpadding=1><TR><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'</TD><TD>&nbsp;/&nbsp;</TD><TD>'.$total_points.'</TD></TR></TABLE>';
-					return TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, false).'&nbsp;/&nbsp;'.$total_points;
+					return '<span'.($div ? _(' style="float:left"') : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span><span>&nbsp;/&nbsp;'.$total_points.'</span>';
 				}
 			}
 		break;
@@ -451,15 +455,19 @@ function _makeExtraStuCols($value,$column)
 			$tabindex = $assignment_count;
 
 			//modif Francois: default points
+			$div = true;
 			if (is_null($value))
+			{
 				$value = $assignments_RET[$THIS_RET['ASSIGNMENT_ID']][1]['DEFAULT_POINTS'];
+				$div = false;
+			}
 			if($value=='-1')
 				$value = '*';
 			elseif(mb_strpos($value,'.'))
 				$value = rtrim(rtrim($value,'0'),'.');
 
 //			return '<TABLE cellspacing=0 cellpadding=1><TR><TD>'.TextInput($value,'values['.$THIS_RET['STUDENT_ID'].']['.$THIS_RET['ASSIGNMENT_ID'].'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'</TD><TD>&nbsp;/&nbsp;</TD><TD>'.$THIS_RET['TOTAL_POINTS'].'</TD></TR></TABLE>';
-			return TextInput($value,'values['.$THIS_RET['STUDENT_ID'].']['.$THIS_RET['ASSIGNMENT_ID'].'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, false).'&nbsp;/&nbsp;'.$THIS_RET['TOTAL_POINTS'];
+			return '<span'.($div ? _(' style="float:left"') : '').'>'.TextInput($value,'values['.$THIS_RET['STUDENT_ID'].']['.$THIS_RET['ASSIGNMENT_ID'].'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span><span>&nbsp;/&nbsp;'.$THIS_RET['TOTAL_POINTS'].'</span>';
 		break;
 
 		case 'PERCENT_GRADE':
@@ -507,8 +515,12 @@ function _makeExtraCols($assignment_id,$column)
 	{
 		//modif Francois: default points
 		$points = $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'];
+		$div = true;
 		if (is_null($points))
+		{
 			$points = $assignments_RET[$assignment_id][1]['DEFAULT_POINTS'];
+			$div = false;
+		}
 		if($points=='-1')
 			$points = '*';
 		elseif(mb_strpos($points,'.'))
@@ -517,13 +529,13 @@ function _makeExtraCols($assignment_id,$column)
 			if($points!='*')
 //				return '<TABLE cellspacing=0 cellpadding=0><TR align=center><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<HR>'.$total_points.'</TD><TD>&nbsp;'.($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'<span style="color:red">':''):'<span style="color:gray">').Percent($points/$total_points,0).($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'</span>':''):'').'<BR />&nbsp;<B>'._makeLetterGrade($points/$total_points).'</B>'.'</TD></TR></TABLE>';
 // modif Francois: display letter grade according to Configuration
-				return TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, false).'&nbsp;/&nbsp;'.$total_points.($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0 ? '' : '&nbsp;&minus;&nbsp;'.($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'<span style="color:red">':''):'<span style="color:gray">').Percent($points/$total_points,0).($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'</span>':''):'')).($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>=0 ? '' : '&nbsp;&minus;&nbsp;<B>'._makeLetterGrade($points/$total_points).'</B>');
+				return '<span'.($div ? _(' style="float:left"') : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span><span>&nbsp;/bla&nbsp;'.$total_points.($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>=0 ? '&nbsp;&minus;&nbsp;'.($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'<span style="color:red">':''):'<span style="color:gray">').Percent($points/$total_points,0).($assignments_RET[$assignment_id][1]['DUE']||$points!='' ? ($points>$total_points*$max_allowed?'</span>':'') : '') : '').($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0 ? '&nbsp;&minus;&nbsp;<B>'._makeLetterGrade($points/$total_points).'</B>' : '').'</span>';
 			else
 //				return '<TABLE cellspacing=0 cellpadding=1><TR align=center><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<HR>'.$total_points.'</TD><TD>&nbsp;'._('N/A').'<BR />&nbsp;'._('N/A').'</TD></TR></TABLE>';
-				return TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, false).'&nbsp;/&nbsp;'.$total_points.'&nbsp;&minus;&nbsp;'._('N/A');
+				return '<span'.($div ? _(' style="float:left"') : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span><span>&nbsp;/&nbsp;'.$total_points.'&nbsp;&minus;&nbsp;'._('N/A').'</span>';
 		else
 			//return '<TABLE class="cellpadding-1 cellspacing-0"><TR class="center"><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<HR>'.$total_points.'</TD><TD>&nbsp;E/C</TD></TR></TABLE>';
-			return TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, false).'&nbsp;/&nbsp;'.$total_points.'&nbsp;&minus;&nbsp;'._('E/C');
+			return '<span'.($div ? _(' style="float:left"') : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span><span>&nbsp;/&nbsp;'.$total_points.'&nbsp;&minus;&nbsp;'._('E/C').'</span>';
 	}
 }
 ?>
