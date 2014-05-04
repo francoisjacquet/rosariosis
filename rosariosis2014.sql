@@ -1563,7 +1563,8 @@ CREATE TABLE gradebook_assignments (
     assigned_date date,
     due_date date,
     points numeric NOT NULL,
-    description character varying(1000)
+    description character varying(1000),
+	default_points numeric
 );
 
 
