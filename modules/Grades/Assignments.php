@@ -34,8 +34,10 @@ if($_REQUEST['tables'] && $_POST['tables'])
 			BackPrompt(_('Please fill in the required fields'));
 
 		//modif Francois: fix SQL bug invalid numeric data
-        if (!isset($columns['POINTS']) || (is_numeric($columns['POINTS']) && intval($columns['POINTS'])>=0))
+		//modif Francois: default points
+        if ((!isset($columns['POINTS']) || (is_numeric($columns['POINTS']) && intval($columns['POINTS'])>=0)) && (!isset($columns['DEFAULT_POINTS']) || $columns['DEFAULT_POINTS']=='*' || (is_numeric($columns['DEFAULT_POINTS']) && intval($columns['DEFAULT_POINTS'])>=0)))
 		{
+			
 			//modif Francois: fix SQL bug invalid sort order
 			if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 			{
@@ -69,7 +71,9 @@ if($_REQUEST['tables'] && $_POST['tables'])
 						}
 						elseif($column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
 							$value = preg_replace('/[^0-9.]/','',$value) / 100;
-
+						//modif Francois: default points
+						elseif($column=='DEFAULT_POINTS' && $value=='*' && $table=='GRADEBOOK_ASSIGNMENTS')
+							$value = '-1';
 
 						$sql .= $column."='".$value."',";
 					}
@@ -124,6 +128,9 @@ if($_REQUEST['tables'] && $_POST['tables'])
 						}
 						elseif($column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
 							$value = preg_replace('/[^0-9.]/','',$value) / 100;
+						//modif Francois: default points
+						elseif($column=='DEFAULT_POINTS' && $value=='*' && $table=='GRADEBOOK_ASSIGNMENTS')
+							$value = '-1';
 
 						if($value!='')
 						{
@@ -234,7 +241,7 @@ if(empty($_REQUEST['modfunc']))
 	// ADDING & EDITING FORM
 	if($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='new')
 	{
-		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,DESCRIPTION,
+		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,DESCRIPTION,DEFAULT_POINTS,
 				CASE WHEN DUE_DATE<ASSIGNED_DATE THEN 'Y' ELSE NULL END AS DATE_ERROR,
 				CASE WHEN ASSIGNED_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."') THEN 'Y' ELSE NULL END AS ASSIGNED_ERROR,
 				CASE WHEN DUE_DATE>(SELECT END_DATE+1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."') THEN 'Y' ELSE NULL END AS DUE_ERROR
@@ -284,15 +291,19 @@ if(empty($_REQUEST['modfunc']))
 //modif Francois: title & points are required
 		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_id'].'][TITLE]',($RET['TITLE']?'':'<span style="color:red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</TD>';
 		$header .= '<TD>' . TextInput($RET['POINTS'],'tables['.$_REQUEST['assignment_id'].'][POINTS]',($RET['POINTS']!=''?'':'<span style="color:red">')._('Points').($RET['POINTS']?'':'</span>'),' size=4 maxlength=4 required min=0') . '</TD>';
+		//modif Francois: default points
+		if ($RET['DEFAULT_POINTS']=='-1')
+			$RET['DEFAULT_POINTS'] = '*';
+		$header .= '<TD>' . TextInput($RET['DEFAULT_POINTS'],'tables['.$_REQUEST['assignment_id'].'][DEFAULT_POINTS]','<span class="legend-gray" title="'._('Enter an asterisk (*) to excuse student').'" style="cursor:help">'._('Default Points').'*</span>',' size=4 maxlength=4') . '</TD>';
 		$header .= '<TD>' . CheckboxInput($RET['COURSE_ID'],'tables['.$_REQUEST['assignment_id'].'][COURSE_ID]',_('Apply to all Periods for this Course'),'',$_REQUEST['assignment_id']=='new') . '</TD>';
+		$header .= '</TR><TR class="st">';
 		foreach($types_RET as $type)
 			$assignment_type_options[$type['ASSIGNMENT_TYPE_ID']] = $type['TITLE'];
 
-		$header .= '<TD>' . SelectInput($RET['ASSIGNMENT_TYPE_ID']?$RET['ASSIGNMENT_TYPE_ID']:$_REQUEST['assignment_type_id'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNMENT_TYPE_ID]',_('Assignment Type'),$assignment_type_options,false) . '</TD>';
-		$header .= '</TR><TR class="st">';
+		$header .= '<TD class="valign-top">' . SelectInput($RET['ASSIGNMENT_TYPE_ID']?$RET['ASSIGNMENT_TYPE_ID']:$_REQUEST['assignment_type_id'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNMENT_TYPE_ID]',_('Assignment Type'),$assignment_type_options,false) . '</TD>';
 		$header .= '<TD class="valign-top">' . DateInput($new && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$RET['ASSIGNED_DATE'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNED_DATE]',_('Assigned'),!$new) . '</TD>';
 		$header .= '<TD class="valign-top">' . DateInput($new && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$RET['DUE_DATE'],'tables['.$_REQUEST['assignment_id'].'][DUE_DATE]',_('Due'),!$new) . '</TD>';
-		$header .= '<TD rowspan="2" colspan="2">' . TextareaInput($RET['DESCRIPTION'],'tables['.$_REQUEST['assignment_id'].'][DESCRIPTION]',_('Description')) . '</TD>';
+		$header .= '<TD>' . TextareaInput($RET['DESCRIPTION'],'tables['.$_REQUEST['assignment_id'].'][DESCRIPTION]',_('Description')) . '</TD>';
 		$header .= '</TR>';
 		$errors = ($RET['DATE_ERROR']=='Y'?'<span style="color:red">'._('Due date is before assigned date!').'</span><BR />':'');
 		$errors .= ($RET['ASSIGNED_ERROR']=='Y'?'<span style="color:red">'._('Assigned date is after end of quarter!').'</span><BR />':'');

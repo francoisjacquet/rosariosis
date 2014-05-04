@@ -32,104 +32,117 @@ if($_REQUEST['modfunc']=='update')
 	{
 		foreach($_REQUEST['values'] as $id=>$columns)
 		{
-			if($id!='new')
+			//modif Francois: fix SQL bug invalid numeric data
+			//modif Francois: default points
+			if ((empty($columns['POINTS']) || (is_numeric($columns['POINTS']) && intval($columns['POINTS'])>=0)) && (empty($columns['DEFAULT_POINTS']) || $columns['DEFAULT_POINTS']=='*' || (is_numeric($columns['DEFAULT_POINTS']) && intval($columns['DEFAULT_POINTS'])>=0)))
 			{
-				if($_REQUEST['tab_id']!='new')
+				if($id!='new')
 				{
-					$sql = "UPDATE GRADEBOOK_ASSIGNMENTS SET ";
-					//if(!$columns['COURSE_ID'])
-					//	$columns['COURSE_ID'] = 'N';
+					if($_REQUEST['tab_id']!='new')
+					{
+						$sql = "UPDATE GRADEBOOK_ASSIGNMENTS SET ";
+						//if(!$columns['COURSE_ID'])
+						//	$columns['COURSE_ID'] = 'N';
+					}
+					else
+						$sql = "UPDATE GRADEBOOK_ASSIGNMENT_TYPES SET ";
+
+					foreach($columns as $column=>$value)
+					{
+						if($column=='POINTS')
+							$value += 0;
+						elseif($column=='FINAL_GRADE_PERCENT' && $value!='')
+							$value /= 100;
+						elseif($column=='COURSE_ID')
+						{
+							if($value=='Y')
+							{
+								$column = 'COURSE_PERIOD_ID';
+								$value = '';
+								$sql .= "COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'),";
+							}
+							else
+							{
+								$value = '';
+								$sql .= "COURSE_PERIOD_ID='".UserCoursePeriod()."',";
+							}
+						}
+						//modif Francois: default points
+						elseif($column=='DEFAULT_POINTS' && $value=='*')
+							$value = '-1';
+						$sql .= $column."='".$value."',";
+					}
+
+					if($_REQUEST['tab_id']!='new')
+						$sql = mb_substr($sql,0,-1) . " WHERE ASSIGNMENT_ID='$id'";
+					else
+						$sql = mb_substr($sql,0,-1) . " WHERE ASSIGNMENT_TYPE_ID='$id'";
+					DBQuery($sql);
 				}
 				else
-					$sql = "UPDATE GRADEBOOK_ASSIGNMENT_TYPES SET ";
-
-				foreach($columns as $column=>$value)
 				{
-					if($column=='POINTS' && $value!='')
-						$value += 0;
-					elseif($column=='FINAL_GRADE_PERCENT' && $value!='')
-						$value /= 100;
-					elseif($column=='COURSE_ID')
+					if($_REQUEST['tab_id']!='new')
 					{
-						if($value=='Y')
+						$sql = 'INSERT INTO GRADEBOOK_ASSIGNMENTS ';
+						$fields = "ASSIGNMENT_ID,STAFF_ID,MARKING_PERIOD_ID,";
+						$values = db_seq_nextval('GRADEBOOK_ASSIGNMENTS_SEQ').",'".User('STAFF_ID')."','".UserMP()."',";
+						if($_REQUEST['tab_id'])
 						{
-							$column = 'COURSE_PERIOD_ID';
-							$value = '';
-							$sql .= "COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'),";
+							$fields .= "ASSIGNMENT_TYPE_ID,";
+							$values .= "'".$_REQUEST['tab_id']."',";
 						}
-						else
+						if(!$columns['COURSE_ID'])
+							$columns['COURSE_ID'] = 'N';
+					}
+					else
+					{
+						$sql = 'INSERT INTO GRADEBOOK_ASSIGNMENT_TYPES ';
+						$fields = 'ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,';
+						$values = db_seq_nextval('GRADEBOOK_ASSIGNMENT_TYPES_SEQ').",'".User('STAFF_ID')."',(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'),";
+					}
+
+					$go = false;
+					foreach($columns as $column=>$value)
+					{
+						if($column=='POINTS' && $value!='')
+							$value = ($value+0).'';
+						elseif($column=='FINAL_GRADE_PERCENT' && $value!='')
+							$value = ($value/100).'';
+						elseif($column=='COURSE_ID')
 						{
-							$value = '';
-							$sql .= "COURSE_PERIOD_ID='".UserCoursePeriod()."',";
+							if($value=='Y')
+							{
+								$column = 'COURSE_PERIOD_ID';
+								$value = '';
+								$fields .= "COURSE_ID,";
+								$values .= "(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'),";
+							}
+							else
+							{
+								$value = '';
+								$fields .= 'COURSE_PERIOD_ID,';
+								$values .= "'".UserCoursePeriod()."',";
+							}
+						}
+						//modif Francois: default points
+						elseif($column=='DEFAULT_POINTS' && $value=='*')
+							$value = '-1';
+						if($value!='')
+						{
+							$fields .= $column.',';
+							$values .= "'".$value."',";
+							if($column!='ASSIGNMENT_TYPE_ID' && $column!='ASSIGNED_DATE' && $column!='DUE_DATE' && $column!='DEFAULT_POINTS' && $column!='DESCRIPTION')
+								$go = true;
 						}
 					}
-					$sql .= $column."='".$value."',";
-				}
+					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-				if($_REQUEST['tab_id']!='new')
-					$sql = mb_substr($sql,0,-1) . " WHERE ASSIGNMENT_ID='$id'";
-				else
-					$sql = mb_substr($sql,0,-1) . " WHERE ASSIGNMENT_TYPE_ID='$id'";
-				DBQuery($sql);
+					if($go)
+						DBQuery($sql);
+				}
 			}
 			else
-			{
-				if($_REQUEST['tab_id']!='new')
-				{
-					$sql = 'INSERT INTO GRADEBOOK_ASSIGNMENTS ';
-					$fields = "ASSIGNMENT_ID,STAFF_ID,MARKING_PERIOD_ID,";
-					$values = db_seq_nextval('GRADEBOOK_ASSIGNMENTS_SEQ').",'".User('STAFF_ID')."','".UserMP()."',";
-					if($_REQUEST['tab_id'])
-					{
-						$fields .= "ASSIGNMENT_TYPE_ID,";
-						$values .= "'".$_REQUEST['tab_id']."',";
-					}
-					if(!$columns['COURSE_ID'])
-						$columns['COURSE_ID'] = 'N';
-				}
-				else
-				{
-					$sql = 'INSERT INTO GRADEBOOK_ASSIGNMENT_TYPES ';
-					$fields = 'ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,';
-					$values = db_seq_nextval('GRADEBOOK_ASSIGNMENT_TYPES_SEQ').",'".User('STAFF_ID')."',(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'),";
-				}
-
-				$go = false;
-				foreach($columns as $column=>$value)
-				{
-					if($column=='POINTS' && $value!='')
-						$value = ($value+0).'';
-					elseif($column=='FINAL_GRADE_PERCENT' && $value!='')
-						$value = ($value/100).'';
-					elseif($column=='COURSE_ID')
-					{
-						if($value=='Y')
-						{
-							$column = 'COURSE_PERIOD_ID';
-							$value = '';
-							$fields .= "COURSE_ID,";
-							$values .= "(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'),";
-						}
-						else
-						{
-							$value = '';
-							$fields .= 'COURSE_PERIOD_ID,';
-							$values .= "'".UserCoursePeriod()."',";
-						}
-					}
-					if($value!='')
-					{
-						$fields .= $column.',';
-						$values .= "'".$value."',";
-						if($column!='ASSIGNMENT_TYPE_ID' && $column!='ASSIGNED_DATE' && $column!='DUE_DATE')
-							$go = true;
-					}
-				}
-				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-
-				if($go)
-					DBQuery($sql);
-			}
+				echo ErrorMessage(array(_('Please enter valid Numeric data.')));
 		}
 	}
 	unset($_REQUEST['modfunc']);
@@ -186,22 +199,23 @@ if(empty($_REQUEST['modfunc']))
 
 	if($_REQUEST['tab_id']!='new')
 	{
-		$sql = "SELECT ASSIGNMENT_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,DESCRIPTION,ASSIGNMENT_TYPE_ID,".
+		//modif Francois: default points
+		$sql = "SELECT ASSIGNMENT_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,DESCRIPTION,ASSIGNMENT_TYPE_ID,DEFAULT_POINTS,".
 			db_case(array('(DUE_DATE<ASSIGNED_DATE)','TRUE',"'Y'",'NULL'))." AS DATE_ERROR,".
 			db_case(array('(ASSIGNED_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=\''.UserMP().'\'))','TRUE',"'Y'",'NULL'))." AS ASSIGNED_ERROR,".
 			db_case(array('DUE_DATE>(SELECT END_DATE+1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=\''.UserMP().'\')','TRUE',"'Y'",'NULL'))." AS DUE_ERROR ".
 			"FROM GRADEBOOK_ASSIGNMENTS ".
 			"WHERE STAFF_ID='".User('STAFF_ID')."' AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."')".($_REQUEST['tab_id']?" AND ASSIGNMENT_TYPE_ID='".$_REQUEST['tab_id']."'":'').
 			" AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC,ASSIGNMENT_ID DESC,TITLE";
-		$functions = array('TITLE'=>'_makeAssnInput','POINTS'=>'_makeAssnInput','ASSIGNED_DATE'=>'_makeAssnInput','DUE_DATE'=>'_makeAssnInput','COURSE_ID'=>'_makeAssnInput','DESCRIPTION'=>'_makeAssnInput');
+		$functions = array('TITLE'=>'_makeAssnInput','POINTS'=>'_makeAssnInput','ASSIGNED_DATE'=>'_makeAssnInput','DUE_DATE'=>'_makeAssnInput','COURSE_ID'=>'_makeAssnInput','DESCRIPTION'=>'_makeAssnInput','DEFAULT_POINTS'=>'_makeAssnInput');
 		if($_REQUEST['allow_edit']=='Y' || !$_REQUEST['tab_id'])
 			$functions['ASSIGNMENT_TYPE_ID'] = '_makeAssnInput';
 		$LO_ret = DBGet(DBQuery($sql),$functions);
 
-		$LO_columns = array('TITLE'=>_('Title'),'POINTS'=>_('Points'),'ASSIGNED_DATE'=>_('Assigned Date'),'DUE_DATE'=>_('Due Date'),'COURSE_ID'=>_('All'),'DESCRIPTION'=>_('Description'));
+		$LO_columns = array('TITLE'=>_('Title'),'POINTS'=>_('Points'),'DEFAULT_POINTS'=>'<span title="'._('Enter an asterisk (*) to excuse student').'" style="cursor:help">'._('Default Points').'*</span>','ASSIGNED_DATE'=>_('Assigned Date'),'DUE_DATE'=>_('Due Date'),'COURSE_ID'=>_('All'),'DESCRIPTION'=>_('Description'));
 		if($_REQUEST['allow_edit']=='Y' || !$_REQUEST['tab_id'])
 			$LO_columns += array('ASSIGNMENT_TYPE_ID'=>_('Type'));
-		$link['add']['html'] = array('TITLE'=>_makeAssnInput('','TITLE'),'POINTS'=>_makeAssnInput('','POINTS'),'ASSIGNED_DATE'=>_makeAssnInput('','ASSIGNED_DATE'),'DUE_DATE'=>_makeAssnInput('','DUE_DATE'),'COURSE_ID'=>_makeAssnInput('','COURSE_ID'),'DESCRIPTION'=>_makeAssnInput('','DESCRIPTION'));
+		$link['add']['html'] = array('TITLE'=>_makeAssnInput('','TITLE'),'POINTS'=>_makeAssnInput('','POINTS'),'DEFAULT_POINTS'=>_makeAssnInput('','DEFAULT_POINTS'),'ASSIGNED_DATE'=>_makeAssnInput('','ASSIGNED_DATE'),'DUE_DATE'=>_makeAssnInput('','DUE_DATE'),'COURSE_ID'=>_makeAssnInput('','COURSE_ID'),'DESCRIPTION'=>_makeAssnInput('','DESCRIPTION'));
 		if(!$_REQUEST['tab_id'])
 			$link['add']['html'] += array('ASSIGNMENT_TYPE_ID'=>_makeAssnInput('','ASSIGNMENT_TYPE_ID'));
 		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&tab_id=$_REQUEST[tab_id]&allow_edit=$_REQUEST[allow_edit]";
@@ -260,14 +274,21 @@ function _makeAssnInput($value,$name)
 
 	if($name=='TITLE')
 	{
-		if($id!='new' && !$value)
-			$title = '<span style="color:red">'._('Title').'</span>';
+		/*if($id!='new' && !$value)
+			$title = '<span style="color:red">'._('Title').'</span>';*/
 		$extra = 'size=25 maxlength=100';
 	}
 	elseif($name=='POINTS')
 	{
-		if($id!='new' && $value=='')
-			$title = '<span style="color:red">'._('Points').'</span>';
+		/*if($id!='new' && $value=='')
+			$title = '<span style="color:red">'._('Points').'</span>';*/
+		$extra = 'size=5 maxlength=5';
+	}
+	//modif Francois: default points
+	elseif($name=='DEFAULT_POINTS')
+	{
+		if ($value=='-1')
+			$value = '*';
 		$extra = 'size=5 maxlength=5';
 	}
 	elseif($name=='ASSIGNED_DATE')
