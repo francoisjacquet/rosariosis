@@ -38,29 +38,47 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 	$go = 0;
 
+	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
+	
 	foreach($_REQUEST['values'] as $column_name=>$value)
 	{
-		if(!is_array($value))
-			$sql .= "$column_name='".str_replace("&rsquo;","''",$value)."',";
-		else
+		if($value)
 		{
-			$sql .= $column_name."='||";
-			foreach($value as $val)
+			//modif Francois: check numeric fields
+			if ($categories_RET[str_replace('CATEGORY_','',$column_name)][1]['DATA_TYPE'] == 'numeric' && !is_numeric($value))
 			{
-				if($val)
-					$sql .= str_replace('&quot;','"',$val).'||';
+				$error_numeric = true;
+				break;
 			}
-			$sql .= "',";
+
+			if(!is_array($value))
+				$sql .= "$column_name='".str_replace("&rsquo;","''",$value)."',";
+			else
+			{
+				$sql .= $column_name."='||";
+				foreach($value as $val)
+				{
+					if($val)
+						$sql .= str_replace('&quot;','"',$val).'||';
+				}
+				$sql .= "',";
+			}
+			$go = true;
 		}
 	}
 	$sql = mb_substr($sql,0,-1) . " WHERE ID='$_REQUEST[referral_id]'";
 
-	DBQuery($sql);
+	if ($go)
+		DBQuery($sql);
+	if ($error_numeric)
+		$error = ErrorMessage(array(_('Please enter valid Numeric data.')));
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
 DrawHeader(ProgramTitle());
+if($error)
+	echo $error;
 
 if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {

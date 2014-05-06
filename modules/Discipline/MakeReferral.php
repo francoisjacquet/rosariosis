@@ -57,10 +57,19 @@ if($_REQUEST['values'] && $_POST['values'])
 
 	$go = 0;
 
+	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
+	
 	foreach($_REQUEST['values'] as $column=>$value)
 	{
 		if($value)
 		{
+			//modif Francois: check numeric fields
+			if ($categories_RET[str_replace('CATEGORY_','',$column)][1]['DATA_TYPE'] == 'numeric' && !is_numeric($value))
+			{
+				$error_numeric = true;
+				break;
+			}
+
 			$fields .= $column.',';
 			if(!is_array($value))
 				$values .= "'".str_replace('&quot;','"',$value)."',";
@@ -79,9 +88,13 @@ if($_REQUEST['values'] && $_POST['values'])
 	}
 
 	$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-	DBQuery($sql);
+	if ($go)
+		DBQuery($sql);
 //modif Francois: css WPadmin
-	$note = '<div class="updated"><IMG SRC="assets/check_button.png" class="alignImg" /> '._('That discipline incident has been referred to an administrator.').'</div>';
+	if ($error_numeric)
+		$error = ErrorMessage(array(_('Please enter valid Numeric data.')));
+	else
+		$error = ErrorMessage(array(_('That discipline incident has been referred to an administrator.')),'note');
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['values']);
 	unset($_REQUEST['student_id']);
@@ -89,8 +102,8 @@ if($_REQUEST['values'] && $_POST['values'])
 }
 
 DrawHeader(ProgramTitle());
-if(mb_strlen($note)>0)
-	echo $note;
+if($error)
+	echo $error;
 
 //if(!$_REQUEST['student_id'])
 	$extra['new'] = true;
