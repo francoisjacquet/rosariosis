@@ -1,5 +1,22 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.5
+----------------
+- Add default points to assignments in Assignments.php, Grades.php
+- Update SQL: add default_points field
+- Gradebook grades fixes
+- Bugifx input data verification in Assignments.php
+- Bugfix check numeric fields in MakeReferral.php, Referrals.php, Schools.php, User.php, Student.php, Address.inc.php
+- Bugfix broken statistics in StudentGrades.php
+- Add date field support in Schools.php
+- Bugfix SQL error staff_field_seq
+- Fix people fields display in Address.inc.php
+- Update spanish & french translations
+
+Upgrade from 2.x
+----------------
+- Execute the SQL commands to add default points to the gradebook assignments, see https://gist.github.com/francoisjacquet/87c12769735311bee428
+
 Changes in 2.4.1
 ----------------
 - Update 2014 SQL: add Resources table in rosariosis2014.sql
