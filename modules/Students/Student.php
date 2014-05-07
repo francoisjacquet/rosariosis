@@ -85,39 +85,57 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			if(count($_REQUEST['students']) && !isset($error))
 			{
 				$sql = "UPDATE STUDENTS SET ";
+				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
+				$go = false;
 				foreach($_REQUEST['students'] as $column=>$value)
 				{
-					if($column=='USERNAME' && $value)
-						if(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE USERNAME='".$value."' AND STUDENT_ID<>'".UserStudentID()."'")))
-							$value = '';
-					if(!is_array($value))
+					if($value)
 					{
-//modif Francois: add password encryption
-						if ($column!=='PASSWORD')
-							$sql .= "$column='".str_replace('&#39;',"''",$value)."',";
-						if ($column=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
+						//modif Francois: check numeric fields
+						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
 						{
-							$value = str_replace("''","'",$value);
-							$sql .= "$column='".encrypt_password($value)."',";
+							$error[] = _('Please enter valid Numeric data.');
+							break;
 						}
-					}
-					else
-					{
-//modif Francois: fix bug none selected not saved
-						$sql .= $column."='";
-						$sql_multiple_input = '';
-						foreach($value as $val)
+						
+						if($column=='USERNAME' && $value)
+							if(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE USERNAME='".$value."' AND STUDENT_ID<>'".UserStudentID()."'")))
+								$value = '';
+						if(!is_array($value))
 						{
-							if($val)
-								$sql_multiple_input .= str_replace('&quot;','"',$val).'||';
+	//modif Francois: add password encryption
+							if ($column!=='PASSWORD')
+							{
+								$sql .= "$column='".str_replace('&#39;',"''",$value)."',";
+								$go = true;
+							}
+							if ($column=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
+							{
+								$value = str_replace("''","'",$value);
+								$sql .= "$column='".encrypt_password($value)."',";
+								$go = true;
+							}
 						}
-						if (!empty($sql_multiple_input))
-							$sql .= "||".$sql_multiple_input;
-						$sql .= "',";
+						else
+						{
+	//modif Francois: fix bug none selected not saved
+							$sql .= $column."='";
+							$sql_multiple_input = '';
+							foreach($value as $val)
+							{
+								if($val)
+									$sql_multiple_input .= str_replace('&quot;','"',$val).'||';
+							}
+							if (!empty($sql_multiple_input))
+								$sql .= "||".$sql_multiple_input;
+							$sql .= "',";
+							$go = true;
+						}
 					}
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."'";
-				DBQuery($sql);
+				if($go)
+					DBQuery($sql);
 //modif Francois: Moodle integrator
 				if ($_REQUEST['moodle_create_student'])
 				{
