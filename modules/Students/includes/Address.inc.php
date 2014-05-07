@@ -731,11 +731,14 @@ if(empty($_REQUEST['modfunc']))
 					echo '</TD></TR>';
 					echo '</TABLE>';
 //					echo '</FIELDSET>';
-					echo '</TD></TR>';
+					//echo '</TD></TR>';
 
 					$categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
 					if($categories_RET)
 					{
+						echo '<TD class="valign-top">';
+						echo '<TABLE>';
+						
 						$value = DBGet(DBQuery("SELECT * FROM PEOPLE WHERE PERSON_ID='$_REQUEST[person_id]'"));
 						$value = $value[1];
 						$request = 'values[PEOPLE]';
