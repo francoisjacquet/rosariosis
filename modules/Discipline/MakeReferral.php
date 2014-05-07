@@ -67,6 +67,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			if ($categories_RET[str_replace('CATEGORY_','',$column)][1]['DATA_TYPE'] == 'numeric' && !is_numeric($value))
 			{
 				$error_numeric = true;
+				$go = 0;
 				break;
 			}
 

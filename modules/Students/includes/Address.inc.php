@@ -74,7 +74,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
 					{
 						$error[] = _('Please enter valid Numeric data.');
-						break;
+						continue;
 					}
 					
 					if(!is_array($value))
@@ -153,7 +153,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
 					{
 						$error[] = _('Please enter valid Numeric data.');
-						break;
+						continue;
 					}
 					
 					$sql .= $column."='".$value."',";

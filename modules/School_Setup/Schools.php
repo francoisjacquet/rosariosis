@@ -44,8 +44,8 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 						//modif Francois: check numeric fields
 						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
 						{
-							$error_numeric = true;
-							break;
+							$error[] = _('Please enter valid Numeric data.');
+							continue;
 						}
 						
 						$sql .= $column."='".$value."',";
@@ -98,9 +98,6 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 			$error[] = _('Please enter valid Numeric data.');
 		}
 	}
-
-	if ($error_numeric)
-		$error[] = _('Please enter valid Numeric data.');
 		
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['values']);

@@ -95,7 +95,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
 						{
 							$error[] = _('Please enter valid Numeric data.');
-							break;
+							continue;
 						}
 						
 						if($column=='USERNAME' && $value)

@@ -47,8 +47,8 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			//modif Francois: check numeric fields
 			if ($categories_RET[str_replace('CATEGORY_','',$column_name)][1]['DATA_TYPE'] == 'numeric' && !is_numeric($value))
 			{
-				$error_numeric = true;
-				break;
+				$error[] = _('Please enter valid Numeric data.');
+				continue;
 			}
 
 			if(!is_array($value))
@@ -70,15 +70,13 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 	if ($go)
 		DBQuery($sql);
-	if ($error_numeric)
-		$error = ErrorMessage(array(_('Please enter valid Numeric data.')));
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
 DrawHeader(ProgramTitle());
 if($error)
-	echo $error;
+	echo ErrorMessage(array(_('Please enter valid Numeric data.')));
 
 if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {

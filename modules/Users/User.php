@@ -131,7 +131,7 @@ if($_REQUEST['modfunc']=='update')
 						if ($fields_RET[str_replace('CUSTOM_','',$column_name)][1]['TYPE'] == 'numeric' && !is_numeric($value))
 						{
 							$error[] = _('Please enter valid Numeric data.');
-							break;
+							continue;
 						}
 						
 	//modif Francois: add password encryption
