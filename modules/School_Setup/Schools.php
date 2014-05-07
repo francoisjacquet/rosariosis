@@ -12,14 +12,32 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 			{
 				$sql = "UPDATE SCHOOLS SET ";
 
+				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM SCHOOL_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
+				
+				$go = 0;
+				
 				foreach($_REQUEST['values'] as $column=>$value)
 				{
-					$sql .= $column."='".$value."',";
+					if($value)
+					{
+						//modif Francois: check numeric fields
+						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
+						{
+							$error_numeric = true;
+							break;
+						}
+						
+						$sql .= $column."='".$value."',";
+						$go = true;
+					}
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'";
-				DBQuery($sql);
-				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
-				$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('This school has been modified.');
+				if ($go)
+				{
+					DBQuery($sql);
+					echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
+					$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('This school has been modified.');
+				}
 			}
 			else
 			{
@@ -60,6 +78,9 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 		}
 	}
 
+	if ($error_numeric)
+		$error[] = _('Please enter valid Numeric data.');
+		
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['values']);
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
