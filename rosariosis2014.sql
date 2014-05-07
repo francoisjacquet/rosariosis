@@ -2661,7 +2661,7 @@ CREATE SEQUENCE staff_fields_seq
 -- Name: staff_fields_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
 --
 
-SELECT pg_catalog.setval('staff_fields_seq', 1, true);
+SELECT pg_catalog.setval('staff_fields_seq', 4, true);
 
 
 --
