@@ -2,6 +2,27 @@
 unset($_SESSION['_REQUEST_vars']['values']);unset($_SESSION['_REQUEST_vars']['modfunc']);
 DrawHeader(ProgramTitle());
 
+if($_REQUEST['month_values'] && $_POST['month_values'])
+{
+	foreach($_REQUEST['month_values'] as $column=>$value)
+	{
+		$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
+		//modif Francois: bugfix SQL bug when incomplete or non-existent date
+		//if($_REQUEST['values'][$column]=='--')
+		if(mb_strlen($_REQUEST['values'][$column]) < 11)
+			$_REQUEST['values'][$column] = '';
+		else
+		{
+			while(!VerifyDate($_REQUEST['values'][$column]))
+			{
+				$_REQUEST['day_values'][$column]--;
+				$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
+			}
+		}
+	}
+	$_POST['values'] = $_REQUEST['values'];
+}
+
 if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 {
 	if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
