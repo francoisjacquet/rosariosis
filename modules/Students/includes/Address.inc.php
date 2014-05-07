@@ -4,29 +4,33 @@ $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='"
 // set this to false to disable auto-pull-downs for the contact info Description field
 $info_apd = true;
 
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if($_REQUEST['month_values'] && $_POST['month_values'])
 {
-	if(count($_REQUEST['month_values']))
+	foreach($_REQUEST['month_values'] as $field_category=>$columns)
 	{
-		foreach($_REQUEST['month_values'] as $table=>$month_values)
-			foreach($month_values as $column=>$value)
+		foreach($columns as $column=>$value)
+		{
+			$_REQUEST['values'][$field_category][$column] = $_REQUEST['day_values'][$field_category][$column].'-'.$value.'-'.$_REQUEST['year_values'][$field_category][$column];
+			//modif Francois: bugfix SQL bug when incomplete or non-existent date
+			//if($_REQUEST['values'][$column]=='--')
+			if(mb_strlen($_REQUEST['values'][$field_category][$column]) < 11)
+				$_REQUEST['values'][$field_category][$column] = '';
+			else
 			{
-				$_REQUEST['values'][$table][$column] = $_REQUEST['day_values'][$table][$column].'-'.$_REQUEST['month_values'][$table][$column].'-'.$_REQUEST['year_values'][$table][$column];
-				//modif Francois: bugfix SQL bug when incomplete or non-existent date
-				//if($_REQUEST['values'][$table][$column]=='--')
-				if(mb_strlen($_REQUEST['values'][$table][$column]) < 11)
-					$_REQUEST['values'][$table][$column] = '';
-				else
+				while(!VerifyDate($_REQUEST['values'][$field_category][$column]))
 				{
-					while(!VerifyDate($_REQUEST['values'][$table][$column]))
-					{
-						$_REQUEST['day_values'][$table][$column]--;
-						$_REQUEST['values'][$table][$column] = $_REQUEST['day_values'][$table][$column].'-'.$_REQUEST['month_values'][$table][$column].'-'.$_REQUEST['year_values'][$table][$column];
-					}
+					$_REQUEST['day_values'][$field_category][$column]--;
+					$_REQUEST['values'][$field_category][$column] = $_REQUEST['day_values'][$field_category][$column].'-'.$value.'-'.$_REQUEST['year_values'][$field_category][$column];
 				}
 			}
+		}
 	}
 	unset($_REQUEST['day_values']); unset($_REQUEST['month_values']); unset($_REQUEST['year_values']);
+	$_POST['values'] = $_REQUEST['values'];
+}
+
+if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+{
 
 	if($_REQUEST['values']['EXISTING'])
 	{
