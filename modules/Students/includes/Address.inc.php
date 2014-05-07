@@ -53,28 +53,44 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	}
 
 	if($_REQUEST['values']['ADDRESS'])
-	{
+	{		
 		if($_REQUEST['address_id']!='new')
 		{
 			$sql = "UPDATE ADDRESS SET ";
 
+			$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM ADDRESS_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
+
+			$go = 0;
+			
 			foreach($_REQUEST['values']['ADDRESS'] as $column=>$value)
 			{
-				if(!is_array($value))
-					$sql .= $column."='".$value."',";
-				else
+				if($value)
 				{
-					$sql .= $column."='||";
-					foreach($value as $val)
+					//modif Francois: check numeric fields
+					if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
 					{
-						if($val)
-							$sql .= str_replace('&quot;','"',$val).'||';
+						$error[] = _('Please enter valid Numeric data.');
+						break;
 					}
-					$sql .= "',";
+					
+					if(!is_array($value))
+						$sql .= $column."='".$value."',";
+					else
+					{
+						$sql .= $column."='||";
+						foreach($value as $val)
+						{
+							if($val)
+								$sql .= str_replace('&quot;','"',$val).'||';
+						}
+						$sql .= "',";
+					}
+					$go = true;
 				}
 			}
 			$sql = mb_substr($sql,0,-1) . " WHERE ADDRESS_ID='$_REQUEST[address_id]'";
-			DBQuery($sql);
+			if ($go)
+				DBQuery($sql);
 			
 //modif Francois: Moodle integrator
 			$residence = DBGet(DBQuery("SELECT RESIDENCE FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='$_REQUEST[address_id]'"));
@@ -117,52 +133,63 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 	if($_REQUEST['values']['PEOPLE'])
 	{
-		if (!empty($_REQUEST['values']['PEOPLE']['FIRST_NAME']) && !empty($_REQUEST['values']['PEOPLE']['LAST_NAME']))
+		if($_REQUEST['person_id']!='new')
 		{
-			if($_REQUEST['person_id']!='new')
+			$sql = "UPDATE PEOPLE SET ";
+
+			$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM PEOPLE_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
+
+			$go = 0;
+			
+			foreach($_REQUEST['values']['PEOPLE'] as $column=>$value)
 			{
-				$sql = "UPDATE PEOPLE SET ";
-
-				foreach($_REQUEST['values']['PEOPLE'] as $column=>$value)
+				if($value)
 				{
-					$sql .= $column."='".$value."',";
-				}
-				$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='$_REQUEST[person_id]'";
-				DBQuery($sql);
-			}
-			else
-			{
-				$id = DBGet(DBQuery('SELECT '.db_seq_nextval('PEOPLE_SEQ').' as SEQ_ID '.FROM_DUAL));
-				$id = $id[1]['SEQ_ID'];
-
-				$sql = "INSERT INTO PEOPLE ";
-
-				$fields = 'PERSON_ID,';
-				$values = "'".$id."',";
-
-				$go = 0;
-				foreach($_REQUEST['values']['PEOPLE'] as $column=>$value)
-				{
-					if($value)
+					//modif Francois: check numeric fields
+					if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
 					{
-						$fields .= $column.',';
-						$values .= "'".$value."',";
-						$go = true;
+						$error[] = _('Please enter valid Numeric data.');
+						break;
 					}
-				}
-				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-				if($go)
-				{
-					DBQuery($sql);
-					DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,PERSON_ID,STUDENT_ID,ADDRESS_ID,CUSTODY,EMERGENCY) values(".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'$id','".UserStudentID()."','".$_REQUEST['address_id']."','".$_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['CUSTODY']."','".$_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['EMERGENCY']."')");
-					if($_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
-						DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,ADDRESS_ID,STUDENT_ID) values (".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'0','".UserStudentID()."')");
-					$_REQUEST['person_id'] = $id;
+					
+					$sql .= $column."='".$value."',";
+					$go = true;
 				}
 			}
+			$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='$_REQUEST[person_id]'";
+			if($go)
+				DBQuery($sql);
 		}
 		else
-			$error[] = _('Please fill in the required fields');
+		{
+			$id = DBGet(DBQuery('SELECT '.db_seq_nextval('PEOPLE_SEQ').' as SEQ_ID '.FROM_DUAL));
+			$id = $id[1]['SEQ_ID'];
+
+			$sql = "INSERT INTO PEOPLE ";
+
+			$fields = 'PERSON_ID,';
+			$values = "'".$id."',";
+
+			$go = 0;
+			foreach($_REQUEST['values']['PEOPLE'] as $column=>$value)
+			{
+				if($value)
+				{
+					$fields .= $column.',';
+					$values .= "'".$value."',";
+					$go = true;
+				}
+			}
+			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+			if($go)
+			{
+				DBQuery($sql);
+				DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,PERSON_ID,STUDENT_ID,ADDRESS_ID,CUSTODY,EMERGENCY) values(".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'$id','".UserStudentID()."','".$_REQUEST['address_id']."','".$_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['CUSTODY']."','".$_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['EMERGENCY']."')");
+				if($_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
+					DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,ADDRESS_ID,STUDENT_ID) values (".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'0','".UserStudentID()."')");
+				$_REQUEST['person_id'] = $id;
+			}
+		}
 	}
 
 	if($_REQUEST['values']['PEOPLE_JOIN_CONTACTS'])
