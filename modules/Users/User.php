@@ -121,20 +121,31 @@ if($_REQUEST['modfunc']=='update')
 			if (!isset($error))
 			{
 				$sql = "UPDATE STAFF SET ";
+				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 				$go = false;
 				foreach($_REQUEST['staff'] as $column_name=>$value)
 				{
+					if($value)
+					{
+						//modif Francois: check numeric fields
+						if ($fields_RET[str_replace('CUSTOM_','',$column_name)][1]['TYPE'] == 'numeric' && !is_numeric($value))
+						{
+							$error[] = _('Please enter valid Numeric data.');
+							break;
+						}
+						
 	//modif Francois: add password encryption
-					if ($column_name!=='PASSWORD')
-					{
-						$sql .= "$column_name='".$value."',";
-						$go = true;
-					}
-					if ($column_name=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
-					{
-						$value = str_replace("''","'",$value);
-						$sql .= "$column_name='".encrypt_password($value)."',";
-						$go = true;
+						if ($column_name!=='PASSWORD')
+						{
+							$sql .= "$column_name='".$value."',";
+							$go = true;
+						}
+						if ($column_name=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
+						{
+							$value = str_replace("''","'",$value);
+							$sql .= "$column_name='".encrypt_password($value)."',";
+							$go = true;
+						}
 					}
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."'";
