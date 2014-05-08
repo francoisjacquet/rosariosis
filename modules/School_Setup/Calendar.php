@@ -396,7 +396,6 @@ if(empty($_REQUEST['modfunc']))
 				else
 				{
 					DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_DATE='".$date."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'");
-					var_dump($date);
 				}
 			}
 //			elseif($minutes!='0' && $minutes!='')
