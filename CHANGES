@@ -12,6 +12,7 @@ Changes in 2.5
 - Bugfix SQL error staff_field_seq
 - Fix people fields display in Address.inc.php
 - Update spanish & french translations
+- Bugfix erase claendar onchange in Calendar.php
 
 Upgrade from 2.x
 ----------------
