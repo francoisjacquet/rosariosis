@@ -194,5 +194,5 @@ var heightFooter = (document.getElementById('footer').style.height=='178px')?'38
 	document.getElementById('footer').style.height = heightFooter;
 }
 function expandMenu(){
-	$('#menu,#menuback').toggle();
+	$('#menu').toggle();
 }

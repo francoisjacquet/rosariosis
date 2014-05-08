@@ -193,7 +193,6 @@ elseif($_REQUEST['modfunc']!='create_account')
 	<footer id="footer" class="mod">
 		<?php include('Bottom.php'); ?>
 	</footer>	
-	<div id="menuback" class="mod"></div>
 	<aside id="menu" class="mod">
 		<?php include('Side.php'); ?>
 	</aside>

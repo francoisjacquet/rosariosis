@@ -17,8 +17,8 @@ input[readonly]{
 body{
 	color:#333
 }
-#menuback,#menu{background-color:#ececec;border-color:#ccc}
-#menushadow,#menuback{background-image:url(menu-shadow.png);background-position:top right;background-repeat:repeat-y}
+#menu{background-color:#ececec;border-color:#ccc}
+#menushadow{background-image:url(menu-shadow.png);background-position:top right;background-repeat:repeat-y}
 
 .widefat{
 	border-color:#dfdfdf;
