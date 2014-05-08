@@ -81,7 +81,7 @@ if(!defined('WAREHOUSE_PHP'))
 	<script type="text/javascript" src="assets/js/warehouse.js"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="assets/js/jscalendar/calendar-blue.css" />
 	<script type="text/javascript" src="assets/js/jscalendar/calendar.js"></script>
-	<script type="text/javascript" src="assets/js/jscalendar/lang/calendar-<?php echo mb_substr($locale, 0, 2); ?>.js"></script>
+	<script type="text/javascript" src="assets/js/jscalendar/lang/calendar-<?php echo file_exists('assets/js/jscalendar/lang/calendar-'.mb_substr($locale, 0, 2).'.js') ? mb_substr($locale, 0, 2) : 'en'; ?>.js"></script>
 	<script type="text/javascript" src="assets/js/jscalendar/calendar-setup.js"></script>			
 </HEAD>
 <BODY>
