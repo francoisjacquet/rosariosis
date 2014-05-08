@@ -1,8 +1,9 @@
 @import url("colors.css");
 
 #wrap{height:auto;min-height:100%;width:100%;position:relative}
-#menu{width:205px}
-#menu{border-width:0 1px 0 0;border-style:solid}
+#menuback,#menu{width:205px}
+#menuback{position:absolute;top:0;bottom:0;z-index:-1}
+#menuback,#menu{border-width:0 1px 0 0;border-style:solid}
 #menu{position:relative;float:left}
 #menushadow{position:absolute;top:0;right:0;bottom:0;width:6px;z-index:20}
 #body,#menu{margin-bottom:38px;}
