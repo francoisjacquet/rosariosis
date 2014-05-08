@@ -59,7 +59,7 @@ Calendar._MN = new Array
  "Dezember");
 
 // short month names
-Calendar._SMN = new Array
+/*Calendar._SMN = new Array
 ("Jan",
  "Feb",
  "M\u00e4r",
@@ -71,7 +71,20 @@ Calendar._SMN = new Array
  "Sep",
  "Okt",
  "Nov",
- "Dez");
+ "Dez");*/
+ Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
+ "Nov",
+ "Dec");
 
 // tooltips
 Calendar._TT = {};

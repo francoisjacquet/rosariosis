@@ -43,7 +43,7 @@ Calendar._MN = new Array
  "Joulukuu");
 
 // short month names
-Calendar._SMN = new Array
+/*Calendar._SMN = new Array
 ("Tam",
  "Hel",
  "Maa",
@@ -55,7 +55,20 @@ Calendar._SMN = new Array
  "Syy",
  "Lok",
  "Mar",
- "Jou");
+ "Jou");*/
+ Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
+ "Nov",
+ "Dec");
 
 // tooltips
 Calendar._TT = {};

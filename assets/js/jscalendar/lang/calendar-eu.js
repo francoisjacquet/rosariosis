@@ -65,7 +65,7 @@ Calendar._MN = new Array
  "Abendua");
 
 // short month names
-Calendar._SMN = new Array
+/*Calendar._SMN = new Array
 ("Urt",
  "Ots",
  "Mar",
@@ -77,7 +77,20 @@ Calendar._SMN = new Array
  "Ira",
  "Urr",
  "Aza",
- "Abe");
+ "Abe");*/
+ Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
+ "Nov",
+ "Dec");
 
 // tooltips
 Calendar._TT = {};

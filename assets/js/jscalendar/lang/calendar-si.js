@@ -24,7 +24,7 @@ Calendar._DN = new Array
  "Sob",
  "Ned");
 // short month names
-Calendar._SMN = new Array
+/*Calendar._SMN = new Array
 ("Jan",
  "Feb",
  "Mar",
@@ -35,6 +35,19 @@ Calendar._SMN = new Array
  "Avg",
  "Sep",
  "Okt",
+ "Nov",
+ "Dec");*/
+ Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
  "Nov",
  "Dec");
   // full month names

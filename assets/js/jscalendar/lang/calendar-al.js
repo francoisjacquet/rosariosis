@@ -39,7 +39,7 @@ Calendar._MN = new Array
 "Dhjetor");
 
 // muajte shkurt
-Calendar._SMN = new Array
+/*Calendar._SMN = new Array
 ("Jan",
 "Shk",
 "Mar",
@@ -51,7 +51,20 @@ Calendar._SMN = new Array
 "Sht",
 "Tet",
 "Nen",
-"Dhj");
+"Dhj");*/
+Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
+ "Nov",
+ "Dec");
 
 // ndihmesa
 Calendar._TT = {};

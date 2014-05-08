@@ -33,7 +33,7 @@ Calendar._MN = new Array
  "Νοέμβριος",
  "Δεκέμβριος");
 
-Calendar._SMN = new Array
+/*Calendar._SMN = new Array
 ("Ιαν",
  "Φεβ",
  "Μαρ",
@@ -45,7 +45,20 @@ Calendar._SMN = new Array
  "Σεπ",
  "Οκτ",
  "Νοε",
- "Δεκ");
+ "Δεκ");*/
+ Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
+ "Nov",
+ "Dec");
 
 // tooltips
 Calendar._TT = {};

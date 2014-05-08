@@ -59,7 +59,7 @@ Calendar._MN = new Array
  "דצמבר");
 
 // short month names
-Calendar._SMN = new Array
+/*Calendar._SMN = new Array
 ("ינא",
  "פבר",
  "מרץ",
@@ -71,7 +71,20 @@ Calendar._SMN = new Array
  "ספט",
  "אוק",
  "נוב",
- "דצמ");
+ "דצמ");*/
+ Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
+ "Nov",
+ "Dec");
 
 // tooltips
 Calendar._TT = {};
