@@ -1,45 +1,119 @@
-// ** Translated by ATang ** I18N
+// ** I18N
+
+// Calendar ZH language
+// Author: muziq, <muziq@sina.com>
+// Encoding: GB2312 or GBK
+// Distributed under the same terms as the calendar itself.
+
+// full day names
 Calendar._DN = new Array
-("ĞÇÆÚÈÕ",
- "ĞÇÆÚÒ»",
- "ĞÇÆÚ¶ş",
- "ĞÇÆÚÈı",
- "ĞÇÆÚËÄ",
- "ĞÇÆÚÎå",
- "ĞÇÆÚÁù",
- "ĞÇÆÚÈÕ");
+("æ˜ŸæœŸæ—¥",
+ "æ˜ŸæœŸä¸€",
+ "æ˜ŸæœŸäºŒ",
+ "æ˜ŸæœŸä¸‰",
+ "æ˜ŸæœŸå››",
+ "æ˜ŸæœŸäº”",
+ "æ˜ŸæœŸå…­",
+ "æ˜ŸæœŸæ—¥");
+
+// Please note that the following array of short day names (and the same goes
+// for short month names, _SMN) isn't absolutely necessary.  We give it here
+// for exemplification on how one can customize the short day names, but if
+// they are simply the first N letters of the full name you can simply say:
+//
+//   Calendar._SDN_len = N; // short day name length
+//   Calendar._SMN_len = N; // short month name length
+//
+// If N = 3 then this is not needed either since we assume a value of 3 if not
+// present, to be compatible with translation files that were written before
+// this feature.
+
+// short day names
+Calendar._SDN = new Array
+("æ—¥",
+ "ä¸€",
+ "äºŒ",
+ "ä¸‰",
+ "å››",
+ "äº”",
+ "å…­",
+ "æ—¥");
+
+// full month names
 Calendar._MN = new Array
-("Ò»ÔÂ",
- "¶şÔÂ",
- "ÈıÔÂ",
- "ËÄÔÂ",
- "ÎåÔÂ",
- "ÁùÔÂ",
- "ÆßÔÂ",
- "°ËÔÂ",
- "¾ÅÔÂ",
- "Ê®ÔÂ",
- "Ê®Ò»ÔÂ",
- "Ê®¶şÔÂ");
+("ä¸€æœˆ",
+ "äºŒæœˆ",
+ "ä¸‰æœˆ",
+ "å››æœˆ",
+ "äº”æœˆ",
+ "å…­æœˆ",
+ "ä¸ƒæœˆ",
+ "å…«æœˆ",
+ "ä¹æœˆ",
+ "åæœˆ",
+ "åä¸€æœˆ",
+ "åäºŒæœˆ");
+
+// short month names
+Calendar._SMN = new Array
+("ä¸€æœˆ",
+ "äºŒæœˆ",
+ "ä¸‰æœˆ",
+ "å››æœˆ",
+ "äº”æœˆ",
+ "å…­æœˆ",
+ "ä¸ƒæœˆ",
+ "å…«æœˆ",
+ "ä¹æœˆ",
+ "åæœˆ",
+ "åä¸€æœˆ",
+ "åäºŒæœˆ");
 
 // tooltips
 Calendar._TT = {};
-Calendar._TT["TOGGLE"] = "ÇĞ»»ÖÜ¿ªÊ¼µÄÒ»Ìì";
-Calendar._TT["PREV_YEAR"] = "ÉÏÒ»Äê (°´×¡³ö²Ëµ¥)";
-Calendar._TT["PREV_MONTH"] = "ÉÏÒ»ÔÂ (°´×¡³ö²Ëµ¥)";
-Calendar._TT["GO_TODAY"] = "µ½½ñÈÕ";
-Calendar._TT["NEXT_MONTH"] = "ÏÂÒ»ÔÂ (°´×¡³ö²Ëµ¥)";
-Calendar._TT["NEXT_YEAR"] = "ÏÂÒ»Äê (°´×¡³ö²Ëµ¥)";
-Calendar._TT["SEL_DATE"] = "Ñ¡ÔñÈÕÆÚ";
-Calendar._TT["DRAG_TO_MOVE"] = "ÍÏ¶¯";
-Calendar._TT["PART_TODAY"] = " (½ñÈÕ)";
-Calendar._TT["MON_FIRST"] = "Ê×ÏÈÏÔÊ¾ĞÇÆÚÒ»";
-Calendar._TT["SUN_FIRST"] = "Ê×ÏÈÏÔÊ¾ĞÇÆÚÈÕ";
-Calendar._TT["CLOSE"] = "¹Ø±Õ";
-Calendar._TT["TODAY"] = "½ñÈÕ";
+Calendar._TT["INFO"] = "å¸®åŠ©";
+
+Calendar._TT["ABOUT"] =
+"DHTML Date/Time Selector\n" +
+"(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" + // don't translate this this ;-)
+"For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
+"Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
+"\n\n" +
+"é€‰æ‹©æ—¥æœŸ:\n" +
+"- ç‚¹å‡» \xab, \xbb æŒ‰é’®é€‰æ‹©å¹´ä»½\n" +
+"- ç‚¹å‡» " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " æŒ‰é’®é€‰æ‹©æœˆä»½\n" +
+"- é•¿æŒ‰ä»¥ä¸ŠæŒ‰é’®å¯ä»èœå•ä¸­å¿«é€Ÿé€‰æ‹©å¹´ä»½æˆ–æœˆä»½";
+Calendar._TT["ABOUT_TIME"] = "\n\n" +
+"é€‰æ‹©æ—¶é—´:\n" +
+"- ç‚¹å‡»å°æ—¶æˆ–åˆ†é’Ÿå¯ä½¿æ”¹æ•°å€¼åŠ ä¸€\n" +
+"- æŒ‰ä½Shifté”®ç‚¹å‡»å°æ—¶æˆ–åˆ†é’Ÿå¯ä½¿æ”¹æ•°å€¼å‡ä¸€\n" +
+"- ç‚¹å‡»æ‹–åŠ¨é¼ æ ‡å¯è¿›è¡Œå¿«é€Ÿé€‰æ‹©";
+
+Calendar._TT["PREV_YEAR"] = "ä¸Šä¸€å¹´ (æŒ‰ä½å‡ºèœå•)";
+Calendar._TT["PREV_MONTH"] = "ä¸Šä¸€æœˆ (æŒ‰ä½å‡ºèœå•)";
+Calendar._TT["GO_TODAY"] = "è½¬åˆ°ä»Šæ—¥";
+Calendar._TT["NEXT_MONTH"] = "ä¸‹ä¸€æœˆ (æŒ‰ä½å‡ºèœå•)";
+Calendar._TT["NEXT_YEAR"] = "ä¸‹ä¸€å¹´ (æŒ‰ä½å‡ºèœå•)";
+Calendar._TT["SEL_DATE"] = "é€‰æ‹©æ—¥æœŸ";
+Calendar._TT["DRAG_TO_MOVE"] = "æ‹–åŠ¨";
+Calendar._TT["PART_TODAY"] = " (ä»Šæ—¥)";
+
+// the following is to inform that "%s" is to be the first day of week
+// %s will be replaced with the day name.
+Calendar._TT["DAY_FIRST"] = "æœ€å·¦è¾¹æ˜¾ç¤º%s";
+
+// This may be locale-dependent.  It specifies the week-end days, as an array
+// of comma-separated numbers.  The numbers are from 0 to 6: 0 means Sunday, 1
+// means Monday, etc.
+Calendar._TT["WEEKEND"] = "0,6";
+
+Calendar._TT["CLOSE"] = "å…³é—­";
+Calendar._TT["TODAY"] = "ä»Šæ—¥";
+Calendar._TT["TIME_PART"] = "(Shift-)ç‚¹å‡»é¼ æ ‡æˆ–æ‹–åŠ¨æ”¹å˜å€¼";
 
 // date formats
-Calendar._TT["DEF_DATE_FORMAT"] = "y-mm-dd";
-Calendar._TT["TT_DATE_FORMAT"] = "D, M d";
+Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
+Calendar._TT["TT_DATE_FORMAT"] = "%A, %b %eæ—¥";
 
-Calendar._TT["WK"] = "ÖÜ";
+Calendar._TT["WK"] = "å‘¨";
+Calendar._TT["TIME"] = "æ—¶é—´:";
