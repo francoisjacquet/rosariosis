@@ -394,7 +394,10 @@ if(empty($_REQUEST['modfunc']))
 				if(intval($minutes) > 0)
 					DBQuery("UPDATE ATTENDANCE_CALENDAR SET MINUTES='".$minutes."' WHERE SCHOOL_DATE='".$date."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'");
 				else
+				{
 					DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_DATE='".$date."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'");
+					var_dump($date);
+				}
 			}
 //			elseif($minutes!='0' && $minutes!='')
 //modif Francois: fix bug MINUTES not numeric
@@ -447,7 +450,9 @@ if(empty($_REQUEST['modfunc']))
 			if($title['DEFAULT_CALENDAR']=='Y')
 				$defaults++;
 		}
-		$link = SelectInput($_REQUEST['calendar_id'],'calendar_id','',$options,false,' onchange="ajaxPostForm(this.form,true);" ',false).'<span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create">'.button('add')._('Create new calendar').'</A></span> | <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create&calendar_id='.$_REQUEST['calendar_id'].'">'._('Recreate this calendar').'</A></span>&nbsp; <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_calendar&calendar_id='.$_REQUEST['calendar_id'].'">'.button('remove')._('Delete this calendar').'</A></span>';
+		//modif Francois: bugfix erase calendar onchange
+		$calendar_onchange = '<script type="text/javascript">var calendar_onchange = document.createElement("a"); calendar_onchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&calendar_id="; calendar_onchange.target = "body";</script>';
+		$link = $calendar_onchange.SelectInput($_REQUEST['calendar_id'],'calendar_id','',$options,false,' onchange="calendar_onchange.href += document.getElementById(\'calendar_id\').value; ajaxLink(calendar_onchange);" ',false).'<span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create">'.button('add')._('Create new calendar').'</A></span> | <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create&calendar_id='.$_REQUEST['calendar_id'].'">'._('Recreate this calendar').'</A></span>&nbsp; <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_calendar&calendar_id='.$_REQUEST['calendar_id'].'">'.button('remove')._('Delete this calendar').'</A></span>';
 	}
 	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)).' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=list_events&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('List Events').'</A>',SubmitButton(_('Save')));
 	DrawHeader($link);
