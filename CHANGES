@@ -1,5 +1,13 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.5.1
+----------------
+- Fix #menuback display on the right when RTL dir in stylesheet.css
+- Bugfix JS error Calendar._TT undefined in Warehouse.php
+- Update & fix jscalendar i18n files
+- Bugfix TinyMCE loading if i18n file not found
+- Add TinyMCE i18n files
+
 Changes in 2.5
 ----------------
 - Add default points to assignments in Assignments.php, Grades.php
