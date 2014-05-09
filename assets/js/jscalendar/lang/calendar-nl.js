@@ -11,6 +11,17 @@ Calendar._DN = new Array
 
 Calendar._SDN_len = 2;
 
+// short day names
+Calendar._SDN = new Array
+("Sun",
+ "Mon",
+ "Tue",
+ "Wed",
+ "Thu",
+ "Fri",
+ "Sat",
+ "Sun");
+ 
 Calendar._MN = new Array
 ("Januari",
  "Februari",
@@ -24,6 +35,21 @@ Calendar._MN = new Array
  "Oktober",
  "November",
  "December");
+
+// short month names
+Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
+ "Nov",
+ "Dec");
 
 // tooltips
 Calendar._TT = {};
@@ -67,7 +93,7 @@ Calendar._TT["TIME_PART"] = "(Shift-)Klik of sleep om de waarde te veranderen";
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%d-%m-%Y";
-Calendar._TT["TT_DATE_FORMAT"] = "%a, %e %b %Y";
+Calendar._TT["TT_DATE_FORMAT"] = "%A, %e %B %Y";
 
 Calendar._TT["WK"] = "wk";
 Calendar._TT["TIME"] = "Tijd:";

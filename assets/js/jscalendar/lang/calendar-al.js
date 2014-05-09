@@ -102,12 +102,11 @@ Calendar._TT["WEEKEND"] = "0,6";
 
 Calendar._TT["CLOSE"] = "Mbyll";
 Calendar._TT["TODAY"] = "Sot";
-Calendar._TT["TIME_PART"] = "Kliko me (Shift-)ose terhiqe per te ndryshuar 
-vleren";
+Calendar._TT["TIME_PART"] = "Kliko me (Shift-)ose terhiqe per te ndryshuar vleren";
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
-Calendar._TT["TT_DATE_FORMAT"] = "%a, %b %e";
+Calendar._TT["TT_DATE_FORMAT"] = "%a, %B %e";
 
 Calendar._TT["WK"] = "Java";
 Calendar._TT["TIME"] = "Koha:";

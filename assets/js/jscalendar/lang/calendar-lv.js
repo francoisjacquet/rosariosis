@@ -130,7 +130,7 @@ Calendar._TT["TIME_PART"] = "(Shift-)Klikðíis vai pârvieto, lai mainîtu";
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%d-%m-%Y";
-Calendar._TT["TT_DATE_FORMAT"] = "%a, %e %b";
+Calendar._TT["TT_DATE_FORMAT"] = "%a, %e %B";
 
 Calendar._TT["WK"] = "wk";
 Calendar._TT["TIME"] = "Laiks:";

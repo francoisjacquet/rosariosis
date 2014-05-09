@@ -139,7 +139,7 @@ Calendar._TT["TIME_PART"] = "(Skift-)klicka eller drag för att ändra tid";
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
-Calendar._TT["TT_DATE_FORMAT"] = "%A %d %b %Y";
+Calendar._TT["TT_DATE_FORMAT"] = "%A %d %B %Y";
 
 Calendar._TT["WK"] = "vecka";
 Calendar._TT["TIME"] = "Tid:";

@@ -130,7 +130,7 @@ Calendar._TT["TIME_PART"] = "(Shift-)клик или нажать и двига�
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
-Calendar._TT["TT_DATE_FORMAT"] = "%e %b, %a";
+Calendar._TT["TT_DATE_FORMAT"] = "%e %B, %a";
 
 Calendar._TT["WK"] = "нед";
 Calendar._TT["TIME"] = "Время:";

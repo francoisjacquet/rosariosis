@@ -131,7 +131,7 @@ Calendar._TT["TIME_PART"] = "(Shift-)Klikk vagy húzás az érték változtatás
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
-Calendar._TT["TT_DATE_FORMAT"] = "%b %e, %a";
+Calendar._TT["TT_DATE_FORMAT"] = "%B %e, %a";
 
 Calendar._TT["WK"] = "hét";
 Calendar._TT["TIME"] = "idõ:";

@@ -126,7 +126,7 @@ Calendar._TT["TIME_PART"] = "(Shift-)点击鼠标或拖动改变值";
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
-Calendar._TT["TT_DATE_FORMAT"] = "%A, %b %e日";
+Calendar._TT["TT_DATE_FORMAT"] = "%A, %B %e日";
 
 Calendar._TT["WK"] = "周";
 Calendar._TT["TIME"] = "时间:";

@@ -100,6 +100,16 @@ Calendar._TT["DRAG_TO_MOVE"] = "Siirrä kalenterin paikkaa";
 Calendar._TT["PART_TODAY"] = " (tänään)";
 Calendar._TT["MON_FIRST"] = "Näytä maanantai ensimmäisenä";
 Calendar._TT["SUN_FIRST"] = "Näytä sunnuntai ensimmäisenä";
+
+// the following is to inform that "%s" is to be the first day of week
+// %s will be replaced with the day name.
+Calendar._TT["DAY_FIRST"] = "Display %s first";
+
+// This may be locale-dependent.  It specifies the week-end days, as an array
+// of comma-separated numbers.  The numbers are from 0 to 6: 0 means Sunday, 1
+// means Monday, etc.
+Calendar._TT["WEEKEND"] = "0,6";
+
 Calendar._TT["CLOSE"] = "Sulje";
 Calendar._TT["TODAY"] = "Tänään";
 Calendar._TT["TIME_PART"] = "(Shift-) Klikkaa tai liikuta muuttaaksesi aikaa";
@@ -109,3 +119,4 @@ Calendar._TT["DEF_DATE_FORMAT"] = "%d.%m.%Y";
 Calendar._TT["TT_DATE_FORMAT"] = "%d.%m.%Y";
 
 Calendar._TT["WK"] = "Vko";
+Calendar._TT["TIME"] = "Time:";

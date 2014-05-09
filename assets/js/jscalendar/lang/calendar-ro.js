@@ -9,6 +9,18 @@ Calendar._DN = new Array
  "Sâmbătă",
  "Duminică");
 Calendar._SDN_len = 2;
+
+// short day names
+Calendar._SDN = new Array
+("Sun",
+ "Mon",
+ "Tue",
+ "Wed",
+ "Thu",
+ "Fri",
+ "Sat",
+ "Sun");
+
 Calendar._MN = new Array
 ("Ianuarie",
  "Februarie",
@@ -22,6 +34,21 @@ Calendar._MN = new Array
  "Octombrie",
  "Noiembrie",
  "Decembrie");
+
+// short month names
+Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
+ "Nov",
+ "Dec");
 
 // tooltips
 Calendar._TT = {};

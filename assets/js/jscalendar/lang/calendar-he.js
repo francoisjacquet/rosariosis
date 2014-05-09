@@ -96,7 +96,7 @@ Calendar._TT["ABOUT"] =
 "הגירסא האחרונה זמינה ב: http://www.dynarch.com/projects/calendar/\n" +
 "מופץ תחת זיכיון ה GNU LGPL.  עיין ב http://gnu.org/licenses/lgpl.html לפרטים נוספים." +
 "\n\n" +
-בחירת תאריך:\n" +
+"בחירת תאריך:\n" +
 "- השתמש בכפתורים \xab, \xbb לבחירת שנה\n" +
 "- השתמש בכפתורים " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " לבחירת חודש\n" +
 "- החזק העכבר לחוץ מעל הכפתורים המוזכרים לעיל לבחירה מהירה יותר.";
@@ -130,7 +130,7 @@ Calendar._TT["TIME_PART"] = "(שיפט-)לחץ וגרור כדי לשנות ער
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
-Calendar._TT["TT_DATE_FORMAT"] = "%a, %b %e";
+Calendar._TT["TT_DATE_FORMAT"] = "%a, %B %e";
 
 Calendar._TT["WK"] = "wk";
 Calendar._TT["TIME"] = "שעה::";

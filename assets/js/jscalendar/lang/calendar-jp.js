@@ -1,45 +1,102 @@
 // ** I18N
 Calendar._DN = new Array
-("“ú",
- "Œ",
- "‰Î",
- "…",
- "–Ø",
- "‹à",
- "“y",
- "“ú");
+("æ—¥",
+ "æœˆ",
+ "ç«",
+ "æ°´",
+ "æœ¨",
+ "é‡‘",
+ "åœŸ",
+ "æ—¥");
+ 
+// short day names
+Calendar._SDN = new Array
+("Sun",
+ "Mon",
+ "Tue",
+ "Wed",
+ "Thu",
+ "Fri",
+ "Sat",
+ "Sun");
+
 Calendar._MN = new Array
-("1Œ",
- "2Œ",
- "3Œ",
- "4Œ",
- "5Œ",
- "6Œ",
- "7Œ",
- "8Œ",
- "9Œ",
- "10Œ",
- "11Œ",
- "12Œ");
+("1æœˆ",
+ "2æœˆ",
+ "3æœˆ",
+ "4æœˆ",
+ "5æœˆ",
+ "6æœˆ",
+ "7æœˆ",
+ "8æœˆ",
+ "9æœˆ",
+ "10æœˆ",
+ "11æœˆ",
+ "12æœˆ");
+
+// short month names
+Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
+ "Nov",
+ "Dec");
 
 // tooltips
 Calendar._TT = {};
-Calendar._TT["TOGGLE"] = "T‚ÌÅ‰‚Ì—j“ú‚ğØ‚è‘Ö‚¦";
-Calendar._TT["PREV_YEAR"] = "‘O”N";
-Calendar._TT["PREV_MONTH"] = "‘OŒ";
-Calendar._TT["GO_TODAY"] = "¡“ú";
-Calendar._TT["NEXT_MONTH"] = "—‚Œ";
-Calendar._TT["NEXT_YEAR"] = "—‚”N";
-Calendar._TT["SEL_DATE"] = "“ú•t‘I‘ğ";
-Calendar._TT["DRAG_TO_MOVE"] = "ƒEƒBƒ“ƒhƒE‚ÌˆÚ“®";
-Calendar._TT["PART_TODAY"] = " (¡“ú)";
-Calendar._TT["MON_FIRST"] = "Œ—j“ú‚ğæ“ª‚É";
-Calendar._TT["SUN_FIRST"] = "“ú—j“ú‚ğæ“ª‚É";
-Calendar._TT["CLOSE"] = "•Â‚¶‚é";
-Calendar._TT["TODAY"] = "¡“ú";
+Calendar._TT["INFO"] = "About the calendar";
+
+Calendar._TT["ABOUT"] =
+"DHTML Date/Time Selector\n" +
+"(c) dynarch.com 2002-2003\n" + // don't translate this this ;-)
+"For latest version visit: http://dynarch.com/mishoo/calendar.epl\n" +
+"Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
+"\n\n" +
+"Date selection:\n" +
+"- Use the \xab, \xbb buttons to select year\n" +
+"- Use the " + String.fromCharCode(0x2039) + ", " + String.fromCharCode(0x203a) + " buttons to select month\n" +
+"- Hold mouse button on any of the above buttons for faster selection.";
+Calendar._TT["ABOUT_TIME"] = "\n\n" +
+"Time selection:\n" +
+"- Click on any of the time parts to increase it\n" +
+"- or Shift-click to decrease it\n" +
+"- or click and drag for faster selection.";
+
+Calendar._TT["TOGGLE"] = "é€±ã®æœ€åˆã®æ›œæ—¥ã‚’åˆ‡ã‚Šæ›¿ãˆ";
+Calendar._TT["PREV_YEAR"] = "å‰å¹´";
+Calendar._TT["PREV_MONTH"] = "å‰æœˆ";
+Calendar._TT["GO_TODAY"] = "ä»Šæ—¥";
+Calendar._TT["NEXT_MONTH"] = "ç¿Œæœˆ";
+Calendar._TT["NEXT_YEAR"] = "ç¿Œå¹´";
+Calendar._TT["SEL_DATE"] = "æ—¥ä»˜é¸æŠ";
+Calendar._TT["DRAG_TO_MOVE"] = "ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ç§»å‹•";
+Calendar._TT["PART_TODAY"] = " (ä»Šæ—¥)";
+Calendar._TT["MON_FIRST"] = "æœˆæ›œæ—¥ã‚’å…ˆé ­ã«";
+Calendar._TT["SUN_FIRST"] = "æ—¥æ›œæ—¥ã‚’å…ˆé ­ã«";
+
+// the following is to inform that "%s" is to be the first day of week
+// %s will be replaced with the day name.
+Calendar._TT["DAY_FIRST"] = "Display %s first";
+
+// This may be locale-dependent.  It specifies the week-end days, as an array
+// of comma-separated numbers.  The numbers are from 0 to 6: 0 means Sunday, 1
+// means Monday, etc.
+Calendar._TT["WEEKEND"] = "0,6";
+
+Calendar._TT["CLOSE"] = "é–‰ã˜ã‚‹";
+Calendar._TT["TODAY"] = "ä»Šæ—¥";
+Calendar._TT["TIME"] = "Time:";
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "y-mm-dd";
-Calendar._TT["TT_DATE_FORMAT"] = "%mŒ %d“ú (%a)";
+Calendar._TT["TT_DATE_FORMAT"] = "%mæœˆ %dæ—¥ (%A)";
 
-Calendar._TT["WK"] = "T";
+Calendar._TT["WK"] = "é€±";
+Calendar._TT["TIME"] = "Time:";

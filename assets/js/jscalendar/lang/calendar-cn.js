@@ -59,7 +59,7 @@ Calendar._MN = new Array
  "十二月");
 
 // short month names
-Calendar._SMN = new Array
+/*Calendar._SMN = new Array
 ("一月",
  "二月",
  "三月",
@@ -71,7 +71,20 @@ Calendar._SMN = new Array
  "九月",
  "十月",
  "十一月",
- "十二月");
+ "十二月");*/
+Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
+ "Nov",
+ "Dec");
 
 // tooltips
 Calendar._TT = {};
@@ -117,7 +130,7 @@ Calendar._TT["TIME_PART"] = "點擊or拖曳可改變時間(同時按Shift為減)
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
-Calendar._TT["TT_DATE_FORMAT"] = "%a, %b %e";
+Calendar._TT["TT_DATE_FORMAT"] = "%a, %B %e";
 
 Calendar._TT["WK"] = "週";
 Calendar._TT["TIME"] = "Time:";

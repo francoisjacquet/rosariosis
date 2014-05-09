@@ -131,7 +131,7 @@ Calendar._TT["TIME_PART"] = "(Shift-)Click o trascina per cambiare il valore";
 
 // date formats
 Calendar._TT["DEF_DATE_FORMAT"] = "%d-%m-%Y";
-Calendar._TT["TT_DATE_FORMAT"] = "%a:%b:%e";
+Calendar._TT["TT_DATE_FORMAT"] = "%a:%B:%e";
 
 Calendar._TT["WK"] = "set";
 Calendar._TT["TIME"] = "Ora:";

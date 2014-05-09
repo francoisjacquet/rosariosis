@@ -33,7 +33,15 @@ Calendar._DN = new Array
 // this feature.
 
 // short day names
-// [No changes using default values]
+Calendar._SDN = new Array
+("Sun",
+ "Mon",
+ "Tue",
+ "Wed",
+ "Thu",
+ "Fri",
+ "Sat",
+ "Sun");
 
 // full month names
 Calendar._MN = new Array
@@ -51,8 +59,20 @@ Calendar._MN = new Array
  "Dezembro");
 
 // short month names
-// [No changes using default values]
-
+Calendar._SMN = new Array
+("Jan",
+ "Feb",
+ "Mar",
+ "Apr",
+ "May",
+ "Jun",
+ "Jul",
+ "Aug",
+ "Sep",
+ "Oct",
+ "Nov",
+ "Dec");
+ 
 // tooltips
 Calendar._TT = {};
 Calendar._TT["INFO"] = "Sobre o calendário";
