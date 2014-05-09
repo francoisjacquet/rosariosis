@@ -108,7 +108,7 @@ if(empty($_REQUEST['modfunc']))
 			pagebreak_separator : '<div style="page-break-after: always;"></div>',
 
 			// Language
-			language : "<?php echo mb_substr($locale,0,2); ?>",
+			language : "<?php echo file_exists('assets/js/tiny_mce_3.5.8_jquery/langs/'.mb_substr($locale, 0, 2).'.js') ? mb_substr($locale, 0, 2) : 'en'; ?>",
 			
 			// Theme options
 			theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,undo,redo,|,image,code,cleanup,help",
