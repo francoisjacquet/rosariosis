@@ -97,7 +97,8 @@ if($_REQUEST['search_modfunc']=='list')
 	}
 	if($_REQUEST['fields']['START_DATE'] || $_REQUEST['fields']['END_DATE'] || $_REQUEST['fields']['ENROLLMENT_SHORT'] || $_REQUEST['fields']['DROP_SHORT'])
 	{
-        	$extra['SELECT'] .= ',xse.START_DATE, xse.END_DATE, (select short_name from student_enrollment_codes where id = xse.enrollment_code and syear = xse.syear) as enrollment_short, (select short_name from student_enrollment_codes where id = xse.drop_code and syear = xse.syear) as drop_short' ;
+			//modif Francois: bugfix SQL error: more than one row returned by a subquery used as an expression
+        	$extra['SELECT'] .= ',xse.START_DATE, xse.END_DATE, (select short_name from student_enrollment_codes where id = xse.enrollment_code and syear = xse.syear AND xse.STUDENT_ID=s.STUDENT_ID LIMIT 1) as enrollment_short, (select short_name from student_enrollment_codes where id = xse.drop_code and syear = xse.syear AND xse.STUDENT_ID=s.STUDENT_ID LIMIT 1) as drop_short' ;
         	$extra['FROM'] .= ',STUDENT_ENROLLMENT xse';
         	$extra['WHERE'] .= ' AND xse.STUDENT_ID=s.STUDENT_ID AND xse.SYEAR=\''.UserSyear().'\'';
 	}
