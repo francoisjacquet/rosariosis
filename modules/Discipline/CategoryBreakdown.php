@@ -355,10 +355,13 @@ if(empty($_REQUEST['modfunc']))
 ?>		
 				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
 				<script type="text/javascript">
-					$(document).ready(function(){ 
+					$(document).ready(function(){
 						var plotpie = $.jqplot('chart', [datapie], {
 							seriesDefaults:{
 								renderer:$.jqplot.PieRenderer,
+								rendererOptions: {
+									showDataLabels: true,
+								},
 							},
 							legend:{show:true},
 							title: chartTitle

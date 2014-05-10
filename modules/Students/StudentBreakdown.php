@@ -333,6 +333,9 @@ if(!$_REQUEST['modfunc'])
 						var plotpie = $.jqplot('chart', [datapie], {
 							seriesDefaults:{
 								renderer:$.jqplot.PieRenderer,
+								rendererOptions: {
+									showDataLabels: true,
+								},
 							},
 							legend:{show:true},
 							title: chartTitle
