@@ -8,13 +8,14 @@ function includeOnceColorBox($rt2colorBoxDiv = false)
 	$return .= (!$included ? '<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
 	<script type="text/javascript" src="assets/js/colorbox/jquery.colorbox-min.js"></script>
 	<script type="text/javascript">
-		var iframeInnerWidth = 640;
-		if (screen.width<768)
-			iframeInnerWidth = 300;
+		var cWidth = 640; var cHeight = 390;
+		if (screen.width<768) {
+			cWidth = 300; cHeight = 183;
+		}
 		$(document).ready(function(){
 			$(\'.colorbox\').colorbox();
-			$(\'.colorboxiframe\').colorbox({iframe:true, innerWidth:iframeInnerWidth});
-			$(\'.colorboxinline\').colorbox({inline:true, maxWidth:\'95%\', maxHeight:\'95%\', scrolling:true});
+			$(\'.colorboxiframe\').colorbox({iframe:true, innerWidth:cWidth, innerHeight:cHeight});
+			$(\'.colorboxinline\').colorbox({inline:true, maxWidth:\'80%\', maxHeight:\'80%\', scrolling:true});
 		});
 	</script>' : '');
 	$return .= ($rt2colorBoxDiv ? '<div class="link2colorBox"><a class="colorboxinline" href="#'.$rt2colorBoxDiv.'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>' : '');
