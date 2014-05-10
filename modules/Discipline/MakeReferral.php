@@ -204,9 +204,11 @@ if(UserStudentID() && $_REQUEST['student_id'])
 			break;
 
 			case 'select':
+				$options = array();
 				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
-				$options = explode("\r",$category['SELECT_OPTIONS']);
-				
+				$select_options = explode("\r",$category['SELECT_OPTIONS']);
+				foreach($select_options as $option)
+					$options[$option] = $option;
 				echo SelectInput('','values[CATEGORY_'.$category['ID'].']','',$options,'N/A');
 				/*echo '<SELECT name="values[CATEGORY_'.$category['ID'].']"><OPTION value="">'._('N/A').'</OPTION>';
 				foreach($options as $option)
