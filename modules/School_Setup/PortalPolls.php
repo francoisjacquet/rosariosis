@@ -122,7 +122,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$sql_questions = array();
 				foreach($columns as $column=>$value)
 				{
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						if (mb_strpos($column, 'new') !== false)
 						{

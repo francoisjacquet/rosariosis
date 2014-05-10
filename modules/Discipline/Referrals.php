@@ -42,7 +42,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	
 	foreach($_REQUEST['values'] as $column_name=>$value)
 	{
-		if($value)
+		if(!empty($value) || $value=='0')
 		{
 			//modif Francois: check numeric fields
 			if ($categories_RET[str_replace('CATEGORY_','',$column_name)][1]['DATA_TYPE'] == 'numeric' && !is_numeric($value))

@@ -125,7 +125,7 @@ if($_REQUEST['modfunc']=='update')
 				$go = false;
 				foreach($_REQUEST['staff'] as $column_name=>$value)
 				{
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						//modif Francois: check numeric fields
 						if ($fields_RET[str_replace('CUSTOM_','',$column_name)][1]['TYPE'] == 'numeric' && !is_numeric($value))
@@ -212,7 +212,7 @@ if($_REQUEST['modfunc']=='update')
 
 				foreach($_REQUEST['staff'] as $column=>$value)
 				{
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 	//modif Francois: add password encryption

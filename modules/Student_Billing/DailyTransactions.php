@@ -69,7 +69,7 @@ function _makeCurrency($value,$column)
 {	global $totals;
 
 	$totals[$column] += $value;
-	if($value)
+	if(!empty($value) || $value=='0')
 		return Currency($value);
 }
 ?>

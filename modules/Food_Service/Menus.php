@@ -47,7 +47,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 						$go = false;
 						foreach($columns as $column=>$value)
-							if($value)
+							if(!empty($value) || $value=='0')
 							{
 								$fields .= $column.',';
 								$values .= '\''.$value.'\',';

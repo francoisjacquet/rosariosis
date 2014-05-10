@@ -74,7 +74,7 @@ function SaveData($iu_extra,$fields_done=false,$field_names=false)
 				}
 				if($id=='new')
 				{
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						$ins_fields[$table] .= $column.',';
 						$ins_values[$table] .= "'".$value."',";

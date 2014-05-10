@@ -219,7 +219,7 @@ if($_REQUEST['modfunc']=='detail')
 					$go = 0;
 					foreach($_REQUEST['values'] as $column=>$value)
 					{
-						if($value)
+						if(!empty($value) || $value=='0')
 						{
 							$fields .= $column.',';
 							$values .= "'".$value."',";

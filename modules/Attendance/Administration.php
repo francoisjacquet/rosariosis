@@ -95,7 +95,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 				$go = 0;
 				foreach($columns as $column=>$value)
 				{
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";

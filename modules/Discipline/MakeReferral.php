@@ -61,7 +61,7 @@ if($_REQUEST['values'] && $_POST['values'])
 	
 	foreach($_REQUEST['values'] as $column=>$value)
 	{
-		if($value)
+		if(!empty($value) || $value=='0')
 		{
 			//modif Francois: check numeric fields
 			if ($categories_RET[str_replace('CATEGORY_','',$column)][1]['DATA_TYPE'] == 'numeric' && !is_numeric($value))

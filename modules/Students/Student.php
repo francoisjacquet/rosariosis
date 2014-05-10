@@ -89,7 +89,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$go = false;
 				foreach($_REQUEST['students'] as $column=>$value)
 				{
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						//modif Francois: check numeric fields
 						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
@@ -206,7 +206,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					if($column=='USERNAME' && $value)
 						if(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE USERNAME='".$value."'")))
 							$value = '';
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						if(!is_array($value))
@@ -247,7 +247,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 				foreach($_REQUEST['values']['STUDENT_ENROLLMENT']['new'] as $column=>$value)
 				{
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";

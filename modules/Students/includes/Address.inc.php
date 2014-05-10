@@ -68,7 +68,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			
 			foreach($_REQUEST['values']['ADDRESS'] as $column=>$value)
 			{
-				if($value)
+				if(!empty($value) || $value=='0')
 				{
 					//modif Francois: check numeric fields
 					if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
@@ -114,7 +114,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$go = 0;
 			foreach($_REQUEST['values']['ADDRESS'] as $column=>$value)
 			{
-				if($value)
+				if(!empty($value) || $value=='0')
 				{
 					$fields .= $column.',';
 					$values .= "'".$value."',";
@@ -147,7 +147,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			
 			foreach($_REQUEST['values']['PEOPLE'] as $column=>$value)
 			{
-				if($value)
+				if(!empty($value) || $value=='0')
 				{
 					//modif Francois: check numeric fields
 					if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
@@ -177,7 +177,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$go = 0;
 			foreach($_REQUEST['values']['PEOPLE'] as $column=>$value)
 			{
-				if($value)
+				if(!empty($value) || $value=='0')
 				{
 					$fields .= $column.',';
 					$values .= "'".$value."',";
@@ -223,7 +223,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					$go = 0;
 					foreach($values as $column=>$value)
 					{
-						if($value)
+						if(!empty($value) || $value=='0')
 						{
 							$fields .= $column.',';
 							$vals .= "'".$value."',";

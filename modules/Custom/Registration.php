@@ -39,7 +39,7 @@ if($_REQUEST['values'])
 				$go = 0;
 				foreach($columns as $column=>$value)
 				{
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";
@@ -76,7 +76,7 @@ if($_REQUEST['values'])
 
 				foreach($person['extra'] as $column=>$value)
 				{
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						$value = $value;
 						$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
@@ -95,7 +95,7 @@ if($_REQUEST['values'])
 				$go = 0;
 				foreach($person as $column=>$value)
 				{
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";

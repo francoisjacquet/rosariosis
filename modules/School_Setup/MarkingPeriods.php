@@ -128,7 +128,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							break 2;
 						}
 					}
-					if($value)
+					if(!empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";
