@@ -105,7 +105,8 @@ if($_REQUEST['category_id'])
 			$index++;
 			if($_REQUEST['timeframe']=='month')
 			{
-				$tf = str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
+				//modif Francois: bugfix data showed in the wrong month
+				$tf = str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT);//str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
 //modif Francois: add translation
 				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
 			}
@@ -155,7 +156,8 @@ if($_REQUEST['category_id'])
 			$index++;
 			if($_REQUEST['timeframe']=='month')
 			{
-				$tf = str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
+				//modif Francois: bugfix data showed in the wrong month
+				$tf = str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT);//str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
 				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
 			}
 			elseif($_REQUEST['timeframe']=='SYEAR')
