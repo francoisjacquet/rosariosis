@@ -358,7 +358,7 @@ function makeFileAttached($value,$name)
 		$return = includeOnceColorBox('divFileAttached'.$id);
 		$return .= '<DIV id="divFileAttached'.$id.'" class="rt2colorBox">';
 		$return .= '<div><label><input type="radio" name="values[new][FILE_OR_EMBED]" value="FILE">&nbsp;<input type="file" id="'.$name.'_FILE" name="'.$name.'_FILE" size="14" /><span id="loading"></span></label></div>';
-		$return .= '<div style="float:left;"><label><input type="radio" name="values[new][FILE_OR_EMBED]" value="EMBED" onclick="javascript:document.getElementById(\'values[new]['.$name.'_EMBED]\').focus();">&nbsp;'._('Embed Link').': <input type="text" id="values[new]['.$name.'_EMBED]" name="values[new]['.$name.'_EMBED]" size="14"></label></div></DIV>';
+		$return .= '<div style="float:left;"><label><input type="radio" name="values[new][FILE_OR_EMBED]" value="EMBED" onclick="javascript:document.getElementById(\'values[new]['.$name.'_EMBED]\').focus();" />&nbsp;'._('Embed Link').': <input type="text" id="values[new]['.$name.'_EMBED]" name="values[new]['.$name.'_EMBED]" size="14" placeholder="http://" /></label></div></DIV>';
 	}
 		
 	if ($loadColorBox)
