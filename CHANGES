@@ -14,6 +14,7 @@ Changes in 2.5.2
 - Add "http://" as a hint for the Embed link input
 - Bugfix SQL error column "month" does not exist in CategoryBreakdownTime.php
 - Open new window to download XLS export (#36)
+- Protect $_REQUEST['category_id'] against SQL injection in *Breakdown.php
 
 Changes in 2.5.1
 ----------------
