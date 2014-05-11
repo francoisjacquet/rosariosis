@@ -1,5 +1,20 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.5.2
+----------------
+- Bugfix SQL more than 1 enrollment / drop code in Export.php
+- Bugfix data showed in the wrong month in CategoryBreakdownTime.php
+- Bugfix save select input field value in MakeReferral.php
+- Bugfix save '0' as input value
+- Update jqplot (1.0.8)
+- Add showDataLabels to Pie charts
+- Input type number size
+- Update colorbox (1.5.9)
+- Bugfix specify colorbox iframe height
+- Add "http://" as a hint for the Embed link input
+- Bugfix SQL error column "month" does not exist in CategoryBreakdownTime.php
+- Open new window to download XLS export (#36)
+
 Changes in 2.5.1
 ----------------
 - Fix #menuback display on the right when RTL dir in stylesheet.css
