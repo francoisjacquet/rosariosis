@@ -239,7 +239,7 @@ if($_REQUEST['category_id'])
 			$mins[$o] = (ceil($diff/5)*($o-1));
 		}
 		
-		$extra['SELECT_ONLY'] = "CATEGORY_".$_REQUEST['category_id']." AS TITLE,$_REQUEST[timeframe] AS TIMEFRAME";
+		$extra['SELECT_ONLY'] = "CATEGORY_".$_REQUEST['category_id']." AS TITLE,".$timeframe." AS TIMEFRAME";
 		$extra['FROM'] = ",DISCIPLINE_REFERRALS dr";
 		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');
