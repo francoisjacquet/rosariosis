@@ -68,10 +68,10 @@ if($_REQUEST['category_id'])
 	if($category_RET[1]['DATA_TYPE']=='multiple_radio' || $category_RET[1]['DATA_TYPE']=='select')
 	{
 		$extra = array();
-		$extra['SELECT_ONLY'] = "dr.CATEGORY_".$_REQUEST['category_id']." AS TITLE,COUNT(*) AS COUNT ";
+		$extra['SELECT_ONLY'] = "dr.CATEGORY_".intval($_REQUEST['category_id'])." AS TITLE,COUNT(*) AS COUNT ";
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
 		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
-		$extra['GROUP'] = 'CATEGORY_'.$_REQUEST['category_id'];
+		$extra['GROUP'] = 'CATEGORY_'.intval($_REQUEST['category_id']);
 		$extra['group'] = array('TITLE');
 		//Widgets('all');
 //modif Francois: fix Advanced Search
@@ -89,10 +89,10 @@ if($_REQUEST['category_id'])
 	elseif($category_RET[1]['DATA_TYPE']=='checkbox')
 	{
 		$extra = array();
-		$extra['SELECT_ONLY'] = "COALESCE(dr.CATEGORY_".$_REQUEST['category_id'].",'N') AS TITLE,COUNT(*) AS COUNT ";
+		$extra['SELECT_ONLY'] = "COALESCE(dr.CATEGORY_".intval($_REQUEST['category_id']).",'N') AS TITLE,COUNT(*) AS COUNT ";
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
 		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
-		$extra['GROUP'] = 'CATEGORY_'.$_REQUEST['category_id'];
+		$extra['GROUP'] = 'CATEGORY_'.intval($_REQUEST['category_id']);
 		$extra['group'] = array('TITLE');
 		//Widgets('all');
 //modif Francois: fix Advanced Search
@@ -107,7 +107,7 @@ if($_REQUEST['category_id'])
 	}
 	elseif($category_RET[1]['DATA_TYPE']=='multiple_checkbox')
 	{
-		$extra['SELECT_ONLY'] = "CATEGORY_".$_REQUEST['category_id']." AS TITLE ";
+		$extra['SELECT_ONLY'] = "CATEGORY_".intval($_REQUEST['category_id'])." AS TITLE ";
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
 		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
 		//Widgets('all');
@@ -132,7 +132,7 @@ if($_REQUEST['category_id'])
 	elseif($category_RET[1]['DATA_TYPE']=='numeric')
 	{
 
-		$extra['SELECT_ONLY'] = "COALESCE(max(CATEGORY_".$_REQUEST['category_id']."),0) as MAX,COALESCE(min(CATEGORY_".$_REQUEST['category_id']."),0) AS MIN ";
+		$extra['SELECT_ONLY'] = "COALESCE(max(CATEGORY_".intval($_REQUEST['category_id'])."),0) as MAX,COALESCE(min(CATEGORY_".intval($_REQUEST['category_id'])."),0) AS MIN ";
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr';
 		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
 //modif Francois: fix Advanced Search
@@ -162,7 +162,7 @@ if($_REQUEST['category_id'])
 			$chartline = true;
 		}
 		
-		$extra['SELECT_ONLY'] = "CATEGORY_".$_REQUEST['category_id']." AS TITLE";
+		$extra['SELECT_ONLY'] = "CATEGORY_".intval($_REQUEST['category_id'])." AS TITLE";
 		$extra['FROM'] = ",DISCIPLINE_REFERRALS dr";
 		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');

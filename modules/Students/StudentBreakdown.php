@@ -41,8 +41,8 @@ if($_REQUEST['category_id'])
 	if($category_RET[1]['TYPE']=='select')
 	{
 		$extra = array();
-		$extra['SELECT_ONLY'] = "COALESCE(s.CUSTOM_".$_REQUEST['category_id'].",'*BLANK*') AS TITLE,COUNT(*) AS COUNT ";
-		$extra['GROUP'] = 'CUSTOM_'.$_REQUEST['category_id'];
+		$extra['SELECT_ONLY'] = "COALESCE(s.CUSTOM_".intval($_REQUEST['category_id']).",'*BLANK*') AS TITLE,COUNT(*) AS COUNT ";
+		$extra['GROUP'] = 'CUSTOM_'.intval($_REQUEST['category_id']);
 		$extra['group'] = array('TITLE');
 		//Widgets('all');
 //modif Francois: fix Advanced Search
@@ -60,7 +60,7 @@ if($_REQUEST['category_id'])
 	}
 	elseif($category_RET[1]['TYPE']=='multiple')
 	{
-		$extra['SELECT_ONLY'] = "CUSTOM_".$_REQUEST['category_id']." AS TITLE ";
+		$extra['SELECT_ONLY'] = "CUSTOM_".intval($_REQUEST['category_id'])." AS TITLE ";
 		//Widgets('all');
 //modif Francois: fix Advanced Search
 		$extra['WHERE'] = appendSQL('');
@@ -83,8 +83,8 @@ if($_REQUEST['category_id'])
 	elseif($category_RET[1]['TYPE']=='radio')
 	{
 		$extra = array();
-		$extra['SELECT_ONLY'] = db_case(array("s.CUSTOM_".$_REQUEST['category_id'],"'Y'","'"._('Yes')."'","'"._('No')."'"))." AS TITLE,COUNT(*) AS COUNT ";
-		$extra['GROUP'] = 'CUSTOM_'.$_REQUEST['category_id'];
+		$extra['SELECT_ONLY'] = db_case(array("s.CUSTOM_".intval($_REQUEST['category_id']),"'Y'","'"._('Yes')."'","'"._('No')."'"))." AS TITLE,COUNT(*) AS COUNT ";
+		$extra['GROUP'] = 'CUSTOM_'.intval($_REQUEST['category_id']);
 		$extra['group'] = array('TITLE');
 		//Widgets('all');		
 //modif Francois: fix Advanced Search
@@ -100,9 +100,9 @@ if($_REQUEST['category_id'])
 	elseif($category_RET[1]['TYPE']=='numeric')
 	{
 
-		$extra['SELECT_ONLY'] = "COALESCE(max(CUSTOM_".$_REQUEST['category_id']."),0) as MAX,COALESCE(min(CUSTOM_".$_REQUEST['category_id']."),0) AS MIN ";
+		$extra['SELECT_ONLY'] = "COALESCE(max(CUSTOM_".intval($_REQUEST['category_id'])."),0) as MAX,COALESCE(min(CUSTOM_".intval($_REQUEST['category_id'])."),0) AS MIN ";
 		//modif Francois: remove NULL entries
-		$extra['WHERE'] = "AND CUSTOM_".$_REQUEST['category_id']." IS NOT NULL";
+		$extra['WHERE'] = "AND CUSTOM_".intval($_REQUEST['category_id'])." IS NOT NULL";
 		//Widgets('all');
 //modif Francois: fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
@@ -132,7 +132,7 @@ if($_REQUEST['category_id'])
 			$chartline = true;
 		}
 		
-		$extra['SELECT_ONLY'] = "CUSTOM_".$_REQUEST['category_id']." AS TITLE";
+		$extra['SELECT_ONLY'] = "CUSTOM_".intval($_REQUEST['category_id'])." AS TITLE";
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');
 //modif Francois: fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
