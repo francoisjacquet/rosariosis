@@ -89,7 +89,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$go = false;
 				foreach($_REQUEST['students'] as $column=>$value)
 				{
-					if(!empty($value) || $value=='0')
+					if(1)//!empty($value) || $value=='0')
 					{
 						//modif Francois: check numeric fields
 						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
@@ -201,6 +201,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$fields = 'STUDENT_ID,';
 				$values = "'".$student_id."',";
 
+				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 				foreach($_REQUEST['students'] as $column=>$value)
 				{
 					if($column=='USERNAME' && $value)
@@ -208,6 +209,13 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 							$value = '';
 					if(!empty($value) || $value=='0')
 					{
+						//modif Francois: check numeric fields
+						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
+						{
+							$error_numeric[] = _('Please enter valid Numeric data.');
+							continue;
+						}
+						
 						$fields .= $column.',';
 						if(!is_array($value))
 						{
@@ -232,8 +240,11 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						}
 					}
 				}
-				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-				DBQuery($sql);
+				if (!$error)
+				{
+					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+					DBQuery($sql);
+				}
 				
 	//modif Francois: Moodle integrator
 				if ($_REQUEST['moodle_create_student'])
@@ -303,6 +314,7 @@ else
 echo $moodleError;
 
 echo ErrorMessage($error);
+echo ErrorMessage($error_numeric);
 
 Search('student_id');
 

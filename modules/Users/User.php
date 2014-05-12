@@ -125,7 +125,7 @@ if($_REQUEST['modfunc']=='update')
 				$go = false;
 				foreach($_REQUEST['staff'] as $column_name=>$value)
 				{
-					if(!empty($value) || $value=='0')
+					if(1)//!empty($value) || $value=='0')
 					{
 						//modif Francois: check numeric fields
 						if ($fields_RET[str_replace('CUSTOM_','',$column_name)][1]['TYPE'] == 'numeric' && !is_numeric($value))
@@ -210,10 +210,18 @@ if($_REQUEST['modfunc']=='update')
 					$values = "'".Config('SYEAR')."'".mb_substr($values,mb_strpos($values,','))."'none',";
 				}
 
+				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 				foreach($_REQUEST['staff'] as $column=>$value)
 				{
 					if(!empty($value) || $value=='0')
 					{
+						//modif Francois: check numeric fields
+						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
+						{
+							$error[] = _('Please enter valid Numeric data.');
+							break;
+						}
+						
 						$fields .= $column.',';
 	//modif Francois: add password encryption
 						if ($column!=='PASSWORD')
