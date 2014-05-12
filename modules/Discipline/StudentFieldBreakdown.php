@@ -179,6 +179,8 @@ if($_REQUEST['category_id'])
 
 		$extra['WHERE'] .= CustomFields('where');
 		$referrals_RET = GetStuList($extra);
+		if (!$referrals_RET) //modif Francois: bugfix no results for numeric fields chart 
+			$chart['chart_data'][0][0] = $chart['chart_data'][1][0] = 0;
 	}
 	if($_ROSARIO['SearchTerms'])
 		$chart['draw_text'][] = array('x'=>0,'y'=>35,'width'=>$width+200,'height'=>100,'h_align'=>'center','v_align'=>'top','rotation'=>0,'text'=>strip_tags(str_replace('<BR />',"\n",$_ROSARIO['SearchTerms'])),'font'=>'Arial','color'=>'000000','alpha'=>25,'size'=>20);
