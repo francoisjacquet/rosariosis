@@ -92,7 +92,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					if(1)//!empty($value) || $value=='0')
 					{
 						//modif Francois: check numeric fields
-						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
+						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 						{
 							$error[] = _('Please enter valid Numeric data.');
 							continue;
@@ -210,7 +210,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					if(!empty($value) || $value=='0')
 					{
 						//modif Francois: check numeric fields
-						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && !is_numeric($value))
+						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 						{
 							$error_numeric[] = _('Please enter valid Numeric data.');
 							continue;

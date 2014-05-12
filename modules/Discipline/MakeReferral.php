@@ -64,7 +64,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		if(!empty($value) || $value=='0')
 		{
 			//modif Francois: check numeric fields
-			if ($categories_RET[str_replace('CATEGORY_','',$column)][1]['DATA_TYPE'] == 'numeric' && !is_numeric($value))
+			if ($categories_RET[str_replace('CATEGORY_','',$column)][1]['DATA_TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 			{
 				$error_numeric = true;
 				$go = 0;
