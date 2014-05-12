@@ -133,6 +133,7 @@ if($_REQUEST['category_id'])
 		}
 		
 		$extra['SELECT_ONLY'] = "CUSTOM_".intval($_REQUEST['category_id'])." AS TITLE";
+		$extra['WHERE'] = " AND CUSTOM_".intval($_REQUEST['category_id'])." IS NOT NULL ";
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');
 //modif Francois: fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
@@ -152,10 +153,10 @@ strip_tags(str_replace('<BR />',"\n",$_ROSARIO['SearchTerms']));
 		if (isset($chartline))
 		{
 			$jsData = 'var dataline = [';
-			for ($i=1; $i<=count($chart['chart_data'][0]); $i++)
+			foreach ($chart['chart_data'][1] as $index => $y)
 			{
-				if (is_numeric($chart['chart_data'][0][$i]))
-					$jsData .= "[".$chart['chart_data'][0][$i].", ".$chart['chart_data'][1][$i]."],";
+				if (is_numeric($chart['chart_data'][0][$index]))
+					$jsData .= "[".$chart['chart_data'][0][$index].", ".$y."],";
 			}
 			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
 			$jsData .= "];\n";		

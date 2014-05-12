@@ -164,7 +164,7 @@ if($_REQUEST['category_id'])
 		
 		$extra['SELECT_ONLY'] = "CATEGORY_".intval($_REQUEST['category_id'])." AS TITLE";
 		$extra['FROM'] = ",DISCIPLINE_REFERRALS dr";
-		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
+		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' AND CATEGORY_".intval($_REQUEST['category_id'])." IS NOT NULL ";
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');
 		//Widgets('all');
 //modif Francois: fix Advanced Search
@@ -175,6 +175,7 @@ if($_REQUEST['category_id'])
 
 	if($_ROSARIO['SearchTerms'])
 		$chart['draw_text'][] = array('x'=>0,'y'=>35,'width'=>$width+200,'height'=>100,'h_align'=>'center','v_align'=>'top','rotation'=>0,'text'=>strip_tags(str_replace('<BR />',"\n",$_ROSARIO['SearchTerms'])),'font'=>'Arial','color'=>'000000','alpha'=>25,'size'=>20);
+		var_dump($chart['chart_data']);
 	
 	if($_REQUEST['chart_type']!='list')
 	{
@@ -185,10 +186,10 @@ if($_REQUEST['category_id'])
 		if (isset($chartline))
 		{
 			$jsData = 'var dataline = [';
-			for ($i=1; $i<=count($chart['chart_data'][0]); $i++)
+			foreach ($chart['chart_data'][1] as $index => $y)
 			{
-				if (is_numeric($chart['chart_data'][0][$i]))
-					$jsData .= "[".$chart['chart_data'][0][$i].", ".$chart['chart_data'][1][$i]."],";
+				if (is_numeric($chart['chart_data'][0][$index]))
+					$jsData .= "[".$chart['chart_data'][0][$index].", ".$y."],";
 			}
 			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
 			$jsData .= "];\n";		

@@ -70,6 +70,8 @@ if($_REQUEST['category_id'])
 	{
 		$extra = array();
 		$extra['SELECT_ONLY'] = "COALESCE(s.CUSTOM_".intval($_REQUEST['category_id']).",'*BLANK*') AS TITLE,COUNT(*) AS COUNT ";
+		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
+		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
 		$extra['GROUP'] = 'CUSTOM_'.intval($_REQUEST['category_id']);
 		$extra['group'] = array('TITLE');
 		//Widgets('all');
@@ -90,6 +92,8 @@ if($_REQUEST['category_id'])
 	elseif($category_RET[1]['TYPE']=='multiple')
 	{
 		$extra['SELECT_ONLY'] = "CUSTOM_".intval($_REQUEST['category_id'])." AS TITLE ";
+		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
+		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
 		//Widgets('all');
 //modif Francois: fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
@@ -114,6 +118,8 @@ if($_REQUEST['category_id'])
 	{
 		$extra = array();
 		$extra['SELECT_ONLY'] = db_case(array("s.CUSTOM_".intval($_REQUEST['category_id']),"'Y'","'"._('Yes')."'","'"._('No')."'"))." AS TITLE,COUNT(*) AS COUNT ";
+		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
+		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
 		$extra['GROUP'] = 'CUSTOM_'.intval($_REQUEST['category_id']);
 		$extra['group'] = array('TITLE');
 		//Widgets('all');
@@ -133,6 +139,8 @@ if($_REQUEST['category_id'])
 		$chart['axis_category']['orientation'] = '';
 
 		$extra['SELECT_ONLY'] = "COALESCE(max(CUSTOM_".intval($_REQUEST['category_id'])."),0) as MAX,COALESCE(min(CUSTOM_".intval($_REQUEST['category_id'])."),0) AS MIN ";
+		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr';
+		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
 //modif Francois: fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
 
@@ -162,6 +170,8 @@ if($_REQUEST['category_id'])
 		}
 		
 		$extra['SELECT_ONLY'] = "CUSTOM_".intval($_REQUEST['category_id'])." AS TITLE";
+		$extra['FROM'] = ",DISCIPLINE_REFERRALS dr";
+		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' AND CATEGORY_".intval($_REQUEST['category_id'])." IS NOT NULL ";
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');
 		//Widgets('all');
 //modif Francois: fix Advanced Search
@@ -182,10 +192,10 @@ if($_REQUEST['category_id'])
 		if (isset($chartline))
 		{
 			$jsData = 'var dataline = [';
-			foreach ($chart['chart_data'][1] as $x => $y)
+			foreach ($chart['chart_data'][1] as $index => $y)
 			{
-				if (is_numeric($x))
-					$jsData .= "[".$x.", ".$y."],";
+				if (is_numeric($chart['chart_data'][0][$index]))
+					$jsData .= "[".$chart['chart_data'][0][$index].", ".$y."],";
 			}
 			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
 			$jsData .= "];\n";		
