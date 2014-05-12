@@ -1,5 +1,10 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.5.3
+----------------
+- Verify $value only for INSERT, not on UPDATE
+- Check numeric fields if not empty
+
 Changes in 2.5.2
 ----------------
 - Bugfix SQL more than 1 enrollment / drop code in Export.php
