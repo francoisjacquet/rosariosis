@@ -216,8 +216,11 @@ function makePublishing($value,$name)
 		$id = 'new';
 
 	//modif Francois: responsive rt td too large
-	$return .= includeOnceColorBox('divPublishing'.$id);
-	$return .= '<DIV id="divPublishing'.$id.'" class="rt2colorBox">'."\n";
+	if (!isset($_REQUEST['_ROSARIO_PDF']))
+	{
+		$return .= includeOnceColorBox('divPublishing'.$id);
+		$return .= '<DIV id="divPublishing'.$id.'" class="rt2colorBox">'."\n";
+	}
 	
 //modif Francois: remove LO_field
 	$return .= '<TABLE class="cellpadding-0 cellspacing-0 widefat"><TR><TD><b>'.Localize('colon',_('Visible Between')).'</b><BR />';
@@ -272,6 +275,10 @@ function makePublishing($value,$name)
 		$return .= '<TR class="st"><TD colspan="2"><B>'._('Publish Note in Moodle?').'</B> <label><INPUT type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> '._('Yes').'</label></TD></TR>';
 		
 	$return .= '</TABLE></TD></TR></TABLE></DIV>';
+	
+	if (!isset($_REQUEST['_ROSARIO_PDF']))
+		$return .= '</DIV>';
+		
 	return $return;
 }
 
@@ -361,7 +368,7 @@ function makeFileAttached($value,$name)
 		$return .= '<div style="float:left;"><label><input type="radio" name="values[new][FILE_OR_EMBED]" value="EMBED" onclick="javascript:document.getElementById(\'values[new]['.$name.'_EMBED]\').focus();" />&nbsp;'._('Embed Link').': <input type="text" id="values[new]['.$name.'_EMBED]" name="values[new]['.$name.'_EMBED]" size="14" placeholder="http://" /></label></div></DIV>';
 	}
 		
-	if ($loadColorBox)
+	if ($loadColorBox && !isset($_REQUEST['_ROSARIO_PDF']))
 		$return .= includeOnceColorBox(false);
 		
 	return $return;
