@@ -188,7 +188,7 @@ function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',
 	}
 	else
 //		return ($value?$yes:$no).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
-		return ($value?($yes=='Yes' || isset($_REQUEST['LO_save']) ?_('Yes'):$yes):($no=='No' || isset($_REQUEST['LO_save']) ?_('No'):$no)).($title!=''?$title:'');
+		return ($value?($yes=='Yes' || isset($_REQUEST['LO_save']) ?_('Yes'):$yes):($no=='No' || isset($_REQUEST['LO_save']) ?_('No'):$no)).($title!=''?' '.$title:'');
 }
 
 function SelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$div=true)
