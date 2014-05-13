@@ -228,8 +228,14 @@ function _makeTextAreaInput($value,$name)
 	elseif($id=='new' || $THIS_RET['DATA_TYPE']=='multiple_checkbox' || $THIS_RET['DATA_TYPE']=='multiple_radio' || $THIS_RET['DATA_TYPE']=='select')
 	{
 		//modif Francois: responsive rt td too large
-		$return .= includeOnceColorBox('divTextAreaContent'.$id);
-		$return .= '<DIV id="divTextAreaContent'.$id.'" class="rt2colorBox">'.TextAreaInput($value,'values['.$id.']['.$name.']','','',false).'</DIV>';
+		if (!isset($_REQUEST['_ROSARIO_PDF']))
+		{
+			$return .= includeOnceColorBox('divTextAreaContent'.$id);
+			$return .= '<DIV id="divTextAreaContent'.$id.'" class="rt2colorBox">';
+		}
+		$return .= TextAreaInput($value,'values['.$id.']['.$name.']','','',false);
+		if (!isset($_REQUEST['_ROSARIO_PDF']))
+			$return .= '</DIV>';
 		return $return;
 	}
 	else
