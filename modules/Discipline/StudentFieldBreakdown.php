@@ -171,7 +171,7 @@ if($_REQUEST['category_id'])
 		
 		$extra['SELECT_ONLY'] = "CUSTOM_".intval($_REQUEST['category_id'])." AS TITLE";
 		$extra['FROM'] = ",DISCIPLINE_REFERRALS dr";
-		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' AND CATEGORY_".intval($_REQUEST['category_id'])." IS NOT NULL ";
+		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' AND CUSTOM_".intval($_REQUEST['category_id'])." IS NOT NULL ";
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');
 		//Widgets('all');
 //modif Francois: fix Advanced Search
