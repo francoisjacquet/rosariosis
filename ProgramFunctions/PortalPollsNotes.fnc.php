@@ -238,7 +238,10 @@ function makePublishing($value,$name)
 	{
 		$i++;
 //modif Francois: add <label> on checkbox
-		$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').' /> '.$profile.'</label></TD>';
+		if (isset($_REQUEST['LO_save']))
+			$return .= '<TD>'.CheckboxInput((mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?true:''),'').' '.$profile.' - </TD>';
+		else
+			$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').' /> '.$profile.'</label></TD>';
 		if($i%2==0 && $i!=count($profile))
 			$return .= '</TR><TR class="st">';
 	}
@@ -254,7 +257,10 @@ function makePublishing($value,$name)
 	foreach($profiles_RET as $profile)
 	{
 		$i++;
-		$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'').' /> '._($profile['TITLE']);
+		if (isset($_REQUEST['LO_save']))
+			$return .= '<TD><label>'.CheckboxInput((mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?true:''),'').' '._($profile['TITLE']).' - ';
+		else
+			$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'').' /> '._($profile['TITLE']);
 		//modif Francois: Portal Polls add students teacher
 		if ($profile['ID'] == 0 && isset($THIS_RET['OPTIONS'])) //student & verify this is not a Portal Note!
 		{
