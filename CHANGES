@@ -17,6 +17,7 @@ Changes in 2.5.4
 - Bugfix Javascript jquery sourceMappingURL in jquery.js
 - Bugfix Portal Polls results display after submit
 - Show 20 previous years instead of 5 in PrepareDate.fnc.php
+- Bugfix StudentFiledBreakdown numeric field chart
 
 Changes in 2.5.3
 ----------------
