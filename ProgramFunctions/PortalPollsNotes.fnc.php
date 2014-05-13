@@ -74,11 +74,11 @@ function PortalPollsDisplay($value,$name)
 	//verify if user is in excluded users list (format = '|[profile_id]:[user_id]')
 	$profile_id = User('PROFILE_ID');
 	if($profile_id != 0) //modif Francois: call right Student/Staff ID
-		$user_id = UserStaffID();
+		$user_id = $_SESSION['STAFF_ID'];
 	else
-		$user_id = UserStudentID();
+		$user_id = $_SESSION['STUDENT_ID'];
 	$excluded_user = '|'.$profile_id.':'.$user_id;
-	
+
 	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'], $excluded_user) !== false)
 		return PortalPollsVotesDisplay($poll_id, $poll_RET[1]['DISPLAY_VOTES'], $poll_questions_RET, $poll_RET[1]['VOTES_NUMBER']); //user already voted, display votes
 	
@@ -106,10 +106,11 @@ function PortalPollsDisplay($value,$name)
 		$PollForm .= '</TABLE></TD></TR>';
 	}
 	
-	$PollForm .= '</TD></TR></TABLE><P><input type="submit" value="'._('Submit').'" /></P></form>';
+	$PollForm .= '</TD></TR></TABLE><P><input type="submit" value="'._('Submit').'" id="pollSubmit" /></P></form>';
 	if (!isset($_REQUEST['_ROSARIO_PDF']))
 		$PollForm .= '</div>';
-	$PollForm .= '<script type="text/javascript">setTimeout(function() {
+	$PollForm .= '<script type="text/javascript">
+	$("#pollSubmit").click(function(){
 		$("#formPortalPoll'.$poll_id.'").ajaxFormUnbind();
 		$("#formPortalPoll'.$poll_id.'").ajaxForm({
 			beforeSubmit: function(a,f,o) {
@@ -119,7 +120,7 @@ function PortalPollsDisplay($value,$name)
 				$("#divPortalPoll'.$poll_id.'").html(data);
 			}
 		});
-	}, 1);
+	});
 </script>';
 	
 	return $PollForm;	
