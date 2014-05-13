@@ -288,7 +288,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						$value = str_replace(',',';',$value);
 					$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$value);
 					$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
-					$output .= ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='xml'?'<'.str_replace(' ','',$value).'>':'') . preg_replace('/<[^>]+>/','',preg_replace("/<div onclick='[^']+'>/",'',preg_replace('/ +/',' ',preg_replace('/&[^;]+;/','',str_replace("\r",'',str_replace("\n",'',str_ireplace('<BR />',' ',str_ireplace('<BR />&middot;',' : ',str_ireplace('&nbsp;',' ',$value))))))))) . ($options['save_delimiter']=='xml'?'</'.str_replace(' ','',$value).'>'."\n":'') . ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='comma'?',':"\t");
+					$output .= ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='xml'?'<'.str_replace(' ','',$value).'>':'') . trim(str_replace('  ',' ',preg_replace('/<[^>]+>/',' ',preg_replace("/<div onclick='[^']+'>/",'',preg_replace('/ +/',' ',preg_replace('/&[^;]+;/','',str_replace("\r",'',str_replace("\n",'',str_ireplace('<BR />',' ',str_ireplace('<BR />&middot;',' : ',str_ireplace('&nbsp;',' ',$value))))))))))) . ($options['save_delimiter']=='xml'?'</'.str_replace(' ','',$value).'>'."\n":'') . ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='comma'?',':"\t");
 				}
 				$output .= "\n";
 			}
