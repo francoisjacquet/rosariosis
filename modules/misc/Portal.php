@@ -329,8 +329,11 @@ function _formatContent($value,$column)
 		$return = $value_br_url;
 	else
 	{
-		$return = includeOnceColorBox('divNoteContent'.$id);
-		$return .= '<DIV id="divNoteContent'.$id.'" class="rt2colorBox">'.$value_br_url.'</DIV>';
+		if (!isset($_REQUEST['_ROSARIO_PDF']))
+			$return = includeOnceColorBox('divNoteContent'.$id).'<DIV id="divNoteContent'.$id.'" class="rt2colorBox">';
+		$return .= $value_br_url;
+		if (!isset($_REQUEST['_ROSARIO_PDF']))
+			$return .= '</DIV>';
 	}
 	
 	return $return;
