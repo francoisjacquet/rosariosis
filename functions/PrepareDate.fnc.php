@@ -127,7 +127,8 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 		}
 		else
 		{
-			$begin = $year - 5;
+			//modif Francois: show 20 previous years instead of 5
+			$begin = $year - 20;
 			$end = $year + 5;
 		}
 
