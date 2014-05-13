@@ -219,8 +219,8 @@ if(empty($_REQUEST['modfunc']))
 								},
 								highlighter: {
 									show: true,
-									tooltipAxes: 'x',
-									formatString:'<span style="font-size:larger;font-weight:bold;">%s</span>',
+									tooltipAxes: 'both',
+									formatString:'<span style="font-size:larger;font-weight:bold;">%s; %s</span>',
 								},
 								title: chartTitle
 							});

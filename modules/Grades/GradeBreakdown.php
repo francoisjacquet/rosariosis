@@ -96,8 +96,8 @@ if(count($grouped_RET))
 					},
 					highlighter: {
 						show: true,
-						tooltipAxes: 'x',
-						formatString:'<span style="font-size:larger;font-weight:bold;">%s</span>',
+						tooltipAxes: 'both',
+						formatString:'<span style="font-size:larger;font-weight:bold;">%s; %s</span>',
 					},
 					title: chartTitle<?php echo $i; ?>
 				});
