@@ -262,7 +262,7 @@ function makePublishing($value,$name)
 		else
 			$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'').' /> '._($profile['TITLE']);
 		//modif Francois: Portal Polls add students teacher
-		if ($profile['ID'] == 0 && isset($THIS_RET['OPTIONS'])) //student & verify this is not a Portal Note!
+		if ($profile['ID'] == 0 && $_REQUEST['modname']=='School_Setup/PortalPolls.php') //student & verify this is not a Portal Note!
 		{
 			$return .= ': </label>'.SelectInput($THIS_RET['STUDENTS_TEACHER_ID'],'values['.$id.'][STUDENTS_TEACHER_ID]',_('Limit to Teacher'),$teachers, true, '', true);
 		}
@@ -277,7 +277,7 @@ function makePublishing($value,$name)
 	$return .= '</TR>';
 	
 	//modif Francois: Moodle integrator
-	if (MOODLE_INTEGRATOR && $id == 'new' && !isset($THIS_RET['OPTIONS'])) //& verify this is not a Portal Poll!
+	if (MOODLE_INTEGRATOR && $id == 'new' && $_REQUEST['modname']!=='School_Setup/PortalPolls.php') //& verify this is not a Portal Poll!
 		$return .= '<TR class="st"><TD colspan="2"><B>'._('Publish Note in Moodle?').'</B> <label><INPUT type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> '._('Yes').'</label></TD></TR>';
 		
 	$return .= '</TABLE></TD></TR></TABLE></DIV>';
