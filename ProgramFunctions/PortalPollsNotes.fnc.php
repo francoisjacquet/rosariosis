@@ -85,9 +85,10 @@ function PortalPollsDisplay($value,$name)
 	$PollForm = '';
 	
 	//modif Francois: responsive rt td too large
-	$PollForm .= includeOnceColorBox('divPortalPoll'.$poll_id);
+	if (!isset($_REQUEST['_ROSARIO_PDF']))
+		$PollForm .= includeOnceColorBox('divPortalPoll'.$poll_id).'<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">';
 	
-	$PollForm .= '<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox"><form method="POST" id="formPortalPoll'.$poll_id.'" action="ProgramFunctions/PortalPollsNotes.fnc.php"><input type="hidden" name="profile_id" value="'.$profile_id.'" /><input type="hidden" name="user_id" value="'.$user_id.'" /><input type="hidden" name="total_votes_string" value="'._('Total Participants').'" /><input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" /><TABLE class="width-100p cellspacing-0 widefat">';
+	$PollForm .= '<form method="POST" id="formPortalPoll'.$poll_id.'" action="ProgramFunctions/PortalPollsNotes.fnc.php"><input type="hidden" name="profile_id" value="'.$profile_id.'" /><input type="hidden" name="user_id" value="'.$user_id.'" /><input type="hidden" name="total_votes_string" value="'._('Total Participants').'" /><input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" /><TABLE class="width-100p cellspacing-0 widefat">';
 		
 	foreach ($poll_questions_RET as $question)
 	{
@@ -105,7 +106,9 @@ function PortalPollsDisplay($value,$name)
 		$PollForm .= '</TABLE></TD></TR>';
 	}
 	
-	$PollForm .= '</TD></TR></TABLE><P><input type="submit" value="'._('Submit').'" /></P></form></div>';
+	$PollForm .= '</TD></TR></TABLE><P><input type="submit" value="'._('Submit').'" /></P></form>';
+	if (!isset($_REQUEST['_ROSARIO_PDF']))
+		$PollForm .= '</div>';
 	$PollForm .= '<script type="text/javascript">setTimeout(function() {
 		$("#formPortalPoll'.$poll_id.'").ajaxFormUnbind();
 		$("#formPortalPoll'.$poll_id.'").ajaxForm({
@@ -132,7 +135,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 		return ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'.(isset($_POST['poll_completed_string'])? $_POST['poll_completed_string'] : _('Poll completed'))),'Note');
 	
 	//modif Francois: responsive rt td too large
-	if (!$js_included_is_voting)
+	if (!$js_included_is_voting && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$votes_display .= includeOnceColorBox('divPortalPoll'.$poll_id);
 		$votes_display .= '<DIV id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">'."\n";
@@ -160,7 +163,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	}
 	
 	$votes_display .= '<p>'.(isset($_POST['total_votes_string'])? $_POST['total_votes_string'] : _('Total Participants')).': '.$votes_number.'</p>';
-	if (!$js_included_is_voting)
+	if (!$js_included_is_voting && !isset($_REQUEST['_ROSARIO_PDF']))
 		$votes_display .= '</DIV>'; 
 	
 	return $votes_display;
