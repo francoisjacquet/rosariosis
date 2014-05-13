@@ -420,6 +420,23 @@ function Widgets($item,&$myextra=null)
 							unset($_REQUEST['discipline'][$key]);
 					}
 				}
+				//modif Francois: bugfix wrong advanced student search results, due to discipline numeric fields
+				if(is_array($_REQUEST['discipline_begin']))
+				{
+					foreach($_REQUEST['discipline_begin'] as $key=>$value)
+					{
+						if(!$value)
+							unset($_REQUEST['discipline_begin'][$key]);
+					}
+				}
+				if(is_array($_REQUEST['discipline_end']))
+				{
+					foreach($_REQUEST['discipline_end'] as $key=>$value)
+					{
+						if(!$value)
+							unset($_REQUEST['discipline_end'][$key]);
+					}
+				}
 				if($_REQUEST['month_discipline_entry_begin'] && $_REQUEST['day_discipline_entry_begin'] && $_REQUEST['year_discipline_entry_begin'])
 				{
 					$_REQUEST['discipline_entry_begin'] = $_REQUEST['day_discipline_entry_begin'].'-'.$_REQUEST['month_discipline_entry_begin'].'-'.$_REQUEST['year_discipline_entry_begin'];
