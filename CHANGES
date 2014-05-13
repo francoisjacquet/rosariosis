@@ -1,5 +1,23 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.5.4
+----------------
+- Do not count NULL values as 0 for numeric fileds chart in *Breakdown.php
+- Fix chart for numeric fields in CategoryBreakdownTime.php
+- Bugfix no results for numeric fileds chart in *Breakdown.php
+- Bugfix wrong advanced student search results in Widgets.fnc.php
+- Photo link onclick return false
+- Bugfix XLS export of CheckboxInput & TextAreaInput
+- Case insensitive string replace in XLS export
+- Bugfix Portal Notes & Portal Polls XLS export
+- Change Portal Notes / Polls detection in POrtalPollsNotes.fnc.php
+- Replace HTML tags with space & trim XLS export value in ListOutput.fnc.php
+- Bugfix DisciplineForm XLS export
+- Bugfix Portal Notes & Portal Polls PDF export in Portal.php
+- Bugfix Javascript jquery sourceMappingURL in jquery.js
+- Bugfix Portal Polls results display after submit
+- Show 20 previous years instead of 5 in PrepareDate.fnc.php
+
 Changes in 2.5.3
 ----------------
 - Verify $value only for INSERT, not on UPDATE
