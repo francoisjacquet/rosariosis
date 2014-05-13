@@ -21,6 +21,7 @@ if($_REQUEST['student_id']!='new' && $StudentPicturesPath) {
 			$('#studentImg').css('display', 'inline');
 			formStudentPhotoVisible = 0;
 		}
+		return false;
 	});
 
 	setTimeout(function() {

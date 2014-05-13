@@ -21,6 +21,7 @@ if($_REQUEST['staff_id']!='new' && $UserPicturesPath) {
 			$('#userImg').css('display', 'inline');
 			formUserPhotoVisible = 0;
 		}
+		return false;
 	});
 
 	setTimeout(function() {
