@@ -19,6 +19,9 @@ Changes in 2.5.4
 - Show 20 previous years instead of 5 in PrepareDate.fnc.php
 - Bugfix StudentFiledBreakdown numeric field chart
 - Add y coordinate to line chart tooltip in *Breakdown.php
+- Override "Student" if extra singular/plural set in Students/Search.inc.php
+- Add XLS export to Grading Scale
+- Bugfix XLS export Incomplete Schedules / Take Attendance / Attendance Chart
 
 Changes in 2.5.3
 ----------------
