@@ -146,7 +146,7 @@ if($_REQUEST['student_id'] || User('PROFILE')=='parent')
 	if(count($cal_RET))
 	{
 		foreach($cal_RET as $value)
-			$columns[$value['SHORT_DATE']] = ShortDate($value['SCHOOL_DATE']);
+			$columns[$value['SHORT_DATE']] = (isset($_REQUEST['LO_save']) ? strip_tags(ShortDate($value['SCHOOL_DATE'])) : ShortDate($value['SCHOOL_DATE']));
 	}
 
 	ListOutput($student_RET,$columns,'Course','Courses');
