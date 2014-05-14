@@ -203,7 +203,11 @@ else
 		}
 		else
 		{
-            ListOutput($students_RET,$columns,'Student','Students',$link,$extra['LO_group'],$extra['options']);
+			//modif Francois: override "Student" if extra singular/plural set
+			if (!empty($extra['singular']) && !empty($extra['plural']))
+				ListOutput($students_RET,$columns,$extra['singular'],$extra['plural'],$link,$extra['LO_group'],$extra['options']);
+			else
+				ListOutput($students_RET,$columns,'Student','Students',$link,$extra['LO_group'],$extra['options']);
 		}
 	}
 	elseif(count($students_RET)==1)
