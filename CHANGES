@@ -26,6 +26,8 @@ Changes in 2.5.4
 - Remove Contact Information for XLS & PDF export in GetStuList.fnc.php
 - Do not go back to top onclick in Profiles.php
 - Omit script type attribute (remove type="text/javascript", default in HTML5)
+- Responsive Requests ListOutput table
+- Update spanish & french translations
 
 Changes in 2.5.3
 ----------------
