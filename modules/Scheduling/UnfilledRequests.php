@@ -42,8 +42,8 @@ $extra['columns_after'] = array('COURSE'=>_('Request'));
 if($_REQUEST['include_seats'])
 	$extra['columns_after'] += array('AVAILABLE_SEATS'=>_('Available Seats'));
 $extra['columns_after'] += array('SECTIONS'=>_('Sections'),'WITH_TEACHER_ID'=>_('Teacher'),'WITH_PERIOD_ID'=>_('Period'));
-$extra['singular'] = 'Unscheduled Request';
-$extra['plural'] = 'Unscheduled Requests';
+$extra['singular'] = _('Unfilled Request');
+$extra['plural'] = _('Unfilled Requests');
 if(!$extra['link']['FULL_NAME'])
 {
 	$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname=Scheduling/Requests.php';
