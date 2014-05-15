@@ -22,6 +22,10 @@ Changes in 2.5.4
 - Override "Student" if extra singular/plural set in Students/Search.inc.php
 - Add XLS export to Grading Scale
 - Bugfix XLS export Incomplete Schedules / Take Attendance / Attendance Chart
+- No responsive table for School Fields ListOutput
+- Remove Contact Information for XLS & PDF export in GetStuList.fnc.php
+- Do not go back to top onclick in Profiles.php
+- Omit script type attribute (remove type="text/javascript", default in HTML5)
 
 Changes in 2.5.3
 ----------------
