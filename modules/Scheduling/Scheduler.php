@@ -128,7 +128,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 		$percent = round($completed*100/$requests_count,0);
 		if($percent>$last_percent)
 		{
-			echo '<script type="text/javascript">'."\r";
+			echo '<script>'."\r";
 			for($i=$last_percent+1;$i<=$percent;$i++)
 				echo 'cell'.$i.'.bgColor="'.Preferences('HIGHLIGHT').'";'."\r";
 			//modif Francois: bugfix addHTML is not defined
@@ -165,7 +165,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 
 	if($_REQUEST['test_mode']!='Y')
 	{
-		echo '<script type="text/javascript">'."\r";
+		echo '<script>'."\r";
 		//modif Francois: bugfix addHTML is not defined
 		//echo 'addHTML("'.str_replace('"','\"','<IMG SRC="assets/spinning.gif" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Saving Schedules ...')).' ').'","percentDIV",true);'."\r";
 		echo 'document.getElementById("percentDIV").innerHTML = "'.str_replace('"','\"','<IMG SRC="assets/spinning.gif" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Saving Schedules ...')).' ').'";'."\r";
@@ -222,7 +222,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 
 	if($_REQUEST['test_mode']!='Y' || $_REQUEST['delete']=='Y')
 	{
-		echo '<script type="text/javascript">'."\r";
+		echo '<script>'."\r";
 		//modif Francois: bugfix addHTML is not defined
 		//echo 'addHTML("'.str_replace('"','\"','<IMG SRC="assets/spinning.gif" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Optimizing ...')).' ').'","percentDIV",true);'."\r";
 		echo 'document.getElementById("percentDIV").innerHTML = "'.str_replace('"','\"','<IMG SRC="assets/spinning.gif" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Optimizing ...')).' ').'";'."\r";
@@ -235,7 +235,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 		DBQuery("ANALYZE");
 	}
 
-	echo '<script type="text/javascript">'."\r";
+	echo '<script>'."\r";
 //modif Francois: Moodle integrator
 	//modif Francois: bugfix addHTML is not defined
 	//echo 'addHTML("'.str_replace('"','\"', str_replace(array("'",'"'),array('&#39;','&rdquo;'),$moodleError).'<IMG SRC="assets/check_button.png" class="alignImg" /> <B>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),_('Done.')).'</B>').'","percentDIV",true);'."\r";

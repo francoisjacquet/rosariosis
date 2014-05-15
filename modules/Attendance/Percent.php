@@ -81,7 +81,7 @@ if($_REQUEST['modfunc']=='search')
 	echo '</TABLE>';
 	echo '</FORM>';
 	// set focus to last name text box
-        echo '<script type="text/javascript"><!--
+        echo '<script><!--
 		document.percentform.last.focus();
 		--></script>';
 	PopTable('footer');

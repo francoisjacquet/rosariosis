@@ -108,8 +108,8 @@ if(empty($_REQUEST['modfunc']))
 		//modif Francois: add TinyMCE to the textarea
 		?>
 <!-- Load TinyMCE -->
-<script type="text/javascript" src="assets/js/tiny_mce_3.5.8_jquery/jquery.tinymce.js"></script>
-<script type="text/javascript">
+<script src="assets/js/tiny_mce_3.5.8_jquery/jquery.tinymce.js"></script>
+<script>
 	// Rosario customed version of TinyMCE jQuery
 	$().ready(function() {
 		var resize_tinymce = (screen.width<768 ? true : false);
@@ -196,7 +196,7 @@ if(empty($_REQUEST['modfunc']))
 		}
 		$extra['extra_header_left'] .= '</tr></table></DIV></TD></TR>';
 		$extra['extra_header_left'] .= '</TABLE>';
-		$extra['extra_header_left'] .= '<script type="text/javascript">if (isTouchDevice()) {touchScroll(document.getElementById(\'framesList\'));}</script>';
+		$extra['extra_header_left'] .= '<script>if (isTouchDevice()) {touchScroll(document.getElementById(\'framesList\'));}</script>';
 
 	}
 

@@ -45,7 +45,7 @@ $sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ST
 $types_RET = DBGet(DBQuery($sql));
 
 $assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,TITLE,POINTS FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".User('STAFF_ID')."' AND ((COURSE_ID='$course_id' AND STAFF_ID='".User('STAFF_ID')."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."') AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC"));
-$assignment_select = '<script type="text/javascript">var assignment_idonchange = document.createElement("a"); assignment_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&assignment_id="; assignment_idonchange.target = "body";</script>';
+$assignment_select = '<script>var assignment_idonchange = document.createElement("a"); assignment_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&assignment_id="; assignment_idonchange.target = "body";</script>';
 $assignment_select .= '<SELECT name="assignment_id" id="assignment_id" onchange="assignment_idonchange.href += this.options[selectedIndex].value; ajaxLink(assignment_idonchange);"><OPTION value="totals"'.($_REQUEST['assignment_id']=='totals'?' SELECTED="SELECTED"':'').'>'._('Totals').'</OPTION>';
 foreach($types_RET as $type)
 {
@@ -123,7 +123,7 @@ if(!$_REQUEST['chart_type'])
 	{
 //modif Francois: jqplot charts
 ?>
-		<script type="text/javascript">
+		<script>
 <?php
 		if($_REQUEST['chart_type']=='column')
 		{
@@ -199,9 +199,9 @@ if(empty($_REQUEST['modfunc']))
 //modif Francois: jqplot charts
 //modif Francois: colorbox
 ?>
-			<script type="text/javascript" src="assets/js/jqplot/jquery.jqplot.min.js"></script>
+			<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
-			<script type="text/javascript">	
+			<script>	
 				var saveImgText = '<?php echo htmlspecialchars(_('Right Click to Save Image As...'),ENT_QUOTES); ?>';
 				var chartTitle = '<?php echo htmlspecialchars(sprintf(_('%s Breakdown'),$title),ENT_QUOTES); ?>';
 			</script>
@@ -209,9 +209,9 @@ if(empty($_REQUEST['modfunc']))
 			if($_REQUEST['chart_type']=='column')
 			{
 ?>
-				<script type="text/javascript" src="assets/js/jqplot/jquery.jqplot.min.js"></script>
-				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
-				<script type="text/javascript">
+				<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
+				<script src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
+				<script>
 					$(document).ready(function(){
 							var plotcolumn = $.jqplot('chart', [datacolumn], {
 								axesDefaults: {
@@ -229,8 +229,8 @@ if(empty($_REQUEST['modfunc']))
 <?php
 			} else { //pie chart
 ?>		
-				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
-				<script type="text/javascript">
+				<script src="assets/js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+				<script>
 					$(document).ready(function(){ 
 						var plotpie = $.jqplot('chart', [datapie], {
 							seriesDefaults:{
@@ -248,9 +248,9 @@ if(empty($_REQUEST['modfunc']))
 			}
 ?>
 			<div id="chart"></div>
-			<script type="text/javascript" src="assets/js/colorbox/jquery.colorbox-min.js"></script>
+			<script src="assets/js/colorbox/jquery.colorbox-min.js"></script>
 			<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
-			<script type="text/javascript" src="assets/js/jquery.jqplottocolorbox.js"></script>
+			<script src="assets/js/jquery.jqplottocolorbox.js"></script>
 <?php
 			unset($_REQUEST['_ROSARIO_PDF']);
 		}

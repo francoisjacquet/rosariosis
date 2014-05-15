@@ -57,7 +57,7 @@ if($_REQUEST['modfunc']=='XMLHttpRequest')
 
 if(!$_REQUEST['modfunc'] && UserStudentID())
 {
-	echo '<script type="text/javascript">
+	echo '<script>
 function SendXMLRequest(subject_id,course)
 {
 	if(window.XMLHttpRequest)

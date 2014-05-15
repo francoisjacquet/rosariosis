@@ -604,7 +604,7 @@ if(empty($_REQUEST['modfunc']))
 			echo '<TR><TD>'.CheckboxInput($this_address['BUS_DROPOFF'],'values[STUDENTS_JOIN_ADDRESS][BUS_DROPOFF]','','CHECKED',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15" />').'</TD><TD><IMG SRC="assets/bus_button.png" height="24" /></TD><TD>'._('Bus Dropoff').'</TD></TR>';
 			if(Config('STUDENTS_USE_MAILING') || $this_address['MAIL_CITY'] || $this_address['MAIL_STATE'] || $this_address['MAIL_ZIPCODE'])
 			{
-				echo '<script type="text/javascript"> function show_mailing(checkbox){if(checkbox.checked==true) document.getElementById(\'mailing_address_div\').style.visibility=\'visible\'; else document.getElementById(\'mailing_address_div\').style.visibility=\'hidden\';}</script>';
+				echo '<script> function show_mailing(checkbox){if(checkbox.checked==true) document.getElementById(\'mailing_address_div\').style.visibility=\'visible\'; else document.getElementById(\'mailing_address_div\').style.visibility=\'hidden\';}</script>';
 				echo '<TR><TD>'.CheckboxInput($this_address['MAILING'],'values[STUDENTS_JOIN_ADDRESS][MAILING]','','CHECKED',$new,'<IMG SRC="assets/check_button.png" height="15" />','<IMG SRC="assets/x_button.png" height="15" />',true,'onclick=show_mailing(this);').'</TD><TD><IMG SRC="assets/mailbox_button.png" height="24" /></TD><TD>'._('Mailing Address').'</TD></TR></TABLE>';
 
 				echo '<DIV id="mailing_address_div" style="visibility: '.(($this_address['MAILING']||$_REQUEST['address_id']=='new')?'visible':'hidden').';">';

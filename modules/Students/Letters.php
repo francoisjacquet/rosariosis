@@ -91,8 +91,8 @@ if(empty($_REQUEST['modfunc']))
 		//modif Francois: add TinyMCE to the textarea
 		?>
 <!-- Load TinyMCE -->
-<script type="text/javascript" src="assets/js/tiny_mce_3.5.8_jquery/jquery.tinymce.js"></script>
-<script type="text/javascript">
+<script src="assets/js/tiny_mce_3.5.8_jquery/jquery.tinymce.js"></script>
+<script>
 	// Rosario customed version of TinyMCE jQuery
 	$().ready(function() {
 		var resize_tinymce = (screen.width<768 ? true : false);

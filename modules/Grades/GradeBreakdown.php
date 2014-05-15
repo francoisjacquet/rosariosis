@@ -70,10 +70,10 @@ if(count($grouped_RET))
 		//$_REQUEST['_ROSARIO_PDF'] = 'true';
 
 ?>
-		<script type="text/javascript" src="assets/js/jqplot/jquery.jqplot.min.js"></script>
-		<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
+		<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
+		<script src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />	
-		<script type="text/javascript">
+		<script>
 			var saveImgText = '<?php echo htmlspecialchars(_('Right Click to Save Image As...'),ENT_QUOTES); ?>';
 			$(document).ready(function(){
 <?php
@@ -117,9 +117,9 @@ if(count($grouped_RET))
 <?php
 		}
 ?>
-		<script type="text/javascript" src="assets/js/colorbox/jquery.colorbox-min.js"></script>
+		<script src="assets/js/colorbox/jquery.colorbox-min.js"></script>
 		<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
-		<script type="text/javascript" src="assets/js/jquery.jqplottocolorbox.js"></script>
+		<script src="assets/js/jquery.jqplottocolorbox.js"></script>
 <?php
 		PopTable('footer');
 	}

@@ -6,8 +6,8 @@ function includeOnceColorBox($rt2colorBoxDiv = false)
 	static $included = false;
 	//modif Francois: responsive rt td too large
 	$return .= (!$included ? '<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
-	<script type="text/javascript" src="assets/js/colorbox/jquery.colorbox-min.js"></script>
-	<script type="text/javascript">
+	<script src="assets/js/colorbox/jquery.colorbox-min.js"></script>
+	<script>
 		var cWidth = 640; var cHeight = 390;
 		if (screen.width<768) {
 			cWidth = 300; cHeight = 183;

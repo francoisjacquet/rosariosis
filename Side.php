@@ -83,7 +83,7 @@ if($_REQUEST['staff_id']=='new')
 }
 unset($_REQUEST['modfunc']);
 
-echo '<script type="text/javascript">'.$addJavascripts.'openMenu(modname);</script>';
+echo '<script>'.$addJavascripts.'openMenu(modname);</script>';
 ?>
 <div id="menushadow"></div>
 <?php

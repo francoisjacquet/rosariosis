@@ -2,7 +2,7 @@
 if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 {
 //modif Francois: add <label> on checkbox
-	$input_all_schools = '<script type="text/javascript">var all_schoolsonclick = document.createElement("a"); all_schoolsonclick.href = "'.($_REQUEST['all_schools']=='Y' ? PreparePHP_SELF($_REQUEST,array(),array('all_schools'=>'')) : PreparePHP_SELF($_REQUEST,array(),array('all_schools'=>'Y'))).'"; all_schoolsonclick.target = "body";</script>';
+	$input_all_schools = '<script>var all_schoolsonclick = document.createElement("a"); all_schoolsonclick.href = "'.($_REQUEST['all_schools']=='Y' ? PreparePHP_SELF($_REQUEST,array(),array('all_schools'=>'')) : PreparePHP_SELF($_REQUEST,array(),array('all_schools'=>'Y'))).'"; all_schoolsonclick.target = "body";</script>';
 	$input_all_schools .= '<INPUT type="checkbox" name="all_schools" value="Y" onclick="ajaxLink(all_schoolsonclick);"'.($_REQUEST['all_schools']=='Y' ? 'checked' : '').' />';
 	DrawHeader('','','<label>'.$input_all_schools.' '._('List Courses For All Schools').'</label>');
 

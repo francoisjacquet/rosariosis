@@ -135,7 +135,7 @@ if($_REQUEST['modfunc']=='choose_course')
 		$period_title = DBGet(DBQuery("SELECT TITLE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."'"));
 		$period_title = $period_title[1]['TITLE'];
 
-		echo '<script type="text/javascript">opener.document.getElementById("course_div").innerHTML = "'.str_replace(array("'",'"'),array('&#39;','&quot;'),$course_title).'<BR />'.str_replace(array("'",'"'),array('&#39;','&quot;'),$period_title).'"; window.close();</script>';
+		echo '<script>opener.document.getElementById("course_div").innerHTML = "'.str_replace(array("'",'"'),array('&#39;','&quot;'),$course_title).'<BR />'.str_replace(array("'",'"'),array('&#39;','&quot;'),$period_title).'"; window.close();</script>';
 		
 	}
 }

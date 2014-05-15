@@ -71,7 +71,7 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 			echo '</span>';
 			PopTable('footer');
 			echo '</FORM>';
-			echo '<script type="text/javascript">$(\'#submit\').click(function(){ $(\'form\').ajaxFormUnbind(); });</script>';
+			echo '<script>$(\'#submit\').click(function(){ $(\'form\').ajaxFormUnbind(); });</script>';
 			Warehouse('footer_plain');
 			DBQuery("UPDATE CONFIG SET CONFIG_VALUE='Yes' WHERE TITLE='LOGIN'");
 			exit;

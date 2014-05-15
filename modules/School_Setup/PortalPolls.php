@@ -279,7 +279,7 @@ function _makeOptionsInputs($value,$name)
 	
 	if ($id == 'new')
 	{
-		$return .= '<script type="text/javascript">
+		$return .= '<script>
 			function newOption()
 			{
 				var table = document.getElementById(\'newOptionsTable\');

@@ -241,7 +241,7 @@ function _makeMultipleInput($column,$name,$request)
 		$table .= '</TD></TR></TABLE>';
 		if($value[$column]!='')
 		{
-			echo '<script type="text/javascript">var html'.$request.$column.'=\''.$table.'\';</script>'.$return;
+			echo '<script>var html'.$request.$column.'=\''.$table.'\';</script>'.$return;
 			echo ',"div'.$request.'['.$column.']",true);\' >';
 			echo '<span class="underline-dots">'.($value[$column]!=''?str_replace('||',', ',mb_substr($value[$column],2,-2)):'-').'</span>';
 			echo '</div></DIV>';

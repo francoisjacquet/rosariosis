@@ -182,7 +182,7 @@ if($_REQUEST['category_id'])
 	{
 //modif Francois: jqplot charts
 ?>
-		<script type="text/javascript">
+		<script>
 <?php
 		if (isset($chartline))
 		{
@@ -291,9 +291,9 @@ if(empty($_REQUEST['modfunc']))
 //modif Francois: jqplot charts
 //modif Francois: colorbox
 ?>
-			<script type="text/javascript" src="assets/js/jqplot/jquery.jqplot.min.js"></script>
+			<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
-			<script type="text/javascript">	
+			<script>	
 				var saveImgText = '<?php echo htmlspecialchars(_('Right Click to Save Image As...'),ENT_QUOTES); ?>';
 				var chartTitle = '<?php echo htmlspecialchars(sprintf(_('%s Breakdown'),ParseMLField($category_RET[1]['TITLE'])).$_ROSARIO['SearchTerms'],ENT_QUOTES); ?>';
 			</script>
@@ -301,8 +301,8 @@ if(empty($_REQUEST['modfunc']))
 			if (isset($chartline)) //modif Francois: line chart
 			{
 ?>
-				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
-				<script type="text/javascript">
+				<script src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
+				<script>
 					$(document).ready(function(){
 						var plotline = $.jqplot('chart',[dataline], {
 							highlighter: {
@@ -319,12 +319,12 @@ if(empty($_REQUEST['modfunc']))
 			elseif($_REQUEST['chart_type']=='column')
 			{
 ?>
-				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
-				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
-				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
-				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
-				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
-				<script type="text/javascript">
+				<script src="assets/js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
+				<script src="assets/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+				<script src="assets/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
+				<script src="assets/js/jqplot/plugins/jqplot.canvasTextRenderer.min.js"></script>
+				<script src="assets/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+				<script>
 					$(document).ready(function(){
 						var plotcolumn = $.jqplot('chart', [datacolumn], {
 							seriesDefaults:{
@@ -355,8 +355,8 @@ if(empty($_REQUEST['modfunc']))
 			else //pie chart
 			{
 ?>		
-				<script type="text/javascript" src="assets/js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
-				<script type="text/javascript">
+				<script src="assets/js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
+				<script>
 					$(document).ready(function(){
 						var plotpie = $.jqplot('chart', [datapie], {
 							seriesDefaults:{
@@ -374,9 +374,9 @@ if(empty($_REQUEST['modfunc']))
 			}	
 ?>
 			<div id="chart"></div>
-			<script type="text/javascript" src="assets/js/colorbox/jquery.colorbox-min.js"></script>
+			<script src="assets/js/colorbox/jquery.colorbox-min.js"></script>
 			<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
-			<script type="text/javascript" src="assets/js/jquery.jqplottocolorbox.js"></script>
+			<script src="assets/js/jquery.jqplottocolorbox.js"></script>
 <?php
 			unset($_REQUEST['_ROSARIO_PDF']);
 		}

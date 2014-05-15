@@ -59,7 +59,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			$_REQUEST['values']['Preferences']['SCROLL_TOP'] = 'N';
 		if($_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['THEME']!=$current_RET['Preferences']['THEME'][1]['VALUE'])
 		{
-			echo '<script type="text/javascript">';
+			echo '<script>';
 			echo 'var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);';
 			echo '</script>';
 		}

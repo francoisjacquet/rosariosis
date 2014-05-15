@@ -144,7 +144,7 @@ if($_REQUEST['modfunc']!='delete')
 
 	if(AllowEdit())
 	{
-		echo '<script type="text/javascript">
+		echo '<script>
 function changeHTML(show,hide){
 	for(key in show)
 		document.getElementById(key).innerHTML = document.getElementById(show[key]).innerHTML;

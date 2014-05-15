@@ -10,7 +10,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 			if($_SESSION['staff_id'] && User('PROFILE')=='admin' && $_REQUEST['staff_id']=='new')
 			{
 				unset($_SESSION['staff_id']);
-				echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
+				echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 			}
 
 			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back','advanced'));
@@ -19,7 +19,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 				$_SESSION['Back_PHP_SELF'] = 'staff';
 				unset($_SESSION['List_PHP_SELF']);
 			}
-			echo '<script type="text/javascript">var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+			echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
 			echo '<BR />';
 			PopTable('header',$extra['search_title']?$extra['search_title']:_('Find a User'));
 			echo '<FORM name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="POST">';
@@ -101,7 +101,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 			echo '</TABLE>';
 			echo '</FORM>';
 			// set focus to last name text box
-			echo '<script type="text/javascript"><!--
+			echo '<script><!--
 				document.search.last.focus();
 				--></script>';
 			PopTable('footer');
@@ -176,7 +176,7 @@ else
 				$_SESSION['Back_PHP_SELF'] = 'staff';
 				unset($_SESSION['Search_PHP_SELF']);
 			}
-			echo '<script type="text/javascript">var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+			echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
 		}
 		if($extra['profile'])
 			ListOutput($staff_RET,$columns,$singular,$plural,$link,false,$extra['options']);
@@ -194,7 +194,7 @@ else
 		if(!is_array($staff_RET[1]['STAFF_ID']))
 		{
 			$_SESSION['staff_id'] = $staff_RET[1]['STAFF_ID'];
-			echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
+			echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 			unset($_REQUEST['search_modfunc']);
 		}
 		if($_REQUEST['modname']!=$_REQUEST['next_modname'])

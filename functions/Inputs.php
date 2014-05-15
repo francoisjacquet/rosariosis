@@ -47,7 +47,7 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
 			
 			$toEscape = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.str_replace("'",'&#39;',htmlspecialchars($value)).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
-			$return = '<script type="text/javascript">var html'.str_replace(array('[',']','-'),'',$name).'=\''.$toEscape.'\';</script>'.$return;
+			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'=\''.$toEscape.'\';</script>'.$return;
 			
 			$return .= ',"div'.$name.'",true); document.getElementById("input'.$name.'").focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 			return $return;
@@ -78,7 +78,7 @@ function MLTextInput($value,$name,$title='',$options='',$div=true)
             $options .= ' size=10';
 
         // ng - foreach possible language
-		$ret = '<script type="text/javascript">
+		$ret = '<script>
 function setMLvalue(id,loc,value){
 	res = document.getElementById(id).value.split("|");
 	if(loc=="") {
@@ -143,7 +143,7 @@ function TextAreaInput($value,$name,$title='',$options='',$div=true)
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
 			
 			$toEscape = '<TEXTAREA id="textarea'.$name.'" name="'.$name.'" '.$options.'>'.preg_replace("/[\n\r]/",'\u000D\u000A',str_replace("\r\n",'\u000D\u000A',str_replace("'",'&#39;',$value))).'</TEXTAREA>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
-			$return = '<script type="text/javascript">var html'.str_replace(array('[',']','-'),'',$name).'=\''.$toEscape.'\';</script>'.$return;
+			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'=\''.$toEscape.'\';</script>'.$return;
 			
 			$return .= ',"div'.$name.'",true); document.getElementById("textarea'.$name.'").value=unescape(document.getElementById("textarea'.$name.'").value);\'>'.'<TABLE style="height:100%;"><TR><TD>'.((mb_substr_count($value,"\r\n")>$rows)?'<DIV style="overflow:auto; height:'.(15*$rows).'px; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>':'<DIV style="overflow:auto; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>').'</TD></TR></TABLE>'.($title!=''?''.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 			return $return;
@@ -229,7 +229,7 @@ function SelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$
 		
 		if($value!='' && $div)
 		{
-			$return = '<script type="text/javascript">var html'.str_replace(array('[',']','-'),'',$name).'=\''.$select.'\';</script>'.$return;
+			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'=\''.$select.'\';</script>'.$return;
 
 			$return .= ',"div'.$name.'",true);\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
@@ -282,7 +282,7 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
 			
         if($value!='' && $div)
 		{
-			$return = '<script type="text/javascript">var html'.str_replace(array('[',']','-'),'',$name).'=\''.$select.'\';</script>'.$return;
+			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'=\''.$select.'\';</script>'.$return;
 
             $return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
@@ -329,7 +329,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 			
 		if($value!='' && $div)
 		{
-			$return = '<script type="text/javascript">var html'.str_replace(array('[',']','-'),'',$name).'=\''.$table.'\';</script>'.$return;
+			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'=\''.$table.'\';</script>'.$return;
 
             $return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
@@ -350,7 +350,7 @@ function NoInput($value,$title='')
 function CheckBoxOnclick($name)
 {
 	static $link_nb = 0;
-	$return .= '<script type="text/javascript">var CheckBoxOnclick'.$link_nb.' = document.createElement("a"); CheckBoxOnclick'.$link_nb.'.href = "'.PreparePHP_SELF($_REQUEST,array(),($_REQUEST[$name]=='Y'?array($name=>''):array($name=>'Y'))).'"; CheckBoxOnclick'.$link_nb.'.target = "body";</script>';
+	$return .= '<script>var CheckBoxOnclick'.$link_nb.' = document.createElement("a"); CheckBoxOnclick'.$link_nb.'.href = "'.PreparePHP_SELF($_REQUEST,array(),($_REQUEST[$name]=='Y'?array($name=>''):array($name=>'Y'))).'"; CheckBoxOnclick'.$link_nb.'.target = "body";</script>';
 	$return .= '<INPUT type="checkbox" name="'.$name.'" value="Y"'.($_REQUEST[$name]=='Y'?' checked':'').' onclick=\'ajaxLink(CheckBoxOnclick'.$link_nb.');\' />';
 	$link_nb++;
 	return $return;

@@ -109,7 +109,7 @@ function PortalPollsDisplay($value,$name)
 	$PollForm .= '</TD></TR></TABLE><P><input type="submit" value="'._('Submit').'" id="pollSubmit" /></P></form>';
 	if (!isset($_REQUEST['_ROSARIO_PDF']))
 		$PollForm .= '</div>';
-	$PollForm .= '<script type="text/javascript">
+	$PollForm .= '<script>
 	$("#pollSubmit").click(function(){
 		$("#formPortalPoll'.$poll_id.'").ajaxFormUnbind();
 		$("#formPortalPoll'.$poll_id.'").ajaxForm({

@@ -25,7 +25,7 @@ if(Prompt(_('Confirm Copy School'),sprintf(_('Are you sure you want to copy the 
 			_rollover($table);
 	}
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-	echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
+	echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 //    DrawHeader('<IMG SRC=assets/check_button.png>'.sprintf(_('The data have been copied to a new school called "%s".'),$_REQUEST['title']),'<INPUT type=submit value="'._('OK').'>"');
 	echo ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'.sprintf(_('The data have been copied to a new school called "%s".'),$_REQUEST['title']).SubmitButton(_('OK'))), 'note');
 	echo '</FORM>';

@@ -20,7 +20,7 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 	{
 		if($options['C'])
 		{
-			$return .= '<script type="text/javascript">var date_onclick = document.createElement("a"); date_onclick.href = "'.PreparePHP_SELF($_REQUEST,array('month'.$title,'day'.$title,'year'.$title)).'"; date_onclick.target = "body";</script>';
+			$return .= '<script>var date_onclick = document.createElement("a"); date_onclick.href = "'.PreparePHP_SELF($_REQUEST,array('month'.$title,'day'.$title,'year'.$title)).'"; date_onclick.target = "body";</script>';
 			$e = 'onchange="date_onclick.href += \'&month'.$title.'=\'+this.form.month'.$title.'.value+\'&day'.$title.'=\'+this.form.day'.$title.'.value+\'&year'.$title.'=\'+this.form.year'.$title.'.value; ajaxLink(date_onclick);"';
 			$extraM .= $e;
 			$extraD .= $e;
@@ -29,15 +29,15 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 		else
 		{
 			if ($options['M'])
-				$return .= '<script type="text/javascript">var month_onclick = document.createElement("a"); month_onclick.href = "'.PreparePHP_SELF($_REQUEST,array('month'.$title)).'"; month_onclick.target = "body";</script>';
+				$return .= '<script>var month_onclick = document.createElement("a"); month_onclick.href = "'.PreparePHP_SELF($_REQUEST,array('month'.$title)).'"; month_onclick.target = "body";</script>';
 			$extraM .= 'onchange="month_onclick.href += \'&month'.$title.'=\'+this.form.month'.$title.'.value; ajaxLink(month_onclick);"';
 			
 			if ($options['D'])
-				$return .= '<script type="text/javascript">var day_onclick = document.createElement("a"); day_onclick.href = "'.PreparePHP_SELF($_REQUEST,array('day'.$title)).'"; day_onclick.target = "body";</script>';
+				$return .= '<script>var day_onclick = document.createElement("a"); day_onclick.href = "'.PreparePHP_SELF($_REQUEST,array('day'.$title)).'"; day_onclick.target = "body";</script>';
 			$extraD .= 'onchange="day_onclick.href += \'&day'.$title.'=\'+this.form.day'.$title.'.value; ajaxLink(day_onclick);"';
 			
 			if ($options['Y'])
-				$return .= '<script type="text/javascript">var year_onclick = document.createElement("a"); year_onclick.href = "'.PreparePHP_SELF($_REQUEST,array('year'.$title)).'"; year_onclick.target = "body";</script>';
+				$return .= '<script>var year_onclick = document.createElement("a"); year_onclick.href = "'.PreparePHP_SELF($_REQUEST,array('year'.$title)).'"; year_onclick.target = "body";</script>';
 			$extraY .= 'onchange="year_onclick.href += \'&amp;year'.$title.'=\'+this.form.year'.$title.'.value; ajaxLink(year_onclick);"';
 		}
 	}

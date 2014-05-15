@@ -41,7 +41,7 @@ if(!defined('WAREHOUSE_PHP'))
 	session_start();
 	if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && mb_strpos($_SERVER['PHP_SELF'],'index.php')===false)
 	{
-		echo '<script type="text/javascript">window.location.href = "index.php?modfunc=logout";</script>';
+		echo '<script>window.location.href = "index.php?modfunc=logout";</script>';
 		exit;
 	}
 
@@ -75,18 +75,18 @@ if(!defined('WAREHOUSE_PHP'))
 	<noscript><META http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&reason=javascript" /></noscript>
 	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
-	<script type="text/javascript" src="assets/js/jquery.js"></script>
-	<script type="text/javascript" src="assets/js/jquery.form.js"></script>
-	<script type="text/javascript" src="assets/js/tipmessage/main15.js"></script>
-	<script type="text/javascript" src="assets/js/warehouse.js"></script>
+	<script src="assets/js/jquery.js"></script>
+	<script src="assets/js/jquery.form.js"></script>
+	<script src="assets/js/tipmessage/main15.js"></script>
+	<script src="assets/js/warehouse.js"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="assets/js/jscalendar/calendar-blue.css" />
-	<script type="text/javascript" src="assets/js/jscalendar/calendar.js"></script>
-	<script type="text/javascript" src="assets/js/jscalendar/lang/calendar-<?php echo file_exists('assets/js/jscalendar/lang/calendar-'.mb_substr($locale, 0, 2).'.js') ? mb_substr($locale, 0, 2) : 'en'; ?>.js"></script>
-	<script type="text/javascript" src="assets/js/jscalendar/calendar-setup.js"></script>			
+	<script src="assets/js/jscalendar/calendar.js"></script>
+	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists('assets/js/jscalendar/lang/calendar-'.mb_substr($locale, 0, 2).'.js') ? mb_substr($locale, 0, 2) : 'en'; ?>.js"></script>
+	<script src="assets/js/jscalendar/calendar-setup.js"></script>			
 </HEAD>
 <BODY>
 <DIV id="Migoicons" style="visibility:hidden;position:absolute;z-index:1000;top:-100px"></DIV>
-<script type="text/javascript">var scrollTop="<?php echo Preferences('SCROLL_TOP'); ?>";</script>
+<script>var scrollTop="<?php echo Preferences('SCROLL_TOP'); ?>";</script>
 <?php
 			break;
 			case 'footer':
@@ -97,7 +97,7 @@ if(!defined('WAREHOUSE_PHP'))
 					for($i=1;$i<=$_ROSARIO['PrepareDate'];$i++)
 					{
 ?>
-<script type="text/javascript">
+<script>
 if (document.getElementById('trigger<?php echo $i; ?>'))
 	Calendar.setup({
 		monthField     :    "monthSelect<?php echo $i; ?>",

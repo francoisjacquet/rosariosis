@@ -245,7 +245,7 @@ if($_REQUEST['modfunc']=='detail')
 					$i++;
 				} while(is_numeric($_REQUEST['REPEAT']) && $i<=$_REQUEST['REPEAT']);
 			}
-			echo '<SCRIPT type="text/javascript">var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
+			echo '<SCRIPT>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
 			unset($_REQUEST['values']);
 			unset($_SESSION['_REQUEST_vars']['values']);
 		}
@@ -265,7 +265,7 @@ if($_REQUEST['modfunc']=='detail')
 					exit;
 				}
 			}
-			echo '<SCRIPT type="text/javascript">var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
+			echo '<SCRIPT>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
 			unset($_REQUEST['values']);
 			unset($_SESSION['_REQUEST_vars']['values']);
 			unset($_REQUEST['button']);
@@ -450,7 +450,7 @@ if(empty($_REQUEST['modfunc']))
 				$defaults++;
 		}
 		//modif Francois: bugfix erase calendar onchange
-		$calendar_onchange = '<script type="text/javascript">var calendar_onchange = document.createElement("a"); calendar_onchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&calendar_id="; calendar_onchange.target = "body";</script>';
+		$calendar_onchange = '<script>var calendar_onchange = document.createElement("a"); calendar_onchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&calendar_id="; calendar_onchange.target = "body";</script>';
 		$link = $calendar_onchange.SelectInput($_REQUEST['calendar_id'],'calendar_id','',$options,false,' onchange="calendar_onchange.href += document.getElementById(\'calendar_id\').value; ajaxLink(calendar_onchange);" ',false).'<span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create">'.button('add')._('Create new calendar').'</A></span> | <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create&calendar_id='.$_REQUEST['calendar_id'].'">'._('Recreate this calendar').'</A></span>&nbsp; <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_calendar&calendar_id='.$_REQUEST['calendar_id'].'">'.button('remove')._('Delete this calendar').'</A></span>';
 	}
 	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)).' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=list_events&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('List Events').'</A>',SubmitButton(_('Save')));

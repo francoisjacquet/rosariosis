@@ -237,7 +237,7 @@ if(empty($_REQUEST['modfunc']))
 
 	if($_REQUEST['assignment_id']!='new' && $_REQUEST['assignment_type_id']!='new')
 	{
-		$delete_button = '<script type="text/javascript">var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&assignment_type_id='.$_REQUEST['assignment_type_id'].'&assignment_id='.$_REQUEST['assignment_id'].'"; delete_link.target = "body";</script>';
+		$delete_button = '<script>var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&assignment_type_id='.$_REQUEST['assignment_type_id'].'&assignment_id='.$_REQUEST['assignment_id'].'"; delete_link.target = "body";</script>';
 		$delete_button .= '<INPUT type="button" value="'._('Delete').'" onClick="javascript:ajaxLink(delete_link);" />';
 	}
 

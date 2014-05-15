@@ -24,7 +24,7 @@ if($_REQUEST['course_modfunc']=='search')
 	if($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php')
 		echo '<INPUT type="hidden" name="include_child_mps" value="'.$_REQUEST['include_child_mps'].'"><INPUT type="hidden" name="year_date" value="'.$_REQUEST['year_date'].'"><INPUT type="hidden" name="month_date" value="'.$_REQUEST['month_date'].'"><INPUT type="hidden" name="day_date" value="'.$_REQUEST['day_date'].'">';
 	echo '</FORM>';
-	echo '<script type="text/javascript"><!--
+	echo '<script><!--
 		document.search.search_term.focus();
 		--></script>';
 	PopTable('footer');
@@ -462,7 +462,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 	{
 		if(AllowEdit())
 		{
-			$delete_button = '<script type="text/javascript">var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id='.$_REQUEST['course_period_id'].'"; delete_link.target = "body";</script>';
+			$delete_button = '<script>var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id='.$_REQUEST['course_period_id'].'"; delete_link.target = "body";</script>';
 			$delete_button .= '<INPUT type="button" value="'._('Delete').'" onClick="javascript:ajaxLink(delete_link);" />';
 		}
 		// ADDING & EDITING FORM
@@ -648,9 +648,9 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			
 			$header .= '<TR class="st"><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Period').'</a></TD></TR>';
 			if (!$new)
-				$header .= '<script type="text/javascript">document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
+				$header .= '<script>document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
 			?>
-			<script type="text/javascript">
+			<script>
 				var nbSchoolPeriods = <?php echo $i; ?>;
 				function newSchoolPeriod()
 				{
@@ -964,7 +964,7 @@ if($_REQUEST['modname']=='Scheduling/Courses.php' && $_REQUEST['modfunc']=='choo
 	$course_title = str_replace(array("'",'"'),array('&#39;','&quot;'),$course_title[1]['TITLE']) . '<INPUT type="hidden" name="tables[parent_id]" value="'.$_REQUEST['course_period_id'].'">';
 	$course_title = str_replace('"','\"',$course_title);
 
-	echo '<script type="text/javascript">opener.document.getElementById("'.($_REQUEST['last_year']=='true'?'ly_':'').'course_div").innerHTML = "'.$course_title.'"; window.close();</script>';
+	echo '<script>opener.document.getElementById("'.($_REQUEST['last_year']=='true'?'ly_':'').'course_div").innerHTML = "'.$course_title.'"; window.close();</script>';
 }
 
 function calcSeats1(&$periods,$date)

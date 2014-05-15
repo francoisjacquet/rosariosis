@@ -132,7 +132,7 @@ function mySearch($type,$extra='')
 			$_SESSION['Back_PHP_SELF'] = 'course';
 			unset($_SESSION['List_PHP_SELF']);
 		}
-		echo '<script type="text/javascript">var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+		echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
 		echo '<BR />';
 		PopTable('header',_('Find a Course'));
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'" method="POST">';
@@ -229,7 +229,7 @@ function mySearch($type,$extra='')
 				unset($_SESSION['Search_PHP_SELF']);
 			}
 			if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
-				echo '<script type="text/javascript">var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+				echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
 		}
 		echo '<INPUT type="hidden" name="relation">';
 		ListOutput($course_periods_RET,$LO_columns,'Course Period','Course Periods');

@@ -34,7 +34,7 @@ if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'
 	unset($_REQUEST['modfunc']);
 	
 	//modif Francois: display notice while calculating daily attendance
-	echo '<script type="text/javascript">'."\r";
+	echo '<script>'."\r";
 	echo 'var msg_done=\'<div class="updated"><IMG SRC="assets/check_button.png" class="alignImg">&nbsp;'._('The Daily Attendance for that timeframe has been recalculated.').'</div>\';';
 	echo 'document.getElementById("messageDIV").innerHTML = msg_done;'."\r";
 	echo '</script>';

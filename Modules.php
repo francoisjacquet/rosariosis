@@ -37,7 +37,7 @@ if(isset($_REQUEST['modname']))
 		if (in_array($modname, array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($modname == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail') || (in_array($modname, array('Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php', 'Scheduling/Courses.php')) && $_REQUEST['modfunc'] == 'choose_course')) //popups
 		{
 			Warehouse('header');
-			echo '<script type="text/javascript">if(window == top  && (!window.opener)) window.location.href = "index.php";</script>';
+			echo '<script>if(window == top  && (!window.opener)) window.location.href = "index.php";</script>';
 			echo '<div id="body" tabindex="0" role="main" class="mod">';
 		}
 		elseif ($modname !== 'misc/Portal.php' && (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest')) //AJAX check

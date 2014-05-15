@@ -266,7 +266,7 @@ if($_REQUEST['modfunc']=='update')
 	if(User('STAFF_ID')==$_REQUEST['staff_id'])
 	{
 		unset($_ROSARIO['User']);
-		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
+		echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 	}
 }
 
@@ -304,7 +304,7 @@ if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php'
 		unset($_REQUEST['modfunc']);
 		unset($_SESSION['_REQUEST_vars']['staff_id']);
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
-		echo '<script type="text/javascript">var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
+		echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 		Search('staff_id',$extra);
 	}
 }
@@ -329,7 +329,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 	{
 		if(UserStaffID() && UserStaffID()!=User('STAFF_ID') && UserStaffID()!=$_SESSION['STAFF_ID'] && User('PROFILE')=='admin' && AllowEdit())
 		{
-			$delete_button = '<script type="text/javascript">var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete"; delete_link.target = "body";</script>';
+			$delete_button = '<script>var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete"; delete_link.target = "body";</script>';
 			$delete_button .= '<INPUT type="button" value="'._('Delete').'" onClick="javascript:ajaxLink(delete_link);" />';
 		}
 	}

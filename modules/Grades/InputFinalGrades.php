@@ -494,7 +494,7 @@ if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['submit']['cancel'])
 
 $time = strtotime(DBDate('postgres'));
 
-$mps_select = '<script type="text/javascript">var mponchange = document.createElement("a"); mponchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&mp="; mponchange.target = "body";</script>';
+$mps_select = '<script>var mponchange = document.createElement("a"); mponchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&mp="; mponchange.target = "body";</script>';
 $mps_select .= '<SELECT name="mp" onchange="mponchange.href += this.options[selectedIndex].value; ajaxLink(mponchange);">';
 if($pros!='')
 	foreach(explode(',',str_replace("'",'',$pros)) as $pro)
