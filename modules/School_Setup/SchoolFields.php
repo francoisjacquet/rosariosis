@@ -238,6 +238,8 @@ if(empty($_REQUEST['modfunc']))
 	$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&id=new";
 
 	$fields_RET = ParseMLArray($fields_RET,'TITLE');
+	//modif Francois: no responsive table
+	$LO_options['responsive'] = false;
 	ListOutput($fields_RET,$columns,'School Field','School Fields',$link,array(),$LO_options);
 
 	echo '</div>';
