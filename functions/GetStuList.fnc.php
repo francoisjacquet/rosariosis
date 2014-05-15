@@ -74,7 +74,7 @@ function GetStuList(&$extra=array())
 				$_REQUEST['addr'] = $addr;
 			}
 			else
-				unset($extra2['columns_after']['CONTACT_INFO']);
+				unset($extra['columns_after']['CONTACT_INFO']);
 		}
 		else
 		{
