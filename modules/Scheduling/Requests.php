@@ -146,7 +146,7 @@ function _makeTeacher($value,$column)
 	foreach($teachers_RET as $teacher)
 		$options[$teacher['TEACHER_ID']] = $teacher['FIRST_NAME'].' '.$teacher['LAST_NAME'];
 
-	return Localize('colon',_('With')).'&nbsp;'.SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][WITH_TEACHER_ID]','',$options).' &mdash; '.Localize('colon',_('Without')).'&nbsp;'.SelectInput($THIS_RET['NOT_TEACHER_ID'],'values['.$THIS_RET['REQUEST_ID'].'][NOT_TEACHER_ID]','',$options);
+	return '<div style="float:left">'.Localize('colon',_('With')).'&nbsp;</div><div style="float:left">'.SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][WITH_TEACHER_ID]','',$options).'</div><div style="float:left">'.'&nbsp;-&nbsp;'.Localize('colon',_('Without')).'&nbsp;</div><div style="float:left">'.SelectInput($THIS_RET['NOT_TEACHER_ID'],'values['.$THIS_RET['REQUEST_ID'].'][NOT_TEACHER_ID]','',$options).'</div>';
 }
 
 function _makePeriod($value,$column)
@@ -158,7 +158,7 @@ function _makePeriod($value,$column)
 	foreach($periods_RET as $period)
 		$options[$period['PERIOD_ID']] = $period['TITLE'];
 
-	return Localize('colon',_('On')).' '.SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][WITH_PERIOD_ID]','',$options).' &mdash; '.Localize('colon',_('Not on')).' '.SelectInput($THIS_RET['NOT_PERIOD_ID'],'values['.$THIS_RET['REQUEST_ID'].'][NOT_PERIOD_ID]','',$options);
+	return '<div style="float:left">'.Localize('colon',_('On')).'&nbsp;</div><div style="float:left">'.SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][WITH_PERIOD_ID]','',$options).'</div><div style="float:left">'.'&nbsp;-&nbsp;'.Localize('colon',_('Not on')).'&nbsp;</div><div style="float:left">'.SelectInput($THIS_RET['NOT_PERIOD_ID'],'values['.$THIS_RET['REQUEST_ID'].'][NOT_PERIOD_ID]','',$options).'</div>';
 }
 
 // DOESN'T SUPPORT MP REQUEST
