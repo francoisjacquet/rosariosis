@@ -93,7 +93,7 @@ function makeLink($value,$name)
 	if (AllowEdit())
 	{
 		if($value)
-			return '<div><div style="float:left;"><a href="'.$value.'" target="_blank">'._('Link').'</a>&nbsp;</div>'.makeTextInput($value,$name).'</div>';
+			return '<div style="display:table-cell;"><a href="'.$value.'" target="_blank">'._('Link').'</a>&nbsp;</div><div style="display:table-cell;">'.makeTextInput($value,$name).'</div>';
 		else
 			return makeTextInput($value,$name);
 	}
