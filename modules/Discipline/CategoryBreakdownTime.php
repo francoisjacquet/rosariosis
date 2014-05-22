@@ -111,7 +111,8 @@ if($_REQUEST['category_id'])
 			}
 			elseif($_REQUEST['timeframe']=='SYEAR')
 			{
-				$tf = $i-$start+1;
+				//$tf = $i-$start+1;
+				$tf = $i;
 				$chart['chart_data'][$index][0] = $i;
 			}
 			
@@ -161,7 +162,8 @@ if($_REQUEST['category_id'])
 			}
 			elseif($_REQUEST['timeframe']=='SYEAR')
 			{
-				$tf = $i-$start+1;
+				//$tf = $i-$start+1;
+				$tf = $i;
 				$chart['chart_data'][$index][0] = $i;
 			}
 			
@@ -192,13 +194,35 @@ if($_REQUEST['category_id'])
 			foreach($referral['TITLE'] as $option)
 				$options_count[$referral['TIMEFRAME']][$option]++;
 		}
+var_Dump($options_count);
 
-		for($i=(MonthNWSwitch($_REQUEST['month_start'],'tonum')*1);$i<=((MonthNWSwitch($_REQUEST['month_end'],'tonum')*1)+12*($_REQUEST['year_end']-$_REQUEST['year_start']));$i++)
+		if($_REQUEST['timeframe']=='month')
+		{
+			$start = (MonthNWSwitch($_REQUEST['month_start'],'tonum')*1);
+			$end = ((MonthNWSwitch($_REQUEST['month_end'],'tonum')*1)+12*($_REQUEST['year_end']-$_REQUEST['year_start']));
+		}
+		elseif($_REQUEST['timeframe']=='SYEAR')
+		{
+			$start = GetSyear($start_date);
+			$end = GetSyear($end_date);
+		}
+		for($i=$start;$i<=$end;$i++)
 		{
 			$index++;
-			$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
+			if($_REQUEST['timeframe']=='month')
+			{
+				//modif Francois: bugfix data showed in the wrong month
+				$tf = str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT);//str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
+				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
+			}
+			elseif($_REQUEST['timeframe']=='SYEAR')
+			{
+				//$tf = $i-$start+1;
+				$tf = $i;
+				$chart['chart_data'][$index][0] = $i;
+			}
 			foreach($category_RET[1]['SELECT_OPTIONS'] as $option)
-				$chart['chart_data'][$index][] = (empty($options_count[str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT)][$option]) ? 0 : $options_count[str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT)][$option]);
+				$chart['chart_data'][$index][] = (empty($options_count[$tf][$option]) ? 0 : $options_count[$tf][$option]);
 		}
 	}
 	elseif($category_RET[1]['DATA_TYPE']=='numeric')
@@ -230,7 +254,18 @@ if($_REQUEST['category_id'])
 		for($i=$start;$i<=$end;$i++)
 		{
 			$index++;
-			$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
+			if($_REQUEST['timeframe']=='month')
+			{
+				//modif Francois: bugfix data showed in the wrong month
+				$tf = str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT);//str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
+				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
+			}
+			elseif($_REQUEST['timeframe']=='SYEAR')
+			{
+				//$tf = $i-$start+1;
+				$tf = $i;
+				$chart['chart_data'][$index][0] = $i;
+			}
 		}
 		$chart['chart_data'][0][0] = '';
 		
@@ -457,9 +492,24 @@ if(empty($_REQUEST['modfunc']))
 }
 
 function _makeNumeric($number,$column)
-{	global $max_min_RET,$chart,$diff,$diff_max,$mins,$THIS_RET;
+{	global $max_min_RET,$chart,$diff,$diff_max,$mins,$THIS_RET,$start_date,$end_date;
 	
-	$index = (($THIS_RET['TIMEFRAME']*1)-(MonthNWSwitch($_REQUEST['month_start'],'tonum')*1)+1+12*($_REQUEST['year_end']-$_REQUEST['year_start']));
+	if($_REQUEST['timeframe']=='month')
+		$index = (($THIS_RET['TIMEFRAME']*1)-(MonthNWSwitch($_REQUEST['month_start'],'tonum')*1)+1+12*($_REQUEST['year_end']-$_REQUEST['year_start']));
+	elseif($_REQUEST['timeframe']=='SYEAR')
+	{
+		$start = GetSyear($start_date);
+		$end = GetSyear($end_date);
+		
+		$index = 0;
+		for ($i=$start;$i<=$end;$i++)
+		{
+			$index++;
+			if ($i == $THIS_RET['TIMEFRAME'])
+				break;
+		}
+	}
+		
 	if(!$number)
 		$number=0;
 	if($diff==0)
