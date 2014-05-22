@@ -73,10 +73,10 @@ if($_REQUEST['category_id'])
 	{
 		$extra = array();
 
-		$extra['SELECT_ONLY'] = "dr.CATEGORY_".$_REQUEST['category_id']." AS TITLE,COUNT(*) AS COUNT,".$timeframe.' AS TIMEFRAME';
+		$extra['SELECT_ONLY'] = "dr.CATEGORY_".intval($_REQUEST['category_id'])." AS TITLE,COUNT(*) AS COUNT,".$timeframe.' AS TIMEFRAME';
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
 		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
-		$extra['GROUP'] = 'CATEGORY_'.$_REQUEST['category_id'].',TIMEFRAME';
+		$extra['GROUP'] = 'CATEGORY_'.intval($_REQUEST['category_id']).',TIMEFRAME';
 		$extra['group'] = array('TITLE','TIMEFRAME');
 		//Widgets('all');
 //modif Francois: fix Advanced Search
@@ -112,7 +112,8 @@ if($_REQUEST['category_id'])
 			}
 			elseif($_REQUEST['timeframe']=='SYEAR')
 			{
-				$tf = $i-$start+1;
+				//$tf = $i-$start+1;
+				$tf = $i;
 				$chart['chart_data'][$index][0] = $i;
 			}
 			
@@ -124,10 +125,10 @@ if($_REQUEST['category_id'])
 	{
 		$extra = array();
 
-		$extra['SELECT_ONLY'] = "COALESCE(dr.CATEGORY_".$_REQUEST['category_id'].",'N') AS TITLE,COUNT(*) AS COUNT,".$timeframe.' AS TIMEFRAME';
+		$extra['SELECT_ONLY'] = "COALESCE(dr.CATEGORY_".intval($_REQUEST['category_id']).",'N') AS TITLE,COUNT(*) AS COUNT,".$timeframe.' AS TIMEFRAME';
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
 		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
-		$extra['GROUP'] = 'CATEGORY_'.$_REQUEST['category_id'].',TIMEFRAME';
+		$extra['GROUP'] = 'CATEGORY_'.intval($_REQUEST['category_id']).',TIMEFRAME';
 		$extra['group'] = array('TITLE','TIMEFRAME');
 		//Widgets('all');
 //modif Francois: fix Advanced Search
@@ -162,7 +163,8 @@ if($_REQUEST['category_id'])
 			}
 			elseif($_REQUEST['timeframe']=='SYEAR')
 			{
-				$tf = $i-$start+1;
+				//$tf = $i-$start+1;
+				$tf = $i;
 				$chart['chart_data'][$index][0] = $i;
 			}
 			
@@ -172,7 +174,7 @@ if($_REQUEST['category_id'])
 	}
 	elseif($category_RET[1]['DATA_TYPE']=='multiple_checkbox')
 	{
-		$extra['SELECT_ONLY'] = "CATEGORY_".$_REQUEST['category_id']." AS TITLE,".$timeframe.' AS TIMEFRAME';
+		$extra['SELECT_ONLY'] = "CATEGORY_".intval($_REQUEST['category_id'])." AS TITLE,".$timeframe.' AS TIMEFRAME';
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
 		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
 
@@ -194,19 +196,40 @@ if($_REQUEST['category_id'])
 				$options_count[$referral['TIMEFRAME']][$option]++;
 		}
 
-		for($i=(MonthNWSwitch($_REQUEST['month_start'],'tonum')*1);$i<=((MonthNWSwitch($_REQUEST['month_end'],'tonum')*1)+12*($_REQUEST['year_end']-$_REQUEST['year_start']));$i++)
+		if($_REQUEST['timeframe']=='month')
+		{
+			$start = (MonthNWSwitch($_REQUEST['month_start'],'tonum')*1);
+			$end = ((MonthNWSwitch($_REQUEST['month_end'],'tonum')*1)+12*($_REQUEST['year_end']-$_REQUEST['year_start']));
+		}
+		elseif($_REQUEST['timeframe']=='SYEAR')
+		{
+			$start = GetSyear($start_date);
+			$end = GetSyear($end_date);
+		}
+		for($i=$start;$i<=$end;$i++)
 		{
 			$index++;
-			$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
+			if($_REQUEST['timeframe']=='month')
+			{
+				//modif Francois: bugfix data showed in the wrong month
+				$tf = str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT);//str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
+				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
+			}
+			elseif($_REQUEST['timeframe']=='SYEAR')
+			{
+				//$tf = $i-$start+1;
+				$tf = $i;
+				$chart['chart_data'][$index][0] = $i;
+			}
 			foreach($category_RET[1]['SELECT_OPTIONS'] as $option)
-				$chart['chart_data'][$index][] = (empty($options_count[str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT)][$option]) ? 0 : $options_count[str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT)][$option]);
+				$chart['chart_data'][$index][] = (empty($options_count[$tf][$option]) ? 0 : $options_count[$tf][$option]);
 		}
 	}
 	elseif($category_RET[1]['DATA_TYPE']=='numeric')
 	{
 		$chart['axis_category']['orientation'] = '';
 
-		$extra['SELECT_ONLY'] = "COALESCE(max(CATEGORY_".$_REQUEST['category_id']."),0) as MAX,COALESCE(min(CATEGORY_".$_REQUEST['category_id']."),0) AS MIN ";
+		$extra['SELECT_ONLY'] = "COALESCE(max(CATEGORY_".intval($_REQUEST['category_id'])."),0) as MAX,COALESCE(min(CATEGORY_".intval($_REQUEST['category_id'])."),0) AS MIN ";
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr';
 		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
 //modif Francois: fix Advanced Search
@@ -217,32 +240,61 @@ if($_REQUEST['category_id'])
 
 		$diff = $max_min_RET[1]['MAX'] - $max_min_RET[1]['MIN'];
 
-		if($diff>5)
+		if($_REQUEST['timeframe']=='month')
 		{
-			$index = 0;
-			for($i=(MonthNWSwitch($_REQUEST['month_start'],'tonum')*1);$i<=((MonthNWSwitch($_REQUEST['month_end'],'tonum')*1)+12*($_REQUEST['year_end']-$_REQUEST['year_start']));$i++)
+			$start = (MonthNWSwitch($_REQUEST['month_start'],'tonum')*1);
+			$end = ((MonthNWSwitch($_REQUEST['month_end'],'tonum')*1)+12*($_REQUEST['year_end']-$_REQUEST['year_start']));
+		}
+		elseif($_REQUEST['timeframe']=='SYEAR')
+		{
+			$start = GetSyear($start_date);
+			$end = GetSyear($end_date);
+		}
+
+		$index = 0;
+		for($i=$start;$i<=$end;$i++)
+		{
+			$index++;
+			if($_REQUEST['timeframe']=='month')
 			{
-				$index++;
+				//modif Francois: bugfix data showed in the wrong month
+				$tf = str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT);//str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
 				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
 			}
-			for($o=1;$o<=5;$o++)
+			elseif($_REQUEST['timeframe']=='SYEAR')
 			{
-				$chart['chart_data'][0][$o] = (ceil($diff/5)*($o-1)).' - '.((ceil($diff/5)*$o)-1);
-				$mins[$o] = (ceil($diff/5)*($o-1));
-				$index = 0;
-				for($i=(MonthNWSwitch($_REQUEST['month_start'],'tonum')*1);$i<=((MonthNWSwitch($_REQUEST['month_end'],'tonum')*1)+12*($_REQUEST['year_end']-$_REQUEST['year_start']));$i++)
-				{
-					$index++;
-					$chart['chart_data'][$index][$o] = 0;
-				}
+				//$tf = $i-$start+1;
+				$tf = $i;
+				$chart['chart_data'][$index][0] = $i;
 			}
-			$chart['chart_data'][0][$o-1] = (ceil($diff/5)*($o-2)).'+';
-			$mins[$o] = (ceil($diff/5)*($o-1));
 		}
+		$chart['chart_data'][0][0] = '';
 		
-		$extra['SELECT_ONLY'] = "CATEGORY_".$_REQUEST['category_id']." AS TITLE,$_REQUEST[timeframe] AS TIMEFRAME";
+		$diff_max = 10;
+		if ($diff_max > $diff)
+		{
+			$diff_max = $diff;
+			$diff_max++;
+		}
+		for($o=1;$o<=$diff_max;$o++)
+		{
+			$range_min = ceil($diff/$diff_max)*($o-1);
+			$range_max = (ceil($diff/$diff_max)*$o)-1;
+			$chart['chart_data'][0][$o] = ($range_min == $range_max) ? (string)$range_min+1 : $range_min.' - '.$range_max;
+			$mins[$o] = (ceil($diff/$diff_max)*($o-1));
+			$index = 0;
+			for($i=$start;$i<=$end;$i++)
+			{
+				$index++;
+				$chart['chart_data'][$index][$o] = 0;
+			}
+		}
+		$chart['chart_data'][0][$o-1] = ($diff_max > $diff ? (ceil($diff/$diff_max)*($o-1)) : (ceil($diff/$diff_max)*($o-2)).'+');
+		$mins[$o] = (ceil($diff/$diff_max)*($o-1));
+		
+		$extra['SELECT_ONLY'] = "CATEGORY_".intval($_REQUEST['category_id'])." AS TITLE,".$timeframe." AS TIMEFRAME";
 		$extra['FROM'] = ",DISCIPLINE_REFERRALS dr";
-		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
+		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' AND CATEGORY_".intval($_REQUEST['category_id'])." IS NOT NULL ";
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');
 
 		//Widgets('all');
@@ -251,6 +303,7 @@ if($_REQUEST['category_id'])
 
 		$extra['WHERE'] .= CustomFields('where');
 		$referrals_RET = GetStuList($extra);
+		ksort($chart['chart_data']);
 	}
 	if($_ROSARIO['SearchTerms'])
 		$chart['draw_text'][] = array('x'=>0,'y'=>35,'width'=>$width+200,'height'=>100,'h_align'=>'center','v_align'=>'top','rotation'=>0,'text'=>strip_tags(str_replace('<BR />',"\n",$_ROSARIO['SearchTerms'])),'font'=>'Arial','color'=>'000000','alpha'=>25,'size'=>20);
@@ -432,9 +485,24 @@ if(empty($_REQUEST['modfunc']))
 }
 
 function _makeNumeric($number,$column)
-{	global $max_min_RET,$chart,$diff,$mins,$THIS_RET;
+{	global $max_min_RET,$chart,$diff,$diff_max,$mins,$THIS_RET,$start_date,$end_date;
 	
-	$index = (($THIS_RET['TIMEFRAME']*1)-(MonthNWSwitch($_REQUEST['month_start'],'tonum')*1)+1);
+	if($_REQUEST['timeframe']=='month')
+		$index = (($THIS_RET['TIMEFRAME']*1)-(MonthNWSwitch($_REQUEST['month_start'],'tonum')*1)+1+12*($_REQUEST['year_end']-$_REQUEST['year_start']));
+	elseif($_REQUEST['timeframe']=='SYEAR')
+	{
+		$start = GetSyear($start_date);
+		$end = GetSyear($end_date);
+		
+		$index = 0;
+		for ($i=$start;$i<=$end;$i++)
+		{
+			$index++;
+			if ($i == $THIS_RET['TIMEFRAME'])
+				break;
+		}
+	}
+		
 	if(!$number)
 		$number=0;
 	if($diff==0)
@@ -442,16 +510,16 @@ function _makeNumeric($number,$column)
 		$chart['chart_data'][0][1] = $number;
 		$chart['chart_data'][$index][1]++;
 	}
-	elseif($diff<5)
+	elseif($diff<$diff_max)
 	{
-		$chart['chart_data'][0][((int) $number - (int) $max_min_RET[1]['MIN']+1)] = (int) $number;
+		//$chart['chart_data'][0][((int) $number - (int) $max_min_RET[1]['MIN']+1)] = (int) $number;
 		$chart['chart_data'][$index][((int) $number - (int) $max_min_RET[1]['MIN']+1)]++;
 	}
 	else
 	{
-		for($i=1;$i<=5;$i++)
+		for($i=1;$i<=$diff_max;$i++)
 		{
-			if(($number>=$mins[$i] && $number<$mins[$i+1]) || $i==5)
+			if(($number>=$mins[$i] && $number<$mins[$i+1]) || $i==$diff_max)
 			{
 				$chart['chart_data'][$index][$i]++;
 				break;
