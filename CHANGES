@@ -1,5 +1,12 @@
 Rosario Student Information System - CHANGES
 
+Changes in 1.4.11
+-----------------
+- Github friendly README.md (Contribution by Scott Cytacki)
+- Bugfix staff_field_seq error in rosariosis.sql
+- Bugfix data showed in the wrong month in CategoryBreakdownTime.php
+- Input type number size in stylesheet.css
+
 Changes in 1.4.10
 -----------------
 - Escape apostrophe in Inputs values
