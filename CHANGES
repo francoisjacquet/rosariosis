@@ -6,6 +6,8 @@ Changes in 1.4.11
 - Bugfix staff_field_seq error in rosariosis.sql
 - Bugfix data showed in the wrong month in CategoryBreakdownTime.php
 - Input type number size in stylesheet.css
+- Fix CategoryBreakdownTime charts
+- Fix numeric fields breakdown charts
 
 Changes in 1.4.10
 -----------------
