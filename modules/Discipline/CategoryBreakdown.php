@@ -166,13 +166,15 @@ if($_REQUEST['category_id'])
 		
 		$extra['SELECT_ONLY'] = "CATEGORY_".$_REQUEST['category_id']." AS TITLE";
 		$extra['FROM'] = ",DISCIPLINE_REFERRALS dr";
-		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
+		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' AND CATEGORY_".intval($_REQUEST['category_id'])." IS NOT NULL ";
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');
 		//Widgets('all');
 //modif Francois: fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
 		$extra['WHERE'] .= CustomFields('where');
 		$referrals_RET = GetStuList($extra);
+		if (!$referrals_RET) //modif Francois: bugfix no results for numeric fields chart 
+			$chart['chart_data'][0][0] = $chart['chart_data'][1][0] = 0;
 	}
 
 	if($_ROSARIO['SearchTerms'])
@@ -187,10 +189,10 @@ if($_REQUEST['category_id'])
 		if (isset($chartline))
 		{
 			$jsData = 'var dataline = [';
-			for ($i=1; $i<=count($chart['chart_data'][0]); $i++)
+			foreach ($chart['chart_data'][1] as $index => $y)
 			{
-				if (is_numeric($chart['chart_data'][0][$i]))
-					$jsData .= "[".$chart['chart_data'][0][$i].", ".$chart['chart_data'][1][$i]."],";
+				if (is_numeric($chart['chart_data'][0][$index]))
+					$jsData .= "[".$chart['chart_data'][0][$index].", ".$y."],";
 			}
 			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
 			$jsData .= "];\n";		
