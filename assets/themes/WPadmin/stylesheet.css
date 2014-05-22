@@ -21,6 +21,9 @@ input[type=checkbox],input[type=radio] {
 	margin-right: 0px;
 	vertical-align:text-bottom
 }
+input[type=number]{
+	width:50px
+}
 html,body {
 	height:100%;
 	margin:0;
