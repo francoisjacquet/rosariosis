@@ -1,5 +1,11 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.5.5
+----------------
+- Github friendly README.md (Contribution by Scott Cytacki)
+- Responsive ListOutput table cells content div
+- Bugfix SYEAR timeframe in CategoryBreakdownTime.php
+
 Changes in 2.5.4
 ----------------
 - Do not count NULL values as 0 for numeric fileds chart in *Breakdown.php
