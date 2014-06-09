@@ -194,7 +194,6 @@ if($_REQUEST['category_id'])
 			foreach($referral['TITLE'] as $option)
 				$options_count[$referral['TIMEFRAME']][$option]++;
 		}
-var_Dump($options_count);
 
 		if($_REQUEST['timeframe']=='month')
 		{
