@@ -72,7 +72,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Payment')))
 	{
-		DBQuery("DELETE FROM BILLING_PAYMENTS WHERE ID='".$_REQUEST['id']."'");
+		DBQuery("DELETE FROM BILLING_PAYMENTS WHERE ID='".$_REQUEST['id']."' OR REFUNDED_PAYMENT_ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }
@@ -112,7 +112,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 		$columns = array();
 	
 	$columns += array('AMOUNT'=>_('Amount'),'PAYMENT_DATE'=>_('Date'),'COMMENTS'=>_('Comment'),'LUNCH_PAYMENT'=>_('Lunch Payment'));
-	if(!$_REQUEST['print_statements'])
+	if(!$_REQUEST['print_statements'] && AllowEdit())
 		$link['add']['html'] = array('REMOVE'=>button('add'),'AMOUNT'=>_makePaymentsTextInput('','AMOUNT'),'PAYMENT_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makePaymentsTextInput('','COMMENTS'),'LUNCH_PAYMENT'=>_lunchInput('','LUNCH_PAYMENT'));
 	if(!$_REQUEST['print_statements'] && AllowEdit())
 	{
