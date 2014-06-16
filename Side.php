@@ -94,9 +94,9 @@ echo '</TD></TR><TR>';
 echo '<TD class="width-100p valign-top">';
 echo '<A HREF="index.php" target="_top"><img src="assets/themes/'.Preferences('THEME').'/logo.png" id="SideLogo" /></A>';
 echo '<FORM action="Side.php?modfunc=update" method="POST" target="menu">
-	<INPUT type="hidden" name="modname" value="" id="modname_input">
-	&nbsp;<b>'.User('NAME')."</b><BR />
-	&nbsp;".mb_convert_case(iconv('','UTF-8',strftime('%A %B %d, %Y')), MB_CASE_TITLE, "UTF-8")."<BR />";
+	<span class="br-after"><INPUT type="hidden" name="modname" value="" id="modname_input">
+	&nbsp;<b>'.User('NAME').'</b></span>
+	&nbsp;'.mb_convert_case(iconv('','UTF-8',strftime('%A %B %d, %Y')), MB_CASE_TITLE, "UTF-8")."<BR />";
 if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 {
 	$schools = mb_substr(str_replace(",","','",User('SCHOOLS')),2,-2);
@@ -109,11 +109,11 @@ if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 		DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID='".UserSchool()."' WHERE STAFF_ID='".User('STAFF_ID')."'");
 	}
 
-	echo '<SELECT name="school" onChange="ajaxPostForm(this.form,true);" style="width:180px;">';
+	echo '<span class="br-after"><SELECT name="school" onChange="ajaxPostForm(this.form,true);" style="width:180px;">';
 	foreach($RET as $school)
 		echo '<OPTION value="'.$school[ID].'"'.((UserSchool()==$school['ID'])?' SELECTED="SELECTED"':'').">".($school['SHORT_NAME']?$school['SHORT_NAME']:$school['TITLE']).'</OPTION>';
 
-	echo '</SELECT><BR />';
+	echo '</SELECT></span>';
 }
 
 if(User('PROFILE')=='parent')
@@ -123,7 +123,7 @@ if(User('PROFILE')=='parent')
 	if(!UserStudentID())
 		$_SESSION['student_id'] = $RET[1]['STUDENT_ID'];
 
-	echo '<SELECT name="student_id" onChange="ajaxPostForm(this.form,true);">';
+	echo '<span class="br-after"><SELECT name="student_id" onChange="ajaxPostForm(this.form,true);">';
 	if(count($RET))
 	{
 		foreach($RET as $student)
@@ -133,7 +133,7 @@ if(User('PROFILE')=='parent')
 				$_SESSION['UserSchool'] = $student['SCHOOL_ID'];
 		}
 	}
-	echo '</SELECT><BR />';
+	echo '</SELECT></span>';
 
 	if(!UserMP() || UserSchool()!=$old_school || UserSyear()!=$old_syear)
 		$_SESSION['UserMP'] = GetCurrentMP('QTR',DBDate(),false);
@@ -153,14 +153,17 @@ if(1)
 else
 	$years_RET = array(1=>array('SYEAR'=>Config('SYEAR')));
 
-echo '<SELECT name="syear" onChange="ajaxPostForm(this.form,true);">';
+echo '<span class="br-after"><SELECT name="syear" onChange="ajaxPostForm(this.form,true);">';
 foreach($years_RET as $year)
 //modif Francois: school year over one/two calendar years format
 //	echo '<OPTION value="'.$year['SYEAR'].'"'.((UserSyear()==$year['SYEAR'])?' SELECTED="SELECTED"':'').'>'.$year['SYEAR'].'-'.($year['SYEAR']+1).'</OPTION>';
 	echo '<OPTION value="'.$year['SYEAR'].'"'.((UserSyear()==$year['SYEAR'])?' SELECTED="SELECTED"':'').'>'.FormatSyear($year['SYEAR'],Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</OPTION>';
-echo '</SELECT><BR />';
+echo '</SELECT></span>';
 
 $RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER"));
+
+if(User('PROFILE')=='teacher')
+	echo '<span class="br-after">';
 echo '<SELECT name="mp" onChange="ajaxPostForm(this.form,true);">';
 if(count($RET))
 {
@@ -171,6 +174,8 @@ if(count($RET))
 		echo '<OPTION value="'.$quarter['MARKING_PERIOD_ID'].'"'.(UserMP()==$quarter['MARKING_PERIOD_ID']?' SELECTED="SELECTED"':'').'>'.$quarter['TITLE'].'</OPTION>';
 }
 echo '</SELECT>';
+if(User('PROFILE')=='teacher')
+	echo '</span>';
 
 if(User('PROFILE')=='teacher')
 {
@@ -197,7 +202,7 @@ if(User('PROFILE')=='teacher')
 		$_SESSION['unset_student'] = true;
 	}
 
-	echo '<BR /><SELECT name="period" onChange="ajaxPostForm(this.form,true);" style="width:180px;">';
+	echo '<SELECT name="period" onChange="ajaxPostForm(this.form,true);" style="width:180px;">';
 	$optgroup = FALSE;
 	foreach($RET as $period)
 	{
@@ -248,7 +253,7 @@ if(UserStudentID() && (User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
 {
 	$sql = "SELECT FIRST_NAME||' '||coalesce(MIDDLE_NAME,' ')||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'";
 	$RET = DBGet(DBQuery($sql));
-	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0" style="background-color:#333366;"><TR><TD><A HREF="Side.php?student_id=new" target="menu"><IMG SRC="assets/x_button.png" height="24" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Students/Student.php')?'<A HREF="Modules.php?modname=Students/Student.php&student_id='.UserStudentID().'">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Students/Student.php')?'</A>':'').'</B></TD></TR></TABLE>';
+	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0 current-person" style="background-color:#333366;"><TR><TD><A HREF="Side.php?student_id=new" target="menu"><IMG SRC="assets/x_button.png" height="24" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Students/Student.php')?'<A HREF="Modules.php?modname=Students/Student.php&student_id='.UserStudentID().'">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Students/Student.php')?'</A>':'').'</B></TD></TR></TABLE>';
 }
 if(UserStaffID() && (User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
 {
@@ -256,7 +261,7 @@ if(UserStaffID() && (User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
 		echo '<div style="height:5px;"></div>';
 	$sql = "SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'";
 	$RET = DBGet(DBQuery($sql));
-	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0" style="background-color:'.(UserStaffID()==User('STAFF_ID')?'#663333':'#336633').';"><TR><TD><A HREF="Side.php?staff_id=new" target="menu"><IMG SRC="assets/x_button.png" height="24" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Users/User.php')?'<A HREF="Modules.php?modname=Users/User.php&staff_id='.UserStaffID().'">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Users/User.php')?'</A>':'').'</B></TD></TR></TABLE>';
+	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0 current-person" style="background-color:'.(UserStaffID()==User('STAFF_ID')?'#663333':'#336633').';"><TR><TD><A HREF="Side.php?staff_id=new" target="menu"><IMG SRC="assets/x_button.png" height="24" style="vertical-align: middle;"></A></TD><TD><B>'.(AllowUse('Users/User.php')?'<A HREF="Modules.php?modname=Users/User.php&staff_id='.UserStaffID().'">':'').'<span style="color:white" class="size-2">'.$RET[1]['FULL_NAME'].'</span>'.(AllowUse('Users/User.php')?'</A>':'').'</B></TD></TR></TABLE>';
 }
 //modif Francois: css WPadmin
 echo '<BR /><div id="adminmenu">';
@@ -280,7 +285,7 @@ foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 			elseif(!is_numeric($file))
 				echo '<TR><TD><A HREF="Modules.php?modname='.$file.'" onclick="modname=\''.$file.'\'; selMenuA(modname);"'.(mb_stripos($file,'_ROSARIO_PDF') !== false ? ' target="_blank"' : '').'>'.$title.'</A></TD></TR>';
 			elseif($keys[$key_index+1] && !is_numeric($keys[$key_index+1]))
-				echo '<TR><TD style="height:3px;"></TD></TR><TR><TD class="menu-inter">&nbsp;'.$title.'</TD></TR>';
+				echo '<TR><TD class="menu-inter">&nbsp;'.$title.'</TD></TR>';
 		}
 		echo '</TABLE></DIV>';
 

@@ -496,6 +496,9 @@ div.st{
 .calendar-day{
 	height:inherit
 }
+.br-after{
+	display:block
+}
 /*responsive tables*/
 .rt .link2colorBox{
 	display:none
