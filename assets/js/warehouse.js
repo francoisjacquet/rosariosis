@@ -167,6 +167,11 @@ function selMenuA(modname)
 	if (oldA = document.getElementById("selectedMenuLink"))
 		oldA.id = "";
 	$('#adminmenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
+	//add selectedModuleLink
+	if (oldA = document.getElementById("selectedModuleLink"))
+		oldA.id = "";
+	var modcat = modname.substr(0, modname.indexOf('/'));
+	$('#adminmenu a[href$="'+modcat+'/Search.php"].menu-top').each(function(){this.id = "selectedModuleLink";});
 }
 
 //Bottom.php JS
