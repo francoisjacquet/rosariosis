@@ -10,7 +10,7 @@ DrawHeader(ProgramTitle());
 // existing address feature).
 // The column name should start with 's.' if a student field or 'a.' if an address field.
 //modif Francois: Moodle Integrator: the "family" email field must be different from the student email field in the Moodle/config.inc.php
-$email_column = 'a.CUSTOM_2'; //example: 'a.CUSTOM_2'
+$email_column = ''; //example: 'a.CUSTOM_2'
 if(empty($email_column))
 	ErrorMessage(array(_('You must set the <b>$email_column</b> variable to use this script.')),'fatal');
 
