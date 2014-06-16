@@ -28,7 +28,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 		$sql_gender = ',s.CUSTOM_200000000 as GENDER';
 	else
-		$sql_gender = ',"None" as GENDER';
+		$sql_gender = ',\'None\' as GENDER';
 	$sql = "SELECT r.REQUEST_ID,r.STUDENT_ID".$sql_gender.",r.SUBJECT_ID,r.COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID,(SELECT COUNT(*) FROM COURSE_PERIODS cp2 WHERE cp2.COURSE_ID=r.COURSE_ID) AS SECTIONS
 	FROM SCHEDULE_REQUESTS r,STUDENTS s,STUDENT_ENROLLMENT ssm
 	WHERE s.STUDENT_ID=ssm.STUDENT_ID AND ssm.SYEAR=r.SYEAR

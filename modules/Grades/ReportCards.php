@@ -23,7 +23,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 				$extra['SELECT'] .= ',s.CUSTOM_200000000 AS GENDER';
 			else
-				$extra['SELECT'] .= ',"None" AS GENDER';
+				$extra['SELECT'] .= ',\'None\' AS GENDER';
 				
 		}
 	//modif Francois: multiple school periods for a course period
