@@ -48,10 +48,6 @@ iframe,img{
 td,textarea{
 	line-height:inherit
 }
-select{
-	padding:2px;
-	height:2em
-}
 input,select{
 	line-height:15px
 }
@@ -77,6 +73,10 @@ li,dd{
 textarea,input,select{
 	margin:2px 1px;
 	padding:3px
+}
+select{
+	padding:2px;
+	height:23px
 }
 h1,h2,h3,h4{
 	display:block;
