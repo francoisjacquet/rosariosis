@@ -1,5 +1,16 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.5.6
+----------------
+- Bugfix remove Refund payment with refunded payment in StudentPayments.php
+- Add #selectedModuleLink in warehouse.js
+- Bugfix Currency() direct call via $extra['functions']
+- Reset $email_column variable in CreateParents.php
+- Add .br-after class to Side.php input fields
+- Bugfix SQL bug column "None" does not exist in UnfilledRequests.php, Scheduler.php, ReportCards.php
+- Add note after admin creationin User.php
+- Update spanish & french translations
+
 Changes in 2.5.5
 ----------------
 - Github friendly README.md (Contribution by Scott Cytacki)
