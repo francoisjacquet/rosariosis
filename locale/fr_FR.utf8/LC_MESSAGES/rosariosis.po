@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-15 15:01-0500\n"
-"PO-Revision-Date: 2014-05-15 15:02-0500\n"
+"POT-Creation-Date: 2014-06-19 02:28-0500\n"
+"PO-Revision-Date: 2014-06-19 02:29-0500\n"
 "Last-Translator: François <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -278,7 +278,7 @@ msgstr ""
 "poursuivi en justice. De par votre connection à ce système, vous "
 "reconnaissez avoir pris connaissance de ces règles et les approuver."
 
-#: Side.php:224 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
+#: Side.php:229 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
 #: modules/Attendance/AddAbsences.php:121
 #: modules/Eligibility/EnterEligibility.php:34
 #: modules/Eligibility/EntryTimes.php:42
@@ -290,7 +290,7 @@ msgstr ""
 msgid "Sunday"
 msgstr "Dimanche"
 
-#: Side.php:224 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
+#: Side.php:229 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
 #: modules/Attendance/AddAbsences.php:121
 #: modules/Eligibility/EnterEligibility.php:34
 #: modules/Eligibility/EntryTimes.php:42
@@ -302,7 +302,7 @@ msgstr "Dimanche"
 msgid "Monday"
 msgstr "Lundi"
 
-#: Side.php:224 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
+#: Side.php:229 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
 #: modules/Attendance/AddAbsences.php:121
 #: modules/Eligibility/EnterEligibility.php:34
 #: modules/Eligibility/EntryTimes.php:42
@@ -314,7 +314,7 @@ msgstr "Lundi"
 msgid "Tuesday"
 msgstr "Mardi"
 
-#: Side.php:224 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
+#: Side.php:229 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
 #: modules/Attendance/AddAbsences.php:121
 #: modules/Eligibility/EnterEligibility.php:34
 #: modules/Eligibility/EntryTimes.php:42
@@ -326,7 +326,7 @@ msgstr "Mardi"
 msgid "Wednesday"
 msgstr "Mercredi"
 
-#: Side.php:224 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
+#: Side.php:229 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
 #: modules/Attendance/AddAbsences.php:121
 #: modules/Eligibility/EnterEligibility.php:34
 #: modules/Eligibility/EntryTimes.php:42
@@ -338,7 +338,7 @@ msgstr "Mercredi"
 msgid "Thursday"
 msgstr "Jeudi"
 
-#: Side.php:224 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
+#: Side.php:229 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
 #: modules/Attendance/AddAbsences.php:121
 #: modules/Eligibility/EnterEligibility.php:34
 #: modules/Eligibility/EntryTimes.php:42
@@ -350,7 +350,7 @@ msgstr "Jeudi"
 msgid "Friday"
 msgstr "Vendredi"
 
-#: Side.php:224 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
+#: Side.php:229 functions/Localize.fnc.php:31 functions/Localize.fnc.php:37
 #: modules/Attendance/AddAbsences.php:121
 #: modules/Eligibility/EnterEligibility.php:34
 #: modules/Eligibility/EntryTimes.php:42
@@ -362,7 +362,7 @@ msgstr "Vendredi"
 msgid "Saturday"
 msgstr "Samedi"
 
-#: Side.php:234 modules/Attendance/StudentSummary.php:117
+#: Side.php:239 modules/Attendance/StudentSummary.php:117
 #: modules/misc/Portal.php:78 modules/misc/Portal.php:167
 #: modules/misc/Portal.php:242 modules/misc/Portal.php:301
 #: modules/Scheduling/Courses.php:190 modules/Scheduling/Courses.php:212
@@ -373,7 +373,7 @@ msgstr "Samedi"
 msgid "Day"
 msgstr "Jour"
 
-#: Side.php:234 modules/misc/Portal.php:109 modules/misc/Portal.php:198
+#: Side.php:239 modules/misc/Portal.php:109 modules/misc/Portal.php:198
 #: modules/Scheduling/Courses.php:190 modules/Scheduling/Courses.php:212
 #: modules/Scheduling/Courses.php:337 modules/Scheduling/PrintSchedules.php:22
 #: modules/Scheduling/Schedule.php:190
@@ -400,7 +400,7 @@ msgstr "Jours"
 #: modules/Students/PeopleFields.php:162
 #: modules/Students/StudentFields.php:170
 #: modules/Student_Billing/functions.inc.php:24
-#: modules/Student_Billing/functions.inc.php:37 modules/Users/User.php:333
+#: modules/Student_Billing/functions.inc.php:37 modules/Users/User.php:335
 #: modules/Users/UserFields.php:170
 msgid "Delete"
 msgstr "Effacer"
@@ -415,7 +415,7 @@ msgstr "Effacer"
 #: modules/Attendance/TeacherCompletion.php:81
 #: modules/Attendance/TeacherCompletion.php:103
 #: modules/Discipline/CategoryBreakdown.php:103
-#: modules/Discipline/CategoryBreakdownTime.php:140
+#: modules/Discipline/CategoryBreakdownTime.php:141
 #: modules/Discipline/StudentFieldBreakdown.php:120
 #: modules/Discipline/StudentFieldBreakdown.php:132
 #: modules/Grades/TeacherCompletion.php:73
@@ -436,7 +436,7 @@ msgstr "Oui"
 #: functions/Widgets.fnc.php:639 modules/Attendance/TeacherCompletion.php:81
 #: modules/Attendance/TeacherCompletion.php:103
 #: modules/Discipline/CategoryBreakdown.php:105
-#: modules/Discipline/CategoryBreakdownTime.php:141
+#: modules/Discipline/CategoryBreakdownTime.php:142
 #: modules/Discipline/StudentFieldBreakdown.php:120
 #: modules/Discipline/StudentFieldBreakdown.php:134
 #: modules/Grades/TeacherCompletion.php:73
@@ -499,9 +499,9 @@ msgstr "Annuler"
 #: modules/Scheduling/new_Requests.php:33 modules/Students/Student.php:425
 #: modules/Students/Student.php:426 modules/Students/Student.php:427
 #: modules/Students/Student.php:428 modules/Students/Student.php:429
-#: modules/Users/Exceptions.php:177 modules/Users/User.php:420
-#: modules/Users/User.php:421 modules/Users/User.php:422
+#: modules/Users/Exceptions.php:177 modules/Users/User.php:422
 #: modules/Users/User.php:423 modules/Users/User.php:424
+#: modules/Users/User.php:425 modules/Users/User.php:426
 msgid "Error"
 msgstr "Erreur"
 
@@ -867,7 +867,7 @@ msgstr "Recherche"
 #: functions/ListOutput.fnc.php:466 modules/Attendance/DailySummary.php:75
 #: modules/Attendance/Percent.php:103 modules/Attendance/StudentSummary.php:41
 #: modules/Discipline/CategoryBreakdown.php:264
-#: modules/Discipline/CategoryBreakdownTime.php:354
+#: modules/Discipline/CategoryBreakdownTime.php:388
 #: modules/Discipline/StudentFieldBreakdown.php:280
 #: modules/Eligibility/Student.php:96 modules/Eligibility/StudentList.php:66
 #: modules/Eligibility/TeacherCompletion.php:73
@@ -1871,7 +1871,7 @@ msgstr "Code Region"
 #: modules/Users/Exceptions.php:92 modules/Users/Exceptions.php:165
 #: modules/Users/Preferences.php:119 modules/Users/Preferences.php:384
 #: modules/Users/Profiles.php:117 modules/Users/Profiles.php:243
-#: modules/Users/User.php:345 modules/Users/User.php:405
+#: modules/Users/User.php:347 modules/Users/User.php:407
 #: modules/Users/UserFields.php:201 modules/Users/UserFields.php:260
 msgid "Save"
 msgstr "Sauver"
@@ -1902,7 +1902,7 @@ msgstr "Par période"
 
 #: modules/Attendance/DailySummary.php:75 modules/Attendance/Percent.php:103
 #: modules/Attendance/StudentSummary.php:41
-#: modules/Discipline/CategoryBreakdownTime.php:353
+#: modules/Discipline/CategoryBreakdownTime.php:387
 #: modules/Eligibility/TeacherCompletion.php:73
 #: modules/Food_Service/MenuReports.php:172
 #: modules/Food_Service/TransactionsReport.php:47
@@ -2105,7 +2105,7 @@ msgstr "Rapport Journalier"
 #: modules/Discipline/CategoryBreakdown.php:58
 #: modules/Discipline/CategoryBreakdown.php:261
 #: modules/Discipline/CategoryBreakdownTime.php:56
-#: modules/Discipline/CategoryBreakdownTime.php:350
+#: modules/Discipline/CategoryBreakdownTime.php:384
 #: modules/Discipline/StudentFieldBreakdown.php:59
 #: modules/Discipline/StudentFieldBreakdown.php:277
 #: modules/Students/StudentBreakdown.php:32
@@ -2124,7 +2124,7 @@ msgstr "Chercher Toutes les Ecoles"
 #: modules/Scheduling/PrintClassPictures.php:169
 #: modules/Students/Search.inc.php:55 modules/Students/Search.inc.php:110
 #: modules/Students/Student.php:432 modules/Users/Search.inc.php:63
-#: modules/Users/User.php:427 ProgramFunctions/PortalPollsNotes.fnc.php:109
+#: modules/Users/User.php:429 ProgramFunctions/PortalPollsNotes.fnc.php:109
 msgid "Submit"
 msgstr "Valider"
 
@@ -2367,7 +2367,7 @@ msgid "MTD"
 msgstr "Mois à ce jour"
 
 #: modules/Custom/AttendanceSummary.php:63
-#: modules/Discipline/CategoryBreakdownTime.php:353
+#: modules/Discipline/CategoryBreakdownTime.php:387
 msgid "Month"
 msgstr "Mois"
 
@@ -2633,12 +2633,12 @@ msgid "Information about %s %s"
 msgstr "Informations sur %s %s"
 
 #: modules/Discipline/CategoryBreakdown.php:253
-#: modules/Discipline/CategoryBreakdownTime.php:342
+#: modules/Discipline/CategoryBreakdownTime.php:376
 msgid "Please choose a category"
 msgstr "Choisir une catégorie"
 
 #: modules/Discipline/CategoryBreakdown.php:264
-#: modules/Discipline/CategoryBreakdownTime.php:354
+#: modules/Discipline/CategoryBreakdownTime.php:388
 #: modules/Discipline/StudentFieldBreakdown.php:280
 #: modules/Student_Billing/DailyTotals.php:33
 #: modules/Student_Billing/DailyTransactions.php:33
@@ -2646,7 +2646,7 @@ msgid "Report Timeframe"
 msgstr "Interval de Temps du Rapport"
 
 #: modules/Discipline/CategoryBreakdown.php:272
-#: modules/Discipline/CategoryBreakdownTime.php:362
+#: modules/Discipline/CategoryBreakdownTime.php:396
 #: modules/Discipline/StudentFieldBreakdown.php:288
 #: modules/Students/StudentBreakdown.php:247
 msgid "Column"
@@ -2661,7 +2661,7 @@ msgid "Pie"
 msgstr "Graphique"
 
 #: modules/Discipline/CategoryBreakdown.php:272
-#: modules/Discipline/CategoryBreakdownTime.php:362
+#: modules/Discipline/CategoryBreakdownTime.php:396
 #: modules/Discipline/StudentFieldBreakdown.php:288
 #: modules/Grades/GradebookBreakdown.php:178
 #: modules/Grades/GradeBreakdown.php:36 modules/Grades/HonorRoll.php:157
@@ -2672,8 +2672,8 @@ msgid "List"
 msgstr "Lister"
 
 #: modules/Discipline/CategoryBreakdown.php:285
-#: modules/Discipline/CategoryBreakdownTime.php:370
-#: modules/Discipline/CategoryBreakdownTime.php:389
+#: modules/Discipline/CategoryBreakdownTime.php:404
+#: modules/Discipline/CategoryBreakdownTime.php:423
 #: modules/Discipline/StudentFieldBreakdown.php:301
 #: modules/Grades/GradebookBreakdown.php:193
 #: modules/Students/StudentBreakdown.php:260
@@ -2688,7 +2688,7 @@ msgid "Number of Referrals"
 msgstr "Nombre d'Incidents"
 
 #: modules/Discipline/CategoryBreakdown.php:297
-#: modules/Discipline/CategoryBreakdownTime.php:401
+#: modules/Discipline/CategoryBreakdownTime.php:435
 #: modules/Discipline/StudentFieldBreakdown.php:313
 #: modules/Grades/GradebookBreakdown.php:205
 #: modules/Grades/GradeBreakdown.php:77
@@ -2697,7 +2697,7 @@ msgid "Right Click to Save Image As..."
 msgstr "Clic Droit, Enregistrer image comme..."
 
 #: modules/Discipline/CategoryBreakdown.php:298
-#: modules/Discipline/CategoryBreakdownTime.php:402
+#: modules/Discipline/CategoryBreakdownTime.php:436
 #: modules/Discipline/StudentFieldBreakdown.php:314
 #: modules/Grades/GradebookBreakdown.php:206
 #: modules/Students/StudentBreakdown.php:273
@@ -2705,7 +2705,7 @@ msgstr "Clic Droit, Enregistrer image comme..."
 msgid "%s Breakdown"
 msgstr "Répartition de %s"
 
-#: modules/Discipline/CategoryBreakdownTime.php:353
+#: modules/Discipline/CategoryBreakdownTime.php:387
 #: modules/Discipline/ReferralLog.php:91
 #: modules/Food_Service/AssignSchool.php:38
 #: modules/Food_Service/AssignSchool.php:40
@@ -3037,7 +3037,7 @@ msgstr[1] "Enseignants qui n'ont pas entré l'éligibilité"
 #: modules/Food_Service/Users/ActivityReport.php:32
 #: modules/Food_Service/Users/Statements.php:56
 #: modules/Users/Search.inc.php:148 modules/Users/Search.inc.php:185
-#: modules/Users/User.php:294
+#: modules/Users/User.php:296
 msgid "User"
 msgstr "Utilisateur"
 
@@ -6183,7 +6183,7 @@ msgstr "Nombre de Jours de la Rotation"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:5
 #: modules/School_Setup/includes/SchoolLogo.inc.php:5
-#: modules/Students/Student.php:425 modules/Users/User.php:420
+#: modules/Students/Student.php:425 modules/Users/User.php:422
 msgid "File not uploaded"
 msgstr "Fichier non uploadé"
 
@@ -6193,24 +6193,24 @@ msgstr "Extension du fichier non autorisée"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:14
 #: modules/School_Setup/includes/SchoolLogo.inc.php:14
-#: modules/Students/Student.php:427 modules/Users/User.php:422
+#: modules/Students/Student.php:427 modules/Users/User.php:424
 #, php-format
 msgid "File size > %01.2fMb: %01.2fMb"
 msgstr "Taille du fichier > %01.2fMo: %01.2fMo"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:19
-#: modules/Students/Student.php:428 modules/Users/User.php:423
+#: modules/Students/Student.php:428 modules/Users/User.php:425
 msgid "Folder not created"
 msgstr "Dossier non créé"
 
 #: modules/School_Setup/includes/PortalNotesFiles.inc.php:22
 #: modules/School_Setup/includes/SchoolLogo.inc.php:17
-#: modules/Students/Student.php:429 modules/Users/User.php:424
+#: modules/Students/Student.php:429 modules/Users/User.php:426
 msgid "Folder not writable"
 msgstr "Impossible d'écrire dans le Dossier"
 
 #: modules/School_Setup/includes/SchoolLogo.inc.php:10
-#: modules/Students/Student.php:426 modules/Users/User.php:421
+#: modules/Students/Student.php:426 modules/Users/User.php:423
 #, php-format
 msgid "Wrong file type: %s (JPG required)"
 msgstr "Mauvais type de fichier: %s (JPG requis)"
@@ -6707,37 +6707,37 @@ msgstr "Date de Début d'Attendance cette Année Scolaire"
 
 #: modules/Students/includes/General_Info.inc.php:85
 #: modules/Students/includes/General_Info.inc.php:90
-#: modules/Users/User.php:341 modules/Users/includes/General_Info.inc.php:84
+#: modules/Users/User.php:343 modules/Users/includes/General_Info.inc.php:84
 msgid "Jr"
 msgstr "Jr"
 
 #: modules/Students/includes/General_Info.inc.php:85
 #: modules/Students/includes/General_Info.inc.php:90
-#: modules/Users/User.php:341 modules/Users/includes/General_Info.inc.php:84
+#: modules/Users/User.php:343 modules/Users/includes/General_Info.inc.php:84
 msgid "Sr"
 msgstr "Sr"
 
 #: modules/Students/includes/General_Info.inc.php:85
 #: modules/Students/includes/General_Info.inc.php:90
-#: modules/Users/User.php:341 modules/Users/includes/General_Info.inc.php:84
+#: modules/Users/User.php:343 modules/Users/includes/General_Info.inc.php:84
 msgid "II"
 msgstr "II"
 
 #: modules/Students/includes/General_Info.inc.php:85
 #: modules/Students/includes/General_Info.inc.php:90
-#: modules/Users/User.php:341 modules/Users/includes/General_Info.inc.php:84
+#: modules/Users/User.php:343 modules/Users/includes/General_Info.inc.php:84
 msgid "III"
 msgstr "III"
 
 #: modules/Students/includes/General_Info.inc.php:85
 #: modules/Students/includes/General_Info.inc.php:90
-#: modules/Users/User.php:341 modules/Users/includes/General_Info.inc.php:84
+#: modules/Users/User.php:343 modules/Users/includes/General_Info.inc.php:84
 msgid "IV"
 msgstr "IV"
 
 #: modules/Students/includes/General_Info.inc.php:85
 #: modules/Students/includes/General_Info.inc.php:90
-#: modules/Users/User.php:341 modules/Users/includes/General_Info.inc.php:84
+#: modules/Users/User.php:343 modules/Users/includes/General_Info.inc.php:84
 msgid "V"
 msgstr "V"
 
@@ -6967,7 +6967,7 @@ msgstr "Informations Générales"
 msgid "User Info"
 msgstr "Informations Utilisateur"
 
-#: modules/Users/Menu.php:4 modules/Users/User.php:278
+#: modules/Users/Menu.php:4 modules/Users/User.php:279
 msgid "Add a User"
 msgstr "Ajouter un Utilisateur"
 
@@ -7190,31 +7190,38 @@ msgstr ""
 "Un utilisateur avec ce nom d'utilisateur existe déjà pour l'année scolaire "
 "en cours. Choisissez un nom d'utilisateur différent et réessayez."
 
-#: modules/Users/User.php:340 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:247
+#, php-format
+msgid ""
+"Please add the administrator's ID (%s) to the <i>config.inc.php</i> file."
+msgstr ""
+"Ajoutez l'ID de l'administrateur (%s) au fichier <i>config.inc.php</i> svp."
+
+#: modules/Users/User.php:342 modules/Users/includes/General_Info.inc.php:83
 msgid "Mr"
 msgstr "M."
 
-#: modules/Users/User.php:340 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:342 modules/Users/includes/General_Info.inc.php:83
 msgid "Mrs"
 msgstr "MM."
 
-#: modules/Users/User.php:340 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:342 modules/Users/includes/General_Info.inc.php:83
 msgid "Ms"
 msgstr "Mme"
 
-#: modules/Users/User.php:340 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:342 modules/Users/includes/General_Info.inc.php:83
 msgid "Miss"
 msgstr "Mlle"
 
-#: modules/Users/User.php:340 modules/Users/includes/General_Info.inc.php:83
+#: modules/Users/User.php:342 modules/Users/includes/General_Info.inc.php:83
 msgid "Dr"
 msgstr "Dr."
 
-#: modules/Users/User.php:358
+#: modules/Users/User.php:360
 msgid "Create User in Moodle"
 msgstr "Créer Utilisateur dans Moodle"
 
-#: modules/Users/User.php:425 modules/Users/includes/General_Info.inc.php:51
+#: modules/Users/User.php:427 modules/Users/includes/General_Info.inc.php:51
 msgid "User Photo"
 msgstr "Photo Utilisateur"
 
