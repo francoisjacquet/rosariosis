@@ -244,6 +244,7 @@ if($_REQUEST['modfunc']=='update')
 				}
 				
 				$_REQUEST['staff_id'] = $staff_id;
+				$note[] = sprintf(_('Please add the administrator\'s ID (%s) to the <i>config.inc.php</i> file.'), $staff_id);
 			}
 		}
 		$_REQUEST['moodle_create_user'] = false;
@@ -288,6 +289,7 @@ else
 echo $moodleError;
 
 echo ErrorMessage($error);
+echo ErrorMessage($note,'note');
 
 if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
 {
