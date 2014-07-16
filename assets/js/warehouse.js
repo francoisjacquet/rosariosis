@@ -170,7 +170,7 @@ function selMenuA(modname)
 	//add selectedModuleLink
 	if (oldA = document.getElementById("selectedModuleLink"))
 		oldA.id = "";
-	var modcat = modname.substr(0, modname.indexOf('/'));
+	var modcat = modname=='' ? old_modcat : modname.substr(0, modname.indexOf('/'));
 	$('#adminmenu a[href$="'+modcat+'/Search.php"].menu-top').each(function(){this.id = "selectedModuleLink";});
 }
 
