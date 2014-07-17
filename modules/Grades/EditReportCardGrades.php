@@ -190,11 +190,11 @@ if(UserStudentID())
             } else {
                 echo $sms_grade_level;
                 $tabs = array();
-                $tabs[] = array('title'=>'Grades','link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=grades&mp_id=$mp_id");
-                $tabs[] = array('title'=>'Credits','link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=credits&mp_id=$mp_id");
+                $tabs[] = array('title'=>'Grades','link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=grades&mp_id='.$mp_id);
+                $tabs[] = array('title'=>'Credits','link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=credits&mp_id='.$mp_id);
 //modif Francois: css WPadmin
 				$LO_options = array('count'=>false,'download'=>false,'search'=>false,
-					'header'=>WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&tab_id=$tab_id&mp_id=$mp_id"));
+					'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$tab_id.'&mp_id='.$mp_id));
                 
 //modif Francois: SQL error fix: operator does not exist: character varying = integer, add explicit type casts
 //                $sql = 'SELECT * FROM student_report_card_grades WHERE STUDENT_ID = '.$student_id.' AND MARKING_PERIOD_ID = '.$mp_id.' ORDER BY ID';
