@@ -169,7 +169,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<TR style="text-align:left;"><TD colspan="3"><A HREF="http://'.$schooldata['WWW_ADDRESS'].'" target="_blank">'.$schooldata['WWW_ADDRESS'].'</A><BR /><span class="legend-gray">'._('Website')."</span></TD></TR>";
     echo '<TR style="text-align:left;"><TD colspan="3">'.TextInput($schooldata['SHORT_NAME'],'values[SHORT_NAME]',_('Short Name'),'maxlength=25').'</TD></TR>';
 	echo '<TR style="text-align:left;"><TD colspan="3">'.TextInput($schooldata['SCHOOL_NUMBER'],'values[SCHOOL_NUMBER]',_('School Number'),'maxlength=100').'</TD></TR>';
-    echo '<TR style="text-align:left;"><TD colspan="3">'.TextInput($schooldata['REPORTING_GP_SCALE'],'values[REPORTING_GP_SCALE]',_('Base Grading Scale'),'maxlength=10 required').'</TD></TR>';
+    echo '<TR style="text-align:left;"><TD colspan="3">'.TextInput($schooldata['REPORTING_GP_SCALE'],'values[REPORTING_GP_SCALE]',(!$schooldata['REPORTING_GP_SCALE']?'<span class="legend-red">':'')._('Base Grading Scale').(!$schooldata['TITLE']?'</span>':''),'maxlength=10 required').'</TD></TR>';
 	if (AllowEdit())
 		echo '<TR style="text-align:left;"><TD colspan="3">'.TextInput($schooldata['NUMBER_DAYS_ROTATION'],'values[NUMBER_DAYS_ROTATION]','<SPAN style="cursor:help" class="legend-gray" title="'._('Leave the field blank if the school does not use a Rotation of Numbered Days').'">'._('Number of Days for the Rotation').'*</SPAN>','maxlength=1 size=1 min=1').'</TD></TR>';
 	elseif (!empty($schooldata['NUMBER_DAYS_ROTATION'])) //do not show if no rotation set
@@ -184,33 +184,34 @@ if(empty($_REQUEST['modfunc']))
 		
 	foreach($fields_RET as $field)
 	{
-		$value_custom = DBGet(DBQuery("SELECT CUSTOM_".$field['ID']." FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+		$value_custom = '';
+		if ($_REQUEST['new_school']!='true')
+		{
+			$value_custom = DBGet(DBQuery("SELECT CUSTOM_".$field['ID']." FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+			$value_custom = $value_custom[1]['CUSTOM_'.$field['ID']];
+		}
+		
+		$title_custom = (AllowEdit() && !$value_custom && $field['REQUIRED']?'<span class="legend-red">':'').$field['TITLE'].(AllowEdit() && !$value_custom && $field['REQUIRED']);
+		
+		echo '<TR style="text-align:left;"><TD colspan="3">';
 		switch($field['TYPE'])
 		{
 			case 'text':
-				echo '<TR style="text-align:left;"><TD colspan="3">';
-				echo TextInput($value_custom[1]['CUSTOM_'.$field['ID']],'values[CUSTOM_'.$field['ID'].']',$field['TITLE']);
-				echo '</TD></TR>';
+				echo TextInput($value_custom,'values[CUSTOM_'.$field['ID'].']',$title_custom,($field['REQUIRED']?' required':''));
 				break;
 
 			case 'numeric':
-				echo '<TR style="text-align:left;"><TD colspan="3">';
-				echo TextInput($value_custom[1]['CUSTOM_'.$field['ID']],'values[CUSTOM_'.$field['ID'].']',$field['TITLE'],'size=5 maxlength=10');
-				echo '</TD></TR>';
+				echo TextInput($value_custom,'values[CUSTOM_'.$field['ID'].']',$title_custom,'size=5 maxlength=10'.($field['REQUIRED']?' required':''));
 				break;
 
 			case 'date':
-				echo '<TR style="text-align:left;"><TD colspan="3">';
-				echo DateInput($value_custom[1]['CUSTOM_'.$field['ID']],'values[CUSTOM_'.$field['ID'].']',$field['TITLE']);
-				echo '</TD></TR>';
+				echo DateInput($value_custom,'values[CUSTOM_'.$field['ID'].']',$title_custom);
+				break;
+			case 'textarea':
+				echo TextAreaInput($value_custom,'values[CUSTOM_'.$field['ID'].']',$title_custom,($field['REQUIRED']?' required':''));
 				break;
 		}
-		if($field['TYPE']=='textarea')
-		{
-			echo '<TR style="text-align:left;"><TD colspan="3">';
-			echo TextAreaInput($value_custom[1]['CUSTOM_'.$field['ID']],'values[CUSTOM_'.$field['ID'].']',$field['TITLE']);
-			echo '</TD></TR>';
-		}
+		echo '</TD></TR>';
 	}
 	
 	echo '</TABLE></FIELDSET>';
