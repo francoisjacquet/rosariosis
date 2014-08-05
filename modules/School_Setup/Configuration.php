@@ -22,26 +22,30 @@ if($_REQUEST['modfunc']=='update')
 		if ((empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE'])) && (empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_AFTER']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_AFTER'])) && (empty($_REQUEST['values']['CONFIG']['SCHOOL_NUMBER_DAYS_ROTATION']) || is_numeric($_REQUEST['values']['CONFIG']['SCHOOL_NUMBER_DAYS_ROTATION'])) && (empty($_REQUEST['values']['CONFIG']['MOODLE_PARENT_ROLE_ID']) || is_numeric($_REQUEST['values']['CONFIG']['MOODLE_PARENT_ROLE_ID'])) && (empty($_REQUEST['values']['CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID']) || is_numeric($_REQUEST['values']['CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'])))
 		{
 			$sql = '';
-			foreach($_REQUEST['values']['CONFIG'] as $column=>$value)
+			if (is_array($_REQUEST['values']['CONFIG']))
+				foreach($_REQUEST['values']['CONFIG'] as $column=>$value)
+				{
+					$sql .= "UPDATE CONFIG SET ";
+					$sql .= "CONFIG_VALUE='".$value."' WHERE TITLE='".$column."'";
+					
+					$school_independant_values = array('TITLE'); //Program Title
+					if (in_array($column,$school_independant_values))
+						$sql .= " AND SCHOOL_ID='0';";
+					else
+						$sql .= " AND SCHOOL_ID='".UserSchool()."';";
+				}
+			if (is_array($_REQUEST['values']['PROGRAM_CONFIG']))
+				foreach($_REQUEST['values']['PROGRAM_CONFIG'] as $column=>$value)
+				{
+					$sql .= "UPDATE PROGRAM_CONFIG SET ";
+					$sql .= "VALUE='".$value."' WHERE TITLE='".$column."'";
+					$sql .= " AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."';";
+				}
+			if ($sql != '')
 			{
-				$sql .= "UPDATE CONFIG SET ";
-				$sql .= "CONFIG_VALUE='".$value."' WHERE TITLE='".$column."'";
-				
-				$school_independant_values = array('TITLE'); //Program Title
-				if (in_array($column,$school_independant_values))
-					$sql .= " AND SCHOOL_ID='0';";
-				else
-					$sql .= " AND SCHOOL_ID='".UserSchool()."';";
+				DBQuery($sql);
+				$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The school configuration has been modified.');
 			}
-			foreach($_REQUEST['values']['PROGRAM_CONFIG'] as $column=>$value)
-			{
-				$sql .= "UPDATE PROGRAM_CONFIG SET ";
-				$sql .= "VALUE='".$value."' WHERE TITLE='".$column."'";
-				$sql .= " AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."';";
-			}
-			DBQuery($sql);
-			
-			$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The school configuration has been modified.');
 				
 			unset($_ROSARIO['Config']);//update Config var
 		}
