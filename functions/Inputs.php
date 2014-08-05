@@ -191,7 +191,7 @@ function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',
 		return ($value?($yes=='Yes' || isset($_REQUEST['LO_save']) ?_('Yes'):$yes):($no=='No' || isset($_REQUEST['LO_save']) ?_('No'):$no)).($title!=''?' '.$title:'');
 }
 
-function SelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$div=true)
+function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$extra='',$div=true)
 {
 	if(Preferences('HIDDEN')!='Y')
 		$div = false;
