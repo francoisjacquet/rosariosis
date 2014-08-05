@@ -244,7 +244,8 @@ if($_REQUEST['modfunc']=='update')
 				}
 				
 				$_REQUEST['staff_id'] = $staff_id;
-				$note[] = sprintf(_('Please add the administrator\'s ID (%s) to the <i>config.inc.php</i> file.'), $staff_id);
+				if ($_REQUEST['staff']['PROFILE_ID'] == 1)//Note after admins creation only
+					$note[] = sprintf(_('Please add the administrator\'s ID (%s) to the <i>config.inc.php</i> file.'), $staff_id);
 			}
 		}
 		$_REQUEST['moodle_create_user'] = false;
