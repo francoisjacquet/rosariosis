@@ -69,11 +69,12 @@ if($_REQUEST['values'] && $_POST['values'])
 
 			foreach($_REQUEST['values'] as $program=>$values)
 			{
-				foreach($values as $name=>$value)
-				{
-					if(isset($value))
-						DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','$program','$name','$value')");
-				}
+				if (is_array($values))
+					foreach($values as $name=>$value)
+					{
+						if(isset($value))
+							DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','$program','$name','$value')");
+					}
 			}
 		}
 		else
