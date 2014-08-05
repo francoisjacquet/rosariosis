@@ -314,7 +314,12 @@ function makeFileAttached($value,$name)
 			//modif Francois: colorbox
 			//colorbox extensions list
 			$colorbox_list = array('.jpg', '.jpeg', '.png', '.gif', '.mp3', '.wav', '.avi', '.mp4', '.ogg');
-			if (in_array( mb_strtolower(mb_strrchr($value, '.')), $colorbox_list ) )
+			if (filter_var($value, FILTER_VALIDATE_URL) !== false) //embed link
+			{
+				$return = '<a href="'.$value.'" title="'.$value.'" class="colorboxiframe"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a>';
+				$loadColorBox = true;
+			}
+			elseif (in_array( mb_strtolower(mb_strrchr($value, '.')), $colorbox_list ) )
 			{
 
 				if (($finfo = finfo_open(FILEINFO_MIME_TYPE)) !== false)
@@ -356,11 +361,6 @@ function makeFileAttached($value,$name)
 						$loadColorBox = true;
 					}
 				}
-			}
-			elseif (filter_var($value, FILTER_VALIDATE_URL) !== false) //embed link
-			{
-				$return = '<a href="'.$value.'" title="'.$value.'" class="colorboxiframe"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a>';
-				$loadColorBox = true;
 			}
 			else
 			{
