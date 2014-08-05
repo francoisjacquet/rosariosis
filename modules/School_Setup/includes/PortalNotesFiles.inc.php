@@ -13,7 +13,7 @@ function PortalNotesFiles($file, &$PortalNotesFilesError)
 	if ($file['size'] > $size_limit)
 		$PortalNotesFilesError = sprintf(_('File size > %01.2fMb: %01.2fMb'),(($size_limit/1024)/1024),(($file['size']/1024)/1024));
 
-	//if current sYear folder doesnt exist, create it!
+	//if folder doesnt exist, create it!
 	if (!is_dir($PortalNotesFilesPath))
 		if (!mkdir($PortalNotesFilesPath))
 			$PortalNotesFilesError = _('Folder not created').': '.$PortalNotesFilesPath;
@@ -30,7 +30,8 @@ function PortalNotesFiles($file, &$PortalNotesFilesError)
 	$new_file = $PortalNotesFilesPath.$file_name;
 	if(move_uploaded_file($file['tmp_name'],$new_file))
 		return $new_file;
-
+	else
+		$PortalNotesFilesError = _('File invalid or not moveable').': '.$file['tmp_name'];
 	return '';
 }
 
