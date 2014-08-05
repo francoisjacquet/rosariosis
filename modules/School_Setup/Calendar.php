@@ -170,9 +170,7 @@ if($_REQUEST['modfunc']=='detail')
 	if($_POST['button']==_('Save') && AllowEdit())
 	{
 		if($_REQUEST['values'])
-		{
-			$_REQUEST['values']['SCHOOL_DATE'] = date('d-m-Y', mktime(0,0,0,intval(MonthNWSwitch(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 3, 3),'tonum')),intval(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 0, 2)),intval(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 7, 4))));
-			
+		{			
 			if($_REQUEST['event_id']!='new')
 			{
 				$sql = "UPDATE CALENDAR_EVENTS SET ";
@@ -207,7 +205,7 @@ if($_REQUEST['modfunc']=='detail')
 				do {
 					if ($i>0)//school date + 1 day
 					{
-						$_REQUEST['values']['SCHOOL_DATE'] = date('d-m-Y', mktime(0,0,0,intval(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 3, 2)),intval(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 0, 2))+1,intval(mb_substr($_REQUEST['values']['SCHOOL_DATE'], 6, 4))));
+						$_REQUEST['values']['SCHOOL_DATE'] = date('d-M-Y', mktime(0,0,0,MonthNWSwitch($_REQUEST['month_values']['SCHOOL_DATE'],'tonum'),$_REQUEST['day_values']['SCHOOL_DATE']+$i,$_REQUEST['year_values']['SCHOOL_DATE']));
 					}
 					$sql = "INSERT INTO CALENDAR_EVENTS ";
 
