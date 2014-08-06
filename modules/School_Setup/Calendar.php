@@ -79,7 +79,7 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 					$_REQUEST['date_min'] = $_REQUEST['day_min'].'-'.$_REQUEST['month_min'].'-'.$_REQUEST['year_min'];
 					$_REQUEST['date_max'] = $_REQUEST['day_max'].'-'.$_REQUEST['month_max'].'-'.$_REQUEST['year_max'];
 					
-					if(mb_strlen($_REQUEST['date_min']) < 11 || mb_strlen($_REQUEST['date_min']) < 11)
+					if(mb_strlen($_REQUEST['date_min']) < 11 || mb_strlen($_REQUEST['date_max']) < 11)
 						$_REQUEST['date_min'] = $_REQUEST['date_max'] = '';
 					else
 					{
@@ -149,7 +149,10 @@ if($_REQUEST['modfunc']=='delete_calendar' && AllowEdit())
 			if(count($calendars_RET))
 				$_REQUEST['calendar_id'] = $calendars_RET[1]['CALENDAR_ID'];
 			else
+			{
 				$error = array(_('There are no calendars setup yet.'));
+				unset($_REQUEST['calendar_id']);
+			}
 		}
 		unset($_REQUEST['modfunc']);
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
