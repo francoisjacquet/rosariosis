@@ -182,31 +182,32 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 		$student_id_temp = '';
 		$scount = 0;
 		$bad_locked = 0;
-		foreach($schedule as $student_id=>$periods)
-		{
-			$course_periods_temp = array();
-			foreach($periods as $course_periods)
+		if (is_array($schedule))
+			foreach($schedule as $student_id=>$periods)
 			{
-				foreach($course_periods as $period_id=>$course_period)
+				$course_periods_temp = array();
+				foreach($periods as $course_periods)
 				{
-					$scount++;
-					//modif Francois: multiple school periods for a course period
-					if(empty($locked_RET[$student_id][$course_period['REQUEST_ID']]) && !(in_array($course_period['COURSE_PERIOD_ID'],$course_periods_temp)))
+					foreach($course_periods as $period_id=>$course_period)
 					{
-						db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
+						$scount++;
+						//modif Francois: multiple school periods for a course period
+						if(empty($locked_RET[$student_id][$course_period['REQUEST_ID']]) && !(in_array($course_period['COURSE_PERIOD_ID'],$course_periods_temp)))
+						{
+							db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
+							
+	//modif Francois: Moodle integrator
+							$moodleError .= Moodle($_REQUEST['modname'], 'enrol_manual_enrol_users');
+						}
+						else
+							$bad_locked++;
+						//	db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
 						
-//modif Francois: Moodle integrator
-						$moodleError .= Moodle($_REQUEST['modname'], 'enrol_manual_enrol_users');
+						//modif Francois: multiple school periods for a course period
+						$course_periods_temp[] = $course_period['COURSE_PERIOD_ID'];
 					}
-					else
-						$bad_locked++;
-					//	db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
-					
-					//modif Francois: multiple school periods for a course period
-					$course_periods_temp[] = $course_period['COURSE_PERIOD_ID'];
 				}
 			}
-		}
 		echo '<!-- Bad Locked '.$scount.' -->';
 		echo '<!-- Schedule Count() '.$scount.'-->';
 		//echo 'Empty Courses:';
