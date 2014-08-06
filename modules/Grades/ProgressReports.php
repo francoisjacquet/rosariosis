@@ -101,7 +101,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				foreach($grades_RET as $assignment_type_id=>$grades)
 				{
 //modif Francois: remove LO_field
-					$grades_RET[$assignment_type_id][] = array('TITLE'=>_removeSpaces('<B>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</B>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),Percent($percent_weights[$assignment_type_id]/$sum_percent)).')':'')),
+					$grades_RET[$assignment_type_id][] = array('TITLE'=>_removeSpaces('<B>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</B>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),Percent($percent_weights[$assignment_type_id]/$sum_percent)).')':''),'TITLE'),
 						'ASSIGNED_DATE'=>'&nbsp;','DUE_DATE'=>'&nbsp;',
 						'POINTS'=>'<TABLE class="cellpadding-0 cellspacing-0"><TR><TD><span class="size-1"><b>'.$student_points[$assignment_type_id].'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$total_points[$assignment_type_id].'</b></span></TD></TR></TABLE>',
 						'PERCENT_GRADE'=>$total_points[$assignment_type_id]?'<B>'.Percent($student_points[$assignment_type_id]/$total_points[$assignment_type_id]).'</B>':'&nbsp;');
