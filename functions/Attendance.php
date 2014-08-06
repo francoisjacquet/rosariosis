@@ -18,7 +18,7 @@ function UpdateAttendanceDaily($student_id,$date='',$comment=false)
 					AND ac.SCHOOL_DATE='$date' AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL)
 					AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_ID=s.SCHOOL_ID AND ac.SYEAR=s.SYEAR
 					AND s.SYEAR = cp.SYEAR AND sp.PERIOD_ID = cpsp.PERIOD_ID
-					AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number FROM attendance_calendar WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<='$date' AND end_date>='$date' AND mp='QTR') AND school_date<='$date') AS INT) FOR 1) IN cpsp.DAYS)>0
+					AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number FROM attendance_calendar WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<='$date' AND end_date>='$date' AND mp='QTR' AND SCHOOL_ID=s.SCHOOL_ID) AND school_date<='$date' AND SCHOOL_ID=s.SCHOOL_ID) AS INT) FOR 1) IN cpsp.DAYS)>0
 					AND s.STUDENT_ID='$student_id'
 					AND s.SYEAR='".UserSyear()."'
 					AND ('$date' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '$date'>=s.START_DATE))
