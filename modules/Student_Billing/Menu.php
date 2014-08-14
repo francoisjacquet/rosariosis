@@ -12,6 +12,7 @@
 */
 
 $menu['Student_Billing']['admin'] = array(
+						'default'=>'Student_Billing/StudentFees.php',
 						'Student_Billing/StudentFees.php'=>_('Fees'),
 						'Student_Billing/StudentPayments.php'=>_('Payments'),
 						'Student_Billing/MassAssignFees.php'=>_('Mass Assign Fees'),
@@ -25,6 +26,7 @@ $menu['Student_Billing']['admin'] = array(
 $menu['Student_Billing']['teacher'] = array();
 
 $menu['Student_Billing']['parent'] = array(
+						'default'=>'Student_Billing/StudentFees.php',
 						'Student_Billing/StudentFees.php'=>_('Fees'),
 						'Student_Billing/StudentPayments.php'=>_('Payments'),
 						1=>_('Reports'),
@@ -34,6 +36,7 @@ $menu['Student_Billing']['parent'] = array(
 					);
 
 $menu['Student_Billing']['student'] = array(
+						'default'=>'Student_Billing/StudentFees.php',
 						'Student_Billing/StudentFees.php'=>_('Fees'),
 						'Student_Billing/StudentPayments.php'=>_('Payments'),
 						1=>_('Reports'),

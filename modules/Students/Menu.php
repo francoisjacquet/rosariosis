@@ -1,5 +1,6 @@
 <?php
 $menu['Students']['admin'] = array(
+						'default'=>'Students/Student.php',
 						'Students/Student.php'=>_('Student Info'),
 						'Students/Student.php&include=General_Info&student_id=new'=>_('Add a Student'),
 						'Students/AssignOtherInfo.php'=>_('Group Assign Student Info'),
@@ -21,6 +22,7 @@ $menu['Students']['admin'] = array(
 					);
 
 $menu['Students']['teacher'] = array(
+						'default'=>'Students/Student.php',
 						'Students/Student.php'=>_('Student Info'),
 						'Students/AddUsers.php'=>_('Associated Parents'),
 						1=>_('Reports'),
@@ -30,6 +32,7 @@ $menu['Students']['teacher'] = array(
 					);
 
 $menu['Students']['parent'] = array(
+						'default'=>'Students/Student.php',
 						'Students/Student.php'=>_('Student Info')
 					);
 

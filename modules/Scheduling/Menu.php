@@ -1,5 +1,6 @@
 <?php
 $menu['Scheduling']['admin'] = array(
+						'default'=>'Scheduling/Schedule.php',
 						'Scheduling/Schedule.php'=>_('Student Schedule'),
 						'Scheduling/Requests.php'=>_('Student Requests'),
 						'Scheduling/MassSchedule.php'=>_('Group Schedule'),
@@ -23,6 +24,7 @@ $menu['Scheduling']['admin'] = array(
 					);
 
 $menu['Scheduling']['teacher'] = array(
+						'default'=>'Scheduling/Schedule.php',
 						'Scheduling/Schedule.php'=>_('Schedule'),
 						1=>_('Reports'),
 						'Scheduling/PrintSchedules.php'=>_('Print Schedules'),
@@ -31,6 +33,7 @@ $menu['Scheduling']['teacher'] = array(
 					);
 
 $menu['Scheduling']['parent'] = array(
+						'default'=>'Scheduling/Schedule.php',
 						'Scheduling/Schedule.php'=>_('Schedule'),
 //modif Francois: activate Print Schedules for parents and students
 						'Scheduling/PrintSchedules.php'=>_('Print Schedules'),

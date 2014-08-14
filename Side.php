@@ -273,9 +273,11 @@ foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 {
 	if(count($_ROSARIO['Menu'][$modcat]))
 	{
+		echo '<A href="Modules.php?modname='.$_ROSARIO['Menu'][$modcat]['default'].'" onclick="openMenu(modname=\''.$_ROSARIO['Menu'][$modcat]['default'].'\');" class="menu-top"><IMG SRC="assets/icons/'.$modcat.'.png" height="32" style="vertical-align:middle;">&nbsp;'._(str_replace('_',' ',$modcat)).'</A><DIV id="menu_'.$modcat.'" class="wp-submenu"><TABLE class="width-100p cellspacing-0 cellpadding-0">';
+		unset($_ROSARIO['Menu'][$modcat]['default']);
+		
 		$keys = array_keys($_ROSARIO['Menu'][$modcat]);
 
-		echo '<A href="Modules.php?modname='.$modcat.'/Search.php" class="menu-top"><IMG SRC="assets/icons/'.$modcat.'.png" height="32" style="vertical-align:middle;">&nbsp;'._(str_replace('_',' ',$modcat)).'</A><DIV id="menu_'.$modcat.'" class="wp-submenu"><TABLE class="width-100p cellspacing-0 cellpadding-0">';
 		//foreach($_ROSARIO['Menu'][$modcat] as $file=>$title)
 		foreach($keys as $key_index=>$file)
 		{

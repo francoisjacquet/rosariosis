@@ -29,14 +29,4 @@ if(AllowUse($_REQUEST['modname']))
 	include("modules/$_REQUEST[modname]");
 }
 
-function _make_school_id($value,$column)
-{
-	if($value!='')
-	{
-		$value = trim($value,',');
-		if(mb_strpos($value,','))
-			$value = '';
-	}
-	return $value;
-}
 ?>

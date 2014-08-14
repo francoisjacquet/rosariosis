@@ -1,5 +1,6 @@
 <?php
 $menu['School_Setup']['admin'] = array(
+						'default'=>'School_Setup/Calendar.php',
 						'School_Setup/PortalNotes.php'=>_('Portal Notes'),
 //modif Francois: Portal Polls
 						'School_Setup/PortalPolls.php'=>_('Portal Polls'),
@@ -21,6 +22,7 @@ $menu['School_Setup']['admin'] = array(
 					);
 
 $menu['School_Setup']['teacher'] = array(
+						'default'=>'School_Setup/Calendar.php',
 						'School_Setup/Schools.php'=>_('School Information'),
 						'School_Setup/MarkingPeriods.php'=>_('Marking Periods'),
 						'School_Setup/Calendar.php'=>_('Calendars'),
@@ -29,6 +31,7 @@ $menu['School_Setup']['teacher'] = array(
 					);
 
 $menu['School_Setup']['parent'] = array(
+						'default'=>'School_Setup/Calendar.php',
 						'School_Setup/Schools.php'=>_('School Information'),
 						'School_Setup/Calendar.php'=>_('Calendars')
 					);

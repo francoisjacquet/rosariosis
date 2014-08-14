@@ -29,7 +29,7 @@ if(empty($_ROSARIO['Menu']))
 			if(!is_numeric($program))
 			{
 //				if($_ROSARIO['AllowUse'][$program] && ($profile!='admin' || !$exceptions[$modcat][$program] || AllowEdit($program)))
-				if(!empty($_ROSARIO['AllowUse'][$program]) && ($profile!='admin' || empty($exceptions[$modcat][$program]) || AllowEdit($program)))
+				if($program == 'default' || (!empty($_ROSARIO['AllowUse'][$program]) && ($profile!='admin' || empty($exceptions[$modcat][$program]) || AllowEdit($program))))
 				{
 					$_ROSARIO['Menu'][$modcat][$program] = $title;
 					$no_programs_in_module = false;
@@ -38,6 +38,7 @@ if(empty($_ROSARIO['Menu']))
 			else
 				$_ROSARIO['Menu'][$modcat][$program] = $title;
 		}
+		
 		if ($no_programs_in_module)
 			unset($_ROSARIO['Menu'][$modcat]);
 	}

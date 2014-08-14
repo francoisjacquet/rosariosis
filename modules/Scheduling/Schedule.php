@@ -2,6 +2,11 @@
 // TABBED FY,SEM,QTR
 // REPLACE DBDate() & date() WITH USER ENTERED VALUES
 // ERROR HANDLING
+if($_REQUEST['student_id']=='new')
+{
+	unset($_SESSION['student_id']);
+	$_SESSION['unset_student'] = true;
+}	
 
 DrawHeader(ProgramTitle());
 

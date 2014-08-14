@@ -1,5 +1,6 @@
 <?php
 $menu['Users']['admin'] = array(
+						'default'=>'Users/User.php',
 						'Users/User.php'=>_('User Info'),
 						'Users/User.php&staff_id=new'=>_('Add a User'),
 						'Users/AddStudents.php'=>_('Associate Students with Parents'),
@@ -12,11 +13,13 @@ $menu['Users']['admin'] = array(
 					);
 
 $menu['Users']['teacher'] = array(
+						'default'=>'Users/User.php',
 						'Users/User.php'=>_('General Info'),
 						'Users/Preferences.php'=>_('My Preferences')
 					);
 
 $menu['Users']['parent'] = array(
+						'default'=>'Users/User.php',
 						'Users/User.php'=>_('General Info'),
 						'Users/Preferences.php'=>_('My Preferences')
 					);

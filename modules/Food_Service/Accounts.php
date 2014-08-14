@@ -1,6 +1,9 @@
 <?php
 require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
 
+if (!$_SESSION['FSA_type'])
+	$_SESSION['FSA_type'] = 'student';
+
 if($_REQUEST['type'])
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 else

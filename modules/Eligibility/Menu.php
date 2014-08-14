@@ -1,5 +1,6 @@
 <?php
 $menu['Eligibility']['admin'] = array(
+						'default'=>'Eligibility/Student.php',
 						'Eligibility/Student.php'=>_('Student Screen'),
 						'Eligibility/AddActivity.php'=>_('Add Activity'),
 						1=>_('Reports'),
@@ -11,10 +12,12 @@ $menu['Eligibility']['admin'] = array(
 					);
 
 $menu['Eligibility']['teacher'] = array(
+						'default'=>'Eligibility/EnterEligibility.php',
 						'Eligibility/EnterEligibility.php'=>_('Enter Eligibility')
 					);
 
 $menu['Eligibility']['parent'] = array(
+						'default'=>'Eligibility/Student.php',
 						'Eligibility/Student.php'=>_('Student Screen'),
 						'Eligibility/StudentList.php'=>_('Student List')
 					);

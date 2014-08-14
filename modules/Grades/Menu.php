@@ -1,5 +1,6 @@
 <?php
 $menu['Grades']['admin'] = array(
+						'default'=>'Grades/GPARankList.php',
 						'Grades/ReportCards.php'=>_('Report Cards'),
 						'Grades/HonorRoll.php'=>_('Honor Roll'),
 //modif Francois: Honor Roll by Subject
@@ -27,6 +28,7 @@ $menu['Grades']['admin'] = array(
 					);
 
 $menu['Grades']['teacher'] = array(
+						'default'=>'Grades/Grades.php',
 						'Grades/InputFinalGrades.php'=>_('Input Final Grades'),
 						'Grades/ReportCards.php'=>_('Report Cards'),
 						1=>_('Gradebook'),
@@ -49,6 +51,7 @@ $menu['Grades']['teacher'] = array(
 					);
 
 $menu['Grades']['parent'] = array(
+						'default'=>'Grades/StudentGrades.php',
 						'Grades/StudentGrades.php'=>_('Gradebook Grades'),
 						'Grades/FinalGrades.php'=>_('Final Grades'),
 						'Grades/ReportCards.php'=>_('Report Cards'),

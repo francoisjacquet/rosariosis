@@ -76,7 +76,7 @@ function ajaxLink(link){
 			return true;
 	}
 	$.get(link.href, function(data){
-		ajaxSuccess(data,target);
+		ajaxSuccess(data,target,link.href);
 	})
 	.fail(function(x,st,err){
 		alert("ajaxLink get Status: "+st+" - Error: "+err);
@@ -106,14 +106,36 @@ function ajaxPostForm(form,submit){
 		$(form).ajaxForm(options);
 	return false;
 }
-function ajaxSuccess(data,target){
+function ajaxSuccess(data,target,url){
+	//change URL after AJAX
+	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
+    if (window.location.href == url)
+        history.replaceState({data:data}, '', url);
+    else if(url.indexOf('Bottom.php') == -1)
+        history.pushState({data:data, target:target}, '', url);
+	
 	$('#'+target).html(data);
+	ajaxPrepare(target);
+}
+
+//change URL after AJAX
+$(window).bind('popstate', function (e) {
+    var state = e.originalEvent.state;
+    $('#'+state.target).html(state.data);
+	ajaxPrepare(state.target);
+	var docURL = document.URL;
+	if ((modnamepos = docURL.indexOf('modname=')) != -1)
+		openMenu(docURL.substr(modnamepos+8, docURL.length));
+});
+
+function ajaxPrepare(target){
 	$('#'+target+' form').each(function(){ ajaxPostForm(this,false); });
 	$('#'+target+' a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	scroll();
 	if (scrollTop=='Y')
 		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
 }
+
 //disable links while AJAX
 var disableLinks = false;
 $(document).ajaxStart(function(){
@@ -132,6 +154,12 @@ window.onload = function(){
 	scroll();
 	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
+	//change URL after AJAX
+	//add index.php or reloaded page
+	var docURL = document.URL;
+	history.pushState({data:$('#wrap').html(), target:'wrap'}, '', docURL);
+	if ((modnamepos = docURL.indexOf('modname=')) != -1)
+		openMenu(docURL.substr(modnamepos+8, docURL.length));
 };
 function scroll(){
 	if (isTouchDevice())
@@ -166,12 +194,12 @@ function selMenuA(modname)
 {
 	if (oldA = document.getElementById("selectedMenuLink"))
 		oldA.id = "";
-	$('#adminmenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
+	$('#adminmenu a[href$="'+modname+'"][class!="menu-top"]:first').each(function(){this.id = "selectedMenuLink";});
 	//add selectedModuleLink
 	if (oldA = document.getElementById("selectedModuleLink"))
 		oldA.id = "";
 	var modcat = modname=='' ? old_modcat : modname.substr(0, modname.indexOf('/'));
-	$('#adminmenu a[href$="'+modcat+'/Search.php"].menu-top').each(function(){this.id = "selectedModuleLink";});
+	$('#adminmenu a[href*="'+modcat+'"].menu-top').each(function(){this.id = "selectedModuleLink";});
 }
 
 //Bottom.php JS
