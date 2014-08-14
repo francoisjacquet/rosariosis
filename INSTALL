@@ -19,6 +19,8 @@ and PHP 5.3.10 and through Mozilla Firefox.
 
 Minimum requirements: PHP 5.3.2 & Postgres 8
 
+Installation Instructions for Windows:
+https://github.com/francoisjacquet/rosariosis/wiki/How-to-install-RosarioSIS-on-Windows
 
 Installing the Package
 ----------------------
@@ -99,23 +101,23 @@ template photo deleted.
 Installing wkhtmltopdf
 ----------------------
 
-Install instructions for Ubuntu/Debian:
-Note: for a 64bits distribution, replace 'i386' with 'amd64'.
+http://wkhtmltopdf.org/
+Install instructions for Ubuntu 12.04.4 64bits server:
 
-	1) Download the latest executable (.11 rc1) :
-	server$ wget https://wkhtmltopdf.googlecode.com/files/wkhtmltopdf-0.11.0_rc1-static-i386.tar.bz2
+	1) Install the dependencies :
+	server$ sudo apt-get install openssl build-essential xorg libssl-dev libxrender-dev
+	
+	1) Download the latest executable (0.12.1 as of 2014.08.14) :
+	server$ wget http://downloads.sourceforge.net/project/wkhtmltopdf/0.12.1/wkhtmltox-0.12.1_linux-precise-amd64.deb
 
-	2) Uncompress it :
-	server$ tar -vxf wkhtmltopdf-0.11.0_rc1-static-i386.tar.bz2
-
-	3) Rename it :
-	server$ mv wkhtmltopdf-i386 wkhtmltopdf
-
-	4) Chmod it to executable :
-	server$ chmod a+x wkhtmltopdf
-
-	5) Place it into /usr/bin :
-	server$ sudo mv wkhtmltopdf /usr/bin
+	2) Install package :
+	server$ sudo dpkg --install wkhtmltox-0.12.1_linux-precise-amd64.deb
+	
+	3) Test :
+	server$ wkhtmltopdf http://google.com google.pdf
+	
+	4) Set $wkhtmltopdfPath in RosarioSIS config.inc.php file:
+	$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';
 
 
 Additional Configuration
