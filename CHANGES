@@ -1,5 +1,29 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.5.7
+----------------
+- RosarioSIS 2014 update
+- Include Lunch Payment in Balance
+- Add School submenu in School Setup module
+- Bugfix SQL bug more than one row returned by subquery when more than one school and numbered days
+- Bugfix array_key_exists() expects param 2 to be array when deleting the only existing calendar
+- Bugfix SQL bug empty school dates in Calendar.php
+- Bugfix Missing arg 2 for _removeSpaces() in ProgressReport.php
+- Bugfix Invalid argument supplied for foreach() in Scheduler.php, Configuration.php & Preferences.php
+- School Fields fixes:
+	- display empty fields in Add a School
+	- display label in red if required
+	- add required attribute when apply
+- /assets/PortalNotesFiles/ folder created
+- Add PortalNotesFiles upload error if not moved
+- Place embed link detection first in PortalPollsNotes.fnc.php
+- Bugfix SQL bug datestyle in Calendar.php
+- Note after admins creation only in User.php
+- Bugfix array_key_exists() expects $options to be array in SelectInput()
+- Link variables out of string in EditReportCardGrades.php
+- Add #selectedModuleLink bugfix in warehouse.js
+- select & input to same height in stylesheet.css
+
 Changes in 2.5.6
 ----------------
 - Bugfix remove Refund payment with refunded payment in StudentPayments.php
