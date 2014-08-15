@@ -35,17 +35,6 @@ $menu['Student_Billing']['parent'] = array(
 						'Student_Billing/Statements.php&_ROSARIO_PDF'=>_('Print Statements')
 					);
 
-$menu['Student_Billing']['student'] = array(
-						'default'=>'Student_Billing/StudentFees.php',
-						'Student_Billing/StudentFees.php'=>_('Fees'),
-						'Student_Billing/StudentPayments.php'=>_('Payments'),
-						1=>_('Reports'),
-						'Student_Billing/DailyTransactions.php'=>_('Daily Transactions'),
-//modif Francois: fix bug PDF
-						'Student_Billing/Statements.php&_ROSARIO_PDF'=>_('Print Statements')
-					);
-
-
 $exceptions['Student_Billing'] = array(
 					);
 ?>
