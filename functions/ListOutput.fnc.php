@@ -305,7 +305,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 		}
 		// END SAVING THE LIST ---
 
-		if(($result_count>$num_displayed) || (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0))))
+		if(($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
 		{
 			echo '<TABLE';
 			if(isset($_REQUEST['_ROSARIO_PDF']))
@@ -679,7 +679,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 		if($result_count==0)
 		{
 			// mab - problem with table closing if not opened above - do same conditional?
-			if(($result_count > $num_displayed) || (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0))))
+			if(($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
 				echo '</TD></TR></TBODY></TABLE>';
 				
 			if(!empty($options['header']))

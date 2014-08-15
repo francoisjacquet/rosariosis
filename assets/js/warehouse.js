@@ -112,10 +112,14 @@ function ajaxSuccess(data,target,url){
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
 	$('#'+target).html(data);
 	
-    if (window.location.href == url)
-        history.replaceState({data:$('body').html()}, '', url);
-	else if (target != 'menu' && target != 'footer')
-        history.pushState({data:$('body').html()}, '', url);
+	var data = $('body').html();
+	if (data.length<640000)//640K chars limit
+	{
+		if (window.location.href == url)
+			history.replaceState({data:data}, '', url);
+		else if (target != 'menu' && target != 'footer')
+			history.pushState({data:data}, '', url);
+	}
 	
 	ajaxPrepare('#'+target);
 }
@@ -123,9 +127,11 @@ function ajaxSuccess(data,target,url){
 //change URL after AJAX
 $(window).bind('popstate', function (e) {
     var state = e.originalEvent.state;
+	var docURL = document.URL;
+	if (!state)//640K chars limit
+		return document.location.href = docURL;
     $('body').html(state.data);
 	ajaxPrepare('body');
-	var docURL = document.URL;
 	openMenu((modnamepos = docURL.indexOf('modname=')) != -1 ? docURL.substr(modnamepos+8, docURL.length) : 'default');
 });
 
@@ -158,7 +164,9 @@ window.onload = function(){
 	//change URL after AJAX
 	//add index.php or reloaded page
 	var docURL = document.URL;
-	history.pushState({data:$('body').html()}, '', docURL);
+	var data = $('body').html();
+	if (data.length<640000)//640K chars limit
+		history.pushState({data:data}, '', docURL);
 	if ((modnamepos = docURL.indexOf('modname=')) != -1)
 		openMenu(docURL.substr(modnamepos+8, docURL.length));
 };
