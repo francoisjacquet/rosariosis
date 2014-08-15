@@ -83,6 +83,7 @@ function ajaxLink(link){
     });
 	return false;
 }
+
 function ajaxPostForm(form,submit){
 	var target = form.target;
 	if (!target)
@@ -94,7 +95,7 @@ function ajaxPostForm(form,submit){
 	}
 	var options = {
 		success: function(data){
-			ajaxSuccess(data,target);
+			ajaxSuccess(data,target,form.action);
 		},
 		error: function(x,st,err){
 			alert("ajaxPostForm get Status: "+st+" - Error: "+err);
@@ -109,28 +110,28 @@ function ajaxPostForm(form,submit){
 function ajaxSuccess(data,target,url){
 	//change URL after AJAX
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
-    if (window.location.href == url)
-        history.replaceState({data:data}, '', url);
-    else if(url.indexOf('Bottom.php') == -1)
-        history.pushState({data:data, target:target}, '', url);
-	
 	$('#'+target).html(data);
-	ajaxPrepare(target);
+	
+    if (window.location.href == url)
+        history.replaceState({data:$('body').html()}, '', url);
+	else if (target != 'menu' && target != 'footer')
+        history.pushState({data:$('body').html()}, '', url);
+	
+	ajaxPrepare('#'+target);
 }
 
 //change URL after AJAX
 $(window).bind('popstate', function (e) {
     var state = e.originalEvent.state;
-    $('#'+state.target).html(state.data);
-	ajaxPrepare(state.target);
+    $('body').html(state.data);
+	ajaxPrepare('body');
 	var docURL = document.URL;
-	if ((modnamepos = docURL.indexOf('modname=')) != -1)
-		openMenu(docURL.substr(modnamepos+8, docURL.length));
+	openMenu((modnamepos = docURL.indexOf('modname=')) != -1 ? docURL.substr(modnamepos+8, docURL.length) : 'default');
 });
 
 function ajaxPrepare(target){
-	$('#'+target+' form').each(function(){ ajaxPostForm(this,false); });
-	$('#'+target+' a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
+	$(target+' form').each(function(){ ajaxPostForm(this,false); });
+	$(target+' a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	scroll();
 	if (scrollTop=='Y')
 		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
@@ -157,7 +158,7 @@ window.onload = function(){
 	//change URL after AJAX
 	//add index.php or reloaded page
 	var docURL = document.URL;
-	history.pushState({data:$('#wrap').html(), target:'wrap'}, '', docURL);
+	history.pushState({data:$('body').html()}, '', docURL);
 	if ((modnamepos = docURL.indexOf('modname=')) != -1)
 		openMenu(docURL.substr(modnamepos+8, docURL.length));
 };
@@ -189,6 +190,8 @@ function openMenu(modname)
 		old_modcat = modcat;
 		selMenuA(modname);
 	}
+	else if(old_modcat!=false)
+		$("#menu_"+old_modcat).hide();
 }
 function selMenuA(modname)
 {
