@@ -83,14 +83,12 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 					echo '</TABLE><br />';
 				}
 
-				if ($user_fields = Search('staff_fields_all',is_array($extra['staff_fields'])?$extra['staff_fields']:array()))
-				{
-					echo '<TABLE class="postbox cellpadding-0 cellspacing-0"><TR><TH>';
-					echo '<H3>'._('User Fields').'</H3></TH></TR><TR><TD>';
-					echo $user_fields;
-					echo '</TD></TR>';
-					echo '</TABLE>';
-				}
+				echo '<TABLE class="postbox cellpadding-0 cellspacing-0"><TR><TH>';
+				echo '<H3>'._('User Fields').'</H3></TH></TR><TR><TD>';
+				Search('staff_fields_all',is_array($extra['staff_fields'])?$extra['staff_fields']:array());
+				echo '</TD></TR>';
+				echo '</TABLE>';
+				
 				echo '<A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'N')).'">'._('Basic Search').'</A>';
 			}
 			else
