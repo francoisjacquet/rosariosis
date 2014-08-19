@@ -111,14 +111,14 @@ function ajaxSuccess(data,target,url){
 	//change URL after AJAX
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
 	$('#'+target).html(data);
-	
-	var data = $('body').html();
-	if (data.length<640000)//640K chars limit
+	document.title = $('#body h2').first().text();
+	var body = $('body').html();
+	if (body.length<640000)//640K chars limit
 	{
 		if (window.location.href == url)
-			history.replaceState({data:data}, '', url);
+			history.replaceState({data:body}, '', url);
 		else if (target != 'menu' && target != 'footer')
-			history.pushState({data:data}, '', url);
+			history.pushState({data:body}, '', url);
 	}
 	
 	ajaxPrepare('#'+target);
@@ -131,6 +131,7 @@ $(window).bind('popstate', function (e) {
 	if (!state)//640K chars limit
 		return document.location.href = docURL;
     $('body').html(state.data);
+	document.title = $('#body h2').first().text();
 	ajaxPrepare('body');
 	openMenu((modnamepos = docURL.indexOf('modname=')) != -1 ? docURL.substr(modnamepos+8, docURL.length) : 'default');
 });
@@ -161,12 +162,13 @@ window.onload = function(){
 	scroll();
 	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
+	document.title = $('#body h2').first().text();
 	//change URL after AJAX
 	//add index.php or reloaded page
 	var docURL = document.URL;
-	var data = $('body').html();
-	if (data.length<640000)//640K chars limit
-		history.pushState({data:data}, '', docURL);
+	var body = $('body').html();
+	if (body.length<640000)//640K chars limit
+		history.pushState({data:body}, '', docURL);
 	if ((modnamepos = docURL.indexOf('modname=')) != -1)
 		openMenu(docURL.substr(modnamepos+8, docURL.length));
 };
