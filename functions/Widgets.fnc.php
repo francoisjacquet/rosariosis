@@ -74,7 +74,7 @@ function Widgets($item,&$myextra=null)
 					Widgets('discipline_categories',$extra);
 					$extra['search'] .= '</TABLE></TD></TR>';
 				}
-				if($RosarioModules['Student_Billing'] && (!$_ROSARIO['Widgets']['balance']))
+				if($RosarioModules['Student_Billing'] && (!$_ROSARIO['Widgets']['balance']) && AllowUse('Student_Billing'))
 				{
 					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'billing_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="billing_table_arrow" height="12"> <B>'._('Student Billing').'</B></A><BR /><TABLE id="billing_table" style="display:none;" class="widefat width-100p cellspacing-0">';
 					Widgets('balance',$extra);
@@ -391,7 +391,7 @@ function Widgets($item,&$myextra=null)
 			break;
 
 			case 'balance':
-				if($RosarioModules['Student_Billing'])
+				if($RosarioModules['Student_Billing'] && AllowUse('Student_Billing'))
 				{
 				if(is_numeric($_REQUEST['balance_low']) && is_numeric($_REQUEST['balance_high']))
 				{
