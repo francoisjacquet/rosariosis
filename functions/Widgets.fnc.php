@@ -45,7 +45,7 @@ function Widgets($item,&$myextra=null)
 				}
 				if($RosarioModules['Grades'] && (!$_ROSARIO['Widgets']['gpa'] || !$_ROSARIO['Widgets']['class_rank'] || !$_ROSARIO['Widgets']['letter_grade']))
 				{
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'grades_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="grades_table_arrow" height="12"> <B>'._('Grades').'</B></A><BR /><TABLE style="padding:5px;" id="grades_table" style="display:none;" class="widefat width-100p cellspacing-0">';
+					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'grades_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="grades_table_arrow" height="12"> <B>'._('Grades').'</B></A><BR /><TABLE id="grades_table" style="display:none;" class="widefat width-100p cellspacing-0">';
 					Widgets('gpa',$extra);
 					Widgets('class_rank',$extra);
 					Widgets('letter_grade',$extra);
