@@ -5,6 +5,10 @@ $course_id = DBGet(DBQuery("SELECT COURSE_ID,COURSE_PERIOD_ID FROM COURSE_PERIOD
 $course_period_id = $course_id[1]['COURSE_PERIOD_ID'];
 $course_id = $course_id[1]['COURSE_ID'];
 */
+
+if (!UserCoursePeriod())
+	echo ErrorMessage(array(_('No courses assigned to teacher.')),'fatal');
+	
 $course_id = DBGet(DBQuery("SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
 $course_id = $course_id[1]['COURSE_ID'];
 
