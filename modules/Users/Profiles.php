@@ -235,7 +235,7 @@ function changeHTML(show,hide){
 						}
 					}
 					else
-						echo '<TR><TD colspan="3" class="center"><b>- '.$title.' -</b></TD></TR>';
+						echo '<TR><TD colspan="3" class="center">- '.$title.' -</TD></TR>';
 
 				}
 			}
