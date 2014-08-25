@@ -214,7 +214,7 @@ function changeHTML(show,hide){
 								echo '<TD>'.$title.'</TD></TR>';
 							}
 						}
-						elseif($xprofile=='admin' && $modcat=='Users' && $file=='Users/User.php')
+						elseif($modcat=='Users' && $file=='Users/User.php')
 						{
 							$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 							foreach($categories_RET as $category)
@@ -226,7 +226,10 @@ function changeHTML(show,hide){
 
 								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
 								echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
-								echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+								if($xprofile=='admin')
+									echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+								else
+									echo '<TD>&nbsp;</TD>';
 								echo '<TD>'.$title.'</TD></TR>';
 							}
 						}

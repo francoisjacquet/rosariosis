@@ -12,12 +12,12 @@ $menu['Users']['admin'] = array(
 					);
 
 $menu['Users']['teacher'] = array(
-						'Users/User.php'=>_('General Info'),
+						'Users/User.php'=>_('User Info'),
 						'Users/Preferences.php'=>_('My Preferences')
 					);
 
 $menu['Users']['parent'] = array(
-						'Users/User.php'=>_('General Info'),
+						'Users/User.php'=>_('User Info'),
 						'Users/Preferences.php'=>_('My Preferences')
 					);
 $exceptions['Users'] = array(
