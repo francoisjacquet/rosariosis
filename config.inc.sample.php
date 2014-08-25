@@ -37,6 +37,7 @@ if(!defined('CONFIG_INC'))
 		'Attendance'=>true,
 		'Eligibility'=>true,
 		'Discipline'=>true,
+		'Accounting'=>true,
 		'Student_Billing'=>true,
 		'Food_Service'=>true,
 		'State_Reports'=>false,
