@@ -173,6 +173,9 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 //AJAX vote call:
 if (isset($_POST['votes']) && is_array($_POST['votes']))
 {
+	if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest')
+		die('Error: no AJAX');
+		
 	chdir('../');
 	error_reporting(E_ALL ^ E_NOTICE);
 	require('config.inc.php');

@@ -3,6 +3,9 @@
 //upload AJAX student photo
 //called by jQuery Form in General_Info.inc.php
 
+if (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest')
+	die('Error: no AJAX');
+
 chdir('../../');
 error_reporting(E_ALL ^ E_NOTICE);
 
