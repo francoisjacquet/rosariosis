@@ -33,6 +33,8 @@ if (!is_writable($_POST['photoPath'].$_POST['sYear']))
 $new_file = $_POST['photoPath'].$_POST['sYear'].'/'.$_POST['userId'].'.jpg';
 if(move_uploaded_file($_FILES['photo']['tmp_name'],$new_file))
 	echo $new_file;
+else
+	die('<div class="error">'.sprintf($_POST['Error6'],$_FILES['photo']['tmp_name']).'</div>');
 
 include('modules/Moodle/PhotoUpload.php');
 ?>

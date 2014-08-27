@@ -427,6 +427,7 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 				<input type="hidden" id="Error3" name="Error3" value="<?php echo _('Error').': '._('File size > %01.2fMb: %01.2fMb'); ?>" />
 				<input type="hidden" id="Error4" name="Error4" value="<?php echo _('Error').': '._('Folder not created').': %s'; ?>" />
 				<input type="hidden" id="Error5" name="Error5" value="<?php echo _('Error').': '._('Folder not writable').': %s'; ?>" />
+				<input type="hidden" id="Error6" name="Error6" value="<?php echo _('Error').': '._('File invalid or not moveable').': %s'; ?>" />
 				<BR /><span class="legend-gray"><?php echo _('Student Photo'); ?> (.jpg)</span>
 
 				<BR /><div style="float: right;"><input type="submit" value="<?php echo _('Submit'); ?>" style="margin-right:2px;" /></div>
