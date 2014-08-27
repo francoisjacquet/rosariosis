@@ -117,7 +117,7 @@ echo '</TR><TR class="st">';
 echo '<TD>';
 //echo TextInput($staff['USERNAME'],'staff[USERNAME]',_('Username'),'size=12 maxlength=100');
 if (AllowEdit())
-	echo TextInput($staff['USERNAME'],'staff[USERNAME]',($_REQUEST['moodle_create_user'] && !$staff['USERNAME']?'<span class="legend-red">':'')._('Username').($_REQUEST['moodle_create_user'] && !$staff['USERNAME']?'</span>':''),'size=12 maxlength=100 '.($_REQUEST['moodle_create_user'] ? 'required' : ''));
+	echo TextInput($staff['USERNAME'],'staff[USERNAME]',($_REQUEST['moodle_create_user'] && !$staff['USERNAME']?'<span class="legend-red">':'')._('Username').($_REQUEST['moodle_create_user'] && !$staff['USERNAME']?'</span>':''),'size=12 maxlength=100 '.($_REQUEST['moodle_create_user'] || $old_user_in_moodle ? 'required' : ''));
 else
 	echo TextInput($staff['USERNAME'],'staff[USERNAME]',_('Username'),'size=12 maxlength=100 ');
 	
@@ -129,7 +129,7 @@ echo '<TD>';
 //echo TextInput((!$staff['PASSWORD']?'':str_repeat('*',8)),'staff[PASSWORD]',($staff['USERNAME']&&!$staff['PASSWORD']?'<span style="color:red">':'')._('Password').($staff['USERNAME']&&!$staff['PASSWORD']?'</span>':''),'size=12 maxlength=42');
 //modif Francois: Moodle integrator / password
 if (AllowEdit())
-	echo TextInput((!$staff['PASSWORD'] || $_REQUEST['moodle_create_user']?'':str_repeat('*',8)),'staff[PASSWORD]',($_REQUEST['moodle_create_user']?'<span class="legend-red">':'').($_REQUEST['moodle_create_user']?'<SPAN style="cursor:help" title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('Password').($_REQUEST['moodle_create_user']?'*</SPAN>':'').($_REQUEST['moodle_create_user']?'</span>':''),'size=12 maxlength=42 autocomplete=off'.($_REQUEST['moodle_create_user'] ? ' required' : ''), ($_REQUEST['moodle_create_user'] ? false : true));
+	echo TextInput((!$staff['PASSWORD'] || $_REQUEST['moodle_create_user']?'':str_repeat('*',8)),'staff[PASSWORD]',($_REQUEST['moodle_create_user']?'<span class="legend-red">':'<span class="legend-gray">').($_REQUEST['moodle_create_user'] || $old_user_in_moodle?'<SPAN style="cursor:help" title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('Password').($_REQUEST['moodle_create_user'] || $old_user_in_moodle?'*</SPAN>':'').'</span>','size=12 maxlength=42 autocomplete=off'.($_REQUEST['moodle_create_user'] || $old_user_in_moodle ? ' required' : ''), ($_REQUEST['moodle_create_user'] ? false : true));
 else
 	echo TextInput((!$staff['PASSWORD']?'':str_repeat('*',8)),'staff[PASSWORD]',_('Password'),'size=12 maxlength=42');
 
