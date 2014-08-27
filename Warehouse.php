@@ -80,9 +80,8 @@ if(!defined('WAREHOUSE_PHP'))
 	<script src="assets/js/tipmessage/main15.js"></script>
 	<script src="assets/js/warehouse.js"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="assets/js/jscalendar/calendar-blue.css" />
-	<script src="assets/js/jscalendar/calendar.js"></script>
+	<script src="assets/js/jscalendar/calendar+setup.js"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists('assets/js/jscalendar/lang/calendar-'.mb_substr($locale, 0, 2).'.js') ? mb_substr($locale, 0, 2) : 'en'; ?>.js"></script>
-	<script src="assets/js/jscalendar/calendar-setup.js"></script>			
 </HEAD>
 <BODY>
 <DIV id="Migoicons" style="visibility:hidden;position:absolute;z-index:1000;top:-100px"></DIV>
