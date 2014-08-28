@@ -62,7 +62,7 @@ else
             case 'course': $back_text = _('Course List'); break;
             default: $back_text = sprintf(_('%s List'),$_SESSION['Back_PHP_SELF']);
         }
-		echo '<A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'" class="BottomButton"><IMG SRC="assets/back.png" height="32" />&nbsp;<span>'.$back_text.'</span></A>&nbsp;&nbsp;';
+		echo '<A HREF="'.$_SESSION['List_PHP_SELF'].'&bottom_back=true" title="'.$back_text.'" class="BottomButton"><IMG SRC="assets/back.png" height="32" />&nbsp;<span>'.$back_text.'</span></A>&nbsp;&nbsp;';
     }
 	if($_SESSION['Search_PHP_SELF'] && (User('PROFILE')=='admin' || User('PROFILE')=='teacher')) {
         switch ($_SESSION['Back_PHP_SELF']) {
@@ -71,7 +71,7 @@ else
             case 'course': $back_text = _('Course Search'); break;
             default: $back_text = sprintf(_('%s Search'),$_SESSION['Back_PHP_SELF']);
         }
-		echo '<A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" target="body" title="'.$back_text.'" class="BottomButton"><IMG SRC="assets/back.png" height="32" />&nbsp;<span>'.$back_text.'</span></A>&nbsp;&nbsp;';
+		echo '<A HREF="'.$_SESSION['Search_PHP_SELF'].'&bottom_back=true" title="'.$back_text.'" class="BottomButton"><IMG SRC="assets/back.png" height="32" />&nbsp;<span>'.$back_text.'</span></A>&nbsp;&nbsp;';
 	}
     echo '<A HREF="Bottom.php?modfunc=print" target="_blank" title="'._('Print').'" class="BottomButton"><IMG SRC="assets/print.png" height="32" />&nbsp;<span>'._('Print').'</span></A>&nbsp;&nbsp;';
     echo '<A HREF="#" onclick="expandHelp();return false;" title="'._('Help').'" class="BottomButton"><IMG SRC="assets/help.png" height="32" />&nbsp;<span>'._('Help').'</span></A>&nbsp;&nbsp;';

@@ -12,6 +12,7 @@
 */
 
 $menu['Student_Billing']['admin'] = array(
+						'default'=>'Student_Billing/StudentFees.php',
 						'Student_Billing/StudentFees.php'=>_('Fees'),
 						'Student_Billing/StudentPayments.php'=>_('Payments'),
 						'Student_Billing/MassAssignFees.php'=>_('Mass Assign Fees'),
@@ -25,6 +26,7 @@ $menu['Student_Billing']['admin'] = array(
 $menu['Student_Billing']['teacher'] = array();
 
 $menu['Student_Billing']['parent'] = array(
+						'default'=>'Student_Billing/StudentFees.php',
 						'Student_Billing/StudentFees.php'=>_('Fees'),
 						'Student_Billing/StudentPayments.php'=>_('Payments'),
 						1=>_('Reports'),
@@ -32,16 +34,6 @@ $menu['Student_Billing']['parent'] = array(
 //modif Francois: fix bug PDF
 						'Student_Billing/Statements.php&_ROSARIO_PDF'=>_('Print Statements')
 					);
-
-$menu['Student_Billing']['student'] = array(
-						'Student_Billing/StudentFees.php'=>_('Fees'),
-						'Student_Billing/StudentPayments.php'=>_('Payments'),
-						1=>_('Reports'),
-						'Student_Billing/DailyTransactions.php'=>_('Daily Transactions'),
-//modif Francois: fix bug PDF
-						'Student_Billing/Statements.php&_ROSARIO_PDF'=>_('Print Statements')
-					);
-
 
 $exceptions['Student_Billing'] = array(
 					);

@@ -1,5 +1,6 @@
 <?php
 $menu['Attendance']['admin'] = array(
+						'default'=>'Attendance/Administration.php',
 						'Attendance/Administration.php'=>_('Administration'),
 						'Attendance/AddAbsences.php'=>_('Add Absences'),
 						1=>_('Reports'),
@@ -18,12 +19,14 @@ $menu['Attendance']['admin'] = array(
 					);
 
 $menu['Attendance']['teacher'] = array(
+						'default'=>'Attendance/TakeAttendance.php',
 						'Attendance/TakeAttendance.php'=>_('Take Attendance'),
 						'Attendance/DailySummary.php'=>_('Attendance Chart'),
 						'Attendance/StudentSummary.php'=>_('Absence Summary')
 					);
 
 $menu['Attendance']['parent'] = array(
+						'default'=>'Attendance/StudentSummary.php',
 						'Attendance/StudentSummary.php'=>_('Absences'),
 						'Attendance/DailySummary.php'=>_('Daily Summary')
 					);

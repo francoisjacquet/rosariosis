@@ -12,6 +12,7 @@
 */
 
 $menu['Discipline']['admin'] = array(
+						'default'=>'Discipline/Referrals.php',
 						'Discipline/MakeReferral.php'=>_('Add Referral'),
 						'Discipline/Referrals.php'=>_('Referrals'),
 						1=>_('Reports'),
@@ -23,6 +24,7 @@ $menu['Discipline']['admin'] = array(
 						'Discipline/DisciplineForm.php'=>_('Referral Form')
 					);
 $menu['Discipline']['teacher'] = array(
+						'default'=>'Discipline/Referrals.php',
 						'Discipline/MakeReferral.php'=>_('Add Referral'),
 						'Discipline/Referrals.php'=>_('Referrals')
 					);

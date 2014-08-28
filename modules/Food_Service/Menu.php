@@ -1,5 +1,6 @@
 <?php
 $menu['Food_Service']['admin'] = array(
+						'default'=>'Food_Service/Accounts.php',
 						'Food_Service/Accounts.php'=>_('Accounts'),
 						'Food_Service/Statements.php'=>_('Statements'),
 						'Food_Service/Transactions.php'=>_('Transactions'),
@@ -20,6 +21,7 @@ $menu['Food_Service']['admin'] = array(
 					);
 
 $menu['Food_Service']['teacher'] = array(
+						'default'=>'Food_Service/Accounts.php',
 						'Food_Service/Accounts.php'=>_('Accounts'),
 						'Food_Service/Statements.php'=>_('Statements'),
 						1=>_('Setup'),
@@ -28,6 +30,7 @@ $menu['Food_Service']['teacher'] = array(
 					);
 
 $menu['Food_Service']['parent'] = array(
+						'default'=>'Food_Service/Accounts.php',
 						'Food_Service/Accounts.php'=>_('Accounts'),
 						'Food_Service/Statements.php'=>_('Statements'),
 						1=>_('Setup'),

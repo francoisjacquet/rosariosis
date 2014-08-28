@@ -40,8 +40,22 @@ if(isset($_REQUEST['modname']))
 			echo '<script>if(window == top  && (!window.opener)) window.location.href = "index.php";</script>';
 			echo '<div id="body" tabindex="0" role="main" class="mod">';
 		}
-		elseif ($modname !== 'misc/Portal.php' && (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest')) //AJAX check
-			HackingLog(); //no direct access		
+		elseif ($modname !== 'misc/Portal.php' && (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest')) //AJAX check //change URL after AJAX
+		{
+			Warehouse('header');
+?>
+<div id="wrap">
+	<footer id="footer" class="mod">
+		<?php include('Bottom.php'); ?>
+	</footer>	
+	<div id="menuback" class="mod"></div>
+	<aside id="menu" class="mod">
+		<?php include('Side.php'); ?>
+	</aside>
+	
+	<div id="body" tabindex="0" role="main" class="mod">	
+<?php 
+		}
 	}
 
 	if(isset($_REQUEST['_ROSARIO_PDF']) && $_REQUEST['_ROSARIO_PDF']=='true')
@@ -105,6 +119,17 @@ if(isset($_REQUEST['modname']))
 			echo '</div>';//#body
 			Warehouse('footer_plain');
 		}
+		elseif ($modname !== 'misc/Portal.php' && (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest')) //AJAX check //change URL after AJAX
+		{
+?>
+	</div>
+	<div style="clear:both;"></div>
+</div><!-- wrap -->
+</BODY>
+</HTML>
+<?php		
+		}
+
 	}
 }
 ?>

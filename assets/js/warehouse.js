@@ -66,7 +66,7 @@ function isTouchDevice(){
 function ajaxLink(link){	
 	//will work only if in the onclick there is no error!
 	var target = link.target;
-	if (link.href.indexOf('#')==1 || target=='_blank' || target=='_top') //internal/external/index.php anchor
+	if (link.href.indexOf('#')!=-1 || target=='_blank' || target=='_top') //internal/external/index.php anchor
 		return true;
 	if (!target)
 	{
@@ -76,13 +76,14 @@ function ajaxLink(link){
 			return true;
 	}
 	$.get(link.href, function(data){
-		ajaxSuccess(data,target);
+		ajaxSuccess(data,target,link.href);
 	})
 	.fail(function(x,st,err){
 		alert("ajaxLink get Status: "+st+" - Error: "+err);
     });
 	return false;
 }
+
 function ajaxPostForm(form,submit){
 	var target = form.target;
 	if (!target)
@@ -94,7 +95,7 @@ function ajaxPostForm(form,submit){
 	}
 	var options = {
 		success: function(data){
-			ajaxSuccess(data,target);
+			ajaxSuccess(data,target,form.action);
 		},
 		error: function(x,st,err){
 			alert("ajaxPostForm get Status: "+st+" - Error: "+err);
@@ -106,14 +107,43 @@ function ajaxPostForm(form,submit){
 		$(form).ajaxForm(options);
 	return false;
 }
-function ajaxSuccess(data,target){
+function ajaxSuccess(data,target,url){
+	//change URL after AJAX
+	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
 	$('#'+target).html(data);
-	$('#'+target+' form').each(function(){ ajaxPostForm(this,false); });
-	$('#'+target+' a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
+	document.title = $('#body h2').first().text();
+	var body = $('body').html();
+	if (body.length<640000)//640K chars limit
+	{
+		if (window.location.href == url)
+			history.replaceState({data:body}, '', url);
+		else if (target != 'menu' && target != 'footer')
+			history.pushState({data:body}, '', url);
+	}
+	
+	ajaxPrepare('#'+target);
+}
+
+//change URL after AJAX
+$(window).bind('popstate', function (e) {
+    var state = e.originalEvent.state;
+	var docURL = document.URL;
+	if (!state)//640K chars limit
+		return document.location.href = docURL;
+    $('body').html(state.data);
+	document.title = $('#body h2').first().text();
+	ajaxPrepare('body');
+	openMenu((modnamepos = docURL.indexOf('modname=')) != -1 ? docURL.substr(modnamepos+8, docURL.length) : 'default');
+});
+
+function ajaxPrepare(target){
+	$(target+' form').each(function(){ ajaxPostForm(this,false); });
+	$(target+' a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	scroll();
 	if (scrollTop=='Y')
 		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
 }
+
 //disable links while AJAX
 var disableLinks = false;
 $(document).ajaxStart(function(){
@@ -132,6 +162,15 @@ window.onload = function(){
 	scroll();
 	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
+	document.title = $('#body h2').first().text();
+	//change URL after AJAX
+	//add index.php or reloaded page
+	var docURL = document.URL;
+	var body = $('body').html();
+	if (body.length<640000)//640K chars limit
+		history.pushState({data:body}, '', docURL);
+	if ((modnamepos = docURL.indexOf('modname=')) != -1)
+		openMenu(docURL.substr(modnamepos+8, docURL.length));
 };
 function scroll(){
 	if (isTouchDevice())
@@ -161,17 +200,19 @@ function openMenu(modname)
 		old_modcat = modcat;
 		selMenuA(modname);
 	}
+	else if(old_modcat!=false)
+		$("#menu_"+old_modcat).hide();
 }
 function selMenuA(modname)
 {
 	if (oldA = document.getElementById("selectedMenuLink"))
 		oldA.id = "";
-	$('#adminmenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
+	$('#adminmenu a[href$="'+modname+'"][class!="menu-top"]:first').each(function(){this.id = "selectedMenuLink";});
 	//add selectedModuleLink
 	if (oldA = document.getElementById("selectedModuleLink"))
 		oldA.id = "";
 	var modcat = modname=='' ? old_modcat : modname.substr(0, modname.indexOf('/'));
-	$('#adminmenu a[href$="'+modcat+'/Search.php"].menu-top').each(function(){this.id = "selectedModuleLink";});
+	$('#adminmenu a[href*="'+modcat+'"].menu-top').each(function(){this.id = "selectedModuleLink";});
 }
 
 //Bottom.php JS

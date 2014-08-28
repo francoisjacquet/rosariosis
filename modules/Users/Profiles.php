@@ -63,7 +63,7 @@ if($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdi
 		$values = $profiles[$xprofile];
 		foreach($values as $modname=>$title)
 		{
-			if(!is_numeric($modname))
+			if(!is_numeric($modname) && $modname!='default')
 			{
 				if(!count($exceptions_RET[$modname]) && ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)]))
 					DBQuery("INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME) values('$_REQUEST[profile_id]','$modname')");
@@ -184,7 +184,7 @@ function changeHTML(show,hide){
 			{
 				foreach($values as $file=>$title)
 				{
-					if(!is_numeric($file))
+					if(!is_numeric($file) && $file!='default')
 					{
 						$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 						$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
@@ -234,7 +234,7 @@ function changeHTML(show,hide){
 							}
 						}
 					}
-					else
+					elseif($file!='default')
 						echo '<TR><TD colspan="3" class="center">- '.$title.' -</TD></TR>';
 
 				}
