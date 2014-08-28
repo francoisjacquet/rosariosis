@@ -202,7 +202,7 @@ echo '<TD>';
 //email required
 //echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
 if (AllowEdit())
-	echo TextInput($staff['EMAIL'],'staff[EMAIL]',($_REQUEST['moodle_create_user'] && !$staff['EMAIL']?'<span class="legend-red">':'')._('Email Address').($_REQUEST['moodle_create_user'] && !$staff['EMAIL']?'</span>':''),'size=12 maxlength=100'.($_REQUEST['moodle_create_user'] ?' required':''));
+	echo TextInput($staff['EMAIL'],'staff[EMAIL]',($_REQUEST['moodle_create_user'] && !$staff['EMAIL']?'<span class="legend-red">':'')._('Email Address').($_REQUEST['moodle_create_user'] && !$staff['EMAIL']?'</span>':''),'size=12 maxlength=100'.($_REQUEST['moodle_create_user'] || $old_user_in_moodle ?' required':''));
 else
 	echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
 
