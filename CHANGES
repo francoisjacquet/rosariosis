@@ -1,5 +1,20 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.5.8
+----------------
+- Update wkhtmltopdf install instructions
+- Add link to Windows install Wiki
+- Move User Fields inside box in Advanced Search
+- Add no Courses assigned to teacher error in Assignments.php
+- Student Billing Widgets only if AllowUse
+- Grades Widget hidden
+- Disable User categories edit for non admins
+- User in Moodle password/username/email fields required
+- Verify file call is by AJAX in PhotoUpload.php & PortalPollsNotes.fnc.php
+- Add file invalid or not moveable upload error
+- Concatenate calendar.js + calendar-setup.js = calendar+setup.js
+- Add noreferrer attribute to index page links
+
 Changes in 2.5.7
 ----------------
 - RosarioSIS 2014 update
