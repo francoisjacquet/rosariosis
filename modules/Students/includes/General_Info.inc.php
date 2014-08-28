@@ -1,79 +1,33 @@
 <?php
 echo '<TABLE class="width-100p cellspacing-0 cellpadding-6">';
-echo '<TR class="st">';
+echo '<TR class="st"><TD style="max-width:150px;" class="valign-top">';
 // IMAGE
-//modif Francois: student photo upload using jQuery form
-if($_REQUEST['student_id']!='new' && $StudentPicturesPath) {
-	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])) {
+if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
 	<script type='text/javascript'> 
-	//move form inside the main student form!
-	$('#formStudentPhoto').appendTo('#divFormStudentPhoto');
-	//toggle visibility of the form and photo
-	var formStudentPhotoVisible = 0;
+	//toggle form & photo
 	$('#aFormStudentPhoto').click(function () {
-		if (!formStudentPhotoVisible) {
-			$('#formStudentPhoto').css('display', 'inline');
-			$('#studentImg').css('display', 'none');
-			formStudentPhotoVisible = 1;
-		} else {
-			$('#formStudentPhoto').css('display', 'none');
-			$('#studentImg').css('display', 'inline');
-			formStudentPhotoVisible = 0;
-		}
+		$('#formStudentPhoto').toggle();
+		$('#studentImg').toggle();
 		return false;
 	});
-
-	setTimeout(function() {
-		$('#formStudentPhoto').ajaxFormUnbind();
-		$('#formStudentPhoto').ajaxForm({ //send the photo in AJAX
-			beforeSubmit: function(a,f,o) {
-				$('#outputStudentPhoto').html('<img src="assets/spinning.gif" />');
-			},
-			success: function(data) {
-				if (data.indexOf('Error') == -1) {
-					$('#formStudentPhoto').css('display', 'none');
-					formStudentPhotoVisible = 0;
-					$('#divStudentPhoto').html('<img src="'+ data +'?cacheKiller='+ Math.round(Math.random()*1000000) +'" width="150" id="studentImg" />');
-					$('#outputStudentPhoto').html('');
-				} else {
-					$('#outputStudentPhoto').html(data);
-				}
-			}
-		});
-	}, 1);
 	</script> 
-<?php }
-	echo '<TD style="width:150px;" class="valign-top">';
-	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])) {
-?>
-		<div id="divFormStudentPhoto">
-			<a href="#" id="aFormStudentPhoto"><img src="assets/plus.gif" height="9" />&nbsp;<?php echo _('Student Photo'); ?></a><br />
-			<?php $moveFormStudentPhotoHere = 1; ?>
-		</div>
-<?php } //endif (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])
+	<a href="#" id="aFormStudentPhoto"><img src="assets/plus.gif" height="9" />&nbsp;<?php echo _('Student Photo'); ?></a><br />
+	<div id="formStudentPhoto" style="display:none;">
+		<br />
+		<input type="file" id="photo" name="photo" accept="image/*" />
+		<BR /><span class="legend-gray"><?php echo _('Student Photo'); ?> (.jpg)</span>
+	</div>
+<?php endif;
 
-	if (($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg','r')) || ($file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg','r')))
-	{
-		fclose($file);
+if ($_REQUEST['student_id']!='new' && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg','r')) || ($file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg','r'))):
+	fclose($file);
 ?>
-		<div id="divStudentPhoto">
-			<IMG SRC="<?php echo $picture_path; ?>" width="150" id="studentImg" />
-		</div>
-	</TD><TD class="valign-top">
-<?php
-	}
-	else
-	{
-?>
-		<div id="divStudentPhoto">
-		</div>
-	</TD><TD class="valign-top">
-<?php
-	}
-} //fin modif Francois
-else 
-	echo '<TD colspan="2">';
+	<IMG SRC="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" width="150" id="studentImg" />
+<?php endif;
+// END IMAGE
+
+echo '</TD><TD class="valign-top">';
 
 echo '<TABLE class="width-100p cellpadding-5"><TR class="st">';
 

@@ -155,6 +155,9 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'";
 				DBQuery($sql);
 			}
+				
+			if ($_FILES['photo'])
+				include('modules/misc/PhotoUpload.inc.php');
 		}
 		elseif (!isset($error))
 		{
@@ -277,6 +280,9 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 				$_SESSION['student_id'] = $_REQUEST['student_id'] = $student_id;
 				$new_student = true;
+				
+				if ($_FILES['photo'])
+					include('modules/misc/PhotoUpload.inc.php');
 			}
 		}
 		$_REQUEST['moodle_create_student'] = false;
@@ -343,10 +349,10 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 			$student = DBGet(DBQuery($sql));
 			$student = $student[1];
 			$school = DBGet(DBQuery("SELECT SCHOOL_ID,GRADE_ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND ('".DBDate()."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)"));
-			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST">';
+			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 		}
 		else
-			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&modfunc=update" method="POST">';
+			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 
 		if($_REQUEST['student_id']!='new')
 			$name = $student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].' - '.$student['STUDENT_ID'];
@@ -409,33 +415,6 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 		echo PopTable('footer');
 		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 		echo '</FORM>';
-		
-//modif Francois: student photo upload using jQuery form
-		//move this form into General_Info.inc.php's form via Javascript
-		if (AllowEdit() && $moveFormStudentPhotoHere && !isset($_REQUEST['_ROSARIO_PDF']))
-		{
-			?>
-			<form method="POST" enctype="multipart/form-data" id="formStudentPhoto" action="modules/misc/PhotoUpload.php" style="display:none;">
-				<br />
-				<input type="file" id="photo" name="photo" accept="image/*" />
-				<input type="hidden" id="userId" name="userId" value="<?php echo UserStudentID(); ?>" />
-				<input type="hidden" id="sYear" name="sYear" value="<?php echo UserSyear(); ?>" />
-				<input type="hidden" id="photoPath" name="photoPath" value="<?php echo $StudentPicturesPath; ?>" />
-				<input type="hidden" id="modname" name="modname" value="<?php echo $_REQUEST['modname']; ?>" />
-				<input type="hidden" id="Error1" name="Error1" value="<?php echo _('Error').': '._('File not uploaded'); ?>" />
-				<input type="hidden" id="Error2" name="Error2" value="<?php echo _('Error').': '._('Wrong file type: %s (JPG required)'); ?>" />
-				<input type="hidden" id="Error3" name="Error3" value="<?php echo _('Error').': '._('File size > %01.2fMb: %01.2fMb'); ?>" />
-				<input type="hidden" id="Error4" name="Error4" value="<?php echo _('Error').': '._('Folder not created').': %s'; ?>" />
-				<input type="hidden" id="Error5" name="Error5" value="<?php echo _('Error').': '._('Folder not writable').': %s'; ?>" />
-				<input type="hidden" id="Error6" name="Error6" value="<?php echo _('Error').': '._('File invalid or not moveable').': %s'; ?>" />
-				<BR /><span class="legend-gray"><?php echo _('Student Photo'); ?> (.jpg)</span>
-
-				<BR /><div style="float: right;"><input type="submit" value="<?php echo _('Submit'); ?>" style="margin-right:2px;" /></div>
-				<BR /><span id="outputStudentPhoto"></span>
-			</form>
-			<?php
-		}
-
 	}
 	elseif ($can_use_RET['Students/Student.php&category_id='.$_REQUEST['category_id']])
 		if(!mb_strpos($_REQUEST['include'],'/'))

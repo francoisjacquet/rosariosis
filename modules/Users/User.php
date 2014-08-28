@@ -165,6 +165,9 @@ if($_REQUEST['modfunc']=='update')
 					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
 				}
 			}
+				
+			if ($_FILES['photo'] && $photo_profile='user')
+				include('modules/misc/PhotoUpload.inc.php');
 		}
 		elseif (!isset($error))
 		{
@@ -243,9 +246,13 @@ if($_REQUEST['modfunc']=='update')
 					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
 				}
 				
-				$_REQUEST['staff_id'] = $staff_id;
+				$_SESSION['staff_id'] = $_REQUEST['staff_id'] = $staff_id;
+				
 				if ($_REQUEST['staff']['PROFILE_ID'] == 1)//Note after admins creation only
 					$note[] = sprintf(_('Please add the administrator\'s ID (%s) to the <i>config.inc.php</i> file.'), $staff_id);
+				
+				if ($_FILES['photo'] && $photo_profile='user')
+					include('modules/misc/PhotoUpload.inc.php');
 			}
 		}
 		$_REQUEST['moodle_create_user'] = false;
@@ -321,10 +328,10 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 				FROM STAFF s WHERE s.STAFF_ID='".UserStaffID()."'";
 		$staff = DBGet(DBQuery($sql));
 		$staff = $staff[1];
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST">';
+		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 	}
 	elseif(basename($_SERVER['PHP_SELF'])!='index.php')
-		echo '<FORM name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST">';
+		echo '<FORM name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 	else
 		echo '<FORM action="index.php?modfunc=create_account" METHOD="POST">';
 
@@ -407,31 +414,5 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 	PopTable('footer');
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
-
-	//modif Francois: user photo upload using jQuery form
-	//move this form into General_Info.inc.php's form via Javascript
-	if (AllowEdit() && $moveFormUserPhotoHere && !isset($_REQUEST['_ROSARIO_PDF']))
-	{
-		?>
-		<form method="POST" enctype="multipart/form-data" id="formUserPhoto" action="modules/misc/PhotoUpload.php" style="display:none;">
-			<br />
-			<input type="file" id="photo" name="photo" accept="image/*" />
-			<input type="hidden" id="userId" name="userId" value="<?php echo UserStaffID(); ?>" />
-			<input type="hidden" id="sYear" name="sYear" value="<?php echo UserSyear(); ?>" />
-			<input type="hidden" id="photoPath" name="photoPath" value="<?php echo $UserPicturesPath; ?>" />
-			<input type="hidden" id="modname" name="modname" value="<?php echo $_REQUEST['modname']; ?>" />
-			<input type="hidden" id="Error1" name="Error1" value="<?php echo _('Error').': '._('File not uploaded'); ?>" />
-			<input type="hidden" id="Error2" name="Error2" value="<?php echo _('Error').': '._('Wrong file type: %s (JPG required)'); ?>" />
-			<input type="hidden" id="Error3" name="Error3" value="<?php echo _('Error').': '._('File size > %01.2fMb: %01.2fMb'); ?>" />
-			<input type="hidden" id="Error4" name="Error4" value="<?php echo _('Error').': '._('Folder not created').': %s'; ?>" />
-			<input type="hidden" id="Error5" name="Error5" value="<?php echo _('Error').': '._('Folder not writable').': %s'; ?>" />
-			<input type="hidden" id="Error6" name="Error6" value="<?php echo _('Error').': '._('File invalid or not moveable').': %s'; ?>" />
-			<BR /><span class="legend-gray"><?php echo _('User Photo'); ?> (.jpg)</span>
-
-			<BR /><div style="float: right;"><input type="submit" value="<?php echo _('Submit'); ?>" style="margin-right:2px;" /></div>
-			<BR /><span id="outputUserPhoto"></span>
-		</form>
-		<?php
-	}
 }
 ?>
