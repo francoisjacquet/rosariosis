@@ -177,10 +177,10 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 	</td></tr>
 	</table>';
 	echo '<span class="center">RosarioSIS '.sprintf(_('version %s'),$RosarioVersion).'
-	<BR />&copy; 2004-2009 <A HREF="http://www.miller-group.net">The Miller Group, Inc</A>
-	<br />&copy; 2009 <a href="http://www.glenn-abbey.com">Glenn Abbey Software, Inc</a>
-	<br />&copy; 2009 <a href="http://www.centresis.org">Learners Circle, LLC</a>
-	<br />&copy; 2012-2014 <a href="http://www.rosariosis.org">François Jacquet</a>
+	<BR />&copy; 2004-2009 <A HREF="http://www.miller-group.net" noreferrer>The Miller Group, Inc</A>
+	<br />&copy; 2009 <a href="http://www.glenn-abbey.com" noreferrer>Glenn Abbey Software, Inc</a>
+	<br />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
+	<br />&copy; 2012-2014 <a href="http://www.rosariosis.org" noreferrer>François Jacquet</a>
 	</span>';
 	PopTable("footer");
 	echo '<BR /></BODY></HTML>';
