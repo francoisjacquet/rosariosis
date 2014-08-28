@@ -66,7 +66,7 @@ function isTouchDevice(){
 function ajaxLink(link){	
 	//will work only if in the onclick there is no error!
 	var target = link.target;
-	if (link.href.indexOf('#')==1 || target=='_blank' || target=='_top') //internal/external/index.php anchor
+	if (link.href.indexOf('#')!=-1 || target=='_blank' || target=='_top') //internal/external/index.php anchor
 		return true;
 	if (!target)
 	{
