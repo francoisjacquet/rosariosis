@@ -259,6 +259,8 @@ if($_REQUEST['modfunc']=='update')
 		//error_exit: //modif Francois: goto avail. in PHP 5.3
 		if ($error && !UserStaffID())
 			$_REQUEST['staff_id'] = 'new';
+		else
+			echo '<script>modname="'.$program_loaded.'";</script>';
 	}
 
 	if($_REQUEST['include']!='General_Info' && $_REQUEST['include']!='Schedule' && $_REQUEST['include']!='Other_Info')
@@ -273,10 +275,7 @@ if($_REQUEST['modfunc']=='update')
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 
 	if(User('STAFF_ID')==$_REQUEST['staff_id'])
-	{
 		unset($_ROSARIO['User']);
-		echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
-	}
 }
 
 if(basename($_SERVER['PHP_SELF'])!='index.php')
@@ -314,7 +313,6 @@ if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php'
 		unset($_REQUEST['modfunc']);
 		unset($_SESSION['_REQUEST_vars']['staff_id']);
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
-		echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 		Search('staff_id',$extra);
 	}
 }

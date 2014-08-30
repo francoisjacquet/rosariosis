@@ -1,23 +1,14 @@
 <?php
 
 function Search($type,$extra=null)
-{	global $_ROSARIO,$modname,$program_loaded;
+{	global $_ROSARIO,$modname;
 
 	switch($type)
 	{
 		case 'student_id':
 			if($_REQUEST['bottom_back'])
-			{
-				if (mb_strpos($modname,'Search.php')===false)
-				{
-					//echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname='.rawurlencode($program_loaded).'"; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
-					if (isset($_SESSION['student_id']))
-						echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname="'.$program_loaded.'"; ajaxLink(menu_link);</script>';
-					else
-						echo '<script>modname="'.$program_loaded.'"; openMenu(modname);</script>';
-				}
 				unset($_SESSION['student_id']);
-			}
+				
 			if($_SESSION['unset_student'])
 			{
 				unset($_REQUEST['student_id']);
@@ -31,13 +22,11 @@ function Search($type,$extra=null)
 					$_SESSION['student_id'] = $_REQUEST['student_id'];
 					if($_REQUEST['school_id'])
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
-					if(!isset($_REQUEST['_ROSARIO_PDF']))
-						echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname="'.$program_loaded.'"; ajaxLink(menu_link);</script>';
 				}
 				elseif(isset($_SESSION['student_id']))
 				{
 					unset($_SESSION['student_id']);
-					echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname="'.$program_loaded.'&include=General_Info&student_id=new"; ajaxLink(menu_link);</script>';
+					echo '<script>modname="'.$program_loaded.'&include=General_Info&student_id=new";</script>';
 				}
 			}
 			elseif(!UserStudentID() || $extra['new']==true)
@@ -46,10 +35,7 @@ function Search($type,$extra=null)
 				{
 					//modif Francois: fix bug no student found when student/parent logged in
 					if (User('PROFILE')!=='student' && User('PROFILE')!=='parent')
-					{
 						unset($_SESSION['student_id']);
-						echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
-					}
 				}
 				$_REQUEST['next_modname'] = $_REQUEST['modname'];
 				include('modules/Students/Search.inc.php');
@@ -60,17 +46,7 @@ function Search($type,$extra=null)
 			// convert profile string to array for legacy compatibility
 			if (!is_array($extra)) $extra = array('profile'=>$extra);
 			if($_REQUEST['bottom_back'])
-			{
-				if (mb_strpos($modname,'Search.php')===false)
-				{
-					//echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname='.rawurlencode($program_loaded).'"; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
-					if (isset($_SESSION['staff_id']))
-						echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname="'.$program_loaded.'"; ajaxLink(menu_link);</script>';
-					else
-						echo '<script>modname="'.$program_loaded.'"; openMenu(modname);</script>';
-				}
 				unset($_SESSION['staff_id']);
-			}
 
 			if($_REQUEST['staff_id'])
 			{
@@ -79,26 +55,21 @@ function Search($type,$extra=null)
 					$_SESSION['staff_id'] = $_REQUEST['staff_id'];
 					if($_REQUEST['school_id'])
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
-					if(!isset($_REQUEST['_ROSARIO_PDF']))
-						echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname="'.$program_loaded.'"; ajaxLink(menu_link);</script>';
 				}
 				elseif(isset($_SESSION['staff_id']))
 				{
 					unset($_SESSION['staff_id']);
-					echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname="'.$program_loaded.'&staff_id=new"; ajaxLink(menu_link);</script>';
+					echo '<script>modname="'.$program_loaded.'&staff_id=new";</script>';
 				}
 			}
 			elseif(!UserStaffID() || $extra['new']==true)
 			{
 				if(UserStaffID())
-				{
 					unset($_SESSION['staff_id']);
-					echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
-				}
+					
 				//if(empty($_REQUEST['modfunc']))
 				$_REQUEST['modfunc'] = 'search_fnc';
 				$_REQUEST['next_modname'] = $_REQUEST['modname'];
-				//if(!$_REQUEST['modname']) $_REQUEST['modname'] = 'Users/Search.php';
 				include('modules/Users/Search.inc.php');
 			}
 		break;

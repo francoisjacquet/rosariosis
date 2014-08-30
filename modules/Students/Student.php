@@ -289,6 +289,8 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		//error_exit: //modif Francois: goto avail. in PHP 5.3
 		if ($error && !UserStudentID())
 			$_REQUEST['student_id'] = 'new';
+		else
+			echo '<script>modname="'.$program_loaded.'";</script>';
 	}
 
 	if($_REQUEST['values'] && $_REQUEST['include']== 'Medical')

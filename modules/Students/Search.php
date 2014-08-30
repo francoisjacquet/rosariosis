@@ -1,10 +1,4 @@
 <?php
-//if($_SESSION['student_id'] && (User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
-//{
-//	unset($_SESSION['student_id']);
-//	echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
-//}
-
 $modcat = 'Students';
 $_REQUEST['modname'] = '';
 if(AllowUse('Students/Student.php'))

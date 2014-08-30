@@ -187,28 +187,8 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 }
 elseif($_REQUEST['modfunc']!='create_account')
 {
-	Warehouse('header');
-?>
-<div id="wrap">
-	<footer id="footer" class="mod">
-		<?php include('Bottom.php'); ?>
-	</footer>	
-	<div id="menuback" class="mod"></div>
-	<aside id="menu" class="mod">
-		<?php include('Side.php'); ?>
-	</aside>
-	
-	<div id="body" tabindex="0" role="main" class="mod">	
-	<?php 
-		$_REQUEST['modname']='misc/Portal.php';
-		$_REQUEST['failed_login']=$failed_login;
-		include('Modules.php'); 
-	?>
-	</div>
-	<div style="clear:both;"></div>
-</div><!-- wrap -->
-</BODY>
-</HTML>
-<?php
+	$_REQUEST['modname']='misc/Portal.php';
+	$_REQUEST['failed_login']=$failed_login;
+	include('Modules.php'); 
 }
 ?>

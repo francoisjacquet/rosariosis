@@ -12,7 +12,6 @@ if($_REQUEST['staff_id'])
 if($_SESSION['staff_id'])
 {
 	unset($_SESSION['staff_id']);
-	echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
 }
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')

@@ -8,10 +8,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 		case 'teacher':
 			//if($_SESSION['staff_id'] && ($_REQUEST['modname']!='Users/Search.php' || $_REQUEST['student_id']=='new'))
 			if($_SESSION['staff_id'] && User('PROFILE')=='admin' && $_REQUEST['staff_id']=='new')
-			{
 				unset($_SESSION['staff_id']);
-				echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
-			}
 
 			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back','advanced'));
 			if($_SESSION['Back_PHP_SELF']!='staff')
@@ -192,7 +189,6 @@ else
 		if(!is_array($staff_RET[1]['STAFF_ID']))
 		{
 			$_SESSION['staff_id'] = $staff_RET[1]['STAFF_ID'];
-			echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 			unset($_REQUEST['search_modfunc']);
 		}
 		if($_REQUEST['modname']!=$_REQUEST['next_modname'])

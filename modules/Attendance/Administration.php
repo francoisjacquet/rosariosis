@@ -167,10 +167,7 @@ if(count($categories_RET))
 if(isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 {
 	if(UserStudentID() != $_REQUEST['student_id'])
-	{
 		$_SESSION['student_id'] = $_REQUEST['student_id'];
-		echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
-	}
 
 	$functions = array('ATTENDANCE_CODE'=>'_makeCodePulldown','ATTENDANCE_TEACHER_CODE'=>'_makeCode','ATTENDANCE_REASON'=>'_makeReasonInput','COMMENT'=>'_makeReason');
 	//modif Francois: days numbered

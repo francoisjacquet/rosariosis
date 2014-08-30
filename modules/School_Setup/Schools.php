@@ -56,7 +56,6 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 				if ($go)
 				{
 					DBQuery($sql);
-					echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 					$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('This school has been modified.');
 				}
 			}
@@ -87,7 +86,6 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 					
 					$_SESSION['UserSchool'] = $id;
 					
-					echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 					unset($_REQUEST['new_school']);
 				}
 			}
@@ -120,7 +118,6 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Delete') && User('P
 		DBQuery("DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 
 		unset($_SESSION['UserSchool']);
-		echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 		//unset($_REQUEST);
 		//$_REQUEST['modname'] = "School_Setup/Schools.php&new_school=true";
 		$_REQUEST['new_school'] = 'true';

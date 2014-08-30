@@ -9,10 +9,7 @@ if(UserStaffID())
 {
 	$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 	if($profile[1]['PROFILE']!='teacher')
-	{
 		unset($_SESSION['staff_id']);
-		echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
-	}
 }
 
 $extra['profile'] = 'teacher';

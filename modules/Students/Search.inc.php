@@ -13,10 +13,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 		case 'teacher':
 			//if($_SESSION['student_id'] && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
 			if($_SESSION['student_id'] && $_REQUEST['student_id']=='new')
-			{
 				unset($_SESSION['student_id']);
-				echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
-			}
 
 			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back','advanced'));
 			if($_SESSION['Back_PHP_SELF']!='student')
@@ -221,7 +218,6 @@ else
 		{
 			$_SESSION['student_id'] = $students_RET[1]['STUDENT_ID'];
 			$_SESSION['UserSchool'] = $students_RET[1]['SCHOOL_ID'];
-			echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'"; menu_link.target = "menu"; modname=document.getElementById("modname_input").value; ajaxLink(menu_link);</script>';
 			unset($_REQUEST['search_modfunc']);
 		}
 		if($_REQUEST['modname']!=$_REQUEST['next_modname'])

@@ -1,10 +1,4 @@
 <?php
-//if($_SESSION['staff_id'] && User('PROFILE')=='admin')
-//{
-//	unset($_SESSION['staff_id']);
-//	echo '<script>var menu_link = document.createElement("a"); menu_link.href = "'.$_SESSION['Side_PHP_SELF'].'?modname="+document.getElementById("modname_input").value; menu_link.target = "menu"; ajaxLink(menu_link);</script>';
-//}
-
 $modcat = 'Users';
 $_REQUEST['modname'] = '';
 if(AllowUse('Users/User.php'))
