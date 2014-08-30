@@ -17,7 +17,7 @@ function WrapTabs($tabs,$selected='',&$selected_key='')
 
 			if($tab['link']==PreparePHP_SELF() || $tab['link']==$selected)
 			{
-				$rows[$row] .= '<!--BOTTOM-->'.'<span class="h3selected">' . DrawTab($tab['title'],$tab['link']) . '</span>';
+				$rows[$row] .= '<!--BOTTOM-->'.'<span class="h3selected">' . DrawTab($tab['title'],$tab['link'],true) . '</span>';
 				$selected_key = $key;
 			}
 			else
@@ -50,7 +50,7 @@ function WrapTabs($tabs,$selected='',&$selected_key='')
 
 //modif Francois: remove DrawTab params
 //function DrawTab($title,$link='',$tabcolor='',$textcolor='#FFFFFF',$type='',$rollover='')
-function DrawTab($title,$link='')
+function DrawTab($title,$link='',$h3selected=false)
 {
     $title = ParseMLField($title);
 	if(mb_substr($title,0,1)!='<')
@@ -60,9 +60,9 @@ function DrawTab($title,$link='')
 
 //modif Francois: css WPadmin
 	if($link && !isset($_REQUEST['_ROSARIO_PDF']))
-		$block_table .= '<h3><A HREF="'.$link.'" class="BoxHeading" id="tab_link['.preg_replace('/[^a-zA-Z0-9]/','_',$link).']">'._($title).'</A></h3>';
+		$block_table .= '<h3'.($h3selected ? ' class="title"' : '').'><A HREF="'.$link.'" class="BoxHeading" id="tab_link['.preg_replace('/[^a-zA-Z0-9]/','_',$link).']">'._($title).'</A></h3>';
 	else
-		$block_table .= '<h3>'.$title.'</h3>';
+		$block_table .= '<h3 class="title">'.$title.'</h3>';
 		
 	return $block_table;
 }

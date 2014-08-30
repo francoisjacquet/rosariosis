@@ -113,7 +113,8 @@ function ajaxSuccess(data,target,url){
 	//change URL after AJAX
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
 	$('#'+target).html(data);
-	document.title = $('#body h2').first().text();
+	var h3 = $('#body h3.title').text();
+	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
 	var body = $('body').html();
 	if (body.length<640000)//640K chars limit
 	{
@@ -134,7 +135,8 @@ $(window).bind('popstate', function (e) {
 	if (!state)//640K chars limit
 		return document.location.href = docURL;
     $('body').html(state.data);
-	document.title = $('#body h2').first().text();
+	var h3 = $('#body h3.title').text();
+	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
 	ajaxPrepare('body');
 	openMenu((modnamepos = docURL.indexOf('modname=')) != -1 ? docURL.substr(modnamepos+8, docURL.length) : 'default');
 });
