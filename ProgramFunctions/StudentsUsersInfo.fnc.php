@@ -347,14 +347,15 @@ function _makeEndInput($value,$column)
 }
 
 function _makeSchoolInput($value,$column)
-{	global $THIS_RET,$schools;
+{	global $THIS_RET;
+	static $schools;
 
 	if($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 
-	if(!$schools)
+	if(!is_array($schools))
 		$schools = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."'"),array(),array('ID'));
 
 	foreach($schools as $sid=>$school)
@@ -363,7 +364,7 @@ function _makeSchoolInput($value,$column)
 	// mab - allow school to be editted if illegal value
 	if($_REQUEST['student_id']!='new')
 		if($id!='new')
-			if($schools[$value])
+			if(is_array($schools[$value]))
 				return $schools[$value][1]['TITLE'];
 			else
 				return SelectInput($value,'values[STUDENT_ENROLLMENT]['.$id.'][SCHOOL_ID]','',$options);
