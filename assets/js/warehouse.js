@@ -108,7 +108,6 @@ function ajaxPostForm(form,submit){
 	return false;
 }
 
-var successURL;
 function ajaxSuccess(data,target,url){
 	//change URL after AJAX
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
@@ -116,29 +115,18 @@ function ajaxSuccess(data,target,url){
 	var h3 = $('#body h3.title').text();
 	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
 	var body = $('body').html();
-	if (body.length<640000)//640K chars limit
-	{
-		if (window.location.href == url)
-			history.replaceState({data:body}, '', url);
-		else if (target == 'body')
-			history.pushState({data:body}, '', successURL = oldURL = url);
-		else if (successURL == oldURL)//target == menu || footer
-			history.replaceState({data:body}, '', oldURL);
-	}
+	
+	if (window.location.href == url)
+		history.replaceState('', '', url);
+	else if (target == 'body')
+		history.pushState('', '', url);
 	ajaxPrepare('#'+target);
 }
 
 //change URL after AJAX
 $(window).bind('popstate', function (e) {
     var state = e.originalEvent.state;
-	var docURL = oldURL = document.URL;
-	if (!state)//640K chars limit
-		return document.location.href = docURL;
-    $('body').html(state.data);
-	var h3 = $('#body h3.title').text();
-	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
-	ajaxPrepare('body');
-	openMenu((modnamepos = docURL.indexOf('modname=')) != -1 ? docURL.substr(modnamepos+8, docURL.length) : 'default');
+	return document.location.href = document.URL;
 });
 
 function ajaxPrepare(target){
@@ -161,14 +149,13 @@ $(document).ajaxStop(function(){
 });
 
 //onload
-var oldURL;
 window.onload = function(){
 	if (typeof(mig_clay) == "function")
 		mig_clay();
 	scroll();
 	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
-	var docURL = oldURL = document.URL;
+	var docURL = document.URL;
 	//reloaded page
 	if ((modnamepos = docURL.indexOf('modname=')) != -1)
 		openMenu(docURL.substr(modnamepos+8, docURL.length));
