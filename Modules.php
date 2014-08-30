@@ -56,9 +56,6 @@ if(isset($_REQUEST['modname']))
 	<div id="body" tabindex="0" role="main" class="mod">	
 <?php 
 		}
-		$old_student = UserStudentID();
-		$old_user = UserStaffID();
-		$old_school = UserSchool();
 	}
 
 	if(isset($_REQUEST['_ROSARIO_PDF']) && $_REQUEST['_ROSARIO_PDF']=='true')
@@ -113,11 +110,13 @@ if(isset($_REQUEST['modname']))
 	{
 		
 		//change URL after AJAX
-		if ($old_student != UserStudentID() || $old_user != UserStaffID() || $old_school != UserSchool()):
 ?>
-		<script>var menu_link = document.createElement("a"); menu_link.href = "<?php echo $_SESSION['Side_PHP_SELF']; ?>"; menu_link.target = "menu"; if (!modname) modname="<?php echo $program_loaded; ?>"; ajaxLink(menu_link);</script>
+		<script>
+		if (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>") { 
+			var menu_link = document.createElement("a"); menu_link.href = "<?php echo $_SESSION['Side_PHP_SELF']; ?>"; menu_link.target = "menu"; if (!modname) modname="<?php echo $program_loaded; ?>"; ajaxLink(menu_link);
+		}
+		</script>
 <?php
-		endif;
 		
 		Warehouse('footer');
 		if (in_array($modname, array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($modname == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail') || (in_array($modname, array('Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php', 'Scheduling/Courses.php')) && $_REQUEST['modfunc'] == 'choose_course')) //popups
