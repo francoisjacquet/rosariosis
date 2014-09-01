@@ -155,10 +155,6 @@ window.onload = function(){
 	scroll();
 	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
-	var docURL = document.URL;
-	//reloaded page
-	if ((modnamepos = docURL.indexOf('modname=')) != -1)
-		openMenu(docURL.substr(modnamepos+8, docURL.length));
 };
 function scroll(){
 	if (isTouchDevice())
@@ -177,7 +173,7 @@ if (isTouchDevice())
 var old_modcat = false;
 function openMenu(modname)
 {
-	if (modname!='default')
+	if (modname!='misc/Portal.php')
 	{
 		var modcat = modname.substr(0, modname.indexOf('/'));
 		if (!(visible = document.getElementById("menu_"+modcat)))
@@ -204,7 +200,7 @@ function selMenuA(modname)
 }
 
 //Bottom.php JS
-var modname='default', old_modname='';
+var old_modname='';
 function expandHelp(){
 var heightFooter = (document.getElementById('footer').style.height=='178px')?'38px':'178px';
 	if (heightFooter=='178px')

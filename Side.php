@@ -83,7 +83,10 @@ if($_REQUEST['staff_id']=='new')
 }
 unset($_REQUEST['modfunc']);
 
-echo '<script>'.$addJavascripts.'var menuStudentID = "'.UserStudentID().'"; var menuStaffID = "'.UserStaffID().'"; var menuSchool = "'.UserSchool().'"; openMenu(modname);</script>';
+//set menu Student/User/School, verify if have been changed in Modules.php
+$addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID = "'.UserStaffID().'"; var menuSchool = "'.UserSchool().'";';
+
+echo '<script>'.$addJavascripts.'</script>';
 ?>
 <div id="menushadow"></div>
 <?php
@@ -94,7 +97,7 @@ echo '</TD></TR><TR>';
 echo '<TD class="width-100p valign-top">';
 echo '<A HREF="index.php" target="_top"><img src="assets/themes/'.Preferences('THEME').'/logo.png" id="SideLogo" /></A>';
 echo '<FORM action="Side.php?modfunc=update" method="POST" target="menu">
-	<span class="br-after"><INPUT type="hidden" name="modname" value="" id="modname_input">
+	<span class="br-after">
 	&nbsp;<b>'.User('NAME').'</b></span>
 	&nbsp;'.mb_convert_case(iconv('','UTF-8',strftime('%A %B %d, %Y')), MB_CASE_TITLE, "UTF-8")."<BR />";
 if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
@@ -293,6 +296,7 @@ foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 
 	}
 }
+echo '<script>if(!modname) var modname="'.$_REQUEST['modname'].'"; openMenu(modname);</script>';
 //modif Francois: fin css WPadmin
 echo '</div>';//id="adminmenu"
 //modif Francois: Javascript load optimization
