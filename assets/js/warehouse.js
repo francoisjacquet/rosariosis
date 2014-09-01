@@ -155,6 +155,8 @@ window.onload = function(){
 	scroll();
 	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
+	//Logout all tabs
+	window.localStorage.setItem('logout', false);
 };
 function scroll(){
 	if (isTouchDevice())
@@ -226,3 +228,11 @@ var heightFooter = (document.getElementById('footer').style.height=='178px')?'38
 function expandMenu(){
 	$('#menu,#menuback').toggle();
 }
+
+//Logout all tabs
+function storageChange(event) {
+    if(event.key=='logout' && event.newValue){
+		return document.location.href = 'index.php?modfunc=logout';
+    }
+}
+window.addEventListener('storage', storageChange, false);
