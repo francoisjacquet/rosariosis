@@ -83,8 +83,8 @@ if($_REQUEST['staff_id']=='new')
 }
 unset($_REQUEST['modfunc']);
 
-//set menu Student/User/School, verify if have been changed in Modules.php
-$addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID = "'.UserStaffID().'"; var menuSchool = "'.UserSchool().'";';
+//set menu Student/User/School/CoursePeriod, verify if have been changed in Modules.php
+$addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID = "'.UserStaffID().'"; var menuSchool = "'.UserSchool().'"; var menuCoursePeriod = "'.UserCoursePeriod().'";';
 
 echo '<script>'.$addJavascripts.'</script>';
 ?>

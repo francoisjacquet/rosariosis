@@ -112,7 +112,7 @@ if(isset($_REQUEST['modname']))
 		//change URL after AJAX
 ?>
 		<script>
-		if (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>") { 
+		if (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>" || menuCoursePeriod!="<?php echo UserCoursePeriod(); ?>") { 
 			var menu_link = document.createElement("a"); menu_link.href = "<?php echo $_SESSION['Side_PHP_SELF']; ?>"; menu_link.target = "menu"; if (!modname) modname="<?php echo $program_loaded; ?>"; ajaxLink(menu_link);
 		}
 		</script>
