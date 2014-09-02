@@ -27,7 +27,7 @@ function switchMenu(id){
 }
 
 //tipmessage
-var TipId="Migoicons";var FiltersEnabled = 0;
+var TipId="Migoicons";
 var tipmessageStyle = ["#21759b","#ececec","","","Georgia,Times New Roman",,"#555","#f9f9f9","","","sans-serif",,,,2,"#ececec",2,,,,,"",,,0,23];
 
 //touchScroll, enables overflow:auto on mobile
