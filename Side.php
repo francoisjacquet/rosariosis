@@ -288,7 +288,7 @@ foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 			if(mb_stripos($file,'http://') !== false)
 				echo '<TR><TD><A HREF="'.$file.'" target="_blank">'.$title.'</A></TD></TR>';
 			elseif(!is_numeric($file))
-				echo '<TR><TD><A HREF="Modules.php?modname='.$file.'" onclick="modname=\''.$file.'\'; selMenuA(modname);"'.(mb_stripos($file,'_ROSARIO_PDF') !== false ? ' target="_blank"' : '').'>'.$title.'</A></TD></TR>';
+				echo '<TR><TD><A HREF="Modules.php?modname='.$file.'" onclick="selMenuA(modname=\''.$file.'\');"'.(mb_stripos($file,'_ROSARIO_PDF') !== false ? ' target="_blank"' : '').'>'.$title.'</A></TD></TR>';
 			elseif($keys[$key_index+1] && !is_numeric($keys[$key_index+1]))
 				echo '<TR><TD class="menu-inter">&nbsp;'.$title.'</TD></TR>';
 		}
