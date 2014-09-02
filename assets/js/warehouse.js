@@ -153,6 +153,8 @@ window.onload = function(){
 	if (typeof(mig_clay) == "function")
 		mig_clay();
 	scroll();
+	var h3 = $('#body h3.title').text();
+	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
 	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
 	//Logout all tabs
@@ -231,8 +233,8 @@ function expandMenu(){
 
 //Logout all tabs
 function storageChange(event) {
-    if(event.key=='logout' && event.newValue){
-		return document.location.href = 'index.php?modfunc=logout';
+    if(event.key=='logout' && event.newValue==true){
+		return document.location.href = 'index.php';
     }
 }
 window.addEventListener('storage', storageChange, false);
