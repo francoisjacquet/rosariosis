@@ -13,9 +13,7 @@ if($_REQUEST['modfunc']=='logout')
 //modif Francois: fix error Firefox has detected that the server is redirecting the request
 //		header("Location: $_SERVER[PHP_SELF]?modfunc=logout".(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
 //		header("Location: ".$_SERVER['PHP_SELF'].(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
-//		header("Location: ".$_SERVER['PHP_SELF'].'?locale='.$old_session_locale.(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
-//Logout all tabs
-		header("Location: ".$_SERVER['PHP_SELF'].'?locale='.$old_session_locale.'&logout=true'.(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
+		header("Location: ".$_SERVER['PHP_SELF'].'?locale='.$old_session_locale.(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
 	}
 }
 elseif($_REQUEST['modfunc']=='create_account')
@@ -186,9 +184,6 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 	</span>';
 	PopTable("footer");
 	
-	if($_REQUEST['logout']=='true')//Logout all tabs
-		echo '<script>window.localStorage.setItem("logout", true);</script>';
-		
 	echo '<BR /></BODY></HTML>';
 }
 elseif($_REQUEST['modfunc']!='create_account')
