@@ -17,7 +17,8 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					if($id!='new')
 					{
 						//modif Francois: fix SQL bug PRICE_STAFF & PRICE not null
-						if ($_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_STAFF']) || is_numeric($columns['PRICE_STAFF'])) && (empty($columns['PRICE']) || is_numeric($columns['PRICE']))))
+						//modif Francois: fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
+						if ($_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_FREE']) || is_numeric($columns['PRICE_FREE'])) && (empty($columns['PRICE_REDUCED']) || is_numeric($columns['PRICE_REDUCED'])) && (empty($columns['PRICE_STAFF']) || is_numeric($columns['PRICE_STAFF'])) && (empty($columns['PRICE']) || is_numeric($columns['PRICE']))))
 						{
 							if($_REQUEST['tab_id']!='new')
 								$sql = "UPDATE FOOD_SERVICE_MENU_ITEMS SET ";
@@ -70,7 +71,8 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 						if($go)
 							//modif Francois: fix SQL bug PRICE_STAFF & PRICE not null
-							if ($_REQUEST['tab_id']!='new' || (is_numeric($columns['PRICE_STAFF']) && is_numeric($columns['PRICE'])))
+							//modif Francois: fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
+							if ($_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_FREE']) || is_numeric($columns['PRICE_FREE'])) && (empty($columns['PRICE_REDUCED']) || is_numeric($columns['PRICE_REDUCED'])) && is_numeric($columns['PRICE_STAFF']) && is_numeric($columns['PRICE']) ))
 								DBQuery($sql);
 							else
 								$error[] = _('Please enter valid Numeric data.');
