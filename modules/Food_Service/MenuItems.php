@@ -16,19 +16,32 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				{
 					if($id!='new')
 					{
-						if($_REQUEST['tab_id']!='new')
-							$sql = "UPDATE FOOD_SERVICE_MENU_ITEMS SET ";
-						else
-							$sql = "UPDATE FOOD_SERVICE_ITEMS SET ";
+						//modif Francois: fix SQL bug PRICE_STAFF & PRICE not null
+						if ($_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_STAFF']) || is_numeric($columns['PRICE_STAFF'])) && (empty($columns['PRICE']) || is_numeric($columns['PRICE']))))
+						{
+							if($_REQUEST['tab_id']!='new')
+								$sql = "UPDATE FOOD_SERVICE_MENU_ITEMS SET ";
+							else
+								$sql = "UPDATE FOOD_SERVICE_ITEMS SET ";
 
-						foreach($columns as $column=>$value)
-							$sql .= $column."='".$value."',";
+							$go = false;
+							foreach($columns as $column=>$value)
+								if(!empty($value) || $value=='0')
+								{
+									$sql .= $column."='".$value."',";
+									$go = true;
+								}
 
-						if($_REQUEST['tab_id']!='new')
-							$sql = mb_substr($sql,0,-1) . " WHERE MENU_ITEM_ID='$id'";
+							if($_REQUEST['tab_id']!='new')
+								$sql = mb_substr($sql,0,-1) . " WHERE MENU_ITEM_ID='$id'";
+							else
+								$sql = mb_substr($sql,0,-1) . " WHERE ITEM_ID='$id'";
+								
+							if($go)
+								DBQuery($sql);
+						}
 						else
-							$sql = mb_substr($sql,0,-1) . " WHERE ITEM_ID='$id'";
-						DBQuery($sql);
+							$error[] = _('Please enter valid Numeric data.');
 					}
 					else
 					{
@@ -56,11 +69,15 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 						if($go)
-							DBQuery($sql);
+							//modif Francois: fix SQL bug PRICE_STAFF & PRICE not null
+							if ($_REQUEST['tab_id']!='new' || (is_numeric($columns['PRICE_STAFF']) && is_numeric($columns['PRICE'])))
+								DBQuery($sql);
+							else
+								$error[] = _('Please enter valid Numeric data.');
 					}
 				}
 				else
-					$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+					$error[] = _('Please enter a valid Sort Order.');
 			}
 		}
 	}
@@ -184,7 +201,7 @@ if(empty($_REQUEST['modfunc']))
 	DrawHeader('',SubmitButton(_('Save')));
 	echo '<BR />';
 //modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
+	if(isset($error)) echo ErrorMessage($error);
 
 	$extra = array('save'=>false,'search'=>false,
 		'header'=>WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&tab_id=$_REQUEST[tab_id]"));
