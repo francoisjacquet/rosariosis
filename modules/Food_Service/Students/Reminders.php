@@ -1,9 +1,11 @@
 <?php
+$food_service_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='food_service'"),array(),array('TITLE'));
+
 // if $homeroom is null then teacher and subject for period used for attendance are used for homeroom teacher and subject
 // if $homeroom is set then teacher for $homeroom subject and $homeroom are used for teacher and subject
 //$homeroom = 'Homeroom';
-$target = '19.00';
-$warning = '5.00';
+$target = $food_service_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'];
+$warning = $food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'];
 // Available substitutions for the notes...
 // %N = student firstname (given) or nickname (according to user preference)
 // %F = student firstname
@@ -15,7 +17,7 @@ $warning = '5.00';
 // %T = balance target amount
 $warning_note = _('%N\'s lunch account is getting low.  Please send in at least %P with %h reminder slip.  THANK YOU!');
 $negative_note = _('%N now has a <B>negative balance</B> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!');
-$minimum = '-40.00';
+$minimum = $food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'];
 $minimum_note = _('%N now has a <b>negative balance</b> below the allowed minimum.  Please send in the negative balance plus %T.  THANK YOU!');
 $year_end_note = _('%N\'s lunch account is getting low.  The requested payment anount is estimated so %h account will have a zero balance at the end of the school year.  Please send in the requested amount with %h reminder slip.  THANK YOU!');
 $year_end_note = _('%N\'s lunch account is getting low.  It\'s estimated that %g needs about a %T current balance to finish the year with a zero balance.  Please send in the requested amount with %h reminder slip.  THANK YOU!');

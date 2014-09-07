@@ -3870,6 +3870,9 @@ INSERT INTO program_config VALUES (2014, 1, 'moodle', 'MOODLE_URL', NULL);
 INSERT INTO program_config VALUES (2014, 1, 'moodle', 'MOODLE_TOKEN', NULL);
 INSERT INTO program_config VALUES (2014, 1, 'moodle', 'MOODLE_PARENT_ROLE_ID', NULL);
 INSERT INTO program_config VALUES (2014, 1, 'moodle', 'ROSARIO_STUDENTS_EMAIL_FIELD_ID', NULL);
+INSERT INTO program_config VALUES (2014, 1, 'food_service', 'FOOD_SERVICE_BALANCE_WARNING', '5');
+INSERT INTO program_config VALUES (2014, 1, 'food_service', 'FOOD_SERVICE_BALANCE_MINIMUM', '-40');
+INSERT INTO program_config VALUES (2014, 1, 'food_service', 'FOOD_SERVICE_BALANCE_TARGET', '19');
 
 
 --

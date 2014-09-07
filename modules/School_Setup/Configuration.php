@@ -19,7 +19,7 @@ if($_REQUEST['modfunc']=='update')
 
 	if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{
-		if ((empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE'])) && (empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_AFTER']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_AFTER'])) && (empty($_REQUEST['values']['CONFIG']['SCHOOL_NUMBER_DAYS_ROTATION']) || is_numeric($_REQUEST['values']['CONFIG']['SCHOOL_NUMBER_DAYS_ROTATION'])) && (empty($_REQUEST['values']['CONFIG']['MOODLE_PARENT_ROLE_ID']) || is_numeric($_REQUEST['values']['CONFIG']['MOODLE_PARENT_ROLE_ID'])) && (empty($_REQUEST['values']['CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID']) || is_numeric($_REQUEST['values']['CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'])))
+		if ((empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE'])) && (empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_AFTER']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_AFTER'])) && (!isset($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_WARNING']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_WARNING'])) && (!isset($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_MINIMUM']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_MINIMUM'])) && (!isset($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_TARGET']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['FOOD_SERVICE_BALANCE_TARGET'])) && (empty($_REQUEST['values']['CONFIG']['SCHOOL_NUMBER_DAYS_ROTATION']) || is_numeric($_REQUEST['values']['CONFIG']['SCHOOL_NUMBER_DAYS_ROTATION'])) && (empty($_REQUEST['values']['CONFIG']['MOODLE_PARENT_ROLE_ID']) || is_numeric($_REQUEST['values']['CONFIG']['MOODLE_PARENT_ROLE_ID'])) && (empty($_REQUEST['values']['CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID']) || is_numeric($_REQUEST['values']['CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'])))
 		{
 			$sql = '';
 			if (is_array($_REQUEST['values']['CONFIG']))
@@ -107,6 +107,15 @@ if(empty($_REQUEST['modfunc']))
 	echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['ATTENDANCE_EDIT_DAYS_BEFORE'][1]['VALUE'],'values[PROGRAM_CONFIG][ATTENDANCE_EDIT_DAYS_BEFORE]','<SPAN style="cursor:help" class="legend-gray" title="'._('Leave the field blank to always allow').'">'._('Number of days before the school date teachers can edit attendance').'*</SPAN>','maxlength=2 size=2 min=0').'</TD></TR>';
 	echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['ATTENDANCE_EDIT_DAYS_AFTER'][1]['VALUE'],'values[PROGRAM_CONFIG][ATTENDANCE_EDIT_DAYS_AFTER]','<SPAN style="cursor:help" class="legend-gray" title="'._('Leave the field blank to always allow').'">'._('Number of days after the school date teachers can edit attendance').'*</SPAN>','maxlength=2 size=2 min=0').'</TD></TR>';
 	echo '</TABLE></FIELDSET>';
+
+	if ($RosarioModules['Food_Service'])
+	{
+		echo '<BR /><FIELDSET><legend><b>'._('Food Service').'</b></legend><TABLE>';
+		echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'],'values[PROGRAM_CONFIG][FOOD_SERVICE_BALANCE_WARNING]',_('Food Service Balance minimum amount for warning'),'maxlength=10 size=5 required').'</TD></TR>';
+		echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'],'values[PROGRAM_CONFIG][FOOD_SERVICE_BALANCE_MINIMUM]',_('Food Service Balance minimum amount'),'maxlength=10 size=5 required').'</TD></TR>';
+		echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'],'values[PROGRAM_CONFIG][FOOD_SERVICE_BALANCE_TARGET]',_('Food Service Balance target amount'),'maxlength=10 size=5 required').'</TD></TR>';
+		echo '</TABLE></FIELDSET>';
+	}
 
 	if (MOODLE_INTEGRATOR)
 	{

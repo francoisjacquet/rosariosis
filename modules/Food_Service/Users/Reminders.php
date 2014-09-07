@@ -1,10 +1,11 @@
 <?php
+$food_service_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='food_service'"),array(),array('TITLE'));
 
-$target = '19.00';
-$warning = '5.00';
+$target = $food_service_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'];
+$warning = $food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'];
 $warning_note = _('Your lunch account is getting low.  Please send in at least %P with your reminder slip.  THANK YOU!');
 $negative_note = _('You now have a <B>negative balance</B> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!');
-$minimum = '-40.00';
+$minimum = $food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'];
 $minimum_note = _('You now have a <b>negative balance</b> below the allowed minimum.  Please send in the negative balance plus %T.  THANK YOU!');
 
 if($_REQUEST['staff_id'])
