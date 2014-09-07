@@ -45,12 +45,24 @@ as appropriate for your installation. Rename the file to config.inc.php.
     empty string means no translation
   $StudentPicturesPath relative path to student pictures
   $UserPicturesPath relative path to user pictures
-
+  $PortalNotesFilesPath relative path to portal notes attached files
+  $FS_IconsPath relative path to food service icons
+  
+  $DefaultSyear default school year, should be present in the database to 
+    be able to login
   $RosarioAdmins is a comma separated list of admin's which have special login
     privileges
   $RosarioNotifyAddress is email address to send error notifications
+  $RosarioLocales is a comma separated list of the locale names of the 
+    translations
+  $CurrencySymbol is the symbol to add before money amounts
+  
   $RosarioModules controls which modules to use, most of the standard modules
     are required though and should be left to 'true'
+  
+  MOODLE_INTEGRATOR controls whether the Moodle integrator is active or not, 
+    see https://github.com/francoisjacquet/rosariosis/wiki/Moodle-integrator-setup 
+    for instructions
 
 Now, you're ready to setup the RosarioSIS database. If you have access to the
 command prompt for your server, follow these instructions.  If you're using
@@ -81,8 +93,8 @@ Notice, you will see several lines beginning "NOTICE:  ALTER TABLE / ADD PRIMARY
 KEY will create implicit index " after completing direction 6.  Disregard these
 messages.
 
-If you run into permissions problems involving rosariosis.log, simply remove the " > rosariosis.log"
-from the command
+If you run into permissions problems involving rosariosis.log, simply remove the 
+" > rosariosis.log" from the command
 
 You will have to start postmaster with the -i option, telling postmaster to accept
 TCP/IP connections.  Also, the pg_hba.conf file may have to be altered to specify the
