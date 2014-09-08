@@ -53,6 +53,7 @@ foreach($help as $program=>$value)
 	echo '<TABLE class="width-100p cellpadding-5"><TR><TD class="header2">';
 	if($student==true)
 		$value = str_replace('your child','yourself',str_replace('your child\'s','your',$value));
+	$value = str_replace('RosarioSIS', Config('NAME'),$value);
 	echo $value;
 	echo '</TD></TR></TABLE></div><BR />';
 }

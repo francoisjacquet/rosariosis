@@ -43,10 +43,14 @@ elseif($_REQUEST['modfunc']=='help')
 		if($student==true)
 			$help[$_REQUEST['modname']] = str_replace('your child','yourself',str_replace('your child\'s','your',$help[$_REQUEST['modname']]));
 
-		echo $help[$_REQUEST['modname']];
+		$help_text = $help[$_REQUEST['modname']];
 	}
 	else
-		echo $help['default'];
+		$help_text = $help['default'];
+		
+	$help_text = str_replace('RosarioSIS', Config('NAME'),$help_text);
+	
+	echo $help_text;
 }
 else
 {

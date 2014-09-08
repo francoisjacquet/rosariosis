@@ -31,7 +31,7 @@ if($_REQUEST['modfunc']=='backup' && $_REQUEST['_ROSARIO_PDF']=='true')
 	header("Cache-Control: public"); 
 	header("Content-Description: File Transfer"); 
 	header("Content-Type: $ctype"); 
-	$filename = 'RosarioSIS_database_backup_'.date('Y.m.d').'.sql';
+	$filename = Config('NAME').'_database_backup_'.date('Y.m.d').'.sql';
 	$header="Content-Disposition: attachment; filename=".$filename.";"; 
 	header($header); 
 	header("Content-Transfer-Encoding: binary"); 

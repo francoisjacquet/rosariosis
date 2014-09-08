@@ -168,7 +168,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					$student_id = $_REQUEST['assign_student_id'];
 					if(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='$student_id'"))))
 					{
-						$error[] = _('That RosarioSIS ID is already taken. Please select a different one.');
+						$error[] = sprintf(_('That %s ID is already taken. Please select a different one.'),Config('NAME'));
 						//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 					}
 				}

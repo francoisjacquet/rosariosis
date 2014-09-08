@@ -130,10 +130,10 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 <BODY>
 <BR /><BR />
 <?php
-	PopTable("header",_('RosarioSIS Login'), 'style="max-width:550px;"');
+	PopTable("header",sprintf(_('%s Login'),Config('NAME')), 'style="max-width:550px;"');
 	
 	if($_REQUEST['reason'])
-		echo ErrorMessage(array(_('You must have javascript enabled to use RosarioSIS.')),'note');
+		echo ErrorMessage(array(sprintf(_('You must have javascript enabled to use %s.'),Config('NAME'))),'note');
 	echo ErrorMessage($error);
 	
 	echo '<TABLE>

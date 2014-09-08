@@ -417,7 +417,7 @@ function appendSQL($sql,$extra=array())
 			//$sql .= " AND ssm.STUDENT_ID IN '".$_REQUEST['stuid']."'";
 			$sql .= " AND ssm.STUDENT_ID IN (".$stuids.")";
 			if(!$extra['NoSearchTerms'])
-				$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('RosarioSIS ID')).' </b></span>'.$stuids.'<BR />';
+				$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',sprintf(_('%s ID'),Config('NAME'))).' </b></span>'.$stuids.'<BR />';
 		}
 	}
 	if($_REQUEST['last'])

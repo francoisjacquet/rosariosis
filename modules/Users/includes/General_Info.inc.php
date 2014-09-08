@@ -57,11 +57,11 @@ else
 echo '</TD>';
 
 echo '<TD colspan="1">';
-echo NoInput($staff['STAFF_ID'],_('RosarioSIS ID'));
+echo NoInput($staff['STAFF_ID'],sprintf(_('%s ID'),Config('NAME')));
 echo '</TD>';
 
 echo '<TD colspan="1">';
-echo NoInput($staff['ROLLOVER_ID'],_('Last Year RosarioSIS ID'));
+echo NoInput($staff['ROLLOVER_ID'],sprintf(_('Last Year %s ID'),Config('NAME')));
 echo '</TD>';
 
 echo '</TR><TR class="st">';

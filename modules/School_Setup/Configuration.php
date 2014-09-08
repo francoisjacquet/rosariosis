@@ -28,7 +28,7 @@ if($_REQUEST['modfunc']=='update')
 					$sql .= "UPDATE CONFIG SET ";
 					$sql .= "CONFIG_VALUE='".$value."' WHERE TITLE='".$column."'";
 					
-					$school_independant_values = array('TITLE'); //Program Title
+					$school_independant_values = array('TITLE','NAME'); //Program Title, Program Name
 					if (in_array($column,$school_independant_values))
 						$sql .= " AND SCHOOL_ID='0';";
 					else
@@ -77,6 +77,7 @@ if(empty($_REQUEST['modfunc']))
 	
 	echo '<FIELDSET><legend><b>'.ParseMLField(Config('TITLE')).'</b></legend><TABLE>';
 	echo '<TR style="text-align:left;"><TD>'.MLTextInput(Config('TITLE'),'values[CONFIG][TITLE]',_('Program Title'),'required').'</TD></TR>';
+	echo '<TR style="text-align:left;"><TD>'.TextInput(Config('NAME'),'values[CONFIG][NAME]',_('Program Name'),'required').'</TD></TR>';
 	echo '</TABLE></FIELDSET>';
 
 	echo '<BR /><FIELDSET><legend><b>'._('School').'</b></legend><TABLE>';
@@ -127,7 +128,7 @@ if(empty($_REQUEST['modfunc']))
 			
 		echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['MOODLE_TOKEN'][1]['VALUE'],'values[PROGRAM_CONFIG][MOODLE_TOKEN]',_('Moodle Token'),'maxlength=32 size=38 placeholder=d6c51ea6ffd9857578722831bcb070e1').'</TD></TR>';
 		echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['MOODLE_PARENT_ROLE_ID'][1]['VALUE'],'values[PROGRAM_CONFIG][MOODLE_PARENT_ROLE_ID]',_('Moodle Parent Role ID'),'maxlength=2 size=2 min=0 placeholder=10').'</TD></TR>';
-		echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['ROSARIO_STUDENTS_EMAIL_FIELD_ID'][1]['VALUE'],'values[PROGRAM_CONFIG][ROSARIO_STUDENTS_EMAIL_FIELD_ID]',_('RosarioSIS Student email field ID'),'maxlength=2 size=2 min=0 placeholder=11').'</TD></TR>';
+		echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['ROSARIO_STUDENTS_EMAIL_FIELD_ID'][1]['VALUE'],'values[PROGRAM_CONFIG][ROSARIO_STUDENTS_EMAIL_FIELD_ID]',sprintf(_('%s Student email field ID'),Config('NAME')),'maxlength=2 size=2 min=0 placeholder=11').'</TD></TR>';
 		echo '</TABLE></FIELDSET>';
 	}
 

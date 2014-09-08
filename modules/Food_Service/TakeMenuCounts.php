@@ -175,7 +175,7 @@ $extra['functions'] += array('BALANCE'=>'red');
 
 $stu_RET = GetStuList($extra);
 
-$LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>_('RosarioSIS ID'),'GRADE_ID'=>_('Grade Level'),'BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
+$LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'),'BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 ListOutput($stu_RET,$LO_columns,'Ineligible Student','Ineligible Students',false,false,array('save'=>false,'search'=>false));
 echo '</TD></TR></TABLE>';
 echo "</FORM>";

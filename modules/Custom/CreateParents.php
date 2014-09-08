@@ -226,7 +226,7 @@ if(empty($_REQUEST['modfunc']))
 		DrawHeader('',$extra['header_right']);
 		$extra['WHERE'] .= " AND s.STUDENT_ID='".UserStudentID()."'";//var_dump($extra['SELECT'].$extra['WHERE']);exit;
 		$LO_ret = GetStuList($extra);
-		$LO_columns = $extra['columns_before']+array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>_('RosarioSIS ID'),'GRADE_ID'=>_('Grade Level'))+$extra['columns_after'];
+		$LO_columns = $extra['columns_before']+array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'))+$extra['columns_after'];
 		ListOutput($LO_ret,$LO_columns,'Student','Students',$extra['link'],$extra['LO_group']);
 	}
 

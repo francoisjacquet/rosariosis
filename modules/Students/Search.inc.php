@@ -161,7 +161,7 @@ else
 	if(is_array($extra['columns']))
 		$columns = $extra['columns'];
 	else
-		$columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>_('RosarioSIS ID'),'GRADE_ID'=>_('Grade Level'));
+		$columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'));
 	if(is_array($extra['columns_before']))
 		$columns = $extra['columns_before'] + $columns;
 	if(is_array($extra['columns_after']))

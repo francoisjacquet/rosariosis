@@ -7,7 +7,6 @@ if(!UserSyear())
 }
 
 $_ROSARIO['HeaderIcon'] = 'rosario.png'; //modif Francois: icones Educons
-//DrawHeader(ParseMLField(Config('TITLE')),'RosarioSIS v.'.$RosarioVersion);
 DrawHeader(ParseMLField(Config('TITLE')));
 
 DrawHeader('<span id="salute"></span><script>

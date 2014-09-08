@@ -136,11 +136,11 @@ else
 		$options = array('admin'=>'Administrator','teacher'=>'Teacher','parent'=>'Parent','none'=>'No Access');
 		$singular = $options[$extra['profile']];
 		$plural = $singular.($options[$extra['profile']]=='none'?'':'s');
-		$columns = array('FULL_NAME'=>$singular,'STAFF_ID'=>_('RosarioSIS ID'));
+		$columns = array('FULL_NAME'=>$singular,'STAFF_ID'=>sprintf(_('%s ID'),Config('NAME')));
 	}
 	else
 	{
-		$columns = array('FULL_NAME'=>_('User'),'PROFILE'=>_('Profile'),'STAFF_ID'=>_('RosarioSIS ID'));
+		$columns = array('FULL_NAME'=>_('User'),'PROFILE'=>_('Profile'),'STAFF_ID'=>sprintf(_('%s ID'),Config('NAME')));
 	}
 
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];

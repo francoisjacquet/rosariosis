@@ -46,7 +46,7 @@ if(empty($_REQUEST['modfunc']))
 				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group'=>'Y')).'">'._('Group by Family').'</A>';
 		}
 		$students_RET = GetStuList($extra);
-		$LO_columns += array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>_('RosarioSIS ID'),'GRADE_ID'=>_('Grade Level'));
+		$LO_columns += array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'));
 		foreach($custom_fields_RET as $field)
 			$LO_columns += array('CUSTOM_'.$field['ID']=>ParseMLField($field['TITLE']));
 		

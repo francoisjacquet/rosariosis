@@ -152,7 +152,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<TD>__LAST_NAME__</TD><TD>= '._('Last Name').'</TD>';
 		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__</TD><TD>= '._('Middle Name').'</TD><TD>&nbsp;</TD>';
-		$extra['extra_header_left'] .= '<TD>__STUDENT_ID__</TD><TD>= '._('RosarioSIS ID').'</TD>';
+		$extra['extra_header_left'] .= '<TD>__STUDENT_ID__</TD><TD>= '.sprintf(_('%s ID'),Config('NAME')).'</TD>';
 		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD>';

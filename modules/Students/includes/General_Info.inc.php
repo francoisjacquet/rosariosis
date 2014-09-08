@@ -52,9 +52,9 @@ echo '</TD>';
 
 echo '<TD>';
 if($_REQUEST['student_id']=='new')
-	echo TextInput('','assign_student_id',_('RosarioSIS ID'),'maxlength=10 size=10');
+	echo TextInput('','assign_student_id',sprintf(_('%s ID'),Config('NAME')),'maxlength=10 size=10');
 else
-	echo NoInput(UserStudentID(),_('RosarioSIS ID'));
+	echo NoInput(UserStudentID(),sprintf(_('%s ID'),Config('NAME')));
 echo '</TD>';
 
 echo '<TD>';

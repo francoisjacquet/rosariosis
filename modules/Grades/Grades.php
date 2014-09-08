@@ -191,7 +191,7 @@ else
 {
 	$LO_columns = array('FULL_NAME'=>_('Student'));
 	if($_REQUEST['assignment_id']!='all')
-		$LO_columns += array('STUDENT_ID'=>_('RosarioSIS ID'));
+		$LO_columns += array('STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')));
 	if($_REQUEST['include_inactive']=='Y')
 		$LO_columns += array('ACTIVE'=>_('School Status'),'ACTIVE_SCHEDULE'=>_('Course Status'));
 	$link['FULL_NAME']['link'] = "Modules.php?modname=$_REQUEST[modname]&include_inactive=$_REQUEST[include_inactive]&include_all=$_REQUEST[include_all]&type_id=$_REQUEST[type_id]&assignment_id=all";

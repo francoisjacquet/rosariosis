@@ -209,7 +209,7 @@ if(isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' && 
 		echo '<BR />&nbsp;<BR /><table class="widefat cellspacing-0 rt" style="margin:0 auto;">';
 		echo '<THEAD><TR><TH class="column_heading"><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'deletecheck\');" /> &nbsp</TH>';
 		//modif Francois: add translation 
-		echo '<TH>'._('Student').' ('._('RosarioSIS ID').')</TH>';
+		echo '<TH>'._('Student').' ('.sprintf(_('%s ID'),Config('NAME')).')</TH>';
 		echo '<TH>'._('Course').' ('._('Course Period ID').')</TH>';
 		echo '<TH>'._('Course Start Date').'</TH>';
 		echo '<TH>'._('Course End Date').'</TH>';

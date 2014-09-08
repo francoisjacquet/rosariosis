@@ -131,7 +131,7 @@ else
 {
 	DrawHeader('<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=gradebook">'._('Use Gradebook Grades').'</A>','<INPUT type="submit" value="'._('Save').'" />');
 
-	$LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>_('RosarioSIS ID'),'GRADE_ID'=>_('Grade Level')) + $columns;
+	$LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level')) + $columns;
 	ListOutput($stu_RET,$LO_columns,'Student','Students');
 	echo '<span class="center"><INPUT type="submit" value="'._('Save').'" /></span>';
 }
