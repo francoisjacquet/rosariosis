@@ -1,5 +1,6 @@
 <?php
 $menu['Accounting']['admin'] = array(
+						'default'=>'Accounting/Incomes.php',
             			'Accounting/Incomes.php'=>_('Incomes'),
             			'Accounting/Expenses.php'=>_('Expenses'),
             			'Accounting/DailyTransactions.php'=>_('Daily Transactions'),
@@ -10,6 +11,7 @@ $menu['Accounting']['admin'] = array(
             			'Accounting/Statements.php'=>_('Print Statements')
 					);
 $menu['Accounting']['teacher'] = array(
+						'default'=>'Accounting/Salaries.php',
             			1=>_('Staff Payroll'),
             			'Accounting/Salaries.php'=>_('Salaries'),
             			'Accounting/StaffPayments.php'=>_('Staff Payments'),
