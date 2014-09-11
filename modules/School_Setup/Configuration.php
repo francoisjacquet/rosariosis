@@ -76,7 +76,7 @@ if(empty($_REQUEST['modfunc']))
 	$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('TITLE'));
 	
 	echo '<FIELDSET><legend><b>'.ParseMLField(Config('TITLE')).'</b></legend><TABLE>';
-	echo '<TR style="text-align:left;"><TD>'.MLTextInput(Config('TITLE'),'values[CONFIG][TITLE]',_('Program Title'),'required').'</TD></TR>';
+	echo '<TR style="text-align:left;"><TD>'.MLTextInput(Config('TITLE'),'values[CONFIG][TITLE]',_('Program Title')).'</TD></TR>';
 	echo '<TR style="text-align:left;"><TD>'.TextInput(Config('NAME'),'values[CONFIG][NAME]',_('Program Name'),'required').'</TD></TR>';
 	echo '</TABLE></FIELDSET>';
 

@@ -203,7 +203,7 @@ if(empty($_REQUEST['modfunc']))
 		$header .= '<TR class="st">';
 
 //modif Francois: field name required
-		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Field Name').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
+		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</TD>';
 
 		// You can't change a user field type after it has been created
 		// mab - allow changing between select and autos and edits and text and exports
@@ -262,7 +262,7 @@ if(empty($_REQUEST['modfunc']))
 		$header .= '<TR class="st">';
 
 //modif Francois: title required
-		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
+		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':'')) . '</TD>';
 		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['category_id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</TD>';
 		$header .= '<TD>' . TextInput($RET['COLUMNS'],'tables['.$_REQUEST['category_id'].'][COLUMNS]',_('Display Columns'),'size=5') . '</TD>';
 
