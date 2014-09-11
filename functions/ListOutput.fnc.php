@@ -242,15 +242,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				if($result_count>1)
 				{
 					if(is_int($sort_array[1]) || is_double($sort_array[1]))
-					{
-						echo $sort_array[1];
 						array_multisort($sort_array,$dir,SORT_NUMERIC,$result);
-					}
 					else
-					{
-						echo $sort_array[1];
 						array_multisort($sort_array,$dir,$result);
-					}
 					for($i=$result_count-1;$i>=0;$i--)
 						$result[$i+1] = $result[$i];
 					unset($result[0]);
