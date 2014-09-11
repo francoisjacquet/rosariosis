@@ -228,7 +228,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				foreach($result as $sort)
 				{
 					if(mb_substr($sort[$_REQUEST['LO_sort']],0,4)!='<!--')
-						$sort_array[] = $sort[$_REQUEST['LO_sort']];
+						//modif Francois: better list sorting by isolating the values
+						//$sort_array[] = $sort[$_REQUEST['LO_sort']];
+						$sort_array[] = strip_tags(preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $sort[$_REQUEST['LO_sort']]));
 					else
 						$sort_array[] = mb_substr($sort[$_REQUEST['LO_sort']],4,mb_strpos($sort[$_REQUEST['LO_sort']],'-->')-5);
 				}
@@ -240,9 +242,15 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				if($result_count>1)
 				{
 					if(is_int($sort_array[1]) || is_double($sort_array[1]))
+					{
+						echo $sort_array[1];
 						array_multisort($sort_array,$dir,SORT_NUMERIC,$result);
+					}
 					else
+					{
+						echo $sort_array[1];
 						array_multisort($sort_array,$dir,$result);
+					}
 					for($i=$result_count-1;$i>=0;$i--)
 						$result[$i+1] = $result[$i];
 					unset($result[0]);
