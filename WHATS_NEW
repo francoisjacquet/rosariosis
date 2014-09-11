@@ -1,11 +1,28 @@
 Rosario Student Information System - WHATS_NEW
 
+New in 2.6
+-----------
+Accounting
+- New module including Staff Payroll
+
+School Setup
+- Food Service configuration
+- Rebrand RosarioSIS
+
+Navigate the browser history
+Open RosarioSIS links in new tab
+Page source viewable
+
+Arabic translation
+
+
 New in 2.5
 -----------
 Grades
 - Assignment Default Points
 
 Better internationalization (i18n) support
+
 
 New in 2.4
 -----------

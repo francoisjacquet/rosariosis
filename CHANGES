@@ -1,5 +1,39 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.6
+--------------
+- add Arabic translation, thanks to Husam Shabeeb (needs update)
+- add Accounting module, sponsored by Bishnu Sharma
+- add pushState and popState to warehouse.js, enables:
+	- Navigate the browser history
+	- Open RosarioSIS links in new tab
+	- Page source viewable
+	- Page title updated
+- User/Student photo upload rework
+- add Food Service options in School Configuration
+- Rebrand RosarioSIS
+- bugfix Cannot use string as an offset in StudentsUsersInfo.fnc.php
+- Centralize AJAX menu_link in Modules.php
+- Remove modules/*/Search.php files
+- Remove CSS filters in DHTML tip message
+- Shorten open menu onclick in Side.php
+- Fix SQL bug PRICE_STAFF & PRICE not null in MenuItems.php
+- Fix SQL bug PRICE_FREE & PRICE_REDUCED numeric in MenuItems.php
+- If no more transactions items, delete transaction in DeleteTransactionItem.fnc.php
+- Students - Users links in bold in Food Service
+- Complete config.inc.php config vars help in INSTALL
+- Only first translation string is required in Inputs.php
+- Better list sorting by isolating the values
+- Update french & spanish translations
+
+Upgrade from 2.x
+----------------
+- Execute the SQL commands to add the accounting module & the food service options, see https://gist.github.com/francoisjacquet/8cd6c3625a68628674a8
+
+Note for developers
+-------------------
+- The default program to be loaded when a module is opened is not defined in the Search.php file anymore. Please update your custom modules' Menu.php file by adding the "default" entry, following this example https://github.com/francoisjacquet/rosariosis/blob/mobile/modules/Attendance/Menu.php#L3
+
 Changes in 2.5.8
 ----------------
 - Update wkhtmltopdf install instructions
