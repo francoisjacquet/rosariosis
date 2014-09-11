@@ -38,6 +38,12 @@ function StaffWidgets($item,&$myextra=NULL)
 					StaffWidgets('fsa_exists',$extra);
 					$extra['search'] .= '</TABLE></TD></TR>';
 				}
+				if($RosarioModules['Accounting'] && (!$_ROSARIO['Widgets']['staff_balance']) && AllowUse('Accounting/StaffBalances.php'))
+				{
+					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'accounting_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="accounting_table_arrow" height="12"> <B>'._('Accounting').'</B></A><BR /><TABLE id="accounting_table" style="display:none;" class="widefat width-100p cellspacing-0">';
+					StaffWidgets('staff_balance',$extra);
+					$extra['search'] .= '</TABLE></TD></TR>';
+				}
 				$extra['search'] .= '</TABLE></TD></TR>';
 			break;
 
@@ -143,6 +149,25 @@ function StaffWidgets($item,&$myextra=NULL)
 						$_ROSARIO['SearchTerms'] .= Localize('colon',_('Food Service Account Exists')).' '.($_REQUEST['fsa_exists']=='Y'?_('Yes'):_('No')).'<BR />';
 				}
 				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Has Account').'</TD><TD><label><INPUT type="radio" name="fsa_exists" value=""'.(!$value?' checked':'').'>'._('All').'</label> <label><INPUT type="radio" name="fsa_exists" value="Y"'.($value=='Y'?' checked':'').'>'._('Yes').'</label> <label><INPUT type="radio" name="fsa_exists" value="N"'.($value=='N'?' checked':'').'>'._('No').'</label></TD></TR>';
+				}
+			break;
+			
+			case 'staff_balance':
+				if($RosarioModules['Accounting'] && AllowUse('Accounting/StaffBalances.php'))
+				{
+				if(is_numeric($_REQUEST['balance_low']) && is_numeric($_REQUEST['balance_high']))
+				{
+					if($_REQUEST['balance_low'] > $_REQUEST['balance_high'])
+					{
+						$temp = $_REQUEST['balance_high'];
+						$_REQUEST['balance_high'] = $_REQUEST['balance_low'];
+						$_REQUEST['balance_low'] = $temp;
+					}
+					$extra['WHERE'] .= " AND (coalesce((SELECT sum(p.AMOUNT) FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID=s.STAFF_ID AND p.SYEAR=s.SYEAR),0)-coalesce((SELECT sum(f.AMOUNT) FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID=s.STAFF_ID AND f.SYEAR=s.SYEAR),0)) BETWEEN '".$_REQUEST['balance_low']."' AND '".$_REQUEST['balance_high']."' ";
+					if(!$extra['NoSearchTerms'])
+						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Staff Payroll Balance')).' </b>'._('Between').' '.$_REQUEST['balance_low'].' &amp; '.$_REQUEST['balance_high'].'<BR />';
+				}
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Staff Payroll Balance').'</TD><TD>'._('Between').' <INPUT type="text" name="balance_low" size="5" maxlength="10"> &amp; <INPUT type="text" name="balance_high" size="5" maxlength="10"></TD></TR>';
 				}
 			break;
 		}
