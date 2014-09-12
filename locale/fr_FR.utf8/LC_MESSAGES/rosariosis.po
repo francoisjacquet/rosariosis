@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-11 18:09-0500\n"
-"PO-Revision-Date: 2014-09-11 18:21-0500\n"
+"PO-Revision-Date: 2014-09-12 12:15-0500\n"
 "Last-Translator: François <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -1538,7 +1538,7 @@ msgstr "Dépense"
 #: modules/Accounting/Incomes.php:52 modules/Accounting/Incomes.php:77
 #: modules/Accounting/Incomes.php:89
 msgid "Income"
-msgstr "Revenu"
+msgstr "Recette"
 
 # 'user_profiles' table
 #: modules/Accounting/DailyTransactions.php:23 modules/Accounting/Menu.php:7
@@ -1808,7 +1808,7 @@ msgstr "Sauver"
 #: modules/Accounting/Expenses.php:100 modules/Accounting/Expenses.php:105
 #: modules/Accounting/Incomes.php:95 modules/Accounting/Incomes.php:100
 msgid "Total from Incomes"
-msgstr "Total des Revenus"
+msgstr "Total des Recettes"
 
 #: modules/Accounting/Expenses.php:101 modules/Accounting/Expenses.php:115
 #: modules/Accounting/Incomes.php:96 modules/Accounting/Incomes.php:110
@@ -1847,7 +1847,7 @@ msgstr "Attribué"
 
 #: modules/Accounting/Menu.php:4
 msgid "Incomes"
-msgstr "Revenus"
+msgstr "Recettes"
 
 #: modules/Accounting/Menu.php:5
 msgid "Expenses"
