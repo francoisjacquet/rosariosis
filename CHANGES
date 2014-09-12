@@ -29,6 +29,7 @@ Changes in 2.6
 Upgrade from 2.x
 ----------------
 - Execute the SQL commands to add the accounting module & the food service options, see https://gist.github.com/francoisjacquet/8cd6c3625a68628674a8
+- Add the Accounting module to the config.inc.php file, see https://github.com/francoisjacquet/rosariosis/blob/mobile/config.inc.sample.php#L40
 
 Note for developers
 -------------------
