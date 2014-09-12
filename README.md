@@ -1,6 +1,12 @@
 RosarioSIS, Student Information System
 =======================================
 
+Note
+----
+
+The master branch hosts the legacy (1.4.x) version of RosarioSIS. You sould head up to the [mobile branch](https://github.com/francoisjacquet/rosariosis/tree/mobile) for the currently developed version.
+
+
 License
 -------
 
