@@ -116,18 +116,22 @@ function ajaxSuccess(data,target,url){
 	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
 	var body = $('body').html();
 	
-	if (window.location.href == url)
-		history.replaceState('', '', url);
-	else if (target == 'body')
-		history.pushState('', '', url);
+	if (typeof(history.pushState) == "function")
+	{
+		if (window.location.href == url)
+			history.replaceState('', '', url);
+		else if (target == 'body')
+			history.pushState('', '', url);
+	}
+		
 	ajaxPrepare('#'+target);
 }
 
 //change URL after AJAX
-$(window).bind('popstate', function (e) {
-    var state = e.originalEvent.state;
-	return document.location.href = document.URL;
-});
+if (!(navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0))
+	window.addEventListener('popstate', function (e) {
+		document.location.href = document.URL;
+	}, true);
 
 function ajaxPrepare(target){
 	$(target+' form').each(function(){ ajaxPostForm(this,false); });
@@ -157,7 +161,9 @@ window.onload = function(){
 	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
 	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
+	var reload = false;
 };
+
 function scroll(){
 	if (isTouchDevice())
 	{
