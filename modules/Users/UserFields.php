@@ -313,9 +313,9 @@ if(empty($_REQUEST['modfunc']))
 	echo '<div class="st">';
 	$columns = array('TITLE'=>_('Category'),'SORT_ORDER'=>_('Order'));
 	$link = array();
-	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=$_REQUEST[modfunc]";
+	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'];
 	$link['TITLE']['variables'] = array('category_id'=>'ID');
-	$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&category_id=new";
+	$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&category_id=new';
 
     $categories_RET = ParseMLArray($categories_RET,'TITLE');
 	ListOutput($categories_RET,$columns,'User Field Category','User Field Categories',$link,array(),$LO_options);
@@ -342,9 +342,9 @@ if(empty($_REQUEST['modfunc']))
 		echo '<div class="st">';
 		$columns = array('TITLE'=>_('User Field'),'SORT_ORDER'=>_('Order'),'TYPE'=>_('Data Type'));
 		$link = array();
-		$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&category_id=$_REQUEST[category_id]";
+		$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'];
 		$link['TITLE']['variables'] = array('id'=>'ID');
-		$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&category_id=$_REQUEST[category_id]&id=new";
+		$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&id=new';
 
         $fields_RET = ParseMLArray($fields_RET,'TITLE');
 		ListOutput($fields_RET,$columns,'User Field','User Fields',$link,array(),$LO_options);

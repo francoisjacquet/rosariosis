@@ -171,10 +171,10 @@ if($_REQUEST['modfunc']!='remove')
 	$columns = array('TITLE'=>_('Title'),'CONTENT'=>_('Note'),'SORT_ORDER'=>_('Sort Order'),'FILE_ATTACHED'=>_('File Attached'),'START_DATE'=>_('Publishing Options'));
 	//,'START_TIME'=>'Start Time','END_TIME'=>'End Time'
 	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'CONTENT'=>_makeContentInput('','CONTENT'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'FILE_ATTACHED'=>makeFileAttached('','FILE_ATTACHED'),'START_DATE'=>makePublishing('','START_DATE'));
-	$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove";
+	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id'=>'ID');
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST[modname].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=assets/spinning.gif />\';">';
+	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=assets/spinning.gif />\';">';
 	DrawHeader('',SubmitButton(_('Save')));
 //modif Francois: fix SQL bug invalid sort order
 	if(isset($error)) echo $error;

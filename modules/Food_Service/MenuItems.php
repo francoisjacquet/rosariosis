@@ -134,7 +134,7 @@ if(empty($_REQUEST['modfunc']))
 
 	$tabs = array();
 	foreach($menus_RET as $id=>$menu)
-		$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=$id");
+		$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
 
 	if($_REQUEST['tab_id']!='new')
 	{
@@ -154,11 +154,11 @@ if(empty($_REQUEST['modfunc']))
 		$LO_columns = array('ITEM_ID'=>_('Menu Item'),'ICON'=>_('Icon'),'CATEGORY_ID'=>_('Category'),'DOES_COUNT'=>_('Include in Counts'),'SORT_ORDER'=>_('Sort Order'));
 
 		$link['add']['html'] = array('ITEM_ID'=>makeSelectInput('','ITEM_ID'),'CATEGORY_ID'=>makeSelectInput('','CATEGORY_ID'),'DOES_COUNT'=>makeCheckboxInput('','DOES_COUNT'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
-		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&tab_id=$_REQUEST[tab_id]";
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'];
 		$link['remove']['variables'] = array('menu_item_id'=>'MENU_ITEM_ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=new");
+		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 //modif Francois: add translation
 		$singular = sprintf(_('%s Item'), $menus_RET[$_REQUEST['tab_id']][1]['TITLE']);
 		$plural = sprintf(_('%s Items'), $menus_RET[$_REQUEST['tab_id']][1]['TITLE']);
@@ -189,11 +189,11 @@ if(empty($_REQUEST['modfunc']))
 		}
 
 		$link['add']['html'] = array('DESCRIPTION'=>makeTextInput('','DESCRIPTION'),'SHORT_NAME'=>makeTextInput('','SHORT_NAME'),'ICON'=>makeSelectInput('','ICON'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'),'PRICE'=>makeTextInput('','PRICE'),'PRICE_REDUCED'=>makeTextInput('','PRICE_REDUCED'),'PRICE_FREE'=>makeTextInput('','PRICE_FREE'),'PRICE_STAFF'=>makeTextInput('','PRICE_STAFF'));
-		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&tab_id=$_REQUEST[tab_id]";
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'];
 		$link['remove']['variables'] = array('item_id'=>'ITEM_ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=new");
+		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 	}
 
 	$LO_ret = DBGet(DBQuery($sql),$functions);
@@ -206,7 +206,7 @@ if(empty($_REQUEST['modfunc']))
 	if(isset($error)) echo ErrorMessage($error);
 
 	$extra = array('save'=>false,'search'=>false,
-		'header'=>WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&tab_id=$_REQUEST[tab_id]"));
+		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
 	if($_REQUEST['tab_id']!='new')
 		ListOutput($LO_ret,$LO_columns,$singular,$plural,$link,array(),$extra);
 	else

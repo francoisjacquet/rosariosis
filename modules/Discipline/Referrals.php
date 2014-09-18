@@ -111,9 +111,9 @@ $extra['new'] = true;
 //$extra['force_search'] = true;
 $extra['singular'] = _('Referral');
 $extra['plural'] = _('Referrals');
-$extra['link']['FULL_NAME']['link'] = "Modules.php?modname=$_REQUEST[modname]";
+$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'];
 $extra['link']['FULL_NAME']['variables'] = array('referral_id'=>'ID');
-$extra['link']['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove";
+$extra['link']['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 $extra['link']['remove']['variables'] = array('id'=>'ID');
 
 if($_REQUEST['search_modfunc']=='list' && $_REQUEST['student_header']=='true')

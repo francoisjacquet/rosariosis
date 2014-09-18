@@ -34,18 +34,17 @@ if($_REQUEST['course_modfunc']=='search')
 		$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE (UPPER(TITLE) LIKE '%".mb_strtoupper($_REQUEST['search_term'])."%' OR UPPER(SHORT_NAME)='".mb_strtoupper($_REQUEST['search_term'])."') AND SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE"));
 		$courses_RET = DBGet(DBQuery("SELECT SUBJECT_ID,COURSE_ID,TITLE FROM COURSES WHERE (UPPER(TITLE) LIKE '%".mb_strtoupper($_REQUEST['search_term'])."%' OR UPPER(SHORT_NAME)='".mb_strtoupper($_REQUEST['search_term'])."') AND SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."' AND SCHOOL_ID='".UserSchool()."' ORDER BY TITLE"));
 		//modif Francois: http://centresis.org/forums/viewtopic.php?f=13&t=4112
-		$periods_RET = DBGet(DBQuery("SELECT c.SUBJECT_ID,cp.COURSE_ID,cp.COURSE_PERIOD_ID,cp.TITLE,cp.MP,cp.MARKING_PERIOD_ID,cp.CALENDAR_ID,cp.TOTAL_SEATS AS AVAILABLE_SEATS FROM COURSE_PERIODS cp,COURSES c WHERE cp.COURSE_ID=c.COURSE_ID AND (UPPER(cp.TITLE) LIKE '%".mb_strtoupper($_REQUEST['search_term'])."%' OR UPPER(cp.SHORT_NAME)='".mb_strtoupper($_REQUEST['search_term'])."') AND cp.SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."' AND cp.SCHOOL_ID='".UserSchool()."'".($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '$date'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." ORDER BY cp.SHORT_NAME,TITLE"));
+		$periods_RET = DBGet(DBQuery("SELECT c.SUBJECT_ID,cp.COURSE_ID,cp.COURSE_PERIOD_ID,cp.TITLE,cp.MP,cp.MARKING_PERIOD_ID,cp.CALENDAR_ID,cp.TOTAL_SEATS AS AVAILABLE_SEATS FROM COURSE_PERIODS cp,COURSES c WHERE cp.COURSE_ID=c.COURSE_ID AND (UPPER(cp.TITLE) LIKE '%".mb_strtoupper($_REQUEST['search_term'])."%' OR UPPER(cp.SHORT_NAME)='".mb_strtoupper($_REQUEST['search_term'])."') AND cp.SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."' AND cp.SCHOOL_ID='".UserSchool()."'".($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." ORDER BY cp.SHORT_NAME,TITLE"));
 		if($_REQUEST['modname']=='Scheduling/Schedule.php')
 			calcSeats1($periods_RET,$date);
 
 		$link = array();
 
-		$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=$_REQUEST[modfunc]&last_year=$_REQUEST[last_year]".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['modname']=='Scheduling/Schedule.php'?"&include_child_mps=$_REQUEST[include_child_mps]&year_date=$_REQUEST[year_date]&month_date=$_REQUEST[month_date]&day_date=$_REQUEST[day_date]":'');
+		$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'].($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['modname']=='Scheduling/Schedule.php'?'&include_child_mps='.$_REQUEST['include_child_mps'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date']:'');
 		$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID');
 		echo '<div class="st">';
 		ListOutput($subjects_RET,array('TITLE'=>'Subject'),'Subject','Subjects',$link,array(),$LO_options);
 
-		$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=$_REQUEST[modfunc]&last_year=$_REQUEST[last_year]".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['modname']=='Scheduling/Schedule.php'?"&include_child_mps=$_REQUEST[include_child_mps]&year_date=$_REQUEST[year_date]&month_date=$_REQUEST[month_date]&day_date=$_REQUEST[day_date]":'');
 		$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID','course_id'=>'COURSE_ID');
 		echo '</div><div class="st">';
 		ListOutput($courses_RET,array('TITLE'=>_('Course')),'Course','Courses',$link,array(),$LO_options);
@@ -54,10 +53,10 @@ if($_REQUEST['course_modfunc']=='search')
 		$link = array();
 		if($_REQUEST['modname']!='Scheduling/Schedule.php' || ($_REQUEST['modname']=='Scheduling/Schedule.php' && !$_REQUEST['include_child_mps']))
 		{
-			$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=$_REQUEST[modfunc]&last_year=$_REQUEST[last_year]";
+			$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'];
 			$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID','course_id'=>'COURSE_ID','course_period_id'=>'COURSE_PERIOD_ID');
 			if($_REQUEST['modfunc']=='choose_course')
-				$link['TITLE']['link'] .= "&modfunc=$_REQUEST[modfunc]&last_year=$_REQUEST[last_year]";
+				$link['TITLE']['link'] .= '&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'];
 		}
 		if($_REQUEST['modname']=='Scheduling/Schedule.php')
 			$columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
@@ -126,12 +125,12 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						if($table_name=='COURSES' && $columns['SUBJECT_ID'] && $columns['SUBJECT_ID']!=$_REQUEST['subject_id'])
 							$_REQUEST['subject_id'] = $columns['SUBJECT_ID'];
 
-						$sql = "UPDATE $table_name SET ";
+						$sql = "UPDATE ".$table_name." SET ";
 
 						if($table_name=='COURSE_PERIODS')
 						{
 							//$current = DBGet(DBQuery("SELECT TEACHER_ID,PERIOD_ID,MARKING_PERIOD_ID,DAYS,SHORT_NAME FROM COURSE_PERIODS WHERE ".$where[$table_name]."='$id'"));
-							$current = DBGet(DBQuery("SELECT TEACHER_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM COURSE_PERIODS WHERE ".$where[$table_name]."='$id'"));
+							$current = DBGet(DBQuery("SELECT TEACHER_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM COURSE_PERIODS WHERE ".$where[$table_name]."='".$id."'"));
 
 							if(isset($columns['TEACHER_ID']))
 								$staff_id = $columns['TEACHER_ID'];
@@ -148,7 +147,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							else
 								$short_name = $current[1]['SHORT_NAME'];
 
-							$teacher = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND STAFF_ID='$staff_id'"));
+							$teacher = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND STAFF_ID='".$staff_id."'"));
 							if(GetMP($marking_period_id,'MP')!='FY')
 								$mp_title = GetMP($marking_period_id,'SHORT_NAME').' - ';
 							if($short_name)
@@ -174,7 +173,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						//modif Francois: multiple school period for a course period
 						if($table_name=='COURSE_PERIOD_SCHOOL_PERIODS')
 						{
-							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='$_REQUEST[course_period_id]' AND ".$where[$table_name]."<>'$id'"));
+							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."' AND ".$where[$table_name]."<>'$id'"));
 
 							if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID))
 								break;
@@ -183,7 +182,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							$title_temp = '';
 							foreach ($other_school_p as $school_p)
 							{
-								$school_p_title = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='$school_p[PERIOD_ID]' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+								$school_p_title = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$school_p['PERIOD_ID']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 								
 			//modif Francois: days display to locale		
 								$nb_days = mb_strlen($school_p['DAYS']);
@@ -201,7 +200,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							
 							if (!isset($base_title))
 							{
-								$current_cp = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='$_REQUEST[course_period_id]'"));
+								$current_cp = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
 								$base_title = mb_substr($current_cp[1]['TITLE'], mb_strpos($current_cp[1]['TITLE'], (GetMP($current_cp[1]['MARKING_PERIOD_ID'],'MP')!='FY' ? GetMP($current_cp[1]['MARKING_PERIOD_ID'],'SHORT_NAME') : $current_cp[1]['SHORT_NAME'])), mb_strlen($current_cp[1]['TITLE']));
 							}
 								
@@ -225,7 +224,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							else
 								$title = $title_temp.$base_title;
 
-							DBQuery("UPDATE COURSE_PERIODS SET TITLE='".$title."' WHERE COURSE_PERIOD_ID='$_REQUEST[course_period_id]'");
+							DBQuery("UPDATE COURSE_PERIODS SET TITLE='".$title."' WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'");
 							
 							if (empty($columns['DAYS'])) //delete school period
 							{
@@ -264,7 +263,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					}
 					else
 					{
-						$sql = "INSERT INTO $table_name ";
+						$sql = "INSERT INTO ".$table_name." ";
 
 						if($table_name=='COURSE_SUBJECTS')
 						{
@@ -278,7 +277,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSES_SEQ').' AS ID'.FROM_DUAL));
 		//modif Francois: SQL error column "subject_id" specified more than once !!not resolved
 							$fields = 'COURSE_ID,SUBJECT_ID,SCHOOL_ID,SYEAR,';
-							$values = "'".$id[1]['ID']."','$_REQUEST[subject_id]','".UserSchool()."','".UserSyear()."',";
+							$values = "'".$id[1]['ID']."','".$_REQUEST['subject_id']."','".UserSchool()."','".UserSyear()."',";
 		/*					$fields = 'COURSE_ID,SCHOOL_ID,SYEAR,';
 							$values = "'".$id[1]['ID']."','".UserSchool()."','".UserSyear()."',";*/
 							$_REQUEST['course_id'] = $id[1]['ID'];
@@ -287,7 +286,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						{
 							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_PERIODS_SEQ').' AS ID'.FROM_DUAL));
 							$fields = 'SYEAR,SCHOOL_ID,COURSE_PERIOD_ID,COURSE_ID,TITLE,FILLED_SEATS,';
-							$teacher = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND STAFF_ID='$columns[TEACHER_ID]'"));
+							$teacher = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND STAFF_ID='".$columns['TEACHER_ID']."'"));
 
 							if(!isset($columns['PARENT_ID']))
 								$columns['PARENT_ID'] = $id[1]['ID'];
@@ -309,7 +308,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								$mp_title .= $columns['SHORT_NAME'].' - ';
 							$title = str_replace("'","''",$mp_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
 
-							$values = "'".UserSyear()."','".UserSchool()."','".$id[1]['ID']."','$_REQUEST[course_id]','$title','0',";
+							$values = "'".UserSyear()."','".UserSchool()."','".$id[1]['ID']."','".$_REQUEST['course_id']."','".$title."','0',";
 							$_REQUEST['course_period_id'] = $id[1]['ID'];
 							
 						}
@@ -320,7 +319,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							if (isset($columns['PERIOD_ID']) && empty($columns['PERIOD_ID']))
 								break;
 								
-							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='$_REQUEST[course_period_id]'"), array(), array('PERIOD_ID'));
+							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."'"), array(), array('PERIOD_ID'));
 							
 							if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID) || in_array($columns['PERIOD_ID'], array_keys($other_school_p)))
 								break;
@@ -328,9 +327,9 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
 							
 							$id_school_p = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_PERIOD_SCHOOL_PERIODS_SEQ').' AS ID'.FROM_DUAL));
-							$period = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='$columns[PERIOD_ID]' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+							$period = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$columns['PERIOD_ID']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 							$fields = 'COURSE_PERIOD_SCHOOL_PERIODS_ID,COURSE_PERIOD_ID,';
-							$values = "'".$id_school_p[1]['ID']."','$_REQUEST[course_period_id]',";
+							$values = "'".$id_school_p[1]['ID']."','".$_REQUEST['course_period_id']."',";
 
 		//modif Francois: days display to locale						
 							$nb_days = mb_strlen($columns['DAYS']);
@@ -345,7 +344,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							else
 								$title = $period[1]['TITLE'].' - '.$title;
 							
-							DBQuery("UPDATE COURSE_PERIODS SET TITLE='".$title."' WHERE COURSE_PERIOD_ID='$_REQUEST[course_period_id]'");
+							DBQuery("UPDATE COURSE_PERIODS SET TITLE='".$title."' WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'");
 							
 						}
 
@@ -394,37 +393,37 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	if($_REQUEST['course_period_id'])
 	{
 		$table = _('Course Period');
-		$sql[] = "UPDATE COURSE_PERIODS SET PARENT_ID=NULL WHERE PARENT_ID='$_REQUEST[course_period_id]'";
-		$sql[] = "DELETE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='$_REQUEST[course_period_id]'";
-		$sql[] = "DELETE FROM SCHEDULE WHERE COURSE_PERIOD_ID='$_REQUEST[course_period_id]'";
+		$sql[] = "UPDATE COURSE_PERIODS SET PARENT_ID=NULL WHERE PARENT_ID='".$_REQUEST['course_period_id']."'";
+		$sql[] = "DELETE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
+		$sql[] = "DELETE FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
 		//modif Francois: multiple school period for a course period
-		$sql[] = "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_ID='$_REQUEST[course_period_id]'";
+		$sql[] = "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
         $unset = 'course_period_id';
 	}
 	elseif($_REQUEST['course_id'])
 	{
 		$table = _('Course');
-		$sql[] = "DELETE FROM COURSES WHERE COURSE_ID='$_REQUEST[course_id]'";
-		$sql[] = "UPDATE COURSE_PERIODS SET PARENT_ID=NULL WHERE PARENT_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_ID='$_REQUEST[course_id]')";
-		$sql[] = "DELETE FROM COURSE_PERIODS WHERE COURSE_ID='$_REQUEST[course_id]'";
-		$sql[] = "DELETE FROM SCHEDULE WHERE COURSE_ID='$_REQUEST[course_id]'";
-		$sql[] = "DELETE FROM SCHEDULE_REQUESTS WHERE COURSE_ID='$_REQUEST[course_id]'";
+		$sql[] = "DELETE FROM COURSES WHERE COURSE_ID='".$_REQUEST['course_id']."'";
+		$sql[] = "UPDATE COURSE_PERIODS SET PARENT_ID=NULL WHERE PARENT_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_ID='".$_REQUEST['course_id']."')";
+		$sql[] = "DELETE FROM COURSE_PERIODS WHERE COURSE_ID='".$_REQUEST['course_id']."'";
+		$sql[] = "DELETE FROM SCHEDULE WHERE COURSE_ID='".$_REQUEST['course_id']."'";
+		$sql[] = "DELETE FROM SCHEDULE_REQUESTS WHERE COURSE_ID='".$_REQUEST['course_id']."'";
         $unset = 'course_id';
 	}
 	elseif($_REQUEST['subject_id'])
 	{
 		$table = _('Subject');
-		$sql[] = "DELETE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='$_REQUEST[subject_id]'";
-		$courses = DBGet(DBQuery("SELECT COURSE_ID FROM COURSES WHERE SUBJECT_ID='$_REQUEST[subject_id]'"));
+		$sql[] = "DELETE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$_REQUEST['subject_id']."'";
+		$courses = DBGet(DBQuery("SELECT COURSE_ID FROM COURSES WHERE SUBJECT_ID='".$_REQUEST['subject_id']."'"));
 		if(count($courses))
 		{
 			foreach($courses as $course)
 			{
-				$sql[] = "DELETE FROM COURSES WHERE COURSE_ID='$course[COURSE_ID]'";
-				$sql[] = "UPDATE COURSE_PERIODS SET PARENT_ID=NULL WHERE PARENT_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_ID='$course[COURSE_ID]')";
-				$sql[] = "DELETE FROM COURSE_PERIODS WHERE COURSE_ID='$course[COURSE_ID]'";
-				$sql[] = "DELETE FROM SCHEDULE WHERE COURSE_ID='$course[COURSE_ID]'";
-				$sql[] = "DELETE FROM SCHEDULE_REQUESTS WHERE COURSE_ID='$course[COURSE_ID]'";
+				$sql[] = "DELETE FROM COURSES WHERE COURSE_ID='".$course['COURSE_ID']."'";
+				$sql[] = "UPDATE COURSE_PERIODS SET PARENT_ID=NULL WHERE PARENT_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_ID='".$course['COURSE_ID']."')";
+				$sql[] = "DELETE FROM COURSE_PERIODS WHERE COURSE_ID='".$course['COURSE_ID']."'";
+				$sql[] = "DELETE FROM SCHEDULE WHERE COURSE_ID='".$course['COURSE_ID']."'";
+				$sql[] = "DELETE FROM SCHEDULE_REQUESTS WHERE COURSE_ID='".$course['COURSE_ID']."'";
 			}
 		}
         $unset = 'subject_id';
@@ -486,10 +485,10 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 								GENDER_RESTRICTION,HOUSE_RESTRICTION,CREDITS,
 								HALF_DAY,DOES_BREAKOFF
 						FROM COURSE_PERIODS
-						WHERE COURSE_PERIOD_ID='$_REQUEST[course_period_id]'";
+						WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
 				$sql2 = "SELECT COURSE_PERIOD_SCHOOL_PERIODS_ID, PERIOD_ID, DAYS
 						FROM COURSE_PERIOD_SCHOOL_PERIODS
-						WHERE COURSE_PERIOD_ID='$_REQUEST[course_period_id]'";
+						WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
 				$QI = DBQuery($sql);
 				$RET = DBGet($QI);
 				$RET = $RET[1];
@@ -768,7 +767,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				//$sql = "SELECT TITLE,SHORT_NAME,GRADE_LEVEL
 				$sql = "SELECT TITLE,SHORT_NAME,GRADE_LEVEL,CREDIT_HOURS
 						FROM COURSES
-						WHERE COURSE_ID='$_REQUEST[course_id]'";
+						WHERE COURSE_ID='".$_REQUEST['course_id']."'";
 				$QI = DBQuery($sql);
 				$RET = DBGet($QI);
 				$RET = $RET[1];
@@ -778,7 +777,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			{
 				$sql = "SELECT TITLE
 						FROM COURSE_SUBJECTS
-						WHERE SUBJECT_ID='$_REQUEST[subject_id]'";
+						WHERE SUBJECT_ID='".$_REQUEST['subject_id']."'";
 				$QI = DBQuery($sql);
 				$RET = DBGet($QI);
 				$title = $RET[1]['TITLE'].' - '._('New Course');
@@ -786,7 +785,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				unset($RET);
 			}
 
-			echo '<FORM action="Modules.php?modname='.$_REQUEST[modname].'&subject_id='.$_REQUEST[subject_id].'&course_id='.$_REQUEST[course_id].'" method="POST">';
+			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'" method="POST">';
 			DrawHeader($title,$delete_button.SubmitButton(_('Save')));
 			$header .= '<TABLE class="width-100p cellpadding-3">';
 			$header .= '<TR class="st">';
@@ -814,7 +813,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			{
 				$sql = "SELECT TITLE,SORT_ORDER
 						FROM COURSE_SUBJECTS
-						WHERE SUBJECT_ID='$_REQUEST[subject_id]'";
+						WHERE SUBJECT_ID='".$_REQUEST['subject_id']."'";
 				$QI = DBQuery($sql);
 				$RET = DBGet($QI);
 				$RET = $RET[1];
@@ -874,12 +873,12 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 	$columns = array('TITLE'=>_('Subject'));
 	$link = array();
-	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]";
+	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'];
 	$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID');
 	if($_REQUEST['modfunc']=='choose_course')
-		$link['TITLE']['link'] .= "&modfunc=$_REQUEST[modfunc]&last_year=$_REQUEST[last_year]".($_REQUEST['modname']=='Scheduling/Schedule.php'?"&include_child_mps=$_REQUEST[include_child_mps]&year_date=$_REQUEST[year_date]&month_date=$_REQUEST[month_date]&day_date=$_REQUEST[day_date]":'');
+		$link['TITLE']['link'] .= '&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'].($_REQUEST['modname']=='Scheduling/Schedule.php'?'&include_child_mps='.$_REQUEST['include_child_mps'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date']:'');
 	else
-		$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&subject_id=new";
+		$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id=new';
 
 	echo '<div class="st">';
 	ListOutput($subjects_RET,$columns,'Subject','Subjects',$link,array(),$LO_options);
@@ -887,7 +886,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 	if($_REQUEST['subject_id'] && $_REQUEST['subject_id']!='new')
 	{
-		$sql = "SELECT COURSE_ID,TITLE FROM COURSES WHERE SUBJECT_ID='$_REQUEST[subject_id]' ORDER BY TITLE";
+		$sql = "SELECT COURSE_ID,TITLE FROM COURSES WHERE SUBJECT_ID='".$_REQUEST['subject_id']."' ORDER BY TITLE";
 		$QI = DBQuery($sql);
 		$courses_RET = DBGet($QI);
 
@@ -905,12 +904,12 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 		$columns = array('TITLE'=>_('Course'));
 		$link = array();
-		$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&subject_id=$_REQUEST[subject_id]";
+		$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'];
 		$link['TITLE']['variables'] = array('course_id'=>'COURSE_ID');
 		if($_REQUEST['modfunc']=='choose_course')
-			$link['TITLE']['link'] .= "&modfunc=$_REQUEST[modfunc]&last_year=$_REQUEST[last_year]".($_REQUEST['modname']=='Scheduling/Schedule.php'?"&include_child_mps=$_REQUEST[include_child_mps]&year_date=$_REQUEST[year_date]&month_date=$_REQUEST[month_date]&day_date=$_REQUEST[day_date]":'');
+			$link['TITLE']['link'] .= '&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'].($_REQUEST['modname']=='Scheduling/Schedule.php'?'&include_child_mps='.$_REQUEST['include_child_mps'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date']:'');
 		else
-			$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&subject_id=$_REQUEST[subject_id]&course_id=new";
+			$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id=new';
 
 		echo '<div class="st">';
 		ListOutput($courses_RET,$columns,'Course','Courses',$link,array(),$LO_options);
@@ -920,7 +919,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 		{
                 //modif Francois: multiple school periods for a course period
 				//$periods_RET = DBGet(DBQuery("SELECT '$_REQUEST[subject_id]' AS SUBJECT_ID,COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS AS AVAILABLE_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='$_REQUEST[course_id]' ".($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '$date'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE"));
-                $periods_RET = DBGet(DBQuery("SELECT '$_REQUEST[subject_id]' AS SUBJECT_ID,COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS AS AVAILABLE_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='$_REQUEST[course_id]' ".($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '$date'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." ORDER BY SHORT_NAME,TITLE"));
+                $periods_RET = DBGet(DBQuery("SELECT '".$_REQUEST['subject_id']."' AS SUBJECT_ID,COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS AS AVAILABLE_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' ".($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." ORDER BY SHORT_NAME,TITLE"));
 
                 if($_REQUEST['modname']=='Scheduling/Schedule.php')
                     calcSeats1($periods_RET,$date);
@@ -941,12 +940,12 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
                 $link = array();
                 if($_REQUEST['modname']!='Scheduling/Schedule.php' || ($_REQUEST['modname']=='Scheduling/Schedule.php' && !$_REQUEST['include_child_mps']))
                 {
-                    $link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&subject_id=$_REQUEST[subject_id]&course_id=$_REQUEST[course_id]";
+                    $link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'];
                     $link['TITLE']['variables'] = array('course_period_id'=>'COURSE_PERIOD_ID','course_marking_period_id'=>'MARKING_PERIOD_ID');
                     if($_REQUEST['modfunc']=='choose_course')
-                        $link['TITLE']['link'] .= "&modfunc=$_REQUEST[modfunc]&student_id=$_REQUEST[student_id]&last_year=$_REQUEST[last_year]";
+                        $link['TITLE']['link'] .= '&modfunc='.$_REQUEST['modfunc'].'&student_id='.$_REQUEST['student_id'].'&last_year='.$_REQUEST['last_year'];
                     else
-                        $link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&subject_id=$_REQUEST[subject_id]&course_id=$_REQUEST[course_id]&course_period_id=new";
+                        $link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id=new';
                 }
                 if($_REQUEST['modname']=='Scheduling/Schedule.php')
                     $columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
@@ -986,12 +985,12 @@ function calcSeats1(&$periods,$date)
 			$mp = trim($mp,"'");
 			if(strtotime(GetMP($mp,'END_DATE'))>=$date_time)
 			{
-				$link = "Modules.php?modname=$_REQUEST[modname]&modfunc=$_REQUEST[modfunc]&subject_id=$period[SUBJECT_ID]&course_id=$period[COURSE_ID]";
-				$link .= "&last_year=$_REQUEST[last_year]&year_date=$_REQUEST[year_date]&month_date=$_REQUEST[month_date]&day_date=$_REQUEST[day_date]";
-				$link .= "&course_period_id=$period[COURSE_PERIOD_ID]&course_marking_period_id=$mp";
+				$link = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&subject_id='.$period['SUBJECT_ID'].'&course_id='.$period['COURSE_ID'];
+				$link .= '&last_year='.$_REQUEST['last_year'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'];
+				$link .= '&course_period_id='.$period['COURSE_PERIOD_ID'].'&course_marking_period_id='.$mp;
 				if($period['AVAILABLE_SEATS'])
 				{
-					$seats = DBGet(DBQuery("SELECT max((SELECT count(1) FROM SCHEDULE ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR) WHERE ss.COURSE_PERIOD_ID='$period[COURSE_PERIOD_ID]' AND (ss.MARKING_PERIOD_ID='$mp' OR ss.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($mp,'MP'),$mp).")) AND (ac.SCHOOL_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE)) AND (ac.SCHOOL_DATE>=sem.START_DATE AND (sem.END_DATE IS NULL OR ac.SCHOOL_DATE<=sem.END_DATE)))) AS FILLED_SEATS FROM ATTENDANCE_CALENDAR ac WHERE ac.CALENDAR_ID='$period[CALENDAR_ID]' AND ac.SCHOOL_DATE BETWEEN '$date' AND '".GetMP($mp,'END_DATE')."'"));
+					$seats = DBGet(DBQuery("SELECT max((SELECT count(1) FROM SCHEDULE ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR) WHERE ss.COURSE_PERIOD_ID='".$period['COURSE_PERIOD_ID']."' AND (ss.MARKING_PERIOD_ID='".$mp."' OR ss.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($mp,'MP'),$mp).")) AND (ac.SCHOOL_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE)) AND (ac.SCHOOL_DATE>=sem.START_DATE AND (sem.END_DATE IS NULL OR ac.SCHOOL_DATE<=sem.END_DATE)))) AS FILLED_SEATS FROM ATTENDANCE_CALENDAR ac WHERE ac.CALENDAR_ID='".$period['CALENDAR_ID']."' AND ac.SCHOOL_DATE BETWEEN '".$date."' AND '".GetMP($mp,'END_DATE')."'"));
 					if($seats[1]['FILLED_SEATS']!='')
 						if($_REQUEST['include_child_mps'])
 							$periods[$key]['AVAILABLE_SEATS'] .= '<A href='.$link.'>'.(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'('.($period['AVAILABLE_SEATS']-$seats[1]['FILLED_SEATS']).')</A> | ';

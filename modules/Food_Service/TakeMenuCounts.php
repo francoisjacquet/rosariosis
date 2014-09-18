@@ -81,7 +81,7 @@ switch($day)
 
 if(mb_strpos($days,$day)===false)
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST[modname].'&table='.$_REQUEST[table].'" method="POST">';
+	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
 	echo '</FORM>';
 	ErrorMessage(array(_('This period does not meet on the selected date.')),'fatal');
@@ -149,10 +149,10 @@ $LO_columns = array('DESCRIPTION'=>_('Item'),'COUNT'=>_('Count'));
 	{
 		$tabs = array();
 		foreach($menus_RET as $id=>$meal)
-			$tabs[] = array('title'=>$meal[1]['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&menu_id=$id&day_date=$_REQUEST[day_date]&month_date=$_REQUEST[month_date]&year_date=$_REQUEST[year_date]");
+			$tabs[] = array('title'=>$meal[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id.'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date']);
 
 		echo '<BR />';
-		echo '<span class="center">'.WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&menu_id=$_REQUEST[menu_id]&day_date=$_REQUEST[day_date]&month_date=$_REQUEST[month_date]&year_date=$_REQUEST[year_date]").'</span>';
+		echo '<span class="center">'.WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date']).'</span>';
 		$extra = array('count'=>false,'download'=>false,'search'=>false);
 	}
 	else

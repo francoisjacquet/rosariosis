@@ -373,9 +373,9 @@ if(empty($_REQUEST['modfunc']))
 	echo '<div class="st">';
 	$columns = array('TITLE'=>_('Assignment Type'),'SORT_ORDER'=>_('Order'));
 	$link = array();
-	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=$_REQUEST[modfunc]";
+	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'];
 	$link['TITLE']['variables'] = array('assignment_type_id'=>'ASSIGNMENT_TYPE_ID');
-	$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&assignment_type_id=new";
+	$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id=new';
 	$link['add']['first'] = 5; // number before add link moves to top
 
 	ListOutput($types_RET,$columns,'Assignment Type','Assignment Types',$link,array(),$LO_options);
@@ -404,9 +404,9 @@ if(empty($_REQUEST['modfunc']))
 		echo '<div class="st">';
 		$columns = array('TITLE'=>_('Assignment'),'POINTS'=>_('Points'));
 		$link = array();
-		$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&assignment_type_id=$_REQUEST[assignment_type_id]";
+		$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id='.$_REQUEST['assignment_type_id'];
 		$link['TITLE']['variables'] = array('assignment_id'=>'ASSIGNMENT_ID');
-		$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&assignment_type_id=$_REQUEST[assignment_type_id]&assignment_id=new";
+		$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id='.$_REQUEST['assignment_type_id'].'&assignment_id=new';
 		$link['add']['first'] = 5; // number before add link moves to top
 
 		ListOutput($assn_RET,$columns,'Assignment','Assignments',$link,array(),$LO_options);

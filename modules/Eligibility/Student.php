@@ -105,7 +105,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 			$activities[$value['ID']] = $value['TITLE'];
 	}
 
-	$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&start_date=$_REQUEST[start_date]";
+	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&start_date='.$_REQUEST['start_date'];
 	$link['remove']['variables'] = array('activity_id'=>'ACTIVITY_ID');
 //modif Francois: css WPadmin
 //	$link['add']['html']['TITLE'] = '<TABLE class="cellpadding-0 cellspacing-0"><TR><TD>'.SelectInput('','new_activity','',$activities).'</TD><TD><INPUT type=submit value="'._('Add').'"></TD></TR></TABLE>';

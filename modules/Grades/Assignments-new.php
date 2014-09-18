@@ -196,10 +196,10 @@ if(empty($_REQUEST['modfunc']))
 			$_REQUEST['tab_id'] = 'new';
 
 	if(count($types_RET))
-		$tabs = array(array('title'=>_('All'),'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=&allow_edit=$_REQUEST[allow_edit]"));
+		$tabs = array(array('title'=>_('All'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=&allow_edit='.$_REQUEST['allow_edit']));
 	foreach($types_RET as $id=>$type)
 	{
-		$tabs[] = array('title'=>$type[1]['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=$id&allow_edit=$_REQUEST[allow_edit]",'color'=>$type[1]['COLOR']);
+		$tabs[] = array('title'=>$type[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id.'&allow_edit='.$_REQUEST['allow_edit'],'color'=>$type[1]['COLOR']);
 		$type_options[$id] = !$_REQUEST['tab_id']&&$type[1]['COLOR']?array($type[1]['TITLE'],'<span style="color:'.$type[1]['COLOR'].'">'.$type[1]['TITLE'].'</span>'):$type[1]['TITLE'];
 	}
 
@@ -224,12 +224,12 @@ if(empty($_REQUEST['modfunc']))
 		$link['add']['html'] = array('TITLE'=>_makeAssnInput('','TITLE'),'POINTS'=>_makeAssnInput('','POINTS'),'DEFAULT_POINTS'=>_makeAssnInput('','DEFAULT_POINTS'),'ASSIGNED_DATE'=>_makeAssnInput('','ASSIGNED_DATE'),'DUE_DATE'=>_makeAssnInput('','DUE_DATE'),'COURSE_ID'=>_makeAssnInput('','COURSE_ID'),'DESCRIPTION'=>_makeAssnInput('','DESCRIPTION'));
 		if(!$_REQUEST['tab_id'])
 			$link['add']['html'] += array('ASSIGNMENT_TYPE_ID'=>_makeAssnInput('','ASSIGNMENT_TYPE_ID'));
-		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&tab_id=$_REQUEST[tab_id]&allow_edit=$_REQUEST[allow_edit]";
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'].'&allow_edit='.$_REQUEST['allow_edit'];
 		$link['remove']['variables'] = array('id'=>'ASSIGNMENT_ID');
 		$link['add']['html']['remove'] = button('add');
 		$link['add']['first'] = 1; // number before add link moves to top
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=new&allow_edit=$_REQUEST[allow_edit]");
+		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new&allow_edit='.$_REQUEST['allow_edit']);
 		$subject = 'Assignments';
 	}
 	else
@@ -247,11 +247,11 @@ if(empty($_REQUEST['modfunc']))
 		$link['add']['html'] = array('TITLE'=>_makeTypeInput('','TITLE'),'SORT_ORDER'=>_makeTypeInput('','SORT_ORDER'),'COLOR'=>_makeColorInput('','COLOR'));
 		if(Preferences('WEIGHT','Gradebook')=='Y')
 			$link['add']['html']['FINAL_GRADE_PERCENT'] = _makeTypeInput('','FINAL_GRADE_PERCENT');
-		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&tab_id=new&allow_edit=$_REQUEST[allow_edit]";
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id=new&allow_edit='.$_REQUEST['allow_edit'];
 		$link['remove']['variables'] = array('id'=>'ASSIGNMENT_TYPE_ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=new&allow_edit=$_REQUEST[allow_edit]");
+		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new&allow_edit='.$_REQUEST['allow_edit']);
 		$subject = 'Assignmemt Types';
 	}
 
@@ -260,7 +260,7 @@ if(empty($_REQUEST['modfunc']))
 	echo '<BR />';
 
 	$LO_options = array('save'=>false,'search'=>false,'header_color'=>$types_RET[$_REQUEST['tab_id']][1]['COLOR'],
-		'header'=>WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&tab_id=$_REQUEST[tab_id]&allow_edit=$_REQUEST[allow_edit]"));
+		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id'].'&allow_edit='.$_REQUEST['allow_edit']));
     if ($subject == 'Assignments')
 	    ListOutput($LO_ret,$LO_columns,'Assignment','Assignments',$link,array(),$LO_options);
     else

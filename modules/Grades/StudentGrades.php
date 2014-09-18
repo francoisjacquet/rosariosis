@@ -160,7 +160,7 @@ if(!$_REQUEST['id'])
 				//$LO_ret[] = array('ID'=>$course_period_id,'TITLE'=>$course['COURSE_TITLE'],'TEACHER'=>mb_substr($course_title,mb_strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2));
 		}
 		unset($LO_ret[0]);
-		$link = array('TITLE'=>array('link'=>"Modules.php?modname=$_REQUEST[modname]".($do_stats?"&do_stats=$_REQUEST[do_stats]":''),'variables'=>array('id'=>'ID')));
+		$link = array('TITLE'=>array('link'=>'Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:''),'variables'=>array('id'=>'ID')));
 		ListOutput($LO_ret,$LO_columns,'Course','Courses',$link,array(),array('center'=>false,'save'=>false,'search'=>false));
 	}
 	else

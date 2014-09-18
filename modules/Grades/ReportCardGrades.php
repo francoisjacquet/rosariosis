@@ -115,7 +115,7 @@ if(empty($_REQUEST['modfunc']))
 	$grade_scale_select = array();
 	foreach($grade_scales_RET as $id=>$grade_scale)
 	{
-		$tabs[] = array('title'=>$grade_scale[1]['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=$id");
+		$tabs[] = array('title'=>$grade_scale[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
 		$grade_scale_select[$id] = $grade_scale[1]['TITLE'];
 	}
 
@@ -142,27 +142,27 @@ if(empty($_REQUEST['modfunc']))
 		}
 
 		$link['add']['html'] = array('TITLE'=>makeGradesInput('','TITLE'),'BREAK_OFF'=>makeGradesInput('','BREAK_OFF'),'GPA_VALUE'=>makeGradesInput('','GPA_VALUE'),'UNWEIGHTED_GP'=>makeGradesInput('','UNWEIGHTED_GP'),'SORT_ORDER'=>makeGradesInput('','SORT_ORDER'),'COMMENT'=>makeGradesInput('','COMMENT'));
-		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&tab_id=$_REQUEST[tab_id]";
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'];
 		$link['remove']['variables'] = array('id'=>'ID');
 		$link['add']['html']['remove'] = button('add');
 
 		if(User('PROFILE')=='admin')
-			$tabs[] = array('title'=>button('add','','',14),'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=new");
+			$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 		$singular = 'Grade';
 		$plural = 'Grades';
 	}
 	else
 	{
-		$sql = 'SELECT * FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID=\''.UserSchool().'\' AND SYEAR=\''.UserSyear().'\' ORDER BY SORT_ORDER,ID';
+		$sql = "SELECT * FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER,ID";
 		$functions = array('TITLE'=>'makeTextInput','GP_SCALE'=>'makeTextInput','COMMENT'=>'makeTextInput','HHR_GPA_VALUE'=>'makeGradesInput','HR_GPA_VALUE'=>'makeGradesInput','HRS_GPA_VALUE'=>'makeGradesInput','SORT_ORDER'=>'makeTextInput');
 		$LO_columns = array('TITLE'=>_('Grade Scale'),'GP_SCALE'=>_('Scale Value'),'COMMENT'=>_('Comment'),'HHR_GPA_VALUE'=>_('High Honor Roll GPA Min'),'HR_GPA_VALUE'=>_('Honor Roll GPA Min'),'HRS_GPA_VALUE'=>_('Honor Roll by Subject GPA Min'),'SORT_ORDER'=>_('Sort Order'));
 
 		$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'GP_SCALE'=>makeTextInput('', 'GP_SCALE'),'COMMENT'=>makeTextInput('','COMMENT'),'HHR_GPA_VALUE'=>makeGradesInput('','HHR_GPA_VALUE'),'HR_GPA_VALUE'=>makeGradesInput('','HR_GPA_VALUE'),'HRS_GPA_VALUE'=>makeGradesInput('','HRS_GPA_VALUE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
-		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&tab_id=new";
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id=new';
 		$link['remove']['variables'] = array('id'=>'ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=new");
+		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 		$singular = 'Grade Scale';
 		$plural = 'Grade Scales';
 	}
@@ -175,7 +175,7 @@ if(empty($_REQUEST['modfunc']))
 	if(isset($error)) echo $error;
 
 	$LO_options = array('search'=>false,
-		'header'=>WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&tab_id=$_REQUEST[tab_id]"));
+		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
 	ListOutput($LO_ret,$LO_columns,$singular,$plural,$link,array(),$LO_options);
 
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';

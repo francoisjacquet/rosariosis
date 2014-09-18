@@ -28,8 +28,8 @@ else
 }
 $header = '<TABLE class="cellpadding-0 cellspacing-0" style="height:14px;"><TR>';
 //modif Francois: remove DrawTab params
-$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Students'),"Modules.php?modname=$_REQUEST[modname]&day_date=$_REQUEST[day_date]&month_date=$_REQUEST[month_date]&year_date=$_REQUEST[year_date]&type=student").'</TD>';
-$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Users'),   "Modules.php?modname=$_REQUEST[modname]&day_date=$_REQUEST[day_date]&month_date=$_REQUEST[month_date]&year_date=$_REQUEST[year_date]&type=staff").'</TD>';
+$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Students'),'Modules.php?modname='.$_REQUEST['modname'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'&type=student').'</TD>';
+$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Users'),'Modules.php?modname='.$_REQUEST['modname'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'&type=staff').'</TD>';
 $header .= '<TD style="width:10px;"></TD></TR></TABLE>';
 
 DrawHeader(($_SESSION['FSA_type']=='staff' ? _('User') : _('Student')).' '.ProgramTitle(),(User('PROFILE')=='student'?'':'<TABLE style="background-color:#ffffff;"><TR><TD>'.$header.'</TD></TR></TABLE>'));
@@ -38,7 +38,7 @@ if($_REQUEST['search_modfunc']=='list')
 {
 $PHP_tmp_SELF = PreparePHP_SELF();
 echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
-DrawHeader(PrepareDate($date,'_date').' : <INPUT type=submit value='._('Go').'>');
+DrawHeader(PrepareDate($date,'_date').' : <INPUT type="submit" value="'._('Go').'" />');
 echo '</FORM>';
 
 include('modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/BalanceReport.php');

@@ -229,7 +229,7 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course')
         $_REQUEST['student_id'] = UserStudentID();
 		$_REQUEST['search_modfunc'] = 'list';
 		$_REQUEST['include_seats'] = $include_seats;
-		$extra['link']['FULL_NAME']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=choose_course";
+		$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course';
 		$extra['link']['FULL_NAME']['variables'] = array('subject_id'=>'SUBJECT_ID','course_id'=>'COURSE_ID','student_id'=>'STUDENT_ID');
 		$extra['link']['FULL_NAME']['js'] = true;
 		include('modules/Scheduling/UnfilledRequests.php');

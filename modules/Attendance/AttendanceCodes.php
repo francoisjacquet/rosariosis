@@ -97,10 +97,10 @@ if(empty($_REQUEST['modfunc']))
 		$attendance_codes_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','SHORT_NAME'=>'_makeTextInput','SORT_ORDER'=>'_makeTextInput','TYPE'=>'_makeSelectInput','STATE_CODE'=>'_makeSelectInput','DEFAULT_CODE'=>'_makeCheckBoxInput'));
 	}
 
-	$tabs = array(array('title'=>_('Attendance'),'link'=>"Modules.php?modname=$_REQUEST[modname]&table=0"));
+	$tabs = array(array('title'=>_('Attendance'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table=0'));
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	foreach($categories_RET as $category)
-		$tabs[] = array('title'=>$category['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&table=".$category['ID']);
+		$tabs[] = array('title'=>$category['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID']);
 
 	if($_REQUEST['table']!='new')
 	{
@@ -116,10 +116,10 @@ if(empty($_REQUEST['modfunc']))
 		$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'TYPE'=>_makeSelectInput('','TYPE'),'DEFAULT_CODE'=>_makeCheckBoxInput('','DEFAULT_CODE'));
 		if($_REQUEST['table']=='0')
 			$link['add']['html']['STATE_CODE'] = _makeSelectInput('','STATE_CODE');
-		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&table=$_REQUEST[table]";
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&table='.$_REQUEST['table'];
 		$link['remove']['variables'] = array('id'=>'ID');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>"Modules.php?modname=$_REQUEST[modname]&table=new");
+		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
 	}
 	else
 	{
@@ -128,10 +128,10 @@ if(empty($_REQUEST['modfunc']))
 		$LO_columns = array('TITLE'=>_('Title'),'SORT_ORDER'=>_('Sort Order'));
 
 		$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'));
-		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&table=new";
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&table=new';
 		$link['remove']['variables'] = array('id'=>'ID');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>"Modules.php?modname=$_REQUEST[modname]&table=new");
+		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
@@ -142,8 +142,7 @@ if(empty($_REQUEST['modfunc']))
 	if(isset($error)) echo $error;
 
 //modif Francois: css WPadmin
-//	echo '<span class="center">'.WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&table=$_REQUEST[table]").'</span>';
-	$LO_options = array('count'=>false,'download'=>false,'search'=>false,'header'=>WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&table=$_REQUEST[table]"));
+	$LO_options = array('count'=>false,'download'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table']));
 //	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),array('count'=>false,'download'=>false,'search'=>false));
 	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),$LO_options);
 

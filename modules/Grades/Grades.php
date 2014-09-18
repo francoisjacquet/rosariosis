@@ -167,7 +167,7 @@ if(UserStudentID())
 	if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0)
 		$LO_columns['LETTER_GRADE'] = _('Letter');
 	$LO_columns += array('TITLE'=>_('Assignment'),'POINTS'=>_('Points'),/*'PERCENT_GRADE'=>_('Percent'),*/'LETTER_GRADE'=>_('Letter'),'COMMENT'=>_('Comment'));
-	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&include_inactive=$_REQUEST[include_inactive]&include_all=$_REQUEST[include_all]";
+	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'];
 	$link['TITLE']['variables'] = array('type_id'=>'ASSIGNMENT_TYPE_ID','assignment_id'=>'ASSIGNMENT_ID');
 
 	$current_RET[UserStudentID()] = DBGet(DBQuery("SELECT g.ASSIGNMENT_ID FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.STUDENT_ID='".UserStudentID()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."'".($_REQUEST['assignment_id']=='all'?'':" AND g.ASSIGNMENT_ID='$_REQUEST[assignment_id]'")),array(),array('ASSIGNMENT_ID'));
@@ -178,7 +178,7 @@ if(UserStudentID())
 	if(!$_REQUEST['type_id'])
 	{
 		$extra['SELECT'] .= ',(SELECT TITLE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID) AS TYPE_TITLE';
-		$link['TYPE_TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&include_inactive=$_REQUEST[include_inactive]&include_all=$_REQUEST[include_all]";
+		$link['TYPE_TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'];
 		$link['TYPE_TITLE']['variables'] = array('type_id'=>'ASSIGNMENT_TYPE_ID');
 	}
 	$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON (ga.STAFF_ID=cp.TEACHER_ID AND ((ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) OR ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."'".($_REQUEST['assignment_id']=='all'?'':" AND ga.ASSIGNMENT_ID='$_REQUEST[assignment_id]'").($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='$_REQUEST[type_id]'":'').") LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)";
@@ -194,12 +194,12 @@ else
 		$LO_columns += array('STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')));
 	if($_REQUEST['include_inactive']=='Y')
 		$LO_columns += array('ACTIVE'=>_('School Status'),'ACTIVE_SCHEDULE'=>_('Course Status'));
-	$link['FULL_NAME']['link'] = "Modules.php?modname=$_REQUEST[modname]&include_inactive=$_REQUEST[include_inactive]&include_all=$_REQUEST[include_all]&type_id=$_REQUEST[type_id]&assignment_id=all";
+	$link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'].'&type_id='.$_REQUEST['type_id'].'&assignment_id=all';
 	$link['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
 
 	if($_REQUEST['assignment_id']=='all')
 	{
-		$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."'".($_REQUEST['type_id']?" AND a.ASSIGNMENT_TYPE_ID='$_REQUEST[type_id]'":'')),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
+		$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."'".($_REQUEST['type_id']?" AND a.ASSIGNMENT_TYPE_ID='".$_REQUEST['type_id']."'":'')),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
 		$count_extra = array('SELECT_ONLY'=>'ssm.STUDENT_ID');
 		$count_students = GetStuList($count_extra);
 		$count_students = count($count_students);
@@ -281,9 +281,9 @@ $assignment_select .= '</SELECT>';
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'" method="POST">';
 
-$tabs = array(array('title'=>_('All'),'link'=>"Modules.php?modname=$_REQUEST[modname]&type_id=".($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'')."&include_inactive=$_REQUEST[include_inactive]&include_all=$_REQUEST[include_all]"));
+$tabs = array(array('title'=>_('All'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&type_id='.($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all']));
 foreach($types_RET as $id=>$type)
-	$tabs[] = array('title'=>$type[1]['TITLE'].($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?'|'.number_format(100*$type[1]['FINAL_GRADE_PERCENT'],0).'%':''),'link'=>"Modules.php?modname=$_REQUEST[modname]&type_id=$id".($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'')."&include_inactive=$_REQUEST[include_inactive]&include_all=$_REQUEST[include_all]")+($type[1]['COLOR']?array('color'=>$type[1]['COLOR']):array());
+	$tabs[] = array('title'=>$type[1]['TITLE'].($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?'|'.number_format(100*$type[1]['FINAL_GRADE_PERCENT'],0).'%':''),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&type_id='.$id.($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'])+($type[1]['COLOR']?array('color'=>$type[1]['COLOR']):array());
 
 //modif Francois: add label on checkbox
 DrawHeader($type_select.$assignment_select,$_REQUEST['assignment_id']?SubmitButton(_('Save')):'');
@@ -301,7 +301,7 @@ if($_REQUEST['type_id'] && $types_RET[$_REQUEST['type_id']][1]['COLOR'])
 if(!UserStudentID() && $_REQUEST['assignment_id']=='all')
 	$LO_options['yscroll'] = true;
 
-$LO_options['header'] = WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&type_id=".($_REQUEST['type_id']?$_REQUEST['type_id']:($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all'?$assignments_RET[$_REQUEST['assignment_id']][1]['ASSIGNMENT_TYPE_ID']:'')).($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'')."&include_inactive=$_REQUEST[include_inactive]&include_all=$_REQUEST[include_all]");
+$LO_options['header'] = WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&type_id='.($_REQUEST['type_id']?$_REQUEST['type_id']:($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all'?$assignments_RET[$_REQUEST['assignment_id']][1]['ASSIGNMENT_TYPE_ID']:'')).($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all']);
 echo '<BR />';
 if (UserStudentID())
 	ListOutput($stu_RET,$LO_columns,'Assignment','Assignments',$link,array(),$LO_options);

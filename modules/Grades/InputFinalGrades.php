@@ -630,11 +630,11 @@ if(!$program_config['GRADES_HIDE_NON_ATTENDANCE_COMMENT'][1]['VALUE'] || $course
 	$LO_columns += array('COMMENT'=>_('Comment'));
 
 foreach($categories_RET as $id=>$category)
-	$tabs[] = array('title'=>$category[1]['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&mp=$_REQUEST[mp]&tab_id=$id")+($category[1]['COLOR']?array('color'=>$category[1]['COLOR']):array());
+	$tabs[] = array('title'=>$category[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&mp='.$_REQUEST['mp'].'&tab_id='.$id)+($category[1]['COLOR']?array('color'=>$category[1]['COLOR']):array());
 $LO_options = array('yscroll'=>true,'save'=>false,'search'=>false);
 if(count($categories_RET) && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
-	$LO_options['header'] = WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&mp=$_REQUEST[mp]&tab_id=$_REQUEST[tab_id]");
+	$LO_options['header'] = WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&mp='.$_REQUEST['mp'].'&tab_id='.$_REQUEST['tab_id']);
 	if($categories_RET[$_REQUEST['tab_id']][1]['COLOR'])
 		$LO_options['header_color'] = $categories_RET[$_REQUEST['tab_id']][1]['COLOR'];
 }

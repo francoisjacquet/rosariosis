@@ -125,7 +125,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 		}
 		unset($LO_ret[0]);
 
-		$link['remove'] = array('link'=>"Modules.php?modname=$_REQUEST[modname]&modfunc=remove&menu_id=$_REQUEST[menu_id]",
+		$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&menu_id='.$_REQUEST['menu_id'],
 					'variables'=>array('id'=>'SALE_ID'));
 //modif Francois: css WPadmin
 //		$link['add']['html'] = array('DESCRIPTION'=>'<TABLE class="cellpadding-0 cellspacing-0"><TR><TD>'.SelectInput('','item_sn','',$items).'</TD></TR></TABLE>','ICON'=>'<TABLE class="cellpadding-0 cellspacing-0"><TR><TD><INPUT type=submit value='._('Add').'></TD></TR></TABLE>','remove'=>button('add'));
@@ -134,10 +134,10 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 
 		$tabs = array();
 		foreach($menus_RET as $id=>$menu)
-			$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&menu_id=$id");
+			$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
 
 		$extra = array('save'=>false,'search'=>false,
-			'header'=>WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&menu_id=$_REQUEST[menu_id]"));
+			'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']));
 
 		echo '<BR />';
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&menu_id='.$_REQUEST['menu_id'].'" method="POST">';

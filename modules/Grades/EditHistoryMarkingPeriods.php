@@ -93,10 +93,7 @@ if(empty($_REQUEST['modfunc']))
                                         'SYEAR'=>makeSchoolYearSelectInput('','SYEAR')
                                         );
                                         
-//                }
-                //$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&table=history_marking_periods";
-                //$link['remove']['variables'] = array('id'=>'ID');
-                $link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove";//&mp_id=$mp_id";
+                $link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';//&mp_id=$mp_id";
                 $link['remove']['variables'] = array('id'=>'MARKING_PERIOD_ID');
                 $link['add']['html']['remove'] = button('add');
                 $LO_ret = DBGet(DBQuery($sql),$functions);

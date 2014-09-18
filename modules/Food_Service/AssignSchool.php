@@ -33,7 +33,7 @@ $staff_RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.STAFF_ID,fst.SYEAR,(SE
 //echo '<pre>'; var_dump($students_RET); echo '</pre>';
 //echo '<pre>'; var_dump($users_RET); echo '</pre>';
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST[modname].'&modfunc=update" method="POST">';
+echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 DrawHeader('',SubmitButton(_('Save')));
 $columns = array('TRANSACTION_ID'=>_('ID'),'ACCOUNT_ID'=>_('Account ID'),'SYEAR'=>_('School Year'),'FULL_NAME'=>_('Student'),'STUDENTS'=>_('Students'),'SCHOOL_ID'=>_('School'));
 ListOutput($students_RET,$columns,'Student Transaction w/o School','Student Transactions w/o School',false,array(),array('save'=>false,'search'=>false));
@@ -54,14 +54,12 @@ function _students($value,$column)
 function _make_school($value,$column)
 {	global $THIS_RET,$schools_select;
 
-	return SelectInput($value,"student[$THIS_RET[TRANSACTION_ID]]",'',$schools_select[$THIS_RET['SYEAR']]);
-	//function SelectInput($value,$name,$title='',$options,$allow_na=_('N/A'),$extra='',$div=true)
+	return SelectInput($value,'student['.$THIS_RET['TRANSACTION_ID'].']','',$schools_select[$THIS_RET['SYEAR']]);
 }
 
 function _make_staff_school($value,$column)
 {	global $THIS_RET,$schools_select;
 
-	return SelectInput($value,"staff[$THIS_RET[TRANSACTION_ID]]",'',$schools_select[$THIS_RET['SYEAR']]);
-	//function SelectInput($value,$name,$title='',$options,$allow_na=_('N/A'),$extra='',$div=true)
+	return SelectInput($value,'staff['.$THIS_RET['TRANSACTION_ID'].']','',$schools_select[$THIS_RET['SYEAR']]);
 }
 ?>

@@ -98,7 +98,7 @@ if(!$_REQUEST['modfunc'] && UserStaffID())
 
 	if($staff['ACCOUNT_ID'])
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST[modname].'&modfunc=update" method="POST">';
+		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 		DrawHeader('',SubmitButton(_('Save'),'submit[save]').($staff['BALANCE'] == 0 ? SubmitButton(_('Delete Account'),'submit[delete]') : ''));
 	}
 	else

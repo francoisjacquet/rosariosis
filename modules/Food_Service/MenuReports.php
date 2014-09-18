@@ -134,7 +134,7 @@ if($_REQUEST['type_select']=='sales')
 	foreach($types_totals[''] as $key=>$value)
 		if($value==0)
 			unset($types_columns[$key]);
-	$LO_types[] = array(array('TYPE'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.number_format($users_totals['']['DAYS']/$users_totals['']['ELLIGIBLE'],1).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals['']['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals['']['PARTICIPATED'].'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals['']));
+	$LO_types[] = array(array('TYPE'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.number_format((!empty($users_totals['']['ELLIGIBLE']) ? $users_totals['']['DAYS']/$users_totals['']['ELLIGIBLE'] : 0),1).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals['']['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals['']['PARTICIPATED'].'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals['']));
 	unset($LO_types[0]);
 	$LO_columns = array('TYPE'=>_('Type'),'DISCOUNT'=>_('Discount')) + $users_columns + $types_columns + array('TOTAL'=>_('Total'));
 }
@@ -175,10 +175,10 @@ echo '<BR />';
 
 $tabs = array();
 foreach($menus_RET as $id=>$menu)
-	$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&menu_id=$id&day_start=$_REQUEST[day_start]&month_start=$_REQUEST[month_start]&year_start=$_REQUEST[year_start]&day_end=$_REQUEST[day_end]&month_end=$_REQUEST[month_end]&year_end=$_REQUEST[year_end]&type_select=$_REQUEST[type_select]");
+	$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id.'&day_start='.$_REQUEST['day_start'].'&month_start='.$_REQUEST['month_start'].'&year_start='.$_REQUEST['year_start'].'&day_end='.$_REQUEST['day_end'].'&month_end='.$_REQUEST['month_end'].'&year_end='.$_REQUEST['year_end'].'&type_select='.$_REQUEST['type_select']);
 
 $LO_options = array('count'=>false,'download'=>false,'search'=>false,
-	'header'=>WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&menu_id=$_REQUEST[menu_id]&day_start=$_REQUEST[day_start]&month_start=$_REQUEST[month_start]&year_start=$_REQUEST[year_start]&day_end=$_REQUEST[day_end]&month_end=$_REQUEST[month_end]&year_end=$_REQUEST[year_end]&type_select=$_REQUEST[type_select]"));
+	'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&day_start='.$_REQUEST['day_start'].'&month_start='.$_REQUEST['month_start'].'&year_start='.$_REQUEST['year_start'].'&day_end='.$_REQUEST['day_end'].'&month_end='.$_REQUEST['month_end'].'&year_end='.$_REQUEST['year_end'].'&type_select='.$_REQUEST['type_select']));
 
 ListOutput($LO_types,$LO_columns,'.','.',array(),array(array('')),$LO_options);
 echo '</FORM>';

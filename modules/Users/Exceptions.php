@@ -85,7 +85,7 @@ $staff_RET = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,PROFILE,PROFILE_ID FROM 
 
 if(!$staff_RET[1]['PROFILE_ID'])
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST[modname].'&modfunc=update" method="POST">';
+	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader(_('Select the programs with which this user can use and save information.'),SubmitButton(_('Save')));
 	echo '<BR />';
 	PopTable('header',_('Permissions'));

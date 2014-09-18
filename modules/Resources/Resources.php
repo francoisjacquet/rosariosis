@@ -11,7 +11,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql .= $column."='".$value."',";
 			}
-			$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+			$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 			DBQuery($sql);
 		}
 		else
@@ -58,7 +58,7 @@ if($_REQUEST['modfunc']!='remove')
 
 	$columns = array('TITLE'=>_('Title'),'LINK'=>_('Link'));
 	$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'LINK'=>makeLink('','LINK'));
-	$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove";
+	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id'=>'ID');
 	
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';

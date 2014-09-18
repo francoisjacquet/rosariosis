@@ -41,21 +41,21 @@ if((!$_REQUEST['cat_id'] || !$categories_RET[$_REQUEST['menu_id']][$_REQUEST['ca
 
 $meals = array();
 foreach($menus_RET as $id=>$menu)
-	$meals[] = array('title'=>$menu[1]['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&menu_id=$id");
+	$meals[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
 
 $cats = array();
 //modif Francois: fix error Warning: Invalid argument supplied for foreach()
 if (isset($categories_RET[$_REQUEST['menu_id']]))
 {
 	foreach($categories_RET[$_REQUEST['menu_id']] as $category_id=>$category)
-		$cats[] = array('title'=>$category[1]['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&cat_id=$category_id");
+		$cats[] = array('title'=>$category[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&cat_id='.$category_id);
 }
 
 $items_RET = DBGet(DBQuery("SELECT *,(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM FOOD_SERVICE_MENU_ITEMS fsmi WHERE MENU_ID='$_REQUEST[menu_id]' AND CATEGORY_ID='$_REQUEST[cat_id]' ORDER BY (SELECT SORT_ORDER FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER"));
 
 echo '<BR />';
 
-echo '<span class="center">'.WrapTabs($meals,"Modules.php?modname=$_REQUEST[modname]&menu_id=$_REQUEST[menu_id]").'</span>';
+echo '<span class="center">'.WrapTabs($meals,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']).'</span>';
 
 if(count($items_RET))
 {
@@ -79,5 +79,5 @@ if(count($items_RET))
 	echo '</TABLE>';
 }
 //modif Francois: remove WrapTabs params
-echo '<span class="center">'.WrapTabs($cats,"Modules.php?modname=$_REQUEST[modname]&cat_id=$_REQUEST[cat_id]").'</span>';
+echo '<span class="center">'.WrapTabs($cats,'Modules.php?modname='.$_REQUEST['modname'].'&cat_id='.$_REQUEST['cat_id']).'</span>';
 ?>

@@ -64,10 +64,10 @@ if($_REQUEST['modfunc']!='remove')
 
 	$columns = array('TITLE'=>_('Title'),'SHORT_NAME'=>_('Short Name'),'TYPE'=>_('Type'),'DEFAULT_CODE'=>_('Rollover Default'),'SORT_ORDER'=>_('Sort Order'));
 	$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'SHORT_NAME'=>makeTextInput('','SHORT_NAME'),'TYPE'=>makeSelectInput('','TYPE'),'DEFAULT_CODE'=>makeCheckBoxInput('','DEFAULT_CODE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
-	$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove";
+	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id'=>_('ID'));
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST[modname].'&modfunc=update" method="POST">';
+	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 //modif Francois: fix SQL bug invalid sort order
 	if(isset($error)) echo $error;

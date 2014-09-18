@@ -69,7 +69,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Activity')))
 	{
-		DBQuery("DELETE FROM ELIGIBILITY_ACTIVITIES WHERE ID='$_REQUEST[id]'");
+		DBQuery("DELETE FROM ELIGIBILITY_ACTIVITIES WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }
@@ -82,10 +82,10 @@ if($_REQUEST['modfunc']!='remove')
 	
 	$columns = array('TITLE'=>_('Title'),'START_DATE'=>_('Begins'),'END_DATE'=>_('Ends'));
 	$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'START_DATE'=>makeDateInput('','START_DATE'),'END_DATE'=>makeDateInput('','END_DATE'));
-	$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove";
+	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id'=>'ID');
 	
-	echo '<FORM action="Modules.php?modname='.$_REQUEST[modname].'&modfunc=update" method="POST">';
+	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 	ListOutput($activities_RET,$columns,'Activity','Activities',$link);
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';

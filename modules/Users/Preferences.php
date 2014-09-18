@@ -116,24 +116,24 @@ if(empty($_REQUEST['modfunc']))
 
 	if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 	{
-		$tabs = array(array('title'=>_('Display Options'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=display_options"),array('title'=>_('Print Options'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=print_options"),array('title'=>_('Student Listing'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=student_listing"),array('title'=>_('Password'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=password"),array('title'=>_('Student Fields'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=student_fields"),array('title'=>_('Widgets'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=widgets"));
+		$tabs = array(array('title'=>_('Display Options'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=display_options'),array('title'=>_('Print Options'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=print_options'),array('title'=>_('Student Listing'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=student_listing'),array('title'=>_('Password'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=password'),array('title'=>_('Student Fields'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=student_fields'),array('title'=>_('Widgets'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=widgets'));
 		if(User('PROFILE')=='admin')
 		{
-			$tabs[] = array('title'=>_('User Fields'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=staff_fields");
-			$tabs[] = array('title'=>_('User Widgets'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=staff_widgets");
+			$tabs[] = array('title'=>_('User Fields'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=staff_fields');
+			$tabs[] = array('title'=>_('User Widgets'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=staff_widgets');
 		}
 	}
 	elseif(User('PROFILE')=='parent')
 	{
-		$tabs = array(array('title'=>_('Display Options'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=display_options"),array('title'=>_('Print Options'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=print_options"),array('title'=>_('Password'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=password"),array('title'=>_('Student Fields'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=student_fields"));
+		$tabs = array(array('title'=>_('Display Options'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=display_options'),array('title'=>_('Print Options'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=print_options'),array('title'=>_('Password'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=password'),array('title'=>_('Student Fields'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=student_fields'));
 	}
 	//modif Francois: enable password change for students
 	else
 	{
-		$tabs = array(array('title'=>_('Password'),'link'=>"Modules.php?modname=$_REQUEST[modname]&amp;tab=password"));
+		$tabs = array(array('title'=>_('Password'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=password'));
 	}
 
-	$_ROSARIO['selected_tab'] = "Modules.php?modname=$_REQUEST[modname]&amp;tab=".$_REQUEST['tab'];
+	$_ROSARIO['selected_tab'] = 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab='.$_REQUEST['tab'];
 	if (!in_array($_REQUEST['tab'], array('student_fields','staff_fields')))
 		PopTable('header',$tabs);
 	else //modif Francois: Responsive student/staff fields preferences

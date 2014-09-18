@@ -83,7 +83,7 @@ if(UserStudentID())
 else
 {
 	$columns = array('FULL_NAME'=>_('Name'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'POINTS'=>_('Problem'));
-	$link = array('FULL_NAME'=>array('link'=>"Modules.php?modname=$_REQUEST[modname]&include_all_courses=$_REQUEST[include_all_courses]&include_ianctive=$_REQUEST[include_inactive]&missing=$_REQUEST[missing]&negative=$_REQUEST[negative]&max_allowed=$_REQUEST[max_allowed]",'variables'=>array('student_id'=>'STUDENT_ID')));
+	$link = array('FULL_NAME'=>array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&include_all_courses='.$_REQUEST['include_all_courses'].'&include_ianctive='.$_REQUEST['include_inactive'].'&missing='.$_REQUEST['missing'].'&negative='.$_REQUEST['negative'].'&max_allowed='.$_REQUEST['max_allowed'],'variables'=>array('student_id'=>'STUDENT_ID')));
 	if($_REQUEST['include_all_courses']=='Y')
 		$link['FULL_NAME']['variables']['period'] = 'COURSE_PERIOD_ID';
 	$group = array('STUDENT_ID');

@@ -46,8 +46,8 @@ if($_REQUEST['period_id'])
 {
 	$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
 						WHERE ac.ID=ap.ATTENDANCE_CODE AND (ac.STATE_CODE='A' OR ac.STATE_CODE='H') AND ap.STUDENT_ID=ssm.STUDENT_ID
-						AND ap.PERIOD_ID='$_REQUEST[period_id]'
-						AND ap.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' AND ac.SYEAR=ssm.SYEAR) AS STATE_ABS";
+						AND ap.PERIOD_ID='".$_REQUEST['period_id']."'
+						AND ap.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ac.SYEAR=ssm.SYEAR) AS STATE_ABS";
 
 	$extra['columns_after']['STATE_ABS'] = _('State Abs');
 	$codes_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)"));
@@ -56,8 +56,8 @@ if($_REQUEST['period_id'])
 		foreach($codes_RET as $code)
 		{
 			$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
-						WHERE ac.ID=ap.ATTENDANCE_CODE AND ac.ID='$code[ID]' AND ap.PERIOD_ID='$_REQUEST[period_id]' AND ap.STUDENT_ID=ssm.STUDENT_ID
-						AND ap.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date') AS ABS_$code[ID]";
+						WHERE ac.ID=ap.ATTENDANCE_CODE AND ac.ID='".$code['ID']."' AND ap.PERIOD_ID='".$_REQUEST['period_id']."' AND ap.STUDENT_ID=ssm.STUDENT_ID
+						AND ap.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS ABS_".$code['ID'];
 			$extra['columns_after']["ABS_$code[ID]"] = $code['TITLE'];
 		}
 	}
@@ -66,11 +66,11 @@ else
 {
 	$extra['SELECT'] = ",(SELECT COALESCE((sum(STATE_VALUE-1)*-1),0.0) FROM ATTENDANCE_DAY ad
 						WHERE ad.STUDENT_ID=ssm.STUDENT_ID
-						AND ad.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' AND ad.SYEAR=ssm.SYEAR) AS STATE_ABS";
+						AND ad.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ad.SYEAR=ssm.SYEAR) AS STATE_ABS";
 //modif Francois: add translation 
 	$extra['columns_after']['STATE_ABS'] = _('Days Absent');
 }
-$extra['link']['FULL_NAME']['link'] = "Modules.php?modname=$_REQUEST[modname]&day_start=$_REQUEST[day_start]&day_end=$_REQUEST[day_end]&month_start=$_REQUEST[month_start]&month_end=$_REQUEST[month_end]&year_start=$_REQUEST[year_start]&year_end=$_REQUEST[year_end]&period_id=$_REQUEST[period_id]";
+$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&period_id='.$_REQUEST['period_id'];
 $extra['link']['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
 //if((!$_REQUEST['search_modfunc'] || $_ROSARIO['modules_search']) && !$_REQUEST['student_id'])
 //	$extra['new'] = true;
@@ -87,7 +87,7 @@ if(UserStudentID())
 	DrawHeader($name_RET[1]['FULL_NAME']);
 	$PHP_tmp_SELF = PreparePHP_SELF();
 
-	$absences_RET = DBGet(DBQuery("SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT FROM ATTENDANCE_PERIOD ap,ATTENDANCE_DAY ad,ATTENDANCE_CODES ac WHERE ap.STUDENT_ID=ad.STUDENT_ID AND ap.SCHOOL_DATE=ad.SCHOOL_DATE AND ap.ATTENDANCE_CODE=ac.ID AND (ac.DEFAULT_CODE!='Y' OR ac.DEFAULT_CODE IS NULL) AND ap.STUDENT_ID='".UserStudentID()."' AND ap.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' AND ad.SYEAR='".UserSyear()."' ORDER BY ap.SCHOOL_DATE"),array(),array('SCHOOL_DATE','PERIOD_ID'));
+	$absences_RET = DBGet(DBQuery("SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT FROM ATTENDANCE_PERIOD ap,ATTENDANCE_DAY ad,ATTENDANCE_CODES ac WHERE ap.STUDENT_ID=ad.STUDENT_ID AND ap.SCHOOL_DATE=ad.SCHOOL_DATE AND ap.ATTENDANCE_CODE=ac.ID AND (ac.DEFAULT_CODE!='Y' OR ac.DEFAULT_CODE IS NULL) AND ap.STUDENT_ID='".UserStudentID()."' AND ap.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ad.SYEAR='".UserSyear()."' ORDER BY ap.SCHOOL_DATE"),array(),array('SCHOOL_DATE','PERIOD_ID'));
 	foreach($absences_RET as $school_date=>$absences)
 	{
 		$i++;

@@ -42,7 +42,7 @@ if(!$_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['stude
 				$RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 		}
 	}
-	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=courses&include_child_mps=$_REQUEST[include_child_mps]";
+	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&include_child_mps='.$_REQUEST['include_child_mps'];
 	$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID');
 	echo '<TD class="valign-top">';
 	$LO_options['responsive'] = false;
@@ -66,7 +66,7 @@ if($_REQUEST['modfunc']=='courses')
 				$RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 		}
 	}
-	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=students&subject_id=$_REQUEST[subject_id]&include_child_mps=$_REQUEST[include_child_mps]";
+	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=students&subject_id='.$_REQUEST['subject_id'].'&include_child_mps='.$_REQUEST['include_child_mps'];
 	$link['TITLE']['variables'] = array('course_id'=>'COURSE_ID');
 	$columns = array('TITLE'=>_('Course'),'COUNT_REQUESTS'=>_('Requests'));
 	if($_REQUEST['include_child_mps'])
@@ -124,7 +124,7 @@ if($_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_peri
 		}
 	}
 	$link = array();
-	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=students&students=course_periods&subject_id=$_REQUEST[subject_id]&course_id=$_REQUEST[course_id]&include_child_mps=$_REQUEST[include_child_mps]";
+	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=students&students=course_periods&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&include_child_mps='.$_REQUEST['include_child_mps'];
 	$link['TITLE']['variables'] = array('course_period_id'=>'COURSE_PERIOD_ID');
     $columns = array('TITLE'=>_('Course'),'COUNT_REQUESTS'=>_('Requests'));
 	$columns = array('TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'));

@@ -233,9 +233,9 @@ if(empty($_REQUEST['modfunc']))
 	echo '<div class="st">';
 	$columns = array('TITLE'=>_('School Field'),'SORT_ORDER'=>_('Order'),'TYPE'=>_('Data Type'));
 	$link = array();
-	$link['TITLE']['link'] = "Modules.php?modname=$_REQUEST[modname]";
+	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'];
 	$link['TITLE']['variables'] = array('id'=>'ID');
-	$link['add']['link'] = "Modules.php?modname=$_REQUEST[modname]&id=new";
+	$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&id=new';
 
 	$fields_RET = ParseMLArray($fields_RET,'TITLE');
 	//modif Francois: no responsive table

@@ -244,9 +244,7 @@ if(UserStudentID())
                                         );
                                         
                 }
-                //$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&table=student_report_card_grades";
-                //$link['remove']['variables'] = array('id'=>'ID');
-                $link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&mp_id=$mp_id";
+                $link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&mp_id='.$mp_id;
                 $link['remove']['variables'] = array('id'=>'ID');
                 $link['add']['html']['remove'] = button('add');
                 $LO_ret = DBGet(DBQuery($sql),$functions);

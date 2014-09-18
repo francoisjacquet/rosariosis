@@ -100,7 +100,7 @@ if(empty($_REQUEST['modfunc']))
 	$comment_scale_select = array();
 	foreach($comment_scales_RET as $id=>$comment_scale)
 	{
-		$tabs[] = array('title'=>$comment_scale[1]['TITLE'],'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=$id");
+		$tabs[] = array('title'=>$comment_scale[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
 		$comment_scale_select[$id] = $comment_scale[1]['TITLE'];
 	}
 
@@ -117,12 +117,12 @@ if(empty($_REQUEST['modfunc']))
 		}
 
 		$link['add']['html'] = array('TITLE'=>makeCommentsInput('','TITLE'),'SHORT_NAME'=>makeCommentsInput('','SHORT_NAME'),'COMMENT'=>makeCommentsInput('','COMMENT'),'SORT_ORDER'=>makeCommentsInput('','SORT_ORDER'));
-		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&tab_id=$_REQUEST[tab_id]";
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'];
 		$link['remove']['variables'] = array('id'=>_('ID'));
 		$link['add']['html']['remove'] = button('add');
 
 		if(User('PROFILE')=='admin')
-			$tabs[] = array('title'=>button('add','','',14),'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=new");
+			$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 		$subject = 'Codes';
 	}
 	else
@@ -132,11 +132,11 @@ if(empty($_REQUEST['modfunc']))
 		$LO_columns = array('TITLE'=>_('Comment Scale'),'COMMENT'=>_('Comment'),'SORT_ORDER'=>_('Sort Order'));
 
 		$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'COMMENT'=>makeTextInput('','COMMENT'),'HHR_GPA_VALUE'=>makeCommentsInput('','HHR_GPA_VALUE'),'HR_GPA_VALUE'=>makeCommentsInput('','HR_GPA_VALUE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
-		$link['remove']['link'] = "Modules.php?modname=$_REQUEST[modname]&modfunc=remove&tab_id=new";
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id=new';
 		$link['remove']['variables'] = array('id'=>_('ID'));
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>"Modules.php?modname=$_REQUEST[modname]&tab_id=new");
+		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 		$subject = 'Comment Code Scales';
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
@@ -147,7 +147,7 @@ if(empty($_REQUEST['modfunc']))
 //modif Francois: fix SQL bug invalid sort order
 	if(isset($error)) echo $error;
 
-	$LO_options = array('save'=>false,'search'=>false,'header'=>WrapTabs($tabs,"Modules.php?modname=$_REQUEST[modname]&tab_id=$_REQUEST[tab_id]"));
+	$LO_options = array('save'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
         
     if ($subject == 'Codes')
 	    ListOutput($LO_ret,$LO_columns,'Code','Codes',$link,array(),$LO_options);
