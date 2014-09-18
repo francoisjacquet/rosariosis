@@ -1,5 +1,11 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.6.2
+----------------
+- add German translation, thanks to Heike Gutsche (needs update)
+- IE9 & Safari fixes in warehouse.js
+
+
 Changes in 2.6
 --------------
 - add Arabic translation, thanks to Husam Shabeeb (needs update)
@@ -26,8 +32,8 @@ Changes in 2.6
 - Better list sorting by isolating the values
 - Update french & spanish translations
 
-Upgrade from 2.x
-----------------
+Upgrade from 2.5.x
+------------------
 - Execute the SQL commands to add the accounting module & the food service options, see https://gist.github.com/francoisjacquet/8cd6c3625a68628674a8
 - Add the Accounting module to the config.inc.php file, see https://github.com/francoisjacquet/rosariosis/blob/mobile/config.inc.sample.php#L40
 
