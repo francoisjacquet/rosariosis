@@ -5,7 +5,7 @@ function ProgramTitle($modname='')
 
 	if(!$modname)
 		$modname = $_REQUEST['modname'];
-	if(!$_ROSARIO['Menu'])
+	if(!isset($_ROSARIO['Menu']))
 	{
 		global $RosarioModules;
 		include 'Menu.php';

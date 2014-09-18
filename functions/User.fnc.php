@@ -3,17 +3,17 @@
 function User($item)
 {	global $_ROSARIO;
 
-	if(!$_SESSION['UserSyear'])
+	if(!isset($_SESSION['UserSyear']))
 		$_SESSION['UserSyear'] = Config('SYEAR');
 
-	if(!$_ROSARIO['User'] || $_SESSION['UserSyear']!=$_ROSARIO['User'][1]['SYEAR'])
+	if(!isset($_ROSARIO['User']) || $_SESSION['UserSyear']!=$_ROSARIO['User'][1]['SYEAR'])
 	{
-		if($_SESSION['STAFF_ID'])
+		if(!empty($_SESSION['STAFF_ID']))
 		{
             $sql = "SELECT STAFF_ID,USERNAME,FIRST_NAME||' '||LAST_NAME AS NAME,PROFILE,PROFILE_ID,SCHOOLS,CURRENT_SCHOOL_ID,EMAIL,SYEAR,LAST_LOGIN FROM STAFF WHERE SYEAR='".$_SESSION['UserSyear']."' AND USERNAME=(SELECT USERNAME FROM STAFF WHERE SYEAR='".Config('SYEAR')."' AND STAFF_ID='".$_SESSION['STAFF_ID']."')";
 			$_ROSARIO['User'] = DBGet(DBQuery($sql));
 		}
-		elseif($_SESSION['STUDENT_ID'])
+		elseif(!empty($_SESSION['STUDENT_ID']))
 		{
             $sql = "SELECT '0' AS STAFF_ID,s.USERNAME,s.FIRST_NAME||' '||s.LAST_NAME AS NAME,'student' AS PROFILE,'0' AS PROFILE_ID,','||se.SCHOOL_ID||',' AS SCHOOLS,se.SYEAR,se.SCHOOL_ID FROM STUDENTS s,STUDENT_ENROLLMENT se WHERE s.STUDENT_ID='".$_SESSION['STUDENT_ID']."' AND se.SYEAR='".$_SESSION['UserSyear']."' AND se.STUDENT_ID=s.STUDENT_ID ORDER BY se.END_DATE DESC LIMIT 1";
 			$_ROSARIO['User'] = DBGet(DBQuery($sql));
