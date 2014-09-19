@@ -25,9 +25,9 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 							$sql .= $column."='".$value."',";
 
 						if($_REQUEST['tab_id']!='new')
-							$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 						else
-							$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 						DBQuery($sql);
 					}
 					else
@@ -74,14 +74,14 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 //modif Francois: add translation
 		if(DeletePromptX(_('Report Card Grade')))
 		{
-			DBQuery("DELETE FROM REPORT_CARD_GRADES WHERE ID='$_REQUEST[id]'");
+			DBQuery("DELETE FROM REPORT_CARD_GRADES WHERE ID='".$_REQUEST['id']."'");
 		}
 	}
 	else
 		if(DeletePromptX(_('Report Card Grading Scale')))
 		{
-			DBQuery("DELETE FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID='$_REQUEST[id]'");
-			DBQuery("DELETE FROM REPORT_CARD_GRADE_SCALES WHERE ID='$_REQUEST[id]'");
+			DBQuery("DELETE FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID='".$_REQUEST['id']."'");
+			DBQuery("DELETE FROM REPORT_CARD_GRADE_SCALES WHERE ID='".$_REQUEST['id']."'");
 		}
 }
 
@@ -106,7 +106,7 @@ if(empty($_REQUEST['modfunc']))
 		if($course_period_RET[1]['DOES_BREAKOFF']=='Y')
 		{
 			$teacher_id = $course_period_RET[1]['TEACHER_ID'];
-			$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='$teacher_id' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
+			$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$teacher_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 		}
 		$_REQUEST['tab_id'] = key($grade_scales_RET).'';
 	}

@@ -25,7 +25,7 @@ function GetAllMP($mp,$marking_period_id='0')
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 				foreach($RET as $value)
 				{
-					$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = "'$fy','$value[PARENT_ID]','$value[MARKING_PERIOD_ID]'";
+					$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = "'".$fy."','".$value['PARENT_ID']."','".$value['MARKING_PERIOD_ID']."'";
 					$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] .= ','.GetChildrenMP($mp,$value['MARKING_PERIOD_ID']);
 					if(mb_substr($_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']],-1)==',')
 						$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = mb_substr($_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']],0,-1);
@@ -39,7 +39,7 @@ function GetAllMP($mp,$marking_period_id='0')
 
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 				foreach($RET as $value)
-					$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = "'$fy','$value[PARENT_ID]','$value[MARKING_PERIOD_ID]'";
+					$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = "'".$fy."','".$value['PARENT_ID']."','".$value['MARKING_PERIOD_ID']."'";
 			break;
 
 			case 'SEM':
@@ -50,28 +50,28 @@ function GetAllMP($mp,$marking_period_id='0')
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('PARENT_ID'));
 				foreach($RET as $sem=>$value)
 				{
-					$_ROSARIO['GetAllMP'][$mp][$sem] = "'$fy','$sem'";
+					$_ROSARIO['GetAllMP'][$mp][$sem] = "'".$fy."','".$sem."'";
 					foreach($value as $qtr)
-						$_ROSARIO['GetAllMP'][$mp][$sem] .= ",'$qtr[MARKING_PERIOD_ID]'";
+						$_ROSARIO['GetAllMP'][$mp][$sem] .= ",'".$qtr['MARKING_PERIOD_ID']."'";
 				}
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS s WHERE MP='SEM' AND NOT EXISTS (SELECT '' FROM SCHOOL_MARKING_PERIODS q WHERE q.MP='QTR' AND q.PARENT_ID=s.MARKING_PERIOD_ID) AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 				foreach($RET as $value)
-					$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = "'$fy','$value[MARKING_PERIOD_ID]'";
+					$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = "'".$fy."','".$value['MARKING_PERIOD_ID']."'";
 			break;
 
 			case 'FY':
 				// there should be exactly one fy marking period which better be $marking_period_id
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('PARENT_ID'));
-				$_ROSARIO['GetAllMP'][$mp][$marking_period_id] = "'$marking_period_id'";
+				$_ROSARIO['GetAllMP'][$mp][$marking_period_id] = "'".$marking_period_id."'";
 				foreach($RET as $sem=>$value)
 				{
-					$_ROSARIO['GetAllMP'][$mp][$marking_period_id] .= ",'$sem'";
+					$_ROSARIO['GetAllMP'][$mp][$marking_period_id] .= ",'".$sem."'";
 					foreach($value as $qtr)
-						$_ROSARIO['GetAllMP'][$mp][$marking_period_id] .= ",'$qtr[MARKING_PERIOD_ID]'";
+						$_ROSARIO['GetAllMP'][$mp][$marking_period_id] .= ",'".$qtr['MARKING_PERIOD_ID']."'";
 				}
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS s WHERE MP='SEM' AND NOT EXISTS (SELECT '' FROM SCHOOL_MARKING_PERIODS q WHERE q.MP='QTR' AND q.PARENT_ID=s.MARKING_PERIOD_ID) AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 				foreach($RET as $value)
-					$_ROSARIO['GetAllMP'][$mp][$marking_period_id] .= ",'$value[MARKING_PERIOD_ID]'";
+					$_ROSARIO['GetAllMP'][$mp][$marking_period_id] .= ",'".$value['MARKING_PERIOD_ID']."'";
 			break;
 		}
 	}
@@ -114,9 +114,9 @@ function GetChildrenMP($mp,$marking_period_id='0')
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('PARENT_ID'));
 				foreach($RET as $sem=>$value)
 				{
-					$_ROSARIO['GetChildrenMP'][$mp]['0'] .= ",'$sem'";
+					$_ROSARIO['GetChildrenMP'][$mp]['0'] .= ",'".$sem."'";
 					foreach($value as $qtr)
-						$_ROSARIO['GetChildrenMP'][$mp]['0'] .= ",'$qtr[MARKING_PERIOD_ID]'";
+						$_ROSARIO['GetChildrenMP'][$mp]['0'] .= ",'".$qtr['MARKING_PERIOD_ID']."'";
 				}
 				$_ROSARIO['GetChildrenMP'][$mp]['0'] = mb_substr($_ROSARIO['GetChildrenMP'][$mp]['0'],1);
 			}
@@ -132,7 +132,7 @@ function GetChildrenMP($mp,$marking_period_id='0')
 				foreach($RET as $sem=>$value)
 				{
 					foreach($value as $qtr)
-						$_ROSARIO['GetChildrenMP'][$mp][$sem] .= ",'$qtr[MARKING_PERIOD_ID]'";
+						$_ROSARIO['GetChildrenMP'][$mp][$sem] .= ",'".$qtr['MARKING_PERIOD_ID']."'";
 					$_ROSARIO['GetChildrenMP'][$mp][$sem] = mb_substr($_ROSARIO['GetChildrenMP'][$mp][$sem],1);
 				}
 			}
@@ -150,7 +150,7 @@ function GetChildrenMP($mp,$marking_period_id='0')
 				foreach($RET as $qtr=>$value)
 				{
 					foreach($value as $pro)
-						$_ROSARIO['GetChildrenMP'][$mp][$qtr] .= ",'$pro[MARKING_PERIOD_ID]'";
+						$_ROSARIO['GetChildrenMP'][$mp][$qtr] .= ",'".$pro['MARKING_PERIOD_ID']."'";
 					$_ROSARIO['GetChildrenMP'][$mp][$qtr] = mb_substr($_ROSARIO['GetChildrenMP'][$mp][$qtr],1);
 				}
 			}

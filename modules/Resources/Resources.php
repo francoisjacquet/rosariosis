@@ -45,7 +45,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Resource')))
 	{
-		DBQuery("DELETE FROM RESOURCES WHERE ID='$_REQUEST[id]'");
+		DBQuery("DELETE FROM RESOURCES WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }

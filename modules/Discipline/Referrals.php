@@ -66,7 +66,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$go = true;
 		}
 	}
-	$sql = mb_substr($sql,0,-1) . " WHERE ID='$_REQUEST[referral_id]'";
+	$sql = mb_substr($sql,0,-1) . " WHERE ID='".$_REQUEST['referral_id']."'";
 
 	if ($go)
 		DBQuery($sql);
@@ -82,7 +82,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Referral')))
 	{
-		DBQuery("DELETE FROM DISCIPLINE_REFERRALS WHERE ID='$_REQUEST[id]'");
+		DBQuery("DELETE FROM DISCIPLINE_REFERRALS WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }

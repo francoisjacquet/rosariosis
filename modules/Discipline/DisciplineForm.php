@@ -26,7 +26,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 				foreach($columns as $column=>$value)
 					$sql .= $column."='".$value."',";
-				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				$go = true;
 			}
 			else
@@ -119,8 +119,8 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	if(DeletePrompt(_('Category')))
 	{
 		$id = $_REQUEST['id'];
-		DBQuery("DELETE FROM DISCIPLINE_FIELDS WHERE ID='$id'");
-		DBQuery("DELETE FROM DISCIPLINE_FIELD_USAGE WHERE DISCIPLINE_FIELD_ID='$id'");
+		DBQuery("DELETE FROM DISCIPLINE_FIELDS WHERE ID='".$id."'");
+		DBQuery("DELETE FROM DISCIPLINE_FIELD_USAGE WHERE DISCIPLINE_FIELD_ID='".$id."'");
 		DBQuery("ALTER TABLE DISCIPLINE_REFERRALS DROP COLUMN CATEGORY_$id");
 		unset($_REQUEST['modfunc']);
 		unset($_REQUEST['id']);
@@ -132,7 +132,7 @@ if($_REQUEST['modfunc']=='delete_usage' && AllowEdit())
 	if(DeletePrompt(_('Category'),_('Don\'t use')))
 	{
 		$id = $_REQUEST['id'];
-		DBQuery("DELETE FROM DISCIPLINE_FIELD_USAGE WHERE ID='$id'");
+		DBQuery("DELETE FROM DISCIPLINE_FIELD_USAGE WHERE ID='".$id."'");
 		unset($_REQUEST['modfunc']);
 		unset($_REQUEST['id']);
 	}

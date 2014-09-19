@@ -74,7 +74,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 				{
 					$id = DBGet(DBQuery("SELECT ".db_seq_nextval('SCHOOLS_SEQ')." AS ID".FROM_DUAL));
 					$id = $id[1]['ID'];
-					$sql = "INSERT INTO SCHOOLS (ID,SYEAR$fields) values('$id','".UserSyear()."'$values)";
+					$sql = "INSERT INTO SCHOOLS (ID,SYEAR$fields) values('".$id."','".UserSyear()."'$values)";
 					DBQuery($sql);
 					DBQuery("UPDATE STAFF SET SCHOOLS=rtrim(SCHOOLS,',')||',$id,' WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOLS IS NOT NULL");
 				

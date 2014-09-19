@@ -70,7 +70,7 @@ if($_REQUEST['category_id'])
 		$extra = array();
 		$extra['SELECT_ONLY'] = "dr.CATEGORY_".intval($_REQUEST['category_id'])." AS TITLE,COUNT(*) AS COUNT ";
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
-		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
+		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '".$start_date."' AND '".$end_date."' ";
 		$extra['GROUP'] = 'CATEGORY_'.intval($_REQUEST['category_id']);
 		$extra['group'] = array('TITLE');
 		//Widgets('all');
@@ -91,7 +91,7 @@ if($_REQUEST['category_id'])
 		$extra = array();
 		$extra['SELECT_ONLY'] = "COALESCE(dr.CATEGORY_".intval($_REQUEST['category_id']).",'N') AS TITLE,COUNT(*) AS COUNT ";
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
-		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
+		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '".$start_date."' AND '".$end_date."' ";
 		$extra['GROUP'] = 'CATEGORY_'.intval($_REQUEST['category_id']);
 		$extra['group'] = array('TITLE');
 		//Widgets('all');
@@ -109,7 +109,7 @@ if($_REQUEST['category_id'])
 	{
 		$extra['SELECT_ONLY'] = "CATEGORY_".intval($_REQUEST['category_id'])." AS TITLE ";
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
-		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
+		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '".$start_date."' AND '".$end_date."' ";
 		//Widgets('all');
 //modif Francois: fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
@@ -134,7 +134,7 @@ if($_REQUEST['category_id'])
 
 		$extra['SELECT_ONLY'] = "COALESCE(max(CATEGORY_".intval($_REQUEST['category_id'])."),0) as MAX,COALESCE(min(CATEGORY_".intval($_REQUEST['category_id'])."),0) AS MIN ";
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr';
-		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' ";
+		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '".$start_date."' AND '".$end_date."' ";
 //modif Francois: fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
 		$extra['WHERE'] .= CustomFields('where');
@@ -164,7 +164,7 @@ if($_REQUEST['category_id'])
 		
 		$extra['SELECT_ONLY'] = "CATEGORY_".intval($_REQUEST['category_id'])." AS TITLE";
 		$extra['FROM'] = ",DISCIPLINE_REFERRALS dr";
-		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '$start_date' AND '$end_date' AND CATEGORY_".intval($_REQUEST['category_id'])." IS NOT NULL ";
+		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND CATEGORY_".intval($_REQUEST['category_id'])." IS NOT NULL ";
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');
 		//Widgets('all');
 //modif Francois: fix Advanced Search

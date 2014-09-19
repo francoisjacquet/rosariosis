@@ -24,14 +24,14 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						foreach($columns as $column=>$value)
 							$sql .= $column."='".$value."',";
 
-						$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+						$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 						DBQuery($sql);
 					}
 					else
 					{
 						$sql = "INSERT INTO $table ";
 						$fields = "ID,SCHOOL_ID,SYEAR,COURSE_ID,".($_REQUEST['tab_id']=='new'?'':"CATEGORY_ID,");
-						$values = db_seq_nextval($table.'_SEQ').",'".UserSchool()."','".UserSyear()."',".($_REQUEST['tab_id']=='new'?"$_REQUEST[course_id]":($_REQUEST['tab_id']=='-1'?"NULL,NULL":($_REQUEST['tab_id']=='0'?"'0',NULL":"'$_REQUEST[course_id]','$_REQUEST[tab_id]'"))).",";
+						$values = db_seq_nextval($table.'_SEQ').",'".UserSchool()."','".UserSyear()."',".($_REQUEST['tab_id']=='new'?"$_REQUEST[course_id]":($_REQUEST['tab_id']=='-1'?"NULL,NULL":($_REQUEST['tab_id']=='0'?"'0',NULL":"'".$_REQUEST['course_id']."','".$_REQUEST['tab_id']."'"))).",";
 
 						$go = false;
 						foreach($columns as $column=>$value)
@@ -62,22 +62,22 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 //modif Francois: add translation
 		if(DeletePromptX(_('Report Card Comment Category')))
 		{
-			DBQuery("DELETE FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='$_REQUEST[id]'");
-			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CATEGORIES WHERE ID='$_REQUEST[id]'");
+			DBQuery("DELETE FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='".$_REQUEST['id']."'");
+			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CATEGORIES WHERE ID='".$_REQUEST['id']."'");
 		}
 	}
 	elseif($_REQUEST['tab_id']=='-1')
 	{
 		if(DeletePromptX(_('Report Card Comment')))
 		{
-			DBQuery("DELETE FROM REPORT_CARD_COMMENTS WHERE ID='$_REQUEST[id]'");
+			DBQuery("DELETE FROM REPORT_CARD_COMMENTS WHERE ID='".$_REQUEST['id']."'");
 		}
 	}
 	else
 	{
 		if(DeletePromptX(_('Report Card Comment')))
 		{
-			DBQuery("DELETE FROM REPORT_CARD_COMMENTS WHERE ID='$_REQUEST[id]'");
+			DBQuery("DELETE FROM REPORT_CARD_COMMENTS WHERE ID='".$_REQUEST['id']."'");
 		}
 	}
 }
@@ -90,7 +90,7 @@ if(empty($_REQUEST['modfunc']))
 		$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE SUBJECT_ID=COURSE_SUBJECTS.SUBJECT_ID AND GRADE_SCALE_ID IS NOT NULL)>0 ORDER BY SORT_ORDER,TITLE"),array(),array('SUBJECT_ID'));
 		if(!$_REQUEST['subject_id'] || !$subjects_RET[$_REQUEST['subject_id']])
 			$_REQUEST['subject_id'] = key($subjects_RET).'';
-		$courses_RET = DBGet(DBQuery("SELECT COURSE_ID,TITLE FROM COURSES WHERE SUBJECT_ID='$_REQUEST[subject_id]' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE COURSE_ID=COURSES.COURSE_ID AND GRADE_SCALE_ID IS NOT NULL)>0 ORDER BY TITLE"),array(),array('COURSE_ID'));
+		$courses_RET = DBGet(DBQuery("SELECT COURSE_ID,TITLE FROM COURSES WHERE SUBJECT_ID='".$_REQUEST['subject_id']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE COURSE_ID=COURSES.COURSE_ID AND GRADE_SCALE_ID IS NOT NULL)>0 ORDER BY TITLE"),array(),array('COURSE_ID'));
 		if(!$_REQUEST['course_id'] || !$courses_RET[$_REQUEST['course_id']])
 			$_REQUEST['course_id'] = key($courses_RET).'';
 
@@ -119,7 +119,7 @@ if(empty($_REQUEST['modfunc']))
 		$course_select = $courses_RET[1]['TITLE'];
 	}
 
-	$categories_RET = DBGet(DBQuery("SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID) AS COUNT FROM REPORT_CARD_COMMENT_CATEGORIES rc WHERE rc.COURSE_ID='$_REQUEST[course_id]'".
+	$categories_RET = DBGet(DBQuery("SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID) AS COUNT FROM REPORT_CARD_COMMENT_CATEGORIES rc WHERE rc.COURSE_ID='".$_REQUEST['course_id']."'".
 				" UNION SELECT 0,'"._('All Courses')."',NULL,2,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID='0' AND SYEAR='".UserSyear()."')".
 				" UNION SELECT -1,'"._('General')."',NULL,3,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID IS NULL AND SYEAR='".UserSyear()."')".
 				" ORDER BY 4,SORT_ORDER"),array(),array('ID'));

@@ -84,7 +84,7 @@ if($_REQUEST['type_id'])
 		unset($_REQUEST['type_id']);
 
 //modif Francois: default points
-$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,TITLE,POINTS,ASSIGNED_DATE,DUE_DATE,DEFAULT_POINTS,extract(EPOCH FROM DUE_DATE) AS DUE_EPOCH,CASE WHEN (ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ASSIGNED_DATE) AND (DUE_DATE IS NULL OR CURRENT_DATE>=DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=gradebook_assignments.MARKING_PERIOD_ID) THEN 'Y' ELSE NULL END AS DUE FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".User('STAFF_ID')."' AND ((COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') AND STAFF_ID='".User('STAFF_ID')."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."') AND MARKING_PERIOD_ID='".UserMP()."'".($_REQUEST['type_id']?" AND ASSIGNMENT_TYPE_ID='$_REQUEST[type_id]'":'')." ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC,ASSIGNMENT_ID DESC,TITLE"),array(),array('ASSIGNMENT_ID'));
+$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,TITLE,POINTS,ASSIGNED_DATE,DUE_DATE,DEFAULT_POINTS,extract(EPOCH FROM DUE_DATE) AS DUE_EPOCH,CASE WHEN (ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ASSIGNED_DATE) AND (DUE_DATE IS NULL OR CURRENT_DATE>=DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=gradebook_assignments.MARKING_PERIOD_ID) THEN 'Y' ELSE NULL END AS DUE FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".User('STAFF_ID')."' AND ((COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') AND STAFF_ID='".User('STAFF_ID')."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."') AND MARKING_PERIOD_ID='".UserMP()."'".($_REQUEST['type_id']?" AND ASSIGNMENT_TYPE_ID='".$_REQUEST['type_id']."'":'')." ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC,ASSIGNMENT_ID DESC,TITLE"),array(),array('ASSIGNMENT_ID'));
 //echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 // when changing course periods the assignment_id will be wrong except for '' (totals) and 'all'
 if($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all')
@@ -99,11 +99,11 @@ if($_REQUEST['values'] && $_POST['values'] && $_SESSION['type_id']==$_REQUEST['t
 {
 	include 'ProgramFunctions/_makePercentGrade.fnc.php';
 	if(UserStudentID())
-		$current_RET[UserStudentID()] = DBGet(DBQuery("SELECT g.ASSIGNMENT_ID FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.STUDENT_ID='".UserStudentID()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."'".($_REQUEST['assignment_id']=='all'?'':" AND g.ASSIGNMENT_ID='$_REQUEST[assignment_id]'")),array(),array('ASSIGNMENT_ID'));
+		$current_RET[UserStudentID()] = DBGet(DBQuery("SELECT g.ASSIGNMENT_ID FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.STUDENT_ID='".UserStudentID()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."'".($_REQUEST['assignment_id']=='all'?'':" AND g.ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'")),array(),array('ASSIGNMENT_ID'));
 	elseif($_REQUEST['assignment_id']=='all')
 		$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.ASSIGNMENT_ID,g.POINTS FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
 	else
-		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='$_REQUEST[assignment_id]' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
+		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
 
 	foreach($_REQUEST['values'] as $student_id=>$assignments)
 	{
@@ -133,10 +133,10 @@ if($_REQUEST['values'] && $_POST['values'] && $_SESSION['type_id']==$_REQUEST['t
 				{
 					$sql .= $column."='".$value."',";
 				}
-				$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='$student_id' AND ASSIGNMENT_ID='$assignment_id' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'";
+				$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='".$student_id."' AND ASSIGNMENT_ID='".$assignment_id."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'";
 			}
 			elseif($columns['POINTS']!='' || $columns['COMMENT'])
-				$sql = "INSERT INTO GRADEBOOK_GRADES (STUDENT_ID,PERIOD_ID,COURSE_PERIOD_ID,ASSIGNMENT_ID,POINTS,COMMENT) values('$student_id','".UserPeriod()."','".UserCoursePeriod()."','".$assignment_id."','".$columns['POINTS']."','".$columns['COMMENT']."')";
+				$sql = "INSERT INTO GRADEBOOK_GRADES (STUDENT_ID,PERIOD_ID,COURSE_PERIOD_ID,ASSIGNMENT_ID,POINTS,COMMENT) values('".$student_id."','".UserPeriod()."','".UserCoursePeriod()."','".$assignment_id."','".$columns['POINTS']."','".$columns['COMMENT']."')";
 
 			if($sql)
 				DBQuery($sql);
@@ -170,7 +170,7 @@ if(UserStudentID())
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'];
 	$link['TITLE']['variables'] = array('type_id'=>'ASSIGNMENT_TYPE_ID','assignment_id'=>'ASSIGNMENT_ID');
 
-	$current_RET[UserStudentID()] = DBGet(DBQuery("SELECT g.ASSIGNMENT_ID FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.STUDENT_ID='".UserStudentID()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."'".($_REQUEST['assignment_id']=='all'?'':" AND g.ASSIGNMENT_ID='$_REQUEST[assignment_id]'")),array(),array('ASSIGNMENT_ID'));
+	$current_RET[UserStudentID()] = DBGet(DBQuery("SELECT g.ASSIGNMENT_ID FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.STUDENT_ID='".UserStudentID()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."'".($_REQUEST['assignment_id']=='all'?'':" AND g.ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'")),array(),array('ASSIGNMENT_ID'));
 	$count_assignments = count($assignments_RET);
 
 	$extra['SELECT'] = ",ga.ASSIGNMENT_TYPE_ID,ga.ASSIGNMENT_ID,ga.TITLE,ga.POINTS AS TOTAL_POINTS,'' AS PERCENT_GRADE,'' AS LETTER_GRADE,CASE WHEN (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) THEN 'Y' ELSE NULL END AS DUE";
@@ -181,9 +181,9 @@ if(UserStudentID())
 		$link['TYPE_TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'];
 		$link['TYPE_TITLE']['variables'] = array('type_id'=>'ASSIGNMENT_TYPE_ID');
 	}
-	$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON (ga.STAFF_ID=cp.TEACHER_ID AND ((ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) OR ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."'".($_REQUEST['assignment_id']=='all'?'':" AND ga.ASSIGNMENT_ID='$_REQUEST[assignment_id]'").($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='$_REQUEST[type_id]'":'').") LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)";
+	$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON (ga.STAFF_ID=cp.TEACHER_ID AND ((ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) OR ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."'".($_REQUEST['assignment_id']=='all'?'':" AND ga.ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'").($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='".$_REQUEST['type_id']."'":'').") LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)";
 	if(!$_REQUEST['include_all'])
-		$extra['WHERE'] .= " AND (gg.POINTS IS NOT NULL OR (ga.DUE_DATE IS NULL OR (".db_greatest('ssm.START_DATE','ss.START_DATE')."<=ga.DUE_DATE) AND (".db_least('ssm.END_DATE','ss.END_DATE')." IS NULL OR ".db_least('ssm.END_DATE','ss.END_DATE').">=ga.DUE_DATE)))".($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='$_REQUEST[type_id]'":'');
+		$extra['WHERE'] .= " AND (gg.POINTS IS NOT NULL OR (ga.DUE_DATE IS NULL OR (".db_greatest('ssm.START_DATE','ss.START_DATE')."<=ga.DUE_DATE) AND (".db_least('ssm.END_DATE','ss.END_DATE')." IS NULL OR ".db_least('ssm.END_DATE','ss.END_DATE').">=ga.DUE_DATE)))".($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='".$_REQUEST['type_id']."'":'');
 	$extra['ORDER_BY'] = Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC";
 	$extra['functions'] = array('POINTS'=>'_makeExtraStuCols','PERCENT_GRADE'=>'_makeExtraStuCols','LETTER_GRADE'=>'_makeExtraStuCols','COMMENT'=>'_makeExtraStuCols');
 }
@@ -211,7 +211,7 @@ else
 			foreach($assignments_RET as $id=>$assignment)
 			{
 				$assignment = $assignment[1];
-				$extra['SELECT'] .= ",'$id' AS G$id";
+				$extra['SELECT'] .= ",'".$id."' AS G$id";
 				$extra['functions'] += array('G'.$id=>'_makeExtraCols');
 				$LO_columns['G'.$id] = ($_REQUEST['type_id']?'':$types_RET[$assignment['ASSIGNMENT_TYPE_ID']][1]['TITLE'].'<BR />').$assignment['TITLE'];
 				/*if(!$_REQUEST['type_id'] && $types_RET[$assignment['ASSIGNMENT_TYPE_ID']][1]['COLOR'])
@@ -221,7 +221,7 @@ else
 	}
 	elseif($_REQUEST['assignment_id'])
 	{
-		$extra['SELECT'] .= ",'$_REQUEST[assignment_id]' AS POINTS,'$_REQUEST[assignment_id]' AS PERCENT_GRADE,'$_REQUEST[assignment_id]' AS LETTER_GRADE,'$_REQUEST[assignment_id]' AS COMMENT";
+		$extra['SELECT'] .= ",'".$_REQUEST['assignment_id']."' AS POINTS,'".$_REQUEST['assignment_id']."' AS PERCENT_GRADE,'".$_REQUEST['assignment_id']."' AS LETTER_GRADE,'".$_REQUEST['assignment_id']."' AS COMMENT";
 		$extra['SELECT'] .= ",extract(EPOCH FROM ".db_greatest('ssm.START_DATE','ss.START_DATE').") AS START_EPOCH,extract(EPOCH FROM ".db_least('ssm.END_DATE','ss.END_DATE').") AS END_EPOCH";
 		$extra['functions'] = array('POINTS'=>'_makeExtraAssnCols','PERCENT_GRADE'=>'_makeExtraAssnCols','LETTER_GRADE'=>'_makeExtraAssnCols','COMMENT'=>'_makeExtraAssnCols');
 		$LO_columns += array('POINTS'=>_('Points'),'COMMENT'=>_('Comment'));
@@ -231,7 +231,7 @@ else
 	// modif Francois: display letter grade according to Configuration
 		if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0)
 			$LO_columns['LETTER_GRADE'] = _('Letter');
-		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='$_REQUEST[assignment_id]' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
+		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
 	}
 	else
 	{
@@ -240,7 +240,7 @@ else
 			//modif Francois: default points
 			$extra['SELECT_ONLY'] = "s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'","''",db_case(array('ga.DEFAULT_POINTS',"'-1'","'0'",'ga.DEFAULT_POINTS')),'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'","''",db_case(array('ga.DEFAULT_POINTS',"'-1'","'0'",'ga.POINTS')),'ga.POINTS')).") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
 			$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
-			$extra['WHERE'] = " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))".($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='$_REQUEST[type_id]'":'');
+			$extra['WHERE'] = " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))".($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='".$_REQUEST['type_id']."'":'');
 			if(!$_REQUEST['include_all'])
 				$extra['WHERE'] .=" AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))";
 			$extra['GROUP'] = "gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT,s.STUDENT_ID";

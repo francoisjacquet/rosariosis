@@ -37,18 +37,18 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		if($_REQUEST['values']['EXISTING']['address_id'] && $_REQUEST['address_id']=='old')
 		{
 			$_REQUEST['address_id'] = $_REQUEST['values']['EXISTING']['address_id'];
-			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='$_REQUEST[address_id]' AND STUDENT_ID='".UserStudentID()."'")))==0)
+			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."' AND STUDENT_ID='".UserStudentID()."'")))==0)
 			{
-				DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID) values(".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'".UserStudentID()."','$_REQUEST[address_id]')");
-				DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION) SELECT DISTINCT ON (PERSON_ID) ".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."',PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE ADDRESS_ID='$_REQUEST[address_id]'");
+				DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID) values(".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'".UserStudentID()."','".$_REQUEST['address_id']."')");
+				DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION) SELECT DISTINCT ON (PERSON_ID) ".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."',PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE ADDRESS_ID='".$_REQUEST['address_id']."'");
 			}
 		}
 		elseif($_REQUEST['values']['EXISTING']['person_id'] && $_REQUEST['person_id']=='old')
 		{
 			$_REQUEST['person_id'] = $_REQUEST['values']['EXISTING']['person_id'];
-			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='$_REQUEST[person_id]' AND STUDENT_ID='".UserStudentID()."'")))==0)
+			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."' AND STUDENT_ID='".UserStudentID()."'")))==0)
 			{
-				DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION) SELECT DISTINCT ON (PERSON_ID) ".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."',PERSON_ID,'$_REQUEST[address_id]',CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='$_REQUEST[person_id]'");
+				DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION) SELECT DISTINCT ON (PERSON_ID) ".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."',PERSON_ID,'".$_REQUEST['address_id']."',CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'");
 				if($_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
 					DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,ADDRESS_ID,STUDENT_ID) values (".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'0','".UserStudentID()."')");
 
@@ -92,12 +92,12 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					$go = true;
 				}
 			}
-			$sql = mb_substr($sql,0,-1) . " WHERE ADDRESS_ID='$_REQUEST[address_id]'";
+			$sql = mb_substr($sql,0,-1) . " WHERE ADDRESS_ID='".$_REQUEST['address_id']."'";
 			if ($go)
 				DBQuery($sql);
 			
 //modif Francois: Moodle integrator
-			$residence = DBGet(DBQuery("SELECT RESIDENCE FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='$_REQUEST[address_id]'"));
+			$residence = DBGet(DBQuery("SELECT RESIDENCE FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'"));
 			if ($residence[1]['RESIDENCE'] == 'Y')
 				$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
 		}
@@ -160,7 +160,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					$go = true;
 				}
 			}
-			$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='$_REQUEST[person_id]'";
+			$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='".$_REQUEST['person_id']."'";
 			if($go)
 				DBQuery($sql);
 		}
@@ -188,7 +188,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			if($go)
 			{
 				DBQuery($sql);
-				DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,PERSON_ID,STUDENT_ID,ADDRESS_ID,CUSTODY,EMERGENCY) values(".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'$id','".UserStudentID()."','".$_REQUEST['address_id']."','".$_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['CUSTODY']."','".$_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['EMERGENCY']."')");
+				DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,PERSON_ID,STUDENT_ID,ADDRESS_ID,CUSTODY,EMERGENCY) values(".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".$id."','".UserStudentID()."','".$_REQUEST['address_id']."','".$_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['CUSTODY']."','".$_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['EMERGENCY']."')");
 				if($_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
 					DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,ADDRESS_ID,STUDENT_ID) values (".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'0','".UserStudentID()."')");
 				$_REQUEST['person_id'] = $id;
@@ -208,7 +208,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					$sql .= $column."='".$value."',";
 				}
-				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				DBQuery($sql);
 			}
 			else
@@ -218,7 +218,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
 
 					$fields = 'ID,PERSON_ID,';
-					$vals = db_seq_nextval('PEOPLE_JOIN_CONTACTS_SEQ').",'$_REQUEST[person_id]',";
+					$vals = db_seq_nextval('PEOPLE_JOIN_CONTACTS_SEQ').",'".$_REQUEST['person_id']."',";
 
 					$go = 0;
 					foreach($values as $column=>$value)
@@ -246,7 +246,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		{
 			$sql .= $column."='".$value."',";
 		}
-		$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='$_REQUEST[person_id]' AND STUDENT_ID='".UserStudentID()."'";
+		$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='".$_REQUEST['person_id']."' AND STUDENT_ID='".UserStudentID()."'";
 		DBQuery($sql);
 	}
 
@@ -258,7 +258,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		{
 			$sql .= $column."='".$value."',";
 		}
-		$sql = mb_substr($sql,0,-1) . " WHERE ADDRESS_ID='$_REQUEST[address_id]' AND STUDENT_ID='".UserStudentID()."'";
+		$sql = mb_substr($sql,0,-1) . " WHERE ADDRESS_ID='".$_REQUEST['address_id']."' AND STUDENT_ID='".UserStudentID()."'";
 		DBQuery($sql);
 	}
 
@@ -272,7 +272,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	{
 		if(DeletePrompt(_('Contact Information')))
 		{
-			DBQuery("DELETE FROM PEOPLE_JOIN_CONTACTS WHERE ID='$_REQUEST[contact_id]'");
+			DBQuery("DELETE FROM PEOPLE_JOIN_CONTACTS WHERE ID='".$_REQUEST['contact_id']."'");
 			unset($_REQUEST['modfunc']);
 		}
 	}
@@ -280,11 +280,11 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	{
 		if(DeletePrompt(_('Contact')))
 		{
-			DBQuery("DELETE FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='$_REQUEST[person_id]' AND ADDRESS_ID='$_REQUEST[address_id]' AND STUDENT_ID='".UserStudentID()."'");
-			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='$_REQUEST[person_id]'")))==0)
+			DBQuery("DELETE FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."' AND ADDRESS_ID='".$_REQUEST['address_id']."' AND STUDENT_ID='".UserStudentID()."'");
+			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'")))==0)
 			{
-				DBQuery("DELETE FROM PEOPLE WHERE PERSON_ID='$_REQUEST[person_id]'");
-				DBQuery("DELETE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='$_REQUEST[person_id]'");
+				DBQuery("DELETE FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'");
+				DBQuery("DELETE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$_REQUEST['person_id']."'");
 			}
 			if($_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
 			{
@@ -299,13 +299,13 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	{
 		if(DeletePrompt(_('Address')))
 		{
-			DBQuery("UPDATE STUDENTS_JOIN_PEOPLE SET ADDRESS_ID='0' WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='$_REQUEST[address_id]'");
+			DBQuery("UPDATE STUDENTS_JOIN_PEOPLE SET ADDRESS_ID='0' WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='".$_REQUEST['address_id']."'");
 			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='0'"))) && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
-				DBQuery("UPDATE STUDENTS_JOIN_ADDRESS SET ADDRESS_ID='0',RESIDENCE=NULL,MAILING=NULL,BUS_PICKUP=NULL,BUS_DROPOFF=NULL WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='$_REQUEST[address_id]'");
+				DBQuery("UPDATE STUDENTS_JOIN_ADDRESS SET ADDRESS_ID='0',RESIDENCE=NULL,MAILING=NULL,BUS_PICKUP=NULL,BUS_DROPOFF=NULL WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='".$_REQUEST['address_id']."'");
 			else
-				DBQuery("DELETE FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='$_REQUEST[address_id]'");
-			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='$_REQUEST[address_id]'")))==0)
-				DBQuery("DELETE FROM ADDRESS WHERE ADDRESS_ID='$_REQUEST[address_id]'");
+				DBQuery("DELETE FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='".$_REQUEST['address_id']."'");
+			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'")))==0)
+				DBQuery("DELETE FROM ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'");
 			unset($_REQUEST['modfunc']);
 			unset($_REQUEST['address_id']);
 		}
@@ -347,7 +347,7 @@ if(empty($_REQUEST['modfunc']))
 				if($address_id!='0')
 				{
 				// find other students associated with this address
-				$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja WHERE s.STUDENT_ID=sja.STUDENT_ID AND sja.ADDRESS_ID='$address_id' AND sja.STUDENT_ID!='".UserStudentID()."'"));
+				$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja WHERE s.STUDENT_ID=sja.STUDENT_ID AND sja.ADDRESS_ID='".$address_id."' AND sja.STUDENT_ID!='".UserStudentID()."'"));
 				if(count($xstudents))
 				{
 					$warning = Localize('colon',_('Other students associated with this address')).'<BR />';
@@ -499,7 +499,7 @@ if(empty($_REQUEST['modfunc']))
 					$images = '';
 
 					// find other students associated with this person
-					$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,STUDENT_RELATION,CUSTODY,EMERGENCY FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp WHERE s.STUDENT_ID=sjp.STUDENT_ID AND sjp.PERSON_ID='$contact[PERSON_ID]' AND sjp.STUDENT_ID!='".UserStudentID()."'"));
+					$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,STUDENT_RELATION,CUSTODY,EMERGENCY FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp WHERE s.STUDENT_ID=sjp.STUDENT_ID AND sjp.PERSON_ID='".$contact['PERSON_ID']."' AND sjp.STUDENT_ID!='".UserStudentID()."'"));
 					if(count($xstudents))
 					{
 						$warning = Localize('colon',_('Other students associated with this person')).'<BR />';
@@ -656,7 +656,7 @@ if(empty($_REQUEST['modfunc']))
 					echo '<TR><TD><TABLE class="cellspacing-0"><TR><TD>'.CheckboxInput($this_contact['CUSTODY'],'values[STUDENTS_JOIN_PEOPLE][CUSTODY]','','CHECKED',$new,'<IMG SRC="assets/check_button.png" height="15" />','<IMG SRC="assets/x_button.png" height="15" />').'</TD><TD><IMG SRC="assets/gavel_button.png" height="24" /></TD><TD>'._('Custody').'</TD></TR>';
 					echo '<TR><TD>'.CheckboxInput($this_contact['EMERGENCY'],'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]','','CHECKED',$new,'<IMG SRC="assets/check_button.png" height="15" />','<IMG SRC="assets/x_button.png" height="15" />').'</TD><TD><IMG SRC="assets/emergency_button.png" height="24" /></TD><TD>'._('Emergency').'</TD></TR></TABLE></TD></TR>';
 
-					$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='$_REQUEST[person_id]'"));
+					$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
 					if($info_apd)
 						$info_options = _makeAutoSelect('TITLE','PEOPLE_JOIN_CONTACTS',$info_RET,array());
 
@@ -743,7 +743,7 @@ if(empty($_REQUEST['modfunc']))
 						echo '<TD class="valign-top">';
 						echo '<TABLE>';
 						
-						$value = DBGet(DBQuery("SELECT * FROM PEOPLE WHERE PERSON_ID='$_REQUEST[person_id]'"));
+						$value = DBGet(DBQuery("SELECT * FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
 						$value = $value[1];
 						$request = 'values[PEOPLE]';
 						foreach($categories_RET as $fields_RET)
@@ -786,7 +786,7 @@ if(empty($_REQUEST['modfunc']))
 			{
 				//echo '<TD style="width:10px; border:1;">&nbsp;</TD>';
 				echo '<TD class="valign-top">';
-				$value = DBGet(DBQuery("SELECT * FROM ADDRESS WHERE ADDRESS_ID='$_REQUEST[address_id]'"));
+				$value = DBGet(DBQuery("SELECT * FROM ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'"));
 				$value = $value[1];
 				$request = 'values[ADDRESS]';
 				echo '<TABLE>';

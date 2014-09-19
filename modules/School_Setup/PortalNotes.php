@@ -64,7 +64,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					$sql .= $column."='".$value."',";
 				}
-				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				DBQuery($sql);
 //modif Francois: Moodle integrator
 				if (isset($columns['TITLE']) || isset($columns['CONTENT'])) //update note if title or content modified
@@ -149,9 +149,9 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	if(DeletePrompt(_('Note')))
 	{
 //modif Francois: file attached to portal notes
-		$file_to_remove = DBGet(DBQuery("SELECT FILE_ATTACHED FROM PORTAL_NOTES WHERE ID='$_REQUEST[id]'"));
+		$file_to_remove = DBGet(DBQuery("SELECT FILE_ATTACHED FROM PORTAL_NOTES WHERE ID='".$_REQUEST['id']."'"));
 		@unlink($file_to_remove[1]['FILE_ATTACHED']);
-		DBQuery("DELETE FROM PORTAL_NOTES WHERE ID='$_REQUEST[id]'");
+		DBQuery("DELETE FROM PORTAL_NOTES WHERE ID='".$_REQUEST['id']."'");
 
 //modif Francois: Moodle integrator
 		if (MOODLE_INTEGRATOR)

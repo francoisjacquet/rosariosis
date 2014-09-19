@@ -14,9 +14,9 @@ StaffWidgets('permissions_N');
 Search('staff_id',$extra);
 
 $user_id = UserStaffID();
-$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='$user_id'"));
+$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".$user_id."'"));
 $xprofile = $profile[1]['PROFILE'];
-$exceptions_RET = DBGet(DBQuery("SELECT MODNAME,CAN_USE,CAN_EDIT FROM STAFF_EXCEPTIONS WHERE USER_ID='$user_id'"),array(),array('MODNAME'));
+$exceptions_RET = DBGet(DBQuery("SELECT MODNAME,CAN_USE,CAN_EDIT FROM STAFF_EXCEPTIONS WHERE USER_ID='".$user_id."'"),array(),array('MODNAME'));
 if($_REQUEST['modfunc']=='update' && AllowEdit())
 {
 	$tmp_menu = $menu;
@@ -49,9 +49,9 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			if(!is_numeric($modname))
 			{
 				if(!count($exceptions_RET[$modname]) && ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)]))
-					DBQuery("INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME) values('$user_id','$modname')");
+					DBQuery("INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME) values('".$user_id."','".$modname."')");
 				elseif(count($exceptions_RET[$modname]) && !$_REQUEST['can_edit'][str_replace('.','_',$modname)] && !$_REQUEST['can_use'][str_replace('.','_',$modname)])
-					DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='$user_id' AND MODNAME='$modname'");
+					DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".$user_id."' AND MODNAME='".$modname."'");
 
 				if($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)])
 				{
@@ -64,13 +64,13 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						$update .= "CAN_USE='Y'";
 					else
 						$update .= "CAN_USE=NULL";
-					$update .= " WHERE USER_ID='$user_id' AND MODNAME='$modname'";
+					$update .= " WHERE USER_ID='".$user_id."' AND MODNAME='".$modname."'";
 					DBQuery($update);
 				}
 			}
 		}
 	}
-	$exceptions_RET = DBGet(DBQuery("SELECT MODNAME,CAN_USE,CAN_EDIT FROM STAFF_EXCEPTIONS WHERE USER_ID='$user_id'"),array(),array('MODNAME'));
+	$exceptions_RET = DBGet(DBQuery("SELECT MODNAME,CAN_USE,CAN_EDIT FROM STAFF_EXCEPTIONS WHERE USER_ID='".$user_id."'"),array(),array('MODNAME'));
 	unset($tmp_menu);
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['modfunc']);

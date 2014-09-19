@@ -24,7 +24,7 @@ function GetCurrentMP($mp,$date,$error=true)
 {	global $_ROSARIO;
 
 	if(!$_ROSARIO['GetCurrentMP'][$date][$mp])
-	 	$_ROSARIO['GetCurrentMP'][$date][$mp] = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='$mp' AND '$date' BETWEEN START_DATE AND END_DATE AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+	 	$_ROSARIO['GetCurrentMP'][$date][$mp] = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='".$mp."' AND '".$date."' BETWEEN START_DATE AND END_DATE AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 
 	if($_ROSARIO['GetCurrentMP'][$date][$mp][1]['MARKING_PERIOD_ID'])
 		return $_ROSARIO['GetCurrentMP'][$date][$mp][1]['MARKING_PERIOD_ID'];

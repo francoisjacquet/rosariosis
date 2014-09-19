@@ -57,9 +57,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$password = $staff['USERNAME'] . rand(1000,9999);
 	//modif Francois: add password encryption
 			$password_encrypted = encrypt_password($password);		
-			DBQuery("UPDATE STAFF SET PASSWORD='$password_encrypted' WHERE STAFF_ID='$staff_id'");
+			DBQuery("UPDATE STAFF SET PASSWORD='".$password_encrypted."' WHERE STAFF_ID='".$staff_id."'");
 			
-			$students_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju WHERE sju.STAFF_ID='$staff_id' AND s.STUDENT_ID=sju.STUDENT_ID AND sse.STUDENT_ID=sju.STUDENT_ID AND sse.SYEAR='".UserSyear()."' AND sse.END_DATE IS NULL"));
+			$students_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju WHERE sju.STAFF_ID='".$staff_id."' AND s.STUDENT_ID=sju.STUDENT_ID AND sse.STUDENT_ID=sju.STUDENT_ID AND sse.SYEAR='".UserSyear()."' AND sse.END_DATE IS NULL"));
 			//echo '<pre>'; var_dump($students_RET); echo '</pre>';
 
 			$student_list = '';

@@ -141,7 +141,7 @@ function mySearch($extra)
 	if(User('PROFILE')=='admin')
 	{
 		if($_REQUEST['teacher_id'])
-			$where .= " AND cp.TEACHER_ID='$_REQUEST[teacher_id]'";
+			$where .= " AND cp.TEACHER_ID='".$_REQUEST['teacher_id']."'";
 		if($_REQUEST['first'])
 			$where .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 		if($_REQUEST['w_course_period_id'])

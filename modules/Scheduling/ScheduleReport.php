@@ -53,7 +53,7 @@ if(!$_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['stude
 // COURSES ----
 if($_REQUEST['modfunc']=='courses')
 {
-	$QI = DBQuery("SELECT c.COURSE_ID,c.TITLE,cp.TOTAL_SEATS,cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,(SELECT count(*) FROM SCHEDULE_REQUESTS sr WHERE sr.COURSE_ID=c.COURSE_ID) AS COUNT_REQUESTS FROM COURSES c,COURSE_PERIODS cp WHERE c.SUBJECT_ID='$_REQUEST[subject_id]' AND c.COURSE_ID=cp.COURSE_ID AND c.SYEAR='".UserSyear()."' AND c.SCHOOL_ID='".UserSchool()."' ORDER BY c.TITLE");
+	$QI = DBQuery("SELECT c.COURSE_ID,c.TITLE,cp.TOTAL_SEATS,cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,(SELECT count(*) FROM SCHEDULE_REQUESTS sr WHERE sr.COURSE_ID=c.COURSE_ID) AS COUNT_REQUESTS FROM COURSES c,COURSE_PERIODS cp WHERE c.SUBJECT_ID='".$_REQUEST['subject_id']."' AND c.COURSE_ID=cp.COURSE_ID AND c.SYEAR='".UserSyear()."' AND c.SCHOOL_ID='".UserSchool()."' ORDER BY c.TITLE");
 	$_RET = DBGet($QI,array(),array('COURSE_ID'));
 
 	$RET = calcSeats($_RET,array('COURSE_ID','TITLE','COUNT_REQUESTS'));
@@ -165,9 +165,9 @@ if($_REQUEST['modfunc']=='students')
 				FROM SCHEDULE_REQUESTS sr,STUDENTS s,STUDENT_ENROLLMENT ssm
 				WHERE (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)) AND s.STUDENT_ID=sr.STUDENT_ID AND s.STUDENT_ID=ssm.STUDENT_ID AND ssm.SYEAR='".UserSyear()."' AND ssm.SCHOOL_ID='".UserSchool()."' ";
 		if($_REQUEST['course_id'])
-			$sql .= "AND sr.COURSE_ID='$_REQUEST[course_id]' ";
+			$sql .= "AND sr.COURSE_ID='".$_REQUEST['course_id']."' ";
 		elseif($_REQUEST['course_id'])
-			$sql .= "AND sr.COURSE_ID='$_REQUEST[course_id]' ";
+			$sql .= "AND sr.COURSE_ID='".$_REQUEST['course_id']."' ";
 		$sql .= "AND NOT EXISTS (SELECT '' FROM SCHEDULE ss WHERE ss.COURSE_ID=sr.COURSE_ID AND ss.STUDENT_ID=sr.STUDENT_ID AND ('".DBDate()."' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL))";
 	}
 	else
@@ -176,9 +176,9 @@ if($_REQUEST['modfunc']=='students')
 				FROM SCHEDULE ss,STUDENTS s,STUDENT_ENROLLMENT ssm
 				WHERE ('".DBDate()."' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL) AND (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)) AND s.STUDENT_ID=ss.STUDENT_ID AND s.STUDENT_ID=ssm.STUDENT_ID AND ssm.SYEAR='".UserSyear()."' AND ssm.SCHOOL_ID='".UserSchool()."' ";
 		if($_REQUEST['course_period_id'])
-			$sql .= "AND ss.COURSE_PERIOD_ID='$_REQUEST[course_period_id]'";
+			$sql .= "AND ss.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
 		elseif($_REQUEST['course_id'])
-			$sql .= "AND ss.COURSE_ID='$_REQUEST[course_id]'";
+			$sql .= "AND ss.COURSE_ID='".$_REQUEST['course_id']."'";
 	}
 	$sql .= ' ORDER BY s.LAST_NAME,s.FIRST_NAME';
 	$RET = DBGet(DBQuery($sql),array('GRADE_ID'=>'GetGrade') + $function_birthdate);
@@ -202,7 +202,7 @@ function calcSeats1($period,&$total_seats,&$filled_seats)
 	{
 		$mps = GetChildrenMP($period['MP'],$period['MARKING_PERIOD_ID']);
 		if($period['MP']=='FY' || $period['MP']=='SEM')
-			$mps = "'$period[MARKING_PERIOD_ID]'".($mps?','.$mps:'');
+			$mps = "'".$period['MARKING_PERIOD_ID']."'".($mps?','.$mps:'');
 	}
 	else
 		$mps = "'".$period['MARKING_PERIOD_ID']."'";
@@ -210,7 +210,7 @@ function calcSeats1($period,&$total_seats,&$filled_seats)
 	foreach(explode(',',$mps) as $mp)
 	{
 		$mp = trim($mp,"'");
-		$seats = DBGet(DBQuery("SELECT max((SELECT count(1) FROM SCHEDULE ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR) WHERE ss.COURSE_PERIOD_ID='$period[COURSE_PERIOD_ID]' AND (ss.MARKING_PERIOD_ID='$mp' OR ss.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($mp,'MP'),$mp).")) AND (ac.SCHOOL_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE)) AND (ac.SCHOOL_DATE>=sem.START_DATE AND (sem.END_DATE IS NULL OR ac.SCHOOL_DATE<=sem.END_DATE)))) AS FILLED_SEATS FROM ATTENDANCE_CALENDAR ac WHERE ac.CALENDAR_ID='$period[CALENDAR_ID]' AND ac.SCHOOL_DATE BETWEEN ".db_case(array("(CURRENT_DATE>'".GetMP($mp,'END_DATE')."')",'TRUE',"'".GetMP($mp,'START_DATE')."'",'CURRENT_DATE'))." AND '".GetMP($mp,'END_DATE')."'"));
+		$seats = DBGet(DBQuery("SELECT max((SELECT count(1) FROM SCHEDULE ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR) WHERE ss.COURSE_PERIOD_ID='".$period['COURSE_PERIOD_ID']."' AND (ss.MARKING_PERIOD_ID='".$mp."' OR ss.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($mp,'MP'),$mp).")) AND (ac.SCHOOL_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE)) AND (ac.SCHOOL_DATE>=sem.START_DATE AND (sem.END_DATE IS NULL OR ac.SCHOOL_DATE<=sem.END_DATE)))) AS FILLED_SEATS FROM ATTENDANCE_CALENDAR ac WHERE ac.CALENDAR_ID='".$period['CALENDAR_ID']."' AND ac.SCHOOL_DATE BETWEEN ".db_case(array("(CURRENT_DATE>'".GetMP($mp,'END_DATE')."')",'TRUE',"'".GetMP($mp,'START_DATE')."'",'CURRENT_DATE'))." AND '".GetMP($mp,'END_DATE')."'"));
 		if($_REQUEST['include_child_mps'])
 		{
 			if($total_seats[$mp]!==false)

@@ -41,7 +41,7 @@ function _makeLetterGrade($percent,$course_period_id=0,$staff_id=0,$ret='TITLE')
 		return $percent;
 
 	if(!$_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id])
-		$_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id] = DBGet(DBQuery("SELECT TITLE,ID,BREAK_OFF,COMMENT FROM REPORT_CARD_GRADES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND GRADE_SCALE_ID='$grade_scale_id' ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER"));
+		$_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id] = DBGet(DBQuery("SELECT TITLE,ID,BREAK_OFF,COMMENT FROM REPORT_CARD_GRADES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND GRADE_SCALE_ID='".$grade_scale_id."' ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER"));
 	//$grades = array('A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F');
 
 	foreach($_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id] as $grade)

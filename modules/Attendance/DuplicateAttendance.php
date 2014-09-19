@@ -3,7 +3,7 @@
 if(count($_REQUEST['mp_arr']))
 {
         foreach($_REQUEST['mp_arr'] as $mp)
-                $mp_list .= ",'$mp'";
+                $mp_list .= ",'".$mp."'";
         $mp_list = mb_substr($mp_list,1);
         $last_mp = $mp;
 }

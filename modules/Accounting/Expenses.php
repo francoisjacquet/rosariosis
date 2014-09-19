@@ -15,7 +15,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql .= $column."='".$value."',";
 			}
-			$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+			$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 			DBQuery($sql);
 		}
 		else
@@ -26,7 +26,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$sql = "INSERT INTO ACCOUNTING_PAYMENTS ";
 
 			$fields = 'ID,SYEAR,SCHOOL_ID,PAYMENT_DATE,';
-			$values = "'$id','".UserSyear()."','".UserSchool()."','".DBDate()."',";
+			$values = "'".$id."','".UserSyear()."','".UserSchool()."','".DBDate()."',";
 			
 			$go = 0;
 			foreach($columns as $column=>$value)

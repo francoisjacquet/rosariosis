@@ -13,7 +13,7 @@ if(($_REQUEST['month_values'] && $_POST['month_values']) || ($_REQUEST['values']
 	else
 	{
 		$date = $_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE'];
-		$found_RET = DBGet(DBQuery("SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND '$date' BETWEEN START_DATE AND END_DATE"));
+		$found_RET = DBGet(DBQuery("SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND '".$date."' BETWEEN START_DATE AND END_DATE"));
 		if(count($found_RET))
 		{
 			unset($_REQUEST['values']['STUDENT_ENROLLMENT']['new']);

@@ -22,9 +22,9 @@ if($_REQUEST['values'])
 		foreach($_REQUEST['values'] as $key=>$value)
 		{
 			if(isset($$key))
-				DBQuery("UPDATE PROGRAM_CONFIG SET VALUE='$value' WHERE PROGRAM='eligibility' AND TITLE='$key' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'");
+				DBQuery("UPDATE PROGRAM_CONFIG SET VALUE='".$value."' WHERE PROGRAM='eligibility' AND TITLE='".$key."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'");
 			else
-				DBQuery("INSERT INTO PROGRAM_CONFIG (SYEAR,SCHOOL_ID,PROGRAM,TITLE,VALUE) values('".UserSyear()."','".UserSchool()."','eligibility','$key','$value')");
+				DBQuery("INSERT INTO PROGRAM_CONFIG (SYEAR,SCHOOL_ID,PROGRAM,TITLE,VALUE) values('".UserSyear()."','".UserSchool()."','eligibility','".$key."','".$value."')");
 		}
 	}
 

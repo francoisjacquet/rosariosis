@@ -43,8 +43,8 @@ $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD
 			sp.PERIOD_ID = cpsp.PERIOD_ID
 			AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
 			AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE='teacher'
-			AND cp.DOES_FS_COUNTS='Y' ".(($_REQUEST['period'])?" AND cpsp.PERIOD_ID='$_REQUEST[period]'":'')."
-			AND position('$day' in cpsp.DAYS)>0";
+			AND cp.DOES_FS_COUNTS='Y' ".(($_REQUEST['period'])?" AND cpsp.PERIOD_ID='".$_REQUEST['period']."'":'')."
+			AND position('".$day."' in cpsp.DAYS)>0";
 
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID','PERIOD_ID'));
 

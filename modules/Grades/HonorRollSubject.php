@@ -184,7 +184,7 @@ if(empty($_REQUEST['modfunc']))
 
 	MyWidgets('honor_roll_subject');
 	if($for_news_web)
-		$extra['student_fields'] = array('search'=>"'$for_news_web'",'view'=>"'$for_news_web'");
+		$extra['student_fields'] = array('search'=>"'".$for_news_web."'",'view'=>"'".$for_news_web."'");
 		
 	Search('student_id',$extra);
 	if($_REQUEST['search_modfunc']=='list')

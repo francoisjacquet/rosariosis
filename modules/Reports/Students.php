@@ -89,7 +89,7 @@ if($modfunc=='list')
 			if(count($limit[$table_name]))
 			{
 				foreach($limit[$table_name] as $column_name=>$value)
-					$where .= "AND a$i.$column_name='$value' ";
+					$where .= "AND a$i.$column_name='".$value."' ";
 			}
 
 			// PRODUCE SELECT LIST

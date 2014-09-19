@@ -25,7 +25,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					$sql .= $column."='".$value."',";
 				}
-				$sql = mb_substr($sql,0,-1) . " WHERE PERIOD_ID='$id'";
+				$sql = mb_substr($sql,0,-1) . " WHERE PERIOD_ID='".$id."'";
 				DBQuery($sql);
 			}
 			else
@@ -62,7 +62,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Period')))
 	{
-		DBQuery("DELETE FROM SCHOOL_PERIODS WHERE PERIOD_ID='$_REQUEST[id]'");
+		DBQuery("DELETE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }

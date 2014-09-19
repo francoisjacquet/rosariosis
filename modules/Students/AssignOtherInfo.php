@@ -35,7 +35,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			if(isset($value) && $value!='')
 			{
-				$update .= ','.$field."='$value'";
+				$update .= ','.$field."='".$value."'";
 				$values_count++;
 			}
 		}
@@ -44,7 +44,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			if($yes=='Y')
 			{
-				$students .= ",'$student_id'";
+				$students .= ",'".$student_id."'";
 				$students_count++;
 			}
 		}
@@ -91,7 +91,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<BR />';
 
 		if($_REQUEST['category_id'])
-			$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS WHERE CATEGORY_ID='$_REQUEST[category_id]'"),array(),array('TYPE'));
+			$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."'"),array(),array('TYPE'));
 		else
 			$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS"),array(),array('TYPE'));
 

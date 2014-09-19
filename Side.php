@@ -145,7 +145,7 @@ if(User('PROFILE')=='parent')
 if(1)
 {
 	if(User('PROFILE')!='student')
-		$sql = "SELECT sy.SYEAR FROM SCHOOLS sy,STAFF s WHERE sy.ID='$_SESSION[UserSchool]' AND s.SYEAR=sy.SYEAR AND (s.SCHOOLS IS NULL OR position(','||sy.ID||',' IN s.SCHOOLS)>0) AND s.USERNAME=(SELECT USERNAME FROM STAFF WHERE STAFF_ID='".$_SESSION['STAFF_ID']."')";
+		$sql = "SELECT sy.SYEAR FROM SCHOOLS sy,STAFF s WHERE sy.ID='".$_SESSION['UserSchool']."' AND s.SYEAR=sy.SYEAR AND (s.SCHOOLS IS NULL OR position(','||sy.ID||',' IN s.SCHOOLS)>0) AND s.USERNAME=(SELECT USERNAME FROM STAFF WHERE STAFF_ID='".$_SESSION['STAFF_ID']."')";
 	else
 		//modif Francois: limit school years to the years the student was enrolled
 		//$sql = "SELECT DISTINCT sy.SYEAR FROM SCHOOLS sy,STUDENT_ENROLLMENT s WHERE s.SYEAR=sy.SYEAR";

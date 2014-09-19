@@ -34,7 +34,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql .= $column."='".$value."',";
 			}
-			$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."' AND ID='$id'";
+			$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."' AND ID='".$id."'";
 			DBQuery($sql);
 		}
 		else

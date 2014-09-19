@@ -22,7 +22,7 @@ function MyWidgets($item)
 			if($_REQUEST['birthmonth'])
 			{
 				$extra['SELECT'] .= ",to_char(s.CUSTOM_200000004,'Mon DD') AS BIRTHMONTH";
-				$extra['WHERE'] .= " AND extract(month from s.CUSTOM_200000004)='$_REQUEST[birthmonth]'";
+				$extra['WHERE'] .= " AND extract(month from s.CUSTOM_200000004)='".$_REQUEST['birthmonth']."'";
 				$extra['columns_after']['BIRTHMONTH'] = _('Birth Month');
 				if(!$extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Birth Month')).' </b></span>'.$options[$_REQUEST['birthmonth']].'<BR />';
@@ -37,7 +37,7 @@ function MyWidgets($item)
 			if($_REQUEST['birthday'])
 			{
 				$extra['SELECT'] .= ",to_char(s.CUSTOM_200000004,'DD') AS BIRTHDAY";
-				$extra['WHERE'] .= " AND extract(day from s.CUSTOM_200000004)='$_REQUEST[birthday]'";
+				$extra['WHERE'] .= " AND extract(day from s.CUSTOM_200000004)='".$_REQUEST['birthday']."'";
 				$extra['columns_after']['BIRTHDAY'] = _('Birth Day');
 				if(!$extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Birth Day')).' </b></span>'.$options[$_REQUEST['birthday']].'<BR />';

@@ -45,7 +45,7 @@ if($go)
 	DBQuery("SELECT calc_cum_gpa_mp('".$_REQUEST['marking_period_id']."')");
     DBQuery("SELECT set_class_rank_mp('".$_REQUEST['marking_period_id']."')");
 //modif Francois: remove STUDENT_GPA_CALCULATED table
-	//DBQuery("UPDATE STUDENT_GPA_CALCULATED SET CLASS_RANK='$rank' WHERE STUDENT_ID='$student[STUDENT_ID]' AND MARKING_PERIOD_ID='".$_REQUEST['marking_period_id']."'");
+	//DBQuery("UPDATE STUDENT_GPA_CALCULATED SET CLASS_RANK='".$rank."' WHERE STUDENT_ID='".$student['STUDENT_ID']."' AND MARKING_PERIOD_ID='".$_REQUEST['marking_period_id']."'");
 	unset($_REQUEST['delete_ok']);
 
 	//modif Francois: ending message

@@ -32,7 +32,7 @@ if($_REQUEST['table']=='0')
 else
 {
 	$table = 'LUNCH_PERIOD';
-	$extra_sql = " AND TABLE_NAME='$_REQUEST[table]'";
+	$extra_sql = " AND TABLE_NAME='".$_REQUEST['table']."'";
 }
 
 $_SESSION['Administration.php']['date'] = $date;
@@ -47,14 +47,14 @@ if(!$current_mp)
 
 $all_mp = GetAllMP('QTR',$current_mp);
 
-$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,COMMENT,STUDENT_ID,ADMIN,PERIOD_ID FROM $table WHERE SCHOOL_DATE='$date'".$extra_sql;
+$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,COMMENT,STUDENT_ID,ADMIN,PERIOD_ID FROM $table WHERE SCHOOL_DATE='".$date."'".$extra_sql;
 //modif Francois: days numbered
 //modif Francois: multiple school periods for a course period
 if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 {
-	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cp.HALF_DAY FROM SCHEDULE s,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND s.STUDENT_ID='__student_id__' AND s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' AND cp.COURSE_PERIOD_ID = s.COURSE_PERIOD_ID AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0 AND ('$date' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '$date'>=s.START_DATE)) AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number FROM attendance_calendar WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<='$date' AND end_date>='$date' AND mp='QTR' AND SCHOOL_ID=s.SCHOOL_ID) AND school_date<='$date' AND SCHOOL_ID=s.SCHOOL_ID) AS INT) FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp) ORDER BY s.START_DATE ASC";
+	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cp.HALF_DAY FROM SCHEDULE s,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND s.STUDENT_ID='__student_id__' AND s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' AND cp.COURSE_PERIOD_ID = s.COURSE_PERIOD_ID AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0 AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '".$date."'>=s.START_DATE)) AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number FROM attendance_calendar WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<='".$date."' AND end_date>='".$date."' AND mp='QTR' AND SCHOOL_ID=s.SCHOOL_ID) AND school_date<='".$date."' AND SCHOOL_ID=s.SCHOOL_ID) AS INT) FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp) ORDER BY s.START_DATE ASC";
 } else {
-	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cp.HALF_DAY FROM SCHEDULE s,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND s.STUDENT_ID='__student_id__' AND s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' AND cp.COURSE_PERIOD_ID = s.COURSE_PERIOD_ID AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0 AND ('$date' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '$date'>=s.START_DATE)) AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM cast('$date' AS DATE)) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp) ORDER BY s.START_DATE ASC";	
+	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cp.HALF_DAY FROM SCHEDULE s,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND s.STUDENT_ID='__student_id__' AND s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' AND cp.COURSE_PERIOD_ID = s.COURSE_PERIOD_ID AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0 AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '".$date."'>=s.START_DATE)) AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM cast('".$date."' AS DATE)) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp) ORDER BY s.START_DATE ASC";	
 }
 $current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID','PERIOD_ID'));
 if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
@@ -77,7 +77,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 				foreach($columns as $column=>$value)
 					$sql .= $column."='".$value."',";
 
-				$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='$date' AND PERIOD_ID='$period_id' AND STUDENT_ID='$student_id'".$extra_sql;
+				$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".$period_id."' AND STUDENT_ID='".$student_id."'".$extra_sql;
 				DBQuery($sql);
 			}
 			else
@@ -123,7 +123,7 @@ if(count($_REQUEST['attendance_day']))
 	unset($_REQUEST['attendance_day']);
 }
 
-$codes_RET = DBGet(DBQuery("SELECT ID,SHORT_NAME,TITLE,STATE_CODE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND TABLE_NAME='$_REQUEST[table]'"));
+$codes_RET = DBGet(DBQuery("SELECT ID,SHORT_NAME,TITLE,STATE_CODE FROM ATTENDANCE_CODES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
 $periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',$_REQUEST[table],' IN DOES_ATTENDANCE)>0) ORDER BY SORT_ORDER"));
 
 $categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
@@ -184,9 +184,9 @@ if(isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 											s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' AND s.MARKING_PERIOD_ID IN (".$all_mp.")
 											AND s.COURSE_ID=c.COURSE_ID
 											AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=p.PERIOD_ID AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0
-											AND s.STUDENT_ID='".$_REQUEST['student_id']."' AND ('$date' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '$date'>=s.START_DATE))
-											AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number FROM attendance_calendar WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<='$date' AND end_date>='$date' AND mp='QTR' AND SCHOOL_ID=s.SCHOOL_ID) AND school_date<='$date' AND SCHOOL_ID=s.SCHOOL_ID) AS INT) FOR 1) IN cpsp.DAYS)>0
-											AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_DATE='$date' AND ac.MINUTES!='0'
+											AND s.STUDENT_ID='".$_REQUEST['student_id']."' AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '".$date."'>=s.START_DATE))
+											AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number FROM attendance_calendar WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<='".$date."' AND end_date>='".$date."' AND mp='QTR' AND SCHOOL_ID=s.SCHOOL_ID) AND school_date<='".$date."' AND SCHOOL_ID=s.SCHOOL_ID) AS INT) FOR 1) IN cpsp.DAYS)>0
+											AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_DATE='".$date."' AND ac.MINUTES!='0'
 										ORDER BY p.SORT_ORDER"),$functions);
 	} else {
 		$schedule_RET = DBGet(DBQuery("SELECT
@@ -199,9 +199,9 @@ if(isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 											s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' AND s.MARKING_PERIOD_ID IN (".$all_mp.")
 											AND s.COURSE_ID=c.COURSE_ID
 											AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=p.PERIOD_ID AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0
-											AND s.STUDENT_ID='".$_REQUEST['student_id']."' AND ('$date' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '$date'>=s.START_DATE))
-											AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM cast('$date' AS DATE)) AS INT)+1 FOR 1) IN cpsp.DAYS)>0
-											AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_DATE='$date' AND ac.MINUTES!='0'
+											AND s.STUDENT_ID='".$_REQUEST['student_id']."' AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND '".$date."'>=s.START_DATE))
+											AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM cast('".$date."' AS DATE)) AS INT)+1 FOR 1) IN cpsp.DAYS)>0
+											AND ac.CALENDAR_ID=cp.CALENDAR_ID AND ac.SCHOOL_DATE='".$date."' AND ac.MINUTES!='0'
 										ORDER BY p.SORT_ORDER"),$functions);	
 	}
 	$columns = array('PERIOD_TITLE'=>_('Period'),'COURSE'=>_('Course'),'ATTENDANCE_CODE'=>_('Attendance Code'),'ATTENDANCE_TEACHER_CODE'=>_('Teacher\'s Entry'),'ATTENDANCE_REASON'=>_('Office Comment'),'COMMENT'=>_('Teacher Comment'));
@@ -247,7 +247,7 @@ else
 	}
 	elseif($abs)
 	{
-		$RET = DBGet(DBQuery("SELECT ID FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL) AND TABLE_NAME='$_REQUEST[table]'"));
+		$RET = DBGet(DBQuery("SELECT ID FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL) AND TABLE_NAME='".$_REQUEST['table']."'"));
 		if(count($RET))
 		{
 			$extra['WHERE'] .= "AND ac.ID IN (";
@@ -281,8 +281,8 @@ else
 	$extra['functions']['PHONE'] = 'makeContactInfo';
 	if($_REQUEST['table']=='0')
 	{
-		$extra['SELECT'] .= ",(SELECT STATE_VALUE FROM ATTENDANCE_DAY WHERE STUDENT_ID=ssm.STUDENT_ID AND SCHOOL_DATE='$date') AS STATE_VALUE";
-		$extra['SELECT'] .= ",(SELECT COMMENT FROM ATTENDANCE_DAY WHERE STUDENT_ID=ssm.STUDENT_ID AND SCHOOL_DATE='$date') AS DAILY_COMMENT";
+		$extra['SELECT'] .= ",(SELECT STATE_VALUE FROM ATTENDANCE_DAY WHERE STUDENT_ID=ssm.STUDENT_ID AND SCHOOL_DATE='".$date."') AS STATE_VALUE";
+		$extra['SELECT'] .= ",(SELECT COMMENT FROM ATTENDANCE_DAY WHERE STUDENT_ID=ssm.STUDENT_ID AND SCHOOL_DATE='".$date."') AS DAILY_COMMENT";
 		$extra['functions']['STATE_VALUE'] = '_makeStateValue';
 		$extra['functions']['DAILY_COMMENT'] = '_makeStateValue';
 //modif Francois: add translation 

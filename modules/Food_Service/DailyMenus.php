@@ -129,7 +129,7 @@ else
 		}
 	}
 
-	$calendar_RET = DBGet(DBQuery("SELECT to_char(SCHOOL_DATE,'dd-MON-YY') as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',$time_last)."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='$calendar_id' AND MINUTES>0 ORDER BY SCHOOL_DATE"),array(),array('SCHOOL_DATE'));
+	$calendar_RET = DBGet(DBQuery("SELECT to_char(SCHOOL_DATE,'dd-MON-YY') as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',$time_last)."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$calendar_id."' AND MINUTES>0 ORDER BY SCHOOL_DATE"),array(),array('SCHOOL_DATE'));
 
 	$events_RET = DBGet(DBQuery("SELECT ID,TITLE,DESCRIPTION,to_char(SCHOOL_DATE,'dd-MON-yy') AS SCHOOL_DATE FROM CALENDAR_EVENTS WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',$time_last)."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' ORDER BY SCHOOL_DATE"),array('DESCRIPTION'=>'makeDescriptionInput','SCHOOL_DATE'=>'ProperDate'));
 

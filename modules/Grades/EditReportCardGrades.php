@@ -21,16 +21,16 @@ if(UserStudentID())
         
         if ($_REQUEST['new_sms']) {
 //modif Francois: fix SQL bug when marking period already exist
-			$smsRET = DBGet(DBQuery("SELECT * FROM STUDENT_MP_STATS WHERE student_id='$student_id' and marking_period_id='".$_REQUEST['new_sms']."'"));
+			$smsRET = DBGet(DBQuery("SELECT * FROM STUDENT_MP_STATS WHERE student_id='".$student_id."' and marking_period_id='".$_REQUEST['new_sms']."'"));
 			if (empty($smsRET))
-				DBQuery("INSERT INTO STUDENT_MP_STATS (student_id, marking_period_id) VALUES ('$student_id', '".$_REQUEST['new_sms']."')");
+				DBQuery("INSERT INTO STUDENT_MP_STATS (student_id, marking_period_id) VALUES ('".$student_id."', '".$_REQUEST['new_sms']."')");
 				$mp_id = $_REQUEST['new_sms'];
         }
 
         if ($_REQUEST['SMS_GRADE_LEVEL'] && $mp_id) {
             $updatestats = "UPDATE student_mp_stats SET grade_level_short = '".$_REQUEST['SMS_GRADE_LEVEL']."'
-                            WHERE marking_period_id = '$mp_id'     
-                            AND student_id = '$student_id'";
+                            WHERE marking_period_id = '".$mp_id."'     
+                            AND student_id = '".$student_id."'";
             DBQuery($updatestats);
         }    
         if (is_array($_REQUEST['values']))
@@ -46,9 +46,9 @@ if(UserStudentID())
 						foreach($columns as $column=>$value)
 							$sql .= $column."='".$value."',";
 						if($_REQUEST['tab_id']!='new')
-							$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 						else
-							$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 						DBQuery($sql);
 					}
 					elseif($columns['COURSE_TITLE'])
@@ -96,7 +96,7 @@ if(UserStudentID())
     {
         if(DeletePromptX(_('Student Grade')))
         {
-            DBQuery("DELETE FROM student_report_card_grades WHERE ID='$_REQUEST[id]'");
+            DBQuery("DELETE FROM student_report_card_grades WHERE ID='".$_REQUEST['id']."'");
         }
     }    
     if(empty($_REQUEST['modfunc']))
@@ -114,7 +114,7 @@ if(UserStudentID())
        CASE WHEN sms.cr_credits > 0 THEN (sms.cr_unweighted_factors/cr_credits)*s.reporting_gp_scale ELSE 0 END as cr_unweighted
        FROM marking_periods mp, student_mp_stats sms, schools s
        WHERE sms.marking_period_id = mp.marking_period_id and
-             s.id = mp.school_id and sms.student_id='$student_id'
+             s.id = mp.school_id and sms.student_id='".$student_id."'
     AND mp.school_id='".UserSchool()."' order by posted";
             
         $GRET = DBGet(DBQuery($gquery));
@@ -169,7 +169,7 @@ if(UserStudentID())
             if ($mp_id=="0"){
                 $syear = UserSyear();
                 $sql = "SELECT MARKING_PERIOD_ID, SYEAR, TITLE, POST_END_DATE FROM MARKING_PERIODS WHERE SCHOOL_ID='".UserSchool().
-                        "' AND SYEAR BETWEEN '".sprintf('%d',$syear-5)."' AND '$syear' ORDER BY POST_END_DATE DESC";
+                        "' AND SYEAR BETWEEN '".sprintf('%d',$syear-5)."' AND '".$syear."' ORDER BY POST_END_DATE DESC";
                 $MPRET = DBGet(DBQuery($sql));
                 if ($MPRET){
                     //$mpselect = "<SELECT name=new_sms>";

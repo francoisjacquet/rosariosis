@@ -81,7 +81,7 @@ if($_REQUEST['values'])
 						$value = $value;
 						$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
 						$fields = 'ID,PERSON_ID,TITLE,VALUE,';
-						$values = db_seq_nextval('PEOPLE_SEQ').",'".$person_id."','$column','$value',";
+						$values = db_seq_nextval('PEOPLE_SEQ').",'".$person_id."','".$column."','".$value."',";
 						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 						DBQuery($sql);
 					}

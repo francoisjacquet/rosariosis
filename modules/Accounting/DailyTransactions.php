@@ -45,9 +45,9 @@ if(!isset($_REQUEST['accounting']) || $_REQUEST['accounting']=='true')
 	if(isset($_REQUEST['staff_payroll']) || isset($_REQUEST['student_billing']))
 		$name_col_sql = "'' AS FULL_NAME,";
 
-	$RET = DBGet(DBQuery("SELECT ".$name_col_sql."f.AMOUNT AS CREDIT,'' AS DEBIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."' AND f.ASSIGNED_DATE BETWEEN '$start_date' AND '$end_date'"),$extra['functions']);
+	$RET = DBGet(DBQuery("SELECT ".$name_col_sql."f.AMOUNT AS CREDIT,'' AS DEBIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."' AND f.ASSIGNED_DATE BETWEEN '".$start_date."' AND '".$end_date."'"),$extra['functions']);
 
-	$payments_SQL = "SELECT ".$name_col_sql."'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID FROM ACCOUNTING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."' AND p.PAYMENT_DATE BETWEEN '$start_date' AND '$end_date' AND STAFF_ID IS NULL";
+	$payments_SQL = "SELECT ".$name_col_sql."'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID FROM ACCOUNTING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."' AND p.PAYMENT_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND STAFF_ID IS NULL";
 
 	$payments_RET = DBGet(DBQuery($payments_SQL),$extra['functions']);
 
@@ -69,7 +69,7 @@ if(!empty($_REQUEST['staff_payroll']))
 		$name_col_sql = ",'' AS STUDENT_NAME";
 	$salaries_extra['SELECT'] .= $name_col_sql.",'' AS DEBIT,f.AMOUNT AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 	$salaries_extra['FROM'] .= ',ACCOUNTING_SALARIES f';
-	$salaries_extra['WHERE'] .= " AND f.STAFF_ID=s.STAFF_ID AND f.SYEAR=s.SYEAR AND f.ASSIGNED_DATE BETWEEN '$start_date' AND '$end_date'";
+	$salaries_extra['WHERE'] .= " AND f.STAFF_ID=s.STAFF_ID AND f.SYEAR=s.SYEAR AND f.ASSIGNED_DATE BETWEEN '".$start_date."' AND '".$end_date."'";
 
 	$salaries_RET = GetStaffList($salaries_extra);
 	
@@ -81,7 +81,7 @@ if(!empty($_REQUEST['staff_payroll']))
 	$staff_payments_extra = $extra;
 	$staff_payments_extra['SELECT'] .= ",'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
 	$staff_payments_extra['FROM'] .= ',ACCOUNTING_PAYMENTS p';
-	$staff_payments_extra['WHERE'] .= " AND p.STAFF_ID=s.STAFF_ID AND p.SYEAR=s.SYEAR AND p.PAYMENT_DATE BETWEEN '$start_date' AND '$end_date'";
+	$staff_payments_extra['WHERE'] .= " AND p.STAFF_ID=s.STAFF_ID AND p.SYEAR=s.SYEAR AND p.PAYMENT_DATE BETWEEN '".$start_date."' AND '".$end_date."'";
 
 	$staff_payments_RET = GetStaffList($staff_payments_extra);
 	
@@ -104,7 +104,7 @@ if(!empty($_REQUEST['student_billing']) && $RosarioModules['Student_Billing'])
 		$name_col_sql = ",s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS STUDENT_NAME, '' AS FULL_NAME";
 	$fees_extra['SELECT'] .= $name_col_sql.",f.AMOUNT AS DEBIT,'' AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 	$fees_extra['FROM'] .= ',BILLING_FEES f';
-	$fees_extra['WHERE'] .= " AND f.STUDENT_ID=s.STUDENT_ID AND f.SYEAR=ssm.SYEAR AND f.SCHOOL_ID=ssm.SCHOOL_ID AND f.ASSIGNED_DATE BETWEEN '$start_date' AND '$end_date'";
+	$fees_extra['WHERE'] .= " AND f.STUDENT_ID=s.STUDENT_ID AND f.SYEAR=ssm.SYEAR AND f.SCHOOL_ID=ssm.SCHOOL_ID AND f.ASSIGNED_DATE BETWEEN '".$start_date."' AND '".$end_date."'";
 
 	$fees_RET = GetStuList($fees_extra);
 	
@@ -116,7 +116,7 @@ if(!empty($_REQUEST['student_billing']) && $RosarioModules['Student_Billing'])
 	$student_payments_extra = $extra;
 	$student_payments_extra['SELECT'] .= $name_col_sql.",'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
 	$student_payments_extra['FROM'] .= ',BILLING_PAYMENTS p';
-	$student_payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR=ssm.SYEAR AND p.SCHOOL_ID=ssm.SCHOOL_ID AND p.PAYMENT_DATE BETWEEN '$start_date' AND '$end_date'";
+	$student_payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR=ssm.SYEAR AND p.SCHOOL_ID=ssm.SCHOOL_ID AND p.PAYMENT_DATE BETWEEN '".$start_date."' AND '".$end_date."'";
 
 	$student_payments_RET = GetStuList($student_payments_extra);
 	

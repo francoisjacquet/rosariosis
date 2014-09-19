@@ -22,7 +22,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 					foreach($columns as $column=>$value)
 						$sql .= $column."='".$value."',";
-					$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+					$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 					$go = true;
 				}
 				else
@@ -123,7 +123,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 		if(DeletePrompt(_('Address Field')))
 		{
 			$id = $_REQUEST['id'];
-			DBQuery("DELETE FROM ADDRESS_FIELDS WHERE ID='$id'");
+			DBQuery("DELETE FROM ADDRESS_FIELDS WHERE ID='".$id."'");
 			DBQuery("ALTER TABLE ADDRESS DROP COLUMN CUSTOM_$id");
 			$_REQUEST['modfunc'] = '';
 			unset($_REQUEST['id']);
@@ -133,13 +133,13 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	{
 		if(DeletePrompt(_('Address Field Category').' '._('and all fields in the category')))
 		{
-			$fields = DBGet(DBQuery("SELECT ID FROM ADDRESS_FIELDS WHERE CATEGORY_ID='$_REQUEST[category_id]'"));
+			$fields = DBGet(DBQuery("SELECT ID FROM ADDRESS_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."'"));
 			foreach($fields as $field)
 			{
-				DBQuery("DELETE FROM ADDRESS_FIELDS WHERE ID='$field[ID]'");
+				DBQuery("DELETE FROM ADDRESS_FIELDS WHERE ID='".$field['ID']."'");
 				DBQuery("ALTER TABLE ADDRESS DROP COLUMN CUSTOM_$field[ID]");
 			}
-			DBQuery("DELETE FROM ADDRESS_FIELD_CATEGORIES WHERE ID='$_REQUEST[category_id]'");
+			DBQuery("DELETE FROM ADDRESS_FIELD_CATEGORIES WHERE ID='".$_REQUEST['category_id']."'");
 			$_REQUEST['modfunc'] = '';
 			unset($_REQUEST['category_id']);
 		}
@@ -165,7 +165,7 @@ if(empty($_REQUEST['modfunc']))
 	// ADDING & EDITING FORM
 	if($_REQUEST['id'] && $_REQUEST['id']!='new')
 	{
-		$sql = "SELECT CATEGORY_ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,SORT_ORDER,REQUIRED,(SELECT TITLE FROM ADDRESS_FIELD_CATEGORIES WHERE ID=CATEGORY_ID) AS CATEGORY_TITLE FROM ADDRESS_FIELDS WHERE ID='$_REQUEST[id]'";
+		$sql = "SELECT CATEGORY_ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,SORT_ORDER,REQUIRED,(SELECT TITLE FROM ADDRESS_FIELD_CATEGORIES WHERE ID=CATEGORY_ID) AS CATEGORY_TITLE FROM ADDRESS_FIELDS WHERE ID='".$_REQUEST['id']."'";
 		$RET = DBGet(DBQuery($sql));
 		$RET = $RET[1];
 		$title = ParseMLField($RET['CATEGORY_TITLE']).' - '.ParseMLField($RET['TITLE']);
@@ -174,7 +174,7 @@ if(empty($_REQUEST['modfunc']))
 	{
 		$sql = "SELECT TITLE,RESIDENCE,MAILING,BUS,SORT_ORDER
 				FROM ADDRESS_FIELD_CATEGORIES
-				WHERE ID='$_REQUEST[category_id]'";
+				WHERE ID='".$_REQUEST['category_id']."'";
 		$RET = DBGet(DBQuery($sql));
 		$RET = $RET[1];
 		$title = ParseMLField($RET['TITLE']);

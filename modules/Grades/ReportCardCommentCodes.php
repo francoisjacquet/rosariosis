@@ -25,9 +25,9 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 							$sql .= $column."='".$value."',";
 
 						if($_REQUEST['tab_id']!='new')
-							$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 						else
-							$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 						DBQuery($sql);
 					}
 					else
@@ -74,15 +74,15 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 //modif Francois: add translation
 		if(DeletePromptX(_('Report Card Comment')))
 		{
-			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CODES WHERE ID='$_REQUEST[id]'");
+			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CODES WHERE ID='".$_REQUEST['id']."'");
 		}
 	}
 	else
 		if(DeletePromptX(_('Report Card Grading Scale')))
 		{
-			DBQuery("UPDATE REPORT_CARD_COMMENTS SET SCALE_ID=NULL WHERE SCALE_ID='$_REQUEST[id]'");
-			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CODES WHERE SCALE_ID='$_REQUEST[id]'");
-			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE ID='$_REQUEST[id]'");
+			DBQuery("UPDATE REPORT_CARD_COMMENTS SET SCALE_ID=NULL WHERE SCALE_ID='".$_REQUEST['id']."'");
+			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CODES WHERE SCALE_ID='".$_REQUEST['id']."'");
+			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE ID='".$_REQUEST['id']."'");
 		}
 }
 

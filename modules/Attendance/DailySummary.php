@@ -75,7 +75,7 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$period_select.' : <INPUT type="submit" value="'._('Go').'" />');
 }
 
-$cal_RET = DBGet(DBQuery("SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' ORDER BY SCHOOL_DATE"));
+$cal_RET = DBGet(DBQuery("SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' ORDER BY SCHOOL_DATE"));
 
 //modif Francois: bugfix bug when Back to Student Search
 //if(UserStudentID() || $_REQUEST['student_id'] || User('PROFILE')=='parent')
@@ -157,11 +157,11 @@ else
 	// in 2.11 this was switched to incremental query in the _makeColor function
 	if(!$_REQUEST['period_id'])
 	{
-		$att_sql = "SELECT ad.STATE_VALUE,SCHOOL_DATE,'_'||to_char(ad.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm WHERE ad.STUDENT_ID=ssm.STUDENT_ID AND (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) AND '".DBDate()."'>=ssm.START_DATE) AND ssm.SCHOOL_ID='".UserSchool()."' AND ad.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' AND ad.STUDENT_ID=";
+		$att_sql = "SELECT ad.STATE_VALUE,SCHOOL_DATE,'_'||to_char(ad.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm WHERE ad.STUDENT_ID=ssm.STUDENT_ID AND (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) AND '".DBDate()."'>=ssm.START_DATE) AND ssm.SCHOOL_ID='".UserSchool()."' AND ad.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ad.STUDENT_ID=";
 	}
 	else
 	{
-		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||to_char(ap.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm WHERE ap.STUDENT_ID=ssm.STUDENT_ID AND ap.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' AND ap.STUDENT_ID=";
+		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||to_char(ap.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm WHERE ap.STUDENT_ID=ssm.STUDENT_ID AND ap.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ap.STUDENT_ID=";
 	}
 
 	if(count($cal_RET))

@@ -21,7 +21,7 @@ elseif(!$_REQUEST['category_id'])
 		$_REQUEST['category_id'] = '2';
 	elseif($_REQUEST['include']!='Other_Info')
 	{
-		$include = DBGet(DBQuery("SELECT ID FROM STAFF_FIELD_CATEGORIES WHERE INCLUDE='$_REQUEST[include]'"));
+		$include = DBGet(DBQuery("SELECT ID FROM STAFF_FIELD_CATEGORIES WHERE INCLUDE='".$_REQUEST['include']."'"));
 		$_REQUEST['category_id'] = $include[1]['ID'];
 	}
 }

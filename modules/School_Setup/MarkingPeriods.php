@@ -84,7 +84,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					}
 					$sql .= $column."='".$value."',";
 				}
-				$sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='$id'";
+				$sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='".$id."'";
 				$go = true;
 			}
 			else
@@ -93,7 +93,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 				$sql = "INSERT INTO SCHOOL_MARKING_PERIODS ";
 				$fields = "MARKING_PERIOD_ID,MP,SYEAR,SCHOOL_ID,";
-				$values = "'".$id_RET[1]['ID']."','$_REQUEST[mp_term]','".UserSyear()."','".UserSchool()."',";
+				$values = "'".$id_RET[1]['ID']."','".$_REQUEST['mp_term']."','".UserSyear()."','".UserSchool()."',";
 
 				$_REQUEST['marking_period_id'] = $id_RET[1]['ID'];
 
@@ -101,17 +101,17 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				{
 					case 'SEM':
 						$fields .= "PARENT_ID,";
-						$values .= "'$_REQUEST[year_id]',";
+						$values .= "'".$_REQUEST['year_id']."',";
 					break;
 
 					case 'QTR':
 						$fields .= "PARENT_ID,";
-						$values .= "'$_REQUEST[semester_id]',";
+						$values .= "'".$_REQUEST['semester_id']."',";
 					break;
 
 					case 'PRO':
 						$fields .= "PARENT_ID,";
-						$values .= "'$_REQUEST[quarter_id]',";
+						$values .= "'".$_REQUEST['quarter_id']."',";
 					break;
 				}
 
@@ -139,19 +139,19 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 			}
 
 			// CHECK TO MAKE SURE ONLY ONE MP & ONE GRADING PERIOD IS OPEN AT ANY GIVEN TIME
-			$dates_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='$_REQUEST[mp_term]' AND (true=false"
+			$dates_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='".$_REQUEST['mp_term']."' AND (true=false"
 				.(($columns['START_DATE'])?" OR '".$columns['START_DATE']."' BETWEEN START_DATE AND END_DATE":'')
 				.(($columns['END_DATE'])?" OR '".$columns['END_DATE']."' BETWEEN START_DATE AND END_DATE":'')
 				.(($columns['START_DATE'] && $columns['END_DATE'])?" OR START_DATE BETWEEN '".$columns['START_DATE']."' AND '".$columns['END_DATE']."'
 				OR END_DATE BETWEEN '".$columns['START_DATE']."' AND '".$columns['END_DATE']."'":'')
-				.") AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'".(($id!='new')?" AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID!='$id'":'')
+				.") AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'".(($id!='new')?" AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID!='".$id."'":'')
 			));
-			$posting_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='$_REQUEST[mp_term]' AND (true=false"
+			$posting_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='".$_REQUEST['mp_term']."' AND (true=false"
 				.(($columns['POST_START_DATE'])?" OR '".$columns['POST_START_DATE']."' BETWEEN POST_START_DATE AND POST_END_DATE":'')
 				.(($columns['POST_END_DATE'])?" OR '".$columns['POST_END_DATE']."' BETWEEN POST_START_DATE AND POST_END_DATE":'')
 				.(($columns['POST_START_DATE'] && $columns['POST_END_DATE'])?" OR POST_START_DATE BETWEEN '".$columns['POST_START_DATE']."' AND '".$columns['POST_END_DATE']."'
 				OR POST_END_DATE BETWEEN '".$columns['POST_START_DATE']."' AND '".$columns['POST_END_DATE']."'":'')
-				.") AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'".(($id!='new')?" AND MARKING_PERIOD_ID!='$id'":'')
+				.") AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'".(($id!='new')?" AND MARKING_PERIOD_ID!='".$id."'":'')
 			));
 
 			if(count($dates_RET))
@@ -188,22 +188,22 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 //modif Francois: add translation
 			$name = _('Year');
 			$parent_term = ''; $parent_id = '';
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='$_REQUEST[marking_period_id]'))";
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='$_REQUEST[marking_period_id]')";
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='$_REQUEST[marking_period_id]'";
+			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='".$_REQUEST['marking_period_id']."'))";
+			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='".$_REQUEST['marking_period_id']."')";
+			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='".$_REQUEST['marking_period_id']."'";
 		break;
 
 		case 'SEM':
 			$name = _('Semester');
 			$parent_term = 'FY'; $parent_id = $_REQUEST['year_id'];
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='$_REQUEST[marking_period_id]')";
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='$_REQUEST[marking_period_id]'";
+			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='".$_REQUEST['marking_period_id']."')";
+			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='".$_REQUEST['marking_period_id']."'";
 		break;
 
 		case 'QTR':
 			$name = _('Quarter');
 			$parent_term = 'SEM'; $parent_id = $_REQUEST['semester_id'];
-			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='$_REQUEST[marking_period_id]'";
+			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='".$_REQUEST['marking_period_id']."'";
 		break;
 
 		case 'PRO':
@@ -216,7 +216,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	{
 		foreach($extra as $sql)
 			DBQuery($sql);
-		DBQuery("DELETE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='$_REQUEST[marking_period_id]'");
+		DBQuery("DELETE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".$_REQUEST['marking_period_id']."'");
 		unset($_REQUEST['modfunc']);
 		$_REQUEST['mp_term'] = $parent_term;
 		$_REQUEST['marking_period_id'] = $parent_id;
@@ -240,7 +240,7 @@ if(empty($_REQUEST['modfunc']))
 		$sql = "SELECT TITLE,SHORT_NAME,SORT_ORDER,DOES_GRADES,DOES_COMMENTS,
 						START_DATE,END_DATE,POST_START_DATE,POST_END_DATE
 				FROM SCHOOL_MARKING_PERIODS
-				WHERE MARKING_PERIOD_ID='$_REQUEST[marking_period_id]'";
+				WHERE MARKING_PERIOD_ID='".$_REQUEST['marking_period_id']."'";
 		$QI = DBQuery($sql);
 		$RET = DBGet($QI);
 		$RET = $RET[1];

@@ -22,7 +22,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 					foreach($columns as $column=>$value)
 						$sql .= $column."='".$value."',";
-					$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+					$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 					$go = true;
 				}
 				else
@@ -90,7 +90,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 		if(DeletePrompt(_('Student Field')))
 		{
 			$id = $_REQUEST['id'];
-			DBQuery("DELETE FROM CUSTOM_FIELDS WHERE ID='$id'");
+			DBQuery("DELETE FROM CUSTOM_FIELDS WHERE ID='".$id."'");
 			DBQuery("ALTER TABLE STUDENTS DROP COLUMN CUSTOM_$id");
 			$_REQUEST['modfunc'] = '';
 			unset($_REQUEST['id']);
@@ -100,13 +100,13 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	{
 		if(DeletePrompt(_('Student Field Category').' '._('and all fields in the category')))
 		{
-			$fields = DBGet(DBQuery("SELECT ID FROM CUSTOM_FIELDS WHERE CATEGORY_ID='$_REQUEST[category_id]'"));
+			$fields = DBGet(DBQuery("SELECT ID FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."'"));
 			foreach($fields as $field)
 			{
-				DBQuery("DELETE FROM CUSTOM_FIELDS WHERE ID='$field[ID]'");
+				DBQuery("DELETE FROM CUSTOM_FIELDS WHERE ID='".$field['ID']."'");
 				DBQuery("ALTER TABLE STUDENTS DROP COLUMN CUSTOM_$field[ID]");
 			}
-			DBQuery("DELETE FROM STUDENT_FIELD_CATEGORIES WHERE ID='$_REQUEST[category_id]'");
+			DBQuery("DELETE FROM STUDENT_FIELD_CATEGORIES WHERE ID='".$_REQUEST['category_id']."'");
 			// remove from profiles and permissions
 			DBQuery("DELETE FROM PROFILE_EXCEPTIONS WHERE MODNAME='Students/Student.php&category_id=$_REQUEST[category_id]'");
 			DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE MODNAME='Students/Student.php&category_id=$_REQUEST[category_id]'");
@@ -131,7 +131,7 @@ if(empty($_REQUEST['modfunc']))
 	// ADDING & EDITING FORM
 	if($_REQUEST['id'] && $_REQUEST['id']!='new')
 	{
-		$sql = "SELECT TITLE,TYPE,DEFAULT_SELECTION,SORT_ORDER,REQUIRED FROM SCHOOL_FIELDS WHERE ID='$_REQUEST[id]'";
+		$sql = "SELECT TITLE,TYPE,DEFAULT_SELECTION,SORT_ORDER,REQUIRED FROM SCHOOL_FIELDS WHERE ID='".$_REQUEST['id']."'";
 		$RET = DBGet(DBQuery($sql));
 		$RET = $RET[1];
 		$title = ParseMLField($RET['TITLE']);

@@ -363,7 +363,7 @@ function makeParents($student_id,$column)
 		else
 			$constraint .= " AND sjp.CUSTODY='Y'";
 
-		$people_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p WHERE sjp.PERSON_ID=p.PERSON_ID AND sjp.STUDENT_ID='$student_id' AND sjp.ADDRESS_ID='$THIS_RET[ADDRESS_ID]'$constraint ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME"));
+		$people_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p WHERE sjp.PERSON_ID=p.PERSON_ID AND sjp.STUDENT_ID='".$student_id."' AND sjp.ADDRESS_ID='".$THIS_RET['ADDRESS_ID']."'$constraint ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME"));
 		if(count($people_RET))
 		{
 			$THIS_RET['PARENTS'] .= '<TABLE class="cellpadding-0 cellspacing-0">';
@@ -434,7 +434,7 @@ function appendSQL($sql,$extra=array())
 	}
 	if($_REQUEST['grade'])
 	{
-		$sql .= " AND ssm.GRADE_ID = '$_REQUEST[grade]'";
+		$sql .= " AND ssm.GRADE_ID = '".$_REQUEST['grade']."'";
 		if(!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Grade Level')).' </b></span>'.GetGrade($_REQUEST['grade']).'<BR />';
 	}
@@ -445,7 +445,7 @@ function appendSQL($sql,$extra=array())
 		$list = $sep = '';
 		foreach($_REQUEST['grades'] as $id=>$y)
 		{
-			$list .= "$sep'$id'";
+			$list .= "$sep'".$id."'";
 			if(!$extra['NoSearchTerms'])
 				$_ROSARIO['SearchTerms'] .= $sep.GetGrade($id);
 			$sep = ',';

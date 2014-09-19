@@ -85,7 +85,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				{
 					$tmp_username = $username = trim(mb_strpos($students[1]['EMAIL'],'@')!==false?mb_substr($students[1]['EMAIL'],0,mb_strpos($students[1]['EMAIL'],'@')):$students[1]['EMAIL']);
 					$i = 1;
-					while(DBGet(DBQuery("SELECT STAFF_ID FROM STAFF WHERE upper(USERNAME)=upper('$username') AND SYEAR='".UserSyear()."'")))
+					while(DBGet(DBQuery("SELECT STAFF_ID FROM STAFF WHERE upper(USERNAME)=upper('".$username."') AND SYEAR='".UserSyear()."'")))
 						$username = $tmp_username.$i++;
 					$user = DBGet(DBQuery("SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['contact'][$student_id]."'"));
 					$user = $user[1];
@@ -102,7 +102,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						$id = $id[1]['SEQ_ID'];
 	//modif Francois: add password encryption
 						$password_encrypted = encrypt_password($password);
-						$sql = "INSERT INTO STAFF (STAFF_ID,SYEAR,PROFILE,PROFILE_ID,FIRST_NAME,MIDDLE_NAME,LAST_NAME,USERNAME,PASSWORD,EMAIL) values ('$id','".UserSyear()."','parent','$profile_id','$user[FIRST_NAME]','$user[MIDDLE_NAME]','$user[LAST_NAME]','$username','$password_encrypted','".$students[1]['EMAIL']."')";
+						$sql = "INSERT INTO STAFF (STAFF_ID,SYEAR,PROFILE,PROFILE_ID,FIRST_NAME,MIDDLE_NAME,LAST_NAME,USERNAME,PASSWORD,EMAIL) values ('".$id."','".UserSyear()."','parent','".$profile_id."','".$user['FIRST_NAME']."','".$user['MIDDLE_NAME']."','".$user['LAST_NAME']."','".$username."','".$password_encrypted."','".$students[1]['EMAIL']."')";
 						DBQuery($sql);
 	//modif Francois: Moodle integrator
 						$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
@@ -130,7 +130,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				{
 					if(!$test_email)
 					{
-						$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values ('$id',$student[STUDENT_ID])";
+						$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values ('".$id."',$student[STUDENT_ID])";
 						DBQuery($sql);
 	//modif Francois: Moodle integrator
 						$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
@@ -250,9 +250,9 @@ function _makeContactSelect($value,$column)
 {	global $THIS_RET;
 
 	if(!$THIS_RET['STAFF_ID'])
-		$RET = DBGet(DBQuery("SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,p.FIRST_NAME||' '||p.LAST_NAME AS CONTACT FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p WHERE p.PERSON_ID=sjp.PERSON_ID AND sjp.STUDENT_ID='$value' AND sjp.ADDRESS_ID='$THIS_RET[ADDRESS_ID]' ORDER BY sjp.STUDENT_RELATION"));
+		$RET = DBGet(DBQuery("SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,p.FIRST_NAME||' '||p.LAST_NAME AS CONTACT FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p WHERE p.PERSON_ID=sjp.PERSON_ID AND sjp.STUDENT_ID='".$value."' AND sjp.ADDRESS_ID='".$THIS_RET['ADDRESS_ID']."' ORDER BY sjp.STUDENT_RELATION"));
 	else
-		$RET = DBGet(DBQuery("SELECT '' AS PERSON_ID,STAFF_ID AS STUDENT_RELATION,FIRST_NAME||' '||LAST_NAME AS CONTACT FROM STAFF WHERE STAFF_ID='$THIS_RET[STAFF_ID]'"));
+		$RET = DBGet(DBQuery("SELECT '' AS PERSON_ID,STAFF_ID AS STUDENT_RELATION,FIRST_NAME||' '||LAST_NAME AS CONTACT FROM STAFF WHERE STAFF_ID='".$THIS_RET['STAFF_ID']."'"));
 
 	if(count($RET))
 	{

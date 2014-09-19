@@ -153,9 +153,9 @@ function Widgets($item,&$myextra=null)
 					}
 
 					if($_REQUEST['absences_low']==$_REQUEST['absences_high'])
-						$extra['WHERE'] .= " AND (SELECT sum(1-STATE_VALUE) AS STATE_VALUE FROM ATTENDANCE_DAY ad WHERE ssm.STUDENT_ID=ad.STUDENT_ID AND ad.SYEAR=ssm.SYEAR AND ad.MARKING_PERIOD_ID IN (".GetChildrenMP($_REQUEST['absences_term'],UserMP()).")) = '$_REQUEST[absences_low]'";
+						$extra['WHERE'] .= " AND (SELECT sum(1-STATE_VALUE) AS STATE_VALUE FROM ATTENDANCE_DAY ad WHERE ssm.STUDENT_ID=ad.STUDENT_ID AND ad.SYEAR=ssm.SYEAR AND ad.MARKING_PERIOD_ID IN (".GetChildrenMP($_REQUEST['absences_term'],UserMP()).")) = '".$_REQUEST['absences_low']."'";
 					else
-						$extra['WHERE'] .= " AND (SELECT sum(1-STATE_VALUE) AS STATE_VALUE FROM ATTENDANCE_DAY ad WHERE ssm.STUDENT_ID=ad.STUDENT_ID AND ad.SYEAR=ssm.SYEAR AND ad.MARKING_PERIOD_ID IN (".GetChildrenMP($_REQUEST['absences_term'],UserMP()).")) BETWEEN '$_REQUEST[absences_low]' AND '$_REQUEST[absences_high]'";
+						$extra['WHERE'] .= " AND (SELECT sum(1-STATE_VALUE) AS STATE_VALUE FROM ATTENDANCE_DAY ad WHERE ssm.STUDENT_ID=ad.STUDENT_ID AND ad.SYEAR=ssm.SYEAR AND ad.MARKING_PERIOD_ID IN (".GetChildrenMP($_REQUEST['absences_term'],UserMP()).")) BETWEEN '".$_REQUEST['absences_low']."' AND '".$_REQUEST['absences_high']."'";
 					switch($_REQUEST['absences_term'])
 					{
 						case 'FY':
@@ -207,8 +207,8 @@ function Widgets($item,&$myextra=null)
 						$extra['FROM'] .= ",STUDENT_MP_STATS sms";
 						$extra['WHERE'] .= " AND sms.STUDENT_ID=s.STUDENT_ID AND sms.MARKING_PERIOD_ID='".$_REQUEST['gpa_term']."'";
 					}
-					//$extra['WHERE'] .= " AND sgc.".(($_REQUEST['weighted']=='Y')?'WEIGHTED_':'')."GPA BETWEEN '$_REQUEST[gpa_low]' AND '$_REQUEST[gpa_high]' AND sgc.MARKING_PERIOD_ID='".$_REQUEST['gpa_term']."'";
-					$extra['WHERE'] .= " AND sms.CUM_".(($_REQUEST['weighted']=='Y')?'':'UN')."WEIGHTED_FACTOR*(SELECT GP_SCALE FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."') BETWEEN '$_REQUEST[gpa_low]' AND '$_REQUEST[gpa_high]'";
+					//$extra['WHERE'] .= " AND sgc.".(($_REQUEST['weighted']=='Y')?'WEIGHTED_':'')."GPA BETWEEN '".$_REQUEST['gpa_low']."' AND '".$_REQUEST['gpa_high']."' AND sgc.MARKING_PERIOD_ID='".$_REQUEST['gpa_term']."'";
+					$extra['WHERE'] .= " AND sms.CUM_".(($_REQUEST['weighted']=='Y')?'':'UN')."WEIGHTED_FACTOR*(SELECT GP_SCALE FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."') BETWEEN '".$_REQUEST['gpa_low']."' AND '".$_REQUEST['gpa_high']."'";
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'.(($_REQUEST['gpa_weighted']=='Y')?_('Weighted GPA').' ':_('Unweighted GPA').' ').Localize('colon',_('Between')).' </b>'.$_REQUEST['gpa_low'].' &amp; '.$_REQUEST['gpa_high'].'<BR />';
 				}
@@ -241,8 +241,8 @@ function Widgets($item,&$myextra=null)
 						$extra['FROM'] .= ",STUDENT_MP_STATS sms";
 						$extra['WHERE'] .= " AND sms.STUDENT_ID=s.STUDENT_ID AND sms.MARKING_PERIOD_ID='".$_REQUEST['class_rank_term']."'";
 					}
-					//$extra['WHERE'] .= " AND sgc.CLASS_RANK BETWEEN '$_REQUEST[class_rank_low]' AND '$_REQUEST[class_rank_high]'";
-					$extra['WHERE'] .= " AND sms.CUM_RANK BETWEEN '$_REQUEST[class_rank_low]' AND '$_REQUEST[class_rank_high]'";
+					//$extra['WHERE'] .= " AND sgc.CLASS_RANK BETWEEN '".$_REQUEST['class_rank_low']."' AND '".$_REQUEST['class_rank_high']."'";
+					$extra['WHERE'] .= " AND sms.CUM_RANK BETWEEN '".$_REQUEST['class_rank_low']."' AND '".$_REQUEST['class_rank_high']."'";
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Class Rank')).' '._('Between').'</b>'.$_REQUEST['class_rank_low'].' &amp; '.$_REQUEST['class_rank_high'].'<BR />';
 				}
@@ -269,7 +269,7 @@ function Widgets($item,&$myextra=null)
 					$letter_grades_RET = DBGet(DBQuery("SELECT ID,TITLE FROM REPORT_CARD_GRADES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('ID'));
 					foreach($_REQUEST['letter_grade'] as $grade=>$Y)
 					{
-						$letter_grades .= ",'$grade'";
+						$letter_grades .= ",'".$grade."'";
 						if(!$extra['NoSearchTerms'])
 							$_ROSARIO['SearchTerms'] .= $letter_grades_RET[$grade][1]['TITLE'].', ';
 					}
@@ -346,7 +346,7 @@ function Widgets($item,&$myextra=null)
 
 					$start_date = mb_strtoupper(date('d-M-y',time() - ($today-$START_DAY)*60*60*24));
 					$end_date = mb_strtoupper(date('d-M-y',time()));
-					$extra['WHERE'] .= " AND (SELECT count(*) FROM ELIGIBILITY e WHERE ssm.STUDENT_ID=e.STUDENT_ID AND e.SYEAR=ssm.SYEAR AND e.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date' AND e.ELIGIBILITY_CODE='FAILING') > '0'";
+					$extra['WHERE'] .= " AND (SELECT count(*) FROM ELIGIBILITY e WHERE ssm.STUDENT_ID=e.STUDENT_ID AND e.SYEAR=ssm.SYEAR AND e.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND e.ELIGIBILITY_CODE='FAILING') > '0'";
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Eligibility')).' </b>'._('Ineligible').'<BR />';
 				}
@@ -459,7 +459,7 @@ function Widgets($item,&$myextra=null)
 				$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%,".UserSchool().",%') AND (PROFILE='admin' OR PROFILE='teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"),array(),array('STAFF_ID'));
 				if($_REQUEST['discipline_reporter'])
 				{
-					$extra['WHERE'] .= " AND dr.STAFF_ID='$_REQUEST[discipline_reporter]' ";
+					$extra['WHERE'] .= " AND dr.STAFF_ID='".$_REQUEST['discipline_reporter']."' ";
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Reporter').': </b>'.$users_RET[$_REQUEST['discipline_reporter']][1]['LAST_NAME'].', '.$users_RET[$_REQUEST['discipline_reporter']][1]['FIRST_NAME'].' '.$users_RET[$_REQUEST['discipline_reporter']][1]['MIDDLE_NAME'].'<BR />';
 				}
@@ -476,19 +476,19 @@ function Widgets($item,&$myextra=null)
 					
 				if($_REQUEST['discipline_entry_begin'] && $_REQUEST['discipline_entry_end'])
 				{
-					$extra['WHERE'] .= " AND dr.ENTRY_DATE BETWEEN '$_REQUEST[discipline_entry_begin]' AND '$_REQUEST[discipline_entry_end]' ";
+					$extra['WHERE'] .= " AND dr.ENTRY_DATE BETWEEN '".$_REQUEST['discipline_entry_begin']."' AND '".$_REQUEST['discipline_entry_end']."' ";
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Date').' '._('Between').': </b>'.ProperDate($discipline_entry_begin_for_ProperDate).'<b> '._('and').' </b>'.ProperDate($_REQUEST['discipline_entry_end']).'<BR />';
 				}
 				elseif($_REQUEST['discipline_entry_begin'])
 				{
-					$extra['WHERE'] .= " AND dr.ENTRY_DATE>='$_REQUEST[discipline_entry_begin]' ";
+					$extra['WHERE'] .= " AND dr.ENTRY_DATE>='".$_REQUEST['discipline_entry_begin']."' ";
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Entered').' '._('On or After').' </b>'.ProperDate($discipline_entry_begin_for_ProperDate).'<BR />';
 				}
 				elseif($_REQUEST['discipline_entry_end'])
 				{
-					$extra['WHERE'] .= " AND dr.ENTRY_DATE<='$_REQUEST[discipline_entry_end]' ";
+					$extra['WHERE'] .= " AND dr.ENTRY_DATE<='".$_REQUEST['discipline_entry_end']."' ";
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Entered').' '._('On or Before').' </b>'.ProperDate($_REQUEST['discipline_entry_end']).'<BR />';
 				}

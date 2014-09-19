@@ -27,7 +27,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if(DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['staff_id']))
 	{
-		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='$_REQUEST[staff_id]' AND STUDENT_ID='".UserStudentID()."'");
+		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".$_REQUEST['staff_id']."' AND STUDENT_ID='".UserStudentID()."'");
 //modif Francois: Moodle integrator
 		$moodleError = Moodle($_REQUEST['modname'], 'core_role_unassign_roles');
 		unset($_REQUEST['modfunc']);

@@ -41,7 +41,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql .= $column."='".$value."',";
 			}
-			$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND ID='$id'";
+			$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND ID='".$id."'";
 			DBQuery($sql);
 		}
 		else
@@ -86,8 +86,8 @@ if($_REQUEST['modfunc']=='waive' && AllowEdit())
 {
 	if(DeletePrompt(_('Fee'),_('Waive')))
 	{
-		$fee_RET = DBGet(DBQuery("SELECT TITLE,AMOUNT FROM BILLING_FEES WHERE ID='$_REQUEST[id]'"));
-		DBQuery("INSERT INTO BILLING_FEES (ID,SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,STUDENT_ID,ASSIGNED_DATE,COMMENTS) values(".db_seq_nextval('BILLING_FEES_SEQ').",'".UserSyear()."','".UserSchool()."','".str_replace("'","''",$fee_RET[1]['TITLE'])." "._('Waiver')."','".($fee_RET[1]['AMOUNT']*-1)."','$_REQUEST[id]','".UserStudentID()."','".DBDate()."','"._('Waiver')."')");
+		$fee_RET = DBGet(DBQuery("SELECT TITLE,AMOUNT FROM BILLING_FEES WHERE ID='".$_REQUEST['id']."'"));
+		DBQuery("INSERT INTO BILLING_FEES (ID,SYEAR,SCHOOL_ID,TITLE,AMOUNT,WAIVED_FEE_ID,STUDENT_ID,ASSIGNED_DATE,COMMENTS) values(".db_seq_nextval('BILLING_FEES_SEQ').",'".UserSyear()."','".UserSchool()."','".str_replace("'","''",$fee_RET[1]['TITLE'])." "._('Waiver')."','".($fee_RET[1]['AMOUNT']*-1)."','".$_REQUEST['id']."','".UserStudentID()."','".DBDate()."','"._('Waiver')."')");
 		unset($_REQUEST['modfunc']);
 	}
 }

@@ -16,9 +16,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			if($_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
 				if($_REQUEST['teacher'])
-					$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='$_REQUEST[w_course_period_id]') AS TEACHER";
+					$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."') AS TEACHER";
 				if($_REQUEST['room'])
-					$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='$_REQUEST[w_course_period_id]') AS ROOM";
+					$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."') AS ROOM";
 			}
 			else
 			{
@@ -128,7 +128,7 @@ if(empty($_REQUEST['modfunc']))
 		{
 			if($_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
-				$course_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS TEACHER,cp.ROOM FROM STAFF s,COURSE_PERIODS cp WHERE s.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='$_REQUEST[w_course_period_id]'"));
+				$course_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS TEACHER,cp.ROOM FROM STAFF s,COURSE_PERIODS cp WHERE s.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'"));
 //modif Francois: add <label> on checkbox
 				$extra['extra_header_left'] .= '<TR><TD colspan="4"><label><INPUT type="checkbox" name="teacher" value="Y"> '._('Teacher').' ('.$course_RET[1]['TEACHER'].')</label></TD></TR>';
 				$extra['extra_header_left'] .= '<TR><TD colspan="4"><label><INPUT type="checkbox" name="room" value="Y"> '._('Room').' ('.$course_RET[1]['ROOM'].')</label></TD></TR>';

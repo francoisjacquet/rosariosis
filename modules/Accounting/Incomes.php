@@ -16,7 +16,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql .= $column."='".$value."',";
 			}
-			$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+			$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 			DBQuery($sql);
 		}
 		else

@@ -114,7 +114,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 	unset($profiles);
 	if($_REQUEST['staff_id']!='new')
 	{
-		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES WHERE PROFILE='$staff[PROFILE]' ORDER BY ID"));
+		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES WHERE PROFILE='".$staff['PROFILE']."' ORDER BY ID"));
 		foreach($profiles_RET as $profile)
 //modif Francois: add translation
 			$profiles[$profile['ID']] = _($profile['TITLE']);

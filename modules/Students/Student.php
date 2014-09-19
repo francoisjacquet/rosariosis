@@ -20,7 +20,7 @@ elseif(!$_REQUEST['category_id'])
 		$_REQUEST['category_id'] = '4';
 	elseif($_REQUEST['include']!= 'Other_Info')
 	{
-		$include = DBGet(DBQuery("SELECT ID FROM STUDENT_FIELD_CATEGORIES WHERE INCLUDE='$_REQUEST[include]'"));
+		$include = DBGet(DBQuery("SELECT ID FROM STUDENT_FIELD_CATEGORIES WHERE INCLUDE='".$_REQUEST['include']."'"));
 		$_REQUEST['category_id'] = $include[1]['ID'];
 	}
 
@@ -166,7 +166,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				if(is_numeric($_REQUEST['assign_student_id']))
 				{
 					$student_id = $_REQUEST['assign_student_id'];
-					if(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='$student_id'"))))
+					if(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))))
 					{
 						$error[] = sprintf(_('That %s ID is already taken. Please select a different one.'),Config('NAME'));
 						//goto error_exit; //modif Francois: goto avail. in PHP 5.3

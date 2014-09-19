@@ -77,13 +77,13 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					else
 						$sql .= $column."='".$value."',";
 				}
-				$sql = mb_substr($sql,0,-1) . " WHERE ID='$id'";
+				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				DBQuery($sql);
 				
 				$q = 0;
 				foreach($sql_questions as $sql_question)
 				{
-					$sql_question = mb_substr($sql_question,0,-1) . " WHERE ID='$id_questions[$q]'";
+					$sql_question = mb_substr($sql_question,0,-1) . " WHERE ID='".$id_questions[$q]."'";
 					DBQuery($sql_question);
 					$q++;
 				}
@@ -176,8 +176,8 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Poll')))
 	{
-		DBQuery("DELETE FROM PORTAL_POLLS WHERE ID='$_REQUEST[id]'");
-		DBQuery("DELETE FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='$_REQUEST[id]'");
+		DBQuery("DELETE FROM PORTAL_POLLS WHERE ID='".$_REQUEST['id']."'");
+		DBQuery("DELETE FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }

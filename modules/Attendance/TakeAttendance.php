@@ -40,13 +40,13 @@ else
 //modif Francois: multiple school periods for a course period
 if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 {
-	$course_RET = DBGET(DBQuery("SELECT cp.HALF_DAY FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND acc.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID=acc.SCHOOL_ID AND cp.SYEAR=acc.SYEAR AND acc.SCHOOL_DATE='$date' AND cp.CALENDAR_ID=acc.CALENDAR_ID AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'
+	$course_RET = DBGET(DBQuery("SELECT cp.HALF_DAY FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND acc.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID=acc.SCHOOL_ID AND cp.SYEAR=acc.SYEAR AND acc.SCHOOL_DATE='".$date."' AND cp.CALENDAR_ID=acc.CALENDAR_ID AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'
 	AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast((SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number FROM attendance_calendar WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=acc.SCHOOL_DATE AND end_date>=acc.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=acc.SCHOOL_ID) AND school_date<=acc.SCHOOL_DATE AND SCHOOL_ID=acc.SCHOOL_ID) AS INT) FOR 1) IN cpsp.DAYS)>0
 		OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
 	AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0"));
 } else {
-	$course_RET = DBGET(DBQuery("SELECT cp.HALF_DAY FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND acc.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID=acc.SCHOOL_ID AND cp.SYEAR=acc.SYEAR AND acc.SCHOOL_DATE='$date' AND cp.CALENDAR_ID=acc.CALENDAR_ID AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'
+	$course_RET = DBGET(DBQuery("SELECT cp.HALF_DAY FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND acc.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID=acc.SCHOOL_ID AND cp.SYEAR=acc.SYEAR AND acc.SCHOOL_DATE='".$date."' AND cp.CALENDAR_ID=acc.CALENDAR_ID AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'
 	AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
 	AND sp.PERIOD_ID=cpsp.PERIOD_ID AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0
 		OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
@@ -79,7 +79,7 @@ if(!isset($_ROSARIO['allow_edit']))
 		$_ROSARIO['allow_edit'] = true;
 }
 
-$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PERIOD_ID,ATTENDANCE_REASON FROM $table t WHERE SCHOOL_DATE='$date' AND PERIOD_ID='".UserPeriod()."'".($table=='LUNCH_PERIOD'?" AND TABLE_NAME='$_REQUEST[table]'":'');
+$current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PERIOD_ID,ATTENDANCE_REASON FROM $table t WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."'".($table=='LUNCH_PERIOD'?" AND TABLE_NAME='".$_REQUEST['table']."'":'');
 $current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID'));
 if($_REQUEST['attendance'] && $_POST['attendance'])
 {
@@ -92,17 +92,17 @@ if($_REQUEST['attendance'] && $_POST['attendance'])
 				$sql .= ",ATTENDANCE_CODE='".mb_substr($value,5)."'";
 			if($_REQUEST['comment'][$student_id])
 				$sql .= ",COMMENT='".trim($_REQUEST['comment'][$student_id])."'";
-			$sql .= " WHERE SCHOOL_DATE='$date' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='$student_id'";
+			$sql .= " WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";
 		}
 		else
-			$sql = "INSERT INTO ".$table." (STUDENT_ID,SCHOOL_DATE,MARKING_PERIOD_ID,PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_TEACHER_CODE,COMMENT".($table=='LUNCH_PERIOD'?',TABLE_NAME':'').") values('$student_id','$date','$qtr_id','".UserPeriod()."','".UserCoursePeriod()."','".mb_substr($value,5)."','".mb_substr($value,5)."','".$_REQUEST['comment'][$student_id]."'".($table=='LUNCH_PERIOD'?",'$_REQUEST[table]'":'').")";
+			$sql = "INSERT INTO ".$table." (STUDENT_ID,SCHOOL_DATE,MARKING_PERIOD_ID,PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_TEACHER_CODE,COMMENT".($table=='LUNCH_PERIOD'?',TABLE_NAME':'').") values('".$student_id."','".$date."','".$qtr_id."','".UserPeriod()."','".UserCoursePeriod()."','".mb_substr($value,5)."','".mb_substr($value,5)."','".$_REQUEST['comment'][$student_id]."'".($table=='LUNCH_PERIOD'?",'".$_REQUEST['table']."'":'').")";
 		DBQuery($sql);
 		if($_REQUEST['table']=='0')
 			UpdateAttendanceDaily($student_id,$date);
 	}
-	$RET = DBGet(DBQuery("SELECT 'Y' AS COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='$date' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
+	$RET = DBGet(DBQuery("SELECT 'Y' AS COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
 	if(!count($RET))
-		DBQuery("INSERT INTO ATTENDANCE_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID,TABLE_NAME) values('".User('STAFF_ID')."','$date','".UserPeriod()."','".$_REQUEST['table']."')");
+		DBQuery("INSERT INTO ATTENDANCE_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID,TABLE_NAME) values('".User('STAFF_ID')."','".$date."','".UserPeriod()."','".$_REQUEST['table']."')");
 
 	$current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID'));
 	unset($_SESSION['_REQUEST_vars']['attendance']);
@@ -113,7 +113,7 @@ if(count($codes_RET))
 {
 	foreach($codes_RET as $code)
 	{
-		$extra['SELECT'] .= ",'$code[STATE_CODE]' AS CODE_".$code['ID'];
+		$extra['SELECT'] .= ",'".$code['STATE_CODE']."' AS CODE_".$code['ID'];
 		if($code['DEFAULT_CODE']=='Y')
 			$extra['functions']['CODE_'.$code['ID']] = '_makeRadioSelected';
 		else
@@ -136,7 +136,7 @@ if($attendance_reason)
 $date_note = $date!=DBDate() ? ' <span style="color:red" class="nobr">'._('The selected date is not today').'</span> |' : '';
 $date_note .= AllowEdit() ? ' <span style="color:green" class="nobr">'._('You can edit this attendance').'</span>':' <span style="color:red" class="nobr">'._('You cannot edit this attendance').'</span>';
 
-$completed_RET = DBGet(DBQuery("SELECT 'Y' as COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='$date' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
+$completed_RET = DBGet(DBQuery("SELECT 'Y' as COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
 if(count($completed_RET))
 	$note = ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('You already have taken attendance today for this period.')),'note');
 

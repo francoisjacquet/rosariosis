@@ -3,7 +3,7 @@
 //
 //	if(($dp=DeletePrompt(_('Title')))
 //		// OK
-//		DBQuery("DELETE FROM BOK WHERE id='$_REQUEST[benchmark_id]'");
+//		DBQuery("DELETE FROM BOK WHERE id='".$_REQUEST['benchmark_id']."'");
 //	elseif($dp==false)
 //		// Cancel
 //

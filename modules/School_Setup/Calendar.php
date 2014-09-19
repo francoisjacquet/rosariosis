@@ -206,7 +206,7 @@ if($_REQUEST['modfunc']=='detail')
 				foreach($_REQUEST['values'] as $column=>$value)
 					$sql .= $column."='".$value."',";
 
-				$sql = mb_substr($sql,0,-1) . " WHERE ID='$_REQUEST[event_id]'";
+				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$_REQUEST['event_id']."'";
 				DBQuery($sql);
 //modif Francois: Moodle integrator
 				if (MOODLE_INTEGRATOR)
@@ -304,7 +304,7 @@ if($_REQUEST['modfunc']=='detail')
 		{
 			if($_REQUEST['event_id']!='new')
 			{
-				$RET = DBGet(DBQuery("SELECT TITLE,DESCRIPTION,to_char(SCHOOL_DATE,'dd-MON-yy') AS SCHOOL_DATE FROM CALENDAR_EVENTS WHERE ID='$_REQUEST[event_id]'"));
+				$RET = DBGet(DBQuery("SELECT TITLE,DESCRIPTION,to_char(SCHOOL_DATE,'dd-MON-yy') AS SCHOOL_DATE FROM CALENDAR_EVENTS WHERE ID='".$_REQUEST['event_id']."'"));
 				$title = $RET[1]['TITLE'];
 			}
 			else
@@ -318,7 +318,7 @@ if($_REQUEST['modfunc']=='detail')
 		else
 		{
 //modif Francois: add assigned date
-			$RET = DBGet(DBQuery("SELECT TITLE,STAFF_ID,to_char(DUE_DATE,'dd-MON-yy') AS SCHOOL_DATE,DESCRIPTION,ASSIGNED_DATE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='$_REQUEST[assignment_id]'"));
+			$RET = DBGet(DBQuery("SELECT TITLE,STAFF_ID,to_char(DUE_DATE,'dd-MON-yy') AS SCHOOL_DATE,DESCRIPTION,ASSIGNED_DATE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'"));
 			$title = $RET[1]['TITLE'];
 			$RET[1]['STAFF_ID'] = GetTeacher($RET[1]['STAFF_ID']);
 		}
@@ -440,12 +440,12 @@ if(empty($_REQUEST['modfunc']))
 			if($yes=='Y')
 			{
 				if($calendar_RET[$date])
-					DBQuery("UPDATE ATTENDANCE_CALENDAR SET MINUTES='999' WHERE SCHOOL_DATE='$date' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'");
+					DBQuery("UPDATE ATTENDANCE_CALENDAR SET MINUTES='999' WHERE SCHOOL_DATE='".$date."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'");
 				else
 					DBQuery("INSERT INTO ATTENDANCE_CALENDAR (SYEAR,SCHOOL_ID,SCHOOL_DATE,CALENDAR_ID,MINUTES) values('".UserSyear()."','".UserSchool()."','".$date."','".$_REQUEST['calendar_id']."','999')");
 			}
 			else
-				DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_DATE='$date' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'");
+				DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_DATE='".$date."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'");
 		}
 		$calendar_RET = DBGet(DBQuery("SELECT to_char(SCHOOL_DATE,'dd-MON-YY') AS SCHOOL_DATE,MINUTES,BLOCK FROM ATTENDANCE_CALENDAR WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',mktime(0,0,0,$_REQUEST['month'],$last,$_REQUEST['year']))."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'"),array(),array('SCHOOL_DATE'));
 		unset($_REQUEST['all_day']);
@@ -457,7 +457,7 @@ if(empty($_REQUEST['modfunc']))
 		{
 			if($calendar_RET[$date])
 			{
-				DBQuery("UPDATE ATTENDANCE_CALENDAR SET BLOCK='".$block."' WHERE SCHOOL_DATE='$date' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'");
+				DBQuery("UPDATE ATTENDANCE_CALENDAR SET BLOCK='".$block."' WHERE SCHOOL_DATE='".$date."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'");
 			}
 		}
 		$calendar_RET = DBGet(DBQuery("SELECT to_char(SCHOOL_DATE,'dd-MON-YY') AS SCHOOL_DATE,MINUTES,BLOCK FROM ATTENDANCE_CALENDAR WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',mktime(0,0,0,$_REQUEST['month'],$last,$_REQUEST['year']))."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'"),array(),array('SCHOOL_DATE'));

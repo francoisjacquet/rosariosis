@@ -117,7 +117,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 	ListOutput($RET,$columns,'Activity','Activities',$link);
 	echo '</FORM>';
 
-	$RET = DBGet(DBQuery("SELECT e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE FROM ELIGIBILITY e,COURSES c,COURSE_PERIODS cp WHERE e.STUDENT_ID='".UserStudentID()."' AND e.SYEAR='".UserSyear()."' AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.COURSE_ID=c.COURSE_ID AND e.SCHOOL_DATE BETWEEN '$start_date' AND '$end_date'"),array('ELIGIBILITY_CODE'=>'_makeLower'));
+	$RET = DBGet(DBQuery("SELECT e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE FROM ELIGIBILITY e,COURSES c,COURSE_PERIODS cp WHERE e.STUDENT_ID='".UserStudentID()."' AND e.SYEAR='".UserSyear()."' AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.COURSE_ID=c.COURSE_ID AND e.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."'"),array('ELIGIBILITY_CODE'=>'_makeLower'));
 	$columns = array('COURSE_TITLE'=>_('Course'),'ELIGIBILITY_CODE'=>_('Grade'));
 	ListOutput($RET,$columns,'Course','Courses');
 }

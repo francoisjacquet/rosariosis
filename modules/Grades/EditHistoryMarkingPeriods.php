@@ -28,9 +28,9 @@ if($_REQUEST['modfunc']=='update'){
                 $sql .= $column."='".$value."',";
 
             if($_REQUEST['tab_id']!='new')
-                $sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='$id'";
+                $sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='".$id."'";
             else
-                $sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='$id'";
+                $sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='".$id."'";
             DBQuery($sql);
         }
         else
@@ -62,7 +62,7 @@ if($_REQUEST['modfunc']=='remove')
 //modif Francois: add translation
     if(DeletePromptX(_('History Marking Period')))
     {
-        DBQuery("DELETE FROM history_marking_periods WHERE MARKING_PERIOD_ID='$_REQUEST[id]'");
+        DBQuery("DELETE FROM history_marking_periods WHERE MARKING_PERIOD_ID='".$_REQUEST['id']."'");
     }
 }  
 

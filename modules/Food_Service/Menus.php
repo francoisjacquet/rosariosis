@@ -25,9 +25,9 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 							$sql .= $column."='".$value."',";
 
 						if($_REQUEST['tab_id']!='new')
-							$sql = mb_substr($sql,0,-1) . " WHERE CATEGORY_ID='$id'";
+							$sql = mb_substr($sql,0,-1) . " WHERE CATEGORY_ID='".$id."'";
 						else
-							$sql = mb_substr($sql,0,-1) . " WHERE MENU_ID='$id'";
+							$sql = mb_substr($sql,0,-1) . " WHERE MENU_ID='".$id."'";
 						DBQuery($sql);
 					}
 					else
@@ -74,16 +74,16 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 //modif Francois: add translation
 		if(DeletePromptX(_('Category')))
 		{
-			DBQuery("UPDATE FOOD_SERVICE_MENU_ITEMS SET CATEGORY_ID=NULL WHERE CATEGORY_ID='$_REQUEST[category_id]'");
-			DBQuery("DELETE FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID='$_REQUEST[category_id]'");
+			DBQuery("UPDATE FOOD_SERVICE_MENU_ITEMS SET CATEGORY_ID=NULL WHERE CATEGORY_ID='".$_REQUEST['category_id']."'");
+			DBQuery("DELETE FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID='".$_REQUEST['category_id']."'");
 		}
 	}
 	else
 		if(DeletePromptX(_('Meal')))
 		{
-			DBQuery("DELETE FROM FOOD_SERVICE_MENU_ITEMS WHERE MENU_ID='$_REQUEST[menu_id]'");
-			DBQuery("DELETE FROM FOOD_SERVICE_CATEGORIES WHERE MENU_ID='$_REQUEST[menu_id]'");
-			DBQuery("DELETE FROM FOOD_SERVICE_MENUS WHERE MENU_ID='$_REQUEST[menu_id]'");
+			DBQuery("DELETE FROM FOOD_SERVICE_MENU_ITEMS WHERE MENU_ID='".$_REQUEST['menu_id']."'");
+			DBQuery("DELETE FROM FOOD_SERVICE_CATEGORIES WHERE MENU_ID='".$_REQUEST['menu_id']."'");
+			DBQuery("DELETE FROM FOOD_SERVICE_MENUS WHERE MENU_ID='".$_REQUEST['menu_id']."'");
 		}
 }
 

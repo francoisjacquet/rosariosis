@@ -5,7 +5,7 @@ include 'ProgramFunctions/_makeLetterGrade.fnc.php';
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
 
 $course_period_id = UserCoursePeriod();
-$course_id = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='$course_period_id'"));
+$course_id = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
 $course_title = $course_id[1]['TITLE'];
 $course_id = $course_id[1]['COURSE_ID'];
 
@@ -79,7 +79,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$student['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
 
 			$extra = $extra2;
-			$extra['WHERE'] .= " AND s.STUDENT_ID='$student[STUDENT_ID]'";
+			$extra['WHERE'] .= " AND s.STUDENT_ID='".$student['STUDENT_ID']."'";
 			$student_points = $total_points = $percent_weights = array();
 			$grades_RET = GetStuList($extra);
 
