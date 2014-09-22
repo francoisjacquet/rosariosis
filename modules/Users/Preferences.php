@@ -265,9 +265,18 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['tab']=='student_fields')
 	{
 		if(User('PROFILE_ID'))
-			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS SEARCH,'' AS DISPLAY FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc WHERE sfc.ID=cf.CATEGORY_ID AND (SELECT CAN_USE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y' ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('SEARCH'=>'_make','DISPLAY'=>'_make'),array('CATEGORY'));
+			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS SEARCH,'' AS DISPLAY 
+			FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc 
+			WHERE sfc.ID=cf.CATEGORY_ID 
+			AND (SELECT CAN_USE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y' 
+			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('SEARCH'=>'_make','DISPLAY'=>'_make'),array('CATEGORY'));
 		else
-			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS SEARCH,'' AS DISPLAY FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc WHERE sfc.ID=cf.CATEGORY_ID AND (SELECT CAN_USE FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y' ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('SEARCH'=>'_make','DISPLAY'=>'_make'),array('CATEGORY'));
+			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS SEARCH,'' AS DISPLAY 
+			FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc 
+			WHERE sfc.ID=cf.CATEGORY_ID 
+			AND (SELECT CAN_USE FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y' 
+			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('SEARCH'=>'_make','DISPLAY'=>'_make'),array('CATEGORY'));
+			
         foreach ($custom_fields_RET as &$category_RET)
             foreach ($category_RET as &$field) {
                 $field['CATEGORY'] = '<b>'.ParseMLField($field['CATEGORY']).'</b>';
@@ -335,9 +344,17 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['tab']=='staff_fields' && User('PROFILE')=='admin')
 	{
 		if(User('PROFILE_ID'))
-			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY FROM STAFF_FIELDS cf,STAFF_FIELD_CATEGORIES sfc WHERE sfc.ID=cf.CATEGORY_ID AND (SELECT CAN_USE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y' ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('STAFF_SEARCH'=>'_make','STAFF_DISPLAY'=>'_make'),array('CATEGORY'));
+			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY 
+			FROM STAFF_FIELDS cf,STAFF_FIELD_CATEGORIES sfc 
+			WHERE sfc.ID=cf.CATEGORY_ID 
+			AND (SELECT CAN_USE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y' 
+			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('STAFF_SEARCH'=>'_make','STAFF_DISPLAY'=>'_make'),array('CATEGORY'));
 		else
-			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY FROM STAFF_FIELDS cf,STAFF_FIELD_CATEGORIES sfc WHERE sfc.ID=cf.CATEGORY_ID AND (SELECT CAN_USE FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y' ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('STAFF_SEARCH'=>'_make','STAFF_DISPLAY'=>'_make'),array('CATEGORY'));
+			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY 
+			FROM STAFF_FIELDS cf,STAFF_FIELD_CATEGORIES sfc 
+			WHERE sfc.ID=cf.CATEGORY_ID 
+			AND (SELECT CAN_USE FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y' 
+			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('STAFF_SEARCH'=>'_make','STAFF_DISPLAY'=>'_make'),array('CATEGORY'));
 
         foreach ($custom_fields_RET as &$category_RET)
             foreach ($category_RET as &$field) {

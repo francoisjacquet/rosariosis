@@ -7,7 +7,7 @@ if(User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id
 		
 	exit;
 }
-
+var_dump($_REQUEST['category_id']);
 if(!$_REQUEST['include'])
 {
 	$_REQUEST['include'] = 'General_Info';
@@ -25,13 +25,13 @@ elseif(!$_REQUEST['category_id'])
 		$_REQUEST['category_id'] = $include[1]['ID'];
 	}
 }
-	
+
 if(User('PROFILE')!='admin')
 {
 	if(User('PROFILE_ID'))
-		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Users/User.php&category_id=$_REQUEST[category_id]' AND CAN_EDIT='Y'"));
+		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Users/User.php&category_id=".$_REQUEST['category_id']."' AND CAN_EDIT='Y'"));
 	else
-		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Users/User.php&category_id=$_REQUEST[category_id]' AND CAN_EDIT='Y'"),array(),array('MODNAME'));
+		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Users/User.php&category_id=".$_REQUEST['category_id']."' AND CAN_EDIT='Y'"),array(),array('MODNAME'));
 	if($can_edit_RET)
 		$_ROSARIO['allow_edit'] = true;
 }

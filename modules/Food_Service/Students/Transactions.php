@@ -55,7 +55,11 @@ Search('student_id',$extra);
 
 if(UserStudentID() && !$_REQUEST['modfunc'])
 {
-	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa WHERE s.STUDENT_ID='".UserStudentID()."' AND fsa.STUDENT_ID=s.STUDENT_ID"));
+	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,
+	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE 
+	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa 
+	WHERE s.STUDENT_ID='".UserStudentID()."' 
+	AND fsa.STUDENT_ID=s.STUDENT_ID"));
 	$student = $student[1];
 
 	//$PHP_tmp_SELF = PreparePHP_SELF();
@@ -70,7 +74,13 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 
 	if($student['BALANCE']!='')
 	{
-        $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti WHERE fst.SYEAR='".UserSyear()."' AND fst.ACCOUNT_ID='".$student['ACCOUNT_ID']."' AND (fst.STUDENT_ID IS NULL OR fst.STUDENT_ID='".UserStudentID()."') AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1 AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
+        $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT 
+		FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti 
+		WHERE fst.SYEAR='".UserSyear()."' 
+		AND fst.ACCOUNT_ID='".$student['ACCOUNT_ID']."' 
+		AND (fst.STUDENT_ID IS NULL OR fst.STUDENT_ID='".UserStudentID()."') 
+		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1 
+		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
 //modif Francois: add translation
 		function types_locale($type) {
 			$types = array('Deposit'=>_('Deposit'),'Credit'=>_('Credit'),'Debit'=>_('Debit'));

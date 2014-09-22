@@ -11,7 +11,11 @@
 * See COPYRIGHT.txt for copyright notices and details.
 */
 
-$categories_RET = DBGet(DBQuery("SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u WHERE f.DATA_TYPE!='multiple_checkbox' AND u.DISCIPLINE_FIELD_ID=f.ID ORDER BY ".db_case(array('DATA_TYPE',"'textarea'","'1'","'0'")).",SORT_ORDER"),array(),array('ID'));
+$categories_RET = DBGet(DBQuery("SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER 
+FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u 
+WHERE f.DATA_TYPE!='multiple_checkbox' 
+AND u.DISCIPLINE_FIELD_ID=f.ID 
+ORDER BY ".db_case(array('DATA_TYPE',"'textarea'","'1'","'0'")).",SORT_ORDER"),array(),array('ID'));
 
 $extra['new'] = true;
 $extra['second_col'] .= '<TR><TD><fieldset><legend>'._('Include in Discipline Log').':</legend><TABLE>';

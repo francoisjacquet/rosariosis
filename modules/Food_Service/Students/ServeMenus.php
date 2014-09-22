@@ -66,7 +66,11 @@ if ($_REQUEST['modfunc']=='submit')
 
 if(UserStudentID() && !$_REQUEST['modfunc'])
 {
-	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,fsa.DISCOUNT,fsa.BARCODE,(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa WHERE s.STUDENT_ID='".UserStudentID()."' AND fsa.STUDENT_ID=s.STUDENT_ID"));
+	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,fsa.DISCOUNT,fsa.BARCODE,
+	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE 
+	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa 
+	WHERE s.STUDENT_ID='".UserStudentID()."' 
+	AND fsa.STUDENT_ID=s.STUDENT_ID"));
 	$student = $student[1];
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=submit&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
@@ -99,7 +103,13 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 		echo '</TD></TR>';
 		echo '<TR><TD class="width-100p valign-top">';
 
-		$items_RET = DBGet(DBQuery("SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE,fsi.PRICE_REDUCED,fsi.PRICE_FREE,fsi.ICON FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi WHERE fsmi.MENU_ID='".$_REQUEST['menu_id']."' AND fsi.ITEM_ID=fsmi.ITEM_ID AND fsmi.CATEGORY_ID IS NOT NULL AND fsi.SCHOOL_ID='".UserSchool()."' ORDER BY fsi.SORT_ORDER"),array('ICON'=>'makeIcon'),array('SHORT_NAME'));
+		$items_RET = DBGet(DBQuery("SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE,fsi.PRICE_REDUCED,fsi.PRICE_FREE,fsi.ICON 
+		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi 
+		WHERE fsmi.MENU_ID='".$_REQUEST['menu_id']."' 
+		AND fsi.ITEM_ID=fsmi.ITEM_ID 
+		AND fsmi.CATEGORY_ID IS NOT NULL 
+		AND fsi.SCHOOL_ID='".UserSchool()."' 
+		ORDER BY fsi.SORT_ORDER"),array('ICON'=>'makeIcon'),array('SHORT_NAME'));
 		$items = array();
 		foreach($items_RET as $sn=>$item)
 			$items += array($sn=>$item[1]['DESCRIPTION']);

@@ -167,7 +167,15 @@ function _makeCodePulldown($value,$title)
 
 	if(!is_array($current_schedule_RET[$THIS_RET['STUDENT_ID']]))
 	{
-		$current_schedule_RET[$THIS_RET['STUDENT_ID']] = DBGet(DBQuery("SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID FROM SCHEDULE s,COURSE_PERIODS cp WHERE s.STUDENT_ID='".$THIS_RET['STUDENT_ID']."' AND s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' AND cp.COURSE_PERIOD_ID = s.COURSE_PERIOD_ID AND cp.DOES_ATTENDANCE='Y' AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',$date)).") AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)"),array(),array('PERIOD_ID'));
+		$current_schedule_RET[$THIS_RET['STUDENT_ID']] = DBGet(DBQuery("SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID 
+		FROM SCHEDULE s,COURSE_PERIODS cp 
+		WHERE s.STUDENT_ID='".$THIS_RET['STUDENT_ID']."' 
+		AND s.SYEAR='".UserSyear()."' 
+		AND s.SCHOOL_ID='".UserSchool()."' 
+		AND cp.COURSE_PERIOD_ID = s.COURSE_PERIOD_ID 
+		AND cp.DOES_ATTENDANCE='Y' 
+		AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',$date)).") 
+		AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)"),array(),array('PERIOD_ID'));
 		if(!$current_schedule_RET[$THIS_RET['STUDENT_ID']])
 			$current_schedule_RET[$THIS_RET['STUDENT_ID']] = array();
 	}

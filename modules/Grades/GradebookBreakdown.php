@@ -44,7 +44,14 @@ if(count($config_RET))
 $sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='".User('STAFF_ID')."' AND COURSE_ID='".$course_id."' ORDER BY TITLE";
 $types_RET = DBGet(DBQuery($sql));
 
-$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,TITLE,POINTS FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".User('STAFF_ID')."' AND ((COURSE_ID='".$course_id."' AND STAFF_ID='".User('STAFF_ID')."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."') AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC"));
+$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,TITLE,POINTS 
+FROM GRADEBOOK_ASSIGNMENTS 
+WHERE STAFF_ID='".User('STAFF_ID')."' 
+AND ((COURSE_ID='".$course_id."' 
+AND STAFF_ID='".User('STAFF_ID')."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."') 
+AND MARKING_PERIOD_ID='".UserMP()."' 
+ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC"));
+
 $assignment_select = '<script>var assignment_idonchange = document.createElement("a"); assignment_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&assignment_id="; assignment_idonchange.target = "body";</script>';
 $assignment_select .= '<SELECT name="assignment_id" id="assignment_id" onchange="assignment_idonchange.href += this.options[selectedIndex].value; ajaxLink(assignment_idonchange);"><OPTION value="totals"'.($_REQUEST['assignment_id']=='totals'?' SELECTED="SELECTED"':'').'>'._('Totals').'</OPTION>';
 foreach($types_RET as $type)
@@ -71,10 +78,23 @@ if($_REQUEST['assignment_id']=='totals')
 	$extra['SELECT_ONLY'] .= "ssm.STUDENT_ID,'' AS LETTER_GRADE";
 	$extra['functions'] = array('LETTER_GRADE'=>'_makeGrade');
 
-	$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,sum(".db_case(array('g.POINTS',"'-1'","'0'",'g.POINTS')).") AS POINTS,sum(".db_case(array('g.POINTS',"'-1'","'0'",'a.POINTS')).") AS TOTAL_POINTS FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."' AND (a.COURSE_PERIOD_ID='".UserCoursePeriod()."' OR a.COURSE_ID='".$course_id."') GROUP BY g.STUDENT_ID"),array(),array('STUDENT_ID'));
+	$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,sum(".db_case(array('g.POINTS',"'-1'","'0'",'g.POINTS')).") AS POINTS,sum(".db_case(array('g.POINTS',"'-1'","'0'",'a.POINTS')).") AS TOTAL_POINTS 
+	FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a 
+	WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID 
+	AND a.MARKING_PERIOD_ID='".UserMP()."' 
+	AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."' 
+	AND (a.COURSE_PERIOD_ID='".UserCoursePeriod()."' OR a.COURSE_ID='".$course_id."') 
+	GROUP BY g.STUDENT_ID"),array(),array('STUDENT_ID'));
 
 	if($programconfig['WEIGHT']=='Y')
-		$percent_RET = DBGet(DBQuery("SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID,".db_case(array("sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).")","'0'","'0'","(sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") * gt.FINAL_GRADE_PERCENT / sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS'))."))"))." AS PARTIAL_PERCENT FROM GRADEBOOK_GRADES gg, GRADEBOOK_ASSIGNMENTS ga, GRADEBOOK_ASSIGNMENT_TYPES gt WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID AND ga.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND gg.COURSE_PERIOD_ID='".UserCoursePeriod()."' AND gt.COURSE_ID='".$course_id."' GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),array(),array('STUDENT_ID','ASSIGNMENT_TYPE_ID'));
+		$percent_RET = DBGet(DBQuery("SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID,".db_case(array("sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).")","'0'","'0'","(sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") * gt.FINAL_GRADE_PERCENT / sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS'))."))"))." AS PARTIAL_PERCENT 
+		FROM GRADEBOOK_GRADES gg, GRADEBOOK_ASSIGNMENTS ga, GRADEBOOK_ASSIGNMENT_TYPES gt 
+		WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID 
+		AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID 
+		AND ga.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") 
+		AND gg.COURSE_PERIOD_ID='".UserCoursePeriod()."' 
+		AND gt.COURSE_ID='".$course_id."' 
+		GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),array(),array('STUDENT_ID','ASSIGNMENT_TYPE_ID'));
 
 	foreach($assignments_RET as $assignment)
 		$total_points[$assignment['ASSIGNMENT_ID']] = $assignment['POINTS'];
@@ -85,10 +105,25 @@ elseif(!is_numeric($_REQUEST['assignment_id']))
 	$extra['SELECT_ONLY'] .= "ssm.STUDENT_ID,'' AS LETTER_GRADE";
 	$extra['functions'] = array('LETTER_GRADE'=>'_makeGrade');
 
-	$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,sum(".db_case(array('g.POINTS',"'-1'","'0'",'g.POINTS')).") AS POINTS,sum(".db_case(array('g.POINTS',"'-1'","'0'",'a.POINTS')).") AS TOTAL_POINTS FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID AND a.MARKING_PERIOD_ID='".UserMP()."' AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."' AND (a.COURSE_PERIOD_ID='".UserCoursePeriod()."' OR a.COURSE_ID='".$course_id."') AND a.ASSIGNMENT_TYPE_ID='".$type_id."' GROUP BY g.STUDENT_ID"),array(),array('STUDENT_ID'));
+	$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,sum(".db_case(array('g.POINTS',"'-1'","'0'",'g.POINTS')).") AS POINTS,sum(".db_case(array('g.POINTS',"'-1'","'0'",'a.POINTS')).") AS TOTAL_POINTS 
+	FROM GRADEBOOK_GRADES g,GRADEBOOK_ASSIGNMENTS a 
+	WHERE a.ASSIGNMENT_ID=g.ASSIGNMENT_ID 
+	AND a.MARKING_PERIOD_ID='".UserMP()."' 
+	AND g.COURSE_PERIOD_ID='".UserCoursePeriod()."' 
+	AND (a.COURSE_PERIOD_ID='".UserCoursePeriod()."' OR a.COURSE_ID='".$course_id."') 
+	AND a.ASSIGNMENT_TYPE_ID='".$type_id."' 
+	GROUP BY g.STUDENT_ID"),array(),array('STUDENT_ID'));
 
 	if($programconfig['WEIGHT']=='Y')
-		$percent_RET = DBGet(DBQuery("SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID,".db_case(array("sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).")","'0'","'0'","(sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") / sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS'))."))"))." AS PARTIAL_PERCENT FROM GRADEBOOK_GRADES gg, GRADEBOOK_ASSIGNMENTS ga, GRADEBOOK_ASSIGNMENT_TYPES gt WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND ga.ASSIGNMENT_TYPE_ID='".$type_id."' AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID AND ga.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND gg.COURSE_PERIOD_ID='".UserCoursePeriod()."' AND gt.COURSE_ID='".$course_id."' GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),array(),array('STUDENT_ID','ASSIGNMENT_TYPE_ID'));
+		$percent_RET = DBGet(DBQuery("SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID,".db_case(array("sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).")","'0'","'0'","(sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") / sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS'))."))"))." AS PARTIAL_PERCENT 
+		FROM GRADEBOOK_GRADES gg, GRADEBOOK_ASSIGNMENTS ga, GRADEBOOK_ASSIGNMENT_TYPES gt 
+		WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID 
+		AND ga.ASSIGNMENT_TYPE_ID='".$type_id."' 
+		AND ga.ASSIGNMENT_ID=gg.ASSIGNMENT_ID 
+		AND ga.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") 
+		AND gg.COURSE_PERIOD_ID='".UserCoursePeriod()."' 
+		AND gt.COURSE_ID='".$course_id."' 
+		GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),array(),array('STUDENT_ID','ASSIGNMENT_TYPE_ID'));
 
 	foreach($assignments_RET as $assignment)
 		$total_points[$assignment['ASSIGNMENT_ID']] = $assignment['POINTS'];	

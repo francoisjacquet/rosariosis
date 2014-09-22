@@ -19,7 +19,10 @@ function GetStaffList(& $extra)
 				$extra['columns_after']['FAILED_LOGIN'] = _('Failed Login');
 				$functions['FAILED_LOGIN'] = 'makeLogin';
 
-				$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE FROM STAFF_FIELDS cf WHERE ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StaffFieldsView' AND USER_ID='".User('STAFF_ID')."')='Y'".($extra['staff_fields']['view']?" OR cf.ID IN (".$extra['staff_fields']['view'].")":'').") ORDER BY cf.SORT_ORDER,cf.TITLE"));
+				$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE 
+				FROM STAFF_FIELDS cf 
+				WHERE ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StaffFieldsView' AND USER_ID='".User('STAFF_ID')."')='Y'".($extra['staff_fields']['view']?" OR cf.ID IN (".$extra['staff_fields']['view'].")":'').") 
+				ORDER BY cf.SORT_ORDER,cf.TITLE"));
 
 				foreach($view_fields_RET as $field)
 				{

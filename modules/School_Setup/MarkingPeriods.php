@@ -139,20 +139,25 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 			}
 
 			// CHECK TO MAKE SURE ONLY ONE MP & ONE GRADING PERIOD IS OPEN AT ANY GIVEN TIME
-			$dates_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='".$_REQUEST['mp_term']."' AND (true=false"
-				.(($columns['START_DATE'])?" OR '".$columns['START_DATE']."' BETWEEN START_DATE AND END_DATE":'')
-				.(($columns['END_DATE'])?" OR '".$columns['END_DATE']."' BETWEEN START_DATE AND END_DATE":'')
-				.(($columns['START_DATE'] && $columns['END_DATE'])?" OR START_DATE BETWEEN '".$columns['START_DATE']."' AND '".$columns['END_DATE']."'
-				OR END_DATE BETWEEN '".$columns['START_DATE']."' AND '".$columns['END_DATE']."'":'')
-				.") AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'".(($id!='new')?" AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID!='".$id."'":'')
-			));
-			$posting_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='".$_REQUEST['mp_term']."' AND (true=false"
-				.(($columns['POST_START_DATE'])?" OR '".$columns['POST_START_DATE']."' BETWEEN POST_START_DATE AND POST_END_DATE":'')
-				.(($columns['POST_END_DATE'])?" OR '".$columns['POST_END_DATE']."' BETWEEN POST_START_DATE AND POST_END_DATE":'')
-				.(($columns['POST_START_DATE'] && $columns['POST_END_DATE'])?" OR POST_START_DATE BETWEEN '".$columns['POST_START_DATE']."' AND '".$columns['POST_END_DATE']."'
-				OR POST_END_DATE BETWEEN '".$columns['POST_START_DATE']."' AND '".$columns['POST_END_DATE']."'":'')
-				.") AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'".(($id!='new')?" AND MARKING_PERIOD_ID!='".$id."'":'')
-			));
+			$dates_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID 
+			FROM SCHOOL_MARKING_PERIODS 
+			WHERE MP='".$_REQUEST['mp_term']."' 
+			AND (true=false".(($columns['START_DATE'])?" OR '".$columns['START_DATE']."' BETWEEN START_DATE AND END_DATE":'').
+			(($columns['END_DATE'])?" OR '".$columns['END_DATE']."' BETWEEN START_DATE AND END_DATE":'').
+			(($columns['START_DATE'] && $columns['END_DATE'])?" OR START_DATE BETWEEN '".$columns['START_DATE']."' AND '".$columns['END_DATE']."' OR END_DATE BETWEEN '".$columns['START_DATE']."' AND '".$columns['END_DATE']."'":'').") 
+			AND SCHOOL_ID='".UserSchool()."' 
+			AND SYEAR='".UserSyear()."'".
+			(($id!='new')?" AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID!='".$id."'":'')));
+			
+			$posting_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID 
+			FROM SCHOOL_MARKING_PERIODS 
+			WHERE MP='".$_REQUEST['mp_term']."' 
+			AND (true=false".(($columns['POST_START_DATE'])?" OR '".$columns['POST_START_DATE']."' BETWEEN POST_START_DATE AND POST_END_DATE":'').
+			(($columns['POST_END_DATE'])?" OR '".$columns['POST_END_DATE']."' BETWEEN POST_START_DATE AND POST_END_DATE":'').
+			(($columns['POST_START_DATE'] && $columns['POST_END_DATE'])?" OR POST_START_DATE BETWEEN '".$columns['POST_START_DATE']."' AND '".$columns['POST_END_DATE']."' OR POST_END_DATE BETWEEN '".$columns['POST_START_DATE']."' AND '".$columns['POST_END_DATE']."'":'').") 
+			AND SCHOOL_ID='".UserSchool()."' 
+			AND SYEAR='".UserSyear()."'".
+			(($id!='new')?" AND MARKING_PERIOD_ID!='".$id."'":'')));
 
 			if(count($dates_RET))
 			{

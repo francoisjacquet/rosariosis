@@ -36,7 +36,17 @@ if(UserStaffID())
 
 		if($_REQUEST['detailed_view']=='true')
 		{
-            $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,fst.STAFF_ID,fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst WHERE fst.STAFF_ID='".UserStaffID()."' AND fst.SYEAR='".UserSyear()."' AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1".$where." ORDER BY fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','BALANCE'=>'red'));
+            $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,
+			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+			fst.STAFF_ID,fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,
+			".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER 
+			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst 
+			WHERE fst.STAFF_ID='".UserStaffID()."' 
+			AND fst.SYEAR='".UserSyear()."' 
+			AND fst.TIMESTAMP BETWEEN '".$start_date."' 
+			AND date '".$end_date."' +1".
+			$where." 
+			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','BALANCE'=>'red'));
 //modif Francois: add translation
 			foreach($RET as $RET_key=>$RET_val) {
 				$RET[$RET_key]=array_map('types_locale', $RET_val);
@@ -60,7 +70,15 @@ if(UserStaffID())
 		}
 		else
 		{
-			$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst WHERE fst.STAFF_ID='".UserStaffID()."' AND SYEAR='".UserSyear()."' AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1".$where." ORDER BY fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','BALANCE'=>'red'));
+			$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,
+			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+			fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION 
+			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst 
+			WHERE fst.STAFF_ID='".UserStaffID()."' 
+			AND SYEAR='".UserSyear()."' 
+			AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1".
+			$where." 
+			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','BALANCE'=>'red'));
 			$columns = array('TRANSACTION_ID'=>_('ID'),'DATE'=>_('Date'),'TIME'=>_('Time'),'BALANCE'=>_('Balance'),'DESCRIPTION'=>_('Description'),'AMOUNT'=>_('Amount'));
 //modif Francois: add translation
 			foreach($RET as $RET_key=>$RET_val) {

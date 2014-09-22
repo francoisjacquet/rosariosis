@@ -1,10 +1,5 @@
 <?php
 DrawHeader(_('Gradebook').' - '.ProgramTitle());
-/*
-$course_id = DBGet(DBQuery("SELECT COURSE_ID,COURSE_PERIOD_ID FROM COURSE_PERIODS WHERE TEACHER_ID='".User('STAFF_ID')."' AND PERIOD_ID='".UserPeriod()."' AND MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).')'));
-$course_period_id = $course_id[1]['COURSE_PERIOD_ID'];
-$course_id = $course_id[1]['COURSE_ID'];
-*/
 
 if (!UserCoursePeriod())
 	echo ErrorMessage(array(_('No courses assigned to teacher.')),'fatal');
@@ -385,7 +380,13 @@ if(empty($_REQUEST['modfunc']))
 	// ASSIGNMENTS
 	if($_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id']!='new' && count($types_RET))
 	{
-		$sql = "SELECT ASSIGNMENT_ID,TITLE,POINTS FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".User('STAFF_ID')."' AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."') AND ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."' AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC";
+		$sql = "SELECT ASSIGNMENT_ID,TITLE,POINTS 
+		FROM GRADEBOOK_ASSIGNMENTS 
+		WHERE STAFF_ID='".User('STAFF_ID')."' 
+		AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."') 
+		AND ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."' 
+		AND MARKING_PERIOD_ID='".UserMP()."' 
+		ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC";
 		$QI = DBQuery($sql);
 		$assn_RET = DBGet($QI);
 

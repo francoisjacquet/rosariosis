@@ -250,9 +250,10 @@ if($_REQUEST['modfunc']=='choose_course')
 		//	$date = DBDate();
 
 		//modif Francois: multiple school periods for a course period
-		$mp_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,cpsp.DAYS,cpsp.PERIOD_ID,cp.MARKING_PERIOD_ID,cp.TOTAL_SEATS,cp.CALENDAR_ID FROM COURSE_PERIODS cp,  COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-		WHERE 
-		cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
+		$mp_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,cpsp.DAYS,cpsp.PERIOD_ID,cp.MARKING_PERIOD_ID,cp.TOTAL_SEATS,cp.CALENDAR_ID 
+		FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
+		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
+		AND cp.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
 		if($_REQUEST['course_marking_period_id'])
 		{
 			$mp_RET[1]['MARKING_PERIOD_ID'] = $_REQUEST['course_marking_period_id'];
@@ -276,7 +277,14 @@ if($_REQUEST['modfunc']=='choose_course')
 		//modif Francois: multiple school periods for a course period
 		//if marking periods overlap and same period and same day then not okay
 		//$period_RET = DBGet(DBQuery("SELECT cp.DAYS FROM SCHEDULE s,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.STUDENT_ID='".UserStudentID()."' AND cp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."' AND s.MARKING_PERIOD_ID IN (".$mps.") AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)"));
-		$period_RET = DBGet(DBQuery("SELECT cpsp.DAYS FROM SCHEDULE s,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cpsp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.STUDENT_ID='".UserStudentID()."' AND cpsp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."' AND s.MARKING_PERIOD_ID IN (".$mps.") AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)"));
+		$period_RET = DBGet(DBQuery("SELECT cpsp.DAYS 
+		FROM SCHEDULE s,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
+		WHERE cpsp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID 
+		AND s.STUDENT_ID='".UserStudentID()."' 
+		AND cpsp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."' 
+		AND s.MARKING_PERIOD_ID IN (".$mps.") 
+		AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)"));
+		
 		$days_conflict = false;
 		foreach($period_RET as $existing)
 		{
@@ -403,7 +411,16 @@ function calcSeats0($period,$date='')
 {
 	$mp = $period['MARKING_PERIOD_ID'];
 
-	$seats = DBGet(DBQuery("SELECT max((SELECT count(1) FROM SCHEDULE ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR) WHERE ss.COURSE_PERIOD_ID='".$period['COURSE_PERIOD_ID']."' AND (ss.MARKING_PERIOD_ID='".$mp."' OR ss.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($mp,'MP'),$mp).")) AND (ac.SCHOOL_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE)) AND (ac.SCHOOL_DATE>=sem.START_DATE AND (sem.END_DATE IS NULL OR ac.SCHOOL_DATE<=sem.END_DATE)))) AS FILLED_SEATS FROM ATTENDANCE_CALENDAR ac WHERE ac.CALENDAR_ID='".$period['CALENDAR_ID']."' AND ac.SCHOOL_DATE BETWEEN ".($date?"'".$date."'":db_case(array("(CURRENT_DATE>'".GetMP($mp,'END_DATE')."')",'TRUE',"'".GetMP($mp,'START_DATE')."'",'CURRENT_DATE')))." AND '".GetMP($mp,'END_DATE')."'"));
+	$seats = DBGet(DBQuery("SELECT 
+		max((SELECT count(1) 
+		FROM SCHEDULE ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR) 
+		WHERE ss.COURSE_PERIOD_ID='".$period['COURSE_PERIOD_ID']."' 
+		AND (ss.MARKING_PERIOD_ID='".$mp."' OR ss.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($mp,'MP'),$mp).")) 
+		AND (ac.SCHOOL_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE)) 
+		AND (ac.SCHOOL_DATE>=sem.START_DATE AND (sem.END_DATE IS NULL OR ac.SCHOOL_DATE<=sem.END_DATE)))) AS FILLED_SEATS 
+	FROM ATTENDANCE_CALENDAR ac 
+	WHERE ac.CALENDAR_ID='".$period['CALENDAR_ID']."' 
+	AND ac.SCHOOL_DATE BETWEEN ".($date?"'".$date."'":db_case(array("(CURRENT_DATE>'".GetMP($mp,'END_DATE')."')",'TRUE',"'".GetMP($mp,'START_DATE')."'",'CURRENT_DATE')))." AND '".GetMP($mp,'END_DATE')."'"));
 	return $seats[1]['FILLED_SEATS'];
 }
 

@@ -5,7 +5,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	if(count($_REQUEST['st_arr']))
 	{
 	$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
-	$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
+	$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
 
 	if($_REQUEST['day_include_active_date'] && $_REQUEST['month_include_active_date'] && $_REQUEST['year_include_active_date'])
 	{
@@ -26,7 +26,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$extra['WHERE'] .= " AND p_cp.PERIOD_ID=sp.PERIOD_ID AND ssm.SYEAR=sr.SYEAR AND sr.COURSE_ID=c.COURSE_ID AND sr.COURSE_PERIOD_ID=p_cp.COURSE_PERIOD_ID  AND ('".$date."' BETWEEN sr.START_DATE AND sr.END_DATE $date_extra)";*/
 	$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.ROOM';
 	$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,COURSE_PERIODS p_cp ';
-	$extra['WHERE'] .= " AND ssm.SYEAR=sr.SYEAR AND sr.COURSE_ID=c.COURSE_ID AND sr.COURSE_PERIOD_ID=p_cp.COURSE_PERIOD_ID  AND ('".$date."' BETWEEN sr.START_DATE AND sr.END_DATE $date_extra)";
+	$extra['WHERE'] .= " AND ssm.SYEAR=sr.SYEAR AND sr.COURSE_ID=c.COURSE_ID AND sr.COURSE_PERIOD_ID=p_cp.COURSE_PERIOD_ID  AND ('".$date."' BETWEEN sr.START_DATE AND sr.END_DATE ".$date_extra.")";
 	if($_REQUEST['mp_id'])
 		$extra['WHERE'] .= ' AND sr.MARKING_PERIOD_ID IN ('.GetAllMP(GetMP($_REQUEST['mp_id'],'MP'),$_REQUEST['mp_id']).')';
 
@@ -49,7 +49,23 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 		$days_convert = array('U'=>_('Day').' 7','M'=>_('Day').' 1','T'=>_('Day').' 2','W'=>_('Day').' 3','H'=>_('Day').' 4','F'=>_('Day').' 5','S'=>_('Day').' 6');
 	
-	$schedule_table_RET = DBGet(DBQuery("SELECT cp.ROOM,cs.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS,stu.STUDENT_ID,sta.FIRST_NAME||' '||sta.LAST_NAME AS FULL_NAME FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp,STUDENTS stu,SCHEDULE sch,STAFF sta,COURSE_SUBJECTS cs WHERE cp.COURSE_ID=c.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND cp.SYEAR='".UserSyear()."' AND s.ID=cp.SCHOOL_ID AND s.ID='".UserSchool()."' AND s.SYEAR=cp.SYEAR AND sp.PERIOD_ID=cpsp.PERIOD_ID AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID  AND sch.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($_REQUEST['mp_id'],'MP'),$_REQUEST['mp_id']).") AND stu.STUDENT_ID IN ($st_list) AND stu.STUDENT_ID=sch.STUDENT_ID AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sta.STAFF_ID=cp.TEACHER_ID AND sp.LENGTH <= ".(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)." ORDER BY sp.SORT_ORDER"),array('TITLE'=>'CourseTitle', 'DAYS'=>'_GetDays'),array('STUDENT_ID','SCHOOL_PERIOD'));
+	$schedule_table_RET = DBGet(DBQuery("SELECT cp.ROOM,cs.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS,stu.STUDENT_ID,sta.FIRST_NAME||' '||sta.LAST_NAME AS FULL_NAME 
+	FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp,STUDENTS stu,SCHEDULE sch,STAFF sta,COURSE_SUBJECTS cs 
+	WHERE cp.COURSE_ID=c.COURSE_ID 
+	AND c.SUBJECT_ID=cs.SUBJECT_ID 
+	AND cp.SYEAR='".UserSyear()."' 
+	AND s.ID=cp.SCHOOL_ID 
+	AND s.ID='".UserSchool()."' 
+	AND s.SYEAR=cp.SYEAR 
+	AND sp.PERIOD_ID=cpsp.PERIOD_ID 
+	AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID 
+	AND sch.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($_REQUEST['mp_id'],'MP'),$_REQUEST['mp_id']).") 
+	AND stu.STUDENT_ID IN (".$st_list.") 
+	AND stu.STUDENT_ID=sch.STUDENT_ID 
+	AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID 
+	AND sta.STAFF_ID=cp.TEACHER_ID 
+	AND sp.LENGTH <= ".(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)." 
+	ORDER BY sp.SORT_ORDER"),array('TITLE'=>'CourseTitle', 'DAYS'=>'_GetDays'),array('STUDENT_ID','SCHOOL_PERIOD'));
 	//modif Francois: note the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
 	
 	$columns_table = array('SCHOOL_PERIOD' => _('Periods'));
@@ -192,9 +208,9 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		$mp_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,".db_case(array('MP',"'FY'","'0'","'SEM'","'1'","'QTR'","'2'"))." AS TBL FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TBL,SORT_ORDER"));
-		$mp_select = '<SELECT name=mp_id><OPTION value="">'._('N/A');
+		$mp_select = '<SELECT name="mp_id"><OPTION value="">'._('N/A');
 		foreach($mp_RET as $mp)
-			$mp_select .= '<OPTION value='.$mp['MARKING_PERIOD_ID'].'>'.$mp['TITLE'];
+			$mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'">'.$mp['TITLE'];
 		$mp_select .= '</SELECT>';
 
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST" id="printSchedulesForm">';

@@ -16,9 +16,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		//modif Francois: multiple school periods for a course period
 		//modif Francois: add subject areas
-		$course_periods_RET = DBGet(DBQuery("SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,cp.MARKING_PERIOD_ID,cp.MP,c.TITLE AS COURSE_TITLE,cp.TEACHER_ID,(SELECT LAST_NAME||', '||FIRST_NAME FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER FROM COURSE_PERIODS cp,COURSES c 
-		WHERE 
-		c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID IN ($cp_list) ORDER BY TEACHER"), array('COURSE_TITLE'=>'CourseTitle'));
+		$course_periods_RET = DBGet(DBQuery("SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,cp.MARKING_PERIOD_ID,cp.MP,c.TITLE AS COURSE_TITLE,cp.TEACHER_ID,(SELECT LAST_NAME||', '||FIRST_NAME FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER 
+		FROM COURSE_PERIODS cp,COURSES c 
+		WHERE c.COURSE_ID=cp.COURSE_ID 
+		AND cp.COURSE_PERIOD_ID IN (".$cp_list.") 
+		ORDER BY TEACHER"), array('COURSE_TITLE'=>'CourseTitle'));
 
 		$first_extra = $extra;
 		$handle = PDFStart();

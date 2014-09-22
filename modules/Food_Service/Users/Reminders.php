@@ -28,7 +28,14 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$handle = PDFStart();
 		foreach($staffs as $staff)
 		{
-			$last_deposit = DBGet(DBQuery("SELECT (SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst WHERE fst.SHORT_NAME='DEPOSIT' AND fst.STAFF_ID='".$staff['STAFF_ID']."' AND SYEAR='".UserSyear()."' ORDER BY fst.TRANSACTION_ID DESC LIMIT 1"),array('DATE'=>'ProperDate'));
+			$last_deposit = DBGet(DBQuery("SELECT 
+			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
+			to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE 
+			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst 
+			WHERE fst.SHORT_NAME='DEPOSIT' 
+			AND fst.STAFF_ID='".$staff['STAFF_ID']."' 
+			AND SYEAR='".UserSyear()."' 
+			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1"),array('DATE'=>'ProperDate'));
 			$last_deposit = $last_deposit[1];
 
 			if($staff['BALANCE'] < $minimum)

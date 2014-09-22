@@ -11,7 +11,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID IN ($cp_list) ORDER BY cp.SHORT_NAME,cp.TITLE"));
 		//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
 		if($_REQUEST['include_teacher']=='Y')
-			$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,ROLLOVER_ID FROM STAFF WHERE STAFF_ID IN (SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID IN ($cp_list))"),array(),array('STAFF_ID'));
+			$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,ROLLOVER_ID FROM STAFF WHERE STAFF_ID IN (SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID IN (".$cp_list."))"),array(),array('STAFF_ID'));
 		//echo '<pre>'; var_dump($teachers_RET); echo '</pre>';
 
 		$handle = PDFStart();

@@ -50,7 +50,12 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 		{
 			//modif Francois: multiple school periods for a course period
 			//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE position(',0,' IN DOES_ATTENDANCE)>0 AND PERIOD_ID=sp.PERIOD_ID AND SYEAR=sp.SYEAR AND SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER"));
-			$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND cpsp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR=sp.SYEAR AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER"));
+			$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE 
+			FROM SCHOOL_PERIODS sp 
+			WHERE sp.SYEAR='".UserSyear()."' 
+			AND sp.SCHOOL_ID='".UserSchool()."' 
+			AND (SELECT count(1) FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND cpsp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR=sp.SYEAR AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0 
+			ORDER BY sp.SORT_ORDER"));
 			foreach($periods_RET as $period)
 				$period_select .= '<OPTION value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED="SELECTED"':'').'>'.$period['TITLE'].'</OPTION>';
 		}
@@ -58,7 +63,12 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 		{
 			//modif Francois: multiple school periods for a course period
 			//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp WHERE position(',0,' IN cp.DOES_ATTENDANCE)>0 AND sp.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
-			$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND sp.PERIOD_ID=cpsp.PERIOD_ID AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'"));
+			$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE 
+			FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
+			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
+			AND position(',0,' IN cp.DOES_ATTENDANCE)>0 
+			AND sp.PERIOD_ID=cpsp.PERIOD_ID 
+			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'"));
 			if($periods_RET)
 			{
 				//$period_select .= '<OPTION value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'] || !isset($_REQUEST['period_id']))?' SELECTED="SELECTED"':'').">".$periods_RET[1]['TITLE'].'</OPTION>';
@@ -157,11 +167,23 @@ else
 	// in 2.11 this was switched to incremental query in the _makeColor function
 	if(!$_REQUEST['period_id'])
 	{
-		$att_sql = "SELECT ad.STATE_VALUE,SCHOOL_DATE,'_'||to_char(ad.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm WHERE ad.STUDENT_ID=ssm.STUDENT_ID AND (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) AND '".DBDate()."'>=ssm.START_DATE) AND ssm.SCHOOL_ID='".UserSchool()."' AND ad.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ad.STUDENT_ID=";
+		$att_sql = "SELECT ad.STATE_VALUE,SCHOOL_DATE,'_'||to_char(ad.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE 
+		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm 
+		WHERE ad.STUDENT_ID=ssm.STUDENT_ID 
+		AND (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) AND '".DBDate()."'>=ssm.START_DATE) 
+		AND ssm.SCHOOL_ID='".UserSchool()."' 
+		AND ad.SCHOOL_DATE BETWEEN '".$start_date."' 
+		AND '".$end_date."' 
+		AND ad.STUDENT_ID=";
 	}
 	else
 	{
-		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||to_char(ap.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm WHERE ap.STUDENT_ID=ssm.STUDENT_ID AND ap.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ap.STUDENT_ID=";
+		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||to_char(ap.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE 
+		FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm 
+		WHERE ap.STUDENT_ID=ssm.STUDENT_ID 
+		AND ap.SCHOOL_DATE BETWEEN '".$start_date."' 
+		AND '".$end_date."' 
+		AND ap.STUDENT_ID=";
 	}
 
 	if(count($cal_RET))

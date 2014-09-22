@@ -119,10 +119,15 @@ if(empty($_REQUEST['modfunc']))
 		$course_select = $courses_RET[1]['TITLE'];
 	}
 
-	$categories_RET = DBGet(DBQuery("SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID) AS COUNT FROM REPORT_CARD_COMMENT_CATEGORIES rc WHERE rc.COURSE_ID='".$_REQUEST['course_id']."'".
-				" UNION SELECT 0,'"._('All Courses')."',NULL,2,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID='0' AND SYEAR='".UserSyear()."')".
-				" UNION SELECT -1,'"._('General')."',NULL,3,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID IS NULL AND SYEAR='".UserSyear()."')".
-				" ORDER BY 4,SORT_ORDER"),array(),array('ID'));
+	$categories_RET = DBGet(DBQuery("SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER,
+	(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID) AS COUNT 
+	FROM REPORT_CARD_COMMENT_CATEGORIES rc 
+	WHERE rc.COURSE_ID='".$_REQUEST['course_id']."' 
+	UNION 
+	SELECT 0,'"._('All Courses')."',NULL,2,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID='0' AND SYEAR='".UserSyear()."') 
+	UNION 
+	SELECT -1,'"._('General')."',NULL,3,NULL,(SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID IS NULL AND SYEAR='".UserSyear()."') 
+	ORDER BY 4,SORT_ORDER"),array(),array('ID'));
 	if($_REQUEST['tab_id']=='' || $_REQUEST['tab_id']!='new' && !$categories_RET[$_REQUEST['tab_id']])
 		//$_REQUEST['tab_id'] = key($categories_RET).'';
 		$_REQUEST['tab_id'] = '-1'; //modif Francois: default to -1 (General)

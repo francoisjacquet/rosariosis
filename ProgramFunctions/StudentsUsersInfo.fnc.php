@@ -136,13 +136,33 @@ function _makeAutoSelectInput($column,$name,$request)
 	{
 		// add values found in current and previous year
 		if($request=='values[ADDRESS]')
-			$options_RET = DBGet(DBQuery("SELECT DISTINCT a.CUSTOM_$field[ID],upper(a.CUSTOM_$field[ID]) AS SORT_KEY FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS s,STUDENT_ENROLLMENT sse WHERE a.ADDRESS_ID=sja.ADDRESS_ID AND s.STUDENT_ID=sja.STUDENT_ID AND sse.STUDENT_ID=s.STUDENT_ID AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') AND a.CUSTOM_$field[ID] IS NOT NULL ORDER BY SORT_KEY"));
+			$options_RET = DBGet(DBQuery("SELECT DISTINCT a.CUSTOM_".$field['ID'].",upper(a.CUSTOM_".$field['ID'].") AS SORT_KEY 
+			FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS s,STUDENT_ENROLLMENT sse 
+			WHERE a.ADDRESS_ID=sja.ADDRESS_ID 
+			AND s.STUDENT_ID=sja.STUDENT_ID 
+			AND sse.STUDENT_ID=s.STUDENT_ID 
+			AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') 
+			AND a.CUSTOM_".$field['ID']." IS NOT NULL 
+			ORDER BY SORT_KEY"));
 		elseif($request=='values[PEOPLE]')
-			$options_RET = DBGet(DBQuery("SELECT DISTINCT p.CUSTOM_$field[ID],upper(p.CUSTOM_$field[ID]) AS SORT_KEY FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp,STUDENTS s,STUDENT_ENROLLMENT sse WHERE p.PERSON_ID=sjp.PERSON_ID AND s.STUDENT_ID=sjp.STUDENT_ID AND sse.STUDENT_ID=s.STUDENT_ID AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') AND p.CUSTOM_$field[ID] IS NOT NULL ORDER BY SORT_KEY"));
+			$options_RET = DBGet(DBQuery("SELECT DISTINCT p.CUSTOM_".$field['ID'].",upper(p.CUSTOM_".$field['ID'].") AS SORT_KEY 
+			FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp,STUDENTS s,STUDENT_ENROLLMENT sse 
+			WHERE p.PERSON_ID=sjp.PERSON_ID 
+			AND s.STUDENT_ID=sjp.STUDENT_ID 
+			AND sse.STUDENT_ID=s.STUDENT_ID 
+			AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') 
+			AND p.CUSTOM_".$field['ID']." IS NOT NULL 
+			ORDER BY SORT_KEY"));
 		elseif($request=='students')
-			$options_RET = DBGet(DBQuery("SELECT DISTINCT s.CUSTOM_$field[ID],upper(s.CUSTOM_$field[ID]) AS SORT_KEY FROM STUDENTS s,STUDENT_ENROLLMENT sse WHERE sse.STUDENT_ID=s.STUDENT_ID AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') AND s.CUSTOM_$field[ID] IS NOT NULL ORDER BY SORT_KEY"));
+			$options_RET = DBGet(DBQuery("SELECT DISTINCT s.CUSTOM_".$field['ID'].",upper(s.CUSTOM_".$field['ID'].") AS SORT_KEY 
+			FROM STUDENTS s,STUDENT_ENROLLMENT sse 
+			WHERE sse.STUDENT_ID=s.STUDENT_ID 
+			AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') 
+			AND s.CUSTOM_".$field['ID']." IS NOT NULL 
+			ORDER BY SORT_KEY"));
 		elseif($request=='staff')
-			$options_RET = DBGet(DBQuery("SELECT DISTINCT s.CUSTOM_$field[ID],upper(s.CUSTOM_$field[ID]) AS KEY FROM STAFF s WHERE (s.SYEAR='".UserSyear()."' OR s.SYEAR='".(UserSyear()-1)."') AND s.CUSTOM_$field[ID] IS NOT NULL ORDER BY KEY"));
+			$options_RET = DBGet(DBQuery("SELECT DISTINCT s.CUSTOM_".$field['ID'].",upper(s.CUSTOM_".$field['ID'].") AS KEY FROM STAFF s WHERE (s.SYEAR='".UserSyear()."' OR s.SYEAR='".(UserSyear()-1)."') AND s.CUSTOM_".$field['ID']." IS NOT NULL ORDER BY KEY"));
+			
 		if(count($options_RET))
 		{
 			foreach($options_RET as $option)

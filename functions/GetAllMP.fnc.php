@@ -69,7 +69,10 @@ function GetAllMP($mp,$marking_period_id='0')
 					foreach($value as $qtr)
 						$_ROSARIO['GetAllMP'][$mp][$marking_period_id] .= ",'".$qtr['MARKING_PERIOD_ID']."'";
 				}
-				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS s WHERE MP='SEM' AND NOT EXISTS (SELECT '' FROM SCHOOL_MARKING_PERIODS q WHERE q.MP='QTR' AND q.PARENT_ID=s.MARKING_PERIOD_ID) AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID 
+				FROM SCHOOL_MARKING_PERIODS s 
+				WHERE MP='SEM' AND NOT EXISTS (SELECT '' FROM SCHOOL_MARKING_PERIODS q WHERE q.MP='QTR' AND q.PARENT_ID=s.MARKING_PERIOD_ID) 
+				AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 				foreach($RET as $value)
 					$_ROSARIO['GetAllMP'][$mp][$marking_period_id] .= ",'".$value['MARKING_PERIOD_ID']."'";
 			break;

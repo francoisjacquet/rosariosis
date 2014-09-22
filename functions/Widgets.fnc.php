@@ -289,7 +289,13 @@ function Widgets($item,&$myextra=null)
 //modif Francois: fix error Invalid argument supplied for foreach()
 				if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 				{
-					$letter_grades_RET = DBGet(DBQuery("SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs WHERE rg.SCHOOL_ID='".UserSchool()."' AND rg.SYEAR='".UserSyear()."' AND rs.ID=rg.GRADE_SCALE_ID".(User('PROFILE')=='teacher'?' AND rg.GRADE_SCALE_ID=(SELECT GRADE_SCALE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\''.UserCoursePeriod().'\')':'')." ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER"),array(),array('GRADE_SCALE_ID'));
+					$letter_grades_RET = DBGet(DBQuery("SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID 
+					FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs 
+					WHERE rg.SCHOOL_ID='".UserSchool()."' 
+					AND rg.SYEAR='".UserSyear()."' 
+					AND rs.ID=rg.GRADE_SCALE_ID".(User('PROFILE')=='teacher'?' 
+					AND rg.GRADE_SCALE_ID=(SELECT GRADE_SCALE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\''.UserCoursePeriod().'\')':'')." 
+					ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER"),array(),array('GRADE_SCALE_ID'));
 					foreach($letter_grades_RET as $grades)
 					{
 						$i = 0;
@@ -456,7 +462,12 @@ function Widgets($item,&$myextra=null)
 					$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SYEAR=ssm.SYEAR AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
 					$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
 				}
-				$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%,".UserSchool().",%') AND (PROFILE='admin' OR PROFILE='teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"),array(),array('STAFF_ID'));
+				$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME 
+				FROM STAFF 
+				WHERE SYEAR='".UserSyear()."' 
+				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%,".UserSchool().",%') 
+				AND (PROFILE='admin' OR PROFILE='teacher') 
+				ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"),array(),array('STAFF_ID'));
 				if($_REQUEST['discipline_reporter'])
 				{
 					$extra['WHERE'] .= " AND dr.STAFF_ID='".$_REQUEST['discipline_reporter']."' ";

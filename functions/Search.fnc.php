@@ -105,13 +105,34 @@ function Search($type,$extra=null)
 		case 'student_fields':
 		case 'student_fields_all':
 			if($type=='staff_fields_all')
-				$categories_RET = ParseMLArray(DBGet(DBQuery("SELECT sfc.ID,sfc.TITLE AS CATEGORY_TITLE,'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS FROM STAFF_FIELD_CATEGORIES sfc,STAFF_FIELDS cf WHERE (SELECT CAN_USE FROM ".(User('PROFILE_ID')?"PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."'":"STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."'")." AND MODNAME='Users/User.php&category_id='||sfc.ID)='Y' AND cf.CATEGORY_ID=sfc.ID AND NOT exists(SELECT '' FROM PROGRAM_USER_CONFIG WHERE PROGRAM='StaffFieldsSearch' AND TITLE=cast(cf.ID AS TEXT) AND USER_ID='".User('STAFF_ID')."' AND VALUE='Y') ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array(),array('ID','TYPE')),array('CATEGORY_TITLE','TITLE'));
+				$categories_RET = ParseMLArray(DBGet(DBQuery("SELECT sfc.ID,sfc.TITLE AS CATEGORY_TITLE,'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS 
+				FROM STAFF_FIELD_CATEGORIES sfc,STAFF_FIELDS cf 
+				WHERE 
+				(SELECT CAN_USE FROM ".(User('PROFILE_ID')?"PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."'":"STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."'")." AND MODNAME='Users/User.php&category_id='||sfc.ID)='Y' 
+				AND cf.CATEGORY_ID=sfc.ID 
+				AND NOT exists(SELECT '' FROM PROGRAM_USER_CONFIG WHERE PROGRAM='StaffFieldsSearch' AND TITLE=cast(cf.ID AS TEXT) AND USER_ID='".User('STAFF_ID')."' AND VALUE='Y') 
+				ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array(),array('ID','TYPE')),array('CATEGORY_TITLE','TITLE'));
 			elseif($type=='staff_fields')
-				$categories_RET = ParseMLArray(DBGet(DBQuery("SELECT '0' AS ID,'' AS CATEGORY_TITLE,'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS FROM STAFF_FIELDS cf WHERE (SELECT CAN_USE FROM ".(User('PROFILE_ID')?"PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."'":"STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."'")." AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y'  AND ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StaffFieldsSearch' AND USER_ID='".User('STAFF_ID')."')='Y') ORDER BY cf.SORT_ORDER,cf.TITLE"),array(),array('ID','TYPE')),array('CATEGORY_TITLE','TITLE'));
+				$categories_RET = ParseMLArray(DBGet(DBQuery("SELECT '0' AS ID,'' AS CATEGORY_TITLE,'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS 
+				FROM STAFF_FIELDS cf 
+				WHERE (SELECT CAN_USE FROM ".(User('PROFILE_ID')?"PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."'":"STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."'")." AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y' 
+				AND ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) 
+				AND PROGRAM='StaffFieldsSearch' 
+				AND USER_ID='".User('STAFF_ID')."')='Y') 
+				ORDER BY cf.SORT_ORDER,cf.TITLE"),array(),array('ID','TYPE')),array('CATEGORY_TITLE','TITLE'));
 			elseif($type=='student_fields_all')
-				$categories_RET = ParseMLArray(DBGet(DBQuery("SELECT sfc.ID,sfc.TITLE AS CATEGORY_TITLE,'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS FROM STUDENT_FIELD_CATEGORIES sfc,CUSTOM_FIELDS cf WHERE (SELECT CAN_USE FROM ".(User('PROFILE_ID')?"PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."'":"STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."'")." AND MODNAME='Students/Student.php&category_id='||sfc.ID)='Y' AND cf.CATEGORY_ID=sfc.ID AND NOT exists(SELECT '' FROM PROGRAM_USER_CONFIG WHERE PROGRAM='StudentFieldsSearch' AND TITLE=cast(cf.ID AS TEXT) AND USER_ID='".User('STAFF_ID')."' AND VALUE='Y') ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array(),array('ID','TYPE')),array('CATEGORY_TITLE','TITLE'));
+				$categories_RET = ParseMLArray(DBGet(DBQuery("SELECT sfc.ID,sfc.TITLE AS CATEGORY_TITLE,'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,SELECT_OPTIONS 
+				FROM STUDENT_FIELD_CATEGORIES sfc,CUSTOM_FIELDS cf 
+				WHERE (SELECT CAN_USE FROM ".(User('PROFILE_ID')?"PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."'":"STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."'")." AND MODNAME='Students/Student.php&category_id='||sfc.ID)='Y' 
+				AND cf.CATEGORY_ID=sfc.ID 
+				AND NOT exists(SELECT '' FROM PROGRAM_USER_CONFIG WHERE PROGRAM='StudentFieldsSearch' AND TITLE=cast(cf.ID AS TEXT) AND USER_ID='".User('STAFF_ID')."' AND VALUE='Y') 
+				ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array(),array('ID','TYPE')),array('CATEGORY_TITLE','TITLE'));
 			else
-				$categories_RET = ParseMLArray(DBGet(DBQuery("SELECT '0' AS ID,'' AS CATEGORY_TITLE,'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS FROM CUSTOM_FIELDS cf WHERE (SELECT CAN_USE FROM ".(User('PROFILE_ID')?"PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."'":"STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."'")." AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'  AND ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StudentFieldsSearch' AND USER_ID='".User('STAFF_ID')."')='Y') ORDER BY cf.SORT_ORDER,cf.TITLE"),array(),array('ID','TYPE')),array('CATEGORY_TITLE','TITLE'));
+				$categories_RET = ParseMLArray(DBGet(DBQuery("SELECT '0' AS ID,'' AS CATEGORY_TITLE,'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS 
+				FROM CUSTOM_FIELDS cf 
+				WHERE (SELECT CAN_USE FROM ".(User('PROFILE_ID')?"PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."'":"STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."'")." AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y' 
+				AND ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StudentFieldsSearch' AND USER_ID='".User('STAFF_ID')."')='Y') 
+				ORDER BY cf.SORT_ORDER,cf.TITLE"),array(),array('ID','TYPE')),array('CATEGORY_TITLE','TITLE'));
 
 			foreach($categories_RET as $search_fields_RET)
 			{
@@ -209,7 +230,11 @@ function Search($type,$extra=null)
 						echo '<OPTION value="---">-'. _('Edit') .'-</OPTION>';
 						$options['---'] = true;
 						// add values found in current and previous year
-						$options_RET = DBGet(DBQuery("SELECT DISTINCT s.$column[COLUMN_NAME],upper(s.$column[COLUMN_NAME]) AS KEY FROM STUDENTS s,STUDENT_ENROLLMENT sse WHERE sse.STUDENT_ID=s.STUDENT_ID AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') AND $column[COLUMN_NAME] IS NOT NULL ORDER BY KEY"));
+						$options_RET = DBGet(DBQuery("SELECT DISTINCT s.".$column['COLUMN_NAME'].",upper(s.".$column['COLUMN_NAME'].") AS KEY 
+						FROM STUDENTS s,STUDENT_ENROLLMENT sse 
+						WHERE sse.STUDENT_ID=s.STUDENT_ID 
+						AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') 
+						AND ".$column['COLUMN_NAME']." IS NOT NULL ORDER BY KEY"));
 						foreach($options_RET as $option)
 							if($option[$column['COLUMN_NAME']]!='' && !$options[$option[$column['COLUMN_NAME']]])
 							{

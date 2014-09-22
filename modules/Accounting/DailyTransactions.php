@@ -45,9 +45,20 @@ if(!isset($_REQUEST['accounting']) || $_REQUEST['accounting']=='true')
 	if(isset($_REQUEST['staff_payroll']) || isset($_REQUEST['student_billing']))
 		$name_col_sql = "'' AS FULL_NAME,";
 
-	$RET = DBGet(DBQuery("SELECT ".$name_col_sql."f.AMOUNT AS CREDIT,'' AS DEBIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."' AND f.ASSIGNED_DATE BETWEEN '".$start_date."' AND '".$end_date."'"),$extra['functions']);
+	$RET = DBGet(DBQuery("SELECT ".$name_col_sql."f.AMOUNT AS CREDIT,'' AS DEBIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID 
+	FROM ACCOUNTING_INCOMES f 
+	WHERE f.SYEAR='".UserSyear()."' 
+	AND f.SCHOOL_ID='".UserSchool()."' 
+	AND f.ASSIGNED_DATE BETWEEN '".$start_date."' 
+	AND '".$end_date."'"),$extra['functions']);
 
-	$payments_SQL = "SELECT ".$name_col_sql."'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID FROM ACCOUNTING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."' AND p.PAYMENT_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND STAFF_ID IS NULL";
+	$payments_SQL = "SELECT ".$name_col_sql."'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID 
+	FROM ACCOUNTING_PAYMENTS p 
+	WHERE p.SYEAR='".UserSyear()."' 
+	AND p.SCHOOL_ID='".UserSchool()."' 
+	AND p.PAYMENT_DATE BETWEEN '".$start_date."' 
+	AND '".$end_date."' 
+	AND STAFF_ID IS NULL";
 
 	$payments_RET = DBGet(DBQuery($payments_SQL),$extra['functions']);
 

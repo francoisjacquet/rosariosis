@@ -28,7 +28,10 @@ function GetStuList(&$extra=array())
 		if(!$extra['columns_after'])
 			$extra['columns_after'] = array();
 
-		$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE FROM CUSTOM_FIELDS cf WHERE ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StudentFieldsView' AND USER_ID='".User('STAFF_ID')."')='Y'".($extra['student_fields']['view']?" OR cf.ID IN (".$extra['student_fields']['view'].")":'').") ORDER BY cf.SORT_ORDER,cf.TITLE"));
+		$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE 
+		FROM CUSTOM_FIELDS cf 
+		WHERE ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StudentFieldsView' AND USER_ID='".User('STAFF_ID')."')='Y'".($extra['student_fields']['view']?" OR cf.ID IN (".$extra['student_fields']['view'].")":'').") 
+		ORDER BY cf.SORT_ORDER,cf.TITLE"));
 		$view_address_RET = DBGet(DBQuery("SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE PROGRAM='StudentFieldsView' AND TITLE='ADDRESS' AND USER_ID='".User('STAFF_ID')."'"));
 		$view_address_RET = $view_address_RET[1]['VALUE'];
 		$view_other_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE PROGRAM='StudentFieldsView' AND TITLE IN ('CONTACT_INFO','HOME_PHONE','GUARDIANS','ALL_CONTACTS') AND USER_ID='".User('STAFF_ID')."'"),array(),array('TITLE'));
@@ -363,7 +366,10 @@ function makeParents($student_id,$column)
 		else
 			$constraint .= " AND sjp.CUSTODY='Y'";
 
-		$people_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p WHERE sjp.PERSON_ID=p.PERSON_ID AND sjp.STUDENT_ID='".$student_id."' AND sjp.ADDRESS_ID='".$THIS_RET['ADDRESS_ID']."'$constraint ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME"));
+		$people_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY 
+		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p 
+		WHERE sjp.PERSON_ID=p.PERSON_ID AND sjp.STUDENT_ID='".$student_id."' AND sjp.ADDRESS_ID='".$THIS_RET['ADDRESS_ID']."'$constraint 
+		ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME"));
 		if(count($people_RET))
 		{
 			$THIS_RET['PARENTS'] .= '<TABLE class="cellpadding-0 cellspacing-0">';

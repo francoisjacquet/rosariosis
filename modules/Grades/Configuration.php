@@ -16,7 +16,17 @@ if(count($config_RET))
 		$programconfig[$title] = $value[1]['VALUE'];
 }
 
-$grades = DBGet(DBQuery("SELECT cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,cp.COURSE_PERIOD_ID,rcg.TITLE,rcg.ID FROM REPORT_CARD_GRADES rcg,COURSE_PERIODS cp,COURSES c WHERE cp.COURSE_ID=c.COURSE_ID AND cp.TEACHER_ID='".User('STAFF_ID')."' AND cp.SCHOOL_ID=rcg.SCHOOL_ID AND cp.SYEAR=rcg.SYEAR AND cp.SYEAR='".UserSyear()."' AND rcg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID AND cp.GRADE_SCALE_ID IS NOT NULL AND DOES_BREAKOFF='Y' ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER DESC"),array(),array('COURSE_PERIOD_ID'));
+$grades = DBGet(DBQuery("SELECT cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,cp.COURSE_PERIOD_ID,rcg.TITLE,rcg.ID 
+FROM REPORT_CARD_GRADES rcg,COURSE_PERIODS cp,COURSES c 
+WHERE cp.COURSE_ID=c.COURSE_ID 
+AND cp.TEACHER_ID='".User('STAFF_ID')."' 
+AND cp.SCHOOL_ID=rcg.SCHOOL_ID 
+AND cp.SYEAR=rcg.SYEAR 
+AND cp.SYEAR='".UserSyear()."' 
+AND rcg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID 
+AND cp.GRADE_SCALE_ID IS NOT NULL 
+AND DOES_BREAKOFF='Y' 
+ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER DESC"),array(),array('COURSE_PERIOD_ID'));
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader(_('Gradebook').' - '.ProgramTitle());
@@ -61,7 +71,11 @@ if ($RosarioModules['Eligibility'])
 	echo '</fieldset><BR />';
 }
 
-$comment_codes_RET = DBGet(DBQuery("SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE FROM REPORT_CARD_COMMENT_CODE_SCALES rccs,REPORT_CARD_COMMENT_CODES rccc WHERE rccs.SCHOOL_ID='".UserSchool()."' AND rccc.SCALE_ID=rccs.ID ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID"),array(),array('ID'));
+$comment_codes_RET = DBGet(DBQuery("SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE 
+FROM REPORT_CARD_COMMENT_CODE_SCALES rccs,REPORT_CARD_COMMENT_CODES rccc 
+WHERE rccs.SCHOOL_ID='".UserSchool()."' 
+AND rccc.SCALE_ID=rccs.ID 
+ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID"),array(),array('ID'));
 
 if($comment_codes_RET)
 {

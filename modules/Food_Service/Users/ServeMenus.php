@@ -54,7 +54,11 @@ if ($_REQUEST['modfunc']=='submit')
 
 if(UserStaffID() && !$_REQUEST['modfunc'])
 {
-	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".UserStaffID()."'"));
+	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
+	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
+	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE 
+	FROM STAFF s 
+	WHERE s.STAFF_ID='".UserStaffID()."'"));
 	$staff = $staff[1];
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=submit&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
@@ -68,7 +72,13 @@ if(UserStaffID() && !$_REQUEST['modfunc'])
 		echo '<TABLE class="width-100p">';
 		echo '<TR><TD class="width-100p valign-top">';
 
-		$RET = DBGet(DBQuery("SELECT fsti.DESCRIPTION,fsti.AMOUNT FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti WHERE fst.STAFF_ID='".UserStaffID()."' AND fst.SYEAR='".UserSyear()."' AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1 AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
+		$RET = DBGet(DBQuery("SELECT fsti.DESCRIPTION,fsti.AMOUNT 
+		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti 
+		WHERE fst.STAFF_ID='".UserStaffID()."' 
+		AND fst.SYEAR='".UserSyear()."' 
+		AND fst.SHORT_NAME='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' 
+		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1 
+		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
 
 		$columns = array('DESCRIPTION'=>_('Item'),'AMOUNT'=>_('Amount'));
         $singular = sprintf(_('Earlier %s Sale'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
@@ -85,7 +95,13 @@ if(UserStaffID() && !$_REQUEST['modfunc'])
 		echo '</TD></TR>';
 		echo '<TR><TD class="width-100p valign-top">';
 
-		$items_RET = DBGet(DBQuery("SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE_STAFF,fsi.ICON FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi WHERE fsmi.MENU_ID='".$_REQUEST['menu_id']."' AND fsi.ITEM_ID=fsmi.ITEM_ID AND fsmi.CATEGORY_ID IS NOT NULL AND fsi.SCHOOL_ID='".UserSchool()."' ORDER BY fsi.SORT_ORDER"),array('ICON'=>'makeIcon'),array('SHORT_NAME'));
+		$items_RET = DBGet(DBQuery("SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE_STAFF,fsi.ICON 
+		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi 
+		WHERE fsmi.MENU_ID='".$_REQUEST['menu_id']."' 
+		AND fsi.ITEM_ID=fsmi.ITEM_ID 
+		AND fsmi.CATEGORY_ID IS NOT NULL 
+		AND fsi.SCHOOL_ID='".UserSchool()."' 
+		ORDER BY fsi.SORT_ORDER"),array('ICON'=>'makeIcon'),array('SHORT_NAME'));
 		$items = array();
 		foreach($items_RET as $sn=>$item)
 			$items += array($sn=>$item[1]['DESCRIPTION']);

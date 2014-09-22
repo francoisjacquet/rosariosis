@@ -27,8 +27,20 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$handle = PDFStart();
 		foreach($RET as $student)
 		{
-			$calendar_RET = DBGet(DBquery("SELECT ".db_case(array("MINUTES>=".Config('ATTENDANCE_FULL_DAY_MINUTES'),'true',"'1.0'","'0.5'"))."AS POS,trim(leading '0' from to_char(SCHOOL_DATE,'MM')) AS MON,trim(leading '0' from to_char(SCHOOL_DATE,'DD')) AS DAY FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$student['CALENDAR_ID']."' AND SCHOOL_DATE>='".$student['START_DATE']."'".($student['END_DATE']?" AND SCHOOL_DATE<='".$student['END_DATE']."'":'')),array(),array('MON','DAY'));
-			$attendance_RET = DBGet(DBQuery("SELECT trim(leading '0' from to_char(ap.SCHOOL_DATE,'MM')) AS MON,trim(leading '0' from to_char(ap.SCHOOL_DATE,'DD')) AS DAY,ac.STATE_CODE,ac.SHORT_NAME FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac,SCHOOL_PERIODS sp WHERE ap.STUDENT_ID='".$student['STUDENT_ID']."' AND ap.PERIOD_ID=sp.PERIOD_ID AND sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND ac.ID=ap.ATTENDANCE_CODE AND sp.ATTENDANCE='Y'"),array(),array('MON','DAY'));
+			$calendar_RET = DBGet(DBquery("SELECT ".db_case(array("MINUTES>=".Config('ATTENDANCE_FULL_DAY_MINUTES'),'true',"'1.0'","'0.5'"))."AS POS,trim(leading '0' from to_char(SCHOOL_DATE,'MM')) AS MON,trim(leading '0' from to_char(SCHOOL_DATE,'DD')) AS DAY 
+			FROM ATTENDANCE_CALENDAR 
+			WHERE CALENDAR_ID='".$student['CALENDAR_ID']."' 
+			AND SCHOOL_DATE>='".$student['START_DATE']."'".
+			($student['END_DATE']?" AND SCHOOL_DATE<='".$student['END_DATE']."'":'')),array(),array('MON','DAY'));
+			
+			$attendance_RET = DBGet(DBQuery("SELECT trim(leading '0' from to_char(ap.SCHOOL_DATE,'MM')) AS MON,trim(leading '0' from to_char(ap.SCHOOL_DATE,'DD')) AS DAY,ac.STATE_CODE,ac.SHORT_NAME 
+			FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac,SCHOOL_PERIODS sp 
+			WHERE ap.STUDENT_ID='".$student['STUDENT_ID']."' 
+			AND ap.PERIOD_ID=sp.PERIOD_ID 
+			AND sp.SCHOOL_ID='".UserSchool()."' 
+			AND sp.SYEAR='".UserSyear()."' 
+			AND ac.ID=ap.ATTENDANCE_CODE 
+			AND sp.ATTENDANCE='Y'"),array(),array('MON','DAY'));
 			//echo '<pre>'; var_dump($calendar_RET); echo '</pre>';
 
 			echo '<TABLE class="width-100p">';

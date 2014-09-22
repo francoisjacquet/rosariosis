@@ -96,8 +96,11 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 {
 	$fees_total = 0;
 	$functions = array('REMOVE'=>'_makeFeesRemove','ASSIGNED_DATE'=>'ProperDate','DUE_DATE'=>'_makeFeesDateInput','COMMENTS'=>'_makeFeesTextInput','AMOUNT'=>'_makeFeesAmount');
+	
 	$waived_fees_RET = DBGet(DBQuery("SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID FROM BILLING_FEES f WHERE f.STUDENT_ID='".UserStudentID()."' AND f.SYEAR='".UserSyear()."' AND f.WAIVED_FEE_ID IS NOT NULL"),$functions,array('WAIVED_FEE_ID'));
+	
 	$fees_RET = DBGet(DBQuery("SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID FROM BILLING_FEES f WHERE f.STUDENT_ID='".UserStudentID()."' AND f.SYEAR='".UserSyear()."' AND (f.WAIVED_FEE_ID IS NULL OR f.WAIVED_FEE_ID='') ORDER BY f.ASSIGNED_DATE"),$functions);
+	
 	$i = 1;
 	$RET = array();
 	foreach($fees_RET as $fee)

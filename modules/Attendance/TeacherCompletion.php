@@ -42,7 +42,7 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 			FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,ATTENDANCE_CALENDAR acc, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
 			WHERE 
 				cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND
-				sp.PERIOD_ID = cpsp.PERIOD_ID AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0
+				sp.PERIOD_ID = cpsp.PERIOD_ID AND position(',".$_REQUEST['table'].",' IN cp.DOES_ATTENDANCE)>0
 				AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',$date)).")
 				AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE='teacher'
 				".(($_REQUEST['period'])?" AND cpsp.PERIOD_ID='".$_REQUEST['period']."'":'')." AND acc.CALENDAR_ID=cp.CALENDAR_ID AND acc.SCHOOL_DATE='".$date."'
@@ -56,7 +56,7 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 			FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp,ATTENDANCE_CALENDAR acc, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
 			WHERE 
 				cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND
-				sp.PERIOD_ID = cpsp.PERIOD_ID AND position(',$_REQUEST[table],' IN cp.DOES_ATTENDANCE)>0
+				sp.PERIOD_ID = cpsp.PERIOD_ID AND position(',".$_REQUEST['table'].",' IN cp.DOES_ATTENDANCE)>0
 				AND cp.TEACHER_ID=s.STAFF_ID AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',$date)).")
 				AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND s.PROFILE='teacher'
 				".(($_REQUEST['period'])?" AND cpsp.PERIOD_ID='".$_REQUEST['period']."'":'')." AND acc.CALENDAR_ID=cp.CALENDAR_ID AND acc.SCHOOL_DATE='".$date."'

@@ -175,7 +175,8 @@ if(empty($_REQUEST['modfunc']))
 				$select_options['---'] = '-'. _('Edit') .'-';
 
 				// add values found in current and previous year
-				$options_RET = DBGet(DBQuery("SELECT DISTINCT s.CUSTOM_$field[ID],upper(s.CUSTOM_$field[ID]) AS KEY FROM STUDENTS s,STUDENT_ENROLLMENT sse WHERE sse.STUDENT_ID=s.STUDENT_ID AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') AND s.CUSTOM_$field[ID] IS NOT NULL ORDER BY KEY"));
+				$options_RET = DBGet(DBQuery("SELECT DISTINCT s.CUSTOM_".$field['ID'].",upper(s.CUSTOM_".$field['ID'].") AS KEY FROM STUDENTS s,STUDENT_ENROLLMENT sse WHERE sse.STUDENT_ID=s.STUDENT_ID AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') AND s.CUSTOM_".$field['ID']." IS NOT NULL ORDER BY KEY"));
+				
 				if(count($options_RET))
 				{
 					foreach($options_RET as $option)
