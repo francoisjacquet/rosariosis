@@ -159,7 +159,7 @@ else
 	$_REQUEST['search_modfunc'] = 'list';
 	Search('student_id',$extra);
 
-	echo "</FORM>";
+	echo '</FORM>';
 }
 
 function _makeCodePulldown($value,$title)

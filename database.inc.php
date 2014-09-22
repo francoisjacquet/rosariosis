@@ -223,7 +223,7 @@ function db_show_error($sql,$failnote,$additional='')
 		</TABLE>';
 	//Something you have asked the system to do has thrown a database error.  A system administrator has been notified, and the problem will be fixed as soon as possible.  It might be that changing the input parameters sent to this program will cause it to run properly.  Thanks for your patience.
 	PopTable('footer');
-	echo "<!-- SQL STATEMENT: \n\n $sql \n\n -->";
+	echo '<!-- SQL STATEMENT: '."\n\n". $sql ."\n\n".' -->';
 
 	if($RosarioNotifyAddress)
 	{

@@ -455,7 +455,7 @@ if(empty($_REQUEST['modfunc']))
 						stackSeries: true,
 						series:[<?php
 						foreach ($series_labels as $serie_label)
-							echo "{label:'".$serie_label."'},";
+							echo '{label:\''.$serie_label.'\'},';
 						?>],
 						seriesDefaults:{
 							renderer:$.jqplot.BarRenderer,

@@ -459,7 +459,7 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><span class="center"><INPUT type="submit" value="'._('Create Report Cards for Selected Students').'" /></span>';
-		echo "</FORM>";
+		echo '</FORM>';
 	}
 }
 

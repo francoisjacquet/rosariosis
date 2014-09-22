@@ -356,7 +356,7 @@ else
 	Search('student_id',$extra);
 
 	echo '<BR /><span class="center">'.SubmitButton(_('Update')).'</span>';
-	echo "</FORM>";
+	echo '</FORM>';
 }
 
 function _makeCodePulldown($value,$title)

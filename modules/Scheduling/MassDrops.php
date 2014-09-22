@@ -25,9 +25,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						if($current_RET[$student_id])
 						{
 							DBQuery("UPDATE SCHEDULE SET END_DATE='".$END_DATE."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
-							//echo "<b>student:</b>  $student_id ";
 							//$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
 							$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND END_DATE<START_DATE"));
+							
 							if(count($start_end_RET))
 							{
 								//DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND END_DATE IS NOT NULL AND END_DATE<START_DATE");
@@ -84,7 +84,7 @@ if($_REQUEST['modfunc']!='choose_course')
 			$period_title = DBGet(DBQuery("SELECT TITLE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'"));
 			$period_title = $period_title[1]['TITLE'];
 
-			echo "$course_title<BR />$period_title";
+			echo $course_title.'<BR />'.$period_title;
 		}
 		echo '</DIV>'.'<A HREF="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose a Course').'</A></TD></TR>';
 		echo '<TR class="st"><TD>'._('Drop Date').'</TD><TD>'.PrepareDate(DBDate(),'').'</TD></TR>';
@@ -120,7 +120,7 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><span class="center">'.SubmitButton(_('Drop Course for Selected Students')).'</span>';
-		echo "</FORM>";
+		echo '</FORM>';
 	}
 }
 

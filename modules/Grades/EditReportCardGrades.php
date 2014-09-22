@@ -100,7 +100,7 @@ if(UserStudentID())
         }
     }    
     if(empty($_REQUEST['modfunc']))
-	{    
+	{  
         $stuRET = DBGet(DBQuery("SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, NAME_SUFFIX from STUDENTS where STUDENT_ID = $student_id"));
         $stuRET = $stuRET[1];
         $displayname = $stuRET['LAST_NAME'].(($stuRET['NAME_SUFFIX'])?$stuRET['suffix'].' ':'').', '.$stuRET['FIRST_NAME'].' '.$stuRET['MIDDLE_NAME'];
@@ -151,17 +151,16 @@ if(UserStudentID())
 
             
             
-            //FORM for updates/new records
-            echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'&mp_id='.$mp_id.'" method="POST">';
-            DrawHeader('',SubmitButton(_('Save')));
-            echo '<BR />';
+		//FORM for updates/new records
+		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'&mp_id='.$mp_id.'" method="POST">';
+		DrawHeader('',SubmitButton(_('Save')));
+		echo '<BR />';
 //modif Francois: fix SQL bug when text data entered, data verification
-			if(isset($error)) echo $error;
+		if(isset($error)) echo $error;
 //modif Francois: add translation
 //modif Francois: css WPadmin
-            echo '<table class="postbox cellpadding-0 cellspacing-0"><tr><td><h3>'.$displayname.'</h3></td></tr><tr><td><table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">'._('Marking Period Statistics').'</td></tr><tr><td>'._('GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['weighted_gpa']).'</td><td>'._('Unweighted').": ".sprintf('%0.3f',$gmp[$mp_id]['unweighted_gpa']).'</td></tr>';
-//	    echo "<tr><td>"._('Class Rank GPA')."</td><td>"._('Weighted').": ".sprintf('%0.3f',$gmp[$mp_id]['cr_weighted'])."</td><td>"._('Unweighted').": ".sprintf('%0.3f',$gmp[$mp_id]['cr_unweighted'])."</td></tr></table><BR />";
-	    echo "<tr><td>"._('Class Rank GPA')."</td><td>"._('Weighted').": ".sprintf('%0.3f',$gmp[$mp_id]['cr_weighted'])."</td><td>"._('Unweighted').": ".sprintf('%0.3f',$gmp[$mp_id]['cr_unweighted'])."</td></tr></table></td></tr></table><BR />";
+		echo '<table class="postbox cellpadding-0 cellspacing-0"><tr><td><h3>'.$displayname.'</h3></td></tr><tr><td><table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">'._('Marking Period Statistics').'</td></tr><tr><td>'._('GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['weighted_gpa']).'</td><td>'._('Unweighted').": ".sprintf('%0.3f',$gmp[$mp_id]['unweighted_gpa']).'</td></tr>';
+	    echo '<tr><td>'._('Class Rank GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_weighted']).'</td><td>'._('Unweighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_unweighted']).'</td></tr></table></td></tr></table><BR />';
             
             
             $sms_grade_level = TextInput($gmp[$mp_id]['grade_level'],"SMS_GRADE_LEVEL",_('Grade Level'),'size=3 maxlength=3');

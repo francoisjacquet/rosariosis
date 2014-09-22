@@ -117,7 +117,7 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><span class="center"><INPUT type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" /></span>';
-		echo "</FORM>";
+		echo '</FORM>';
 	}
 }
 
@@ -155,9 +155,9 @@ function mySearch($type,$extra='')
 
 		$RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 		echo '<TR><TD style="text-align:right;">'._('Period').'</TD><TD>';
-		echo "<SELECT name=period_id style='max-width:250;'><OPTION value=''>"._('N/A')."</OPTION>";
+		echo '<SELECT name="period_id" style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION>';
 		foreach($RET as $period)
-			echo "<OPTION value=$period[PERIOD_ID]>$period[TITLE]</OPTION>";
+			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
 		echo '</SELECT>';
 		echo '</TD></TR>';
 

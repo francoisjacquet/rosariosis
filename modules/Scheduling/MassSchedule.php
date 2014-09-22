@@ -114,7 +114,7 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><span class="center">'.SubmitButton(_('Add Course to Selected Students')).'</span>';
-		echo "</FORM>";
+		echo '</FORM>';
 	}
 
 }

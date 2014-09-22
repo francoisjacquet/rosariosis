@@ -233,7 +233,7 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['search_modfunc']=='list' || UserStudentID())
 	{
 		echo '<BR /><span class="center">'.SubmitButton(_('Create Parent Accounts for Selected Students')).'</span>';
-		echo "</FORM>";
+		echo '</FORM>';
 	}
 }
 

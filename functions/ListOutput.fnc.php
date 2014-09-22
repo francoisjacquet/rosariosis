@@ -600,16 +600,16 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 								echo '<TD>';
 							if(!empty($link[$key]['js']))
 							{
-								echo "<A HREF=\"#\" onclick='window.open(\"{$link[$key][link]}";
+								echo '<A HREF="#" onclick=\'window.open("'.$link[$key]['link'];
 								if(count($link[$key]['variables']))
 								{
 									foreach($link[$key]['variables'] as $var=>$val)
 										echo "&$var=".urlencode($item[$val]);
 								}
-								echo "\",\"\",\"scrollbars=yes,resizable=yes,width=800,height=400\");'";
+								echo '","","scrollbars=yes,resizable=yes,width=800,height=400");\'';
 								if($link[$key]['extra'])
 									echo ' '.$link[$key]['extra'];
-								echo ">";
+								echo '>';
 							}
 							else
 							{
