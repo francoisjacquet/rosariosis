@@ -42,22 +42,22 @@ function touchScroll(el){
 	var scrollStartPosY=0;
 	var scrollStartPosX=0;
 
-	el.addEventListener("touchstart", function(event) {
-		scrollStartPosY=this.scrollTop+event.touches[0].pageY;
-		scrollStartPosX=this.scrollLeft+event.touches[0].pageX;
+	el.addEventListener("touchstart", function(e) {
+		scrollStartPosY=this.scrollTop+e.touches[0].pageY;
+		scrollStartPosX=this.scrollLeft+e.touches[0].pageX;
 	},false);
 
-	el.addEventListener("touchmove", function(event) {
+	el.addEventListener("touchmove", function(e) {
 		if ((this.scrollTop < this.scrollHeight-this.offsetHeight &&
-			this.scrollTop+event.touches[0].pageY < scrollStartPosY-5) ||
-			(this.scrollTop != 0 && this.scrollTop+event.touches[0].pageY > scrollStartPosY+5))
-				event.preventDefault(); 
+			this.scrollTop+e.touches[0].pageY < scrollStartPosY-5) ||
+			(this.scrollTop != 0 && this.scrollTop+e.touches[0].pageY > scrollStartPosY+5))
+				e.preventDefault(); 
 		if ((this.scrollLeft < this.scrollWidth-this.offsetWidth &&
-			this.scrollLeft+event.touches[0].pageX < scrollStartPosX-5) ||
-			(this.scrollLeft != 0 && this.scrollLeft+event.touches[0].pageX > scrollStartPosX+5))
-				event.preventDefault(); 
-		this.scrollTop=scrollStartPosY-event.touches[0].pageY;
-		this.scrollLeft=scrollStartPosX-event.touches[0].pageX;
+			this.scrollLeft+e.touches[0].pageX < scrollStartPosX-5) ||
+			(this.scrollLeft != 0 && this.scrollLeft+e.touches[0].pageX > scrollStartPosX+5))
+				e.preventDefault(); 
+		this.scrollTop=scrollStartPosY-e.touches[0].pageY;
+		this.scrollLeft=scrollStartPosX-e.touches[0].pageX;
 	},false);
 }
 function isTouchDevice(){
