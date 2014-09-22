@@ -138,6 +138,9 @@ AND TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1
 AND SCHOOL_ID='".UserSchool()."' 
 GROUP BY STAFF_ID"),array('PARTICIPATED'=>'bump_dep'));
 
+//modif Francois: add translation
+$users_locale = array('Student'=>_('Student'), 'User'=>_('User'));
+
 if($_REQUEST['type_select']=='sales')
 {
 	$RET = DBGet(DBQuery("SELECT 'Student' AS TYPE,fsti.SHORT_NAME,fst.DISCOUNT,-sum((SELECT AMOUNT FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fsti.TRANSACTION_ID AND ITEM_ID=fsti.ITEM_ID)) AS COUNT 
@@ -164,11 +167,11 @@ if($_REQUEST['type_select']=='sales')
 		foreach($discounts as $discount=>$value)
 		{
 			$total = array_sum($types[$user][$discount]);
-			$TMP_types[] = array('TYPE'=>$user,'DISCOUNT'=>$discount,'ELLIGIBLE'=>number_format($value['ELLIGIBLE'],1),'DAYS_POSSIBLE'=>number_format((!empty($value['ELLIGIBLE']) ? $value['DAYS']/$value['ELLIGIBLE'] : 0),1),'TOTAL_ELLIGIBLE'=>$value['DAYS'],'PARTICIPATED'=>$value['PARTICIPATED'],'TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('format',$types[$user][$discount]);
+			$TMP_types[] = array('TYPE'=>(empty($users_locale[$user])?$user:$users_locale[$user]),'DISCOUNT'=>$discount,'ELLIGIBLE'=>number_format($value['ELLIGIBLE'],1),'DAYS_POSSIBLE'=>number_format((!empty($value['ELLIGIBLE']) ? $value['DAYS']/$value['ELLIGIBLE'] : 0),1),'TOTAL_ELLIGIBLE'=>$value['DAYS'],'PARTICIPATED'=>$value['PARTICIPATED'],'TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('format',$types[$user][$discount]);
 		}
 		$total = array_sum($types_totals[$user]);
 //modif Francois: add translation
-		$TMP_types[] = array('TYPE'=>'<b>'.$user.'</b>','DISCOUNT'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.number_format((!empty($users_totals[$user]['ELLIGIBLE']) ? $users_totals[$user]['DAYS']/$users_totals[$user]['ELLIGIBLE'] : 0),1).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals[$user]['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals[$user]['PARTICIPATED'].'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals[$user]);
+		$TMP_types[] = array('TYPE'=>'<b>'.(empty($users_locale[$user])?$user:$users_locale[$user]).'</b>','DISCOUNT'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.number_format((!empty($users_totals[$user]['ELLIGIBLE']) ? $users_totals[$user]['DAYS']/$users_totals[$user]['ELLIGIBLE'] : 0),1).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals[$user]['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals[$user]['PARTICIPATED'].'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals[$user]);
 		unset($TMP_types[0]);
 		$LO_types[] = $TMP_types;
 	}
@@ -200,8 +203,6 @@ else
 	GROUP BY fsti.SHORT_NAME"),array('SHORT_NAME'=>'bump_count'));
 
 	$LO_types = array(0=>array());
-//modif Francois: add translation
-	$users_locale = array('Student'=>_('Student'), 'User'=>_('User'));
 
 	foreach($users as $user=>$discounts)
 	{
