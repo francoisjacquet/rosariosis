@@ -26,6 +26,12 @@ function switchMenu(id){
 	}
 }
 
+//IE8 HTML5 tags fix
+var tags='article|aside|footer|header|hgroup|nav|section'.split('|'), i=0, max=tags.length;
+for(;i<max;i++) {
+    document.createElement(tags[i]);
+}
+
 //tipmessage
 var TipId="Migoicons";
 var tipmessageStyle = ["#21759b","#ececec","","","Georgia,Times New Roman",,"#555","#f9f9f9","","","sans-serif",,,,2,"#ececec",2,,,,,"",,,0,23];
@@ -128,7 +134,7 @@ function ajaxSuccess(data,target,url){
 }
 
 //change URL after AJAX
-if (!(navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0))
+if (!(navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) && window.addEventListener)
 	window.addEventListener('popstate', function (e) {
 		document.location.href = document.URL;
 	}, true);

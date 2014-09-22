@@ -7,7 +7,7 @@ if(User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id
 		
 	exit;
 }
-var_dump($_REQUEST['category_id']);
+
 if(!$_REQUEST['include'])
 {
 	$_REQUEST['include'] = 'General_Info';

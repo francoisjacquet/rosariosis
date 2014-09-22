@@ -49,7 +49,7 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 			$toEscape = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.str_replace("'",'&#39;',htmlspecialchars($value)).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'=\''.$toEscape.'\';</script>'.$return;
 			
-			$return .= ',"div'.$name.'",true); document.getElementById("input'.$name.'").focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div'.$name.'",true); if (input = document.getElementById("input'.$name.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 			return $return;
 		}
 	}
