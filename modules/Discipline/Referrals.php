@@ -200,10 +200,10 @@ elseif(empty($_REQUEST['modfunc']))
 						$i++;
 						if($i%3==0)
 							$toEscape .= '</TR><TR class="st">';
-						$toEscape .= '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.htmlspecialchars($option).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],$option)!==false?' checked':'').' />&nbsp;'.str_replace("'",'&#39;',$option).'</label></TD>';
+						$toEscape .= '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],$option)!==false?' checked':'').' />&nbsp;'.str_replace("'",'&#39;',$option).'</label></TD>';
 					}
 					$toEscape .= '</TR></TABLE>';
-					echo '<script>var htmlCATEGORY_'.$category['ID'].'=\''.$toEscape.'\';</script>'.$return;
+					echo '<script>var htmlCATEGORY_'.$category['ID'].'='.json_encode($toEscape).';</script>'.$return;
 					echo ',"divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?str_replace("'",'&#39;',str_replace('||',', ',mb_substr($RET['CATEGORY_'.$category['ID']],2,-2))):'-').'</span>'.'</div></DIV>';
 				}
 				else
@@ -224,10 +224,10 @@ elseif(empty($_REQUEST['modfunc']))
 						$i++;
 						if($i%3==0)
 							$toEscape .= '</TR><TR class="st">';
-						$toEscape .= '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.str_replace("'",'&#39;',$option).'</label></TD>';
+						$toEscape .= '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.str_replace("'",'&#39;',$option).'</label></TD>';
 					}
 					$toEscape .= '</TR></TABLE>';
-					echo '<script>var htmlCATEGORY_'.$category['ID'].'=\''.$toEscape.'\';</script>'.$return;
+					echo '<script>var htmlCATEGORY_'.$category['ID'].'='.json_encode($toEscape).';</script>'.$return;
 					echo ',"divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?str_replace("'",'&#39;',$RET['CATEGORY_'.$category['ID']]):'-').'</span>'."</div></DIV>";
 				}
 				else

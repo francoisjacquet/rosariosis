@@ -237,8 +237,8 @@ if(empty($_REQUEST['modfunc']))
 			<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
 			<script>	
-				var saveImgText = '<?php echo htmlspecialchars(_('Right Click to Save Image As...'),ENT_QUOTES); ?>';
-				var chartTitle = '<?php echo htmlspecialchars(sprintf(_('%s Breakdown'),$title),ENT_QUOTES); ?>';
+				var saveImgText = <?php echo json_encode(_('Right Click to Save Image As...')); ?>;
+				var chartTitle = <?php echo json_encode(sprintf(_('%s Breakdown'),$title)); ?>;
 			</script>
 <?php
 			if($_REQUEST['chart_type']=='column')

@@ -438,8 +438,8 @@ if(empty($_REQUEST['modfunc']))
 			<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
 			<script>	
-				var saveImgText = '<?php echo htmlspecialchars(_('Right Click to Save Image As...'),ENT_QUOTES); ?>';
-				var chartTitle = '<?php echo htmlspecialchars(sprintf(_('%s Breakdown'),ParseMLField($category_RET[1]['TITLE'])).$_ROSARIO['SearchTerms'],ENT_QUOTES); ?>';
+				var saveImgText = <?php echo json_encode(_('Right Click to Save Image As...')); ?>;
+				var chartTitle = <?php echo json_encode(sprintf(_('%s Breakdown'),ParseMLField($category_RET[1]['TITLE'])).$_ROSARIO['SearchTerms']); ?>;
 			</script>
 			<script src="assets/js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
 			<script src="assets/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>

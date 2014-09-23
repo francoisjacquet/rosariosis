@@ -4,7 +4,7 @@ echo '<TR class="st"><TD style="max-width:150px;" class="valign-top">';
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
-	<script type='text/javascript'> 
+	<script> 
 	//toggle form & photo
 	$('#aFormStudentPhoto').click(function () {
 		$('#formStudentPhoto').toggle();

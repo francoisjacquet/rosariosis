@@ -99,7 +99,7 @@ if(count($grouped_RET))
 		<script src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />	
 		<script>
-			var saveImgText = '<?php echo htmlspecialchars(_('Right Click to Save Image As...'),ENT_QUOTES); ?>';
+			var saveImgText = <?php echo json_encode(_('Right Click to Save Image As...')); ?>;
 			$(document).ready(function(){
 <?php
 		foreach($grouped_RET as $staff_id=>$grades)

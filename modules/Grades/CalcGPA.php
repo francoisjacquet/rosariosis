@@ -49,9 +49,7 @@ if($go)
 	unset($_REQUEST['delete_ok']);
 
 	//modif Francois: ending message
-	//modif Francois: bugfix addHTML is not defined
-	//echo '<script>addHTML("'.str_replace('"','\"','<IMG SRC="assets/check_button.png" class="alignImg" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),sprintf(_('GPA and class rank for %s has been calculated.'),GetMP($_REQUEST['marking_period_id'])))).'","statusDIV",true);';
-	echo '<script>document.getElementById("statusDIV").innerHTML = "'.str_replace('"','\"','<IMG SRC="assets/check_button.png" class="alignImg" /> '.str_replace(array("'",'"'),array('&#39;','&rdquo;'),sprintf(_('GPA and class rank for %s has been calculated.'),GetMP($_REQUEST['marking_period_id'])))).'";';
+	echo '<script>document.getElementById("statusDIV").innerHTML='.json_encode('<IMG SRC="assets/check_button.png" class="alignImg" /> '.sprintf(_('GPA and class rank for %s has been calculated.'),GetMP($_REQUEST['marking_period_id']))).';';
 	echo '</script>';
 	ob_end_flush();
 	Prompt(_('GPA Calculation'),_('Calculate GPA and Class Rank'),$table);

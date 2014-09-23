@@ -250,7 +250,7 @@ function _makeMultipleInput($column,$name,$request)
 			if($i%2==0)
 				$table .= '</TR><TR>';
 //modif Francois: add <label> on checkbox
-			$table .= '<TD><label><INPUT type="checkbox" name="'.$request.'['.$column.'][]" value="'.htmlspecialchars($option).'"'.(mb_strpos($value[$column],'||'.$option.'||')!==false?' checked':'').'> '.str_replace("'",'&#39;',$option).'</label></TD>';
+			$table .= '<TD><label><INPUT type="checkbox" name="'.$request.'['.$column.'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($value[$column],'||'.$option.'||')!==false?' checked':'').'> '.str_replace("'",'&#39;',$option).'</label></TD>';
 			$i++;
 		}
 		$table .= '</TR><TR><TD colspan="2">';
@@ -261,7 +261,7 @@ function _makeMultipleInput($column,$name,$request)
 		$table .= '</TD></TR></TABLE>';
 		if($value[$column]!='')
 		{
-			echo '<script>var html'.$request.$column.'=\''.$table.'\';</script>'.$return;
+			echo '<script>var html'.$request.$column.'='.json_encode($table).';</script>'.$return;
 			echo ',"div'.$request.'['.$column.']",true);\' >';
 			echo '<span class="underline-dots">'.($value[$column]!=''?str_replace('||',', ',mb_substr($value[$column],2,-2)):'-').'</span>';
 			echo '</div></DIV>';

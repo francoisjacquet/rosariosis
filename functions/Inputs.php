@@ -46,8 +46,8 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
 			
-			$toEscape = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.str_replace("'",'&#39;',htmlspecialchars($value)).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'=\''.$toEscape.'\';</script>'.$return;
+			$input = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($input).';</script>'.$return;
 			
 			$return .= ',"div'.$name.'",true); if (input = document.getElementById("input'.$name.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 			return $return;
@@ -144,8 +144,8 @@ function TextAreaInput($value,$name,$title='',$options='',$div=true)
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
 			
-			$toEscape = '<TEXTAREA id="textarea'.$name.'" name="'.$name.'" '.$options.'>'.preg_replace("/[\n\r]/",'\u000D\u000A',str_replace("\r\n",'\u000D\u000A',str_replace("'",'&#39;',$value))).'</TEXTAREA>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'=\''.$toEscape.'\';</script>'.$return;
+			$textarea = '<TEXTAREA id="textarea'.$name.'" name="'.$name.'" '.$options.'>'.preg_replace("/[\n\r]/",'\u000D\u000A',str_replace("\r\n",'\u000D\u000A',str_replace("'",'&#39;',$value))).'</TEXTAREA>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.str_replace("'",'&#39;',$title).'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($textarea).';</script>'.$return;
 			
 			$return .= ',"div'.$name.'",true); document.getElementById("textarea'.$name.'").value=unescape(document.getElementById("textarea'.$name.'").value);\'>'.'<TABLE style="height:100%;"><TR><TD>'.((mb_substr_count($value,"\r\n")>$rows)?'<DIV style="overflow:auto; height:'.(15*$rows).'px; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>':'<DIV style="overflow:auto; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>').'</TD></TR></TABLE>'.($title!=''?''.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 			return $return;
@@ -222,7 +222,7 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 			foreach($options as $key=>$val)
 			{
 				$key .= '';
-				$select .= '<OPTION value="'.str_replace("'",'&#39;',htmlspecialchars($key)).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED="SELECTED"':'').'>'.str_replace("'",'&#39;',(is_array($val)?$val[0]:$val)).'</OPTION>';
+				$select .= '<OPTION value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED="SELECTED"':'').'>'.str_replace("'",'&#39;',(is_array($val)?$val[0]:$val)).'</OPTION>';
 			}
 		}
 		$select .= '</SELECT>';
@@ -231,7 +231,7 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 		
 		if($value!='' && $div)
 		{
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'=\''.$select.'\';</script>'.$return;
+			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($select).';</script>'.$return;
 
 			$return .= ',"div'.$name.'",true);\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
@@ -275,7 +275,7 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
             foreach($options as $key=>$val)
             {
                 $key .= '';
-                $select .= '<OPTION value="'.str_replace("'",'&#39;',htmlspecialchars($key)).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED="SELECTED"':'').'>'.str_replace("'",'&#39;',(is_array($val)?ParseMLField($val[0], $locale):ParseMLField($val, $locale))).'</OPTION>';
+                $select .= '<OPTION value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED="SELECTED"':'').'>'.str_replace("'",'&#39;',(is_array($val)?ParseMLField($val[0], $locale):ParseMLField($val, $locale))).'</OPTION>';
             }
         }
         $select .= '</SELECT>';
@@ -284,7 +284,7 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
 			
         if($value!='' && $div)
 		{
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'=\''.$select.'\';</script>'.$return;
+			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($select).';</script>'.$return;
 
             $return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
@@ -322,7 +322,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 			foreach($options as $key=>$val)
 			{
 				$key .= '';
-				$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value="'.str_replace("'",'&#39;',htmlspecialchars($key)).'" '.($value==$key && (!($value==false && $value!==$key) || ($value==='0' && $key===0))?'checked':'').' /> '.str_replace("'",'&#39;',(is_array($val)?$val[0]:$val)).'</label></TD>';
+				$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value="'.htmlspecialchars($key,ENT_QUOTES).'" '.($value==$key && (!($value==false && $value!==$key) || ($value==='0' && $key===0))?'checked':'').' /> '.str_replace("'",'&#39;',(is_array($val)?$val[0]:$val)).'</label></TD>';
 			}
 		}
 		$table .= '</TR></TABLE>';
@@ -331,7 +331,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 			
 		if($value!='' && $div)
 		{
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'=\''.$table.'\';</script>'.$return;
+			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($table).';</script>'.$return;
 
             $return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').str_replace("'",'&#39;',$title).(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
