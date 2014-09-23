@@ -210,7 +210,8 @@ label{
 #adminmenu{
 	clear:left;
 	margin:0;
-	padding:0
+	padding:0;
+	padding-top:5px;
 }
 #adminmenu *,.widefat th{
 	-webkit-user-select:none;
@@ -242,6 +243,14 @@ label{
 }
 #adminmenu .wp-submenu a{
 	margin:0
+}
+.current-person{
+	padding:1px;
+	margin-top:5px;
+}
+.current-person img{
+	vertical-align:middle;
+	height:24px
 }
 .widefat th,.widefat td{
 	overflow:hidden
@@ -447,6 +456,12 @@ span.center{
 }
 .BottomButton{
 	padding-top:16px;
+}
+.BottomButton{
+	margin-right:8px;
+}
+.BottomButton img{
+	height:32px
 }
 .BottomButton span{
 	vertical-align:super
