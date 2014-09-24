@@ -163,7 +163,8 @@ if(!$_REQUEST['chart_type'])
 		if($_REQUEST['chart_type']=='column')
 		{
 			$jsData .= 'var datacolumn = [';
-			for ($i=0; $i<count($chart['chart_data'][0]); $i++)
+			$chart_data_count = count($chart['chart_data'][0]);
+			for ($i=0; $i<=$chart_data_count; $i++)
 			{
 				$jsData .= "[".$chart['chart_data'][0][$i].", ".$chart['chart_data'][1][$i]."],";
 			}
@@ -171,7 +172,8 @@ if(!$_REQUEST['chart_type'])
 			$jsData .= "];\n";
 		} else { //pie chart
 			$jsData = 'var datapie = [';
-			for ($i=1; $i<=count($chart['chart_data'][0]); $i++)
+			$chart_data_count = count($chart['chart_data'][0]);
+			for ($i=0; $i<=$chart_data_count; $i++)
 			{
 				if ($chart['chart_data'][1][$i] > 0) //remove empty slices not to overload the legends
 					$jsData .= "['".htmlspecialchars($chart['chart_data'][0][$i],ENT_QUOTES)."', ".$chart['chart_data'][1][$i]."],";

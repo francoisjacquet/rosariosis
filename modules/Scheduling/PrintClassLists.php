@@ -36,7 +36,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
 
 			$course_period_DAYS_locale = '';
-			for ($i = 0; $i < mb_strlen($course_period['DAYS']); $i++) {
+			$days_strlen = mb_strlen($course_period['DAYS']);
+			for ($i = 0; $i < $days_strlen; $i++) {
 				$course_period_DAYS_locale .= mb_substr($days_convert[mb_substr($course_period['DAYS'], $i, 1)],0,3) . '.&nbsp;';
 			}
 			$course_period['DAYS'] = $course_period_DAYS_locale;*/

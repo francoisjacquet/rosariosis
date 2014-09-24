@@ -636,7 +636,8 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 	//				$header .= '","days",true);\'><span style=\'border-bottom-style:dotted;border-bottom-width:1;border-bottom-color:'.Preferences('TITLES').';\'>'.$RET['DAYS'].'</span></div></DIV>';
 					//modif Francois: days display to locale						
 					$school_period_locale = '';
-					for ($j = 0; $j < mb_strlen($school_period['DAYS']); $j++) {
+					$days_strlen = mb_strlen($school_period['DAYS']);
+					for ($j = 0; $j < $days_strlen; $j++) {
 						$school_period_locale .= mb_substr($days_convert[mb_substr($school_period['DAYS'], $j, 1)],0,3) . '.&nbsp;';
 					}
 					$school_period['DAYS'] = $school_period_locale;

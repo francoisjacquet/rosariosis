@@ -155,7 +155,8 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 
 		//options
 		$options_array = explode('<br />', nl2br($question['OPTIONS']));
-		for ($i=0; $i < count($options_array); $i++)
+		$options_array_count = count($options_array);
+		for ($i=0; $i < $options_array_count; $i++)
 		{
 			$percent = round(($votes_array[$i]/$total_votes)*100);
 			$votes_display .= '<TR><TD style="text-align:right">'.$options_array[$i].'</TD><TD style="width:104px;"><div class="PortalPollBar" style="width:'.$percent.'px; height:12px; background-color:#cc4400;">&nbsp;</div></TD><TD style="width:25px;"><strong> '.$percent.'%</strong></TD></TR>'."\n";

@@ -207,7 +207,8 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course')
 
 	for ($j = 1; $j <= count($schedule_RET); $j++) {
 		$columns_DAYS_locale = '';
-		for ($i = 0; $i < mb_strlen($schedule_RET[$j]['DAYS']); $i++) {
+		$days_strlen = mb_strlen($schedule_RET[$j]['DAYS']);
+		for ($i = 0; $i < $days_strlen; $i++) {
 			$columns_DAYS_locale .= mb_substr($days_convert[mb_substr($schedule_RET[$j]['DAYS'], $i, 1)],0,3) . '.&nbsp;';
 		}
 		$schedule_RET[$j]['DAYS'] = $columns_DAYS_locale;

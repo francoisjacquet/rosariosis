@@ -78,7 +78,8 @@ if(UserStaffID())
 			$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
 
 		$period_DAYS_locale = '';
-		for ($i = 0; $i < mb_strlen($period['DAYS']); $i++) {
+		$days_strlen = mb_strlen($period['DAYS']);
+		for ($i = 0; $i < $days_strlen; $i++) {
 			$period_DAYS_locale .= mb_substr($days_convert[mb_substr($period['DAYS'], $i, 1)],0,3) . '.';
 		}
 		

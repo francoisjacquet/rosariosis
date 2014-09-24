@@ -184,7 +184,8 @@ strip_tags(str_replace('<BR />',"\n",$_ROSARIO['SearchTerms']));
 		else //pie chart
 		{
 			$jsData = 'var datapie = [';
-			for ($i=0; $i<=count($chart['chart_data'][0]); $i++)
+			$chart_data_count = count($chart['chart_data'][0]);
+			for ($i=0; $i<=$chart_data_count; $i++)
 			{
 				//limit label to 30 char max.
 				$jsData .= "['".htmlspecialchars(mb_substr($chart['chart_data'][0][$i], 0, 30),ENT_QUOTES)."', ".$chart['chart_data'][1][$i]."],";
