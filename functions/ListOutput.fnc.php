@@ -348,8 +348,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				{
 					$where_message = "".sprintf(_('Displaying %d through %d'),$start,$stop)."";
 					if(ceil($result_count/$num_displayed) <= 10)
-					{
-						for($i=1;$i<=ceil($result_count/$num_displayed);$i++)
+					{	
+						$ceil = ceil($result_count/$num_displayed);
+						for($i=1;$i<=$ceil;$i++)
 						{
 							if($i!=$_REQUEST['page'])
 								$pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;page='.$i.'">'.$i.'</A>, ';
@@ -368,7 +369,8 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 								$pages .= $i.', ';
 						}
 						$pages = mb_substr($pages,0,-2) . " ... ";
-						for($i=ceil($result_count/$num_displayed)-2;$i<=ceil($result_count/$num_displayed);$i++)
+						$ceil = ceil($result_count/$num_displayed);
+						for($i=$ceil-2;$i<=$ceil;$i++)
 						{
 							if($i!=$_REQUEST['page'])
 								$pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;page='.$i.'">'.$i.'</A>, ';

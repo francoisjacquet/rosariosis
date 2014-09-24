@@ -97,7 +97,8 @@ if($comment_codes_RET)
 /*
 foreach($grades as $course_period_id=>$cp_grades)
 {
-	for($i=1;$i<=count($cp_grades);$i++)
+	$cp_grades_total = count($cp_grades);
+	for($i=1;$i<=$cp_grades_total;$i++)
 		$grades[$course_period_id][$i] = $grades[$course_period_id][$i]['TITLE'];
 }
 */

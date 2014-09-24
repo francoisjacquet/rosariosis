@@ -37,7 +37,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			$cols = 0;
 			$rows = 0;
-			for($i=-(($_REQUEST['start_row']-1)*$max_cols+$_REQUEST['start_col']-1);$i<count($RET);$i++)
+			$RET_count = count($RET);
+			for($i=-(($_REQUEST['start_row']-1)*$max_cols+$_REQUEST['start_col']-1);$i<$RET_count;$i++)
 			{
 				if($i>=0)
 				{
