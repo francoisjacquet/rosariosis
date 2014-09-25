@@ -1,6 +1,7 @@
 <?php
 error_reporting(1);
-include "./Warehouse.php";
+include('Warehouse.php');
+
 if($_REQUEST['modfunc']=='print')
 {
 //modif Francois: call PDFStart to generate Print PDF

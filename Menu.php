@@ -3,7 +3,7 @@ if(empty($_ROSARIO['Menu']))
 {
 	foreach($RosarioModules as $module=>$include)
 		if($include)
-			include "modules/$module/Menu.php";
+			include('modules/'.$module.'/Menu.php');
 
 	$profile = User('PROFILE');
 
