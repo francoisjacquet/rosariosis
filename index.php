@@ -1,7 +1,6 @@
 <?php
 error_reporting(1);
-
-require_once('Warehouse.php');
+include('Warehouse.php');
 
 if($_REQUEST['modfunc']=='logout')
 {
@@ -13,7 +12,7 @@ if($_REQUEST['modfunc']=='logout')
 //modif Francois: fix error Firefox has detected that the server is redirecting the request
 //		header("Location: $_SERVER[PHP_SELF]?modfunc=logout".(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
 //		header("Location: ".$_SERVER['PHP_SELF'].(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
-		header("Location: ".$_SERVER['PHP_SELF'].'?locale='.$old_session_locale.(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
+		header("Location: ".$_SERVER['PHP_SELF'].'?locale='.$old_session_locale.(isset($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
 	}
 }
 elseif($_REQUEST['modfunc']=='create_account')
@@ -72,17 +71,22 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 
 		if(Config('LOGIN')=='No')
 		{
-			Warehouse('header');
-			echo '<FORM action="index.php" method="POST"><BR />';
-			PopTable('header',_('Confirm Successful Installation'));
-			echo '<span class="center">';
-			echo '<h4>'.sprintf(_('You have successfully installed %s.'), ParseMLField(Config('TITLE'))).'</h4><BR />';
-			echo '<BR /><INPUT type="submit" name="submit" id="submit" value="'._('OK').'" />';
-			echo '</span>';
-			PopTable('footer');
-			echo '</FORM>';
-			echo '<script>$(\'#submit\').click(function(){ $(\'form\').ajaxFormUnbind(); });</script>';
-			Warehouse('footer_plain');
+			Warehouse('header'); ?>
+			<FORM action="index.php" method="POST"><BR />
+
+			<?php PopTable('header',_('Confirm Successful Installation')); ?>
+
+			<span class="center">
+			<h4><?php echo sprintf(_('You have successfully installed %s.'), ParseMLField(Config('TITLE'))); ?></h4><BR />
+			<BR /><INPUT type="submit" name="submit" id="submit" value="<?php echo _('OK'); ?>" />
+			</span>
+
+			<?php PopTable('footer'); ?>
+
+			</FORM>
+			<script>$('#submit').click(function(){ $('form').ajaxFormUnbind(); });</script>
+
+			<?php Warehouse('footer_plain');
 			DBQuery("UPDATE CONFIG SET CONFIG_VALUE='Yes' WHERE TITLE='LOGIN'");
 			exit;
 		}
@@ -139,64 +143,75 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 </HEAD>
 <BODY>
 <BR /><BR />
-<?php
-	PopTable("header",sprintf(_('%s Login'),Config('NAME')), 'style="max-width:550px;"');
+<?php PopTable("header",sprintf(_('%s Login'),Config('NAME')), 'style="max-width:550px;"');
 	
 	if($_REQUEST['reason'])
 		echo ErrorMessage(array(sprintf(_('You must have javascript enabled to use %s.'),Config('NAME'))),'note');
-	echo ErrorMessage($error);
-	
-	echo '<TABLE>
-	<tr class="st">
-	<TD style="text-align:center"><img src="assets/themes/'.Preferences('THEME').'/logo.png" /></td>
-	<TD class="center"><form name="loginform" method="post" action="index.php" class="login">
-	<h4>'.ParseMLField(Config('TITLE')).' </h4>
-    <TABLE class="cellpadding-2 cellspacing-0" style="margin:0 auto;">';
+	if($error)
+		echo ErrorMessage($error); ?>
 
-    // ng - choose language
-    if (sizeof($RosarioLocales) > 1) {
-          echo '<tr style="text-align:right"><TD style="text-align:right"><b>'._('Language').'</b></td>';
-          echo '<td style="text-align:left;">';
-          foreach ($RosarioLocales as $loc)
-              echo '<A href="'.$_SERVER['PHP_SELF'].'?locale='.$loc.'"><IMG src="assets/flags/'.$loc.'.png" height="32" /></A>&nbsp;&nbsp;';
-          echo '</TD>';
-    }
-    
-	echo '<tr>
-		<TD style="text-align:right"><label for="USERNAME"><b>'._('Username').'</b></label></td>
-		<td style="text-align:left;"><input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" required /></td>
-	</tr>
-	<tr>
-		<TD style="text-align:right"><label for="PASSWORD"><b>'._('Password').'</b></label></td>
-		<td style="text-align:left;"><input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" required /></td>
-	</tr>
+	<TABLE>
+		<tr class="st">
+		<td style="text-align:center"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/logo.png" /></td>
+		<td class="center">
+		<form name="loginform" method="post" action="index.php" class="login">
+		<h4><?php echo ParseMLField(Config('TITLE')); ?></h4>
+		<table class="cellpadding-2 cellspacing-0" style="margin:0 auto;">
+
+		<?php // ng - choose language
+		if (sizeof($RosarioLocales) > 1) : ?>
+
+			<tr style="text-align:right"><td style="text-align:right"><b><?php echo _('Language'); ?></b></td>
+			<td style="text-align:left;">
+			<?php foreach ($RosarioLocales as $loc) : ?>
+
+				<A href="<?php echo $_SERVER['PHP_SELF']; ?>?locale=<?php echo $loc; ?>"><IMG src="assets/flags/<?php echo $loc; ?>.png" height="32" /></A>&nbsp;&nbsp;
+			<?php endforeach; ?>
+
+			</td></tr>
+		<?php endif; ?>
+
+			<tr>
+				<td style="text-align:right"><label for="USERNAME"><b><?php echo _('Username'); ?></b></label></td>
+				<td style="text-align:left;"><input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" required /></td>
+			</tr>
+			<tr>
+				<td style="text-align:right"><label for="PASSWORD"><b><?php echo _('Password'); ?></b></label></td>
+				<td style="text-align:left;"><input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" required /></td>
+			</tr>
+		</table>
+		<p><INPUT type="submit" value="<?php echo _('Login'); ?>" class="button-primary" /></p>
+
+		<?php if($ShowCreateAccount) : ?>
+
+			<span class="size-1; text-align:center;">[ <A HREF="index.php?modfunc=create_account"><?php echo _('Create Account'); ?></A> ]</span>
+		<?php endif; ?>
+
+		</form>
+		</td>
+		</tr>
+		<?php // System disclaimer. ?>
+
+		<tr><td colspan="2">
+			<span class="size-3"><?php echo sprintf(_('This is a restricted network. Use of this network, its equipment, and resources is monitored at all times and requires explicit permission from the network administrator and %s. If you do not have this permission in writing, you are violating the regulations of this network and can and will be prosecuted to the full extent of the law. By continuing into this system, you are acknowledging that you are aware of and agree to these terms.'),ParseMLField(Config('TITLE'))); ?></span>
+			<BR /><BR />
+		</td></tr>
 	</table>
-	<p><INPUT type="submit" value="'._('Login').'" class="button-primary" /></p>';
-	if($ShowCreateAccount)
-		echo '<span class="size-1; text-align:center;">[ <A HREF="index.php?modfunc=create_account">'._('Create Account').'</A> ]</span>';
-	echo '</form>
-	</td></tr>';
-
-	// System disclaimer.
-	echo '
-	<tr><td colspan="2">
-	<span class="size-3">'.
-	sprintf(_('This is a restricted network. Use of this network, its equipment, and resources is monitored at all times and requires explicit permission from the network administrator and %s. If you do not have this permission in writing, you are violating the regulations of this network and can and will be prosecuted to the full extent of the law. By continuing into this system, you are acknowledging that you are aware of and agree to these terms.'),ParseMLField(Config('TITLE')))
-	.'</span>
-	<BR /><BR />
-	</td></tr>
-	</table>';
-	echo '<span class="center">RosarioSIS '.sprintf(_('version %s'),$RosarioVersion).'
+	<span class="center">RosarioSIS <?php echo sprintf(_('version %s'),$RosarioVersion); ?>
 	<BR />&copy; 2004-2009 <A HREF="http://www.miller-group.net" noreferrer>The Miller Group, Inc</A>
-	<br />&copy; 2009 <a href="http://www.glenn-abbey.com" noreferrer>Glenn Abbey Software, Inc</a>
-	<br />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
-	<br />&copy; 2012-2014 <a href="http://www.rosariosis.org" noreferrer>François Jacquet</a>
-	</span>';
-	PopTable("footer");
-	
-	echo '<BR /></BODY></HTML>';
+	<BR />&copy; 2009 <a href="http://www.glenn-abbey.com" noreferrer>Glenn Abbey Software, Inc</a>
+	<BR />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
+	<BR />&copy; 2012-2014 <a href="http://www.rosariosis.org" noreferrer>François Jacquet</a>
+	</span>
+
+<?php PopTable("footer"); ?>
+
+<BR />
+
+<?php Warehouse('footer_plain');
+
 }
-elseif($_REQUEST['modfunc']!='create_account')
+elseif($_REQUEST['modfunc']!='create_account')//successfully logged in, display Portal
 {
 	$_REQUEST['modname']='misc/Portal.php';
 	$_REQUEST['failed_login']=$failed_login;
