@@ -167,7 +167,13 @@ window.onload = function(){
 	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
 	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
-	var reload = false;
+	$('#adminmenu a').click(function(e){
+		modname=this.href.replace(this.href.substr(0,this.href.indexOf('Modules.php?modname=')+20), '');
+		if ($(this).hasClass('menu-top'))
+			openMenu(modname);
+		else
+			selMenuA(modname);
+	});
 };
 
 function scroll(){

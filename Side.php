@@ -333,7 +333,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 		for ($i=0; $i<$size; $i++) :
 			if (count($modcat_menu = $_ROSARIO['Menu'][$key[$i]])) : ?>
 
-			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" onclick="openMenu(modname='<?php echo $modcat_menu['default']; ?>');" class="menu-top"><IMG SRC="assets/icons/<?php echo $key[$i]; ?>.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo _(str_replace('_',' ',$key[$i])); ?></A>
+			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="assets/icons/<?php echo $key[$i]; ?>.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo _(str_replace('_',' ',$key[$i])); ?></A>
 			<DIV id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
 				<TABLE class="width-100p cellspacing-0 cellpadding-0">
 
@@ -350,7 +350,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 						<TR><TD><A HREF="<?php echo $keys_modcat[$j]; ?>" target="_blank"><?php echo $title; ?></A></TD></TR>
 					<?php elseif(!is_numeric($keys_modcat[$j])) : ?>
 
-						<TR><TD><A HREF="Modules.php?modname=<?php echo $keys_modcat[$j]; ?>" onclick="selMenuA(modname='<?php echo $keys_modcat[$j]; ?>');"<?php echo (mb_stripos($keys_modcat[$j],'_ROSARIO_PDF') !== false ? ' target="_blank"' : ''); ?>><?php echo $title; ?></A></TD></TR>
+						<TR><TD><A HREF="Modules.php?modname=<?php echo $keys_modcat[$j]; ?>"<?php echo (mb_stripos($keys_modcat[$j],'_ROSARIO_PDF') !== false ? ' target="_blank"' : ''); ?>><?php echo $title; ?></A></TD></TR>
 					<?php elseif($keys_modcat[$j+1] && !is_numeric($keys_modcat[$j+1])) : ?>
 
 						<TR><TD class="menu-inter">&nbsp;<?php echo $title; ?></TD></TR>
