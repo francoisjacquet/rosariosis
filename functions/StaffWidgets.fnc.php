@@ -11,7 +11,7 @@ function StaffWidgets($item,&$myextra=NULL)
 	if(!isset($_ROSARIO['StaffWidgets']) || !is_array($_ROSARIO['StaffWidgets']))
 		$_ROSARIO['StaffWidgets'] = array();
 
-	if(!is_array($extra['functions']))
+	if(!isset($extra['functions']) || !is_array($extra['functions']))
 		$extra['functions'] = array();
 
 	if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && !$_ROSARIO['StaffWidgets'][$item])
