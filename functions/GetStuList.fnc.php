@@ -451,14 +451,14 @@ function appendSQL($sql,$extra=array())
 		$list = $sep = '';
 		foreach($_REQUEST['grades'] as $id=>$y)
 		{
-			$list .= "$sep'".$id."'";
+			$list .= $sep."'".$id."'";
 			if(!$extra['NoSearchTerms'])
 				$_ROSARIO['SearchTerms'] .= $sep.GetGrade($id);
 			$sep = ',';
 		}
 		if(!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<BR />';
-		$sql .= " AND ssm.GRADE_ID ".($_REQUEST['grades_not']=='Y'?'NOT ':'')." IN ($list)";
+		$sql .= " AND ssm.GRADE_ID ".($_REQUEST['grades_not']=='Y'?'NOT ':'')." IN (".$list.")";
 	}
 	if($_REQUEST['addr'])
 	{

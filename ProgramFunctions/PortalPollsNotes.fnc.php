@@ -182,26 +182,13 @@ if (isset($_POST['votes']) && is_array($_POST['votes']))
 	require('config.inc.php');
 	require('database.inc.php');
 
-	//modif Francois: remove IgnoreFiles
 	// Load functions.
-	/*if($handle = opendir('functions'))
-	{
-		if(!is_array($IgnoreFiles))
-			$IgnoreFiles=Array();
-
-		while (false !== ($file = readdir($handle)))
-		{
-			// if filename isn't '.' '..' or in the Ignore list... load it.
-			if($file!='.' && $file!='..' && !in_array($file,$IgnoreFiles))
-				require_once('functions/'.$file);
-		}
-	}*/
 	$functions = scandir('functions/');
 	foreach ($functions as $function)
 	{
 		//filter PHP files
 		if ( mb_strrchr($function, '.') == '.php' )
-			require_once('functions/'.$function);
+			include('functions/'.$function);
 	}
 	
 	foreach ($_POST['votes'] as $poll_id=>$votes_array)
@@ -249,7 +236,7 @@ function makePublishing($value,$name)
 		if (isset($_REQUEST['LO_save']))
 			$return .= '<TD>'.$profile.' '.CheckboxInput((mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?true:''),'').' -</TD>';
 		else
-			$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?' checked':'').' /> '.$profile.'</label></TD>';
+			$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],','.$profile_id.',')!==false?' checked':'').' /> '.$profile.'</label></TD>';
 		if($i%2==0 && $i!=count($profile))
 			$return .= '</TR><TR class="st">';
 	}
