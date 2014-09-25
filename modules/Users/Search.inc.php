@@ -145,14 +145,14 @@ else
 
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];
 	$name_link['FULL_NAME']['variables'] = array('staff_id'=>'STAFF_ID');
-	if(is_array($extra['link']))
+	if(isset($extra['link']) && is_array($extra['link']))
 		$link = $extra['link'] + $name_link;
 	else
 		$link = $name_link;
 
-	if(is_array($extra['columns_before']))
+	if(isset($extra['columns_before']) && is_array($extra['columns_before']))
 		$columns = $extra['columns_before'] + $columns;
-	if(is_array($extra['columns_after']))
+	if(isset($extra['columns_after']) && is_array($extra['columns_after']))
 		$columns += $extra['columns_after'];
 
 	if(count($staff_RET)>1 || $link['add'] || !$link['FULL_NAME'] || $extra['columns_before'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($staff_RET)==0) || ($extra['Redirect']===false && count($staff_RET)==1))
