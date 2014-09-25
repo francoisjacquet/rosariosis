@@ -38,16 +38,16 @@ function ParseMLField($field, $loc='') {
 function ParseMLArray($array, $keys) {
     
 	//modify loop: use for instead of foreach
-	$key = array_keys($array);
-	$size = sizeOf($key);
+	$k = array_keys($array);
+	$size = sizeOf($k);
 	for ($i=0; $i<$size; $i++)
 	{
-		if (is_array($array[$key[$i]]))
-			$array[$key[$i]] = ParseMLArray($array[$key[$i]], $keys);
+		if (is_array($array[$k[$i]]))
+			$array[$k[$i]] = ParseMLArray($array[$k[$i]], $keys);
         else {
             if (!is_array($keys)) $keys = array($keys);
             foreach ($keys as $key)
-                if ($key[$i] == $key) $array[$key[$i]] = ParseMLField($array[$key[$i]]);
+                if ($k[$i] == $key) $array[$k[$i]] = ParseMLField($array[$k[$i]]);
         }
 	}
 
