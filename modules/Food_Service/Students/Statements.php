@@ -37,9 +37,9 @@ if(UserStudentID())
 	if(count($xstudents))
 	{
 		$student_select = _('Student').' <SELECT name="student_select"><OPTION value="">'._('Not Specified').'</OPTION>';
-		$student_select .= '<OPTION value="'.$student['STUDENT_ID'].'"'.($_REQUEST['student_select']==$student['STUDENT_ID'] ? ' SELECTED="SELECTED"' : '').'>'.$student['FULL_NAME'].'</OPTION>';
+		$student_select .= '<OPTION value="'.$student['STUDENT_ID'].'"'.($_REQUEST['student_select']==$student['STUDENT_ID'] ? ' SELECTED' : '').'>'.$student['FULL_NAME'].'</OPTION>';
 		foreach($xstudents as $xstudent)
-			$student_select .= '<OPTION value="'.$xstudent['STUDENT_ID'].'"'.($_REQUEST['student_select']==$xstudent['STUDENT_ID'] ? ' SELECTED="SELECTED"' : '').'>'.$xstudent['FULL_NAME'].'</OPTION>';
+			$student_select .= '<OPTION value="'.$xstudent['STUDENT_ID'].'"'.($_REQUEST['student_select']==$xstudent['STUDENT_ID'] ? ' SELECTED' : '').'>'.$xstudent['FULL_NAME'].'</OPTION>';
 		$student_select .= '</SELECT>';
 	}
 

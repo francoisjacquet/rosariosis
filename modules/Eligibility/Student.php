@@ -90,7 +90,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 	//exit(var_dump($begin_year));
 	for($i=$start-(60*60*24*7);$i>=$begin_year;$i-=(60*60*24*7))
 //		$date_select .= "<OPTION value=$i".(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED':'').">".date('M d, Y',$i).' - '.date('M d, Y',($i+1+(($END_DAY-$START_DAY))*60*60*24)).'</OPTION>';
-		$date_select .= '<OPTION value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED="SELECTED"':'').">".ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</OPTION>';
+		$date_select .= '<OPTION value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED':'').">".ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</OPTION>';
 	
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 	DrawHeader('<SELECT name="start_date">'.$date_select.'</SELECT> '.SubmitButton(_('Go')));

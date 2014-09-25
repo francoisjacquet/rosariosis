@@ -90,14 +90,14 @@ foreach($menus_RET as $menu)
 
 $type_select = '<span class="nobr">'._('Type').' <SELECT name="type_select"><OPTION value="">'._('Not Specified').'</OPTION>';
 foreach($types as $short_name=>$type)
-	$type_select .= '<OPTION value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' SELECTED="SELECTED"' : '').'>'.$type['DESCRIPTION'].'</OPTION>';
+	$type_select .= '<OPTION value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' SELECTED' : '').'>'.$type['DESCRIPTION'].'</OPTION>';
 $type_select .= '</SELECT></span>';
 
 $staff_RET = DBGet(DBquery('SELECT STAFF_ID,FIRST_NAME||\' \'||LAST_NAME AS FULL_NAME FROM STAFF WHERE SYEAR=\''.UserSyear().'\' AND SCHOOLS LIKE \'%,'.UserSchool().',%\' AND PROFILE=\'admin\' ORDER BY LAST_NAME'));
 
 $staff_select = '<span class="nobr">'._('User').' <SELECT name=staff_select><OPTION value="">'._('Not Specified').'</OPTION>';
 foreach($staff_RET as $staff)
-	$staff_select .= '<OPTION value="'.$staff['STAFF_ID'].'"'.($_REQUEST['staff_select']==$staff['STAFF_ID'] ? ' SELECTED="SELECTED"' : '').'>'.$staff['FULL_NAME'].'</OPTION>';
+	$staff_select .= '<OPTION value="'.$staff['STAFF_ID'].'"'.($_REQUEST['staff_select']==$staff['STAFF_ID'] ? ' SELECTED' : '').'>'.$staff['FULL_NAME'].'</OPTION>';
 $staff_select .= '</SELECT></span>';
 
 $PHP_tmp_SELF = PreparePHP_SELF();

@@ -421,11 +421,11 @@ function _makeCodeSearch($value='')
 
 	$return = '<SELECT name=codes[]><OPTION value="">'._('All').'</OPTION>';
 	if($_REQUEST['table']=='0')
-		$return .= '<OPTION value="A"'.(($value=='A')?' SELECTED="SELECTED"':'').'>'._('Not Present').'</OPTION>';
+		$return .= '<OPTION value="A"'.(($value=='A')?' SELECTED':'').'>'._('Not Present').'</OPTION>';
 	if(count($codes_RET))
 	{
 		foreach($codes_RET as $code)
-			$return .= '<OPTION value="'.$code['ID'].'"'.($value==$code['ID']?' SELECTED="SELECTED"':'').'>'.$code['TITLE'].'</OPTION>';
+			$return .= '<OPTION value="'.$code['ID'].'"'.($value==$code['ID']?' SELECTED':'').'>'.$code['TITLE'].'</OPTION>';
 	}
 	$return .= '</SELECT>';
 

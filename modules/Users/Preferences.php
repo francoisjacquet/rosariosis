@@ -208,21 +208,21 @@ if(empty($_REQUEST['modfunc']))
 		$values = array('%B','%b','%m');
 //		$values = array('F','M','m','n');
 		foreach($values as $value)
-			echo '<OPTION value="'.$value.'"'.((Preferences('MONTH')==$value)?' SELECTED="SELECTED"':'').'>'.mb_convert_case(iconv('','UTF-8',strftime($value)), MB_CASE_TITLE, "UTF-8").'</OPTION>';
+			echo '<OPTION value="'.$value.'"'.((Preferences('MONTH')==$value)?' SELECTED':'').'>'.mb_convert_case(iconv('','UTF-8',strftime($value)), MB_CASE_TITLE, "UTF-8").'</OPTION>';
 //			echo '<OPTION value='.$value.((Preferences('MONTH')==$value)?' SELECTED':'').'>'.date($value).'</OPTION>';
 		echo '</SELECT>';
 		echo '<SELECT name="values[Preferences][DAY]">';
 		$values = array('%d');
 //		$values = array('d','j','jS');
 		foreach($values as $value)
-			echo '<OPTION value="'.$value.'"'.((Preferences('DAY')==$value)?' SELECTED="SELECTED"':'').'>'.strftime($value).'</OPTION>';
+			echo '<OPTION value="'.$value.'"'.((Preferences('DAY')==$value)?' SELECTED':'').'>'.strftime($value).'</OPTION>';
 //			echo '<OPTION value='.$value.((Preferences('DAY')==$value)?' SELECTED':'').'>'.date($value=='d'?'[0]j':$value).'</OPTION>';
 		echo '</SELECT>';
 		echo '<SELECT name=values[Preferences][YEAR]>';
 		$values = array('%Y','%y');
 //		$values = array('Y','y','');
 		foreach($values as $value)
-			echo '<OPTION value="'.$value.'"'.((Preferences('YEAR')==$value || (!Preferences('YEAR') && !$value))?' SELECTED="SELECTED"':'').'>'.strftime($value).'</OPTION>';
+			echo '<OPTION value="'.$value.'"'.((Preferences('YEAR')==$value || (!Preferences('YEAR') && !$value))?' SELECTED':'').'>'.strftime($value).'</OPTION>';
 //			echo '<OPTION value="'.$value.'"'.((Preferences('YEAR')==$value || (!Preferences('YEAR') && !$value))?' SELECTED':'').'>'.date($value).'</OPTION>';
 		echo '</SELECT>';
 		echo '</TD></TR>';

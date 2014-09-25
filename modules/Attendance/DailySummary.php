@@ -43,7 +43,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF();
-	$period_select = '<SELECT name="period_id" onchange="ajaxPostForm(this.form,true);"><OPTION value=""'.(empty($_REQUEST['period_id'])?' SELECTED="SELECTED"':'').'>'._('Daily').'</OPTION>';
+	$period_select = '<SELECT name="period_id" onchange="ajaxPostForm(this.form,true);"><OPTION value=""'.(empty($_REQUEST['period_id'])?' SELECTED':'').'>'._('Daily').'</OPTION>';
 	if(!UserStudentID() && !$_REQUEST['student_id'])
 	{
 		if(User('PROFILE')=='admin')
@@ -57,7 +57,7 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 			AND (SELECT count(1) FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND cpsp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR=sp.SYEAR AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0 
 			ORDER BY sp.SORT_ORDER"));
 			foreach($periods_RET as $period)
-				$period_select .= '<OPTION value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED="SELECTED"':'').'>'.$period['TITLE'].'</OPTION>';
+				$period_select .= '<OPTION value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period['TITLE'].'</OPTION>';
 		}
 		else
 		{
@@ -71,15 +71,15 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'"));
 			if($periods_RET)
 			{
-				//$period_select .= '<OPTION value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'] || !isset($_REQUEST['period_id']))?' SELECTED="SELECTED"':'').">".$periods_RET[1]['TITLE'].'</OPTION>';
-				$period_select .= '<OPTION value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'])?' SELECTED="SELECTED"':'').">".$periods_RET[1]['TITLE'].'</OPTION>';
+				//$period_select .= '<OPTION value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'] || !isset($_REQUEST['period_id']))?' SELECTED':'').">".$periods_RET[1]['TITLE'].'</OPTION>';
+				$period_select .= '<OPTION value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'])?' SELECTED':'').">".$periods_RET[1]['TITLE'].'</OPTION>';
 				if(!isset($_REQUEST['period_id']))
 					$_REQUEST['period_id'] = $periods_RET['PERIOD_ID'];
 			}
 		}
 	}
 	else
-		$period_select .= '<OPTION value="PERIOD"'.($_REQUEST['period_id']?' SELECTED="SELECTED"':'').'>'._('By Period').'</OPTION>';
+		$period_select .= '<OPTION value="PERIOD"'.($_REQUEST['period_id']?' SELECTED':'').'>'._('By Period').'</OPTION>';
 	$period_select .= '</SELECT>';
 	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
 	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$period_select.' : <INPUT type="submit" value="'._('Go').'" />');

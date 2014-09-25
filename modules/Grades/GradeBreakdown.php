@@ -32,7 +32,7 @@ $mp_select = '<SELECT name="mp" onchange="ajaxPostForm(this.form,true);">';
 foreach($mps_RET as $mp)
 {
     if($mp['DOES_GRADES']=='Y' || $mp['MARKING_PERIOD_ID']==UserMP())
-        $mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED="SELECTED"':'').'>'.($UserMPTitle = $mp['TITLE']).'</OPTION>';
+        $mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED':'').'>'.($UserMPTitle = $mp['TITLE']).'</OPTION>';
 }
 $mp_select .= '</SELECT>';
 

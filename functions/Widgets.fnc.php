@@ -756,7 +756,7 @@ function Widgets($item,&$myextra=null)
 					else
 						$extra['WHERE'] .= " AND fssa.STATUS='".$_REQUEST['fsa_status']."'";
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Account Status').'</TD><TD><SELECT name=fsa_status><OPTION value="">'._('Not Specified').'</OPTION><OPTION value="Active"'.($value=='active'?' SELECTED="SELECTED"':'').'>'._('Active').'</OPTION><OPTION value="Inactive">'._('Inactive').'</OPTION><OPTION value="Disabled">'._('Disabled').'</OPTION><OPTION value="Closed">'._('Closed').'</OPTION></SELECT></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Account Status').'</TD><TD><SELECT name=fsa_status><OPTION value="">'._('Not Specified').'</OPTION><OPTION value="Active"'.($value=='active'?' SELECTED':'').'>'._('Active').'</OPTION><OPTION value="Inactive">'._('Inactive').'</OPTION><OPTION value="Disabled">'._('Disabled').'</OPTION><OPTION value="Closed">'._('Closed').'</OPTION></SELECT></TD></TR>';
 				}
 			break;
 

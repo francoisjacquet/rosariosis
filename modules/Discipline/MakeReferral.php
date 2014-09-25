@@ -135,7 +135,7 @@ if(UserStudentID() && $_REQUEST['student_id'])
 	$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
 	echo '<SELECT name="values[STAFF_ID]">';
 	foreach($users_RET as $user)
-		echo '<OPTION value="'.$user['STAFF_ID'].'"'.(User('STAFF_ID')==$user['STAFF_ID']?' SELECTED="SELECTED"':'').'>'.$user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'].'</OPTION>';
+		echo '<OPTION value="'.$user['STAFF_ID'].'"'.(User('STAFF_ID')==$user['STAFF_ID']?' SELECTED':'').'>'.$user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'].'</OPTION>';
 	echo '</SELECT>';
 	echo '</TD></TR>';
 	echo '<TR class="st"><TD><span style="color:gray">'._('Incident Date').'</span></TD><TD>';

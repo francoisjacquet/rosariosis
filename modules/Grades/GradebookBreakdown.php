@@ -53,10 +53,10 @@ AND MARKING_PERIOD_ID='".UserMP()."'
 ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC"));
 
 $assignment_select = '<script>var assignment_idonchange = document.createElement("a"); assignment_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&assignment_id="; assignment_idonchange.target = "body";</script>';
-$assignment_select .= '<SELECT name="assignment_id" id="assignment_id" onchange="assignment_idonchange.href += this.options[selectedIndex].value; ajaxLink(assignment_idonchange);"><OPTION value="totals"'.($_REQUEST['assignment_id']=='totals'?' SELECTED="SELECTED"':'').'>'._('Totals').'</OPTION>';
+$assignment_select .= '<SELECT name="assignment_id" id="assignment_id" onchange="assignment_idonchange.href += this.options[selectedIndex].value; ajaxLink(assignment_idonchange);"><OPTION value="totals"'.($_REQUEST['assignment_id']=='totals'?' SELECTED':'').'>'._('Totals').'</OPTION>';
 foreach($types_RET as $type)
 {
-	$assignment_select .= '<OPTION value="totals'.$type['ASSIGNMENT_TYPE_ID'].'"'.(($_REQUEST['assignment_id']==('totals'.$type['ASSIGNMENT_TYPE_ID']))?' SELECTED="SELECTED"':'').'>'.$type['TITLE'].'</OPTION>';
+	$assignment_select .= '<OPTION value="totals'.$type['ASSIGNMENT_TYPE_ID'].'"'.(($_REQUEST['assignment_id']==('totals'.$type['ASSIGNMENT_TYPE_ID']))?' SELECTED':'').'>'.$type['TITLE'].'</OPTION>';
 	if($_REQUEST['assignment_id']==('totals'.$type['ASSIGNMENT_TYPE_ID']))
 		$title = $type['TITLE'];
 }
@@ -65,7 +65,7 @@ if(count($assignments_RET))
 {
 	foreach($assignments_RET as $assignment)
 	{
-		$assignment_select .= '<OPTION value="'.$assignment['ASSIGNMENT_ID'].'"'.(($_REQUEST['assignment_id']==$assignment['ASSIGNMENT_ID'])?' SELECTED="SELECTED"':'').'>'.$assignment['TITLE'].'</OPTION>';
+		$assignment_select .= '<OPTION value="'.$assignment['ASSIGNMENT_ID'].'"'.(($_REQUEST['assignment_id']==$assignment['ASSIGNMENT_ID'])?' SELECTED':'').'>'.$assignment['TITLE'].'</OPTION>';
 		if($_REQUEST['assignment_id']==$assignment['ASSIGNMENT_ID'])
 			$title = $assignment['TITLE'];
 	}

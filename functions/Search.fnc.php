@@ -95,7 +95,7 @@ function Search($type,$extra=null)
 			{
 				echo '<TR><TD style="text-align:right;"><label for="grade">'._('Grade Level').'</label></TD><TD><SELECT name="grade" id="grade"><OPTION value="">'._('Not Specified').'</OPTION>';
 				foreach($list as $value)
-                    echo '<OPTION value="'.$value['ID'].'"'.($extra==$value['ID']?' SELECTED="SELECTED"':'').'>'.$value['TITLE'].'</OPTION>';
+                    echo '<OPTION value="'.$value['ID'].'"'.($extra==$value['ID']?' SELECTED':'').'>'.$value['TITLE'].'</OPTION>';
 				echo '</SELECT></TD></TR>';
 			}
 		break;

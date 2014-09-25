@@ -83,13 +83,13 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 		if($allow_na)
 		{
 			if($month=='000')
-				$return .= '<OPTION value="" SELECTED="SELECTED">'._('N/A').'';
+				$return .= '<OPTION value="" SELECTED>'._('N/A').'';
 			else
 				$return .= '<OPTION value="">'._('N/A').'';
 		}
 		//modif Francois: traduction des mois!
 		foreach(array('JAN'=>_('January'),'FEB'=>_('February'),'MAR'=>_('March'),'APR'=>_('April'),'MAY'=>_('May'),'JUN'=>_('June'),'JUL'=>_('July'),'AUG'=>_('August'),'SEP'=>_('September'),'OCT'=>_('October'),'NOV'=>_('November'),'DEC'=>_('December')) as $key=>$name)
-			$return .= '<OPTION VALUE="'.$key.'"'.($month==$key?' SELECTED="SELECTED"':'').'>'.$name;
+			$return .= '<OPTION VALUE="'.$key.'"'.($month==$key?' SELECTED':'').'>'.$name;
 		$return .= '</SELECT>';
 	}
 
@@ -100,7 +100,7 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 		if($allow_na)
 		{
 			if($day=='00')
-				$return .= '<OPTION value="" SELECTED="SELECTED">'._('N/A').'';
+				$return .= '<OPTION value="" SELECTED>'._('N/A').'';
 			else
 				$return .= '<OPTION value="">'._('N/A').'';
 		}
@@ -112,7 +112,7 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 			else
 				$print = $i;
 
-			$return .= '<OPTION VALUE="'.$print.'"'.($day==$print?' SELECTED="SELECTED"':'').'>'.$i;
+			$return .= '<OPTION VALUE="'.$print.'"'.($day==$print?' SELECTED':'').'>'.$i;
 		}
 		$return .= '</SELECT>';
 	}
@@ -136,13 +136,13 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 		if($allow_na)
 		{
 			if($year=='0000')
-				$return .= '<OPTION value="" SELECTED="SELECTED">'._('N/A').'';
+				$return .= '<OPTION value="" SELECTED>'._('N/A').'';
 			else
 				$return .= '<OPTION value="">'._('N/A').'';
 		}
 
 		for($i=$begin;$i<=$end;$i++)
-			$return .= '<OPTION VALUE="'.$i.'"'.($year==$i?' SELECTED="SELECTED"':'').'>'.$i;
+			$return .= '<OPTION VALUE="'.$i.'"'.($year==$i?' SELECTED':'').'>'.$i;
 		$return .= '</SELECT>';
 	}
 

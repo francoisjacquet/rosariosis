@@ -101,7 +101,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<script>var category_idonchange = document.createElement("a"); category_idonchange.href = "'.PreparePHP_SELF($_REQUEST,array('category_id')).'&category_id="; category_idonchange.target = "body";</script>';
 		echo '<SELECT name="category_id" onchange="category_idonchange.href += this.options[selectedIndex].value; ajaxLink(category_idonchange);"><OPTION value="">'._('All Categories').'</OPTION>';
 		foreach($categories_RET as $category)
-			echo '<OPTION value="'.$category['ID'].'"'.($_REQUEST['category_id']==$category['ID']?' SELECTED="SELECTED"':'').'>'.ParseMLField($category['TITLE']).'</OPTION>';
+			echo '<OPTION value="'.$category['ID'].'"'.($_REQUEST['category_id']==$category['ID']?' SELECTED':'').'>'.ParseMLField($category['TITLE']).'</OPTION>';
 		echo '</SELECT>';
 		echo '</span><TABLE class="widefat cellspacing-0" style="margin:0 auto;">';
 		if(count($fields_RET['text']))

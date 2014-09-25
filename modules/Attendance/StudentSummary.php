@@ -42,7 +42,7 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 		if(count($periods_RET))
 		{
 			foreach($periods_RET as $period)
-				$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED="SELECTED"':'').'>'.$period[TITLE].'</OPTION>';
+				$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period[TITLE].'</OPTION>';
 		}
 		$period_select .= '</SELECT>';
 	}

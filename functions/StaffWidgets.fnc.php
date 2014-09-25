@@ -112,7 +112,7 @@ function StaffWidgets($item,&$myextra=NULL)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Food Service Status')).' </b></span>'.$_REQUEST['fsa_status'].'<BR />';
 				}
-				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Account Status').'</TD><TD><SELECT name="fsa_status"><OPTION value="">'._('Not Specified').'</OPTION><OPTION value="Active"'.($value=='active'?' SELECTED="SELECTED"':'').'>'._('Active').'</OPTION><OPTION value="Inactive">'._('Inactive').'</OPTION><OPTION value="Disabled">'._('Disabled').'</OPTION><OPTION value="Closed">'._('Closed').'</OPTION></SELECT></TD></TR>';
+				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Account Status').'</TD><TD><SELECT name="fsa_status"><OPTION value="">'._('Not Specified').'</OPTION><OPTION value="Active"'.($value=='active'?' SELECTED':'').'>'._('Active').'</OPTION><OPTION value="Inactive">'._('Inactive').'</OPTION><OPTION value="Disabled">'._('Disabled').'</OPTION><OPTION value="Closed">'._('Closed').'</OPTION></SELECT></TD></TR>';
 				}
 			break;
 

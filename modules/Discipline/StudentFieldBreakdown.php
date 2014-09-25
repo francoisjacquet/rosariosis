@@ -270,7 +270,7 @@ if(empty($_REQUEST['modfunc']))
 //			$select .= '<OPTGROUP label="'.$categories_RET[$category_id][1]['TITLE'].'">';
 			$select .= '<OPTGROUP label="'.ParseMLField($categories_RET[$category_id][1]['TITLE']).'">';
 			foreach($fields as $field)
-				$select .= '<OPTION value="'.$field['ID'].'"'.(($_REQUEST['category_id']==$field['ID'])?' SELECTED="SELECTED"':'').'>'.ParseMLField($field['TITLE']).'</OPTION>';
+				$select .= '<OPTION value="'.$field['ID'].'"'.(($_REQUEST['category_id']==$field['ID'])?' SELECTED':'').'>'.ParseMLField($field['TITLE']).'</OPTION>';
 			$select .= '</OPTGROUP>';
 		}
 	}

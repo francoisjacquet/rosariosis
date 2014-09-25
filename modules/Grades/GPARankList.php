@@ -33,7 +33,7 @@ if($_REQUEST['search_modfunc'] == 'list')
 				$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."' AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'"),array(),array('STUDENT_ID'));
 			}
 			$pro_grading = true;
-			$pro_select .='<OPTION value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED="SELECTED"':'').">".GetMP($pro)."</OPTION>";
+			$pro_select .='<OPTION value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($pro)."</OPTION>";
 		}
 	}
 
@@ -47,11 +47,11 @@ if($_REQUEST['search_modfunc'] == 'list')
 		$_REQUEST['mp'] = $sem;
 
 	if(GetMP($sem,'DOES_GRADES')=='Y')
-        $mps_select .= '<OPTION value="'.$sem.'"'.($sem==$_REQUEST['mp']?' SELECTED="SELECTED"':'').">".GetMP($sem)."</OPTION>";
+        $mps_select .= '<OPTION value="'.$sem.'"'.($sem==$_REQUEST['mp']?' SELECTED':'').">".GetMP($sem)."</OPTION>";
 
 //modif Francois: add year to the list
 	if(GetMP($year,'DOES_GRADES')=='Y')
-        $mps_select .= '<OPTION value="'.$year.'"'.($year==$_REQUEST['mp']?' SELECTED="SELECTED"':'').">".GetMP($year)."</OPTION>";
+        $mps_select .= '<OPTION value="'.$year.'"'.($year==$_REQUEST['mp']?' SELECTED':'').">".GetMP($year)."</OPTION>";
 
 	if($pro_grading)
 		$mps_select .= $pro_select;
@@ -90,7 +90,7 @@ if($_REQUEST['search_modfunc'] == 'list')
 	foreach($mps_RET as $mp)
 	{
 		if($mp['DOES_GRADES']=='Y' || $mp['MARKING_PERIOD_ID']==UserMP())
-			$mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED="SELECTED"':'').'>'.$mp['TITLE'].'</OPTION>';
+			$mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED':'').'>'.$mp['TITLE'].'</OPTION>';
 	}
 	$mp_select .= "</SELECT>";
 	
