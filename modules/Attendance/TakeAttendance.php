@@ -174,7 +174,7 @@ else
 	$columns = array();
 $extra['SELECT'] .= ',s.STUDENT_ID AS COMMENT,s.STUDENT_ID AS ATTENDANCE_REASON';
 $columns += array('COMMENT'=>_('Teacher Comment'));
-if(!is_array($extra['functions']))
+if(!isset($extra['functions']) || !is_array($extra['functions']))
 	$extra['functions'] = array();
 $extra['functions'] += array('FULL_NAME'=>'_makeTipMessage','COMMENT'=>'makeCommentInput','ATTENDANCE_REASON'=>'makeAttendanceReason');
 $extra['DATE'] = $date;

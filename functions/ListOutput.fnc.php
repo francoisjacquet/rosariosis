@@ -49,7 +49,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 	// END PREPARE LINKS ---
 
 	// UN-GROUPING
-	if(!is_array($group))
+	if(empty($group))
 		$group_count = false;
 	else
 		$group_count = count($group);

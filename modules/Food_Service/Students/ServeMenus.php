@@ -116,7 +116,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 
 		$LO_ret = array(array());
 //modif Francois: fix error Warning: Invalid argument supplied for foreach()
-		if (is_array($_SESSION['FSA_sale']))
+		if (isset($_SESSION['FSA_sale']) && is_array($_SESSION['FSA_sale']))
 		{
 			foreach($_SESSION['FSA_sale'] as $id=>$item_sn)
 			{

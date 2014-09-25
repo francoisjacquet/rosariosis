@@ -201,7 +201,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 		$student_id_temp = '';
 		$scount = 0;
 		$bad_locked = 0;
-		if (is_array($schedule))
+		if (isset($schedule) && is_array($schedule))
 			foreach($schedule as $student_id=>$periods)
 			{
 				$course_periods_temp = array();
@@ -348,7 +348,7 @@ function _moveRequest($request,$not_request=false,$not_parent_id=false)
 //{	global $requests_RET,$cp_parent_RET,$cp_course_RET,$mps_RET,$schedule,$filled,$unfilled;
 {	global $requests_RET,$cp_parent_RET,$cp_course_RET,$schedule;
 
-	if(!$not_request && !is_array($not_request))
+	if(!$not_request || !is_array($not_request))
 		$not_request = array();
 
 	if(count($cp_course_RET[$request['COURSE_ID']]))

@@ -94,12 +94,14 @@ foreach($grades_RET as $key=>$grade)
 	$grades_select += array($grade['ID']=>array($grade['TITLE'],'<b>'.$grade['TITLE'].'</b>'));
 }
 $commentsB_select = array();
+
 if(0)
-foreach($commentsB_RET as $id=>$comment)
-	$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'],$comment[1]['TITLE']));
+	foreach($commentsB_RET as $id=>$comment)
+		$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'],$comment[1]['TITLE']));
+		
 elseif (is_array($commentsB_RET))
-foreach($commentsB_RET as $id=>$comment)
-	$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'].' - '.(mb_strlen($comment[1]['TITLE']) > 99+3?mb_substr($comment[1]['TITLE'],0,99).'...':$comment[1]['TITLE']),$comment[1]['TITLE']));
+	foreach($commentsB_RET as $id=>$comment)
+		$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'].' - '.(mb_strlen($comment[1]['TITLE']) > 99+3?mb_substr($comment[1]['TITLE'],0,99).'...':$comment[1]['TITLE']),$comment[1]['TITLE']));
 
 if($_REQUEST['modfunc']=='gradebook')
 {
@@ -263,13 +265,13 @@ if($_REQUEST['modfunc']=='clearall')
 		$current_RET[$student_id][1]['GRADE_PERCENT'] = '';
 		$current_RET[$student_id][1]['COMMENT'] = '';
 	}
-	if (is_array($current_commentsA_RET))
+	if (isset($current_commentsA_RET) && is_array($current_commentsA_RET))
 	{
 		foreach($current_commentsA_RET as $student_id=>$comments)
 			foreach($comments as $id=>$comment)
 				$current_commentsA_RET[$student_id][$id][1]['COMMENT'] = '';
 	}
-	if (is_array($current_commentsB_RET))
+	if (isset($current_commentsB_RET) && is_array($current_commentsB_RET))
 	{
 		foreach($current_commentsB_RET as $student_id=>$comment)
 			foreach($comment as $i=>$comment)
@@ -428,7 +430,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		if(!($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0?$grade:($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0?$percent!='':$percent!=''&&$grade)))
 			$completed = false;
 
-		if (is_array($columns['commentsA']))
+		if (isset($columns['commentsA']) && is_array($columns['commentsA']))
 			foreach($columns['commentsA'] as $id=>$comment)
 				if($current_commentsA_RET[$student_id][$id])
 					if($comment)
@@ -441,16 +443,16 @@ if($_REQUEST['values'] && $_POST['values'])
 
 		// create mapping for current
 		$old = array();
-		if (is_array($current_commentsB_RET[$student_id]))
+		if (isset($current_commentsB_RET[$student_id]) && is_array($current_commentsB_RET[$student_id]))
 			foreach($current_commentsB_RET[$student_id] as $i=>$comment)
 				$old[$comment['REPORT_CARD_COMMENT_ID']] = $i;
 		// create change list
 		$change = array();
-		if (is_array($columns['commentsB']))
+		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
 			foreach($columns['commentsB'] as $i=>$comment)
 				$change[$i] = array('REPORT_CARD_COMMENT_ID'=>0);
 		// prune changes already in current set and reserve if in change list
-		if (is_array($columns['commentsB']))
+		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
 			foreach($columns['commentsB'] as $i=>$comment)
 				if($comment)
 					if($old[$comment])
@@ -461,7 +463,7 @@ if($_REQUEST['values'] && $_POST['values'])
 					}
 		// assign changes at their index if possible
 		$new = array();
-		if (is_array($columns['commentsB']))
+		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
 			foreach($columns['commentsB'] as $i=>$comment)
 				if($comment)
 					if(!$new[$comment])
@@ -477,7 +479,7 @@ if($_REQUEST['values'] && $_POST['values'])
 						$columns['commentsB'][$i] = false;
 		// assign remaining changes to first available
 		reset($change);
-		if (is_array($columns['commentsB']))
+		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
 			foreach($columns['commentsB'] as $i=>$comment)
 				if($comment)
 				{

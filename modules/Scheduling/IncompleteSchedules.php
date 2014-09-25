@@ -64,7 +64,7 @@ else
 		if(count($schedule_RET[$student['STUDENT_ID']])!=count($periods_RET))
 			$bad_students[] = $student;
 	}
-	if(!is_array($extra['columns_after']))
+	if(!isset($extra['columns_after']) || !is_array($extra['columns_after']))
 		$extra['columns_after'] = array();
 	unset($bad_students[0]);
 	if(AllowUse('Scheduling/Schedule.php'))

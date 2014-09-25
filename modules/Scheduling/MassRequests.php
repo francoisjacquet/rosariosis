@@ -4,7 +4,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if($_SESSION['MassRequests.php'])
 	{
-		if (is_array($_REQUEST['student']))
+		if (isset($_REQUEST['student']) && is_array($_REQUEST['student']))
 		{
 			$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE_REQUESTS WHERE COURSE_ID='".$_REQUEST['MassRequests.php']['course_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
 			foreach($_REQUEST['student'] as $student_id=>$yes)

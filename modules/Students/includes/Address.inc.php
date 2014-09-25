@@ -861,7 +861,7 @@ function _makeAutoSelect($column,$table,$values='',$options=array())
 					$options[$option[$column]] = array($option[$column],$option[$column]);
 	}
 	// make sure values are in the list
-	if(is_array($values))
+	if(isset($values) && is_array($values))
 	{
 		foreach($values as $value)
 			if($value[$column]!='' && !$options[$value[$column]])

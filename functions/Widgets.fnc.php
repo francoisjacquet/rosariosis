@@ -6,10 +6,10 @@ function Widgets($item,&$myextra=null)
 	if(isset($myextra))
 		$extra =& $myextra;
 
-	if(!is_array($_ROSARIO['Widgets']))
+	if(!isset($_ROSARIO['Widgets']) || !is_array($_ROSARIO['Widgets']))
 		$_ROSARIO['Widgets'] = array();
 
-	if(!is_array($extra['functions']))
+	if(!isset($extra['functions']) || !is_array($extra['functions']))
 		$extra['functions'] = array();
 
 	if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && !$_ROSARIO['Widgets'][$item])
@@ -418,7 +418,7 @@ function Widgets($item,&$myextra=null)
 			case 'discipline':
 				if($RosarioModules['Discipline'])
 				{
-				if(is_array($_REQUEST['discipline']))
+				if(isset($_REQUEST['discipline']) && is_array($_REQUEST['discipline']))
 				{
 					//modify loop: use for instead of foreach
 					$key = array_keys($_REQUEST['discipline']);
@@ -434,7 +434,7 @@ function Widgets($item,&$myextra=null)
 					}*/
 				}
 				//modif Francois: bugfix wrong advanced student search results, due to discipline numeric fields
-				if(is_array($_REQUEST['discipline_begin']))
+				if(isset($_REQUEST['discipline_begin']) && is_array($_REQUEST['discipline_begin']))
 				{
 					//modify loop: use for instead of foreach
 					$key = array_keys($_REQUEST['discipline_begin']);
@@ -449,7 +449,7 @@ function Widgets($item,&$myextra=null)
 							unset($_REQUEST['discipline_begin'][$key]);
 					}*/
 				}
-				if(is_array($_REQUEST['discipline_end']))
+				if(isset($_REQUEST['discipline_end']) && is_array($_REQUEST['discipline_end']))
 				{
 					//modify loop: use for instead of foreach
 					$key = array_keys($_REQUEST['discipline_end']);

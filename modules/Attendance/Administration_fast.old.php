@@ -165,7 +165,7 @@ else
 function _makeCodePulldown($value,$title)
 {	global $THIS_RET,$codes_RET,$current_RET,$current_schedule_RET,$date;
 
-	if(!is_array($current_schedule_RET[$THIS_RET['STUDENT_ID']]))
+	if(!isset($current_schedule_RET[$THIS_RET['STUDENT_ID']]) || !is_array($current_schedule_RET[$THIS_RET['STUDENT_ID']]))
 	{
 		$current_schedule_RET[$THIS_RET['STUDENT_ID']] = DBGet(DBQuery("SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID 
 		FROM SCHEDULE s,COURSE_PERIODS cp 

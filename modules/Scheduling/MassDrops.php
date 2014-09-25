@@ -6,7 +6,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if($_SESSION['MassDrops.php'])
 	{
-		if (is_array($_REQUEST['student']))
+		if (isset($_REQUEST['student']) && is_array($_REQUEST['student']))
 		{
 			$END_DATE = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
 			if(VerifyDate($END_DATE))

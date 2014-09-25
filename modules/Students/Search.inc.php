@@ -153,18 +153,18 @@ else
 	$name_link['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
 	if($_REQUEST['_search_all_schools'])
 		$name_link['FULL_NAME']['variables']['school_id'] = 'SCHOOL_ID';
-	if(is_array($extra['link']))
+	if(isset($extra['link']) && is_array($extra['link']))
 		$link = $extra['link'] + $name_link;
 	else
 		$link = $name_link;
 
-	if(is_array($extra['columns']))
+	if(isset($extra['columns']) && is_array($extra['columns']))
 		$columns = $extra['columns'];
 	else
 		$columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'));
-	if(is_array($extra['columns_before']))
+	if(isset($extra['columns_before']) && is_array($extra['columns_before']))
 		$columns = $extra['columns_before'] + $columns;
-	if(is_array($extra['columns_after']))
+	if(isset($extra['columns_after']) && is_array($extra['columns_after']))
 		$columns += $extra['columns_after'];
 
 	if(count($students_RET)>1 || $link['add'] || !$link['FULL_NAME'] || $extra['columns_before'] || $extra['columns'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($students_RET)==0) || (($extra['Redirect']===false || $_REQUEST['address_group']) && count($students_RET)==1))

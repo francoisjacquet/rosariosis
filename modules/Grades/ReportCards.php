@@ -151,7 +151,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							//modif Francois: fix error Invalid argument supplied for foreach()
 //modif Francois: get the comments of all MPs
 							//if (is_array($comments_RET[$student_id][$course_period_id][$last_mp]))
-							if (is_array($comments_RET[$student_id][$course_period_id][$mp]))
+							if (isset($comments_RET[$student_id][$course_period_id][$mp]) && is_array($comments_RET[$student_id][$course_period_id][$mp]))
 							{
 								//foreach($comments_RET[$student_id][$course_period_id][$last_mp] as $comment)
 								foreach($comments_RET[$student_id][$course_period_id][$mp] as $comment)
@@ -220,7 +220,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				{
 					$count = 0;
 					//modif Francois: fix error Invalid argument supplied for foreach()
-					if (is_array($attendance_day_RET[$student_id][$last_mp]))
+					if (isset($attendance_day_RET[$student_id][$last_mp]) && is_array($attendance_day_RET[$student_id][$last_mp]))
 					{
 						foreach($attendance_day_RET[$student_id][$last_mp] as $abs)
 							$count += 1-$abs['STATE_VALUE'];
@@ -231,7 +231,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				{
 					$count = 0;
 					//modif Francois: fix error Invalid argument supplied for foreach()
-					if (is_array($attendance_day_RET[$student_id]))
+					if (isset($attendance_day_RET[$student_id]) && is_array($attendance_day_RET[$student_id]))
 					{
 						foreach($attendance_day_RET[$student_id] as $mp_abs)
 							foreach($mp_abs as $abs)

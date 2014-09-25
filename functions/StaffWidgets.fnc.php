@@ -8,7 +8,7 @@ function StaffWidgets($item,&$myextra=NULL)
 	if(isset($myextra))
 		$extra =& $myextra;
 
-	if(!is_array($_ROSARIO['StaffWidgets']))
+	if(!isset($_ROSARIO['StaffWidgets']) || !is_array($_ROSARIO['StaffWidgets']))
 		$_ROSARIO['StaffWidgets'] = array();
 
 	if(!is_array($extra['functions']))

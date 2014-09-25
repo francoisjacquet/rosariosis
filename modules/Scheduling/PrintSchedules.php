@@ -282,7 +282,7 @@ function _schedule_table_RET($schedule_table_RET)
 		{
 			foreach ($course_period['DAYS'] as $course_period_day)
 			{
-				if (!is_array($schedule_table_body[$i][$course_period_day]))
+				if (!isset($schedule_table_body[$i][$course_period_day]) || !is_array($schedule_table_body[$i][$course_period_day]))
 					$schedule_table_body[$i][$course_period_day] = array();
 				$schedule_table_body[$i][$course_period_day][] = '<TD>'.$course_period['TITLE'].'<BR />'.$course_period['FULL_NAME'].(empty($course_period['ROOM'])?'':'<BR />'._('Room').': '.$course_period['ROOM']).'</TD>';
 			}

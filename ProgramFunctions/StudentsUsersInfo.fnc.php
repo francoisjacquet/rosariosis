@@ -375,7 +375,7 @@ function _makeSchoolInput($value,$column)
 	else
 		$id = 'new';
 
-	if(!is_array($schools))
+	if(!isset($schools) || !is_array($schools))
 		$schools = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."'"),array(),array('ID'));
 
 	foreach($schools as $sid=>$school)
