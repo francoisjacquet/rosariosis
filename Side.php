@@ -1,6 +1,6 @@
 <?php
 error_reporting(1);
-include "./Warehouse.php";
+include('Warehouse.php');
 
 $tmp_REQUEST = $_REQUEST;
 $_SESSION['Side_PHP_SELF'] = "Side.php";
@@ -179,7 +179,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 
 			if(User('PROFILE')=='teacher') : ?>
 
-				<span class="br-after">
+			<span class="br-after">
 
 			<?php endif; ?>
 
@@ -202,7 +202,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 
 			<?php if(User('PROFILE')=='teacher') : ?>
 
-				</span>
+			</span>
 
 			<?php endif;
 
@@ -276,7 +276,8 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 						$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
 					
 					$period_days = '';
-					for ($i=0; $i<mb_strlen($period['DAYS']); $i++)
+					$days_strlen = mb_strlen($period['DAYS']);
+					for ($i=0; $i<$days_strlen; $i++)
 					{
 						$period_days .= mb_substr($days_convert[$period['DAYS'][$i]],0,3).'.';
 					} ?>
@@ -326,40 +327,40 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 		<?php // Program Information
 		require('Menu.php');
 		
-		foreach($_ROSARIO['Menu'] as $modcat=>$programs) :
-		
-			if(count($_ROSARIO['Menu'][$modcat])) : ?>
-			
-				<A href="Modules.php?modname=<?php echo $_ROSARIO['Menu'][$modcat]['default']; ?>" onclick="openMenu(modname='<?php echo $_ROSARIO['Menu'][$modcat]['default']; ?>');" class="menu-top"><IMG SRC="assets/icons/<?php echo $modcat; ?>.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo _(str_replace('_',' ',$modcat)); ?></A>
-				<DIV id="menu_<?php echo $modcat; ?>" class="wp-submenu">
-					<TABLE class="width-100p cellspacing-0 cellpadding-0">
+		//modify loop: use for instead of foreach
+		$key = array_keys($_ROSARIO['Menu']);
+		$size = sizeOf($key);
+		for ($i=0; $i<$size; $i++) :
+			if (count($modcat_menu = $_ROSARIO['Menu'][$key[$i]])) : ?>
 
-					<?php unset($_ROSARIO['Menu'][$modcat]['default']);
-					
-					$keys = array_keys($_ROSARIO['Menu'][$modcat]);
+			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" onclick="openMenu(modname='<?php echo $modcat_menu['default']; ?>');" class="menu-top"><IMG SRC="assets/icons/<?php echo $key[$i]; ?>.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo _(str_replace('_',' ',$key[$i])); ?></A>
+			<DIV id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
+				<TABLE class="width-100p cellspacing-0 cellpadding-0">
 
-					//foreach($_ROSARIO['Menu'][$modcat] as $file=>$title)
-					foreach($keys as $key_index=>$file)
-					{
-						$title = $_ROSARIO['Menu'][$modcat][$file];
-						if(mb_stripos($file,'http://') !== false) : ?>
+				<?php unset($modcat_menu['default']);
+				
+				$keys_modcat = array_keys($modcat_menu);
+				$size_modcat = sizeOf($keys_modcat);
 
-							<TR><TD><A HREF="<?php echo $file; ?>" target="_blank"><?php echo $title; ?></A></TD></TR>
-						<?php elseif(!is_numeric($file)) : ?>
+				for ($j=0; $j<$size_modcat; $j++) {
+				
+					$title = $_ROSARIO['Menu'][$key[$i]][$keys_modcat[$j]];
+					if(mb_stripos($keys_modcat[$j],'http://') !== false) : ?>
 
-							<TR><TD><A HREF="Modules.php?modname=<?php echo $file; ?>" onclick="selMenuA(modname='<?php echo $file; ?>');"<?php echo (mb_stripos($file,'_ROSARIO_PDF') !== false ? ' target="_blank"' : ''); ?>><?php echo $title; ?></A></TD></TR>
-						<?php elseif($keys[$key_index+1] && !is_numeric($keys[$key_index+1])) : ?>
+						<TR><TD><A HREF="<?php echo $keys_modcat[$j]; ?>" target="_blank"><?php echo $title; ?></A></TD></TR>
+					<?php elseif(!is_numeric($keys_modcat[$j])) : ?>
 
-							<TR><TD class="menu-inter">&nbsp;<?php echo $title; ?></TD></TR>
-						<?php endif;
-					} ?>
+						<TR><TD><A HREF="Modules.php?modname=<?php echo $keys_modcat[$j]; ?>" onclick="selMenuA(modname='<?php echo $keys_modcat[$j]; ?>');"<?php echo (mb_stripos($keys_modcat[$j],'_ROSARIO_PDF') !== false ? ' target="_blank"' : ''); ?>><?php echo $title; ?></A></TD></TR>
+					<?php elseif($keys_modcat[$j+1] && !is_numeric($keys_modcat[$j+1])) : ?>
 
-					</TABLE>
-				</DIV>
+						<TR><TD class="menu-inter">&nbsp;<?php echo $title; ?></TD></TR>
+					<?php endif;
+				} ?>
 
+				</TABLE>
+			</DIV>
 			<?php endif;
-			
-		endforeach; ?>
+		endfor; ?>
 
 			<script>if(!modname) var modname="<?php echo $_REQUEST['modname']; ?>"; openMenu(modname);</script>
 		</div><!-- #adminmenu -->

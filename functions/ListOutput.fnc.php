@@ -172,7 +172,8 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				}
 
                 /* TRANSLATORS: List of words ignored during search operations */
-                foreach (explode(',',_('of, the, a, an, in')) as $word)
+				$ignored_words = explode(',',_('of, the, a, an, in'));
+                foreach ($ignored_words as $word)
 				    unset($terms[trim($word)]);
 
 				foreach($result as $key=>$value)
@@ -544,13 +545,24 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				$item = $result[$i];
 				if(isset($_REQUEST['_ROSARIO_PDF']) && $options['print'] && count($item))
 				{
-					foreach($item as $key=>$value)
+					//modify loop: use for instead of foreach
+					$key = array_keys($item);
+					$size = sizeOf($key);
+					for ($i=0; $i<$size; $i++)
+					{
+						$value = $item[$key[$i]];
+						$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$value);
+						$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
+						$item[$key[$i]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
+					}
+					
+					/*foreach($item as $key=>$value)
 					{
 						$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$value);
 						$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
 
 						$item[$key] = preg_replace("/<div onclick=[^']+'>/",'',$value);
-					}
+					}*/
 				}
 
 				if(!empty($item['row_color']))

@@ -49,11 +49,18 @@ function db_fetch_row($result)
 	$return = @pg_fetch_array($result);
 	if(is_array($return))
 	{
-		foreach($return as $key => $value)
+		//modify loop: use for instead of foreach
+		$key = array_keys($return);
+		$size = sizeOf($key);
+		for ($i=0; $i<$size; $i++)
+			if (is_int($key[$i]))
+				unset($return[$key[$i]]);
+		
+		/*foreach($return as $key => $value)
 		{
 			if(is_int($key))
 				unset($return[$key]);
-		}
+		}*/
 	}
 	
 	return @array_change_key_case($return,CASE_UPPER);

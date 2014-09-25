@@ -1,11 +1,20 @@
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
-//error_reporting(E_ERROR);
-include 'Warehouse.php';
+include('Warehouse.php');
 
 function array_rwalk(&$array, $function)
 {
-	foreach($array as $key => $value)
+	//modify loop: use for instead of foreach
+	$key = array_keys($array);
+	$size = sizeOf($key);
+	for ($i=0; $i<$size; $i++)
+		if (is_array($array[$key[$i]]))
+			array_rwalk($array[$key[$i]], $function);
+			//$array[$key[$i]] = $array[$key[$i]];
+		else
+			$array[$key[$i]] = $function($array[$key[$i]]);
+	
+	/*foreach($array as $key => $value)
 	{
 		if(is_array($value))
 		{
@@ -14,7 +23,7 @@ function array_rwalk(&$array, $function)
 		}
 		else
 			$array[$key] = $function($value);
-	}
+	}*/
 }
 
 array_rwalk($_REQUEST,'DBEscapeString');
@@ -34,11 +43,15 @@ if(isset($_REQUEST['modname']))
 	if(!isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+		$is_popup = false;
 		if (in_array($modname, array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($modname == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail') || (in_array($modname, array('Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php', 'Scheduling/Courses.php')) && $_REQUEST['modfunc'] == 'choose_course')) //popups
 		{
+			$is_popup = true;
 			Warehouse('header');
-			echo '<script>if(window == top  && (!window.opener)) window.location.href = "index.php";</script>';
-			echo '<div id="body" tabindex="0" role="main" class="mod">';
+?>
+<script>if(window == top  && (!window.opener)) window.location.href = "index.php";</script>
+<div id="body" tabindex="0" role="main" class="mod">
+<?php
 		}
 		elseif (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') //AJAX check //change URL after AJAX
 		{
@@ -54,7 +67,7 @@ if(isset($_REQUEST['modname']))
 	</aside>
 	
 	<div id="body" tabindex="0" role="main" class="mod">	
-<?php 
+<?php 			
 		}
 	}
 
@@ -108,31 +121,23 @@ if(isset($_REQUEST['modname']))
 
 	if(!isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		
-		//change URL after AJAX
-?>
-		<script>
-		if (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>" || menuCoursePeriod!="<?php echo UserCoursePeriod(); ?>") { 
-			var menu_link = document.createElement("a"); menu_link.href = "<?php echo $_SESSION['Side_PHP_SELF']; ?>"; menu_link.target = "menu"; if (!modname) modname="<?php echo $program_loaded; ?>"; ajaxLink(menu_link);
-		}
-		</script>
-<?php
-		
 		Warehouse('footer');
-		if (in_array($modname, array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($modname == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail') || (in_array($modname, array('Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php', 'Scheduling/Courses.php')) && $_REQUEST['modfunc'] == 'choose_course')) //popups
+		
+		if ($is_popup) //popups
 		{
-			echo '</div>';//#body
+?>
+</div><!-- #body -->
+<?php
 			Warehouse('footer_plain');
 		}
 		elseif (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') //AJAX check //change URL after AJAX
 		{
 ?>
-	</div>
+	</div><!-- #body -->
 	<div style="clear:both;"></div>
-</div><!-- wrap -->
-</BODY>
-</HTML>
-<?php		
+</div><!-- #wrap -->
+<?php
+			Warehouse('footer_plain');		
 		}
 
 	}

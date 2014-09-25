@@ -322,7 +322,7 @@ function Widgets($item,&$myextra=null)
 					if(count($start_end_RET))
 					{
 						foreach($start_end_RET as $value)
-							$$value['TITLE'] = $value['VALUE'];
+							$value['TITLE'] = $value['VALUE'];
 					}
 
 					switch(date('D'))
@@ -420,28 +420,49 @@ function Widgets($item,&$myextra=null)
 				{
 				if(is_array($_REQUEST['discipline']))
 				{
-					foreach($_REQUEST['discipline'] as $key=>$value)
+					//modify loop: use for instead of foreach
+					$key = array_keys($_REQUEST['discipline']);
+					$size = sizeOf($key);
+					for ($i=0; $i<$size; $i++)
+						if (!($_REQUEST['discipline'][$key[$i]]))
+							unset($_REQUEST['discipline'][$key[$i]]);
+							
+					/*foreach($_REQUEST['discipline'] as $key=>$value)
 					{
 						if(!$value)
 							unset($_REQUEST['discipline'][$key]);
-					}
+					}*/
 				}
 				//modif Francois: bugfix wrong advanced student search results, due to discipline numeric fields
 				if(is_array($_REQUEST['discipline_begin']))
 				{
-					foreach($_REQUEST['discipline_begin'] as $key=>$value)
+					//modify loop: use for instead of foreach
+					$key = array_keys($_REQUEST['discipline_begin']);
+					$size = sizeOf($key);
+					for ($i=0; $i<$size; $i++)
+						if (!($_REQUEST['discipline_begin'][$key[$i]]) || !is_numeric($_REQUEST['discipline_begin'][$key[$i]]))
+							unset($_REQUEST['discipline_begin'][$key[$i]]);
+							
+					/*foreach($_REQUEST['discipline_begin'] as $key=>$value)
 					{
 						if(!$value)
 							unset($_REQUEST['discipline_begin'][$key]);
-					}
+					}*/
 				}
 				if(is_array($_REQUEST['discipline_end']))
 				{
-					foreach($_REQUEST['discipline_end'] as $key=>$value)
+					//modify loop: use for instead of foreach
+					$key = array_keys($_REQUEST['discipline_end']);
+					$size = sizeOf($key);
+					for ($i=0; $i<$size; $i++)
+						if (!($_REQUEST['discipline_end'][$key[$i]]) || !is_numeric($_REQUEST['discipline_end'][$key[$i]]))
+							unset($_REQUEST['discipline_end'][$key[$i]]);
+							
+					/*foreach($_REQUEST['discipline_end'] as $key=>$value)
 					{
 						if(!$value)
 							unset($_REQUEST['discipline_end'][$key]);
-					}
+					}*/
 				}
 				if($_REQUEST['month_discipline_entry_begin'] && $_REQUEST['day_discipline_entry_begin'] && $_REQUEST['year_discipline_entry_begin'])
 				{
@@ -491,6 +512,12 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Date').' '._('Between').': </b>'.ProperDate($discipline_entry_begin_for_ProperDate).'<b> '._('and').' </b>'.ProperDate($_REQUEST['discipline_entry_end']).'<BR />';
 				}
+				if($_REQUEST['discipline_entry_begin'] && $_REQUEST['discipline_entry_end'])
+				{
+					$extra['WHERE'] .= " AND dr.ENTRY_DATE BETWEEN '".$_REQUEST['discipline_entry_begin']."' AND '".$_REQUEST['discipline_entry_end']."' ";
+					if(!$extra['NoSearchTerms'])
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Date').' '._('Between').': </b>'.ProperDate($discipline_entry_begin_for_ProperDate).'<b> '._('and').' </b>'.ProperDate($_REQUEST['discipline_entry_end']).'<BR />';
+				}
 				elseif($_REQUEST['discipline_entry_begin'])
 				{
 					$extra['WHERE'] .= " AND dr.ENTRY_DATE>='".$_REQUEST['discipline_entry_begin']."' ";
@@ -520,18 +547,31 @@ function Widgets($item,&$myextra=null)
 						{
 							case 'text':
 								$extra['search'] .= '<INPUT type="text" name="discipline['.$category['ID'].']" />';
-								if($_REQUEST['discipline'][$cateogory['ID']])
-									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." LIKE '".$_REQUEST['discipline'][$cateogory['ID']]."%' ";
+								if($_REQUEST['discipline'][$category['ID']])
+								{
+									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." LIKE '".$_REQUEST['discipline'][$category['ID']]."%' ";
+									if(!$extra['NoSearchTerms'])
+										$_ROSARIO['SearchTerms'] .= '<b>'.$category['TITLE'].':</b> '.$_REQUEST['discipline'][$category['ID']].'<BR />';
+								}
 							break;
 							case 'checkbox':
 								$extra['search'] .= '<INPUT type="checkbox" name="discipline['.$category['ID'].']" value="Y" />';
-								if($_REQUEST['discipline'][$cateogory['ID']])
+								if($_REQUEST['discipline'][$category['ID']])
+								{
 									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." = 'Y' ";
+									if(!$extra['NoSearchTerms'])
+										$_ROSARIO['SearchTerms'] .= '<b>'.$category['TITLE'].'</b><BR />';
+
+								}
 							break;
 							case 'numeric':
 								$extra['search'] .= '<small>'._('Between').' </small><INPUT type="text" name="discipline_begin['.$category['ID'].']" size="3" maxlength="11" /> & <INPUT type="text" name="discipline_end['.$category['ID'].']" size="3" maxlength="11" />';
-								if($_REQUEST['discipline_begin'][$cateogory['ID']] && $_REQUEST['discipline_begin'][$cateogory['ID']])
-									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." BETWEEN '".$_REQUEST['discipline_begin'][$cateogory['ID']]."' AND '".$_REQUEST['discipline_end'][$cateogory['ID']]."' ";
+								if($_REQUEST['discipline_begin'][$category['ID']] && $_REQUEST['discipline_end'][$category['ID']])
+								{
+									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." BETWEEN '".$_REQUEST['discipline_begin'][$category['ID']]."' AND '".$_REQUEST['discipline_end'][$category['ID']]."' ";
+									if(!$extra['NoSearchTerms'])
+										$_ROSARIO['SearchTerms'] .= '<b>'.$category['TITLE'].' '._('Between').':</b> '.$_REQUEST['discipline_begin'][$category['ID']].' & '.$_REQUEST['discipline_end'][$category['ID']].'<BR />';
+								}
 							break;
 							case 'multiple_checkbox':
 							case 'multiple_radio':
@@ -543,10 +583,15 @@ function Widgets($item,&$myextra=null)
 								foreach($category['SELECT_OPTIONS'] as $option)
 									$extra['search'] .= '<OPTION value="'.$option.'">'.$option.'</OPTION>';
 								$extra['search'] .= '</SELECT>';
-								if(($category['DATA_TYPE']=='multiple_radio' || $category['DATA_TYPE']=='select') && $_REQUEST['discipline'][$category['ID']])
-									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." = '".$_REQUEST['discipline'][$category['ID']]."' ";
-								elseif($category['DATA_TYPE']=='multiple_checkbox' && $_REQUEST['discipline'][$category['ID']])
-									$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." LIKE '%||".$_REQUEST['discipline'][$category['ID']]."||%' ";
+								if($_REQUEST['discipline'][$category['ID']])
+								{
+									if ($category['DATA_TYPE']=='multiple_radio' || $category['DATA_TYPE']=='select')
+										$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." = '".$_REQUEST['discipline'][$category['ID']]."' ";
+									elseif($category['DATA_TYPE']=='multiple_checkbox')
+										$extra['WHERE'] .= " AND dr.CATEGORY_".$category['ID']." LIKE '%||".$_REQUEST['discipline'][$category['ID']]."||%' ";
+									if(!$extra['NoSearchTerms'])
+										$_ROSARIO['SearchTerms'] .= '<b>'.$category['TITLE'].':</b> '.$_REQUEST['discipline'][$category['ID']].'<BR />';
+								}
 							break;
 						}
 						$extra['search'] .= '</TD></TR>';

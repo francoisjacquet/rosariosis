@@ -36,7 +36,22 @@ function ParseMLField($field, $loc='') {
     Parse an array of any depth for keys that contain ML strings and replaces those with localized strings
 */
 function ParseMLArray($array, $keys) {
-    foreach ($array as $k => $v) {
+    
+	//modify loop: use for instead of foreach
+	$key = array_keys($array);
+	$size = sizeOf($key);
+	for ($i=0; $i<$size; $i++)
+	{
+		if (is_array($array[$key[$i]]))
+			$array[$key[$i]] = ParseMLArray($array[$key[$i]], $keys);
+        else {
+            if (!is_array($keys)) $keys = array($keys);
+            foreach ($keys as $key)
+                if ($key[$i] == $key) $array[$key[$i]] = ParseMLField($array[$key[$i]]);
+        }
+	}
+
+	/*foreach ($array as $k => $v) {
         if (is_array($v))
             $array[$k] = ParseMLArray($v, $keys);
         else {
@@ -44,7 +59,7 @@ function ParseMLArray($array, $keys) {
             foreach ($keys as $key)
                 if ($k == $key) $array[$k] = ParseMLField($v);
         }
-    }
+    }*/
     return $array;
 }
 ?>
