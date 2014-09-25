@@ -1,5 +1,4 @@
 <?php
-//if(WAREHOUSE_PHP==0)
 if(!defined('WAREHOUSE_PHP'))
 {
 	define("WAREHOUSE_PHP",1);
@@ -7,29 +6,16 @@ if(!defined('WAREHOUSE_PHP'))
 
     if (!file_exists ('config.inc.php'))
         die ('config.inc.php not found. Please read the configuration guide.');
-	require_once('config.inc.php');
-	require_once('database.inc.php');
+	require('config.inc.php');
+	require('database.inc.php');
     
-	//modif Francois: remove IgnoreFiles
 	// Load functions.
-	/*if($handle = opendir('functions'))
-	{
-		if(!is_array($IgnoreFiles))
-			$IgnoreFiles=Array();
-
-		while (false !== ($file = readdir($handle)))
-		{
-			// if filename isn't '.' '..' or in the Ignore list... load it.
-			if($file!='.' && $file!='..' && !in_array($file,$IgnoreFiles))
-				require_once('functions/'.$file);
-		}
-	}*/
 	$functions = scandir('functions/');
 	foreach ($functions as $function)
 	{
 		//filter PHP files
 		if ( mb_strrchr($function, '.') == '.php' )
-			require_once('functions/'.$function);
+			include('functions/'.$function);
 	}
 
 	
@@ -41,7 +27,11 @@ if(!defined('WAREHOUSE_PHP'))
 	session_start();
 	if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && mb_strpos($_SERVER['PHP_SELF'],'index.php')===false)
 	{
-		echo '<script>window.location.href = "index.php?modfunc=logout";</script>';
+		?>
+
+		<script>window.location.href = "index.php?modfunc=logout";</script>
+
+		<?php
 		exit;
 	}
 
@@ -60,14 +50,14 @@ if(!defined('WAREHOUSE_PHP'))
 	mb_internal_encoding('UTF-8'); //modif Francois: multibyte strings
 	
 	function Warehouse($mode)
-	{	global $_ROSARIO,$locale;
+	{	global $_ROSARIO,$locale,$program_loaded;
 
 		switch($mode)
 		{
 			case 'header':
 ?>
 <!doctype html>
-<HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
+<HTML lang="<?php echo mb_substr($locale,0,2); ?>"<?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
 <HEAD>
 	<TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
 	<meta charset="UTF-8" />
@@ -88,15 +78,17 @@ if(!defined('WAREHOUSE_PHP'))
 <DIV id="Migoicons" style="visibility:hidden;position:absolute;z-index:1000;top:-100px"></DIV>
 <?php
 			break;
+			
 			case 'footer':
 ?>
 <BR />
-<?php
-				if (isset($_ROSARIO['PrepareDate'])): 
-					for($i=1;$i<=$_ROSARIO['PrepareDate'];$i++)
-					{
-?>
 <script>
+if (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>" || menuCoursePeriod!="<?php echo UserCoursePeriod(); ?>") { 
+	var menu_link = document.createElement("a"); menu_link.href = "<?php echo $_SESSION['Side_PHP_SELF']; ?>"; menu_link.target = "menu"; if (!modname) modname="<?php echo $program_loaded; ?>"; ajaxLink(menu_link);
+}
+
+<?php			if (isset($_ROSARIO['PrepareDate'])): 
+					for($i=1;$i<=$_ROSARIO['PrepareDate'];$i++) : ?>
 if (document.getElementById('trigger<?php echo $i; ?>'))
 	Calendar.setup({
 		monthField     :    "monthSelect<?php echo $i; ?>",
@@ -107,12 +99,16 @@ if (document.getElementById('trigger<?php echo $i; ?>'))
 		align          :    "Tl",
 		singleClick    :    true
 	});
+<?php				endfor;
+				endif; ?>
 </script>
-<?php				}
-				endif;
+<?php
 			break;
+			
 			case 'footer_plain':
-				echo '</BODY></HTML>';
+?>
+</BODY></HTML>
+<?php
 			break;
 		}
 	}
