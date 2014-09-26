@@ -548,12 +548,11 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					//modify loop: use for instead of foreach
 					$key = array_keys($item);
 					$size = sizeOf($key);
-					for ($i=0; $i<$size; $i++)
+					for ($j=0; $j<$size; $j++)
 					{
-						$value = $item[$key[$i]];
-						$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$value);
+						$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$item[$key[$j]]);
 						$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
-						$item[$key[$i]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
+						$item[$key[$j]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
 					}
 					
 					/*foreach($item as $key=>$value)
