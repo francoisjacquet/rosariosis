@@ -165,8 +165,6 @@ window.onload = function(){
 	scroll();
 	var h3 = $('#body h3.title').text();
 	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
-	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
-	$('form').each(function(){ ajaxPostForm(this,false); });
 	$('#adminmenu a').click(function(e){
 		modname=this.href.replace(this.href.substr(0,this.href.indexOf('Modules.php?modname=')+20), '');
 		if ($(this).hasClass('menu-top'))
@@ -174,6 +172,8 @@ window.onload = function(){
 		else
 			selMenuA(modname);
 	});
+	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
+	$('form').each(function(){ ajaxPostForm(this,false); });
 };
 
 function scroll(){
@@ -211,12 +211,12 @@ function selMenuA(modname)
 {
 	if (oldA = document.getElementById("selectedMenuLink"))
 		oldA.id = "";
-	$('#adminmenu a[href$="'+modname+'"][class!="menu-top"]:first').each(function(){this.id = "selectedMenuLink";});
+	$('.wp-submenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
 	//add selectedModuleLink
 	if (oldA = document.getElementById("selectedModuleLink"))
 		oldA.id = "";
 	var modcat = modname=='' ? old_modcat : modname.substr(0, modname.indexOf('/'));
-	$('#adminmenu a[href*="'+modcat+'"].menu-top').each(function(){this.id = "selectedModuleLink";});
+	$('a[href*="'+modcat+'"].menu-top').each(function(){this.id = "selectedModuleLink";});
 }
 
 //Bottom.php JS
