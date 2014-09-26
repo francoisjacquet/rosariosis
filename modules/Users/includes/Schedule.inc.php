@@ -1,7 +1,14 @@
 <?php
+
+$_REQUEST['category_id'] = '2';
+include('modules/Users/includes/Other_Info.inc.php');
+
 if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 {
 //modif Francois: add <label> on checkbox
+	if ($PopTable_opened)
+		PopTable('footer');
+
 	$input_all_schools = '<script>var all_schoolsonclick = document.createElement("a"); all_schoolsonclick.href = "'.($_REQUEST['all_schools']=='Y' ? PreparePHP_SELF($_REQUEST,array(),array('all_schools'=>'')) : PreparePHP_SELF($_REQUEST,array(),array('all_schools'=>'Y'))).'"; all_schoolsonclick.target = "body";</script>';
 	$input_all_schools .= '<INPUT type="checkbox" name="all_schools" value="Y" onclick="ajaxLink(all_schoolsonclick);"'.($_REQUEST['all_schools']=='Y' ? 'checked' : '').' />';
 	DrawHeader('','','<label>'.$input_all_schools.' '._('List Courses For All Schools').'</label>');
@@ -79,18 +86,18 @@ if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 	
 	ListOutput($schedule_table_RET,$columns,'Period','Periods',false,array(),array('save'=>false));
 
-	if ($_REQUEST['_ROSARIO_PDF'])
+	/*if ($_REQUEST['_ROSARIO_PDF'])
 	{
 		$separator = '<div style="page-break-after: always;"></div>';
 		//modif Francois: vertical format
 		$separator .= '<!-- MEDIA LANDSCAPE NO -->';
 	}
 	else
-		$separator = '<HR>';
+		$separator = '<HR>';*/
+	
+	if ($PopTable_opened)
+		echo '<TABLE><TR><TD>';
 }
-
-$_REQUEST['category_id'] = '2';
-include('modules/Users/includes/Other_Info.inc.php');
 
 //modif Francois: add schedule table
 function _GetDays($value, $column)
@@ -120,7 +127,7 @@ function _schedule_table_RET($schedule_table_RET)
 			{
 				if (!is_array($schedule_table_body[$i][$course_period_day]))
 					$schedule_table_body[$i][$course_period_day] = array();
-				$schedule_table_body[$i][$course_period_day][] = '<TD>'.$course_period['TITLE'].(empty($course_period['SHORT_NAME'])?'':'<BR />'.$course_period['SHORT_NAME']).(empty($course_period['ROOM'])?'':'<BR />'._('Room').': '.$course_period['ROOM']).'</TD>';
+				$schedule_table_body[$i][$course_period_day][] = '<div style="display:table-cell;">'.$course_period['TITLE'].' '.(empty($course_period['SHORT_NAME'])?'':'<span style="font-size:smaller;">('.$course_period['SHORT_NAME']).')'.(empty($course_period['ROOM'])?'':' '._('Room').': '.$course_period['ROOM'].'</span>').'&nbsp;</div>';
 			}
 		}
 		$j = 0;
@@ -130,9 +137,9 @@ function _schedule_table_RET($schedule_table_RET)
 			if ($j == 1) // skip SCHOOL_PERIOD column
 				continue;
 			if (count($schedule_table_day) == 1)
-				$schedule_table_body[$i][$day_key] = str_replace(array('<TD>', '</TD>'), '', $schedule_table_day[0]);
+				$schedule_table_body[$i][$day_key] = str_replace(array('<div style="display:table-cell;">', '</div>'), '', $schedule_table_day[0]);
 			else
-				$schedule_table_body[$i][$day_key] = '<TABLE><TR>'.implode($schedule_table_day).'</TR></TABLE>';
+				$schedule_table_body[$i][$day_key] = implode($schedule_table_day);
 		}
 		$i++;
 	}
