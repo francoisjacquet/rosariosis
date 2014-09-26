@@ -19,7 +19,9 @@ if(empty($_REQUEST['modfunc']))
 {
 	$_REQUEST['category_id'] = '2';
 	include('modules/Students/includes/Other_Info.inc.php');
-	PopTable('footer');
+	
+	if ($PopTable_opened)
+		PopTable('footer');
 	
 	$table = 'STUDENT_MEDICAL';
 	$functions = array('TYPE'=>'_makeType','MEDICAL_DATE'=>'_makeDate','COMMENTS'=>'_makeComments');
@@ -51,7 +53,7 @@ if(empty($_REQUEST['modfunc']))
 		$link['remove']['variables'] = array('id'=>'ID');
 		ListOutput($med_RET,$columns,'Nurse Visit','Nurse Visits',$link,array(),array('search'=>false));
 	}
-	if (strpos($_REQUEST['modname'], 'Student.php')!==false)//modif Francois: bugfix display in PrintStudentInfo.php
+	if ($PopTable_opened)//modif Francois: bugfix display in PrintStudentInfo.php
 		echo '<TABLE><TR><TD>';
 }
 ?>

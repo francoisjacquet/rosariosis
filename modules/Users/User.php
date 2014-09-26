@@ -259,8 +259,6 @@ if($_REQUEST['modfunc']=='update')
 		//error_exit: //modif Francois: goto avail. in PHP 5.3
 		if ($error && !UserStaffID())
 			$_REQUEST['staff_id'] = 'new';
-		else
-			echo '<script>modname="'.$program_loaded.'";</script>';
 	}
 
 	if($_REQUEST['include']!='General_Info' && $_REQUEST['include']!='Schedule' && $_REQUEST['include']!='Other_Info')
@@ -397,6 +395,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 
 	echo '<BR />';
 	PopTable('header',$tabs,'width="100%"');
+	$PopTable_opened = true;
 
 	if ($can_use_RET['Users/User.php&category_id='.$_REQUEST['category_id']])
 	{
