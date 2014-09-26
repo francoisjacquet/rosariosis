@@ -362,5 +362,4 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 			<?php endif;
 		endfor; ?>
 
-			<script>if(!modname) var modname="<?php echo $_REQUEST['modname']; ?>"; openMenu(modname);</script>
 		</div><!-- #adminmenu -->

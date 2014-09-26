@@ -87,10 +87,11 @@ if(isset($_REQUEST['modname']))
 			if($modname==$program || (mb_strpos($program, $modname)=== 0 && mb_strpos($_SERVER['QUERY_STRING'], $program)=== 8))
 			{
 				$allowed = true;
-				$program_loaded = $program; //eg: "Student_Billing/Statements.php&_ROSARIO_PDF"
-				break;
+				$_ROSARIO['Program_loaded'] = $program; //eg: "Student_Billing/Statements.php&_ROSARIO_PDF"
 			}
 		}
+		if ($allowed)
+			break;
 	}
 	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 	//allow PHP scripts in misc/ one by one in place of the whole folder

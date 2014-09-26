@@ -145,6 +145,8 @@ function ajaxPrepare(target){
 	scroll();
 	if (scrollTop=='Y')
 		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
+	if (target == '#menu' && modname)
+		openMenu(modname);
 }
 
 //disable links while AJAX
@@ -165,13 +167,6 @@ window.onload = function(){
 	scroll();
 	var h3 = $('#body h3.title').text();
 	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
-	$('#adminmenu a').click(function(e){
-		modname=this.href.replace(this.href.substr(0,this.href.indexOf('Modules.php?modname=')+20), '');
-		if ($(this).hasClass('menu-top'))
-			openMenu(modname);
-		else
-			selMenuA(modname);
-	});
 	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
 };
@@ -193,6 +188,7 @@ if (isTouchDevice())
 var old_modcat = false;
 function openMenu(modname)
 {
+	console.log(modname);
 	if (modname!='misc/Portal.php')
 	{
 		var modcat = modname.substr(0, modname.indexOf('/'));

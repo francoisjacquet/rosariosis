@@ -24,10 +24,7 @@ function Search($type,$extra=null)
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
 				}
 				elseif(isset($_SESSION['student_id']))
-				{
 					unset($_SESSION['student_id']);
-					echo '<script>modname="'.$program_loaded.'&include=General_Info&student_id=new";</script>';
-				}
 			}
 			elseif(!UserStudentID() || $extra['new']==true)
 			{
@@ -57,10 +54,7 @@ function Search($type,$extra=null)
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
 				}
 				elseif(isset($_SESSION['staff_id']))
-				{
 					unset($_SESSION['staff_id']);
-					echo '<script>modname="'.$program_loaded.'&staff_id=new";</script>';
-				}
 			}
 			elseif(!UserStaffID() || $extra['new']==true)
 			{

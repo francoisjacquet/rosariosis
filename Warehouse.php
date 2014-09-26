@@ -50,7 +50,7 @@ if(!defined('WAREHOUSE_PHP'))
 	mb_internal_encoding('UTF-8'); //modif Francois: multibyte strings
 	
 	function Warehouse($mode)
-	{	global $_ROSARIO,$locale,$program_loaded;
+	{	global $_ROSARIO,$locale;
 
 		switch($mode)
 		{
@@ -84,10 +84,14 @@ if(!defined('WAREHOUSE_PHP'))
 <BR />
 <script>
 if (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>" || menuCoursePeriod!="<?php echo UserCoursePeriod(); ?>") { 
-	var menu_link = document.createElement("a"); menu_link.href = "<?php echo $_SESSION['Side_PHP_SELF']; ?>"; menu_link.target = "menu"; if (!modname) modname="<?php echo $program_loaded; ?>"; ajaxLink(menu_link);
+	var menu_link = document.createElement("a"); menu_link.href = "<?php echo $_SESSION['Side_PHP_SELF']; ?>"; menu_link.target = "menu"; var modname = "<?php echo $_ROSARIO['Program_loaded']; ?>"; ajaxLink(menu_link);
 }
+<?php 			if (!empty($_ROSARIO['Program_loaded'])) : ?>
+else
+	openMenu("<?php echo $_ROSARIO['Program_loaded']; ?>");
+<?php			endif;
 
-<?php			if (isset($_ROSARIO['PrepareDate'])): 
+				if (isset($_ROSARIO['PrepareDate'])): 
 					for($i=1;$i<=$_ROSARIO['PrepareDate'];$i++) : ?>
 if (document.getElementById('trigger<?php echo $i; ?>'))
 	Calendar.setup({
