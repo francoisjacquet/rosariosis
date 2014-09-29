@@ -219,8 +219,8 @@ function makePublishing($value,$name)
 	
 //modif Francois: remove LO_field
 	$return .= '<TABLE class="cellpadding-0 cellspacing-0 widefat"><TR><TD><b>'.Localize('colon',_('Visible Between')).'</b><BR />';
-	$return .= DateInput($value,"values[$id][$name]").' '._('to').' ';
-	$return .= DateInput($THIS_RET['END_DATE'],"values[$id][END_DATE]").'</TD></TR>';
+	$return .= DateInput($value,'values['.$id.']['.$name.']').' '._('to').' ';
+	$return .= DateInput($THIS_RET['END_DATE'],'values['.$id.'][END_DATE]').'</TD></TR>';
 //modif Francois: css WPadmin
 	$return .= '<TR><TD style="padding:0;">';
 
@@ -234,9 +234,9 @@ function makePublishing($value,$name)
 		$i++;
 //modif Francois: add <label> on checkbox
 		if (isset($_REQUEST['LO_save']))
-			$return .= '<TD>'.$profile.' '.CheckboxInput((mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile_id,")!==false?true:''),'').' -</TD>';
+			$return .= '<TD>'.$profile.' '.CheckboxInput((mb_strpos($THIS_RET['PUBLISHED_PROFILES'],','.$profile_id.',')!==false?true:''),'').' -</TD>';
 		else
-			$return .= '<TD><label><INPUT type="checkbox" name="profiles[$id]['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],','.$profile_id.',')!==false?' checked':'').' /> '.$profile.'</label></TD>';
+			$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile_id.']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],','.$profile_id.',')!==false?' checked':'').' /> '.$profile.'</label></TD>';
 		if($i%2==0 && $i!=count($profile))
 			$return .= '</TR><TR class="st">';
 	}
@@ -255,7 +255,7 @@ function makePublishing($value,$name)
 		if (isset($_REQUEST['LO_save']))
 			$return .= '<TD><label>'._($profile['TITLE']).' '.CheckboxInput((mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?true:''),'').' -';
 		else
-			$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?' checked':'').' /> '._($profile['TITLE']);
+			$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],','.$profile['ID'].',')!==false?' checked':'').' /> '._($profile['TITLE']);
 		//modif Francois: Portal Polls add students teacher
 		if ($profile['ID'] == 0 && $_REQUEST['modname']=='School_Setup/PortalPolls.php') //student & verify this is not a Portal Note!
 		{
