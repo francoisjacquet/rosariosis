@@ -92,7 +92,6 @@ if(count($grouped_RET))
 		PopTable('header',$tabs);
 		
 		$_REQUEST['modfunc'] = 'SendChartData';
-		//$_REQUEST['_ROSARIO_PDF'] = 'true';
 
 ?>
 		<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>

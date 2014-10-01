@@ -16,7 +16,6 @@ $delete_message = " ";
 //Widgets('letter_grade');
 
 if($_REQUEST['modfunc']!='gradelist')
-        //$extra['action'] .= "&_ROSARIO_PDF=false";
         $x = "x";
 else
         $extra['action'] .= '&modfunc=gradelist';

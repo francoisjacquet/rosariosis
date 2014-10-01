@@ -293,7 +293,6 @@ if(empty($_REQUEST['modfunc']))
 		else
 		{
 			$_REQUEST['modfunc'] = 'SendChartData';
-			//$_REQUEST['_ROSARIO_PDF'] = 'true';
 //modif Francois: jqplot charts
 //modif Francois: colorbox
 ?>
