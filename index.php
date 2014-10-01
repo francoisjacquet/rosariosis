@@ -85,8 +85,8 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 
 			</FORM>
 			<script>$('#submit').click(function(){ $('form').ajaxFormUnbind(); });</script>
-
-			<?php Warehouse('footer_plain');
+</BODY></HTML>
+<?php 
 			DBQuery("UPDATE CONFIG SET CONFIG_VALUE='Yes' WHERE TITLE='LOGIN'");
 			exit;
 		}
@@ -116,7 +116,9 @@ if($_REQUEST['modfunc']=='create_account')
 	{
 		$_REQUEST['staff_id'] = 'new';
 		include('modules/Users/User.php');
-		Warehouse('footer_plain');
+?>
+</BODY></HTML>
+<?php
 	}
 	else
 	{
@@ -207,9 +209,8 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 <?php PopTable("footer"); ?>
 
 <BR />
-
-<?php Warehouse('footer_plain');
-
+</BODY></HTML>
+<?php
 }
 elseif($_REQUEST['modfunc']!='create_account')//successfully logged in, display Portal
 {
