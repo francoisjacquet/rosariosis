@@ -40,6 +40,8 @@ function Prompt($title='Confirm',$question='',$message='',$pdf='')
 		return true;
 }
 
+// Use the BackPrompt function only if there is an error in a script opened in a new window (ie. PDF printing)
+// BackPrompt will alert the message and close the window
 function BackPrompt($message)
 {
 //modif Francois: errors not readable
