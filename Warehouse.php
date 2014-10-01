@@ -77,6 +77,25 @@ if(!defined('WAREHOUSE_PHP'))
 <BODY>
 <DIV id="Migoicons" style="visibility:hidden;position:absolute;z-index:1000;top:-100px"></DIV>
 <?php
+				if ($_ROSARIO['is_popup']) :
+?>
+<script>if(window == top  && (!window.opener)) window.location.href = "index.php";</script>
+<div id="body" tabindex="0" role="main" class="mod">
+<?php
+				elseif ($_ROSARIO['not_ajax']) :
+?>
+<div id="wrap">
+	<footer id="footer" class="mod">
+		<?php include('Bottom.php'); ?>
+	</footer>	
+	<div id="menuback" class="mod"></div>
+	<aside id="menu" class="mod">
+		<?php include('Side.php'); ?>
+	</aside>
+	
+	<div id="body" tabindex="0" role="main" class="mod">	
+<?php 			
+				endif;
 			break;
 			
 			case 'footer':
@@ -107,12 +126,27 @@ if (document.getElementById('trigger<?php echo $i; ?>'))
 				endif; ?>
 </script>
 <?php
-			break;
-			
-			case 'footer_plain':
+				$footer_plain = false;
+				
+				if ($_ROSARIO['is_popup']) : //popups
+					$footer_plain = true;
+?>
+</div><!-- #body -->
+<?php
+				elseif ($_ROSARIO['not_ajax']) : //AJAX check
+					$footer_plain = true;
+?>
+	</div><!-- #body -->
+	<div style="clear:both;"></div>
+</div><!-- #wrap -->
+<?php
+				endif;
+				
+				if ($footer_plain) :
 ?>
 </BODY></HTML>
 <?php
+				endif;
 			break;
 		}
 	}

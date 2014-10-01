@@ -1,6 +1,9 @@
 <?php
 if(empty($_ROSARIO['Menu']))
 {
+	if (is_null($RosarioModules))
+		global $RosarioModules;
+	
 	foreach($RosarioModules as $module=>$include)
 		if($include)
 			include('modules/'.$module.'/Menu.php');
