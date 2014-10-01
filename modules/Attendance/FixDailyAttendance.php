@@ -1,4 +1,7 @@
 <?php
+//modif Francois: move Attendance.php from functions/ to ProgramFunctions/
+include('ProgramFunctions/Attendance.fnc.php');
+
 DrawHeader(ProgramTitle());
 
 //modif Francois: add translation 

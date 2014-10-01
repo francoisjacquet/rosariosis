@@ -1,4 +1,7 @@
 <?php
+//modif Francois: move Attendance.php from functions/ to ProgramFunctions/
+include('ProgramFunctions/Attendance.fnc.php');
+
 if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
 	$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
 else

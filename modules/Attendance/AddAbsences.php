@@ -1,4 +1,7 @@
 <?php
+//modif Francois: move Attendance.php from functions/ to ProgramFunctions/
+include('ProgramFunctions/Attendance.fnc.php');
+
 if(!$_REQUEST['month'])
 	$_REQUEST['month'] = date("m");
 else
