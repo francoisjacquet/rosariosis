@@ -41,14 +41,17 @@ if(isset($_REQUEST['modname']))
 
 	if(!isset($_REQUEST['_ROSARIO_PDF']))
 	{
+		if(empty($_REQUEST['LO_save']) && (mb_strpos($modname,'misc/')===false || $modname=='misc/Registration.php' || $modname=='misc/Export.php' || $modname=='misc/Portal.php'))
+			$_SESSION['_REQUEST_vars'] = $_REQUEST;
+
 		$_ROSARIO['is_popup'] = $_ROSARIO['not_ajax'] = false;
-		
+
 		//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 		if (in_array($modname, array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($modname == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail') || (in_array($modname, array('Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php', 'Scheduling/Courses.php')) && $_REQUEST['modfunc'] == 'choose_course')) //popups
 		{
 			$_ROSARIO['is_popup'] = true;
 		}
-		elseif (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') //AJAX check //change URL after AJAX
+		elseif (empty($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') //AJAX check
 		{
 			$_ROSARIO['not_ajax'] = true;
 		}
@@ -57,11 +60,8 @@ if(isset($_REQUEST['modname']))
 			Warehouse('header');
 	}
 
-	if(empty($_REQUEST['LO_save']) && !isset($_REQUEST['_ROSARIO_PDF']) && (mb_strpos($modname,'misc/')===false || $modname=='misc/Registration.php' || $modname=='misc/Export.php' || $modname=='misc/Portal.php'))
-		$_SESSION['_REQUEST_vars'] = $_REQUEST;
-
 	$allowed = false;
-	
+
 	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 	//allow PHP scripts in misc/ one by one in place of the whole folder
 	//if(mb_substr($_REQUEST['modname'],0,5)=='misc/')
@@ -85,7 +85,7 @@ if(isset($_REQUEST['modname']))
 				break;
 		}
 	}
-	
+
 	if($allowed)
 	{
 		if(Preferences('SEARCH')!='Y')
