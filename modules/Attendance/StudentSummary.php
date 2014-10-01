@@ -42,7 +42,7 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 		if(count($periods_RET))
 		{
 			foreach($periods_RET as $period)
-				$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period[TITLE].'</OPTION>';
+				$period_select .= '<OPTION value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period['TITLE'].'</OPTION>';
 		}
 		$period_select .= '</SELECT>';
 	}
@@ -75,7 +75,7 @@ if($_REQUEST['period_id'])
 }
 else
 {
-	$extra['SELECT'] = ",(SELECT COALESCE((sum(STATE_VALUE-1)*-1),0.0) FROM ATTENDANCE_DAY ad
+	$extra['SELECT'] .= ",(SELECT COALESCE((sum(STATE_VALUE-1)*-1),0.0) FROM ATTENDANCE_DAY ad
 						WHERE ad.STUDENT_ID=ssm.STUDENT_ID
 						AND ad.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ad.SYEAR=ssm.SYEAR) AS STATE_ABS";
 //modif Francois: add translation 
