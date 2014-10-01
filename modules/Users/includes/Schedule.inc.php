@@ -43,7 +43,7 @@ if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 	ListOutput($schedule_RET,$columns,'Course Period','Course Periods',false,$group);
 
 //modif Francois: add schedule table
-	if ($_REQUEST['_ROSARIO_PDF'])
+	if (isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		echo '<div style="page-break-after: always;"></div>';
 		//modif Francois: horizontal format
@@ -86,15 +86,6 @@ if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 	
 	ListOutput($schedule_table_RET,$columns,'Period','Periods',false,array(),array('save'=>false));
 
-	/*if ($_REQUEST['_ROSARIO_PDF'])
-	{
-		$separator = '<div style="page-break-after: always;"></div>';
-		//modif Francois: vertical format
-		$separator .= '<!-- MEDIA LANDSCAPE NO -->';
-	}
-	else
-		$separator = '<HR>';*/
-	
 	if ($PopTable_opened)
 		echo '<TABLE><TR><TD>';
 }

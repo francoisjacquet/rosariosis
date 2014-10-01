@@ -296,7 +296,7 @@ else
 	$extra['WHERE'] .= ')';
 
 	// EXPANDED VIEW BREAKS THIS QUERY.  PLUS, PHONE IS ALREADY AN OPTION IN EXPANDED VIEW
-	if($_REQUEST['expanded_view']!='true' && $_REQUEST['_ROSARIO_PDF']!='true')
+	if($_REQUEST['expanded_view']!='true' && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$extra2['WHERE'] .= ')';
 		$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';

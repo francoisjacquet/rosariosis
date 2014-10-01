@@ -3,7 +3,7 @@
 if($_REQUEST['modfunc']!='backup')
 	DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='backup' && $_REQUEST['_ROSARIO_PDF']=='true')
+if($_REQUEST['modfunc']=='backup' && isset($_REQUEST['_ROSARIO_PDF']))
 {
 	
 //modif Francois: code inspired by phpPgAdmin
