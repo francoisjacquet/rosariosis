@@ -103,7 +103,7 @@ if(!defined('WAREHOUSE_PHP'))
 <BR />
 <script>
 if (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>" || menuCoursePeriod!="<?php echo UserCoursePeriod(); ?>") { 
-	var menu_link = document.createElement("a"); menu_link.href = "<?php echo $_SESSION['Side_PHP_SELF']; ?>"; menu_link.target = "menu"; var modname = "<?php echo $_ROSARIO['Program_loaded']; ?>"; ajaxLink(menu_link);
+	var menu_link = document.createElement("a"); menu_link.href = "Side.php"; menu_link.target = "menu"; var modname = "<?php echo $_ROSARIO['Program_loaded']; ?>"; ajaxLink(menu_link);
 }
 <?php 			if (!empty($_ROSARIO['Program_loaded'])) : ?>
 else

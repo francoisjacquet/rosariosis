@@ -2,9 +2,6 @@
 error_reporting(1);
 include('Warehouse.php');
 
-$tmp_REQUEST = $_REQUEST;
-$_SESSION['Side_PHP_SELF'] = "Side.php";
-
 $old_school = UserSchool();
 $old_syear = UserSyear();
 $old_period = UserCoursePeriod();
@@ -325,7 +322,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 		<div id="adminmenu">
 
 		<?php // Program Information
-		require('Menu.php');
+		include('Menu.php');
 		
 		//modify loop: use for instead of foreach
 		$key = array_keys($_ROSARIO['Menu']);
