@@ -72,4 +72,11 @@ function DBGet($QI,$functions=array(),$index=array())
 
 	return $results;
 }
+
+function DBDate($type='')
+{
+	if($type=='postgres')
+		return date('Y-m-d');
+	return mb_strtoupper(date('d-M-Y'));
+}
 ?>
