@@ -59,17 +59,4 @@ function AllowUse($modname=false)
 	else
 		return false;
 }
-
-//modif Francois: remove ProgramLink function
-/*function ProgramLink($modname,$title='',$options='')
-{
-	if(AllowUse($modname))
-		$link = '<A HREF="Modules.php?modname='.$modname.$options.'">';
-	if($title)
-		$link .= $title;
-	if(AllowUse($modname))
-		$link .= '</A>';
-
-	return $link;
-}*/
 ?>

@@ -170,7 +170,7 @@ else
 	$profile_title = DBGet(DBQuery("SELECT TITLE FROM USER_PROFILES WHERE ID='".$staff_RET[1]['PROFILE_ID']."'"));
 	echo '<BR />';
 	PopTable('header',_('Error'),'width=50%');
-	//modif Francois: remove ProgramLink function
+
 	echo '<TABLE><TR><TD><IMG SRC="assets/warning_button.png" height="30" /></TD><TD>'.sprintf(_('%s %s is assigned to the profile %s.'),$staff_RET[1]['FIRST_NAME'],$staff_RET[1]['LAST_NAME'],$profile_title[1]['TITLE']).'<BR /><BR /> '.sprintf(_('To assign permissions to this user, either change the permissions for this profile using the %s setup or change this user to a user with custom permissions by using %s.'), (AllowUse('Users/Profiles.php') ? '<A href="Modules.php?modname=Users/Profiles.php">' : '')._('Profiles').(AllowUse('Users/Profiles.php') ? '</A>' : ''), (AllowUse('Users/User.php') ? '<A href="Modules.php?modname=Users/User.php">' : '')._('General Info').(AllowUse('Users/User.php') ? '</A>' : '')).'</TD></TR></TABLE>';
 	PopTable('footer');
 }
