@@ -1,5 +1,39 @@
 <?php
 
+function DBDate($type='')
+{
+	if($type=='postgres')
+		return date('Y-m-d');
+	return mb_strtoupper(date('d-M-Y'));
+}
+
+function VerifyDate($date)
+{
+	if(mb_strlen($date)==9) // ORACLE
+	{
+		$day = mb_substr($date,0,2)+0;
+		$month = MonthNWSwitch(mb_substr($date,3,3),'tonum')+0;
+		$year = mb_substr($date,7,2);
+		$year = (($year<50)?20:19) . $year;
+	}
+	elseif(mb_strlen($date)==10) // POSTGRES
+	{
+		$day = mb_substr($date,8,2)+0;
+		$month = mb_substr($date,5,2)+0;
+		$year = mb_substr($date,0,4);
+	}
+	elseif(mb_strlen($date)==11) // ORACLE with 4-digit year
+	{
+		$day = mb_substr($date,0,2)+0;
+		$month = MonthNWSwitch(mb_substr($date,3,3),'tonum')+0;
+		$year = mb_substr($date,7,4);
+	}
+	else
+		return false;
+
+	return checkdate($month,$day,$year);
+}
+
 // SEND PrepareDate a name prefix, and a date in oracle format 'd-M-y' as the selected date to have returned a date selection series
 // of pull-down menus
 // For the default to be Not Specified, send a date of 00-000-00 or send nothing
@@ -155,5 +189,68 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 	if($_REQUEST['_ROSARIO_PDF'])
 		$return = ProperDate($date);
 	return $return;
+}
+
+function MonthNWSwitch($month, $direction='both')
+{
+	if($direction=='tonum')
+	{
+		if(mb_strlen($month)<3) // assume already num.
+			return $month;
+		else
+			return __mnwswitch_char2num($month);
+	}
+	elseif($direction=='tochar')
+	{
+		if(mb_strlen($month)==3) // assume already char.
+			return $month;
+		else
+			return __mnwswitch_num2char($month);
+	}
+	else
+	{
+		$month=__mnwswitch_num2char($month);
+		$month=__mnwswitch_char2num($month);
+		return $month;
+	}
+} 
+
+function __mnwswitch_num2char($month)
+{
+	if(mb_strlen($month)==1)
+		$month='0'.$month;
+		
+	if($month=='01'){$out="JAN";}
+	elseif($month=='02'){$out="FEB";}
+	elseif($month=='03'){$out="MAR";}
+	elseif($month=='04'){$out="APR";}
+	elseif($month=='05'){$out="MAY";}
+	elseif($month=='06'){$out="JUN";}
+	elseif($month=='07'){$out="JUL";}
+	elseif($month=='08'){$out="AUG";}
+	elseif($month=='09'){$out="SEP";}
+	elseif($month=='10'){$out="OCT";}
+	elseif($month=='11'){$out="NOV";}
+	elseif($month=='12' || $month=='00'){$out="DEC";}
+	else $out=$month;
+	return $out;
+}
+
+function __mnwswitch_char2num($month)
+{
+	if(mb_strtoupper($month)=='JAN'){$out="01";}
+	elseif(mb_strtoupper($month)=='FEB'){$out="02";}
+	elseif(mb_strtoupper($month)=='MAR'){$out="03";}
+	elseif(mb_strtoupper($month)=='APR'){$out="04";}
+	elseif(mb_strtoupper($month)=='MAY'){$out="05";}
+	elseif(mb_strtoupper($month)=='JUN'){$out="06";}
+	elseif(mb_strtoupper($month)=='JUL'){$out="07";}
+	elseif(mb_strtoupper($month)=='AUG'){$out="08";}
+	elseif(mb_strtoupper($month)=='SEP'){$out="09";}
+	elseif(mb_strtoupper($month)=='OCT'){$out="10";}
+	elseif(mb_strtoupper($month)=='NOV'){$out="11";}
+	elseif(mb_strtoupper($month)=='DEC'){$out="12";}
+	else $out=$month;
+	return $out;
 }
 ?>
