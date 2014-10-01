@@ -176,18 +176,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					foreach($grades as $grade)
 					{
 						$i = $grade['COURSE_TITLE'];
-						$course_area = CourseTitleArea($grade['COURSE_TITLE']);
-						if (!empty($course_area) && $course_area != $course_area_temp)
-						{
-							//$i_temp = $grade['COURSE_TITLE'];
-							$listOutput_RET[$course_area]['COURSE_TITLE'] = '<span style="font-size:inherit; font-weight:bold;">'.$course_area.':</span>';
-							$course_area_temp = $course_area;
-							//$i++;
-						}
-						if (!empty($course_area))
-							$listOutput_RET[$i]['COURSE_TITLE'] = '&nbsp;&nbsp;&nbsp;'.CourseTitle($grade['COURSE_TITLE']);
-						else
-							$listOutput_RET[$i]['COURSE_TITLE'] = $grade['COURSE_TITLE'];
+
+						$listOutput_RET[$i]['COURSE_TITLE'] = $grade['COURSE_TITLE'];
+						
 						if ($showGrades)
 						{
 							if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE'] > 0)
@@ -204,8 +195,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 								$listOutput_RET[$i]['CREDIT_EARNED'] += sprintf('%01.2f', $grade['CREDIT_EARNED']);
 								$total_credit_earned += $grade['CREDIT_EARNED'];
 								$total_credit_attempted += $grade['CREDIT_ATTEMPTED'];
-								if (!empty($course_area))
-									$listOutput_RET[$course_area]['CREDIT_EARNED'] += sprintf('%01.2f', $grade['CREDIT_EARNED']);
 							}
 						}
 						if ($showCreditHours)
@@ -213,8 +202,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							if (!isset($listOutput_RET[$i]['CREDIT_HOURS']))
 							{
 								$listOutput_RET[$i]['CREDIT_HOURS'] = ((int)$grade['CREDIT_HOURS'] == $grade['CREDIT_HOURS'] ? (int)$grade['CREDIT_HOURS'] : $grade['CREDIT_HOURS']);
-								if (!empty($course_area))
-									$listOutput_RET[$course_area]['CREDIT_HOURS'] += $grade['CREDIT_HOURS'];
 							}
 						}
 						if ($showMPcomments)

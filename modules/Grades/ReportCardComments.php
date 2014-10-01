@@ -112,7 +112,7 @@ if(empty($_REQUEST['modfunc']))
 			ErrorMessage(array(_('This course is not graded.')),'fatal');
 		$subjects_RET = DBGet(DBQuery("SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$course_period_RET[1]['SUBJECT_ID']."'"));
 		//modif Francois: add subject areas
-		$courses_RET = DBGet(DBQuery("SELECT TITLE,SUBJECT_ID,(SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID=COURSES.SUBJECT_ID) AS SUBJECT FROM COURSES WHERE COURSE_ID='".$course_period_RET[1]['COURSE_ID']."'"), array('TITLE'=>'CourseTitle'));
+		$courses_RET = DBGet(DBQuery("SELECT TITLE,SUBJECT_ID,(SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID=COURSES.SUBJECT_ID) AS SUBJECT FROM COURSES WHERE COURSE_ID='".$course_period_RET[1]['COURSE_ID']."'"));
 		$_REQUEST['subject_id'] = $courses_RET[1]['SUBJECT_ID'];
 		$_REQUEST['course_id'] = $course_period_RET[1]['COURSE_ID'];
 		$subject_select = $courses_RET[1]['SUBJECT'];

@@ -48,8 +48,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$extra['functions']['TEACHER'] = '_makeTeacher';
 		if($_REQUEST['elements']['comments']=='Y')
 			$extra['functions']['COMMENTS_RET'] = '_makeComments';
-	//modif Francois: add subject areas
-		$extra['functions']['COURSE_TITLE'] = 'CourseTitle';
 		$extra['group']	= array('STUDENT_ID');
 
 

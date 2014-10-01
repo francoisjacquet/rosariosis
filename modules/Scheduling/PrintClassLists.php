@@ -20,7 +20,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		FROM COURSE_PERIODS cp,COURSES c 
 		WHERE c.COURSE_ID=cp.COURSE_ID 
 		AND cp.COURSE_PERIOD_ID IN (".$cp_list.") 
-		ORDER BY TEACHER"), array('COURSE_TITLE'=>'CourseTitle'));
+		ORDER BY TEACHER"));
 
 		$first_extra = $extra;
 		$handle = PDFStart();

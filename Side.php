@@ -1,5 +1,4 @@
 <?php
-error_reporting(1);
 include('Warehouse.php');
 
 $old_school = UserSchool();
@@ -218,8 +217,8 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 				AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") 
 				ORDER BY cp.SHORT_NAME, sp.SORT_ORDER");
 				
-			//modif Francois: add subject areas
-				$RET = DBGet($QI, array('COURSE_TITLE'=>'CourseTitle'));
+				$RET = DBGet($QI);
+				
 				// get the fy marking period id, there should be exactly one fy marking period per school
 				$fy_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 
@@ -246,10 +245,9 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					//modif Francois: add optroup to group periods by course periods
 					if (!empty($period['COURSE_TITLE']) && $optgroup!=$period['COURSE_TITLE']) : //new optgroup ?>
 
-						<optgroup label="<?php echo $period['COURSE_TITLE']; ?>">
+						<optgroup label="<?php echo $optgroup = $period['COURSE_TITLE']; ?>">
 
-						<?php $optgroup = $period['COURSE_TITLE'];
-					endif;
+					<?php endif;
 					
 					if ($optgroup!==FALSE && $optgroup!=$period['COURSE_TITLE']) : //close optgroup ?>
 

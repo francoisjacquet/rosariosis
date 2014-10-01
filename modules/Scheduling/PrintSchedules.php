@@ -32,7 +32,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 //	$extra['functions'] = array('MARKING_PERIOD_ID'=>'GetMP','DAYS'=>'_makeDays');
 //modif Francois: add subject areas
-	$extra['functions'] = array('MARKING_PERIOD_ID'=>'GetMP', 'COURSE_TITLE'=>'CourseTitle');
+	$extra['functions'] = array('MARKING_PERIOD_ID'=>'GetMP');
 	$extra['group'] = array('STUDENT_ID');
 //	$extra['ORDER'] = ',sp.SORT_ORDER';
 	if($_REQUEST['mailing_labels']=='Y')
@@ -65,7 +65,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID 
 	AND sta.STAFF_ID=cp.TEACHER_ID 
 	AND sp.LENGTH <= ".(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)." 
-	ORDER BY sp.SORT_ORDER"),array('TITLE'=>'CourseTitle', 'DAYS'=>'_GetDays'),array('STUDENT_ID','SCHOOL_PERIOD'));
+	ORDER BY sp.SORT_ORDER"),array('DAYS'=>'_GetDays'),array('STUDENT_ID','SCHOOL_PERIOD'));
 	//modif Francois: note the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
 	
 	$columns_table = array('SCHOOL_PERIOD' => _('Periods'));

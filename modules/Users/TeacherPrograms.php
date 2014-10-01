@@ -55,7 +55,7 @@ if(UserStaffID())
 		//modif Francois: add optroup to group periods by course periods
 		if (!empty($period['COURSE_TITLE']) && $optgroup!=$period['COURSE_TITLE']) //new optgroup
 		{
-			$period_select .= '<optgroup label="'.CourseTitle($period['COURSE_TITLE']).'">';
+			$period_select .= '<optgroup label="'.$period['COURSE_TITLE'].'">';
 			$optgroup = $period['COURSE_TITLE'];
 		}
 		if ($optgroup!==FALSE && $optgroup!=$period['COURSE_TITLE']) //close optgroup

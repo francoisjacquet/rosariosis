@@ -38,7 +38,7 @@ if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 	($_REQUEST['all_schools']=='Y'?'':" AND cp.SCHOOL_ID='".UserSchool()."'")." 
 	AND s.ID=cp.SCHOOL_ID 
 	AND s.SYEAR=cp.SYEAR 
-	ORDER BY cp.SHORT_NAME,cp.TITLE"),array('MARKING_PERIOD_ID'=>'GetMP', 'TITLE'=>'CourseTitle'),$group);
+	ORDER BY cp.SHORT_NAME,cp.TITLE"),array('MARKING_PERIOD_ID'=>'GetMP'),$group);
 
 	ListOutput($schedule_RET,$columns,'Course Period','Course Periods',false,$group);
 
@@ -72,7 +72,7 @@ if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 	AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID 
 	AND cp.MARKING_PERIOD_ID IN ((SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'), '".UserMP()."') 
 	AND sp.LENGTH <= ".(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)." 
-	ORDER BY sp.SORT_ORDER"),array('TITLE'=>'CourseTitle', 'DAYS'=>'_GetDays'),array('SCHOOL_PERIOD'));
+	ORDER BY sp.SORT_ORDER"),array('DAYS'=>'_GetDays'),array('SCHOOL_PERIOD'));
 	//modif Francois: note the "sp.LENGTH < (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
 	
 	$columns = array('SCHOOL_PERIOD' => _('Periods'));

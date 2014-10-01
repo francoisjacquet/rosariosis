@@ -183,7 +183,7 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course')
 	$sql .= " ORDER BY cp.SHORT_NAME,s.MARKING_PERIOD_ID";
 
 	$QI = DBQuery($sql);
-	$schedule_RET = DBGet($QI,array('TITLE'=>'_makeTitle','PERIOD_PULLDOWN'=>'_makePeriodSelect','COURSE_MARKING_PERIOD_ID'=>'_makeMPSelect','SCHEDULER_LOCK'=>'_makeLock','START_DATE'=>'_makeDate','END_DATE'=>'_makeDate'));
+	$schedule_RET = DBGet($QI,array('PERIOD_PULLDOWN'=>'_makePeriodSelect','COURSE_MARKING_PERIOD_ID'=>'_makeMPSelect','SCHEDULER_LOCK'=>'_makeLock','START_DATE'=>'_makeDate','END_DATE'=>'_makeDate'));
 
 	//modif Francois: bugfix SQL bug $_SESSION['student_id'] is not set
 	//$link['add']['link'] = '#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course&student_id='.$_REQUEST['student_id'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'","","scrollbars=yes,resizable=yes,width=900,height=400");\' ';
@@ -333,13 +333,6 @@ function _Prompt($title='Confirm',$question='',$message='',$pdf='')
 	}
 	else
 		return true;
-}
-
-function _makeTitle($value,$column)
-{	global $THIS_RET;
-
-//modif Francois: add subject areas
-	return CourseTitle ($value);
 }
 
 function _makeLock($value,$column)

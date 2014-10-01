@@ -21,7 +21,7 @@ else
 	$extra['WHERE'] .= ' AND ssm.STUDENT_ID=srp.STUDENT_ID AND ssm.SYEAR=srp.SYEAR AND srp.COURSE_ID = c.COURSE_ID';
 	
 //modif Francois: add subject areas
-	$extra['functions'] += array('WITH_FULL_NAME'=>'_makeExtra', 'COURSE_TITLE'=>'CourseTitle');
+	$extra['functions'] += array('WITH_FULL_NAME'=>'_makeExtra');
 	$extra['group'] = array('STUDENT_ID');
 	//modif Francois: add ORDER BY COURSE_TITLE
 	$extra['ORDER_BY'] = 'COURSE_TITLE';
