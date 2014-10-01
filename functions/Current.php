@@ -23,7 +23,7 @@ function UserPeriod()
 
 function UserCoursePeriod()
 {
-	return $_SESSION['UserCoursePeriod'];
+	return (isset($_SESSION['UserCoursePeriod']) ? $_SESSION['UserCoursePeriod'] : null);
 }
 
 //modif Francois: multiple school periods for a course period
@@ -34,12 +34,12 @@ function UserCoursePeriodSchoolPeriod()
 
 function UserStudentID()
 {
-	return $_SESSION['student_id'];
+	return (isset($_SESSION['student_id']) ? $_SESSION['student_id'] : null);
 }
 
 function UserStaffID()
 {
-	return $_SESSION['staff_id'];
+	return (isset($_SESSION['staff_id']) ? $_SESSION['staff_id'] : null);
 }
 
 ?>

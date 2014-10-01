@@ -7,7 +7,7 @@ $old_period = UserCoursePeriod();
 
 $addJavascripts = '';
 
-if($_REQUEST['school'] && $_REQUEST['school']!=$old_school)
+if(isset($_REQUEST['school']) && $_REQUEST['school']!=$old_school)
 {
 	unset($_SESSION['student_id']);
 	$_SESSION['unset_student'] = true;
@@ -16,7 +16,7 @@ if($_REQUEST['school'] && $_REQUEST['school']!=$old_school)
 	unset($_REQUEST['mp']);
 }
 
-if($_REQUEST['modfunc']=='update' && $_POST)
+if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='update' && is_array($_POST))
 {
 	if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && $_REQUEST['school']!=$old_school)
 	{
@@ -36,16 +36,16 @@ if($_REQUEST['modfunc']=='update' && $_POST)
 	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'])).'"; body_link.target = "body"; ajaxLink(body_link);';
 }
 
-if(!$_SESSION['UserSyear'])
+if(empty($_SESSION['UserSyear']))
 	$_SESSION['UserSyear'] = Config('SYEAR');
 
-if(!$_SESSION['student_id'] && User('PROFILE')=='student')
+if(empty($_SESSION['student_id']) && User('PROFILE')=='student')
 	$_SESSION['student_id'] = $_SESSION['STUDENT_ID'];
-//if(!$_SESSION['staff_id'] && User('PROFILE')!='admin' && User('PROFILE')!='teacher')
-if(!$_SESSION['staff_id'] && User('PROFILE')=='parent')
+
+if(empty($_SESSION['staff_id']) && User('PROFILE')=='parent')
 	$_SESSION['staff_id'] = $_SESSION['STAFF_ID'];
 
-if(!$_SESSION['UserSchool'])
+if(empty($_SESSION['UserSchool']))
 {
 	if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && (!User('SCHOOLS') || mb_strpos(User('SCHOOLS'),','.User('CURRENT_SCHOOL_ID').',')!==false))
 		$_SESSION['UserSchool'] = User('CURRENT_SCHOOL_ID');
@@ -54,23 +54,23 @@ if(!$_SESSION['UserSchool'])
 }
 UpdateSchoolArray(UserSchool());
 
-if((!$_SESSION['UserMP'] || ($_REQUEST['school'] && $_REQUEST['school']!=$old_school) || ($_REQUEST['syear'] && $_REQUEST['syear']!=$old_syear)) && User('PROFILE')!='parent')
+if((empty($_SESSION['UserMP']) || (isset($_REQUEST['school']) && $_REQUEST['school']!=$old_school) || (isset($_REQUEST['syear']) && $_REQUEST['syear']!=$old_syear)) && User('PROFILE')!='parent')
 	$_SESSION['UserMP'] = GetCurrentMP('QTR',DBDate(),false);
 
-if(($_REQUEST['school'] && $_REQUEST['school']!=$old_school) || ($_REQUEST['syear'] && $_REQUEST['syear']!=$old_syear))
+if((isset($_REQUEST['school']) && $_REQUEST['school']!=$old_school) || (isset($_REQUEST['syear']) && $_REQUEST['syear']!=$old_syear))
 {
 	unset($_SESSION['UserPeriod']);
 	unset($_SESSION['UserCoursePeriod']);
 }
 
-if($_REQUEST['student_id']=='new')
+if(isset($_REQUEST['student_id']) && $_REQUEST['student_id']=='new')
 {
 	unset($_SESSION['student_id']);
 	unset($_SESSION['_REQUEST_vars']['student_id']);
 	unset($_SESSION['_REQUEST_vars']['search_modfunc']);
 	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'"; body_link.target = "body"; ajaxLink(body_link);';
 }
-if($_REQUEST['staff_id']=='new')
+if(isset($_REQUEST['staff_id']) && $_REQUEST['staff_id']=='new')
 {
 	unset($_SESSION['staff_id']);
 	unset($_SESSION['_REQUEST_vars']['staff_id']);
@@ -222,7 +222,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 				// get the fy marking period id, there should be exactly one fy marking period per school
 				$fy_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 
-				if($_REQUEST['period'])
+				if(isset($_REQUEST['period']))
 				{
 					list($CoursePeriod, $CoursePeriodSchoolPeriod) = explode('.', $_REQUEST['period']);
 					$_SESSION['UserCoursePeriod'] = $CoursePeriod;

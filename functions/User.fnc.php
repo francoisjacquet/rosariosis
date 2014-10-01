@@ -37,7 +37,7 @@ function User($item)
 function Preferences($item='',$program='Preferences')
 {	global $_ROSARIO;
 
-	if($_SESSION['STAFF_ID'] && !$_ROSARIO['Preferences'][$program])
+	if($_SESSION['STAFF_ID'] && !isset($_ROSARIO['Preferences'][$program]))
 	{
         $QI = DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$_SESSION['STAFF_ID']."' AND PROGRAM='".$program."'");
 		$_ROSARIO['Preferences'][$program] = DBGet($QI,array(),array('TITLE'));
