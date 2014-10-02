@@ -188,7 +188,6 @@ if (isTouchDevice())
 var old_modcat = false;
 function openMenu(modname)
 {
-	console.log(modname);
 	if (modname!='misc/Portal.php')
 	{
 		var modcat = modname.substr(0, modname.indexOf('/'));

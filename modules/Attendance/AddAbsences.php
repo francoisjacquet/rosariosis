@@ -1,6 +1,6 @@
 <?php
-//modif Francois: move Attendance.php from functions/ to ProgramFunctions/
-include('ProgramFunctions/Attendance.fnc.php');
+//modif Francois: move Attendance.php from functions/ to modules/Attendance/includes
+require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 
 if(!$_REQUEST['month'])
 	$_REQUEST['month'] = date("m");
