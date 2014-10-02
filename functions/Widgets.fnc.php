@@ -388,6 +388,8 @@ function Widgets($item,&$myextra=null)
 			case 'mailing_labels':
 				if($_REQUEST['mailing_labels']=='Y')
 				{
+					require_once('ProgramFunctions/MailingLabel.fnc.php');
+
 					$extra['SELECT'] .= ',coalesce(sam.ADDRESS_ID,-ssm.STUDENT_ID) AS ADDRESS_ID,sam.ADDRESS_ID AS MAILING_LABEL';
 					$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (sam.STUDENT_ID=ssm.STUDENT_ID AND sam.MAILING='Y'".($_REQUEST['residence']=='Y'?" AND sam.RESIDENCE='Y'":'').")".$extra['FROM'];
 					$extra['functions'] += array('MAILING_LABEL'=>'MailingLabel');
