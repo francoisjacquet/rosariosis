@@ -55,13 +55,6 @@ function ProperDate($date='',$length='long')
 	}
 }
 
-//modif Francois: fix error Warning: Missing argument 2 for ShortDate()
-//function ShortDate($date='',$column)
-function ShortDate($date='')
-{
-	return ProperDate($date,'short');
-}
-
 
 function VerifyDate($date)
 {
