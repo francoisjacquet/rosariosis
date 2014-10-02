@@ -149,7 +149,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 				$schedule_table_body .= '</TABLE>';*/
 
-				if($_REQUEST['mailing_labels']=='Y')
+				if($_REQUEST['mailing_labels']=='Y' && isset($RET[$student_id]))
 				{
 					foreach($RET[$student_id] as $address)
 					{
