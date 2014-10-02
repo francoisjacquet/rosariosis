@@ -142,7 +142,7 @@ DrawHeader(ProgramTitle());
 
 if($today>$END_DAY || $today<$START_DAY || ($today==$START_DAY && date('Gi')<($START_HOUR.$START_MINUTE)) || ($today==$END_DAY && date('Gi')>($END_HOUR.$END_MINUTE)))
 {
-	echo ErrorMessage(array(sprintf(_('You can only enter eligibility from %s %s to %s %s.'),$days[$START_DAY],Localize('time',array('hour'=>$START_HOUR,'minute'=>$START_MINUTE)),$days[$END_DAY],Localize('time',array('hour'=>$END_HOUR,'minute'=>$END_MINUTE)))),'error');
+	echo ErrorMessage(array(sprintf(_('You can only enter eligibility from %s %s to %s %s.'),$days[$START_DAY],$START_HOUR.':'.$START_MINUTE,$days[$END_DAY],$END_HOUR':'$END_MINUTE)),'error');
 }
 else
 {
