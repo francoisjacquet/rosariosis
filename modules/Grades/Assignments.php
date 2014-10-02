@@ -418,6 +418,6 @@ if(empty($_REQUEST['modfunc']))
 
 function _makePercent($value,$column)
 {
-	return Percent($value,2);
+	return number_format($value*100,2).'%';
 }
 ?>

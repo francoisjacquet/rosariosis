@@ -101,15 +101,15 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				foreach($grades_RET as $assignment_type_id=>$grades)
 				{
 //modif Francois: remove LO_field
-					$grades_RET[$assignment_type_id][] = array('TITLE'=>_removeSpaces('<B>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</B>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),Percent($percent_weights[$assignment_type_id]/$sum_percent)).')':''),'TITLE'),
+					$grades_RET[$assignment_type_id][] = array('TITLE'=>_removeSpaces('<B>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</B>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),_Percent($percent_weights[$assignment_type_id]/$sum_percent)).')':''),'TITLE'),
 						'ASSIGNED_DATE'=>'&nbsp;','DUE_DATE'=>'&nbsp;',
 						'POINTS'=>'<TABLE class="cellpadding-0 cellspacing-0"><TR><TD><span class="size-1"><b>'.$student_points[$assignment_type_id].'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$total_points[$assignment_type_id].'</b></span></TD></TR></TABLE>',
-						'PERCENT_GRADE'=>$total_points[$assignment_type_id]?'<B>'.Percent($student_points[$assignment_type_id]/$total_points[$assignment_type_id]).'</B>':'&nbsp;');
+						'PERCENT_GRADE'=>$total_points[$assignment_type_id]?'<B>'._Percent($student_points[$assignment_type_id]/$total_points[$assignment_type_id]).'</B>':'&nbsp;');
 				}
 			}
 			$link['add']['html'] = array('TITLE'=>'<B>Total</B>',
 						'POINTS'=>'<TABLE class="cellpadding-0 cellspacing-0"><TR><TD><span class="size-1"><b>'.$sum_student_points.'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$sum_total_points.'</b></span></TD></TR></TABLE>',
-						'PERCENT_GRADE'=>'<B>'.Percent($sum_points).'</B>','LETTER_GRADE'=>'<B>'._makeLetterGrade($sum_points).'</B>');
+						'PERCENT_GRADE'=>'<B>'._Percent($sum_points).'</B>','LETTER_GRADE'=>'<B>'._makeLetterGrade($sum_points).'</B>');
 			$link['add']['html']['ASSIGNED_DATE'] = $link['add']['html']['DUE_DATE'] = $link['add']['html']['COMMENT'] = ' &nbsp; ';
 
 //modif Francois: add translation
@@ -199,7 +199,7 @@ function _makeExtra($value,$column)
 		if($THIS_RET['TOTAL_POINTS']!='0')
 			if($value!='-1')
 				if($THIS_RET['DUE'] || $value!='')
-					return Percent($value/$THIS_RET['TOTAL_POINTS'],1);
+					return _Percent($value/$THIS_RET['TOTAL_POINTS'],1);
 				else
 					return _('Not due');
 			else
@@ -233,5 +233,10 @@ function _removeSpaces($value,$column)
 function _makeChooseCheckbox($value,$title)
 {
 	return '&nbsp;&nbsp;<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+}
+
+function _Percent($num,$decimals=2)
+{
+	return number_format($num*100,2).'%';
 }
 ?>

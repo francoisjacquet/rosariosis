@@ -169,7 +169,7 @@ if(empty($_REQUEST['modfunc']))
 		array('GRADE_ID'=>'_make','STUDENTS'=>'_make','PRESENT'=>'_make','ABSENT'=>'_make','ADA'=>'_make','AVERAGE_ATTENDANCE'=>'_make','AVERAGE_ABSENT'=>'_make','DAYS_POSSIBLE'=>'_make'));
 
 		$columns = array('GRADE_ID'=>_('Grade Level'),'STUDENTS'=>_('Students'),'DAYS_POSSIBLE'=>_('Days Possible'),'PRESENT'=>_('Present'),'ABSENT'=>_('Absent'),'ADA'=>_('ADA'),'AVERAGE_ATTENDANCE'=>_('Average Attendance'),'AVERAGE_ABSENT'=>_('Average Absent'));
-		$link['add']['html'] = array('GRADE_ID'=>'<b>'._('Total').'</b>','STUDENTS'=>round($sum['STUDENTS'],1),'DAYS_POSSIBLE'=>$cal_days[key($cal_days)][1]['COUNT'],'PRESENT'=>$sum['PRESENT'],'ADA'=>Percent((($sum['PRESENT']+$sum['ABSENT']) > 0 ? ($sum['PRESENT'])/($sum['PRESENT']+$sum['ABSENT']) : 0)),'ABSENT'=>$sum['ABSENT'],'AVERAGE_ATTENDANCE'=>round($sum['AVERAGE_ATTENDANCE'],1),'AVERAGE_ABSENT'=>round($sum['AVERAGE_ABSENT'],1));
+		$link['add']['html'] = array('GRADE_ID'=>'<b>'._('Total').'</b>','STUDENTS'=>round($sum['STUDENTS'],1),'DAYS_POSSIBLE'=>$cal_days[key($cal_days)][1]['COUNT'],'PRESENT'=>$sum['PRESENT'],'ADA'=>_Percent((($sum['PRESENT']+$sum['ABSENT']) > 0 ? ($sum['PRESENT'])/($sum['PRESENT']+$sum['ABSENT']) : 0)),'ABSENT'=>$sum['ABSENT'],'AVERAGE_ATTENDANCE'=>round($sum['AVERAGE_ATTENDANCE'],1),'AVERAGE_ABSENT'=>round($sum['AVERAGE_ABSENT'],1));
 
 		ListOutput($student_days_possible,$columns,'School Day','School Days',$link);
 	}
@@ -199,7 +199,7 @@ function _make($value,$column)
 		break;
 
 		case 'ADA':
-			return Percent((($THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE']))/$THIS_RET['STUDENTS']);
+			return _Percent((($THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['GRADE_ID']][$THIS_RET['CALENDAR_ID']][1]['STATE_VALUE']))/$THIS_RET['STUDENTS']);
 		break;
 
 		case 'AVERAGE_ATTENDANCE':
@@ -242,7 +242,7 @@ function _makeByDay($value,$column)
 		break;
 
 		case 'ADA':
-			return Percent((($THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE']))/$THIS_RET['STUDENTS']);
+			return _Percent((($THIS_RET['ATTENDANCE_POSSIBLE'] - $student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE']))/$THIS_RET['STUDENTS']);
 		break;
 
 		case 'AVERAGE_ATTENDANCE':
@@ -255,5 +255,10 @@ function _makeByDay($value,$column)
 			return round($student_days_absent[$THIS_RET['SCHOOL_DATE']][$THIS_RET['GRADE_ID']][1]['STATE_VALUE']/$cal_days,1);
 		break;
 	}
+}
+
+function _Percent($num,$decimals=2)
+{
+	return number_format($num*100,2).'%';
 }
 ?>

@@ -121,6 +121,6 @@ function _makePoints($value,$column)
 		return '<span style="color:#ff0000">'._('Negative').'</span>';
 	elseif($THIS_RET['TOTAL_POINTS']==0)
 		return '<span style="color:#0000ff">'._('Extra Credit').'</span>';
-	return Percent($value/$THIS_RET['TOTAL_POINTS'],0);
+	return number_format(($value/$THIS_RET['TOTAL_POINTS'])*100,0).'%';
 }
 ?>
