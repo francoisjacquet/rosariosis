@@ -133,11 +133,11 @@ if($modfunc=='find')
 {
 	PopTable('header',_('Find a Student'));
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=list" METHOD="POST">';
-	echo '<b>'.Localize('colon',_('Search Criteria')).'</b>';
+	echo '<b>'._('Search Criteria').':</b>';
 	Warehouse('searchstu');
 	echo '</TABLE>';
 	echo '<HR>';
-	echo '<b>'.Localize('colon',_('List')).'</B>';
+	echo '<b>'._('List').':</b>';
 	echo '<TABLE><TR><TD>';
 
 	foreach($org as $cat_name=>$tables)

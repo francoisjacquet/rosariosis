@@ -307,12 +307,12 @@ function _makeTipTitle($value,$column)
 		if($THIS_RET['DESCRIPTION'])
 		{
 			$tip_title = str_replace(array("'",'"'),array('&#39;','&rdquo;'),$THIS_RET['DESCRIPTION']);
-			$tip_title = Localize('colon',_('Description')).' '.str_replace("\r\n",'<BR />',$tip_title);
+			$tip_title = _('Description').': '.str_replace("\r\n",'<BR />',$tip_title);
 		}
 		if($THIS_RET['ASSIGNED_DATE'])
-			$tip_title .= ($tip_title?'<BR />':'').Localize('colon',_('Assigned')).' '.ProperDate($THIS_RET['ASSIGNED_DATE']);
+			$tip_title .= ($tip_title?'<BR />':'')._('Assigned').': '.ProperDate($THIS_RET['ASSIGNED_DATE']);
 		if($THIS_RET['DUE_DATE'])
-			$tip_title .= ($tip_title?'<BR />':'').Localize('colon',_('Due')).' '.ProperDate($THIS_RET['DUE_DATE']);
+			$tip_title .= ($tip_title?'<BR />':'')._('Due').': '.ProperDate($THIS_RET['DUE_DATE']);
 		$tip_title = '<A HREF="#" onMouseOver=\'stm(["'._('Details').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tip_title)).'"],tipmessageStyle); return false;\' onMouseOut="htm();" onclick="return false;">'.$value.'</A>';
 	}
 	else

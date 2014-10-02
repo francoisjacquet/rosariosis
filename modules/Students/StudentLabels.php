@@ -62,9 +62,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$name = $student['FULL_NAME'];
 				echo '<B>'.$name.'</B>';
 				if($_REQUEST['teacher'])
-					echo '<BR />'.Localize('colon',_('Teacher')).'&nbsp;'.$student['TEACHER'];
+					echo '<BR />'._('Teacher').':&nbsp;'.$student['TEACHER'];
 				if($_REQUEST['room'])
-					echo '<BR />'.Localize('colon',_('Room')).'&nbsp;'.$student['ROOM'];
+					echo '<BR />'._('Room').':&nbsp;'.$student['ROOM'];
 				echo '</td>';
 
 				$cols++;
@@ -119,7 +119,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] = '<TABLE>';
 
-		$extra['extra_header_left'] .= '<TR><TD colspan="4"><b>'.Localize('colon',_('Include On Labels')).'</b></TD></TR>';
+		$extra['extra_header_left'] .= '<TR><TD colspan="4"><b>'._('Include On Labels').':</b></TD></TR>';
 		$extra['extra_header_left'] .= '<TR class="st">';
 //modif Francois: add <label> on radio
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="full_name" value="given" checked /> '._('Last, Given Middle').'</label></TD>';

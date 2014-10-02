@@ -217,7 +217,7 @@ function CustomFields($location,$type='student',$extra=array())
 							{
 								$string .= " AND LOWER(s.".$field_name.") LIKE '".mb_strtolower($value)."%' ";
 								if(!$extra['NoSearchTerms'])
-									$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].'&nbsp;'.Localize('colon',_('starts with')).' </b></span>'.str_replace("''", "'", $value).'<BR />';
+									$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.$fields[mb_substr($field_name,7)][1]['TITLE'].'&nbsp;'._('starts with').': </b></span>'.str_replace("''", "'", $value).'<BR />';
 							}
 						break;
 					}

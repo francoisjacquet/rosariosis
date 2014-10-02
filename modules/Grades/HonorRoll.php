@@ -164,7 +164,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']));
 		$extra['extra_header_left'] .= '</TEXTAREA></TD></TR>';
 
-		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR class="st">';
+		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Substitutions').':</TD><TD><TABLE><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__FULL_NAME__</TD><TD>= '._('Last, First M').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__LAST_NAME__</TD><TD>= '._('Last Name').'</TD>';
 		$extra['extra_header_left'] .= '</TR><TR class="st">';

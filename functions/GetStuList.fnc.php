@@ -423,31 +423,31 @@ function appendSQL($sql,$extra=array())
 			//$sql .= " AND ssm.STUDENT_ID IN '".$_REQUEST['stuid']."'";
 			$sql .= " AND ssm.STUDENT_ID IN (".$stuids.")";
 			if(!$extra['NoSearchTerms'])
-				$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',sprintf(_('%s ID'),Config('NAME'))).' </b></span>'.$stuids.'<BR />';
+				$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.sprintf(_('%s ID'),Config('NAME')).': </b></span>'.$stuids.'<BR />';
 		}
 	}
 	if($_REQUEST['last'])
 	{
 		$sql .= " AND LOWER(s.LAST_NAME) LIKE '".mb_strtolower($_REQUEST['last'])."%'";
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Last Name starts with')).' </b></span>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Last Name starts with').': </b></span>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
 	}
 	if($_REQUEST['first'])
 	{
 		$sql .= " AND LOWER(s.FIRST_NAME) LIKE '".mb_strtolower($_REQUEST['first'])."%'";
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('First Name starts with')).' </b></span>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('First Name starts with').': </b></span>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
 	}
 	if($_REQUEST['grade'])
 	{
 		$sql .= " AND ssm.GRADE_ID = '".$_REQUEST['grade']."'";
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Grade Level')).' </b></span>'.GetGrade($_REQUEST['grade']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Grade Level').': </b></span>'.GetGrade($_REQUEST['grade']).'<BR />';
 	}
 	if(count($_REQUEST['grades']))
 	{
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',ngettext('Grade','Grades',sizeof($_REQUEST['grades']))).' </b></span>'.($_REQUEST['grades_not']=='Y'?_('Excluded').' ':'');
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.ngettext('Grade','Grades',sizeof($_REQUEST['grades'])).': </b></span>'.($_REQUEST['grades_not']=='Y'?_('Excluded').' ':'');
 		$list = $sep = '';
 		foreach($_REQUEST['grades'] as $id=>$y)
 		{
@@ -464,7 +464,7 @@ function appendSQL($sql,$extra=array())
 	{
 		$sql .= " AND (LOWER(a.ADDRESS) LIKE '%".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.CITY) LIKE '".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.STATE)='".mb_strtolower($_REQUEST['addr'])."' OR ZIPCODE LIKE '".$_REQUEST['addr']."%')";
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.Localize('colon',_('Address contains')).' </b></span>'.str_replace("''", "'", $_REQUEST['addr']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Address contains').': </b></span>'.str_replace("''", "'", $_REQUEST['addr']).'<BR />';
 	}
 
 	return $sql;

@@ -123,7 +123,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$tdy_tot += $tdy;
 				$pos_tot += $pos;
 			}
-			echo '<TR><TD colspan="28"></TD><TD colspan="4" style="text-align:right;"><B>'.Localize('colon',_('YTD Totals')).'</B></TD>';
+			echo '<TR><TD colspan="28"></TD><TD colspan="4" style="text-align:right;"><B>'._('YTD Totals').':</B></TD>';
 			echo '<TD style="text-align:right">'.number_format($abs_tot,1).'</TD><TD style="text-align:right">'.number_format($tdy_tot,0).'</TD><TD style="text-align:right">'.number_format($pos_tot,1).'</TD></TR>';
 
 			echo '</TABLE></TD></TR>';

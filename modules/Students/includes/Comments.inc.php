@@ -34,7 +34,7 @@ if(empty($_REQUEST['modfunc']))
 	echo '</TEXTAREA>';
 	echo '</TD>';
 	echo '</TR>';
-	//echo '<BR /><b>* '.Localize('colon',_('If more than one teacher will be adding comments for this student')).'</b><BR />';
+	//echo '<BR /><b>* '._('If more than one teacher will be adding comments for this student').':</b><BR />';
 	//echo '<ul><li>'._('Type your name above the comments you enter.').'</li></ul>';
 	//echo '<li>'._('Leave space for other teachers to enter their comments.').'</li></ul>';
 	//modif Francois: add time and user to comments "comment thread" like

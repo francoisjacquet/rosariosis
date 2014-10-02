@@ -100,7 +100,7 @@ function Widgets($item,&$myextra=null)
 						$extra['FROM'] .= ",SCHEDULE w_ss";
 						$extra['WHERE'] .= " AND w_ss.STUDENT_ID=s.STUDENT_ID AND w_ss.SYEAR=ssm.SYEAR AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID AND w_ss.COURSE_ID='".$course[1]['COURSE_ID']."' AND ('".DBDate()."' BETWEEN w_ss.START_DATE AND w_ss.END_DATE OR w_ss.END_DATE IS NULL)";
 						if(!$extra['NoSearchTerms'])
-							$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Course')).' </b>'.$course[1]['COURSE_TITLE'].'<BR />';
+							$_ROSARIO['SearchTerms'] .= '<b>'._('Course').': </b>'.$course[1]['COURSE_TITLE'].'<BR />';
 					}
 					else
 					{
@@ -108,7 +108,7 @@ function Widgets($item,&$myextra=null)
 						$extra['WHERE'] .= " AND w_ss.STUDENT_ID=s.STUDENT_ID AND w_ss.SYEAR=ssm.SYEAR AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID AND w_ss.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."' AND ('".DBDate()."' BETWEEN w_ss.START_DATE AND w_ss.END_DATE OR w_ss.END_DATE IS NULL)";
 						$course = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'"));
 						if(!$extra['NoSearchTerms'])
-							$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Course Period')).' </b>'.$course[1]['COURSE_TITLE'].': '.$course[1]['TITLE'].'<BR />';
+							$_ROSARIO['SearchTerms'] .= '<b>'._('Course Period').': </b>'.$course[1]['COURSE_TITLE'].': '.$course[1]['TITLE'].'<BR />';
 					}
 				}
 				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Course').'</TD><TD><DIV id="course_div"></DIV> <A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ChooseCourse.php","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</A></TD></TR>';
@@ -127,13 +127,13 @@ function Widgets($item,&$myextra=null)
 						$extra['FROM'] .= ",SCHEDULE_REQUESTS sr";
 						$extra['WHERE'] .= " AND sr.STUDENT_ID=s.STUDENT_ID AND sr.SYEAR=ssm.SYEAR AND sr.SCHOOL_ID=ssm.SCHOOL_ID AND sr.COURSE_ID='".$_REQUEST['request_course_id']."' ";
 						if(!$extra['NoSearchTerms'])
-							$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Request')).' </b>'.$course[1]['TITLE'].'<BR />';
+							$_ROSARIO['SearchTerms'] .= '<b>'._('Request').': </b>'.$course[1]['TITLE'].'<BR />';
 					}
 					else
 					{
 						$extra['WHERE'] .= " AND NOT EXISTS (SELECT '' FROM SCHEDULE_REQUESTS sr WHERE sr.STUDENT_ID=ssm.STUDENT_ID AND sr.SYEAR=ssm.SYEAR AND sr.COURSE_ID='".$_REQUEST['request_course_id']."' ) ";
 						if(!$extra['NoSearchTerms'])
-							$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Missing Request')).' </b>'.$course[1]['TITLE'].'<BR />';
+							$_ROSARIO['SearchTerms'] .= '<b>'._('Missing Request').': </b>'.$course[1]['TITLE'].'<BR />';
 					}
 				}
 				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Request').'</TD><TD><DIV id="request_div"></DIV> <A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ChooseRequest.php","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</A></TD></TR>';
@@ -210,7 +210,7 @@ function Widgets($item,&$myextra=null)
 					//$extra['WHERE'] .= " AND sgc.".(($_REQUEST['weighted']=='Y')?'WEIGHTED_':'')."GPA BETWEEN '".$_REQUEST['gpa_low']."' AND '".$_REQUEST['gpa_high']."' AND sgc.MARKING_PERIOD_ID='".$_REQUEST['gpa_term']."'";
 					$extra['WHERE'] .= " AND sms.CUM_".(($_REQUEST['weighted']=='Y')?'':'UN')."WEIGHTED_FACTOR*(SELECT GP_SCALE FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."') BETWEEN '".$_REQUEST['gpa_low']."' AND '".$_REQUEST['gpa_high']."'";
 					if(!$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'.(($_REQUEST['gpa_weighted']=='Y')?_('Weighted GPA').' ':_('Unweighted GPA').' ').Localize('colon',_('Between')).' </b>'.$_REQUEST['gpa_low'].' &amp; '.$_REQUEST['gpa_high'].'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'.(($_REQUEST['gpa_weighted']=='Y')?_('Weighted GPA').' ':_('Unweighted GPA').' ')._('Between').': </b>'.$_REQUEST['gpa_low'].' &amp; '.$_REQUEST['gpa_high'].'<BR />';
 				}
 //modif Francois: add <label> on checkbox
 //modif Francois: replace Cumulative by Full Year
@@ -244,7 +244,7 @@ function Widgets($item,&$myextra=null)
 					//$extra['WHERE'] .= " AND sgc.CLASS_RANK BETWEEN '".$_REQUEST['class_rank_low']."' AND '".$_REQUEST['class_rank_high']."'";
 					$extra['WHERE'] .= " AND sms.CUM_RANK BETWEEN '".$_REQUEST['class_rank_low']."' AND '".$_REQUEST['class_rank_high']."'";
 					if(!$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Class Rank')).' '._('Between').'</b>'.$_REQUEST['class_rank_low'].' &amp; '.$_REQUEST['class_rank_high'].'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Class Rank').': '._('Between').'</b>'.$_REQUEST['class_rank_low'].' &amp; '.$_REQUEST['class_rank_high'].'<BR />';
 				}
 //modif Francois: replace Cumulative by Full Year
 				//$extra['search'] .= "<TR><TD style="text-align:right;">"._('Class Rank').'<BR /><label><INPUT type="radio" name="class_rank_term" value=CUM checked />&nbsp;'._('Cumulative').'</label> &nbsp;<label><INPUT type="radio" name="class_rank_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label> &nbsp;<label><INPUT type="radio" name="class_rank_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME');
@@ -354,7 +354,7 @@ function Widgets($item,&$myextra=null)
 					$end_date = mb_strtoupper(date('d-M-y',time()));
 					$extra['WHERE'] .= " AND (SELECT count(*) FROM ELIGIBILITY e WHERE ssm.STUDENT_ID=e.STUDENT_ID AND e.SYEAR=ssm.SYEAR AND e.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND e.ELIGIBILITY_CODE='FAILING') > '0'";
 					if(!$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Eligibility')).' </b>'._('Ineligible').'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Eligibility').': </b>'._('Ineligible').'<BR />';
 				}
 				$extra['search'] .= '<TR><TD style="text-align:right; "></TD><TD><label><INPUT type="checkbox" name="ineligible" value="Y">&nbsp;'._('Ineligible').'</label></TD></TR>';
 				}
@@ -411,7 +411,7 @@ function Widgets($item,&$myextra=null)
 					}
 					$extra['WHERE'] .= " AND (coalesce((SELECT sum(p.AMOUNT) FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID=ssm.STUDENT_ID AND p.SYEAR=ssm.SYEAR),0)-coalesce((SELECT sum(f.AMOUNT) FROM BILLING_FEES f WHERE f.STUDENT_ID=ssm.STUDENT_ID AND f.SYEAR=ssm.SYEAR),0)) BETWEEN '".$_REQUEST['balance_low']."' AND '".$_REQUEST['balance_high']."' ";
 					if(!$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Student Billing Balance')).' </b>'._('Between').' '.$_REQUEST['balance_low'].' &amp; '.$_REQUEST['balance_high'].'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Student Billing Balance').': </b>'._('Between').' '.$_REQUEST['balance_low'].' &amp; '.$_REQUEST['balance_high'].'<BR />';
 				}
 				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Balance').'<BR /></TD><TD>'._('Between').' <INPUT type="text" name="balance_low" size="5" maxlength="10"> &amp; <INPUT type="text" name="balance_high" size="5" maxlength="10"></TD></TR>';
 				}
@@ -610,13 +610,13 @@ function Widgets($item,&$myextra=null)
 				{
 					$extra['WHERE'] .= " AND ssm.NEXT_SCHOOL IS NULL";
 					if(!$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Next Year')).' </b>'._('No Value').'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Next Year').': </b>'._('No Value').'<BR />';
 				}
 				elseif($_REQUEST['next_year']!='')
 				{
 					$extra['WHERE'] .= " AND ssm.NEXT_SCHOOL='".$_REQUEST['next_year']."'";
 					if(!$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'.Localize('colon',_('Next Year')).' </b>'.($_REQUEST['next_year']==UserSchool()?'Next grade at current school':($_REQUEST['next_year']=='0'?'Retain':($_REQUEST['next_year']=='-1'?'Do not enroll after this school year':$schools_RET[$_REQUEST['next_year']][1]['TITLE']))).'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Next Year').': </b>'.($_REQUEST['next_year']==UserSchool()?'Next grade at current school':($_REQUEST['next_year']=='0'?'Retain':($_REQUEST['next_year']=='-1'?'Do not enroll after this school year':$schools_RET[$_REQUEST['next_year']][1]['TITLE']))).'<BR />';
 				}
 				$extra['search'] .= '<TR><TD style="text-align:right;">'._('Next Year').'</TD><TD><SELECT name="next_year"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION><OPTION value="'.UserSchool().'">'._('Next grade at current school').'</OPTION><OPTION value="0">'._('Retain').'</OPTION><OPTION value="-1">'._('Do not enroll after this school year').'</OPTION>';
 				foreach($schools_RET as $id=>$school)

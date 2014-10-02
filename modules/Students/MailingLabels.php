@@ -2,7 +2,7 @@
 
 $max_cols = 3;
 $max_rows = 10;
-$to_family = Localize('colon',_('To the parents of'));
+$to_family = _('To the parents of').':';
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {

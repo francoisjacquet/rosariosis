@@ -77,17 +77,17 @@ function _makeExtra($value,$title='')
 {	global $THIS_RET;
 
 	if($THIS_RET['WITH_TEACHER_ID'])
-		$return .= Localize('colon',_('With')).'&nbsp;'.GetTeacher($THIS_RET['WITH_TEACHER_ID']).'<BR />';
+		$return .= _('With').':&nbsp;'.GetTeacher($THIS_RET['WITH_TEACHER_ID']).'<BR />';
 	if($THIS_RET['NOT_TEACHER_ID'])
-		$return .= Localize('colon',_('Not With')).'&nbsp;'.GetTeacher($THIS_RET['NOT_TEACHER_ID']).'<BR />';
+		$return .= _('Not With').':&nbsp;'.GetTeacher($THIS_RET['NOT_TEACHER_ID']).'<BR />';
 	if($THIS_RET['WITH_PERIOD_ID'])
-		$return .= Localize('colon',_('On')).'&nbsp;'.GetPeriod($THIS_RET['WITH_PERIOD_ID']).'<BR />';
+		$return .= _('On').':&nbsp;'.GetPeriod($THIS_RET['WITH_PERIOD_ID']).'<BR />';
 	if($THIS_RET['NOT_PERIOD_ID'])
-		$return .= Localize('colon',_('Not on')).'&nbsp;'.GetPeriod($THIS_RET['NOT_PERIOD_ID']).'<BR />';
+		$return .= _('Not on').':&nbsp;'.GetPeriod($THIS_RET['NOT_PERIOD_ID']).'<BR />';
 	if($THIS_RET['PRIORITY'])
-		$return .= Localize('colon',_('Priority')).'&nbsp;'.$THIS_RET['PRIORITY'].'<BR />';
+		$return .= _('Priority').':&nbsp;'.$THIS_RET['PRIORITY'].'<BR />';
 	if($THIS_RET['MARKING_PERIOD_ID'])
-		$return .= Localize('colon',_('Marking Period')).'&nbsp;'.GetMP($THIS_RET['MARKING_PERIOD_ID']).'<BR />';
+		$return .= _('Marking Period').':&nbsp;'.GetMP($THIS_RET['MARKING_PERIOD_ID']).'<BR />';
 
 	return $return;
 }

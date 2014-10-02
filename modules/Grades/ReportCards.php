@@ -225,7 +225,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						foreach($attendance_day_RET[$student_id][$last_mp] as $abs)
 							$count += 1-$abs['STATE_VALUE'];
 					}
-					$mp_absences = Localize('colon',sprintf(_('Absences in %s'),GetMP($last_mp,'TITLE'))).' '.$count;
+					$mp_absences = sprintf(_('Absences in %s'),GetMP($last_mp,'TITLE')).': '.$count;
 				}
 				if($_REQUEST['elements']['ytd_absences']=='Y')
 				{
@@ -251,7 +251,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$count = 0;
 					foreach($attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] as $abs)
 						$count++;
-					$mp_tardies = Localize('colon',sprintf(_('Tardy in %s'),GetMP($last_mp,'TITLE'))).' '.$count;
+					$mp_tardies = sprintf(_('Tardy in %s'),GetMP($last_mp,'TITLE')).': '.$count;
 				}
 				if($_REQUEST['elements']['ytd_tardies']=='Y')
 				{
@@ -259,7 +259,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					foreach($attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] as $mp_abs)
 						foreach($mp_abs as $abs)
 							$count++;
-					DrawHeader(Localize('colon',_('Tardy this year')).' '.$count,$mp_tardies);
+					DrawHeader(_('Tardy this year').': '.$count,$mp_tardies);
 					$count_lines++;
 				}
 				elseif($_REQUEST['elements']['mp_tardies']=='Y')
@@ -376,7 +376,7 @@ if(empty($_REQUEST['modfunc']))
 		$attendance_codes = DBGet(DBQuery("SELECT SHORT_NAME,ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL) AND TABLE_NAME='0'"));
 
 		$extra['extra_header_left'] = '<TABLE>';
-		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'.Localize('colon',_('Include on Report Card')).'</b></TD></TR>';
+		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'._('Include on Report Card').':</b></TD></TR>';
 
 		$extra['extra_header_left'] .= '<TR class="st"><TD></TD><TD><TABLE>';
 		$extra['extra_header_left'] .= '<TR>';
@@ -390,11 +390,11 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[ytd_absences]" value="Y" checked /> '._('Year-to-date Daily Absences').'</label></TD>';
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[mp_absences]" value="Y"'.(GetMP(UserMP(),'SORT_ORDER')!=1?' checked':'').'> '._('Daily Absences this quarter').'</label></TD>';
 		$extra['extra_header_left'] .= '</TR><TR>';
-		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[ytd_tardies]" value="Y"> '.Localize('colon',_('Other Attendance Year-to-date')).'</label> <SELECT name="ytd_tardies_code">';
+		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[ytd_tardies]" value="Y"> '._('Other Attendance Year-to-date').':</label> <SELECT name="ytd_tardies_code">';
 		foreach($attendance_codes as $code)
 			$extra['extra_header_left'] .= '<OPTION value='.$code['ID'].'>'.$code['TITLE'].'</OPTION>';
 		$extra['extra_header_left'] .= '</SELECT></TD>';
-		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[mp_tardies]" value="Y"> '.Localize('colon',_('Other Attendance this quarter')).'</label> <SELECT name="mp_tardies_code">';
+		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[mp_tardies]" value="Y"> '._('Other Attendance this quarter').':</label> <SELECT name="mp_tardies_code">';
 		foreach($attendance_codes as $code)
 			$extra['extra_header_left'] .= '<OPTION value='.$code['ID'].'>'.$code['TITLE'].'</OPTION>';
 		$extra['extra_header_left'] .= '</SELECT></TD>';

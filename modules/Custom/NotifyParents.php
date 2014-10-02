@@ -115,7 +115,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 
 		$extra['extra_header_left'] .= '<TR class="st"><TD>&nbsp;</TD><TD>'.'<label><TEXTAREA name="inputnotifyparentstext" cols="97" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),$template).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('New Parent Account').' - '._('Email Text')).'</span></label></TD></TR>';
 		
-		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR class="st">';
+		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Substitutions').':</TD><TD><TABLE><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__PARENT_NAME__</TD><TD>= '._('Parent Name').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__ASSOCIATED_STUDENTS__</TD><TD>= '._('Associated Students').'</TD>';
 		$extra['extra_header_left'] .= '</TR><TR class="st">';

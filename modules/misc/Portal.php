@@ -166,7 +166,7 @@ switch (User('PROFILE'))
 			
 			if (count($RET))
 			{
-				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.Localize('colon',_('Teachers have missing attendance data')).'</p></div>';
+				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'._('Teachers have missing attendance data').':</p></div>';
 				ListOutput($RET,array('SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'SCHOOL'=>_('School')),'Course Period with missing attendance data','Course Periods with missing attendance data',array(),array('COURSE_PERIOD_ID'),array('save'=>false,'search'=>false));
 //				echo '';
 			}
@@ -192,7 +192,7 @@ switch (User('PROFILE'))
 		    $RET = GetStuList($extra);
 		    if (count($RET))
             {
-			    echo '<p><div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.Localize('colon',sprintf(_('Some students have food service balances below %1.2f'),$food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'])).'</p></div>';
+			    echo '<p><div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('Some students have food service balances below %1.2f'),$food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE']).':</p></div>';
 			    ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'BALANCE'=>_('Balance')),'Student','Students',array(),array(),array('save'=>false,'search'=>false));
 //			    echo '</p>';
   		    }
@@ -314,7 +314,7 @@ switch (User('PROFILE'))
 			
 			if (count($RET))
 			{
-				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.Localize('colon',_('You have missing attendance data')).'</div></p>';
+				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'._('You have missing attendance data').':</div></p>';
 				ListOutput($RET,array('SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher')),'Course Period with missing attendance data','Course Periods with missing attendance data',array(),array('COURSE_PERIOD_ID'),array('save'=>false,'search'=>false));
 //				echo '</p>';
 			}

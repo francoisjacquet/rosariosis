@@ -361,7 +361,7 @@ if(empty($_REQUEST['modfunc']))
 				$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja WHERE s.STUDENT_ID=sja.STUDENT_ID AND sja.ADDRESS_ID='".$address_id."' AND sja.STUDENT_ID!='".UserStudentID()."'"));
 				if(count($xstudents))
 				{
-					$warning = Localize('colon',_('Other students associated with this address')).'<BR />';
+					$warning = _('Other students associated with this address').':<BR />';
 					foreach($xstudents as $xstudent)
 					{
 						$ximages = '';
@@ -513,7 +513,7 @@ if(empty($_REQUEST['modfunc']))
 					$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,STUDENT_RELATION,CUSTODY,EMERGENCY FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp WHERE s.STUDENT_ID=sjp.STUDENT_ID AND sjp.PERSON_ID='".$contact['PERSON_ID']."' AND sjp.STUDENT_ID!='".UserStudentID()."'"));
 					if(count($xstudents))
 					{
-						$warning = Localize('colon',_('Other students associated with this person')).'<BR />';
+						$warning = _('Other students associated with this person').':<BR />';
 						foreach($xstudents as $xstudent)
 						{
 							$ximages = '';

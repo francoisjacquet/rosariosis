@@ -207,7 +207,7 @@ if(empty($_REQUEST['modfunc']))
 		$attendance_codes = DBGet(DBQuery("SELECT SHORT_NAME,ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL) AND TABLE_NAME='0'"));
 
 		$extra['extra_header_left'] = '<TABLE>';
-		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'.Localize('colon',_('Include on Grade List')).'</b></TD></TR>';
+		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'._('Include on Grade List').':</b></TD></TR>';
 
 		$extra['extra_header_left'] .= '<TR class="st"><TD></TD><TD><TABLE>';
 		$extra['extra_header_left'] .= '<TR>';
@@ -221,11 +221,11 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[ytd_absences]" value="Y" checked /> '._('Year-to-date Daily Absences').'</label></TD>';
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[mp_absences]" value="Y"'.(GetMP(UserMP(),'SORT_ORDER')!=1?' checked':'').'> '._('Daily Absences this quarter').'</label></TD>';
 		$extra['extra_header_left'] .= '</TR><TR>';
-		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[ytd_tardies]" value="Y"> '.Localize('colon',_('Other Attendance Year-to-date')).'</label> <SELECT name="ytd_tardies_code">';
+		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[ytd_tardies]" value="Y"> '._('Other Attendance Year-to-date').':</label> <SELECT name="ytd_tardies_code">';
 		foreach($attendance_codes as $code)
 			$extra['extra_header_left'] .= '<OPTION value='.$code['ID'].'>'.$code['TITLE'].'</OPTION>';
 		$extra['extra_header_left'] .= '</SELECT></TD>';
-		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[mp_tardies]" value="Y"> '.Localize('colon',_('Other Attendance Year-to-date')).'</label> <SELECT name="mp_tardies_code">';
+		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[mp_tardies]" value="Y"> '._('Other Attendance Year-to-date').':</label> <SELECT name="mp_tardies_code">';
 		foreach($attendance_codes as $code)
 			$extra['extra_header_left'] .= '<OPTION value='.$code['ID'].'>'.$code['TITLE'].'</OPTION>';
 		$extra['extra_header_left'] .= '</SELECT></TD>';

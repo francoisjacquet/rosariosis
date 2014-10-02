@@ -172,7 +172,7 @@ function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 	echo ''.$student['STUDENT_ID'].'';
 	if(count($xstudents))
 	{
-		echo '<BR />'.Localize('colon',_('Other students on this account'));
+		echo '<BR />'._('Other students on this account').':';
 		foreach($xstudents as $xstudent)
 			echo '<BR />&nbsp;&nbsp;'.($xstudent['NICKNAME']?$xstudent['NICKNAME']:$xstudent['FIRST_NAME']).' '.$xstudent['LAST_NAME'];
 		echo '';

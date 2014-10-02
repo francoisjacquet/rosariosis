@@ -293,7 +293,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] = '<TABLE>';
 
-		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'.Localize('colon',_('Include on Transcript')).'</b><INPUT type="hidden" name="SCHOOL_ID" value="'.UserSchool().'"><BR /></TD></TR>';
+		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'._('Include on Transcript').':</b><INPUT type="hidden" name="SCHOOL_ID" value="'.UserSchool().'"><BR /></TD></TR>';
         $mp_types = DBGet(DBQuery("SELECT DISTINCT MP_TYPE FROM MARKING_PERIODS WHERE NOT MP_TYPE IS NULL AND SCHOOL_ID='".UserSchool()."'"),array(),array());
         $extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align:top;">'._('Marking Periods').':</TD><TD><TABLE><TR class="st"><TD  style="vertical-align:top;"><TABLE>';
 //modif Francois: add translation
@@ -341,7 +341,7 @@ if(empty($_REQUEST['modfunc']))
 		{
 			//modif Francois: add Show Studies Certificate option
 			$extra['extra_header_left'] .= '<DIV id="divcertificatetext" style="display:none"><TEXTAREA id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'])).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('Certificate Studies Text')).'</span>
-			<TABLE><TR><TD style="text-align:right; vertical-align: top;">'.Localize('colon',_('Substitutions')).'</TD><TD><TABLE><TR>';
+			<TABLE><TR><TD style="text-align:right; vertical-align: top;">'._('Substitutions').':</TD><TD><TABLE><TR>';
 			$extra['extra_header_left'] .= '<TD>__SSECURITY__</TD><TD>= '.str_replace(array("'",'"'),array('&#39;','\"'),$field_SSECURITY[1]['TITLE']).'</TD><TD colspan="3">&nbsp;</TD>';
 			$extra['extra_header_left'] .= '</TR><TR>';
 			$extra['extra_header_left'] .= '<TD>__FULL_NAME__</TD><TD>= '._('Last, First M').'</TD><TD>&nbsp;</TD>';

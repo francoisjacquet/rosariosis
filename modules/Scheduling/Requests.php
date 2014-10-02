@@ -127,7 +127,7 @@ function processRequest()
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 //modif Francois: css WPadmin
-	$link['add']['span'] = ''.Localize('colon',_('Add a Request')).'  &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <INPUT type="text" id="course_title" name="course_title" onkeypress="if(event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><DIV id="courses_div"></DIV>';
+	$link['add']['span'] = ''._('Add a Request').': &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <INPUT type="text" id="course_title" name="course_title" onkeypress="if(event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><DIV id="courses_div"></DIV>';
 	ListOutput($requests_RET,$columns,'Request','Requests',$link);
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
@@ -146,7 +146,7 @@ function _makeTeacher($value,$column)
 	foreach($teachers_RET as $teacher)
 		$options[$teacher['TEACHER_ID']] = $teacher['FIRST_NAME'].' '.$teacher['LAST_NAME'];
 
-	return '<div style="display:table-cell;">'.Localize('colon',_('With')).'&nbsp;</div><div style="display:table-cell;">'.SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][WITH_TEACHER_ID]','',$options).'</div><div style="display:table-cell;">'.'&nbsp;-&nbsp;'.Localize('colon',_('Without')).'&nbsp;</div><div style="display:table-cell;">'.SelectInput($THIS_RET['NOT_TEACHER_ID'],'values['.$THIS_RET['REQUEST_ID'].'][NOT_TEACHER_ID]','',$options).'</div>';
+	return '<div style="display:table-cell;">'._('With').':&nbsp;</div><div style="display:table-cell;">'.SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][WITH_TEACHER_ID]','',$options).'</div><div style="display:table-cell;">'.'&nbsp;-&nbsp;'._('Without').':&nbsp;</div><div style="display:table-cell;">'.SelectInput($THIS_RET['NOT_TEACHER_ID'],'values['.$THIS_RET['REQUEST_ID'].'][NOT_TEACHER_ID]','',$options).'</div>';
 }
 
 function _makePeriod($value,$column)
@@ -158,7 +158,7 @@ function _makePeriod($value,$column)
 	foreach($periods_RET as $period)
 		$options[$period['PERIOD_ID']] = $period['TITLE'];
 
-	return '<div style="display:table-cell;">'.Localize('colon',_('On')).'&nbsp;</div><div style="display:table-cell;">'.SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][WITH_PERIOD_ID]','',$options).'</div><div style="display:table-cell;">'.'&nbsp;-&nbsp;'.Localize('colon',_('Not on')).'&nbsp;</div><div style="display:table-cell;">'.SelectInput($THIS_RET['NOT_PERIOD_ID'],'values['.$THIS_RET['REQUEST_ID'].'][NOT_PERIOD_ID]','',$options).'</div>';
+	return '<div style="display:table-cell;">'._('On').':&nbsp;</div><div style="display:table-cell;">'.SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][WITH_PERIOD_ID]','',$options).'</div><div style="display:table-cell;">'.'&nbsp;-&nbsp;'._('Not on').':&nbsp;</div><div style="display:table-cell;">'.SelectInput($THIS_RET['NOT_PERIOD_ID'],'values['.$THIS_RET['REQUEST_ID'].'][NOT_PERIOD_ID]','',$options).'</div>';
 }
 
 // DOESN'T SUPPORT MP REQUEST

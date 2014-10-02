@@ -128,7 +128,7 @@ if(!$_REQUEST['modfunc'] && UserStudentID())
 	// warn if other students associated with the same account
 	if(count($xstudents))
 	{
-		$warning = Localize('colon',_('Other students associated with the same account')).'<BR />';
+		$warning = _('Other students associated with the same account').':<BR />';
 		foreach($xstudents as $xstudent)
 			$warning .= '&nbsp;'.str_replace('\'','&#39;',$xstudent['FULL_NAME']).'<BR />';
 		echo button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"');

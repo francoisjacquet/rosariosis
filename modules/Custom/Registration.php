@@ -147,7 +147,7 @@ echo ''._('We would appreciate it if you would enter just a little bit of inform
 if($addresses[1]['COUNT']!=0)
 	echo '<BR /><BR /><IMG SRC="assets/check_button.png" class="alignImg" /><b>'._('Your child has been registered.').'</b>';
 echo '<BR /><BR /><TABLE><TR><TD class="valign-top">';
-echo '<B>'.Localize('colon',_('Information about you')).'</B><BR /><BR />';
+echo '<B>'._('Information about you').':</B><BR /><BR />';
 echo '<TABLE class="cellpadding-3"><TR><TD>';
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST" onsubmit=\'for(i=0;i<document.forms[0].elements.length;i++){if(document.forms[0].elements[i].style.color=="rgb(187, 187, 187)" || document.forms[0].elements[i].style.color=="#bbbbbb") document.forms[0].elements[i].value="";}\'>';
 echo _makeInput('values[PEOPLE][1][FIRST_NAME]',_('First Name'));
@@ -156,7 +156,7 @@ echo '<BR />'._makeInput('values[PEOPLE][1][extra][Cell]',_('Cell Phone'),'','si
 echo '<BR />'._makeInput('values[PEOPLE][1][extra][Workplace]',_('Workplace'),'','size=30');
 echo '</TD></TR></TABLE>';
 echo '</TD><TD>';
-echo '<B>'.Localize('colon',_('Information about your spouse or significant other residing with you')).'</B><BR />'._('Leave this section blank if you are separated.').'';
+echo '<B>'._('Information about your spouse or significant other residing with you').':</B><BR />'._('Leave this section blank if you are separated.').'';
 echo '<TABLE><TR><TD class="valign-top">';
 echo _makeInput('values[PEOPLE][2][FIRST_NAME]',_('First Name'));
 echo _makeInput('values[PEOPLE][2][LAST_NAME]',_('Last Name'));
@@ -165,7 +165,7 @@ echo '<BR />'._makeInput('values[PEOPLE][2][extra][Workplace]',_('Workplace'),''
 echo '</TD></TR></TABLE>';
 echo '</TD></TR><TR><TD colspan="2">';
 
-echo '<B>'.Localize('colon',_('Your Address')).'</B>';
+echo '<B>'._('Your Address').':</B>';
 echo '<TABLE><TR><TD>';
 echo _makeInput('values[ADDRESS][1][ADDRESS]',_('Address'),'','size=40');
 echo '<BR />'._makeInput('values[ADDRESS][1][CITY]',_('City'),'','size=35');
@@ -180,7 +180,7 @@ for($i=3;$i<=6;$i++)
 	if($i==3 || $i==5)
 		echo '<TR>';
 	echo '<TD class="valign-top">';
-	echo '<B>'.Localize('colon',_('Grandparent Information')).'</B>';
+	echo '<B>'._('Grandparent Information').':</B>';
 	echo '<BR />'._makeInput('values[PEOPLE]['.$i.'][FIRST_NAME]',_('First Name'));
 	echo _makeInput('values[PEOPLE]['.$i.'][LAST_NAME]',_('Last Name'));
 	echo '<BR />';
@@ -199,7 +199,7 @@ for($i=3;$i<=6;$i++)
 }
 
 echo '<TR><TD colspan="2">';
-echo '<BR /><B>'.Localize('colon',_('Other Contacts')).'</B><BR />';
+echo '<BR /><B>'._('Other Contacts').':</B><BR />';
 
 echo _makeInput('values[PEOPLE][7][FIRST_NAME]',_('First Name'));
 echo _makeInput('values[PEOPLE][7][LAST_NAME]',_('Last Name'));
@@ -216,7 +216,7 @@ echo '</TD></TR></TABLE>';
 echo '<HR>';
 $custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS WHERE ID"),array(),array('ID'));
 $student = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
-echo '<B>'.sprintf(Localize('colon',_('Information about %s %s')),$student[1]['FIRST_NAME'],$student[1]['LAST_NAME']).'</B>';
+echo '<B>'.sprintf(_('Information about %s %s'),$student[1]['FIRST_NAME'],$student[1]['LAST_NAME']).':</B>';
 echo '<TABLE>';
 echo '<TR>';
 echo '<TD>';
