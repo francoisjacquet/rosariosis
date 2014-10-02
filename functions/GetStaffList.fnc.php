@@ -140,7 +140,7 @@ function appendStaffSQL($sql,$extra)
 	{
 		$sql .= " AND UPPER(s.USERNAME) LIKE '".mb_strtoupper($_REQUEST['username'])."%'";
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('UserName starts with')).' </b></span>'.str_replace("''", "'", $_REQUEST['username']).':<BR />';
+			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('UserName starts with').': </b></span>'.str_replace("''", "'", $_REQUEST['username']).'<BR />';
 	}
 
 	return $sql;
