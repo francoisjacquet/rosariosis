@@ -8,7 +8,7 @@ function _makeNextSchool($value,$column)
 		return _('Do not enroll after this school year');
 	else
 	{
-		$school_RET = DBGet(DBQuery("SELECT TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".$value."'"));
+		$school_RET = DBGet(DBQuery("SELECT TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."' AND ID='".$value."'"));
 		$school_title = $school_RET[1]['TITLE'];
 		
 		if($value==$THIS_RET['SCHOOL_ID'])

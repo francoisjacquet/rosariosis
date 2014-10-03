@@ -63,7 +63,7 @@ if(!UserSchool())
 	UpdateSchoolArray(UserSchool());
 }
 
-if(!UserMP() || (isset($_REQUEST['school']) && $_REQUEST['school']!=$old_school) || (isset($_REQUEST['syear']) && $_REQUEST['syear']!=$old_syear)) && User('PROFILE')!='parent')
+if((!UserMP() || (isset($_REQUEST['school']) && $_REQUEST['school']!=$old_school) || (isset($_REQUEST['syear']) && $_REQUEST['syear']!=$old_syear)) && User('PROFILE')!='parent')
 	$_SESSION['UserMP'] = GetCurrentMP('QTR',DBDate(),false);
 
 if((isset($_REQUEST['school']) && $_REQUEST['school']!=$old_school) || (isset($_REQUEST['syear']) && $_REQUEST['syear']!=$old_syear))
