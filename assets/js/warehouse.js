@@ -145,7 +145,7 @@ function ajaxPrepare(target){
 	scroll();
 	if (scrollTop=='Y')
 		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
-	if (target == '#menu' && modname)
+	if (target == '#menu' && window.modname)
 		openMenu(modname);
 }
 
