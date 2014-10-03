@@ -22,39 +22,48 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='update' && is_array($_P
 	{
 		$_SESSION['UserSchool'] = $_REQUEST['school'];
 		DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID='".UserSchool()."' WHERE STAFF_ID='".User('STAFF_ID')."'");
+		
+		UpdateSchoolArray(UserSchool());
 	}
 
-	$_SESSION['UserSyear'] = $_REQUEST['syear'];
-	$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
-	$_SESSION['UserMP'] = $_REQUEST['mp'];
+	if (isset($_REQUEST['syear']))
+		$_SESSION['UserSyear'] = $_REQUEST['syear'];
+		
+	if (isset($_REQUEST['period']))
+		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
+		
+	if (isset($_REQUEST['mp']))
+		$_SESSION['UserMP'] = $_REQUEST['mp'];
+		
 	if(User('PROFILE')=='parent')
 	{
-		if($_SESSION['student_id']!=$_REQUEST['student_id'])
+		if(UserStudentID()!=$_REQUEST['student_id'])
 			unset($_SESSION['UserMP']);
 		$_SESSION['student_id'] = $_REQUEST['student_id'];
 	}
 	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'])).'"; body_link.target = "body"; ajaxLink(body_link);';
 }
 
-if(empty($_SESSION['UserSyear']))
+if(!UserSyear())
 	$_SESSION['UserSyear'] = Config('SYEAR');
 
-if(empty($_SESSION['student_id']) && User('PROFILE')=='student')
+if(!UserStudentID() && User('PROFILE')=='student')
 	$_SESSION['student_id'] = $_SESSION['STUDENT_ID'];
 
-if(empty($_SESSION['staff_id']) && User('PROFILE')=='parent')
+if(!UserStaffID() && User('PROFILE')=='parent')
 	$_SESSION['staff_id'] = $_SESSION['STAFF_ID'];
 
-if(empty($_SESSION['UserSchool']))
+if(!UserSchool())
 {
-	if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && (!User('SCHOOLS') || mb_strpos(User('SCHOOLS'),','.User('CURRENT_SCHOOL_ID').',')!==false))
+	if(User('PROFILE')!='student' && (!User('SCHOOLS') || mb_strpos(User('SCHOOLS'),','.User('CURRENT_SCHOOL_ID').',')!==false))
 		$_SESSION['UserSchool'] = User('CURRENT_SCHOOL_ID');
 	elseif(User('PROFILE')=='student')
 		$_SESSION['UserSchool'] = trim(User('SCHOOLS'),',');
+	
+	UpdateSchoolArray(UserSchool());
 }
-UpdateSchoolArray(UserSchool());
 
-if((empty($_SESSION['UserMP']) || (isset($_REQUEST['school']) && $_REQUEST['school']!=$old_school) || (isset($_REQUEST['syear']) && $_REQUEST['syear']!=$old_syear)) && User('PROFILE')!='parent')
+if(!UserMP() || (isset($_REQUEST['school']) && $_REQUEST['school']!=$old_school) || (isset($_REQUEST['syear']) && $_REQUEST['syear']!=$old_syear)) && User('PROFILE')!='parent')
 	$_SESSION['UserMP'] = GetCurrentMP('QTR',DBDate(),false);
 
 if((isset($_REQUEST['school']) && $_REQUEST['school']!=$old_school) || (isset($_REQUEST['syear']) && $_REQUEST['syear']!=$old_syear))
@@ -98,12 +107,13 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 				$schools = mb_substr(str_replace(",","','",User('SCHOOLS')),2,-2);
 				$QI = DBQuery("SELECT ID,TITLE,SHORT_NAME FROM SCHOOLS WHERE SYEAR='".UserSyear()."'".($schools?" AND ID IN (".$schools.")":''));
 				$RET = DBGet($QI);
-
-				if(!UserSchool())
+				
+				//see line 50 - 53, UserSchool() should be set
+				/*if(!UserSchool())
 				{
 					$_SESSION['UserSchool'] = $RET[1]['ID'];
 					DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID='".UserSchool()."' WHERE STAFF_ID='".User('STAFF_ID')."'");
-				} ?>
+				}*/ ?>
 
 				<span class="br-after"><SELECT name="school" onChange="ajaxPostForm(this.form,true);" style="width:180px;">
 
@@ -139,8 +149,9 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 
 						<OPTION value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ((UserStudentID()==$student['STUDENT_ID'])?' SELECTED':''); ?>><?php echo $student['FULL_NAME']; ?></OPTION>
 
-						<?php if(UserStudentID()==$student['STUDENT_ID'])
-							$_SESSION['UserSchool'] = $student['SCHOOL_ID'];
+						<?php //see line 54 - 55, UserSchool() should be set
+						/*if(UserStudentID()==$student['STUDENT_ID'])
+							$_SESSION['UserSchool'] = $student['SCHOOL_ID'];*/
 					endforeach;
 					
 				endif; ?>
@@ -156,7 +167,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 			else
 				//modif Francois: limit school years to the years the student was enrolled
 				//$sql = "SELECT DISTINCT sy.SYEAR FROM SCHOOLS sy,STUDENT_ENROLLMENT s WHERE s.SYEAR=sy.SYEAR";
-				$sql = "SELECT DISTINCT sy.SYEAR FROM SCHOOLS sy,STUDENT_ENROLLMENT s WHERE s.SYEAR=sy.SYEAR AND s.STUDENT_ID='".$_SESSION['student_id']."'";
+				$sql = "SELECT DISTINCT sy.SYEAR FROM SCHOOLS sy,STUDENT_ENROLLMENT s WHERE s.SYEAR=sy.SYEAR AND s.STUDENT_ID='".UserStudentID()."'";
 			$sql .= " ORDER BY sy.SYEAR DESC";
 			$years_RET = DBGet(DBQuery($sql)); ?>
 

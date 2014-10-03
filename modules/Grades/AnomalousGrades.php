@@ -13,30 +13,30 @@ echo '</FORM>';
 
 if($_REQUEST['student_id'])
 {
-	if($_REQUEST['student_id']!=$_SESSION['student_id'])
+	if($_REQUEST['student_id']!=UserStudentID())
 	{
 		$_SESSION['student_id'] = $_REQUEST['student_id'];
-		if($_REQUEST['period'] && $_REQUEST['period']!=$_SESSION['UserCoursePeriod'])
+		if($_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
 	}
 }
 else
 {
-	if($_SESSION['student_id'])
+	if(UserStudentID())
 	{
 		unset($_SESSION['student_id']);
-		if($_REQUEST['period'] && $_REQUEST['period']!=$_SESSION['UserCoursePeriod'])
+		if($_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
 	}
 }
 if($_REQUEST['period'])
 {
-	if($_REQUEST['period']!=$_SESSION['UserCoursePeriod'])
+	if($_REQUEST['period']!=UserCoursePeriod())
 	{
 		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
 		if($_REQUEST['student_id'])
 		{
-			if($_REQUEST['student_id']!=$_SESSION['student_id'])
+			if($_REQUEST['student_id']!=UserStudentID())
 				$_SESSION['student_id'] = $_REQUEST['student_id'];
 		}
 		else

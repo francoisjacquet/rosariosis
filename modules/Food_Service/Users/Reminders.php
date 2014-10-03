@@ -10,7 +10,7 @@ $minimum_note = _('You now have a <b>negative balance</b> below the allowed mini
 
 if($_REQUEST['staff_id'])
 	unset($_REQUEST['staff_id']);
-if($_SESSION['staff_id'])
+if(UserStaffID())
 {
 	unset($_SESSION['staff_id']);
 }

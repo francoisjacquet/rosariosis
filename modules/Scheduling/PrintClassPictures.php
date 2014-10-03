@@ -17,7 +17,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$handle = PDFStart();
 		if($_REQUEST['legal_size']=='Y')
 			echo '<!-- MEDIA SIZE 8.5x14in -->';
-		$PCP_UserCoursePeriod = $_SESSION['UserCoursePeriod']; // save/restore for teachers
+		$PCP_UserCoursePeriod = UserCoursePeriod(); // save/restore for teachers
 		foreach($course_periods_RET as $course_period)
 		{
 			$course_period_id = $course_period['COURSE_PERIOD_ID'];

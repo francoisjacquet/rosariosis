@@ -83,7 +83,7 @@ if($_REQUEST['submit']['print'])
 			echo '<TR class="center"><TD colspan="3"><img src="assets/dailymenu'.UserSchool().'.jpg" /></TD></TR>'."\n";
 		}
 		else
-			echo '<TR class="center"><TD colspan="3"><span style="color:black" class="sizep2"><b>'.GetSchool(UserSchool()).'</b></span></TD></TR>'."\n";
+			echo '<TR class="center"><TD colspan="3"><span style="color:black" class="sizep2"><b>'.SchoolInfo('TITLE').'</b></span></TD></TR>'."\n";
 //modif Francois: display locale with strftime()
 	echo '<TR class="center"><TD>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD><TD><span style="color:black" class="sizep2"><b>'.ProperDate(date('Y.m.d',mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']))).'</b></span></TD><TD>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD></TR></TABLE>'."\n";
 	echo '<TABLE style="border: solid 2px; background-color: #fff;" class="cellpadding-3" id="calendar"><THEAD><TR style="text-align:center; background-color:#808080; color:white;">'."\n";

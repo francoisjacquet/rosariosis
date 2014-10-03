@@ -24,7 +24,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$first_extra = $extra;
 		$handle = PDFStart();
-		$PCL_UserCoursePeriod = $_SESSION['UserCoursePeriod']; // save/restore for teachers
+		$PCL_UserCoursePeriod = UserCoursePeriod(); // save/restore for teachers
 		foreach($course_periods_RET as $teacher_id=>$course_period)
 		{
 			unset($_ROSARIO['DrawHeader']);
@@ -44,7 +44,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			
 			//DrawHeader($course_period['TEACHER'],$course_period['COURSE_TITLE'].' '.GetPeriod($course_period['PERIOD_ID']).($course_period['MARKING_PERIOD_ID']!="$fy_id"?' - '.GetMP($course_period['MARKING_PERIOD_ID']):'').(mb_strlen($course_period['DAYS'])<5?' - '.$course_period['DAYS']:''));
 			DrawHeader($course_period['COURSE_TITLE'],$course_period['TITLE']);
-			DrawHeader(GetSchool(UserSchool()),ProperDate(DBDate()));
+			DrawHeader(SchoolInfo('TITLE'),ProperDate(DBDate()));
 
 			$_ROSARIO['User'] = array(1=>array('STAFF_ID'=>$course_period['TEACHER_ID'],'NAME'=>'name','PROFILE'=>'teacher','SCHOOLS'=>','.UserSchool().',','SYEAR'=>UserSyear()));
 			$_SESSION['UserCoursePeriod'] = $course_period['COURSE_PERIOD_ID'];

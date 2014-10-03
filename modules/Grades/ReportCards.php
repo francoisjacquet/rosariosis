@@ -211,7 +211,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					echo '<TABLE><TR><TD style="width:'.$picwidth.'px;"><img src="'.$logo_pic.'" width="'.$picwidth.'" /></TD><TD class="width-100p">';
 				DrawHeader(_('Report Card'));
 				DrawHeader($mps[key($mps)][1]['FULL_NAME'],$mps[key($mps)][1]['STUDENT_ID']);
-				DrawHeader($mps[key($mps)][1]['GRADE_ID'],GetSchool(UserSchool()));
+				DrawHeader($mps[key($mps)][1]['GRADE_ID'],SchoolInfo('TITLE'));
 				//modif Francois: add school year
 				DrawHeader(_('School Year').': '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')));
 

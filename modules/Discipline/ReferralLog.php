@@ -86,7 +86,7 @@ else
 			DrawHeader(_('Discipline Log'));
 
 			DrawHeader($referrals[1]['FULL_NAME'],$referrals[1]['STUDENT_ID']);
-			DrawHeader(GetSchool(UserSchool()),$courses[1]['GRADE_ID']);
+			DrawHeader(SchoolInfo('TITLE'),$courses[1]['GRADE_ID']);
 			if($start_date && $end_date)
 				DrawHeader(ProperDate($start_date).' - '.ProperDate($end_date));
 			else

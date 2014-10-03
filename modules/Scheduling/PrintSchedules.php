@@ -88,7 +88,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						echo '<BR /><BR /><BR />';
 						unset($_ROSARIO['DrawHeader']);
 						DrawHeader(_('Student Schedule'));
-						DrawHeader(GetSchool(UserSchool()),ProperDate($date));
+						DrawHeader(SchoolInfo('TITLE'),ProperDate($date));
 						DrawHeader($address[1]['FULL_NAME'],$address[1]['STUDENT_ID']);
 						DrawHeader($address[1]['GRADE_ID'],$_REQUEST['mp_id']?GetMP($_REQUEST['mp_id']):'');
 
@@ -108,7 +108,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					}
 					unset($_ROSARIO['DrawHeader']);
 					DrawHeader(_('Student Schedule'));
-					DrawHeader(GetSchool(UserSchool()),ProperDate($date));
+					DrawHeader(SchoolInfo('TITLE'),ProperDate($date));
 					DrawHeader($courses[1]['FULL_NAME'],$courses[1]['STUDENT_ID']);
 					DrawHeader($courses[1]['GRADE_ID'],$_REQUEST['mp_id']?GetMP($_REQUEST['mp_id']):'');
 
@@ -156,7 +156,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						echo '<BR /><BR /><BR />';
 						unset($_ROSARIO['DrawHeader']);
 						DrawHeader(_('Student Schedule'));
-						DrawHeader(GetSchool(UserSchool()),ProperDate($date));
+						DrawHeader(SchoolInfo('TITLE'),ProperDate($date));
 						DrawHeader($address[1]['FULL_NAME'],$address[1]['STUDENT_ID']);
 						DrawHeader($address[1]['GRADE_ID'],$_REQUEST['mp_id']?GetMP($_REQUEST['mp_id']):'');
 
@@ -178,7 +178,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					}
 					unset($_ROSARIO['DrawHeader']);
 					DrawHeader(_('Student Schedule'));
-					DrawHeader(GetSchool(UserSchool()),ProperDate($date));
+					DrawHeader(SchoolInfo('TITLE'),ProperDate($date));
 					DrawHeader($RET[$student_id][1]['FULL_NAME'],$RET[$student_id][1]['STUDENT_ID']);
 					DrawHeader($RET[$student_id][1]['GRADE_ID'],$_REQUEST['mp_id']?GetMP($_REQUEST['mp_id']):'');
 					

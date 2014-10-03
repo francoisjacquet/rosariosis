@@ -71,7 +71,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '<BR /><BR /><BR />';
 			DrawHeader(_('Progress Report'));
 			DrawHeader($student['FULL_NAME'],$student['STUDENT_ID']);
-			DrawHeader($student['GRADE_ID'],GetSchool(UserSchool()));
+			DrawHeader($student['GRADE_ID'],SchoolInfo('TITLE'));
 			DrawHeader($course_title,GetMP(UserMP()));
 			DrawHeader(ProperDate(DBDate()));
 

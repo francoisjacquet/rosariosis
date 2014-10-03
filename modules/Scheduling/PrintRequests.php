@@ -45,7 +45,7 @@ else
 					DrawHeader(_('Student Requests'));
 					DrawHeader($address[1]['FULL_NAME'],$address[1]['STUDENT_ID']);
 					DrawHeader($address[1]['GRADE_ID']);
-					DrawHeader(GetSchool(UserSchool()));
+					DrawHeader(SchoolInfo('TITLE'));
 					DrawHeader(ProperDate(DBDate()));
 		
 					echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$address[1]['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
@@ -60,7 +60,7 @@ else
 				DrawHeader(_('Student Requests'));
 				DrawHeader($courses[1]['FULL_NAME'],$courses[1]['STUDENT_ID']);
 				DrawHeader($courses[1]['GRADE_ID']);
-				DrawHeader(GetSchool(UserSchool()));
+				DrawHeader(SchoolInfo('TITLE'));
 				DrawHeader(ProperDate(DBDate()));
 				
 				ListOutput($courses,$columns,'Request','Requests',array(),array(),array('center'=>false,'print'=>false));

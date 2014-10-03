@@ -37,7 +37,7 @@ else
 	$RET = GetStuList($extra);
 	if(count($RET))
 	{
-		$SESSION_student_id_save = $_SESSION['student_id'];
+		$SESSION_student_id_save = UserStudentID();
 		$handle = PDFStart();
 		foreach($RET as $student)
 		{
@@ -50,7 +50,7 @@ else
 					DrawHeader(_('Statement'));
 					DrawHeader($address['FULL_NAME'],$address['STUDENT_ID']);
 					DrawHeader($address['GRADE_ID']);
-					DrawHeader(GetSchool(UserSchool()));
+					DrawHeader(SchoolInfo('TITLE'));
 					DrawHeader(ProperDate(DBDate()));
 		
 					echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$address['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
@@ -68,7 +68,7 @@ else
 				DrawHeader(_('Statement'));
 				DrawHeader($student['FULL_NAME'],$student['STUDENT_ID']);
 				DrawHeader($student['GRADE_ID']);
-				DrawHeader(GetSchool(UserSchool()));
+				DrawHeader(SchoolInfo('TITLE'));
 				DrawHeader(ProperDate(DBDate()));
 				include('modules/Student_Billing/StudentFees.php');
 				include('modules/Student_Billing/StudentPayments.php');

@@ -13,7 +13,7 @@ $table_list .= '</TABLE><BR />'._('New School\'s Title').' <INPUT type="text" na
 
 DrawHeader(ProgramTitle());
 
-if(Prompt(_('Confirm Copy School'),sprintf(_('Are you sure you want to copy the data for %s to a new school?'),GetSchool(UserSchool())),$table_list))
+if(Prompt(_('Confirm Copy School'),sprintf(_('Are you sure you want to copy the data for %s to a new school?'),SchoolInfo('TITLE')),$table_list))
 {
 	if(count($_REQUEST['tables']))
 	{

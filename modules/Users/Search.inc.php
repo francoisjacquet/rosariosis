@@ -6,8 +6,8 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 	{
 		case 'admin':
 		case 'teacher':
-			//if($_SESSION['staff_id'] && ($_REQUEST['modname']!='Users/Search.php' || $_REQUEST['student_id']=='new'))
-			if($_SESSION['staff_id'] && User('PROFILE')=='admin' && $_REQUEST['staff_id']=='new')
+			//if(UserStaffID() && ($_REQUEST['modname']!='Users/Search.php' || $_REQUEST['student_id']=='new'))
+			if(UserStaffID() && User('PROFILE')=='admin' && $_REQUEST['staff_id']=='new')
 				unset($_SESSION['staff_id']);
 
 			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back','advanced'));

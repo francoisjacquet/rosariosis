@@ -2,17 +2,17 @@
 
 function UserSchool()
 {
-	return $_SESSION['UserSchool'];
+	return (isset($_SESSION['UserSchool']) ? $_SESSION['UserSchool'] : null);
 }
 
 function UserSyear()
 {
-	return $_SESSION['UserSyear'];
+	return (isset($_SESSION['UserSyear']) ? $_SESSION['UserSyear'] : null);
 }
 
 function UserMP()
 {
-	return $_SESSION['UserMP'];
+	return (isset($_SESSION['UserMP']) ? $_SESSION['UserMP'] : null);
 }
 
 // DEPRECATED

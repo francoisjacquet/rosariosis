@@ -6,13 +6,13 @@ if(Preferences('SEARCH')!='Y' && !$extra['force_search'])
 	$_REQUEST['search_modfunc'] = 'list';
 if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 {
-	//if($_SESSION['student_id'] && User('PROFILE')!='parent' && User('PROFILE')!='student' && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
+	//if(UserStudentID() && User('PROFILE')!='parent' && User('PROFILE')!='student' && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
 	switch(User('PROFILE'))
 	{
 		case 'admin':
 		case 'teacher':
 			//if($_SESSION['student_id'] && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
-			if($_SESSION['student_id'] && $_REQUEST['student_id']=='new')
+			if(UserStudentID() && $_REQUEST['student_id']=='new')
 				unset($_SESSION['student_id']);
 
 			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back','advanced'));
@@ -217,7 +217,13 @@ else
 		if(!is_array($students_RET[1]['STUDENT_ID']))
 		{
 			$_SESSION['student_id'] = $students_RET[1]['STUDENT_ID'];
-			$_SESSION['UserSchool'] = $students_RET[1]['SCHOOL_ID'];
+			
+			if($students_RET[1]['SCHOOL_ID']!=UserSchool())
+			{
+				$_SESSION['UserSchool'] = $students_RET[1]['SCHOOL_ID'];
+				UpdateSchoolArray(UserSchool());
+			}
+
 			unset($_REQUEST['search_modfunc']);
 		}
 		if($_REQUEST['modname']!=$_REQUEST['next_modname'])

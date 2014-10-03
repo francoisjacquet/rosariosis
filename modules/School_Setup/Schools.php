@@ -137,7 +137,7 @@ if(empty($_REQUEST['modfunc']))
 	{
 		$schooldata = DBGet(DBQuery("SELECT ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,PRINCIPAL,WWW_ADDRESS,SCHOOL_NUMBER,REPORTING_GP_SCALE,SHORT_NAME,NUMBER_DAYS_ROTATION FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 		$schooldata = $schooldata[1];
-		$school_name = GetSchool(UserSchool());
+		$school_name = SchoolInfo('TITLE');
 	}
 	else
 		$school_name = _('Add a School');

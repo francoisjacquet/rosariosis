@@ -58,7 +58,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				//DrawHeader(ParseMLField(Config('TITLE')).' Letter');
 				DrawHeader('&nbsp;');
 				DrawHeader($student['FULL_NAME'],$student['STUDENT_ID']);
-				DrawHeader($student['GRADE_ID'],GetSchool(UserSchool()));
+				DrawHeader($student['GRADE_ID'],SchoolInfo('TITLE'));
 				//DrawHeader('',GetMP(GetCurrentMP('QTR',DBDate(),false)));
 				DrawHeader(ProperDate(DBDate()));
 

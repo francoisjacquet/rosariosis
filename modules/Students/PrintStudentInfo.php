@@ -41,7 +41,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				DrawHeader(_('Student Info'), '<img src="'.$logo_pic.'" height="100" />');
 			else
 				DrawHeader(_('Student Info'), '<div style="height:100px;">&nbsp;</div>');			
-			DrawHeader($student['FULL_NAME'],GetSchool(UserSchool()));
+			DrawHeader($student['FULL_NAME'],SchoolInfo('TITLE'));
 			DrawHeader($student['STUDENT_ID'],GetGrade($student['GRADE_ID']));
 			DrawHeader(ProperDate(DBDate()));
 

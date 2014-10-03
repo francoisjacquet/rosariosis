@@ -20,10 +20,13 @@ function Search($type,$extra=null)
 				if($_REQUEST['student_id']!='new')
 				{
 					$_SESSION['student_id'] = $_REQUEST['student_id'];
-					if($_REQUEST['school_id'])
+					if(!empty($_REQUEST['school_id']) && $_REQUEST['school_id']!=UserSchool())
+					{
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
+						UpdateSchoolArray(UserSchool());
+					}
 				}
-				elseif(isset($_SESSION['student_id']))
+				elseif(UserStudentID())
 					unset($_SESSION['student_id']);
 			}
 			elseif(!UserStudentID() || $extra['new']==true)
@@ -50,10 +53,14 @@ function Search($type,$extra=null)
 				if($_REQUEST['staff_id']!='new')
 				{
 					$_SESSION['staff_id'] = $_REQUEST['staff_id'];
-					if($_REQUEST['school_id'])
+					
+					if(!empty($_REQUEST['school_id']) && $_REQUEST['school_id']!=UserSchool())
+					{
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
+						UpdateSchoolArray(UserSchool());
+					}
 				}
-				elseif(isset($_SESSION['staff_id']))
+				elseif(UserStaffID())
 					unset($_SESSION['staff_id']);
 			}
 			elseif(!UserStaffID() || $extra['new']==true)

@@ -22,7 +22,7 @@ else
 	$RET = GetStaffList($extra);
 	if(count($RET))
 	{
-		$SESSION_staff_id_save = $_SESSION['staff_id'];
+		$SESSION_staff_id_save = UserStaffID();
 		$handle = PDFStart();
 		foreach($RET as $staff)
 		{
@@ -31,7 +31,7 @@ else
 				DrawHeader(_('Statement'));
 				DrawHeader($staff['FULL_NAME'],$staff['STAFF_ID']);
 				DrawHeader($staff['GRADE_ID']);
-				DrawHeader(GetSchool(UserSchool()));
+				DrawHeader(SchoolInfo('TITLE'));
 				DrawHeader(ProperDate(DBDate()));
 				include('modules/Accounting/Salaries.php');
 				include('modules/Accounting/StaffPayments.php');

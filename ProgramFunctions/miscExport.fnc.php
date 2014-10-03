@@ -6,10 +6,16 @@ function _makeNextSchool($value,$column)
 		return _('Retain');
 	elseif($value=='-1')
 		return _('Do not enroll after this school year');
-	elseif($value==$THIS_RET['SCHOOL_ID'])
-		return _('Next Grade at ').GetSchool($value);
 	else
-		return GetSchool($value);
+	{
+		$school_RET = DBGet(DBQuery("SELECT TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".$value."'"));
+		$school_title = $school_RET[1]['TITLE'];
+		
+		if($value==$THIS_RET['SCHOOL_ID'])
+			return _('Next Grade at ').$school_title;
+		else
+			return $school_title;
+	}
 }
 
 function _makeCalendar($value,$column)
