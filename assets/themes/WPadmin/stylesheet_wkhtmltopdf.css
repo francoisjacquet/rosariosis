@@ -2,7 +2,7 @@
 
 #wrap{height:auto;min-height:100%;width:100%;position:relative}
 #menuback,#menu{width:205px}
-#menuback{position:absolute;top:0;bottom:0;z-index:-1}
+#menuback{position:absolute;top:0;bottom:0;left:0;z-index:-1}
 #menuback,#menu{border-width:0 1px 0 0;border-style:solid}
 #menu{position:relative;float:left}
 #menushadow{position:absolute;top:0;right:0;bottom:0;width:6px;z-index:20}
@@ -48,10 +48,6 @@ iframe,img{
 td,textarea{
 	line-height:inherit
 }
-select{
-	padding:2px;
-	height:2em
-}
 input,select{
 	line-height:15px
 }
@@ -77,6 +73,10 @@ li,dd{
 textarea,input,select{
 	margin:2px 1px;
 	padding:3px
+}
+select{
+	padding:2px;
+	height:23px
 }
 h1,h2,h3,h4{
 	display:block;
@@ -107,9 +107,6 @@ h4{
 }
 ul,ol{
 	padding:0
-}
-ul{
-	list-style:none
 }
 ol{
 	list-style-type:decimal;
@@ -210,7 +207,8 @@ label{
 #adminmenu{
 	clear:left;
 	margin:0;
-	padding:0
+	padding:0;
+	padding-top:5px;
 }
 #adminmenu *,.widefat th{
 	-webkit-user-select:none;
@@ -242,6 +240,14 @@ label{
 }
 #adminmenu .wp-submenu a{
 	margin:0
+}
+.current-person{
+	padding:1px;
+	margin-top:5px;
+}
+.current-person img{
+	vertical-align:middle;
+	height:24px
 }
 .widefat th,.widefat td{
 	overflow:hidden
@@ -448,6 +454,12 @@ span.center{
 .BottomButton{
 	padding-top:16px;
 }
+.BottomButton{
+	margin-right:8px;
+}
+.BottomButton img{
+	height:32px
+}
 .BottomButton span{
 	vertical-align:super
 }
@@ -496,6 +508,9 @@ div.st{
 .calendar-day{
 	height:inherit
 }
+.br-after{
+	display:block
+}
 /*responsive tables*/
 .rt .link2colorBox{
 	display:none
@@ -503,9 +518,4 @@ div.st{
 .divPortalPoll{
 	max-height:350px;
 	overflow-y:auto
-}
-
-/*wkhtmltopdf: bigger font size*/
-*{
-    font-size:16px
 }
