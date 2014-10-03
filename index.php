@@ -31,7 +31,7 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 	AND SYEAR='".Config('SYEAR')."' 
 	AND UPPER(USERNAME)=UPPER('".$_REQUEST['USERNAME']."')"));
 	if ($login_RET && match_password($login_RET[1]['PASSWORD'], $_REQUEST['PASSWORD']))
-		$_REQUEST['PASSWORD'] = '';
+		unset($_REQUEST['PASSWORD'],$_REQUEST['USERNAME']);
 	else
 		$login_RET = false;
 	if(!$login_RET)
@@ -44,7 +44,7 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 		AND CURRENT_DATE>=se.START_DATE 
 		AND (CURRENT_DATE<=se.END_DATE OR se.END_DATE IS NULL)"));
 		if ($student_RET && match_password($student_RET[1]['PASSWORD'], $_REQUEST['PASSWORD']))
-			$_REQUEST['PASSWORD'] = '';
+			unset($_REQUEST['PASSWORD'],$_REQUEST['USERNAME']);
 		else
 			$student_RET = false;
 	}
@@ -58,7 +58,7 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 		AND UPPER(USERNAME)=UPPER('".$_REQUEST['USERNAME']."')"));
 		if ($admin_RET && match_password($admin_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'])) 
 		{
-			$_REQUEST['PASSWORD'] = '';
+			unset($_REQUEST['PASSWORD'],$_REQUEST['USERNAME']);
 			$login_RET = DBGet(DBQuery("SELECT USERNAME,PROFILE,STAFF_ID,LAST_LOGIN,FAILED_LOGIN FROM STAFF WHERE SYEAR='".Config('SYEAR')."' AND STAFF_ID='".$admin_RET[1]['STAFF_ID']."'"));
 		}
 	}
