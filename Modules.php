@@ -31,12 +31,6 @@ if(isset($_REQUEST['modname']))
 {
 	$modname = $_REQUEST['modname'];
 	
-	//modif Francois: add TinyMCE to the textarea (see modules/Students/Letters.php & modules/Grades/HonorRollSubject.php & modules/Grades/HonorRoll.php)
-	if (($modname=='Students/Letters.php' && isset($_REQUEST['letter_text'])) || (($modname=='Grades/HonorRollSubject.php' || $modname=='Grades/HonorRoll.php') && isset($_REQUEST['honor_roll_text'])))
-	{
-		$REQUEST_letter_text = $_REQUEST['letter_text'];
-		$REQUEST_honor_roll_text = $_REQUEST['honor_roll_text'];
-	}
 	array_rwalk($_REQUEST,'strip_tags');
 
 	if(!isset($_REQUEST['_ROSARIO_PDF']))

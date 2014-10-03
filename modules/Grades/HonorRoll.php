@@ -1,12 +1,23 @@
 <?php
 
-
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if(count($_REQUEST['st_arr']))
 	{
+		if (empty($_REQUEST['list']))//certificate
+		{
+			//modif Francois: bypass strip_tags on the $_REQUEST vars
+			$raw_post_vars = file_get_contents('php://input');
+			$post_vars = urldecode($raw_post_vars);
+			$REQUEST_honor_roll_text = substr_replace($post_vars,'',mb_strpos($post_vars,'&frame='));
+			//frame before st_arr, so already removed
+			//$REQUEST_honor_roll_text = substr_replace($REQUEST_honor_roll_text,'',mb_strpos($REQUEST_honor_roll_text,'&st_arr[]='));
+			$REQUEST_honor_roll_text = str_replace('list=&','',$REQUEST_honor_roll_text);
+			$REQUEST_honor_roll_text = str_replace('honor_roll_text=','',$REQUEST_honor_roll_text);
+		}
+
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
-		$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
 
 		$mp_RET = DBGet(DBQuery("SELECT TITLE,END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND MARKING_PERIOD_ID='".UserMP()."'"));
 		$school_info_RET = DBGet(DBQuery("SELECT TITLE,PRINCIPAL FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
