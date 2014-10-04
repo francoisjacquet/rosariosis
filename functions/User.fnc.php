@@ -26,10 +26,7 @@ function User($item)
 			ORDER BY se.END_DATE DESC LIMIT 1";
 			$_ROSARIO['User'] = DBGet(DBQuery($sql));
 			if($_ROSARIO['User'][1]['SCHOOL_ID']!=UserSchool())
-			{
 				$_SESSION['UserSchool'] = $_ROSARIO['User'][1]['SCHOOL_ID'];
-				UpdateSchoolArray(UserSchool());
-			}
 		}
 		else
 			exit('Error');

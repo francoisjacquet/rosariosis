@@ -11,6 +11,9 @@ function UpdateSchoolArray($school_id=null){
 }
 
 function SchoolInfo($field=null){
+	if($_SESSION['SchoolData']['ID']!=UserSchool())
+		UpdateSchoolArray(UserSchool());
+		
     if(isset($field))
         return $_SESSION['SchoolData'][$field];
     else

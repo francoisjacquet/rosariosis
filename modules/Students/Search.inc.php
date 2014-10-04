@@ -219,10 +219,7 @@ else
 			$_SESSION['student_id'] = $students_RET[1]['STUDENT_ID'];
 			
 			if($students_RET[1]['SCHOOL_ID']!=UserSchool())
-			{
 				$_SESSION['UserSchool'] = $students_RET[1]['SCHOOL_ID'];
-				UpdateSchoolArray(UserSchool());
-			}
 
 			unset($_REQUEST['search_modfunc']);
 		}

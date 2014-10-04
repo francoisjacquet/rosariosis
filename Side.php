@@ -22,8 +22,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='update' && is_array($_P
 	{
 		$_SESSION['UserSchool'] = $_REQUEST['school'];
 		DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID='".UserSchool()."' WHERE STAFF_ID='".User('STAFF_ID')."'");
-		
-		UpdateSchoolArray(UserSchool());
 	}
 
 	if (isset($_REQUEST['syear']))
@@ -59,8 +57,6 @@ if(!UserSchool())
 		$_SESSION['UserSchool'] = User('CURRENT_SCHOOL_ID');
 	elseif(User('PROFILE')=='student')
 		$_SESSION['UserSchool'] = trim(User('SCHOOLS'),',');
-	
-	UpdateSchoolArray(UserSchool());
 }
 
 if((!UserMP() || (isset($_REQUEST['school']) && $_REQUEST['school']!=$old_school) || (isset($_REQUEST['syear']) && $_REQUEST['syear']!=$old_syear)) && User('PROFILE')!='parent')

@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL ^ E_NOTICE);
+error_reporting(1);
 include('Warehouse.php');
 
 function array_rwalk(&$array, $function)

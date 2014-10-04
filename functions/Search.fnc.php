@@ -21,10 +21,7 @@ function Search($type,$extra=null)
 				{
 					$_SESSION['student_id'] = $_REQUEST['student_id'];
 					if(!empty($_REQUEST['school_id']) && $_REQUEST['school_id']!=UserSchool())
-					{
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
-						UpdateSchoolArray(UserSchool());
-					}
 				}
 				elseif(UserStudentID())
 					unset($_SESSION['student_id']);
@@ -55,10 +52,7 @@ function Search($type,$extra=null)
 					$_SESSION['staff_id'] = $_REQUEST['staff_id'];
 					
 					if(!empty($_REQUEST['school_id']) && $_REQUEST['school_id']!=UserSchool())
-					{
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
-						UpdateSchoolArray(UserSchool());
-					}
 				}
 				elseif(UserStaffID())
 					unset($_SESSION['staff_id']);
