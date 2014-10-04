@@ -80,7 +80,7 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 				if($_REQUEST['calendar_id'])
 					DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$calendar_id."'");
 //modif Francois: fix bug MINUTES not numeric
-				$create_calendar_sql = "INSERT INTO ATTENDANCE_CALENDAR (SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID) (SELECT '".UserSyear()."','".UserSchool()."',SCHOOL_DATE,".($_REQUEST['minutes'] && intval($minutes) > 0?"'".$_REQUEST['minutes']."'":'MINUTES').",'".$calendar_id."' FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$_REQUEST['copy_id']."' AND extract(DOW FROM SCHOOL_DATE) IN (".$weekdays_list."))";
+				$create_calendar_sql = "INSERT INTO ATTENDANCE_CALENDAR (SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID) (SELECT '".UserSyear()."','".UserSchool()."',SCHOOL_DATE,".($_REQUEST['minutes'] && intval($minutes) > 0?"'".$_REQUEST['minutes']."'":'MINUTES').",'".$calendar_id."' FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$_REQUEST['copy_id']."' AND extract(DOW FROM SCHOOL_DATE) IN (".$weekdays_list.")";
 				//modif Francois: bugfix SQL bug empty school dates
 				if($_REQUEST['month_min'] && $_REQUEST['month_max'])
 				{
@@ -104,7 +104,8 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 					}
 				}
 				if($_REQUEST['date_min'] && $_REQUEST['date_max'])
-					$create_calendar_sql .= "' AND SCHOOL_DATE BETWEEN '".$_REQUEST['date_min']."' AND '".$_REQUEST['date_max'];
+					$create_calendar_sql .= " AND SCHOOL_DATE BETWEEN '".$_REQUEST['date_min']."' AND '".$_REQUEST['date_max']."'";
+				$create_calendar_sql .= ")";
 				DBQuery($create_calendar_sql);
 			}
 		}
