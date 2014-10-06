@@ -1,22 +1,13 @@
 <?php
 
+include('ProgramFunctions/getRawPOSTvar.fnc.php');
+
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if(count($_REQUEST['st_arr']))
 	{
 		//modif Francois: bypass strip_tags on the $_REQUEST vars
-		$raw_post_vars = file_get_contents('php://input');
-		$post_vars = urldecode($raw_post_vars);
-		
-		if(isset($_REQUEST['controller']) && $_REQUEST['controller']=='Y')
-			$REQUEST_letter_text = substr_replace($post_vars,'',mb_strpos($post_vars,'&controller='));
-		else
-			$REQUEST_letter_text = substr_replace($post_vars,'',mb_strpos($post_vars,'&st_arr[]='));
-			
-		if(isset($_REQUEST['mailing_labels']) && $_REQUEST['mailing_labels']=='Y')
-			$REQUEST_letter_text = str_replace('mailing_labels=Y&','',$REQUEST_letter_text);
-			
-		$REQUEST_letter_text = str_replace('letter_text=','',$REQUEST_letter_text);
+		$REQUEST_letter_text = getRawPOSTvar('letter_text');
 		
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";

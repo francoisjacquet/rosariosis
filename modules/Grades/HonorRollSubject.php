@@ -1,23 +1,14 @@
 <?php
 
+include('ProgramFunctions/getRawPOSTvar.fnc.php');
+
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if(count($_REQUEST['st_arr']))
 	{
 		//modif Francois: bypass strip_tags on the $_REQUEST vars
-		$raw_post_vars = file_get_contents('php://input');
-		$post_vars = urldecode($raw_post_vars);
-		$REQUEST_honor_roll_text = substr_replace($post_vars,'',mb_strpos($post_vars,'&frame='));
+		$REQUEST_honor_roll_text = getRawPOSTvar('honor_roll_text');
 		
-		//frame before controller, st_arr & clipart, so already removed
-		/*if(isset($_REQUEST['controller']) && $_REQUEST['controller']=='Y')
-			$REQUEST_letter_text = substr_replace($post_vars,'',mb_strpos($post_vars,'&controller='));
-		else
-			$REQUEST_letter_text = substr_replace($post_vars,'',mb_strpos($post_vars,'&st_arr[]='));*/
-		//$REQUEST_honor_roll_text = substr_replace($REQUEST_honor_roll_text,'',mb_strpos($REQUEST_honor_roll_text,'&clipart='));
-		
-		$REQUEST_honor_roll_text = str_replace('honor_roll_text=','',$REQUEST_honor_roll_text);
-
 		//modif Francois: add Template
 		$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
 		if (!$template_update)

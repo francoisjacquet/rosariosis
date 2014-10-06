@@ -1,5 +1,7 @@
 <?php
 
+include('ProgramFunctions/getRawPOSTvar.fnc.php');
+
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if(count($_REQUEST['st_arr']))
@@ -7,18 +9,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		if (empty($_REQUEST['list']))//certificate
 		{
 			//modif Francois: bypass strip_tags on the $_REQUEST vars
-			$raw_post_vars = file_get_contents('php://input');
-			$post_vars = urldecode($raw_post_vars);
-			$REQUEST_honor_roll_text = substr_replace($post_vars,'',mb_strpos($post_vars,'&frame='));
-			
-			//frame before controller & st_arr, so already removed
-			/*if(isset($_REQUEST['controller']) && $_REQUEST['controller']=='Y')
-				$REQUEST_letter_text = substr_replace($post_vars,'',mb_strpos($post_vars,'&controller='));
-			else
-				$REQUEST_letter_text = substr_replace($post_vars,'',mb_strpos($post_vars,'&st_arr[]='));*/
-				
-			$REQUEST_honor_roll_text = str_replace('list=&','',$REQUEST_honor_roll_text);
-			$REQUEST_honor_roll_text = str_replace('honor_roll_text=','',$REQUEST_honor_roll_text);
+			$REQUEST_honor_roll_text = getRawPOSTvar('honor_roll_text');
 		}
 
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
