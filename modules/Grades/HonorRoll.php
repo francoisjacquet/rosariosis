@@ -1,6 +1,6 @@
 <?php
 
-include('ProgramFunctions/getRawPOSTvar.fnc.php');
+include('ProgramFunctions/GetRawPOSTvar.fnc.php');
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
@@ -9,7 +9,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		if (empty($_REQUEST['list']))//certificate
 		{
 			//modif Francois: bypass strip_tags on the $_REQUEST vars
-			$REQUEST_honor_roll_text = getRawPOSTvar('honor_roll_text');
+			$REQUEST_honor_roll_text = GetRawPOSTvar('honor_roll_text');
 		}
 
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';

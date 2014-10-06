@@ -3,7 +3,7 @@
 //modif Francois: bypass strip_tags on the $_REQUEST vars
 
 //used to get TinyMCE textarea content
-function getRawPOSTvar($key)
+function GetRawPOSTvar($key)
 {
 	$rawpost = "&".file_get_contents("php://input"); 
 	$pos = preg_match("/&".$key."=([^&]*)/i",$rawpost, $regs);

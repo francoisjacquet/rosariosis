@@ -1,13 +1,13 @@
 <?php
 
-include('ProgramFunctions/getRawPOSTvar.fnc.php');
+include('ProgramFunctions/GetRawPOSTvar.fnc.php');
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if(count($_REQUEST['st_arr']))
 	{
 		//modif Francois: bypass strip_tags on the $_REQUEST vars
-		$REQUEST_honor_roll_text = getRawPOSTvar('honor_roll_text');
+		$REQUEST_honor_roll_text = GetRawPOSTvar('honor_roll_text');
 		
 		//modif Francois: add Template
 		$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));

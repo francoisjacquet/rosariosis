@@ -1,13 +1,13 @@
 <?php
 
-include('ProgramFunctions/getRawPOSTvar.fnc.php');
+include('ProgramFunctions/GetRawPOSTvar.fnc.php');
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if(count($_REQUEST['st_arr']))
 	{
 		//modif Francois: bypass strip_tags on the $_REQUEST vars
-		$REQUEST_letter_text = getRawPOSTvar('letter_text');
+		$REQUEST_letter_text = GetRawPOSTvar('letter_text');
 		
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
