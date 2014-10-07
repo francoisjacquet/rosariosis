@@ -4,18 +4,15 @@
 // 'config' if the value is needed in multiple modules
 // 'program_config' if the value is needed in one module
 
+include('ProgramFunctions/FileUpload.fnc.php');
+
 DrawHeader(ProgramTitle());
 
 if($_REQUEST['modfunc']=='update')
 {
 	//modif Francois: upload school logo
 	if ($_FILES['LOGO_FILE'] && AllowEdit())
-	{
-		include('modules/School_Setup/includes/SchoolLogo.inc.php');
-		$error_logo = SchoolLogo($_FILES['LOGO_FILE']);
-		 if (!empty($error_logo))
-			$error[] = $error_logo;
-	}
+		FileUpload('LOGO_FILE', 'assets'.'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', 'school_logo_'.UserSchool());
 
 	if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{

@@ -1,4 +1,7 @@
 <?php
+
+include('ProgramFunctions/FileUpload.fnc.php');
+
 if(User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id'] && $_REQUEST['staff_id']!=User('STAFF_ID') && $_REQUEST['staff_id']!='new')
 {
 	if(User('USERNAME'))
@@ -166,8 +169,8 @@ if($_REQUEST['modfunc']=='update')
 				}
 			}
 				
-			if ($_FILES['photo'] && $photo_profile='user')
-				include('modules/misc/PhotoUpload.inc.php');
+			if ($_FILES['photo'])
+				$new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
 		}
 		elseif (!isset($error))
 		{
@@ -251,8 +254,8 @@ if($_REQUEST['modfunc']=='update')
 				if ($_REQUEST['staff']['PROFILE_ID'] == 1)//Note after admins creation only
 					$note[] = sprintf(_('Please add the administrator\'s ID (%s) to the <i>config.inc.php</i> file.'), $staff_id);
 				
-				if ($_FILES['photo'] && $photo_profile='user')
-					include('modules/misc/PhotoUpload.inc.php');
+				if ($_FILES['photo'])
+					$new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
 			}
 		}
 		$_REQUEST['moodle_create_user'] = false;

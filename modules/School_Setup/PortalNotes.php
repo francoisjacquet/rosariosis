@@ -1,5 +1,6 @@
 <?php
 include('ProgramFunctions/PortalPollsNotes.fnc.php');
+include('ProgramFunctions/FileUpload.fnc.php');
 
 if($_REQUEST['day_values'] && $_POST['day_values'])
 {
@@ -48,9 +49,6 @@ if((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_P
 
 if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	//modif Francois: file attached to portal notes
-	include('modules/School_Setup/includes/PortalNotesFiles.inc.php');
-	
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
 //modif Francois: fix SQL bug invalid sort order
@@ -102,9 +100,12 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				//$values = db_seq_nextval('PORTAL_NOTES_SEQ').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 				$values = $portal_note_id.",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 
-				$PortalNotesFilesError = '';
+				$error = array();
+				$file_attached_ext_white_list = array('.doc', '.docx', '.txt', '.pdf', '.xls', '.xlsx', '.csv', '.jpg', '.jpeg', '.png', '.gif', '.zip', '.ppt', '.pptx', '.mp3', '.wav', '.avi', '.mp4', '.ogg');
+				
 				if ($columns['FILE_OR_EMBED'] == 'FILE')
-					$columns['FILE_ATTACHED'] = PortalNotesFiles($_FILES['FILE_ATTACHED_FILE'], $PortalNotesFilesError);
+					$columns['FILE_ATTACHED'] = FileUpload('FILE_ATTACHED_FILE', $PortalNotesFilesPath, $file_attached_ext_white_list, 10, $error);
+					
 				elseif ($columns['FILE_OR_EMBED'] == 'EMBED')
 					if (filter_var($columns['FILE_ATTACHED_EMBED'], FILTER_VALIDATE_URL) !== false)
 						$columns['FILE_ATTACHED'] = $columns['FILE_ATTACHED_EMBED'];
@@ -123,7 +124,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				}
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-				if($go && empty($PortalNotesFilesError))
+				if($go && empty($error))
 				{
 					DBQuery($sql);
 					
@@ -134,7 +135,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 		}
 		else
-			$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+			$error[] = ErrorMessage(array(_('Please enter a valid Sort Order.')));
 	}
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['values']);
@@ -183,12 +184,10 @@ if($_REQUEST['modfunc']!='remove')
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=assets/spinning.gif />\';">';
 	DrawHeader('',SubmitButton(_('Save')));
 //modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
+	if(!empty($error)) echo ErrorMessage($error);
 	
 //modif Francois: Moodle integrator
 	echo $moodleError;
-
-	if (!empty($PortalNotesFilesError)) echo ErrorMessage(array($PortalNotesFilesError));
 	
 	ListOutput($notes_RET,$columns,'Note','Notes',$link);
 

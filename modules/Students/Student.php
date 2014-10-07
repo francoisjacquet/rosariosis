@@ -1,5 +1,7 @@
 <?php
 
+include('ProgramFunctions/FileUpload.fnc.php');
+
 //modif Francois: Moodle integrator / email field
 if ($_REQUEST['moodle_create_student'])
 	include('modules/Moodle/config.inc.php');
@@ -106,13 +108,13 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 	//modif Francois: add password encryption
 							if ($column!=='PASSWORD')
 							{
-								$sql .= "$column='".str_replace('&#39;',"''",$value)."',";
+								$sql .= $column."='".str_replace('&#39;',"''",$value)."',";
 								$go = true;
 							}
 							if ($column=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
 							{
 								$value = str_replace("''","'",$value);
-								$sql .= "$column='".encrypt_password($value)."',";
+								$sql .= $column."='".encrypt_password($value)."',";
 								$go = true;
 							}
 						}
@@ -151,13 +153,13 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			{
 				$sql = "UPDATE STUDENT_ENROLLMENT SET ";
 				foreach($_REQUEST['values']['STUDENT_ENROLLMENT'][UserStudentID()] as $column=>$value)
-					$sql .= "$column='".str_replace('&#39;',"''",$value)."',";
+					$sql .= $column."='".str_replace('&#39;',"''",$value)."',";
 				$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'";
 				DBQuery($sql);
 			}
 				
 			if ($_FILES['photo'])
-				include('modules/misc/PhotoUpload.inc.php');
+				$new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
 		}
 		elseif (!isset($error))
 		{
@@ -282,7 +284,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$new_student = true;
 				
 				if ($_FILES['photo'])
-					include('modules/misc/PhotoUpload.inc.php');
+					$new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
 			}
 		}
 		$_REQUEST['moodle_create_student'] = false;
