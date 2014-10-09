@@ -159,7 +159,10 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			}
 				
 			if ($_FILES['photo'])
+			{
 				$new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
+				$moodleError .= Moodle($_REQUEST['modname'], 'core_files_upload');
+			}
 		}
 		elseif (!isset($error))
 		{
@@ -284,7 +287,10 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$new_student = true;
 				
 				if ($_FILES['photo'])
+				{
 					$new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
+					$moodleError .= Moodle($_REQUEST['modname'], 'core_files_upload');
+				}
 			}
 		}
 		$_REQUEST['moodle_create_student'] = false;

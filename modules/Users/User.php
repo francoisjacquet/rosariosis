@@ -170,7 +170,10 @@ if($_REQUEST['modfunc']=='update')
 			}
 				
 			if ($_FILES['photo'])
+			{
 				$new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
+				$moodleError .= Moodle($_REQUEST['modname'], 'core_files_upload');
+			}
 		}
 		elseif (!isset($error))
 		{
@@ -255,7 +258,10 @@ if($_REQUEST['modfunc']=='update')
 					$note[] = sprintf(_('Please add the administrator\'s ID (%s) to the <i>config.inc.php</i> file.'), $staff_id);
 				
 				if ($_FILES['photo'])
+				{
 					$new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
+					$moodleError .= Moodle($_REQUEST['modname'], 'core_files_upload');
+				}
 			}
 		}
 		$_REQUEST['moodle_create_user'] = false;
