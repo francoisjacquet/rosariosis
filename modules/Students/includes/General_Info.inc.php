@@ -11,11 +11,15 @@ if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 		$('#studentImg').toggle();
 		return false;
 	});
+	$('form[name="student"]').submit(function () {
+		if ($('#photo').val())
+			$('#loading').show();
+	});
 	</script> 
 	<a href="#" id="aFormStudentPhoto"><img src="assets/plus.gif" height="9" />&nbsp;<?php echo _('Student Photo'); ?></a><br />
 	<div id="formStudentPhoto" style="display:none;">
 		<br />
-		<input type="file" id="photo" name="photo" accept="image/*" />
+		<input type="file" id="photo" name="photo" accept="image/*" /><img src="assets/spinning.gif" alt="Spinner" id="loading" style="display:none;" />
 		<BR /><span class="legend-gray"><?php echo _('Student Photo'); ?> (.jpg)</span>
 	</div>
 <?php endif;
