@@ -356,10 +356,10 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 //modif Francois: Moodle integrator
 		//propose to create user in Moodle: if 1) this is a creation, 2) this is an already created student but not in Moodle yet
 		
+	$old_user_in_moodle = false;
 	if (MOODLE_INTEGRATOR && AllowEdit())
 	{
 		//2) verifiy if the user is in Moodle:
-		$old_user_in_moodle = false;
 		if (!empty($staff['STAFF_ID']))
 			$old_user_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$staff['STAFF_ID']."' AND \"column\"='staff_id'"));
 		

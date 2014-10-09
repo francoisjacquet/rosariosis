@@ -365,10 +365,10 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 //modif Francois: Moodle integrator
 		//propose to create student in Moodle: if 1) this is a creation, 2) this is an already created student but not in Moodle yet
 		
+		$old_student_in_moodle = false;
 		if (MOODLE_INTEGRATOR && AllowEdit())
 		{
 			//2) verifiy if the student is in Moodle:
-			$old_student_in_moodle = false;
 			if (!empty($student['STUDENT_ID']))
 				$old_student_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$student['STUDENT_ID']."' AND \"column\"='student_id'"));
 			
