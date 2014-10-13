@@ -27,7 +27,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 {
 	if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{
-		if (empty($_REQUEST['values']['NUMBER_DAYS_ROTATION']) || is_numeric($_REQUEST['values']['NUMBER_DAYS_ROTATION']))
+		if ((empty($_REQUEST['values']['NUMBER_DAYS_ROTATION']) || is_numeric($_REQUEST['values']['NUMBER_DAYS_ROTATION'])) && (empty($_REQUEST['values']['REPORTING_GP_SCALE']) || is_numeric($_REQUEST['values']['REPORTING_GP_SCALE'])))
 		{
 			if($_REQUEST['new_school']!='true')
 			{
