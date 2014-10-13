@@ -143,9 +143,15 @@ if(empty($_REQUEST['modfunc']))
 		$school_name = _('Add a School');
 
 	echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&new_school='.$_REQUEST['new_school'].'" METHOD="POST">';
+	
+	//modif Francois: delete school only if more than one school
+	$delete_button = false;
+	if ($_REQUEST['new_school']!='true' && $_SESSION['SchoolData']['SCHOOLS_NB'] > 1)
+		$delete_button = true;
+		
 //modif Francois: fix bug: no save button if no admin
 	if(User('PROFILE')=='admin' && AllowEdit())
-		DrawHeader('',SubmitButton(_('Save'), 'button').(($_REQUEST['new_school']!='true')?SubmitButton(_('Delete'), 'button'):''));
+		DrawHeader('',SubmitButton(_('Save'), 'button').($delete_button?SubmitButton(_('Delete'), 'button'):''));
 	echo '<BR />';
 	PopTable('header',$school_name);
 	echo '<FIELDSET><TABLE>';
