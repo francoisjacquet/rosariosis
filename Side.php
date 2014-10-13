@@ -104,12 +104,12 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 				$QI = DBQuery("SELECT ID,TITLE,SHORT_NAME FROM SCHOOLS WHERE SYEAR='".UserSyear()."'".($schools?" AND ID IN (".$schools.")":''));
 				$RET = DBGet($QI);
 				
-				//see line 50 - 53, UserSchool() should be set
-				/*if(!UserSchool())
+				
+				if(!UserSchool())
 				{
 					$_SESSION['UserSchool'] = $RET[1]['ID'];
 					DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID='".UserSchool()."' WHERE STAFF_ID='".User('STAFF_ID')."'");
-				}*/ ?>
+				} ?>
 
 				<span class="br-after"><SELECT name="school" onChange="ajaxPostForm(this.form,true);" style="width:180px;">
 
