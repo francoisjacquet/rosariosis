@@ -51,8 +51,8 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 	if(!$login_RET && !$student_RET && $RosarioAdmins)
 	{
 		$admin_RET = DBGet(DBQuery("SELECT STAFF_ID,PASSWORD 
-		FROM STAFF WHERE 
-		PROFILE='admin' 
+		FROM STAFF 
+		WHERE PROFILE='admin' 
 		AND SYEAR='".Config('SYEAR')."' 
 		AND STAFF_ID IN (".$RosarioAdmins.") 
 		AND UPPER(USERNAME)=UPPER('".$_REQUEST['USERNAME']."')"));
