@@ -9,47 +9,52 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 	{
 		if($_REQUEST['tab_id']!='')
 		{
-			if($_REQUEST['tab_id']=='new')
-				$table = 'REPORT_CARD_COMMENT_CATEGORIES';
-			else
-				$table = 'REPORT_CARD_COMMENTS';
-			foreach($_REQUEST['values'] as $id=>$columns)
+			if ($_REQUEST['tab_id']!=='new' || !empty($_REQUEST['course_id']))
 			{
-		//modif Francois: fix SQL bug invalid sort order
-				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
+				if($_REQUEST['tab_id']=='new')
+					$table = 'REPORT_CARD_COMMENT_CATEGORIES';
+				else
+					$table = 'REPORT_CARD_COMMENTS';
+				foreach($_REQUEST['values'] as $id=>$columns)
 				{
-					if($id!='new')
+			//modif Francois: fix SQL bug invalid sort order
+					if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 					{
-						$sql = "UPDATE $table SET ";
-						foreach($columns as $column=>$value)
-							$sql .= $column."='".$value."',";
+						if($id!='new')
+						{
+							$sql = "UPDATE $table SET ";
+							foreach($columns as $column=>$value)
+								$sql .= $column."='".$value."',";
 
-						$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-						DBQuery($sql);
+							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
+							DBQuery($sql);
+						}
+						else
+						{
+							$sql = "INSERT INTO $table ";
+							$fields = "ID,SCHOOL_ID,SYEAR,COURSE_ID,".($_REQUEST['tab_id']=='new'?'':"CATEGORY_ID,");
+							$values = db_seq_nextval($table.'_SEQ').",'".UserSchool()."','".UserSyear()."',".($_REQUEST['tab_id']=='new'?"'".$_REQUEST['course_id']."'":($_REQUEST['tab_id']=='-1'?"NULL,NULL":($_REQUEST['tab_id']=='0'?"'0',NULL":"'".$_REQUEST['course_id']."','".$_REQUEST['tab_id']."'"))).",";
+
+							$go = false;
+							foreach($columns as $column=>$value)
+								if(!empty($value) || $value=='0')
+								{
+									$fields .= $column.',';
+									$values .= "'".$value."',";
+									$go = true;
+								}
+							$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+
+							if($go)
+								DBQuery($sql);
+						}
 					}
 					else
-					{
-						$sql = "INSERT INTO $table ";
-						$fields = "ID,SCHOOL_ID,SYEAR,COURSE_ID,".($_REQUEST['tab_id']=='new'?'':"CATEGORY_ID,");
-						$values = db_seq_nextval($table.'_SEQ').",'".UserSchool()."','".UserSyear()."',".($_REQUEST['tab_id']=='new'?"$_REQUEST[course_id]":($_REQUEST['tab_id']=='-1'?"NULL,NULL":($_REQUEST['tab_id']=='0'?"'0',NULL":"'".$_REQUEST['course_id']."','".$_REQUEST['tab_id']."'"))).",";
-
-						$go = false;
-						foreach($columns as $column=>$value)
-							if(!empty($value) || $value=='0')
-							{
-								$fields .= $column.',';
-								$values .= "'".$value."',";
-								$go = true;
-							}
-						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-
-						if($go)
-							DBQuery($sql);
-					}
+						$error[] = _('Please enter a valid Sort Order.');
 				}
-				else
-					$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
 			}
+			else
+				$error[] = _('There are no courses setup yet.');
 		}
 	}
 	unset($_REQUEST['modfunc']);
@@ -208,7 +213,7 @@ if(empty($_REQUEST['modfunc']))
 	DrawHeader($subject_select.' : '.$course_select,SubmitButton(_('Save')));
 	echo '<br />';
 //modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
+	if(isset($error)) echo ErrorMessage($error);
 
 	$LO_options = array('save'=>false,'search'=>false,'header_color'=>$categories_RET[$_REQUEST['tab_id']][1]['COLOR'],
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id']));
