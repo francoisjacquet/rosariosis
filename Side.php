@@ -236,7 +236,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					$_SESSION['UserCoursePeriodSchoolPeriod'] = $CoursePeriodSchoolPeriod;
 				}
 
-				if(!UserCoursePeriod())
+				if(!UserCoursePeriod() && isset($RET[1]))
 				{
 					$_SESSION['UserCoursePeriod'] = $RET[1]['COURSE_PERIOD_ID'];
 					$_SESSION['UserCoursePeriodSchoolPeriod'] = $RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
