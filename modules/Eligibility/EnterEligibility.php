@@ -38,8 +38,8 @@ if(mb_strlen($START_MINUTE)==1)
 if(mb_strlen($END_MINUTE)==1)
 	$END_MINUTE = '0'.$END_MINUTE;
 
-$start_date = mb_strtoupper(date('d-M-y',mktime()-($today-$START_DAY)*60*60*24));
-$end_date = mb_strtoupper(date('d-M-y',mktime()+($END_DAY-$today)*60*60*24));
+$start_date = mb_strtoupper(date('d-M-y',time()-($today-$START_DAY)*60*60*24));
+$end_date = mb_strtoupper(date('d-M-y',time()+($END_DAY-$today)*60*60*24));
 
 $current_RET = DBGet(DBQuery("SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID'));
 
@@ -142,7 +142,7 @@ DrawHeader(ProgramTitle());
 
 if($today>$END_DAY || $today<$START_DAY || ($today==$START_DAY && date('Gi')<($START_HOUR.$START_MINUTE)) || ($today==$END_DAY && date('Gi')>($END_HOUR.$END_MINUTE)))
 {
-	echo ErrorMessage(array(sprintf(_('You can only enter eligibility from %s %s to %s %s.'),$days[$START_DAY],$START_HOUR.':'.$START_MINUTE,$days[$END_DAY],$END_HOUR':'$END_MINUTE)),'error');
+	echo ErrorMessage(array(sprintf(_('You can only enter eligibility from %s %s to %s %s.'),$days[$START_DAY],$START_HOUR.':'.$START_MINUTE,$days[$END_DAY],$END_HOUR.':'.$END_MINUTE)),'error');
 }
 else
 {
