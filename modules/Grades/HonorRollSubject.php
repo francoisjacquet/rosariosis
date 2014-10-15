@@ -1,6 +1,6 @@
 <?php
 
-include('ProgramFunctions/GetRawPOSTvar.fnc.php');
+include('ProgramFunctions/getRawPOSTvar.fnc.php');
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
