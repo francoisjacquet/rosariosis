@@ -1,5 +1,59 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.6.3
+----------------
+- Program wide: Bugfixes PHP Notices Undefined index / variable
+- Program wide: $_REQUEST[modname] => $_REQUEST['modname']
+- Program wide: Concatenate variables in SQL statements
+- Program wide: Format long SQL statements for readability
+- Add translation for Sales in MenuReports.php
+- Program wide: replace double quotes by simple ones (echo)
+- IE8 compatibility fixes: IE8 HTML5 tags fix, .focus() in warehouse.js
+- Remove inline CSS + indent HTML + rework Side HTML in Bottom.php & Side.php
+- Program wide: json_encode + htmlspecialchars ENT_QUOTES for Javascript strings
+- PHPBench.com:
+	- Program wide: Counting Loops with pre calc count()
+	- Program wide: Modify loop: use for instead of foreach
+	- Program wide: Variable Type Checking: check isset before is_array
+- Open menu + sel menu link transferred to warehouse.js
+- include homogenize in Bottom.php & Menu.php
+- Place Javascript in Warehouse footer + remove *_once
+- inline HTML in Help.php & index.php
+- Program wide: SELECTED="SELECTED" => SELECTED
+- modname + Program loaded fixes in Modules.php, Side.php, Warehouse.php, warehouse.js, Searc.fnc.php & Student.php
+- Responsive teacher Schedule in Schedule.inc.php
+- Bugfix check Visible to profiles w/ Custom in PortalPollsNotes.fnc.php
+- Remove Warehouse('footer_plain')
+- Move popup & not_ajax HTML code to Warehouse('header')
+- Replace check if $_REQUEST['_ROSARIO_PDF']=='true'
+- Remove Side_PHP_SELF in Side.php & Warehouse.php
+- remove ProgramLink function
+- move Attendance.php from functions/ to ProgramFunctions/
+- Remove CourseTitle & CourseTitleArea functions
+- Liberate $field_name in CustomFields.fnc.php
+- move BackPrompt function with *Prompt, rename file to Prompts.php
+- Remove ".fnc" if file contains more than one function in functions/
+- Move Submit/ResetButton functions to functions/Buttons.php
+- regroup Date functions in functions/Date.php
+- Remove ShortDate function
+- Remove Percent.fnc.php
+- Remove Localize('colon', Localize('time', & Localize.fnc.php
+- Move GetAllMP functions to functions/GetMP.php
+- Remove GetSchool function
+- unset Password and Username request vars after login in index.php
+- Program wide: Replace Current SESSION vars with Current functions
+- Bypass strip_tags on the $_REQUEST vars in Modules.php, ProgramFunctions/getRawPOSTvar.fnc.php, Letters.php, HonorRoll.php & HonorRollSubject.php
+- UpdateSchoolArray when calling SchoolInfo() in functions/School.php
+- Bugfix Copy calendar when date_min & date_max in Calendar.php
+- Add FileUpload function in ProgramFunctions/FileUpload.fnc.php
+- Display spinner if photo uploaded on form submit
+- Bugfix SQL bug invalid input syntax for type numeric in Schools.php
+- Delete school only if more than one school in Schools.php
+- Fix SQL bug no course ID + add error in ReportCardComments.php
+- Strict standards: use time instead of mktime in EnterEligibility.php
+- update french & spanish translations
+
+
 Changes in 2.6.2
 ----------------
 - add German translation, thanks to Heike Gutsche (needs update)
