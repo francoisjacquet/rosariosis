@@ -24,7 +24,7 @@ $course_id = $course_id[1]['COURSE_ID'];
 
 //modif Francois: fix error column scale_id doesnt exist
 //$grades_RET = DBGet(DBQuery("SELECT ID,TITLE FROM REPORT_CARD_GRADES WHERE SCALE_ID='".$grade_scale_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-$grades_RET = DBGet(DBQuery("SELECT ID,TITLE,GPA_VALUE FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID='".$grade_scale_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
+$grades_RET = DBGet(DBQuery("SELECT ID,TITLE,GPA_VALUE FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID='".$grade_scale_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY GPA_VALUE"));
 $grades = array();
 foreach($grades_RET as $grade)
 {
@@ -140,60 +140,60 @@ elseif($_REQUEST['assignment_id'])
 if(!$_REQUEST['chart_type'])
 	$_REQUEST['chart_type'] = 'column';
 	
-	if($category_RET[1]['TYPE']=='select' || true)
-	{
-		$stu_RET = GetStuList($extra);
-		foreach($stu_RET as $stu)
-			$RET[$stu['LETTER_GRADE']]++;
+if($category_RET[1]['TYPE']=='select' || true)
+{
+	$stu_RET = GetStuList($extra);
+	foreach($stu_RET as $stu)
+		$RET[$stu['LETTER_GRADE']]++;
 
-		$chart['chart_data'][1] = array();
-		foreach($grades as $option)
-		{
-			$chart['chart_data'][0][] = $option['GPA_VALUE'];
-			$chart['chart_data'][1][] = (empty($RET[$option['TITLE']]) ? 0 : $RET[$option['TITLE']]);
-		}
-	}
-	
-	if($_REQUEST['chart_type']!='list')
+	$chart['chart_data'][1] = array();
+	foreach($grades as $option)
 	{
+		$chart['chart_data'][0][] = $option['GPA_VALUE'];
+		$chart['chart_data'][1][] = (empty($RET[$option['TITLE']]) ? 0 : $RET[$option['TITLE']]);
+	}
+}
+
+if($_REQUEST['chart_type']!='list')
+{
 //modif Francois: jqplot charts
 ?>
-		<script>
+	<script>
 <?php
-		if($_REQUEST['chart_type']=='column')
+	if($_REQUEST['chart_type']=='column')
+	{
+		$jsData .= 'var datacolumn = [';
+		$chart_data_count = count($chart['chart_data'][0]);
+		for ($i=0; $i<=$chart_data_count; $i++)
 		{
-			$jsData .= 'var datacolumn = [';
-			$chart_data_count = count($chart['chart_data'][0]);
-			for ($i=0; $i<=$chart_data_count; $i++)
-			{
-				$jsData .= "[".$chart['chart_data'][0][$i].", ".$chart['chart_data'][1][$i]."],";
-			}
-			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
-			$jsData .= "];\n";
-		} else { //pie chart
-			$jsData = 'var datapie = [';
-			$chart_data_count = count($chart['chart_data'][0]);
-			for ($i=0; $i<=$chart_data_count; $i++)
-			{
-				if ($chart['chart_data'][1][$i] > 0) //remove empty slices not to overload the legends
-					$jsData .= "['".htmlspecialchars($chart['chart_data'][0][$i],ENT_QUOTES)."', ".$chart['chart_data'][1][$i]."],";
-			}
-			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
-			$jsData .= "];\n";
-					
+			$jsData .= "[".$chart['chart_data'][0][$i].", ".$chart['chart_data'][1][$i]."],";
 		}
-		echo $jsData;
-		//modif Francois: responsive labels: limit label to 20 char max.
-?>
-			if (screen.width<768)
-			{
-				if (window.datapie)
-					for(i=0; i<datapie.length; i++)
-						datapie[i][0] = datapie[i][0].substr(0, 20);
-			}
-		</script>
-<?php
+		$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
+		$jsData .= "];\n";
+	} else { //pie chart
+		$jsData = 'var datapie = [';
+		$chart_data_count = count($chart['chart_data'][0]);
+		for ($i=0; $i<=$chart_data_count; $i++)
+		{
+			if ($chart['chart_data'][1][$i] > 0) //remove empty slices not to overload the legends
+				$jsData .= "['".htmlspecialchars($chart['chart_data'][0][$i],ENT_QUOTES)."', ".$chart['chart_data'][1][$i]."],";
+		}
+		$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 1);
+		$jsData .= "];\n";
+				
 	}
+	echo $jsData;
+	//modif Francois: responsive labels: limit label to 20 char max.
+?>
+		if (screen.width<768)
+		{
+			if (window.datapie)
+				for(i=0; i<datapie.length; i++)
+					datapie[i][0] = datapie[i][0].substr(0, 20);
+		}
+	</script>
+<?php
+}
 //}
 
 if(empty($_REQUEST['modfunc']))
