@@ -25,7 +25,8 @@ function PDFStop($handle)
 	$html_content = ob_get_clean();
 	
 	//convert to HTML page with CSS		
-	$html = '<!DOCTYPE html><HTML lang="'.mb_substr($locale,0,2).'" '.(mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':'').'><HEAD><meta charset="UTF-8" />';
+	$RTL_languages = array('ar', 'he', 'dv', 'fa', 'ur');
+	$html = '<!DOCTYPE html><HTML lang="'.mb_substr($locale,0,2).'" '.(in_array(mb_substr($locale,0,2), $RTL_languages)?' dir="RTL"':'').'><HEAD><meta charset="UTF-8" />';
 	if ($handle['css'])
 		$html .= '<link rel="stylesheet" type="text/css" href="assets/themes/'.Preferences('THEME').'/stylesheet_wkhtmltopdf.css" />';
 	//modif Francois: bugfix wkhtmltopdf screen resolution on linux

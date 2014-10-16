@@ -55,9 +55,10 @@ if(!defined('WAREHOUSE_PHP'))
 		switch($mode)
 		{
 			case 'header':
+				$RTL_languages = array('ar', 'he', 'dv', 'fa', 'ur');
 ?>
 <!doctype html>
-<HTML lang="<?php echo mb_substr($locale,0,2); ?>"<?php echo (mb_substr($locale,0,2)=='he' || mb_substr($locale,0,2)=='ar'?' dir="RTL"':''); ?>>
+<HTML lang="<?php echo mb_substr($locale,0,2); ?>"<?php echo (in_array(mb_substr($locale,0,2), $RTL_languages)?' dir="RTL"':''); ?>>
 <HEAD>
 	<TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
 	<meta charset="UTF-8" />
