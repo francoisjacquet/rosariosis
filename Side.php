@@ -1,4 +1,6 @@
 <?php
+error_reporting(1);
+
 include('Warehouse.php');
 
 $old_school = UserSchool();
