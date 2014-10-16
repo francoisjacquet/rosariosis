@@ -53,6 +53,7 @@ Changes in 2.6.3
 - Strict standards: use time instead of mktime in EnterEligibility.php
 - Reactivate lists (ul + ol) in stylesheet.css
 - Bugfix plot values in inversed order in GradebookBreakdown.php
+- Add more complete list of Right to Left languages
 - update french & spanish translations
 
 
