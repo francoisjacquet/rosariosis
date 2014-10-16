@@ -51,6 +51,8 @@ Changes in 2.6.3
 - Delete school only if more than one school in Schools.php
 - Fix SQL bug no course ID + add error in ReportCardComments.php
 - Strict standards: use time instead of mktime in EnterEligibility.php
+- Reactivate lists (ul + ol) in stylesheet.css
+- Bugfix plot values in inversed order in GradebookBreakdown.php
 - update french & spanish translations
 
 
