@@ -85,7 +85,10 @@ function SaveData($iu_extra,$fields_done=false,$field_names=false)
 					$sql[$table] .= "$column='".str_replace('&#39;',"''",$value)."',";
 			}
 			if($id=='new')
-				$sql[$table] = 'INSERT INTO '.$table.' (' . $iu_extra['fields'][$table].mb_substr($ins_fields[$table],0,-1) . ') values(' . $iu_extra['values'][$table].mb_substr($ins_values[$table],0,-1) . ')';
+			{
+				if($go==true)
+					$sql[$table] = 'INSERT INTO '.$table.' (' . $iu_extra['fields'][$table].mb_substr($ins_fields[$table],0,-1) . ') values(' . $iu_extra['values'][$table].mb_substr($ins_values[$table],0,-1) . ')';
+			}
 			else
 				$sql[$table] = 'UPDATE '.$table.' SET '.mb_substr($sql[$table],0,-1).' WHERE '.str_replace('__ID__',$id,$iu_extra[$table]);
 
