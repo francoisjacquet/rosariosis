@@ -105,9 +105,9 @@ h4{
 	font-size:1em;
 	margin:1.33em 0
 }
-ul,ol{
+/*ul,ol{
 	padding:0
-}
+}*/
 ol{
 	list-style-type:decimal;
 	margin-left:2em
