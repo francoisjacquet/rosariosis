@@ -1,6 +1,6 @@
 Rosario Student Information System - CHANGES
 
-Changes in 2.6.3
+Changes in 2.6.4
 ----------------
 - Bugfix set UserSchool for parent in Side.php
 - Bugfix output started Export to Excel
