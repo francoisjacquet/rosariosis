@@ -2,6 +2,12 @@ Rosario Student Information System - CHANGES
 
 Changes in 2.6.3
 ----------------
+- Bugfix set UserSchool for parent in Side.php
+- Bugfix output started Export to Excel
+
+
+Changes in 2.6.3
+----------------
 - Program wide: Bugfixes PHP Notices Undefined index / variable
 - Program wide: $_REQUEST[modname] => $_REQUEST['modname']
 - Program wide: Concatenate variables in SQL statements
