@@ -55,7 +55,7 @@ if(!UserStaffID() && User('PROFILE')=='parent')
 
 if(!UserSchool())
 {
-	if(User('PROFILE')!='student' && (!User('SCHOOLS') || mb_strpos(User('SCHOOLS'),','.User('CURRENT_SCHOOL_ID').',')!==false))
+	if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && (!User('SCHOOLS') || mb_strpos(User('SCHOOLS'),','.User('CURRENT_SCHOOL_ID').',')!==false))
 		$_SESSION['UserSchool'] = User('CURRENT_SCHOOL_ID');
 	elseif(User('PROFILE')=='student')
 		$_SESSION['UserSchool'] = trim(User('SCHOOLS'),',');
@@ -147,15 +147,19 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 
 						<OPTION value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ((UserStudentID()==$student['STUDENT_ID'])?' SELECTED':''); ?>><?php echo $student['FULL_NAME']; ?></OPTION>
 
-						<?php //see line 54 - 55, UserSchool() should be set
-						/*if(UserStudentID()==$student['STUDENT_ID'])
-							$_SESSION['UserSchool'] = $student['SCHOOL_ID'];*/
+						<?php if(UserStudentID()==$student['STUDENT_ID'])
+							$_SESSION['UserSchool'] = $student['SCHOOL_ID'];
 					endforeach;
 					
 				endif; ?>
 				</SELECT></span>
 
-				<?php if(!UserMP() || UserSchool()!=$old_school || UserSyear()!=$old_syear) :
+				<?php if(!UserSchool())//no student associated to parent
+				{
+					$schools_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."' LIMIT 1"));
+					$_SESSION['UserSchool'] = $schools_RET[1]['ID'];
+				}
+				if(!UserMP() || UserSchool()!=$old_school || UserSyear()!=$old_syear) :
 					$_SESSION['UserMP'] = GetCurrentMP('QTR',DBDate(),false);
 				endif;
 			endif;
