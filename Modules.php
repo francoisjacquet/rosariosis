@@ -53,6 +53,8 @@ if(isset($_REQUEST['modname']))
 		if ($_ROSARIO['is_popup'] || $_ROSARIO['not_ajax'])
 			Warehouse('header');
 	}
+	else
+		ob_start();
 
 	$allowed = false;
 
