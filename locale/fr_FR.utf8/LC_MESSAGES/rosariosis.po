@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-15 12:20-0500\n"
-"PO-Revision-Date: 2014-10-15 12:21-0500\n"
+"POT-Creation-Date: 2014-10-20 20:53-0500\n"
+"PO-Revision-Date: 2014-10-20 20:53-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -20,53 +20,53 @@ msgstr ""
 "X-Poedit-Basepath: /var/www/github/rosariosis\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Bottom.php:57
+#: Bottom.php:60
 msgid "Menu"
 msgstr "Menu"
 
-#: Bottom.php:62
+#: Bottom.php:65
 msgid "Student List"
 msgstr "Liste des Elèves"
 
-#: Bottom.php:63
+#: Bottom.php:66
 msgid "User List"
 msgstr "Liste d'Utilisateurs"
 
-#: Bottom.php:64
+#: Bottom.php:67
 msgid "Course List"
 msgstr "Liste de Cours"
 
-#: Bottom.php:65
+#: Bottom.php:68
 #, php-format
 msgid "%s List"
 msgstr "Liste de %s"
 
-#: Bottom.php:74
+#: Bottom.php:77
 msgid "Student Search"
 msgstr "Recherche d'Elèves"
 
-#: Bottom.php:75
+#: Bottom.php:78
 msgid "User Search"
 msgstr "Recherche d'Utilisateurs"
 
-#: Bottom.php:76
+#: Bottom.php:79
 msgid "Course Search"
 msgstr "Recherche de Cours"
 
-#: Bottom.php:77
+#: Bottom.php:80
 #, php-format
 msgid "%s Search"
 msgstr "Recherche de %s"
 
-#: Bottom.php:84
+#: Bottom.php:87
 msgid "Print"
 msgstr "Imprimer"
 
-#: Bottom.php:85
+#: Bottom.php:88
 msgid "Help"
 msgstr "Aide"
 
-#: Bottom.php:86
+#: Bottom.php:89
 msgid "Logout"
 msgstr "Déconnexion"
 
@@ -97,44 +97,44 @@ msgid "%s Handbook"
 msgstr "Manuel %s"
 
 #: Help.php:66
-#: index.php:202
+#: index.php:203
 #, php-format
 msgid "version %s"
 msgstr "version %s"
 
-#: Side.php:275
+#: Side.php:281
 msgid "Sunday"
 msgstr "Dimanche"
 
-#: Side.php:275
+#: Side.php:281
 msgid "Monday"
 msgstr "Lundi"
 
-#: Side.php:275
+#: Side.php:281
 msgid "Tuesday"
 msgstr "Mardi"
 
-#: Side.php:275
+#: Side.php:281
 msgid "Wednesday"
 msgstr "Mercredi"
 
-#: Side.php:275
+#: Side.php:281
 msgid "Thursday"
 msgstr "Jeudi"
 
-#: Side.php:275
+#: Side.php:281
 msgid "Friday"
 msgstr "Vendredi"
 
-#: Side.php:275
+#: Side.php:281
 msgid "Saturday"
 msgstr "Samedi"
 
-#: Side.php:287
+#: Side.php:293
 msgid "Day"
 msgstr "Jour"
 
-#: Side.php:287
+#: Side.php:293
 msgid "Days"
 msgstr "Jours"
 
@@ -180,37 +180,37 @@ msgstr "Votre compte a été créé."
 msgid "You will then be able to log in."
 msgstr "Vous pourrez alors vous connecter."
 
-#: index.php:148
+#: index.php:149
 #, php-format
 msgid "%s Login"
 msgstr "Login %s"
 
-#: index.php:151
+#: index.php:152
 #, php-format
 msgid "You must have javascript enabled to use %s."
 msgstr "Vous devez avoir activé Javascript pour utiliser %s."
 
-#: index.php:166
+#: index.php:167
 msgid "Language"
 msgstr "Langue"
 
-#: index.php:177
+#: index.php:178
 msgid "Username"
 msgstr "Nom Utilisateur"
 
-#: index.php:181
+#: index.php:182
 msgid "Password"
 msgstr "Mot de Passe"
 
-#: index.php:185
+#: index.php:186
 msgid "Login"
 msgstr "Login"
 
-#: index.php:189
+#: index.php:190
 msgid "Create Account"
 msgstr "Créer le Compte"
 
-#: index.php:198
+#: index.php:199
 #, php-format
 msgid "This is a restricted network. Use of this network, its equipment, and resources is monitored at all times and requires explicit permission from the network administrator and %s. If you do not have this permission in writing, you are violating the regulations of this network and can and will be prosecuted to the full extent of the law. By continuing into this system, you are acknowledging that you are aware of and agree to these terms."
 msgstr "Ceci est un réseau privé. L'utilisation de ce réseau, ses équipements et ressources est surveillé et nécessite la permission explicite de l'administrateur et %s. Si vous n'avez pas eu cette permission par écrit, vous êtes en infraction avec les règles de ce réseau et pouvez être poursuivi en justice. De par votre connection à ce système, vous reconnaissez avoir pris connaissance de ces règles et les approuver."
@@ -356,6 +356,14 @@ msgstr "Ne pas inscrire après cette année"
 msgid "Next Grade at "
 msgstr "Classe supérieure dans "
 
+#: ProgramFunctions/HackingLog.fnc.php:7
+msgid "You're not allowed to use this program!"
+msgstr "Vous n'êtes pas autorisé à utiliser ce programme !"
+
+#: ProgramFunctions/HackingLog.fnc.php:7
+msgid "This attempted violation has been logged and your IP address was captured."
+msgstr "Cette temptative a été consignée et votre adresse IP enregistrée."
+
 #: functions/Buttons.php:15
 msgid "Delete"
 msgstr "Effacer"
@@ -431,6 +439,7 @@ msgid "December"
 msgstr "Décembre"
 
 #: functions/ErrorMessage.fnc.php:33
+#: functions/GetStuList.fnc.php:276
 msgid "Error"
 msgstr "Erreur"
 
@@ -575,14 +584,6 @@ msgstr "Exclus"
 #: functions/GetStuList.fnc.php:467
 msgid "Address contains"
 msgstr "Adresse contient"
-
-#: functions/HackingLog.fnc.php:7
-msgid "You're not allowed to use this program!"
-msgstr "Vous n'êtes pas autorisé à utiliser ce programme !"
-
-#: functions/HackingLog.fnc.php:7
-msgid "This attempted violation has been logged and your IP address was captured."
-msgstr "Cette temptative a été consignée et votre adresse IP enregistrée."
 
 #: functions/ListOutput.fnc.php:3
 msgid "."
@@ -1669,7 +1670,7 @@ msgid "MTD"
 msgstr "Mois à ce jour"
 
 #: modules/Custom/AttendanceSummary.php:75
-#: modules/Discipline/CategoryBreakdownTime.php:393
+#: modules/Discipline/CategoryBreakdownTime.php:382
 msgid "Month"
 msgstr "Mois"
 
@@ -1926,57 +1927,57 @@ msgstr "Lien avec l'élève"
 msgid "Information about %s %s"
 msgstr "Informations sur %s %s"
 
-#: modules/Discipline/CategoryBreakdown.php:259
-#: modules/Discipline/CategoryBreakdownTime.php:382
+#: modules/Discipline/CategoryBreakdown.php:248
+#: modules/Discipline/CategoryBreakdownTime.php:371
 msgid "Please choose a category"
 msgstr "Choisir une catégorie"
 
-#: modules/Discipline/CategoryBreakdown.php:278
-#: modules/Discipline/CategoryBreakdownTime.php:402
-#: modules/Discipline/StudentFieldBreakdown.php:289
+#: modules/Discipline/CategoryBreakdown.php:267
+#: modules/Discipline/CategoryBreakdownTime.php:391
+#: modules/Discipline/StudentFieldBreakdown.php:278
 msgid "Column"
 msgstr "Colonne"
 
 # 'user_profiles' table
-#: modules/Discipline/CategoryBreakdown.php:278
-#: modules/Discipline/StudentFieldBreakdown.php:289
+#: modules/Discipline/CategoryBreakdown.php:267
+#: modules/Discipline/StudentFieldBreakdown.php:278
 msgid "Pie"
 msgstr "Graphique"
 
-#: modules/Discipline/CategoryBreakdown.php:278
-#: modules/Discipline/CategoryBreakdownTime.php:402
-#: modules/Discipline/StudentFieldBreakdown.php:289
+#: modules/Discipline/CategoryBreakdown.php:267
+#: modules/Discipline/CategoryBreakdownTime.php:391
+#: modules/Discipline/StudentFieldBreakdown.php:278
 msgid "List"
 msgstr "Lister"
 
-#: modules/Discipline/CategoryBreakdown.php:291
-#: modules/Discipline/CategoryBreakdownTime.php:410
-#: modules/Discipline/CategoryBreakdownTime.php:429
-#: modules/Discipline/StudentFieldBreakdown.php:302
+#: modules/Discipline/CategoryBreakdown.php:280
+#: modules/Discipline/CategoryBreakdownTime.php:399
+#: modules/Discipline/CategoryBreakdownTime.php:418
+#: modules/Discipline/StudentFieldBreakdown.php:291
 msgid "Option"
 msgid_plural "Options"
 msgstr[0] "Option"
 msgstr[1] "Option"
 
-#: modules/Discipline/CategoryBreakdown.php:291
-#: modules/Discipline/StudentFieldBreakdown.php:302
+#: modules/Discipline/CategoryBreakdown.php:280
+#: modules/Discipline/StudentFieldBreakdown.php:291
 msgid "Number of Referrals"
 msgstr "Nombre d'Incidents"
 
-#: modules/Discipline/CategoryBreakdown.php:302
-#: modules/Discipline/CategoryBreakdownTime.php:440
-#: modules/Discipline/StudentFieldBreakdown.php:313
+#: modules/Discipline/CategoryBreakdown.php:291
+#: modules/Discipline/CategoryBreakdownTime.php:429
+#: modules/Discipline/StudentFieldBreakdown.php:302
 msgid "Right Click to Save Image As..."
 msgstr "Clic Droit, Enregistrer image comme..."
 
-#: modules/Discipline/CategoryBreakdown.php:303
-#: modules/Discipline/CategoryBreakdownTime.php:441
-#: modules/Discipline/StudentFieldBreakdown.php:314
+#: modules/Discipline/CategoryBreakdown.php:292
+#: modules/Discipline/CategoryBreakdownTime.php:430
+#: modules/Discipline/StudentFieldBreakdown.php:303
 #, php-format
 msgid "%s Breakdown"
 msgstr "Répartition de %s"
 
-#: modules/Discipline/CategoryBreakdownTime.php:393
+#: modules/Discipline/CategoryBreakdownTime.php:382
 #: modules/Discipline/ReferralLog.php:95
 msgid "School Year"
 msgstr "Année Scolaire"
@@ -2088,7 +2089,7 @@ msgstr "Date de l'Entrée"
 msgid "Referral"
 msgstr "Incident"
 
-#: modules/Discipline/StudentFieldBreakdown.php:263
+#: modules/Discipline/StudentFieldBreakdown.php:252
 msgid "Please choose a student field"
 msgstr "Choisir un champ élève"
 
@@ -2732,7 +2733,7 @@ msgstr "Cliquer sur OK pour le réassigner à l'utilisateur courant ou Annuler p
 msgid "Hit OK to reassign it to the user student or Cancel to cancel all changes."
 msgstr "Cliquer sur OK pour le réassigner à l'utilisateur élève courant ou Annuler pour annuler tous les changements."
 
-#: modules/Food_Service/Users/Accounts.php:108
+#: modules/Food_Service/Users/Accounts.php:111
 msgid "Delete Account"
 msgstr "Supprimer le Compte"
 
@@ -3747,14 +3748,6 @@ msgstr "Classe Supérieure"
 msgid "Text Block 2"
 msgstr "Bloc de Texte 2"
 
-#: modules/Reports/Students.php:134
-msgid "Find a Student"
-msgstr "Trouver un Elève"
-
-#: modules/Reports/Students.php:136
-msgid "Search Criteria"
-msgstr "Critères de Recherche"
-
 #: modules/Resources/Menu.php:4
 #: modules/Resources/Menu.php:9
 msgid "Resources"
@@ -3975,17 +3968,11 @@ msgid "Start Date"
 msgstr "Date de Début"
 
 #: modules/Scheduling/Menu.php:4
-#: modules/Scheduling/PrintSchedules.php:90
-#: modules/Scheduling/PrintSchedules.php:110
-#: modules/Scheduling/PrintSchedules.php:158
-#: modules/Scheduling/PrintSchedules.php:180
 msgid "Student Schedule"
 msgstr "Emploi du Temps Elève"
 
 #: modules/Scheduling/Menu.php:5
 #: modules/Scheduling/Menu.php:41
-#: modules/Scheduling/PrintRequests.php:45
-#: modules/Scheduling/PrintRequests.php:60
 msgid "Student Requests"
 msgstr "Demandes Elève"
 
@@ -4034,7 +4021,6 @@ msgid "Requests Report"
 msgstr "Rapport des Demandes"
 
 #: modules/Scheduling/Menu.php:18
-#: modules/Scheduling/UnfilledRequests.php:56
 msgid "Unfilled Requests"
 msgstr "Demandes Incomplètes"
 
@@ -4538,7 +4524,6 @@ msgid "The data have been copied to a new school called \"%s\"."
 msgstr "Les données ont été copiées dans une nouvelle école nommée \"%s\"."
 
 #: modules/School_Setup/DatabaseBackup.php:50
-#: modules/School_Setup/Menu.php:13
 msgid "Database Backup"
 msgstr "Sauvegarde de la Base de Données"
 
@@ -5251,10 +5236,11 @@ msgstr "Note: Tout décoché signifie s'applique à tous les contacts"
 msgid "Print Info for Selected Students"
 msgstr "Imprimer les Informations pour le Elèves Sélectionnés"
 
+#: modules/Students/Search.inc.php:26
+msgid "Find a Student"
+msgstr "Trouver un Elève"
+
 #: modules/Students/Search.inc.php:175
-#: modules/Users/Preferences.php:303
-#: modules/Users/Preferences.php:305
-#: modules/Users/Preferences.php:365
 msgid "Expanded View"
 msgstr "Affichage Complet"
 
@@ -5486,10 +5472,12 @@ msgid "Select the programs with which this user can use and save information."
 msgstr "Choisir les programmes que cet utilisateur peut utiliser et dans lequels il peut modifier des données."
 
 #: modules/Users/Exceptions.php:101
+#: modules/Users/Profiles.php:177
 msgid "Can Use"
 msgstr "Droit d'Utilisation"
 
 #: modules/Users/Exceptions.php:101
+#: modules/Users/Profiles.php:179
 msgid "Can Edit"
 msgstr "Droit de Modification"
 
@@ -5504,6 +5492,7 @@ msgid "To assign permissions to this user, either change the permissions for thi
 msgstr "Pour assigner des permissions à cet utilisateur, soit changer les permissions de ce profil en utilisant la configuration de %s  ou modifier cet utilisateur avec des permissions personnalisées en utilisant %s."
 
 #: modules/Users/Exceptions.php:174
+#: modules/Users/Profiles.php:126
 msgid "Profiles"
 msgstr "Profils Utilisateur"
 
@@ -5536,6 +5525,7 @@ msgid "User Profiles"
 msgstr "Profils Utilisateur"
 
 #: modules/Users/Menu.php:10
+#: modules/Users/Profiles.php:24
 msgid "User Permissions"
 msgstr "Droits d'Accès"
 
@@ -5725,46 +5715,46 @@ msgstr "Inclure les parents des élèves non inscrits"
 msgid "Choose A User"
 msgstr "Choisir un Utilisateur"
 
-#: modules/Users/Search.inc.php:216
+#: modules/Users/Search.inc.php:219
 msgid "No Users were found."
 msgstr "Aucun utilisateur trouvé."
 
-#: modules/Users/User.php:119
-#: modules/Users/User.php:203
+#: modules/Users/User.php:121
+#: modules/Users/User.php:205
 msgid "A user with that username already exists for the current school year. Choose a different username and try again."
 msgstr "Un utilisateur avec ce nom d'utilisateur existe déjà pour l'année scolaire en cours. Choisissez un nom d'utilisateur différent et réessayez."
 
-#: modules/Users/User.php:258
+#: modules/Users/User.php:260
 #, php-format
 msgid "Please add the administrator's ID (%s) to the <i>config.inc.php</i> file."
 msgstr "Ajoutez l'ID de l'administrateur (%s) au fichier <i>config.inc.php</i> svp."
 
-#: modules/Users/User.php:355
+#: modules/Users/User.php:357
 #: modules/Users/includes/General_Info.inc.php:41
 msgid "Mr"
 msgstr "M."
 
-#: modules/Users/User.php:355
+#: modules/Users/User.php:357
 #: modules/Users/includes/General_Info.inc.php:41
 msgid "Mrs"
 msgstr "MM."
 
-#: modules/Users/User.php:355
+#: modules/Users/User.php:357
 #: modules/Users/includes/General_Info.inc.php:41
 msgid "Ms"
 msgstr "Mme"
 
-#: modules/Users/User.php:355
+#: modules/Users/User.php:357
 #: modules/Users/includes/General_Info.inc.php:41
 msgid "Miss"
 msgstr "Mlle"
 
-#: modules/Users/User.php:355
+#: modules/Users/User.php:357
 #: modules/Users/includes/General_Info.inc.php:41
 msgid "Dr"
 msgstr "Dr."
 
-#: modules/Users/User.php:373
+#: modules/Users/User.php:375
 msgid "Create User in Moodle"
 msgstr "Créer Utilisateur dans Moodle"
 
@@ -5998,6 +5988,9 @@ msgstr "Bonnes études ..."
 #: modules/misc/ViewContact.php:16
 msgid "This person has no information in the system."
 msgstr "Cette personne n'a pas d'informations dans le système."
+
+#~ msgid "Search Criteria"
+#~ msgstr "Critères de Recherche"
 
 #~ msgid "Unauthorized file extension"
 #~ msgstr "Extension du fichier non autorisée"
