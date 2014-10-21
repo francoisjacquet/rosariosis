@@ -5,8 +5,10 @@ include('ProgramFunctions/FileUpload.fnc.php');
 if(User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id'] && $_REQUEST['staff_id']!=User('STAFF_ID') && $_REQUEST['staff_id']!='new')
 {
 	if(User('USERNAME'))
-		//modif Francois: create HackingLog function to centralize code
+	{
+		include('ProgramFunctions/HackingLog.fnc.php');
 		HackingLog();
+	}
 		
 	exit;
 }

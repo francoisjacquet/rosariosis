@@ -233,8 +233,11 @@ else
 			if($_REQUEST['modname'])
 				$_REQUEST['modname'] = $modname;
 			//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-			if (mb_substr($modname, -4, 4)!='.php' || mb_strpos($modname, '..')!==false || !is_file('modules/'.$modname))	
+			if (mb_substr($modname, -4, 4)!='.php' || mb_strpos($modname, '..')!==false || !is_file('modules/'.$modname))
+			{
+				include('ProgramFunctions/HackingLog.fnc.php');
 				HackingLog();
+			}
 			else
 				include('modules/'.$modname);
 		}

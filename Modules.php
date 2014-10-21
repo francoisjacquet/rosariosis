@@ -89,8 +89,10 @@ if(isset($_REQUEST['modname']))
 		include('modules/'.$modname);
 	}
 	elseif(User('USERNAME'))
-			//modif Francois: create HackingLog function to centralize code
-			HackingLog();
+	{
+		include('ProgramFunctions/HackingLog.fnc.php');
+		HackingLog();
+	}
 
 	if(isset($_SESSION['unset_student']))
 		unset($_SESSION['unset_student']);

@@ -114,8 +114,11 @@ if(UserStaffID())
 
 	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 	//modif Francois: Bugfix $_REQUEST['include'] 2 times in links
-	if (mb_substr($REQUEST_include, -4, 4)!='.php' || mb_strpos($REQUEST_include, '..')!==false || !is_file('modules/'.$REQUEST_include))	
+	if (mb_substr($REQUEST_include, -4, 4)!='.php' || mb_strpos($REQUEST_include, '..')!==false || !is_file('modules/'.$REQUEST_include))
+	{
+		include('ProgramFunctions/HackingLog.fnc.php');
 		HackingLog();
+	}
 	else
 		include('modules/'.$REQUEST_include);
 
