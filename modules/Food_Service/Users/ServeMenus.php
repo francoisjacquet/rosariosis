@@ -65,7 +65,7 @@ if(UserStaffID() && !$_REQUEST['modfunc'])
 	DrawHeader('',SubmitButton(_('Cancel Sale'),'submit[cancel]').SubmitButton(_('Complete Sale'),'submit[save]'));
 	echo '</FORM>';
 
-	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
+	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($staff['BALANCE']),_('Balance')));
 
 	if ($staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
 	{
@@ -107,12 +107,15 @@ if(UserStaffID() && !$_REQUEST['modfunc'])
 			$items += array($sn=>$item[1]['DESCRIPTION']);
 
 		$LO_ret = array(array());
-		foreach($_SESSION['FSA_sale'] as $id=>$item_sn)
-		{
+		
+		if (isset($_SESSION['FSA_sale']))
+			foreach($_SESSION['FSA_sale'] as $id=>$item_sn)
+			{
 
-			$price = $items_RET[$item_sn][1]['PRICE_STAFF'];
-			$LO_ret[] = array('SALE_ID'=>$id,'PRICE'=>$price,'DESCRIPTION'=>$items_RET[$item_sn][1]['DESCRIPTION'],'ICON'=>$items_RET[$item_sn][1]['ICON']);
-		}
+				$price = $items_RET[$item_sn][1]['PRICE_STAFF'];
+				$LO_ret[] = array('SALE_ID'=>$id,'PRICE'=>$price,'DESCRIPTION'=>$items_RET[$item_sn][1]['DESCRIPTION'],'ICON'=>$items_RET[$item_sn][1]['ICON']);
+			}
+			
 		unset($LO_ret[0]);
 
 		$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&menu_id='.$_REQUEST['menu_id'],
