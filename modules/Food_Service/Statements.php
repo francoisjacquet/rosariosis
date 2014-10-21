@@ -64,9 +64,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if(empty($_REQUEST['modfunc']))
 
-{
 $types = array('DEPOSIT'=>_('Deposit'),'CREDIT'=>_('Credit'),'DEBIT'=>_('Debit'));
 $menus_RET = DBGet(DBQuery('SELECT TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'));
 
@@ -93,7 +91,7 @@ function options_locale($option) {
 	return $option;
 }
 include('modules/Food_Service/'.($_REQUEST['type']=='staff'?'Users':'Students').'/Statements.php');
-}
+
 
 function red($value)
 {
