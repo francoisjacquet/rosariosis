@@ -68,11 +68,14 @@ if($_REQUEST['modfunc']=='create')
 	{
         $fields = 'STAFF_ID,BALANCE,TRANSACTION_ID,';
         $values = "'".UserStaffID()."','0.00','0',";
-        foreach($_REQUEST['food_service'] as $column_name=>$value)
-        {
-            $fields .= $column_name.',';
-            $values .= "'".trim($value)."',";
-        }
+        
+        if (is_array($_REQUEST['food_service']))
+		 foreach($_REQUEST['food_service'] as $column_name=>$value)
+		 {
+		     $fields .= $column_name.',';
+		     $values .= "'".trim($value)."',";
+		 }
+		 
         $sql = 'INSERT INTO FOOD_SERVICE_STAFF_ACCOUNTS ('.mb_substr($fields,0,-1).') values ('.mb_substr($values,0,-1).')';
         DBQuery($sql);
 	}
