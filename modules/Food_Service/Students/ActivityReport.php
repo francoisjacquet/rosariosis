@@ -19,6 +19,14 @@ Search('student_id',$extra);
 
 if(UserStudentID())
 {	
+
+	$where = '';
+	if($_REQUEST['type_select'])
+		$where .= "AND fst.SHORT_NAME='".$_REQUEST['type_select']."' ";
+
+	if($_REQUEST['staff_select'])
+		$where .= "AND fst.SELLER_ID='".$_REQUEST['staff_select']."' ";
+		
 	if($_REQUEST['detailed_view']=='true')
 	{
 	    $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,fst.ACCOUNT_ID,fst.SHORT_NAME,fst.STUDENT_ID,fst.DISCOUNT,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,".db_case(array('fst.STUDENT_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STUDENTS WHERE STUDENT_ID=fst.STUDENT_ID)"))." AS FULL_NAME,".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER 
@@ -82,15 +90,10 @@ if(UserStudentID())
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
 	//modif Francois: add label on checkbox
-	DrawHeader(PrepareDate($date,'_date').' : '.$type_select.' : '.$staff_select.' : <INPUT type=submit value='._('Go').'>');
+	DrawHeader(PrepareDate($date,'_date').' : '.$type_select.' : '.$staff_select.' : <INPUT type="submit" value="'._('Go').'" />');
 	DrawHeader('<label>'.CheckBoxOnclick('by_name').' '._('Sort by Name').'</label>');
 	echo '</FORM>';
 
-	if($_REQUEST['type_select'])
-		$where = "AND fst.SHORT_NAME='".$_REQUEST['type_select']."' ";
-
-	if($_REQUEST['staff_select'])
-		$where = "AND fst.SELLER_ID='".$_REQUEST['staff_select']."' ";
 
 	if($_REQUEST['detailed_view']!='true')
 		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view'=>'true')).'">'._('Detailed View').'</A>');
