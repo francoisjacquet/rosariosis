@@ -11,7 +11,7 @@ $extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 
 Search('staff_id',$extra);
 
-if(UserStaffID())
+if(UserStaffID() && !$_REQUEST['modfunc'])
 {
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".UserStaffID()."'"));
 	$staff = $staff[1];

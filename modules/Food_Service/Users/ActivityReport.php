@@ -11,7 +11,7 @@ $extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 
 Search('staff_id',$extra);
 
-if(UserStaffID())
+if(UserStaffID() && !$_REQUEST['modfunc'])
 {
 
 	$where = '';

@@ -17,7 +17,7 @@ $extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 
 Search('student_id',$extra);
 
-if(UserStudentID())
+if(UserStudentID() && !$_REQUEST['modfunc'])
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,
 	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE 
