@@ -30,11 +30,6 @@ if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 	unset($_REQUEST['modfunc']);
 }
 
-if($_REQUEST['cancel'])
-{
-	unset($_REQUEST['modfunc']);
-}
-
 StaffWidgets('fsa_status');
 StaffWidgets('fsa_barcode');
 StaffWidgets('fsa_exists_Y');
@@ -58,7 +53,7 @@ if(UserStaffID() && !$_REQUEST['modfunc'])
 	//$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=" method="POST">';
 
-	DrawHeader('',SubmitButton(_('Cancel'),'cancel').SubmitButton(_('Save'),'save'));
+	DrawHeader('',ResetButton(_('Cancel')).SubmitButton(_('Save'),'save'));
 
 //modif Francois: fix bug no balance
 //	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));

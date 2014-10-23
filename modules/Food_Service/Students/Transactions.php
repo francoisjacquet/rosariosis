@@ -31,11 +31,6 @@ if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 	unset($_REQUEST['modfunc']);
 }
 
-if($_REQUEST['cancel'])
-{
-	unset($_REQUEST['modfunc']);
-}
-
 Widgets('fsa_discount');
 Widgets('fsa_status');
 Widgets('fsa_barcode');
@@ -65,7 +60,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 	//$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=" method="POST">';
 
-	DrawHeader('',SubmitButton(_('Cancel'),'cancel').SubmitButton(_('Save'),'save'));
+	DrawHeader('',ResetButton(_('Cancel')).SubmitButton(_('Save'),'save'));
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 
@@ -109,7 +104,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 			$link['add']['html']['TYPE'] = SelectInput('','values[TYPE]','',$types,false);
 			$options = array('Cash'=>_('Cash'),'Check'=>_('Check'),'Credit Card'=>_('Credit Card'),'Debit Card'=>_('Debit Card'),'Transfer'=>_('Transfer'));
 			$link['add']['html']['DESCRIPTION'] = SelectInput('','values[OPTION]','',$options).' '.TextInput('','values[DESCRIPTION]','','size=20 maxlength=50');
-			$link['add']['html']['AMOUNT'] = TextInput('','values[AMOUNT]','','size=5 maxlength=10 required');
+			$link['add']['html']['AMOUNT'] = TextInput('','values[AMOUNT]','','size=5 maxlength=10');
 			$link['add']['html']['remove'] = button('add');
 			$link['remove']['link'] = "Modules.php?modname=".$_REQUEST['modname']."&modfunc=delete";
 			$link['remove']['variables'] = array('id'=>'TRANSACTION_ID');
