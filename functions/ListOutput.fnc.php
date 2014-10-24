@@ -496,7 +496,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						$direction = 1;
 					if (isset($_REQUEST['_ROSARIO_PDF']))
 					{
-						echo '<TD style="background-color:'.$options['header_color'].';"><span style="color:#FFFFFF; " class="size-1"><b>';
+						echo '<TD style="background-color:'.$options['header_color'].';"><span style="color:#FFFFFF; "><b>';
 						echo ParseMLField($value);
 						echo '</b></span></TD>';
 					}
@@ -582,7 +582,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					{
 						foreach($column_names as $key=>$value)
 						{
-							echo '<TD style="background-color:'.$options['header_color'].'"><span style="color:#FFFFFF" class="size-1"><b>' . ParseMLField($value) . '</b></span></TD>';
+							echo '<TD style="background-color:'.$options['header_color'].'"><span style="color:#FFFFFF"><b>' . ParseMLField($value) . '</b></span></TD>';
 						}
 					}
 					echo '</TR>';

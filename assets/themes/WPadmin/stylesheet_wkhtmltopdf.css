@@ -519,3 +519,8 @@ div.st{
 	max-height:350px;
 	overflow-y:auto
 }
+
+/*wkhtmltopdf code*/
+*{
+    font-size:inherit;
+}
