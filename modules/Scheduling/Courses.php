@@ -86,7 +86,8 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 {
 	$where = array('COURSE_SUBJECTS'=>'SUBJECT_ID',
 				'COURSES'=>'COURSE_ID',
-				'COURSE_PERIODS'=>'COURSE_PERIOD_ID', 'COURSE_PERIOD_SCHOOL_PERIODS'=>'COURSE_PERIOD_SCHOOL_PERIODS_ID');
+				'COURSE_PERIODS'=>'COURSE_PERIOD_ID',
+				'COURSE_PERIOD_SCHOOL_PERIODS'=>'COURSE_PERIOD_SCHOOL_PERIODS_ID');
 
 	if($_REQUEST['tables']['parent_id'])
 		$_REQUEST['tables']['COURSE_PERIODS'][$_REQUEST['course_period_id']]['PARENT_ID'] = $_REQUEST['tables']['parent_id'];
@@ -156,17 +157,24 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								$short_name = $current[1]['SHORT_NAME'];
 
 							$teacher = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND STAFF_ID='".$staff_id."'"));
+							
+							$mp_title = '';
 							if(GetMP($marking_period_id,'MP')!='FY')
 								$mp_title = GetMP($marking_period_id,'SHORT_NAME').' - ';
-							if($short_name)
-								$mp_title .= $short_name.' - ';
+								
+							$base_title = $mp_title.$short_name.' - ';
 							
-							//$title = str_replace("'","''",$mp_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
+							//$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
 							//modif Francois: remove teacher's middle name to gain space
-							$base_title = str_replace("'","''",$mp_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['LAST_NAME']);
+							$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['LAST_NAME']);
+
+							$periods_title = '';
 							//get the missing part of the title before the short name:
-							$title = mb_substr($current[1]['TITLE'],0,mb_strpos($current[1]['TITLE'], (GetMP($current[1]['MARKING_PERIOD_ID'],'MP')!='FY' ? GetMP($current[1]['MARKING_PERIOD_ID'],'SHORT_NAME') : $current[1]['SHORT_NAME']))).$base_title;							
-							$sql .= "TITLE='".$title."',";
+							$base_title_pos = mb_strpos($current[1]['TITLE'], (GetMP($current[1]['MARKING_PERIOD_ID'],'MP')!='FY' ? GetMP($current[1]['MARKING_PERIOD_ID'],'SHORT_NAME') : $current[1]['SHORT_NAME']));
+							if ($base_title_pos!= 0)
+								$periods_title = mb_substr($current[1]['TITLE'],0,$base_title_pos);
+								
+							$sql .= "TITLE='".$periods_title.$base_title."',";
 
 							if(isset($columns['MARKING_PERIOD_ID']))
 							{
@@ -183,11 +191,10 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						{
 							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."' AND ".$where[$table_name]."<>'".$id."'"));
 
-							if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID))
-								break;
-							$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
+							if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID)) //prevent repeat periods
+								continue;
 							
-							$title_temp = '';
+							$periods_title = '';
 							foreach ($other_school_p as $school_p)
 							{
 								$school_p_title = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$school_p['PERIOD_ID']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
@@ -200,16 +207,15 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								}
 								
 								if(mb_strlen($school_p['DAYS'])<5)
-		//							$mp_title .= $columns['DAYS'].' - ';
-									$title_temp .= $school_p_title[1]['TITLE'].$columns_DAYS_locale.' - ';
+									$periods_title .= $school_p_title[1]['TITLE'].$columns_DAYS_locale.' - ';
 								else
-									$title_temp .= $school_p_title[1]['TITLE'].' - ';
+									$periods_title .= $school_p_title[1]['TITLE'].' - ';
 							}
 							
-							if (!isset($base_title))
+							if (empty($base_title))
 							{
 								$current_cp = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
-								$base_title = mb_substr($current_cp[1]['TITLE'], mb_strpos($current_cp[1]['TITLE'], (GetMP($current_cp[1]['MARKING_PERIOD_ID'],'MP')!='FY' ? GetMP($current_cp[1]['MARKING_PERIOD_ID'],'SHORT_NAME') : $current_cp[1]['SHORT_NAME'])), mb_strlen($current_cp[1]['TITLE']));
+								$base_title = mb_substr($current_cp[1]['TITLE'], mb_strpos($current_cp[1]['TITLE'], (GetMP($current_cp[1]['MARKING_PERIOD_ID'],'MP')!='FY' ? GetMP($current_cp[1]['MARKING_PERIOD_ID'],'SHORT_NAME') : $current_cp[1]['SHORT_NAME'])));
 							}
 								
 							if(!empty($columns['DAYS']))
@@ -224,13 +230,12 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								$period = DBGet(DBQuery("SELECT sp.TITLE FROM SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE sp.PERIOD_ID=cpsp.PERIOD_ID AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".$id."' AND sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."'"));
 								
 								if (mb_strlen($columns['DAYS'])<5)
-//									$mp_title .= $columns['DAYS'].' - ';
-									$title = $period[1]['TITLE'].$columns_DAYS_locale.' - '.$title_temp.$base_title;
+									$title = $period[1]['TITLE'].$columns_DAYS_locale.' - '.$periods_title.$base_title;
 								else
-									$title = $period[1]['TITLE'].' - '.$title_temp.$base_title;
+									$title = $period[1]['TITLE'].' - '.$periods_title.$base_title;
 							}
 							else
-								$title = $title_temp.$base_title;
+								$title = $periods_title.$base_title;
 
 							DBQuery("UPDATE COURSE_PERIODS SET TITLE='".$title."' WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'");
 							
@@ -239,6 +244,8 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								DBQuery("DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".$id."'");
 								break; //no update
 							}
+							else
+								$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
 						}
 
 						foreach($columns as $column=>$value)
@@ -299,6 +306,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							if(!isset($columns['PARENT_ID']))
 								$columns['PARENT_ID'] = $id[1]['ID'];
 
+							$mp_title = '';
 							if(isset($columns['MARKING_PERIOD_ID']))
 							{
 								if(GetMP($columns['MARKING_PERIOD_ID'],'MP')=='FY')
@@ -313,10 +321,13 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							}
 
 							if($columns['SHORT_NAME'])
-								$mp_title .= $columns['SHORT_NAME'].' - ';
-							$title = str_replace("'","''",$mp_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
+								$base_title = $mp_title.$columns['SHORT_NAME'].' - ';
+								
+							//$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
+							//modif Francois: remove teacher's middle name to gain space
+							$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['LAST_NAME']);
 
-							$values = "'".UserSyear()."','".UserSchool()."','".$id[1]['ID']."','".$_REQUEST['course_id']."','".$title."','0',";
+							$values = "'".UserSyear()."','".UserSchool()."','".$id[1]['ID']."','".$_REQUEST['course_id']."','".$base_title."','0',";
 							$_REQUEST['course_period_id'] = $id[1]['ID'];
 							
 						}
@@ -325,12 +336,12 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						{
 							//modif Francois: add new school period to existing course period
 							if (isset($columns['PERIOD_ID']) && empty($columns['PERIOD_ID']))
-								break;
+								continue;
 								
 							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."'"), array(), array('PERIOD_ID'));
 							
 							if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID) || in_array($columns['PERIOD_ID'], array_keys($other_school_p)))
-								break;
+								continue;
 								
 							$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
 							
@@ -347,12 +358,11 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							}
 							
 							if(mb_strlen($columns['DAYS'])<5)
-	//							$mp_title .= $columns['DAYS'].' - ';
-								$title = $period[1]['TITLE'].$columns_DAYS_locale.' - '.$title;
+								$title_add = $period[1]['TITLE'].$columns_DAYS_locale;
 							else
-								$title = $period[1]['TITLE'].' - '.$title;
+								$title_add = $period[1]['TITLE'];
 							
-							DBQuery("UPDATE COURSE_PERIODS SET TITLE='".$title."' WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'");
+							DBQuery("UPDATE COURSE_PERIODS SET TITLE=COALESCE('".$title_add."'||' - '||TITLE) WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'");
 							
 						}
 
