@@ -176,11 +176,11 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 
 			<tr>
 				<td style="text-align:right"><label for="USERNAME"><b><?php echo _('Username'); ?></b></label></td>
-				<td style="text-align:left;"><input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" required /></td>
+				<td style="text-align:left;"><input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" tabindex="1" required /></td>
 			</tr>
 			<tr>
 				<td style="text-align:right"><label for="PASSWORD"><b><?php echo _('Password'); ?></b></label></td>
-				<td style="text-align:left;"><input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" required /></td>
+				<td style="text-align:left;"><input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" tabindex="2" required /></td>
 			</tr>
 		</table>
 		<p><INPUT type="submit" value="<?php echo _('Login'); ?>" class="button-primary" /></p>
