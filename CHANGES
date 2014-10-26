@@ -22,6 +22,10 @@ Changes in 2.6.5
 - Rework Course Period TITLE generationin Courses.php
 - Fix SQL bug invalid display columns in UserFields.php
 
+Upgrade from 2.6.4-
+-------------------
+- Flush the functions/ folder
+
 
 Changes in 2.6.4
 ----------------
@@ -84,6 +88,10 @@ Changes in 2.6.3
 - Bugfix plot values in inversed order in GradebookBreakdown.php
 - Add more complete list of Right to Left languages
 - update french & spanish translations
+
+Upgrade from 2.6.2-
+-------------------
+- Flush the functions/ & ProgramFunctions/ folders
 
 
 Changes in 2.6.2
