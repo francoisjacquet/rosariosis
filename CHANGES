@@ -1,5 +1,28 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.6.5
+----------------
+- Bugifx Invalid argument supplied for foreach() in Food_service/Users/Accounts.php
+- Always include Transactions.php
+- Move HackingLog function to ProgramFunctions/
+- Remove .htaccess
+- Remove Reports/Students.php
+- Update french & spanish translations
+- Bugfix No balance in Food_Service/Users/ServeMenus.php
+- Bugfix if no more transaction items, delete transaction in DeleteTransationItem.fnc.php
+- Bugfix User Statements access in Statements.php
+- Bugfix Activity Report: 
+	- Enable Student / User links and selection
+	- Adapt code for Staff
+	- Fix $where (Type & User filters)
+- Only display confirm screen when modfunc delete in ActivityReport.php & Statements.php
+- Reactivate Cancel Transaction in Transactions.php
+- Bigger font size for PDF (medium)
+- Add tabindex to username / password inputs in index.php
+- Rework Course Period TITLE generationin Courses.php
+- Fix SQL bug invalid display columns in UserFields.php
+
+
 Changes in 2.6.4
 ----------------
 - Bugfix set UserSchool for parent in Side.php
