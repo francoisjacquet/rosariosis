@@ -108,10 +108,10 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					DBQuery($sql);
 			}
 			else
-				$error = ErrorMessage(array(_('Please fill in the required fields')));
+				$error[] = _('Please fill in the required fields');
 		}
 		else
-			$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+			$error[] = _('Please enter a valid Sort Order.');
 	}
 	unset($_REQUEST['tables']);
 }
@@ -150,7 +150,9 @@ if(empty($_REQUEST['modfunc']))
 
 {
 //modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
+	if(isset($error)) 
+		echo ErrorMessage($error);
+	
 	// CATEGORIES
 	$sql = "SELECT ID,TITLE,SORT_ORDER FROM PEOPLE_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE";
 	$QI = DBQuery($sql);
