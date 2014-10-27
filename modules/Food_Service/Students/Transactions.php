@@ -104,7 +104,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 			$link['add']['html']['TYPE'] = SelectInput('','values[TYPE]','',$types,false);
 			$options = array('Cash'=>_('Cash'),'Check'=>_('Check'),'Credit Card'=>_('Credit Card'),'Debit Card'=>_('Debit Card'),'Transfer'=>_('Transfer'));
 			$link['add']['html']['DESCRIPTION'] = SelectInput('','values[OPTION]','',$options).' '.TextInput('','values[DESCRIPTION]','','size=20 maxlength=50');
-			$link['add']['html']['AMOUNT'] = TextInput('','values[AMOUNT]','','size=5 maxlength=10');
+			$link['add']['html']['AMOUNT'] = TextInput('','values[AMOUNT]','','size=5 maxlength=10 required');
 			$link['add']['html']['remove'] = button('add');
 			$link['remove']['link'] = "Modules.php?modname=".$_REQUEST['modname']."&modfunc=delete";
 			$link['remove']['variables'] = array('id'=>'TRANSACTION_ID');
