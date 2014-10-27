@@ -20,7 +20,7 @@ Changes in 2.6.5
 - Bigger font size for PDF (medium)
 - Add tabindex to username / password inputs in index.php
 - Rework Course Period TITLE generationin Courses.php
-- Fix SQL bug invalid display columns in UserFields.php
+- Fix SQL bug invalid display columns in UserFields.php & StudentFields.php
 
 Upgrade from 2.6.4-
 -------------------
