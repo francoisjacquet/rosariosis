@@ -8,7 +8,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	foreach($_REQUEST['tables'] as $id=>$columns)
 	{
 //modif Francois: fix SQL bug invalid sort order
-		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
+		if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['COLUMNS']) || is_numeric($columns['COLUMNS'])))
 		{
 			//modif Francois: added SQL constraint TITLE is not null
 			if ((!isset($columns['TITLE']) || !empty($columns['TITLE'])))
@@ -116,7 +116,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				$error[] = _('Please fill in the required fields');
 		}
 		else
-			$error[] = _('Please enter a valid Sort Order.');
+			$error[] = _('Please enter valid Numeric data.');
 	}
 	unset($_REQUEST['tables']);
 }
