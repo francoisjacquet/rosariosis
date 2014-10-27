@@ -64,7 +64,7 @@ if ($_REQUEST['modfunc']=='submit')
 	unset($_REQUEST['submit']);
 }
 
-if(UserStudentID() && !$_REQUEST['modfunc'])
+if(UserStudentID() && empty($_REQUEST['modfunc']))
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,fsa.DISCOUNT,fsa.BARCODE,
 	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE 
