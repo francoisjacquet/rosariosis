@@ -394,13 +394,13 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				}
 				else
 				{
-					$error = ErrorMessage(array(_('Please fill in the required fields')));
+					$error[] = _('Please fill in the required fields');
 					if ($table_name=='COURSE_PERIODS')
 						break 2; //skip COURSE_PERIOD_SCHOOL_PERIODS
 				}
 			}
 			else
-				$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+				$error[] = _('Please enter a valid Sort Order.');
 		}
 	}
 	unset($_REQUEST['tables']);
@@ -466,7 +466,8 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUEST['course_modfunc'])
 {
 //modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
+	if (isset($error))
+		echo ErrorMessage($error);
 	
 //modif Francois: Moodle integrator
 	echo $moodleError;
