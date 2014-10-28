@@ -256,8 +256,23 @@ if($_REQUEST['modfunc']=='update')
 				
 				$_SESSION['staff_id'] = $_REQUEST['staff_id'] = $staff_id;
 				
-				if ($_REQUEST['staff']['PROFILE_ID'] == 1)//Note after admins creation only
-					$note[] = sprintf(_('Please add the administrator\'s ID (%s) to the <i>config.inc.php</i> file.'), $staff_id);
+				if ($_REQUEST['staff']['PROFILE_ID'] == 1 && $RosarioNotifyAddress)//Notifies the network admin that a new admin has been activated.
+				{
+					//modif Francois: add SendEmail function
+					include('ProgramFunctions/SendEmail.fnc.php');
+					
+					$to = $RosarioNotifyAddress;
+					
+					$admin_name = $_REQUEST['staff']['FIRST_NAME'].' '.$_REQUEST['staff']['LAST_NAME'];
+					$subject = sprintf('New Admin Added: %s', $admin_name);
+					
+					$admin_username = empty($_REQUEST['staff']['USERNAME']) ? '[no username]' : $_REQUEST['staff']['USERNAME'];
+					$message = sprintf('New User: %s
+Added by: %s
+Remote IP: %s', $admin_username, User('NAME'), $_SERVER['REMOTE_ADDR']);
+					
+					SendEmail($to, $subject, $message);
+				}
 				
 				if ($_FILES['photo'])
 				{

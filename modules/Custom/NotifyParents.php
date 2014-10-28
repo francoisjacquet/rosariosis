@@ -12,6 +12,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$test_email = $_REQUEST['test_email'];
 
 	// Set the from and cc emails here - the emails can be comma separated list of emails.
+	$cc = '';
 	if(!empty($test_email))
 		$from = $test_email;
 	elseif (User('EMAIL'))
@@ -19,13 +20,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	else
 		ErrorMessage(array(_('You must set the <b>test mode email</b> or have a user email address to use this script.')),'fatal');
 		
-	$headers = "From:".$from."\r\nCc:".(isset($cc) ? $cc.',' : '').$RosarioNotifyAddress."\r\n";
-
-	//modif Francois: add email headers
-	$headers .= 'Return-Path:'.$from."\r\n"; 
-	$headers .= 'Reply-To:'.$from . "\r\n" . 'X-Mailer:PHP/' . phpversion();
-	$params = '-f '.$from;
-
 	$subject = ParseMLField(Config('TITLE')).' - '._('New Parent Account');
 
 	//modif Francois: add Template
@@ -79,7 +73,13 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	//modif Francois: add password encryption
 	//		$msg = str_replace('__PASSWORD__',$staff['PASSWORD'],$msg);
 			$msg = str_replace('__PASSWORD__',$password,$msg);
-			$result = @mail(empty($test_email)?$staff['EMAIL']:$test_email,utf8_decode($subject),utf8_decode($msg),$headers,$params);
+			
+			//modif Francois: add SendEmail function
+			include('ProgramFunctions/SendEmail.fnc.php');
+			
+			$to = empty($test_email)?$staff['EMAIL']:$test_email;
+			
+			$result = SendEmail($to, $subject, $msg, $from, $cc);
 
 			$RESULT[] = array('PARENT'=>$staff['FULL_NAME'],'USERNAME'=>$staff['USERNAME'],'EMAIL'=>!$test_email?$staff['EMAIL']:$test_email,'RESULT'=>$result?_('Success'):_('Fail'));
 			$i++;

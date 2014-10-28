@@ -234,6 +234,9 @@ function db_show_error($sql,$failnote,$additional='')
 
 	if($RosarioNotifyAddress)
 	{
+		//modif Francois: add SendEmail function
+		include('ProgramFunctions/SendEmail.fnc.php');
+		
 		$message = "System: ".ParseMLField(Config('TITLE'))." \n";
 		$message .= "Date: ".date("m/d/Y h:i:s")."\n";
 		$message .= "Page: ".$_SERVER['PHP_SELF'].' '.ProgramTitle()." \n\n";
@@ -243,13 +246,7 @@ function db_show_error($sql,$failnote,$additional='')
 		$message .= "Request Array: \n".print_r($_REQUEST, true);
 		$message .= "\n\nSession Array: \n".print_r($_SESSION, true);
 		
-		//modif Francois: add email headers
-		$headers = 'From:'.$RosarioNotifyAddress."\r\n";
-		$headers .= 'Return-Path:'.$RosarioNotifyAddress."\r\n"; 
-		$headers .= 'Reply-To:'.$RosarioNotifyAddress . "\r\n" . 'X-Mailer: PHP/' . phpversion();
-		$params = '-f '.$RosarioNotifyAddress;
-		
-		mail($RosarioNotifyAddress,'Rosario Database Error',utf8_decode($message),$headers, $params);
+		SendEmail($RosarioNotifyAddress,'Database Error',$message);
 	}
 
 	die();
