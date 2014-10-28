@@ -50,9 +50,7 @@ as appropriate for your installation. Rename the file to config.inc.php.
   
   $DefaultSyear default school year, should be present in the database to 
     be able to login
-  $RosarioAdmins is a comma separated list of admin's which have special login
-    privileges
-  $RosarioNotifyAddress is email address to send error notifications
+  $RosarioNotifyAddress is email address to send error and new administrator notifications
   $RosarioLocales is a comma separated list of the locale names of the 
     translations
   $CurrencySymbol is the symbol to add before money amounts
@@ -130,6 +128,13 @@ Install instructions for Ubuntu 12.04.4 64bits server:
 	
 	4) Set $wkhtmltopdfPath in RosarioSIS config.inc.php file:
 	$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';
+
+
+Activate PHP mail() function
+----------------------------
+
+Install instructions for Ubuntu 12.04.4 64bits server:
+	server$ sudo apt-get install sendmail
 
 
 Additional Configuration

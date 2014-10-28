@@ -24,16 +24,16 @@ elseif($_REQUEST['modfunc']=='create_account')
 if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 {
 	$_REQUEST['USERNAME'] = DBEscapeString($_REQUEST['USERNAME']);
-//modif Francois: add WHERE PROFILE<>'admin' to restrict admin login to $RosarioAdmins list
 	$login_RET = DBGet(DBQuery("SELECT USERNAME,PROFILE,STAFF_ID,LAST_LOGIN,FAILED_LOGIN,PASSWORD 
 	FROM STAFF 
-	WHERE PROFILE<>'admin' 
-	AND SYEAR='".Config('SYEAR')."' 
+	WHERE SYEAR='".Config('SYEAR')."' 
 	AND UPPER(USERNAME)=UPPER('".$_REQUEST['USERNAME']."')"));
+	
 	if ($login_RET && match_password($login_RET[1]['PASSWORD'], $_REQUEST['PASSWORD']))
 		unset($_REQUEST['PASSWORD'],$_REQUEST['USERNAME']);
 	else
 		$login_RET = false;
+	
 	if(!$login_RET)
 	{
 		$student_RET = DBGet(DBQuery("SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,s.FAILED_LOGIN,s.PASSWORD 
@@ -43,25 +43,13 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 		AND se.SYEAR='".Config('SYEAR')."' 
 		AND CURRENT_DATE>=se.START_DATE 
 		AND (CURRENT_DATE<=se.END_DATE OR se.END_DATE IS NULL)"));
+		
 		if ($student_RET && match_password($student_RET[1]['PASSWORD'], $_REQUEST['PASSWORD']))
 			unset($_REQUEST['PASSWORD'],$_REQUEST['USERNAME']);
 		else
 			$student_RET = false;
 	}
-	if(!$login_RET && !$student_RET && $RosarioAdmins)
-	{
-		$admin_RET = DBGet(DBQuery("SELECT STAFF_ID,PASSWORD 
-		FROM STAFF 
-		WHERE PROFILE='admin' 
-		AND SYEAR='".Config('SYEAR')."' 
-		AND STAFF_ID IN (".$RosarioAdmins.") 
-		AND UPPER(USERNAME)=UPPER('".$_REQUEST['USERNAME']."')"));
-		if ($admin_RET && match_password($admin_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'])) 
-		{
-			unset($_REQUEST['PASSWORD'],$_REQUEST['USERNAME']);
-			$login_RET = DBGet(DBQuery("SELECT USERNAME,PROFILE,STAFF_ID,LAST_LOGIN,FAILED_LOGIN FROM STAFF WHERE SYEAR='".Config('SYEAR')."' AND STAFF_ID='".$admin_RET[1]['STAFF_ID']."'"));
-		}
-	}
+	
 	if($login_RET && ($login_RET[1]['PROFILE']=='admin' || $login_RET[1]['PROFILE']=='teacher' || $login_RET[1]['PROFILE']=='parent'))
 	{
 		$_SESSION['STAFF_ID'] = $login_RET[1]['STAFF_ID'];
