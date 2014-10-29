@@ -54,13 +54,7 @@ as appropriate for your installation. Rename the file to config.inc.php.
   $RosarioLocales is a comma separated list of the locale names of the 
     translations
   $CurrencySymbol is the symbol to add before money amounts
-  
-  $RosarioModules controls which modules to use, most of the standard modules
-    are required though and should be left to 'true'
-  
-  MOODLE_INTEGRATOR controls whether the Moodle integrator is active or not, 
-    see https://github.com/francoisjacquet/rosariosis/wiki/Moodle-integrator-setup 
-    for instructions
+
 
 Now, you're ready to setup the RosarioSIS database. If you have access to the
 command prompt for your server, follow these instructions.  If you're using
