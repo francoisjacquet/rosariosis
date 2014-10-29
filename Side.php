@@ -194,18 +194,26 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 
 			<SELECT name="mp" onChange="ajaxPostForm(this.form,true);">
 
-			<?php if(count($RET)) :
+			<?php if(count($RET)) {
 			
-				if(!UserMP())
-					$_SESSION['UserMP'] = $RET[1]['MARKING_PERIOD_ID'];
-
+				$mp_array = array();
 				foreach($RET as $quarter) : ?>
 
 					<OPTION value="<?php echo $quarter['MARKING_PERIOD_ID']; ?>"<?php echo (UserMP()==$quarter['MARKING_PERIOD_ID']?' SELECTED':''); ?>><?php echo $quarter['TITLE']; ?></OPTION>
+<?php 
+					$mp_array[] = $quarter['MARKING_PERIOD_ID'];			
+				endforeach;
+				
+				//modif Francois: update UserMP if invalid
+				if(!UserMP() || !in_array(UserMP(), $mp_array))
+				{
+					$_SESSION['UserMP'] = $RET[1]['MARKING_PERIOD_ID'];
+				}
 
-				<?php endforeach; ?>
-
-			<?php endif; ?>
+			//modif Francois: error if no quarters
+			} else { ?>
+				<OPTION value=""><?php echo _('Error').': '._('No quarters found'); ?></OPTION>
+			<?php } ?>
 
 			</SELECT>
 
