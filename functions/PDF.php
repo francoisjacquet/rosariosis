@@ -37,12 +37,10 @@ function PDFStop($handle)
 	if (!empty($wkhtmltopdfPath))
 	{		
 		if(!empty($wkhtmltopdfAssetsPath))
-		{
 			$html = str_replace('assets/', $wkhtmltopdfAssetsPath, $html);
 			
-			$wkhtmltopdfModulesPath = str_replace('assets/', 'modules/', $wkhtmltopdfAssetsPath);
-			$html = str_replace('modules/', $wkhtmltopdfModulesPath, $html);
-		}
+		$wkhtmltopdfModulesPath = dirname($_SERVER['SCRIPT_FILENAME']).'/modules/';
+		$html = str_replace('modules/', $wkhtmltopdfModulesPath, $html);
 		
 		require('classes/Wkhtmltopdf.php');
 		
