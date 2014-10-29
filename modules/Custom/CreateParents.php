@@ -43,8 +43,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	// new for when parent account was created new
 	// old for when parent account was existing
-	$subject['new'] = ParseMLField(Config('TITLE')).' '._('New Parent Account');
-	$subject['old'] = ParseMLField(Config('TITLE')).' '._('Updated Parent Account');
+	$subject['new'] = _('New Parent Account');
+	$subject['old'] = _('Updated Parent Account');
 
 	//modif Francois: add Template
 	$createparentstext = $_REQUEST['inputcreateparentstext_new'].'__BLOCK2__'.$_REQUEST['inputcreateparentstext_old'];
@@ -54,8 +54,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	else
 		DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$createparentstext."' WHERE MODNAME = 'Custom/CreateParents.php' AND STAFF_ID = '".User('STAFF_ID')."'");
 
-	$message['new'] = $_REQUEST['inputcreateparentstext_new'];
-	$message['old'] = $_REQUEST['inputcreateparentstext_old'];
+	$message['new'] = str_replace("''", "'", $_REQUEST['inputcreateparentstext_new']);
+	$message['old'] = str_replace("''", "'", $_REQUEST['inputcreateparentstext_old']);
 
 	if(count($_REQUEST['student']))
 	{

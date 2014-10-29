@@ -20,7 +20,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	else
 		ErrorMessage(array(_('You must set the <b>test mode email</b> or have a user email address to use this script.')),'fatal');
 		
-	$subject = ParseMLField(Config('TITLE')).' - '._('New Parent Account');
+	$subject = _('New Parent Account');
 
 	//modif Francois: add Template
 	$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Custom/NotifyParents.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
@@ -29,7 +29,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	else
 		DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$_REQUEST['inputnotifyparentstext']."' WHERE MODNAME = 'Custom/NotifyParents.php' AND STAFF_ID = '".User('STAFF_ID')."'");
 
-	$message = $_REQUEST['inputnotifyparentstext'];
+	$message = str_replace("''", "'", $_REQUEST['inputnotifyparentstext']);
 
 	if(count($_REQUEST['staff']))
 	{
