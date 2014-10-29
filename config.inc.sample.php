@@ -27,28 +27,5 @@ if(!defined('CONFIG_INC'))
 	$CurrencySymbol = '$'; // locale currency
 	$LocalePath = 'locale'; // Path were the language packs are stored. You need to restart Apache at each change in this directory
 
-	$RosarioModules = array(
-		'School_Setup'=>true,
-		'Students'=>true,
-		'Users'=>true,
-		'Scheduling'=>true,
-		'Grades'=>true,
-		'Attendance'=>true,
-		'Eligibility'=>true,
-		'Discipline'=>true,
-		'Accounting'=>true,
-		'Student_Billing'=>true,
-		'Food_Service'=>true,
-		'State_Reports'=>false,
-		'Resources'=>true,
-		'Custom'=>true
-	);
-
-	//modif Francois: Moodle integrator, see /modules/Moodle/config.inc.php for instructions
-	define('MOODLE_INTEGRATOR', false);
-
-	// If session isn't started, start it.
-	if(!isset($SessionStart))
-		$SessionStart = 1;
 }
 ?>

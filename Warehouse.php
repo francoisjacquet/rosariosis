@@ -18,8 +18,6 @@ if(!defined('WAREHOUSE_PHP'))
 			include('functions/'.$function);
 	}
 
-	
-
 	// Start Session.
 	session_name('RosarioSIS');
 	if ($_SERVER['SCRIPT_NAME']!='/index.php')
@@ -47,6 +45,9 @@ if(!defined('WAREHOUSE_PHP'))
 	textdomain('rosariosis');    //sets the domain name, this means gettext will be looking for a file called rosariosis.mo
 	mb_internal_encoding('UTF-8'); //modif Francois: multibyte strings
 	
+	// Modules
+	$RosarioModules = unserialize(Config('MODULES'));
+
 	function Warehouse($mode)
 	{	global $_ROSARIO,$locale;
 
