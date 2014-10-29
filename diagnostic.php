@@ -41,7 +41,7 @@ else
 		echo _ErrorMessage($error,'fatal');
 	}
 	//xmlrpc
-	if (MOODLE_INTEGRATOR && !extension_loaded('xmlrpc'))
+	if (!extension_loaded('xmlrpc'))
 		$error[] = 'PHP extensions: RosarioSIS relies on the xmlrpc extensions (only used to connect to Moodle). See the php.ini file to activate it.'.$inipath;
 
 	if(!@opendir("$RosarioPath/functions"))
@@ -74,6 +74,9 @@ else
 				$error[] = 'At least one of the tables does not exist.  Make sure you ran the rosariosis.sql file as described in the INSTALL file.';
 			elseif($errstring)
 				$error[] = $errstring;
+			
+			$result = @pg_exec($connection,"SELECT * FROM STAFF WHERE SYEAR='".$DefaultSyear."'");
+			$error[] = 'The value for $DefaultSyear in config.inc.php is not correct.';
 		}
 	}
 }
