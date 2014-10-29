@@ -2,6 +2,7 @@
 error_reporting(1);
 include('Warehouse.php');
 
+if(isset($_REQUEST['modfunc']))
 if($_REQUEST['modfunc']=='logout')
 {
 	if($_SESSION)
@@ -21,7 +22,7 @@ elseif($_REQUEST['modfunc']=='create_account')
 		unset($_REQUEST['modfunc']);
 }
 
-if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
+if(isset($_REQUEST['USERNAME']) && isset($_REQUEST['PASSWORD']))
 {
 	$_REQUEST['USERNAME'] = DBEscapeString($_REQUEST['USERNAME']);
 //modif Francois: add WHERE PROFILE<>'admin' to restrict admin login to $RosarioAdmins list
@@ -108,7 +109,7 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 	}
 }
 
-if($_REQUEST['modfunc']=='create_account')
+if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='create_account')
 {
 	Warehouse('header');
 	$_ROSARIO['allow_edit'] = true;
@@ -213,7 +214,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 </BODY></HTML>
 <?php
 }
-elseif($_REQUEST['modfunc']!='create_account')//successfully logged in, display Portal
+elseif(!isset($_REQUEST['modfunc']) || $_REQUEST['modfunc']!='create_account')//successfully logged in, display Portal
 {
 	$_REQUEST['modname']='misc/Portal.php';
 	$_REQUEST['failed_login']=$failed_login;
