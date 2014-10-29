@@ -2,13 +2,13 @@
 if(!defined('WAREHOUSE_PHP'))
 {
 	define("WAREHOUSE_PHP",1);
-    $RosarioVersion = '2.6.5';
+	$RosarioVersion = '2.6.5';
 
-    if (!file_exists ('config.inc.php'))
-        die ('config.inc.php not found. Please read the configuration guide.');
+	if (!file_exists ('config.inc.php'))
+		die ('config.inc.php not found. Please read the configuration guide.');
 	require('config.inc.php');
 	require('database.inc.php');
-    
+
 	// Load functions.
 	$functions = scandir('functions/');
 	foreach ($functions as $function)
@@ -21,32 +21,30 @@ if(!defined('WAREHOUSE_PHP'))
 	
 
 	// Start Session.
-    session_name('RosarioSIS');
-    if ($_SERVER['SCRIPT_NAME']!='/index.php')
-        session_set_cookie_params(0,dirname($_SERVER['SCRIPT_NAME']).'/'); //,'',$false,$true);
+	session_name('RosarioSIS');
+	if ($_SERVER['SCRIPT_NAME']!='/index.php')
+		session_set_cookie_params(0,dirname($_SERVER['SCRIPT_NAME']).'/'); //,'',$false,$true);
 	session_start();
 	if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && mb_strpos($_SERVER['PHP_SELF'],'index.php')===false)
 	{
-		?>
-
+?>
 		<script>window.location.href = "index.php?modfunc=logout";</script>
-
-		<?php
+<?php
 		exit;
 	}
 
-    // Internationalization
-    if (!empty($_GET['locale'])) 
+	// Internationalization
+	if (!empty($_GET['locale'])) 
 		$_SESSION['locale'] = $_GET['locale'];
-    if (empty($_SESSION['locale'])) 
+	if (empty($_SESSION['locale'])) 
 		$_SESSION['locale'] = $RosarioLocales[0]; //english
-    $locale = $_SESSION['locale'];
-    putenv('LC_ALL='.$locale);
-    setlocale(LC_ALL, $locale);
+	$locale = $_SESSION['locale'];
+	putenv('LC_ALL='.$locale);
+	setlocale(LC_ALL, $locale);
 	setlocale(LC_NUMERIC, 'english','en_US', 'en_US.utf8'); //modif Francois: numeric separator "."
-    bindtextdomain('rosariosis', $LocalePath);    //binds the messages domain to the locale folder
-    bind_textdomain_codeset('rosariosis','UTF-8');     //ensures text returned is utf-8, quite often this is iso-8859-1 by default
-    textdomain('rosariosis');    //sets the domain name, this means gettext will be looking for a file called rosariosis.mo
+	bindtextdomain('rosariosis', $LocalePath);    //binds the messages domain to the locale folder
+	bind_textdomain_codeset('rosariosis','UTF-8');     //ensures text returned is utf-8, quite often this is iso-8859-1 by default
+	textdomain('rosariosis');    //sets the domain name, this means gettext will be looking for a file called rosariosis.mo
 	mb_internal_encoding('UTF-8'); //modif Francois: multibyte strings
 	
 	function Warehouse($mode)
@@ -115,13 +113,13 @@ else
 					for($i=1;$i<=$_ROSARIO['PrepareDate'];$i++) : ?>
 if (document.getElementById('trigger<?php echo $i; ?>'))
 	Calendar.setup({
-		monthField     :    "monthSelect<?php echo $i; ?>",
-		dayField       :    "daySelect<?php echo $i; ?>",
-		yearField      :    "yearSelect<?php echo $i; ?>",
-		ifFormat       :    "%d-%b-%y",
-		button         :    "trigger<?php echo $i; ?>",
-		align          :    "Tl",
-		singleClick    :    true
+		monthField  : "monthSelect<?php echo $i; ?>",
+		dayField    : "daySelect<?php echo $i; ?>",
+		yearField   : "yearSelect<?php echo $i; ?>",
+		ifFormat    : "%d-%b-%y",
+		button      : "trigger<?php echo $i; ?>",
+		align       : "Tl",
+		singleClick : true
 	});
 <?php				endfor;
 				endif; ?>
