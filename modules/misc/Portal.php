@@ -6,7 +6,7 @@ if(!UserSyear())
 	$_SESSION['UserSyear'] = Config('SYEAR');
 }
 
-$_ROSARIO['HeaderIcon'] = 'rosario.png'; //modif Francois: icones Educons
+$_ROSARIO['HeaderIcon'] = 'modules/misc/icon.png';
 DrawHeader(ParseMLField(Config('TITLE')));
 
 DrawHeader('<span id="salute"></span><script>

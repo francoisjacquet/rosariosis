@@ -318,7 +318,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 if($_REQUEST['student_id']=='new')
 {
-	$_ROSARIO['HeaderIcon'] = 'Students.png';
+	$_ROSARIO['HeaderIcon'] = 'modules/Students/icon.png';
 	DrawHeader(_('Add a Student'));
 }
 else

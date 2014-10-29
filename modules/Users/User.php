@@ -306,7 +306,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 {
 	if($_REQUEST['staff_id']=='new')
 	{
-		$_ROSARIO['HeaderIcon'] = 'Users.png';
+		$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
 		DrawHeader(_('Add a User'));
 	}
 	else
