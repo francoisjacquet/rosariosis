@@ -810,7 +810,7 @@ SELECT pg_catalog.setval('calendars_seq', 1, true);
 CREATE TABLE config (
 	school_id numeric NOT NULL,
     title character varying(100),
-    config_value character varying(255)
+    config_value character varying(2550)
 );
 
 
