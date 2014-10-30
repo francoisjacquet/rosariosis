@@ -3,8 +3,8 @@ if(!defined('CONFIG_INC'))
 {
 	define('CONFIG_INC',1);
 	
-	// Database Setup
-	$DatabaseServer = 'localhost';	// postgres = host
+	// PostgreSQL Database Setup
+	$DatabaseServer = 'localhost';
 	$DatabaseUsername = 'rosariosis';
 	$DatabasePassword = 'password';
 	$DatabaseName = 'rosariosis';
@@ -20,12 +20,12 @@ if(!defined('CONFIG_INC'))
 	$UserPicturesPath = 'assets/UserPhotos/';
 	$PortalNotesFilesPath = 'assets/PortalNotesFiles/';
 	$FS_IconsPath = 'assets/FS_icons/';
-
-	$DefaultSyear = '2014';
-	$RosarioNotifyAddress = '';
-	$RosarioLocales = array('en_US.utf8');	// Add other languages you want to support here, ex: 'fr_FR.utf8', 'es_ES.utf8', ...
-	$CurrencySymbol = '$'; // locale currency
 	$LocalePath = 'locale'; // Path were the language packs are stored. You need to restart Apache at each change in this directory
+
+	$DefaultSyear = '2014'; // Default school year, should match the database to be able to login
+	$RosarioNotifyAddress = ''; // email address to send error and new administrator notifications
+	$RosarioLocales = array('en_US.utf8'); // Add other languages you want to support here, ex: 'fr_FR.utf8', 'es_ES.utf8', ...
+	$CurrencySymbol = '$'; // local currency
 
 }
 ?>
