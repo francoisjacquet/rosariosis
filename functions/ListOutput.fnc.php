@@ -253,8 +253,8 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			}
 		}
 
-        // HANDLE SAVING THE LIST ---
-        if($options['save'] && $_REQUEST['LO_save']==$options['save'])
+		// HANDLE SAVING THE LIST ---
+		if($options['save'] && $_REQUEST['LO_save']==$options['save'])
 		{
 			if(!$options['save_delimiter'] && Preferences('DELIMITER')=='CSV')
 				$options['save_delimiter'] = 'comma';
