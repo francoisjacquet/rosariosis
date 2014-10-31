@@ -42,9 +42,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 	// PREPARE LINKS ---
 	$result_count = $display_count = count($result);
 	$num_displayed = 100000;
-	$extra = 'page='.(isset($_REQUEST['page'])?$_REQUEST['page']:'').'&amp;LO_sort='.(isset($_REQUEST['LO_sort'])?$_REQUEST['LO_sort']:'').'&amp;LO_direction='.(isset($_REQUEST['LO_direction'])?$_REQUEST['LO_direction']:'').'&amp;LO_search='.(isset($_REQUEST['LO_search'])?urlencode($_REQUEST['LO_search']):'');
+	$extra = 'LO_page='.(isset($_REQUEST['LO_page'])?$_REQUEST['LO_page']:'').'&amp;LO_sort='.(isset($_REQUEST['LO_sort'])?$_REQUEST['LO_sort']:'').'&amp;LO_direction='.(isset($_REQUEST['LO_direction'])?$_REQUEST['LO_direction']:'').'&amp;LO_search='.(isset($_REQUEST['LO_search'])?urlencode($_REQUEST['LO_search']):'');
 
-	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('page','LO_sort','LO_direction','LO_search','LO_save','remove_prompt','remove_name','PHPSESSID'));
+	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('LO_page','LO_sort','LO_direction','LO_search','LO_save','remove_prompt','remove_name','PHPSESSID'));
 
 	// END PREPARE LINKS ---
 
@@ -336,11 +336,13 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 		{
 			if(!isset($_REQUEST['_ROSARIO_PDF']))
 			{
-				if(empty($_REQUEST['page']))
-					$_REQUEST['page'] = 1;
+				if(empty($_REQUEST['LO_page']))
+					$_REQUEST['LO_page'] = 1;
+				if($_REQUEST['LO_page'] < 1) //modif Francois: check LO_page
+					$_REQUEST['LO_page'] = 1;
 				if(empty($_REQUEST['LO_direction']))
 					$_REQUEST['LO_direction'] = 1;
-				$start = ($_REQUEST['page'] - 1) * $num_displayed + 1;
+				$start = ($_REQUEST['LO_page'] - 1) * $num_displayed + 1;
 				$stop = $start + ($num_displayed-1);
 				if($stop > $result_count)
 					$stop = $result_count;
@@ -353,34 +355,34 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						$ceil = ceil($result_count/$num_displayed);
 						for($i=1;$i<=$ceil;$i++)
 						{
-							if($i!=$_REQUEST['page'])
-								$pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;page='.$i.'">'.$i.'</A>, ';
+							if($i!=$_REQUEST['LO_page'])
+								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
 							else
-								$pages .= $i.', ';
+								$LO_pages .= $i.', ';
 						}
-						$pages = mb_substr($pages,0,-2) . "<BR />";
+						$LO_pages = mb_substr($LO_pages,0,-2) . "<BR />";
 					}
 					else
 					{
 						for($i=1;$i<=7;$i++)
 						{
-							if($i!=$_REQUEST['page'])
-								$pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;page='.$i.'">'.$i.'</A>, ';
+							if($i!=$_REQUEST['LO_page'])
+								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
 							else
-								$pages .= $i.', ';
+								$LO_pages .= $i.', ';
 						}
-						$pages = mb_substr($pages,0,-2) . " ... ";
+						$LO_pages = mb_substr($LO_pages,0,-2) . " ... ";
 						$ceil = ceil($result_count/$num_displayed);
 						for($i=$ceil-2;$i<=$ceil;$i++)
 						{
-							if($i!=$_REQUEST['page'])
-								$pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;page='.$i.'">'.$i.'</A>, ';
+							if($i!=$_REQUEST['LO_page'])
+								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
 							else
-								$pages .= $i.', ';
+								$LO_pages .= $i.', ';
 						}
-						$pages = mb_substr($pages,0,-2) . ' &nbsp;<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;page=' . ($_REQUEST['page'] +1) . '">'._('Next Page').'</A><BR />';
+						$LO_pages = mb_substr($LO_pages,0,-2) . ' &nbsp;<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$_REQUEST['LO_sort'].'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page=' . ($_REQUEST['LO_page'] +1) . '">'._('Next LO_page').'</A><BR />';
 					}
-					echo sprintf(_('Go to Page %s'),$pages);
+					echo sprintf(_('Go to LO_page %s'),$LO_pages);
 					echo '</TD></TR></TABLE>';
 					echo '<BR />';
 				}*/
@@ -467,7 +469,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				if(!isset($_REQUEST['_ROSARIO_PDF']) && $options['search'])
 				{
 					echo '<TD style="text-align:right">';
-					echo '<script>var LO_searchonclick = document.createElement("a"); LO_searchonclick.href = "'.PreparePHP_SELF($_REQUEST,array('LO_search','page')).'&LO_search="; LO_searchonclick.target = "body";</script>';
+					echo '<script>var LO_searchonclick = document.createElement("a"); LO_searchonclick.href = "'.PreparePHP_SELF($_REQUEST,array('LO_search','LO_page')).'&LO_search="; LO_searchonclick.target = "body";</script>';
 					echo '<INPUT type="text" id="LO_search" name="LO_search" value="'.htmlspecialchars($_REQUEST['LO_search'],ENT_QUOTES).'" placeholder="'._('Search').'" onkeypress="if(event.keyCode==13 && this.value!=\'\'){LO_searchonclick.href += this.value; ajaxLink(LO_searchonclick); return false;}" /><INPUT type="button" value="'._('Go').'" onclick="if(document.getElementById(\'LO_search\').value!=\'\'){LO_searchonclick.href += document.getElementById(\'LO_search\').value; ajaxLink(LO_searchonclick);}" /></TD>';
 					$colspan++;
 				}
@@ -505,7 +507,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						echo '<TH>';
 						echo '<A ';
 						if($options['sort'])
-							echo 'HREF="'.$PHP_tmp_SELF.'&amp;page='.$_REQUEST['page'].'&amp;LO_sort='.$key.'&amp;LO_direction='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'');
+							echo 'HREF="'.$PHP_tmp_SELF.'&amp;LO_page='.$_REQUEST['LO_page'].'&amp;LO_sort='.$key.'&amp;LO_direction='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'');
 						echo '">'.ParseMLField($value).'</A>';
 	//modif Francois: remove LOy
 						echo '</TH>';
