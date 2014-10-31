@@ -64,7 +64,7 @@ if($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 			$RosarioModules[$_REQUEST['module']] = false;
 			
 			//save $RosarioModules
-			_saveRosarioModules($RosarioModules);
+			_saveRosarioModules();
 		}
 		
 		unset($_REQUEST['modfunc']);
@@ -99,7 +99,7 @@ if($_REQUEST['modfunc']=='activate' && AllowEdit())
 		$RosarioModules[$_REQUEST['module']] = true;
 		
 		//save $RosarioModules
-		_saveRosarioModules($RosarioModules);
+		_saveRosarioModules();
 	}
 	
 	unset($_REQUEST['modfunc']);
@@ -183,8 +183,10 @@ function _makeDelete($module_title,$activated=null)
 	return $return;
 }
 
-function _saveRosarioModules($RosarioModules)
+function _saveRosarioModules()
 {
+	global $RosarioModules;
+
 	$MODULES = DBEscapeString(serialize($RosarioModules));
 	
 	DBQuery("UPDATE config SET config_value='".$MODULES."' WHERE title='MODULES'");
