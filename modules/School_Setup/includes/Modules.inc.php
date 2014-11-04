@@ -213,7 +213,7 @@ function _makeDelete($module_title,$activated=null)
 			if (file_exists('modules/'.$module_title.'/Menu.php'))
 				$return = button('add',_('Activate'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=modules&modfunc=activate&module='.$module_title.'"');
 			else
-				$return = '<span style="color:red">'._('Menu.php file missing or wrong permissions.').'</span>';
+				$return = '<span style="color:red">'.sprintf_('%s file missing or wrong permissions.'),'Menu.php').'</span>';
 
 			//if not core module & already installed, delete link
 			if (!in_array($module_title, $always_activated) && !in_array($module_title, $core_modules) && in_array($module_title, array_keys($RosarioModules)))

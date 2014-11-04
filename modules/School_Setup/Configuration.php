@@ -8,11 +8,15 @@ DrawHeader(ProgramTitle());
 
 $configuration_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'"><b>'._('Configuration').'</b></a>';
 $modules_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=modules"><b>'._('Modules').'</b></a>';
+$plugins_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins"><b>'._('Plugins').'</b></a>';
 if(AllowEdit())
-	DrawHeader($configuration_link.' - '.$modules_link);
+	DrawHeader($configuration_link.' - '.$modules_link.' - '.$plugins_link);
 
 if (isset($_REQUEST['tab']) && $_REQUEST['tab']=='modules')
 	include('modules/School_Setup/includes/Modules.inc.php');
+
+elseif (isset($_REQUEST['tab']) && $_REQUEST['tab']=='plugins')
+	include('modules/School_Setup/includes/Plugins.inc.php');
 else
 {
 

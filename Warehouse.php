@@ -48,6 +48,16 @@ if(!defined('WAREHOUSE_PHP'))
 	// Modules
 	$RosarioModules = unserialize(Config('MODULES'));
 
+	// Plugins
+	$RosarioPlugins = unserialize(Config('PLUGINS'));
+	// Load plugins functions.
+	foreach($RosarioPlugins as $plugin=>$activated)
+	{
+		if ($activated)
+			include('plugins/'.$plugin.'/functions.php');
+	}
+
+
 	function Warehouse($mode)
 	{	global $_ROSARIO,$locale;
 
