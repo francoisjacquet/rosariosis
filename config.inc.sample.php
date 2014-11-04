@@ -14,7 +14,7 @@ if(!defined('CONFIG_INC'))
 	$RosarioPath = dirname(__FILE__).'/';
 	$pg_dumpPath = '/usr/bin/pg_dump'; // Specify the path to the database dump utility for this server.
 	//modif Francois: wkhtmltopdf
-	$wkhtmltopdfPath = '/usr/bin/wkhtmltopdf'; // empty string means wkhtmltopdf will not be called and reports will be rendered in htlm instead of pdf
+	$wkhtmltopdfPath = '/usr/bin/wkhtmltopdf'; // empty string means wkhtmltopdf will not be called and reports will be rendered in html instead of pdf
 	$wkhtmltopdfAssetsPath = '/var/www/rosariosis/assets/'; // way wkhtmltopdf accesses the assets/ directory, empty string means no translation
 	$StudentPicturesPath = 'assets/StudentPhotos/';
 	$UserPicturesPath = 'assets/UserPhotos/';

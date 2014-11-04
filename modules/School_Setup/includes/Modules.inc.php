@@ -47,7 +47,20 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 		//verify if not in $always_activated & not in $core_modules but in $RosarioModules
 		if (!in_array($_REQUEST['module'], $always_activated) && !in_array($_REQUEST['module'], $core_modules) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == false)
 		{
-			continue;
+			//call delete function TODO
+
+			//update $RosarioModules
+			unset($RosarioModules[$_REQUEST['module']]);
+
+			//save $RosarioModules
+			_saveRosarioModules();
+
+			if (is_dir('modules/'.$_REQUEST['module']))
+			{
+				//remove files & dir
+				if (!_delTree('modules/'.$_REQUEST['module']))
+					$error[] = _('Module not eraseable.');
+			}
 		}
 		
 		unset($_REQUEST['modfunc']);
@@ -72,6 +85,12 @@ if($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 			_reloadMenu();
 		}
 		
+		//verify module dir exists
+		if (!is_dir('modules/'.$_REQUEST['module']) || file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
+		{
+			$error[] = _('Incomplete or inexistant module.');
+		}
+
 		unset($_REQUEST['modfunc']);
 		unset($_REQUEST['module']);
 	}
@@ -85,19 +104,26 @@ if($_REQUEST['modfunc']=='activate' && AllowEdit())
 	if (!in_array($_REQUEST['module'], array_keys($RosarioModules)))
 	{
 		//verify directory exists
-		if (is_dir('modules/'.$_REQUEST['module']))
+		if (is_dir('modules/'.$_REQUEST['module']) && file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
 		{
 			//install module TODO
 			
 			$update_RosarioModules = true;
 		}
+		else
+			$error[] = _('Incomplete or inexistant module.');
 	}
 	//verify in $RosarioModules
-	elseif ($RosarioModules[$_REQUEST['module']] == false)
+	elseif ($RosarioModules[$_REQUEST['module']] == false && is_dir('modules/'.$_REQUEST['module']))
 	{
 		$update_RosarioModules = true;
 	}
-	
+	//no module dir
+	elseif (!is_dir('modules/'.$_REQUEST['module']) || file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
+	{
+		$error[] = _('Incomplete or inexistant module.');
+	}
+
 	if ($update_RosarioModules)
 	{
 		//update $RosarioModules
@@ -118,6 +144,9 @@ if($_REQUEST['modfunc']=='activate' && AllowEdit())
 if(empty($_REQUEST['modfunc']))
 {
 	
+	if ($error)
+		echo ErrorMessage($error);
+
 	$modules_RET = array('');
 	foreach($RosarioModules as $module_title => $activated)
 	{
@@ -167,7 +196,7 @@ function _makeActivated($activated)
 
 function _makeDelete($module_title,$activated=null)
 {	
-	global $always_activated, $core_modules;
+	global $RosarioModules, $always_activated, $core_modules;
 	
 	$return = '';
 	if (AllowEdit())
@@ -177,14 +206,17 @@ function _makeDelete($module_title,$activated=null)
 			if (!in_array($module_title, $always_activated))
 			{
 				$return = button('remove',_('Deactivate'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=modules&modfunc=deactivate&module='.$module_title.'"');
-				
 			}
 		}
 		else
 		{
-			$return = button('add',_('Activate'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=modules&modfunc=activate&module='.$module_title.'"');
-			
-			if (!in_array($module_title, $always_activated) && !in_array($module_title, $core_modules))
+			if (file_exists('modules/'.$module_title.'/Menu.php'))
+				$return = button('add',_('Activate'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=modules&modfunc=activate&module='.$module_title.'"');
+			else
+				$return = '<span style="color:red">'._('Menu.php file missing or wrong permissions.').'</span>';
+
+			//if not core module & already installed, delete link
+			if (!in_array($module_title, $always_activated) && !in_array($module_title, $core_modules) && in_array($module_title, array_keys($RosarioModules)))
 				$return .= '&nbsp;'.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=modules&modfunc=delete&module='.$module_title.'"');
 		}
 	}
@@ -209,5 +241,13 @@ function _reloadMenu()
 	<?php
 
 	return true;
+}
+
+function _delTree($dir) {
+	$files = array_diff(scandir($dir), array('.','..'));
+	foreach ($files as $file) {
+		(is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+	}
+	return rmdir($dir);
 }
 ?>
