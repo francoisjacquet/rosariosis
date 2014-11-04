@@ -96,27 +96,36 @@ else
 		echo '<TR style="text-align:left;"><TD>'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<br /><img src="assets/school_logo_'.UserSchool().'.jpg?cache_killer='.rand().'" style="max-width:225px; max-height:225px;" /><br />' : '').'<input type="file" id="LOGO_FILE" name="LOGO_FILE" size="14" accept="image/jpeg" /><span id="loading"></span><br /><span class="legend-gray">'._('School logo').' (.jpg)</span></TD></TR>';
 		echo '</TABLE></FIELDSET>';
 	
-		echo '<BR /><FIELDSET><legend><b>'._('Students').'</b></legend><TABLE>';
-	    echo '<TR style="text-align:left;"><TD>'.CheckboxInput(Config('STUDENTS_USE_MAILING'),'values[CONFIG][STUDENTS_USE_MAILING]',_('Display Mailing Address'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
-	    echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['STUDENTS_USE_BUS'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_USE_BUS]',_('Check Bus Pickup / Dropoff by default'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
-	    echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['STUDENTS_USE_CONTACT'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_USE_CONTACT]',_('Enable Legacy Contact Information'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
-	    echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_SEMESTER_COMMENTS]',_('Use Semester Comments instead of Quarter Comments'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
-		echo '</TABLE></FIELDSET>';
+		if ($RosarioModules['Students'])
+		{
+			echo '<BR /><FIELDSET><legend><b>'._('Students').'</b></legend><TABLE>';
+			echo '<TR style="text-align:left;"><TD>'.CheckboxInput(Config('STUDENTS_USE_MAILING'),'values[CONFIG][STUDENTS_USE_MAILING]',_('Display Mailing Address'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['STUDENTS_USE_BUS'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_USE_BUS]',_('Check Bus Pickup / Dropoff by default'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['STUDENTS_USE_CONTACT'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_USE_CONTACT]',_('Enable Legacy Contact Information'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_SEMESTER_COMMENTS]',_('Use Semester Comments instead of Quarter Comments'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '</TABLE></FIELDSET>';
+		}
 	
-		echo '<BR /><FIELDSET><legend><b>'._('Grades').'</b></legend><TABLE>';
-		$options = array('-1' => _('Use letter grades only'), '0' => _('Use letter and percent grades'), '1' => _('Use percent grades only'));
-	    echo '<TR style="text-align:left;"><TD>'.SelectInput($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_DOES_LETTER_PERCENT]',_('Grades'),$options,false).'</TD></TR>';
-	    echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['GRADES_HIDE_NON_ATTENDANCE_COMMENT'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_HIDE_NON_ATTENDANCE_COMMENT]',_('Hide grade comment except for attendance period courses'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
-	    echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['GRADES_TEACHER_ALLOW_EDIT'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_TEACHER_ALLOW_EDIT]',_('Allow Teachers to edit grades after grade posting period'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
-	    echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['GRADES_DO_STATS_STUDENTS_PARENTS'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_DO_STATS_STUDENTS_PARENTS]',_('Enable Anonymous Grade Statistics for Parents and Students'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
-	    echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['GRADES_DO_STATS_ADMIN_TEACHERS'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_DO_STATS_ADMIN_TEACHERS]',_('Enable Anonymous Grade Statistics for Administrators and Teachers'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
-		echo '</TABLE></FIELDSET>';
+		if ($RosarioModules['Grades'])
+		{
+			echo '<BR /><FIELDSET><legend><b>'._('Grades').'</b></legend><TABLE>';
+			$options = array('-1' => _('Use letter grades only'), '0' => _('Use letter and percent grades'), '1' => _('Use percent grades only'));
+			echo '<TR style="text-align:left;"><TD>'.SelectInput($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_DOES_LETTER_PERCENT]',_('Grades'),$options,false).'</TD></TR>';
+			echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['GRADES_HIDE_NON_ATTENDANCE_COMMENT'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_HIDE_NON_ATTENDANCE_COMMENT]',_('Hide grade comment except for attendance period courses'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['GRADES_TEACHER_ALLOW_EDIT'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_TEACHER_ALLOW_EDIT]',_('Allow Teachers to edit grades after grade posting period'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['GRADES_DO_STATS_STUDENTS_PARENTS'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_DO_STATS_STUDENTS_PARENTS]',_('Enable Anonymous Grade Statistics for Parents and Students'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR style="text-align:left;"><TD>'.CheckboxInput($program_config['GRADES_DO_STATS_ADMIN_TEACHERS'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_DO_STATS_ADMIN_TEACHERS]',_('Enable Anonymous Grade Statistics for Administrators and Teachers'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '</TABLE></FIELDSET>';
+		}
 
-		echo '<BR /><FIELDSET><legend><b>'._('Attendance').'</b></legend><TABLE>';
-		echo '<TR style="text-align:left;"><TD>'.TextInput(Config('ATTENDANCE_FULL_DAY_MINUTES'),'values[CONFIG][ATTENDANCE_FULL_DAY_MINUTES]',_('Minutes in a Full School Day'),'maxlength=3 size=3 min=0').'</TD></TR>';
-		echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['ATTENDANCE_EDIT_DAYS_BEFORE'][1]['VALUE'],'values[PROGRAM_CONFIG][ATTENDANCE_EDIT_DAYS_BEFORE]','<SPAN style="cursor:help" class="legend-gray" title="'._('Leave the field blank to always allow').'">'._('Number of days before the school date teachers can edit attendance').'*</SPAN>','maxlength=2 size=2 min=0').'</TD></TR>';
-		echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['ATTENDANCE_EDIT_DAYS_AFTER'][1]['VALUE'],'values[PROGRAM_CONFIG][ATTENDANCE_EDIT_DAYS_AFTER]','<SPAN style="cursor:help" class="legend-gray" title="'._('Leave the field blank to always allow').'">'._('Number of days after the school date teachers can edit attendance').'*</SPAN>','maxlength=2 size=2 min=0').'</TD></TR>';
-		echo '</TABLE></FIELDSET>';
+		if ($RosarioModules['Attendance'])
+		{
+			echo '<BR /><FIELDSET><legend><b>'._('Attendance').'</b></legend><TABLE>';
+			echo '<TR style="text-align:left;"><TD>'.TextInput(Config('ATTENDANCE_FULL_DAY_MINUTES'),'values[CONFIG][ATTENDANCE_FULL_DAY_MINUTES]',_('Minutes in a Full School Day'),'maxlength=3 size=3 min=0').'</TD></TR>';
+			echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['ATTENDANCE_EDIT_DAYS_BEFORE'][1]['VALUE'],'values[PROGRAM_CONFIG][ATTENDANCE_EDIT_DAYS_BEFORE]','<SPAN style="cursor:help" class="legend-gray" title="'._('Leave the field blank to always allow').'">'._('Number of days before the school date teachers can edit attendance').'*</SPAN>','maxlength=2 size=2 min=0').'</TD></TR>';
+			echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['ATTENDANCE_EDIT_DAYS_AFTER'][1]['VALUE'],'values[PROGRAM_CONFIG][ATTENDANCE_EDIT_DAYS_AFTER]','<SPAN style="cursor:help" class="legend-gray" title="'._('Leave the field blank to always allow').'">'._('Number of days after the school date teachers can edit attendance').'*</SPAN>','maxlength=2 size=2 min=0').'</TD></TR>';
+			echo '</TABLE></FIELDSET>';
+		}
 
 		if ($RosarioModules['Food_Service'])
 		{

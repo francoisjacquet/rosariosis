@@ -23,12 +23,7 @@ $core_modules = array(
 
 // Core modules that will generate errors if deactivated
 $always_activated = array(
-	'School_Setup',
-	'Students',
-	'Users',
-	'Scheduling',
-	'Grades',
-	'Attendance'
+	'School_Setup'
 );
 
 $directories_bypass = array(
@@ -37,13 +32,20 @@ $directories_bypass = array(
 	'misc'
 );
 
+//hacking protections
+if(isset($_REQUEST['module']) && strpos($_REQUEST['module'], '..') !== false)
+{
+	include('ProgramFunctions/HackingLog.fnc.php');
+	HackingLog();
+}
+
 
 if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if(DeletePrompt(_('Module')))
 	{
 		//verify if not in $always_activated & not in $core_modules but in $RosarioModules
-		if (!in_array($_REQUEST['module'], $always_activated) && !in_array($_REQUEST['module'], $core_modules) && in_array($_REQUEST['module'], array_keys($RosarioModules)))
+		if (!in_array($_REQUEST['module'], $always_activated) && !in_array($_REQUEST['module'], $core_modules) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == false)
 		{
 			continue;
 		}
@@ -65,6 +67,9 @@ if($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 			
 			//save $RosarioModules
 			_saveRosarioModules();
+
+			//reload menu
+			_reloadMenu();
 		}
 		
 		unset($_REQUEST['modfunc']);
@@ -100,6 +105,9 @@ if($_REQUEST['modfunc']=='activate' && AllowEdit())
 		
 		//save $RosarioModules
 		_saveRosarioModules();
+
+		//reload menu
+		_reloadMenu();
 	}
 	
 	unset($_REQUEST['modfunc']);
@@ -191,6 +199,15 @@ function _saveRosarioModules()
 	
 	DBQuery("UPDATE config SET config_value='".$MODULES."' WHERE title='MODULES'");
 	
+	return true;
+}
+
+function _reloadMenu()
+{
+	?>
+	<script>var menu_link = document.createElement("a"); menu_link.href = "Side.php"; menu_link.target = "menu"; var modname = "<?php echo $_REQUEST['modname']; ?>"; ajaxLink(menu_link);</script>
+	<?php
+
 	return true;
 }
 ?>

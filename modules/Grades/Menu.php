@@ -59,11 +59,12 @@ $menu['Grades']['parent'] = array(
 						'Grades/GPARankList.php'=>_('GPA / Class Rank')
 					);
 
-$menu['Users']['admin'] += array(
-						'Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php'=>_('Input Final Grades'),
-						'Users/TeacherPrograms.php&include=Grades/Grades.php'=>_('Gradebook Grades'),
-						'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php'=>_('Anomalous Grades')
-					);
+if ($RosarioModules['Users'])
+	$menu['Users']['admin'] += array(
+							'Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php'=>_('Input Final Grades'),
+							'Users/TeacherPrograms.php&include=Grades/Grades.php'=>_('Gradebook Grades'),
+							'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php'=>_('Anomalous Grades')
+						);
 
 $exceptions['Grades'] = array(
 						'Grades/CalcGPA.php'=>true
