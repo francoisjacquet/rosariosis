@@ -341,7 +341,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 		for ($i=0; $i<$size; $i++) :
 			if (count($modcat_menu = $_ROSARIO['Menu'][$key[$i]])) : ?>
 
-			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="assets/icons/<?php echo $key[$i]; ?>.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo _(str_replace('_',' ',$key[$i])); ?></A>
+			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo _(str_replace('_',' ',$key[$i])); ?></A>
 			<DIV id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
 				<TABLE class="width-100p cellspacing-0 cellpadding-0">
 
