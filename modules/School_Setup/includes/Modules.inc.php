@@ -47,7 +47,12 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 		//verify if not in $always_activated & not in $core_modules but in $RosarioModules
 		if (!in_array($_REQUEST['module'], $always_activated) && !in_array($_REQUEST['module'], $core_modules) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == false)
 		{
-			//call delete function TODO
+			//delete module: execute delete.sql script
+			if (file_exists('modules/'.$_REQUEST['module'].'/delete.sql'))
+			{
+				$delete_sql = file_get_contents('modules/'.$_REQUEST['module'].'/delete.sql');
+				DBQuery($delete_sql);
+			}
 
 			//update $RosarioModules
 			unset($RosarioModules[$_REQUEST['module']]);
@@ -59,7 +64,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 			{
 				//remove files & dir
 				if (!_delTree('modules/'.$_REQUEST['module']))
-					$error[] = _('Module not eraseable.');
+					$error[] = _('Files not eraseable.');
 			}
 		}
 		
@@ -86,7 +91,7 @@ if($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 		}
 		
 		//verify module dir exists
-		if (!is_dir('modules/'.$_REQUEST['module']) || file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
+		if (!is_dir('modules/'.$_REQUEST['module']) || !file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
 		{
 			$error[] = _('Incomplete or inexistant module.');
 		}
@@ -106,7 +111,12 @@ if($_REQUEST['modfunc']=='activate' && AllowEdit())
 		//verify directory exists
 		if (is_dir('modules/'.$_REQUEST['module']) && file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
 		{
-			//install module TODO
+			//install module: execute install.sql script
+			if (file_exists('modules/'.$_REQUEST['module'].'/install.sql'))
+			{
+				$install_sql = file_get_contents('modules/'.$_REQUEST['module'].'/install.sql');
+				DBQuery($install_sql);
+			}
 			
 			$update_RosarioModules = true;
 		}
@@ -119,7 +129,7 @@ if($_REQUEST['modfunc']=='activate' && AllowEdit())
 		$update_RosarioModules = true;
 	}
 	//no module dir
-	elseif (!is_dir('modules/'.$_REQUEST['module']) || file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
+	elseif (!is_dir('modules/'.$_REQUEST['module']) || !file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
 	{
 		$error[] = _('Incomplete or inexistant module.');
 	}
@@ -213,7 +223,7 @@ function _makeDelete($module_title,$activated=null)
 			if (file_exists('modules/'.$module_title.'/Menu.php'))
 				$return = button('add',_('Activate'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=modules&modfunc=activate&module='.$module_title.'"');
 			else
-				$return = '<span style="color:red">'.sprintf_('%s file missing or wrong permissions.'),'Menu.php').'</span>';
+				$return = '<span style="color:red">'.sprintf(_('%s file missing or wrong permissions.'),'Menu.php').'</span>';
 
 			//if not core module & already installed, delete link
 			if (!in_array($module_title, $always_activated) && !in_array($module_title, $core_modules) && in_array($module_title, array_keys($RosarioModules)))
@@ -246,7 +256,12 @@ function _reloadMenu()
 function _delTree($dir) {
 	$files = array_diff(scandir($dir), array('.','..'));
 	foreach ($files as $file) {
-		(is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+		if (is_dir("$dir/$file"))
+			delTree("$dir/$file");
+		elseif (is_writable("$dir/$file"))
+			unlink("$dir/$file");
+		else
+			return false;
 	}
 	return rmdir($dir);
 }

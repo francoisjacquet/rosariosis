@@ -28,7 +28,12 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 		//verify if not in $core_plugins but in $RosarioPlugins
 		if (!in_array($_REQUEST['plugin'], $core_plugins) && in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == false)
 		{
-			//call delete function TODO
+			//delete plugin: execute delete.sql script
+			if (file_exists('plugins/'.$_REQUEST['plugin'].'/delete.sql'))
+			{
+				$delete_sql = file_get_contents('plugins/'.$_REQUEST['plugin'].'/delete.sql');
+				DBQuery($delete_sql);
+			}
 
 			//update $RosarioPlugins
 			unset($RosarioPlugins[$_REQUEST['plugin']]);
@@ -40,7 +45,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 			{
 				//remove files & dir
 				if (!_delTree('plugins/'.$_REQUEST['plugin']))
-					$error[] = _('Plugin not eraseable.');
+					$error[] = _('Files not eraseable.');
 			}
 		}
 		
@@ -64,7 +69,7 @@ if($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 		}
 		
 		//verify plugin dir exists
-		if (!is_dir('plugins/'.$_REQUEST['plugin']) || file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
+		if (!is_dir('plugins/'.$_REQUEST['plugin']) || !file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
 		{
 			$error[] = _('Incomplete or inexistant plugin.');
 		}
@@ -84,7 +89,12 @@ if($_REQUEST['modfunc']=='activate' && AllowEdit())
 		//verify directory exists
 		if (is_dir('plugins/'.$_REQUEST['plugin']) && file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
 		{
-			//install plugin TODO
+			//install plugin: execute install.sql script
+			if (file_exists('plugins/'.$_REQUEST['plugin'].'/install.sql'))
+			{
+				$install_sql = file_get_contents('plugins/'.$_REQUEST['plugin'].'/install.sql');
+				DBQuery($install_sql);
+			}
 			
 			$update_RosarioPlugins = true;
 		}
@@ -97,7 +107,7 @@ if($_REQUEST['modfunc']=='activate' && AllowEdit())
 		$update_RosarioPlugins = true;
 	}
 	//no plugin dir
-	elseif (!is_dir('plugins/'.$_REQUEST['plugin']) || file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
+	elseif (!is_dir('plugins/'.$_REQUEST['plugin']) || !file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
 	{
 		$error[] = _('Incomplete or inexistant plugin.');
 	}
@@ -209,7 +219,12 @@ function _saveRosarioPlugins()
 function _delTree($dir) {
 	$files = array_diff(scandir($dir), array('.','..'));
 	foreach ($files as $file) {
-		(is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+		if (is_dir("$dir/$file"))
+			delTree("$dir/$file");
+		elseif (is_writable("$dir/$file"))
+			unlink("$dir/$file");
+		else
+			return false;
 	}
 	return rmdir($dir);
 }
