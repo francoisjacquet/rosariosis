@@ -22,7 +22,7 @@ elseif($_REQUEST['modfunc']=='create_account')
 		unset($_REQUEST['modfunc']);
 }
 
-if(isset($_POST['USERNAME']) && isset($_POST['PASSWORD']))
+if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD']) && $_POST['PASSWORD']!='')
 {
 	$_REQUEST['USERNAME'] = DBEscapeString($_REQUEST['USERNAME']);
 //modif Francois: add WHERE PROFILE<>'admin' to restrict admin login to $RosarioAdmins list
