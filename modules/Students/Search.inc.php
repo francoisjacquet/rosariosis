@@ -196,7 +196,7 @@ else
 		}
 		if($_REQUEST['address_group'])
 		{
-            ListOutput($students_RET,$columns,'Family','Families',$link,$extra['LO_group'],$extra['options']);
+			ListOutput($students_RET,$columns,'Family','Families',$link,$extra['LO_group'],$extra['options']);
 		}
 		else
 		{
