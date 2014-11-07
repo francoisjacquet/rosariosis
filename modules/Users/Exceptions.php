@@ -95,8 +95,12 @@ if(!$staff_RET[1]['PROFILE_ID'])
 	{
 		$values = $profiles[$staff_RET[1]['PROFILE']];
 
-//modif Francois: css WPadmin
-		echo '<TR><TD colspan="3"><h4>'._(str_replace('_',' ',$modcat)).'</h4></TD></TR>';
+		if(!in_array($modcat, $RosarioCoreModules))
+			$module_title = dgettext($modcat, str_replace('_',' ',$modcat));
+		else
+			$module_title = _(str_replace('_',' ',$modcat));
+
+		echo '<TR><TD colspan="3"><h4>'.$module_title.'</h4></TD></TR>';
 //modif Francois: add <label> on checkbox
 		echo '<TR><TH style="text-align:right;"><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_use_'.$modcat.'.checked,"can_use['.$modcat.'");\' />':'').'</span></label></TH><TH style="text-align:right;"><label>'._('Can Edit').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,"can_edit['.$modcat.'");\' />':'').'</span></label></TH><TH>&nbsp;</TH></TR>';
 		if(count($values))

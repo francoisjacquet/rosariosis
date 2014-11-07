@@ -342,16 +342,13 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 		global $RosarioCoreModules;
 
 		for ($i=0; $i<$size; $i++) :
-			if (count($modcat_menu = $_ROSARIO['Menu'][$key[$i]])) : ?>
-
-			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" height="32" style="vertical-align:middle;">&nbsp;
-			<?php
+			if (count($modcat_menu = $_ROSARIO['Menu'][$key[$i]])) :
 				if(!in_array($key[$i], $RosarioCoreModules))
-					echo dgettext($key[$i], str_replace('_',' ',$key[$i]));
+					$module_title = dgettext($key[$i], str_replace('_',' ',$key[$i]));
 				else
-					echo _(str_replace('_',' ',$key[$i]));
+					$module_title = _(str_replace('_',' ',$key[$i]));
 			?>
-			</A>
+			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo $module_title; ?></A>
 			<DIV id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
 				<TABLE class="width-100p cellspacing-0 cellpadding-0">
 

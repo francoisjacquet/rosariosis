@@ -94,7 +94,7 @@ if(!defined('WAREHOUSE_PHP'))
 			bind_textdomain_codeset($domain,'UTF-8'); //ensures text returned is utf-8, quite often this is iso-8859-1 by default
 		}
 	}
-	
+
 	if (($not_core_modules = array_diff(array_keys($RosarioModules),$RosarioCoreModules)) || ($not_core_plugins = array_diff(array_keys($RosarioPlugins),$RosarioCorePlugins))) //not core?
 	{
 		if(is_array($not_core_modules))
