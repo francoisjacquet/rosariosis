@@ -38,10 +38,15 @@ if ($RosarioModules['Resources']) //verify Resources module is activated
 {
 	$Resources_Menu2 = array();
 	foreach ($menu['Resources']['admin'] as $key => $value) { //only for the admin menu
-		if ($key == 'Resources/Resources.php')
-			$Resources_Menu2['Example/Resources.php'] = $value; //replace Resources program
+		if ($value == 'Resources/Resources.php')
+			$Resources_Menu2['default'] = 'Example/Resources.php'; //Resources.php is default for Resources module so replace Default program too
 		else
-			$Resources_Menu2[$key] = $value;
+		{
+			if ($key == 'Resources/Resources.php')
+				$Resources_Menu2['Example/Resources.php'] = $value; //replace Resources program
+			else
+				$Resources_Menu2[$key] = $value;
+		}
 	}
 	$menu['Resources']['admin'] = $Resources_Menu2; //update Resources menu
 }
