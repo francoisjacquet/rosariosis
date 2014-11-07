@@ -190,28 +190,28 @@ function openMenu(modname)
 {
 	if (modname!='misc/Portal.php')
 	{
-		var modcat = modname.substr(0, modname.indexOf('/'));
-		if (!(visible = document.getElementById("menu_"+modcat)))
-			visible = document.getElementById("menu_"+(modcat = old_modcat));
-		visible.style.display = "block";
+		if (oldA = document.getElementById("selectedMenuLink"))
+			oldA.id = "";
+		$('.wp-submenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
+		//add selectedModuleLink
+		if (oldA = document.getElementById("selectedModuleLink"))
+			oldA.id = "";
+
+		var modcat;
+		if (modname=='')
+			modcat = old_modcat;
+		else
+			$('#selectedMenuLink').parents('div.wp-submenu').each(function(){ modcat = this.id.replace('menu_', ''); });
+
+		$('a[href*="'+modcat+'"].menu-top').each(function(){this.id = "selectedModuleLink";});
+		
+		document.getElementById("menu_"+modcat).style.display = "block";
 		if(old_modcat!=false && old_modcat!=modcat)
 			$("#menu_"+old_modcat).hide();
 		old_modcat = modcat;
-		selMenuA(modname);
 	}
 	else if(old_modcat!=false)
 		$("#menu_"+old_modcat).hide();
-}
-function selMenuA(modname)
-{
-	if (oldA = document.getElementById("selectedMenuLink"))
-		oldA.id = "";
-	$('.wp-submenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
-	//add selectedModuleLink
-	if (oldA = document.getElementById("selectedModuleLink"))
-		oldA.id = "";
-	var modcat = modname=='' ? old_modcat : modname.substr(0, modname.indexOf('/'));
-	$('a[href*="'+modcat+'"].menu-top').each(function(){this.id = "selectedModuleLink";});
 }
 
 //Bottom.php JS
