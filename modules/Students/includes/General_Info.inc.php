@@ -90,7 +90,7 @@ else
 if($student_id=='new' && !VerifyDate($_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE']))
 	unset($student['GRADE_ID']);
 
-echo SelectInput($student['GRADE_ID'],'values[STUDENT_ENROLLMENT]['.$student_id.'][GRADE_ID]',(!$student['GRADE_ID']?'<span class="legend-red">':'')._('Grade Level').(!$student['GRADE_ID']?'</span>':''),$options);
+echo SelectInput($student['GRADE_ID'],'values[STUDENT_ENROLLMENT]['.$student_id.'][GRADE_ID]',(!$student['GRADE_ID']?'<span class="legend-red">':'')._('Grade Level').(!$student['GRADE_ID']?'</span>':''),$options,false,'required');
 echo '</TD>';
 
 if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool())
