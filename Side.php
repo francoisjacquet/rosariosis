@@ -338,10 +338,20 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 		//modify loop: use for instead of foreach
 		$key = array_keys($_ROSARIO['Menu']);
 		$size = sizeOf($key);
+
+		global $RosarioCoreModules;
+
 		for ($i=0; $i<$size; $i++) :
 			if (count($modcat_menu = $_ROSARIO['Menu'][$key[$i]])) : ?>
 
-			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo _(str_replace('_',' ',$key[$i])); ?></A>
+			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" height="32" style="vertical-align:middle;">&nbsp;
+			<?php
+				if(!in_array($key[$i], $RosarioCoreModules))
+					echo dgettext($key[$i], str_replace('_',' ',$key[$i]));
+				else
+					echo _(str_replace('_',' ',$key[$i]));
+			?>
+			</A>
 			<DIV id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
 				<TABLE class="width-100p cellspacing-0 cellpadding-0">
 
