@@ -75,7 +75,7 @@ if(empty($_REQUEST['modfunc'])) //display Search or list of students
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">'; //_ROSARIO_PDF=true enables PDF printing
 		
 		//the $extra variable contains the options of the Search function & the extra headers
-		$extra['header_right'] = SubmitButton(_('Create Subject PDF for Selected Students')); //SubmitButton is diplayed only if AllowEdit
+		$extra['header_right'] = SubmitButton(dgettext('Example', 'Create Subject PDF for Selected Students')); //SubmitButton is diplayed only if AllowEdit
 
 		$extra['extra_header_left'] = '<TABLE>';
 		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Text').'</TD><TD><TEXTAREA name="subject_text">';
@@ -112,7 +112,7 @@ if(empty($_REQUEST['modfunc'])) //display Search or list of students
 	
 	if($_REQUEST['search_modfunc']=='list') //if list of students
 	{
-		echo '<BR /><span class="center">'.SubmitButton(_('Create Subject PDF for Selected Students')).'</span>'; //SubmitButton is diplayed only if AllowEdit
+		echo '<BR /><span class="center">'.SubmitButton(dgettext('Example', 'Create Subject PDF for Selected Students')).'</span>'; //SubmitButton is diplayed only if AllowEdit
 		echo '</FORM>';
 	}
 }

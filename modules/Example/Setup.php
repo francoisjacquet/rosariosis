@@ -23,7 +23,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['values'] && $_POST['values'] && 
 		}
 		
 		DBQuery($sql);
-		$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The configuration value has been modified.');
+		$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'.dgettext('Example', 'The configuration value has been modified.');
 	}
 	else
 	{
@@ -53,14 +53,14 @@ if(empty($_REQUEST['modfunc'])) //display Setup value
 	echo '<BR />';
 	
 	//encapsulate content in PopTable
-	PopTable('header',_('Example module Setup'));
+	PopTable('header',dgettext('Example', 'Example module Setup'));
 
 	//get the program config options
 	$program_config = DBGet(DBQuery("SELECT TITLE, VALUE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND program='example'"),array(),array('TITLE')); //the returned array will be indexed by TITLE field
 
 	//display the program config options
-	echo '<FIELDSET><legend><b>'._('Example').'</b></legend><TABLE>';
-	echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['EXAMPLE_CONFIG'][1]['VALUE'],'values[EXAMPLE_CONFIG]','<span class="legend-gray" title="'._('Try to enter a non-numeric value').'">'._('Example config value label').' *</span>','maxlength=2 size=2 min=0').'</TD></TR>';
+	echo '<FIELDSET><legend><b>'.dgettext('Example', 'Example').'</b></legend><TABLE>';
+	echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['EXAMPLE_CONFIG'][1]['VALUE'],'values[EXAMPLE_CONFIG]','<span class="legend-gray" title="'.dgettext('Example', 'Try to enter a non-numeric value').'">'.dgettext('Example', 'Example config value label').' *</span>','maxlength=2 size=2 min=0').'</TD></TR>';
 	echo '</TABLE></FIELDSET>';
 
 	//close PopTable

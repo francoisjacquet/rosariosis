@@ -1,0 +1,14 @@
+The /locale folder contains the localization files.
+The structure of the subfolders and files must be as follow:
+For example, for a french translation:
+
+locale/
+	fr_FR.utf8/
+		LC_MESSAGES/
+			Example.mo
+			Example.po
+
+Note: When inserting new strings for your module (strings that are not already present in RosarioSIS), please use the dgettext() PHP function like this:
+dgettext('Example', 'Example text to be translated').
+
+Note2: When creating a new translation for your module, please use the 'dgettext:2' keyword in Poedit (via Catalog > Settings > Keywords). No need to translate the strings belonging to RosarioSIS ('_' keyword).
