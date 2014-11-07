@@ -180,7 +180,7 @@ if($_REQUEST['modfunc']=='update')
 				$moodleError .= Moodle($_REQUEST['modname'], 'core_files_upload');
 			}
 		}
-		elseif (!isset($error))
+		elseif (!isset($error)) //new user
 		{
 			//modif Francois: Moodle integrator
 			//username, password, email required
@@ -262,9 +262,6 @@ if($_REQUEST['modfunc']=='update')
 			}
 		}
 		$_REQUEST['moodle_create_user'] = false;
-		//error_exit: //modif Francois: goto avail. in PHP 5.3
-		if ($error && !UserStaffID())
-			$_REQUEST['staff_id'] = 'new';
 	}
 
 	if($_REQUEST['include']!='General_Info' && $_REQUEST['include']!='Schedule' && $_REQUEST['include']!='Other_Info')
@@ -272,6 +269,9 @@ if($_REQUEST['modfunc']=='update')
 			include('modules/Users/includes/'.$_REQUEST['include'].'.inc.php');
 		else
 			include('modules/'.$_REQUEST['include'].'.inc.php');
+
+	if ($error && !UserStaffID())
+		$_REQUEST['staff_id'] = 'new';
 
 	unset($_REQUEST['staff']);
 	unset($_REQUEST['modfunc']);
@@ -299,8 +299,10 @@ else
 //modif Francois: Moodle integrator
 echo $moodleError;
 
-echo ErrorMessage($error);
-echo ErrorMessage($note,'note');
+if(isset($error))
+	echo ErrorMessage($error);
+if(isset($note))
+	echo ErrorMessage($note,'note');
 
 if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
 {
