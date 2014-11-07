@@ -13,7 +13,7 @@ DrawHeader(ProgramTitle()); //display main header with Module icon and Program t
 //get Resources from the database
 $QI = DBQuery("SELECT TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."' ORDER BY ID");
 $schools_RET = DBGet($QI);
-$QI = DBQuery("SELECT COUNT(STUDENT_ID) FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' GROUP BY SCHOOL_ID");
+$QI = DBQuery("SELECT COUNT(STUDENT_ID) AS STUDENT_NB FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' GROUP BY SCHOOL_ID");
 $students_RET = DBGet($QI);
 var_dump($schools_RET);exit;
 
