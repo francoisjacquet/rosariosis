@@ -14,6 +14,8 @@
 
 DELETE FROM profile_exceptions WHERE modname='Example/ExampleWidget.php';
 DELETE FROM profile_exceptions WHERE modname='Example/Setup.php';
+DELETE FROM profile_exceptions WHERE modname='Example/Resources.php';
+DELETE FROM profile_exceptions WHERE modname='Example/ExampleResource.php';
 
 
 --

@@ -25,6 +25,10 @@
 --
 
 INSERT INTO profile_exceptions (profile_id, modname, can_use, can_edit) VALUES (
+1, 'Example/Resources.php', 'Y', 'Y');
+INSERT INTO profile_exceptions (profile_id, modname, can_use, can_edit) VALUES (
+1, 'Example/ExampleResource.php', 'Y', 'Y');
+INSERT INTO profile_exceptions (profile_id, modname, can_use, can_edit) VALUES (
 1, 'Example/ExampleWidget.php', 'Y', 'Y');
 INSERT INTO profile_exceptions (profile_id, modname, can_use, can_edit) VALUES (
 1, 'Example/Setup.php', 'Y', 'Y');
