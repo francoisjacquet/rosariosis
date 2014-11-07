@@ -67,21 +67,25 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 	if((count($_REQUEST['students']) || count($_REQUEST['values'])) && AllowEdit())
 	{
+		//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME is null
+		if ((isset($_REQUEST['students']['FIRST_NAME']) && empty($_REQUEST['students']['FIRST_NAME'])) || (isset($_REQUEST['students']['LAST_NAME']) && empty($_REQUEST['students']['LAST_NAME'])))
+		{
+			$error[] = _('Please fill in the required fields');
+		}
+
 		//modif Francois: Moodle integrator / password
 		if ($_REQUEST['moodle_create_student'] && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
 		{
 			$error[] = _('Please enter a valid password');
-			//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 		}
 			
-		if(UserStudentID() && $_REQUEST['student_id']!='new' && !isset($error))
+		if(UserStudentID() && !isset($error))
 		{
 			//modif Francois: Moodle integrator / password
 			$old_student_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".UserStudentID()."' AND \"column\"='student_id'"));
 			if ($old_student_in_moodle && !empty($_REQUEST['students']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
 			{
 				$error[] = _('Please enter a valid password');
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 				
 			if(count($_REQUEST['students']) && !isset($error))
@@ -164,7 +168,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$moodleError .= Moodle($_REQUEST['modname'], 'core_files_upload');
 			}
 		}
-		elseif (!isset($error))
+		elseif (!isset($error)) //new student
 		{
 			if($_REQUEST['assign_student_id'])
 			{
@@ -174,26 +178,19 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					if(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))))
 					{
 						$error[] = sprintf(_('That %s ID is already taken. Please select a different one.'),Config('NAME'));
-						//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 					}
 				}
 				else
 					$error[] = _('Please enter valid Numeric data.');
-			}
-			//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME, GRADE_ID is null
-			elseif (empty($_REQUEST['students']['FIRST_NAME']) || empty($_REQUEST['students']['LAST_NAME']) || empty($_REQUEST['values']['STUDENT_ENROLLMENT']['new']['GRADE_ID']))
-			{
-				$error[] = _('Please fill in the required fields');
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 			//modif Francois: Moodle integrator
 			//username, password, (email) required
 			elseif ($_REQUEST['moodle_create_student'] && (empty($_REQUEST['students']['USERNAME']) || empty($_REQUEST['students']['CUSTOM_'.ROSARIO_STUDENTS_EMAIL_FIELD_ID])))
 			{
 				$error[] = _('Please fill in the required fields');
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
-			elseif (!isset($error))
+			
+			if (!isset($error))
 			{
 				do
 				{
@@ -201,10 +198,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					$student_id = $student_id[1]['STUDENT_ID'];
 				}
 				while(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))));
-			}
-			
-			if (!isset($error))
-			{
+
 				$sql = "INSERT INTO STUDENTS ";
 				$fields = 'STUDENT_ID,';
 				$values = "'".$student_id."',";
@@ -248,13 +242,11 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						}
 					}
 				}
-				if (!$error)
-				{
-					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-					DBQuery($sql);
-				}
-				
-	//modif Francois: Moodle integrator
+
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+				DBQuery($sql);
+
+				//modif Francois: Moodle integrator
 				if ($_REQUEST['moodle_create_student'])
 					$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
 
@@ -272,6 +264,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						$values .= "'".$value."',";
 					}
 				}
+
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 				DBQuery($sql);
 
@@ -283,9 +276,9 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$sql = "INSERT INTO FOOD_SERVICE_STUDENT_ACCOUNTS (STUDENT_ID,DISCOUNT,BARCODE,ACCOUNT_ID) values('".$student_id."','','','".$student_id."')";
 				DBQuery($sql);
 
+
 				$_SESSION['student_id'] = $_REQUEST['student_id'] = $student_id;
-				$new_student = true;
-				
+			
 				if ($_FILES['photo'])
 				{
 					$new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
@@ -294,9 +287,6 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			}
 		}
 		$_REQUEST['moodle_create_student'] = false;
-		//error_exit: //modif Francois: goto avail. in PHP 5.3
-		if ($error && !UserStudentID())
-			$_REQUEST['student_id'] = 'new';
 	}
 
 	if($_REQUEST['values'] && $_REQUEST['include']== 'Medical')
@@ -308,6 +298,9 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		else
 			include('modules/'.$_REQUEST['include'].'.inc.php');
 
+	if ($error && !UserStudentID())
+		$_REQUEST['student_id'] = 'new';
+
 	unset($_REQUEST['modfunc']);
 	// SHOULD THIS BE HERE???
 	if(!UserStudentID())
@@ -318,7 +311,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 if($_REQUEST['student_id']=='new')
 {
-	$_ROSARIO['HeaderIcon'] = 'Students.png';
+	$_ROSARIO['HeaderIcon'] = 'modules/Students/icon.png';
 	DrawHeader(_('Add a Student'));
 }
 else
@@ -327,8 +320,10 @@ else
 //modif Francois: Moodle integrator
 echo $moodleError;
 
-echo ErrorMessage($error);
-echo ErrorMessage($error_numeric);
+if (isset($error))
+	echo ErrorMessage($error);
+if (isset($error_numeric))
+	echo ErrorMessage($error_numeric);
 
 Search('student_id');
 
