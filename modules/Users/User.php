@@ -75,11 +75,16 @@ if($_REQUEST['modfunc']=='update')
 
 	if(count($_POST['staff']) && (User('PROFILE')=='admin' || basename($_SERVER['PHP_SELF'])=='index.php'))
 	{
+		//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME is null
+		if ((isset($_REQUEST['staff']['FIRST_NAME']) && empty($_REQUEST['staff']['FIRST_NAME'])) || (isset($_REQUEST['staff']['LAST_NAME']) && empty($_REQUEST['staff']['LAST_NAME'])))
+		{
+			$error[] = _('Please fill in the required fields');
+		}
+
 		//modif Francois: Moodle integrator / password
 		if ($_REQUEST['moodle_create_user'] && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
 		{
 			$error[] = _('Please enter a valid password');
-			//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 		}
 			
 		if(UserStaffID() && $_REQUEST['staff_id']!='new' && !isset($error))
@@ -89,7 +94,6 @@ if($_REQUEST['modfunc']=='update')
 			if ($old_user_in_moodle && !empty($_REQUEST['staff']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
 			{
 				$error[] = _('Please enter a valid password');
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 			
 			$profile_RET = DBGet(DBQuery("SELECT PROFILE,PROFILE_ID,USERNAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
@@ -119,7 +123,6 @@ if($_REQUEST['modfunc']=='update')
 				if(count($existing_staff))
 				{
 					$error[] = _('A user with that username already exists for the current school year. Choose a different username and try again.');
-					//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 				}
 			}
 			
@@ -179,18 +182,11 @@ if($_REQUEST['modfunc']=='update')
 		}
 		elseif (!isset($error))
 		{
-			//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME, PROFILE is null
-			if (empty($_REQUEST['staff']['FIRST_NAME']) || empty($_REQUEST['staff']['LAST_NAME']) || empty($_REQUEST['staff']['PROFILE']))
-			{
-				$error[] = _('Please fill in the required fields');
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
-			}
 			//modif Francois: Moodle integrator
 			//username, password, email required
-			elseif ($_REQUEST['moodle_create_user'] && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['EMAIL'])))
+			if ($_REQUEST['moodle_create_user'] && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['EMAIL'])))
 			{
 				$error[] = _('Please fill in the required fields');
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 			if($_REQUEST['staff']['PROFILE']=='admin')
 				$_REQUEST['staff']['PROFILE_ID'] = '1';
@@ -203,7 +199,6 @@ if($_REQUEST['modfunc']=='update')
 			if(count($existing_staff))
 			{
 				$error[] = _('A user with that username already exists for the current school year. Choose a different username and try again.');
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 			
 			if (!isset($error))
