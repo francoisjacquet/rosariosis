@@ -40,16 +40,42 @@ if(!defined('WAREHOUSE_PHP'))
 	putenv('LC_ALL='.$locale);
 	setlocale(LC_ALL, $locale);
 	setlocale(LC_NUMERIC, 'english','en_US', 'en_US.utf8'); //modif Francois: numeric separator "."
-	bindtextdomain('rosariosis', $LocalePath);    //binds the messages domain to the locale folder
-	bind_textdomain_codeset('rosariosis','UTF-8');     //ensures text returned is utf-8, quite often this is iso-8859-1 by default
-	textdomain('rosariosis');    //sets the domain name, this means gettext will be looking for a file called rosariosis.mo
+	bindtextdomain('rosariosis', $LocalePath); //binds the messages domain to the locale folder
+	bind_textdomain_codeset('rosariosis','UTF-8'); //ensures text returned is utf-8, quite often this is iso-8859-1 by default
+	textdomain('rosariosis'); //sets the domain name, this means gettext will be looking for a file called rosariosis.mo
 	mb_internal_encoding('UTF-8'); //modif Francois: multibyte strings
 	
 	// Modules
+	// Core modules (packaged with RosarioSIS):
+	// Core modules cannot be deleted
+	$RosarioCoreModules = array(
+		'School_Setup',
+		'Students',
+		'Users',
+		'Scheduling',
+		'Grades',
+		'Attendance',
+		'Eligibility',
+		'Discipline',
+		'Accounting',
+		'Student_Billing',
+		'Food_Service',
+		'State_Reports',
+		'Resources',
+		'Custom'
+	);
+	
 	$RosarioModules = unserialize(Config('MODULES'));
-
+	
 	// Plugins
+	// Core plugins (packaged with RosarioSIS):
+	// Core plugins cannot be deleted
+	$RosarioCorePlugins = array(
+		'Moodle'
+	);
+
 	$RosarioPlugins = unserialize(Config('PLUGINS'));
+	
 	// Load plugins functions.
 	foreach($RosarioPlugins as $plugin=>$activated)
 	{
@@ -57,6 +83,30 @@ if(!defined('WAREHOUSE_PHP'))
 			include('plugins/'.$plugin.'/functions.php');
 	}
 
+	// Load not core modules & plugins locales
+	function _LoadAddonLocale($domain, $folder)
+	{
+		$LocalePath = $folder.$domain.'/locale';
+		//check if locale folder exists
+		if (is_dir($LocalePath))
+		{
+			bindtextdomain($domain, $LocalePath); //binds the messages domain to the locale folder
+			bind_textdomain_codeset($domain,'UTF-8'); //ensures text returned is utf-8, quite often this is iso-8859-1 by default
+		}
+	}
+	
+	if (($not_core_modules = array_diff(array_keys($RosarioModules),$RosarioCoreModules)) || ($not_core_plugins = array_diff(array_keys($RosarioPlugins),$RosarioCorePlugins))) //not core?
+	{
+		if(is_array($not_core_modules))
+			foreach($not_core_modules as $not_core_module)
+				if($RosarioModules[$not_core_module]) //if module activated
+					_LoadAddonLocale($not_core_module, 'modules/');
+
+		if(is_array($not_core_plugins))
+			foreach($not_core_plugins as $not_core_plugin)
+				if($RosarioPlugins[$not_core_plugin]) //if plugin activated
+					_LoadAddonLocale($not_core_plugin, 'plugins/');
+	}
 
 	function Warehouse($mode)
 	{	global $_ROSARIO,$locale;

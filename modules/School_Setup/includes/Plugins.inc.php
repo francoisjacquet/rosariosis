@@ -4,9 +4,10 @@
 
 // Core plugins (packaged with RosarioSIS):
 // Core plugins cannot be deleted
-$core_plugins = array(
+/* var defined in Warehouse.php
+$RosarioCorePlugins = array(
 	'Moodle'
-);
+);*/
 
 $directories_bypass = array(
 	'.',
@@ -25,8 +26,8 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if(DeletePrompt(_('Plugin')))
 	{
-		//verify if not in $core_plugins but in $RosarioPlugins
-		if (!in_array($_REQUEST['plugin'], $core_plugins) && in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == false)
+		//verify if not in $RosarioCorePlugins but in $RosarioPlugins
+		if (!in_array($_REQUEST['plugin'], $RosarioCorePlugins) && in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == false)
 		{
 			//delete plugin: execute delete.sql script
 			if (file_exists('plugins/'.$_REQUEST['plugin'].'/delete.sql'))
@@ -154,7 +155,7 @@ if(empty($_REQUEST['modfunc']))
 		{
 			$THIS_RET = array();
 			$THIS_RET['DELETE'] =  _makeDelete($plugin_title);
-			$THIS_RET['TITLE'] = _(str_replace('_', ' ', $plugin_title));
+			$THIS_RET['TITLE'] = str_replace('_', ' ', $plugin_title);
 			$THIS_RET['ACTIVATED'] = _makeActivated(false);
 		
 			$plugins_RET[] = $THIS_RET;
@@ -181,7 +182,7 @@ function _makeActivated($activated)
 
 function _makeDelete($plugin_title,$activated=null)
 {	
-	global $RosarioPlugins, $core_plugins;
+	global $RosarioPlugins, $RosarioCorePlugins;
 	
 	$return = '';
 	if (AllowEdit())
@@ -198,7 +199,7 @@ function _makeDelete($plugin_title,$activated=null)
 				$return = '<span style="color:red">'.sprintf(_('%s file missing or wrong permissions.'),'functions.php').'</span>';
 
 			//if not core plugin & already installed, delete link
-			if (!in_array($plugin_title, $core_plugins) && in_array($plugin_title, array_keys($RosarioPlugins)))
+			if (!in_array($plugin_title, $RosarioCorePlugins) && in_array($plugin_title, array_keys($RosarioPlugins)))
 				$return .= '&nbsp;'.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=delete&plugin='.$plugin_title.'"');
 		}
 	}

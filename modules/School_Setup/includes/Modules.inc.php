@@ -4,7 +4,8 @@
 
 // Core modules (packaged with RosarioSIS):
 // Core modules cannot be deleted
-$core_modules = array(
+/* var defined in Warehouse.php
+$RosarioCoreModules = array(
 	'School_Setup',
 	'Students',
 	'Users',
@@ -19,7 +20,7 @@ $core_modules = array(
 	'State_Reports',
 	'Resources',
 	'Custom'
-);
+);*/
 
 // Core modules that will generate errors if deactivated
 $always_activated = array(
@@ -44,8 +45,8 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if(DeletePrompt(_('Module')))
 	{
-		//verify if not in $always_activated & not in $core_modules but in $RosarioModules
-		if (!in_array($_REQUEST['module'], $always_activated) && !in_array($_REQUEST['module'], $core_modules) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == false)
+		//verify if not in $always_activated & not in $RosarioCoreModules but in $RosarioModules
+		if (!in_array($_REQUEST['module'], $always_activated) && !in_array($_REQUEST['module'], $RosarioCoreModules) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == false)
 		{
 			//delete module: execute delete.sql script
 			if (file_exists('modules/'.$_REQUEST['module'].'/delete.sql'))
@@ -162,7 +163,12 @@ if(empty($_REQUEST['modfunc']))
 	{
 		$THIS_RET = array();
 		$THIS_RET['DELETE'] =  _makeDelete($module_title,$activated);
-		$THIS_RET['TITLE'] = _(str_replace('_', ' ', $module_title));
+
+		if(!in_array($module_title, $RosarioCoreModules))
+			$THIS_RET['TITLE'] = dgettext($module_title, str_replace('_', ' ', $module_title));
+		else
+			$THIS_RET['TITLE'] = _(str_replace('_', ' ', $module_title));
+
 		$THIS_RET['ACTIVATED'] = _makeActivated($activated);
 		
 		$modules_RET[] = $THIS_RET;
@@ -179,7 +185,7 @@ if(empty($_REQUEST['modfunc']))
 		{
 			$THIS_RET = array();
 			$THIS_RET['DELETE'] =  _makeDelete($module_title);
-			$THIS_RET['TITLE'] = _(str_replace('_', ' ', $module_title));
+			$THIS_RET['TITLE'] = str_replace('_', ' ', $module_title);
 			$THIS_RET['ACTIVATED'] = _makeActivated(false);
 		
 			$modules_RET[] = $THIS_RET;
@@ -206,7 +212,7 @@ function _makeActivated($activated)
 
 function _makeDelete($module_title,$activated=null)
 {	
-	global $RosarioModules, $always_activated, $core_modules;
+	global $RosarioModules, $always_activated, $RosarioCoreModules;
 	
 	$return = '';
 	if (AllowEdit())
@@ -226,7 +232,7 @@ function _makeDelete($module_title,$activated=null)
 				$return = '<span style="color:red">'.sprintf(_('%s file missing or wrong permissions.'),'Menu.php').'</span>';
 
 			//if not core module & already installed, delete link
-			if (!in_array($module_title, $always_activated) && !in_array($module_title, $core_modules) && in_array($module_title, array_keys($RosarioModules)))
+			if (!in_array($module_title, $always_activated) && !in_array($module_title, $RosarioCoreModules) && in_array($module_title, array_keys($RosarioModules)))
 				$return .= '&nbsp;'.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=modules&modfunc=delete&module='.$module_title.'"');
 		}
 	}
