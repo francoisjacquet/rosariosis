@@ -250,24 +250,6 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				if ($_REQUEST['moodle_create_student'])
 					$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
 
-				$sql = "INSERT INTO STUDENT_ENROLLMENT ";
-				$fields = 'ID,STUDENT_ID,SYEAR,SCHOOL_ID,';
-				$values = "".db_seq_nextval('STUDENT_ENROLLMENT_SEQ').",'".$student_id."','".UserSyear()."','".UserSchool()."',";
-
-				$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['START_DATE'] = $_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE'];
-
-				foreach($_REQUEST['values']['STUDENT_ENROLLMENT']['new'] as $column=>$value)
-				{
-					if(!empty($value) || $value=='0')
-					{
-						$fields .= $column.',';
-						$values .= "'".$value."',";
-					}
-				}
-
-				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-				DBQuery($sql);
-
 				// create default food service account for this student
 				$sql = "INSERT INTO FOOD_SERVICE_ACCOUNTS (ACCOUNT_ID,BALANCE,TRANSACTION_ID) values('".$student_id."','0.00','0')";
 				DBQuery($sql);
