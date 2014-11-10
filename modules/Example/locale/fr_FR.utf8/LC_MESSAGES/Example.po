@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Example module for RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-06 18:17-0500\n"
-"PO-Revision-Date: 2014-11-06 18:32-0500\n"
+"POT-Creation-Date: 2014-11-10 15:47-0500\n"
+"PO-Revision-Date: 2014-11-10 15:48-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RosarioSIS <info@rosariosis.org>\n"
 "Language: \n"
@@ -16,64 +16,26 @@ msgstr ""
 "X-Poedit-Country: FRANCE\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Menu.php:14
-#: Menu.php:21
-msgid "Example Widget"
-msgstr "Widget Exemple"
-
-#: Menu.php:15
-#: Menu.php:16
-msgid "Setup"
-msgstr "Paramétrage"
-
-#: Menu.php:28
-#: Setup.php:62
-msgid "Example"
-msgstr "Exemple"
-
-#: Menu.php:29
-msgid "Example Resource"
-msgstr "Ressource Exemple"
-
-#: Resources.php:57
-msgid "Resource"
-msgstr ""
-
+#: ExampleResource.php:60
 #: Resources.php:73
 msgid "Title"
 msgstr ""
 
-#: Resources.php:73
-#: Resources.php:116
-msgid "Link"
-msgstr ""
+#: ExampleResource.php:60
+msgid "# of Students"
+msgstr "# d'Élèves"
 
-#: Resources.php:82
-#: Resources.php:85
-#: Setup.php:51
-#: Setup.php:69
-msgid "Save"
-msgstr ""
+#: ExampleResource.php:60
+msgid "# of Administrators"
+msgstr "# d'Administrateurs"
 
-#: Setup.php:26
-msgid "The configuration value has been modified."
-msgstr "La valeur de configuration a été modifiée."
+#: ExampleResource.php:60
+msgid "# of Teachers"
+msgstr "# de Professeurs"
 
-#: Setup.php:30
-msgid "Please enter valid Numeric data."
-msgstr ""
-
-#: Setup.php:56
-msgid "Example module Setup"
-msgstr "Paramétrage du Module Exemple"
-
-#: Setup.php:63
-msgid "Try to enter a non-numeric value"
-msgstr "Essayez d'entrer une valuer non-numérique"
-
-#: Setup.php:63
-msgid "Example config value label"
-msgstr "Exemple de nom de valeur de config"
+#: ExampleResource.php:60
+msgid "# of Parents"
+msgstr "# de Parents"
 
 #: ExampleWidget.php:52
 msgid "Teacher"
@@ -136,4 +98,60 @@ msgstr ""
 #: ExampleWidget.php:163
 msgid "Subject"
 msgstr ""
+
+#: Menu.php:13
+#: Menu.php:32
+#: Setup.php:62
+msgid "Example"
+msgstr "Exemple"
+
+#: Menu.php:18
+#: Menu.php:25
+msgid "Example Widget"
+msgstr "Widget Exemple"
+
+#: Menu.php:19
+#: Menu.php:20
+msgid "Setup"
+msgstr "Paramétrage"
+
+#: Menu.php:33
+msgid "Example Resource"
+msgstr "Ressource Exemple"
+
+#: Resources.php:57
+msgid "Resource"
+msgstr ""
+
+#: Resources.php:73
+#: Resources.php:116
+msgid "Link"
+msgstr ""
+
+#: Resources.php:82
+#: Resources.php:85
+#: Setup.php:51
+#: Setup.php:69
+msgid "Save"
+msgstr ""
+
+#: Setup.php:26
+msgid "The configuration value has been modified."
+msgstr "La valeur de configuration a été modifiée."
+
+#: Setup.php:30
+msgid "Please enter valid Numeric data."
+msgstr ""
+
+#: Setup.php:56
+msgid "Example module Setup"
+msgstr "Paramétrage du Module Exemple"
+
+#: Setup.php:63
+msgid "Try to enter a non-numeric value"
+msgstr "Essayez d'entrer une valuer non-numérique"
+
+#: Setup.php:63
+msgid "Example config value label"
+msgstr "Exemple de nom de valeur de config"
 
