@@ -33,11 +33,19 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save') //print PDF
 		$handle = PDFStart(false, $no_margins); //start PDF buffer
 
 		$_SESSION['orientation'] = 'landscape';
-		
+
+		$first = true;
+
 		//loop over the returned students array
 		foreach($RET as $student)
 		{
-			echo '<TABLE style="margin:0 auto; height:77%;">';
+			if (!$first)
+				//page break before new student
+				echo '<div style="page-break-after: always;"></div>';
+			else
+				$first = false;
+
+			echo '<br /><br /><TABLE style="margin:0 auto; height:77%;">';
 			
 			//format TEXTAREA content
 			$subject_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$_REQUEST['subject_text'])));
@@ -46,17 +54,14 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save') //print PDF
 			$subject_text = str_replace(array('__FULL_NAME__','__FIRST_NAME__','__LAST_NAME__','__MIDDLE_NAME__','__GRADE_ID__','__SCHOOL_ID__','__SUBJECT__'),array($student['FULL_NAME'],$student['FIRST_NAME'],$student['LAST_NAME'],$student['MIDDLE_NAME'],$student['GRADE_ID'],$school_info_RET[1]['TITLE'],$_REQUEST['subject']),$subject_text);
 
 			//generate the PDF content
-			echo '<TR><TD>'.$subject_text.'</TD></TR></TABLE>';
+			echo '<TR><TD><span style="font-size:xx-large;">'.$subject_text.'</span></TD></TR></TABLE>';
 
-			echo '<TABLE style="margin:0 auto; width:80%;">';
+			echo '<br /><TABLE style="margin:0 auto; width:80%;">';
 			echo '<TR><TD><span style="font-size:x-large;">'.$student['TEACHER'].'</span><BR /><span style="font-size:medium;">'._('Teacher').'</span></TD>';
 			echo '<TD><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><BR /><span style="font-size:medium;">'._('Marking Period').'</span></TD></TR>';
 			echo '<TR><TD><span style="font-size:x-large;">'.$school_info_RET[1]['PRINCIPAL'].'</span><BR /><span style="font-size:medium;">'._('Principal').'</span></TD>';
 			echo '<TD><span style="font-size:x-large;">'.ProperDate(date('Y.m.d',strtotime($mp_RET[1]['END_DATE']))).'</span><BR /><span style="font-size:medium;">'._('Date').'</span></TD></TR>';
 			echo '</TABLE>';
-
-			//page break before new student
-			echo '<div style="page-break-after: always;"></div>';
 		}
 		PDFStop($handle); //send PDF buffer to impression
 	}
@@ -91,6 +96,7 @@ if(empty($_REQUEST['modfunc'])) //display Search or list of students
 		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD>';
+		$extra['extra_header_left'] .= '</TR></TABLE>';
 		$extra['extra_header_left'] .= '</TR></TABLE>';
 	}
 
@@ -137,7 +143,8 @@ function MyWidgets($item)
 			if(!empty($_REQUEST['subject_id']))
 			{
 				//limit student search to subject
-				$extra['WHERE'] .=  " AND exists(SELECT '' FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp, COURSES c WHERE sg.STUDENT_ID=s.STUDENT_ID AND cp.SYEAR=ssm.SYEAR AND sg.SYEAR=ssm.SYEAR AND sg.MARKING_PERIOD_ID='".UserMP()."' AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID AND cp.COURSE_ID=c.COURSE_ID AND c.SUBJECT_ID='".$_REQUEST['subject_id']."')";
+				$extra['WHERE'] .=  " AND exists(SELECT '' FROM SCHEDULE sch, COURSE_PERIODS cp, COURSES c WHERE sch.STUDENT_ID=s.STUDENT_ID AND cp.SYEAR=ssm.SYEAR AND sch.SYEAR=ssm.SYEAR AND sch.MARKING_PERIOD_ID IN (".GetAllMP(UserMP()).") AND cp.COURSE_PERIOD_ID=sch.COURSE_PERIOD_ID AND cp.COURSE_ID=c.COURSE_ID AND c.SUBJECT_ID='".$_REQUEST['subject_id']."')";
+
 				//add SearchTerms
 				if(!$extra['NoSearchTerms'])
 				{
