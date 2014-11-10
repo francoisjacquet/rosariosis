@@ -86,42 +86,55 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$last_month = (int)$last_month[1];
 
 			//foreach(array(7,8,9,10,11,12,1,2,3,4,5,6) as $month)
-			for ($month=$first_month; $month<=$last_month; $month++)
-			if($month!=7 && $month!=6 || $calendar_RET[$month] || $attendance_RET[$month])
+			if ($last_month > $first_month)
+				$last_month_tmp = $last_month;
+			else
+				$last_month_tmp = 12;
+
+			for ($month=$first_month; $month<=$last_month_tmp; $month++)
 			{
-				echo '<TR><TD>'.mb_substr($months[$month],0,3).'</TD>';
-				$abs = $tdy = $pos = 0;
-				for($day=1; $day<=31; $day++)
+				if ($month == 12)
 				{
-					if($calendar_RET[$month][$day])
-					{
-						$calendar = $calendar_RET[$month][$day][1];
-						if($attendance_RET[$month][$day])
-						{
-							$attendance = $attendance_RET[$month][$day][1];
-							echo '<TD style="text-align:center;">'.$attendance['STATE_CODE'].'</TD>';
-							$abs += ($attendance['STATE_CODE']=='A'?$calendar['POS']:($attendance['STATE_CODE']=='H'?$calendar['POS']/2:0));
-							$tdy += ($attendance['STATE_CODE']=='T'||$attendance['SHORT_NAME']=='TD'?1:0);
-						}
-						else
-							echo '<TD style="text-align:center; background-color:#DDFFDD;">&nbsp;</TD>';
-						$pos += $calendar['POS'];
-					}
-					else
-					{
-						if($attendance_RET[$month][$day])
-						{
-							$attendance = $attendance_RET[$month][$day][1];
-							echo '<TD class="center" style="background-color:#e80000;">'.$attendance['STATE_CODE'].'</TD>';
-						}
-						else
-							echo '<TD class="center" style="background-color:#FFDDDD;">&nbsp;</TD>';
-					}
+					$month = 1;
+					$last_month_tmp = $last_month;
 				}
-				echo '<TD style="text-align:right">'.number_format($abs,1).'</TD><TD style="text-align:right">'.number_format($tdy,0).'</TD><TD style="text-align:right">'.number_format($pos,1).'</TD></TR>';
-				$abs_tot += $abs;
-				$tdy_tot += $tdy;
-				$pos_tot += $pos;
+
+				if($calendar_RET[$month] || $attendance_RET[$month])
+				{
+					echo '<TR><TD>'.mb_substr($months[$month],0,3).'</TD>';
+					$abs = $tdy = $pos = 0;
+					for($day=1; $day<=31; $day++)
+					{
+						if($calendar_RET[$month][$day])
+						{
+							$calendar = $calendar_RET[$month][$day][1];
+							if($attendance_RET[$month][$day])
+							{
+								$attendance = $attendance_RET[$month][$day][1];
+								echo '<TD style="text-align:center;">'.$attendance['STATE_CODE'].'</TD>';
+								$abs += ($attendance['STATE_CODE']=='A'?$calendar['POS']:($attendance['STATE_CODE']=='H'?$calendar['POS']/2:0));
+								$tdy += ($attendance['STATE_CODE']=='T'||$attendance['SHORT_NAME']=='TD'?1:0);
+							}
+							else
+								echo '<TD style="text-align:center; background-color:#DDFFDD;">&nbsp;</TD>';
+							$pos += $calendar['POS'];
+						}
+						else
+						{
+							if($attendance_RET[$month][$day])
+							{
+								$attendance = $attendance_RET[$month][$day][1];
+								echo '<TD class="center" style="background-color:#e80000;">'.$attendance['STATE_CODE'].'</TD>';
+							}
+							else
+								echo '<TD class="center" style="background-color:#FFDDDD;">&nbsp;</TD>';
+						}
+					}
+					echo '<TD style="text-align:right">'.number_format($abs,1).'</TD><TD style="text-align:right">'.number_format($tdy,0).'</TD><TD style="text-align:right">'.number_format($pos,1).'</TD></TR>';
+					$abs_tot += $abs;
+					$tdy_tot += $tdy;
+					$pos_tot += $pos;
+				}
 			}
 			echo '<TR><TD colspan="28"></TD><TD colspan="4" style="text-align:right;"><B>'._('YTD Totals').':</B></TD>';
 			echo '<TD style="text-align:right">'.number_format($abs_tot,1).'</TD><TD style="text-align:right">'.number_format($tdy_tot,0).'</TD><TD style="text-align:right">'.number_format($pos_tot,1).'</TD></TR>';
