@@ -1,5 +1,18 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.6.6
+----------------
+- Fix PHP notices undefined index in index.php
+- Display error if no quarters in Side.php & GetMP.php
+- Force login vars to POST in index.php
+- Bugfix SQL error column "subject_id" specified more than once in Courses.php
+- Bugfix illegal offset when adding user/student in new school in Other_info.inc.php
+- Bugfix Student enrollment saved for new students when error in Student.php & Enrollment.inc.php
+- Move fix SQL bug FIRST_NAME, LAST_NAME is null up in User.php & Student.php
+- No 'N/A' for Grade Level select input in General_Info.inc.php
+- Fix Attendance Summary calendar gen for Full Year over 2 years
+
+
 Changes in 2.6.5
 ----------------
 - Bugifx Invalid argument supplied for foreach() in Food_service/Users/Accounts.php
