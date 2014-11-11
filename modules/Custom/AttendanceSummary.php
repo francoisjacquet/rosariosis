@@ -93,12 +93,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			for ($month=$first_month; $month<=$last_month_tmp; $month++)
 			{
-				if ($month == 12)
-				{
-					$month = 1;
-					$last_month_tmp = $last_month;
-				}
-
 				if($calendar_RET[$month] || $attendance_RET[$month])
 				{
 					echo '<TR><TD>'.mb_substr($months[$month],0,3).'</TD>';
@@ -134,6 +128,12 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$abs_tot += $abs;
 					$tdy_tot += $tdy;
 					$pos_tot += $pos;
+				}
+
+				if ($month == 12)
+				{
+					$month = 0;
+					$last_month_tmp = $last_month;
 				}
 			}
 			echo '<TR><TD colspan="28"></TD><TD colspan="4" style="text-align:right;"><B>'._('YTD Totals').':</B></TD>';
