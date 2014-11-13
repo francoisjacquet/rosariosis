@@ -69,6 +69,24 @@ function isTouchDevice(){
 	}
 }
 
+function ajaxOptions(target,url)
+{
+	return {
+		beforeSend: function(data){
+			$('#BottomSpinner').css('visibility','visible');
+		},
+		success: function(data){
+			ajaxSuccess(data,target,url);
+		},
+		error: function(x,st,err){
+			alert("ajax get Status: "+st+" - Error: "+err+" - URL: "+url);
+		},
+		complete: function(){
+			$('#BottomSpinner').css('visibility','hidden');
+		}
+	};
+}
+
 function ajaxLink(link){	
 	//will work only if in the onclick there is no error!
 	var target = link.target;
@@ -81,12 +99,8 @@ function ajaxLink(link){
 		else
 			return true;
 	}
-	$.get(link.href, function(data){
-		ajaxSuccess(data,target,link.href);
-	})
-	.fail(function(x,st,err){
-		alert("ajaxLink get Status: "+st+" - Error: "+err);
-    });
+
+	$.ajax(link.href, ajaxOptions(target,link.href));
 	return false;
 }
 
@@ -99,14 +113,8 @@ function ajaxPostForm(form,submit){
 		form.target = '_blank';
 		return true;
 	}
-	var options = {
-		success: function(data){
-			ajaxSuccess(data,target,form.action);
-		},
-		error: function(x,st,err){
-			alert("ajaxPostForm get Status: "+st+" - Error: "+err);
-		}
-	};
+
+	var options = ajaxOptions(target,form.action);
 	if (submit)
 		$(form).ajaxSubmit(options);
 	else
@@ -205,7 +213,7 @@ function openMenu(modname)
 
 		$('a[href*="'+modcat+'"].menu-top').each(function(){this.id = "selectedModuleLink";});
 		
-		document.getElementById("menu_"+modcat).style.display = "block";
+		$("#menu_"+modcat).show();
 		if(old_modcat!=false && old_modcat!=modcat)
 			$("#menu_"+old_modcat).hide();
 		old_modcat = modcat;

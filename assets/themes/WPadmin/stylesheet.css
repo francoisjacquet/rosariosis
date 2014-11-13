@@ -49,7 +49,7 @@ td,textarea{
 	line-height:inherit
 }
 input,select{
-	line-height:15px
+	line-height:1.2
 }
 a,input,select{
 	outline:0;
@@ -72,10 +72,10 @@ li,dd{
 }
 textarea,input,select{
 	margin:2px 1px;
-	padding:3px
+	padding:2px
 }
 select{
-	padding:2px;
+	padding-top:0px;
 	height:23px
 }
 h1,h2,h3,h4{
@@ -452,7 +452,7 @@ span.center{
 	display:block
 }
 .BottomButton{
-	padding-top:16px;
+	padding-top:10px;
 }
 .BottomButton{
 	margin-right:8px;
@@ -476,6 +476,10 @@ span.center{
 	font-size:3rem;
 	font-weight:bold;
 	vertical-align:top
+}
+#BottomSpinner{
+	float:right;
+	visibility:hidden;
 }
 tr.address > td{
 	border-style:none dotted none none;
