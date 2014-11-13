@@ -211,7 +211,7 @@ function GetStuList(&$extra=array())
 			{
 				if(User('SCHOOLS'))
 					$sql .= " AND ssm.SCHOOL_ID IN (".mb_substr(str_replace(',',"','",User('SCHOOLS')),2,-2).") ";
-				$extra['columns_after']['LIST_SCHOOL_ID'] = 'School';
+				$extra['columns_after']['LIST_SCHOOL_ID'] = _('School');
 				$functions['LIST_SCHOOL_ID'] = 'GetSchool';
 			}
 			$sql .= ")".$extra['FROM']." WHERE TRUE";
