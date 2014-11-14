@@ -14,8 +14,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		if($_REQUEST['mailing_labels']=='Y')
 			Widgets('mailing_labels');
+
 		$extra['SELECT'] .= ",s.FIRST_NAME AS NICK_NAME";
-		$extra['functions']['SCHOOL_ID'] = 'GetSchool';
+
 		if(User('PROFILE')=='admin')
 		{
 			if($_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
@@ -63,7 +64,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				//DrawHeader(ParseMLField(Config('TITLE')).' Letter');
 				DrawHeader('&nbsp;');
 				DrawHeader($student['FULL_NAME'],$student['STUDENT_ID']);
-				DrawHeader($student['GRADE_ID'],SchoolInfo('TITLE'));
+				DrawHeader($student['GRADE_ID'],$student['SCHOOL_TITLE']);
 				//DrawHeader('',GetMP(GetCurrentMP('QTR',DBDate(),false)));
 				DrawHeader(ProperDate(DBDate()));
 
@@ -159,7 +160,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__</TD><TD>= '._('Middle Name').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__STUDENT_ID__</TD><TD>= '.sprintf(_('%s ID'),Config('NAME')).'</TD>';
 		$extra['extra_header_left'] .= '</TR><TR class="st">';
-		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
+		$extra['extra_header_left'] .= '<TD>__SCHOOL_TITLE__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
 		$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD>';
 		$extra['extra_header_left'] .= '</TR><TR class="st">';
 		if(User('PROFILE')=='admin')

@@ -187,18 +187,22 @@ function GetStuList(&$extra=array())
 	{
 		case 'admin':
 			$sql = 'SELECT ';
-			//$sql = 'SELECT '.$distinct;
+
 			if(isset($extra['SELECT_ONLY']))
 				$sql .= $extra['SELECT_ONLY'];
 			else
 			{
 				$sql .= "s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS FULL_NAME,";
-				$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.SCHOOL_ID AS LIST_SCHOOL_ID,ssm.GRADE_ID '.$extra['SELECT'];
+				$sql .= '(SELECT sch.TITLE FROM SCHOOLS sch WHERE ssm.SCHOOL_ID=sch.ID) AS SCHOOL_TITLE,';
+				$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID '.$extra['SELECT'];
+
 				if(isset($_REQUEST['include_inactive']) && $_REQUEST['include_inactive']=='Y')
 					$sql .= ','.db_case(array("(ssm.SYEAR='".UserSyear()."' AND ('".$extra['DATE']."'>=ssm.START_DATE AND ('".$extra['DATE']."'<=ssm.END_DATE OR ssm.END_DATE IS NULL)))",'TRUE','\'<span style="color:green">'._('Active').'</span>\'','\'<span style="color:red">'._('Inactive').'</span>\'')).' AS ACTIVE';
+
 			}
 
 			$sql .= " FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID";
+
 			if(isset($_REQUEST['include_inactive']) && $_REQUEST['include_inactive']=='Y')
 				//$sql .= " AND ssm.ID=(SELECT max(ID) FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR<='".UserSyear()."')";
 				$sql .= " AND ssm.ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR<='".UserSyear()."' ORDER BY SYEAR DESC,START_DATE DESC LIMIT 1)";
@@ -211,9 +215,9 @@ function GetStuList(&$extra=array())
 			{
 				if(User('SCHOOLS'))
 					$sql .= " AND ssm.SCHOOL_ID IN (".mb_substr(str_replace(',',"','",User('SCHOOLS')),2,-2).") ";
-				$extra['columns_after']['LIST_SCHOOL_ID'] = _('School');
-				$functions['LIST_SCHOOL_ID'] = 'GetSchool';
+				$extra['columns_after']['SCHOOL_TITLE'] = _('School');
 			}
+
 			$sql .= ")".$extra['FROM']." WHERE TRUE";
 
 			if(empty($extra['SELECT_ONLY']) && isset($_REQUEST['include_inactive']) && $_REQUEST['include_inactive']=='Y')
