@@ -10,7 +10,7 @@ $configuration_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'"><b
 $modules_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=modules"><b>'._('Modules').'</b></a>';
 $plugins_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins"><b>'._('Plugins').'</b></a>';
 if(AllowEdit())
-	DrawHeader($configuration_link.' - '.$modules_link.' - '.$plugins_link);
+	DrawHeader($configuration_link.' | '.$modules_link.' | '.$plugins_link);
 
 if (isset($_REQUEST['tab']) && $_REQUEST['tab']=='modules')
 	include('modules/School_Setup/includes/Modules.inc.php');
@@ -39,7 +39,7 @@ else
 						$sql .= "UPDATE CONFIG SET ";
 						$sql .= "CONFIG_VALUE='".$value."' WHERE TITLE='".$column."'";
 					
-						$school_independant_values = array('TITLE','NAME'); //Program Title, Program Name
+						$school_independant_values = array('TITLE','NAME','THEME'); //Program Title, Program Name, Default Theme
 						if (in_array($column,$school_independant_values))
 							$sql .= " AND SCHOOL_ID='0';";
 						else
@@ -91,6 +91,23 @@ else
 		echo '<FIELDSET><legend><b>'.ParseMLField(Config('TITLE')).'</b></legend><TABLE>';
 		echo '<TR style="text-align:left;"><TD>'.MLTextInput(Config('TITLE'),'values[CONFIG][TITLE]',_('Program Title')).'</TD></TR>';
 		echo '<TR style="text-align:left;"><TD>'.TextInput(Config('NAME'),'values[CONFIG][NAME]',_('Program Name'),'required').'</TD></TR>';
+
+		//modif Francois: add Default Theme to Configuration
+		echo '<TR style="text-align:left;"><TD><TABLE><TR>';
+		$themes = scandir('assets/themes/');
+		foreach ($themes as $theme)
+		{
+			//filter directories
+			if ( is_dir('assets/themes/'.$theme) && $theme != '.' && $theme != '..' )
+			{
+					echo '<TD><label><INPUT type="radio" name="values[CONFIG][THEME]" value="'.$theme.'"'.((Preferences('THEME')==$theme)?' checked':'').'> '.$theme.'</label></TD>';
+					$count++;
+					if($count%3==0)
+						echo '</TR><TR class="st">';			
+			}
+		}
+		echo '</TR></TABLE></TD></TR>';
+		echo '<TR style="text-align:left;"><TD><span class="legend-gray">'._('Default Theme').'</span></TD></TR>';
 		echo '</TABLE></FIELDSET>';
 
 		echo '<BR /><FIELDSET><legend><b>'._('School').'</b></legend><TABLE>';

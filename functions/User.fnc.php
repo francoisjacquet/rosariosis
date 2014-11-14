@@ -46,23 +46,19 @@ function Preferences($item='',$program='Preferences')
 	if($item=='')
 		return;
 
+	//modif Francois: add Default Theme to Configuration
+	$default_theme = Config('THEME');
+
 	$defaults = array('SORT'=>'Name',
 				'SEARCH'=>'Y',
 				'DELIMITER'=>'Tab',
-//modif Francois: CSS WPadmin
 				'HEADER'=>'#333366',
-//				'COLOR'=>'#FFFFCC',
 				'HIGHLIGHT'=>'#FFFFFF',
-//				'TITLES'=>'gray',
-				'THEME'=>'WPadmin',
+				'THEME'=>$default_theme,
 				'HIDDEN'=>'Y',
-	//modif Francois: display locale with strftime()
 				'MONTH'=>'%B',
 				'DAY'=>'%d',
 				'YEAR'=>'%Y',
-				// 'MONTH'=>'F',
-				// 'DAY'=>'j',
-				// 'YEAR'=>'Y',
 				'DEFAULT_ALL_SCHOOLS'=>'N',
 				'ASSIGNMENT_SORTING'=>'ASSIGNMENT_ID',
 				'ANOMALOUS_MAX'=>'100',
@@ -73,7 +69,6 @@ function Preferences($item='',$program='Preferences')
 	if(!isset($_ROSARIO['Preferences'][$program][$item][1]['VALUE']))
 		$_ROSARIO['Preferences'][$program][$item][1]['VALUE'] = $defaults[$item];
 
-//	if($_SESSION['STAFF_ID'] && User('PROFILE')=='parent' || $_SESSION['STUDENT_ID'])
 	if(!empty($_SESSION['STAFF_ID']) && User('PROFILE')=='parent' || !empty($_SESSION['STUDENT_ID']))
 		$_ROSARIO['Preferences'][$program]['SEARCH'][1]['VALUE'] = 'N';
 
