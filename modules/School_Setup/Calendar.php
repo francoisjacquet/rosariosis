@@ -524,7 +524,7 @@ if(empty($_REQUEST['modfunc']))
 
 	if($skip)
 	{
-		echo '<td colspan="' . $skip . '"></td>';
+		echo '<td colspan="' . $skip . '" class="calendar-skip">&nbsp;</td>';
 		$return_counter = $skip;
 	}
 	for($i=1;$i<=$last;$i++)
@@ -603,9 +603,16 @@ if(empty($_REQUEST['modfunc']))
 		if($return_counter%7==0)
 			echo '</TR><TR>';
 	}
+
+	if($return_counter%7!=0)
+	{
+		$skip = 7 - $return_counter%7;
+		echo '<td colspan="' . $skip . '" class="calendar-skip">&nbsp;</td>';
+	}
+
 	echo '</TR></TBODY></TABLE>';
 
 	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
-	echo '</FORM>';
+	echo '<BR /><BR /></FORM>';
 }
 ?>

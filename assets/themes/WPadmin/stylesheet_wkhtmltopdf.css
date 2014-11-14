@@ -512,6 +512,9 @@ div.st{
 .calendar-day{
 	height:inherit
 }
+.calendar-day td{
+	line-height:1
+}
 .br-after{
 	display:block
 }
