@@ -2,7 +2,7 @@
 
 //modif Francois: add SendEmail function
 
-// $from: if empty, defaults to $RosarioNotifyAddress
+// $from: if empty, defaults to rosariosis@[yourserverdomain]
 // $cc: Carbon Copy, comma separated list of emails
 //returns true if email sent, or false
 
@@ -28,23 +28,32 @@
 
 function SendEmail($to, $subject, $message, $from = null, $cc = null)
 {	
-	global $RosarioNotifyAddress;
-	
 	//modif Francois: add email headers
 	if (empty($from))
-		$from = $RosarioNotifyAddress;
-	
-	$headers = 'From:'.$from."\r\n";
+	{
+		// Get the site domain and get rid of www.
+		$sitename = strtolower( $_SERVER['SERVER_NAME'] );
+		if ( substr( $sitename, 0, 4 ) == 'www.' ) {
+			$sitename = substr( $sitename, 4 );
+		}
+
+		$from = 'rosariosis@' . $sitename;
+	}
+
+	$headers = 'From:'. $from ."\r\n";
 	if (!empty($cc))
-		$headers .= "Cc:".$cc."\r\n";
-	$headers .= 'Return-Path:'.$from."\r\n"; 
-	$headers .= 'Reply-To:'.$from . "\r\n" . 'X-Mailer: PHP/' . phpversion();
-	$params = '-f '.$from;
-	
-	//append Porgram Name to subject
+		$headers .= "Cc:". $cc ."\r\n";
+	$headers .= 'Return-Path:'. $from ."\r\n"; 
+	$headers .= 'Reply-To:'. $from ."\r\n". 'X-Mailer: PHP/' . phpversion() ."\r\n";
+	$headers .= 'Content-Type: text/plain; charset=UTF-8';
+	//The f flag generates a Warning:
+	//X-Authentication-Warning: [host]: www-data set sender to [from_email] using -f
+	//$params = '-f '.$from;
+
+	//append Program Name to subject
 	$subject = Config('NAME').' - '.$subject;
-	
-	return @mail($to,utf8_decode($subject),utf8_decode($message),$headers, $params);	
+
+	return @mail($to,$subject,$message,$headers);	
 }
 
 ?>
