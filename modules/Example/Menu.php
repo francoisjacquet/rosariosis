@@ -1,12 +1,15 @@
 <?php
 
-/***************************************
+/***********************************************************
  Menu.php file
  Required
  - Menu entries for the Example module
  - Add Menu entries to other modules
  - Override programs from other modules
-****************************************/
+   Note: overriding programs could create incompatibilities
+   between 2 modules overriding the same program.
+   Please prefer adding a menu entry instead.
+***********************************************************/
 
 //use dgettext() function instead of _() for Module specific strings translation
 //see locale/README file for more information
@@ -26,14 +29,14 @@ $menu['Example']['teacher'] = array( //teacher menu
 					);
 $menu['Example']['parent'] = $menu['Example']['teacher']; //parent & student menu
 
-//add Menu entry to the Resources module
+//add a Menu entry to the Resources module
 if ($RosarioModules['Resources']) //verify Resources module is activated
 	$menu['Resources']['admin'] += array(
 							1=>dgettext('Example', 'Example'), //add sub-menu 1
 							'Example/ExampleResource.php'=>dgettext('Example', 'Example Resource'), 
 						);
 
-//override Program from Resources modules
+//override a Program from Resources modules
 if ($RosarioModules['Resources']) //verify Resources module is activated
 {
 	$Resources_Menu2 = array();
