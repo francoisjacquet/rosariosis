@@ -27,7 +27,7 @@ if(($_REQUEST['month_values'] && $_POST['month_values']) || ($_REQUEST['values']
 	$iu_extra['STUDENT_ENROLLMENT'] = "STUDENT_ID='".UserStudentID()."' AND ID='__ID__'";
 	$iu_extra['fields']['STUDENT_ENROLLMENT'] = 'ID,SYEAR,STUDENT_ID,';
 	$iu_extra['values']['STUDENT_ENROLLMENT'] = "nextval('STUDENT_ENROLLMENT_SEQ'),'".UserSyear()."','".UserStudentID()."',";
-	if(!$new_student)
+	if(UserStudentID())
 		SaveData($iu_extra,'',$field_names);
 }
 
