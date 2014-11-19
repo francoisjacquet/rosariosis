@@ -18,7 +18,7 @@ function moodle_xmlrpc_call($functionname, $object)
 		//handle the positive response
 		return call_user_func($functionname.'_response', $resp);
 	else
-		reutrn false;
+		return false;
 }
 
 //adds the error message to the global $error variable
