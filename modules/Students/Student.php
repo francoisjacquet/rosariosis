@@ -150,13 +150,6 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				}
 			}
 
-			if ($_FILES['photo'])
-			{
-				$new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
-
-				//hook
-				do_action('Students/Student.php|upload_student_photo');
-			}
 		}
 		elseif (!isset($error)) //new student
 		{
@@ -250,15 +243,17 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 				$_SESSION['student_id'] = $_REQUEST['student_id'] = $student_id;
 			
-				if ($_FILES['photo'])
-				{
-					$new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
-
-					//hook
-					do_action('Students/Student.php|upload_student_photo');
-				}
 			}
 		}
+
+		if (UserStudentID() && $_FILES['photo'])
+		{
+			$new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
+
+			//hook
+			do_action('Students/Student.php|upload_student_photo');
+		}
+
 		$_REQUEST['moodle_create_student'] = false;
 	}
 
