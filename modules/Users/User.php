@@ -75,11 +75,16 @@ if($_REQUEST['modfunc']=='update')
 
 	if(count($_POST['staff']) && (User('PROFILE')=='admin' || basename($_SERVER['PHP_SELF'])=='index.php'))
 	{
+		//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME is null
+		if ((isset($_REQUEST['staff']['FIRST_NAME']) && empty($_REQUEST['staff']['FIRST_NAME'])) || (isset($_REQUEST['staff']['LAST_NAME']) && empty($_REQUEST['staff']['LAST_NAME'])))
+		{
+			$error[] = _('Please fill in the required fields');
+		}
+
 		//modif Francois: Moodle integrator / password
 		if ($_REQUEST['moodle_create_user'] && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
 		{
 			$error[] = _('Please enter a valid password');
-			//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 		}
 			
 		if(UserStaffID() && $_REQUEST['staff_id']!='new' && !isset($error))
@@ -89,7 +94,6 @@ if($_REQUEST['modfunc']=='update')
 			if ($old_user_in_moodle && !empty($_REQUEST['staff']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
 			{
 				$error[] = _('Please enter a valid password');
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 			
 			$profile_RET = DBGet(DBQuery("SELECT PROFILE,PROFILE_ID,USERNAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
@@ -119,7 +123,6 @@ if($_REQUEST['modfunc']=='update')
 				if(count($existing_staff))
 				{
 					$error[] = _('A user with that username already exists for the current school year. Choose a different username and try again.');
-					//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 				}
 			}
 			
@@ -170,27 +173,15 @@ if($_REQUEST['modfunc']=='update')
 					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
 				}
 			}
-				
-			if ($_FILES['photo'])
-			{
-				$new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
-				$moodleError .= Moodle($_REQUEST['modname'], 'core_files_upload');
-			}
+		
 		}
-		elseif (!isset($error))
+		elseif (!isset($error)) //new user
 		{
-			//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME, PROFILE is null
-			if (empty($_REQUEST['staff']['FIRST_NAME']) || empty($_REQUEST['staff']['LAST_NAME']) || empty($_REQUEST['staff']['PROFILE']))
-			{
-				$error[] = _('Please fill in the required fields');
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
-			}
 			//modif Francois: Moodle integrator
 			//username, password, email required
-			elseif ($_REQUEST['moodle_create_user'] && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['EMAIL'])))
+			if ($_REQUEST['moodle_create_user'] && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['EMAIL'])))
 			{
 				$error[] = _('Please fill in the required fields');
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 			if($_REQUEST['staff']['PROFILE']=='admin')
 				$_REQUEST['staff']['PROFILE_ID'] = '1';
@@ -203,7 +194,6 @@ if($_REQUEST['modfunc']=='update')
 			if(count($existing_staff))
 			{
 				$error[] = _('A user with that username already exists for the current school year. Choose a different username and try again.');
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3
 			}
 			
 			if (!isset($error))
@@ -256,35 +246,19 @@ if($_REQUEST['modfunc']=='update')
 				
 				$_SESSION['staff_id'] = $_REQUEST['staff_id'] = $staff_id;
 				
-				if ($_REQUEST['staff']['PROFILE_ID'] == 1 && $RosarioNotifyAddress)//Notifies the network admin that a new admin has been activated.
-				{
-					//modif Francois: add SendEmail function
-					include('ProgramFunctions/SendEmail.fnc.php');
-					
-					$to = $RosarioNotifyAddress;
-					
-					$admin_name = $_REQUEST['staff']['FIRST_NAME'].' '.$_REQUEST['staff']['LAST_NAME'];
-					$subject = sprintf('New Admin Added: %s', $admin_name);
-					
-					$admin_username = empty($_REQUEST['staff']['USERNAME']) ? '[no username]' : $_REQUEST['staff']['USERNAME'];
-					$message = sprintf('New User: %s
-Added by: %s
-Remote IP: %s', $admin_username, User('NAME'), $_SERVER['REMOTE_ADDR']);
-					
-					SendEmail($to, $subject, $message);
-				}
-				
-				if ($_FILES['photo'])
-				{
-					$new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
-					$moodleError .= Moodle($_REQUEST['modname'], 'core_files_upload');
-				}
+				if ($_REQUEST['staff']['PROFILE_ID'] == 1)//Note after admins creation only
+					$note[] = sprintf(_('Please add the administrator\'s ID (%s) to the <i>config.inc.php</i> file.'), $staff_id);
+
 			}
 		}
+
+		if (UserStaffID() && $_FILES['photo'])
+		{
+			$new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
+			$moodleError .= Moodle($_REQUEST['modname'], 'core_files_upload');
+		}
+
 		$_REQUEST['moodle_create_user'] = false;
-		//error_exit: //modif Francois: goto avail. in PHP 5.3
-		if ($error && !UserStaffID())
-			$_REQUEST['staff_id'] = 'new';
 	}
 
 	if($_REQUEST['include']!='General_Info' && $_REQUEST['include']!='Schedule' && $_REQUEST['include']!='Other_Info')
@@ -292,6 +266,9 @@ Remote IP: %s', $admin_username, User('NAME'), $_SERVER['REMOTE_ADDR']);
 			include('modules/Users/includes/'.$_REQUEST['include'].'.inc.php');
 		else
 			include('modules/'.$_REQUEST['include'].'.inc.php');
+
+	if ($error && !UserStaffID())
+		$_REQUEST['staff_id'] = 'new';
 
 	unset($_REQUEST['staff']);
 	unset($_REQUEST['modfunc']);
@@ -306,7 +283,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 {
 	if($_REQUEST['staff_id']=='new')
 	{
-		$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
+		$_ROSARIO['HeaderIcon'] = 'Users.png';
 		DrawHeader(_('Add a User'));
 	}
 	else
@@ -319,8 +296,10 @@ else
 //modif Francois: Moodle integrator
 echo $moodleError;
 
-echo ErrorMessage($error);
-echo ErrorMessage($note,'note');
+if(isset($error))
+	echo ErrorMessage($error);
+if(isset($note))
+	echo ErrorMessage($note,'note');
 
 if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
 {
