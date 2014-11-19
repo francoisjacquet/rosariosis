@@ -153,15 +153,6 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
 			}
 
-			if(count($_REQUEST['values']['STUDENT_ENROLLMENT'][UserStudentID()]) && !isset($error))
-			{
-				$sql = "UPDATE STUDENT_ENROLLMENT SET ";
-				foreach($_REQUEST['values']['STUDENT_ENROLLMENT'][UserStudentID()] as $column=>$value)
-					$sql .= $column."='".str_replace('&#39;',"''",$value)."',";
-				$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'";
-				DBQuery($sql);
-			}
-				
 			if ($_FILES['photo'])
 			{
 				$new_photo_file = FileUpload('photo', $StudentPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStudentID());
