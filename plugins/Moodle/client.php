@@ -2,8 +2,7 @@
 //modif Francois: Moodle integrator
 
 //XMLRPC client for Moodle 2
-require_once('modules/Moodle/config.inc.php');
-require_once('modules/Moodle/curl.php');
+require_once('plugins/Moodle/curl.php');
 
 // XML-RPC CALL
 function moodle_xmlrpc_call($functionname, $object)
@@ -15,21 +14,24 @@ function moodle_xmlrpc_call($functionname, $object)
 		return null;
 	$post = xmlrpc_encode_request($functionname, $object, array('encoding' => 'utf-8', 'escaping' => 'markup'));
 	$resp = xmlrpc_decode($curl->post($serverurl, $post), 'utf-8');
-	$error = get_xmlrpc_error($resp);
-	if (empty($error))
+	if (get_xmlrpc_error($resp))
 		//handle the positive response
 		return call_user_func($functionname.'_response', $resp);
-	return $error;
+	else
+		reutrn false;
 }
 
-
+//adds the error message to the global $error variable
 function get_xmlrpc_error($resp)
 {
+	global $error;
+
 	if (is_array($resp) && xmlrpc_is_fault($resp))
 	{
 		$message = 'Moodle Integrator - '.$resp['faultCode'].' - '.$resp['faultString'];
-		return ErrorMessage(array($message), 'error');
+		$error[] = $message;
+		return false;
 	}
 	
-	return null;
+	return true;
 }
