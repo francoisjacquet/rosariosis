@@ -22,7 +22,7 @@ function MoodleTriggered($hook_tag)
 
 	$exploded = explode('|', $hook_tag);
 	$modname = $exploded[0];
-	$action = $exploded[1]
+	$action = $exploded[1];
 
 	$moodle_functionname = $modname = '';
 
@@ -32,7 +32,7 @@ function MoodleTriggered($hook_tag)
 			if($_REQUEST['moodle_create_student'])
 			{
 				Moodle($modname, 'core_user_create_users');
-				//relate parent if exist
+				//relate parent if exists
 				Moodle($modname, 'core_role_assign_roles');
 			}
 			else
@@ -42,11 +42,12 @@ function MoodleTriggered($hook_tag)
 
 		case 'Students/Student.php|create_student':
 			if($_REQUEST['moodle_create_student'])
-			{
 				Moodle($modname, 'core_user_create_users');
-				//relate parent if exist
-				Moodle($modname, 'core_role_assign_roles');
-			}
+
+		break;
+
+		case 'Students/Student.php|upload_student_photo':
+			Moodle($modname, 'core_files_upload');
 
 		break;
 

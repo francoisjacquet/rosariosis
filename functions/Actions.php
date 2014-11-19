@@ -9,6 +9,7 @@
 $RosarioHooks = array(
 	'Students/Student.php|create_student' => array(),
 	'Students/Student.php|update_student' => array(),
+	'Students/Student.php|upload_student_photo' => array(),
 );
 
 /**
