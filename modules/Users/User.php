@@ -156,6 +156,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					//hook
 					do_action('Users/User.php|update_user');
 				}
+			}
 		
 		}
 		elseif (!isset($error)) //new user
