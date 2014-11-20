@@ -41,7 +41,7 @@ if(User('PROFILE')!='admin')
 		$_ROSARIO['allow_edit'] = true;
 }
 
-if($_REQUEST['modfunc']=='update')
+if($_REQUEST['modfunc']=='update' && AllowEdit())
 {
 	if(count($_REQUEST['month_staff']))
 	{
@@ -81,21 +81,12 @@ if($_REQUEST['modfunc']=='update')
 			$error[] = _('Please fill in the required fields');
 		}
 
-		//modif Francois: Moodle integrator / password
-		if ($_REQUEST['moodle_create_user'] && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
+		if(UserStaffID() && !isset($error))
 		{
-			$error[] = _('Please enter a valid password');
-		}
-			
-		if(UserStaffID() && $_REQUEST['staff_id']!='new' && !isset($error))
-		{
-			//modif Francois: Moodle integrator / password
-			$old_user_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'"));
-			if ($old_user_in_moodle && !empty($_REQUEST['staff']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
-			{
-				$error[] = _('Please enter a valid password');
-			}
-			
+
+			//hook
+			do_action('Users/User.php|update_user_checks');
+
 			$profile_RET = DBGet(DBQuery("SELECT PROFILE,PROFILE_ID,USERNAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 
 			if(isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']!=$profile_RET[1]['PROFILE_ID'])
@@ -142,7 +133,7 @@ if($_REQUEST['modfunc']=='update')
 							continue;
 						}
 						
-	//modif Francois: add password encryption
+						//modif Francois: add password encryption
 						if ($column_name!=='PASSWORD')
 						{
 							$sql .= "$column_name='".$value."',";
@@ -157,32 +148,22 @@ if($_REQUEST['modfunc']=='update')
 					}
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."'";
-				if(User('PROFILE')=='admin' && $go)
-					DBQuery($sql);
 
-//modif Francois: Moodle integrator
-				if ($_REQUEST['moodle_create_user'])
+				if($go)
 				{
-					$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
-					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+					DBQuery($sql);
+					
+					//hook
+					do_action('Users/User.php|update_user');
 				}
-				else
-				{
-					$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
-					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_unassign_roles');
-					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
-				}
-			}
 		
 		}
 		elseif (!isset($error)) //new user
 		{
-			//modif Francois: Moodle integrator
-			//username, password, email required
-			if ($_REQUEST['moodle_create_user'] && (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['EMAIL'])))
-			{
-				$error[] = _('Please fill in the required fields');
-			}
+
+			//hook
+			do_action('Users/User.php|create_user_checks');
+
 			if($_REQUEST['staff']['PROFILE']=='admin')
 				$_REQUEST['staff']['PROFILE_ID'] = '1';
 			elseif($_REQUEST['staff']['PROFILE']=='teacher')
@@ -224,7 +205,8 @@ if($_REQUEST['modfunc']=='update')
 						}
 						
 						$fields .= $column.',';
-	//modif Francois: add password encryption
+
+						//modif Francois: add password encryption
 						if ($column!=='PASSWORD')
 							$values .= "'".$value."',";
 						else
@@ -235,19 +217,32 @@ if($_REQUEST['modfunc']=='update')
 					}
 				}
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+
 				DBQuery($sql);
 				
-	//modif Francois: Moodle integrator
-				if ($_REQUEST['moodle_create_user'])
-				{
-					$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
-					$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
-				}
-				
 				$_SESSION['staff_id'] = $_REQUEST['staff_id'] = $staff_id;
-				
-				if ($_REQUEST['staff']['PROFILE_ID'] == 1)//Note after admins creation only
-					$note[] = sprintf(_('Please add the administrator\'s ID (%s) to the <i>config.inc.php</i> file.'), $staff_id);
+
+				//hook
+				do_action('Users/User.php|create_user');
+
+				//Notify the network admin that a new admin has been created
+				if ($_REQUEST['staff']['PROFILE_ID'] == 1 && $RosarioNotifyAddress)
+				{
+					//modif Francois: add SendEmail function
+					include('ProgramFunctions/SendEmail.fnc.php');
+
+					$to = $RosarioNotifyAddress;
+
+					$admin_name = $_REQUEST['staff']['FIRST_NAME'].' '.$_REQUEST['staff']['LAST_NAME'];
+					$subject = sprintf('New Admin Added: %s', $admin_name);
+
+					$admin_username = empty($_REQUEST['staff']['USERNAME']) ? '[no username]' : $_REQUEST['staff']['USERNAME'];
+					$message = sprintf('New User: %s
+Added by: %s
+Remote IP: %s', $admin_username, User('NAME'), $_SERVER['REMOTE_ADDR']);
+
+					SendEmail($to, $subject, $message);
+				}
 
 			}
 		}
@@ -255,10 +250,11 @@ if($_REQUEST['modfunc']=='update')
 		if (UserStaffID() && $_FILES['photo'])
 		{
 			$new_photo_file = FileUpload('photo', $UserPicturesPath.UserSyear().'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', UserStaffID());
-			$moodleError .= Moodle($_REQUEST['modname'], 'core_files_upload');
+
+			//hook
+			do_action('Users/User.php|upload_user_photo');
 		}
 
-		$_REQUEST['moodle_create_user'] = false;
 	}
 
 	if($_REQUEST['include']!='General_Info' && $_REQUEST['include']!='Schedule' && $_REQUEST['include']!='Other_Info')
@@ -283,7 +279,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 {
 	if($_REQUEST['staff_id']=='new')
 	{
-		$_ROSARIO['HeaderIcon'] = 'Users.png';
+		$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
 		DrawHeader(_('Add a User'));
 	}
 	else
@@ -293,13 +289,8 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 else
 	DrawHeader('Create Account');
 	
-//modif Francois: Moodle integrator
-echo $moodleError;
-
 if(isset($error))
 	echo ErrorMessage($error);
-if(isset($note))
-	echo ErrorMessage($note,'note');
 
 if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
 {
@@ -353,22 +344,12 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 		
 		$name = $titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']].' - '.$staff['STAFF_ID'];
 	}
+
 	DrawHeader($name,$delete_button.SubmitButton(_('Save')));
 
-//modif Francois: Moodle integrator
-		//propose to create user in Moodle: if 1) this is a creation, 2) this is an already created student but not in Moodle yet
-		
-	$old_user_in_moodle = false;
-	if (MOODLE_INTEGRATOR && AllowEdit())
-	{
-		//2) verifiy if the user is in Moodle:
-		if (!empty($staff['STAFF_ID']))
-			$old_user_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$staff['STAFF_ID']."' AND \"column\"='staff_id'"));
-		
-		if ($_REQUEST['staff_id']=='new' || !$old_user_in_moodle)
-			DrawHeader('<label>'.CheckBoxOnclick('moodle_create_user').'&nbsp;'._('Create User in Moodle').'</label>');
-	}
-	
+	//hook
+	do_action('Users/User.php|header');
+
 	if(User('PROFILE_ID'))
 		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
 	else

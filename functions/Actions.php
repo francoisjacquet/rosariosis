@@ -7,9 +7,20 @@
  * Each tag contains an array of the functions to be hooked
  */
 $RosarioHooks = array(
+	'Students/Student.php|header' => array(),
+	'Students/Student.php|create_student_checks' => array(),
 	'Students/Student.php|create_student' => array(),
+	'Students/Student.php|update_student_checks' => array(),
 	'Students/Student.php|update_student' => array(),
 	'Students/Student.php|upload_student_photo' => array(),
+
+	'Users/User.php|header' => array(),
+	'Users/User.php|create_user_checks' => array(),
+	'Users/User.php|create_user' => array(),
+	'Users/User.php|update_user_checks' => array(),
+	'Users/User.php|update_user' => array(),
+	'Users/User.php|upload_user_photo' => array(),
+
 );
 
 /**

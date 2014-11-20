@@ -1,10 +1,6 @@
 <?php
 
 include('ProgramFunctions/FileUpload.fnc.php');
-
-//modif Francois: Moodle integrator / email field
-if ($_REQUEST['moodle_create_student'])
-	include('modules/Moodle/config.inc.php');
 	
 if(!$_REQUEST['include'])
 {
@@ -12,6 +8,7 @@ if(!$_REQUEST['include'])
 	$_REQUEST['category_id'] = '1';
 }
 elseif(!$_REQUEST['category_id'])
+{
 	if($_REQUEST['include']== 'General_Info')
 		$_REQUEST['category_id'] = '1';
 	elseif($_REQUEST['include']== 'Address')
@@ -25,9 +22,7 @@ elseif(!$_REQUEST['category_id'])
 		$include = DBGet(DBQuery("SELECT ID FROM STUDENT_FIELD_CATEGORIES WHERE INCLUDE='".$_REQUEST['include']."'"));
 		$_REQUEST['category_id'] = $include[1]['ID'];
 	}
-
-//if(mb_strpos($_REQUEST['modname'],'?include='))
-//	$_REQUEST['modname'] = mb_substr($_REQUEST['modname'],0,mb_strpos($_REQUEST['modname'],'?include='));
+}
 
 if(User('PROFILE')!='admin')
 {
@@ -73,21 +68,12 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			$error[] = _('Please fill in the required fields');
 		}
 
-		//modif Francois: Moodle integrator / password
-		if ($_REQUEST['moodle_create_student'] && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
-		{
-			$error[] = _('Please enter a valid password');
-		}
-			
 		if(UserStudentID() && !isset($error))
 		{
-			//modif Francois: Moodle integrator / password
-			$old_student_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".UserStudentID()."' AND \"column\"='student_id'"));
-			if ($old_student_in_moodle && !empty($_REQUEST['students']['PASSWORD']) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
-			{
-				$error[] = _('Please enter a valid password');
-			}
-				
+
+			//hook
+			do_action('Students/Student.php|update_student_checks');
+
 			if(count($_REQUEST['students']) && !isset($error))
 			{
 				$sql = "UPDATE STUDENTS SET ";
@@ -109,7 +95,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 								$value = '';
 						if(!is_array($value))
 						{
-	//modif Francois: add password encryption
+							//modif Francois: add password encryption
 							if ($column!=='PASSWORD')
 							{
 								$sql .= $column."='".str_replace('&#39;',"''",$value)."',";
@@ -124,7 +110,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						}
 						else
 						{
-	//modif Francois: fix bug none selected not saved
+							//modif Francois: fix bug none selected not saved
 							$sql .= $column."='";
 							$sql_multiple_input = '';
 							foreach($value as $val)
@@ -166,21 +152,19 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				else
 					$error[] = _('Please enter valid Numeric data.');
 			}
-			//modif Francois: Moodle integrator
-			//username, password, (email) required
-			elseif ($_REQUEST['moodle_create_student'] && (empty($_REQUEST['students']['USERNAME']) || empty($_REQUEST['students']['CUSTOM_'.ROSARIO_STUDENTS_EMAIL_FIELD_ID])))
-			{
-				$error[] = _('Please fill in the required fields');
-			}
-			
+
+			//hook
+			do_action('Students/Student.php|create_student_checks');
+
 			if (!isset($error))
 			{
-				do
-				{
-					$student_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STUDENTS_SEQ').' AS STUDENT_ID '.FROM_DUAL));
-					$student_id = $student_id[1]['STUDENT_ID'];
-				}
-				while(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))));
+				if (!isset($student_id))
+					do
+					{
+						$student_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STUDENTS_SEQ').' AS STUDENT_ID '.FROM_DUAL));
+						$student_id = $student_id[1]['STUDENT_ID'];
+					}
+					while(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))));
 
 				$sql = "INSERT INTO STUDENTS ";
 				$fields = 'STUDENT_ID,';
@@ -204,7 +188,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						$fields .= $column.',';
 						if(!is_array($value))
 						{
-	//modif Francois: add password encryption
+							//modif Francois: add password encryption
 							if ($column!=='PASSWORD')
 								$values .= "'".$value."',";
 							else
@@ -229,9 +213,6 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 				DBQuery($sql);
 
-				//hook
-				do_action('Students/Student.php|create_student');
-
 				// create default food service account for this student
 				$sql = "INSERT INTO FOOD_SERVICE_ACCOUNTS (ACCOUNT_ID,BALANCE,TRANSACTION_ID) values('".$student_id."','0.00','0')";
 				DBQuery($sql);
@@ -242,6 +223,9 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 
 				$_SESSION['student_id'] = $_REQUEST['student_id'] = $student_id;
+
+				//hook
+				do_action('Students/Student.php|create_student');
 			
 			}
 		}
@@ -254,7 +238,6 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			do_action('Students/Student.php|upload_student_photo');
 		}
 
-		$_REQUEST['moodle_create_student'] = false;
 	}
 
 	if($_REQUEST['include']!= 'General_Info' && $_REQUEST['include']!= 'Address' && $_REQUEST['include']!= 'Medical' && $_REQUEST['include']!= 'Other_Info')
@@ -276,7 +259,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 if($_REQUEST['student_id']=='new')
 {
-	$_ROSARIO['HeaderIcon'] = 'Students.png';
+	$_ROSARIO['HeaderIcon'] = 'modules/Students/icon.png';
 	DrawHeader(_('Add a Student'));
 }
 else
@@ -321,21 +304,11 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 
 		if($_REQUEST['student_id']!='new')
 			$name = $student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].' - '.$student['STUDENT_ID'];
+
 		DrawHeader($name,SubmitButton(_('Save')));
-		
-//modif Francois: Moodle integrator
-		//propose to create student in Moodle: if 1) this is a creation, 2) this is an already created student but not in Moodle yet
-		
-		$old_student_in_moodle = false;
-		if (MOODLE_INTEGRATOR && AllowEdit())
-		{
-			//2) verifiy if the student is in Moodle:
-			if (!empty($student['STUDENT_ID']))
-				$old_student_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$student['STUDENT_ID']."' AND \"column\"='student_id'"));
-			
-			if ($_REQUEST['student_id']=='new' || !$old_student_in_moodle)
-				DrawHeader('<label>'.CheckBoxOnclick('moodle_create_student').'&nbsp;'._('Create Student in Moodle').'</label>');
-		}
+
+		//hook
+		do_action('Students/Student.php|header');
 
 		foreach($categories_RET as $category)
 		{
