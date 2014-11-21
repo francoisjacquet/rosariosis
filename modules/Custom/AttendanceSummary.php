@@ -70,14 +70,14 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			echo '<TR><TD colspan="3"><span class="sizep1"><B>'._('Attendance').'</B></span><TABLE style="width:98%; border:solid 1px; margin:0 auto;" class="cellpadding-0 cellspacing-0">';
 
-			echo '<TR class="center"><TD colspan="32"></TD><TD colspan="3"><B>'._('MTD').'</B></TD></TR>';
+			echo '<TR class="center"><TD colspan="32"></TD><TD colspan="2"><B>'._('MTD').'</B></TD></TR>';
             /* TRANSLATORS: Abreviation for month */
 			echo '<TR class="center"><TD><B>'.mb_substr(_('Month'),0,3).'</B></TD>';
 			for($day=1; $day<=31; $day++)
 				echo '<TD><B>'.($day<10?'&nbsp;':'').$day.'</B></TD>';
-            /* TRANSLATORS: Abreviations for Absences, Tardy and Position */
-			echo '<TD><B>'._('Abs').'</B><TD><B>'._('Tdy').'</B><TD><B>'._('Pos').'</B></TD></TR>';
-			$abs_tot = $tdy_tot = $pos_tot = 0;
+            /* TRANSLATORS: Abreviations for Absences and Possible */
+			echo '<TD><B>'._('Abs').'</B></TD><TD><B>'._('Pos').'</B></TD></TR>';
+			$abs_tot = $pos_tot = 0;
 
 			$FY_dates = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 			$first_month = explode('-', $FY_dates[1]['START_DATE']);
@@ -96,7 +96,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if($calendar_RET[$month] || $attendance_RET[$month])
 				{
 					echo '<TR><TD>'.mb_substr($months[$month],0,3).'</TD>';
-					$abs = $tdy = $pos = 0;
+					$abs = $pos = 0;
 					for($day=1; $day<=31; $day++)
 					{
 						if($calendar_RET[$month][$day])
@@ -107,7 +107,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 								$attendance = $attendance_RET[$month][$day][1];
 								echo '<TD style="text-align:center;">'.$attendance['STATE_CODE'].'</TD>';
 								$abs += ($attendance['STATE_CODE']=='A'?$calendar['POS']:($attendance['STATE_CODE']=='H'?$calendar['POS']/2:0));
-								$tdy += ($attendance['STATE_CODE']=='T'||$attendance['SHORT_NAME']=='TD'?1:0);
 							}
 							else
 								echo '<TD style="text-align:center; background-color:#DDFFDD;">&nbsp;</TD>';
@@ -124,9 +123,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 								echo '<TD class="center" style="background-color:#FFDDDD;">&nbsp;</TD>';
 						}
 					}
-					echo '<TD style="text-align:right">'.number_format($abs,1).'</TD><TD style="text-align:right">'.number_format($tdy,0).'</TD><TD style="text-align:right">'.number_format($pos,1).'</TD></TR>';
+					echo '<TD style="text-align:right">'.number_format($abs,1).'</TD><TD style="text-align:right">'.number_format($pos,1).'</TD></TR>';
 					$abs_tot += $abs;
-					$tdy_tot += $tdy;
 					$pos_tot += $pos;
 				}
 
@@ -137,7 +135,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 			}
 			echo '<TR><TD colspan="28"></TD><TD colspan="4" style="text-align:right;"><B>'._('YTD Totals').':</B></TD>';
-			echo '<TD style="text-align:right">'.number_format($abs_tot,1).'</TD><TD style="text-align:right">'.number_format($tdy_tot,0).'</TD><TD style="text-align:right">'.number_format($pos_tot,1).'</TD></TR>';
+			echo '<TD style="text-align:right">'.number_format($abs_tot,1).'</TD><TD style="text-align:right">'.number_format($pos_tot,1).'</TD></TR>';
 
 			echo '</TABLE></TD></TR>';
 
