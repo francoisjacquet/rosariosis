@@ -301,8 +301,10 @@ if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php'
 		DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".UserStaffID()."'");
 		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'");
 		DBQuery("DELETE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'");
-//modif Francois: Moodle integrator
-		$moodleError = Moodle($_REQUEST['modname'], 'core_user_delete_users');
+
+		//hook
+		do_action('Users/User.php|delete_user');
+
 		unset($_SESSION['staff_id']);
 		unset($_REQUEST['staff_id']);
 		unset($_REQUEST['modfunc']);

@@ -33,6 +33,8 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 
 	add_action('Users/User.php|upload_user_photo', 'MoodleTriggered', 1);
 
+	add_action('Users/User.php|delete_user', 'MoodleTriggered', 1);
+
 }
 
 
@@ -170,6 +172,11 @@ function MoodleTriggered($hook_tag)
 
 		case 'Users/User.php|upload_user_photo':
 			Moodle($modname, 'core_files_upload');
+
+		break;
+
+		case 'Users/User.php|delete_user':
+			Moodle($modname, 'core_user_delete_users');
 
 		break;
 

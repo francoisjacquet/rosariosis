@@ -20,6 +20,7 @@ $RosarioHooks = array(
 	'Users/User.php|update_user_checks' => array(),
 	'Users/User.php|update_user' => array(),
 	'Users/User.php|upload_user_photo' => array(),
+	'Users/User.php|delete_user' => array(),
 
 );
 
