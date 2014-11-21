@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 {
 	if(count($_REQUEST['st_arr']))
 	{
@@ -30,7 +30,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$handle = PDFStart();
 		foreach($RET as $student)
 		{
-			$_SESSION['student_id'] = $student['STUDENT_ID'];
+			SetUserStudentID($student['STUDENT_ID']);
+
 			unset($_ROSARIO['DrawHeader']);
 
 			if($_REQUEST['mailing_labels']=='Y')
@@ -171,7 +172,7 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = '<INPUT type="submit" value="'._('Print Info for Selected Students').'">';
+		$extra['header_right'] = SubmitButton(_('Print Info for Selected Students'));
 
 		$extra['extra_header_left'] = '<TABLE>';
 		Widgets('mailing_labels');

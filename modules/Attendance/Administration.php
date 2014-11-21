@@ -202,7 +202,7 @@ if(count($categories_RET))
 if(isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 {
 	if(UserStudentID() != $_REQUEST['student_id'])
-		$_SESSION['student_id'] = $_REQUEST['student_id'];
+		SetUserStudentID($_REQUEST['student_id']);
 
 	$functions = array('ATTENDANCE_CODE'=>'_makeCodePulldown','ATTENDANCE_TEACHER_CODE'=>'_makeCode','ATTENDANCE_REASON'=>'_makeReasonInput','COMMENT'=>'_makeReason');
 	//modif Francois: days numbered

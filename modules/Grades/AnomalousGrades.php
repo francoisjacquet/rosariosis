@@ -15,7 +15,8 @@ if($_REQUEST['student_id'])
 {
 	if($_REQUEST['student_id']!=UserStudentID())
 	{
-		$_SESSION['student_id'] = $_REQUEST['student_id'];
+		SetUserStudentID($_REQUEST['student_id']);
+
 		if($_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
 	}
@@ -25,6 +26,7 @@ else
 	if(UserStudentID())
 	{
 		unset($_SESSION['student_id']);
+
 		if($_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
 	}
@@ -37,7 +39,7 @@ if($_REQUEST['period'])
 		if($_REQUEST['student_id'])
 		{
 			if($_REQUEST['student_id']!=UserStudentID())
-				$_SESSION['student_id'] = $_REQUEST['student_id'];
+				SetUserStudentID($_REQUEST['student_id']);
 		}
 		else
 			unset($_SESSION['student_id']);
@@ -48,17 +50,22 @@ if(UserStudentID())
 	$extra['WHERE'] = " AND s.STUDENT_ID='".UserStudentID()."'";
 
 $extra['SELECT'] .= ",gg.POINTS,gg.COMMENT,ga.ASSIGNMENT_TYPE_ID,ga.ASSIGNMENT_ID,gt.TITLE AS TYPE_TITLE,ga.TITLE,ga.POINTS AS TOTAL_POINTS,'' AS LETTER_GRADE";
+
 $extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
 $extra['WHERE'] .= ' AND (';
+
 // missing
 if($_REQUEST['missing'])
-$extra['WHERE'] .= 'gg.POINTS IS NULL AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)) OR ';
+	$extra['WHERE'] .= 'gg.POINTS IS NULL AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)) OR ';
+
 // excused or negative
 if($_REQUEST['negative'])
-$extra['WHERE'] .= 'gg.POINTS<0 OR ';
+	$extra['WHERE'] .= 'gg.POINTS<0 OR ';
+
 // greater than max percent or extra credit
 if($_REQUEST['max_allowed'])
-$extra['WHERE'] .= 'gg.POINTS>ga.POINTS*'.$max_allowed.' OR ';
+	$extra['WHERE'] .= 'gg.POINTS>ga.POINTS*'.$max_allowed.' OR ';
+
 $extra['WHERE'] .= 'FALSE) AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID';
 $extra['WHERE'] .=" AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))";
 
@@ -69,8 +76,10 @@ if($_REQUEST['include_all_courses']=='Y')
 }
 
 $extra['functions'] = array('POINTS'=>'_makePoints');
+
 if(!UserStudentID())
 	$extra['group'] = array('STUDENT_ID');
+
 $students_RET = GetStuList($extra);
 //echo '<pre>'; var_dump($students_RET); echo '</pre>';
 
@@ -83,7 +92,7 @@ if(UserStudentID())
 else
 {
 	$columns = array('FULL_NAME'=>_('Name'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'POINTS'=>_('Problem'));
-	$link = array('FULL_NAME'=>array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&include_all_courses='.$_REQUEST['include_all_courses'].'&include_ianctive='.$_REQUEST['include_inactive'].'&missing='.$_REQUEST['missing'].'&negative='.$_REQUEST['negative'].'&max_allowed='.$_REQUEST['max_allowed'],'variables'=>array('student_id'=>'STUDENT_ID')));
+	$link = array('FULL_NAME'=>array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&include_all_courses='.$_REQUEST['include_all_courses'].'&include_inactive='.$_REQUEST['include_inactive'].'&missing='.$_REQUEST['missing'].'&negative='.$_REQUEST['negative'].'&max_allowed='.$_REQUEST['max_allowed'],'variables'=>array('student_id'=>'STUDENT_ID')));
 	if($_REQUEST['include_all_courses']=='Y')
 		$link['FULL_NAME']['variables']['period'] = 'COURSE_PERIOD_ID';
 	$group = array('STUDENT_ID');
@@ -106,7 +115,7 @@ if(AllowUse($modname))
 
 //modif Francois: add translation
 if(UserStudentID())
-	ListOutput($students_RET,$columns,'Anomalous Grade','Anomalous Grades',$group,array('center'=>false,'save'=>false,'search'=>false));
+	ListOutput($students_RET,$columns,'Anomalous Grade','Anomalous Grades',$link,$group,array('center'=>false,'save'=>false,'search'=>false));
 else
 	ListOutput($students_RET,$columns,'Student with Anomalous Grades','Students with Anomalous Grades',$link,$group,array('center'=>false,'save'=>false,'search'=>false));
 

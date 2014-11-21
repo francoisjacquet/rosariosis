@@ -28,7 +28,8 @@ if($_REQUEST['student_id'])
 {
 	if($_REQUEST['student_id']!=UserStudentID())
 	{
-		$_SESSION['student_id'] = $_REQUEST['student_id'];
+		SetUserStudentID($_REQUEST['student_id']);
+
 		//modif Francois: bugfix SQL bug course period
 		/*if($_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
@@ -70,7 +71,7 @@ if($_REQUEST['period'])
 		if($_REQUEST['student_id'])
 		{
 			if($_REQUEST['student_id']!=UserStudentID())
-				$_SESSION['student_id'] = $_REQUEST['student_id'];
+				SetUserStudentID($_REQUEST['student_id']);
 		}
 		else
 			unset($_SESSION['student_id']);

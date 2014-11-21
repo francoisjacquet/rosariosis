@@ -10,6 +10,8 @@ if(!UserStudentID())
 	AND se.STUDENT_ID=sju.STUDENT_ID 
 	AND (('".DBDate()."' BETWEEN se.START_DATE AND se.END_DATE OR se.END_DATE IS NULL) 
 	AND '".DBDate()."'>=se.START_DATE)"));
+
+	//note: do not use SetUserStudentID() here as this is safe
 	$_SESSION['student_id'] = $RET[1]['STUDENT_ID'];
 }
 

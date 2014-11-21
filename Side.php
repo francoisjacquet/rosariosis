@@ -39,7 +39,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='update' && is_array($_P
 	{
 		if(UserStudentID()!=$_REQUEST['student_id'])
 			unset($_SESSION['UserMP']);
-		$_SESSION['student_id'] = $_REQUEST['student_id'];
+
+		SetUserStudentID($_REQUEST['student_id']);
 	}
 	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'])).'"; body_link.target = "body"; ajaxLink(body_link);';
 }
@@ -48,7 +49,7 @@ if(!UserSyear())
 	$_SESSION['UserSyear'] = Config('SYEAR');
 
 if(!UserStudentID() && User('PROFILE')=='student')
-	$_SESSION['student_id'] = $_SESSION['STUDENT_ID'];
+	SetUserStudentID($_SESSION['STUDENT_ID']);
 
 if(!UserStaffID() && User('PROFILE')=='parent')
 	$_SESSION['staff_id'] = $_SESSION['STAFF_ID'];
@@ -136,6 +137,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 				AND ('".DBDate()."'>=se.START_DATE AND ('".DBDate()."'<=se.END_DATE OR se.END_DATE IS NULL))"));
 
 				if(!UserStudentID())
+					//note: do not use SetUserStudentID() here as this is safe
 					$_SESSION['student_id'] = $RET[1]['STUDENT_ID'];
 				?>
 

@@ -55,7 +55,8 @@ else
 		
 					echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$address['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
 					
-					$_SESSION['student_id'] = $address['STUDENT_ID'];
+					SetUserStudentID($address['STUDENT_ID']);
+
 					include('modules/Student_Billing/StudentFees.php');
 					include('modules/Student_Billing/StudentPayments.php');
 					echo '<div style="page-break-after: always;"></div>';				
@@ -63,7 +64,8 @@ else
 			}
 			else
 			{
-				$_SESSION['student_id'] = $student['STUDENT_ID'];
+				SetUserStudentID($student['STUDENT_ID']);
+
 				unset($_ROSARIO['DrawHeader']);
 				DrawHeader(_('Statement'));
 				DrawHeader($student['FULL_NAME'],$student['STUDENT_ID']);
@@ -75,8 +77,10 @@ else
 				echo '<div style="page-break-after: always;"></div>';
 			}
 		}
+
 		//unset($_SESSION['student_id']);
-		$_SESSION['student_id'] = $SESSION_student_id_save;
+		SetUserStudentID($SESSION_student_id_save);
+
 		PDFStop($handle);
 	}
 	else

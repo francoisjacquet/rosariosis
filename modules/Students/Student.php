@@ -222,7 +222,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				DBQuery($sql);
 
 
-				$_SESSION['student_id'] = $_REQUEST['student_id'] = $student_id;
+				SetUserStudentID($_REQUEST['student_id'] = $student_id);
 
 				//hook
 				do_action('Students/Student.php|create_student');
