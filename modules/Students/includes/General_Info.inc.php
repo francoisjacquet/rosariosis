@@ -90,7 +90,21 @@ else
 if($student_id=='new' && !VerifyDate($_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE']))
 	unset($student['GRADE_ID']);
 
-echo SelectInput($student['GRADE_ID'],'values[STUDENT_ENROLLMENT]['.$student_id.'][GRADE_ID]',(!$student['GRADE_ID']?'<span class="legend-red">':'')._('Grade Level').(!$student['GRADE_ID']?'</span>':''),$options,false,'required');
+//get Student Enrollment ID
+if ($student_id!='new')
+{
+	$RET = DBGet(DBQuery("SELECT e.ID FROM STUDENT_ENROLLMENT e WHERE e.STUDENT_ID='".UserStudentID()."' AND e.SYEAR='".UserSyear()."' ORDER BY START_DATE DESC,END_DATE DESC LIMIT 1"));
+
+	$student_enrollment_id = $RET[1]['ID'];
+
+	//if Grade Level modified but not already saved (saved later in Enrollment.inc.php)
+	if(isset($_REQUEST['values']['STUDENT_ENROLLMENT'][$student_enrollment_id]['GRADE_ID']))
+		$student['GRADE_ID'] = $_REQUEST['values']['STUDENT_ENROLLMENT'][$student_enrollment_id]['GRADE_ID'];
+}
+else
+	$student_enrollment_id = 'new';
+
+echo SelectInput($student['GRADE_ID'],'values[STUDENT_ENROLLMENT]['.$student_enrollment_id.'][GRADE_ID]',(!$student['GRADE_ID']?'<span class="legend-red">':'')._('Grade Level').(!$student['GRADE_ID']?'</span>':''),$options,false,'required');
 echo '</TD>';
 
 if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool())
