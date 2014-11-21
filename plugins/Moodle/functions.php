@@ -44,11 +44,7 @@ function MoodleTriggered($hook_tag)
 	if (!MOODLE_URL || !MOODLE_TOKEN || !MOODLE_PARENT_ROLE_ID || !ROSARIO_STUDENTS_EMAIL_FIELD_ID)
 		return false;
 
-	$exploded = explode('|', $hook_tag);
-	$modname = $exploded[0];
-	$action = $exploded[1];
-
-	$moodle_functionname = $modname = '';
+	list($modname, $action) = explode('|', $hook_tag);
 
 	switch($hook_tag)
 	{
