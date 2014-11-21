@@ -89,9 +89,15 @@ function SetUserStaffID($staff_id)
 				$isHack = true;
 			
 		break;
-		
+
+		case 'admin':
+
+		break;
+
 		case 'student':
+		default:
 			$isHack = true;
+
 		break;
 	}
 	
@@ -166,6 +172,15 @@ function SetUserStudentID($student_id)
 
 			if (!in_array($student_id, $related_students))
 				$isHack = true;
+		break;
+
+		case 'admin':
+
+		break;
+
+		default:
+			$isHack = true;
+
 		break;
 	}
 	
