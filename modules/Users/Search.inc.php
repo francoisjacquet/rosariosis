@@ -188,7 +188,8 @@ else
 		}
 		if(!is_array($staff_RET[1]['STAFF_ID']))
 		{
-			$_SESSION['staff_id'] = $staff_RET[1]['STAFF_ID'];
+			SetUserStaffID($staff_RET[1]['STAFF_ID']);
+
 			unset($_REQUEST['search_modfunc']);
 		}
 		if($_REQUEST['modname']!=$_REQUEST['next_modname'])

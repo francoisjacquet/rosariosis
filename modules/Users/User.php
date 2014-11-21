@@ -221,7 +221,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 				DBQuery($sql);
 				
-				$_SESSION['staff_id'] = $_REQUEST['staff_id'] = $staff_id;
+				SetUserStaffID($_REQUEST['staff_id'] = $staff_id);
 
 				//hook
 				do_action('Users/User.php|create_user');

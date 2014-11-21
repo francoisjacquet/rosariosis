@@ -50,7 +50,7 @@ function Search($type,$extra=null)
 			{
 				if($_REQUEST['staff_id']!='new')
 				{
-					$_SESSION['staff_id'] = $_REQUEST['staff_id'];
+					SetUserStaffID($_REQUEST['staff_id']);
 					
 					if(!empty($_REQUEST['school_id']) && $_REQUEST['school_id']!=UserSchool())
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];

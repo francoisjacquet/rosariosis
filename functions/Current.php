@@ -69,6 +69,24 @@ function SetUserStaffID($staff_id)
 		break;
 		
 		case 'teacher':
+			//get teacher's related parents, include parents of inactive students
+			$RET = DBGet(DBQuery("SELECT s.STAFF_ID
+				FROM STAFF s
+				WHERE s.SYEAR='".UserSyear()."' 
+				AND (s.SCHOOLS LIKE '%,".UserSchool().",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='') 
+				AND (s.STAFF_ID='".User('STAFF_ID')."' OR s.PROFILE='parent' AND exists(
+					SELECT '' 
+					FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,SCHEDULE _ss 
+					WHERE _sju.STAFF_ID=s.STAFF_ID 
+					AND _sem.STUDENT_ID=_sju.STUDENT_ID 
+					AND _sem.SYEAR='".UserSyear()."' 
+					AND _ss.STUDENT_ID=_sem.STUDENT_ID 
+					AND _ss.COURSE_PERIOD_ID='".UserCoursePeriod()."'
+				))"), array(), array('STAFF_ID'));
+			$related_parents = array_keys($RET);
+
+			if (!in_array($staff_id, $related_parents))
+				$isHack = true;
 			
 		break;
 		

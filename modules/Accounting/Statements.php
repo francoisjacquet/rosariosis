@@ -26,7 +26,8 @@ else
 		$handle = PDFStart();
 		foreach($RET as $staff)
 		{
-				$_SESSION['staff_id'] = $staff['STAFF_ID'];
+				SetUserStaffID($staff['STAFF_ID']);
+
 				unset($_ROSARIO['DrawHeader']);
 				DrawHeader(_('Statement'));
 				DrawHeader($staff['FULL_NAME'],$staff['STAFF_ID']);
@@ -37,7 +38,8 @@ else
 				include('modules/Accounting/StaffPayments.php');
 				echo '<div style="page-break-after: always;"></div>';
 		}
-		$_SESSION['staff_id'] = $SESSION_staff_id_save;
+		SetUserStaffID($SESSION_staff_id_save);
+
 		PDFStop($handle);
 	}
 	else

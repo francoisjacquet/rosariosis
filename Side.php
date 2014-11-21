@@ -52,7 +52,7 @@ if(!UserStudentID() && User('PROFILE')=='student')
 	SetUserStudentID($_SESSION['STUDENT_ID']);
 
 if(!UserStaffID() && User('PROFILE')=='parent')
-	$_SESSION['staff_id'] = $_SESSION['STAFF_ID'];
+	SetUserStaffID($_SESSION['STAFF_ID']);
 
 if(!UserSchool())
 {
