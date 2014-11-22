@@ -110,7 +110,7 @@ function makeTextInput($value,$name)
         $id = 'new';
         
 //    if($name=='COURSE_TITLE')
-//        $extra = 'size=25 maxlength=25';
+//        $extra = 'size=20 maxlength=25';
 //    elseif($name=='GRADE_PERCENT')
 //        $extra = 'size=6 maxlength=6';
 //    elseif($name=='GRADE_LETTER' || $name=='GP_VALUE' || $name=='UNWEIGHTED_GP_VALUE')
@@ -118,7 +118,7 @@ function makeTextInput($value,$name)
        
 //    else
     if($name=='NAME')
-	$extra = 'size=25 maxlength=25';
+	$extra = 'size=20 maxlength=25';
     else
     	$extra = 'size=10 maxlength=10';
 
