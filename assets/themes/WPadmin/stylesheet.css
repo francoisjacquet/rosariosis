@@ -580,7 +580,7 @@ div.st{
 	}
 	input[type=submit],input[type=reset],input[type=button]{
 		margin:0 4px;
-		max-width:120px
+		max-width:100%
 	}
 	/*stackable tables*/
 	tr.st > td{
