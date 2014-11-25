@@ -162,13 +162,8 @@ if(empty($_REQUEST['modfunc']))
 	foreach($RosarioModules as $module_title => $activated)
 	{
 		$THIS_RET = array();
-		$THIS_RET['DELETE'] =  _makeDelete($module_title,$activated);
-
-		if(!in_array($module_title, $RosarioCoreModules))
-			$THIS_RET['TITLE'] = dgettext($module_title, str_replace('_', ' ', $module_title));
-		else
-			$THIS_RET['TITLE'] = _(str_replace('_', ' ', $module_title));
-
+		$THIS_RET['DELETE'] = _makeDelete($module_title,$activated);
+		$THIS_RET['TITLE'] = _makeReadMe($module_title,$activated);
 		$THIS_RET['ACTIVATED'] = _makeActivated($activated);
 		
 		$modules_RET[] = $THIS_RET;
@@ -184,8 +179,8 @@ if(empty($_REQUEST['modfunc']))
 		if (!in_array($module_title, $directories_bypass_complete) && is_dir('modules/'.$module_title))
 		{
 			$THIS_RET = array();
-			$THIS_RET['DELETE'] =  _makeDelete($module_title);
-			$THIS_RET['TITLE'] = str_replace('_', ' ', $module_title);
+			$THIS_RET['DELETE'] = _makeDelete($module_title);
+			$THIS_RET['TITLE'] = _makeReadMe($module_title);
 			$THIS_RET['ACTIVATED'] = _makeActivated(false);
 		
 			$modules_RET[] = $THIS_RET;
@@ -239,6 +234,58 @@ function _makeDelete($module_title,$activated=null)
 	return $return;
 }
 
+function _makeReadMe($module_title,$activated=null)
+{
+	global $RosarioCoreModules;
+
+	//format & translate module title
+	if(!in_array($module_title, $RosarioCoreModules) && $activated)
+		$module_title_echo = dgettext($module_title, str_replace('_', ' ', $module_title));
+	else
+		$module_title_echo = _(str_replace('_', ' ', $module_title));
+
+	//if README file, display in Colorbox
+	if (file_exists('modules/'.$module_title.'/README'))
+	{
+		//get README content
+		$readme_content = file_get_contents('modules/'.$module_title.'/README');
+		
+		//format content
+		$readme_content = nl2br($readme_content);
+
+		//transform URL to links
+		preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([-\w/_\.]*(\?\S+)?)?)?)@',$readme_content,$matches);
+		if($matches){
+			foreach($matches[0] as $url){
+				//truncate links > 100 chars
+				$truncated_link = $url;
+				if (mb_strlen($truncated_link) > 100)
+				{
+					$separator = '/.../';
+					$separatorlength = mb_strlen($separator) ;
+					$maxlength = 100 - $separatorlength;
+					$start = $maxlength / 2 ;
+					$trunc =  mb_strlen($truncated_link) - $maxlength;
+					$truncated_link = substr_replace($truncated_link, $separator, $start, $trunc);
+				}
+
+				$replace = '<a href="'.$url.'" target="_blank">'.$truncated_link.'</a>';
+				$readme_content = str_replace($url,$replace,$readme_content);
+			}
+		}
+		
+		$return .= includeOnceColorBox();
+		
+		$return .= '<div style="display:none;"><div id="README_'.$module_title.'" style="background-color:#fff; padding:5px;">'.$readme_content.'</div></div>';
+
+		$return .= '<a class="colorboxinline" href="#README_'.$module_title.'">'.$module_title_echo.'</a>';
+	}
+	else
+		$return = $module_title_echo;
+
+	return $return;
+}
+
 function _saveRosarioModules()
 {
 	global $RosarioModules;
@@ -271,4 +318,5 @@ function _delTree($dir) {
 	}
 	return rmdir($dir);
 }
+
 ?>
