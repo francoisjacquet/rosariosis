@@ -489,8 +489,19 @@ function _formatContent($value,$column)
 	preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([-\w/_\.]*(\?\S+)?)?)?)@',$value_br_url,$matches);
 	if($matches){
 		foreach($matches[0] as $url){
-			$text = (mb_strlen($url) > 50 ? mb_substr($url, 0, 50).'...' : $url); //cut URL text if URL > 50 chars
-			$replace = '<a href="'.$url.'" target="_blank">'.$text.'</a>';
+			//truncate links > 100 chars
+			$truncated_link = $url;
+			if (mb_strlen($truncated_link) > 100)
+			{
+				$separator = '/.../';
+				$separatorlength = mb_strlen($separator) ;
+				$maxlength = 100 - $separatorlength;
+				$start = $maxlength / 2 ;
+				$trunc =  mb_strlen($truncated_link) - $maxlength;
+				$truncated_link = substr_replace($truncated_link, $separator, $start, $trunc);
+			}
+
+			$replace = '<a href="'.$url.'" target="_blank">'.$truncated_link.'</a>';
 			$value_br_url = str_replace($url,$replace,$value_br_url);
 		}
 	}
