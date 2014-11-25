@@ -153,14 +153,14 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			{
 				//$_REQUEST['LO_search'] = $search_term = str_replace('\\\"','"',$_REQUEST['LO_search']);
 				//$_REQUEST['LO_search'] = $search_term = preg_replace('/[^a-zA-Z0-9 _"]*/','',mb_strtolower($search_term));
-				$search_term = str_replace("''", "'", $_REQUEST['LO_search']);
+				$search_term = mb_strtolower(str_replace("''", "'", $_REQUEST['LO_search']));
 				
 				if(mb_substr($search_term,0,1)!='"' && mb_substr($search_term,-1,1)!='"')
 				{
 					$search_term = str_replace('"','',$search_term);
 					while($space_pos = mb_strpos($search_term,' '))
 					{
-						$terms[mb_strtolower(mb_substr($search_term,0,$space_pos))] = 1;
+						$terms[mb_substr($search_term,0,$space_pos)] = 1;
 						$search_term = mb_substr($search_term,($space_pos+1));
 					}
 					$terms[trim($search_term)] = 1;
@@ -171,24 +171,27 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$terms[trim($search_term)] = 1;
 				}
 
-                /* TRANSLATORS: List of words ignored during search operations */
+				/* TRANSLATORS: List of words ignored during search operations */
 				$ignored_words = explode(',',_('of, the, a, an, in'));
-                foreach ($ignored_words as $word)
-				    unset($terms[trim($word)]);
+
+				foreach ($ignored_words as $word)
+					unset($terms[trim($word)]);
 
 				foreach($result as $key=>$value)
 				{
 					$values[$key] = 0;
 					foreach($value as $name=>$val)
 					{
+						//modif Francois: better list searching by isolating the values
 						//$val = preg_replace('/[^a-zA-Z0-9 _]+/','',mb_strtolower($val));
+						$val = mb_strtolower(strip_tags(preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $val)));
+
 						//if(mb_strtolower($_REQUEST['LO_search'])==$val)
 						if($search_term==$val)
 							$values[$key] += 25;
+
 						foreach($terms as $term=>$one)
 						{
-//modif Francois: remove ereg
-//							if(ereg($term,$val))
 							if(mb_strpos($val,$term)!==FALSE)
 								$values[$key] += 3;
 						}
