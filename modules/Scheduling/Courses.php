@@ -76,7 +76,7 @@ if($_REQUEST['course_modfunc']=='search')
 				$link['TITLE']['link'] .= '&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'];
 		}
 
-		if($_REQUEST['modname']=='Scheduling/Schedule.php' || $_REQUEST['modname']=='Scheduling/MassSchedule.php')
+		if($_REQUEST['modname']=='Scheduling/Schedule.php')
 			$columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
 
 		echo '</div><div class="st">';
@@ -988,7 +988,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id=new';
 			}
 
-			if($_REQUEST['modname']=='Scheduling/Schedule.php' || $_REQUEST['modname']=='Scheduling/MassSchedule.php')
+			if($_REQUEST['modname']=='Scheduling/Schedule.php')
 				$columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
 
 			echo '<div class="st">';
