@@ -134,5 +134,6 @@ Install instructions for Ubuntu 12.04.4 64bits server:
 Additional Configuration
 ------------------------
 
-In addition to the main config.inc.php file there are optional module configuration. 
-See the School Configuration in the School Setup module for details.
+RosarioSIS comes with an empty calendar, so the first thing you should do is create a calendar or recreate the Main calendar with school days (in green).
+
+See the School Configuration program in the School Setup module for optional modules configuration.
