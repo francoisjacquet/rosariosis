@@ -253,6 +253,7 @@ if($_REQUEST['modfunc']=='choose_course')
 		FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
 		AND cp.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
+
 		if($_REQUEST['course_marking_period_id'])
 		{
 			$mp_RET[1]['MARKING_PERIOD_ID'] = $_REQUEST['course_marking_period_id'];
@@ -303,18 +304,11 @@ if($_REQUEST['modfunc']=='choose_course')
 		if($days_conflict)
 			$warnings[] = _('There is already a course scheduled in that period.');
 
-		if(!$warnings)
+		if(empty($warnings) || Prompt('Confirm',_('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
 		{
 			DBQuery("INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".UserStudentID()."','".$date."','".$_REQUEST['course_id']."','".$_REQUEST['course_period_id']."','".$mp_RET[1]['MP']."','".$mp_RET[1]['MARKING_PERIOD_ID']."')");
+
 			echo '<script>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&time='.time().'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
-		}
-		elseif($warnings)
-		{
-			if(Prompt('Confirm',_('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
-			{
-				DBQuery("INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".UserStudentID()."','".$date."','".$_REQUEST['course_id']."','".$_REQUEST['course_period_id']."','".$mp_RET[1]['MP']."','".$mp_RET[1]['MARKING_PERIOD_ID']."')");
-				echo '<script>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&time='.time().'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
-			}
 		}
 	}
 }
