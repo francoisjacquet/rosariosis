@@ -310,29 +310,13 @@ if($_REQUEST['modfunc']=='choose_course')
 		}
 		elseif($warnings)
 		{
-			if(_Prompt(_('Confirm'),_('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
+			if(Prompt('Confirm',_('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
 			{
 				DBQuery("INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".UserStudentID()."','".$date."','".$_REQUEST['course_id']."','".$_REQUEST['course_period_id']."','".$mp_RET[1]['MP']."','".$mp_RET[1]['MARKING_PERIOD_ID']."')");
 				echo '<script>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&time='.time().'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
 			}
 		}
 	}
-}
-
-function _Prompt($title='Confirm',$question='',$message='',$pdf='')
-{
-	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok'),$pdf==true?array('_ROSARIO_PDF'=>true):array());
-
-	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
-	{
-		echo '<BR />';
-		PopTable('header',($title=='Confirm'?_('Confirm'):$title));
-		echo '<span class="center"><h4>'.$question.'</h4></span><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST">'.$message.'<BR /><BR /><span class="center"><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onclick="javascript:this.form.action=\''.str_replace(array('&_ROSARIO_PDF='.$_REQUEST['_ROSARIO_PDF'], '&course_period_id='.$_REQUEST['course_period_id']), '', $PHP_tmp_SELF).'\';ajaxPostForm(this.form,true);"></span></FORM>';
-		PopTable('footer');
-		return false;
-	}
-	else
-		return true;
 }
 
 function _makeLock($value,$column)
