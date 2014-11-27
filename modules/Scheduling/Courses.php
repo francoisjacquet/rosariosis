@@ -31,6 +31,10 @@ if($_REQUEST['course_modfunc']=='search')
 
 	if($_REQUEST['search_term'])
 	{
+		//modif Francois: add Available Seats column to every choose course popup
+		if($_REQUEST['modname']!=='Scheduling/Schedule.php')
+			$date = DBDate();
+
 		$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE (UPPER(TITLE) LIKE '%".mb_strtoupper($_REQUEST['search_term'])."%' OR UPPER(SHORT_NAME)='".mb_strtoupper($_REQUEST['search_term'])."') AND SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE"));
 
 		$courses_RET = DBGet(DBQuery("SELECT SUBJECT_ID,COURSE_ID,TITLE FROM COURSES WHERE (UPPER(TITLE) LIKE '%".mb_strtoupper($_REQUEST['search_term'])."%' OR UPPER(SHORT_NAME)='".mb_strtoupper($_REQUEST['search_term'])."') AND SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."' AND SCHOOL_ID='".UserSchool()."' ORDER BY TITLE"));
@@ -45,8 +49,8 @@ if($_REQUEST['course_modfunc']=='search')
 		($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." 
 		ORDER BY cp.SHORT_NAME,TITLE"));
 		
-		if($_REQUEST['modname']=='Scheduling/Schedule.php')
-			calcSeats1($periods_RET,$date);
+		//if($_REQUEST['modname']=='Scheduling/Schedule.php')
+		calcSeats1($periods_RET,$date);
 
 		$link = array();
 
@@ -76,8 +80,8 @@ if($_REQUEST['course_modfunc']=='search')
 				$link['TITLE']['link'] .= '&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'];
 		}
 
-		if($_REQUEST['modname']=='Scheduling/Schedule.php')
-			$columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
+		//if($_REQUEST['modname']=='Scheduling/Schedule.php')
+		$columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
 
 		echo '</div><div class="st">';
 		ListOutput($periods_RET,$columns,'Course Period','Course Periods',$link,array(),$LO_options);
@@ -948,6 +952,10 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 		if($_REQUEST['course_id'] && $_REQUEST['course_id']!='new')
 		{
+			//modif Francois: add Available Seats column to every choose course popup
+			if($_REQUEST['modname']!=='Scheduling/Schedule.php')
+				$date = DBDate();
+
 			//modif Francois: multiple school periods for a course period
 			//$periods_RET = DBGet(DBQuery("SELECT '".$_REQUEST['subject_id']."' AS SUBJECT_ID,COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS AS AVAILABLE_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' ".($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE"));
 			$periods_RET = DBGet(DBQuery("SELECT '".$_REQUEST['subject_id']."' AS SUBJECT_ID,COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS AS AVAILABLE_SEATS 
@@ -956,8 +964,8 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." 
 				ORDER BY SHORT_NAME,TITLE"));
 
-			if($_REQUEST['modname']=='Scheduling/Schedule.php')
-				calcSeats1($periods_RET,$date);
+			//if($_REQUEST['modname']=='Scheduling/Schedule.php')
+			calcSeats1($periods_RET,$date);
 
 			if(count($periods_RET))
 			{
@@ -988,8 +996,8 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id=new';
 			}
 
-			if($_REQUEST['modname']=='Scheduling/Schedule.php')
-				$columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
+			//if($_REQUEST['modname']=='Scheduling/Schedule.php')
+			$columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
 
 			echo '<div class="st">';
 			ListOutput($periods_RET,$columns,'Course Period','Course Periods',$link,array(),$LO_options);
