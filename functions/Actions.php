@@ -25,6 +25,9 @@ $RosarioHooks = array(
 	'Custom/CreateParents.php|create_user' => array(),
 	'Custom/CreateParents.php|user_assign_role' => array(),
 
+	'Grade/Assignments.php|create_assignment' => array(),
+	'Grade/Assignments.php|update_assignment' => array(),
+	'Grade/Assignments.php|delete_assignment' => array(),
 );
 
 /**

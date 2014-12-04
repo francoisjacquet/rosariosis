@@ -27,9 +27,16 @@ list of (
 )
 */
 		
+	//assignment due date must be set (due date = Moodle event time start)
+	if (empty($columns['DUE_DATE']))
+		return null;
+
 	$name = $columns['TITLE'];
+
 	$description = (!empty($columns['ASSIGNED_DATE']) ? _('Assigned Date').': '.ProperDate($columns['ASSIGNED_DATE']).'<br />' : '').$columns['DESCRIPTION'];
+
 	$format = 1;
+
 	//gather the Moodle course ID
 	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserCoursePeriod()."' AND \"column\"='course_period_id'"));
 	if (count($courseid))
@@ -40,7 +47,9 @@ list of (
 	{
 		return null;
 	}
+
 	$eventtype = 'course';
+
 	$timestart = strtotime($columns['DUE_DATE']);
 	
 	$events = array(
@@ -127,9 +136,13 @@ list of (
 	
 	//gather the Moodle Event ID
 	$assignment_id = $_REQUEST['assignment_id'];
+
+	//update
 	if (!empty($id))
-		$assignment_id = $id; //update
+		$assignment_id = $id;
+
 	$eventid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$assignment_id."' AND \"column\"='assignment_id'"));
+
 	if (count($eventid))
 	{
 		$eventid = (int)$eventid[1]['MOODLE_ID'];
@@ -157,6 +170,7 @@ function core_calendar_delete_calendar_events_response($response)
 	global $id, $columns, $_REQUEST;
 	
 	$assignment_id = $_REQUEST['assignment_id'];
+
 	if (!empty($id)) //update
 	{
 		$assignment_id = $id;
