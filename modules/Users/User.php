@@ -288,7 +288,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 		Search('staff_id',$extra);
 }
 else
-	DrawHeader('Create Account');
+	DrawHeader(_('Create Account'));
 	
 if(isset($error))
 	echo ErrorMessage($error);

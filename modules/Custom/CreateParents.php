@@ -60,9 +60,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	if(count($_REQUEST['student']))
 	{
 		$st_list = '\''.implode('\',\'',$_REQUEST['student']).'\'';
-		$extra['SELECT'] = ",lower($email_column) AS EMAIL";
-		$extra['SELECT'] .= ",(SELECT STAFF_ID FROM STAFF WHERE lower(EMAIL)=lower($email_column) AND PROFILE='parent' AND SYEAR=ssm.SYEAR) AS STAFF_ID";
-		$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
+
+		$extra['SELECT'] = ",lower(".$email_column.") AS EMAIL";
+		$extra['SELECT'] .= ",(SELECT STAFF_ID FROM STAFF WHERE lower(EMAIL)=lower(".$email_column.") AND PROFILE='parent' AND SYEAR=ssm.SYEAR) AS STAFF_ID";
+		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
 		$extra['group'] = array('EMAIL');
 		$extra['addr'] = true;
 		$extra['STUDENTS_JOIN_ADDRESS'] = "AND sam.RESIDENCE='Y'";
@@ -74,33 +75,45 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			unset($id);
 			$student_id = $students[1]['STUDENT_ID'];
+
 			if(!$students[1]['STAFF_ID'])
 			{
 				if($_REQUEST['contact'][$student_id])
 				{
+					//username = user part of the email
 					$tmp_username = $username = trim(mb_strpos($students[1]['EMAIL'],'@')!==false?mb_substr($students[1]['EMAIL'],0,mb_strpos($students[1]['EMAIL'],'@')):$students[1]['EMAIL']);
+
 					$i = 1;
+
+					//if username already exists
 					while(DBGet(DBQuery("SELECT STAFF_ID FROM STAFF WHERE upper(USERNAME)=upper('".$username."') AND SYEAR='".UserSyear()."'")))
 						$username = $tmp_username.$i++;
+
 					$user = DBGet(DBQuery("SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['contact'][$student_id]."'"));
 					$user = $user[1];
-	//modif Francois: change parent password generation
-	//				$password = $passwords[rand(0,count($passwords)-1)];
+
+					//modif Francois: change parent password generation
+					//$password = $passwords[rand(0,count($passwords)-1)];
 					$password = $username . rand(100,999);
-	//modif Francois: Moodle integrator / password
-					if (MOODLE_INTEGRATOR)
-						$password = UCFirst($password). '*';
+
+					//modif Francois: Moodle integrator / password
+					$password = UCFirst($password). '*';
+
 					if(!$test_email)
 					{
 						// get staff id
 						$id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS SEQ_ID '.FROM_DUAL));
 						$id = $id[1]['SEQ_ID'];
-	//modif Francois: add password encryption
+
+						//modif Francois: add password encryption
 						$password_encrypted = encrypt_password($password);
+
 						$sql = "INSERT INTO STAFF (STAFF_ID,SYEAR,PROFILE,PROFILE_ID,FIRST_NAME,MIDDLE_NAME,LAST_NAME,USERNAME,PASSWORD,EMAIL) values ('".$id."','".UserSyear()."','parent','".$profile_id."','".$user['FIRST_NAME']."','".$user['MIDDLE_NAME']."','".$user['LAST_NAME']."','".$username."','".$password_encrypted."','".$students[1]['EMAIL']."')";
 						DBQuery($sql);
-	//modif Francois: Moodle integrator
-						$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
+
+						//hook
+						do_action('Custom/CreateParents.php|create_user');
+
 						$staff = DBGet(DBquery("SELECT FIRST_NAME||' '||LAST_NAME AS NAME,USERNAME,PASSWORD FROM STAFF WHERE STAFF_ID='".$id."'"));
 					}
 					else
@@ -108,36 +121,40 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						$id = true;
 						$staff = array(1=>array('NAME'=>$user['FIRST_NAME'].' '.$user['LAST_NAME'],'USERNAME'=>$username,'PASSWORD'=>$password));
 					}
+
 					$account = 'new';
 				}
 			}
-			else
+			else //if user already exists
 			{
 				$id = $students[1]['STAFF_ID'];
 				$staff = DBGet(DBquery("SELECT FIRST_NAME||' '||LAST_NAME AS NAME,USERNAME,PASSWORD FROM STAFF WHERE STAFF_ID='".$id."'"));
+
 				$account = 'old';
 			}
+
 			if($id)
 			{
 				$staff = $staff[1];
 				$student_list = '';
 				foreach($students as $student)
 				{
+					//join users to students
 					if(!$test_email)
 					{
 						$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values ('".$id."',$student[STUDENT_ID])";
 						DBQuery($sql);
-	//modif Francois: Moodle integrator
-						$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+
+						//hook
+						do_action('Custom/CreateParents.php|user_assign_role');
 					}
 					$student_list .= str_replace('&nbsp;',' ',$student['FULL_NAME'])."\r";
 				}
+
 				$msg = str_replace('__ASSOCIATED_STUDENTS__',$student_list,$message[$account]);
 				$msg = str_replace('__SCHOOL_ID__',SchoolInfo('TITLE'),$msg);
 				$msg = str_replace('__PARENT_NAME__',$staff['NAME'],$msg);
 				$msg = str_replace('__USERNAME__',$staff['USERNAME'],$msg);
-		//modif Francois: add password encryption
-		//		$msg = str_replace('__PASSWORD__',$staff['PASSWORD'],$msg);
 				$msg = str_replace('__PASSWORD__',$password,$msg);
 				
 				//modif Francois: add SendEmail function
@@ -150,6 +167,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$RET[$email][1]['PARENT'] = $staff['NAME'];
 				$RET[$email][1]['USERNAME'] = $staff['USERNAME'];
 				$RET[$email][1]['PASSWORD'] = (empty($password)?'':$password);
+
 				if($result)
 					$RET[$email][1]['RESULT'] = _('Success');
 				else
@@ -158,6 +176,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			else
 				$RET[$email][1]['RESULT'] = _('Fail');
 		}
+
 		$columns = array('FULL_NAME'=>_('Student'),'PARENT'=>_('Parent'),'USERNAME'=>_('Username'),'PASSWORD'=>_('Password'),'EMAIL'=>_('Email'),'RESULT'=>_('Result'));
 		ListOutput($RET,$columns,'Creation Result','Creation Results',false,array('EMAIL'));
 	}
@@ -169,8 +188,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	}
 }
 
-//modif Francois: Moodle integrator
-echo $moodleError;
 if (isset($error))
 	echo ErrorMessage($error);
 

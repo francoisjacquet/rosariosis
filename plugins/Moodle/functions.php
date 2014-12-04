@@ -35,6 +35,9 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 
 	add_action('Users/User.php|delete_user', 'MoodleTriggered', 1);
 
+	add_action('Custom/CreateParents.php|create_user', 'MoodleTriggered', 1);
+
+	add_action('Custom/CreateParents.php|user_assign_role', 'MoodleTriggered', 1);
 }
 
 
@@ -42,6 +45,8 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 //Will redirect to Moodle() function wit the right function name
 function MoodleTriggered($hook_tag)
 {
+	global $error;
+
 	//check Moodle plugin configuration options are set
 	if (!MOODLE_URL || !MOODLE_TOKEN || !MOODLE_PARENT_ROLE_ID || !ROSARIO_STUDENTS_EMAIL_FIELD_ID)
 		return false;
@@ -84,11 +89,13 @@ function MoodleTriggered($hook_tag)
 		break;
 
 		case 'Students/Student.php|update_student_checks':
-			if(!empty($_REQUEST['students']['PASSWORD'])
+			if(!empty($_REQUEST['students']['PASSWORD']))
 			{
-				if (IsMoodleStudent(UserStudentID()) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
+				if (($_REQUEST['moodle_create_student'] || IsMoodleStudent(UserStudentID())) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
 					$error[] = _('Please enter a valid password');
 			}
+			elseif ($_REQUEST['moodle_create_student'])
+				$error[] = _('Please enter a valid password');
 
 		break;
 
@@ -147,11 +154,13 @@ function MoodleTriggered($hook_tag)
 		break;
 			
 		case 'Users/User.php|update_user_checks':
-			if(!empty($_REQUEST['staff']['PASSWORD'])
+			if(!empty($_REQUEST['staff']['PASSWORD']))
 			{
-				if (IsMoodleUser(UserStaffID()) && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
+				if (($_REQUEST['moodle_create_user'] || IsMoodleUser(UserStaffID())) && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
 					$error[] = _('Please enter a valid password');
 			}
+			elseif ($_REQUEST['moodle_create_user'])
+				$error[] = _('Please enter a valid password');
 
 		break;
 			
@@ -161,7 +170,7 @@ function MoodleTriggered($hook_tag)
 				Moodle($modname, 'core_user_create_users');
 				Moodle($modname, 'core_role_assign_roles');
 			}
-			else
+			elseif (IsMoodleUser(UserStaffID()))
 			{
 				Moodle($modname, 'core_user_update_users');
 				Moodle($modname, 'core_role_unassign_roles');
@@ -177,6 +186,16 @@ function MoodleTriggered($hook_tag)
 
 		case 'Users/User.php|delete_user':
 			Moodle($modname, 'core_user_delete_users');
+
+		break;
+
+		case 'Custom/CreateParents.php|create_user':
+			Moodle($modname, 'core_user_create_users');
+
+		break;
+
+		case 'Custom/CreateParents.php|user_assign_role':
+			Moodle($modname, 'core_role_assign_roles');
 
 		break;
 

@@ -120,10 +120,10 @@ list of (
 	global $moodle_contextlevel, $moodle_instance;
 	$moodle_contextlevel = CONTEXT_USER;
 	//gather the Moodle user ID
-	$moodle_instance = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student['STUDENT_ID']."' AND \"column\"='student_id'"));
-	if (count($moodle_instance))
+	$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student['STUDENT_ID']."' AND \"column\"='student_id'"));
+	if (count($moodle_id))
 	{
-		$moodle_instance = (int)$moodle_instance[1]['MOODLE_ID'];
+		$moodle_id = (int)$moodle_id[1]['MOODLE_ID'];
 	}
 	else
 	{
