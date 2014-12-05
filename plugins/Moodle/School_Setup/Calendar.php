@@ -91,7 +91,13 @@ object {
 )} 
 */
 	if (is_array($response['warnings'][0]))
-		return ErrorMessage(array('Code: '.$response['warnings'][0]['warningcode'].' - '.$response['warnings'][0]['message']), 'error');
+	{
+		global $error;
+
+		$error = 'Code: '.$response['warnings'][0]['warningcode'].' - '.$response['warnings'][0]['message'];
+
+		return false;
+	}
 	
 	if (empty($calendar_event_id)) //case: update event
 		$calendar_event_id = $_REQUEST['event_id'];

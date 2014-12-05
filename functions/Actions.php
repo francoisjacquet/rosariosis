@@ -38,6 +38,11 @@ $RosarioHooks = array(
 	'Scheduling/Courses.php|delete_course_subject' => array(),
 	'Scheduling/Courses.php|delete_course' => array(),
 	'Scheduling/Courses.php|delete_course_period' => array(),
+
+	'School_Setup/Calendar.php|header' => array(),
+	'School_Setup/Calendar.php|create_calendar_event' => array(),
+	'School_Setup/Calendar.php|update_calendar_event' => array(),
+	'School_Setup/Calendar.php|delete_calendar_event' => array(),
 );
 
 /**
@@ -106,6 +111,8 @@ function do_action($tag, $arg = '')
 	global $RosarioHooks;
 
 	$args = array();
+
+	//by default, the only argument passed to the function is the tag
 	$args[] = $tag;
 	
 	if (!is_array($arg))

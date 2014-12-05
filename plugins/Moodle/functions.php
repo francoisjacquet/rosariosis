@@ -9,62 +9,41 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 {
 	//Register plugin functions to be hooked
 	add_action('Students/Student.php|header', 'MoodleTriggered', 1);
-
 	add_action('Students/Student.php|create_student_checks', 'MoodleTriggered', 1);
-
 	add_action('Students/Student.php|create_student', 'MoodleTriggered', 1);
-
 	add_action('Students/Student.php|update_student_checks', 'MoodleTriggered', 1);
-
 	add_action('Students/Student.php|update_student', 'MoodleTriggered', 1);
-
 	add_action('Students/Student.php|upload_student_photo', 'MoodleTriggered', 1);
 
-
 	add_action('Users/User.php|header', 'MoodleTriggered', 1);
-
 	add_action('Users/User.php|create_user_checks', 'MoodleTriggered', 1);
-
 	add_action('Users/User.php|create_user', 'MoodleTriggered', 1);
-
 	add_action('Users/User.php|update_user_checks', 'MoodleTriggered', 1);
-
 	add_action('Users/User.php|update_user', 'MoodleTriggered', 1);
-
 	add_action('Users/User.php|upload_user_photo', 'MoodleTriggered', 1);
-
 	add_action('Users/User.php|delete_user', 'MoodleTriggered', 1);
 
-
 	add_action('Custom/CreateParents.php|create_user', 'MoodleTriggered', 1);
-
 	add_action('Custom/CreateParents.php|user_assign_role', 'MoodleTriggered', 1);
 
-
 	add_action('Grades/Assignments.php|create_assignment', 'MoodleTriggered', 1);
-
 	add_action('Grades/Assignments.php|update_assignment', 'MoodleTriggered', 1);
-
 	add_action('Grades/Assignments.php|delete_assignment', 'MoodleTriggered', 1);
 
-
 	add_action('Scheduling/Courses.php|create_course_subject', 'MoodleTriggered', 1);
-
 	add_action('Scheduling/Courses.php|create_course', 'MoodleTriggered', 1);
-
 	add_action('Scheduling/Courses.php|create_course_period', 'MoodleTriggered', 1);
-
 	add_action('Scheduling/Courses.php|update_course_subject', 'MoodleTriggered', 1);
-
 	add_action('Scheduling/Courses.php|update_course', 'MoodleTriggered', 1);
-
 	add_action('Scheduling/Courses.php|update_course_period', 'MoodleTriggered', 1);
-
 	add_action('Scheduling/Courses.php|delete_course_subject', 'MoodleTriggered', 1);
-
 	add_action('Scheduling/Courses.php|delete_course', 'MoodleTriggered', 1);
-
 	add_action('Scheduling/Courses.php|delete_course_period', 'MoodleTriggered', 1);
+
+	add_action('School_Setup/Calendar.php|header', 'MoodleTriggered', 1);
+	add_action('School_Setup/Calendar.php|create_calendar_event', 'MoodleTriggered', 1);
+	add_action('School_Setup/Calendar.php|update_calendar_event', 'MoodleTriggered', 1);
+	add_action('School_Setup/Calendar.php|delete_calendar_event', 'MoodleTriggered', 1);
 }
 
 
@@ -335,6 +314,58 @@ function MoodleTriggered($hook_tag)
 
 		case 'Scheduling/Courses.php|delete_course_period':
 			Moodle($modname, 'core_course_delete_courses');
+
+		break;
+
+/***************SCHOOL_SETUP**/
+		/*School_Setup/Calendar.php*/
+		case 'School_Setup/Calendar.php|header':
+			//only if new event
+			if($_REQUEST['event_id']=='new')
+				echo '<TR><TD>'._('Publish Event in Moodle?').'</TD><TD><label><INPUT type="checkbox" name="MOODLE_PUBLISH_EVENT" value="Y" checked> '._('Yes').'</label></TD></TR>';
+
+		break;
+
+		case 'School_Setup/Calendar.php|create_calendar_event':
+			global $error;
+
+			if ($_REQUEST['MOODLE_PUBLISH_EVENT'])
+			{
+				Moodle($modname, 'core_calendar_create_calendar_events');
+				if (!empty($error))
+				{
+					echo ErrorMessage(array($error), 'fatal');//display inside popup, before JS closing
+				}
+			}
+
+		break;
+
+		case 'School_Setup/Calendar.php|update_calendar_event':
+			global $error;
+
+			//delete event then recreate it!
+			Moodle($modname, 'core_calendar_delete_calendar_events');
+			if (!empty($error))
+			{
+				echo ErrorMessage(array($error), 'fatal');//display inside popup, before JS closing
+			}
+
+			Moodle($modname, 'core_calendar_create_calendar_events');
+			if (!empty($error))
+			{
+				echo ErrorMessage(array($error), 'fatal');//display inside popup, before JS closing
+			}
+
+		break;
+
+		case 'School_Setup/Calendar.php|delete_calendar_event':
+			global $error;
+
+			Moodle($modname, 'core_calendar_delete_calendar_events');
+			if (!empty($error))
+			{
+				echo ErrorMessage(array($error), 'fatal');//display inside popup, before JS closing
+			}
 
 		break;
 

@@ -217,23 +217,9 @@ if($_REQUEST['modfunc']=='detail')
 
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$_REQUEST['event_id']."'";
 				DBQuery($sql);
-//modif Francois: Moodle integrator
-				if (MOODLE_INTEGRATOR)
-				{
-					//delete event then recreate it!
-					$moodleError = Moodle($_REQUEST['modname'], 'core_calendar_delete_calendar_events');
-					if (!empty($moodleError))
-					{
-						echo $moodleError; 
-						exit;
-					}
-					$moodleError = Moodle($_REQUEST['modname'], 'core_calendar_create_calendar_events');
-					if (!empty($moodleError))
-					{
-						echo $moodleError; 
-						exit;
-					}
-				}
+
+				//hook
+				do_action('School_Setup/Calendar.php|update_calendar_event');
 			}
 			else
 			{
@@ -266,21 +252,16 @@ if($_REQUEST['modfunc']=='detail')
 					if($go)
 					{
 						DBQuery($sql);
-//modif Francois: Moodle integrator
-						if ($_REQUEST['MOODLE_PUBLISH_EVENT'])
-						{
-							$moodleError = Moodle($_REQUEST['modname'], 'core_calendar_create_calendar_events');
-							if (!empty($moodleError))
-							{
-								echo $moodleError; 
-								exit;
-							}
-						}
+
+						//hook
+						do_action('School_Setup/Calendar.php|create_calendar_event');
 					}
 					$i++;
 				} while(is_numeric($_REQUEST['REPEAT']) && $i<=$_REQUEST['REPEAT']);
 			}
+
 			echo '<SCRIPT>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
+
 			unset($_REQUEST['values']);
 			unset($_SESSION['_REQUEST_vars']['values']);
 		}
@@ -290,17 +271,12 @@ if($_REQUEST['modfunc']=='detail')
 		if(DeletePrompt(_('Event')))
 		{
 			DBQuery("DELETE FROM CALENDAR_EVENTS WHERE ID='".$_REQUEST['event_id']."'");
-//modif Francois: Moodle integrator
-			if (MOODLE_INTEGRATOR)
-			{
-				$moodleError = Moodle($_REQUEST['modname'], 'core_calendar_delete_calendar_events');
-				if (!empty($moodleError))
-				{
-					echo $moodleError; 
-					exit;
-				}
-			}
+
+			//hook
+			do_action('School_Setup/Calendar.php|delete_calendar_event');
+
 			echo '<SCRIPT>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
+
 			unset($_REQUEST['values']);
 			unset($_SESSION['_REQUEST_vars']['values']);
 			unset($_REQUEST['button']);
@@ -343,11 +319,11 @@ if($_REQUEST['modfunc']=='detail')
 		if($_REQUEST['event_id']=='new')
 		{
 			echo '<TR><TD>'._('Event Repeat').'</TD><TD><input name="REPEAT" value="0" maxlength="3" size="1" type="number" min="0" />&nbsp;'._('Days').'</TD></TR>';
-
-//modif Francois: Moodle integrator
-			if (MOODLE_INTEGRATOR)
-				echo '<TR><TD>'._('Publish Event in Moodle?').'</TD><TD><label><INPUT type="checkbox" name="MOODLE_PUBLISH_EVENT" value="Y" checked> '._('Yes').'</label></TD></TR>';
 		}
+
+		//hook
+		do_action('School_Setup/Calendar.php|header');
+
 		
 		//modif Francois: bugfix SQL bug value too long for type character varying(50)
 		echo '<TR><TD>'._('Title').'</TD><TD>'.TextInput($RET[1]['TITLE'],'values[TITLE]', '', 'required maxlength="50"').'</TD></TR>';
