@@ -35,9 +35,17 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 
 	add_action('Users/User.php|delete_user', 'MoodleTriggered', 1);
 
+
 	add_action('Custom/CreateParents.php|create_user', 'MoodleTriggered', 1);
 
 	add_action('Custom/CreateParents.php|user_assign_role', 'MoodleTriggered', 1);
+
+
+	add_action('Grade/Assignments.php|create_assignment', 'MoodleTriggered', 1);
+
+	add_action('Grade/Assignments.php|update_assignment', 'MoodleTriggered', 1);
+
+	add_action('Grade/Assignments.php|delete_assignment', 'MoodleTriggered', 1);
 }
 
 
@@ -196,6 +204,24 @@ function MoodleTriggered($hook_tag)
 
 		case 'Custom/CreateParents.php|user_assign_role':
 			Moodle($modname, 'core_role_assign_roles');
+
+		break;
+
+		case 'Grade/Assignments.php|create_assignment':
+			//add course event to the Moodle calendar
+			Moodle($modname, 'core_calendar_create_calendar_events');
+
+		break;
+
+		case 'Grade/Assignments.php|update_assignment':
+			//delete event then recreate it!
+			Moodle($modname, 'core_calendar_delete_calendar_events');
+			Moodle($modname, 'core_calendar_create_calendar_events');
+
+		break;
+
+		case 'Grade/Assignments.php|delete_assignment':
+			Moodle($modname, 'core_calendar_delete_calendar_events');
 
 		break;
 

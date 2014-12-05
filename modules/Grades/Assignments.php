@@ -54,7 +54,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 							if($column=='DUE_DATE' || $column=='ASSIGNED_DATE')
 							{
 								if(!VerifyDate($value))
-									BackPrompt(_('Some dates were not entered correctly.'));
+									$error = _('Some dates were not entered correctly.');
 							}
 							elseif($column=='COURSE_ID' && $value=='Y' && $table=='GRADEBOOK_ASSIGNMENTS')
 							{
@@ -115,7 +115,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 							if($column=='DUE_DATE' || $column=='ASSIGNED_DATE')
 							{
 								if(!VerifyDate($value))
-									BackPrompt(_('Some dates were not entered correctly.'));
+									$error = _('Some dates were not entered correctly.');
 							}
 							elseif($column=='COURSE_ID' && $value=='Y')
 								$value = $course_id;
@@ -141,32 +141,29 @@ if($_REQUEST['tables'] && $_POST['tables'])
 					}
 				}
 				else
-					echo ErrorMessage(array(_('Please enter a valid Sort Order.')));
+					$error = _('Please enter a valid Sort Order.');
 			}
 			else
-				echo ErrorMessage(array(_('Please enter valid Numeric data.')));
+				$error = _('Please enter valid Numeric data.');
 		}
 		else
-			echo ErrorMessage(array(_('Please fill in the required fields')));
+			$error = _('Please fill in the required fields');
 
-			
-		if($go)
+
+		if(!isset($error) && $go)
 		{
 			DBQuery($sql);
 			
-//modif Francois: Moodle integrator
-			if (MOODLE_INTEGRATOR && $table=='GRADEBOOK_ASSIGNMENTS') //add course event to the Moodle calendar
+			if ($table=='GRADEBOOK_ASSIGNMENTS')
 			{
-				if ($gradebook_assignment_update) //delete event then recreate it!
+				if ($gradebook_assignment_update)
 				{
-					echo Moodle($_REQUEST['modname'], 'core_calendar_delete_calendar_events');
-					echo $moodleError;
+					//hook
+					do_action('Grades/Assignments.php|update_assignment');
 				}
-				if (isset($columns['DUE_DATE']))
-				{
-					$moodleError = Moodle($_REQUEST['modname'], 'core_calendar_create_calendar_events');
-					echo $moodleError; 
-				}
+				else
+					//hook
+					do_action('Grades/Assignments.php|create_assignment');
 			}
 		}
 	}
@@ -178,12 +175,12 @@ if($_REQUEST['modfunc']=='delete')
 {
 	if($_REQUEST['assignment_id'])
 	{
-		$table = 'assignment';
+		$table = _('Assignment');
 		$sql = "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'";
 	}
 	else
 	{
-		$table = 'assignment type';
+		$table = _('Assignment Type');
 		$sql = "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'";
 	}
 
@@ -199,13 +196,12 @@ if($_REQUEST['modfunc']=='delete')
 				{
 					DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$assignment_id['ASSIGNMENT_ID']."'");
 
-//modif Francois: Moodle integrator
-					if (MOODLE_INTEGRATOR) //add course event to the Moodle calendar
-					{
-						$_REQUEST['assignment_id'] = $assignment_id['ASSIGNMENT_ID'];
-						echo Moodle($_REQUEST['modname'], 'core_calendar_delete_calendar_events');
-						unset($_REQUEST['assignment_id']);
-					}
+					$_REQUEST['assignment_id'] = $assignment_id['ASSIGNMENT_ID'];
+
+					//hook
+					do_action('Grades/Assignments.php|delete_assignment');
+
+					unset($_REQUEST['assignment_id']);
 				}
 			}
 			DBQuery("DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'");
@@ -214,17 +210,19 @@ if($_REQUEST['modfunc']=='delete')
 		else
 		{
 			DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'");
-//modif Francois: Moodle integrator
-			if (MOODLE_INTEGRATOR) //add course event to the Moodle calendar
-			{
-				$moodleError = Moodle($_REQUEST['modname'], 'core_calendar_delete_calendar_events');
-				echo $moodleError;
-			}
+
+			//hook
+			do_action('Grades/Assignments.php|delete_assignment');
+
 			unset($_REQUEST['assignment_id']);
 		}
 		unset($_REQUEST['modfunc']);
 	}
 }
+
+if (isset($error))
+	echo ErrorMessage($error);
+
 
 if(empty($_REQUEST['modfunc']))
 
