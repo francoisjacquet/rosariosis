@@ -75,7 +75,7 @@ textarea,input,select{
 	padding:2px
 }
 select{
-	padding-top:0px;
+	padding:0 2px;
 	height:23px
 }
 h1,h2,h3,h4{
