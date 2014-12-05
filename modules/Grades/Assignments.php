@@ -149,7 +149,6 @@ if($_REQUEST['tables'] && $_POST['tables'])
 		else
 			$error = _('Please fill in the required fields');
 
-
 		if(!isset($error) && $go)
 		{
 			DBQuery($sql);
