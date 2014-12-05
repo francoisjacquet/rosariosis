@@ -157,7 +157,7 @@ else
 			echo '</TABLE></FIELDSET>';
 		}
 
-		if (MOODLE_INTEGRATOR)
+		if ($RosarioPlugins['Moodle'])
 		{
 			echo '<BR /><FIELDSET><legend><b>'._('Moodle').'</b></legend><TABLE>';
 			echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['MOODLE_URL'][1]['VALUE'],'values[PROGRAM_CONFIG][MOODLE_URL]',_('Moodle URL'),'size=38 placeholder=http://localhost/moodle').'</TD></TR>';
