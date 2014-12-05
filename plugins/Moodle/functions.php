@@ -41,11 +41,30 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('Custom/CreateParents.php|user_assign_role', 'MoodleTriggered', 1);
 
 
-	add_action('Grade/Assignments.php|create_assignment', 'MoodleTriggered', 1);
+	add_action('Grades/Assignments.php|create_assignment', 'MoodleTriggered', 1);
 
-	add_action('Grade/Assignments.php|update_assignment', 'MoodleTriggered', 1);
+	add_action('Grades/Assignments.php|update_assignment', 'MoodleTriggered', 1);
 
-	add_action('Grade/Assignments.php|delete_assignment', 'MoodleTriggered', 1);
+	add_action('Grades/Assignments.php|delete_assignment', 'MoodleTriggered', 1);
+
+
+	add_action('Scheduling/Courses.php|create_course_subject', 'MoodleTriggered', 1);
+
+	add_action('Scheduling/Courses.php|create_course', 'MoodleTriggered', 1);
+
+	add_action('Scheduling/Courses.php|create_course_period', 'MoodleTriggered', 1);
+
+	add_action('Scheduling/Courses.php|update_course_subject', 'MoodleTriggered', 1);
+
+	add_action('Scheduling/Courses.php|update_course', 'MoodleTriggered', 1);
+
+	add_action('Scheduling/Courses.php|update_course_period', 'MoodleTriggered', 1);
+
+	add_action('Scheduling/Courses.php|delete_course_subject', 'MoodleTriggered', 1);
+
+	add_action('Scheduling/Courses.php|delete_course', 'MoodleTriggered', 1);
+
+	add_action('Scheduling/Courses.php|delete_course_period', 'MoodleTriggered', 1);
 }
 
 
@@ -197,6 +216,8 @@ function MoodleTriggered($hook_tag)
 
 		break;
 
+/***************CUSTOM**/
+		/*Custom/CreateParents.php*/
 		case 'Custom/CreateParents.php|create_user':
 			Moodle($modname, 'core_user_create_users');
 
@@ -207,21 +228,113 @@ function MoodleTriggered($hook_tag)
 
 		break;
 
-		case 'Grade/Assignments.php|create_assignment':
+/***************GRADES**/
+		/*Grades/Assignments.php*/
+		case 'Grades/Assignments.php|create_assignment':
 			//add course event to the Moodle calendar
 			Moodle($modname, 'core_calendar_create_calendar_events');
 
 		break;
 
-		case 'Grade/Assignments.php|update_assignment':
+		case 'Grades/Assignments.php|update_assignment':
 			//delete event then recreate it!
 			Moodle($modname, 'core_calendar_delete_calendar_events');
 			Moodle($modname, 'core_calendar_create_calendar_events');
 
 		break;
 
-		case 'Grade/Assignments.php|delete_assignment':
+		case 'Grades/Assignments.php|delete_assignment':
 			Moodle($modname, 'core_calendar_delete_calendar_events');
+
+		break;
+
+/***************SCHEDULING**/
+		/*Scheduling/Courses.php*/
+		case 'Scheduling/Courses.php|header':
+			if (AllowEdit())
+			{
+				//2) verify the user is not in Moodle:
+				if (UserStaffID())
+					$old_user_in_moodle = IsMoodleUser(UserStaffID());
+		
+				if ($_REQUEST['staff_id']=='new' || !$old_user_in_moodle)
+					DrawHeader('<label>'.CheckBoxOnclick('moodle_create_user').'&nbsp;'._('Create User in Moodle').'</label>');
+			}
+
+		break;
+
+			//propose to create course period in Moodle: if
+			//1) this is a creation,
+			//2) this is an already created course period but not in Moodle yet
+			//AND 3) if the course is in Moodle
+			if (AllowEdit())
+			{
+				//2) verify if the course period is in Moodle:
+				$old_course_period_in_moodle = false;
+				if ($_REQUEST['course_period_id'] != 'new')
+					$old_course_period_in_moodle = IsMoodleCoursePeriod($_REQUEST['course_period_id']);
+					
+				//3) verify if the course is in Moodle:
+				$course_in_moodle = false;
+				if ($_REQUEST['course_id'] != 'new')
+					$course_in_moodle = IsMoodleCourse($_REQUEST['course_id']);
+				
+				if ($course_in_moodle && ($_REQUEST['course_period_id']=='new' || !$old_course_period_in_moodle))
+					DrawHeader('<label>'.CheckBoxOnclick('moodle_create_course_period').'&nbsp;'._('Create Course Period in Moodle').'</label>');
+			}
+			
+		case 'Scheduling/Courses.php|create_course_subject':
+		case 'Scheduling/Courses.php|create_course':
+			Moodle($modname, 'core_course_create_categories');
+
+		break;
+
+		case 'Scheduling/Courses.php|create_course_period':
+			if($_REQUEST['moodle_create_course_period'])
+			{
+				Moodle($modname, 'core_course_create_courses');
+				Moodle($modname, 'enrol_manual_enrol_users');
+			}
+
+		break;
+
+		case 'Scheduling/Courses.php|update_course_subject':
+		case 'Scheduling/Courses.php|update_course':
+			Moodle($modname, 'core_course_update_categories');
+
+		break;
+
+		case 'Scheduling/Courses.php|update_course_period':
+			//if Course Period is already in Moodle
+			if(IsMoodleCoursePeriod($_REQUEST['course_period_id']))
+			{
+				Moodle($modname, 'core_course_update_courses');
+
+				//update teacher too
+				global $columns, $current;
+				if ($columns['TEACHER_ID'] && $columns['TEACHER_ID'] != $current[1]['TEACHER_ID'])
+				{
+					Moodle($modname, 'core_role_unassign_roles');
+					Moodle($modname, 'enrol_manual_enrol_users');
+				}
+			}
+			//this is an already created course period but not in Moodle yet TODO: TEST!!
+			elseif ($_REQUEST['moodle_create_course_period'])
+			{
+				Moodle($modname, 'core_course_create_courses');
+				Moodle($modname, 'enrol_manual_enrol_users');			
+			}
+
+		break;
+
+		case 'Scheduling/Courses.php|delete_course_subject':
+		case 'Scheduling/Courses.php|delete_course':
+			Moodle($modname, 'core_course_delete_categories');
+
+		break;
+
+		case 'Scheduling/Courses.php|delete_course_period':
+			Moodle($modname, 'core_course_delete_courses');
 
 		break;
 
@@ -267,6 +380,16 @@ function IsMoodleStudent($student_id)
 function IsMoodleUser($staff_id)
 {
 	return count(DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$staff_id."' AND \"column\"='staff_id'")));
+}
+
+function IsMoodleCourse($course_id)
+{
+	return count(DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$course_id."' AND \"column\"='course_id'")));
+}
+
+function IsMoodleCoursePeriod($course_period_id)
+{
+	return count(DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$course_period_id."' AND \"column\"='course_period_id'")));
 }
 
 ?>

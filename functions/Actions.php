@@ -25,9 +25,19 @@ $RosarioHooks = array(
 	'Custom/CreateParents.php|create_user' => array(),
 	'Custom/CreateParents.php|user_assign_role' => array(),
 
-	'Grade/Assignments.php|create_assignment' => array(),
-	'Grade/Assignments.php|update_assignment' => array(),
-	'Grade/Assignments.php|delete_assignment' => array(),
+	'Grades/Assignments.php|create_assignment' => array(),
+	'Grades/Assignments.php|update_assignment' => array(),
+	'Grades/Assignments.php|delete_assignment' => array(),
+
+	'Scheduling/Courses.php|create_course_subject' => array(),
+	'Scheduling/Courses.php|create_course' => array(),
+	'Scheduling/Courses.php|create_course_period' => array(),
+	'Scheduling/Courses.php|update_course_subject' => array(),
+	'Scheduling/Courses.php|update_course' => array(),
+	'Scheduling/Courses.php|update_course_period' => array(),
+	'Scheduling/Courses.php|delete_course_subject' => array(),
+	'Scheduling/Courses.php|delete_course' => array(),
+	'Scheduling/Courses.php|delete_course_period' => array(),
 );
 
 /**

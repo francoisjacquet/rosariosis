@@ -269,25 +269,20 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						$sql = mb_substr($sql,0,-1) . " WHERE ".$where[$table_name]."='".$id."'";
 						DBQuery($sql);
 						
-	//modif Francois: Moodle integrator
-						if (MOODLE_INTEGRATOR)
+						if($table_name=='COURSE_SUBJECTS')
 						{
-							if($table_name=='COURSE_SUBJECTS' || $table_name=='COURSES')
-								$moodleError = Moodle($_REQUEST['modname'], 'core_course_update_categories');
-							if($table_name=='COURSE_PERIODS') 
-							{
-								//if Course Period is already in Moodle
-								$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));
-								if (count($moodle_id))
-								{
-									$moodleError = Moodle($_REQUEST['modname'], 'core_course_update_courses');
-									if ($columns['TEACHER_ID'] && $columns['TEACHER_ID'] != $current[1]['TEACHER_ID']) //update teacher too
-									{
-										$moodleError .= Moodle($_REQUEST['modname'], 'core_role_unassign_roles');
-										$moodleError .= Moodle($_REQUEST['modname'], 'enrol_manual_enrol_users');
-									}
-								}
-							}
+							//hook
+							do_action('Scheduling/Courses.php|update_course_subject');
+						}
+						elseif($table_name=='COURSES')
+						{
+							//hook
+							do_action('Scheduling/Courses.php|update_course');
+						}
+						elseif($table_name=='COURSE_PERIODS') 
+						{
+							//hook
+							do_action('Scheduling/Courses.php|update_course_period');
 						}
 
 					}
@@ -396,13 +391,21 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						if($go)
 						{
 							DBQuery($sql);				
-	//modif Francois: Moodle integrator
-							if($table_name=='COURSE_SUBJECTS' || $table_name=='COURSES')
-								$moodleError = Moodle($_REQUEST['modname'], 'core_course_create_categories');
-							elseif($table_name=='COURSE_PERIODS' && $_REQUEST['moodle_create_course_period'])
+
+							if($table_name=='COURSE_SUBJECTS')
 							{
-								$moodleError = Moodle($_REQUEST['modname'], 'core_course_create_courses');
-								$moodleError .= Moodle($_REQUEST['modname'], 'enrol_manual_enrol_users');
+								//hook
+								do_action('Scheduling/Courses.php|create_course_subject');
+							}
+							elseif($table_name=='COURSES')
+							{
+								//hook
+								do_action('Scheduling/Courses.php|create_course');
+							}
+							elseif($table_name=='COURSE_PERIODS')
+							{
+								//hook
+								do_action('Scheduling/Courses.php|create_course_period');
 							}
 						}
 					}
@@ -410,6 +413,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				else
 				{
 					$error[] = _('Please fill in the required fields');
+
 					if ($table_name=='COURSE_PERIODS')
 						break 2; //skip COURSE_PERIOD_SCHOOL_PERIODS
 				}
@@ -426,26 +430,31 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	if($_REQUEST['course_period_id'])
 	{
 		$table = _('Course Period');
+
 		$sql[] = "UPDATE COURSE_PERIODS SET PARENT_ID=NULL WHERE PARENT_ID='".$_REQUEST['course_period_id']."'";
 		$sql[] = "DELETE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
 		$sql[] = "DELETE FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
 		//modif Francois: multiple school period for a course period
 		$sql[] = "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
-        $unset = 'course_period_id';
+
+		$unset = 'course_period_id';
 	}
 	elseif($_REQUEST['course_id'])
 	{
 		$table = _('Course');
+
 		$sql[] = "DELETE FROM COURSES WHERE COURSE_ID='".$_REQUEST['course_id']."'";
 		$sql[] = "UPDATE COURSE_PERIODS SET PARENT_ID=NULL WHERE PARENT_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_ID='".$_REQUEST['course_id']."')";
 		$sql[] = "DELETE FROM COURSE_PERIODS WHERE COURSE_ID='".$_REQUEST['course_id']."'";
 		$sql[] = "DELETE FROM SCHEDULE WHERE COURSE_ID='".$_REQUEST['course_id']."'";
 		$sql[] = "DELETE FROM SCHEDULE_REQUESTS WHERE COURSE_ID='".$_REQUEST['course_id']."'";
-        $unset = 'course_id';
+
+		$unset = 'course_id';
 	}
 	elseif($_REQUEST['subject_id'])
 	{
 		$table = _('Subject');
+
 		$sql[] = "DELETE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$_REQUEST['subject_id']."'";
 		$courses = DBGet(DBQuery("SELECT COURSE_ID FROM COURSES WHERE SUBJECT_ID='".$_REQUEST['subject_id']."'"));
 		if(count($courses))
@@ -459,7 +468,8 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 				$sql[] = "DELETE FROM SCHEDULE_REQUESTS WHERE COURSE_ID='".$course['COURSE_ID']."'";
 			}
 		}
-        $unset = 'subject_id';
+
+		$unset = 'subject_id';
 	}
 
 	if(DeletePrompt($table))
@@ -467,13 +477,24 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 		foreach($sql as $query)
 			DBQuery($query);
 
-//modif Francois: Moodle integrator
 		if ($_REQUEST['course_period_id'])
-			$moodleError = Moodle($_REQUEST['modname'], 'core_course_delete_courses');
-		elseif ($_REQUEST['subject_id'] || $_REQUEST['course_id'])
-			$moodleError = Moodle($_REQUEST['modname'], 'core_course_delete_categories');
+		{
+			//hook
+			do_action('Scheduling/Courses.php|delete_course_period');
+		}
+		elseif ($_REQUEST['subject_id'])
+		{
+			//hook
+			do_action('Scheduling/Courses.php|delete_course_subject');
 		
-        unset($_REQUEST[$unset]);
+		}
+		elseif ($_REQUEST['course_id'])
+		{
+			//hook
+			do_action('Scheduling/Courses.php|delete_course');
+		}
+		
+        	unset($_REQUEST[$unset]);
 		unset($_REQUEST['modfunc']);
 	}
 }
@@ -483,9 +504,6 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 //modif Francois: fix SQL bug invalid sort order
 	if (isset($error))
 		echo ErrorMessage($error);
-	
-//modif Francois: Moodle integrator
-	echo $moodleError;
 	
 	$sql = "SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."' ORDER BY SORT_ORDER,TITLE";
 	$QI = DBQuery($sql);
@@ -548,26 +566,9 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id='.$_REQUEST['course_period_id'].'" method="POST">';
 			DrawHeader($title,$delete_button.SubmitButton(_('Save')));
 			
-//modif Francois: Moodle integrator
-			//propose to create course period in Moodle: if 1) this is a creation, 2) this is an already created course period but not in Moodle yet
-			//AND 3) if the course is in Moodle
-			
-			if (MOODLE_INTEGRATOR && AllowEdit())
-			{
-				//2) verifiy if the student is in Moodle:
-				$old_course_period_in_moodle = false;
-				if ($_REQUEST['course_period_id'] != 'new')
-					$old_course_period_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));
-					
-				//3) verifiy if the course is in Moodle:
-				$course_in_moodle = false;
-				if ($_REQUEST['course_id'] != 'new')
-					$course_in_moodle = DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_id']."' AND \"column\"='course_id'"));
-				
-				if ($course_in_moodle && ($_REQUEST['course_period_id']=='new' || !$old_course_period_in_moodle))
-					DrawHeader('<label>'.CheckBoxOnclick('moodle_create_course_period').'&nbsp;'._('Create Course Period in Moodle').'</label>');
-			}
-			
+			//hook
+			do_action('Scheduling/Courses.php|header');
+
 			$header .= '<TABLE class="width-100p cellpadding-3" id="coursesTable">';
 			$header .= '<TR class="st">';
 
