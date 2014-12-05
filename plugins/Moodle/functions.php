@@ -40,7 +40,7 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('Scheduling/Courses.php|delete_course', 'MoodleTriggered', 1);
 	add_action('Scheduling/Courses.php|delete_course_period', 'MoodleTriggered', 1);
 
-	add_action('School_Setup/Calendar.php|header', 'MoodleTriggered', 1);
+	add_action('School_Setup/Calendar.php|event_field', 'MoodleTriggered', 1);
 	add_action('School_Setup/Calendar.php|create_calendar_event', 'MoodleTriggered', 1);
 	add_action('School_Setup/Calendar.php|update_calendar_event', 'MoodleTriggered', 1);
 	add_action('School_Setup/Calendar.php|delete_calendar_event', 'MoodleTriggered', 1);
@@ -319,7 +319,7 @@ function MoodleTriggered($hook_tag)
 
 /***************SCHOOL_SETUP**/
 		/*School_Setup/Calendar.php*/
-		case 'School_Setup/Calendar.php|header':
+		case 'School_Setup/Calendar.php|event_field':
 			//only if new event
 			if($_REQUEST['event_id']=='new')
 				echo '<TR><TD>'._('Publish Event in Moodle?').'</TD><TD><label><INPUT type="checkbox" name="MOODLE_PUBLISH_EVENT" value="Y" checked> '._('Yes').'</label></TD></TR>';

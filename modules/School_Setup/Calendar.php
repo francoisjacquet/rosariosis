@@ -322,7 +322,7 @@ if($_REQUEST['modfunc']=='detail')
 		}
 
 		//hook
-		do_action('School_Setup/Calendar.php|header');
+		do_action('School_Setup/Calendar.php|event_field');
 
 		
 		//modif Francois: bugfix SQL bug value too long for type character varying(50)
