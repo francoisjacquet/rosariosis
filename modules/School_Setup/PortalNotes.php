@@ -63,10 +63,11 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					$sql .= $column."='".$value."',";
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
+
 				DBQuery($sql);
-//modif Francois: Moodle integrator
-				if (isset($columns['TITLE']) || isset($columns['CONTENT'])) //update note if title or content modified
-					$moodleError = Moodle($_REQUEST['modname'], 'core_notes_update_notes');
+
+				//hook
+				do_action('School_Setup/PortalNotes.php|update_portal_note');
 			}
 			else
 			{
@@ -100,7 +101,6 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				//$values = db_seq_nextval('PORTAL_NOTES_SEQ').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 				$values = $portal_note_id.",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 
-				$error = array();
 				$file_attached_ext_white_list = array('.doc', '.docx', '.txt', '.pdf', '.xls', '.xlsx', '.csv', '.jpg', '.jpeg', '.png', '.gif', '.zip', '.ppt', '.pptx', '.mp3', '.wav', '.avi', '.mp4', '.ogg');
 				
 				if ($columns['FILE_OR_EMBED'] == 'FILE')
@@ -127,15 +127,14 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				if($go && empty($error))
 				{
 					DBQuery($sql);
-					
-//modif Francois: Moodle integrator
-					if ($_REQUEST['MOODLE_PUBLISH_NOTE'])
-						$moodleError = Moodle($_REQUEST['modname'], 'core_notes_create_notes');
+
+					//hook
+					do_action('School_Setup/PortalNotes.php|create_portal_note');
 				}
 			}
 		}
 		else
-			$error[] = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+			$error[] = _('Please enter a valid Sort Order.');
 	}
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['values']);
@@ -154,13 +153,16 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 		@unlink($file_to_remove[1]['FILE_ATTACHED']);
 		DBQuery("DELETE FROM PORTAL_NOTES WHERE ID='".$_REQUEST['id']."'");
 
-//modif Francois: Moodle integrator
-		if (MOODLE_INTEGRATOR)
-			$moodleError = Moodle($_REQUEST['modname'], 'core_notes_delete_notes');
+		//hook
+		do_action('School_Setup/PortalNotes.php|delete_portal_note');
 			
 		unset($_REQUEST['modfunc']);
 	}
 }
+
+//modif Francois: fix SQL bug invalid sort order
+if(!empty($error))
+	echo ErrorMessage($error);
 
 if($_REQUEST['modfunc']!='remove')
 {
@@ -182,13 +184,9 @@ if($_REQUEST['modfunc']!='remove')
 	$link['remove']['variables'] = array('id'=>'ID');
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=assets/spinning.gif />\';">';
+
 	DrawHeader('',SubmitButton(_('Save')));
-//modif Francois: fix SQL bug invalid sort order
-	if(!empty($error)) echo ErrorMessage($error);
-	
-//modif Francois: Moodle integrator
-	echo $moodleError;
-	
+
 	ListOutput($notes_RET,$columns,'Note','Notes',$link);
 
 	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';

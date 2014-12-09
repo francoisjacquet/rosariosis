@@ -203,7 +203,7 @@ if (isset($_POST['votes']) && is_array($_POST['votes']))
 
 
 function makePublishing($value,$name)
-{	global $THIS_RET,$profiles_RET,$RosarioPlugins;
+{	global $THIS_RET,$profiles_RET;
 
 	if($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
@@ -271,9 +271,11 @@ function makePublishing($value,$name)
 		$return .= '<TD>&nbsp;</TD>';
 	$return .= '</TR>';
 	
-	//modif Francois: Moodle integrator
-	if ($RosarioPlugins['Moodle'] && $id == 'new' && $_REQUEST['modname']!=='School_Setup/PortalPolls.php') //& verify this is not a Portal Poll!
-		$return .= '<TR class="st"><TD colspan="2"><B>'._('Publish Note in Moodle?').'</B> <label><INPUT type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> '._('Yes').'</label></TD></TR>';
+	if ($_REQUEST['modname']=='School_Setup/PortalNotes.php')
+	{
+		//hook
+		do_action('School_Setup/PortalNotes.php|portal_note_field');
+	}
 		
 	$return .= '</TABLE></TD></TR></TABLE></DIV>';
 	

@@ -44,6 +44,11 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('School_Setup/Calendar.php|create_calendar_event', 'MoodleTriggered', 1);
 	add_action('School_Setup/Calendar.php|update_calendar_event', 'MoodleTriggered', 1);
 	add_action('School_Setup/Calendar.php|delete_calendar_event', 'MoodleTriggered', 1);
+
+	add_action('School_Setup/PortalNotes.php|portal_note_field', 'MoodleTriggered', 1);
+	add_action('School_Setup/PortalNotes.php|create_portal_note', 'MoodleTriggered', 1);
+	add_action('School_Setup/PortalNotes.php|update_portal_note', 'MoodleTriggered', 1);
+	add_action('School_Setup/PortalNotes.php|delete_portal_note', 'MoodleTriggered', 1);
 }
 
 
@@ -366,6 +371,34 @@ function MoodleTriggered($hook_tag)
 			{
 				echo ErrorMessage(array($error), 'fatal');//display inside popup, before JS closing
 			}
+
+		break;
+
+		/*School_Setup/PortalNotes.php*/
+		case 'School_Setup/PortalNotes.php|portal_note_field':
+			global $id, $return;
+
+			//only if new note
+			if ($id == 'new')
+				$return .= '<TR class="st"><TD colspan="2"><B>'._('Publish Note in Moodle?').'</B> <label><INPUT type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> '._('Yes').'</label></TD></TR>';
+
+		break;
+
+		case 'School_Setup/PortalNotes.php|create_portal_note':
+			if ($_REQUEST['MOODLE_PUBLISH_NOTE'])
+				Moodle($modname, 'core_notes_create_notes');
+
+		break;
+
+		case 'School_Setup/PortalNotes.php|update_portal_note':
+			//update note if title or content modified
+			if (isset($columns['TITLE']) || isset($columns['CONTENT']))
+				Moodle($modname, 'core_notes_update_notes');
+
+		break;
+
+		case 'School_Setup/PortalNotes.php|delete_portal_note':
+			Moodle($modname, 'core_notes_delete_notes');
 
 		break;
 

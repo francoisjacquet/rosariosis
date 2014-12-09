@@ -43,6 +43,11 @@ $RosarioHooks = array(
 	'School_Setup/Calendar.php|create_calendar_event' => array(),
 	'School_Setup/Calendar.php|update_calendar_event' => array(),
 	'School_Setup/Calendar.php|delete_calendar_event' => array(),
+
+	'School_Setup/PortalNotes.php|portal_note_field' => array(),
+	'School_Setup/PortalNotes.php|create_portal_note' => array(),
+	'School_Setup/PortalNotes.php|update_portal_note' => array(),
+	'School_Setup/PortalNotes.php|delete_portal_note' => array(),
 );
 
 /**
