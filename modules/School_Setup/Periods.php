@@ -52,7 +52,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 		}
 		else
-			$error = ErrorMessage(array(_('Please enter valid Numeric data.')));
+			$error[] = _('Please enter valid Numeric data.');
 	}
 }
 
@@ -67,6 +67,10 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
+//modif Francois: fix SQL bug invalid numeric data
+if(isset($error))
+	echo ErrorMessage($error);
+
 if($_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT PERIOD_ID,TITLE,SHORT_NAME,SORT_ORDER,LENGTH,START_TIME,END_TIME,BLOCK,ATTENDANCE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER";
@@ -80,8 +84,7 @@ if($_REQUEST['modfunc']!='remove')
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
-//modif Francois: fix SQL bug invalid numeric data
-	if(isset($error)) echo $error;
+
 	ListOutput($periods_RET,$columns,'Period','Periods',$link);
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';

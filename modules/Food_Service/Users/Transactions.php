@@ -25,7 +25,7 @@ if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 			DBQuery('BEGIN; '.$sql1.'; '.$sql2.'; COMMIT');
 		}
 		else
-			$error = _('Please enter valid Type and Amount.');
+			$error[] = _('Please enter valid Type and Amount.');
 	}
 	unset($_REQUEST['modfunc']);
 }
@@ -40,6 +40,9 @@ $extra['functions'] += array('BALANCE'=>'red');
 $extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 
 Search('staff_id',$extra);
+
+if(isset($error))
+	echo ErrorMessage($error);
 
 if(UserStaffID() && empty($_REQUEST['modfunc']))
 {
@@ -58,9 +61,6 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 //modif Francois: fix bug no balance
 //	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($staff['BALANCE']),_('Balance')));
-
-	if(isset($error)) 
-		echo ErrorMessage(array($error));
 
 	if($staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
 	{

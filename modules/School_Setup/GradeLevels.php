@@ -41,7 +41,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 		}
 		else
-			$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+			$error[] = _('Please enter a valid Sort Order.');
 	}
 }
 
@@ -56,6 +56,10 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
+//modif Francois: fix SQL bug invalid sort order
+if(isset($error))
+	echo ErrorMessage($error);
+
 if($_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT ID,TITLE,SHORT_NAME,SORT_ORDER,NEXT_GRADE_ID FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER";
@@ -69,8 +73,7 @@ if($_REQUEST['modfunc']!='remove')
 	
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
-//modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
+
 	ListOutput($grades_RET,$columns,'Grade Level','Grade Levels',$link);
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';

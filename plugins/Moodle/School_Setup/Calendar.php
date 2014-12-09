@@ -94,7 +94,7 @@ object {
 	{
 		global $error;
 
-		$error = 'Code: '.$response['warnings'][0]['warningcode'].' - '.$response['warnings'][0]['message'];
+		$error[] = 'Code: '.$response['warnings'][0]['warningcode'].' - '.$response['warnings'][0]['message'];
 
 		return false;
 	}

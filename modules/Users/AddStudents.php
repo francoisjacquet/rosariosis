@@ -14,13 +14,15 @@ if($_REQUEST['modfunc']=='save' && AllowEdit())
 				$moodleError = Moodle($_REQUEST['modname'], 'core_role_assign_roles');
 			}
 		}
-		$note = _('The selected user\'s profile now includes access to the selected students.');
+		$note[] = _('The selected user\'s profile now includes access to the selected students.');
 	}
 	else
-		$error = _('You must choose at least one student.');
+		$error[] = _('You must choose at least one student.');
+
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 }
+
 DrawHeader(ProgramTitle());
 
 if($_REQUEST['modfunc']=='delete' && AllowEdit())
@@ -34,10 +36,11 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if($note)
-	echo ErrorMessage(array($note),'note');
-if($error)
-	echo ErrorMessage(array($error));
+if(isset($note))
+	echo ErrorMessage($note,'note');
+
+if(isset($error))
+	echo ErrorMessage($error);
 
 //modif Francois: Moodle integrator
 echo $moodleError;

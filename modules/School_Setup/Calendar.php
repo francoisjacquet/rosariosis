@@ -155,11 +155,12 @@ if($_REQUEST['modfunc']=='delete_calendar' && AllowEdit())
 		else
 		{
 			$calendars_RET = DBGet(DBQuery("SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+
 			if(count($calendars_RET))
 				$_REQUEST['calendar_id'] = $calendars_RET[1]['CALENDAR_ID'];
 			else
 			{
-				$error = array(_('There are no calendars setup yet.'));
+				$error[] = _('There are no calendars setup yet.');
 				unset($_REQUEST['calendar_id']);
 			}
 		}
@@ -187,10 +188,11 @@ elseif(!$_REQUEST['calendar_id'])
 	else
 	{
 		$calendars_RET = DBGet(DBQuery("SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+
 		if(count($calendars_RET))
 			$_REQUEST['calendar_id'] = $calendars_RET[1]['CALENDAR_ID'];
 		else
-			$error = array(_('There are no calendars setup yet.'));
+			$error[] = _('There are no calendars setup yet.');
 	}
 }
 unset($_SESSION['_REQUEST_vars']['calendar_id']);
@@ -387,6 +389,9 @@ if($_REQUEST['modfunc']=='list_events')
 	echo '</FORM>';
 }
 
+if(isset($error))
+	echo ErrorMessage($error,'fatal');
+
 if(empty($_REQUEST['modfunc']))
 {
 	$last = 31;
@@ -464,10 +469,11 @@ if(empty($_REQUEST['modfunc']))
 		$calendar_onchange = '<script>var calendar_onchange = document.createElement("a"); calendar_onchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&calendar_id="; calendar_onchange.target = "body";</script>';
 		$link = $calendar_onchange.SelectInput($_REQUEST['calendar_id'],'calendar_id','',$options,false,' onchange="calendar_onchange.href += document.getElementById(\'calendar_id\').value; ajaxLink(calendar_onchange);" ',false).'<span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create">'.button('add')._('Create new calendar').'</A></span> | <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create&calendar_id='.$_REQUEST['calendar_id'].'">'._('Recreate this calendar').'</A></span>&nbsp; <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_calendar&calendar_id='.$_REQUEST['calendar_id'].'">'.button('remove')._('Delete this calendar').'</A></span>';
 	}
+
 	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)).' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=list_events&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('List Events').'</A>',SubmitButton(_('Save')));
+
 	DrawHeader($link);
-	if(count($error))
-		echo ErrorMessage($error,'fatal');
+
 	if(AllowEdit() && $defaults!=1)
 //modif Francois: css WPadmin
 //		DrawHeader('<IMG src=assets/warning_button.png><span style="color:red"> '.($defaults?_('This school has more than one default calendar!'):_('This school does not have a default calendar!')).'</span>');

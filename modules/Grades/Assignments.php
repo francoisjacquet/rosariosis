@@ -54,7 +54,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 							if($column=='DUE_DATE' || $column=='ASSIGNED_DATE')
 							{
 								if(!VerifyDate($value))
-									$error = _('Some dates were not entered correctly.');
+									$error[] = _('Some dates were not entered correctly.');
 							}
 							elseif($column=='COURSE_ID' && $value=='Y' && $table=='GRADEBOOK_ASSIGNMENTS')
 							{
@@ -115,7 +115,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 							if($column=='DUE_DATE' || $column=='ASSIGNED_DATE')
 							{
 								if(!VerifyDate($value))
-									$error = _('Some dates were not entered correctly.');
+									$error[] = _('Some dates were not entered correctly.');
 							}
 							elseif($column=='COURSE_ID' && $value=='Y')
 								$value = $course_id;
@@ -141,13 +141,13 @@ if($_REQUEST['tables'] && $_POST['tables'])
 					}
 				}
 				else
-					$error = _('Please enter a valid Sort Order.');
+					$error[] = _('Please enter a valid Sort Order.');
 			}
 			else
-				$error = _('Please enter valid Numeric data.');
+				$error[] = _('Please enter valid Numeric data.');
 		}
 		else
-			$error = _('Please fill in the required fields');
+			$error[] = _('Please fill in the required fields');
 
 		if(!isset($error) && $go)
 		{
@@ -222,9 +222,7 @@ if($_REQUEST['modfunc']=='delete')
 if (isset($error))
 	echo ErrorMessage($error);
 
-
 if(empty($_REQUEST['modfunc']))
-
 {
 	// ASSIGNMENT TYPES
 	$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='".User('STAFF_ID')."' AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') ORDER BY SORT_ORDER,TITLE";

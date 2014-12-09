@@ -66,7 +66,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			//modif Francois: check numeric fields
 			if ($categories_RET[str_replace('CATEGORY_','',$column)][1]['DATA_TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 			{
-				$error_numeric = true;
+				$error[] = _('Please enter valid Numeric data.');
 				$go = 0;
 				break;
 			}
@@ -89,13 +89,13 @@ if($_REQUEST['values'] && $_POST['values'])
 	}
 
 	$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+
 	if ($go)
+	{
 		DBQuery($sql);
-//modif Francois: css WPadmin
-	if ($error_numeric)
-		$error = ErrorMessage(array(_('Please enter valid Numeric data.')));
-	else
-		$error = ErrorMessage(array(_('That discipline incident has been referred to an administrator.')),'note');
+		$note[] = _('That discipline incident has been referred to an administrator.');
+	}
+
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['values']);
 	unset($_REQUEST['student_id']);
@@ -103,8 +103,12 @@ if($_REQUEST['values'] && $_POST['values'])
 }
 
 DrawHeader(ProgramTitle());
-if($error)
-	echo $error;
+
+if(isset($error))
+	echo ErrorMessage($error);
+
+if(isset($note))
+	echo ErrorMessage($note,'note');
 
 //if(!$_REQUEST['student_id'])
 	$extra['new'] = true;
