@@ -109,7 +109,13 @@ object {
 )} 
 */
 	if (is_array($response['warnings'][0]))
-		return ErrorMessage(array('Code: '.$response['warnings'][0]['warningcode'].' - '.$response['warnings'][0]['message']), 'error');
+	{
+		global $error;
+
+		$error[] = 'Moodle: '.'Code: '.$response['warnings'][0]['warningcode'].' - '.$response['warnings'][0]['message'];
+
+		return false;
+	}
 			
 	$assignment_id = $id;
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('assignment_id', '".$assignment_id."', ".$response['events'][0]['id'].")");

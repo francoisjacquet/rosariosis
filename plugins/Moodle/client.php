@@ -28,7 +28,7 @@ function get_xmlrpc_error($resp)
 
 	if (is_array($resp) && xmlrpc_is_fault($resp))
 	{
-		$message = 'Moodle Integrator - '.$resp['faultCode'].' - '.$resp['faultString'];
+		$message = 'Moodle: '.$resp['faultCode'].' - '.$resp['faultString'];
 		$error[] = $message;
 		return false;
 	}

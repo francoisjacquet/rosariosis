@@ -69,7 +69,13 @@ list of (
 )
 */
 	if ($response[0]['noteid'] == -1)
-		return ErrorMessage(array($response[0]['errormessage']), 'error');
+	{
+		global $error;
+
+		$error[] = 'Moodle: '.$response[0]['errormessage'];
+
+		return false;
+	}
 	
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('portal_note_id', '".$portal_note_id."', ".$response[0]['noteid'].")");
 	return null;
@@ -129,7 +135,13 @@ list of (
 )
 */
 	if (is_array($response[0]))
-		return ErrorMessage(array('Code: '.$response[0]['warningcode'].' - '.$response[0]['message']), 'error');
+	{
+		global $error;
+
+		$error[] = 'Moodle: '.'Code: '.$response[0]['warningcode'].' - '.$response[0]['message'];
+
+		return false;
+	}
 	
 	DBQuery("DELETE FROM MOODLEXROSARIO WHERE \"column\"='portal_note_id' AND rosario_id='".$_REQUEST['id']."'");
 	return null;
@@ -202,7 +214,13 @@ list of (
 )
 */
 	if (is_array($response[0]))
-		return ErrorMessage(array('Code: '.$response[0]['warningcode'].' - '.$response[0]['message']), 'error');
+	{
+		global $error;
+
+		$error[] = 'Moodle: '.'Code: '.$response[0]['warningcode'].' - '.$response[0]['message'];
+
+		return false;
+	}
 		
 	return null;
 }
