@@ -218,8 +218,8 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 						{
 							db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
 							
-	//modif Francois: Moodle integrator
-							$moodleError .= Moodle($_REQUEST['modname'], 'enrol_manual_enrol_users');
+							//hook
+							do_action('Scheduling/Scheduler.php|schedule_student');
 						}
 						else
 							$bad_locked++;
@@ -254,7 +254,11 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 		DBQuery("ANALYZE");
 	}
 
-	echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode($moodleError.'<IMG SRC="assets/check_button.png" class="alignImg" /> <B>'._('Done.').'</B>').';</script>';
+	$error_msg = '';
+	if (isset($error))
+		$error_msg = ErrorMessage($error);
+
+	echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode($error_msg.'<IMG SRC="assets/check_button.png" class="alignImg" /> <B>'._('Done.').'</B>').';</script>';
 	ob_end_flush();
 
 	//$_REQUEST['modname'] = 'Scheduling/UnfilledRequests.php';
