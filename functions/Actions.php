@@ -42,6 +42,7 @@ $RosarioHooks = array(
 	'Scheduling/Courses.php|delete_course' => array(),
 	'Scheduling/Courses.php|delete_course_period' => array(),
 
+	'Scheduling/MassSchedule.php|schedule_student' => array(),
 	'Scheduling/MassDrops.php|drop_student' => array(),
 
 	'School_Setup/Calendar.php|event_field' => array(),

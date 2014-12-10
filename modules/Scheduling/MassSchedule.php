@@ -52,8 +52,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 											values('".UserSyear()."','".UserSchool()."','".$student_id."','".$_SESSION['MassSchedule.php']['course_id']."','".$_SESSION['MassSchedule.php']['course_period_id']."','".$mp_table."','".$_REQUEST['marking_period_id']."','".$start_date."')";
 								DBQuery($sql);
 						
-				//modif Francois: Moodle integrator
-								//$moodleError .= Moodle($_REQUEST['modname'], 'enrol_manual_enrol_users');
+								//hook
+								do_action('Scheduling/MassSchedule.php|schedule_student');
 							}
 						}
 						$note[] = _('This course has been added to the selected students\' schedules.');
@@ -78,16 +78,13 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	unset($_SESSION['MassSchedule.php']);
 }
 
+if (isset($error))
+	echo ErrorMessage($error);
+if(isset($note))
+	echo ErrorMessage($note, 'note');
+		
 if(empty($_REQUEST['modfunc']))
 {
-	if (isset($error))
-		echo ErrorMessage($error);
-	if(isset($note))
-		echo ErrorMessage($note, 'note');
-		
-//modif Francois: Moodle integrator
-		echo $moodleError;
-
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
