@@ -61,9 +61,6 @@ if(Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to rol
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 //	DrawHeader('<IMG SRC=assets/check_button.png>'._('The data have been rolled.'),'<INPUT type=submit value="'._('OK').'">');
 
-//modif Francois: Moodle integrator
-	echo $moodleError;
-
 	if (!isset($error))
 		echo ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The data have been rolled.')), 'note');
 	else
@@ -75,7 +72,7 @@ if(Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to rol
 }
 
 function Rollover($table)
-{	global $next_syear,$RosarioModules,$moodleError;
+{	global $next_syear,$RosarioModules;
 
 	switch($table)
 	{
