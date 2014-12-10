@@ -212,4 +212,4 @@ pip-log.txt
 .mr.developer.cfg
 
 #RosarioSIS
-config.inc.php
+/config.inc.php
