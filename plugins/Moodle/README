@@ -28,4 +28,4 @@ Grades
 INSTALL
 -------
 Please follow the tutorial available at https://github.com/francoisjacquet/rosariosis/wiki/Moodle-integrator-setup
-Requires Moodle 2.6
+Requires Moodle 2.6 or higher
