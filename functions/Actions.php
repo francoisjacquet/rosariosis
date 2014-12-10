@@ -14,6 +14,9 @@ $RosarioHooks = array(
 	'Students/Student.php|update_student' => array(),
 	'Students/Student.php|upload_student_photo' => array(),
 
+	'Students/AddUsers.php|user_assign_role' => array(),
+	'Students/AddUsers.php|user_unassign_role' => array(),
+
 	'Users/User.php|header' => array(),
 	'Users/User.php|create_user_checks' => array(),
 	'Users/User.php|create_user' => array(),

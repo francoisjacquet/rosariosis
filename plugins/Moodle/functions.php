@@ -15,6 +15,9 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('Students/Student.php|update_student', 'MoodleTriggered', 1);
 	add_action('Students/Student.php|upload_student_photo', 'MoodleTriggered', 1);
 
+	add_action('Students/AddUsers.php|user_assign_role', 'MoodleTriggered', 1);
+	add_action('Students/AddUsers.php|user_unassign_role', 'MoodleTriggered', 1);
+
 	add_action('Users/User.php|header', 'MoodleTriggered', 1);
 	add_action('Users/User.php|create_user_checks', 'MoodleTriggered', 1);
 	add_action('Users/User.php|create_user', 'MoodleTriggered', 1);
@@ -139,6 +142,18 @@ function MoodleTriggered($hook_tag)
 
 		break;
 
+		/*Students/AddUsers.php*/
+		case 'Students/AddUsers.php|user_assign_role':
+			Moodle($modname, 'core_role_assign_roles');
+
+		break;
+
+		case 'Students/AddUsers.php|user_unassign_role':
+			Moodle($modname, 'core_role_unassign_roles');
+
+		break;
+
+
 /***************USERS**/
 		/*Users/User.php*/
 		case 'Users/User.php|header':
@@ -212,6 +227,7 @@ function MoodleTriggered($hook_tag)
 
 		break;
 
+		/*Users/Preferences.php*/
 		case 'Users/Preferences.php|update_password_checks':
 			global $new_password, $error;
 
@@ -348,16 +364,19 @@ function MoodleTriggered($hook_tag)
 
 		break;
 
+		/*Scheduling/MassSchedule.php*/
 		case 'Scheduling/MassSchedule.php|schedule_student':
 			Moodle($modname, 'enrol_manual_enrol_users');
 
 		break;
 
+		/*Scheduling/MassDrops.php*/
 		case 'Scheduling/MassDrops.php|drop_student':
 			Moodle($modname, 'core_role_unassign_roles');
 
 		break;
 
+		/*Scheduling/Scheduler.php*/
 		case 'Scheduling/Scheduler.php|schedule_student':
 			Moodle($modname, 'enrol_manual_enrol_users');
 		break;
