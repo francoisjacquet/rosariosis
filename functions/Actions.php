@@ -48,6 +48,11 @@ $RosarioHooks = array(
 	'School_Setup/PortalNotes.php|create_portal_note' => array(),
 	'School_Setup/PortalNotes.php|update_portal_note' => array(),
 	'School_Setup/PortalNotes.php|delete_portal_note' => array(),
+
+	'School_Setup/Rollover.php|rollover_staff' => array(),
+	'School_Setup/Rollover.php|rollover_course_subjects' => array(),
+	'School_Setup/Rollover.php|rollover_courses' => array(),
+	'School_Setup/Rollover.php|rollover_course_periods' => array(),
 );
 
 /**
