@@ -43,6 +43,8 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('Scheduling/Courses.php|delete_course', 'MoodleTriggered', 1);
 	add_action('Scheduling/Courses.php|delete_course_period', 'MoodleTriggered', 1);
 
+	add_action('Scheduling/MassDrops.php|drop_student', 'MoodleTriggered', 1);
+
 	add_action('School_Setup/Calendar.php|event_field', 'MoodleTriggered', 1);
 	add_action('School_Setup/Calendar.php|create_calendar_event', 'MoodleTriggered', 1);
 	add_action('School_Setup/Calendar.php|update_calendar_event', 'MoodleTriggered', 1);
@@ -343,6 +345,12 @@ function MoodleTriggered($hook_tag)
 			Moodle($modname, 'core_course_delete_courses');
 
 		break;
+
+		case 'Scheduling/MassDrops.php|drop_student':
+			Moodle($modname, 'core_role_unassign_roles');
+
+		break;
+
 
 /***************SCHOOL_SETUP**/
 		/*School_Setup/Calendar.php*/

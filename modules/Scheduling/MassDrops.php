@@ -20,6 +20,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$mp_table = GetMP($_REQUEST['marking_period_id'],'MP');
 					//$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)"),array(),array('STUDENT_ID'));
 					$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' "));
+
 					foreach($_REQUEST['student'] as $student_id=>$yes)
 					{
 						if($current_RET[$student_id])
@@ -32,10 +33,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							{
 								//DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND END_DATE IS NOT NULL AND END_DATE<START_DATE");
 								DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
-								
+
+								//hook
+								do_action('Scheduling/MassDrops.php|drop_student');
 							}
-			//modif Francois: Moodle integrator
-							$moodleError .= Moodle($_REQUEST['modname'], 'core_role_unassign_roles');
 						}
 					}
 					$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('This course has been dropped for the selected students\' schedules.');
@@ -58,18 +59,15 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 }
 
 
+if (isset($error))
+	echo ErrorMessage($error);
+if(isset($note))
+	echo ErrorMessage($note, 'note');
+
 if($_REQUEST['modfunc']!='choose_course')
 {
 	DrawHeader(ProgramTitle());
 	
-	if (isset($error))
-		echo ErrorMessage($error);
-	if(isset($note))
-		echo ErrorMessage($note, 'note');
-
-//modif Francois: Moodle integrator
-	echo $moodleError;
-
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
