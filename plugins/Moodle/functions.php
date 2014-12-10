@@ -29,6 +29,9 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('Users/Preferences.php|update_password_checks', 'MoodleTriggered', 1);
 	add_action('Users/Preferences.php|update_password', 'MoodleTriggered', 1);
 
+	add_action('Users/AddStudents.php|user_assign_role', 'MoodleTriggered', 1);
+	add_action('Users/AddStudents.php|user_unassign_role', 'MoodleTriggered', 1);
+
 	add_action('Custom/CreateParents.php|create_user', 'MoodleTriggered', 1);
 	add_action('Custom/CreateParents.php|user_assign_role', 'MoodleTriggered', 1);
 
@@ -240,6 +243,18 @@ function MoodleTriggered($hook_tag)
 			Moodle($modname, 'core_user_update_users');
 
 		break;
+
+		/*Users/AddStudents.php*/
+		case 'Users/AddStudents.php|user_assign_role':
+			Moodle($modname, 'core_role_assign_roles');
+
+		break;
+
+		case 'Users/AddStudents.php|user_unassign_role':
+			Moodle($modname, 'core_role_unassign_roles');
+
+		break;
+
 
 
 /***************CUSTOM**/

@@ -28,6 +28,9 @@ $RosarioHooks = array(
 	'Users/Preferences.php|update_password_checks' => array(),
 	'Users/Preferences.php|update_password' => array(),
 
+	'Users/AddStudents.php|user_assign_role' => array(),
+	'Users/AddStudents.php|user_unassign_role' => array(),
+
 	'Custom/CreateParents.php|create_user' => array(),
 	'Custom/CreateParents.php|user_assign_role' => array(),
 
