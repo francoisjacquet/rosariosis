@@ -94,12 +94,12 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 			$sql = mb_substr($sql,0,-1) . " WHERE ADDRESS_ID='".$_REQUEST['address_id']."'";
 			if ($go)
+			{
 				DBQuery($sql);
 			
-//modif Francois: Moodle integrator
-			$residence = DBGet(DBQuery("SELECT RESIDENCE FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'"));
-			if ($residence[1]['RESIDENCE'] == 'Y')
-				$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
+				//hook
+				do_action('Students/Student.php|update_student_address');
+			}
 		}
 		else
 		{
@@ -127,10 +127,9 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				DBQuery($sql);
 				DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID,RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF) values(".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'".UserStudentID()."','".$id."','".$_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['RESIDENCE']."','".$_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['MAILING']."','".$_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_PICKUP']."','".$_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_DROPOFF']."')");
 				$_REQUEST['address_id'] = $id;
-				
-//modif Francois: Moodle integrator
-				if ($_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['RESIDENCE'])
-					$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
+
+				//hook
+				do_action('Students/Student.php|add_student_address');
 			}
 		}
 	}
@@ -315,11 +314,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 if (isset($error))
 	echo ErrorMessage($error);
 
-//modif Francois: Moodle integrator
-echo $moodleError;
-
 if(empty($_REQUEST['modfunc']))
-
 {
 	$addresses_RET = DBGet(DBQuery("SELECT a.ADDRESS_ID, sjp.STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,  sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER 
 	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp 

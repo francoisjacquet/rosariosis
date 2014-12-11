@@ -14,6 +14,8 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('Students/Student.php|update_student_checks', 'MoodleTriggered', 1);
 	add_action('Students/Student.php|update_student', 'MoodleTriggered', 1);
 	add_action('Students/Student.php|upload_student_photo', 'MoodleTriggered', 1);
+	add_action('Students/Student.php|add_student_address', 'MoodleTriggered', 1);
+	add_action('Students/Student.php|update_student_address', 'MoodleTriggered', 1);
 
 	add_action('Students/AddUsers.php|user_assign_role', 'MoodleTriggered', 1);
 	add_action('Students/AddUsers.php|user_unassign_role', 'MoodleTriggered', 1);
@@ -142,6 +144,20 @@ function MoodleTriggered($hook_tag)
 
 		case 'Students/Student.php|upload_student_photo':
 			Moodle($modname, 'core_files_upload');
+
+		break;
+
+		case 'Students/Student.php|add_student_address':
+			if ($_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['RESIDENCE'])
+				Moodle($modname, 'core_user_update_users');
+
+		break;
+
+		case 'Students/Student.php|update_student_address':
+			$residence = DBGet(DBQuery("SELECT RESIDENCE FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'"));
+
+			if ($residence[1]['RESIDENCE'] == 'Y')
+				Moodle($modname, 'core_user_update_users');
 
 		break;
 

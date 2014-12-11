@@ -13,6 +13,8 @@ $RosarioHooks = array(
 	'Students/Student.php|update_student_checks' => array(),
 	'Students/Student.php|update_student' => array(),
 	'Students/Student.php|upload_student_photo' => array(),
+	'Students/Student.php|add_student_address' => array(),
+	'Students/Student.php|update_student_address' => array(),
 
 	'Students/AddUsers.php|user_assign_role' => array(),
 	'Students/AddUsers.php|user_unassign_role' => array(),
