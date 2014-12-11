@@ -99,9 +99,6 @@ if($_REQUEST['values'] && $_POST['values'])
 unset($_REQUEST['search_modfunc']);
 unset($_SESSION['_REQUEST_vars']['search_modfunc']);
 
-//modif Francois: Moodle integrator
-echo $moodleError;
-
 if(isset($error))
 	echo ErrorMessage($error);
 

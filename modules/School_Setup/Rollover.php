@@ -59,7 +59,6 @@ if(Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to rol
 		$error[] = _('You <i>must</i> roll users, school periods, marking periods, calendars, and report card codes at the same time or before rolling courses.');
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-//	DrawHeader('<IMG SRC=assets/check_button.png>'._('The data have been rolled.'),'<INPUT type=submit value="'._('OK').'">');
 
 	if (!isset($error))
 		echo ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The data have been rolled.')), 'note');
