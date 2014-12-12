@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Hook tags are constructed the following way:
- * [modname]|[hook_name]
+ * Action tags are constructed the following way:
+ * [modname]|[action_name]
  * ex.: Students/Student.php|create_student
  * Each tag contains an array of the functions to be hooked
  */
-$RosarioHooks = array(
+$RosarioActions = array(
 	'Students/Student.php|header' => array(),
 	'Students/Student.php|create_student_checks' => array(),
 	'Students/Student.php|create_student' => array(),
@@ -80,17 +80,20 @@ $RosarioHooks = array(
  *
  * @param string $tag The name of the action to which the $function_to_add is hooked.
  * @param callback $function_to_add The name of the function you wish to be called.
- * @param int $accepted_args optional. The number of arguments the function accept (default 0).
+ * @param int $accepted_args optional. The number of arguments the function accept (default 1).
+ * @param int $priority optional. Used to specify the order in which the functions associated with a particular action are executed (default: 10). Lower numbers correspond with earlier execution, and functions with the same priority are executed in the order in which they were added to the action.
+ * @return boolean true
  */
-function add_action($tag, $function_to_add, $accepted_args = 0)
+function add_action($tag, $function_to_add, $accepted_args = 1, $priority = 10)
 {
-	global $RosarioHooks;
+	global $RosarioActions;
 
 	//check if function exists
 	if (function_exists( (string) $function_to_add))
 		//check if tag exists
-		if (array_key_exists( (string) $tag, $RosarioHooks))
-			$RosarioHooks[$tag][$function_to_add] = (int) $accepted_args;
+		if (array_key_exists( (string) $tag, $RosarioActions))
+			$RosarioActions[$tag][$priority][$function_to_add] = (int) $accepted_args;
+	return true;
 }
 
 /**
@@ -106,14 +109,14 @@ function add_action($tag, $function_to_add, $accepted_args = 0)
  */
 function remove_action($tag, $function_to_remove)
 {
-	global $RosarioHooks;
+	global $RosarioActions;
 
 	//check if tag exists
-	if (array_key_exists( (string) $tag, $RosarioHooks))
+	if (array_key_exists( (string) $tag, $RosarioActions))
 		//check if function previously added
-		if (array_key_exists( (string) function_to_remove, $RosarioHooks[$tag]))
+		if (array_key_exists( (string) function_to_remove, $RosarioActions[$tag]))
 		{
-			unset($RosarioHooks[$tag][$function_to_remove]);
+			unset($RosarioActions[$tag][$function_to_remove]);
 			return true;
 		}
 
@@ -129,11 +132,11 @@ function remove_action($tag, $function_to_remove)
  *
  * @param string $tag The name of the action to be executed.
  * @param mixed $arg,... Optional additional arguments which are passed on to the functions hooked to the action.
- * @return null Will return null if $tag does not exist in $RosarioHooks array
+ * @return null Will return null if $tag does not exist in $RosarioActions array
  */
 function do_action($tag, $arg = '')
 {
-	global $RosarioHooks;
+	global $RosarioActions;
 
 	$args = array();
 
@@ -148,11 +151,12 @@ function do_action($tag, $arg = '')
 		$args = $args + $arg;
 
 	//check if tag exists
-	if (array_key_exists( (string) $tag, $RosarioHooks))
+	if (array_key_exists( (string) $tag, $RosarioActions))
 	{
-		foreach ( $RosarioHooks[$tag] as $function => $accepted_args )
-			if ( !is_null($function) )
-				call_user_func_array($function, array_slice($args, 0, (int) $accepted_args));
+		foreach ( $RosarioActions[$tag] as $priority => $functions )
+			foreach ( $functions as $function => $accepted_args )
+				if ( !is_null($function) )
+					call_user_func_array($function, array_slice($args, 0, (int) $accepted_args));
 	}
 	else
 		return null;
