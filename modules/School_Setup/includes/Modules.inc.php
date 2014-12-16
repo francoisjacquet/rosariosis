@@ -202,6 +202,14 @@ function _makeActivated($activated)
 	else
 		$return = '<img src="assets/x_button.png" height="16" />';
 
+	if (isset($_REQUEST['_ROSARIO_PDF']))
+	{
+		if ($activated)
+			$return = _('Yes');
+		else
+			$return = _('No');
+	}
+
 	return $return;
 }
 
@@ -245,7 +253,7 @@ function _makeReadMe($module_title,$activated=null)
 		$module_title_echo = _(str_replace('_', ' ', $module_title));
 
 	//if README file, display in Colorbox
-	if (file_exists('modules/'.$module_title.'/README'))
+	if (!isset($_REQUEST['_ROSARIO_PDF']) && file_exists('modules/'.$module_title.'/README'))
 	{
 		//get README content
 		$readme_content = file_get_contents('modules/'.$module_title.'/README');
