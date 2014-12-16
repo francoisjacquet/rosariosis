@@ -300,7 +300,7 @@ function _saveRosarioModules()
 function _reloadMenu()
 {
 	?>
-	<script>var menu_link = document.createElement("a"); menu_link.href = "Side.php"; menu_link.target = "menu"; var modname = "<?php echo $_REQUEST['modname']; ?>"; ajaxLink(menu_link);</script>
+	<script>ajaxLink(menu_link);</script>
 	<?php
 
 	return true;

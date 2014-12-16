@@ -83,6 +83,8 @@ function ajaxOptions(target,url)
 		},
 		complete: function(){
 			$('#BottomSpinner').css('visibility','hidden');
+
+			hideHelp();
 		}
 	};
 }
@@ -194,6 +196,8 @@ if (isTouchDevice())
 
 //Side.php JS
 var old_modcat = false;
+var menu_link = document.createElement("a"); menu_link.href = "Side.php"; menu_link.target = "menu";
+
 function openMenu(modname)
 {
 	if (modname!='misc/Portal.php')
@@ -223,29 +227,38 @@ function openMenu(modname)
 }
 
 //Bottom.php JS
-var old_modname='';
-function expandHelp(){
-var heightFooter = (document.getElementById('footer').style.height=='178px')?'38px':'178px';
-	if (heightFooter=='178px')
-	{
-		if (modname!=old_modname)
-		{
-			$.get("Bottom.php?modfunc=help&modname="+modname, function(data){
-				$('#footerhelp').html(data);
-				if (isTouchDevice())
-					touchScroll(document.getElementById('footerhelp'));
-			})
-			.fail(function(){
-				alert('Error: expandHelp '+modname);
-			})
-			old_modname = modname;
-		}
-		$('#footerhelp').show();
-	}
+function toggleHelp(){
+	if ($('#footerhelp').css('display') !== 'block')
+		showHelp();
 	else
-		$('#footerhelp').hide();
-	document.getElementById('footer').style.height = heightFooter;
+		hideHelp();
 }
+
+var old_modname=false;
+function showHelp(){
+	if (modname!==old_modname)
+	{
+		$.get("Bottom.php?modfunc=help&modname="+modname, function(data){
+			$('#footerhelp').html(data);
+			if (isTouchDevice())
+				touchScroll(document.getElementById('footerhelp'));
+		})
+		.fail(function(){
+			alert('Error: expandHelp '+modname);
+		})
+		old_modname = modname;
+	}
+	$('#footerhelp').show();
+	$('#footer').css('height', function(i, val){
+		return parseInt(val) + parseInt($('#footerhelp').css('height'));
+	});
+}
+
+function hideHelp(){
+	$('#footerhelp').hide();
+	$('#footer').css('height', '');
+}
+
 function expandMenu(){
 	$('#menu,#menuback').toggle();
 }
