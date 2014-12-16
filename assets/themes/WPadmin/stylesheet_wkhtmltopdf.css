@@ -7,11 +7,11 @@
 #menu{position:relative;float:left}
 #menushadow{position:absolute;top:0;right:0;bottom:0;width:6px;z-index:20}
 #body,#menu{margin-bottom:38px;}
-#footer{clear:both;position:fixed;z-index:99999;bottom:0;left:0;height:38px;width:100%;background-color:#ececec;}
-#footerwrap{height:32px;margin-top:3px;margin-bottom:3px;text-align:center;}
-#footerhelp{display:none;height:140px;background-color:white;overflow-y:scroll;padding-left:8px;}
-.mod{overflow:hidden;}
-.mod:after{content:"";display:table;clear:both;}
+#footer{clear:both;position:fixed;z-index:99999;bottom:0;left:0;height:38px;width:100%}
+#footerwrap{height:32px;margin-top:3px;margin-bottom:3px;text-align:center}
+#footerhelp{display:none;height:140px;overflow-y:scroll;padding-left:8px}
+.mod{overflow:hidden}
+.mod:after{content:"";display:table;clear:both}
 
 input[type=text],input[type=password],textarea{
 	-moz-box-sizing:border-box;
@@ -75,7 +75,7 @@ textarea,input,select{
 	padding:2px
 }
 select{
-	padding-top:0px;
+	padding:0 2px;
 	height:23px
 }
 h1,h2,h3,h4{
@@ -374,8 +374,7 @@ form.login input[type=text],form.login input[type=password]{
 }
 .underline-dots{
 	border-bottom-style:dotted;
-	border-bottom-width:1px;
-	border-bottom-color:gray
+	border-bottom-width:1px
 }
 span[class^=legend]{
 	margin-top:5px;
@@ -472,7 +471,6 @@ span.center{
 }
 #BottomButtonMenu:before{
 	content:"\2261";		
-	color:#000;
 	font-size:3rem;
 	font-weight:bold;
 	vertical-align:top

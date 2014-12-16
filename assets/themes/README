@@ -12,4 +12,4 @@ Every theme must have the following files:
 - logo.png
 
 Note:
-The stylesheet_wkhtmltopdf.css file is the CSS file used by wkhtmltopdf. It is meant to be the copy of the stylsheet.css WITHOUT the media queries.
+The stylesheet_wkhtmltopdf.css file is the CSS file used by wkhtmltopdf. It is meant to be the copy of the stylesheet.css file WITHOUT the media queries.
