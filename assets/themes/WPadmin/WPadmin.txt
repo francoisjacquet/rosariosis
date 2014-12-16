@@ -1,2 +1,2 @@
-The CSS files and images of the WPadmin theme are copied and adapted from WordPress, a free software released under the terms of the GPL version 2.
+The CSS files and images of the WPadmin theme are copied and adapted from WordPress 2.5, a free software released under the terms of the GPL version 2.
 Copyright 2011 by the contributors

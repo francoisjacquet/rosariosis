@@ -19,6 +19,8 @@ body{
 }
 #menuback,#menu{background-color:#ececec;border-color:#ccc}
 #menushadow,#menuback{background-image:url(menu-shadow.png);background-position:top right;background-repeat:repeat-y}
+#footer{background-color:#ececec}
+#footerhelp{background-color:white}
 
 .widefat{
 	border-color:#dfdfdf;
@@ -153,7 +155,7 @@ a,#adminmenu a{
 	color:#333
 }
 
-/*ajouts*/
+/*added*/
 .header2 {
 	background-color:#f9f9f9;
 	border-bottom: 1px solid #dfdfdf;
@@ -177,10 +179,18 @@ fieldset {
 .legend-red {
 	color: red
 }
+.underline-dots{
+	border-bottom-color:gray
+}
+#BottomButtonMenu:before{
+	color:#000
+}
+
 
 /*responsive tables*/
 @media only screen and (max-width: 1023px) {
 	.rt tr { border-right-color:#dfdfdf }
+	.rt2colorBox{ background-color:#fff }
 }
 @media only screen and (max-width:640px){
 	#adminmenu .wp-submenu a:hover{
