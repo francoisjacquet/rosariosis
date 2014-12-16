@@ -55,6 +55,9 @@ a,input,select{
 	outline:0;
 	text-decoration:none
 }
+#menu select{
+	max-width:100%
+}
 blockquote,q{
 	quotes:none
 }

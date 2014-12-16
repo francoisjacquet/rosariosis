@@ -114,7 +114,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID='".UserSchool()."' WHERE STAFF_ID='".User('STAFF_ID')."'");
 				} ?>
 
-				<span class="br-after"><SELECT name="school" onChange="ajaxPostForm(this.form,true);" style="width:180px;">
+				<span class="br-after"><SELECT name="school" onChange="ajaxPostForm(this.form,true);">
 
 				<?php foreach($RET as $school) : ?>
 
@@ -252,7 +252,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					$_SESSION['unset_student'] = true;
 				} ?>
 
-				<SELECT name="period" onChange="ajaxPostForm(this.form,true);" style="width:180px;">
+				<SELECT name="period" onChange="ajaxPostForm(this.form,true);">
 
 				<?php $optgroup = FALSE;
 				foreach($RET as $period)
