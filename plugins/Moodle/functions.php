@@ -350,7 +350,7 @@ function MoodleTriggered($hook_tag)
 			if($_REQUEST['moodle_create_course_period'])
 			{
 				Moodle($modname, 'core_course_create_courses');
-				Moodle($modname, 'enrol_manual_enrol_users');
+				Moodle($modname, 'core_role_assign_roles');
 			}
 
 		break;

@@ -232,7 +232,10 @@ list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
-		contextid int   //The context to assign the user role in
+		contextid int  Optional //The context to assign the user role in
+		contextlevel string  Optional //The context level to assign the user role in
+				                      (block, course, coursecat, system, user, module)
+		instanceid int  Optional //The Instance id of item where the role needs to be assigned
 	} 
 )*/
 
@@ -258,7 +261,7 @@ list of (
 	if($_REQUEST['staff']['PROFILE']=='admin')
 	{
 		$roleid = 1;
-		$contextid = 1; // System
+		$contextlevel = 'system'; // System
 	}
 	elseif($_REQUEST['staff']['PROFILE']=='teacher')
 	{
@@ -289,11 +292,14 @@ list of (
 		return null;
 	}
 
+	$instanceid = $userid; //TODO test if admin rights!
+
 	$assignments = array(
 						array(
 							'roleid' => $roleid,
 							'userid' => $userid,
-							'contextid' => $contextid,
+							'contextlevel' => $contextlevel,
+							'instanceid' => $instanceid,
 						)
 					);
 	

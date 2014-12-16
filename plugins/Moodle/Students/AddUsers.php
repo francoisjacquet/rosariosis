@@ -6,7 +6,7 @@
 function core_role_assign_roles_object()
 {
 	//first, gather the necessary variables
-	global $staff_id, $_REQUEST;
+	global $staff_id;
 	
 	
 	//then, convert variables for the Moodle object:
@@ -15,7 +15,10 @@ list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
-		contextid int   //The context to assign the user role in
+		contextid int  Optional //The context to assign the user role in
+		contextlevel string  Optional //The context level to assign the user role in
+				                      (block, course, coursecat, system, user, module)
+		instanceid int  Optional //The Instance id of item where the role needs to be assigned
 	} 
 )*/
 
@@ -30,30 +33,27 @@ list of (
 		return null;
 	}
 	
-	//get the contextid
-	global $moodle_contextlevel, $moodle_instance;
-	$moodle_contextlevel = CONTEXT_USER;
-	//gather the Moodle user ID
-	$moodle_instance = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStudentID()."' AND \"column\"='student_id'"));
-	if (count($moodle_instance))
+	//gather the Moodle student ID
+	$studentid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStudentID()."' AND \"column\"='student_id'"));
+	if (count($studentid))
 	{
-		$moodle_instance = (int)$moodle_instance[1]['MOODLE_ID'];
+		$studentid = (int)$studentid[1]['MOODLE_ID'];
 	}
 	else
 	{
 		return null;
 	}
 
-	$contexts = Moodle('Global/functions.php', 'local_getcontexts_get_contexts');
-	
-	$contextid = $contexts[0]['id'];
+	$contextlevel = 'user';
 	$roleid = MOODLE_PARENT_ROLE_ID;
+	$instanceid = $studentid;
 
 	$assignments = array(
 						array(
 							'roleid' => $roleid,
 							'userid' => $userid,
-							'contextid' => $contextid,
+							'contextlevel' => $contextlevel,
+							'instanceid' => $instanceid,
 						)
 					);
 	
