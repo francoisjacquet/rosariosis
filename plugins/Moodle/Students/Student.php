@@ -269,13 +269,17 @@ function core_files_upload_object()
 	
 	//then, convert variables for the Moodle object:
 /*
-[contextid] => int
-[component] => string
-[filearea] => string
-[itemid] => int
-[filepath] => string
-[filename] => string
-[filecontent] => string
+contextid int  Default to "null" //context id
+component string   //component
+filearea string   //file area
+itemid int   //associated id
+filepath string   //file path
+filename string   //file name
+filecontent string   //file content
+contextlevel string  Default to "null" //The context level to put the file in,
+                        (block, course, coursecat, system, user, module)
+instanceid int  Default to "null" //The Instance id of item associated
+                         with the context level
 */
 
 //For a User Avatar, looking at mdl_files table for example:
@@ -293,25 +297,20 @@ filecontent = base64_encode
 // see http://tracker.moodle.org/browse/MDL-31116
 	return null;
 		
-	global $moodle_contextlevel, $moodle_instance;
-	$moodle_contextlevel = CONTEXT_USER;
 	$rosario_id = $_POST['userId'];
 	//gather the Moodle user ID
 	$column = (mb_strpos($_POST['modname'], 'Users') !== false ? 'staff_id' : 'student_id');
-	$moodle_instance = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='".$column."'"));
-	if (count($moodle_instance))
+	$instanceid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='".$column."'"));
+	if (count($instanceid))
 	{
-		$moodle_instance = (int)$moodle_instance[1]['MOODLE_ID'];
+		$instanceid = (int)$instanceid[1]['MOODLE_ID'];
 	}
 	else
 	{
 		return null;
 	}
 
-	//get contextid first:
-	$contexts = Moodle('Global/functions.php', 'local_getcontexts_get_contexts');
-	
-	$contextid = $contexts[0]['id'];
+	$contextlevel = 'user';
 	$component = 'user';
 	$filearea = 'draft';
 	$itemid = 1;
@@ -329,13 +328,14 @@ filecontent = base64_encode
 	$filecontent = base64_encode_file ($wkhtmltopdfAssetsPath.str_replace('assets/','',$_POST['photoPath']).$_POST['sYear'].'/'.$_POST['userId'].'.jpg');
 	
 	$file = array(
-					$contextid,
 					$component,
 					$filearea,
 					$itemid,
 					$filepath,
 					$filename,
 					$filecontent,
+					$contextlevel,
+					$instanceid,
 				);
 	
 	return $file;
