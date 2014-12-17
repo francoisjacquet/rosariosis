@@ -15,10 +15,12 @@ list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
-		contextid int   //The context to unassign the user role from
+		contextid int  Optional //The context to unassign the user role from
+		contextlevel string  Optional //The context level to unassign the user role in
+		+                                    (block, course, coursecat, system, user, module)
+		instanceid int  Optional //The Instance id of item where the role needs to be unassigned
 	} 
-)
-*/
+)*/
 	//gather the Moodle user ID
 	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'"));
 	if (count($userid))
@@ -33,29 +35,29 @@ list of (
 	//student's roleid = student = 5
 	$roleid = 5;
 
-	//get contextid:
-	global $moodle_contextlevel, $moodle_instance;
-	$moodle_contextlevel = CONTEXT_COURSE;
-	$rosario_id = $_SESSION['MassDrops.php']['course_period_id'];
-	//gather the Moodle course ID
-	$moodle_instance = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$rosario_id."' AND \"column\"='course_period_id'"));
-	if (count($moodle_instance))
+	//gather the Moodle course period ID
+	$courseperiodid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_SESSION['MassDrops.php']['course_period_id']."' AND \"column\"='course_period_id'"));
+	if (count($courseperiodid))
 	{
-		$moodle_instance = (int)$moodle_instance[1]['MOODLE_ID'];
+		$courseperiodid = (int)$courseperiodid[1]['MOODLE_ID'];
 	}
 	else
 	{
 		return null;
 	}
 
-	$contexts = Moodle('Global/functions.php', 'local_getcontexts_get_contexts');
-	$contextid = $contexts[0]['id'];
+	//student's roleid = student = 5
+	$roleid = 5;
+
+	$contextlevel = 'course';
+	$instanceid = $courseperiodid;
 	
 	$unassignments = array(
 						array(
 							'roleid' => $roleid,
 							'userid' => $userid,
-							'contextid' => $contextid,
+							'contextlevel' => $contextlevel,
+							'instanceid' => $instanceid,
 						)
 					);
 	

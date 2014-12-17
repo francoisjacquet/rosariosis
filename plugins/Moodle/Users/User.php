@@ -315,7 +315,6 @@ function core_role_assign_roles_response($response)
 
 
 //core_role_unassign_roles function
-//TODO get rid of local_getcontexts_get_contexts function call when context not needed? (https://tracker.moodle.org/browse/MDL-39153)
 function core_role_unassign_roles_object()
 {
 	//first, gather the necessary variables
@@ -328,10 +327,12 @@ list of (
 	object {
 		roleid int   //Role to assign to the user
 		userid int   //The user that is going to be assigned
-		contextid int   //The context to unassign the user role from
+		contextid int  Optional //The context to unassign the user role from
+		contextlevel string  Optional //The context level to unassign the user role in
+		+                                    (block, course, coursecat, system, user, module)
+		instanceid int  Optional //The Instance id of item where the role needs to be unassigned
 	} 
-)
-*/
+)*/
 	//gather the Moodle user ID
 	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".UserStaffID()."' AND \"column\"='staff_id'"));
 	if (count($userid))
@@ -350,19 +351,18 @@ list of (
 	}
 	
 	//admin's roleid = manager = 1
-	//teacher's roleid = teacher = 3
-	//parent's roleid = parent = RoleToBeCreated
-	//student's roleid = student = 5
 	
 	//only unassign manager role
 	$roleid = 1;
-	$contextid = 1; // System
+	$contextlevel = 'system'; // System
+	$instanceid = $userid; //TODO test if admin rights removed!
 	
 	$unassignments = array(
 						array(
 							'roleid' => $roleid,
 							'userid' => $userid,
-							'contextid' => $contextid,
+							'contextlevel' => $contextlevel,
+							'instanceid' => $instanceid,
 						)
 					);
 	
