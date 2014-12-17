@@ -89,7 +89,8 @@ if($_REQUEST['schedule'] && $_POST['schedule'] && AllowEdit())
 		if($columns['START_DATE'] || $columns['END_DATE'])
 		{
 			$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
-			// User should be asked if he wants absences and grades to be deleted
+
+			//TODO User should be asked if he wants absences and grades to be deleted
 			if(count($start_end_RET))
 			{
 				DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
@@ -97,6 +98,9 @@ if($_REQUEST['schedule'] && $_POST['schedule'] && AllowEdit())
 				DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
 				DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
 				DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+
+				//hook
+				do_action('Scheduling/Schedule.php|drop_student');
 			}
 			else
 				DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND (".($columns['START_DATE']?"SCHOOL_DATE<'".$columns['START_DATE']."'":'FALSE').' OR '.($columns['END_DATE']?"SCHOOL_DATE>'".$columns['END_DATE']."'":'FALSE').")");
@@ -310,6 +314,8 @@ if($_REQUEST['modfunc']=='choose_course')
 		if(empty($warnings) || Prompt('Confirm',_('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
 		{
 			DBQuery("INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".UserStudentID()."','".$date."','".$_REQUEST['course_id']."','".$_REQUEST['course_period_id']."','".$mp_RET[1]['MP']."','".$mp_RET[1]['MARKING_PERIOD_ID']."')");
+
+			do_action('Scheduling/Schedule.php|schedule_student');
 
 			echo '<script>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&time='.time().'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
 		}

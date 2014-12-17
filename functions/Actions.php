@@ -52,6 +52,8 @@ $RosarioActions = array(
 
 	'Scheduling/MassSchedule.php|schedule_student' => array(),
 	'Scheduling/MassDrops.php|drop_student' => array(),
+	'Scheduling/Schedule.php|drop_student' => array(),
+	'Scheduling/Schedule.php|schedule_student' => array(),
 	'Scheduling/Scheduler.php|schedule_student' => array(),
 
 	'School_Setup/Calendar.php|event_field' => array(),

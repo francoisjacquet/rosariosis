@@ -53,6 +53,8 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 
 	add_action('Scheduling/MassSchedule.php|schedule_student', 'MoodleTriggered');
 	add_action('Scheduling/MassDrops.php|drop_student', 'MoodleTriggered');
+	add_action('Scheduling/Schedule.php|drop_student', 'MoodleTriggered');
+	add_action('Scheduling/Schedule.php|schedule_student', 'MoodleTriggered');
 	add_action('Scheduling/Scheduler.php|schedule_student', 'MoodleTriggered');
 
 	add_action('School_Setup/Calendar.php|event_field', 'MoodleTriggered');
@@ -372,14 +374,14 @@ function MoodleTriggered($hook_tag)
 				if ($columns['TEACHER_ID'] && $columns['TEACHER_ID'] != $current[1]['TEACHER_ID'])
 				{
 					Moodle($modname, 'core_role_unassign_roles');
-					Moodle($modname, 'enrol_manual_enrol_users');
+					Moodle($modname, 'core_role_assign_roles');
 				}
 			}
 			//this is an already created course period but not in Moodle yet TODO: TEST!!
 			elseif ($_REQUEST['moodle_create_course_period'])
 			{
 				Moodle($modname, 'core_course_create_courses');
-				Moodle($modname, 'enrol_manual_enrol_users');			
+				Moodle($modname, 'core_role_assign_roles');
 			}
 
 		break;
@@ -405,6 +407,15 @@ function MoodleTriggered($hook_tag)
 		case 'Scheduling/MassDrops.php|drop_student':
 			Moodle($modname, 'core_role_unassign_roles');
 
+		break;
+
+		/*Scheduling/Schedule.php*/
+		case 'Scheduling/Schedule.php|schedule_student':
+			Moodle($modname, 'core_role_unassign_roles');
+		break;
+
+		case 'Scheduling/Schedule.php|drop_student':
+			Moodle($modname, 'enrol_manual_enrol_users');
 		break;
 
 		/*Scheduling/Scheduler.php*/
