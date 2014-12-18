@@ -22,6 +22,18 @@ if(isset($_REQUEST['plugin']) && strpos($_REQUEST['plugin'], '..') !== false)
 }
 
 
+if($_REQUEST['modfunc']=='config')
+{
+	//if the plugin is activated, show configuration (call the plugin's config.inc.php file)
+	if (in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == true && file_exists('plugins/'.$_REQUEST['plugin'].'/config.inc.php'))
+		include('plugins/'.$_REQUEST['plugin'].'/config.inc.php');
+	else
+	{
+		unset($_REQUEST['modfunc']);
+		unset($_REQUEST['plugin']);
+	}
+}
+
 if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if(DeletePrompt(_('Plugin')))
@@ -140,6 +152,7 @@ if(empty($_REQUEST['modfunc']))
 		$THIS_RET['DELETE'] =  _makeDelete($plugin_title,$activated);
 		$THIS_RET['TITLE'] = _makeReadMe($plugin_title,$activated);
 		$THIS_RET['ACTIVATED'] = _makeActivated($activated);
+		$THIS_RET['CONFIGURATION'] = _makeConfiguration($plugin_title,$activated);
 		
 		$plugins_RET[] = $THIS_RET;
 	}		
@@ -157,12 +170,13 @@ if(empty($_REQUEST['modfunc']))
 			$THIS_RET['DELETE'] =  _makeDelete($plugin_title);
 			$THIS_RET['TITLE'] = _makeReadMe($plugin_title);
 			$THIS_RET['ACTIVATED'] = _makeActivated(false);
+			$THIS_RET['CONFIGURATION'] = _makeConfiguration(false);
 		
 			$plugins_RET[] = $THIS_RET;
 		}
 	}
 
-	$columns = array('DELETE'=>'','TITLE'=>_('Title'),'ACTIVATED'=>_('Activated'));
+	$columns = array('DELETE'=>'','TITLE'=>_('Title'),'ACTIVATED'=>_('Activated'),'CONFIGURATION'=>_('Configuration'));
 	
 	unset($plugins_RET[0]);
 	
@@ -184,6 +198,18 @@ function _makeActivated($activated)
 		else
 			$return = _('No');
 	}
+
+	return $return;
+}
+
+function _makeConfiguration($plugin_title,$activated)
+{	global $THIS_RET;
+	
+	//verify plugin is activated & config.inc.php file exists
+	if ($activated && file_exists('plugins/'.$plugin_title.'/config.inc.php'))
+		$return = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=config&plugin='.$plugin_title.'">'._('Configuration').'</a>';
+	else
+		$return = '';
 
 	return $return;
 }

@@ -441,8 +441,8 @@ filecontent = base64_encode
          return base64_encode($filebinary);
      }
 
-	global $wkhtmltopdfAssetsPath;
-	$filecontent = base64_encode_file ($wkhtmltopdfAssetsPath.str_replace('assets/','',$_POST['photoPath']).$_POST['sYear'].'/'.$_POST['userId'].'.jpg');
+	global $RosarioPath;
+	$filecontent = base64_encode_file ($RosarioPath.$_POST['photoPath'].$_POST['sYear'].'/'.$_POST['userId'].'.jpg');
 	
 	$file = array(
 					$component,

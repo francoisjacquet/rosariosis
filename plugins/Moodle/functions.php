@@ -1,8 +1,8 @@
 <?php
 
-require_once('plugins/Moodle/config.inc.php');
+include('plugins/Moodle/getconfig.inc.php');
 
-//modif Francois: convert Moodle integrator to plugin
+//modif Francois: Moodle plugin
 
 //check Moodle plugin configuration options are set
 if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAIL_FIELD_ID)
@@ -75,7 +75,7 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 
 
 //Triggered function
-//Will redirect to Moodle() function wit the right function name
+//Will redirect to Moodle() function with the right WebService function name
 function MoodleTriggered($hook_tag)
 {
 	global $error;
@@ -274,7 +274,6 @@ function MoodleTriggered($hook_tag)
 		break;
 
 
-
 /***************CUSTOM**/
 		/*Custom/CreateParents.php*/
 		case 'Custom/CreateParents.php|create_user':
@@ -286,6 +285,7 @@ function MoodleTriggered($hook_tag)
 			Moodle($modname, 'core_role_assign_roles');
 
 		break;
+
 
 /***************GRADES**/
 		/*Grades/Assignments.php*/
@@ -306,6 +306,7 @@ function MoodleTriggered($hook_tag)
 			Moodle($modname, 'core_calendar_delete_calendar_events');
 
 		break;
+
 
 /***************SCHEDULING**/
 		/*Scheduling/Courses.php*/

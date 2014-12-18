@@ -3,4 +3,6 @@ Place here the Plugins you want to add to RosarioSIS.
 Activate them via:
 School Setup > School Configuration > Plugins
 
-Every plugin must have a functions.php file. The functions.php file contains the functions to be automatically loaded by RosarioSIS.
+Every plugin must have a functions.php file and a config.inc.php file.
+The functions.php file contains the functions to be automatically loaded by RosarioSIS.
+The config.inc.php file is included by the modules/School_Setup/includes/Plugins.inc.php file when the Configuration link in the plugin listing is clicked.
