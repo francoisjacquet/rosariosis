@@ -75,12 +75,6 @@ if(count($grades_RET))
 	foreach($grades_RET as $value)
 		$options[$value['ID']] = $value['TITLE'];
 }
-if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool())
-{
-	$allow_edit = $_ROSARIO['allow_edit'];
-	$AllowEdit = $_ROSARIO['AllowEdit'][$_REQUEST['modname']];
-	$_ROSARIO['AllowEdit'][$_REQUEST['modname']] = $_ROSARIO['allow_edit'] = false;
-}
 
 if($_REQUEST['student_id']=='new')
 	$student_id = 'new';
@@ -90,23 +84,35 @@ else
 if($student_id=='new' && !VerifyDate($_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE']))
 	unset($student['GRADE_ID']);
 
-//get Student Enrollment ID
+//get Student Grade Level ID
 if ($student_id!='new')
 {
-	$RET = DBGet(DBQuery("SELECT e.ID FROM STUDENT_ENROLLMENT e WHERE e.STUDENT_ID='".UserStudentID()."' AND e.SYEAR='".UserSyear()."' ORDER BY START_DATE DESC,END_DATE DESC LIMIT 1"));
-
-	$student_enrollment_id = $RET[1]['ID'];
-
 	//if Grade Level modified but not already saved (saved later in Enrollment.inc.php)
-	if(isset($_REQUEST['values']['STUDENT_ENROLLMENT'][$student_enrollment_id]['GRADE_ID']))
-		$student['GRADE_ID'] = $_REQUEST['values']['STUDENT_ENROLLMENT'][$student_enrollment_id]['GRADE_ID'];
+	if(isset($_REQUEST['values']['STUDENT_ENROLLMENT'][$student['ENROLLMENT_ID']]['GRADE_ID']))
+		$student['GRADE_ID'] = $_REQUEST['values']['STUDENT_ENROLLMENT'][$student['ENROLLMENT_ID']]['GRADE_ID'];
+
+	//if newly created student
+	elseif(isset($_REQUEST['values']['STUDENT_ENROLLMENT']['new']['GRADE_ID']))
+	{
+		$student['GRADE_ID'] = $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['GRADE_ID'];
+		$student['SCHOOL_ID'] = UserSchool();
+	}
 }
 else
-	$student_enrollment_id = 'new';
+	$student['ENROLLMENT_ID'] = 'new';
 
-echo SelectInput($student['GRADE_ID'],'values[STUDENT_ENROLLMENT]['.$student_enrollment_id.'][GRADE_ID]',(!$student['GRADE_ID']?'<span class="legend-red">':'')._('Grade Level').(!$student['GRADE_ID']?'</span>':''),$options,false,'required');
+//begin disable Grade Level edit if not in Current School
+if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool())
+{
+	$allow_edit = $_ROSARIO['allow_edit'];
+	$AllowEdit = $_ROSARIO['AllowEdit'][$_REQUEST['modname']];
+	$_ROSARIO['AllowEdit'][$_REQUEST['modname']] = $_ROSARIO['allow_edit'] = false;
+}
+
+echo SelectInput($student['GRADE_ID'],'values[STUDENT_ENROLLMENT]['.$student['ENROLLMENT_ID'].'][GRADE_ID]',(!$student['GRADE_ID']?'<span class="legend-red">':'')._('Grade Level').(!$student['GRADE_ID']?'</span>':''),$options,false,'required');
 echo '</TD>';
 
+//end disable Grade Level edit if not in Current School
 if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool())
 {
 	$_ROSARIO['allow_edit'] = $allow_edit;

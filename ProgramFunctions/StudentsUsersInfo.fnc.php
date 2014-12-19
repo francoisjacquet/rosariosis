@@ -391,6 +391,7 @@ function _makeSchoolInput($value,$column)
 		else
 			return SelectInput(UserSchool(),'values[STUDENT_ENROLLMENT]['.$id.'][SCHOOL_ID]','',$options,false,'',false);
 	else
-		return $schools[UserSchool()][1]['TITLE'];
+		//modif Francois: save new Student's Enrollment in Enrollment.inc.php
+		return '<input type="hidden" name="values[STUDENT_ENROLLMENT][new][SCHOOL_ID]" value="'.UserSchool().'" />'.$schools[UserSchool()][1]['TITLE'];
 }
 ?>
