@@ -70,7 +70,6 @@ if($_REQUEST['period_id'])
 			$period_ids_list[] = $period_id['PERIOD_ID'];
 		
 		$period_ids_list = implode(',',$period_ids_list);
-		var_dump($period_ids_list);
 	}
 	else
 		$period_ids_list = $_REQUEST['period_id'];
