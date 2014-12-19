@@ -84,6 +84,9 @@ Array
 */
 	
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('student_id', '".(!empty($student_id) ? $student_id : UserStudentID())."', ".$response[0]['id'].")");
+
+	unset($_REQUEST['moodle_create_student']);
+
 	return null;
 }
 

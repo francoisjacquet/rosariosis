@@ -92,6 +92,8 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 /***************STUDENTS**/
 		/*Students/Student.php*/
 		case 'Students/Student.php|header':
+			global $old_student_in_moodle;
+
 			//propose to create student in Moodle: if 1) this is a creation, 2) this is an already created student but not in Moodle yet
 			if (AllowEdit() && $_REQUEST['include']=='General_Info')
 			{
@@ -178,6 +180,8 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 /***************USERS**/
 		/*Users/User.php*/
 		case 'Users/User.php|header':
+			global $old_user_in_moodle;
+
 			//propose to create user in Moodle: if 1) this is a creation, 2) this is an already created user but not in Moodle yet
 			if (AllowEdit() && $_REQUEST['include']=='General_Info')
 			{

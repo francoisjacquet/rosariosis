@@ -81,6 +81,9 @@ Array
 */
 	
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('staff_id', '".UserStaffID()."', ".$response[0]['id'].")");
+
+	unset($_REQUEST['moodle_create_user']);
+
 	return null;
 }
 
@@ -289,7 +292,7 @@ list of (
 		return null;
 	}
 
-	$instanceid = $userid; //TODO test if admin rights!
+	$instanceid = $userid;
 
 	$assignments = array(
 						array(
@@ -352,7 +355,7 @@ list of (
 	//only unassign manager role
 	$roleid = 1;
 	$contextlevel = 'system'; // System
-	$instanceid = $userid; //TODO test if admin rights removed!
+	$instanceid = $userid;
 	
 	$unassignments = array(
 						array(
