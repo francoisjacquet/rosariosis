@@ -62,7 +62,7 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('School_Setup/Calendar.php|update_calendar_event', 'MoodleTriggered');
 	add_action('School_Setup/Calendar.php|delete_calendar_event', 'MoodleTriggered');
 
-	add_action('School_Setup/PortalNotes.php|portal_note_field', 'MoodleTriggered');
+	add_action('School_Setup/PortalNotes.php|portal_note_field', 'MoodleTriggered', 2);
 	add_action('School_Setup/PortalNotes.php|create_portal_note', 'MoodleTriggered');
 	add_action('School_Setup/PortalNotes.php|update_portal_note', 'MoodleTriggered');
 	add_action('School_Setup/PortalNotes.php|delete_portal_note', 'MoodleTriggered');
@@ -76,7 +76,7 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 
 //Triggered function
 //Will redirect to Moodle() function with the right WebService function name
-function MoodleTriggered($hook_tag)
+function MoodleTriggered($hook_tag, $arg1 = '')
 {
 	global $error;
 
@@ -442,7 +442,7 @@ function MoodleTriggered($hook_tag)
 				Moodle($modname, 'core_calendar_create_calendar_events');
 				if (!empty($error))
 				{
-					echo ErrorMessage(array($error), 'fatal');//display inside popup, before JS closing
+					echo ErrorMessage($error, 'fatal');//display inside popup, before JS closing
 				}
 			}
 
@@ -479,7 +479,8 @@ function MoodleTriggered($hook_tag)
 
 		/*School_Setup/PortalNotes.php*/
 		case 'School_Setup/PortalNotes.php|portal_note_field':
-			global $id, $return;
+			$id = $arg1;
+			global $return;
 
 			//only if new note
 			if ($id == 'new')
@@ -494,6 +495,8 @@ function MoodleTriggered($hook_tag)
 		break;
 
 		case 'School_Setup/PortalNotes.php|update_portal_note':
+			global $columns;
+
 			//update note if title or content modified
 			if (isset($columns['TITLE']) || isset($columns['CONTENT']))
 				Moodle($modname, 'core_notes_update_notes');

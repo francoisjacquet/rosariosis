@@ -203,12 +203,14 @@ if (isset($_POST['votes']) && is_array($_POST['votes']))
 
 
 function makePublishing($value,$name)
-{	global $THIS_RET,$profiles_RET;
+{	global $THIS_RET,$profiles_RET,$return;
 
 	if($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
+
+	$return = '';
 
 	//modif Francois: responsive rt td too large
 	if (!isset($_REQUEST['_ROSARIO_PDF']))
@@ -274,7 +276,8 @@ function makePublishing($value,$name)
 	if ($_REQUEST['modname']=='School_Setup/PortalNotes.php')
 	{
 		//hook
-		do_action('School_Setup/PortalNotes.php|portal_note_field');
+		$args = $id;
+		do_action('School_Setup/PortalNotes.php|portal_note_field',$args);
 	}
 		
 	$return .= '</TABLE></TD></TR></TABLE></DIV>';

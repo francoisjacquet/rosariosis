@@ -95,9 +95,10 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 				//modif Francois: file attached to portal notes
 				$fields = 'ID,SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
-//modif Francois: Moodle integrator
+
 				$portal_note_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('PORTAL_NOTES_SEQ').' AS PORTAL_NOTE_ID '.FROM_DUAL));
 				$portal_note_id = $portal_note_RET[1]['PORTAL_NOTE_ID'];
+
 				//$values = db_seq_nextval('PORTAL_NOTES_SEQ').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 				$values = $portal_note_id.",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 

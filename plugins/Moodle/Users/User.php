@@ -5,7 +5,7 @@
 function core_user_create_users_object()
 {
 	//first, gather the necessary variables
-	global $staff_id, $locale, $_REQUEST;
+	global $locale, $_REQUEST;
 	
 	//then, convert variables for the Moodle object:
 /*
@@ -47,7 +47,7 @@ list of (
 	$lastname = $_REQUEST['staff']['LAST_NAME'];
 	$email = $_REQUEST['staff']['EMAIL'];
 	$auth = 'manual';
-	$idnumber = (string)$staff_id;
+	$idnumber = (string)UserStaffID();
 	
 	$users = array(
 				array(
@@ -67,9 +67,6 @@ list of (
 
 function core_user_create_users_response($response)
 {
-	//first, gather the necessary variables
-	global $staff_id;
-	
 	//then, save the ID in the moodlexrosario cross-reference table:
 /*
 Array 
@@ -83,7 +80,7 @@ Array
 	)
 */
 	
-	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('staff_id', '".(!empty($staff_id) ? $staff_id : UserStaffID())."', ".$response[0]['id'].")");
+	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('staff_id', '".UserStaffID()."', ".$response[0]['id'].")");
 	return null;
 }
 

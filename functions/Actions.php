@@ -144,13 +144,13 @@ function do_action($tag, $arg = '')
 
 	//by default, the only argument passed to the function is the tag
 	$args[] = $tag;
-	
+
 	if (!is_array($arg))
 	{
 		$args[] = $arg;
 	}
 	else
-		$args = $args + $arg;
+		$args = array_merge($args, $arg);
 
 	//check if tag exists
 	if (array_key_exists( (string) $tag, $RosarioActions))
