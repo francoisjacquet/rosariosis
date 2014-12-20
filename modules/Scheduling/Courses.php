@@ -831,13 +831,14 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables[COURSES]['.$_REQUEST['course_id'].'][SHORT_NAME]',_('Short Name')) . '</TD>';
 //modif Francois: add Credit Hours to Courses
 			$header .= '<TD>' . TextInput($RET['CREDIT_HOURS'],'tables[COURSES]['.$_REQUEST['course_id'].'][CREDIT_HOURS]',_('Credit Hours')) . '</TD>';
-			if($_REQUEST['modfunc']!='choose_course')
+			//modif Francois: SQL error column "subject_id" specified more than once
+			/*if($_REQUEST['modfunc']!='choose_course')
 			{
 				foreach($subjects_RET as $type)
 					$options[$type['SUBJECT_ID']] = $type['TITLE'];
 
 				$header .= '<TD>' . SelectInput($RET['SUBJECT_ID']?$RET['SUBJECT_ID']:$_REQUEST['subject_id'],'tables[COURSES]['.$_REQUEST['course_id'].'][SUBJECT_ID]',_('Subject'),$options,false) . '</TD>';
-			}
+			}*/
 			$header .= '</TR>';
 			$header .= '</TABLE>';
 			DrawHeader($header);
