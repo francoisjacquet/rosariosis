@@ -85,7 +85,7 @@ Array
 	
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('student_id', '".(!empty($student_id) ? $student_id : UserStudentID())."', ".$response[0]['id'].")");
 
-	unset($_REQUEST['moodle_create_student']);
+	$_REQUEST['moodle_create_student'] = false;
 
 	return null;
 }
@@ -216,8 +216,6 @@ list of (
 	} 
 )*/
 
-	$parent_assignment = array();
-
 	//gather the Moodle user ID
 	$student_id = UserStudentID();
 	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=(SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".$student_id."' LIMIT 1) AND \"column\"='staff_id'"));
@@ -227,7 +225,7 @@ list of (
 	}
 	else
 	{
-		$userid = false;
+		return null;
 	}
 	
 	//gather the Moodle student ID
@@ -244,30 +242,14 @@ list of (
 	$contextlevel = 'user';
 	$roleid = MOODLE_PARENT_ROLE_ID;
 	$instanceid = $studentid;
-
-	if ($userid != false)
-		$parent_assignment = array(
-						'roleid' => $roleid,
-						'userid' => $userid,
-						'contextlevel' => $contextlevel,
-						'instanceid' => $instanceid,
-					);
-
-	$userid = $studentid;
-	$contextlevel = 'course';
-	$roleid = 5; //student role id = 5
-	$instanceid = 1;
-
-	$student_assignment = array(
+	
+	$assignments = array(
+				array(
 					'roleid' => $roleid,
 					'userid' => $userid,
 					'contextlevel' => $contextlevel,
 					'instanceid' => $instanceid,
-				);
-	
-	$assignments = array(
-				$student_assignment,
-				$parent_assignment,
+				)
 			);
 	
 	return array($assignments);

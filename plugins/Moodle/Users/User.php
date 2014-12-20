@@ -82,7 +82,7 @@ Array
 	
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('staff_id', '".UserStaffID()."', ".$response[0]['id'].")");
 
-	unset($_REQUEST['moodle_create_user']);
+	$_REQUEST['moodle_create_user'] = false;
 
 	return null;
 }
@@ -295,13 +295,13 @@ list of (
 	$instanceid = $userid;
 
 	$assignments = array(
-						array(
-							'roleid' => $roleid,
-							'userid' => $userid,
-							'contextlevel' => $contextlevel,
-							'instanceid' => $instanceid,
-						)
-					);
+				array(
+					'roleid' => $roleid,
+					'userid' => $userid,
+					'contextlevel' => $contextlevel,
+					'instanceid' => $instanceid,
+				)
+			);
 	
 	return array($assignments);
 }

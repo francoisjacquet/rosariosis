@@ -53,6 +53,10 @@ list of (
 
 function core_user_update_users_response($response)
 {
+	global $note;
+
+	$note[] = _('Your new password was saved in Moodle too.');
+
 	return '';
 }
 

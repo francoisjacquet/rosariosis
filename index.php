@@ -188,7 +188,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 			<BR /><BR />
 		</td></tr>
 	</table>
-	<span class="center">RosarioSIS <?php echo sprintf(_('version %s'),$RosarioVersion); ?>
+	<span class="center"><?php echo sprintf(_('%s version %s'),'RosarioSIS', $RosarioVersion); ?>
 	<BR />&copy; 2004-2009 <A HREF="http://www.miller-group.net" noreferrer>The Miller Group, Inc</A>
 	<BR />&copy; 2009 <a href="http://www.glenn-abbey.com" noreferrer>Glenn Abbey Software, Inc</a>
 	<BR />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
