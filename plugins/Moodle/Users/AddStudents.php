@@ -6,7 +6,7 @@
 function core_role_assign_roles_object()
 {
 	//first, gather the necessary variables
-	global $student_id, $_REQUEST;
+	global $student_id;
 	
 	
 	//then, convert variables for the Moodle object:
@@ -34,7 +34,7 @@ list of (
 	}
 	
 	//gather the Moodle student ID
-	$studentid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".student_id."' AND \"column\"='student_id'"));
+	$studentid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'"));
 	if (count($studentid))
 	{
 		$studentid = (int)$studentid[1]['MOODLE_ID'];
@@ -49,13 +49,13 @@ list of (
 	$instanceid = $studentid;
 
 	$assignments = array(
-						array(
-							'roleid' => $roleid,
-							'userid' => $userid,
-							'contextlevel' => $contextlevel,
-							'instanceid' => $instanceid,
-						)
-					);
+				array(
+					'roleid' => $roleid,
+					'userid' => $userid,
+					'contextlevel' => $contextlevel,
+					'instanceid' => $instanceid,
+				)
+			);
 	
 	return array($assignments);
 }

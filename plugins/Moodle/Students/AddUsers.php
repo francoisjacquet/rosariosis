@@ -49,13 +49,13 @@ list of (
 	$instanceid = $studentid;
 
 	$assignments = array(
-						array(
-							'roleid' => $roleid,
-							'userid' => $userid,
-							'contextlevel' => $contextlevel,
-							'instanceid' => $instanceid,
-						)
-					);
+				array(
+					'roleid' => $roleid,
+					'userid' => $userid,
+					'contextlevel' => $contextlevel,
+					'instanceid' => $instanceid,
+				)
+			);
 	
 	return array($assignments);
 }

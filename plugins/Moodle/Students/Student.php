@@ -216,6 +216,8 @@ list of (
 	} 
 )*/
 
+	$parent_assignment = array();
+
 	//gather the Moodle user ID
 	$student_id = UserStudentID();
 	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id=(SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".$student_id."' LIMIT 1) AND \"column\"='staff_id'"));
@@ -225,11 +227,11 @@ list of (
 	}
 	else
 	{
-		return null;
+		$userid = false;
 	}
 	
 	//gather the Moodle student ID
-	$studentid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".student_id."' AND \"column\"='student_id'"));
+	$studentid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$student_id."' AND \"column\"='student_id'"));
 	if (count($studentid))
 	{
 		$studentid = (int)$studentid[1]['MOODLE_ID'];
@@ -243,14 +245,30 @@ list of (
 	$roleid = MOODLE_PARENT_ROLE_ID;
 	$instanceid = $studentid;
 
-	$assignments = array(
-						array(
-							'roleid' => $roleid,
-							'userid' => $userid,
-							'contextlevel' => $contextlevel,
-							'instanceid' => $instanceid,
-						)
+	if ($userid != false)
+		$parent_assignment = array(
+						'roleid' => $roleid,
+						'userid' => $userid,
+						'contextlevel' => $contextlevel,
+						'instanceid' => $instanceid,
 					);
+
+	$userid = $studentid;
+	$contextlevel = 'course';
+	$roleid = 5; //student role id = 5
+	$instanceid = 1;
+
+	$student_assignment = array(
+					'roleid' => $roleid,
+					'userid' => $userid,
+					'contextlevel' => $contextlevel,
+					'instanceid' => $instanceid,
+				);
+	
+	$assignments = array(
+				$student_assignment,
+				$parent_assignment,
+			);
 	
 	return array($assignments);
 }
