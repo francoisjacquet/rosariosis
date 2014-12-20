@@ -231,7 +231,7 @@ function core_course_delete_categories_response($response)
 function core_course_create_courses_object()
 {
 	//first, gather the necessary variables
-	global $columns, $_REQUEST, $mp_title;
+	global $columns, $_REQUEST, $base_title;
 	
 	
 	//then, convert variables for the Moodle object:
@@ -267,7 +267,7 @@ list of (
 )
 */
 	//add the year to the course name
-	$fullname = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.mb_substr($mp_title, 0, mb_strlen($mp_title)-3);
+	$fullname = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.$base_title;
 	$shortname = $columns['SHORT_NAME'];
 	
 	//get the Moodle category
@@ -519,7 +519,7 @@ function core_role_unassign_roles_response($response)
 function core_course_update_courses_object()
 {
 	//first, gather the necessary variables
-	global $columns, $_REQUEST, $mp_title;
+	global $columns, $_REQUEST, $base_title;
 	
 	
 	//then, convert variables for the Moodle object:
@@ -563,7 +563,7 @@ list of (
 */
 
 	//add the year to the course name
-	$fullname = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.mb_substr($mp_title, 0, mb_strlen($mp_title)-3);
+	$fullname = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.$base_title;
 	
 	//get the Moodle course ID
 	$moodle_id = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));
@@ -578,12 +578,11 @@ list of (
 	
 	$id = $moodle_id;
 		
-	$courses = array(
-						array(
-							'id' => $id,
-							'fullname' => $fullname,
-						)
-					);
+	$course = array(
+			'id' => $id,
+			'fullname' => $fullname,
+		);
+
 	if (isset($columns['SHORT_NAME']))
 	{
 		$shortname = $columns['SHORT_NAME'];
@@ -595,6 +594,10 @@ list of (
 		$startdate = strtotime(GetMP($columns['MARKING_PERIOD_ID'],'START_DATE'));
 		$course['startdate'] = $startdate;
 	}
+
+	$courses = array(
+				$course
+			);
 
 	return array($courses);
 }

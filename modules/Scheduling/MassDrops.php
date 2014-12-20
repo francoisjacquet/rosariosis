@@ -1,4 +1,7 @@
 <?php
+
+DrawHeader(ProgramTitle());
+
 if(!$_REQUEST['modfunc'] && $_REQUEST['search_modfunc']!='list')
 	unset($_SESSION['MassDrops.php']);
 
@@ -66,8 +69,6 @@ if(isset($note))
 
 if($_REQUEST['modfunc']!='choose_course')
 {
-	DrawHeader(ProgramTitle());
-	
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';

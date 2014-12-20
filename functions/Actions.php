@@ -40,6 +40,7 @@ $RosarioActions = array(
 	'Grades/Assignments.php|update_assignment' => array(),
 	'Grades/Assignments.php|delete_assignment' => array(),
 
+	'Scheduling/Courses.php|header' => array(),
 	'Scheduling/Courses.php|create_course_subject' => array(),
 	'Scheduling/Courses.php|create_course' => array(),
 	'Scheduling/Courses.php|create_course_period' => array(),

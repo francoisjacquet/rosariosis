@@ -103,7 +103,7 @@ list of (
 	}
 	
 	//gather the Moodle course ID
-	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_id']."' AND \"column\"='course_period_id'"));
+	$courseid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['course_period_id']."' AND \"column\"='course_period_id'"));
 	if (count($courseid))
 	{
 		$courseid = (int)$courseid[1]['MOODLE_ID'];

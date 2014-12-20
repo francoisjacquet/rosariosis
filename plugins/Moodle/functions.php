@@ -41,6 +41,7 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('Grades/Assignments.php|update_assignment', 'MoodleTriggered');
 	add_action('Grades/Assignments.php|delete_assignment', 'MoodleTriggered');
 
+	add_action('Scheduling/Courses.php|header', 'MoodleTriggered');
 	add_action('Scheduling/Courses.php|create_course_subject', 'MoodleTriggered');
 	add_action('Scheduling/Courses.php|create_course', 'MoodleTriggered');
 	add_action('Scheduling/Courses.php|create_course_period', 'MoodleTriggered');
@@ -315,18 +316,6 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 /***************SCHEDULING**/
 		/*Scheduling/Courses.php*/
 		case 'Scheduling/Courses.php|header':
-			if (AllowEdit())
-			{
-				//2) verify the user is not in Moodle:
-				if (UserStaffID())
-					$old_user_in_moodle = IsMoodleUser(UserStaffID());
-		
-				if ($_REQUEST['staff_id']=='new' || !$old_user_in_moodle)
-					DrawHeader('<label>'.CheckBoxOnclick('moodle_create_user').'&nbsp;'._('Create User in Moodle').'</label>');
-			}
-
-		break;
-
 			//propose to create course period in Moodle: if
 			//1) this is a creation,
 			//2) this is an already created course period but not in Moodle yet
@@ -416,11 +405,11 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 		/*Scheduling/Schedule.php*/
 		case 'Scheduling/Schedule.php|schedule_student':
-			Moodle($modname, 'core_role_unassign_roles');
+			Moodle($modname, 'enrol_manual_enrol_users');
 		break;
 
 		case 'Scheduling/Schedule.php|drop_student':
-			Moodle($modname, 'enrol_manual_enrol_users');
+			Moodle($modname, 'core_role_unassign_roles');
 		break;
 
 		/*Scheduling/Scheduler.php*/
