@@ -68,6 +68,7 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('School_Setup/PortalNotes.php|update_portal_note', 'MoodleTriggered');
 	add_action('School_Setup/PortalNotes.php|delete_portal_note', 'MoodleTriggered');
 
+	add_action('School_Setup/Rollover.php|rollover_checks', 'MoodleTriggered');
 	add_action('School_Setup/Rollover.php|rollover_staff', 'MoodleTriggered');
 	add_action('School_Setup/Rollover.php|rollover_course_subjects', 'MoodleTriggered');
 	add_action('School_Setup/Rollover.php|rollover_courses', 'MoodleTriggered');
@@ -502,13 +503,23 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		break;
 
 		/*School_Setup/Rollover.php*/
+		case 'School_Setup/Rollover.php|rollover_checks':
+			//prevent RE roll staff or courses (creates DB incoherence)
+			
+			global $table, $error;
+
+			if ($table == 'COURSES' || $table == 'STAFF')
+				$error[] = 'Moodle: '._('You cannot re-roll Users or Courses');
+
+		break;
+
 		case 'School_Setup/Rollover.php|rollover_staff':
 			global $next_syear;
 
 			$staff_RET = DBGet(DBQuery("SELECT STAFF_ID,ROLLOVER_ID FROM STAFF WHERE SYEAR='".$next_syear."' AND ROLLOVER_ID IS NOT NULL"));
 
 			foreach($staff_RET as $value)
-				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['STAFF_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"COLUMN\"='staff_id' AND SCHOOL_ID='".UserSchool()."'");
+				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['STAFF_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='staff_id'");
 
 		break;
 
@@ -518,7 +529,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 			$course_subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,ROLLOVER_ID FROM COURSES WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
 
 			foreach($course_subjects_RET as $value)
-				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['SUBJECT_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"COLUMN\"='subject_id' AND SCHOOL_ID='".UserSchool()."'");
+				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['SUBJECT_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='subject_id' AND SCHOOL_ID='".UserSchool()."'");
 
 		break;
 
@@ -528,19 +539,19 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 			$courses_RET = DBGet(DBQuery("SELECT COURSE_ID,ROLLOVER_ID FROM COURSES WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
 
 			foreach($courses_RET as $value)
-				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['COURSE_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"COLUMN\"='course_id' AND SCHOOL_ID='".UserSchool()."'");
+				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['COURSE_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='course_id'");
 
 		break;
 
 		case 'School_Setup/Rollover.php|rollover_course_periods':
-			global $next_syear;
+			global $next_syear, $rolled_course_period;
 
-			$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID, cp.COURSE_ID, cp.SHORT_NAME, cp.MARKING_PERIOD_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"COLUMN\"='course_period_id'"));
+			$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID, cp.COURSE_ID, cp.SHORT_NAME, cp.MARKING_PERIOD_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'"));
 
 			foreach($course_periods_RET as $rolled_course_period)
 			{
 				Moodle($modname, 'core_course_create_courses');
-				Moodle($modname, 'enrol_manual_enrol_users');
+				Moodle($modname, 'core_role_assign_roles');
 			}
 
 		break;

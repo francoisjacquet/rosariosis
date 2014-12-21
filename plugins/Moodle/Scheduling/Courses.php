@@ -336,6 +336,9 @@ list of (
 )*/
 	
 	DBQuery("INSERT INTO MOODLEXROSARIO (\"column\", rosario_id, moodle_id) VALUES ('course_period_id', '".$_REQUEST['course_period_id']."', ".$response[0]['id'].")");
+
+	$_REQUEST['moodle_create_course_period'] = false;
+
 	return null;
 }
 

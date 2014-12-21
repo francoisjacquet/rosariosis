@@ -41,8 +41,15 @@ list of (
 	} 
 )
 */
+
+	$mp_short_name = '';
+
+	//if marking period != full year, add short name
+	if (GetMP($rolled_course_period['MARKING_PERIOD_ID'],'MP') != 'FY')
+		$mp_short_name = ' - '.GetMP($rolled_course_period['MARKING_PERIOD_ID'],'SHORT_NAME');
+
 	//add the year to the course name
-	$fullname = $next_syear.' - '.GetMP($rolled_course_period['MARKING_PERIOD_ID'],'SHORT_NAME').' - '.$rolled_course_period['SHORT_NAME'];
+	$fullname = FormatSyear($next_syear,Config('SCHOOL_SYEAR_OVER_2_YEARS')).$mp_short_name.' - '.$rolled_course_period['SHORT_NAME'];
 	$shortname = $rolled_course_period['SHORT_NAME'];
 	
 	//get the Moodle category
@@ -72,25 +79,25 @@ list of (
 	$defaultgroupingid = 0;
 		
 	$courses = array(
-						array(
-							'fullname' => $fullname,
-							'shortname' => $shortname,
-							'categoryid' => $categoryid,
-							'idnumber' => $idnumber,
-							'format' => $format,
-							'summaryformat' => $summaryformat,
-							'showgrades' => $showgrades,
-							'newsitems' => $newsitems,
-							'startdate' => $startdate,
-							'numsections' => $numsections,
-							'maxbytes' => $maxbytes,
-							'showreports' => $showreports,
-							'hiddensections' => $hiddensections,
-							'groupmode' => $groupmode,
-							'groupmodeforce' => $groupmodeforce,
-							'defaultgroupingid' => $defaultgroupingid,
-						)
-					);
+				array(
+					'fullname' => $fullname,
+					'shortname' => $shortname,
+					'categoryid' => $categoryid,
+					'idnumber' => $idnumber,
+					'format' => $format,
+					'summaryformat' => $summaryformat,
+					'showgrades' => $showgrades,
+					'newsitems' => $newsitems,
+					'startdate' => $startdate,
+					'numsections' => $numsections,
+					'maxbytes' => $maxbytes,
+					'showreports' => $showreports,
+					'hiddensections' => $hiddensections,
+					'groupmode' => $groupmode,
+					'groupmodeforce' => $groupmodeforce,
+					'defaultgroupingid' => $defaultgroupingid,
+				)
+			);
 	
 	return array($courses);
 }
@@ -115,9 +122,8 @@ list of (
 }
 
 
-
-//enrol_manual_enrol_users function
-function enrol_manual_enrol_users_object()
+//core_role_assign_roles function
+function core_role_assign_roles_object()
 {
 	//first, gather the necessary variables
 	global $rolled_course_period;
@@ -128,11 +134,11 @@ function enrol_manual_enrol_users_object()
 list of ( 
 	object {
 		roleid int   //Role to assign to the user
-		userid int   //The user that is going to be enrolled
-		courseid int   //The course to enrol the user role in
-		timestart int  Optionnel //Timestamp when the enrolment start
-		timeend int  Optionnel //Timestamp when the enrolment end
-		suspend int  Optionnel //set to 1 to suspend the enrolment
+		userid int   //The user that is going to be assigned
+		contextid int  Optional //The context to assign the user role in
+		contextlevel string  Optional //The context level to assign the user role in
+				                      (block, course, coursecat, system, user, module)
+		instanceid int  Optional //The Instance id of item where the role needs to be assigned
 	} 
 )*/
 
@@ -160,20 +166,24 @@ list of (
 	{
 		return null;
 	}
-		
-	$enrolments = array(
-						array(
-							'roleid' => $roleid,
-							'userid' => $userid,
-							'courseid' => $courseid,
-						)
-					);
+
+	$contextlevel = 'course';
+	$instanceid = $courseid;
+
+	$assignments = array(
+				array(
+					'roleid' => $roleid,
+					'userid' => $userid,
+					'contextlevel' => $contextlevel,
+					'instanceid' => $instanceid,
+				)
+			);
 	
-	return array($enrolments);
+	return array($assignments);
 }
 
 
-function enrol_manual_enrol_users_response($response)
+function core_role_assign_roles_response($response)
 {
 	return null;
 }

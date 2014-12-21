@@ -46,9 +46,11 @@ if(Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to rol
 			{
 				foreach($_REQUEST['tables'] as $table=>$value)
 				{
-					//if($exists_RET[$table][1]['COUNT']>0)
-					//	DBQuery("DELETE FROM $table WHERE SYEAR='".$next_syear."'".(!$no_school_tables[$table]?" AND SCHOOL_ID='".UserSchool()."'":''));
-					Rollover($table);
+					//hook
+					do_action('School_Setup/Rollover.php|rollover_checks');
+
+					if (!isset($error))
+						Rollover($table);
 				}
 			}
 		}
