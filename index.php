@@ -2,6 +2,7 @@
 error_reporting(1);
 include('Warehouse.php');
 
+if(isset($_REQUEST['modfunc']))
 if($_REQUEST['modfunc']=='logout')
 {
 	if($_SESSION)
@@ -21,7 +22,7 @@ elseif($_REQUEST['modfunc']=='create_account')
 		unset($_REQUEST['modfunc']);
 }
 
-if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
+if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD']) && $_POST['PASSWORD']!='')
 {
 	$_REQUEST['USERNAME'] = DBEscapeString($_REQUEST['USERNAME']);
 	$login_RET = DBGet(DBQuery("SELECT USERNAME,PROFILE,STAFF_ID,LAST_LOGIN,FAILED_LOGIN,PASSWORD 
@@ -96,7 +97,7 @@ if($_REQUEST['USERNAME'] && $_REQUEST['PASSWORD'])
 	}
 }
 
-if($_REQUEST['modfunc']=='create_account')
+if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='create_account')
 {
 	Warehouse('header');
 	$_ROSARIO['allow_edit'] = true;
@@ -201,7 +202,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 </BODY></HTML>
 <?php
 }
-elseif($_REQUEST['modfunc']!='create_account')//successfully logged in, display Portal
+elseif(!isset($_REQUEST['modfunc']) || $_REQUEST['modfunc']!='create_account')//successfully logged in, display Portal
 {
 	$_REQUEST['modname']='misc/Portal.php';
 	$_REQUEST['failed_login']=$failed_login;

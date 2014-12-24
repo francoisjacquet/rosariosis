@@ -45,6 +45,11 @@ function GetAllMP($mp,$marking_period_id='0')
 				$fy = $RET[1]['MARKING_PERIOD_ID'];
 
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+			
+				//modif Francois: error if no quarters
+				if (!$RET)
+					return ErrorMessage(array(_('No quarters found')), 'fatal');
+
 				foreach($RET as $value)
 				{
 					$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = "'".$fy."','".$value['PARENT_ID']."','".$value['MARKING_PERIOD_ID']."'";
@@ -60,6 +65,11 @@ function GetAllMP($mp,$marking_period_id='0')
 				$fy = $RET[1]['MARKING_PERIOD_ID'];
 
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+			
+				//modif Francois: error if no quarters
+				if (!$RET)
+					return ErrorMessage(array(_('No quarters found')), 'fatal');
+
 				foreach($RET as $value)
 					$_ROSARIO['GetAllMP'][$mp][$value['MARKING_PERIOD_ID']] = "'".$fy."','".$value['PARENT_ID']."','".$value['MARKING_PERIOD_ID']."'";
 			break;
@@ -70,6 +80,11 @@ function GetAllMP($mp,$marking_period_id='0')
 				$fy = $RET[1]['MARKING_PERIOD_ID'];
 
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('PARENT_ID'));
+			
+				//modif Francois: error if no quarters
+				if (!$RET)
+					return ErrorMessage(array(_('No quarters found')), 'fatal');
+
 				foreach($RET as $sem=>$value)
 				{
 					$_ROSARIO['GetAllMP'][$mp][$sem] = "'".$fy."','".$sem."'";
@@ -85,6 +100,11 @@ function GetAllMP($mp,$marking_period_id='0')
 				// there should be exactly one fy marking period which better be $marking_period_id
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('PARENT_ID'));
 				$_ROSARIO['GetAllMP'][$mp][$marking_period_id] = "'".$marking_period_id."'";
+			
+				//modif Francois: error if no quarters
+				if (!$RET)
+					return ErrorMessage(array(_('No quarters found')), 'fatal');
+
 				foreach($RET as $sem=>$value)
 				{
 					$_ROSARIO['GetAllMP'][$mp][$marking_period_id] .= ",'".$sem."'";
