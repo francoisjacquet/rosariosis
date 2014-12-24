@@ -61,64 +61,6 @@ else
 	echo NoInput(UserStudentID(),sprintf(_('%s ID'),Config('NAME')));
 echo '</TD>';
 
-echo '<TD>';
-if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID'])
-	$school_id = $student['SCHOOL_ID'];
-else
-	$school_id = UserSchool();
-$sql = "SELECT ID,TITLE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".$school_id."' ORDER BY SORT_ORDER";
-$QI = DBQuery($sql);
-$grades_RET = DBGet($QI);
-unset($options);
-if(count($grades_RET))
-{
-	foreach($grades_RET as $value)
-		$options[$value['ID']] = $value['TITLE'];
-}
-
-if($_REQUEST['student_id']=='new')
-	$student_id = 'new';
-else
-	$student_id = UserStudentID();
-
-if($student_id=='new' && !VerifyDate($_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE']))
-	unset($student['GRADE_ID']);
-
-//get Student Grade Level ID
-if ($student_id!='new')
-{
-	//if Grade Level modified but not already saved (saved later in Enrollment.inc.php)
-	if(isset($_REQUEST['values']['STUDENT_ENROLLMENT'][$student['ENROLLMENT_ID']]['GRADE_ID']))
-		$student['GRADE_ID'] = $_REQUEST['values']['STUDENT_ENROLLMENT'][$student['ENROLLMENT_ID']]['GRADE_ID'];
-
-	//if newly created student
-	elseif(isset($_REQUEST['values']['STUDENT_ENROLLMENT']['new']['GRADE_ID']))
-	{
-		$student['GRADE_ID'] = $_REQUEST['values']['STUDENT_ENROLLMENT']['new']['GRADE_ID'];
-		$student['SCHOOL_ID'] = UserSchool();
-	}
-}
-else
-	$student['ENROLLMENT_ID'] = 'new';
-
-//begin disable Grade Level edit if not in Current School
-if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool())
-{
-	$allow_edit = $_ROSARIO['allow_edit'];
-	$AllowEdit = $_ROSARIO['AllowEdit'][$_REQUEST['modname']];
-	$_ROSARIO['AllowEdit'][$_REQUEST['modname']] = $_ROSARIO['allow_edit'] = false;
-}
-
-echo SelectInput($student['GRADE_ID'],'values[STUDENT_ENROLLMENT]['.$student['ENROLLMENT_ID'].'][GRADE_ID]',(!$student['GRADE_ID']?'<span class="legend-red">':'')._('Grade Level').(!$student['GRADE_ID']?'</span>':''),$options,false,'required');
-echo '</TD>';
-
-//end disable Grade Level edit if not in Current School
-if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool())
-{
-	$_ROSARIO['allow_edit'] = $allow_edit;
-	$_ROSARIO['AllowEdit'][$_REQUEST['modname']] = $AllowEdit;
-}
-
 echo '</TR><TR class="st">';
 
 //modif Francois: Moodle integrator
@@ -131,7 +73,7 @@ echo '<TD>';
 //echo TextInput($student['PASSWORD'],'students[PASSWORD]','Password');
 //modif Francois: add password encryption
 //echo TextInput(array($student['PASSWORD'],str_repeat('*',mb_strlen($student['PASSWORD']))),'students[PASSWORD]',($student['USERNAME']&&!$student['PASSWORD']?'<span style="color:red">':'')._('Password').($student['USERNAME']&&!$student['PASSWORD']?'</span>':''));
-echo TextInput((!$student['PASSWORD'] || $_REQUEST['moodle_create_student'] ?'':str_repeat('*',8)),'students[PASSWORD]',(($_REQUEST['moodle_create_student'] || $old_student_in_moodle) && !$student['PASSWORD']?'<span class="legend-red">':'<span class="legend-gray">').(($_REQUEST['moodle_create_student'] || $old_student_in_moodle) && !$student['PASSWORD']?'<SPAN style="cursor:help" title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('Password').($_REQUEST['moodle_create_student'] || $old_student_in_moodle?'*</SPAN>':'').'</span>','autocomplete=off'.($_REQUEST['moodle_create_student'] || $old_student_in_moodle ? ' required' : ''), ($_REQUEST['moodle_create_student'] ? false : true));
+echo TextInput((!$student['PASSWORD'] || $_REQUEST['moodle_create_student'] ?'':str_repeat('*',8)),'students[PASSWORD]',(($_REQUEST['moodle_create_student'] || $old_student_in_moodle) && !$student['PASSWORD']?'<span class="legend-red">':'<span class="legend-gray">').($_REQUEST['moodle_create_student'] || $old_student_in_moodle?'<SPAN style="cursor:help" title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('Password').($_REQUEST['moodle_create_student'] || $old_student_in_moodle?'*</SPAN>':'').'</span>','autocomplete=off'.($_REQUEST['moodle_create_student'] || $old_student_in_moodle ? ' required' : ''), ($_REQUEST['moodle_create_student'] ? false : true));
 echo '</TD>';
 
 echo '<TD>';
