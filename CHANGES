@@ -1,5 +1,64 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.7
+--------------
+- Remove $RosarioAdmins list in config.inc.php
+- Move $RosarioModules to database CONFIG table
+- Bigger config_value capacity to accept serialized variables
+- Remove $RosarioModules + MOODLE_INTEGRATOR in config.inc.php
+- Add SendEmail function
+- Move icons from assets/ folder to modules/ folder
+- Remove assets/icons/ folder
+- Move Moodle folder from modules/ to plugins/
+- Move Moodle functions from functions/ to plugins/Moodle/functions.php
+- $DefaultSyear check in diagnostic.php
+- INSERT MODULES + PLUGINS serialized array in config table
+- Add Modules + Plugins tabs to School Configuration
+- Allow all modules to be deactivated except School_Setup
+- Install/delete Modules/Plugins
+- Add README to modules/ & plugins/ folders
+- Add _LoadAddonLocale function in Warehouse.php
+- Bugfix wrong menu opened if default program overridden in warehouse.js
+- Export to Excel strip_tags for date columns in DailySummary.php
+- Rename page to LO_page in ListOutput.fnc.php
+- Add BottomSpinner while ajax
+- Responsive calendar adjustments in Calendar.php
+- add Default Theme to School Configuration
+- Send email from rosariosis@[site_domain] in SendEmail.fnc.php
+- Add Actions functions (hooks) in Actions.php
+- convert Moodle integrator to plugin
+- Add Moodle plugin hooks
+- Get rid of contextid in core_role_assign_roles & core_role_unassign_roles Moodle WS functions
+- Get rid of local_getcontexts_get_contexts Moodle WS function
+- Plugins configuration interface + the one for Moodle plugin
+- Move save Medical info out of Student.php
+- Grade Level input: no N/A, required in General_Info.inc.php
+- Add SetUserStudentID & SetUserStudentID functions in Current.php
+- better list searching (case insensitive) by isolating the values in ListOutput.fnc.php
+- Create calcSeats0.fnc.php file to regroup function usage
+- check if Available Seats < selected students in MassSchedule.php
+- add Available Seats column to every choose course popup
+- Add errors to $error array (program wide)
+- Hide help on page change + fix help in warehouse.js
+- Remove inline style for school & period select in Side.php
+- Fix Safari popstate bug in warehouse.js
+- XLS export arabic chars problem in ListOutput.fnc.php
+- All Course periods in Student Summary
+
+
+Changes in 2.6.6
+----------------
+- Fix PHP notices undefined index in index.php
+- Display error if no quarters in Side.php & GetMP.php
+- Force login vars to POST in index.php
+- Bugfix SQL error column "subject_id" specified more than once in Courses.php
+- Bugfix illegal offset when adding user/student in new school in Other_info.inc.php
+- Bugfix Student enrollment saved for new students when error in Student.php & Enrollment.inc.php
+- Move fix SQL bug FIRST_NAME, LAST_NAME is null up in User.php & Student.php
+- No 'N/A' for Grade Level select input in General_Info.inc.php
+- Fix Attendance Summary calendar gen for Full Year over 2 years
+
+
 Changes in 2.6.5
 ----------------
 - Bugifx Invalid argument supplied for foreach() in Food_service/Users/Accounts.php
