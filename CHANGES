@@ -44,6 +44,23 @@ Changes in 2.7
 - Fix Safari popstate bug in warehouse.js
 - XLS export arabic chars problem in ListOutput.fnc.php
 - All Course periods in Student Summary
+- Move Grade Level to Enrollment.inc.php
+
+Upgrade from 2.6.x
+------------------
+- Flush the functions/ & ProgramFunctions/ folders
+- Delete the modules/Moodle/ folder
+- Extract the 2.7 files
+- Execute the SQL commands, see https://gist.github.com/francoisjacquet/eee136a8431b704646dc
+- Reactivate the Moodle integrator via: School Setup > School Configuration > Plugins
+- Note: all the modules coming with RosarioSIS will be activated
+- Activate/deactivate modules via: School Setup > School Configuration > Modules
+- Note2: if you have custom modules, reactivate them:
+	- Please rename first the install.sql file in your module directory (if any). (This will prevent automatic installation when reactivated.)
+- Note3: You can safely remove the following variables from the config.inc.php file (see new config.inc.sample.php file for comparison):
+	- $RosarioAdmins
+	- $RosarioModules
+	- MOODLE_INTEGRATOR
 
 
 Changes in 2.6.6
