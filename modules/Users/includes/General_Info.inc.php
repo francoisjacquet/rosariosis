@@ -1,6 +1,6 @@
 <?php
-echo '<TABLE class="width-100p cellspacing-0 cellpadding-6">';
-echo '<TR class="st"><TD style="max-width:150px;" class="valign-top">';
+echo '<TABLE class="width-100p cellpadding-6">';
+echo '<TR class="st"><TD rowspan="2" class="valign-top">';
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
@@ -27,15 +27,11 @@ if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 if ($_REQUEST['staff_id']!='new' && ($file = @fopen($picture_path=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r')) || ($file = @fopen($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))):
 	fclose($file);
 ?>
-	<IMG SRC="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" width="150" id="userImg" />
+	<IMG SRC="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" id="userImg" />
 <?php endif;
 // END IMAGE
 
-echo '</TD><TD class="valign-top">';
-
-echo '<TABLE class="width-100p cellpadding-5"><TR class="st">';
-
-echo '<TD>';
+echo '</TD><TD>';
 
 //modif Francois: add translation
 $titles_array = array('Mr'=>_('Mr'),'Mrs'=>_('Mrs'),'Ms'=>_('Ms'),'Miss'=>_('Miss'),'Dr'=>_('Dr'));
@@ -60,11 +56,11 @@ else
 	echo ($staff['TITLE']!=''||$staff['FIRST_NAME']!=''||$staff['MIDDLE_NAME']!=''||$staff['LAST_NAME']!=''||$staff['NAME_SUFFIX']!=''?$titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']]:'-').'<BR /><span class="legend-gray">'._('Name').'</span>';
 echo '</TD>';
 
-echo '<TD colspan="1">';
+echo '<TD>';
 echo NoInput($staff['STAFF_ID'],sprintf(_('%s ID'),Config('NAME')));
 echo '</TD>';
 
-echo '<TD colspan="1">';
+echo '<TD>';
 echo NoInput($staff['ROLLOVER_ID'],sprintf(_('Last Year %s ID'),Config('NAME')));
 echo '</TD>';
 
@@ -97,17 +93,13 @@ echo '<TD>';
 echo NoInput(makeLogin($staff['LAST_LOGIN']),_('Last Login'));
 echo '</TD>';
 
-echo '</TR></TABLE>';
-echo '</TD></TR></TABLE>';
-
-echo '<HR>';
+echo '</TR></TABLE><HR />';
 
 echo '<TABLE class="width-100p cellpadding-6">';
 if(basename($_SERVER['PHP_SELF'])!='index.php')
 {
-	echo '<TR class="st">';
+	echo '<TR class="st"><TD>';
 
-	echo '<TD>';
 	echo '<TABLE><TR><TD>';
 	unset($options);
 	$options = array('admin'=>_('Administrator'),'teacher'=>_('Teacher'),'parent'=>_('Parent'),'none'=>_('No Access'));
@@ -138,11 +130,11 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 	if(count($schools_RET))
 	{
 		$i = 0;
-		echo '<TABLE><TR>';
+		echo '<TABLE><TR class="st">';
 		foreach($schools_RET as $value)
 		{
 			if($i%3==0)
-				echo '</TR><TR>';
+				echo '</TR><TR class="st">';
 			echo '<TD>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'],'',false,'<IMG SRC="assets/check_button.png" width="15">','<IMG SRC="assets/x_button.png" width="15">').'</TD>';
 			$i++;
 		}
@@ -150,12 +142,10 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 		echo '<span class="legend-gray">'._('Schools').'</span>';
 	}
 	//echo SelectInput($staff['SCHOOL_ID'],'staff[SCHOOL_ID]','School',$options,'All Schools');
-	echo '</TD><TD>';
-	echo '</TD>';
-	echo '</TR>';
+	echo '</TD></TR>';
 }
-echo '<TR class="st">';
-echo '<TD>';
+
+echo '<TR class="st"><TD>';
 //modif Francois: Moodle integrator
 //email required
 //echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
@@ -164,12 +154,9 @@ if (AllowEdit())
 else
 	echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
 
-echo '</TD>';
-echo '<TD>';
+echo '</TD><TD>';
 echo TextInput($staff['PHONE'],'staff[PHONE]',_('Phone Number'),'size=12 maxlength=100');
-echo '</TD>';
-echo '</TR>';
-echo '</TABLE>';
+echo '</TD></TR></TABLE>';
 
 $_REQUEST['category_id'] = '1';
 include('modules/Users/includes/Other_Info.inc.php');

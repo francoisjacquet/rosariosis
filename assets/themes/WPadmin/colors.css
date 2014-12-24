@@ -185,6 +185,9 @@ fieldset {
 #BottomButtonMenu:before{
 	color:#000
 }
+hr{
+	color:#fff
+}
 
 
 /*responsive tables*/

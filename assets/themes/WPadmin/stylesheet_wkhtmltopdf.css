@@ -331,6 +331,10 @@ h3 span{
 }
 
 /*added*/
+#studentImg, #userImg{
+	max-width:150px;
+	max-height:150px
+}
 .alignImg{
 	vertical-align:middle;
 	height:32px

@@ -94,15 +94,11 @@ else
 }
 
 
-echo '<TABLE style="margin:0 auto;"><TR class="st">';
+echo '<TABLE class="width-100p cellpadding-6"><TR class="st">';
 
 echo '<TD>'.SelectInput($gradelevel_id,'values[STUDENT_ENROLLMENT]['.$id.'][GRADE_ID]',(!$gradelevel_id?'<span class="legend-red">':'')._('Grade Level').(!$gradelevel_id?'</span>':''),$gradelevel_options,false,'required',$div).'</TD>';
 
-echo '<TD style="width:30px;"></TD>';
-
 echo '<TD>'.SelectInput($calendar,'values[STUDENT_ENROLLMENT]['.$id.'][CALENDAR_ID]',(!$calendar||!$div?'<span class="legend-red">':'')._('Calendar').(!$calendar||!$div?'</span>':''),$calendar_options,false,'',$div).'</TD>';
-
-echo '<TD style="width:30px;"></TD>';
 
 echo '<TD>'.SelectInput($next_school,'values[STUDENT_ENROLLMENT]['.$id.'][NEXT_SCHOOL]',($next_school==''||!$div?'<span class="legend-red">':'')._('Rolling / Retention Options').(!$next_school||!$div?'</span>':''),$next_school_options,false,'',$div).'</TD>';
 

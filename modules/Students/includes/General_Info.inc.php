@@ -1,6 +1,6 @@
 <?php
-echo '<TABLE class="width-100p cellspacing-0 cellpadding-6">';
-echo '<TR class="st"><TD style="max-width:150px;" class="valign-top">';
+echo '<TABLE class="width-100p cellpadding-6">';
+echo '<TR class="st"><TD rowspan="2" class="valign-top">';
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
@@ -27,15 +27,12 @@ if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 if ($_REQUEST['student_id']!='new' && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg','r')) || ($file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg','r'))):
 	fclose($file);
 ?>
-	<IMG SRC="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" width="150" id="studentImg" />
+	<IMG SRC="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" id="studentImg" />
 <?php endif;
 // END IMAGE
 
-echo '</TD><TD class="valign-top">';
+echo '</TD><TD>';
 
-echo '<TABLE class="width-100p cellpadding-5"><TR class="st">';
-
-echo '<TD>';
 if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 //modif Francois: Moodle integrator
 	if($_REQUEST['student_id']=='new' || Preferences('HIDDEN')!='Y' || $_REQUEST['moodle_create_student'])
@@ -54,7 +51,7 @@ else
 	echo ($student['FIRST_NAME']!=''||$student['MIDDLE_NAME']!=''||$student['LAST_NAME']!=''||$student['NAME_SUFFIX']!=''?$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX']:'-').'<BR /><span class="legend-gray">'._('Name').'</span>';
 echo '</TD>';
 
-echo '<TD>';
+echo '<TD colspan="2">';
 if($_REQUEST['student_id']=='new')
 	echo TextInput('','assign_student_id',sprintf(_('%s ID'),Config('NAME')),'maxlength=10 size=10');
 else
@@ -80,10 +77,7 @@ echo '<TD>';
 echo NoInput(makeLogin($student['LAST_LOGIN']),_('Last Login'));
 echo '</TD>';
 
-echo '</TR></TABLE>';
-echo '</TD></TR></TABLE>';
-
-echo '<HR>';
+echo '</TR></TABLE><HR />';
 
 $_REQUEST['category_id'] = '1';
 include 'modules/Students/includes/Other_Info.inc.php';

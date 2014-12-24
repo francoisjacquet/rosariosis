@@ -11,9 +11,6 @@ if(UserStudentID())
 	$value = $custom_RET[1];
 }
 
-//echo '<pre>'; var_dump($fields_RET); echo '</pre>';
-if(count($fields_RET))
-	echo $separator;
 echo '<TABLE class="width-100p cellpadding-6">';
 $i = 1;
 $per_row = $category_RET[1]['COLUMNS']?$category_RET[1]['COLUMNS']:'3';
@@ -135,29 +132,35 @@ foreach($fields_RET as $field)
 }
 if(($i-1)%$per_row!=0)
 	echo '</TR>';
-echo '</TABLE><BR />';
+echo '</TABLE>';
 
-echo '<TABLE class="width-100p cellpadding-6">';
 $i = 1;
 foreach($fields_RET as $field)
 {
 	if($field['TYPE']=='textarea')
 	{
+		if ($i == 1)
+			echo '<TABLE class="width-100p cellpadding-6">';
+
 		if(($i-1)%2==0)
 			echo '<TR class="st">';
+
 		echo '<TD>';
 		echo _makeTextareaInput('CUSTOM_'.$field['ID'],$field['TITLE'],'students');
 		echo '</TD>';
+
 		if($i%2==0)
 			echo '</TR>';
 		$i++;
 	}
 }
-if(($i-1)%2!=0)
-	echo '</TR>';
-//modif Francois: fix empty table
-if ($i == 1)
-	echo '<TR><TD></TD></TR>';
-echo '</TABLE>';
+if ($i > 1)
+{
+	if(($i-1)%2!=0)
+		echo '</TR>';
+	echo '</TABLE>';
+}
+
+echo '<HR />';
 
 ?>
