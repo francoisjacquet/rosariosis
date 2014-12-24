@@ -5,6 +5,9 @@ Author François Jacquet
 DESCRIPTION
 -----------
 This plugin integrates RosarioSIS with Moodle LMS (https://moodle.org/).
+WARNING & LIMITATIONS:
+- The plugin is designed and intended for ONE school only in RosarioSIS.
+- Rollover: roll users and courses only ONCE.
 
 CONTENT
 -------
