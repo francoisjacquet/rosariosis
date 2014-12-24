@@ -51,7 +51,7 @@ function _makeStudentAge($column,$name)
 		$datetime1 = date_create($value[$column]);
 		$datetime2 = date_create('now');
 		$interval = date_diff($datetime1, $datetime2);
-		return '</TD><TD>'.$interval->format('%Y&nbsp;'._('Years').'&nbsp;%m&nbsp;'._('Months').'&nbsp;%d&nbsp;'._('Days')).'<BR /><span class="legend-gray">'.$name.'</span>';
+		return $interval->format('%Y&nbsp;'._('Years').'&nbsp;%m&nbsp;'._('Months').'&nbsp;%d&nbsp;'._('Days')).'<BR /><span class="legend-gray">'.$name.'</span>';
 	}
 	else
 		return '';
