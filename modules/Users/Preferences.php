@@ -258,7 +258,7 @@ if(empty($_REQUEST['modfunc']))
 	{
 //modif Francois: password fields are required
 //modif Francois: Moodle integrator / password
-		echo '<TABLE><TR class="st"><TD><span style="color:gray">'._('Current Password').'</span></TD><TD><INPUT type="password" name="values[current]" required></TD></TR><TR class="st"><TD><span style="color:gray">'.($RosarioPlugins['Moodle']?'<SPAN title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('New Password').($RosarioPlugins['Moodle']?'*</SPAN>':'').'</span></TD><TD><INPUT type="password" name="values[verify]" required></TD></TR><TR class="st"><TD><span style="color:gray">'._('Verify New Password').'</span></TD><TD><INPUT type="password" name="values[new]" required></TD></TR></TABLE>';
+		echo '<TABLE><TR class="st"><TD><span style="color:gray">'._('Current Password').'</span></TD><TD><INPUT type="password" name="values[current]" required></TD></TR><TR class="st"><TD><span style="color:gray">'.($RosarioPlugins['Moodle']?'<SPAN title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'" style="cursor:help">':'')._('New Password').($RosarioPlugins['Moodle']?'*</SPAN>':'').'</span></TD><TD><INPUT type="password" name="values[verify]" required></TD></TR><TR class="st"><TD><span style="color:gray">'._('Verify New Password').'</span></TD><TD><INPUT type="password" name="values[new]" required></TD></TR></TABLE>';
 	}
 
 	if($_REQUEST['tab']=='student_fields')
