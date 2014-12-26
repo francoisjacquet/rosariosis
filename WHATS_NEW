@@ -5,7 +5,8 @@ New in 2.7
 School Setup
 - School Configuration: manage Modules & Plugins, set Default Theme
 
-config.inc.php: no more Rosario Admins list
+config.inc.php
+- No more Rosario Admins list
 
 Security improved
 

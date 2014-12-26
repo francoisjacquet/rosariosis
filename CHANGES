@@ -4,14 +4,13 @@ Changes in 2.7
 --------------
 - Remove $RosarioAdmins list in config.inc.php
 - Move $RosarioModules to database CONFIG table
-- Bigger config_value capacity to accept serialized variables
+- Bigger config values capacity to accept serialized variables in rosariosis.sql
 - Remove $RosarioModules + MOODLE_INTEGRATOR in config.inc.php
 - Add SendEmail function
 - Move icons from assets/ folder to modules/ folder
 - Remove assets/icons/ folder
 - Move Moodle folder from modules/ to plugins/
 - Move Moodle functions from functions/ to plugins/Moodle/functions.php
-- $DefaultSyear check in diagnostic.php
 - INSERT MODULES + PLUGINS serialized array in config table
 - Add Modules + Plugins tabs to School Configuration
 - Allow all modules to be deactivated except School_Setup
@@ -20,7 +19,7 @@ Changes in 2.7
 - Add _LoadAddonLocale function in Warehouse.php
 - Bugfix wrong menu opened if default program overridden in warehouse.js
 - Export to Excel strip_tags for date columns in DailySummary.php
-- Rename page to LO_page in ListOutput.fnc.php
+- Rename $page to $LO_page in ListOutput.fnc.php
 - Add BottomSpinner while ajax
 - Responsive calendar adjustments in Calendar.php
 - add Default Theme to School Configuration
@@ -45,22 +44,25 @@ Changes in 2.7
 - XLS export arabic chars problem in ListOutput.fnc.php
 - All Course periods in Student Summary
 - Move Grade Level to Enrollment.inc.php
+- Reorganize Student/User General Info tables
+- $DefaultSyear & $RosarioLocales checks in diagnostic.php
+- Update french & spanish translations
 
 Upgrade from 2.6.x
 ------------------
 - Flush the functions/ & ProgramFunctions/ folders
-- Delete the modules/Moodle/ folder
+- Delete the modules/Moodle/ & modules/Reports/ folders
 - Extract the 2.7 files
 - Execute the SQL commands, see https://gist.github.com/francoisjacquet/eee136a8431b704646dc
-- Reactivate the Moodle integrator via: School Setup > School Configuration > Plugins
+- You can safely remove the following variables from the config.inc.php file (see new config.inc.sample.php file for comparison):
+	- $RosarioAdmins
+	- $RosarioModules
+	- MOODLE_INTEGRATOR
+- (Re)activate the Moodle integrator via: School Setup > School Configuration > Plugins
 - Note: all the modules coming with RosarioSIS will be activated
 - Activate/deactivate modules via: School Setup > School Configuration > Modules
 - Note2: if you have custom modules, reactivate them:
 	- Please rename first the install.sql file in your module directory (if any). (This will prevent automatic installation when reactivated.)
-- Note3: You can safely remove the following variables from the config.inc.php file (see new config.inc.sample.php file for comparison):
-	- $RosarioAdmins
-	- $RosarioModules
-	- MOODLE_INTEGRATOR
 
 
 Changes in 2.6.6
