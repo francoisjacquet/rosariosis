@@ -38,12 +38,13 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 			".(User('PROFILE')=='teacher'?" AND cp.COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'":'').")) 
 		ORDER BY sp.SORT_ORDER"));
+
 		$period_select = '<SELECT name="period_id" onchange="ajaxPostForm(this.form,true);"><OPTION value="">'._('Daily').'</OPTION>';
 		if(count($periods_RET))
 		{
-			//modif Francois: All Course periods
+			//modif Francois: All periods
 			if (count($periods_RET) > 1)
-				$period_select .= '<OPTION value="all"'.(($_REQUEST['period_id']=='all')?' SELECTED':'').'>'._('All Course Periods').'</OPTION>';
+				$period_select .= '<OPTION value="all"'.(($_REQUEST['period_id']=='all')?' SELECTED':'').'>'._('All Periods').'</OPTION>';
 
 			foreach($periods_RET as $period)
 				$period_select .= '<OPTION value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period['TITLE'].'</OPTION>';
@@ -59,7 +60,7 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 
 if($_REQUEST['period_id'])
 {
-	//modif Francois: All Course periods
+	//modif Francois: All periods
 	if ($_REQUEST['period_id'] == 'all')
 	{
 		$period_ids_RET = DBGet(DBQuery("SELECT PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')"));

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-25 21:16-0500\n"
-"PO-Revision-Date: 2014-12-25 21:23-0500\n"
+"POT-Creation-Date: 2014-12-26 17:13-0500\n"
+"PO-Revision-Date: 2014-12-26 17:14-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -1642,11 +1642,11 @@ msgid_plural "School Days"
 msgstr[0] "Jour d'Ecole"
 msgstr[1] "Jours d'Ecole"
 
-#: modules/Attendance/StudentSummary.php:46
-msgid "All Course Periods"
-msgstr "Toutes les Période de Cours"
+#: modules/Attendance/StudentSummary.php:47
+msgid "All Periods"
+msgstr "Toutes les Tranches Horaires"
 
-#: modules/Attendance/StudentSummary.php:82
+#: modules/Attendance/StudentSummary.php:83
 msgid "State Abs"
 msgstr "Abs Etat"
 
@@ -6052,6 +6052,9 @@ msgstr "Bonnes études ..."
 #: modules/misc/ViewContact.php:16
 msgid "This person has no information in the system."
 msgstr "Cette personne n'a pas d'informations dans le système."
+
+#~ msgid "All Course Periods"
+#~ msgstr "Toutes les Période de Cours"
 
 #~ msgid "Years"
 #~ msgstr "Années"
