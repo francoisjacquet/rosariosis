@@ -2139,7 +2139,7 @@ CREATE TABLE program_config (
     school_id numeric,
     program character varying(255),
     title character varying(100),
-    value character varying(100)
+    value character varying(2550)
 );
 
 
