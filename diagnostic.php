@@ -76,7 +76,11 @@ else
 				$error[] = $errstring;
 			
 			$result = @pg_exec($connection,"SELECT * FROM STAFF WHERE SYEAR='".$DefaultSyear."'");
-			$error[] = 'The value for $DefaultSyear in config.inc.php is not correct.';
+			if(!pg_fetch_all($result))
+				$error[] = 'The value for $DefaultSyear in config.inc.php is not correct.';
+
+			if (!is_array($RosarioLocales) || empty($RosarioLocales))
+				$error[] = 'The value for $RosarioLocales in config.inc.php is not correct.';
 		}
 	}
 }
