@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-26 17:12-0500\n"
-"PO-Revision-Date: 2014-12-26 17:12-0500\n"
+"POT-Creation-Date: 2014-12-28 14:53-0500\n"
+"PO-Revision-Date: 2014-12-28 14:54-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -4450,76 +4450,80 @@ msgstr "Año escolar sobre dos años calendarios"
 msgid "School logo"
 msgstr "Logo de la Institución"
 
-#: modules/School_Setup/Configuration.php:123
+#: modules/School_Setup/Configuration.php:119
+msgid "Currency Symbol"
+msgstr "Símbolo Monetario"
+
+#: modules/School_Setup/Configuration.php:126
 msgid "Display Mailing Address"
 msgstr "Mostrar Dirección de Correo"
 
-#: modules/School_Setup/Configuration.php:124
+#: modules/School_Setup/Configuration.php:127
 msgid "Check Bus Pickup / Dropoff by default"
 msgstr "Marcar Recorrida / Paradero del Transporte Escolar por defecto"
 
-#: modules/School_Setup/Configuration.php:125
+#: modules/School_Setup/Configuration.php:128
 msgid "Enable Legacy Contact Information"
 msgstr "Activar la Antigua Información de Contacto"
 
-#: modules/School_Setup/Configuration.php:126
+#: modules/School_Setup/Configuration.php:129
 msgid "Use Semester Comments instead of Quarter Comments"
 msgstr "Usar Comentarios Semestrales en lugar de Comentarios Bimestrales"
 
-#: modules/School_Setup/Configuration.php:133
+#: modules/School_Setup/Configuration.php:136
 msgid "Use letter grades only"
 msgstr "Sólo usar calificaciones"
 
-#: modules/School_Setup/Configuration.php:133
+#: modules/School_Setup/Configuration.php:136
 msgid "Use letter and percent grades"
 msgstr "Usar calificaciones y porcentajes"
 
-#: modules/School_Setup/Configuration.php:133
+#: modules/School_Setup/Configuration.php:136
 msgid "Use percent grades only"
 msgstr "Sólo usar porcentajes"
 
-#: modules/School_Setup/Configuration.php:135
+#: modules/School_Setup/Configuration.php:138
 msgid "Hide grade comment except for attendance period courses"
 msgstr "Ocultar el comentario de la calificación exceptuando los cursos con asistencia"
 
-#: modules/School_Setup/Configuration.php:136
+#: modules/School_Setup/Configuration.php:139
 msgid "Allow Teachers to edit grades after grade posting period"
 msgstr "Dejar los Docentes editar las calificaciones después del período de publicación de calificaciones"
 
-#: modules/School_Setup/Configuration.php:137
+#: modules/School_Setup/Configuration.php:140
 msgid "Enable Anonymous Grade Statistics for Parents and Students"
 msgstr "Activar las Estadísticas Anónimas de Calificaciones para los Padres y Estudiantes"
 
-#: modules/School_Setup/Configuration.php:138
+#: modules/School_Setup/Configuration.php:141
 msgid "Enable Anonymous Grade Statistics for Administrators and Teachers"
 msgstr "Activar las Estadísticas Anónimas de Calificaciones para los Administradores y Docentes"
 
-#: modules/School_Setup/Configuration.php:145
+#: modules/School_Setup/Configuration.php:148
 msgid "Minutes in a Full School Day"
 msgstr "Minutos en un Día de Escuela Completo"
 
-#: modules/School_Setup/Configuration.php:146
-#: modules/School_Setup/Configuration.php:147
+#: modules/School_Setup/Configuration.php:149
+#: modules/School_Setup/Configuration.php:150
 msgid "Leave the field blank to always allow"
 msgstr "Dejar el campo en blanco para permitir siempre"
 
-#: modules/School_Setup/Configuration.php:146
+#: modules/School_Setup/Configuration.php:149
 msgid "Number of days before the school date teachers can edit attendance"
 msgstr "Número de días antes de la fecha por los cuales los docentes pueden editar la asistencia"
 
-#: modules/School_Setup/Configuration.php:147
+#: modules/School_Setup/Configuration.php:150
 msgid "Number of days after the school date teachers can edit attendance"
 msgstr "Número de días después de la fecha por los cuales los docentes pueden editar la asistencia"
 
-#: modules/School_Setup/Configuration.php:154
+#: modules/School_Setup/Configuration.php:157
 msgid "Food Service Balance minimum amount for warning"
 msgstr "Saldo mínimo del Servicio de Comida para el aviso"
 
-#: modules/School_Setup/Configuration.php:155
+#: modules/School_Setup/Configuration.php:158
 msgid "Food Service Balance minimum amount"
 msgstr "Saldo mínimo del Servicio de Comida"
 
-#: modules/School_Setup/Configuration.php:156
+#: modules/School_Setup/Configuration.php:159
 msgid "Food Service Balance target amount"
 msgstr "Saldo meta del Servicio de Comida"
 
@@ -5971,7 +5975,7 @@ msgstr "La última vez que entró fue el <b>%s</b>."
 #: modules/misc/Portal.php:317
 #: modules/misc/Portal.php:330
 #: modules/misc/Portal.php:410
-#: modules/misc/Portal.php:419
+#: modules/misc/Portal.php:420
 msgid "Warning!"
 msgstr "Cuidado!"
 
@@ -5997,15 +6001,15 @@ msgstr[1] "%d nuevas sanciones"
 #: modules/misc/Portal.php:244
 #: modules/misc/Portal.php:357
 #: modules/misc/Portal.php:376
-#: modules/misc/Portal.php:444
-#: modules/misc/Portal.php:463
+#: modules/misc/Portal.php:445
+#: modules/misc/Portal.php:464
 msgid "Date Posted"
 msgstr "Fecha de Publicación"
 
 #: modules/misc/Portal.php:105
 #: modules/misc/Portal.php:260
 #: modules/misc/Portal.php:391
-#: modules/misc/Portal.php:471
+#: modules/misc/Portal.php:472
 msgid "Day With Upcoming Events"
 msgid_plural "Days With Upcoming Events"
 msgstr[0] "Día Con Próximos Eventos"
@@ -6024,7 +6028,7 @@ msgstr[1] "Clases con datos faltantes de asistencia"
 
 #: modules/misc/Portal.php:184
 #: modules/misc/Portal.php:330
-#: modules/misc/Portal.php:419
+#: modules/misc/Portal.php:420
 #, php-format
 msgid "You have a <b>negative</b> food service balance of <span style=\"color:red\">%s</span>"
 msgstr "Tiene un saldo <b>negativo</b> de <span style=\"color:red\">%s</span> para el servicio de comida"
@@ -6059,19 +6063,19 @@ msgstr "Usted es un <b>Padre</b> en el sistema."
 msgid "You have students with food service balance below %1.2f - please deposit at least the Minimum Deposit into you children's accounts."
 msgstr "Tiene estudiantes con un saldo del servicio de comida por debajo de %1.2f - por favor deposite por lo menos el Mínimo en la cuenta de sus hijos."
 
-#: modules/misc/Portal.php:411
+#: modules/misc/Portal.php:412
 msgid "Minimum Deposit"
 msgstr "Depósito mínimo"
 
-#: modules/misc/Portal.php:422
+#: modules/misc/Portal.php:423
 msgid "Happy parenting..."
 msgstr "Feliz crianza..."
 
-#: modules/misc/Portal.php:426
+#: modules/misc/Portal.php:427
 msgid "You are a <b>Student</b> on the system."
 msgstr "Eres un <b>Estudiante</b> en el sistema."
 
-#: modules/misc/Portal.php:476
+#: modules/misc/Portal.php:477
 msgid "Happy learning..."
 msgstr "Feliz aprendizaje..."
 
@@ -6162,8 +6166,6 @@ msgstr "Esta persona no tiene información en el sistema."
 #~ msgstr "Teléfono del Médico"
 #~ msgid "Preferred Hospital"
 #~ msgstr "Hospital Preferido"
-#~ msgid "Current School"
-#~ msgstr "Institución Actual"
 #~ msgid "Previous School"
 #~ msgstr "La Institución Anterior"
 #~ msgid "Next School"
