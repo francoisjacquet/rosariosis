@@ -109,7 +109,7 @@ if(!defined('WAREHOUSE_PHP'))
 	}
 
 	function Warehouse($mode)
-	{	global $_ROSARIO,$locale;
+	{	global $_ROSARIO,$locale,$RosarioVersion;
 
 		switch($mode)
 		{
@@ -124,11 +124,11 @@ if(!defined('WAREHOUSE_PHP'))
 	<meta name="viewport" content="width=device-width" />
 	<noscript><META http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&reason=javascript" /></noscript>
 	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css?v=<?php echo $RosarioVersion; ?>" />
 	<script src="assets/js/jquery.js"></script>
 	<script src="assets/js/jquery.form.js"></script>
 	<script src="assets/js/tipmessage/main15.js"></script>
-	<script src="assets/js/warehouse.js"></script>
+	<script src="assets/js/warehouse.js?v=<?php echo $RosarioVersion; ?>"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="assets/js/jscalendar/calendar-blue.css" />
 	<script src="assets/js/jscalendar/calendar+setup.js"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists('assets/js/jscalendar/lang/calendar-'.mb_substr($locale, 0, 2).'.js') ? mb_substr($locale, 0, 2) : 'en'; ?>.js"></script>
