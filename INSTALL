@@ -53,7 +53,6 @@ as appropriate for your installation. Rename the file to config.inc.php.
   $RosarioNotifyAddress is email address to send error and new administrator notifications
   $RosarioLocales is a comma separated list of the locale names of the 
     translations
-  $CurrencySymbol is the symbol to add before money amounts
 
 
 Now, you're ready to setup the RosarioSIS database. If you have access to the

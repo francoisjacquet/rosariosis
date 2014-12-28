@@ -49,6 +49,7 @@ Changes in 2.7
 - Update french & spanish translations
 - Fix SQL bug invalid numeric data in Courses.php
 - Add cache killer to warehouse.js + stylesheet.css in Warehouse.php
+- Add Currency to School Configuration
 
 Upgrade from 2.6.x
 ------------------
@@ -58,9 +59,11 @@ Upgrade from 2.6.x
 - Execute the SQL commands, see https://gist.github.com/francoisjacquet/eee136a8431b704646dc
 - You can safely remove the following variables from the config.inc.php file (see new config.inc.sample.php file for comparison):
 	- $RosarioAdmins
+	- $CurrencySymbol
 	- $RosarioModules
 	- MOODLE_INTEGRATOR
 - (Re)activate the Moodle integrator via: School Setup > School Configuration > Plugins
+- Set the Currency Symbol ($) via: School Setup > School Configuration
 - Note: all the modules coming with RosarioSIS will be activated
 - Activate/deactivate modules via: School Setup > School Configuration > Modules
 - Note2: if you have custom modules, reactivate them:

@@ -2,8 +2,6 @@
 
 function Currency($num,$sign='before',$red=false)
 {
-//modif Francois: locale currency, see config.inc.php	
-	global $CurrencySymbol;
 	$original = $num;
 	//modif Francois: Bugfix Currency direct call via $extra['functions']
 	if($sign=='CR' && $num<0)
@@ -18,7 +16,7 @@ function Currency($num,$sign='before',$red=false)
 	}
 
 //	$num = "\$".number_format($num,2,'.',',');
-	$num = $CurrencySymbol.number_format($num,2,'.',',');
+	$num = Config('CURRENCY').number_format($num,2,'.',',');
 	if($negative)
 		$num = '-'.$num;
 	elseif($cr)

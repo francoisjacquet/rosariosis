@@ -339,7 +339,7 @@ switch (User('PROFILE'))
 		include_once('ProgramFunctions/PortalPollsNotes.fnc.php');
 //modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 //        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='".User('STAFF_ID')."' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent'));
-        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID 
+		$notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID 
 		FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st 
 		WHERE pn.SYEAR='".UserSyear()."' 
 		AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL) 
@@ -397,26 +397,27 @@ switch (User('PROFILE'))
 		{
 			$food_service_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='food_service'"),array(),array('TITLE'));
 			
-		// warn if students with low food service balances
-//modif Francois: add translation
-//		$extra['SELECT'] = ',fssa.STATUS,fsa.ACCOUNT_ID,\'$\'||fsa.BALANCE AS BALANCE,\'$\'||16.5-fsa.BALANCE AS DEPOSIT';
-		$extra['SELECT'] = ',fssa.STATUS,fsa.ACCOUNT_ID,\''.$CurrencySymbol.'\'||fsa.BALANCE AS BALANCE,\''.$CurrencySymbol.'\'||'.$food_service_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'].'-fsa.BALANCE AS DEPOSIT';
-		$extra['FROM'] = ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
-		$extra['WHERE'] = ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NULL AND fsa.BALANCE<\''.$food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'].'\'';
-		$extra['ASSOCIATED'] = User('STAFF_ID');
-		$RET = GetStuList($extra);
-		if (count($RET))
-		{
-			echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have students with food service balance below %1.2f - please deposit at least the Minimum Deposit into you children\'s accounts.'),$food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE']).'</p></div>';
-			ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'ACCOUNT_ID'=>_('Account ID'),'BALANCE'=>_('Balance'),'DEPOSIT'=>_('Minimum Deposit')),'Student','Students',array(),array(),array('save'=>false,'search'=>false));
-//			echo '</p>';
-		}
+			// warn if students with low food service balances
+			$extra['SELECT'] = ',fssa.STATUS,fsa.ACCOUNT_ID,fsa.BALANCE AS BALANCE,'.$food_service_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'].'-fsa.BALANCE AS DEPOSIT';
+			$extra['FROM'] = ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
+			$extra['WHERE'] = ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NULL AND fsa.BALANCE<\''.$food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'].'\'';
+			$extra['ASSOCIATED'] = User('STAFF_ID');
 
-		// warn if negative food service balance
-		$staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
-		$staff = $staff[1];
-		if($staff['BALANCE'] && $staff['BALANCE']<0)
-			echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE']).'</p></div>';
+			$RET = GetStuList($extra);
+
+			if (count($RET))
+			{
+				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have students with food service balance below %1.2f - please deposit at least the Minimum Deposit into you children\'s accounts.'),$food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE']).'</p></div>';
+
+				ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'ACCOUNT_ID'=>_('Account ID'),'BALANCE'=>_('Balance'),'DEPOSIT'=>_('Minimum Deposit')),'Student','Students',array(),array(),array('save'=>false,'search'=>false));
+			}
+
+			// warn if negative food service balance
+			$staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
+			$staff = $staff[1];
+
+			if($staff['BALANCE'] && $staff['BALANCE']<0)
+				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),Currency($staff['BALANCE'])).'</p></div>';
 		}
 
 		echo '<p>&nbsp;'._('Happy parenting...').'</p>';

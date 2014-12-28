@@ -24,7 +24,6 @@ if(!defined('CONFIG_INC'))
 	$DefaultSyear = '2014'; // Default school year, should match the database to be able to login
 	$RosarioNotifyAddress = ''; // email address to send error and new administrator notifications
 	$RosarioLocales = array('en_US.utf8'); // Add other languages you want to support here, ex: array('en_US.utf8', 'fr_FR.utf8', 'es_ES.utf8');
-	$CurrencySymbol = '$'; // local currency
 
 }
 ?>
