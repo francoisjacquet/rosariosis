@@ -47,6 +47,8 @@ Changes in 2.7
 - Reorganize Student/User General Info tables
 - $DefaultSyear & $RosarioLocales checks in diagnostic.php
 - Update french & spanish translations
+- Fix SQL bug invalid numeric data in Courses.php
+- Add cache killer to warehouse.js + stylesheet.css in Warehouse.php
 
 Upgrade from 2.6.x
 ------------------

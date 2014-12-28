@@ -113,7 +113,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 		foreach($tables as $id=>$columns)
 		{
 			//modif Francois: fix SQL bug invalid numeric data
-			if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['CREDIT_HOURS']) || is_numeric($columns['CREDIT_HOURS'])))
+			if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['CREDIT_HOURS']) || is_numeric($columns['CREDIT_HOURS'])) && (empty($columns['CREDITS']) || is_numeric($columns['CREDITS'])))
 			{
 				//modif Francois: added SQL constraint TITLE (course_subjects & courses) & SHORT_NAME, TEACHER_ID (course_periods) & PERIOD_ID (course_period_school_periods) are not null
 				if (!((isset($columns['TITLE']) && empty($columns['TITLE'])) || ($table_name=='COURSE_PERIODS' && ((isset($columns['SHORT_NAME']) && empty($columns['SHORT_NAME'])) || (isset($columns['TEACHER_ID']) && empty($columns['TEACHER_ID'])))) || (mb_strpos($id,'new')!==false && !empty($columns['PERIOD_ID']) && !isset($columns['DAYS']))))
