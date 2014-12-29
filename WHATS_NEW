@@ -1,5 +1,19 @@
 Rosario Student Information System - WHATS_NEW
 
+New in 2.7
+-----------
+School Setup
+- School Configuration
+	- manage Modules & Plugins
+	- set Default Theme
+	- set Currency
+
+config.inc.php
+- No more Rosario Admins list
+
+Security improved
+
+
 New in 2.6
 -----------
 Accounting

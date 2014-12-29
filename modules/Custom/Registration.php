@@ -10,6 +10,8 @@ if(!UserStudentID())
 	AND se.STUDENT_ID=sju.STUDENT_ID 
 	AND (('".DBDate()."' BETWEEN se.START_DATE AND se.END_DATE OR se.END_DATE IS NULL) 
 	AND '".DBDate()."'>=se.START_DATE)"));
+
+	//note: do not use SetUserStudentID() here as this is safe
 	$_SESSION['student_id'] = $RET[1]['STUDENT_ID'];
 }
 
@@ -138,7 +140,19 @@ if($_REQUEST['values'])
 	}
 
 	$student = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
-	mail('mgamson@tampabay.rr.com',sprintf(_('New Registration %s %s (%d) has been registered by %s.'),$student[1]['FIRST_NAME'],$student[1]['LAST_NAME'],UserStudentID(),User('NAME')));
+	
+	if($RosarioNotifyAddress)
+	{
+		//modif Francois: add SendEmail function
+		include('ProgramFunctions/SendEmail.fnc.php');
+		
+		$student_name = $student[1]['FIRST_NAME'].' '.$student[1]['LAST_NAME'];
+	
+		$message = sprintf('New Registration %s (%d) has been registered by %s.', $student_name, UserStudentID(), User('NAME'));
+	
+		SendEmail($RosarioNotifyAddress, 'New Registration', $message);
+	}
+	
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 echo '<H4>Welcome, '.User('NAME').', to the '.ParseMLField(Config('TITLE')).'</H4>';
@@ -233,7 +247,7 @@ echo '<TD>';
 if ($custom_fields_RET['200000001'] && $custom_fields_RET['200000001'][1]['TYPE'] == 'select')
 {
 	$select_options = array();
-	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000001'][1]['SELECT_OPTIONS']);
+	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000001'][1]['SELECT_OPTIONS']));
 	foreach ($select_options_array as $select_option)
 		$select_options[$select_option] = $select_option;
 	echo SelectInput($student['CUSTOM_200000001'],'values[STUDENTS][CUSTOM_200000001]',ParseMLField($custom_fields_RET['200000001'][1]['TITLE']),$select_options);
@@ -244,7 +258,7 @@ echo '<TD>';
 if ($custom_fields_RET['200000005'] && $custom_fields_RET['200000005'][1]['TYPE'] == 'select')
 {
 	$select_options = array();
-	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000005'][1]['SELECT_OPTIONS']);
+	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000005'][1]['SELECT_OPTIONS']));
 	foreach ($select_options_array as $select_option)
 		$select_options[$select_option] = $select_option;
 	echo SelectInput($student['CUSTOM_200000005'],'values[STUDENTS][CUSTOM_200000005]',ParseMLField($custom_fields_RET['200000005'][1]['TITLE']),$select_options,_('N/A'),'style="width:200"');
@@ -257,7 +271,7 @@ echo '<TD>';
 if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 {
 	$select_options = array();
-	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000000'][1]['SELECT_OPTIONS']);
+	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000000'][1]['SELECT_OPTIONS']));
 	foreach ($select_options_array as $select_option)
 		$select_options[$select_option] = $select_option;
 	echo SelectInput($student['CUSTOM_200000000'],'values[STUDENTS][CUSTOM_200000000]',ParseMLField($custom_fields_RET['200000000'][1]['TITLE']),$select_options);

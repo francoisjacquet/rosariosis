@@ -1,4 +1,7 @@
 <?php
+
+include('modules/Scheduling/includes/calcSeats0.fnc.php');
+
 if($_REQUEST['modname']=='Scheduling/Scheduler.php' && !$_REQUEST['run'])
 {
 	$function = 'Prompt';
@@ -215,8 +218,8 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 						{
 							db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
 							
-	//modif Francois: Moodle integrator
-							$moodleError .= Moodle($_REQUEST['modname'], 'enrol_manual_enrol_users');
+							//hook
+							do_action('Scheduling/Scheduler.php|schedule_student');
 						}
 						else
 							$bad_locked++;
@@ -251,7 +254,11 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 		DBQuery("ANALYZE");
 	}
 
-	echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode($moodleError.'<IMG SRC="assets/check_button.png" class="alignImg" /> <B>'._('Done.').'</B>').';</script>';
+	$error_msg = '';
+	if (isset($error))
+		$error_msg = ErrorMessage($error);
+
+	echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode($error_msg.'<IMG SRC="assets/check_button.png" class="alignImg" /> <B>'._('Done.').'</B>').';</script>';
 	ob_end_flush();
 
 	//$_REQUEST['modname'] = 'Scheduling/UnfilledRequests.php';
@@ -259,22 +266,6 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	include('modules/Scheduling/UnfilledRequests.php');
 }
 
-function calcSeats0($period)
-{
-	$mp = $period['MARKING_PERIOD_ID'];
-
-	$seats = DBGet(DBQuery("SELECT 
-		max((SELECT count(1) 
-		FROM SCHEDULE ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR) 
-		WHERE ss.COURSE_PERIOD_ID='".$period['COURSE_PERIOD_ID']."' 
-		AND (ss.MARKING_PERIOD_ID='".$mp."' OR ss.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($mp,'MP'),$mp).")) 
-		AND (ac.SCHOOL_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE)) 
-		AND (ac.SCHOOL_DATE>=sem.START_DATE AND (sem.END_DATE IS NULL OR ac.SCHOOL_DATE<=sem.END_DATE)))) AS FILLED_SEATS 
-	FROM ATTENDANCE_CALENDAR ac 
-	WHERE ac.CALENDAR_ID='".$period['CALENDAR_ID']."' 
-	AND ac.SCHOOL_DATE BETWEEN ".db_case(array("(CURRENT_DATE>'".GetMP($mp,'END_DATE')."')",'TRUE',"'".GetMP($mp,'START_DATE')."'",'CURRENT_DATE'))." AND '".GetMP($mp,'END_DATE')."'"));
-	return $seats[1]['FILLED_SEATS'];
-}
 
 function _scheduleRequest($request,$not_parent_id=false)
 //{	global $requests_RET,$cp_parent_RET,$cp_course_RET,$mps_RET,$schedule,$filled,$unfilled;

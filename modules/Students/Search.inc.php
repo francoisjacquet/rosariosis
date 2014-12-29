@@ -196,7 +196,7 @@ else
 		}
 		if($_REQUEST['address_group'])
 		{
-            ListOutput($students_RET,$columns,'Family','Families',$link,$extra['LO_group'],$extra['options']);
+			ListOutput($students_RET,$columns,'Family','Families',$link,$extra['LO_group'],$extra['options']);
 		}
 		else
 		{
@@ -216,7 +216,7 @@ else
 		}
 		if(!is_array($students_RET[1]['STUDENT_ID']))
 		{
-			$_SESSION['student_id'] = $students_RET[1]['STUDENT_ID'];
+			SetUserStudentID($students_RET[1]['STUDENT_ID']);
 			
 			if($students_RET[1]['SCHOOL_ID']!=UserSchool())
 				$_SESSION['UserSchool'] = $students_RET[1]['SCHOOL_ID'];

@@ -60,7 +60,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					}
 				}
 				else
-					$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+					$error[] = _('Please enter a valid Sort Order.');
 			}
 		}
 	}
@@ -87,8 +87,11 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 		}
 }
 
-if(empty($_REQUEST['modfunc']))
+//modif Francois: fix SQL bug invalid sort order
+if(isset($error))
+	echo ErrorMessage($error);
 
+if(empty($_REQUEST['modfunc']))
 {
 	$menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
 	if($_REQUEST['tab_id'])
@@ -155,8 +158,6 @@ if(empty($_REQUEST['modfunc']))
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 	echo '<BR />';
-//modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
 
 	$extra = array('save'=>false,'search'=>false,
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));

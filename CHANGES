@@ -1,5 +1,75 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.7
+--------------
+- Remove $RosarioAdmins list in config.inc.php
+- Move $RosarioModules to database CONFIG table
+- Bigger config values capacity to accept serialized variables in rosariosis.sql
+- Remove $RosarioModules + MOODLE_INTEGRATOR in config.inc.php
+- Add SendEmail function
+- Move icons from assets/ folder to modules/ folder
+- Remove assets/icons/ folder
+- Move Moodle folder from modules/ to plugins/
+- Move Moodle functions from functions/ to plugins/Moodle/functions.php
+- INSERT MODULES + PLUGINS serialized array in config table
+- Add Modules + Plugins tabs to School Configuration
+- Allow all modules to be deactivated except School_Setup
+- Install/delete Modules/Plugins
+- Add README to modules/ & plugins/ folders
+- Add _LoadAddonLocale function in Warehouse.php
+- Bugfix wrong menu opened if default program overridden in warehouse.js
+- Export to Excel strip_tags for date columns in DailySummary.php
+- Rename $page to $LO_page in ListOutput.fnc.php
+- Add BottomSpinner while ajax
+- Responsive calendar adjustments in Calendar.php
+- add Default Theme to School Configuration
+- Send email from rosariosis@[site_domain] in SendEmail.fnc.php
+- Add Actions functions (hooks) in Actions.php
+- convert Moodle integrator to plugin
+- Add Moodle plugin hooks
+- Get rid of contextid in core_role_assign_roles & core_role_unassign_roles Moodle WS functions
+- Get rid of local_getcontexts_get_contexts Moodle WS function
+- Plugins configuration interface + the one for Moodle plugin
+- Move save Medical info out of Student.php
+- Grade Level input: no N/A, required in General_Info.inc.php
+- Add SetUserStudentID & SetUserStudentID functions in Current.php
+- better list searching (case insensitive) by isolating the values in ListOutput.fnc.php
+- Create calcSeats0.fnc.php file to regroup function usage
+- check if Available Seats < selected students in MassSchedule.php
+- add Available Seats column to every choose course popup
+- Add errors to $error array (program wide)
+- Hide help on page change + fix help in warehouse.js
+- Remove inline style for school & period select in Side.php
+- Fix Safari popstate bug in warehouse.js
+- XLS export arabic chars problem in ListOutput.fnc.php
+- All Course periods in Student Summary
+- Move Grade Level to Enrollment.inc.php
+- Reorganize Student/User General Info tables
+- $DefaultSyear & $RosarioLocales checks in diagnostic.php
+- Update french & spanish translations
+- Fix SQL bug invalid numeric data in Courses.php
+- Add cache killer to warehouse.js + stylesheet.css in Warehouse.php
+- Add Currency to School Configuration
+
+Upgrade from 2.6.x
+------------------
+- Flush the functions/ & ProgramFunctions/ folders
+- Delete the modules/Moodle/ & modules/Reports/ folders
+- Extract the 2.7 files
+- Execute the SQL commands, see https://gist.github.com/francoisjacquet/eee136a8431b704646dc
+- You can safely remove the following variables from the config.inc.php file (see new config.inc.sample.php file for comparison):
+	- $RosarioAdmins
+	- $CurrencySymbol
+	- $RosarioModules
+	- MOODLE_INTEGRATOR
+- (Re)activate the Moodle integrator via: School Setup > School Configuration > Plugins
+- Set the Currency Symbol ($) via: School Setup > School Configuration
+- Note: all the modules coming with RosarioSIS will be activated
+- Activate/deactivate modules via: School Setup > School Configuration > Modules
+- Note2: if you have custom modules, reactivate them:
+	- Please rename first the install.sql file in your module directory (if any). (This will prevent automatic installation when reactivated.)
+
+
 Changes in 2.6.6
 ----------------
 - Fix PHP notices undefined index in index.php

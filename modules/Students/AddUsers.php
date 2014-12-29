@@ -10,17 +10,20 @@ if($_REQUEST['modfunc']=='save' && AllowEdit())
 			{
 				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values('".$staff_id."','".UserStudentID()."')";
 				DBQuery($sql);
-	//modif Francois: Moodle integrator
-				$moodleError .= Moodle($_REQUEST['modname'], 'core_role_assign_roles');
+
+				//hook
+				do_action('Students/AddUsers.php|user_assign_role');
 			}
 		}
-		$note = _('The selected user\'s profile now includes access to the selected students.');
+		$note[] = _('The selected user\'s profile now includes access to the selected students.');
 	}
 	else
-		$error = _('You must choose at least one user');
+		$error[] = _('You must choose at least one user');
+
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 }
+
 DrawHeader(ProgramTitle());
 
 if($_REQUEST['modfunc']=='delete' && AllowEdit())
@@ -28,20 +31,19 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	if(DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['staff_id']))
 	{
 		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".$_REQUEST['staff_id']."' AND STUDENT_ID='".UserStudentID()."'");
-//modif Francois: Moodle integrator
-		$moodleError = Moodle($_REQUEST['modname'], 'core_role_unassign_roles');
+
+		//hook
+		do_action('Students/AddUsers.php|user_unassign_role');
+
 		unset($_REQUEST['modfunc']);
 	}
 }
 
-if($note)
-	echo ErrorMessage(array($note),'note');
-if($error)
-	echo ErrorMessage(array($error));
-	
-//modif Francois: Moodle integrator
-echo $moodleError;
+if(isset($note))
+	echo ErrorMessage($note,'note');
 
+if(isset($error))
+	echo ErrorMessage($error);
 
 if($_REQUEST['modfunc']!='delete')
 {

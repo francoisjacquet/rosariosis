@@ -8,13 +8,13 @@ function HackingLog()
 	Warehouse('footer');
 	if($RosarioNotifyAddress)
 	{
-		//modif Francois: add email headers
-		$headers = 'From:'.$RosarioNotifyAddress."\r\n";
-		$headers .= 'Return-Path:'.$RosarioNotifyAddress."\r\n"; 
-		$headers .= 'Reply-To:'.$RosarioNotifyAddress . "\r\n" . 'X-Mailer:PHP/' . phpversion();
-		$params = '-f '.$RosarioNotifyAddress;
+		//modif Francois: add SendEmail function
+		include('ProgramFunctions/SendEmail.fnc.php');
 		
-		@mail($RosarioNotifyAddress,'HACKING ATTEMPT',"INSERT INTO HACKING_LOG (HOST_NAME,IP_ADDRESS,LOGIN_DATE,VERSION,PHP_SELF,DOCUMENT_ROOT,SCRIPT_NAME,MODNAME,QUERY_STRING,USERNAME) values('".$_SERVER['SERVER_NAME']."','".$_SERVER['REMOTE_ADDR']."','".date('Y-m-d')."','".$RosarioVersion."','".$_SERVER['PHP_SELF']."','".$_SERVER['DOCUMENT_ROOT']."','".$_SERVER['SCRIPT_NAME']."','".$_REQUEST['modname']."','".$_SERVER['QUERY_STRING']."','".User('USERNAME')."')", $headers, $params);
+		$message = "INSERT INTO HACKING_LOG (HOST_NAME,IP_ADDRESS,LOGIN_DATE,VERSION,PHP_SELF,DOCUMENT_ROOT,SCRIPT_NAME,MODNAME,QUERY_STRING,USERNAME) 
+values('".$_SERVER['SERVER_NAME']."','".$_SERVER['REMOTE_ADDR']."','".date('Y-m-d')."','".$RosarioVersion."','".$_SERVER['PHP_SELF']."','".$_SERVER['DOCUMENT_ROOT']."','".$_SERVER['SCRIPT_NAME']."','".$_REQUEST['modname']."','".$_SERVER['QUERY_STRING']."','".User('USERNAME')."')";
+		
+		SendEmail($RosarioNotifyAddress,'HACKING ATTEMPT', $message);
 	}
 	exit;
 }

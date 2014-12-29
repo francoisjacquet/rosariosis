@@ -108,7 +108,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				DBQuery($sql);
 		}
 		else
-			$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+			$error[] = _('Please enter a valid Sort Order.');
 	}
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['values']);
@@ -146,8 +146,11 @@ if($_REQUEST['modfunc']=='add_usage' && AllowEdit())
 }
 
 
-if(empty($_REQUEST['modfunc']))
+//modif Francois: fix SQL bug invalid sort order
+if(isset($error))
+	echo ErrorMessage($error);
 
+if(empty($_REQUEST['modfunc']))
 {
 	$sql = "SELECT NULL AS REMOVE,du.ID AS USAGE_ID,df.ID,COALESCE(du.TITLE,df.TITLE) AS TITLE,du.SORT_ORDER,df.DATA_TYPE,du.SELECT_OPTIONS 
 	FROM DISCIPLINE_FIELDS df LEFT 
@@ -171,9 +174,9 @@ if(empty($_REQUEST['modfunc']))
 	$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeTextInput('','TITLE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'SELECT_OPTIONS'=>_makeTextAreaInput('','SELECT_OPTIONS'),'DATA_TYPE'=>_makeType('','DATA_TYPE'));
 	
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+
 	DrawHeader('',SubmitButton(_('Save')));
-//modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
+
 	ListOutput($referrals_RET,$columns,'Referral Form Category','Referral Form Categories',$link);
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';

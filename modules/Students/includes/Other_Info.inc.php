@@ -11,10 +11,7 @@ if(UserStudentID())
 	$value = $custom_RET[1];
 }
 
-//echo '<pre>'; var_dump($fields_RET); echo '</pre>';
-if(count($fields_RET))
-	echo $separator;
-echo '<TABLE class="cellpadding-5">';
+echo '<TABLE class="width-100p cellpadding-6">';
 $i = 1;
 $per_row = $category_RET[1]['COLUMNS']?$category_RET[1]['COLUMNS']:'3';
 
@@ -37,8 +34,6 @@ foreach($fields_RET as $field)
 			echo '</TD>';
 			if($i%$per_row==0)
 				echo '</TR>';
-			else
-				echo '<TD style="width:50px;"></TD>';
 			$i++;
 			break;
 
@@ -50,8 +45,6 @@ foreach($fields_RET as $field)
 			echo '</TD>';
 			if($i%$per_row==0)
 				echo '</TR>';
-			else
-				echo '<TD style="width:50px;"></TD>';
 			$i++;
 			break;
 
@@ -63,8 +56,6 @@ foreach($fields_RET as $field)
 			echo '</TD>';
 			if($i%$per_row==0)
 				echo '</TR>';
-			else
-				echo '<TD style="width:50px;"></TD>';
 			$i++;
 			break;
 
@@ -76,8 +67,6 @@ foreach($fields_RET as $field)
 			echo '</TD>';
 			if($i%$per_row==0)
 				echo '</TR>';
-			else
-				echo '<TD style="width:50px;"></TD>';
 			$i++;
 			break;
 
@@ -86,14 +75,22 @@ foreach($fields_RET as $field)
 				echo '<TR class="st">';
 			echo '<TD>';
 			echo _makeDateInput('CUSTOM_'.$field['ID'],$field['TITLE'],'students');
-//modif Francois: display age next to birthdate
-			if ($field['ID'] == '200000004')
-				echo _makeStudentAge('CUSTOM_'.$field['ID'], _('Age'));
 			echo '</TD>';
 			if($i%$per_row==0)
 				echo '</TR>';
-			else
-				echo '<TD style="width:50px;"></TD>';
+			$i++;
+//modif Francois: display age next to birthdate
+			if ($field['ID'] !== '200000004')
+				break;
+
+		case 'age':
+			if(($i-1)%$per_row==0)
+				echo '<TR class="st">';
+			echo '<TD>';
+			echo _makeStudentAge('CUSTOM_'.$field['ID'], _('Age'));
+			echo '</TD>';
+			if($i%$per_row==0)
+				echo '</TR>';
 			$i++;
 			break;
 
@@ -107,8 +104,6 @@ foreach($fields_RET as $field)
 			echo '</TD>';
 			if($i%$per_row==0)
 				echo '</TR>';
-			else
-				echo '<TD style="width:50px;"></TD>';
 			$i++;
 			break;
 
@@ -120,8 +115,6 @@ foreach($fields_RET as $field)
 			echo '</TD>';
 			if($i%$per_row==0)
 				echo '</TR>';
-			else
-				echo '<TD style="width:50px;"></TD>';
 			$i++;
 			break;
 
@@ -133,39 +126,41 @@ foreach($fields_RET as $field)
 			echo '</TD>';
 			if($i%$per_row==0)
 				echo '</TR>';
-			else
-				echo '<TD style="width:50px;"></TD>';
 			$i++;
 			break;
 	}
 }
 if(($i-1)%$per_row!=0)
 	echo '</TR>';
-echo '</TABLE><BR />';
+echo '</TABLE>';
 
-echo '<TABLE class="cellpadding-5">';
 $i = 1;
 foreach($fields_RET as $field)
 {
 	if($field['TYPE']=='textarea')
 	{
+		if ($i == 1)
+			echo '<TABLE class="width-100p cellpadding-6">';
+
 		if(($i-1)%2==0)
 			echo '<TR class="st">';
+
 		echo '<TD>';
 		echo _makeTextareaInput('CUSTOM_'.$field['ID'],$field['TITLE'],'students');
 		echo '</TD>';
+
 		if($i%2==0)
 			echo '</TR>';
-		else
-			echo '<TD style="width:50px;"></TD>';
 		$i++;
 	}
 }
-if(($i-1)%2!=0)
-	echo '</TR>';
-//modif Francois: fix empty table
-if ($i == 1)
-	echo '<TR><TD></TD></TR>';
-echo '</TABLE>';
+if ($i > 1)
+{
+	if(($i-1)%2!=0)
+		echo '</TR>';
+	echo '</TABLE>';
+}
+
+echo '<HR />';
 
 ?>

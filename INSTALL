@@ -1,7 +1,7 @@
 Rosario Student Information System - INSTALLATION DIRECTIONS
 
 -------------------------------------------------------------------------------
-Version 2.6.6
+Version 2.7-beta
 -------------------------------------------------------------------------------
 
 NOTE: Before Installing RosarioSIS, you must read and agree to the included
@@ -50,19 +50,10 @@ as appropriate for your installation. Rename the file to config.inc.php.
   
   $DefaultSyear default school year, should be present in the database to 
     be able to login
-  $RosarioAdmins is a comma separated list of admin's which have special login
-    privileges
-  $RosarioNotifyAddress is email address to send error notifications
+  $RosarioNotifyAddress is email address to send error and new administrator notifications
   $RosarioLocales is a comma separated list of the locale names of the 
     translations
-  $CurrencySymbol is the symbol to add before money amounts
-  
-  $RosarioModules controls which modules to use, most of the standard modules
-    are required though and should be left to 'true'
-  
-  MOODLE_INTEGRATOR controls whether the Moodle integrator is active or not, 
-    see https://github.com/francoisjacquet/rosariosis/wiki/Moodle-integrator-setup 
-    for instructions
+
 
 Now, you're ready to setup the RosarioSIS database. If you have access to the
 command prompt for your server, follow these instructions.  If you're using
@@ -132,8 +123,16 @@ Install instructions for Ubuntu 12.04.4 64bits server:
 	$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';
 
 
+Activate PHP mail() function
+----------------------------
+
+Install instructions for Ubuntu 12.04.4 64bits server:
+	server$ sudo apt-get install sendmail
+
+
 Additional Configuration
 ------------------------
 
-In addition to the main config.inc.php file there are optional module configuration. 
-See the School Configuration in the School Setup module for details.
+RosarioSIS comes with an empty calendar, so the first thing you should do is create a calendar or recreate the Main calendar with school days (in green).
+
+See the School Configuration program in the School Setup module for optional modules configuration.

@@ -38,6 +38,7 @@ $handle = PDFStart();
 <?php
 foreach($help as $program=>$value)
 {
+	$_REQUEST['modname'] = $program;
 	if(mb_strpos($program,'/'))
 	{
 		$modcat = str_replace('_',' ',mb_substr($program,0,mb_strpos($program,'/')));
@@ -48,17 +49,18 @@ foreach($help as $program=>$value)
 		if($modcat!=$old_modcat) : ?>
 
 			<div style="page-break-after: always;"></div>
-			<TABLE>
-				<TR>
-					<TD><h2><IMG SRC="assets/icons/<?php echo str_replace(' ','_',$modcat); ?>.png" class="headerIcon" /> <?php echo _($modcat); ?></h2></TD>
-				</TR>
-			</TABLE>
+
+<?php
+			unset($_ROSARIO['DrawHeader']);
+			$_ROSARIO['HeaderIcon'] = 'modules/'.str_replace(' ','_',$modcat).'/icon.png';
+			echo DrawHeader(_($modcat));
+?>
 			<HR>
 
 		<?php endif;
 		$old_modcat = $modcat;
 	}
-	$_REQUEST['modname'] = $program; ?>
+	 ?>
 
 	<div style="page-break-inside: avoid;"><h3>
 

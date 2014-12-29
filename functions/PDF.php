@@ -16,8 +16,8 @@ function PDFStart($css = true, $margins = array())
 }
 
 function PDFStop($handle)
-{	//global $htmldocPath,$htmldocAssetsPath;
-	global $wkhtmltopdfPath,$wkhtmltopdfAssetsPath,$locale;
+{
+	global $wkhtmltopdfPath,$wkhtmltopdfAssetsPath,$RosarioPath,$locale;
 	
 	$handle['orientation'] = $_SESSION['orientation'];
 	unset($_SESSION['orientation']);
@@ -38,6 +38,8 @@ function PDFStop($handle)
 	{		
 		if(!empty($wkhtmltopdfAssetsPath))
 			$html = str_replace('assets/', $wkhtmltopdfAssetsPath, $html);
+			
+		$html = str_replace('modules/', $RosarioPath.'modules/', $html);
 		
 		require('classes/Wkhtmltopdf.php');
 		

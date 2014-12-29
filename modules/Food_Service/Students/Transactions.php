@@ -26,7 +26,7 @@ if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 			DBQuery('BEGIN; '.$sql1.'; '.$sql2.'; COMMIT');
 		}
 		else
-			$error = _('Please enter valid Type and Amount.');
+			$error[] = _('Please enter valid Type and Amount.');
 	}
 	unset($_REQUEST['modfunc']);
 }
@@ -48,6 +48,9 @@ $extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 
 Search('student_id',$extra);
 
+if(isset($error))
+	echo ErrorMessage($error);
+
 if(UserStudentID() && empty($_REQUEST['modfunc']))
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,
@@ -63,9 +66,6 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 	DrawHeader('',ResetButton(_('Cancel')).SubmitButton(_('Save'),'save'));
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
-
-	if(isset($error)) 
-		echo ErrorMessage(array($error));
 
 	if($student['BALANCE']!='')
 	{

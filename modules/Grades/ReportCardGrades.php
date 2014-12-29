@@ -60,7 +60,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					}
 				}
 				else
-					$error = ErrorMessage(array(_('Please enter valid Numeric data.')));
+					$error[] = _('Please enter valid Numeric data.');
 			}
 		}
 	}
@@ -85,8 +85,11 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 		}
 }
 
-if(empty($_REQUEST['modfunc']))
+//modif Francois: fix SQL bug invalid numeric data
+if(isset($error))
+	echo ErrorMessage($error);
 
+if(empty($_REQUEST['modfunc']))
 {
 	if(User('PROFILE')=='admin')
 	{
@@ -171,8 +174,6 @@ if(empty($_REQUEST['modfunc']))
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 	echo '<BR />';
-//modif Francois: fix SQL bug invalid numeric data
-	if(isset($error)) echo $error;
 
 	$LO_options = array('search'=>false,
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));

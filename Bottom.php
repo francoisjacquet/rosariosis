@@ -85,8 +85,9 @@ else
 			<?php endif; ?>
 
 			<a href="Bottom.php?modfunc=print" target="_blank" title="<?php echo _('Print'); ?>" class="BottomButton"><img src="assets/print.png" />&nbsp;<span><?php echo _('Print'); ?></span></a>
-			<a href="#" onclick="expandHelp();return false;" title="<?php echo _('Help'); ?>" class="BottomButton"><img src="assets/help.png" />&nbsp;<span><?php echo _('Help'); ?></span></a>
+			<a href="#" onclick="toggleHelp();return false;" title="<?php echo _('Help'); ?>" class="BottomButton"><img src="assets/help.png" />&nbsp;<span><?php echo _('Help'); ?></span></a>
 			<a href="index.php?modfunc=logout" target="_top" title="<?php echo _('Logout'); ?>" class="BottomButton"><img src="assets/logout.png" />&nbsp;<span><?php echo _('Logout'); ?></span></a>
+			<img id="BottomSpinner" class="BottomButton" src="assets/spinning.gif" alt="Loading" />
 		</div>
 
 		<div id="footerhelp"></div>

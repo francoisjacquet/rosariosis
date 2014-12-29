@@ -57,7 +57,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 		}
 		else
-			$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+			$error[] = _('Please enter a valid Sort Order.');
 	}
 	unset($_REQUEST['modfunc']);
 }
@@ -87,8 +87,11 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if(empty($_REQUEST['modfunc']))
+//modif Francois: fix SQL bug invalid sort order
+if(isset($error))
+	echo ErrorMessage($error);
 
+if(empty($_REQUEST['modfunc']))
 {
 	if($_REQUEST['table']!=='new')
 	{
@@ -138,8 +141,6 @@ if(empty($_REQUEST['modfunc']))
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 	echo '<BR />';
-//modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
 
 //modif Francois: css WPadmin
 	$LO_options = array('count'=>false,'download'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table']));

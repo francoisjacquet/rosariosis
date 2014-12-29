@@ -60,7 +60,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					}
 				}
 				else
-					$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+					$error[] = _('Please enter a valid Sort Order.');
 			}
 		}
 	}
@@ -86,8 +86,11 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 		}
 }
 
-if(empty($_REQUEST['modfunc']))
+//modif Francois: fix SQL bug invalid sort order
+if(isset($error))
+	echo ErrorMessage($error);
 
+if(empty($_REQUEST['modfunc']))
 {
 	$comment_scales_RET = DBGet(DBQuery('SELECT ID,TITLE FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER,ID'),array(),array('ID'));
 	if($_REQUEST['tab_id']=='' || $_REQUEST['tab_id']!='new' && !$comment_scales_RET[$_REQUEST['tab_id']])
@@ -144,8 +147,6 @@ if(empty($_REQUEST['modfunc']))
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 	echo '<BR />';
-//modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
 
 	$LO_options = array('save'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
         

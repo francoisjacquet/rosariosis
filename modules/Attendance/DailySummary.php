@@ -193,7 +193,7 @@ else
 		foreach($cal_RET as $value)
 		{
 			$extra['SELECT'] .= ",'' as _".str_replace('-','',$value['SCHOOL_DATE']);
-			$extra['columns_after']['_'.str_replace('-','',$value['SCHOOL_DATE'])] = ProperDate($value['SCHOOL_DATE'],'short');
+			$extra['columns_after']['_'.str_replace('-','',$value['SCHOOL_DATE'])] = (isset($_REQUEST['LO_save']) ? strip_tags(ProperDate($value['SCHOOL_DATE'],'short')) : ProperDate($value['SCHOOL_DATE'],'short'));
 			$extra['functions']['_'.str_replace('-','',$value['SCHOOL_DATE'])] = '_makeColor';
 		}
 	}

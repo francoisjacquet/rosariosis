@@ -7,11 +7,11 @@
 #menu{position:relative;float:left}
 #menushadow{position:absolute;top:0;right:0;bottom:0;width:6px;z-index:20}
 #body,#menu{margin-bottom:38px;}
-#footer{clear:both;position:fixed;z-index:99999;bottom:0;left:0;height:38px;width:100%;background-color:#ececec;}
-#footerwrap{height:32px;margin-top:3px;margin-bottom:3px;text-align:center;}
-#footerhelp{display:none;height:140px;background-color:white;overflow-y:scroll;padding-left:8px;}
-.mod{overflow:hidden;}
-.mod:after{content:"";display:table;clear:both;}
+#footer{clear:both;position:fixed;z-index:99999;bottom:0;left:0;height:38px;width:100%}
+#footerwrap{height:32px;margin-top:3px;margin-bottom:3px;text-align:center}
+#footerhelp{display:none;height:140px;overflow-y:scroll;padding-left:8px}
+.mod{overflow:hidden}
+.mod:after{content:"";display:table;clear:both}
 
 input[type=text],input[type=password],textarea{
 	-moz-box-sizing:border-box;
@@ -49,11 +49,14 @@ td,textarea{
 	line-height:inherit
 }
 input,select{
-	line-height:15px
+	line-height:1.2
 }
 a,input,select{
 	outline:0;
 	text-decoration:none
+}
+#menu select{
+	max-width:100%
 }
 blockquote,q{
 	quotes:none
@@ -72,10 +75,10 @@ li,dd{
 }
 textarea,input,select{
 	margin:2px 1px;
-	padding:3px
+	padding:2px
 }
 select{
-	padding:2px;
+	padding:0 2px;
 	height:23px
 }
 h1,h2,h3,h4{
@@ -328,6 +331,10 @@ h3 span{
 }
 
 /*added*/
+#studentImg, #userImg{
+	max-width:150px;
+	max-height:150px
+}
 .alignImg{
 	vertical-align:middle;
 	height:32px
@@ -374,8 +381,7 @@ form.login input[type=text],form.login input[type=password]{
 }
 .underline-dots{
 	border-bottom-style:dotted;
-	border-bottom-width:1px;
-	border-bottom-color:gray
+	border-bottom-width:1px
 }
 span[class^=legend]{
 	margin-top:5px;
@@ -452,7 +458,7 @@ span.center{
 	display:block
 }
 .BottomButton{
-	padding-top:16px;
+	padding-top:10px;
 }
 .BottomButton{
 	margin-right:8px;
@@ -472,10 +478,13 @@ span.center{
 }
 #BottomButtonMenu:before{
 	content:"\2261";		
-	color:#000;
 	font-size:3rem;
 	font-weight:bold;
 	vertical-align:top
+}
+#BottomSpinner{
+	float:right;
+	visibility:hidden;
 }
 tr.address > td{
 	border-style:none dotted none none;
@@ -507,6 +516,9 @@ div.st{
 }
 .calendar-day{
 	height:inherit
+}
+.calendar-day td{
+	line-height:1
 }
 .br-after{
 	display:block
@@ -573,7 +585,7 @@ div.st{
 	}
 	input[type=submit],input[type=reset],input[type=button]{
 		margin:0 4px;
-		max-width:120px
+		max-width:100%
 	}
 	/*stackable tables*/
 	tr.st > td{
@@ -598,8 +610,8 @@ div.st{
 	.rt input,.rt select,.rt textarea{ max-width:150px }
 	.rt .link2colorBox{ display:inline }
 	.rt .link2colorBox + .rt2colorBox{ display:none }
-	.rt2colorBox{ background-color:#fff; overflow:auto }
-	.rt div.error, .rt div.updated{ padding:0;	margin:0 }
+	.rt2colorBox{ overflow:auto }
+	.rt div.error, .rt div.updated{ padding:0; margin:0 }
 	.divPortalPoll{ max-height:none; overflow-y:visible }
 
 	/*calendar*/
@@ -628,6 +640,9 @@ div.st{
 	}
 	.calendar-day-bold{
 		font-weight:bold
+	}
+	.calendar-skip{
+		height:32px;
 	}
 	
 	table.mceLayout,textarea{

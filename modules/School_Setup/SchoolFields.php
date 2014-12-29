@@ -75,10 +75,10 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					DBQuery($sql);
 			}
 			else
-				$error = ErrorMessage(array(_('Please fill in the required fields')));
+				$error[] = _('Please fill in the required fields');
 		}
 		else
-			$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+			$error[] = _('Please enter a valid Sort Order.');
 	}
 	unset($_REQUEST['tables']);
 }
@@ -116,12 +116,12 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if(empty($_REQUEST['modfunc']))
-
-{
 //modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
+if(isset($error))
+	echo ErrorMessage($error);
 
+if(empty($_REQUEST['modfunc']))
+{
 	if(AllowEdit() && $_REQUEST['id']!='new' && $_REQUEST['id'])
 	{
 		$delete_button = '<script>var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&id='.$_REQUEST['id'].'"; delete_link.target = "body";</script>';

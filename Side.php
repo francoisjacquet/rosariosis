@@ -39,7 +39,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='update' && is_array($_P
 	{
 		if(UserStudentID()!=$_REQUEST['student_id'])
 			unset($_SESSION['UserMP']);
-		$_SESSION['student_id'] = $_REQUEST['student_id'];
+
+		SetUserStudentID($_REQUEST['student_id']);
 	}
 	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'])).'"; body_link.target = "body"; ajaxLink(body_link);';
 }
@@ -48,10 +49,10 @@ if(!UserSyear())
 	$_SESSION['UserSyear'] = Config('SYEAR');
 
 if(!UserStudentID() && User('PROFILE')=='student')
-	$_SESSION['student_id'] = $_SESSION['STUDENT_ID'];
+	SetUserStudentID($_SESSION['STUDENT_ID']);
 
 if(!UserStaffID() && User('PROFILE')=='parent')
-	$_SESSION['staff_id'] = $_SESSION['STAFF_ID'];
+	SetUserStaffID($_SESSION['STAFF_ID']);
 
 if(!UserSchool())
 {
@@ -113,7 +114,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID='".UserSchool()."' WHERE STAFF_ID='".User('STAFF_ID')."'");
 				} ?>
 
-				<span class="br-after"><SELECT name="school" onChange="ajaxPostForm(this.form,true);" style="width:180px;">
+				<span class="br-after"><SELECT name="school" onChange="ajaxPostForm(this.form,true);">
 
 				<?php foreach($RET as $school) : ?>
 
@@ -136,6 +137,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 				AND ('".DBDate()."'>=se.START_DATE AND ('".DBDate()."'<=se.END_DATE OR se.END_DATE IS NULL))"));
 
 				if(!UserStudentID())
+					//note: do not use SetUserStudentID() here as this is safe
 					$_SESSION['student_id'] = $RET[1]['STUDENT_ID'];
 				?>
 
@@ -197,6 +199,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 			<?php if(count($RET)) {
 			
 				$mp_array = array();
+
 				foreach($RET as $quarter) : ?>
 
 					<OPTION value="<?php echo $quarter['MARKING_PERIOD_ID']; ?>"<?php echo (UserMP()==$quarter['MARKING_PERIOD_ID']?' SELECTED':''); ?>><?php echo $quarter['TITLE']; ?></OPTION>
@@ -210,6 +213,15 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					$_SESSION['UserMP'] = $RET[1]['MARKING_PERIOD_ID'];
 				}
 
+				<?php 
+					$mp_array[] = $quarter['MARKING_PERIOD_ID'];			
+				endforeach;
+				
+				//modif Francois: update UserMP if invalid
+				if(!UserMP() || !in_array(UserMP(), $mp_array))
+				{
+					$_SESSION['UserMP'] = $RET[1]['MARKING_PERIOD_ID'];
+				}
 			//modif Francois: error if no quarters
 			} else { ?>
 				<OPTION value=""><?php echo _('Error').': '._('No quarters found'); ?></OPTION>
@@ -258,7 +270,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					$_SESSION['unset_student'] = true;
 				} ?>
 
-				<SELECT name="period" onChange="ajaxPostForm(this.form,true);" style="width:180px;">
+				<SELECT name="period" onChange="ajaxPostForm(this.form,true);">
 
 				<?php $optgroup = FALSE;
 				foreach($RET as $period)
@@ -346,10 +358,17 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 		//modify loop: use for instead of foreach
 		$key = array_keys($_ROSARIO['Menu']);
 		$size = sizeOf($key);
-		for ($i=0; $i<$size; $i++) :
-			if (count($modcat_menu = $_ROSARIO['Menu'][$key[$i]])) : ?>
 
-			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="assets/icons/<?php echo $key[$i]; ?>.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo _(str_replace('_',' ',$key[$i])); ?></A>
+		global $RosarioCoreModules;
+
+		for ($i=0; $i<$size; $i++) :
+			if (count($modcat_menu = $_ROSARIO['Menu'][$key[$i]])) :
+				if(!in_array($key[$i], $RosarioCoreModules))
+					$module_title = dgettext($key[$i], str_replace('_',' ',$key[$i]));
+				else
+					$module_title = _(str_replace('_',' ',$key[$i]));
+			?>
+			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo $module_title; ?></A>
 			<DIV id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
 				<TABLE class="width-100p cellspacing-0 cellpadding-0">
 

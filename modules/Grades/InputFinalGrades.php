@@ -727,7 +727,7 @@ function _makeLetterPercent($student_id,$column)
 		$tabindex = $student_count;
 
 		if($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0)
-			$return = SelectInput($select_grade,'values['.$student_id.'][grade]','',$grades_select,false,'tabindex='.$tabindex,$div);
+			$return = SelectInput($select_grade,'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',$div);
 		elseif($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0)
 			$return = TextInput($select_percent==''?'':$select_percent.'%',"values[$student_id][percent]",'','size=5 tabindex='.$tabindex,$div);
 		else

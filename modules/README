@@ -1,0 +1,9 @@
+Place here the Modules you want to add to RosarioSIS.
+
+Activate them via:
+School Setup > School Configuration > Modules
+
+Every plugin must have a Menu.php file.
+
+Note:
+The State Reports archive contains a module from Centre/SIS, it is not compatible with RosarioSIS as is.

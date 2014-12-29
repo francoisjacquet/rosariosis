@@ -314,7 +314,7 @@ function _makeTextInput($column,$numeric=false)
 	if($numeric===true)
 		$options = 'size=3 maxlength=11';
 	else
-		$options = 'size=25';
+		$options = 'size=20';
 
 	return TextInput('','values['.$column.']','',$options);
 }

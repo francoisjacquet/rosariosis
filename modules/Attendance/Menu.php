@@ -31,9 +31,10 @@ $menu['Attendance']['parent'] = array(
 						'Attendance/DailySummary.php'=>_('Daily Summary')
 					);
 
-$menu['Users']['admin'] += array(
-						'Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php'=>_('Take Attendance')
-					);
+if ($RosarioModules['Users'])
+	$menu['Users']['admin'] += array(
+							'Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php'=>_('Take Attendance')
+						);
 
 $exceptions['Attendance'] = array(
 						'Attendance/AddAbsences.php'=>true

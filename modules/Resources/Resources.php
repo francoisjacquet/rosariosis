@@ -1,5 +1,5 @@
 <?php
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if($_REQUEST['modfunc']=='update' && $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
@@ -37,6 +37,9 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				DBQuery($sql);
 		}
 	}
+	unset($_REQUEST['modfunc']);
+	unset($_SESSION['_REQUEST_vars']['values']);
+	unset($_SESSION['_REQUEST_vars']['modfunc']);
 }
 
 DrawHeader(ProgramTitle());
@@ -50,27 +53,26 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if($_REQUEST['modfunc']!='remove')
+if(empty($_REQUEST['modfunc']))
 {
 	$sql = "SELECT ID,TITLE,LINK FROM RESOURCES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY ID";
 	$QI = DBQuery($sql);
-	$grades_RET = DBGet($QI,array('TITLE'=>'makeTextInput','LINK'=>'makeLink'));
+	$resources_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','LINK'=>'_makeLink'));
 
 	$columns = array('TITLE'=>_('Title'),'LINK'=>_('Link'));
-	$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'LINK'=>makeLink('','LINK'));
+	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'LINK'=>_makeLink('','LINK'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id'=>'ID');
 	
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
-//modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
-	ListOutput($grades_RET,$columns,'Resource','Resources',$link);
+
+	ListOutput($resources_RET,$columns,'Resource','Resources',$link);
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
 }
 
-function makeTextInput($value,$name)
+function _makeTextInput($value,$name)
 {	global $THIS_RET;
 	
 	if($THIS_RET['ID'])
@@ -87,15 +89,15 @@ function makeTextInput($value,$name)
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
 }
 
-function makeLink($value,$name)
+function _makeLink($value,$name)
 {	global $THIS_RET;
 
 	if (AllowEdit())
 	{
 		if($value)
-			return '<div style="display:table-cell;"><a href="'.$value.'" target="_blank">'._('Link').'</a>&nbsp;</div><div style="display:table-cell;">'.makeTextInput($value,$name).'</div>';
+			return '<div style="display:table-cell;"><a href="'.$value.'" target="_blank">'._('Link').'</a>&nbsp;</div><div style="display:table-cell;">'._makeTextInput($value,$name).'</div>';
 		else
-			return makeTextInput($value,$name);
+			return _makeTextInput($value,$name);
 	}
 	
 	//truncate links > 100 chars

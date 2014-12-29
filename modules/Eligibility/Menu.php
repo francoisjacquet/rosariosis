@@ -22,15 +22,17 @@ $menu['Eligibility']['parent'] = array(
 						'Eligibility/StudentList.php'=>_('Student List')
 					);
 
-$menu['Users']['admin'] += array(
-						'Users/TeacherPrograms.php&include=Eligibility/EnterEligibility.php'=>_('Enter Eligibility')
-					);
+if ($RosarioModules['Users'])
+	$menu['Users']['admin'] += array(
+							'Users/TeacherPrograms.php&include=Eligibility/EnterEligibility.php'=>_('Enter Eligibility')
+						);
 
 $exceptions['Eligibility'] = array(
 						'Eligibility/AddActivity.php'=>true
 					);
 
-$exceptions['Users'] += array(
-						'Users/TeacherPrograms.php&include=Eligibility/EnterEligibility.php'=>true
-					);
+if ($RosarioModules['Users'])
+	$exceptions['Users'] += array(
+							'Users/TeacherPrograms.php&include=Eligibility/EnterEligibility.php'=>true
+						);
 ?>

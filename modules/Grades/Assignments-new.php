@@ -282,7 +282,7 @@ function _makeAssnInput($value,$name)
 	{
 		/*if($id!='new' && !$value)
 			$title = '<span style="color:red">'._('Title').'</span>';*/
-		$extra = 'size=25 maxlength=100';
+		$extra = 'size=20 maxlength=100';
 	}
 	elseif($name=='POINTS')
 	{
@@ -304,7 +304,7 @@ function _makeAssnInput($value,$name)
 	elseif($name=='COURSE_ID')
 		return CheckboxInput($value,"values[$id][COURSE_ID]",'','',$id=='new');
 	elseif($name=='DESCRIPTION')
-		$extra = 'size=25 maxlength=1000';
+		$extra = 'size=20 maxlength=1000';
 	elseif($name=='ASSIGNMENT_TYPE_ID')
 		return SelectInput($value,"values[$id][ASSIGNMENT_TYPE_ID]",'',$type_options,false);
 
@@ -320,7 +320,7 @@ function _makeTypeInput($value,$name)
 		$id = 'new';
 
 	if($name=='TITLE')
-		$extra = 'size=25 maxlength=100';
+		$extra = 'size=20 maxlength=100';
 	elseif($name=='FINAL_GRADE_PERCENT')
 	{
 		if($id=='new')

@@ -1,0 +1,15 @@
+Place here the Themes you want to add to RosarioSIS.
+
+Select the default theme via:
+School Setup > School Configuration
+
+Or select the user theme via:
+Users > My Preferences > Display Options
+
+Every theme must have the following files:
+- stylesheet.css
+- stylesheet_wkhtmltopdf.css
+- logo.png
+
+Note:
+The stylesheet_wkhtmltopdf.css file is the CSS file used by wkhtmltopdf. It is meant to be the copy of the stylesheet.css file WITHOUT the media queries.

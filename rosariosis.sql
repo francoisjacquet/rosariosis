@@ -810,7 +810,7 @@ SELECT pg_catalog.setval('calendars_seq', 1, true);
 CREATE TABLE config (
 	school_id numeric NOT NULL,
     title character varying(100),
-    config_value character varying(255)
+    config_value character varying(2550)
 );
 
 
@@ -2139,7 +2139,7 @@ CREATE TABLE program_config (
     school_id numeric,
     program character varying(255),
     title character varying(100),
-    value character varying(100)
+    value character varying(2550)
 );
 
 
@@ -3448,9 +3448,13 @@ INSERT INTO attendance_codes VALUES (4, 2014, 1, 'Excused Absence', 'E', 'offici
 INSERT INTO config VALUES (0, 'LOGIN', 'No');
 INSERT INTO config VALUES (0, 'TITLE', 'Rosario Student Information System');
 INSERT INTO config VALUES (0, 'NAME', 'RosarioSIS');
+INSERT INTO config VALUES (0, 'MODULES', 'a:13:{s:12:"School_Setup";b:1;s:8:"Students";b:1;s:5:"Users";b:1;s:10:"Scheduling";b:1;s:6:"Grades";b:1;s:10:"Attendance";b:1;s:11:"Eligibility";b:1;s:10:"Discipline";b:1;s:10:"Accounting";b:1;s:15:"Student_Billing";b:1;s:12:"Food_Service";b:1;s:9:"Resources";b:1;s:6:"Custom";b:1;}');
+INSERT INTO config VALUES (0, 'PLUGINS', 'a:1:{s:6:"Moodle";b:0;}');
+INSERT INTO config VALUES (0, 'THEME', 'WPadmin');
 INSERT INTO config VALUES (1, 'SCHOOL_SYEAR_OVER_2_YEARS', 'Y');
 INSERT INTO config VALUES (1, 'ATTENDANCE_FULL_DAY_MINUTES', '300');
 INSERT INTO config VALUES (1, 'STUDENTS_USE_MAILING', NULL);
+INSERT INTO config VALUES (1, 'CURRENCY', '$');
 
 
 --

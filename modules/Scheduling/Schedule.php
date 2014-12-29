@@ -1,4 +1,7 @@
 <?php
+
+include('modules/Scheduling/includes/calcSeats0.fnc.php');
+
 // TABBED FY,SEM,QTR
 // REPLACE DBDate() & date() WITH USER ENTERED VALUES
 // ERROR HANDLING
@@ -86,7 +89,8 @@ if($_REQUEST['schedule'] && $_POST['schedule'] && AllowEdit())
 		if($columns['START_DATE'] || $columns['END_DATE'])
 		{
 			$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
-			// User should be asked if he wants absences and grades to be deleted
+
+			//TODO User should be asked if he wants absences and grades to be deleted
 			if(count($start_end_RET))
 			{
 				DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
@@ -94,6 +98,9 @@ if($_REQUEST['schedule'] && $_POST['schedule'] && AllowEdit())
 				DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
 				DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
 				DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+
+				//hook
+				do_action('Scheduling/Schedule.php|drop_student');
 			}
 			else
 				DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND (".($columns['START_DATE']?"SCHOOL_DATE<'".$columns['START_DATE']."'":'FALSE').' OR '.($columns['END_DATE']?"SCHOOL_DATE>'".$columns['END_DATE']."'":'FALSE').")");
@@ -253,6 +260,7 @@ if($_REQUEST['modfunc']=='choose_course')
 		FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
 		AND cp.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
+
 		if($_REQUEST['course_marking_period_id'])
 		{
 			$mp_RET[1]['MARKING_PERIOD_ID'] = $_REQUEST['course_marking_period_id'];
@@ -303,36 +311,15 @@ if($_REQUEST['modfunc']=='choose_course')
 		if($days_conflict)
 			$warnings[] = _('There is already a course scheduled in that period.');
 
-		if(!$warnings)
+		if(empty($warnings) || _Prompt('Confirm',_('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
 		{
 			DBQuery("INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".UserStudentID()."','".$date."','".$_REQUEST['course_id']."','".$_REQUEST['course_period_id']."','".$mp_RET[1]['MP']."','".$mp_RET[1]['MARKING_PERIOD_ID']."')");
+
+			do_action('Scheduling/Schedule.php|schedule_student');
+
 			echo '<script>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&time='.time().'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
 		}
-		elseif($warnings)
-		{
-			if(_Prompt(_('Confirm'),_('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
-			{
-				DBQuery("INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".UserStudentID()."','".$date."','".$_REQUEST['course_id']."','".$_REQUEST['course_period_id']."','".$mp_RET[1]['MP']."','".$mp_RET[1]['MARKING_PERIOD_ID']."')");
-				echo '<script>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&time='.time().'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
-			}
-		}
 	}
-}
-
-function _Prompt($title='Confirm',$question='',$message='',$pdf='')
-{
-	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok'),$pdf==true?array('_ROSARIO_PDF'=>true):array());
-
-	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
-	{
-		echo '<BR />';
-		PopTable('header',($title=='Confirm'?_('Confirm'):$title));
-		echo '<span class="center"><h4>'.$question.'</h4></span><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST">'.$message.'<BR /><BR /><span class="center"><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onclick="javascript:this.form.action=\''.str_replace(array('&_ROSARIO_PDF='.$_REQUEST['_ROSARIO_PDF'], '&course_period_id='.$_REQUEST['course_period_id']), '', $PHP_tmp_SELF).'\';ajaxPostForm(this.form,true);"></span></FORM>';
-		PopTable('footer');
-		return false;
-	}
-	else
-		return true;
 }
 
 function _makeLock($value,$column)
@@ -399,22 +386,6 @@ function _makeMPSelect($mp_id,$name)
 	return SelectInput($THIS_RET['MARKING_PERIOD_ID'],"schedule[$THIS_RET[COURSE_PERIOD_ID]][$THIS_RET[START_DATE]][MARKING_PERIOD_ID]",'',$mps,false);
 }
 
-function calcSeats0($period,$date='')
-{
-	$mp = $period['MARKING_PERIOD_ID'];
-
-	$seats = DBGet(DBQuery("SELECT 
-		max((SELECT count(1) 
-		FROM SCHEDULE ss JOIN STUDENT_ENROLLMENT sem ON (sem.STUDENT_ID=ss.STUDENT_ID AND sem.SYEAR=ss.SYEAR) 
-		WHERE ss.COURSE_PERIOD_ID='".$period['COURSE_PERIOD_ID']."' 
-		AND (ss.MARKING_PERIOD_ID='".$mp."' OR ss.MARKING_PERIOD_ID IN (".GetAllMP(GetMP($mp,'MP'),$mp).")) 
-		AND (ac.SCHOOL_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ac.SCHOOL_DATE<=ss.END_DATE)) 
-		AND (ac.SCHOOL_DATE>=sem.START_DATE AND (sem.END_DATE IS NULL OR ac.SCHOOL_DATE<=sem.END_DATE)))) AS FILLED_SEATS 
-	FROM ATTENDANCE_CALENDAR ac 
-	WHERE ac.CALENDAR_ID='".$period['CALENDAR_ID']."' 
-	AND ac.SCHOOL_DATE BETWEEN ".($date?"'".$date."'":db_case(array("(CURRENT_DATE>'".GetMP($mp,'END_DATE')."')",'TRUE',"'".GetMP($mp,'START_DATE')."'",'CURRENT_DATE')))." AND '".GetMP($mp,'END_DATE')."'"));
-	return $seats[1]['FILLED_SEATS'];
-}
 
 function _makeDate($value,$column)
 {	global $THIS_RET;
@@ -470,5 +441,22 @@ function _str_split($str)
 	for($i=0;$i<$len;$i++)
 		$ret [] = mb_substr($str,$i,1);
 	return $ret;
+}
+
+//custom Prompt function: we need modfunc to be kept here
+function _Prompt($title='Confirm',$question='',$message='')
+{
+	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok'),array());
+
+	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	{
+		echo '<BR />';
+		PopTable('header',($title=='Confirm'?_('Confirm'):$title));
+		echo '<span class="center"><h4>'.$question.'</h4></span><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST">'.$message.'<BR /><BR /><span class="center"><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onclick="javascript:this.form.action=\''.str_replace('&course_period_id='.$_REQUEST['course_period_id'], '', $PHP_tmp_SELF).'\';ajaxPostForm(this.form,true);"></span></FORM>';
+		PopTable('footer');
+		return false;
+	}
+	else
+		return true;
 }
 ?>

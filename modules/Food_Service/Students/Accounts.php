@@ -44,7 +44,7 @@ if($_REQUEST['modfunc']=='update')
 					DBQuery($sql);
 				}
 				else
-					$error = ErrorMessage(array(_('Please enter valid Numeric data.')));
+					$error[] = _('Please enter valid Numeric data.');
                 unset($_REQUEST['modfunc']);
                 unset($_REQUEST['food_service']);
                 unset($_SESSION['_REQUEST_vars']['food_service']);
@@ -76,6 +76,10 @@ $extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 
 Search('student_id',$extra);
 
+//modif Francois: fix SQL bug invalid numeric data
+if(isset($error))
+	echo ErrorMessage($error);
+
 if(UserStudentID() && empty($_REQUEST['modfunc']))
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fssa.ACCOUNT_ID,fssa.STATUS,fssa.DISCOUNT,fssa.BARCODE,(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID='".UserStudentID()."' AND fssa.STUDENT_ID=s.STUDENT_ID"));
@@ -94,8 +98,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 	DrawHeader('<label>'.CheckBoxOnclick('include_inactive').' '._('Include Inactive Students in Shared Account').'</label>',SubmitButton(_('Save')));
 
 	echo '<BR />';
-//modif Francois: fix SQL bug invalid numeric data
-	if(isset($error)) echo $error;
+
 	PopTable('header',_('Account Information'),'width="100%"');
 	echo '<TABLE class="width-100p">';
 	echo '<TR>';

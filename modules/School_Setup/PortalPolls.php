@@ -162,7 +162,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 		}
 		else
-			$error = ErrorMessage(array(_('Please enter a valid Sort Order.')));
+			$error[] = _('Please enter a valid Sort Order.');
 	}
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['values']);
@@ -181,6 +181,10 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 		unset($_REQUEST['modfunc']);
 	}
 }
+
+//modif Francois: fix SQL bug invalid sort order
+if(isset($error))
+	echo ErrorMessage($error);
 
 if($_REQUEST['modfunc']!='remove')
 {
@@ -206,8 +210,6 @@ if($_REQUEST['modfunc']!='remove')
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
-//modif Francois: fix SQL bug invalid sort order
-	if(isset($error)) echo $error;
 	
 	ListOutput($polls_RET,$columns,'Poll','Polls',$link);
 

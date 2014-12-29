@@ -36,11 +36,16 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 			WHERE  cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
 			AND cpsp.PERIOD_ID=sp.PERIOD_ID 
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
-			".(User('PROFILE')=='teacher'?" AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'":'').") 
+			".(User('PROFILE')=='teacher'?" AND cp.COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'":'').")) 
 		ORDER BY sp.SORT_ORDER"));
+
 		$period_select = '<SELECT name="period_id" onchange="ajaxPostForm(this.form,true);"><OPTION value="">'._('Daily').'</OPTION>';
 		if(count($periods_RET))
 		{
+			//modif Francois: All periods
+			if (count($periods_RET) > 1)
+				$period_select .= '<OPTION value="all"'.(($_REQUEST['period_id']=='all')?' SELECTED':'').'>'._('All Periods').'</OPTION>';
+
 			foreach($periods_RET as $period)
 				$period_select .= '<OPTION value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period['TITLE'].'</OPTION>';
 		}
@@ -55,19 +60,38 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 
 if($_REQUEST['period_id'])
 {
+	//modif Francois: All periods
+	if ($_REQUEST['period_id'] == 'all')
+	{
+		$period_ids_RET = DBGet(DBQuery("SELECT PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')"));
+		
+		$period_ids_list = array();
+
+		foreach($period_ids_RET as $period_id)
+			$period_ids_list[] = $period_id['PERIOD_ID'];
+		
+		$period_ids_list = implode(',',$period_ids_list);
+	}
+	else
+		$period_ids_list = $_REQUEST['period_id'];
+
 	$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
 						WHERE ac.ID=ap.ATTENDANCE_CODE AND (ac.STATE_CODE='A' OR ac.STATE_CODE='H') AND ap.STUDENT_ID=ssm.STUDENT_ID
-						AND ap.PERIOD_ID='".$_REQUEST['period_id']."'
+						AND ap.PERIOD_ID IN (".$period_ids_list.")
 						AND ap.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ac.SYEAR=ssm.SYEAR) AS STATE_ABS";
 
 	$extra['columns_after']['STATE_ABS'] = _('State Abs');
 	$codes_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)"));
+
 	if(count($codes_RET)>1)
 	{
 		foreach($codes_RET as $code)
 		{
 			$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
-						WHERE ac.ID=ap.ATTENDANCE_CODE AND ac.ID='".$code['ID']."' AND ap.PERIOD_ID='".$_REQUEST['period_id']."' AND ap.STUDENT_ID=ssm.STUDENT_ID
+						WHERE ac.ID=ap.ATTENDANCE_CODE 
+						AND ac.ID='".$code['ID']."' 
+						AND ap.PERIOD_ID IN (".$period_ids_list.") 
+						AND ap.STUDENT_ID=ssm.STUDENT_ID
 						AND ap.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS ABS_".$code['ID'];
 			$extra['columns_after']["ABS_$code[ID]"] = $code['TITLE'];
 		}
@@ -81,6 +105,7 @@ else
 //modif Francois: add translation 
 	$extra['columns_after']['STATE_ABS'] = _('Days Absent');
 }
+
 $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&period_id='.$_REQUEST['period_id'];
 $extra['link']['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
 //if((!$_REQUEST['search_modfunc'] || $_ROSARIO['modules_search']) && !$_REQUEST['student_id'])

@@ -7,25 +7,26 @@ if($_REQUEST['values'] && $_POST['values'])
 	{
 		$current_password = str_replace("''","'",$_REQUEST['values']['current']);
 		$new_password = str_replace("''","'",$_REQUEST['values']['new']);
-		$verifiy_password = str_replace("''","'",$_REQUEST['values']['verify']);
+		$verify_password = str_replace("''","'",$_REQUEST['values']['verify']);
 		
-		if(mb_strtolower($new_password)!=mb_strtolower($verifiy_password))
-			$error = _('Your new passwords did not match.');
-		//modif Francois: Moodle integrator / password
-		elseif (!MoodlePasswordCheck($new_password))
-			$error = _('Please enter a valid password');				
-		else
+		if(mb_strtolower($new_password)!=mb_strtolower($verify_password))
+			$error[] = _('Your new passwords did not match.');
+
+		//hook
+		do_action('Users/Preferences.php|update_password_checks');
+
+		if (!isset($error))
 		{
-//modif Francois: enable password change for students
+			//modif Francois: enable password change for students
 			if (User('PROFILE')=='student')
 				$password_RET = DBGet(DBQuery("SELECT PASSWORD FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
 			else
 				$password_RET = DBGet(DBQuery("SELECT PASSWORD FROM STAFF WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'"));
 			
-//modif Francois: add password encryption
-//			if(mb_strtolower($password_RET[1]['PASSWORD'])!=mb_strtolower($current_password))
+			//modif Francois: add password encryption
+			//if(mb_strtolower($password_RET[1]['PASSWORD'])!=mb_strtolower($current_password))
 			if(!match_password($password_RET[1]['PASSWORD'],$current_password))
-				$error = _('Your current password was incorrect.');
+				$error[] = _('Your current password was incorrect.');
 			else
 			{
 
@@ -34,10 +35,11 @@ if($_REQUEST['values'] && $_POST['values'])
 					DBQuery("UPDATE STUDENTS SET PASSWORD='".encrypt_password($new_password)."' WHERE STUDENT_ID='".UserStudentID()."'");
 				else
 					DBQuery("UPDATE STAFF SET PASSWORD='".encrypt_password($new_password)."' WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'");
-				$note = _('Your new password was saved.');
+
+				$note[] = _('Your new password was saved.');
 				
-				//modif Francois: Moodle integrator
-				$moodleError = Moodle($_REQUEST['modname'], 'core_user_update_users');
+				//hook
+				do_action('Users/Preferences.php|update_password');
 			}
 		}
 	}
@@ -97,11 +99,13 @@ if($_REQUEST['values'] && $_POST['values'])
 unset($_REQUEST['search_modfunc']);
 unset($_SESSION['_REQUEST_vars']['search_modfunc']);
 
-//modif Francois: Moodle integrator
-echo $moodleError;
+if(isset($error))
+	echo ErrorMessage($error);
+
+if(isset($note))
+	echo ErrorMessage($note,'note');
 
 if(empty($_REQUEST['modfunc']))
-
 {
 	$current_RET = DBGet(DBQuery("SELECT TITLE,VALUE,PROGRAM FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM IN ('Preferences','StudentFieldsSearch','StudentFieldsView','WidgetsSearch','StaffFieldsSearch','StaffFieldsView','StaffWidgetsSearch') "),array(),array('PROGRAM','TITLE'));
 
@@ -252,14 +256,9 @@ if(empty($_REQUEST['modfunc']))
 
 	if($_REQUEST['tab']=='password')
 	{
-		if($error)
-			echo ErrorMessage(array($error));
-		if($note)
-			echo ErrorMessage(array($note),'note');
-//modif Francois: add translation
 //modif Francois: password fields are required
 //modif Francois: Moodle integrator / password
-		echo '<TABLE><TR class="st"><TD><span style="color:gray">'._('Current Password').'</span></TD><TD><INPUT type="password" name="values[current]" required></TD></TR><TR class="st"><TD><span style="color:gray">'.(MOODLE_INTEGRATOR?'<SPAN title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('New Password').(MOODLE_INTEGRATOR?'*</SPAN>':'').'</span></TD><TD><INPUT type="password" name="values[verify]" required></TD></TR><TR class="st"><TD><span style="color:gray">'._('Verify New Password').'</span></TD><TD><INPUT type="password" name="values[new]" required></TD></TR></TABLE>';
+		echo '<TABLE><TR class="st"><TD><span style="color:gray">'._('Current Password').'</span></TD><TD><INPUT type="password" name="values[current]" required></TD></TR><TR class="st"><TD><span style="color:gray">'.($RosarioPlugins['Moodle']?'<SPAN title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'" style="cursor:help">':'')._('New Password').($RosarioPlugins['Moodle']?'*</SPAN>':'').'</span></TD><TD><INPUT type="password" name="values[verify]" required></TD></TR><TR class="st"><TD><span style="color:gray">'._('Verify New Password').'</span></TD><TD><INPUT type="password" name="values[new]" required></TD></TR></TABLE>';
 	}
 
 	if($_REQUEST['tab']=='student_fields')

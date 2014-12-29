@@ -155,11 +155,12 @@ if($_REQUEST['modfunc']=='delete_calendar' && AllowEdit())
 		else
 		{
 			$calendars_RET = DBGet(DBQuery("SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+
 			if(count($calendars_RET))
 				$_REQUEST['calendar_id'] = $calendars_RET[1]['CALENDAR_ID'];
 			else
 			{
-				$error = array(_('There are no calendars setup yet.'));
+				$error[] = _('There are no calendars setup yet.');
 				unset($_REQUEST['calendar_id']);
 			}
 		}
@@ -187,10 +188,11 @@ elseif(!$_REQUEST['calendar_id'])
 	else
 	{
 		$calendars_RET = DBGet(DBQuery("SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+
 		if(count($calendars_RET))
 			$_REQUEST['calendar_id'] = $calendars_RET[1]['CALENDAR_ID'];
 		else
-			$error = array(_('There are no calendars setup yet.'));
+			$error[] = _('There are no calendars setup yet.');
 	}
 }
 unset($_SESSION['_REQUEST_vars']['calendar_id']);
@@ -217,23 +219,9 @@ if($_REQUEST['modfunc']=='detail')
 
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$_REQUEST['event_id']."'";
 				DBQuery($sql);
-//modif Francois: Moodle integrator
-				if (MOODLE_INTEGRATOR)
-				{
-					//delete event then recreate it!
-					$moodleError = Moodle($_REQUEST['modname'], 'core_calendar_delete_calendar_events');
-					if (!empty($moodleError))
-					{
-						echo $moodleError; 
-						exit;
-					}
-					$moodleError = Moodle($_REQUEST['modname'], 'core_calendar_create_calendar_events');
-					if (!empty($moodleError))
-					{
-						echo $moodleError; 
-						exit;
-					}
-				}
+
+				//hook
+				do_action('School_Setup/Calendar.php|update_calendar_event');
 			}
 			else
 			{
@@ -266,21 +254,16 @@ if($_REQUEST['modfunc']=='detail')
 					if($go)
 					{
 						DBQuery($sql);
-//modif Francois: Moodle integrator
-						if ($_REQUEST['MOODLE_PUBLISH_EVENT'])
-						{
-							$moodleError = Moodle($_REQUEST['modname'], 'core_calendar_create_calendar_events');
-							if (!empty($moodleError))
-							{
-								echo $moodleError; 
-								exit;
-							}
-						}
+
+						//hook
+						do_action('School_Setup/Calendar.php|create_calendar_event');
 					}
 					$i++;
 				} while(is_numeric($_REQUEST['REPEAT']) && $i<=$_REQUEST['REPEAT']);
 			}
+
 			echo '<SCRIPT>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
+
 			unset($_REQUEST['values']);
 			unset($_SESSION['_REQUEST_vars']['values']);
 		}
@@ -290,17 +273,12 @@ if($_REQUEST['modfunc']=='detail')
 		if(DeletePrompt(_('Event')))
 		{
 			DBQuery("DELETE FROM CALENDAR_EVENTS WHERE ID='".$_REQUEST['event_id']."'");
-//modif Francois: Moodle integrator
-			if (MOODLE_INTEGRATOR)
-			{
-				$moodleError = Moodle($_REQUEST['modname'], 'core_calendar_delete_calendar_events');
-				if (!empty($moodleError))
-				{
-					echo $moodleError; 
-					exit;
-				}
-			}
+
+			//hook
+			do_action('School_Setup/Calendar.php|delete_calendar_event');
+
 			echo '<SCRIPT>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
+
 			unset($_REQUEST['values']);
 			unset($_SESSION['_REQUEST_vars']['values']);
 			unset($_REQUEST['button']);
@@ -343,11 +321,11 @@ if($_REQUEST['modfunc']=='detail')
 		if($_REQUEST['event_id']=='new')
 		{
 			echo '<TR><TD>'._('Event Repeat').'</TD><TD><input name="REPEAT" value="0" maxlength="3" size="1" type="number" min="0" />&nbsp;'._('Days').'</TD></TR>';
-
-//modif Francois: Moodle integrator
-			if (MOODLE_INTEGRATOR)
-				echo '<TR><TD>'._('Publish Event in Moodle?').'</TD><TD><label><INPUT type="checkbox" name="MOODLE_PUBLISH_EVENT" value="Y" checked> '._('Yes').'</label></TD></TR>';
 		}
+
+		//hook
+		do_action('School_Setup/Calendar.php|event_field');
+
 		
 		//modif Francois: bugfix SQL bug value too long for type character varying(50)
 		echo '<TR><TD>'._('Title').'</TD><TD>'.TextInput($RET[1]['TITLE'],'values[TITLE]', '', 'required maxlength="50"').'</TD></TR>';
@@ -410,6 +388,9 @@ if($_REQUEST['modfunc']=='list_events')
 	ListOutput($events_RET,array('SCHOOL_DATE'=>'Date','TITLE'=>_('Event'),'DESCRIPTION'=>'Description'),'Event','Events');
 	echo '</FORM>';
 }
+
+if(isset($error))
+	echo ErrorMessage($error,'fatal');
 
 if(empty($_REQUEST['modfunc']))
 {
@@ -488,10 +469,11 @@ if(empty($_REQUEST['modfunc']))
 		$calendar_onchange = '<script>var calendar_onchange = document.createElement("a"); calendar_onchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&calendar_id="; calendar_onchange.target = "body";</script>';
 		$link = $calendar_onchange.SelectInput($_REQUEST['calendar_id'],'calendar_id','',$options,false,' onchange="calendar_onchange.href += document.getElementById(\'calendar_id\').value; ajaxLink(calendar_onchange);" ',false).'<span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create">'.button('add')._('Create new calendar').'</A></span> | <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create&calendar_id='.$_REQUEST['calendar_id'].'">'._('Recreate this calendar').'</A></span>&nbsp; <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_calendar&calendar_id='.$_REQUEST['calendar_id'].'">'.button('remove')._('Delete this calendar').'</A></span>';
 	}
+
 	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)).' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=list_events&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('List Events').'</A>',SubmitButton(_('Save')));
+
 	DrawHeader($link);
-	if(count($error))
-		echo ErrorMessage($error,'fatal');
+
 	if(AllowEdit() && $defaults!=1)
 //modif Francois: css WPadmin
 //		DrawHeader('<IMG src=assets/warning_button.png><span style="color:red"> '.($defaults?_('This school has more than one default calendar!'):_('This school does not have a default calendar!')).'</span>');
@@ -524,7 +506,7 @@ if(empty($_REQUEST['modfunc']))
 
 	if($skip)
 	{
-		echo '<td colspan="' . $skip . '"></td>';
+		echo '<td colspan="' . $skip . '" class="calendar-skip">&nbsp;</td>';
 		$return_counter = $skip;
 	}
 	for($i=1;$i<=$last;$i++)
@@ -603,9 +585,16 @@ if(empty($_REQUEST['modfunc']))
 		if($return_counter%7==0)
 			echo '</TR><TR>';
 	}
+
+	if($return_counter%7!=0)
+	{
+		$skip = 7 - $return_counter%7;
+		echo '<td colspan="' . $skip . '" class="calendar-skip">&nbsp;</td>';
+	}
+
 	echo '</TR></TBODY></TABLE>';
 
 	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
-	echo '</FORM>';
+	echo '<BR /><BR /></FORM>';
 }
 ?>

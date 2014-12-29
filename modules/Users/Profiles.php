@@ -171,8 +171,12 @@ function changeHTML(show,hide){
 		{
 			$values = $profiles[$xprofile];
 
-//modif Francois: css WPadmin
-			echo '<TR><TD colspan="3"><h4>'._(str_replace('_',' ',$modcat)).'</h4></TD></TR>';
+			if(!in_array($modcat, $RosarioCoreModules))
+				$module_title = dgettext($modcat, str_replace('_',' ',$modcat));
+			else
+				$module_title = _(str_replace('_',' ',$modcat));
+
+			echo '<TR><TD colspan="3"><h4>'.$module_title.'</h4></TD></TR>';
 //modif Francois: add <label> on checkbox
 			echo '<TR><TH style="text-align:right;"><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick="checkAll(this.form,this.form.can_use_'.$modcat.'.checked,\'can_use['.$modcat.'\');">':'').'</label></TH>';
 			if($xprofile=='admin' || $modcat=='Students' || $modcat=='Resources')

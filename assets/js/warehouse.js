@@ -69,6 +69,26 @@ function isTouchDevice(){
 	}
 }
 
+function ajaxOptions(target,url)
+{
+	return {
+		beforeSend: function(data){
+			$('#BottomSpinner').css('visibility','visible');
+		},
+		success: function(data){
+			ajaxSuccess(data,target,url);
+		},
+		error: function(x,st,err){
+			alert("ajax get Status: "+st+" - Error: "+err+" - URL: "+url);
+		},
+		complete: function(){
+			$('#BottomSpinner').css('visibility','hidden');
+
+			hideHelp();
+		}
+	};
+}
+
 function ajaxLink(link){	
 	//will work only if in the onclick there is no error!
 	var target = link.target;
@@ -81,12 +101,8 @@ function ajaxLink(link){
 		else
 			return true;
 	}
-	$.get(link.href, function(data){
-		ajaxSuccess(data,target,link.href);
-	})
-	.fail(function(x,st,err){
-		alert("ajaxLink get Status: "+st+" - Error: "+err);
-    });
+
+	$.ajax(link.href, ajaxOptions(target,link.href));
 	return false;
 }
 
@@ -99,14 +115,8 @@ function ajaxPostForm(form,submit){
 		form.target = '_blank';
 		return true;
 	}
-	var options = {
-		success: function(data){
-			ajaxSuccess(data,target,form.action);
-		},
-		error: function(x,st,err){
-			alert("ajaxPostForm get Status: "+st+" - Error: "+err);
-		}
-	};
+
+	var options = ajaxOptions(target,form.action);
 	if (submit)
 		$(form).ajaxSubmit(options);
 	else
@@ -122,22 +132,11 @@ function ajaxSuccess(data,target,url){
 	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
 	var body = $('body').html();
 	
-	if (typeof(history.pushState) == "function")
-	{
-		if (window.location.href == url)
-			history.replaceState('', '', url);
-		else if (target == 'body')
-			history.pushState('', '', url);
-	}
+	if (history.pushState && target == 'body')
+		history.pushState(null, document.title, url);
 		
 	ajaxPrepare('#'+target);
 }
-
-//change URL after AJAX
-if (!(navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) && window.addEventListener)
-	window.addEventListener('popstate', function (e) {
-		document.location.href = document.URL;
-	}, true);
 
 function ajaxPrepare(target){
 	$(target+' form').each(function(){ ajaxPostForm(this,false); });
@@ -169,6 +168,14 @@ window.onload = function(){
 	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
 	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	$('form').each(function(){ ajaxPostForm(this,false); });
+
+	//reload page after browser history
+	if (history.pushState)
+		window.setTimeout(function() {
+			window.addEventListener('popstate', function (e) {
+				document.location.href = document.URL;
+			}, false);
+		}, 1);
 };
 
 function scroll(){
@@ -186,58 +193,69 @@ if (isTouchDevice())
 
 //Side.php JS
 var old_modcat = false;
+var menu_link = document.createElement("a"); menu_link.href = "Side.php"; menu_link.target = "menu";
+
 function openMenu(modname)
 {
 	if (modname!='misc/Portal.php')
 	{
-		var modcat = modname.substr(0, modname.indexOf('/'));
-		if (!(visible = document.getElementById("menu_"+modcat)))
-			visible = document.getElementById("menu_"+(modcat = old_modcat));
-		visible.style.display = "block";
+		if (oldA = document.getElementById("selectedMenuLink"))
+			oldA.id = "";
+		$('.wp-submenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
+		//add selectedModuleLink
+		if (oldA = document.getElementById("selectedModuleLink"))
+			oldA.id = "";
+
+		var modcat;
+		if (modname=='')
+			modcat = old_modcat;
+		else
+			$('#selectedMenuLink').parents('div.wp-submenu').each(function(){ modcat = this.id.replace('menu_', ''); });
+
+		$('a[href*="'+modcat+'"].menu-top').each(function(){this.id = "selectedModuleLink";});
+		
+		$("#menu_"+modcat).show();
 		if(old_modcat!=false && old_modcat!=modcat)
 			$("#menu_"+old_modcat).hide();
 		old_modcat = modcat;
-		selMenuA(modname);
 	}
 	else if(old_modcat!=false)
 		$("#menu_"+old_modcat).hide();
 }
-function selMenuA(modname)
-{
-	if (oldA = document.getElementById("selectedMenuLink"))
-		oldA.id = "";
-	$('.wp-submenu a[href$="'+modname+'"]:first').each(function(){this.id = "selectedMenuLink";});
-	//add selectedModuleLink
-	if (oldA = document.getElementById("selectedModuleLink"))
-		oldA.id = "";
-	var modcat = modname=='' ? old_modcat : modname.substr(0, modname.indexOf('/'));
-	$('a[href*="'+modcat+'"].menu-top').each(function(){this.id = "selectedModuleLink";});
-}
 
 //Bottom.php JS
-var old_modname='';
-function expandHelp(){
-var heightFooter = (document.getElementById('footer').style.height=='178px')?'38px':'178px';
-	if (heightFooter=='178px')
-	{
-		if (modname!=old_modname)
-		{
-			$.get("Bottom.php?modfunc=help&modname="+modname, function(data){
-				$('#footerhelp').html(data);
-				if (isTouchDevice())
-					touchScroll(document.getElementById('footerhelp'));
-			})
-			.fail(function(){
-				alert('Error: expandHelp '+modname);
-			})
-			old_modname = modname;
-		}
-		$('#footerhelp').show();
-	}
+function toggleHelp(){
+	if ($('#footerhelp').css('display') !== 'block')
+		showHelp();
 	else
-		$('#footerhelp').hide();
-	document.getElementById('footer').style.height = heightFooter;
+		hideHelp();
 }
+
+var old_modname=false;
+function showHelp(){
+	if (modname!==old_modname)
+	{
+		$.get("Bottom.php?modfunc=help&modname="+modname, function(data){
+			$('#footerhelp').html(data);
+			if (isTouchDevice())
+				touchScroll(document.getElementById('footerhelp'));
+		})
+		.fail(function(){
+			alert('Error: expandHelp '+modname);
+		})
+		old_modname = modname;
+	}
+	$('#footerhelp').show();
+	$('#footer').css('height', function(i, val){
+		return parseInt(val) + parseInt($('#footerhelp').css('height'));
+	});
+}
+
+function hideHelp(){
+	$('#footerhelp').hide();
+	$('#footer').css('height', '');
+}
+
 function expandMenu(){
 	$('#menu,#menuback').toggle();
 }
