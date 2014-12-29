@@ -213,15 +213,6 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					$_SESSION['UserMP'] = $RET[1]['MARKING_PERIOD_ID'];
 				}
 
-				<?php 
-					$mp_array[] = $quarter['MARKING_PERIOD_ID'];			
-				endforeach;
-				
-				//modif Francois: update UserMP if invalid
-				if(!UserMP() || !in_array(UserMP(), $mp_array))
-				{
-					$_SESSION['UserMP'] = $RET[1]['MARKING_PERIOD_ID'];
-				}
 			//modif Francois: error if no quarters
 			} else { ?>
 				<OPTION value=""><?php echo _('Error').': '._('No quarters found'); ?></OPTION>
