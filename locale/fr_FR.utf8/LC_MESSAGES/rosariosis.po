@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-02 16:46-0500\n"
-"PO-Revision-Date: 2015-01-02 16:46-0500\n"
+"POT-Creation-Date: 2015-01-03 15:01-0500\n"
+"PO-Revision-Date: 2015-01-03 15:02-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -4620,42 +4620,47 @@ msgid "New Progress Period"
 msgstr "Nouvelle Période Intermédiaire"
 
 #: modules/School_Setup/MarkingPeriods.php:80
-#: modules/School_Setup/MarkingPeriods.php:126
+#: modules/School_Setup/MarkingPeriods.php:143
 msgid "Not all of the dates were entered correctly."
 msgstr "Toutes les dates ne sont pas correctes."
 
-#: modules/School_Setup/MarkingPeriods.php:164
+#: modules/School_Setup/MarkingPeriods.php:98
+#: modules/School_Setup/MarkingPeriods.php:150
+msgid "Start date must be anterior to end date."
+msgstr "La date de début doit être antérieure à la date de fin."
+
+#: modules/School_Setup/MarkingPeriods.php:187
 #, php-format
 msgid "The beginning and end dates you specified for this marking period overlap with those of \"%s\"."
 msgstr "Les dates de début et fin de cette période chevauchent avec celles de \"%s\"."
 
-#: modules/School_Setup/MarkingPeriods.php:164
+#: modules/School_Setup/MarkingPeriods.php:187
 msgid "Only one marking period can be open at any time."
 msgstr "Une seule période scolaire peut être ouverte a tout moment."
 
-#: modules/School_Setup/MarkingPeriods.php:170
+#: modules/School_Setup/MarkingPeriods.php:192
 #, php-format
 msgid "The grade posting dates you specified for this marking period overlap with those of \"%s\"."
 msgstr "Les dates de saisie des notes de cette période chevauchent celles de \"%s\"."
 
-#: modules/School_Setup/MarkingPeriods.php:170
+#: modules/School_Setup/MarkingPeriods.php:192
 msgid "Only one grade posting period can be open at any time."
 msgstr "Une seule période de saisie des notes peut être ouverte a tout moment."
 
-#: modules/School_Setup/MarkingPeriods.php:265
+#: modules/School_Setup/MarkingPeriods.php:286
 msgid "Graded"
 msgstr "Notes"
 
-#: modules/School_Setup/MarkingPeriods.php:272
+#: modules/School_Setup/MarkingPeriods.php:293
 msgid "Grade Posting Begins"
 msgstr "Début de Saisie des Notes"
 
-#: modules/School_Setup/MarkingPeriods.php:273
+#: modules/School_Setup/MarkingPeriods.php:294
 msgid "Grade Posting Ends"
 msgstr "Fin de Saisie des Notes"
 
-#: modules/School_Setup/MarkingPeriods.php:403
-#: modules/School_Setup/MarkingPeriods.php:409
+#: modules/School_Setup/MarkingPeriods.php:424
+#: modules/School_Setup/MarkingPeriods.php:430
 msgid "Progress Period"
 msgid_plural "Progress Periods"
 msgstr[0] "Période intermédiaire"

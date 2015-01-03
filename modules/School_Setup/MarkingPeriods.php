@@ -81,6 +81,23 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							//goto error_exit; //modif Francois: goto avail. in PHP 5.3, use break instead
 							break 2;
 						}
+
+						//modif Francois: verify END_DATE > START_DATE
+						$mp_dates_RET = DBGet(DBQuery("SELECT START_DATE, END_DATE, POST_START_DATE, POST_END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".$id."'"));
+
+						$start_date = (!empty($columns['START_DATE']) ? $columns['START_DATE'] : $mp_dates_RET[1]['START_DATE']);
+
+						$end_date = (!empty($columns['END_DATE']) ? $columns['END_DATE'] : $mp_dates_RET[1]['END_DATE']);
+
+						$post_start_date = (!empty($columns['POST_START_DATE']) ? $columns['POST_START_DATE'] : $mp_dates_RET[1]['POST_START_DATE']);
+
+						$post_end_date = (!empty($columns['POST_END_DATE']) ? $columns['POST_END_DATE'] : $mp_dates_RET[1]['POST_END_DATE']);
+
+						if(($column=='END_DATE' && date_create($value) <= date_create($start_date)) || ($column=='START_DATE' && date_create($end_date) <= date_create($value)) || ($column=='POST_END_DATE' && $value!='' && $post_start_date!='' && date_create($value) <= date_create($post_start_date)) || ($column=='POST_START_DATE' && $value!='' && $post_end_date!='' && date_create($post_end_date) <= date_create($value)))
+						{
+							$error[] = _('Start date must be anterior to end date.');
+							break 2;
+						}
 					}
 					$sql .= $column."='".$value."',";
 				}
@@ -124,7 +141,13 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						if(!VerifyDate($value) && $value!='' || (($column=='START_DATE' || $column=='END_DATE') && $value==''))
 						{
 							$error[] = _('Not all of the dates were entered correctly.');
-							//goto error_exit; //modif Francois: goto avail. in PHP 5.3, use break instead
+							break 2;
+						}
+
+						//modif Francois: verify END_DATE > START_DATE
+						if(($column=='END_DATE' && date_create($value) <= date_create($columns['START_DATE'])) || ($column=='POST_START_DATE' && $columns['POST_END_DATE']!='' && date_create($value) > date_create($columns['POST_END_DATE'])))
+						{
+							$error[] = _('Start date must be anterior to end date.');
 							break 2;
 						}
 					}
@@ -162,13 +185,11 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 			if(count($dates_RET))
 			{
 				$error[] = sprintf(_('The beginning and end dates you specified for this marking period overlap with those of "%s".'),GetMP($dates_RET[1]['MARKING_PERIOD_ID']))." "._("Only one marking period can be open at any time.");
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3, use break instead
 				break 1;
 			}
 			if(count($posting_RET))
 			{
 				$error[] = sprintf(_('The grade posting dates you specified for this marking period overlap with those of "%s".'),GetMP($posting_RET[1]['MARKING_PERIOD_ID']))." "._("Only one grade posting period can be open at any time.");
-				//goto error_exit; //modif Francois: goto avail. in PHP 5.3, use break instead
 				break 1;
 			}
 
