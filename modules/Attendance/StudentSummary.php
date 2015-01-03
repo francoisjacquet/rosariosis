@@ -36,7 +36,7 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 			WHERE  cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
 			AND cpsp.PERIOD_ID=sp.PERIOD_ID 
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
-			".(User('PROFILE')=='teacher'?" AND cp.COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'":'').")) 
+			".(User('PROFILE')=='teacher'?" AND cp.COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')":'').") 
 		ORDER BY sp.SORT_ORDER"));
 
 		$period_select = '<SELECT name="period_id" onchange="ajaxPostForm(this.form,true);"><OPTION value="">'._('Daily').'</OPTION>';
