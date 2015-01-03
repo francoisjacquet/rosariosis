@@ -127,7 +127,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 <HEAD>
 	<TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
 	<meta charset="UTF-8" />
-	<meta name="robots" content="noindex,nofollow" />
+	<meta name="robots" content="noindex" />
 	<meta name="viewport" content="width=device-width" />
 	<noscript><META http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&reason=javascript" /></noscript>
 	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
@@ -193,7 +193,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 	<BR />&copy; 2004-2009 <A HREF="http://www.miller-group.net" noreferrer>The Miller Group, Inc</A>
 	<BR />&copy; 2009 <a href="http://www.glenn-abbey.com" noreferrer>Glenn Abbey Software, Inc</a>
 	<BR />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
-	<BR />&copy; 2012-2014 <a href="http://www.rosariosis.org" noreferrer>François Jacquet</a>
+	<BR />&copy; 2012-2015 <a href="http://www.rosariosis.org" noreferrer>François Jacquet</a>
 	</span>
 
 <?php PopTable("footer"); ?>

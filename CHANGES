@@ -50,6 +50,10 @@ Changes in 2.7
 - Fix SQL bug invalid numeric data in Courses.php
 - Add cache killer to warehouse.js + stylesheet.css in Warehouse.php
 - Add Currency to School Configuration
+- Bugfix Field name with apostrophe in Export.php
+- Hide Student Billing widget to teachers in Widgets.fnc.php
+- Bugfix SQL bug syntax error at or near ")" in StudentSummary.php
+- verify END_DATE > START_DATE in MarkingPeriods.php
 
 Upgrade from 2.6.x
 ------------------
