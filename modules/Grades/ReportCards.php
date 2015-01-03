@@ -249,16 +249,22 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if($_REQUEST['elements']['mp_tardies']=='Y')
 				{
 					$count = 0;
-					foreach($attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] as $abs)
-						$count++;
+
+					if (is_array($attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp]))
+						foreach($attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] as $abs)
+							$count++;
+
 					$mp_tardies = sprintf(_('Tardy in %s'),GetMP($last_mp,'TITLE')).': '.$count;
 				}
 				if($_REQUEST['elements']['ytd_tardies']=='Y')
 				{
 					$count = 0;
-					foreach($attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] as $mp_abs)
-						foreach($mp_abs as $abs)
-							$count++;
+
+					if (is_array($attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']]))
+						foreach($attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] as $mp_abs)
+							foreach($mp_abs as $abs)
+								$count++;
+
 					DrawHeader(_('Tardy this year').': '.$count,$mp_tardies);
 					$count_lines++;
 				}

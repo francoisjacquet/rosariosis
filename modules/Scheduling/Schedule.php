@@ -367,8 +367,10 @@ function _makeMPSelect($mp_id,$name)
 		foreach($semesters_RET as $sem)
 		{
 			$_ROSARIO['_makeMPSelect'][$sem['MARKING_PERIOD_ID']][1] = $sem;
-			foreach($quarters_indexed_RET[$sem['MARKING_PERIOD_ID']] as $qtr)
-				$_ROSARIO['_makeMPSelect'][$sem['MARKING_PERIOD_ID']][] = $qtr;
+
+			if(is_array($quarters_indexed_RET[$sem['MARKING_PERIOD_ID']]))
+				foreach($quarters_indexed_RET[$sem['MARKING_PERIOD_ID']] as $qtr)
+					$_ROSARIO['_makeMPSelect'][$sem['MARKING_PERIOD_ID']][] = $qtr;
 		}
 
 		foreach($quarters_RET as $qtr)
