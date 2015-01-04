@@ -55,6 +55,9 @@ $payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR=ssm.SYEA
 
 $payments_RET = GetStuList($payments_extra);
 
+if (empty($RET))
+	$RET = array(array());
+
 foreach($payments_RET as $payment)
 {
 	$RET[] = $payment;
