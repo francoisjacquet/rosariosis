@@ -54,6 +54,9 @@ Changes in 2.7
 - Hide Student Billing widget to teachers in Widgets.fnc.php
 - Bugfix SQL bug syntax error at or near ")" in StudentSummary.php
 - verify END_DATE > START_DATE in MarkingPeriods.php
+- Replace smooth scrolling after page load with direct scroll in warehouse.js
+- Use json_encode to escape JS vars, programwide
+- Bugfix JS syntax error for autos/edits/exports pull down fields in StudentFieldBreakdown.php & StudentBreakdown.php
 
 Upgrade from 2.6.x
 ------------------
