@@ -368,7 +368,10 @@ if(empty($_REQUEST['modfunc']))
 							$ximages .= ' <IMG SRC="assets/mailbox_button.png" height="24">';
 						$warning .= '<b>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$xstudent['FULL_NAME']).'</b>'.$ximages.'';
 					}
-					echo '<TH>'.button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"').'</TH>';
+
+					$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
+
+					echo '<TH>'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"').'</TH>';
 				}
 				else
 					echo '<TH>&nbsp;</TH>';
@@ -506,6 +509,7 @@ if(empty($_REQUEST['modfunc']))
 
 					// find other students associated with this person
 					$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,STUDENT_RELATION,CUSTODY,EMERGENCY FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp WHERE s.STUDENT_ID=sjp.STUDENT_ID AND sjp.PERSON_ID='".$contact['PERSON_ID']."' AND sjp.STUDENT_ID!='".UserStudentID()."'"));
+
 					if(count($xstudents))
 					{
 						$warning = _('Other students associated with this person').':<BR />';
@@ -518,7 +522,10 @@ if(empty($_REQUEST['modfunc']))
 								$ximages .= ' <IMG SRC="assets/emergency_button.png" height="24">';
 							$warning .= '<b>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$xstudent['FULL_NAME']).'</b> ('.($xstudent['STUDENT_RELATION']?str_replace(array("'",'"'),array('&#39;','&rdquo;'),$xstudent['STUDENT_RELATION']):'---').')'.$ximages.'<BR />';
 						}
-						$images .= ' '.button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"');
+
+						$tipJS = '<script>var tiptitle2='.json_encode(_('Warning')).'; var tipmsg2='.json_encode($warning).';</script>';
+
+						$images .= ' '.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"');
 					}
 
 					if($contact['CUSTODY']=='Y')
@@ -718,12 +725,14 @@ if(empty($_REQUEST['modfunc']))
 									echo '<TD style="width:20px;">'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</TD>';
 								else
 									echo '<TD></TD>';
-                                echo '<TD><DIV id="info_'.$info['ID'].'"><div class="onclick" onclick=\'addHTML("';
-								
-								$toEscape = '<TABLE><TR><TD>'.TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','',false).'<BR />'.str_replace("'",'&#39;',_makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID'],false)).'</TD></TR></TABLE>';
-								echo str_replace('"','\"',$toEscape);
-								
-								echo '","info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><BR /><span class="legend-gray">'.$info['TITLE'].'</span></div></DIV></TD>';
+
+								$toEscape = '<TABLE><TR><TD>'.TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','',false).'<BR />'._makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID'],false).'</TD></TR></TABLE>';
+
+								echo '<script> var info_'.$info['ID'].'='.json_encode($toEscape).';</script>';
+
+								echo '<TD><DIV id="info_'.$info['ID'].'"><div class="onclick" onclick=\'addHTML(info_'.$info['ID'];
+
+								echo ',"info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><BR /><span class="legend-gray">'.$info['TITLE'].'</span></div></DIV></TD>';
 								echo '</TR>';
 							}
 						}

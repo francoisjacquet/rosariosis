@@ -118,24 +118,30 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 
 	echo '<BR />';
 	PopTable('header',_('Account Information'),'width="100%"');
-        echo '<TABLE class="width-100p">';
-        echo '<TR>';
-        echo '<TD class="valign-top">';
-        echo '<TABLE class="width-100p"><TR>';
+	echo '<TABLE class="width-100p">';
+	echo '<TR>';
+	echo '<TD class="valign-top">';
+	echo '<TABLE class="width-100p"><TR>';
 
 	echo '<TD class="valign-top">'.NoInput($staff['FULL_NAME'],$staff['STAFF_ID']);
+
+	// warn if other users associated with the same account
 	if(!$staff['ACCOUNT_ID'])
 	{
 		$warning = _('This user does not have a Meal Account.');
-		echo '<BR />'.button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"');
+
+		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
+
+		echo '<BR />'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"');
 	}
+
 	echo '</TD>';
 
-        echo '<TD class="valign-top">'.NoInput(red($staff['BALANCE']),_('Balance')).'</TD>';
+	echo '<TD class="valign-top">'.NoInput(red($staff['BALANCE']),_('Balance')).'</TD>';
 
-        echo '</TR></TABLE>';
-        echo '</TD></TR></TABLE>';
-        echo '<HR>';
+	echo '</TR></TABLE>';
+	echo '</TD></TR></TABLE>';
+	echo '<HR>';
 
 	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0">';
 	echo '<TR><TD class="valign-top">';

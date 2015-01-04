@@ -118,24 +118,35 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 	echo '<TABLE class="width-100p cellpadding-6">';
 	echo '<TR>';
 	echo '<TD>';
+
 	// warn if account non-existent (balance query failed)
 	if($student['BALANCE']=='')
 	{
 		//var_dump($student['ACCOUNT_ID']);
 		echo TextInput(array($student['ACCOUNT_ID'],'<span style="color:red">'.$student['ACCOUNT_ID'].'</span>'),'food_service[ACCOUNT_ID]',_('Account ID'),'size=12 maxlength=10');
+
 		$warning = _('Non-existent account!');
-		echo button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"');
+
+		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
+
+		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"');
 	}
 	else
 	 	echo TextInput($student['ACCOUNT_ID'],'food_service[ACCOUNT_ID]',_('Account ID'),'size=12 maxlength=10');
+
 	// warn if other students associated with the same account
 	if(count($xstudents))
 	{
 		$warning = _('Other students associated with the same account').':<BR />';
+
 		foreach($xstudents as $xstudent)
-			$warning .= '&nbsp;'.str_replace('\'','&#39;',$xstudent['FULL_NAME']).'<BR />';
-		echo button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"');
+			$warning .= '&nbsp;'.$xstudent['FULL_NAME'].'<BR />';
+
+		$tipJS = '<script>var tiptitle2='.json_encode(_('Warning')).'; var tipmsg2='.json_encode($warning).';</script>';
+
+		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"');
 	}
+
 	echo '</TD>';
 	$options = array('Inactive'=>_('Inactive'),'Disabled'=>_('Disabled'),'Closed'=>_('Closed'));
 	echo '<TD>'.SelectInput($student['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')).'</TD>';

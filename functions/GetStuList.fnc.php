@@ -308,6 +308,7 @@ function GetStuList(&$extra=array())
 
 function makeContactInfo($student_id,$column)
 {	global $contacts_RET;
+	static $tiptitle = false;
 
 	if(count($contacts_RET[$student_id]))
 	{
@@ -328,7 +329,18 @@ function makeContactInfo($student_id,$column)
 	}
 	else
 		$tipmessage = _('This student has no contact information.');
-	return button('phone','','"#" onMouseOver=\'stm(["'._('Contact Information').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tipmessage)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"');
+
+	$return = '<script>';
+
+	if (!$tiptitle)
+	{
+		$return .= 'var tiptitle='.json_encode(_('Contact Information')).';';
+		$tiptitle = true;
+	}
+
+	$return .= 'var tipmsg'.$student_id.'='.json_encode($tipmessage).';</script>';
+
+	return $return.button('phone','','"#" onMouseOver="stm([tiptitle,tipmsg'.$student_id.'],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"');
 }
 
 function removeDot00($value,$column)

@@ -69,6 +69,8 @@ $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
 if(!$_REQUEST['period'])
 {
+	$tiptitle = false;
+
 	foreach($RET as $staff_id=>$periods)
 	{
 		$i++;
@@ -76,7 +78,19 @@ if(!$_REQUEST['period'])
 		foreach($periods as $period)
 		{
 			if(!isset($_REQUEST['_ROSARIO_PDF']))
-				$staff_RET[$i][$period['PERIOD_ID']] .= button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver=\'stm(["'._('Course Title').'","'.str_replace('"','\"',str_replace("'",'&#39;',$period['COURSE_TITLE'])).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"').' ';
+			{
+				$tipJS = '<script>';
+
+				if (!$tiptitle)
+				{
+					$tipJS .= 'var tiptitle='.json_encode(_('Course Title')).';';
+					$tiptitle = true;
+				}
+
+				$tipJS .= 'var tipmsg'.$period['PERIOD_ID'].'='.json_encode($period['COURSE_TITLE']).';</script>';
+
+				$staff_RET[$i][$period['PERIOD_ID']] .= $tipJS.button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver="stm([tiptitle,tipmsg'.$period['PERIOD_ID'].'],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"').' ';
+			}
 			else
 				$staff_RET[$i][$period['PERIOD_ID']] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
 		}

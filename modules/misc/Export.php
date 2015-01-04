@@ -288,7 +288,13 @@ else
 		foreach($fields as $field=>$title)
 		{
 			$i++;
-            echo '<TD><label><INPUT type="checkbox" onclick=\'addHTML("'.str_replace('"','\"','<LI>'.str_replace("'",'&#39',ParseMLField($title)).'</LI>').'","names_div",false);addHTML("'.str_replace('"','\"','<INPUT type="hidden" name="fields['.$field.']" value="Y" />').'","fields_div",false);this.disabled=true\' />&nbsp;'.ParseMLField($title).'</label>';
+
+			echo '<TD>';
+
+			$addJS = '<script>var field'.$field.'='.json_encode('<LI>'.ParseMLField($title).'</LI>').'; var fielddiv'.$field.'='.json_encode('<INPUT type="hidden" name="fields['.$field.']" value="Y" />').';</script>';
+
+			echo $addJS.'<label><INPUT type="checkbox" onclick=\'addHTML(field'.$field.',"names_div",false);addHTML(fielddiv'.$field.',"fields_div",false);this.disabled=true\' />&nbsp;'.ParseMLField($title).'</label>';
+
 			if(ParseMLField($category,'default')=='Address' && $field=='PARENTS')
 			{
 				$relations_RET = DBGet(DBQuery("SELECT DISTINCT STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE ORDER BY STUDENT_RELATION"));

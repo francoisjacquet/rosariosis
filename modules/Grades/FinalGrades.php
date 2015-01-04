@@ -170,7 +170,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					foreach($commentsB_RET as $comment)
 						$tipmessage .= $comment[1]['SORT_ORDER'].' - '.$comment[1]['TITLE'].'<BR />';
 
-					$tipmessage = button('comment',_('Comment Codes'),'"#" onmouseover=\'stm(["'._('Report Card Comments').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tipmessage)).'"],tipmessageStyle); return false;\' onmouseout=\'htm()\' onclick="return false;"',24);
+					$tipJS = '<script>var tiptitle='.json_encode(_('Report Card Comments')).'; var tipmsg='.json_encode($tipmessage).';</script>';
+
+					$tipmessage = $tipJS.button('comment',_('Comment Codes'),'"#" onmouseover="stm([tiptitle,tipmsg],tipmessageStyle); return false;" onmouseout="htm()" onclick="return false;"',24);
 
 					DrawHeader('',$tipmessage);
 				}

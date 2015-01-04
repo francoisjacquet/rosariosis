@@ -630,9 +630,11 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 	if(count($commentsB_RET))
 	{
 		foreach($commentsB_RET as $comment)
-			$tipmessage .= $comment[1]['SORT_ORDER'].' - '.str_replace("'",'&acute;',$comment[1]['TITLE']).'<BR />';
-//		$tipmessage = button('comment','Comment Codes','# onClick=\'stm(["Report Card Comments","'.$tipmessage.'"],["white","#333366","","","",,"black","#e8e8ff","","","",,,,2,"#333366",2,,,,,"",5,3,50,50]);\'','');
-		$tipmessage = button('comment',_('Comment Codes'),'"#" onmouseover=\'stm(["'._('Report Card Comments').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tipmessage)).'"],tipmessageStyle); return false;\' onmouseout=\'htm()\' onclick="return false;"',24);
+			$tipmessage .= $comment[1]['SORT_ORDER'].' - '.$comment[1]['TITLE'].'<BR />';
+
+		$tipJS = '<script>var tiptitle='.json_encode(_('Report Card Comments')).'; var tipmsg='.json_encode($tipmessage).';</script>';
+
+		$tipmessage = $tipJS.button('comment',_('Comment Codes'),'"#" onmouseover="stm([tiptitle,tipmsg],tipmessageStyle); return false;" onmouseout="htm()" onclick="return false;"',24);
 	}
 
 //modif Francois: add label on checkbox

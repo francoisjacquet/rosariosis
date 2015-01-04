@@ -34,17 +34,23 @@ if(!$_REQUEST['modfunc'] && UserStaffID())
 	echo '<TD class="valign-top">';
 	echo '<TABLE class="width-100p"><TR>';
 
-        echo '<TD class="valign-top">'.NoInput(($staff['BALANCE']<0?'<span style="color:red">':'').$staff['BALANCE'].($staff['BALANCE']<0?'</span>':''),'Balance');
+	echo '<TD class="valign-top">'.NoInput(($staff['BALANCE']<0?'<span style="color:red">':'').$staff['BALANCE'].($staff['BALANCE']<0?'</span>':''),'Balance');
+
+	// warn if account non-existent (balance query failed)
 	if(!$staff['ACCOUNT_ID'])
 	{
 		$warning = _('This user does not have a Meal Account.');
-		echo '<BR />'.button('warning','','"#" onMouseOver=\'stm(["'._('Warning').'","'.str_replace('"','\"',str_replace("'",'&#39;',$warning)).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"');
+
+		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
+
+		echo '<BR />'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"');
 	}
+
 	echo '</TD>';
 
-        echo '</TR></TABLE>';
-        echo '</TD></TR></TABLE>';
-        echo '<HR>';
+	echo '</TR></TABLE>';
+	echo '</TD></TR></TABLE>';
+	echo '<HR>';
 
 	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0">';
 	echo '<TR><TD class="valign-top">';

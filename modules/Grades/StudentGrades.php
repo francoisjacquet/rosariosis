@@ -302,18 +302,34 @@ else
 function _makeTipTitle($value,$column)
 {	global $THIS_RET;
 
+	static $tiptitle = false;
+
 	if(($THIS_RET['DESCRIPTION'] || $THIS_RET['ASSIGNED_DATE'] || $THIS_RET['DUE_DATE']) && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		if($THIS_RET['DESCRIPTION'])
 		{
-			$tip_title = str_replace(array("'",'"'),array('&#39;','&rdquo;'),$THIS_RET['DESCRIPTION']);
-			$tip_title = _('Description').': '.str_replace("\r\n",'<BR />',$tip_title);
+			$tipmsg = $THIS_RET['DESCRIPTION'];
+			$tipmsg = _('Description').': '.str_replace("\r\n",'<BR />',$tipmsg);
 		}
+
 		if($THIS_RET['ASSIGNED_DATE'])
-			$tip_title .= ($tip_title?'<BR />':'')._('Assigned').': '.ProperDate($THIS_RET['ASSIGNED_DATE']);
+			$tipmsg .= ($tipmsg?'<BR />':'')._('Assigned').': '.ProperDate($THIS_RET['ASSIGNED_DATE']);
+
 		if($THIS_RET['DUE_DATE'])
-			$tip_title .= ($tip_title?'<BR />':'')._('Due').': '.ProperDate($THIS_RET['DUE_DATE']);
-		$tip_title = '<A HREF="#" onMouseOver=\'stm(["'._('Details').'","'.str_replace('"','\"',str_replace("'",'&#39;',$tip_title)).'"],tipmessageStyle); return false;\' onMouseOut="htm();" onclick="return false;">'.$value.'</A>';
+			$tipmsg .= ($tipmsg?'<BR />':'')._('Due').': '.ProperDate($THIS_RET['DUE_DATE']);
+
+		$tipJS = '<script>';
+
+		if (!$tiptitle)
+		{
+			$tipJS .= 'var tiptitle='.json_encode(_('Details')).';';
+
+			$tiptitle = true;
+		}
+
+		$tipJS .= 'var tipmsg'.$THIS_RET['ASSIGNMENT_ID'].'='.json_encode($tipmsg).';</script>';
+
+		$tip_title = $tipJS.'<A HREF="#" onMouseOver="stm([tiptitle,tipmsg'.$THIS_RET['ASSIGNMENT_ID'].'],tipmessageStyle); return false;" onMouseOut="htm();" onclick="return false;">'.$value.'</A>';
 	}
 	else
 		$tip_title = $value;
