@@ -40,12 +40,13 @@ if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 		echo '<TABLE><TR class="st"><TD>'.TextInput($student['FIRST_NAME'],'students[FIRST_NAME]',($student['FIRST_NAME']==''?'<span class="legend-red">':'')._('First Name').($student['FIRST_NAME']==''?'</span>':''),'size=12 maxlength=50 required', ($_REQUEST['moodle_create_student'] ? false : true)).'</TD><TD>'.TextInput($student['MIDDLE_NAME'],'students[MIDDLE_NAME]',_('Middle Name'),'maxlength=50').'</TD><TD>'.TextInput($student['LAST_NAME'],'students[LAST_NAME]',($student['LAST_NAME']==''?'<span class="legend-red">':'')._('Last Name').($student['LAST_NAME']==''?'</span>':''),'size=12 maxlength=50 required', ($_REQUEST['moodle_create_student'] ? false : true)).'</TD><TD>'.SelectInput($student['NAME_SUFFIX'],'students[NAME_SUFFIX]',_('Suffix'),array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V')),'').'</TD></TR></TABLE>';
 	else
 	{
-		echo '<DIV id="student_name"><div class="onclick" onclick=\'addHTML("';
+		$student_name = '<TABLE><TR class="st"><TD>'.TextInput($student['FIRST_NAME'],'students[FIRST_NAME]',_('First Name'),'size=12 maxlength=50 required',false).'</TD><TD>'.TextInput($student['MIDDLE_NAME'],'students[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'</TD><TD>'.TextInput($student['LAST_NAME'],'students[LAST_NAME]',_('Last Name'),'size=12 maxlength=50 required',false).'</TD><TD>'.SelectInput($student['NAME_SUFFIX'],'students[NAME_SUFFIX]',_('Suffix'),array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V')),'','',false).'</TD></TR></TABLE>';
+
+		echo '<script>var student_name='.json_encode($student_name).';</script>';
 		
-		$toEscape = '<TABLE><TR class="st"><TD>'.TextInput(str_replace("'",'&#39;',$student['FIRST_NAME']),'students[FIRST_NAME]',_('First Name'),'size=12 maxlength=50 required',false).'</TD><TD>'.TextInput(str_replace("'",'&#39;',$student['MIDDLE_NAME']),'students[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'</TD><TD>'.TextInput(str_replace("'",'&#39;',$student['LAST_NAME']),'students[LAST_NAME]',_('Last Name'),'size=12 maxlength=50 required',false).'</TD><TD>'.SelectInput(str_replace("'",'&#39;',$student['NAME_SUFFIX']),'students[NAME_SUFFIX]',_('Suffix'),array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V')),'','',false).'</TD></TR></TABLE>';
-		echo str_replace('"','\"',$toEscape);
+		echo '<DIV id="student_name"><div class="onclick" onclick=\'addHTML(student_name';
 		
-		echo '","student_name",true);\'><span class="underline-dots">'.$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].'</span></div></DIV><span class="legend-gray">'._('Name').'</span>';
+		echo ',"student_name",true);\'><span class="underline-dots">'.$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].'</span></div></DIV><span class="legend-gray">'._('Name').'</span>';
 	}
 else
 	echo ($student['FIRST_NAME']!=''||$student['MIDDLE_NAME']!=''||$student['LAST_NAME']!=''||$student['NAME_SUFFIX']!=''?$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX']:'-').'<BR /><span class="legend-gray">'._('Name').'</span>';

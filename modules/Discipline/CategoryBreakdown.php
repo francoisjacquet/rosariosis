@@ -189,7 +189,7 @@ if($_REQUEST['category_id'])
 			$jsData = 'var ticks = [';
 			foreach ($chart['chart_data'][0] as $tick)
 			{
-				$jsData .= "'".str_replace("'", "\'", htmlspecialchars($tick))."', ";
+				$jsData .= json_encode($tick).", ";
 			}
 			$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 2);
 			$jsData .= "];\n";

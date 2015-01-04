@@ -314,7 +314,7 @@ if($_REQUEST['category_id'])
 					if ($jump)
 						$jump = false;
 					else
-						$jsData .= "'".str_replace("'", "\'", htmlspecialchars($tick))."', ";
+						$jsData .= json_encode($tick).", ";
 				}
 				$jsData = mb_substr($jsData, 0, mb_strlen($jsData) - 2);
 				$jsData .= "];\n";
