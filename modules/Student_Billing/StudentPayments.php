@@ -82,7 +82,7 @@ if($_REQUEST['modfunc']=='refund' && AllowEdit())
 	if(DeletePrompt(_('Payment'),_('Refund')))
 	{
 		$payment_RET = DBGet(DBQuery("SELECT COMMENTS,AMOUNT FROM BILLING_PAYMENTS WHERE ID='".$_REQUEST['id']."'"));
-		DBQuery("INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID) values(".db_seq_nextval('BILLING_PAYMENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".UserStudentID()."','".($payment_RET[1]['AMOUNT']*-1)."','".DBDate()."','".str_replace("'","''",$payment_RET[1]['COMMENTS'])." "._('Refund')."','".$_REQUEST['id']."')");
+		DBQuery("INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,AMOUNT,PAYMENT_DATE,COMMENTS,REFUNDED_PAYMENT_ID) values(".db_seq_nextval('BILLING_PAYMENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".UserStudentID()."','".($payment_RET[1]['AMOUNT']*-1)."','".DBDate()."','".DBEscapeString($payment_RET[1]['COMMENTS'])." "._('Refund')."','".$_REQUEST['id']."')");
 		unset($_REQUEST['modfunc']);
 	}
 }

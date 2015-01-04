@@ -181,7 +181,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							
 							//$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
 							//modif Francois: remove teacher's middle name to gain space
-							$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['LAST_NAME']);
+							$base_title = DBEscapeString($base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['LAST_NAME']);
 
 							$periods_title = '';
 							//get the missing part of the title before the short name:
@@ -334,7 +334,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								
 							//$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
 							//modif Francois: remove teacher's middle name to gain space
-							$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['LAST_NAME']);
+							$base_title = DBEscapeString($base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['LAST_NAME']);
 
 							$values = "'".UserSyear()."','".UserSchool()."','".$id[1]['ID']."','".$_REQUEST['course_id']."','".$base_title."','0',";
 							$_REQUEST['course_period_id'] = $id[1]['ID'];
