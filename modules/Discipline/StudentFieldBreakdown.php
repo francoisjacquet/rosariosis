@@ -55,7 +55,7 @@ if($_REQUEST['modfunc']=='search')
 //{
 if($_REQUEST['category_id'])
 {
-	if($category_RET[1]['TYPE']=='select')
+	if(in_array($category_RET[1]['TYPE'], array('select','autos','edits','exports')))
 	{
 		$extra = array();
 		$extra['SELECT_ONLY'] = "COALESCE(s.CUSTOM_".intval($_REQUEST['category_id']).",'*BLANK*') AS TITLE,COUNT(*) AS COUNT ";
