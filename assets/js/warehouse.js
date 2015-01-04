@@ -139,11 +139,11 @@ function ajaxSuccess(data,target,url){
 }
 
 function ajaxPrepare(target){
+	if (scrollTop=='Y')
+		document.getElementById('body').scrollIntoView();
 	$(target+' form').each(function(){ ajaxPostForm(this,false); });
 	$(target+' a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
 	scroll();
-	if (scrollTop=='Y')
-		$('html, body').animate({scrollTop:$('#body').offset().top - 20});
 	if (target == '#menu' && window.modname)
 		openMenu(modname);
 }
