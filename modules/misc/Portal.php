@@ -43,7 +43,7 @@ switch (User('PROFILE'))
 
 			if($disc_RET[1]['COUNT']>0)
 			{
-				$message = '<A HREF="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin='.User('LAST_LOGIN').'&discipline_entry_end='.DBDate().'"><img src="assets/icons/Discipline.png" class="alignImg" /> ';
+				$message = '<A HREF="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin='.User('LAST_LOGIN').'&discipline_entry_end='.DBDate().'"><img src="modules/Discipline/icon.png" class="alignImg" /> ';
 				$message .= sprintf(ngettext('%d new referral', '%d new referrals', $disc_RET[1]['COUNT']), $disc_RET[1]['COUNT']);
 				$message .= '</A>';	
 				DrawHeader($message);
