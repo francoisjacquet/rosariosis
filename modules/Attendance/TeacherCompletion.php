@@ -87,9 +87,9 @@ if(!$_REQUEST['period'])
 					$tiptitle = true;
 				}
 
-				$tipJS .= 'var tipmsg'.$period['PERIOD_ID'].'='.json_encode($period['COURSE_TITLE']).';</script>';
+				$tipJS .= 'var tipmsg'.$i.$period['PERIOD_ID'].'='.json_encode($period['COURSE_TITLE']).';</script>';
 
-				$staff_RET[$i][$period['PERIOD_ID']] .= $tipJS.button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver="stm([tiptitle,tipmsg'.$period['PERIOD_ID'].'],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"').' ';
+				$staff_RET[$i][$period['PERIOD_ID']] .= $tipJS.button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver="stm([tiptitle,tipmsg'.$i.$period['PERIOD_ID'].'],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"').' ';
 			}
 			else
 				$staff_RET[$i][$period['PERIOD_ID']] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
@@ -106,13 +106,27 @@ else
 {
 	$period_title = $periods_RET[$_REQUEST['period']][1]['TITLE'];
 
+	$tiptitle = false;
+
 	//modif Francois: display icon for completed column
 	foreach($RET as $staff_id=>$periods)
 	{
 		foreach($periods as $id=>$period)
 		{
 			if(!isset($_REQUEST['_ROSARIO_PDF']))
-				$RET[$staff_id][$id]['COMPLETED'] = button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver=\'stm(["'._('Course Title').'","'.str_replace('"','\"',str_replace("'",'&#39;',$period['COURSE_TITLE'])).'"],tipmessageStyle); return false;\' onMouseOut=\'htm()\' onclick="return false;"').' ';
+			{
+				$tipJS = '<script>';
+
+				if (!$tiptitle)
+				{
+					$tipJS .= 'var tiptitle='.json_encode(_('Course Title')).';';
+					$tiptitle = true;
+				}
+
+				$tipJS .= 'var tipmsg'.$staff_id.$id.'='.json_encode($period['COURSE_TITLE']).';</script>';
+
+				$RET[$staff_id][$id]['COMPLETED'] = $tipJS.button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver="stm([tiptitle,tipmsg'.$staff_id.$id.'],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"').' ';
+			}
 			else
 				$RET[$staff_id][$id]['COMPLETED'] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
 		}

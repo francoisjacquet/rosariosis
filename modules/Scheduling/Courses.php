@@ -1010,7 +1010,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 if($_REQUEST['modname']=='Scheduling/Courses.php' && $_REQUEST['modfunc']=='choose_course' && $_REQUEST['course_period_id'])
 {
 	$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
-	$course_title = str_replace(array("'",'"'),array('&#39;','&quot;'),$course_title[1]['TITLE']) . '<INPUT type="hidden" name="tables[parent_id]" value="'.$_REQUEST['course_period_id'].'">';
+	$course_title = $course_title[1]['TITLE'] . '<INPUT type="hidden" name="tables[parent_id]" value="'.$_REQUEST['course_period_id'].'">';
 
 	echo '<script>opener.document.getElementById("'.($_REQUEST['last_year']=='true'?'ly_':'').'course_div").innerHTML = '.json_encode($course_title).'; window.close();</script>';
 }

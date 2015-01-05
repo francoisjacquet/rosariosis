@@ -366,7 +366,7 @@ if(empty($_REQUEST['modfunc']))
 							$ximages .= ' <IMG SRC="assets/bus_button.png" height="24">';
 						if($xstudent['MAILING']=='Y')
 							$ximages .= ' <IMG SRC="assets/mailbox_button.png" height="24">';
-						$warning .= '<b>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$xstudent['FULL_NAME']).'</b>'.$ximages.'';
+						$warning .= '<b>'.$xstudent['FULL_NAME'].'</b>'.$ximages.'';
 					}
 
 					$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
@@ -520,7 +520,7 @@ if(empty($_REQUEST['modfunc']))
 								$ximages .= ' <IMG SRC="assets/gavel_button.png" height="24">';
 							if($xstudent['EMERGENCY']=='Y')
 								$ximages .= ' <IMG SRC="assets/emergency_button.png" height="24">';
-							$warning .= '<b>'.str_replace(array("'",'"'),array('&#39;','&rdquo;'),$xstudent['FULL_NAME']).'</b> ('.($xstudent['STUDENT_RELATION']?str_replace(array("'",'"'),array('&#39;','&rdquo;'),$xstudent['STUDENT_RELATION']):'---').')'.$ximages.'<BR />';
+							$warning .= '<b>'.$xstudent['FULL_NAME'].'</b> ('.($xstudent['STUDENT_RELATION']?$xstudent['STUDENT_RELATION']:'---').')'.$ximages.'<BR />';
 						}
 
 						$tipJS = '<script>var tiptitle2='.json_encode(_('Warning')).'; var tipmsg2='.json_encode($warning).';</script>';
