@@ -340,9 +340,9 @@ if(empty($_REQUEST['modfunc']))
 		if (User('PROFILE')=='admin')
 		{
 			//modif Francois: add Show Studies Certificate option
-			$extra['extra_header_left'] .= '<DIV id="divcertificatetext" style="display:none"><TEXTAREA id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">'.str_replace(array("'",'"'),array('&#39;','&rdquo;',''),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'])).'</TEXTAREA><BR /><span class="legend-gray">'.str_replace(array("'",'"'),array('&#39;','\"'),_('Certificate Studies Text')).'</span>
+			$extra['extra_header_left'] .= '<DIV id="divcertificatetext" style="display:none"><TEXTAREA id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">'.($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']).'</TEXTAREA><BR /><span class="legend-gray">'._('Certificate Studies Text').'</span>
 			<TABLE><TR><TD style="text-align:right; vertical-align: top;">'._('Substitutions').':</TD><TD><TABLE><TR>';
-			$extra['extra_header_left'] .= '<TD>__SSECURITY__</TD><TD>= '.str_replace(array("'",'"'),array('&#39;','\"'),$field_SSECURITY[1]['TITLE']).'</TD><TD colspan="3">&nbsp;</TD>';
+			$extra['extra_header_left'] .= '<TD>__SSECURITY__</TD><TD>= '.$field_SSECURITY[1]['TITLE'].'</TD><TD colspan="3">&nbsp;</TD>';
 			$extra['extra_header_left'] .= '</TR><TR>';
 			$extra['extra_header_left'] .= '<TD>__FULL_NAME__</TD><TD>= '._('Last, First M').'</TD><TD>&nbsp;</TD>';
 			$extra['extra_header_left'] .= '<TD>__LAST_NAME__</TD><TD>= '._('Last Name').'</TD>';
