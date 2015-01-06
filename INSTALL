@@ -204,7 +204,7 @@ FINAL STEP IS TO DO PUT THE PATH IN YOUR CONFIG FILE WHICH IS IN YOUR ROOT FOR W
 Look for this line 
 
 $wkhtmltopdfPath = '/usr/bin/wkhtmltopdf'; // empty string means wkhtmltopdf will not be called and reports will be rendered in html instead of pdf
-and change it to the path shown above when you did your install which for the above is /usr/local/bin/wkhtmltoimage
+and change it to the path shown above when you did your install which for the above is /usr/local/bin/wkhtmltopdf
 
 Activate PHP mail() function
 ----------------------------
