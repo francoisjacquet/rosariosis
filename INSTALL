@@ -122,6 +122,89 @@ Install instructions for Ubuntu 12.04.4 64bits server:
 	4) Set $wkhtmltopdfPath in RosarioSIS config.inc.php file:
 	$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';
 
+WKHTMLTOPDF and other tips for Linux Users on a Shared hosting system.
+Based on various contributions on many resources online which are scattered around and my experience the following steps may assist you.
+
+You will likely have some restrictions on a shared hosting server.
+When you upload to your root, do not copy the files from the www folder only, copy all files to root and then navigate to the path of root/yourpathtosite/www/install
+follow the prompts and you will be happy. Login with the login admin and admin and first change password and in case something goes bad. make sure not to delete the install folder but rename it on your host server.
+use phpmyadmin for your pgsql and upload the sql dump that is in your root folder manually.
+
+Based on various contributions and my experience the following steps may assist you.
+1. request ssh access from your host
+2. Ask your host which of the files are relevant for your hosting environment on the list here http://wkhtmltopdf.org/downloads.html
+3. You now have two options.  Depending on the space on your server and for ease, either
+
+a) download the relevant file which will be in .rpm you must then use the unzip facility such as 7zip to unzip it to get to the data.tar file which you need 
+then upload the data.tar file to your root folder or to a location you can access eg another server or another file repository and save the path to this file somewhere safe
+use ssh command prompt to unzip it down. I found easier unzip the rpm, upload data.tar to my host and proceed with step one.
+b) You can use the file path from the repository i.e right click and copy and past the file url somewhere safe. then unzip the rpm using command prompt. 
+I did not do this. But the command if you decide to is ar p mypackage.deb data.tar.gz | tar zx
+More info here http://www.g-loaded.eu/2008/01/28/how-to-extract-rpm-or-deb-packages/
+(This method did not work for me, because my ssh was rejecting the repository url. and the rpm file was not accepting the command even when saved on my root folder)
+For this reason, from this point, I do not mention the steps for this method anymore but if you use it then you must go to step 4 AND YOU WILL BE FINISHED WITH THE SETUP.
+
+OTHERWISE IF YOU USED OPTION (a) Then
+If you use either option make sure you keep the file path  you need it next
+
+4. Download and Install an ssh command tool like BitVise and put your credentials from step 1
+5. Use command prompt to get this going as follows
+COMMAND PROMPT STEPS:
+
+STEP1 CHECK EVERTHING IS OKAY
+YOUR HOST:~$ wget --spider http://PATHTOFILE/data.tar [PRESS ENTER KEY] THEN THE BELOW SOMETHING SIMILAR SHOULD HAPPEN
+Spider mode enabled. Check if remote file exists.
+--2000-01-06 04:50:05-- http://PATHTOFILE/data.tar
+Resolving http://PATHTOFILE/data.tar... 00.000.000.00
+Connecting to http://PATHTOFILE/data.tar|00.000.000.00|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 121815040 (116M) [application/x-tar]
+Remote file exists.
+STEP 2
+YOUR HOST:~$ wget http://PATHTOFILE/data.tar[PRESS ENTER KEY] THEN THE BELOW SOMETHING SIMILAR SHOULD HAPPEN
+--2000-01-06 04:50:48-- http://PATHTOFILE/data.tar
+Resolving PATHTOFILEg... 00.000.000.00
+Connecting to PATHTOFILE|00.000.000.00|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 121815040 (116M) [application/x-tar]
+Saving to: `data.tar'
+
+100%[======================================>] 121,815,040 47.4M/s in 2.5s
+
+2000-01-06 04:50:52 (47.4 MB/s) - `data.tar' saved [121815040/121815040]
+
+STEP 3
+YOUR HOST:~$ tar -xvf data.tar [PRESS ENTER KEY] THEN THE BELOW SOMETHING SIMILAR SHOULD HAPPEN:
+./
+./usr/
+./usr/local/
+./usr/local/lib/
+./usr/local/lib/libwkhtmltox.so
+./usr/local/lib/libwkhtmltox.so.0.12
+./usr/local/lib/libwkhtmltox.so.0
+./usr/local/lib/libwkhtmltox.so.0.12.1
+./usr/local/bin/
+./usr/local/bin/wkhtmltoimage
+./usr/local/bin/wkhtmltopdf
+./usr/local/include/
+./usr/local/include/wkhtmltox/
+./usr/local/include/wkhtmltox/image.h
+./usr/local/include/wkhtmltox/dllbegin.inc
+./usr/local/include/wkhtmltox/pdf.h
+./usr/local/include/wkhtmltox/dllend.inc
+./usr/local/share/
+./usr/local/share/man/
+./usr/local/share/man/man1/
+./usr/local/share/man/man1/wkhtmltoimage.1.gz
+./usr/local/share/man/man1/wkhtmltopdf.1.gz
+
+STEP 4
+FINAL STEP IS TO DO PUT THE PATH IN YOUR CONFIG FILE WHICH IS IN YOUR ROOT FOR WEBSITE/config.inc.php
+
+Look for this line 
+
+$wkhtmltopdfPath = '/usr/bin/wkhtmltopdf'; // empty string means wkhtmltopdf will not be called and reports will be rendered in html instead of pdf
+and change it to the path shown above when you did your install which for the above is /usr/local/bin/wkhtmltoimage
 
 Activate PHP mail() function
 ----------------------------
