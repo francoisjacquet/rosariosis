@@ -122,6 +122,86 @@ Install instructions for Ubuntu 12.04.4 64bits server:
 	4) Set $wkhtmltopdfPath in RosarioSIS config.inc.php file:
 	$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';
 
+WKHTMLTOPDF and other INSTALLATION tips for Linux Users on a Shared hosting system.
+Based on various contributions on many resources online which are scattered around and my experience the following steps may assist you.
+
+INSTALLATION ON SHARED HOSTING LINUX
+You will likely have some restrictions on a shared hosting server.
+1.When you download Rosariosis. Unzip the folder locally on pc. 
+2.upload all unzipped files to your root, do not copy the files from the www folder only, copy all files to root 
+3. Create your pgsql database and note username and password.
+3. and then navigate to the path of www.yourpathtosite/www/install
+4. follow the prompts and you will be happy. 
+5.Login with the login admin and admin and first change password and in case something goes bad. 
+6. make sure not to delete the install folder but rename it on your host server.
+7. use phpmyadmin for your pgsql and upload the sql dump that is in the rosariosis folder named rosariosis.sql manually.
+
+WKHTMLTOPDF for LINUX [Tested On Build - Linux (Debian Wheezy)64 Bit]
+1. request ssh access from your host
+2. Ask your host which of the files are relevant for your hosting environment on the list here IF IT IS NOT DEBIAN WHEEZY http://wkhtmltopdf.org/downloads.html
+3. download the relevant file which will be in .rpm 
+4. You must then use the unzip facility such as 7zip to unzip it to get to the data.tar file which you need 
+4. Upload the data.tar file to your root folder 
+5. Save the path to this file somewhere safe
+6. Download and Install an ssh command tool like BitVise and put your credentials from step 1
+7. Use command prompt to get this going as follows
+COMMAND PROMPT STEPS:
+
+STEP1 CHECK EVERTHING IS OKAY
+Type Command:
+$ wget --spider http://PATHTOFILE/data.tar 	[PRESS ENTER KEY] THEN THE BELOW SOMETHING SIMILAR SHOULD HAPPEN
+Spider mode enabled. Check if remote file exists.
+--2000-01-06 04:50:05-- http://PATHTOFILE/data.tar
+Resolving http://PATHTOFILE/data.tar... 00.000.000.00
+Connecting to http://PATHTOFILE/data.tar|00.000.000.00|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 121815040 (116M) [application/x-tar]
+Remote file exists.
+STEP 2 Type Command:
+$ wget http://PATHTOFILE/data.tar	[PRESS ENTER KEY] THEN THE BELOW SOMETHING SIMILAR SHOULD HAPPEN
+--2000-01-06 04:50:48-- http://PATHTOFILE/data.tar
+Resolving PATHTOFILEg... 00.000.000.00
+Connecting to PATHTOFILE|00.000.000.00|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 121815040 (116M) [application/x-tar]
+Saving to: `data.tar'
+
+100%[======================================>] 121,815,040 47.4M/s in 2.5s
+
+2000-01-06 04:50:52 (47.4 MB/s) - `data.tar' saved [121815040/121815040]
+
+STEP 3 Type Command:
+$ tar -xvf data.tar 	[PRESS ENTER KEY] THEN THE BELOW SOMETHING SIMILAR SHOULD HAPPEN:
+./
+./usr/
+./usr/local/
+./usr/local/lib/
+./usr/local/lib/libwkhtmltox.so
+./usr/local/lib/libwkhtmltox.so.0.12
+./usr/local/lib/libwkhtmltox.so.0
+./usr/local/lib/libwkhtmltox.so.0.12.1
+./usr/local/bin/
+./usr/local/bin/wkhtmltoimage
+./usr/local/bin/wkhtmltopdf
+./usr/local/include/
+./usr/local/include/wkhtmltox/
+./usr/local/include/wkhtmltox/image.h
+./usr/local/include/wkhtmltox/dllbegin.inc
+./usr/local/include/wkhtmltox/pdf.h
+./usr/local/include/wkhtmltox/dllend.inc
+./usr/local/share/
+./usr/local/share/man/
+./usr/local/share/man/man1/
+./usr/local/share/man/man1/wkhtmltoimage.1.gz
+./usr/local/share/man/man1/wkhtmltopdf.1.gz
+
+STEP 4
+FINAL STEP IS TO DO PUT THE PATH IN YOUR CONFIG FILE WHICH IS IN YOUR ROOT FOR WEBSITE/config.inc.php
+
+Look for this line 
+
+$wkhtmltopdfPath = '/usr/bin/wkhtmltopdf'; // empty string means wkhtmltopdf will not be called and reports will be rendered in html instead of pdf
+and change it to the path shown above when you did your install which for the above is /usr/local/bin/wkhtmltopdf
 
 Activate PHP mail() function
 ----------------------------
