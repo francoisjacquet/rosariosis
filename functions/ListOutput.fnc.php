@@ -443,11 +443,11 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 
 			// SEARCH BOX & MORE HEADERS
 			if(!empty($options['header']))
-				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
+				echo '<TABLE class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
 				
 			if(!empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
 			{
-				echo '<TABLE class="width-100p cellpadding-1">';
+				echo '<TABLE class="width-100p">';
 				echo '<TR class="st"><TD style="text-align:left;">';
 				if(($singular!='.') && ($plural!='.') && $options['count'])
 				{
@@ -705,7 +705,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				echo '</TD></TR></TBODY></TABLE>';
 				
 			if(!empty($options['header']))
-				echo '<TABLE class="postbox width-100p cellspacing-0 cellpadding-0" style="margin-bottom:0px; border-bottom:0px;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
+				echo '<TABLE class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:0px;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
 
 			if($link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
 				echo '<span class="center">' . button('add',$link['add']['title'],$link['add']['link']) . '</span>';

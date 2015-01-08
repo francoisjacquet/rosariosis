@@ -103,12 +103,12 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 //modif Francois: remove LO_field
 					$grades_RET[$assignment_type_id][] = array('TITLE'=>_removeSpaces('<B>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</B>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),_Percent($percent_weights[$assignment_type_id]/$sum_percent)).')':''),'TITLE'),
 						'ASSIGNED_DATE'=>'&nbsp;','DUE_DATE'=>'&nbsp;',
-						'POINTS'=>'<TABLE class="cellpadding-0 cellspacing-0"><TR><TD><span class="size-1"><b>'.$student_points[$assignment_type_id].'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$total_points[$assignment_type_id].'</b></span></TD></TR></TABLE>',
+						'POINTS'=>'<TABLE class="cellspacing-0"><TR><TD><span class="size-1"><b>'.$student_points[$assignment_type_id].'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$total_points[$assignment_type_id].'</b></span></TD></TR></TABLE>',
 						'PERCENT_GRADE'=>$total_points[$assignment_type_id]?'<B>'._Percent($student_points[$assignment_type_id]/$total_points[$assignment_type_id]).'</B>':'&nbsp;');
 				}
 			}
 			$link['add']['html'] = array('TITLE'=>'<B>Total</B>',
-						'POINTS'=>'<TABLE class="cellpadding-0 cellspacing-0"><TR><TD><span class="size-1"><b>'.$sum_student_points.'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$sum_total_points.'</b></span></TD></TR></TABLE>',
+						'POINTS'=>'<TABLE class="cellspacing-0"><TR><TD><span class="size-1"><b>'.$sum_student_points.'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$sum_total_points.'</b></span></TD></TR></TABLE>',
 						'PERCENT_GRADE'=>'<B>'._Percent($sum_points).'</B>','LETTER_GRADE'=>'<B>'._makeLetterGrade($sum_points).'</B>');
 			$link['add']['html']['ASSIGNED_DATE'] = $link['add']['html']['DUE_DATE'] = $link['add']['html']['COMMENT'] = ' &nbsp; ';
 
@@ -184,14 +184,14 @@ function _makeExtra($value,$column)
 					$total_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] += $THIS_RET['TOTAL_POINTS'];
 					$percent_weights[$THIS_RET['ASSIGNMENT_TYPE_ID']] = $THIS_RET['FINAL_GRADE_PERCENT'];
 				}
-				return '<TABLE class="cellpadding-0 cellspacing-0"><TR><TD><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></TD><TD><span class="size-1">&nbsp;/&nbsp;</span></TD><TD><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></TD></TR></TABLE>';
+				return '<TABLE class="cellspacing-0"><TR><TD><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></TD><TD><span class="size-1">&nbsp;/&nbsp;</span></TD><TD><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></TD></TR></TABLE>';
 			}
 			else
-				return '<TABLE class="cellpadding-0 cellspacing-0"><TR><TD><span class="size-1">'._('Excluded').'</span></TD><TD></TD><TD></TD></TR></TABLE>';
+				return '<TABLE class="cellspacing-0"><TR><TD><span class="size-1">'._('Excluded').'</span></TD><TD></TD><TD></TD></TR></TABLE>';
 		else
 		{
 			$student_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] += $value;
-			return '<TABLE class="cellpadding-0 cellspacing-0"><TR><TD><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></TD><TD><span class="size-1">&nbsp;/&nbsp;</span></TD><TD><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></TD></TR></TABLE>';
+			return '<TABLE class="cellspacing-0"><TR><TD><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></TD><TD><span class="size-1">&nbsp;/&nbsp;</span></TD><TD><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></TD></TR></TABLE>';
 		}
 	}
 	elseif($column=='PERCENT_GRADE')

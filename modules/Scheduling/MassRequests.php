@@ -44,7 +44,7 @@ if($_REQUEST['modfunc']!='choose_course')
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Request to Selected Students')));
 //modif Francois: css WPadmin
-		echo '<BR /><TABLE class="postbox cellpadding-0 cellspacing-0" style="margin:0 auto;"><TR><TH colspan="3"><H3>'._('Request to Add').'</H3></TH></TR><TR><TD style="text-align:right">&nbsp;</TD><TD style="padding: 8px;"><DIV id=course_div>';
+		echo '<BR /><TABLE class="postbox cellspacing-0" style="margin:0 auto;"><TR><TH colspan="3"><H3>'._('Request to Add').'</H3></TH></TR><TR><TD style="text-align:right">&nbsp;</TD><TD style="padding: 8px;"><DIV id=course_div>';
 		if($_SESSION['MassRequests.php'])
 		{
 			$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'"));

@@ -52,7 +52,7 @@ if(empty($_REQUEST['modfunc']))
 		DrawHeader('',SubmitButton(_('Add Payment to Selected Students')));
 		
 //modif Francois: css WPadmin
-		echo '<BR /><TABLE class="postbox cellpadding-0 cellspacing-0" style="margin:0 auto;">';
+		echo '<BR /><TABLE class="postbox cellspacing-0" style="margin:0 auto;">';
 		echo '<TR><TD class="center"><H3>'._('Payment').'</H3></TD></TR><TR><TD><TABLE class="width-100p cellspacing-0 cellpadding-5">';
 		echo '<TR><TD style="text-align:right">'._('Payment Amount').'</TD><TD><INPUT type="text" name="amount" size="5" maxlength="10" required /></TD></TR>';
 		echo '<TR><TD style="text-align:right">'._('Comment').'</TD><TD><INPUT type="text" name="comments" /></TD></TR>';

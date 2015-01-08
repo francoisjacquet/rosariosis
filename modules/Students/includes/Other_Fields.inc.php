@@ -3,7 +3,7 @@ include_once('ProgramFunctions/StudentsUsersInfo.fnc.php');
 $fields_RET = ParseMLArray($fields_RET,'TITLE');
 
 //echo '<pre>'; var_dump($fields_RET); echo '</pre>';
-echo '<TABLE class="width-100p cellpadding-5">';
+echo '<TABLE class="width-100p">';
 foreach($fields_RET as $field)
 {
 	//echo '<pre>'; var_dump($field); echo '</pre>';

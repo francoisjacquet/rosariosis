@@ -15,14 +15,19 @@ function checkAll(form,value,name_like){
 	}
 }
 function switchMenu(id){
-	if(document.getElementById(id).style.display=='none'){
-		document.getElementById(id).style.display = 'block';
-		document.getElementById(id+'_arrow').src = 'assets/arrow_down.gif';
-		document.getElementById(id+'_arrow').height = 9;
+	var $id = $('#'+id);
+	if($id.css('display')=='none'){
+		$id.show();
+		$('#'+id+'_arrow').attr({
+			src: 'assets/arrow_down.gif',
+			height: 9
+		});
 	}else{
-		document.getElementById(id).style.display = 'none';
-		document.getElementById(id+'_arrow').src = 'assets/arrow_right.gif';
-		document.getElementById(id+'_arrow').height = 12;
+		$id.hide();
+		$('#'+id+'_arrow').attr({
+			src: 'assets/arrow_right.gif',
+			height: 12
+		});
 	}
 }
 

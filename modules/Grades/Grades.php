@@ -557,7 +557,7 @@ function _makeExtraCols($assignment_id,$column)
 //				return '<TABLE cellspacing=0 cellpadding=1><TR align=center><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<HR>'.$total_points.'</TD><TD>&nbsp;'._('N/A').'<BR />&nbsp;'._('N/A').'</TD></TR></TABLE>';
 				return '<span'.($div ? ' style="float:left"' : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span><span>&nbsp;/&nbsp;'.$total_points.'&nbsp;&minus;&nbsp;'._('N/A').'</span>';
 		else
-			//return '<TABLE class="cellpadding-1 cellspacing-0"><TR class="center"><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<HR>'.$total_points.'</TD><TD>&nbsp;E/C</TD></TR></TABLE>';
+			//return '<TABLE class="cellspacing-0"><TR class="center"><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<HR>'.$total_points.'</TD><TD>&nbsp;E/C</TD></TR></TABLE>';
 			return '<span'.($div ? ' style="float:left"' : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span><span>&nbsp;/&nbsp;'.$total_points.'&nbsp;&minus;&nbsp;'._('E/C').'</span>';
 	}
 }

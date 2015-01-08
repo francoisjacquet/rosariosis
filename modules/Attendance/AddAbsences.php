@@ -118,7 +118,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<BR />';
 
 //modif Francois: css WPadmin
-		echo '<TABLE class="postbox cellpadding-4" style="margin:0 auto;"><TR><TD style="text-align:right">'._('Add Absence to Periods').'</TD>';
+		echo '<TABLE class="postbox cellpadding-5" style="margin:0 auto;"><TR><TD style="text-align:right">'._('Add Absence to Periods').'</TD>';
 		echo '<TD><TABLE><TR>';
 
 		//modif Francois: multiple school periods for a course period

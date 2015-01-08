@@ -21,23 +21,32 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 				$_SESSION['Back_PHP_SELF'] = 'student';
 				unset($_SESSION['List_PHP_SELF']);
 			}
-			echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
-			echo '<BR />';
-			PopTable('header',$extra['search_title']?$extra['search_title']:_('Find a Student'));
-			echo '<FORM name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="POST">';
-			echo '<TABLE>';
 
-			echo '<TR class="valign-top"><TD>';
-			echo '<TABLE class="width-100p" id="general_table">';
+			echo '<BR />';
+
+			PopTable('header',$extra['search_title']?$extra['search_title']:_('Find a Student'));
+
+			echo '<FORM name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="POST">';
+
+			echo '<TABLE><TR class="valign-top"><TD>';
+
+			echo '<TABLE class="width-100p col1-align-right" id="general_table">';
+
 			Search('general_info',$extra['grades']);
+
 			if(!isset($extra))
 				$extra = array();
+
 			Widgets('user',$extra);
+
 			Search('student_fields',is_array($extra['student_fields'])?$extra['student_fields']:array());
-			echo '</TABLE>';
-			echo '</TD><TR><TD class="center">';
+
+
+			echo '</TABLE></TD><TR><TD class="center">';
+
 			if($extra['search_second_col'])
 				echo $extra['search_second_col'];
+
 			if(User('PROFILE')=='admin')
 			{
 //modif Francois: add <label> on checkbox
@@ -47,67 +56,77 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 				if (SchoolInfo('SCHOOLS_NB') > 1)
 					echo '<label><INPUT type="checkbox" name="_search_all_schools" value="Y"'.(Preferences('DEFAULT_ALL_SCHOOLS')=='Y'?' checked':'').'>&nbsp;'._('Search All Schools').'</label><BR />';
 			}
-			echo '<label><INPUT type="checkbox" name="include_inactive" value="Y">&nbsp;'._('Include Inactive Students').'</label><BR />';
-			echo '<BR />';
-			echo Buttons(_('Submit'),_('Reset'));
-			echo '</TD></TR><TR><TD><TABLE>';
-			
-			if($extra['search'])
-				echo $extra['search'];
-			if($extra['extra_search'])
-				echo $extra['extra_search'];
-			if($extra['second_col'])
-				echo $extra['second_col'];
 
-			echo '</TABLE></TD></TR><TR class="valign-top"><TD><TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD>';
+			echo '<label><INPUT type="checkbox" name="include_inactive" value="Y">&nbsp;'._('Include Inactive Students').'</label><BR /><BR />';
+
+			echo Buttons(_('Submit'),_('Reset'));
+
+			echo '</TD></TR>';
+			
+			if ($extra['search'] || $extra['extra_search'] || $extra['second_col'])
+			{
+				echo '<TR><TD><TABLE class="widefat width-100p cellspacing-0 col1-align-right">';
+
+				if($extra['search'])
+					echo $extra['search'];
+				if($extra['extra_search'])
+					echo $extra['extra_search'];
+				if($extra['second_col'])
+					echo $extra['second_col'];
+
+				echo '</TABLE></TD></TR>';
+			}
+
+			echo '<TR class="valign-top"><TD>';
+
 			if($_REQUEST['advanced']=='Y')
 			{
 				$extra['search'] = '';
 				Widgets('all',$extra);
-				echo '<TABLE class="postbox cellpadding-0 cellspacing-0"><TR><TH>';
-//				echo '<span style="color:'.Preferences('HEADER').'><B>'._('Widgets').'</B></span><BR />';
-				echo '<H3>'._('Widgets').'</H3></TH></TR>';
-				echo $extra['search'];
-//				echo '</TD></TR>';
-				echo '</TABLE><br />';
 
-//				echo '<TR><TD>';
-				echo '<TABLE class="postbox cellpadding-0 cellspacing-0"><TR><TH>';
-//				echo '<span style="color:'.Preferences('HEADER').'><B>'._('Student Fields').'</B></span><BR />';
-				echo '<H3>'._('Student Fields').'</H3></TH></TR><TR><TD>';
+				echo '<TABLE class="postbox cellspacing-0"><THEAD><TR><TH>';
+				echo '<H3>'._('Widgets').'</H3></TH></THEAD><TBODY></TR>';
+				echo $extra['search'];
+				echo '</TBODY></TABLE><br />';
+
+				echo '<TABLE class="postbox cellspacing-0"><THEAD><TR><TH>';
+				echo '<H3>'._('Student Fields').'</H3></TH></TR></THEAD><TBODY><TR><TD>';
 				Search('student_fields_all',is_array($extra['student_fields'])?$extra['student_fields']:array());
 				echo '</TD></TR>';
-//				echo '<TR><TD><BR /><A href='.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'N')).'>'._('Basic Search').'</A></TD></TR></TABLE>';
-				echo '</TABLE><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'N')).'">'._('Basic Search').'</A>';
+				echo '</TBODY></TABLE>';
+
+				echo '<A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'N')).'">'._('Basic Search').'</A>';
 			}
 			else
 				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'Y')).'">'._('Advanced Search').'</A>';
-			echo '</TD></TR></TABLE></TD>';
-			echo '</TR>';
 
-			echo '</TABLE>';
-			echo '</FORM>';
+			echo '</TD></TR></TABLE></FORM>';
+
 			// set focus to last name text box
-			echo '<script><!--
-				document.search.last.focus();
-				--></script>';
+			// update Bottom.php
+			echo '<script> document.search.last.focus(); var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname=""; </script>';
+
 			PopTable('footer');
 		break;
 
 		case 'parent':
 		case 'student':
 			echo '<BR />';
+
 			PopTable('header',_('Search'));
+
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].$extra['action'].'" method="POST">';
 			echo '<TABLE>';
+
 			if($extra['search'])
 				echo $extra['search'];
-			echo '<TR><TD colspan="2" class="center">';
-			echo '<BR />';
+
+			echo '<TR><TD colspan="2" class="center"><BR />';
+
 			echo Buttons(_('Submit'),_('Reset'));
-			echo '</TD></TR>';
-			echo '</TABLE>';
-			echo '</FORM>';
+
+			echo '</TD></TR></TABLE></FORM>';
+
 			PopTable('footer');
 		break;
 	}

@@ -331,6 +331,9 @@ h3 span{
 }
 
 /*added*/
+.hide{
+	display:none
+}
 #studentImg, #userImg{
 	max-width:150px;
 	max-height:150px
@@ -420,29 +423,19 @@ table.cellspacing-0{
 	/*width="100%"*/
 	width:100%
 }
-table.cellpadding-0 > td{
-	padding:0px
-}
-table.cellpadding-1 > td{
-	padding:1px
-}
-table.cellpadding-2 > td{
-	padding:2px
-}
-table.cellpadding-3 > td{
-	padding:3px
-}
-table.cellpadding-5 > td{
-	padding:5px
-}
-table.cellpadding-6 > td{
-	padding:6px
+table.cellpadding-5 td{
+	padding-right:5px;
+	padding-bottom:5px
 }
 td.popTable{
-	padding:5px;
+	padding:5px
 }
 td.valign-top,tr.valign-top{
 	vertical-align:top
+}
+table.col1-align-right td:first-child{
+	text-align:right;
+	vertical-align:middle
 }
 .center{
 	/*<CENTER> && <TD align="center">*/

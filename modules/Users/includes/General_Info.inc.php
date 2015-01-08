@@ -1,5 +1,5 @@
 <?php
-echo '<TABLE class="width-100p cellpadding-6">';
+echo '<TABLE class="width-100p">';
 echo '<TR class="st"><TD rowspan="2" class="valign-top">';
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
@@ -96,7 +96,7 @@ echo '</TD>';
 
 echo '</TR></TABLE><HR />';
 
-echo '<TABLE class="width-100p cellpadding-6">';
+echo '<TABLE class="width-100p">';
 if(basename($_SERVER['PHP_SELF'])!='index.php')
 {
 	echo '<TR class="st"><TD>';

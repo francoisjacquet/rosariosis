@@ -112,10 +112,10 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 	echo '</TD></TR></TABLE>';
 	echo '<HR>';
 
-	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0">';
+	echo '<TABLE class="width-100p cellspacing-0">';
 	echo '<TR><TD class="valign-top">';
 
-	echo '<TABLE class="width-100p cellpadding-6">';
+	echo '<TABLE class="width-100p">';
 	echo '<TR>';
 	echo '<TD>';
 

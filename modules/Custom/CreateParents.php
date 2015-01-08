@@ -280,7 +280,7 @@ function _makeContactSelect($value,$column)
 	if(count($RET))
 	{
 		$checked = ' checked';
-		$return = '<TABLE class="cellpadding-0 cellspacing-0">';
+		$return = '<TABLE class="cellspacing-0">';
 		foreach($RET as $contact)
 		{
 			$return .= '<TR><TD>'.($contact['PERSON_ID']?'<INPUT type="radio" name="contact['.$value.']" value='.$contact['PERSON_ID'].$checked.' />':'&nbsp;').'</TD>';

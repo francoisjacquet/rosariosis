@@ -388,7 +388,7 @@ function makeParents($student_id,$column)
 		ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME"));
 		if(count($people_RET))
 		{
-			$THIS_RET['PARENTS'] .= '<TABLE class="cellpadding-0 cellspacing-0">';
+			$THIS_RET['PARENTS'] .= '<TABLE class="cellspacing-0">';
 			foreach($people_RET as $person)
 			{
 				//modif Francois: PrintClassLists with all contacts

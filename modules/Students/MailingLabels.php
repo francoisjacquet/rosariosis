@@ -33,7 +33,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			echo '<!-- HEADER RIGHT "" -->';
 			echo '<!-- HEADER LEFT "" -->';
 			echo '<!-- HEADER CENTER "" -->';
-			echo '<table style="height: 100%" class="width-100p cellspacing-0 cellpadding-0">';
+			echo '<table style="height: 100%" class="width-100p cellspacing-0">';
 
 			$cols = 0;
 			$rows = 0;
@@ -111,7 +111,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					if($rows==$max_rows)
 					{
 						echo '</table><!--NEW PAGE -->';
-						echo '<table style="height: 100%" class="width-100p cellspacing-0 cellpadding-0">';
+						echo '<table style="height: 100%" class="width-100p cellspacing-0">';
 						$rows = 0;
 					}
 				}

@@ -220,7 +220,7 @@ function makePublishing($value,$name)
 	}
 	
 //modif Francois: remove LO_field
-	$return .= '<TABLE class="cellpadding-0 cellspacing-0 widefat"><TR><TD><b>'._('Visible Between').':</b><BR />';
+	$return .= '<TABLE class="cellspacing-0 widefat"><TR><TD><b>'._('Visible Between').':</b><BR />';
 	$return .= DateInput($value,'values['.$id.']['.$name.']').' '._('to').' ';
 	$return .= DateInput($THIS_RET['END_DATE'],'values['.$id.'][END_DATE]').'</TD></TR>';
 //modif Francois: css WPadmin
@@ -229,7 +229,7 @@ function makePublishing($value,$name)
 	if(!$profiles_RET)
 		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID WHERE"));
 
-	$return .= '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD colspan="2"><b>'._('Visible To').':</b></TD></TR><TR class="st">';
+	$return .= '<TABLE class="width-100p cellspacing-0"><TR><TD colspan="2"><b>'._('Visible To').':</b></TD></TR><TR class="st">';
 	$i=0;
 	foreach(array('admin'=>_('Administrator w/Custom'),'teacher'=>_('Teacher w/Custom'),'parent'=>_('Parent w/Custom')) as $profile_id=>$profile)
 	{

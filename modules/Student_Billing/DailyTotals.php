@@ -36,7 +36,7 @@ echo '</FORM>';
 $billing_payments = DBGet(DBQuery("SELECT sum(AMOUNT) AS AMOUNT FROM BILLING_PAYMENTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND PAYMENT_DATE BETWEEN '".$start_date."' AND '".$end_date."'"));
 $billing_fees = DBGet(DBQuery("SELECT sum(f.AMOUNT) AS AMOUNT FROM BILLING_FEES f WHERE AND f.SCHOOL_ID='".UserSchool()."' AND f.ASSIGNED_DATE BETWEEN '".$start_date."' AND '".$end_date."'"));
 PopTable('header',_('Totals'));
-echo '<TABLE class="cellpadding-0 cellspacing-0">';
+echo '<TABLE class="cellspacing-0">';
 echo '<TR><TD style="text-align:right">'._('Payments').': '.'</TD><TD style="text-align:right">'.Currency($billing_payments[1]['AMOUNT']).'</TD></TR>';
 echo '<TR><TD style="text-align:right">'._('Less').': '._('Fees').': '.'</TD><TD style="text-align:right">'.Currency($billing_fees[1]['AMOUNT']).'</TD></TR>';
 echo '<TR><TD style="text-align:right;border:1;border-style: solid none none none;"><B>'._('Total').': '.'</B></TD><TD style="text-align:right;border:1;border-style: solid none none none"><B>'.Currency(($billing_payments[1]['AMOUNT']-$billing_fees[1]['AMOUNT'])).'</B></TD></TR>';

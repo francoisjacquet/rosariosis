@@ -194,7 +194,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '&table=PEOPLE_FIELDS" method="POST">';
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p cellpadding-3">';
+		$header .= '<TABLE class="width-100p">';
 		$header .= '<TR class="st">';
 
 //modif Francois: field name required
@@ -253,7 +253,7 @@ if(empty($_REQUEST['modfunc']))
 			echo '&category_id='.$_REQUEST['category_id'];
 		echo '" method="POST">';
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p cellpadding-3">';
+		$header .= '<TABLE class="width-100p">';
 		$header .= '<TR class="st">';
 
 //modif Francois: title required

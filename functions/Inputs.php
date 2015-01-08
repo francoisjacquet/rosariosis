@@ -313,7 +313,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 		if($value!='' && $div)
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
 		
-		$table = '<TABLE class="cellpadding-0 cellspacing-0" '.$extra.'><TR class="center">';
+		$table = '<TABLE class="cellspacing-0 cellpadding-5" '.$extra.'><TR class="center">';
 			
 		if($allow_na!==false)
 		{

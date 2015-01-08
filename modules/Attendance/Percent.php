@@ -51,13 +51,13 @@ if($_REQUEST['modfunc']=='search')
 	echo '</TABLE>';
 	echo '</TD></TR>';
 
-	echo '<TR class="valign-top"><TD><TABLE class="width-100p cellspacing-0 cellpadding-0">';
+	echo '<TR class="valign-top"><TD><TABLE class="width-100p cellspacing-0">';
 	if($_REQUEST['advanced']=='Y')
 	{
 		$extra['search'] = '';
 		Widgets('all',$extra);
 		echo '<TR><TD>';
-		echo '<TABLE class="postbox cellpadding-0 cellspacing-0"><TR><TH>';
+		echo '<TABLE class="postbox cellspacing-0"><TR><TH>';
 //		echo '<span style="color:'.Preferences('HEADER').'><B>'._('Widgets').'</B></span><BR />';
 		echo '<H3>'._('Widgets').'</H3></TH></TR>';
 		echo $extra['search'];
@@ -65,7 +65,7 @@ if($_REQUEST['modfunc']=='search')
 		echo '</TABLE><br />';
 
 		echo '<TR><TD>';
-		echo '<TABLE class="postbox cellpadding-0 cellspacing-0"><TR><TH>';
+		echo '<TABLE class="postbox cellspacing-0"><TR><TH>';
 //		echo '<span style="color:'.Preferences('HEADER').'><B>'._('Student Fields').'</B></span><BR />';
 		echo '<H3>'._('Student Fields').'</H3></TH></TR><TR><TD>';
 		Search('student_fields_all',is_array($extra['student_fields'])?$extra['student_fields']:array());

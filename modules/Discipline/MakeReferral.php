@@ -179,7 +179,7 @@ if(UserStudentID() && $_REQUEST['student_id'])
 				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 				$options = explode("\r",$category['SELECT_OPTIONS']);
 				
-				echo '<TABLE class="cellpadding-3"><TR class="st">';
+				echo '<TABLE class="cellpadding-5"><TR class="st">';
 				$i = 0;
 				foreach($options as $option)
 				{
@@ -195,7 +195,7 @@ if(UserStudentID() && $_REQUEST['student_id'])
 				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 				$options = explode("\r",$category['SELECT_OPTIONS']);
 				
-				echo '<TABLE class="cellpadding-3"><TR class="st">';
+				echo '<TABLE class="cellpadding-5"><TR class="st">';
 				$i = 0;
 				foreach($options as $option)
 				{

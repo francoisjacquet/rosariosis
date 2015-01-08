@@ -11,7 +11,7 @@ if(UserStudentID())
 	$value = $custom_RET[1];
 }
 
-echo '<TABLE class="width-100p cellpadding-6">';
+echo '<TABLE class="width-100p">';
 $i = 1;
 $per_row = $category_RET[1]['COLUMNS']?$category_RET[1]['COLUMNS']:'3';
 

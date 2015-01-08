@@ -148,7 +148,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 		<td class="center">
 		<form name="loginform" method="post" action="index.php" class="login">
 		<h4><?php echo ParseMLField(Config('TITLE')); ?></h4>
-		<table class="cellpadding-2 cellspacing-0" style="margin:0 auto;">
+		<table class="cellspacing-0" style="margin:0 auto;">
 
 		<?php // ng - choose language
 		if (sizeof($RosarioLocales) > 1) : ?>

@@ -336,7 +336,7 @@ if(empty($_REQUEST['modfunc']))
 
 	echo '<TABLE><TR class="address st"><TD class="valign-top">';
 //modif Francois: css WPadmin
-//	echo '<TABLE class="cellpadding-0 cellspacing-0">';
+//	echo '<TABLE class="cellspacing-0">';
 	echo '<TABLE class="widefat cellspacing-0">';
 	if(count($addresses_RET) || $_REQUEST['address_id']=='new' || $_REQUEST['address_id']=='0')
 	{
@@ -477,10 +477,12 @@ if(empty($_REQUEST['modfunc']))
 
 		if($_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old')
 		{
-//modif Francois
 			echo '<TABLE class="widefat width-100p cellspacing-0"><TR><TH colspan="3">';
-		echo ($_REQUEST['address_id']=='0'?_('Contacts without an Address'):_('Contacts at this Address')).'</TH></TR>';
+
+			echo ($_REQUEST['address_id']=='0'?_('Contacts without an Address'):_('Contacts at this Address')).'</TH></TR>';
+
 			$contacts_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp WHERE p.PERSON_ID=sjp.PERSON_ID AND sjp.STUDENT_ID='".UserStudentID()."' AND sjp.ADDRESS_ID='".$_REQUEST['address_id']."' ORDER BY sjp.STUDENT_RELATION"));
+
 			$i = 1;
 			if(count($contacts_RET))
 			{
@@ -489,11 +491,6 @@ if(empty($_REQUEST['modfunc']))
 					$THIS_RET = $contact;
 					if($contact['PERSON_ID']==$_REQUEST['person_id'])
 						$this_contact = $contact;
-					//if($i!=count($contacts_RET))
-					//	$style = ' style="border-color: #BBBBBB; border: 1; border-style: none none dashed none;"';
-					//else
-					//	$style = ' style="border-color: #BBBBBB; border: 1; border-style: dashed none none none;"';
-					$style .= ' ';
 
 					$i++;
 					if(AllowEdit())
@@ -501,9 +498,9 @@ if(empty($_REQUEST['modfunc']))
 					else
 						$remove_button = '';
 					if($_REQUEST['person_id']==$contact['PERSON_ID'])
-						echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.$remove_button.'</TD><TD style="color:white;" '.$style.'>';
+						echo '<TR class="highlight"><TD style="text-align:right;">'.$remove_button.'</TD><TD style="color:white;">';
 					else
-						echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.$remove_button.'</TD><TD '.$style.'>';
+						echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right;">'.$remove_button.'</TD><TD>';
 
 					$images = '';
 
@@ -533,9 +530,10 @@ if(empty($_REQUEST['modfunc']))
 					if($contact['EMERGENCY']=='Y')
 						$images .= ' <IMG SRC="assets/emergency_button.png" height="24">';
 
-					echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><TABLE class="cellspacing-0"><TR><TD>'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<BR /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></TD><TD>'.$images.'</TD></TR></TABLE></A>';
-					echo '</TD>';
-					echo '<TD'.$style.' style="text-align:right; vertical-align: middle;"> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><IMG SRC="assets/arrow_right.gif"></a></TD>';
+					echo '<A style="display: inline-block;" href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'">'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<BR /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></A>';
+					echo '<span style="float:right">'.$images.'</span></TD>';
+
+					echo '<TD style="text-align:right; vertical-align: middle;"> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><IMG SRC="assets/arrow_right.gif"></a></TD>';
 					echo '</TR>';
 				}
 			}
@@ -666,16 +664,16 @@ if(empty($_REQUEST['modfunc']))
 					echo '","person_'.$this_contact['PERSON_ID'].'",true);\'><span class="underline-dots">'.$this_contact['FIRST_NAME'].' '.$this_contact['MIDDLE_NAME'].' '.$this_contact['LAST_NAME'].'</span><BR /><span class="legend-gray">'._('Name').'</span></div></DIV></TD></TR>';
 					echo '<TR><TD>'._makeAutoSelectInputX($this_contact['STUDENT_RELATION'],'STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',_('Relation'),$relation_options).'</TD>';
 					//echo '<TR><TD><TABLE><TR><TD><IMG SRC=assets/gavel_button.gif></TD><TD>'.CheckboxInput($this_contact['CUSTODY'],'values[STUDENTS_JOIN_PEOPLE][CUSTODY]','Custody','','','<IMG SRC=assets/check_button.png width=15>','<IMG SRC=assets/x_button.png width=15>').'</TD><TD><IMG SRC=assets/emergency_button.gif></TD><TD>'.CheckboxInput($this_contact['EMERGENCY'],'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]','Emergency','',false,'<IMG SRC=assets/check_button.png width=15>','<IMG SRC=assets/x_button.png width=15>').'</TD></TR></TABLE></TD></TR>';
-					echo '<TR><TD><TABLE class="cellspacing-0"><TR><TD>'.CheckboxInput($this_contact['CUSTODY'],'values[STUDENTS_JOIN_PEOPLE][CUSTODY]','','CHECKED',$new,'<IMG SRC="assets/check_button.png" height="15" />','<IMG SRC="assets/x_button.png" height="15" />').'</TD><TD><IMG SRC="assets/gavel_button.png" height="24" /></TD><TD>'._('Custody').'</TD></TR>';
+					echo '<TR><TD style="padding:0"><TABLE class="width-100p cellspacing-0"><TR><TD>'.CheckboxInput($this_contact['CUSTODY'],'values[STUDENTS_JOIN_PEOPLE][CUSTODY]','','CHECKED',$new,'<IMG SRC="assets/check_button.png" height="15" />','<IMG SRC="assets/x_button.png" height="15" />').'</TD><TD><IMG SRC="assets/gavel_button.png" height="24" /></TD><TD>'._('Custody').'</TD></TR>';
 					echo '<TR><TD>'.CheckboxInput($this_contact['EMERGENCY'],'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]','','CHECKED',$new,'<IMG SRC="assets/check_button.png" height="15" />','<IMG SRC="assets/x_button.png" height="15" />').'</TD><TD><IMG SRC="assets/emergency_button.png" height="24" /></TD><TD>'._('Emergency').'</TD></TR></TABLE></TD></TR>';
 
 					$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
 					if($info_apd)
 						$info_options = _makeAutoSelect('TITLE','PEOPLE_JOIN_CONTACTS',$info_RET,array());
 
-					echo '<TR><TD>';
+					echo '<TR><TD style="padding:0">';
 
-					echo '<TABLE class="cellpadding-3 cellspacing-0">';
+					echo '<TABLE class="width-100p cellspacing-0">';
 					if(!$info_apd)
 					{
 //modif Francois:
@@ -776,10 +774,10 @@ if(empty($_REQUEST['modfunc']))
 				}
 				else
 				{
-					echo '<TR><TD><TABLE class="cellpadding-0 cellspacing-0"><TR><TD>'._makePeopleInput('','FIRST_NAME','<span style="color:red">'._('First Name').'</span>').'</TD><TD>'._makePeopleInput('','MIDDLE_NAME',_('Middle Name')).'</TD><TD>'._makePeopleInput('','LAST_NAME','<span style="color:red">'._('Last Name').'</span>').'</TD></TR></TABLE></TD></TR>';
+					echo '<TR><TD><TABLE class="cellspacing-0"><TR><TD>'._makePeopleInput('','FIRST_NAME','<span style="color:red">'._('First Name').'</span>').'</TD><TD>'._makePeopleInput('','MIDDLE_NAME',_('Middle Name')).'</TD><TD>'._makePeopleInput('','LAST_NAME','<span style="color:red">'._('Last Name').'</span>').'</TD></TR></TABLE></TD></TR>';
 					echo '<TR><TD>'.SelectInput('','values[STUDENTS_JOIN_PEOPLE][STUDENT_RELATION]',_('Relation'),$relation_options,_('N/A')).'</TD></TR>';
 //modif Francois: add <label> on checkbox
-					echo '<TR><TD><TABLE class="cellpadding-0 cellspacing-0"><TR><TD><IMG SRC="assets/gavel_button.png" height="24" /></TD><TD><label><INPUT type="checkbox" name="values[STUDENTS_JOIN_PEOPLE][CUSTODY]" value="Y"><BR /><span class="legend-gray"> '._('Custody').'</span></label></TD><TD><IMG SRC="assets/emergency_button.png" height="24" /></TD><TD><label><INPUT type="checkbox" name="values[STUDENTS_JOIN_PEOPLE][EMERGENCY]" value="Y"><BR /><span class="legend-gray"> '._('Emergency').'</span></label></TD></TR></TABLE></TD></TR>';
+					echo '<TR><TD><TABLE class="cellspacing-0"><TR><TD><IMG SRC="assets/gavel_button.png" height="24" /></TD><TD><label><INPUT type="checkbox" name="values[STUDENTS_JOIN_PEOPLE][CUSTODY]" value="Y"><BR /><span class="legend-gray"> '._('Custody').'</span></label></TD><TD><IMG SRC="assets/emergency_button.png" height="24" /></TD><TD><label><INPUT type="checkbox" name="values[STUDENTS_JOIN_PEOPLE][EMERGENCY]" value="Y"><BR /><span class="legend-gray"> '._('Emergency').'</span></label></TD></TR></TABLE></TD></TR>';
 					echo '</TABLE>';
 					echo '</FIELDSET>';
 					echo '</TD></TR>';

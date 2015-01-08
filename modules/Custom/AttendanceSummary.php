@@ -59,7 +59,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			echo '<TR><TD class="center">'.$student['FULL_NAME'].'</TD><TD class="center">'.$student['STUDENT_ID'].'</TD><TD class="center">'.$school_RET[1]['SCHOOL_NUMBER'].' / '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</TD></TR>';
 
 
-			echo '<TR><TD colspan="3"><span class="sizep1"><B>'._('Demographics').'</B></span><TABLE style="width:98%; margin:0 auto;" class="cellpadding-0 cellspacing-0">';
+			echo '<TR><TD colspan="3"><span class="sizep1"><B>'._('Demographics').'</B></span><TABLE style="width:98%; margin:0 auto;" class="cellspacing-0">';
 			echo '<TR>';
 			foreach($custom_RET as $id=>$custom)
 				echo '<TD style="text-align:right">'.ParseMLField($custom_RET[$id][1]['TITLE']).':&nbsp;</TD><TD>'.$student['CUSTOM_'.$id].'</TD>';
@@ -68,7 +68,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			echo '</TABLE></TD></TR>';
 
 
-			echo '<TR><TD colspan="3"><span class="sizep1"><B>'._('Attendance').'</B></span><TABLE style="width:98%; border:solid 1px; margin:0 auto;" class="cellpadding-0 cellspacing-0">';
+			echo '<TR><TD colspan="3"><span class="sizep1"><B>'._('Attendance').'</B></span><TABLE style="width:98%; border:solid 1px; margin:0 auto;" class="cellspacing-0">';
 
 			echo '<TR class="center"><TD colspan="32"></TD><TD colspan="2"><B>'._('MTD').'</B></TD></TR>';
             /* TRANSLATORS: Abreviation for month */

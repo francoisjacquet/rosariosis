@@ -138,7 +138,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 		$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&menu_id='.$_REQUEST['menu_id'],
 					'variables'=>array('id'=>'SALE_ID'));
 //modif Francois: css WPadmin
-//		$link['add']['html'] = array('DESCRIPTION'=>'<TABLE class="cellpadding-0 cellspacing-0"><TR><TD>'.SelectInput('','item_sn','',$items).'</TD></TR></TABLE>','ICON'=>'<TABLE class="cellpadding-0 cellspacing-0"><TR><TD><INPUT type=submit value='._('Add').'></TD></TR></TABLE>','remove'=>button('add'));
+//		$link['add']['html'] = array('DESCRIPTION'=>'<TABLE class="cellspacing-0"><TR><TD>'.SelectInput('','item_sn','',$items).'</TD></TR></TABLE>','ICON'=>'<TABLE class="cellspacing-0"><TR><TD><INPUT type=submit value='._('Add').'></TD></TR></TABLE>','remove'=>button('add'));
 		$link['add']['html'] = array('DESCRIPTION'=>SelectInput('','item_sn','',$items),'ICON'=>SubmitButton(_('Add')),'PRICE'=>'&nbsp;','remove'=>button('add'));
 		$columns = array('DESCRIPTION'=>_('Item'),'ICON'=>_('Icon'),'PRICE'=>_('Price'));
 

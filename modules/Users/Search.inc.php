@@ -16,37 +16,50 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 				$_SESSION['Back_PHP_SELF'] = 'staff';
 				unset($_SESSION['List_PHP_SELF']);
 			}
-			echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
-			echo '<BR />';
-			PopTable('header',$extra['search_title']?$extra['search_title']:_('Find a User'));
-			echo '<FORM name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="POST">';
-			echo '<TABLE>';
 
-			echo '<TR class="valign-top"><TD>';
+			echo '<BR />';
+
+			PopTable('header',$extra['search_title']?$extra['search_title']:_('Find a User'));
+
+			echo '<FORM name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="POST">';
+
+			echo '<TABLE><TR class="valign-top"><TD>';
+
 //modif Francois: css WPadmin
-			echo '<TABLE class="width-100p" id="general_table">';
-			echo '<TR><TD style="text-align:right;"><label for="last">'._('Last Name').'</label></TD><TD><INPUT type="text" name="last" id="last" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right;"><label for="first">'._('First Name').'</label></TD><TD><INPUT type="text" name="first" id="first" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right;"><label for="usrid">'._('User ID').'</label></TD><TD><input type="text" name="usrid" id="usrid" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right;"><label for="username">'._('Username').'</label></TD><TD><INPUT type="text" name="username" id="username" size="30"></TD></TR>';
+			echo '<TABLE class="width-100p col1-align-right" id="general_table">';
+			echo '<TR><TD><label for="last">'._('Last Name').'</label></TD><TD><INPUT type="text" name="last" id="last" size="30"></TD></TR>';
+			echo '<TR><TD><label for="first">'._('First Name').'</label></TD><TD><INPUT type="text" name="first" id="first" size="30"></TD></TR>';
+			echo '<TR><TD><label for="usrid">'._('User ID').'</label></TD><TD><input type="text" name="usrid" id="usrid" size="30"></TD></TR>';
+			echo '<TR><TD><label for="username">'._('Username').'</label></TD><TD><INPUT type="text" name="username" id="username" size="30"></TD></TR>';
+
 			if(User('PROFILE')=='admin')
 				$options = array(''=>_('N/A'),'admin'=>_('Administrator'),'teacher'=>_('Teacher'),'parent'=>_('Parent'),'none'=>_('No Access'));
 			else
 				$options = array(''=>_('N/A'),'teacher'=>_('Teacher'),'parent'=>_('Parent'));
+
 			if($extra['profile'])
 				$options = array($extra['profile']=>$options[$extra['profile']]);
+
 			echo '<TR><TD style="text-align:right;"><label for="profile">'._('Profile').'</label></TD><TD><SELECT name="profile" id="profile">';
+
 			foreach($options as $key=>$val)
 				echo '<OPTION value="'.$key.'">'.$val;
+
 			echo '</SELECT></TD></TR>';
+
 			if(!isset($extra))
 				$extra = array();
+
 			StaffWidgets('user',$extra);
+
 			Search('staff_fields',is_array($extra['staff_fields'])?$extra['staff_fields']:array());
-			echo '</TABLE>';
-			echo '</TD><TR><TD class="center">';
+
+
+			echo '</TABLE></TD><TR><TD class="center">';
+
 			if($extra['search_second_col'])
 				echo $extra['search_second_col'];
+
 			if(User('PROFILE')=='admin')
 			{
 //modif Francois: add <label> on checkbox
@@ -54,51 +67,59 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 				if (SchoolInfo('SCHOOLS_NB') > 1)
 					echo '<label><INPUT type="checkbox" name="_search_all_schools" value="Y"'.(Preferences('DEFAULT_ALL_SCHOOLS')=='Y'?' checked':'').'>&nbsp;'._('Search All Schools').'</label><BR />';
 			}
-			else
-				echo '<label><INPUT type="checkbox" name="include_inactive" value="Y"> '._('Include Parents of Inactive Students').'</label><BR />';
-			echo '<BR />';
-			echo Buttons(_('Submit'),_('Reset'));
-			echo '</TD></TR><TR><TD><TABLE>';
 
-			if($extra['search'])
-				echo $extra['search'];
-			if($extra['extra_search'])
-				echo $extra['extra_search'];
-			if($extra['second_col'])
-				echo $extra['second_col'];
+			echo '<label><INPUT type="checkbox" name="include_inactive" value="Y"> '._('Include Parents of Inactive Students').'</label><BR /><BR />';
+
+			echo Buttons(_('Submit'),_('Reset'));
+
+			echo '</TD></TR>';
+
+			if ($extra['search'] || $extra['extra_search'] || $extra['second_col'])
+			{
+				echo '<TR><TD><TABLE class="widefat width-100p cellspacing-0 col1-align-right">';
+
+				if($extra['search'])
+					echo $extra['search'];
+				if($extra['extra_search'])
+					echo $extra['extra_search'];
+				if($extra['second_col'])
+					echo $extra['second_col'];
+
+				echo '</TABLE></TD></TR>';
+			}
 				
-			echo '</TABLE></TD></TR><TR class="valign-top"><TD><TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD>';
+			echo '<TR class="valign-top"><TD>';
+
 			if($_REQUEST['advanced']=='Y')
 			{
 				$extra['search'] = '';
 				StaffWidgets('all',$extra);
+
 				if ($extra['search'])
 				{
-					echo '<TABLE class="postbox cellpadding-0 cellspacing-0"><TR><TH>';
-					echo '<H3>'._('Widgets').'</H3></TH></TR>';
+					echo '<TABLE class="postbox cellspacing-0"><THEAD><TR><TH>';
+					echo '<H3>'._('Widgets').'</H3></TH></TR></THEAD><TBODY>';
 					echo $extra['search'];
-					echo '</TABLE><br />';
+					echo '</TBODY></TABLE><br />';
 				}
 
-				echo '<TABLE class="postbox cellpadding-0 cellspacing-0"><TR><TH>';
-				echo '<H3>'._('User Fields').'</H3></TH></TR><TR><TD>';
+				echo '<TABLE class="postbox cellspacing-0"><THEAD><TR><TH>';
+				echo '<H3>'._('User Fields').'</H3></TH></TR></THEAD><TBODY><TR><TD>';
 				Search('staff_fields_all',is_array($extra['staff_fields'])?$extra['staff_fields']:array());
 				echo '</TD></TR>';
-				echo '</TABLE>';
-				
+				echo '</TBODY></TABLE>';
+
 				echo '<A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'N')).'">'._('Basic Search').'</A>';
 			}
 			else
-				echo '<TR><TD><BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'Y')).'">'._('Advanced Search').'</A>';
-			echo '</TD></TR></TABLE></TD>';
-			echo '</TR>';
+				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'Y')).'">'._('Advanced Search').'</A>';
 
-			echo '</TABLE>';
-			echo '</FORM>';
+			echo '</TD></TR></TABLE></FORM>';
+
 			// set focus to last name text box
-			echo '<script><!--
-				document.search.last.focus();
-				--></script>';
+			// update Bottom.php
+			echo '<script> document.search.last.focus(); var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+
 			PopTable('footer');
 		break;
 

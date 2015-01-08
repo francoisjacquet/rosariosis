@@ -162,7 +162,7 @@ if($addresses[1]['COUNT']!=0)
 	echo '<BR /><BR /><IMG SRC="assets/check_button.png" class="alignImg" /><b>'._('Your child has been registered.').'</b>';
 echo '<BR /><BR /><TABLE><TR><TD class="valign-top">';
 echo '<B>'._('Information about you').':</B><BR /><BR />';
-echo '<TABLE class="cellpadding-3"><TR><TD>';
+echo '<TABLE><TR><TD>';
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST" onsubmit=\'for(i=0;i<document.forms[0].elements.length;i++){if(document.forms[0].elements[i].style.color=="rgb(187, 187, 187)" || document.forms[0].elements[i].style.color=="#bbbbbb") document.forms[0].elements[i].value="";}\'>';
 echo _makeInput('values[PEOPLE][1][FIRST_NAME]',_('First Name'));
 echo _makeInput('values[PEOPLE][1][LAST_NAME]',_('Last Name'));

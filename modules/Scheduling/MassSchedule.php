@@ -91,7 +91,7 @@ if(empty($_REQUEST['modfunc']))
 		DrawHeader('',SubmitButton(_('Add Course to Selected Students')));
 
 //modif Francois: css WPadmin
-		echo '<BR /><TABLE class="postbox cellpadding-0 cellspacing-0" style="margin:0 auto;"><TR><TH><H3>'._('Course to Add').'</H3></TH></TR><TR><TD><TABLE style="border-collapse:separate; border-spacing:4px;"><TR><TD colspan="2"><DIV id=course_div>';
+		echo '<BR /><TABLE class="postbox cellspacing-0" style="margin:0 auto;"><TR><TH><H3>'._('Course to Add').'</H3></TH></TR><TR><TD><TABLE style="border-collapse:separate; border-spacing:4px;"><TR><TD colspan="2"><DIV id=course_div>';
 		if($_SESSION['MassSchedule.php'])
 		{
 			$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassSchedule.php']['course_id']."'"));

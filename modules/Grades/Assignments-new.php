@@ -353,7 +353,7 @@ function _makeColorInput($value,$name)
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		foreach($colors as $color)
 		{
-			$color_select[$color] = array('<TABLE class="cellpadding-0 cellspacing-0"><TR><TD style="width:100%; background-color:'.$color.'">&nbsp;</TD></TR></TABLE>','<TABLE class="cellpadding-1 cellspacing-0"><TR><TD style="background-color:'.$color.'; width:30px">&nbsp;</TD></TR></TABLE>');
+			$color_select[$color] = array('<TABLE class="cellspacing-0"><TR><TD style="width:100%; background-color:'.$color.'">&nbsp;</TD></TR></TABLE>','<TABLE class="cellspacing-0"><TR><TD style="background-color:'.$color.'; width:30px">&nbsp;</TD></TR></TABLE>');
 		}
 	}
 	return RadioInput($value,"values[$id][COLOR]",'',$color_select);

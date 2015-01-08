@@ -245,7 +245,7 @@ if(isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)),SubmitButton(_('Update')));
 
 	$headerr = '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&table='.$_REQUEST['table'].'">'._('Student List').'</A>';
-	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD style="text-align:left; background-color: #fff">'.$headerl.'</TD><TD style="text-align:right; background-color: #fff">'.$headerr.'</TD></TR></TABLE>';
+	echo '<TABLE class="width-100p cellspacing-0"><TR><TD style="text-align:left; background-color: #fff">'.$headerl.'</TD><TD style="text-align:right; background-color: #fff">'.$headerr.'</TD></TR></TABLE>';
 
 	ListOutput($schedule_RET,$columns,'Course','Courses');
 	echo '</FORM>';
@@ -352,7 +352,7 @@ else
 	if(UserStudentID())
 		$current_student_link = '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&student_id='.UserStudentID().'&table='.$_REQUEST['table'].'">'._('Current Student').'</A></TD><TD>';
 	$headerr = '<TABLE><TR><TD>'.$current_student_link.button('add','','"#" onclick=\'javascript:addHTML("'.str_replace('"','\"',_makeCodeSearch()).'","code_pulldowns"); return false;\'').'</TD><TD><DIV id=code_pulldowns>'.$code_pulldowns.'</DIV></TD></TR></TABLE>';
-	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0"><TR><TD style="text-align:left; background-color: #fff">'.$headerl.'</TD><TD style="text-align:right; background-color: #fff">'.$headerr.'</TD></TR></TABLE>';
+	echo '<TABLE class="width-100p cellspacing-0"><TR><TD style="text-align:left; background-color: #fff">'.$headerl.'</TD><TD style="text-align:right; background-color: #fff">'.$headerr.'</TD></TR></TABLE>';
 
 	$_REQUEST['search_modfunc'] = 'list';
 	Search('student_id',$extra);

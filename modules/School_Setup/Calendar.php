@@ -544,7 +544,7 @@ if(empty($_REQUEST['modfunc']))
 
 		if(count($events_RET[$date]))
 		{
-			echo '<TABLE class="cellpadding-0" style="border-collapse:separate; border-spacing:2px;">';
+			echo '<TABLE style="border-collapse:separate; border-spacing:2px;">';
 			//modif Francois: display event link only if description or if admin
 			foreach($events_RET[$date] as $event)
 				echo '<TR class="center"><TD style="width:1px; background-color:#000;"></TD><TD>'.(AllowEdit() || $event['DESCRIPTION'] ? '<A HREF="#" onclick=\'javascript:window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&event_id='.$event['ID'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'","blank","width=500,height=400"); return false;\'>'.($event['TITLE']?$event['TITLE']:'***').'</A>' : ($event['TITLE']?$event['TITLE']:'***')).'</TD></TR>';
@@ -557,7 +557,7 @@ if(empty($_REQUEST['modfunc']))
 		}
 		elseif(count($assignments_RET[$date]))
 		{
-			echo '<TABLE class="cellpadding-0" style="border-collapse:separate; border-spacing:2px;">';
+			echo '<TABLE style="border-collapse:separate; border-spacing:2px;">';
 			foreach($assignments_RET[$date] as $event)
 				echo '<TR class="center"><TD style="width:1px; background-color:'.($event['ASSIGNED']=='Y'?'#00FF00':'#FF0000').'"></TD><TD>'.'<A HREF="#" onclick=\'javascript:window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&assignment_id='.$event['ID'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'","blank","width=500,height=400"); return false;\'>'.$event['TITLE'].'</A></TD></TR>';
 			echo '</TABLE>';

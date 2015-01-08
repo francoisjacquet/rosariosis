@@ -76,7 +76,7 @@ if($_REQUEST['submit']['print'])
 	$skip = date("w",$time);
 
 	echo '<!-- MEDIA TOP 1in --><P class="center">';
-	echo '<TABLE style="background-color: #fff;" class="cellpadding-3 width-100p">'."\n";
+	echo '<TABLE style="background-color: #fff;" class="width-100p">'."\n";
 	if($_REQUEST['_ROSARIO_PDF'])
 		if(is_file('assets/dailymenu'.UserSchool().'.jpg'))
 		{
@@ -86,7 +86,7 @@ if($_REQUEST['submit']['print'])
 			echo '<TR class="center"><TD colspan="3"><span style="color:black" class="sizep2"><b>'.SchoolInfo('TITLE').'</b></span></TD></TR>'."\n";
 //modif Francois: display locale with strftime()
 	echo '<TR class="center"><TD>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD><TD><span style="color:black" class="sizep2"><b>'.ProperDate(date('Y.m.d',mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']))).'</b></span></TD><TD>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD></TR></TABLE>'."\n";
-	echo '<TABLE style="border: solid 2px; background-color: #fff;" class="cellpadding-3" id="calendar"><THEAD><TR style="text-align:center; background-color:#808080; color:white;">'."\n";
+	echo '<TABLE style="border: solid 2px; background-color: #fff;" id="calendar"><THEAD><TR style="text-align:center; background-color:#808080; color:white;">'."\n";
 	echo '<TH>'.mb_substr(_('Sunday'),0,3).'<span>'.mb_substr(_('Sunday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Monday'),0,3).'<span>'.mb_substr(_('Monday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Tuesday'),0,3).'<span>'.mb_substr(_('Tuesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Wednesday'),0,3).'<span>'.mb_substr(_('Wednesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Thursday'),0,3).'<span>'.mb_substr(_('Thursday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Friday'),0,3).'<span>'.mb_substr(_('Friday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Saturday'),0,3).'<span>'.mb_substr(_('Saturday'),3).'</span>'.'</TH>'."\n";
 	echo '</TR></THEAD><TBODY>';
 

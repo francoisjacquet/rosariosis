@@ -45,7 +45,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$skipRET[-$i] = array('LAST_NAME'=>' ');
 
 			$handle = PDFstart();
-			echo '<table style="height: 100%" class="width-100p cellspacing-0 cellpadding-0">';
+			echo '<table style="height: 100%" class="width-100p cellspacing-0">';
 
 			$cols = 0;
 			$rows = 0;
@@ -80,7 +80,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				{
 					echo '</table>';
 					echo '<div style="page-break-after: always;"></div>';
-					echo '<table style="height: 100%" class="width-100p cellspacing-0 cellpadding-0">';
+					echo '<table style="height: 100%" class="width-100p cellspacing-0">';
 					$rows = 0;
 				}
 			}

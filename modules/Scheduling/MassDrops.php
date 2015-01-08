@@ -75,7 +75,7 @@ if($_REQUEST['modfunc']!='choose_course')
 		DrawHeader('',SubmitButton(_('Drop Course for Selected Students')));
 
 //modif Francois: css WPadmin
-		echo '<BR /><TABLE class="postbox cellpadding-0 cellspacing-0" style="margin:0 auto;"><TR><TH><H3>'._('Course to Drop').'</H3></TH></TR><TR><TD><TABLE style="border-collapse:separate; border-spacing:4px;"><TR><TD colspan="2"><DIV id=course_div>';
+		echo '<BR /><TABLE class="postbox cellspacing-0" style="margin:0 auto;"><TR><TH><H3>'._('Course to Drop').'</H3></TH></TR><TR><TD><TABLE style="border-collapse:separate; border-spacing:4px;"><TR><TD colspan="2"><DIV id=course_div>';
 		if($_SESSION['MassDrops.php'])
 		{
 			$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassDrops.php']['course_id']."'"));

@@ -195,7 +195,7 @@ if(UserStudentID())
 
 //modif Francois: add translation
 //modif Francois: css WPadmin
-		echo '<table class="postbox cellpadding-0 cellspacing-0"><tr><td><h3>'.$displayname.'</h3></td></tr><tr><td><table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">'._('Marking Period Statistics').'</td></tr><tr><td>'._('GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['weighted_gpa']).'</td><td>'._('Unweighted').": ".sprintf('%0.3f',$gmp[$mp_id]['unweighted_gpa']).'</td></tr>';
+		echo '<table class="postbox cellspacing-0"><tr><td><h3>'.$displayname.'</h3></td></tr><tr><td><table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">'._('Marking Period Statistics').'</td></tr><tr><td>'._('GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['weighted_gpa']).'</td><td>'._('Unweighted').": ".sprintf('%0.3f',$gmp[$mp_id]['unweighted_gpa']).'</td></tr>';
 	    echo '<tr><td>'._('Class Rank GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_weighted']).'</td><td>'._('Unweighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_unweighted']).'</td></tr></table></td></tr></table><BR />';
             
             

@@ -9,20 +9,17 @@ function PopTable($action,$title='Search',$table_att='')
 	if($action=='header')
 	{
 //modif Francois: css WPadmin
-		echo '<TABLE class="postbox cellspacing-0 cellpadding-0" '.$table_att.'>';
-		echo '<TR><TD class="center">';				
+		echo '<TABLE class="postbox cellspacing-0" '.$table_att.'>';
+		echo '<THEAD><TR><TH class="center">';
 		if(is_array($title))
 			echo WrapTabs($title,$_ROSARIO['selected_tab']);
 		else
 			echo DrawTab($title);
-		echo '</TD></TR>
-		<TR><TD class="popTable">';
+		echo '</TH></TR></THEAD><TBODY><TR><TD class="popTable">';
 	}
 	elseif($action=='footer')
 	{
-		echo '</TD>
-		</TR>
-		</TABLE>';
+		echo '</TD></TR></TBODY></TABLE>';
 	}
 }
 ?>

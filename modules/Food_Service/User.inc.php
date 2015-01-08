@@ -52,10 +52,10 @@ if(!$_REQUEST['modfunc'] && UserStaffID())
 	echo '</TD></TR></TABLE>';
 	echo '<HR>';
 
-	echo '<TABLE class="width-100p cellspacing-0 cellpadding-0">';
+	echo '<TABLE class="width-100p cellspacing-0">';
 	echo '<TR><TD class="valign-top">';
 
-	echo '<TABLE class="width-100p cellpadding-6">';
+	echo '<TABLE class="width-100p">';
 	echo '<TR>';
 	$options = array('Inactive'=>_('Inactive'),'Disabled'=>_('Disabled'),'Closed'=>_('Closed'));
 	echo '<TD>'.($staff['ACCOUNT_ID']?SelectInput($staff['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')):NoInput('-',_('Status'))).'</TD>';

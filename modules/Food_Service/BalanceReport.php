@@ -26,7 +26,7 @@ else
 	$tabcolor_s = Preferences('HEADER'); $textcolor_s = '#FFFFFF';
 	$tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
 }
-$header = '<TABLE class="cellpadding-0 cellspacing-0" style="height:14px;"><TR>';
+$header = '<TABLE class="cellspacing-0" style="height:14px;"><TR>';
 //modif Francois: remove DrawTab params
 $header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Students'),'Modules.php?modname='.$_REQUEST['modname'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'&type=student').'</TD>';
 $header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Users'),'Modules.php?modname='.$_REQUEST['modname'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'&type=staff').'</TD>';

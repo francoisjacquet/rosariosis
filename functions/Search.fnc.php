@@ -71,27 +71,31 @@ function Search($type,$extra=null)
 		break;
 
 		case 'general_info':
-			echo '<TR><TD style="text-align:right;"><label for="last">'._('Last Name').'</label></TD><TD><input type="text" name="last" id="last" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right;"><label for="first">'._('First Name').'</label></TD><TD><input type="text" name="first" id="first" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right;"><label for="stuid">'.sprintf(_('%s ID'),Config('NAME')).'</label></TD><TD><input type="text" name="stuid" id="stuid" size="30"></TD></TR>';
-			echo '<TR><TD style="text-align:right;"><label for="addr">'._('Address').'</label></TD><TD><input type="text" name="addr" id="addr" size="30"></TD></TR>';
+			echo '<TR><TD><label for="last">'._('Last Name').'</label></TD><TD><input type="text" name="last" id="last" size="30"></TD></TR>';
+			echo '<TR><TD><label for="first">'._('First Name').'</label></TD><TD><input type="text" name="first" id="first" size="30"></TD></TR>';
+			echo '<TR><TD><label for="stuid">'.sprintf(_('%s ID'),Config('NAME')).'</label></TD><TD><input type="text" name="stuid" id="stuid" size="30"></TD></TR>';
+			echo '<TR><TD><label for="addr">'._('Address').'</label></TD><TD><input type="text" name="addr" id="addr" size="30"></TD></TR>';
 
 			$list = DBGet(DBQuery("SELECT ID,TITLE,SHORT_NAME FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 			if($_REQUEST['advanced']=='Y' || is_array($extra))
 			{
 //modif Francois: add <label> on checkbox
-				echo '<TR><TD style="text-align:right;">'._('Grade Levels').'</TD><TD><label><span class="nobr"><INPUT type="checkbox" name="grades_not" value="Y">&nbsp;'._('Not').'</span></label><BR /><label><span class="nobr"><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades[\');">&nbsp;'._('Check All').'</span></label></TD></TR><TR><TD colspan="2" style="max-width:120px;">';
+				echo '<TR><TD>'._('Grade Levels').'</TD><TD><label><span class="nobr"><INPUT type="checkbox" name="grades_not" value="Y">&nbsp;'._('Not').'</span></label><BR /><label><span class="nobr"><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades[\');">&nbsp;'._('Check All').'</span></label></TD></TR><TR><TD colspan="2" style="max-width:120px;">';
+
 				foreach($list as $value)
 				{
-                    echo '<label><span class="nobr"><INPUT type="checkbox" name="grades['.$value['ID'].']" value="Y"'.(is_array($extra)?($extra[$value['ID']]?' checked':''):($extra==$value['ID']?' checked':'')).'>&nbsp;'.$value['SHORT_NAME'].'</span></label> ';
+					echo '<label><span class="nobr"><INPUT type="checkbox" name="grades['.$value['ID'].']" value="Y"'.(is_array($extra)?($extra[$value['ID']]?' checked':''):($extra==$value['ID']?' checked':'')).'>&nbsp;'.$value['SHORT_NAME'].'</span></label> ';
 				}
+
 				echo '</TD></TR>';
 			}
 			else
 			{
-				echo '<TR><TD style="text-align:right;"><label for="grade">'._('Grade Level').'</label></TD><TD><SELECT name="grade" id="grade"><OPTION value="">'._('Not Specified').'</OPTION>';
+				echo '<TR><TD><label for="grade">'._('Grade Level').'</label></TD><TD><SELECT name="grade" id="grade"><OPTION value="">'._('Not Specified').'</OPTION>';
+
 				foreach($list as $value)
-                    echo '<OPTION value="'.$value['ID'].'"'.($extra==$value['ID']?' SELECTED':'').'>'.$value['TITLE'].'</OPTION>';
+					echo '<OPTION value="'.$value['ID'].'"'.($extra==$value['ID']?' SELECTED':'').'>'.$value['TITLE'].'</OPTION>';
+
 				echo '</SELECT></TD></TR>';
 			}
 		break;
@@ -135,19 +139,20 @@ function Search($type,$extra=null)
 				if($type=='student_fields_all' || $type=='staff_fields_all')
 				{
 //modif Francois: css WPadmin
-					echo '<TR><TD colspan="2"><TABLE style="border-collapse:separate; border-spacing:2px" class="width-100p cellpadding-2"><TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'fields_'.$search_fields_RET[key($search_fields_RET)][1]['ID'].'_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="fields_'.$search_fields_RET[key($search_fields_RET)][1]['ID'].'_table_arrow" height="12"> <B>'.$search_fields_RET[key($search_fields_RET)][1]['CATEGORY_TITLE'].'</B></A><BR />';
-					echo '<TABLE id="fields_'.$search_fields_RET[key($search_fields_RET)][1]['ID'].'_table" style="display:none;" class="widefat width-100p cellspacing-0">';
+					echo '<TR><TD colspan="2"><TABLE style="border-collapse:separate; border-spacing:2px" class="width-100p"><TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'fields_'.$search_fields_RET[key($search_fields_RET)][1]['ID'].'_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="fields_'.$search_fields_RET[key($search_fields_RET)][1]['ID'].'_table_arrow" height="12"> <B>'.$search_fields_RET[key($search_fields_RET)][1]['CATEGORY_TITLE'].'</B></A><BR />';
+
+					echo '<TABLE id="fields_'.$search_fields_RET[key($search_fields_RET)][1]['ID'].'_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
 				}
 
 				if(count($search_fields_RET['text']))
 				{
 					foreach($search_fields_RET['text'] as $column)
-						echo '<TR><TD style="text-align:right;"><label for="cust['.$column['COLUMN_NAME'].']">'.$column['TITLE'].'</label></TD><TD><INPUT type="text" name="cust['.$column['COLUMN_NAME'].']" id="cust['.$column['COLUMN_NAME'].']" size="30"></TD></TR>';
+						echo '<TR><TD><label for="cust['.$column['COLUMN_NAME'].']">'.$column['TITLE'].'</label></TD><TD><INPUT type="text" name="cust['.$column['COLUMN_NAME'].']" id="cust['.$column['COLUMN_NAME'].']" size="30"></TD></TR>';
 				}
 				if(count($search_fields_RET['numeric']))
 				{
 					foreach($search_fields_RET['numeric'] as $column)
-						echo '<TR><TD style="text-align:right;">'.$column['TITLE'].'</TD><TD><span class="sizep2">&ge;</span> <INPUT type="text" name="cust_begin['.$column['COLUMN_NAME'].']" size="3" maxlength="11"> <span class="sizep2">&le;</span> <INPUT type="text" name="cust_end['.$column['COLUMN_NAME'].']" size="3" maxlength="11"> <label>'._('No Value').' <INPUT type="checkbox" name="cust_null['.$column['COLUMN_NAME'].']"></label>&nbsp;</TD></TR>';
+						echo '<TR><TD>'.$column['TITLE'].'</TD><TD><span class="sizep2">&ge;</span> <INPUT type="text" name="cust_begin['.$column['COLUMN_NAME'].']" size="3" maxlength="11"> <span class="sizep2">&le;</span> <INPUT type="text" name="cust_end['.$column['COLUMN_NAME'].']" size="3" maxlength="11"> <label>'._('No Value').' <INPUT type="checkbox" name="cust_null['.$column['COLUMN_NAME'].']"></label>&nbsp;</TD></TR>';
 				}
 				if(count($search_fields_RET['codeds']))
 				{
@@ -156,7 +161,7 @@ function Search($type,$extra=null)
 						$column['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$column['SELECT_OPTIONS']));
 						$options = explode("\r",$column['SELECT_OPTIONS']);
 
-						echo '<TR><TD style="text-align:right;">'.$column['TITLE'].'</TD><TD>';
+						echo '<TR><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 						foreach($options as $option)
 						{
@@ -175,7 +180,7 @@ function Search($type,$extra=null)
 						$column['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$column['SELECT_OPTIONS']));
 						$options = explode("\r",$column['SELECT_OPTIONS']);
 
-						echo '<TR><TD style="text-align:right;">'.$column['TITLE'].'</TD><TD>';
+						echo '<TR><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 						foreach($options as $option)
 						{
@@ -194,7 +199,7 @@ function Search($type,$extra=null)
 						$column['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$column['SELECT_OPTIONS']));
 						$options = explode("\r",$column['SELECT_OPTIONS']);
 
-						echo '<TR><TD style="text-align:right;">'.$column['TITLE'].'</TD><TD>';
+						echo '<TR><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 						foreach($options as $option)
 							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
@@ -214,7 +219,7 @@ function Search($type,$extra=null)
 						else
 							$options_RET = array();
 
-						echo '<TR><TD style="text-align:right;">'.$column['TITLE'].'</TD><TD>';
+						echo '<TR><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 						$options = array();
 						foreach($options_RET as $option)
@@ -253,7 +258,7 @@ function Search($type,$extra=null)
 						else
 							$options_RET = array();
 
-						echo '<TR><TD style="text-align:right;">'.$column['TITLE'].'</TD><TD>';
+						echo '<TR><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 						$options = array();
 						foreach($options_RET as $option)
@@ -269,15 +274,15 @@ function Search($type,$extra=null)
 				if(count($search_fields_RET['date']))
 				{
 					foreach($search_fields_RET['date'] as $column)
-						echo '<TR><TD style="text-align:right;">'.$column['TITLE'].'<BR /><label>'._('No Value').'&nbsp;<INPUT type="checkbox" name="cust_null['.$column['COLUMN_NAME'].']"></label></TD><TD><table class="cellpadding-0 cellspacing-0"<tr><td><span class="sizep2">&ge;</span>&nbsp;</td><td>'.PrepareDate('','_cust_begin['.$column['COLUMN_NAME'].']',true,array('short'=>true)).'</td></tr><tr><td><span class="sizep2">&le;</span>&nbsp;</td><td>'.PrepareDate('','_cust_end['.$column['COLUMN_NAME'].']',true,array('short'=>true)).'</td></tr></table></TD></TR>';
+						echo '<TR><TD>'.$column['TITLE'].'<BR /><label>'._('No Value').'&nbsp;<INPUT type="checkbox" name="cust_null['.$column['COLUMN_NAME'].']"></label></TD><TD><table class="cellspacing-0"<tr><td><span class="sizep2">&ge;</span>&nbsp;</td><td>'.PrepareDate('','_cust_begin['.$column['COLUMN_NAME'].']',true,array('short'=>true)).'</td></tr><tr><td><span class="sizep2">&le;</span>&nbsp;</td><td>'.PrepareDate('','_cust_end['.$column['COLUMN_NAME'].']',true,array('short'=>true)).'</td></tr></table></TD></TR>';
 				}
 				if(count($search_fields_RET['radio']))
 				{
 					echo '<TR><TD colspan="2"><TABLE class="cellspacing-0">';
 
-					echo '<TR><TD style="width:120px;"></TD><TD><TABLE class="cellpadding-0 cellspacing-0"><tr><td style="width:25px;"><b>'._('All').'</b></td><td style="width:30px;"><b>'._('Yes').'</b></td><td style="width:25px;"><b>'._('No').'</b></td></tr></table></TD>';
+					echo '<TR><TD style="width:120px;"></TD><TD><TABLE class="cellspacing-0"><tr><td style="width:25px;"><b>'._('All').'</b></td><td style="width:30px;"><b>'._('Yes').'</b></td><td style="width:25px;"><b>'._('No').'</b></td></tr></table></TD>';
 					if(count($search_fields_RET['radio'])>1)
-						echo '<TD style="width:120px;"></TD><TD><TABLE class="cellpadding-0 cellspacing-0"><tr><td style="width:25px;"><b>'._('All').'</b></td><td style="width:30px;"><b>'._('Yes').'</b></td><td style="width:25px;"><b>'._('No').'</b></td></tr></table></TD>';
+						echo '<TD style="width:120px;"></TD><TD><TABLE class="cellspacing-0"><tr><td style="width:25px;"><b>'._('All').'</b></td><td style="width:30px;"><b>'._('Yes').'</b></td><td style="width:25px;"><b>'._('No').'</b></td></tr></table></TD>';
 					echo '</TR>';
 
 					$side = 0;
@@ -285,8 +290,8 @@ function Search($type,$extra=null)
 					{
 						if(!$side)
 							echo '<TR>';
-						echo '<TD style="text-align:right; width:120px">'.$cust['TITLE'].'</TD><TD>
-						<TABLE class="cellpadding-0 cellspacing-0"><tr><td style="text-align:center; width:25px;">
+						echo '<TD style="width:120px">'.$cust['TITLE'].'</TD><TD>
+						<TABLE class="cellspacing-0"><tr><td style="text-align:center; width:25px;">
 						<input name="cust['.$cust['COLUMN_NAME'].']" type="radio" value="" checked />
 						</td><td style="text-align:center; width:30px;">
 						<input name="cust['.$cust['COLUMN_NAME'].']" type="radio" value="Y" />

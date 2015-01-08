@@ -42,7 +42,7 @@ if($_REQUEST['search_modfunc']=='list')
 	echo '<BR />';
 
 //modif Francois: css WPadmin
-	echo '<TABLE class="postbox cellpadding-6" style="margin:0 auto;"><TR><TD style="text-align:right">'._('Activity').'</TD>';
+	echo '<TABLE class="postbox" style="margin:0 auto;"><TR><TD style="text-align:right">'._('Activity').'</TD>';
 	echo '<TD>';
 	$activities_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	echo '<SELECT name="activity_id"><OPTION value="">'._('N/A').'</OPTION>';

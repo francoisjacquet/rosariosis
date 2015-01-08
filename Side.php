@@ -361,7 +361,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 			?>
 			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo $module_title; ?></A>
 			<DIV id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
-				<TABLE class="width-100p cellspacing-0 cellpadding-0">
+				<TABLE class="width-100p cellspacing-0">
 
 				<?php unset($modcat_menu['default']);
 				

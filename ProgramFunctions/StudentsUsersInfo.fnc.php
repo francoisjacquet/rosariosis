@@ -237,7 +237,7 @@ function _makeMultipleInput($column,$name,$request)
 			$return = '<DIV id="div'.$request.'['.$column.']"><div class="onclick" onclick=\'javascript:addHTML(html'.$request.$column;
 		}
 		
-		$table = '<TABLE class="cellpadding-3">';
+		$table = '<TABLE class="cellpadding-5">';
 		if(count($options)>12)
 		{
 			$table .= '<TR><TD colspan="2">';

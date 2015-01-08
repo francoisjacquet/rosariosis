@@ -147,7 +147,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '&table=SCHOOL_FIELDS" method="POST">';
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p cellpadding-3">';
+		$header .= '<TABLE class="width-100p">';
 		$header .= '<TR class="st">';
  
 //modif Francois: field name required
