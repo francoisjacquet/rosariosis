@@ -144,17 +144,17 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 
 	<TABLE>
 		<tr class="st">
-		<td style="text-align:center"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/logo.png" /></td>
-		<td class="center">
+		<td class="center"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/logo.png" /></td>
+		<td>
 		<form name="loginform" method="post" action="index.php" class="login">
 		<h4><?php echo ParseMLField(Config('TITLE')); ?></h4>
-		<table class="cellspacing-0" style="margin:0 auto;">
+		<table class="cellspacing-0 col1-align-right">
 
 		<?php // ng - choose language
 		if (sizeof($RosarioLocales) > 1) : ?>
 
-			<tr style="text-align:right"><td style="text-align:right"><b><?php echo _('Language'); ?></b></td>
-			<td style="text-align:left;">
+			<tr><td><b><?php echo _('Language'); ?></b></td>
+			<td>
 			<?php foreach ($RosarioLocales as $loc) : ?>
 
 				<A href="<?php echo $_SERVER['PHP_SELF']; ?>?locale=<?php echo $loc; ?>"><IMG src="assets/flags/<?php echo $loc; ?>.png" height="32" /></A>&nbsp;&nbsp;
@@ -164,19 +164,19 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 		<?php endif; ?>
 
 			<tr>
-				<td style="text-align:right"><label for="USERNAME"><b><?php echo _('Username'); ?></b></label></td>
-				<td style="text-align:left;"><input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" tabindex="1" required /></td>
+				<td><label for="USERNAME"><b><?php echo _('Username'); ?></b></label></td>
+				<td><input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" tabindex="1" required /></td>
 			</tr>
 			<tr>
-				<td style="text-align:right"><label for="PASSWORD"><b><?php echo _('Password'); ?></b></label></td>
-				<td style="text-align:left;"><input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" tabindex="2" required /></td>
+				<td><label for="PASSWORD"><b><?php echo _('Password'); ?></b></label></td>
+				<td><input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" tabindex="2" required /></td>
 			</tr>
 		</table>
-		<p><INPUT type="submit" value="<?php echo _('Login'); ?>" class="button-primary" /></p>
+		<p class="center"><INPUT type="submit" value="<?php echo _('Login'); ?>" class="button-primary" /></p>
 
 		<?php if($ShowCreateAccount) : ?>
 
-			<span class="size-1; text-align:center;">[ <A HREF="index.php?modfunc=create_account"><?php echo _('Create Account'); ?></A> ]</span>
+			<span class="center">[ <A HREF="index.php?modfunc=create_account"><?php echo _('Create Account'); ?></A> ]</span>
 		<?php endif; ?>
 
 		</form>
