@@ -83,6 +83,11 @@ else
 				$error[] = 'The value for $RosarioLocales in config.inc.php is not correct.';
 		}
 	}
+
+	//modif Francois: check wkhtmltopdf binary exists
+	if (!empty($wkhtmltopdfPath) && !file_exists($wkhtmltopdfPath))
+		$error[] = 'The value for $wkhtmltopdfPath in config.inc.php is not correct.';
+
 }
 
 echo _ErrorMessage($error,'error');
