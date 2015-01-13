@@ -506,9 +506,9 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		case 'School_Setup/Rollover.php|rollover_checks':
 			//prevent RE roll staff or courses (creates DB incoherence)
 			
-			global $table, $error;
+			global $table, $exists_RET, $error;
 
-			if ($table == 'COURSES' || $table == 'STAFF')
+			if (($table == 'COURSES' && $exists_RET['COURSES'][1]['COUNT']) || ($table == 'STAFF' && $exists_RET['STAFF'][1]['COUNT']))
 				$error[] = 'Moodle: '._('You cannot re-roll Users or Courses');
 
 		break;
