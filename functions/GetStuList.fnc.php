@@ -193,7 +193,7 @@ function GetStuList(&$extra=array())
 			else
 			{
 				$sql .= "s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS FULL_NAME,";
-				$sql .= '(SELECT sch.TITLE FROM SCHOOLS sch WHERE ssm.SCHOOL_ID=sch.ID) AS SCHOOL_TITLE,';
+				$sql .= "(SELECT sch.TITLE FROM SCHOOLS sch WHERE ssm.SCHOOL_ID=sch.ID AND sch.SYEAR='".UserSyear()."') AS SCHOOL_TITLE,";
 				$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID '.$extra['SELECT'];
 
 				if(isset($_REQUEST['include_inactive']) && $_REQUEST['include_inactive']=='Y')
