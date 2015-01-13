@@ -398,23 +398,15 @@ if(empty($_REQUEST['modfunc']))
 
 				echo '</TR>';
 
-				//$address = $relations[key($relations)][1];
-				$style = '';
-				if($i!=count($addresses_RET))
-					$style = ' style="border:1; border-style: none none dashed none;"';
-				elseif($i!=1)
-					$style = ' style="border:1; border-style: dashed none none none;"';
-				$style .= ' ';
-
 				if($address_id==$_REQUEST['address_id'] && $_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='new')
 					$this_address = $address;
 
 				$i++;
 				//echo '<A style="cursor: pointer;">';
 				if($_REQUEST['address_id']==$address['ADDRESS_ID'])
-					echo '<TR class="highlight"><TD style="text-align:right; width: 20px;"'.$style.'>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"',20):'').'</TD><TD style="color:white;" '.$style.'>';
+					echo '<TR class="highlight"><TD style="text-align:right; width: 20px;">'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"',20):'').'</TD><TD style="color:white;">';
 				else
-					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"',20):'').'</TD><TD '.$style.'>';
+					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD style="text-align:right; width: 20px;">'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"',20):'').'</TD><TD>';
 				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<BR />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</A>';
 				echo '</TD>';
 				echo '<TD'.$style.'><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'"><IMG SRC="assets/arrow_right.gif"></A></TD>';
