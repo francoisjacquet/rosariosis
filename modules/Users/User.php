@@ -1,7 +1,6 @@
 <?php
 
 include('ProgramFunctions/FileUpload.fnc.php');
-
 if(User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id'] && $_REQUEST['staff_id']!=User('STAFF_ID') && $_REQUEST['staff_id']!='new')
 {
 	if(User('USERNAME'))
@@ -81,6 +80,21 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			$error[] = _('Please fill in the required fields');
 		}
 
+		//modif Francois: create account
+		//username & password required
+		if (basename($_SERVER['PHP_SELF'])=='index.php')
+			if ((isset($_REQUEST['staff']['USERNAME']) && empty($_REQUEST['staff']['USERNAME'])) || (isset($_REQUEST['staff']['PASSWORD']) && empty($_REQUEST['staff']['PASSWORD'])))
+			{
+				$error[] = _('Please fill in the required fields');
+			}
+
+		//check username unicity
+		$existing_username = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."' AND STAFF_ID!='".UserStaffID()."' UNION SELECT 'exists' FROM STUDENTS WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."'"));
+		if(count($existing_username))
+		{
+			$error[] = _('A user with that username already exists. Choose a different username and try again.');
+		}
+
 		if(UserStaffID() && !isset($error))
 		{
 
@@ -107,16 +121,6 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				DBQuery("INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT) SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT FROM STAFF s,PROFILE_EXCEPTIONS e WHERE s.STAFF_ID='".UserStaffID()."' AND s.PROFILE_ID=e.PROFILE_ID");
 			}
 
-			// CHANGE THE USERNAME
-			if($_REQUEST['staff']['USERNAME'] && $_REQUEST['staff']['USERNAME']!=$profile_RET[1]['USERNAME'])
-			{
-				$existing_staff = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."'"));
-				if(count($existing_staff))
-				{
-					$error[] = _('A user with that username already exists for the current school year. Choose a different username and try again.');
-				}
-			}
-			
 			if (!isset($error))
 			{
 				$sql = "UPDATE STAFF SET ";
@@ -172,12 +176,6 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			elseif($_REQUEST['staff']['PROFILE']=='parent')
 				$_REQUEST['staff']['PROFILE_ID'] = '3';
 
-			$existing_staff = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."'"));
-			if(count($existing_staff))
-			{
-				$error[] = _('A user with that username already exists for the current school year. Choose a different username and try again.');
-			}
-			
 			if (!isset($error))
 			{
 				$staff_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID'.FROM_DUAL));
@@ -244,7 +242,6 @@ Remote IP: %s', $admin_username, User('NAME'), $_SERVER['REMOTE_ADDR']);
 
 					SendEmail($to, $subject, $message);
 				}
-
 			}
 		}
 
@@ -287,8 +284,22 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 		DrawHeader(ProgramTitle());
 		Search('staff_id',$extra);
 }
+//modif Francois: create account
+elseif(!UserStaffID())
+{
+	$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
+	DrawHeader(_('Create User Account'));
+}
+//account created, return to index
 else
-	DrawHeader(_('Create Account'));
+{
+	session_destroy();
+?>
+<script>document.location = 'index.php?account_created=true';</script>
+<?php
+	exit;
+}
+
 	
 if(isset($error))
 	echo ErrorMessage($error);
@@ -314,7 +325,7 @@ if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php'
 	}
 }
 
-if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_SELF'])!='index.php') || !$_REQUEST['staff']['USERNAME']) && $_REQUEST['modfunc']!='delete')
+if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='delete')
 {
 	if($_REQUEST['staff_id']!='new')
 	{
@@ -328,7 +339,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 	elseif(basename($_SERVER['PHP_SELF'])!='index.php')
 		echo '<FORM name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 	else
-		echo '<FORM action="index.php?modfunc=create_account" METHOD="POST">';
+		echo '<FORM action="index.php?create_account=user&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
 
 	if(basename($_SERVER['PHP_SELF'])!='index.php')
 	{
@@ -357,6 +368,11 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
 	else
 		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
+
+	//modif Francois: create account
+	if(basename($_SERVER['PHP_SELF'])=='index.php')
+		$can_use_RET['Users/User.php&category_id=1'] = true;
+
 	$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 	$profile = $profile[1]['PROFILE'];
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ".($profile?mb_strtoupper($profile).'=\'Y\'':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE"));
@@ -365,14 +381,14 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 	{
 		if($can_use_RET['Users/User.php&category_id='.$category['ID']])
 		{
-				if($category['ID']=='1')
-					$include = 'General_Info';
-				elseif($category['ID']=='2')
-					$include = 'Schedule';
-				elseif($category['INCLUDE'])
-					$include = $category['INCLUDE'];
-				else
-					$include = 'Other_Info';
+			if($category['ID']=='1')
+				$include = 'General_Info';
+			elseif($category['ID']=='2')
+				$include = 'Schedule';
+			elseif($category['INCLUDE'])
+				$include = $category['INCLUDE'];
+			else
+				$include = 'Other_Info';
 
 			$tabs[] = array('title'=>$category['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&include='.$include.'&category_id='.$category['ID']);
 		}
@@ -397,6 +413,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && ((basename($_SERVER['PHP_S
 			include('modules/Users/includes/Other_Info.inc.php');
 		}
 	}
+
 	PopTable('footer');
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';

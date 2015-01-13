@@ -68,6 +68,21 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			$error[] = _('Please fill in the required fields');
 		}
 
+		//modif Francois: create account
+		//username & password required
+		if (basename($_SERVER['PHP_SELF'])=='index.php')
+			if ((isset($_REQUEST['students']['USERNAME']) && empty($_REQUEST['students']['USERNAME'])) || (isset($_REQUEST['students']['PASSWORD']) && empty($_REQUEST['students']['PASSWORD'])))
+			{
+				$error[] = _('Please fill in the required fields');
+			}
+
+		//check username unicity
+		$existing_username = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['students']['USERNAME']."' AND SYEAR='".UserSyear()."' UNION SELECT 'exists' FROM STUDENTS WHERE USERNAME='".$_REQUEST['students']['USERNAME']."' AND STUDENT_ID!='".UserStudentID()."'"));
+		if(count($existing_username))
+		{
+			$error[] = _('A user with that username already exists. Choose a different username and try again.');
+		}
+
 		if(UserStudentID() && !isset($error))
 		{
 
@@ -90,9 +105,6 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 							continue;
 						}
 						
-						if($column=='USERNAME' && $value)
-							if(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE USERNAME='".$value."' AND STUDENT_ID<>'".UserStudentID()."'")))
-								$value = '';
 						if(!is_array($value))
 						{
 							//modif Francois: add password encryption
@@ -173,9 +185,6 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 				foreach($_REQUEST['students'] as $column=>$value)
 				{
-					if($column=='USERNAME' && $value)
-						if(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE USERNAME='".$value."'")))
-							$value = '';
 					if(!empty($value) || $value=='0')
 					{
 						//modif Francois: check numeric fields
@@ -261,13 +270,34 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
-if($_REQUEST['student_id']=='new')
+if(basename($_SERVER['PHP_SELF'])!='index.php')
+{
+	if($_REQUEST['student_id']=='new')
+	{
+		$_ROSARIO['HeaderIcon'] = 'modules/Students/icon.png';
+		DrawHeader(_('Add a Student'));
+	}
+	else
+		DrawHeader(ProgramTitle());
+}
+//modif Francois: create account
+elseif(!UserStudentID())
 {
 	$_ROSARIO['HeaderIcon'] = 'modules/Students/icon.png';
-	DrawHeader(_('Add a Student'));
+	DrawHeader(_('Create Student Account'));
 }
+//account created, create empty enrollment & return to index
 else
-	DrawHeader(ProgramTitle());
+{
+	DBQuery("INSERT INTO STUDENT_ENROLLMENT (ID, SYEAR, SCHOOL_ID, STUDENT_ID) values(nextval('STUDENT_ENROLLMENT_SEQ'), '".UserSyear()."', '".$_REQUEST['enrollment']['SCHOOL_ID']."', '".UserStudentID()."')");
+
+	session_destroy();
+?>
+<script>document.location = 'index.php?account_created=true';</script>
+<?php
+	exit;
+}
+
 
 if (isset($error))
 	echo ErrorMessage($error);
@@ -283,9 +313,14 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 			$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
 	else
 		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='0' AND CAN_USE='Y'"),array(),array('MODNAME'));
-//modif Francois: General_Info only for new student
-	 //$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
-	 $categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES WHERE ".($_REQUEST['student_id']!='new'?'TRUE':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE"));
+
+	//modif Francois: create account
+	if(basename($_SERVER['PHP_SELF'])=='index.php')
+		$can_use_RET['Students/Student.php&category_id=1'] = true;
+
+	//modif Francois: General_Info only for new student
+	//$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
+	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES WHERE ".($_REQUEST['student_id']!='new'?'TRUE':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE"));
 
 	if($_REQUEST['modfunc']!='delete' || $_REQUEST['delete_ok']=='1')
 	{
@@ -302,8 +337,11 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 			
 			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 		}
-		else
+		elseif(basename($_SERVER['PHP_SELF'])!='index.php')
 			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
+		//modif Francois: create account
+		else
+			echo '<FORM action="index.php?create_account=student&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
 
 		if($_REQUEST['student_id']!='new')
 			$name = $student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].' - '.$student['STUDENT_ID'];

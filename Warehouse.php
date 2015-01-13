@@ -31,6 +31,22 @@ if(!defined('WAREHOUSE_PHP'))
 		exit;
 	}
 
+	function array_rwalk(&$array, $function)
+	{
+		//modify loop: use for instead of foreach
+		$key = array_keys($array);
+		$size = sizeOf($key);
+		for ($i=0; $i<$size; $i++)
+			if (is_array($array[$key[$i]]))
+				array_rwalk($array[$key[$i]], $function);
+			else
+				$array[$key[$i]] = $function($array[$key[$i]]);
+	}
+
+	array_rwalk($_REQUEST,'DBEscapeString');
+
+	array_rwalk($_REQUEST,'strip_tags');
+
 	// Internationalization
 	if (!empty($_GET['locale'])) 
 		$_SESSION['locale'] = $_GET['locale'];
@@ -140,7 +156,6 @@ if(!defined('WAREHOUSE_PHP'))
 				if ($_ROSARIO['is_popup']) :
 ?>
 <script>if(window == top  && (!window.opener)) window.location.href = "index.php";</script>
-<div id="body" tabindex="0" role="main" class="mod">
 <?php
 				elseif ($_ROSARIO['not_ajax']) :
 ?>
@@ -152,10 +167,12 @@ if(!defined('WAREHOUSE_PHP'))
 	<aside id="menu" class="mod">
 		<?php include('Side.php'); ?>
 	</aside>
-	
-	<div id="body" tabindex="0" role="main" class="mod">	
-<?php 			
+
+<?php
 				endif;
+?>
+<div id="body" tabindex="0" role="main" class="mod">
+<?php
 			break;
 			
 			case 'footer':
@@ -163,13 +180,13 @@ if(!defined('WAREHOUSE_PHP'))
 <BR />
 <script>
 var modname = "<?php echo $_ROSARIO['Program_loaded']; ?>";
-if (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>" || menuCoursePeriod!="<?php echo UserCoursePeriod(); ?>") { 
+if (typeof menuStudentID !== 'undefined' && (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>" || menuCoursePeriod!="<?php echo UserCoursePeriod(); ?>")) { 
 	ajaxLink(menu_link);
 }
-<?php 			if (!empty($_ROSARIO['Program_loaded'])) : ?>
+<?php 				if (!empty($_ROSARIO['Program_loaded'])) : ?>
 else
 	openMenu(modname);
-<?php			endif;
+<?php				endif;
 
 				if (isset($_ROSARIO['PrepareDate'])): 
 					for($i=1;$i<=$_ROSARIO['PrepareDate'];$i++) : ?>
@@ -184,7 +201,7 @@ if (document.getElementById('trigger<?php echo $i; ?>'))
 		singleClick : true
 	});
 <?php				endfor;
-				endif; ?>
+			endif; ?>
 </script>
 <?php
 				$footer_plain = false;

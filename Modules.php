@@ -2,37 +2,10 @@
 error_reporting(E_ALL ^ E_NOTICE);
 include('Warehouse.php');
 
-function array_rwalk(&$array, $function)
-{
-	//modify loop: use for instead of foreach
-	$key = array_keys($array);
-	$size = sizeOf($key);
-	for ($i=0; $i<$size; $i++)
-		if (is_array($array[$key[$i]]))
-			array_rwalk($array[$key[$i]], $function);
-		else
-			$array[$key[$i]] = $function($array[$key[$i]]);
-	
-	/*foreach($array as $key => $value)
-	{
-		if(is_array($value))
-		{
-			array_rwalk($value, $function);
-			$array[$key] = $value;
-		}
-		else
-			$array[$key] = $function($value);
-	}*/
-}
-
-array_rwalk($_REQUEST,'DBEscapeString');
-
 if(isset($_REQUEST['modname']))
 {
 	$modname = $_REQUEST['modname'];
 	
-	array_rwalk($_REQUEST,'strip_tags');
-
 	if(!isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		if(empty($_REQUEST['LO_save']) && (mb_strpos($modname,'misc/')===false || $modname=='misc/Registration.php' || $modname=='misc/Export.php' || $modname=='misc/Portal.php'))

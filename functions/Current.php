@@ -96,7 +96,9 @@ function SetUserStaffID($staff_id)
 
 		case 'student':
 		default:
-			$isHack = true;
+			//modif Francois: create account
+			if (User('PROFILE') || basename($_SERVER['PHP_SELF'])!='index.php')
+				$isHack = true;
 
 		break;
 	}
@@ -179,7 +181,9 @@ function SetUserStudentID($student_id)
 		break;
 
 		default:
-			$isHack = true;
+			//modif Francois: create account
+			if (User('PROFILE') || basename($_SERVER['PHP_SELF'])!='index.php')
+				$isHack = true;
 
 		break;
 	}
