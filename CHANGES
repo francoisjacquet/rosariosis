@@ -1,5 +1,13 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.7.1
+----------------
+- Add widget & hide + remove cellpadding-0/1/2/3/4/6 CSS classes, programwide
+- Add check wkhtmltopdf binary exists in diagnostic.php
+- Remove inline CSS in index.php & Address.inc.php
+- Bugfix SQL error more than one row returned by a subquery used as an expression in GetStuList.fnc.php (Fix #92)
+- Bugfix display Moodle rollover error only if rolled once in Moodle/functions.php
+
 Changes in 2.7
 --------------
 - Remove $RosarioAdmins list in config.inc.php
