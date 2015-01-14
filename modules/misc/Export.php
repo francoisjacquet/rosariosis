@@ -38,11 +38,15 @@ if($_REQUEST['fields']['ADDRESS'] || $_REQUEST['fields']['CITY'] || $_REQUEST['f
 		//}
 	}
 }
-$extra['SELECT'] .= ',ssm.NEXT_SCHOOL,ssm.CALENDAR_ID,ssm.SYEAR,(SELECT sch.SCHOOL_NUMBER FROM SCHOOLS sch WHERE ssm.SCHOOL_ID=sch.ID) AS SCHOOL_NUMBER,s.*';
+
+$extra['SELECT'] .= ",ssm.NEXT_SCHOOL,ssm.CALENDAR_ID,ssm.SYEAR,(SELECT sch.SCHOOL_NUMBER FROM SCHOOLS sch WHERE ssm.SCHOOL_ID=sch.ID AND sch.SYEAR='".UserSyear()."') AS SCHOOL_NUMBER,s.*";
+
 if($_REQUEST['fields']['FIRST_INIT'])
 	$extra['SELECT'] .= ',SUBSTR(s.FIRST_NAME,1,1) AS FIRST_INIT';
+
 if($_REQUEST['fields']['GIVEN_NAME'])
 	$extra['SELECT'] .= ",s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS GIVEN_NAME";
+
 if($_REQUEST['fields']['COMMON_NAME'])
 	$extra['SELECT'] .= ",s.LAST_NAME||', '||s.FIRST_NAME AS COMMON_NAME";
 
