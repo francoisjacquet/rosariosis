@@ -1,5 +1,10 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.7.2
+----------------
+- Bugfix SQL error more than one row returned by a subquery used as an expression in Export.php
+- Rollback select all the course periods (for all the selected mps) of the same course in InputFinalGrades.php
+
 Changes in 2.7.1
 ----------------
 - Add widget & hide + remove cellpadding-0/1/2/3/4/6 CSS classes, programwide
