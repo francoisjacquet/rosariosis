@@ -191,9 +191,7 @@ if($_REQUEST['modfunc']=='gradebook')
 			}
 			$mps = mb_substr($mps,0,-1);
 
-			//modif Francois: select all the course periods (for all the selected mps) of the same course
-			//$percents_RET = DBGet(DBQuery("SELECT STUDENT_ID,GRADE_PERCENT,MARKING_PERIOD_ID FROM STUDENT_REPORT_CARD_GRADES WHERE COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID IN ($mps)"),array(),array('STUDENT_ID'));
-			$percents_RET = DBGet(DBQuery("SELECT STUDENT_ID,GRADE_PERCENT,MARKING_PERIOD_ID FROM STUDENT_REPORT_CARD_GRADES WHERE COURSE_TITLE=(SELECT c.TITLE FROM COURSES c, COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='".$course_period_id."' AND c.COURSE_ID=cp.COURSE_ID) AND MARKING_PERIOD_ID IN (".$mps.")"),array(),array('STUDENT_ID'));			
+			$percents_RET = DBGet(DBQuery("SELECT STUDENT_ID,GRADE_PERCENT,MARKING_PERIOD_ID FROM STUDENT_REPORT_CARD_GRADES WHERE COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID IN ($mps)"),array(),array('STUDENT_ID'));
 
 			foreach($percents_RET as $student_id=>$percents)
 			{
