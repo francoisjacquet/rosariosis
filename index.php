@@ -101,16 +101,14 @@ if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD
 	}
 }
 
-$CreateUserAccount = true;
-$CreateStudentAccount = true;
 //modif Francois: create account
 if(isset($_REQUEST['create_account']))
 {
 	$include = false;
 
-	if ($_REQUEST['create_account']=='user' && $CreateUserAccount)
+	if ($_REQUEST['create_account']=='user' && Config('CREATE_USER_ACCOUNT'))
 		$include = 'Users/User.php';
-	elseif ($_REQUEST['create_account']=='student' && $CreateStudentAccount)
+	elseif ($_REQUEST['create_account']=='student' && Config('CREATE_STUDENT_ACCOUNT'))
 		$include = 'Students/Student.php';
 
 	if (!$include)
@@ -193,12 +191,12 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 			</table>
 			<p class="center"><INPUT type="submit" value="<?php echo _('Login'); ?>" class="button-primary" /></p>
 
-			<?php if($CreateUserAccount) : ?>
+			<?php if(Config('CREATE_USER_ACCOUNT')) : ?>
 
 				<span class="center">[ <A HREF="index.php?create_account=user&staff_id=new"><?php echo _('Create User Account'); ?></A> ]</span>
 			<?php endif;
 
-			if($CreateStudentAccount) : ?>
+			if(Config('CREATE_STUDENT_ACCOUNT')) : ?>
 
 				<span class="center">[ <A HREF="index.php?create_account=student&student_id=new"><?php echo _('Create Student Account'); ?></A> ]</span>
 			<?php endif; ?>
