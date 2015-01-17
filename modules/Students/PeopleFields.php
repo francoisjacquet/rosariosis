@@ -262,11 +262,16 @@ if(empty($_REQUEST['modfunc']))
 
 		if($_REQUEST['category_id']=='new')
 			$new = true;
+
 		$header .= '<TD><TABLE><TR>';
-		$header .= '<TD>' . CheckboxInput($RET['CUSTODY'],'tables['.$_REQUEST['category_id'].'][CUSTODY]',_('Custody'),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['EMERGENCY'],'tables['.$_REQUEST['category_id'].'][EMERGENCY]',_('Emergency'),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['CUSTODY'], 'tables['.$_REQUEST['category_id'].'][CUSTODY]',_('Custody'), '', $new, button('check'), button('x')) . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['EMERGENCY'], 'tables['.$_REQUEST['category_id'].'][EMERGENCY]', _('Emergency'), '', $new, button('check'), button('x')) . '</TD>';
+
 		$header .= '</TR><TR>';
 		$header .= '<TD colspan="3"><span class="legend-gray">'._('Note: All unchecked means applies to all contacts').'</span></TD>';
+
 		$header .= '</TR></TABLE></TD>';
 
 		$header .= '</TR>';

@@ -281,10 +281,15 @@ if(empty($_REQUEST['modfunc']))
 		$header .= '<TR class="st">';
 
 		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['marking_period_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
+
 		$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables['.$_REQUEST['marking_period_id'].'][SHORT_NAME]',(!$RET['SHORT_NAME']?'<span style="color:red">':'')._('Short Name').(!$RET['SHORT_NAME']?'</span>':''), 'required') . '</TD>';
+
 		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['marking_period_id'].'][SORT_ORDER]',_('Sort Order'),'size=3') . '</TD>';
-		$header .= '<TD><TABLE class="width-100p"><TR><TD>' . CheckboxInput($RET['DOES_GRADES'],'tables['.$_REQUEST['marking_period_id'].'][DOES_GRADES]',_('Graded'),$checked,$_REQUEST['marking_period_id']=='new','<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['DOES_COMMENTS'],'tables['.$_REQUEST['marking_period_id'].'][DOES_COMMENTS]',_('Comments'),$checked,$_REQUEST['marking_period_id']=='new','<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD></TR></TABLE></TD>';
+
+		$header .= '<TD><TABLE class="width-100p"><TR><TD>' . CheckboxInput($RET['DOES_GRADES'], 'tables['.$_REQUEST['marking_period_id'].'][DOES_GRADES]', _('Graded'), $checked, $_REQUEST['marking_period_id']=='new', button('check'), button('x')) . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['DOES_COMMENTS'], 'tables['.$_REQUEST['marking_period_id'].'][DOES_COMMENTS]', _('Comments'), $checked,$_REQUEST['marking_period_id']=='new', button('check'), button('x')) . '</TD></TR></TABLE></TD>';
+
 		$header .= '</TR>';
 		$header .= '<TR class="st">';
 

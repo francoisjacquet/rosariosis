@@ -467,8 +467,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					if(!empty($where_message))
 						echo '<BR />'.$where_message;
 				}
+
 				if($options['save'] && !isset($_REQUEST['_ROSARIO_PDF']) && $result_count>0)
-					echo '<A HREF="'.$PHP_tmp_SELF.'&amp;'.$extra.'&amp;LO_save='.$options['save'].'&amp;_ROSARIO_PDF=true" target="_blank"><IMG SRC="assets/download.png" class="alignImg" title="'._('Export list').'" /></A>';
+					echo '<A HREF="'.$PHP_tmp_SELF.'&amp;'.$extra.'&amp;LO_save='.$options['save'].'&amp;_ROSARIO_PDF=true" target="_blank"><IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="alignImg" title="'._('Export list').'" /></A>';
 				echo '</TD>';
 				$colspan = 1;
 				if(!isset($_REQUEST['_ROSARIO_PDF']) && $options['search'])

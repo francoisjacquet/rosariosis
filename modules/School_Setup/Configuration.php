@@ -57,7 +57,7 @@ else
 				if ($sql != '')
 				{
 					DBQuery($sql);
-					$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The school configuration has been modified.');
+					$note[] = button('check') .'&nbsp;'._('The school configuration has been modified.');
 				}
 				
 				unset($_ROSARIO['Config']);//update Config var
@@ -80,7 +80,7 @@ else
 		if (!empty($error))
 			echo ErrorMessage($error, 'error');
 		
-		echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" METHOD="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'LOGO_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=assets/spinning.gif />\';">';
+		echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" METHOD="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'LOGO_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=assets/themes/'. Preferences('THEME') .'/spinning.gif />\';">';
 	
 		if(AllowEdit())
 			DrawHeader('',SubmitButton(_('Save')));
@@ -116,9 +116,9 @@ else
 		//modif Francois: add Registration to Configuration
 		echo '<TR><TD><FIELDSET><legend><b>'._('Registration').'</b></legend><TABLE>';
 
-		echo '<TR><TD>'.CheckboxInput(Config('CREATE_USER_ACCOUNT'),'values[CONFIG][CREATE_USER_ACCOUNT]','<SPAN style="cursor:help" title="'._('New users will be added with the No Access profile').'">'._('Create User Account').'*</SPAN>','',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+		echo '<TR><TD>'.CheckboxInput(Config('CREATE_USER_ACCOUNT'), 'values[CONFIG][CREATE_USER_ACCOUNT]', '<SPAN style="cursor:help" title="'._('New users will be added with the No Access profile').'">'._('Create User Account').'*</SPAN>', '', false, button('check'), button('x')).'</TD></TR>';
 
-		echo '<TR><TD>'.CheckboxInput(Config('CREATE_STUDENT_ACCOUNT'),'values[CONFIG][CREATE_STUDENT_ACCOUNT]','<SPAN style="cursor:help" title="'._('New students will be added as Inactive students').'">'._('Create Student Account').'*</SPAN>','',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+		echo '<TR><TD>'.CheckboxInput(Config('CREATE_STUDENT_ACCOUNT'), 'values[CONFIG][CREATE_STUDENT_ACCOUNT]', '<SPAN style="cursor:help" title="'._('New students will be added as Inactive students').'">'._('Create Student Account').'*</SPAN>', '', false, button('check'), button('x')).'</TD></TR>';
 
 		echo '</TD></TR></TABLE></FIELDSET>';
 
@@ -127,7 +127,7 @@ else
 		echo '<BR /><FIELDSET><legend><b>'._('School').'</b></legend><TABLE>';
 
 		//modif Francois: school year over one/two calendar years format
-		echo '<TR><TD>'.CheckboxInput(Config('SCHOOL_SYEAR_OVER_2_YEARS'),'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]',_('School year over two calendar years'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+		echo '<TR><TD>'.CheckboxInput(Config('SCHOOL_SYEAR_OVER_2_YEARS'), 'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]', _('School year over two calendar years'), '', false, button('check'), button('x')).'</TD></TR>';
 
 		//modif Francois: upload school logo
 		echo '<TR><TD>'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<br /><img src="assets/school_logo_'.UserSchool().'.jpg?cache_killer='.rand().'" style="max-width:225px; max-height:225px;" /><br />' : '').'<input type="file" id="LOGO_FILE" name="LOGO_FILE" size="14" accept="image/jpeg" /><span id="loading"></span><br /><span class="legend-gray">'._('School logo').' (.jpg)</span></TD></TR>';
@@ -141,13 +141,13 @@ else
 		{
 			echo '<BR /><FIELDSET><legend><b>'._('Students').'</b></legend><TABLE>';
 
-			echo '<TR><TD>'.CheckboxInput(Config('STUDENTS_USE_MAILING'),'values[CONFIG][STUDENTS_USE_MAILING]',_('Display Mailing Address'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR><TD>'.CheckboxInput(Config('STUDENTS_USE_MAILING'), 'values[CONFIG][STUDENTS_USE_MAILING]',_('Display Mailing Address'), '', false, button('check'), button('x')).'</TD></TR>';
 
-			echo '<TR><TD>'.CheckboxInput($program_config['STUDENTS_USE_BUS'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_USE_BUS]',_('Check Bus Pickup / Dropoff by default'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR><TD>'.CheckboxInput($program_config['STUDENTS_USE_BUS'][1]['VALUE'], 'values[PROGRAM_CONFIG][STUDENTS_USE_BUS]', _('Check Bus Pickup / Dropoff by default'), '', false, button('check'), button('x')).'</TD></TR>';
 
-			echo '<TR><TD>'.CheckboxInput($program_config['STUDENTS_USE_CONTACT'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_USE_CONTACT]',_('Enable Legacy Contact Information'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR><TD>'.CheckboxInput($program_config['STUDENTS_USE_CONTACT'][1]['VALUE'], 'values[PROGRAM_CONFIG][STUDENTS_USE_CONTACT]', _('Enable Legacy Contact Information'), '', false, button('check'), button('x')).'</TD></TR>';
 
-			echo '<TR><TD>'.CheckboxInput($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE'],'values[PROGRAM_CONFIG][STUDENTS_SEMESTER_COMMENTS]',_('Use Semester Comments instead of Quarter Comments'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR><TD>'.CheckboxInput($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE'], 'values[PROGRAM_CONFIG][STUDENTS_SEMESTER_COMMENTS]', _('Use Semester Comments instead of Quarter Comments'), '', false, button('check'), button('x')).'</TD></TR>';
 
 			echo '</TABLE></FIELDSET>';
 		}
@@ -159,13 +159,13 @@ else
 
 			echo '<TR><TD>'.SelectInput($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_DOES_LETTER_PERCENT]',_('Grades'),$options,false).'</TD></TR>';
 
-			echo '<TR><TD>'.CheckboxInput($program_config['GRADES_HIDE_NON_ATTENDANCE_COMMENT'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_HIDE_NON_ATTENDANCE_COMMENT]',_('Hide grade comment except for attendance period courses'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR><TD>'.CheckboxInput($program_config['GRADES_HIDE_NON_ATTENDANCE_COMMENT'][1]['VALUE'], 'values[PROGRAM_CONFIG][GRADES_HIDE_NON_ATTENDANCE_COMMENT]', _('Hide grade comment except for attendance period courses'), '', false,button('check'), button('x')).'</TD></TR>';
 
-			echo '<TR><TD>'.CheckboxInput($program_config['GRADES_TEACHER_ALLOW_EDIT'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_TEACHER_ALLOW_EDIT]',_('Allow Teachers to edit grades after grade posting period'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR><TD>'.CheckboxInput($program_config['GRADES_TEACHER_ALLOW_EDIT'][1]['VALUE'], 'values[PROGRAM_CONFIG][GRADES_TEACHER_ALLOW_EDIT]', _('Allow Teachers to edit grades after grade posting period'), '', false, button('check'), button('x')).'</TD></TR>';
 
-			echo '<TR><TD>'.CheckboxInput($program_config['GRADES_DO_STATS_STUDENTS_PARENTS'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_DO_STATS_STUDENTS_PARENTS]',_('Enable Anonymous Grade Statistics for Parents and Students'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR><TD>'.CheckboxInput($program_config['GRADES_DO_STATS_STUDENTS_PARENTS'][1]['VALUE'], 'values[PROGRAM_CONFIG][GRADES_DO_STATS_STUDENTS_PARENTS]', _('Enable Anonymous Grade Statistics for Parents and Students'), '', false, button('check'), button('x')).'</TD></TR>';
 
-			echo '<TR><TD>'.CheckboxInput($program_config['GRADES_DO_STATS_ADMIN_TEACHERS'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_DO_STATS_ADMIN_TEACHERS]',_('Enable Anonymous Grade Statistics for Administrators and Teachers'),'',false,'<img src="assets/check_button.png" height="15" />&nbsp;','<img src="assets/x_button.png" height="15" />&nbsp;').'</TD></TR>';
+			echo '<TR><TD>'.CheckboxInput($program_config['GRADES_DO_STATS_ADMIN_TEACHERS'][1]['VALUE'], 'values[PROGRAM_CONFIG][GRADES_DO_STATS_ADMIN_TEACHERS]', _('Enable Anonymous Grade Statistics for Administrators and Teachers'), '', false, button('check'), button('x')).'</TD></TR>';
 
 			echo '</TABLE></FIELDSET>';
 		}

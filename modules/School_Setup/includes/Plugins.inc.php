@@ -187,11 +187,11 @@ function _makeActivated($activated)
 {	global $THIS_RET;
 	
 	if ($activated)
-		$return = '<img src="assets/check_button.png" height="16" />';
+		$return = button('check');
 	else
-		$return = '<img src="assets/x_button.png" height="16" />';
+		$return = button('x');
 
-	if (isset($_REQUEST['_ROSARIO_PDF']))
+	if (isset($_REQUEST['LO_save']))
 	{
 		if ($activated)
 			$return = _('Yes');

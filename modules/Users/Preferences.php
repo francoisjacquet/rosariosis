@@ -276,32 +276,41 @@ if(empty($_REQUEST['modfunc']))
 			AND (SELECT CAN_USE FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y' 
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('SEARCH'=>'_make','DISPLAY'=>'_make'),array('CATEGORY'));
 			
-        foreach ($custom_fields_RET as &$category_RET)
-            foreach ($category_RET as &$field) {
-                $field['CATEGORY'] = '<b>'.ParseMLField($field['CATEGORY']).'</b>';
-                $field['TITLE']    = ParseMLField($field['TITLE']); 
-            }
+		foreach ($custom_fields_RET as &$category_RET)
+			foreach ($category_RET as &$field) {
+				$field['CATEGORY'] = '<b>'.ParseMLField($field['CATEGORY']).'</b>';
+				$field['TITLE']    = ParseMLField($field['TITLE']); 
+			}
+
 		$THIS_RET['ID'] = 'CONTACT_INFO';
-		$custom_fields_RET[-1][1] = array('CATEGORY'=>'<B>'._('Contact Information').'</B>','ID'=>'CONTACT_INFO','TITLE'=>'<IMG SRC="assets/down_phone_button.png" height="24"> '._('Contact Information'),'DISPLAY'=>_make('','DISPLAY'));
+		$custom_fields_RET[-1][1] = array('CATEGORY'=>'<B>'._('Contact Information').'</B>','ID'=>'CONTACT_INFO','TITLE'=> button('down_phone', '', '', 'bigger') .' '._('Contact Information'),'DISPLAY'=>_make('','DISPLAY'));
+
 		$THIS_RET['ID'] = 'HOME_PHONE';
 		$custom_fields_RET[-1][] = array('CATEGORY'=>'<B>'._('Contact Information').'</B>','ID'=>'HOME_PHONE','TITLE'=>_('Home Phone Number'),'DISPLAY'=>_make('','DISPLAY'));
+
 		$THIS_RET['ID'] = 'GUARDIANS';
 		$custom_fields_RET[-1][] = array('CATEGORY'=>'<B>'._('Contact Information').'</B>','ID'=>'GUARDIANS','TITLE'=>_('Guardians'),'DISPLAY'=>_make('','DISPLAY'));
+
 		$THIS_RET['ID'] = 'ALL_CONTACTS';
 		$custom_fields_RET[-1][] = array('CATEGORY'=>'<B>'._('Contact Information').'</B>','ID'=>'ALL_CONTACTS','TITLE'=>_('All Contacts'),'DISPLAY'=>_make('','DISPLAY'));
 
 		$custom_fields_RET[0][1] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=>_('None'),'DISPLAY'=>_makeAddress(''));
-		$custom_fields_RET[0][] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=>'<IMG SRC="assets/house_button.png" height="24"> '._('Residence'),'DISPLAY'=>_makeAddress('RESIDENCE'));
+
+		$custom_fields_RET[0][] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=> button('house', '', '', 'bigger') .' '._('Residence'),'DISPLAY'=>_makeAddress('RESIDENCE'));
+
 //modif Francois: disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
-			$custom_fields_RET[0][] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=>'<IMG SRC="assets/mailbox_button.png" height="24"> '._('Mailing'),'DISPLAY'=>_makeAddress('MAILING'));
-		$custom_fields_RET[0][] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=>'<IMG SRC="assets/bus_button.png" height="24"> '._('Bus Pickup'),'DISPLAY'=>_makeAddress('BUS_PICKUP'));
-		$custom_fields_RET[0][] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=>'<IMG SRC="assets/bus_button.png" height="24"> '._('Bus Dropoff'),'DISPLAY'=>_makeAddress('BUS_DROPOFF'));
+			$custom_fields_RET[0][] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=> button('mailbox', '', '', 'bigger') .' '._('Mailing'),'DISPLAY'=>_makeAddress('MAILING'));
+
+		$custom_fields_RET[0][] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=> button('bus', '', '', 'bigger') .' '._('Bus Pickup'),'DISPLAY'=>_makeAddress('BUS_PICKUP'));
+
+		$custom_fields_RET[0][] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=> button('bus', '', '', 'bigger') .' '._('Bus Dropoff'),'DISPLAY'=>_makeAddress('BUS_DROPOFF'));
 
 		if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 			$columns = array('CATEGORY'=>'','TITLE'=>_('Field'),'SEARCH'=>_('Search'),'DISPLAY'=>_('Expanded View'));
 		else
 			$columns = array('CATEGORY'=>'','TITLE'=>_('Field'),'DISPLAY'=>_('Expanded View'));
+
 		ListOutput($custom_fields_RET,$columns,'.','.',array(),array(array('CATEGORY')),$LO_options);
 	}
 

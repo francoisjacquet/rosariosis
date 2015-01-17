@@ -18,12 +18,12 @@ else if (hours < 18) salute.innerHTML='.json_encode(sprintf(_('Good Afternoon, %
 else salute.innerHTML='.json_encode(sprintf(_('Good Evening, %s.'), User('NAME'))).';</script>');
 
 $welcome = sprintf(_('Welcome to %s!'), ParseMLField(Config('TITLE')));
-if($_SESSION['LAST_LOGIN'])
+
+if(!empty($_SESSION['LAST_LOGIN']))
 	$welcome .= '<BR />&nbsp;'.sprintf(_('Your last login was <b>%s</b>.'), ProperDate(mb_substr($_SESSION['LAST_LOGIN'],0,10)).mb_substr($_SESSION['LAST_LOGIN'],10));
-if($_REQUEST['failed_login'])
-//modif Francois: css WPadmin add class error for all Warning! of this file
-//	$welcome .= '<BR />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('There have been <b>%d</b> failed login attempts since your last successful login.'),$_REQUEST['failed_login']);
-	$welcome .= '<BR /><div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('There have been <b>%d</b> failed login attempts since your last successful login.'),$_REQUEST['failed_login']).'</p></div>';
+
+if(!empty($_REQUEST['failed_login']))
+	$welcome .= '<BR />'.ErrorMessage(array(sprintf(_('There have been <b>%d</b> failed login attempts since your last successful login.'),$_REQUEST['failed_login'])), 'warning');
 
 switch (User('PROFILE'))
 {
@@ -43,7 +43,7 @@ switch (User('PROFILE'))
 
 			if($disc_RET[1]['COUNT']>0)
 			{
-				$message = '<A HREF="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin='.User('LAST_LOGIN').'&discipline_entry_end='.DBDate().'"><img src="modules/Discipline/icon.png" class="alignImg" /> ';
+				$message = '<A HREF="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin='.User('LAST_LOGIN').'&discipline_entry_end='.DBDate().'"><img src="modules/Discipline/icon.png" class="button bigger" /> ';
 				$message .= sprintf(ngettext('%d new referral', '%d new referrals', $disc_RET[1]['COUNT']), $disc_RET[1]['COUNT']);
 				$message .= '</A>';	
 				DrawHeader($message);
@@ -166,7 +166,8 @@ switch (User('PROFILE'))
 			
 			if (count($RET))
 			{
-				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'._('Teachers have missing attendance data').':</p></div>';
+				echo ErrorMessage(array(_('Teachers have missing attendance data')), 'warning');
+
 				ListOutput($RET,array('SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'SCHOOL'=>_('School')),'Course Period with missing attendance data','Course Periods with missing attendance data',array(),array('COURSE_PERIOD_ID'),array('save'=>false,'search'=>false));
 //				echo '';
 			}
@@ -177,25 +178,26 @@ switch (User('PROFILE'))
 		{
 			$food_service_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='food_service'"),array(),array('TITLE'));
 			
-		    // warn if negative food service balance
-		    $staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
-		    $staff = $staff[1];
-		    if($staff['BALANCE'] && $staff['BALANCE']<0)
-			    echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE']).'</p></div>';
+			// warn if negative food service balance
+			$staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
+			$staff = $staff[1];
+			if($staff['BALANCE'] && $staff['BALANCE']<0)
+				echo ErrorMessage(array(sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE'])), 'warning');
 
-		    // warn if students with food service balances below minimum
+			// warn if students with food service balances below minimum
 			$extra = array();
-		    $extra['SELECT'] = ',fssa.STATUS,fsa.BALANCE';
-		    $extra['FROM'] = ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
-		    $extra['WHERE'] = ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NULL AND fsa.BALANCE<\''.$food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'].'\'';
-		    $_REQUEST['_search_all_schools'] = 'Y';
-		    $RET = GetStuList($extra);
-		    if (count($RET))
-            {
-			    echo '<p><div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('Some students have food service balances below %1.2f'),$food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE']).':</p></div>';
+			$extra['SELECT'] = ',fssa.STATUS,fsa.BALANCE';
+			$extra['FROM'] = ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
+			$extra['WHERE'] = ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NULL AND fsa.BALANCE<\''.$food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'].'\'';
+			$_REQUEST['_search_all_schools'] = 'Y';
+			$RET = GetStuList($extra);
+			if (count($RET))
+			{
+			    echo ErrorMessage(array(sprintf(_('Some students have food service balances below %1.2f'),$food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'])), 'warning');
+
 			    ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'BALANCE'=>_('Balance')),'Student','Students',array(),array(),array('save'=>false,'search'=>false));
 //			    echo '</p>';
-  		    }
+			}
 		}
 
 		echo '<p>&nbsp;'._('Happy administrating...').'</p>';
@@ -264,70 +266,72 @@ switch (User('PROFILE'))
 
 		if(Preferences('HIDE_ALERTS')!='Y')
 		{
-		// warn if missing attendances
-		$categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION SELECT ID,TITLE,1,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY 3,SORT_ORDER"));
-		foreach($categories_RET as $category)
-		{
-		//modif Francois: days numbered
-		//modif Francois: multiple school periods for a course period
-			if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
+			// warn if missing attendances
+			$categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION SELECT ID,TITLE,1,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY 3,SORT_ORDER"));
+			foreach($categories_RET as $category)
 			{
-				$RET = DBGET(DBQuery("SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,cp.TITLE 
-				FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-				AND acc.SYEAR='".UserSyear()."' 
-				AND (acc.MINUTES IS NOT NULL AND acc.MINUTES>0) 
-				AND cp.SCHOOL_ID=acc.SCHOOL_ID 
-				AND cp.SYEAR=acc.SYEAR 
-				AND acc.SCHOOL_DATE<'".DBDate()."' 
-				AND cp.CALENDAR_ID=acc.CALENDAR_ID 
-				AND cp.TEACHER_ID='".User('STAFF_ID')."'
-				AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
-				AND sp.PERIOD_ID=cpsp.PERIOD_ID 
-				AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast(
-					(SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number 
-					FROM attendance_calendar 
-					WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=acc.SCHOOL_DATE AND end_date>=acc.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=acc.SCHOOL_ID) 
-					AND school_date<=acc.SCHOOL_DATE 
-					AND SCHOOL_ID=acc.SCHOOL_ID) 
-				AS INT) FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
-				AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='".$category['ID']."') 
-				AND position(',".$category['ID'].",' IN cp.DOES_ATTENDANCE)>0 
-				ORDER BY cp.TITLE,acc.SCHOOL_DATE"),array('SCHOOL_DATE'=>'ProperDate'),array('COURSE_PERIOD_ID'));
-			} else {
-				$RET = DBGET(DBQuery("SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,cp.TITLE 
-				FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-				WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-				AND acc.SYEAR='".UserSyear()."' 
-				AND (acc.MINUTES IS NOT NULL AND acc.MINUTES>0) 
-				AND cp.SCHOOL_ID=acc.SCHOOL_ID 
-				AND cp.SYEAR=acc.SYEAR AND acc.SCHOOL_DATE<'".DBDate()."' 
-				AND cp.CALENDAR_ID=acc.CALENDAR_ID 
-				AND cp.TEACHER_ID='".User('STAFF_ID')."'
-				AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
-				AND sp.PERIOD_ID=cpsp.PERIOD_ID 
-				AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
-				AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='".$category['ID']."') 
-				AND position(',".$category['ID'].",' IN cp.DOES_ATTENDANCE)>0 
-				ORDER BY cp.TITLE,acc.SCHOOL_DATE"),array('SCHOOL_DATE'=>'ProperDate'),array('COURSE_PERIOD_ID'));
-			}
+			//modif Francois: days numbered
+			//modif Francois: multiple school periods for a course period
+				if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
+				{
+					$RET = DBGET(DBQuery("SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,cp.TITLE 
+					FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
+					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
+					AND acc.SYEAR='".UserSyear()."' 
+					AND (acc.MINUTES IS NOT NULL AND acc.MINUTES>0) 
+					AND cp.SCHOOL_ID=acc.SCHOOL_ID 
+					AND cp.SYEAR=acc.SYEAR 
+					AND acc.SCHOOL_DATE<'".DBDate()."' 
+					AND cp.CALENDAR_ID=acc.CALENDAR_ID 
+					AND cp.TEACHER_ID='".User('STAFF_ID')."'
+					AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
+					AND sp.PERIOD_ID=cpsp.PERIOD_ID 
+					AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast(
+						(SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number 
+						FROM attendance_calendar 
+						WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=acc.SCHOOL_DATE AND end_date>=acc.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=acc.SCHOOL_ID) 
+						AND school_date<=acc.SCHOOL_DATE 
+						AND SCHOOL_ID=acc.SCHOOL_ID) 
+					AS INT) FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
+					AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='".$category['ID']."') 
+					AND position(',".$category['ID'].",' IN cp.DOES_ATTENDANCE)>0 
+					ORDER BY cp.TITLE,acc.SCHOOL_DATE"),array('SCHOOL_DATE'=>'ProperDate'),array('COURSE_PERIOD_ID'));
+				} else {
+					$RET = DBGET(DBQuery("SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,cp.TITLE 
+					FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
+					WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
+					AND acc.SYEAR='".UserSyear()."' 
+					AND (acc.MINUTES IS NOT NULL AND acc.MINUTES>0) 
+					AND cp.SCHOOL_ID=acc.SCHOOL_ID 
+					AND cp.SYEAR=acc.SYEAR AND acc.SCHOOL_DATE<'".DBDate()."' 
+					AND cp.CALENDAR_ID=acc.CALENDAR_ID 
+					AND cp.TEACHER_ID='".User('STAFF_ID')."'
+					AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
+					AND sp.PERIOD_ID=cpsp.PERIOD_ID 
+					AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
+					AND NOT exists(SELECT '' FROM ATTENDANCE_COMPLETED ac WHERE ac.SCHOOL_DATE=acc.SCHOOL_DATE AND ac.STAFF_ID=cp.TEACHER_ID AND ac.PERIOD_ID=cpsp.PERIOD_ID AND TABLE_NAME='".$category['ID']."') 
+					AND position(',".$category['ID'].",' IN cp.DOES_ATTENDANCE)>0 
+					ORDER BY cp.TITLE,acc.SCHOOL_DATE"),array('SCHOOL_DATE'=>'ProperDate'),array('COURSE_PERIOD_ID'));
+				}
 			
-			if (count($RET))
-			{
-				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'._('You have missing attendance data').':</div></p>';
-				ListOutput($RET,array('SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher')),'Course Period with missing attendance data','Course Periods with missing attendance data',array(),array('COURSE_PERIOD_ID'),array('save'=>false,'search'=>false));
-//				echo '</p>';
+				if (count($RET))
+				{
+					echo ErrorMessage(array(_('You have missing attendance data')), 'warning');
+
+					ListOutput($RET,array('SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher')),'Course Period with missing attendance data','Course Periods with missing attendance data',array(),array('COURSE_PERIOD_ID'),array('save'=>false,'search'=>false));
+	//				echo '</p>';
+				}
 			}
-		}
 		}
 
 		if($RosarioModules['Food_Service'] && Preferences('HIDE_ALERTS')!='Y')
 		{
-		// warn if negative food service balance
-		$staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
-		$staff = $staff[1];
-		if($staff['BALANCE'] && $staff['BALANCE']<0)
-			echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE']).'</p></div>';
+			// warn if negative food service balance
+			$staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
+			$staff = $staff[1];
+
+			if($staff['BALANCE'] && $staff['BALANCE']<0)
+				echo ErrorMessage(array(sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE'])), 'warning');
 		}
 
 		echo '<p>&nbsp;'._('Happy teaching...').'</p>';
@@ -407,7 +411,7 @@ switch (User('PROFILE'))
 
 			if (count($RET))
 			{
-				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have students with food service balance below %1.2f - please deposit at least the Minimum Deposit into you children\'s accounts.'),$food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE']).'</p></div>';
+				echo ErrorMessage(array(sprintf(_('You have students with food service balance below %1.2f - please deposit at least the Minimum Deposit into you children\'s accounts.'),$food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'])), 'warning');
 
 				ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'ACCOUNT_ID'=>_('Account ID'),'BALANCE'=>_('Balance'),'DEPOSIT'=>_('Minimum Deposit')),'Student','Students',array(),array(),array('save'=>false,'search'=>false));
 			}
@@ -417,7 +421,7 @@ switch (User('PROFILE'))
 			$staff = $staff[1];
 
 			if($staff['BALANCE'] && $staff['BALANCE']<0)
-				echo '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<span style="color:red"><b>'._('Warning!').'</b></span>&nbsp;'.sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),Currency($staff['BALANCE'])).'</p></div>';
+				echo ErrorMessage(array(sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),Currency($staff['BALANCE']))), 'warning');
 		}
 
 		echo '<p>&nbsp;'._('Happy parenting...').'</p>';

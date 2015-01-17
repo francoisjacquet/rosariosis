@@ -4,10 +4,10 @@ echo '<TR class="st"><TD rowspan="2" class="valign-top">';
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
-	<a href="#" id="aFormStudentPhoto"><img src="assets/plus.gif" height="9" />&nbsp;<?php echo _('Student Photo'); ?></a><br />
+	<a href="#" id="aFormStudentPhoto"><?php echo button('add', '', '', 'smaller'); ?>&nbsp;<?php echo _('Student Photo'); ?></a><br />
 	<div id="formStudentPhoto" style="display:none;">
 		<br />
-		<input type="file" id="photo" name="photo" accept="image/*" /><img src="assets/spinning.gif" alt="Spinner" id="loading" style="display:none;" />
+		<input type="file" id="photo" name="photo" accept="image/*" /><img src="assets/themes/<?php echo Preferences('THEME'); ?>/spinning.gif" alt="Spinner" id="loading" style="display:none;" />
 		<BR /><span class="legend-gray"><?php echo _('Student Photo'); ?> (.jpg)</span>
 	</div>
 	<script> 

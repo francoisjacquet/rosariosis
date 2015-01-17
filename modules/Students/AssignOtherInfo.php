@@ -10,9 +10,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			if(!VerifyDate($_REQUEST['values'][$field_name]))
 			{
 				if($_REQUEST['values'][$field_name]!='--')
-//modif Francois: css WPadmin
-//					$note = '<IMG SRC=assets/warning_button.png>'._('The date you specified is not valid, so was not used. The other data was saved.');
-					$note = '<IMG SRC="assets/warning_button.png" />&nbsp;'._('The date you specified is not valid, so was not used. The other data was saved.');
+					$warning[] = _('The date you specified is not valid, so was not used. The other data was saved.');
+
 				unset($_REQUEST['values'][$field_name]);
 			}
 		}
@@ -51,23 +50,22 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		if($values_count && $students_count)
 			DBQuery('UPDATE STUDENTS SET '.mb_substr($update,1).' WHERE STUDENT_ID IN ('.mb_substr($students,1).')');
-		elseif($note)
-			$note = mb_substr($note,0,mb_strpos($note,'. '));
+		elseif(isset($warning))
+			$warning[0] = mb_substr($warning,0,mb_strpos($warning,'. '));
 		elseif($next_school=='' && !$calendar)
-//			$note = '<IMG SRC=assets/warning_button.png>'._('No data was entered.');
-			$note = '<IMG SRC="assets/warning_button.png" />&nbsp;'._('No data was entered.');
-				//var_dump($update);
+			$warning[] = _('No data was entered.');
 
 		if($next_school!='')
 			DBQuery("UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='".$next_school."' WHERE SYEAR='".UserSyear()."' AND STUDENT_ID IN (".mb_substr($students,1).") ");
 		if($calendar)
 			DBQuery("UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='".$calendar."' WHERE SYEAR='".UserSyear()."' AND STUDENT_ID IN (".mb_substr($students,1).") ");
 
-		if(!$note)
-			$note = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The specified information was applied to the selected students.');
+		if(!isset($warning))
+			$note[] = button('check') .'&nbsp;'._('The specified information was applied to the selected students.');
 	}
 	else
 		$error[] = _('You must choose at least one field and one student');
+
 	unset($_REQUEST['modfunc']);
 	unset($_REQUEST['values']);
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
@@ -78,6 +76,13 @@ DrawHeader(ProgramTitle());
 
 if (isset($error))
 	echo ErrorMessage($error);
+
+if(isset($note))
+	echo ErrorMessage($note, 'note');
+
+if(isset($warning))
+	echo ErrorMessage($warning, 'warning');
+
 
 if(empty($_REQUEST['modfunc']))
 {
@@ -287,8 +292,6 @@ if(empty($_REQUEST['modfunc']))
 		}
 		echo '<BR />';
 	}
-	elseif(isset($note))
-		echo ErrorMessage(array($note), 'note');
 
 	//Widgets('activity');
 	//Widgets('course');

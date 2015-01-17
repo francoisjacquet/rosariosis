@@ -680,7 +680,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					break;
 			} while ( $i <= count($RET2) );
 			
-			$header .= '<TR class="st"><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Period').'</a></TD></TR>';
+			$header .= '<TR class="st"><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;">'. button('add') .' '._('New Period').'</a></TD></TR>';
 			if (!$new)
 				$header .= '<script>document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
 			?>
@@ -721,12 +721,12 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				if(mb_strpos($RET['DOES_ATTENDANCE'],','.$value['ID'].',')!==false)
 				{
 					$val = 'Y';
-					$img = 'check_button';
+					$img = 'check';
 				}
 				else
 				{
 					$val = '';
-					$img = 'x_button';
+					$img = 'x';
 				}
 
 				$header_temp = '<TD>'.CheckboxInput($val,'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_ATTENDANCE]['.$value['ID'].']',$value['TITLE'],$checked,false,'','',false).'</TD>';
@@ -735,7 +735,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				else
 					$header .= $header_temp;
 				
-				$top .= '<TD><span class="underline-dots"><IMG SRC="assets/'.$img.'.png" height="15"></span>&nbsp;'.$value['TITLE'];
+				$top .= '<TD><span class="underline-dots">'.button($img).'</span>&nbsp;'.$value['TITLE'];
 			}
 			$header .= '</TR></TABLE>';
 			$top .= '</TR></TABLE>';
@@ -744,8 +744,10 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			$header .= '<span class="legend-gray">'._('Takes Attendance').'</span>';
 			$header .= '</TD>';
 
-			$header .= '<TD>' . CheckboxInput($RET['DOES_HONOR_ROLL'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_HONOR_ROLL]',_('Affects Honor Roll'),$checked,$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-			$header .= '<TD>' . CheckboxInput($RET['DOES_CLASS_RANK'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_CLASS_RANK]',_('Affects Class Rank'),$checked,$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
+			$header .= '<TD>' . CheckboxInput($RET['DOES_HONOR_ROLL'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_HONOR_ROLL]', _('Affects Honor Roll'), $checked, $new, button('check'), button('x')) . '</TD>';
+
+			$header .= '<TD>' . CheckboxInput($RET['DOES_CLASS_RANK'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_CLASS_RANK]', _('Affects Class Rank'), $checked, $new, button('check'), button('x')) . '</TD>';
+
 			$header .= '<TD>' . SelectInput($RET['GENDER_RESTRICTION'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][GENDER_RESTRICTION]',_('Gender Restriction'),array('N'=>_('None'),'M'=>_('Male'),'F'=>_('Female')),false) . '</TD>';
 
 			$options_RET = DBGet(DBQuery("SELECT TITLE,ID FROM REPORT_CARD_GRADE_SCALES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
@@ -768,8 +770,11 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			$header .= '<TR class="st">';
 
 			//$header .= '<TD>' . CheckboxInput($RET['HOUSE_RESTRICTION'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][HOUSE_RESTRICTION]','Restricts House','',$new) . '</TD>';
-			$header .= '<TD>' . CheckboxInput($RET['HALF_DAY'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][HALF_DAY]',_('Half Day'),$checked,$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-			$header .= '<TD>' . CheckboxInput($RET['DOES_BREAKOFF'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_BREAKOFF]',_('Allow Teacher Grade Scale'),$checked,$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
+
+			$header .= '<TD>' . CheckboxInput($RET['HALF_DAY'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][HALF_DAY]', _('Half Day'), $checked, $new, button('check'), button('x')) . '</TD>';
+
+			$header .= '<TD>' . CheckboxInput($RET['DOES_BREAKOFF'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_BREAKOFF]', _('Allow Teacher Grade Scale'), $checked, $new, button('check'), button('x')) . '</TD>';
+
             //BJJ added cells to place parent selection in the last column
             $header .= '<TD colspan= 4>&nbsp;</td>';
             

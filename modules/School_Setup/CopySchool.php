@@ -25,8 +25,11 @@ if(Prompt(_('Confirm Copy School'),sprintf(_('Are you sure you want to copy the 
 			_rollover($table);
 	}
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-//    DrawHeader('<IMG SRC=assets/check_button.png>'.sprintf(_('The data have been copied to a new school called "%s".'),$_REQUEST['title']),'<INPUT type=submit value="'._('OK').'>"');
-	echo ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'.sprintf(_('The data have been copied to a new school called "%s".'),$_REQUEST['title']).SubmitButton(_('OK'))), 'note');
+
+	$note[] = button('check') .'&nbsp;'.sprintf(_('The data have been copied to a new school called "%s".'),$_REQUEST['title']).SubmitButton(_('OK'));
+
+	echo ErrorMessage($note, 'note');
+
 	echo '</FORM>';
 	unset($_SESSION['_REQUEST_vars']['tables']);
 	unset($_SESSION['_REQUEST_vars']['delete_ok']);

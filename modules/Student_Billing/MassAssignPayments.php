@@ -24,7 +24,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							values(".db_seq_nextval('BILLING_PAYMENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$student_id."','".DBDate()."','".preg_replace('/[^0-9,.]+/','',$_REQUEST['amount'])."','".$_REQUEST['comments']."')";
 				DBQuery($sql);
 			}
-			$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('That payment has been added to the selected students.');
+			$note[] = button('check') .'&nbsp;'._('That payment has been added to the selected students.');
 		}
 		else
 			$error[] = _('Please enter a valid Amount.');

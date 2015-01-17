@@ -44,6 +44,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			echo '<TABLE style="margin:0 auto; height:77%;">';
 			
 			$honor_roll_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_honor_roll_text)));
+
 			$honor_roll_text = str_replace(array('__CLIPART__','__FULL_NAME__','__FIRST_NAME__','__LAST_NAME__','__MIDDLE_NAME__','__GRADE_ID__','__SCHOOL_ID__','__SUBJECT__'),array('<img src="assets/ClipArts/'.$_REQUEST['clipart'].'" height="200" />',$student['FULL_NAME'],$student['FIRST_NAME'],$student['LAST_NAME'],$student['MIDDLE_NAME'],$student['GRADE_ID'],$school_info_RET[1]['TITLE'],$_REQUEST['subject']),$honor_roll_text);
 				
 			echo '<TR><TD>'.$honor_roll_text.'</TD></TR></TABLE>';
@@ -229,7 +230,7 @@ function MyWidgets($item)
 					$select .= '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
 			}
 			$select .= '</SELECT>';
-			$extra['search'] .= '<TR><TD style="text-align:right;">'._('Subject').'</TD><TD>'.$select.'</TD></TR>';
+			$extra['search'] .= '<TR><TD>'._('Subject').'</TD><TD>'.$select.'</TD></TR>';
 		break;
 	}
 }

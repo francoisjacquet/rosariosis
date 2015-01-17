@@ -82,13 +82,18 @@ function _preparePeriods($value,$name)
 
 	$period_id = mb_substr($name,7);
 	if(!$schedule_RET[$THIS_RET['STUDENT_ID']][$period_id])
-		$return = '<IMG SRC="assets/x_button.png" height="15">';
+	{
+		if (isset($_REQUEST['LO_save']))
+			$return = _('No');
+		else
+			$return = button('x');
+	}
 	else
 	{
 		if (isset($_REQUEST['LO_save']))
 			$return = _('Yes');
 		else
-			$return = '<IMG SRC="assets/check_button.png" height="15">';
+			$return = button('check');
 	}
 	return $return;
 }

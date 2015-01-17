@@ -123,7 +123,7 @@ else
 					if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']!='textarea')
 					{
 						if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='checkbox')
-							DrawHeader('<span style="color:gray">'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </span> '.($referral[$column] == 'Y' ? '<img src="assets/check_button.png" class="alignImg" />' : '<img src="assets/x_button.png" class="alignImg" />'));
+							DrawHeader('<span style="color:gray">'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </span> '.($referral[$column] == 'Y' ? button('check', '', '', 'bigger') : button('x', '', '', 'bigger')));
 						else
 							DrawHeader('<span style="color:gray">'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </span><b> '.$referral[$column].'</b>');
 					}

@@ -77,7 +77,7 @@ if($_REQUEST['delete']=='true')
 			//        echo "$val2| ";
 			//}
 
-			$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'. _('The duplicate records have been deleted.');
+			$note[] = button('check') .'&nbsp;'. _('The duplicate records have been deleted.');
 		}
 	}
 	else

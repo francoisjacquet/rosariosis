@@ -270,7 +270,7 @@ function _make($value,$column)
 		$value = ((mb_strpos($value,'.')===false)?$value:rtrim(rtrim($value,'0'),'.'));
 //modif Francois: CSS WPadmin
 	elseif ($value == 'Y')
-		$value = '<img src="assets/check_button.png" height="15" />';
+		$value = button('check');
 	return str_replace('||',',<BR />',trim($value,'|'));
 }
 ?>

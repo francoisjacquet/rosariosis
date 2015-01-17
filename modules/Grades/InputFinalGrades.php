@@ -632,7 +632,7 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 
 		$tipJS = '<script>var tiptitle='.json_encode(_('Report Card Comments')).'; var tipmsg='.json_encode($tipmessage).';</script>';
 
-		$tipmessage = $tipJS.button('comment',_('Comment Codes'),'"#" onmouseover="stm([tiptitle,tipmsg],tipmessageStyle); return false;" onmouseout="htm()" onclick="return false;"',24);
+		$tipmessage = $tipJS.button('comment', _('Comment Codes'), '"#" onmouseover="stm([tiptitle,tipmsg],tipmessageStyle); return false;" onmouseout="htm()" onclick="return false;"', 'bigger');
 	}
 
 //modif Francois: add label on checkbox

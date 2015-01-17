@@ -230,7 +230,7 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 	}
 
 	if($options['C'])
-		$return .= '<img src="assets/js/jscalendar/img.png" class="alignImg" id="trigger'.$_ROSARIO['PrepareDate'].'" style="cursor: pointer;"/>';
+		$return .= '<img src="assets/themes/'. Preferences('THEME') .'/btn/calendar.png" class="button cal" id="trigger'.$_ROSARIO['PrepareDate'].'" />';
 
 	//modif Francois: NOBR on date input
 	$return .= '</span>';	

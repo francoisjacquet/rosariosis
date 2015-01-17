@@ -27,23 +27,20 @@ function ErrorMessage($errors,$code='error')
 	if($errors)
 	{
 //modif Francois: css WPadmin
+		if($code=='error' || $code=='fatal')
+			$return .= '<div class="error"><p>'. button('x') .'&nbsp;<b>'._('Error').':</b> ';
+		elseif($code=='warning')
+			$return .= '<div class="error"><p>'. button('warning') .'&nbsp;<b>'._('Warning').':</b> ';
+		else
+			$return .= '<div class="updated"><p><b>'._('Note').':</b> ';
+
 		if(count($errors)==1)
-		{
-			if($code=='error' || $code=='fatal')
-				$return .= '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<b>'._('Error').':</b> ';
-			else
-				$return .= '<div class="updated"><p><b>'._('Note').':</b> ';
 			$return .= ($errors[0]?$errors[0]:$errors[1]) .'</p>';
-		}
 		else
 		{
-			if($code=='error' || $code=='fatal')
-				$return .= '<div class="error"><p><IMG SRC="assets/x_button.png" class="alignImg" />&nbsp;<b>'._('Errors').':</b></p>';
-			else
-				$return .= '<div class="updated"><p>&nbsp;<b>'._('Note').':</b></p>';
-			$return .= '<ul>';
+			$return .= '</p><ul>';
 			foreach($errors as $value)
-					$return .= '<LI><span class="size-1">'.$value.'</span></LI>'."\n";
+					$return .= '<LI class="size-1">'.$value.'</LI>'."\n";
 			$return .= '</ul>';
 		}
 		$return .= '</div><BR />';

@@ -195,9 +195,10 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course')
 	//modif Francois: bugfix SQL bug $_SESSION['student_id'] is not set
 	//$link['add']['link'] = '#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course&student_id='.$_REQUEST['student_id'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'","","scrollbars=yes,resizable=yes,width=900,height=400");\' ';
 	$link['add']['link'] = '# onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'","","scrollbars=yes,resizable=yes,width=900,height=400");\'';
+
 	$link['add']['title'] = _('Add a Course');
 
-	$columns = array('TITLE'=>_('Course'),'PERIOD_PULLDOWN'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'ROOM'=>_('Room'),'COURSE_MARKING_PERIOD_ID'=>_('Term'),'SCHEDULER_LOCK'=>'<IMG SRC="assets/locked.png" height="24">','START_DATE'=>_('Enrolled'),'END_DATE'=>_('Dropped'));
+	$columns = array('TITLE'=>_('Course'),'PERIOD_PULLDOWN'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'ROOM'=>_('Room'),'COURSE_MARKING_PERIOD_ID'=>_('Term'),'SCHEDULER_LOCK'=>'<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/locked.png"  class="button bigger">','START_DATE'=>_('Enrolled'),'END_DATE'=>_('Dropped'));
 	/*//modif Francois: multiple school periods for a course period
 	//$days_RET = DBGet(DBQuery("SELECT DISTINCT DAYS FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 	$days_RET = DBGet(DBQuery("SELECT DISTINCT cpsp.DAYS FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'"));
@@ -326,7 +327,7 @@ function _makeLock($value,$column)
 {	global $THIS_RET;
 
 //modif Francois: icones
-	return '<IMG SRC="assets/'.($value=='Y'?'locked':'unlocked').'.png" height="24"'.(AllowEdit()?' onclick="if(this.src.indexOf(\'assets/locked.png\')!=-1) {this.src=\'assets/unlocked.png\'; document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'\';} else {this.src=\'assets/locked.png\'; document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'Y\';}"':'').' /><INPUT type="hidden" name="schedule['.$THIS_RET['COURSE_PERIOD_ID'].']['.$THIS_RET['START_DATE'].'][SCHEDULER_LOCK]" id="lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'" value="'.$value.'" />';
+	return '<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/'.($value=='Y'?'locked':'unlocked').'.png" class="button bigger"'.(AllowEdit()?' onclick="if(this.src.indexOf(\'unlocked\')==-1) {this.src= this.src.replace(\'locked\', \'unlocked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'\';} else {this.src= this.src.replace(\'unlocked\', \'locked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'Y\';}"':'').' /><INPUT type="hidden" name="schedule['.$THIS_RET['COURSE_PERIOD_ID'].']['.$THIS_RET['START_DATE'].'][SCHEDULER_LOCK]" id="lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'" value="'.$value.'" />';
 }
 
 function _makePeriodSelect($course_period_id,$column)

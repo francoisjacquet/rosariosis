@@ -23,7 +23,7 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 				if ($sql != '')
 				{
 					DBQuery($sql);
-					$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The plugin configuration has been modified.');
+					$note[] = button('check') .'&nbsp;'._('The plugin configuration has been modified.');
 				}
 				
 				unset($_ROSARIO['Config']);//update Config var

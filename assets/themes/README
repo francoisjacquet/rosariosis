@@ -10,6 +10,8 @@ Every theme must have the following files:
 - stylesheet.css
 - stylesheet_wkhtmltopdf.css
 - logo.png
+- spinning.gif
+- btn/*.png (all the button images)
 
 Note:
 The stylesheet_wkhtmltopdf.css file is the CSS file used by wkhtmltopdf. It is meant to be the copy of the stylesheet.css file WITHOUT the media queries.

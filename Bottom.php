@@ -68,7 +68,7 @@ else
 					default: $back_text = sprintf(_('%s List'),$_SESSION['Back_PHP_SELF']);
 				} ?>
 				
-				<a href="<?php echo $_SESSION['List_PHP_SELF']; ?>&bottom_back=true" title="<?php echo $back_text; ?>" class="BottomButton"><img src="assets/back.png" />&nbsp;<span><?php echo $back_text; ?></span></a>
+				<a href="<?php echo $_SESSION['List_PHP_SELF']; ?>&bottom_back=true" title="<?php echo $back_text; ?>" class="BottomButton"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/back.png" />&nbsp;<span><?php echo $back_text; ?></span></a>
 
 			<?php endif;
 			
@@ -80,14 +80,14 @@ else
 					default: $back_text = sprintf(_('%s Search'),$_SESSION['Back_PHP_SELF']);
 				} ?>
 
-				<a href="<?php echo $_SESSION['Search_PHP_SELF']; ?>&bottom_back=true" title="<?php echo $back_text; ?>" class="BottomButton"><img src="assets/back.png" />&nbsp;<span><?php echo $back_text; ?></span></a>
+				<a href="<?php echo $_SESSION['Search_PHP_SELF']; ?>&bottom_back=true" title="<?php echo $back_text; ?>" class="BottomButton"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/back.png" />&nbsp;<span><?php echo $back_text; ?></span></a>
 
 			<?php endif; ?>
 
-			<a href="Bottom.php?modfunc=print" target="_blank" title="<?php echo _('Print'); ?>" class="BottomButton"><img src="assets/print.png" />&nbsp;<span><?php echo _('Print'); ?></span></a>
-			<a href="#" onclick="toggleHelp();return false;" title="<?php echo _('Help'); ?>" class="BottomButton"><img src="assets/help.png" />&nbsp;<span><?php echo _('Help'); ?></span></a>
-			<a href="index.php?modfunc=logout" target="_top" title="<?php echo _('Logout'); ?>" class="BottomButton"><img src="assets/logout.png" />&nbsp;<span><?php echo _('Logout'); ?></span></a>
-			<img id="BottomSpinner" class="BottomButton" src="assets/spinning.gif" alt="Loading" />
+			<a href="Bottom.php?modfunc=print" target="_blank" title="<?php echo _('Print'); ?>" class="BottomButton"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/print.png" />&nbsp;<span><?php echo _('Print'); ?></span></a>
+			<a href="#" onclick="toggleHelp();return false;" title="<?php echo _('Help'); ?>" class="BottomButton"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/help.png" />&nbsp;<span><?php echo _('Help'); ?></span></a>
+			<a href="index.php?modfunc=logout" target="_top" title="<?php echo _('Logout'); ?>" class="BottomButton"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/logout.png" />&nbsp;<span><?php echo _('Logout'); ?></span></a>
+			<img id="BottomSpinner" class="BottomButton" src="assets/themes/<?php echo Preferences('THEME'); ?>/spinning.gif" alt="Loading" />
 		</div>
 
 		<div id="footerhelp"></div>

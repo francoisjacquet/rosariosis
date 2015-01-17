@@ -63,7 +63,7 @@ if(Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to rol
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 
 	if (!isset($error))
-		echo ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('The data have been rolled.')), 'note');
+		echo ErrorMessage(array(button('check', '', '', 'bigger') .'&nbsp;'._('The data have been rolled.')), 'note');
 	else
 		echo ErrorMessage($error);
 		

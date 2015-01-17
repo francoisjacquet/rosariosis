@@ -123,12 +123,15 @@ if($date != DBDate())
 	$date_note = ' <span style="color:red">'._('The selected date is not today').'</span>';
 
 $completed = DBGet(DBQuery('SELECT count(\'Y\') AS COMPLETED FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND MENU_ID=\''.$_REQUEST['menu_id'].'\''));
+
 if($completed[1]['COMPLETED'])
-	$note = ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />'._('You have taken lunch counts today for this period.')),'note');
+	$note[] = button('check')._('You have taken lunch counts today for this period.');
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note,SubmitButton(_('Save')));
-DrawHeader($note);
+
+if (isset($note))
+	echo ErrorMessage($note, 'note');
 
 $meal_RET = DBGet(DBQuery('SELECT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='.UserSyear().' AND SCHOOL_ID='.UserSchool().' AND SCHOOL_DATE=\''.$date.'\' AND TITLE=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\''));
 
@@ -163,14 +166,17 @@ $LO_columns = array('DESCRIPTION'=>_('Item'),'COUNT'=>_('Count'));
 	}
 
 ListOutput($items_RET,$LO_columns,$singular,$plural,false,false,$extra);
-echo '<span class="center">'.SubmitButton(_('Save')).'</CENTRE>';
+
+echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 echo '</TD><TD style="width:50%;">';
 
 $extra['SELECT'] .= ',fsa.BALANCE,fssa.STATUS';
 $extra['FROM'] .= ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 $extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NOT NULL';
+
 if(!$extra['functions'])
 	$extra['functions'] = array();
+
 $extra['functions'] += array('BALANCE'=>'red');
 
 $stu_RET = GetStuList($extra);

@@ -219,17 +219,22 @@ if(empty($_REQUEST['modfunc']))
 		$LO_ret = DBGet(DBQuery($sql),$functions);
 
 		$LO_columns = array('TITLE'=>_('Title'),'POINTS'=>_('Points'),'DEFAULT_POINTS'=>'<span title="'._('Enter an asterisk (*) to excuse student').'" style="cursor:help">'._('Default Points').'*</span>','ASSIGNED_DATE'=>_('Assigned Date'),'DUE_DATE'=>_('Due Date'),'COURSE_ID'=>_('All'),'DESCRIPTION'=>_('Description'));
+
 		if($_REQUEST['allow_edit']=='Y' || !$_REQUEST['tab_id'])
 			$LO_columns += array('ASSIGNMENT_TYPE_ID'=>_('Type'));
+
 		$link['add']['html'] = array('TITLE'=>_makeAssnInput('','TITLE'),'POINTS'=>_makeAssnInput('','POINTS'),'DEFAULT_POINTS'=>_makeAssnInput('','DEFAULT_POINTS'),'ASSIGNED_DATE'=>_makeAssnInput('','ASSIGNED_DATE'),'DUE_DATE'=>_makeAssnInput('','DUE_DATE'),'COURSE_ID'=>_makeAssnInput('','COURSE_ID'),'DESCRIPTION'=>_makeAssnInput('','DESCRIPTION'));
+
 		if(!$_REQUEST['tab_id'])
 			$link['add']['html'] += array('ASSIGNMENT_TYPE_ID'=>_makeAssnInput('','ASSIGNMENT_TYPE_ID'));
+
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'].'&allow_edit='.$_REQUEST['allow_edit'];
 		$link['remove']['variables'] = array('id'=>'ASSIGNMENT_ID');
 		$link['add']['html']['remove'] = button('add');
 		$link['add']['first'] = 1; // number before add link moves to top
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new&allow_edit='.$_REQUEST['allow_edit']);
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new&allow_edit='.$_REQUEST['allow_edit']);
+
 		$subject = 'Assignments';
 	}
 	else
@@ -241,17 +246,22 @@ if(empty($_REQUEST['modfunc']))
 		$LO_ret = DBGet(DBQuery($sql),$functions);
 
 		$LO_columns = array('TITLE'=>_('Type'));
+
 		if(Preferences('WEIGHT','Gradebook')=='Y')
 			$LO_columns += array('FINAL_GRADE_PERCENT'=>_('Percent'));
+
 		$LO_columns += array('SORT_ORDER'=>_('Sort Order'),'COLOR'=>_('Color'));
 		$link['add']['html'] = array('TITLE'=>_makeTypeInput('','TITLE'),'SORT_ORDER'=>_makeTypeInput('','SORT_ORDER'),'COLOR'=>_makeColorInput('','COLOR'));
+
 		if(Preferences('WEIGHT','Gradebook')=='Y')
 			$link['add']['html']['FINAL_GRADE_PERCENT'] = _makeTypeInput('','FINAL_GRADE_PERCENT');
+
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id=new&allow_edit='.$_REQUEST['allow_edit'];
 		$link['remove']['variables'] = array('id'=>'ASSIGNMENT_TYPE_ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new&allow_edit='.$_REQUEST['allow_edit']);
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new&allow_edit='.$_REQUEST['allow_edit']);
+
 		$subject = 'Assignmemt Types';
 	}
 

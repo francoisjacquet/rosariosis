@@ -17,7 +17,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	echo '<TABLE class="cellspacing-0" style="border: solid #C9C9C9 1px; margin:0 auto;"><TR><TD><TABLE style="height:19px" class="cellspacing-0"><TR>';
 	for($i=1;$i<=100;$i++)
 		echo '<TD id="cell'.$i.'" style="width:3px;"></TD>';
-	echo '</TR></TABLE></TD></TR></TABLE><BR /><DIV id="percentDIV" style="align-text:center;"><IMG SRC="assets/spinning.gif"> '._('Processing Requests ...').' </DIV>';
+	echo '</TR></TABLE></TD></TR></TABLE><BR /><DIV id="percentDIV"><IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif"> '._('Processing Requests ...').' </DIV>';
 	PopTable('footer');
 	ob_flush();
 	flush();
@@ -191,7 +191,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 
 	if($_REQUEST['test_mode']!='Y')
 	{
-		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<IMG SRC="assets/spinning.gif" /> '._('Saving Schedules ...').' ').';</script>';
+		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif" /> '._('Saving Schedules ...').' ').';</script>';
 		echo str_pad(' ',4096);
 		ob_flush();
 		flush();
@@ -245,7 +245,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 
 	if($_REQUEST['test_mode']!='Y' || $_REQUEST['delete']=='Y')
 	{
-		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<IMG SRC="assets/spinning.gif" /> '._('Optimizing ...').' ').';</script>';
+		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/spinning.gif" /> '._('Optimizing ...').' ').';</script>';
 		echo str_pad(' ',4096);
 		ob_flush();
 		flush();
@@ -258,7 +258,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	if (isset($error))
 		$error_msg = ErrorMessage($error);
 
-	echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode($error_msg.'<IMG SRC="assets/check_button.png" class="alignImg" /> <B>'._('Done.').'</B>').';</script>';
+	echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode($error_msg. button('check', '', '', 'bigger') .' <B>'._('Done.').'</B>').';</script>';
 	ob_end_flush();
 
 	//$_REQUEST['modname'] = 'Scheduling/UnfilledRequests.php';

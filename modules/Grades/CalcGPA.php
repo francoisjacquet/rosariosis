@@ -35,7 +35,7 @@ if($go)
 	//modif Francois: waiting message
 	echo '<BR />';
 	PopTable('header',_('Calculating GPA and class rank'));
-	echo '<span class="center"><DIV id="statusDIV"><IMG SRC="assets/spinning.gif"> '._('Calculating ...').' </DIV></span>';
+	echo '<span class="center"><DIV id="statusDIV"><IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif"> '._('Calculating ...').' </DIV></span>';
 	PopTable('footer');
 	ob_flush();
 	flush();
@@ -49,7 +49,7 @@ if($go)
 	unset($_REQUEST['delete_ok']);
 
 	//modif Francois: ending message
-	echo '<script>document.getElementById("statusDIV").innerHTML='.json_encode('<IMG SRC="assets/check_button.png" class="alignImg" /> '.sprintf(_('GPA and class rank for %s has been calculated.'),GetMP($_REQUEST['marking_period_id']))).';';
+	echo '<script>document.getElementById("statusDIV").innerHTML='.json_encode(button('check', '', '', 'bigger') . ' '.sprintf(_('GPA and class rank for %s has been calculated.'),GetMP($_REQUEST['marking_period_id']))).';';
 	echo '</script>';
 	ob_end_flush();
 	Prompt(_('GPA Calculation'),_('Calculate GPA and Class Rank'),$table);

@@ -263,11 +263,16 @@ if(empty($_REQUEST['modfunc']))
 		if($_REQUEST['category_id']=='new')
 			$new = true;
 		$header .= '<TD><TABLE><TR>';
-		$header .= '<TD>' . CheckboxInput($RET['RESIDENCE'],'tables['.$_REQUEST['category_id'].'][RESIDENCE]',_('Residence'),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['MAILING'],'tables['.$_REQUEST['category_id'].'][MAILING]',_('Mailing'),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['BUS'],'tables['.$_REQUEST['category_id'].'][BUS]',_('Bus'),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['RESIDENCE'], 'tables['.$_REQUEST['category_id'].'][RESIDENCE]',_('Residence'), '', $new, button('check'), button('x')) . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['MAILING'], 'tables['.$_REQUEST['category_id'].'][MAILING]', _('Mailing'), '', $new, button('check'), button('x')) . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['BUS'], 'tables['.$_REQUEST['category_id'].'][BUS]', _('Bus'), '',$new, button('check'), button('x')) . '</TD>';
 		$header .= '</TR><TR>';
+
 		$header .= '<TD colspan="3"><span class="legend-gray">'._('Note: All unchecked means applies to all addresses').'</span></TD>';
+
 		$header .= '</TR></TABLE></TD>';
 
 		$header .= '</TR>';

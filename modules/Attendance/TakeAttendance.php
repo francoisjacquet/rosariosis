@@ -45,6 +45,7 @@ if(count($categories_RET)==0)
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
 	echo '</FORM>';
+
 	ErrorMessage(array(_('You cannot take attendance for this course period.')),'fatal');
 }
 
@@ -101,6 +102,7 @@ if(count($course_RET)==0)
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
 	echo '</FORM>';
+
 	ErrorMessage(array(_('You cannot take attendance for this period on this day.')),'fatal');
 }
 
@@ -110,6 +112,7 @@ if(!$qtr_id)
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
 	echo '</FORM>';
+
 	ErrorMessage(array(_('The selected date is not in a school quarter.')),'fatal');
 }
 
@@ -118,13 +121,17 @@ if(!isset($_ROSARIO['allow_edit']))
 {
 	// allow teacher edit if selected date is in the current quarter or in the corresponding grade posting period
 	$current_qtr_id = GetCurrentMP('QTR',DBDate(),false);
+
 	$time = strtotime(DBDate('postgres'));
+
 	if(($current_qtr_id && $qtr_id==$current_qtr_id || GetMP($qtr_id,'POST_START_DATE') && ($time<=strtotime(GetMP($qtr_id,'POST_END_DATE')))) && ($program_config['ATTENDANCE_EDIT_DAYS_BEFORE'][1]['VALUE']==null || strtotime($date)<=$time+$program_config['ATTENDANCE_EDIT_DAYS_BEFORE'][1]['VALUE']*86400) && ($program_config['ATTENDANCE_EDIT_DAYS_AFTER'][1]['VALUE']=='' || strtotime($date)>=$time-$program_config['ATTENDANCE_EDIT_DAYS_AFTER'][1]['VALUE']*86400))
 		$_ROSARIO['allow_edit'] = true;
 }
 
 $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PERIOD_ID,ATTENDANCE_REASON FROM ".$table." t WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."'".($table=='LUNCH_PERIOD'?" AND TABLE_NAME='".$_REQUEST['table']."'":'');
+
 $current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID'));
+
 if($_REQUEST['attendance'] && $_POST['attendance'])
 {
 	foreach($_REQUEST['attendance'] as $student_id=>$value)
@@ -132,19 +139,25 @@ if($_REQUEST['attendance'] && $_POST['attendance'])
 		if($current_RET[$student_id])
 		{
 			$sql = "UPDATE $table SET ATTENDANCE_TEACHER_CODE='".mb_substr($value,5)."',COURSE_PERIOD_ID='".UserCoursePeriod()."'";
+
 			if($current_RET[$student_id][1]['ADMIN']!='Y')
 				$sql .= ",ATTENDANCE_CODE='".mb_substr($value,5)."'";
+
 			if($_REQUEST['comment'][$student_id])
 				$sql .= ",COMMENT='".trim($_REQUEST['comment'][$student_id])."'";
+	
 			$sql .= " WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";
 		}
 		else
 			$sql = "INSERT INTO ".$table." (STUDENT_ID,SCHOOL_DATE,MARKING_PERIOD_ID,PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_TEACHER_CODE,COMMENT".($table=='LUNCH_PERIOD'?',TABLE_NAME':'').") values('".$student_id."','".$date."','".$qtr_id."','".UserPeriod()."','".UserCoursePeriod()."','".mb_substr($value,5)."','".mb_substr($value,5)."','".$_REQUEST['comment'][$student_id]."'".($table=='LUNCH_PERIOD'?",'".$_REQUEST['table']."'":'').")";
+
 		DBQuery($sql);
+
 		if($_REQUEST['table']=='0')
 			UpdateAttendanceDaily($student_id,$date);
 	}
 	$RET = DBGet(DBQuery("SELECT 'Y' AS COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
+
 	if(!count($RET))
 		DBQuery("INSERT INTO ATTENDANCE_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID,TABLE_NAME) values('".User('STAFF_ID')."','".$date."','".UserPeriod()."','".$_REQUEST['table']."')");
 
@@ -160,27 +173,35 @@ AND TYPE = 'teacher'
 AND TABLE_NAME='".$_REQUEST['table']."'".
 ($_REQUEST['table']=='0' && $course_RET[1]['HALF_DAY'] ? " AND STATE_CODE!='H'" : '')." 
 ORDER BY SORT_ORDER"));
+
 if(count($codes_RET))
 {
 	foreach($codes_RET as $code)
 	{
 		$extra['SELECT'] .= ",'".$code['STATE_CODE']."' AS CODE_".$code['ID'];
+
 		if($code['DEFAULT_CODE']=='Y')
 			$extra['functions']['CODE_'.$code['ID']] = '_makeRadioSelected';
 		else
 			$extra['functions']['CODE_'.$code['ID']] = '_makeRadio';
+
 		$columns['CODE_'.$code['ID']] = $code['TITLE'];
 	}
 }
 else
 	$columns = array();
+
 $extra['SELECT'] .= ',s.STUDENT_ID AS COMMENT,s.STUDENT_ID AS ATTENDANCE_REASON';
 $columns += array('COMMENT'=>_('Teacher Comment'));
+
 if(!isset($extra['functions']) || !is_array($extra['functions']))
 	$extra['functions'] = array();
+
 $extra['functions'] += array('FULL_NAME'=>'_makeTipMessage','COMMENT'=>'makeCommentInput','ATTENDANCE_REASON'=>'makeAttendanceReason');
 $extra['DATE'] = $date;
+
 $stu_RET = GetStuList($extra);
+
 if($attendance_reason)
 	$columns += array('ATTENDANCE_REASON'=>_('Office Comment'));
 
@@ -188,14 +209,18 @@ $date_note = $date!=DBDate() ? ' <span style="color:red" class="nobr">'._('The s
 $date_note .= AllowEdit() ? ' <span style="color:green" class="nobr">'._('You can edit this attendance').'</span>':' <span style="color:red" class="nobr">'._('You cannot edit this attendance').'</span>';
 
 $completed_RET = DBGet(DBQuery("SELECT 'Y' as COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
+
 if(count($completed_RET))
-	$note = ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('You already have taken attendance today for this period.')),'note');
+	$note[] = button('check') .'&nbsp;'._('You already have taken attendance today for this period.');
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
+
 DrawHeader('',SubmitButton(_('Save')));
 DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note);
 //DrawHeader($note);
-echo $note;
+
+if (isset($note))
+	echo ErrorMessage($note,'note');
 
 $LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level')) + $columns;
 

@@ -103,7 +103,7 @@ if(count($RET))
 		$i++;
 		$staff_RET[$i]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
 		foreach($periods as $period_id=>$period)
-			$staff_RET[$i][$period_id] = '<IMG SRC="assets/x_button.png" height="15">';
+			$staff_RET[$i][$period_id] = button('x');
 	}
 }
 $columns = array('FULL_NAME'=>_('Teacher'));

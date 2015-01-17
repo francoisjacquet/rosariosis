@@ -27,7 +27,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 									values('".$student_id."',".db_seq_nextval('BILLING_FEES_SEQ').",'".$_REQUEST['title']."','".preg_replace('/[^0-9,.]+/','',$_REQUEST['amount'])."','".UserSyear()."','".UserSchool()."','".DBDate()."','".$due_date."','".$_REQUEST['comments']."')";
 						DBQuery($sql);
 				}
-				$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('That fee has been added to the selected students.');
+				$note[] = button('check') .'&nbsp;'._('That fee has been added to the selected students.');
 			}
 			else
 				$error[] = _('The date you entered is not valid');

@@ -308,7 +308,7 @@ else
 		$extra2['group'] = array('STUDENT_ID','PERSON_ID');
 
 		$contacts_RET = GetStuList($extra2);
-		$extra['columns_before']['PHONE'] = '<IMG SRC="assets/down_phone_button.png" height="24">';
+		$extra['columns_before']['PHONE'] = button('down_phone');
 	}
 
 	$columns = array();

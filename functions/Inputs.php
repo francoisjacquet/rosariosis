@@ -112,7 +112,7 @@ function setMLvalue(id,loc,value){
         $ret .= '<DIV><INPUT type="hidden" id="'.$name.'" name="'.$name.'" value="'.$value.'" />';
         
         foreach ($RosarioLocales as $id=>$loc) {
-            $ret .= '<label><IMG src="assets/flags/'.$loc.'.png" height="24" style="vertical-align:middle;" /> ';
+            $ret .= '<label><IMG src="assets/flags/'.$loc.'.png" class="button bigger" /> ';
 			//modif Francois: only first translation string required
             //$ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
             $ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options.($id==0?' required':'')." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);

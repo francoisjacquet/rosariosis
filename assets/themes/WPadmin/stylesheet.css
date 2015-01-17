@@ -241,16 +241,16 @@ label{
 	border-width:1px 0 1px;
 	border-style:solid
 }
+.menu-top img{
+	height:32px;
+	vertical-align:middle
+}
 #adminmenu .wp-submenu a{
 	margin:0
 }
 .current-person{
 	padding:1px;
 	margin-top:5px;
-}
-.current-person img{
-	vertical-align:middle;
-	height:24px
 }
 .widefat th,.widefat td{
 	overflow:hidden
@@ -341,6 +341,27 @@ h3 span{
 .alignImg{
 	vertical-align:middle;
 	height:32px
+}
+.button{
+	vertical-align:middle;
+	height:18px
+}
+.button.bigger{
+	height:24px
+}
+.button.smaller{
+	height:14px
+}
+.button.cal{
+	cursor:pointer;
+	height:32px
+}
+div.error .button, div.updated .button{
+	height:32px
+}
+.underline-dots .button{
+	vertical-align:baseline;
+	height:15px
 }
 #body{
 	padding:0 15px

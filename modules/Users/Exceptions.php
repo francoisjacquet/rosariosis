@@ -102,7 +102,7 @@ if(!$staff_RET[1]['PROFILE_ID'])
 
 		echo '<TR><TD colspan="3"><h4>'.$module_title.'</h4></TD></TR>';
 //modif Francois: add <label> on checkbox
-		echo '<TR><TH style="text-align:right;"><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_use_'.$modcat.'.checked,"can_use['.$modcat.'");\' />':'').'</span></label></TH><TH style="text-align:right;"><label>'._('Can Edit').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,"can_edit['.$modcat.'");\' />':'').'</span></label></TH><TH>&nbsp;</TH></TR>';
+		echo '<TR><TH><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_use_'.$modcat.'.checked,"can_use['.$modcat.'");\' />':'').'</span></label></TH><TH><label>'._('Can Edit').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,"can_edit['.$modcat.'");\' />':'').'</span></label></TH><TH>&nbsp;</TH></TR>';
 		if(count($values))
 		{
 			foreach($values as $file=>$title)
@@ -175,7 +175,10 @@ else
 	echo '<BR />';
 	PopTable('header',_('Error'),'width=50%');
 
-	echo '<TABLE><TR><TD><IMG SRC="assets/warning_button.png" height="30" /></TD><TD>'.sprintf(_('%s %s is assigned to the profile %s.'),$staff_RET[1]['FIRST_NAME'],$staff_RET[1]['LAST_NAME'],$profile_title[1]['TITLE']).'<BR /><BR /> '.sprintf(_('To assign permissions to this user, either change the permissions for this profile using the %s setup or change this user to a user with custom permissions by using %s.'), (AllowUse('Users/Profiles.php') ? '<A href="Modules.php?modname=Users/Profiles.php">' : '')._('Profiles').(AllowUse('Users/Profiles.php') ? '</A>' : ''), (AllowUse('Users/User.php') ? '<A href="Modules.php?modname=Users/User.php">' : '')._('General Info').(AllowUse('Users/User.php') ? '</A>' : '')).'</TD></TR></TABLE>';
+	echo '<TABLE><TR><TD>'. button('warning', '', '', 'bigger') .'</TD>';
+	
+	echo '<TD>'.sprintf(_('%s %s is assigned to the profile %s.'),$staff_RET[1]['FIRST_NAME'],$staff_RET[1]['LAST_NAME'],$profile_title[1]['TITLE']).'<BR /><BR /> '.sprintf(_('To assign permissions to this user, either change the permissions for this profile using the %s setup or change this user to a user with custom permissions by using %s.'), (AllowUse('Users/Profiles.php') ? '<A href="Modules.php?modname=Users/Profiles.php">' : '')._('Profiles').(AllowUse('Users/Profiles.php') ? '</A>' : ''), (AllowUse('Users/User.php') ? '<A href="Modules.php?modname=Users/User.php">' : '')._('General Info').(AllowUse('Users/User.php') ? '</A>' : '')).'</TD></TR></TABLE>';
+
 	PopTable('footer');
 }
 }

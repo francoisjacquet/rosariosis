@@ -56,7 +56,7 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 				if ($go)
 				{
 					DBQuery($sql);
-					$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('This school has been modified.');
+					$note[] = button('check') .'&nbsp;'._('This school has been modified.');
 				}
 			}
 			else
