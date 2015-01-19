@@ -60,6 +60,23 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			{
 				$students .= ",'".$student_id."'";
 				$students_count++;
+
+				//enrollment: update only the LAST enrollment record
+				if($grade_id!='')
+					DBQuery("UPDATE STUDENT_ENROLLMENT SET GRADE_ID='".$grade_id."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID='".$student_id."' ORDER BY START_DATE DESC LIMIT 1)");
+
+				if($next_school!='')
+					DBQuery("UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='".$next_school."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID='".$student_id."' ORDER BY START_DATE DESC LIMIT 1)");
+
+				if($calendar)
+					DBQuery("UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='".$calendar."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID='".$student_id."' ORDER BY START_DATE DESC LIMIT 1)");
+
+				if($start_date!='')
+					DBQuery("UPDATE STUDENT_ENROLLMENT SET START_DATE='".$start_date."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID='".$student_id."' ORDER BY START_DATE DESC LIMIT 1)");
+
+				if($enrollment_code!='')
+					DBQuery("UPDATE STUDENT_ENROLLMENT SET ENROLLMENT_CODE='".$enrollment_code."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID='".$student_id."' ORDER BY START_DATE DESC LIMIT 1)");
+
 			}
 		}
 
@@ -69,22 +86,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$warning[0] = mb_substr($warning,0,mb_strpos($warning,'. '));
 		elseif($grade_id=='' && $next_school=='' && !$calendar && $start_date=='' && $enrollment_code=='')
 			$warning[] = _('No data was entered.');
-
-		//enrollment: update only the LAST enrollment record
-		if($grade_id!='')
-			DBQuery("UPDATE STUDENT_ENROLLMENT SET GRADE_ID='".$grade_id."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID IN (".mb_substr($students,1).") ORDER BY START_DATE DESC LIMIT 1)");
-
-		if($next_school!='')
-			DBQuery("UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='".$next_school."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID IN (".mb_substr($students,1).") ORDER BY START_DATE DESC LIMIT 1)");
-
-		if($calendar)
-			DBQuery("UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='".$calendar."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID IN (".mb_substr($students,1).") ORDER BY START_DATE DESC LIMIT 1)");
-
-		if($start_date!='')
-			DBQuery("UPDATE STUDENT_ENROLLMENT SET START_DATE='".$start_date."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID IN (".mb_substr($students,1).") ORDER BY START_DATE DESC LIMIT 1)");
-
-		if($enrollment_code!='')
-			DBQuery("UPDATE STUDENT_ENROLLMENT SET ENROLLMENT_CODE='".$enrollment_code."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID IN (".mb_substr($students,1).") ORDER BY START_DATE DESC LIMIT 1)");
 
 		if(!isset($warning))
 			$note[] = button('check') .'&nbsp;'._('The specified information was applied to the selected students.');
