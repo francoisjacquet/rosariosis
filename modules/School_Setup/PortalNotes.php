@@ -102,7 +102,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				//$values = db_seq_nextval('PORTAL_NOTES_SEQ').",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 				$values = $portal_note_id.",'".UserSchool()."','".UserSyear()."',CURRENT_TIMESTAMP,'".User('STAFF_ID')."',";
 
-				$file_attached_ext_white_list = array('.doc', '.docx', '.txt', '.pdf', '.xls', '.xlsx', '.csv', '.jpg', '.jpeg', '.png', '.gif', '.zip', '.ppt', '.pptx', '.mp3', '.wav', '.avi', '.mp4', '.ogg');
+				$file_attached_ext_white_list = array('.doc', '.docx', '.txt', '.pdf', '.xls', '.xlsx', '.csv', '.jpg', '.jpeg', '.png', '.gif', '.zip', '.ppt', '.pptx', '.mp3', '.wav', '.avi', '.mp4', '.ogg', '.ogv', '.webm');
 				
 				if ($columns['FILE_OR_EMBED'] == 'FILE')
 					$columns['FILE_ATTACHED'] = FileUpload('FILE_ATTACHED_FILE', $PortalNotesFilesPath, $file_attached_ext_white_list, 10, $error);
@@ -184,7 +184,7 @@ if($_REQUEST['modfunc']!='remove')
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id'=>'ID');
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=assets/spinning.gif />\';">';
+	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=assets/themes/'. Preferences('THEME') .'/spinning.gif />\';">';
 
 	DrawHeader('',SubmitButton(_('Save')));
 
