@@ -101,29 +101,36 @@ if(empty($_REQUEST['modfunc']))
 			$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS"),array(),array('TYPE'));
 
 		$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
+
 //modif Francois: css WPadmin
 		echo '<span class="center">';
 		echo '<script>var category_idonchange = document.createElement("a"); category_idonchange.href = "'.PreparePHP_SELF($_REQUEST,array('category_id')).'&category_id="; category_idonchange.target = "body";</script>';
+
 		echo '<SELECT name="category_id" onchange="category_idonchange.href += this.options[selectedIndex].value; ajaxLink(category_idonchange);"><OPTION value="">'._('All Categories').'</OPTION>';
 		foreach($categories_RET as $category)
 			echo '<OPTION value="'.$category['ID'].'"'.($_REQUEST['category_id']==$category['ID']?' SELECTED':'').'>'.ParseMLField($category['TITLE']).'</OPTION>';
 		echo '</SELECT>';
-		echo '</span><TABLE class="widefat cellspacing-0" style="margin:0 auto;">';
+
+		echo '</span><TABLE class="widefat cellspacing-0 center col1-align-right">';
+
 		if(count($fields_RET['text']))
 		{
 			foreach($fields_RET['text'] as $field)
-				echo '<TR><TD style="text-align:right"><b>'.ParseMLField($field['TITLE']).'</b></TD><TD>'._makeTextInput('CUSTOM_'.$field['ID']).'</TD></TR>';
+				echo '<TR><TD><b>'.ParseMLField($field['TITLE']).'</b></TD><TD>'._makeTextInput('CUSTOM_'.$field['ID']).'</TD></TR>';
 		}
+
 		if(count($fields_RET['numeric']))
 		{
 			foreach($fields_RET['numeric'] as $field)
-				echo '<TR><TD style="text-align:right"><b>'.ParseMLField($field['TITLE']).'</b></TD><TD>'._makeTextInput('CUSTOM_'.$field['ID'],true).'</TD></TR>';
+				echo '<TR><TD><b>'.ParseMLField($field['TITLE']).'</b></TD><TD>'._makeTextInput('CUSTOM_'.$field['ID'],true).'</TD></TR>';
 		}
+
 		if(count($fields_RET['date']))
 		{
 			foreach($fields_RET['date'] as $field)
-				echo '<TR><TD style="text-align:right"><b>'.ParseMLField($field['TITLE']).'</b></TD><TD>'._makeDateInput('CUSTOM_'.$field['ID']).'</TD></TR>';
+				echo '<TR><TD><b>'.ParseMLField($field['TITLE']).'</b></TD><TD>'._makeDateInput('CUSTOM_'.$field['ID']).'</TD></TR>';
 		}
+
 		if(count($fields_RET['select']))
 		{
 			foreach($fields_RET['select'] as $field)
@@ -138,9 +145,10 @@ if(empty($_REQUEST['modfunc']))
 							$select_options[$option] = $option;
 				}
 
-				echo '<TR><TD style="text-align:right"><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
+				echo '<TR><TD><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
 			}
 		}
+
 		if(count($fields_RET['codeds']))
 		{
 			foreach($fields_RET['codeds'] as $field)
@@ -157,10 +165,10 @@ if(empty($_REQUEST['modfunc']))
 							$select_options[$option[0]] = $option[1];
 					}
 				}
-				echo '<TR><TD style="text-align:right"><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
-				//echo '</TD></TR>';
+				echo '<TR><TD><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
 			}
 		}
+
 		if(count($fields_RET['autos']))
 		{
 			foreach($fields_RET['autos'] as $field)	
@@ -189,10 +197,10 @@ if(empty($_REQUEST['modfunc']))
 							$select_options[$option['CUSTOM_'.$field['ID']]] = array($option['CUSTOM_'.$field['ID']],'<span style="color:blue">'.$option['CUSTOM_'.$field['ID']].'</span>');
 				}
 
-				echo '<TR><TD style="text-align:right"><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
-				//echo '</TD></TR>';
+				echo '<TR><TD><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
 			}
 		}
+
 		if(count($fields_RET['edits']))
 			{
 			foreach($fields_RET['edits'] as $field)
@@ -211,10 +219,10 @@ if(empty($_REQUEST['modfunc']))
 //				$select_options['---'] = '---';
 				$select_options['---'] = '-'. _('Edit') .'-';
 
-				echo '<TR><TD style="text-align:right"><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
-				//echo '</TD></TR>';
+				echo '<TR><TD><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
 			}
 		}
+
 		if(count($fields_RET['exports']))
 		{
 			foreach($fields_RET['exports'] as $field)
@@ -231,24 +239,23 @@ if(empty($_REQUEST['modfunc']))
 							$select_options[$option[0]] = $option[0];
 					}
 				}
-				echo '<TR><TD style="text-align:right"><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
+				echo '<TR><TD><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
 			}
 		}
+
 		if(count($fields_RET['textarea']))
 		{
 			foreach($fields_RET['textarea'] as $field)
 			{
-				echo '<TR><TD style="text-align:right; vertical-align: top;"><b>'.ParseMLField($field['TITLE']).'</b></TD>';
-				echo '<TD>';
+				echo '<TR><TD><b>'.ParseMLField($field['TITLE']).'</b></TD><TD>';
 				echo _makeTextareaInput('CUSTOM_'.$field['ID']);
-				echo '</TD>';
-				echo '</TR>';
+				echo '</TD></TR>';
 			}
 		}
+
 		if(!$_REQUEST['category_id'] || $_REQUEST['category_id']=='1')
 		{
-			echo '<TR><TD style="text-align:right; vertical-align: top;"><b>'._('Rolling / Retention Options').'</b></TD>';
-			echo '<TD>';
+			echo '<TR><TD><b>'._('Rolling / Retention Options').'</b></TD><TD>';
 			$schools_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOLS WHERE ID!='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 			$options = array(UserSchool()=>_('Next grade at current school'),'0'=>_('Retain'),'-1'=>_('Do not enroll after this school year'));
 			if(count($schools_RET))
@@ -257,11 +264,9 @@ if(empty($_REQUEST['modfunc']))
 					$options[$school['ID']] = $school['TITLE'];
 			}
 			echo _makeSelectInput('NEXT_SCHOOL',$options);
-			echo '</TD>';
-			echo '</TR>';
+			echo '</TD></TR>';
 
-			echo '<TR><TD style="text-align:right; vertical-align: top;"><b>'._('Calendar').'</b></TD>';
-			echo '<TD>';
+			echo '<TR><TD><b>'._('Calendar').'</b></TD><TD>';
 			$calendars_RET = DBGet(DBQuery("SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY DEFAULT_CALENDAR ASC"));
 			$options = array();
 			if(count($calendars_RET))
@@ -270,26 +275,24 @@ if(empty($_REQUEST['modfunc']))
 					$options[$calendar['CALENDAR_ID']] = $calendar['TITLE'];
 			}
 			echo _makeSelectInput('CALENDAR_ID',$options);
-			echo '</TD>';
-			echo '</TR>';
+			echo '</TD></TR>';
 		}
-		echo '</TABLE>';
-		echo '<BR />';
+
+		echo '</TABLE><BR />';
 
 		$radio_count = count($fields_RET['radio']);
 		if($radio_count)
 		{
-			echo '<TABLE class="widefat cellspacing-0 cellpadding-5">';
-			echo '<TR>';
+			echo '<TABLE class="widefat cellspacing-0 cellpadding-5 center"><TR>';
 			for($i=1;$i<=$radio_count;$i++)
 			{
 				echo '<TD>'._makeCheckboxInput('CUSTOM_'.$fields_RET['radio'][$i]['ID'],'<b>'.ParseMLField($fields_RET['radio'][$i]['TITLE']).'</b>').'</TD>';
 				if($i%5==0 && $i!=$radio_count)
 					echo '</TR><TR>';
 			}
-			echo '</TR>';
-			echo '</TABLE>';
+			echo '</TR></TABLE>';
 		}
+
 		echo '<BR />';
 	}
 

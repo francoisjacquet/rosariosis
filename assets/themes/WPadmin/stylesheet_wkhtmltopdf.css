@@ -462,6 +462,9 @@ table.col1-align-right td:first-child{
 	/*<CENTER> && <TD align="center">*/
 	text-align:center
 }
+table.center{
+	margin:0 auto;
+}
 span.nobr{
 	white-space:nowrap
 }
