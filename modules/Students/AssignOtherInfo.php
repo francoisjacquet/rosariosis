@@ -19,6 +19,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	if(count($_REQUEST['values']) && count($_REQUEST['student']))
 	{
+		if($_REQUEST['values']['GRADE_ID']!='')
+		{
+			$grade_id = $_REQUEST['values']['GRADE_ID'];
+			unset($_REQUEST['values']['GRADE_ID']);
+		}
 		if($_REQUEST['values']['NEXT_SCHOOL']!='')
 		{
 			$next_school = $_REQUEST['values']['NEXT_SCHOOL'];
@@ -28,6 +33,16 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			$calendar = $_REQUEST['values']['CALENDAR_ID'];
 			unset($_REQUEST['values']['CALENDAR_ID']);
+		}
+		if($_REQUEST['values']['START_DATE']!='')
+		{
+			$start_date = $_REQUEST['values']['START_DATE'];
+			unset($_REQUEST['values']['START_DATE']);
+		}
+		if($_REQUEST['values']['ENROLLMENT_CODE']!='')
+		{
+			$enrollment_code = $_REQUEST['values']['ENROLLMENT_CODE'];
+			unset($_REQUEST['values']['ENROLLMENT_CODE']);
 		}
 
 		foreach($_REQUEST['values'] as $field=>$value)
@@ -52,13 +67,24 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			DBQuery('UPDATE STUDENTS SET '.mb_substr($update,1).' WHERE STUDENT_ID IN ('.mb_substr($students,1).')');
 		elseif(isset($warning))
 			$warning[0] = mb_substr($warning,0,mb_strpos($warning,'. '));
-		elseif($next_school=='' && !$calendar)
+		elseif($grade_id=='' && $next_school=='' && !$calendar && $start_date=='' && $enrollment_code=='')
 			$warning[] = _('No data was entered.');
 
+		//enrollment: update only the LAST enrollment record
+		if($grade_id!='')
+			DBQuery("UPDATE STUDENT_ENROLLMENT SET GRADE_ID='".$grade_id."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID IN (".mb_substr($students,1).") ORDER BY START_DATE DESC LIMIT 1)");
+
 		if($next_school!='')
-			DBQuery("UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='".$next_school."' WHERE SYEAR='".UserSyear()."' AND STUDENT_ID IN (".mb_substr($students,1).") ");
+			DBQuery("UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='".$next_school."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID IN (".mb_substr($students,1).") ORDER BY START_DATE DESC LIMIT 1)");
+
 		if($calendar)
-			DBQuery("UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='".$calendar."' WHERE SYEAR='".UserSyear()."' AND STUDENT_ID IN (".mb_substr($students,1).") ");
+			DBQuery("UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='".$calendar."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID IN (".mb_substr($students,1).") ORDER BY START_DATE DESC LIMIT 1)");
+
+		if($start_date!='')
+			DBQuery("UPDATE STUDENT_ENROLLMENT SET START_DATE='".$start_date."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID IN (".mb_substr($students,1).") ORDER BY START_DATE DESC LIMIT 1)");
+
+		if($enrollment_code!='')
+			DBQuery("UPDATE STUDENT_ENROLLMENT SET ENROLLMENT_CODE='".$enrollment_code."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID IN (".mb_substr($students,1).") ORDER BY START_DATE DESC LIMIT 1)");
 
 		if(!isset($warning))
 			$note[] = button('check') .'&nbsp;'._('The specified information was applied to the selected students.');
@@ -255,6 +281,17 @@ if(empty($_REQUEST['modfunc']))
 
 		if(!$_REQUEST['category_id'] || $_REQUEST['category_id']=='1')
 		{
+			echo '<TR><TD><b>'._('Grade Level').'</b></TD><TD>';
+			$gradelevels_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
+			$options = array();
+			if(count($gradelevels_RET))
+			{
+				foreach($gradelevels_RET as $gradelevel)
+					$options[$gradelevel['ID']] = $gradelevel['TITLE'];
+			}
+			echo _makeSelectInput('GRADE_ID',$options);
+			echo '</TD></TR>';
+
 			echo '<TR><TD><b>'._('Rolling / Retention Options').'</b></TD><TD>';
 			$schools_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOLS WHERE ID!='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 			$options = array(UserSchool()=>_('Next grade at current school'),'0'=>_('Retain'),'-1'=>_('Do not enroll after this school year'));
@@ -275,6 +312,16 @@ if(empty($_REQUEST['modfunc']))
 					$options[$calendar['CALENDAR_ID']] = $calendar['TITLE'];
 			}
 			echo _makeSelectInput('CALENDAR_ID',$options);
+			echo '</TD></TR>';
+
+			echo '<TR><TD><b>'._('Attendance Start Date this School Year').'</b></TD><TD>';
+			$options_RET = DBGet(DBQuery("SELECT ID,TITLE AS TITLE FROM STUDENT_ENROLLMENT_CODES WHERE SYEAR='".UserSyear()."' AND TYPE='Add' ORDER BY SORT_ORDER"));
+			if($options_RET)
+			{
+				foreach($options_RET as $option)
+					$add_codes[$option['ID']] = $option['TITLE'];
+			}
+			echo '<div class="nobr">'._makeDateInput('START_DATE').' - '._makeSelectInput('ENROLLMENT_CODE',$add_codes).'</div>';
 			echo '</TD></TR>';
 		}
 
