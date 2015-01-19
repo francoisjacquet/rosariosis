@@ -28,25 +28,28 @@ if(!empty($_REQUEST['failed_login']))
 switch (User('PROFILE'))
 {
 	case 'admin':
-		//DrawHeader($welcome.'<BR />&nbsp;'._('You are an <b>Administrator</b> on the system.<BR />').PHPCheck().versionCheck());
-		DrawHeader($welcome.'<BR />&nbsp;'._('You are an <b>Administrator</b> on the system.').'<BR />'.PHPCheck());
+		DrawHeader($welcome.'<BR />&nbsp;'._('You are an <b>Administrator</b> on the system.'));
+
+		$PHPCheck = PHPCheck();
+		if (!empty($PHPCheck))
+			echo ErrorMessage($PHPCheck, 'warning');
 
 		//modif Francois: Discipline new referrals alert
-		if(AllowUse('Discipline/Referrals.php') && User('LAST_LOGIN'))
+		if($RosarioModules['Discipline'] && AllowUse('Discipline/Referrals.php') && $_SESSION['LAST_LOGIN'])
 		{
 			$extra = array();
 			$extra['SELECT_ONLY'] = 'count(*) AS COUNT';
 			$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
-			$extra['WHERE'] = ' AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SYEAR=ssm.SYEAR AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '."'".User('LAST_LOGIN')."' AND '".DBDate()."'";
+			$extra['WHERE'] = ' AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SYEAR=ssm.SYEAR AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '."'".$_SESSION['LAST_LOGIN']."' AND '".DBDate()."'";
 			
 			$disc_RET = GetStuList($extra);
 
 			if($disc_RET[1]['COUNT']>0)
 			{
-				$message = '<A HREF="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin='.User('LAST_LOGIN').'&discipline_entry_end='.DBDate().'"><img src="modules/Discipline/icon.png" class="button bigger" /> ';
+				$message = '<A HREF="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin='.$_SESSION['LAST_LOGIN'].'&discipline_entry_end='.DBDate().'"><img src="modules/Discipline/icon.png" class="button bigger" /> ';
 				$message .= sprintf(ngettext('%d new referral', '%d new referrals', $disc_RET[1]['COUNT']), $disc_RET[1]['COUNT']);
 				$message .= '</A>';	
-				DrawHeader($message);
+				echo ErrorMessage(array($message), 'note');
 			}
 		}
 		
@@ -54,7 +57,7 @@ switch (User('PROFILE'))
 //modif Francois: file attached to portal notes
 //modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 //        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent'));
-        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID 
+		$notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID 
 		FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st 
 		WHERE pn.SYEAR='".UserSyear()."' 
 		AND (pn.START_DATE<=CURRENT_DATE OR pn.START_DATE IS NULL) 
@@ -71,8 +74,8 @@ switch (User('PROFILE'))
 			ListOutput($notes_RET,array('PUBLISHED_DATE'=>_('Date Posted'),'TITLE'=>_('Title'),'CONTENT'=>_('Note'),'FILE_ATTACHED'=>_('File Attached'),'SCHOOL'=>_('School')),'Note','Notes',array(),array(),array('save'=>false,'search'=>false));
 		}
 
-//modif Francois: Portal Polls
-        $polls_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pp.TITLE||'</B>' AS TITLE,'options' AS OPTIONS,pp.ID 
+		//modif Francois: Portal Polls
+		$polls_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pp.TITLE||'</B>' AS TITLE,'options' AS OPTIONS,pp.ID 
 		FROM PORTAL_POLLS pp,SCHOOLS s,STAFF st 
 		WHERE pp.SYEAR='".UserSyear()."' 
 		AND (pp.START_DATE<=CURRENT_DATE OR pp.START_DATE IS NULL) 
@@ -526,14 +529,20 @@ function _formatContent($value,$column)
 }
 
 function PHPCheck() {
-    $ret = '';
-    if ((bool)ini_get('safe_mode'))
-       $ret .= '&nbsp;WARNING: safe_mode is set to On in your PHP configuration.<br />';
-    if (mb_strpos(ini_get('disable_functions'),'passthru')!==false)
-       $ret .= '&nbsp;WARNING: passthru is disabled in your PHP configuration.<br />';
-    return $ret;
-}
+	$ret = array();
 
+	//modif Francois: check PHP version
+	if (version_compare(PHP_VERSION, '5.3.2') == -1)
+	    $ret[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
+
+	if ((bool)ini_get('safe_mode'))
+		$ret[] = 'safe_mode is set to On in your PHP configuration.';
+
+	if (mb_strpos(ini_get('disable_functions'),'passthru')!==false)
+		$ret[] = 'passthru is disabled in your PHP configuration.';
+
+	return $ret;
+}
 
 //modif Francois: add translation
 function _eventDay($string, $key) {

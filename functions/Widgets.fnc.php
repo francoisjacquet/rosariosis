@@ -518,12 +518,6 @@ function Widgets($item,&$myextra=null)
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Date').' '._('Between').': </b>'.ProperDate($discipline_entry_begin_for_ProperDate).'<b> '._('and').' </b>'.ProperDate($_REQUEST['discipline_entry_end']).'<BR />';
 				}
-				if($_REQUEST['discipline_entry_begin'] && $_REQUEST['discipline_entry_end'])
-				{
-					$extra['WHERE'] .= " AND dr.ENTRY_DATE BETWEEN '".$_REQUEST['discipline_entry_begin']."' AND '".$_REQUEST['discipline_entry_end']."' ";
-					if(!$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'._('Incident Date').' '._('Between').': </b>'.ProperDate($discipline_entry_begin_for_ProperDate).'<b> '._('and').' </b>'.ProperDate($_REQUEST['discipline_entry_end']).'<BR />';
-				}
 				elseif($_REQUEST['discipline_entry_begin'])
 				{
 					$extra['WHERE'] .= " AND dr.ENTRY_DATE>='".$_REQUEST['discipline_entry_begin']."' ";

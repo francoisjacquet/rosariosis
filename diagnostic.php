@@ -5,7 +5,7 @@ session_start();
 
 //modif Francois: check PHP version
 if (version_compare(PHP_VERSION, '5.3.2') == -1) {
-    $error[] = 'RosarioSIS requires PHP 5.3.2 to run, you version is : ' . PHP_VERSION;
+    $error[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
 }
 
 if(!$_SESSION['STAFF_ID'])
