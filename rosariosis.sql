@@ -3451,6 +3451,8 @@ INSERT INTO config VALUES (0, 'NAME', 'RosarioSIS');
 INSERT INTO config VALUES (0, 'MODULES', 'a:13:{s:12:"School_Setup";b:1;s:8:"Students";b:1;s:5:"Users";b:1;s:10:"Scheduling";b:1;s:6:"Grades";b:1;s:10:"Attendance";b:1;s:11:"Eligibility";b:1;s:10:"Discipline";b:1;s:10:"Accounting";b:1;s:15:"Student_Billing";b:1;s:12:"Food_Service";b:1;s:9:"Resources";b:1;s:6:"Custom";b:1;}');
 INSERT INTO config VALUES (0, 'PLUGINS', 'a:1:{s:6:"Moodle";b:0;}');
 INSERT INTO config VALUES (0, 'THEME', 'WPadmin');
+INSERT INTO config VALUES (0, 'CREATE_USER_ACCOUNT', NULL);
+INSERT INTO config VALUES (0, 'CREATE_STUDENT_ACCOUNT', NULL);
 INSERT INTO config VALUES (1, 'SCHOOL_SYEAR_OVER_2_YEARS', 'Y');
 INSERT INTO config VALUES (1, 'ATTENDANCE_FULL_DAY_MINUTES', '300');
 INSERT INTO config VALUES (1, 'STUDENTS_USE_MAILING', NULL);
