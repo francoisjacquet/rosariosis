@@ -73,7 +73,7 @@ foreach($help as $program=>$value)
 	</h3>
 	<TABLE class="width-100p"><TR><TD class="header2">
 
-	<?php if($student==true)
+	<?php if(User('PROFILE') == 'student')
 		$value = str_replace('your child','yourself',str_replace('your child\'s','your',$value));
 	$value = str_replace('RosarioSIS', Config('NAME'),$value);
 	echo $value; ?>

@@ -36,19 +36,21 @@ elseif($_REQUEST['modfunc']=='help')
 	else
 		include 'Help_en.php';
 
-	$profile = User('PROFILE');
+	$help_text = '';
 
-
-	if($help[$_REQUEST['modname']])
+	foreach($help as $program=>$help_txt)
 	{
-		if($student==true)
-			$help[$_REQUEST['modname']] = str_replace('your child','yourself',str_replace('your child\'s','your',$help[$_REQUEST['modname']]));
-
-		$help_text = $help[$_REQUEST['modname']];
+		//modif Francois: fix bug URL Modules.php?modfunc=help&modname=Student_Billing/Statements.php&_ROSARIO_PDF
+		if($_REQUEST['modname']==$program || (mb_strpos($program, $_REQUEST['modname'])=== 0 && mb_strpos($_SERVER['QUERY_STRING'], $program)=== 21))
+			$help_text = $help_txt;
 	}
-	else
+
+	if(empty($help_text))
 		$help_text = $help['default'];
 		
+	if(User('PROFILE') == 'student')
+		$help_text = str_replace('your child','yourself',str_replace('your child\'s','your',$help_text));
+
 	$help_text = str_replace('RosarioSIS', Config('NAME'),$help_text);
 	
 	echo $help_text;
