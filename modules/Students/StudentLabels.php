@@ -1,7 +1,7 @@
 <?php
 
 $max_cols = 3;
-$max_rows = 26;
+$max_rows = 15;
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
@@ -10,13 +10,14 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 		$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
 
-		$extra['SELECT'] .= ",s.FIRST_NAME AS NICK_NAME";
+
 		if(User('PROFILE')=='admin')
 		{
 			if($_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
 				if($_REQUEST['teacher'])
 					$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."') AS TEACHER";
+
 				if($_REQUEST['room'])
 					$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."') AS ROOM";
 			}
@@ -25,6 +26,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if($_REQUEST['teacher'])
 //modif Francois: multiple school periods for a course period
 					$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE st.STAFF_ID=cp.TEACHER_ID AND cpsp.PERIOD_id=p.PERIOD_ID AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
+
 				if($_REQUEST['room'])
 					$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cpsp.PERIOD_id=p.PERIOD_ID AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
 			}
@@ -33,6 +35,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			if($_REQUEST['teacher'])
 				$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."') AS TEACHER";
+
 			if($_REQUEST['room'])
 				$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='".UserCoursePeriod()."') AS ROOM";
 		}
@@ -54,13 +57,16 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if($cols<1)
 					echo '<tr>';
 				echo '<td style="text-align:center; width:33%; vertical-align: middle;">';
+
 				if($_REQUEST['full_name']=='given')
 					$name = $student['LAST_NAME'].', '.$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'];
 				elseif($_REQUEST['full_name']=='given_natural')
 					$name = $student['FIRST_NAME'].' '.$student['LAST_NAME'];
 				else
 					$name = $student['FULL_NAME'];
+
 				echo '<B>'.$name.'</B>';
+
 				if($_REQUEST['teacher'])
 					echo '<BR />'._('Teacher').':&nbsp;'.$student['TEACHER'];
 				if($_REQUEST['room'])
@@ -71,7 +77,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				if($cols==$max_cols)
 				{
-					echo '</tr>';
+					echo '</tr><tr><td clospan="'.$max_cols.'">&nbsp;</td></tr>';
 					$rows++;
 					$cols = 0;
 				}

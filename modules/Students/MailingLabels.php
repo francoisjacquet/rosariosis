@@ -12,27 +12,19 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
 
 		$_REQUEST['mailing_labels']='Y';
+
 		if($_REQUEST['to_address'])
 			$_REQUEST['residence']='Y';
+
 		Widgets('mailing_labels');
-		$extra['SELECT'] .= ",s.FIRST_NAME AS NICK_NAME";
+
 		$extra['group'] = array('ADDRESS_ID');
+
 		$RET = GetStuList($extra);
 
 		if(count($RET))
 		{
 			$handle = PDFstart();
-			//echo '<!-- MEDIA SIZE 8.5x11in -->';
-			echo '<!-- MEDIA TOP 0.5in -->';
-			echo '<!-- MEDIA BOTTOM 0.25in -->';
-			echo '<!-- MEDIA LEFT 0.25in -->';
-			echo '<!-- MEDIA RIGHT 0.25in -->';
-			echo '<!-- FOOTER RIGHT "" -->';
-			echo '<!-- FOOTER LEFT "" -->';
-			echo '<!-- FOOTER CENTER "" -->';
-			echo '<!-- HEADER RIGHT "" -->';
-			echo '<!-- HEADER LEFT "" -->';
-			echo '<!-- HEADER CENTER "" -->';
 			echo '<table style="height: 100%" class="width-100p cellspacing-0">';
 
 			$cols = 0;
@@ -54,6 +46,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 								$name = $address['FIRST_NAME'].' '.$address['LAST_NAME'];
 							else
 								$name = $address['FULL_NAME'];
+
 							$addresses[$key]['MAILING_LABEL'] = $name.'<BR />'.mb_substr($address['MAILING_LABEL'],mb_strpos($address['MAILING_LABEL'],'<!-- -->'));
 						}
 					}
@@ -63,6 +56,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						$lasts = array();
 						foreach($addresses as $address)
 							$lasts[$address['LAST_NAME']][] = $address['FIRST_NAME'];
+
 						$students = '';
 						foreach($lasts as $last=>$firsts)
 						{
@@ -82,6 +76,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 								$student = $previous.' '.$last;
 							$students .= $student.', ';
 						}
+
 						$addresses = array(1=>array('MAILING_LABEL'=>''.$to_family.'<BR />'.mb_substr($students,0,-2).'<BR />'.mb_substr($addresses[1]['MAILING_LABEL'],mb_strpos($addresses[1]['MAILING_LABEL'],'<!-- -->'))));
 					}
 				}
@@ -103,14 +98,14 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					if($cols==$max_cols)
 					{
-						echo '</tr>';
+						echo '</tr><tr><td clospan="'.$max_cols.'">&nbsp;</td></tr>';
 						$rows++;
 						$cols = 0;
 					}
 
 					if($rows==$max_rows)
 					{
-						echo '</table><!--NEW PAGE -->';
+						echo '</table><div style="page-break-after: always"></div>';
 						echo '<table style="height: 100%" class="width-100p cellspacing-0">';
 						$rows = 0;
 					}
