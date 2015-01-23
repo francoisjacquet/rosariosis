@@ -1,5 +1,11 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.7.3
+----------------
+- Bugfix SQL error invalid input syntax for type numeric in InputFinalGrades.php & Courses.php
+- Bugfix SQL error unterminated quoted identifier in InputFinalGrades.php
+- Bugfix SQL error column "period_id" does not exist in UnfilledRequests.php
+
 Changes in 2.7.2
 ----------------
 - Bugfix SQL error more than one row returned by a subquery used as an expression in Export.php
