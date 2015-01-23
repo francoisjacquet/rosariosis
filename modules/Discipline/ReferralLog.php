@@ -18,15 +18,15 @@ AND u.DISCIPLINE_FIELD_ID=f.ID
 ORDER BY ".db_case(array('DATA_TYPE',"'textarea'","'1'","'0'")).",SORT_ORDER"),array(),array('ID'));
 
 $extra['new'] = true;
-$extra['second_col'] .= '<TR><TD><fieldset><legend>'._('Include in Discipline Log').':</legend><TABLE>';
+$extra['second_col'] .= '<TR><TD><fieldset><legend>'._('Include in Discipline Log').'</legend><TABLE class="width-100p">';
 
-$extra['second_col'] .= '<TR><TD><label><INPUT type="checkbox" name="elements[ENTRY_DATE]" value="Y" checked />&nbsp;'._('Entry Date').'</label></TD>';
-$extra['second_col'] .= '<TD><label><INPUT type="checkbox" name="elements[STAFF_ID]" value="Y" checked />&nbsp;'._('Reporter').'</label></TD></TR>';
+$extra['second_col'] .= '<TR><TD><label><INPUT type="checkbox" name="elements[ENTRY_DATE]" value="Y" checked />&nbsp;'._('Entry Date').'</label></TD></TR>';
+
+$extra['second_col'] .= '<TR><TD><label><INPUT type="checkbox" name="elements[STAFF_ID]" value="Y" checked />&nbsp;'._('Reporter').'</label></TD></TR>';
+
 foreach($categories_RET as $id=>$category)
 {
-	if($i%2==0)
-		$extra['second_col'] .= '</TR><TR>';
-	$extra['second_col'] .= '<TD><label><INPUT type="checkbox" name="elements[CATEGORY_'.$id.']" value="Y"'.($category[1]['DATA_TYPE']=='textarea'?' checked':'').' />&nbsp;'.$category[1]['TITLE'].'</label></TD>';
+	$extra['second_col'] .= '<TR><TD><label><INPUT type="checkbox" name="elements[CATEGORY_'.$id.']" value="Y"'.($category[1]['DATA_TYPE']=='textarea'?' checked':'').' />&nbsp;'.$category[1]['TITLE'].'</label></TD></TR>';
 	$i++;
 }
 $extra['second_col'] .= '</TABLE></fieldset></TD></TR>';

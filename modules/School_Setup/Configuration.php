@@ -90,7 +90,7 @@ else
 	
 		$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('TITLE'));
 	
-		echo '<FIELDSET><legend><b>'.ParseMLField(Config('TITLE')).'</b></legend><TABLE>';
+		echo '<FIELDSET><legend>'.ParseMLField(Config('TITLE')).'</legend><TABLE>';
 
 		echo '<TR><TD>'.MLTextInput(Config('TITLE'),'values[CONFIG][TITLE]',_('Program Title')).'</TD></TR>';
 
@@ -114,7 +114,7 @@ else
 		echo '<TR><TD><span class="legend-gray">'._('Default Theme').'</span></TD></TR>';
 
 		//modif Francois: add Registration to Configuration
-		echo '<TR><TD><FIELDSET><legend><b>'._('Registration').'</b></legend><TABLE>';
+		echo '<TR><TD><FIELDSET><legend>'._('Registration').'</legend><TABLE>';
 
 		echo '<TR><TD>'.CheckboxInput(Config('CREATE_USER_ACCOUNT'), 'values[CONFIG][CREATE_USER_ACCOUNT]', '<SPAN style="cursor:help" title="'._('New users will be added with the No Access profile').'">'._('Create User Account').'*</SPAN>', '', false, button('check'), button('x')).'</TD></TR>';
 
@@ -124,7 +124,7 @@ else
 
 		echo '</TABLE></FIELDSET>';
 
-		echo '<BR /><FIELDSET><legend><b>'._('School').'</b></legend><TABLE>';
+		echo '<BR /><FIELDSET><legend>'._('School').'</legend><TABLE>';
 
 		//modif Francois: school year over one/two calendar years format
 		echo '<TR><TD>'.CheckboxInput(Config('SCHOOL_SYEAR_OVER_2_YEARS'), 'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]', _('School year over two calendar years'), '', false, button('check'), button('x')).'</TD></TR>';
@@ -139,7 +139,7 @@ else
 	
 		if ($RosarioModules['Students'])
 		{
-			echo '<BR /><FIELDSET><legend><b>'._('Students').'</b></legend><TABLE>';
+			echo '<BR /><FIELDSET><legend>'._('Students').'</legend><TABLE>';
 
 			echo '<TR><TD>'.CheckboxInput(Config('STUDENTS_USE_MAILING'), 'values[CONFIG][STUDENTS_USE_MAILING]',_('Display Mailing Address'), '', false, button('check'), button('x')).'</TD></TR>';
 
@@ -154,7 +154,7 @@ else
 	
 		if ($RosarioModules['Grades'])
 		{
-			echo '<BR /><FIELDSET><legend><b>'._('Grades').'</b></legend><TABLE>';
+			echo '<BR /><FIELDSET><legend>'._('Grades').'</legend><TABLE>';
 			$options = array('-1' => _('Use letter grades only'), '0' => _('Use letter and percent grades'), '1' => _('Use percent grades only'));
 
 			echo '<TR><TD>'.SelectInput($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE'],'values[PROGRAM_CONFIG][GRADES_DOES_LETTER_PERCENT]',_('Grades'),$options,false).'</TD></TR>';
@@ -172,7 +172,7 @@ else
 
 		if ($RosarioModules['Attendance'])
 		{
-			echo '<BR /><FIELDSET><legend><b>'._('Attendance').'</b></legend><TABLE>';
+			echo '<BR /><FIELDSET><legend>'._('Attendance').'</legend><TABLE>';
 
 			echo '<TR><TD>'.TextInput(Config('ATTENDANCE_FULL_DAY_MINUTES'),'values[CONFIG][ATTENDANCE_FULL_DAY_MINUTES]',_('Minutes in a Full School Day'),'maxlength=3 size=3 min=0').'</TD></TR>';
 
@@ -185,7 +185,7 @@ else
 
 		if ($RosarioModules['Food_Service'])
 		{
-			echo '<BR /><FIELDSET><legend><b>'._('Food Service').'</b></legend><TABLE>';
+			echo '<BR /><FIELDSET><legend>'._('Food Service').'</legend><TABLE>';
 
 			echo '<TR><TD>'.TextInput($program_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'],'values[PROGRAM_CONFIG][FOOD_SERVICE_BALANCE_WARNING]',_('Food Service Balance minimum amount for warning'),'maxlength=10 size=5 required').'</TD></TR>';
 

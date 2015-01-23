@@ -792,7 +792,7 @@ if(empty($_REQUEST['modfunc']))
 							if(!$fields_RET['CUSTODY']&&!$fields_RET['EMERGENCY'] || $fields_RET['CUSTODY']=='Y'&&$this_contact['CUSTODY']=='Y' || $fields_RET['EMERGENCY']=='Y'&&$this_contact['EMERGENCY']=='Y')
 							{
 								echo '<TR><TD>';
-								echo '<FIELDSET><LEGEND><span style="color:gray">'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</span></LEGEND>';
+								echo '<FIELDSET><LEGEND>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</LEGEND>';
 								include('modules/Students/includes/Other_Fields.inc.php');
 								echo '</FIELDSET>';
 								echo '</TD></TR>';
@@ -832,6 +832,7 @@ if(empty($_REQUEST['modfunc']))
 		elseif($_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old')
 		{
 			$categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM ADDRESS_FIELD_CATEGORIES c,ADDRESS_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
+
 			if($categories_RET)
 			{
 				//echo '<TD style="width:10px; border:1;">&nbsp;</TD>';
@@ -845,7 +846,7 @@ if(empty($_REQUEST['modfunc']))
 					if(!$fields_RET[1]['RESIDENCE']&&!$fields_RET[1]['MAILING']&&!$fields_RET[1]['BUS'] || $fields_RET[1]['RESIDENCE']=='Y'&&$this_address['RESIDENCE']=='Y' || $fields_RET[1]['MAILING']=='Y'&&$this_address['MAILING']=='Y' || $fields_RET[1]['BUS']=='Y'&&($this_address['BUS_PICKUP']=='Y'||$this_address['BUS_DROPOFF']=='Y'))
 					{
 						echo '<TR><TD>';
-						echo '<FIELDSET><LEGEND><span style="color:gray">'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</span></LEGEND>';
+						echo '<FIELDSET><LEGEND>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</LEGEND>';
 						include('modules/Students/includes/Other_Fields.inc.php');
 						echo '</FIELDSET>';
 						echo '</TD></TR>';

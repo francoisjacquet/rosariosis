@@ -56,7 +56,7 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 		//get config values from PROGRAM_CONFIG table
 		$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='moodle'"),array(),array('TITLE'));
 
-		echo '<FIELDSET><legend><b>'._('Moodle').'</b></legend><TABLE>';
+		echo '<FIELDSET><legend>'._('Moodle').'</legend><TABLE>';
 		echo '<TR style="text-align:left;"><TD>'.TextInput($program_config['MOODLE_URL'][1]['VALUE'],'values[PROGRAM_CONFIG][MOODLE_URL]',_('Moodle URL'),'size=38 placeholder=http://localhost/moodle').'</TD></TR>';
 	
 		if (!empty($program_config['MOODLE_TOKEN'][1]['VALUE']) && !AllowEdit()) //obfuscate token as it is sensitive data
