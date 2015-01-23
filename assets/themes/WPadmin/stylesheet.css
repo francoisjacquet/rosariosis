@@ -525,6 +525,18 @@ div.st{
 	float:left;
 	padding:4px
 }
+/*student comments*/
+#student-comments{
+	max-width:500px
+}
+#student-comments span{
+	font-style:italic
+}
+#student-comments div{
+	padding:10px;
+	margin-bottom:15px;
+	border-bottom:1px solid
+}
 /*calendar*/
 #calendar{
 	margin:0 auto
