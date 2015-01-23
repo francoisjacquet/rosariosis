@@ -347,10 +347,15 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							if (isset($columns['PERIOD_ID']) && empty($columns['PERIOD_ID']))
 								continue;
 								
-							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."'"), array(), array('PERIOD_ID'));
+							//modif Francois: bugfix SQL error invalid input syntax for type numeric
+							//when COURSE_PERIOD_SCHOOL_PERIODS saved before COURSE_PERIODS, but why?
+							if ($_REQUEST['course_period_id']!='new')
+							{
+								$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."'"), array(), array('PERIOD_ID'));
 							
-							if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID) || in_array($columns['PERIOD_ID'], array_keys($other_school_p)))
-								continue;
+								if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID) || in_array($columns['PERIOD_ID'], array_keys($other_school_p)))
+									continue;
+							}
 								
 							$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
 							
