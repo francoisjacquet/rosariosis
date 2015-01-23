@@ -80,12 +80,12 @@ function calcSeats()
 function _makeTeacher($value,$column)
 {	global $THIS_RET;
 
-	return ($value?_('With').': '.GetTeacher($value):'').($THIS_RET['NOT_TEACHER_ID']?($value?'<BR />':'')._('Without').': '.GetTeacher($THIS_RET['NOT_TEACHER_ID']):'');
+	return ($value?_('With').': '.GetTeacher($value):'').($THIS_RET['NOT_TEACHER_ID']?($value?' &ndash; ':'')._('Without').': '.GetTeacher($THIS_RET['NOT_TEACHER_ID']):'');
 }
 
 function _makePeriod($value,$column)
 {	global $THIS_RET;
 
-	return ($value?_('On').': '.GetPeriod($value):'').($THIS_RET['NOT_PERIOD_ID']?($value?'<BR />':'')._('Not on').': '.GetPeriod($THIS_RET['NOT_PERIOD_ID']):'');
+	return ($value?_('On').': '.GetPeriod($value):'').($THIS_RET['NOT_PERIOD_ID']?($value?' &ndash; ':'')._('Not on').': '.GetPeriod($THIS_RET['NOT_PERIOD_ID']):'');
 }
 ?>
