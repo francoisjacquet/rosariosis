@@ -210,7 +210,7 @@ if(empty($_REQUEST['modfunc']))
 		$link['add']['html']['remove'] = button('add');
 
 		if(User('PROFILE')=='admin')
-			$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
+			$tabs[] = array('title'=>button('add','','','smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
