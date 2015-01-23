@@ -295,11 +295,18 @@ if($_REQUEST['values'] && $_POST['values'])
 		{
 			if($columns['percent']!='')
 			{
-				$percent = rtrim($columns['percent'],'%');
+				//modif Francois: bugfix SQL error invalid input syntax for type numeric
+				$percent = trim($columns['percent'],'%');
+
+				if (!is_numeric($percent))
+					$percent = (float)$percent;
+
 				if($percent>999.9)
 					$percent = '999.9';
+
 				elseif($percent<0)
 					$percent = '0';
+
 				if($columns['grade'] || $percent!='')
 				{
 					$grade = ($columns['grade']?$columns['grade']:_makeLetterGrade($percent/100,$course_period_id,0,'ID'));
@@ -316,6 +323,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				}
 				else
 					$grade = $letter = $weighted = $unweighted = $scale = '';
+
 				$sql .= "GRADE_PERCENT='".$percent."'";
 				$sql .= ",REPORT_CARD_GRADE_ID='".$grade."',GRADE_LETTER='".$letter."',WEIGHTED_GP='".$weighted."',UNWEIGHTED_GP='".$unweighted."',GP_SCALE='".$scale."'";
 				//bjj can we use $percent all the time?  TODO: rework this so updates to credits occur when grade is changed
@@ -336,6 +344,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				{
 					$weighted = $percent/100*$grades_RET[$grade][1]['GP_SCALE'];
 				}
+
 				$unweighted = $grades_RET[$grade][1]['UNWEIGHTED_GP'];
 				$scale = $grades_RET[$grade][1]['GP_SCALE'];
 				$sql .= "GRADE_PERCENT='".$percent."'";
@@ -372,11 +381,18 @@ if($_REQUEST['values'] && $_POST['values'])
 		{
 			if($columns['percent']!='')
 			{
-				$percent = rtrim($columns['percent'],'%');
+				//modif Francois: bugfix SQL error invalid input syntax for type numeric
+				$percent = trim($columns['percent'],'%');
+				
+				if (!is_numeric($percent))
+					$percent = (float)$percent;
+
 				if($percent>999.9)
 					$percent = '999.9';
+
 				elseif($percent<0)
 					$percent = '0';
+
 				if($columns['grade'] || $percent!='')
 				{
 					$grade = ($columns['grade']?$columns['grade']:_makeLetterGrade($percent/100,$course_period_id,0,'ID'));
