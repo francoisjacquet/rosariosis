@@ -29,20 +29,41 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						if($current_RET[$student_id])
 						{
 							DBQuery("UPDATE SCHEDULE SET END_DATE='".$END_DATE."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+
 							//$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
 							$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND END_DATE<START_DATE"));
 							
+							//User is asked if he wants absences and grades to be deleted
 							if(count($start_end_RET))
 							{
-								//DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND END_DATE IS NOT NULL AND END_DATE<START_DATE");
-								DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+								//if user clicked Cancel or OK or Display Prompt
+								if(_DeletePrompt(_('Student Absences and Grades')))
+								{
+									//if user clicked OK
+									if ($_REQUEST['delete_ok'])
+									{
+										DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+										DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+										DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+										DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+									}
+									//else simply delete schedule entry
 
-								//hook
-								do_action('Scheduling/MassDrops.php|drop_student');
+									DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+
+									//hook
+									do_action('Scheduling/MassDrops.php|drop_student');
+								}
+								else
+									$schedule_deletion_pending = true;
 							}
+							else
+								DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SCHOOL_DATE>'".$END_DATE."'");
 						}
 					}
-					$note[] = button('check') .'&nbsp;'._('This course has been dropped for the selected students\' schedules.');
+
+					if(empty($schedule_deletion_pending))
+						$note[] = button('check') .'&nbsp;'._('This course has been dropped for the selected students\' schedules.');
 				}
 				else
 					$error[] = _('You cannot schedule a student into that course during this marking period.').' '.sprintf(_('This course meets on %s.'),GetMP($course_mp));
@@ -55,10 +76,13 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	}
 	else
 		$error[] = _('You must choose a course.');
-		
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
-	unset($_REQUEST['modfunc']);
-	unset($_SESSION['MassDrops.php']);
+
+	if(empty($schedule_deletion_pending))
+	{
+		unset($_SESSION['_REQUEST_vars']['modfunc']);
+		unset($_REQUEST['modfunc']);
+		unset($_SESSION['MassDrops.php']);
+	}
 }
 
 
@@ -147,5 +171,22 @@ function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
 	return '&nbsp;&nbsp;<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
+}
+
+//custom DeletePrompt function: we need modfunc to be kept here + delete_cancel
+function _DeletePrompt($title,$action='Delete')
+{
+	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok'));
+
+	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	{
+		echo '<BR />';
+		PopTable('header',_('Confirm').(mb_strpos($action,' ')===false?' '.($action=='Delete'?_('Delete'):$action):''));
+		echo '<span class="center"><h4>'.sprintf(_('Are you sure you want to %s that %s?'),($action=='Delete'?_('Delete'):$action),$title).'</h4><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST"><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onclick="javascript:this.form.action=\''.$PHP_tmp_SELF.'&delete_cancel=1\';ajaxPostForm(this.form,true);"></FORM></span>';
+		PopTable('footer');
+		return false;
+	}
+	else
+		return true;
 }
 ?>

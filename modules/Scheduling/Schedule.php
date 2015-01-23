@@ -72,7 +72,7 @@ if($_REQUEST['month_schedule'] && $_POST['month_schedule'])
 	$_POST['schedule'] = $_REQUEST['schedule'];
 }
 
-if($_REQUEST['schedule'] && $_POST['schedule'] && AllowEdit())
+if($_REQUEST['schedule'] && AllowEdit())
 {
 	foreach($_REQUEST['schedule'] as $course_period_id=>$start_dates)
 	foreach($start_dates as $start_date=>$columns)
@@ -90,27 +90,40 @@ if($_REQUEST['schedule'] && $_POST['schedule'] && AllowEdit())
 		{
 			$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
 
-			//TODO User should be asked if he wants absences and grades to be deleted
+			//User is asked if he wants absences and grades to be deleted
 			if(count($start_end_RET))
 			{
-				DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
-				DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
-				DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
-				DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
-				DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+				//if user clicked Cancel or OK then pass else Display Prompt
+				if(_DeletePrompt(_('Student Absences and Grades')))
+				{
+					//if user clicked OK
+					if ($_REQUEST['delete_ok'])
+					{
+						DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+						DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+						DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+						DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+					}
+					//else simply delete schedule entry
 
-				//hook
-				do_action('Scheduling/Schedule.php|drop_student');
+					DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+
+					//hook
+					do_action('Scheduling/Schedule.php|drop_student');
+				}
+				else
+					$schedule_deletion_pending = true;
 			}
 			else
 				DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND (".($columns['START_DATE']?"SCHOOL_DATE<'".$columns['START_DATE']."'":'FALSE').' OR '.($columns['END_DATE']?"SCHOOL_DATE>'".$columns['END_DATE']."'":'FALSE').")");
 		}
 	}
+	
 	unset($_SESSION['_REQUEST_vars']['schedule']);
 	unset($_REQUEST['schedule']);
 }
 
-if(UserStudentID() && $_REQUEST['modfunc']!='choose_course')
+if(UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_deletion_pending))
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" METHOD="POST">';
 //modif Francois: add label on checkbox
@@ -462,4 +475,22 @@ function _Prompt($title='Confirm',$question='',$message='')
 	else
 		return true;
 }
+
+//custom DeletePrompt function: we need modfunc to be kept here + delete_cancel
+function _DeletePrompt($title,$action='Delete')
+{
+	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok'));
+
+	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	{
+		echo '<BR />';
+		PopTable('header',_('Confirm').(mb_strpos($action,' ')===false?' '.($action=='Delete'?_('Delete'):$action):''));
+		echo '<span class="center"><h4>'.sprintf(_('Are you sure you want to %s that %s?'),($action=='Delete'?_('Delete'):$action),$title).'</h4><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST"><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onclick="javascript:this.form.action=\''.$PHP_tmp_SELF.'&delete_cancel=1\';ajaxPostForm(this.form,true);"></FORM></span>';
+		PopTable('footer');
+		return false;
+	}
+	else
+		return true;
+}
+
 ?>
