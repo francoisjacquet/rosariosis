@@ -93,6 +93,7 @@ else
 	$div = false;
 }
 
+echo '<hr />';
 
 echo '<TABLE class="width-100p"><TR class="st">';
 

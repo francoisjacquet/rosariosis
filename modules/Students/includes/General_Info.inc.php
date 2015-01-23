@@ -80,7 +80,7 @@ echo '</TD><TD>';
 
 echo NoInput(makeLogin($student['LAST_LOGIN']),_('Last Login'));
 
-echo '</TD></TR></TABLE><HR />';
+echo '</TD></TR></TABLE>';
 
 
 $_REQUEST['category_id'] = '1';
