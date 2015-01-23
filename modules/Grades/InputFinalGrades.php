@@ -295,7 +295,12 @@ if($_REQUEST['values'] && $_POST['values'])
 		{
 			if($columns['percent']!='')
 			{
-				$percent = rtrim($columns['percent'],'%');
+				//modif Francois: bugfix SQL error invalid input syntax for type numeric
+				$percent = trim($columns['percent'],'%');
+
+				if (!is_numeric($percent))
+					$percent = (float)$percent;
+
 				if($percent>999.9)
 					$percent = '999.9';
 				elseif($percent<0)
@@ -372,7 +377,12 @@ if($_REQUEST['values'] && $_POST['values'])
 		{
 			if($columns['percent']!='')
 			{
-				$percent = rtrim($columns['percent'],'%');
+				//modif Francois: bugfix SQL error invalid input syntax for type numeric
+				$percent = trim($columns['percent'],'%');
+				
+				if (!is_numeric($percent))
+					$percent = (float)$percent;
+
 				if($percent>999.9)
 					$percent = '999.9';
 				elseif($percent<0)
