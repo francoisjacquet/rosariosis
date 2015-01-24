@@ -107,6 +107,24 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	if($_REQUEST['tables']['parent_id'])
 		$_REQUEST['tables']['COURSE_PERIODS'][$_REQUEST['course_period_id']]['PARENT_ID'] = $_REQUEST['tables']['parent_id'];
 
+	//modif Francois: bugfix SQL error invalid input syntax for type numeric
+	//when COURSE_PERIOD_SCHOOL_PERIODS saved before COURSE_PERIODS, but why?
+	if ($_REQUEST['course_period_id']=='new')
+	{
+		foreach($_REQUEST['tables'] as $table_name=>$tables)
+		{
+			if ($table_name == 'COURSE_PERIOD_SCHOOL_PERIODS')
+			{
+				unset($_REQUEST['tables'][$table_name]);
+
+				//push COURSE_PERIOD_SCHOOL_PERIODS after COURSE_PERIODS
+				$_REQUEST['tables'][$table_name] = $tables;
+
+				break;
+			}
+		}
+	}
+
 	$temp_PERIOD_ID = array();
 	foreach($_REQUEST['tables'] as $table_name=>$tables)
 	{
@@ -120,6 +138,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				{
 					if($columns['TOTAL_SEATS'] && !is_numeric($columns['TOTAL_SEATS']))
 						$columns['TOTAL_SEATS'] = preg_replace('/[^0-9]+/','',$columns['TOTAL_SEATS']);
+
 					$days = '';
 					if($columns['DAYS'])
 					{
@@ -130,6 +149,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						}
 						$columns['DAYS'] = $days;
 					}
+
 					if($columns['DOES_ATTENDANCE'])
 					{        
 						foreach($columns['DOES_ATTENDANCE'] as $tbl=>$y)
@@ -347,30 +367,26 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							if (isset($columns['PERIOD_ID']) && empty($columns['PERIOD_ID']))
 								continue;
 								
-							//modif Francois: bugfix SQL error invalid input syntax for type numeric
-							//when COURSE_PERIOD_SCHOOL_PERIODS saved before COURSE_PERIODS, but why?
-							if ($_REQUEST['course_period_id']!='new')
-							{
-								$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."'"), array(), array('PERIOD_ID'));
-							
-								if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID) || in_array($columns['PERIOD_ID'], array_keys($other_school_p)))
-									continue;
-							}
+							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."'"), array(), array('PERIOD_ID'));
+
+							if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID) || in_array($columns['PERIOD_ID'], array_keys($other_school_p)))
+								continue;
 								
 							$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
-							
-							$id_school_p = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_PERIOD_SCHOOL_PERIODS_SEQ').' AS ID'.FROM_DUAL));
-							$period = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$columns['PERIOD_ID']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-							$fields = 'COURSE_PERIOD_SCHOOL_PERIODS_ID,COURSE_PERIOD_ID,';
-							$values = "'".$id_school_p[1]['ID']."','".$_REQUEST['course_period_id']."',";
 
-		//modif Francois: days display to locale						
+							$fields = 'COURSE_PERIOD_SCHOOL_PERIODS_ID,COURSE_PERIOD_ID,';
+							$values = "nextval('COURSE_PERIOD_SCHOOL_PERIODS_SEQ'),'".$_REQUEST['course_period_id']."',";
+
+							//modif Francois: days display to locale
 							$nb_days = mb_strlen($columns['DAYS']);
 							$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
+
 							for ($i = 0; $i < $nb_days; $i++) {
 								$columns_DAYS_locale .= mb_substr($days_convert[mb_substr($columns['DAYS'], $i, 1)],0,3) . '.';
 							}
 							
+							$period = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$columns['PERIOD_ID']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+
 							if(mb_strlen($columns['DAYS'])<5)
 								$title_add = $period[1]['TITLE'].$columns_DAYS_locale;
 							else
