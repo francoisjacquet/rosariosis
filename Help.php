@@ -46,7 +46,7 @@ foreach($help as $program=>$value)
 		if (!$RosarioModules[str_replace(' ','_',$modcat)]) //module not activated
 			break;
 	
-		if($modcat!=$old_modcat) : ?>
+		if($modcat!=$old_modcat && $modcat!='Custom') : ?>
 
 			<div style="page-break-after: always;"></div>
 
@@ -58,7 +58,8 @@ foreach($help as $program=>$value)
 			<HR>
 
 		<?php endif;
-		$old_modcat = $modcat;
+		if ($modcat!='Custom')
+			$old_modcat = $modcat;
 	}
 	 ?>
 
