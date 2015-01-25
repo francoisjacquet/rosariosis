@@ -118,7 +118,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<BR />';
 
 //modif Francois: css WPadmin
-		echo '<TABLE class="postbox cellpadding-5" style="margin:0 auto;"><TR><TD style="text-align:right">'._('Add Absence to Periods').'</TD>';
+		echo '<TABLE class="postbox cellpadding-5 col1-align-right center"><TR><TD>'._('Add Absence to Periods').'</TD>';
 		echo '<TD><TABLE><TR>';
 
 		//modif Francois: multiple school periods for a course period
@@ -133,12 +133,14 @@ if(empty($_REQUEST['modfunc']))
 //modif Francois: add <label> on checkbox
 			echo '<TD><label><INPUT type="CHECKBOX" value="Y" name="period['.$period['PERIOD_ID'].']"> '.$period['SHORT_NAME'].'</label></TD>';
 		echo '</TR></TABLE></TD>';
-		echo '<TR><TD style="text-align:right">'._('Absence Code').'</TD><TD><SELECT name="absence_code">';
+
+		echo '<TR><TD>'._('Absence Code').'</TD><TD><SELECT name="absence_code">';
 		$codes_RET = DBGet(DBQuery("SELECT TITLE,ID FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0'"));
 		foreach($codes_RET as $code)
 			echo '<OPTION value='.$code['ID'].'>'.$code['TITLE'].'</OPTION>';
 		echo '</SELECT></TD></TR>';
-		echo '<TR><TD style="text-align:right">'._('Absence Reason').'</TD><TD><INPUT type="text" name="absence_reason"></TD></TR>';
+
+		echo '<TR><TD>'._('Absence Reason').'</TD><TD><INPUT type="text" name="absence_reason"></TD></TR>';
 		echo '<TR><TD colspan="2" class="center">';
 		$time = mktime(0,0,0,$_REQUEST['month']*1,1,mb_substr($_REQUEST['year'],2));
 		echo PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true));

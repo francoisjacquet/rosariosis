@@ -98,14 +98,21 @@ if(UserStaffID() && (!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='search_fnc'
 	}
 	else
 		$options = array('center'=>false,'add'=>false);
+
 	ListOutput($RET,$columns,'Payment','Payments',$link,array(),$options);
+
 	if(!$_REQUEST['print_statements'] && AllowEdit())
 		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+
 	echo '<BR />';
+
 	$salaries_total = DBGet(DBQuery("SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID='".UserStaffID()."' AND f.SYEAR='".UserSyear()."'"));
-	$table = '<TABLE><TR><TD style="text-align:right">'._('Total from Salaries').': '.'</TD><TD style="text-align:right">'.Currency($salaries_total[1]['TOTAL']).'</TD></TR>';
-	$table .= '<TR><TD style="text-align:right">'._('Less').': '._('Total from Staff Payments').': '.'</TD><TD style="text-align:right">'.Currency($payments_total).'</TD></TR>';
-	$table .= '<TR><TD style="text-align:right">'._('Balance').': <b>'.'</b></TD><TD style="text-align:right"><b>'.Currency(($salaries_total[1]['TOTAL']-$payments_total),'CR').'</b></TD></TR></TABLE>';
+
+	$table = '<TABLE class="align-right"><TR><TD>'._('Total from Salaries').': '.'</TD><TD>'.Currency($salaries_total[1]['TOTAL']).'</TD></TR>';
+
+	$table .= '<TR><TD>'._('Less').': '._('Total from Staff Payments').': '.'</TD><TD>'.Currency($payments_total).'</TD></TR>';
+
+	$table .= '<TR><TD>'._('Balance').': <b>'.'</b></TD><TD><b>'.Currency(($salaries_total[1]['TOTAL']-$payments_total),'CR').'</b></TD></TR></TABLE>';
 
 	if(!$_REQUEST['print_statements'])
 		DrawHeader('','',$table);

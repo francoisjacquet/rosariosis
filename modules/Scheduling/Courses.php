@@ -589,7 +589,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			//hook
 			do_action('Scheduling/Courses.php|header');
 
-			$header .= '<TABLE class="width-100p" id="coursesTable">';
+			$header .= '<TABLE class="width-100p valign-top" id="coursesTable">';
 			$header .= '<TR class="st">';
 
 //modif Francois: Moodle integrator
@@ -848,7 +848,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'" method="POST">';
 			DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-			$header .= '<TABLE class="width-100p">';
+			$header .= '<TABLE class="width-100p valign-top">';
 			$header .= '<TR class="st">';
 
 //modif Francois: title required
@@ -889,7 +889,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'" method="POST">';
 			DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-			$header .= '<TABLE class="width-100p">';
+			$header .= '<TABLE class="width-100p valign-top">';
 			$header .= '<TR>';
 
 //modif Francois: title required

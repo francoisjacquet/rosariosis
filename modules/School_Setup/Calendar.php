@@ -566,17 +566,17 @@ if(empty($_REQUEST['modfunc']))
 		if(AllowEdit())
 		{
 		//modif Francois: days numbered
-			echo '<tr style="height:100%"><td style="vertical-align:bottom; text-align:left;">'.button('add','','"#" onclick=\'javascript:window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&event_id=new&school_date='.$date.'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'","blank","width=500,height=400"); return false;\' title="'._('New Event').'"').'</td>';
+			echo '<tr style="height:100%; vertical-align:bottom;"><td>'.button('add','','"#" onclick=\'javascript:window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&event_id=new&school_date='.$date.'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'","blank","width=500,height=400"); return false;\' title="'._('New Event').'"').'</td>';
 				
 			if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 			{
-				echo '<td style="text-align:right; vertical-align:bottom;">'.(($dayNumber = dayToNumber($day_time))?_('Day').'&nbsp;'.$dayNumber:'&nbsp;').'</td>';
+				echo '<td style="text-align:right;">'.(($dayNumber = dayToNumber($day_time))?_('Day').'&nbsp;'.$dayNumber:'&nbsp;').'</td>';
 			}
 			echo '</tr>';
 		}
 		elseif (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 		{
-			echo '<tr><td style="text-align:right; vertical-align: bottom;">'.(($dayNumber = dayToNumber($day_time))?_('Day').'&nbsp;'.$dayNumber:'&nbsp;').'</td></tr>';
+			echo '<tr><td style="text-align:right;">'.(($dayNumber = dayToNumber($day_time))?_('Day').'&nbsp;'.$dayNumber:'&nbsp;').'</td></tr>';
 		}
 		echo '</table></TD>';
 		$return_counter++;

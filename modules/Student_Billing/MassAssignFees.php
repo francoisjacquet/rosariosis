@@ -57,16 +57,26 @@ if(empty($_REQUEST['modfunc']))
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Fee to Selected Students')));
-		
-//modif Francois: css WPadmin
-		echo '<BR /><TABLE class="postbox cellspacing-0" style="margin:0 auto;">';
-		echo '<TR><TD class="center"><H3>'._('Fee').'</H3></TD></TR><TR><TD><TABLE class="width-100p cellspacing-0 cellpadding-5">';
-		echo '<TR><TD style="text-align:right">'._('Title').'</TD><TD><INPUT type="text" name="title" required /></TD></TR>';
-		echo '<TR><TD style="text-align:right">'._('Amount').'</TD><TD><INPUT type="text" name="amount" size="5" maxlength="10" required /></TD></TR>';
-		echo '<TR><TD style="text-align:right">'._('Due Date').'</TD><TD>'.PrepareDate(DBDate(),'').'</TD></TR>';
-		echo '<TR><TD style="text-align:right">'._('Comment').'</TD><TD><INPUT type="text" name="comments" /></TD></TR>';
-		echo '</TABLE></TD></TR>';
-		echo '</TABLE><BR />';
+
+		echo '<BR />';
+
+		PopTable('header', _('Fee'));
+
+		echo '<TABLE class="col1-align-right">';
+
+		echo '<TR><TD>'._('Title').'</TD><TD><INPUT type="text" name="title" required /></TD></TR>';
+
+		echo '<TR><TD>'._('Amount').'</TD><TD><INPUT type="text" name="amount" size="5" maxlength="10" required /></TD></TR>';
+
+		echo '<TR><TD>'._('Due Date').'</TD><TD>'.PrepareDate(DBDate(),'').'</TD></TR>';
+
+		echo '<TR><TD>'._('Comment').'</TD><TD><INPUT type="text" name="comments" /></TD></TR>';
+
+		echo '</TABLE>';
+
+		PopTable('footer');
+
+		echo '<BR />';
 	}
 }
 

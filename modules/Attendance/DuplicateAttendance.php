@@ -228,7 +228,7 @@ if(isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' && 
 
 		echo '<BR />';
 		//modif Francois: css WPadmin
-		echo '<BR />&nbsp;<BR /><table class="widefat cellspacing-0 rt" style="margin:0 auto;">';
+		echo '<BR />&nbsp;<BR /><table class="widefat cellspacing-0 rt center">';
 		echo '<THEAD><TR><TH class="column_heading"><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'deletecheck\');" /> &nbsp</TH>';
 		//modif Francois: add translation 
 		echo '<TH>'._('Student').' ('.sprintf(_('%s ID'),Config('NAME')).')</TH>';

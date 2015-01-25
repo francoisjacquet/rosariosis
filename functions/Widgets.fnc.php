@@ -111,7 +111,7 @@ function Widgets($item,&$myextra=null)
 							$_ROSARIO['SearchTerms'] .= '<b>'._('Course Period').': </b>'.$course[1]['COURSE_TITLE'].': '.$course[1]['TITLE'].'<BR />';
 					}
 				}
-				$extra['search'] .= '<TR><TD>'._('Course').'</TD><TD><DIV id="course_div"></DIV> <A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ChooseCourse.php","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</A></TD></TR>';
+				$extra['search'] .= '<TR class="st"><TD>'._('Course').'</TD><TD><DIV id="course_div"></DIV> <A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ChooseCourse.php","","scrollbars=yes,resizable=yes,width=800,height=400"); return false;\'>'._('Choose').'</A></TD></TR>';
 				}
 			break;
 

@@ -81,14 +81,16 @@ if($comment_codes_RET)
 {
 	echo '<fieldset>';
 	echo '<legend>'._('Final Grades').'</legend>';
-	echo '<TABLE>';
+	echo '<TABLE class="col1-align-right">';
 
 	foreach($comment_codes_RET as $id=>$comments)
 	{
-	echo '<TR><TD style="text-align:right"><SELECT name="values[COMMENT_'.$id.']><OPTION value="">'._('N/A').'';
-	foreach($comments as $key=>$val)
-		echo '<OPTION value="'.$val['CODE_TITLE'].'"'.($val['CODE_TITLE']==$programconfig['COMMENT_'.$id]?' selected':'').'>'.$val['CODE_TITLE'];
-	echo '</SELECT></TD><TD style="text-align:left;">'.sprintf(_('Default %s comment code'), $comments[1]['TITLE']).'</TD></TR>';
+		echo '<TR><TD><SELECT name="values[COMMENT_'.$id.']><OPTION value="">'._('N/A').'';
+
+		foreach($comments as $key=>$val)
+			echo '<OPTION value="'.$val['CODE_TITLE'].'"'.($val['CODE_TITLE']==$programconfig['COMMENT_'.$id]?' selected':'').'>'.$val['CODE_TITLE'];
+
+		echo '</SELECT></TD><TD>'.sprintf(_('Default %s comment code'), $comments[1]['TITLE']).'</TD></TR>';
 	}
 
 	echo '</TABLE>';

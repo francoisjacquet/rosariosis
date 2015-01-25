@@ -132,17 +132,25 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 	}
 	else
 		$options = array('center'=>false);
+
 	ListOutput($RET,$columns,'Fee','Fees',$link,array(),$options);
+
 	if(!$_REQUEST['print_statements'] && AllowEdit())
 		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+
 	echo '<BR />';
 	if(!$_REQUEST['print_statements'])
 	{
 		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID='".UserStudentID()."' AND p.SYEAR='".UserSyear()."'"));
-		$table = '<TABLE><TR><TD style="text-align:right">'._('Total from Fees').': '.'</TD><TD style="text-align:right">'.Currency($fees_total).'</TD></TR>';
-		$table .= '<TR><TD style="text-align:right">'._('Less').': '._('Total from Payments').': '.'</TD><TD style="text-align:right">'.Currency($payments_total[1]['TOTAL']).'</TD></TR>';
-		$table .= '<TR><TD style="text-align:right">'._('Balance').': <b>'.'</b></TD><TD style="text-align:right"><b>'.Currency(($fees_total-$payments_total[1]['TOTAL']),'CR').'</b></TD></TR></TABLE>';
+
+		$table = '<TABLE class="align-right"><TR><TD>'._('Total from Fees').': '.'</TD><TD>'.Currency($fees_total).'</TD></TR>';
+
+		$table .= '<TR><TD>'._('Less').': '._('Total from Payments').': '.'</TD><TD>'.Currency($payments_total[1]['TOTAL']).'</TD></TR>';
+
+		$table .= '<TR><TD>'._('Balance').': <b>'.'</b></TD><TD><b>'.Currency(($fees_total-$payments_total[1]['TOTAL']),'CR').'</b></TD></TR></TABLE>';
+
 		DrawHeader('','',$table);
+
 		echo '</FORM>';
 	}
 }

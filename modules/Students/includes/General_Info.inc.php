@@ -1,6 +1,6 @@
 <?php
-echo '<TABLE class="width-100p">';
-echo '<TR class="st"><TD rowspan="2" class="valign-top">';
+echo '<TABLE class="width-100p valign-top">';
+echo '<TR class="st"><TD rowspan="2">';
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
@@ -84,6 +84,8 @@ echo '</TD></TR></TABLE>';
 
 
 $_REQUEST['category_id'] = '1';
+$separator = '<hr />';
+
 include 'modules/Students/includes/Other_Info.inc.php';
 
 if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool() && $student['SCHOOL_ID'])

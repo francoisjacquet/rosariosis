@@ -189,13 +189,15 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'];
+
 		if($_REQUEST['id']!='new')
 			echo '&id='.$_REQUEST['id'];
+
 		echo '&table=ADDRESS_FIELDS" method="POST">';
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p">';
-		$header .= '<TR class="st">';
+
+		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
 
 //modif Francois: field name required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')).'</TD>';
@@ -243,18 +245,20 @@ if(empty($_REQUEST['modfunc']))
 		$new = ($_REQUEST['id']=='new');
 		$header .= '<TD>' . CheckboxInput($RET['REQUIRED'],'tables['.$_REQUEST['id'].'][REQUIRED]',_('Required'),'',$new) . '</TD>';
 
-		$header .= '</TR>';
-		$header .= '</TABLE>';
+		$header .= '</TR></TABLE>';
 	}
 	elseif($_REQUEST['category_id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table=ADDRESS_FIELD_CATEGORIES';
+
 		if($_REQUEST['category_id']!='new')
 			echo '&category_id='.$_REQUEST['category_id'];
+
 		echo '" method="POST">';
+
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p">';
-		$header .= '<TR class="st">';
+
+		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
 
 //modif Francois: title required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':'')) . '</TD>';
@@ -275,8 +279,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$header .= '</TR></TABLE></TD>';
 
-		$header .= '</TR>';
-		$header .= '</TABLE>';
+		$header .= '</TR></TABLE>';
 	}
 	else
 		$header = false;

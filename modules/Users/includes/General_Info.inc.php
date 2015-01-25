@@ -1,6 +1,6 @@
 <?php
-echo '<TABLE class="width-100p">';
-echo '<TR class="st"><TD rowspan="2" class="valign-top">';
+echo '<TABLE class="width-100p valign-top">';
+echo '<TR class="st"><TD rowspan="2">';
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
@@ -88,7 +88,7 @@ echo NoInput(makeLogin($staff['LAST_LOGIN']),_('Last Login'));
 
 echo '</TD></TR></TABLE><HR />';
 
-echo '<TABLE class="width-100p">';
+echo '<TABLE class="width-100p valign-top">';
 if(basename($_SERVER['PHP_SELF'])!='index.php')
 {
 	echo '<TR class="st"><TD>';
@@ -128,7 +128,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 		{
 			if($i%3==0)
 				echo '</TR><TR class="st">';
-			echo '<TD>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'],'',false,'<IMG SRC="assets/check_button.png" width="15">','<IMG SRC="assets/x_button.png" width="15">').'</TD>';
+			echo '<TD>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'], '', false, button('check'), button('x')).'</TD>';
 			$i++;
 		}
 		echo '</TR></TABLE>';
@@ -154,5 +154,7 @@ echo TextInput($staff['PHONE'],'staff[PHONE]',_('Phone Number'),'size=12 maxleng
 echo '</TD></TR></TABLE>';
 
 $_REQUEST['category_id'] = '1';
+$separator = '<hr />';
+
 include('modules/Users/includes/Other_Info.inc.php');
 ?>

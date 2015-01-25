@@ -1,7 +1,10 @@
 <?php
 DrawHeader(ProgramTitle());
 
-include 'Menu.php';
+//modif Francois: bugfix no $menu when page refreshed
+unset($_ROSARIO['Menu']);
+
+include('Menu.php');
 
 if($_REQUEST['profile_id']!='')
 {
@@ -203,10 +206,12 @@ function changeHTML(show,hide){
 						//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
 
 						echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+
 						if($xprofile=='admin' || $modcat=='Resources')
 								echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
 						else
-							echo '<TD class="center">&nbsp;</TD>';
+							echo '<TD>&nbsp;</TD>';
+
 						echo'<TD>'.$title.'</TD></TR>';
 
 						if($modcat=='Students' && $file=='Students/Student.php')
@@ -221,7 +226,9 @@ function changeHTML(show,hide){
 
 								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
 								echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+
 								echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+
 								echo '<TD>'.$title.'</TD></TR>';
 							}
 						}
@@ -237,10 +244,12 @@ function changeHTML(show,hide){
 
 								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
 								echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+
 								if($xprofile=='admin')
 									echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
 								else
 									echo '<TD>&nbsp;</TD>';
+
 								echo '<TD>'.$title.'</TD></TR>';
 							}
 						}
@@ -253,13 +262,17 @@ function changeHTML(show,hide){
 			//echo '<TR><TD colspan="3" style="text-align:center; height:20px;"></TD></TR>';
 		}
 		echo '</TABLE>';
+
 		PopTable('footer');
-		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+
+		echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	}
 	echo '</DIV>';
 	echo '</TD></TR></TABLE>';
 	echo '</FORM>';
+
 	echo '<DIV id="new_id_content" style="position:absolute;visibility:hidden;">'._('Title').' <INPUT type="text" name="new_profile_title"><BR />';
+
 	echo _('Type').' <SELECT name="new_profile_type"><OPTION value="admin">'._('Administrator').'<OPTION value="teacher">'._('Teacher').'<OPTION value="parent">'._('Parent').'</SELECT></DIV>';
 }
 ?>

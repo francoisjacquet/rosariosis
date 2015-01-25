@@ -41,7 +41,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '<img src="assets/Frames/'.$_REQUEST['frame'].'" style="z-index:0; width:1462px; height:1032px; position:absolute;" />';
 			}
 			
-			echo '<TABLE style="margin:0 auto; height:77%;">';
+			echo '<TABLE class="center" style="height:77%;">';
 			
 			$honor_roll_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_honor_roll_text)));
 
@@ -49,7 +49,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				
 			echo '<TR><TD>'.$honor_roll_text.'</TD></TR></TABLE>';
 
-			echo '<TABLE style="margin:0 auto; width:80%;">';
+			echo '<TABLE class="center" style="width:80%;">';
 			echo '<TR><TD><span style="font-size:x-large;">'.$student['TEACHER'].'</span><BR /><span style="font-size:medium;">'._('Teacher').'</span></TD>';
 			echo '<TD><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><BR /><span style="font-size:medium;">'._('Marking Period').'</span></TD></TR>';
 			echo '<TR><TD><span style="font-size:x-large;">'.$school_info_RET[1]['PRINCIPAL'].'</span><BR /><span style="font-size:medium;">'._('Principal').'</span></TD>';

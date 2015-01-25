@@ -95,7 +95,7 @@ else
 
 echo '<hr />';
 
-echo '<TABLE class="width-100p"><TR class="st">';
+echo '<TABLE class="width-100p valign-top"><TR class="st">';
 
 echo '<TD>'.SelectInput($gradelevel_id,'values[STUDENT_ENROLLMENT]['.$id.'][GRADE_ID]',(!$gradelevel_id?'<span class="legend-red">':'')._('Grade Level').(!$gradelevel_id?'</span>':''),$gradelevel_options,false,'required',$div).'</TD>';
 

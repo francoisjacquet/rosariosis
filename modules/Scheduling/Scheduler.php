@@ -14,10 +14,12 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 {
 	echo '<BR />';
 	PopTable('header',_('Scheduler Progress'));
-	echo '<TABLE class="cellspacing-0" style="border: solid #C9C9C9 1px; margin:0 auto;"><TR><TD><TABLE style="height:19px" class="cellspacing-0"><TR>';
+	echo '<TABLE class="cellspacing-0 center" style="border: solid 1px; height:19px"><TR>';
+
 	for($i=1;$i<=100;$i++)
 		echo '<TD id="cell'.$i.'" style="width:3px;"></TD>';
-	echo '</TR></TABLE></TD></TR></TABLE><BR /><DIV id="percentDIV"><IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif"> '._('Processing Requests ...').' </DIV>';
+
+	echo '</TR></TABLE><BR /><DIV id="percentDIV"><IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif"> '._('Processing Requests ...').' </DIV>';
 	PopTable('footer');
 	ob_flush();
 	flush();

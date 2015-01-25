@@ -35,7 +35,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		if($_REQUEST['list'])
 		{
 			$handle = PDFStart();
-			echo '<TABLE style="margin:0 auto; width:80%;">';
+			echo '<TABLE class="center" style="width:80%;">';
 			echo '<TR class="center"><TD colspan="6"><B>'.sprintf(_('%s Honor Roll'),$school_info_RET[1]['TITLE']).' </B> - '.$mp_RET[1]['TITLE'].' - '.date('F j, Y',strtotime($mp_RET[1]['END_DATE'])).'</TD></TR>';
 			echo '<TR class="center"><TD colspan="6">&nbsp;</TD></TR>';
 
@@ -90,7 +90,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				
 				echo '<TR><TD>'.$honor_roll_text.'</TD></TR></TABLE>';
 				
-				echo '<TABLE style="margin:0 auto; width:80%;">';
+				echo '<TABLE class="center" style="width:80%;">';
 				echo '<TR><TD><span style="font-size:x-large;">'.$student['TEACHER'].'</span><BR /><span style="font-size:medium;">'._('Teacher').'</span></TD>';
 				echo '<TD><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><BR /><span style="font-size:medium;">'._('Marking Period').'</span></TD></TR>';
 				echo '<TR><TD><span style="font-size:x-large;">'.$school_info_RET[1]['PRINCIPAL'].'</span><BR /><span style="font-size:medium;">'._('Principal').'</span></TD>';

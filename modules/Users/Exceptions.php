@@ -115,10 +115,12 @@ if(!$staff_RET[1]['PROFILE_ID'])
 					//echo '<TR><TD></TD><TD></TD>';
 
 					echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+
 					if($staff_RET[1]['PROFILE']=='admin')
 						echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
 					else
-						echo '<TD class="center">&nbsp;</TD>';
+						echo '<TD>&nbsp;</TD>';
+
 					echo '<TD>'.$title.'</TD></TR>';
 
 					if($modcat=='Students' && $file=='Students/Student.php')
@@ -132,7 +134,9 @@ if(!$staff_RET[1]['PROFILE_ID'])
 							$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
 							echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+
 							echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+
 							echo '<TD>'.$title.'</TD></TR>';
 						}
 					}
@@ -147,7 +151,9 @@ if(!$staff_RET[1]['PROFILE_ID'])
 							$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
 							echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+
 							echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+
 							echo '<TD>'.$title.'</TD></TR>';
 						}
 					}
@@ -173,13 +179,12 @@ else
 {
 	$profile_title = DBGet(DBQuery("SELECT TITLE FROM USER_PROFILES WHERE ID='".$staff_RET[1]['PROFILE_ID']."'"));
 	echo '<BR />';
-	PopTable('header',_('Error'),'width=50%');
 
-	echo '<TABLE><TR><TD>'. button('warning', '', '', 'bigger') .'</TD>';
-	
-	echo '<TD>'.sprintf(_('%s %s is assigned to the profile %s.'),$staff_RET[1]['FIRST_NAME'],$staff_RET[1]['LAST_NAME'],$profile_title[1]['TITLE']).'<BR /><BR /> '.sprintf(_('To assign permissions to this user, either change the permissions for this profile using the %s setup or change this user to a user with custom permissions by using %s.'), (AllowUse('Users/Profiles.php') ? '<A href="Modules.php?modname=Users/Profiles.php">' : '')._('Profiles').(AllowUse('Users/Profiles.php') ? '</A>' : ''), (AllowUse('Users/User.php') ? '<A href="Modules.php?modname=Users/User.php">' : '')._('General Info').(AllowUse('Users/User.php') ? '</A>' : '')).'</TD></TR></TABLE>';
+	$error[] = sprintf(_('%s %s is assigned to the profile %s.'),$staff_RET[1]['FIRST_NAME'],$staff_RET[1]['LAST_NAME'],$profile_title[1]['TITLE']);
 
-	PopTable('footer');
+	$error[] = sprintf(_('To assign permissions to this user, either change the permissions for this profile using the %s setup or change this user to a user with custom permissions by using %s.'), (AllowUse('Users/Profiles.php') ? '<A href="Modules.php?modname=Users/Profiles.php">' : '')._('Profiles').(AllowUse('Users/Profiles.php') ? '</A>' : ''), (AllowUse('Users/User.php') ? '<A href="Modules.php?modname=Users/User.php">' : '')._('General Info').(AllowUse('Users/User.php') ? '</A>' : ''));
+
+	echo ErrorMessage($error);
 }
 }
 ?>

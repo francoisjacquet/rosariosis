@@ -303,8 +303,7 @@ th a{
 	overflow:hidden;
 }
 .postbox{
-	margin-left:auto; 
-    margin-right:auto;
+	margin: 0 auto;
 	position:relative;
 	min-width:255px
 }
@@ -376,6 +375,9 @@ img.headerIcon{
 }
 .header2{
 	padding:2px
+}
+.header2 table{
+	line-height:1
 }
 #courses_div{
 	position:absolute;
@@ -455,19 +457,22 @@ table.cellpadding-5 td{
 td.popTable{
 	padding:5px
 }
-td.valign-top,tr.valign-top{
+td.valign-top,tr.valign-top,table.valign-top td{
 	vertical-align:top
+}
+table.align-right td{
+	text-align:right
 }
 table.col1-align-right td:first-child{
 	text-align:right;
 	vertical-align:middle
 }
-.center{
+td.center, span.center{
 	/*<CENTER> && <TD align="center">*/
 	text-align:center
 }
 table.center{
-	margin:0 auto;
+	margin:0 auto
 }
 span.nobr{
 	white-space:nowrap

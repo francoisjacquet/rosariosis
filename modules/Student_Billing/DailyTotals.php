@@ -34,12 +34,18 @@ DrawHeader(' &nbsp; &nbsp; <B>'._('Report Timeframe').': </B>'.PrepareDate($star
 echo '</FORM>';
 
 $billing_payments = DBGet(DBQuery("SELECT sum(AMOUNT) AS AMOUNT FROM BILLING_PAYMENTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND PAYMENT_DATE BETWEEN '".$start_date."' AND '".$end_date."'"));
+
 $billing_fees = DBGet(DBQuery("SELECT sum(f.AMOUNT) AS AMOUNT FROM BILLING_FEES f WHERE AND f.SCHOOL_ID='".UserSchool()."' AND f.ASSIGNED_DATE BETWEEN '".$start_date."' AND '".$end_date."'"));
+
 PopTable('header',_('Totals'));
-echo '<TABLE class="cellspacing-0">';
-echo '<TR><TD style="text-align:right">'._('Payments').': '.'</TD><TD style="text-align:right">'.Currency($billing_payments[1]['AMOUNT']).'</TD></TR>';
-echo '<TR><TD style="text-align:right">'._('Less').': '._('Fees').': '.'</TD><TD style="text-align:right">'.Currency($billing_fees[1]['AMOUNT']).'</TD></TR>';
-echo '<TR><TD style="text-align:right;border:1;border-style: solid none none none;"><B>'._('Total').': '.'</B></TD><TD style="text-align:right;border:1;border-style: solid none none none"><B>'.Currency(($billing_payments[1]['AMOUNT']-$billing_fees[1]['AMOUNT'])).'</B></TD></TR>';
+
+echo '<TABLE class="cellspacing-0 align-right">';
+echo '<TR><TD>'._('Payments').': '.'</TD><TD>'.Currency($billing_payments[1]['AMOUNT']).'</TD></TR>';
+
+echo '<TR><TD>'._('Less').': '._('Fees').': '.'</TD><TD>'.Currency($billing_fees[1]['AMOUNT']).'</TD></TR>';
+
+echo '<TR><TD><B>'._('Total').': '.'</B></TD><TD><B>'.Currency(($billing_payments[1]['AMOUNT']-$billing_fees[1]['AMOUNT'])).'</B></TD></TR>';
 echo '</TABLE>';
+
 PopTable('footer');
 ?>

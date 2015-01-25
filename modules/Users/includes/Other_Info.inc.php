@@ -11,9 +11,9 @@ if(UserStaffID())
 }
 
 if (count($fields_RET))
-	echo '<HR />';
+	echo $separator;
 
-echo '<TABLE class="width-100p">';
+echo '<TABLE class="width-100p valign-top">';
 $i = 1;
 $per_row = $category_RET[1]['COLUMNS']?$category_RET[1]['COLUMNS']:'3';
 

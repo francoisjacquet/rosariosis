@@ -114,9 +114,7 @@ if(empty($_REQUEST['modfunc']))
 //modif Francois: add translation
 		$extra['header_right'] = SubmitButton(_('Create Reminders for Selected Students'));
 
-		$extra['extra_header_left'] = '<TABLE><TR>';
-		$extra['extra_header_left'] .= '<TD style="text-align:right"><label>'._('Estimate for year end').'&nbsp;<INPUT type="checkbox" name="year_end" value="Y" /></label></TD>';
-		$extra['extra_header_left'] .= '</TR></TABLE>';
+		$extra['extra_header_left'] .= '<label>'._('Estimate for year end').'&nbsp;<INPUT type="checkbox" name="year_end" value="Y" /></label>';
 	}
 
 	$extra['link'] = array('FULL_NAME'=>false);
