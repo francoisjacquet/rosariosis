@@ -37,7 +37,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							if(count($start_end_RET))
 							{
 								//if user clicked Cancel or OK or Display Prompt
-								if(_DeletePrompt(_('Student Absences and Grades')))
+								if(DeletePrompt(_('Student Absences and Grades'), 'Delete', false))
 								{
 									//if user clicked OK
 									if ($_REQUEST['delete_ok'])
@@ -177,22 +177,5 @@ function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
 	return '&nbsp;&nbsp;<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
-}
-
-//custom DeletePrompt function: we need modfunc to be kept here + delete_cancel
-function _DeletePrompt($title,$action='Delete')
-{
-	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok'));
-
-	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
-	{
-		echo '<BR />';
-		PopTable('header',_('Confirm').(mb_strpos($action,' ')===false?' '.($action=='Delete'?_('Delete'):$action):''));
-		echo '<span class="center"><h4>'.sprintf(_('Are you sure you want to %s that %s?'),($action=='Delete'?_('Delete'):$action),$title).'</h4><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST"><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onclick="javascript:this.form.action=\''.$PHP_tmp_SELF.'&delete_cancel=1\';ajaxPostForm(this.form,true);"></FORM></span>';
-		PopTable('footer');
-		return false;
-	}
-	else
-		return true;
 }
 ?>
