@@ -127,9 +127,11 @@ if(UserStudentID() && $_REQUEST['student_id'])
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 	echo '<BR />';
 	PopTable('header',ProgramTitle());
+
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
 	
-	echo '<TABLE class="width-100p">';
+	echo '<TABLE class="width-100p col1-align-right">';
+
 	echo '<TR class="st"><TD><span class="legend-gray">'._('Student').'</span></TD><TD>';
 	$name = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME,NAME_SUFFIX FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
 	echo $name[1]['FIRST_NAME'].'&nbsp;'.($name[1]['MIDDLE_NAME']?$name[1]['MIDDLE_NAME'].' ':'').$name[1]['LAST_NAME'].'&nbsp;'.$name[1]['NAME_SUFFIX'];
@@ -212,9 +214,12 @@ if(UserStudentID() && $_REQUEST['student_id'])
 			case 'select':
 				$options = array();
 				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
+
 				$select_options = explode("\r",$category['SELECT_OPTIONS']);
+
 				foreach($select_options as $option)
 					$options[$option] = $option;
+
 				echo SelectInput('','values[CATEGORY_'.$category['ID'].']','',$options,'N/A');
 				/*echo '<SELECT name="values[CATEGORY_'.$category['ID'].']"><OPTION value="">'._('N/A').'</OPTION>';
 				foreach($options as $option)
@@ -227,8 +232,11 @@ if(UserStudentID() && $_REQUEST['student_id'])
 		echo '</TD></TR>';
 	}
 	echo '</TABLE>';
+
 	PopTable('footer');
-	echo '<span class="center"><INPUT type="submit" value="'._('Submit').'" /></span>';
+
+	echo '<BR /><span class="center">'.SubmitButton().'</span>';
+
 	echo '</FORM>';
 }
 ?>

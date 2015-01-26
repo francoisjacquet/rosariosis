@@ -75,6 +75,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 }
 
 DrawHeader(ProgramTitle());
+
 if($error)
 	echo ErrorMessage(array(_('Please enter valid Numeric data.')));
 
@@ -129,19 +130,23 @@ if($_REQUEST['student_header']=='true')
 
 if(!$_REQUEST['referral_id'] && !$_REQUEST['modfunc'])
 	Search('student_id',$extra);
-elseif(empty($_REQUEST['modfunc']))
 
+elseif(empty($_REQUEST['modfunc']))
 {
 	$RET = DBGet(DBQuery("SELECT * FROM DISCIPLINE_REFERRALS WHERE ID='".$_REQUEST['referral_id']."'"));
 	$RET = $RET[1];
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&referral_id='.$_REQUEST['referral_id'].'" method="POST">';
+
 	DrawHeader('',SubmitButton(_('Save')));
+
 	echo '<BR />';
 	PopTable('header',_('Referral'));
+
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
 
-	echo '<TABLE class="width-100p">';
+	echo '<TABLE class="width-100p col1-align-right">';
+
 	echo '<TR class="st"><TD><span class="legend-gray">'._('Student').'</span></TD><TD>';
 	$name = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME,NAME_SUFFIX FROM STUDENTS WHERE STUDENT_ID='".$RET['STUDENT_ID']."'"));
 	echo $name[1]['FIRST_NAME'].'&nbsp;'.($name[1]['MIDDLE_NAME']?$name[1]['MIDDLE_NAME'].' ':'').$name[1]['LAST_NAME'].'&nbsp;'.$name[1]['NAME_SUFFIX'];
@@ -257,10 +262,12 @@ elseif(empty($_REQUEST['modfunc']))
 		echo '</TD></TR>';
 	}
 	echo '</TABLE>';
+
 	echo PopTable('footer');
+
 	if(AllowEdit())
-		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
-	PopTable('footer');
+		echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+
 	echo '</FORM>';
 }
 

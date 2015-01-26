@@ -630,6 +630,9 @@ div.st{
 		float:left;
 		width:100%
 	}
+	table.col1-align-right tr.st td:first-child{
+		text-align:left
+	}
 }
 
 @media only screen and (max-width:1023px){
