@@ -748,7 +748,7 @@ function _makeLetterPercent($student_id,$column)
 			$return = TextInput($select_percent==''?'':$select_percent.'%',"values[$student_id][percent]",'','size=5 tabindex='.$tabindex,$div);
 		else
 		{
-			if(AllowEdit() && $div && $select_percent!='' && $select_grade && Preferences('HIDDEN')=='Y')
+			if(AllowEdit() && $div && $select_percent!='' && $select_grade)
 			{
 				$return = '<DIV id="'.$student_id.'"><div class="onclick" onclick=\'addHTML("';
 				

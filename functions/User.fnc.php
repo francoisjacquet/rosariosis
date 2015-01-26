@@ -61,7 +61,6 @@ function Preferences($item='',$program='Preferences')
 				'HEADER'=>'#333366',
 				'HIGHLIGHT'=>'#FFFFFF',
 				'THEME'=>$default_theme,
-				'HIDDEN'=>'Y',
 				'MONTH'=>'%B',
 				'DAY'=>'%d',
 				'YEAR'=>'%Y',

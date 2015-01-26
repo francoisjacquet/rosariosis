@@ -39,12 +39,35 @@ $suffixes_array = array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'
 
 if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 {
-	if($_REQUEST['staff_id']=='new' || Preferences('HIDDEN')!='Y' || $_REQUEST['moodle_create_user'])
+	if($_REQUEST['staff_id']=='new' || $_REQUEST['moodle_create_user'])
 //modif Francois: last & first name required
-		echo '<TABLE><TR class="st"><TD>'.SelectInput($staff['TITLE'],'staff[TITLE]',_('Title'),$titles_array,'').'</TD><TD>'.TextInput($staff['FIRST_NAME'],'staff[FIRST_NAME]',($staff['FIRST_NAME']==''?'<span class="legend-red">':'')._('First Name').($staff['FIRST_NAME']==''?'</span>':''),'maxlength=50 required', ($_REQUEST['moodle_create_user'] ? false : true)).'</TD><TD>'.TextInput($staff['MIDDLE_NAME'],'staff[MIDDLE_NAME]',_('Middle Name'),'maxlength=50').'</TD><TD>'.TextInput($staff['LAST_NAME'],'staff[LAST_NAME]',($staff['LAST_NAME']==''?'<span class="legend-red">':'')._('Last Name').($staff['LAST_NAME']==''?'</span>':''),'maxlength=50 required', ($_REQUEST['moodle_create_user'] ? false : true)).'</TD><TD>'.SelectInput($staff['NAME_SUFFIX'],'staff[NAME_SUFFIX]',_('Suffix'),$suffixes_array,'').'</TD></TR></TABLE>';
+		echo '<TABLE>
+		<TR class="st"><TD>
+		'.SelectInput($staff['TITLE'],'staff[TITLE]',_('Title'),$titles_array,'').'
+		</TD><TD>
+		'.TextInput($staff['FIRST_NAME'],'staff[FIRST_NAME]',($staff['FIRST_NAME']==''?'<span class="legend-red">':'')._('First Name').($staff['FIRST_NAME']==''?'</span>':''),'maxlength=50 required', ($_REQUEST['moodle_create_user'] ? false : true)).'
+		</TD><TD>
+		'.TextInput($staff['MIDDLE_NAME'],'staff[MIDDLE_NAME]',_('Middle Name'),'maxlength=50').'
+		</TD><TD>
+		'.TextInput($staff['LAST_NAME'],'staff[LAST_NAME]',($staff['LAST_NAME']==''?'<span class="legend-red">':'')._('Last Name').($staff['LAST_NAME']==''?'</span>':''),'maxlength=50 required', ($_REQUEST['moodle_create_user'] ? false : true)).'
+		</TD><TD>
+		'.SelectInput($staff['NAME_SUFFIX'],'staff[NAME_SUFFIX]',_('Suffix'),$suffixes_array,'').'
+		</TD></TR>
+		</TABLE>';
 	else
 	{
-		$user_name = '<TABLE><TR class="st"><TD>'.SelectInput($staff['TITLE'],'staff[TITLE]',_('Title'),$titles_array,'','',false).'</TD><TD>'.TextInput($staff['FIRST_NAME'],'staff[FIRST_NAME]',_('First Name'),'maxlength=50 required',false).'</TD><TD>'.TextInput($staff['MIDDLE_NAME'],'staff[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'</TD><TD>'.TextInput($staff['LAST_NAME'],'staff[LAST_NAME]',_('Last Name'),'maxlength=50 required',false).'</TD><TD>'.SelectInput($staff['NAME_SUFFIX'],'staff[NAME_SUFFIX]',_('Suffix'),$suffixes_array,'','',false).'</TD></TR></TABLE>';
+		$user_name = '<TABLE>
+		<TR class="st"><TD>
+		'.SelectInput($staff['TITLE'],'staff[TITLE]',_('Title'),$titles_array,'','',false).'
+		</TD><TD>
+		'.TextInput($staff['FIRST_NAME'],'staff[FIRST_NAME]',_('First Name'),'maxlength=50 required',false).'
+		</TD><TD>
+		'.TextInput($staff['MIDDLE_NAME'],'staff[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'</TD><TD>
+		'.TextInput($staff['LAST_NAME'],'staff[LAST_NAME]',_('Last Name'),'maxlength=50 required',false).'
+		</TD><TD>
+		'.SelectInput($staff['NAME_SUFFIX'],'staff[NAME_SUFFIX]',_('Suffix'),$suffixes_array,'','',false).'
+		</TD></TR>
+		</TABLE>';
 
 		echo '<script>var user_name='.json_encode($user_name).';</script>';
 
