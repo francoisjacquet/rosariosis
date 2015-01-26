@@ -467,11 +467,12 @@ table.col1-align-right td:first-child{
 	text-align:right;
 	vertical-align:middle
 }
-td.center, span.center{
+.center{
 	/*<CENTER> && <TD align="center">*/
 	text-align:center
 }
 table.center{
+	text-align:inherit;
 	margin:0 auto
 }
 span.nobr{
@@ -603,7 +604,7 @@ div.st{
 		display:none
 	}
 	#search input,#search select,input[id=USERNAME],input[id=PASSWORD],#LO_search{
-		max-width:120px
+		max-width:150px
 	}
 	#modulesBody textarea{ 
 		width:100% !important
