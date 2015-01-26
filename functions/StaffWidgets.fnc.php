@@ -207,9 +207,9 @@ function StaffWidgets($item,&$myextra=NULL)
 
 				$extra['search'] .= '<TR class="st"><TD>
 				'._('Has Account').'
-				</TD><TD><label><INPUT type="radio" name="fsa_exists" value=""'.(!$value?' checked':'').'>'._('All').'</label> 
-				<label><INPUT type="radio" name="fsa_exists" value="Y"'.($value=='Y'?' checked':'').'>'._('Yes').'</label> 
-				<label><INPUT type="radio" name="fsa_exists" value="N"'.($value=='N'?' checked':'').'>'._('No').'</label>
+				</TD><TD><label><INPUT type="radio" name="fsa_exists" value=""'.(!$value?' checked':'').'> '._('All').'</label> 
+				<label><INPUT type="radio" name="fsa_exists" value="Y"'.($value=='Y'?' checked':'').'> '._('Yes').'</label> 
+				<label><INPUT type="radio" name="fsa_exists" value="N"'.($value=='N'?' checked':'').'> '._('No').'</label>
 				</TD></TR>';
 				}
 			break;

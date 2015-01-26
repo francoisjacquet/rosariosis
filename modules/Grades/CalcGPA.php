@@ -12,7 +12,7 @@ $mps = explode(',',str_replace("'",'',$mps));
 //modif Francois: add translation
 $table = '<TABLE><TR class="st"><TD class="valign-top"><TABLE>
 	<TR>
-		<TD style="text-align:right; vertical-align: top;"><span style="color:gray">'._('Calculate GPA for').'</span></TD>
+		<TD class="valign-top"><span class="legend-gray">'._('Calculate GPA for').'</span></TD>
 		<TD>';
 
 foreach($mps as $mp)
@@ -25,9 +25,9 @@ foreach($mps as $mp)
 $table .= '</TD>
 	</TR>
 	<TR>
-		<TD colspan="2" class="center"><span style="color:gray">'.sprintf(_('GPA based on a scale of %d'),$SCALE_RET[1]['REPORTING_GP_SCALE']).'</span></TD>
+		<TD colspan="2" class="center"><span class="legend-gray">'.sprintf(_('GPA based on a scale of %d'),$SCALE_RET[1]['REPORTING_GP_SCALE']).'</span></TD>
 	</TR>'.
-'</TABLE></TD><TD style="width:300px;">'._('GPA calculation modifies existing records.').'<BR /><BR />'._('Weighted and unweighted GPA is calculated by dividing the weighted and unweighted grade points configured for each letter grade (assigned in the Report Card Codes setup program) by the base grading scale specified in the school setup.').' </TD></TR></TABLE>';
+'</TABLE></TD><TD style="max-width:300px;">'._('GPA calculation modifies existing records.').'<BR /><BR />'._('Weighted and unweighted GPA is calculated by dividing the weighted and unweighted grade points configured for each letter grade (assigned in the Report Card Codes setup program) by the base grading scale specified in the school setup.').' </TD></TR></TABLE>';
 
 $go = Prompt(_('GPA Calculation'),_('Calculate GPA and Class Rank'),$table);
 if($go)

@@ -680,6 +680,7 @@ if(empty($_REQUEST['modfunc']))
 
 //modif Francois: css WPadmin
 				echo '<TABLE class="widefat cellspacing-0"><TR><TH>'._('Contact Information').'</TH></TR>';
+
 				if($_REQUEST['person_id']!='new')
 				{
 					echo '<TR><TD><DIV id=person_'.$this_contact['PERSON_ID'].'><div class="onclick" onclick=\'addHTML("';
@@ -696,16 +697,24 @@ if(empty($_REQUEST['modfunc']))
 					echo '<TR><TD>'.CheckboxInput($this_contact['EMERGENCY'], 'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('emergency','','','bigger') .'</TD><TD>'._('Emergency').'</TD></TR></TABLE></TD></TR>';
 
 					$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
+
 					if($info_apd)
 						$info_options = _makeAutoSelect('TITLE','PEOPLE_JOIN_CONTACTS',$info_RET,array());
 
 					echo '<TR><TD style="padding:0">';
 
 					echo '<TABLE class="width-100p cellspacing-0">';
+
 					if(!$info_apd)
 					{
 //modif Francois:
-						echo '<TR><TD style="border-color: #BBBBBB; border: 1; border-style: none none solid none;"></TD><TD style="border-color: #BBBBBB; border: 1; border-style: none solid solid none;"><span style="color:gray">'._('Description').'</span> &nbsp; </TD><TD style="border-color: #BBBBBB; border: 1; border-style: none none solid none;"><span style="color:gray">'._('Value').'</span></TD></TR>';
+						echo '<TR><TD>
+						</TD><TD>
+						<span class="legend-gray">'._('Description').'</span> &nbsp; 
+						</TD><TD>
+						<span class="legend-gray">'._('Value').'</span>
+						</TD></TR>';
+
 						if(count($info_RET))
 						{
 							foreach($info_RET as $info)

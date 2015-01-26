@@ -157,12 +157,6 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_d
 	<?php
 	DrawHeader((AllowUse('Scheduling/PrintSchedules.php') ? '<A href="'.$printSchedulesLinkhref.'" target="_blank" id="printSchedulesLink">' : '')._('Print Schedule').(AllowUse('Scheduling/PrintSchedules.php') ? '</A>' : '') . (AllowUse('Scheduling/PrintSchedules.php') ? ' &nbsp;<label><input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" onchange="horizontalFormatSwitch();" /> '._('Horizontal Format').'</label>'.' <label><input name="schedule_table" type="radio" value="Yes" checked onchange="timeTableSwitch();" />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" id="schedule_table" type="radio" value="No" onchange="timeTableSwitch();" />&nbsp;'._('List').'</label>' : ''));
 	
-	/*
-	$schedule_fields_RET = DBGet(DBQuery("SELECT cf.TITLE,s.CUSTOM_71 FROM CUSTOM_FIELDS cf,STUDENTS s WHERE s.STUDENT_ID='".UserStudentID()."' AND cf.ID='71'"));
-	if($schedule_fields_RET[1]['TITLE']=='Team')
-		DrawHeader('<span style="color:gray"><b>'.$schedule_fields_RET[1]['TITLE'].': </b></span>'.$schedule_fields_RET[1]['CUSTOM_71']);
-	*/
-
 	// get the fy marking period id, there should be exactly one fy marking period
 	$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];

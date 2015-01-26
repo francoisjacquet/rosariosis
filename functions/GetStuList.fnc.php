@@ -423,60 +423,76 @@ function appendSQL($sql,$extra=array())
 	{
 //modif Francois: allow comma separated list of student IDs
 		$stuid_array = explode(',', $_REQUEST['stuid']);
+
 		$stuids = array();
 		foreach ($stuid_array as $stuid)
 		{
 			if (is_numeric($stuid))
 				$stuids[] = $stuid;
 		}
+
 		if (!empty($stuids))
 		{
 			$stuids = implode(',', $stuids);
 			//$sql .= " AND ssm.STUDENT_ID IN '".$_REQUEST['stuid']."'";
 			$sql .= " AND ssm.STUDENT_ID IN (".$stuids.")";
+
 			if(!$extra['NoSearchTerms'])
-				$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.sprintf(_('%s ID'),Config('NAME')).': </b></span>'.$stuids.'<BR />';
+				$_ROSARIO['SearchTerms'] .= '<b>'.sprintf(_('%s ID'),Config('NAME')).': </b>'.$stuids.'<BR />';
 		}
 	}
+
 	if($_REQUEST['last'])
 	{
 		$sql .= " AND LOWER(s.LAST_NAME) LIKE '".mb_strtolower($_REQUEST['last'])."%'";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Last Name starts with').': </b></span>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Last Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
 	}
+
 	if($_REQUEST['first'])
 	{
 		$sql .= " AND LOWER(s.FIRST_NAME) LIKE '".mb_strtolower($_REQUEST['first'])."%'";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('First Name starts with').': </b></span>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('First Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
 	}
+
 	if($_REQUEST['grade'])
 	{
 		$sql .= " AND ssm.GRADE_ID = '".$_REQUEST['grade']."'";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Grade Level').': </b></span>'.GetGrade($_REQUEST['grade']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Grade Level').': </b>'.GetGrade($_REQUEST['grade']).'<BR />';
 	}
+
 	if(count($_REQUEST['grades']))
 	{
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.ngettext('Grade','Grades',sizeof($_REQUEST['grades'])).': </b></span>'.($_REQUEST['grades_not']=='Y'?_('Excluded').' ':'');
+			$_ROSARIO['SearchTerms'] .= '<b>'.ngettext('Grade','Grades',sizeof($_REQUEST['grades'])).': </b>'.($_REQUEST['grades_not']=='Y'?_('Excluded').' ':'');
+
 		$list = $sep = '';
 		foreach($_REQUEST['grades'] as $id=>$y)
 		{
 			$list .= $sep."'".$id."'";
+
 			if(!$extra['NoSearchTerms'])
 				$_ROSARIO['SearchTerms'] .= $sep.GetGrade($id);
 			$sep = ',';
 		}
+
 		if(!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<BR />';
+
 		$sql .= " AND ssm.GRADE_ID ".($_REQUEST['grades_not']=='Y'?'NOT ':'')." IN (".$list.")";
 	}
+
 	if($_REQUEST['addr'])
 	{
 		$sql .= " AND (LOWER(a.ADDRESS) LIKE '%".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.CITY) LIKE '".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.STATE)='".mb_strtolower($_REQUEST['addr'])."' OR ZIPCODE LIKE '".$_REQUEST['addr']."%')";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Address contains').': </b></span>'.str_replace("''", "'", $_REQUEST['addr']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Address contains').': </b>'.str_replace("''", "'", $_REQUEST['addr']).'<BR />';
 	}
 
 	return $sql;

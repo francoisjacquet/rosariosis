@@ -144,26 +144,29 @@ foreach($semesters as $sem)
 	if($sem['DOES_GRADES']=='Y')
 	{
 		$table = '<TABLE>';
-		$table .= '<TR class="st"><TD><span style="color:gray; white-space:nowrap;">'.$sem['TITLE'].'</span>&nbsp;</TD>';
+		$table .= '<TR class="st"><TD><span class="legend-gray">'.$sem['TITLE'].'</span>&nbsp;</TD>';
 		$total = 0;
+
 		foreach($quarters[$sem['MARKING_PERIOD_ID']] as $qtr)
 		{
 			$table .= '<TD><span style="white-space:nowrap;">'.$qtr['TITLE'].'&nbsp;</span><BR />';
 			$table .= '<INPUT type="text" name="values[SEM-'.$qtr['MARKING_PERIOD_ID'].']" value="'.$programconfig['SEM-'.$qtr['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
 			$total += $programconfig['SEM-'.$qtr['MARKING_PERIOD_ID']];
 		}
+
 		if($total!=100)
-			$table .= '<TD><span style="color:red; white-space:nowrap;">'._('Total').' &#8800; 100%!</span></TD>';
-		$table .= '</TR>';
-		$table .= '</TABLE>';
+			$table .= '<TD><span class="legend-red">'._('Total').' &#8800; 100%!</span></TD>';
+
+		$table .= '</TR></TABLE>';
 		echo '<TR><TD>'.$table.'</TD></TR>';
 	}
 
 if($year[1]['DOES_GRADES']=='Y')
 {
 	$table = '<TABLE>';
-	$table .= '<TR class="st"><TD><span style="color:gray;">'.$year[1]['TITLE'].'</span>&nbsp;</TD>';
+	$table .= '<TR class="st"><TD><span class="legend-gray;">'.$year[1]['TITLE'].'</span>&nbsp;</TD>';
 	$total = 0;
+
 	foreach($semesters as $sem)
 	{
 		foreach($quarters[$sem['MARKING_PERIOD_ID']] as $qtr)
@@ -172,6 +175,7 @@ if($year[1]['DOES_GRADES']=='Y')
 			$table .= '<INPUT type="text" name="values[FY-'.$qtr['MARKING_PERIOD_ID'].']" value="'.$programconfig['FY-'.$qtr['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
 			$total += $programconfig['FY-'.$qtr['MARKING_PERIOD_ID']];
 		}
+
 		if($sem['DOES_GRADES']=='Y')
 		{
 			$table .= '<TD><span style="white-space:nowrap;">'.$sem['TITLE'].'&nbsp;</span><BR />';
@@ -179,8 +183,10 @@ if($year[1]['DOES_GRADES']=='Y')
 			$total += $programconfig['FY-'.$sem['MARKING_PERIOD_ID']];
 		}
 	}
+
 	if($total!=100)
-		$table .= '<TD><span style="color:red; white-space:nowrap;">'._('Total').' &#8800; 100%!</span></TD>';
+		$table .= '<TD><span class="legend-red">'._('Total').' &#8800; 100%!</span></TD>';
+
 	$table .= '</TR></TABLE>';
 	echo '<TR><TD>'.$table.'</TD></TR>';
 }
@@ -188,6 +194,7 @@ echo '</TABLE>';
 echo '</fieldset>';
 
 PopTable('footer');
-echo '<span class="center"><INPUT type="submit" value="'._('Save').'" /></span>';
+
+echo '<BR /><span class="center"><INPUT type="submit" value="'._('Save').'" /></span>';
 echo '</FORM>';
 ?>

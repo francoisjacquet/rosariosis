@@ -312,7 +312,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 		{
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($table).';</script>'.$return;
 
-            $return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
 		else
 			$return = $table;
@@ -325,7 +325,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 
 function NoInput($value,$title='')
 {
-	return ($value!=''?$value:'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span style="color:gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
+	return ($value!=''?$value:'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
 }
 
 function CheckBoxOnclick($name)

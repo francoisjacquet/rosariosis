@@ -98,13 +98,11 @@ else
 
 			foreach($referrals as $referral)
 			{
-				//echo '<TABLE cellpadding=5><TR>';
 				if($_REQUEST['elements']['ENTRY_DATE'])
-//					echo '<TD><span style="color:gray">'._('Date').': </span><b>'.ProperDate($referral['ENTRY_DATE']).'</b></TD>';
-					DrawHeader('<span style="color:gray">'._('Date').': </span><b>'.ProperDate($referral['ENTRY_DATE']).'</b>');
+					DrawHeader('<b>'._('Date').': </b>'.ProperDate($referral['ENTRY_DATE']));
+
 				if($_REQUEST['elements']['STAFF_ID'])
-//					echo '<TD><span style="color:gray">'._('Reporter').': </span><b>'.GetTeacher($referral['STAFF_ID']).'</b></TD>';
-					DrawHeader('<span style="color:gray">'._('Reporter').': </span><b>'.GetTeacher($referral['STAFF_ID']).'</b>');
+					DrawHeader('<b>'._('Reporter').': </b>'.GetTeacher($referral['STAFF_ID']));
 
 				$end_tr = false;
 				foreach($_REQUEST['elements'] as $column=>$Y)
@@ -123,9 +121,9 @@ else
 					if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']!='textarea')
 					{
 						if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='checkbox')
-							DrawHeader('<span style="color:gray">'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </span> '.($referral[$column] == 'Y' ? button('check', '', '', 'bigger') : button('x', '', '', 'bigger')));
+							DrawHeader('<b>'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </b> '.($referral[$column] == 'Y' ? button('check', '', '', 'bigger') : button('x', '', '', 'bigger')));
 						else
-							DrawHeader('<span style="color:gray">'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </span><b> '.$referral[$column].'</b>');
+							DrawHeader('<b>'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </b> '.$referral[$column]);
 					}
 					else
 						DrawHeader($referral[$column]);

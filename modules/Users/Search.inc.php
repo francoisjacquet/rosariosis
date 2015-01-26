@@ -145,12 +145,17 @@ else
 	if(!$extra['NoSearchTerms'])
 	{
 		if($_REQUEST['_search_all_schools']=='Y')
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Search All Schools').'</b></span><BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><BR />';
 	}
+
 	$extra['WHERE'] .= appendStaffSQL('',array('NoSearchTerms'=>$extra['NoSearchTerms']));
 	$extra['WHERE'] .= CustomFields('where','staff',array('NoSearchTerms'=>$extra['NoSearchTerms']));
-	if(!isset($_ROSARIO['DrawHeader'])) DrawHeader(_('Choose A User'));
+
+	if(!isset($_ROSARIO['DrawHeader']))
+		DrawHeader(_('Choose A User'));
+
 	$staff_RET = GetStaffList($extra);
+
 	if($extra['profile'])
 	{
         // DO NOT translate those strings since they will be passed to ListOutput ultimately
@@ -166,6 +171,7 @@ else
 
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];
 	$name_link['FULL_NAME']['variables'] = array('staff_id'=>'STAFF_ID');
+
 	if(isset($extra['link']) && is_array($extra['link']))
 		$link = $extra['link'] + $name_link;
 	else
@@ -173,6 +179,7 @@ else
 
 	if(isset($extra['columns_before']) && is_array($extra['columns_before']))
 		$columns = $extra['columns_before'] + $columns;
+
 	if(isset($extra['columns_after']) && is_array($extra['columns_after']))
 		$columns += $extra['columns_after'];
 
@@ -182,22 +189,26 @@ else
 			DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view'=>'true')) . '">'._('Expanded View').'</A>',$extra['header_right']);
 		else
 			DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view'=>'false')) . '">'._('Original View').'</A>',$extra['header_right']);
+
 		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
 		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
+
 		if(!$_REQUEST['LO_save'] && !$extra['suppress_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
+
 			if($_SESSION['Back_PHP_SELF']!='staff')
 			{
 				$_SESSION['Back_PHP_SELF'] = 'staff';
 				unset($_SESSION['Search_PHP_SELF']);
 			}
+
 			echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
 		}
+
 		if($extra['profile'])
 			ListOutput($staff_RET,$columns,$singular,$plural,$link,false,$extra['options']);
 		else
-//modif Francois: add translation
 			ListOutput($staff_RET,$columns,'User','Users',$link,false,$extra['options']);
 	}
 	elseif(count($staff_RET)==1)
@@ -207,21 +218,27 @@ else
 			foreach($link['FULL_NAME']['variables'] as $var=>$val)
 				$_REQUEST[$var] = $staff_RET['1'][$val];
 		}
+
 		if(!is_array($staff_RET[1]['STAFF_ID']))
 		{
 			SetUserStaffID($staff_RET[1]['STAFF_ID']);
 
 			unset($_REQUEST['search_modfunc']);
 		}
+
 		if($_REQUEST['modname']!=$_REQUEST['next_modname'])
 		{
 			$modname = $_REQUEST['next_modname'];
+
 			if(mb_strpos($modname,'?'))
 				$modname = mb_substr($_REQUEST['next_modname'],0,mb_strpos($_REQUEST['next_modname'],'?'));
+
 			if(mb_strpos($modname,'&'))
 				$modname = mb_substr($_REQUEST['next_modname'],0,mb_strpos($_REQUEST['next_modname'],'&'));
+
 			if($_REQUEST['modname'])
 				$_REQUEST['modname'] = $modname;
+
 			//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 			if (mb_substr($modname, -4, 4)!='.php' || mb_strpos($modname, '..')!==false || !is_file('modules/'.$modname))
 			{

@@ -114,33 +114,42 @@ function appendStaffSQL($sql,$extra)
 			$usrids = implode(',', $usrids);
 			//$sql .= " AND s.STAFF_ID='".$_REQUEST['usrid']."'";
 			$sql .= " AND s.STAFF_ID IN (".$usrids.")";
+
 			if(!$extra['NoSearchTerms'])
-				$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('User ID').': </b></span>'.$usrids.'<BR />';
+				$_ROSARIO['SearchTerms'] .= '<b>'._('User ID').': </b>'.$usrids.'<BR />';
 		}
 	}
+
 	if($_REQUEST['last'])
 	{
 		$sql .= " AND UPPER(s.LAST_NAME) LIKE '".mb_strtoupper($_REQUEST['last'])."%'";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Last Name starts with').': </b></span>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Last Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
 	}
+
 	if($_REQUEST['first'])
 	{
 		$sql .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('First Name starts with').': </b></span>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('First Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
 	}
+
 	if($_REQUEST['profile'])
 	{
 		$sql .= " AND s.PROFILE='".$_REQUEST['profile']."'";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Profile').': </b></span>'._(UCFirst($_REQUEST['profile'])).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Profile').': </b>'._(UCFirst($_REQUEST['profile'])).'<BR />';
 	}
+
 	if($_REQUEST['username'])
 	{
 		$sql .= " AND UPPER(s.USERNAME) LIKE '".mb_strtoupper($_REQUEST['username'])."%'";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('UserName starts with').': </b></span>'.str_replace("''", "'", $_REQUEST['username']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('UserName starts with').': </b>'.str_replace("''", "'", $_REQUEST['username']).'<BR />';
 	}
 
 	return $sql;
@@ -158,6 +167,7 @@ function makeProfile($value)
 	elseif($value=='none')
 		$return = _('No Access');
 	else $return = $value;
+
 	if($THIS_RET['PROFILE_ID'])
 		$return .= ' / '.($profiles_RET[$THIS_RET['PROFILE_ID']]?$profiles_RET[$THIS_RET['PROFILE_ID']][1]['TITLE']:'<span style="color:red">'.$THIS_RET['PROFILE_ID'].'</span>');
 	elseif($value!='none')

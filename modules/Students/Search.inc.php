@@ -149,18 +149,22 @@ else
 	if(!$extra['NoSearchTerms'])
 	{
 		if($_REQUEST['_search_all_schools']=='Y')
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Search All Schools').'</b></span><BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><BR />';
+
 		if($_REQUEST['include_inactive']=='Y')
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Include Inactive Students').'</b></span><BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Include Inactive Students').'</b><BR />';
 	}
+
 	if($_REQUEST['address_group'])
 	{
 		$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID=ssm.STUDENT_ID AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
 		$extra['group'] = $extra['LO_group'] = array('FAMILY_ID');
 	}
+
 	$extra['WHERE'] .= appendSQL('',array('NoSearchTerms'=>$extra['NoSearchTerms']));
 	$extra['WHERE'] .= CustomFields('where','student',array('NoSearchTerms'=>$extra['NoSearchTerms']));
 	$students_RET = GetStuList($extra);
+
 	if($extra['array_function'] && function_exists($extra['array_function']))
 		if($_REQUEST['address_group'])
 			foreach($students_RET as $id=>$student_RET)
@@ -170,8 +174,10 @@ else
 
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];
 	$name_link['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
+
 	if($_REQUEST['_search_all_schools'])
 		$name_link['FULL_NAME']['variables']['school_id'] = 'SCHOOL_ID';
+
 	if(isset($extra['link']) && is_array($extra['link']))
 		$link = $extra['link'] + $name_link;
 	else
@@ -181,8 +187,10 @@ else
 		$columns = $extra['columns'];
 	else
 		$columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'));
+
 	if(isset($extra['columns_before']) && is_array($extra['columns_before']))
 		$columns = $extra['columns_before'] + $columns;
+
 	if(isset($extra['columns_after']) && is_array($extra['columns_after']))
 		$columns += $extra['columns_after'];
 
@@ -194,25 +202,31 @@ else
 				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view'=>'true')).'">'._('Expanded View').'</A>';
 			else
 				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view'=>'false')).'">'._('Original View').'</A>';
+
 			if(!$_REQUEST['address_group'])
 				$header_left .= ' | <A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group'=>'Y')).'">'._('Group by Family').'</A>';
 			else
 				$header_left .= ' | <A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group'=>'')).'">'._('Ungroup by Family').'</A>';
 		}
+
 		DrawHeader($header_left,$extra['header_right']);
 		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
 		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
+
 		if(!$_REQUEST['LO_save'] && !$extra['suppress_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
+
 			if($_SESSION['Back_PHP_SELF']!='student')
 			{
 				$_SESSION['Back_PHP_SELF'] = 'student';
 				unset($_SESSION['Search_PHP_SELF']);
 			}
+
 			if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 				echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
 		}
+
 		if($_REQUEST['address_group'])
 		{
 			ListOutput($students_RET,$columns,'Family','Families',$link,$extra['LO_group'],$extra['options']);
@@ -233,6 +247,7 @@ else
 			foreach($link['FULL_NAME']['variables'] as $var=>$val)
 				$_REQUEST[$var] = $students_RET['1'][$val];
 		}
+
 		if(!is_array($students_RET[1]['STUDENT_ID']))
 		{
 			SetUserStudentID($students_RET[1]['STUDENT_ID']);
@@ -242,15 +257,20 @@ else
 
 			unset($_REQUEST['search_modfunc']);
 		}
+
 		if($_REQUEST['modname']!=$_REQUEST['next_modname'])
 		{
 			$modname = $_REQUEST['next_modname'];
+
 			if(mb_strpos($modname,'?'))
 				$modname = mb_substr($_REQUEST['next_modname'],0,mb_strpos($_REQUEST['next_modname'],'?'));
+
 			if(mb_strpos($modname,'&'))
 				$modname = mb_substr($_REQUEST['next_modname'],0,mb_strpos($_REQUEST['next_modname'],'&'));
+
 			if($_REQUEST['modname'])
 				$_REQUEST['modname'] = $modname;
+
 			//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 			if (mb_substr($modname, -4, 4)!='.php' || mb_strpos($modname, '..')!==false || !is_file('modules/'.$modname))
 			{
