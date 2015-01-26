@@ -37,7 +37,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							if(count($start_end_RET))
 							{
 								//if user clicked Cancel or OK or Display Prompt
-								if(DeletePrompt(_('Student Absences and Grades'), 'Delete', false))
+								if(DeletePrompt(_('Students\' Absences and Grades'), 'Delete', false))
 								{
 									//if user clicked OK
 									if ($_REQUEST['delete_ok'])

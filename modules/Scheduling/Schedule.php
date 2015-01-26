@@ -94,7 +94,7 @@ if($_REQUEST['schedule'] && AllowEdit())
 			if(count($start_end_RET))
 			{
 				//if user clicked Cancel or OK then pass else Display Prompt
-				if(DeletePrompt(_('Student Absences and Grades'), 'Delete', false))
+				if(DeletePrompt(_('Student\'s Absences and Grades'), 'Delete', false))
 				{
 					//if user clicked OK
 					if ($_REQUEST['delete_ok'])
