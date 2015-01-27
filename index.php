@@ -7,13 +7,12 @@ if($_REQUEST['modfunc']=='logout')
 {
 	if($_SESSION)
 	{
-//modif Francois: set logout page to old session locale
+		//modif Francois: set logout page to old session locale
 		$old_session_locale = $_SESSION['locale'];
+		session_regenerate_id(true);
 		session_unset();
 		session_destroy();
-//modif Francois: fix error Firefox has detected that the server is redirecting the request
-//		header("Location: $_SERVER[PHP_SELF]?modfunc=logout".(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
-//		header("Location: ".$_SERVER['PHP_SELF'].(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
+
 		header("Location: ".$_SERVER['PHP_SELF'].'?locale='.$old_session_locale.(isset($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
 	}
 }
