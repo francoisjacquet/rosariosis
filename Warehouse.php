@@ -2,7 +2,7 @@
 if(!defined('WAREHOUSE_PHP'))
 {
 	define("WAREHOUSE_PHP",1);
-	$RosarioVersion = '2.7';
+	$RosarioVersion = '2.8-beta';
 
 	if (!file_exists ('config.inc.php'))
 		die ('config.inc.php not found. Please read the configuration guide.');
@@ -20,10 +20,23 @@ if(!defined('WAREHOUSE_PHP'))
 
 	// Start Session.
 	session_name('RosarioSIS');
-	if ($_SERVER['SCRIPT_NAME']!='/index.php')
-		session_set_cookie_params(0,dirname($_SERVER['SCRIPT_NAME']).'/'); //,'',$false,$true);
+
+	//http://php.net/manual/en/session.security.php
+	session_set_cookie_params(0, dirname($_SERVER['SCRIPT_NAME']).'/', '', false, true);
+	session_cache_limiter('nocache');
+
 	session_start();
-	if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && mb_strpos($_SERVER['PHP_SELF'],'index.php')===false)
+
+	if (!isset($_SESSION['CREATED']))
+	    $_SESSION['CREATED'] = time();
+	elseif (time() - $_SESSION['CREATED'] > 180)
+	{
+	    // session started more than 3 minutes ago
+	    session_regenerate_id(true); // change session ID for the current session and invalidate old session ID
+	    $_SESSION['CREATED'] = time(); // update creation time
+	}
+
+	if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && basename($_SERVER['SCRIPT_NAME'])!=='index.php')
 	{
 ?>
 		<script>window.location.href = "index.php?modfunc=logout";</script>

@@ -291,6 +291,7 @@ else
 {
 	DBQuery("INSERT INTO STUDENT_ENROLLMENT (ID, SYEAR, SCHOOL_ID, STUDENT_ID) values(nextval('STUDENT_ENROLLMENT_SEQ'), '".UserSyear()."', '".$_REQUEST['enrollment']['SCHOOL_ID']."', '".UserStudentID()."')");
 
+	session_unset();
 	session_destroy();
 ?>
 <script>document.location = 'index.php?account_created=true';</script>

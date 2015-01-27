@@ -293,6 +293,7 @@ elseif(!UserStaffID())
 //account created, return to index
 else
 {
+	session_unset();
 	session_destroy();
 ?>
 <script>document.location = 'index.php?account_created=true';</script>
