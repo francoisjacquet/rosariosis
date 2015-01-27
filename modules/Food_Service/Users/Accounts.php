@@ -151,7 +151,8 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 	echo '</TR></TABLE>';
 
 	PopTable('footer');
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+
+	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
 }
 ?>

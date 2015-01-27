@@ -235,7 +235,7 @@ else
 
 ListOutput($stu_RET,$LO_columns,'Student','Students',false,array(),$LO_options);
 
-echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 echo '</FORM>';
 
 function _makeRadio($value,$title)

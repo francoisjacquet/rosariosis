@@ -179,9 +179,10 @@ if(empty($_REQUEST['modfunc']))
 
 	$LO_options = array('search'=>false,
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
+
 	ListOutput($LO_ret,$LO_columns,$singular,$plural,$link,array(),$LO_options);
 
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
 }
 

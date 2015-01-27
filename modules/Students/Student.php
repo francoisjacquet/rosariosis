@@ -393,7 +393,8 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 			}
 		}
 		echo PopTable('footer');
-		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+
+		echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 		echo '</FORM>';
 	}
 	elseif ($can_use_RET['Students/Student.php&category_id='.$_REQUEST['category_id']])

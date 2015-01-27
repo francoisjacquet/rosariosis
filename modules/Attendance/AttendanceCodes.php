@@ -149,7 +149,7 @@ if(empty($_REQUEST['modfunc']))
 //	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),array('count'=>false,'download'=>false,'search'=>false));
 	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),$LO_options);
 
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
 }
 

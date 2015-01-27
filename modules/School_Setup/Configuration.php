@@ -198,7 +198,7 @@ else
 
 		PopTable('footer');
 		if(AllowEdit())
-			echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+			echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 		echo '</FORM>';
 
 	}

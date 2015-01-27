@@ -414,7 +414,8 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 	}
 
 	PopTable('footer');
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+
+	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
 }
 ?>

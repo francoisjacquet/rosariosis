@@ -222,13 +222,14 @@ if(empty($_REQUEST['modfunc']))
 
 	$LO_options = array('save'=>false,'search'=>false,'header_color'=>$categories_RET[$_REQUEST['tab_id']][1]['COLOR'],
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id']));
+
 	//ListOutput($LO_ret,$LO_columns,$singular,$plural,$link,array(),$LO_options);
 	if($_REQUEST['tab_id']=='new')
 		ListOutput($LO_ret,$LO_columns,'Category','Categories',$link,array(),$LO_options);
 	else
 		ListOutput($LO_ret,$LO_columns,'Comment','Comments',$link,array(),$LO_options);
 
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
 }
 

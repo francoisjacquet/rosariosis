@@ -178,7 +178,7 @@ else
 //modif Francois: add translation
 	ListOutput($events_RET,$LO_columns,$singular,$plural,array(),array(),$extra);
 
-	echo '<span class="center">'.SubmitButton(_('Save'),'submit[save]').'</span>';
+	echo '<BR /><span class="center">'.SubmitButton(_('Save'),'submit[save]').'</span>';
 	echo '</FORM>';
 }
 

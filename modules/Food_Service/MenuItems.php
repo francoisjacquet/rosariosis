@@ -209,12 +209,14 @@ if(empty($_REQUEST['modfunc']))
 
 	$extra = array('save'=>false,'search'=>false,
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
+
 	if($_REQUEST['tab_id']!='new')
 		ListOutput($LO_ret,$LO_columns,$singular,$plural,$link,array(),$extra);
 	else
 //modif Francois: add translation
 		ListOutput($LO_ret,$LO_columns,'Meal Item','Meal Items',$link,array(),$extra);
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+
+	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
 }
 

@@ -68,7 +68,8 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 		echo '</TABLE></FIELDSET>';
 
 		PopTable('footer');
-		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+
+		echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 		echo '</FORM>';
 	}
 }

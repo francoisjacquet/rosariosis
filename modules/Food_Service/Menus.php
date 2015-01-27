@@ -168,7 +168,7 @@ if(empty($_REQUEST['modfunc']))
 //modif Francois: add translation
 		ListOutput($LO_ret,$LO_columns,'Meal','Meals',$link,array(),$extra);
 
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
 }
 
