@@ -626,7 +626,7 @@ div.st{
 		margin:0 4px;
 		max-width:100%
 	}
-	input[id^=ML_values]{
+	input[id^=ML_]{
 		width:100%
 	}
 	/*stackable tables*/
