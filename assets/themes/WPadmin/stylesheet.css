@@ -626,6 +626,9 @@ div.st{
 		margin:0 4px;
 		max-width:100%
 	}
+	input[id^=ML_values]{
+		width:100%
+	}
 	/*stackable tables*/
 	tr.st > td{
 		float:left;
