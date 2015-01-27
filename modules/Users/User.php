@@ -293,10 +293,8 @@ elseif(!UserStaffID())
 //account created, return to index
 else
 {
-	session_unset();
-	session_destroy();
 ?>
-<script>document.location = 'index.php?account_created=true';</script>
+	<script>window.location.href = "index.php?modfunc=logout&reason=account_created";</script>
 <?php
 	exit;
 }

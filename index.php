@@ -5,16 +5,14 @@ include('Warehouse.php');
 if(isset($_REQUEST['modfunc']))
 if($_REQUEST['modfunc']=='logout')
 {
-	if($_SESSION)
-	{
-		//modif Francois: set logout page to old session locale
-		$old_session_locale = $_SESSION['locale'];
-		session_regenerate_id(true);
-		session_unset();
-		session_destroy();
+	//modif Francois: set logout page to old session locale
+	$old_session_locale = $_SESSION['locale'];
+	session_regenerate_id(true);
+	session_unset();
+	session_destroy();
 
-		header("Location: ".$_SERVER['PHP_SELF'].'?locale='.$old_session_locale.(isset($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
-	}
+	header("Location: ".$_SERVER['PHP_SELF'].'?locale='.$old_session_locale.(isset($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
+	exit;
 }
 
 if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD']) && $_POST['PASSWORD']!='')
@@ -144,12 +142,14 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 <BR /><BR />
 <?php PopTable("header",sprintf(_('%s Login'),Config('NAME')), 'style="max-width:550px;"');
 	
-	if(isset($_REQUEST['reason']) && $_REQUEST['reason']=='javascript')
-		$note[] = sprintf(_('You must have javascript enabled to use %s.'),Config('NAME'));
-
-	//modif Francois: create account
-	if(isset($_REQUEST['account_created']) && $_REQUEST['account_created'])
-		$note[] = _('Your account has been created.').' '._('You will be notified when it has been verified by a school administrator.').' '._('You will then be able to log in.');
+	if(isset($_REQUEST['reason']))
+	{
+		if($_REQUEST['reason']=='javascript')
+			$note[] = sprintf(_('You must have javascript enabled to use %s.'),Config('NAME'));
+		//modif Francois: create account
+		elseif($_REQUEST['reason']=='account_created')
+			$note[] = _('Your account has been created.').' '._('You will be notified when it has been verified by a school administrator.').' '._('You will then be able to log in.');
+	}
 
 	if(isset($error))
 		echo ErrorMessage($error);
