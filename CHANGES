@@ -22,6 +22,7 @@ Changes in 2.8
 - Remove "Display data using hidden fields" / HIDDEN Preference option
 - Update french & spanish translations
 - Session security in Warehouse.php & index.php
+- Responsive MultiLanguages inputs in stylesheet.css
 
 Upgrade from 2.7.x
 ------------------
