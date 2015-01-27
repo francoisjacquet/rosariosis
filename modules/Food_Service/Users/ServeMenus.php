@@ -70,7 +70,7 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 	if ($staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
 	{
 		echo '<TABLE class="width-100p">';
-		echo '<TR><TD class="width-100p valign-top">';
+		echo '<TR class="st"><TD class="width-100p valign-top">';
 
 		$RET = DBGet(DBQuery("SELECT fsti.DESCRIPTION,fsti.AMOUNT 
 		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti 
@@ -81,15 +81,16 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
 
 		$columns = array('DESCRIPTION'=>_('Item'),'AMOUNT'=>_('Amount'));
-        $singular = sprintf(_('Earlier %s Sale'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
-        $plural = sprintf(_('Earlier %s Sales'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
+		$singular = sprintf(_('Earlier %s Sale'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
+		$plural = sprintf(_('Earlier %s Sales'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
+
 		ListOutput($RET,$columns,$singular,$plural,$link,false,array('save'=>false,'search'=>false));
 
 		// IMAGE
 		if($file = @fopen($picture=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r') || $file = @fopen($picture=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))
 		{
 			fclose($file);
-			echo '</TD><TD rowspan="2" style="text-align:left; width: 150px"><IMG SRC="'.$picture.'" width="150">';
+			echo '</TD><TD rowspan="2"><IMG SRC="'.$picture.'" width="150" />';
 		}
 
 		echo '</TD></TR>';

@@ -106,24 +106,30 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '<span>'.$student_data['ADDRESS'].'<br /></span>';
 				echo '<span>'.$student_data['CITY'].(!empty($student_data['STATE'])?', '.$student_data['STATE']:'').(!empty($student_data['ZIPCODE'])?'  '.$student_data['ZIPCODE']:'').'</span>';
 				
-				echo '<table class="cellspacing-0 cellpadding-5 center" style="width:300px; margin-top:10px;"><tr>';
+				echo '<table class="cellspacing-0 cellpadding-5" style="margin-top:10px;"><tr>';
+
 				if ($custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
-					echo '<td style="border:solid black; border-width:1px 0 1px 1px; font-size:x-small;">'.ParseMLField($custom_fields_RET['200000004'][1]['TITLE']).'</td>';
+					echo '<td style="border:solid black; border-width:1px 0 1px 1px;">'.ParseMLField($custom_fields_RET['200000004'][1]['TITLE']).'</td>';
+
 				if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
-					echo '<td style="border:solid black; border-width:1px 0 1px 1px; font-size:x-small;">'.ParseMLField($custom_fields_RET['200000000'][1]['TITLE']).'</td>';
-				echo '<td style="border:solid black; border-width:1px; font-size:x-small;">'._('Grade Level').'</td>';
+					echo '<td style="border:solid black; border-width:1px 0 1px 1px;">'.ParseMLField($custom_fields_RET['200000000'][1]['TITLE']).'</td>';
+
+				echo '<td style="border:solid black; border-width:1px;">'._('Grade Level').'</td>';
 				echo '</tr><tr>';
+
 				if ($custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
 				{
 					$dob = explode('-', $student_data['BIRTHDATE']);
 					if (!empty($dob))
-						echo '<td style="font-size:small;">'.$dob[1].'/'.$dob[2].'/'.$dob[0].'</td>';
+						echo '<td class="center">'.$dob[1].'/'.$dob[2].'/'.$dob[0].'</td>';
 					else
 						echo '<td>&nbsp;</td>';
 				}
+
 				if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
-					echo '<td style="font-size:small;">'.$student_data['GENDER'].'</td>';
-				echo '<td style="font-size:small;">'.$student_data['GRADE_LEVEL'].'</td>';
+					echo '<td class="center">'.$student_data['GENDER'].'</td>';
+
+				echo '<td class="center">'.$student_data['GRADE_LEVEL'].'</td>';
 				echo '</tr></table>';
 				
 				echo '</td>';
@@ -139,7 +145,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '</td>';
 
 				//School Info
-				echo '<td style="width:384px; text-align:right;"><table style="width:384px; text-align:left;"><tr><td>';
+				echo '<td style="width:384px;">';
 				echo '<span style="font-size:x-large;">'.$school_info['TITLE'].'<br /></span>';
 				echo '<span>'.$school_info['ADDRESS'].'<br /></span>';
 				echo '<span>'.$school_info['CITY'].(!empty($school_info['STATE'])?', '.$school_info['STATE']:'').(!empty($school_info['ZIPCODE'])?'  '.$school_info['ZIPCODE']:'').'<br /></span>';
@@ -151,7 +157,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					echo '<span>'._('School Number').': '.$school_info['SCHOOL_NUMBER'].'<br /><br /></span>';
 				echo '<span>'.$school_info['PRINCIPAL'].'<br /></span>';				
 				
-				echo '</td></tr></table></td></tr>';
+				echo '</td></tr>';
 				
 				//Certificate Text block 1
 				if ($showCertificate)

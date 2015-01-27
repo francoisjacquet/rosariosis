@@ -72,7 +72,7 @@ if($_REQUEST['month_schedule'] && $_POST['month_schedule'])
 	$_POST['schedule'] = $_REQUEST['schedule'];
 }
 
-if($_REQUEST['schedule'] && $_POST['schedule'] && AllowEdit())
+if($_REQUEST['schedule'] && AllowEdit())
 {
 	foreach($_REQUEST['schedule'] as $course_period_id=>$start_dates)
 	foreach($start_dates as $start_date=>$columns)
@@ -90,27 +90,40 @@ if($_REQUEST['schedule'] && $_POST['schedule'] && AllowEdit())
 		{
 			$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
 
-			//TODO User should be asked if he wants absences and grades to be deleted
+			//User is asked if he wants absences and grades to be deleted
 			if(count($start_end_RET))
 			{
-				DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
-				DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
-				DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
-				DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
-				DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+				//if user clicked Cancel or OK then pass else Display Prompt
+				if(DeletePrompt(_('Student\'s Absences and Grades'), 'Delete', false))
+				{
+					//if user clicked OK
+					if ($_REQUEST['delete_ok'])
+					{
+						DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+						DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+						DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+						DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+					}
+					//else simply delete schedule entry
 
-				//hook
-				do_action('Scheduling/Schedule.php|drop_student');
+					DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
+
+					//hook
+					do_action('Scheduling/Schedule.php|drop_student');
+				}
+				else
+					$schedule_deletion_pending = true;
 			}
 			else
 				DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND (".($columns['START_DATE']?"SCHOOL_DATE<'".$columns['START_DATE']."'":'FALSE').' OR '.($columns['END_DATE']?"SCHOOL_DATE>'".$columns['END_DATE']."'":'FALSE').")");
 		}
 	}
+	
 	unset($_SESSION['_REQUEST_vars']['schedule']);
 	unset($_REQUEST['schedule']);
 }
 
-if(UserStudentID() && $_REQUEST['modfunc']!='choose_course')
+if(UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_deletion_pending))
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" METHOD="POST">';
 //modif Francois: add label on checkbox
@@ -144,12 +157,6 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course')
 	<?php
 	DrawHeader((AllowUse('Scheduling/PrintSchedules.php') ? '<A href="'.$printSchedulesLinkhref.'" target="_blank" id="printSchedulesLink">' : '')._('Print Schedule').(AllowUse('Scheduling/PrintSchedules.php') ? '</A>' : '') . (AllowUse('Scheduling/PrintSchedules.php') ? ' &nbsp;<label><input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" onchange="horizontalFormatSwitch();" /> '._('Horizontal Format').'</label>'.' <label><input name="schedule_table" type="radio" value="Yes" checked onchange="timeTableSwitch();" />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" id="schedule_table" type="radio" value="No" onchange="timeTableSwitch();" />&nbsp;'._('List').'</label>' : ''));
 	
-	/*
-	$schedule_fields_RET = DBGet(DBQuery("SELECT cf.TITLE,s.CUSTOM_71 FROM CUSTOM_FIELDS cf,STUDENTS s WHERE s.STUDENT_ID='".UserStudentID()."' AND cf.ID='71'"));
-	if($schedule_fields_RET[1]['TITLE']=='Team')
-		DrawHeader('<span style="color:gray"><b>'.$schedule_fields_RET[1]['TITLE'].': </b></span>'.$schedule_fields_RET[1]['CUSTOM_71']);
-	*/
-
 	// get the fy marking period id, there should be exactly one fy marking period
 	$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
@@ -195,9 +202,10 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course')
 	//modif Francois: bugfix SQL bug $_SESSION['student_id'] is not set
 	//$link['add']['link'] = '#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course&student_id='.$_REQUEST['student_id'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'","","scrollbars=yes,resizable=yes,width=900,height=400");\' ';
 	$link['add']['link'] = '# onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'","","scrollbars=yes,resizable=yes,width=900,height=400");\'';
+
 	$link['add']['title'] = _('Add a Course');
 
-	$columns = array('TITLE'=>_('Course'),'PERIOD_PULLDOWN'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'ROOM'=>_('Room'),'COURSE_MARKING_PERIOD_ID'=>_('Term'),'SCHEDULER_LOCK'=>'<IMG SRC="assets/locked.png" height="24">','START_DATE'=>_('Enrolled'),'END_DATE'=>_('Dropped'));
+	$columns = array('TITLE'=>_('Course'),'PERIOD_PULLDOWN'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'ROOM'=>_('Room'),'COURSE_MARKING_PERIOD_ID'=>_('Term'),'SCHEDULER_LOCK'=>'<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/locked.png"  class="button bigger">','START_DATE'=>_('Enrolled'),'END_DATE'=>_('Dropped'));
 	/*//modif Francois: multiple school periods for a course period
 	//$days_RET = DBGet(DBQuery("SELECT DISTINCT DAYS FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 	$days_RET = DBGet(DBQuery("SELECT DISTINCT cpsp.DAYS FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'"));
@@ -326,7 +334,7 @@ function _makeLock($value,$column)
 {	global $THIS_RET;
 
 //modif Francois: icones
-	return '<IMG SRC="assets/'.($value=='Y'?'locked':'unlocked').'.png" height="24"'.(AllowEdit()?' onclick="if(this.src.indexOf(\'assets/locked.png\')!=-1) {this.src=\'assets/unlocked.png\'; document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'\';} else {this.src=\'assets/locked.png\'; document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'Y\';}"':'').' /><INPUT type="hidden" name="schedule['.$THIS_RET['COURSE_PERIOD_ID'].']['.$THIS_RET['START_DATE'].'][SCHEDULER_LOCK]" id="lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'" value="'.$value.'" />';
+	return '<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/'.($value=='Y'?'locked':'unlocked').'.png" class="button bigger"'.(AllowEdit()?' onclick="if(this.src.indexOf(\'unlocked\')==-1) {this.src= this.src.replace(\'locked\', \'unlocked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'\';} else {this.src= this.src.replace(\'unlocked\', \'locked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'Y\';}"':'').' /><INPUT type="hidden" name="schedule['.$THIS_RET['COURSE_PERIOD_ID'].']['.$THIS_RET['START_DATE'].'][SCHEDULER_LOCK]" id="lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'" value="'.$value.'" />';
 }
 
 function _makePeriodSelect($course_period_id,$column)

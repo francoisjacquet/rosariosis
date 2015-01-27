@@ -50,7 +50,7 @@ function GetStuList(&$extra=array())
 					$functions['CUSTOM_'.$field['ID']] = 'DeCodeds';
 				$select .= ',s.CUSTOM_'.$field['ID'];
 			}
-			$extra['columns_after'] = array('CONTACT_INFO'=>'<IMG SRC="assets/down_phone_button.png" height="24">') + $extra['columns_after'];
+			$extra['columns_after'] = array('CONTACT_INFO'=> button('down_phone')) + $extra['columns_after'];
 			
 			$select .= ',ssm.STUDENT_ID AS CONTACT_INFO,coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE ';
 			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam.RESIDENCE='Y') LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) ".$extra['FROM'];
@@ -84,7 +84,7 @@ function GetStuList(&$extra=array())
 			if($view_other_RET['CONTACT_INFO'][1]['VALUE']=='Y' && !isset($_REQUEST['_ROSARIO_PDF']))
 			{
 				$select .= ',ssm.STUDENT_ID AS CONTACT_INFO ';
-				$extra['columns_after']['CONTACT_INFO'] = '<IMG SRC="assets/down_phone_button.png" height="24">';
+				$extra['columns_after']['CONTACT_INFO'] = button('down_phone');
 				$functions['CONTACT_INFO'] = 'makeContactInfo';
 
 				$extra2 = $extra;
@@ -316,13 +316,13 @@ function makeContactInfo($student_id,$column)
 		{
 			if($person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'])
 				$tipmessage .= $person[1]['STUDENT_RELATION'].': '.$person[1]['FIRST_NAME'].' '.$person[1]['LAST_NAME'].'<BR />';
-			$tipmessage .= '<TABLE>';
+			$tipmessage .= '<TABLE class="col1-align-right">';
 			if($person[1]['PHONE'])
-				$tipmessage .= '<TR><TD style="text-align:right"><span style="color:gray">'._('Home Phone').'</span> </TD><TD>'.$person[1]['PHONE'].'</TD></TR>';
+				$tipmessage .= '<TR><TD><span class="legend-gray">'._('Home Phone').'</span> </TD><TD>'.$person[1]['PHONE'].'</TD></TR>';
 			foreach($person as $info)
 			{
 				if($info['TITLE'] || $info['VALUE'])
-					$tipmessage .= '<TR><TD style="text-align:right"><span style="color:gray">'.$info['TITLE'].'</span></TD><TD>'.$info['VALUE'].'</TD></TR>';
+					$tipmessage .= '<TR><TD><span class="legend-gray">'.$info['TITLE'].'</span></TD><TD>'.$info['VALUE'].'</TD></TR>';
 			}
 			$tipmessage .= '</TABLE>';
 		}
@@ -386,6 +386,7 @@ function makeParents($student_id,$column)
 		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p 
 		WHERE sjp.PERSON_ID=p.PERSON_ID AND sjp.STUDENT_ID='".$student_id."' AND sjp.ADDRESS_ID='".$THIS_RET['ADDRESS_ID']."'$constraint 
 		ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME"));
+
 		if(count($people_RET))
 		{
 			$THIS_RET['PARENTS'] .= '<TABLE class="cellspacing-0">';
@@ -393,21 +394,16 @@ function makeParents($student_id,$column)
 			{
 				//modif Francois: PrintClassLists with all contacts
 				if($person['CUSTODY']=='Y')
-					//$color = '#00FF00';
-					$img = 'gavel_button.png';
+					$img = 'gavel';
 				elseif($person['EMERGENCY']=='Y')
-					//$color = '#FFFF00';
-					$img = 'emergency_button.png';
+					$img = 'emergency';
 				else
-					//$color = '#FF0000';
 					$img = '';
 
 				if($_REQUEST['_ROSARIO_PDF'])
-					//$THIS_RET['PARENTS'] .= '<TR><TD style="width:2px; background-color:'.$color.';"></TD><TD>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</TD></TR>';
-					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? '<img src="assets/'.$img.'" height="12" />&nbsp;' : '').$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</div>';
+					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? button($img) .'&nbsp;' : '').$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</div>';
 				else
-					//$THIS_RET['PARENTS'] .= '<TR><TD style="width:2px; background-color:'.$color.';"></TD><TD><A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php?person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</A></TD></TR>';
-					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? '<img src="assets/'.$img.'" height="12" />&nbsp;' : '').'<A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php&person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</A></div>';
+					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? button($img) .'&nbsp;' : '').'<A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php&person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</A></div>';
 			}
 			if($_REQUEST['_ROSARIO_PDF'])
 				$THIS_RET['PARENTS'] = mb_substr($THIS_RET['PARENTS'],0,-2);
@@ -427,60 +423,76 @@ function appendSQL($sql,$extra=array())
 	{
 //modif Francois: allow comma separated list of student IDs
 		$stuid_array = explode(',', $_REQUEST['stuid']);
+
 		$stuids = array();
 		foreach ($stuid_array as $stuid)
 		{
 			if (is_numeric($stuid))
 				$stuids[] = $stuid;
 		}
+
 		if (!empty($stuids))
 		{
 			$stuids = implode(',', $stuids);
 			//$sql .= " AND ssm.STUDENT_ID IN '".$_REQUEST['stuid']."'";
 			$sql .= " AND ssm.STUDENT_ID IN (".$stuids.")";
+
 			if(!$extra['NoSearchTerms'])
-				$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.sprintf(_('%s ID'),Config('NAME')).': </b></span>'.$stuids.'<BR />';
+				$_ROSARIO['SearchTerms'] .= '<b>'.sprintf(_('%s ID'),Config('NAME')).': </b>'.$stuids.'<BR />';
 		}
 	}
+
 	if($_REQUEST['last'])
 	{
 		$sql .= " AND LOWER(s.LAST_NAME) LIKE '".mb_strtolower($_REQUEST['last'])."%'";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Last Name starts with').': </b></span>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Last Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
 	}
+
 	if($_REQUEST['first'])
 	{
 		$sql .= " AND LOWER(s.FIRST_NAME) LIKE '".mb_strtolower($_REQUEST['first'])."%'";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('First Name starts with').': </b></span>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('First Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
 	}
+
 	if($_REQUEST['grade'])
 	{
 		$sql .= " AND ssm.GRADE_ID = '".$_REQUEST['grade']."'";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Grade Level').': </b></span>'.GetGrade($_REQUEST['grade']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Grade Level').': </b>'.GetGrade($_REQUEST['grade']).'<BR />';
 	}
+
 	if(count($_REQUEST['grades']))
 	{
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'.ngettext('Grade','Grades',sizeof($_REQUEST['grades'])).': </b></span>'.($_REQUEST['grades_not']=='Y'?_('Excluded').' ':'');
+			$_ROSARIO['SearchTerms'] .= '<b>'.ngettext('Grade','Grades',sizeof($_REQUEST['grades'])).': </b>'.($_REQUEST['grades_not']=='Y'?_('Excluded').' ':'');
+
 		$list = $sep = '';
 		foreach($_REQUEST['grades'] as $id=>$y)
 		{
 			$list .= $sep."'".$id."'";
+
 			if(!$extra['NoSearchTerms'])
 				$_ROSARIO['SearchTerms'] .= $sep.GetGrade($id);
 			$sep = ',';
 		}
+
 		if(!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<BR />';
+
 		$sql .= " AND ssm.GRADE_ID ".($_REQUEST['grades_not']=='Y'?'NOT ':'')." IN (".$list.")";
 	}
+
 	if($_REQUEST['addr'])
 	{
 		$sql .= " AND (LOWER(a.ADDRESS) LIKE '%".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.CITY) LIKE '".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.STATE)='".mb_strtolower($_REQUEST['addr'])."' OR ZIPCODE LIKE '".$_REQUEST['addr']."%')";
+
 		if(!$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<span style="color:gray"><b>'._('Address contains').': </b></span>'.str_replace("''", "'", $_REQUEST['addr']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Address contains').': </b>'.str_replace("''", "'", $_REQUEST['addr']).'<BR />';
 	}
 
 	return $sql;

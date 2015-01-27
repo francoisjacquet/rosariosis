@@ -11,7 +11,7 @@ if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'
 	//modif Francois: display notice while calculating daily attendance
 	echo '<BR />';
 	PopTable('header',_('Recalculate Daily Attendance'));
-	echo '<DIV id="messageDIV" style="align-text:center;"><IMG SRC="assets/spinning.gif"> '._('Calculating ...').' </DIV>';
+	echo '<DIV id="messageDIV" style="align-text:center;"><IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif"> '._('Calculating ...').' </DIV>';
 	PopTable('footer');
 	ob_flush();
 	flush();
@@ -37,6 +37,6 @@ if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'
 	unset($_REQUEST['modfunc']);
 	
 	//modif Francois: display notice while calculating daily attendance
-	echo '<script>var msg_done='.json_encode('<div class="updated"><IMG SRC="assets/check_button.png" class="alignImg">&nbsp;'._('The Daily Attendance for that timeframe has been recalculated.').'</div>').'; document.getElementById("messageDIV").innerHTML = msg_done;</script>';
+	echo '<script>var msg_done='.json_encode(ErrorMessage(array(_('The Daily Attendance for that timeframe has been recalculated.')), 'note')).'; document.getElementById("messageDIV").innerHTML = msg_done;</script>';
 }
 ?>

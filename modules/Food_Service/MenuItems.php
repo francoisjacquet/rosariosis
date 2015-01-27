@@ -156,9 +156,11 @@ if(empty($_REQUEST['modfunc']))
 		$link['add']['html'] = array('ITEM_ID'=>makeSelectInput('','ITEM_ID'),'CATEGORY_ID'=>makeSelectInput('','CATEGORY_ID'),'DOES_COUNT'=>makeCheckboxInput('','DOES_COUNT'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'];
 		$link['remove']['variables'] = array('menu_item_id'=>'MENU_ITEM_ID');
+
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+
 //modif Francois: add translation
 		$singular = sprintf(_('%s Item'), $menus_RET[$_REQUEST['tab_id']][1]['TITLE']);
 		$plural = sprintf(_('%s Items'), $menus_RET[$_REQUEST['tab_id']][1]['TITLE']);
@@ -193,7 +195,7 @@ if(empty($_REQUEST['modfunc']))
 		$link['remove']['variables'] = array('item_id'=>'ITEM_ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 	}
 
 	$LO_ret = DBGet(DBQuery($sql),$functions);
@@ -262,7 +264,7 @@ function makeCheckboxInput($value,$name)
 	else
 		$id = 'new';
 
-	return CheckboxInput($value,"values[$id][$name]",'',$value,$id=='new','<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">');
+	return CheckboxInput($value, "values[$id][$name]", '', $value, $id=='new', button('check'), button('x'));
 }
 
 function makeIcon($value,$name)

@@ -100,24 +100,17 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 	echo '<BR />';
 
 	PopTable('header',_('Account Information'),'width="100%"');
-	echo '<TABLE class="width-100p">';
-	echo '<TR>';
-	echo '<TD class="valign-top">';
-	echo '<TABLE class="width-100p"><TR>';
 
-	echo '<TD class="valign-top">'.NoInput($student['FULL_NAME'],'<b>'.$student['STUDENT_ID'].'</b>').'</TD>';
-	echo '<TD class="valign-top">'.NoInput(red($student['BALANCE']),_('Balance')).'</TD>';
+	echo '<TABLE class="width-100p valign-top"><TR>';
+	echo '';
+
+	echo '<TD>'.NoInput($student['FULL_NAME'],'<b>'.$student['STUDENT_ID'].'</b>').'</TD>';
+	echo '<TD>'.NoInput(red($student['BALANCE']),_('Balance')).'</TD>';
 
 	echo '</TR></TABLE>';
-	echo '</TD></TR></TABLE>';
 	echo '<HR>';
 
-	echo '<TABLE class="width-100p cellspacing-0">';
-	echo '<TR><TD class="valign-top">';
-
-	echo '<TABLE class="width-100p">';
-	echo '<TR>';
-	echo '<TD>';
+	echo '<TABLE class="width-100p cellspacing-0 valign-top"><TR><TD>';
 
 	// warn if account non-existent (balance query failed)
 	if($student['BALANCE']=='')
@@ -154,11 +147,8 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 	$options = array('Reduced'=>_('Reduced'),'Free'=>_('Free'));
 	echo '<TD>'.SelectInput($student['DISCOUNT'],'food_service[DISCOUNT]',_('Discount'),$options,_('Full')).'</TD>';
 	echo '<TD>'.TextInput($student['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25').'</TD>';
-	echo '</TR>';
-	echo '</TABLE>';
+	echo '</TR></TABLE>';
 
-	echo '</TD></TR>';
-	echo '</TABLE>';
 	PopTable('footer');
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';

@@ -320,23 +320,19 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 		</FORM>
 
 		<?php if(UserStudentID() && (User('PROFILE')=='admin' || User('PROFILE')=='teacher')) :
-		
-			//$sql = "SELECT FIRST_NAME||' '||coalesce(MIDDLE_NAME,' ')||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'";
-			$sql = "SELECT FIRST_NAME||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'";
-			$RET = DBGet(DBQuery($sql)); ?>
+			$RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'")); ?>
 
-			<div class="current-person" style="background-color:#333366;">
-				<A HREF="Side.php?student_id=new" target="menu"><IMG SRC="assets/x_button.png"></A> <B><?php echo (AllowUse('Students/Student.php')?'<A HREF="Modules.php?modname=Students/Student.php&student_id='.UserStudentID().'" onclick="openMenu(modname=\'Students/Student.php\');" style="color:white">':''); ?><?php echo $RET[1]['FULL_NAME']; ?><?php echo (AllowUse('Students/Student.php')?'</A>':''); ?></B>
+			<div class="current-person student">
+				<A HREF="Side.php?student_id=new" target="menu"><?php echo button('x', '', '', 'bigger'); ?></A> <?php echo (AllowUse('Students/Student.php')?'<A HREF="Modules.php?modname=Students/Student.php&student_id='.UserStudentID().'">':''); ?><?php echo $RET[1]['FULL_NAME']; ?><?php echo (AllowUse('Students/Student.php')?'</A>':''); ?>
 			</div>
 
 		<?php endif;
 		
 		if(UserStaffID() && (User('PROFILE')=='admin' || User('PROFILE')=='teacher')) :			
-			$sql = "SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'";
-			$RET = DBGet(DBQuery($sql)); ?>
+			$RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'")); ?>
 
-			<div class="current-person" style="background-color:<?php echo (UserStaffID()==User('STAFF_ID')?'#663333':'#336633'); ?>;">
-				<A HREF="Side.php?staff_id=new" target="menu"><IMG SRC="assets/x_button.png"></A> <B><?php echo (AllowUse('Users/User.php')?'<A HREF="Modules.php?modname=Users/User.php&staff_id='.UserStaffID().'" onclick="openMenu(modname=\'Users/User.php\');" style="color:white">':''); ?><span><?php echo $RET[1]['FULL_NAME']; ?></span><?php echo (AllowUse('Users/User.php')?'</A>':''); ?></B>
+			<div class="current-person <?php echo (UserStaffID()==User('STAFF_ID')?'self':'staff'); ?>">
+				<A HREF="Side.php?staff_id=new" target="menu"><?php echo button('x', '', '', 'bigger'); ?></A> <?php echo (AllowUse('Users/User.php')?'<A HREF="Modules.php?modname=Users/User.php&staff_id='.UserStaffID().'">':''); ?><?php echo $RET[1]['FULL_NAME']; ?><?php echo (AllowUse('Users/User.php')?'</A>':''); ?>
 			</div>
 
 		<?php endif; ?>
@@ -359,7 +355,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 				else
 					$module_title = _(str_replace('_',' ',$key[$i]));
 			?>
-			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" height="32" style="vertical-align:middle;">&nbsp;<?php echo $module_title; ?></A>
+			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" />&nbsp;<?php echo $module_title; ?></A>
 			<DIV id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
 				<TABLE class="width-100p cellspacing-0">
 

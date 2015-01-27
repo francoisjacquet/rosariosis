@@ -156,10 +156,13 @@ if($_REQUEST['values'])
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 echo '<H4>Welcome, '.User('NAME').', to the '.ParseMLField(Config('TITLE')).'</H4>';
+
 $addresses = DBGet(DBQuery("SELECT COUNT(*) AS COUNT FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID='".UserStudentID()."'"));
 echo ''._('We would appreciate it if you would enter just a little bit of information about you and your child to help us out this school year. Thanks!').'';
+
 if($addresses[1]['COUNT']!=0)
-	echo '<BR /><BR /><IMG SRC="assets/check_button.png" class="alignImg" /><b>'._('Your child has been registered.').'</b>';
+	echo '<BR /><BR />'. button('check', '', '', 'bigger') .'<b>'._('Your child has been registered.').'</b>';
+
 echo '<BR /><BR /><TABLE><TR><TD class="valign-top">';
 echo '<B>'._('Information about you').':</B><BR /><BR />';
 echo '<TABLE><TR><TD>';

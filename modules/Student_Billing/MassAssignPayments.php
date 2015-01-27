@@ -24,7 +24,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							values(".db_seq_nextval('BILLING_PAYMENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$student_id."','".DBDate()."','".preg_replace('/[^0-9,.]+/','',$_REQUEST['amount'])."','".$_REQUEST['comments']."')";
 				DBQuery($sql);
 			}
-			$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('That payment has been added to the selected students.');
+			$note[] = button('check') .'&nbsp;'._('That payment has been added to the selected students.');
 		}
 		else
 			$error[] = _('Please enter a valid Amount.');
@@ -49,15 +49,24 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+
 		DrawHeader('',SubmitButton(_('Add Payment to Selected Students')));
-		
-//modif Francois: css WPadmin
-		echo '<BR /><TABLE class="postbox cellspacing-0" style="margin:0 auto;">';
-		echo '<TR><TD class="center"><H3>'._('Payment').'</H3></TD></TR><TR><TD><TABLE class="width-100p cellspacing-0 cellpadding-5">';
-		echo '<TR><TD style="text-align:right">'._('Payment Amount').'</TD><TD><INPUT type="text" name="amount" size="5" maxlength="10" required /></TD></TR>';
-		echo '<TR><TD style="text-align:right">'._('Comment').'</TD><TD><INPUT type="text" name="comments" /></TD></TR>';
-		echo '</TABLE></TD></TR>';
-		echo '</TABLE><BR />';
+
+		echo '<BR />';
+
+		PopTable('header', _('Payment'));
+
+		echo '<TABLE class="col1-align-right">';
+
+		echo '<TR><TD>'._('Payment Amount').'</TD><TD><INPUT type="text" name="amount" size="5" maxlength="10" required /></TD></TR>';
+
+		echo '<TR><TD>'._('Comment').'</TD><TD><INPUT type="text" name="comments" /></TD></TR>';
+
+		echo '</TABLE>';
+
+		PopTable('footer');
+
+		echo '<BR />';
 	}
 }
 

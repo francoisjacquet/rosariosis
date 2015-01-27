@@ -17,7 +17,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					DBQuery($sql);
 				}
 			}
-			$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('This activity has been added to the selected students.');
+			$note[] = button('check') .'&nbsp;'._('This activity has been added to the selected students.');
 		}
 		else
 			$error[] = _('You must choose at least one student.');
@@ -42,7 +42,7 @@ if($_REQUEST['search_modfunc']=='list')
 	echo '<BR />';
 
 //modif Francois: css WPadmin
-	echo '<TABLE class="postbox" style="margin:0 auto;"><TR><TD style="text-align:right">'._('Activity').'</TD>';
+	echo '<TABLE class="postbox center col1-align-right"><TR><TD>'._('Activity').'</TD>';
 	echo '<TD>';
 	$activities_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	echo '<SELECT name="activity_id"><OPTION value="">'._('N/A').'</OPTION>';

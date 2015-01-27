@@ -41,14 +41,15 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '<img src="assets/Frames/'.$_REQUEST['frame'].'" style="z-index:0; width:1462px; height:1032px; position:absolute;" />';
 			}
 			
-			echo '<TABLE style="margin:0 auto; height:77%;">';
+			echo '<TABLE class="center" style="height:77%;">';
 			
 			$honor_roll_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_honor_roll_text)));
+
 			$honor_roll_text = str_replace(array('__CLIPART__','__FULL_NAME__','__FIRST_NAME__','__LAST_NAME__','__MIDDLE_NAME__','__GRADE_ID__','__SCHOOL_ID__','__SUBJECT__'),array('<img src="assets/ClipArts/'.$_REQUEST['clipart'].'" height="200" />',$student['FULL_NAME'],$student['FIRST_NAME'],$student['LAST_NAME'],$student['MIDDLE_NAME'],$student['GRADE_ID'],$school_info_RET[1]['TITLE'],$_REQUEST['subject']),$honor_roll_text);
 				
 			echo '<TR><TD>'.$honor_roll_text.'</TD></TR></TABLE>';
 
-			echo '<TABLE style="margin:0 auto; width:80%;">';
+			echo '<TABLE class="center" style="width:80%;">';
 			echo '<TR><TD><span style="font-size:x-large;">'.$student['TEACHER'].'</span><BR /><span style="font-size:medium;">'._('Teacher').'</span></TD>';
 			echo '<TD><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><BR /><span style="font-size:medium;">'._('Marking Period').'</span></TD></TR>';
 			echo '<TR><TD><span style="font-size:x-large;">'.$school_info_RET[1]['PRINCIPAL'].'</span><BR /><span style="font-size:medium;">'._('Principal').'</span></TD>';
@@ -229,7 +230,7 @@ function MyWidgets($item)
 					$select .= '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
 			}
 			$select .= '</SELECT>';
-			$extra['search'] .= '<TR><TD style="text-align:right;">'._('Subject').'</TD><TD>'.$select.'</TD></TR>';
+			$extra['search'] .= '<TR><TD>'._('Subject').'</TD><TD>'.$select.'</TD></TR>';
 		break;
 	}
 }

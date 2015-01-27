@@ -117,12 +117,14 @@ if(empty($_REQUEST['modfunc']))
 		}
 
 		$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'TYPE'=>_makeSelectInput('','TYPE'),'DEFAULT_CODE'=>_makeCheckBoxInput('','DEFAULT_CODE'));
+
 		if($_REQUEST['table']=='0')
 			$link['add']['html']['STATE_CODE'] = _makeSelectInput('','STATE_CODE');
+
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&table='.$_REQUEST['table'];
 		$link['remove']['variables'] = array('id'=>'ID');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
 	}
 	else
 	{
@@ -134,7 +136,7 @@ if(empty($_REQUEST['modfunc']))
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&table=new';
 		$link['remove']['variables'] = array('id'=>'ID');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 

@@ -155,18 +155,22 @@ if(!$_REQUEST['id'])
 					$bargraph1 = bargraph1($percent===false?true:_makeLetterGrade($percent,$course_period_id,$staff_id),_makeLetterGrade($min_percent,$course_period_id,$staff_id),_makeLetterGrade($avg_percent,$course_period_id,$staff_id),_makeLetterGrade($max_percent,$course_period_id,$staff_id),1);
 					$bargraph2 = bargraph2($percent===false?true:0,$lower,$higher);
 				}
+
 				//modif Francois: css WPadmin
 				switch($ungraded)
 				{
 					case 0:
-					$ungraded = '<img src="assets/x_button.png" height="15" />';
+						$ungraded = button('x');
 					break;
+
 					case 1:
-					$ungraded = '<img src="assets/check_button.png" height="15" />';
+						$ungraded = button('check');
 					break;
+
 					default:
 					break;
 				}
+
 				$LO_ret[] = array('ID'=>$course_period_id,'TITLE'=>$course['COURSE_TITLE'],'TEACHER'=>mb_substr($course_title,mb_strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2),'PERCENT'=>($percent!==false?number_format(100*$percent,1).'%':_('N/A')),'GRADE'=>($percent!==false?'<b>'._makeLetterGrade($percent,$course_period_id,$staff_id).'</b>':_('N/A')),'UNGRADED'=>$ungraded)+($do_stats&&$_REQUEST['do_stats']?array('BAR1'=>$bargraph1,'BAR2'=>$bargraph2):array());
 			}
 			//else

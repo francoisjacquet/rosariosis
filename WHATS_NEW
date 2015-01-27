@@ -1,5 +1,17 @@
 Rosario Student Information System - WHATS_NEW
 
+New in 2.8
+-----------
+School Setup
+- School Configuration
+	- Create User Account
+	- Create Student Account
+
+Students
+- Group Assign Student Info
+	- Grade Level
+	- Attendance Start Date this School Year
+
 New in 2.7
 -----------
 School Setup

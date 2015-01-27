@@ -90,34 +90,45 @@ if(empty($_REQUEST['modfunc']))
 			$_SESSION['Back_PHP_SELF'] = 'course';
 			unset($_SESSION['List_PHP_SELF']);
 		}
+
 		echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+
 		echo '<BR />';
+
 		PopTable('header',_('Find a Course'));
+
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'" method="POST">';
+
 		echo '<TABLE>';
 
 		$RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME||', '||FIRST_NAME AS FULL_NAME FROM STAFF WHERE PROFILE='teacher' AND (SCHOOLS IS NULL OR position(',".UserSchool().",' IN SCHOOLS)>0) AND SYEAR='".UserSyear()."' ORDER BY FULL_NAME"));
-		echo '<TR><TD style="text-align:right;">'._('Teacher').'</TD><TD>';
-		echo '<SELECT name="teacher_id" style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION>';
+
+		echo '<TR class="st"><TD>'._('Teacher').'</TD><TD>';
+
+		echo '<SELECT name="teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
+
 		foreach($RET as $teacher)
 			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['FULL_NAME'].'</OPTION>';
-		echo '</SELECT>';
-		echo '</TD></TR>';
+
+		echo '</SELECT></TD></TR>';
 
 		$RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TITLE"));
-		echo '<TR><TD style="text-align:right;">'._('Subject').'</TD><TD>';
-		echo '<SELECT name="subject_id" style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<TR class="st"><TD>'._('Subject').'</TD><TD>';
+		echo '<SELECT name="subject_id"><OPTION value="">'._('N/A').'</OPTION>';
+
 		foreach($RET as $subject)
 			echo '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
-		echo '</SELECT>';
+
+		echo '</SELECT></TD></TR>';
 
 		$RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-		echo '<TR><TD style="text-align:right;">'._('Period').'</TD><TD>';
-		echo '<SELECT name="period_id" style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<TR class="st"><TD>'._('Period').'</TD><TD>';
+		echo '<SELECT name="period_id"><OPTION value="">'._('N/A').'</OPTION>';
+
 		foreach($RET as $period)
 			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
-		echo '</SELECT>';
-		echo '</TD></TR>';
+
+		echo '</SELECT></TD></TR>';
 
 		Widgets('course');
 		echo $extra['search'];
@@ -125,9 +136,9 @@ if(empty($_REQUEST['modfunc']))
 		echo '<TR><TD colspan="2" class="center">';
 		echo '<BR />';
 		echo Buttons(_('Submit'),_('Reset'));
-		echo '</TD></TR>';
-		echo '</TABLE>';
-		echo '</FORM>';
+
+		echo '</TD></TR></TABLE></FORM>';
+
 		PopTable('footer');
 	}
 }

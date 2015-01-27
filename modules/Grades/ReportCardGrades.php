@@ -150,7 +150,8 @@ if(empty($_REQUEST['modfunc']))
 		$link['add']['html']['remove'] = button('add');
 
 		if(User('PROFILE')=='admin')
-			$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+			$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+
 		$singular = 'Grade';
 		$plural = 'Grades';
 	}
@@ -165,7 +166,8 @@ if(empty($_REQUEST['modfunc']))
 		$link['remove']['variables'] = array('id'=>'ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+
 		$singular = 'Grade Scale';
 		$plural = 'Grade Scales';
 	}

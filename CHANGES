@@ -1,5 +1,35 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8
+--------------
+- Bugfix no payment displayed if no fee in Student_Billing/DailyTransactions.php
+- Remove apostrophe + quotes escape in TEXTAREA in CreateParents.php, NotifyParents.php, Transcripts.php
+- Create User/Student Account
+- Add Registration in Configuration.php
+- Move buttons from assets/ to theme folder
+- Add HTML5 video ogv + webm formats in PortalNotes.php
+- Add PorgramFunctions/README
+- check PHP version + fix Referrals notifications in Portal.php
+- Add Attendance Start Date this School Year + Grade Level in AssignOtherInfo.php
+- Ask user if he wants absences and grades to be deleted when delete schedule in MassDrops.php & Schedule.php
+- Better formatting for Labels in MailingLabels.php & StudentLabels.php
+- Responsive table content in UnfilledRequests.php
+- Add Help texts + spanish translation in Help_en.php & Help_es.php
+- Remove inline CSS, program wide
+- Add .student .staff .self .align-right CSS classes
+- Add .center CSS class for tables
+- Add <legend> CSS styling
+- Remove "Display data using hidden fields" / HIDDEN Preference option
+- Update french & spanish translations
+- Session security in Warehouse.php & index.php
+
+Upgrade from 2.7.x
+------------------
+- Extract the 2.8 files
+- Execute the SQL commands, see https://gist.github.com/francoisjacquet/b451c8006d5e1978fb0d
+- Note: you can activate Registration via School Setup > School Configuration
+
+
 Changes in 2.7.3
 ----------------
 - Bugfix SQL error invalid input syntax for type numeric in InputFinalGrades.php & Courses.php

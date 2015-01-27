@@ -2,9 +2,6 @@
 
 function DateInput($value,$name,$title='',$div=true,$allow_na=true)
 {
-	if(Preferences('HIDDEN')!='Y')
-		$div = false;
-
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		if($value=='' || $div==false)
@@ -27,9 +24,6 @@ function DateInput($value,$name,$title='',$div=true,$allow_na=true)
 
 function TextInput($value,$name,$title='',$options='',$div=true)
 {
-	if(Preferences('HIDDEN')!='Y')
-		$div = false;
-
 	// mab - support array style $option values
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
@@ -66,9 +60,6 @@ function MLTextInput($value,$name,$title='',$options='',$div=true)
     if (sizeof($RosarioLocales) < 2)
         return TextInput($value,$name,$title,$options,$div);
         
-    if(Preferences('HIDDEN')!='Y')
-        $div = false;
-
     // mab - support array style $option values
     if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
     {
@@ -112,7 +103,7 @@ function setMLvalue(id,loc,value){
         $ret .= '<DIV><INPUT type="hidden" id="'.$name.'" name="'.$name.'" value="'.$value.'" />';
         
         foreach ($RosarioLocales as $id=>$loc) {
-            $ret .= '<label><IMG src="assets/flags/'.$loc.'.png" height="24" style="vertical-align:middle;" /> ';
+            $ret .= '<label><IMG src="assets/flags/'.$loc.'.png" class="button bigger" /> ';
 			//modif Francois: only first translation string required
             //$ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
             $ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options.($id==0?' required':'')." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
@@ -128,9 +119,6 @@ function setMLvalue(id,loc,value){
 
 function TextAreaInput($value,$name,$title='',$options='',$div=true)
 {
-	if(Preferences('HIDDEN')!='Y')
-		$div = false;
-
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		if(mb_strpos($options,'cols')===false)
@@ -164,9 +152,6 @@ function TextAreaInput($value,$name,$title='',$options='',$div=true)
 function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',$no='No',$div=true,$extra='')
 {
 	// $checked has been deprecated -- it remains only as a placeholder
-	if(Preferences('HIDDEN')!='Y')
-		$div = false;
-
 	if($div==false || $new==true)
 	{
 		if($value && $value!='N')
@@ -198,9 +183,6 @@ function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',
 
 function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$extra='',$div=true)
 {
-	if(Preferences('HIDDEN')!='Y')
-		$div = false;
-
 	// mab - support array style $option values
 	// mab - append current val to select list if not in list
 	if (is_array($value))
@@ -254,9 +236,6 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
     if (sizeof($RosarioLocales) < 2)
         return SelectInput($value,$name,$title,$options,$div);
         
-    if(Preferences('HIDDEN')!='Y')
-        $div = false;
-
     // mab - support array style $option values
     // mab - append current val to select list if not in list
     if ($value!='' && $options[$value]=='')
@@ -302,9 +281,6 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
 
 function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$div=true)
 {
-	if(Preferences('HIDDEN')!='Y')
-		$div = false;
-
 	if ($value!='' && $options[$value]=='')
 		$options[$value] = array($value,'<span style="color:red">'.$value.'</span>');
 
@@ -336,7 +312,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 		{
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($table).';</script>'.$return;
 
-            $return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
 		else
 			$return = $table;
@@ -349,7 +325,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 
 function NoInput($value,$title='')
 {
-	return ($value!=''?$value:'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span style="color:gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
+	return ($value!=''?$value:'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
 }
 
 function CheckBoxOnclick($name)

@@ -27,7 +27,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 									values('".$student_id."',".db_seq_nextval('BILLING_FEES_SEQ').",'".$_REQUEST['title']."','".preg_replace('/[^0-9,.]+/','',$_REQUEST['amount'])."','".UserSyear()."','".UserSchool()."','".DBDate()."','".$due_date."','".$_REQUEST['comments']."')";
 						DBQuery($sql);
 				}
-				$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('That fee has been added to the selected students.');
+				$note[] = button('check') .'&nbsp;'._('That fee has been added to the selected students.');
 			}
 			else
 				$error[] = _('The date you entered is not valid');
@@ -57,16 +57,26 @@ if(empty($_REQUEST['modfunc']))
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Fee to Selected Students')));
-		
-//modif Francois: css WPadmin
-		echo '<BR /><TABLE class="postbox cellspacing-0" style="margin:0 auto;">';
-		echo '<TR><TD class="center"><H3>'._('Fee').'</H3></TD></TR><TR><TD><TABLE class="width-100p cellspacing-0 cellpadding-5">';
-		echo '<TR><TD style="text-align:right">'._('Title').'</TD><TD><INPUT type="text" name="title" required /></TD></TR>';
-		echo '<TR><TD style="text-align:right">'._('Amount').'</TD><TD><INPUT type="text" name="amount" size="5" maxlength="10" required /></TD></TR>';
-		echo '<TR><TD style="text-align:right">'._('Due Date').'</TD><TD>'.PrepareDate(DBDate(),'').'</TD></TR>';
-		echo '<TR><TD style="text-align:right">'._('Comment').'</TD><TD><INPUT type="text" name="comments" /></TD></TR>';
-		echo '</TABLE></TD></TR>';
-		echo '</TABLE><BR />';
+
+		echo '<BR />';
+
+		PopTable('header', _('Fee'));
+
+		echo '<TABLE class="col1-align-right">';
+
+		echo '<TR><TD>'._('Title').'</TD><TD><INPUT type="text" name="title" required /></TD></TR>';
+
+		echo '<TR><TD>'._('Amount').'</TD><TD><INPUT type="text" name="amount" size="5" maxlength="10" required /></TD></TR>';
+
+		echo '<TR><TD>'._('Due Date').'</TD><TD>'.PrepareDate(DBDate(),'').'</TD></TR>';
+
+		echo '<TR><TD>'._('Comment').'</TD><TD><INPUT type="text" name="comments" /></TD></TR>';
+
+		echo '</TABLE>';
+
+		PopTable('footer');
+
+		echo '<BR />';
 	}
 }
 

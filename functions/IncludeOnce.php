@@ -18,7 +18,7 @@ function includeOnceColorBox($rt2colorBoxDiv = false)
 			$(\'.colorboxinline\').colorbox({inline:true, maxWidth:\'80%\', maxHeight:\'80%\', scrolling:true});
 		});
 	</script>' : '');
-	$return .= ($rt2colorBoxDiv ? '<div class="link2colorBox"><a class="colorboxinline" href="#'.$rt2colorBoxDiv.'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>' : '');
+	$return .= ($rt2colorBoxDiv ? '<div class="link2colorBox"><a class="colorboxinline" href="#'.$rt2colorBoxDiv.'"><img src="assets/visualize.png" class="button bigger" /> '._('View Online').'</a></div>' : '');
 
 	$included = true;
 	return $return;

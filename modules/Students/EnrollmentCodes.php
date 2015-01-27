@@ -119,6 +119,6 @@ function makeCheckBoxInput($value,$name)
 
 //modif FRancois: css WPadmin
 //	return CheckboxInput($value,'values['.$id.']['.$name.']','','',($id=='new'));
-	return CheckboxInput($value,'values['.$id.']['.$name.']','','',($id=='new'),'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">');
+	return CheckboxInput($value, 'values['.$id.']['.$name.']', '', '', ($id=='new'), button('check'), button('x'));
 }
 ?>

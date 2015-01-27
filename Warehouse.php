@@ -2,7 +2,7 @@
 if(!defined('WAREHOUSE_PHP'))
 {
 	define("WAREHOUSE_PHP",1);
-	$RosarioVersion = '2.7.3';
+	$RosarioVersion = '2.8-beta';
 
 	if (!file_exists ('config.inc.php'))
 		die ('config.inc.php not found. Please read the configuration guide.');
@@ -20,16 +20,45 @@ if(!defined('WAREHOUSE_PHP'))
 
 	// Start Session.
 	session_name('RosarioSIS');
-	if ($_SERVER['SCRIPT_NAME']!='/index.php')
-		session_set_cookie_params(0,dirname($_SERVER['SCRIPT_NAME']).'/'); //,'',$false,$true);
+
+	//http://php.net/manual/en/session.security.php
+	session_set_cookie_params(0, dirname($_SERVER['SCRIPT_NAME']).'/', '', false, true);
+	session_cache_limiter('nocache');
+
 	session_start();
-	if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && mb_strpos($_SERVER['PHP_SELF'],'index.php')===false)
+
+	if (!isset($_SESSION['CREATED']))
+	    $_SESSION['CREATED'] = time();
+	elseif (time() - $_SESSION['CREATED'] > 180)
+	{
+	    // session started more than 3 minutes ago
+	    session_regenerate_id(true); // change session ID for the current session and invalidate old session ID
+	    $_SESSION['CREATED'] = time(); // update creation time
+	}
+
+	if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && basename($_SERVER['SCRIPT_NAME'])!=='index.php')
 	{
 ?>
 		<script>window.location.href = "index.php?modfunc=logout";</script>
 <?php
 		exit;
 	}
+
+	function array_rwalk(&$array, $function)
+	{
+		//modify loop: use for instead of foreach
+		$key = array_keys($array);
+		$size = sizeOf($key);
+		for ($i=0; $i<$size; $i++)
+			if (is_array($array[$key[$i]]))
+				array_rwalk($array[$key[$i]], $function);
+			else
+				$array[$key[$i]] = $function($array[$key[$i]]);
+	}
+
+	array_rwalk($_REQUEST,'DBEscapeString');
+
+	array_rwalk($_REQUEST,'strip_tags');
 
 	// Internationalization
 	if (!empty($_GET['locale'])) 
@@ -140,7 +169,6 @@ if(!defined('WAREHOUSE_PHP'))
 				if ($_ROSARIO['is_popup']) :
 ?>
 <script>if(window == top  && (!window.opener)) window.location.href = "index.php";</script>
-<div id="body" tabindex="0" role="main" class="mod">
 <?php
 				elseif ($_ROSARIO['not_ajax']) :
 ?>
@@ -152,10 +180,12 @@ if(!defined('WAREHOUSE_PHP'))
 	<aside id="menu" class="mod">
 		<?php include('Side.php'); ?>
 	</aside>
-	
-	<div id="body" tabindex="0" role="main" class="mod">	
-<?php 			
+
+<?php
 				endif;
+?>
+<div id="body" tabindex="0" role="main" class="mod">
+<?php
 			break;
 			
 			case 'footer':
@@ -163,13 +193,13 @@ if(!defined('WAREHOUSE_PHP'))
 <BR />
 <script>
 var modname = "<?php echo $_ROSARIO['Program_loaded']; ?>";
-if (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>" || menuCoursePeriod!="<?php echo UserCoursePeriod(); ?>") { 
+if (typeof menuStudentID !== 'undefined' && (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>" || menuCoursePeriod!="<?php echo UserCoursePeriod(); ?>")) { 
 	ajaxLink(menu_link);
 }
-<?php 			if (!empty($_ROSARIO['Program_loaded'])) : ?>
+<?php 				if (!empty($_ROSARIO['Program_loaded'])) : ?>
 else
 	openMenu(modname);
-<?php			endif;
+<?php				endif;
 
 				if (isset($_ROSARIO['PrepareDate'])): 
 					for($i=1;$i<=$_ROSARIO['PrepareDate'];$i++) : ?>
@@ -184,7 +214,7 @@ if (document.getElementById('trigger<?php echo $i; ?>'))
 		singleClick : true
 	});
 <?php				endfor;
-				endif; ?>
+			endif; ?>
 </script>
 <?php
 				$footer_plain = false;

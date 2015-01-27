@@ -276,27 +276,33 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['marking_period_id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&mp_term='.$_REQUEST['mp_term'].'&marking_period_id='.$_REQUEST['marking_period_id'].'&year_id='.$_REQUEST['year_id'].'&semester_id='.$_REQUEST['semester_id'].'&quarter_id='.$_REQUEST['quarter_id'].'" method="POST">';
+
 		DrawHeader($title,AllowEdit()?$delete_button.SubmitButton(_('Save')):'');
-		$header .= '<TABLE class="width-100p">';
-		$header .= '<TR class="st">';
+
+		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
 
 		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['marking_period_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
+
 		$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables['.$_REQUEST['marking_period_id'].'][SHORT_NAME]',(!$RET['SHORT_NAME']?'<span style="color:red">':'')._('Short Name').(!$RET['SHORT_NAME']?'</span>':''), 'required') . '</TD>';
+
 		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['marking_period_id'].'][SORT_ORDER]',_('Sort Order'),'size=3') . '</TD>';
-		$header .= '<TD><TABLE class="width-100p"><TR><TD>' . CheckboxInput($RET['DOES_GRADES'],'tables['.$_REQUEST['marking_period_id'].'][DOES_GRADES]',_('Graded'),$checked,$_REQUEST['marking_period_id']=='new','<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['DOES_COMMENTS'],'tables['.$_REQUEST['marking_period_id'].'][DOES_COMMENTS]',_('Comments'),$checked,$_REQUEST['marking_period_id']=='new','<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD></TR></TABLE></TD>';
-		$header .= '</TR>';
-		$header .= '<TR class="st">';
+
+		$header .= '<TD><TABLE class="width-100p"><TR><TD>' . CheckboxInput($RET['DOES_GRADES'], 'tables['.$_REQUEST['marking_period_id'].'][DOES_GRADES]', _('Graded'), $checked, $_REQUEST['marking_period_id']=='new', button('check'), button('x')) . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['DOES_COMMENTS'], 'tables['.$_REQUEST['marking_period_id'].'][DOES_COMMENTS]', _('Comments'), $checked,$_REQUEST['marking_period_id']=='new', button('check'), button('x')) . '</TD></TR></TABLE></TD>';
+
+		$header .= '</TR><TR class="st">';
 
 		$header .= '<TD>' . DateInput($RET['START_DATE'],'tables['.$_REQUEST['marking_period_id'].'][START_DATE]',(!$RET['START_DATE']?'<span style="color:red">':'')._('Begins').(!$RET['START_DATE']?'</span>':'')) . '</TD>';
 		$header .= '<TD>' . DateInput($RET['END_DATE'],'tables['.$_REQUEST['marking_period_id'].'][END_DATE]',(!$RET['END_DATE']?'<span style="color:red">':'')._('Ends').(!$RET['END_DATE']?'</span>':'')) . '</TD>';
 		$header .= '<TD>' . DateInput($RET['POST_START_DATE'],'tables['.$_REQUEST['marking_period_id'].'][POST_START_DATE]',($RET['DOES_GRADES'] && !$RET['POST_START_DATE']?'<span style="color:red">':'')._('Grade Posting Begins').($RET['DOES_GRADES'] && !$RET['POST_START_DATE']?'</span>':'')) . '</TD>';
 		$header .= '<TD>' . DateInput($RET['POST_END_DATE'],'tables['.$_REQUEST['marking_period_id'].'][POST_END_DATE]',($RET['DOES_GRADES'] && !$RET['POST_END_DATE']?'<span style="color:red">':'')._('Grade Posting Ends').($RET['DOES_GRADES'] && !$RET['POST_END_DATE']?'</span>':'')) . '</TD>';
 
-		$header .= '</TR>';
-		$header .= '</TABLE>';
+		$header .= '</TR></TABLE>';
+
 		DrawHeader($header);
 		echo '</FORM>';
+
 		unset($_SESSION['_REQUEST_vars']['marking_period_id']);
 		unset($_SESSION['_REQUEST_vars']['mp_term']);
 	}

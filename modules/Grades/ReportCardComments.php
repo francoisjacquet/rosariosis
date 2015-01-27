@@ -159,7 +159,7 @@ if(empty($_REQUEST['modfunc']))
 		$link['remove']['variables'] = array('id'=>'ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
 	}
 	elseif($_REQUEST['tab_id']=='-1')
 	{
@@ -173,25 +173,30 @@ if(empty($_REQUEST['modfunc']))
 		$link['add']['html']['remove'] = button('add');
 
 		if(User('PROFILE')=='admin')
-			$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
+			$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
 	}
 	else
 	{
-        $codes_RET = DBGet(DBQuery("SELECT ID,TITLE FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE"));
-        $code_select = array(''=>_('N/A'));
-        foreach($codes_RET as $code)
-            $code_select[$code['ID']] = $code['TITLE'];
+		$codes_RET = DBGet(DBQuery("SELECT ID,TITLE FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE"));
 
-        $functions = array('TITLE'=>'makeCommentsInput','SCALE_ID'=>'makeCommentsInput','SORT_ORDER'=>'makeCommentsInput');
-        $LO_columns = array('TITLE'=>_('Comment'),'SCALE_ID'=>_('Code Scale'),'SORT_ORDER'=>_('Sort Order'));
+		$code_select = array(''=>_('N/A'));
+
+		foreach($codes_RET as $code)
+			$code_select[$code['ID']] = $code['TITLE'];
+
+		$functions = array('TITLE'=>'makeCommentsInput','SCALE_ID'=>'makeCommentsInput','SORT_ORDER'=>'makeCommentsInput');
+
+		$LO_columns = array('TITLE'=>_('Comment'),'SCALE_ID'=>_('Code Scale'),'SORT_ORDER'=>_('Sort Order'));
+
 		if($_REQUEST['tab_id']=='0')
 		{
 			// need to be more specific since course_id=0 is not unique
-            $sql = "SELECT * FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE";
+			$sql = "SELECT * FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE";
 		}
 		else
 		{
-            $sql = "SELECT * FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='".$_REQUEST['tab_id']."' ORDER BY SORT_ORDER,TITLE";
+			$sql = "SELECT * FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='".$_REQUEST['tab_id']."' ORDER BY SORT_ORDER,TITLE";
+
 			if(User('PROFILE')=='admin' && AllowEdit())
 			{
 				$functions += array('CATEGORY_ID'=>'makeCommentsInput');
@@ -199,13 +204,13 @@ if(empty($_REQUEST['modfunc']))
 			}
 		}
         
-        $link['add']['html'] = array('TITLE'=>makeCommentsInput('','TITLE'),'SCALE_ID'=>makeCommentsInput('','SCALE_ID'),'SORT_ORDER'=>makeCommentsInput('','SORT_ORDER'));
+		$link['add']['html'] = array('TITLE'=>makeCommentsInput('','TITLE'),'SCALE_ID'=>makeCommentsInput('','SCALE_ID'),'SORT_ORDER'=>makeCommentsInput('','SORT_ORDER'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'];
 		$link['remove']['variables'] = array('id'=>'ID');
 		$link['add']['html']['remove'] = button('add');
 
 		if(User('PROFILE')=='admin')
-			$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
+			$tabs[] = array('title'=>button('add','','','smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 

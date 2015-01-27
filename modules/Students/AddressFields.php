@@ -189,13 +189,15 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'];
+
 		if($_REQUEST['id']!='new')
 			echo '&id='.$_REQUEST['id'];
+
 		echo '&table=ADDRESS_FIELDS" method="POST">';
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p">';
-		$header .= '<TR class="st">';
+
+		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
 
 //modif Francois: field name required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')).'</TD>';
@@ -243,18 +245,20 @@ if(empty($_REQUEST['modfunc']))
 		$new = ($_REQUEST['id']=='new');
 		$header .= '<TD>' . CheckboxInput($RET['REQUIRED'],'tables['.$_REQUEST['id'].'][REQUIRED]',_('Required'),'',$new) . '</TD>';
 
-		$header .= '</TR>';
-		$header .= '</TABLE>';
+		$header .= '</TR></TABLE>';
 	}
 	elseif($_REQUEST['category_id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table=ADDRESS_FIELD_CATEGORIES';
+
 		if($_REQUEST['category_id']!='new')
 			echo '&category_id='.$_REQUEST['category_id'];
+
 		echo '" method="POST">';
+
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p">';
-		$header .= '<TR class="st">';
+
+		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
 
 //modif Francois: title required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':'')) . '</TD>';
@@ -263,15 +267,19 @@ if(empty($_REQUEST['modfunc']))
 		if($_REQUEST['category_id']=='new')
 			$new = true;
 		$header .= '<TD><TABLE><TR>';
-		$header .= '<TD>' . CheckboxInput($RET['RESIDENCE'],'tables['.$_REQUEST['category_id'].'][RESIDENCE]',_('Residence'),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['MAILING'],'tables['.$_REQUEST['category_id'].'][MAILING]',_('Mailing'),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['BUS'],'tables['.$_REQUEST['category_id'].'][BUS]',_('Bus'),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['RESIDENCE'], 'tables['.$_REQUEST['category_id'].'][RESIDENCE]',_('Residence'), '', $new, button('check'), button('x')) . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['MAILING'], 'tables['.$_REQUEST['category_id'].'][MAILING]', _('Mailing'), '', $new, button('check'), button('x')) . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['BUS'], 'tables['.$_REQUEST['category_id'].'][BUS]', _('Bus'), '',$new, button('check'), button('x')) . '</TD>';
 		$header .= '</TR><TR>';
+
 		$header .= '<TD colspan="3"><span class="legend-gray">'._('Note: All unchecked means applies to all addresses').'</span></TD>';
+
 		$header .= '</TR></TABLE></TD>';
 
-		$header .= '</TR>';
-		$header .= '</TABLE>';
+		$header .= '</TR></TABLE>';
 	}
 	else
 		$header = false;

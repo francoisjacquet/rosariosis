@@ -133,7 +133,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	$js_included = $js_included_is_voting;
 	
 	if (!$display_votes)
-		return ErrorMessage(array('<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'.(isset($_POST['poll_completed_string'])? $_POST['poll_completed_string'] : _('Poll completed'))),'Note');
+		return ErrorMessage(array(button('check', '', '', 'bigger') .'&nbsp;'.(isset($_POST['poll_completed_string'])? $_POST['poll_completed_string'] : _('Poll completed'))),'Note');
 	
 	//modif Francois: responsive rt td too large
 	if (!$js_included_is_voting && !isset($_REQUEST['_ROSARIO_PDF']))
@@ -146,7 +146,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	{
 		$total_votes = 0;
 		//question
-		$votes_display .= '<P><B>'.$question['QUESTION'].'</B></P><TABLE class="width-100p cellspacing-0 widefat">'."\n";
+		$votes_display .= '<P><B>'.$question['QUESTION'].'</B></P><TABLE class="width-100p cellspacing-0 widefat col1-align-right">'."\n";
 		
 		//votes
 		$votes_array = explode('||', $question['VOTES']);
@@ -159,7 +159,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 		for ($i=0; $i < $options_array_count; $i++)
 		{
 			$percent = round(($votes_array[$i]/$total_votes)*100);
-			$votes_display .= '<TR><TD style="text-align:right">'.$options_array[$i].'</TD><TD style="width:104px;"><div class="PortalPollBar" style="width:'.$percent.'px; height:12px; background-color:#cc4400;">&nbsp;</div></TD><TD style="width:25px;"><strong> '.$percent.'%</strong></TD></TR>'."\n";
+			$votes_display .= '<TR><TD>'.$options_array[$i].'</TD><TD style="width:104px;"><div class="PortalPollBar" style="width:'.$percent.'px; height:12px; background-color:#cc4400;">&nbsp;</div></TD><TD style="width:25px;"><strong> '.$percent.'%</strong></TD></TR>'."\n";
 		}
 		$votes_display .= '</TABLE><BR />'."\n";
 	}
@@ -309,10 +309,15 @@ function makeFileAttached($value,$name)
 			
 			//modif Francois: colorbox
 			//colorbox extensions list
-			$colorbox_list = array('.jpg', '.jpeg', '.png', '.gif', '.mp3', '.wav', '.avi', '.mp4', '.ogg');
+			$colorbox_list = array('.jpg', '.jpeg', '.png', '.gif', '.mp3', '.wav', '.avi', '.mp4', '.ogg', '.ogv', '.webm');
+			
+			$view_online = '<img src="assets/themes/'. Preferences('THEME') .'/btn/visualize.png" class="button bigger" /> '._('View Online').'';
+
+			$download = '<img src="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="button bigger" /> '._('Download').'';
+
 			if (filter_var($value, FILTER_VALIDATE_URL) !== false) //embed link
 			{
-				$return = '<a href="'.$value.'" title="'.$value.'" class="colorboxiframe"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a>';
+				$return = '<a href="'.$value.'" title="'.$value.'" class="colorboxiframe">'. $view_online .'</a>';
 				$loadColorBox = true;
 			}
 			elseif (in_array( mb_strtolower(mb_strrchr($value, '.')), $colorbox_list ) )
@@ -324,7 +329,9 @@ function makeFileAttached($value,$name)
 					//https://developer.mozilla.org/en-US/docs/Media_formats_supported_by_the_audio_and_video_elements
 					//Checked on 2012.11.16
 					$browser = $_SERVER['HTTP_USER_AGENT'];
-					$return = '<a href="'.$value.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/download.png" class="alignImg" /> '._('Download').'</a>';
+
+					$return = '<a href="'.$value.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'">'. $download.'</a>';
+
 					if (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.mp3', '.mp4') ) && (mb_stripos($browser, 'Firefox') || mb_stripos($browser, 'Opera'))) //MP3 or MP4 file & not supported in Firefox and Opera
 					{
 						return $return;
@@ -341,26 +348,26 @@ function makeFileAttached($value,$name)
 					if (mb_strpos(finfo_file($finfo, $value), 'audio') !== false ) //media audio files
 					{
 						$return .= '<div><div style="display:none"><audio src="'.$value.'" preload="auto" controls class="audioHtml5" id="colorboxinline'.$filesAttachedCount.'"><p>Your browser does not support the audio element</p></audio></div>';
-						$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>';
+						$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'">'. $view_online.'</a></div>';
 						$loadColorBox = true;
 					}
 					elseif (mb_strpos(finfo_file($finfo, $value), 'video') !== false ) //media video files
 					{
-						$return .= '<div><div style="display:none"><video src="'.$value.'" preload="auto" controls class="videoHtml5" id="colorboxinline'.$filesAttachedCount.'"><p>Your browser does not support the audio element</p></video></div>';
-						$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a></div>';
+						$return .= '<div><div style="display:none"><video src="'.$value.'" preload="auto" controls class="videoHtml5" style="max-width:100%" id="colorboxinline'.$filesAttachedCount.'"><p>Your browser does not support the audio element</p></video></div>';
+						$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'">'. $view_online.'</a></div>';
 						$loadColorBox = true;
 						
 					} 
 					else //image files
 					{
-						$return = '<a href="'.$value.'" class="colorbox" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/visualize.png" class="alignImg" /> '._('View Online').'</a>';
+						$return = '<a href="'.$value.'" class="colorbox" title="'.str_replace($PortalNotesFilesPath, '', $value).'">'. $view_online.'</a>';
 						$loadColorBox = true;
 					}
 				}
 			}
 			else
 			{
-				$return = '<a href="'.$value.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'"><img src="assets/download.png" class="alignImg" /> '._('Download').'</a>';
+				$return = '<a href="'.$value.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'">'. $download.'</a>';
 			}
 		}
 	}

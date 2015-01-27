@@ -37,7 +37,7 @@ PopTable('header',_('Configuration'));
 echo '<fieldset>';
 //modif Francois: add translation
 //modif Francois: css WPadmin
-echo '<legend><b>'._('Assignments').'</b></legend>';
+echo '<legend>'._('Assignments').'</legend>';
 echo '<TABLE>';
 if(count($grades))
 {
@@ -64,7 +64,7 @@ echo '</fieldset><BR />';
 if ($RosarioModules['Eligibility'])
 {
 	echo '<fieldset>';
-	echo '<legend><b>'._('Eligibility').'</b></legend>';
+	echo '<legend>'._('Eligibility').'</legend>';
 	echo '<TABLE>';
 	echo '<TR><TD><label><INPUT type="checkbox" name="values[ELIGIBILITY_CUMULITIVE]" value="Y"'.(($programconfig['ELIGIBILITY_CUMULITIVE']=='Y')?' checked':'').'>&nbsp;'._('Calculate Eligibility using Cumulative Semester Grades').'</label></TD></TR>';
 	echo '</TABLE>';
@@ -80,15 +80,17 @@ ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID"),array(),array('ID'));
 if($comment_codes_RET)
 {
 	echo '<fieldset>';
-	echo '<legend><b>'._('Final Grades').'</b></legend>';
-	echo '<TABLE>';
+	echo '<legend>'._('Final Grades').'</legend>';
+	echo '<TABLE class="col1-align-right">';
 
 	foreach($comment_codes_RET as $id=>$comments)
 	{
-	echo '<TR><TD style="text-align:right"><SELECT name="values[COMMENT_'.$id.']><OPTION value="">'._('N/A').'';
-	foreach($comments as $key=>$val)
-		echo '<OPTION value="'.$val['CODE_TITLE'].'"'.($val['CODE_TITLE']==$programconfig['COMMENT_'.$id]?' selected':'').'>'.$val['CODE_TITLE'];
-	echo '</SELECT></TD><TD style="text-align:left;">'.sprintf(_('Default %s comment code'), $comments[1]['TITLE']).'</TD></TR>';
+		echo '<TR><TD><SELECT name="values[COMMENT_'.$id.']><OPTION value="">'._('N/A').'';
+
+		foreach($comments as $key=>$val)
+			echo '<OPTION value="'.$val['CODE_TITLE'].'"'.($val['CODE_TITLE']==$programconfig['COMMENT_'.$id]?' selected':'').'>'.$val['CODE_TITLE'];
+
+		echo '</SELECT></TD><TD>'.sprintf(_('Default %s comment code'), $comments[1]['TITLE']).'</TD></TR>';
 	}
 
 	echo '</TABLE>';
@@ -107,7 +109,7 @@ foreach($grades as $course_period_id=>$cp_grades)
 if(count($grades))
 {
 	echo '<fieldset>';
-	echo '<legend><b>'._('Score Breakoff Points').'</b></legend>';
+	echo '<legend>'._('Score Breakoff Points').'</legend>';
 	echo '<TABLE><TR><TD>';
 	foreach($grades as $course_period_id=>$cp_grades)
 	{
@@ -136,32 +138,35 @@ $semesters = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES FROM SCHO
 $quarters = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('PARENT_ID'));
 
 echo '<fieldset>';
-echo '<legend><b>'._('Final Grading Percentages').'</b></legend>';
+echo '<legend>'._('Final Grading Percentages').'</legend>';
 echo '<TABLE>';
 foreach($semesters as $sem)
 	if($sem['DOES_GRADES']=='Y')
 	{
 		$table = '<TABLE>';
-		$table .= '<TR class="st"><TD><span style="white-space:nowrap;"><span style="color:gray;">'.$sem['TITLE'].'</span>&nbsp;</span></TD>';
+		$table .= '<TR class="st"><TD><span class="legend-gray">'.$sem['TITLE'].'</span>&nbsp;</TD>';
 		$total = 0;
+
 		foreach($quarters[$sem['MARKING_PERIOD_ID']] as $qtr)
 		{
 			$table .= '<TD><span style="white-space:nowrap;">'.$qtr['TITLE'].'&nbsp;</span><BR />';
 			$table .= '<INPUT type="text" name="values[SEM-'.$qtr['MARKING_PERIOD_ID'].']" value="'.$programconfig['SEM-'.$qtr['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
 			$total += $programconfig['SEM-'.$qtr['MARKING_PERIOD_ID']];
 		}
+
 		if($total!=100)
-			$table .= '<TD><span style="color:red; white-space:nowrap;">'._('Total').' &#8800; 100%!</span></TD>';
-		$table .= '</TR>';
-		$table .= '</TABLE>';
+			$table .= '<TD><span class="legend-red">'._('Total').' &#8800; 100%!</span></TD>';
+
+		$table .= '</TR></TABLE>';
 		echo '<TR><TD>'.$table.'</TD></TR>';
 	}
 
 if($year[1]['DOES_GRADES']=='Y')
 {
 	$table = '<TABLE>';
-	$table .= '<TR class="st"><TD><span style="color:gray;">'.$year[1]['TITLE'].'</span>&nbsp;</TD>';
+	$table .= '<TR class="st"><TD><span class="legend-gray;">'.$year[1]['TITLE'].'</span>&nbsp;</TD>';
 	$total = 0;
+
 	foreach($semesters as $sem)
 	{
 		foreach($quarters[$sem['MARKING_PERIOD_ID']] as $qtr)
@@ -170,6 +175,7 @@ if($year[1]['DOES_GRADES']=='Y')
 			$table .= '<INPUT type="text" name="values[FY-'.$qtr['MARKING_PERIOD_ID'].']" value="'.$programconfig['FY-'.$qtr['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
 			$total += $programconfig['FY-'.$qtr['MARKING_PERIOD_ID']];
 		}
+
 		if($sem['DOES_GRADES']=='Y')
 		{
 			$table .= '<TD><span style="white-space:nowrap;">'.$sem['TITLE'].'&nbsp;</span><BR />';
@@ -177,8 +183,10 @@ if($year[1]['DOES_GRADES']=='Y')
 			$total += $programconfig['FY-'.$sem['MARKING_PERIOD_ID']];
 		}
 	}
+
 	if($total!=100)
-		$table .= '<TD><span style="color:red; white-space:nowrap;">'._('Total').' &#8800; 100%!</span></TD>';
+		$table .= '<TD><span class="legend-red">'._('Total').' &#8800; 100%!</span></TD>';
+
 	$table .= '</TR></TABLE>';
 	echo '<TR><TD>'.$table.'</TD></TR>';
 }
@@ -186,6 +194,7 @@ echo '</TABLE>';
 echo '</fieldset>';
 
 PopTable('footer');
-echo '<span class="center"><INPUT type="submit" value="'._('Save').'" /></span>';
+
+echo '<BR /><span class="center"><INPUT type="submit" value="'._('Save').'" /></span>';
 echo '</FORM>';
 ?>

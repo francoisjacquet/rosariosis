@@ -31,7 +31,7 @@ $(document).ready(function(){
 
 				if (!$.jqplot._noToImageButton) {
 					var save = $(document.createElement('a'));
-					save.html('<img src="assets/download.png" class="alignImg" />');
+					save.html('<img src="assets/themes/WPadmin/btn/download.png" class="alignImg" />');
 					save.attr('href', '#'+outerDivId); //colorbox link
 					save.addClass('colorbox');
 					var imgelem = $(this).jqplotToImageElem();

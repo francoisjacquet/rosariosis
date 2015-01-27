@@ -82,7 +82,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 	if ($student['BALANCE']!='')
 	{
 		echo '<TABLE class="width-100p">';
-		echo '<TR><TD class="width-100p valign-top">';
+		echo '<TR class="st"><TD class="width-100p valign-top">';
 
 		$RET = DBGet(DBQuery('SELECT fsti.DESCRIPTION,fsti.AMOUNT FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti WHERE fst.ACCOUNT_ID=\''.$student['ACCOUNT_ID'].'\' AND fst.STUDENT_ID=\''.UserStudentID().'\' AND fst.SYEAR=\''.UserSyear().'\' AND fst.SHORT_NAME=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\' AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND \'tomorrow\' AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID'));
 
@@ -93,12 +93,8 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 
 		// IMAGE
 //modif Francois: fix error Warning: fclose() expects parameter 1 to be resource, boolean given
-//		if($file = @fopen($picture=$StudentPicturesPath.'/'.UserSyear().'/'.UserStudentID().'.jpg','r') || $file = @fopen($picture=$StudentPicturesPath.'/'.(UserSyear()-1).'/'.UserStudentID().'.jpg','r'))
 		if(file_exists($picture=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg') || file_exists($picture=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg'))
-		{
-//			fclose($file);
-			echo '</TD><TD rowspan="2" style="text-align:left; width:150px;"><IMG SRC="'.$picture.'" width="150">';
-		}
+			echo '</TD><TD rowspan="2"><IMG SRC="'.$picture.'" width="150" />';
 
 		echo '</TD></TR>';
 		echo '<TR><TD class="width-100p valign-top">';

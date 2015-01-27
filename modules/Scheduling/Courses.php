@@ -107,6 +107,24 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	if($_REQUEST['tables']['parent_id'])
 		$_REQUEST['tables']['COURSE_PERIODS'][$_REQUEST['course_period_id']]['PARENT_ID'] = $_REQUEST['tables']['parent_id'];
 
+	//modif Francois: bugfix SQL error invalid input syntax for type numeric
+	//when COURSE_PERIOD_SCHOOL_PERIODS saved before COURSE_PERIODS, but why?
+	if ($_REQUEST['course_period_id']=='new')
+	{
+		foreach($_REQUEST['tables'] as $table_name=>$tables)
+		{
+			if ($table_name == 'COURSE_PERIOD_SCHOOL_PERIODS')
+			{
+				unset($_REQUEST['tables'][$table_name]);
+
+				//push COURSE_PERIOD_SCHOOL_PERIODS after COURSE_PERIODS
+				$_REQUEST['tables'][$table_name] = $tables;
+
+				break;
+			}
+		}
+	}
+
 	$temp_PERIOD_ID = array();
 	foreach($_REQUEST['tables'] as $table_name=>$tables)
 	{
@@ -120,6 +138,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				{
 					if($columns['TOTAL_SEATS'] && !is_numeric($columns['TOTAL_SEATS']))
 						$columns['TOTAL_SEATS'] = preg_replace('/[^0-9]+/','',$columns['TOTAL_SEATS']);
+
 					$days = '';
 					if($columns['DAYS'])
 					{
@@ -130,6 +149,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						}
 						$columns['DAYS'] = $days;
 					}
+
 					if($columns['DOES_ATTENDANCE'])
 					{        
 						foreach($columns['DOES_ATTENDANCE'] as $tbl=>$y)
@@ -347,30 +367,26 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							if (isset($columns['PERIOD_ID']) && empty($columns['PERIOD_ID']))
 								continue;
 								
-							//modif Francois: bugfix SQL error invalid input syntax for type numeric
-							//when COURSE_PERIOD_SCHOOL_PERIODS saved before COURSE_PERIODS, but why?
-							if ($_REQUEST['course_period_id']!='new')
-							{
-								$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."'"), array(), array('PERIOD_ID'));
-							
-								if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID) || in_array($columns['PERIOD_ID'], array_keys($other_school_p)))
-									continue;
-							}
+							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."'"), array(), array('PERIOD_ID'));
+
+							if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID) || in_array($columns['PERIOD_ID'], array_keys($other_school_p)))
+								continue;
 								
 							$temp_PERIOD_ID[] = $columns['PERIOD_ID'];
-							
-							$id_school_p = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_PERIOD_SCHOOL_PERIODS_SEQ').' AS ID'.FROM_DUAL));
-							$period = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$columns['PERIOD_ID']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-							$fields = 'COURSE_PERIOD_SCHOOL_PERIODS_ID,COURSE_PERIOD_ID,';
-							$values = "'".$id_school_p[1]['ID']."','".$_REQUEST['course_period_id']."',";
 
-		//modif Francois: days display to locale						
+							$fields = 'COURSE_PERIOD_SCHOOL_PERIODS_ID,COURSE_PERIOD_ID,';
+							$values = "nextval('COURSE_PERIOD_SCHOOL_PERIODS_SEQ'),'".$_REQUEST['course_period_id']."',";
+
+							//modif Francois: days display to locale
 							$nb_days = mb_strlen($columns['DAYS']);
 							$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
+
 							for ($i = 0; $i < $nb_days; $i++) {
 								$columns_DAYS_locale .= mb_substr($days_convert[mb_substr($columns['DAYS'], $i, 1)],0,3) . '.';
 							}
 							
+							$period = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$columns['PERIOD_ID']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
+
 							if(mb_strlen($columns['DAYS'])<5)
 								$title_add = $period[1]['TITLE'].$columns_DAYS_locale;
 							else
@@ -573,7 +589,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			//hook
 			do_action('Scheduling/Courses.php|header');
 
-			$header .= '<TABLE class="width-100p" id="coursesTable">';
+			$header .= '<TABLE class="width-100p valign-top" id="coursesTable">';
 			$header .= '<TR class="st">';
 
 //modif Francois: Moodle integrator
@@ -629,22 +645,28 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					$not_really_new = true;
 					unset($school_period);
 				}
+
 				if (!$new)
 					$school_period = $RET2[$i];
 				else
 					$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] = 'new' . $i;
+
 				$header .= '<TR id="schoolPeriod'.$i.'" class="st">';
+
 				//modif Francois: existing school period not modifiable
 				if (!$new)
 					$header .= '<TD>' . $periods[$school_period['PERIOD_ID']] . '<BR /><span class="legend-gray">' ._('Period'). '</span></TD>';
 				else
 					$header .= '<TD>' . SelectInput($school_period['PERIOD_ID'],'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]',($school_period['PERIOD_ID']?'':'<span style="color:red">')._('Period').($school_period['PERIOD_ID']?'':'</span>'),$periods) . '</TD>';
+
 				$header .= '<TD>';
-				if($new==false && Preferences('HIDDEN')=='Y')
+
+				if($new==false)
 				{
 					$header .= '<DIV id="divtables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]"><div class="onclick" onclick=\'addHTML("';
 					$header .= str_replace('"','\"', '<input type="hidden" name="tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]" value="'.$school_period['PERIOD_ID'].'" />');
 				}
+
 				$header .= '<TABLE><TR>';
 
 				foreach($days as $day)
@@ -656,21 +678,25 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 	//				$header .= '<TD>'.str_replace('"','\"',CheckboxInput($value,'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DAYS]['.$day.']',($day=='U'?'S':$day),$checked,false,'','',false)).'</TD>';
 					$header_temp = '<TD>'.CheckboxInput($value,'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]['.$day.']',mb_substr($days_convert[$day],0,3),$checked,$new,'','',false).'</TD>';
-					if($new==false && Preferences('HIDDEN')=='Y')
+
+					if($new==false)
 						$header .= str_replace('"','\"',$header_temp);
 					else
 						$header .= $header_temp;
 				}
+
 				$header .= '</TR></TABLE>';
-				if($new==false && Preferences('HIDDEN')=='Y')
+
+				if($new==false)
 				{
-	//				$header .= '","days",true);\'><span style=\'border-bottom-style:dotted;border-bottom-width:1;border-bottom-color:'.Preferences('TITLES').';\'>'.$RET['DAYS'].'</span></div></DIV>';
 					//modif Francois: days display to locale						
 					$school_period_locale = '';
 					$days_strlen = mb_strlen($school_period['DAYS']);
+
 					for ($j = 0; $j < $days_strlen; $j++) {
 						$school_period_locale .= mb_substr($days_convert[mb_substr($school_period['DAYS'], $j, 1)],0,3) . '.&nbsp;';
 					}
+
 					$school_period['DAYS'] = $school_period_locale;
 					$header .= '","divtables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]",true);\'><span class="underline-dots">'.$school_period['DAYS'].'</span></div></DIV>';
 				}
@@ -685,7 +711,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					break;
 			} while ( $i <= count($RET2) );
 			
-			$header .= '<TR class="st"><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;"><img src="assets/add_button.gif" width="18" style="vetical-align:middle" /> '._('New Period').'</a></TD></TR>';
+			$header .= '<TR class="st"><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;">'. button('add') .' '._('New Period').'</a></TD></TR>';
 			if (!$new)
 				$header .= '<script>document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
 			?>
@@ -717,53 +743,67 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			$categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'"._('Attendance')."' AS TITLE UNION SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 
 			$header .= '<TD>';
-			if($new==false && Preferences('HIDDEN')=='Y')
+
+			if($new==false)
 				$header .= '<DIV id="attendance"><div class="onclick" onclick=\'addHTML("';
+
 			$header .= '<TABLE><TR>';
 			$top = '<TABLE><TR>';
+
 			foreach($categories_RET as $value)
 			{
 				if(mb_strpos($RET['DOES_ATTENDANCE'],','.$value['ID'].',')!==false)
 				{
 					$val = 'Y';
-					$img = 'check_button';
+					$img = 'check';
 				}
 				else
 				{
 					$val = '';
-					$img = 'x_button';
+					$img = 'x';
 				}
 
 				$header_temp = '<TD>'.CheckboxInput($val,'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_ATTENDANCE]['.$value['ID'].']',$value['TITLE'],$checked,false,'','',false).'</TD>';
-				if($new==false && Preferences('HIDDEN')=='Y')
+
+				if($new==false)
 					$header .= str_replace('"','\"',$header_temp);
 				else
 					$header .= $header_temp;
 				
-				$top .= '<TD><span class="underline-dots"><IMG SRC="assets/'.$img.'.png" height="15"></span>&nbsp;'.$value['TITLE'];
+				$top .= '<TD><span class="underline-dots">'.button($img).'</span>&nbsp;'.$value['TITLE'];
 			}
 			$header .= '</TR></TABLE>';
 			$top .= '</TR></TABLE>';
-			if($new==false && Preferences('HIDDEN')=='Y')
+
+			if($new==false)
 				$header .= '","attendance",true);\'>'.$top.'</div></DIV>';
+
 			$header .= '<span class="legend-gray">'._('Takes Attendance').'</span>';
 			$header .= '</TD>';
 
-			$header .= '<TD>' . CheckboxInput($RET['DOES_HONOR_ROLL'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_HONOR_ROLL]',_('Affects Honor Roll'),$checked,$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-			$header .= '<TD>' . CheckboxInput($RET['DOES_CLASS_RANK'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_CLASS_RANK]',_('Affects Class Rank'),$checked,$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
+			$header .= '<TD>' . CheckboxInput($RET['DOES_HONOR_ROLL'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_HONOR_ROLL]', _('Affects Honor Roll'), $checked, $new, button('check'), button('x')) . '</TD>';
+
+			$header .= '<TD>' . CheckboxInput($RET['DOES_CLASS_RANK'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_CLASS_RANK]', _('Affects Class Rank'), $checked, $new, button('check'), button('x')) . '</TD>';
+
 			$header .= '<TD>' . SelectInput($RET['GENDER_RESTRICTION'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][GENDER_RESTRICTION]',_('Gender Restriction'),array('N'=>_('None'),'M'=>_('Male'),'F'=>_('Female')),false) . '</TD>';
 
 			$options_RET = DBGet(DBQuery("SELECT TITLE,ID FROM REPORT_CARD_GRADE_SCALES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+
 			$options = array();
 			foreach($options_RET as $option)
 				$options[$option['ID']] = $option['TITLE'];
+
 			$header .= '<TD>' . SelectInput($RET['GRADE_SCALE_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][GRADE_SCALE_ID]',_('Grading Scale'),$options,_('Not Graded')) . '</TD>';
-            //bjj Added to handle credits
-            $header .= '<TD>' . TextInput(sprintf('%0.3f',(is_null($RET['CREDITS']) ? '1' : $RET['CREDITS'])),'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][CREDITS]',_('Credits'),'size=4',(is_null($RET['CREDITS']) ? false : true)) . '</TD>'; 
+
+			//bjj Added to handle credits
+			$header .= '<TD>' . TextInput(sprintf('%0.3f',(is_null($RET['CREDITS']) ? '1' : $RET['CREDITS'])),'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][CREDITS]',_('Credits'),'size=4',(is_null($RET['CREDITS']) ? false : true)) . '</TD>'; 
+
 			$options_RET = DBGet(DBQuery("SELECT TITLE,CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY DEFAULT_CALENDAR ASC,TITLE"));
+
 			$options = array();
 			foreach($options_RET as $option)
 				$options[$option['CALENDAR_ID']] = $option['TITLE'];
+
 			$header .= '<TD>' . SelectInput($RET['CALENDAR_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][CALENDAR_ID]',($RET['CALENDAR_ID']?'':'<span style="color:red">')._('Calendar').($RET['CALENDAR_ID']?'':'</span>'),$options,false) . '</TD>';
 
 			//BJJ Parent course select was here...  moved it down
@@ -773,26 +813,30 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			$header .= '<TR class="st">';
 
 			//$header .= '<TD>' . CheckboxInput($RET['HOUSE_RESTRICTION'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][HOUSE_RESTRICTION]','Restricts House','',$new) . '</TD>';
-			$header .= '<TD>' . CheckboxInput($RET['HALF_DAY'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][HALF_DAY]',_('Half Day'),$checked,$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-			$header .= '<TD>' . CheckboxInput($RET['DOES_BREAKOFF'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_BREAKOFF]',_('Allow Teacher Grade Scale'),$checked,$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-            //BJJ added cells to place parent selection in the last column
-            $header .= '<TD colspan= 4>&nbsp;</td>';
-            
-            if($_REQUEST['course_period_id']!='new' && $RET['PARENT_ID']!=$_REQUEST['course_period_id'])
-            {
-                $parent = DBGet(DBQuery("SELECT cp.TITLE as CP_TITLE,c.TITLE AS C_TITLE FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$RET['PARENT_ID']."'"));
-                $parent = $parent[1]['C_TITLE'].': '.$parent[1]['CP_TITLE'];
-            }
-            elseif($_REQUEST['course_period_id']!='new')
-            {
-                $children = DBGet(DBQuery("SELECT COURSE_PERIOD_ID FROM COURSE_PERIODS WHERE PARENT_ID='".$_REQUEST['course_period_id']."' AND COURSE_PERIOD_ID!='".$_REQUEST['course_period_id']."'"));
-                if(count($children))
-                    $parent = _('N/A');
-                else
-                    $parent = _('None');
-            }
 
-            $header .= '<TD colspan="2"><DIV id=course_div>'.$parent.'</DIV> '.($parent!=_('N/A')?'<A HREF="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</A><BR />':'').'<span class="legend-gray">'._('Parent Course Period').'</span></TD>';
+			$header .= '<TD>' . CheckboxInput($RET['HALF_DAY'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][HALF_DAY]', _('Half Day'), $checked, $new, button('check'), button('x')) . '</TD>';
+
+			$header .= '<TD>' . CheckboxInput($RET['DOES_BREAKOFF'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_BREAKOFF]', _('Allow Teacher Grade Scale'), $checked, $new, button('check'), button('x')) . '</TD>';
+
+			//BJJ added cells to place parent selection in the last column
+			$header .= '<TD colspan="4">&nbsp;</td>';
+
+			if($_REQUEST['course_period_id']!='new' && $RET['PARENT_ID']!=$_REQUEST['course_period_id'])
+			{
+				$parent = DBGet(DBQuery("SELECT cp.TITLE as CP_TITLE,c.TITLE AS C_TITLE FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$RET['PARENT_ID']."'"));
+				$parent = $parent[1]['C_TITLE'].': '.$parent[1]['CP_TITLE'];
+			}
+			elseif($_REQUEST['course_period_id']!='new')
+			{
+				$children = DBGet(DBQuery("SELECT COURSE_PERIOD_ID FROM COURSE_PERIODS WHERE PARENT_ID='".$_REQUEST['course_period_id']."' AND COURSE_PERIOD_ID!='".$_REQUEST['course_period_id']."'"));
+
+				if(count($children))
+					$parent = _('N/A');
+				else
+					$parent = _('None');
+			}
+
+			$header .= '<TD colspan="2"><DIV id=course_div>'.$parent.'</DIV> '.($parent!=_('N/A')?'<A HREF="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</A><BR />':'').'<span class="legend-gray">'._('Parent Course Period').'</span></TD>';
 
 			$header .= '</TR>';
 			$header .= '</TABLE>';
@@ -827,7 +871,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'" method="POST">';
 			DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-			$header .= '<TABLE class="width-100p">';
+			$header .= '<TABLE class="width-100p valign-top">';
 			$header .= '<TR class="st">';
 
 //modif Francois: title required
@@ -868,7 +912,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'" method="POST">';
 			DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-			$header .= '<TABLE class="width-100p">';
+			$header .= '<TABLE class="width-100p valign-top">';
 			$header .= '<TR>';
 
 //modif Francois: title required

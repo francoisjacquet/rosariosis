@@ -188,7 +188,21 @@ fieldset {
 hr{
 	color:#fff
 }
-
+.current-person a{
+	color:#fff
+}
+.current-person.student{
+	background-color:#333366
+}
+.current-person.staff{
+	background-color:#336633
+}
+.current-person.self{
+	background-color:#663333
+}
+#student-comments div{
+	background-color:#fff
+}
 
 /*responsive tables*/
 @media only screen and (max-width: 1023px) {

@@ -11,7 +11,10 @@ if(UserStudentID())
 	$value = $custom_RET[1];
 }
 
-echo '<TABLE class="width-100p">';
+if (count($fields_RET))
+	echo $separator;
+
+echo '<TABLE class="width-100p valign-top">';
 $i = 1;
 $per_row = $category_RET[1]['COLUMNS']?$category_RET[1]['COLUMNS']:'3';
 
@@ -160,7 +163,5 @@ if ($i > 1)
 		echo '</TR>';
 	echo '</TABLE>';
 }
-
-echo '<HR />';
 
 ?>

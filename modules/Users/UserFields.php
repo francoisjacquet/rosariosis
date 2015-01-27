@@ -198,12 +198,15 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'];
+
 		if($_REQUEST['id']!='new')
 			echo '&id='.$_REQUEST['id'];
+
 		echo '&table=STAFF_FIELDS" method="POST">';
+
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p">';
-		$header .= '<TR class="st">';
+
+		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
 
 //modif Francois: field name required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</TD>';
@@ -251,30 +254,40 @@ if(empty($_REQUEST['modfunc']))
 		$new = ($_REQUEST['id']=='new');
 		$header .= '<TD>' . CheckboxInput($RET['REQUIRED'],'tables['.$_REQUEST['id'].'][REQUIRED]',_('Required'),'',$new) . '</TD>';
 
-		$header .= '</TR>';
-		$header .= '</TABLE>';
+		$header .= '</TR></TABLE>';
 	}
 	elseif($_REQUEST['category_id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table=STAFF_FIELD_CATEGORIES';
+
 		if($_REQUEST['category_id']!='new')
 			echo '&category_id='.$_REQUEST['category_id'];
+
 		echo '" method="POST">';
+
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p">';
-		$header .= '<TR class="st">';
+
+		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
 
 //modif Francois: title required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':'')) . '</TD>';
+
 		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['category_id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</TD>';
+
 		$header .= '<TD>' . TextInput($RET['COLUMNS'],'tables['.$_REQUEST['category_id'].'][COLUMNS]',_('Display Columns'),'size=5') . '</TD>';
 
 		$new = ($_REQUEST['category_id']=='new');
+
 		$header .= '<TD><TABLE><TR>';
-		$header .= '<TD>' . CheckboxInput($RET['ADMIN'],'tables['.$_REQUEST['category_id'].'][ADMIN]',($_REQUEST['category_id']=='1'&&!$RET['ADMIN']?'<span style="color:red">':'')._('Administrator').($_REQUEST['category_id']=='1'&&!$RET['ADMIN']?'</span>':''),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['TEACHER'],'tables['.$_REQUEST['category_id'].'][TEACHER]',($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'<span style="color:red">':'')._('Teacher').($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'</span>':''),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['PARENT'],'tables['.$_REQUEST['category_id'].'][PARENT]',($_REQUEST['category_id']=='1'&&!$RET['PARENT']?'<span style="color:red">':'')._('Parent').($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'</span>':''),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['NONE'],'tables['.$_REQUEST['category_id'].'][NONE]',($_REQUEST['category_id']=='1'&&!$RET['NONE']?'<span style="color:red">':'')._('No Access').($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'</span>':''),'',$new,'<IMG SRC="assets/check_button.png" height="15">','<IMG SRC="assets/x_button.png" height="15">') . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['ADMIN'], 'tables['.$_REQUEST['category_id'].'][ADMIN]', ($_REQUEST['category_id']=='1'&&!$RET['ADMIN']?'<span style="color:red">':'')._('Administrator').($_REQUEST['category_id']=='1'&&!$RET['ADMIN']?'</span>':''), '', $new, button('check'), button('x')) . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['TEACHER'], 'tables['.$_REQUEST['category_id'].'][TEACHER]', ($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'<span style="color:red">':'')._('Teacher').($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'</span>':''), '', $new, button('check'), button('x')) . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['PARENT'], 'tables['.$_REQUEST['category_id'].'][PARENT]', ($_REQUEST['category_id']=='1'&&!$RET['PARENT']?'<span style="color:red">':'')._('Parent').($_REQUEST['category_id']=='1'&&!$RET['PARENT']?'</span>':''), '', $new, button('check'), button('x')) . '</TD>';
+
+		$header .= '<TD>' . CheckboxInput($RET['NONE'], 'tables['.$_REQUEST['category_id'].'][NONE]', ($_REQUEST['category_id']=='1'&&!$RET['NONE']?'<span style="color:red">':'')._('No Access').($_REQUEST['category_id']=='1'&&!$RET['NONE']?'</span>':''), '', $new, button('check'), button('x')) . '</TD>';
+
 		$header .= '</TR>';
 		$header .= '<TR><TD colspan="4"><span class="legend-gray">'._('Profiles').'</span></TD></TR>';
 		$header .= '</TABLE></TD>';
@@ -286,8 +299,7 @@ if(empty($_REQUEST['modfunc']))
 			$header .= '<TD>' . TextInput($RET['INCLUDE'],'tables['.$_REQUEST['category_id'].'][INCLUDE]',_('Include (should be left blank for most categories)')) . '</TD>';
 		}
 
-		$header .= '</TR>';
-		$header .= '</TABLE>';
+		$header .= '</TR></TABLE>';
 	}
 	else
 		$header = false;

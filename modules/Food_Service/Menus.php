@@ -136,7 +136,8 @@ if(empty($_REQUEST['modfunc']))
 		$link['remove']['variables'] = array('category_id'=>'CATEGORY_ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+
 		$singular = sprintf(_('%s Category'), $menus_RET[$_REQUEST['tab_id']][1]['TITLE']);
 		$plural = sprintf(_('%s Categories'), $menus_RET[$_REQUEST['tab_id']][1]['TITLE']);
 	}
@@ -151,7 +152,7 @@ if(empty($_REQUEST['modfunc']))
 		$link['remove']['variables'] = array('menu_id'=>'MENU_ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add','','',14),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 

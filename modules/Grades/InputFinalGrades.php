@@ -303,8 +303,10 @@ if($_REQUEST['values'] && $_POST['values'])
 
 				if($percent>999.9)
 					$percent = '999.9';
+
 				elseif($percent<0)
 					$percent = '0';
+
 				if($columns['grade'] || $percent!='')
 				{
 					$grade = ($columns['grade']?$columns['grade']:_makeLetterGrade($percent/100,$course_period_id,0,'ID'));
@@ -321,6 +323,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				}
 				else
 					$grade = $letter = $weighted = $unweighted = $scale = '';
+
 				$sql .= "GRADE_PERCENT='".$percent."'";
 				$sql .= ",REPORT_CARD_GRADE_ID='".$grade."',GRADE_LETTER='".$letter."',WEIGHTED_GP='".$weighted."',UNWEIGHTED_GP='".$unweighted."',GP_SCALE='".$scale."'";
 				//bjj can we use $percent all the time?  TODO: rework this so updates to credits occur when grade is changed
@@ -341,6 +344,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				{
 					$weighted = $percent/100*$grades_RET[$grade][1]['GP_SCALE'];
 				}
+
 				$unweighted = $grades_RET[$grade][1]['UNWEIGHTED_GP'];
 				$scale = $grades_RET[$grade][1]['GP_SCALE'];
 				$sql .= "GRADE_PERCENT='".$percent."'";
@@ -385,8 +389,10 @@ if($_REQUEST['values'] && $_POST['values'])
 
 				if($percent>999.9)
 					$percent = '999.9';
+
 				elseif($percent<0)
 					$percent = '0';
+
 				if($columns['grade'] || $percent!='')
 				{
 					$grade = ($columns['grade']?$columns['grade']:_makeLetterGrade($percent/100,$course_period_id,0,'ID'));
@@ -642,7 +648,7 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 
 		$tipJS = '<script>var tiptitle='.json_encode(_('Report Card Comments')).'; var tipmsg='.json_encode($tipmessage).';</script>';
 
-		$tipmessage = $tipJS.button('comment',_('Comment Codes'),'"#" onmouseover="stm([tiptitle,tipmsg],tipmessageStyle); return false;" onmouseout="htm()" onclick="return false;"',24);
+		$tipmessage = $tipJS.button('comment', _('Comment Codes'), '"#" onmouseover="stm([tiptitle,tipmsg],tipmessageStyle); return false;" onmouseout="htm()" onclick="return false;"', 'bigger');
 	}
 
 //modif Francois: add label on checkbox
@@ -742,7 +748,7 @@ function _makeLetterPercent($student_id,$column)
 			$return = TextInput($select_percent==''?'':$select_percent.'%',"values[$student_id][percent]",'','size=5 tabindex='.$tabindex,$div);
 		else
 		{
-			if(AllowEdit() && $div && $select_percent!='' && $select_grade && Preferences('HIDDEN')=='Y')
+			if(AllowEdit() && $div && $select_percent!='' && $select_grade)
 			{
 				$return = '<DIV id="'.$student_id.'"><div class="onclick" onclick=\'addHTML("';
 				

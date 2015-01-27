@@ -8,21 +8,19 @@ function Buttons($value1,$value2='')
 	return $buttons;
 }
 
-function button($type,$text='',$link='',$height=18)
+function button($type,$text='',$link='',$class='')
 {
-//modif Francois: css WPadmin
 	if($link)
-		$button .= '<A HREF='.$link.($type=='remove' && empty($text)? ' title="'._('Delete').'"' : '').'>'; //dont put "" round the link href to let Javascript code insert
-	
-//modif Francois: icones
-	$img_file = 'assets/'.$type.'_button.png';
-	if (!is_file($img_file))
-		$img_file = 'assets/'.$type.'_button.gif';
-	$button .= '<IMG SRC="'.$img_file.'" '.($height?'height="'.$height.'"':'').' style="vertical-align:middle;" />';
+		//dont put "" round the link href to let Javascript code insert
+		$button .= '<A HREF='.$link.($type=='remove' && empty($text)? ' title="'._('Delete').'"' : '').'>';
+
+	$img_file = 'assets/themes/'. Preferences('THEME') . '/btn/' . $type .'_button.png';
+
+	$button .= '<IMG SRC="'.$img_file.'" class="button '.$class.'" />';
 
 	if($text)
 		$button .= '<b>'.$text.'</b>';
-	
+
 	if($link)
 		$button .= '</A>';
 

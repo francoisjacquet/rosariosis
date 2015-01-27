@@ -1,7 +1,10 @@
 <?php
 DrawHeader(ProgramTitle());
 
-include 'Menu.php';
+//modif Francois: bugfix no $menu when page refreshed
+unset($_ROSARIO['Menu']);
+
+include('Menu.php');
 
 if($_REQUEST['profile_id']!='')
 {
@@ -119,8 +122,7 @@ if($_REQUEST['modfunc']!='delete')
 	echo '<TABLE><TR class="st"><TD class="valign-top">';
 //modif Francois: css WPadmin
 	echo '<TABLE class="widefat cellspacing-0">';
-//	$style = ' style="border:1; border-style: dashed none none none;"';
-	$style = '';
+
 	//$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES"));
 	$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES ORDER BY ID"),array(),array('PROFILE','ID'));
 	echo '<TR><TH colspan="3">'._('Profiles').'</TH></TR>';
@@ -129,18 +131,19 @@ if($_REQUEST['modfunc']!='delete')
 		foreach($profiles_RET[$profiles] as $id=>$profile)
 		{
 			if($_REQUEST['profile_id']!='' && $id==$_REQUEST['profile_id'])
-				echo '<TR id="selected_tr" class="highlight"><TD>'.(AllowEdit()&&$id>3?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"',20):'&nbsp;').'</TD><TD '.$style.'>';
+				echo '<TR id="selected_tr" class="highlight"><TD>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</TD><TD>';
 			else
-				echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="background-color:transparent;";\'><TD>'.(AllowEdit()&&$id>3?button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"',20):'&nbsp;').'</TD><TD'.$style.'>';
-//			echo '<A style="cursor: pointer;">'.($id>3?'':'<b>').''.$profile[1]['TITLE'].' &nbsp; '.($id>3?'':'</b>').'</A>';
+				echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="background-color:transparent;";\'><TD>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</TD><TD>';
+
 			echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&profile_id='.$id.'">'._($profile[1]['TITLE']).' &nbsp; </A>';
 			echo '</TD>';
-			echo '<TD'.$style.'><IMG SRC="assets/arrow_right.gif"></TD>';
+
+			echo '<TD><IMG SRC="assets/arrow_right.gif"></TD>';
 			echo '</TR>';
 		}
 	}
 	if($_REQUEST['profile_id']=='')
-		echo '<TR id="selected_tr"><TD style="height:0px;"></TD><TD style="height:0px;"></TD><TD style="height:0px;"></TD></TR>';
+		echo '<TR id="selected_tr"><TD colspan="3"></TD></TR>';
 
 	if(AllowEdit())
 	{
@@ -152,16 +155,20 @@ function changeHTML(show,hide){
 		document.getElementById(hide[i]).innerHTML = "";
 }
 </script>';
-		echo '<TR id="new_tr" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="background-color:transparent;";\' onclick=\'document.getElementById("selected_tr").onmouseover="this.style.backgroundColor=\"'.Preferences('HIGHLIGHT').'\";"; document.getElementById("selected_tr").onmouseout="this.style.cssText=\"background-color:transparent;\";"; document.getElementById("selected_tr").style.cssText="background-color:transparent;"; changeHTML({"new_id_div":"new_id_content"},["main_div"]);document.getElementById("new_tr").onmouseover="";document.getElementById("new_tr").onmouseout="";this.onclick="";\'><TD style="text-align:right; width: 20px;"'.$style.'>'.button('add','','',20).'</TD><TD'.$style.'>';
-		echo '<A href="#" onclick="return false;">'._('Add a User Profile').'</A>&nbsp;<BR /><DIV id=new_id_div></DIV>';
+
+		echo '<TR id="new_tr" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="background-color:transparent;";\' onclick=\'document.getElementById("selected_tr").onmouseover="this.style.backgroundColor=\"'.Preferences('HIGHLIGHT').'\";"; document.getElementById("selected_tr").onmouseout="this.style.cssText=\"background-color:transparent;\";"; document.getElementById("selected_tr").style.cssText="background-color:transparent;"; changeHTML({"new_id_div":"new_id_content"},["main_div"]);document.getElementById("new_tr").onmouseover="";document.getElementById("new_tr").onmouseout="";this.onclick="";\'><TD>'.button('add').'</TD><TD>';
+
+		echo '<A href="#" onclick="return false;">'._('Add a User Profile').'</A>&nbsp;<BR /><DIV id="new_id_div"></DIV>';
 		echo '</TD>';
-		echo '<TD'.$style.'><IMG SRC="assets/arrow_right.gif"></TD>';
+
+		echo '<TD><IMG SRC="assets/arrow_right.gif"></TD>';
 		echo '</TR>';
 	}
 
 	echo '</TABLE>';
-	echo '</TD><TD style="width:20px;"></TD><TD>';
-	echo '<DIV id=main_div>';
+	echo '</TD><TD></TD><TD>';
+
+	echo '<DIV id="main_div">';
 	if($_REQUEST['profile_id']!='')
 	{
 		PopTable('header',_('Permissions'));
@@ -177,12 +184,15 @@ function changeHTML(show,hide){
 				$module_title = _(str_replace('_',' ',$modcat));
 
 			echo '<TR><TD colspan="3"><h4>'.$module_title.'</h4></TD></TR>';
+
 //modif Francois: add <label> on checkbox
-			echo '<TR><TH style="text-align:right;"><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick="checkAll(this.form,this.form.can_use_'.$modcat.'.checked,\'can_use['.$modcat.'\');">':'').'</label></TH>';
+			echo '<TR><TH><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick="checkAll(this.form,this.form.can_use_'.$modcat.'.checked,\'can_use['.$modcat.'\');">':'').'</label></TH>';
+
 			if($xprofile=='admin' || $modcat=='Students' || $modcat=='Resources')
-				echo '<TH style="text-align:right;"><label>'._('Can Edit').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick="checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,\'can_edit['.$modcat.'\');">':'').'</label></TH>';
+				echo '<TH><label>'._('Can Edit').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick="checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,\'can_edit['.$modcat.'\');">':'').'</label></TH>';
 			else
 				echo '<TH>&nbsp;</TH>';
+
 			echo '<TH>&nbsp;</TH></TR>';
 			if(count($values))
 			{
@@ -196,10 +206,12 @@ function changeHTML(show,hide){
 						//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
 
 						echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+
 						if($xprofile=='admin' || $modcat=='Resources')
 								echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
 						else
-							echo '<TD class="center">&nbsp;</TD>';
+							echo '<TD>&nbsp;</TD>';
+
 						echo'<TD>'.$title.'</TD></TR>';
 
 						if($modcat=='Students' && $file=='Students/Student.php')
@@ -214,7 +226,9 @@ function changeHTML(show,hide){
 
 								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
 								echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+
 								echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+
 								echo '<TD>'.$title.'</TD></TR>';
 							}
 						}
@@ -230,10 +244,12 @@ function changeHTML(show,hide){
 
 								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
 								echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+
 								if($xprofile=='admin')
 									echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
 								else
 									echo '<TD>&nbsp;</TD>';
+
 								echo '<TD>'.$title.'</TD></TR>';
 							}
 						}
@@ -246,13 +262,17 @@ function changeHTML(show,hide){
 			//echo '<TR><TD colspan="3" style="text-align:center; height:20px;"></TD></TR>';
 		}
 		echo '</TABLE>';
+
 		PopTable('footer');
-		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+
+		echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	}
 	echo '</DIV>';
 	echo '</TD></TR></TABLE>';
 	echo '</FORM>';
+
 	echo '<DIV id="new_id_content" style="position:absolute;visibility:hidden;">'._('Title').' <INPUT type="text" name="new_profile_title"><BR />';
+
 	echo _('Type').' <SELECT name="new_profile_type"><OPTION value="admin">'._('Administrator').'<OPTION value="teacher">'._('Teacher').'<OPTION value="parent">'._('Parent').'</SELECT></DIV>';
 }
 ?>

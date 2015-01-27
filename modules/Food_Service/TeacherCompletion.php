@@ -93,7 +93,7 @@ if(count($RET))
 				$staff_RET[$i][$period_id] .= '</TR></TABLE>';
 			}
 			else
-				$staff_RET[$i][$period_id] = '<IMG SRC=assets/x_button.png>';
+				$staff_RET[$i][$period_id] = button('x');
 		}
 	}
 }

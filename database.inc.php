@@ -216,15 +216,15 @@ function db_show_error($sql,$failnote,$additional='')
 	PopTable('header',_('We have a problem, please contact technical support ...'));
     // TRANSLATION: do NOT translate these since error messages need to stay in English for technical support
 	echo '
-		<TABLE style="border-collapse:separate; border-spacing:10px;">
+		<TABLE class="col1-align-right" style="border-collapse:separate; border-spacing:10px;">
 		<TR>
-			<TD style="text-align:right"><b>Date:</b></TD>
+			<TD><b>Date:</b></TD>
 			<TD><pre>'.date("m/d/Y h:i:s").'</pre></TD>
 		</TR><TR>
-			<TD style="text-align:right"><b>Failure Notice:</b></TD>
+			<TD><b>Failure Notice:</b></TD>
 			<TD><pre> '.$failnote.' </pre></TD>
 		</TR><TR>
-			<TD style="text-align:right"><b>Additional Information:</b></TD>
+			<TD><b>Additional Information:</b></TD>
 			<TD>'.$additional.'</TD>
 		</TR>
 		</TABLE>';

@@ -118,12 +118,10 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 
 	echo '<BR />';
 	PopTable('header',_('Account Information'),'width="100%"');
-	echo '<TABLE class="width-100p">';
-	echo '<TR>';
-	echo '<TD class="valign-top">';
-	echo '<TABLE class="width-100p"><TR>';
 
-	echo '<TD class="valign-top">'.NoInput($staff['FULL_NAME'],$staff['STAFF_ID']);
+	echo '<TABLE class="width-100p valign-top"><TR>';
+
+	echo '<TD>'.NoInput($staff['FULL_NAME'],$staff['STAFF_ID']);
 
 	// warn if other users associated with the same account
 	if(!$staff['ACCOUNT_ID'])
@@ -137,29 +135,21 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 
 	echo '</TD>';
 
-	echo '<TD class="valign-top">'.NoInput(red($staff['BALANCE']),_('Balance')).'</TD>';
+	echo '<TD>'.NoInput(red($staff['BALANCE']),_('Balance')).'</TD>';
 
 	echo '</TR></TABLE>';
-	echo '</TD></TR></TABLE>';
 	echo '<HR>';
 
-	echo '<TABLE class="width-100p cellspacing-0">';
-	echo '<TR><TD class="valign-top">';
+	echo '<TABLE class="width-100p cellspacing-0 valign-top"><TR><TD>';
 
-	echo '<TABLE class="width-100p">';
-	echo '<TR>';
-	echo '<TD>';
 	$options = array('Inactive'=>_('Inactive'),'Disabled'=>_('Disabled'),'Closed'=>_('Closed'));
 	echo ($staff['ACCOUNT_ID']?SelectInput($staff['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')):NoInput('-',_('Status')));
 	echo '</TD>';
 	echo '<TD>';
 	echo ($staff['ACCOUNT_ID']?TextInput($staff['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25'):NoInput('-',_('Barcode')));
 	echo '</TD>';
-	echo '</TR>';
-	echo '</TABLE>';
+	echo '</TR></TABLE>';
 
-	echo '</TD></TR>';
-	echo '</TABLE>';
 	PopTable('footer');
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';

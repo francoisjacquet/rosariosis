@@ -16,7 +16,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					DBQuery($sql);
 				}
 			}
-			$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('This course has been added as a request for the selected students.');
+			$note[] = button('check') .'&nbsp;'._('This course has been added as a request for the selected students.');
 		}
 		else
 			$error[] = _('You must choose at least one student.');
@@ -42,9 +42,15 @@ if($_REQUEST['modfunc']!='choose_course')
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+
 		DrawHeader('',SubmitButton(_('Add Request to Selected Students')));
-//modif Francois: css WPadmin
-		echo '<BR /><TABLE class="postbox cellspacing-0" style="margin:0 auto;"><TR><TH colspan="3"><H3>'._('Request to Add').'</H3></TH></TR><TR><TD style="text-align:right">&nbsp;</TD><TD style="padding: 8px;"><DIV id=course_div>';
+
+		echo '<BR />';
+
+		PopTable('header', _('Request to Add'));
+
+		echo '<TABLE><TR><TD>&nbsp;</TD><TD><DIV id="course_div">';
+
 		if($_SESSION['MassRequests.php'])
 		{
 			$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'"));
@@ -52,30 +58,46 @@ if($_REQUEST['modfunc']!='choose_course')
 
 			echo $course_title;
 		}
+
 		echo '</DIV>'.'<A HREF="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose a Course').'</A></TD></TR>';
-		echo '<TR><TD style="text-align:right; vertical-align:top;">'._('With').'</TD><TD>';
-		echo '<BR /><TABLE><TR><TD style="text-align:right">'._('Teacher').'</TD><TD><SELECT name=with_teacher_id><OPTION value="">'._('N/A').'</OPTION>';
+
+		echo '<TR><TD>'._('With').'</TD><TD>';
+
+		echo '<TABLE><TR class="st"><TD>'._('Teacher').'</TD><TD><SELECT name="with_teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
 		//modif Francois: fix bug teacher's schools is NULL
 		//$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE SCHOOLS LIKE '%,".UserSchool().",%' AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
 		$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS LIKE '%,".UserSchool().",%' OR SCHOOLS IS NULL) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
+
 		foreach($teachers_RET as $teacher)
 			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'].'</OPTION>';
-		echo '</SELECT></TD></TR><TR><TD style="text-align:right">'._('Period').'</TD><TD><SELECT name=with_period_id><OPTION value="">'._('N/A').'</OPTION>';
+
+		echo '</SELECT></TD></TR><TR class="st"><TD>'._('Period').'</TD><TD><SELECT name="with_period_id"><OPTION value="">'._('N/A').'</OPTION>';
+
 		$periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER"));
+
 		foreach($periods_RET as $period)
 			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
+
 		echo '</SELECT></TD></TR></TABLE>';
-		echo '</TD></TR>';
-		echo '<TR><TD style="text-align:right; vertical-align:top;">'._('Without').'</TD><TD>';
-		echo '<BR /><TABLE><TR><TD style="text-align:right">'._('Teacher').'</TD><TD><SELECT name=without_teacher_id><OPTION value="">'._('N/A').'</OPTION>';
+
+		echo '</TD></TR><TR><TD>'._('Without').'</TD><TD>';
+
+		echo '<TABLE><TR class="st"><TD>'._('Teacher').'</TD><TD><SELECT name="without_teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
+
 		foreach($teachers_RET as $teacher)
 			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'].'</OPTION>';
-		echo '</SELECT></TD></TR><TR><TD style="text-align:right">'._('Period').'</TD><TD><SELECT name="without_period_id"><OPTION value="">'._('N/A').'</OPTION>';
+
+		echo '</SELECT></TD></TR><TR class="st"><TD>'._('Period').'</TD><TD><SELECT name="without_period_id"><OPTION value="">'._('N/A').'</OPTION>';
+
 		foreach($periods_RET as $period)
 			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
+
 		echo '</SELECT></TD></TR></TABLE>';
-		echo '</TD></TR>';
-		echo '</TABLE><BR />';
+		echo '</TD></TR></TABLE>';
+
+		PopTable('footer');
+
+		echo '<BR />';
 	}
 }
 

@@ -5,21 +5,14 @@ include('Warehouse.php');
 if(isset($_REQUEST['modfunc']))
 if($_REQUEST['modfunc']=='logout')
 {
-	if($_SESSION)
-	{
-//modif Francois: set logout page to old session locale
-		$old_session_locale = $_SESSION['locale'];
-		session_destroy();
-//modif Francois: fix error Firefox has detected that the server is redirecting the request
-//		header("Location: $_SERVER[PHP_SELF]?modfunc=logout".(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
-//		header("Location: ".$_SERVER['PHP_SELF'].(($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
-		header("Location: ".$_SERVER['PHP_SELF'].'?locale='.$old_session_locale.(isset($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
-	}
-}
-elseif($_REQUEST['modfunc']=='create_account')
-{
-	if(!$ShowCreateAccount)
-		unset($_REQUEST['modfunc']);
+	//modif Francois: set logout page to old session locale
+	$old_session_locale = $_SESSION['locale'];
+	session_regenerate_id(true);
+	session_unset();
+	session_destroy();
+
+	header("Location: ".$_SERVER['PHP_SELF'].'?locale='.$old_session_locale.(isset($_REQUEST['reason'])?'&reason='.$_REQUEST['reason']:''));
+	exit;
 }
 
 if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD']) && $_POST['PASSWORD']!='')
@@ -47,6 +40,15 @@ if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD
 		
 		if ($student_RET && match_password($student_RET[1]['PASSWORD'], $_REQUEST['PASSWORD']))
 			unset($_REQUEST['PASSWORD'],$_REQUEST['USERNAME']);
+		//student account not verified (enrollment school + start date + last login are NULL)
+		elseif (DBGet(DBQuery("SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,s.FAILED_LOGIN,se.START_DATE 
+		FROM STUDENTS s,STUDENT_ENROLLMENT se 
+		WHERE UPPER(s.USERNAME)=UPPER('".$_REQUEST['USERNAME']."') 
+		AND se.STUDENT_ID=s.STUDENT_ID 
+		AND se.SYEAR='".Config('SYEAR')."' 
+		AND se.START_DATE IS NULL
+		AND s.LAST_LOGIN IS NULL")))
+			$student_RET = 0;
 		else
 			$student_RET = false;
 	}
@@ -80,7 +82,7 @@ if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD
 			exit;
 		}
 	}
-	elseif($login_RET && $login_RET[1]['PROFILE']=='none')
+	elseif(($login_RET && $login_RET[1]['PROFILE']=='none') || $student_RET===0 )
 		$error[] = _('Your account has not yet been activated.').' '._('You will be notified when it has been verified by a school administrator.');
 	elseif($student_RET)
 	{
@@ -97,28 +99,31 @@ if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD
 	}
 }
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='create_account')
+//modif Francois: create account
+if(isset($_REQUEST['create_account']))
 {
-	Warehouse('header');
-	$_ROSARIO['allow_edit'] = true;
-	if(!$_REQUEST['staff']['USERNAME'])
-	{
-		$_REQUEST['staff_id'] = 'new';
-		include('modules/Users/User.php');
-?>
-</BODY></HTML>
-<?php
-	}
+	$include = false;
+
+	if ($_REQUEST['create_account']=='user' && Config('CREATE_USER_ACCOUNT'))
+		$include = 'Users/User.php';
+	elseif ($_REQUEST['create_account']=='student' && Config('CREATE_STUDENT_ACCOUNT'))
+		$include = 'Students/Student.php';
+
+	if (!$include)
+		unset($_REQUEST['create_account']);
 	else
 	{
-		$_REQUEST['modfunc'] = 'update';
-		include('modules/Users/User.php');
-		$note[] = _('Your account has been created.').' '._('You will be notified when it has been verified by a school administrator.').' '._('You will then be able to log in.');
-		session_destroy();
+		Warehouse('header');
+
+		$_ROSARIO['allow_edit'] = true;
+		include('modules/'.$include);
+
+		Warehouse('footer');
 	}
 }
 
-if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='create_account')
+
+if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['create_account']))
 {
 	$RTL_languages = array('ar', 'he', 'dv', 'fa', 'ur');
 ?>
@@ -137,49 +142,66 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 <BR /><BR />
 <?php PopTable("header",sprintf(_('%s Login'),Config('NAME')), 'style="max-width:550px;"');
 	
-	if($_REQUEST['reason'])
-		echo ErrorMessage(array(sprintf(_('You must have javascript enabled to use %s.'),Config('NAME'))),'note');
-	if($error)
-		echo ErrorMessage($error); ?>
+	if(isset($_REQUEST['reason']))
+	{
+		if($_REQUEST['reason']=='javascript')
+			$note[] = sprintf(_('You must have javascript enabled to use %s.'),Config('NAME'));
+		//modif Francois: create account
+		elseif($_REQUEST['reason']=='account_created')
+			$note[] = _('Your account has been created.').' '._('You will be notified when it has been verified by a school administrator.').' '._('You will then be able to log in.');
+	}
+
+	if(isset($error))
+		echo ErrorMessage($error);
+
+	if(isset($note))
+		echo ErrorMessage($note,'note');
+
+?>
 
 	<TABLE>
 		<tr class="st">
 		<td class="center"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/logo.png" /></td>
 		<td>
-		<form name="loginform" method="post" action="index.php" class="login">
-		<h4><?php echo ParseMLField(Config('TITLE')); ?></h4>
-		<table class="cellspacing-0 col1-align-right">
+			<form name="loginform" method="post" action="index.php" class="login">
+			<h4><?php echo ParseMLField(Config('TITLE')); ?></h4>
+			<table class="cellspacing-0 col1-align-right">
 
-		<?php // ng - choose language
-		if (sizeof($RosarioLocales) > 1) : ?>
+			<?php // ng - choose language
+			if (sizeof($RosarioLocales) > 1) : ?>
 
-			<tr><td><b><?php echo _('Language'); ?></b></td>
-			<td>
-			<?php foreach ($RosarioLocales as $loc) : ?>
+				<tr><td><b><?php echo _('Language'); ?></b></td>
+				<td>
+				<?php foreach ($RosarioLocales as $loc) : ?>
 
-				<A href="<?php echo $_SERVER['PHP_SELF']; ?>?locale=<?php echo $loc; ?>"><IMG src="assets/flags/<?php echo $loc; ?>.png" height="32" /></A>&nbsp;&nbsp;
-			<?php endforeach; ?>
+					<A href="<?php echo $_SERVER['PHP_SELF']; ?>?locale=<?php echo $loc; ?>"><IMG src="assets/flags/<?php echo $loc; ?>.png" height="32" /></A>&nbsp;&nbsp;
+				<?php endforeach; ?>
 
-			</td></tr>
-		<?php endif; ?>
+				</td></tr>
+			<?php endif; ?>
 
-			<tr>
-				<td><label for="USERNAME"><b><?php echo _('Username'); ?></b></label></td>
-				<td><input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" tabindex="1" required /></td>
-			</tr>
-			<tr>
-				<td><label for="PASSWORD"><b><?php echo _('Password'); ?></b></label></td>
-				<td><input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" tabindex="2" required /></td>
-			</tr>
-		</table>
-		<p class="center"><INPUT type="submit" value="<?php echo _('Login'); ?>" class="button-primary" /></p>
+				<tr>
+					<td><label for="USERNAME"><b><?php echo _('Username'); ?></b></label></td>
+					<td><input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" tabindex="1" required /></td>
+				</tr>
+				<tr>
+					<td><label for="PASSWORD"><b><?php echo _('Password'); ?></b></label></td>
+					<td><input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" tabindex="2" required /></td>
+				</tr>
+			</table>
+			<p class="center"><INPUT type="submit" value="<?php echo _('Login'); ?>" class="button-primary" /></p>
 
-		<?php if($ShowCreateAccount) : ?>
+			<?php if(Config('CREATE_USER_ACCOUNT')) : ?>
 
-			<span class="center">[ <A HREF="index.php?modfunc=create_account"><?php echo _('Create Account'); ?></A> ]</span>
-		<?php endif; ?>
+				<span class="center">[ <A HREF="index.php?create_account=user&staff_id=new"><?php echo _('Create User Account'); ?></A> ]</span>
+			<?php endif;
 
-		</form>
+			if(Config('CREATE_STUDENT_ACCOUNT')) : ?>
+
+				<span class="center">[ <A HREF="index.php?create_account=student&student_id=new"><?php echo _('Create Student Account'); ?></A> ]</span>
+			<?php endif; ?>
+
+			</form>
 		</td>
 		</tr>
 		<?php // System disclaimer. ?>
@@ -202,7 +224,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && $_REQUEST['modfunc']!='
 </BODY></HTML>
 <?php
 }
-elseif(!isset($_REQUEST['modfunc']) || $_REQUEST['modfunc']!='create_account')//successfully logged in, display Portal
+elseif(!isset($_REQUEST['create_account']))//successfully logged in, display Portal
 {
 	$_REQUEST['modname']='misc/Portal.php';
 	$_REQUEST['failed_login']=$failed_login;

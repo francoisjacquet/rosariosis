@@ -29,20 +29,41 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						if($current_RET[$student_id])
 						{
 							DBQuery("UPDATE SCHEDULE SET END_DATE='".$END_DATE."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+
 							//$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
 							$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND END_DATE<START_DATE"));
 							
+							//User is asked if he wants absences and grades to be deleted
 							if(count($start_end_RET))
 							{
-								//DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND END_DATE IS NOT NULL AND END_DATE<START_DATE");
-								DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+								//if user clicked Cancel or OK or Display Prompt
+								if(DeletePrompt(_('Students\' Absences and Grades'), 'Delete', false))
+								{
+									//if user clicked OK
+									if ($_REQUEST['delete_ok'])
+									{
+										DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+										DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+										DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+										DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+									}
+									//else simply delete schedule entry
 
-								//hook
-								do_action('Scheduling/MassDrops.php|drop_student');
+									DBQuery("DELETE FROM SCHEDULE WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+
+									//hook
+									do_action('Scheduling/MassDrops.php|drop_student');
+								}
+								else
+									$schedule_deletion_pending = true;
 							}
+							else
+								DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SCHOOL_DATE>'".$END_DATE."'");
 						}
 					}
-					$note[] = '<IMG SRC="assets/check_button.png" class="alignImg" />&nbsp;'._('This course has been dropped for the selected students\' schedules.');
+
+					if(empty($schedule_deletion_pending))
+						$note[] = button('check') .'&nbsp;'._('This course has been dropped for the selected students\' schedules.');
 				}
 				else
 					$error[] = _('You cannot schedule a student into that course during this marking period.').' '.sprintf(_('This course meets on %s.'),GetMP($course_mp));
@@ -55,10 +76,13 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	}
 	else
 		$error[] = _('You must choose a course.');
-		
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
-	unset($_REQUEST['modfunc']);
-	unset($_SESSION['MassDrops.php']);
+
+	if(empty($schedule_deletion_pending))
+	{
+		unset($_SESSION['_REQUEST_vars']['modfunc']);
+		unset($_REQUEST['modfunc']);
+		unset($_SESSION['MassDrops.php']);
+	}
 }
 
 
@@ -74,8 +98,12 @@ if($_REQUEST['modfunc']!='choose_course')
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Drop Course for Selected Students')));
 
-//modif Francois: css WPadmin
-		echo '<BR /><TABLE class="postbox cellspacing-0" style="margin:0 auto;"><TR><TH><H3>'._('Course to Drop').'</H3></TH></TR><TR><TD><TABLE style="border-collapse:separate; border-spacing:4px;"><TR><TD colspan="2"><DIV id=course_div>';
+		echo '<BR />';
+
+		PopTable('header', _('Course to Drop'));
+
+		echo '<TABLE><TR><TD colspan="2"><DIV id=course_div>';
+
 		if($_SESSION['MassDrops.php'])
 		{
 			$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassDrops.php']['course_id']."'"));
@@ -94,9 +122,11 @@ if($_REQUEST['modfunc']!='choose_course')
 		foreach($mp_RET as $mp)
 			echo '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'">'.$mp['TITLE'].'</OPTION>';
 		echo '</SELECT>';
-		echo '</TD></TR>';
+		echo '</TD></TR></TABLE>';
 
-		echo '</TABLE></TD></TR></TABLE><BR />';
+		PopTable('footer');
+
+		echo '<BR />';
 	}
 }
 
