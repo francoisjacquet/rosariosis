@@ -390,7 +390,7 @@ if($_REQUEST['modfunc']=='list_events')
 }
 
 if(isset($error))
-	echo ErrorMessage($error,'fatal');
+	echo ErrorMessage($error);
 
 if(empty($_REQUEST['modfunc']))
 {
@@ -399,6 +399,7 @@ if(empty($_REQUEST['modfunc']))
 		$last--;
 
 	$calendar_RET = DBGet(DBQuery("SELECT to_char(SCHOOL_DATE,'dd-MON-YY') AS SCHOOL_DATE,MINUTES,BLOCK FROM ATTENDANCE_CALENDAR WHERE SCHOOL_DATE BETWEEN '".date('d-M-y',$time)."' AND '".date('d-M-y',mktime(0,0,0,$_REQUEST['month'],$last,$_REQUEST['year']))."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'"),array(),array('SCHOOL_DATE'));
+
 	if($_REQUEST['minutes'])
 	{
 		foreach($_REQUEST['minutes'] as $date=>$minutes)

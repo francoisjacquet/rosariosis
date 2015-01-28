@@ -23,6 +23,7 @@ Changes in 2.8
 - Update french & spanish translations
 - Session security in Warehouse.php & index.php
 - Responsive MultiLanguages inputs in stylesheet.css
+- Bugfix cannot create calendar after adding new school in Calendar.php
 
 Upgrade from 2.7.x
 ------------------
