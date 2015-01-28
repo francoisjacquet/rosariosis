@@ -160,8 +160,8 @@ code{
 	border-bottom:none
 }
 .widefat td{
-	padding:3px 7px 3px;
-	vertical-align:middle
+	padding:3px 7px;
+	vertical-align:top
 }
 .widefat th {
 	padding:6px 7px;
