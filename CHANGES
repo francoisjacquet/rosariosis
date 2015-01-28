@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.7.4
+----------------
+- Bugfix cannot create calendar after adding new school in Calendar.php
+
 Changes in 2.7.3
 ----------------
 - Bugfix SQL error invalid input syntax for type numeric in InputFinalGrades.php & Courses.php
