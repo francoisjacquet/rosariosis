@@ -389,11 +389,12 @@ if($_REQUEST['modfunc']=='list_events')
 	echo '</FORM>';
 }
 
-if(isset($error))
-	echo ErrorMessage($error);
-
 if(empty($_REQUEST['modfunc']))
 {
+
+	if(isset($error))
+		echo ErrorMessage($error);
+
 	$last = 31;
 	while(!checkdate($_REQUEST['month'], $last, $_REQUEST['year']))
 		$last--;
