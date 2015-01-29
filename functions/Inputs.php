@@ -1,16 +1,24 @@
 <?php
 
-function DateInput($value,$name,$title='',$div=true,$allow_na=true)
+function DateInput($value,$name,$title='',$div=true,$allow_na=true,$required=false)
 {
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
+		$options = array();
+
+		//modif Francois: date field is required
+		if ($required)
+			$options['required'] = true;
+
 		if($value=='' || $div==false)
-			return PrepareDate($value,'_'.$name,$allow_na).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+			return PrepareDate($value, '_'.$name, $allow_na, $options) . ($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 		else
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
-			
-			$input = PrepareDate($value,'_'.$name,$allow_na,array('Y'=>1,'M'=>1,'D'=>1)).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
+
+			$options = $options + array('Y'=>1,'M'=>1,'D'=>1);
+
+			$input = PrepareDate($value, '_'.$name, $allow_na, $options) . ($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
 
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($input).';</script>'.$return;
 			

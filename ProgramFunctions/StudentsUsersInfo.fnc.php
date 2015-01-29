@@ -18,10 +18,11 @@ function _makeTextInput($column,$name,$size,$request)
 	if($field['TYPE']=='numeric')
 		$value[$column] = str_replace('.00','',$value[$column]);
 
-//modif Francois: text field is required
-	//return TextInput($value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$size,$div);
-//modif Francois: text field maxlength=255
-	return TextInput($value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$size.' maxlength=255'.($field['REQUIRED']=='Y' ? ' required': ''),$div);
+	//modif Francois: text field is required
+	//modif Francois: text field maxlength=255
+	$options = $size.' maxlength=255'.($field['REQUIRED']=='Y' ? ' required': '');
+
+	return TextInput($value[$column], $request.'['.$column.']', $req[0].$name.$req[1], $options, $div);
 }
 
 function _makeDateInput($column,$name,$request)
@@ -39,7 +40,12 @@ function _makeDateInput($column,$name,$request)
 		$req = $field['REQUIRED']=='Y' && $value[$column]=='' ? array('<span class="legend-red">','</span>') : array('','');
 	}
 
-	return DateInput($value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$div);
+	//modif Francois: date field is required
+	$required = false;
+	if ($field['REQUIRED']=='Y')
+		$required = true;
+
+	return DateInput($value[$column], $request.'['.$column.']', $req[0].$name.$req[1], $div, true, $required);
 }
 
 //modif Francois: display age next to birthdate
@@ -97,8 +103,10 @@ function _makeSelectInput($column,$name,$request)
 				$options[$option] = $option;
 	}
 
-	$extra = 'style="max-width:250;"';
-	return SelectInput($value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$options,_('N/A'),$extra,$div);
+	//modif Francois: select field is required
+	$extra = 'style="max-width:250px;"'.($field['REQUIRED']=='Y' ? ' required': '');
+
+	return SelectInput($value[$column], $request.'['.$column.']', $req[0].$name.$req[1], $options, _('N/A'), $extra, $div);
 }
 
 function _makeAutoSelectInput($column,$name,$request)
@@ -125,6 +133,7 @@ function _makeAutoSelectInput($column,$name,$request)
 	}
 	else
 		$select_options = array();
+
 	if(count($select_options))
 	{
 		foreach($select_options as $option)
@@ -174,13 +183,16 @@ function _makeAutoSelectInput($column,$name,$request)
 					$options[$option['CUSTOM_'.$field['ID']]] = array($option['CUSTOM_'.$field['ID']],'<span style="color:blue">'.$option['CUSTOM_'.$field['ID']].'</span>');
 		}
 	}
+
 	// make sure the current value is in the list
 	if($value[$column]!='' && !$options[$value[$column]])
 		$options[$value[$column]] = array($value[$column],'<span style="color:'.($field['TYPE']=='autos'?'blue':'green').'">'.$value[$column].'</span>');
 
 	if($value[$column]!='---' && count($options)>1)
 	{
-		$extra = 'style="max-width:250;"';
+		//modif Francois: select field is required
+		$extra = 'style="max-width:250px;"'.($field['REQUIRED']=='Y' ? ' required': '');
+
 		return SelectInput($value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$options,_('N/A'),$extra,$div);
 	}
 	else
@@ -226,6 +238,7 @@ function _makeMultipleInput($column,$name,$request)
 	{
 		$field['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
 		$select_options = explode("\r",$field['SELECT_OPTIONS']);
+
 		if(count($select_options))
 		{
 			foreach($select_options as $option)
@@ -238,6 +251,7 @@ function _makeMultipleInput($column,$name,$request)
 		}
 		
 		$table = '<TABLE class="cellpadding-5">';
+
 		if(count($options)>12)
 		{
 			$table .= '<TR><TD colspan="2">';
@@ -245,22 +259,27 @@ function _makeMultipleInput($column,$name,$request)
 			$table .= '<TABLE class="width-100p" style="height: 7px; border:1;border-style: solid solid none solid;"><TR><TD></TD></TR></TABLE>';
 			$table .= '</TD></TR>';
 		}
+
 		$table .= '<TR>';
+
 		$i = 0;
 		foreach($options as $option)
 		{
 			if($i%2==0)
 				$table .= '</TR><TR>';
-//modif Francois: add <label> on checkbox
-			$table .= '<TD><label><INPUT type="checkbox" name="'.$request.'['.$column.'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($value[$column],'||'.$option.'||')!==false?' checked':'').'> '.$option.'</label></TD>';
+
+			//modif Francois: add <label> on checkbox
+			$table .= '<TD><label><INPUT type="checkbox" name="'.$request.'['.$column.'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($value[$column],'||'.$option.'||')!==false?' checked':'').' /> '.$option.'</label></TD>';
 			$i++;
 		}
+
 		$table .= '</TR><TR><TD colspan="2">';
-//modif Francois: fix bug none selected not saved
+		//modif Francois: fix bug none selected not saved
 		$table .= '<INPUT type="hidden" name="'.$request.'['.$column.'][none]" value="">';
 		$table .= '<TABLE class="width-100p" style="height:7px; border:1; border-style:none solid solid solid;"><TR><TD></TD></TR></TABLE>';
 
 		$table .= '</TD></TR></TABLE>';
+
 		if($value[$column]!='')
 		{
 			echo '<script>var html'.$request.$column.'='.json_encode($table).';</script>'.$return;

@@ -94,11 +94,13 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 
 	if($options=='')
 		$options = array();
+
 	if(!$options['Y'] && !$options['M'] && !$options['D'] && !$options['C'])
 		$options += array('Y'=>true,'M'=>true,'D'=>true,'C'=>true);
 
 	if($options['short']==true)
 		$extraM = "style='width:65;' ";
+
 	if($options['submit']==true)
 	{
 		if($options['C'])
@@ -127,6 +129,13 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 
 	if($options['C'])
 		$_ROSARIO['PrepareDate']++;
+
+	if($options['required']==true)
+	{
+		$extraM .= " required";
+		$extraD .= " required";
+		$extraY .= " required";
+	}
 
 	if(mb_strlen($date)==9) // ORACLE
 	{
