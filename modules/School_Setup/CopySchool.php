@@ -5,8 +5,14 @@ $tables = array('CONFIG'=>_('School Configuration'),'SCHOOL_PERIODS'=>_('School 
 $table_list = '<TABLE style="float: left">';
 foreach($tables as $table=>$name)
 {
-//modif Francois: add <label> on checkbox
-	$table_list .= '<TR><TD><label><INPUT type="checkbox" value="Y" name="tables['.$table.']" checked />&nbsp;'.$name.'</label></TD></TR>';
+	//modif Francois: force School Configuration copy
+	$force_checked = false;
+	if ($table=='CONFIG')
+		$force_checked = true;
+
+	$table_list .= '<TR><TD>
+	<label><INPUT type="checkbox" value="Y" name="tables['.$table.']" checked '.($force_checked ? 'disabled':'').' />&nbsp;'.$name.'</label>
+	</TD></TR>';
 }
 //modif Francois: add translation
 $table_list .= '</TABLE><BR />'._('New School\'s Title').' <INPUT type="text" name="title" value="'._('New School').'">';
