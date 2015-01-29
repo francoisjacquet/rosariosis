@@ -74,19 +74,27 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 	if(count($_POST['staff']) && (User('PROFILE')=='admin' || basename($_SERVER['PHP_SELF'])=='index.php'))
 	{
+		$required_error = false;
+
 		//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME is null
 		if ((isset($_REQUEST['staff']['FIRST_NAME']) && empty($_REQUEST['staff']['FIRST_NAME'])) || (isset($_REQUEST['staff']['LAST_NAME']) && empty($_REQUEST['staff']['LAST_NAME'])))
-		{
-			$error[] = _('Please fill in the required fields');
-		}
+			$required_error = true;
+
+		//modif Francois: other fields required
+		$others_required_RET = DBGet(DBQuery("SELECT ID FROM STAFF_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."' AND REQUIRED='Y'"));
+		if (count($others_required_RET))
+			foreach($others_required_RET as $other_required)
+				if (isset($_REQUEST['staff']['CUSTOM_'.$other_required['ID']]) && empty($_REQUEST['staff']['CUSTOM_'.$other_required['ID']]))
+					$required_error = true;
 
 		//modif Francois: create account
 		//username & password required
 		if (basename($_SERVER['PHP_SELF'])=='index.php')
 			if ((isset($_REQUEST['staff']['USERNAME']) && empty($_REQUEST['staff']['USERNAME'])) || (isset($_REQUEST['staff']['PASSWORD']) && empty($_REQUEST['staff']['PASSWORD'])))
-			{
-				$error[] = _('Please fill in the required fields');
-			}
+				$required_error = true;
+
+		if ($required_error)
+			$error[] = _('Please fill in the required fields');
 
 		//check username unicity
 		$existing_username = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."' AND STAFF_ID!='".UserStaffID()."' UNION SELECT 'exists' FROM STUDENTS WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."'"));
@@ -338,7 +346,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 	elseif(basename($_SERVER['PHP_SELF'])!='index.php')
 		echo '<FORM name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 	else
-		echo '<FORM action="index.php?create_account=user&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
+		echo '<FORM action="index.php?create_account=user&staff_id=new&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
 
 	if(basename($_SERVER['PHP_SELF'])!='index.php')
 	{

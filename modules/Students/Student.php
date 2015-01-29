@@ -62,19 +62,27 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 	if((count($_REQUEST['students']) || count($_REQUEST['values'])) && AllowEdit())
 	{
+		$required_error = false;
+
 		//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME is null
 		if ((isset($_REQUEST['students']['FIRST_NAME']) && empty($_REQUEST['students']['FIRST_NAME'])) || (isset($_REQUEST['students']['LAST_NAME']) && empty($_REQUEST['students']['LAST_NAME'])))
-		{
-			$error[] = _('Please fill in the required fields');
-		}
+			$required_error = true;
+
+		//modif Francois: other fields required
+		$others_required_RET = DBGet(DBQuery("SELECT ID FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."' AND REQUIRED='Y'"));
+		if (count($others_required_RET))
+			foreach($others_required_RET as $other_required)
+				if (isset($_REQUEST['students']['CUSTOM_'.$other_required['ID']]) && empty($_REQUEST['students']['CUSTOM_'.$other_required['ID']]))
+					$required_error = true;
 
 		//modif Francois: create account
 		//username & password required
 		if (basename($_SERVER['PHP_SELF'])=='index.php')
 			if ((isset($_REQUEST['students']['USERNAME']) && empty($_REQUEST['students']['USERNAME'])) || (isset($_REQUEST['students']['PASSWORD']) && empty($_REQUEST['students']['PASSWORD'])))
-			{
-				$error[] = _('Please fill in the required fields');
-			}
+				$required_error = true;
+
+		if ($required_error)
+			$error[] = _('Please fill in the required fields');
 
 		//check username unicity
 		$existing_username = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['students']['USERNAME']."' AND SYEAR='".UserSyear()."' UNION SELECT 'exists' FROM STUDENTS WHERE USERNAME='".$_REQUEST['students']['USERNAME']."' AND STUDENT_ID!='".UserStudentID()."'"));
@@ -342,7 +350,7 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 		//modif Francois: create account
 		else
-			echo '<FORM action="index.php?create_account=student&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
+			echo '<FORM action="index.php?create_account=student&student_id=new&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
 
 		if($_REQUEST['student_id']!='new')
 			$name = $student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].' - '.$student['STUDENT_ID'];
