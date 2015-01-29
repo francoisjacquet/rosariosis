@@ -84,9 +84,10 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
 					$sql = "INSERT INTO PROGRAM_CONFIG (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."';";
 					DBQuery($sql);
 					
-					$_SESSION['UserSchool'] = $id;
-					
 					unset($_REQUEST['new_school']);
+
+					//set new current school
+					$_SESSION['UserSchool'] = $id;
 				}
 			}
 			UpdateSchoolArray(UserSchool());
@@ -117,12 +118,13 @@ if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Delete') && User('P
 		DBQuery("DELETE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 		DBQuery("DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 
-		unset($_SESSION['UserSchool']);
-		//unset($_REQUEST);
-		//$_REQUEST['modname'] = "School_Setup/Schools.php&new_school=true";
-		$_REQUEST['new_school'] = 'true';
 		unset($_REQUEST['modfunc']);
-        UpdateSchoolArray(UserSchool());
+
+		//set current school to one of the remaining schools
+		$first_remaining_school = DBGet(DBQuery("SELECT ID FROM SCHOOLS WHERE SYEAR = '".UserSyear()."' LIMIT 1"));
+		$_SESSION['UserSchool'] = $first_remaining_school[1]['ID'];
+
+		UpdateSchoolArray(UserSchool());
 	}
 }
 

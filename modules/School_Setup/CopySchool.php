@@ -39,6 +39,10 @@ if(Prompt(_('Confirm Copy School'),sprintf(_('Are you sure you want to copy the 
 	echo '</FORM>';
 	unset($_SESSION['_REQUEST_vars']['tables']);
 	unset($_SESSION['_REQUEST_vars']['delete_ok']);
+
+	//set new current school
+	$_SESSION['UserSchool'] = $id;
+	UpdateSchoolArray(UserSchool());
 }
 
 function _rollover($table)
