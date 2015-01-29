@@ -23,7 +23,8 @@ Changes in 2.8
 - Update french & spanish translations
 - Session security in Warehouse.php & index.php
 - Responsive MultiLanguages inputs in stylesheet.css
-- Bugfix cannot create calendar after adding new school in Calendar.php
+- Force School Configuration copy in CopySchool.php
+- Set new current school after copy & delete school in CopySchool.php & Schools.php
 
 Upgrade from 2.7.x
 ------------------
@@ -31,6 +32,10 @@ Upgrade from 2.7.x
 - Execute the SQL commands, see https://gist.github.com/francoisjacquet/b451c8006d5e1978fb0d
 - Note: you can activate Registration via School Setup > School Configuration
 
+
+Changes in 2.7.4
+----------------
+- Bugfix cannot create calendar after adding new school in Calendar.php
 
 Changes in 2.7.3
 ----------------
