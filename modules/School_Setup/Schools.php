@@ -1,5 +1,7 @@
 <?php
-unset($_SESSION['_REQUEST_vars']['values']);unset($_SESSION['_REQUEST_vars']['modfunc']);
+unset($_SESSION['_REQUEST_vars']['values']);
+unset($_SESSION['_REQUEST_vars']['modfunc']);
+
 DrawHeader(ProgramTitle());
 
 if($_REQUEST['month_values'] && $_POST['month_values'])
@@ -23,109 +25,111 @@ if($_REQUEST['month_values'] && $_POST['month_values'])
 	$_POST['values'] = $_REQUEST['values'];
 }
 
-if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Save'))
+if($_REQUEST['modfunc']=='update')
 {
-	if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+	if($_REQUEST['button']==_('Save') && AllowEdit())
 	{
-		if ((empty($_REQUEST['values']['NUMBER_DAYS_ROTATION']) || is_numeric($_REQUEST['values']['NUMBER_DAYS_ROTATION'])) && (empty($_REQUEST['values']['REPORTING_GP_SCALE']) || is_numeric($_REQUEST['values']['REPORTING_GP_SCALE'])))
+		if($_REQUEST['values'] && $_POST['values'])
 		{
-			if($_REQUEST['new_school']!='true')
+			if ((empty($_REQUEST['values']['NUMBER_DAYS_ROTATION']) || is_numeric($_REQUEST['values']['NUMBER_DAYS_ROTATION'])) && (empty($_REQUEST['values']['REPORTING_GP_SCALE']) || is_numeric($_REQUEST['values']['REPORTING_GP_SCALE'])))
 			{
-				$sql = "UPDATE SCHOOLS SET ";
-
-				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM SCHOOL_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
-				
-				$go = 0;
-				
-				foreach($_REQUEST['values'] as $column=>$value)
+				if($_REQUEST['new_school']!='true')
 				{
-					if(1)//!empty($value) || $value=='0')
+					$sql = "UPDATE SCHOOLS SET ";
+
+					$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM SCHOOL_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
+				
+					$go = 0;
+				
+					foreach($_REQUEST['values'] as $column=>$value)
 					{
-						//modif Francois: check numeric fields
-						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
+						if(1)//!empty($value) || $value=='0')
 						{
-							$error[] = _('Please enter valid Numeric data.');
-							continue;
-						}
+							//modif Francois: check numeric fields
+							if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
+							{
+								$error[] = _('Please enter valid Numeric data.');
+								continue;
+							}
 						
-						$sql .= $column."='".$value."',";
-						$go = true;
+							$sql .= $column."='".$value."',";
+							$go = true;
+						}
+					}
+					$sql = mb_substr($sql,0,-1) . " WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'";
+					if ($go)
+					{
+						DBQuery($sql);
+						$note[] = button('check') .'&nbsp;'._('This school has been modified.');
 					}
 				}
-				$sql = mb_substr($sql,0,-1) . " WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'";
-				if ($go)
+				else
 				{
-					DBQuery($sql);
-					$note[] = button('check') .'&nbsp;'._('This school has been modified.');
+					$fields = $values = '';
+
+					foreach($_REQUEST['values'] as $column=>$value)
+						if($column!='ID' && $value)
+						{
+							$fields .= ','.$column;
+							$values .= ",'".$value."'";
+						}
+
+					if($fields && $values)
+					{
+						$id = DBGet(DBQuery("SELECT ".db_seq_nextval('SCHOOLS_SEQ')." AS ID".FROM_DUAL));
+						$id = $id[1]['ID'];
+						$sql = "INSERT INTO SCHOOLS (ID,SYEAR$fields) values('".$id."','".UserSyear()."'$values)";
+						DBQuery($sql);
+						DBQuery("UPDATE STAFF SET SCHOOLS=rtrim(SCHOOLS,',')||',$id,' WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOLS IS NOT NULL");
+				
+						//modif Francois: copy School Configuration
+						$sql = "INSERT INTO CONFIG (SCHOOL_ID,CONFIG_VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,CONFIG_VALUE,TITLE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."';";
+						DBQuery($sql);
+						$sql = "INSERT INTO PROGRAM_CONFIG (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."';";
+						DBQuery($sql);
+					
+						unset($_REQUEST['new_school']);
+
+						//set new current school
+						$_SESSION['UserSchool'] = $id;
+					}
 				}
+				UpdateSchoolArray(UserSchool());
 			}
 			else
-			{
-				$fields = $values = '';
+				$error[] = _('Please enter valid Numeric data.');
+		}
+		
+		unset($_REQUEST['modfunc']);
+		unset($_SESSION['_REQUEST_vars']['values']);
+		unset($_SESSION['_REQUEST_vars']['modfunc']);
+	}
+	elseif($_REQUEST['button']==_('Delete') && User('PROFILE')=='admin' && AllowEdit())
+	{
+		if(DeletePrompt(_('School')))
+		{
+			DBQuery("DELETE FROM SCHOOLS WHERE ID='".UserSchool()."'");
+			DBQuery("DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."'");
+			DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."'");
+			DBQuery("DELETE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."'");
+			DBQuery("DELETE FROM SCHOOL_MARKING_PERIODS WHERE SCHOOL_ID='".UserSchool()."'");
+			DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID=NULL WHERE CURRENT_SCHOOL_ID='".UserSchool()."'");
+			DBQuery("UPDATE STAFF SET SCHOOLS=replace(SCHOOLS,',".UserSchool().",',',')");
+			//modif Francois: add School Configuration
+			DBQuery("DELETE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
+			DBQuery("DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 
-				foreach($_REQUEST['values'] as $column=>$value)
-					if($column!='ID' && $value)
-					{
-						$fields .= ','.$column;
-						$values .= ",'".$value."'";
-					}
+			unset($_REQUEST['modfunc']);
 
-				if($fields && $values)
-				{
-					$id = DBGet(DBQuery("SELECT ".db_seq_nextval('SCHOOLS_SEQ')." AS ID".FROM_DUAL));
-					$id = $id[1]['ID'];
-					$sql = "INSERT INTO SCHOOLS (ID,SYEAR$fields) values('".$id."','".UserSyear()."'$values)";
-					DBQuery($sql);
-					DBQuery("UPDATE STAFF SET SCHOOLS=rtrim(SCHOOLS,',')||',$id,' WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOLS IS NOT NULL");
-				
-//modif Francois: copy School Configuration
-					$sql = "INSERT INTO CONFIG (SCHOOL_ID,CONFIG_VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,CONFIG_VALUE,TITLE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."';";
-					DBQuery($sql);
-					$sql = "INSERT INTO PROGRAM_CONFIG (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."';";
-					DBQuery($sql);
-					
-					unset($_REQUEST['new_school']);
+			//set current school to one of the remaining schools
+			$first_remaining_school = DBGet(DBQuery("SELECT ID FROM SCHOOLS WHERE SYEAR = '".UserSyear()."' LIMIT 1"));
+			$_SESSION['UserSchool'] = $first_remaining_school[1]['ID'];
 
-					//set new current school
-					$_SESSION['UserSchool'] = $id;
-				}
-			}
 			UpdateSchoolArray(UserSchool());
 		}
-		else
-		{
-			$error[] = _('Please enter valid Numeric data.');
-		}
 	}
-		
-	unset($_REQUEST['modfunc']);
-	unset($_SESSION['_REQUEST_vars']['values']);
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
-}
-
-if($_REQUEST['modfunc']=='update' && $_REQUEST['button']==_('Delete') && User('PROFILE')=='admin')
-{
-	if(DeletePrompt(_('School')))
-	{
-		DBQuery("DELETE FROM SCHOOLS WHERE ID='".UserSchool()."'");
-		DBQuery("DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."'");
-		DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."'");
-		DBQuery("DELETE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."'");
-		DBQuery("DELETE FROM SCHOOL_MARKING_PERIODS WHERE SCHOOL_ID='".UserSchool()."'");
-		DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID=NULL WHERE CURRENT_SCHOOL_ID='".UserSchool()."'");
-		DBQuery("UPDATE STAFF SET SCHOOLS=replace(SCHOOLS,',".UserSchool().",',',')");
-//modif Francois: add School Configuration
-		DBQuery("DELETE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
-		DBQuery("DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
-
+	else
 		unset($_REQUEST['modfunc']);
-
-		//set current school to one of the remaining schools
-		$first_remaining_school = DBGet(DBQuery("SELECT ID FROM SCHOOLS WHERE SYEAR = '".UserSyear()."' LIMIT 1"));
-		$_SESSION['UserSchool'] = $first_remaining_school[1]['ID'];
-
-		UpdateSchoolArray(UserSchool());
-	}
 }
 
 if(empty($_REQUEST['modfunc']))
@@ -151,11 +155,14 @@ if(empty($_REQUEST['modfunc']))
 	if ($_REQUEST['new_school']!='true' && $_SESSION['SchoolData']['SCHOOLS_NB'] > 1)
 		$delete_button = true;
 		
-//modif Francois: fix bug: no save button if no admin
+	//modif Francois: fix bug: no save button if no admin
 	if(User('PROFILE')=='admin' && AllowEdit())
 		DrawHeader('',SubmitButton(_('Save'), 'button').($delete_button?SubmitButton(_('Delete'), 'button'):''));
+
 	echo '<BR />';
+
 	PopTable('header',$school_name);
+
 	echo '<FIELDSET><TABLE>';
 
 	if ($_REQUEST['new_school']!='true')
