@@ -66,8 +66,10 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 	if($_REQUEST['staff']['SCHOOLS'])
 	{
 		foreach($_REQUEST['staff']['SCHOOLS'] as $school_id=>$yes)
-			$schools .= ','.$school_id;
-		$_REQUEST['staff']['SCHOOLS'] = $schools.',';
+			if ($yes == 'Y')
+				$schools .= ','.$school_id;
+
+		$_REQUEST['staff']['SCHOOLS'] = empty($schools) ? '' : $schools.',';
 	}
 /*	else
 		$_REQUEST['staff']['SCHOOLS'] = $_POST['staff'] = '';*/
