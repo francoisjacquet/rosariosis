@@ -9,45 +9,92 @@ $old_period = UserCoursePeriod();
 
 $addJavascripts = '';
 
-//change current School from menu
-if(isset($_POST['school']) && $_POST['school']!=$old_school)
-{
-	unset($_SESSION['student_id']);
-	$_SESSION['unset_student'] = true;
-	unset($_SESSION['staff_id']);
-	unset($_SESSION['UserMP']);
-	unset($_POST['mp']);
-}
-
 //change current School/Syear/CoursePeriod/MarkingPeriod/Student from menu
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='update' && is_array($_POST))
+if(isset($_REQUEST['sidefunc']) && $_REQUEST['sidefunc']=='update' && is_array($_POST))
 {
-	if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && isset($_POST['school']) && $_POST['school']!=$old_school)
+	//update current School
+	if(isset($_POST['school']) && $_POST['school']!=$old_school)
 	{
-		$_SESSION['UserSchool'] = $_POST['school'];
-		DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID='".UserSchool()."' WHERE STAFF_ID='".User('STAFF_ID')."'");
-	}
+		unset($_SESSION['student_id']);
+		$_SESSION['unset_student'] = true;
+		unset($_SESSION['staff_id']);
+		unset($_SESSION['UserMP']);
+		unset($_POST['mp']);
 
-	if (isset($_POST['syear']) && $_POST['syear']!=$old_syear)
-		$_SESSION['UserSyear'] = $_POST['syear'];
-		
-	if (isset($_POST['period']) && $_POST['period']!=$old_period)
-		$_SESSION['UserCoursePeriod'] = $_POST['period'];
-		
-	if (isset($_POST['mp']))
-		$_SESSION['UserMP'] = $_POST['mp'];
-		
-	if(User('PROFILE')=='parent' && isset($_POST['student_id']))
+		if((User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
+		{
+			$_SESSION['UserSchool'] = $_POST['school'];
+			DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID='".UserSchool()."' WHERE STAFF_ID='".User('STAFF_ID')."'");
+		}
+	}
+	//update current Syear
+	elseif (isset($_POST['syear']) && $_POST['syear']!=$old_syear)
 	{
-		if(UserStudentID()!=$_POST['student_id'])
-			unset($_SESSION['UserMP']);
+		$_SESSION['UserSyear'] = $_POST['syear'];
+
+		//if current User, update user ID according to new Syear OR remove if does not exist
+		if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && UserStaffID())
+		{
+			//search User in next Syear
+			if ($old_syear == UserSyear() - 1)
+				$new_staff_id_RET = DBGet(DBQuery("SELECT STAFF_ID FROM STAFF WHERE ROLLOVER_ID='".UserStaffID()."'"));
+			//search User in previous Syear
+			elseif ($old_syear == UserSyear() + 1)
+				$new_staff_id_RET = DBGet(DBQuery("SELECT ROLLOVER_ID AS STAFF_ID FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
+			//more than 1 year difference, remove User
+			else
+				$new_staff_id_RET = null;
+
+			if(count($new_staff_id_RET))
+			{
+				SetUserStaffID($new_staff_id_RET[1]['STAFF_ID']);
+
+				//remove staff_id from URL
+				unset($_SESSION['_REQUEST_vars']['staff_id']);
+
+			}
+			else
+			{
+				unset($_SESSION['staff_id']);
+				unset($_SESSION['_REQUEST_vars']['staff_id']);
+			}
+		}
+
+		//if current Student not enrolled in new Syear, remove
+		if(in_array(User('PROFILE'), array('admin', 'teacher', 'parent')) && UserStudentID())
+		{
+			$is_student_enrolled = DBGet(DBQuery("SELECT 'ENROLLED' FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND STUDENT_ID='".UserStudentID()."'"));
+
+			//remove Student if not enrolled in new Syear
+			if(!count($is_student_enrolled))
+			{
+				unset($_SESSION['student_id']);
+				unset($_SESSION['_REQUEST_vars']['student_id']);
+				$_SESSION['unset_student'] = true;
+			}
+		}
+	}
+	//update current CoursePeriod
+	elseif (isset($_POST['period']) && $_POST['period']!=$old_period)
+	{
+		$_SESSION['UserCoursePeriod'] = $_POST['period'];
+	}
+	//update current MarkingPeriod
+	elseif (isset($_POST['mp']) && $_POST['mp']!=$_SESSION['UserMP'])
+	{
+		$_SESSION['UserMP'] = $_POST['mp'];
+	}
+	//update current Student for Parents
+	elseif(User('PROFILE')=='parent' && isset($_POST['student_id']) && UserStudentID()!=$_POST['student_id'])
+	{
+		unset($_SESSION['UserMP']);
 
 		SetUserStudentID($_POST['student_id']);
 	}
 
+	//update "body" Module page
 	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'])).'"; body_link.target = "body"; ajaxLink(body_link);';
 }
-
 //set current Syear/Student/User/School/MarkingPeriod after login
 if(!UserSyear())
 	$_SESSION['UserSyear'] = Config('SYEAR');
@@ -96,10 +143,10 @@ if((User('PROFILE')=='admin' || User('PROFILE')=='teacher'))
 
 		unset($_SESSION['_REQUEST_vars']['search_modfunc']);
 
+		//update "body" Module page
 		$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'"; body_link.target = "body"; ajaxLink(body_link);';
 	}
 }
-unset($_REQUEST['modfunc']);
 
 //set menu Student/User/School/CoursePeriod, verify if have been changed in Modules.php
 $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID = "'.UserStaffID().'"; var menuSchool = "'.UserSchool().'"; var menuCoursePeriod = "'.UserCoursePeriod().'";';
@@ -111,7 +158,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 		<?php // User Information ?>
 
 		<a href="index.php" target="_top"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/logo.png" id="SideLogo" /></a>
-		<FORM action="Side.php?modfunc=update" method="POST" target="menu">
+		<FORM action="Side.php?sidefunc=update" method="POST" target="menu">
 			<span class="br-after">&nbsp;<b><?php echo User('NAME'); ?></b></span>
 			&nbsp;<?php echo mb_convert_case(iconv('','UTF-8',strftime('%A %B %d, %Y')), MB_CASE_TITLE, "UTF-8"); ?><BR />
 
@@ -323,8 +370,6 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 				{
 					$_SESSION['UserCoursePeriod'] = $RET[1]['COURSE_PERIOD_ID'];
 					$_SESSION['UserPeriod'] = $RET[1]['PERIOD_ID'];
-					unset($_SESSION['student_id']);
-					$_SESSION['unset_student'] = true;
 				} ?>
 
 				</SELECT>
