@@ -69,7 +69,11 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			if ($yes == 'Y')
 				$schools .= ','.$school_id;
 
-		$_REQUEST['staff']['SCHOOLS'] = empty($schools) ? '' : $schools.',';
+		//modif Francois: remove Schools for Parents
+		if(isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']=='parent')
+			$_REQUEST['staff']['SCHOOLS'] = '';
+		else
+			$_REQUEST['staff']['SCHOOLS'] = empty($schools) ? '' : $schools.',';
 	}
 /*	else
 		$_REQUEST['staff']['SCHOOLS'] = $_POST['staff'] = '';*/

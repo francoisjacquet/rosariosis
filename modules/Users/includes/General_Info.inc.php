@@ -139,25 +139,29 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 
 	echo '</TD><TD>';
 
-	$sql = "SELECT ID,TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."'";
-	$QI = DBQuery($sql);
-	$schools_RET = DBGet($QI);
-	unset($options);
-	if(count($schools_RET))
+	//modif Francois: remove Schools for Parents
+	if ($staff['PROFILE']!='parent')
 	{
-		$i = 0;
-		echo '<TABLE><TR class="st">';
-		foreach($schools_RET as $value)
+		$sql = "SELECT ID,TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."'";
+		$QI = DBQuery($sql);
+		$schools_RET = DBGet($QI);
+		unset($options);
+		if(count($schools_RET))
 		{
-			if($i%3==0)
-				echo '</TR><TR class="st">';
-			echo '<TD>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'], '', false, button('check'), button('x')).'</TD>';
-			$i++;
+			$i = 0;
+			echo '<TABLE><TR class="st">';
+			foreach($schools_RET as $value)
+			{
+				if($i%3==0)
+					echo '</TR><TR class="st">';
+				echo '<TD>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'], '', false, button('check'), button('x')).'</TD>';
+				$i++;
+			}
+			echo '</TR></TABLE>';
+			echo '<span class="legend-gray">'._('Schools').'</span>';
 		}
-		echo '</TR></TABLE>';
-		echo '<span class="legend-gray">'._('Schools').'</span>';
+		//echo SelectInput($staff['SCHOOL_ID'],'staff[SCHOOL_ID]','School',$options,'All Schools');
 	}
-	//echo SelectInput($staff['SCHOOL_ID'],'staff[SCHOOL_ID]','School',$options,'All Schools');
 	echo '</TD></TR>';
 }
 
