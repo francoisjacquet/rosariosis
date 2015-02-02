@@ -184,14 +184,22 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		case 'Users/User.php|header':
 			global $old_user_in_moodle;
 
-			//propose to create user in Moodle: if 1) this is a creation, 2) this is an already created user but not in Moodle yet
+			//propose to create user in Moodle: if
+			//1) this is a creation
+			//2) this is an already created user but not in Moodle yet
+			//3) the users have not been rolled yet
 			if (AllowEdit() && $_REQUEST['include']=='General_Info')
 			{
 				//2) verify the user is not in Moodle:
 				if (UserStaffID())
 					$old_user_in_moodle = IsMoodleUser(UserStaffID());
-		
-				if ($_REQUEST['staff_id']=='new' || !$old_user_in_moodle)
+
+				//3) verify the users have not been rolled yet:
+				$users_rolled = false;
+				if (count(DBGet(DBQuery("SELECT 'ROLLED' FROM STAFF WHERE SYEAR='".(UserSyear()+1)."'"))))
+					$users_rolled = true;
+
+				if (($_REQUEST['staff_id']=='new' || !$old_user_in_moodle) && !$users_rolled)
 					DrawHeader('<label>'.CheckBoxOnclick('moodle_create_user').'&nbsp;'._('Create User in Moodle').'</label>');
 			}
 
