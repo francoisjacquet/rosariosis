@@ -40,10 +40,10 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 			if($extra['profile'])
 				$options = array($extra['profile']=>$options[$extra['profile']]);
 
-			echo '<TR><TD style="text-align:right;"><label for="profile">'._('Profile').'</label></TD><TD><SELECT name="profile" id="profile">';
+			echo '<TR><TD><label for="profile">'._('Profile').'</label></TD><TD><SELECT name="profile" id="profile">';
 
 			foreach($options as $key=>$val)
-				echo '<OPTION value="'.$key.'">'.$val;
+				echo '<OPTION value="'.$key.'">'.$val.'</OPTION>';
 
 			echo '</SELECT></TD></TR>';
 
@@ -137,7 +137,9 @@ else
 	{
 		if(!isset($extra))
 			$extra = array();
+
 		StaffWidgets('user',$extra);
+
 		if($_REQUEST['advanced']=='Y')
 			StaffWidgets('all',$extra);
 	}
@@ -158,7 +160,7 @@ else
 
 	if($extra['profile'])
 	{
-        // DO NOT translate those strings since they will be passed to ListOutput ultimately
+		// DO NOT translate those strings since they will be passed to ListOutput ultimately
 		$options = array('admin'=>'Administrator','teacher'=>'Teacher','parent'=>'Parent','none'=>'No Access');
 		$singular = $options[$extra['profile']];
 		$plural = $singular.($options[$extra['profile']]=='none'?'':'s');
