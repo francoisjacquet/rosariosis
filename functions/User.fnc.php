@@ -31,6 +31,9 @@ function User($item)
 			if($_ROSARIO['User'][1]['SCHOOL_ID']!=UserSchool())
 				$_SESSION['UserSchool'] = $_ROSARIO['User'][1]['SCHOOL_ID'];
 		}
+		//modif Francois: create account
+		elseif(basename($_SERVER['PHP_SELF'])=='index.php')
+			return false;
 		else
 			exit('Error');
 	}
