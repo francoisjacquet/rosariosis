@@ -116,6 +116,8 @@ if(isset($_REQUEST['create_account']))
 		Warehouse('header');
 
 		$_ROSARIO['allow_edit'] = true;
+		$_SESSION['STAFF_ID'] = -1;
+
 		include('modules/'.$include);
 
 		Warehouse('footer');
