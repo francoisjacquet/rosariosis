@@ -145,6 +145,8 @@ function Search($type,$extra=null)
 
 			foreach($categories_RET as $search_fields_RET)
 			{
+				$TR_classes = '';
+
 				if($type=='student_fields_all' || $type=='staff_fields_all')
 				{
 					echo '<TR><TD colspan="2">
@@ -154,12 +156,14 @@ function Search($type,$extra=null)
 					<BR />';
 
 					echo '<TABLE id="fields_'.$search_fields_RET[key($search_fields_RET)][1]['ID'].'_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+
+					$TR_classes .= 'st';
 				}
 
 				if(count($search_fields_RET['text']))
 				{
 					foreach($search_fields_RET['text'] as $column)
-						echo '<TR class="st"><TD>
+						echo '<TR class="'.$TR_classes.'"><TD>
 						<label for="cust['.$column['COLUMN_NAME'].']">'.$column['TITLE'].'</label>
 						</TD><TD>
 						<INPUT type="text" name="cust['.$column['COLUMN_NAME'].']" id="cust['.$column['COLUMN_NAME'].']" size="30">
@@ -169,7 +173,7 @@ function Search($type,$extra=null)
 				if(count($search_fields_RET['numeric']))
 				{
 					foreach($search_fields_RET['numeric'] as $column)
-						echo '<TR class="st"><TD>
+						echo '<TR class="'.$TR_classes.'"><TD>
 						'.$column['TITLE'].'
 						</TD><TD>
 						<span class="sizep2">&ge;</span> <INPUT type="text" name="cust_begin['.$column['COLUMN_NAME'].']" size="3" maxlength="11"> <span class="sizep2">&le;</span> <INPUT type="text" name="cust_end['.$column['COLUMN_NAME'].']" size="3" maxlength="11"> <label>'._('No Value').' <INPUT type="checkbox" name="cust_null['.$column['COLUMN_NAME'].']"></label>&nbsp;
@@ -183,7 +187,7 @@ function Search($type,$extra=null)
 						$column['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$column['SELECT_OPTIONS']));
 						$options = explode("\r",$column['SELECT_OPTIONS']);
 
-						echo '<TR class="st"><TD>'.$column['TITLE'].'</TD><TD>';
+						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
 						foreach($options as $option)
@@ -206,7 +210,7 @@ function Search($type,$extra=null)
 						$column['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$column['SELECT_OPTIONS']));
 						$options = explode("\r",$column['SELECT_OPTIONS']);
 
-						echo '<TR class="st"><TD>'.$column['TITLE'].'</TD><TD>';
+						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
 						foreach($options as $option)
@@ -228,7 +232,7 @@ function Search($type,$extra=null)
 						$column['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$column['SELECT_OPTIONS']));
 						$options = explode("\r",$column['SELECT_OPTIONS']);
 
-						echo '<TR class="st"><TD>'.$column['TITLE'].'</TD><TD>';
+						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
 						foreach($options as $option)
@@ -251,7 +255,7 @@ function Search($type,$extra=null)
 						else
 							$options_RET = array();
 
-						echo '<TR class="st"><TD>'.$column['TITLE'].'</TD><TD>';
+						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 						$options = array();
 						foreach($options_RET as $option)
@@ -291,7 +295,7 @@ function Search($type,$extra=null)
 						else
 							$options_RET = array();
 
-						echo '<TR class="st"><TD>'.$column['TITLE'].'</TD><TD>';
+						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 						$options = array();
 						foreach($options_RET as $option)
@@ -308,7 +312,7 @@ function Search($type,$extra=null)
 				if(count($search_fields_RET['date']))
 				{
 					foreach($search_fields_RET['date'] as $column)
-						echo '<TR class="st"><TD>
+						echo '<TR class="'.$TR_classes.'"><TD>
 						'.$column['TITLE'].'<BR />
 						<label>'._('No Value').'&nbsp;<INPUT type="checkbox" name="cust_null['.$column['COLUMN_NAME'].']"></label>
 						</TD><TD>
@@ -328,7 +332,7 @@ function Search($type,$extra=null)
 				{
 					foreach($search_fields_RET['radio'] as $cust)
 					{
-						echo '<TR class="st"><TD>'.$cust['TITLE'].'</TD><TD>
+						echo '<TR class="'.$TR_classes.'"><TD>'.$cust['TITLE'].'</TD><TD>
 						<TABLE class="cellspacing-0"><tr><td>
 						<b>'._('All').'</b>
 						</td><td>
