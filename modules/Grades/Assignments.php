@@ -282,7 +282,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '&table=GRADEBOOK_ASSIGNMENTS" method="POST">';
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p">';
+		$header .= '<TABLE class="width-100p valign-top">';
 		$header .= '<TR class="st">';
 
 //modif Francois: title & points are required
@@ -315,7 +315,7 @@ if(empty($_REQUEST['modfunc']))
 			echo '&assignment_type_id='.$_REQUEST['assignment_type_id'];
 		echo '" method="POST">';
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p">';
+		$header .= '<TABLE class="width-100p valign-top">';
 		$header .= '<TR class="st">';
 
 //modif Francois: title is required
