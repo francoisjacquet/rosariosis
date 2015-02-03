@@ -9,6 +9,26 @@ if(!defined('WAREHOUSE_PHP'))
 	require('config.inc.php');
 	require('database.inc.php');
 
+	// Server Paths
+	// You can override the Path definitions in the config.inc.php file
+	if (!isset($wkhtmltopdfAssetsPath))
+		$wkhtmltopdfAssetsPath = $RosarioPath.'assets/'; // way wkhtmltopdf accesses the assets/ directory, empty string means no translation
+
+	if (!isset($StudentPicturesPath))
+		$StudentPicturesPath = 'assets/StudentPhotos/';
+
+	if (!isset($UserPicturesPath))
+		$UserPicturesPath = 'assets/UserPhotos/';
+
+	if (!isset($PortalNotesFilesPath))
+		$PortalNotesFilesPath = 'assets/PortalNotesFiles/';
+
+	if (!isset($FS_IconsPath))
+		$FS_IconsPath = 'assets/FS_icons/'; // Food Service icons
+
+	if (!isset($LocalePath))
+		$LocalePath = 'locale'; // Path were the language packs are stored. You need to restart Apache at each change in this directory
+
 	// Load functions.
 	$functions = scandir('functions/');
 	foreach ($functions as $function)

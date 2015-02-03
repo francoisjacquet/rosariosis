@@ -19,7 +19,7 @@ and PHP 5.3.10 and through Mozilla Firefox.
 
 Minimum requirements: PHP 5.3.2 & Postgres 8
 
-Installation Instructions for Windows:
+Installation Directions for Windows:
 https://github.com/francoisjacquet/rosariosis/wiki/How-to-install-RosarioSIS-on-Windows
 
 Installing the Package
@@ -40,19 +40,12 @@ as appropriate for your installation. Rename the file to config.inc.php.
 	__FILE__ magic constant should work
   $pg_dumpPath is full path to the postgres database dump utility pg_dump
   $wkhtmltopdfPath full path to wkhtmltopdf for pdf 'printing'
-  $wkhtmltopdfAssetsPath is path where wkhtmltopdf will access the assets/
-    directory, possibly different than how the user's web browser finds it,
-    empty string means no translation
-  $StudentPicturesPath relative path to student pictures
-  $UserPicturesPath relative path to user pictures
-  $PortalNotesFilesPath relative path to portal notes attached files
-  $FS_IconsPath relative path to food service icons
   
   $DefaultSyear default school year, should be present in the database to 
     be able to login
   $RosarioNotifyAddress is email address to send error and new administrator notifications
   $RosarioLocales is a comma separated list of the locale names of the 
-    translations
+    translations (see locale/ folder for available locales)
 
 
 Now, you're ready to setup the RosarioSIS database. If you have access to the
@@ -87,7 +80,7 @@ messages.
 If you run into permissions problems involving rosariosis.log, simply remove the 
 " > rosariosis.log" from the command
 
-You will have to start postmaster with the -i option, telling postmaster to accept
+You will have to start postgres with the -i option, telling postmaster to accept
 TCP/IP connections.  Also, the pg_hba.conf file may have to be altered to specify the
 server's TCP/IP address.
 
@@ -105,21 +98,21 @@ Installing wkhtmltopdf
 ----------------------
 
 http://wkhtmltopdf.org/
-Install instructions for Ubuntu 12.04.4 64bits server:
+Install instructions for Ubuntu 12.04.5 64bits server:
 
-	1) Install the dependencies :
-	server$ sudo apt-get install openssl build-essential xorg libssl-dev libxrender-dev
-	
-	1) Download the latest executable (0.12.1 as of 2014.08.14) :
-	server$ wget http://downloads.sourceforge.net/project/wkhtmltopdf/0.12.1/wkhtmltox-0.12.1_linux-precise-amd64.deb
+	1) Download the latest executable (0.12.2.1 as of 2015.02.03) :
+	server$ wget http://downloads.sourceforge.net/project/wkhtmltopdf/0.12.2.1/wkhtmltox-0.12.2.1_linux-precise-amd64.deb
 
 	2) Install package :
-	server$ sudo dpkg --install wkhtmltox-0.12.1_linux-precise-amd64.deb
-	
-	3) Test :
+	server$ sudo dpkg --install wkhtmltox-0.12.2.1_linux-precise-amd64.deb
+
+	3) Install the missing dependencies :
+	server$ sudo apt-get -f install
+
+	4) Test :
 	server$ wkhtmltopdf http://google.com google.pdf
-	
-	4) Set $wkhtmltopdfPath in RosarioSIS config.inc.php file:
+
+	5) Set $wkhtmltopdfPath in RosarioSIS config.inc.php file:
 	$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';
 
 
@@ -133,6 +126,8 @@ Install instructions for Ubuntu 12.04.4 64bits server:
 Additional Configuration
 ------------------------
 
-RosarioSIS comes with an empty calendar, so the first thing you should do is create a calendar or recreate the Main calendar with school days (in green).
+RosarioSIS comes with an empty calendar, so the first thing you should do is
+create a calendar or recreate the Main calendar with school days (in green).
 
-See the School Configuration program in the School Setup module for optional modules configuration.
+See the School Configuration program in the School Setup module for optional
+modules configuration.

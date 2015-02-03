@@ -33,6 +33,7 @@ Changes in 2.8
 - other fields required in Student.php & User.php
 - date & select student/user fields, add required attribute when required in Inputs.php & Date.php
 - propose to create user in Moodle: if the users have not been rolled yet in Moodle/functions.php
+- Move assets/ & locale paths from config.inc.php to Warehouse.php
 
 Upgrade from 2.7.x
 ------------------
