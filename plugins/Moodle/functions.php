@@ -453,17 +453,22 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		case 'School_Setup/Calendar.php|update_calendar_event':
 			global $error;
 
-			//delete event then recreate it!
-			Moodle($modname, 'core_calendar_delete_calendar_events');
-			if (!empty($error))
-			{
-				echo ErrorMessage(array($error), 'fatal');//display inside popup, before JS closing
-			}
+			$isMoodleEvent = count(DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$_REQUEST['event_id']."' AND \"column\"='calendar_event_id'")));
 
-			Moodle($modname, 'core_calendar_create_calendar_events');
-			if (!empty($error))
+			if ($isMoodleEvent)
 			{
-				echo ErrorMessage(array($error), 'fatal');//display inside popup, before JS closing
+				//delete event then recreate it!
+				Moodle($modname, 'core_calendar_delete_calendar_events');
+				if (!empty($error))
+				{
+					echo ErrorMessage($error, 'fatal');//display inside popup, before JS closing
+				}
+
+				Moodle($modname, 'core_calendar_create_calendar_events');
+				if (!empty($error))
+				{
+					echo ErrorMessage($error, 'fatal');//display inside popup, before JS closing
+				}
 			}
 
 		break;

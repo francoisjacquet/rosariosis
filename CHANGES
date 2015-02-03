@@ -35,6 +35,7 @@ Changes in 2.8
 - propose to create user in Moodle: if the users have not been rolled yet in Moodle/functions.php
 - Move assets/ & locale paths from config.inc.php to Warehouse.php
 - Activate links in Events descriptions in Portal.php & Calendar.php
+- Check if event is in Moodle before update in Moodle/functions.php
 
 Upgrade from 2.7.x
 ------------------
