@@ -265,6 +265,21 @@ switch (User('PROFILE'))
 			ListOutput($events_RET,array('DAY'=>_('Day'),'SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Event'),'DESCRIPTION'=>_('Description'),'SCHOOL'=>_('School')),'Day With Upcoming Events','Days With Upcoming Events',array(),array('SCHOOL_DATE'),array('save'=>false,'search'=>false));
 		}
 
+		//modif Francois: Portal Assignments
+		$assignments_RET = DBGet(DBQuery("SELECT a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
+		FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
+		WHERE (a.COURSE_ID=c.COURSE_ID
+		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
+		AND a.DUE_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
+		AND a.STAFF_ID='".User('STAFF_ID')."' 
+		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
+		ORDER BY a.DUE_DATE,a.TITLE"),array('DUE_DATE'=>'ProperDate', 'DAY'=>'_eventDay', 'ASSIGNED_DATE'=>'ProperDate', 'DESCRIPTION'=>'_formatContent'));
+
+		if(count($assignments_RET))
+		{
+			ListOutput($assignments_RET,array('DAY'=>_('Day'),'DUE_DATE'=>_('Date'),'ASSIGNED_DATE'=>_('Assigned Date'),'TITLE'=>_('Assignment'),'DESCRIPTION'=>_('Notes'),'COURSE'=>_('Course')),'Upcoming Assignment','Upcoming Assignments',array(),array(),array('save'=>false,'search'=>false));
+		}
+
         //RSSOutput(USER('PROFILE'));
 
 		if(Preferences('HIDE_ALERTS')!='Y')
@@ -398,6 +413,22 @@ switch (User('PROFILE'))
 			ListOutput($events_RET,array('DAY'=>_('Day'),'SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Event'),'DESCRIPTION'=>_('Description'),'SCHOOL'=>_('School')),'Day With Upcoming Events','Days With Upcoming Events',array(),array('SCHOOL_DATE'),array('save'=>false,'search'=>false));
 		}
 
+		//modif Francois: Portal Assignments
+		$assignments_RET = DBGet(DBQuery("SELECT a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
+		FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
+		WHERE (a.COURSE_ID=c.COURSE_ID
+		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
+		AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
+		AND a.DUE_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
+		AND s.STUDENT_ID='".UserStudentID()."' 
+		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
+		ORDER BY a.DUE_DATE,a.TITLE"),array('DUE_DATE'=>'ProperDate', 'DAY'=>'_eventDay', 'ASSIGNED_DATE'=>'ProperDate', 'DESCRIPTION'=>'_formatContent', 'STAFF_ID'=>'GetTeacher'));
+
+		if(count($assignments_RET))
+		{
+			ListOutput($assignments_RET,array('DAY'=>_('Day'),'DUE_DATE'=>_('Date'),'ASSIGNED_DATE'=>_('Assigned Date'),'TITLE'=>_('Assignment'),'DESCRIPTION'=>_('Notes'),'COURSE'=>_('Course'),'STAFF_ID'=>_('Teacher')),'Upcoming Assignment','Upcoming Assignments',array(),array(),array('save'=>false,'search'=>false));
+		}
+
         //RSSOutput(USER('PROFILE'));
 
 		if($RosarioModules['Food_Service'] && Preferences('HIDE_ALERTS')!='Y')
@@ -480,6 +511,22 @@ switch (User('PROFILE'))
 		if(count($events_RET))
 		{
 			ListOutput($events_RET,array('DAY'=>_('Day'),'SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Event'),'DESCRIPTION'=>_('Description')),'Day With Upcoming Events','Days With Upcoming Events',array(),array('SCHOOL_DATE'),array('save'=>false,'search'=>false));
+		}
+
+		//modif Francois: Portal Assignments
+		$assignments_RET = DBGet(DBQuery("SELECT a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
+		FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
+		WHERE (a.COURSE_ID=c.COURSE_ID
+		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
+		AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
+		AND a.DUE_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
+		AND s.STUDENT_ID='".UserStudentID()."' 
+		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
+		ORDER BY a.DUE_DATE,a.TITLE"),array('DUE_DATE'=>'ProperDate', 'DAY'=>'_eventDay', 'ASSIGNED_DATE'=>'ProperDate', 'DESCRIPTION'=>'_formatContent', 'STAFF_ID'=>'GetTeacher'));
+
+		if(count($assignments_RET))
+		{
+			ListOutput($assignments_RET,array('DAY'=>_('Day'),'DUE_DATE'=>_('Date'),'ASSIGNED_DATE'=>_('Assigned Date'),'TITLE'=>_('Assignment'),'DESCRIPTION'=>_('Notes'),'COURSE'=>_('Course'),'STAFF_ID'=>_('Teacher')),'Upcoming Assignment','Upcoming Assignments',array(),array(),array('save'=>false,'search'=>false));
 		}
 
         //RSSOutput(USER('PROFILE'));
