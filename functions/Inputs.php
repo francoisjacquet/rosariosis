@@ -63,23 +63,23 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 }
 
 function MLTextInput($value,$name,$title='',$options='',$div=true)
-{   global $RosarioLocales;
+{	global $RosarioLocales;
 
-    if (sizeof($RosarioLocales) < 2)
-        return TextInput($value,$name,$title,$options,$div);
-        
-    // mab - support array style $option values
-    if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
-    {
-        $value1 = is_array($value) ? $value[1] : $value;
-        $value = is_array($value) ? $value[0] : $value;
+	if (sizeof($RosarioLocales) < 2)
+		return TextInput($value,$name,$title,$options,$div);
 
-        if(mb_strpos($options,'size')===false && $value!='')
-            $options .= ' size='.(mb_strlen($value) / (mb_substr_count($value, '|') + 1));
-        elseif(mb_strpos($options,'size')===false)
-            $options .= ' size=10';
+	// mab - support array style $option values
+	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	{
+		$value1 = is_array($value) ? $value[1] : $value;
+		$value = is_array($value) ? $value[0] : $value;
 
-        // ng - foreach possible language
+		if(mb_strpos($options,'size')===false && $value!='')
+			$options .= ' size='.(mb_strlen($value) / (mb_substr_count($value, '|') + 1));
+		elseif(mb_strpos($options,'size')===false)
+			$options .= ' size=10';
+
+		// ng - foreach possible language
 		$ret = '<script>
 function setMLvalue(id,loc,value){
 	res = document.getElementById(id).value.split("|");
@@ -108,21 +108,22 @@ function setMLvalue(id,loc,value){
 	document.getElementById(id).value = res.join("|");                                
 }
 </script>';
-        $ret .= '<DIV><INPUT type="hidden" id="'.$name.'" name="'.$name.'" value="'.$value.'" />';
-        
-        foreach ($RosarioLocales as $id=>$loc) {
-            $ret .= '<label><IMG src="assets/flags/'.$loc.'.png" class="button bigger" /> ';
+		$ret .= '<DIV><INPUT type="hidden" id="'.$name.'" name="'.$name.'" value="'.$value.'" />';
+
+		foreach ($RosarioLocales as $id=>$loc) {
+			$ret .= '<label><IMG src="assets/flags/'.$loc.'.png" class="button bigger" /> ';
 			//modif Francois: only first translation string required
-            //$ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
-            $ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options.($id==0?' required':'')." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
-            $ret .= '</label><BR />';
-        }
-        $ret .= '</DIV>';
-    }
-//modif FRancois: css WPadmin
-//    $ret .= ($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
-    $ret .= ($title!=''?(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
-    return $ret;
+			//$ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
+			$ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options.($id==0?' required':'')." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
+			$ret .= '</label><BR />';
+		}
+		$ret .= '</DIV>';
+	}
+	else
+		$ret .= ParseMLField($value);
+
+	$ret .= ($title!=''?(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
+	return $ret;
 }
 
 function TextAreaInput($value,$name,$title='',$options='',$div=true)
