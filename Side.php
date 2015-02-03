@@ -53,7 +53,6 @@ if(isset($_REQUEST['sidefunc']) && $_REQUEST['sidefunc']=='update' && is_array($
 
 				//remove staff_id from URL
 				unset($_SESSION['_REQUEST_vars']['staff_id']);
-
 			}
 			else
 			{
@@ -67,28 +66,11 @@ if(isset($_REQUEST['sidefunc']) && $_REQUEST['sidefunc']=='update' && is_array($
 		//if current Student not enrolled in new SchoolYear, remove
 		if(in_array(User('PROFILE'), array('admin', 'teacher', 'parent')) && UserStudentID())
 		{
-			if(User('PROFILE') == 'teacher')
-				//if student scheduled in first CoursePeriod
-				$sql_is_student_enrolled = "SELECT 'SCHEDULED'
-				FROM SCHEDULE
-				WHERE STUDENT_ID='".UserStudentID()."'
-				AND COURSE_PERIOD_ID=(SELECT COURSE_PERIOD_ID
-					FROM COURSE_PERIODS
-					WHERE SYEAR='".UserSyear()."' 
-					AND SCHOOL_ID='".UserSchool()."' 
-					AND TEACHER_ID='".User('STAFF_ID')."' 
-					AND MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
-					ORDER BY SHORT_NAME
-					LIMIT 1)
-				AND '".DBDate()."'>=START_DATE
-				AND ('".DBDate()."'<=END_DATE OR END_DATE IS NULL)";
-			else
-				$sql_is_student_enrolled = "SELECT 'ENROLLED' FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID='".UserStudentID()."'";
+			$is_student_enrolled_sql = "SELECT 'ENROLLED' FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID='".UserStudentID()."'";
 
-			$is_student_enrolled = DBGet(DBQuery($sql_is_student_enrolled));
-
-			//remove Student if not enrolled in new SchoolYear
-			if(!count($is_student_enrolled))
+			//remove Student if Teacher: the student should not be currently scheduled in a course in new SchoolYear
+			//OR remove Student if not enrolled in new SchoolYear
+			if(User('PROFILE') == 'teacher' || !count(DBGet(DBQuery($is_student_enrolled_sql))))
 			{
 				unset($_SESSION['student_id']);
 				$_SESSION['unset_student'] = true;
