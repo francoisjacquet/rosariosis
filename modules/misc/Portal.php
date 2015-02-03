@@ -67,7 +67,7 @@ switch (User('PROFILE'))
 		AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) 
 		AND s.ID=pn.SCHOOL_ID 
 		AND s.SYEAR=pn.SYEAR 
-		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent','FILE_ATTACHED'=>'makeFileAttached'));
+		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate', 'CONTENT'=>'_formatContent', 'FILE_ATTACHED'=>'makeFileAttached'));
 
 		if(count($notes_RET))
 		{
@@ -101,7 +101,7 @@ switch (User('PROFILE'))
 		AND (st.SCHOOLS IS NULL OR position(','||ce.SCHOOL_ID||',' IN st.SCHOOLS)>0) 
 		AND s.ID=ce.SCHOOL_ID 
 		AND s.SYEAR=ce.SYEAR 
-		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE'=>'ProperDate', 'DAY'=>'_eventDay'),array('SCHOOL_DATE'));
+		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE'=>'ProperDate', 'DAY'=>'_eventDay', 'DESCRIPTION'=>'_formatContent'),array('SCHOOL_DATE'));
 
 		if(count($events_RET))
 		{
@@ -258,7 +258,7 @@ switch (User('PROFILE'))
 		AND position(','||ce.SCHOOL_ID||',' IN (SELECT SCHOOLS FROM STAFF WHERE STAFF_ID='".User('STAFF_ID')."'))>0 
 		AND s.ID=ce.SCHOOL_ID 
 		AND s.SYEAR=ce.SYEAR 
-		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE'=>'ProperDate', 'DAY'=>'_eventDay'),array('SCHOOL_DATE'));
+		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE'=>'ProperDate', 'DAY'=>'_eventDay', 'DESCRIPTION'=>'_formatContent'),array('SCHOOL_DATE'));
 
 		if(count($events_RET))
 		{
@@ -391,7 +391,7 @@ switch (User('PROFILE'))
 		AND ce.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='".User('STAFF_ID')."' AND se.SYEAR=ce.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) 
 		AND s.ID=ce.SCHOOL_ID 
 		AND s.SYEAR=ce.SYEAR 
-		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE'=>'ProperDate', 'DAY'=>'_eventDay'),array('SCHOOL_DATE'));
+		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE'=>'ProperDate', 'DAY'=>'_eventDay', 'DESCRIPTION'=>'_formatContent'),array('SCHOOL_DATE'));
 
 		if(count($events_RET))
 		{
@@ -471,8 +471,11 @@ switch (User('PROFILE'))
 			ListOutput($polls_RET,array('PUBLISHED_DATE'=>_('Date Posted'),'TITLE'=>_('Title'),'OPTIONS'=>_('Poll'),'SCHOOL'=>_('School')),'Poll','Polls',array(),array(),array('save'=>false,'search'=>false));
 		}
 
-//modif Francois: add translation
-		$events_RET = DBGet(DBQuery("SELECT TITLE,SCHOOL_DATE,to_char(SCHOOL_DATE,'Day') AS DAY,DESCRIPTION FROM CALENDAR_EVENTS WHERE SCHOOL_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11 AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array('SCHOOL_DATE'=>'ProperDate', 'DAY'=>'_eventDay'),array('SCHOOL_DATE'));
+		$events_RET = DBGet(DBQuery("SELECT TITLE,SCHOOL_DATE,to_char(SCHOOL_DATE,'Day') AS DAY,DESCRIPTION
+		FROM CALENDAR_EVENTS
+		WHERE SCHOOL_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
+		AND SYEAR='".UserSyear()."'
+		AND SCHOOL_ID='".UserSchool()."'"),array('SCHOOL_DATE'=>'ProperDate', 'DAY'=>'_eventDay', 'DESCRIPTION'=>'_formatContent'),array('SCHOOL_DATE'));
 
 		if(count($events_RET))
 		{

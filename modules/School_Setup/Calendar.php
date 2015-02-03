@@ -291,33 +291,37 @@ if($_REQUEST['modfunc']=='detail')
 		{
 			if($_REQUEST['event_id']!='new')
 			{
-				$RET = DBGet(DBQuery("SELECT TITLE,DESCRIPTION,to_char(SCHOOL_DATE,'dd-MON-yy') AS SCHOOL_DATE FROM CALENDAR_EVENTS WHERE ID='".$_REQUEST['event_id']."'"));
+				$RET = DBGet(DBQuery("SELECT TITLE,DESCRIPTION,to_char(SCHOOL_DATE,'dd-MON-yy') AS SCHOOL_DATE FROM CALENDAR_EVENTS WHERE ID='".$_REQUEST['event_id']."'"), array('DESCRIPTION'=>'_formatContent'));
 				$title = $RET[1]['TITLE'];
 			}
 			else
 			{
-//modif Francois: add translation
+				//modif Francois: add translation
 				$title = _('New Event');
 				$RET[1]['SCHOOL_DATE'] = $_REQUEST['school_date'];
 			}
+
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&event_id='.$_REQUEST['event_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" METHOD="POST">';
 		}
 		else
 		{
-//modif Francois: add assigned date
-			$RET = DBGet(DBQuery("SELECT TITLE,STAFF_ID,to_char(DUE_DATE,'dd-MON-yy') AS SCHOOL_DATE,DESCRIPTION,ASSIGNED_DATE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'"));
+			//modif Francois: add assigned date
+			$RET = DBGet(DBQuery("SELECT TITLE,STAFF_ID,to_char(DUE_DATE,'dd-MON-yy') AS SCHOOL_DATE,DESCRIPTION,ASSIGNED_DATE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'"), array('DESCRIPTION'=>'_formatContent'));
 			$title = $RET[1]['TITLE'];
 			$RET[1]['STAFF_ID'] = GetTeacher($RET[1]['STAFF_ID']);
 		}
 
 		echo '<BR />';
+
 		PopTable('header',$title);
-		echo '<TABLE>';
-		echo '<TR><TD>'._('Date').'</TD><TD>'.DateInput($RET[1]['SCHOOL_DATE'],'values[SCHOOL_DATE]','',false).'</TD></TR>';
-//modif Francois: add assigned date
+
+		echo '<TABLE><TR><TD>'._('Date').'</TD><TD>'.DateInput($RET[1]['SCHOOL_DATE'],'values[SCHOOL_DATE]','',false).'</TD></TR>';
+
+		//modif Francois: add assigned date
 		if($RET[1]['ASSIGNED_DATE'])
 			echo '<TR><TD>'._('Assigned Date').'</TD><TD>'.DateInput($RET[1]['ASSIGNED_DATE'],'values[ASSIGNED_DATE]','',false).'</TD></TR>';
-//modif Francois: add event repeat
+
+		//modif Francois: add event repeat
 		if($_REQUEST['event_id']=='new')
 		{
 			echo '<TR><TD>'._('Event Repeat').'</TD><TD><input name="REPEAT" value="0" maxlength="3" size="1" type="number" min="0" />&nbsp;'._('Days').'</TD></TR>';
@@ -329,9 +333,12 @@ if($_REQUEST['modfunc']=='detail')
 		
 		//modif Francois: bugfix SQL bug value too long for type character varying(50)
 		echo '<TR><TD>'._('Title').'</TD><TD>'.TextInput($RET[1]['TITLE'],'values[TITLE]', '', 'required maxlength="50"').'</TD></TR>';
+
 		if($RET[1]['STAFF_ID'])
-			echo '<TR><TD>'._('Teacher').'</TD><TD>'.TextAreaInput($RET[1]['STAFF_ID'],'values[STAFF_ID]').'</TD></TR>';
+			echo '<TR><TD>'._('Teacher').'</TD><TD>'.TextInput($RET[1]['STAFF_ID'],'values[STAFF_ID]').'</TD></TR>';
+
 		echo '<TR><TD>'._('Notes').'</TD><TD>'.TextAreaInput($RET[1]['DESCRIPTION'],'values[DESCRIPTION]').'</TD></TR>';
+
 		if(AllowEdit())
 		{
 			echo '<TR><TD colspan="2" class="center">'.SubmitButton(_('Save'), 'button');
@@ -339,8 +346,10 @@ if($_REQUEST['modfunc']=='detail')
 				echo SubmitButton(_('Delete'), 'button');
 			echo '</TD></TR>';
 		}
+
 		echo '</TABLE>';
 		PopTable('footer');
+
 		if($_REQUEST['event_id'])
 			echo '</FORM>';
 
@@ -597,5 +606,41 @@ if(empty($_REQUEST['modfunc']))
 
 	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '<BR /><BR /></FORM>';
+}
+
+
+function _formatContent($value,$column)
+{	global $THIS_RET;
+
+	if (AllowEdit())
+		return $value;
+
+	$id = $THIS_RET['ID'];
+
+	$value_br = nl2br($value);
+
+	//modif Francois: transform URL to links
+	$value_br_url = $value_br;
+	preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([-\w/_\.]*(\?\S+)?)?)?)@',$value_br_url,$matches);
+	if($matches){
+		foreach($matches[0] as $url){
+			//truncate links > 100 chars
+			$truncated_link = $url;
+			if (mb_strlen($truncated_link) > 100)
+			{
+				$separator = '/.../';
+				$separatorlength = mb_strlen($separator) ;
+				$maxlength = 100 - $separatorlength;
+				$start = $maxlength / 2 ;
+				$trunc =  mb_strlen($truncated_link) - $maxlength;
+				$truncated_link = substr_replace($truncated_link, $separator, $start, $trunc);
+			}
+
+			$replace = '<a href="'.$url.'" target="_blank">'.$truncated_link.'</a>';
+			$value_br_url = str_replace($url,$replace,$value_br_url);
+		}
+	}
+
+	return $value_br_url;
 }
 ?>
