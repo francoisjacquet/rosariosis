@@ -259,29 +259,11 @@ function _makeReadMe($module_title,$activated=null)
 		$readme_content = file_get_contents('modules/'.$module_title.'/README');
 		
 		//format content
+		include_once('ProgramFunctions/Linkify.fnc.php');
+
+		$readme_content = Linkify($readme_content);
 		$readme_content = nl2br($readme_content);
 
-		//transform URL to links
-		preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([-\w/_\.]*(\?\S+)?)?)?)@',$readme_content,$matches);
-		if($matches){
-			foreach($matches[0] as $url){
-				//truncate links > 100 chars
-				$truncated_link = $url;
-				if (mb_strlen($truncated_link) > 100)
-				{
-					$separator = '/.../';
-					$separatorlength = mb_strlen($separator) ;
-					$maxlength = 100 - $separatorlength;
-					$start = $maxlength / 2 ;
-					$trunc =  mb_strlen($truncated_link) - $maxlength;
-					$truncated_link = substr_replace($truncated_link, $separator, $start, $trunc);
-				}
-
-				$replace = '<a href="'.$url.'" target="_blank">'.$truncated_link.'</a>';
-				$readme_content = str_replace($url,$replace,$readme_content);
-			}
-		}
-		
 		$return .= includeOnceColorBox();
 		
 		$return .= '<div style="display:none;"><div id="README_'.$module_title.'" style="background-color:#fff; padding:5px;">'.$readme_content.'</div></div>';

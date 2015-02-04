@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-26 14:18-0500\n"
-"PO-Revision-Date: 2015-01-26 14:20-0500\n"
+"POT-Creation-Date: 2015-02-03 18:42-0500\n"
+"PO-Revision-Date: 2015-02-03 18:42-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -101,47 +101,47 @@ msgstr "Aide"
 msgid "Logout"
 msgstr "Déconnexion"
 
-#: Side.php:218
+#: Side.php:311
 msgid "Error"
 msgstr "Erreur"
 
-#: Side.php:218
+#: Side.php:311
 msgid "No quarters found"
 msgstr "Aucune période scolaire trouvée"
 
-#: Side.php:292
+#: Side.php:380
 msgid "Sunday"
 msgstr "Dimanche"
 
-#: Side.php:292
+#: Side.php:380
 msgid "Monday"
 msgstr "Lundi"
 
-#: Side.php:292
+#: Side.php:380
 msgid "Tuesday"
 msgstr "Mardi"
 
-#: Side.php:292
+#: Side.php:380
 msgid "Wednesday"
 msgstr "Mercredi"
 
-#: Side.php:292
+#: Side.php:380
 msgid "Thursday"
 msgstr "Jeudi"
 
-#: Side.php:292
+#: Side.php:380
 msgid "Friday"
 msgstr "Vendredi"
 
-#: Side.php:292
+#: Side.php:380
 msgid "Saturday"
 msgstr "Samedi"
 
-#: Side.php:304
+#: Side.php:392
 msgid "Day"
 msgstr "Jour"
 
-#: Side.php:304
+#: Side.php:392
 msgid "Days"
 msgstr "Jours"
 
@@ -149,37 +149,37 @@ msgstr "Jours"
 msgid "We have a problem, please contact technical support ..."
 msgstr "Il y a un problème. Merci de contacter le support technique ..."
 
-#: index.php:70
+#: index.php:68
 msgid "Confirm Successful Installation"
 msgstr "Confirmer Succès de l'Installation"
 
-#: index.php:73
+#: index.php:71
 #, php-format
 msgid "You have successfully installed %s."
 msgstr "Vous avez installé %s avec succès."
 
-#: index.php:74
+#: index.php:72
 msgid "OK"
 msgstr "OK"
 
-#: index.php:88
+#: index.php:86
 msgid "Your account has not yet been activated."
 msgstr "Votre compte utilisateur n'a pas encore été activé."
 
-#: index.php:88
-#: index.php:152
+#: index.php:86
+#: index.php:151
 msgid "You will be notified when it has been verified by a school administrator."
 msgstr "Vous serez prévenu quand il aura été activé par un administrateur."
 
-#: index.php:100
+#: index.php:98
 msgid "Incorrect username or password."
 msgstr "Identifiant ou mot de passe incorrect."
 
-#: index.php:100
+#: index.php:98
 msgid "Please try logging in again."
 msgstr "Veuillez réessayer de vous connecter."
 
-#: index.php:145
+#: index.php:143
 #, php-format
 msgid "%s Login"
 msgstr "Login %s"
@@ -189,11 +189,11 @@ msgstr "Login %s"
 msgid "You must have javascript enabled to use %s."
 msgstr "Vous devez avoir activé Javascript pour utiliser %s."
 
-#: index.php:152
+#: index.php:151
 msgid "Your account has been created."
 msgstr "Votre compte a été créé."
 
-#: index.php:152
+#: index.php:151
 msgid "You will then be able to log in."
 msgstr "Vous pourrez alors vous connecter."
 
@@ -260,27 +260,27 @@ msgstr "Impossible d'écrire dans le Dossier"
 msgid "File invalid or not moveable"
 msgstr "Fichier invalide ou non déplaçable"
 
-#: ProgramFunctions/StudentsUsersInfo.fnc.php:55
+#: ProgramFunctions/StudentsUsersInfo.fnc.php:61
 msgid "%Y Years %m Months %d Days"
 msgstr "%Y Années %m Mois %d Jours"
 
-#: ProgramFunctions/StudentsUsersInfo.fnc.php:101
-#: ProgramFunctions/StudentsUsersInfo.fnc.php:184
-#: ProgramFunctions/StudentsUsersInfo.fnc.php:346
-#: ProgramFunctions/StudentsUsersInfo.fnc.php:368
+#: ProgramFunctions/StudentsUsersInfo.fnc.php:109
+#: ProgramFunctions/StudentsUsersInfo.fnc.php:196
+#: ProgramFunctions/StudentsUsersInfo.fnc.php:365
+#: ProgramFunctions/StudentsUsersInfo.fnc.php:387
 msgid "N/A"
 msgstr "N/D"
 
-#: ProgramFunctions/StudentsUsersInfo.fnc.php:137
-#: ProgramFunctions/StudentsUsersInfo.fnc.php:189
+#: ProgramFunctions/StudentsUsersInfo.fnc.php:146
+#: ProgramFunctions/StudentsUsersInfo.fnc.php:201
 msgid "Edit"
 msgstr "Modifier"
 
-#: ProgramFunctions/StudentsUsersInfo.fnc.php:287
+#: ProgramFunctions/StudentsUsersInfo.fnc.php:306
 msgid "Immunization"
 msgstr "Vaccination"
 
-#: ProgramFunctions/StudentsUsersInfo.fnc.php:287
+#: ProgramFunctions/StudentsUsersInfo.fnc.php:306
 msgid "Physical"
 msgstr "Visite Médicale"
 
@@ -297,7 +297,7 @@ msgid "Next Grade at "
 msgstr "Classe supérieure dans "
 
 #: ProgramFunctions/HackingLog.fnc.php:7
-#: plugins/Moodle/config.inc.php:77
+#: plugins/Moodle/config.inc.php:78
 msgid "You're not allowed to use this program!"
 msgstr "Vous n'êtes pas autorisé à utiliser ce programme !"
 
@@ -368,7 +368,7 @@ msgid "Please enter valid Numeric data."
 msgstr "Merci de renter des données Numériques valides."
 
 #: plugins/Moodle/config.inc.php:51
-#: plugins/Moodle/config.inc.php:71
+#: plugins/Moodle/config.inc.php:72
 msgid "Save"
 msgstr "Sauver"
 
@@ -401,40 +401,40 @@ msgstr "Créer Élève dans Moodle"
 #: plugins/Moodle/functions.php:114
 #: plugins/Moodle/functions.php:132
 #: plugins/Moodle/functions.php:135
-#: plugins/Moodle/functions.php:202
-#: plugins/Moodle/functions.php:225
-#: plugins/Moodle/functions.php:228
-#: plugins/Moodle/functions.php:262
+#: plugins/Moodle/functions.php:210
+#: plugins/Moodle/functions.php:233
+#: plugins/Moodle/functions.php:236
+#: plugins/Moodle/functions.php:270
 msgid "Please enter a valid password"
 msgstr "Merci de renter un mot de passe valide."
 
 #: plugins/Moodle/functions.php:118
-#: plugins/Moodle/functions.php:207
+#: plugins/Moodle/functions.php:215
 msgid "Please fill in the required fields"
 msgstr "Merci de remplir les champs requis"
 
-#: plugins/Moodle/functions.php:195
+#: plugins/Moodle/functions.php:203
 msgid "Create User in Moodle"
 msgstr "Créer Utilisateur dans Moodle"
 
-#: plugins/Moodle/functions.php:337
+#: plugins/Moodle/functions.php:345
 msgid "Create Course Period in Moodle"
 msgstr "Créer Période de Cours dans Moodle"
 
-#: plugins/Moodle/functions.php:427
+#: plugins/Moodle/functions.php:435
 msgid "Publish Event in Moodle?"
 msgstr "Publier l'Evènement dans Moodle?"
 
-#: plugins/Moodle/functions.php:427
-#: plugins/Moodle/functions.php:481
+#: plugins/Moodle/functions.php:435
+#: plugins/Moodle/functions.php:494
 msgid "Yes"
 msgstr "Oui"
 
-#: plugins/Moodle/functions.php:481
+#: plugins/Moodle/functions.php:494
 msgid "Publish Note in Moodle?"
 msgstr "Publier la Note dans Moodle?"
 
-#: plugins/Moodle/functions.php:512
+#: plugins/Moodle/functions.php:525
 msgid "You cannot re-roll Users or Courses"
 msgstr "Vous ne pouvez pas reporter les Utilisateurs ou les Cours une deuxième fois."
 
@@ -447,8 +447,8 @@ msgid "Your new password was saved in Moodle too."
 msgstr "Votre nouveau mot de passe est aussi sauvé dans Moodle."
 
 #: functions/CustomFields.fnc.php:84
-#: functions/Inputs.php:175
-#: functions/Inputs.php:181
+#: functions/Inputs.php:184
+#: functions/Inputs.php:190
 msgid "No"
 msgstr "Non"
 
@@ -478,51 +478,51 @@ msgstr "Attention"
 msgid "Note"
 msgstr "Note"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "January"
 msgstr "Janvier"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "February"
 msgstr "Février"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "March"
 msgstr "Mars"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "April"
 msgstr "Avril"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "May"
 msgstr "Mai"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "June"
 msgstr "Juin"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "July"
 msgstr "Juillet"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "August"
 msgstr "Août"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "September"
 msgstr "Septembre"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "October"
 msgstr "Octobre"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "November"
 msgstr "Novembre"
 
-#: functions/Date.php:174
+#: functions/Date.php:183
 msgid "December"
 msgstr "Décembre"
 
@@ -777,7 +777,7 @@ msgstr "Tout Cocher"
 msgid "Not Specified"
 msgstr "Non Spécifié"
 
-#: functions/Search.fnc.php:333
+#: functions/Search.fnc.php:337
 #: functions/StaffWidgets.fnc.php:87
 #: functions/StaffWidgets.fnc.php:210
 msgid "All"
@@ -1386,8 +1386,6 @@ msgid "Absence Summary"
 msgstr "Résumé des Absences"
 
 #: modules/Attendance/Menu.php:12
-#: modules/Custom/Menu.php:4
-#: modules/Custom/Menu.php:11
 msgid "Utilities"
 msgstr "Utilitaires"
 
@@ -2074,7 +2072,6 @@ msgstr[1] "Enseignants qui n'ont pas entré l'éligibilité"
 #: modules/Food_Service/BalanceReport.php:35
 #: modules/Food_Service/MenuReports.php:142
 #: modules/Food_Service/Reminders.php:13
-#: modules/Food_Service/ServeMenus.php:29
 msgid "User"
 msgstr "Utilisateur"
 
@@ -2157,7 +2154,6 @@ msgstr "Total des Soldes"
 #: modules/Food_Service/MenuReports.php:40
 #: modules/Food_Service/MenuReports.php:50
 #: modules/Food_Service/MenuReports.php:55
-#: modules/Food_Service/ServeMenus.php:39
 msgid "There are no menus yet setup."
 msgstr "Il n'y a pas encore de menus définis."
 
@@ -2242,7 +2238,7 @@ msgid "Kiosk Preview"
 msgstr "Prévisualisation Ecran"
 
 #: modules/Food_Service/MenuItems.php:94
-#: modules/Food_Service/MenuItems.php:216
+#: modules/Food_Service/MenuItems.php:217
 msgid "Meal Item"
 msgid_plural "Meal Items"
 msgstr[0] "Elément du Repas"
@@ -2539,12 +2535,10 @@ msgid "Estimate for year end"
 msgstr "Estimation de fin d'année"
 
 #: modules/Food_Service/Students/Reminders.php:145
-#: modules/Food_Service/Users/Reminders.php:85
 msgid "Negative"
 msgstr "Négatif"
 
 #: modules/Food_Service/Students/Reminders.php:145
-#: modules/Food_Service/Users/Reminders.php:85
 msgid "Minimum"
 msgstr "Minimum"
 
@@ -2561,17 +2555,14 @@ msgid "Other students on this account"
 msgstr "Autres élèves associés à ce compte"
 
 #: modules/Food_Service/Students/Reminders.php:188
-#: modules/Food_Service/Users/Reminders.php:119
 msgid "Today's Date"
 msgstr "Aujourd'hui"
 
 #: modules/Food_Service/Students/Reminders.php:191
-#: modules/Food_Service/Users/Reminders.php:122
 msgid "Date of Last Deposit"
 msgstr "Date du Dernier Accompte"
 
 #: modules/Food_Service/Students/Reminders.php:194
-#: modules/Food_Service/Users/Reminders.php:125
 msgid "Amount of Last Deposit"
 msgstr "Montant du Dernier Accompte"
 
@@ -2580,7 +2571,6 @@ msgid "Requested Payment"
 msgstr "Payment Demandé"
 
 #: modules/Food_Service/Students/Reminders.php:202
-#: modules/Food_Service/Users/Reminders.php:133
 msgid "Mimimum Payment"
 msgstr "Payment Minimum"
 
@@ -3190,13 +3180,11 @@ msgstr "Certificats"
 
 #: modules/Grades/HonorRoll.php:175
 #: modules/Grades/HonorRollSubject.php:127
-#: modules/Grades/Transcripts.php:353
 msgid "Last, First M"
 msgstr "Nom de Famille, Prénom M"
 
 #: modules/Grades/HonorRoll.php:179
 #: modules/Grades/HonorRollSubject.php:131
-#: modules/Grades/Transcripts.php:357
 msgid "Middle Name"
 msgstr "Second Prénom"
 
@@ -3641,10 +3629,12 @@ msgid "Student Photo"
 msgstr "Photo Élève"
 
 #: modules/Grades/Transcripts.php:325
+#: modules/Scheduling/Courses.php:799
 msgid "Credits"
 msgstr "Crédits"
 
 #: modules/Grades/Transcripts.php:327
+#: modules/Scheduling/Courses.php:881
 msgid "Credit Hours"
 msgstr "Heures-Crédits"
 
@@ -3962,7 +3952,6 @@ msgid "The date you entered is not valid"
 msgstr "La date saisie n'est pas valide."
 
 #: modules/Scheduling/MassDrops.php:78
-#: modules/Scheduling/MassRequests.php:25
 msgid "You must choose a course."
 msgstr "Vous devez choisir au moins un cours."
 
@@ -3976,7 +3965,6 @@ msgid "Course to Drop"
 msgstr "Cours à Retirer"
 
 #: modules/Scheduling/MassDrops.php:116
-#: modules/Scheduling/MassRequests.php:62
 msgid "Choose a Course"
 msgstr "Choisir un Cours"
 
@@ -4338,7 +4326,7 @@ msgstr "Demande Incomplète"
 
 #: modules/School_Setup/Calendar.php:37
 #: modules/School_Setup/Calendar.php:42
-#: modules/School_Setup/Calendar.php:464
+#: modules/School_Setup/Calendar.php:483
 #: modules/School_Setup/SchoolFields.php:187
 msgid "Default"
 msgstr "Par Défaut"
@@ -4352,7 +4340,7 @@ msgid "Copy Calendar"
 msgstr "Copier Calendrier"
 
 #: modules/School_Setup/Calendar.php:50
-#: modules/School_Setup/Calendar.php:529
+#: modules/School_Setup/Calendar.php:552
 msgid "Minutes"
 msgstr "Minutes"
 
@@ -4374,7 +4362,7 @@ msgid "Recreate %s calendar"
 msgstr "Recréer calendrier %s"
 
 #: modules/School_Setup/Calendar.php:52
-#: modules/School_Setup/Calendar.php:470
+#: modules/School_Setup/Calendar.php:489
 msgid "Create new calendar"
 msgstr "Créer nouveau calendrier"
 
@@ -4384,51 +4372,51 @@ msgid "There are no calendars setup yet."
 msgstr "Il n'y a pas de calendriers définis."
 
 #: modules/School_Setup/Calendar.php:273
-#: modules/School_Setup/Calendar.php:388
+#: modules/School_Setup/Calendar.php:405
 msgid "Event"
 msgid_plural "Events"
 msgstr[0] "Evénement"
 msgstr[1] "Evénements"
 
 #: modules/School_Setup/Calendar.php:300
-#: modules/School_Setup/Calendar.php:569
+#: modules/School_Setup/Calendar.php:603
 msgid "New Event"
 msgstr "Nouvel Evénement"
 
-#: modules/School_Setup/Calendar.php:323
+#: modules/School_Setup/Calendar.php:331
 msgid "Event Repeat"
 msgstr "Répéter l'Evènement"
 
-#: modules/School_Setup/Calendar.php:334
+#: modules/School_Setup/Calendar.php:348
 msgid "Notes"
 msgstr "Notes"
 
-#: modules/School_Setup/Calendar.php:385
+#: modules/School_Setup/Calendar.php:402
 msgid "Back to Calendar"
 msgstr "Retour au Calendrier"
 
-#: modules/School_Setup/Calendar.php:470
+#: modules/School_Setup/Calendar.php:489
 msgid "Recreate this calendar"
 msgstr "Recréer ce calendrier"
 
-#: modules/School_Setup/Calendar.php:470
+#: modules/School_Setup/Calendar.php:489
 msgid "Delete this calendar"
 msgstr "Effacer ce calendrier"
 
-#: modules/School_Setup/Calendar.php:473
+#: modules/School_Setup/Calendar.php:492
 msgid "List Events"
 msgstr "Lister Evénements"
 
-#: modules/School_Setup/Calendar.php:479
+#: modules/School_Setup/Calendar.php:498
 msgid "This school has more than one default calendar!"
 msgstr "Cette école a plus d'un calendrier par defaut !"
 
-#: modules/School_Setup/Calendar.php:479
+#: modules/School_Setup/Calendar.php:498
 msgid "This school does not have a default calendar!"
 msgstr "Cette école n'a pas de calendrier par defaut !"
 
-#: modules/School_Setup/Calendar.php:522
-#: modules/School_Setup/Calendar.php:527
+#: modules/School_Setup/Calendar.php:545
+#: modules/School_Setup/Calendar.php:550
 msgid "All Day"
 msgstr "Journée Entière"
 
@@ -4473,7 +4461,7 @@ msgid "School year over two calendar years"
 msgstr "Année scolaire sur deux années civiles"
 
 #: modules/School_Setup/Configuration.php:133
-#: modules/School_Setup/Schools.php:160
+#: modules/School_Setup/Schools.php:169
 msgid "School logo"
 msgstr "Logo de l'École"
 
@@ -4580,24 +4568,24 @@ msgstr "Codes Commentaires Bulletin de Notes"
 msgid "Eligibility Activity Codes"
 msgstr "Codes Eligibilité Activités"
 
-#: modules/School_Setup/CopySchool.php:12
+#: modules/School_Setup/CopySchool.php:18
 msgid "New School's Title"
 msgstr "Nom de la Nouvelle École"
 
-#: modules/School_Setup/CopySchool.php:12
+#: modules/School_Setup/CopySchool.php:18
 msgid "New School"
 msgstr "Nouvelle École"
 
-#: modules/School_Setup/CopySchool.php:16
+#: modules/School_Setup/CopySchool.php:22
 msgid "Confirm Copy School"
 msgstr "Confirmer la Copie d'École"
 
-#: modules/School_Setup/CopySchool.php:16
+#: modules/School_Setup/CopySchool.php:22
 #, php-format
 msgid "Are you sure you want to copy the data for %s to a new school?"
 msgstr "Etes-vous sur de vouloir copier les données pour %s dans une nouvelle école?"
 
-#: modules/School_Setup/CopySchool.php:29
+#: modules/School_Setup/CopySchool.php:35
 #, php-format
 msgid "The data have been copied to a new school called \"%s\"."
 msgstr "Les données ont été copiées dans une nouvelle école nommée \"%s\"."
@@ -4701,7 +4689,7 @@ msgid "School Information"
 msgstr "Informations sur les écoles"
 
 #: modules/School_Setup/Menu.php:16
-#: modules/School_Setup/Schools.php:143
+#: modules/School_Setup/Schools.php:149
 msgid "Add a School"
 msgstr "Ajouter une école"
 
@@ -4820,28 +4808,28 @@ msgstr "Vous <i>devez</i> recréer les utilisateurs, tranches horaires, calendri
 msgid "The data have been rolled."
 msgstr "Les données ont été recrées."
 
-#: modules/School_Setup/Schools.php:59
+#: modules/School_Setup/Schools.php:63
 msgid "This school has been modified."
 msgstr "Cette école a été modifiée."
 
-#: modules/School_Setup/Schools.php:163
+#: modules/School_Setup/Schools.php:172
 msgid "School Name"
 msgstr "Nom de l'école"
 
-#: modules/School_Setup/Schools.php:173
+#: modules/School_Setup/Schools.php:182
 msgid "Principal of School"
 msgstr "Directeur"
 
-#: modules/School_Setup/Schools.php:184
+#: modules/School_Setup/Schools.php:193
 msgid "Base Grading Scale"
 msgstr "Base de l'échelle de notation"
 
-#: modules/School_Setup/Schools.php:187
+#: modules/School_Setup/Schools.php:196
 msgid "Leave the field blank if the school does not use a Rotation of Numbered Days"
 msgstr "Laisser le champ vide si l'école n'utilise pas une Rotation de Jours Numérotés"
 
-#: modules/School_Setup/Schools.php:187
-#: modules/School_Setup/Schools.php:189
+#: modules/School_Setup/Schools.php:196
+#: modules/School_Setup/Schools.php:198
 msgid "Number of Days for the Rotation"
 msgstr "Nombre de Jours de la Rotation"
 
@@ -4889,14 +4877,11 @@ msgstr[0] "Module"
 msgstr[1] "Modules"
 
 #: modules/School_Setup/includes/Modules.inc.php:68
-#: modules/School_Setup/includes/Plugins.inc.php:61
 msgid "Files not eraseable."
 msgstr "Impossible d'effacer les fichiers."
 
 #: modules/School_Setup/includes/Modules.inc.php:79
 #: modules/School_Setup/includes/Modules.inc.php:227
-#: modules/School_Setup/includes/Plugins.inc.php:72
-#: modules/School_Setup/includes/Plugins.inc.php:226
 msgid "Deactivate"
 msgstr "Désactiver"
 
@@ -4907,17 +4892,14 @@ msgid "Incomplete or inexistant module."
 msgstr "Module incomplet ou inexistant."
 
 #: modules/School_Setup/includes/Modules.inc.php:190
-#: modules/School_Setup/includes/Plugins.inc.php:179
 msgid "Activated"
 msgstr "Activé"
 
 #: modules/School_Setup/includes/Modules.inc.php:233
-#: modules/School_Setup/includes/Plugins.inc.php:231
 msgid "Activate"
 msgstr "Activer"
 
 #: modules/School_Setup/includes/Modules.inc.php:235
-#: modules/School_Setup/includes/Plugins.inc.php:233
 #, php-format
 msgid "%s file missing or wrong permissions."
 msgstr "Fichier %s manquant ou permissions insuffisantes."
@@ -5273,7 +5255,7 @@ msgid "Student Info"
 msgstr "Informations Élève"
 
 #: modules/Students/Menu.php:5
-#: modules/Students/Student.php:278
+#: modules/Students/Student.php:286
 msgid "Add a Student"
 msgstr "Ajouter un Élève"
 
@@ -5387,11 +5369,11 @@ msgid_plural "Families"
 msgstr[0] "Famille"
 msgstr[1] "Familles"
 
-#: modules/Students/Student.php:83
+#: modules/Students/Student.php:91
 msgid "A user with that username already exists. Choose a different username and try again."
 msgstr "Un utilisateur avec ce nom d'utilisateur existe déjà. Choisissez un nom d'utilisateur différent et réessayez."
 
-#: modules/Students/Student.php:161
+#: modules/Students/Student.php:169
 #, php-format
 msgid "That %s ID is already taken. Please select a different one."
 msgstr "Cet ID %s est déjà utilisé. Choisissez en un autre s'il vous plaît."
@@ -5632,7 +5614,7 @@ msgid "User Info"
 msgstr "Informations Utilisateur"
 
 #: modules/Users/Menu.php:5
-#: modules/Users/User.php:281
+#: modules/Users/User.php:295
 msgid "Add a User"
 msgstr "Ajouter un Utilisateur"
 
@@ -5837,35 +5819,35 @@ msgstr "Trouver un Utilisateur"
 msgid "Include Parents of Inactive Students"
 msgstr "Inclure les parents des élèves non inscrits"
 
-#: modules/Users/Search.inc.php:155
+#: modules/Users/Search.inc.php:157
 msgid "Choose A User"
 msgstr "Choisir un Utilisateur"
 
-#: modules/Users/Search.inc.php:258
+#: modules/Users/Search.inc.php:260
 msgid "No Users were found."
 msgstr "Aucun utilisateur trouvé."
 
-#: modules/Users/User.php:356
+#: modules/Users/User.php:369
 #: modules/Users/includes/General_Info.inc.php:37
 msgid "Mr"
 msgstr "M."
 
-#: modules/Users/User.php:356
+#: modules/Users/User.php:369
 #: modules/Users/includes/General_Info.inc.php:37
 msgid "Mrs"
 msgstr "MM."
 
-#: modules/Users/User.php:356
+#: modules/Users/User.php:369
 #: modules/Users/includes/General_Info.inc.php:37
 msgid "Ms"
 msgstr "Mme"
 
-#: modules/Users/User.php:356
+#: modules/Users/User.php:369
 #: modules/Users/includes/General_Info.inc.php:37
 msgid "Miss"
 msgstr "Mlle"
 
-#: modules/Users/User.php:356
+#: modules/Users/User.php:369
 #: modules/Users/includes/General_Info.inc.php:37
 msgid "Dr"
 msgstr "Dr."
@@ -5900,12 +5882,12 @@ msgstr "ID %s de l'Année Passée"
 msgid "User Profile"
 msgstr "Profil Utilisateur"
 
-#: modules/Users/includes/General_Info.inc.php:169
-#: modules/Users/includes/General_Info.inc.php:171
+#: modules/Users/includes/General_Info.inc.php:173
+#: modules/Users/includes/General_Info.inc.php:175
 msgid "Email Address"
 msgstr "Adresse Email"
 
-#: modules/Users/includes/General_Info.inc.php:175
+#: modules/Users/includes/General_Info.inc.php:179
 msgid "Phone Number"
 msgstr "Numéro de Téléphone"
 
@@ -6006,17 +5988,17 @@ msgstr[1] "%d nouveaux incidents"
 #: modules/misc/Portal.php:91
 #: modules/misc/Portal.php:230
 #: modules/misc/Portal.php:249
-#: modules/misc/Portal.php:364
-#: modules/misc/Portal.php:383
-#: modules/misc/Portal.php:452
-#: modules/misc/Portal.php:471
+#: modules/misc/Portal.php:379
+#: modules/misc/Portal.php:398
+#: modules/misc/Portal.php:483
+#: modules/misc/Portal.php:502
 msgid "Date Posted"
 msgstr "Date de Parution"
 
 #: modules/misc/Portal.php:108
 #: modules/misc/Portal.php:265
-#: modules/misc/Portal.php:398
-#: modules/misc/Portal.php:479
+#: modules/misc/Portal.php:413
+#: modules/misc/Portal.php:513
 msgid "Day With Upcoming Events"
 msgid_plural "Days With Upcoming Events"
 msgstr[0] "Jour avec des Evénements"
@@ -6027,15 +6009,15 @@ msgid "Teachers have missing attendance data"
 msgstr "Des enseignants n'ont pas renseigné les absences"
 
 #: modules/misc/Portal.php:174
-#: modules/misc/Portal.php:324
+#: modules/misc/Portal.php:339
 msgid "Course Period with missing attendance data"
 msgid_plural "Course Periods with missing attendance data"
 msgstr[0] "Période de Cours avec des absences manquantes"
 msgstr[1] "Périodes de Cours avec des absences manquantes"
 
 #: modules/misc/Portal.php:188
-#: modules/misc/Portal.php:337
-#: modules/misc/Portal.php:427
+#: modules/misc/Portal.php:352
+#: modules/misc/Portal.php:458
 #, php-format
 msgid "You have a <b>negative</b> food service balance of <span style=\"color:red\">%s</span>"
 msgstr "Le solde du compte cantine est <b>négatif</b> de <span style=\"color:red\">%s</span>"
@@ -6053,36 +6035,44 @@ msgstr "Joyeuse administration ..."
 msgid "You are a <b>Teacher</b> on the system."
 msgstr "Vous êtes un <b>Enseignant</b> sur le système."
 
-#: modules/misc/Portal.php:322
+#: modules/misc/Portal.php:280
+#: modules/misc/Portal.php:429
+#: modules/misc/Portal.php:529
+msgid "Upcoming Assignment"
+msgid_plural "Upcoming Assignments"
+msgstr[0] "Prochain Devoir"
+msgstr[1] "Prochains Devoirs"
+
+#: modules/misc/Portal.php:337
 msgid "You have missing attendance data"
 msgstr "Vous avez des absences non renseignées"
 
-#: modules/misc/Portal.php:340
+#: modules/misc/Portal.php:355
 msgid "Happy teaching..."
 msgstr "Bon enseignement ..."
 
-#: modules/misc/Portal.php:344
+#: modules/misc/Portal.php:359
 msgid "You are a <b>Parent</b> on the system."
 msgstr "Vous êtes un <b>Parent</b> sur le système."
 
-#: modules/misc/Portal.php:417
+#: modules/misc/Portal.php:448
 #, php-format
 msgid "You have students with food service balance below %1.2f - please deposit at least the Minimum Deposit into you children's accounts."
 msgstr "Vous avez des élèves avec un solde de compte cantine inférieur à %1.2f - merci de déposer au moins le minimum sur le compte des vos enfants."
 
-#: modules/misc/Portal.php:419
+#: modules/misc/Portal.php:450
 msgid "Minimum Deposit"
 msgstr "Dépôt minimum"
 
-#: modules/misc/Portal.php:430
+#: modules/misc/Portal.php:461
 msgid "Happy parenting..."
 msgstr "Bonne session ..."
 
-#: modules/misc/Portal.php:434
+#: modules/misc/Portal.php:465
 msgid "You are a <b>Student</b> on the system."
 msgstr "Vous êtes un <b>Élève</b> sur le système."
 
-#: modules/misc/Portal.php:484
+#: modules/misc/Portal.php:534
 msgid "Happy learning..."
 msgstr "Bonnes études ..."
 

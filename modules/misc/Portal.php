@@ -92,7 +92,7 @@ switch (User('PROFILE'))
 		}
 
 //modif Francois: add translation
-		$events_RET = DBGet(DBQuery("SELECT ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE AS SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,s.TITLE AS SCHOOL 
+		$events_RET = DBGet(DBQuery("SELECT ce.ID,ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE AS SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,s.TITLE AS SCHOOL 
 		FROM CALENDAR_EVENTS ce,SCHOOLS s,STAFF st 
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE 
 		AND CURRENT_DATE+11 
@@ -250,7 +250,7 @@ switch (User('PROFILE'))
 		}
 
 //modif Francois: add translation
-		$events_RET = DBGet(DBQuery("SELECT ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,s.TITLE AS SCHOOL 
+		$events_RET = DBGet(DBQuery("SELECT ce.ID,ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,s.TITLE AS SCHOOL 
 		FROM CALENDAR_EVENTS ce,SCHOOLS s 
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE 
 		AND CURRENT_DATE+11 
@@ -266,7 +266,7 @@ switch (User('PROFILE'))
 		}
 
 		//modif Francois: Portal Assignments
-		$assignments_RET = DBGet(DBQuery("SELECT a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
+		$assignments_RET = DBGet(DBQuery("SELECT a.ASSIGNMENT_ID AS ID,a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
 		FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
 		WHERE (a.COURSE_ID=c.COURSE_ID
 		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
@@ -399,7 +399,7 @@ switch (User('PROFILE'))
 		}
 
 //modif Francois: add translation
-		$events_RET = DBGet(DBQuery("SELECT ce.TITLE,ce.SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,ce.DESCRIPTION,s.TITLE AS SCHOOL 
+		$events_RET = DBGet(DBQuery("SELECT ce.ID,ce.TITLE,ce.SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,ce.DESCRIPTION,s.TITLE AS SCHOOL 
 		FROM CALENDAR_EVENTS ce,SCHOOLS s 
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11 
 		AND ce.SYEAR='".UserSyear()."' 
@@ -414,7 +414,7 @@ switch (User('PROFILE'))
 		}
 
 		//modif Francois: Portal Assignments
-		$assignments_RET = DBGet(DBQuery("SELECT a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
+		$assignments_RET = DBGet(DBQuery("SELECT a.ASSIGNMENT_ID AS ID,a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
 		FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
 		WHERE (a.COURSE_ID=c.COURSE_ID
 		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
@@ -502,7 +502,7 @@ switch (User('PROFILE'))
 			ListOutput($polls_RET,array('PUBLISHED_DATE'=>_('Date Posted'),'TITLE'=>_('Title'),'OPTIONS'=>_('Poll'),'SCHOOL'=>_('School')),'Poll','Polls',array(),array(),array('save'=>false,'search'=>false));
 		}
 
-		$events_RET = DBGet(DBQuery("SELECT TITLE,SCHOOL_DATE,to_char(SCHOOL_DATE,'Day') AS DAY,DESCRIPTION
+		$events_RET = DBGet(DBQuery("SELECT ID,TITLE,SCHOOL_DATE,to_char(SCHOOL_DATE,'Day') AS DAY,DESCRIPTION
 		FROM CALENDAR_EVENTS
 		WHERE SCHOOL_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
 		AND SYEAR='".UserSyear()."'
@@ -514,7 +514,7 @@ switch (User('PROFILE'))
 		}
 
 		//modif Francois: Portal Assignments
-		$assignments_RET = DBGet(DBQuery("SELECT a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
+		$assignments_RET = DBGet(DBQuery("SELECT a.ASSIGNMENT_ID AS ID,a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
 		FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
 		WHERE (a.COURSE_ID=c.COURSE_ID
 		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
@@ -540,37 +540,28 @@ function _formatContent($value,$column)
 
 	$id = $THIS_RET['ID'];
 
-	$value_br = nl2br($value);
-	
-	//modif Francois: transform URL to links
-	$value_br_url = $value_br;
-	preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([-\w/_\.]*(\?\S+)?)?)?)@',$value_br_url,$matches);
-	if($matches){
-		foreach($matches[0] as $url){
-			//truncate links > 100 chars
-			$truncated_link = $url;
-			if (mb_strlen($truncated_link) > 100)
-			{
-				$separator = '/.../';
-				$separatorlength = mb_strlen($separator) ;
-				$maxlength = 100 - $separatorlength;
-				$start = $maxlength / 2 ;
-				$trunc =  mb_strlen($truncated_link) - $maxlength;
-				$truncated_link = substr_replace($truncated_link, $separator, $start, $trunc);
-			}
+	//Linkify
+	include_once('ProgramFunctions/Linkify.fnc.php');
 
-			$replace = '<a href="'.$url.'" target="_blank">'.$truncated_link.'</a>';
-			$value_br_url = str_replace($url,$replace,$value_br_url);
-		}
-	}
+	$value_url = Linkify($value);
+	$value_br_url = nl2br($value_url);
+
 	//modif Francois: responsive rt td too large
-	if ($value_br==$value && mb_strlen($value) < 50)
+	if ($value_br_url==$value && mb_strlen($value) < 50)
 		$return = $value_br_url;
 	else
 	{
 		if (!isset($_REQUEST['_ROSARIO_PDF']))
-			$return = includeOnceColorBox('divNoteContent'.$id).'<DIV id="divNoteContent'.$id.'" class="rt2colorBox">';
+		{
+			//modif Francois: Portal Assignments
+			if(isset($THIS_RET['COURSE']))
+				$return = includeOnceColorBox('divAssignmentContent'.$id).'<DIV id="divAssignmentContent'.$id.'" class="rt2colorBox">';
+			else
+				$return = includeOnceColorBox('divNoteContent'.$id).'<DIV id="divNoteContent'.$id.'" class="rt2colorBox">';
+		}
+
 		$return .= $value_br_url;
+
 		if (!isset($_REQUEST['_ROSARIO_PDF']))
 			$return .= '</DIV>';
 	}

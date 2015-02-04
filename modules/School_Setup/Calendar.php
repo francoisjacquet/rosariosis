@@ -306,7 +306,11 @@ if($_REQUEST['modfunc']=='detail')
 		else
 		{
 			//modif Francois: add assigned date
-			$RET = DBGet(DBQuery("SELECT TITLE,STAFF_ID,to_char(DUE_DATE,'dd-MON-yy') AS SCHOOL_DATE,DESCRIPTION,ASSIGNED_DATE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'"), array('DESCRIPTION'=>'_formatContent'));
+			$RET = DBGet(DBQuery("SELECT a.TITLE,a.STAFF_ID,to_char(a.DUE_DATE,'dd-MON-yy') AS SCHOOL_DATE,a.DESCRIPTION,a.ASSIGNED_DATE,c.TITLE AS COURSE
+			FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
+			WHERE (a.COURSE_ID=c.COURSE_ID
+			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
+			AND a.ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'"), array('DESCRIPTION'=>'_formatContent'));
 			$title = $RET[1]['TITLE'];
 			$RET[1]['STAFF_ID'] = GetTeacher($RET[1]['STAFF_ID']);
 		}
@@ -333,6 +337,10 @@ if($_REQUEST['modfunc']=='detail')
 		
 		//modif Francois: bugfix SQL bug value too long for type character varying(50)
 		echo '<TR><TD>'._('Title').'</TD><TD>'.TextInput($RET[1]['TITLE'],'values[TITLE]', '', 'required maxlength="50"').'</TD></TR>';
+
+		//modif Francois: add course
+		if($RET[1]['COURSE'])
+			echo '<TR><TD>'._('Course').'</TD><TD>'.$RET[1]['COURSE'].'</TD></TR>';
 
 		if($RET[1]['STAFF_ID'])
 			echo '<TR><TD>'._('Teacher').'</TD><TD>'.TextInput($RET[1]['STAFF_ID'],'values[STAFF_ID]').'</TD></TR>';
@@ -524,7 +532,11 @@ if(empty($_REQUEST['modfunc']))
 		$day_time = mktime(0,0,0,$_REQUEST['month'],$i,$_REQUEST['year']);
 		$date = mb_strtoupper(date('d-M-y',$day_time));
 
-		echo '<TD class="valign-top" style="height:100%; background-color:'.($calendar_RET[$date][1]['MINUTES']?$calendar_RET[$date][1]['MINUTES']=='999'?'#EEFFEE':'#EEEEFF':'#FFEEEE').';"><table class="calendar-day'.((AllowEdit() || $calendar_RET[$date][1]['MINUTES'] || count($events_RET[$date]) || count($assignments_RET[$date])) ? ' hover' : '').'"><tr><td style="width:5px;" class="valign-top">'.((count($events_RET[$date]) || count($assignments_RET[$date])) ? '<span class="calendar-day-bold">'.$i.'</span>' : $i).'</td><td>';
+		echo '<TD class="valign-top" style="height:100%; background-color:'.($calendar_RET[$date][1]['MINUTES']?$calendar_RET[$date][1]['MINUTES']=='999'?'#EEFFEE':'#EEEEFF':'#FFEEEE').';">
+		<table class="calendar-day'.((AllowEdit() || $calendar_RET[$date][1]['MINUTES'] || count($events_RET[$date]) || count($assignments_RET[$date])) ? ' hover' : '').'"><tr>
+		<td style="width:5px;" class="valign-top">'.((count($events_RET[$date]) || count($assignments_RET[$date])) ? '<span class="calendar-day-bold">'.$i.'</span>' : $i).'</td>
+		<td>';
+
 		if(AllowEdit())
 		{
 			echo '<TABLE style="width:95px;"><TR><TD style="text-align:right;">';
@@ -555,13 +567,21 @@ if(empty($_REQUEST['modfunc']))
 		if(count($events_RET[$date]))
 		{
 			echo '<TABLE style="border-collapse:separate; border-spacing:2px;">';
+
 			//modif Francois: display event link only if description or if admin
 			foreach($events_RET[$date] as $event)
-				echo '<TR class="center"><TD style="width:1px; background-color:#000;"></TD><TD>'.(AllowEdit() || $event['DESCRIPTION'] ? '<A HREF="#" onclick=\'javascript:window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&event_id='.$event['ID'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'","blank","width=500,height=400"); return false;\'>'.($event['TITLE']?$event['TITLE']:'***').'</A>' : ($event['TITLE']?$event['TITLE']:'***')).'</TD></TR>';
+				echo '<TR class="center">
+				<TD style="width:1px; background-color:#000;"></TD>
+				<TD>'.(AllowEdit() || $event['DESCRIPTION'] ? '<A HREF="#" onclick=\'javascript:window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&event_id='.$event['ID'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'","blank","width=500,height=400"); return false;\'>'.($event['TITLE']?$event['TITLE']:'***').'</A>' : ($event['TITLE']?$event['TITLE']:'***')).'</TD>
+				</TR>';
+
 			if(count($assignments_RET[$date]))
 			{
 				foreach($assignments_RET[$date] as $event)
-					echo '<TR class="center"><TD style="width:1px; background-color:'.($event['ASSIGNED']=='Y'?'#00FF00':'#FF0000').'"></TD><TD>'.'<A HREF="#" onclick=\'javascript:window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&assignment_id='.$event['ID'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'","blank","width=500,height=400"); return false;\'>'.$event['TITLE'].'</A></TD></TR>';
+					echo '<TR class="center">
+					<TD style="width:1px; background-color:'.($event['ASSIGNED']=='Y'?'#00FF00':'#FF0000').'"></TD>
+					<TD>'.'<A HREF="#" onclick=\'javascript:window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&assignment_id='.$event['ID'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'","blank","width=500,height=400"); return false;\'>'.$event['TITLE'].'</A></TD>
+					</TR>';
 			}
 			echo '</TABLE>';
 		}
@@ -569,7 +589,10 @@ if(empty($_REQUEST['modfunc']))
 		{
 			echo '<TABLE style="border-collapse:separate; border-spacing:2px;">';
 			foreach($assignments_RET[$date] as $event)
-				echo '<TR class="center"><TD style="width:1px; background-color:'.($event['ASSIGNED']=='Y'?'#00FF00':'#FF0000').'"></TD><TD>'.'<A HREF="#" onclick=\'javascript:window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&assignment_id='.$event['ID'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'","blank","width=500,height=400"); return false;\'>'.$event['TITLE'].'</A></TD></TR>';
+				echo '<TR class="center">
+				<TD style="width:1px; background-color:'.($event['ASSIGNED']=='Y'?'#00FF00':'#FF0000').'"></TD>
+				<TD>'.'<A HREF="#" onclick=\'javascript:window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&assignment_id='.$event['ID'].'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'","blank","width=500,height=400"); return false;\'>'.$event['TITLE'].'</A></TD>
+				</TR>';
 			echo '</TABLE>';
 		}
 
@@ -617,30 +640,9 @@ function _formatContent($value,$column)
 
 	$id = $THIS_RET['ID'];
 
-	$value_br = nl2br($value);
+	//Linkify
+	include_once('ProgramFunctions/Linkify.fnc.php');
 
-	//modif Francois: transform URL to links
-	$value_br_url = $value_br;
-	preg_match_all('@(https?://([-\w\.]+)+(:\d+)?(/([-\w/_\.]*(\?\S+)?)?)?)@',$value_br_url,$matches);
-	if($matches){
-		foreach($matches[0] as $url){
-			//truncate links > 100 chars
-			$truncated_link = $url;
-			if (mb_strlen($truncated_link) > 100)
-			{
-				$separator = '/.../';
-				$separatorlength = mb_strlen($separator) ;
-				$maxlength = 100 - $separatorlength;
-				$start = $maxlength / 2 ;
-				$trunc =  mb_strlen($truncated_link) - $maxlength;
-				$truncated_link = substr_replace($truncated_link, $separator, $start, $trunc);
-			}
-
-			$replace = '<a href="'.$url.'" target="_blank">'.$truncated_link.'</a>';
-			$value_br_url = str_replace($url,$replace,$value_br_url);
-		}
-	}
-
-	return $value_br_url;
+	return Linkify($value);
 }
 ?>
