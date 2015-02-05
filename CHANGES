@@ -39,6 +39,7 @@ Changes in 2.8
 - Display MLTextInput value when PDF or no edit allowed in Inputs.php
 - Portal Assignments in Portal.php
 - create Linkify() function in ProgramFunctions/Linkify.fnc.php
+- Reorganize Report Cards comments display in ReportCards.php
 
 Upgrade from 2.7.x
 ------------------

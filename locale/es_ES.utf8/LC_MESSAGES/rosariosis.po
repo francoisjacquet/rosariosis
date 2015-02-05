@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-03 18:40-0500\n"
-"PO-Revision-Date: 2015-02-03 18:41-0500\n"
+"POT-Creation-Date: 2015-02-04 12:01-0500\n"
+"PO-Revision-Date: 2015-02-04 12:02-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -3421,7 +3421,7 @@ msgstr "Escala de Calificaciones del Boletín de Calificaciones"
 
 #: modules/Grades/ReportCardCommentCodes.php:119
 #: modules/Grades/ReportCardCommentCodes.php:136
-#: modules/Grades/ReportCards.php:313
+#: modules/Grades/ReportCards.php:414
 msgid "Comment Scale"
 msgstr "Escala de Comentario"
 
@@ -3486,58 +3486,66 @@ msgstr "Cuadro de Honor: Mínimo de Promedio"
 msgid "Honor Roll by Subject GPA Min"
 msgstr "Cuadro de Honor por Materia: Mínimo de Promedio"
 
-#: modules/Grades/ReportCards.php:212
+#: modules/Grades/ReportCards.php:263
 msgid "Report Card"
 msgstr "Boletín de Calificaciones"
 
-#: modules/Grades/ReportCards.php:228
+#: modules/Grades/ReportCards.php:279
 #, php-format
 msgid "Absences in %s"
 msgstr "Ausencias en %s"
 
-#: modules/Grades/ReportCards.php:240
+#: modules/Grades/ReportCards.php:293
 msgid "Absences this year"
 msgstr "Ausencias este año"
 
-#: modules/Grades/ReportCards.php:257
+#: modules/Grades/ReportCards.php:310
 #, php-format
 msgid "Tardy in %s"
 msgstr "Retraso en %s"
 
-#: modules/Grades/ReportCards.php:268
+#: modules/Grades/ReportCards.php:321
 msgid "Tardy this year"
 msgstr "Retraso este año"
 
-#: modules/Grades/ReportCards.php:300
+#: modules/Grades/ReportCards.php:352
 msgid "his"
 msgstr "su"
 
-#: modules/Grades/ReportCards.php:300
+#: modules/Grades/ReportCards.php:352
 msgid "her"
 msgstr "su"
 
-#: modules/Grades/ReportCards.php:300
+#: modules/Grades/ReportCards.php:352
 msgid "his/her"
 msgstr "su"
 
-#: modules/Grades/ReportCards.php:302
-msgid "Explanation of Comment Codes"
-msgstr "Explicación de los Códigos de Comentario"
+#: modules/Grades/ReportCards.php:354
+msgid "Comment Scales"
+msgstr "Escalas de Comentario"
 
-#: modules/Grades/ReportCards.php:323
+#: modules/Grades/ReportCards.php:384
 msgid "General Comments"
 msgstr "Comentarios Generales"
 
-#: modules/Grades/ReportCards.php:379
-#: modules/Grades/ReportCards.php:467
+#: modules/Grades/ReportCards.php:386
+msgid "Course-specific Comments"
+msgstr "Comentarios específicos al Curso"
+
+#: modules/Grades/ReportCards.php:434
+msgid "Explanation of Comment Codes"
+msgstr "Explicación de los Códigos de Comentario"
+
+#: modules/Grades/ReportCards.php:468
+#: modules/Grades/ReportCards.php:556
 msgid "Create Report Cards for Selected Students"
 msgstr "Crear Boletín de Calificaciones para los Estudiantes Seleccionados"
 
-#: modules/Grades/ReportCards.php:385
+#: modules/Grades/ReportCards.php:474
 msgid "Include on Report Card"
 msgstr "Incluir en el Boletín de Calificaciones"
 
-#: modules/Grades/ReportCards.php:403
+#: modules/Grades/ReportCards.php:492
 msgid "Other Attendance this quarter"
 msgstr "Otra Asistencia este bimestre"
 

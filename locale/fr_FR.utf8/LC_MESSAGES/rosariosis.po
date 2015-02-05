@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-03 18:42-0500\n"
-"PO-Revision-Date: 2015-02-03 18:42-0500\n"
+"POT-Creation-Date: 2015-02-04 12:02-0500\n"
+"PO-Revision-Date: 2015-02-04 12:05-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -3022,7 +3022,7 @@ msgstr "Points de Notation non pondérés"
 
 #: modules/Grades/EditReportCardGrades.php:252
 msgid "Grade Scale"
-msgstr "Echelle de Notation"
+msgstr "Échelle de Notation"
 
 #: modules/Grades/EditReportCardGrades.php:269
 msgid "Credit Attempted"
@@ -3326,7 +3326,7 @@ msgstr "Liste Moyenne / Période Scolaire"
 #: modules/Grades/Menu.php:18
 #: modules/Grades/Menu.php:48
 msgid "Grading Scales"
-msgstr "Echelles de Notation"
+msgstr "Échelles de Notation"
 
 #: modules/Grades/Menu.php:21
 msgid "History Marking Periods"
@@ -3403,13 +3403,13 @@ msgstr "Commentaire du Bulletin de Notes"
 #: modules/Grades/ReportCardCommentCodes.php:81
 #: modules/Grades/ReportCardGrades.php:81
 msgid "Report Card Grading Scale"
-msgstr "Echelle de Notation du Bulletin de Notes"
+msgstr "Échelle de Notation du Bulletin de Notes"
 
 #: modules/Grades/ReportCardCommentCodes.php:119
 #: modules/Grades/ReportCardCommentCodes.php:136
-#: modules/Grades/ReportCards.php:313
+#: modules/Grades/ReportCards.php:414
 msgid "Comment Scale"
-msgstr "Echelle de Commentaire"
+msgstr "Échelle de Commentaire"
 
 #: modules/Grades/ReportCardCommentCodes.php:156
 msgid "Code"
@@ -3420,8 +3420,8 @@ msgstr[1] "Codes"
 #: modules/Grades/ReportCardCommentCodes.php:158
 msgid "Comment Code Scale"
 msgid_plural "Comment Code Scales"
-msgstr[0] "Echelle de Code Commentaire"
-msgstr[1] "Echelles de Code Commentaire"
+msgstr[0] "Échelle de Code Commentaire"
+msgstr[1] "Échelles de Code Commentaire"
 
 #: modules/Grades/ReportCardComments.php:57
 msgid "There are no courses setup yet."
@@ -3442,7 +3442,7 @@ msgstr "Catégorie de Commentaire"
 
 #: modules/Grades/ReportCardComments.php:189
 msgid "Code Scale"
-msgstr "Echelle de Code"
+msgstr "Échelle de Code"
 
 #: modules/Grades/ReportCardGrades.php:135
 msgid "Breakoff"
@@ -3458,7 +3458,7 @@ msgstr "Valeur Note Non-Pondérée"
 
 #: modules/Grades/ReportCardGrades.php:162
 msgid "Scale Value"
-msgstr "Valeur de l'Echelle"
+msgstr "Valeur de l'Échelle"
 
 #: modules/Grades/ReportCardGrades.php:162
 msgid "High Honor Roll GPA Min"
@@ -3472,58 +3472,66 @@ msgstr "Moyenne Minimum pour Mention"
 msgid "Honor Roll by Subject GPA Min"
 msgstr "Moyenne Minimum pour Mention par Matière"
 
-#: modules/Grades/ReportCards.php:212
+#: modules/Grades/ReportCards.php:263
 msgid "Report Card"
 msgstr "Bulletin de Notes"
 
-#: modules/Grades/ReportCards.php:228
+#: modules/Grades/ReportCards.php:279
 #, php-format
 msgid "Absences in %s"
 msgstr "Absences en %s"
 
-#: modules/Grades/ReportCards.php:240
+#: modules/Grades/ReportCards.php:293
 msgid "Absences this year"
 msgstr "Absences cette année"
 
-#: modules/Grades/ReportCards.php:257
+#: modules/Grades/ReportCards.php:310
 #, php-format
 msgid "Tardy in %s"
 msgstr "Retards en %s"
 
-#: modules/Grades/ReportCards.php:268
+#: modules/Grades/ReportCards.php:321
 msgid "Tardy this year"
 msgstr "Retards cette année"
 
-#: modules/Grades/ReportCards.php:300
+#: modules/Grades/ReportCards.php:352
 msgid "his"
 msgstr "sa"
 
-#: modules/Grades/ReportCards.php:300
+#: modules/Grades/ReportCards.php:352
 msgid "her"
 msgstr "sa"
 
-#: modules/Grades/ReportCards.php:300
+#: modules/Grades/ReportCards.php:352
 msgid "his/her"
 msgstr "sa"
 
-#: modules/Grades/ReportCards.php:302
-msgid "Explanation of Comment Codes"
-msgstr "Explication des Codes Commentaires"
+#: modules/Grades/ReportCards.php:354
+msgid "Comment Scales"
+msgstr "Échelles de Commentaire"
 
-#: modules/Grades/ReportCards.php:323
+#: modules/Grades/ReportCards.php:384
 msgid "General Comments"
 msgstr "Commentaires Généraux"
 
-#: modules/Grades/ReportCards.php:379
-#: modules/Grades/ReportCards.php:467
+#: modules/Grades/ReportCards.php:386
+msgid "Course-specific Comments"
+msgstr "Commentaires spécifiques au Cours"
+
+#: modules/Grades/ReportCards.php:434
+msgid "Explanation of Comment Codes"
+msgstr "Explication des Codes Commentaires"
+
+#: modules/Grades/ReportCards.php:468
+#: modules/Grades/ReportCards.php:556
 msgid "Create Report Cards for Selected Students"
 msgstr "Créer Bulletins de Notes pour les Élèves Sélectionnés"
 
-#: modules/Grades/ReportCards.php:385
+#: modules/Grades/ReportCards.php:474
 msgid "Include on Report Card"
 msgstr "Inclure sur le Bulletin de Notes"
 
-#: modules/Grades/ReportCards.php:403
+#: modules/Grades/ReportCards.php:492
 msgid "Other Attendance this quarter"
 msgstr "Autres Absences ce bimestre"
 
@@ -3543,7 +3551,7 @@ msgstr "Non Noté"
 #: modules/Grades/StudentGrades.php:47
 #: modules/Grades/StudentGrades.php:260
 msgid "Grade Range"
-msgstr "Echelle de Notation"
+msgstr "Plage de Notation"
 
 #: modules/Grades/StudentGrades.php:184
 #: modules/Grades/StudentGrades.php:301
@@ -3874,7 +3882,7 @@ msgstr "Feminin"
 
 #: modules/Scheduling/Courses.php:796
 msgid "Grading Scale"
-msgstr "Echelle de Notation"
+msgstr "Échelle de Notation"
 
 #: modules/Scheduling/Courses.php:796
 msgid "Not Graded"
@@ -3882,7 +3890,7 @@ msgstr "Non Noté"
 
 #: modules/Scheduling/Courses.php:819
 msgid "Allow Teacher Grade Scale"
-msgstr "Permettre l'Echelle de Notation Professeur"
+msgstr "Permettre l'Échelle de Notation Professeur"
 
 #: modules/Scheduling/Courses.php:839
 msgid "Parent Course Period"
