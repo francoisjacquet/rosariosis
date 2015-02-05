@@ -44,7 +44,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 	$num_displayed = 100000;
 	$extra = 'LO_page='.(isset($_REQUEST['LO_page'])?$_REQUEST['LO_page']:'').'&amp;LO_sort='.(isset($_REQUEST['LO_sort'])?$_REQUEST['LO_sort']:'').'&amp;LO_direction='.(isset($_REQUEST['LO_direction'])?$_REQUEST['LO_direction']:'').'&amp;LO_search='.(isset($_REQUEST['LO_search'])?urlencode($_REQUEST['LO_search']):'');
 
-	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('LO_page','LO_sort','LO_direction','LO_search','LO_save','remove_prompt','remove_name','PHPSESSID'));
+	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('LO_page','LO_sort','LO_direction','LO_search','LO_save','remove_prompt','remove_name'));
 
 	// END PREPARE LINKS ---
 

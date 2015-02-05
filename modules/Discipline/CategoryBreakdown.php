@@ -235,7 +235,6 @@ if($_REQUEST['category_id'])
 
 if(empty($_REQUEST['modfunc']))
 {
-	unset($_REQUEST['PHPSESSID']);
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&amp;chart_type='.str_replace(' ','+',$_REQUEST['chart_type']).'" method="POST">';
 	
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,du.TITLE,du.SELECT_OPTIONS 

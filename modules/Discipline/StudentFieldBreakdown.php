@@ -242,9 +242,7 @@ if($_REQUEST['category_id'])
 }
 
 if(empty($_REQUEST['modfunc']))
-
 {
-	unset($_REQUEST['PHPSESSID']);
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&amp;chart_type='.str_replace(' ','+',$_REQUEST['chart_type']).'" method="POST">';
 	
 	$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID FROM CUSTOM_FIELDS WHERE TYPE NOT IN ('textarea','text','date','log','holder') ORDER BY SORT_ORDER,TITLE"),array(),array('CATEGORY_ID'));
