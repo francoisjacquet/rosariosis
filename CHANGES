@@ -40,6 +40,7 @@ Changes in 2.8
 - Portal Assignments in Portal.php
 - create Linkify() function in ProgramFunctions/Linkify.fnc.php
 - Reorganize Report Cards comments display in ReportCards.php
+- bugfix ListOutput sorting & remove yscroll LO_option in ListOutput.fnc.php
 
 Upgrade from 2.7.x
 ------------------
