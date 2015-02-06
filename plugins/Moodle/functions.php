@@ -68,6 +68,7 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('School_Setup/PortalNotes.php|update_portal_note', 'MoodleTriggered');
 	add_action('School_Setup/PortalNotes.php|delete_portal_note', 'MoodleTriggered');
 
+	add_action('School_Setup/Rollover.php|rollover_warnings', 'MoodleTriggered');
 	add_action('School_Setup/Rollover.php|rollover_checks', 'MoodleTriggered');
 	add_action('School_Setup/Rollover.php|rollover_staff', 'MoodleTriggered');
 	add_action('School_Setup/Rollover.php|rollover_course_subjects', 'MoodleTriggered');
@@ -516,6 +517,15 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		break;
 
 		/*School_Setup/Rollover.php*/
+		case 'School_Setup/Rollover.php|rollover_warnings':
+			//warning on RE roll staff or courses (creates DB incoherence)
+
+			global $table_list;
+
+			$table_list .= '<BR /><BR />'.'Moodle: '._('You cannot re-roll Users or Courses');
+
+		break;
+
 		case 'School_Setup/Rollover.php|rollover_checks':
 			//prevent RE roll staff or courses (creates DB incoherence)
 			

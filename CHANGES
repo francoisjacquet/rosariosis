@@ -129,6 +129,7 @@ Changes in 2.7
 - Replace smooth scrolling after page load with direct scroll in warehouse.js
 - Use json_encode to escape JS vars, programwide
 - Bugfix JS syntax error for autos/edits/exports pull down fields in StudentFieldBreakdown.php & StudentBreakdown.php
+- Add rollover_warnings action in Actions.php & Moodle/functions.php
 
 Upgrade from 2.6.x
 ------------------

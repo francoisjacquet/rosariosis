@@ -14,24 +14,31 @@ if($RosarioModules['Discipline'])
 	$tables += array(/*'DISCIPLINE_CATEGORIES'=>_('Referral Form'), */'DISCIPLINE_FIELD_USAGE'=>_('Referral Form'));
 
 $table_list = '<TABLE style="float: left">';
+
 foreach($tables as $table=>$name)
 {
 	if($table!='FOOD_SERVICE_STAFF_ACCOUNTS')
 		$exists_RET[$table] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM $table WHERE SYEAR='".$next_syear."'".(!$no_school_tables[$table]?" AND SCHOOL_ID='".UserSchool()."'":'')));
 	else
 		$exists_RET['FOOD_SERVICE_STAFF_ACCOUNTS'] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM STAFF WHERE SYEAR='".$next_syear."' AND exists(SELECT * FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=STAFF.STAFF_ID)"));
+
 	if($exists_RET[$table][1]['COUNT']>0)
 //modif Francois: add <label> on checkbox
 		$table_list .= '<TR><TD><label><INPUT type="checkbox" value="Y" name="tables['.$table.']"><span style="color:grey">&nbsp;'.$name.' ('.$exists_RET[$table][1]['COUNT'].')</span></label></TD></TR>';
 	else
 		$table_list .= '<TR><TD><label><INPUT type="checkbox" value="Y" name="tables['.$table.']" checked />&nbsp;'.$name.'</label></TD></TR>';
 }
+
 $table_list .= '</TABLE><BR />'
-                .'* '._('You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.')
-                .'<BR /><BR />* '._('You <i>must</i> roll enrollment codes at the same time or before rolling students.')
-                .'<BR /><BR />* '._('You <i>must</i> roll courses at the same time or before rolling report card comments.')
-                .'<BR /><BR />'._('Greyed items have already have data in the next school year (They might have been rolled).')
-                .'<BR /><BR />'._('Rolling greyed items will delete already existing data in the next school year.');
+		.'* '._('You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.')
+		.'<BR /><BR />* '._('You <i>must</i> roll enrollment codes at the same time or before rolling students.')
+		.'<BR /><BR />* '._('You <i>must</i> roll courses at the same time or before rolling report card comments.')
+		.'<BR /><BR />'._('Greyed items have already have data in the next school year (They might have been rolled).')
+		.'<BR /><BR />'._('Rolling greyed items will delete already existing data in the next school year.');
+
+//hook
+do_action('School_Setup/Rollover.php|rollover_warnings');
+
 
 DrawHeader(ProgramTitle());
 
