@@ -146,7 +146,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	{
 		$total_votes = 0;
 		//question
-		$votes_display .= '<P><B>'.$question['QUESTION'].'</B></P><TABLE class="width-100p cellspacing-0 widefat col1-align-right">'."\n";
+		$votes_display .= '<P><B>'.$question['QUESTION'].'</B></P><TABLE class="cellspacing-0 widefat col1-align-right">'."\n";
 		
 		//votes
 		$votes_array = explode('||', $question['VOTES']);
@@ -159,9 +159,9 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 		for ($i=0; $i < $options_array_count; $i++)
 		{
 			$percent = round(($votes_array[$i]/$total_votes)*100);
-			$votes_display .= '<TR><TD>'.$options_array[$i].'</TD><TD style="width:104px;"><div class="PortalPollBar" style="width:'.$percent.'px; height:12px; background-color:#cc4400;">&nbsp;</div></TD><TD style="width:25px;"><strong> '.$percent.'%</strong></TD></TR>'."\n";
+			$votes_display .= '<TR><TD>'.$options_array[$i].'</TD><TD><div class="bar" style="width:'.$percent.'px;">&nbsp;</div></TD><TD><b> '.$percent.'%</b></TD></TR>'."\n";
 		}
-		$votes_display .= '</TABLE><BR />'."\n";
+		$votes_display .= '</TABLE>'."\n";
 	}
 	
 	$votes_display .= '<p>'.(isset($_POST['total_votes_string'])? $_POST['total_votes_string'] : _('Total Participants')).': '.$votes_number.'</p>';

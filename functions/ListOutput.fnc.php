@@ -226,7 +226,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$scale = (100/$values[$last_value]);
 
 					for($i=$last_value;$i<=$result_count;$i++)
-						$result[$i]['RELEVANCE'] = '<!--' . ((int) ($values[$i]*$scale)) . '--><div style="width:'.((int) ($values[$i]*$scale)).'px; height:12px; background-color:grey;">&nbsp;</div>';
+						$result[$i]['RELEVANCE'] = '<!--' . ((int) ($values[$i]*$scale)) . '--><div class="bar relevance" style="width:'.((int) ($values[$i]*$scale)).'px;">&nbsp;</div>';
 				}
 				$column_names['RELEVANCE'] = _('Relevance');
 

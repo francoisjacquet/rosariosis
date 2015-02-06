@@ -518,6 +518,16 @@ tr.address > td{
 	border:1;
 	padding:0 12px 0 12px
 }
+/*bars*/
+.bar{
+	height:12px
+}
+.bar.relevance{
+	background-color:grey
+}
+.divPortalPoll .bar{
+	background-color:#cc4400
+}
 #chart{
 	margin-top:20px;
 	margin-left:20px;
@@ -568,7 +578,8 @@ div.st{
 }
 .divPortalPoll{
 	max-height:350px;
-	overflow-y:auto
+	overflow-y:auto;
+	min-width: 300px
 }
 
 /*wkhtmltopdf code*/

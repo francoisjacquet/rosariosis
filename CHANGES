@@ -16,7 +16,7 @@ Changes in 2.8
 - Responsive table content in UnfilledRequests.php
 - Add Help texts + spanish translation in Help_en.php & Help_es.php
 - Remove inline CSS, program wide
-- Add .student .staff .self .align-right CSS classes
+- Add .student .staff .self .align-right .bar .relevance CSS classes
 - Add .center CSS class for tables
 - Add <legend> CSS styling
 - Remove "Display data using hidden fields" / HIDDEN Preference option
@@ -41,6 +41,7 @@ Changes in 2.8
 - create Linkify() function in ProgramFunctions/Linkify.fnc.php
 - Reorganize Report Cards comments display in ReportCards.php
 - bugfix ListOutput sorting & remove yscroll LO_option in ListOutput.fnc.php
+- Add rollover_warnings action in Actions.php & Moodle/functions.php
 
 Upgrade from 2.7.x
 ------------------
@@ -129,7 +130,6 @@ Changes in 2.7
 - Replace smooth scrolling after page load with direct scroll in warehouse.js
 - Use json_encode to escape JS vars, programwide
 - Bugfix JS syntax error for autos/edits/exports pull down fields in StudentFieldBreakdown.php & StudentBreakdown.php
-- Add rollover_warnings action in Actions.php & Moodle/functions.php
 
 Upgrade from 2.6.x
 ------------------
