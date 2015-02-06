@@ -250,9 +250,15 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					$subject = sprintf('New Admin Added: %s', $admin_name);
 
 					$admin_username = empty($_REQUEST['staff']['USERNAME']) ? '[no username]' : $_REQUEST['staff']['USERNAME'];
+
+					if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+						$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+					else
+						$ip = $_SERVER['REMOTE_ADDR'];
+
 					$message = sprintf('New User: %s
 Added by: %s
-Remote IP: %s', $admin_username, User('NAME'), $_SERVER['REMOTE_ADDR']);
+Remote IP: %s', $admin_username, User('NAME'), $ip);
 
 					SendEmail($to, $subject, $message);
 				}
