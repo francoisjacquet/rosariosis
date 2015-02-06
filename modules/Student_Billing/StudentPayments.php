@@ -117,11 +117,12 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 	$columns += array('AMOUNT'=>_('Amount'),'PAYMENT_DATE'=>_('Date'),'COMMENTS'=>_('Comment'),'LUNCH_PAYMENT'=>_('Lunch Payment'));
 	if(!$_REQUEST['print_statements'] && AllowEdit())
 		$link['add']['html'] = array('REMOVE'=>button('add'),'AMOUNT'=>_makePaymentsTextInput('','AMOUNT'),'PAYMENT_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makePaymentsTextInput('','COMMENTS'),'LUNCH_PAYMENT'=>_lunchInput('','LUNCH_PAYMENT'));
-	if(!$_REQUEST['print_statements'] && AllowEdit())
+	if(!$_REQUEST['print_statements'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		//DrawStudentHeader();
-		DrawHeader('',SubmitButton(_('Save')));
+		if(AllowEdit())
+			DrawHeader('',SubmitButton(_('Save')));
 		$options = array();
 	}
 	else
