@@ -55,12 +55,13 @@ $payments_extra['WHERE'] .= " AND p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR=ssm.SYEA
 
 $payments_RET = GetStuList($payments_extra);
 
-if (empty($RET))
-	$RET = array(array());
-
-foreach($payments_RET as $payment)
+if(!empty($payments_RET))
 {
-	$RET[] = $payment;
+	$i = count($RET) + 1;
+	foreach($payments_RET as $payment)
+	{
+		$RET[$i++] = $payment;
+	}
 }
 
 $columns = array('FULL_NAME'=>_('Student'),'DEBIT'=>_('Fee'),'CREDIT'=>_('Payment'),'DATE'=>_('Date'),'EXPLANATION'=>_('Comment'));
