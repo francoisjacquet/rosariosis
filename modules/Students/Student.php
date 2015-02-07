@@ -299,8 +299,6 @@ else
 {
 	DBQuery("INSERT INTO STUDENT_ENROLLMENT (ID, SYEAR, SCHOOL_ID, STUDENT_ID) values(nextval('STUDENT_ENROLLMENT_SEQ'), '".UserSyear()."', '".$_REQUEST['enrollment']['SCHOOL_ID']."', '".UserStudentID()."')");
 
-	session_unset();
-	session_destroy();
 ?>
 	<script>window.location.href = "index.php?modfunc=logout&reason=account_created";</script>
 <?php
