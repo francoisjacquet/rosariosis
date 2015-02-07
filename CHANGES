@@ -16,7 +16,7 @@ Changes in 2.8
 - Responsive table content in UnfilledRequests.php
 - Add Help texts + spanish translation in Help_en.php & Help_es.php
 - Remove inline CSS, program wide
-- Add .student .staff .self .align-right .bar .relevance CSS classes
+- Add .student .staff .self .align-right .col1-align-right .bar .relevance CSS classes
 - Add .center CSS class for tables
 - Add <legend> CSS styling
 - Remove "Display data using hidden fields" / HIDDEN Preference option
