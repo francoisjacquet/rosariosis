@@ -43,6 +43,7 @@ Changes in 2.8
 - bugfix ListOutput sorting & remove yscroll LO_option in ListOutput.fnc.php
 - Add rollover_warnings action in Actions.php & Moodle/functions.php
 - Detect IP behind Proxy in HackingLog.fnc.php & User.php
+- Update File Attached download/view online per format in PortalPollsNotes.fnc.php
 
 Upgrade from 2.7.x
 ------------------
