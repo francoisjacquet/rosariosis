@@ -65,18 +65,25 @@ function PortalPollsDisplay($value,$name)
 	static $js_included = false;
 
 	$poll_id = $THIS_RET['ID'];
+
 	//get poll:
 	$poll_RET = DBGet(DBQuery("SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES FROM PORTAL_POLLS WHERE ID='".$poll_id."'"));
-	$poll_questions_RET = DBGet(DBQuery("SELECT ID, QUESTION, OPTIONS, TYPE, VOTES FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='".$poll_id."' ORDER BY ID"));
+
+	include_once('ProgramFunctions/Linkify.fnc.php');
+
+	$poll_questions_RET = DBGet(DBQuery("SELECT ID, QUESTION, OPTIONS, TYPE, VOTES FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='".$poll_id."' ORDER BY ID"), array('OPTIONS'=>'Linkify'));
+
 	if (!$poll_RET || !$poll_questions_RET)
 		return ErrorMessage(array('Poll does not exist'));//should never be displayed, so do not translate
 	
 	//verify if user is in excluded users list (format = '|[profile_id]:[user_id]')
 	$profile_id = User('PROFILE_ID');
+
 	if($profile_id != 0) //modif Francois: call right Student/Staff ID
 		$user_id = $_SESSION['STAFF_ID'];
 	else
 		$user_id = $_SESSION['STUDENT_ID'];
+
 	$excluded_user = '|'.$profile_id.':'.$user_id;
 
 	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'], $excluded_user) !== false)
@@ -88,12 +95,20 @@ function PortalPollsDisplay($value,$name)
 	if (!isset($_REQUEST['_ROSARIO_PDF']))
 		$PollForm .= includeOnceColorBox('divPortalPoll'.$poll_id).'<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">';
 	
-	$PollForm .= '<form method="POST" id="formPortalPoll'.$poll_id.'" action="ProgramFunctions/PortalPollsNotes.fnc.php"><input type="hidden" name="profile_id" value="'.$profile_id.'" /><input type="hidden" name="user_id" value="'.$user_id.'" /><input type="hidden" name="total_votes_string" value="'._('Total Participants').'" /><input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" /><TABLE class="width-100p cellspacing-0 widefat">';
+	$PollForm .= '<form method="POST" id="formPortalPoll'.$poll_id.'" action="ProgramFunctions/PortalPollsNotes.fnc.php">
+	<input type="hidden" name="profile_id" value="'.$profile_id.'" />
+	<input type="hidden" name="user_id" value="'.$user_id.'" />
+	<input type="hidden" name="total_votes_string" value="'._('Total Participants').'" />
+	<input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" />
+	<TABLE class="width-100p cellspacing-0 widefat">';
 		
 	foreach ($poll_questions_RET as $question)
 	{
-		$PollForm .= '<TR><TD style="vertical-align:top;"><b>'.$question['QUESTION'].'</b></TD><TD><TABLE class="width-100p cellspacing-0">';
+		$PollForm .= '<TR><TD style="vertical-align:top;"><b>'.$question['QUESTION'].'</b></TD>
+		<TD><TABLE class="width-100p cellspacing-0">';
+
 		$options_array = explode('<br />', nl2br($question['OPTIONS']));
+
 		$checked = true;
 		foreach ($options_array as $option_nb => $option_label)
 		{
@@ -101,14 +116,18 @@ function PortalPollsDisplay($value,$name)
 				$PollForm .= '<TR><TD><label><input type="radio" name="votes['.$poll_id.']['.$question['ID'].']" value="'.$option_nb.'" '.($checked?'checked':'').' /> '.$option_label.'</label></TD></TR>'."\n";
 			else //multiple
 				$PollForm .= '<TR><TD><label><input type="checkbox" name="votes['.$poll_id.']['.$question['ID'].'][]" value="'.$option_nb.'" /> '.$option_label.'</label></TD></TR>'."\n";
+
 			$checked = false;
 		}
 		$PollForm .= '</TABLE></TD></TR>';
 	}
 	
-	$PollForm .= '</TD></TR></TABLE><P><input type="submit" value="'._('Submit').'" id="pollSubmit" /></P></form>';
+	$PollForm .= '</TD></TR></TABLE>
+	<P><input type="submit" value="'._('Submit').'" id="pollSubmit" /></P></form>';
+
 	if (!isset($_REQUEST['_ROSARIO_PDF']))
 		$PollForm .= '</div>';
+
 	$PollForm .= '<script>
 	$("#pollSubmit").click(function(){
 		$("#formPortalPoll'.$poll_id.'").ajaxFormUnbind();
