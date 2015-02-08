@@ -18,17 +18,19 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 
 if($_REQUEST['modfunc']=='update' && AllowEdit())
 {
-	foreach($_REQUEST['values'] as $request_id=>$columns)
-	{
-		$sql = "UPDATE SCHEDULE_REQUESTS SET ";
-
-		foreach($columns as $column=>$value)
+	//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+	if (isset($_REQUEST['values']))
+		foreach($_REQUEST['values'] as $request_id=>$columns)
 		{
-			$sql .= $column."='".$value."',";
+			$sql = "UPDATE SCHEDULE_REQUESTS SET ";
+
+			foreach($columns as $column=>$value)
+			{
+				$sql .= $column."='".$value."',";
+			}
+			$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND REQUEST_ID='".$request_id."'";
+			DBQuery($sql);
 		}
-		$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND REQUEST_ID='".$request_id."'";
-		DBQuery($sql);
-	}
 	unset($_REQUEST['modfunc']);
 }
 
