@@ -327,9 +327,6 @@ function makeFileAttached($value,$name)
 			$filesAttachedCount ++;
 			
 			//modif Francois: colorbox
-			//colorbox extensions list
-			$colorbox_list = array('.jpg', '.jpeg', '.png', '.gif', '.mp3', '.wav', '.avi', '.mp4', '.ogg', '.ogv', '.webm');
-			
 			$view_online = '<img src="assets/themes/'. Preferences('THEME') .'/btn/visualize.png" class="button bigger" /> '._('View Online').'';
 
 			$download = '<img src="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="button bigger" /> '._('Download').'';
@@ -338,51 +335,6 @@ function makeFileAttached($value,$name)
 			{
 				$return = '<a href="'.$value.'" title="'.$value.'" class="colorboxiframe">'. $view_online .'</a>';
 				$loadColorBox = true;
-			}
-			elseif (in_array( mb_strtolower(mb_strrchr($value, '.')), $colorbox_list ) )
-			{
-
-				if (($finfo = finfo_open(FILEINFO_MIME_TYPE)) !== false)
-				{
-					//modif Francois: detects if an audio or video embedded in HTML5 will be rendered
-					//https://developer.mozilla.org/en-US/docs/Media_formats_supported_by_the_audio_and_video_elements
-					//Checked on 2015.02.07
-					$browser = $_SERVER['HTTP_USER_AGENT'];
-
-					$return = '<a href="'.$value.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'" target="_blank">'. $download.'</a>';
-
-					if (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.mp3', '.mp4') ) && mb_stripos($browser, 'Opera')) //MP3 or MP4 file & not supported in Opera
-					{
-						return $return;
-					}
-					elseif (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.ogg', '.ogv') ) && mb_stripos($browser, 'MSIE')) //OGG or OGV file & not supported in Internet Explorer
-					{
-						return $return;
-					}
-					elseif (in_array( mb_strtolower(mb_strrchr($value, '.')), array('.wav') ) && mb_stripos($browser, 'MSIE')) //WAV file & not supported in Internet Explorer
-					{
-						return $return;
-					}
-					
-					if (mb_strpos(finfo_file($finfo, $value), 'audio') !== false ) //media audio files
-					{
-						$return = '<div><div style="display:none"><audio src="'.$value.'" preload="auto" controls class="audioHtml5" id="colorboxinline'.$filesAttachedCount.'"><p>Your browser does not support the audio element</p></audio></div>';
-						$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'">'. $view_online.'</a></div>';
-						$loadColorBox = true;
-					}
-					elseif (mb_strpos(finfo_file($finfo, $value), 'video') !== false ) //media video files
-					{
-						$return = '<div><div style="display:none"><video src="'.$value.'" preload="auto" controls class="videoHtml5" style="max-width:100%" id="colorboxinline'.$filesAttachedCount.'"><p>Your browser does not support the audio element</p></video></div>';
-						$return .= '<a class="colorboxinline" href="#colorboxinline'.$filesAttachedCount.'" title="'.str_replace($PortalNotesFilesPath, '', $value).'">'. $view_online.'</a></div>';
-						$loadColorBox = true;
-						
-					} 
-					else //image files
-					{
-						$return = '<a href="'.$value.'" class="colorbox" title="'.str_replace($PortalNotesFilesPath, '', $value).'">'. $view_online.'</a>';
-						$loadColorBox = true;
-					}
-				}
 			}
 			else
 			{
