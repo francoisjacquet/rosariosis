@@ -65,15 +65,32 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 	if($_REQUEST['staff']['SCHOOLS'])
 	{
+		$current_schools = ',';
+		if ($_REQUEST['staff_id']!='new')
+		{
+			$current_schools_RET = DBGet(DBQuery("SELECT SCHOOLS FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
+			if (!empty($current_schools_RET[1]['SCHOOLS']))
+				$current_schools = $current_schools_RET[1]['SCHOOLS'];
+		}
+
+		$schools = $current_schools;
 		foreach($_REQUEST['staff']['SCHOOLS'] as $school_id=>$yes)
-			if ($yes == 'Y')
-				$schools .= ','.$school_id;
+		{
+			if ($yes == 'Y' && mb_strpos($current_schools, ','.$school_id.',')===false)
+				$schools .= $school_id.',';
+			elseif ($yes != 'Y' && mb_strpos($current_schools, ','.$school_id.',')!==false)
+				$schools = str_replace($school_id.',', '', $schools);
+		}
 
 		//modif Francois: remove Schools for Parents
 		if(isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']=='parent')
 			$_REQUEST['staff']['SCHOOLS'] = '';
 		else
-			$_REQUEST['staff']['SCHOOLS'] = empty($schools) ? '' : $schools.',';
+			$_REQUEST['staff']['SCHOOLS'] = ($schools == ',' ? '' : $schools);
+
+		//modif Francois: reset current school if updating self schools
+		if(User('STAFF_ID') == UserStaffID())
+			unset($_SESSION['UserSchool']);
 	}
 /*	else
 		$_REQUEST['staff']['SCHOOLS'] = $_POST['staff'] = '';*/

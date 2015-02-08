@@ -46,6 +46,7 @@ Changes in 2.8
 - Linkify Portal Polls options in PortalPollsNotes.fnc.php
 - Use Colorbox only for Portal Notes EMBED links in PortalPollsNotes.fnc.php
 - check if student already enrolled on that date when updating START_DATE in Enrollment.inc.php & AssignOtherInfo.php
+- reset current school if updating self schools in User.php
 
 Upgrade from 2.7.x
 ------------------
