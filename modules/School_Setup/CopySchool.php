@@ -11,7 +11,7 @@ foreach($tables as $table=>$name)
 		$force_checked = true;
 
 	$table_list .= '<TR><TD>
-	<label><INPUT type="checkbox" value="Y" name="tables['.$table.']" checked '.($force_checked ? 'disabled':'').' />&nbsp;'.$name.'</label>
+	<label>'.(!$force_checked?'<INPUT type="checkbox" value="Y" name="tables['.$table.']" checked />&nbsp;' : '<input type="hidden" value="Y" name="tables['.$table.']" />').$name.'</label>
 	</TD></TR>';
 }
 //modif Francois: add translation
