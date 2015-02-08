@@ -3,24 +3,31 @@ include_once('ProgramFunctions/StudentsUsersInfo.fnc.php');
 
 if(($_REQUEST['month_values'] && $_POST['month_values']) || ($_REQUEST['values']['STUDENT_ENROLLMENT'] && $_POST['values']['STUDENT_ENROLLMENT']))
 {
-	if(!$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['ENROLLMENT_CODE'] && !$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'])
+	//modif Francois: check if student already enrolled on that date when updating START_DATE
+	foreach($_REQUEST['values']['STUDENT_ENROLLMENT'] as $stu_enrol_id => $stu_enrol_values)
 	{
-		unset($_REQUEST['values']['STUDENT_ENROLLMENT']['new']);
-		unset($_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']);
-		unset($_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']);
-		unset($_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']);
-	}
-	else
-	{
-		$date = $_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']['START_DATE'];
-		$found_RET = DBGet(DBQuery("SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND '".$date."' BETWEEN START_DATE AND END_DATE"));
-		if(count($found_RET))
+		if(!$_REQUEST['values']['STUDENT_ENROLLMENT'][$stu_enrol_id]['ENROLLMENT_CODE'] && !$_REQUEST['month_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]['START_DATE'])
 		{
-			unset($_REQUEST['values']['STUDENT_ENROLLMENT']['new']);
-			unset($_REQUEST['day_values']['STUDENT_ENROLLMENT']['new']);
-			unset($_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']);
-			unset($_REQUEST['year_values']['STUDENT_ENROLLMENT']['new']);
-			echo ErrorMessage(array(_('The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.')));
+			unset($_REQUEST['values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
+			unset($_REQUEST['day_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
+			unset($_REQUEST['month_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
+			unset($_REQUEST['year_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
+		}
+		else
+		{
+			$date = $_REQUEST['day_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]['START_DATE'];
+
+			$found_RET = DBGet(DBQuery("SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND '".$date."' BETWEEN START_DATE AND END_DATE"));
+
+			if(count($found_RET))
+			{
+				unset($_REQUEST['values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
+				unset($_REQUEST['day_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
+				unset($_REQUEST['month_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
+				unset($_REQUEST['year_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
+
+				echo ErrorMessage(array(_('The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.')));
+			}
 		}
 	}
 
