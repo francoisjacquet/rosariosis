@@ -1,4 +1,5 @@
 @import url("colors.css");
+@import url("../../js/jscalendar/calendar-blue.css");
 
 #wrap{height:auto;min-height:100%;width:100%;position:relative}
 #menuback,#menu{width:205px}
@@ -581,6 +582,8 @@ div.st{
 	overflow-y:auto;
 	min-width: 300px
 }
+/*tipmessage (DO NOT EDIT)*/
+#tipMsg{visibility:hidden;position:absolute;z-index:1000;top:-100px}
 
 /*mobile*/
 @media only screen and (max-width:640px){

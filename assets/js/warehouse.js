@@ -38,7 +38,7 @@ for(;i<max;i++) {
 }
 
 //tipmessage
-var TipId="Migoicons";
+var TipId="tipMsg";
 var tipmessageStyle = ["#21759b","#ececec","","","Georgia,Times New Roman",,"#555","#f9f9f9","","","sans-serif",,,,2,"#ececec",2,,,,,"",,,0,23];
 
 //touchScroll, enables overflow:auto on mobile
