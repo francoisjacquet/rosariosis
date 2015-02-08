@@ -53,7 +53,7 @@ if(!$_REQUEST['modfunc'] && UserStudentID())
 
 		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
 
-		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"');
+		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"');
 	}
 	else
 	 	echo TextInput($student['ACCOUNT_ID'],'food_service[ACCOUNT_ID]','Account ID','size=12 maxlength=10');
@@ -68,7 +68,7 @@ if(!$_REQUEST['modfunc'] && UserStudentID())
 
 		$tipJS = '<script>var tiptitle2='.json_encode(_('Warning')).'; var tipmsg2='.json_encode($warning).';</script>';
 
-		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"');
+		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2])" onMouseOut="htm()" onclick="return false;"');
 	}
 
 	echo '</TD>';

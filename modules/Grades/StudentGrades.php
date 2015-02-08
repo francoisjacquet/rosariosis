@@ -333,7 +333,7 @@ function _makeTipTitle($value,$column)
 
 		$tipJS .= 'var tipmsg'.$THIS_RET['ASSIGNMENT_ID'].'='.json_encode($tipmsg).';</script>';
 
-		$tip_title = $tipJS.'<A HREF="#" onMouseOver="stm([tiptitle,tipmsg'.$THIS_RET['ASSIGNMENT_ID'].'],tipmessageStyle); return false;" onMouseOut="htm();" onclick="return false;">'.$value.'</A>';
+		$tip_title = $tipJS.'<A HREF="#" onMouseOver="stm([tiptitle,tipmsg'.$THIS_RET['ASSIGNMENT_ID'].'])" onMouseOut="htm();" onclick="return false;">'.$value.'</A>';
 	}
 	else
 		$tip_title = $value;

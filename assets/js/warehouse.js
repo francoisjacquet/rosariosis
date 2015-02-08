@@ -37,10 +37,6 @@ for(;i<max;i++) {
     document.createElement(tags[i]);
 }
 
-//tipmessage
-var TipId="tipMsg";
-var tipmessageStyle = ["#21759b","#ececec","","","Georgia,Times New Roman",,"#555","#f9f9f9","","","sans-serif",,,,2,"#ececec",2,,,,,"",,,0,23];
-
 //touchScroll, enables overflow:auto on mobile
 //https://gist.github.com/chrismbarr/4107472
 function touchScroll(el){
@@ -166,8 +162,6 @@ $(document).ajaxStop(function(){
 
 //onload
 window.onload = function(){
-	if (typeof(mig_clay) == "function")
-		mig_clay();
 	scroll();
 	var h3 = $('#body h3.title').text();
 	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');

@@ -374,7 +374,7 @@ if(empty($_REQUEST['modfunc']))
 
 					$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
 
-					echo '<TH>'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"').'</TH>';
+					echo '<TH>'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"').'</TH>';
 				}
 				else
 					echo '<TH>&nbsp;</TH>';
@@ -533,7 +533,7 @@ if(empty($_REQUEST['modfunc']))
 
 						$tipJS = '<script>var tiptitle2='.json_encode(_('Warning')).'; var tipmsg2='.json_encode($warning).';</script>';
 
-						$images .= ' '.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"');
+						$images .= ' '.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2])" onMouseOut="htm()" onclick="return false;"');
 					}
 
 					if($contact['CUSTODY']=='Y')

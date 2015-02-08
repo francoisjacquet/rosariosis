@@ -340,7 +340,7 @@ function makeContactInfo($student_id,$column)
 
 	$return .= 'var tipmsg'.$student_id.'='.json_encode($tipmessage).';</script>';
 
-	return $return.button('phone','','"#" onMouseOver="stm([tiptitle,tipmsg'.$student_id.'],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"');
+	return $return.button('phone','','"#" onMouseOver="stm([tiptitle,tipmsg'.$student_id.'])" onMouseOut="htm()" onclick="return false;"');
 }
 
 function removeDot00($value,$column)

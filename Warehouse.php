@@ -176,14 +176,13 @@ if(!defined('WAREHOUSE_PHP'))
 	<link rel="stylesheet" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css?v=<?php echo $RosarioVersion; ?>" />
 	<script src="assets/js/jquery.js"></script>
 	<script src="assets/js/jquery.form.js"></script>
-	<script src="assets/js/tipmessage/main15.js"></script>
+	<script src="assets/js/tipmessage/main16.js"></script>
 	<script src="assets/js/warehouse.js?v=<?php echo $RosarioVersion; ?>"></script>
 	<script src="assets/js/jscalendar/calendar+setup.js"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists('assets/js/jscalendar/lang/calendar-'.mb_substr($locale, 0, 2).'.js') ? mb_substr($locale, 0, 2) : 'en'; ?>.js"></script>
 	<script>var scrollTop="<?php echo Preferences('SCROLL_TOP'); ?>";</script>
 </HEAD>
 <BODY>
-<DIV id="tipMsg"></DIV>
 <?php
 				if ($_ROSARIO['is_popup']) :
 ?>

@@ -81,7 +81,7 @@ if(!$_REQUEST['period'])
 
 				$tipJS .= 'var tipmsg'.$i.$period['PERIOD_ID'].'='.json_encode($period['COURSE_TITLE']).';</script>';
 
-				$staff_RET[$i][$period['PERIOD_ID']] .= $tipJS.button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver="stm([tiptitle,tipmsg'.$i.$period['PERIOD_ID'].'],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"').' ';
+				$staff_RET[$i][$period['PERIOD_ID']] .= $tipJS.button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver="stm([tiptitle,tipmsg'.$i.$period['PERIOD_ID'].'])" onMouseOut="htm()" onclick="return false;"').' ';
 			}
 			else
 				$staff_RET[$i][$period['PERIOD_ID']] = $period['COMPLETED']=='Y'?_('Yes').' ':_('No').' ';

@@ -130,7 +130,7 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 
 		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
 
-		echo '<BR />'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;"');
+		echo '<BR />'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"');
 	}
 
 	echo '</TD>';

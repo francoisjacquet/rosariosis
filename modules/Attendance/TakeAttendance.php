@@ -285,7 +285,7 @@ function _makeTipMessage($value,$title)
 		$return = '<script>var tiptitle'.$THIS_RET['STUDENT_ID'].'='.json_encode($THIS_RET['FULL_NAME']).'; var tipmsg'.$THIS_RET['STUDENT_ID'].'='.json_encode('<IMG SRC="'.$picture_path.'" width="150" />').';</script>';
 
 
-		return $return.'<DIV onMouseOver="stm([tiptitle'.$THIS_RET['STUDENT_ID'].',tipmsg'.$THIS_RET['STUDENT_ID'].'],tipmessageStyle); return false;" onMouseOut="htm()" onclick="return false;">'.$value.'</DIV>';
+		return $return.'<DIV onMouseOver="stm([tiptitle'.$THIS_RET['STUDENT_ID'].',tipmsg'.$THIS_RET['STUDENT_ID'].'])" onMouseOut="htm()" onclick="return false;">'.$value.'</DIV>';
 	}
 	else
 		return $value;

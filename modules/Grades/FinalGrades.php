@@ -172,7 +172,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					$tipJS = '<script>var tiptitle='.json_encode(_('Report Card Comments')).'; var tipmsg='.json_encode($tipmessage).';</script>';
 
-					$tipmessage = $tipJS.button('comment', _('Comment Codes'), '"#" onmouseover="stm([tiptitle,tipmsg],tipmessageStyle); return false;" onmouseout="htm()" onclick="return false;"', 'bigger');
+					$tipmessage = $tipJS.button('comment', _('Comment Codes'), '"#" onmouseover="stm([tiptitle,tipmsg])" onmouseout="htm()" onclick="return false;"', 'bigger');
 
 					DrawHeader('',$tipmessage);
 				}
