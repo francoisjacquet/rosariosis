@@ -111,10 +111,19 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					$required_error = true;
 
 		//modif Francois: create account
-		//username & password required
 		if (basename($_SERVER['PHP_SELF'])=='index.php')
-			if ((isset($_REQUEST['staff']['USERNAME']) && empty($_REQUEST['staff']['USERNAME'])) || (isset($_REQUEST['staff']['PASSWORD']) && empty($_REQUEST['staff']['PASSWORD'])))
+		{
+			//username & password required
+			if (empty($_REQUEST['staff']['USERNAME']) || empty($_REQUEST['staff']['PASSWORD']))
 				$required_error = true;
+
+			//check if trying to hack profile (would result in an SQL error)
+			if (isset($_REQUEST['staff']['PROFILE']))
+			{
+				include('ProgramFunctions/HackingLog.fnc.php');
+				HackingLog();
+			}
+		}
 
 		if ($required_error)
 			$error[] = _('Please fill in the required fields');

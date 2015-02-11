@@ -1,7 +1,18 @@
 <?php
 
 include('ProgramFunctions/FileUpload.fnc.php');
-	
+
+if(User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['student_id'] && $_REQUEST['student_id']!=UserStudentID() && $_REQUEST['student_id']!='new')
+{
+	if(User('USERNAME'))
+	{
+		include('ProgramFunctions/HackingLog.fnc.php');
+		HackingLog();
+	}
+
+	exit;
+}
+
 if(!$_REQUEST['include'])
 {
 	$_REQUEST['include'] = 'General_Info';
@@ -76,10 +87,19 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					$required_error = true;
 
 		//modif Francois: create account
-		//username & password required
 		if (basename($_SERVER['PHP_SELF'])=='index.php')
-			if ((isset($_REQUEST['students']['USERNAME']) && empty($_REQUEST['students']['USERNAME'])) || (isset($_REQUEST['students']['PASSWORD']) && empty($_REQUEST['students']['PASSWORD'])))
+		{
+			//username & password required
+			if (empty($_REQUEST['students']['USERNAME']) || empty($_REQUEST['students']['PASSWORD']))
 				$required_error = true;
+
+			//check if trying to hack enrollment
+			if (isset($_REQUEST['month_values']['STUDENT_ENROLLMENT']) || count($_REQUEST['values']['STUDENT_ENROLLMENT'])>1)
+			{
+				include('ProgramFunctions/HackingLog.fnc.php');
+				HackingLog();
+			}
+		}
 
 		if ($required_error)
 			$error[] = _('Please fill in the required fields');
@@ -96,6 +116,13 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 			//hook
 			do_action('Students/Student.php|update_student_checks');
+
+			// update enrollment
+			if(count($_REQUEST['values']) && !isset($error))
+			{
+				include('modules/Students/includes/SaveEnrollment.fnc.php');
+				SaveEnrollment();
+			}
 
 			if(count($_REQUEST['students']) && !isset($error))
 			{
@@ -230,10 +257,6 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 				DBQuery($sql);
 
-				//modif Francois: Moodle integrator
-				if ($_REQUEST['moodle_create_student'])
-					$moodleError = Moodle($_REQUEST['modname'], 'core_user_create_users');
-
 				// create default food service account for this student
 				$sql = "INSERT INTO FOOD_SERVICE_ACCOUNTS (ACCOUNT_ID,BALANCE,TRANSACTION_ID) values('".$student_id."','0.00','0')";
 				DBQuery($sql);
@@ -242,6 +265,9 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$sql = "INSERT INTO FOOD_SERVICE_STUDENT_ACCOUNTS (STUDENT_ID,DISCOUNT,BARCODE,ACCOUNT_ID) values('".$student_id."','','','".$student_id."')";
 				DBQuery($sql);
 
+				// create enrollment
+				include('modules/Students/includes/SaveEnrollment.fnc.php');
+				SaveEnrollment();
 
 				SetUserStudentID($_REQUEST['student_id'] = $student_id);
 
@@ -294,11 +320,9 @@ elseif(!UserStudentID())
 	$_ROSARIO['HeaderIcon'] = 'modules/Students/icon.png';
 	DrawHeader(_('Create Student Account'));
 }
-//account created, create empty enrollment & return to index
+//account created, return to index
 else
 {
-	DBQuery("INSERT INTO STUDENT_ENROLLMENT (ID, SYEAR, SCHOOL_ID, STUDENT_ID) values(nextval('STUDENT_ENROLLMENT_SEQ'), '".UserSyear()."', '".$_REQUEST['enrollment']['SCHOOL_ID']."', '".UserStudentID()."')");
-
 ?>
 	<script>window.location.href = "index.php?modfunc=logout&reason=account_created";</script>
 <?php

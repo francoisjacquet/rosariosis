@@ -125,7 +125,7 @@ else
 	}
 
 	//add School select input
-	echo SelectInput('','enrollment[SCHOOL_ID]',_('School'),$school_options,false);
+	echo SelectInput('','values[STUDENT_ENROLLMENT][new][SCHOOL_ID]',_('School'),$school_options,false);
 
 	if ($PopTable_opened)
 		PopTable('footer');

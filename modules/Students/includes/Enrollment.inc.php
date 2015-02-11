@@ -1,43 +1,6 @@
 <?php
 include_once('ProgramFunctions/StudentsUsersInfo.fnc.php');
 
-if(($_REQUEST['month_values'] && $_POST['month_values']) || ($_REQUEST['values']['STUDENT_ENROLLMENT'] && $_POST['values']['STUDENT_ENROLLMENT']))
-{
-	//modif Francois: check if student already enrolled on that date when updating START_DATE
-	foreach($_REQUEST['values']['STUDENT_ENROLLMENT'] as $stu_enrol_id => $stu_enrol_values)
-	{
-		if(!$_REQUEST['values']['STUDENT_ENROLLMENT'][$stu_enrol_id]['ENROLLMENT_CODE'] && !$_REQUEST['month_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]['START_DATE'])
-		{
-			unset($_REQUEST['values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
-			unset($_REQUEST['day_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
-			unset($_REQUEST['month_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
-			unset($_REQUEST['year_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
-		}
-		else
-		{
-			$date = $_REQUEST['day_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]['START_DATE'];
-
-			$found_RET = DBGet(DBQuery("SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND '".$date."' BETWEEN START_DATE AND END_DATE"));
-
-			if(count($found_RET))
-			{
-				unset($_REQUEST['values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
-				unset($_REQUEST['day_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
-				unset($_REQUEST['month_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
-				unset($_REQUEST['year_values']['STUDENT_ENROLLMENT'][$stu_enrol_id]);
-
-				echo ErrorMessage(array(_('The student is already enrolled on that date, and cannot be enrolled a second time on the date you specified. Please fix, and try enrolling the student again.')));
-			}
-		}
-	}
-
-	$iu_extra['STUDENT_ENROLLMENT'] = "STUDENT_ID='".UserStudentID()."' AND ID='__ID__'";
-	$iu_extra['fields']['STUDENT_ENROLLMENT'] = 'ID,SYEAR,STUDENT_ID,';
-	$iu_extra['values']['STUDENT_ENROLLMENT'] = "nextval('STUDENT_ENROLLMENT_SEQ'),'".UserSyear()."','".UserStudentID()."',";
-	if(UserStudentID())
-		SaveData($iu_extra,'',$field_names);
-}
-
 $functions = array('START_DATE'=>'_makeStartInput','END_DATE'=>'_makeEndInput','SCHOOL_ID'=>'_makeSchoolInput');
 unset($THIS_RET);
 $RET = DBGet(DBQuery("SELECT e.ID,e.ENROLLMENT_CODE,e.START_DATE,e.DROP_CODE,e.END_DATE,e.END_DATE AS END,e.SCHOOL_ID,e.NEXT_SCHOOL,e.CALENDAR_ID,e.GRADE_ID FROM STUDENT_ENROLLMENT e WHERE e.STUDENT_ID='".UserStudentID()."' AND e.SYEAR='".UserSyear()."' ORDER BY e.START_DATE"),$functions);
