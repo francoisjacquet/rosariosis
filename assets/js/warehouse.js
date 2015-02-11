@@ -40,25 +40,25 @@ for(;i<max;i++) {
 //touchScroll, enables overflow:auto on mobile
 //https://gist.github.com/chrismbarr/4107472
 function touchScroll(el){
-	var scrollStartPosY=0;
-	var scrollStartPosX=0;
+	var startY=startX=0;
 
 	el.addEventListener("touchstart", function(e) {
-		scrollStartPosY=this.scrollTop+e.touches[0].pageY;
-		scrollStartPosX=this.scrollLeft+e.touches[0].pageX;
+		startY=this.scrollTop+e.touches[0].pageY;
+		startX=this.scrollLeft+e.touches[0].pageX;
 	},false);
 
 	el.addEventListener("touchmove", function(e) {
+		var tch=e.touches[0];
 		if ((this.scrollTop < this.scrollHeight-this.offsetHeight &&
-			this.scrollTop+e.touches[0].pageY < scrollStartPosY-5) ||
-			(this.scrollTop != 0 && this.scrollTop+e.touches[0].pageY > scrollStartPosY+5))
+			this.scrollTop+tch.pageY < startY-5) ||
+			(this.scrollTop != 0 && this.scrollTop+tch.pageY > startY+5))
 				e.preventDefault(); 
 		if ((this.scrollLeft < this.scrollWidth-this.offsetWidth &&
-			this.scrollLeft+e.touches[0].pageX < scrollStartPosX-5) ||
-			(this.scrollLeft != 0 && this.scrollLeft+e.touches[0].pageX > scrollStartPosX+5))
+			this.scrollLeft+tch.pageX < startX-5) ||
+			(this.scrollLeft != 0 && this.scrollLeft+tch.pageX > startX+5))
 				e.preventDefault(); 
-		this.scrollTop=scrollStartPosY-e.touches[0].pageY;
-		this.scrollLeft=scrollStartPosX-e.touches[0].pageX;
+		this.scrollTop=startY-tch.pageY;
+		this.scrollLeft=startX-tch.pageX;
 	},false);
 }
 function isTouchDevice(){
@@ -69,6 +69,8 @@ function isTouchDevice(){
 		return false;
 	}
 }
+if (isTouchDevice())
+	$(document).bind("cbox_complete", function(){ touchScroll(document.getElementById("cboxLoadedContent")); });
 
 function ajaxOptions(target,url)
 {
@@ -129,44 +131,43 @@ function ajaxSuccess(data,target,url){
 	//change URL after AJAX
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
 	$('#'+target).html(data);
-	var h3 = $('#body h3.title').text();
-	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
-	var body = $('body').html();
 	
 	if (history.pushState && target == 'body')
 		history.pushState(null, document.title, url);
-		
+
 	ajaxPrepare('#'+target);
 }
 
 function ajaxPrepare(target){
 	if (scrollTop=='Y')
 		document.getElementById('body').scrollIntoView();
+
 	$(target+' form').each(function(){ ajaxPostForm(this,false); });
-	$(target+' a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
-	scroll();
+	$(target+' a').click(function(e){ return $(this).css('pointer-events')=='none' ? e.preventDefault() : ajaxLink(this); });
+
 	if (target == '#menu' && window.modname)
 		openMenu(modname);
+
+	if (isTouchDevice())
+		$('.rt').each(function(i,e){
+			touchScroll(e.tBodies[0]);
+		});
+
+	var h3 = $('#body h3.title').text();
+	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
 }
 
 //disable links while AJAX
-var disableLinks = false;
 $(document).ajaxStart(function(){
-	disableLinks = true;
-	$('input[type="submit"],input[type="button"]').disabled;
+	$('input[type="submit"],input[type="button"],a').css('pointer-events','none').attr('disabled',true);
 });
 $(document).ajaxStop(function(){
-	disableLinks = false;
-	$('input[type="submit"],input[type="button"]').enabled;
+	$('input[type="submit"],input[type="button"],a').css('pointer-events','').attr('disabled',false);
 });
 
 //onload
 window.onload = function(){
-	scroll();
-	var h3 = $('#body h3.title').text();
-	document.title = $('#body h2').text()+(h3 ? ' | '+h3 : '');
-	$('a').click(function(e){ if(disableLinks){e.preventDefault(); return false;} return ajaxLink(this); });
-	$('form').each(function(){ ajaxPostForm(this,false); });
+	ajaxPrepare('');
 
 	//reload page after browser history
 	if (history.pushState)
@@ -176,19 +177,6 @@ window.onload = function(){
 			}, false);
 		}, 1);
 };
-
-function scroll(){
-	if (isTouchDevice())
-	{
-		var els = document.getElementsByClassName('rt');
-		Array.prototype.forEach.call(els, function(el) {
-			touchScroll(el.tBodies[0]);
-		});
-	}
-}
-if (isTouchDevice())
-	$(document).bind("cbox_complete", function(){ touchScroll(document.getElementById("cboxLoadedContent")); });
-
 
 //Side.php JS
 var old_modcat = false;
