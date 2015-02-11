@@ -646,13 +646,14 @@ div.st{
 	/*stackable tables*/
 	tr.st > td{
 		float:left;
-		width:100%
+		width:100%;
+		box-sizing: border-box
 	}
 	table.col1-align-right > tbody > tr.st > td:first-child{
 		text-align:left
 	}
 	.divPortalPoll{
-		min-width: auto
+		min-width: 0
 	}
 }
 
