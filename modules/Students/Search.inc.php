@@ -250,10 +250,10 @@ else
 
 		if(!is_array($students_RET[1]['STUDENT_ID']))
 		{
-			SetUserStudentID($students_RET[1]['STUDENT_ID']);
-			
 			if($students_RET[1]['SCHOOL_ID']!=UserSchool())
 				$_SESSION['UserSchool'] = $students_RET[1]['SCHOOL_ID'];
+
+			SetUserStudentID($students_RET[1]['STUDENT_ID']);
 
 			unset($_REQUEST['search_modfunc']);
 		}

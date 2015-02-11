@@ -6,6 +6,7 @@ include('Warehouse.php');
 $old_school = UserSchool();
 $old_syear = UserSyear();
 $old_period = UserCoursePeriod().'.'.UserCoursePeriodSchoolPeriod();
+$unset_student = $unset_staff = $update_body = false;
 
 $addJavascripts = '';
 
@@ -15,10 +16,8 @@ if(isset($_REQUEST['sidefunc']) && $_REQUEST['sidefunc']=='update' && is_array($
 	//update Admin & Teachers's current School
 	if ((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && isset($_POST['school']) && $_POST['school']!=$old_school)
 	{
-		unset($_SESSION['student_id']);
-		$_SESSION['unset_student'] = true;
-
-		unset($_SESSION['staff_id']);
+		$unset_student = true;
+		$unset_staff = true;
 
 		$_SESSION['UserSchool'] = $_POST['school'];
 		DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID='".UserSchool()."' WHERE STAFF_ID='".User('STAFF_ID')."'");
@@ -55,12 +54,7 @@ if(isset($_REQUEST['sidefunc']) && $_REQUEST['sidefunc']=='update' && is_array($
 				unset($_SESSION['_REQUEST_vars']['staff_id']);
 			}
 			else
-			{
-				unset($_SESSION['staff_id']);
-
-				//remove staff_id from URL
-				unset($_SESSION['_REQUEST_vars']['staff_id']);
-			}
+				$unset_staff = true;
 		}
 
 		//if current Student not enrolled in new SchoolYear, remove
@@ -71,13 +65,7 @@ if(isset($_REQUEST['sidefunc']) && $_REQUEST['sidefunc']=='update' && is_array($
 			//remove Student if Teacher: the student should not be currently scheduled in a course in new SchoolYear
 			//OR remove Student if not enrolled in new SchoolYear
 			if(User('PROFILE') == 'teacher' || !count(DBGet(DBQuery($is_student_enrolled_sql))))
-			{
-				unset($_SESSION['student_id']);
-				$_SESSION['unset_student'] = true;
-
-				//remove student_id from URL
-				unset($_SESSION['_REQUEST_vars']['student_id']);
-			}
+				$unset_student = true;
 		}
 	}
 	//update current MarkingPeriod
@@ -101,13 +89,7 @@ if(isset($_REQUEST['sidefunc']) && $_REQUEST['sidefunc']=='update' && is_array($
 
 			//if student not scheduled in new CoursePeriod, remove
 			if (!count($is_student_scheduled))
-			{
-				unset($_SESSION['student_id']);
-				$_SESSION['unset_student'] = true;
-
-				//remove student_id from URL
-				unset($_SESSION['_REQUEST_vars']['student_id']);
-			}
+				$unset_student = true;
 		}
 	}
 	//update Parent's current Student
@@ -124,7 +106,7 @@ if(isset($_REQUEST['sidefunc']) && $_REQUEST['sidefunc']=='update' && is_array($
 	}
 
 	//update "#body" Module page
-	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'])).'"; body_link.target = "body"; ajaxLink(body_link);';
+	$update_body = true;
 }
 //set current SchoolYear/Student/User/School/MarkingPeriod after login
 else
@@ -154,33 +136,45 @@ else
 	if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 	{
 		$new_student = isset($_REQUEST['student_id']) && $_REQUEST['student_id']=='new';
-		$new_user = isset($_REQUEST['staff_id']) && $_REQUEST['staff_id']=='new';
+		$new_staff = isset($_REQUEST['staff_id']) && $_REQUEST['staff_id']=='new';
 
-		if($new_student || $new_user)
+		if($new_student || $new_staff)
 		{
 			if ($new_student)
-			{
-				unset($_SESSION['student_id']);
-				$_SESSION['unset_student'] = true;
-
-				//remove student_id from URL
-				unset($_SESSION['_REQUEST_vars']['student_id']);
-			}
-			elseif($new_user)
-			{
-				unset($_SESSION['staff_id']);
-
-				//remove staff_id from URL
-				unset($_SESSION['_REQUEST_vars']['staff_id']);
-			}
+				$unset_student = true;
+			elseif($new_staff)
+				$unset_staff = true;
 
 			unset($_SESSION['_REQUEST_vars']['search_modfunc']);
 
 			//update "#body" Module page
-			$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'"; body_link.target = "body"; ajaxLink(body_link);';
+			$update_body = true;
 		}
 	}
 }
+
+if ($unset_student)
+{
+	unset($_SESSION['student_id']);
+
+	//remove student_id from URL
+	unset($_SESSION['_REQUEST_vars']['student_id']);
+}
+
+if ($unset_staff)
+{
+	unset($_SESSION['staff_id']);
+
+	//remove staff_id from URL
+	unset($_SESSION['_REQUEST_vars']['staff_id']);
+}
+
+//update "#body" Module page
+if ($update_body)
+{
+	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "'.str_replace('&amp;','&',PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('advanced'))).'"; body_link.target = "body"; ajaxLink(body_link);';
+}
+
 //set menu Student/User/School/CoursePeriod, verify if have been changed in Warehouse.php
 $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID = "'.UserStaffID().'"; var menuSchool = "'.UserSchool().'"; var menuCoursePeriod = "'.UserCoursePeriod().'";';
 ?>
@@ -401,7 +395,6 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					$_SESSION['UserPeriod'] = $RET[1]['PERIOD_ID'];
 
 					unset($_SESSION['student_id']);
-					$_SESSION['unset_student'] = true;
 				} ?>
 
 				</SELECT>

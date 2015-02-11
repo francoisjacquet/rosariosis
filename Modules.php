@@ -67,9 +67,6 @@ if(isset($_REQUEST['modname']))
 		HackingLog();
 	}
 
-	if(isset($_SESSION['unset_student']))
-		unset($_SESSION['unset_student']);
-
 	if(!isset($_REQUEST['_ROSARIO_PDF']))
 		Warehouse('footer');
 }

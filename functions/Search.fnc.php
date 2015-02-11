@@ -9,22 +9,16 @@ function Search($type,$extra=null)
 			if($_REQUEST['bottom_back'])
 				unset($_SESSION['student_id']);
 				
-			if($_SESSION['unset_student'])
-			{
-				unset($_REQUEST['student_id']);
-				unset($_SESSION['unset_student']);
-			}
-
 			if($_REQUEST['student_id'])
 			{
-				if($_REQUEST['student_id']!='new')
+				if($_REQUEST['student_id']!='new' && $_REQUEST['student_id']!=UserStudentID())
 				{
-					SetUserStudentID($_REQUEST['student_id']);
-
 					if(!empty($_REQUEST['school_id']) && $_REQUEST['school_id']!=UserSchool())
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
+
+					SetUserStudentID($_REQUEST['student_id']);
 				}
-				elseif(UserStudentID())
+				elseif($_REQUEST['student_id']=='new' && UserStudentID())
 					unset($_SESSION['student_id']);
 			}
 			elseif(!UserStudentID() || $extra['new']==true)
@@ -48,14 +42,11 @@ function Search($type,$extra=null)
 
 			if($_REQUEST['staff_id'])
 			{
-				if($_REQUEST['staff_id']!='new')
+				if($_REQUEST['staff_id']!='new' && $_REQUEST['staff_id']!=UserStaffID())
 				{
 					SetUserStaffID($_REQUEST['staff_id']);
-					
-					if(!empty($_REQUEST['school_id']) && $_REQUEST['school_id']!=UserSchool())
-						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
 				}
-				elseif(UserStaffID())
+				elseif($_REQUEST['staff_id']=='new' && UserStaffID())
 					unset($_SESSION['staff_id']);
 			}
 			elseif(!UserStaffID() || $extra['new']==true)

@@ -48,12 +48,12 @@ function UserStaffID()
 /* 
  * set $_SESSION['staff_id']
  * Parent:
- * Check $_SESSION['staff_id'] == $_SESSION['STAFF_ID']
+ * Check $staff_id == User('STAFF_ID')
  * Teacher:
- * Check $_SESSION['staff_id'] == $_SESSION['STAFF_ID']
+ * Check $staff_id == User('STAFF_ID')
  *  OR is an ID of the parents of its related students
  * Admin:
- * No checks
+ * Check $staff_id is in current Year
  * Student:
  * Forbid
  */
@@ -64,33 +64,41 @@ function SetUserStaffID($staff_id)
 	switch(User('PROFILE'))
 	{
 		case 'parent':
-			if ($staff_id !== $_SESSION['STAFF_ID'])
+			if ($staff_id !== User('STAFF_ID'))
 				$isHack = true;
 		break;
 		
 		case 'teacher':
-			//get teacher's related parents, include parents of inactive students
-			$RET = DBGet(DBQuery("SELECT s.STAFF_ID
-				FROM STAFF s
-				WHERE s.SYEAR='".UserSyear()."' 
-				AND (s.SCHOOLS LIKE '%,".UserSchool().",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='') 
-				AND (s.STAFF_ID='".User('STAFF_ID')."' OR s.PROFILE='parent' AND exists(
-					SELECT '' 
-					FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,SCHEDULE _ss 
-					WHERE _sju.STAFF_ID=s.STAFF_ID 
-					AND _sem.STUDENT_ID=_sju.STUDENT_ID 
-					AND _sem.SYEAR='".UserSyear()."' 
-					AND _ss.STUDENT_ID=_sem.STUDENT_ID 
-					AND _ss.COURSE_PERIOD_ID='".UserCoursePeriod()."'
-				))"), array(), array('STAFF_ID'));
-			$related_parents = array_keys($RET);
+			if ($staff_id !== User('STAFF_ID'))
+			{
+				//get teacher's related parents, include parents of inactive students
+				$is_related_parent = DBGet(DBQuery("SELECT 1
+					FROM STAFF s
+					WHERE s.SYEAR='".UserSyear()."' 
+					AND (s.SCHOOLS LIKE '%,".UserSchool().",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='') 
+					AND (s.PROFILE='parent' AND exists(
+						SELECT '' 
+						FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,SCHEDULE _ss 
+						WHERE _sju.STAFF_ID=s.STAFF_ID 
+						AND _sem.STUDENT_ID=_sju.STUDENT_ID 
+						AND _sem.SYEAR='".UserSyear()."' 
+						AND _ss.STUDENT_ID=_sem.STUDENT_ID 
+						AND _ss.COURSE_PERIOD_ID='".UserCoursePeriod()."'
+					))
+					AND s.STAFF_ID='".$staff_id."'"), array(), array('STAFF_ID'));
 
-			if (!in_array($staff_id, $related_parents))
-				$isHack = true;
-			
+				if (!count($is_related_parent))
+					$isHack = true;
+			}
+
 		break;
 
 		case 'admin':
+			//Check $staff_id is in current Year
+			$is_admin_staff = DBGet(DBQuery("SELECT 1 FROM STAFF WHERE STAFF_ID='".$staff_id."' AND SYEAR='".UserSyear()."'"));
+
+			if(!count($is_admin_staff))
+				$isHack = true;
 
 		break;
 
@@ -115,13 +123,13 @@ function SetUserStaffID($staff_id)
 /* 
  * set $_SESSION['student_id']
  * Student:
- * Check $_SESSION['student_id'] == $_SESSION['STUDENT_ID']
+ * Check $student_id == $_SESSION['STUDENT_ID']
  * Parent:
- * Check $_SESSION['student_id'] is an ID of its related students
+ * Check $student_id is an ID of its related students
  * Teacher:
- * Check $_SESSION['student_id'] is an ID of its related students
+ * Check $student_id is an ID of its related students
  * Admin:
- * No checks
+ * Check $student_id is in current Year & School
  */
 function SetUserStudentID($student_id)
 {
@@ -136,22 +144,22 @@ function SetUserStudentID($student_id)
 		
 		case 'parent':
 			//get parent's related students
-			$RET = DBGet(DBQuery("SELECT sju.STUDENT_ID 
+			$is_related_student = DBGet(DBQuery("SELECT 1
 				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se 
 				WHERE s.STUDENT_ID=sju.STUDENT_ID 
 				AND sju.STAFF_ID='".User('STAFF_ID')."' 
 				AND se.SYEAR='".UserSyear()."' 
 				AND se.STUDENT_ID=sju.STUDENT_ID 
-				AND ('".DBDate()."'>=se.START_DATE AND ('".DBDate()."'<=se.END_DATE OR se.END_DATE IS NULL))"), array(), array('STUDENT_ID'));
-			$related_students = array_keys($RET);
+				AND ('".DBDate()."'>=se.START_DATE AND ('".DBDate()."'<=se.END_DATE OR se.END_DATE IS NULL))
+				AND sju.STUDENT_ID='".$student_id."'"), array(), array('STUDENT_ID'));
 
-			if (!in_array($student_id, $related_students))
+			if (!count($is_related_student))
 				$isHack = true;
 		break;
 		
 		case 'teacher':
 			//get teacher's related students, include inactive students
-			$RET = DBGet(DBQuery("SELECT s.STUDENT_ID 
+			$is_related_student = DBGet(DBQuery("SELECT 1
 				FROM STUDENTS s 
 				JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.START_DATE=
 					(SELECT START_DATE FROM SCHEDULE 
@@ -169,15 +177,19 @@ function SetUserStudentID($student_id)
 					AND SYEAR=ssm.SYEAR 
 					ORDER BY START_DATE DESC 
 					LIMIT 1)
-				)"), array(), array('STUDENT_ID'));
-			$related_students = array_keys($RET);
+				)
+				AND s.STUDENT_ID='".$student_id."'"), array(), array('STUDENT_ID'));
 
-			if (!in_array($student_id, $related_students))
+			if (!count($is_related_student))
 				$isHack = true;
 		break;
 
 		case 'admin':
+			//Check $student_id is in current Year & School
+			$is_admin_student = DBGet(DBQuery("SELECT 1 FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".$student_id."' AND SCHOOL_ID=".UserSchool()." AND SYEAR='".UserSyear()."'"));
 
+			if(!count($is_admin_student))
+				$isHack = true;
 		break;
 
 		default:
