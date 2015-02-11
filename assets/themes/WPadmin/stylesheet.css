@@ -707,6 +707,10 @@ div.st{
 	.calendar-skip{
 		height:32px;
 	}
+	/*jscalendar+colorbox*/
+	.calendar{
+		z-index:10000
+	}
 	
 	table.mceLayout,textarea{
 		width:90% !important
