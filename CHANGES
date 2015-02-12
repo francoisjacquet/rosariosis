@@ -51,6 +51,7 @@ Changes in 2.8
 - Add Admin checks for SetUserStaffID() & SetUserStudentID() functions in Current.php & Side.php
 - Save enrollment in Student.php & SaveEnrollment.fnc.php
 - prevent student ID hacking in Transcripts.php
+- prevent course period ID hacking in PrintClassLists.php & PrintClassPictures.php
 
 Upgrade from 2.7.x
 ------------------

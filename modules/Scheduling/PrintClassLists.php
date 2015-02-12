@@ -7,6 +7,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$extra['DATE'] = DBGet(DBQuery("SELECT min(SCHOOL_DATE) AS START_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 		$extra['DATE'] = $extra['DATE'][1]['START_DATE'];
+
 		if(!$extra['DATE'] || DBDate('postgres')>$extra['DATE'])
 			$extra['DATE'] = DBDate();
 
@@ -24,40 +25,65 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$first_extra = $extra;
 		$handle = PDFStart();
+
 		$PCL_UserCoursePeriod = UserCoursePeriod(); // save/restore for teachers
+
+		$no_students_backprompt = true;
+
 		foreach($course_periods_RET as $teacher_id=>$course_period)
 		{
-			unset($_ROSARIO['DrawHeader']);
-			DrawHeader(_('Class List'));
-			/*//modif Francois: days display to locale						
-			$days_convert = array('U'=>_('Sunday'),'M'=>_('Monday'),'T'=>_('Tuesday'),'W'=>_('Wednesday'),'H'=>_('Thursday'),'F'=>_('Friday'),'S'=>_('Saturday'));
-			//modif Francois: days numbered
-			if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
-				$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
-
-			$course_period_DAYS_locale = '';
-			$days_strlen = mb_strlen($course_period['DAYS']);
-			for ($i = 0; $i < $days_strlen; $i++) {
-				$course_period_DAYS_locale .= mb_substr($days_convert[mb_substr($course_period['DAYS'], $i, 1)],0,3) . '.&nbsp;';
-			}
-			$course_period['DAYS'] = $course_period_DAYS_locale;*/
-			
-			//DrawHeader($course_period['TEACHER'],$course_period['COURSE_TITLE'].' '.GetPeriod($course_period['PERIOD_ID']).($course_period['MARKING_PERIOD_ID']!="$fy_id"?' - '.GetMP($course_period['MARKING_PERIOD_ID']):'').(mb_strlen($course_period['DAYS'])<5?' - '.$course_period['DAYS']:''));
-			DrawHeader($course_period['COURSE_TITLE'],$course_period['TITLE']);
-			DrawHeader(SchoolInfo('TITLE'),ProperDate(DBDate()));
-
-			$_ROSARIO['User'] = array(1=>array('STAFF_ID'=>$course_period['TEACHER_ID'],'NAME'=>'name','PROFILE'=>'teacher','SCHOOLS'=>','.UserSchool().',','SYEAR'=>UserSyear()));
 			$_SESSION['UserCoursePeriod'] = $course_period['COURSE_PERIOD_ID'];
 
-			$extra = $first_extra;
-			$extra['MP'] = $course_period['MARKING_PERIOD_ID'];
-			$extra['MPTable'] = $course_period['MP'];
-			$extra['suppress_save'] = true;
-			include('modules/misc/Export.php');
+			$extra = array('SELECT_ONLY'=>'1');
 
-			echo '<div style="page-break-after: always;"></div>';
+			//modif Francois: prevent course period ID hacking
+			if (User('PROFILE')=='teacher')
+			{
+				$extra['WHERE'] = " AND '".User('STAFF_ID')."'=(SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."')";
+			}
+			elseif (User('PROFILE')=='admin')
+			{
+				$extra['WHERE'] = $extraWHERE = " AND s.STUDENT_ID IN
+				(SELECT STUDENT_ID
+				FROM SCHEDULE
+				WHERE COURSE_PERIOD_ID='".$course_period['COURSE_PERIOD_ID']."'
+				AND '".DBDate()."'>=START_DATE
+				AND ('".DBDate()."'<=END_DATE OR END_DATE IS NULL))";
+			}
+
+			$RET = GetStuList($extra);
+			//echo '<pre>'; var_dump($RET); echo '</pre>';
+
+			if(count($RET))
+			{
+				$no_students_backprompt = false;
+
+				unset($_ROSARIO['DrawHeader']);
+				DrawHeader(_('Class List'));
+
+				DrawHeader($course_period['COURSE_TITLE'],$course_period['TITLE']);
+				DrawHeader(SchoolInfo('TITLE'),ProperDate(DBDate()));
+
+				$extra = $first_extra;
+				$extra['MP'] = $course_period['MARKING_PERIOD_ID'];
+				$extra['MPTable'] = $course_period['MP'];
+				$extra['suppress_save'] = true;
+
+				if (User('PROFILE')=='admin')
+				{
+					$extra['WHERE'] .= $extraWHERE;
+				}
+
+				include('modules/misc/Export.php');
+
+				echo '<div style="page-break-after: always;"></div>';
+			}
 		}
 		$_SESSION['UserCoursePeriod'] = $PCL_UserCoursePeriod;
+
+		if ($no_students_backprompt)
+			BackPrompt(_('No Students were found.'));
+
 		PDFStop($handle);
 	}
 	else
@@ -65,7 +91,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 }
 
 if(empty($_REQUEST['modfunc']))
-
 {
 	DrawHeader(ProgramTitle());
 
@@ -85,6 +110,7 @@ if(empty($_REQUEST['modfunc']))
 	else
 	{
 		$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
+
 		if($_SESSION['Back_PHP_SELF']!='course')
 		{
 			$_SESSION['Back_PHP_SELF'] = 'course';
@@ -152,23 +178,30 @@ function mySearch($extra)
 	echo '<TABLE>'.$extra['extra_search'].'</TABLE>';
 
 	$sql = 'SELECT \'&nbsp;&nbsp;<INPUT type="checkbox" name="cp_arr[]" value="\'||cp.COURSE_PERIOD_ID||\'">\' AS CHECKBOX,cp.TITLE FROM COURSE_PERIODS cp';
+
 	if(User('PROFILE')=='admin')
 	{
 		if($_REQUEST['teacher_id'])
 			$where .= " AND cp.TEACHER_ID='".$_REQUEST['teacher_id']."'";
+
 		if($_REQUEST['first'])
 			$where .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
+
 		if($_REQUEST['w_course_period_id'])
 			if($_REQUEST['w_course_period_id'])
+			{
 				if($_REQUEST['w_course_period_id_which']=='course')
 					$where .= " AND cp.COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."')";
 				else
 					$where .= " AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'";
+			}
+
 		if($_REQUEST['subject_id'])
 		{
 			$from .= ",COURSES c";
 			$where .= " AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID='".$_REQUEST['subject_id']."'";
 		}
+
 		//modif Francois: multiple school periods for a course period
 		if($_REQUEST['period_id'])
 		{
@@ -176,6 +209,7 @@ function mySearch($extra)
 			$where .= " AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID='".$_REQUEST['period_id']."'";
 			//$where .= " AND cp.PERIOD_ID='".$_REQUEST['period_id']."'";
 		}
+
 		$sql .= "$from WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'$where";
 	}
 	else // teacher
@@ -192,14 +226,18 @@ function mySearch($extra)
 	if(!$_REQUEST['LO_save'] && !$extra['suppress_save'])
 	{
 		$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
+
 		if($_SESSION['Back_PHP_SELF']!='course')
 		{
 			$_SESSION['Back_PHP_SELF'] = 'course';
 			unset($_SESSION['Search_PHP_SELF']);
 		}
+
 		echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
 	}
+
 	ListOutput($course_periods_RET,$LO_columns,'Course Period','Course Periods');
+
 	echo '<BR /><span class="center"><INPUT type="submit" value="'._('Create Class Lists for Selected Course Periods').'" /></span>';
 	echo '</FORM>';
 }
