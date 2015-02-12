@@ -53,6 +53,7 @@ Changes in 2.8
 - prevent student ID hacking in Transcripts.php
 - prevent course period ID hacking in PrintClassLists.php & PrintClassPictures.php
 - prevent referral ID hacking in Referrals.php
+- bugfix SQL bug more than one row returned by a subquery in Rollover.php
 
 Upgrade from 2.7.x
 ------------------
