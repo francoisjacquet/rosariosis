@@ -54,6 +54,7 @@ Changes in 2.8
 - prevent course period ID hacking in PrintClassLists.php & PrintClassPictures.php
 - prevent referral ID hacking in Referrals.php
 - bugfix SQL bug more than one row returned by a subquery in Rollover.php
+- Moodle plugin: Remove "roll users and courses only ONCE" limitation in Moodle/functions.php & Moodle/School_Setup/Rollover.php
 
 Upgrade from 2.7.x
 ------------------

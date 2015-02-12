@@ -493,9 +493,6 @@ list of (
 		return null;
 	}
 
-	//student's roleid = student = 5
-	$roleid = 5;
-
 	$contextlevel = 'course';
 	$instanceid = $courseperiodid;
 	

@@ -68,7 +68,6 @@ if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAI
 	add_action('School_Setup/PortalNotes.php|update_portal_note', 'MoodleTriggered');
 	add_action('School_Setup/PortalNotes.php|delete_portal_note', 'MoodleTriggered');
 
-	add_action('School_Setup/Rollover.php|rollover_warnings', 'MoodleTriggered');
 	add_action('School_Setup/Rollover.php|rollover_checks', 'MoodleTriggered');
 	add_action('School_Setup/Rollover.php|rollover_staff', 'MoodleTriggered');
 	add_action('School_Setup/Rollover.php|rollover_course_subjects', 'MoodleTriggered');
@@ -517,22 +516,36 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		break;
 
 		/*School_Setup/Rollover.php*/
-		case 'School_Setup/Rollover.php|rollover_warnings':
-			//warning on RE roll staff or courses (creates DB incoherence)
-
-			global $table_list;
-
-			$table_list .= '<BR /><BR />'.'Moodle: '._('You cannot re-roll Users or Courses');
-
-		break;
-
 		case 'School_Setup/Rollover.php|rollover_checks':
-			//prevent RE roll staff or courses (creates DB incoherence)
-			
-			global $table, $exists_RET, $error;
+			//RE roll staff or courses
 
-			if (($table == 'COURSES' && $exists_RET['COURSES'][1]['COUNT']) || ($table == 'STAFF' && $exists_RET['STAFF'][1]['COUNT']))
-				$error[] = 'Moodle: '._('You cannot re-roll Users or Courses');
+			global $table, $exists_RET, $next_syear, $cp_moodle_id, $cp_teacher_id;
+
+			//reset SUBJECT_ID / COURSE_ID / COURSE_PERIOD_ID to pre-rollover values
+			if (($table == 'COURSES' && $exists_RET['COURSES'][1]['COUNT']))
+			{
+				//SUBJECT_ID
+				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM COURSE_SUBJECTS WHERE SUBJECT_ID=ROSARIO_ID) WHERE exists(SELECT * FROM COURSE_SUBJECTS WHERE SUBJECT_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='".$next_syear."') AND \"column\"='subject_id'");
+
+				//COURSE_ID
+				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM COURSES WHERE COURSE_ID=ROSARIO_ID) WHERE exists(SELECT * FROM COURSES WHERE COURSE_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='".$next_syear."') AND \"column\"='course_id'");
+			
+				//COURSE_PERIOD_ID
+				$course_periods_RET = DBGet(DBQuery("SELECT mxc.MOODLE_ID AS CP_MOODLE_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'"));
+
+				foreach($course_periods_RET as $reset_course_period)
+				{
+					$cp_moodle_id = $reset_course_period['CP_MOODLE_ID'];
+					$cp_teacher_id = $reset_course_period['TEACHER_ID'];
+
+					Moodle($modname, 'core_role_unassign_roles');
+					Moodle($modname, 'core_course_delete_courses');
+				}
+
+			}
+			//reset STAFF_ID to pre-rollover values
+			elseif (($table == 'STAFF' && $exists_RET['STAFF'][1]['COUNT']))
+				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID=(SELECT ROLLOVER_ID FROM STAFF WHERE STAFF_ID=ROSARIO_ID) WHERE exists(SELECT * FROM STAFF WHERE STAFF_ID=ROSARIO_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='".$next_syear."') AND \"column\"='staff_id'");
 
 		break;
 
@@ -549,10 +562,10 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		case 'School_Setup/Rollover.php|rollover_course_subjects':
 			global $next_syear;
 
-			$course_subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,ROLLOVER_ID FROM COURSES WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
+			$course_subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,ROLLOVER_ID FROM COURSE_SUBJECTS WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
 
 			foreach($course_subjects_RET as $value)
-				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['SUBJECT_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='subject_id' AND SCHOOL_ID='".UserSchool()."'");
+				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['SUBJECT_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='subject_id'");
 
 		break;
 

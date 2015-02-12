@@ -188,4 +188,93 @@ function core_role_assign_roles_response($response)
 	return null;
 }
 
+
+//core_role_unassign_roles function
+function core_role_unassign_roles_object()
+{
+	//first, gather the necessary variables
+	global $cp_moodle_id, $cp_teacher_id;
+
+
+	//then, convert variables for the Moodle object:
+/*
+list of ( 
+	object {
+		roleid int   //Role to assign to the user
+		userid int   //The user that is going to be assigned
+		contextid int  Optional //The context to unassign the user role from
+		contextlevel string  Optional //The context level to unassign the user role in
+		+                                    (block, course, coursecat, system, user, module)
+		instanceid int  Optional //The Instance id of item where the role needs to be unassigned
+	} 
+)*/
+	//gather the Moodle user ID
+	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$cp_teacher_id."' AND \"column\"='staff_id'"));
+	if (count($userid))
+	{
+		$userid = (int)$userid[1]['MOODLE_ID'];
+	}
+	else
+	{
+		return null;
+	}
+
+	//teacher's roleid = teacher = 3
+	$roleid = 3;
+
+	//gather the Moodle course period ID
+	$courseperiodid = $cp_moodle_id;
+
+	$contextlevel = 'course';
+	$instanceid = $courseperiodid;
+
+	$unassignments = array(
+						array(
+							'roleid' => $roleid,
+							'userid' => $userid,
+							'contextlevel' => $contextlevel,
+							'instanceid' => $instanceid,
+						)
+					);
+
+	return array($unassignments);
+}
+
+
+function core_role_unassign_roles_response($response)
+{
+	return null;
+}
+
+
+//core_course_delete_courses function
+function core_course_delete_courses_object()
+{
+	global $cp_moodle_id;
+
+	//gather the Moodle course ID
+	$id = $cp_moodle_id;
+
+	//then, convert variables for the Moodle object:
+/*
+list of ( 
+	int   //course ID
+)*/
+
+	$courses = array($id);
+
+	return array($courses);
+}
+
+
+function core_course_delete_courses_response($response)
+{
+	global $cp_moodle_id;
+
+	//delete the reference the moodlexrosario cross-reference table:
+	DBQuery("DELETE FROM MOODLEXROSARIO WHERE \"column\" = 'course_period_id' AND moodle_id ='".$cp_moodle_id."'");
+
+	return null;
+}
+
 ?>
