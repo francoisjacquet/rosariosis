@@ -399,7 +399,7 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 				else
 					$include = 'Other_Info';
 
-				$tabs[] = array('title'=>$category['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&include='.$include.'&category_id='.$category['ID']);
+				$tabs[] = array('title'=>$category['TITLE'],'link'=>($_REQUEST['student_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&include='.$include.'&category_id='.$category['ID'] : ''));
 			}
 		}
 

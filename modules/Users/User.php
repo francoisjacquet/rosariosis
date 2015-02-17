@@ -435,7 +435,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 			else
 				$include = 'Other_Info';
 
-			$tabs[] = array('title'=>$category['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&include='.$include.'&category_id='.$category['ID']);
+			$tabs[] = array('title'=>$category['TITLE'],'link'=>($_REQUEST['staff_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&include='.$include.'&category_id='.$category['ID'] : ''));
 		}
 	}
 

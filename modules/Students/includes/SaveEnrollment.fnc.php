@@ -8,7 +8,7 @@ function SaveEnrollment()
 {
 	global $error,$student_id;
 
-	if(($_REQUEST['month_values']['STUDENT_ENROLLMENT'] && $_POST['month_values']['STUDENT_ENROLLMENT']) || ($_REQUEST['values']['STUDENT_ENROLLMENT'] && $_POST['values']['STUDENT_ENROLLMENT']))
+	if($_POST['month_values']['STUDENT_ENROLLMENT'] || $_POST['values']['STUDENT_ENROLLMENT'])
 	{
 		//modif Francois: check if student already enrolled on that date when updating START_DATE
 		foreach($_REQUEST['month_values']['STUDENT_ENROLLMENT'] as $stu_enrol_id => $stu_enrol_month)
