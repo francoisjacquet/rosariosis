@@ -9,10 +9,7 @@ $RosarioCorePlugins = array(
 	'Moodle'
 );*/
 
-$directories_bypass = array(
-	'.',
-	'..'
-);
+$directories_bypass = array();
 
 //hacking protections
 if(isset($_REQUEST['plugin']) && strpos($_REQUEST['plugin'], '..') !== false)
@@ -155,25 +152,24 @@ if(empty($_REQUEST['modfunc']))
 		$THIS_RET['CONFIGURATION'] = _makeConfiguration($plugin_title,$activated);
 		
 		$plugins_RET[] = $THIS_RET;
+
+		$directories_bypass[] = 'plugins/'.$plugin_title;
 	}		
 	
 	// scan plugins/ folder for uninstalled plugins
-	$directories_bypass_complete = array_merge($directories_bypass, array_keys($RosarioPlugins));
-
-	$plugins = scandir('plugins/');
-	foreach ($plugins as $plugin_title)
+	$plugins = array_diff(glob('plugins/*', GLOB_ONLYDIR), $directories_bypass);
+	
+	foreach ($plugins as $plugin)
 	{
-		//filter directories
-		if (!in_array($plugin_title, $directories_bypass_complete) && is_dir('plugins/'.$plugin_title))
-		{
-			$THIS_RET = array();
-			$THIS_RET['DELETE'] =  _makeDelete($plugin_title);
-			$THIS_RET['TITLE'] = _makeReadMe($plugin_title);
-			$THIS_RET['ACTIVATED'] = _makeActivated(false);
-			$THIS_RET['CONFIGURATION'] = _makeConfiguration(false);
-		
-			$plugins_RET[] = $THIS_RET;
-		}
+		$plugin_title = str_replace('plugins/', '', $plugin);
+
+		$THIS_RET = array();
+		$THIS_RET['DELETE'] =  _makeDelete($plugin_title);
+		$THIS_RET['TITLE'] = _makeReadMe($plugin_title);
+		$THIS_RET['ACTIVATED'] = _makeActivated(false);
+		$THIS_RET['CONFIGURATION'] = _makeConfiguration($plugin_title, false);
+	
+		$plugins_RET[] = $THIS_RET;
 	}
 
 	$columns = array('DELETE'=>'','TITLE'=>_('Title'),'ACTIVATED'=>_('Activated'),'CONFIGURATION'=>_('Configuration'));

@@ -98,17 +98,16 @@ else
 
 		//modif Francois: add Default Theme to Configuration
 		echo '<TR><TD><TABLE><TR>';
-		$themes = scandir('assets/themes/');
+
+		$themes = glob('assets/themes/*', GLOB_ONLYDIR);
 		foreach ($themes as $theme)
 		{
-			//filter directories
-			if ( is_dir('assets/themes/'.$theme) && $theme != '.' && $theme != '..' )
-			{
-					echo '<TD><label><INPUT type="radio" name="values[CONFIG][THEME]" value="'.$theme.'"'.((Preferences('THEME')==$theme)?' checked':'').'> '.$theme.'</label></TD>';
-					$count++;
-					if($count%3==0)
-						echo '</TR><TR class="st">';			
-			}
+			$theme_name = str_replace('assets/themes/', '', $theme);
+
+			echo '<TD><label><INPUT type="radio" name="values[CONFIG][THEME]" value="'.$theme_name.'"'.((Config('THEME')==$theme_name)?' checked':'').'> '.$theme_name.'</label></TD>';
+
+			if($count++%3==0)
+				echo '</TR><TR class="st">';
 		}
 		echo '</TR></TABLE></TD></TR>';
 		echo '<TR><TD><span class="legend-gray">'._('Default Theme').'</span></TD></TR>';

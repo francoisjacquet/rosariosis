@@ -171,32 +171,16 @@ if(empty($_REQUEST['modfunc']))
 	{
 		echo '<TABLE>';
 		echo '<TR class="st"><TD style="vertical-align: top;"><span class="legend-gray">'._('Theme').'</span></TD><TD><TABLE><TR>';
-		//modif Francois: remove IgnoreFiles
-		/*if($handle = opendir($RosarioPath.'assets/themes/'))
-		{
-			while(false !== ($file = readdir($handle)))
-			{
-				if($file != "." && $file != ".." && !in_array($file,$IgnoreFiles))
-				{
-					echo '<TD><label><INPUT type="radio" name="values[Preferences][THEME]" value="'.$file.'"'.((Preferences('THEME')==$file)?' checked':'').'> '.$file.'</label></TD>';
-					$count++;
-					if($count%3==0)
-						echo '</TR><TR>';
-				}
-			}
-			closedir($handle);
-		}*/
-		$themes = scandir('assets/themes/');
+
+		$themes = glob('assets/themes/*', GLOB_ONLYDIR);
 		foreach ($themes as $theme)
 		{
-			//filter directories
-			if ( is_dir('assets/themes/'.$theme) && $theme != '.' && $theme != '..' )
-			{
-					echo '<TD><label><INPUT type="radio" name="values[Preferences][THEME]" value="'.$theme.'"'.((Preferences('THEME')==$theme)?' checked':'').'> '.$theme.'</label></TD>';
-					$count++;
-					if($count%3==0)
-						echo '</TR><TR class="st">';			
-			}
+			$theme_name = str_replace('assets/themes/', '', $theme);
+
+			echo '<TD><label><INPUT type="radio" name="values[Preferences][THEME]" value="'.$theme_name.'"'.((Preferences('THEME')==$theme_name)?' checked':'').'> '.$theme_name.'</label></TD>';
+
+			if($count++%3==0)
+				echo '</TR><TR class="st">';
 		}
 		echo '</TR></TABLE></TD></TR>';
 		

@@ -28,9 +28,7 @@ $always_activated = array(
 );
 
 $directories_bypass = array(
-	'.',
-	'..',
-	'misc'
+	'modules/misc'
 );
 
 //hacking protections
@@ -167,24 +165,23 @@ if(empty($_REQUEST['modfunc']))
 		$THIS_RET['ACTIVATED'] = _makeActivated($activated);
 		
 		$modules_RET[] = $THIS_RET;
+
+		$directories_bypass[] = 'modules/'.$module_title;
 	}		
 	
-	// scan modules/ folder for uninstalled modules
-	$directories_bypass_complete = array_merge($directories_bypass, array_keys($RosarioModules));
+	// scan plugins/ folder for uninstalled plugins
+	$modules = array_diff(glob('modules/*', GLOB_ONLYDIR), $directories_bypass);
 
-	$modules = scandir('modules/');
-	foreach ($modules as $module_title)
+	foreach ($modules as $module)
 	{
-		//filter directories
-		if (!in_array($module_title, $directories_bypass_complete) && is_dir('modules/'.$module_title))
-		{
-			$THIS_RET = array();
-			$THIS_RET['DELETE'] = _makeDelete($module_title);
-			$THIS_RET['TITLE'] = _makeReadMe($module_title);
-			$THIS_RET['ACTIVATED'] = _makeActivated(false);
-		
-			$modules_RET[] = $THIS_RET;
-		}
+		$module_title = str_replace('modules/', '', $module);
+
+		$THIS_RET = array();
+		$THIS_RET['DELETE'] = _makeDelete($module_title);
+		$THIS_RET['TITLE'] = _makeReadMe($module_title);
+		$THIS_RET['ACTIVATED'] = _makeActivated(false);
+
+		$modules_RET[] = $THIS_RET;
 	}
 
 	$columns = array('DELETE'=>'','TITLE'=>_('Title'),'ACTIVATED'=>_('Activated'));

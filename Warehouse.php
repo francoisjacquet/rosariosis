@@ -30,12 +30,10 @@ if(!defined('WAREHOUSE_PHP'))
 		$LocalePath = 'locale'; // Path were the language packs are stored. You need to restart Apache at each change in this directory
 
 	// Load functions.
-	$functions = scandir('functions/');
+	$functions = glob('functions/*.php');
 	foreach ($functions as $function)
 	{
-		//filter PHP files
-		if ( mb_strrchr($function, '.') == '.php' )
-			include('functions/'.$function);
+		include($function);
 	}
 
 	// Start Session.

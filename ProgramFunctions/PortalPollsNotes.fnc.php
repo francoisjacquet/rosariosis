@@ -202,12 +202,10 @@ if (isset($_POST['votes']) && is_array($_POST['votes']))
 	require('database.inc.php');
 
 	// Load functions.
-	$functions = scandir('functions/');
+	$functions = glob('functions/*.php');
 	foreach ($functions as $function)
 	{
-		//filter PHP files
-		if ( mb_strrchr($function, '.') == '.php' )
-			include('functions/'.$function);
+		include($function);
 	}
 	
 	foreach ($_POST['votes'] as $poll_id=>$votes_array)
