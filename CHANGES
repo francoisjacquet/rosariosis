@@ -58,6 +58,7 @@ Changes in 2.8
 - Arrows in CSS instead of GIF + rework switchMenu() in warehouse.js & stylesheet.css
 - Food Service icons: correct path & limit to image files in MenuItems.php
 - CSS hack: Replace the modules icons in CSS trick in themes/README
+- show 80 previous years instead of 20 in Date.php
 
 Upgrade from 2.7.x
 ------------------

@@ -214,7 +214,8 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 	{
 		if(!$year || $year=='0000')
 		{
-			$begin = date('Y') - 20;
+			//modif Francois: show 80 previous years instead of 20
+			$begin = date('Y') - 80;
 			$end = date('Y') + 5;
 		}
 		else
