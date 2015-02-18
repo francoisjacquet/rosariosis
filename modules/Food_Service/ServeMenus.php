@@ -72,7 +72,7 @@ function makeIcon($value,$name)
 {	global $FS_IconsPath;
 
 	if($value)
-		return '<IMG src="'.$FS_IconsPath.'/'.$value.'" height="30">';
+		return '<IMG src="'.$FS_IconsPath.$value.'" height="30" />';
 	else
 		return '&nbsp;';
 }

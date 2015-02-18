@@ -73,7 +73,7 @@ if(count($items_RET))
 			echo '<TR>';
 			$i = $per_row;
 		}
-		echo '<TD style="border: 1px solid"><IMG src="'.$FS_IconsPath.'/'.$item['ICON'].'" width="128"></TD>';
+		echo '<TD style="border: 1px solid"><IMG src="'.$FS_IconsPath.$item['ICON'].'" width="128" /></TD>';
 		$i--;
 		if(!$i)
 			echo '</TR>';

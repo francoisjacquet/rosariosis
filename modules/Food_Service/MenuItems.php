@@ -273,22 +273,27 @@ function makeIcon($value,$name)
 {	global $FS_IconsPath;
 
 	if($value)
-		return '<IMG src="'.$FS_IconsPath.'/'.$value.'" height="30">';
+		return '<IMG src="'.$FS_IconsPath.$value.'" height="30" />';
 	else
 		return '&nbsp;';
 }
 
 function get_icons_select($path)
-{	global $RosarioPath;
+{
+	$icons = array();
+	if (is_dir($path))
+		$icons = scandir($path);
 
-	$dir = $RosarioPath.'/'.$path;
-
-	//ini_set("max_execution_time",10);
 	$files = array();
-	if(is_dir($dir) && $root=@opendir($dir))
-		while($file=readdir($root))
-			if($file!='.' && $file!='..' && !is_dir($dir.'/'.$file))
-				$files[$file] = array($file,'<IMG src="'.$path.'/'.$file.'" height="30" />');
+	foreach ($icons as $icon)
+	{
+		//filter images
+		if ( in_array( mb_strtolower(mb_strrchr($icon, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
+		{
+			$files[$icon] = array($icon, '<IMG src="'.$path.$icon.'" height="30" />');
+		}
+	}
+
 	ksort($files);
 	return $files;
 }
