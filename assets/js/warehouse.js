@@ -14,21 +14,14 @@ function checkAll(form,value,name_like){
 			form.elements[i].checked = checked;
 	}
 }
-function switchMenu(id){
-	var $id = $('#'+id);
-	if($id.css('display')=='none'){
-		$id.show();
-		$('#'+id+'_arrow').attr({
-			src: 'assets/arrow_down.gif',
-			height: 9
-		});
-	}else{
-		$id.hide();
-		$('#'+id+'_arrow').attr({
-			src: 'assets/arrow_right.gif',
-			height: 12
-		});
-	}
+function switchMenu(el){
+	var $table = $(el).nextAll('table').first();
+	var $arrow = $(el).children('.arrow').first();
+	if($table.css('display')=='none')
+		$arrow.removeClass('right').addClass('down');
+	else
+		$arrow.removeClass('down').addClass('right');
+	$table.toggle();
 }
 
 //IE8 HTML5 tags fix
@@ -139,8 +132,8 @@ function ajaxSuccess(data,target,url){
 }
 
 function ajaxPrepare(target){
-	if (scrollTop=='Y')
-		document.getElementById('body').scrollIntoView();
+	if (scrollTop=='Y' && target)
+		body.scrollIntoView();
 
 	$(target+' form').each(function(){ ajaxPostForm(this,false); });
 	$(target+' a').click(function(e){ return $(this).css('pointer-events')=='none' ? e.preventDefault() : ajaxLink(this); });

@@ -16,7 +16,7 @@ Changes in 2.8
 - Responsive table content in UnfilledRequests.php
 - Add Help texts + spanish translation in Help_en.php & Help_es.php
 - Remove inline CSS, program wide
-- Add .student .staff .self .align-right .col1-align-right .bar .relevance CSS classes
+- Add .student .staff .self .align-right .col1-align-right .bar .relevance .arrow.down .arrow.right CSS classes
 - Add .center CSS class for tables
 - Add <legend> CSS styling
 - Remove "Display data using hidden fields" / HIDDEN Preference option
@@ -55,6 +55,7 @@ Changes in 2.8
 - prevent referral ID hacking in Referrals.php
 - bugfix SQL bug more than one row returned by a subquery in Rollover.php
 - Moodle plugin: Remove "roll users and courses only ONCE" limitation in Moodle/functions.php & Moodle/School_Setup/Rollover.php
+- Arrows in CSS instead of GIF + rework switchMenu() in warehouse.js & stylesheet.css
 
 Upgrade from 2.7.x
 ------------------

@@ -19,102 +19,98 @@ function Widgets($item,&$myextra=null)
 			case 'all':
 				$extra['search'] .= '<TR><TD colspan="2"><TABLE class="width-100p">';
 
+				//modif Francois: regroup widgets wrap
+				$widget_wrap_header = function($title)
+				{
+					return '<TR><TD colspan="2">&nbsp;
+					<A onclick="switchMenu(this); return false;" href="#"><div class="arrow right"></div> <B>'.$title.'</B></A>
+					<BR />
+					<TABLE class="widefat width-100p cellspacing-0 col1-align-right hide">';
+				};
+
+				$widget_wrap_footer = '</TABLE></TD></TR>';
+
 				if($RosarioModules['Students'] && (!$_ROSARIO['Widgets']['calendar'] || !$_ROSARIO['Widgets']['next_year'] || !$_ROSARIO['Widgets']['enrolled'] || !$_ROSARIO['Widgets']['rolled']))
 				{
-//modif Francois: css WPadmin
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'enrollment_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="enrollment_table_arrow" height="12"> <B>'._('Enrollment').'</B></A>
-					<BR />
-					<TABLE id="enrollment_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					$extra['search'] .= $widget_wrap_header(_('Enrollment'));
 
 					Widgets('calendar',$extra);
 					Widgets('next_year',$extra);
 					Widgets('enrolled',$extra);
 					Widgets('rolled',$extra);
 
-					$extra['search'] .= '</TABLE></TD></TR>';
+					$extra['search'] .= $widget_wrap_footer;
 				}
 
 				//if($RosarioModules['Scheduling'] && (!$_ROSARIO['Widgets']['course'] || !$_ROSARIO['Widgets']['request']) && User('PROFILE')=='admin')
 				if($RosarioModules['Scheduling'] && !$_ROSARIO['Widgets']['course'] && User('PROFILE')=='admin')
 				{
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'scheduling_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="scheduling_table_arrow" height="12"> <B>'._('Scheduling').'</B></A>
-					<BR />
-					<TABLE id="scheduling_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					$extra['search'] .= $widget_wrap_header(_('Scheduling'));
 
 					Widgets('course',$extra);
 
-					$extra['search'] .= '</TABLE></TD></TR>';
+					$extra['search'] .= $widget_wrap_footer;
 				}
 
 				if($RosarioModules['Attendance'] && (!$_ROSARIO['Widgets']['absences']))
 				{
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'absences_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="absences_table_arrow" height="12"> <B>'._('Attendance').'</B></A>
-					<BR />
-					<TABLE id="absences_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					$extra['search'] .= $widget_wrap_header(_('Attendance'));
 
 					Widgets('absences',$extra);
 
-					$extra['search'] .= '</TABLE></TD></TR>';
+					$extra['search'] .= $widget_wrap_footer;
 				}
 
 				if($RosarioModules['Grades'] && (!$_ROSARIO['Widgets']['gpa'] || !$_ROSARIO['Widgets']['class_rank'] || !$_ROSARIO['Widgets']['letter_grade']))
 				{
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'grades_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="grades_table_arrow" height="12"> <B>'._('Grades').'</B></A>
-					<BR />
-					<TABLE id="grades_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					$extra['search'] .= $widget_wrap_header(_('Grades'));
 
 					Widgets('gpa',$extra);
 					Widgets('class_rank',$extra);
 					Widgets('letter_grade',$extra);
 
-					$extra['search'] .= '</TABLE></TD></TR>';
+					$extra['search'] .= $widget_wrap_footer;
 				}
 
 				if($RosarioModules['Eligibility'] && (!$_ROSARIO['Widgets']['eligibility'] || !$_ROSARIO['Widgets']['activity']))
 				{
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'eligibility_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="eligibility_table_arrow" height="12"> <B>'._('Eligibility').'</B></A>
-					<BR />
-					<TABLE id="eligibility_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					$extra['search'] .= $widget_wrap_header(_('Eligibility'));
 
 					Widgets('eligibility',$extra);
 					Widgets('activity',$extra);
 
-					$extra['search'] .= '</TABLE></TD></TR>';
+					$extra['search'] .= $widget_wrap_footer;
 				}
 
 				if($RosarioModules['Food_Service'] && (!$_ROSARIO['Widgets']['fsa_balance'] || !$_ROSARIO['Widgets']['fsa_discount'] || !$_ROSARIO['Widgets']['fsa_status'] || !$_ROSARIO['Widgets']['fsa_barcode']))
 				{
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'food_service_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="food_service_table_arrow" height="12"> <B>'._('Food Service').'</B></A>
-					<BR />
-					<TABLE id="food_service_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					$extra['search'] .= $widget_wrap_header(_('Food Service'));
 
 					Widgets('fsa_balance',$extra);
 					Widgets('fsa_discount',$extra);
 					Widgets('fsa_status',$extra);
 					Widgets('fsa_barcode',$extra);
 
-					$extra['search'] .= '</TABLE></TD></TR>';
+					$extra['search'] .= $widget_wrap_footer;
 				}
 
 				if($RosarioModules['Discipline'] && (!$_ROSARIO['Widgets']['discipline'] || !$_ROSARIO['Widgets']['discipline_categories']))
 				{
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'discipline_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="discipline_table_arrow" height="12"> <B>'._('Discipline').'</B></A><BR /><TABLE id="discipline_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					$extra['search'] .= $widget_wrap_header(_('Discipline'));
 
 					Widgets('discipline',$extra);
 					Widgets('discipline_categories',$extra);
 
-					$extra['search'] .= '</TABLE></TD></TR>';
+					$extra['search'] .= $widget_wrap_footer;
 				}
 
 				if($RosarioModules['Student_Billing'] && (!$_ROSARIO['Widgets']['balance']) && AllowUse('Student_Billing/StudentFees.php'))
 				{
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'billing_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="billing_table_arrow" height="12"> <B>'._('Student Billing').'</B></A>
-					<BR />
-					<TABLE id="billing_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					$extra['search'] .= $widget_wrap_header(_('Student Billing'));
 
 					Widgets('balance',$extra);
 
-					$extra['search'] .= '</TABLE></TD></TR>';
+					$extra['search'] .= $widget_wrap_footer;
 				}
 
 				$extra['search'] .= '</TABLE></TD></TR>';

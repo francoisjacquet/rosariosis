@@ -142,11 +142,9 @@ function Search($type,$extra=null)
 				{
 					echo '<TR><TD colspan="2">
 					<TABLE style="border-collapse:separate; border-spacing:2px" class="width-100p">
-					<TR><TD colspan="2">
-					&nbsp;<A onclick="switchMenu(\'fields_'.$search_fields_RET[key($search_fields_RET)][1]['ID'].'_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="fields_'.$search_fields_RET[key($search_fields_RET)][1]['ID'].'_table_arrow" height="12"> <B>'.$search_fields_RET[key($search_fields_RET)][1]['CATEGORY_TITLE'].'</B></A>
-					<BR />';
-
-					echo '<TABLE id="fields_'.$search_fields_RET[key($search_fields_RET)][1]['ID'].'_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(this); return false;" href="#"><div class="arrow right"></div> <B>'.$search_fields_RET[key($search_fields_RET)][1]['CATEGORY_TITLE'].'</B></A>
+					<BR />
+					<TABLE class="widefat width-100p cellspacing-0 col1-align-right hide">';
 
 					$TR_classes .= 'st';
 				}

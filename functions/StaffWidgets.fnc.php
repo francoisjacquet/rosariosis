@@ -21,38 +21,45 @@ function StaffWidgets($item,&$myextra=NULL)
 			case 'all':
 				$extra['search'] .= '<TR><TD><TABLE class="width-100p">';
 
+				//modif Francois: regroup widgets wrap
+				$widget_wrap_header = function($title)
+				{
+					return '<TR><TD colspan="2">&nbsp;
+					<A onclick="switchMenu(this); return false;" href="#"><div class="arrow right"></div> <B>'.$title.'</B></A>
+					<BR />
+					<TABLE class="widefat width-100p cellspacing-0 col1-align-right hide">';
+				};
+
+				$widget_wrap_footer = '</TABLE></TD></TR>';
+
 				if($RosarioModules['Users'] && (!$_ROSARIO['StaffWidgets']['permissions']))
 				{
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'users_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="users_table_arrow" height="12"> <B>'._('Users').'</B></A><BR /><TABLE id="users_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					$extra['search'] .= $widget_wrap_header(_('Users'));
 
 					StaffWidgets('permissions',$extra);
 
-					$extra['search'] .= '</TABLE></TD></TR>';
+					$extra['search'] .= $widget_wrap_footer;
 				}
 
 				if($RosarioModules['Food_Service'] && (!$_ROSARIO['StaffWidgets']['fsa_balance'] || !$_ROSARIO['StaffWidgets']['fsa_status'] || !$_ROSARIO['StaffWidgets']['fsa_barcode']))
 				{
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'food_service_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="food_service_table_arrow" height="12"> <B>'._('Food Service').'</B></A>
-					<BR />
-					<TABLE id="food_service_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					$extra['search'] .= $widget_wrap_header(_('Food Service'));
 
 					StaffWidgets('fsa_balance',$extra);
 					StaffWidgets('fsa_status',$extra);
 					StaffWidgets('fsa_barcode',$extra);
 					StaffWidgets('fsa_exists',$extra);
 
-					$extra['search'] .= '</TABLE></TD></TR>';
+					$extra['search'] .= $widget_wrap_footer;
 				}
 
 				if($RosarioModules['Accounting'] && (!$_ROSARIO['Widgets']['staff_balance']) && AllowUse('Accounting/StaffBalances.php'))
 				{
-					$extra['search'] .= '<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(\'accounting_table\'); return false;" href="#"><IMG SRC="assets/arrow_right.gif" id="accounting_table_arrow" height="12"> <B>'._('Accounting').'</B></A>
-					<BR />
-					<TABLE id="accounting_table" class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					$extra['search'] .= $widget_wrap_header(_('Accounting'));
 
 					StaffWidgets('staff_balance',$extra);
 
-					$extra['search'] .= '</TABLE></TD></TR>';
+					$extra['search'] .= $widget_wrap_footer;
 				}
 
 				$extra['search'] .= '</TABLE></TD></TR>';

@@ -582,6 +582,23 @@ div.st{
 	overflow-y:auto;
 	min-width: 300px
 }
+/*arrows: http://leplay.github.io/demo/triangle.html*/
+.arrow{
+	display:block;
+	overflow:hidden;
+	width:0;
+	height:0;
+	border:8px dashed transparent;
+	float:left
+}
+.arrow.down{
+	border-top-style:solid;
+	border-bottom:none
+}
+.arrow.right{
+	border-left-style:solid;
+	border-right:none
+}
 /*tipmessage (DO NOT EDIT)*/
 #tipMsg{visibility:hidden;position:absolute;z-index:1000;top:-100px;max-width:300px}
 

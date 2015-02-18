@@ -203,6 +203,13 @@ hr{
 #student-comments div{
 	background-color:#fff
 }
+.arrow.down{
+	border-top-color:grey
+}
+.arrow.right{
+	border-left-color:grey
+}
+
 
 /*responsive tables*/
 @media only screen and (max-width: 1023px) {
