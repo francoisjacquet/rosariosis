@@ -138,7 +138,7 @@ if($_REQUEST['modfunc']!='delete')
 			echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&profile_id='.$id.'">'._($profile[1]['TITLE']).' &nbsp; </A>';
 			echo '</TD>';
 
-			echo '<TD><IMG SRC="assets/arrow_right.gif"></TD>';
+			echo '<TD><div class="arrow right"></div></TD>';
 			echo '</TR>';
 		}
 	}
@@ -161,7 +161,7 @@ function changeHTML(show,hide){
 		echo '<A href="#" onclick="return false;">'._('Add a User Profile').'</A>&nbsp;<BR /><DIV id="new_id_div"></DIV>';
 		echo '</TD>';
 
-		echo '<TD><IMG SRC="assets/arrow_right.gif"></TD>';
+		echo '<TD><div class="arrow right"></div></TD>';
 		echo '</TR>';
 	}
 

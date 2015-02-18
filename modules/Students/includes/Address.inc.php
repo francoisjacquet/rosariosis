@@ -417,7 +417,7 @@ if(empty($_REQUEST['modfunc']))
 				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<BR />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</A>';
 
 				echo '</TD>';
-				echo '<TD'.$style.'><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'"><IMG SRC="assets/arrow_right.gif"></A></TD>';
+				echo '<TD'.$style.'><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'"><div class="arrow right"></div></A></TD>';
 
 				echo '</TR>';
 			}
@@ -438,7 +438,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=new">'._('Add a <b>New</b> Address').' &nbsp; </A>';
 		echo '</TD>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=new"><IMG SRC="assets/arrow_right.gif"></A></TD>';
+		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=new"><div class="arrow right"></div></A></TD>';
 		echo '</TR>';
 
 		if($_REQUEST['address_id']=='old')
@@ -449,7 +449,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=old">'._('Add an <b>Existing</b> Address').' &nbsp; </A>';
 		echo '</TD>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=old"><IMG SRC="assets/arrow_right.gif"></A></TD>';
+		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=old"><div class="arrow right"></div></A></TD>';
 		echo '</TR>';
 
 		if($_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='new')
@@ -460,7 +460,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=new">'._('Add a <b>New</b> Contact<BR />without an Address').' &nbsp; </A>';
 		echo '</TD>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=new"><IMG SRC="assets/arrow_right.gif"></A></TD>';
+		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=new"><div class="arrow right"></div></A></TD>';
 		echo '</TR>';
 
 		if($_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='old')
@@ -471,7 +471,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=old">'._('Add an <b>Existing</b> Contact<BR />without an Address').' &nbsp; </A>';
 		echo '</TD>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=old"><IMG SRC="assets/arrow_right.gif"></A></TD>';
+		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=old"><div class="arrow right"></div></A></TD>';
 		echo '</TR>';
 	}
 	echo '</TABLE>';
@@ -545,7 +545,7 @@ if(empty($_REQUEST['modfunc']))
 					echo '<A style="display: inline-block;" href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'">'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<BR /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></A>';
 					echo '<span style="float:right">'.$images.'</span></TD>';
 
-					echo '<TD> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><IMG SRC="assets/arrow_right.gif"></a></TD>';
+					echo '<TD> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><div class="arrow right"></div></a></TD>';
 					echo '</TR>';
 				}
 			}
@@ -565,7 +565,7 @@ if(empty($_REQUEST['modfunc']))
 				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=new">'._('Add a <b>New</b> Contact').'</A>';
 				echo '</TD>';
 
-				echo '<TD> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=new"><IMG SRC="assets/arrow_right.gif"></A></TD>';
+				echo '<TD> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=new"><div class="arrow right"></div></A></TD>';
 				echo '</TR>';
 
 				if($_REQUEST['person_id']=='old')
@@ -576,7 +576,7 @@ if(empty($_REQUEST['modfunc']))
 				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=old">'._('Add an <b>Existing</b> Contact').'</A>';
 				echo '</TD>';
 
-				echo '<TD> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=old"><IMG SRC="assets/arrow_right.gif"></A></TD>';
+				echo '<TD> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=old"><div class="arrow right"></div></A></TD>';
 				echo '</TR>';
 			}
 
