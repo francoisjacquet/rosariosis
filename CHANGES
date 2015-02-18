@@ -57,6 +57,7 @@ Changes in 2.8
 - Moodle plugin: Remove "roll users and courses only ONCE" limitation in Moodle/functions.php & Moodle/School_Setup/Rollover.php
 - Arrows in CSS instead of GIF + rework switchMenu() in warehouse.js & stylesheet.css
 - Food Service icons: correct path & limit to image files in MenuItems.php
+- CSS hack: Replace the modules icons in CSS trick in themes/README
 
 Upgrade from 2.7.x
 ------------------
