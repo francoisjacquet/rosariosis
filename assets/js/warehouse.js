@@ -7,11 +7,10 @@ function addHTML(html,id,replace){
 	}
 }
 function checkAll(form,value,name_like){
-	var checked = (value==true)?true:false;
-
 	for(i=0;i<form.elements.length;i++){
-		if(form.elements[i].type=='checkbox' && form.elements[i].name!='controller' && form.elements[i].name.substr(0,name_like.length)==name_like)
-			form.elements[i].checked = checked;
+		chk = form.elements[i];
+		if(chk.type=='checkbox' && chk.name.substr(0,name_like.length)==name_like)
+			chk.checked = value;
 	}
 }
 function switchMenu(el){
