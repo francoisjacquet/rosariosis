@@ -207,7 +207,7 @@ function Search($type,$extra=null)
 							$option = explode('|',$option);
 
 							if($option[0]!='')
-								echo '<OPTION value="$option[0]">'.$option[0].'</OPTION>';
+								echo '<OPTION value="'.$option[0].'">'.$option[0].'</OPTION>';
 						}
 
 						echo '</SELECT>';
@@ -246,27 +246,12 @@ function Search($type,$extra=null)
 
 						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
-						$options = array();
+
 						foreach($options_RET as $option)
-						{
 							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
-							$options[$option] = true;
-						}
-//modif Francois: new option
+
+						//modif Francois: new option
 						echo '<OPTION value="---">-'. _('Edit') .'-</OPTION>';
-						$options['---'] = true;
-						// add values found in current and previous year
-						$options_RET = DBGet(DBQuery("SELECT DISTINCT s.".$column['COLUMN_NAME'].",upper(s.".$column['COLUMN_NAME'].") AS KEY 
-						FROM STUDENTS s,STUDENT_ENROLLMENT sse 
-						WHERE sse.STUDENT_ID=s.STUDENT_ID 
-						AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') 
-						AND ".$column['COLUMN_NAME']." IS NOT NULL ORDER BY KEY"));
-						foreach($options_RET as $option)
-							if($option[$column['COLUMN_NAME']]!='' && !$options[$option[$column['COLUMN_NAME']]])
-							{
-								echo '<OPTION value="'.$option[$column['COLUMN_NAME']].'">'.$option[$column['COLUMN_NAME']].'</OPTION>';
-								$options[$option[$column['COLUMN_NAME']]] = true;
-							}
 						echo '</SELECT>';
 						echo '</TD></TR>';
 					}
@@ -286,11 +271,12 @@ function Search($type,$extra=null)
 
 						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
+
 						$options = array();
 						foreach($options_RET as $option)
 							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
-//modif Francois: new option
-//						echo "<OPTION value=\"---\">---</OPTION>";
+
+						//modif Francois: new option
 						echo '<OPTION value="---">-'. _('Edit') .'-</OPTION>';
 						echo '<OPTION value="~">'._('Other Value').'</OPTION>';
 						echo '</SELECT>';
