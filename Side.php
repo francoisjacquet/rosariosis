@@ -132,24 +132,18 @@ else
 	if(!UserMP())
 		$_SESSION['UserMP'] = GetCurrentMP('QTR',DBDate(),false);
 
-	//Adding a Student/User OR removing current Student/User from menu
-	if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
+	//removing current Student/User from menu
+	if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && (($new_student = isset($_REQUEST['side_student_id']) && $_REQUEST['side_student_id']=='new') || ($new_staff = isset($_REQUEST['side_staff_id']) && $_REQUEST['side_staff_id']=='new')))
 	{
-		$new_student = isset($_REQUEST['student_id']) && $_REQUEST['student_id']=='new';
-		$new_staff = isset($_REQUEST['staff_id']) && $_REQUEST['staff_id']=='new';
+		if ($new_student)
+			$unset_student = true;
+		elseif($new_staff)
+			$unset_staff = true;
 
-		if($new_student || $new_staff)
-		{
-			if ($new_student)
-				$unset_student = true;
-			elseif($new_staff)
-				$unset_staff = true;
+		unset($_SESSION['_REQUEST_vars']['search_modfunc']);
 
-			unset($_SESSION['_REQUEST_vars']['search_modfunc']);
-
-			//update "#body" Module page
-			$update_body = true;
-		}
+		//update "#body" Module page
+		$update_body = true;
 	}
 }
 
@@ -407,7 +401,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 			$RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'")); ?>
 
 			<div class="current-person student">
-				<A HREF="Side.php?student_id=new" target="menu"><?php echo button('x', '', '', 'bigger'); ?></A> <?php echo (AllowUse('Students/Student.php')?'<A HREF="Modules.php?modname=Students/Student.php&student_id='.UserStudentID().'">':''); ?><?php echo $RET[1]['FULL_NAME']; ?><?php echo (AllowUse('Students/Student.php')?'</A>':''); ?>
+				<A HREF="Side.php?side_student_id=new" target="menu"><?php echo button('x', '', '', 'bigger'); ?></A> <?php echo (AllowUse('Students/Student.php')?'<A HREF="Modules.php?modname=Students/Student.php&student_id='.UserStudentID().'">':''); ?><?php echo $RET[1]['FULL_NAME']; ?><?php echo (AllowUse('Students/Student.php')?'</A>':''); ?>
 			</div>
 
 		<?php endif;
@@ -416,7 +410,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 			$RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'")); ?>
 
 			<div class="current-person <?php echo (UserStaffID()==User('STAFF_ID')?'self':'staff'); ?>">
-				<A HREF="Side.php?staff_id=new" target="menu"><?php echo button('x', '', '', 'bigger'); ?></A> <?php echo (AllowUse('Users/User.php')?'<A HREF="Modules.php?modname=Users/User.php&staff_id='.UserStaffID().'">':''); ?><?php echo $RET[1]['FULL_NAME']; ?><?php echo (AllowUse('Users/User.php')?'</A>':''); ?>
+				<A HREF="Side.php?side_staff_id=new" target="menu"><?php echo button('x', '', '', 'bigger'); ?></A> <?php echo (AllowUse('Users/User.php')?'<A HREF="Modules.php?modname=Users/User.php&staff_id='.UserStaffID().'">':''); ?><?php echo $RET[1]['FULL_NAME']; ?><?php echo (AllowUse('Users/User.php')?'</A>':''); ?>
 			</div>
 
 		<?php endif; ?>
