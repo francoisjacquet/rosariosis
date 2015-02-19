@@ -154,7 +154,7 @@ function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
 	if($THIS_RET['USERNAME'] && $THIS_RET['EMAIL'] && $THIS_RET['ASSOCIATED']>0)
-		return '&nbsp;&nbsp;<INPUT type="checkbox" name="staff['.$value.']" value="'.$value.'" />';
+		return '<INPUT type="checkbox" name="staff['.$value.']" value="'.$value.'" />';
 	else
 		return '';
 }

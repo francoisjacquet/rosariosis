@@ -177,7 +177,7 @@ function mySearch($extra)
 	DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
 	echo '<TABLE>'.$extra['extra_search'].'</TABLE>';
 
-	$sql = 'SELECT \'&nbsp;&nbsp;<INPUT type="checkbox" name="cp_arr[]" value="\'||cp.COURSE_PERIOD_ID||\'">\' AS CHECKBOX,cp.TITLE FROM COURSE_PERIODS cp';
+	$sql = 'SELECT \'<INPUT type="checkbox" name="cp_arr[]" value="\'||cp.COURSE_PERIOD_ID||\'">\' AS CHECKBOX,cp.TITLE FROM COURSE_PERIODS cp';
 
 	if(User('PROFILE')=='admin')
 	{

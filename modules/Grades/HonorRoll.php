@@ -234,7 +234,7 @@ if(empty($_REQUEST['modfunc']))
 function _makeChooseCheckbox($value,$title)
 {
 	if($_REQUEST['honor_roll']=='Y' || $_REQUEST['high_honor_roll']=='Y')
-		return '&nbsp;&nbsp;<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+		return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 	else
 		return '';
 }

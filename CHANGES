@@ -62,6 +62,7 @@ Changes in 2.8
 - Bugfix SQL bug for user autos field when add values found in current and previous year in Search.fnc.php
 - Solve conflict student/user_id=new in Side.php
 - Find a User/Student forms: method=GET + correct URL in Search.inc.php & warehouse.js
+- Remove double space before ChooseCheckbox + CSS programwide
 
 Upgrade from 2.7.x
 ------------------

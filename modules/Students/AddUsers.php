@@ -93,6 +93,6 @@ if($_REQUEST['modfunc']!='delete')
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '&nbsp;&nbsp;<INPUT type="checkbox" name="staff['.$THIS_RET['STAFF_ID'].']" value="Y" />';
+	return '<INPUT type="checkbox" name="staff['.$THIS_RET['STAFF_ID'].']" value="Y" />';
 }
 ?>

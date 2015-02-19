@@ -167,11 +167,6 @@ code{
 	padding:6px 7px;
 	line-height:1.3em;
 }
-.widefat th input{
-	margin:0 0 0 8px;
-	padding:0;
-	vertical-align:text-top
-}
 div.error{
 	padding:0 .6em;
 	margin:5px 0

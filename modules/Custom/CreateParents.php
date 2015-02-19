@@ -259,7 +259,7 @@ function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
 	if(mb_strpos($THIS_RET['EMAIL'],'@'))
-		return '&nbsp;&nbsp;<INPUT type="checkbox" name="student['.$value.']" value="'.$value.'" />';
+		return '<INPUT type="checkbox" name="student['.$value.']" value="'.$value.'" />';
 	else
 		return '';
 }

@@ -72,7 +72,7 @@ if($_REQUEST['search_modfunc']=='list')
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '&nbsp;&nbsp;<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
+	return '<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
 }
 
 ?>

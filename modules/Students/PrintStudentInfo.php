@@ -228,7 +228,7 @@ function _grade_id($value)
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '&nbsp;&nbsp;<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }
 
 function explodeCustom(&$categories_RET, &$custom, $prefix)

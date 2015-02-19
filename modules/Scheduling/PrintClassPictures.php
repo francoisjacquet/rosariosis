@@ -308,6 +308,6 @@ function mySearch($type,$extra='')
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '&nbsp;&nbsp;<INPUT type="checkbox" name="cp_arr[]" value="'.$value.'" checked />';
+	return '<INPUT type="checkbox" name="cp_arr[]" value="'.$value.'" checked />';
 }
 ?>
