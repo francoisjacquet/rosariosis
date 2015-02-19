@@ -64,13 +64,15 @@ function isTouchDevice(){
 if (isTouchDevice())
 	$(document).bind("cbox_complete", function(){ touchScroll(document.getElementById("cboxLoadedContent")); });
 
-function ajaxOptions(target,url)
+function ajaxOptions(target,url,form)
 {
 	return {
 		beforeSend: function(data){
 			$('#BottomSpinner').css('visibility','visible');
 		},
 		success: function(data){
+			if(form && form.method=='get')
+				url = url+$(form).formSerialize();
 			ajaxSuccess(data,target,url);
 		},
 		error: function(x,st,err){
@@ -97,7 +99,7 @@ function ajaxLink(link){
 			return true;
 	}
 
-	$.ajax(link.href, ajaxOptions(target,link.href));
+	$.ajax(link.href, ajaxOptions(target,link.href,false));
 	return false;
 }
 
@@ -108,10 +110,11 @@ function ajaxPostForm(form,submit){
 	if (form.action.indexOf('_ROSARIO_PDF')!=-1) //print PDF
 	{
 		form.target = '_blank';
+		form.method = 'post';
 		return true;
 	}
 
-	var options = ajaxOptions(target,form.action);
+	var options = ajaxOptions(target,form.action,form);
 	if (submit)
 		$(form).ajaxSubmit(options);
 	else

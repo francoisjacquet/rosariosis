@@ -6,7 +6,7 @@ function Search($type,$extra=null)
 	switch($type)
 	{
 		case 'student_id':
-			if($_REQUEST['bottom_back'])
+			if($_REQUEST['bottom_back'] || $_REQUEST['search_modfunc'])
 				unset($_SESSION['student_id']);
 				
 			if($_REQUEST['student_id'])
@@ -29,6 +29,7 @@ function Search($type,$extra=null)
 					if (User('PROFILE')!=='student' && User('PROFILE')!=='parent')
 						unset($_SESSION['student_id']);
 				}
+
 				$_REQUEST['next_modname'] = $_REQUEST['modname'];
 				include('modules/Students/Search.inc.php');
 			}
@@ -37,7 +38,8 @@ function Search($type,$extra=null)
 		case 'staff_id':
 			// convert profile string to array for legacy compatibility
 			if (!is_array($extra)) $extra = array('profile'=>$extra);
-			if($_REQUEST['bottom_back'])
+
+			if($_REQUEST['bottom_back'] || $_REQUEST['search_modfunc'])
 				unset($_SESSION['staff_id']);
 
 			if($_REQUEST['staff_id'])
@@ -54,8 +56,6 @@ function Search($type,$extra=null)
 				if(UserStaffID())
 					unset($_SESSION['staff_id']);
 					
-				//if(empty($_REQUEST['modfunc']))
-				$_REQUEST['modfunc'] = 'search_fnc';
 				$_REQUEST['next_modname'] = $_REQUEST['modname'];
 				include('modules/Users/Search.inc.php');
 			}
@@ -177,7 +177,7 @@ function Search($type,$extra=null)
 						$options = explode("\r",$column['SELECT_OPTIONS']);
 
 						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
-						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
+						echo '<SELECT name="cust['.$column['COLUMN_NAME'].']"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
 						foreach($options as $option)
 						{
@@ -200,7 +200,7 @@ function Search($type,$extra=null)
 						$options = explode("\r",$column['SELECT_OPTIONS']);
 
 						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
-						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
+						echo '<SELECT name="cust['.$column['COLUMN_NAME'].']"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
 						foreach($options as $option)
 						{
@@ -222,7 +222,7 @@ function Search($type,$extra=null)
 						$options = explode("\r",$column['SELECT_OPTIONS']);
 
 						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
-						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
+						echo '<SELECT name="cust['.$column['COLUMN_NAME'].']"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
 						foreach($options as $option)
 							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
@@ -245,7 +245,7 @@ function Search($type,$extra=null)
 							$options_RET = array();
 
 						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
-						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
+						echo '<SELECT name="cust['.$column['COLUMN_NAME'].']"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
 						foreach($options_RET as $option)
 							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
@@ -270,7 +270,7 @@ function Search($type,$extra=null)
 							$options_RET = array();
 
 						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
-						echo '<SELECT name="cust['.$column['COLUMN_NAME'].'] style="max-width:250;"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
+						echo '<SELECT name="cust['.$column['COLUMN_NAME'].']"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
 						$options = array();
 						foreach($options_RET as $option)

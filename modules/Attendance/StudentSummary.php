@@ -108,13 +108,7 @@ else
 
 $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&period_id='.$_REQUEST['period_id'];
 $extra['link']['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
-//if((!$_REQUEST['search_modfunc'] || $_ROSARIO['modules_search']) && !$_REQUEST['student_id'])
-//	$extra['new'] = true;
-/*
-Widgets('activity');
-Widgets('course');
-Widgets('absences');
-*/
+
 Search('student_id',$extra);
 
 if(UserStudentID())

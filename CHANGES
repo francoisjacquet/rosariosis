@@ -61,6 +61,7 @@ Changes in 2.8
 - show 80 previous years instead of 20 in Date.php
 - Bugfix SQL bug for user autos field when add values found in current and previous year in Search.fnc.php
 - Solve conflict student/user_id=new in Side.php
+- Find a User/Student forms: method=GET + correct URL in Search.inc.php & warehouse.js
 
 Upgrade from 2.7.x
 ------------------

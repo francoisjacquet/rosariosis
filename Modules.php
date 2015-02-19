@@ -57,8 +57,6 @@ if(isset($_REQUEST['modname']))
 
 	if($allowed)
 	{
-		if(Preferences('SEARCH')!='Y')
-			$_REQUEST['search_modfunc'] = 'list';
 		include('modules/'.$modname);
 	}
 	elseif(User('USERNAME'))

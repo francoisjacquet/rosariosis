@@ -1,13 +1,13 @@
 <?php
 Widgets('request');
 Widgets('mailing_labels');
-$extra['force_search'] = true;
 
-if(!$_REQUEST['search_modfunc'] || $_ROSARIO['modules_search'])
+if(!$_REQUEST['search_modfunc'])
 {
 	DrawHeader(ProgramTitle());
 
 	$extra['new'] = true;
+	$extra['force_search'] = true;
 	$extra['action'] .= "&_ROSARIO_PDF=true";
 	Search('student_id',$extra);
 }
@@ -25,9 +25,14 @@ else
 	$extra['group'] = array('STUDENT_ID');
 	//modif Francois: add ORDER BY COURSE_TITLE
 	$extra['ORDER_BY'] = 'COURSE_TITLE';
+
 	if($_REQUEST['mailing_labels']=='Y')
 		$extra['group'][] = 'ADDRESS_ID';	
 	
+	//modif Francois: fix advanced search
+	$extra['WHERE'] .= appendSQL('',$extra);
+
+	$extra['WHERE'] .= CustomFields('where');
 	$RET = GetStuList($extra);
 
 	if(count($RET))

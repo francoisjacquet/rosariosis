@@ -15,7 +15,7 @@
 Widgets('mailing_labels');
 //Widgets('document_template');
 
-if(!$_REQUEST['search_modfunc'] || $_REQUEST['search_modfunc']=='search' || $_ROSARIO['modules_search'])
+if(!$_REQUEST['search_modfunc'])
 {
 	DrawHeader(ProgramTitle());
 
@@ -78,8 +78,7 @@ else
 			}
 		}
 
-		//unset($_SESSION['student_id']);
-		SetUserStudentID($SESSION_student_id_save);
+		$_SESSION['student_id'] = $SESSION_student_id_save;
 
 		PDFStop($handle);
 	}

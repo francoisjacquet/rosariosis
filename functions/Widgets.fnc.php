@@ -368,7 +368,7 @@ function Widgets($item,&$myextra=null)
 				$extra['search'] .= '</TD><TD>';
 
 				//modif Francois: fix error Invalid argument supplied for foreach()
-				if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
+				if(!$_REQUEST['search_modfunc'])
 				{
 					$letter_grades_RET = DBGet(DBQuery("SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID 
 					FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs 
@@ -462,7 +462,7 @@ function Widgets($item,&$myextra=null)
 					$_ROSARIO['SearchTerms'] .= '<b>'._('Activity').': </b>'.$activity[1]['TITLE'].'<BR />';
 				}
 
-				if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
+				if(!$_REQUEST['search_modfunc'])
 					$activities_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
 				$select = '<SELECT name="activity_id"><OPTION value="">'._('Not Specified').'</OPTION>';

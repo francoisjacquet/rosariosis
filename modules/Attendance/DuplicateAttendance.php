@@ -347,7 +347,7 @@ if(isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' && 
 		else
 		{
 			echo '</TBODY></TABLE>';
-			echo '<BR /><input type="submit" name="submit" value="'._('Delete').'" />';
+			echo '<BR /><span class="center"><input type="submit" name="submit" value="'._('Delete').'" /></span>';
 		}
 
 		echo '</form>';
@@ -361,7 +361,7 @@ if(isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' && 
 	}
 }
 
-if((!isset($_REQUEST['search_modfunc']) || $_ROSARIO['modules_search']) && $_REQUEST['delete']!='true')
+if(!isset($_REQUEST['search_modfunc']) && $_REQUEST['delete']!='true')
 {
 	if (isset($error))
 		echo ErrorMessage($error);

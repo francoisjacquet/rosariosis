@@ -12,10 +12,14 @@
 */
 
 include_once('modules/Student_Billing/functions.inc.php');
+
 if(!$_REQUEST['print_statements'])
+{
 	DrawHeader(ProgramTitle());
-//Widgets('all');
-Search('student_id',$extra);
+
+	//Widgets('all');
+	Search('student_id',$extra);
+}
 
 if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {

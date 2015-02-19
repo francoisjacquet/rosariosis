@@ -37,7 +37,7 @@ $extra['second_col'] .= '</TABLE></fieldset></TD></TR>';
 $extra['force_search'] = true;
 $extra['action'] .= '&_ROSARIO_PDF=true';
 
-if(!$_REQUEST['search_modfunc'] || $_REQUEST['search_modfunc']=='search' || $_ROSARIO['modules_search'])
+if(!$_REQUEST['search_modfunc'])
 {
 	DrawHeader(ProgramTitle());
 	

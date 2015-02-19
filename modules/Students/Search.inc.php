@@ -1,10 +1,11 @@
 <?php
-if($_ROSARIO['modules_search'] && $extra['force_search'])
+if($extra['force_search'])
 	$_REQUEST['search_modfunc'] = '';
 
 if(Preferences('SEARCH')!='Y' && !$extra['force_search'])
 	$_REQUEST['search_modfunc'] = 'list';
-if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
+
+if(!$_REQUEST['search_modfunc'])
 {
 	//if(UserStudentID() && User('PROFILE')!='parent' && User('PROFILE')!='student' && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
 	switch(User('PROFILE'))
@@ -26,7 +27,7 @@ if($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc'])
 
 			PopTable('header',$extra['search_title']?$extra['search_title']:_('Find a Student'));
 
-			echo '<FORM name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="POST">';
+			echo '<FORM name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="GET">';
 
 			echo '<TABLE><TR class="valign-top"><TD>';
 

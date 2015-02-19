@@ -1,13 +1,16 @@
 <?php
 include_once('modules/Accounting/functions.inc.php');
+
+if(User('PROFILE')=='teacher')//limit to teacher himself
+	$_REQUEST['staff_id'] = User('STAFF_ID');
+
 if(!$_REQUEST['print_statements'])
+{
 	DrawHeader(ProgramTitle());
 	
-if(User('PROFILE')=='teacher')//limit to teacher himself
-	$_REQUEST['staff_id'] = $_SESSION['STAFF_ID'];
-		
-//Widgets('all');
-Search('staff_id',$extra);
+	//Widgets('all');
+	Search('staff_id',$extra);
+}
 
 if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
@@ -69,7 +72,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if(UserStaffID() && (!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='search_fnc'))
+if(UserStaffID() && !$_REQUEST['modfunc'])
 {
 	$payments_total = 0;
 	$functions = array('REMOVE'=>'_makePaymentsRemove','AMOUNT'=>'_makePaymentsAmount','PAYMENT_DATE'=>'ProperDate','COMMENTS'=>'_makePaymentsTextInput');

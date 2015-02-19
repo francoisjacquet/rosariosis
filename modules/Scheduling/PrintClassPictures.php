@@ -169,7 +169,7 @@ if(empty($_REQUEST['modfunc']))
 function mySearch($type,$extra='')
 {	global $extra;
 
-	if(($_REQUEST['search_modfunc']=='search_fnc' || !$_REQUEST['search_modfunc']))
+	if(!$_REQUEST['search_modfunc'])
 	{
 		$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
@@ -308,7 +308,6 @@ function mySearch($type,$extra='')
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	//return '&nbsp;&nbsp;<INPUT type="checkbox" name="cp_arr[]" value="'.$value.'"'.($THIS_RET['ATTENDANCE']=='Y'?' checked':'').">";
 	return '&nbsp;&nbsp;<INPUT type="checkbox" name="cp_arr[]" value="'.$value.'" checked />';
 }
 ?>
