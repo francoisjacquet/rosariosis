@@ -12,30 +12,44 @@ if(User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id
 	exit;
 }
 
-if(!$_REQUEST['include'])
+$categories = array('1'=>'General_Info', '2'=>'Schedule', 'Other_Info'=>'Other_Info');
+
+if(!isset($_REQUEST['category_id']))
 {
-	$_REQUEST['include'] = 'General_Info';
-	$_REQUEST['category_id'] = '1';
+	$category_id = '1';
+	$include = 'General_Info';
 }
-elseif(!$_REQUEST['category_id'])
+else
 {
-	if($_REQUEST['include']=='General_Info')
-		$_REQUEST['category_id'] = '1';
-	elseif($_REQUEST['include']=='Schedule')
-		$_REQUEST['category_id'] = '2';
-	elseif($_REQUEST['include']!='Other_Info')
+	$category_id = $_REQUEST['category_id'];
+
+	if(in_array($_REQUEST['category_id'], array_keys($categories)))
 	{
-		$include = DBGet(DBQuery("SELECT ID FROM STAFF_FIELD_CATEGORIES WHERE INCLUDE='".$_REQUEST['include']."'"));
-		$_REQUEST['category_id'] = $include[1]['ID'];
+		$include = $categories[$category_id];
+	}
+	else
+	{
+		$category_include = DBGet(DBQuery("SELECT INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ID='".$_REQUEST['category_id']."'"));
+
+		if(count($category_include))
+		{
+			$include = $category_include[1]['INCLUDE'];
+		}
+		//modif Francois: Prevent $_REQUEST['category_id'] hacking
+		else
+		{
+			$category_id = '1';
+			$include = 'General_Info';
+		}
 	}
 }
 
 if(User('PROFILE')!='admin')
 {
 	if(User('PROFILE_ID'))
-		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Users/User.php&category_id=".$_REQUEST['category_id']."' AND CAN_EDIT='Y'"));
+		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Users/User.php&category_id=".$category_id."' AND CAN_EDIT='Y'"));
 	else
-		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Users/User.php&category_id=".$_REQUEST['category_id']."' AND CAN_EDIT='Y'"),array(),array('MODNAME'));
+		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Users/User.php&category_id=".$category_id."' AND CAN_EDIT='Y'"),array(),array('MODNAME'));
 	if($can_edit_RET)
 		$_ROSARIO['allow_edit'] = true;
 }
@@ -104,7 +118,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			$required_error = true;
 
 		//modif Francois: other fields required
-		$others_required_RET = DBGet(DBQuery("SELECT ID FROM STAFF_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."' AND REQUIRED='Y'"));
+		$others_required_RET = DBGet(DBQuery("SELECT ID FROM STAFF_FIELDS WHERE CATEGORY_ID='".$category_id."' AND REQUIRED='Y'"));
 		if (count($others_required_RET))
 			foreach($others_required_RET as $other_required)
 				if (isset($_REQUEST['staff']['CUSTOM_'.$other_required['ID']]) && empty($_REQUEST['staff']['CUSTOM_'.$other_required['ID']]))
@@ -301,11 +315,11 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 
 	}
 
-	if($_REQUEST['include']!='General_Info' && $_REQUEST['include']!='Schedule' && $_REQUEST['include']!='Other_Info')
-		if(!mb_strpos($_REQUEST['include'],'/'))
-			include('modules/Users/includes/'.$_REQUEST['include'].'.inc.php');
+	if(!in_array($include, $categories))
+		if(!mb_strpos($include,'/'))
+			include('modules/Users/includes/'.$include.'.inc.php');
 		else
-			include('modules/'.$_REQUEST['include'].'.inc.php');
+			include('modules/'.$include.'.inc.php');
 
 	if ($error && !UserStaffID())
 		$_REQUEST['staff_id'] = 'new';
@@ -379,10 +393,10 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 				FROM STAFF s WHERE s.STAFF_ID='".UserStaffID()."'";
 		$staff = DBGet(DBQuery($sql));
 		$staff = $staff[1];
-		echo '<FORM name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 	}
-	elseif(basename($_SERVER['PHP_SELF'])!='index.php')
-		echo '<FORM name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
+
+	if(basename($_SERVER['PHP_SELF'])!='index.php')
+		echo '<FORM name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
 	else
 		echo '<FORM action="index.php?create_account=user&staff_id=new&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
 
@@ -426,34 +440,33 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 	{
 		if($can_use_RET['Users/User.php&category_id='.$category['ID']])
 		{
-			if($category['ID']=='1')
+			//modif Francois: Remove $_REQUEST['include']
+			/*if($category['ID']=='1')
 				$include = 'General_Info';
 			elseif($category['ID']=='2')
 				$include = 'Schedule';
 			elseif($category['INCLUDE'])
 				$include = $category['INCLUDE'];
 			else
-				$include = 'Other_Info';
+				$include = 'Other_Info';*/
 
-			$tabs[] = array('title'=>$category['TITLE'],'link'=>($_REQUEST['staff_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&include='.$include.'&category_id='.$category['ID'] : ''));
+			$tabs[] = array('title'=>$category['TITLE'],'link'=>($_REQUEST['staff_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category['ID'] : ''));
 		}
 	}
 
-	$_ROSARIO['selected_tab'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'];
-	if($_REQUEST['category_id'])
-		$_ROSARIO['selected_tab'] .= '&category_id='.$_REQUEST['category_id'];
+	$_ROSARIO['selected_tab'] = 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id;
 
 	echo '<BR />';
 	PopTable('header',$tabs,'width="100%"');
 	$PopTable_opened = true;
 
-	if ($can_use_RET['Users/User.php&category_id='.$_REQUEST['category_id']])
+	if ($can_use_RET['Users/User.php&category_id='.$category_id])
 	{
-		if(!mb_strpos($_REQUEST['include'],'/'))
-			include('modules/Users/includes/'.$_REQUEST['include'].'.inc.php');
+		if(!mb_strpos($include,'/'))
+			include('modules/Users/includes/'.$include.'.inc.php');
 		else
 		{
-			include('modules/'.$_REQUEST['include'].'.inc.php');
+			include('modules/'.$include.'.inc.php');
 			$separator = '<HR>';
 			include('modules/Users/includes/Other_Info.inc.php');
 		}

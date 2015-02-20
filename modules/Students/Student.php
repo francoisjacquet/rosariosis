@@ -13,25 +13,35 @@ if(User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['student_
 	exit;
 }
 
-if(!$_REQUEST['include'])
+$categories = array('1'=>'General_Info', '2'=>'Medical', '3'=>'Address', '4'=>'Comments', 'Other_Info'=>'Other_Info');
+
+if(!isset($_REQUEST['category_id']))
 {
-	$_REQUEST['include'] = 'General_Info';
-	$_REQUEST['category_id'] = '1';
+	$category_id = '1';
+	$include = 'General_Info';
 }
-elseif(!$_REQUEST['category_id'])
+else
 {
-	if($_REQUEST['include']== 'General_Info')
-		$_REQUEST['category_id'] = '1';
-	elseif($_REQUEST['include']== 'Address')
-		$_REQUEST['category_id'] = '3';
-	elseif($_REQUEST['include']== 'Medical')
-		$_REQUEST['category_id'] = '2';
-	elseif($_REQUEST['include']== 'Comments')
-		$_REQUEST['category_id'] = '4';
-	elseif($_REQUEST['include']!= 'Other_Info')
+	$category_id = $_REQUEST['category_id'];
+
+	if(in_array($_REQUEST['category_id'], array_keys($categories)))
 	{
-		$include = DBGet(DBQuery("SELECT ID FROM STUDENT_FIELD_CATEGORIES WHERE INCLUDE='".$_REQUEST['include']."'"));
-		$_REQUEST['category_id'] = $include[1]['ID'];
+		$include = $categories[$category_id];
+	}
+	else
+	{
+		$category_include = DBGet(DBQuery("SELECT INCLUDE FROM STUDENT_FIELD_CATEGORIES WHERE ID='".$_REQUEST['category_id']."'"));
+
+		if(count($category_include))
+		{
+			$include = $category_include[1]['INCLUDE'];
+		}
+		//modif Francois: Prevent $_REQUEST['category_id'] hacking
+		else
+		{
+			$category_id = '1';
+			$include = 'General_Info';
+		}
 	}
 }
 
@@ -39,11 +49,11 @@ if(User('PROFILE')!='admin')
 {
 	if(User('PROFILE')!='student')
 		if(User('PROFILE_ID'))
-			$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Students/Student.php&category_id=".$_REQUEST['category_id']."' AND CAN_EDIT='Y'"));
+			$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Students/Student.php&category_id=".$category_id."' AND CAN_EDIT='Y'"));
 		else
-			$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Students/Student.php&category_id=".$_REQUEST['category_id']."' AND CAN_EDIT='Y'"),array(),array('MODNAME'));
+			$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Students/Student.php&category_id=".$category_id."' AND CAN_EDIT='Y'"),array(),array('MODNAME'));
 	else
-		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='0' AND MODNAME='Students/Student.php&category_id=".$_REQUEST['category_id']."' AND CAN_EDIT='Y'"));
+		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='0' AND MODNAME='Students/Student.php&category_id=".$category_id."' AND CAN_EDIT='Y'"));
 	if($can_edit_RET)
 		$_ROSARIO['allow_edit'] = true;
 }
@@ -80,7 +90,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			$required_error = true;
 
 		//modif Francois: other fields required
-		$others_required_RET = DBGet(DBQuery("SELECT ID FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."' AND REQUIRED='Y'"));
+		$others_required_RET = DBGet(DBQuery("SELECT ID FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$category_id."' AND REQUIRED='Y'"));
 		if (count($others_required_RET))
 			foreach($others_required_RET as $other_required)
 				if (isset($_REQUEST['students']['CUSTOM_'.$other_required['ID']]) && empty($_REQUEST['students']['CUSTOM_'.$other_required['ID']]))
@@ -287,11 +297,11 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 	}
 
-	if($_REQUEST['include']!= 'General_Info' && $_REQUEST['include']!= 'Address' && $_REQUEST['include']!= 'Medical' && $_REQUEST['include']!= 'Other_Info')
-		if(!mb_strpos($_REQUEST['include'],'/'))
-			include('modules/Students/includes/'.$_REQUEST['include'].'.inc.php');
+	if(!in_array($include, $categories))
+		if(!mb_strpos($include,'/'))
+			include('modules/Students/includes/'.$include.'.inc.php');
 		else
-			include('modules/'.$_REQUEST['include'].'.inc.php');
+			include('modules/'.$include.'.inc.php');
 
 	if ($error && !UserStudentID())
 		$_REQUEST['student_id'] = 'new';
@@ -365,11 +375,10 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 			$student = DBGet(DBQuery($sql));
 			$student = $student[1];
 			$school = DBGet(DBQuery("SELECT SCHOOL_ID,GRADE_ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND ('".DBDate()."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)"));
-			
-			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&category_id='.$_REQUEST['category_id'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
 		}
-		elseif(basename($_SERVER['PHP_SELF'])!='index.php')
-			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&modfunc=update" method="POST" enctype="multipart/form-data">';
+
+		if(basename($_SERVER['PHP_SELF'])!='index.php')
+			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
 		//modif Francois: create account
 		else
 			echo '<FORM action="index.php?create_account=student&student_id=new&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
@@ -386,7 +395,8 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 		{
 			if($can_use_RET['Students/Student.php&category_id='.$category['ID']])
 			{
-				if($category['ID']=='1')
+				//modif Francois: Remove $_REQUEST['include']
+				/*if($category['ID']=='1')
 					$include = 'General_Info';
 				elseif($category['ID']=='3')
 					$include = 'Address';
@@ -397,27 +407,25 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 				elseif($category['INCLUDE'])
 					$include = $category['INCLUDE'];
 				else
-					$include = 'Other_Info';
+					$include = 'Other_Info';*/
 
-				$tabs[] = array('title'=>$category['TITLE'],'link'=>($_REQUEST['student_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&include='.$include.'&category_id='.$category['ID'] : ''));
+				$tabs[] = array('title'=>$category['TITLE'],'link'=>($_REQUEST['student_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category['ID'] : ''));
 			}
 		}
 
-		$_ROSARIO['selected_tab'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'];
-		if($_REQUEST['category_id'])
-			$_ROSARIO['selected_tab'] .= '&category_id='.$_REQUEST['category_id'];
+		$_ROSARIO['selected_tab'] = 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id;
 
 		echo '<BR />';
 		echo PopTable('header',$tabs,'width="100%"');
 		$PopTable_opened = true;
 
-		if ($can_use_RET['Students/Student.php&category_id='.$_REQUEST['category_id']])
+		if ($can_use_RET['Students/Student.php&category_id='.$category_id])
 		{
-			if(!mb_strpos($_REQUEST['include'],'/'))
-				include('modules/Students/includes/'.$_REQUEST['include'].'.inc.php');
+			if(!mb_strpos($include,'/'))
+				include('modules/Students/includes/'.$include.'.inc.php');
 			else
 			{
-				include('modules/'.$_REQUEST['include'].'.inc.php');
+				include('modules/'.$include.'.inc.php');
 				$separator = '<HR>';
 				include('modules/Students/includes/Other_Info.inc.php');
 			}
@@ -427,12 +435,12 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 		echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 		echo '</FORM>';
 	}
-	elseif ($can_use_RET['Students/Student.php&category_id='.$_REQUEST['category_id']])
-		if(!mb_strpos($_REQUEST['include'],'/'))
-			include('modules/Students/includes/'.$_REQUEST['include'].'.inc.php');
+	elseif ($can_use_RET['Students/Student.php&category_id='.$category_id])
+		if(!mb_strpos($include,'/'))
+			include('modules/Students/includes/'.$include.'.inc.php');
 		else
 		{
-			include('modules/'.$_REQUEST['include'].'.inc.php');
+			include('modules/'.$include.'.inc.php');
 			$separator = '<HR>';
 			include('modules/Students/includes/Other_Info.inc.php');
 		}
