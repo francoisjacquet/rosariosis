@@ -231,17 +231,44 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_d
 
 	if(AllowEdit())
 	{
-		$include_seats = $_REQUEST['include_seats'];
-		unset($_REQUEST);
+		//modif Francois: add proper Unfilled Requests list
 		unset($extra);
-		$_REQUEST['modname'] = 'Scheduling/Schedule.php';
-        $_REQUEST['student_id'] = UserStudentID();
-		$_REQUEST['search_modfunc'] = 'list';
-		$_REQUEST['include_seats'] = $include_seats;
-		$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course';
-		$extra['link']['FULL_NAME']['variables'] = array('subject_id'=>'SUBJECT_ID','course_id'=>'COURSE_ID','student_id'=>'STUDENT_ID');
-		$extra['link']['FULL_NAME']['js'] = true;
-		include('modules/Scheduling/UnfilledRequests.php');
+		unset($link);
+		unset($columns);
+
+		//include calcSeats, _makeRequestTeacher & _makeRequestPeriod functions
+		include_once('modules/Scheduling/includes/unfilledRequests.inc.php');
+
+		$extra['WHERE'] = " AND s.STUDENT_ID='".UserStudentID()."'";
+		$extra['FROM'] .= ',SCHEDULE_REQUESTS sr,COURSES c';
+
+		$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000"),array(),array('ID'));
+
+		if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
+			$extra['SELECT'] .= ',s.CUSTOM_200000000,c.TITLE AS COURSE,sr.SUBJECT_ID,sr.COURSE_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,\'0\' AS AVAILABLE_SEATS,(SELECT count(*) AS SECTIONS FROM COURSE_PERIODS cp WHERE cp.COURSE_ID=sr.COURSE_ID AND (cp.GENDER_RESTRICTION=\'N\' OR cp.GENDER_RESTRICTION=substring(s.CUSTOM_200000000,1,1)) AND (sr.WITH_TEACHER_ID IS NULL OR sr.WITH_TEACHER_ID=cp.TEACHER_ID) AND (sr.NOT_TEACHER_ID IS NULL OR sr.NOT_TEACHER_ID!=cp.TEACHER_ID)) AS SECTIONS ';
+		else //'None' as GENDER
+			$extra['SELECT'] .= ',\'None\' AS CUSTOM_200000000,c.TITLE AS COURSE,sr.SUBJECT_ID,sr.COURSE_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,\'0\' AS AVAILABLE_SEATS,(SELECT count(*) AS SECTIONS FROM COURSE_PERIODS cp WHERE cp.COURSE_ID=sr.COURSE_ID AND (cp.GENDER_RESTRICTION=\'N\' OR cp.GENDER_RESTRICTION=substring(\'None\',1,1)) AND (sr.WITH_TEACHER_ID IS NULL OR sr.WITH_TEACHER_ID=cp.TEACHER_ID) AND (sr.NOT_TEACHER_ID IS NULL OR sr.NOT_TEACHER_ID!=cp.TEACHER_ID)) AS SECTIONS ';
+
+		$extra['WHERE'] .= ' AND sr.STUDENT_ID=ssm.STUDENT_ID AND sr.SYEAR=ssm.SYEAR AND sr.SCHOOL_ID=ssm.SCHOOL_ID AND sr.COURSE_ID=c.COURSE_ID AND NOT EXISTS (SELECT \'\' FROM SCHEDULE s WHERE s.STUDENT_ID=sr.STUDENT_ID AND s.COURSE_ID=sr.COURSE_ID)';
+		$extra['functions'] = array('WITH_TEACHER_ID'=>'_makeRequestTeacher','WITH_PERIOD_ID'=>'_makeRequestPeriod');
+
+		$columns = array('COURSE'=>_('Request'),'SECTIONS'=>_('Sections'),'WITH_TEACHER_ID'=>_('Teacher'),'WITH_PERIOD_ID'=>_('Period'));
+
+		if($_REQUEST['include_seats'])
+		{
+			$columns += array('AVAILABLE_SEATS'=>_('Available Seats'));
+			$extra['functions'] += array('AVAILABLE_SEATS'=>'CalcSeats');
+		}
+
+		$link['COURSE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course';
+		$link['COURSE']['variables'] = array('subject_id'=>'SUBJECT_ID','course_id'=>'COURSE_ID','student_id'=>'STUDENT_ID');
+		$link['COURSE']['js'] = true;
+
+		$options = array('search'=>false, 'save'=>false);
+
+		$unfilled_requests_RET = GetStuList($extra);
+
+		ListOutput($unfilled_requests_RET,$columns,'Unfilled Request','Unfilled Requests',$link,array(),$options);
 	}
 }
 

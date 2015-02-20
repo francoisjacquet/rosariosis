@@ -151,6 +151,7 @@ Changes in 2.7
 - Replace smooth scrolling after page load with direct scroll in warehouse.js
 - Use json_encode to escape JS vars, programwide
 - Bugfix JS syntax error for autos/edits/exports pull down fields in StudentFieldBreakdown.php & StudentBreakdown.php
+- regroup functions for Unfilled Requests + add proper Unfilled Requests list to Schedule in Schedule.php & unfilledRequests.inc.php
 
 Upgrade from 2.6.x
 ------------------
