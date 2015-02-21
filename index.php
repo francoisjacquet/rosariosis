@@ -128,7 +128,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 	$RTL_languages = array('ar', 'he', 'dv', 'fa', 'ur');
 ?>
 <!doctype html>
-<HTML lang="<?php echo mb_substr($locale,0,2); ?>" <?php echo (in_array(mb_substr($locale,0,2), $RTL_languages)?' dir="RTL"':''); ?>>
+<HTML lang="<?php echo mb_substr($locale,0,2); ?>"<?php echo (in_array(mb_substr($locale,0,2), $RTL_languages)?' dir="RTL"':''); ?>>
 <HEAD>
 	<TITLE><?php echo ParseMLField(Config('TITLE')); ?></TITLE>
 	<meta charset="UTF-8" />
@@ -136,7 +136,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 	<meta name="viewport" content="width=device-width" />
 	<noscript><META http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&reason=javascript" /></noscript>
 	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Config('THEME'); ?>/stylesheet.css" />
 </HEAD>
 <BODY>
 <BR /><BR />
@@ -161,7 +161,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 
 	<TABLE>
 		<tr class="st">
-		<td class="center"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/logo.png" /></td>
+		<td class="center"><img src="assets/themes/<?php echo Config('THEME'); ?>/logo.png" /></td>
 		<td>
 			<form name="loginform" method="post" action="index.php" class="login">
 			<h4><?php echo ParseMLField(Config('TITLE')); ?></h4>
@@ -174,7 +174,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 				<td>
 				<?php foreach ($RosarioLocales as $loc) : ?>
 
-					<A href="<?php echo $_SERVER['PHP_SELF']; ?>?locale=<?php echo $loc; ?>"><IMG src="assets/flags/<?php echo $loc; ?>.png" height="32" /></A>&nbsp;&nbsp;
+					<A href="index.php?locale=<?php echo $loc; ?>"><IMG src="assets/flags/<?php echo $loc; ?>.png" height="32" /></A>&nbsp;&nbsp;
 				<?php endforeach; ?>
 
 				</td></tr>
@@ -213,7 +213,6 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 	</table>
 	<span class="center"><?php echo sprintf(_('%s version %s'),'RosarioSIS', $RosarioVersion); ?>
 	<BR />&copy; 2004-2009 <A HREF="http://www.miller-group.net" noreferrer>The Miller Group, Inc</A>
-	<BR />&copy; 2009 <a href="http://www.glenn-abbey.com" noreferrer>Glenn Abbey Software, Inc</a>
 	<BR />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
 	<BR />&copy; 2012-2015 <a href="http://www.rosariosis.org" noreferrer>François Jacquet</a>
 	</span>

@@ -64,6 +64,7 @@ Changes in 2.8
 - Find a User/Student forms: method=GET + correct URL in Search.inc.php & warehouse.js
 - Remove double space before ChooseCheckbox + CSS programwide
 - Prevent $_REQUEST['category_id'] hacking in Student.php & User.php
+- Add Italian, Japanese, Portuguese, Russian, Turkish, Chinese, Bengali, Korean, Persian locales
 
 Upgrade from 2.7.x
 ------------------
