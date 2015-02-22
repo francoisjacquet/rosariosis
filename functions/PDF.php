@@ -36,6 +36,10 @@ function PDFStop($handle)
 	//modif Francois: wkhtmltopdf
 	if (!empty($wkhtmltopdfPath))
 	{		
+		// You can override the Path definition in the config.inc.php file
+		if (!isset($wkhtmltopdfAssetsPath))
+			$wkhtmltopdfAssetsPath = $RosarioPath.'assets/'; // way wkhtmltopdf accesses the assets/ directory, empty string means no translation
+
 		if(!empty($wkhtmltopdfAssetsPath))
 			$html = str_replace('assets/', $wkhtmltopdfAssetsPath, $html);
 			

@@ -11,23 +11,21 @@ if(!defined('WAREHOUSE_PHP'))
 
 	// Server Paths
 	// You can override the Path definitions in the config.inc.php file
-	if (!isset($wkhtmltopdfAssetsPath))
-		$wkhtmltopdfAssetsPath = $RosarioPath.'assets/'; // way wkhtmltopdf accesses the assets/ directory, empty string means no translation
-
 	if (!isset($StudentPicturesPath))
 		$StudentPicturesPath = 'assets/StudentPhotos/';
 
 	if (!isset($UserPicturesPath))
 		$UserPicturesPath = 'assets/UserPhotos/';
 
-	if (!isset($PortalNotesFilesPath))
-		$PortalNotesFilesPath = 'assets/PortalNotesFiles/';
-
-	if (!isset($FS_IconsPath))
-		$FS_IconsPath = 'assets/FS_icons/'; // Food Service icons
-
 	if (!isset($LocalePath))
 		$LocalePath = 'locale'; // Path were the language packs are stored. You need to restart Apache at each change in this directory
+
+	if (isset($Timezone)) // Sets the default time zone used by all date/time functions
+	{
+		if (date_default_timezone_set($Timezone)) // if valid PHP timezone_identifier, should be OK for Postgres
+			DBQuery("SET TIMEZONE TO '".$Timezone."'");
+	}
+
 
 	// Load functions.
 	$functions = glob('functions/*.php');

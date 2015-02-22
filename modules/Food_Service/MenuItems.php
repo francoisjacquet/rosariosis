@@ -1,6 +1,8 @@
 <?php
 require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
 
+include_once('modules/Food_Service/includes/FS_Icons.inc.php');
+
 DrawHeader(ProgramTitle());
 
 if($_REQUEST['modfunc']=='update' && AllowEdit())
@@ -267,15 +269,6 @@ function makeCheckboxInput($value,$name)
 		$id = 'new';
 
 	return CheckboxInput($value, "values[$id][$name]", '', $value, $id=='new', button('check'), button('x'));
-}
-
-function makeIcon($value,$name)
-{	global $FS_IconsPath;
-
-	if($value)
-		return '<IMG src="'.$FS_IconsPath.$value.'" height="30" />';
-	else
-		return '&nbsp;';
 }
 
 function get_icons_select($path)

@@ -1,6 +1,8 @@
 <?php
 require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
 
+include_once('modules/Food_Service/includes/FS_Icons.inc.php');
+
 if($_REQUEST['modfunc']=='select')
 {
 	$_SESSION['FSA_type'] = $_REQUEST['fsa_type'];
@@ -66,14 +68,5 @@ function red($value)
                 return '<span style="color:red">'.$value.'</span>';
         else
                 return $value;
-}
-
-function makeIcon($value,$name)
-{	global $FS_IconsPath;
-
-	if($value)
-		return '<IMG src="'.$FS_IconsPath.$value.'" height="30" />';
-	else
-		return '&nbsp;';
 }
 ?>

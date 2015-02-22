@@ -42,11 +42,23 @@ as appropriate for your installation. Rename the file to config.inc.php.
   $wkhtmltopdfPath full path to wkhtmltopdf for pdf 'printing'
   
   $DefaultSyear default school year, should be present in the database to 
-    be able to login
+	be able to login
   $RosarioNotifyAddress is email address to send error and new administrator notifications
   $RosarioLocales is a comma separated list of the locale names of the 
-    translations (see locale/ folder for available locales)
+	translations (see locale/ folder for available locales)
 
+  [Optional variables]
+  $wkhtmltopdfAssetsPath is path where wkhtmltopdf will access the assets/
+	directory, possibly different than how the user's web browser finds it,
+	empty string means no translation
+  $StudentPicturesPath relative path to student pictures
+  $UserPicturesPath relative path to user pictures
+  $PortalNotesFilesPath relative path to portal notes attached files
+  $FS_IconsPath relative path to food service icons
+  $LocalePath relative path were the language packs are stored.
+	You need to restart Apache at each change in this directory
+  $Timezone sets the default time zone used by all date/time functions.
+	See List of Supported Timezones: http://php.net/manual/en/timezones.php
 
 Now, you're ready to setup the RosarioSIS database. If you have access to the
 command prompt for your server, follow these instructions.  If you're using

@@ -1,4 +1,9 @@
 <?php
+// Portal Notes attached files Path
+// You can override the Path definition in the config.inc.php file
+if (!isset($PortalNotesFilesPath))
+	$PortalNotesFilesPath = 'assets/PortalNotesFiles/';
+
 //modif Francois: Portal Polls functions
 
 function PortalPollsVote($poll_id, $votes_array)
