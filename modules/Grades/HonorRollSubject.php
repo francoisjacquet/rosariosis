@@ -175,6 +175,11 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '</tr></table></div></TD></TR></TABLE>';
 		$extra['extra_header_left'] .= '<script>if (isTouchDevice()) {touchScroll(document.getElementById(\'framesList\')); touchScroll(document.getElementById(\'clipartsList\'));}</script>';
 	}
+	else
+	{
+		$extra['new'] = true;
+		$extra['force_search'] = true;
+	}
 
 	if(!isset($_REQUEST['_ROSARIO_PDF']))
 	{
@@ -183,9 +188,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	}
 	$extra['link'] = array('FULL_NAME'=>false);
-	$extra['new'] = true;
 	$extra['options']['search'] = false;
-	$extra['force_search'] = true;
 
 	MyWidgets('honor_roll_subject');
 	if($for_news_web)

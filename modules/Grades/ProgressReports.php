@@ -130,7 +130,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 }
 
 if(empty($_REQUEST['modfunc']))
-
 {
 	DrawHeader(_('Gradebook').' - '.ProgramTitle());
 
@@ -153,16 +152,20 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '</TABLE>';
 		//$extra['old'] = true; // proceed to 'list' if UserStudentID()
 	}
+	else
+	{
+		$extra['new'] = true;
+		$extra['force_search'] = true;
+	}
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
 	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
-	$extra['new'] = true;
-	//$extra['force_search'] = true;
 
 	Search('student_id',$extra);
+
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><span class="center"><INPUT type="submit" value="'._('Create Progress Reports for Selected Students').'" /></span>';

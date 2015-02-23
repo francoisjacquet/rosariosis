@@ -411,14 +411,17 @@ if(empty($_REQUEST['modfunc']))
 			$extra['extra_header_left'] .= '</TR></TABLE></TD></TR></TABLE></DIV>';
 		}
 	}
+	else
+	{
+		$extra['new'] = true;
+		$extra['force_search'] = true;
+	}
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
 	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
-	$extra['new'] = true;
 	$extra['options']['search'] = false;
-	$extra['force_search'] = true;
 
 	Widgets('course');
 	Widgets('gpa');
