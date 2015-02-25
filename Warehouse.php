@@ -43,14 +43,15 @@ if(!defined('WAREHOUSE_PHP'))
 
 	session_start();
 
-	if (!isset($_SESSION['CREATED']))
+	//rollback session ID regeneration
+	/*if (!isset($_SESSION['CREATED']))
 	    $_SESSION['CREATED'] = time();
 	elseif (time() - $_SESSION['CREATED'] > 180)
 	{
 	    // session started more than 3 minutes ago
 	    session_regenerate_id(true); // change session ID for the current session and invalidate old session ID
 	    $_SESSION['CREATED'] = time(); // update creation time
-	}
+	}*/
 
 	if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && basename($_SERVER['SCRIPT_NAME'])!=='index.php')
 	{
