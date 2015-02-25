@@ -18,7 +18,7 @@ if($_REQUEST['modfunc']=='logout')
 if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD']) && $_POST['PASSWORD']!='')
 {
 	//modif Francois: check accept cookies
-	if(!isset($_COOKIE['RosarioSIS']))
+	if(!isset($_COOKIE['RosarioSIS']) && !isset($_COOKIE['PHPSESSID']))
 	{
 		header("Location: index.php?modfunc=logout&reason=cookie");
 		exit;
