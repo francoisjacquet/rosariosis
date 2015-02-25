@@ -17,6 +17,13 @@ if($_REQUEST['modfunc']=='logout')
 
 if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD']) && $_POST['PASSWORD']!='')
 {
+	//modif Francois: check accept cookies
+	if(!isset($_COOKIE['RosarioSIS']))
+	{
+		header("Location: index.php?modfunc=logout&reason=cookie");
+		exit;
+	}
+
 	$_REQUEST['USERNAME'] = DBEscapeString($_REQUEST['USERNAME']);
 	$login_RET = DBGet(DBQuery("SELECT USERNAME,PROFILE,STAFF_ID,LAST_LOGIN,FAILED_LOGIN,PASSWORD 
 	FROM STAFF 
@@ -146,6 +153,9 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 	{
 		if($_REQUEST['reason']=='javascript')
 			$note[] = sprintf(_('You must have javascript enabled to use %s.'),Config('NAME'));
+		//modif Francois: check accept cookies
+		elseif($_REQUEST['reason']=='cookie')
+			$note[] = sprintf(_('You must accept cookies to use %s.'),Config('NAME'));
 		//modif Francois: create account
 		elseif($_REQUEST['reason']=='account_created')
 			$note[] = _('Your account has been created.').' '._('You will be notified when it has been verified by a school administrator.').' '._('You will then be able to log in.');
