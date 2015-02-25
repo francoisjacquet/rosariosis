@@ -196,139 +196,147 @@ if(UserStudentID())
 //modif Francois: add translation
 //modif Francois: css WPadmin
 		echo '<table class="postbox cellspacing-0"><tr><td><h3>'.$displayname.'</h3></td></tr><tr><td><table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">'._('Marking Period Statistics').'</td></tr><tr><td>'._('GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['weighted_gpa']).'</td><td>'._('Unweighted').": ".sprintf('%0.3f',$gmp[$mp_id]['unweighted_gpa']).'</td></tr>';
-	    echo '<tr><td>'._('Class Rank GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_weighted']).'</td><td>'._('Unweighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_unweighted']).'</td></tr></table></td></tr></table><BR />';
-            
-            
-            $sms_grade_level = TextInput($gmp[$mp_id]['grade_level'],"SMS_GRADE_LEVEL",_('Grade Level'),'size=3 maxlength=3');
-            
-            if ($mp_id=="0"){
-                $syear = UserSyear();
-                $sql = "SELECT MARKING_PERIOD_ID, SYEAR, TITLE, POST_END_DATE FROM MARKING_PERIODS WHERE SCHOOL_ID='".UserSchool().
-                        "' AND SYEAR BETWEEN '".sprintf('%d',$syear-5)."' AND '".$syear."' ORDER BY POST_END_DATE DESC";
-                $MPRET = DBGet(DBQuery($sql));
-                if ($MPRET){
-                    //$mpselect = "<SELECT name=new_sms>";
-                    $mpoptions = array();
-                    foreach ($MPRET as $id=>$mp){
-                        //$mpselect .= "<OPTION value=".$mp['MARKING_PERIOD_ID'].">".formatSyear($mp['SYEAR']).' '.$mp['TITLE']."</OPTION>";
-                        $mpoptions[$mp['MARKING_PERIOD_ID']] = formatSyear($mp['SYEAR'],Config('SCHOOL_SYEAR_OVER_2_YEARS')).', '.$mp['TITLE'];
-                    } 
-                    //$mpselect .= '</SELECT>';
-                    //echo $mpselect;
-                    echo '<TABLE class="postbox" style="padding:8px;"><TR><TD>';
-                    echo SelectInput(null,'new_sms',_('New Marking Period'),$mpoptions,false,null);
-                    echo '</TD><TD>';
-                    echo $sms_grade_level;
-                    echo '</TD></TR></TABLE>';
-                } 
-                
-            } else {
-                echo $sms_grade_level;
-                $tabs = array();
-                $tabs[] = array('title'=>'Grades','link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=grades&mp_id='.$mp_id);
-                $tabs[] = array('title'=>'Credits','link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=credits&mp_id='.$mp_id);
-//modif Francois: css WPadmin
-				$LO_options = array('count'=>false,'download'=>false,'search'=>false,
-					'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$tab_id.'&mp_id='.$mp_id));
-                
-//modif Francois: SQL error fix: operator does not exist: character varying = integer, add explicit type casts
-//                $sql = 'SELECT * FROM student_report_card_grades WHERE STUDENT_ID = '.$student_id.' AND MARKING_PERIOD_ID = '.$mp_id.' ORDER BY ID';
-                $sql = "SELECT * FROM student_report_card_grades WHERE STUDENT_ID='".$student_id."' AND cast(MARKING_PERIOD_ID as integer)='".$mp_id."' ORDER BY ID";
-            
-                //build forms based on tab selected
-                if ($_REQUEST['tab_id']=='grades' || $_REQUEST['tab_id'] == ''){
-                    $functions = array( 'COURSE_TITLE'=>'makeTextInput',
-                                        'GRADE_PERCENT'=>'makeTextInput',
-                                        'GRADE_LETTER'=>'makeTextInput',
-                                        'WEIGHTED_GP'=>'makeTextInput',                  
-                                        'UNWEIGHTED_GP'=>'makeTextInput',
-                                        'GP_SCALE'=>'makeTextInput',
-                                        );
-                    $LO_columns = array('COURSE_TITLE'=>_('Course'),
-                                        'GRADE_PERCENT'=>_('Percentage'),
-                                        'GRADE_LETTER'=>_('Grade'),
-                                        'WEIGHTED_GP'=>_('Grade Points'),
-                                        'UNWEIGHTED_GP'=>_('Unweighted Grade Points'),
-                                        'GP_SCALE'=>_('Grade Scale'),
-                                        );
-                    $link['add']['html'] = array('COURSE_TITLE'=>makeTextInput('','COURSE_TITLE'),
-                                        'GRADE_PERCENT'=>makeTextInput('','GRADE_PERCENT'),
-                                        'GRADE_LETTER'=>makeTextInput('','GRADE_LETTER'),
-                                        'WEIGHTED_GP'=>makeTextInput('','WEIGHTED_GP'),
-                                        'UNWEIGHTED_GP'=>makeTextInput('','UNWEIGHTED_GP'),
-                                        'GP_SCALE'=>makeTextInput('','GP_SCALE'),
-                                        );
-                } else {
-                    $functions = array( 'COURSE_TITLE'=>'makeTextInput',
-                                        'CREDIT_ATTEMPTED'=>'makeTextInput',
-                                        'CREDIT_EARNED'=>'makeTextInput',
-                                        'CREDIT_CATEGORY'=>'makeTextInput',
-					'CLASS_RANK'=>'makeCheckBoxInput'
-                                        );
-                    $LO_columns = array('COURSE_TITLE'=>_('Course'),
-                                        'CREDIT_ATTEMPTED'=>_('Credit Attempted'),
-                                        'CREDIT_EARNED'=>_('Credit Earned'),
-                                        'CREDIT_CATEGORY'=>_('Credit Category'),
-					'CLASS_RANK'=>_('Affects Class Rank')
-                                        );
-                    $link['add']['html'] = array('COURSE_TITLE'=>makeTextInput('','COURSE_TITLE'),
-                                        'CREDIT_ATTEMPTED'=>makeTextInput('','CREDIT_ATTEMPTED'),
-                                        'CREDIT_EARNED'=>makeTextInput('','CREDIT_EARNED'),
-                                        'CREDIT_CATEGORY'=>makeTextInput('','CREDIT_CATEGORY'),
-					'CLASS_RANK'=>makeTextInput('','CLASS_RANK')
-                                        );
-                                        
-                }
-                $link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&mp_id='.$mp_id;
-                $link['remove']['variables'] = array('id'=>'ID');
-                $link['add']['html']['remove'] = button('add');
-                $LO_ret = DBGet(DBQuery($sql),$functions);
-//                ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),array('count'=>false,'download'=>false,'search'=>false));
-                ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),$LO_options);
-            }
-            echo '<span class="center">';
-            if (!$LO_ret){
-                echo SubmitButton(_('Remove Marking Period'), 'removemp');
-            }
-            echo SubmitButton(_('Save')).'</span>';
-            echo '</FORM>';
-    }
+		echo '<tr><td>'._('Class Rank GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_weighted']).'</td><td>'._('Unweighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_unweighted']).'</td></tr></table></td></tr></table><BR />';
+
+		$sms_grade_level = TextInput($gmp[$mp_id]['grade_level'],"SMS_GRADE_LEVEL",_('Grade Level'),'size=3 maxlength=3');
+
+		if ($mp_id=="0")
+		{
+			$syear = UserSyear();
+			$sql = "SELECT MARKING_PERIOD_ID, SYEAR, TITLE, POST_END_DATE FROM MARKING_PERIODS WHERE SCHOOL_ID='".UserSchool().
+			"' AND SYEAR BETWEEN '".sprintf('%d',$syear-5)."' AND '".$syear."' ORDER BY POST_END_DATE DESC";
+			$MPRET = DBGet(DBQuery($sql));
+
+			if ($MPRET)
+			{
+				$mpoptions = array();
+				foreach ($MPRET as $id=>$mp)
+				{
+					$mpoptions[$mp['MARKING_PERIOD_ID']] = formatSyear($mp['SYEAR'],Config('SCHOOL_SYEAR_OVER_2_YEARS')).', '.$mp['TITLE'];
+				}
+
+				echo '<TABLE class="postbox cellpadding-5"><TR><TD>';
+				echo SelectInput(null,'new_sms',_('New Marking Period'),$mpoptions,false,null);
+				echo '</TD><TD>';
+				echo $sms_grade_level;
+				echo '</TD></TR></TABLE>';
+			}
+		}
+		else
+		{
+			echo $sms_grade_level;
+			$tabs = array();
+			$tabs[] = array('title'=>'Grades','link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=grades&mp_id='.$mp_id);
+			$tabs[] = array('title'=>'Credits','link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=credits&mp_id='.$mp_id);
+			//modif Francois: css WPadmin
+			$LO_options = array('count'=>false,'download'=>false,'search'=>false,
+			'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$tab_id.'&mp_id='.$mp_id));
+
+			//modif Francois: SQL error fix: operator does not exist: character varying = integer, add explicit type casts
+			//                $sql = 'SELECT * FROM student_report_card_grades WHERE STUDENT_ID = '.$student_id.' AND MARKING_PERIOD_ID = '.$mp_id.' ORDER BY ID';
+			$sql = "SELECT * FROM student_report_card_grades WHERE STUDENT_ID='".$student_id."' AND cast(MARKING_PERIOD_ID as integer)='".$mp_id."' ORDER BY ID";
+
+			//build forms based on tab selected
+			if ($_REQUEST['tab_id']=='grades' || $_REQUEST['tab_id'] == '')
+			{
+				$functions = array( 'COURSE_TITLE'=>'makeTextInput',
+				'GRADE_PERCENT'=>'makeTextInput',
+				'GRADE_LETTER'=>'makeTextInput',
+				'WEIGHTED_GP'=>'makeTextInput',
+				'UNWEIGHTED_GP'=>'makeTextInput',
+				'GP_SCALE'=>'makeTextInput',
+				);
+				$LO_columns = array('COURSE_TITLE'=>_('Course'),
+				'GRADE_PERCENT'=>_('Percentage'),
+				'GRADE_LETTER'=>_('Grade'),
+				'WEIGHTED_GP'=>_('Grade Points'),
+				'UNWEIGHTED_GP'=>_('Unweighted Grade Points'),
+				'GP_SCALE'=>_('Grade Scale'),
+				);
+				$link['add']['html'] = array('COURSE_TITLE'=>makeTextInput('','COURSE_TITLE'),
+				'GRADE_PERCENT'=>makeTextInput('','GRADE_PERCENT'),
+				'GRADE_LETTER'=>makeTextInput('','GRADE_LETTER'),
+				'WEIGHTED_GP'=>makeTextInput('','WEIGHTED_GP'),
+				'UNWEIGHTED_GP'=>makeTextInput('','UNWEIGHTED_GP'),
+				'GP_SCALE'=>makeTextInput('','GP_SCALE'),
+				);
+			}
+			else
+			{
+				$functions = array( 'COURSE_TITLE'=>'makeTextInput',
+				'CREDIT_ATTEMPTED'=>'makeTextInput',
+				'CREDIT_EARNED'=>'makeTextInput',
+				'CREDIT_CATEGORY'=>'makeTextInput',
+				'CLASS_RANK'=>'makeCheckBoxInput'
+				);
+				$LO_columns = array('COURSE_TITLE'=>_('Course'),
+				'CREDIT_ATTEMPTED'=>_('Credit Attempted'),
+				'CREDIT_EARNED'=>_('Credit Earned'),
+				'CREDIT_CATEGORY'=>_('Credit Category'),
+				'CLASS_RANK'=>_('Affects Class Rank')
+				);
+				$link['add']['html'] = array('COURSE_TITLE'=>makeTextInput('','COURSE_TITLE'),
+				'CREDIT_ATTEMPTED'=>makeTextInput('','CREDIT_ATTEMPTED'),
+				'CREDIT_EARNED'=>makeTextInput('','CREDIT_EARNED'),
+				'CREDIT_CATEGORY'=>makeTextInput('','CREDIT_CATEGORY'),
+				'CLASS_RANK'=>makeTextInput('','CLASS_RANK')
+				);
+			}
+
+			$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&mp_id='.$mp_id;
+			$link['remove']['variables'] = array('id'=>'ID');
+			$link['add']['html']['remove'] = button('add');
+			$LO_ret = DBGet(DBQuery($sql),$functions);
+			//                ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),array('count'=>false,'download'=>false,'search'=>false));
+			ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),$LO_options);
+		}
+
+		echo '<br /><span class="center">';
+		if (!$LO_ret)
+		{
+			echo SubmitButton(_('Remove Marking Period'), 'removemp');
+		}
+
+		echo SubmitButton(_('Save')).'</span>';
+		echo '</FORM>';
+	}
 }
 function makeTextInput($value,$name)
-{    global $THIS_RET;
+{	global $THIS_RET;
 
-    if($THIS_RET['ID'])
-        $id = $THIS_RET['ID'];
-    else
-        $id = 'new';
-//    //bjj adding 'GP_SCALE'
-    if($name=='COURSE_TITLE')
-        $extra = 'size=20 maxlength=25';
-    elseif($name=='GRADE_PERCENT')
-        $extra = 'size=6 maxlength=6';
-    elseif($name=='GRADE_LETTER' || $name=='WEIGHTED_GP' || $name=='UNWEIGHTED_GP')
-        $extra = 'size=5 maxlength=5';
-    elseif($name=='CLASS_RANK')
-	$extra = 'size=1 maxlength=1';
-    //elseif($name=='GP_VALUE')
-    //    $extra = 'size=5 maxlength=5';
-    //elseif($name=='UNWEIGHTED_GP_VALUE')
-        
-    else
-    $extra = 'size=10 maxlength=10';
+	if($THIS_RET['ID'])
+		$id = $THIS_RET['ID'];
+	else
+		$id = 'new';
+	//    //bjj adding 'GP_SCALE'
+	if($name=='COURSE_TITLE')
+		$extra = 'size=20 maxlength=25';
+	elseif($name=='GRADE_PERCENT')
+		$extra = 'size=6 maxlength=6';
+	elseif($name=='GRADE_LETTER' || $name=='WEIGHTED_GP' || $name=='UNWEIGHTED_GP')
+		$extra = 'size=5 maxlength=5';
+	elseif($name=='CLASS_RANK')
+		$extra = 'size=1 maxlength=1';
+	//elseif($name=='GP_VALUE')
+	//    $extra = 'size=5 maxlength=5';
+	//elseif($name=='UNWEIGHTED_GP_VALUE')
 
-    return TextInput($value,"values[$id][$name]",'',$extra);
+	else
+		$extra = 'size=10 maxlength=10';
+
+	return TextInput($value,"values[$id][$name]",'',$extra);
 }
 
-function makeCheckBoxInput($value, $name){
-    global $THIS_RET;
-    
-    if($THIS_RET['ID'])
-        $id = $THIS_RET['ID'];
-    else
-        $id = 'new';
-    
-    return CheckBoxInput($value, "values[$id][$name]",'','');
-    
+function makeCheckBoxInput($value, $name)
+{
+	global $THIS_RET;
+
+	if($THIS_RET['ID'])
+		$id = $THIS_RET['ID'];
+	else
+		$id = 'new';
+
+	return CheckBoxInput($value, "values[$id][$name]",'','');
+
 }
 ?>

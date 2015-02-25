@@ -65,10 +65,11 @@ Changes in 2.8
 - Remove double space before ChooseCheckbox + CSS programwide
 - Prevent $_REQUEST['category_id'] hacking in Student.php & User.php
 - Add Timezone config variable in Warehouse.php + list of optional config variables in INSTALL
+- history grades in Transripts in Transcripts.php & rosariosis.sql
 - Add Italian, Japanese, Portuguese, Russian, Turkish, Chinese, Bengali, Korean, Persian locales
 
-Upgrade from 2.7.x
-------------------
+Upgrade from 2.7.x & 2.8-betax
+------------------------------
 - Extract the 2.8 files
 - Execute the SQL commands, see https://gist.github.com/francoisjacquet/b451c8006d5e1978fb0d
 - Note: you can activate Registration via School Setup > School Configuration

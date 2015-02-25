@@ -25,7 +25,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		}
 
 		$t_grades = DBGet(DBQuery("select * from transcript_grades where student_id in (".$st_list.") and mp_type in (".$mp_type_list.") and school_id='".$school_id."' and syear='".$syear."' ORDER BY mp_type, end_date"),array(),array('STUDENT_ID', 'MARKING_PERIOD_ID'));
-		
+
 		if(count($t_grades) && count($RET))
 		{
 			
@@ -97,7 +97,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			
 			$columns = array('COURSE_TITLE'=>_('Course'));
 
-			$school_info = DBGet(DBQuery('select * from schools where syear = '.$syear.' AND id = '.$school_id));
+			$school_info = DBGet(DBQuery('select * from schools where syear = '.UserSyear().' AND id = '.$school_id));
 			$school_info = $school_info[1];
 					
 			foreach($t_grades as $student_id=>$mps)
@@ -149,6 +149,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 					echo '<td class="center">'.$student_data['GENDER'].'</td>';
+
+				//modif Francois: history grades in Transripts
+				if(empty($student_data['GRADE_LEVEL']))
+					$student_data['GRADE_LEVEL'] = $mps[key($mps)][1]['GRADE_LEVEL_SHORT'];
 
 				echo '<td class="center">'.$student_data['GRADE_LEVEL'].'</td>';
 				echo '</tr></table>';
@@ -265,7 +269,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			
 				//School Year
 				echo '<table class="width-100p"><tr><td>';
-				echo '<span><br />'._('School Year').': '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</span>';
+				echo '<span><br />'._('School Year').': '.FormatSyear($syear,Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</span>';
 				echo '</td></tr>';
 				
 				//Class Rank
@@ -273,7 +277,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					if ($grade['MP_TYPE']!='quarter' && !empty($grade['CUM_WEIGHTED_GPA']) && !empty($grade['CUM_RANK']))
 					{
 						echo '<tr><td>';
-						echo '<span>'.sprintf(_('GPA').': %01.2f / %01.0f', $grade['CUM_WEIGHTED_GPA'], $grade['GP_SCALE']).' &ndash; '._('Class Rank').': '.$grade['CUM_RANK'].' / '.$grade['CLASS_SIZE'].'</span>';
+						echo '<span>'.sprintf(_('GPA').': %01.2f / %01.0f', $grade['CUM_WEIGHTED_GPA'], $grade['SCHOOL_SCALE']).' &ndash; '._('Class Rank').': '.$grade['CUM_RANK'].' / '.$grade['CLASS_SIZE'].'</span>';
 						echo '</td></tr>';
 					}
 
@@ -335,7 +339,29 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] = '<TABLE>';
 
 		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'._('Include on Transcript').':</b><INPUT type="hidden" name="SCHOOL_ID" value="'.UserSchool().'"><BR /></TD></TR>';
-        $mp_types = DBGet(DBQuery("SELECT DISTINCT MP_TYPE FROM MARKING_PERIODS WHERE NOT MP_TYPE IS NULL AND SCHOOL_ID='".UserSchool()."'"),array(),array());
+
+		//modif Francois: history grades in Transripts
+		if (User('PROFILE')=='admin')
+		{
+			$syear_history_RET = DBGet(DBQuery("SELECT DISTINCT SYEAR FROM HISTORY_MARKING_PERIODS WHERE SYEAR<>'".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SYEAR DESC"));
+
+			//if History School Years
+			if (count($syear_history_RET))
+			{
+				$extra['extra_header_left'] .= '<TR class="st"><TD>'._('School Year').':</TD><TD>';
+
+				$syoptions[UserSyear()] = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS'));
+				foreach($syear_history_RET as $syear_history)
+				{
+					$syoptions[$syear_history['SYEAR']] = FormatSyear($syear_history['SYEAR'],Config('SCHOOL_SYEAR_OVER_2_YEARS'));
+				}
+
+				$extra['extra_header_left'] .= SelectInput(UserSyear(),'syear','',$syoptions,false,null,false);
+				$extra['extra_header_left'] .= '</SELECT></TD>';
+			}
+		}
+
+		$mp_types = DBGet(DBQuery("SELECT DISTINCT MP_TYPE FROM MARKING_PERIODS WHERE NOT MP_TYPE IS NULL AND SCHOOL_ID='".UserSchool()."'"),array(),array());
 		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align:top;">'._('Marking Periods').':</TD><TD><TABLE><TR class="st"><TD  style="vertical-align:top;"><TABLE>';
 
 		//modif Francois: add translation
@@ -350,8 +376,6 @@ if(empty($_REQUEST['modfunc']))
 		}
 
 		$extra['extra_header_left'] .= '</TABLE></TD>';
-		//TODO add year dropdown for Admins to print History Grades
-		$extra['extra_header_left'] .= '<INPUT type="hidden" name="syear" value="'.UserSyear().'">';
 		$extra['extra_header_left'] .= '<TD style="vertical-align:top;">'._('Other Options').':</TD>';
 		$extra['extra_header_left'] .= '<TD><TABLE>';
 
