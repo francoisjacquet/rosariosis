@@ -30,19 +30,16 @@ else
 
 	//gettext
 	if (!extension_loaded('gettext'))
-	{
 		$error[] = 'PHP extensions: RosarioSIS relies on the gettext extensions. See the php.ini file to activate it.'.$inipath;
-		echo _ErrorMessage($error,'fatal');
-	}
 	//mbstring
 	if (!extension_loaded('mbstring'))
-	{
 		$error[] = 'PHP extensions: RosarioSIS relies on the mbstring extensions. See the php.ini file to activate it.'.$inipath;
-		echo _ErrorMessage($error,'fatal');
-	}
 	//xmlrpc
 	if (!extension_loaded('xmlrpc'))
 		$error[] = 'PHP extensions: RosarioSIS relies on the xmlrpc extensions (only used to connect to Moodle). See the php.ini file to activate it.'.$inipath;
+	//session.auto_start
+	if ((bool)ini_get('session.auto_start'))
+		$error[] = 'session.auto_start is set to On in your PHP configuration. See the php.ini file to deactivate it.'.$inipath;
 
 	if(!@opendir("$RosarioPath/functions"))
 		$error[] = 'The value for $RosarioPath in config.inc.php is not correct or else the functions directory does not have the correct permissions to be read by the webserver.  Make sure $RosarioPath points to the RosarioSIS installation directory and that it is readable by all users.';

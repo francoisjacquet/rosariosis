@@ -7,7 +7,6 @@ if($_REQUEST['modfunc']=='logout')
 {
 	//modif Francois: set logout page to old session locale
 	$old_session_locale = $_SESSION['locale'];
-	session_regenerate_id(true);
 	session_unset();
 	session_destroy();
 
@@ -23,6 +22,9 @@ if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD
 		header("Location: index.php?modfunc=logout&reason=cookie");
 		exit;
 	}
+	//only regenerate session ID if session.auto_start == 0
+	elseif(isset($_COOKIE['RosarioSIS']))
+		session_regenerate_id(true); //and invalidate old session
 
 	$_REQUEST['USERNAME'] = DBEscapeString($_REQUEST['USERNAME']);
 	$login_RET = DBGet(DBQuery("SELECT USERNAME,PROFILE,STAFF_ID,LAST_LOGIN,FAILED_LOGIN,PASSWORD 
