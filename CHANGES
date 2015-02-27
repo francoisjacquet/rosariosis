@@ -68,6 +68,7 @@ Changes in 2.8
 - history grades in Transripts in Transcripts.php & rosariosis.sql
 - check accept cookies in index.php
 - regenerate session ID on login in index.php
+- Bugfix user wrongly excluded from poll in PortalPollNotes.fnc.php
 - Add Italian, Japanese, Portuguese, Russian, Turkish, Chinese, Bengali, Korean, Persian locales
 
 Upgrade from 2.7.x & 2.8-betax

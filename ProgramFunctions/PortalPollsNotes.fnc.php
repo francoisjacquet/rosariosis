@@ -19,7 +19,7 @@ function PortalPollsVote($poll_id, $votes_array)
 	$user_id = $_POST['user_id'];
 	$excluded_user = '|'.$profile_id.':'.$user_id;
 	
-	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'], $excluded_user) !== false)//!!
+	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'].'|', $excluded_user.'|') !== false)
 		return ErrorMessage(array('User excluded from this poll'));//should never be displayed, so do not translate
 		
 	$excluded_users = $poll_RET[1]['EXCLUDED_USERS'].$excluded_user;
@@ -66,8 +66,7 @@ function PortalPollsVote($poll_id, $votes_array)
 }
 
 function PortalPollsDisplay($value,$name)
-{ global $THIS_RET;
-	static $js_included = false;
+{	 global $THIS_RET;
 
 	$poll_id = $THIS_RET['ID'];
 
@@ -89,9 +88,11 @@ function PortalPollsDisplay($value,$name)
 	else
 		$user_id = $_SESSION['STUDENT_ID'];
 
-	$excluded_user = '|'.$profile_id.':'.$user_id;
+	$excluded_user = $profile_id.':'.$user_id;
 
-	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'], $excluded_user) !== false)
+	$excluded_users_arr = explode('|', $poll_RET[1]['EXCLUDED_USERS']);
+
+	if (in_array($excluded_user, $excluded_users_arr))
 		return PortalPollsVotesDisplay($poll_id, $poll_RET[1]['DISPLAY_VOTES'], $poll_questions_RET, $poll_RET[1]['VOTES_NUMBER']); //user already voted, display votes
 	
 	$PollForm = '';
@@ -100,7 +101,7 @@ function PortalPollsDisplay($value,$name)
 	if (!isset($_REQUEST['_ROSARIO_PDF']))
 		$PollForm .= includeOnceColorBox('divPortalPoll'.$poll_id).'<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">';
 	
-	$PollForm .= '<form method="POST" id="formPortalPoll'.$poll_id.'" action="ProgramFunctions/PortalPollsNotes.fnc.php">
+	$PollForm .= '<form method="POST" id="formPortalPoll'.$poll_id.'" action="ProgramFunctions/PortalPollsNotes.fnc.php" target="divPortalPoll'.$poll_id.'">
 	<input type="hidden" name="profile_id" value="'.$profile_id.'" />
 	<input type="hidden" name="user_id" value="'.$user_id.'" />
 	<input type="hidden" name="total_votes_string" value="'._('Total Participants').'" />
@@ -128,33 +129,17 @@ function PortalPollsDisplay($value,$name)
 	}
 	
 	$PollForm .= '</TD></TR></TABLE>
-	<P><input type="submit" value="'._('Submit').'" id="pollSubmit" /></P></form>';
+	<P><input type="submit" value="'._('Submit').'" id="pollSubmit'.$poll_id.'" /></P></form>';
 
 	if (!isset($_REQUEST['_ROSARIO_PDF']))
 		$PollForm .= '</div>';
 
-	$PollForm .= '<script>
-	$("#pollSubmit").click(function(){
-		$("#formPortalPoll'.$poll_id.'").ajaxFormUnbind();
-		$("#formPortalPoll'.$poll_id.'").ajaxForm({
-			beforeSubmit: function(a,f,o) {
-				$("#divPortalPoll'.$poll_id.'").html("<img src=\"assets/spinning.gif\" />");
-			},
-			success: function(data) {
-				$("#divPortalPoll'.$poll_id.'").html(data);
-			}
-		});
-	});
-</script>';
-	
 	return $PollForm;	
 	
 }
 
 function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, $votes_number, $js_included_is_voting = false)
 {
-	
-	$js_included = $js_included_is_voting;
 	
 	if (!$display_votes)
 		return ErrorMessage(array(button('check', '', '', 'bigger') .'&nbsp;'.(isset($_POST['poll_completed_string'])? $_POST['poll_completed_string'] : _('Poll completed'))),'Note');
