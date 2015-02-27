@@ -16,7 +16,7 @@ else
 //modif Francois: add translation
 	$columns = array('COURSE_TITLE'=>_('Course'),'WITH_FULL_NAME'=>'');
 
-	$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,srp.PRIORITY,srp.MARKING_PERIOD_ID,srp.WITH_TEACHER_ID,srp.NOT_TEACHER_ID,srp.WITH_PERIOD_ID,srp.NOT_PERIOD_ID';
+	$extra['SELECT'] .= ",c.TITLE AS COURSE_TITLE,srp.PRIORITY,srp.MARKING_PERIOD_ID,srp.WITH_TEACHER_ID,srp.NOT_TEACHER_ID,srp.WITH_PERIOD_ID,srp.NOT_PERIOD_ID,'' AS WITH_FULL_NAME";
 	$extra['FROM'] .= ',COURSES c,SCHEDULE_REQUESTS srp';
 	$extra['WHERE'] .= ' AND ssm.STUDENT_ID=srp.STUDENT_ID AND ssm.SYEAR=srp.SYEAR AND srp.COURSE_ID = c.COURSE_ID';
 	
@@ -86,15 +86,27 @@ function _makeExtra($value,$title='')
 	if($THIS_RET['NOT_TEACHER_ID'])
 		$return .= _('Not With').':&nbsp;'.GetTeacher($THIS_RET['NOT_TEACHER_ID']).'<BR />';
 	if($THIS_RET['WITH_PERIOD_ID'])
-		$return .= _('On').':&nbsp;'.GetPeriod($THIS_RET['WITH_PERIOD_ID']).'<BR />';
+		$return .= _('On').':&nbsp;'._getPeriod($THIS_RET['WITH_PERIOD_ID']).'<BR />';
 	if($THIS_RET['NOT_PERIOD_ID'])
-		$return .= _('Not on').':&nbsp;'.GetPeriod($THIS_RET['NOT_PERIOD_ID']).'<BR />';
+		$return .= _('Not on').':&nbsp;'._getPeriod($THIS_RET['NOT_PERIOD_ID']).'<BR />';
 	if($THIS_RET['PRIORITY'])
 		$return .= _('Priority').':&nbsp;'.$THIS_RET['PRIORITY'].'<BR />';
 	if($THIS_RET['MARKING_PERIOD_ID'])
 		$return .= _('Marking Period').':&nbsp;'.GetMP($THIS_RET['MARKING_PERIOD_ID']).'<BR />';
 
 	return $return;
+}
+
+function _getPeriod($period_id)
+{	global $_ROSARIO;
+
+	if(!$_ROSARIO['GetPeriod'])
+	{
+		$sql = "SELECT TITLE, PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."'";
+		$_ROSARIO['GetPeriod'] = DBGet(DBQuery($sql),array(),array('PERIOD_ID'));
+	}
+
+	return $_ROSARIO['GetPeriod'][$period_id][1]['TITLE'];
 }
 
 ?>

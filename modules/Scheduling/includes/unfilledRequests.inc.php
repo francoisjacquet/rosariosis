@@ -47,7 +47,18 @@ function _makeRequestTeacher($value,$column)
 function _makeRequestPeriod($value,$column)
 {	global $THIS_RET;
 
-	return ($value?_('On').': '.GetPeriod($value):'').($THIS_RET['NOT_PERIOD_ID']?($value?' &ndash; ':'')._('Not on').': '.GetPeriod($THIS_RET['NOT_PERIOD_ID']):'');
+	return ($value?_('On').': '._getPeriod($value):'').($THIS_RET['NOT_PERIOD_ID']?($value?' &ndash; ':'')._('Not on').': '._getPeriod($THIS_RET['NOT_PERIOD_ID']):'');
 }
 
+function _getPeriod($period_id)
+{	global $_ROSARIO;
+
+	if(!$_ROSARIO['GetPeriod'])
+	{
+		$sql = "SELECT TITLE, PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."'";
+		$_ROSARIO['GetPeriod'] = DBGet(DBQuery($sql),array(),array('PERIOD_ID'));
+	}
+
+	return $_ROSARIO['GetPeriod'][$period_id][1]['TITLE'];
+}
 ?>
