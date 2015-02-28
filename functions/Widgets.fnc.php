@@ -403,12 +403,6 @@ function Widgets($item,&$myextra=null)
 				{
 					$start_end_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_CONFIG WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND PROGRAM='eligibility' AND TITLE IN ('START_DAY','END_DAY')"));
 
-					if(count($start_end_RET))
-					{
-						foreach($start_end_RET as $value)
-							$value['TITLE'] = $value['VALUE'];
-					}
-
 					switch(date('D'))
 					{
 						case 'Mon':
@@ -434,7 +428,7 @@ function Widgets($item,&$myextra=null)
 						break;
 					}
 
-					$start_date = mb_strtoupper(date('d-M-y',time() - ($today-$START_DAY)*60*60*24));
+					$start_date = mb_strtoupper(date('d-M-y',time() - ($today-$start_end_RET[1]['START_DAY'])*60*60*24));
 					$end_date = mb_strtoupper(date('d-M-y',time()));
 					$extra['WHERE'] .= " AND (SELECT count(*) FROM ELIGIBILITY e WHERE ssm.STUDENT_ID=e.STUDENT_ID AND e.SYEAR=ssm.SYEAR AND e.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND e.ELIGIBILITY_CODE='FAILING') > '0'";
 
