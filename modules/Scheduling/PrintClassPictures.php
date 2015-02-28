@@ -134,7 +134,6 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 }
 
 if(empty($_REQUEST['modfunc']))
-
 {
 	DrawHeader(ProgramTitle());
 
@@ -306,8 +305,7 @@ function mySearch($type,$extra='')
 }
 
 function _makeChooseCheckbox($value,$title)
-{	global $THIS_RET;
-
+{
 	return '<INPUT type="checkbox" name="cp_arr[]" value="'.$value.'" checked />';
 }
 ?>

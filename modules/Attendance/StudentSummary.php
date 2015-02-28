@@ -166,8 +166,7 @@ if(UserStudentID())
 }
 
 function _makeStateValue($value)
-{	global $THIS_RET,$date;
-
+{
 	if($value=='0.0')
 		return _('None');
 	elseif($value=='.5')

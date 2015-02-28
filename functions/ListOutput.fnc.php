@@ -2,8 +2,6 @@
 
 function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,$group=array(),$options=array())
 {
-	global $_ROSARIO;
-	
 	//modif Francois: bugfix ListOutput sorting when more than one list in a page
 	$LO_sort = $_REQUEST['LO_sort'];
 
@@ -192,7 +190,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				foreach($result as $key=>$value)
 				{
 					$values[$key] = 0;
-					foreach($value as $name=>$val)
+					foreach($value as $val)
 					{
 						//modif Francois: better list searching by isolating the values
 						//$val = preg_replace('/[^a-zA-Z0-9 _]+/','',mb_strtolower($val));

@@ -3,7 +3,7 @@
 //modif Francois: fix error Warning: Missing argument 1 for GetStuList()
 //function GetStuList(&$extra)
 function GetStuList(&$extra=array())
-{	global $contacts_RET,$view_other_RET,$_ROSARIO;
+{	global $contacts_RET,$view_other_RET;
 
 	if((empty($extra['SELECT_ONLY']) || mb_strpos($extra['SELECT_ONLY'],'GRADE_ID')!==false) && !isset($extra['functions']['GRADE_ID']))
 		$functions = array('GRADE_ID'=>'GetGrade');

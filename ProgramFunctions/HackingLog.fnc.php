@@ -2,7 +2,7 @@
 //modif Francois: create HackingLog function to centralize code
 function HackingLog()
 {
-	global $RosarioNotifyAddress;
+	global $RosarioNotifyAddress, $RosarioVersion;
 	
 	echo _('You\'re not allowed to use this program!').' '._('This attempted violation has been logged and your IP address was captured.');
 

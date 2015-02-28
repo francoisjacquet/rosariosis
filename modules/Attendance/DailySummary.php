@@ -268,7 +268,7 @@ function _makePeriodColor($name,$state_code,$default_code)
 }
 
 function makeCodePulldown($value,$student_id,$date)
-{	global $THIS_RET,$attendance_codes,$_ROSARIO;
+{	global $attendance_codes,$_ROSARIO;
 
 	$date = mb_substr($date,1,4).'-'.mb_substr($date,5,2).'-'.mb_substr($date,7);
 

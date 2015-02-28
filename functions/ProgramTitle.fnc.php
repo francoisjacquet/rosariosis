@@ -5,11 +5,10 @@ function ProgramTitle($modname='')
 
 	if(!$modname)
 		$modname = $_REQUEST['modname'];
+
 	if(!isset($_ROSARIO['Menu']))
-	{
-		global $RosarioModules;
-		include 'Menu.php';
-	}
+		include('Menu.php');
+
 	foreach($_ROSARIO['Menu'] as $modcat=>$programs)
 	{
 		if(count($programs))

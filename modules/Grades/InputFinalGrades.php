@@ -807,7 +807,7 @@ echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 echo '</FORM>';
 
 function _makeLetterPercent($student_id,$column)
-{	global $THIS_RET,$current_RET,$import_RET,$grades_select,$student_count,$tabindex,$grade_scale_id,$program_config;
+{	global $current_RET,$import_RET,$grades_select,$student_count,$tabindex,$program_config;
 
 	if($import_RET[$student_id])
 	{

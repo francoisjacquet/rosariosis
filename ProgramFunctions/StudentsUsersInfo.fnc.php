@@ -198,7 +198,7 @@ function _makeAutoSelectInput($column,$name,$request)
 	else
 //modif Francois: new option
 //		return TextInput($value[$column]=='---'?array('---','<span style="color:red">---</span>'):''.$value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$size,$div);
-		return TextInput($value[$column]=='---'?array('---','<span style="color:red">-'. _('Edit') .'-</span>'):''.$value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$size,$div);
+		return TextInput($value[$column]=='---'?array('---','<span style="color:red">-'. _('Edit') .'-</span>'):''.$value[$column],$request.'['.$column.']',$req[0].$name.$req[1],'',$div);
 }
 
 function _makeCheckboxInput($column,$name,$request)
@@ -232,7 +232,7 @@ function _makeTextareaInput($column,$name,$request)
 }
 
 function _makeMultipleInput($column,$name,$request)
-{	global $value,$field,$_ROSARIO;
+{	global $value,$field;
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{

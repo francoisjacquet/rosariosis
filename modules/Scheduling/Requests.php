@@ -136,8 +136,7 @@ function processRequest()
 }
 
 function _makeCourse($value,$column)
-{	global $THIS_RET;
-
+{
 	return $value;
 }
 
@@ -167,7 +166,7 @@ function _makePeriod($value,$column)
 function _makeMP($value,$column)
 {	global $THIS_RET;
 
-	return SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][MARKING_PERIOD_ID]','',$options);
+	return SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][MARKING_PERIOD_ID]');
 }
 
 ?>

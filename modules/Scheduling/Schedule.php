@@ -360,7 +360,7 @@ function _makeLock($value,$column)
 }
 
 function _makePeriodSelect($course_period_id,$column)
-{	global $_ROSARIO,$THIS_RET,$fy_id;
+{	global $THIS_RET,$fy_id;
 
 	//modif Francois: multiple school periods for a course period
 	//$orders_RET = DBGet(DBQuery("SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$THIS_RET['COURSE_ID']."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE"));

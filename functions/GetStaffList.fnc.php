@@ -1,7 +1,7 @@
 <?php
 
 function GetStaffList(& $extra)
-{	global $profiles_RET,$_ROSARIO;
+{	global $profiles_RET;
 
 	$functions = array('PROFILE'=>'makeProfile');
 	switch(User('PROFILE'))

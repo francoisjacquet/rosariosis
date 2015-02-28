@@ -180,8 +180,7 @@ if(empty($_REQUEST['modfunc']))
 }
 
 function _makeActivated($activated)
-{	global $THIS_RET;
-	
+{
 	if ($activated)
 		$return = button('check');
 	else
@@ -199,8 +198,7 @@ function _makeActivated($activated)
 }
 
 function _makeConfiguration($plugin_title,$activated)
-{	global $THIS_RET;
-	
+{	
 	//verify plugin is activated & config.inc.php file exists
 	if ($activated && file_exists('plugins/'.$plugin_title.'/config.inc.php'))
 		$return = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=config&plugin='.$plugin_title.'">'._('Configuration').'</a>';

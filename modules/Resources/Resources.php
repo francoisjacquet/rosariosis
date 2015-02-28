@@ -90,8 +90,7 @@ function _makeTextInput($value,$name)
 }
 
 function _makeLink($value,$name)
-{	global $THIS_RET;
-
+{
 	if (AllowEdit())
 	{
 		if($value)

@@ -210,7 +210,7 @@ function db_properties($table)
 }
 
 function db_show_error($sql,$failnote,$additional='')
-{	global $RosarioVersion,$RosarioNotifyAddress;
+{	global $RosarioNotifyAddress;
 
     echo '<BR />';
 	PopTable('header',_('We have a problem, please contact technical support ...'));

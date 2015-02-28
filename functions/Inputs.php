@@ -71,7 +71,7 @@ function MLTextInput($value,$name,$title='',$options='',$div=true)
 	// mab - support array style $option values
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		$value1 = is_array($value) ? $value[1] : $value;
+		//$value1 = is_array($value) ? $value[1] : $value;
 		$value = is_array($value) ? $value[0] : $value;
 
 		if(mb_strpos($options,'size')===false && $value!='')

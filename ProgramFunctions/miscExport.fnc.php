@@ -1,6 +1,6 @@
 <?php
 function _makeNextSchool($value,$column)
-{	global $THIS_RET,$_ROSARIO;
+{	global $THIS_RET;
 
 	if($value=='0')
 		return _('Retain');
@@ -19,7 +19,7 @@ function _makeNextSchool($value,$column)
 }
 
 function _makeCalendar($value,$column)
-{	global $THIS_RET,$_ROSARIO,$calendars_RET;
+{	global $calendars_RET;
 
 	if(!$calendars_RET)
 		$calendars_RET = DBGet(DBQuery("SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."'"),array(),array('CALENDAR_ID'));

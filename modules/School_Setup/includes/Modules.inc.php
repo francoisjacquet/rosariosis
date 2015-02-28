@@ -192,8 +192,7 @@ if(empty($_REQUEST['modfunc']))
 }
 
 function _makeActivated($activated)
-{	global $THIS_RET;
-	
+{
 	if ($activated)
 		$return = button('check');
 	else
