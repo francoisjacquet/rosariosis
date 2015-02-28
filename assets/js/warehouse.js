@@ -72,7 +72,7 @@ function ajaxOptions(target,url,form)
 		},
 		success: function(data){
 			if(form && form.method=='get')
-				url = url+$(form).formSerialize();
+				url = url+(url.indexOf('?')!=-1 ? '&' : '?')+$(form).formSerialize();
 			ajaxSuccess(data,target,url);
 		},
 		error: function(x,st,err){
