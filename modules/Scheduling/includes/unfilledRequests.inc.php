@@ -51,14 +51,14 @@ function _makeRequestPeriod($value,$column)
 }
 
 function _getPeriod($period_id)
-{	global $_ROSARIO;
+{	static $periods_RET;
 
-	if(!$_ROSARIO['GetPeriod'])
+	if(empty($periods_RET))
 	{
 		$sql = "SELECT TITLE, PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."'";
-		$_ROSARIO['GetPeriod'] = DBGet(DBQuery($sql),array(),array('PERIOD_ID'));
+		$periods_RET = DBGet(DBQuery($sql),array(),array('PERIOD_ID'));
 	}
 
-	return $_ROSARIO['GetPeriod'][$period_id][1]['TITLE'];
+	return $periods_RET[$period_id][1]['TITLE'];
 }
-?>
+s?>
