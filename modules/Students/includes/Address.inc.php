@@ -410,14 +410,14 @@ if(empty($_REQUEST['modfunc']))
 				$i++;
 				//echo '<A style="cursor: pointer;">';
 				if($_REQUEST['address_id']==$address['ADDRESS_ID'])
-					echo '<TR class="highlight"><TD>'.(($address['ADDRESS_ID']!='0' && AllowEdit()) ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</TD><TD style="color:white;">';
+					echo '<TR class="highlight"><TD>'.(($address['ADDRESS_ID']!='0' && AllowEdit()) ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</TD><TD style="color:white;">';
 				else
-					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</TD><TD>';
+					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</TD><TD>';
 
-				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<BR />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</A>';
+				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<BR />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</A>';
 
 				echo '</TD>';
-				echo '<TD'.$style.'><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$address['ADDRESS_ID'].'"><div class="arrow right"></div></A></TD>';
+				echo '<TD'.$style.'><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'"><div class="arrow right"></div></A></TD>';
 
 				echo '</TR>';
 			}
@@ -435,10 +435,10 @@ if(empty($_REQUEST['modfunc']))
 		else
 			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
 
-		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=new">'._('Add a <b>New</b> Address').' &nbsp; </A>';
+		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new">'._('Add a <b>New</b> Address').' &nbsp; </A>';
 		echo '</TD>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=new"><div class="arrow right"></div></A></TD>';
+		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new"><div class="arrow right"></div></A></TD>';
 		echo '</TR>';
 
 		if($_REQUEST['address_id']=='old')
@@ -446,10 +446,10 @@ if(empty($_REQUEST['modfunc']))
 		else
 			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
 
-		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=old">'._('Add an <b>Existing</b> Address').' &nbsp; </A>';
+		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old">'._('Add an <b>Existing</b> Address').' &nbsp; </A>';
 		echo '</TD>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=old"><div class="arrow right"></div></A></TD>';
+		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old"><div class="arrow right"></div></A></TD>';
 		echo '</TR>';
 
 		if($_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='new')
@@ -457,10 +457,10 @@ if(empty($_REQUEST['modfunc']))
 		else
 			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
 
-		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=new">'._('Add a <b>New</b> Contact<BR />without an Address').' &nbsp; </A>';
+		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new">'._('Add a <b>New</b> Contact<BR />without an Address').' &nbsp; </A>';
 		echo '</TD>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=new"><div class="arrow right"></div></A></TD>';
+		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new"><div class="arrow right"></div></A></TD>';
 		echo '</TR>';
 
 		if($_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='old')
@@ -468,10 +468,10 @@ if(empty($_REQUEST['modfunc']))
 		else
 			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
 
-		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=old">'._('Add an <b>Existing</b> Contact<BR />without an Address').' &nbsp; </A>';
+		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old">'._('Add an <b>Existing</b> Contact<BR />without an Address').' &nbsp; </A>';
 		echo '</TD>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id=0&person_id=old"><div class="arrow right"></div></A></TD>';
+		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old"><div class="arrow right"></div></A></TD>';
 		echo '</TR>';
 	}
 	echo '</TABLE>';
@@ -502,7 +502,7 @@ if(empty($_REQUEST['modfunc']))
 
 					$i++;
 					if(AllowEdit())
-						$remove_button = button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"');
+						$remove_button = button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"');
 					else
 						$remove_button = '';
 
@@ -542,10 +542,10 @@ if(empty($_REQUEST['modfunc']))
 					if($contact['EMERGENCY']=='Y')
 						$images .= ' '. button('emergency','','','bigger');
 
-					echo '<A style="display: inline-block;" href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'">'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<BR /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></A>';
+					echo '<A style="display: inline-block;" href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'">'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<BR /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></A>';
 					echo '<span style="float:right">'.$images.'</span></TD>';
 
-					echo '<TD> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><div class="arrow right"></div></a></TD>';
+					echo '<TD> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><div class="arrow right"></div></a></TD>';
 					echo '</TR>';
 				}
 			}
@@ -562,10 +562,10 @@ if(empty($_REQUEST['modfunc']))
 				else
 					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
 
-				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=new">'._('Add a <b>New</b> Contact').'</A>';
+				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=new">'._('Add a <b>New</b> Contact').'</A>';
 				echo '</TD>';
 
-				echo '<TD> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=new"><div class="arrow right"></div></A></TD>';
+				echo '<TD> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=new"><div class="arrow right"></div></A></TD>';
 				echo '</TR>';
 
 				if($_REQUEST['person_id']=='old')
@@ -573,10 +573,10 @@ if(empty($_REQUEST['modfunc']))
 				else
 					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
 
-				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=old">'._('Add an <b>Existing</b> Contact').'</A>';
+				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=old">'._('Add an <b>Existing</b> Contact').'</A>';
 				echo '</TD>';
 
-				echo '<TD> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&address_id='.$_REQUEST['address_id'].'&person_id=old"><div class="arrow right"></div></A></TD>';
+				echo '<TD> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=old"><div class="arrow right"></div></A></TD>';
 				echo '</TR>';
 			}
 
@@ -721,7 +721,7 @@ if(empty($_REQUEST['modfunc']))
 							{
 							echo '<TR>';
 							if(AllowEdit())
-								echo '<TD>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</TD>';
+								echo '<TD>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</TD>';
 							else
 								echo '<TD></TD>';
 							if($info_apd)
@@ -757,7 +757,7 @@ if(empty($_REQUEST['modfunc']))
 							{
 								echo '<TR>';
 								if(AllowEdit())
-									echo '<TD>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&include='.$_REQUEST['include'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</TD>';
+									echo '<TD>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</TD>';
 								else
 									echo '<TD></TD>';
 
@@ -876,8 +876,7 @@ if(empty($_REQUEST['modfunc']))
 }
 
 function _makePeopleInput($value,$column,$title='')
-{	global $THIS_RET;
-
+{
 	if($column=='LAST_NAME' || $column=='FIRST_NAME')
 		$options = 'required';
 	if($_REQUEST['person_id']=='new')
