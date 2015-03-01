@@ -81,18 +81,22 @@ else
 function _makeExtra($value,$title='')
 {	global $THIS_RET;
 
+	$return = array();
+
 	if($THIS_RET['WITH_TEACHER_ID'])
-		$return .= _('With').':&nbsp;'.GetTeacher($THIS_RET['WITH_TEACHER_ID']).'<BR />';
+		$return[] = _('With').':&nbsp;'.GetTeacher($THIS_RET['WITH_TEACHER_ID']);
 	if($THIS_RET['NOT_TEACHER_ID'])
-		$return .= _('Not With').':&nbsp;'.GetTeacher($THIS_RET['NOT_TEACHER_ID']).'<BR />';
+		$return[] = _('Not With').':&nbsp;'.GetTeacher($THIS_RET['NOT_TEACHER_ID']);
 	if($THIS_RET['WITH_PERIOD_ID'])
-		$return .= _('On').':&nbsp;'._getPeriod($THIS_RET['WITH_PERIOD_ID']).'<BR />';
+		$return[] = _('On').':&nbsp;'._getPeriod($THIS_RET['WITH_PERIOD_ID']);
 	if($THIS_RET['NOT_PERIOD_ID'])
-		$return .= _('Not on').':&nbsp;'._getPeriod($THIS_RET['NOT_PERIOD_ID']).'<BR />';
+		$return[] = _('Not on').':&nbsp;'._getPeriod($THIS_RET['NOT_PERIOD_ID']);
 	if($THIS_RET['PRIORITY'])
-		$return .= _('Priority').':&nbsp;'.$THIS_RET['PRIORITY'].'<BR />';
+		$return[] = _('Priority').':&nbsp;'.$THIS_RET['PRIORITY'];
 	if($THIS_RET['MARKING_PERIOD_ID'])
-		$return .= _('Marking Period').':&nbsp;'.GetMP($THIS_RET['MARKING_PERIOD_ID']).'<BR />';
+		$return[] = _('Marking Period').':&nbsp;'.GetMP($THIS_RET['MARKING_PERIOD_ID']);
+
+	$return = implode('&nbsp;-&nbsp;', $return);
 
 	return $return;
 }
