@@ -335,8 +335,6 @@ if(empty($_REQUEST['modfunc']))
 		$_REQUEST['address_id'] = key($addresses_RET).'';
 
 	echo '<TABLE><TR class="address st"><TD class="valign-top">';
-//modif Francois: css WPadmin
-//	echo '<TABLE class="cellspacing-0">';
 	echo '<TABLE class="widefat cellspacing-0">';
 	if(count($addresses_RET) || $_REQUEST['address_id']=='new' || $_REQUEST['address_id']=='0')
 	{
@@ -670,7 +668,6 @@ if(empty($_REQUEST['modfunc']))
 
 		if($_REQUEST['person_id'])
 		{
-			//echo '<TD style="width:10px; border:1;">&nbsp;</TD>';
 			echo '<TD class="valign-top">';
 			echo '<INPUT type="hidden" name="person_id" value="'.$_REQUEST['person_id'].'" />';
 
@@ -679,35 +676,31 @@ if(empty($_REQUEST['modfunc']))
 				$relation_options = _makeAutoSelect('STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',$this_contact['STUDENT_RELATION'],array());
 
 //modif Francois: css WPadmin
-				echo '<TABLE class="widefat cellspacing-0"><TR><TH>'._('Contact Information').'</TH></TR>';
+				echo '<TABLE class="widefat cellspacing-0"><TR><TH colspan="3">'._('Contact Information').'</TH></TR>';
 
 				if($_REQUEST['person_id']!='new')
 				{
-					echo '<TR><TD><DIV id=person_'.$this_contact['PERSON_ID'].'><div class="onclick" onclick=\'addHTML("';
+					echo '<TR><TD id="person_'.$this_contact['PERSON_ID'].'" colspan="2">';
 					
 					$toEscape = '<TABLE><TR><TD>'._makePeopleInput($this_contact['FIRST_NAME'],'FIRST_NAME',_('First Name')).'</TD><TD>'._makePeopleInput($this_contact['MIDDLE_NAME'],'MIDDLE_NAME',_('Middle Name')).'</TD><TD>'._makePeopleInput($this_contact['LAST_NAME'],'LAST_NAME',_('Last Name')).'</TD></TR></TABLE>';
-					echo str_replace('"','\"',$toEscape);
-					
-					echo '","person_'.$this_contact['PERSON_ID'].'",true);\'><span class="underline-dots">'.$this_contact['FIRST_NAME'].' '.$this_contact['MIDDLE_NAME'].' '.$this_contact['LAST_NAME'].'</span><BR /><span class="legend-gray">'._('Name').'</span></div></DIV></TD></TR>';
 
-					echo '<TR><TD>'._makeAutoSelectInputX($this_contact['STUDENT_RELATION'],'STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',_('Relation'),$relation_options).'</TD>';
+					echo '<script> var person_'.$info['ID'].'='.json_encode($toEscape).';</script>';
 
-					echo '<TR><TD style="padding:0"><TABLE class="width-100p cellspacing-0"><TR><TD>'.CheckboxInput($this_contact['CUSTODY'], 'values[STUDENTS_JOIN_PEOPLE][CUSTODY]', '', 'CHECKED',$new, button('check'), button('x')).'</TD><TD>'. button('gavel','','','bigger') .'</TD><TD>'._('Custody').'</TD></TR>';
+					echo '<div class="onclick" onclick=\'addHTML(person_'.$info['ID'].',"person_'.$this_contact['PERSON_ID'].'",true);\'><span class="underline-dots">'.$this_contact['FIRST_NAME'].' '.$this_contact['MIDDLE_NAME'].' '.$this_contact['LAST_NAME'].'</span><BR /><span class="legend-gray">'._('Name').'</span></div></TD></TR>';
 
-					echo '<TR><TD>'.CheckboxInput($this_contact['EMERGENCY'], 'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('emergency','','','bigger') .'</TD><TD>'._('Emergency').'</TD></TR></TABLE></TD></TR>';
+					echo '<TR><TD colspan="2">'._makeAutoSelectInputX($this_contact['STUDENT_RELATION'],'STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',_('Relation'),$relation_options).'</TD>';
+
+					echo '<TR><TD>'.CheckboxInput($this_contact['CUSTODY'], 'values[STUDENTS_JOIN_PEOPLE][CUSTODY]', '', 'CHECKED',$new, button('check'), button('x')).'</TD><TD>'. button('gavel','','','bigger') .' '._('Custody').'</TD></TR>';
+
+					echo '<TR><TD>'.CheckboxInput($this_contact['EMERGENCY'], 'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('emergency','','','bigger') .' '._('Emergency').'</TD></TR>';
 
 					$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
 
 					if($info_apd)
 						$info_options = _makeAutoSelect('TITLE','PEOPLE_JOIN_CONTACTS',$info_RET,array());
 
-					echo '<TR><TD style="padding:0">';
-
-					echo '<TABLE class="width-100p cellspacing-0">';
-
 					if(!$info_apd)
 					{
-//modif Francois:
 						echo '<TR><TD>
 						</TD><TD>
 						<span class="legend-gray">'._('Description').'</span> &nbsp; 
@@ -761,13 +754,13 @@ if(empty($_REQUEST['modfunc']))
 								else
 									echo '<TD></TD>';
 
-								$toEscape = '<TABLE><TR><TD>'.TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','',false).'<BR />'._makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID'],false).'</TD></TR></TABLE>';
+								$toEscape = TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','',false).'<BR />'._makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID'],false);
 
 								echo '<script> var info_'.$info['ID'].'='.json_encode($toEscape).';</script>';
 
-								echo '<TD><DIV id="info_'.$info['ID'].'"><div class="onclick" onclick=\'addHTML(info_'.$info['ID'];
+								echo '<TD id="info_'.$info['ID'].'"><div class="onclick" onclick=\'addHTML(info_'.$info['ID'];
 
-								echo ',"info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><BR /><span class="legend-gray">'.$info['TITLE'].'</span></div></DIV></TD>';
+								echo ',"info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><BR /><span class="legend-gray">'.$info['TITLE'].'</span></div></TD>';
 								echo '</TR>';
 							}
 						}
@@ -781,18 +774,10 @@ if(empty($_REQUEST['modfunc']))
 							echo '</TR>';
 						}
 					}
-					echo '</TABLE>';
-					echo '</TD></TR>';
-					echo '</TABLE>';
-//					echo '</FIELDSET>';
-					//echo '</TD></TR>';
 
 					$categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
 					if($categories_RET)
 					{
-						echo '<TD class="valign-top">';
-						echo '<TABLE>';
-						
 						$value = DBGet(DBQuery("SELECT * FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
 						$value = $value[1];
 						$request = 'values[PEOPLE]';
@@ -811,22 +796,22 @@ if(empty($_REQUEST['modfunc']))
 				}
 				else
 				{
-					echo '<TR><TD style="padding:0"><TABLE class="cellspacing-0 width-100p"><TR><TD>'._makePeopleInput('','FIRST_NAME','<span style="color:red">'._('First Name').'</span>').'</TD><TD>'._makePeopleInput('','MIDDLE_NAME',_('Middle Name')).'</TD><TD>'._makePeopleInput('','LAST_NAME','<span style="color:red">'._('Last Name').'</span>').'</TD></TR></TABLE></TD></TR>';
+					echo '<TR>
+					<TD>'._makePeopleInput('','FIRST_NAME','<span style="color:red">'._('First Name').'</span>').'</TD>
+					<TD>'._makePeopleInput('','MIDDLE_NAME',_('Middle Name')).'</TD>
+					<TD>'._makePeopleInput('','LAST_NAME','<span style="color:red">'._('Last Name').'</span>').'</TD>
+					</TR>';
 
-					echo '<TR><TD>'.SelectInput('','values[STUDENTS_JOIN_PEOPLE][STUDENT_RELATION]',_('Relation'),$relation_options,_('N/A')).'</TD></TR>';
+					echo '<TR><TD colspan="3">'.SelectInput('','values[STUDENTS_JOIN_PEOPLE][STUDENT_RELATION]',_('Relation'),$relation_options,_('N/A')).'</TD></TR>';
 
-//modif Francois: add <label> on checkbox
-					echo '<TR><TD style="padding:0"><TABLE class="cellspacing-0 width-100p"><TR><TD>'. button('gavel', '', '', 'bigger') .'</TD>';
+					echo '<TR><TD>'. button('gavel', '', '', 'bigger').' ';
 					
-					echo '<TD><label><INPUT type="checkbox" name="values[STUDENTS_JOIN_PEOPLE][CUSTODY]" value="Y"><BR /><span class="legend-gray"> '._('Custody').'</span></label></TD>';
+					echo CheckboxInput('', 'values[STUDENTS_JOIN_PEOPLE][CUSTODY]', _('Custody'), '',true).'</TD>';
 					
-					echo '<TD>'. button('emergency', '', '', 'bigger') .'</TD>';
+					echo '<TD colspan="2">'. button('emergency', '', '', 'bigger') .' ';
 					
-					echo '<TD><label><INPUT type="checkbox" name="values[STUDENTS_JOIN_PEOPLE][EMERGENCY]" value="Y"><BR /><span class="legend-gray"> '._('Emergency').'</span></label></TD></TR></TABLE></TD></TR>';
+					echo CheckboxInput('', 'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]', _('Emergency'), '',true).'</TD></TR>';
 
-					echo '</TABLE>';
-					echo '</FIELDSET>';
-					echo '</TD></TR>';
 				}
 				echo '</TABLE>';
 			}
@@ -871,7 +856,7 @@ if(empty($_REQUEST['modfunc']))
 	echo '</TR>';
 	echo '</TABLE>';
 	$separator = '<HR>';
-	$_REQUEST['category_id'] = '3';
+
 	include('modules/Students/includes/Other_Info.inc.php');
 }
 
