@@ -19,7 +19,7 @@ function button($type,$text='',$link='',$class='')
 	$button .= '<IMG SRC="'.$img_file.'" class="button '.$class.'" />';
 
 	if($text)
-		$button .= '<b>'.$text.'</b>';
+		$button .= ' <b>'.$text.'</b>';
 
 	if($link)
 		$button .= '</A>';
