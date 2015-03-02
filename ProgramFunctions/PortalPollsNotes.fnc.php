@@ -88,9 +88,7 @@ function PortalPollsDisplay($value,$name)
 	else
 		$user_id = $_SESSION['STUDENT_ID'];
 
-	$excluded_user = $profile_id.':'.$user_id;
-
-	$excluded_users_arr = explode('|', $poll_RET[1]['EXCLUDED_USERS']);
+	$excluded_user = '|'.$profile_id.':'.$user_id;
 
 	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'].'|', $excluded_user.'|') !== false)
 		return PortalPollsVotesDisplay($poll_id, $poll_RET[1]['DISPLAY_VOTES'], $poll_questions_RET, $poll_RET[1]['VOTES_NUMBER']); //user already voted, display votes
