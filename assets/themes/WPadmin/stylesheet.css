@@ -236,7 +236,7 @@ label{
 	font-weight:400;
 	font-size:15px;
 	min-width:10em;
-	padding:5px 5px;
+	padding:2px 5px;
 	border-width:1px 0 1px;
 	border-style:solid
 }
@@ -614,6 +614,9 @@ div.st{
 	}
 	#menu,#body{
 		margin-bottom:0
+	}
+	#adminmenu a.menu-top{
+		padding:4px
 	}
 	.menu-top img{
 		height:24px
