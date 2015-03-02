@@ -6,7 +6,7 @@ function Search($type,$extra=null)
 	switch($type)
 	{
 		case 'student_id':
-			if($_REQUEST['bottom_back'] || $_REQUEST['search_modfunc'])
+			if($_REQUEST['bottom_back'] || (User('PROFILE')!=='student' && User('PROFILE')!=='parent' && $_REQUEST['search_modfunc']))
 				unset($_SESSION['student_id']);
 				
 			if($_REQUEST['student_id'])
@@ -39,7 +39,7 @@ function Search($type,$extra=null)
 			// convert profile string to array for legacy compatibility
 			if (!is_array($extra)) $extra = array('profile'=>$extra);
 
-			if($_REQUEST['bottom_back'] || $_REQUEST['search_modfunc'])
+			if($_REQUEST['bottom_back'] || (User('PROFILE')!=='parent' && $_REQUEST['search_modfunc']))
 				unset($_SESSION['staff_id']);
 
 			if($_REQUEST['staff_id'])

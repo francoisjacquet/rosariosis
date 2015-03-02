@@ -152,11 +152,9 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '</TABLE>';
 		//$extra['old'] = true; // proceed to 'list' if UserStudentID()
 	}
-	else
-	{
-		$extra['new'] = true;
-		$extra['force_search'] = true;
-	}
+
+	$extra['new'] = true;
+	$extra['force_search'] = true;
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";

@@ -206,11 +206,9 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<script>if (isTouchDevice()) {touchScroll(document.getElementById(\'framesList\'));}</script>';
 
 	}
-	else
-	{
-		$extra['new'] = true;
-		$extra['force_search'] = true;
-	}
+
+	$extra['new'] = true;
+	$extra['force_search'] = true;
 
 	if(!isset($_REQUEST['_ROSARIO_PDF']))
 	{

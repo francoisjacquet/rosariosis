@@ -1,8 +1,4 @@
 <?php
-if($extra['force_search'])
-	$_REQUEST['search_modfunc'] = '';
-elseif(Preferences('SEARCH')!='Y')
-	$_REQUEST['search_modfunc'] = 'list';
 
 if(!$_REQUEST['search_modfunc'])
 {

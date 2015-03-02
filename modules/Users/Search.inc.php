@@ -1,6 +1,4 @@
 <?php
-if($extra['force_search'])
-	$_REQUEST['search_modfunc'] = '';
 
 if(!$_REQUEST['search_modfunc'])
 {
