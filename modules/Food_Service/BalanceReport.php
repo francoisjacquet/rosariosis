@@ -26,6 +26,7 @@ else
 	$tabcolor_s = Preferences('HEADER'); $textcolor_s = '#FFFFFF';
 	$tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
 }
+
 $header = '<TABLE class="cellspacing-0" style="height:14px;"><TR>';
 //modif Francois: remove DrawTab params
 $header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Students'),'Modules.php?modname='.$_REQUEST['modname'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'&type=student').'</TD>';
@@ -36,16 +37,16 @@ DrawHeader(($_SESSION['FSA_type']=='staff' ? _('User') : _('Student')).' '.Progr
 
 if($_REQUEST['search_modfunc']=='list')
 {
-$PHP_tmp_SELF = PreparePHP_SELF();
-echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
-DrawHeader(PrepareDate($date,'_date').' : <INPUT type="submit" value="'._('Go').'" />');
-echo '</FORM>';
+	$PHP_tmp_SELF = PreparePHP_SELF();
+	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
+	DrawHeader(PrepareDate($date,'_date').' : <INPUT type="submit" value="'._('Go').'" />');
+	echo '</FORM>';
 
-include('modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/BalanceReport.php');
+	include('modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/BalanceReport.php');
 }
 
 $extra['new'] = true;
-$extra['force_search'] = true;
+
 $extra['SELECT'] = ",fsa.ACCOUNT_ID,fst.BALANCE";
 //$extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_TRANSACTIONS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID AND TIMESTAMP<date '".$date."'+1 ORDER BY TIMESTAMP DESC LIMIT 1) AS BALANCE";
 $extra['FROM'] = ",FOOD_SERVICE_STUDENT_ACCOUNTS fsa,FOOD_SERVICE_TRANSACTIONS fst";
@@ -55,7 +56,9 @@ $extra['columns_before'] = array('ACCOUNT_ID'=>_('Account ID'));
 $extra['columns_after'] = array('BALANCE'=>_('Balance'));
 $extra['group'] = $extra['LO_group'] = array('ACCOUNT_ID');
 $extra['link'] = array('FULL_NAME'=>false);
+
 Search('student_id',$extra);
+
 if($_REQUEST['search_modfunc']=='list')
 	echo DrawHeader(_('Total of Balances').' = '.number_format($total,2));
 

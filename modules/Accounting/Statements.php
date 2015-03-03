@@ -3,7 +3,6 @@ if(!isset($_REQUEST['_ROSARIO_PDF']) && !$_REQUEST['search_modfunc'])
 {
 	DrawHeader(ProgramTitle());
 
-	$extra['force_search'] = true;
 	$extra['new'] = true;
 	$extra['action'] .= "&_ROSARIO_PDF=true";
 	Search('staff_id',$extra);

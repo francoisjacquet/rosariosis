@@ -70,7 +70,8 @@ Changes in 2.8
 - regenerate session ID on login in index.php
 - Bugfix user wrongly excluded from poll in PortalPollNotes.fnc.php
 - Remove functions/GetPeriod.fnc.php file
-- Remove unused code, thanks to PHP Mess Detector
+- Remove unused code programwide, thanks to PHP Mess Detector
+- Remove $extra['force_search'] search option, programwide
 - Add Italian, Japanese, Portuguese, Russian, Turkish, Chinese, Bengali, Korean, Persian locales
 
 Upgrade from 2.7.x & 2.8-betax

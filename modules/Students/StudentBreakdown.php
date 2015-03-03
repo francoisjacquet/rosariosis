@@ -27,7 +27,7 @@ if($_REQUEST['modfunc']=='search')
 {
 	echo '<BR />';
 	//Widgets('all');
-	$extra['force_search'] = true;
+
 	$extra['new'] = true;
 	$extra['search_title'] = _('Advanced');
 	$extra['action'] = '&category_id='.$_REQUEST['category_id'].'&chart_type='.str_replace(' ','+',$_REQUEST['chart_type']).'&modfunc=&searchmodfunc=" target="body';

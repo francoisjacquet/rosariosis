@@ -13,7 +13,6 @@ if(count($_REQUEST['mp_arr']))
 //Widgets('class_rank');
 //Widgets('letter_grade');
 
-$extra['force_search'] = true;
 
 if($_REQUEST['delete']=='true')
 {

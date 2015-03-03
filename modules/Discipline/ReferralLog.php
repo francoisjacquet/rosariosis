@@ -17,7 +17,6 @@ WHERE f.DATA_TYPE!='multiple_checkbox'
 AND u.DISCIPLINE_FIELD_ID=f.ID 
 ORDER BY ".db_case(array('DATA_TYPE',"'textarea'","'1'","'0'")).",SORT_ORDER"),array(),array('ID'));
 
-$extra['new'] = true;
 $extra['second_col'] .= '<TR><TD><fieldset><legend>'._('Include in Discipline Log').'</legend><TABLE class="width-100p">';
 
 $extra['second_col'] .= '<TR><TD><label><INPUT type="checkbox" name="elements[ENTRY_DATE]" value="Y" checked />&nbsp;'._('Entry Date').'</label></TD></TR>';
@@ -34,7 +33,7 @@ $extra['second_col'] .= '</TABLE></fieldset></TD></TR>';
 //modif Francois: no templates in Rosario
 
 //Widgets('all');
-$extra['force_search'] = true;
+$extra['new'] = true;
 $extra['action'] .= '&_ROSARIO_PDF=true';
 
 if(!$_REQUEST['search_modfunc'])

@@ -111,7 +111,7 @@ foreach($categories_RET as $category)
 }
 
 $extra['new'] = true;
-//$extra['force_search'] = true;
+
 $extra['singular'] = _('Referral');
 $extra['plural'] = _('Referrals');
 $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'];

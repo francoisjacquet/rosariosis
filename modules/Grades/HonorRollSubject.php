@@ -177,7 +177,6 @@ if(empty($_REQUEST['modfunc']))
 	}
 
 	$extra['new'] = true;
-	$extra['force_search'] = true;
 
 	if(!isset($_REQUEST['_ROSARIO_PDF']))
 	{

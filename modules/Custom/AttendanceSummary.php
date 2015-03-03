@@ -173,7 +173,6 @@ if(empty($_REQUEST['modfunc']))
 	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
-	//$extra['force_search'] = true;
 
 	Widgets('course');
 	//Widgets('gpa');

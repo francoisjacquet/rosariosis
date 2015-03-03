@@ -178,7 +178,6 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '</TABLE>';
 	}
 
-	//$extra['force_search'] = true;
 
 	$extra['SELECT'] .= ",s.STUDENT_ID AS CHECKBOX";
 	$extra['link'] = array('FULL_NAME'=>false);

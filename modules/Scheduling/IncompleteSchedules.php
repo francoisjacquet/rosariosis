@@ -38,7 +38,6 @@ if($_REQUEST['search_modfunc']=='list')
 	unset($_ROSARIO['Widgets']);
 }
 
-$extra['force_search'] = true;
 $extra['new'] = true;
 Widgets('course');
 Widgets('request');

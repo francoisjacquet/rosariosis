@@ -568,7 +568,6 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '</TABLE>';
 	}
 
-	$extra['force_search'] = true;
 	$extra['new'] = true;
 
 	$extra['link'] = array('FULL_NAME'=>false);

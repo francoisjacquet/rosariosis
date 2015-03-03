@@ -193,7 +193,6 @@ if(empty($_REQUEST['modfunc']))
 	//Widgets('class_rank');
 	//Widgets('letter_grade');
 	//Widgets('eligibility');
-	//$extra['force_search'] = true;
 
 	$extra['SELECT'] .= ",s.STUDENT_ID AS CHECKBOX";
 	$extra['link'] = array('FULL_NAME'=>false);

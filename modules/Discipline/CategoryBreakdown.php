@@ -43,9 +43,9 @@ if($_REQUEST['modfunc']=='search')
 {
 	echo '<BR />';
 	//Widgets('all');
-	$extra['force_search'] = true;
+	$extra['new'] = true;
 	$extra['search_title'] = _('Advanced');
-	$extra['action'] = "&category_id=$_REQUEST[category_id]&chart_type=".str_replace(' ','+',$_REQUEST['chart_type'])."&day_start=$_REQUEST[day_start]&day_end=$_REQUEST[day_end]&month_start=$_REQUEST[month_start]&month_end=$_REQUEST[month_end]&year_start=$_REQUEST[year_start]&year_end=$_REQUEST[year_end]&modfunc=&search_modfunc= target=body";
+	$extra['action'] = '&category_id='.$_REQUEST['category_id'].'&chart_type='.str_replace(' ','+',$_REQUEST['chart_type']).'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&modfunc=&search_modfunc= target=body';
 	Search('student_id',$extra);
 
 }

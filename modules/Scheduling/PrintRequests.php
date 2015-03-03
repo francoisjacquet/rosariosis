@@ -7,7 +7,6 @@ if(!$_REQUEST['search_modfunc'])
 	DrawHeader(ProgramTitle());
 
 	$extra['new'] = true;
-	$extra['force_search'] = true;
 	$extra['action'] .= "&_ROSARIO_PDF=true";
 	Search('student_id',$extra);
 }
