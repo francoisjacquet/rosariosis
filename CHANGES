@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.1
+----------------
+- Appify / add app to iOS / Android home screen in index.php & apple-touch-icon.png
+
 Changes in 2.8
 --------------
 - Bugfix no payment displayed if no fee in Student_Billing/DailyTransactions.php

@@ -143,6 +143,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 	<meta charset="UTF-8" />
 	<meta name="robots" content="noindex" />
 	<meta name="viewport" content="width=device-width" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<noscript><META http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&reason=javascript" /></noscript>
 	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Config('THEME'); ?>/stylesheet.css" />
