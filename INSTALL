@@ -102,8 +102,15 @@ That's it!... now, point your browser to:
 
 and login as 'admin' password 'admin'.  With this login, you can create new
 users, and change and delete the three template users.  Since students can not
-be deleted the template student should be changed to a proper student and the
-template photo deleted.
+be deleted the template student should be changed to a proper student.
+
+
+Installation problems
+---------------------
+
+To help you spot problems, point your browser to:
+
+	http://yourdomain.com/INSTALL_LOCATION/diagnostic.php
 
 
 Installing wkhtmltopdf
