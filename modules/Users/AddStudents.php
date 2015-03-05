@@ -56,7 +56,13 @@ if($_REQUEST['modfunc']!='delete')
 	}
 
 	//FJ add # Associated students
-	$extra['SELECT'] = ",(SELECT count(u.STUDENT_ID) FROM STUDENTS_JOIN_USERS u,STUDENTS st WHERE u.STAFF_ID=s.STAFF_ID AND st.STUDENT_ID=u.STUDENT_ID) AS ASSOCIATED";
+	$extra['SELECT'] = ",(SELECT count(u.STUDENT_ID)
+	FROM STUDENTS_JOIN_USERS u,STUDENT_ENROLLMENT ssm
+	WHERE u.STAFF_ID=s.STAFF_ID
+	AND ssm.STUDENT_ID=u.STUDENT_ID
+	AND ssm.SYEAR='".UserSyear()."'
+	AND ('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)) AS ASSOCIATED";
+
 	$extra['columns_after'] = array('ASSOCIATED'=>'# '._('Associated'));
 
 	$extra['profile'] = 'parent';
