@@ -49,7 +49,9 @@ if($_REQUEST['modfunc']!='delete')
 {
 	$extra['SELECT'] = ",(SELECT count(u.STAFF_ID) FROM STUDENTS_JOIN_USERS u,STAFF st WHERE u.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=u.STAFF_ID AND st.SYEAR=ssm.SYEAR) AS ASSOCIATED";
 	$extra['columns_after'] = array('ASSOCIATED'=>'# '._('Associated'));
-	Search('student_id',$extra);
+
+	if(!UserStudentID())
+		Search('student_id',$extra);
 
 	if(UserStudentID())
 	{

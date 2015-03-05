@@ -55,8 +55,14 @@ if($_REQUEST['modfunc']!='delete')
 			unset($_SESSION['staff_id']);
 	}
 
+	//FJ add # Associated students
+	$extra['SELECT'] = ",(SELECT count(u.STUDENT_ID) FROM STUDENTS_JOIN_USERS u,STUDENTS st WHERE u.STAFF_ID=s.STAFF_ID AND st.STUDENT_ID=u.STUDENT_ID) AS ASSOCIATED";
+	$extra['columns_after'] = array('ASSOCIATED'=>'# '._('Associated'));
+
 	$extra['profile'] = 'parent';
-	Search('staff_id',$extra);
+
+	if(!UserStaffID())
+		Search('staff_id',$extra);
 
 	if(UserStaffID())
 	{
