@@ -11,8 +11,43 @@ DrawHeader(ProgramTitle());
 // The column name should start with 's.' if a student field or 'a.' if an address field.
 //modif Francois: Moodle Integrator: the "family" email field must be different from the student email field in the Moodle/config.inc.php
 $email_column = ''; //example: 'a.CUSTOM_2'
+
+//save $email_column var in SESSION
+if(isset($_SESSION['email_column']) && empty($email_column))
+	$email_column = $_SESSION['email_column'];
+elseif(isset($_POST['email_column']))
+	$email_column = $_SESSION['email_column'] = $_POST['email_column'];
+
 if(empty($email_column))
-	ErrorMessage(array(_('You must set the <b>$email_column</b> variable to use this script.')),'fatal');
+{
+	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+
+	//get Student / Address fields
+	$student_columns = DBGet(DBQuery("SELECT 's.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY FROM CUSTOM_FIELDS f, STUDENT_FIELD_CATEGORIES c WHERE f.TYPE='text' AND c.ID=f.CATEGORY_ID ORDER BY f.CATEGORY_ID, f.SORT_ORDER"));
+	$address_columns = DBGet(DBQuery("SELECT 'a.CUSTOM_' || f.ID AS COLUMN, f.TITLE, c.TITLE AS CATEGORY FROM ADDRESS_FIELDS f, ADDRESS_FIELD_CATEGORIES c WHERE f.TYPE='text' AND c.ID=f.CATEGORY_ID ORDER BY f.CATEGORY_ID, f.SORT_ORDER"));
+
+	//display SELECT input
+	$select_html = _('Select Parents email field').': <SELECT id="email_column" name="email_column">';
+
+	$select_html .= '<OPTGROUP label="'.htmlspecialchars(_('Student Fields')).'">';
+	foreach($student_columns as $student_column)
+	{
+		$select_html .= '<OPTION value="'.$student_column['COLUMN'].'">'.ParseMLField($student_column['CATEGORY']).' - '.ParseMLField($student_column['TITLE']).'</OPTION>';
+	}
+
+	$select_html .= '</OPTGROUP><OPTGROUP label="'.htmlspecialchars(_('Address Fields')).'">';
+	foreach($address_columns as $address_column)
+	{
+		$select_html .= '<OPTION value="'.$address_column['COLUMN'].'">'.ParseMLField($address_column['CATEGORY']).' - '.ParseMLField($address_column['TITLE']).'</OPTION>';
+	}
+
+	$select_html .= '</OPTGROUP></SELECT>';
+
+	DrawHeader('','',$select_html);
+
+	echo '<BR /><span class="center">'.SubmitButton(_('Select Parents email field')).'</span>';
+	echo '</FORM>';
+}
 
 // A list of potential users is obtained from the student contacts with an address.  The student must have at least one such contact.  Students which
 // have the same email will be associated to the same user and grouped together in the list and even though each will have contacts listed for selection
@@ -25,7 +60,7 @@ $profile_id = '3';
 // end of user configuration
 
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 {
 	// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
 	// no accounts are created and no associations are made.  Use this to verify the behavior and email operation before actual use.
@@ -33,11 +68,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	// Set the from and cc emails here - the emails can be comma separated list of emails.
 	$cc = '';
-	if(!empty($test_email))
-		$from = $test_email;
-	elseif (User('EMAIL'))
-		$from = $cc = User('EMAIL');
-	else
+	if (User('EMAIL'))
+		$cc = User('EMAIL');
+	elseif (!filter_var($test_email, FILTER_VALIDATE_EMAIL))
 		ErrorMessage(array(_('You must set the <b>test mode email</b> or have a user email address to use this script.')),'fatal');
 
 
@@ -162,7 +195,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				
 				$to = empty($test_email) ? $students[1]['EMAIL'] : $test_email;
 				
-				$result = SendEmail($to, $subject[$account], $msg, $from, $cc);
+				//FJ send email from rosariosis@[domain]
+				$result = SendEmail($to, $subject[$account], $msg, null, $cc);
 
 				$RET[$email][1]['PARENT'] = $staff['NAME'];
 				$RET[$email][1]['USERNAME'] = $staff['USERNAME'];
@@ -186,13 +220,15 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
 		unset($_REQUEST['modfunc']);
 	}
+
+	//reset $email_column var
+	unset($_SESSION['email_column'], $email_column);
 }
 
 if (isset($error))
 	echo ErrorMessage($error);
 
-if(empty($_REQUEST['modfunc']))
-
+if(empty($_REQUEST['modfunc']) && !empty($email_column))
 {
 	if($_REQUEST['search_modfunc']=='list' || UserStudentID())
 	{
@@ -258,7 +294,7 @@ if(empty($_REQUEST['modfunc']))
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	if(mb_strpos($THIS_RET['EMAIL'],'@'))
+	if(filter_var($THIS_RET['EMAIL'], FILTER_VALIDATE_EMAIL))
 		return '<INPUT type="checkbox" name="student['.$value.']" value="'.$value.'" />';
 	else
 		return '';
