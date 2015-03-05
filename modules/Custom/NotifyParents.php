@@ -13,11 +13,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	// Set the from and cc emails here - the emails can be comma separated list of emails.
 	$cc = '';
-	if(!empty($test_email))
-		$from = $test_email;
-	elseif (User('EMAIL'))
-		$from = $cc = User('EMAIL');
-	else
+	if (User('EMAIL'))
+		$cc = User('EMAIL');
+	elseif (!filter_var($test_email, FILTER_VALIDATE_EMAIL))
 		ErrorMessage(array(_('You must set the <b>test mode email</b> or have a user email address to use this script.')),'fatal');
 		
 	$subject = _('New Parent Account');
@@ -79,7 +77,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			
 			$to = empty($test_email)?$staff['EMAIL']:$test_email;
 			
-			$result = SendEmail($to, $subject, $msg, $from, $cc);
+			//FJ send email from rosariosis@[domain]
+			$result = SendEmail($to, $subject, $msg, null, $cc);
 
 			$RESULT[] = array('PARENT'=>$staff['FULL_NAME'],'USERNAME'=>$staff['USERNAME'],'EMAIL'=>!$test_email?$staff['EMAIL']:$test_email,'RESULT'=>$result?_('Success'):_('Fail'));
 			$i++;
