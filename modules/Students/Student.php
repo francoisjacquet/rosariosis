@@ -78,10 +78,13 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				}
 			}
 		}
-	}
-	unset($_REQUEST['day_students']); unset($_REQUEST['month_students']); unset($_REQUEST['year_students']);
 
-	if((count($_REQUEST['students']) || count($_REQUEST['values'])) && AllowEdit())
+		unset($_REQUEST['day_students']);
+		unset($_REQUEST['month_students']);
+		unset($_REQUEST['year_students']);
+	}
+
+	if((count($_REQUEST['students']) || count($_REQUEST['values'])))
 	{
 		$required_error = false;
 
@@ -294,22 +297,26 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			//hook
 			do_action('Students/Student.php|upload_student_photo');
 		}
-
 	}
 
-	if(!in_array($include, $categories))
+	//FJ add Comments as an exception
+	if(!in_array($include, $categories) || $include=='Comments')
+	{
 		if(!mb_strpos($include,'/'))
 			include('modules/Students/includes/'.$include.'.inc.php');
 		else
 			include('modules/'.$include.'.inc.php');
+	}
 
 	if ($error && !UserStudentID())
 		$_REQUEST['student_id'] = 'new';
 
 	unset($_REQUEST['modfunc']);
+
 	// SHOULD THIS BE HERE???
 	if(!UserStudentID())
 		unset($_REQUEST['values']);
+
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['values']);
 }

@@ -6,6 +6,7 @@ Changes in 2.8.2
 - adapt height if US Letter paper in HonorRoll.php & HonorRollSubject.php
 - Bugfix wkhtmltopdf ContentOperationNotPermittedError in HonorRollSubject.php
 - send email from rosariosis@[domain] in NotifyParents.php
+- Bugfix add Comments as an exception in Student.php
 
 Changes in 2.8.1
 ----------------
