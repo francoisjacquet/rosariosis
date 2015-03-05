@@ -65,6 +65,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			
 			echo '<TABLE style="margin:auto auto; height:77%;">';
 			
+			//FJ Bugfix wkhtmltopdf ContentOperationNotPermittedError
+			$clipart_html = (!empty($_REQUEST['clipart']) ? '<img src="assets/ClipArts/'.$_REQUEST['clipart'].'" height="200" />' : '');
+
 			$honor_roll_text = nl2br(str_replace('  ',' &nbsp;',$REQUEST_honor_roll_text));
 
 			$honor_roll_text = str_replace(array('__CLIPART__',
@@ -75,7 +78,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			'__GRADE_ID__',
 			'__SCHOOL_ID__',
 			'__SUBJECT__'),
-			array('<img src="assets/ClipArts/'.$_REQUEST['clipart'].'" height="200" />',
+			array($clipart_html,
 			$student['FULL_NAME'],
 			$student['FIRST_NAME'],
 			$student['LAST_NAME'],
