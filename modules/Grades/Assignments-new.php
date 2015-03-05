@@ -32,11 +32,11 @@ if($_REQUEST['modfunc']=='update')
 	{
 		foreach($_REQUEST['values'] as $id=>$columns)
 		{
-			//modif Francois: added SQL constraint TITLE & POINTS are not null
+			//FJ added SQL constraint TITLE & POINTS are not null
 			if ((!isset($columns['TITLE']) || !empty($columns['TITLE'])) && (!isset($columns['POINTS']) || !empty($columns['POINTS'])))
 			{
-				//modif Francois: fix SQL bug invalid numeric data
-				//modif Francois: default points
+				//FJ fix SQL bug invalid numeric data
+				//FJ default points
 				if ((empty($columns['POINTS']) || (is_numeric($columns['POINTS']) && intval($columns['POINTS'])>=0)) && (empty($columns['DEFAULT_POINTS']) || $columns['DEFAULT_POINTS']=='*' || (is_numeric($columns['DEFAULT_POINTS']) && intval($columns['DEFAULT_POINTS'])>=0)))
 				{
 					if($id!='new')
@@ -70,7 +70,7 @@ if($_REQUEST['modfunc']=='update')
 									$sql .= "COURSE_PERIOD_ID='".UserCoursePeriod()."',";
 								}
 							}
-							//modif Francois: default points
+							//FJ default points
 							elseif($column=='DEFAULT_POINTS' && $value=='*')
 								$value = '-1';
 							$sql .= $column."='".$value."',";
@@ -127,7 +127,7 @@ if($_REQUEST['modfunc']=='update')
 									$values .= "'".UserCoursePeriod()."',";
 								}
 							}
-							//modif Francois: default points
+							//FJ default points
 							elseif($column=='DEFAULT_POINTS' && $value=='*')
 								$value = '-1';
 							if($value!='')
@@ -205,7 +205,7 @@ if(empty($_REQUEST['modfunc']))
 
 	if($_REQUEST['tab_id']!='new')
 	{
-		//modif Francois: default points
+		//FJ default points
 		$sql = "SELECT ASSIGNMENT_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,DESCRIPTION,ASSIGNMENT_TYPE_ID,DEFAULT_POINTS,".
 			db_case(array('(DUE_DATE<ASSIGNED_DATE)','TRUE',"'Y'",'NULL'))." AS DATE_ERROR,".
 			db_case(array('(ASSIGNED_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=\''.UserMP().'\'))','TRUE',"'Y'",'NULL'))." AS ASSIGNED_ERROR,".
@@ -300,7 +300,7 @@ function _makeAssnInput($value,$name)
 			$title = '<span style="color:red">'._('Points').'</span>';*/
 		$extra = 'size=5 maxlength=5';
 	}
-	//modif Francois: default points
+	//FJ default points
 	elseif($name=='DEFAULT_POINTS')
 	{
 		if ($value=='-1')

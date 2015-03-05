@@ -4,7 +4,7 @@
 if (!isset($PortalNotesFilesPath))
 	$PortalNotesFilesPath = 'assets/PortalNotesFiles/';
 
-//modif Francois: Portal Polls functions
+//FJ Portal Polls functions
 
 function PortalPollsVote($poll_id, $votes_array)
 {
@@ -83,7 +83,7 @@ function PortalPollsDisplay($value,$name)
 	//verify if user is in excluded users list (format = '|[profile_id]:[user_id]')
 	$profile_id = User('PROFILE_ID');
 
-	if($profile_id != 0) //modif Francois: call right Student/Staff ID
+	if($profile_id != 0) //FJ call right Student/Staff ID
 		$user_id = $_SESSION['STAFF_ID'];
 	else
 		$user_id = $_SESSION['STUDENT_ID'];
@@ -95,7 +95,7 @@ function PortalPollsDisplay($value,$name)
 	
 	$PollForm = '';
 	
-	//modif Francois: responsive rt td too large
+	//FJ responsive rt td too large
 	if (!isset($_REQUEST['_ROSARIO_PDF']))
 		$PollForm .= includeOnceColorBox('divPortalPoll'.$poll_id).'<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">';
 	
@@ -142,7 +142,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	if (!$display_votes)
 		return ErrorMessage(array(button('check', '', '', 'bigger') .'&nbsp;'.(isset($_POST['poll_completed_string'])? $_POST['poll_completed_string'] : _('Poll completed'))),'Note');
 	
-	//modif Francois: responsive rt td too large
+	//FJ responsive rt td too large
 	if (!$js_included_is_voting && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$votes_display .= includeOnceColorBox('divPortalPoll'.$poll_id);
@@ -217,18 +217,18 @@ function makePublishing($value,$name)
 
 	$return = '';
 
-	//modif Francois: responsive rt td too large
+	//FJ responsive rt td too large
 	if (!isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$return .= includeOnceColorBox('divPublishing'.$id);
 		$return .= '<DIV id="divPublishing'.$id.'" class="rt2colorBox">'."\n";
 	}
 	
-//modif Francois: remove LO_field
+//FJ remove LO_field
 	$return .= '<TABLE class="cellspacing-0 widefat"><TR><TD><b>'._('Visible Between').':</b><BR />';
 	$return .= DateInput($value,'values['.$id.']['.$name.']').' '._('to').' ';
 	$return .= DateInput($THIS_RET['END_DATE'],'values['.$id.'][END_DATE]').'</TD></TR>';
-//modif Francois: css WPadmin
+//FJ css WPadmin
 	$return .= '<TR><TD style="padding:0;">';
 
 	if(!$profiles_RET)
@@ -239,7 +239,7 @@ function makePublishing($value,$name)
 	foreach(array('admin'=>_('Administrator w/Custom'),'teacher'=>_('Teacher w/Custom'),'parent'=>_('Parent w/Custom')) as $profile_id=>$profile)
 	{
 		$i++;
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 		if (isset($_REQUEST['LO_save']))
 			$return .= '<TD>'.$profile.' '.CheckboxInput((mb_strpos($THIS_RET['PUBLISHED_PROFILES'],','.$profile_id.',')!==false?true:''),'').' -</TD>';
 		else
@@ -248,7 +248,7 @@ function makePublishing($value,$name)
 			$return .= '</TR><TR class="st">';
 	}
 		
-	//modif Francois: Portal Polls add students teacher
+	//FJ Portal Polls add students teacher
 	$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,',".UserSchool().",')>0) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
 	if(count($teachers_RET))
 	{
@@ -263,7 +263,7 @@ function makePublishing($value,$name)
 			$return .= '<TD><label>'._($profile['TITLE']).' '.CheckboxInput((mb_strpos($THIS_RET['PUBLISHED_PROFILES'],",$profile[ID],")!==false?true:''),'').' -';
 		else
 			$return .= '<TD><label><INPUT type="checkbox" name="profiles['.$id.']['.$profile['ID'].']" value="Y"'.(mb_strpos($THIS_RET['PUBLISHED_PROFILES'],','.$profile['ID'].',')!==false?' checked':'').' /> '._($profile['TITLE']);
-		//modif Francois: Portal Polls add students teacher
+		//FJ Portal Polls add students teacher
 		if ($profile['ID'] == 0 && $_REQUEST['modname']=='School_Setup/PortalPolls.php') //student & verify this is not a Portal Note!
 		{
 			$return .= ': </label>'.SelectInput($THIS_RET['STUDENTS_TEACHER_ID'],'values['.$id.'][STUDENTS_TEACHER_ID]',_('Limit to Teacher'),$teachers, true, '', true);
@@ -293,7 +293,7 @@ function makePublishing($value,$name)
 	return $return;
 }
 
-//modif Francois: file attached to portal notes
+//FJ file attached to portal notes
 function makeFileAttached($value,$name)
 {	global $THIS_RET, $PortalNotesFilesPath;
 	static $filesAttachedCount = 0;
@@ -312,7 +312,7 @@ function makeFileAttached($value,$name)
 		{
 			$filesAttachedCount ++;
 			
-			//modif Francois: colorbox
+			//FJ colorbox
 			$view_online = '<img src="assets/themes/'. Preferences('THEME') .'/btn/visualize.png" class="button bigger" /> '._('View Online').'';
 
 			$download = '<img src="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="button bigger" /> '._('Download').'';

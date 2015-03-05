@@ -1,7 +1,7 @@
 <?php
 DrawHeader(ProgramTitle());
 
-//modif Francois: add School Configuration
+//FJ add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
 
 $sem = GetParentMP('SEM',UserMP());
@@ -17,9 +17,9 @@ $course_period_id = UserCoursePeriod();
 if(empty($course_period_id))                                  
 	ErrorMessage(array(_('You cannot enter grades for this course period.')),'fatal');
 
-//modif Francois: add CLASS_RANK
-//modif Francois: add Credit Hours
-//modif Francois: add explicit type cast
+//FJ add CLASS_RANK
+//FJ add Credit Hours
+//FJ add explicit type cast
 //$course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit($course_period_id, '".$_REQUEST['mp']."') AS CREDITS, (SELECT ATTENDANCE FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID) AS ATTENDANCE FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
 $course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit(CAST(".$course_period_id." AS integer), CAST('".$_REQUEST['mp']."' AS character varying)) AS CREDITS, DOES_CLASS_RANK AS CLASS_RANK, c.CREDIT_HOURS FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
 
@@ -223,10 +223,10 @@ if($_REQUEST['modfunc']=='gradebook')
 
 				$import_RET[$student_id] = array(1=>array('REPORT_CARD_GRADE_ID'=>_makeLetterGrade($total/100,$course_period_id,0,'ID'),'GRADE_PERCENT'=>round($total,1)));
 
-				//modif Francois: automatic comment on yearly grades
+				//FJ automatic comment on yearly grades
 				if (GetMP($_REQUEST['mp'],'MP')=='FY')
 				{
-					//modif Francois: use Report Card Grades comments
+					//FJ use Report Card Grades comments
 					$comment = _makeLetterGrade($total/100,$course_period_id,0,'COMMENT');
 					$import_comments_RET[$student_id][1]['COMMENT'] = $comment;
 				}
@@ -316,7 +316,7 @@ if($_REQUEST['values'] && $_POST['values'])
 	include 'ProgramFunctions/_makePercentGrade.fnc.php';
 	$completed = true;
 	
-	//modif Francois: add precision to year weighted GPA if not year course period
+	//FJ add precision to year weighted GPA if not year course period
 	$course_period_mp = DBGet(DBQuery("SELECT MP FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$course_period_id."'"));
 	$course_period_mp = $course_period_mp[1]['MP'];
 	
@@ -327,7 +327,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		{
 			if($columns['percent']!='')
 			{
-				//modif Francois: bugfix SQL error invalid input syntax for type numeric
+				//FJ bugfix SQL error invalid input syntax for type numeric
 				$percent = trim($columns['percent'],'%');
 
 				if (!is_numeric($percent))
@@ -346,7 +346,7 @@ if($_REQUEST['values'] && $_POST['values'])
 					$weighted = $grades_RET[$grade][1]['WEIGHTED_GP'];
 					$unweighted = $grades_RET[$grade][1]['UNWEIGHTED_GP'];
 					
-					//modif Francois: add precision to year weighted GPA if not year course period
+					//FJ add precision to year weighted GPA if not year course period
 					if (GetMP($_REQUEST['mp'],'MP')=='FY' && $course_period_mp!='FY')
 					{
 						$weighted = $percent/100*$grades_RET[$grade][1]['GP_SCALE'];
@@ -371,7 +371,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				$letter = $grades_RET[$grade][1]['TITLE'];
 				$weighted = $grades_RET[$grade][1]['WEIGHTED_GP'];
 
-				//modif Francois: add precision to year weighted GPA if not year course period
+				//FJ add precision to year weighted GPA if not year course period
 				if (GetMP($_REQUEST['mp'],'MP')=='FY' && $course_period_mp!='FY')
 				{
 					$weighted = $percent/100*$grades_RET[$grade][1]['GP_SCALE'];
@@ -390,7 +390,7 @@ if($_REQUEST['values'] && $_POST['values'])
 			{
 				$percent = $grade = '';
 				$sql .= "GRADE_PERCENT=NULL";
-				//modif Francois: bugfix SQL bug 'NULL' instead of NULL
+				//FJ bugfix SQL bug 'NULL' instead of NULL
 				//$sql .= ",REPORT_CARD_GRADE_ID=NULL,GRADE_LETTER=NULL,WEIGHTED_GP='NULL',UNWEIGHTED_GP='NULL',GP_SCALE='NULL'";
 				$sql .= ",REPORT_CARD_GRADE_ID=NULL,GRADE_LETTER=NULL,WEIGHTED_GP=NULL,UNWEIGHTED_GP=NULL,GP_SCALE=NULL";
 				$sql .= ",COURSE_TITLE='".$course_RET[1]['COURSE_NAME']."'";
@@ -414,7 +414,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		{
 			if($columns['percent']!='')
 			{
-				//modif Francois: bugfix SQL error invalid input syntax for type numeric
+				//FJ bugfix SQL error invalid input syntax for type numeric
 				$percent = trim($columns['percent'],'%');
 				
 				if (!is_numeric($percent))
@@ -433,7 +433,7 @@ if($_REQUEST['values'] && $_POST['values'])
 					$weighted = $grades_RET[$grade][1]['WEIGHTED_GP'];
 					$unweighted = $grades_RET[$grade][1]['UNWEIGHTED_GP'];
 					
-					//modif Francois: add precision to year weighted GPA if not year course period
+					//FJ add precision to year weighted GPA if not year course period
 					if (GetMP($_REQUEST['mp'],'MP')=='FY' && $course_period_mp!='FY')
 					{
 						$weighted = $percent/100*$grades_RET[$grade][1]['GP_SCALE'];
@@ -451,7 +451,7 @@ if($_REQUEST['values'] && $_POST['values'])
 					$letter = $grades_RET[$grade][1]['TITLE'];
 					$weighted = $grades_RET[$grade][1]['WEIGHTED_GP'];
 
-					//modif Francois: add precision to year weighted GPA if not year course period
+					//FJ add precision to year weighted GPA if not year course period
 					if (GetMP($_REQUEST['mp'],'MP')=='FY' && $course_period_mp!='FY')
 					{
 						$weighted = $percent/100*$grades_RET[$grade][1]['GP_SCALE'];
@@ -462,9 +462,9 @@ if($_REQUEST['values'] && $_POST['values'])
 			}
 			else
 				$percent = $grade = $letter = $weighted = $unweighted = $scale = '';
-//modif Francois: fix bug SQL ID=NULL
-//modif Francois: add CLASS_RANK
-//modif Francois: add Credit Hours
+//FJ fix bug SQL ID=NULL
+//FJ add CLASS_RANK
+//FJ add Credit Hours
 			$sql = "INSERT INTO STUDENT_REPORT_CARD_GRADES
 			(ID, SYEAR, SCHOOL_ID, STUDENT_ID, COURSE_PERIOD_ID, MARKING_PERIOD_ID, REPORT_CARD_GRADE_ID, GRADE_PERCENT, COMMENT, GRADE_LETTER, WEIGHTED_GP, UNWEIGHTED_GP, GP_SCALE, COURSE_TITLE, CREDIT_ATTEMPTED, CREDIT_EARNED, CLASS_RANK, CREDIT_HOURS)
 			values(".db_seq_nextval('student_report_card_grades_seq').",'".UserSyear()."','".UserSchool()."','".$student_id."','".$course_period_id."','".$_REQUEST['mp']."','".$grade."','".$percent."','".$columns['comment']."','".$grades_RET[$grade][1]['TITLE']."','".$weighted."','".$unweighted."','".$scale."','".DBEscapeString($course_RET[1]['COURSE_NAME'])."','".$course_RET[1]['CREDITS']."','".($weighted&&$weighted>0?$course_RET[1]['CREDITS']:'0')."','".$course_RET[1]['CLASS_RANK']."',".(is_null($course_RET[1]['CREDIT_HOURS']) ? 'NULL' : $course_RET[1]['CREDIT_HOURS']).")";
@@ -676,7 +676,7 @@ $extra['functions'] = array('REPORT_CARD_GRADE'=>'_makeLetterPercent');
 
 if(GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
-	//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+	//FJ fix error Warning: Invalid argument supplied for foreach()
 	if (isset($commentsA_RET))
 	{
 		foreach($commentsA_RET as $value)
@@ -720,17 +720,17 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 		$tipmessage = $tipJS.button('comment', _('Comment Codes'), '"#" onmouseover="stm([tiptitle,tipmsg])" onmouseout="htm()" onclick="return false;"', 'bigger');
 	}
 
-	//modif Francois: add label on checkbox
+	//FJ add label on checkbox
 	DrawHeader($mps_select,SubmitButton(_('Save')),'<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Students').'</label>');
 	
-	//modif FRancois: add grade posting dates
+	//FJ add grade posting dates
 	$grade_posting_dates = DBGet(DBQuery("SELECT POST_START_DATE,POST_END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' LIMIT 1"));
 	$grade_posting_dates_text = '';
 
 	if ($grade_posting_dates)
 		$grade_posting_dates_text = ' '.sprintf(_('Grade Posting dates: %s - %s'),ProperDate($grade_posting_dates[1]['POST_START_DATE']),ProperDate($grade_posting_dates[1]['POST_END_DATE']));
 		
-	//modif Francois: add translation
+	//FJ add translation
 	DrawHeader(($current_completed?'<span style="color:green">'._('These grades are complete.').'</span>':'<span style="color:red">'._('These grades are NOT complete.').'</span>').(AllowEdit()?' | <span style="color:green">'._('You can edit these grades.').$grade_posting_dates_text.'</span>':' | <span style="color:red">'._('You can not edit these grades.').$grade_posting_dates_text.'</span>'));
 
 	if(AllowEdit())
@@ -739,7 +739,7 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 		$prev_mp = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,START_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='".GetMP($_REQUEST['mp'],'MP')."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND START_DATE<'".GetMP($_REQUEST['mp'],'START_DATE')."' ORDER BY START_DATE DESC LIMIT 1"));
 		$prev_mp = $prev_mp[1];
 
-		//modif Francois: remove Get previous MP Grades & Comments if course period's marking period is a quarter
+		//FJ remove Get previous MP Grades & Comments if course period's marking period is a quarter
 		$mp_is_quarter = DBGet(DBQuery("SELECT '' FROM COURSE_PERIODS WHERE MP='QTR' AND COURSE_PERIOD_ID='".$course_period_id."'"));
 
 		if($prev_mp && !$mp_is_quarter)
@@ -769,7 +769,7 @@ $LO_columns += array('REPORT_CARD_GRADE'=>($program_config['GRADES_DOES_LETTER_P
 
 if(GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
-	//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+	//FJ fix error Warning: Invalid argument supplied for foreach()
 	if (isset($commentsA_RET))
 	{
 		foreach($commentsA_RET as $value)

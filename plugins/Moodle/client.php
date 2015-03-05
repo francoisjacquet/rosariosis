@@ -1,5 +1,5 @@
 <?php
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 
 //XMLRPC client for Moodle 2
 require_once('plugins/Moodle/curl.php');

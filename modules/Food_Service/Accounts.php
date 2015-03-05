@@ -9,8 +9,8 @@ if($_REQUEST['type'])
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
 
-//modif Francois: add translation
-//modif Francois: remove DrawTab params
+//FJ add translation
+//FJ remove DrawTab params
 $header = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&type=student"><b>'._('Students').'</b></a>';
 $header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&type=staff"><b>'._('Users').'</b></a>';
 

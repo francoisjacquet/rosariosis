@@ -11,7 +11,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		{
 			foreach($_REQUEST['values'] as $id=>$columns)
 			{
-		//modif Francois: fix SQL bug invalid sort order
+		//FJ fix SQL bug invalid sort order
 				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 				{
 					if($id!='new')
@@ -71,7 +71,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if($_REQUEST['tab_id']!='new')
 	{
-//modif Francois: add translation
+//FJ add translation
 		if(DeletePromptX(_('Report Card Comment')))
 		{
 			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CODES WHERE ID='".$_REQUEST['id']."'");
@@ -86,7 +86,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 		}
 }
 
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 if(isset($error))
 	echo ErrorMessage($error);
 

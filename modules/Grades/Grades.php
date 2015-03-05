@@ -6,7 +6,7 @@
 
 DrawHeader(_('Gradebook').' - '.ProgramTitle());
 
-//modif Francois: add School Configuration
+//FJ add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
 
 include 'ProgramFunctions/_makeLetterGrade.fnc.php';
@@ -32,7 +32,7 @@ if($_REQUEST['student_id'])
 	{
 		SetUserStudentID($_REQUEST['student_id']);
 
-		//modif Francois: bugfix SQL bug course period
+		//FJ bugfix SQL bug course period
 		/*if($_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
 		if ($_REQUEST['period'])
@@ -49,7 +49,7 @@ else
 	if(UserStudentID())
 	{
 		unset($_SESSION['student_id']);
-		//modif Francois: bugfix SQL bug course period
+		//FJ bugfix SQL bug course period
 		/*if($_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
 		if ($_REQUEST['period'])
@@ -64,7 +64,7 @@ else
 
 if($_REQUEST['period'])
 {
-	//modif Francois: bugfix SQL bug course period
+	//FJ bugfix SQL bug course period
 	/*if($_REQUEST['period']!=UserCoursePeriod())
 	{
 		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];*/
@@ -99,7 +99,7 @@ if($_REQUEST['type_id'])
 	if(!$types_RET[$_REQUEST['type_id']])
 		unset($_REQUEST['type_id']);
 
-//modif Francois: default points
+//FJ default points
 $assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,TITLE,POINTS,ASSIGNED_DATE,DUE_DATE,DEFAULT_POINTS,extract(EPOCH FROM DUE_DATE) AS DUE_EPOCH,
 CASE WHEN (ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ASSIGNED_DATE) AND (DUE_DATE IS NULL OR CURRENT_DATE>=DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=gradebook_assignments.MARKING_PERIOD_ID) THEN 'Y' ELSE NULL END AS DUE 
 FROM GRADEBOOK_ASSIGNMENTS 
@@ -294,7 +294,7 @@ else
 	{
 		if(count($assignments_RET))
 		{
-			//modif Francois: default points
+			//FJ default points
 			$extra['SELECT_ONLY'] = "s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'","''",db_case(array('ga.DEFAULT_POINTS',"'-1'","'0'",'ga.DEFAULT_POINTS')),'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'","''",db_case(array('ga.DEFAULT_POINTS',"'-1'","'0'",'ga.POINTS')),'ga.POINTS')).") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT";
 			$extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
 			$extra['WHERE'] = " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))".($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='".$_REQUEST['type_id']."'":'');
@@ -328,7 +328,7 @@ else
 $stu_RET = GetStuList($extra);
 //echo '<pre>'; var_dump($stu_RET); echo '</pre>';
 
-//modif Francois: add translation
+//FJ add translation
 $type_select = '<script>var type_idonchange = document.createElement("a"); type_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'].($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&type_id="; type_idonchange.target = "body";</script>';
 $type_select .= '<SELECT name="type_id" onchange="type_idonchange.href += this.options[selectedIndex].value; ajaxLink(type_idonchange);"><OPTION value=""'.(!$_REQUEST['type_id']?' SELECTED':'').'>'._('All').'</OPTION>';
 
@@ -353,7 +353,7 @@ $tabs = array(array('title'=>_('All'),'link'=>'Modules.php?modname='.$_REQUEST['
 foreach($types_RET as $id=>$type)
 	$tabs[] = array('title'=>$type[1]['TITLE'].($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?'|'.number_format(100*$type[1]['FINAL_GRADE_PERCENT'],0).'%':''),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&type_id='.$id.($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'])+($type[1]['COLOR']?array('color'=>$type[1]['COLOR']):array());
 
-//modif Francois: add label on checkbox
+//FJ add label on checkbox
 DrawHeader($type_select.$assignment_select,$_REQUEST['assignment_id']?SubmitButton(_('Save')):'');
 
 DrawHeader('<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Students').'</label> &nbsp;<label>'.CheckBoxOnclick('include_all').'&nbsp;'._('Include Inactive Assignments').'</label>');
@@ -392,7 +392,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 			if(!$assignment_id)
 			{
 				$total = $total_points = 0;
-				//modif Francois: default points
+				//FJ default points
 				$total_use_default_points = false;
 
 				if(count($points_RET[$THIS_RET['STUDENT_ID']]))
@@ -416,7 +416,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 				{
 					$total_points = $assignments_RET[$assignment_id][1]['POINTS'];
 
-					//modif Francois: default points
+					//FJ default points
 					$points = $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'];
 					$div = true;
 
@@ -461,7 +461,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 				if($_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS']!='' || !$assignments_RET[$assignment_id][1]['DUE_EPOCH'] || $assignments_RET[$assignment_id][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (!$THIS_RET['END_EPOCH'] || $assignments_RET[$assignment_id][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'])))
 				{
 					$total_points = $assignments_RET[$assignment_id][1]['POINTS'];
-					//modif Francois: default points
+					//FJ default points
 					$points = $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'];
 
 					if (is_null($points))
@@ -490,7 +490,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 				if($_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS']!='' || !$assignments_RET[$assignment_id][1]['DUE_EPOCH'] || $assignments_RET[$assignment_id][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (!$THIS_RET['END_EPOCH'] || $assignments_RET[$assignment_id][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'])))
 				{
 					$total_points = $assignments_RET[$assignment_id][1]['POINTS'];
-					//modif Francois: default points
+					//FJ default points
 					$points = $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'];
 
 					if (is_null($points))
@@ -528,7 +528,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 function _makeExtraStuCols($value,$column)
 {	global $THIS_RET,$assignments_RET,$assignment_count,$count_assignments,$max_allowed;
 
-	//modif Francois: default points
+	//FJ default points
 	if (is_null($THIS_RET['POINTS']))
 		$THIS_RET['POINTS'] = $assignments_RET[$THIS_RET['ASSIGNMENT_ID']][1]['DEFAULT_POINTS'];
 	
@@ -538,7 +538,7 @@ function _makeExtraStuCols($value,$column)
 			$assignment_count++;
 			$tabindex = $assignment_count;
 
-			//modif Francois: default points
+			//FJ default points
 			$div = true;
 			if (is_null($value))
 			{
@@ -603,7 +603,7 @@ function _makeExtraCols($assignment_id,$column)
 
 	if($_REQUEST['include_all'] || ($current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS']!='' || !$assignments_RET[$assignment_id][1]['DUE_EPOCH'] || $assignments_RET[$assignment_id][1]['DUE_EPOCH']>=$THIS_RET['START_EPOCH'] && (!$THIS_RET['END_EPOCH'] || $assignments_RET[$assignment_id][1]['DUE_EPOCH']<=$THIS_RET['END_EPOCH'])))
 	{
-		//modif Francois: default points
+		//FJ default points
 		$points = $current_RET[$THIS_RET['STUDENT_ID']][$assignment_id][1]['POINTS'];
 		$div = true;
 

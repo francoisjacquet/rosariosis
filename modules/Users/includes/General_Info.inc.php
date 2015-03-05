@@ -33,14 +33,14 @@ if ($_REQUEST['staff_id']!='new' && ($file = @fopen($picture_path=$UserPicturesP
 
 echo '</TD><TD>';
 
-//modif Francois: add translation
+//FJ add translation
 $titles_array = array('Mr'=>_('Mr'),'Mrs'=>_('Mrs'),'Ms'=>_('Ms'),'Miss'=>_('Miss'),'Dr'=>_('Dr'));
 $suffixes_array = array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V'));
 
 if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 {
 	if($_REQUEST['staff_id']=='new' || $_REQUEST['moodle_create_user'])
-//modif Francois: last & first name required
+//FJ last & first name required
 		echo '<TABLE>
 		<TR class="st"><TD>
 		'.SelectInput($staff['TITLE'],'staff[TITLE]',_('Title'),$titles_array,'').'
@@ -89,7 +89,7 @@ echo NoInput($staff['ROLLOVER_ID'],sprintf(_('Last Year %s ID'),Config('NAME')))
 
 echo '</TD></TR><TR class="st"><TD>';
 
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 //username, password required
 
 $required = $_REQUEST['moodle_create_user'] || $old_user_in_moodle || basename($_SERVER['PHP_SELF'])=='index.php';
@@ -128,7 +128,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 	{
 		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES WHERE PROFILE='".$staff['PROFILE']."' ORDER BY ID"));
 		foreach($profiles_RET as $profile)
-//modif Francois: add translation
+//FJ add translation
 			$profiles[$profile['ID']] = _($profile['TITLE']);
 		$na = _('Custom');
 	}
@@ -139,7 +139,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 
 	echo '</TD><TD>';
 
-	//modif Francois: remove Schools for Parents
+	//FJ remove Schools for Parents
 	if ($staff['PROFILE']!='parent')
 	{
 		$sql = "SELECT ID,TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."'";
@@ -166,7 +166,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 }
 
 echo '<TR class="st"><TD>';
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 //email required
 //echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
 if (AllowEdit())

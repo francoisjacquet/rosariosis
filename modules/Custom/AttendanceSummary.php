@@ -55,7 +55,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			echo '<TABLE style="width:96%; border: solid 1px">';
 
 			echo '<TR class="center"><TD><B>'._('Student Name').'</B></TD><TD><B>ID#</B></TD><TD><B>'._('School').' / '._('Year').'</B></TD></TR>';
-//modif Francois: school year over one/two calendar years format
+//FJ school year over one/two calendar years format
 			echo '<TR><TD class="center">'.$student['FULL_NAME'].'</TD><TD class="center">'.$student['STUDENT_ID'].'</TD><TD class="center">'.$school_RET[1]['SCHOOL_NUMBER'].' / '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</TD></TR>';
 
 

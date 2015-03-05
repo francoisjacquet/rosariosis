@@ -8,7 +8,7 @@ $menu['Students']['admin'] = array(
 						1=>_('Reports'),
 						'Students/AdvancedReport.php'=>_('Advanced Report'),
 						'Students/AddDrop.php'=>_('Add / Drop Report'),
-//modif Francois: add Student Breakdown
+//FJ add Student Breakdown
 						'Students/StudentBreakdown.php'=>_('Student Breakdown'),
 						'Students/Letters.php'=>_('Print Letters'),
 						'Students/MailingLabels.php'=>_('Print Mailing Labels'),

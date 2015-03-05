@@ -76,7 +76,7 @@ $extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 
 Search('student_id',$extra);
 
-//modif Francois: fix SQL bug invalid numeric data
+//FJ fix SQL bug invalid numeric data
 if(isset($error))
 	echo ErrorMessage($error);
 

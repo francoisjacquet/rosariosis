@@ -6,7 +6,7 @@ if($_REQUEST['modfunc']=='update')
     {
         if($_REQUEST['submit']['delete'])
         {
-//modif Francois: add translation
+//FJ add translation
             if(DeletePromptX(_('User Account')))
                 DBQuery('DELETE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='.UserStaffID());
             //unset($_REQUEST['submit']);

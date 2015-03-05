@@ -17,7 +17,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
 			if($id!='new')
@@ -95,7 +95,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 						
 						case 'textarea':
 							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(5000)");
-							$create_index = false; //modif Francois: SQL bugfix index row size exceeds maximum 2712 for index
+							$create_index = false; //FJ SQL bugfix index row size exceeds maximum 2712 for index
 						break;
 					}
 					if ($create_index)
@@ -146,7 +146,7 @@ if($_REQUEST['modfunc']=='add_usage' && AllowEdit())
 }
 
 
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 if(isset($error))
 	echo ErrorMessage($error);
 
@@ -233,7 +233,7 @@ function _makeTextAreaInput($value,$name)
 		return $value;
 	elseif($id=='new' || $THIS_RET['DATA_TYPE']=='multiple_checkbox' || $THIS_RET['DATA_TYPE']=='multiple_radio' || $THIS_RET['DATA_TYPE']=='select')
 	{
-		//modif Francois: responsive rt td too large
+		//FJ responsive rt td too large
 		if (!isset($_REQUEST['_ROSARIO_PDF']))
 		{
 			$return .= includeOnceColorBox('divTextAreaContent'.$id);

@@ -1,5 +1,5 @@
 <?php
-//modif Francois: move Attendance.php from functions/ to modules/Attendance/includes
+//FJ move Attendance.php from functions/ to modules/Attendance/includes
 require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 
 if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start'])
@@ -40,7 +40,7 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 	unset($_REQUEST['attendance']);
 }
 
-//modif Francois: bugfix bug when Back to Student Search
+//FJ bugfix bug when Back to Student Search
 //if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || UserStudentID() || User('PROFILE')=='parent' || User('PROFILE')=='student')
 if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
@@ -50,7 +50,7 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 	{
 		if(User('PROFILE')=='admin')
 		{
-			//modif Francois: multiple school periods for a course period
+			//FJ multiple school periods for a course period
 			//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE position(',0,' IN DOES_ATTENDANCE)>0 AND PERIOD_ID=sp.PERIOD_ID AND SYEAR=sp.SYEAR AND SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER"));
 			$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE 
 			FROM SCHOOL_PERIODS sp 
@@ -63,7 +63,7 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 		}
 		else
 		{
-			//modif Francois: multiple school periods for a course period
+			//FJ multiple school periods for a course period
 			//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp WHERE position(',0,' IN cp.DOES_ATTENDANCE)>0 AND sp.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
 			$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE 
 			FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
@@ -89,7 +89,7 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 
 $cal_RET = DBGet(DBQuery("SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' ORDER BY SCHOOL_DATE"));
 
-//modif Francois: bugfix bug when Back to Student Search
+//FJ bugfix bug when Back to Student Search
 //if(UserStudentID() || $_REQUEST['student_id'] || User('PROFILE')=='parent')
 if($_REQUEST['student_id'] || User('PROFILE')=='parent')
 {
@@ -97,7 +97,7 @@ if($_REQUEST['student_id'] || User('PROFILE')=='parent')
 	Search('student_id');
 	if($_REQUEST['period_id'])
 	{
-		//modif Francois: multiple school periods for a course period
+		//FJ multiple school periods for a course period
 		/*$sql = "SELECT
 				cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cp.PERIOD_ID
 			FROM
@@ -130,7 +130,7 @@ if($_REQUEST['student_id'] || User('PROFILE')=='parent')
 	}
 	else
 	{
-//modif Francois: add translation 
+//FJ add translation 
 		$schedule_RET[1] = array('COURSE_PERIOD'=>_('Daily Attendance'),'PERIOD_ID'=>'0');
 		$attendance_RET = DBGet(DBQuery("SELECT ad.SCHOOL_DATE,'0' AS PERIOD_ID,ad.STATE_VALUE AS STATE_CODE,".db_case(array('ad.STATE_VALUE',"'0.0'","'A'","'1.0'","'P'","'H'"))." AS SHORT_NAME FROM ATTENDANCE_DAY ad WHERE ad.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ad.STUDENT_ID='".UserStudentID()."'"),array(),array('SCHOOL_DATE','PERIOD_ID'));
 	}
@@ -211,7 +211,7 @@ else
 function _makeColor($value,$column)
 {	global $THIS_RET,$att_RET,$att_sql,$attendance_codes;
 
-	//modif Francois: add translation:
+	//FJ add translation:
 	$attendance_codes_locale = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half Day'));
 		
 	if(!$att_RET[$THIS_RET['STUDENT_ID']])
@@ -224,7 +224,7 @@ function _makeColor($value,$column)
 
 		$ac = $att_RET[$THIS_RET['STUDENT_ID']][$column][1]['ATTENDANCE_CODE'];
 		if($attendance_codes[$ac][1]['DEFAULT_CODE']=='Y')
-//modif Francois: remove LO_field
+//FJ remove LO_field
 			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 		elseif($attendance_codes[$ac][1]['STATE_CODE']=='P')
 			return '<div style="float:left; background-color:#6666FF; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
@@ -249,7 +249,7 @@ function _makeColor($value,$column)
 
 function _makePeriodColor($name,$state_code,$default_code)
 {
-	//modif Francois: add translation:
+	//FJ add translation:
 	$attendance_codes_locale = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half Day'));
 
 	if($state_code=='A' || $state_code=='0.0')

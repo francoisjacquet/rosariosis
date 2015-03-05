@@ -35,7 +35,7 @@ else
 		{
 			$include = $category_include[1]['INCLUDE'];
 		}
-		//modif Francois: Prevent $_REQUEST['category_id'] hacking
+		//FJ Prevent $_REQUEST['category_id'] hacking
 		else
 		{
 			$category_id = '1';
@@ -61,7 +61,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		foreach($_REQUEST['month_staff'] as $column=>$value)
 		{
 			$_REQUEST['staff'][$column] = $_REQUEST['day_staff'][$column].'-'.$_REQUEST['month_staff'][$column].'-'.$_REQUEST['year_staff'][$column];
-			//modif Francois: bugfix SQL bug when incomplete or non-existent date
+			//FJ bugfix SQL bug when incomplete or non-existent date
 			//if($_REQUEST['staff'][$column]=='--')
 			if(mb_strlen($_REQUEST['staff'][$column]) < 11)
 				$_REQUEST['staff'][$column] = '';
@@ -96,13 +96,13 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$schools = str_replace($school_id.',', '', $schools);
 		}
 
-		//modif Francois: remove Schools for Parents
+		//FJ remove Schools for Parents
 		if(isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']=='parent')
 			$_REQUEST['staff']['SCHOOLS'] = '';
 		else
 			$_REQUEST['staff']['SCHOOLS'] = ($schools == ',' ? '' : $schools);
 
-		//modif Francois: reset current school if updating self schools
+		//FJ reset current school if updating self schools
 		if(User('STAFF_ID') == UserStaffID())
 			unset($_SESSION['UserSchool']);
 	}
@@ -113,18 +113,18 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 	{
 		$required_error = false;
 
-		//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME is null
+		//FJ fix SQL bug FIRST_NAME, LAST_NAME is null
 		if ((isset($_REQUEST['staff']['FIRST_NAME']) && empty($_REQUEST['staff']['FIRST_NAME'])) || (isset($_REQUEST['staff']['LAST_NAME']) && empty($_REQUEST['staff']['LAST_NAME'])))
 			$required_error = true;
 
-		//modif Francois: other fields required
+		//FJ other fields required
 		$others_required_RET = DBGet(DBQuery("SELECT ID FROM STAFF_FIELDS WHERE CATEGORY_ID='".$category_id."' AND REQUIRED='Y'"));
 		if (count($others_required_RET))
 			foreach($others_required_RET as $other_required)
 				if (isset($_REQUEST['staff']['CUSTOM_'.$other_required['ID']]) && empty($_REQUEST['staff']['CUSTOM_'.$other_required['ID']]))
 					$required_error = true;
 
-		//modif Francois: create account
+		//FJ create account
 		if (basename($_SERVER['PHP_SELF'])=='index.php')
 		{
 			//username & password required
@@ -184,14 +184,14 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				{
 					if(1)//!empty($value) || $value=='0')
 					{
-						//modif Francois: check numeric fields
+						//FJ check numeric fields
 						if ($fields_RET[str_replace('CUSTOM_','',$column_name)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 						{
 							$error[] = _('Please enter valid Numeric data.');
 							continue;
 						}
 						
-						//modif Francois: add password encryption
+						//FJ add password encryption
 						if ($column_name!=='PASSWORD')
 						{
 							$sql .= "$column_name='".$value."',";
@@ -250,7 +250,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				{
 					if(!empty($value) || $value=='0')
 					{
-						//modif Francois: check numeric fields
+						//FJ check numeric fields
 						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 						{
 							$error[] = _('Please enter valid Numeric data.');
@@ -259,7 +259,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						
 						$fields .= $column.',';
 
-						//modif Francois: add password encryption
+						//FJ add password encryption
 						if ($column!=='PASSWORD')
 							$values .= "'".$value."',";
 						else
@@ -281,7 +281,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				//Notify the network admin that a new admin has been created
 				if ($_REQUEST['staff']['PROFILE_ID'] == 1 && $RosarioNotifyAddress)
 				{
-					//modif Francois: add SendEmail function
+					//FJ add SendEmail function
 					include('ProgramFunctions/SendEmail.fnc.php');
 
 					$to = $RosarioNotifyAddress;
@@ -344,7 +344,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 		DrawHeader(ProgramTitle());
 		Search('staff_id',$extra);
 }
-//modif Francois: create account
+//FJ create account
 elseif(!UserStaffID())
 {
 	$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
@@ -411,7 +411,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 
 	if($_REQUEST['staff_id']!='new')
 	{
-		//modif Francois: add translation
+		//FJ add translation
 		$titles_array = array('Mr'=>_('Mr'),'Mrs'=>_('Mrs'),'Ms'=>_('Ms'),'Miss'=>_('Miss'),'Dr'=>_('Dr'));
 		$suffixes_array = array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V'));
 		
@@ -428,7 +428,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 	else
 		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
 
-	//modif Francois: create account
+	//FJ create account
 	if(basename($_SERVER['PHP_SELF'])=='index.php')
 		$can_use_RET['Users/User.php&category_id=1'] = true;
 
@@ -440,7 +440,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 	{
 		if($can_use_RET['Users/User.php&category_id='.$category['ID']])
 		{
-			//modif Francois: Remove $_REQUEST['include']
+			//FJ Remove $_REQUEST['include']
 			/*if($category['ID']=='1')
 				$include = 'General_Info';
 			elseif($category['ID']=='2')

@@ -18,7 +18,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 
 if($_REQUEST['modfunc']=='update' && AllowEdit())
 {
-	//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+	//FJ fix error Warning: Invalid argument supplied for foreach()
 	if (isset($_REQUEST['values']))
 		foreach($_REQUEST['values'] as $request_id=>$columns)
 		{
@@ -120,7 +120,7 @@ function processRequest()
 
 	//$link['add']['html'] = array('COURSE_ID'=>_makeCourse('','COURSE_ID'),'WITH_TEACHER_ID'=>_makeTeacher('','WITH_TEACHER_ID'),'WITH_PERIOD_ID'=>_makePeriod('','WITH_PERIOD_ID'),'MARKING_PERIOD_ID'=>_makeMP('','MARKING_PERIOD_ID'));
 	$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
-//modif Francois: add translation
+//FJ add translation
 	$subjects = '<SELECT name="subject_id" onchange="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"><option value="">'._('All Subjects').'</option>';
 	foreach($subjects_RET as $subject)
 		$subjects .= '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
@@ -128,7 +128,7 @@ function processRequest()
 	$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove','variables'=>array('id'=>'REQUEST_ID'));
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
-//modif Francois: css WPadmin
+//FJ css WPadmin
 	$link['add']['span'] = ''._('Add a Request').': &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <INPUT type="text" id="course_title" name="course_title" onkeypress="if(event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><DIV id="courses_div"></DIV>';
 	ListOutput($requests_RET,$columns,'Request','Requests',$link);
 	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
@@ -153,7 +153,7 @@ function _makeTeacher($value,$column)
 function _makePeriod($value,$column)
 {	global $THIS_RET;
 
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 	//$periods_RET = DBGet(DBQuery("SELECT p.TITLE,p.PERIOD_ID FROM SCHOOL_PERIODS p,COURSE_PERIODS cp WHERE p.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_ID='".$THIS_RET['COURSE_ID']."'"));
 	$periods_RET = DBGet(DBQuery("SELECT p.TITLE,p.PERIOD_ID FROM SCHOOL_PERIODS p,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND p.PERIOD_ID=cpsp.PERIOD_ID AND cp.COURSE_ID='".$THIS_RET['COURSE_ID']."'"));
 	foreach($periods_RET as $period)

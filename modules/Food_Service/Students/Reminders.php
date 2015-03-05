@@ -28,7 +28,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		$st_list = "'".implode("','",$_REQUEST['st_arr'])."'";
 
-	//modif Francois: sql fix
+	//FJ sql fix
 		$students = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,'' AS NICKNAME,fsa.ACCOUNT_ID,fsa.STATUS,
 		(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE,
 		(SELECT TITLE FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS SCHOOL,
@@ -47,7 +47,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs
 				WHERE s.STAFF_ID=cp.TEACHER_ID AND sch.STUDENT_ID='".$student['STUDENT_ID']."' AND cp.COURSE_ID=sch.COURSE_ID AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND cs.TITLE='".$homeroom."' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sch.SYEAR='".UserSyear()."'"));
 			else
-				//modif Francois: multiple school periods for a course period
+				//FJ multiple school periods for a course period
 				/*$teacher = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs,SCHOOL_PERIODS sp
 				WHERE s.STAFF_ID=cp.TEACHER_ID AND sch.STUDENT_ID='".$student['STUDENT_ID']."' AND cp.COURSE_ID=sch.COURSE_ID AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND sp.PERIOD_ID=cp.PERIOD_ID AND sp.ATTENDANCE='Y' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sch.SYEAR='".UserSyear()."'"));*/
@@ -64,7 +64,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID 
 				AND sch.SYEAR='".UserSyear()."'"));
 			$teacher = $teacher[1];
-	//modif Francois: sql fix
+	//FJ sql fix
 			$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME,s.LAST_NAME,'' AS NICKNAME 
 			FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa 
 			WHERE fssa.ACCOUNT_ID='".$student['ACCOUNT_ID']."' 
@@ -111,7 +111,7 @@ if(empty($_REQUEST['modfunc']))
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
 		//DrawHeader('',SubmitButton('Create Reminders for Selected Students'));
-//modif Francois: add translation
+//FJ add translation
 		$extra['header_right'] = SubmitButton(_('Create Reminders for Selected Students'));
 
 		$extra['extra_header_left'] .= '<label>'._('Estimate for year end').'&nbsp;<INPUT type="checkbox" name="year_end" value="Y" /></label>';

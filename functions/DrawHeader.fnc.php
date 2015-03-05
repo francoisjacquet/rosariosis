@@ -4,7 +4,7 @@ function DrawHeader($left='',$right='',$center='')
 {	global $_ROSARIO;
 
 	echo '<TABLE class="width-100p cellspacing-0"><TR class="st">';
-//modif Francois: CSS WPadmin
+//FJ CSS WPadmin
 	if($left)
 		echo '<TD '.$_ROSARIO['DrawHeader'].'>&nbsp;'.(empty($_ROSARIO['DrawHeader'])? (!empty($_ROSARIO['HeaderIcon']) ? '<H2>'.'<IMG src="'.$_ROSARIO['HeaderIcon'].'" class="headerIcon" /> '.$left.'</H2>' : '<H2>'.$left.'</H2>'):$left).'</TD>';
 	if($center)

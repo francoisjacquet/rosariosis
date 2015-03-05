@@ -2,7 +2,7 @@
 error_reporting(0);
 include('Warehouse.php');
 
-if (file_exists('Help_'.mb_substr($locale, 0, 2).'.php')) //modif Francois: translated help
+if (file_exists('Help_'.mb_substr($locale, 0, 2).'.php')) //FJ translated help
 	include 'Help_'.mb_substr($locale, 0, 2).'.php';
 else
 	include 'Help_en.php';

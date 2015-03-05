@@ -21,7 +21,7 @@ if($_REQUEST['search_modfunc']=='list')
 	Widgets('course');
 	Widgets('request');
 	$extra['SELECT'] .= ',sp.PERIOD_ID';
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 	//$extra['FROM'] .= ',SCHOOL_PERIODS sp,SCHEDULE ss,COURSE_PERIODS cp';
 	$extra['FROM'] .= ',SCHOOL_PERIODS sp,SCHEDULE ss,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp';
 	/*$extra['WHERE'] .= ' AND (\''.DBDate().'\' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL) AND ss.SCHOOL_ID=ssm.SCHOOL_ID AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',UserMP()).') AND ss.STUDENT_ID=ssm.STUDENT_ID AND ss.SYEAR=ssm.SYEAR AND ss.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID ';*/
@@ -30,7 +30,7 @@ if($_REQUEST['search_modfunc']=='list')
 	//	$extra['WHERE'] .= " AND s.STUDENT_ID='".UserStudentID()."' ";
 	$extra['group'] = array('STUDENT_ID','PERIOD_ID');
 
-//modif Francois: fix error Warning: Missing argument 1 for appendSQL()
+//FJ fix error Warning: Missing argument 1 for appendSQL()
 	$extra['WHERE'] .= appendSQL('',$extra);
 	$extra['WHERE'] .= CustomFields('where');
 	$schedule_RET = GetStuList($extra);
@@ -52,7 +52,7 @@ if(!$_REQUEST['search_modfunc'])
 	Search('student_id',$extra);
 else
 {
-//modif Francois: fix error Warning: Missing argument 1 for appendSQL()
+//FJ fix error Warning: Missing argument 1 for appendSQL()
 //	$extra['WHERE'] .= appendSQL();
 	$extra['WHERE'] .= appendSQL('',$extra);
 	$extra['WHERE'] .= CustomFields('where');

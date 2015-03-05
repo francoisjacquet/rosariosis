@@ -26,7 +26,7 @@ function ErrorMessage($errors,$code='error')
 {
 	if($errors)
 	{
-//modif Francois: css WPadmin
+//FJ css WPadmin
 		if($code=='error' || $code=='fatal')
 			$return .= '<div class="error"><p>'. button('x') .'&nbsp;<b>'._('Error').':</b> ';
 		elseif($code=='warning')
@@ -50,7 +50,7 @@ function ErrorMessage($errors,$code='error')
 			echo $return;
 			if(!isset($_REQUEST['_ROSARIO_PDF']))
 				Warehouse('footer');
-//modif Francois: force PDF on fatal error
+//FJ force PDF on fatal error
 			else
 			{
 				global $print_data;

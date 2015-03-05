@@ -28,7 +28,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$extra['SELECT'] .= ',\'None\' AS GENDER';
 				
 	}
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 	//$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,SCHOOL_PERIODS sp";
 	$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1,ATTENDANCE_CODES ac,COURSE_PERIODS rc_cp,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp";
 	/*$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (".$mp_list.")
@@ -47,10 +47,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		// GET THE COMMENTS
 		unset($extra);
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
-		//modif Francois: order General Comments first
+		//FJ order General Comments first
 		$extra['SELECT_ONLY'] = "s.STUDENT_ID,sc.COURSE_PERIOD_ID,sc.MARKING_PERIOD_ID,sc.REPORT_CARD_COMMENT_ID,sc.COMMENT,(SELECT SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE ID=sc.REPORT_CARD_COMMENT_ID) AS SORT_ORDER,(SELECT COALESCE(SCALE_ID, 0) FROM REPORT_CARD_COMMENTS WHERE ID=sc.REPORT_CARD_COMMENT_ID) AS SORT_ORDER2";
 		$extra['FROM'] = ",STUDENT_REPORT_CARD_COMMENTS sc";
-		//modif Francois: get the comments of all MPs
+		//FJ get the comments of all MPs
 		//$extra['WHERE'] .= " AND sc.STUDENT_ID=s.STUDENT_ID AND sc.MARKING_PERIOD_ID='".$last_mp."'";
 		$extra['WHERE'] .= " AND sc.STUDENT_ID=s.STUDENT_ID AND sc.MARKING_PERIOD_ID IN (".$mp_list.")";
 		$extra['ORDER_BY'] = 'SORT_ORDER,SORT_ORDER2';
@@ -61,7 +61,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$all_commentsA_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID='0' ORDER BY SORT_ORDER,ID"),array(),array('ID'));
 
-		//modif Francois: get color for Course specific categories & get comment scale
+		//FJ get color for Course specific categories & get comment scale
 		//$commentsA_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'"),array(),array('ID'));
 		$commentsA_RET = DBGet(DBQuery("SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,cs.TITLE AS SCALE_TITLE
 		FROM REPORT_CARD_COMMENTS c, REPORT_CARD_COMMENT_CATEGORIES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
@@ -119,7 +119,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$addresses_RET = GetStuList($extra);
 	}
 
-	//modif Francois: limit code scales to the ones in current SYEAR in REPORT_CARD_COMMENTS
+	//FJ limit code scales to the ones in current SYEAR in REPORT_CARD_COMMENTS
 	//$comment_codes_RET = DBGet(DBQuery("SELECT cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs WHERE cc.SCHOOL_ID='".UserSchool()."' AND cs.ID=cc.SCALE_ID ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID"));
 	$comment_codes_RET = DBGet(DBQuery("SELECT cs.ID AS SCALE_ID,cc.TITLE,cc.COMMENT,cs.TITLE AS SCALE_TITLE,cs.COMMENT AS SCALE_COMMENT
 	FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
@@ -185,8 +185,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							$sep_mp = ' | ';
 							$grades_RET[$i]['COMMENT'] .= (empty($grades_RET[$i]['COMMENT'])?'':$sep_mp);
 							$temp_grades_COMMENTS = $grades_RET[$i]['COMMENT'];
-							//modif Francois: fix error Invalid argument supplied for foreach()
-							//modif Francois: get the comments of all MPs
+							//FJ fix error Invalid argument supplied for foreach()
+							//FJ get the comments of all MPs
 							//if (is_array($comments_RET[$student_id][$course_period_id][$last_mp]))
 							if (isset($comments_RET[$student_id][$course_period_id][$mp]) && is_array($comments_RET[$student_id][$course_period_id][$mp]))
 							{
@@ -258,7 +258,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if($_REQUEST['mailing_labels']=='Y')
 					echo '<BR /><BR /><BR />';
 
-				//modif Francois: add school logo
+				//FJ add school logo
 				$logo_pic =  'assets/school_logo_'.UserSchool().'.jpg';
 				$picwidth = 120;
 				if (file_exists($logo_pic))
@@ -267,14 +267,14 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				DrawHeader(_('Report Card'));
 				DrawHeader($mps[key($mps)][1]['FULL_NAME'],$mps[key($mps)][1]['STUDENT_ID']);
 				DrawHeader($mps[key($mps)][1]['GRADE_ID'],SchoolInfo('TITLE'));
-				//modif Francois: add school year
+				//FJ add school year
 				DrawHeader(_('School Year').': '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')));
 
 				$count_lines = 4;
 				if($_REQUEST['elements']['mp_absences']=='Y')
 				{
 					$count = 0;
-					//modif Francois: fix error Invalid argument supplied for foreach()
+					//FJ fix error Invalid argument supplied for foreach()
 					if (isset($attendance_day_RET[$student_id][$last_mp]) && is_array($attendance_day_RET[$student_id][$last_mp]))
 					{
 						foreach($attendance_day_RET[$student_id][$last_mp] as $abs)
@@ -286,7 +286,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if($_REQUEST['elements']['ytd_absences']=='Y')
 				{
 					$count = 0;
-					//modif Francois: fix error Invalid argument supplied for foreach()
+					//FJ fix error Invalid argument supplied for foreach()
 					if (isset($attendance_day_RET[$student_id]) && is_array($attendance_day_RET[$student_id]))
 					{
 						foreach($attendance_day_RET[$student_id] as $mp_abs)
@@ -331,7 +331,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$count_lines++;
 				}
 
-				//modif Francois: add school logo
+				//FJ add school logo
 				if (file_exists($logo_pic))
 				{
 					echo '</TD></TR></TABLE>';
@@ -355,7 +355,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$gender = mb_substr($mps[key($mps)][1]['GENDER'],0,1);
 					$personalizations = array('^n'=>($mps[key($mps)][1]['FIRST_NAME']),'^s'=>($gender=='M'?_('his'):($gender=='F'?_('her'):_('his/her'))) );
 
-					//modif Francois: limit comment scales to the ones used in student's courses
+					//FJ limit comment scales to the ones used in student's courses
 					$course_periods_list = implode(array_keys($course_periods), ',');
 
 					$student_comment_scales_RET = DBGet(DBQuery("SELECT cs.ID
@@ -378,7 +378,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					if($comments_arr_key)
 						foreach($comment_codes_RET as $comment)
 						{
-							//modif Francois: limit comment scales to the ones used in student's courses
+							//FJ limit comment scales to the ones used in student's courses
 							if (in_array($comment['SCALE_ID'], $student_comment_scales))
 							{
 								if($i++%3==0 || $scale_title != $comment['SCALE_TITLE'])
@@ -491,10 +491,10 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
-//modif Francois: add translation
+//FJ add translation
 		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Report Cards for Selected Students').'" />';
 
-		//modif Francois: get the title istead of the attendance code short name
+		//FJ get the title istead of the attendance code short name
 		$attendance_codes = DBGet(DBQuery("SELECT SHORT_NAME,ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL) AND TABLE_NAME='0'"));
 
 		$extra['extra_header_left'] = '<TABLE>';
@@ -502,7 +502,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] .= '<TR class="st"><TD></TD><TD><TABLE>';
 		$extra['extra_header_left'] .= '<TR>';
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[teacher]" value="Y" checked /> '._('Teacher').'</label></TD>';
 		$extra['extra_header_left'] .= '<TD></TD>';
 		$extra['extra_header_left'] .= '</TR><TR>';
@@ -530,7 +530,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '</TR>';
 		$extra['extra_header_left'] .= '</TABLE></TD></TR>';
 
-		//modif Francois: get the title instead of the short marking period name
+		//FJ get the title instead of the short marking period name
 		$mps_RET = DBGet(DBQuery("SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('PARENT_ID'));
 		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Marking Periods').':</TD><TD><TABLE><TR><TD><TABLE>';
 		foreach($mps_RET as $sem=>$quarters)

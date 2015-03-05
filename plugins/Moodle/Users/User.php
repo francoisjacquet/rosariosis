@@ -1,5 +1,5 @@
 <?php
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 
 //core_user_create_users function
 function core_user_create_users_object()

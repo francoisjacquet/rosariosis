@@ -1,6 +1,6 @@
 <?php
 
-//modif Francois: wkhtmltopdf
+//FJ wkhtmltopdf
 //@param $css = true
 //include theme CSS in HTML output
 //@param $margins = array('top'=> 1, 'bottom'=> 1, 'left'=> 1, 'right'=> 1)
@@ -29,11 +29,11 @@ function PDFStop($handle)
 	$html = '<!DOCTYPE html><HTML lang="'.mb_substr($locale,0,2).'" '.(in_array(mb_substr($locale,0,2), $RTL_languages)?' dir="RTL"':'').'><HEAD><meta charset="UTF-8" />';
 	if ($handle['css'])
 		$html .= '<link rel="stylesheet" type="text/css" href="assets/themes/'.Preferences('THEME').'/stylesheet_wkhtmltopdf.css" />';
-	//modif Francois: bugfix wkhtmltopdf screen resolution on linux
+	//FJ bugfix wkhtmltopdf screen resolution on linux
 	//see: https://code.google.com/p/wkhtmltopdf/issues/detail?id=118
 	$html .= '<TITLE>'.str_replace(_('Print').' ','',ProgramTitle()).'</TITLE></HEAD><BODY><div style="width:'.((!empty($handle['orientation']) && $handle['orientation'] == 'landscape') ? '1448' : '1024').'px" id="pdf">'.$html_content.'</div></BODY></HTML>';
 
-	//modif Francois: wkhtmltopdf
+	//FJ wkhtmltopdf
 	if (!empty($wkhtmltopdfPath))
 	{		
 		// You can override the Path definition in the config.inc.php file
@@ -68,7 +68,7 @@ function PDFStop($handle)
 			$wkhtmltopdf->setHtml($html);
 			
 			//MODE_EMBEDDED displays PDF in browser, MODE_DOWNLOAD forces PDF download
-			//modif Francois: force PDF DOWNLOAD for Android mobile & tablet
+			//FJ force PDF DOWNLOAD for Android mobile & tablet
 			if (mb_stripos($_SERVER['HTTP_USER_AGENT'],'android') !== false)
 				$wkhtmltopdf->output(Wkhtmltopdf::MODE_DOWNLOAD, str_replace(array(_('Print').' ', ' '),array('', '_'),utf8_decode(ProgramTitle())).'.PDF');
 			else

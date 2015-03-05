@@ -6,7 +6,7 @@ if($_REQUEST['modfunc']!='backup')
 if($_REQUEST['modfunc']=='backup' && isset($_REQUEST['_ROSARIO_PDF']))
 {
 	
-//modif Francois: code inspired by phpPgAdmin
+//FJ code inspired by phpPgAdmin
 	putenv('PGHOST=' . $DatabaseServer);
 	putenv('PGPORT=' . $DatabasePort);
 	putenv('PGDATABASE=' . $DatabaseName);

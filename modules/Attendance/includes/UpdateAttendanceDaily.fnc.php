@@ -5,8 +5,8 @@ function UpdateAttendanceDaily($student_id,$date='',$comment=false)
 	if(!$date)
 		$date = DBDate();
 
-	//modif Francois: days numbered
-	//modif Francois: multiple school periods for a course period
+	//FJ days numbered
+	//FJ multiple school periods for a course period
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 	{
 		$sql = "SELECT

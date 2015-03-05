@@ -3,7 +3,7 @@
 function Currency($num,$sign='before',$red=false)
 {
 	$original = $num;
-	//modif Francois: Bugfix Currency direct call via $extra['functions']
+	//FJ Bugfix Currency direct call via $extra['functions']
 	if($sign=='CR' && $num<0)
 	{
 		$cr = true;

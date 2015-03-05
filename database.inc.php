@@ -1,5 +1,5 @@
 <?php
-//modif Francois: remove DatabaseType (oracle and mysql cases)
+//FJ remove DatabaseType (oracle and mysql cases)
 
 // Establish DB connection.
 function db_start()
@@ -234,7 +234,7 @@ function db_show_error($sql,$failnote,$additional='')
 
 	if($RosarioNotifyAddress)
 	{
-		//modif Francois: add SendEmail function
+		//FJ add SendEmail function
 		include('ProgramFunctions/SendEmail.fnc.php');
 		
 		$message = "System: ".ParseMLField(Config('TITLE'))." \n";

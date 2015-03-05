@@ -7,11 +7,11 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	$table = $_REQUEST['table'];
 	foreach($_REQUEST['tables'] as $id=>$columns)
 	{
-//modif Francois: fix SQL bug invalid sort order
-//modif Francois: fix SQL bug invalid display columns
+//FJ fix SQL bug invalid sort order
+//FJ fix SQL bug invalid display columns
 		if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['COLUMNS']) || is_numeric($columns['COLUMNS'])))
 		{
-			//modif Francois: added SQL constraint TITLE is not null
+			//FJ added SQL constraint TITLE is not null
 			if ((!isset($columns['TITLE']) || !empty($columns['TITLE'])))
 			{
 				if($id!='new')
@@ -76,7 +76,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 							case 'textarea':
 								DBQuery("ALTER TABLE STAFF ADD CUSTOM_$id VARCHAR(5000)");
-								$create_index = false; //modif Francois: SQL bugfix index row size exceeds maximum 2712 for index
+								$create_index = false; //FJ SQL bugfix index row size exceeds maximum 2712 for index
 							break;
 						}
 						if ($create_index)
@@ -158,7 +158,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 if(empty($_REQUEST['modfunc']))
 
 {
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 	if(isset($error)) 
 		echo ErrorMessage($error);
 		
@@ -208,7 +208,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
 
-//modif Francois: field name required
+//FJ field name required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</TD>';
 
 		// You can't change a user field type after it has been created
@@ -269,7 +269,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
 
-//modif Francois: title required
+//FJ title required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':'')) . '</TD>';
 
 		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['category_id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</TD>';

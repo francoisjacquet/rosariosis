@@ -16,13 +16,13 @@ include 'ProgramFunctions/_makeLetterGrade.fnc.php';
 if(!$_REQUEST['assignment_id'])
 	$_REQUEST['assignment_id'] = 'totals';
 
-//modif Francois: fix errors relation «course_weights» doesnt exist & columns c.grad_subject_id & cp.does_grades & cp.does_gpa do not exist
+//FJ fix errors relation «course_weights» doesnt exist & columns c.grad_subject_id & cp.does_grades & cp.does_gpa do not exist
 //$course_id = DBGet(DBQuery("SELECT c.GRAD_SUBJECT_ID,cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHORT_NAME AS COURSE_NUM,cw.CREDITS,cw.GPA_MULTIPLIER,cp.DOES_GRADES,cp.GRADE_SCALE_ID,cp.DOES_GPA as AFFECTS_GPA FROM COURSE_PERIODS cp,COURSES c,COURSE_WEIGHTS cw WHERE cw.COURSE_ID=cp.COURSE_ID AND cw.COURSE_WEIGHT=cp.COURSE_WEIGHT AND c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
 $course_id = DBGet(DBQuery("SELECT cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHORT_NAME AS COURSE_NUM,cp.GRADE_SCALE_ID FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
 $grade_scale_id = $course_id[1]['GRADE_SCALE_ID'];
 $course_id = $course_id[1]['COURSE_ID'];
 
-//modif Francois: fix error column scale_id doesnt exist
+//FJ fix error column scale_id doesnt exist
 //$grades_RET = DBGet(DBQuery("SELECT ID,TITLE FROM REPORT_CARD_GRADES WHERE SCALE_ID='".$grade_scale_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 $grades_RET = DBGet(DBQuery("SELECT ID,TITLE,GPA_VALUE FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID='".$grade_scale_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY GPA_VALUE"));
 $grades = array();
@@ -32,7 +32,7 @@ foreach($grades_RET as $grade)
 }
 //$grades[] = _('N/A');
 
-//modif Francois: fix error column USERNAME doesnt exist
+//FJ fix error column USERNAME doesnt exist
 //$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USERNAME='".User('USERNAME')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 $config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 if(count($config_RET))
@@ -156,7 +156,7 @@ if($category_RET[1]['TYPE']=='select' || true)
 
 if($_REQUEST['chart_type']!='list')
 {
-//modif Francois: jqplot charts
+//FJ jqplot charts
 ?>
 	<script>
 <?php
@@ -183,7 +183,7 @@ if($_REQUEST['chart_type']!='list')
 				
 	}
 	echo $jsData;
-	//modif Francois: responsive labels: limit label to 20 char max.
+	//FJ responsive labels: limit label to 20 char max.
 ?>
 		if (screen.width<768)
 		{
@@ -230,8 +230,8 @@ if(empty($_REQUEST['modfunc']))
 		else
 		{
 			$_REQUEST['modfunc'] = 'SendChartData';
-//modif Francois: jqplot charts
-//modif Francois: colorbox
+//FJ jqplot charts
+//FJ colorbox
 ?>
 			<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />

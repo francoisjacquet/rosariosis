@@ -249,7 +249,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 			if(User('PROFILE')!='student')
 				$sql = "SELECT sy.SYEAR FROM SCHOOLS sy,STAFF s WHERE sy.ID='".UserSchool()."' AND s.SYEAR=sy.SYEAR AND (s.SCHOOLS IS NULL OR position(','||sy.ID||',' IN s.SCHOOLS)>0) AND s.USERNAME=(SELECT USERNAME FROM STAFF WHERE STAFF_ID='".$_SESSION['STAFF_ID']."')";
 			else
-				//modif Francois: limit school years to the years the student was enrolled
+				//FJ limit school years to the years the student was enrolled
 				//$sql = "SELECT DISTINCT sy.SYEAR FROM SCHOOLS sy,STUDENT_ENROLLMENT s WHERE s.SYEAR=sy.SYEAR";
 				$sql = "SELECT DISTINCT sy.SYEAR FROM SCHOOLS sy,STUDENT_ENROLLMENT s WHERE s.SYEAR=sy.SYEAR AND s.STUDENT_ID='".UserStudentID()."'";
 
@@ -288,13 +288,13 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					$mp_array[] = $quarter['MARKING_PERIOD_ID'];			
 				endforeach;
 				
-				//modif Francois: reset UserMP if invalid
+				//FJ reset UserMP if invalid
 				if(!UserMP() || !in_array(UserMP(), $mp_array))
 				{
 					$_SESSION['UserMP'] = $RET[1]['MARKING_PERIOD_ID'];
 				}
 
-			//modif Francois: error if no quarters
+			//FJ error if no quarters
 			} else { ?>
 				<OPTION value=""><?php echo _('Error').': '._('No quarters found'); ?></OPTION>
 			<?php } ?>
@@ -306,13 +306,13 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 
 			</span>
 
-			<?php	//modif Francois: error if no quarters
+			<?php	//FJ error if no quarters
 				if (!count($RET))
 					$all_MP = '0';
 				else
 					$all_MP = GetAllMP('QTR',UserMP());
 
-				//modif Francois: multiple school periods for a course period
+				//FJ multiple school periods for a course period
 				//$QI = DBQuery("SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cp.DAYS,c.TITLE AS COURSE_TITLE FROM COURSE_PERIODS cp, SCHOOL_PERIODS sp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.TEACHER_ID='".User('STAFF_ID')."' AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") ORDER BY sp.SORT_ORDER");
 				$QI = DBQuery("SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,c.TITLE AS COURSE_TITLE, cp.SHORT_NAME AS CP_SHORT_NAME 
 				FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSES c,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
@@ -342,7 +342,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 				<?php $optgroup = FALSE;
 				foreach($RET as $period)
 				{
-					//modif Francois: add optroup to group periods by course periods
+					//FJ add optroup to group periods by course periods
 					if (!empty($period['COURSE_TITLE']) && $optgroup!=$period['COURSE_TITLE']) : //new optgroup ?>
 
 						<optgroup label="<?php echo htmlspecialchars($optgroup = $period['COURSE_TITLE']); ?>">
@@ -364,9 +364,9 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					else
 						$selected = '';
 
-					//modif Francois: days display to locale						
+					//FJ days display to locale
 					$days_convert = array('U'=>_('Sunday'),'M'=>_('Monday'),'T'=>_('Tuesday'),'W'=>_('Wednesday'),'H'=>_('Thursday'),'F'=>_('Friday'),'S'=>_('Saturday'));
-					//modif Francois: days numbered
+					//FJ days numbered
 					if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 						$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
 					

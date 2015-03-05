@@ -1,5 +1,5 @@
 <?php
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 
 //core_notes_create_notes function
 function core_notes_create_notes_object()

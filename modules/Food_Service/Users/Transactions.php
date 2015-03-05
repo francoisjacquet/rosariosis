@@ -58,7 +58,7 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 
 	DrawHeader('',ResetButton(_('Cancel')).SubmitButton(_('Save'),'save'));
 
-//modif Francois: fix bug no balance
+//FJ fix bug no balance
 //	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($staff['BALANCE']),_('Balance')));
 
@@ -70,7 +70,7 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 		AND fst.STAFF_ID='".UserStaffID()."' 
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1 
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
-//modif Francois: add translation
+//FJ add translation
 		function types_locale($type) {
 			$types = array('Deposit'=>_('Deposit'),'Credit'=>_('Credit'),'Debit'=>_('Debit'));
 			if (array_key_exists($type, $types)) {

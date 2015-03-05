@@ -45,7 +45,7 @@ if($_REQUEST['category_id'])
 		$extra['GROUP'] = 'CUSTOM_'.intval($_REQUEST['category_id']);
 		$extra['group'] = array('TITLE');
 		//Widgets('all');
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 		$extra['WHERE'] = appendSQL('');
 		$extra['WHERE'] .= CustomFields('where');
 		$totals_RET = GetStuList($extra);
@@ -62,7 +62,7 @@ if($_REQUEST['category_id'])
 	{
 		$extra['SELECT_ONLY'] = "CUSTOM_".intval($_REQUEST['category_id'])." AS TITLE ";
 		//Widgets('all');
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 		$extra['WHERE'] = appendSQL('');
 		$extra['WHERE'] .= CustomFields('where');
 		$student_RET = GetStuList($extra);
@@ -87,7 +87,7 @@ if($_REQUEST['category_id'])
 		$extra['GROUP'] = 'CUSTOM_'.intval($_REQUEST['category_id']);
 		$extra['group'] = array('TITLE');
 		//Widgets('all');		
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 		$extra['WHERE'] = appendSQL('');
 		$extra['WHERE'] .= CustomFields('where');
 		$totals_RET = GetStuList($extra);
@@ -101,10 +101,10 @@ if($_REQUEST['category_id'])
 	{
 
 		$extra['SELECT_ONLY'] = "COALESCE(max(CUSTOM_".intval($_REQUEST['category_id'])."),0) as MAX,COALESCE(min(CUSTOM_".intval($_REQUEST['category_id'])."),0) AS MIN ";
-		//modif Francois: remove NULL entries
+		//FJ remove NULL entries
 		$extra['WHERE'] = "AND CUSTOM_".intval($_REQUEST['category_id'])." IS NOT NULL";
 		//Widgets('all');
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
 
 		$extra['WHERE'] .= CustomFields('where');
@@ -114,7 +114,7 @@ if($_REQUEST['category_id'])
 
 		if($diff>10 && $_REQUEST['chart_type']!='column')
 		{
-//modif Francois: correct numeric chart
+//FJ correct numeric chart
 			for($i=1;$i<=10;$i++)
 			{
 				/*$chart['chart_data'][0][$i] = (ceil($diff/5)*($i-1)).' - '.((ceil($diff/5)*$i)-1);
@@ -127,7 +127,7 @@ if($_REQUEST['category_id'])
 			//$chart['chart_data'][0][$i-1] = ($max_min_RET[1]['MIN'] + (ceil($diff/5)*($i-2))).'+';
 			$mins[$i] = (ceil($diff/10)*($i-1));
 		} 
-		else //modif Francois: transform column chart in line chart
+		else //FJ transform column chart in line chart
 		{ 
 			$chartline = true;
 		}
@@ -135,20 +135,20 @@ if($_REQUEST['category_id'])
 		$extra['SELECT_ONLY'] = "CUSTOM_".intval($_REQUEST['category_id'])." AS TITLE";
 		$extra['WHERE'] = " AND CUSTOM_".intval($_REQUEST['category_id'])." IS NOT NULL ";
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
 
 		$extra['WHERE'] .= CustomFields('where');
 		//Widgets('all');
 		$referrals_RET = GetStuList($extra);
-		if (!$referrals_RET) //modif Francois: bugfix no results for numeric fields chart 
+		if (!$referrals_RET) //FJ bugfix no results for numeric fields chart 
 			$chart['chart_data'][0][0] = $chart['chart_data'][1][0] = 0;
 	}
 strip_tags(str_replace('<BR />',"\n",$_ROSARIO['SearchTerms']));
 		
 	if($_REQUEST['chart_type']!='list')
 	{
-//modif Francois: jqplot charts
+//FJ jqplot charts
 ?>
 		<script>
 <?php
@@ -195,7 +195,7 @@ strip_tags(str_replace('<BR />',"\n",$_ROSARIO['SearchTerms']));
 					
 		}
 		echo $jsData;
-		//modif Francois: responsive labels: limit label to 20 char max.
+		//FJ responsive labels: limit label to 20 char max.
 ?>
 			if (screen.width<768)
 			{
@@ -225,7 +225,7 @@ if(!$_REQUEST['modfunc'])
 	{
 		foreach($fields_RET as $category_id=>$fields)
 		{
-//modif Francois: add translation
+//FJ add translation
 //			$select .= '<OPTGROUP label="'.$categories_RET[$category_id][1]['TITLE'].'">';
 			$select .= '<OPTGROUP label="'.ParseMLField($categories_RET[$category_id][1]['TITLE']).'">';
 			foreach($fields as $field)
@@ -262,8 +262,8 @@ if(!$_REQUEST['modfunc'])
 		else
 		{
 			$_REQUEST['modfunc'] = 'SendChartData';
-//modif Francois: jqplot charts
-//modif Francois: colorbox
+//FJ jqplot charts
+//FJ colorbox
 ?>			
 			<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
@@ -272,7 +272,7 @@ if(!$_REQUEST['modfunc'])
 				var chartTitle = <?php echo json_encode(sprintf(_('%s Breakdown'),ParseMLField($category_RET[1]['TITLE'])).$_ROSARIO['SearchTerms']); ?>;
 			</script>
 <?php
-			if (isset($chartline)) //modif Francois: line chart
+			if (isset($chartline)) //FJ line chart
 			{
 ?>
 				<script src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>

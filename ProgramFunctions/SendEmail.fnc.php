@@ -1,6 +1,6 @@
 <?php
 
-//modif Francois: add SendEmail function
+//FJ add SendEmail function
 
 // $from: if empty, defaults to rosariosis@[yourserverdomain]
 // $cc: Carbon Copy, comma separated list of emails
@@ -10,7 +10,7 @@
 /*
 	if($RosarioNotifyAddress)
 	{
-		//modif Francois: add SendEmail function
+		//FJ add SendEmail function
 		include('ProgramFunctions/SendEmail.fnc.php');
 		
 		$message = "System: ".ParseMLField(Config('TITLE'))." \n";
@@ -28,7 +28,7 @@
 
 function SendEmail($to, $subject, $message, $from = null, $cc = null)
 {	
-	//modif Francois: add email headers
+	//FJ add email headers
 	if (empty($from))
 	{
 		// Get the site domain and get rid of www.

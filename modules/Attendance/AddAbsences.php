@@ -1,5 +1,5 @@
 <?php
-//modif Francois: move Attendance.php from functions/ to modules/Attendance/includes
+//FJ move Attendance.php from functions/ to modules/Attendance/includes
 require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 
 if(!$_REQUEST['month'])
@@ -37,8 +37,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			{
 				$current_mp = GetCurrentMP('QTR',$date);
 				$all_mp = GetAllMP('QTR',$current_mp);
-				//modif Francois: days numbered
-				//modif Francois: multiple school periods for a course period
+				//FJ days numbered
+				//FJ multiple school periods for a course period
 				if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 				{
 					$course_periods_RET = DBGet(DBQuery("SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY 
@@ -117,11 +117,11 @@ if(empty($_REQUEST['modfunc']))
 
 		echo '<BR />';
 
-//modif Francois: css WPadmin
+//FJ css WPadmin
 		echo '<TABLE class="postbox cellpadding-5 col1-align-right center"><TR><TD>'._('Add Absence to Periods').'</TD>';
 		echo '<TD><TABLE><TR>';
 
-		//modif Francois: multiple school periods for a course period
+		//FJ multiple school periods for a course period
 		//$periods_RET = DBGet(DBQuery("SELECT SHORT_NAME,PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN DOES_ATTENDANCE)>0) ORDER BY SORT_ORDER"));
 		$periods_RET = DBGet(DBQuery("SELECT SHORT_NAME,PERIOD_ID 
 		FROM SCHOOL_PERIODS 
@@ -130,7 +130,7 @@ if(empty($_REQUEST['modfunc']))
 		AND EXISTS (SELECT '' FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp, COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0) 
 		ORDER BY SORT_ORDER"));
 		foreach($periods_RET as $period)
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 			echo '<TD><label><INPUT type="CHECKBOX" value="Y" name="period['.$period['PERIOD_ID'].']"> '.$period['SHORT_NAME'].'</label></TD>';
 		echo '</TR></TABLE></TD>';
 

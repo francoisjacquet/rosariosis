@@ -50,13 +50,13 @@ if(empty($_REQUEST['modfunc']))
 		foreach($custom_fields_RET as $field)
 			$LO_columns += array('CUSTOM_'.$field['ID']=>ParseMLField($field['TITLE']));
 		
-//modif Francois: disable mailing address display
+//FJ disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
 			$LO_columns += array('ADDRESS'=>_('Street'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode'),'PHONE'=>_('Phone'),'MAIL_ADDRESS'=>_('Mailing Street'),'MAIL_CITY'=>_('Mailing City'),'MAIL_STATE'=>_('Mailing State'),'MAIL_ZIPCODE'=>_('Mailing Zipcode'));
 		else
 			$LO_columns += array('ADDRESS'=>_('Street'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode'),'PHONE'=>_('Phone'));
 		foreach($address_fields_RET as $field)
-//modif Francois: add translation
+//FJ add translation
 			$LO_columns += array('ADDRESS_'.$field['ID']=>ParseMLField($field['TITLE']));
 		$LO_columns += array('PERSON_NAME'=>_('Person Name'));
 		foreach($people_fields_RET as $field)

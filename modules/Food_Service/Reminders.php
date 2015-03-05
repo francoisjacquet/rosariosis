@@ -6,7 +6,7 @@ else
 
 if($_REQUEST['modfunc']!='save')
 {
-	//modif Francois: remove DrawTab params
+	//FJ remove DrawTab params
 	$header .= '<a href="Modules.php?modname='.$_REQUEST['modname'].'&type=student"><b>'._('Students').'</b></a>';
 	$header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&type=staff"><b>'._('Users').'</b></a>';
 

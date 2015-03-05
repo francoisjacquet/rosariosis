@@ -13,13 +13,13 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		{
 			foreach($_REQUEST['values'] as $id=>$columns)
 			{
-		//modif Francois: fix SQL bug invalid sort order
+		//FJ fix SQL bug invalid sort order
 				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 				{
 					if($id!='new')
 					{
-						//modif Francois: fix SQL bug PRICE_STAFF & PRICE not null
-						//modif Francois: fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
+						//FJ fix SQL bug PRICE_STAFF & PRICE not null
+						//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
 						if ($_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_FREE']) || is_numeric($columns['PRICE_FREE'])) && (empty($columns['PRICE_REDUCED']) || is_numeric($columns['PRICE_REDUCED'])) && (empty($columns['PRICE_STAFF']) || is_numeric($columns['PRICE_STAFF'])) && (empty($columns['PRICE']) || is_numeric($columns['PRICE']))))
 						{
 							if($_REQUEST['tab_id']!='new')
@@ -72,8 +72,8 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 						if($go)
-							//modif Francois: fix SQL bug PRICE_STAFF & PRICE not null
-							//modif Francois: fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
+							//FJ fix SQL bug PRICE_STAFF & PRICE not null
+							//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
 							if ($_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_FREE']) || is_numeric($columns['PRICE_FREE'])) && (empty($columns['PRICE_REDUCED']) || is_numeric($columns['PRICE_REDUCED'])) && is_numeric($columns['PRICE_STAFF']) && is_numeric($columns['PRICE']) ))
 								DBQuery($sql);
 							else
@@ -92,7 +92,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if($_REQUEST['tab_id']!='new')
 	{
-//modif Francois: add translation
+//FJ add translation
 		if(DeletePromptX(_('Meal Item')))
 			DBQuery("DELETE FROM FOOD_SERVICE_MENU_ITEMS WHERE MENU_ID='".$_REQUEST['tab_id']."' AND MENU_ITEM_ID='".$_REQUEST['menu_item_id']."'");
 	}
@@ -163,7 +163,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 
-//modif Francois: add translation
+//FJ add translation
 		$singular = sprintf(_('%s Item'), $menus_RET[$_REQUEST['tab_id']][1]['TITLE']);
 		$plural = sprintf(_('%s Items'), $menus_RET[$_REQUEST['tab_id']][1]['TITLE']);
 	}
@@ -206,7 +206,7 @@ if(empty($_REQUEST['modfunc']))
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 	echo '<BR />';
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 	if(isset($error)) echo ErrorMessage($error);
 
 	$extra = array('save'=>false,'search'=>false,
@@ -215,7 +215,7 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['tab_id']!='new')
 		ListOutput($LO_ret,$LO_columns,$singular,$plural,$link,array(),$extra);
 	else
-//modif Francois: add translation
+//FJ add translation
 		ListOutput($LO_ret,$LO_columns,'Meal Item','Meal Items',$link,array(),$extra);
 
 	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';

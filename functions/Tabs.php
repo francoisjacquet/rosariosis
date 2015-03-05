@@ -4,7 +4,7 @@ function WrapTabs($tabs,$selected='',&$selected_key='')
 {
 		$row = 0;
      	$characters = 0;
-//modif Francois: css WPadmin
+//FJ css WPadmin
 	if(count($tabs))
 	{
 		$rows[0] = '<div class="h3multi">';
@@ -33,7 +33,7 @@ function WrapTabs($tabs,$selected='',&$selected_key='')
 
 	for($key=$row_count;$key>=0;$key--)
 	{
-//modif Francois: remove ereg
+//FJ remove ereg
 //		if(!ereg("<!--BOTTOM-->",$rows[$key]))
 		if(mb_strpos($rows[$key],"<!--BOTTOM-->")===FALSE)
 		{
@@ -48,7 +48,7 @@ function WrapTabs($tabs,$selected='',&$selected_key='')
 	return $table;
 }
 
-//modif Francois: remove DrawTab params
+//FJ remove DrawTab params
 //function DrawTab($title,$link='',$tabcolor='',$textcolor='#FFFFFF',$type='',$rollover='')
 function DrawTab($title,$link='',$h3selected=false)
 {
@@ -58,7 +58,7 @@ function DrawTab($title,$link='',$h3selected=false)
 /*	if(!$tabcolor)
 		$tabcolor = Preferences('HEADER');*/
 
-//modif Francois: css WPadmin
+//FJ css WPadmin
 	if($link && !isset($_REQUEST['_ROSARIO_PDF']))
 		$block_table .= '<h3'.($h3selected ? ' class="title"' : '').'><A HREF="'.$link.'" class="BoxHeading" id="tab_link['.preg_replace('/[^a-zA-Z0-9]/','_',$link).']">'._($title).'</A></h3>';
 	else

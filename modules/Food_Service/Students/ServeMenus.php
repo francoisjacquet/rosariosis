@@ -9,7 +9,7 @@ if ($_REQUEST['modfunc']=='submit')
 {
 	if ($_REQUEST['submit']['cancel'])
 	{
-//modif Francois: add translation
+//FJ add translation
 		if (DeletePromptX(_('Sale'),_('Cancel')))
 			unset($_SESSION['FSA_sale']);
 	}
@@ -92,7 +92,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 		ListOutput($RET,$columns,$singular,$plural,$link,false,array('save'=>false,'search'=>false));
 
 		// IMAGE
-//modif Francois: fix error Warning: fclose() expects parameter 1 to be resource, boolean given
+//FJ fix error Warning: fclose() expects parameter 1 to be resource, boolean given
 		if(file_exists($picture=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg') || file_exists($picture=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg'))
 			echo '</TD><TD rowspan="2"><IMG SRC="'.$picture.'" width="150" />';
 
@@ -111,7 +111,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 			$items += array($sn=>$item[1]['DESCRIPTION']);
 
 		$LO_ret = array(array());
-//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+//FJ fix error Warning: Invalid argument supplied for foreach()
 		if (isset($_SESSION['FSA_sale']) && is_array($_SESSION['FSA_sale']))
 		{
 			foreach($_SESSION['FSA_sale'] as $id=>$item_sn)
@@ -133,7 +133,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 
 		$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&menu_id='.$_REQUEST['menu_id'],
 					'variables'=>array('id'=>'SALE_ID'));
-//modif Francois: css WPadmin
+//FJ css WPadmin
 //		$link['add']['html'] = array('DESCRIPTION'=>'<TABLE class="cellspacing-0"><TR><TD>'.SelectInput('','item_sn','',$items).'</TD></TR></TABLE>','ICON'=>'<TABLE class="cellspacing-0"><TR><TD><INPUT type=submit value='._('Add').'></TD></TR></TABLE>','remove'=>button('add'));
 		$link['add']['html'] = array('DESCRIPTION'=>SelectInput('','item_sn','',$items),'ICON'=>SubmitButton(_('Add')),'PRICE'=>'&nbsp;','remove'=>button('add'));
 		$columns = array('DESCRIPTION'=>_('Item'),'ICON'=>_('Icon'),'PRICE'=>_('Price'));

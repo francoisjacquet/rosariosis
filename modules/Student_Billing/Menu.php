@@ -22,7 +22,7 @@ $menu['Student_Billing']['admin'] = array(
 						'Student_Billing/DailyTransactions.php'=>_('Daily Transactions'),
 						'Student_Billing/Statements.php'=>_('Print Statements')
 					);
-//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+//FJ fix error Warning: Invalid argument supplied for foreach()
 $menu['Student_Billing']['teacher'] = array();
 
 $menu['Student_Billing']['parent'] = array(
@@ -31,7 +31,7 @@ $menu['Student_Billing']['parent'] = array(
 						'Student_Billing/StudentPayments.php'=>_('Payments'),
 						1=>_('Reports'),
 						'Student_Billing/DailyTransactions.php'=>_('Daily Transactions'),
-//modif Francois: fix bug PDF
+//FJ fix bug PDF
 						'Student_Billing/Statements.php&_ROSARIO_PDF'=>_('Print Statements')
 					);
 

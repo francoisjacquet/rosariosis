@@ -1,5 +1,5 @@
 <?php
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 
 
 //core_user_update_users function

@@ -64,7 +64,7 @@ if($_REQUEST['modfunc']!='choose_course')
 		echo '<TR><TD>'._('With').'</TD><TD>';
 
 		echo '<TABLE><TR class="st"><TD>'._('Teacher').'</TD><TD><SELECT name="with_teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
-		//modif Francois: fix bug teacher's schools is NULL
+		//FJ fix bug teacher's schools is NULL
 		//$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE SCHOOLS LIKE '%,".UserSchool().",%' AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
 		$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS LIKE '%,".UserSchool().",%' OR SCHOOLS IS NULL) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
 
@@ -124,7 +124,7 @@ if(empty($_REQUEST['modfunc']))
 if($_REQUEST['modfunc']=='choose_course')
 {
 
-//modif Francois: fix bug window closed
+//FJ fix bug window closed
 	if(!$_REQUEST['course_id'])
 		include 'modules/Scheduling/Courses.php';
 	else

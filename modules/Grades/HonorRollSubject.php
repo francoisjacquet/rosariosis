@@ -6,10 +6,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if(count($_REQUEST['st_arr']))
 	{
-		//modif Francois: bypass strip_tags on the $_REQUEST vars
+		//FJ bypass strip_tags on the $_REQUEST vars
 		$REQUEST_honor_roll_text = GetRawPOSTvar('honor_roll_text');
 		
-		//modif Francois: add Template
+		//FJ add Template
 		$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
 		if (!$template_update)
 			DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_honor_roll_text."')");
@@ -69,7 +69,7 @@ if(empty($_REQUEST['modfunc']))
 
 	if($_REQUEST['search_modfunc']=='list')
 	{
-		//modif Francois: add TinyMCE to the textarea
+		//FJ add TinyMCE to the textarea
 		?>
 <!-- Load TinyMCE -->
 <script src="assets/js/tiny_mce_3.5.8_jquery/jquery.tinymce.js"></script>
@@ -116,9 +116,9 @@ if(empty($_REQUEST['modfunc']))
 		$extra['header_right'] = SubmitButton(_('Create Honor Roll by Subject for Selected Students'));
 
 		$extra['extra_header_left'] = '<TABLE>';
-//modif Francois: add TinyMCE to the textarea
+//FJ add TinyMCE to the textarea
 		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Text').'</TD><TD><TEXTAREA name="honor_roll_text" class="tinymce">';
-		//modif Francois: add Template
+		//FJ add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		$extra['extra_header_left'] .= str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']));
 		$extra['extra_header_left'] .= '</TEXTAREA></TD></TR>';
@@ -136,7 +136,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<TD>__CLIPART__</TD><TD>= '._('ClipArt').'</TD><TD colspan="3">&nbsp;</TD>';
 		$extra['extra_header_left'] .= '</TR></TABLE></TD></TR>';
 
-//modif Francois: add frames choice
+//FJ add frames choice
 		$frames = array();
 		if (is_dir('assets/Frames/'))
 			$frames = scandir('assets/Frames/');
@@ -155,7 +155,7 @@ if(empty($_REQUEST['modfunc']))
 		}
 		$extra['extra_header_left'] .= '</tr></table></DIV></TD></TR><TR><TD colspan="2">&nbsp;</TD></TR>';
 		
-//modif Francois: add clipart choice
+//FJ add clipart choice
 		$cliparts = array();
 		if (is_dir('assets/ClipArts/'))
 			$cliparts = scandir('assets/ClipArts/');

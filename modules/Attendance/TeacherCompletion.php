@@ -33,8 +33,8 @@ DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).' - '.$period_
 DrawHeader('',$category_select);
 echo '</FORM>';
 
-//modif Francois: days numbered
-//modif Francois: multiple school periods for a course period
+//FJ days numbered
+//FJ multiple school periods for a course period
 if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 {
 	$sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
@@ -108,7 +108,7 @@ else
 
 	$tiptitle = false;
 
-	//modif Francois: display icon for completed column
+	//FJ display icon for completed column
 	foreach($RET as $staff_id=>$periods)
 	{
 		foreach($periods as $id=>$period)

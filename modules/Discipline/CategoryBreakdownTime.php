@@ -67,7 +67,7 @@ if($_REQUEST['category_id'])
 		$extra['GROUP'] = 'CATEGORY_'.intval($_REQUEST['category_id']).',TIMEFRAME';
 		$extra['group'] = array('TITLE','TIMEFRAME');
 		//Widgets('all');
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
 
 		$extra['WHERE'] .= CustomFields('where');
@@ -93,9 +93,9 @@ if($_REQUEST['category_id'])
 			$index++;
 			if($_REQUEST['timeframe']=='month')
 			{
-				//modif Francois: bugfix data showed in the wrong month
+				//FJ bugfix data showed in the wrong month
 				$tf = str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT);//str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
-//modif Francois: add translation
+//FJ add translation
 				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
 			}
 			elseif($_REQUEST['timeframe']=='SYEAR')
@@ -119,7 +119,7 @@ if($_REQUEST['category_id'])
 		$extra['GROUP'] = 'CATEGORY_'.intval($_REQUEST['category_id']).',TIMEFRAME';
 		$extra['group'] = array('TITLE','TIMEFRAME');
 		//Widgets('all');
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
 
 		$extra['WHERE'] .= CustomFields('where');
@@ -145,7 +145,7 @@ if($_REQUEST['category_id'])
 			$index++;
 			if($_REQUEST['timeframe']=='month')
 			{
-				//modif Francois: bugfix data showed in the wrong month
+				//FJ bugfix data showed in the wrong month
 				$tf = str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT);//str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
 				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
 			}
@@ -167,7 +167,7 @@ if($_REQUEST['category_id'])
 		$extra['WHERE'] = "AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '".$start_date."' AND '".$end_date."' ";
 
 		//Widgets('all');
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
 
 		$extra['WHERE'] .= CustomFields('where');
@@ -199,7 +199,7 @@ if($_REQUEST['category_id'])
 			$index++;
 			if($_REQUEST['timeframe']=='month')
 			{
-				//modif Francois: bugfix data showed in the wrong month
+				//FJ bugfix data showed in the wrong month
 				$tf = str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT);//str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
 				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
 			}
@@ -220,7 +220,7 @@ if($_REQUEST['category_id'])
 		$extra['SELECT_ONLY'] = "COALESCE(max(CATEGORY_".intval($_REQUEST['category_id'])."),0) as MAX,COALESCE(min(CATEGORY_".intval($_REQUEST['category_id'])."),0) AS MIN ";
 		$extra['FROM'] = ',DISCIPLINE_REFERRALS dr';
 		$extra['WHERE'] = " AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '".$start_date."' AND '".$end_date."' ";
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
 
 		$extra['WHERE'] .= CustomFields('where');
@@ -244,7 +244,7 @@ if($_REQUEST['category_id'])
 			$index++;
 			if($_REQUEST['timeframe']=='month')
 			{
-				//modif Francois: bugfix data showed in the wrong month
+				//FJ bugfix data showed in the wrong month
 				$tf = str_pad(($i%12==0?12:$i%12),2,'0',STR_PAD_LEFT);//str_pad(($i-$start+1),2,'0',STR_PAD_LEFT);
 				$chart['chart_data'][$index][0] = _(ucwords(mb_strtolower(MonthNWSwitch(str_pad($i%12,2,'0',STR_PAD_LEFT),'tochar'))));
 			}
@@ -285,7 +285,7 @@ if($_REQUEST['category_id'])
 		$extra['functions'] = array('TITLE'=>'_makeNumeric');
 
 		//Widgets('all');
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 		$extra['WHERE'] .= appendSQL('',$extra);
 
 		$extra['WHERE'] .= CustomFields('where');
@@ -297,7 +297,7 @@ if($_REQUEST['category_id'])
 
 	if($_REQUEST['chart_type']!='list')
 	{
-//modif Francois: jqplot charts
+//FJ jqplot charts
 ?>
 		<script>
 <?php
@@ -339,7 +339,7 @@ if($_REQUEST['category_id'])
 			$datacolumns ++;
 		}
 		echo $jsData;
-		//modif Francois: responsive labels: limit label to 20 char max.
+		//FJ responsive labels: limit label to 20 char max.
 ?>
 			if (screen.width<768)
 			{
@@ -418,8 +418,8 @@ if(empty($_REQUEST['modfunc']))
 		else
 		{
 			$_REQUEST['modfunc'] = 'SendChartData';
-//modif Francois: jqplot charts
-//modif Francois: colorbox
+//FJ jqplot charts
+//FJ colorbox
 ?>
 			<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />

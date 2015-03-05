@@ -76,7 +76,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 		AND (fst.STUDENT_ID IS NULL OR fst.STUDENT_ID='".UserStudentID()."') 
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1 
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
-//modif Francois: add translation
+//FJ add translation
 		function types_locale($type) {
 			$types = array('Deposit'=>_('Deposit'),'Credit'=>_('Credit'),'Debit'=>_('Debit'));
 			if (array_key_exists($type, $types)) {

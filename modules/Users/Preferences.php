@@ -17,13 +17,13 @@ if($_REQUEST['values'] && $_POST['values'])
 
 		if (!isset($error))
 		{
-			//modif Francois: enable password change for students
+			//FJ enable password change for students
 			if (User('PROFILE')=='student')
 				$password_RET = DBGet(DBQuery("SELECT PASSWORD FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
 			else
 				$password_RET = DBGet(DBQuery("SELECT PASSWORD FROM STAFF WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'"));
 			
-			//modif Francois: add password encryption
+			//FJ add password encryption
 			//if(mb_strtolower($password_RET[1]['PASSWORD'])!=mb_strtolower($current_password))
 			if(!match_password($password_RET[1]['PASSWORD'],$current_password))
 				$error[] = _('Your current password was incorrect.');
@@ -113,7 +113,7 @@ if(empty($_REQUEST['modfunc']))
 	$current_RET = DBGet(DBQuery("SELECT TITLE,VALUE,PROGRAM FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM IN ('Preferences','StudentFieldsSearch','StudentFieldsView','WidgetsSearch','StaffFieldsSearch','StaffFieldsView','StaffWidgetsSearch') "),array(),array('PROGRAM','TITLE'));
 
 	if(!$_REQUEST['tab'])
-	//modif Francois: enable password change for students
+	//FJ enable password change for students
 		//$_REQUEST['tab'] = 'display_options';
 		$_REQUEST['tab'] = 'password';
 
@@ -134,7 +134,7 @@ if(empty($_REQUEST['modfunc']))
 	{
 		$tabs = array(array('title'=>_('Display Options'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=display_options'),array('title'=>_('Print Options'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=print_options'),array('title'=>_('Password'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=password'),array('title'=>_('Student Fields'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=student_fields'));
 	}
-	//modif Francois: enable password change for students
+	//FJ enable password change for students
 	else
 	{
 		$tabs = array(array('title'=>_('Password'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=password'));
@@ -143,24 +143,24 @@ if(empty($_REQUEST['modfunc']))
 	$_ROSARIO['selected_tab'] = 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab='.$_REQUEST['tab'];
 	if (!in_array($_REQUEST['tab'], array('student_fields','staff_fields')))
 		PopTable('header',$tabs);
-	else //modif Francois: Responsive student/staff fields preferences
+	else //FJ Responsive student/staff fields preferences
 		$LO_options['header'] = WrapTabs($tabs,$_ROSARIO['selected_tab']);
 
 	if($_REQUEST['tab']=='student_listing')
 	{
 		echo '<TABLE>';
-//modif Francois: add <label> on radio
+//FJ add <label> on radio
 		echo '<TR class="st"><TD style="vertical-align: top;"><span class="legend-gray">'._('Student Sorting').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][SORT]" value="Name"'.((Preferences('SORT')=='Name')?' checked':'').'> '._('Name').'</label><BR /><label><INPUT type="radio" name="values[Preferences][SORT]" value="Grade"'.((Preferences('SORT')=='Grade')?' checked':'').'> '._('Grade Level').', '.
 		_('Name').'</label></TD></TR>';
 		echo '<TR class="st"><TD style="vertical-align: top;"><span class="legend-gray">'._('File Export Type').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][DELIMITER]" value="Tab"'.((Preferences('DELIMITER')=='Tab')?' checked':'').'> '._('Tab-Delimited (Excel)').'</label><BR /><label><INPUT type="radio" name="values[Preferences][DELIMITER]" value="CSV"'.((Preferences('DELIMITER')=='CSV')?' checked':'').'> CSV (OpenOffice)</label></TD></TR>';
 		echo '<TR class="st"><TD style="vertical-align: top;"><span class="legend-gray">'._('Date Export Format').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][E_DATE]" value=""'.((Preferences('E_DATE')=='')?' checked':'').'> '._('Display Options Format').'</label><BR /><label><INPUT type="radio" name="values[Preferences][E_DATE]" value="MM/DD/YYYY"'.((Preferences('E_DATE')=='MM/DD/YYYY')?' checked':'').'> MM/DD/YYYY</label></TD></TR>';
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 		echo '<TR><TD><BR /></TD><TD><BR /></TD>';
 		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name=values[Preferences][SEARCH] value="Y"'.((Preferences('SEARCH')=='Y')?' checked':'').'> '._('Display student search screen').'</label></TD></TR>';
 		if(User('PROFILE')=='admin')
 		{
 			echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][DEFAULT_FAMILIES]" value="Y"'.((Preferences('DEFAULT_FAMILIES')=='Y')?' checked':'').'> '._('Group by family by default').'</label></TD></TR>';
-//modif Francois: if only one school, no Search All Schools option
+//FJ if only one school, no Search All Schools option
 			if (SchoolInfo('SCHOOLS_NB') > 1)
 				echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][DEFAULT_ALL_SCHOOLS]" value="Y"'.((Preferences('DEFAULT_ALL_SCHOOLS')=='Y')?' checked':'').'> '._('Search all schools by default').'</label></TD></TR>';
 		}
@@ -184,7 +184,7 @@ if(empty($_REQUEST['modfunc']))
 		}
 		echo '</TR></TABLE></TD></TR>';
 		
-//modif Francois: css WPadmin
+//FJ css WPadmin
 //		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
 		echo '<TR class="st"><TD><span class="legend-gray">'._('Highlight Color').'</span></TD><TD><TABLE><TR>';
@@ -192,10 +192,10 @@ if(empty($_REQUEST['modfunc']))
 			echo '<TD style="background-color:'.$color.';"><INPUT type="radio" name="values[Preferences][HIGHLIGHT]" value="'.$color.'"'.((Preferences('HIGHLIGHT')==$color)?' checked':'').'></TD>';
 		echo '</TR></TABLE></TD></TR>';
 
-//modif Francois: css WPadmin
+//FJ css WPadmin
 
 		echo '<TR class="st"><TD><span class="legend-gray">'._('Date Format').'</span></TD><TD><SELECT name="values[Preferences][MONTH]">';
-		//modif Francois: display locale with strftime()
+		//FJ display locale with strftime()
 		$values = array('%B','%b','%m');
 
 		foreach($values as $value)
@@ -248,8 +248,8 @@ if(empty($_REQUEST['modfunc']))
 
 	if($_REQUEST['tab']=='password')
 	{
-//modif Francois: password fields are required
-//modif Francois: Moodle integrator / password
+//FJ password fields are required
+//FJ Moodle integrator / password
 		echo '<TABLE><TR class="st"><TD><span class="legend-gray">'._('Current Password').'</span></TD><TD><INPUT type="password" name="values[current]" required></TD></TR><TR class="st"><TD><span class="legend-gray">'.($RosarioPlugins['Moodle']?'<SPAN title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'" style="cursor:help">':'')._('New Password').($RosarioPlugins['Moodle']?'*</SPAN>':'').'</span></TD><TD><INPUT type="password" name="values[verify]" required></TD></TR><TR class="st"><TD><span class="legend-gray">'._('Verify New Password').'</span></TD><TD><INPUT type="password" name="values[new]" required></TD></TR></TABLE>';
 	}
 
@@ -290,7 +290,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$custom_fields_RET[0][] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=> button('house', '', '', 'bigger') .' '._('Residence'),'DISPLAY'=>_makeAddress('RESIDENCE'));
 
-//modif Francois: disable mailing address display
+//FJ disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
 			$custom_fields_RET[0][] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=> button('mailbox', '', '', 'bigger') .' '._('Mailing'),'DISPLAY'=>_makeAddress('MAILING'));
 
@@ -336,7 +336,7 @@ if(empty($_REQUEST['modfunc']))
 
 		echo '<INPUT type="hidden" name="values[WidgetsSearch]" />';
 		$columns = array('TITLE'=>_('Widget'),'WIDGET'=>_('Search'));
-		//modif Francois: no responsive table
+		//FJ no responsive table
 		$LO_options = array('responsive' => false);
 		ListOutput($widgets_RET,$columns,'.','.',array(),array(),$LO_options);
 	}
@@ -363,7 +363,7 @@ if(empty($_REQUEST['modfunc']))
             }
 		echo '<INPUT type="hidden" name="values[StaffFieldsSearch]" /><INPUT type="hidden" name="values[StaffFieldsView]" />';
 		$columns = array('CATEGORY'=>'','TITLE'=>_('Field'),'STAFF_SEARCH'=>_('Search'),'STAFF_DISPLAY'=>_('Expanded View'));
-		//modif Francois: no responsive table
+		//FJ no responsive table
 		ListOutput($custom_fields_RET,$columns,'User Field','User Fields',array(),array(array('CATEGORY')),$LO_options);
 	}
 
@@ -385,7 +385,7 @@ if(empty($_REQUEST['modfunc']))
 
 		echo '<INPUT type="hidden" name="values[StaffWidgetsSearch]" />';
 		$columns = array('TITLE'=>_('Widget'),'STAFF_WIDGET'=>_('Search'));
-		//modif Francois: no responsive table
+		//FJ no responsive table
 		$LO_options = array('responsive' => false);
 		ListOutput($widgets_RET,$columns,'.','.',array(),array(),$LO_options);
 	}

@@ -19,7 +19,7 @@ function Widgets($item,&$myextra=null)
 			case 'all':
 				$extra['search'] .= '<TR><TD colspan="2"><TABLE class="width-100p">';
 
-				//modif Francois: regroup widgets wrap
+				//FJ regroup widgets wrap
 				$widget_wrap_header = function($title)
 				{
 					return '<TR><TD colspan="2">&nbsp;
@@ -367,7 +367,7 @@ function Widgets($item,&$myextra=null)
 
 				$extra['search'] .= '</TD><TD>';
 
-				//modif Francois: fix error Invalid argument supplied for foreach()
+				//FJ fix error Invalid argument supplied for foreach()
 				if(!$_REQUEST['search_modfunc'])
 				{
 					$letter_grades_RET = DBGet(DBQuery("SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID 
@@ -537,7 +537,7 @@ function Widgets($item,&$myextra=null)
 					}*/
 				}
 
-				//modif Francois: bugfix wrong advanced student search results, due to discipline numeric fields
+				//FJ bugfix wrong advanced student search results, due to discipline numeric fields
 				if(isset($_REQUEST['discipline_begin']) && is_array($_REQUEST['discipline_begin']))
 				{
 					//modify loop: use for instead of foreach

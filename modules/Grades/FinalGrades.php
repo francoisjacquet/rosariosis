@@ -5,7 +5,7 @@ DrawHeader(ProgramTitle());
 
 if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-//modif Francois: add translation
+//FJ add translation
 	if(($dp=DeletePromptX(_('Final Grade'))))
 	{
 		DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE SYEAR='".UserSyear()."' AND STUDENT_ID='".$_REQUEST['student_id']."' AND COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."' AND MARKING_PERIOD_ID='".$_REQUEST['marking_period_id']."'");
@@ -35,7 +35,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						WHERE ac.ID=ap.ATTENDANCE_CODE AND ac.STATE_CODE='A' AND ap.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID AND cast(sg1.MARKING_PERIOD_ID as integer)=ap.MARKING_PERIOD_ID AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";
 		if($_REQUEST['elements']['comments']=='Y')
 			$extra['SELECT'] .= ',sg1.MARKING_PERIOD_ID AS COMMENTS_RET';
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 		/*$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1 LEFT OUTER JOIN REPORT_CARD_GRADES rpg ON (rpg.ID=sg1.REPORT_CARD_GRADE_ID),
 						COURSE_PERIODS rc_cp,COURSES c,SCHOOL_PERIODS sp";*/
 		$extra['FROM'] .= ",STUDENT_REPORT_CARD_GRADES sg1 LEFT OUTER JOIN REPORT_CARD_GRADES rpg ON (rpg.ID=sg1.REPORT_CARD_GRADE_ID),
@@ -207,7 +207,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Create Grade Lists for Selected Students'));
 
-		//modif Francois: get the title istead of the attendance code short name
+		//FJ get the title istead of the attendance code short name
 		$attendance_codes = DBGet(DBQuery("SELECT SHORT_NAME,ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL) AND TABLE_NAME='0'"));
 
 		$extra['extra_header_left'] = '<TABLE>';
@@ -215,7 +215,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] .= '<TR class="st"><TD></TD><TD><TABLE>';
 		$extra['extra_header_left'] .= '<TR>';
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[teacher]" value="Y" checked /> '._('Teacher').'</label></TD>';
 		$extra['extra_header_left'] .= '<TD></TD>';
 		$extra['extra_header_left'] .= '</TR><TR>';
@@ -239,7 +239,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '</TR>';
 		$extra['extra_header_left'] .= '</TABLE></TD></TR>';
 
-		//modif Francois: get the title instead of the short marking period name
+		//FJ get the title instead of the short marking period name
 		$mps_RET = DBGet(DBQuery("SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('PARENT_ID'));
 		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Marking Periods').':</TD><TD><TABLE><TR><TD><TABLE>';
 		foreach($mps_RET as $sem=>$quarters)

@@ -6,7 +6,7 @@ function DateInput($value,$name,$title='',$div=true,$allow_na=true,$required=fal
 	{
 		$options = array();
 
-		//modif Francois: date field is required
+		//FJ date field is required
 		if ($required)
 			$options['required'] = true;
 
@@ -112,7 +112,7 @@ function setMLvalue(id,loc,value){
 
 		foreach ($RosarioLocales as $id=>$loc) {
 			$ret .= '<label><IMG src="assets/flags/'.$loc.'.png" class="button bigger" /> ';
-			//modif Francois: only first translation string required
+			//FJ only first translation string required
 			//$ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
 			$ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options.($id==0?' required':'')." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
 			$ret .= '</label><BR />';
@@ -140,7 +140,7 @@ function TextAreaInput($value,$name,$title='',$options='',$div=true)
 		if($value=='' || $div==false)
 			return '<TEXTAREA name="'.$name.'" id="'.$name.'" '.$options.'>'.$value.'</TEXTAREA>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
 		else
-//modif Francois: remove ereg
+//FJ remove ereg
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
 			
@@ -208,7 +208,7 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 
 		if($allow_na!==false)
 		{
-//modif Francois: add translation
+//FJ add translation
 			$select .= '<OPTION value="">'.($allow_na=='N/A'?_('N/A'):$allow_na).'</OPTION>';
 		}
 		if(count($options))
@@ -302,7 +302,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 			
 		if($allow_na!==false)
 		{
-//modif Francois: add <label> on radio
+//FJ add <label> on radio
 			$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value=""'.($value==''?' checked':'').' /> '.($allow_na=='N/A'?_('N/A'):$allow_na).'</label></TD>';
 		}
 		if(count($options))

@@ -73,7 +73,7 @@ if($start && $begin_year)
 DrawHeader(_('Timeframe').': <SELECT name="start_date">'.$date_select.'</SELECT> - '._('Period').': '.$period_select.' '.SubmitButton(_('Go')));
 echo '</FORM>';
 
-//modif Francois: multiple school periods for a course period
+//FJ multiple school periods for a course period
 /*$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cp.PERIOD_ID,s.STAFF_ID 
 		FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp 
 		WHERE 

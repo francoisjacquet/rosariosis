@@ -28,15 +28,15 @@ if($_REQUEST['tables'] && $_POST['tables'])
 	$table = $_REQUEST['table'];
 	foreach($_REQUEST['tables'] as $id=>$columns)
 	{
-		//modif Francois: added SQL constraint TITLE & POINTS are not null
+		//FJ added SQL constraint TITLE & POINTS are not null
 		if ((!isset($columns['TITLE']) || !empty($columns['TITLE'])) && (!isset($columns['POINTS']) || !empty($columns['POINTS'])))
 		{
-			//modif Francois: fix SQL bug invalid numeric data
-			//modif Francois: default points
+			//FJ fix SQL bug invalid numeric data
+			//FJ default points
 			if ((empty($columns['POINTS']) || (is_numeric($columns['POINTS']) && intval($columns['POINTS'])>=0)) && (empty($columns['DEFAULT_POINTS']) || $columns['DEFAULT_POINTS']=='*' || (is_numeric($columns['DEFAULT_POINTS']) && intval($columns['DEFAULT_POINTS'])>=0)))
 			{
 				
-				//modif Francois: fix SQL bug invalid sort order
+				//FJ fix SQL bug invalid sort order
 				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 				{
 					if($id!='new')
@@ -69,7 +69,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 							}
 							elseif($column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
 								$value = preg_replace('/[^0-9.]/','',$value) / 100;
-							//modif Francois: default points
+							//FJ default points
 							elseif($column=='DEFAULT_POINTS' && $value=='*' && $table=='GRADEBOOK_ASSIGNMENTS')
 								$value = '-1';
 
@@ -126,7 +126,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 							}
 							elseif($column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
 								$value = preg_replace('/[^0-9.]/','',$value) / 100;
-							//modif Francois: default points
+							//FJ default points
 							elseif($column=='DEFAULT_POINTS' && $value=='*' && $table=='GRADEBOOK_ASSIGNMENTS')
 								$value = '-1';
 
@@ -285,10 +285,10 @@ if(empty($_REQUEST['modfunc']))
 		$header .= '<TABLE class="width-100p valign-top">';
 		$header .= '<TR class="st">';
 
-//modif Francois: title & points are required
+//FJ title & points are required
 		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_id'].'][TITLE]',($RET['TITLE']?'':'<span style="color:red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</TD>';
 		$header .= '<TD>' . TextInput($RET['POINTS'],'tables['.$_REQUEST['assignment_id'].'][POINTS]',($RET['POINTS']!=''?'':'<span style="color:red">')._('Points').($RET['POINTS']?'':'</span>'),' size=4 maxlength=4 min=0') . '</TD>';
-		//modif Francois: default points
+		//FJ default points
 		if ($RET['DEFAULT_POINTS']=='-1')
 			$RET['DEFAULT_POINTS'] = '*';
 		$header .= '<TD>' . TextInput($RET['DEFAULT_POINTS'],'tables['.$_REQUEST['assignment_id'].'][DEFAULT_POINTS]','<span class="legend-gray" title="'._('Enter an asterisk (*) to excuse student').'" style="cursor:help">'._('Default Points').'*</span>',' size=4 maxlength=4') . '</TD>';
@@ -318,7 +318,7 @@ if(empty($_REQUEST['modfunc']))
 		$header .= '<TABLE class="width-100p valign-top">';
 		$header .= '<TR class="st">';
 
-//modif Francois: title is required
+//FJ title is required
 		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_type_id'].'][TITLE]',($RET['TITLE']?'':'<span style="color:red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</TD>';
 		if(Preferences('WEIGHT','Gradebook')=='Y')
 		{
@@ -331,7 +331,7 @@ if(empty($_REQUEST['modfunc']))
 		{
 			$color_select[$color] = array('<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
 		}
-//modif Francois: add translation
+//FJ add translation
 		$header .= '<TD>' .  RadioInput($RET['COLOR'],'tables['.$_REQUEST['assignment_type_id'].'][COLOR]',_('Color'),$color_select) . '</TD>';
 
 		$header .= '</TR></TABLE>';

@@ -1,5 +1,5 @@
 <?php
-//modif Francois: move Attendance.php from functions/ to modules/Attendance/includes
+//FJ move Attendance.php from functions/ to modules/Attendance/includes
 require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 
 if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])

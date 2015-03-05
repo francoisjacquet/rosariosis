@@ -30,7 +30,7 @@ foreach($categories_RET as $id=>$category)
 }
 $extra['second_col'] .= '</TABLE></fieldset></TD></TR>';
 
-//modif Francois: no templates in Rosario
+//FJ no templates in Rosario
 
 //Widgets('all');
 $extra['new'] = true;
@@ -89,10 +89,10 @@ else
 			if($start_date && $end_date)
 				DrawHeader(ProperDate($start_date).' - '.ProperDate($end_date));
 			else
-//modif Francois: school year over one/two calendar years format
+//FJ school year over one/two calendar years format
 				//DrawHeader(_('School Year').': '.UserSyear().'-'.(UserSyear()+1));
 				DrawHeader(_('School Year').': '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')));
-//modif Francois: css WPadmin
+//FJ css WPadmin
 			echo '<BR />';
 
 			foreach($referrals as $referral)

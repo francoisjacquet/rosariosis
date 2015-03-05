@@ -51,7 +51,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
 			if($id!='new')
@@ -93,7 +93,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 				$sql = "INSERT INTO PORTAL_NOTES ";
 
-				//modif Francois: file attached to portal notes
+				//FJ file attached to portal notes
 				$fields = 'ID,SCHOOL_ID,SYEAR,PUBLISHED_DATE,PUBLISHED_USER,';
 
 				$portal_note_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('PORTAL_NOTES_SEQ').' AS PORTAL_NOTE_ID '.FROM_DUAL));
@@ -149,7 +149,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if(DeletePrompt(_('Note')))
 	{
-//modif Francois: file attached to portal notes
+//FJ file attached to portal notes
 		$file_to_remove = DBGet(DBQuery("SELECT FILE_ATTACHED FROM PORTAL_NOTES WHERE ID='".$_REQUEST['id']."'"));
 		@unlink($file_to_remove[1]['FILE_ATTACHED']);
 		DBQuery("DELETE FROM PORTAL_NOTES WHERE ID='".$_REQUEST['id']."'");
@@ -161,13 +161,13 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 if(!empty($error))
 	echo ErrorMessage($error);
 
 if($_REQUEST['modfunc']!='remove')
 {
-//modif Francois: file attached to portal notes
+//FJ file attached to portal notes
 	$sql = "SELECT ID,SORT_ORDER,TITLE,CONTENT,START_DATE,END_DATE,PUBLISHED_PROFILES,FILE_ATTACHED,
 	CASE WHEN END_DATE IS NOT NULL AND END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED 
 	FROM PORTAL_NOTES 
@@ -204,7 +204,7 @@ function _makeTextInput($value,$name)
 
 	if($name!='TITLE')
 		$extra = 'size=5 maxlength=10';
-//modif Francois: title field required
+//FJ title field required
 	if($name=='TITLE' && $id != 'new')
 		$extra = 'required';
 

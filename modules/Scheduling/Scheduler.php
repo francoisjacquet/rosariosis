@@ -9,7 +9,7 @@ if($_REQUEST['modname']=='Scheduling/Scheduler.php' && !$_REQUEST['run'])
 }
 else
 	$function = '_returnTrue';
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the scheduler?'),'<TABLE><TR><TD><label><INPUT type="checkbox" name="test_mode" value="Y">&nbsp;'._('Test Mode').'</label></TD></TR><TR><TD><label><INPUT type="checkbox" name="delete" value="Y">&nbsp;'._('Delete Current Schedules').'</label></TD></TR></TABLE>'))
 {
 	echo '<BR />';
@@ -57,7 +57,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 
 	$count = DBGet(DBQuery("SELECT count(*) as count from schedule WHERE SCHOOL_ID='".UserSchool()."'"));
 
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 	//$sql = "SELECT PARENT_ID,COURSE_PERIOD_ID,COURSE_ID,COURSE_ID AS COURSE,GENDER_RESTRICTION,PERIOD_ID,DAYS,TEACHER_ID,MARKING_PERIOD_ID,MP,COALESCE(TOTAL_SEATS,0)-COALESCE(FILLED_SEATS,0) AS AVAILABLE_SEATS,(SELECT COUNT(*) FROM COURSE_PERIODS cp2 WHERE cp2.COURSE_ID=cp.COURSE_ID) AS SECTIONS FROM COURSE_PERIODS cp ORDER BY SECTIONS,AVAILABLE_SEATS";
 	$sql = "SELECT PARENT_ID,cp.COURSE_PERIOD_ID,COURSE_ID,COURSE_ID AS COURSE,GENDER_RESTRICTION,cpsp.PERIOD_ID,cpsp.DAYS,TEACHER_ID,MARKING_PERIOD_ID,MP,COALESCE(TOTAL_SEATS,0)-COALESCE(FILLED_SEATS,0) AS AVAILABLE_SEATS,
 	(SELECT COUNT(*) FROM COURSE_PERIODS cp2 WHERE cp2.COURSE_ID=cp.COURSE_ID) AS SECTIONS 
@@ -84,7 +84,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	$mps_RET = DBGet(DBQuery("SELECT PARENT_ID,MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('PARENT_ID','MARKING_PERIOD_ID'));
 
 	// GET FILLED/LOCKED REQUESTS
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 	/*$sql = "SELECT s.STUDENT_ID,r.REQUEST_ID,s.COURSE_PERIOD_ID,cp.PARENT_ID,s.COURSE_ID,cp.PERIOD_ID FROM SCHEDULE_REQUESTS r,SCHEDULE s,COURSE_PERIODS cp WHERE
 				s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.PARENT_ID=cp.COURSE_PERIOD_ID AND
 				r.SYEAR='".UserSyear()."' AND r.SCHOOL_ID='".UserSchool()."' AND s.SYEAR=r.SYEAR AND s.SCHOOL_ID=r.SCHOOL_ID
@@ -124,7 +124,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	$last_percent = 0;
 	$completed = 0;
 	$requests_count = count($requests_RET);
-//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+//FJ fix error Warning: Invalid argument supplied for foreach()
 	$unfilled = array();
 	foreach($requests_RET as $request_id=>$request)
 	{
@@ -215,7 +215,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 					foreach($course_periods as $period_id=>$course_period)
 					{
 						$scount++;
-						//modif Francois: multiple school periods for a course period
+						//FJ multiple school periods for a course period
 						if(empty($locked_RET[$student_id][$course_period['REQUEST_ID']]) && !(in_array($course_period['COURSE_PERIOD_ID'],$course_periods_temp)))
 						{
 							db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
@@ -227,7 +227,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 							$bad_locked++;
 						//	db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
 						
-						//modif Francois: multiple school periods for a course period
+						//FJ multiple school periods for a course period
 						$course_periods_temp[] = $course_period['COURSE_PERIOD_ID'];
 					}
 				}

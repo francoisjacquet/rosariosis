@@ -22,7 +22,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		
 	$subject = _('New Parent Account');
 
-	//modif Francois: add Template
+	//FJ add Template
 	$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Custom/NotifyParents.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
 	if (!$template_update)
 		DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('Custom/NotifyParents.php', '".User('STAFF_ID')."', '".$_REQUEST['inputnotifyparentstext']."')");
@@ -47,9 +47,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			$staff_id = $staff['STAFF_ID'];
 
-	//modif Francois: change parent password generation
+	//FJ change parent password generation
 			$password = $staff['USERNAME'] . rand(1000,9999);
-	//modif Francois: add password encryption
+	//FJ add password encryption
 			$password_encrypted = encrypt_password($password);		
 			DBQuery("UPDATE STAFF SET PASSWORD='".$password_encrypted."' WHERE STAFF_ID='".$staff_id."'");
 			
@@ -70,11 +70,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$msg = str_replace('__SCHOOL_ID__',SchoolInfo('TITLE'),$msg);
 			$msg = str_replace('__PARENT_NAME__',$staff['NAME'],$msg);
 			$msg = str_replace('__USERNAME__',$staff['USERNAME'],$msg);
-	//modif Francois: add password encryption
+	//FJ add password encryption
 	//		$msg = str_replace('__PASSWORD__',$staff['PASSWORD'],$msg);
 			$msg = str_replace('__PASSWORD__',$password,$msg);
 			
-			//modif Francois: add SendEmail function
+			//FJ add SendEmail function
 			include('ProgramFunctions/SendEmail.fnc.php');
 			
 			$to = empty($test_email)?$staff['EMAIL']:$test_email;
@@ -108,7 +108,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 		
 		$extra['extra_header_left'] = '<TABLE>';
 
-		//modif Francois: add Template
+		//FJ add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		
 		$template = $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE'];

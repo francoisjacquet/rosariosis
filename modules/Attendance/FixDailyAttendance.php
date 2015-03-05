@@ -1,14 +1,14 @@
 <?php
-//modif Francois: move Attendance.php from functions/ to modules/Attendance/includes
+//FJ move Attendance.php from functions/ to modules/Attendance/includes
 require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 
 DrawHeader(ProgramTitle());
 
-//modif Francois: add translation 
+//FJ add translation 
 $message = '<TABLE><TR><TD colspan="7" class="center">'._('From').' '.PrepareDate(DBDate(),'_min').' '._('to').' '.PrepareDate(DBDate(),'_max').'</TD></TR></TABLE>';
 if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'),$message))
 {
-	//modif Francois: display notice while calculating daily attendance
+	//FJ display notice while calculating daily attendance
 	echo '<BR />';
 	PopTable('header',_('Recalculate Daily Attendance'));
 	echo '<DIV id="messageDIV" style="align-text:center;"><IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif"> '._('Calculating ...').' </DIV>';
@@ -36,7 +36,7 @@ if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'
 	
 	unset($_REQUEST['modfunc']);
 	
-	//modif Francois: display notice while calculating daily attendance
+	//FJ display notice while calculating daily attendance
 	echo '<script>var msg_done='.json_encode(ErrorMessage(array(_('The Daily Attendance for that timeframe has been recalculated.')), 'note')).'; document.getElementById("messageDIV").innerHTML = msg_done;</script>';
 }
 ?>

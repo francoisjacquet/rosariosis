@@ -25,7 +25,7 @@ function Search($type,$extra=null)
 			{
 				if(UserStudentID())
 				{
-					//modif Francois: fix bug no student found when student/parent logged in
+					//FJ fix bug no student found when student/parent logged in
 					if (User('PROFILE')!=='student' && User('PROFILE')!=='parent')
 						unset($_SESSION['student_id']);
 				}
@@ -250,7 +250,7 @@ function Search($type,$extra=null)
 						foreach($options_RET as $option)
 							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
 
-						//modif Francois: new option
+						//FJ new option
 						echo '<OPTION value="---">-'. _('Edit') .'-</OPTION>';
 						echo '</SELECT>';
 						echo '</TD></TR>';
@@ -276,7 +276,7 @@ function Search($type,$extra=null)
 						foreach($options_RET as $option)
 							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
 
-						//modif Francois: new option
+						//FJ new option
 						echo '<OPTION value="---">-'. _('Edit') .'-</OPTION>';
 						echo '<OPTION value="~">'._('Other Value').'</OPTION>';
 						echo '</SELECT>';

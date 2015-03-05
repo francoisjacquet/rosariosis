@@ -8,7 +8,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		if (empty($_REQUEST['list']))//certificate
 		{
-			//modif Francois: bypass strip_tags on the $_REQUEST vars
+			//FJ bypass strip_tags on the $_REQUEST vars
 			$REQUEST_honor_roll_text = GetRawPOSTvar('honor_roll_text');
 		}
 
@@ -23,7 +23,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$extra['SELECT'] .= ",".db_case(array("exists(SELECT rg.GPA_VALUE FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg WHERE sg.STUDENT_ID=s.STUDENT_ID AND cp.SYEAR=ssm.SYEAR AND sg.SYEAR=ssm.SYEAR AND sg.MARKING_PERIOD_ID='".UserMP()."' AND cp.COURSE_PERIOD_ID=sg.COURSE_PERIOD_ID AND cp.DOES_HONOR_ROLL='Y' AND rg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID AND sg.REPORT_CARD_GRADE_ID=rg.ID AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))",'true','NULL',"'Y'"))." AS HIGH_HONOR";
 		//$extra['SELECT'] .= ",(SELECT TITLE FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS SCHOOL";
 		//$extra['SELECT'] .= ",(SELECT PRINCIPAL FROM SCHOOLS WHERE ID=ssm.SCHOOL_ID AND SYEAR=ssm.SYEAR) AS PRINCIPAL";
-		//modif Francois: multiple school periods for a course period
+		//FJ multiple school periods for a course period
 		//$extra['SELECT'] .= ",(SELECT coalesce(st.TITLE||' ',' ')||st.FIRST_NAME||coalesce(' '||st.MIDDLE_NAME||' ',' ')||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
 		$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||coalesce(' '||st.MIDDLE_NAME||' ',' ')||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp,SCHEDULE ss WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) LIMIT 1) AS TEACHER";
 		$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_id=p.PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
@@ -62,7 +62,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		}
 		else
 		{
-			//modif Francois: add Template
+			//FJ add Template
 			$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
 			if (!$template_update)
 				DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_honor_roll_text."')");
@@ -112,7 +112,7 @@ if(empty($_REQUEST['modfunc']))
 
 	if($_REQUEST['search_modfunc']=='list')
 	{
-		//modif Francois: add TinyMCE to the textarea
+		//FJ add TinyMCE to the textarea
 		?>
 <!-- Load TinyMCE -->
 <script src="assets/js/tiny_mce_3.5.8_jquery/jquery.tinymce.js"></script>
@@ -160,13 +160,13 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] = '<TABLE>';
 
-//modif Francois: add <label> on radio
+//FJ add <label> on radio
 		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="radio" name="list" value="list"> '._('List').'</label></TD></TR>';
 		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="radio" name="list" value="" checked /> '._('Certificates').':</label></TD></TR>';
 
-//modif Francois: add TinyMCE to the textarea
+//FJ add TinyMCE to the textarea
 		$extra['extra_header_left'] .= '<TR><TD>&nbsp;</TD></TR><TR class="st"><TD style="vertical-align: top;">'._('Text').'</TD><TD colspan="4"><TEXTAREA name="honor_roll_text" class="tinymce">';
-		//modif Francois: add Template
+		//FJ add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		$extra['extra_header_left'] .= str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']));
 		$extra['extra_header_left'] .= '</TEXTAREA></TD></TR>';
@@ -182,7 +182,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD>';
 		$extra['extra_header_left'] .= '</TR></TABLE></TD></TR>';
 
-//modif Francois: add frames choice
+//FJ add frames choice
 		$frames = array();
 		if (is_dir('assets/Frames/'))
 			$frames = scandir('assets/Frames/');
@@ -256,7 +256,7 @@ function MyWidgets($item)
 				$extra['columns_after']['HIGH_HONOR'] = _('High Honor');
 
 				if(!$extra['NoSearchTerms'])
-//modif Francois: add translation
+//FJ add translation
 					$_ROSARIO['SearchTerms'] .= '<b>'._('Honor Roll').' & '._('High Honor Roll').'</b><BR />';
 			}
 			elseif($_REQUEST['honor_roll']=='Y')
@@ -279,7 +279,7 @@ function MyWidgets($item)
 				if(!$extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<b>'._('High Honor Roll').'</b><BR />';
 			}
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 			$extra['search'] .= '<TR><TD>'._('Honor Roll').'</TD><TD><label><INPUT type="checkbox" name="honor_roll" value="Y" checked /> '._('Honor').'</label> <label><INPUT type="checkbox" name="high_honor_roll" value="Y" checked /> '._('High Honor').'</label></TD></TR>';
 		break;
 	}

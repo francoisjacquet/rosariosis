@@ -31,7 +31,7 @@ if($_REQUEST['course_modfunc']=='search')
 
 	if($_REQUEST['search_term'])
 	{
-		//modif Francois: add Available Seats column to every choose course popup
+		//FJ add Available Seats column to every choose course popup
 		if($_REQUEST['modname']!=='Scheduling/Schedule.php')
 			$date = DBDate();
 
@@ -39,7 +39,7 @@ if($_REQUEST['course_modfunc']=='search')
 
 		$courses_RET = DBGet(DBQuery("SELECT SUBJECT_ID,COURSE_ID,TITLE FROM COURSES WHERE (UPPER(TITLE) LIKE '%".mb_strtoupper($_REQUEST['search_term'])."%' OR UPPER(SHORT_NAME)='".mb_strtoupper($_REQUEST['search_term'])."') AND SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."' AND SCHOOL_ID='".UserSchool()."' ORDER BY TITLE"));
 
-		//modif Francois: http://centresis.org/forums/viewtopic.php?f=13&t=4112
+		//FJ http://centresis.org/forums/viewtopic.php?f=13&t=4112
 		$periods_RET = DBGet(DBQuery("SELECT c.SUBJECT_ID,cp.COURSE_ID,cp.COURSE_PERIOD_ID,cp.TITLE,cp.MP,cp.MARKING_PERIOD_ID,cp.CALENDAR_ID,cp.TOTAL_SEATS AS AVAILABLE_SEATS 
 		FROM COURSE_PERIODS cp,COURSES c 
 		WHERE cp.COURSE_ID=c.COURSE_ID 
@@ -89,9 +89,9 @@ if($_REQUEST['course_modfunc']=='search')
 	}
 }
 
-//modif Francois: days display to locale						
+//FJ days display to locale						
 $days_convert = array('U'=>_('Sunday'),'M'=>_('Monday'),'T'=>_('Tuesday'),'W'=>_('Wednesday'),'H'=>_('Thursday'),'F'=>_('Friday'),'S'=>_('Saturday'));
-//modif Francois: days numbered
+//FJ days numbered
 if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 	$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
 
@@ -107,7 +107,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	if($_REQUEST['tables']['parent_id'])
 		$_REQUEST['tables']['COURSE_PERIODS'][$_REQUEST['course_period_id']]['PARENT_ID'] = $_REQUEST['tables']['parent_id'];
 
-	//modif Francois: bugfix SQL error invalid input syntax for type numeric
+	//FJ bugfix SQL error invalid input syntax for type numeric
 	//when COURSE_PERIOD_SCHOOL_PERIODS saved before COURSE_PERIODS, but why?
 	if ($_REQUEST['course_period_id']=='new')
 	{
@@ -130,10 +130,10 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	{
 		foreach($tables as $id=>$columns)
 		{
-			//modif Francois: fix SQL bug invalid numeric data
+			//FJ fix SQL bug invalid numeric data
 			if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['CREDIT_HOURS']) || is_numeric($columns['CREDIT_HOURS'])) && (empty($columns['CREDITS']) || is_numeric($columns['CREDITS'])))
 			{
-				//modif Francois: added SQL constraint TITLE (course_subjects & courses) & SHORT_NAME, TEACHER_ID (course_periods) & PERIOD_ID (course_period_school_periods) are not null
+				//FJ added SQL constraint TITLE (course_subjects & courses) & SHORT_NAME, TEACHER_ID (course_periods) & PERIOD_ID (course_period_school_periods) are not null
 				if (!((isset($columns['TITLE']) && empty($columns['TITLE'])) || ($table_name=='COURSE_PERIODS' && ((isset($columns['SHORT_NAME']) && empty($columns['SHORT_NAME'])) || (isset($columns['TEACHER_ID']) && empty($columns['TEACHER_ID'])))) || (mb_strpos($id,'new')!==false && !empty($columns['PERIOD_ID']) && !isset($columns['DAYS']))))
 				{
 					if($columns['TOTAL_SEATS'] && !is_numeric($columns['TOTAL_SEATS']))
@@ -200,7 +200,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							$base_title = $mp_title.$short_name.' - ';
 							
 							//$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
-							//modif Francois: remove teacher's middle name to gain space
+							//FJ remove teacher's middle name to gain space
 							$base_title = DBEscapeString($base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['LAST_NAME']);
 
 							$periods_title = '';
@@ -221,7 +221,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 									$columns['MP'] = 'QTR';
 							}
 						}
-						//modif Francois: multiple school period for a course period
+						//FJ multiple school period for a course period
 						if($table_name=='COURSE_PERIOD_SCHOOL_PERIODS')
 						{
 							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."' AND ".$where[$table_name]."<>'".$id."'"));
@@ -234,7 +234,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							{
 								$school_p_title = DBGet(DBQuery("SELECT TITLE FROM SCHOOL_PERIODS WHERE PERIOD_ID='".$school_p['PERIOD_ID']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 								
-			//modif Francois: days display to locale		
+			//FJ days display to locale		
 								$nb_days = mb_strlen($school_p['DAYS']);
 								$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
 								for ($i = 0; $i < $nb_days; $i++) {
@@ -255,7 +255,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								
 							if(!empty($columns['DAYS']))
 							{
-								//modif Francois: days display to locale	
+								//FJ days display to locale	
 								$nb_days = mb_strlen($columns['DAYS']);
 								$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
 								for ($i = 0; $i < $nb_days; $i++) {
@@ -353,17 +353,17 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								$base_title = $mp_title.$columns['SHORT_NAME'].' - ';
 								
 							//$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
-							//modif Francois: remove teacher's middle name to gain space
+							//FJ remove teacher's middle name to gain space
 							$base_title = DBEscapeString($base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['LAST_NAME']);
 
 							$values = "'".UserSyear()."','".UserSchool()."','".$id[1]['ID']."','".$_REQUEST['course_id']."','".$base_title."','0',";
 							$_REQUEST['course_period_id'] = $id[1]['ID'];
 							
 						}
-						//modif Francois: multiple school period for a course period
+						//FJ multiple school period for a course period
 						elseif($table_name=='COURSE_PERIOD_SCHOOL_PERIODS')
 						{
-							//modif Francois: add new school period to existing course period
+							//FJ add new school period to existing course period
 							if (isset($columns['PERIOD_ID']) && empty($columns['PERIOD_ID']))
 								continue;
 								
@@ -377,7 +377,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							$fields = 'COURSE_PERIOD_SCHOOL_PERIODS_ID,COURSE_PERIOD_ID,';
 							$values = "nextval('COURSE_PERIOD_SCHOOL_PERIODS_SEQ'),'".$_REQUEST['course_period_id']."',";
 
-							//modif Francois: days display to locale
+							//FJ days display to locale
 							$nb_days = mb_strlen($columns['DAYS']);
 							$columns_DAYS_locale = $nb_days > 1?' '._('Days').' ':($nb_days == 0 ? '' : ' '._('Day').' ');
 
@@ -454,7 +454,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 		$sql[] = "UPDATE COURSE_PERIODS SET PARENT_ID=NULL WHERE PARENT_ID='".$_REQUEST['course_period_id']."'";
 		$sql[] = "DELETE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
 		$sql[] = "DELETE FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
-		//modif Francois: multiple school period for a course period
+		//FJ multiple school period for a course period
 		$sql[] = "DELETE FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'";
 
 		$unset = 'course_period_id';
@@ -521,7 +521,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 
 if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUEST['course_modfunc'])
 {
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 	if (isset($error))
 		echo ErrorMessage($error);
 	
@@ -541,7 +541,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 		{
 			if($_REQUEST['course_period_id']!='new')
 			{
-			//modif Francois: multiple school periods for a course period
+			//FJ multiple school periods for a course period
 				/*$sql = "SELECT PARENT_ID,TITLE,SHORT_NAME,PERIOD_ID,DAYS,
 								MP,MARKING_PERIOD_ID,TEACHER_ID,CALENDAR_ID,
 								ROOM,TOTAL_SEATS,DOES_ATTENDANCE,
@@ -592,7 +592,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			$header .= '<TABLE class="width-100p valign-top" id="coursesTable">';
 			$header .= '<TR class="st">';
 
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 			$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][SHORT_NAME]',($RET['SHORT_NAME']?'':'<span style="color:red">')._('Short Name').($RET['SHORT_NAME']?'':'</span>'),'required', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
 
 			$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,',".UserSchool().",')>0) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
@@ -601,7 +601,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				foreach($teachers_RET as $teacher)
 					$teachers[$teacher['STAFF_ID']] = $teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'];
 			}
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 			$header .= '<TD>' . SelectInput($RET['TEACHER_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][TEACHER_ID]',($RET['TEACHER_ID']?'':'<span style="color:red">')._('Teacher').($RET['TEACHER_ID']?'':'</span>'),$teachers, ($_REQUEST['moodle_create_course_period'] ? false : true), '', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
 
 			$header .= '<TD>' . TextInput($RET['ROOM'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][ROOM]',_('Room')) . '</TD>';
@@ -621,24 +621,24 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				foreach($mp_RET as $mp)
 					$options[$mp['MARKING_PERIOD_ID']] = $mp['SHORT_NAME'];
 			}
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 			$header .= '<TD>' . SelectInput($RET['MARKING_PERIOD_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][MARKING_PERIOD_ID]',($RET['MARKING_PERIOD_ID']?'':'<span style="color:red">')._('Marking Period').($RET['MARKING_PERIOD_ID']?'':'</span>'),$options,false, '', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
 			$header .= '<TD>' . TextInput($RET['TOTAL_SEATS'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][TOTAL_SEATS]',_('Seats'),'size=4') . '</TD>';
 
 			$header .= '</TR>';
 
 			$days = array('M','T','W','H','F','S','U');
-			//modif Francois: days numbered
+			//FJ days numbered
 			if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 				$days = array_slice($days, 0, SchoolInfo('NUMBER_DAYS_ROTATION'));
 				
-			//modif Francois: multiple school periods for a course period
+			//FJ multiple school periods for a course period
 			
 			$i = 0;
 			do 
 			{
 				$i++;
-				//modif Francois: add new school period to existing course period
+				//FJ add new school period to existing course period
 				if (!$new && $i > count($RET2))
 				{
 					$new = true;
@@ -653,7 +653,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 				$header .= '<TR id="schoolPeriod'.$i.'" class="st">';
 
-				//modif Francois: existing school period not modifiable
+				//FJ existing school period not modifiable
 				if (!$new)
 					$header .= '<TD>' . $periods[$school_period['PERIOD_ID']] . '<BR /><span class="legend-gray">' ._('Period'). '</span></TD>';
 				else
@@ -689,7 +689,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 				if($new==false)
 				{
-					//modif Francois: days display to locale						
+					//FJ days display to locale						
 					$school_period_locale = '';
 					$days_strlen = mb_strlen($school_period['DAYS']);
 
@@ -847,7 +847,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 		{
 			if($_REQUEST['course_id']!='new')
 			{
-//modif Francois: add Credit Hours to Courses
+//FJ add Credit Hours to Courses
 				//$sql = "SELECT TITLE,SHORT_NAME,GRADE_LEVEL
 				$sql = "SELECT TITLE,SHORT_NAME,GRADE_LEVEL,CREDIT_HOURS
 						FROM COURSES
@@ -874,12 +874,12 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			$header .= '<TABLE class="width-100p valign-top">';
 			$header .= '<TR class="st">';
 
-//modif Francois: title required
+//FJ title required
 			$header .= '<TD>' . TextInput($RET['TITLE'],'tables[COURSES]['.$_REQUEST['course_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
 			$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables[COURSES]['.$_REQUEST['course_id'].'][SHORT_NAME]',_('Short Name')) . '</TD>';
-//modif Francois: add Credit Hours to Courses
+//FJ add Credit Hours to Courses
 			$header .= '<TD>' . TextInput($RET['CREDIT_HOURS'],'tables[COURSES]['.$_REQUEST['course_id'].'][CREDIT_HOURS]',_('Credit Hours')) . '</TD>';
-			//modif Francois: SQL error column "subject_id" specified more than once
+			//FJ SQL error column "subject_id" specified more than once
 			/*if($_REQUEST['modfunc']!='choose_course')
 			{
 				foreach($subjects_RET as $type)
@@ -915,7 +915,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			$header .= '<TABLE class="width-100p valign-top">';
 			$header .= '<TR>';
 
-//modif Francois: title required
+//FJ title required
 			$header .= '<TD>' . TextInput($RET['TITLE'],'tables[COURSE_SUBJECTS]['.$_REQUEST['subject_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
 			$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables[COURSE_SUBJECTS]['.$_REQUEST['subject_id'].'][SORT_ORDER]',_('Sort Order')) . '</TD>';
 
@@ -931,7 +931,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 	{
 		if($_REQUEST['modname']=='Scheduling/Schedule.php')
 		{
-//modif Francois: add translation
+//FJ add translation
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 			DrawHeader(_('Choose a').' '.($_REQUEST['subject_id']?($_REQUEST['course_id']?($_REQUEST['last_year']=='true'?_('Last Year Course Period'):_('Course Period')):($_REQUEST['last_year']=='true'?_('Last Year Course'):_('Course'))):($_REQUEST['last_year']=='true'?_('Last Year Subject'):_('Subject'))),_('Enrollment Date').' '.PrepareDate($date,'_date',false,array('submit'=>true)),'');
 			DrawHeader('<label>'.CheckBoxOnclick('include_child_mps').' '._('Offer Enrollment in Child Marking Periods').'</label>');
@@ -1002,11 +1002,11 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 		if($_REQUEST['course_id'] && $_REQUEST['course_id']!='new')
 		{
-			//modif Francois: add Available Seats column to every choose course popup
+			//FJ add Available Seats column to every choose course popup
 			if($_REQUEST['modname']!=='Scheduling/Schedule.php')
 				$date = DBDate();
 
-			//modif Francois: multiple school periods for a course period
+			//FJ multiple school periods for a course period
 			//$periods_RET = DBGet(DBQuery("SELECT '".$_REQUEST['subject_id']."' AS SUBJECT_ID,COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS AS AVAILABLE_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' ".($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE"));
 			$periods_RET = DBGet(DBQuery("SELECT '".$_REQUEST['subject_id']."' AS SUBJECT_ID,COURSE_ID,COURSE_PERIOD_ID,TITLE,MP,MARKING_PERIOD_ID,CALENDAR_ID,TOTAL_SEATS AS AVAILABLE_SEATS 
 				FROM COURSE_PERIODS cp 

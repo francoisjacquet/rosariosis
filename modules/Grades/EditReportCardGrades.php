@@ -9,8 +9,8 @@ if(UserStudentID())
 	$mp_id = $_REQUEST['mp_id'];
 	$tab_id = ($_REQUEST['tab_id']?$_REQUEST['tab_id']:'grades');
 
-//modif Francois: add translation
-//modif Francois: fix bug no delete MP
+//FJ add translation
+//FJ fix bug no delete MP
 	//if ($_REQUEST['modfunc']=='update' && $_REQUEST['removemp'] && $mp_id && DeletePromptX(_('Marking Period'))){
 	if ($_REQUEST['modfunc']=='update' && $_REQUEST['removemp'] && $_REQUEST['new_sms'] && DeletePromptX(_('Marking Period')))
 	{
@@ -24,7 +24,7 @@ if(UserStudentID())
 
 		if ($_REQUEST['new_sms'])
 		{
-//modif Francois: fix SQL bug when marking period already exist
+//FJ fix SQL bug when marking period already exist
 			$smsRET = DBGet(DBQuery("SELECT * FROM STUDENT_MP_STATS WHERE student_id='".$student_id."' and marking_period_id='".$_REQUEST['new_sms']."'"));
 
 			if (empty($smsRET))
@@ -44,7 +44,7 @@ if(UserStudentID())
 		{
 			foreach($_REQUEST['values'] as $id=>$columns)
 			{
-				//modif Francois: fix SQL bug when text data entered, data verification
+				//FJ fix SQL bug when text data entered, data verification
 				if ((empty($columns['GRADE_PERCENT']) || is_numeric($columns['GRADE_PERCENT'])) && (empty($columns['GP_SCALE']) || is_numeric($columns['GP_SCALE'])) && (empty($columns['UNWEIGHTED_GP']) || is_numeric($columns['UNWEIGHTED_GP'])) && (empty($columns['WEIGHTED_GP']) || is_numeric($columns['WEIGHTED_GP'])) && (empty($columns['CREDIT_EARNED']) || is_numeric($columns['CREDIT_EARNED'])) && (empty($columns['CREDIT_ATTEMPTED']) || is_numeric($columns['CREDIT_ATTEMPTED'])))
 				{
 					if($id!='new')
@@ -64,7 +64,7 @@ if(UserStudentID())
 					{
 						$sql = 'INSERT INTO student_report_card_grades ';
 
-						//modif Francois: fix bug SQL SYEAR=NULL
+						//FJ fix bug SQL SYEAR=NULL
 						$syear = DBGet(DBQuery("SELECT syear FROM marking_periods WHERE marking_period_id='".$mp_id."'"));
 						$syear = $syear[1]['SYEAR'];
 
@@ -122,7 +122,7 @@ if(UserStudentID())
 		}
 	}
 
-	//modif Francois: fix SQL bug when text data entered, data verification
+	//FJ fix SQL bug when text data entered, data verification
 	if(isset($error))
 		echo ErrorMessage($error);
 
@@ -193,8 +193,8 @@ if(UserStudentID())
 		DrawHeader('',SubmitButton(_('Save')));
 		echo '<BR />';
 
-//modif Francois: add translation
-//modif Francois: css WPadmin
+//FJ add translation
+//FJ css WPadmin
 		echo '<table class="postbox cellspacing-0"><tr><td><h3>'.$displayname.'</h3></td></tr><tr><td><table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">'._('Marking Period Statistics').'</td></tr><tr><td>'._('GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['weighted_gpa']).'</td><td>'._('Unweighted').": ".sprintf('%0.3f',$gmp[$mp_id]['unweighted_gpa']).'</td></tr>';
 		echo '<tr><td>'._('Class Rank GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_weighted']).'</td><td>'._('Unweighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_unweighted']).'</td></tr></table></td></tr></table><BR />';
 
@@ -228,11 +228,11 @@ if(UserStudentID())
 			$tabs = array();
 			$tabs[] = array('title'=>'Grades','link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=grades&mp_id='.$mp_id);
 			$tabs[] = array('title'=>'Credits','link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=credits&mp_id='.$mp_id);
-			//modif Francois: css WPadmin
+			//FJ css WPadmin
 			$LO_options = array('count'=>false,'download'=>false,'search'=>false,
 			'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$tab_id.'&mp_id='.$mp_id));
 
-			//modif Francois: SQL error fix: operator does not exist: character varying = integer, add explicit type casts
+			//FJ SQL error fix: operator does not exist: character varying = integer, add explicit type casts
 			//                $sql = 'SELECT * FROM student_report_card_grades WHERE STUDENT_ID = '.$student_id.' AND MARKING_PERIOD_ID = '.$mp_id.' ORDER BY ID';
 			$sql = "SELECT * FROM student_report_card_grades WHERE STUDENT_ID='".$student_id."' AND cast(MARKING_PERIOD_ID as integer)='".$mp_id."' ORDER BY ID";
 

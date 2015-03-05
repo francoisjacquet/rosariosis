@@ -2,7 +2,7 @@
 
 function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,$group=array(),$options=array())
 {
-	//modif Francois: bugfix ListOutput sorting when more than one list in a page
+	//FJ bugfix ListOutput sorting when more than one list in a page
 	$LO_sort = $_REQUEST['LO_sort'];
 
 	if(!isset($options['save']))
@@ -17,7 +17,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 		$options['count'] = true;
 	if(!isset($options['sort']))
 	{
-		//modif Francois: lists with grouping cannot be sorted
+		//FJ lists with grouping cannot be sorted
 		if(empty($group))
 			$options['sort'] = true;
 		else
@@ -31,7 +31,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 		$options['cellpadding'] = '6';*/
 	if(!isset($options['header_color']))
 		$options['header_color'] = Preferences('HEADER');
-	//modif Francois: add responsive table option
+	//FJ add responsive table option
 	//note: should be set to false when the list table have cell content that occupies more than one line height, like the Portal Notes'
 	if(!isset($options['responsive']))
 		$options['responsive'] = true;
@@ -82,7 +82,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$i++;
 					if(count($group[0]) && $i!=1)
 					{
-//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+//FJ fix error Warning: Invalid argument supplied for foreach()
 //						foreach($group[0] as $column)
 						$group[0]=$column;
 							$item2[$column] = str_replace('<!-- <!--','<!--','<!-- '.str_replace('-->','--><!--',$item2[$column])).' -->&nbsp;';
@@ -98,14 +98,14 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 							$i++;
 							if(count($group[0]) && $i!=1)
 							{
-//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+//FJ fix error Warning: Invalid argument supplied for foreach()
 		//						foreach($group[0] as $column)
 								$group[0]=$column;
 									$item3[$column] = '<!-- '.$item3[$column].' -->';
 							}
 							if(count($group[1]) && $i!=1)
 							{
-//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+//FJ fix error Warning: Invalid argument supplied for foreach()
 //								foreach($group[1] as $column)
 								$group[1]=$column;
 									$item3[$column] = '<!-- '.$item3[$column].' -->';
@@ -122,7 +122,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 									$i++;
 									if(count($group[2]) && $i!=1)
 									{
-//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+//FJ fix error Warning: Invalid argument supplied for foreach()
 //										foreach($group[2] as $column)
 										$group[2]=$column;
 											unset($item4[$column]);
@@ -157,7 +157,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			$cols = count($column_names);
 
 			// HANDLE SEARCHES ---
-//modif Francois: fix bug search when only saving
+//FJ fix bug search when only saving
 //			if($result_count && $_REQUEST['LO_search'] && $_REQUEST['LO_search']!='Search')
 			if($result_count && !empty($_REQUEST['LO_search']))
 			{
@@ -192,7 +192,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$values[$key] = 0;
 					foreach($value as $val)
 					{
-						//modif Francois: better list searching by isolating the values
+						//FJ better list searching by isolating the values
 						//$val = preg_replace('/[^a-zA-Z0-9 _]+/','',mb_strtolower($val));
 						$val = mb_strtolower(strip_tags(preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $val)));
 
@@ -242,7 +242,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				foreach($result as $sort)
 				{
 					if(mb_substr($sort[$LO_sort],0,4)!='<!--')
-						//modif Francois: better list sorting by isolating the values
+						//FJ better list sorting by isolating the values
 						//$sort_array[] = $sort[$LO_sort];
 						$sort_array[] = strip_tags(preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', "", $sort[$LO_sort]));
 					else
@@ -309,7 +309,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				}
 				$output .= "\n";
 			}
-//modif Francois: accents problem + Arabic chars
+//FJ accents problem + Arabic chars
 //http://stackoverflow.com/questions/6002256/is-it-possible-to-force-excel-recognize-utf-8-csv-files-automatically
 			if ($extension == 'xls') //convert to for Excel only, CSV in UTF8
 				$output = utf8_decode($output);
@@ -341,7 +341,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 		{
 			if($result_count==0 || $display_count==0)
 			{
-//modif Francois: fix bug ngettext when the plural form is not registered as this in the rosario.po file
+//FJ fix bug ngettext when the plural form is not registered as this in the rosario.po file
 //                echo "<b>".sprintf(_('No %s were found.'),ngettext($singular, $plural, 0))."</b> &nbsp; &nbsp;";
 				$singular_message = ngettext($singular, $plural, 0);
 				if ($singular_message == $singular)
@@ -359,7 +359,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				if(empty($_REQUEST['LO_page']))
 					$_REQUEST['LO_page'] = 1;
 
-				if($_REQUEST['LO_page'] < 1) //modif Francois: check LO_page
+				if($_REQUEST['LO_page'] < 1) //FJ check LO_page
 					$_REQUEST['LO_page'] = 1;
 
 				if(empty($_REQUEST['LO_direction']))
@@ -417,13 +417,13 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				$stop = $result_count;
 				if($cols>8 || $_REQUEST['expanded_view'])
 				{
-					//modif Francois: wkhtmltopdf
+					//FJ wkhtmltopdf
 					$_SESSION['orientation'] = 'landscape';
 				}
 
 				if($options['print'])
 				{
-//modif Francois: bug PDF
+//FJ bug PDF
 /*					$html = explode('<div style="page-break-after: always;"></div>',mb_strtolower(ob_get_contents()));
 					$html = $html[count($html)-1];
 					echo '</TD></TR></TABLE>';
@@ -451,7 +451,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				{
 					if($display_count>0)
 					{
-//modif Francois: fix bug ngettext when the plural form is not registered as this in the rosario.po file
+//FJ fix bug ngettext when the plural form is not registered as this in the rosario.po file
 //						echo "<b>".sprintf(ngettext('%d %s was found.','%d %s were found.', $display_count), $display_count, ngettext($singular, $plural, $display_count))."</b> &nbsp; &nbsp;";
 						$plural_message = ngettext($singular, $plural, $display_count);
 						if (($plural_message == $plural || ($plural_message == _($singular) && $display_count!=1)) && _($plural)!=$plural)
@@ -742,7 +742,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 	}
 }
 
-//modif Francois: function moved from functions/ to here because used only in this file
+//FJ function moved from functions/ to here because used only in this file
 function _ReindexResults($array)
 {
  	$i=1;

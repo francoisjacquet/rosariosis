@@ -15,7 +15,7 @@ else
 	$tabcolor_s = Preferences('HEADER'); $textcolor_s = '#FFFFFF';
 	$tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
 }*/
-//modif Francois: remove DrawTab params
+//FJ remove DrawTab params
 $header = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&type=student"><b>'._('Students').'</b></a>';
 $header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&type=staff"><b>'._('Users').'</b></a>';
 
@@ -25,7 +25,7 @@ User('PROFILE')=='student'?'':DrawHeader($header);
 if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
-//modif Francois: add translation
+//FJ add translation
 	if(DeletePromptX(_('Transaction')))
 	{
 		require_once('modules/Food_Service/includes/DeleteTransaction.fnc.php');

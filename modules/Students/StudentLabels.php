@@ -24,7 +24,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			else
 			{
 				if($_REQUEST['teacher'])
-//modif Francois: multiple school periods for a course period
+//FJ multiple school periods for a course period
 					$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE st.STAFF_ID=cp.TEACHER_ID AND cpsp.PERIOD_id=p.PERIOD_ID AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
 
 				if($_REQUEST['room'])
@@ -127,7 +127,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] .= '<TR><TD colspan="4"><b>'._('Include On Labels').':</b></TD></TR>';
 		$extra['extra_header_left'] .= '<TR class="st">';
-//modif Francois: add <label> on radio
+//FJ add <label> on radio
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="full_name" value="given" checked /> '._('Last, Given Middle').'</label></TD>';
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="full_name" value="given_natural"> '._('Given Last').'</label></TD>';
 		if(User('PROFILE')=='admin')
@@ -135,7 +135,7 @@ if(empty($_REQUEST['modfunc']))
 			if($_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
 				$course_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS TEACHER,cp.ROOM FROM STAFF s,COURSE_PERIODS cp WHERE s.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'"));
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 				$extra['extra_header_left'] .= '<TR><TD colspan="4"><label><INPUT type="checkbox" name="teacher" value="Y"> '._('Teacher').' ('.$course_RET[1]['TEACHER'].')</label></TD></TR>';
 				$extra['extra_header_left'] .= '<TR><TD colspan="4"><label><INPUT type="checkbox" name="room" value="Y"> '._('Room').' ('.$course_RET[1]['ROOM'].')</label></TD></TR>';
 			}

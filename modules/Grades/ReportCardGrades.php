@@ -11,7 +11,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		{
 			foreach($_REQUEST['values'] as $id=>$columns)
 			{
-		//modif Francois: fix SQL bug invalid numeric data
+		//FJ fix SQL bug invalid numeric data
 				if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['BREAK_OFF']) || is_numeric($columns['BREAK_OFF'])) && (empty($columns['GPA_VALUE']) || is_numeric($columns['GPA_VALUE'])) && (empty($columns['UNWEIGHTED_GP']) || is_numeric($columns['UNWEIGHTED_GP'])))
 				{
 					if($id!='new')
@@ -71,7 +71,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if($_REQUEST['tab_id']!='new')
 	{
-//modif Francois: add translation
+//FJ add translation
 		if(DeletePromptX(_('Report Card Grade')))
 		{
 			DBQuery("DELETE FROM REPORT_CARD_GRADES WHERE ID='".$_REQUEST['id']."'");
@@ -85,7 +85,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 		}
 }
 
-//modif Francois: fix SQL bug invalid numeric data
+//FJ fix SQL bug invalid numeric data
 if(isset($error))
 	echo ErrorMessage($error);
 
@@ -198,7 +198,7 @@ function makeGradesInput($value,$name)
 		return SelectInput($value,"values[$id][$name]",'',$grade_scale_select,false);
 	elseif($name=='COMMENT')
 		$extra = 'size=15 maxlength=100';
-//modif Francois: Honor Roll by Subject
+//FJ Honor Roll by Subject
 	elseif($name=='GPA_VALUE' || $name=='HHR_GPA_VALUE' || $name=='HR_GPA_VALUE' || $name=='HRS_GPA_VALUE')
 		$extra = 'size=5 maxlength=5';
 	elseif($name=='SORT_ORDER')

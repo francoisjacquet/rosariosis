@@ -8,7 +8,7 @@ function PopTable($action,$title='Search',$table_att='')
 
 	if($action=='header')
 	{
-//modif Francois: css WPadmin
+//FJ css WPadmin
 		echo '<TABLE class="postbox cellspacing-0" '.$table_att.'>';
 		echo '<THEAD><TR><TH class="center">';
 		if(is_array($title))

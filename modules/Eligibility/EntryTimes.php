@@ -76,7 +76,7 @@ PopTable('header',_('Allow Eligibility Posting'));
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 echo '<TABLE>';
-//modif Francois: add translation 
+//FJ add translation 
 echo '<TR><TD><B>'._('From').'</B></TD><TD>'.SelectInput($START_DAY,'values[START_DAY]','',$day_options,false,'',false).'</TD><TD>'.SelectInput($START_HOUR,'values[START_HOUR]','',$hour_options,false,'',false).'</TD><TD><B>:</B></TD><TD>'.SelectInput($START_MINUTE,'values[START_MINUTE]','',$minute_options,false,'',false).'</TD><TD>'.SelectInput($START_M,'values[START_M]','',$m_options,false,'',false).'</TD></TR>';
 echo '<TR><TD><B>'._('To').'</B></TD><TD>'.SelectInput($END_DAY,'values[END_DAY]','',$day_options,false,'',false).'</TD><TD>'.SelectInput($END_HOUR,'values[END_HOUR]','',$hour_options,false,'',false).'</TD><TD><B>:</B></TD><TD>'.SelectInput($END_MINUTE,'values[END_MINUTE]','',$minute_options,false,'',false).'</TD><TD>'.SelectInput($END_M,'values[END_M]','',$m_options,false,'',false).'</TD></TR>';
 echo '<TR><TD colspan="4" class="center">'.SubmitButton(_('Save')).'</TD></TR>';

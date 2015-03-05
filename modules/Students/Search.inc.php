@@ -45,10 +45,10 @@ if(!$_REQUEST['search_modfunc'])
 
 			if(User('PROFILE')=='admin')
 			{
-//modif Francois: add <label> on checkbox
-//modif Francois: css WPadmin
+//FJ add <label> on checkbox
+//FJ css WPadmin
 				echo '<label><INPUT type="checkbox" name="address_group" value="Y"'.(Preferences('DEFAULT_FAMILIES')=='Y'?' checked':'').'>&nbsp;'._('Group by Family').'</label><BR />';
-//modif Francois: if only one school, no Search All Schools option
+//FJ if only one school, no Search All Schools option
 				if (SchoolInfo('SCHOOLS_NB') > 1)
 					echo '<label><INPUT type="checkbox" name="_search_all_schools" value="Y"'.(Preferences('DEFAULT_ALL_SCHOOLS')=='Y'?' checked':'').'>&nbsp;'._('Search All Schools').'</label><BR />';
 			}
@@ -229,7 +229,7 @@ else
 		}
 		else
 		{
-			//modif Francois: override "Student" if extra singular/plural set
+			//FJ override "Student" if extra singular/plural set
 			if (!empty($extra['singular']) && !empty($extra['plural']))
 				ListOutput($students_RET,$columns,$extra['singular'],$extra['plural'],$link,$extra['LO_group'],$extra['options']);
 			else
@@ -267,7 +267,7 @@ else
 			if($_REQUEST['modname'])
 				$_REQUEST['modname'] = $modname;
 
-			//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+			//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 			if (mb_substr($modname, -4, 4)!='.php' || mb_strpos($modname, '..')!==false || !is_file('modules/'.$modname))
 			{
 				include('ProgramFunctions/HackingLog.fnc.php');

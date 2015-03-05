@@ -3,7 +3,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
-//modif Francois: fix SQL bug invalid numeric data
+//FJ fix SQL bug invalid numeric data
 		if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['LENGTH']) || is_numeric($columns['LENGTH'])))
 		{
 			if($columns['START_TIME_HOUR']!='' && $columns['START_TIME_MINUTE'] && $columns['START_TIME_M'])
@@ -67,7 +67,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-//modif Francois: fix SQL bug invalid numeric data
+//FJ fix SQL bug invalid numeric data
 if(isset($error))
 	echo ErrorMessage($error);
 

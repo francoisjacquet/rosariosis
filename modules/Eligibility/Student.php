@@ -10,7 +10,7 @@ Search('student_id',$extra);
 
 if($_REQUEST['modfunc']=='add' && AllowEdit())
 {
-//modif Francois: fix bug add the same activity more than once
+//FJ fix bug add the same activity more than once
 	$activity_RET = DBGet(DBQuery("SELECT ACTIVITY_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE STUDENT_ID='".UserStudentID()."' AND ACTIVITY_ID='".$_REQUEST['new_activity']."' AND SYEAR='".UserSyear()."'"));
 
 	if(count($activity_RET))
@@ -84,7 +84,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 	if (is_null($begin_year))
 		ErrorMessage(array(_('There are no calendars yet setup.')), 'fatal');
 	
-//modif Francois: display locale with strftime()
+//FJ display locale with strftime()
 //	$date_select = "<OPTION value=$start>".date('M d, Y',$start).' - '.date('M d, Y',$end).'</OPTION>';
 	$date_select = '<OPTION value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</OPTION>';
 	//exit(var_dump($begin_year));
@@ -113,7 +113,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&start_date='.$_REQUEST['start_date'];
 	$link['remove']['variables'] = array('activity_id'=>'ACTIVITY_ID');
-//modif Francois: css WPadmin
+//FJ css WPadmin
 //	$link['add']['html']['TITLE'] = '<TABLE class="cellspacing-0"><TR><TD>'.SelectInput('','new_activity','',$activities).'</TD><TD><INPUT type=submit value="'._('Add').'"></TD></TR></TABLE>';
 //	$link['add']['html']['remove'] = button('add');
 	$link['add']['html'] = array('remove' => button('add'), 'TITLE' => SelectInput('','new_activity','',$activities).SubmitButton(_('Add')), 'START_DATE' => '&nbsp;', 'END_DATE' => '&nbsp;');

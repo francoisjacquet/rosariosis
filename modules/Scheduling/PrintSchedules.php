@@ -17,7 +17,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$date = DBDate();
 		$date_extra = 'OR sr.END_DATE IS NULL';
 	}
-//modif Francois: multiple school periods for a course period
+//FJ multiple school periods for a course period
 //	$columns = array('PERIOD_TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'MARKING_PERIOD_ID'=>_('Term'),'DAYS'=>_('Days'),'ROOM'=>_('Room'),'COURSE_TITLE'=>_('Course'));
 	$columns = array('PERIOD_TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'MARKING_PERIOD_ID'=>_('Term'),'ROOM'=>_('Room'),'COURSE_TITLE'=>_('Course'));
 
@@ -31,7 +31,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$extra['WHERE'] .= ' AND sr.MARKING_PERIOD_ID IN ('.GetAllMP(GetMP($_REQUEST['mp_id'],'MP'),$_REQUEST['mp_id']).')';
 
 //	$extra['functions'] = array('MARKING_PERIOD_ID'=>'GetMP','DAYS'=>'_makeDays');
-//modif Francois: add subject areas
+//FJ add subject areas
 	$extra['functions'] = array('MARKING_PERIOD_ID'=>'GetMP');
 	$extra['group'] = array('STUDENT_ID');
 //	$extra['ORDER'] = ',sp.SORT_ORDER';
@@ -41,11 +41,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	$RET = GetStuList($extra);
 	
-//modif Francois: add schedule table
+//FJ add schedule table
 	$schedule_table_days = array('U'=>false,'M'=>false,'T'=>false,'W'=>false,'H'=>false,'F'=>false,'S'=>false);
-	//modif Francois: days display to locale						
+	//FJ days display to locale						
 	$days_convert = array('U'=>_('Sunday'),'M'=>_('Monday'),'T'=>_('Tuesday'),'W'=>_('Wednesday'),'H'=>_('Thursday'),'F'=>_('Friday'),'S'=>_('Saturday'));
-	//modif Francois: days numbered
+	//FJ days numbered
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 		$days_convert = array('U'=>_('Day').' 7','M'=>_('Day').' 1','T'=>_('Day').' 2','W'=>_('Day').' 3','H'=>_('Day').' 4','F'=>_('Day').' 5','S'=>_('Day').' 6');
 	
@@ -66,7 +66,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	AND sta.STAFF_ID=cp.TEACHER_ID 
 	AND sp.LENGTH <= ".(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)." 
 	ORDER BY sp.SORT_ORDER"),array('DAYS'=>'_GetDays'),array('STUDENT_ID','SCHOOL_PERIOD'));
-	//modif Francois: note the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
+	//FJ note the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
 	
 	$columns_table = array('SCHOOL_PERIOD' => _('Periods'));
 	foreach ($schedule_table_days as $day=>$true)
@@ -100,7 +100,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 				else
 				{
-					//modif Francois: add Horizontal format option
+					//FJ add Horizontal format option
 					if (isset($_REQUEST['horizontalFormat']))
 					{
 						//echo '<!-- MEDIA SIZE 8.5x11in -->';
@@ -117,7 +117,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 			}
 			
-	//modif Francois: add schedule table
+	//FJ add schedule table
 		if ($_REQUEST['schedule_table'] == 'Yes')	
 			foreach($schedule_table_RET as $student_id=>$schedule_table)
 			{
@@ -170,7 +170,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 				else
 				{
-					//modif Francois: add Horizontal format option
+					//FJ add Horizontal format option
 					if (isset($_REQUEST['horizontalFormat']))
 					{
 						//echo '<!-- MEDIA SIZE 8.5x11in -->';
@@ -220,9 +220,9 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Marking Period').'</TD><TD>'.$mp_select.'</TD></TR>';
 		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Include only courses active as of').'</TD><TD>'.PrepareDate('','_include_active_date').'</TD></TR>';
 		
-		//modif Francois: add Horizontal format option
+		//FJ add Horizontal format option
 		$extra['extra_header_left'] .= '<TR><TD colspan="2">'.'<label><span class="nobr">'._('Horizontal Format').'&nbsp;<input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" /></span></label>'.'</TD></TR>';
-	//modif Francois: add schedule table
+	//FJ add schedule table
 		$extra['extra_header_left'] .= '<TR><TD colspan="2">'.'<label><input name="schedule_table" type="radio" value="Yes" checked />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" type="radio" value="No" />&nbsp;'._('List').'</label>'.'</TD></TR>';
 		
 		Widgets('mailing_labels');
@@ -255,7 +255,7 @@ function _makeChooseCheckbox($value,$title)
 	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }
 
-//modif Francois: add schedule table
+//FJ add schedule table
 function _GetDays($value, $column)
 {	global $schedule_table_days;
 

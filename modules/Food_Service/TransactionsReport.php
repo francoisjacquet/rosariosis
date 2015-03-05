@@ -68,7 +68,7 @@ GROUP BY fst.SHORT_NAME,fsti.SHORT_NAME"),array('ITEM_SHORT_NAME'=>'bump_amount'
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
 $LO_types = array(0=>array());
-//modif Francois: add translation
+//FJ add translation
 $users_locale = array('Student'=>_('Student'), 'User'=>_('User'));
 
 foreach($types as $user=>$trans)

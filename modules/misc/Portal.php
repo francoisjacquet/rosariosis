@@ -34,7 +34,7 @@ switch (User('PROFILE'))
 		if (!empty($PHPCheck))
 			echo ErrorMessage($PHPCheck, 'warning');
 
-		//modif Francois: Discipline new referrals alert
+		//FJ Discipline new referrals alert
 		if($RosarioModules['Discipline'] && AllowUse('Discipline/Referrals.php') && $_SESSION['LAST_LOGIN'])
 		{
 			$extra = array();
@@ -54,8 +54,8 @@ switch (User('PROFILE'))
 		}
 		
 		include_once('ProgramFunctions/PortalPollsNotes.fnc.php');
-//modif Francois: file attached to portal notes
-//modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
+//FJ file attached to portal notes
+//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 //        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent'));
 		$notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID 
 		FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st 
@@ -74,7 +74,7 @@ switch (User('PROFILE'))
 			ListOutput($notes_RET,array('PUBLISHED_DATE'=>_('Date Posted'),'TITLE'=>_('Title'),'CONTENT'=>_('Note'),'FILE_ATTACHED'=>_('File Attached'),'SCHOOL'=>_('School')),'Note','Notes',array(),array(),array('save'=>false,'search'=>false));
 		}
 
-		//modif Francois: Portal Polls
+		//FJ Portal Polls
 		$polls_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pp.TITLE||'</B>' AS TITLE,'options' AS OPTIONS,pp.ID 
 		FROM PORTAL_POLLS pp,SCHOOLS s,STAFF st 
 		WHERE pp.SYEAR='".UserSyear()."' 
@@ -91,7 +91,7 @@ switch (User('PROFILE'))
 			ListOutput($polls_RET,array('PUBLISHED_DATE'=>_('Date Posted'),'TITLE'=>_('Title'),'OPTIONS'=>_('Poll'),'SCHOOL'=>_('School')),'Poll','Polls',array(),array(),array('save'=>false,'search'=>false));
 		}
 
-//modif Francois: add translation
+//FJ add translation
 		$events_RET = DBGet(DBQuery("SELECT ce.ID,ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE AS SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,s.TITLE AS SCHOOL 
 		FROM CALENDAR_EVENTS ce,SCHOOLS s,STAFF st 
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE 
@@ -116,8 +116,8 @@ switch (User('PROFILE'))
 		$categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION SELECT ID,TITLE,1,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY 3,SORT_ORDER"));
 		foreach($categories_RET as $category)
 		{
-		//modif Francois: days numbered
-		//modif Francois: multiple school periods for a course period
+		//FJ days numbered
+		//FJ multiple school periods for a course period
 			if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 			{
 				$RET = DBGET(DBQuery("SELECT cp.COURSE_PERIOD_ID,s.TITLE AS SCHOOL,acc.SCHOOL_DATE,cp.TITLE 
@@ -210,7 +210,7 @@ switch (User('PROFILE'))
 		DrawHeader($welcome.'<BR />&nbsp;'._('You are a <b>Teacher</b> on the system.'));
 
 		include_once('ProgramFunctions/PortalPollsNotes.fnc.php');
-//modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
+//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 //        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',teacher,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent'));
         $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pn.TITLE||'</B>' AS TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID 
 		FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st 
@@ -230,7 +230,7 @@ switch (User('PROFILE'))
 			ListOutput($notes_RET,array('PUBLISHED_DATE'=>_('Date Posted'),'TITLE'=>_('Title'),'CONTENT'=>_('Note'),'FILE_ATTACHED'=>_('File Attached'),'SCHOOL'=>_('School')),'Note','Notes',array(),array(),array('save'=>false,'search'=>false));
 		}
 
-//modif Francois: Portal Polls
+//FJ Portal Polls
         $polls_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pp.TITLE||'</B>' AS TITLE,'options' AS OPTIONS,pp.ID 
 		FROM PORTAL_POLLS pp,SCHOOLS s,STAFF st 
 		WHERE pp.SYEAR='".UserSyear()."' 
@@ -249,7 +249,7 @@ switch (User('PROFILE'))
 			ListOutput($polls_RET,array('PUBLISHED_DATE'=>_('Date Posted'),'TITLE'=>_('Title'),'OPTIONS'=>_('Poll'),'SCHOOL'=>_('School')),'Poll','Polls',array(),array(),array('save'=>false,'search'=>false));
 		}
 
-//modif Francois: add translation
+//FJ add translation
 		$events_RET = DBGet(DBQuery("SELECT ce.ID,ce.TITLE,ce.DESCRIPTION,ce.SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,s.TITLE AS SCHOOL 
 		FROM CALENDAR_EVENTS ce,SCHOOLS s 
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE 
@@ -265,7 +265,7 @@ switch (User('PROFILE'))
 			ListOutput($events_RET,array('DAY'=>_('Day'),'SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Event'),'DESCRIPTION'=>_('Description'),'SCHOOL'=>_('School')),'Day With Upcoming Events','Days With Upcoming Events',array(),array('SCHOOL_DATE'),array('save'=>false,'search'=>false));
 		}
 
-		//modif Francois: Portal Assignments
+		//FJ Portal Assignments
 		$assignments_RET = DBGet(DBQuery("SELECT a.ASSIGNMENT_ID AS ID,a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
 		FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
 		WHERE (a.COURSE_ID=c.COURSE_ID
@@ -288,8 +288,8 @@ switch (User('PROFILE'))
 			$categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION SELECT ID,TITLE,1,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY 3,SORT_ORDER"));
 			foreach($categories_RET as $category)
 			{
-			//modif Francois: days numbered
-			//modif Francois: multiple school periods for a course period
+			//FJ days numbered
+			//FJ multiple school periods for a course period
 				if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 				{
 					$RET = DBGET(DBQuery("SELECT cp.COURSE_PERIOD_ID,acc.SCHOOL_DATE,cp.TITLE 
@@ -359,7 +359,7 @@ switch (User('PROFILE'))
 		DrawHeader($welcome.'<BR />&nbsp;'._('You are a <b>Parent</b> on the system.'));
 
 		include_once('ProgramFunctions/PortalPollsNotes.fnc.php');
-//modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
+//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 //        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st WHERE pn.SYEAR='".UserSyear()."' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND st.STAFF_ID='".User('STAFF_ID')."' AND pn.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='".User('STAFF_ID')."' AND se.SYEAR=pn.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL)) AND (st.SCHOOLS IS NULL OR position(','||pn.SCHOOL_ID||',' IN st.SCHOOLS)>0) AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0) AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent'));
 		$notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID 
 		FROM PORTAL_NOTES pn,SCHOOLS s,STAFF st 
@@ -379,7 +379,7 @@ switch (User('PROFILE'))
 			ListOutput($notes_RET,array('PUBLISHED_DATE'=>_('Date Posted'),'TITLE'=>_('Title'),'CONTENT'=>_('Note'),'FILE_ATTACHED'=>_('File Attached'),'SCHOOL'=>_('School')),'Note','Notes',array(),array(),array('save'=>false,'search'=>false));
 		}
 
-//modif Francois: Portal Polls
+//FJ Portal Polls
         $polls_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,'<B>'||pp.TITLE||'</B>' AS TITLE,'options' AS OPTIONS,pp.ID 
 		FROM PORTAL_POLLS pp,SCHOOLS s,STAFF st 
 		WHERE pp.SYEAR='".UserSyear()."' 
@@ -398,7 +398,7 @@ switch (User('PROFILE'))
 			ListOutput($polls_RET,array('PUBLISHED_DATE'=>_('Date Posted'),'TITLE'=>_('Title'),'OPTIONS'=>_('Poll'),'SCHOOL'=>_('School')),'Poll','Polls',array(),array(),array('save'=>false,'search'=>false));
 		}
 
-//modif Francois: add translation
+//FJ add translation
 		$events_RET = DBGet(DBQuery("SELECT ce.ID,ce.TITLE,ce.SCHOOL_DATE,to_char(ce.SCHOOL_DATE,'Day') AS DAY,ce.DESCRIPTION,s.TITLE AS SCHOOL 
 		FROM CALENDAR_EVENTS ce,SCHOOLS s 
 		WHERE ce.SCHOOL_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11 
@@ -413,7 +413,7 @@ switch (User('PROFILE'))
 			ListOutput($events_RET,array('DAY'=>_('Day'),'SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Event'),'DESCRIPTION'=>_('Description'),'SCHOOL'=>_('School')),'Day With Upcoming Events','Days With Upcoming Events',array(),array('SCHOOL_DATE'),array('save'=>false,'search'=>false));
 		}
 
-		//modif Francois: Portal Assignments
+		//FJ Portal Assignments
 		$assignments_RET = DBGet(DBQuery("SELECT a.ASSIGNMENT_ID AS ID,a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
 		FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
 		WHERE (a.COURSE_ID=c.COURSE_ID
@@ -465,7 +465,7 @@ switch (User('PROFILE'))
 		DrawHeader($welcome.'<BR />&nbsp;'._('You are a <b>Student</b> on the system.'));
 
 		include_once('ProgramFunctions/PortalPollsNotes.fnc.php');
-//modif Francois: fix bug Portal Notes not displayed when pn.START_DATE IS NULL
+//FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
 //        $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT FROM PORTAL_NOTES pn,SCHOOLS s WHERE pn.SYEAR='".UserSyear()."' AND pn.START_DATE<=CURRENT_DATE AND (pn.END_DATE>=CURRENT_DATE OR pn.END_DATE IS NULL) AND pn.SCHOOL_ID='".UserSchool()."' AND  position(',0,' IN pn.PUBLISHED_PROFILES)>0 AND s.ID=pn.SCHOOL_ID AND s.SYEAR=pn.SYEAR ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE'=>'ProperDate','CONTENT'=>'_formatContent'));
         $notes_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pn.PUBLISHED_DATE) AS PUBLISHED_DATE,pn.TITLE,pn.CONTENT,pn.FILE_ATTACHED,pn.ID 
 		FROM PORTAL_NOTES pn,SCHOOLS s 
@@ -483,8 +483,8 @@ switch (User('PROFILE'))
 			ListOutput($notes_RET,array('PUBLISHED_DATE'=>_('Date Posted'),'TITLE'=>_('Title'),'CONTENT'=>_('Note'),'FILE_ATTACHED'=>_('File Attached')),'Note','Notes',array(),array(),array('save'=>false,'search'=>false));
 		}
 
-//modif Francois: Portal Polls
-		//modif Francois: Portal Polls add students teacher
+//FJ Portal Polls
+		//FJ Portal Polls add students teacher
         $polls_RET = DBGet(DBQuery("SELECT s.TITLE AS SCHOOL,date(pp.PUBLISHED_DATE) AS PUBLISHED_DATE,pp.TITLE,'options' AS OPTIONS,pp.ID 
 		FROM PORTAL_POLLS pp,SCHOOLS s 
 		WHERE pp.SYEAR='".UserSyear()."' 
@@ -513,7 +513,7 @@ switch (User('PROFILE'))
 			ListOutput($events_RET,array('DAY'=>_('Day'),'SCHOOL_DATE'=>_('Date'),'TITLE'=>_('Event'),'DESCRIPTION'=>_('Description')),'Day With Upcoming Events','Days With Upcoming Events',array(),array('SCHOOL_DATE'),array('save'=>false,'search'=>false));
 		}
 
-		//modif Francois: Portal Assignments
+		//FJ Portal Assignments
 		$assignments_RET = DBGet(DBQuery("SELECT a.ASSIGNMENT_ID AS ID,a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
 		FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
 		WHERE (a.COURSE_ID=c.COURSE_ID
@@ -546,14 +546,14 @@ function _formatContent($value,$column)
 	$value_url = Linkify($value);
 	$value_br_url = nl2br($value_url);
 
-	//modif Francois: responsive rt td too large
+	//FJ responsive rt td too large
 	if ($value_br_url==$value && mb_strlen($value) < 50)
 		$return = $value_br_url;
 	else
 	{
 		if (!isset($_REQUEST['_ROSARIO_PDF']))
 		{
-			//modif Francois: Portal Assignments
+			//FJ Portal Assignments
 			if(isset($THIS_RET['COURSE']))
 				$return = includeOnceColorBox('divAssignmentContent'.$id).'<DIV id="divAssignmentContent'.$id.'" class="rt2colorBox">';
 			else
@@ -572,7 +572,7 @@ function _formatContent($value,$column)
 function PHPCheck() {
 	$ret = array();
 
-	//modif Francois: check PHP version
+	//FJ check PHP version
 	if (version_compare(PHP_VERSION, '5.3.2') == -1)
 	    $ret[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
 
@@ -585,7 +585,7 @@ function PHPCheck() {
 	return $ret;
 }
 
-//modif Francois: add translation
+//FJ add translation
 function _eventDay($string, $key) {
 	return _(trim($string));
 }

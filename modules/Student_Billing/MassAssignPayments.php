@@ -15,7 +15,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if (count($_REQUEST['student']))
 	{
-//modif Francois: fix SQL bug invalid amount
+//FJ fix SQL bug invalid amount
 		if (is_numeric($_REQUEST['amount']))
 		{
 			foreach($_REQUEST['student'] as $student_id=>$yes)

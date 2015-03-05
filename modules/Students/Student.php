@@ -36,7 +36,7 @@ else
 		{
 			$include = $category_include[1]['INCLUDE'];
 		}
-		//modif Francois: Prevent $_REQUEST['category_id'] hacking
+		//FJ Prevent $_REQUEST['category_id'] hacking
 		else
 		{
 			$category_id = '1';
@@ -65,7 +65,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		foreach($_REQUEST['month_students'] as $column=>$value)
 		{
 			$_REQUEST['students'][$column] = $_REQUEST['day_students'][$column].'-'.$_REQUEST['month_students'][$column].'-'.$_REQUEST['year_students'][$column];
-			//modif Francois: bugfix SQL bug when incomplete or non-existent date
+			//FJ bugfix SQL bug when incomplete or non-existent date
 			//if($_REQUEST['students'][$column]=='--')
 			if(mb_strlen($_REQUEST['students'][$column]) < 11)
 				$_REQUEST['students'][$column] = '';
@@ -85,18 +85,18 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 	{
 		$required_error = false;
 
-		//modif Francois: fix SQL bug FIRST_NAME, LAST_NAME is null
+		//FJ fix SQL bug FIRST_NAME, LAST_NAME is null
 		if ((isset($_REQUEST['students']['FIRST_NAME']) && empty($_REQUEST['students']['FIRST_NAME'])) || (isset($_REQUEST['students']['LAST_NAME']) && empty($_REQUEST['students']['LAST_NAME'])))
 			$required_error = true;
 
-		//modif Francois: other fields required
+		//FJ other fields required
 		$others_required_RET = DBGet(DBQuery("SELECT ID FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$category_id."' AND REQUIRED='Y'"));
 		if (count($others_required_RET))
 			foreach($others_required_RET as $other_required)
 				if (isset($_REQUEST['students']['CUSTOM_'.$other_required['ID']]) && empty($_REQUEST['students']['CUSTOM_'.$other_required['ID']]))
 					$required_error = true;
 
-		//modif Francois: create account
+		//FJ create account
 		if (basename($_SERVER['PHP_SELF'])=='index.php')
 		{
 			//username & password required
@@ -143,7 +143,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				{
 					if(1)//!empty($value) || $value=='0')
 					{
-						//modif Francois: check numeric fields
+						//FJ check numeric fields
 						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 						{
 							$error[] = _('Please enter valid Numeric data.');
@@ -152,7 +152,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						
 						if(!is_array($value))
 						{
-							//modif Francois: add password encryption
+							//FJ add password encryption
 							if ($column!=='PASSWORD')
 							{
 								$sql .= $column."='".str_replace('&#39;',"''",$value)."',";
@@ -167,7 +167,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						}
 						else
 						{
-							//modif Francois: fix bug none selected not saved
+							//FJ fix bug none selected not saved
 							$sql .= $column."='";
 							$sql_multiple_input = '';
 							foreach($value as $val)
@@ -232,7 +232,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				{
 					if(!empty($value) || $value=='0')
 					{
-						//modif Francois: check numeric fields
+						//FJ check numeric fields
 						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 						{
 							$error[] = _('Please enter valid Numeric data.');
@@ -242,7 +242,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 						$fields .= $column.',';
 						if(!is_array($value))
 						{
-							//modif Francois: add password encryption
+							//FJ add password encryption
 							if ($column!=='PASSWORD')
 								$values .= "'".$value."',";
 							else
@@ -324,7 +324,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 	else
 		DrawHeader(ProgramTitle());
 }
-//modif Francois: create account
+//FJ create account
 elseif(!UserStudentID())
 {
 	$_ROSARIO['HeaderIcon'] = 'modules/Students/icon.png';
@@ -355,11 +355,11 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 	else
 		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='0' AND CAN_USE='Y'"),array(),array('MODNAME'));
 
-	//modif Francois: create account
+	//FJ create account
 	if(basename($_SERVER['PHP_SELF'])=='index.php')
 		$can_use_RET['Students/Student.php&category_id=1'] = true;
 
-	//modif Francois: General_Info only for new student
+	//FJ General_Info only for new student
 	//$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES WHERE ".($_REQUEST['student_id']!='new'?'TRUE':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE"));
 
@@ -379,7 +379,7 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 
 		if(basename($_SERVER['PHP_SELF'])!='index.php')
 			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
-		//modif Francois: create account
+		//FJ create account
 		else
 			echo '<FORM action="index.php?create_account=student&student_id=new&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
 
@@ -395,7 +395,7 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 		{
 			if($can_use_RET['Students/Student.php&category_id='.$category['ID']])
 			{
-				//modif Francois: Remove $_REQUEST['include']
+				//FJ Remove $_REQUEST['include']
 				/*if($category['ID']=='1')
 					$include = 'General_Info';
 				elseif($category['ID']=='3')

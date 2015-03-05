@@ -6,7 +6,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		$cp_list = '\''.implode('\',\'',$_REQUEST['cp_arr']).'\'';
 
-		//modif Francois: multiple school periods for a course period
+		//FJ multiple school periods for a course period
 		//$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID IN ($cp_list) ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)"));
 		$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID IN (".$cp_list.") ORDER BY cp.SHORT_NAME,cp.TITLE"));
 		//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
@@ -32,7 +32,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				$extra = array('SELECT_ONLY'=>'s.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME', 'ORDER_BY'=>'s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME', 'MP'=>$course_period['MARKING_PERIOD_ID'], 'MPTable'=>$course_period['MP']);
 
-				//modif Francois: prevent course period ID hacking
+				//FJ prevent course period ID hacking
 				if (User('PROFILE')=='student' || User('PROFILE')=='parent')
 				{
 					$extra['WHERE'] .= " AND '".UserStudentID()."' IN
@@ -64,7 +64,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$no_students_backprompt = false;
 
 					echo '<TABLE class="width-100p">';
-					//modif Francois: school year over one/two calendar years format
+					//FJ school year over one/two calendar years format
 					echo '<TR><TD colspan="5" class="center"><h3>'.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.$course_period['TITLE'].'</h3></TD></TR>';
 
 					$i = 0;
@@ -147,7 +147,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] = '<TABLE>';
 
-		//modif Francois: add <label> on checkbox
+		//FJ add <label> on checkbox
 		$extra['extra_header_left'] .= '<TR class="st"><TD><label><INPUT type="checkbox" name="include_teacher" value="Y" checked /> '._('Include Teacher').'</label></TD>';
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="last_year" value="Y"> '._('Use Last Year\'s if Missing').'</label></TD></TR>';
 
@@ -257,7 +257,7 @@ function mySearch($type,$extra='')
 				$where .= " AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID='".$_REQUEST['subject_id']."'";
 			}
 
-			//modif Francois: multiple school periods for a course period
+			//FJ multiple school periods for a course period
 			if($_REQUEST['period_id'])
 			{
 				//$where .= " AND cp.PERIOD_ID='".$_REQUEST['period_id']."'";
@@ -270,13 +270,13 @@ function mySearch($type,$extra='')
 		}
 		elseif(User('PROFILE')=='teacher')
 		{
-			//modif Francois: multiple school periods for a course period
+			//FJ multiple school periods for a course period
 			//$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,sp.ATTENDANCE FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."' AND cp.TEACHER_ID='".User('STAFF_ID')."' AND sp.PERIOD_ID=cp.PERIOD_ID";
 			$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE FROM COURSE_PERIODS cp WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."' AND cp.TEACHER_ID='".User('STAFF_ID')."'";
 		}
 		else                       		
 		{
-			//modif Francois: multiple school periods for a course period
+			//FJ multiple school periods for a course period
 			//$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,sp.ATTENDANCE FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHEDULE ss WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.SYEAR='".UserSyear()."' AND ss.STUDENT_ID='".UserStudentID()."' AND (CURRENT_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR CURRENT_DATE<=ss.END_DATE)) AND sp.PERIOD_ID=cp.PERIOD_ID";
 			$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE FROM COURSE_PERIODS cp,SCHEDULE ss WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.SYEAR='".UserSyear()."' AND ss.STUDENT_ID='".UserStudentID()."' AND (CURRENT_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR CURRENT_DATE<=ss.END_DATE))";
 		}

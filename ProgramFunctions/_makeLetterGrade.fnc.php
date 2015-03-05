@@ -1,5 +1,5 @@
 <?php
-//modif Francois: use Report Card Grades comments
+//FJ use Report Card Grades comments
 //function _makeLetterGrade($percent,$course_period_id=0,$staff_id=0,$ret='')
 function _makeLetterGrade($percent,$course_period_id=0,$staff_id=0,$ret='TITLE')
 {	global $programconfig,$_ROSARIO;
@@ -47,7 +47,7 @@ function _makeLetterGrade($percent,$course_period_id=0,$staff_id=0,$ret='TITLE')
 	foreach($_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id] as $grade)
 	{
 		if($does_breakoff=='Y' ? $percent>=$programconfig[$staff_id][$course_period_id.'-'.$grade['ID']] && is_numeric($programconfig[$staff_id][$course_period_id.'-'.$grade['ID']]) : $percent>=$grade['BREAK_OFF'])
-//modif Francois: use Report Card Grades comments
+//FJ use Report Card Grades comments
 			//return $ret=='ID' ? $grade['ID'] : $grade['TITLE'];
 			return $grade[$ret];
 	}

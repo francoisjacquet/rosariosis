@@ -1,8 +1,8 @@
 <?php
-//modif Francois: move Attendance.php from functions/ to modules/Attendance/includes
+//FJ move Attendance.php from functions/ to modules/Attendance/includes
 require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 
-//modif Francois: add School Configuration
+//FJ add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='attendance'"),array(),array('TITLE'));
 
 if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
@@ -18,7 +18,7 @@ else
 
 DrawHeader(ProgramTitle());
 
-//modif Francois: multiple school periods for a course period
+//FJ multiple school periods for a course period
 //$categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER WHERE position(',0,' IN (SELECT DOES_ATTENDANCE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'))>0 UNION SELECT ID,TITLE,1,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND position(','||ID||',' IN (SELECT DOES_ATTENDANCE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'))>0 ORDER BY 3,SORT_ORDER,TITLE"));
 $categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER 
 WHERE position(',0,' IN 
@@ -57,8 +57,8 @@ if($_REQUEST['table']=='0')
 else
 	$table = 'LUNCH_PERIOD';
 
-//modif Francois: days numbered
-//modif Francois: multiple school periods for a course period
+//FJ days numbered
+//FJ multiple school periods for a course period
 if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 {
 	$course_RET = DBGET(DBQuery("SELECT cp.HALF_DAY 

@@ -7,10 +7,10 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	$table = $_REQUEST['table'];
 	foreach($_REQUEST['tables'] as $id=>$columns)
 	{
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
-			//modif Francois: added SQL constraint TITLE is not null
+			//FJ added SQL constraint TITLE is not null
 			if ((!isset($columns['TITLE']) || !empty($columns['TITLE'])))
 			{
 				if($id!='new')
@@ -116,7 +116,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 if(isset($error))
 	echo ErrorMessage($error);
 
@@ -152,7 +152,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
 
-//modif Francois: field name required
+//FJ field name required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</TD>';
 
 		// You can't change a student field type after it has been created
@@ -239,7 +239,7 @@ if(empty($_REQUEST['modfunc']))
 	$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&id=new';
 
 	$fields_RET = ParseMLArray($fields_RET,'TITLE');
-	//modif Francois: no responsive table
+	//FJ no responsive table
 	$LO_options['responsive'] = false;
 	ListOutput($fields_RET,$columns,'School Field','School Fields',$link,array(),$LO_options);
 

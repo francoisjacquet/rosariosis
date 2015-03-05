@@ -32,7 +32,7 @@ if($_REQUEST['month_values'] && $_POST['month_values'])
 	foreach($_REQUEST['month_values'] as $column=>$value)
 	{
 		$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
-		//modif Francois: bugfix SQL bug when incomplete or non-existent date
+		//FJ bugfix SQL bug when incomplete or non-existent date
 		//if($_REQUEST['values'][$column]=='--')
 		if(mb_strlen($_REQUEST['values'][$column]) < 11)
 			$_REQUEST['values'][$column] = '';
@@ -63,7 +63,7 @@ if($_REQUEST['values'] && $_POST['values'])
 	{
 		if(!empty($value) || $value=='0')
 		{
-			//modif Francois: check numeric fields
+			//FJ check numeric fields
 			if ($categories_RET[str_replace('CATEGORY_','',$column)][1]['DATA_TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 			{
 				$error[] = _('Please enter valid Numeric data.');
@@ -121,7 +121,7 @@ Search('student_id',$extra);
 
 if(UserStudentID() && $_REQUEST['student_id'])
 {
-	//modif Francois: teachers need AllowEdit (to edit the input fields)
+	//FJ teachers need AllowEdit (to edit the input fields)
 	$_ROSARIO['allow_edit'] = true;
 	
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';

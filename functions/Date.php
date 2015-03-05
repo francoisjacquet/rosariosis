@@ -41,15 +41,15 @@ function ProperDate($date='',$length='long')
 	if(!empty($_REQUEST['_ROSARIO_PDF']) && $_REQUEST['LO_save'] && Preferences('E_DATE')=='MM/DD/YYYY')
 		return $comment.$month.'/'.$day.'/'.$year;
 
-	//modif Francois: display locale with strftime()
+	//FJ display locale with strftime()
 //	if((Preferences('MONTH')=='m' || Preferences('MONTH')=='M') && (Preferences('DAY')=='j' || Preferences('DAY')=='d') && Preferences('YEAR'))
 	if((Preferences('MONTH')=='%m' || Preferences('MONTH')=='%b') && Preferences('DAY')=='%d' && Preferences('YEAR'))
 		$sep = '/';
 	else
 		$sep = ' ';
 
-	//modif Francois: display locale with strftime()
-	//modif Francois: NOBR on date
+	//FJ display locale with strftime()
+	//FJ NOBR on date
 	return $comment.'<span style="white-space:nowrap">'.mb_convert_case(iconv('','UTF-8',strftime((($length=='long' || Preferences('MONTH')!='%B')?Preferences('MONTH'):'%b').$sep.Preferences('DAY').$sep.Preferences('YEAR'),mktime(0,0,0,$month+0,$day+0,$year+0))), MB_CASE_TITLE).'</span>';
 //	return $comment.date((($length=='long' || Preferences('MONTH')!='F')?Preferences('MONTH'):'M').$sep.Preferences('DAY').$sep.Preferences('YEAR'),mktime(0,0,0,$month+0,$day+0,$year+0));
 	}
@@ -165,7 +165,7 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 		$return .= '<!-- '.$year.MonthNWSwitch($month,'tonum').$day.' -->';
 	}
 	
-	//modif Francois: NOBR on date input
+	//FJ NOBR on date input
 	$return .= '<span style="white-space:nowrap">';
 	
 	// MONTH  ---------------
@@ -179,7 +179,7 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 			else
 				$return .= '<OPTION value="">'._('N/A').'';
 		}
-		//modif Francois: traduction des mois!
+		//FJ traduction des mois!
 		foreach(array('JAN'=>_('January'),'FEB'=>_('February'),'MAR'=>_('March'),'APR'=>_('April'),'MAY'=>_('May'),'JUN'=>_('June'),'JUL'=>_('July'),'AUG'=>_('August'),'SEP'=>_('September'),'OCT'=>_('October'),'NOV'=>_('November'),'DEC'=>_('December')) as $key=>$name)
 			$return .= '<OPTION VALUE="'.$key.'"'.($month==$key?' SELECTED':'').'>'.$name;
 		$return .= '</SELECT>';
@@ -214,13 +214,13 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 	{
 		if(!$year || $year=='0000')
 		{
-			//modif Francois: show 80 previous years instead of 20
+			//FJ show 80 previous years instead of 20
 			$begin = date('Y') - 80;
 			$end = date('Y') + 5;
 		}
 		else
 		{
-			//modif Francois: show 20 previous years instead of 5
+			//FJ show 20 previous years instead of 5
 			$begin = $year - 20;
 			$end = $year + 5;
 		}
@@ -242,7 +242,7 @@ function PrepareDate($date,$title='',$allow_na=true,$options='')
 	if($options['C'])
 		$return .= '<img src="assets/themes/'. Preferences('THEME') .'/btn/calendar.png" class="button cal" id="trigger'.$_ROSARIO['PrepareDate'].'" />';
 
-	//modif Francois: NOBR on date input
+	//FJ NOBR on date input
 	$return .= '</span>';	
 	
 	if($_REQUEST['_ROSARIO_PDF'])

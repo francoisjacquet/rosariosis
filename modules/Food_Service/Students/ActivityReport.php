@@ -35,7 +35,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1 
 		AND SCHOOL_ID='".UserSchool()."'".$where."
 		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','SHORT_NAME'=>'bump_count'));
-	//modif Francois: add translation
+	//FJ add translation
 		foreach($RET as $RET_key=>$RET_val) {
 			$RET[$RET_key]=array_map('types_locale', $RET_val);
 		}	
@@ -45,7 +45,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 			// get details of each transaction
 			$tmpRET = DBGet(DBQuery("SELECT TRANSACTION_ID AS TRANS_ID,*,'".$value['SHORT_NAME']."' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$value['TRANSACTION_ID']."'"),array('SHORT_NAME'=>'bump_items_count'));
 
-	//modif Francois: add translation
+	//FJ add translation
 			foreach($tmpRET as $RET_key=>$RET_val) {
 				$tmpRET[$RET_key]=array_map('options_locale', $RET_val);
 			}	
@@ -69,7 +69,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 		AND SCHOOL_ID='".UserSchool()."'".$where."
 		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','SHORT_NAME'=>'bump_count'));
 		$columns = array('TRANSACTION_ID'=>_('ID'),'ACCOUNT_ID'=>_('Account ID'),'FULL_NAME'=>_('Student'),'DATE'=>_('Date'),'TIME'=>_('Time'),'BALANCE'=>_('Balance'),'DISCOUNT'=>_('Discount'),'DESCRIPTION'=>_('Description'),'AMOUNT'=>_('Amount'));
-	//modif Francois: add translation
+	//FJ add translation
 		foreach($RET as $RET_key=>$RET_val) {
 			$RET[$RET_key]=array_map('types_locale', $RET_val);
 		}	
@@ -89,7 +89,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
-	//modif Francois: add label on checkbox
+	//FJ add label on checkbox
 	DrawHeader(PrepareDate($date,'_date').' : '.$type_select.' : '.$staff_select.' : <INPUT type="submit" value="'._('Go').'" />');
 	DrawHeader('<label>'.CheckBoxOnclick('by_name').' '._('Sort by Name').'</label>');
 	echo '</FORM>';

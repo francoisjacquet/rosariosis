@@ -1,5 +1,5 @@
 <?php
-//modif Francois: add password encryption
+//FJ add password encryption
 if (!defined('CRYPT_SHA512'))
 	define('CRYPT_SHA512', 1);
 	

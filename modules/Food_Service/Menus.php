@@ -11,7 +11,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		{
 			foreach($_REQUEST['values'] as $id=>$columns)
 			{
-		//modif Francois: fix SQL bug invalid sort order
+		//FJ fix SQL bug invalid sort order
 				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 				{
 					if($id!='new')
@@ -71,7 +71,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if($_REQUEST['tab_id']!='new')
 	{
-//modif Francois: add translation
+//FJ add translation
 		if(DeletePromptX(_('Category')))
 		{
 			DBQuery("UPDATE FOOD_SERVICE_MENU_ITEMS SET CATEGORY_ID=NULL WHERE CATEGORY_ID='".$_REQUEST['category_id']."'");
@@ -87,7 +87,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 		}
 }
 
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 if(isset($error))
 	echo ErrorMessage($error);
 
@@ -165,7 +165,7 @@ if(empty($_REQUEST['modfunc']))
 	if($_REQUEST['tab_id']!='new')
 		ListOutput($LO_ret,$LO_columns,$singular,$plural,$link,array(),$extra);
 	else
-//modif Francois: add translation
+//FJ add translation
 		ListOutput($LO_ret,$LO_columns,'Meal','Meals',$link,array(),$extra);
 
 	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';

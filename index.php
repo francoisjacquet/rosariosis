@@ -5,7 +5,7 @@ include('Warehouse.php');
 if(isset($_REQUEST['modfunc']))
 if($_REQUEST['modfunc']=='logout')
 {
-	//modif Francois: set logout page to old session locale
+	//FJ set logout page to old session locale
 	$old_session_locale = $_SESSION['locale'];
 	session_unset();
 	session_destroy();
@@ -16,7 +16,7 @@ if($_REQUEST['modfunc']=='logout')
 
 if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD']) && $_POST['PASSWORD']!='')
 {
-	//modif Francois: check accept cookies
+	//FJ check accept cookies
 	if(!isset($_COOKIE['RosarioSIS']) && !isset($_COOKIE['PHPSESSID']))
 	{
 		header("Location: index.php?modfunc=logout&reason=cookie");
@@ -108,7 +108,7 @@ if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD
 	}
 }
 
-//modif Francois: create account
+//FJ create account
 if(isset($_REQUEST['create_account']))
 {
 	$include = false;
@@ -156,10 +156,10 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 	{
 		if($_REQUEST['reason']=='javascript')
 			$note[] = sprintf(_('You must have javascript enabled to use %s.'),Config('NAME'));
-		//modif Francois: check accept cookies
+		//FJ check accept cookies
 		elseif($_REQUEST['reason']=='cookie')
 			$note[] = sprintf(_('You must accept cookies to use %s.'),Config('NAME'));
-		//modif Francois: create account
+		//FJ create account
 		elseif($_REQUEST['reason']=='account_created')
 			$note[] = _('Your account has been created.').' '._('You will be notified when it has been verified by a school administrator.').' '._('You will then be able to log in.');
 	}

@@ -37,7 +37,7 @@ echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">
 DrawHeader($mp_select.' - '.$period_select);
 echo '</FORM>';
 
-//modif Francois: multiple school periods for a course period
+//FJ multiple school periods for a course period
 /*$sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,
 			(SELECT 'Y' FROM GRADES_COMPLETED ac WHERE ac.STAFF_ID=cp.TEACHER_ID AND ac.MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND ac.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID) AS COMPLETED
 		FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp

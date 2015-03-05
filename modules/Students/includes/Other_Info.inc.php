@@ -29,7 +29,7 @@ foreach($fields_RET as $field)
 				echo '<TR class="st">';
 			echo '<TD>';
 			
-//modif Francois: Moodle integrator / email field
+//FJ Moodle integrator / email field
 			if ($_REQUEST['moodle_create_student'] && ROSARIO_STUDENTS_EMAIL_FIELD_ID == $field['ID'])
 				echo TextInput($value['CUSTOM_'.$field['ID']],'students[CUSTOM_'.$field['ID'].']',($value['CUSTOM_'.$field['ID']]=='' ? '<span class="legend-red">'.$field['TITLE'].'</span>' : $field['TITLE']),' required',false);
 			else
@@ -82,7 +82,7 @@ foreach($fields_RET as $field)
 			if($i%$per_row==0)
 				echo '</TR>';
 			$i++;
-//modif Francois: display age next to birthdate
+//FJ display age next to birthdate
 			if ($field['ID'] !== '200000004')
 				break;
 

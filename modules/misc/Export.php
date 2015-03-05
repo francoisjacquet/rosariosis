@@ -30,7 +30,7 @@ if($_REQUEST['fields']['ADDRESS'] || $_REQUEST['fields']['CITY'] || $_REQUEST['f
 	{
 		$extra['SELECT'] .= ',ssm.STUDENT_ID AS PARENTS';
 		$view_other_RET['ALL_CONTACTS'][1]['VALUE']='Y';
-		//modif Francois: PrintClassLists with all contacts
+		//FJ PrintClassLists with all contacts
 		//if($_REQUEST['relation']!='')
 		//{
 			$_ROSARIO['makeParents'] = $_REQUEST['relation'];
@@ -62,7 +62,7 @@ if($_REQUEST['search_modfunc']=='list')
 			echo ErrorMessage(array(_('You must choose at least one field')), 'fatal');
 	if(!$fields_list)
 	{
-//modif Francois: disable mailing address display
+//FJ disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
 			$fields_list = array('FULL_NAME'=>_('Last, First M'),'FIRST_NAME'=>_('First Name'),'FIRST_INIT'=>_('First Name Initial'),'LAST_NAME'=>_('Last Name'),'MIDDLE_NAME'=>_('Middle Name'),'NAME_SUFFIX'=>_('Suffix'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'),'SCHOOL_TITLE'=>_('School'),'SCHOOL_NUMBER'=>_('School Number'),'NEXT_SCHOOL'=>_('Rolling / Retention Options'),'CALENDAR_ID'=>_('Calendar'),'USERNAME'=>_('Username'),'START_DATE'=>_('Enrollment Start Date'),'END_DATE'=>_('Enrollment End Date'),'ENROLLMENT_SHORT'=>_('Enrollment Code'),'DROP_SHORT'=>_('Drop Code'),'ADDRESS'=>_('Street'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zip Code'),'PHONE'=>_('Home Phone'),'MAIL_ADDRESS'=>_('Mailing Address'),'MAIL_CITY'=>_('Mailing City'),'MAIL_STATE'=>_('Mailing State'),'MAIL_ZIPCODE'=>_('Mailing Zipcode'),'PARENTS'=>_('Contacts'));
 		else
@@ -102,7 +102,7 @@ if($_REQUEST['search_modfunc']=='list')
 	}
 	if($_REQUEST['fields']['START_DATE'] || $_REQUEST['fields']['END_DATE'] || $_REQUEST['fields']['ENROLLMENT_SHORT'] || $_REQUEST['fields']['DROP_SHORT'])
 	{
-			//modif Francois: bugfix SQL error: more than one row returned by a subquery used as an expression
+			//FJ bugfix SQL error: more than one row returned by a subquery used as an expression
         	$extra['SELECT'] .= ',xse.START_DATE, xse.END_DATE, (select short_name from student_enrollment_codes where id = xse.enrollment_code and syear = xse.syear AND xse.STUDENT_ID=s.STUDENT_ID LIMIT 1) as enrollment_short, (select short_name from student_enrollment_codes where id = xse.drop_code and syear = xse.syear AND xse.STUDENT_ID=s.STUDENT_ID LIMIT 1) as drop_short' ;
         	$extra['FROM'] .= ',STUDENT_ENROLLMENT xse';
         	$extra['WHERE'] .= ' AND xse.STUDENT_ID=s.STUDENT_ID AND xse.SYEAR=\''.UserSyear().'\'';
@@ -114,14 +114,14 @@ if($_REQUEST['search_modfunc']=='list')
 		$date = DBDate();
 
 	if($_REQUEST['fields']['PERIOD_ATTENDANCE'])
-		//modif Francois: multiple school periods for a course period
+		//FJ multiple school periods for a course period
 		//$extra['SELECT'] .= ',(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp,SCHOOL_PERIODS p WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=p.PERIOD_ID AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).') AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
 		$extra['SELECT'] .= ',(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp,SCHOOL_PERIODS p,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cpsp.PERIOD_ID=p.PERIOD_ID AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).') AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
 	foreach($periods_RET as $period)
 	{
 		if($_REQUEST['fields']['PERIOD_'.$period['PERIOD_ID']]=='Y')
 		{
-			//modif Francois: multiple school periods for a course period
+			//FJ multiple school periods for a course period
 			//$extra['SELECT'] .= ',array(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')) AS PERIOD_'.$period['PERIOD_ID'];
 			$extra['SELECT'] .= ',array(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cpsp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')) AS PERIOD_'.$period['PERIOD_ID'];
 			$extra['functions']['PERIOD_'.$period['PERIOD_ID']] = '_makeTeachers';
@@ -219,7 +219,7 @@ else
 			$fields_list['General'] = array('FULL_NAME'=>_('Last, First M'),'FIRST_NAME'=>_('First Name'),'FIRST_INIT'=>_('First Name Initial'),'LAST_NAME'=>_('Last Name'),'MIDDLE_NAME'=>_('Middle Name'),'NAME_SUFFIX'=>_('Suffix'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'),'SCHOOL_TITLE'=>_('School'),'SCHOOL_NUMBER'=>_('School Number'),'NEXT_SCHOOL'=>_('Rolling / Retention Options'),'CALENDAR_ID'=>_('Calendar'),'USERNAME'=>_('Username'),'START_DATE'=>_('Enrollment Start Date'),'END_DATE'=>_('Enrollment End Date'),'ENROLLMENT_SHORT'=>_('Enrollment Code'),'DROP_SHORT'=>_('Drop Code'),'LAST_LOGIN'=>_('Last Login'));
 		if(AllowUse('Students/Student.php&category_id=3'))
 		{
-//modif Francois: disable mailing address display
+//FJ disable mailing address display
 			if (Config('STUDENTS_USE_MAILING'))
 				$fields_list['Address'] = array('ADDRESS'=>_('Address'),'MAIL_ADDRESS'=>_('Mailing Address'),'CITY'=>_('City'),'MAIL_CITY'=>_('Mailing City'),'STATE'=>_('State'),'MAIL_STATE'=>_('Mailing State'),'ZIPCODE'=>_('Zip Code'),'MAIL_ZIPCODE'=>_('Mailing Zipcode'),'PHONE'=>_('Home Phone'),'PARENTS'=>_('Contacts'));
 			else
@@ -247,7 +247,7 @@ else
 	{
 		if(AllowUse('Students/Student.php&category_id='.$category['ID']))
 		{
-//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+//FJ fix error Warning: Invalid argument supplied for foreach()
 			if (isset($custom_RET[$category['ID']]))
 			{
 				foreach($custom_RET[$category['ID']] as $field)
@@ -267,18 +267,18 @@ else
 	DrawHeader('<OL><SPAN id=names_div></SPAN></OL>');
 	echo '<TABLE><TR class="st"><TD class="valign-top">';
 	echo '<BR />';
-//modif Francois: css WPadmin
+//FJ css WPadmin
 	PopTable('header',_('Fields'));
 	echo '';
 	foreach($fields_list as $category=>$fields)
 	{
-//modif Francois: add translation
+//FJ add translation
 		echo '<TABLE class="widefat cellspacing-0"><TR><TH colspan="2">'.(ParseMLField($category)==$category?_(str_replace('_', ' ', $category)):ParseMLField($category)).'</TH></TR><TR>';
 		if(ParseMLField($category,'default')=='Address')
 		{
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 			echo '<TD><label><INPUT type="checkbox" id="residence" value="Y" />&nbsp;'._('Residence').'</label></TD>';
-//modif Francois: disable mailing address display
+//FJ disable mailing address display
 			if (Config('STUDENTS_USE_MAILING'))
 				echo '<TD><label><INPUT type="checkbox" id="mailing" value="Y" />&nbsp;'._('Mailing').'</label></TD>';
 			else

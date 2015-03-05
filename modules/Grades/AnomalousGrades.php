@@ -113,7 +113,7 @@ if(AllowUse($modname))
 		$link['TITLE']['variables']['period'] = 'COURSE_PERIOD_ID';
 }
 
-//modif Francois: add translation
+//FJ add translation
 if(UserStudentID())
 	ListOutput($students_RET,$columns,'Anomalous Grade','Anomalous Grades',$link,$group,array('center'=>false,'save'=>false,'search'=>false));
 else

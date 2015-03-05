@@ -6,7 +6,7 @@ if (!$_REQUEST['LO_sort']) {
 }
 if($_REQUEST['search_modfunc'] == 'list')
 {
-//modif Francois: changed MP list to GradeBreakdown.php style
+//FJ changed MP list to GradeBreakdown.php style
 	/*if(!$_REQUEST['mp'] && GetMP(UserMP(),'POST_START_DATE'))
 		$_REQUEST['mp'] = UserMP();
 	elseif(mb_strpos(GetAllMP('QTR',UserMP()),$_REQUEST['mp'])===false && mb_strpos(GetChildrenMP('PRO',UserMP()),"'".$_REQUEST['mp']."'")===false && GetMP(UserMP(),'POST_START_DATE'))
@@ -17,7 +17,7 @@ if($_REQUEST['search_modfunc'] == 'list')
 
 	$sem = GetParentMP('SEM',UserMP());
 	
-//modif Francois: add year to the list
+//FJ add year to the list
 	$year = GetParentMP('FY',$sem);
 	$pro = GetChildrenMP('PRO',UserMP());
 	$pros = explode(',',str_replace("'",'',$pro));
@@ -47,7 +47,7 @@ if($_REQUEST['search_modfunc'] == 'list')
 	if(GetMP($sem,'DOES_GRADES')=='Y')
 		$mps_select .= '<OPTION value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($sem).'</OPTION>';
 
-//modif Francois: add year to the list
+//FJ add year to the list
 	if(GetMP($year,'DOES_GRADES')=='Y')
         $mps_select .= '<OPTION value="'.$year.'"'.($year==$_REQUEST['mp']?' SELECTED':'').">".GetMP($year)."</OPTION>";
 	
@@ -108,7 +108,7 @@ if(mb_strpos($extra['FROM'],'STUDENT_MP_STATS sms')===false)
 	$extra['FROM'] .= ',STUDENT_MP_STATS sms';
 	$extra['WHERE'] .= " AND sms.STUDENT_ID=ssm.STUDENT_ID AND sms.MARKING_PERIOD_ID='".$_REQUEST['mp']."'";
 }
-//modif Francois: add translation 
+//FJ add translation 
 $extra['columns_after'] = array('SUM_UNWEIGHTED_FACTOR'=>_('Unweighted GPA'),'SUM_WEIGHTED_FACTOR'=>_('Weighted GPA'));
 $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;

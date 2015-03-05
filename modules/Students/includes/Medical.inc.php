@@ -57,7 +57,7 @@ if(empty($_REQUEST['modfunc']))
 		$link['remove']['variables'] = array('id'=>'ID');
 		ListOutput($med_RET,$columns,'Nurse Visit','Nurse Visits',$link,array(),array('search'=>false));
 	}
-	if ($PopTable_opened)//modif Francois: bugfix display in PrintStudentInfo.php
+	if ($PopTable_opened)//FJ bugfix display in PrintStudentInfo.php
 		echo '<TABLE><TR><TD>';
 }
 ?>

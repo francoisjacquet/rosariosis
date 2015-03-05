@@ -15,7 +15,7 @@ else
 	if(User('PROFILE')=='teacher')//limit to teacher himself
 		$extra['WHERE'] .= " AND s.STAFF_ID = '".User('STAFF_ID')."'";
 		
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 	StaffWidgets('all');
 	$extra['WHERE'] .= appendStaffSQL('',$extra);
 	$extra['WHERE'] .= CustomFields('where','staff');

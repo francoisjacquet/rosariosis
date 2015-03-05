@@ -1,5 +1,5 @@
 <?php
-//modif Francois: add School Configuration
+//FJ add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
 $do_stats = $program_config['GRADES_DO_STATS_STUDENTS_PARENTS'][1]['VALUE'] == 'Y' || ((User('PROFILE')=='teacher' || User('PROFILE')=='admin') && $program_config['GRADES_DO_STATS_ADMIN_TEACHERS'][1]['VALUE'] == 'Y');
 
@@ -11,7 +11,7 @@ Search('student_id');
 
 if(UserStudentID() && !$_REQUEST['modfunc'])
 {
-//modif Francois: multiple school periods for a course period
+//FJ multiple school periods for a course period
 /*$courses_RET = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID FROM SCHEDULE s,COURSE_PERIODS cp,COURSES c WHERE s.SYEAR='".UserSyear()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND ('".DBDate()."'>=s.START_DATE AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)) AND s.STUDENT_ID='".UserStudentID()."' AND cp.GRADE_SCALE_ID IS NOT NULL".(User('PROFILE')=='teacher'?' AND cp.TEACHER_ID=\''.User('STAFF_ID').'\'':'')." AND c.COURSE_ID=cp.COURSE_ID ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)"),array(),array('COURSE_PERIOD_ID'));*/
 $courses_RET = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID 
 FROM SCHEDULE s,COURSE_PERIODS cp,COURSES c 
@@ -34,7 +34,7 @@ if(!$_REQUEST['id'])
 {
 	DrawHeader(_('Totals'),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&id=all'.($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Expand All').'</A>');
 	if($do_stats)
-//modif Francois: add label on checkbox
+//FJ add label on checkbox
 		DrawHeader('','<label>'.CheckBoxOnclick('do_stats').' '._('Include Anonymous Statistics').'</label>');
 		
 	$LO_columns = array('TITLE'=>_('Course Title'),'TEACHER'=>_('Teacher'),'UNGRADED'=>_('Ungraded'));
@@ -150,13 +150,13 @@ if(!$_REQUEST['id'])
 					}
 					$avg_percent /= count($all_RET);
 
-					//modif Francois: bargraph with the grade not the percent
+					//FJ bargraph with the grade not the percent
 					//$bargraph1 = bargraph1($percent===false?true:$percent,$min_percent,$avg_percent,$max_percent,1);
 					$bargraph1 = bargraph1($percent===false?true:_makeLetterGrade($percent,$course_period_id,$staff_id),_makeLetterGrade($min_percent,$course_period_id,$staff_id),_makeLetterGrade($avg_percent,$course_period_id,$staff_id),_makeLetterGrade($max_percent,$course_period_id,$staff_id),1);
 					$bargraph2 = bargraph2($percent===false?true:0,$lower,$higher);
 				}
 
-				//modif Francois: css WPadmin
+				//FJ css WPadmin
 				switch($ungraded)
 				{
 					case 0:
@@ -187,7 +187,7 @@ else
 {
 	if($_REQUEST['id']=='all')
 	{
-//modif Francois: add translation
+//FJ add translation
 		DrawHeader(_('All Courses'),'');
 	}
 	else
@@ -196,7 +196,7 @@ else
 		DrawHeader('<B>'.$courses_RET[$_REQUEST['id']][1]['COURSE_TITLE'].'</B> - '.mb_substr($courses_RET[$_REQUEST['id']][1]['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$courses_RET[$_REQUEST['id']][1]['TITLE']),'^')+2),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</A>');
 	}
 	if($do_stats)
-//modif Francois: add label on checkbox
+//FJ add label on checkbox
 		DrawHeader('','<label>'.CheckBoxOnclick('do_stats').' '._('Include Anonymous Statistics').'</label>');
 	//echo '<pre>'; var_dump($courses_RET); echo '</pre>';
 
@@ -214,7 +214,7 @@ else
 				$programconfig[$staff_id] = true;
 		}
 
-		//modif Francois: assigments appear after assigned date and not due date
+		//FJ assigments appear after assigned date and not due date
 		$assignments_RET = DBGet(DBQuery("SELECT ga.ASSIGNMENT_ID,gg.POINTS,gg.COMMENT,ga.TITLE,ga.DESCRIPTION,ga.ASSIGNED_DATE,ga.DUE_DATE,ga.POINTS AS POINTS_POSSIBLE,at.TITLE AS CATEGORY 
 		FROM GRADEBOOK_ASSIGNMENTS ga 
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.COURSE_PERIOD_ID='".$course['COURSE_PERIOD_ID']."' AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.STUDENT_ID='".UserStudentID()."'),
@@ -229,7 +229,7 @@ else
 		if(count($assignments_RET))
 		{
 			if($do_stats && $_REQUEST['do_stats'])
-				//modif Francois: bugfix broken statistics, MIN calculus when gg.POINTS is NULL
+				//FJ bugfix broken statistics, MIN calculus when gg.POINTS is NULL
 				$all_RET = DBGet(DBQuery("SELECT ga.ASSIGNMENT_ID,
 				min(".db_case(array('gg.POINTS',"'-1'",'ga.POINTS',db_case(array('gg.POINTS',"''",'0','gg.POINTS')))).") AS MIN,
 				max(".db_case(array('gg.POINTS',"'-1'",'0','gg.POINTS')).") AS MAX,
@@ -341,7 +341,7 @@ function _makeTipTitle($value,$column)
 	return $tip_title;
 }
 
-//modif Francois: fix error Missing argument 2 & 3 & 4 & 5
+//FJ fix error Missing argument 2 & 3 & 4 & 5
 //function bargraph1($x,$lo,$avg,$hi,$max)
 function bargraph1($x,$lo=0,$avg=0,$hi=0,$max=0)
 {
@@ -352,7 +352,7 @@ function bargraph1($x,$lo=0,$avg=0,$hi=0,$max=0)
 		$w5 = round(100*(1.0-$hi/$scale));
 		if($x!==true)
 		{
-			//modif Francois: add grades legends on the graph
+			//FJ add grades legends on the graph
 			if($x<$avg)
 			{
 				$w2 = round(100*($x-$lo)/$scale); $c2 = '#ff0000'; $legendc2 = $x;
@@ -387,7 +387,7 @@ function bargraph1($x,$lo=0,$avg=0,$hi=0,$max=0)
 		return '<div style="float:left;">&nbsp;</div>';
 }
 
-//modif Francois: fix error Missing argument 3 & 2
+//FJ fix error Missing argument 3 & 2
 //function bargraph2($x,$lo,$hi)
 function bargraph2($x,$lo=0,$hi=0)
 {

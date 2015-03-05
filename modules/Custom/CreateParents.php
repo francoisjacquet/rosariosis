@@ -9,7 +9,7 @@ DrawHeader(ProgramTitle());
 // Making the email address an address field is useful when using 'ganged' address (address record is shared by multiple students by using the 'add
 // existing address feature).
 // The column name should start with 's.' if a student field or 'a.' if an address field.
-//modif Francois: Moodle Integrator: the "family" email field must be different from the student email field in the Moodle/config.inc.php
+//FJ Moodle Integrator: the "family" email field must be different from the student email field in the Moodle/config.inc.php
 $email_column = ''; //example: 'a.CUSTOM_2'
 
 //save $email_column var in SESSION
@@ -79,7 +79,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	$subject['new'] = _('New Parent Account');
 	$subject['old'] = _('Updated Parent Account');
 
-	//modif Francois: add Template
+	//FJ add Template
 	$createparentstext = $_REQUEST['inputcreateparentstext_new'].'__BLOCK2__'.$_REQUEST['inputcreateparentstext_old'];
 	$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Custom/CreateParents.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
 	if (!$template_update)
@@ -125,11 +125,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					$user = DBGet(DBQuery("SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['contact'][$student_id]."'"));
 					$user = $user[1];
 
-					//modif Francois: change parent password generation
+					//FJ change parent password generation
 					//$password = $passwords[rand(0,count($passwords)-1)];
 					$password = $username . rand(100,999);
 
-					//modif Francois: Moodle integrator / password
+					//FJ Moodle integrator / password
 					$password = UCFirst($password). '*';
 
 					if(!$test_email)
@@ -138,7 +138,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 						$id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS SEQ_ID '.FROM_DUAL));
 						$id = $id[1]['SEQ_ID'];
 
-						//modif Francois: add password encryption
+						//FJ add password encryption
 						$password_encrypted = encrypt_password($password);
 
 						$sql = "INSERT INTO STAFF (STAFF_ID,SYEAR,PROFILE,PROFILE_ID,FIRST_NAME,MIDDLE_NAME,LAST_NAME,USERNAME,PASSWORD,EMAIL) values ('".$id."','".UserSyear()."','parent','".$profile_id."','".$user['FIRST_NAME']."','".$user['MIDDLE_NAME']."','".$user['LAST_NAME']."','".$username."','".$password_encrypted."','".$students[1]['EMAIL']."')";
@@ -190,7 +190,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				$msg = str_replace('__USERNAME__',$staff['USERNAME'],$msg);
 				$msg = str_replace('__PASSWORD__',$password,$msg);
 				
-				//modif Francois: add SendEmail function
+				//FJ add SendEmail function
 				include('ProgramFunctions/SendEmail.fnc.php');
 				
 				$to = empty($test_email) ? $students[1]['EMAIL'] : $test_email;
@@ -237,7 +237,7 @@ if(empty($_REQUEST['modfunc']) && !empty($email_column))
 		
 		$extra['extra_header_left'] = '<TABLE>';
 
-		//modif Francois: add Template
+		//FJ add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		list($template_new, $template_old) = explode('__BLOCK2__', $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE']);
 		

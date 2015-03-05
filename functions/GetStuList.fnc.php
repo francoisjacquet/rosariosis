@@ -1,6 +1,6 @@
 <?php
 
-//modif Francois: fix error Warning: Missing argument 1 for GetStuList()
+//FJ fix error Warning: Missing argument 1 for GetStuList()
 //function GetStuList(&$extra)
 function GetStuList(&$extra=array())
 {	global $contacts_RET,$view_other_RET;
@@ -38,7 +38,7 @@ function GetStuList(&$extra=array())
 
 		if(!count($view_fields_RET) && !isset($view_address_RET) && !isset($view_other_RET['CONTACT_INFO']))
 		{
-//modif Francois: add translation 
+//FJ add translation 
 			$extra['columns_after'] = array('ADDRESS'=>_('Mailing Address'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode')) + $extra['columns_after'];
 			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000001)"));
 			$select = '';
@@ -299,7 +299,7 @@ function GetStuList(&$extra=array())
 	elseif(isset($extra['ORDER_BY']))
 		$sql .= ' ORDER BY '.$extra['ORDER_BY'];
 
-	//modif Francois: bugfix if PDF, dont echo SQL
+	//FJ bugfix if PDF, dont echo SQL
 	if (!isset($_REQUEST['_ROSARIO_PDF']) && 0) //activate only for debug purpose
 		echo '<!--'.$sql.'-->';
 
@@ -392,7 +392,7 @@ function makeParents($student_id,$column)
 			$THIS_RET['PARENTS'] .= '<TABLE class="cellspacing-0">';
 			foreach($people_RET as $person)
 			{
-				//modif Francois: PrintClassLists with all contacts
+				//FJ PrintClassLists with all contacts
 				if($person['CUSTODY']=='Y')
 					$img = 'gavel';
 				elseif($person['EMERGENCY']=='Y')
@@ -414,14 +414,14 @@ function makeParents($student_id,$column)
 	return $THIS_RET['PARENTS'];
 }
 
-//modif Francois: fix error Warning: Missing argument 2 for appendSQL()
+//FJ fix error Warning: Missing argument 2 for appendSQL()
 //function appendSQL($sql,$extra)
 function appendSQL($sql,$extra=array())
 {	global $_ROSARIO;
 
 	if($_REQUEST['stuid'])
 	{
-//modif Francois: allow comma separated list of student IDs
+//FJ allow comma separated list of student IDs
 		$stuid_array = explode(',', $_REQUEST['stuid']);
 
 		$stuids = array();

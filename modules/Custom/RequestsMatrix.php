@@ -1,5 +1,5 @@
 <?php
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 	/*$requests_RET = DBGet(DBQuery("SELECT r.COURSE_ID AS CRS,
 					r.COURSE_ID,cp.COURSE_PERIOD_ID,
 					c.TITLE AS COURSE_TITLE,cp.PERIOD_ID,

@@ -35,7 +35,7 @@ foreach($periods_RET as $period)
 	$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED':'').">".$period['TITLE'].'</OPTION>';
 $period_select .= '</SELECT>';
 
-//modif Francois: multiple school periods for a course period
+//FJ multiple school periods for a course period
 $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,s.STAFF_ID
 		FROM STAFF s,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
 		WHERE 

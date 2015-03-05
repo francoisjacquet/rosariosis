@@ -37,7 +37,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 							$warnings[] = _('The number of selected students exceeds the available seats.');
 					}
 
-					//modif Francois: check if Available Seats < selected students
+					//FJ check if Available Seats < selected students
 					if(empty($warnings) || Prompt('Confirm', _('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
 					{
 

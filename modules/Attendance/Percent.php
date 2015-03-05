@@ -19,7 +19,7 @@ else
 if($_REQUEST['modfunc']=='search')
 {
 	echo '<BR />';
-//modif Francois: add translation 
+//FJ add translation 
 	PopTable('header',_('Advanced'));
 	echo '<FORM name="percentform" action="Modules.php?modname='.$_REQUEST['modname'].'&list_by_day='.$_REQUEST['list_by_day'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&advanced='.$_REQUEST['advanced'].'" method="POST">';
 	echo '<TABLE>';
@@ -40,7 +40,7 @@ if($_REQUEST['modfunc']=='search')
 		echo $extra['search_second_col'];
 	if(User('PROFILE')=='admin')
 	{
-//modif Francois: if only one school, no Search All Schools option
+//FJ if only one school, no Search All Schools option
 		if (SchoolInfo('SCHOOLS_NB') > 1)
 			echo '<label><INPUT type="checkbox" name="_search_all_schools" value="Y"'.(Preferences('DEFAULT_ALL_SCHOOLS')=='Y'?' checked':'').'>&nbsp;'._('Search All Schools').'</label><BR />';
 	}
@@ -119,7 +119,7 @@ if(empty($_REQUEST['modfunc']))
 		AND (ad.SCHOOL_DATE BETWEEN ssm.START_DATE AND ssm.END_DATE OR (ssm.END_DATE IS NULL AND ssm.START_DATE <= ad.SCHOOL_DATE)) 
 		".$extra['WHERE']." 
 		GROUP BY ad.SCHOOL_DATE,ssm.GRADE_ID"),array(''),array('SCHOOL_DATE','GRADE_ID'));
-//modif Francois: ORDER BY Date
+//FJ ORDER BY Date
 		$student_days_possible = DBGet(DBQuery("SELECT ac.SCHOOL_DATE,ssm.GRADE_ID,'' AS DAYS_POSSIBLE,count(*) AS ATTENDANCE_POSSIBLE,count(*) AS STUDENTS,'' AS PRESENT,'' AS ABSENT,'' AS ADA,'' AS AVERAGE_ATTENDANCE,'' AS AVERAGE_ABSENT 
 		FROM STUDENT_ENROLLMENT ssm,ATTENDANCE_CALENDAR ac,STUDENTS s".$extra['FROM']." 
 		WHERE s.STUDENT_ID=ssm.STUDENT_ID 

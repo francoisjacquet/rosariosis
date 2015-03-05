@@ -58,7 +58,7 @@ if($_REQUEST['modfunc']=='update')
 
 if($_REQUEST['modfunc']=='remove')
 {
-	//modif Francois: add translation
+	//FJ add translation
 	if(DeletePromptX(_('History Marking Period')))
 	{
 		DBQuery("DELETE FROM history_marking_periods WHERE MARKING_PERIOD_ID='".$_REQUEST['id']."'");
@@ -83,7 +83,7 @@ if(empty($_REQUEST['modfunc']))
 			'SYEAR'=>'makeSchoolYearSelectInput'
 			);
 
-	//modif Francois: add translation
+	//FJ add translation
 	$LO_columns = array('MP_TYPE'=>_('Type'),
 			'NAME'=>_('Name'),
 			'SHORT_NAME'=>_('Short Name'),
@@ -165,7 +165,7 @@ function makeSchoolYearSelectInput($value,$name)
         $id = 'new';
     $options = array();
     foreach (range(UserSyear()-6, UserSyear()) as $year)
-//modif Francois: school year over one/two calendar years format
+//FJ school year over one/two calendar years format
         $options[$year] = FormatSyear($year,Config('SCHOOL_SYEAR_OVER_2_YEARS'));
 
     return SelectInput(trim($value),"values[$id][$name]",'',$options,false);

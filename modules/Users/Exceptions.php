@@ -33,7 +33,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		$tmp_menu['Users'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
 
-	//modif Francois: fix SQL bug TeacherPrograms inserted twice as in Users and other categories
+	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
 	foreach($tmp_menu['Users'] as $profile => $modname_array)
 	{
 		foreach ($modname_array as $modname=>$title)
@@ -102,7 +102,7 @@ if(!$staff_RET[1]['PROFILE_ID'])
 			$module_title = _(str_replace('_',' ',$modcat));
 
 		echo '<TR><TD colspan="3"><h4>'.$module_title.'</h4></TD></TR>';
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 		echo '<TR><TH><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_use_'.$modcat.'.checked,"can_use['.$modcat.'");\' />':'').'</span></label></TH><TH><label>'._('Can Edit').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,"can_edit['.$modcat.'");\' />':'').'</span></label></TH><TH>&nbsp;</TH></TR>';
 		if(count($values))
 		{

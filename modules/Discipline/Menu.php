@@ -28,7 +28,7 @@ $menu['Discipline']['teacher'] = array(
 						'Discipline/MakeReferral.php'=>_('Add Referral'),
 						'Discipline/Referrals.php'=>_('Referrals')
 					);
-//modif Francois: fix error Warning: Invalid argument supplied for foreach()
+//FJ fix error Warning: Invalid argument supplied for foreach()
 $menu['Discipline']['parent'] = array(
 					);
 $exceptions['Discipline'] = array(

@@ -25,7 +25,7 @@ if(!$_REQUEST['search_modfunc'])
 
 			echo '<TABLE><TR class="valign-top"><TD>';
 
-//modif Francois: css WPadmin
+//FJ css WPadmin
 			echo '<TABLE class="width-100p col1-align-right" id="general_table">';
 			echo '<TR><TD><label for="last">'._('Last Name').'</label></TD><TD><INPUT type="text" name="last" id="last" size="30"></TD></TR>';
 			echo '<TR><TD><label for="first">'._('First Name').'</label></TD><TD><INPUT type="text" name="first" id="first" size="30"></TD></TR>';
@@ -62,8 +62,8 @@ if(!$_REQUEST['search_modfunc'])
 
 			if(User('PROFILE')=='admin')
 			{
-//modif Francois: add <label> on checkbox
-//modif Francois: if only one school, no Search All Schools option
+//FJ add <label> on checkbox
+//FJ if only one school, no Search All Schools option
 				if (SchoolInfo('SCHOOLS_NB') > 1)
 					echo '<label><INPUT type="checkbox" name="_search_all_schools" value="Y"'.(Preferences('DEFAULT_ALL_SCHOOLS')=='Y'?' checked':'').'>&nbsp;'._('Search All Schools').'</label><BR />';
 			}
@@ -241,7 +241,7 @@ else
 			if($_REQUEST['modname'])
 				$_REQUEST['modname'] = $modname;
 
-			//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+			//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 			if (mb_substr($modname, -4, 4)!='.php' || mb_strpos($modname, '..')!==false || !is_file('modules/'.$modname))
 			{
 				include('ProgramFunctions/HackingLog.fnc.php');

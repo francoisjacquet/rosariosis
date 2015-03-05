@@ -34,7 +34,7 @@ if ($_REQUEST['student_id']!='new' && ($file = @fopen($picture_path=$StudentPict
 echo '</TD><TD>';
 
 if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 	if($_REQUEST['student_id']=='new' || $_REQUEST['moodle_create_student'])
 		echo '<TABLE>
 		<TR class="st"><TD>
@@ -80,7 +80,7 @@ echo '</TD>';
 
 echo '</TR><TR class="st"><TD>';
 
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 //username, password required
 
 $required = $_REQUEST['moodle_create_student'] || $old_student_in_moodle || basename($_SERVER['PHP_SELF'])=='index.php';
@@ -112,7 +112,7 @@ if($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool() && $stu
 
 if(basename($_SERVER['PHP_SELF'])!='index.php')
 	include 'modules/Students/includes/Enrollment.inc.php';
-//modif Francois: create account
+//FJ create account
 else
 {
 	$schools_RET = DBGet(DBQuery("SELECT ID, TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."' ORDER BY ID"));

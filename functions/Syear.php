@@ -8,7 +8,7 @@ function GetSyear($date)
 	return $RET[1]['SYEAR'];
 }
 
-//modif Francois: school year over one/two calendar years format
+//FJ school year over one/two calendar years format
 function FormatSyear($syear, $syear_over_two_years=true)
 {
 	if ($syear_over_two_years)

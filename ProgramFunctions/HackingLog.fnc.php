@@ -1,5 +1,5 @@
 <?php
-//modif Francois: create HackingLog function to centralize code
+//FJ create HackingLog function to centralize code
 function HackingLog()
 {
 	global $RosarioNotifyAddress, $RosarioVersion;
@@ -15,7 +15,7 @@ function HackingLog()
 		else
 			$ip = $_SERVER['REMOTE_ADDR'];
 
-		//modif Francois: add SendEmail function
+		//FJ add SendEmail function
 		include('ProgramFunctions/SendEmail.fnc.php');
 		
 		$message = "INSERT INTO HACKING_LOG (HOST_NAME,IP_ADDRESS,LOGIN_DATE,VERSION,PHP_SELF,DOCUMENT_ROOT,SCRIPT_NAME,MODNAME,QUERY_STRING,USERNAME) 

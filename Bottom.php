@@ -4,7 +4,7 @@ include('Warehouse.php');
 
 if($_REQUEST['modfunc']=='print')
 {
-//modif Francois: call PDFStart to generate Print PDF
+//FJ call PDFStart to generate Print PDF
 	if($_REQUEST['expanded_view'])
 		$_SESSION['orientation'] = 'landscape';
 		
@@ -17,7 +17,7 @@ if($_REQUEST['modfunc']=='print')
 	if(!$wkhtmltopdfPath)
 		$_ROSARIO['allow_edit'] = false;
 		
-	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+	//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 	if (mb_substr($modname, -4, 4)!='.php' || mb_strpos($modname, '..')!==false || !is_file('modules/'.$modname))
 	{
 		include('ProgramFunctions/HackingLog.fnc.php');
@@ -26,12 +26,12 @@ if($_REQUEST['modfunc']=='print')
 	else
 		include('modules/'.$modname);
 		
-//modif Francois: call PDFStop to generate Print PDF
+//FJ call PDFStop to generate Print PDF
 	PDFStop($print_data);
 }
 elseif($_REQUEST['modfunc']=='help')
 {
-	if (file_exists('Help_'.mb_substr($locale, 0, 2).'.php')) //modif Francois: translated help
+	if (file_exists('Help_'.mb_substr($locale, 0, 2).'.php')) //FJ translated help
 		include 'Help_'.mb_substr($locale, 0, 2).'.php';
 	else
 		include 'Help_en.php';
@@ -40,7 +40,7 @@ elseif($_REQUEST['modfunc']=='help')
 
 	foreach($help as $program=>$help_txt)
 	{
-		//modif Francois: fix bug URL Modules.php?modfunc=help&modname=Student_Billing/Statements.php&_ROSARIO_PDF
+		//FJ fix bug URL Modules.php?modfunc=help&modname=Student_Billing/Statements.php&_ROSARIO_PDF
 		if($_REQUEST['modname']==$program || (mb_strpos($program, $_REQUEST['modname'])=== 0 && mb_strpos($_SERVER['QUERY_STRING'], $program)=== 21))
 			$help_text = $help_txt;
 	}
@@ -61,7 +61,7 @@ else
 		<div id="footerwrap">
 			<a id="BottomButtonMenu" href="#" onclick="expandMenu(); return false;" title="<?php echo _('Menu'); ?>" class="BottomButton">&nbsp;<span><?php echo _('Menu'); ?></span></a>
 
-			<?php //modif Francois: icons
+			<?php //FJ icons
 			if($_SESSION['List_PHP_SELF'] && (User('PROFILE')=='admin' || User('PROFILE')=='teacher')) :
 				switch ($_SESSION['Back_PHP_SELF']) {
 					case 'student': $back_text = _('Student List'); break;

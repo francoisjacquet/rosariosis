@@ -1,6 +1,6 @@
 <?php
 
-//modif Francois: days numbered
+//FJ days numbered
 if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 	include('modules/School_Setup/includes/DayToNumber.inc.php');
 	
@@ -43,7 +43,7 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 
 	}
 	$message .= '</SELECT>';
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 	$message = '<TABLE><TR><TD colspan="7"><table><tr class="st"><td>'.NoInput('<INPUT type="text" name="title"'.($_REQUEST['calendar_id']?' value="'.$title_RET[$default_id]['TITLE'].'"':'').'>',_('Title')).'</td><td><label>'.NoInput('<INPUT type="checkbox" name="default" value="Y"'.($_REQUEST['calendar_id']&&$title_RET[$default_id]['DEFAULT_CALENDAR']=='Y'?' checked':'').'>').' '._('Default Calendar for this School').'</label></td><td>'.NoInput($message,_('Copy Calendar')).'</td></tr></table></TD></TR>';
 	$message .= '<TR><TD colspan="7" class="center"><table><tr class="st"><td>'._('From').' '.NoInput(PrepareDate($_REQUEST['calendar_id']&&$title_RET[$default_id]['START_DATE']?$title_RET[$default_id]['START_DATE']:$fy_RET['START_DATE'],'_min')).'</td><td>'._('To').' '.NoInput(PrepareDate($_REQUEST['calendar_id']&&$title_RET[$default_id]['END_DATE']?$title_RET[$default_id]['END_DATE']:$fy_RET['END_DATE'],'_max')).'</td></tr></table></TD></TR>';
 	$message .= '<TR class="st"><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[0]"'.($_REQUEST['calendar_id']?' checked':'').'>').' '._('Sunday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[1]" checked />').' '._('Monday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[2]" checked />').' '._('Tuesday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[3]" checked />').' '._('Wednesday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[4]" checked />').' '._('Thursday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[5]" checked />').' '._('Friday').'<label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[6]"'.($_REQUEST['calendar_id']?' checked':'').'>').' '._('Saturday').'</label></TD></TR>';
@@ -71,7 +71,7 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 			if($_REQUEST['calendar_id'] && $_REQUEST['calendar_id']==$_REQUEST['copy_id'])
 			{
 				DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$calendar_id."' AND (SCHOOL_DATE NOT BETWEEN '".$_REQUEST['day_min'].'-'.$_REQUEST['month_min'].'-'.$_REQUEST['year_min']."' AND '".$_REQUEST['day_max'].'-'.$_REQUEST['month_max'].'-'.$_REQUEST['year_max']."' OR extract(DOW FROM SCHOOL_DATE) NOT IN (".$weekdays_list."))");
-//modif Francois: fix bug MINUTES not numeric
+//FJ fix bug MINUTES not numeric
 				if($_REQUEST['minutes'] && intval($minutes) > 0)
 					DBQuery("UPDATE ATTENDANCE_CALENDAR SET MINUTES='".$_REQUEST['minutes']."' WHERE CALENDAR_ID='".$calendar_id."'");
 			}
@@ -79,9 +79,9 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 			{
 				if($_REQUEST['calendar_id'])
 					DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$calendar_id."'");
-//modif Francois: fix bug MINUTES not numeric
+//FJ fix bug MINUTES not numeric
 				$create_calendar_sql = "INSERT INTO ATTENDANCE_CALENDAR (SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID) (SELECT '".UserSyear()."','".UserSchool()."',SCHOOL_DATE,".($_REQUEST['minutes'] && intval($minutes) > 0?"'".$_REQUEST['minutes']."'":'MINUTES').",'".$calendar_id."' FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$_REQUEST['copy_id']."' AND extract(DOW FROM SCHOOL_DATE) IN (".$weekdays_list.")";
-				//modif Francois: bugfix SQL bug empty school dates
+				//FJ bugfix SQL bug empty school dates
 				if($_REQUEST['month_min'] && $_REQUEST['month_max'])
 				{
 					$_REQUEST['date_min'] = $_REQUEST['day_min'].'-'.$_REQUEST['month_min'].'-'.$_REQUEST['year_min'];
@@ -121,7 +121,7 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 			for($i=$begin;$i<=$end;$i+=86400)
 			{
 				if($_REQUEST['weekdays'][$weekday]=='Y')
-//modif Francois: fix bug MINUTES not numeric
+//FJ fix bug MINUTES not numeric
 					DBQuery("INSERT INTO ATTENDANCE_CALENDAR (SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID) values('".UserSyear()."','".UserSchool()."','".date('d-M-y',$i)."',".($_REQUEST['minutes'] && intval($minutes) > 0?"'".$_REQUEST['minutes']."'":"'999'").",'".$calendar_id."')");
 				$weekday++;
 				if($weekday==7)
@@ -225,7 +225,7 @@ if($_REQUEST['modfunc']=='detail')
 			}
 			else
 			{
-//modif Francois: add event repeat
+//FJ add event repeat
 				$i = 0;
 				do {
 					if ($i>0)//school date + 1 day
@@ -296,7 +296,7 @@ if($_REQUEST['modfunc']=='detail')
 			}
 			else
 			{
-				//modif Francois: add translation
+				//FJ add translation
 				$title = _('New Event');
 				$RET[1]['SCHOOL_DATE'] = $_REQUEST['school_date'];
 			}
@@ -305,7 +305,7 @@ if($_REQUEST['modfunc']=='detail')
 		}
 		else
 		{
-			//modif Francois: add assigned date
+			//FJ add assigned date
 			$RET = DBGet(DBQuery("SELECT a.TITLE,a.STAFF_ID,to_char(a.DUE_DATE,'dd-MON-yy') AS SCHOOL_DATE,a.DESCRIPTION,a.ASSIGNED_DATE,c.TITLE AS COURSE
 			FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
 			WHERE (a.COURSE_ID=c.COURSE_ID
@@ -321,11 +321,11 @@ if($_REQUEST['modfunc']=='detail')
 
 		echo '<TABLE><TR><TD>'._('Date').'</TD><TD>'.DateInput($RET[1]['SCHOOL_DATE'],'values[SCHOOL_DATE]','',false).'</TD></TR>';
 
-		//modif Francois: add assigned date
+		//FJ add assigned date
 		if($RET[1]['ASSIGNED_DATE'])
 			echo '<TR><TD>'._('Assigned Date').'</TD><TD>'.DateInput($RET[1]['ASSIGNED_DATE'],'values[ASSIGNED_DATE]','',false).'</TD></TR>';
 
-		//modif Francois: add event repeat
+		//FJ add event repeat
 		if($_REQUEST['event_id']=='new')
 		{
 			echo '<TR><TD>'._('Event Repeat').'</TD><TD><input name="REPEAT" value="0" maxlength="3" size="1" type="number" min="0" />&nbsp;'._('Days').'</TD></TR>';
@@ -335,10 +335,10 @@ if($_REQUEST['modfunc']=='detail')
 		do_action('School_Setup/Calendar.php|event_field');
 
 		
-		//modif Francois: bugfix SQL bug value too long for type character varying(50)
+		//FJ bugfix SQL bug value too long for type character varying(50)
 		echo '<TR><TD>'._('Title').'</TD><TD>'.TextInput($RET[1]['TITLE'],'values[TITLE]', '', 'required maxlength="50"').'</TD></TR>';
 
-		//modif Francois: add course
+		//FJ add course
 		if($RET[1]['COURSE'])
 			echo '<TR><TD>'._('Course').'</TD><TD>'.$RET[1]['COURSE'].'</TD></TR>';
 
@@ -425,7 +425,7 @@ if(empty($_REQUEST['modfunc']))
 			if($calendar_RET[$date])
 			{
 //				if($minutes!='0' && $minutes!='')
-//modif Francois: fix bug MINUTES not numeric
+//FJ fix bug MINUTES not numeric
 				if(intval($minutes) > 0)
 					DBQuery("UPDATE ATTENDANCE_CALENDAR SET MINUTES='".$minutes."' WHERE SCHOOL_DATE='".$date."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND CALENDAR_ID='".$_REQUEST['calendar_id']."'");
 				else
@@ -434,7 +434,7 @@ if(empty($_REQUEST['modfunc']))
 				}
 			}
 //			elseif($minutes!='0' && $minutes!='')
-//modif Francois: fix bug MINUTES not numeric
+//FJ fix bug MINUTES not numeric
 			elseif(intval($minutes) > 0)
 				DBQuery("INSERT INTO ATTENDANCE_CALENDAR (SYEAR,SCHOOL_ID,SCHOOL_DATE,CALENDAR_ID,MINUTES) values('".UserSyear()."','".UserSchool()."','".$date."','".$_REQUEST['calendar_id']."','".$minutes."')");
 		}
@@ -484,7 +484,7 @@ if(empty($_REQUEST['modfunc']))
 			if($title['DEFAULT_CALENDAR']=='Y')
 				$defaults++;
 		}
-		//modif Francois: bugfix erase calendar onchange
+		//FJ bugfix erase calendar onchange
 		$calendar_onchange = '<script>var calendar_onchange = document.createElement("a"); calendar_onchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&calendar_id="; calendar_onchange.target = "body";</script>';
 		$link = $calendar_onchange.SelectInput($_REQUEST['calendar_id'],'calendar_id','',$options,false,' onchange="calendar_onchange.href += document.getElementById(\'calendar_id\').value; ajaxLink(calendar_onchange);" ',false).'<span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create">'.button('add')._('Create new calendar').'</A></span> | <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create&calendar_id='.$_REQUEST['calendar_id'].'">'._('Recreate this calendar').'</A></span>&nbsp; <span class="nobr"><A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_calendar&calendar_id='.$_REQUEST['calendar_id'].'">'.button('remove')._('Delete this calendar').'</A></span>';
 	}
@@ -494,7 +494,7 @@ if(empty($_REQUEST['modfunc']))
 	DrawHeader($link);
 
 	if(AllowEdit() && $defaults!=1)
-//modif Francois: css WPadmin
+//FJ css WPadmin
 		echo ErrorMessage(array($defaults?_('This school has more than one default calendar!'):_('This school does not have a default calendar!')));
 	echo '<BR />';
 
@@ -517,7 +517,7 @@ if(empty($_REQUEST['modfunc']))
 
 	$skip = date("w",$time);
 
-//modif Francois: css WPadmin
+//FJ css WPadmin
 	echo '<TABLE style="background-color:#EEEEEE;" id="calendar"><THEAD><TR style="text-align:center; background-color:black; color:white;">';
 	echo '<TH>'.mb_substr(_('Sunday'),0,3).'<span>'.mb_substr(_('Sunday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Monday'),0,3).'<span>'.mb_substr(_('Monday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Tuesday'),0,3).'<span>'.mb_substr(_('Tuesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Wednesday'),0,3).'<span>'.mb_substr(_('Wednesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Thursday'),0,3).'<span>'.mb_substr(_('Thursday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Friday'),0,3).'<span>'.mb_substr(_('Friday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Saturday'),0,3).'<span>'.mb_substr(_('Saturday'),3).'</span>'.'</TH>';
 	echo '</TR></THEAD><TBODY><TR>';
@@ -541,14 +541,14 @@ if(empty($_REQUEST['modfunc']))
 		{
 			echo '<TABLE style="width:95px;"><TR><TD style="text-align:right;">';
 			if($calendar_RET[$date][1]['MINUTES']=='999')
-//modif Francois: icones
+//FJ icones
 				echo CheckboxInput($calendar_RET[$date],"all_day[$date]", '', '', false, button('check'), '', true, 'title="'._('All Day').'"');
 			elseif($calendar_RET[$date][1]['MINUTES'])
 				echo TextInput($calendar_RET[$date][1]['MINUTES'],"minutes[$date]",'','size=3');
 			else
 			{
 				echo '<INPUT type="checkbox" name="all_day['.$date.']" value="Y" title="'._('All Day').'" />&nbsp;';
-//modif Francois: fix bug MINUTES not numeric
+//FJ fix bug MINUTES not numeric
 				echo '<INPUT type="number" min="1" max="998" name="minutes['.$date.']" size="3" title="'._('Minutes').'" />';
 			}
 			echo '</TD></TR></TABLE>';
@@ -568,7 +568,7 @@ if(empty($_REQUEST['modfunc']))
 		{
 			echo '<TABLE style="border-collapse:separate; border-spacing:2px;">';
 
-			//modif Francois: display event link only if description or if admin
+			//FJ display event link only if description or if admin
 			foreach($events_RET[$date] as $event)
 				echo '<TR class="center">
 				<TD style="width:1px; background-color:#000;"></TD>
@@ -599,7 +599,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '</TD></TR>';
 		if(AllowEdit())
 		{
-		//modif Francois: days numbered
+		//FJ days numbered
 			echo '<tr style="height:100%; vertical-align:bottom;"><td>'.button('add','','"#" onclick=\'javascript:window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=detail&event_id=new&school_date='.$date.'&year='.$_REQUEST['year'].'&month='.MonthNWSwitch($_REQUEST['month'],'tochar').'","blank","width=500,height=400"); return false;\' title="'._('New Event').'"').'</td>';
 				
 			if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)

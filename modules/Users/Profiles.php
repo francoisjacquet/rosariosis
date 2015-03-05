@@ -1,7 +1,7 @@
 <?php
 DrawHeader(ProgramTitle());
 
-//modif Francois: bugfix no $menu when page refreshed
+//FJ bugfix no $menu when page refreshed
 unset($_ROSARIO['Menu']);
 
 include('Menu.php');
@@ -14,7 +14,7 @@ if($_REQUEST['profile_id']!='')
 	if($xprofile=='student')
 	{
 		$xprofile = 'parent';
-//modif Francois: enable password change for students
+//FJ enable password change for students
 		//unset($menu['Users']);
 		unset($menu['Users']['parent']['Users/User.php']);
 	}
@@ -53,7 +53,7 @@ if($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdi
 		$tmp_menu['Users'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
 		
-	//modif Francois: fix SQL bug TeacherPrograms inserted twice as in Users and other categories
+	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
 	foreach($tmp_menu['Users'] as $profile => $modname_array)
 	{
 		foreach ($modname_array as $modname=>$title)
@@ -120,7 +120,7 @@ if($_REQUEST['modfunc']!='delete')
 	DrawHeader(_('Select the programs that users of this profile can use and which programs those users can use to save information.'),SubmitButton(_('Save')));
 	echo '<BR />';
 	echo '<TABLE><TR class="st"><TD class="valign-top">';
-//modif Francois: css WPadmin
+//FJ css WPadmin
 	echo '<TABLE class="widefat cellspacing-0">';
 
 	//$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES"));
@@ -185,7 +185,7 @@ function changeHTML(show,hide){
 
 			echo '<TR><TD colspan="3"><h4>'.$module_title.'</h4></TD></TR>';
 
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 			echo '<TR><TH><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick="checkAll(this.form,this.form.can_use_'.$modcat.'.checked,\'can_use['.$modcat.'\');">':'').'</label></TH>';
 
 			if($xprofile=='admin' || $modcat=='Students' || $modcat=='Resources')

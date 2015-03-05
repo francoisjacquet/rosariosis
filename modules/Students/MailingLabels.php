@@ -148,11 +148,11 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] = '<TABLE>';
 
-//modif Francois: add translation
+//FJ add translation
 		$extra['extra_header_left'] .= '<TR><TD colspan="5"><b>'._('Address Labels').':</b></TD></TR>';
-//modif Francois: add <label> on radio
+//FJ add <label> on radio
 		$extra['extra_header_left'] .= '<TR class="st"><TD><label><INPUT type="radio" name="to_address" value="" checked /> '._('To Contacts').'</label></TD>';
-//modif Francois: disable mailing address display
+//FJ disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
 		{
 			$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="residence" value="" checked /> '._('Mailing').'</label></TD>';

@@ -9,7 +9,7 @@ if($_REQUEST['month_values'] && $_POST['month_values'])
 	foreach($_REQUEST['month_values'] as $column=>$value)
 	{
 		$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
-		//modif Francois: bugfix SQL bug when incomplete or non-existent date
+		//FJ bugfix SQL bug when incomplete or non-existent date
 		//if($_REQUEST['values'][$column]=='--')
 		if(mb_strlen($_REQUEST['values'][$column]) < 11)
 			$_REQUEST['values'][$column] = '';
@@ -45,7 +45,7 @@ if($_REQUEST['modfunc']=='update')
 					{
 						if(1)//!empty($value) || $value=='0')
 						{
-							//modif Francois: check numeric fields
+							//FJ check numeric fields
 							if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 							{
 								$error[] = _('Please enter valid Numeric data.');
@@ -82,7 +82,7 @@ if($_REQUEST['modfunc']=='update')
 						DBQuery($sql);
 						DBQuery("UPDATE STAFF SET SCHOOLS=rtrim(SCHOOLS,',')||',$id,' WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOLS IS NOT NULL");
 				
-						//modif Francois: copy School Configuration
+						//FJ copy School Configuration
 						$sql = "INSERT INTO CONFIG (SCHOOL_ID,CONFIG_VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,CONFIG_VALUE,TITLE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."';";
 						DBQuery($sql);
 						$sql = "INSERT INTO PROGRAM_CONFIG (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."';";
@@ -115,7 +115,7 @@ if($_REQUEST['modfunc']=='update')
 			DBQuery("DELETE FROM SCHOOL_MARKING_PERIODS WHERE SCHOOL_ID='".UserSchool()."'");
 			DBQuery("UPDATE STAFF SET CURRENT_SCHOOL_ID=NULL WHERE CURRENT_SCHOOL_ID='".UserSchool()."'");
 			DBQuery("UPDATE STAFF SET SCHOOLS=replace(SCHOOLS,',".UserSchool().",',',')");
-			//modif Francois: add School Configuration
+			//FJ add School Configuration
 			DBQuery("DELETE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 			DBQuery("DELETE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."'");
 
@@ -150,12 +150,12 @@ if(empty($_REQUEST['modfunc']))
 
 	echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&new_school='.$_REQUEST['new_school'].'" METHOD="POST">';
 	
-	//modif Francois: delete school only if more than one school
+	//FJ delete school only if more than one school
 	$delete_button = false;
 	if ($_REQUEST['new_school']!='true' && $_SESSION['SchoolData']['SCHOOLS_NB'] > 1)
 		$delete_button = true;
 		
-	//modif Francois: fix bug: no save button if no admin
+	//FJ fix bug: no save button if no admin
 	if(User('PROFILE')=='admin' && AllowEdit())
 		DrawHeader('',SubmitButton(_('Save'), 'button').($delete_button?SubmitButton(_('Delete'), 'button'):''));
 
@@ -168,7 +168,7 @@ if(empty($_REQUEST['modfunc']))
 	if ($_REQUEST['new_school']!='true')
 		echo '<TR><TD colspan="3">'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<img src="assets/school_logo_'.UserSchool().'.jpg" style="max-width:225px; max-height:225px;" /><br /><span class="legend-gray">'._('School logo').'</span>' : '').'</TD></TR>';
 
-//modif Francois: school name field required
+//FJ school name field required
 	echo '<TR><TD colspan="3">'.TextInput($schooldata['TITLE'],'values[TITLE]',(!$schooldata['TITLE']?'<span class="legend-red">':'')._('School Name').(!$schooldata['TITLE']?'</span>':''),'required maxlength=100').'</TD></TR>';
 
 	echo '<TR><TD colspan="3">'.TextInput($schooldata['ADDRESS'],'values[ADDRESS]',_('Address'),'maxlength=100').'</TD></TR>';
@@ -197,7 +197,7 @@ if(empty($_REQUEST['modfunc']))
 	elseif (!empty($schooldata['NUMBER_DAYS_ROTATION'])) //do not show if no rotation set
 		echo '<TR><TD colspan="3">'.TextInput($schooldata['NUMBER_DAYS_ROTATION'],'values[NUMBER_DAYS_ROTATION]',_('Number of Days for the Rotation'),'maxlength=1 size=1 min=1').'</TD></TR>';
 
-	//modif Francois: add School Fields
+	//FJ add School Fields
 	$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,DEFAULT_SELECTION,REQUIRED FROM SCHOOL_FIELDS ORDER BY SORT_ORDER,TITLE"));
 	$fields_RET = ParseMLArray($fields_RET,'TITLE');
 	

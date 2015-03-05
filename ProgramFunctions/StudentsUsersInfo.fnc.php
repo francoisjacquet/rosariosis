@@ -18,8 +18,8 @@ function _makeTextInput($column,$name,$size,$request)
 	if($field['TYPE']=='numeric')
 		$value[$column] = str_replace('.00','',$value[$column]);
 
-	//modif Francois: text field is required
-	//modif Francois: text field maxlength=255
+	//FJ text field is required
+	//FJ text field maxlength=255
 	$options = $size.' maxlength=255'.($field['REQUIRED']=='Y' ? ' required': '');
 
 	return TextInput($value[$column], $request.'['.$column.']', $req[0].$name.$req[1], $options, $div);
@@ -40,7 +40,7 @@ function _makeDateInput($column,$name,$request)
 		$req = $field['REQUIRED']=='Y' && $value[$column]=='' ? array('<span class="legend-red">','</span>') : array('','');
 	}
 
-	//modif Francois: date field is required
+	//FJ date field is required
 	$required = false;
 	if ($field['REQUIRED']=='Y')
 		$required = true;
@@ -48,7 +48,7 @@ function _makeDateInput($column,$name,$request)
 	return DateInput($value[$column], $request.'['.$column.']', $req[0].$name.$req[1], $div, true, $required);
 }
 
-//modif Francois: display age next to birthdate
+//FJ display age next to birthdate
 function _makeStudentAge($column,$name)
 {	global $value;
 
@@ -103,7 +103,7 @@ function _makeSelectInput($column,$name,$request)
 				$options[$option] = $option;
 	}
 
-	//modif Francois: select field is required
+	//FJ select field is required
 	$extra = 'style="max-width:250px;"'.($field['REQUIRED']=='Y' ? ' required': '');
 
 	return SelectInput($value[$column], $request.'['.$column.']', $req[0].$name.$req[1], $options, _('N/A'), $extra, $div);
@@ -141,7 +141,7 @@ function _makeAutoSelectInput($column,$name,$request)
 				$options[$option] = $option;
 	}
 	// add the 'new' option, is also the separator
-//modif Francois: new option
+//FJ new option
 //	$options['---'] = '---';
 	$options['---'] = '-'. _('Edit') .'-';
 
@@ -190,13 +190,13 @@ function _makeAutoSelectInput($column,$name,$request)
 
 	if($value[$column]!='---' && count($options)>1)
 	{
-		//modif Francois: select field is required
+		//FJ select field is required
 		$extra = 'style="max-width:250px;"'.($field['REQUIRED']=='Y' ? ' required': '');
 
 		return SelectInput($value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$options,_('N/A'),$extra,$div);
 	}
 	else
-//modif Francois: new option
+//FJ new option
 //		return TextInput($value[$column]=='---'?array('---','<span style="color:red">---</span>'):''.$value[$column],$request.'['.$column.']',$req[0].$name.$req[1],$size,$div);
 		return TextInput($value[$column]=='---'?array('---','<span style="color:red">-'. _('Edit') .'-</span>'):''.$value[$column],$request.'['.$column.']',$req[0].$name.$req[1],'',$div);
 }
@@ -226,8 +226,8 @@ function _makeTextareaInput($column,$name,$request)
 	else
 		$div = true;
 
-//modif Francois: text area is required
-//modif Francois: textarea field maxlength=5000
+//FJ text area is required
+//FJ textarea field maxlength=5000
 	return TextAreaInput($value[$column],$request.'['.$column.']',$name,'maxlength=5000'.($field['REQUIRED']=='Y' ? ' required': ''),$div);
 }
 
@@ -268,13 +268,13 @@ function _makeMultipleInput($column,$name,$request)
 			if($i%2==0)
 				$table .= '</TR><TR>';
 
-			//modif Francois: add <label> on checkbox
+			//FJ add <label> on checkbox
 			$table .= '<TD><label><INPUT type="checkbox" name="'.$request.'['.$column.'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($value[$column],'||'.$option.'||')!==false?' checked':'').' /> '.$option.'</label></TD>';
 			$i++;
 		}
 
 		$table .= '</TR><TR><TD colspan="2">';
-		//modif Francois: fix bug none selected not saved
+		//FJ fix bug none selected not saved
 		$table .= '<INPUT type="hidden" name="'.$request.'['.$column.'][none]" value="">';
 		$table .= '<TABLE class="width-100p" style="height:7px; border:1; border-style:none solid solid solid;"><TR><TD></TD></TR></TABLE>';
 
@@ -361,7 +361,7 @@ function _makeStartInput($value,$column)
 	else
 		$div = true;
 
-//modif Francois: remove LO_field
+//FJ remove LO_field
 	return '<div class="nobr">'.$add.DateInput($value,'values[STUDENT_ENROLLMENT]['.$id.']['.$column.']','',$div,true).' - '.SelectInput($THIS_RET['ENROLLMENT_CODE'],'values[STUDENT_ENROLLMENT]['.$id.'][ENROLLMENT_CODE]','',$add_codes,_('N/A'),'style="max-width:150px;"').'</div>';
 }
 
@@ -412,7 +412,7 @@ function _makeSchoolInput($value,$column)
 		else
 			return SelectInput(UserSchool(),'values[STUDENT_ENROLLMENT]['.$id.'][SCHOOL_ID]','',$options,false,'',false);
 	else
-		//modif Francois: save new Student's Enrollment in Enrollment.inc.php
+		//FJ save new Student's Enrollment in Enrollment.inc.php
 		return '<input type="hidden" name="values[STUDENT_ENROLLMENT][new][SCHOOL_ID]" value="'.UserSchool().'" />'.$schools[UserSchool()][1]['TITLE'];
 }
 ?>

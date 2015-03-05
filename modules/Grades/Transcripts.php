@@ -1,6 +1,6 @@
 <?php
 
-//modif Francois: add School Configuration
+//FJ add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
@@ -16,7 +16,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 
 		$RET = 1;
-		//modif Francois: prevent student ID hacking
+		//FJ prevent student ID hacking
 		if (User('PROFILE')!='admin')
 		{
 			$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
@@ -31,20 +31,20 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			
 			$showStudentPic = $_REQUEST['showstudentpic'];
 			$showSAT = $_REQUEST['showsat'];
-			//modif Francois: add Show Grades option
+			//FJ add Show Grades option
 			$showGrades = $_REQUEST['showgrades'];
-			//modif Francois: add Show Comments option
+			//FJ add Show Comments option
 			$showMPcomments = $_REQUEST['showmpcomments'];
-			//modif Francois: add Show Credits option
+			//FJ add Show Credits option
 			$showCredits = $_REQUEST['showcredits'];
-			//modif Francois: add Show Credit Hours option
+			//FJ add Show Credit Hours option
 			$showCreditHours = $_REQUEST['showcredithours'];
-			//modif Francois: add Show Studies Certificate option
+			//FJ add Show Studies Certificate option
 			$showCertificate = User('PROFILE')=='admin' && $_REQUEST['showcertificate'];
 
 			if ($showCertificate)
 			{
-				//modif Francois: add Template
+				//FJ add Template
 				$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Grades/Transcripts.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
 				if (!$template_update)
 					DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('Grades/Transcripts.php', '".User('STAFF_ID')."', '".$_REQUEST['inputcertificatetext']."')");
@@ -150,7 +150,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 					echo '<td class="center">'.$student_data['GENDER'].'</td>';
 
-				//modif Francois: history grades in Transripts
+				//FJ history grades in Transripts
 				if(empty($student_data['GRADE_LEVEL']))
 					$student_data['GRADE_LEVEL'] = $mps[key($mps)][1]['GRADE_LEVEL_SHORT'];
 
@@ -305,7 +305,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '<tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">'._('Title').'</span></td></tr></table>';
 				echo '</td><td style="width:50%;">';
 
-				//modif Francois: add second signature for the certificate
+				//FJ add second signature for the certificate
 				if ($showCertificate)
 				{
 					echo '<table class="width-100p"><tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">'._('Signature').'<br /><br /><br /></span></td></tr>';
@@ -331,7 +331,7 @@ if(empty($_REQUEST['modfunc']))
 
 	if($_REQUEST['search_modfunc']=='list')
 	{
-		//modif Francois: include gentranscript.php in Transcripts.php
+		//FJ include gentranscript.php in Transcripts.php
 		//echo '<FORM action="modules/Grades/gentranscript.php" method="POST">';
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
 		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Transcripts for Selected Students').'" />';
@@ -340,7 +340,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'._('Include on Transcript').':</b><INPUT type="hidden" name="SCHOOL_ID" value="'.UserSchool().'"><BR /></TD></TR>';
 
-		//modif Francois: history grades in Transripts
+		//FJ history grades in Transripts
 		if (User('PROFILE')=='admin')
 		{
 			$syear_history_RET = DBGet(DBQuery("SELECT DISTINCT SYEAR FROM HISTORY_MARKING_PERIODS WHERE SYEAR<>'".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SYEAR DESC"));
@@ -364,13 +364,13 @@ if(empty($_REQUEST['modfunc']))
 		$mp_types = DBGet(DBQuery("SELECT DISTINCT MP_TYPE FROM MARKING_PERIODS WHERE NOT MP_TYPE IS NULL AND SCHOOL_ID='".UserSchool()."'"),array(),array());
 		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align:top;">'._('Marking Periods').':</TD><TD><TABLE><TR class="st"><TD  style="vertical-align:top;"><TABLE>';
 
-		//modif Francois: add translation
+		//FJ add translation
 		$marking_periods_locale = array('Year'=>_('Year'), 'Semester'=>_('Semester'), 'Quarter'=>_('Quarter'));
 
 		foreach($mp_types as $mp_type)
 		{
 			$extra['extra_header_left'] .= '<TR>';
-			//modif Francois: add <label> on checkbox
+			//FJ add <label> on checkbox
 			$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="mp_type_arr[]" value="'.$mp_type['MP_TYPE'].'"> '.$marking_periods_locale[ucwords($mp_type['MP_TYPE'])].'</label></TD>';              
 			$extra['extra_header_left'] .= '</TR>';
 		}
@@ -379,29 +379,29 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<TD style="vertical-align:top;">'._('Other Options').':</TD>';
 		$extra['extra_header_left'] .= '<TD><TABLE>';
 
-		//modif Francois: add Show Grades option
+		//FJ add Show Grades option
 		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showgrades" value="1" checked /> '._('Grades').'</label></TD></TR>';
 
 		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showstudentpic" value="1"> '._('Student Photo').'</label></TD></TR>';
 
-		//modif Francois: add Show Comments option
+		//FJ add Show Comments option
 		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showmpcomments" value="1"> '._('Comments').'</label></TD></TR>';
 
-		//modif Francois: add Show Credits option
+		//FJ add Show Credits option
 		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showcredits" value="1" checked /> '._('Credits').'</label></TD></TR>';
 
-		//modif Francois: add Show Credit Hours option
+		//FJ add Show Credit Hours option
 		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showcredithours" value="1"> '._('Credit Hours').'</label></TD></TR>';
 
-		//modif Francois: limit Cetificate to admin
+		//FJ limit Cetificate to admin
 		if (User('PROFILE')=='admin')
 		{
-			//modif Francois: add Show Studies Certificate option
+			//FJ add Show Studies Certificate option
 			$field_SSECURITY = ParseMLArray(DBGet(DBQuery("SELECT TITLE FROM CUSTOM_FIELDS WHERE ID = 200000003")),'TITLE');
 			
 			$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showcertificate" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> '._('Studies Certificate').'</label></TD></TR>';
 			
-			//modif Francois: add Template
+			//FJ add Template
 			$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		}
 
@@ -411,10 +411,10 @@ if(empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '</TD><TD></TD></TR></TABLE></TR>';
 		$extra['extra_header_left'] .= '</TABLE>';
 
-		//modif Francois: limit Cetificate to admin
+		//FJ limit Cetificate to admin
 		if (User('PROFILE')=='admin')
 		{
-			//modif Francois: add Show Studies Certificate option
+			//FJ add Show Studies Certificate option
 			$extra['extra_header_left'] .= '<DIV id="divcertificatetext" style="display:none"><TEXTAREA id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">'.($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']).'</TEXTAREA><BR /><span class="legend-gray">'._('Certificate Studies Text').'</span>
 			<TABLE><TR><TD style="text-align:right; vertical-align: top;">'._('Substitutions').':</TD><TD><TABLE><TR>';
 			$extra['extra_header_left'] .= '<TD>__SSECURITY__</TD><TD>= '.$field_SSECURITY[1]['TITLE'].'</TD><TD colspan="3">&nbsp;</TD>';

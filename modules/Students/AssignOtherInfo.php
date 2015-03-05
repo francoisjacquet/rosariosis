@@ -73,7 +73,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				if($start_date!='')
 				{
-					//modif Francois: check if student already enrolled on that date when updating START_DATE
+					//FJ check if student already enrolled on that date when updating START_DATE
 					$found_RET = DBGet(DBQuery("SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".$student_id."' AND SYEAR='".UserSyear()."' AND '".$start_date."' BETWEEN START_DATE AND END_DATE"));
 
 					if(count($found_RET))
@@ -141,7 +141,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
 
-//modif Francois: css WPadmin
+//FJ css WPadmin
 		echo '<span class="center">';
 		echo '<script>var category_idonchange = document.createElement("a"); category_idonchange.href = "'.PreparePHP_SELF($_REQUEST,array('category_id')).'&category_id="; category_idonchange.target = "body";</script>';
 
@@ -222,7 +222,7 @@ if(empty($_REQUEST['modfunc']))
 							$select_options[$option] = $option;
 				}
 				// add the 'new' option, is also the separator
-//modif Francois: new option
+//FJ new option
 //				$select_options['---'] = '---';
 				$select_options['---'] = '-'. _('Edit') .'-';
 
@@ -254,7 +254,7 @@ if(empty($_REQUEST['modfunc']))
 							$select_options[$option] = $option;
 				}
 				// add the 'new' option
-//modif Francois: new option
+//FJ new option
 //				$select_options['---'] = '---';
 				$select_options['---'] = '-'. _('Edit') .'-';
 

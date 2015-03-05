@@ -11,7 +11,7 @@ $menu['Scheduling']['admin'] = array(
 						'Scheduling/PrintClassLists.php'=>_('Print Class Lists'),
 						'Scheduling/PrintClassPictures.php'=>_('Print Class Pictures'),
 						'Scheduling/PrintRequests.php'=>_('Print Requests'),
-//modif Francois: add Master Schedule Report
+//FJ add Master Schedule Report
 						'Scheduling/MasterScheduleReport.php'=>_('Master Schedule Report'),
 						'Scheduling/ScheduleReport.php'=>_('Schedule Report'),
 						'Scheduling/RequestsReport.php'=>_('Requests Report'),
@@ -35,7 +35,7 @@ $menu['Scheduling']['teacher'] = array(
 $menu['Scheduling']['parent'] = array(
 						'default'=>'Scheduling/Schedule.php',
 						'Scheduling/Schedule.php'=>_('Schedule'),
-//modif Francois: activate Print Schedules for parents and students
+//FJ activate Print Schedules for parents and students
 						'Scheduling/PrintSchedules.php'=>_('Print Schedules'),
 						'Scheduling/PrintClassPictures.php'=>_('Class Pictures'),
 						'Scheduling/Requests.php'=>_('Student Requests')

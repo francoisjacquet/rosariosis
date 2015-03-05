@@ -1,10 +1,10 @@
 <?php
 
-//modif Francois: include once ColorBox
+//FJ include once ColorBox
 function includeOnceColorBox($rt2colorBoxDiv = false)
 {
 	static $included = false;
-	//modif Francois: responsive rt td too large
+	//FJ responsive rt td too large
 	$return .= (!$included ? '<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
 	<script src="assets/js/colorbox/jquery.colorbox-min.js"></script>
 	<script>

@@ -1,5 +1,5 @@
 <?php
-//modif Francois: add School Configuration
+//FJ add School Configuration
 //move the Modules config.inc.php to the database table
 // 'config' if the value is needed in multiple modules
 // 'program_config' if the value is needed in one module
@@ -24,7 +24,7 @@ else
 
 	if($_REQUEST['modfunc']=='update')
 	{
-		//modif Francois: upload school logo
+		//FJ upload school logo
 		if ($_FILES['LOGO_FILE'] && AllowEdit())
 			FileUpload('LOGO_FILE', 'assets'.'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', 'school_logo_'.UserSchool());
 
@@ -96,7 +96,7 @@ else
 
 		echo '<TR><TD>'.TextInput(Config('NAME'),'values[CONFIG][NAME]',_('Program Name'),'required').'</TD></TR>';
 
-		//modif Francois: add Default Theme to Configuration
+		//FJ add Default Theme to Configuration
 		echo '<TR><TD><TABLE><TR>';
 
 		$themes = glob('assets/themes/*', GLOB_ONLYDIR);
@@ -112,7 +112,7 @@ else
 		echo '</TR></TABLE></TD></TR>';
 		echo '<TR><TD><span class="legend-gray">'._('Default Theme').'</span></TD></TR>';
 
-		//modif Francois: add Registration to Configuration
+		//FJ add Registration to Configuration
 		echo '<TR><TD><FIELDSET><legend>'._('Registration').'</legend><TABLE>';
 
 		echo '<TR><TD>'.CheckboxInput(Config('CREATE_USER_ACCOUNT'), 'values[CONFIG][CREATE_USER_ACCOUNT]', '<SPAN style="cursor:help" title="'._('New users will be added with the No Access profile').'">'._('Create User Account').'*</SPAN>', '', false, button('check'), button('x')).'</TD></TR>';
@@ -125,13 +125,13 @@ else
 
 		echo '<BR /><FIELDSET><legend>'._('School').'</legend><TABLE>';
 
-		//modif Francois: school year over one/two calendar years format
+		//FJ school year over one/two calendar years format
 		echo '<TR><TD>'.CheckboxInput(Config('SCHOOL_SYEAR_OVER_2_YEARS'), 'values[CONFIG][SCHOOL_SYEAR_OVER_2_YEARS]', _('School year over two calendar years'), '', false, button('check'), button('x')).'</TD></TR>';
 
-		//modif Francois: upload school logo
+		//FJ upload school logo
 		echo '<TR><TD>'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<br /><img src="assets/school_logo_'.UserSchool().'.jpg?cache_killer='.rand().'" style="max-width:225px; max-height:225px;" /><br />' : '').'<input type="file" id="LOGO_FILE" name="LOGO_FILE" size="14" accept="image/jpeg" /><span id="loading"></span><br /><span class="legend-gray">'._('School logo').' (.jpg)</span></TD></TR>';
 
-		//modif Francois: currency
+		//FJ currency
 		echo '<TR><TD>'.TextInput(Config('CURRENCY'),'values[CONFIG][CURRENCY]',_('Currency Symbol'),'maxlength=3 size=3').'</TD></TR>';
 
 		echo '</TABLE></FIELDSET>';

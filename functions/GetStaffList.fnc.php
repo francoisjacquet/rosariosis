@@ -14,7 +14,7 @@ function GetStaffList(& $extra)
 				$extra['columns_after']['LAST_LOGIN'] = _('Last Login');
 				$functions['LAST_LOGIN'] = 'makeLogin';
 				
-				//modif Francois: add failed login to expanded view
+				//FJ add failed login to expanded view
 				$select .= ',FAILED_LOGIN';
 				$extra['columns_after']['FAILED_LOGIN'] = _('Failed Login');
 				$functions['FAILED_LOGIN'] = 'makeLogin';
@@ -101,7 +101,7 @@ function appendStaffSQL($sql,$extra)
 
 	if($_REQUEST['usrid'])
 	{
-//modif Francois: allow comma separated list of staff IDs
+//FJ allow comma separated list of staff IDs
 		$usrid_array = explode(',', $_REQUEST['usrid']);
 		$usrids = array();
 		foreach ($usrid_array as $usrid)
@@ -178,7 +178,7 @@ function makeProfile($value)
 
 function makeLogin($value,$title='LAST_LOGIN')
 {
-	//modif Francois: add failed login to expanded view
+	//FJ add failed login to expanded view
 	if ($title == 'LAST_LOGIN')
 	{
 		if(empty($value))

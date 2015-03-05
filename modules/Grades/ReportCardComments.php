@@ -17,7 +17,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					$table = 'REPORT_CARD_COMMENTS';
 				foreach($_REQUEST['values'] as $id=>$columns)
 				{
-			//modif Francois: fix SQL bug invalid sort order
+			//FJ fix SQL bug invalid sort order
 					if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 					{
 						if($id!='new')
@@ -64,7 +64,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if($_REQUEST['tab_id']=='new')
 	{
-//modif Francois: add translation
+//FJ add translation
 		if(DeletePromptX(_('Report Card Comment Category')))
 		{
 			DBQuery("DELETE FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='".$_REQUEST['id']."'");
@@ -116,7 +116,7 @@ if(empty($_REQUEST['modfunc']))
 		if(!$course_period_RET[1]['GRADE_SCALE_ID'])
 			ErrorMessage(array(_('This course is not graded.')),'fatal');
 		$subjects_RET = DBGet(DBQuery("SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$course_period_RET[1]['SUBJECT_ID']."'"));
-		//modif Francois: add subject areas
+		//FJ add subject areas
 		$courses_RET = DBGet(DBQuery("SELECT TITLE,SUBJECT_ID,(SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID=COURSES.SUBJECT_ID) AS SUBJECT FROM COURSES WHERE COURSE_ID='".$course_period_RET[1]['COURSE_ID']."'"));
 		$_REQUEST['subject_id'] = $courses_RET[1]['SUBJECT_ID'];
 		$_REQUEST['course_id'] = $course_period_RET[1]['COURSE_ID'];
@@ -135,7 +135,7 @@ if(empty($_REQUEST['modfunc']))
 	ORDER BY 4,SORT_ORDER"),array(),array('ID'));
 	if($_REQUEST['tab_id']=='' || $_REQUEST['tab_id']!='new' && !$categories_RET[$_REQUEST['tab_id']])
 		//$_REQUEST['tab_id'] = key($categories_RET).'';
-		$_REQUEST['tab_id'] = '-1'; //modif Francois: default to -1 (General)
+		$_REQUEST['tab_id'] = '-1'; //FJ default to -1 (General)
 
 	$tabs = array();
 	foreach($categories_RET as $id=>$category)
@@ -217,7 +217,7 @@ if(empty($_REQUEST['modfunc']))
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader($subject_select.' : '.$course_select,SubmitButton(_('Save')));
 	echo '<br />';
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 	if(isset($error)) echo ErrorMessage($error);
 
 	$LO_options = array('save'=>false,'search'=>false,'header_color'=>$categories_RET[$_REQUEST['tab_id']][1]['COLOR'],

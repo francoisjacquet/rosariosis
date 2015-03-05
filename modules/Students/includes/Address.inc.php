@@ -1,5 +1,5 @@
 <?php
-//modif Francois: add School Configuration
+//FJ add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
 // set this to false to disable auto-pull-downs for the contact info Description field
 $info_apd = true;
@@ -11,7 +11,7 @@ if($_REQUEST['month_values'] && $_POST['month_values'])
 		foreach($columns as $column=>$value)
 		{
 			$_REQUEST['values'][$field_category][$column] = $_REQUEST['day_values'][$field_category][$column].'-'.$value.'-'.$_REQUEST['year_values'][$field_category][$column];
-			//modif Francois: bugfix SQL bug when incomplete or non-existent date
+			//FJ bugfix SQL bug when incomplete or non-existent date
 			//if($_REQUEST['values'][$column]=='--')
 			if(mb_strlen($_REQUEST['values'][$field_category][$column]) < 11)
 				$_REQUEST['values'][$field_category][$column] = '';
@@ -70,7 +70,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				if(1)//!empty($value) || $value=='0')
 				{
-					//modif Francois: check numeric fields
+					//FJ check numeric fields
 					if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 					{
 						$error[] = _('Please enter valid Numeric data.');
@@ -148,7 +148,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				if(1)//!empty($value) || $value=='0')
 				{
-					//modif Francois: check numeric fields
+					//FJ check numeric fields
 					if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 					{
 						$error[] = _('Please enter valid Numeric data.');
@@ -382,7 +382,7 @@ if(empty($_REQUEST['modfunc']))
 
 				$relation_list = '';
 				foreach($addresses as $address)
-//modif Francois: fix Warning: mb_strpos(): Empty delimiter
+//FJ fix Warning: mb_strpos(): Empty delimiter
 //					$relation_list .= ($address['STUDENT_RELATION']&&mb_strpos($address['STUDENT_RELATION'].', ',$relation_list)==false?$address['STUDENT_RELATION']:'---').', ';
 					$relation_list .= ($address['STUDENT_RELATION']&&(empty($relation_list)?false:mb_strpos($address['STUDENT_RELATION'].', ',$relation_list))==false?$address['STUDENT_RELATION']:'---').', ';
 				$address = $addresses[1];
@@ -592,7 +592,7 @@ if(empty($_REQUEST['modfunc']))
 			$state_options = _makeAutoSelect('STATE','ADDRESS',array(array('STATE'=>$this_address['STATE']),array('STATE'=>$this_address['MAIL_STATE'])),array());
 			$zip_options = _makeAutoSelect('ZIPCODE','ADDRESS',array(array('ZIPCODE'=>$this_address['ZIPCODE']),array('ZIPCODE'=>$this_address['MAIL_ZIPCODE'])),array());
 
-//modif Francois: css WPadmin
+//FJ css WPadmin
 			echo '<TABLE class="widefat width-100p cellspacing-0"><TR><TH colspan="3">';
 			echo _('Address').'</TH></TR>';
 			echo '<TR><TD colspan="3">'.TextInput($this_address['ADDRESS'],'values[ADDRESS][ADDRESS]',_('Street'),$size?'size=20':'').'</TD>';
@@ -622,7 +622,7 @@ if(empty($_REQUEST['modfunc']))
 				}
 			}
 
-//modif Francois: css WPadmin
+//FJ css WPadmin
 			echo '<br /><TABLE class="widefat cellspacing-0"><TR><TD>'.CheckboxInput($this_address['RESIDENCE'], 'values[STUDENTS_JOIN_ADDRESS][RESIDENCE]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('house','','','bigger') .'</TD><TD>'._('Residence').'</TD></TR>';
 
 			echo '<TR><TD>'.CheckboxInput($this_address['BUS_PICKUP'], 'values[STUDENTS_JOIN_ADDRESS][BUS_PICKUP]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('bus','','','bigger') .'</TD><TD>'._('Bus Pickup').'</TD></TR>';
@@ -675,7 +675,7 @@ if(empty($_REQUEST['modfunc']))
 			{
 				$relation_options = _makeAutoSelect('STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',$this_contact['STUDENT_RELATION'],array());
 
-//modif Francois: css WPadmin
+//FJ css WPadmin
 				echo '<TABLE class="widefat cellspacing-0"><TR><TH colspan="3">'._('Contact Information').'</TH></TR>';
 
 				if($_REQUEST['person_id']!='new')
@@ -881,7 +881,7 @@ function _makeAutoSelect($column,$table,$values='',$options=array())
 {
 	// add the 'new' option, is also the separator
 
-//modif Francois: new option
+//FJ new option
 //	$options['---'] = '---';
 	$options['---'] = '-'. _('Edit') .'-';
 	if(AllowEdit()) // we don't really need the select list if we can't edit anyway
@@ -921,7 +921,7 @@ function _makeAutoSelectInputX($value,$column,$table,$title,$select,$id='',$div=
 	if($value!='---' && count($select)>1)
 		return SelectInput($value,"values[$table]".($id?"[$id]":'')."[$column]",$title,$select,_('N/A'),'',$div);
 	else
-//modif Francois: new option
+//FJ new option
 //		return TextInput($value=='---'?array('---','<span style="color:red">---</span>'):$value,"values[$table]".($id?"[$id]":'')."[$column]",$title,$options,$div);
 		return TextInput($value=='---'?array('---','<span style="color:red">-'. _('Edit') .'-</span>'):$value,"values[$table]".($id?"[$id]":'')."[$column]",$title,$options,$div);
 }

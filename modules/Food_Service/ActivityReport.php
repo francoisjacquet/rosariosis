@@ -17,7 +17,7 @@ else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
 
 
-//modif Francois: remove DrawTab params
+//FJ remove DrawTab params
 $header = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'&type=student"><b>'._('Students').'</b></a>';
 $header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'&type=staff"><b>'._('Users').'</b></a>';
 
@@ -29,7 +29,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
 	if($_REQUEST['item_id']!='')
 	{
-//modif Francois: add translation
+//FJ add translation
 		if(DeletePromptX(_('Transaction Item')))
 		{
 			require_once('modules/Food_Service/includes/DeleteTransactionItem.fnc.php');
@@ -87,7 +87,7 @@ include('modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Student
 
 
 
-//modif Francois: add translation
+//FJ add translation
 function types_locale($type) {
 	$types = array('Deposit'=>_('Deposit'),'Credit'=>_('Credit'),'Debit'=>_('Debit'));
 	if (array_key_exists($type, $types)) {

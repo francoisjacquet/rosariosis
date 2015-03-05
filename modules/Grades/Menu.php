@@ -3,7 +3,7 @@ $menu['Grades']['admin'] = array(
 						'default'=>'Grades/GPARankList.php',
 						'Grades/ReportCards.php'=>_('Report Cards'),
 						'Grades/HonorRoll.php'=>_('Honor Roll'),
-//modif Francois: Honor Roll by Subject
+//FJ Honor Roll by Subject
 						'Grades/HonorRollSubject.php'=>_('Honor Roll by Subject'),
 						'Grades/CalcGPA.php'=>_('Calculate GPA'),
 						'Grades/Transcripts.php'=>_('Transcripts'),
@@ -37,7 +37,7 @@ $menu['Grades']['teacher'] = array(
 						//'Grades/Assignments-new.php'=>_('Assignments'),
 						'Grades/AnomalousGrades.php'=>_('Anomalous Grades'),
 						'Grades/ProgressReports.php'=>_('Progress Reports'),
-//modif Francois: add Grade Breakdown
+//FJ add Grade Breakdown
 						'Grades/GradebookBreakdown.php'=>_('Grade Breakdown'),
 						2=>_('Reports'),
 						'Grades/StudentGrades.php'=>_('Student Grades'),

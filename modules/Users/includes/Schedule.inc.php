@@ -5,7 +5,7 @@ include('modules/Users/includes/Other_Info.inc.php');
 
 if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 {
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 	if ($PopTable_opened)
 		PopTable('footer');
 
@@ -40,11 +40,11 @@ if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 
 	ListOutput($schedule_RET,$columns,'Course Period','Course Periods',false,$group);
 
-//modif Francois: add schedule table
+//FJ add schedule table
 	if (isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		echo '<div style="page-break-after: always;"></div>';
-		//modif Francois: horizontal format
+		//FJ horizontal format
 		//echo '<!-- MEDIA SIZE 8.5x11in -->';
 		$_SESSION['orientation'] = 'landscape';
 	}
@@ -52,9 +52,9 @@ if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 		echo '<HR>';
 
 	$schedule_table_days = array('U'=>false,'M'=>false,'T'=>false,'W'=>false,'H'=>false,'F'=>false,'S'=>false);
-	//modif Francois: days display to locale						
+	//FJ days display to locale						
 	$days_convert = array('U'=>_('Sunday'),'M'=>_('Monday'),'T'=>_('Tuesday'),'W'=>_('Wednesday'),'H'=>_('Thursday'),'F'=>_('Friday'),'S'=>_('Saturday'));
-	//modif Francois: days numbered
+	//FJ days numbered
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 		$days_convert = array('U'=>_('Day').' 7','M'=>_('Day').' 1','T'=>_('Day').' 2','W'=>_('Day').' 3','H'=>_('Day').' 4','F'=>_('Day').' 5','S'=>_('Day').' 6');
 	
@@ -71,7 +71,7 @@ if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 	AND cp.MARKING_PERIOD_ID IN ((SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'), '".UserMP()."') 
 	AND sp.LENGTH <= ".(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)." 
 	ORDER BY sp.SORT_ORDER"),array('DAYS'=>'_GetDays'),array('SCHOOL_PERIOD'));
-	//modif Francois: note the "sp.LENGTH < (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
+	//FJ note the "sp.LENGTH < (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
 	
 	$columns = array('SCHOOL_PERIOD' => _('Periods'));
 	foreach ($schedule_table_days as $day=>$true)
@@ -88,7 +88,7 @@ if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 		echo '<TABLE><TR><TD>';
 }
 
-//modif Francois: add schedule table
+//FJ add schedule table
 function _GetDays($value, $column)
 {	global $schedule_table_days;
 

@@ -1,5 +1,5 @@
 <?php
-//modif Francois: Portal Polls inspired by Portal Notes
+//FJ Portal Polls inspired by Portal Notes
 include('ProgramFunctions/PortalPollsNotes.fnc.php');
 
 if($_REQUEST['day_values'] && $_POST['day_values'])
@@ -52,7 +52,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
 			if($id!='new')
@@ -182,7 +182,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 if(isset($error))
 	echo ErrorMessage($error);
 
@@ -227,7 +227,7 @@ function _makeTextInput($value,$name)
 
 	if($name!='TITLE')
 		$extra = 'size=5 maxlength=10';
-//modif Francois: title field required
+//FJ title field required
 	if($name=='TITLE' && $id != 'new')
 		$extra = 'required';
 
@@ -277,7 +277,7 @@ function _makeOptionsInputs($value,$name)
 	}
 
 	
-	//modif Francois: responsive rt td too large
+	//FJ responsive rt td too large
 	if (!isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$return .= includeOnceColorBox('divPollOptions'.$id);

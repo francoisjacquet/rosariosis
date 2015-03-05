@@ -63,7 +63,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 {
 	foreach($_REQUEST['tables'] as $id=>$columns)
 	{
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
 			if($id!='new')
@@ -74,15 +74,15 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				{
 					if($column=='START_DATE' || $column=='END_DATE' || $column=='POST_START_DATE' || $column=='POST_END_DATE')
 					{
-						//modif Francois: fix SQL bug START_DATE or END_DATE is null
+						//FJ fix SQL bug START_DATE or END_DATE is null
 						if((!VerifyDate($value) && $value!='') || (($column=='START_DATE' || $column=='END_DATE') && $value==''))
 						{
 							$error[] = _('Not all of the dates were entered correctly.');
-							//goto error_exit; //modif Francois: goto avail. in PHP 5.3, use break instead
+							//goto error_exit; //FJ goto avail. in PHP 5.3, use break instead
 							break 2;
 						}
 
-						//modif Francois: verify END_DATE > START_DATE
+						//FJ verify END_DATE > START_DATE
 						$mp_dates_RET = DBGet(DBQuery("SELECT START_DATE, END_DATE, POST_START_DATE, POST_END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".$id."'"));
 
 						$start_date = (!empty($columns['START_DATE']) ? $columns['START_DATE'] : $mp_dates_RET[1]['START_DATE']);
@@ -137,14 +137,14 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				{
 					if($column=='START_DATE' || $column=='END_DATE' || $column=='POST_START_DATE' || $column=='POST_END_DATE')
 					{
-						//modif Francois: fix SQL bug START_DATE or END_DATE is null
+						//FJ fix SQL bug START_DATE or END_DATE is null
 						if(!VerifyDate($value) && $value!='' || (($column=='START_DATE' || $column=='END_DATE') && $value==''))
 						{
 							$error[] = _('Not all of the dates were entered correctly.');
 							break 2;
 						}
 
-						//modif Francois: verify END_DATE > START_DATE
+						//FJ verify END_DATE > START_DATE
 						if(($column=='END_DATE' && date_create($value) <= date_create($columns['START_DATE'])) || ($column=='POST_START_DATE' && $columns['POST_END_DATE']!='' && date_create($value) > date_create($columns['POST_END_DATE'])))
 						{
 							$error[] = _('Start date must be anterior to end date.');
@@ -200,7 +200,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 		else
 			$error[] = _('Please enter a valid Sort Order.');
 	}
-	//error_exit: //modif Francois: goto avail. in PHP 5.3, use break instead
+	//error_exit: //FJ goto avail. in PHP 5.3, use break instead
 	unset($_REQUEST['tables']);
 	unset($_SESSION['_REQUEST_vars']['tables']);
 }
@@ -211,7 +211,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	switch($_REQUEST['mp_term'])
 	{
 		case 'FY':
-//modif Francois: add translation
+//FJ add translation
 			$name = _('Year');
 			$parent_term = ''; $parent_id = '';
 			$extra[] = "DELETE FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE PARENT_ID='".$_REQUEST['marking_period_id']."'))";
@@ -252,7 +252,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 
 if(empty($_REQUEST['modfunc']))
 {
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 	if(isset($error)) echo ErrorMessage($error);
 	if(AllowEdit() && $_REQUEST['marking_period_id']!='new')
 	{

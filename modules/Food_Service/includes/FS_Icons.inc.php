@@ -4,7 +4,7 @@
 if (!isset($FS_IconsPath))
 	$FS_IconsPath = 'assets/FS_icons/'; // Food Service icons
 
-//modif Francois: Food Service icons functions
+//FJ Food Service icons functions
 
 //used in MenuItems.php, ServeMenus.php & Kiosk.php
 function makeIcon($value,$name,$height='30')

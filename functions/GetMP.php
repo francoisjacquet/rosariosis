@@ -46,7 +46,7 @@ function GetAllMP($mp,$marking_period_id='0')
 
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 			
-				//modif Francois: error if no quarters
+				//FJ error if no quarters
 				if (!$RET)
 					return ErrorMessage(array(_('No quarters found')), 'fatal');
 
@@ -66,7 +66,7 @@ function GetAllMP($mp,$marking_period_id='0')
 
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 			
-				//modif Francois: error if no quarters
+				//FJ error if no quarters
 				if (!$RET)
 					return ErrorMessage(array(_('No quarters found')), 'fatal');
 
@@ -81,7 +81,7 @@ function GetAllMP($mp,$marking_period_id='0')
 
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('PARENT_ID'));
 			
-				//modif Francois: error if no quarters
+				//FJ error if no quarters
 				if (!$RET)
 					return ErrorMessage(array(_('No quarters found')), 'fatal');
 
@@ -101,7 +101,7 @@ function GetAllMP($mp,$marking_period_id='0')
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),array(),array('PARENT_ID'));
 				$_ROSARIO['GetAllMP'][$mp][$marking_period_id] = "'".$marking_period_id."'";
 			
-				//modif Francois: error if no quarters
+				//FJ error if no quarters
 				if (!$RET)
 					return ErrorMessage(array(_('No quarters found')), 'fatal');
 

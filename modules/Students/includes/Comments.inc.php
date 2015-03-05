@@ -1,12 +1,12 @@
 <?php
 
-//modif Francois: add School Configuration
+//FJ add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
 
 //$_ROSARIO['allow_edit'] = true;
 if($_REQUEST['modfunc']=='update' && AllowEdit())
 {
-	//modif Francois: add time and user to comments "comment thread" like
+	//FJ add time and user to comments "comment thread" like
 	$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] = date('Y-m-d G:i:s').'|'.User('STAFF_ID')."||".$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'];
 	
 	$existing_RET = DBGet(DBQuery("SELECT STUDENT_ID, COMMENT FROM STUDENT_MP_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."'"));
@@ -28,13 +28,13 @@ if(empty($_REQUEST['modfunc']))
 	echo '<TABLE id="student-comments">';
 	echo '<TR><TD>';
 	echo '<b>'.$mp['TITLE'].' '._('Comments').'</b><BR />';
-//modif Francois: remove maxlength limitation as it is not technically needed
+//FJ remove maxlength limitation as it is not technically needed
 	echo '<TEXTAREA id="textarea" name="values[STUDENT_MP_COMMENTS]['.UserStudentID().'][COMMENT]" rows="10" cols="66" style="width:100%;"'.(AllowEdit()?'':' readonly').'></TEXTAREA>';	
 	echo '</TD></TR>';
 	//echo '<BR /><b>* '._('If more than one teacher will be adding comments for this student').':</b><BR />';
 	//echo '<ul><li>'._('Type your name above the comments you enter.').'</li></ul>';
 	//echo '<li>'._('Leave space for other teachers to enter their comments.').'</li></ul>';
-	//modif Francois: add time and user to comments "comment thread" like
+	//FJ add time and user to comments "comment thread" like
 	echo '<TR><TD>';
 	if (!empty($comments_RET[1]['COMMENT']))
 	{

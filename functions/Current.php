@@ -26,7 +26,7 @@ function UserCoursePeriod()
 	return (isset($_SESSION['UserCoursePeriod']) ? $_SESSION['UserCoursePeriod'] : null);
 }
 
-//modif Francois: multiple school periods for a course period
+//FJ multiple school periods for a course period
 function UserCoursePeriodSchoolPeriod()
 {
 	return $_SESSION['UserCoursePeriodSchoolPeriod'];
@@ -42,7 +42,7 @@ function UserStaffID()
 	return (isset($_SESSION['staff_id']) ? $_SESSION['staff_id'] : null);
 }
 
-//modif Francois: Forbid hacking user student/staff ID in URL
+//FJ Forbid hacking user student/staff ID in URL
 //add setters for $_SESSION['staff_id'] & $_SESSION['student_id']
 
 /* 
@@ -104,7 +104,7 @@ function SetUserStaffID($staff_id)
 
 		case 'student':
 		default:
-			//modif Francois: create account
+			//FJ create account
 			if (User('PROFILE') || basename($_SERVER['PHP_SELF'])!='index.php')
 				$isHack = true;
 
@@ -193,7 +193,7 @@ function SetUserStudentID($student_id)
 		break;
 
 		default:
-			//modif Francois: create account
+			//FJ create account
 			if (User('PROFILE') || basename($_SERVER['PHP_SELF'])!='index.php')
 				$isHack = true;
 

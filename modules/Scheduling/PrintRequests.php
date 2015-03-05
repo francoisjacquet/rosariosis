@@ -12,23 +12,23 @@ if(!$_REQUEST['search_modfunc'])
 }
 else
 {
-//modif Francois: add translation
+//FJ add translation
 	$columns = array('COURSE_TITLE'=>_('Course'),'WITH_FULL_NAME'=>'');
 
 	$extra['SELECT'] .= ",c.TITLE AS COURSE_TITLE,srp.PRIORITY,srp.MARKING_PERIOD_ID,srp.WITH_TEACHER_ID,srp.NOT_TEACHER_ID,srp.WITH_PERIOD_ID,srp.NOT_PERIOD_ID,'' AS WITH_FULL_NAME";
 	$extra['FROM'] .= ',COURSES c,SCHEDULE_REQUESTS srp';
 	$extra['WHERE'] .= ' AND ssm.STUDENT_ID=srp.STUDENT_ID AND ssm.SYEAR=srp.SYEAR AND srp.COURSE_ID = c.COURSE_ID';
 	
-//modif Francois: add subject areas
+//FJ add subject areas
 	$extra['functions'] += array('WITH_FULL_NAME'=>'_makeExtra');
 	$extra['group'] = array('STUDENT_ID');
-	//modif Francois: add ORDER BY COURSE_TITLE
+	//FJ add ORDER BY COURSE_TITLE
 	$extra['ORDER_BY'] = 'COURSE_TITLE';
 
 	if($_REQUEST['mailing_labels']=='Y')
 		$extra['group'][] = 'ADDRESS_ID';	
 	
-	//modif Francois: fix advanced search
+	//FJ fix advanced search
 	$extra['WHERE'] .= appendSQL('',$extra);
 
 	$extra['WHERE'] .= CustomFields('where');

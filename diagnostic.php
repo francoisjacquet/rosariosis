@@ -3,7 +3,7 @@
 error_reporting(1);
 session_start();
 
-//modif Francois: check PHP version
+//FJ check PHP version
 if (version_compare(PHP_VERSION, '5.3.2') == -1) {
     $error[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
 }
@@ -20,7 +20,7 @@ else
 {
 	include './Warehouse.php';
 	
-	//modif Francois: verify PHP extensions and php.ini
+	//FJ verify PHP extensions and php.ini
 	$inipath = php_ini_loaded_file();
 
 	if ($inipath)
@@ -81,7 +81,7 @@ else
 		}
 	}
 
-	//modif Francois: check wkhtmltopdf binary exists
+	//FJ check wkhtmltopdf binary exists
 	if (!empty($wkhtmltopdfPath) && !file_exists($wkhtmltopdfPath))
 		$error[] = 'The value for $wkhtmltopdfPath in config.inc.php is not correct.';
 

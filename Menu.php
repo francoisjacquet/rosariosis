@@ -23,7 +23,7 @@ if(empty($_ROSARIO['Menu']))
 
 	foreach($menu as $modcat=>$profiles)
 	{
-		//modif Francois: bugfix remove modules with no programs
+		//FJ bugfix remove modules with no programs
 		$no_programs_in_module = true;
 		
 		$programs = $profiles[$profile];
@@ -50,7 +50,7 @@ if(empty($_ROSARIO['Menu']))
 			unset($_ROSARIO['Menu'][$modcat]);
 	}
 
-//modif Francois: enable password change for students
+//FJ enable password change for students
 	if(User('PROFILE')=='student')
 		//unset($_ROSARIO['Menu']['Users']);
 		unset($_ROSARIO['Menu']['Users']['parent']['Users/User.php']);

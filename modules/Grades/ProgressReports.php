@@ -1,7 +1,7 @@
 <?php
 include 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
-//modif Francois: add School Configuration
+//FJ add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
 
 $course_period_id = UserCoursePeriod();
@@ -100,7 +100,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			{
 				foreach($grades_RET as $assignment_type_id=>$grades)
 				{
-//modif Francois: remove LO_field
+//FJ remove LO_field
 					$grades_RET[$assignment_type_id][] = array('TITLE'=>_removeSpaces('<B>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</B>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),_Percent($percent_weights[$assignment_type_id]/$sum_percent)).')':''),'TITLE'),
 						'ASSIGNED_DATE'=>'&nbsp;','DUE_DATE'=>'&nbsp;',
 						'POINTS'=>'<TABLE class="cellspacing-0"><TR><TD><span class="size-1"><b>'.$student_points[$assignment_type_id].'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$total_points[$assignment_type_id].'</b></span></TD></TR></TABLE>',
@@ -112,7 +112,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						'PERCENT_GRADE'=>'<B>'._Percent($sum_points).'</B>','LETTER_GRADE'=>'<B>'._makeLetterGrade($sum_points).'</B>');
 			$link['add']['html']['ASSIGNED_DATE'] = $link['add']['html']['DUE_DATE'] = $link['add']['html']['COMMENT'] = ' &nbsp; ';
 
-//modif Francois: add translation
+//FJ add translation
 			if($_REQUEST['by_category']=='Y')
 				ListOutput($grades_RET,$LO_columns,'Assignment Type','Assignment Types',$link,$LO_group,array('center'=>false,'add'=>true));
 			else
@@ -139,7 +139,7 @@ if(empty($_REQUEST['modfunc']))
 		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Progress Reports for Selected Students').'" />';
 
 		$extra['extra_header_left'] = '<TABLE>';
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 		$extra['extra_header_left'] .= '<TR class="st"><TD></TD><TD style="text-align:right;"><label>'._('Assigned Date').'&nbsp;<INPUT type="checkbox" value="Y" name="assigned_date"></label></TD>';
 		$extra['extra_header_left'] .= '<TD style="text-align:right"><label>'._('Exclude Ungraded E/C Assignments').'&nbsp;<INPUT type="checkbox" value="Y" name="exclude_ec" checked /></label></TD></TR>';
 

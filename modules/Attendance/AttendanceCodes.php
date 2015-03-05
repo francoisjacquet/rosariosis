@@ -6,7 +6,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
 			if($columns['DEFAULT_CODE']=='Y')
@@ -87,7 +87,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-//modif Francois: fix SQL bug invalid sort order
+//FJ fix SQL bug invalid sort order
 if(isset($error))
 	echo ErrorMessage($error);
 
@@ -144,7 +144,7 @@ if(empty($_REQUEST['modfunc']))
 	DrawHeader('',SubmitButton(_('Save')));
 	echo '<BR />';
 
-//modif Francois: css WPadmin
+//FJ css WPadmin
 	$LO_options = array('count'=>false,'download'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table']));
 //	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),array('count'=>false,'download'=>false,'search'=>false));
 	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),$LO_options);

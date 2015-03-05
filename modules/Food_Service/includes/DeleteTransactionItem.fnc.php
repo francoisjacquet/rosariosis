@@ -16,7 +16,7 @@ function DeleteTransactionItem($transaction_id,$item_id,$type='student')
 	}
 	DBQuery('BEGIN; '.$sql1.'; '.$sql2.'; '.$sql3.'; COMMIT');
 	
-	//modif Francois: if no more transaction items, delete transaction
+	//FJ if no more transaction items, delete transaction
 	$trans_items_RET = DBGet(DBQuery("SELECT ITEM_ID FROM ".($type=='staff' ? "FOOD_SERVICE_STAFF_TRANSACTION_ITEMS" :  "FOOD_SERVICE_TRANSACTION_ITEMS")." WHERE TRANSACTION_ID='".$transaction_id."'"));
 	
 	if (empty($trans_items_RET))

@@ -10,7 +10,7 @@ if ($RosarioModules['Food_Service'])
 	$tables += array('FOOD_SERVICE_STAFF_ACCOUNTS'=>_('Food Service Staff Accounts'));
 	
 if($RosarioModules['Discipline'])
-//modif Francois: discipline_field_usage rollover
+//FJ discipline_field_usage rollover
 	$tables += array(/*'DISCIPLINE_CATEGORIES'=>_('Referral Form'), */'DISCIPLINE_FIELD_USAGE'=>_('Referral Form'));
 
 $table_list = '<TABLE style="float: left">';
@@ -23,7 +23,7 @@ foreach($tables as $table=>$name)
 		$exists_RET['FOOD_SERVICE_STAFF_ACCOUNTS'] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM STAFF WHERE SYEAR='".$next_syear."' AND exists(SELECT * FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=STAFF.STAFF_ID)"));
 
 	if($exists_RET[$table][1]['COUNT']>0)
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 		$table_list .= '<TR><TD><label><INPUT type="checkbox" value="Y" name="tables['.$table.']"><span style="color:grey">&nbsp;'.$name.' ('.$exists_RET[$table][1]['COUNT'].')</span></label></TD></TR>';
 	else
 		$table_list .= '<TR><TD><label><INPUT type="checkbox" value="Y" name="tables['.$table.']" checked />&nbsp;'.$name.'</label></TD></TR>';
@@ -42,7 +42,7 @@ do_action('School_Setup/Rollover.php|rollover_warnings');
 
 DrawHeader(ProgramTitle());
 
-//modif Francois: school year over one/two calendar years format
+//FJ school year over one/two calendar years format
 if(Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to roll the data for %s to the next school year?'),FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS'))),$table_list))
 {
 	if(!($_REQUEST['tables']['COURSES'] && ((!$_REQUEST['tables']['STAFF'] && $exists_RET['STAFF'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_PERIODS'] && $exists_RET['SCHOOL_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['ATTENDANCE_CALENDARS'] && $exists_RET['ATTENDANCE_CALENDARS'][1]['COUNT']<1) || (!$_REQUEST['tables']['REPORT_CARD_GRADES'] && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT']<1))))
@@ -85,7 +85,7 @@ function Rollover($table)
 	switch($table)
 	{
 		case 'SCHOOLS':
-			//modif Francois: add School Fields
+			//FJ add School Fields
 			$school_custom='';
 			$fields_RET = DBGet(DBQuery("SELECT ID FROM SCHOOL_FIELDS"));
 			foreach($fields_RET as $field)
@@ -144,7 +144,7 @@ function Rollover($table)
 			DBQuery("INSERT INTO SCHOOL_MARKING_PERIODS (MARKING_PERIOD_ID,PARENT_ID,SYEAR,MP,SCHOOL_ID,TITLE,SHORT_NAME,SORT_ORDER,START_DATE,END_DATE,POST_START_DATE,POST_END_DATE,DOES_GRADES,DOES_COMMENTS,ROLLOVER_ID) SELECT ".db_seq_nextval('MARKING_PERIOD_SEQ').",PARENT_ID,SYEAR+1,MP,SCHOOL_ID,TITLE,SHORT_NAME,SORT_ORDER,START_DATE+365,END_DATE+365,POST_START_DATE+365,POST_END_DATE+365,DOES_GRADES,DOES_COMMENTS,MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
 			DBQuery("UPDATE SCHOOL_MARKING_PERIODS SET PARENT_ID=(SELECT mp.MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS mp WHERE mp.SYEAR=school_marking_periods.SYEAR AND mp.SCHOOL_ID=school_marking_periods.SCHOOL_ID AND mp.ROLLOVER_ID=school_marking_periods.PARENT_ID) WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."'");
 			
-			//modif Francois: ROLL Gradebook Config's Final Grading Percentages
+			//FJ ROLL Gradebook Config's Final Grading Percentages
 			$db_case_array = array('puc.TITLE');
 			
 			$mp_next = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,ROLLOVER_ID,MP FROM SCHOOL_MARKING_PERIODS WHERE (MP='QTR' OR MP='SEM') AND SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
@@ -190,8 +190,8 @@ function Rollover($table)
 			//hook
 			do_action('School_Setup/Rollover.php|rollover_course_periods');
 
-			//modif Francois: multiple school periods for a course period
-			//modif Francois: bugfix SQL bug more than one row returned by a subquery
+			//FJ multiple school periods for a course period
+			//FJ bugfix SQL bug more than one row returned by a subquery
 			// ROLL COURSE_PERIOD_SCHOOL_PERIODS
 			DBQuery("INSERT INTO COURSE_PERIOD_SCHOOL_PERIODS (COURSE_PERIOD_SCHOOL_PERIODS_ID,COURSE_PERIOD_ID,PERIOD_ID,DAYS) SELECT ".db_seq_nextval('COURSE_PERIOD_SCHOOL_PERIODS_SEQ').",(SELECT cp.COURSE_PERIOD_ID FROM COURSE_PERIODS cp WHERE cpsp.COURSE_PERIOD_ID=cp.ROLLOVER_ID),(SELECT n.PERIOD_ID FROM SCHOOL_PERIODS n WHERE n.ROLLOVER_ID=cpsp.PERIOD_ID AND n.SYEAR='".$next_syear."' AND n.SCHOOL_ID='".UserSchool()."'),DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp, COURSE_PERIODS cp WHERE cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID");
 		break;
@@ -200,7 +200,7 @@ function Rollover($table)
 			$next_start_date = DBDate();
 			DBQuery("DELETE FROM STUDENT_ENROLLMENT WHERE SYEAR='".$next_syear."' AND LAST_SCHOOL='".UserSchool()."'");
 			// ROLL STUDENTS TO NEXT GRADE
-			//modif Francois: do NOT roll students where next grade is NULL
+			//FJ do NOT roll students where next grade is NULL
 			DBQuery("INSERT INTO STUDENT_ENROLLMENT (ID,SYEAR,SCHOOL_ID,STUDENT_ID,GRADE_ID,START_DATE,END_DATE,ENROLLMENT_CODE,DROP_CODE,CALENDAR_ID,NEXT_SCHOOL,LAST_SCHOOL) SELECT ".db_seq_nextval('STUDENT_ENROLLMENT_SEQ').",SYEAR+1,SCHOOL_ID,STUDENT_ID,(SELECT NEXT_GRADE_ID FROM SCHOOL_GRADELEVELS g WHERE g.ID=e.GRADE_ID),'".$next_start_date."' AS START_DATE,NULL AS END_DATE,(SELECT ID FROM STUDENT_ENROLLMENT_CODES WHERE SYEAR=e.SYEAR+1 AND TYPE='Add' AND DEFAULT_CODE='Y') AS ENROLLMENT_CODE,NULL AS DROP_CODE,(SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE ROLLOVER_ID=e.CALENDAR_ID),SCHOOL_ID,SCHOOL_ID FROM STUDENT_ENROLLMENT e WHERE e.SYEAR='".UserSyear()."' AND e.SCHOOL_ID='".UserSchool()."' AND (('".DBDate()."' BETWEEN e.START_DATE AND e.END_DATE OR e.END_DATE IS NULL) AND '".DBDate()."'>=e.START_DATE) AND e.NEXT_SCHOOL='".UserSchool()."' AND (SELECT NEXT_GRADE_ID FROM SCHOOL_GRADELEVELS g WHERE g.ID=e.GRADE_ID) IS NOT NULL");
 
 			// ROLL STUDENTS WHO ARE TO BE RETAINED
@@ -226,7 +226,7 @@ function Rollover($table)
 
 		case 'ELIGIBILITY_ACTIVITIES':
 		case 'DISCIPLINE_CATEGORIES':
-//modif Francois: discipline_field_usage rollover
+//FJ discipline_field_usage rollover
 		case 'DISCIPLINE_FIELD_USAGE':
 			DBQuery("DELETE FROM $table WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."'");
 			$table_properties = db_properties($table);
@@ -256,7 +256,7 @@ function Rollover($table)
 			DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET STAFF_ID=(SELECT STAFF_ID FROM STAFF WHERE ROLLOVER_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID) WHERE exists(SELECT * FROM STAFF WHERE ROLLOVER_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID AND SYEAR='".$next_syear."')");
 		break;
 		
-//modif Francois: add School Configuration
+//FJ add School Configuration
 		case 'PROGRAM_CONFIG':
 			DBQuery("DELETE FROM PROGRAM_CONFIG WHERE SYEAR='".$next_syear."'");
             DBQuery("INSERT INTO PROGRAM_CONFIG (SYEAR,SCHOOL_ID,PROGRAM,TITLE,VALUE) SELECT SYEAR+1,SCHOOL_ID,PROGRAM,TITLE,VALUE FROM PROGRAM_CONFIG WHERE SYEAR='".UserSyear()."'");

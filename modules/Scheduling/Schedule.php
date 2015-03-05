@@ -44,7 +44,7 @@ if($_REQUEST['month_schedule'] && $_POST['month_schedule'])
 		foreach($columns as $column=>$value)
 		{
 			$_REQUEST['schedule'][$id][$start_date][$column] = $_REQUEST['day_schedule'][$id][$start_date][$column].'-'.$value.'-'.$_REQUEST['year_schedule'][$id][$start_date][$column];
-			//modif Francois: bugfix SQL bug when incomplete or non-existent date
+			//FJ bugfix SQL bug when incomplete or non-existent date
 			//if($_REQUEST['schedule'][$id][$start_date][$column]=='--')
 			if(mb_strlen($_REQUEST['schedule'][$id][$start_date][$column]) < 11)
 				$_REQUEST['schedule'][$id][$start_date][$column] = '';
@@ -121,11 +121,11 @@ if($_REQUEST['schedule'] && AllowEdit())
 if(UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_deletion_pending))
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" METHOD="POST">';
-//modif Francois: add label on checkbox
+//FJ add label on checkbox
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)),SubmitButton(_('Save')));
 	DrawHeader('<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Courses').(AllowEdit()?'</label> &nbsp;<label>'.CheckBoxOnclick('include_seats').' '._('Show Available Seats').'</label>':''));
 	
-	//modif Francois: add Horizontal format option
+	//FJ add Horizontal format option
 	$printSchedulesLinkhref = 'Modules.php?modname=Scheduling/PrintSchedules.php&modfunc=save&st_arr[]='.UserStudentID().'&_ROSARIO_PDF=true&schedule_table=Yes';
 	?>
 	<script>
@@ -138,7 +138,7 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_d
 		}
 	</script>
 	<?php
-	//modif Francois: add schedule table
+	//FJ add schedule table
 	?>
 	<script>
 		function timeTableSwitch()
@@ -156,7 +156,7 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_d
 	$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
 
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 	/*$sql = "SELECT
 				s.COURSE_ID,s.COURSE_PERIOD_ID,
 				s.MARKING_PERIOD_ID,s.START_DATE,s.END_DATE,
@@ -194,22 +194,22 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_d
 	$QI = DBQuery($sql);
 	$schedule_RET = DBGet($QI,array('PERIOD_PULLDOWN'=>'_makePeriodSelect','COURSE_MARKING_PERIOD_ID'=>'_makeMPSelect','SCHEDULER_LOCK'=>'_makeLock','START_DATE'=>'_makeDate','END_DATE'=>'_makeDate'));
 
-	//modif Francois: bugfix SQL bug $_SESSION['student_id'] is not set
+	//FJ bugfix SQL bug $_SESSION['student_id'] is not set
 	//$link['add']['link'] = '#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course&student_id='.$_REQUEST['student_id'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'","","scrollbars=yes,resizable=yes,width=900,height=400");\' ';
 	$link['add']['link'] = '# onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'","","scrollbars=yes,resizable=yes,width=900,height=400");\'';
 
 	$link['add']['title'] = _('Add a Course');
 
 	$columns = array('TITLE'=>_('Course'),'PERIOD_PULLDOWN'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'ROOM'=>_('Room'),'COURSE_MARKING_PERIOD_ID'=>_('Term'),'SCHEDULER_LOCK'=>'<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/locked.png"  class="button bigger">','START_DATE'=>_('Enrolled'),'END_DATE'=>_('Dropped'));
-	/*//modif Francois: multiple school periods for a course period
+	/*//FJ multiple school periods for a course period
 	//$days_RET = DBGet(DBQuery("SELECT DISTINCT DAYS FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 	$days_RET = DBGet(DBQuery("SELECT DISTINCT cpsp.DAYS FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'"));
 	if(count($days_RET)==1)
 		unset($columns['DAYS']);
 
-	//modif Francois: days display to locale						
+	//FJ days display to locale						
 	$days_convert = array('U'=>_('Sunday'),'M'=>_('Monday'),'T'=>_('Tuesday'),'W'=>_('Wednesday'),'H'=>_('Thursday'),'F'=>_('Friday'),'S'=>_('Saturday'));
-	//modif Francois: days numbered
+	//FJ days numbered
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 		$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
 
@@ -231,7 +231,7 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_d
 
 	if(AllowEdit())
 	{
-		//modif Francois: add proper Unfilled Requests list
+		//FJ add proper Unfilled Requests list
 		unset($extra);
 		unset($link);
 		unset($columns);
@@ -285,7 +285,7 @@ if($_REQUEST['modfunc']=='choose_course')
 		//else
 		//	$date = DBDate();
 
-		//modif Francois: multiple school periods for a course period
+		//FJ multiple school periods for a course period
 		$mp_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,cpsp.DAYS,cpsp.PERIOD_ID,cp.MARKING_PERIOD_ID,cp.TOTAL_SEATS,cp.CALENDAR_ID 
 		FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
 		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
@@ -311,7 +311,7 @@ if($_REQUEST['modfunc']=='choose_course')
 		if(count($current_RET))
 			$warnings[] = _('This student is already scheduled into this course.');
 
-		//modif Francois: multiple school periods for a course period
+		//FJ multiple school periods for a course period
 		//if marking periods overlap and same period and same day then not okay
 		//$period_RET = DBGet(DBQuery("SELECT cp.DAYS FROM SCHEDULE s,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.STUDENT_ID='".UserStudentID()."' AND cp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."' AND s.MARKING_PERIOD_ID IN (".$mps.") AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)"));
 		$period_RET = DBGet(DBQuery("SELECT cpsp.DAYS 
@@ -355,14 +355,14 @@ if($_REQUEST['modfunc']=='choose_course')
 function _makeLock($value,$column)
 {	global $THIS_RET;
 
-//modif Francois: icones
+//FJ icones
 	return '<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/'.($value=='Y'?'locked':'unlocked').'.png" class="button bigger"'.(AllowEdit()?' onclick="if(this.src.indexOf(\'unlocked\')==-1) {this.src= this.src.replace(\'locked\', \'unlocked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'\';} else {this.src= this.src.replace(\'unlocked\', \'locked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'Y\';}"':'').' /><INPUT type="hidden" name="schedule['.$THIS_RET['COURSE_PERIOD_ID'].']['.$THIS_RET['START_DATE'].'][SCHEDULER_LOCK]" id="lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'" value="'.$value.'" />';
 }
 
 function _makePeriodSelect($course_period_id,$column)
 {	global $THIS_RET,$fy_id;
 
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 	//$orders_RET = DBGet(DBQuery("SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$THIS_RET['COURSE_ID']."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE"));
 	$orders_RET = DBGet(DBQuery("SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$THIS_RET['COURSE_ID']."' ORDER BY SHORT_NAME,TITLE"));
 

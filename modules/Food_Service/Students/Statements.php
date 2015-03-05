@@ -76,7 +76,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 			AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1".
 			$where." 
 			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','BALANCE'=>'red'));
-//modif Francois: add translation
+//FJ add translation
 			foreach($RET as $RET_key=>$RET_val) {
 				$RET[$RET_key]=array_map('types_locale', $RET_val);
 			}	
@@ -84,7 +84,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 			foreach($RET as $key=>$value)
 			{
 				$tmpRET = DBGet(DBQuery("SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$value['TRANSACTION_ID']."'"));
-//modif Francois: add translation
+//FJ add translation
 				foreach($tmpRET as $RET_key=>$RET_val) {
 					$tmpRET[$RET_key]=array_map('options_locale', $RET_val);
 				}	
@@ -107,7 +107,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 			AND date '".$end_date."'+1 ".$where." 
 			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','BALANCE'=>'red'));
 			$columns = array('TRANSACTION_ID'=>_('ID'),'DATE'=>_('Date'),'TIME'=>_('Time'),'BALANCE'=>_('Balance'),'DISCOUNT'=>_('Discount'),'DESCRIPTION'=>_('Description'),'AMOUNT'=>_('Amount'));
-//modif Francois: add translation
+//FJ add translation
 			foreach($RET as $RET_key=>$RET_val) {
 				$RET[$RET_key]=array_map('types_locale', $RET_val);
 			}	

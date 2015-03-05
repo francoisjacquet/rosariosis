@@ -15,8 +15,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 		$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
 
-		//modif Francois: multiple school periods for a course period
-		//modif Francois: add subject areas
+		//FJ multiple school periods for a course period
+		//FJ add subject areas
 		$course_periods_RET = DBGet(DBQuery("SELECT cp.TITLE,cp.COURSE_PERIOD_ID,cp.TITLE,cp.MARKING_PERIOD_ID,cp.MP,c.TITLE AS COURSE_TITLE,cp.TEACHER_ID,(SELECT LAST_NAME||', '||FIRST_NAME FROM STAFF WHERE STAFF_ID=cp.TEACHER_ID) AS TEACHER 
 		FROM COURSE_PERIODS cp,COURSES c 
 		WHERE c.COURSE_ID=cp.COURSE_ID 
@@ -36,7 +36,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			$extra = array('SELECT_ONLY'=>'1');
 
-			//modif Francois: prevent course period ID hacking
+			//FJ prevent course period ID hacking
 			if (User('PROFILE')=='teacher')
 			{
 				$extra['WHERE'] = " AND '".User('STAFF_ID')."'=(SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."')";
@@ -202,7 +202,7 @@ function mySearch($extra)
 			$where .= " AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID='".$_REQUEST['subject_id']."'";
 		}
 
-		//modif Francois: multiple school periods for a course period
+		//FJ multiple school periods for a course period
 		if($_REQUEST['period_id'])
 		{
 			$from .= ',COURSE_PERIOD_SCHOOL_PERIODS cpsp';
@@ -216,7 +216,7 @@ function mySearch($extra)
 	{
 		$sql .= " WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."' AND cp.TEACHER_ID='".User('STAFF_ID')."'";
 	}
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 	//$sql .= ' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)';
 	$sql .= ' ORDER BY cp.SHORT_NAME,cp.TITLE';
 

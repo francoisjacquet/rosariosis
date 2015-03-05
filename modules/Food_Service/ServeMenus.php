@@ -24,7 +24,7 @@ else
 	$tabcolor_s = Preferences('HEADER'); $textcolor_s = '#FFFFFF';
 	$tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
 }*/
-//modif Francois: remove DrawTab params
+//FJ remove DrawTab params
 $header = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=select&menu_id='.$_REQUEST['menu_id'].'&fsa_type=student"><b>'._('Students').'</b></a>';
 $header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=select&menu_id='.$_REQUEST['menu_id'].'&fsa_type=staff"><b>'._('Users').'</b></a>';
 

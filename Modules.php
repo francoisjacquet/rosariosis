@@ -13,7 +13,7 @@ if(isset($_REQUEST['modname']))
 
 		$_ROSARIO['is_popup'] = $_ROSARIO['not_ajax'] = false;
 
-		//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+		//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 		if (in_array($modname, array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php')) || ($modname == 'School_Setup/Calendar.php' && $_REQUEST['modfunc'] == 'detail') || (in_array($modname, array('Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php', 'Scheduling/Courses.php')) && $_REQUEST['modfunc'] == 'choose_course')) //popups
 		{
 			$_ROSARIO['is_popup'] = true;
@@ -31,7 +31,7 @@ if(isset($_REQUEST['modname']))
 
 	$allowed = false;
 
-	//modif Francois: security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+	//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 	//allow PHP scripts in misc/ one by one in place of the whole folder
 	//if(mb_substr($_REQUEST['modname'],0,5)=='misc/')
 	if (in_array($modname, array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/Portal.php', 'misc/ViewContact.php')))
@@ -43,7 +43,7 @@ if(isset($_REQUEST['modname']))
 		{
 			foreach($programs as $program=>$title)
 			{
-	//modif Francois: fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF
+	//FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF
 				if($modname==$program || (mb_strpos($program, $modname)=== 0 && mb_strpos($_SERVER['QUERY_STRING'], $program)=== 8))
 				{
 					$allowed = true;

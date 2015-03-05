@@ -1,11 +1,11 @@
 <?php
-//modif Francois: add School Configuration, copy
+//FJ add School Configuration, copy
 $tables = array('CONFIG'=>_('School Configuration'),'SCHOOL_PERIODS'=>_('School Periods'),'SCHOOL_MARKING_PERIODS'=>_('Marking Periods'),'REPORT_CARD_GRADES'=>_('Report Card Grade Codes'),'REPORT_CARD_COMMENTS'=>_('Report Card Comment Codes'),'ELIGIBILITY_ACTIVITIES'=>_('Eligibility Activity Codes'),'ATTENDANCE_CODES'=>_('Attendance Codes'),'SCHOOL_GRADELEVELS'=>_('Grade Levels'));
 
 $table_list = '<TABLE style="float: left">';
 foreach($tables as $table=>$name)
 {
-	//modif Francois: force School Configuration copy
+	//FJ force School Configuration copy
 	$force_checked = false;
 	if ($table=='CONFIG')
 		$force_checked = true;
@@ -14,7 +14,7 @@ foreach($tables as $table=>$name)
 	<label>'.(!$force_checked?'<INPUT type="checkbox" value="Y" name="tables['.$table.']" checked />&nbsp;' : '<input type="hidden" value="Y" name="tables['.$table.']" />').$name.'</label>
 	</TD></TR>';
 }
-//modif Francois: add translation
+//FJ add translation
 $table_list .= '</TABLE><BR />'._('New School\'s Title').' <INPUT type="text" name="title" value="'._('New School').'">';
 
 DrawHeader(ProgramTitle());
@@ -50,7 +50,7 @@ function _rollover($table)
 
 	switch($table)
 	{
-//modif Francois: copy School Configuration
+//FJ copy School Configuration
 		case 'CONFIG':
 			DBQuery("INSERT INTO CONFIG (SCHOOL_ID,TITLE,CONFIG_VALUE) SELECT '".$id."' AS SCHOOL_ID,TITLE,CONFIG_VALUE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."';");
 			DBQuery("INSERT INTO PROGRAM_CONFIG (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."';");

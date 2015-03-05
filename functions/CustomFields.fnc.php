@@ -5,7 +5,7 @@
 	Use in the where section of the query by CustomFields('where')
 */
 
-//modif Francois: fix error Warning: Missing argument 3 for CustomFields()
+//FJ fix error Warning: Missing argument 3 for CustomFields()
 //function CustomFields($location,$type='student',$extra)
 function CustomFields($location,$type='student',$extra=array())
 {	global $_ROSARIO;

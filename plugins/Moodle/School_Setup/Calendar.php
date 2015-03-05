@@ -1,5 +1,5 @@
 <?php
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 
 //core_calendar_create_calendar_events function
 function core_calendar_create_calendar_events_object()

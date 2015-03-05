@@ -6,7 +6,7 @@ if ($_REQUEST['modfunc']!='students')
 if($_REQUEST['subject_id'])
 {
 	$RET = DBGet(DBQuery("SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$_REQUEST['subject_id']."'"));
-//modif Francois: add translation
+//FJ add translation
 	$header .= '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('Top').'</A> &rsaquo; <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&subject_id='.$_REQUEST['subject_id'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'.$RET[1]['TITLE'].'</A>';
 	if($_REQUEST['course_id'])
 	{
@@ -80,7 +80,7 @@ if($_REQUEST['modfunc']=='courses')
 	if($_REQUEST['include_child_mps'])
 	{
 		$OFT_string = mb_substr(_('Open'),0,1).'&#124;'.mb_substr(_('Filled'),0,1).'&#124;'.mb_substr(_('Total'),0,1);
-		//modif Francois: fix error Missing argument 1
+		//FJ fix error Missing argument 1
 		foreach(explode(',',GetAllMP('')) as $mp)
 		{
 			$mp = trim($mp,"'");
@@ -98,7 +98,7 @@ if($_REQUEST['modfunc']=='courses')
 // COURSE PERIODS ----
 if($_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_periods')
 {
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 	//$QI = DBQuery("SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE");
 	$QI = DBQuery("SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SHORT_NAME,TITLE");
 	$RET = DBGet($QI);

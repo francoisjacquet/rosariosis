@@ -1,6 +1,6 @@
 <?php
 
-//modif Francois: fix error Warning: Missing argument 2 for StaffWidgets()
+//FJ fix error Warning: Missing argument 2 for StaffWidgets()
 //function StaffWidgets($item,&$myextra)
 function StaffWidgets($item,&$myextra=NULL)
 {	global $extra,$_ROSARIO,$RosarioModules;
@@ -21,7 +21,7 @@ function StaffWidgets($item,&$myextra=NULL)
 			case 'all':
 				$extra['search'] .= '<TR><TD><TABLE class="width-100p">';
 
-				//modif Francois: regroup widgets wrap
+				//FJ regroup widgets wrap
 				$widget_wrap_header = function($title)
 				{
 					return '<TR><TD colspan="2">&nbsp;

@@ -30,7 +30,7 @@ else
 	if($_REQUEST['mailing_labels']=='Y')
 		$extra['group'][] = 'ADDRESS_ID';	
 	
-//modif Francois: fix Advanced Search
+//FJ fix Advanced Search
 	$extra['WHERE'] .= appendSQL('',$extra);
 	$extra['WHERE'] .= CustomFields('where');
 	$RET = GetStuList($extra);

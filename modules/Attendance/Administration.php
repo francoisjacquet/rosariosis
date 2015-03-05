@@ -1,5 +1,5 @@
 <?php
-//modif Francois: move Attendance.php from functions/ to modules/Attendance/includes
+//FJ move Attendance.php from functions/ to modules/Attendance/includes
 require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 
 DrawHeader(ProgramTitle());
@@ -54,8 +54,8 @@ if(!$current_mp)
 $all_mp = GetAllMP('QTR',$current_mp);
 
 $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,COMMENT,STUDENT_ID,ADMIN,PERIOD_ID FROM $table WHERE SCHOOL_DATE='".$date."'".$extra_sql;
-//modif Francois: days numbered
-//modif Francois: multiple school periods for a course period
+//FJ days numbered
+//FJ multiple school periods for a course period
 if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 {
 	$current_schedule_Q = "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cp.HALF_DAY 
@@ -176,12 +176,12 @@ if(count($categories_RET))
 
 	$headerl = '<TABLE><TR>';
 
-	//modif Francois: remove DrawTab params
+	//FJ remove DrawTab params
 	$headerl .= '<TD></TD><TD>'.DrawTab(_('Attendance'),$tmp_PHP_SELF.'&amp;table=0').'</TD>';
 
 	foreach($categories_RET as $category)
 	{
-		//modif Francois: remove DrawTab params
+		//FJ remove DrawTab params
 		$headerl .= '<TD style="width:10px;"></TD><TD>'.DrawTab($category['TITLE'],$tmp_PHP_SELF.'&amp;table='.$category['ID']).'</TD>';
 	}
 	$headerl .= '</TR></TABLE>';
@@ -194,8 +194,8 @@ if(isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 
 	$functions = array('ATTENDANCE_CODE'=>'_makeCodePulldown', 'ATTENDANCE_TEACHER_CODE'=>'_makeCode', 'ATTENDANCE_REASON'=>'_makeReasonInput', 'COMMENT'=>'_makeReason');
 
-	//modif Francois: days numbered
-	//modif Francois: multiple school periods for a course period
+	//FJ days numbered
+	//FJ multiple school periods for a course period
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 	{
 		$schedule_RET = DBGet(DBQuery("SELECT
@@ -316,7 +316,7 @@ else
 		$extra['SELECT'] .= ",(SELECT COMMENT FROM ATTENDANCE_DAY WHERE STUDENT_ID=ssm.STUDENT_ID AND SCHOOL_DATE='".$date."') AS DAILY_COMMENT";
 		$extra['functions']['STATE_VALUE'] = '_makeStateValue';
 		$extra['functions']['DAILY_COMMENT'] = '_makeStateValue';
-//modif Francois: add translation 
+//FJ add translation 
 		$extra['columns_after']['STATE_VALUE'] = _('Present');
 		$extra['columns_after']['DAILY_COMMENT'] = _('Day Comment');
 	}
@@ -440,7 +440,7 @@ function _makeStateValue($value,$name)
 	if($name=='STATE_VALUE')
 	{
 		if($value=='0.0')
-//modif Francois: add translation
+//FJ add translation
 			return _('None');
 		elseif($value=='0.5')
 			return _('Half Day');

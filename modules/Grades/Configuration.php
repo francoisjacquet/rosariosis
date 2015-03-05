@@ -1,5 +1,5 @@
 <?php
-//modif Francois: add School Configuration
+//FJ add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
 
 if($_REQUEST['values'])
@@ -35,22 +35,22 @@ echo '<BR />';
 PopTable('header',_('Configuration'));
 
 echo '<fieldset>';
-//modif Francois: add translation
-//modif Francois: css WPadmin
+//FJ add translation
+//FJ css WPadmin
 echo '<legend>'._('Assignments').'</legend>';
 echo '<TABLE>';
 if(count($grades))
 {
 	//if(!$programconfig['ROUNDING'])
 	//	$programconfig['ROUNDING'] = 'NORMAL';
-//modif Francois: add <label> on radio
+//FJ add <label> on radio
 	echo '<TR><TD><TABLE><TR><TD colspan="4"><B>'._('Score Rounding').'</B></TD></TR><TR><TD><label><INPUT type="radio" name="values[ROUNDING]" value=UP'.(($programconfig['ROUNDING']=='UP')?' checked':'').'>&nbsp;'._('Up').'</label></TD><TD><label><INPUT type="radio" name="values[ROUNDING]" value=DOWN'.(($programconfig['ROUNDING']=='DOWN')?' checked':'').'>&nbsp;'._('Down').'</label></TD><TD><label><INPUT type="radio" name="values[ROUNDING]" value="NORMAL"'.(($programconfig['ROUNDING']=='NORMAL')?' checked':'').'>&nbsp;'._('Normal').'</label></TD><TD><label><INPUT type="radio" name="values[ROUNDING]" value="'.(($programconfig['ROUNDING']=='')?' checked':'').'">&nbsp;'._('None').'</label></TD></TR></TABLE></TD></TR>';
 }
 if(!$programconfig['ASSIGNMENT_SORTING'])
 	$programconfig['ASSIGNMENT_SORTING'] = 'ASSIGNMENT_ID';
 echo '<TR><TD><TABLE><TR><TD colspan="3"><B>'._('Assignment Sorting').'</B></TD></TR><TR class="st"><TD><label><INPUT type="radio" name="values[ASSIGNMENT_SORTING]" value="ASSIGNMENT_ID"'.(($programconfig['ASSIGNMENT_SORTING']=='ASSIGNMENT_ID')?' checked':'').'>&nbsp;'._('Newest First').'</label></TD><TD><label><INPUT type="radio" name="values[ASSIGNMENT_SORTING]" value="DUE_DATE"'.(($programconfig['ASSIGNMENT_SORTING']=='DUE_DATE')?' checked':'').'>&nbsp;'._('Due Date').'</label></TD><TD><label><INPUT type="radio" name="values[ASSIGNMENT_SORTING]" value=ASSIGNED_DATE'.(($programconfig['ASSIGNMENT_SORTING']=='ASSIGNED_DATE')?' checked':'').'>&nbsp;'._('Assigned Date').'</label></TD></TR></TABLE></TD></TR>';
 
-//modif Francois: add <label> on checkbox
+//FJ add <label> on checkbox
 echo '<TR><TD><label><INPUT type="checkbox" name="values[WEIGHT]" value="Y"'.(($programconfig['WEIGHT']=='Y')?' checked':'').'> '._('Weight Grades').'</label></TD></TR>';
 echo '<TR><TD><label><INPUT type="checkbox" name="values[DEFAULT_ASSIGNED]" value="Y"'.(($programconfig['DEFAULT_ASSIGNED']=='Y')?' checked':'').'> '._('Assigned Date defaults to today').'</label></TD></TR>';
 echo '<TR><TD><label><INPUT type="checkbox" name="values[DEFAULT_DUE]" value="Y"'.(($programconfig['DEFAULT_DUE']=='Y')?' checked':'').'> '._('Due Date defaults to today').'</label></TD></TR>';

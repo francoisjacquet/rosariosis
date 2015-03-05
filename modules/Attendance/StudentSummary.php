@@ -24,7 +24,7 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 {
 	if(!UserStudentID() && !$_REQUEST['student_id'])
 	{
-		//modif Francois: multiple school periods for a course period
+		//FJ multiple school periods for a course period
 		//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND EXISTS(SELECT '' FROM COURSE_PERIODS cp WHERE cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0".(User('PROFILE')=='teacher'?" AND cp.PERIOD_ID='".UserPeriod()."'":'').") ORDER BY sp.SORT_ORDER"));
 		$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE 
 		FROM SCHOOL_PERIODS sp 
@@ -42,7 +42,7 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 		$period_select = '<SELECT name="period_id" onchange="ajaxPostForm(this.form,true);"><OPTION value="">'._('Daily').'</OPTION>';
 		if(count($periods_RET))
 		{
-			//modif Francois: All periods
+			//FJ All periods
 			if (count($periods_RET) > 1)
 				$period_select .= '<OPTION value="all"'.(($_REQUEST['period_id']=='all')?' SELECTED':'').'>'._('All Periods').'</OPTION>';
 
@@ -60,7 +60,7 @@ if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || 
 
 if($_REQUEST['period_id'])
 {
-	//modif Francois: All periods
+	//FJ All periods
 	if ($_REQUEST['period_id'] == 'all')
 	{
 		$period_ids_RET = DBGet(DBQuery("SELECT PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')"));
@@ -102,7 +102,7 @@ else
 	$extra['SELECT'] .= ",(SELECT COALESCE((sum(STATE_VALUE-1)*-1),0.0) FROM ATTENDANCE_DAY ad
 						WHERE ad.STUDENT_ID=ssm.STUDENT_ID
 						AND ad.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ad.SYEAR=ssm.SYEAR) AS STATE_ABS";
-//modif Francois: add translation 
+//FJ add translation 
 	$extra['columns_after']['STATE_ABS'] = _('Days Absent');
 }
 
@@ -142,7 +142,7 @@ if(UserStudentID())
 		}
 	}
 
-	//modif Francois: multiple school periods for a course period
+	//FJ multiple school periods for a course period
 	//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.SHORT_NAME FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND s.STUDENT_ID='".UserStudentID()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 ORDER BY sp.SORT_ORDER"));
 	$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.SHORT_NAME 
 	FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp 

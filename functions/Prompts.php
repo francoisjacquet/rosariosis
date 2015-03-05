@@ -60,7 +60,7 @@ function Prompt($title='Confirm',$question='',$message='',$pdf='',$remove_modfun
 // BackPrompt will alert the message and close the window
 function BackPrompt($message)
 {
-//modif Francois: errors not readable
+//FJ errors not readable
 //	echo '<SCRIPT>alert("'.str_replace(array("'",'"'),array('&#39;','&quot;'),$message).'");self.history.go(-1);</SCRIPT>';
 	?>
 

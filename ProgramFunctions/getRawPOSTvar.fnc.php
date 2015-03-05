@@ -1,6 +1,6 @@
 <?php
 
-//modif Francois: bypass strip_tags on the $_REQUEST vars
+//FJ bypass strip_tags on the $_REQUEST vars
 
 //used to get TinyMCE textarea content
 function GetRawPOSTvar($key)

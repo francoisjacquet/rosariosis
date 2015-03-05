@@ -143,7 +143,7 @@ if($_REQUEST['values'])
 	
 	if($RosarioNotifyAddress)
 	{
-		//modif Francois: add SendEmail function
+		//FJ add SendEmail function
 		include('ProgramFunctions/SendEmail.fnc.php');
 		
 		$student_name = $student[1]['FIRST_NAME'].' '.$student[1]['LAST_NAME'];

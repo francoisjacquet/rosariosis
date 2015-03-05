@@ -51,8 +51,8 @@ $grouped_RET = DBGet(DBQuery($sql),array(),array('STAFF_ID','REPORT_CARD_GRADE_I
 
 $grades_RET = DBGet(DBQuery("SELECT rg.ID,rg.TITLE,rg.GPA_VALUE FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs WHERE rg.SCHOOL_ID='".UserSchool()."' AND rg.SYEAR='".UserSyear()."' AND rs.ID=rg.GRADE_SCALE_ID ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER"));
 
-//modif Francois: jqplot charts
-//modif Francois: colorbox
+//FJ jqplot charts
+//FJ colorbox
 if(count($grouped_RET))
 {
 	$tmp_REQUEST = $_REQUEST;

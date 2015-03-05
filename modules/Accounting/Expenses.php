@@ -36,7 +36,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					if($column=='AMOUNT')
 					{
 						$value = preg_replace('/[^0-9.]/','',$value);
-//modif Francois: fix SQL bug invalid amount
+//FJ fix SQL bug invalid amount
 						if (!is_numeric($value))
 							$value = 0;
 					}

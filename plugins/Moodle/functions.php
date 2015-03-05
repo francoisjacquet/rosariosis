@@ -2,7 +2,7 @@
 
 include('plugins/Moodle/getconfig.inc.php');
 
-//modif Francois: Moodle plugin
+//FJ Moodle plugin
 
 //check Moodle plugin configuration options are set
 if (MOODLE_URL && MOODLE_TOKEN && MOODLE_PARENT_ROLE_ID && ROSARIO_STUDENTS_EMAIL_FIELD_ID)
@@ -599,7 +599,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 	return true;
 }
 
-//modif Francois: Moodle integrator
+//FJ Moodle integrator
 
 //The function {moodle_functionname}_object() is in charge of creating the object
 //The function moodle_xmlrpc_call() sends the object to Moodle via XML-RPC
@@ -615,7 +615,7 @@ function Moodle($modname, $moodle_functionname)
 	moodle_xmlrpc_call($moodle_functionname, $object);
 }
 
-//modif Francois: Moodle integrator / password
+//FJ Moodle integrator / password
 //The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character
 function MoodlePasswordCheck($password)
 {

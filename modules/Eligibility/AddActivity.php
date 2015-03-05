@@ -5,7 +5,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		if (count($_REQUEST['student']))
 		{
-	//modif Francois: fix bug add the same activity more than once
+	//FJ fix bug add the same activity more than once
 	//		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_SESSION['activity_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
 			$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_REQUEST['activity_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
 			foreach($_REQUEST['student'] as $student_id=>$yes)
@@ -41,7 +41,7 @@ if($_REQUEST['search_modfunc']=='list')
 	DrawHeader('',SubmitButton(_('Add Activity to Selected Students')));
 	echo '<BR />';
 
-//modif Francois: css WPadmin
+//FJ css WPadmin
 	echo '<TABLE class="postbox center col1-align-right"><TR><TD>'._('Activity').'</TD>';
 	echo '<TD>';
 	$activities_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
@@ -56,7 +56,7 @@ if($_REQUEST['search_modfunc']=='list')
 	echo '</TR></TABLE><BR />';
 
 }
-//modif Francois: fix bug no Search when student already selected
+//FJ fix bug no Search when student already selected
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');

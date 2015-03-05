@@ -75,13 +75,13 @@ if(!defined('WAREHOUSE_PHP'))
 	$locale = $_SESSION['locale'];
 	putenv('LC_ALL='.$locale);
 	setlocale(LC_ALL, $locale);
-	setlocale(LC_NUMERIC, 'english','en_US', 'en_US.utf8'); //modif Francois: numeric separator "."
+	setlocale(LC_NUMERIC, 'english','en_US', 'en_US.utf8'); //FJ numeric separator "."
 	if ($locale=='tr_TR.utf8')
-		setlocale(LC_CTYPE, 'english','en_US', 'en_US.utf8'); //modif Francois: bugfix for Turkish characters conversion
+		setlocale(LC_CTYPE, 'english','en_US', 'en_US.utf8'); //FJ bugfix for Turkish characters conversion
 	bindtextdomain('rosariosis', $LocalePath); //binds the messages domain to the locale folder
 	bind_textdomain_codeset('rosariosis','UTF-8'); //ensures text returned is utf-8, quite often this is iso-8859-1 by default
 	textdomain('rosariosis'); //sets the domain name, this means gettext will be looking for a file called rosariosis.mo
-	mb_internal_encoding('UTF-8'); //modif Francois: multibyte strings
+	mb_internal_encoding('UTF-8'); //FJ multibyte strings
 	
 	// Modules
 	// Core modules (packaged with RosarioSIS):
