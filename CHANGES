@@ -4,6 +4,7 @@ Changes in 2.8.1
 ----------------
 - Appify / add app to iOS / Android home screen in index.php & apple-touch-icon.png
 - Add Select Parents email field facility in CreateParents.php
+- Allow students to change their password by default in rosariosis.sql
 
 Changes in 2.8
 --------------

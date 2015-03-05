@@ -3964,6 +3964,7 @@ INSERT INTO profile_exceptions VALUES (0, 'Food_Service/Statements.php', 'Y', NU
 INSERT INTO profile_exceptions VALUES (0, 'Food_Service/DailyMenus.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Food_Service/MenuItems.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Resources/Resources.php', 'Y', NULL);
+INSERT INTO profile_exceptions VALUES (0, 'Users/Preferences.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (1, 'Custom/MyReport.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Custom/CreateParents.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Custom/NotifyParents.php', 'Y', 'Y');
