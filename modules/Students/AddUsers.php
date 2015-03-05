@@ -1,7 +1,7 @@
 <?php
-if($_REQUEST['modfunc']=='save' && AllowEdit())
+if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if (isset($_REQUEST['staff']) && is_array($_REQUEST['staff']))
+	if (isset($_REQUEST['staff']) && is_array($_REQUEST['staff']) && AllowEdit())
 	{
 		$current_RET = DBGet(DBQuery("SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'"),array(),array('STAFF_ID'));
 		foreach($_REQUEST['staff'] as $staff_id=>$yes)

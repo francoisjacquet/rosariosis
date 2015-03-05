@@ -13,7 +13,7 @@
 
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if (count($_REQUEST['student']))
+	if (count($_REQUEST['student']) && AllowEdit())
 	{
 //FJ fix SQL bug invalid amount
 		if (is_numeric($_REQUEST['amount']))
