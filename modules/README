@@ -7,3 +7,6 @@ Every plugin must have a Menu.php file.
 
 Note:
 The State Reports archive contains a module from Centre/SIS, it is not compatible with RosarioSIS as is.
+
+Note 2:
+To create a custom module, or add a program to an existing module, please refer to https://github.com/francoisjacquet/rosariosis-module-example
