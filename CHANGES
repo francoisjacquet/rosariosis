@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.2
 ----------------
 - Bugfix unset modfunc even if no values posted
+- adapt height if US Letter paper in HonorRoll.php & HonorRollSubject.php
 
 Changes in 2.8.1
 ----------------
