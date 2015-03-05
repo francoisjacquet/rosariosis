@@ -17,16 +17,20 @@ $user_id = UserStaffID();
 $profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".$user_id."'"));
 $xprofile = $profile[1]['PROFILE'];
 $exceptions_RET = DBGet(DBQuery("SELECT MODNAME,CAN_USE,CAN_EDIT FROM STAFF_EXCEPTIONS WHERE USER_ID='".$user_id."'"),array(),array('MODNAME'));
+
 if($_REQUEST['modfunc']=='update' && AllowEdit())
 {
 	$tmp_menu = $menu;
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
+
 	foreach($categories_RET as $category)
 	{
 		$file = 'Students/Student.php&category_id='.$category['ID'];
 		$tmp_menu['Students'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
+
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES"));
+
 	foreach($categories_RET as $category)
 	{
 		$file = 'Users/User.php&category_id='.$category['ID'];
@@ -56,21 +60,27 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				if($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)])
 				{
 					$update = "UPDATE STAFF_EXCEPTIONS SET ";
+
 					if($_REQUEST['can_edit'][str_replace('.','_',$modname)])
 						$update .= "CAN_EDIT='Y',";
 					else
 						$update .= "CAN_EDIT=NULL,";
+
 					if($_REQUEST['can_use'][str_replace('.','_',$modname)])
 						$update .= "CAN_USE='Y'";
 					else
 						$update .= "CAN_USE=NULL";
+
 					$update .= " WHERE USER_ID='".$user_id."' AND MODNAME='".$modname."'";
+
 					DBQuery($update);
 				}
 			}
 		}
 	}
+
 	$exceptions_RET = DBGet(DBQuery("SELECT MODNAME,CAN_USE,CAN_EDIT FROM STAFF_EXCEPTIONS WHERE USER_ID='".$user_id."'"),array(),array('MODNAME'));
+
 	unset($tmp_menu);
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['modfunc']);

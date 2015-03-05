@@ -41,12 +41,15 @@ if($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdi
 {
 	$tmp_menu = $menu;
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
+
 	foreach($categories_RET as $category)
 	{
 		$file = 'Students/Student.php&category_id='.$category['ID'];
 		$tmp_menu['Students'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
+
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES"));
+
 	foreach($categories_RET as $category)
 	{
 		$file = 'Users/User.php&category_id='.$category['ID'];
@@ -73,24 +76,30 @@ if($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdi
 				elseif(count($exceptions_RET[$modname]) && !$_REQUEST['can_edit'][str_replace('.','_',$modname)] && !$_REQUEST['can_use'][str_replace('.','_',$modname)])
 					DBQuery("DELETE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".$_REQUEST['profile_id']."' AND MODNAME='".$modname."'");
 
-                if ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)])
-                {
-                    $update = "UPDATE PROFILE_EXCEPTIONS SET ";
-                    if($_REQUEST['can_edit'][str_replace('.','_',$modname)])
-                        $update .= "CAN_EDIT='Y',";
-                    else
-                        $update .= "CAN_EDIT=NULL,";
-                    if($_REQUEST['can_use'][str_replace('.','_',$modname)])
-                        $update .= "CAN_USE='Y'";
-                    else
-                        $update .= "CAN_USE=NULL";
-                    $update .= " WHERE PROFILE_ID='".$_REQUEST['profile_id']."' AND MODNAME='".$modname."'";
-                    DBQuery($update);
-                }
+				if ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)])
+				{
+					$update = "UPDATE PROFILE_EXCEPTIONS SET ";
+
+					if($_REQUEST['can_edit'][str_replace('.','_',$modname)])
+						$update .= "CAN_EDIT='Y',";
+					else
+						$update .= "CAN_EDIT=NULL,";
+
+					if($_REQUEST['can_use'][str_replace('.','_',$modname)])
+						$update .= "CAN_USE='Y'";
+					else
+						$update .= "CAN_USE=NULL";
+
+					$update .= " WHERE PROFILE_ID='".$_REQUEST['profile_id']."' AND MODNAME='".$modname."'";
+
+					DBQuery($update);
+				}
 			}
 		}
 	}
+
 	$exceptions_RET = DBGet(DBQuery("SELECT MODNAME,CAN_USE,CAN_EDIT FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".$_REQUEST['profile_id']."'"),array(),array('MODNAME'));
+
 	unset($tmp_menu);
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['modfunc']);

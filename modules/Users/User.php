@@ -74,8 +74,11 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				}
 			}
 		}
+
+		unset($_REQUEST['day_staff']);
+		unset($_REQUEST['month_staff']);
+		unset($_REQUEST['year_staff']);
 	}
-	unset($_REQUEST['day_staff']); unset($_REQUEST['month_staff']); unset($_REQUEST['year_staff']);
 
 	if($_REQUEST['staff']['SCHOOLS'])
 	{
