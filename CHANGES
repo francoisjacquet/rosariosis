@@ -8,6 +8,7 @@ Changes in 2.8.2
 - send email from rosariosis@[domain] in NotifyParents.php
 - Bugfix add Comments as an exception in Student.php
 - Check AllowEdit() before saving in MassAssignFees.php, MassAssignPayments.php, AddUsers.php & AddStudents.php
+- Bugfix conflict staff_id & student_id vars in AddUsers.php & AddStudents.php
 
 Changes in 2.8.1
 ----------------

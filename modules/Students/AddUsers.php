@@ -28,9 +28,9 @@ DrawHeader(ProgramTitle());
 
 if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if(DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['staff_id']))
+	if(DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['staff_id_remove']))
 	{
-		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".$_REQUEST['staff_id']."' AND STUDENT_ID='".UserStudentID()."'");
+		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".$_REQUEST['staff_id_remove']."' AND STUDENT_ID='".UserStudentID()."'");
 
 		//hook
 		do_action('Students/AddUsers.php|user_unassign_role');
@@ -65,7 +65,7 @@ if($_REQUEST['modfunc']!='delete')
 
 		$current_RET = DBGet(DBQuery("SELECT u.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,s.LAST_LOGIN FROM STUDENTS_JOIN_USERS u,STAFF s WHERE s.STAFF_ID=u.STAFF_ID AND u.STUDENT_ID='".UserStudentID()."' AND s.SYEAR='".UserSyear()."'"),array('LAST_LOGIN'=>'makeLogin'));
 
-		$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete','variables'=>array('staff_id'=>'STAFF_ID'));
+		$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete','variables'=>array('staff_id_remove'=>'STAFF_ID'));
 
 		ListOutput($current_RET,array('FULL_NAME'=>_('Parents'),'LAST_LOGIN'=>_('Last Login')),'Associated Parent','Associated Parents',$link,array(),array('search'=>false));
 
