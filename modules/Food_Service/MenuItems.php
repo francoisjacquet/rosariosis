@@ -5,9 +5,9 @@ include_once('modules/Food_Service/includes/FS_Icons.inc.php');
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='update' && AllowEdit())
+if($_REQUEST['modfunc']=='update')
 {
-	if($_REQUEST['values'] && $_POST['values'])
+	if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{
 		if($_REQUEST['tab_id'])
 		{

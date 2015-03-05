@@ -1,45 +1,47 @@
 <?php
-if($_REQUEST['modfunc']=='update' && $_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if($_REQUEST['modfunc']=='update')
 {
-	foreach($_REQUEST['values'] as $id=>$columns)
+	if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{
-		if($id!='new')
+		foreach($_REQUEST['values'] as $id=>$columns)
 		{
-			$sql = "UPDATE RESOURCES SET ";
+			if($id!='new')
+			{
+				$sql = "UPDATE RESOURCES SET ";
 							
-			foreach($columns as $column=>$value)
-			{
-				$sql .= $column."='".$value."',";
-			}
-			$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-			DBQuery($sql);
-		}
-		else
-		{
-			$sql = "INSERT INTO RESOURCES ";
-
-			$fields = 'ID,SCHOOL_ID,';
-			$values = db_seq_nextval('RESOURCES_SEQ').",'".UserSchool()."',";
-
-			$go = 0;
-			foreach($columns as $column=>$value)
-			{
-				if(!empty($value) || $value=='0')
+				foreach($columns as $column=>$value)
 				{
-					$fields .= $column.',';
-					$values .= "'".$value."',";
-					$go = true;
+					$sql .= $column."='".$value."',";
 				}
-			}
-			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			
-			if($go)
+				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				DBQuery($sql);
+			}
+			else
+			{
+				$sql = "INSERT INTO RESOURCES ";
+
+				$fields = 'ID,SCHOOL_ID,';
+				$values = db_seq_nextval('RESOURCES_SEQ').",'".UserSchool()."',";
+
+				$go = 0;
+				foreach($columns as $column=>$value)
+				{
+					if(!empty($value) || $value=='0')
+					{
+						$fields .= $column.',';
+						$values .= "'".$value."',";
+						$go = true;
+					}
+				}
+				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+			
+				if($go)
+					DBQuery($sql);
+			}
 		}
 	}
+
 	unset($_REQUEST['modfunc']);
-	unset($_SESSION['_REQUEST_vars']['values']);
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
 }
 
 DrawHeader(ProgramTitle());

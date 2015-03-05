@@ -16,10 +16,10 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if($_REQUEST['modfunc']=='update' && AllowEdit())
+if($_REQUEST['modfunc']=='update')
 {
 	//FJ fix error Warning: Invalid argument supplied for foreach()
-	if (isset($_REQUEST['values']))
+	if (isset($_REQUEST['values']) && AllowEdit())
 		foreach($_REQUEST['values'] as $request_id=>$columns)
 		{
 			$sql = "UPDATE SCHEDULE_REQUESTS SET ";
@@ -31,6 +31,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND REQUEST_ID='".$request_id."'";
 			DBQuery($sql);
 		}
+
 	unset($_REQUEST['modfunc']);
 }
 
