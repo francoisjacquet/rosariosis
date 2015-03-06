@@ -316,14 +316,17 @@ function makeContactInfo($student_id,$column)
 		{
 			if($person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'])
 				$tipmessage .= $person[1]['STUDENT_RELATION'].': '.$person[1]['FIRST_NAME'].' '.$person[1]['LAST_NAME'].'<BR />';
-			$tipmessage .= '<TABLE class="col1-align-right">';
+
+			$tipmessage .= '<TABLE class="col1-align-right cellspacing-0">';
 			if($person[1]['PHONE'])
 				$tipmessage .= '<TR><TD><span class="legend-gray">'._('Home Phone').'</span> </TD><TD>'.$person[1]['PHONE'].'</TD></TR>';
+
 			foreach($person as $info)
 			{
 				if($info['TITLE'] || $info['VALUE'])
 					$tipmessage .= '<TR><TD><span class="legend-gray">'.$info['TITLE'].'</span></TD><TD>'.$info['VALUE'].'</TD></TR>';
 			}
+
 			$tipmessage .= '</TABLE>';
 		}
 	}

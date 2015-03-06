@@ -8,21 +8,38 @@ $extra['action'] .= '" onsubmit="document.search.relation.value=document.getElem
 $extra['new'] = true;
 
 $_ROSARIO['CustomFields'] = true;
-if($_REQUEST['fields']['ADDRESS'] || $_REQUEST['fields']['CITY'] || $_REQUEST['fields']['STATE'] || $_REQUEST['fields']['ZIPCODE'] || $_REQUEST['fields']['PHONE'] || $_REQUEST['fields']['MAIL_ADDRESS'] || $_REQUEST['fields']['MAIL_CITY'] || $_REQUEST['fields']['MAIL_STATE'] || $_REQUEST['fields']['MAIL_ZIPCODE'] || $_REQUEST['fields']['PARENTS'])
+
+if($_REQUEST['fields']['ADDRESS']
+|| $_REQUEST['fields']['CITY']
+|| $_REQUEST['fields']['STATE']
+|| $_REQUEST['fields']['ZIPCODE']
+|| $_REQUEST['fields']['PHONE']
+|| $_REQUEST['fields']['MAIL_ADDRESS']
+|| $_REQUEST['fields']['MAIL_CITY']
+|| $_REQUEST['fields']['MAIL_STATE']
+|| $_REQUEST['fields']['MAIL_ZIPCODE']
+|| $_REQUEST['fields']['PARENTS'])
 {
 	$extra['SELECT'] .= ',a.ADDRESS_ID,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,'.db_case(array('sam.MAILING',"'Y'",'coalesce(a.MAIL_ADDRESS,a.ADDRESS)','NULL')).' AS MAIL_ADDRESS,'.db_case(array('sam.MAILING',"'Y'",'coalesce(a.MAIL_CITY,a.CITY)','NULL')).' AS MAIL_CITY,'.db_case(array('sam.MAILING',"'Y'",'coalesce(a.MAIL_STATE,a.STATE)','NULL')).' AS MAIL_STATE,'.db_case(array('sam.MAILING',"'Y'",'coalesce(a.MAIL_ZIPCODE,a.ZIPCODE)','NULL')).' AS MAIL_ZIPCODE';
+
 	$extra['addr'] = true;
+
 	if($_REQUEST['residence']!='false' || $_REQUEST['mailing']!='false' || $_REQUEST['bus_pickup']!='false' || $_REQUEST['bus_dropoff']!='false')
 	{
 		$extra['STUDENTS_JOIN_ADDRESS'] .= ' AND (';
+
 		if($_REQUEST['residence']!='false')
 			$extra['STUDENTS_JOIN_ADDRESS'] .= "sam.RESIDENCE='Y' OR ";
+
 		if($_REQUEST['mailing']!='false')
 			$extra['STUDENTS_JOIN_ADDRESS'] .= "sam.MAILING='Y' OR ";
+
 		if($_REQUEST['bus_pickup']!='false')
 			$extra['STUDENTS_JOIN_ADDRESS'] .= "sam.BUS_PICKUP='Y' OR ";
+
 		if($_REQUEST['bus_dropoff']!='false')
 			$extra['STUDENTS_JOIN_ADDRESS'] .= "sam.BUS_DROPOFF='Y' OR ";
+
 		$extra['STUDENTS_JOIN_ADDRESS'] .= 'FALSE)';
 	}
 
@@ -60,13 +77,62 @@ if($_REQUEST['search_modfunc']=='list')
 			BackPrompt(_('You must choose at least one field'));
 		else
 			echo ErrorMessage(array(_('You must choose at least one field')), 'fatal');
+
 	if(!$fields_list)
 	{
 //FJ disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
-			$fields_list = array('FULL_NAME'=>_('Last, First M'),'FIRST_NAME'=>_('First Name'),'FIRST_INIT'=>_('First Name Initial'),'LAST_NAME'=>_('Last Name'),'MIDDLE_NAME'=>_('Middle Name'),'NAME_SUFFIX'=>_('Suffix'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'),'SCHOOL_TITLE'=>_('School'),'SCHOOL_NUMBER'=>_('School Number'),'NEXT_SCHOOL'=>_('Rolling / Retention Options'),'CALENDAR_ID'=>_('Calendar'),'USERNAME'=>_('Username'),'START_DATE'=>_('Enrollment Start Date'),'END_DATE'=>_('Enrollment End Date'),'ENROLLMENT_SHORT'=>_('Enrollment Code'),'DROP_SHORT'=>_('Drop Code'),'ADDRESS'=>_('Street'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zip Code'),'PHONE'=>_('Home Phone'),'MAIL_ADDRESS'=>_('Mailing Address'),'MAIL_CITY'=>_('Mailing City'),'MAIL_STATE'=>_('Mailing State'),'MAIL_ZIPCODE'=>_('Mailing Zipcode'),'PARENTS'=>_('Contacts'));
+			$fields_list = array('FULL_NAME'=>_('Last, First M'),
+			'FIRST_NAME'=>_('First Name'),
+			'FIRST_INIT'=>_('First Name Initial'),
+			'LAST_NAME'=>_('Last Name'),
+			'MIDDLE_NAME'=>_('Middle Name'),
+			'NAME_SUFFIX'=>_('Suffix'),
+			'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),
+			'GRADE_ID'=>_('Grade Level'),
+			'SCHOOL_TITLE'=>_('School'),
+			'SCHOOL_NUMBER'=>_('School Number'),
+			'NEXT_SCHOOL'=>_('Rolling / Retention Options'),
+			'CALENDAR_ID'=>_('Calendar'),
+			'USERNAME'=>_('Username'),
+			'START_DATE'=>_('Enrollment Start Date'),
+			'END_DATE'=>_('Enrollment End Date'),
+			'ENROLLMENT_SHORT'=>_('Enrollment Code'),
+			'DROP_SHORT'=>_('Drop Code'),
+			'ADDRESS'=>_('Street'),
+			'CITY'=>_('City'),
+			'STATE'=>_('State'),
+			'ZIPCODE'=>_('Zip Code'),
+			'PHONE'=>_('Home Phone'),
+			'MAIL_ADDRESS'=>_('Mailing Address'),
+			'MAIL_CITY'=>_('Mailing City'),
+			'MAIL_STATE'=>_('Mailing State'),
+			'MAIL_ZIPCODE'=>_('Mailing Zipcode'),
+			'PARENTS'=>_('Contacts'));
 		else
-			$fields_list = array('FULL_NAME'=>_('Last, First M'),'FIRST_NAME'=>_('First Name'),'FIRST_INIT'=>_('First Name Initial'),'LAST_NAME'=>_('Last Name'),'MIDDLE_NAME'=>_('Middle Name'),'NAME_SUFFIX'=>_('Suffix'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'),'SCHOOL_TITLE'=>_('School'),'SCHOOL_NUMBER'=>_('School Number'),'NEXT_SCHOOL'=>_('Rolling / Retention Options'),'CALENDAR_ID'=>_('Calendar'),'USERNAME'=>_('Username'),'START_DATE'=>_('Enrollment Start Date'),'END_DATE'=>_('Enrollment End Date'),'ENROLLMENT_SHORT'=>_('Enrollment Code'),'DROP_SHORT'=>_('Drop Code'),'ADDRESS'=>_('Street'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zip Code'),'PHONE'=>_('Home Phone'),'PARENTS'=>_('Contacts'));
+			$fields_list = array('FULL_NAME'=>_('Last, First M'),
+			'FIRST_NAME'=>_('First Name'),
+			'FIRST_INIT'=>_('First Name Initial'),
+			'LAST_NAME'=>_('Last Name'),
+			'MIDDLE_NAME'=>_('Middle Name'),
+			'NAME_SUFFIX'=>_('Suffix'),
+			'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),
+			'GRADE_ID'=>_('Grade Level'),
+			'SCHOOL_TITLE'=>_('School'),
+			'SCHOOL_NUMBER'=>_('School Number'),
+			'NEXT_SCHOOL'=>_('Rolling / Retention Options'),
+			'CALENDAR_ID'=>_('Calendar'),
+			'USERNAME'=>_('Username'),
+			'START_DATE'=>_('Enrollment Start Date'),
+			'END_DATE'=>_('Enrollment End Date'),
+			'ENROLLMENT_SHORT'=>_('Enrollment Code'),
+			'DROP_SHORT'=>_('Drop Code'),
+			'ADDRESS'=>_('Street'),
+			'CITY'=>_('City'),
+			'STATE'=>_('State'),
+			'ZIPCODE'=>_('Zip Code'),
+			'PHONE'=>_('Home Phone'),
+			'PARENTS'=>_('Contacts'));
 		
 		
 		if($extra['field_names'])
@@ -116,14 +182,33 @@ if($_REQUEST['search_modfunc']=='list')
 	if($_REQUEST['fields']['PERIOD_ATTENDANCE'])
 		//FJ multiple school periods for a course period
 		//$extra['SELECT'] .= ',(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp,SCHOOL_PERIODS p WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=p.PERIOD_ID AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).') AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
-		$extra['SELECT'] .= ',(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp,SCHOOL_PERIODS p,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cpsp.PERIOD_ID=p.PERIOD_ID AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).') AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
+		$extra['SELECT'] .= ',(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \')
+		FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp,SCHOOL_PERIODS p,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+		AND ss.STUDENT_ID=ssm.STUDENT_ID
+		AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+		AND cp.TEACHER_ID=st.STAFF_ID
+		AND cpsp.PERIOD_ID=p.PERIOD_ID
+		AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL)
+		AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')
+		AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
+
 	foreach($periods_RET as $period)
 	{
 		if($_REQUEST['fields']['PERIOD_'.$period['PERIOD_ID']]=='Y')
 		{
 			//FJ multiple school periods for a course period
 			//$extra['SELECT'] .= ',array(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')) AS PERIOD_'.$period['PERIOD_ID'];
-			$extra['SELECT'] .= ',array(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cpsp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')) AS PERIOD_'.$period['PERIOD_ID'];
+			$extra['SELECT'] .= ',array(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \')
+			FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+			AND ss.STUDENT_ID=ssm.STUDENT_ID
+			AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+			AND cp.TEACHER_ID=st.STAFF_ID
+			AND cpsp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL)
+			AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).'))
+			AS PERIOD_'.$period['PERIOD_ID'];
+
 			$extra['functions']['PERIOD_'.$period['PERIOD_ID']] = '_makeTeachers';
 		}
 	}
@@ -132,17 +217,27 @@ if($_REQUEST['search_modfunc']=='list')
 	{
 		$extra['FROM'] .= ',FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 		$extra['WHERE'] .= ' AND fssa.STUDENT_ID=ssm.STUDENT_ID';
+
 		if($_REQUEST['fields']['FS_ACCOUNT_ID']=='Y')
 			$extra['SELECT'] .= ',fssa.ACCOUNT_ID AS FS_ACCOUNT_ID';
+
 		if($_REQUEST['fields']['FS_DISCOUNT']=='Y')
 			$extra['SELECT'] .= ',coalesce(fssa.DISCOUNT,\'Full\') AS FS_DISCOUNT';
+
 		if($_REQUEST['fields']['FS_STATUS']=='Y')
 			$extra['SELECT'] .= ',coalesce(fssa.STATUS,\'Active\') AS FS_STATUS';
+
 		if($_REQUEST['fields']['FS_BARCODE']=='Y')
 			$extra['SELECT'] .= ',fssa.BARCODE AS FS_BARCODE';
+
 		if($_REQUEST['fields']['FS_BALANCE']=='Y')
 			$extra['SELECT'] .= ',(SELECT fsa.BALANCE FROM FOOD_SERVICE_ACCOUNTS fsa WHERE fsa.ACCOUNT_ID=fssa.ACCOUNT_ID) AS FS_BALANCE';
-		$fields_list += array('FS_ACCOUNT_ID'=>'F/S '._('Account ID'),'FS_DISCOUNT'=>'F/S '._('Discount'),'FS_STATUS'=>'F/S '._('Status'),'FS_BARCODE'=>'F/S '._('Barcode'),'FS_BALANCE'=>'F/S '._('Balance'));
+
+		$fields_list += array('FS_ACCOUNT_ID'=>'F/S '._('Account ID'),
+		'FS_DISCOUNT'=>'F/S '._('Discount'),
+		'FS_STATUS'=>'F/S '._('Status'),
+		'FS_BARCODE'=>'F/S '._('Barcode'),
+		'FS_BALANCE'=>'F/S '._('Balance'));
 	}
 
 	if($_REQUEST['fields'])
@@ -150,6 +245,7 @@ if($_REQUEST['search_modfunc']=='list')
 		foreach($_REQUEST['fields'] as $field=>$on)
 		{
 			$columns[$field] = ParseMLField($fields_list[$field]);
+
 			if(mb_substr($field,0,7)=='CUSTOM_')
 			{
 				if($custom_RET[mb_substr($field,7)][1]['TYPE']=='date' && !$extra['functions'][$field])
@@ -169,29 +265,36 @@ if($_REQUEST['search_modfunc']=='list')
 					$extra['functions'][$field] = 'DeCodeds';
 			}
 		}
+
 		if($_REQUEST['address_group'])
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID=ssm.STUDENT_ID AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
 			$extra['group'] = $extra['LO_group'] = array('FAMILY_ID');
 		}
 
-        Widgets('all',$extra);
+		Widgets('all',$extra);
+
 		$extra['WHERE'] .= appendSQL('',array('NoSearchTerms'=>$extra['NoSearchTerms']));
 		$extra['WHERE'] .= CustomFields('where','student',array('NoSearchTerms'=>$extra['NoSearchTerms']));
+
 		$RET = GetStuList($extra);
+
 		if($extra['array_function'] && function_exists($extra['array_function']))
 			$extra['array_function']($RET);
 
 		if(!$_REQUEST['LO_save'] && !$extra['suppress_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
+
 			if($_SESSION['Back_PHP_SELF']!='student')
 			{
 				$_SESSION['Back_PHP_SELF'] = 'student';
 				unset($_SESSION['Search_PHP_SELF']);
 			}
+
 			echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
 		}
+
 		if(!isset($_REQUEST['_ROSARIO_PDF']))
 		{
 			if(!isset($_REQUEST['_ROSARIO_PDF']))
@@ -205,6 +308,7 @@ if($_REQUEST['search_modfunc']=='list')
         
 		DrawHeader($header_left);
 		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
+
 		if ($_REQUEST['address_group'])
 			ListOutput($RET,$columns,'Family','Families',array(),$extra['LO_group'],$extra['LO_options']);
 		else
@@ -216,14 +320,46 @@ else
 	if(!$fields_list)
 	{
 		if(AllowUse('Students/Student.php&category_id=1'))
-			$fields_list['General'] = array('FULL_NAME'=>_('Last, First M'),'FIRST_NAME'=>_('First Name'),'FIRST_INIT'=>_('First Name Initial'),'LAST_NAME'=>_('Last Name'),'MIDDLE_NAME'=>_('Middle Name'),'NAME_SUFFIX'=>_('Suffix'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'),'SCHOOL_TITLE'=>_('School'),'SCHOOL_NUMBER'=>_('School Number'),'NEXT_SCHOOL'=>_('Rolling / Retention Options'),'CALENDAR_ID'=>_('Calendar'),'USERNAME'=>_('Username'),'START_DATE'=>_('Enrollment Start Date'),'END_DATE'=>_('Enrollment End Date'),'ENROLLMENT_SHORT'=>_('Enrollment Code'),'DROP_SHORT'=>_('Drop Code'),'LAST_LOGIN'=>_('Last Login'));
+			$fields_list['General'] = array('FULL_NAME'=>_('Last, First M'),
+			'FIRST_NAME'=>_('First Name'),
+			'FIRST_INIT'=>_('First Name Initial'),
+			'LAST_NAME'=>_('Last Name'),
+			'MIDDLE_NAME'=>_('Middle Name'),
+			'NAME_SUFFIX'=>_('Suffix'),
+			'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),
+			'GRADE_ID'=>_('Grade Level'),
+			'SCHOOL_TITLE'=>_('School'),
+			'SCHOOL_NUMBER'=>_('School Number'),
+			'NEXT_SCHOOL'=>_('Rolling / Retention Options'),
+			'CALENDAR_ID'=>_('Calendar'),
+			'USERNAME'=>_('Username'),
+			'START_DATE'=>_('Enrollment Start Date'),
+			'END_DATE'=>_('Enrollment End Date'),
+			'ENROLLMENT_SHORT'=>_('Enrollment Code'),
+			'DROP_SHORT'=>_('Drop Code'),
+			'LAST_LOGIN'=>_('Last Login'));
+
 		if(AllowUse('Students/Student.php&category_id=3'))
 		{
 //FJ disable mailing address display
 			if (Config('STUDENTS_USE_MAILING'))
-				$fields_list['Address'] = array('ADDRESS'=>_('Address'),'MAIL_ADDRESS'=>_('Mailing Address'),'CITY'=>_('City'),'MAIL_CITY'=>_('Mailing City'),'STATE'=>_('State'),'MAIL_STATE'=>_('Mailing State'),'ZIPCODE'=>_('Zip Code'),'MAIL_ZIPCODE'=>_('Mailing Zipcode'),'PHONE'=>_('Home Phone'),'PARENTS'=>_('Contacts'));
+				$fields_list['Address'] = array('ADDRESS'=>_('Address'),
+				'MAIL_ADDRESS'=>_('Mailing Address'),
+				'CITY'=>_('City'),
+				'MAIL_CITY'=>_('Mailing City'),
+				'STATE'=>_('State'),
+				'MAIL_STATE'=>_('Mailing State'),
+				'ZIPCODE'=>_('Zip Code'),
+				'MAIL_ZIPCODE'=>_('Mailing Zipcode'),
+				'PHONE'=>_('Home Phone'),
+				'PARENTS'=>_('Contacts'));
 			else
-				$fields_list['Address'] = array('ADDRESS'=>_('Street'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zip Code'),'PHONE'=>_('Home Phone'),'PARENTS'=>_('Contacts'));
+				$fields_list['Address'] = array('ADDRESS'=>_('Street'),
+				'CITY'=>_('City'),
+				'STATE'=>_('State'),
+				'ZIPCODE'=>_('Zip Code'),
+				'PHONE'=>_('Home Phone'),
+				'PARENTS'=>_('Contacts'));
 				
 			$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ADDRESS_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 			$address_RET = DBGet(DBQuery("SELECT TITLE,ID,TYPE,CATEGORY_ID FROM ADDRESS_FIELDS ORDER BY SORT_ORDER,TITLE"),array(),array('CATEGORY_ID'));
@@ -257,28 +393,37 @@ else
 	}
 
 	if($RosarioModules['Food_Service'])
-		$fields_list['Food_Service'] = array('FS_ACCOUNT_ID'=>_('Account ID'),'FS_DISCOUNT'=>_('Discount'),'FS_STATUS'=>_('Status'),'FS_BARCODE'=>_('Barcode'),'FS_BALANCE'=>_('Balance'));
+		$fields_list['Food_Service'] = array('FS_ACCOUNT_ID'=>_('Account ID'),
+		'FS_DISCOUNT'=>_('Discount'),
+		'FS_STATUS'=>_('Status'),
+		'FS_BARCODE'=>_('Barcode'),
+		'FS_BALANCE'=>_('Balance'));
 
 	$fields_list['Schedule']['PERIOD_ATTENDANCE'] = _('Attendance Period Teacher').' - '._('Room');
 	$periods_RET = DBGet(DBQuery("SELECT TITLE,PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
+
 	foreach($periods_RET as $period)
 		$fields_list['Schedule']['PERIOD_'.$period['PERIOD_ID']] = $period['TITLE'].' '._('Teacher').' - '._('Room');
 
 	DrawHeader('<OL><SPAN id=names_div></SPAN></OL>');
+
 	echo '<TABLE><TR class="st"><TD class="valign-top">';
 	echo '<BR />';
-//FJ css WPadmin
+
 	PopTable('header',_('Fields'));
-	echo '';
+
+
 	foreach($fields_list as $category=>$fields)
 	{
-//FJ add translation
+		//FJ add translation
 		echo '<TABLE class="widefat cellspacing-0"><TR><TH colspan="2">'.(ParseMLField($category)==$category?_(str_replace('_', ' ', $category)):ParseMLField($category)).'</TH></TR><TR>';
+
 		if(ParseMLField($category,'default')=='Address')
 		{
-//FJ add <label> on checkbox
+			//FJ add <label> on checkbox
 			echo '<TD><label><INPUT type="checkbox" id="residence" value="Y" />&nbsp;'._('Residence').'</label></TD>';
-//FJ disable mailing address display
+
+			//FJ disable mailing address display
 			if (Config('STUDENTS_USE_MAILING'))
 				echo '<TD><label><INPUT type="checkbox" id="mailing" value="Y" />&nbsp;'._('Mailing').'</label></TD>';
 			else
@@ -289,6 +434,7 @@ else
 			echo '<TD><label><INPUT type="checkbox" id="bus_dropoff" value="Y" />&nbsp;'._('Bus Dropoff').'</label></TD>';
 			echo '</TR><TR>';
 		}
+
 		foreach($fields as $field=>$title)
 		{
 			$i++;
@@ -302,28 +448,38 @@ else
 			if(ParseMLField($category,'default')=='Address' && $field=='PARENTS')
 			{
 				$relations_RET = DBGet(DBQuery("SELECT DISTINCT STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE ORDER BY STUDENT_RELATION"));
+
 				$select = '<SELECT id="relation"><OPTION value="">'._('N/A');
 				foreach($relations_RET as $relation)
 					if($relation['STUDENT_RELATION']!='')
 						$select .= '<OPTION value="'.$relation['STUDENT_RELATION'].'">'.$relation['STUDENT_RELATION'];
 					else
 						$select .= '<OPTION value="!">'._('No Value');
+
 				$select .= '</SELECT>';
+
 				echo '&nbsp;-&nbsp;'._('Relation').':&nbsp;'.$select;
 			}
+
 			echo '</TD>';
+
 			if($i%2==0)
 				echo '</TR><TR>';
 		}
+
 		if($i%2!=0)
 		{
 			echo '<TD>&nbsp;</TD></TR><TR>';
 			$i++;
 		}
+
 		echo '</TR></TABLE><br />';
 	}
+
 	PopTable('footer');
+
 	echo '</TD><TD class="valign-top">';
+
 	if($Search && function_exists($Search))
 	{
 		echo '</TD></TR></TABLE>';
