@@ -1,5 +1,10 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.3
+----------------
+- bugfix bug when Back to Student Search in StudentSummary.php
+
+
 Changes in 2.8.2
 ----------------
 - Bugfix unset modfunc even if no values posted

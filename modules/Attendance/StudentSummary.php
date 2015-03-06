@@ -20,7 +20,8 @@ else
 //if(User('PROFILE')=='teacher')
 //	$_REQUEST['period_id'] = UserPeriod();
 
-if($_REQUEST['search_modfunc'] || UserStudentID() || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
+//FJ bugfix bug when Back to Student Search
+if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
 	if(!UserStudentID() && !$_REQUEST['student_id'])
 	{
