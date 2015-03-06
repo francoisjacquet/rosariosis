@@ -89,7 +89,7 @@ list of (
 )*/
 
 	//gather the Moodle user ID
-	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['staff_id']."' AND \"column\"='staff_id'"));
+	$userid = DBGet(DBQuery("SELECT moodle_id FROM moodlexrosario WHERE rosario_id='".$_REQUEST['staff_id_remove']."' AND \"column\"='staff_id'"));
 	if (count($userid))
 	{
 		$userid = (int)$userid[1]['MOODLE_ID'];
