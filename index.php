@@ -69,7 +69,7 @@ if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD
 		$failed_login = $login_RET[1]['FAILED_LOGIN'];
 		DBQuery("UPDATE STAFF SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL WHERE STAFF_ID='".$login_RET[1]['STAFF_ID']."'");
 
-		if(Config('LOGIN')=='No')
+		if(Config('LOGIN')!=='No')
 		{
 			Warehouse('header'); ?>
 			<FORM action="index.php" method="POST"><BR />
@@ -77,7 +77,8 @@ if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD
 			<?php PopTable('header',_('Confirm Successful Installation')); ?>
 
 			<span class="center">
-			<h4><?php echo sprintf(_('You have successfully installed %s.'), ParseMLField(Config('TITLE'))); ?></h4><BR />
+			<h4><?php echo sprintf(_('You have successfully installed %s.'), ParseMLField(Config('TITLE'))); ?></h4>
+			<p><?php echo sprintf(_('Check the %s page to spot remaining configuration problems.'), '<a href="diagnostic.php" target="_blank">diagnostic.php</a>'); ?></p><BR />
 			<BR /><INPUT type="submit" name="submit" id="submit" value="<?php echo _('OK'); ?>" />
 			</span>
 
