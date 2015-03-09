@@ -13,8 +13,7 @@
 
 $categories_RET = DBGet(DBQuery("SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER 
 FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u 
-WHERE f.DATA_TYPE!='multiple_checkbox' 
-AND u.DISCIPLINE_FIELD_ID=f.ID 
+WHERE u.DISCIPLINE_FIELD_ID=f.ID
 ORDER BY ".db_case(array('DATA_TYPE',"'textarea'","'1'","'0'")).",SORT_ORDER"),array(),array('ID'));
 
 $extra['second_col'] .= '<TR><TD><fieldset><legend>'._('Include in Discipline Log').'</legend><TABLE class="width-100p">';
@@ -92,7 +91,7 @@ else
 //FJ school year over one/two calendar years format
 				//DrawHeader(_('School Year').': '.UserSyear().'-'.(UserSyear()+1));
 				DrawHeader(_('School Year').': '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')));
-//FJ css WPadmin
+
 			echo '<BR />';
 
 			foreach($referrals as $referral)
@@ -103,35 +102,32 @@ else
 				if($_REQUEST['elements']['STAFF_ID'])
 					DrawHeader('<b>'._('Reporter').': </b>'.GetTeacher($referral['STAFF_ID']));
 
-				$end_tr = false;
 				foreach($_REQUEST['elements'] as $column=>$Y)
 				{
 					if($column=='ENTRY_DATE' || $column=='STAFF_ID')
 						continue;
 
-					if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='textarea' && !$end_tr)
-					{
-						$end_tr = true;
-						//echo '</TR></TABLE>';
-					}
-					elseif($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='textarea')
-						echo '<BR />';
-					
 					if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']!='textarea')
 					{
+						$title_txt = '<b>'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </b> ';
+
 						if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='checkbox')
-							DrawHeader('<b>'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </b> '.($referral[$column] == 'Y' ? button('check', '', '', 'bigger') : button('x', '', '', 'bigger')));
+							DrawHeader($title_txt.($referral[$column] == 'Y' ? button('check', '', '', 'bigger') : button('x', '', '', 'bigger')));
+						elseif($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='multiple_checkbox')
+							DrawHeader($title_txt.str_replace('||',', ',mb_substr($referral[$column],2,-2)));
 						else
-							DrawHeader('<b>'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </b> '.$referral[$column]);
+							DrawHeader($title_txt.$referral[$column]);
 					}
 					else
-						DrawHeader($referral[$column]);
+						DrawHeader(nl2br($referral[$column]));
 				}
-				echo '<HR>';
+
+				echo '<BR />';
 			}
-			echo '<BR />';
+
 			echo '<div style="page-break-after: always;"></div>';
 		}
+
 		PDFStop($handle);
 	}
 	else

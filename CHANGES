@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.4
+----------------
+- Add multiple checkbox fields in ReferralLog.php
+
 Changes in 2.8.3
 ----------------
 - bugfix bug when Back to Student Search in StudentSummary.php
