@@ -69,7 +69,7 @@ if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD
 		$failed_login = $login_RET[1]['FAILED_LOGIN'];
 		DBQuery("UPDATE STAFF SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL WHERE STAFF_ID='".$login_RET[1]['STAFF_ID']."'");
 
-		if(Config('LOGIN')!=='No')
+		if(Config('LOGIN')=='No')
 		{
 			Warehouse('header'); ?>
 			<FORM action="index.php" method="POST"><BR />
