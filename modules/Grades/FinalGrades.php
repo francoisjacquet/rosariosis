@@ -73,7 +73,20 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		// GET THE COMMENTS
 		if($_REQUEST['elements']['comments']=='Y')
-			$comments_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('ID'));
+		{
+			//$comments_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('ID'));
+			//FJ get color for Course specific categories & get comment scale
+			$comments_RET = DBGet(DBQuery("SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,cs.TITLE AS SCALE_TITLE
+			FROM REPORT_CARD_COMMENTS c
+			LEFT OUTER JOIN REPORT_CARD_COMMENT_CATEGORIES cc ON (cc.SYEAR=c.SYEAR AND cc.SCHOOL_ID=c.SCHOOL_ID AND cc.ID=c.CATEGORY_ID)
+			LEFT OUTER JOIN REPORT_CARD_COMMENT_CODE_SCALES cs ON (cs.SCHOOL_ID=c.SCHOOL_ID AND cs.ID=c.SCALE_ID)
+			WHERE c.SCHOOL_ID='".UserSchool()."'
+			AND c.SYEAR='".UserSyear()."'"),array(),array('ID'));
+
+			//FJ add columns for All Courses comments
+			$all_commentsA_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID='0' ORDER BY SORT_ORDER,ID"),array(),array('ID'));
+
+		}
 
 		if($_REQUEST['elements']['mp_tardies']=='Y' || $_REQUEST['elements']['ytd_tardies']=='Y')
 		{
@@ -134,7 +147,13 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			}
 
 			if($_REQUEST['elements']['comments']=='Y')
-				$columns['COMMENT'] = _('Comment');
+			{
+				//FJ add columns for All Courses comments
+				foreach($all_commentsA_RET as $comment)
+					$columns['C'.$comment[1]['ID']] = $comment[1]['TITLE'];
+
+				$columns['COMMENT'] = _('Comments');
+			}
 
 			$i = 0;
 			foreach($RET as $student_id=>$course_periods)
@@ -175,19 +194,39 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					if($_REQUEST['elements']['comments']=='Y')
 					{
-						$sep = '';
-						foreach($mps[$last_mp][1]['COMMENTS_RET'] as $comment)
+						//FJ add comments for each MP
+						$sep = '; ';
+						$sep_mp = ' | ';
+						foreach($mps as $mp)
 						{
-							$grades_RET[$i]['COMMENT'] .= $sep.$comments_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
+							if (!empty($grades_RET[$i]['COMMENT']))
+								$grades_RET[$i]['COMMENT'] = $grades_RET[$i]['COMMENT'].$sep_mp;
 
-							if($comment['COMMENT'])
-								$grades_RET[$i]['COMMENT'] .= '('.($comment['COMMENT']!=' '?$comment['COMMENT']:'&middot;').')';
+							foreach($mp[1]['COMMENTS_RET'] as $comment)
+							{
+								if($all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']])
+									$grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT']!=' ' ? (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).$comment['COMMENT'] : (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).'&middot;';
+								else
+								{
+									$sep_tmp = empty($grades_RET[$i]['COMMENT']) || mb_substr($grades_RET[$i]['COMMENT'],-3)==$sep_mp ? '' : $sep;
 
-							$sep = ', ';
+									$color = $comments_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['COLOR'];
+
+									if ($color)
+										$color_html = '<span style="color:'.$color.'">';
+									else
+										$color_html = '';
+
+									$grades_RET[$i]['COMMENT'] .= $sep_tmp.$color_html.$comments_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
+
+									if($comment['COMMENT'])
+										$grades_RET[$i]['COMMENT'] .= '('.($comment['COMMENT']!=' '?$comment['COMMENT']:'&middot;').')'.($color_html ? '</span>':'');
+								}
+							}
+
+							if($mp[1]['COMMENT_TITLE'])
+								$grades_RET[$i]['COMMENT'] .= (empty($grades_RET[$i]['COMMENT']) || mb_substr($grades_RET[$i]['COMMENT'],-3)==$sep_mp ? '' : $sep).$mp[1]['COMMENT_TITLE'];
 						}
-
-						if($mps[$last_mp][1]['COMMENT_TITLE'])
-							$grades_RET[$i]['COMMENT'] .= $sep.$mps[$last_mp][1]['COMMENT_TITLE'];
 					}
 				}
 			}
@@ -200,7 +239,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				'marking_period_id'=>'MARKING_PERIOD_ID');
 			}
 
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
+			//Display comment codes tooltips
+			if(!isset($_REQUEST['_ROSARIO_PDF']) && $_REQUEST['elements']['comments']=='Y')
 			{
 				$commentsB_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NULL ORDER BY SORT_ORDER"),array(),array('ID'));
 
@@ -213,7 +253,93 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					$tipmessage = $tipJS.button('comment', _('Comment Codes'), '"#" onmouseover="stm([tiptitle,tipmsg])" onmouseout="htm()" onclick="return false;"', 'bigger');
 
-					DrawHeader('',$tipmessage);
+					DrawHeader(_('General Comments'),$tipmessage);
+				}
+
+				$cp_list = array();
+				foreach($grades_RET as $grade)
+				{
+					$cp_list[] = $grade['COURSE_PERIOD_ID'];
+				}
+				$cp_list = '\''.implode('\',\'',$cp_list).'\'';
+
+				//FJ limit comment scales to the ones used in students' courses
+				$students_comment_scales_RET = DBGet(DBQuery("SELECT cs.ID
+				FROM REPORT_CARD_COMMENT_CODE_SCALES cs
+				WHERE cs.ID IN
+					(SELECT c.SCALE_ID
+					FROM REPORT_CARD_COMMENTS c
+					WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM SCHEDULE WHERE STUDENT_ID IN (".$st_list.") AND COURSE_PERIOD_ID IN(".$cp_list.")) OR c.COURSE_ID=0)
+					AND c.SCHOOL_ID=cs.SCHOOL_ID
+					AND c.SYEAR='".UserSyear()."')
+				AND cs.SCHOOL_ID='".UserSchool()."'"), array(), array('ID'));
+				$students_comment_scales = array_keys($students_comment_scales_RET);
+
+				//FJ add Comment Scales tipmessage
+				$comment_codes_RET = DBGet(DBQuery("SELECT cc.SCALE_ID,cc.TITLE,cc.SHORT_NAME,cc.COMMENT,cs.TITLE AS SCALE_TITLE
+				FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
+				WHERE cs.ID IN (".implode($students_comment_scales, ',').")
+				AND cs.ID=cc.SCALE_ID
+				ORDER BY cs.SORT_ORDER"),array(),array('SCALE_ID'));
+
+				if(count($comment_codes_RET))
+				{
+					$tipmessage = '';
+
+					foreach($comment_codes_RET as $scale_id => $codes)
+					{
+						$tipmsg = '';
+						foreach($codes as $code)
+						{
+							$tipmsg .= $code['TITLE'].': '.$code['COMMENT'].'<BR />';
+						}
+
+						$tipJS = '<script>var tiptitles'.$scale_id.'='.json_encode(_('Comment Codes')).'; var tipmsgs'.$scale_id.'='.json_encode($tipmsg).';</script>';
+
+						$tipmessage .= $tipJS.button('comment', $codes[1]['SCALE_TITLE'], '"#" onmouseover="stm([tiptitles'.$scale_id.',tipmsgs'.$scale_id.'])" onmouseout="htm()" onclick="return false;"', 'bigger').' ';
+					}
+
+					DrawHeader(_('Comment Scales'),$tipmessage);
+				}
+
+				//FJ add Course-specific comments tipmessage
+				$commentsA_RET = DBGet(DBQuery("SELECT cs.TITLE AS SCALE_TITLE,c.TITLE,c.SORT_ORDER,COLOR,co.COURSE_ID,co.TITLE AS COURSE_TITLE
+				FROM REPORT_CARD_COMMENTS c, REPORT_CARD_COMMENT_CATEGORIES cc, COURSES co, REPORT_CARD_COMMENT_CODE_SCALES cs
+				WHERE (c.COURSE_ID IN(SELECT COURSE_ID FROM SCHEDULE WHERE STUDENT_ID IN (".$st_list.") AND COURSE_PERIOD_ID IN(".$cp_list.")))
+				AND c.SYEAR='".UserSyear()."'
+				AND c.SCHOOL_ID='".UserSchool()."'
+				AND c.CATEGORY_ID=cc.ID
+				AND co.COURSE_ID=c.COURSE_ID
+				AND c.SCALE_ID=cs.ID
+				ORDER BY c.SORT_ORDER"), array(), array('COURSE_ID'));
+
+				if(count($commentsA_RET))
+				{
+					$tipmessage = '';
+
+					foreach($commentsA_RET as $course_id => $commentsA)
+					{
+						$tipmsg = '';
+						foreach($commentsA as $commentA)
+						{
+							$color = $commentA['COLOR'];
+
+							if ($color)
+								$color_html = '<span style="color:'.$color.'">';
+							else
+								$color_html = '';
+
+							$comment_scale_txt = '&nbsp;&nbsp;&nbsp;&nbsp;('._('Comment Scale').': '.$commentA['SCALE_TITLE'].')';
+
+							$tipmsg .= $color_html.$commentA['SORT_ORDER'].': '.$commentA['TITLE'].($color_html ? '</span>' : '').'<BR />'.$comment_scale_txt.'<BR />';
+						}
+
+						$tipJS = '<script>var tiptitlec'.$course_id.'='.json_encode(_('Comments')).'; var tipmsgc'.$course_id.'='.json_encode($tipmsg).';</script>';
+
+						$tipmessage .= $tipJS.button('comment', $commentsA[1]['COURSE_TITLE'], '"#" onmouseover="stm([tiptitlec'.$course_id.',tipmsgc'.$course_id.'])" onmouseout="htm()" onclick="return false;"', 'bigger').' ';
+					}
+
+					DrawHeader(_('Course-specific Comments'),$tipmessage);
 				}
 			}
 

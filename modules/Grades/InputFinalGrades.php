@@ -51,7 +51,7 @@ ORDER BY 4,SORT_ORDER"),array(),array('ID'));
 if($_REQUEST['tab_id']=='' || !$categories_RET[$_REQUEST['tab_id']])
 	$_REQUEST['tab_id'] = key($categories_RET).'';
 
-$comment_codes_RET = DBGet(DBQuery("SELECT SCALE_ID,TITLE,SHORT_NAME FROM REPORT_CARD_COMMENT_CODES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,ID"),array(),array('SCALE_ID'));
+$comment_codes_RET = DBGet(DBQuery("SELECT SCALE_ID,TITLE,SHORT_NAME,COMMENT FROM REPORT_CARD_COMMENT_CODES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,ID"),array(),array('SCALE_ID'));
 
 $commentsA_select = array();
 
@@ -720,6 +720,43 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 		$tipmessage = $tipJS.button('comment', _('Comment Codes'), '"#" onmouseover="stm([tiptitle,tipmsg])" onmouseout="htm()" onclick="return false;"', 'bigger');
 	}
 
+	//FJ add All Courses & Course-specific comments scales tipmessage
+	elseif(count($commentsA_RET))
+	{
+		$tipmessage = '';
+
+		//All Courses
+		if ($_REQUEST['tab_id'] == '0')
+			$where = " AND COURSE_ID='".$_REQUEST['tab_id']."'";
+		//Course-specific
+		else
+			$where = " AND CATEGORY_ID='".$_REQUEST['tab_id']."'";
+
+		$commentsAbis_RET = DBGet(DBQuery("SELECT ID,TITLE,SCALE_ID FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'".$where." ORDER BY SORT_ORDER"), array(), array('SCALE_ID'));
+
+		foreach($commentsAbis_RET as $scale_id => $commentsAbis)
+		{
+			$tipmsg = '';
+			$tiplabel = array();
+
+			foreach($comment_codes_RET[$scale_id] as $comment)
+			{
+				$tipmsg .= $comment['TITLE'].': '.$comment['COMMENT'].'<BR />';
+			}
+
+			foreach($commentsAbis as $commentAbis)
+			{
+				$tiplabel[] = $commentAbis['TITLE'];
+			}
+
+			$tipJS = '<script>var tiptitle'.$scale_id.'='.json_encode(_('Comment Codes')).'; var tipmsg'.$scale_id.'='.json_encode($tipmsg).';</script>';
+
+			$tiplabel = implode($tiplabel, ' / ');
+
+			$tipmessage .= $tipJS.button('comment', $tiplabel, '"#" onmouseover="stm([tiptitle'.$scale_id.',tipmsg'.$scale_id.'])" onmouseout="htm()" onclick="return false;"', 'bigger').' ';
+		}
+	}
+
 	//FJ add label on checkbox
 	DrawHeader($mps_select,SubmitButton(_('Save')),'<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Students').'</label>');
 	
@@ -752,7 +789,8 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 		$gb_header .= '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=clearall&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'">'._('Clear All').'</A>';
 	}
 
-	DrawHeader($gb_header,$tipmessage);
+	DrawHeader($gb_header);
+	DrawHeader('',$tipmessage);
 }
 else
 {
