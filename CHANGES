@@ -5,6 +5,7 @@ Changes in 2.8.4
 - Add multiple checkbox fields in ReferralLog.php
 - errors if No courses assigned to teacher or No Students were found in GradebookBreakdown.php
 - add All Courses & Course-specific comments scales/codes tipmessage in FinalGrades.php & InputFinalGrades.php
+- add help for non-core modules in Help.php & Bottom.php
 
 Changes in 2.8.3
 ----------------

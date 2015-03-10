@@ -31,10 +31,26 @@ if($_REQUEST['modfunc']=='print')
 }
 elseif($_REQUEST['modfunc']=='help')
 {
-	if (file_exists('Help_'.mb_substr($locale, 0, 2).'.php')) //FJ translated help
-		include 'Help_'.mb_substr($locale, 0, 2).'.php';
+	$help_translated = 'Help_'.mb_substr($locale, 0, 2).'.php';
+	$help_english = 'Help_en.php';
+
+	if (file_exists($help_translated)) //FJ translated help
+		include($help_translated);
 	else
-		include 'Help_en.php';
+		include($help_english);
+
+	//FJ add help for non-core modules
+	$not_core_modules = array_diff(array_keys($RosarioModules),$RosarioCoreModules);
+
+	foreach($not_core_modules as $not_core_module)
+	{
+		$not_core_dir = 'modules/'.$not_core_module.'/';
+
+		if (file_exists($not_core_dir.$help_translated)) //FJ translated help
+			include($not_core_dir.$help_translated);
+		elseif (file_exists($not_core_dir.$help_english))
+			include($not_core_dir.$help_english);
+	}
 
 	$help_text = '';
 
