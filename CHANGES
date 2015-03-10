@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.4
 ----------------
 - Add multiple checkbox fields in ReferralLog.php
+- errors if No courses assigned to teacher or No Students were found in GradebookBreakdown.php
 
 Changes in 2.8.3
 ----------------

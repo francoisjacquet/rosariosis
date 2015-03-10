@@ -200,6 +200,14 @@ if(empty($_REQUEST['modfunc']))
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&amp;chart_type='.str_replace(' ','+',$_REQUEST['chart_type']).'" method="POST">';
 	DrawHeader(ProgramTitle());
+
+	//FJ errors if No courses assigned to teacher or No Students were found
+	if (!UserCoursePeriod())
+		echo ErrorMessage(array(_('No courses assigned to teacher.')),'fatal');
+
+	$RET = GetStuList();
+	if (!count($RET))
+		echo ErrorMessage(array(_('No Students were found.')),'fatal');
 	
 	DrawHeader($assignment_select.$advanced_link,SubmitButton(_('Go')));
 
