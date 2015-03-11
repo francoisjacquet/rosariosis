@@ -86,7 +86,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 						break;
 						
 						case 'numeric':
-							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id NUMERIC(10,2)");
+							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id NUMERIC(20,2)");
 						break;
 						
 						case 'date':

@@ -66,7 +66,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							break;
 
 							case 'numeric':
-								DBQuery("ALTER TABLE PEOPLE ADD CUSTOM_$id NUMERIC(10,2)");
+								DBQuery("ALTER TABLE PEOPLE ADD CUSTOM_$id NUMERIC(20,2)");
 							break;
 
 							case 'date':

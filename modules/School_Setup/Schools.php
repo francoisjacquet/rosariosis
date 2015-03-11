@@ -223,7 +223,7 @@ if(empty($_REQUEST['modfunc']))
 				break;
 
 			case 'numeric':
-				echo TextInput($value_custom,'values[CUSTOM_'.$field['ID'].']',$title_custom,'size=5 maxlength=10'.($field['REQUIRED']?' required':''));
+				echo TextInput($value_custom,'values[CUSTOM_'.$field['ID'].']',$title_custom,'size=9 maxlength=18'.($field['REQUIRED']?' required':''));
 				break;
 
 			case 'date':

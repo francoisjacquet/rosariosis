@@ -160,7 +160,7 @@ if(UserStudentID() && $_REQUEST['student_id'])
 			break;
 	
 			case 'numeric':
-				echo TextInput('','values[CATEGORY_'.$category['ID'].']','','size=4 maxlength=10');
+				echo TextInput('','values[CATEGORY_'.$category['ID'].']','','size=9 maxlength=18');
 				//echo '<INPUT type="TEXT" name="values[CATEGORY_'.$category['ID'].']" size="4" maxlength="10" />';
 			break;
 	

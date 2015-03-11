@@ -66,7 +66,7 @@ foreach($fields_RET as $field)
 			if(($i-1)%$per_row==0)
 				echo '<TR class="st">';
 			echo '<TD>';
-			echo _makeTextInput('CUSTOM_'.$field['ID'],$field['TITLE'],'size=5 maxlength=10','students');
+			echo _makeTextInput('CUSTOM_'.$field['ID'],$field['TITLE'],'size=9 maxlength=18','students');
 			echo '</TD>';
 			if($i%$per_row==0)
 				echo '</TR>';

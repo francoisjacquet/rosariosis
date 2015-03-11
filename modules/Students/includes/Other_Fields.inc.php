@@ -29,7 +29,7 @@ foreach($fields_RET as $field)
 
 		case 'numeric':
 			echo '<TR><TD>';
-			echo _makeTextInput('CUSTOM_'.$field['ID'],$field['TITLE'],'size=5 maxlength=10',$request);
+			echo _makeTextInput('CUSTOM_'.$field['ID'],$field['TITLE'],'size=9 maxlength=18',$request);
 			echo '</TD></TR>';
 			break;
 

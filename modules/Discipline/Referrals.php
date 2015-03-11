@@ -189,7 +189,7 @@ if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 				break;
 
 				case 'numeric':
-					echo TextInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','','size=4 maxlength=10');
+					echo TextInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','','size=9 maxlength=18');
 					//echo '<INPUT type=TEXT name=values[CATEGORY_'.$category['ID'].'] value="'.$RET['CATEGORY_'.$category['ID']].'" size=4 maxlength=10>';
 				break;
 
