@@ -1,4 +1,7 @@
 <?php
+//FJ bugfix check accept cookies
+$default_session_name = session_name();
+
 error_reporting(1);
 include('Warehouse.php');
 
@@ -17,7 +20,7 @@ if($_REQUEST['modfunc']=='logout')
 if(isset($_POST['USERNAME']) && $_POST['USERNAME']!='' && isset($_POST['PASSWORD']) && $_POST['PASSWORD']!='')
 {
 	//FJ check accept cookies
-	if(!isset($_COOKIE['RosarioSIS']) && !isset($_COOKIE['PHPSESSID']))
+	if(!isset($_COOKIE['RosarioSIS']) && !isset($_COOKIE[$default_session_name]))
 	{
 		header("Location: index.php?modfunc=logout&reason=cookie");
 		exit;

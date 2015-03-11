@@ -7,6 +7,7 @@ Changes in 2.8.4
 - add All Courses & Course-specific comments scales/codes tipmessage in FinalGrades.php & InputFinalGrades.php
 - add help for non-core modules in Help.php & Bottom.php
 - Remove exit/die/eval in functions, thanks to PHP Mess Detector
+- Bugfix check accept cookies in index.php
 
 Changes in 2.8.3
 ----------------
