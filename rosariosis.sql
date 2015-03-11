@@ -995,15 +995,6 @@ CREATE SEQUENCE courses_seq
 SELECT pg_catalog.setval('courses_seq', 1, true);
 
 
---
--- Name: custom; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
---
-
-CREATE TABLE custom (
-    student_id numeric NOT NULL
-);
-
-
 
 
 --
@@ -5151,13 +5142,6 @@ CREATE INDEX custom_desc_ind2 ON custom_fields USING btree (type);
 --
 
 CREATE INDEX custom_fields_ind3 ON custom_fields USING btree (category_id);
-
-
---
--- Name: custom_ind; Type: INDEX; Schema: public; Owner: rosariosis; Tablespace: 
---
-
-CREATE INDEX custom_ind ON custom USING btree (student_id);
 
 
 --
