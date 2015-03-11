@@ -434,16 +434,30 @@ filecontent = base64_encode
 	$filepath = '/';
 	$filename = $_POST['userId'].'.jpg';
 
-    function base64_encode_file ($file) {
-         $filename = file_exists($file) ? htmlentities($file) : die('File name does not exist');
-         $filetype = pathinfo($filename, PATHINFO_EXTENSION);
-         $filebinary = fread(fopen($filename, "r"), filesize($filename));
-         return base64_encode($filebinary);
-     }
+	function base64_encode_file ($file) {
+		if(!file_exists($file))
+			return false;
+		else
+			$filename = htmlentities($file);
+
+		$filetype = pathinfo($filename, PATHINFO_EXTENSION);
+		$filebinary = fread(fopen($filename, "r"), filesize($filename));
+
+		return base64_encode($filebinary);
+	}
 
 	global $RosarioPath;
 	$filecontent = base64_encode_file ($RosarioPath.$_POST['photoPath'].$_POST['sYear'].'/'.$_POST['userId'].'.jpg');
 	
+	if(!$filecontent)
+	{
+		global $error;
+
+		$error[] = 'Moodle: '.'File does not exist';//should never be displayed, so do not translate
+
+		return false;
+	}
+
 	$file = array(
 					$component,
 					$filearea,

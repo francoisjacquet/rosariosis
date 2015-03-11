@@ -35,7 +35,11 @@ function User($item)
 		elseif(basename($_SERVER['PHP_SELF'])=='index.php')
 			return false;
 		else
-			exit('Error');
+		{
+			$error[] = 'User not logged in!';//should never be displayed, so do not translate
+
+			return ErrorMessage($error, 'fatal');
+		}
 	}
 
 	return $_ROSARIO['User'][1][$item];

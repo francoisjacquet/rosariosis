@@ -313,12 +313,12 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 //http://stackoverflow.com/questions/6002256/is-it-possible-to-force-excel-recognize-utf-8-csv-files-automatically
 			if ($extension == 'xls') //convert to for Excel only, CSV in UTF8
 				$output = utf8_decode($output);
+
 			header("Cache-Control: public");
 			header("Content-Type: application/$extension");
 			header("Content-Length: " . strlen($output));
 			header("Content-Disposition: inline; filename=\"".ProgramTitle().".$extension\"\n");
-			if($options['save_eval'])
-				eval($options['save_eval']);
+
 			echo $output;
 			exit();
 		}

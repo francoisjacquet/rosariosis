@@ -277,7 +277,9 @@ function GetStuList(&$extra=array())
 			$sql .= ")".$extra['FROM']." WHERE TRUE";
 		break;
 		default:
-			exit(_('Error'));
+			$error[] = 'Invalid user profile';//should never be displayed, so do not translate
+
+			return ErrorMessage($error, 'fatal');
 	}
 
 	//$sql = appendSQL($sql,array('NoSearchTerms'=>$extra['NoSearchTerms']));

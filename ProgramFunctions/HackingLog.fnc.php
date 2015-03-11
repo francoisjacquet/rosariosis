@@ -4,10 +4,6 @@ function HackingLog()
 {
 	global $RosarioNotifyAddress, $RosarioVersion;
 	
-	echo _('You\'re not allowed to use this program!').' '._('This attempted violation has been logged and your IP address was captured.');
-
-	Warehouse('footer');
-
 	if($RosarioNotifyAddress)
 	{
 		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
@@ -23,6 +19,9 @@ values('".$_SERVER['SERVER_NAME']."','".$ip."','".date('Y-m-d')."','".$RosarioVe
 		
 		SendEmail($RosarioNotifyAddress,'HACKING ATTEMPT', $message);
 	}
-	exit;
+
+	$error[] = _('You\'re not allowed to use this program!').' '._('This attempted violation has been logged and your IP address was captured.');
+
+	return ErrorMessage($error, 'fatal');
 }
 ?>
