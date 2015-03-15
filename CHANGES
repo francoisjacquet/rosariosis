@@ -6,6 +6,7 @@ Changes in 2.8.5
 - Remove table CUSTOM in rosariosis.sql
 - Bugfix SQL error syntax error at or near ")" in FinalGrades.php
 - Bugfix Invalid argument supplied for foreach() in Schedule.php
+- Bugfix Allowed memory size of 134217728 bytes exhausted in AttendanceSummary.php
 
 Changes in 2.8.4
 ----------------
