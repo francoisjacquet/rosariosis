@@ -407,13 +407,18 @@ function _makeMPSelect($mp_id,$name)
 			$_ROSARIO['_makeMPSelect'][$qtr['MARKING_PERIOD_ID']][] = $qtr;
 	}
 
-	foreach($_ROSARIO['_makeMPSelect'][$mp_id] as $value)
+	if (is_array($_ROSARIO['_makeMPSelect'][$mp_id]))
 	{
-		if($value['MARKING_PERIOD_ID']!=$THIS_RET['MARKING_PERIOD_ID'] && $THIS_RET['TOTAL_SEATS'] && $_REQUEST['include_seats'])
-			$seats = calcSeats0($THIS_RET);
+		foreach($_ROSARIO['_makeMPSelect'][$mp_id] as $value)
+		{
+			if($value['MARKING_PERIOD_ID']!=$THIS_RET['MARKING_PERIOD_ID'] && $THIS_RET['TOTAL_SEATS'] && $_REQUEST['include_seats'])
+				$seats = calcSeats0($THIS_RET);
 
-		$mps[$value['MARKING_PERIOD_ID']] = (($value['MARKING_PERIOD_ID']==$THIS_RET['MARKING_PERIOD_ID'] && $value['MARKING_PERIOD_ID']!=$mp_id)?'* ':'').$value['TITLE'].(($value['MARKING_PERIOD_ID']!=$THIS_RET['MARKING_PERIOD_ID'] && $THIS_RET['TOTAL_SEATS'] && $_REQUEST['include_seats'] && $seats!='')?' '.sprintf(_('(%d seats)'),($THIS_RET['TOTAL_SEATS']-$seats)):'');
+			$mps[$value['MARKING_PERIOD_ID']] = (($value['MARKING_PERIOD_ID']==$THIS_RET['MARKING_PERIOD_ID'] && $value['MARKING_PERIOD_ID']!=$mp_id)?'* ':'').$value['TITLE'].(($value['MARKING_PERIOD_ID']!=$THIS_RET['MARKING_PERIOD_ID'] && $THIS_RET['TOTAL_SEATS'] && $_REQUEST['include_seats'] && $seats!='')?' '.sprintf(_('(%d seats)'),($THIS_RET['TOTAL_SEATS']-$seats)):'');
+		}
 	}
+	else
+		$mps = array();
 
 	return SelectInput($THIS_RET['MARKING_PERIOD_ID'],"schedule[$THIS_RET[COURSE_PERIOD_ID]][$THIS_RET[START_DATE]][MARKING_PERIOD_ID]",'',$mps,false);
 }
