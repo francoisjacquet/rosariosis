@@ -4,6 +4,7 @@ Changes in 2.8.5
 ----------------
 - Bugfix SQL error A field with precision 10, scale 2 must round to an absolute value less than 10^8 in *Fields.php, Other_Info.php & *Referrals.php
 - Remove table CUSTOM in rosariosis.sql
+- Bugfix SQL error syntax error at or near ")" in FinalGrades.php
 
 Changes in 2.8.4
 ----------------

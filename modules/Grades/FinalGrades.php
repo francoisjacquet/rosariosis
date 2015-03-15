@@ -276,11 +276,15 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$students_comment_scales = array_keys($students_comment_scales_RET);
 
 				//FJ add Comment Scales tipmessage
-				$comment_codes_RET = DBGet(DBQuery("SELECT cc.SCALE_ID,cc.TITLE,cc.SHORT_NAME,cc.COMMENT,cs.TITLE AS SCALE_TITLE
-				FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
-				WHERE cs.ID IN (".implode($students_comment_scales, ',').")
-				AND cs.ID=cc.SCALE_ID
-				ORDER BY cs.SORT_ORDER"),array(),array('SCALE_ID'));
+				$comment_codes_RET = null;
+				if(count($students_comment_scales))
+				{
+					$comment_codes_RET = DBGet(DBQuery("SELECT cc.SCALE_ID,cc.TITLE,cc.SHORT_NAME,cc.COMMENT,cs.TITLE AS SCALE_TITLE
+					FROM REPORT_CARD_COMMENT_CODES cc, REPORT_CARD_COMMENT_CODE_SCALES cs
+					WHERE cs.ID IN (".implode($students_comment_scales, ',').")
+					AND cs.ID=cc.SCALE_ID
+					ORDER BY cs.SORT_ORDER"),array(),array('SCALE_ID'));
+				}
 
 				if(count($comment_codes_RET))
 				{
