@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.6
 ----------------
 - Beautify + JSHint in warehouse.js
+- Comment & format, then CSSLint + Autoprefixer in stylesheet.css & colors.css
 
 Changes in 2.8.5
 ----------------

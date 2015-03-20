@@ -1,27 +1,77 @@
 @import url("colors.css");
 @import url("../../js/jscalendar/calendar-blue.css");
 
-#wrap{height:auto;min-height:100%;width:100%;position:relative}
-#menuback,#menu{width:205px}
-#menuback{position:absolute;top:0;bottom:0;left:0;z-index:-1}
-#menuback,#menu{border-width:0 1px 0 0;border-style:solid}
-#menu{position:relative;float:left}
-#menushadow{position:absolute;top:0;right:0;bottom:0;width:6px;z-index:20}
-#body,#menu{margin-bottom:38px;}
-#footer{clear:both;position:fixed;z-index:99999;bottom:0;left:0;height:38px;width:100%}
-#footerwrap{height:32px;margin-top:3px;margin-bottom:3px;text-align:center}
-#footerhelp{display:none;height:140px;overflow-y:scroll;padding-left:8px}
-.mod{overflow:hidden}
-.mod:after{content:"";display:table;clear:both}
-
+#wrap{
+	height:auto;
+	min-height:100%;
+	width:100%;
+	position:relative
+}
+#menuback,#menu{
+	width:205px
+}
+#menuback{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	z-index:-1
+}
+#menuback,#menu{
+	border-width:0 1px 0 0;
+	border-style:solid
+}
+#menu{
+	position:relative;
+	float:left
+}
+#menushadow{
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	width:6px;
+	z-index:20
+}
+#body,#menu{
+	margin-bottom:38px;
+}
+#footer{
+	clear:both;
+	position:fixed;
+	z-index:99999;
+	bottom:0;
+	left:0;
+	height:38px;
+	width:100%
+}
+#footerwrap{
+	height:32px;
+	margin-top:3px;
+	margin-bottom:3px;
+	text-align:center
+}
+#footerhelp{
+	display:none;
+	height:140px;
+	overflow-y:scroll;
+	padding-left:8px
+}
+.mod{
+	overflow:hidden
+}
+.mod:after{
+	content:"";
+	display:table;
+	clear:both
+}
 input[type=text],input[type=password],textarea{
-	-moz-box-sizing:border-box;
 	-ms-box-sizing:border-box;
 	box-sizing:border-box;
 }
 input[type=checkbox],input[type=radio]{
-	margin-bottom:0px;
-	margin-right:0px;
+	margin-bottom:0;
+	margin-right:0;
 	vertical-align:text-bottom
 }
 input[type=number]{
@@ -37,11 +87,11 @@ body{
 	line-height:1.4em
 }
 *{
-    font-size:14px
+	font-size:14px
 }
 a{
-    -webkit-transition:color 0.2s ease-out 0s;
-    transition:color 0.2s ease-out 0s
+	-webkit-transition:color 0.2s ease-out 0s;
+	transition:color 0.2s ease-out 0s
 }
 iframe,img{
 	border:0
@@ -52,7 +102,7 @@ td,textarea{
 input,select{
 	line-height:1.2
 }
-a,input,select{
+a,input,select:focus{
 	outline:0;
 	text-decoration:none
 }
@@ -98,7 +148,7 @@ h2,.subtitle{
 	margin:0;
 	text-shadow:#aaa 0 1px 1px
 }
- h2{
+h2{
 	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
 	font-size:30px;
 	padding:0 15px 14px 0;
@@ -112,9 +162,11 @@ h4{
 	font-size:1em;
 	margin:1.33em 0
 }
+
 /*ul,ol{
 	padding:0
-}*/
+}
+*/
 ol{
 	list-style-type:decimal;
 	margin-left:2em
@@ -164,7 +216,7 @@ code{
 	padding:3px 7px;
 	vertical-align:top
 }
-.widefat th {
+.widefat th{
 	padding:6px 7px;
 	line-height:1.3em;
 }
@@ -191,11 +243,10 @@ input[type=submit],input[type=reset],input[type=button]{
 	border-width:1px;
 	border-style:solid;
 	border-radius:11px;
-	-moz-box-sizing:content-box;
 	-ms-box-sizing:content-box;
 	box-sizing:content-box
 }
-input.button-primary{
+.button-primary{
 	line-height:16px;
 	white-space:nowrap;
 	border-radius:10px
@@ -215,7 +266,8 @@ label{
 #adminmenu *,.widefat th{
 	-webkit-user-select:none;
 	-moz-user-select:none;
-	user-select:none
+	-ms-user-select:none;
+	    user-select:none
 }
 #adminmenu .wp-submenu{
 	padding:0;
@@ -274,13 +326,14 @@ label{
 	display:inline-block;
 	/* IE7 inline-block hack:*/
 	zoom:1;
-    *display:inline
+	*display:inline
 }
 .postbox h3,.postbox .h3multi{
 	margin:0;
 	-webkit-user-select:none;
 	-moz-user-select:none;
-	user-select:none
+	-ms-user-select:none;
+	    user-select:none
 }
 .postbox h3,.postbox h3 a{
 	font-size:15px;
@@ -290,8 +343,8 @@ label{
 	border-bottom-width:1px;
 	border-bottom-style:solid;
 	width:100%;
-	padding-left:0px;
-	padding-right:0px;
+	padding-left:0;
+	padding-right:0;
 	overflow-y:hidden
 }
 th a{
@@ -341,23 +394,6 @@ h3 span{
 	vertical-align:middle;
 	height:32px
 }
-.button{
-	vertical-align:middle;
-	height:18px
-}
-.button.bigger{
-	height:24px
-}
-.button.smaller{
-	height:14px
-}
-.button.cal{
-	cursor:pointer;
-	height:32px
-}
-div.error .button, div.updated .button{
-	height:32px
-}
 .underline-dots .button{
 	vertical-align:baseline;
 	height:15px
@@ -365,7 +401,7 @@ div.error .button, div.updated .button{
 #body{
 	padding:0 15px
 }
-img.headerIcon{
+.headerIcon{
 	height:32px;
 	vertical-align:bottom
 }
@@ -394,22 +430,11 @@ img.headerIcon{
 .sizep2{
 	font-size:16px
 }
-form.login input[type=text],form.login input[type=password]{
-	font-weight:200;
-	font-size:20px;
-	width:100%;
-	padding:3px;
-	margin-top:2px;
-	margin-right:6px;
-	background:#fbfbfb;
-	outline:none;
-	box-shadow:inset 1px 1px 2px rgba(200,200,200,.2)
-}
 .underline-dots{
 	border-bottom-style:dotted;
 	border-bottom-width:1px
 }
-span[class^=legend]{
+span.legend-gray, span.legend-red{
 	margin-top:5px;
 	margin-bottom:7px;
 	display:block
@@ -420,25 +445,10 @@ span[class^=legend]{
 	margin-top:2px;
 	max-width:150px
 }
-td.image-radio-list{
-	height:160px;
-	padding:0;
-	margin:0;
-	float:left;
-	position:relative
-}
-label.image-radio-list{
-	padding:0px 20px
-}
-img.image-radio-list{
-	vertical-align:top;
-	max-width:150px;
-	max-height:150px
-}
-div.onclick{
+.onclick{
 	cursor:pointer
 }
-table.cellspacing-0{
+.cellspacing-0{
 	/*cellspacing="0"*/
 	border-spacing:0
 }
@@ -446,7 +456,7 @@ table.cellspacing-0{
 	/*width="100%"*/
 	width:100%
 }
-table.cellpadding-5 td{
+.cellpadding-5 td{
 	padding-right:5px;
 	padding-bottom:5px
 }
@@ -456,7 +466,7 @@ td.popTable{
 td.valign-top,tr.valign-top,table.valign-top td{
 	vertical-align:top
 }
-table.align-right td{
+.align-right td{
 	text-align:right
 }
 table.col1-align-right > tbody > tr > td:first-child{
@@ -480,6 +490,65 @@ div.nobr div{
 span.center{
 	display:block
 }
+tr.address > td{
+	border-style:none dotted none none;
+	border:1;
+	padding:0 12px 0 12px
+}
+.br-after{
+	display:block
+}
+
+/*Honor Roll cliparts + frames*/
+td.image-radio-list{
+	height:160px;
+	padding:0;
+	margin:0;
+	float:left;
+	position:relative
+}
+label.image-radio-list{
+	padding:0 20px
+}
+img.image-radio-list{
+	vertical-align:top;
+	max-width:150px;
+	max-height:150px
+}
+
+/*buttons*/
+.button{
+	vertical-align:middle;
+	height:18px
+}
+.button.bigger{
+	height:24px
+}
+.button.smaller{
+	height:14px
+}
+.button.cal{
+	cursor:pointer;
+	height:32px
+}
+div.error .button, div.updated .button{
+	height:32px
+}
+
+/*login form*/
+form.login input[type=text],form.login input[type=password]{
+	font-weight:200;
+	font-size:20px;
+	width:100%;
+	padding:3px;
+	margin-top:2px;
+	margin-right:6px;
+	background:#fbfbfb;
+	outline:none;
+	box-shadow:inset 1px 1px 2px rgba(200,200,200,.2)
+}
+
+/*bottom*/
 .BottomButton{
 	padding-top:10px;
 }
@@ -500,7 +569,7 @@ span.center{
 	padding:6px 0 6px 6px
 }
 #BottomButtonMenu:before{
-	content:"\2261";		
+	content:"\2261";
 	font-size:3rem;
 	font-weight:bold;
 	vertical-align:top
@@ -509,37 +578,24 @@ span.center{
 	float:right;
 	visibility:hidden;
 }
-tr.address > td{
-	border-style:none dotted none none;
-	border:1;
-	padding:0 12px 0 12px
-}
+
 /*bars*/
 .bar{
 	height:12px
 }
 .bar.relevance{
-	background-color:grey
+	background-color:gray
 }
 .divPortalPoll .bar{
 	background-color:#cc4400
 }
-#chart{
-	margin-top:20px;
-	margin-left:20px;
-	width:600px;
-	height:480px
-}
-table.mceLayout,textarea.tinymce{
-	/*cols="97" rows="27"*/
-	width:708px;
-	height:475px 
-}
+
 /*stackable tables*/
 div.st{
 	float:left;
 	padding:4px
 }
+
 /*student comments*/
 #student-comments{
 	max-width:500px
@@ -552,6 +608,7 @@ div.st{
 	margin-bottom:15px;
 	border-bottom:1px solid
 }
+
 /*calendar*/
 #calendar{
 	margin:0 auto
@@ -565,18 +622,19 @@ div.st{
 .calendar-day td{
 	line-height:1
 }
-.br-after{
-	display:block
-}
+
 /*responsive tables*/
 .rt .link2colorBox{
 	display:none
 }
+
+/*portal polls*/
 .divPortalPoll{
 	max-height:350px;
 	overflow-y:auto;
 	min-width: 300px
 }
+
 /*arrows: http://leplay.github.io/demo/triangle.html*/
 .arrow{
 	display:block;
@@ -594,8 +652,30 @@ div.st{
 	border-left-style:solid;
 	border-right:none
 }
+
+/*jqplot charts*/
+#chart{
+	margin-top:20px;
+	margin-left:20px;
+	width:600px;
+	height:480px
+}
+
+/*tinymce*/
+table.mceLayout,textarea.tinymce{
+	/*cols="97" rows="27"*/
+	width:708px;
+	height:475px
+}
+
 /*tipmessage (DO NOT EDIT)*/
-#tipMsg{visibility:hidden;position:absolute;z-index:1000;top:-100px;max-width:300px}
+#tipMsg{
+	visibility:hidden;
+	position:absolute;
+	z-index:1000;
+	top:-100px;
+	max-width:300px
+}
 
 /*mobile*/
 @media only screen and (max-width:640px){
@@ -610,7 +690,10 @@ div.st{
 		border:0
 	}
 	#SideLogo{
-		max-width:130px;margin:2px;max-height:130px;float:right
+		max-width:130px;
+		margin:2px;
+		max-height:130px;
+		float:right
 	}
 	#menu,#body{
 		margin-bottom:0
@@ -635,7 +718,7 @@ div.st{
 	#search input,#search select,input[id=USERNAME],input[id=PASSWORD],#LO_search{
 		max-width:150px
 	}
-	#modulesBody textarea{ 
+	#modulesBody textarea{
 		width:100% !important
 	}
 	td.popTable{
@@ -658,6 +741,7 @@ div.st{
 	input[id^=ML_]{
 		width:100%
 	}
+
 	/*stackable tables*/
 	tr.st > td{
 		float:left;
@@ -674,23 +758,74 @@ div.st{
 
 @media only screen and (max-width:1023px){
 	/*responsive tables*/
-	.rt{ display:block; position:relative; width:100% }
-	.rt thead{ display:block; float:left; max-width:130px; }
-	.rt tbody{ display:block; width:auto; position:relative; overflow-x:auto; white-space:nowrap }
-	.rt thead tr{ display:block }
-	.rt th{ display:block; padding:4px 7px 2px; line-height:2em; height:2em }
-	.rt tbody tr{ display:inline-block; vertical-align:top }
-	.rt td{ display:block; line-height:2em; height:2em }
-	.rt img{ max-height:2em }
-	.rt input,.rt select{ margin:0 }
-	.rt tr{ border-right-width:1px; border-right-style:solid }
+	.rt{
+		display:block;
+		position:relative;
+		width:100%
+	}
+	.rt thead{
+		display:block;
+		float:left;
+		max-width:130px;
+	}
+	.rt tbody{
+		display:block;
+		width:auto;
+		position:relative;
+		overflow-x:auto;
+		white-space:nowrap
+	}
+	.rt thead tr{
+		display:block
+	}
+	.rt th{
+		display:block;
+		padding:4px 7px 2px;
+		line-height:2em;
+		height:2em
+	}
+	.rt tbody tr{
+		display:inline-block;
+		vertical-align:top
+	}
+	.rt td{
+		display:block;
+		line-height:2em;
+		height:2em
+	}
+	.rt img{
+		max-height:2em
+	}
+	.rt input,.rt select{
+		margin:0
+	}
+	.rt tr{
+		border-right-width:1px;
+		border-right-style:solid
+	}
+
 	/*rt td too large*/
-	.rt input,.rt select,.rt textarea{ max-width:150px }
-	.rt .link2colorBox{ display:inline }
-	.rt .link2colorBox + .rt2colorBox{ display:none }
-	.rt2colorBox{ overflow:auto }
-	.rt div.error, .rt div.updated{ padding:0; margin:0 }
-	.divPortalPoll{ max-height:none; overflow-y:visible }
+	.rt input,.rt select,.rt textarea{
+		max-width:150px
+	}
+	.rt .link2colorBox{
+		display:inline
+	}
+	.rt .link2colorBox + .rt2colorBox{
+		display:none
+	}
+	.rt2colorBox{
+		overflow:auto
+	}
+	.rt div.error, .rt div.updated{
+		padding:0;
+		margin:0
+	}
+
+	.divPortalPoll{
+		max-height:none;
+		overflow-y:visible
+	}
 
 	/*calendar*/
 	#calendar{
@@ -722,11 +857,11 @@ div.st{
 	.calendar-skip{
 		height:32px;
 	}
+
 	/*jscalendar+colorbox*/
 	.calendar{
 		z-index:10000
 	}
-	
 	table.mceLayout,textarea{
 		width:90% !important
 	}

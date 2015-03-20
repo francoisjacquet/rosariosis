@@ -17,11 +17,21 @@ input[readonly]{
 body{
 	color:#333
 }
-#menuback,#menu{background-color:#ececec;border-color:#ccc}
-#menushadow,#menuback{background-image:url(menu-shadow.png);background-position:top right;background-repeat:repeat-y}
-#footer{background-color:#ececec}
-#footerhelp{background-color:white}
-
+#menuback,#menu{
+	background-color:#ececec;
+	border-color:#ccc
+}
+#menushadow,#menuback{
+	background-image:url(menu-shadow.png);
+	background-position:top right;
+	background-repeat:repeat-y
+}
+#footer{
+	background-color:#ececec
+}
+#footerhelp{
+	background-color:white
+}
 .widefat{
 	border-color:#dfdfdf;
 	background-color:#f9f9f9
@@ -33,19 +43,18 @@ body{
 	background:-moz-linear-gradient(top,#f9f9f9,#ececec);
 	background:linear-gradient(top,#f9f9f9,#ececec)
 }
-.postbox .h3multi h3 {
+.postbox .h3multi h3{
 	background-color:transparent;
 	background-image:none
 }
-.postbox .h3selected h3 {
+.postbox .h3selected h3{
 	background-color:#f9f9f9;
 	background:-ms-linear-gradient(top,#ececec,#f9f9f9);
 	background:-webkit-linear-gradient(top,#ececec,#f9f9f9);
 	background:-moz-linear-gradient(top,#ececec,#f9f9f9);
-	background:linear-gradient(top,#ececec,#f9f9f9)	
+	background:linear-gradient(top,#ececec,#f9f9f9)
 }
-.postbox h3, .postbox .h3multi
-{
+.postbox h3, .postbox .h3multi{
 	border-bottom-color:#dfdfdf;
 	text-shadow:#fff 0 1px 0;
 	box-shadow:0 1px 0 #fff
@@ -58,13 +67,6 @@ body{
 }
 #adminmenu div.wp-submenu, .highlight, .widefat tr.highlight{
 	background-color:#fff;
-}
-div.error{
-	background-color:#ffebe8;
-	border-color:#c00
-}
-div.error a{
-	color:#c00
 }
 input[type=button],input[type=submit]{
 	border-color:#bbb;
@@ -101,6 +103,13 @@ a:hover,a:active,a:focus{
 }
 #adminmenu a:hover{
 	color:#d54e21
+}
+div.error{
+	background-color:#ffebe8;
+	border-color:#c00
+}
+div.error a{
+	color:#c00
 }
 div.updated{
 	background-color:#ffffe0;
@@ -150,44 +159,40 @@ a,#adminmenu a{
 	background-color:#e4e4e4;
 	text-shadow:0 1px 0 rgba(255,255,255,.4)
 }
-#adminmenu .wp-submenu a:hover,a#selectedMenuLink{
+#adminmenu .wp-submenu a:hover,#selectedMenuLink{
 	background-color:#EAF2FA;
 	color:#333
 }
 
 /*added*/
-.header2 {
+.header2{
 	background-color:#f9f9f9;
 	border-bottom: 1px solid #dfdfdf;
 	border-top: 1px solid #fff
 }
-#courses_div {
+#courses_div{
 	background-color:white
 }
-fieldset {
+fieldset{
 	border-color:#dfdfdf
 }
-.bgcolor {
+.bgcolor{
 	background-color:#ececec
 }
-.legend-gray {
+.legend-gray{
 	color: gray
 }
-.legend-blue {
-	color: blue
-}
-.legend-red {
+.legend-red{
 	color: red
 }
 .underline-dots{
 	border-bottom-color:gray
 }
-#BottomButtonMenu:before{
-	color:#000
-}
 hr{
 	color:#fff
 }
+
+/*Side current person*/
 .current-person a{
 	color:#fff
 }
@@ -200,21 +205,33 @@ hr{
 .current-person.self{
 	background-color:#663333
 }
+
+/*student comments*/
 #student-comments div{
 	background-color:#fff
 }
+
+/*arrows: http://leplay.github.io/demo/triangle.html*/
 .arrow.down{
-	border-top-color:grey
+	border-top-color:gray
 }
 .arrow.right{
-	border-left-color:grey
+	border-left-color:gray
 }
 
+/*bottom*/
+#BottomButtonMenu:before{
+	color:#000
+}
 
 /*responsive tables*/
-@media only screen and (max-width: 1023px) {
-	.rt tr { border-right-color:#dfdfdf }
-	.rt2colorBox{ background-color:#fff }
+@media only screen and (max-width: 1023px){
+	.rt tr{
+		border-right-color:#dfdfdf
+	}
+	.rt2colorBox{
+		background-color:#fff
+	}
 }
 @media only screen and (max-width:640px){
 	#adminmenu .wp-submenu a:hover{
