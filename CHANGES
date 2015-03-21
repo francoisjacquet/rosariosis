@@ -6,6 +6,7 @@ Changes in 2.8.6
 - Comment & format, then CSSLint + Autoprefixer in stylesheet.css & colors.css
 - Remove abbreviations + change orientation to landscape in AttendanceSummary.php
 - Update french & spanish translations
+- Concatenate and minify plugins.min.js (jquery.form.js + main16.js + calendar.js + calendar-setup.js)
 
 Changes in 2.8.5
 ----------------
