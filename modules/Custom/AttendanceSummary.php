@@ -7,18 +7,20 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
 
-	$months = array(1=>_('January'),
-	2=>_('February'),
-	3=>_('March'),
-	4=>_('April'),
-	5=>_('May'),
-	6=>_('June'),
-	7=>_('July'),
-	8=>_('August'),
-	9=>_('September'),
-	10=>_('October'),
-	11=>_('November'),
-	12=>_('December'));
+	$months = array(
+		1 => _('January'),
+		2 => _('February'),
+		3 => _('March'),
+		4 => _('April'),
+		5 => _('May'),
+		6 => _('June'),
+		7 => _('July'),
+		8 => _('August'),
+		9 => _('September'),
+		10 => _('October'),
+		11 => _('November'),
+		12 => _('December')
+	);
 
 	//check Social Security + Gender fields exists before adding them to SELECT
 	$custom_RET = DBGet(DBQuery("SELECT TITLE,ID FROM CUSTOM_FIELDS WHERE ID IN ('200000000','200000003')"),array(),array('ID'));
@@ -32,7 +34,12 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$active = "'".DBEscapeString(_('Active'))."'";
 	$inactive = "'".DBEscapeString(_('Inactive'))."'";
 
-	$extra['SELECT'] .= ','.db_case(array("(ssm.SYEAR='".UserSyear()."' AND ('".DBDate()."'>=ssm.START_DATE AND ('".DBDate()."'<=ssm.END_DATE OR ssm.END_DATE IS NULL)))", 'TRUE', $active, $inactive)).' AS STATUS';
+	$extra['SELECT'] .= ','.db_case(array(
+		"(ssm.SYEAR='".UserSyear()."' AND ('".DBDate()."'>=ssm.START_DATE AND ('".DBDate()."'<=ssm.END_DATE OR ssm.END_DATE IS NULL)))",
+		'TRUE',
+		$active,
+		$inactive
+	)).' AS STATUS';
 
 	$RET = GetStuList($extra);
 
@@ -40,17 +47,27 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		$school_RET = DBGet(DBQuery("SELECT SCHOOL_NUMBER FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
+		//change orientation to landscape
+		$_SESSION['orientation'] = 'landscape';
+
 		$handle = PDFStart();
 
 		foreach($RET as $student)
 		{
-			$calendar_RET = DBGet(DBquery("SELECT ".db_case(array("MINUTES>=".Config('ATTENDANCE_FULL_DAY_MINUTES'),'true',"'1.0'","'0.5'"))." AS POS,
+			$calendar_RET = DBGet(DBquery("SELECT ".db_case(array(
+				"MINUTES>=".Config('ATTENDANCE_FULL_DAY_MINUTES'),
+				'true',
+				"'1.0'",
+				"'0.5'")
+			)." AS POS,
 			trim(leading '0' from to_char(SCHOOL_DATE,'MM')) AS MON,
 			trim(leading '0' from to_char(SCHOOL_DATE,'DD')) AS DAY 
 			FROM ATTENDANCE_CALENDAR 
 			WHERE CALENDAR_ID='".$student['CALENDAR_ID']."' 
 			AND SCHOOL_DATE>='".$student['START_DATE']."'".
-			($student['END_DATE']?" AND SCHOOL_DATE<='".$student['END_DATE']."'":'')),array(),array('MON','DAY'));
+			($student['END_DATE']?" AND SCHOOL_DATE<='".$student['END_DATE']."'":'')),
+			array(),
+			array('MON','DAY'));
 			
 			$attendance_RET = DBGet(DBQuery("SELECT
 			trim(leading '0' from to_char(ap.SCHOOL_DATE,'MM')) AS MON,
@@ -112,25 +129,27 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			echo '<TR class="center
 			"><TD colspan="32"></TD>
-			<TD colspan="2"><B>'._('MTD').'</B></TD>
+			<TD colspan="2"><B>'._('Month to Date').'</B></TD>
 			</TR>';
 
-			/* TRANSLATORS: Abreviation for month */
 			echo '<TR class="center"><TD>
-			<B>'.mb_substr(_('Month'),0,3).'</B>
+			<B>'._('Month').'</B>
 			</TD>';
 
 			for($day=1; $day<=31; $day++)
 				echo '<TD><B>'.($day<10?'&nbsp;':'').$day.'</B></TD>';
 
-			/* TRANSLATORS: Abreviations for Absences and Possible */
-			echo '<TD><B>'._('Abs').'</B></TD>
-			<TD><B>'._('Pos').'</B></TD>
+			echo '<TD><B>'._('Absences').'</B></TD>
+			<TD><B>'._('Possible').'</B></TD>
 			</TR>';
 
 			$abs_tot = $pos_tot = 0;
 
-			$FY_dates = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+			$FY_dates = DBGet(DBQuery("SELECT START_DATE,END_DATE
+				FROM SCHOOL_MARKING_PERIODS
+				WHERE MP='FY'
+				AND SYEAR='".UserSyear()."'
+				AND SCHOOL_ID='".UserSchool()."'"));
 
 			$first_month = explode('-', $FY_dates[1]['START_DATE']);
 			$first_month = (int)$first_month[1];
@@ -148,7 +167,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			{
 				if($calendar_RET[$month] || $attendance_RET[$month])
 				{
-					echo '<TR><TD>'.mb_substr($months[$month],0,3).'</TD>';
+					echo '<TR><TD>'.$months[$month].'</TD>';
 
 					$abs = $pos = 0;
 
@@ -203,8 +222,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 			}
 
-			echo '<TR><TD colspan="28"></TD>
-			<TD colspan="4" style="text-align:right;"><B>'._('YTD Totals').':</B></TD>';
+			echo '<TR><TD colspan="32" style="text-align: right;"><B>'._('Year to Date Totals').':</B></TD>';
 
 			echo '<TD style="text-align:right">'.number_format($abs_tot,1).'</TD>
 			<TD style="text-align:right">'.number_format($pos_tot,1).'</TD></TR>';
