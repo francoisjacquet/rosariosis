@@ -7,6 +7,7 @@ Changes in 2.8.6
 - Remove abbreviations + change orientation to landscape in AttendanceSummary.php
 - Update french & spanish translations
 - Concatenate and minify plugins.min.js (jquery.form.js + main16.js + calendar.js + calendar-setup.js)
+- Fix SQL error relation "custom" does not exist in rosariosis.sql
 
 Changes in 2.8.5
 ----------------

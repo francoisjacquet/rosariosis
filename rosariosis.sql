@@ -4486,14 +4486,6 @@ ALTER TABLE ONLY custom_fields
 
 
 --
--- Name: custom_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
---
-
-ALTER TABLE ONLY custom
-    ADD CONSTRAINT custom_pkey PRIMARY KEY (student_id);
-
-
---
 -- Name: eligibility_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
 --
 
