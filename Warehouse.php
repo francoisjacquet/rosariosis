@@ -38,7 +38,8 @@ if(!defined('WAREHOUSE_PHP'))
 	session_name('RosarioSIS');
 
 	//http://php.net/manual/en/session.security.php
-	session_set_cookie_params(0, dirname($_SERVER['SCRIPT_NAME']).'/', '', false, true);
+	$cookie_path = dirname($_SERVER['SCRIPT_NAME']) == '/' ? '/' : dirname($_SERVER['SCRIPT_NAME']).'/';
+	session_set_cookie_params(0, $cookie_path, '', false, true);
 	session_cache_limiter('nocache');
 
 	session_start();
