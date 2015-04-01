@@ -2,7 +2,7 @@ Rosario Student Information System - CHANGES
 
 Changes in 2.8.7
 ----------------
-- Fix cookie domain if RosarioSIS installed at server www root in Warehouse.php
+- Fix #101 cookie domain if RosarioSIS installed at server www root in Warehouse.php
 
 Changes in 2.8.6
 ----------------
