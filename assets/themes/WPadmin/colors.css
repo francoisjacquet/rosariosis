@@ -21,7 +21,7 @@ body{
 	background-color:#ececec;
 	border-color:#ccc
 }
-#menushadow,#menuback{
+#menushadow, #menuback, .menu-top:hover, .menu-top:focus, #selectedModuleLink + .wp-submenu{
 	background-image:url(menu-shadow.png);
 	background-position:top right;
 	background-repeat:repeat-y
@@ -65,7 +65,7 @@ body{
 .widefat tr:nth-child(even){
 	background-color:#f9f9f9
 }
-#adminmenu div.wp-submenu, .highlight, .widefat tr.highlight{
+.wp-submenu, .highlight, .widefat tr.highlight{
 	background-color:#fff;
 }
 input[type=button],input[type=submit]{
@@ -101,7 +101,7 @@ input.button-primary:hover,button.button-primary:hover,a.button-primary:hover,a.
 a:hover,a:active,a:focus{
 	color:#d54e21
 }
-#adminmenu a:hover{
+.adminmenu a:hover{
 	color:#d54e21
 }
 div.error{
@@ -131,7 +131,7 @@ div.updated{
 .widefat thead tr th,.widefat tfoot tr th{
 	color:#333
 }
-a,#adminmenu a{
+a,.adminmenu a{
 	color:#21759b
 }
 .postbox{
@@ -147,19 +147,22 @@ a,#adminmenu a{
 .postbox h3:hover{
 	color:#000
 }
-#adminmenu{
+.adminmenu{
 	background-color:#ececec;
 	border-color:#ccc
 }
-#adminmenu a.menu-top{
+.menu-top{
 	border-top-color:#f9f9f9;
 	border-bottom-color:#dfdfdf
 }
-#adminmenu .menu-top:hover,#adminmenu .menu-top:focus{
+.menu-top:hover, .menu-top:focus{
 	background-color:#e4e4e4;
 	text-shadow:0 1px 0 rgba(255,255,255,.4)
 }
-#adminmenu .wp-submenu a:hover,#selectedMenuLink{
+.wp-submenu{
+	border-color:#dfdfdf #ccc
+}
+.wp-submenu a:hover,#selectedMenuLink{
 	background-color:#EAF2FA;
 	color:#333
 }
@@ -234,7 +237,7 @@ hr{
 	}
 }
 @media only screen and (max-width:640px){
-	#adminmenu .wp-submenu a:hover{
+	.wp-submenu a:hover{
 		background-color:transparent;
 		color:#21759b
 	}
