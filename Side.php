@@ -415,7 +415,7 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 
 		<?php endif; ?>
 
-		<div id="adminmenu">
+		<ul class="adminmenu">
 
 		<?php // Program Information
 		include('Menu.php');
@@ -433,9 +433,9 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 				else
 					$module_title = _(str_replace('_',' ',$key[$i]));
 			?>
-			<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" />&nbsp;<?php echo $module_title; ?></A>
-			<DIV id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
-				<TABLE class="width-100p cellspacing-0">
+			<li class="menu-module">
+				<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top"><IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" />&nbsp;<?php echo $module_title; ?></A>
+				<ul id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
 
 				<?php unset($modcat_menu['default']);
 				
@@ -447,19 +447,19 @@ $addJavascripts .= 'var menuStudentID = "'.UserStudentID().'"; var menuStaffID =
 					$title = $_ROSARIO['Menu'][$key[$i]][$keys_modcat[$j]];
 					if(mb_stripos($keys_modcat[$j],'http://') !== false) : ?>
 
-						<TR><TD><A HREF="<?php echo $keys_modcat[$j]; ?>" target="_blank"><?php echo $title; ?></A></TD></TR>
+						<li><A HREF="<?php echo $keys_modcat[$j]; ?>" target="_blank"><?php echo $title; ?></A></li>
 					<?php elseif(!is_numeric($keys_modcat[$j])) : ?>
 
-						<TR><TD><A HREF="Modules.php?modname=<?php echo $keys_modcat[$j]; ?>"<?php echo (mb_stripos($keys_modcat[$j],'_ROSARIO_PDF') !== false ? ' target="_blank"' : ''); ?>><?php echo $title; ?></A></TD></TR>
+						<li><A HREF="Modules.php?modname=<?php echo $keys_modcat[$j]; ?>"<?php echo (mb_stripos($keys_modcat[$j],'_ROSARIO_PDF') !== false ? ' target="_blank"' : ''); ?>><?php echo $title; ?></A></li>
 					<?php elseif($keys_modcat[$j+1] && !is_numeric($keys_modcat[$j+1])) : ?>
 
-						<TR><TD class="menu-inter">&nbsp;<?php echo $title; ?></TD></TR>
+						<li class="menu-inter">&nbsp;<?php echo $title; ?></li>
 					<?php endif;
 				} ?>
 
-				</TABLE>
-			</DIV>
+				</ul>
+			</li>
 			<?php endif;
 		endfor; ?>
 
-		</div><!-- #adminmenu -->
+		</ul><!-- .adminmenu -->
