@@ -155,6 +155,8 @@ $(document).ajaxStop(function () {
 window.onload = function () {
 	ajaxPrepare('');
 
+	submenuOffset();
+
 	//reload page after browser history
 	if (history.pushState) window.setTimeout(function () {
 		window.addEventListener('popstate', function (e) {
@@ -180,7 +182,7 @@ function openMenu(modname) {
 
 		var modcat;
 		if (modname === '') modcat = old_modcat;
-		else $('#selectedMenuLink').parents('div.wp-submenu').each(function () {
+		else $('#selectedMenuLink').parents('.wp-submenu').each(function () {
 			modcat = this.id.replace('menu_', '');
 		});
 
@@ -188,10 +190,23 @@ function openMenu(modname) {
 			this.id = "selectedModuleLink";
 		});
 
-		$("#menu_" + modcat).show();
-		if (old_modcat !== false && old_modcat != modcat) $("#menu_" + old_modcat).hide();
 		old_modcat = modcat;
-	} else if (old_modcat !== false) $("#menu_" + old_modcat).hide();
+	}
+}
+
+// adjust Side.php submenu bottom offset
+function submenuOffset() {
+	$(".adminmenu .menu-top").mouseover(function(){
+		var height = $(this).next(".wp-submenu").outerHeight();
+
+		var topOffset = $(this).offset().top;
+		var footerTopOffset = $("#footer").offset().top;
+
+		if (topOffset + height > footerTopOffset) {
+			var moveup = (topOffset + height) - footerTopOffset;
+			$(this).next(".wp-submenu").css("margin-top", '-' + moveup + 'px');
+		}
+	});
 }
 
 //Bottom.php JS
