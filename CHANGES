@@ -6,6 +6,9 @@ Changes in 2.8.8
 - Add sub-menu display on mouse over in stylesheet.css & colors.css
 - adjust Side.php submenu bottom offset + simplify openMenu() in warehouse.js
 - listOutput sorting icon in stylesheet.css
+- Use Character arrow instead of CSS arrow in stylesheet.css
+- Simplify switchMenu() in warehouse.js
+- Add .switchMenu class & remove CSS arrow in Search.fnc.php, StaffWidgets.fnc.php & Widgets.fnc.php
 
 Changes in 2.8.7
 ----------------
