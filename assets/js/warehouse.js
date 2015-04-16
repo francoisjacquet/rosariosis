@@ -16,11 +16,8 @@ function checkAll(form, value, name_like) {
 }
 
 function switchMenu(el) {
-	var $table = $(el).nextAll('table').first();
-	var $arrow = $(el).children('.arrow').first();
-	if ($table.css('display') == 'none') $arrow.removeClass('right').addClass('down');
-	else $arrow.removeClass('down').addClass('right');
-	$table.toggle();
+	$(el).nextAll('table').first().toggle();
+	$(el).toggleClass('switched');
 }
 
 //IE8 HTML5 tags fix
