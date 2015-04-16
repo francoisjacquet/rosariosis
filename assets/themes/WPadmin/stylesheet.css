@@ -205,6 +205,19 @@ code{
 .widefat tfoot th:last-of-type{
 	border-bottom-right-radius:3px
 }
+/* listOutput sorting icon */
+.widefat th a[href*="LO_direction"]:after{
+	font-family: monospace;
+	font-size: larger;
+	line-height: 0.5em;
+	content: "\0000a0";
+}
+.widefat th a[href*="LO_direction=1"]:hover:after{
+	content: "\25b4";
+}
+.widefat th a[href*="LO_direction=-1"]:hover:after{
+	content: "\25be";
+}
 .widefat td,.widefat th{
 	text-align:left;
 	border-width:1px 0;
