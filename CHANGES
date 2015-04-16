@@ -1,5 +1,12 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.8
+----------------
+- Admin menu: div + table to nested ul in Side.php
+- Add sub-menu display on mouse over in stylesheet.css & colors.css
+- adjust Side.php submenu bottom offset + simplify openMenu() in warehouse.js
+- listOutput sorting icon in stylesheet.css
+
 Changes in 2.8.7
 ----------------
 - Fix #101 cookie domain if RosarioSIS installed at server www root in Warehouse.php
