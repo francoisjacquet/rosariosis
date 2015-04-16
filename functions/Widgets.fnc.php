@@ -23,7 +23,7 @@ function Widgets($item,&$myextra=null)
 				$widget_wrap_header = function($title)
 				{
 					return '<TR><TD colspan="2">&nbsp;
-					<A onclick="switchMenu(this); return false;" href="#"><div class="arrow right"></div> <B>'.$title.'</B></A>
+					<A onclick="switchMenu(this); return false;" href="#" class="switchMenu"><B>'.$title.'</B></A>
 					<BR />
 					<TABLE class="widefat width-100p cellspacing-0 col1-align-right hide">';
 				};
