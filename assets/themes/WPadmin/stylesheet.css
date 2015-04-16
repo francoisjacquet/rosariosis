@@ -694,22 +694,12 @@ div.st{
 	min-width: 300px
 }
 
-/*arrows: http://leplay.github.io/demo/triangle.html*/
-.arrow{
-	display:block;
-	overflow:hidden;
-	width:0;
-	height:0;
-	border:8px dashed transparent;
-	float:left
+/*arrows*/
+.switchMenu:before{
+	content: "\25b6\0000a0";
 }
-.arrow.down{
-	border-top-style:solid;
-	border-bottom:none
-}
-.arrow.right{
-	border-left-style:solid;
-	border-right:none
+.switchMenu.switched:before{
+	content: "\25bc\0000a0";
 }
 
 /*jqplot charts*/

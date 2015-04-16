@@ -214,12 +214,9 @@ hr{
 	background-color:#fff
 }
 
-/*arrows: http://leplay.github.io/demo/triangle.html*/
-.arrow.down{
-	border-top-color:gray
-}
-.arrow.right{
-	border-left-color:gray
+/*arrows*/
+.switchMenu:before{
+	color:gray
 }
 
 /*bottom*/
