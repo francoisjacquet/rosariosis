@@ -194,12 +194,9 @@ function openMenu(modname) {
 // adjust Side.php submenu bottom offset
 function submenuOffset() {
 	$(".adminmenu .menu-top").mouseover(function(){
-		var height = $(this).next(".wp-submenu").outerHeight();
-		var topOffset = $(this).offset().top;
-		var footerTopOffset = $("#footer").offset().top;
-
-		var moveup = (footerTopOffset - topOffset - height) < 0 ? (footerTopOffset - topOffset - height) : 0;
-		$(this).next(".wp-submenu").css("margin-top", moveup + 'px');
+		var submenu = $(this).next(".wp-submenu");
+		var moveup = $("#footer").offset().top - $(this).offset().top - submenu.outerHeight();
+		submenu.css("margin-top", (moveup < 0 ? moveup : 0) + 'px');
 	});
 }
 
