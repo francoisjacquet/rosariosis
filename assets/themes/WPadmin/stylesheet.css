@@ -305,6 +305,8 @@ label{
 	position: relative;
 }
 .menu-module:hover .menu-top:after{
+	font-family: monospace;
+	font-size: 150%;
 	content: "\276F";
 	float: right;
 	padding-top: 6px;
