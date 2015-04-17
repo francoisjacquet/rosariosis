@@ -195,14 +195,11 @@ function openMenu(modname) {
 function submenuOffset() {
 	$(".adminmenu .menu-top").mouseover(function(){
 		var height = $(this).next(".wp-submenu").outerHeight();
-
 		var topOffset = $(this).offset().top;
 		var footerTopOffset = $("#footer").offset().top;
 
-		if (topOffset + height > footerTopOffset) {
-			var moveup = (topOffset + height) - footerTopOffset;
-			$(this).next(".wp-submenu").css("margin-top", '-' + moveup + 'px');
-		}
+		var moveup = (footerTopOffset - topOffset - height) < 0 ? (footerTopOffset - topOffset - height) : 0;
+		$(this).next(".wp-submenu").css("margin-top", moveup + 'px');
 	});
 }
 
