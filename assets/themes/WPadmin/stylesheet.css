@@ -211,6 +211,7 @@ code{
 	font-size: larger;
 	line-height: 0.5em;
 	content: "\0000a0";
+	padding-left: 3px;
 }
 .widefat th a[href*="LO_direction=1"]:hover:after{
 	content: "\25b4";
