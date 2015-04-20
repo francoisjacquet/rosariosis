@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.9
+----------------
+- Attendance Codes Type & State Code required in AttendanceCodes.php
+
 Changes in 2.8.8
 ----------------
 - Admin menu: div + table to nested ul in Side.php

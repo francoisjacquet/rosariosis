@@ -2,62 +2,65 @@
 if($_REQUEST['table']=='')
 	$_REQUEST['table'] = '0';
 
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if($_REQUEST['modfunc']=='update' && AllowEdit())
 {
-	foreach($_REQUEST['values'] as $id=>$columns)
+	if($_REQUEST['values'] && $_POST['values'])
 	{
-//FJ fix SQL bug invalid sort order
-		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
+		foreach($_REQUEST['values'] as $id=>$columns)
 		{
-			if($columns['DEFAULT_CODE']=='Y')
-				DBQuery("UPDATE ATTENDANCE_CODES SET DEFAULT_CODE=NULL WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='".$_REQUEST['table']."'");
-
-			if($id!='new')
+			//FJ fix SQL bug invalid sort order
+			if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 			{
-				if($_REQUEST['table']!='new')
-					$sql = "UPDATE ATTENDANCE_CODES SET ";
+				if($columns['DEFAULT_CODE']=='Y')
+					DBQuery("UPDATE ATTENDANCE_CODES SET DEFAULT_CODE=NULL WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='".$_REQUEST['table']."'");
+
+				if($id!='new')
+				{
+					if($_REQUEST['table']!='new')
+						$sql = "UPDATE ATTENDANCE_CODES SET ";
+					else
+						$sql = "UPDATE ATTENDANCE_CODE_CATEGORIES SET ";
+
+					foreach($columns as $column=>$value)
+						$sql .= $column."='".$value."',";
+
+					$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
+					DBQuery($sql);
+				}
 				else
-					$sql = "UPDATE ATTENDANCE_CODE_CATEGORIES SET ";
+				{
+					if($_REQUEST['table']!='new')
+					{
+						$sql = "INSERT INTO ATTENDANCE_CODES ";
+						$fields = 'ID,SCHOOL_ID,SYEAR,TABLE_NAME,';
+						$values = db_seq_nextval('ATTENDANCE_CODES_SEQ').",'".UserSchool()."','".UserSyear()."','".$_REQUEST['table']."',";
+					}
+					else
+					{
+						$sql = "INSERT INTO ATTENDANCE_CODE_CATEGORIES ";
+						$fields = 'ID,SCHOOL_ID,SYEAR,';
+						$values = db_seq_nextval('ATTENDANCE_CODE_CATEGORIES_SEQ').",'".UserSchool()."','".UserSyear()."',";
+					}
 
-				foreach($columns as $column=>$value)
-					$sql .= $column."='".$value."',";
+					$go = false;
+					foreach($columns as $column=>$value)
+					{
+						if(isset($value) && $value!='')
+						{
+							$fields .= $column.',';
+							$values .= "'".$value."',";
+							$go = true;
+						}
+					}
+					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
-				DBQuery($sql);
+					if($go)
+						DBQuery($sql);
+				}
 			}
 			else
-			{
-				if($_REQUEST['table']!='new')
-				{
-					$sql = "INSERT INTO ATTENDANCE_CODES ";
-					$fields = 'ID,SCHOOL_ID,SYEAR,TABLE_NAME,';
-					$values = db_seq_nextval('ATTENDANCE_CODES_SEQ').",'".UserSchool()."','".UserSyear()."','".$_REQUEST['table']."',";
-				}
-				else
-				{
-					$sql = "INSERT INTO ATTENDANCE_CODE_CATEGORIES ";
-					$fields = 'ID,SCHOOL_ID,SYEAR,';
-					$values = db_seq_nextval('ATTENDANCE_CODE_CATEGORIES_SEQ').",'".UserSchool()."','".UserSyear()."',";
-				}
-
-				$go = false;
-				foreach($columns as $column=>$value)
-				{
-					if(isset($value) && $value!='')
-					{
-						$fields .= $column.',';
-						$values .= "'".$value."',";
-						$go = true;
-					}
-				}
-				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-
-				if($go)
-					DBQuery($sql);
-			}
+				$error[] = _('Please enter a valid Sort Order.');
 		}
-		else
-			$error[] = _('Please enter a valid Sort Order.');
 	}
 	unset($_REQUEST['modfunc']);
 }
@@ -171,16 +174,22 @@ function _makeSelectInput($value,$name)
 {	global $THIS_RET;
 
 	if($THIS_RET['ID'])
+	{
 		$id = $THIS_RET['ID'];
+		$extra = 'required';
+	}
 	else
+	{
 		$id = 'new';
+		$extra = '';
+	}
 
 	if($name=='TYPE')
 		$options = array('teacher'=>_('Teacher & Office'),'official'=>_('Office Only'));
 	elseif($name='STATE_CODE')
 		$options = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half Day'));
 
-	return SelectInput($value,'values['.$id.']['.$name.']','',$options);
+	return SelectInput($value,'values['.$id.']['.$name.']','',$options,'N/A',$extra);
 }
 
 function _makeCheckBoxInput($value,$name)
