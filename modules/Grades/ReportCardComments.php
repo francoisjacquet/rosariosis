@@ -88,26 +88,43 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 }
 
 if(empty($_REQUEST['modfunc']))
-
 {
 	if(User('PROFILE')=='admin')
 	{
 		$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE SUBJECT_ID=COURSE_SUBJECTS.SUBJECT_ID AND GRADE_SCALE_ID IS NOT NULL)>0 ORDER BY SORT_ORDER,TITLE"),array(),array('SUBJECT_ID'));
+
 		if(!$_REQUEST['subject_id'] || !$subjects_RET[$_REQUEST['subject_id']])
 			$_REQUEST['subject_id'] = key($subjects_RET).'';
+
 		$courses_RET = DBGet(DBQuery("SELECT COURSE_ID,TITLE FROM COURSES WHERE SUBJECT_ID='".$_REQUEST['subject_id']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE COURSE_ID=COURSES.COURSE_ID AND GRADE_SCALE_ID IS NOT NULL)>0 ORDER BY TITLE"),array(),array('COURSE_ID'));
+
 		if(!$_REQUEST['course_id'] || !$courses_RET[$_REQUEST['course_id']])
 			$_REQUEST['course_id'] = key($courses_RET).'';
 
 		$subject_select = '<script>var subject_idonchange = document.createElement("a"); subject_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&subject_id="; subject_idonchange.target = "body";</script>';
+
 		$subject_select .= '<SELECT name="subject_id" onchange="subject_idonchange.href += this.options[selectedIndex].value; ajaxLink(subject_idonchange);">';
+
 		foreach($subjects_RET as $id=>$subject)
 			$subject_select .= '<OPTION value="'.$id.'"'.($_REQUEST['subject_id']==$id?' SELECTED':'').'>'.$subject[1]['TITLE'].'</OPTION>';
+
+		//FJ Add No Subjects were found error
+		if (empty($subjects_RET))
+			$subject_select .= '<OPTION value="">'.sprintf(_('No %s were found.'),_('Subjects')).'</OPTION>';
+
 		$subject_select .= '</SELECT>';
+
 		$course_select = '<script>var course_idonchange = document.createElement("a"); course_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id="; course_idonchange.target = "body";</script>';
+
 		$course_select .= '<SELECT name="course_id" onchange="course_idonchange.href += this.options[selectedIndex].value; ajaxLink(course_idonchange);">';
+
 		foreach($courses_RET as $id=>$course)
 			$course_select .= '<OPTION value="'.$id.'"'.($_REQUEST['course_id']==$id?' SELECTED':'').'>'.$course[1]['TITLE'].'</OPTION>';
+
+		//FJ Add No Courses were found error
+		if (empty($courses_RET))
+			$course_select .= '<OPTION value="">'.sprintf(_('No %s were found.'),_('Courses')).'</OPTION>';
+
 		$course_select .= '</SELECT>';
 	}
 	else
