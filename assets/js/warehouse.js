@@ -70,7 +70,7 @@ function ajaxOptions(target, url, form) {
 			ajaxSuccess(data, target, url);
 		},
 		error: function (x, st, err) {
-			alert("ajax get Status: " + st + " - Error: " + err + " - URL: " + url);
+			alert("Ajax get error\nStatus: " + st + "\nHTTP status: " + err + "\nURL: " + url);
 		},
 		complete: function () {
 			$('#BottomSpinner').css('visibility', 'hidden');
