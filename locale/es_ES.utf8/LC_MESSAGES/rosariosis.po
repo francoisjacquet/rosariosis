@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-20 15:03-0500\n"
-"PO-Revision-Date: 2015-04-20 15:03-0500\n"
+"POT-Creation-Date: 2015-04-20 16:06-0500\n"
+"PO-Revision-Date: 2015-04-20 16:06-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -314,7 +314,7 @@ msgstr "%Y Años %m Meses %d Días"
 #: modules/Grades/InputFinalGrades.php:984
 #: modules/Grades/ProgressReports.php:206
 #: modules/Grades/ProgressReports.php:219
-#: modules/Grades/ReportCardComments.php:199
+#: modules/Grades/ReportCardComments.php:200
 #: modules/Grades/ReportCards.php:239 modules/Grades/StudentGrades.php:174
 #: modules/Grades/StudentGrades.php:289 modules/Scheduling/Courses.php:834
 #: modules/Scheduling/Courses.php:839 modules/Scheduling/Courses.php:1114
@@ -946,8 +946,8 @@ msgid "Relevance"
 msgstr "Relevancia"
 
 #: functions/ListOutput.fnc.php:351 modules/Grades/GradeBreakdown.php:153
-#: modules/Grades/ReportCardComments.php:113
-#: modules/Grades/ReportCardComments.php:126
+#: modules/Grades/ReportCardComments.php:110
+#: modules/Grades/ReportCardComments.php:123
 #: modules/Users/TeacherPrograms.php:99
 #, php-format
 msgid "No %s were found."
@@ -1837,9 +1837,9 @@ msgstr "Fecha"
 #: modules/Grades/ProgressReports.php:44
 #: modules/Grades/ReportCardCommentCodes.php:114
 #: modules/Grades/ReportCardCommentCodes.php:136
-#: modules/Grades/ReportCardComments.php:185
-#: modules/Grades/ReportCardComments.php:206
-#: modules/Grades/ReportCardComments.php:247
+#: modules/Grades/ReportCardComments.php:186
+#: modules/Grades/ReportCardComments.php:207
+#: modules/Grades/ReportCardComments.php:248
 #: modules/Grades/ReportCardGrades.php:139
 #: modules/Grades/ReportCardGrades.php:162
 #: modules/Grades/StudentGrades.php:258 modules/Grades/Transcripts.php:260
@@ -1948,8 +1948,8 @@ msgstr "Cantidad"
 #: modules/Grades/InputFinalGrades.php:844
 #: modules/Grades/ReportCardCommentCodes.php:150
 #: modules/Grades/ReportCardCommentCodes.php:160
-#: modules/Grades/ReportCardComments.php:235
-#: modules/Grades/ReportCardComments.php:249
+#: modules/Grades/ReportCardComments.php:236
+#: modules/Grades/ReportCardComments.php:250
 #: modules/Grades/ReportCardGrades.php:177
 #: modules/Grades/ReportCardGrades.php:185 modules/Resources/Resources.php:70
 #: modules/Resources/Resources.php:73 modules/Scheduling/Courses.php:587
@@ -2234,7 +2234,8 @@ msgid "Comments"
 msgstr "Comentarios"
 
 #: modules/Attendance/Administration_fast.old.php:83
-#: modules/Grades/ReportCardComments.php:126
+#: modules/Grades/ReportCardComments.php:110
+#: modules/Grades/ReportCardComments.php:123
 #: modules/Scheduling/Courses.php:944 modules/Scheduling/Menu.php:22
 #: modules/School_Setup/Rollover.php:3
 msgid "Courses"
@@ -2262,8 +2263,8 @@ msgstr "Entre un Orden valido por favor."
 #: modules/Discipline/DisciplineForm.php:132
 #: modules/Food_Service/MenuItems.php:156 modules/Food_Service/Menus.php:75
 #: modules/Grades/AnomalousGrades.php:104 modules/Grades/Grades.php:192
-#: modules/Grades/ReportCardComments.php:220
-#: modules/Grades/ReportCardComments.php:245
+#: modules/Grades/ReportCardComments.php:221
+#: modules/Grades/ReportCardComments.php:246
 #: modules/Grades/StudentGrades.php:251 modules/Students/AddressFields.php:309
 #: modules/Students/PeopleFields.php:309
 #: modules/Students/StudentFields.php:307 modules/Users/UserFields.php:329
@@ -2330,9 +2331,9 @@ msgstr "Nombre Corto"
 #: modules/Grades/Assignments.php:328
 #: modules/Grades/ReportCardCommentCodes.php:114
 #: modules/Grades/ReportCardCommentCodes.php:136
-#: modules/Grades/ReportCardComments.php:172
-#: modules/Grades/ReportCardComments.php:185
-#: modules/Grades/ReportCardComments.php:206
+#: modules/Grades/ReportCardComments.php:173
+#: modules/Grades/ReportCardComments.php:186
+#: modules/Grades/ReportCardComments.php:207
 #: modules/Grades/ReportCardGrades.php:162 modules/Scheduling/Courses.php:920
 #: modules/School_Setup/GradeLevels.php:69
 #: modules/School_Setup/MarkingPeriods.php:288
@@ -4296,7 +4297,7 @@ msgid "Percent"
 msgstr "Porciento"
 
 #: modules/Grades/Assignments-new.php:253 modules/Grades/Assignments.php:335
-#: modules/Grades/ReportCardComments.php:172
+#: modules/Grades/ReportCardComments.php:173
 msgid "Color"
 msgstr "Color"
 
@@ -4815,13 +4816,13 @@ msgid "You cannot enter grades for this course period."
 msgstr "Usted no puede entrar calificaciones para esta clase."
 
 #: modules/Grades/InputFinalGrades.php:44
-#: modules/Grades/ReportCardComments.php:149
+#: modules/Grades/ReportCardComments.php:150
 #: modules/Grades/StudentGrades.php:191
 msgid "All Courses"
 msgstr "Todos los Cursos"
 
 #: modules/Grades/InputFinalGrades.php:47
-#: modules/Grades/ReportCardComments.php:151
+#: modules/Grades/ReportCardComments.php:152
 msgid "General"
 msgstr "General"
 
@@ -5000,20 +5001,16 @@ msgstr "Aún no hay cursos configurados"
 msgid "Report Card Comment Category"
 msgstr "Categoría de Comentarios del Boletín de Calificaciones"
 
-#: modules/Grades/ReportCardComments.php:113
-msgid "Subjects"
-msgstr "Materias"
-
-#: modules/Grades/ReportCardComments.php:134
+#: modules/Grades/ReportCardComments.php:135
 #: modules/Grades/ReportCardGrades.php:107
 msgid "This course is not graded."
 msgstr "Esta clase no está calificada."
 
-#: modules/Grades/ReportCardComments.php:172
+#: modules/Grades/ReportCardComments.php:173
 msgid "Comment Category"
 msgstr "Categoría de Comentarios"
 
-#: modules/Grades/ReportCardComments.php:206
+#: modules/Grades/ReportCardComments.php:207
 msgid "Code Scale"
 msgstr "Escala de Códigos"
 
@@ -7713,6 +7710,9 @@ msgstr "Publicar el Evento en Moodle?"
 #: plugins/Moodle/functions.php:494
 msgid "Publish Note in Moodle?"
 msgstr "Publicar la Nota en Moodle?"
+
+#~ msgid "Subjects"
+#~ msgstr "Materias"
 
 #~ msgid "MTD"
 #~ msgstr "Mes a la fecha"
