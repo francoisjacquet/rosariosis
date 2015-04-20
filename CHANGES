@@ -4,6 +4,7 @@ Changes in 2.8.9
 ----------------
 - Attendance Codes Type & State Code required in AttendanceCodes.php
 - Add Add No Subjects/Courses were found error in ReportCardComments.php
+- Update french & spanish translations
 
 Changes in 2.8.8
 ----------------
