@@ -105,12 +105,12 @@ if(empty($_REQUEST['modfunc']))
 
 		$subject_select .= '<SELECT name="subject_id" onchange="subject_idonchange.href += this.options[selectedIndex].value; ajaxLink(subject_idonchange);">';
 
-		foreach($subjects_RET as $id=>$subject)
-			$subject_select .= '<OPTION value="'.$id.'"'.($_REQUEST['subject_id']==$id?' SELECTED':'').'>'.$subject[1]['TITLE'].'</OPTION>';
-
-		//FJ Add No Subjects were found error
+		//FJ Add No Courses were found error
 		if (empty($subjects_RET))
-			$subject_select .= '<OPTION value="">'.sprintf(_('No %s were found.'),_('Subjects')).'</OPTION>';
+			$subject_select .= '<OPTION value="">'.sprintf(_('No %s were found.'),_('Courses')).'</OPTION>';
+		else
+			foreach($subjects_RET as $id=>$subject)
+				$subject_select .= '<OPTION value="'.$id.'"'.($_REQUEST['subject_id']==$id?' SELECTED':'').'>'.$subject[1]['TITLE'].'</OPTION>';
 
 		$subject_select .= '</SELECT>';
 
@@ -118,12 +118,13 @@ if(empty($_REQUEST['modfunc']))
 
 		$course_select .= '<SELECT name="course_id" onchange="course_idonchange.href += this.options[selectedIndex].value; ajaxLink(course_idonchange);">';
 
-		foreach($courses_RET as $id=>$course)
-			$course_select .= '<OPTION value="'.$id.'"'.($_REQUEST['course_id']==$id?' SELECTED':'').'>'.$course[1]['TITLE'].'</OPTION>';
-
 		//FJ Add No Courses were found error
 		if (empty($courses_RET))
 			$course_select .= '<OPTION value="">'.sprintf(_('No %s were found.'),_('Courses')).'</OPTION>';
+		else
+			foreach($courses_RET as $id=>$course)
+				$course_select .= '<OPTION value="'.$id.'"'.($_REQUEST['course_id']==$id?' SELECTED':'').'>'.$course[1]['TITLE'].'</OPTION>';
+
 
 		$course_select .= '</SELECT>';
 	}
