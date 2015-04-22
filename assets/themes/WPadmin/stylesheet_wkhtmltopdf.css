@@ -22,7 +22,8 @@
 }
 #menu{
 	position:relative;
-	float:left
+	float:left;
+	overflow: visible;
 }
 #menushadow{
 	position:absolute;
@@ -30,7 +31,7 @@
 	right:0;
 	bottom:0;
 	width:6px;
-	z-index:20
+	/*z-index:20*/
 }
 #body,#menu{
 	margin-bottom:38px;
@@ -203,6 +204,25 @@ code{
 .widefat tfoot th:last-of-type{
 	border-bottom-right-radius:3px
 }
+/* listOutput sorting icon */
+.widefat th a[href*="LO_direction"]:after{
+	font-family: monospace;
+	font-size: larger;
+	line-height: 0.5em;
+	content: "\0000a0";
+	padding-left: 3px;
+}
+.widefat th a[href*="LO_direction=1"]:hover:after{
+	content: "\25b4";
+}
+.widefat th a[href*="LO_direction=-1"]:hover:after{
+	content: "\25be";
+}
+.widefat th a[href*="LO_sort=CHECKBOX"]:after{
+	content: "";
+	padding-left: 0;
+}
+
 .widefat td,.widefat th{
 	text-align:left;
 	border-width:1px 0;
@@ -253,37 +273,82 @@ input[type=submit],input[type=reset],input[type=button]{
 label{
 	vertical-align:middle
 }
-#adminmenu,.wp-submenu{
-	width:100%
+.adminmenu,.wp-submenu{
+	width:100%;
+	list-style: outside none none;
 }
-#adminmenu{
+.adminmenu{
 	clear:left;
 	margin:0;
 	padding:0;
 	padding-top:5px;
 }
-#adminmenu *,.widefat th{
+.adminmenu *,.widefat th{
 	-webkit-user-select:none;
 	-moz-user-select:none;
 	-ms-user-select:none;
 	    user-select:none
 }
-#adminmenu .wp-submenu{
+.wp-submenu{
+	top: -1000em;
+	left: 0;
+	position: absolute;
 	padding:0;
 	margin:0;
-	overflow:hidden;
-	display:none
+	overflow: hidden;
+	-webkit-transition: 0s top, 0s left;
+	transition: 0s top, 0s left;
+	-webkit-transition-delay: .15s;
+	transition-delay: .15s;
+	border-width:1px;
+	border-style:solid
 }
-#adminmenu .menu-inter{
+.adminmenu li{
+	margin-bottom: 0;
+}
+.menu-module{
+	position: relative;
+}
+.menu-module:hover .menu-top:after{
+	content: "\276F";
+	float: right;
+	padding-top: 6px;
+}
+#selectedModuleLink:after{
+	content: "";
+}
+.menu-module:hover .wp-submenu{
+	-webkit-transition-delay: .15s;
+	transition-delay: .15s;
+	z-index: 20;
+	position: absolute;
+	top: 0;
+	left: 205px;
+	overflow: visible;
+	word-wrap: break-word;
+	min-height: 36px;
+	min-width: 205px;
+	width: auto;
+}
+#selectedModuleLink + .wp-submenu{
+	transition-delay: 0s;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	position: relative;
+	margin-top: 0 !important;
+	border:0
+}
+.menu-inter{
 	border-width:1px 0 0;
 	border-style:solid
 }
-#adminmenu a{
+.adminmenu a{
 	display:block;
 	line-height:18px;
 	padding:2px 5px
 }
-#adminmenu a.menu-top{
+.menu-top{
 	font-weight:400;
 	font-size:15px;
 	min-width:10em;
@@ -295,7 +360,7 @@ label{
 	height:32px;
 	vertical-align:middle
 }
-#adminmenu .wp-submenu a{
+.wp-submenu a{
 	margin:0
 }
 .current-person{
@@ -634,22 +699,12 @@ div.st{
 	min-width: 300px
 }
 
-/*arrows: http://leplay.github.io/demo/triangle.html*/
-.arrow{
-	display:block;
-	overflow:hidden;
-	width:0;
-	height:0;
-	border:8px dashed transparent;
-	float:left
+/*arrows*/
+.switchMenu:before{
+	content: "\25b6\0000a0";
 }
-.arrow.down{
-	border-top-style:solid;
-	border-bottom:none
-}
-.arrow.right{
-	border-left-style:solid;
-	border-right:none
+.switchMenu.switched:before{
+	content: "\25bc\0000a0";
 }
 
 /*jqplot charts*/
