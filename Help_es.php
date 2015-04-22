@@ -31,6 +31,55 @@ if(User('PROFILE')=='admin')
 	$help['School_Setup/GradeLevels.php'] = '<p><i>Grados</i> le permite configurar los grados de su institución.</p><p>Para agregar un grado, llene el titulo del grado, su nombre corto, orden, y grado siguiente en los campos vacíos al pié de la lista de grados y presione el botón «Guardar». El campo «Grado Siguiente» indica el grado al cual pasarán los estudiantes en el año escolar siguiente.</p><p>Para cambiar un grado, haga click sobre cualquier dato del grado, cambie el valor, y presione el botón «Guardar».</p><p>Para eliminar un grado, haga click sobre el icono «-» al lado del grado que quiere eliminar. Se le preguntará si desea confirmar la eliminación.</p>';
 
 	$help['School_Setup/Rollover.php'] = '<p><i>Transferir</i> copia los datos del año actual al siguiente año escolar. Los estudiantes están matriculados en el siguiente grado, y cada dato de la institución está duplicado para el año siguiente.</p><p>Los datos copiados incluyen horas, períodos a calificar, usuarios, cursos, matrícula de los estudiantes, códigos de grados del boletín de calificaciones, códigos de matricula, códigos de asistencia, y actividades de elegibilidad.</p>';
+
+	$help['School_Setup/Configuration.php'] = '<p><i>Configuración de la Institución</i> le ofrece varios grupos de opciones de configuración para ayudarle a configurar:</p>
+<ul>
+	<li>RosarioSIS mismo:
+		<ul>
+			<li><i>Titulo del Programa</i> & <i>Título del Programa</i>: renombrar RosarioSIS</li>
+			<li>Definir el <i>Diseño por Defecto</i></li>
+			<li><i>Crear Cuenta de Usuario</i> & <i>Crear Cuenta de Estudiante</i>: activar el registro en línea. Enlaces "Crear Cuenta de Usuario / Estudiante" estaran agregados a la pagína de entrada.</li>
+		</ul>
+	</li>
+	<li>La Institución:
+		<ul>
+			<li><i>Año escolar sobre dos años calendarios</i>: si el año escolar deberia ser de la forma "2014" o "2014-2015"</li>
+			<li><i>Logo de la Institución (.jpg)</i>: subir el logo de la institución (expuesto en Boletines de Calificaciones, Expedientes Académicos, Información de la Institución &amp; Imprimir Información del Estudiante)</li>
+			<li><i>Símbolo Monetario</i>: el símbolo de la moneda usada en los módulos Contabilidad &amp; Cobros</li>
+		</ul>
+	</li>
+	<li>El módulo Estudiantes:
+		<ul>
+			<li><i>Mostrar Dirección de Correo</i>: si guardar y mostrar la dirección de correo del estudiante como una dirección aparte.</li>
+			<li><i>Marcar Recorrida / Paradero del Transporte Escolar por defecto</i>: si marcar las casillas Recorrida / Paradero del Transporte Escolar por defecto al momento de entrar la dirección del estudiante</li>
+			<li><i>Activar la Antigua Información de Contacto</i>: la capacidad de agregar información a los contactos del estudiante</li>
+			<li><i>Usar Comentarios Semestrales en lugar de Comentarios Bimestrales</i>: tener un nuevo campo de comentarios cada semestre en lugar de cada bimestre</li>
+		</ul>
+	</li>
+	<li>El módulo Calificaciones:
+		<ul>
+			<li><i>Calificaciones</i>: si su escuela usa los porcentajes, las calificaciones de letra, o los dos. Los porcentajes o las calificaciones de letra estaran ocultas según su elección.</li>
+			<li><i>Ocultar el comentario de la calificación exceptuando los cursos con asistencia</i>: si ocultar el comentario de la calificación para los cursos sin asistencia</li>
+			<li><i>Dejar los Docentes editar las calificaciones después del período de publicación de calificaciones</i>: el período de publicación de calificaciones de cada período a calificar se define en el programa Institución &gt; Períodos a Calificar</li>
+			<li><i>Activar las Estadísticas Anónimas de Calificaciones para los Padres y Estudiantes / los Administradores y Docentes</i>: las Estadísticas Anónimas de Calificaciones están expuestas en el programa Calificaciones de los Estudiantes</li>
+		</ul>
+	</li>
+	<li>El módulo Asistencia:
+		<ul>
+			<li><i>Minutos en un Día de Escuela Completo</i>: si un estudiante asiste a clases por 300 mínutos o más, RosarioSIS lo marcara automaticamente Presente para el día. Si un estudiante asiste a clases entre 150 mínutos y 299 mínutos, RosarioSIS lo marcara presente Medio Día. Si un estudiante asiste a clases por menos de 150 mínutos, RosarioSIS lo marcara Ausente. Si su Día de Escuela no es 300 mínutos de largo, entonces por favor ajuste los Minutos en un Día de Escuela Completo</li>
+			<li><i>Número de días antes / después de la fecha por los cuales los docentes pueden editar la asistencia</i>: dejar el campo en blanco para permitir siempre</li>
+		</ul>
+	</li>
+	<li>El módulo Servicio de Comida:
+		<ul>
+			<li><i>Saldo mínimo del Servicio de Comida para el aviso</i>: definir el saldo mínimo por debajo del cual un aviso será dado al estudiante y sus padres en el Portal y para generar Avisos</li>
+			<li><i>Saldo mínimo del Servicio de Comida</i>: definir el saldo mínimo autorizado</li>
+			<li><i>Saldo meta del Servicio de Comida</i>: definir el saldo meta para calcular el deposito mínimo</li>
+		</ul>
+	</li>
+</ul>
+<p>Pestaña <b>Módulos</b>: gestionar los módulos de RosarioSIS. Desactivar cualquier módulo que no se usa o instalar nuevos módulos.</p>
+<p>Pestaña <b>Plugins</b>: gestionar los plugins de RosarioSIS. Activar, desactivar y configurar los plugins. Haga click sobre el título del plugin para obtener más información.</p>';
 }
 else
 {

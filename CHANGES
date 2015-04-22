@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.10
+-----------------
+- Add School Configuration english & spanish help texts in Help_en.php & Help_es.php
+
 Changes in 2.8.9
 ----------------
 - Attendance Codes Type & State Code required in AttendanceCodes.php

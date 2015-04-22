@@ -31,6 +31,55 @@ if(User('PROFILE')=='admin')
 	$help['School_Setup/GradeLevels.php'] = '<p><i>Grade Levels</i> allows you to setup your school\'s grade levels.</p><p>To add a grade level, fill in the grade level\'s title, short name, sort order, and next grade in the empty fields at the bottom of the grade levels list and click the "Save" button.  The "Next Grade" field indicates the grade students in the current grade will proceed to in the next school year.</p><p>To modify a grade level, click on any of the grade level\'s information, change the value, and click the "Save" button.</p><p>To delete a grade level, click the delete icon (-) next to the grade level you want to delete.  You will be asked to confirm the deletion.</p>';
 
 	$help['School_Setup/Rollover.php'] = '<p><i>Rollover</i> copies the current year\'s data to the next school year.  Students are enrolled in the next grade, and each school\'s information is duplicated for the next school year.</p><p>The data copied include periods, marking periods, users, courses, student enrollment, report card grade codes, enrollment codes, attendance codes, and eligibility activities.</p>';
+
+	$help['School_Setup/Configuration.php'] = '<p><i>School Configuration</i> offers various groups of configuration options to help you configure:</p>
+<ul>
+	<li>RosarioSIS itself:
+		<ul>
+			<li><i>Program Title</i> & <i>Program Name</i>: rebrand RosarioSIS</li>
+			<li>Set the <i>Default Theme</i></li>
+			<li><i>Create User Account</i> & <i>Create Student Account</i>: activate online registration. "Create User / Student Account" links will be displayed on the login page.</li>
+		</ul>
+	</li>
+	<li>The School:
+		<ul>
+			<li><i>School year over two calendar years</i>: whether the school year should be displayed as "2014" or "2014-2015"</li>
+			<li><i>School logo (.jpg)</i>: upload the school logo (displayed in Report Cards, Transcripts, School Information &amp; Print student Info)</li>
+			<li><i>Currency Symbol</i>: the currency / monetary symbol used in Accounting &amp; Student Billing modules</li>
+		</ul>
+	</li>
+	<li>The Students module:
+		<ul>
+			<li><i>Display Mailing Address</i>: whether to record and display the student\'s mailing address as a different address.</li>
+			<li><i>Check Bus Pickup / Dropoff by default</i>: whether to check Bus Pickup / Dropoff checkboxes by default when entering the student address</li>
+			<li><i>Enable Legacy Contact Information</i>: the ability to add information to the student contacts</li>
+			<li><i>Use Semester Comments instead of Quarter Comments</i>: have a new student comments field each semester instead of each quarter</li>
+		</ul>
+	</li>
+	<li>The Grades module:
+		<ul>
+			<li><i>Grades</i>: whether your school uses percent grades, letter grades or both. Will then hide the percent or letter grades accordingly.</li>
+			<li><i>Hide grade comment except for attendance period courses</i>: whether to hide grade comment for non attendance period courses</li>
+			<li><i>Allow Teachers to edit grades after grade posting period</i>: the grade posting period for each marking period is set in the School Setup &gt; Marking Periods program</li>
+			<li><i>Enable Anonymous Grade Statistics for Parents and Students / Administrators and Teachers</i>: the Anonymous Grade Statistics are displayed in the Student Grades program</li>
+		</ul>
+	</li>
+	<li>The Attendance module:
+		<ul>
+			<li><i>Minutes in a Full School Day</i>: if a student attends school for 300 minutes or more, RosarioSIS will automatically mark him Present for the day. If a student attends school for 150 minutes to 299 minutes, RosarioSIS will marked him Half Day present. If a student attends school for less than 150 minutes, RosarioSIS will mark him Absent. If your School Day is not 300 minutes long, then please adjust the Minutes in a Full School Day</li>
+			<li><i>Number of days before / after the school date teachers can edit attendance</i>: leave the fields blank to always allow teachers to edit attendance</li>
+		</ul>
+	</li>
+	<li>The Food Service module:
+		<ul>
+			<li><i>Food Service Balance minimum amount for warning</i>: set the minimum amount under which a warning will be displayed to the student and its parents on the Portal and to generate Reminders</li>
+			<li><i>Food Service Balance minimum amount</i>: set the minimum amount allowed</li>
+			<li><i>Food Service Balance target amount</i>: set the target amount to calculate the minimum deposit</li>
+		</ul>
+	</li>
+</ul>
+<p><b>Modules</b> tab: manage RosarioSIS modules. Deactivate any module you will not use or install new ones.</p>
+<p><b>Plugins</b> tab: manage RosarioSIS plugins. Activate, deactivate and configure plugins. Click on the plugin title to get more information.</p>';
 }
 else
 {
