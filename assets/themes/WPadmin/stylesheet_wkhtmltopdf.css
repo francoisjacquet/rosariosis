@@ -311,8 +311,9 @@ label{
 }
 .menu-module:hover .menu-top:after{
 	content: "\276F";
-	float: right;
 	padding-top: 6px;
+	position: absolute;
+	right: 5px;
 }
 #selectedModuleLink:after{
 	content: "";

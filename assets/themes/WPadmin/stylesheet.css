@@ -312,8 +312,9 @@ label{
 }
 .menu-module:hover .menu-top:after{
 	content: "\276F";
-	float: right;
 	padding-top: 6px;
+	position: absolute;
+	right: 5px;
 }
 #selectedModuleLink:after{
 	content: "";
@@ -353,7 +354,6 @@ label{
 	font-weight:400;
 	font-size:15px;
 	min-width:10em;
-	padding:2px 5px;
 	border-width:1px 0 1px;
 	border-style:solid
 }

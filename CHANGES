@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.11
+-----------------
+- Fix right arrow on menu hover when module text too long in stylesheet.css
+
 Changes in 2.8.10
 -----------------
 - Add School Configuration english & spanish help texts in Help_en.php & Help_es.php
