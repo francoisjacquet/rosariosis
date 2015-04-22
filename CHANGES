@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.10
 -----------------
 - Add School Configuration english & spanish help texts in Help_en.php & Help_es.php
+- Reference the Quick Setup Guide in README.md & INSTALL
 
 Changes in 2.8.9
 ----------------
