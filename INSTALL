@@ -15,7 +15,8 @@ up varies a lot with platform, operating system, and distribution so it is
 well beyond to scope of this brief install document. RosarioSIS was
 tested on a Windows 7 x64 with Apache 2.2.21, Postgres 9.1, and PHP 5.3.9 
 (EasyPHP 5.3.9) and on a Ubuntu Server 12.04 with Apache 2.2.22, Postgres 9.1, 
-and PHP 5.3.10 and through Mozilla Firefox.
+and PHP 5.3.10 and through Mozilla Firefox and BrowserStack for cross-browser
+compatibility.
 
 Minimum requirements: PHP 5.3.2 & Postgres 8
 
