@@ -57,7 +57,7 @@ function _rollover($table)
 		break;
 
 		case 'SCHOOL_PERIODS':
-			DBQuery("INSERT INTO SCHOOL_PERIODS (PERIOD_ID,SYEAR,SCHOOL_ID,SORT_ORDER,TITLE,SHORT_NAME,LENGTH,ATTENDANCE) SELECT nextval('SCHOOL_PERIODS_SEQ'),SYEAR,'".$id."' AS SCHOOL_ID,SORT_ORDER,TITLE,SHORT_NAME,LENGTH,ATTENDANCE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
+			DBQuery("INSERT INTO SCHOOL_PERIODS (PERIOD_ID,SYEAR,SCHOOL_ID,SORT_ORDER,TITLE,SHORT_NAME,LENGTH,ATTENDANCE) SELECT " . db_seq_nextval( 'SCHOOL_PERIODS_SEQ' ) . ",SYEAR,'".$id."' AS SCHOOL_ID,SORT_ORDER,TITLE,SHORT_NAME,LENGTH,ATTENDANCE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
 		break;
 
 		case 'SCHOOL_GRADELEVELS':
@@ -68,7 +68,7 @@ function _rollover($table)
 				if($column!='ID' && $column!='SCHOOL_ID' && $column!='NEXT_GRADE_ID')
 					$columns .= ','.$column;
 			}
-			DBQuery("INSERT INTO $table (ID,SCHOOL_ID".$columns.") SELECT nextval('".$table."_SEQ'),'".$id."' AS SCHOOL_ID".$columns." FROM $table WHERE SCHOOL_ID='".UserSchool()."'");
+			DBQuery("INSERT INTO $table (ID,SCHOOL_ID".$columns.") SELECT " . db_seq_nextval( $table . '_SEQ' ) . ",'".$id."' AS SCHOOL_ID".$columns." FROM $table WHERE SCHOOL_ID='".UserSchool()."'");
 		break;
 
 		case 'SCHOOL_MARKING_PERIODS':
@@ -94,7 +94,7 @@ function _rollover($table)
 				if($column!='ID' && $column!='SYEAR' && $column!='SCHOOL_ID')
 					$columns .= ','.$column;
 			}
-			DBQuery("INSERT INTO $table (ID,SYEAR,SCHOOL_ID".$columns.") SELECT nextval('".$table."_SEQ'),SYEAR,'".$id."' AS SCHOOL_ID".$columns." FROM $table WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
+			DBQuery("INSERT INTO $table (ID,SYEAR,SCHOOL_ID".$columns.") SELECT " . db_seq_nextval( $table . '_SEQ' ) . ",SYEAR,'".$id."' AS SCHOOL_ID".$columns." FROM $table WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
 		break;
 	}
 }
