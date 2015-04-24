@@ -1,7 +1,7 @@
 <?php
-if(!defined('CONFIG_INC'))
+if( !defined( 'CONFIG_INC' ) )
 {
-	define('CONFIG_INC',1);
+	define( 'CONFIG_INC', 1 );
 	
 	// PostgreSQL Database Setup
 	$DatabaseServer = 'localhost';
@@ -11,7 +11,7 @@ if(!defined('CONFIG_INC'))
 	$DatabasePort = '5432';
 
 	// Server Names and Paths
-	$RosarioPath = dirname(__FILE__).'/';
+	$RosarioPath = dirname( __FILE__ ) . '/';
 	$pg_dumpPath = '/usr/bin/pg_dump'; // Specify the path to the database dump utility for this server.
 	$wkhtmltopdfPath = '/usr/bin/wkhtmltopdf'; // empty string means wkhtmltopdf will not be called and reports will be rendered in html instead of pdf
 
