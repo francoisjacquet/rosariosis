@@ -3,8 +3,6 @@
 //FJ bugfix check accept cookies
 $default_session_name = session_name();
 
-error_reporting(1);
-
 include('Warehouse.php');
 
 // Logout

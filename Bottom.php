@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(1);
-
 include( 'Warehouse.php' );
 
 if( $_REQUEST['modfunc'] == 'print' )
@@ -35,7 +33,7 @@ if( $_REQUEST['modfunc'] == 'print' )
 	//FJ call PDFStop to generate Print PDF
 	PDFStop($print_data);
 }
-elseif( $_REQUEST['modfunc']=='help' )
+elseif( $_REQUEST['modfunc'] == 'help' )
 {
 	$help_translated = 'Help_' . mb_substr( $locale, 0, 2 ) . '.php';
 	$help_english = 'Help_en.php';

@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.9
+--------------
+- Add Debug mode as optional config.inc.php option in Warehouse.php + INSTALL
+
 Changes in 2.8.11
 -----------------
 - Fix right arrow on menu hover when module text too long in stylesheet.css

@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(0);
-
 include( 'Warehouse.php' );
 
 $help_translated = 'Help_' . mb_substr( $locale, 0, 2 ) . '.php';

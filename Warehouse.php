@@ -9,6 +9,15 @@ if(!defined('WAREHOUSE_PHP'))
 	require('config.inc.php');
 	require('database.inc.php');
 
+	// Debug mode (for developers): enables notices
+	if ( !defined( 'ROSARIO_DEBUG' ) )
+		define( 'ROSARIO_DEBUG', false );
+
+	if ( ROSARIO_DEBUG )
+		error_reporting( E_ALL );
+	else
+		error_reporting( E_ALL ^ E_NOTICE );
+
 	// Server Paths
 	// You can override the Path definitions in the config.inc.php file
 	if (!isset($StudentPicturesPath))
@@ -25,6 +34,7 @@ if(!defined('WAREHOUSE_PHP'))
 		if (date_default_timezone_set($Timezone)) // if valid PHP timezone_identifier, should be OK for Postgres
 			DBQuery("SET TIMEZONE TO '".$Timezone."'");
 	}
+
 
 
 	// Load functions.

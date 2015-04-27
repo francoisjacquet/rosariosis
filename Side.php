@@ -1,5 +1,4 @@
 <?php
-error_reporting(1);
 
 include('Warehouse.php');
 

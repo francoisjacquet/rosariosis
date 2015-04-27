@@ -1,8 +1,6 @@
 <?php
 // TRANSLATION: do NOT translate these error messages since they need to stay in English for technical support
 
-error_reporting(1);
-
 session_start();
 
 $error = array();

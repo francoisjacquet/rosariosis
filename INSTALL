@@ -61,6 +61,9 @@ as appropriate for your installation. Rename the file to config.inc.php.
   $Timezone sets the default time zone used by all date/time functions.
 	See List of Supported Timezones: http://php.net/manual/en/timezones.php
 
+  [Debug mode: add the following line to activate]
+  define( 'ROSARIO_DEBUG', true );
+
 Now, you're ready to setup the RosarioSIS database. If you have access to the
 command prompt for your server, follow these instructions.  If you're using
 phpPGAdmin or a similar tool, import the rosariosis.sql file included in
