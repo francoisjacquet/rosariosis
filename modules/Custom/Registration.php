@@ -141,7 +141,7 @@ if($_REQUEST['values'])
 
 	$student = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
 	
-	if($RosarioNotifyAddress)
+	if( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 	{
 		//FJ add SendEmail function
 		include('ProgramFunctions/SendEmail.fnc.php');

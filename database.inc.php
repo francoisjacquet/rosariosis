@@ -314,7 +314,8 @@ function db_properties( $table )
 
 
 /**
- * Show SQL error message and send notification email if $RosarioNotifyAddress set
+ * Show SQL error message
+ * Send notification email if $RosarioNotifyAddress set
  *
  * @param  string $sql        SQL statement
  * @param  string $failnote   Failure Notice
@@ -358,7 +359,7 @@ function db_show_error( $sql, $failnote, $additional = '' )
 	echo '<!-- SQL STATEMENT: ' . "\n\n" . $sql . "\n\n" . ' -->';
 
 	// send notification email if $RosarioNotifyAddress set
-	if( $RosarioNotifyAddress )
+	if( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 	{
 		//FJ add SendEmail function
 		include( 'ProgramFunctions/SendEmail.fnc.php' );

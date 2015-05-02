@@ -282,7 +282,8 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				do_action('Users/User.php|create_user');
 
 				//Notify the network admin that a new admin has been created
-				if ($_REQUEST['staff']['PROFILE_ID'] == 1 && $RosarioNotifyAddress)
+				if ( $_REQUEST['staff']['PROFILE_ID'] == 1
+					&& filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 				{
 					//FJ add SendEmail function
 					include('ProgramFunctions/SendEmail.fnc.php');
