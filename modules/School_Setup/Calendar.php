@@ -72,7 +72,7 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 			{
 				DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$calendar_id."' AND (SCHOOL_DATE NOT BETWEEN '".$_REQUEST['day_min'].'-'.$_REQUEST['month_min'].'-'.$_REQUEST['year_min']."' AND '".$_REQUEST['day_max'].'-'.$_REQUEST['month_max'].'-'.$_REQUEST['year_max']."' OR extract(DOW FROM SCHOOL_DATE) NOT IN (".$weekdays_list."))");
 //FJ fix bug MINUTES not numeric
-				if($_REQUEST['minutes'] && intval($minutes) > 0)
+				if($_REQUEST['minutes'] && intval($_REQUEST['minutes']) > 0)
 					DBQuery("UPDATE ATTENDANCE_CALENDAR SET MINUTES='".$_REQUEST['minutes']."' WHERE CALENDAR_ID='".$calendar_id."'");
 			}
 			else
@@ -80,7 +80,7 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 				if($_REQUEST['calendar_id'])
 					DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$calendar_id."'");
 //FJ fix bug MINUTES not numeric
-				$create_calendar_sql = "INSERT INTO ATTENDANCE_CALENDAR (SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID) (SELECT '".UserSyear()."','".UserSchool()."',SCHOOL_DATE,".($_REQUEST['minutes'] && intval($minutes) > 0?"'".$_REQUEST['minutes']."'":'MINUTES').",'".$calendar_id."' FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$_REQUEST['copy_id']."' AND extract(DOW FROM SCHOOL_DATE) IN (".$weekdays_list.")";
+				$create_calendar_sql = "INSERT INTO ATTENDANCE_CALENDAR (SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID) (SELECT '".UserSyear()."','".UserSchool()."',SCHOOL_DATE,".($_REQUEST['minutes'] && intval($_REQUEST['minutes']) > 0?"'".$_REQUEST['minutes']."'":'MINUTES').",'".$calendar_id."' FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$_REQUEST['copy_id']."' AND extract(DOW FROM SCHOOL_DATE) IN (".$weekdays_list.")";
 				//FJ bugfix SQL bug empty school dates
 				if($_REQUEST['month_min'] && $_REQUEST['month_max'])
 				{
@@ -122,7 +122,7 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 			{
 				if($_REQUEST['weekdays'][$weekday]=='Y')
 //FJ fix bug MINUTES not numeric
-					DBQuery("INSERT INTO ATTENDANCE_CALENDAR (SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID) values('".UserSyear()."','".UserSchool()."','".date('d-M-y',$i)."',".($_REQUEST['minutes'] && intval($minutes) > 0?"'".$_REQUEST['minutes']."'":"'999'").",'".$calendar_id."')");
+					DBQuery("INSERT INTO ATTENDANCE_CALENDAR (SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID) values('".UserSyear()."','".UserSchool()."','".date('d-M-y',$i)."',".($_REQUEST['minutes'] && intval($_REQUEST['minutes']) > 0?"'".$_REQUEST['minutes']."'":"'999'").",'".$calendar_id."')");
 				$weekday++;
 				if($weekday==7)
 					$weekday = 0;
