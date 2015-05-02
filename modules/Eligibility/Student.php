@@ -69,14 +69,14 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 	if(!$_REQUEST['start_date'])
 	{
 		$start_time = $start;
-		$start_date = mb_strtoupper(date('d-M-y',$start_time));
-		$end_date = mb_strtoupper(date('d-M-y',$end));
+		$start_date = mb_strtoupper(date('d-M-Y',$start_time));
+		$end_date = mb_strtoupper(date('d-M-Y',$end));
 	}
 	else
 	{
 		$start_time = $_REQUEST['start_date'];
-		$start_date = mb_strtoupper(date('d-M-y',$start_time));
-		$end_date = mb_strtoupper(date('d-M-y',$start_time+60*60*24*6));
+		$start_date = mb_strtoupper(date('d-M-Y',$start_time));
+		$end_date = mb_strtoupper(date('d-M-Y',$start_time+60*60*24*6));
 	}
 
 	$begin_year = DBGet(DBQuery("SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));

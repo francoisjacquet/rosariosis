@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.9
 --------------
 - Add Debug mode as optional config.inc.php option in Warehouse.php + INSTALL
+- Bugfix Postgres datestyle = 'iso, ymd', programwide
 
 Changes in 2.8.11
 -----------------

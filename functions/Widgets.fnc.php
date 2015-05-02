@@ -428,8 +428,8 @@ function Widgets($item,&$myextra=null)
 						break;
 					}
 
-					$start_date = mb_strtoupper(date('d-M-y',time() - ($today-$start_end_RET[1]['START_DAY'])*60*60*24));
-					$end_date = mb_strtoupper(date('d-M-y',time()));
+					$start_date = mb_strtoupper(date('d-M-Y',time() - ($today-$start_end_RET[1]['START_DAY'])*60*60*24));
+					$end_date = mb_strtoupper(date('d-M-Y',time()));
 					$extra['WHERE'] .= " AND (SELECT count(*) FROM ELIGIBILITY e WHERE ssm.STUDENT_ID=e.STUDENT_ID AND e.SYEAR=ssm.SYEAR AND e.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND e.ELIGIBILITY_CODE='FAILING') > '0'";
 
 					if(!$extra['NoSearchTerms'])

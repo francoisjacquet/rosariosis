@@ -37,14 +37,14 @@ $end = time();
 if(!$_REQUEST['start_date'])
 {
 	$start_time = $start;
-	$start_date = mb_strtoupper(date('d-M-y',$start_time));
-	$end_date = mb_strtoupper(date('d-M-y',$end));
+	$start_date = mb_strtoupper(date('d-M-Y',$start_time));
+	$end_date = mb_strtoupper(date('d-M-Y',$end));
 }
 else
 {
 	$start_time = $_REQUEST['start_date'];
-	$start_date = mb_strtoupper(date('d-M-y',$start_time));
-	$end_date = mb_strtoupper(date('d-M-y',$start_time+60*60*24*7));
+	$start_date = mb_strtoupper(date('d-M-Y',$start_time));
+	$end_date = mb_strtoupper(date('d-M-Y',$start_time+60*60*24*7));
 }
 
 

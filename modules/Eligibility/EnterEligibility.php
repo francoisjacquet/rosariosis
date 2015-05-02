@@ -38,8 +38,8 @@ if(mb_strlen($START_MINUTE)==1)
 if(mb_strlen($END_MINUTE)==1)
 	$END_MINUTE = '0'.$END_MINUTE;
 
-$start_date = mb_strtoupper(date('d-M-y',time()-($today-$START_DAY)*60*60*24));
-$end_date = mb_strtoupper(date('d-M-y',time()+($END_DAY-$today)*60*60*24));
+$start_date = mb_strtoupper(date('d-M-Y',time()-($today-$START_DAY)*60*60*24));
+$end_date = mb_strtoupper(date('d-M-Y',time()+($END_DAY-$today)*60*60*24));
 
 $current_RET = DBGet(DBQuery("SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID'));
 
