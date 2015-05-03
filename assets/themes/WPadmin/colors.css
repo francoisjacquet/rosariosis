@@ -47,7 +47,7 @@ body{
 	background-color:transparent;
 	background-image:none
 }
-.postbox .h3selected h3{
+.postbox h3.h3selected{
 	background-color:#f9f9f9;
 	background:-ms-linear-gradient(top,#ececec,#f9f9f9);
 	background:-webkit-linear-gradient(top,#ececec,#f9f9f9);
