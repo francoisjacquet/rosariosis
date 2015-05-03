@@ -1,16 +1,17 @@
 <?php
 
 /**
- * Wrap PopTable Tabs
+ * Wrap Tabs
+ * used by PopTable() or ListOutput() header
  *
  * @param array $tabs           Tabs, titles + links
  * @param string $selected      Selected Tab link
  *
- * @return string PopTable Tabs HTML
+ * @return string Tabs HTML
  */
 function WrapTabs( $tabs, $selected = '' )
 {
-	$tabs_html = array();
+	$tabs_html = '<div class="h3multi">';
 
 	foreach( (array)$tabs as $key => $tab )
 	{
@@ -22,17 +23,18 @@ function WrapTabs( $tabs, $selected = '' )
 		else
 			$selected_tab = false;
 
-		$tabs_html[] = DrawTab( $tab['title'], $tab['link'], $selected_tab );
+		$tabs_html .= DrawTab( $tab['title'], $tab['link'], $selected_tab );
 	}
 
-	$return = '<div class="h3multi">' . implode( $tabs_html ) . '</div>';
+	$tabs_html .= '</div>';
 
-	return $return;
+	return $tabs_html;
 }
 
 
 /**
- * Draw PopTable tab
+ * Draw Tab
+ * used by PopTable() & WrapTabs()
  *
  * @param string  $title      Tab title
  * @param string  $link       Tab link
@@ -48,15 +50,16 @@ function DrawTab( $title, $link = '', $selected = false )
 	if( mb_substr( $title, 0, 1) != '<' )
 		$title = str_replace( ' ', '&nbsp;', $title );
 
+	// .title CSS class used in warehouse.js to determine document.title
 	// link if not printing PDF
 	if( $link && !isset( $_REQUEST['_ROSARIO_PDF'] ) )
-		$block_table = '<h3' . ( $selected ? ' class="h3selected"' : '' ) . '>
+		$block_table = '<h3' . ( $selected ? ' class="h3selected title"' : '' ) . '>
 			<a href="' . $link . '">'
 			. _( $title )
 			. '</a>
 			</h3>';
 	else
-		$block_table = '<h3>' . $title . '</h3>';
+		$block_table = '<h3 class="title">' . $title . '</h3>';
 		
 	return $block_table;
 }
