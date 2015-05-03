@@ -27,13 +27,12 @@ else
 	$tabcolor_u = '#DFDFDF'; $textcolor_u = '#999999';
 }
 
-$header = '<TABLE class="cellspacing-0" style="height:14px;"><TR>';
 //FJ remove DrawTab params
-$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Students'),'Modules.php?modname='.$_REQUEST['modname'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'&type=student').'</TD>';
-$header .= '<TD style="width:10px;"></TD><TD>'.DrawTab(_('Users'),'Modules.php?modname='.$_REQUEST['modname'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'&type=staff').'</TD>';
-$header .= '<TD style="width:10px;"></TD></TR></TABLE>';
+$header = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'&type=student"><b>'._('Students').'</b></a>';
+$header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'&type=staff"><b>'._('Users').'</b></a>';
 
-DrawHeader(($_SESSION['FSA_type']=='staff' ? _('User') : _('Student')).' '.ProgramTitle(),(User('PROFILE')=='student'?'':'<TABLE style="background-color:#ffffff;"><TR><TD>'.$header.'</TD></TR></TABLE>'));
+DrawHeader(($_SESSION['FSA_type']=='staff' ? _('User') : _('Student')).' &minus; '.ProgramTitle());
+User('PROFILE')=='student'?'':DrawHeader($header);
 
 if($_REQUEST['search_modfunc']=='list')
 {

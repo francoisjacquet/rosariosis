@@ -174,17 +174,13 @@ if(count($categories_RET))
 {
 	$tmp_PHP_SELF = PreparePHP_SELF($_REQUEST,array('table','codes'));
 
-	$headerl = '<TABLE><TR>';
+	$headerl .= '<a href="' . $tmp_PHP_SELF . '&amp;table=0"><b>' . _( 'Attendance' ) . '</b></a>';
 
-	//FJ remove DrawTab params
-	$headerl .= '<TD></TD><TD>'.DrawTab(_('Attendance'),$tmp_PHP_SELF.'&amp;table=0').'</TD>';
-
-	foreach($categories_RET as $category)
+	foreach( $categories_RET as $category )
 	{
-		//FJ remove DrawTab params
-		$headerl .= '<TD style="width:10px;"></TD><TD>'.DrawTab($category['TITLE'],$tmp_PHP_SELF.'&amp;table='.$category['ID']).'</TD>';
+		$headerl .= ' - <a href="'. $tmp_PHP_SELF . '&amp;table='. $category['ID'] .'"><b>' .
+			$category['TITLE'] . '</b></a>';
 	}
-	$headerl .= '</TR></TABLE>';
 }
 
 if(isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
