@@ -8,8 +8,7 @@
  */
 function HackingLog()
 {
-	global $RosarioNotifyAddress,
-		$_ROSARIO;
+	global $RosarioNotifyAddress;
 	
 	// Send email to $RosarioNotifyAddress if set
 	if( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
@@ -39,7 +38,7 @@ function HackingLog()
 				'" . $_SERVER['SERVER_NAME'] . "',
 				'" . $ip . "',
 				'" . date( 'Y-m-d' ) . "',
-				'" . $_ROSARIO['version'] . "',
+				'" . ROSARIO_VERSION . "',
 				'" . $_SERVER['PHP_SELF'] . "',
 				'" . $_SERVER['DOCUMENT_ROOT'] . "',
 				'" . $_SERVER['SCRIPT_NAME'] . "',
