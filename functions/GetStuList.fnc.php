@@ -197,7 +197,12 @@ function GetStuList(&$extra=array())
 				$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID '.$extra['SELECT'];
 
 				if(isset($_REQUEST['include_inactive']) && $_REQUEST['include_inactive']=='Y')
-					$sql .= ','.db_case(array("(ssm.SYEAR='".UserSyear()."' AND ('".$extra['DATE']."'>=ssm.START_DATE AND ('".$extra['DATE']."'<=ssm.END_DATE OR ssm.END_DATE IS NULL)))",'TRUE','\'<span style="color:green">'._('Active').'</span>\'','\'<span style="color:red">'._('Inactive').'</span>\'')).' AS ACTIVE';
+				{
+					$active = "'".DBEscapeString('<span style="color:green">'._('Active').'</span>')."'";
+					$inactive = "'".DBEscapeString('<span style="color:red">'._('Inactive').'</span>')."'";
+
+					$sql .= ','.db_case(array("(ssm.SYEAR='".UserSyear()."' AND ('".$extra['DATE']."'>=ssm.START_DATE AND ('".$extra['DATE']."'<=ssm.END_DATE OR ssm.END_DATE IS NULL)))", 'TRUE', $active, $inactive)).' AS ACTIVE';
+				}
 
 			}
 
