@@ -1,5 +1,10 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.12
+-----------------
+- Fix #102 error language "plpgsql" does not exist in rosariosis.sql
+- Fix Minutes when (re)create Calendar in Calendar.php
+
 Changes in 2.8.11
 -----------------
 - Fix right arrow on menu hover when module text too long in stylesheet.css
