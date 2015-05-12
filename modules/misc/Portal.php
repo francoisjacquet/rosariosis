@@ -1,5 +1,4 @@
 <?php
-// DebugBreak();
  
 if(!UserSyear())
 {
@@ -22,7 +21,7 @@ $welcome = sprintf(_('Welcome to %s!'), ParseMLField(Config('TITLE')));
 if(!empty($_SESSION['LAST_LOGIN']))
 	$welcome .= '<BR />&nbsp;'.sprintf(_('Your last login was <b>%s</b>.'), ProperDate(mb_substr($_SESSION['LAST_LOGIN'],0,10)).mb_substr($_SESSION['LAST_LOGIN'],10));
 
-if(!empty($_REQUEST['failed_login']))
+if( !empty( $failed_login ) )
 	$welcome .= '<BR />'.ErrorMessage(array(sprintf(_('There have been <b>%d</b> failed login attempts since your last successful login.'),$_REQUEST['failed_login'])), 'warning');
 
 switch (User('PROFILE'))
