@@ -161,13 +161,10 @@ function TextAreaInput($value,$name,$title='',$options='',$div=true)
 function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',$no='No',$div=true,$extra='')
 {
 	// $checked has been deprecated -- it remains only as a placeholder
-	if($div==false || $new==true)
-	{
-		if($value && $value!='N')
-			$checked = 'checked';
-		else
-			$checked = '';
-	}
+	if($value && $value!=='N')
+		$checked = 'checked';
+	else
+		$checked = '';
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
@@ -177,7 +174,7 @@ function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
 			
-			$checkbox = '<INPUT type="hidden" name="'.$name.'" value="" /><label><INPUT type="checkbox" name="'.$name.'" '.($value?'checked':'').' value="Y" '.$extra.' /> '.$title.'</label>';
+			$checkbox = '<INPUT type="hidden" name="'.$name.'" value="" /><label><INPUT type="checkbox" name="'.$name.'" '.$checked.' value="Y" '.$extra.' />&nbsp;'.$title.'</label>';
 
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($checkbox).';</script>'.$return;
 			
@@ -196,7 +193,8 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 	// mab - append current val to select list if not in list
 	if (is_array($value))
 		$value = $value[0];
-	if ($value!='' && !array_key_exists($value,$options))
+
+	if ($value!='' && (!is_array($options) || !array_key_exists($value,$options)))
 		$options[$value] = array($value,'<span style="color:red">'.$value.'</span>');
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
