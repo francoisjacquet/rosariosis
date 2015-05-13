@@ -2,7 +2,9 @@
 
 include( 'Warehouse.php' );
 
-if( $_REQUEST['modfunc'] == 'print' )
+// Print PDF
+if( isset( $_REQUEST['modfunc'] ) &&
+	$_REQUEST['modfunc'] == 'print' )
 {
 	if( $_REQUEST['expanded_view'] )
 		$_SESSION['orientation'] = 'landscape';
@@ -33,7 +35,10 @@ if( $_REQUEST['modfunc'] == 'print' )
 	//FJ call PDFStop to generate Print PDF
 	PDFStop($print_data);
 }
-elseif( $_REQUEST['modfunc'] == 'help' )
+
+// Inline Help
+elseif( isset( $_REQUEST['modfunc'] ) &&
+	$_REQUEST['modfunc'] == 'help' )
 {
 	$help_translated = 'Help_' . mb_substr( $locale, 0, 2 ) . '.php';
 	$help_english = 'Help_en.php';
@@ -83,11 +88,13 @@ elseif( $_REQUEST['modfunc'] == 'help' )
 	
 	echo $help_text;
 }
+
+// Output Bottom menu
 else
 { ?>
 
 	<div id="footerwrap">
-		<a id="BottomButtonMenu" href="#" onclick="expandMenu(); return false;" title="<?php echo _('Menu'); ?>" class="BottomButton">
+		<a id="BottomButtonMenu" href="#" onclick="expandMenu(); return false;" title="<?php echo _( 'Menu' ); ?>" class="BottomButton">
 			&nbsp;<span><?php echo _( 'Menu' ); ?></span>
 		</a>
 
@@ -95,7 +102,7 @@ else
 
 		$btn_path = 'assets/themes/' . Preferences( 'THEME' ) . '/btn/';
 
-		if( $_SESSION['List_PHP_SELF']
+		if( isset( $_SESSION['List_PHP_SELF'] )
 			&& ( User( 'PROFILE' ) == 'admin'
 				|| User('PROFILE') == 'teacher') ) :
 
@@ -117,14 +124,14 @@ else
 					$back_text = sprintf( _( '%s List' ), $_SESSION['Back_PHP_SELF'] );
 			} ?>
 
-			<a href="<?php echo $_SESSION['List_PHP_SELF']; ?>&bottom_back=true" title="<?php echo $back_text; ?>" class="BottomButton">
+			<a href="<?php echo $_SESSION['List_PHP_SELF']; ?>&amp;bottom_back=true" title="<?php echo $back_text; ?>" class="BottomButton">
 				<img src="<?php echo $btn_path; ?>back.png" />&nbsp;
 				<span><?php echo $back_text; ?></span>
 			</a>
 
 		<?php endif;
 
-		if( $_SESSION['Search_PHP_SELF']
+		if( isset( $_SESSION['Search_PHP_SELF'] )
 			&& ( User('PROFILE') == 'admin'
 				|| User('PROFILE') == 'teacher' ) ) :
 
@@ -146,7 +153,7 @@ else
 					$back_text = sprintf( _( '%s Search' ), $_SESSION['Back_PHP_SELF'] );
 			} ?>
 
-			<a href="<?php echo $_SESSION['Search_PHP_SELF']; ?>&bottom_back=true" title="<?php echo $back_text; ?>" class="BottomButton">
+			<a href="<?php echo $_SESSION['Search_PHP_SELF']; ?>&amp;bottom_back=true" title="<?php echo $back_text; ?>" class="BottomButton">
 				<img src="<?php echo $btn_path; ?>back.png" />&nbsp;
 				<span><?php echo $back_text; ?></span>
 			</a>
