@@ -3,7 +3,7 @@
 //FJ bugfix check accept cookies
 $default_session_name = session_name();
 
-include('Warehouse.php');
+include( 'Warehouse.php' );
 
 // Logout
 if( isset( $_REQUEST['modfunc'] )
@@ -16,8 +16,8 @@ if( isset( $_REQUEST['modfunc'] )
 
 	session_destroy();
 
-	header( 'Location: ' . $_SERVER['PHP_SELF']
-		. '?locale=' . $old_session_locale
+	// redirect to index.php with same locale as old session & eventual reason
+	header( 'Location: index.php?locale=' . $old_session_locale
 		. ( isset( $_REQUEST['reason'] ) ? '&reason=' . $_REQUEST['reason'] : '' ) );
 
 	exit;
@@ -105,11 +105,14 @@ elseif( isset( $_POST['USERNAME'] )
 		// if 1st login, Confirm Successful Installation screen
 		if( Config( 'LOGIN' ) == 'No' )
 		{
+			// Fix SQL error permission denied for sequence
+			DBQuery( "GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public to " . $DatabaseUsername );
+
 			Warehouse( 'header' ); ?>
 
-	<FORM action="index.php" method="POST"><BR />
+	<form action="index.php" method="POST"><BR />
 
-	<?php PopTable( 'header', _('Confirm Successful Installation') ); ?>
+	<?php PopTable( 'header', _( 'Confirm Successful Installation' ) ); ?>
 
 	<span class="center">
 		<h4>
@@ -129,7 +132,7 @@ elseif( isset( $_POST['USERNAME'] )
 			?>
 		</p>
 		<BR /><BR />
-		<INPUT type="submit" name="submit" id="submit" value="<?php echo _( 'OK' ); ?>" />
+		<input type="submit" name="submit" id="submit" value="<?php echo _( 'OK' ); ?>" />
 	</span>
 
 	<?php PopTable( 'footer' ); ?>
@@ -145,13 +148,15 @@ elseif( isset( $_POST['USERNAME'] )
 </BODY>
 </HTML>
 <?php 
+			// set Config( 'LOGIN' ) to Yes
 			DBQuery( "UPDATE CONFIG
 				SET CONFIG_VALUE='Yes'
-				WHERE TITLE='LOGIN'");
+				WHERE TITLE='LOGIN'" );
 
 			exit;
 		}
 	}
+
 	// User with No access profile
 	elseif( ( $login_RET
 			&& $login_RET[1]['PROFILE'] == 'none' )
@@ -160,6 +165,7 @@ elseif( isset( $_POST['USERNAME'] )
 		$error[] = _( 'Your account has not yet been activated.' ) . ' '
 			. _( 'You will be notified when it has been verified by a school administrator.' );
 	}
+
 	// Student: initiate session
 	elseif( $student_RET )
 	{
@@ -173,6 +179,7 @@ elseif( isset( $_POST['USERNAME'] )
 			SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL
 			WHERE STUDENT_ID='" . $student_RET[1]['STUDENT_ID'] . "'" );
 	}
+
 	// Failed login
 	else
 	{
@@ -220,20 +227,21 @@ elseif( isset( $_REQUEST['create_account'] ) )
 
 
 // Login screen
-if( !$_SESSION['STAFF_ID']
-	&& !$_SESSION['STUDENT_ID']
+if( empty( $_SESSION['STAFF_ID'] )
+	&& empty( $_SESSION['STUDENT_ID'] )
 	&& !isset( $_REQUEST['create_account'] ) )
 {
 	$lang_2_chars = mb_substr( $locale, 0, 2 );
 
+	// Right to left direction
 	$RTL_languages = array( 'ar', 'he', 'dv', 'fa', 'ur' );
 
 	$dir_RTL = in_array( $lang_2_chars, $RTL_languages ) ? ' dir="RTL"' : '';
 
 ?>
 <!doctype html>
-<HTML lang="<?php echo $lang_2_chars; ?>"<?php echo $dir_RTL; ?>>
-<HEAD>
+<html lang="<?php echo $lang_2_chars; ?>"<?php echo $dir_RTL; ?>>
+<head>
 	<title><?php echo ParseMLField( Config( 'TITLE' ) ); ?></title>
 	<meta charset="UTF-8" />
 	<meta name="robots" content="noindex" />
@@ -244,8 +252,8 @@ if( !$_SESSION['STAFF_ID']
 	</noscript>
 	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Config( 'THEME' ); ?>/stylesheet.css" />
-</HEAD>
-<BODY>
+</head>
+<body>
 <BR /><BR />
 <?php
 
@@ -305,9 +313,9 @@ if( !$_SESSION['STAFF_ID']
 					<td>
 					<?php foreach ( $RosarioLocales as $loc ) : ?>
 
-						<A href="index.php?locale=<?php echo $loc; ?>">
-							<IMG src="assets/flags/<?php echo $loc; ?>.png" height="32" />
-						</A>&nbsp;&nbsp;
+						<a href="index.php?locale=<?php echo $loc; ?>">
+							<img src="assets/flags/<?php echo $loc; ?>.png" height="32" />
+						</a>&nbsp;&nbsp;
 
 					<?php endforeach; ?>
 
@@ -318,7 +326,9 @@ if( !$_SESSION['STAFF_ID']
 
 				<tr>
 					<td>
-						<label for="USERNAME"><b><?php echo _( 'Username' ); ?></b></label>
+						<label for="USERNAME">
+							<b><?php echo _( 'Username' ); ?></b>
+						</label>
 					</td>
 					<td>
 						<input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" tabindex="1" required />
@@ -326,7 +336,9 @@ if( !$_SESSION['STAFF_ID']
 				</tr>
 				<tr>
 					<td>
-						<label for="PASSWORD"><b><?php echo _( 'Password' ); ?></b></label>
+						<label for="PASSWORD">
+							<b><?php echo _( 'Password' ); ?></b>
+						</label>
 					</td>
 					<td>
 						<input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" tabindex="2" required />
@@ -377,8 +389,8 @@ if( !$_SESSION['STAFF_ID']
 		</tr>
 	</table>
 	<span class="center">
-		<?php echo sprintf( _( '%s version %s' ), 'RosarioSIS', $RosarioVersion ); ?>
-		<BR />&copy; 2004-2009 <A HREF="http://www.miller-group.net" noreferrer>The Miller Group, Inc</A>
+		<?php echo sprintf( _( '%s version %s' ), 'RosarioSIS', ROSARIO_VERSION ); ?>
+		<BR />&copy; 2004-2009 <a href="http://www.miller-group.net" noreferrer>The Miller Group, Inc</a>
 		<BR />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
 		<BR />&copy; 2012-2015 <a href="http://www.rosariosis.org" noreferrer>François Jacquet</a>
 	</span>
@@ -386,8 +398,8 @@ if( !$_SESSION['STAFF_ID']
 <?php PopTable( 'footer' ); ?>
 
 <BR />
-</BODY>
-</HTML>
+</body>
+</html>
 <?php
 
 }
@@ -396,8 +408,6 @@ if( !$_SESSION['STAFF_ID']
 elseif( !isset( $_REQUEST['create_account'] ) )
 {
 	$_REQUEST['modname'] = 'misc/Portal.php';
-
-	$_REQUEST['failed_login'] = $failed_login;
 
 	include( 'Modules.php' );
 }
