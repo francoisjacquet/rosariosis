@@ -105,9 +105,6 @@ elseif( isset( $_POST['USERNAME'] )
 		// if 1st login, Confirm Successful Installation screen
 		if( Config( 'LOGIN' ) == 'No' )
 		{
-			// Fix SQL error permission denied for sequence
-			DBQuery( "GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public to " . $DatabaseUsername );
-
 			Warehouse( 'header' ); ?>
 
 	<form action="index.php" method="POST"><BR />
