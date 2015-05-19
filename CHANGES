@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.14
+-----------------
+- Fix submenuOffset when Side.php reloaded in warehouse.js
+
 Changes in 2.8.13
 -----------------
 - Fix #106 Comments with quotes ' in Comments.inc.php
