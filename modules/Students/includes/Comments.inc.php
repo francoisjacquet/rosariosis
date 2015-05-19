@@ -7,14 +7,19 @@ $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='"
 if($_REQUEST['modfunc']=='update' && AllowEdit())
 {
 	//FJ add time and user to comments "comment thread" like
-	$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] = date('Y-m-d G:i:s').'|'.User('STAFF_ID')."||".$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'];
+	$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] =
+		date('Y-m-d G:i:s') . '|'
+		. User('STAFF_ID') . '||'
+		. $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'];
 	
 	$existing_RET = DBGet(DBQuery("SELECT STUDENT_ID, COMMENT FROM STUDENT_MP_COMMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."'"));
 	
 	if(!$existing_RET)
 		DBQuery("INSERT INTO STUDENT_MP_COMMENTS (SYEAR,STUDENT_ID,MARKING_PERIOD_ID) values('".UserSyear()."','".UserStudentID()."','".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."')");
 	else
-		$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] = $existing_RET[1]['COMMENT']."||".$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'];
+		$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] =
+			DBEscapeString( $existing_RET[1]['COMMENT'] ) . '||'
+			. $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'];
 		
 	SaveData(array('STUDENT_MP_COMMENTS'=>"STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND MARKING_PERIOD_ID='".($program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE']?GetParentMP('SEM',UserMP()):UserMP())."'"),'',array('COMMENT'=>_('Comment')));
 	//unset($_SESSION['_REQUEST_vars']['modfunc']);
