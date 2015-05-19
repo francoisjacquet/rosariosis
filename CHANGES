@@ -1,5 +1,10 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.13
+-----------------
+- Fix #106 Comments with quotes ' in Comments.inc.php
+- Fix #106 Other_Info category include in Student.php & User.php
+
 Changes in 2.8.12
 -----------------
 - Fix #102 error language "plpgsql" does not exist in rosariosis.sql
