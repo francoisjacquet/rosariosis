@@ -428,13 +428,15 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 
 		if ($can_use_RET['Students/Student.php&category_id='.$category_id])
 		{
-			if(!mb_strpos($include,'/'))
+			if (!empty($include) && !mb_strpos($include,'/'))
 				include('modules/Students/includes/'.$include.'.inc.php');
 			else
-			{
-				include('modules/'.$include.'.inc.php');
-				$separator = '<HR>';
-				include('modules/Students/includes/Other_Info.inc.php');
+                        {
+                                if (!empty($include)) {
+			                include('modules/'.$include.'.inc.php');
+			                $separator = '<HR>';
+                                }
+			        include('modules/Students/includes/Other_Info.inc.php');
 			}
 		}
 		echo PopTable('footer');
