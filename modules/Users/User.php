@@ -34,6 +34,9 @@ else
 		if(count($category_include))
 		{
 			$include = $category_include[1]['INCLUDE'];
+
+			if ( empty( $include ) )
+				$include = $categories['Other_Info'];
 		}
 		//FJ Prevent $_REQUEST['category_id'] hacking
 		else
