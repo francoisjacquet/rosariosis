@@ -138,6 +138,8 @@ function ajaxPrepare(target) {
 
 	var h3 = $('#body h3.title').text();
 	document.title = $('#body h2').text() + (h3 ? ' | ' + h3 : '');
+
+	submenuOffset();
 }
 
 //disable links while AJAX
@@ -151,8 +153,6 @@ $(document).ajaxStop(function () {
 //onload
 window.onload = function () {
 	ajaxPrepare('');
-
-	submenuOffset();
 
 	//reload page after browser history
 	if (history.pushState) window.setTimeout(function () {
