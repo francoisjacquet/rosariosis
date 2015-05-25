@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.15
+-----------------
+- Add Balance field to Advanced Report in Export.php sponsored by LM Idiomes
+
 Changes in 2.8.14
 -----------------
 - Fix submenuOffset when Side.php reloaded in warehouse.js
