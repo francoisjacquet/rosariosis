@@ -328,7 +328,7 @@ if( empty( $_SESSION['STAFF_ID'] )
 						</label>
 					</td>
 					<td>
-						<input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" tabindex="1" required />
+						<input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" tabindex="1" required autofocus />
 					</td>
 				</tr>
 				<tr>
