@@ -312,7 +312,7 @@ if( empty( $_SESSION['STAFF_ID'] )
 
 						<a href="index.php?locale=<?php echo $loc; ?>">
 							<img src="assets/flags/<?php echo $loc; ?>.png" height="32" />
-						</a>&nbsp;&nbsp;
+						</a>&nbsp;
 
 					<?php endforeach; ?>
 
