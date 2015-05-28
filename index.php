@@ -199,7 +199,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 
 				<tr>
 					<td><label for="USERNAME"><b><?php echo _('Username'); ?></b></label></td>
-					<td><input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" tabindex="1" required /></td>
+					<td><input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" tabindex="1" required autofocus /></td>
 				</tr>
 				<tr>
 					<td><label for="PASSWORD"><b><?php echo _('Password'); ?></b></label></td>

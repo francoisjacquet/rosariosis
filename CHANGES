@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.15
 -----------------
 - Add Balance field to Advanced Report in Export.php sponsored by LM Idiomes
+- Add focus to username field in index.php
 
 Changes in 2.8.14
 -----------------
