@@ -80,7 +80,7 @@ if($_REQUEST['search_modfunc']=='list')
 
 	if(!$fields_list)
 	{
-//FJ disable mailing address display
+		//FJ disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
 			$fields_list = array('FULL_NAME'=>_('Last, First M'),
 			'FIRST_NAME'=>_('First Name'),
@@ -233,12 +233,33 @@ if($_REQUEST['search_modfunc']=='list')
 		if($_REQUEST['fields']['FS_BALANCE']=='Y')
 			$extra['SELECT'] .= ',(SELECT fsa.BALANCE FROM FOOD_SERVICE_ACCOUNTS fsa WHERE fsa.ACCOUNT_ID=fssa.ACCOUNT_ID) AS FS_BALANCE';
 
-		$fields_list += array('FS_ACCOUNT_ID'=>'F/S '._('Account ID'),
-		'FS_DISCOUNT'=>'F/S '._('Discount'),
-		'FS_STATUS'=>'F/S '._('Status'),
-		'FS_BARCODE'=>'F/S '._('Barcode'),
-		'FS_BALANCE'=>'F/S '._('Balance'));
+		$fields_list += array('FS_ACCOUNT_ID' => _('Food Service') . ' ' ._('Account ID'),
+		'FS_DISCOUNT' => _('Food Service') . ' ' . _('Discount'),
+		'FS_STATUS' => _('Food Service') . ' ' ._('Status'),
+		'FS_BARCODE' => _('Food Service') . ' ' ._('Barcode'),
+		'FS_BALANCE' => _('Food Service') . ' ' ._('Balance'));
 	}
+
+	if( $RosarioModules['Student_Billing'] && ( $_REQUEST['fields']['SB_BALANCE'] == 'Y' ) )
+	{
+
+		// FJ Add Balance field to Advanced Report
+		if( $_REQUEST['fields']['SB_BALANCE'] == 'Y'
+			&& AllowUse( 'Student_Billing/StudentFees.php' ) )
+			$extra['SELECT'] .= ",( coalesce( ( SELECT sum( p.AMOUNT )
+				FROM BILLING_PAYMENTS p
+				WHERE p.STUDENT_ID=ssm.STUDENT_ID
+				AND p.SYEAR=ssm.SYEAR ), 0 )
+				- coalesce( ( SELECT sum( f.AMOUNT )
+					FROM BILLING_FEES f
+					WHERE f.STUDENT_ID=ssm.STUDENT_ID
+					AND f.SYEAR=ssm.SYEAR ), 0 ) ) AS SB_BALANCE";
+
+		$fields_list += array( 'SB_BALANCE' => _( 'Student Billing' ) . ' ' . _( 'Balance' ) );
+
+		$extra['functions'] += array( 'SB_BALANCE' => 'Currency' );
+	}
+
 
 	if($_REQUEST['fields'])
 	{
@@ -341,7 +362,7 @@ else
 
 		if(AllowUse('Students/Student.php&category_id=3'))
 		{
-//FJ disable mailing address display
+			//FJ disable mailing address display
 			if (Config('STUDENTS_USE_MAILING'))
 				$fields_list['Address'] = array('ADDRESS'=>_('Address'),
 				'MAIL_ADDRESS'=>_('Mailing Address'),
@@ -383,7 +404,7 @@ else
 	{
 		if(AllowUse('Students/Student.php&category_id='.$category['ID']))
 		{
-//FJ fix error Warning: Invalid argument supplied for foreach()
+			//FJ fix error Warning: Invalid argument supplied for foreach()
 			if (isset($custom_RET[$category['ID']]))
 			{
 				foreach($custom_RET[$category['ID']] as $field)
@@ -398,6 +419,11 @@ else
 		'FS_STATUS'=>_('Status'),
 		'FS_BARCODE'=>_('Barcode'),
 		'FS_BALANCE'=>_('Balance'));
+
+	if ( $RosarioModules['Student_Billing'] )
+		// FJ Add Balance field to Advanced Report
+		if ( AllowUse( 'Student_Billing/StudentFees.php' ) )
+		$fields_list['Student_Billing'] = array( 'SB_BALANCE' => _( 'Balance' ) );
 
 	$fields_list['Schedule']['PERIOD_ATTENDANCE'] = _('Attendance Period Teacher').' - '._('Room');
 	$periods_RET = DBGet(DBQuery("SELECT TITLE,PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
@@ -491,4 +517,5 @@ else
 		echo '</TD></TR></TABLE>';
 	}
 }
+
 ?>
