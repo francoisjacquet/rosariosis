@@ -52,11 +52,15 @@ function Widgets($item,&$myextra=null)
 					$extra['search'] .= $widget_wrap_footer;
 				}
 
-				if($RosarioModules['Attendance'] && (!$_ROSARIO['Widgets']['absences']))
+				if ( $RosarioModules['Attendance']
+					&& ( !$_ROSARIO['Widgets']['absences']
+						|| !$_ROSARIO['Widgets']['cp_absences'] ) )
 				{
-					$extra['search'] .= $widget_wrap_header(_('Attendance'));
+					$extra['search'] .= $widget_wrap_header( _( 'Attendance' ) );
 
 					Widgets('absences',$extra);
+
+					Widgets( 'cp_absences', $extra );
 
 					$extra['search'] .= $widget_wrap_footer;
 				}
@@ -188,50 +192,160 @@ function Widgets($item,&$myextra=null)
 				}
 			break;
 
+			// Days Absent
 			case 'absences':
-				if($RosarioModules['Attendance'])
+
+				if ( !$RosarioModules['Attendance'] )
+					break;
+
+				if ( is_numeric( $_REQUEST['absences_low'] )
+					&& is_numeric( $_REQUEST['absences_high'] ) )
 				{
-				if(is_numeric($_REQUEST['absences_low']) && is_numeric($_REQUEST['absences_high']))
-				{
-					if($_REQUEST['absences_low'] > $_REQUEST['absences_high'])
+					if ( $_REQUEST['absences_low'] > $_REQUEST['absences_high'] )
 					{
 						$temp = $_REQUEST['absences_high'];
+
 						$_REQUEST['absences_high'] = $_REQUEST['absences_low'];
+
 						$_REQUEST['absences_low'] = $temp;
 					}
 
-					if($_REQUEST['absences_low']==$_REQUEST['absences_high'])
-						$extra['WHERE'] .= " AND (SELECT sum(1-STATE_VALUE) AS STATE_VALUE FROM ATTENDANCE_DAY ad WHERE ssm.STUDENT_ID=ad.STUDENT_ID AND ad.SYEAR=ssm.SYEAR AND ad.MARKING_PERIOD_ID IN (".GetChildrenMP($_REQUEST['absences_term'],UserMP()).")) = '".$_REQUEST['absences_low']."'";
+					// set Absences number SQL condition
+					if ( $_REQUEST['absences_low'] == $_REQUEST['absences_high'] )
+					{
+						$absences_sql = " = '" . $_REQUEST['absences_low'] . "'";
+					}
 					else
-						$extra['WHERE'] .= " AND (SELECT sum(1-STATE_VALUE) AS STATE_VALUE FROM ATTENDANCE_DAY ad WHERE ssm.STUDENT_ID=ad.STUDENT_ID AND ad.SYEAR=ssm.SYEAR AND ad.MARKING_PERIOD_ID IN (".GetChildrenMP($_REQUEST['absences_term'],UserMP()).")) BETWEEN '".$_REQUEST['absences_low']."' AND '".$_REQUEST['absences_high']."'";
+					{
+						$absences_sql = " BETWEEN '" . $_REQUEST['absences_low'] . "'
+							AND '" . $_REQUEST['absences_high'] . "'";
+					}
 
-					switch($_REQUEST['absences_term'])
+					$extra['WHERE'] .= " AND (SELECT sum(1-STATE_VALUE) AS STATE_VALUE
+						FROM ATTENDANCE_DAY ad
+						WHERE ssm.STUDENT_ID=ad.STUDENT_ID
+						AND ad.SYEAR=ssm.SYEAR
+						AND ad.MARKING_PERIOD_ID IN (" . GetChildrenMP( $_REQUEST['absences_term'], UserMP() ) . "))" .
+						$absences_sql;
+
+					switch( $_REQUEST['absences_term'] )
 					{
 						case 'FY':
-							$term = _('this school year to date');
+							$term = _( 'this school year to date' );
 						break;
+
 						case 'SEM':
-							$term = _('this semester to date');
+							$term = _( 'this semester to date' );
 						break;
+
 						case 'QTR':
-							$term = _('this marking period to date');
+							$term = _( 'this marking period to date' );
 						break;
 					}
 
-					if(!$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'._('Days Absent').'&nbsp;'.$term.' '._('Between').' </b> '.$_REQUEST['absences_low'].' &amp; '.$_REQUEST['absences_high'].'<BR />';
+					if ( !$extra['NoSearchTerms'] )
+						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Days Absent' ) . '&nbsp;' . $term . ' ' . _( 'Between' ) . ':</b> ' .
+							$_REQUEST['absences_low'] . ' &amp; ' . $_REQUEST['absences_high'] . '<BR />';
 				}
 
-				$extra['search'] .= '<TR class="st"><TD>
-				'._('Days Absent').'
-				<BR />
-				<label><INPUT type="radio" name="absences_term" value="FY" checked />&nbsp;'._('YTD').'</label>&nbsp; 
-				<label><INPUT type="radio" name="absences_term" value="SEM">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</label>&nbsp; 
-				<label><INPUT type="radio" name="absences_term" value="QTR">&nbsp;'.GetMP(UserMP(),'SHORT_NAME').'</label>
-				</TD><TD>
-				'._('Between').' <INPUT type="text" name="absences_low" size="3" maxlength="5"> &amp; <INPUT type="text" name="absences_high" size="3" maxlength="5">
+				$extra['search'] .= '<TR class="st"><TD>' .
+				_( 'Days Absent' ) .
+				'<BR />
+				<label><INPUT type="radio" name="absences_term" value="FY" checked />&nbsp;' . _( 'YTD' ) . '</label>&nbsp; 
+				<label><INPUT type="radio" name="absences_term" value="SEM" />&nbsp;' . GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) . '</label>&nbsp; 
+				<label><INPUT type="radio" name="absences_term" value="QTR" />&nbsp;' . GetMP( UserMP(), 'SHORT_NAME' ) . '</label>
+				</TD><TD>' .
+				_( 'Between' ) .
+				' <INPUT type="text" name="absences_low" size="3" maxlength="5" /> &amp; ' .
+				'<INPUT type="text" name="absences_high" size="3" maxlength="5" />
 				</TD></TR>';
+
+			break;
+
+			// Course Period Absences
+			// for admins only (relies on the Course widget)
+			case 'cp_absences':
+
+				if ( !$RosarioModules['Attendance']
+					|| User( 'PROFILE' ) !== 'admin' )
+					break;
+
+				if ( is_numeric( $_REQUEST['cp_absences_low'] )
+					&& is_numeric( $_REQUEST['cp_absences_high'] )
+					&& is_numeric( $_REQUEST['w_course_period_id'] ) )
+				{
+					if ( $_REQUEST['cp_absences_low'] > $_REQUEST['cp_absences_high'] )
+					{
+						$temp = $_REQUEST['cp_absences_high'];
+
+						$_REQUEST['cp_absences_high'] = $_REQUEST['cp_absences_low'];
+
+						$_REQUEST['cp_absences_low'] = $temp;
+					}
+
+
+					// set Term SQL condition, if not Full Year
+					$term_sql = '';
+
+					if ( $_REQUEST['cp_absences_term'] !== 'FY' )
+					{
+						$term_sql = " AND cast(ap.MARKING_PERIOD_ID as text)
+							IN(" . GetChildrenMP( $_REQUEST['cp_absences_term'], UserMP() ) . ")";
+					}
+
+					// set Absences number SQL condition
+					if ( $_REQUEST['cp_absences_low'] == $_REQUEST['cp_absences_high'] )
+					{
+						$absences_sql = " = '" . $_REQUEST['cp_absences_low'] . "'";
+					}
+					else
+					{
+						$absences_sql = " BETWEEN '" . $_REQUEST['cp_absences_low'] . "'
+							AND '" . $_REQUEST['cp_absences_high'] . "'";
+					}
+
+					$extra['WHERE'] .= " AND (SELECT count(*)
+						FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
+						WHERE ac.ID=ap.ATTENDANCE_CODE
+						AND ac.STATE_CODE='A'
+						AND ap.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" .
+						$term_sql .
+						" AND ap.STUDENT_ID=ssm.STUDENT_ID)" .
+						$absences_sql;
+
+					switch( $_REQUEST['cp_absences_term'] )
+					{
+						case 'FY':
+							$term = _( 'this school year to date' );
+						break;
+
+						case 'SEM':
+							$term = _( 'this semester to date' );
+						break;
+
+						case 'QTR':
+							$term = _( 'this marking period to date' );
+						break;
+					}
+
+					if ( !$extra['NoSearchTerms'] )
+						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Course Period Absences' ) . '&nbsp;' . $term . ' ' . _( 'Between' ) . ':</b> ' .
+							$_REQUEST['cp_absences_low'] . ' &amp; ' . $_REQUEST['cp_absences_high'] . '<BR />';
 				}
+
+				$extra['search'] .= '<TR class="st"><TD>' .
+				'<span style="cursor: help;" title="' . _( 'Use the Choose link of the Course widget (under Scheduling) to select a Course Period.' ) . '">' .
+				_( 'Course Period Absences' ) . '*</span>' .
+				'<BR />
+				<label><INPUT type="radio" name="cp_absences_term" value="FY" checked />&nbsp;' . _( 'YTD' ) . '</label>&nbsp; 
+				<label><INPUT type="radio" name="cp_absences_term" value="SEM" />&nbsp;' . GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) . '</label>&nbsp; 
+				<label><INPUT type="radio" name="cp_absences_term" value="QTR" />&nbsp;' . GetMP( UserMP(), 'SHORT_NAME' ) . '</label>
+				</TD><TD>' .
+				_( 'Between' ) .
+				' <INPUT type="text" name="cp_absences_low" size="3" maxlength="5" /> &amp; ' .
+				'<INPUT type="text" name="cp_absences_high" size="3" maxlength="5" />
+				</TD></TR>';
+
 			break;
 
 			case 'gpa':
@@ -428,8 +542,8 @@ function Widgets($item,&$myextra=null)
 						break;
 					}
 
-					$start_date = mb_strtoupper(date('d-M-Y',time() - ($today-$start_end_RET[1]['START_DAY'])*60*60*24));
-					$end_date = mb_strtoupper(date('d-M-Y',time()));
+					$start_date = mb_strtoupper(date('d-M-y',time() - ($today-$start_end_RET[1]['START_DAY'])*60*60*24));
+					$end_date = mb_strtoupper(date('d-M-y',time()));
 					$extra['WHERE'] .= " AND (SELECT count(*) FROM ELIGIBILITY e WHERE ssm.STUDENT_ID=e.STUDENT_ID AND e.SYEAR=ssm.SYEAR AND e.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND e.ELIGIBILITY_CODE='FAILING') > '0'";
 
 					if(!$extra['NoSearchTerms'])
