@@ -1,23 +1,71 @@
 <?php
-if( !defined( 'CONFIG_INC' ) )
-{
-	define( 'CONFIG_INC', 1 );
-	
-	// PostgreSQL Database Setup
-	$DatabaseServer = 'localhost';
-	$DatabaseUsername = 'rosariosis';
-	$DatabasePassword = 'password';
-	$DatabaseName = 'rosariosis';
-	$DatabasePort = '5432';
+/**
+ * The base configurations of the WordPress.
+ *
+ * You can find more information in the INSTALL file
+ */
 
-	// Server Names and Paths
-	$RosarioPath = dirname( __FILE__ ) . '/';
-	$pg_dumpPath = '/usr/bin/pg_dump'; // Specify the path to the database dump utility for this server.
-	$wkhtmltopdfPath = '/usr/bin/wkhtmltopdf'; // empty string means wkhtmltopdf will not be called and reports will be rendered in html instead of pdf
+/**
+ * PostgreSQL Database Settings
+ *
+ * You can get this info from your web host
+ */
 
-	$DefaultSyear = '2014'; // Default school year, should match the database to be able to login
-	$RosarioNotifyAddress = ''; // email address to send error and new administrator notifications
-	$RosarioLocales = array('en_US.utf8'); // Add other languages you want to support here, ex: array('en_US.utf8', 'fr_FR.utf8', 'es_ES.utf8');
+// Database server hostname: use localhost if on same server
+$DatabaseServer = 'localhost';
 
-}
+// Database username
+$DatabaseUsername = 'rosariosis';
+
+// Database password
+$DatabasePassword = 'password';
+
+// Database name
+$DatabaseName = 'rosariosis';
+
+// Database port: default is 5432
+$DatabasePort = '5432';
+
+
+/**
+ * Paths
+ */
+
+// Specify the path to the PostrgeSQL database dump utility for this server
+$pg_dumpPath = '/usr/bin/pg_dump';
+
+/**
+ * Full path to wkhtmltopdf binary file
+ *
+ * An empty string means wkhtmltopdf will not be called
+ * and reports will be rendered in HTML instead of PDF
+ */
+$wkhtmltopdfPath = '/usr/bin/wkhtmltopdf';
+
+
+/**
+ * Default school year
+ *
+ * Should match the database to be able to login
+ */
+$DefaultSyear = '2015';
+
+
+/**
+ * email address
+ * where to send error and new administrator notifications
+ *
+ * Leave empty to not receive email notifications
+ */
+$RosarioNotifyAddress = '';
+
+
+/**
+ * Locales
+ *
+ * Add other languages you want to support here
+ * ex: array('en_US.utf8', 'fr_FR.utf8', 'es_ES.utf8');
+ */
+$RosarioLocales = array('en_US.utf8');
+
 ?>
