@@ -36,9 +36,6 @@ as appropriate for your installation. Rename the file to config.inc.php.
   $DatabaseName is the database name
   $DatabasePort is the socket port number for accessing the database server
 
-  $RosarioPath is full path to RosarioSIS installation, you can define it 
-	statically for your installation or the runtime value derived from the 
-	__FILE__ magic constant should work
   $pg_dumpPath is full path to the postgres database dump utility pg_dump
   $wkhtmltopdfPath full path to wkhtmltopdf for pdf 'printing'
   
@@ -49,6 +46,9 @@ as appropriate for your installation. Rename the file to config.inc.php.
 	translations (see locale/ folder for available locales)
 
   [Optional variables]
+  $RosarioPath is full path to RosarioSIS installation, you can define it 
+	statically for your installation or the runtime value derived from the 
+	__FILE__ magic constant should work
   $wkhtmltopdfAssetsPath is path where wkhtmltopdf will access the assets/
 	directory, possibly different than how the user's web browser finds it,
 	empty string means no translation

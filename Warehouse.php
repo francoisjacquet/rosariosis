@@ -28,6 +28,9 @@ if( !defined( 'WAREHOUSE_PHP' ) )
 		error_reporting( E_ALL ^ E_NOTICE );
 
 	// Server Paths
+	if ( !isset( $RosarioPath ) )
+		$RosarioPath = dirname( __FILE__ ) . '/';
+
 	if ( !isset( $StudentPicturesPath ) )
 		$StudentPicturesPath = 'assets/StudentPhotos/';
 
