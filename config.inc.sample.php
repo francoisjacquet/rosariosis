@@ -46,6 +46,8 @@ $wkhtmltopdfPath = '/usr/bin/wkhtmltopdf';
 /**
  * Default school year
  *
+ * Do not change on install
+ * Change after rollover
  * Should match the database to be able to login
  */
 $DefaultSyear = '2015';
