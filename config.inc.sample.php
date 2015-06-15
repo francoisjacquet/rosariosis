@@ -1,6 +1,6 @@
 <?php
 /**
- * The base configurations of the WordPress.
+ * The base configurations of RosarioSIS
  *
  * You can find more information in the INSTALL file
  */
