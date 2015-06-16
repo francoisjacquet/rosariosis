@@ -90,7 +90,9 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 
 $categories_RET = DBGet(DBQuery("SELECT df.ID,du.TITLE FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE df.DATA_TYPE!='textarea' AND du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
 
-Widgets('discipline');
+Widgets( 'reporter' );
+Widgets( 'incident_date' );
+Widgets( 'discipline_fields' );
 
 $extra['SELECT'] = ',dr.*';
 if(mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS')===false)
