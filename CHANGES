@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.16
+-----------------
+- Fix SQL error invalid input syntax for type numeric in _makeLetterGrade.fnc.php
+
 Changes in 2.8.15
 -----------------
 - 2015-2016 School Year update in rosariosis.sql & config.inc.sample.php
