@@ -1,10 +1,14 @@
 <?php
 
 /**
- * Find a Student form Widgets
+ * Widgets
+ * Essentially used in the Find a Student form
  *
- * @param string $item     widget name or 'all' widgets
- * @param array  &$myextra Search.inc.php extra (HTML, functions...)
+ * @param  string $item     widget name or 'all' widgets
+ * @param  array  &$myextra Search.inc.php extra (HTML, functions...)
+ *
+ * @return bool             true if Widget loaded
+ *                          false if insufficient rights or already saved widget
  */
 function Widgets( $item, &$myextra = null )
 {
@@ -29,12 +33,13 @@ function Widgets( $item, &$myextra = null )
 			&& User( 'PROFILE' ) !== 'teacher' )
 		|| ( isset( $_ROSARIO['Widgets'][$item] )
 			&& $_ROSARIO['Widgets'][$item] ) )
-		return;
+		return false;
 
 	switch ( $item )
 	{
-		// All Widgets
+		// All Widgets (or almost)
 		case 'all':
+
 			$extra['search'] .= '<TR><TD colspan="2"><TABLE class="width-100p">';
 
 			// FJ regroup widgets wrap
@@ -42,7 +47,9 @@ function Widgets( $item, &$myextra = null )
 			function( $title )
 			{
 				return '<TR><TD colspan="2">&nbsp;
-				<A onclick="switchMenu(this); return false;" href="#" class="switchMenu"><B>'.$title.'</B></A>
+				<A onclick="switchMenu(this); return false;" href="#" class="switchMenu">
+					<B>' . $title . '</B>
+				</A>
 				<BR />
 				<TABLE class="widefat width-100p cellspacing-0 col1-align-right hide">';
 			};
@@ -67,7 +74,6 @@ function Widgets( $item, &$myextra = null )
 			}
 
 			// Scheduling
-			//if($RosarioModules['Scheduling'] && (!$_ROSARIO['Widgets']['course'] || !$_ROSARIO['Widgets']['request']) && User('PROFILE')=='admin')
 			if ( $RosarioModules['Scheduling']
 				&& !$_ROSARIO['Widgets']['course']
 				&& User('PROFILE') == 'admin' )
@@ -166,21 +172,26 @@ function Widgets( $item, &$myextra = null )
 			}
 
 			$extra['search'] .= '</TABLE></TD></TR>';
+
 		break;
 
 		// User Widgets (configured in My Preferences)
 		case 'user':
+
 			$widgets_RET = DBGet( DBQuery( "SELECT TITLE
 				FROM PROGRAM_USER_CONFIG
 				WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 				AND PROGRAM='WidgetsSearch'" .
 				( count( $_ROSARIO['Widgets'] ) ?
-					" AND TITLE NOT IN ('" . implode( "','", array_keys( $_ROSARIO['Widgets'] ) ) . "')" :
+					" AND TITLE NOT IN ('" .
+						implode( "','", array_keys( $_ROSARIO['Widgets'] ) ) .
+					"')" :
 					'' )
 				) );
 
 			foreach( $widgets_RET as $widget )
 				Widgets( $widget['TITLE'], $extra );
+
 		break;
 
 		// Course Widget
@@ -205,7 +216,10 @@ function Widgets( $item, &$myextra = null )
 						AND w_ss.SYEAR=ssm.SYEAR
 						AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
 						AND w_ss.COURSE_ID='" . $course[1]['COURSE_ID'] . "'
-						AND ('" . DBDate() . "' BETWEEN w_ss.START_DATE AND w_ss.END_DATE OR w_ss.END_DATE IS NULL)";
+						AND ('" . DBDate() . "'
+							BETWEEN w_ss.START_DATE
+							AND w_ss.END_DATE
+							OR w_ss.END_DATE IS NULL)";
 
 					if ( !$extra['NoSearchTerms'] )
 						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Course' ) . ': </b>'.
@@ -220,7 +234,10 @@ function Widgets( $item, &$myextra = null )
 						AND w_ss.SYEAR=ssm.SYEAR
 						AND w_ss.SCHOOL_ID=ssm.SCHOOL_ID
 						AND w_ss.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'
-						AND ('".DBDate()."' BETWEEN w_ss.START_DATE AND w_ss.END_DATE OR w_ss.END_DATE IS NULL)";
+						AND ('".DBDate()."'
+							BETWEEN w_ss.START_DATE
+							AND w_ss.END_DATE
+							OR w_ss.END_DATE IS NULL)";
 
 					$course = DBGet( DBQuery( "SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID
 						FROM COURSE_PERIODS cp,COURSES c
@@ -358,7 +375,7 @@ function Widgets( $item, &$myextra = null )
 				}
 
 				if ( !$extra['NoSearchTerms'] )
-					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Days Absent' ) . '&nbsp;' . $term . ' ' . _( 'Between' ) . ':</b> ' .
+					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Days Absent' ) . ' ' . $term . ' ' . _( 'Between' ) . ': </b>' .
 						$_REQUEST['absences_low'] . ' &amp; ' . $_REQUEST['absences_high'] . '<BR />';
 			}
 
@@ -452,7 +469,7 @@ function Widgets( $item, &$myextra = null )
 				}
 
 				if ( !$extra['NoSearchTerms'] )
-					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Course Period Absences' ) . '&nbsp;' . $term . ' ' . _( 'Between' ) . ':</b> ' .
+					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Course Period Absences' ) . ' ' . $term . ' ' . _( 'Between' ) . ': </b>' .
 						$_REQUEST['cp_absences_low'] . ' &amp; ' . $_REQUEST['cp_absences_high'] . '<BR />';
 			}
 
@@ -483,6 +500,7 @@ function Widgets( $item, &$myextra = null )
 
 		// GPA Widget
 		case 'gpa':
+
 			if ( !$RosarioModules['Grades'] )
 				break;
 
@@ -565,6 +583,7 @@ function Widgets( $item, &$myextra = null )
 
 		// Class Rank Widget
 		case 'class_rank':
+
 			if ( !$RosarioModules['Grades'] )
 				break;
 
@@ -591,7 +610,7 @@ function Widgets( $item, &$myextra = null )
 					AND '" . $_REQUEST['class_rank_high'] . "'";
 
 				if ( !$extra['NoSearchTerms'] )
-					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Class Rank' ) . ': ' . _( 'Between' ) . '</b>' .
+					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Class Rank' ) . ' ' . _( 'Between' ) . ': </b>' .
 						$_REQUEST['class_rank_low'] . ' &amp; ' . $_REQUEST['class_rank_high'] . '<BR />';
 			}
 
@@ -638,6 +657,7 @@ function Widgets( $item, &$myextra = null )
 
 		// Report Card Grade Widget
 		case 'letter_grade':
+
 			if ( !$RosarioModules['Grades'] )
 				break;
 
@@ -742,6 +762,7 @@ function Widgets( $item, &$myextra = null )
 
 		// Eligibility (Ineligible) Widget
 		case 'eligibility':
+
 			if ( !$RosarioModules['Eligibility'] )
 				break;
 
@@ -817,6 +838,7 @@ function Widgets( $item, &$myextra = null )
 
 		// Activity (Eligibility) Widget
 		case 'activity':
+
 			if ( !$RosarioModules['Eligibility'] )
 				break;
 
@@ -915,9 +937,9 @@ function Widgets( $item, &$myextra = null )
 					AND '" . $_REQUEST['balance_high'] . "' ";
 
 				if ( !$extra['NoSearchTerms'] )
-					$_ROSARIO['SearchTerms'] .= '<b>' . _('Student Billing Balance') . ': </b>' .
-						_( 'Between' ) . ' ' . $_REQUEST['balance_low'] .
-						' &amp; ' . $_REQUEST['balance_high'] . '<BR />';
+					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Student Billing Balance' ) . ' ' . _( 'Between' ) .': </b>' .
+						$_REQUEST['balance_low'] . ' &amp; ' .
+						$_REQUEST['balance_high'] . '<BR />';
 			}
 
 			$extra['search'] .= '<TR class="st"><TD>
@@ -1024,12 +1046,6 @@ function Widgets( $item, &$myextra = null )
 				unset( $_REQUEST['year_discipline_entry_end'] );
 			}
 
-			$discipline_entry_begin_for_ProperDate = $_REQUEST['discipline_entry_begin'];
-
-			// date = LAST_LOGIN = date + time
-			if ( mb_strlen( $_REQUEST['discipline_entry_begin'] ) > 10 )
-				$discipline_entry_begin_for_ProperDate = mb_substr( $_REQUEST['discipline_entry_begin'], 0, 10 );
-
 			if ( ( $_REQUEST['discipline_entry_begin']
 					|| $_REQUEST['discipline_entry_end'] )
 				&& mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false  )
@@ -1050,7 +1066,7 @@ function Widgets( $item, &$myextra = null )
 
 				if ( !$extra['NoSearchTerms'] )
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Incident Date' ) . ' ' . _( 'Between' ) . ': </b>' .
-						ProperDate( $discipline_entry_begin_for_ProperDate ) . '<b> ' . _( 'and' ) . ' </b>' .
+						ProperDate( $_REQUEST['discipline_entry_begin'] ) . ' &amp; ' .
 						ProperDate( $_REQUEST['discipline_entry_end'] ) . '<BR />';
 			}
 			elseif ( $_REQUEST['discipline_entry_begin'] )
@@ -1059,7 +1075,7 @@ function Widgets( $item, &$myextra = null )
 
 				if ( !$extra['NoSearchTerms'] )
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Incident Date' ) . ' ' . _( 'On or After' ) . ' </b>' .
-						ProperDate( $discipline_entry_begin_for_ProperDate ) . '<BR />';
+						ProperDate( $_REQUEST['discipline_entry_begin'] ) . '<BR />';
 			}
 			elseif ( $_REQUEST['discipline_entry_end'] )
 			{
@@ -1101,7 +1117,9 @@ function Widgets( $item, &$myextra = null )
 
 				for ( $i = 0; $i < $size; $i++ )
 					if ( !( $_REQUEST['discipline'][$key[$i]] ) )
+					{
 						unset( $_REQUEST['discipline'][$key[$i]] );
+					}
 
 				/*foreach($_REQUEST['discipline'] as $key=>$value)
 				{
@@ -1121,7 +1139,9 @@ function Widgets( $item, &$myextra = null )
 				for ( $i = 0; $i < $size; $i++ )
 					if ( !( $_REQUEST['discipline_begin'][$key[$i]] )
 						|| !is_numeric( $_REQUEST['discipline_begin'][$key[$i]] ) )
+					{
 						unset( $_REQUEST['discipline_begin'][$key[$i]] );
+					}
 
 				/*foreach($_REQUEST['discipline_begin'] as $key=>$value)
 				{
@@ -1140,7 +1160,9 @@ function Widgets( $item, &$myextra = null )
 				for ( $i = 0; $i < $size; $i++ )
 					if ( !( $_REQUEST['discipline_end'][$key[$i]] )
 						|| !is_numeric( $_REQUEST['discipline_end'][$key[$i]] ) )
+					{
 						unset( $_REQUEST['discipline_end'][$key[$i]] );
+					}
 
 				/*foreach($_REQUEST['discipline_end'] as $key=>$value)
 				{
@@ -1245,11 +1267,13 @@ function Widgets( $item, &$myextra = null )
 							if ( $category['DATA_TYPE'] == 'multiple_radio'
 								|| $category['DATA_TYPE'] == 'select' )
 							{
-								$extra['WHERE'] .= " AND dr.CATEGORY_" . $category['ID'] . " = '" . $_REQUEST['discipline'][$category['ID']] . "' ";
+								$extra['WHERE'] .= " AND dr.CATEGORY_" . $category['ID'] .
+									" = '" . $_REQUEST['discipline'][$category['ID']] . "' ";
 							}
 							elseif ( $category['DATA_TYPE'] == 'multiple_checkbox' )
 							{
-								$extra['WHERE'] .= " AND dr.CATEGORY_" . $category['ID'] . " LIKE '%||" . $_REQUEST['discipline'][$category['ID']] . "||%' ";
+								$extra['WHERE'] .= " AND dr.CATEGORY_" . $category['ID'] .
+									" LIKE '%||" . $_REQUEST['discipline'][$category['ID']] . "||%' ";
 							}
 
 							if( !$extra['NoSearchTerms'] )
@@ -1309,7 +1333,7 @@ function Widgets( $item, &$myextra = null )
 			<SELECT name="next_year">';
 
 			foreach ( $next_year_options as $id => $option )
-				$extra['search'] .= '<OPTION value=' . $id . '>' . $option . '</OPTION>';
+				$extra['search'] .= '<OPTION value="' . $id . '"">' . $option . '</OPTION>';
 
 			$extra['search'] .= '</SELECT></TD></TR>';
 
@@ -1327,7 +1351,7 @@ function Widgets( $item, &$myextra = null )
 				AND SCHOOL_ID='" . UserSchool() . "'
 				ORDER BY DEFAULT_CALENDAR ASC" ), array(), array( 'CALENDAR_ID' ) );
 
-			if( $_REQUEST['calendar'] )
+			if ( $_REQUEST['calendar'] )
 			{
 				if ( $_REQUEST['calendar'] == '!' )
 				{
@@ -1671,5 +1695,7 @@ function Widgets( $item, &$myextra = null )
 	}
 
 	$_ROSARIO['Widgets'][$item] = true;
+
+	return true;
 }
 ?>
