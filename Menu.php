@@ -97,10 +97,5 @@ if ( empty( $_ROSARIO['Menu'] ) )
 		if ( $no_programs_in_module )
 			unset( $_ROSARIO['Menu'][$modcat] );
 	}
-
-	//FJ enable password change for students
-	if ( User( 'PROFILE' ) == 'student' )
-		//unset($_ROSARIO['Menu']['Users']);
-		unset( $_ROSARIO['Menu']['Users']['parent']['Users/User.php'] );
 }
 ?>
