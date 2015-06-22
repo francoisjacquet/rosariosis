@@ -1,13 +1,14 @@
 <?php
 $menu['Resources']['admin'] = array(
-						'default'=>'Resources/Resources.php',
-            			'Resources/Resources.php'=>_('Resources'),
-					);
+	'default' => 'Resources/Resources.php',
+	'Resources/Resources.php' => _( 'Resources' ),
+);
 
 $menu['Resources']['teacher'] = array(
-						'default'=>'Resources/Resources.php',
-                        'Resources/Resources.php'=>_('Resources'),
-                    );
+	'default' => 'Resources/Resources.php',
+	'Resources/Resources.php' => _( 'Resources' ),
+);
+
 $menu['Resources']['parent'] = $menu['Resources']['teacher'];
-$menu['Resources']['student'] = $menu['Resources']['parent'];
+
 ?>
