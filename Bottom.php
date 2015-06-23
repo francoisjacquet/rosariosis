@@ -33,7 +33,7 @@ if( isset( $_REQUEST['modfunc'] ) &&
 		include( 'modules/' . $modname );
 		
 	//FJ call PDFStop to generate Print PDF
-	PDFStop($print_data);
+	PDFStop( $print_data );
 }
 
 // Inline Help
@@ -102,7 +102,7 @@ else
 
 		$btn_path = 'assets/themes/' . Preferences( 'THEME' ) . '/btn/';
 
-		if( isset( $_SESSION['List_PHP_SELF'] )
+		if ( isset( $_SESSION['List_PHP_SELF'] )
 			&& ( User( 'PROFILE' ) == 'admin'
 				|| User('PROFILE') == 'teacher') ) :
 
