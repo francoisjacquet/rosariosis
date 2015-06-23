@@ -343,7 +343,8 @@ label{
 }
 .menu-inter{
 	border-width:1px 0 0;
-	border-style:solid
+	border-style:solid;
+	padding: 2px 5px
 }
 .adminmenu a{
 	display:block;
