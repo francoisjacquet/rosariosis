@@ -59,7 +59,21 @@ function DBQuery( $sql )
 	$connection = db_start();
 
 	// replace empty strings ('') with NULL values
-	$sql = preg_replace( "/([,\(=])[\r\n\t ]*''(?!')/", '\\1NULL', $sql );
+	$sql = preg_replace( "/([,\(>=])[\r\n\t ]*''(?!')/", '\\1NULL', $sql );
+
+	/**
+	 * IS (NOT) NULL cases
+	 *
+	 * Replace <>NULL & !=NULL with IS NOT NULL
+	 * Replace >=NULL & <=NULL & =NULL with IS NULL
+	 *
+	 * @link http://www.postgresql.org/docs/current/static/functions-comparison.html
+	 */
+	$sql = str_replace(
+		array( '<>NULL', '!=NULL', '>=NULL', '<=NULL', '=NULL' ),
+		array( ' IS NOT NULL', ' IS NOT NULL', ' IS NULL', ' IS NULL', ' IS NULL' ),
+		$sql
+	);
 
 	$result = @pg_exec( $connection, $sql );
 
