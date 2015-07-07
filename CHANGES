@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.17
+-----------------
+- Fix $function_to_remove var name typo in Actions.php
+
 Changes in 2.8.16
 -----------------
 - Fix SQL error invalid input syntax for type numeric in _makeLetterGrade.fnc.php

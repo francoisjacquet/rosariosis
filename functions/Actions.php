@@ -119,7 +119,7 @@ function remove_action($tag, $function_to_remove)
 	//check if tag exists
 	if (array_key_exists( (string) $tag, $RosarioActions))
 		//check if function previously added
-		if (array_key_exists( (string) function_to_remove, $RosarioActions[$tag]))
+		if (array_key_exists( (string) $function_to_remove, $RosarioActions[$tag]))
 		{
 			unset($RosarioActions[$tag][$function_to_remove]);
 			return true;
