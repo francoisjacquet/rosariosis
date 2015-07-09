@@ -310,7 +310,7 @@ if( !defined( 'WAREHOUSE_PHP' ) )
 ?>
 <BR />
 <script>
-	var modname = "<?php echo $_ROSARIO['Program_loaded']; ?>";
+	var modname = "<?php echo isset( $_ROSARIO['Program_loaded'] ) ? $_ROSARIO['Program_loaded'] : ''; ?>";
 	if (typeof menuStudentID !== 'undefined'
 		&& (menuStudentID != "<?php echo UserStudentID(); ?>"
 			|| menuStaffID != "<?php echo UserStaffID(); ?>"
