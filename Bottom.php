@@ -65,15 +65,19 @@ elseif( isset( $_REQUEST['modfunc'] ) &&
 
 	$help_text = '';
 
-	foreach( $help as $program => $help_txt )
+	if ( !empty( $_REQUEST['modname'] ) )
 	{
-		//FJ fix bug URL Modules.php?modfunc=help&modname=Student_Billing/Statements.php&_ROSARIO_PDF
-		if( $_REQUEST['modname']==$program ||
-			( mb_strpos( $program, $_REQUEST['modname'] ) === 0
-				&& mb_strpos( $_SERVER['QUERY_STRING'], $program ) === 21 ) )
-			$help_text = $help_txt;
+		foreach( $help as $program => $help_txt )
+		{
+			//FJ fix bug URL Modules.php?modfunc=help&modname=Student_Billing/Statements.php&_ROSARIO_PDF
+			if( $_REQUEST['modname'] === $program ||
+				( mb_strpos( $program, $_REQUEST['modname'] ) === 0
+					&& mb_strpos( $_SERVER['QUERY_STRING'], $program ) === 21 ) )
+				$help_text = $help_txt;
+		}
 	}
 
+	// get default help text
 	if( empty( $help_text ) )
 		$help_text = $help['default'];
 		
