@@ -23,15 +23,27 @@ if( isset( $_REQUEST['modname'] ) )
 		//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
 		if ( in_array(
 				$modname,
-				array('misc/ChooseRequest.php', 'misc/ChooseCourse.php', 'misc/ViewContact.php' )
+				array(
+					'misc/ChooseRequest.php',
+					'misc/ChooseCourse.php',
+					'misc/ViewContact.php'
+				)
 			)
-			|| ( $modname == 'School_Setup/Calendar.php'
-				&& $_REQUEST['modfunc'] == 'detail' )
+			|| ( $modname === 'School_Setup/Calendar.php'
+				&& isset( $_REQUEST['modfunc'] )
+				&& $_REQUEST['modfunc'] === 'detail' )
 			|| ( in_array(
 					$modname,
-					array( 'Scheduling/MassDrops.php', 'Scheduling/Schedule.php', 'Scheduling/MassSchedule.php', 'Scheduling/MassRequests.php', 'Scheduling/Courses.php' )
+					array(
+						'Scheduling/MassDrops.php',
+						'Scheduling/Schedule.php',
+						'Scheduling/MassSchedule.php',
+						'Scheduling/MassRequests.php',
+						'Scheduling/Courses.php'
+					)
 				)
-				&& $_REQUEST['modfunc'] == 'choose_course' ) )
+				&& isset( $_REQUEST['modfunc'] )
+				&& $_REQUEST['modfunc'] === 'choose_course' ) )
 		{
 			$_ROSARIO['is_popup'] = true;
 		}

@@ -11,7 +11,7 @@
  */
 if ( empty( $_ROSARIO['Menu'] ) )
 {
-	if ( is_null( $RosarioModules ) )
+	if ( !isset( $RosarioModules ) )
 		global $RosarioModules;
 
 	// include Menu.php for each active module
