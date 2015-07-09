@@ -235,7 +235,7 @@ if(UserStudentID() && $_REQUEST['student_id'])
 
 	PopTable('footer');
 
-	echo '<BR /><span class="center">'.SubmitButton().'</span>';
+	echo '<BR /><span class="center">' . SubmitButton( _( 'Submit' ) ) . '</span>';
 
 	echo '</FORM>';
 }
