@@ -4,7 +4,7 @@ if( !defined( 'WAREHOUSE_PHP' ) )
 {
 	define( 'WAREHOUSE_PHP', 1 );
 
-	define( 'ROSARIO_VERSION', '2.8.11' );
+	define( 'ROSARIO_VERSION', '2.9a' );
 
 	if ( !file_exists( 'config.inc.php' ) )
 		die ( 'config.inc.php not found. Please read the installation directions.' );
@@ -189,7 +189,7 @@ if( !defined( 'WAREHOUSE_PHP' ) )
 	$RosarioPlugins = unserialize( Config( 'PLUGINS' ) );
 	
 	// Load plugins functions.
-	foreach( $RosarioPlugins as $plugin => $activated )
+	foreach( (array)$RosarioPlugins as $plugin => $activated )
 	{
 		if ( $activated )
 			include( 'plugins/' . $plugin . '/functions.php' );
@@ -310,7 +310,7 @@ if( !defined( 'WAREHOUSE_PHP' ) )
 ?>
 <BR />
 <script>
-	var modname = "<?php echo isset( $_ROSARIO['Program_loaded'] ) ? $_ROSARIO['Program_loaded'] : ''; ?>";
+	var modname = "<?php echo isset( $_ROSARIO['ProgramLoaded'] ) ? $_ROSARIO['ProgramLoaded'] : ''; ?>";
 	if (typeof menuStudentID !== 'undefined'
 		&& (menuStudentID != "<?php echo UserStudentID(); ?>"
 			|| menuStaffID != "<?php echo UserStaffID(); ?>"
@@ -318,7 +318,7 @@ if( !defined( 'WAREHOUSE_PHP' ) )
 			|| menuCoursePeriod != "<?php echo UserCoursePeriod(); ?>")) { 
 		ajaxLink( menu_link );
 	}
-<?php 			if ( !empty( $_ROSARIO['Program_loaded'] ) ) : ?>
+<?php 			if ( !empty( $_ROSARIO['ProgramLoaded'] ) ) : ?>
 	else
 		openMenu( modname );
 <?php				endif;
