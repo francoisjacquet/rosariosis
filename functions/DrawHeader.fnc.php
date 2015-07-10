@@ -1,18 +1,63 @@
 <?php
 
-function DrawHeader($left='',$right='',$center='')
-{	global $_ROSARIO;
+/**
+ * Draw Header
+ *
+ * The first call draws the Primary Header
+ * Next calls draw Secondary Headers
+ * unset( $_ROSARIO['DrawHeader'] ) to reset
+ *
+ * @example DrawHeader( ProgramTitle() );
+ *
+ * @param  string $left   Left part of the Header
+ * @param  string $right  Right part of the Header (optional)
+ * @param  string $center Center part of the Header (optional)
+ *
+ * @return void           outputs Header HTML
+ */
+function DrawHeader( $left, $right = '', $center = '' )
+{
+	global $_ROSARIO;
+
+	// Primary Header
+	if ( !isset( $_ROSARIO['DrawHeader'] ) )
+	{
+		$_ROSARIO['DrawHeader'] = '';
+	}
 
 	echo '<TABLE class="width-100p cellspacing-0"><TR class="st">';
-//FJ CSS WPadmin
-	if($left)
-		echo '<TD '.$_ROSARIO['DrawHeader'].'>&nbsp;'.(empty($_ROSARIO['DrawHeader'])? (!empty($_ROSARIO['HeaderIcon']) ? '<H2>'.'<IMG src="'.$_ROSARIO['HeaderIcon'].'" class="headerIcon" /> '.$left.'</H2>' : '<H2>'.$left.'</H2>'):$left).'</TD>';
-	if($center)
-		echo '<TD '.$_ROSARIO['DrawHeader'].' style="text-align:center">'.(empty($_ROSARIO['DrawHeader'])? '<H2>'.$center.'</H2>':$center).'</TD>';
-	if($right)
-		echo '<TD '.$_ROSARIO['DrawHeader'].' style="text-align:right">'.(empty($_ROSARIO['DrawHeader'])? '<H2>'.$right.'</H2>':$right).'</TD>';
+
+	if ( $left !== '' )
+	{
+		// Add H2 + Module icon to Primary Header
+		if ( $_ROSARIO['DrawHeader'] === '' )
+		{
+			if ( isset( $_ROSARIO['HeaderIcon'] )
+				&& $_ROSARIO['HeaderIcon'] !== false )
+				$left = '<IMG src="' . $_ROSARIO['HeaderIcon'] . '" class="headerIcon" /> ' . $left;
+
+			$left = '<h2>' . $left . '</h2>';
+		}
+
+		echo '<TD' . $_ROSARIO['DrawHeader'] . '>&nbsp;' .
+			$left .
+		'</TD>';
+	}
+
+	if ( $center !== '' )
+		echo '<TD' . $_ROSARIO['DrawHeader'] . ' style="text-align:center">' .
+			$center .
+		'</TD>';
+
+	if ( $right !== '' )
+		echo '<TD' . $_ROSARIO['DrawHeader'] . ' style="text-align:right">' .
+			$right .
+		'</TD>';
+
 	echo '</TR></TABLE>';
 
-	$_ROSARIO['DrawHeader'] = 'class="header2"';
+	// Secondary Headers
+	$_ROSARIO['DrawHeader'] = ' class="header2"';
 }
+
 ?>
