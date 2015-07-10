@@ -122,7 +122,7 @@ if(!isset($_ROSARIO['allow_edit']))
 	// allow teacher edit if selected date is in the current quarter or in the corresponding grade posting period
 	$current_qtr_id = GetCurrentMP('QTR',DBDate(),false);
 
-	$time = strtotime(DBDate('postgres'));
+	$time = strtotime(DBDate());
 
 	if(($current_qtr_id && $qtr_id==$current_qtr_id || GetMP($qtr_id,'POST_START_DATE') && ($time<=strtotime(GetMP($qtr_id,'POST_END_DATE')))) && ($program_config['ATTENDANCE_EDIT_DAYS_BEFORE'][1]['VALUE']==null || strtotime($date)<=$time+$program_config['ATTENDANCE_EDIT_DAYS_BEFORE'][1]['VALUE']*86400) && ($program_config['ATTENDANCE_EDIT_DAYS_AFTER'][1]['VALUE']=='' || strtotime($date)>=$time-$program_config['ATTENDANCE_EDIT_DAYS_AFTER'][1]['VALUE']*86400))
 		$_ROSARIO['allow_edit'] = true;

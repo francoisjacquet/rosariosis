@@ -14,7 +14,9 @@ if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
 else
 {
 	$min_date = DBGet(DBQuery("SELECT min(SCHOOL_DATE) AS MIN_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
-	if($min_date[1]['MIN_DATE'] && DBDate('postgres')<$min_date[1]['MIN_DATE'])
+
+	if ( $min_date[1]['MIN_DATE']
+		&& strtotime( DBDate() ) < strtotime( $min_date[1]['MIN_DATE'] ) )
 	{
 		$date = $min_date[1]['MIN_DATE'];
 		$_REQUEST['day_date'] = date('d',strtotime($date));
@@ -279,17 +281,12 @@ if($_REQUEST['modfunc']=='choose_course')
 		include "modules/Scheduling/Courses.php";
 	else
 	{
-		//$min_date = DBGet(DBQuery("SELECT min(SCHOOL_DATE) AS MIN_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
-		//if($min_date[1]['MIN_DATE'] && DBDate('postgres')<$min_date[1]['MIN_DATE'])
-		//	$date = $min_date[1]['MIN_DATE'];
-		//else
-		//	$date = DBDate();
-
 		//FJ multiple school periods for a course period
-		$mp_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,cpsp.DAYS,cpsp.PERIOD_ID,cp.MARKING_PERIOD_ID,cp.TOTAL_SEATS,cp.CALENDAR_ID 
-		FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-		AND cp.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
+		$mp_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,
+			cpsp.DAYS,cpsp.PERIOD_ID,cp.MARKING_PERIOD_ID,cp.TOTAL_SEATS,cp.CALENDAR_ID 
+			FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
+			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
+			AND cp.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
 
 		if($_REQUEST['course_marking_period_id'])
 		{

@@ -90,7 +90,8 @@ if(mb_strpos($days,$day)===false)
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
 if(!isset($_ROSARIO['allow_edit']))
 {
-	$time = strtotime(DBDate('postgres'));
+	$time = strtotime( DBDate() );
+
 	if(GetMP($qtr_id,'POST_START_DATE') && ($time<=strtotime(GetMP($qtr_id,'POST_END_DATE'))))
 		$_ROSARIO['allow_edit'] = true;
 }

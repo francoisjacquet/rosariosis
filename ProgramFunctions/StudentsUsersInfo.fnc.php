@@ -335,8 +335,11 @@ function _makeStartInput($value,$column)
 		$id = 'new';
 		$default = DBGet(DBQuery("SELECT min(SCHOOL_DATE) AS START_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 		$default = $default[1]['START_DATE'];
-		if(!$default || DBDate('postgres')>$default)
+
+		if ( !$default ||
+			strtotime( DBDate() ) > strtotime( $default ) )
 			$default = DBDate();
+
 		$value = $default;
 	}
 	else

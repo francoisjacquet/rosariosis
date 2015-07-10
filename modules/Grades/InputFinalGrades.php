@@ -630,7 +630,7 @@ if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['submit']['cancel'])
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
-$time = strtotime(DBDate('postgres'));
+$time = strtotime(DBDate());
 
 $mps_select = '<script>var mponchange = document.createElement("a"); mponchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&mp="; mponchange.target = "body";</script>';
 $mps_select .= '<SELECT name="mp" onchange="mponchange.href += this.options[selectedIndex].value; ajaxLink(mponchange);">';

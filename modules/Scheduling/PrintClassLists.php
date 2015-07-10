@@ -8,7 +8,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$extra['DATE'] = DBGet(DBQuery("SELECT min(SCHOOL_DATE) AS START_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 		$extra['DATE'] = $extra['DATE'][1]['START_DATE'];
 
-		if(!$extra['DATE'] || DBDate('postgres')>$extra['DATE'])
+		if( !$extra['DATE']
+			|| strtotime( DBDate() ) > strtotime( $extra['DATE'] ) )
 			$extra['DATE'] = DBDate();
 
 		// get the fy marking period id, there should be exactly one fy marking period
