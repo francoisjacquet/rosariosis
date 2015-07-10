@@ -50,7 +50,7 @@ function ProperDate($date='',$length='long')
 
 	//FJ display locale with strftime()
 	//FJ NOBR on date
-	return $comment.'<span style="white-space:nowrap">'.mb_convert_case(iconv('','UTF-8',strftime((($length=='long' || Preferences('MONTH')!='%B')?Preferences('MONTH'):'%b').$sep.Preferences('DAY').$sep.Preferences('YEAR'),mktime(0,0,0,$month+0,$day+0,$year+0))), MB_CASE_TITLE).'</span>';
+	return $comment.'<span style="white-space:nowrap">'.mb_convert_case(iconv('','UTF-8',strftime((($length=='short' && Preferences('MONTH') === '%B')?'%b':Preferences('MONTH')).$sep.Preferences('DAY').$sep.Preferences('YEAR'),mktime(0,0,0,$month+0,$day+0,$year+0))), MB_CASE_TITLE).'</span>';
 //	return $comment.date((($length=='long' || Preferences('MONTH')!='F')?Preferences('MONTH'):'M').$sep.Preferences('DAY').$sep.Preferences('YEAR'),mktime(0,0,0,$month+0,$day+0,$year+0));
 	}
 }
