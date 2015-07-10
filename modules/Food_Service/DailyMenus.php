@@ -163,7 +163,7 @@ else
 	$LO_columns = array('ID'=>_('ID'),'SCHOOL_DATE'=>_('Date'),'DESCRIPTION'=>_('Description'));
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" METHOD="POST">';
-	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)),SubmitButton(_('Save'),'submit[save]').'<INPUT type="submit" value="'._('Generate Menu').'" name="submit[print]" />');
+	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)),SubmitButton(_('Save'),'submit[save]').SubmitButton(_('Generate Menu'),'submit[print]'));
 	echo '<BR />';
 
 	$tabs = array();
