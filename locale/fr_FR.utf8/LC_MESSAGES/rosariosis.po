@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-09 19:57+0100\n"
-"PO-Revision-Date: 2015-06-09 19:59+0100\n"
+"PO-Revision-Date: 2015-07-10 18:35+0100\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -7242,7 +7242,7 @@ msgstr "Format des Dates pour l'Export"
 
 #: modules/Users/Preferences.php:156
 msgid "Display Options Format"
-msgstr "Options d'Affichage"
+msgstr "Format des Options d'Affichage"
 
 #: modules/Users/Preferences.php:159
 msgid "Display student search screen"

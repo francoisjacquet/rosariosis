@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.17
 -----------------
 - Fix $function_to_remove var name typo in Actions.php
+- Update "Display Options Format" string translation (ES & FR)
 
 Changes in 2.8.16
 -----------------
