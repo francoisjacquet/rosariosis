@@ -121,7 +121,7 @@ http://wkhtmltopdf.org/
 Install instructions for Ubuntu 12.04.5 64bits server:
 
 	1) Download the latest executable (0.12.2.1 as of 2015.02.03) :
-	server$ wget http://downloads.sourceforge.net/project/wkhtmltopdf/0.12.2.1/wkhtmltox-0.12.2.1_linux-precise-amd64.deb
+	server$ wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-precise-amd64.deb
 
 	2) Install package :
 	server$ sudo dpkg --install wkhtmltox-0.12.2.1_linux-precise-amd64.deb
