@@ -31,8 +31,22 @@ function DBQuery($sql)
 {
 	$connection = db_start();
 
-	// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support
-	$sql = preg_replace("/([,\(=])[\r\n\t ]*''(?!')/",'\\1NULL',$sql);
+	// replace empty strings ('') with NULL values
+	$sql = preg_replace( "/([,\(>=])[\r\n\t ]*''(?!')/", '\\1NULL', $sql );
+
+	/**
+	 * IS NOT NULL cases
+	 *
+	 * Replace <>NULL & !=NULL with IS NOT NULL
+	 *
+	 * @link http://www.postgresql.org/docs/current/static/functions-comparison.html
+	 */
+	$sql = str_replace(
+		array( '<>NULL', '!=NULL' ),
+		array( ' IS NOT NULL', ' IS NOT NULL' ),
+		$sql
+	);
+
 	$result = @pg_exec($connection,$sql);
 	if($result===false)
 	{
@@ -83,8 +97,22 @@ function db_trans_start($connection)
 // run query on transaction -- if failure, runs rollback.
 function db_trans_query($connection,$sql)
 {
-    // TRANSLATION: do NOT translate these since error messages need to stay in English for technical support
-	$sql = preg_replace("/([,\(=])[\r\n\t ]*''/",'\\1NULL',$sql);
+	// replace empty strings ('') with NULL values
+	$sql = preg_replace( "/([,\(>=])[\r\n\t ]*''(?!')/", '\\1NULL', $sql );
+
+	/**
+	 * IS NOT NULL cases
+	 *
+	 * Replace <>NULL & !=NULL with IS NOT NULL
+	 *
+	 * @link http://www.postgresql.org/docs/current/static/functions-comparison.html
+	 */
+	$sql = str_replace(
+		array( '<>NULL', '!=NULL' ),
+		array( ' IS NOT NULL', ' IS NOT NULL' ),
+		$sql
+	);
+
 	$result = pg_query($connection,$sql);
 	if($result===false)
 	{

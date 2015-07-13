@@ -5,6 +5,7 @@ Changes in 2.8.17
 - Fix $function_to_remove var name typo in Actions.php
 - Update "Display Options Format" string translation (ES & FR)
 - Adjust ProperDate() short month display according to Preferences in Date.php
+- Handle IS NOT NULL cases before executing SQL in database.inc.php
 
 Changes in 2.8.16
 -----------------
