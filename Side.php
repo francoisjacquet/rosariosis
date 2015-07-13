@@ -16,12 +16,12 @@ $addJavascripts = '';
  * from menu
  */
 if ( isset( $_REQUEST['sidefunc'] )
-	&& $_REQUEST['sidefunc'] == 'update'
+	&& $_REQUEST['sidefunc'] === 'update'
 	&& is_array( $_POST ) )
 {
 	// update Admin & Teachers's current School
-	if ( ( User( 'PROFILE' ) == 'admin'
-			|| User( 'PROFILE' ) == 'teacher' )
+	if ( ( User( 'PROFILE' ) === 'admin'
+			|| User( 'PROFILE' ) === 'teacher' )
 		&& isset( $_POST['school'] )
 		&& $_POST['school'] != $old_school )
 	{
@@ -52,8 +52,8 @@ if ( isset( $_REQUEST['sidefunc'] )
 		 * update user ID according to new SchoolYear
 		 * OR remove if does not exist
 		 */
-		if ( ( User( 'PROFILE' ) == 'admin'
-				|| User( 'PROFILE' ) == 'teacher' )
+		if ( ( User( 'PROFILE' ) === 'admin'
+				|| User( 'PROFILE' ) === 'teacher' )
 			&& UserStaffID() )
 		{
 			// search User in next SchoolYear
@@ -108,7 +108,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 			 * the student should not be currently scheduled in a course in new SchoolYear
 			 * OR remove Student if not enrolled in new SchoolYear
 			 */
-			if ( User( 'PROFILE' ) == 'teacher'
+			if ( User( 'PROFILE' ) === 'teacher'
 				|| !count( DBGet( DBQuery( $is_student_enrolled_sql ) ) ) )
 				$unset_student = true;
 		}
@@ -122,7 +122,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 	}
 
 	// update Teacher's current CoursePeriod
-	elseif ( User( 'PROFILE' ) == 'teacher'
+	elseif ( User( 'PROFILE' ) === 'teacher'
 		&& isset( $_POST['period'] )
 		&& $_POST['period'] != $old_period )
 	{
@@ -147,7 +147,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 	}
 
 	// update Parent's current Student
-	elseif ( User( 'PROFILE' ) == 'parent'
+	elseif ( User( 'PROFILE' ) === 'parent'
 		&& isset( $_POST['student_id'] )
 		&& UserStudentID() != $_POST['student_id'] )
 	{
@@ -161,8 +161,8 @@ if ( isset( $_REQUEST['sidefunc'] )
 	 */
 	if ( ( UserSchool() != $old_school
 			|| UserSyear() != $old_syear )
-		&& ( User( 'PROFILE' ) == 'admin'
-			|| User( 'PROFILE' ) == 'teacher' ) )
+		&& ( User( 'PROFILE' ) === 'admin'
+			|| User( 'PROFILE' ) === 'teacher' ) )
 	{
 		unset( $_SESSION['UserPeriod'] );
 		unset( $_SESSION['UserCoursePeriod'] );
@@ -186,27 +186,27 @@ else
 
 	// set current Student (if user is student)
 	if ( !UserStudentID()
-		&& User( 'PROFILE' ) == 'student' )
+		&& User( 'PROFILE' ) === 'student' )
 		SetUserStudentID( $_SESSION['STUDENT_ID'] );
 
 	// set current User (if user is parent)
 	if ( !UserStaffID()
-		&& User( 'PROFILE' ) == 'parent' )
+		&& User( 'PROFILE' ) === 'parent' )
 		SetUserStaffID( $_SESSION['STAFF_ID'] );
 
 	// set current School
 	if ( !UserSchool() )
 	{
 		// if user is admin or teacher
-		if ( ( User( 'PROFILE' ) == 'admin'
-				|| User( 'PROFILE' ) == 'teacher' )
+		if ( ( User( 'PROFILE' ) === 'admin'
+				|| User( 'PROFILE' ) === 'teacher' )
 			&& ( !User( 'SCHOOLS' )
 				|| mb_strpos( User( 'SCHOOLS' ), ',' . User( 'CURRENT_SCHOOL_ID' ) . ',' ) !== false ) )
 		{
 			$_SESSION['UserSchool'] = User('CURRENT_SCHOOL_ID');
 		}
 		// if user is student
-		elseif ( User( 'PROFILE' ) == 'student' )
+		elseif ( User( 'PROFILE' ) === 'student' )
 		{
 			$_SESSION['UserSchool'] = trim( User( 'SCHOOLS' ), ',' );
 		}
@@ -219,12 +219,12 @@ else
 
 	// remove current Student/User from menu
 	// if user clicked on red cross
-	if ( ( User( 'PROFILE' ) == 'admin'
-			|| User( 'PROFILE' ) == 'teacher' )
+	if ( ( User( 'PROFILE' ) === 'admin'
+			|| User( 'PROFILE' ) === 'teacher' )
 		&& ( ( $new_student = isset( $_REQUEST['side_student_id'] )
-				&& $_REQUEST['side_student_id'] == 'new' )
+				&& $_REQUEST['side_student_id'] === 'new' )
 			|| ( $new_staff = isset( $_REQUEST['side_staff_id'] )
-				&& $_REQUEST['side_staff_id'] == 'new' ) ) )
+				&& $_REQUEST['side_staff_id'] === 'new' ) ) )
 	{
 		if ( $new_student )
 			$unset_student = true;
@@ -296,8 +296,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() .
 			?>
 			<BR />
 			<?php // School SELECT (Admins & Teachers only)
-			if ( User('PROFILE') == 'admin'
-				|| User( 'PROFILE' ) == 'teacher' ) :
+			if ( User('PROFILE') === 'admin'
+				|| User( 'PROFILE' ) === 'teacher' ) :
 			
 				$schools = mb_substr( str_replace( ",", "','", User( 'SCHOOLS' ) ), 2, -2 );
 
@@ -329,7 +329,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() .
 			<?php endif;
 
 			// Student SELECT (Parents only)
-			if ( User( 'PROFILE' ) == 'parent' ) :
+			if ( User( 'PROFILE' ) === 'parent' ) :
 			
 				$RET = DBGet( DBQuery( "SELECT sju.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,se.SCHOOL_ID 
 					FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se 
@@ -376,7 +376,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() .
 			endif;
 
 			// SchoolYear SELECT
-			if ( User( 'PROFILE' ) != 'student' )
+			if ( User( 'PROFILE' ) !== 'student' )
 			{
 				$sql = "SELECT sy.SYEAR
 					FROM SCHOOLS sy,STAFF s
@@ -605,8 +605,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() .
 
 		<?php // display current Student (Admins & Teachers only)
 		if ( UserStudentID()
-			&& ( User( 'PROFILE' ) == 'admin'
-				|| User( 'PROFILE' ) == 'teacher' ) ) :
+			&& ( User( 'PROFILE' ) === 'admin'
+				|| User( 'PROFILE' ) === 'teacher' ) ) :
 
 			$RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME
 				FROM STUDENTS
@@ -629,8 +629,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() .
 		
 		// display current User (Admins & Teachers only)
 		if ( UserStaffID()
-			&& ( User( 'PROFILE' ) == 'admin'
-				|| User( 'PROFILE' ) == 'teacher' ) ) :
+			&& ( User( 'PROFILE' ) === 'admin'
+				|| User( 'PROFILE' ) === 'teacher' ) ) :
 
 			$RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME
 				FROM STAFF
