@@ -6,6 +6,7 @@ Changes in 2.8.17
 - Update "Display Options Format" string translation (ES & FR)
 - Adjust ProperDate() short month display according to Preferences in Date.php
 - Handle IS NOT NULL cases before executing SQL in database.inc.php
+- Bugfix SQL error value too long for type varchar(10) in MarkingPeriods.php
 
 Changes in 2.8.16
 -----------------

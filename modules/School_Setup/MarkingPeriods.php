@@ -283,7 +283,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['marking_period_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
 
-		$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables['.$_REQUEST['marking_period_id'].'][SHORT_NAME]',(!$RET['SHORT_NAME']?'<span style="color:red">':'')._('Short Name').(!$RET['SHORT_NAME']?'</span>':''), 'required') . '</TD>';
+		$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables['.$_REQUEST['marking_period_id'].'][SHORT_NAME]',(!$RET['SHORT_NAME']?'<span style="color:red">':'')._('Short Name').(!$RET['SHORT_NAME']?'</span>':''), 'required maxlength="10"') . '</TD>';
 
 		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['marking_period_id'].'][SORT_ORDER]',_('Sort Order'),'size=3') . '</TD>';
 
