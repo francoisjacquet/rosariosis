@@ -133,8 +133,25 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 			//FJ fix SQL bug invalid numeric data
 			if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['CREDIT_HOURS']) || is_numeric($columns['CREDIT_HOURS'])) && (empty($columns['CREDITS']) || is_numeric($columns['CREDITS'])))
 			{
-				//FJ added SQL constraint TITLE (course_subjects & courses) & SHORT_NAME, TEACHER_ID (course_periods) & PERIOD_ID (course_period_school_periods) are not null
-				if (!((isset($columns['TITLE']) && empty($columns['TITLE'])) || ($table_name=='COURSE_PERIODS' && ((isset($columns['SHORT_NAME']) && empty($columns['SHORT_NAME'])) || (isset($columns['TEACHER_ID']) && empty($columns['TEACHER_ID'])))) || (mb_strpos($id,'new')!==false && !empty($columns['PERIOD_ID']) && !isset($columns['DAYS']))))
+				/**
+				 * FJ added SQL constraint
+				 *
+				 * TITLE (course_subjects & courses)
+				 * SHORT_NAME
+				 * TEACHER_ID (course_periods)
+				 * PERIOD_ID + DAYS (course_period_school_periods)
+				 * are not null
+				 */
+				if ( ! ( ( isset( $columns['TITLE'] )
+						&& empty( $columns['TITLE'] ) )
+					|| ( $table_name === 'COURSE_PERIODS'
+						&& ( ( isset( $columns['SHORT_NAME'] )
+							&& empty( $columns['SHORT_NAME'] ) )
+						|| ( isset( $columns['TEACHER_ID'] )
+							&& empty( $columns['TEACHER_ID'] ) ) ) )
+					|| ( mb_strpos( $id, 'new' ) !== false
+						&& !empty( $columns['PERIOD_ID'] )
+						&& !isset( $columns['DAYS'] ) ) ) )
 				{
 					if($columns['TOTAL_SEATS'] && !is_numeric($columns['TOTAL_SEATS']))
 						$columns['TOTAL_SEATS'] = preg_replace('/[^0-9]+/','',$columns['TOTAL_SEATS']);
@@ -657,7 +674,15 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				if (!$new)
 					$header .= '<TD>' . $periods[$school_period['PERIOD_ID']] . '<BR /><span class="legend-gray">' ._('Period'). '</span></TD>';
 				else
-					$header .= '<TD>' . SelectInput($school_period['PERIOD_ID'],'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]',($school_period['PERIOD_ID']?'':'<span style="color:red">')._('Period').($school_period['PERIOD_ID']?'':'</span>'),$periods) . '</TD>';
+					$header .= '<TD>' . SelectInput(
+						$school_period['PERIOD_ID'],
+						'tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][PERIOD_ID]',
+						( $school_period['PERIOD_ID'] ? '' : '<span style="color:red">' ) . _( 'Period' ) . ( $school_period['PERIOD_ID'] ? '' : '</span>' ),
+						$periods,
+						'N/A',
+						// force required school period if none
+						( $i === 1 ? 'required' : '' ) 
+					) . '</TD>';
 
 				$header .= '<TD>';
 
@@ -711,8 +736,17 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					break;
 			} while ( $i <= count($RET2) );
 			
-			$header .= '<TR class="st"><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;">'. button('add') .' '._('New Period').'</a></TD></TR>';
-			if (!$new)
+			if ( !( $not_really_new && $i == 1 ) )
+				$header .= '<TR class="st"><TD>
+					<a href="#" onclick="' . ( $new ?
+						'newSchoolPeriod();' :
+						'document.getElementById(\'schoolPeriod\'+' . $i . ').style.display=\'table-row\';
+						this.style.display=\'none\';') . ' return false;">' .
+					button('add') . ' ' . _( 'New Period' ) . '</a>
+				</TD></TR>';
+
+			if (!$new
+				&& !( $not_really_new && $i == 1 ) )
 				$header .= '<script>document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
 			?>
 			<script>
@@ -735,6 +769,8 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					cell.innerHTML = tr.cells[i].innerHTML;
 					reg = new RegExp('new' + (newId-1),'g'); //g for global string
 					cell.innerHTML = cell.innerHTML.replace(reg, 'new'+newId);
+					// remove required attribute
+					cell.innerHTML = cell.innerHTML.replace( 'required', '' );
 				}
 			</script>
 			<?php
