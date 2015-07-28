@@ -15,13 +15,13 @@
 $DatabaseServer = 'localhost';
 
 // Database username
-$DatabaseUsername = 'rosariosis';
+$DatabaseUsername = '';
 
 // Database password
-$DatabasePassword = 'password';
+$DatabasePassword = '';
 
 // Database name
-$DatabaseName = 'rosariosis';
+$DatabaseName = '';
 
 // Database port: default is 5432
 $DatabasePort = '5432';
@@ -31,16 +31,26 @@ $DatabasePort = '5432';
  * Paths
  */
 
-// Specify the path to the PostrgeSQL database dump utility for this server
-$pg_dumpPath = '/usr/bin/pg_dump';
+/**
+ * Full path to the PostrgeSQL database dump utility for this server
+ *
+ * @example /usr/bin/pg_dump
+ * @example C:/Progra~1/PostgreSQL/bin/pg_dump.exe
+ */
+$pg_dumpPath = '';
 
 /**
  * Full path to wkhtmltopdf binary file
  *
  * An empty string means wkhtmltopdf will not be called
  * and reports will be rendered in HTML instead of PDF
+ *
+ * @link http://wkhtmltopdf.org
+ *
+ * @example /usr/local/bin/wkhtmltopdf
+ * @example C:/Progra~1/wkhtmltopdf/bin/wkhtmltopdf.exe
  */
-$wkhtmltopdfPath = '/usr/bin/wkhtmltopdf';
+$wkhtmltopdfPath = '';
 
 
 /**
