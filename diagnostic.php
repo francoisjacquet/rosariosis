@@ -11,7 +11,7 @@ if ( version_compare( PHP_VERSION, '5.3.2' ) == -1 )
     $error[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
 }
 
-if( !$_SESSION['STAFF_ID'] )
+if( !isset( $_SESSION['STAFF_ID'] ) )
 {
 	$unset_username = true;
 	$_SESSION['USERNAME'] = 'diagnostic';
@@ -103,8 +103,15 @@ else
 
 	//FJ check wkhtmltopdf binary exists
 	if ( !empty( $wkhtmltopdfPath )
-		&& !file_exists( $wkhtmltopdfPath ) )
+		&& ( !file_exists( $wkhtmltopdfPath )
+			|| strpos( basename( $wkhtmltopdfPath ), 'wkhtmltopdf' ) !== 0 ) )
 		$error[] = 'The value for $wkhtmltopdfPath in config.inc.php is not correct.';
+
+	//FJ check pg_dump binary exists
+	if ( !empty( $pg_dumpPath )
+		&& ( !file_exists( $pg_dumpPath )
+			|| strpos( basename( $pg_dumpPath ), 'pg_dump' ) !== 0 ) )
+		$error[] = 'The value for $pg_dumpPath in config.inc.php is not correct.';
 
 }
 
