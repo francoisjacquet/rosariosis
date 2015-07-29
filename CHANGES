@@ -4,6 +4,7 @@ Changes in 2.9
 --------------
 - Add Debug mode as optional config.inc.php option in Warehouse.php + INSTALL
 - Bugfix Postgres datestyle = 'iso, ymd', programwide
+- Add Parsedown 1.5.3 class (markdown parser) in classes/Parsedown/
 
 Changes in 2.8.11
 -----------------
