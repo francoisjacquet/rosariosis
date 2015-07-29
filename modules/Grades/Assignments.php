@@ -8,8 +8,8 @@ $course_id = DBGet(DBQuery("SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PE
 $course_id = $course_id[1]['COURSE_ID'];
 
 $_ROSARIO['allow_edit'] = true;
-unset($_SESSION['_REQUEST_vars']['assignment_type_id']);
-unset($_SESSION['_REQUEST_vars']['assignment_id']);
+//unset($_SESSION['_REQUEST_vars']['assignment_type_id']);
+//unset($_SESSION['_REQUEST_vars']['assignment_id']);
 
 if($_REQUEST['day_tables'] && $_POST['day_tables'])
 {

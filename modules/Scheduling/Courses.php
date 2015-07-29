@@ -3,7 +3,9 @@
 if($_REQUEST['modfunc']!='choose_course')
 	DrawHeader(ProgramTitle());
 		
-unset($_SESSION['_REQUEST_vars']['subject_id']);unset($_SESSION['_REQUEST_vars']['course_id']);unset($_SESSION['_REQUEST_vars']['course_period_id']);
+//unset($_SESSION['_REQUEST_vars']['subject_id']);
+//unset($_SESSION['_REQUEST_vars']['course_id']);
+//unset($_SESSION['_REQUEST_vars']['course_period_id']);
 
 // if only one subject, select it automatically -- works for Course Setup and Choose a Course
 if($_REQUEST['modfunc']!='delete' && !$_REQUEST['subject_id'])
