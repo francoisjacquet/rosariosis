@@ -592,26 +592,30 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			$header .= '<TABLE class="width-100p valign-top" id="coursesTable">';
 			$header .= '<TR class="st">';
 
-//FJ Moodle integrator
-			$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][SHORT_NAME]',($RET['SHORT_NAME']?'':'<span style="color:red">')._('Short Name').($RET['SHORT_NAME']?'':'</span>'),'required', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
+			//FJ Moodle integrator
+			$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][SHORT_NAME]',($RET['SHORT_NAME']?'':'<span class="legend-red">')._('Short Name').($RET['SHORT_NAME']?'':'</span>'),'required', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
 
 			$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,',".UserSchool().",')>0) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
+
 			if(count($teachers_RET))
 			{
 				foreach($teachers_RET as $teacher)
 					$teachers[$teacher['STAFF_ID']] = $teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'];
 			}
-//FJ Moodle integrator
-			$header .= '<TD>' . SelectInput($RET['TEACHER_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][TEACHER_ID]',($RET['TEACHER_ID']?'':'<span style="color:red">')._('Teacher').($RET['TEACHER_ID']?'':'</span>'),$teachers, ($_REQUEST['moodle_create_course_period'] ? false : true), '', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
+
+			//FJ Moodle integrator
+			$header .= '<TD>' . SelectInput($RET['TEACHER_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][TEACHER_ID]',($RET['TEACHER_ID']?'':'<span class="legend-red">')._('Teacher').($RET['TEACHER_ID']?'':'</span>'),$teachers, ($_REQUEST['moodle_create_course_period'] ? false : true), '', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
 
 			$header .= '<TD>' . TextInput($RET['ROOM'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][ROOM]',_('Room')) . '</TD>';
 
 			$periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER,TITLE"));
+
 			if(count($periods_RET))
 			{
 				foreach($periods_RET as $period)
 					$periods[$period['PERIOD_ID']] = $period['TITLE'];
 			}
+
 			//$header .= '<TD>' . SelectInput($RET['MP'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][MP]','Length',array('FY'=>'Full Year','SEM'=>'Semester','QTR'=>'Marking Period')) . '</TD>';
 			$mp_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,SHORT_NAME,".db_case(array('MP',"'FY'","'0'","'SEM'","'1'","'QTR'","'2'"))." AS TBL FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TBL,SORT_ORDER"));
 			unset($options);
@@ -621,13 +625,15 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				foreach($mp_RET as $mp)
 					$options[$mp['MARKING_PERIOD_ID']] = $mp['SHORT_NAME'];
 			}
-//FJ Moodle integrator
-			$header .= '<TD>' . SelectInput($RET['MARKING_PERIOD_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][MARKING_PERIOD_ID]',($RET['MARKING_PERIOD_ID']?'':'<span style="color:red">')._('Marking Period').($RET['MARKING_PERIOD_ID']?'':'</span>'),$options,false, '', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
+
+			//FJ Moodle integrator
+			$header .= '<TD>' . SelectInput($RET['MARKING_PERIOD_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][MARKING_PERIOD_ID]',($RET['MARKING_PERIOD_ID']?'':'<span class="legend-red">')._('Marking Period').($RET['MARKING_PERIOD_ID']?'':'</span>'),$options,false, '', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
 			$header .= '<TD>' . TextInput($RET['TOTAL_SEATS'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][TOTAL_SEATS]',_('Seats'),'size=4') . '</TD>';
 
 			$header .= '</TR>';
 
 			$days = array('M','T','W','H','F','S','U');
+
 			//FJ days numbered
 			if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 				$days = array_slice($days, 0, SchoolInfo('NUMBER_DAYS_ROTATION'));
@@ -657,7 +663,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				if (!$new)
 					$header .= '<TD>' . $periods[$school_period['PERIOD_ID']] . '<BR /><span class="legend-gray">' ._('Period'). '</span></TD>';
 				else
-					$header .= '<TD>' . SelectInput($school_period['PERIOD_ID'],'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]',($school_period['PERIOD_ID']?'':'<span style="color:red">')._('Period').($school_period['PERIOD_ID']?'':'</span>'),$periods) . '</TD>';
+					$header .= '<TD>' . SelectInput($school_period['PERIOD_ID'],'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]',($school_period['PERIOD_ID']?'':'<span class="legend-red">')._('Period').($school_period['PERIOD_ID']?'':'</span>'),$periods) . '</TD>';
 
 				$header .= '<TD>';
 
@@ -804,7 +810,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			foreach($options_RET as $option)
 				$options[$option['CALENDAR_ID']] = $option['TITLE'];
 
-			$header .= '<TD>' . SelectInput($RET['CALENDAR_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][CALENDAR_ID]',($RET['CALENDAR_ID']?'':'<span style="color:red">')._('Calendar').($RET['CALENDAR_ID']?'':'</span>'),$options,false) . '</TD>';
+			$header .= '<TD>' . SelectInput($RET['CALENDAR_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][CALENDAR_ID]',($RET['CALENDAR_ID']?'':'<span class="legend-red">')._('Calendar').($RET['CALENDAR_ID']?'':'</span>'),$options,false) . '</TD>';
 
 			//BJJ Parent course select was here...  moved it down
 
@@ -874,10 +880,10 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			$header .= '<TABLE class="width-100p valign-top">';
 			$header .= '<TR class="st">';
 
-//FJ title required
-			$header .= '<TD>' . TextInput($RET['TITLE'],'tables[COURSES]['.$_REQUEST['course_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
+			//FJ title required
+			$header .= '<TD>' . TextInput($RET['TITLE'],'tables[COURSES]['.$_REQUEST['course_id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
 			$header .= '<TD>' . TextInput($RET['SHORT_NAME'],'tables[COURSES]['.$_REQUEST['course_id'].'][SHORT_NAME]',_('Short Name')) . '</TD>';
-//FJ add Credit Hours to Courses
+			//FJ add Credit Hours to Courses
 			$header .= '<TD>' . TextInput($RET['CREDIT_HOURS'],'tables[COURSES]['.$_REQUEST['course_id'].'][CREDIT_HOURS]',_('Credit Hours')) . '</TD>';
 			//FJ SQL error column "subject_id" specified more than once
 			/*if($_REQUEST['modfunc']!='choose_course')
@@ -915,8 +921,8 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			$header .= '<TABLE class="width-100p valign-top">';
 			$header .= '<TR>';
 
-//FJ title required
-			$header .= '<TD>' . TextInput($RET['TITLE'],'tables[COURSE_SUBJECTS]['.$_REQUEST['subject_id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
+			//FJ title required
+			$header .= '<TD>' . TextInput($RET['TITLE'],'tables[COURSE_SUBJECTS]['.$_REQUEST['subject_id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';
 			$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables[COURSE_SUBJECTS]['.$_REQUEST['subject_id'].'][SORT_ORDER]',_('Sort Order')) . '</TD>';
 
 			$header .= '</TR>';

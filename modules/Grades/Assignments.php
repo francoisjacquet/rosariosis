@@ -285,9 +285,10 @@ if(empty($_REQUEST['modfunc']))
 		$header .= '<TABLE class="width-100p valign-top">';
 		$header .= '<TR class="st">';
 
-//FJ title & points are required
-		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_id'].'][TITLE]',($RET['TITLE']?'':'<span style="color:red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</TD>';
-		$header .= '<TD>' . TextInput($RET['POINTS'],'tables['.$_REQUEST['assignment_id'].'][POINTS]',($RET['POINTS']!=''?'':'<span style="color:red">')._('Points').($RET['POINTS']?'':'</span>'),' size=4 maxlength=4 min=0') . '</TD>';
+		//FJ title & points are required
+		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_id'].'][TITLE]',($RET['TITLE']?'':'<span class="legend-red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</TD>';
+		$header .= '<TD>' . TextInput($RET['POINTS'],'tables['.$_REQUEST['assignment_id'].'][POINTS]',($RET['POINTS']!=''?'':'<span class="legend-red">')._('Points').($RET['POINTS']?'':'</span>'),'required size=4 maxlength=4 min=0') . '</TD>';
+
 		//FJ default points
 		if ($RET['DEFAULT_POINTS']=='-1')
 			$RET['DEFAULT_POINTS'] = '*';
@@ -318,11 +319,11 @@ if(empty($_REQUEST['modfunc']))
 		$header .= '<TABLE class="width-100p valign-top">';
 		$header .= '<TR class="st">';
 
-//FJ title is required
-		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_type_id'].'][TITLE]',($RET['TITLE']?'':'<span style="color:red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</TD>';
+		//FJ title is required
+		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_type_id'].'][TITLE]',($RET['TITLE']?'':'<span class="legend-red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</TD>';
 		if(Preferences('WEIGHT','Gradebook')=='Y')
 		{
-			$header .= '<TD>' . TextInput($RET['FINAL_GRADE_PERCENT'],'tables['.$_REQUEST['assignment_type_id'].'][FINAL_GRADE_PERCENT]',($RET['FINAL_GRADE_PERCENT']!=0?'':'<span style="color:red">')._('Percent of Final Grade').($RET['FINAL_GRADE_PERCENT']!=0?'':'</span>')) . '</TD>';
+			$header .= '<TD>' . TextInput($RET['FINAL_GRADE_PERCENT'],'tables['.$_REQUEST['assignment_type_id'].'][FINAL_GRADE_PERCENT]',($RET['FINAL_GRADE_PERCENT']!=0?'':'<span class="legend-red">')._('Percent of Final Grade').($RET['FINAL_GRADE_PERCENT']!=0?'':'</span>')) . '</TD>';
 			$header .= '<TD>' . NoInput($RET['TOTAL_PERCENT']==1?'100%':'<span style="color:red">'.(100*$RET['TOTAL_PERCENT']).'%</span>',_('Percent Total')) . '</TD>';
 		}
 		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['assignment_type_id'].'][SORT_ORDER]',_('Sort Order')) . '</TD>';

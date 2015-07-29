@@ -119,7 +119,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 	echo '<TABLE><TR><TD>';
 	unset($options);
 	$options = array('admin'=>_('Administrator'),'teacher'=>_('Teacher'),'parent'=>_('Parent'),'none'=>_('No Access'));
-	echo SelectInput($staff['PROFILE'],'staff[PROFILE]',(!$staff['PROFILE']?'<span style="color:red">':'')._('User Profile').(!$staff['PROFILE']?'</span>':''),$options,false,'',($_REQUEST['moodle_create_user'] ?false:true));
+	echo SelectInput($staff['PROFILE'],'staff[PROFILE]',(!$staff['PROFILE']?'<span class="legend-red">':'')._('User Profile').(!$staff['PROFILE']?'</span>':''),$options,false,'',($_REQUEST['moodle_create_user'] ?false:true));
 
 	echo '</TD></TR><TR><TD>';
 

@@ -152,8 +152,8 @@ if(empty($_REQUEST['modfunc']))
 
 		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
 
-//FJ field name required
-		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span style="color:red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</TD>';
+		//FJ field name required
+		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</TD>';
 
 		// You can't change a student field type after it has been created
 		// mab - allow changing between select and autos and edits and text and exports

@@ -308,9 +308,9 @@ function _makeAssnInput($value,$name)
 		$extra = 'size=5 maxlength=5';
 	}
 	elseif($name=='ASSIGNED_DATE')
-		return DateInput($id=='new' && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$value,"values[$id][ASSIGNED_DATE]",($THIS_RET['ASSIGNED_ERROR']=='Y'?'<span style="color:red">'._('Assigned date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span style="color:red">'._('Assigned date is after due date!').'</span>':'')),$id!='new');
+		return DateInput($id=='new' && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$value,"values[$id][ASSIGNED_DATE]",($THIS_RET['ASSIGNED_ERROR']=='Y'?'<span class="legend-red">'._('Assigned date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span class="legend-red">'._('Assigned date is after due date!').'</span>':'')),$id!='new');
 	elseif($name=='DUE_DATE')
-		return DateInput($id=='new' && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$value,"values[$id][DUE_DATE]",($THIS_RET['DUE_ERROR']=='Y'?'<span style="color:red">'._('Due date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span style="color:red">'._('Due date is before assigned date!').'</span>':'')),$id!='new');
+		return DateInput($id=='new' && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$value,"values[$id][DUE_DATE]",($THIS_RET['DUE_ERROR']=='Y'?'<span class="legend-red">'._('Due date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span class="legend-red">'._('Due date is before assigned date!').'</span>':'')),$id!='new');
 	elseif($name=='COURSE_ID')
 		return CheckboxInput($value,"values[$id][COURSE_ID]",'','',$id=='new');
 	elseif($name=='DESCRIPTION')
