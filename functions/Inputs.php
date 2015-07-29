@@ -169,12 +169,12 @@ function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		if($new || $div==false)
-			return '<label><INPUT type="checkbox" name="'.$name.'" value="Y" '.$checked.' '.$extra.' />&nbsp;'.$title.'</label>';
+			return '<label class="checkbox-label"><INPUT type="checkbox" name="'.$name.'" value="Y" '.$checked.' '.$extra.' />&nbsp;'.$title.'</label>';
 		else
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
 			
-			$checkbox = '<INPUT type="hidden" name="'.$name.'" value="" /><label><INPUT type="checkbox" name="'.$name.'" '.$checked.' value="Y" '.$extra.' />&nbsp;'.$title.'</label>';
+			$checkbox = '<INPUT type="hidden" name="'.$name.'" value="" /><label class="checkbox-label"><INPUT type="checkbox" name="'.$name.'" '.$checked.' value="Y" '.$extra.' />&nbsp;'.$title.'</label>';
 
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($checkbox).';</script>'.$return;
 			

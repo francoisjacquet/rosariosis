@@ -500,6 +500,10 @@ h3 span{
 	border-bottom-style:dotted;
 	border-bottom-width:1px
 }
+.underline-dots, .checkbox-label{
+	line-height:27px;
+	margin:5px 0px
+}
 span.legend-gray, span.legend-red{
 	margin-top:5px;
 	margin-bottom:7px;
@@ -595,7 +599,8 @@ img.image-radio-list{
 }
 .button.cal{
 	cursor:pointer;
-	height:32px
+	height:32px;
+	margin-top:-9px
 }
 div.error .button, div.updated .button{
 	height:32px
