@@ -394,6 +394,52 @@ function ExplodeDate( $date )
 
 
 /**
+ * Get date requested by User
+ * Returns an empty string if date is malformed / incomplete
+ * Returns a corrected date
+ * if day does not exist in month,
+ * for example, 31-FEB-2015 will return 28-FEB-2015
+ *
+ * @example RequestedDate( $day, $month, $year );
+ *
+ * @param string $day   Requested day
+ * @param string $month Requested month
+ * @param string $year  Requested year
+ */
+function RequestedDate( $day, $month, $year )
+{
+	$date = $day . '-' . $month . '-' . $year;
+
+	/**
+	 * Verify first this is a well-formed / complete date:
+	 * DD-MMM-YYYY
+	 * Day between 1 and 31
+	 * Month: valid 3 letters abbreviation
+	 * Year between 1 and 9999
+	 */
+	if ( mb_strlen( $date ) !== 11
+		|| (int)$day < 1
+		|| (int)$day > 31
+		|| __mnwswitch_char2num( $month ) === $month
+		|| (int)$year < 1
+		|| (int)$year > 9999 )
+		$date = '';
+	else
+	{
+		// correct date if day does not exist in month
+		while( !VerifyDate( $date ) )
+		{
+			$day--;
+
+			$date = $day. '-' . $month . '-' . $year;
+		}
+	}
+
+	return $date;
+}
+
+
+/**
  * Switch Month to Number or Characters
  *
  * @param  string $month     number or characters month
