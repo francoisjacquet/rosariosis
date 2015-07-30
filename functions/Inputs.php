@@ -11,23 +11,23 @@ function DateInput($value,$name,$title='',$div=true,$allow_na=true,$required=fal
 			$options['required'] = true;
 
 		if($value=='' || $div==false)
-			return PrepareDate($value, '_'.$name, $allow_na, $options) . ($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+			return PrepareDate($value, '_'.$name, $allow_na, $options) . ($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 		else
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
 
 			$options = $options + array('Y'=>1,'M'=>1,'D'=>1);
 
-			$input = PrepareDate($value, '_'.$name, $allow_na, $options) . ($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
+			$input = PrepareDate($value, '_'.$name, $allow_na, $options) . ($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':''):'');
 
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($input).';</script>'.$return;
 			
-			$return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.($value!=''?ProperDate($value):'-').'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.($value!=''?ProperDate($value):'-').'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 			return $return;
 		}
 	}
 	else
-		return ($value!=''?ProperDate($value):'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+		return ($value!=''?ProperDate($value):'-').($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 }
 
 function TextInput($value,$name,$title='',$options='',$div=true)
@@ -44,22 +44,22 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 			$options .= ' size=10';
 
 		if(trim($value)=='' || $div==false)
-			return '<INPUT type="text" name="'.$name.'" id="'.$name.'" '.($value || $value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+			return '<INPUT type="text" name="'.$name.'" id="'.$name.'" '.($value || $value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 		else
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
 			
-			$input = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+			$input = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($input).';</script>'.$return;
 			
-			$return .= ',"div'.$name.'",true); if (input = document.getElementById("input'.$name.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div'.$name.'",true); if (input = document.getElementById("input'.$name.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 
 			return $return;
 		}
 	}
 	else
-		return (((is_array($value)?$value[1]:$value)!='')?(is_array($value)?$value[1]:$value):'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+		return (((is_array($value)?$value[1]:$value)!='')?(is_array($value)?$value[1]:$value):'-').($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 }
 
 function MLTextInput($value,$name,$title='',$options='',$div=true)
@@ -122,7 +122,7 @@ function setMLvalue(id,loc,value){
 	else
 		$ret .= ParseMLField($value);
 
-	$ret .= ($title!=''?(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
+	$ret .= ($title!=''?(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':''):'');
 	return $ret;
 }
 
@@ -138,24 +138,24 @@ function TextAreaInput($value,$name,$title='',$options='',$div=true)
 		$cols = mb_substr($options,mb_strpos($options,'cols')+5,2)*1;
 
 		if($value=='' || $div==false)
-			return '<TEXTAREA name="'.$name.'" id="'.$name.'" '.$options.'>'.$value.'</TEXTAREA>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+			return '<TEXTAREA name="'.$name.'" id="'.$name.'" '.$options.'>'.$value.'</TEXTAREA>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 		else
 //FJ remove ereg
 		{
 			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
 			
-			$textarea = '<TEXTAREA id="textarea'.$name.'" name="'.$name.'" '.$options.'>'.$value.'</TEXTAREA>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+			$textarea = '<TEXTAREA id="textarea'.$name.'" name="'.$name.'" '.$options.'>'.$value.'</TEXTAREA>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($textarea).';</script>'.$return;
 			
-			$return .= ',"div'.$name.'",true); document.getElementById("textarea'.$name.'").value=unescape(document.getElementById("textarea'.$name.'").value);\'>'.'<TABLE style="height:100%;"><TR><TD>'.((mb_substr_count($value,"\r\n")>$rows)?'<DIV style="overflow:auto; height:'.(15*$rows).'px; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>':'<DIV style="overflow:auto; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>').'</TD></TR></TABLE>'.($title!=''?''.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div'.$name.'",true); document.getElementById("textarea'.$name.'").value=unescape(document.getElementById("textarea'.$name.'").value);\'>'.'<TABLE style="height:100%;"><TR><TD>'.((mb_substr_count($value,"\r\n")>$rows)?'<DIV style="overflow:auto; height:'.(15*$rows).'px; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>':'<DIV style="overflow:auto; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>').'</TD></TR></TABLE>'.($title!=''?''.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 
 			return $return;
 		}
 			
 	}
 	else
-		return ($value!=''?nl2br($value):'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+		return ($value!=''?nl2br($value):'-').($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 }
 
 function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',$no='No',$div=true,$extra='')
@@ -183,7 +183,7 @@ function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',
 		}
 	}
 	else
-//		return ($value?$yes:$no).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+//		return ($value?$yes:$no).($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 		return ($value?($yes=='Yes' || isset($_REQUEST['LO_save']) ?_('Yes'):$yes):($no=='No' || isset($_REQUEST['LO_save']) ?_('No'):$no)).($title!=''?' '.$title:'');
 }
 
@@ -219,19 +219,19 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 		}
 		$select .= '</SELECT>';
 		
-		$select .= ($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
+		$select .= ($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':''):'');
 		
 		if($value!='' && $div)
 		{
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($select).';</script>'.$return;
 
-			$return .= ',"div'.$name.'",true);\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div'.$name.'",true);\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
 		else
 			$return = $select;
 	}
 	else
-		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?('N/A'?_($allow_na):$allow_na):'-'):'-')).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?('N/A'?_($allow_na):$allow_na):'-'):'-')).($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 
 	return $return;
 }
@@ -269,19 +269,19 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
         }
         $select .= '</SELECT>';
 		
-		$select .= '<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'';
+		$select .= '<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'';
 			
         if($value!='' && $div)
 		{
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($select).';</script>'.$return;
 
-            $return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+            $return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
 		else
 			$return = $select;
     }
     else
-        $return = ParseMLField((((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')),$locale).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+        $return = ParseMLField((((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')),$locale).($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 
     return $return;
 }
@@ -313,26 +313,34 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 		}
 		$table .= '</TR></TABLE>';
 		
-		$table .= ''.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'';
+		$table .= ''.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'';
 			
 		if($value!='' && $div)
 		{
 			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($table).';</script>'.$return;
 
-			$return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
 		else
 			$return = $table;
 	}
 	else
-		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')).($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':'').'':'');
+		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')).($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 
 	return $return;
 }
 
-function NoInput($value,$title='')
+function NoInput( $value, $title = '' )
 {
-	return ($value!=''?$value:'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
+	if ( mb_stripos( $title, '<span ' ) === false )
+		$title = '<span class="legend-gray">' . $title . '</span>';
+
+	if ( !empty( $title ) )
+		$title = '<BR />' . $title;
+
+	return '<span class="no-input-value">' .
+		( !empty( $value ) || $value == '0' ? $value : '-' ) .
+		'</span>' . $title;
 }
 
 function CheckBoxOnclick($name)

@@ -500,7 +500,7 @@ h3 span{
 	border-bottom-style:dotted;
 	border-bottom-width:1px
 }
-.underline-dots, .checkbox-label{
+.underline-dots, .checkbox-label, .no-input-value{
 	line-height:27px;
 	margin:5px 0px
 }

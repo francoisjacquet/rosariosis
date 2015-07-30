@@ -499,6 +499,10 @@ h3 span{
 	border-bottom-style:dotted;
 	border-bottom-width:1px
 }
+.underline-dots, .checkbox-label, .no-input-value{
+	line-height:27px;
+	margin:5px 0px
+}
 span.legend-gray, span.legend-red{
 	margin-top:5px;
 	margin-bottom:7px;
