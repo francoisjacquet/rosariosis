@@ -11,22 +11,36 @@
 * See COPYRIGHT.txt for copyright notices and details.
 */
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start'])
+// set start date
+if ( isset( $_REQUEST['day_start'] )
+	&& isset( $_REQUEST['month_start'] )
+	&& isset( $_REQUEST['year_start'] ) )
 {
-	while(!VerifyDate($start_date = $_REQUEST['day_start'].'-'.$_REQUEST['month_start'].'-'.$_REQUEST['year_start']))
-		$_REQUEST['day_start']--;
+	$start_date = RequestedDate(
+		$_REQUEST['day_start'],
+		$_REQUEST['month_start'],
+		$_REQUEST['year_start']
+	);
 }
-else
-	$start_date = '01-'.mb_strtoupper(date('M-y'));
 
-if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
+if ( empty( $start_date ) )
+	$start_date = '01-' . mb_strtoupper( date( 'M-Y' ) );
+
+// set end date
+if( isset( $_REQUEST['day_end'] )
+	&& isset( $_REQUEST['month_end'] )
+	&& isset( $_REQUEST['year_end'] ) )
 {
-	while(!VerifyDate($end_date = $_REQUEST['day_end'].'-'.$_REQUEST['month_end'].'-'.$_REQUEST['year_end']))
-		$_REQUEST['day_end']--;
+	$end_date = RequestedDate(
+		$_REQUEST['day_end'],
+		$_REQUEST['month_end'],
+		$_REQUEST['year_end']
+	);
 }
-else
+
+if ( empty( $end_date ) )
 	$end_date = DBDate();
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';

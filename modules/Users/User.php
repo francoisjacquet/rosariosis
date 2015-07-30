@@ -59,28 +59,19 @@ if(User('PROFILE')!='admin')
 
 if($_REQUEST['modfunc']=='update' && AllowEdit())
 {
-	if(count($_REQUEST['month_staff']))
+	if ( isset( $_POST['day_staff'] )
+		&& isset( $_POST['month_staff'] )
+		&& isset( $_POST['year_staff'] ) )
 	{
-		foreach($_REQUEST['month_staff'] as $column=>$value)
+		foreach( (array)$_REQUEST['month_staff'] as $column => $value )
 		{
-			$_REQUEST['staff'][$column] = $_REQUEST['day_staff'][$column].'-'.$_REQUEST['month_staff'][$column].'-'.$_REQUEST['year_staff'][$column];
-			//FJ bugfix SQL bug when incomplete or non-existent date
-			//if($_REQUEST['staff'][$column]=='--')
-			if(mb_strlen($_REQUEST['staff'][$column]) < 11)
-				$_REQUEST['staff'][$column] = '';
-			else
-			{
-				while(!VerifyDate($_REQUEST['staff'][$column]))
-				{
-					$_REQUEST['day_staff'][$column]--;
-					$_REQUEST['staff'][$column] = $_REQUEST['day_staff'][$column].'-'.$_REQUEST['month_staff'][$column].'-'.$_REQUEST['year_staff'][$column];
-				}
-			}
+			$_REQUEST['staff'][$column] =
+			$_POST['staff'][$column] = RequestedDate(
+				$_REQUEST['day_staff'][$column],
+				$value,
+				$_REQUEST['year_staff'][$column]
+			);
 		}
-
-		unset($_REQUEST['day_staff']);
-		unset($_REQUEST['month_staff']);
-		unset($_REQUEST['year_staff']);
 	}
 
 	if($_REQUEST['staff']['SCHOOLS'])
@@ -115,7 +106,10 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 /*	else
 		$_REQUEST['staff']['SCHOOLS'] = $_POST['staff'] = '';*/
 
-	if(count($_POST['staff']) && (User('PROFILE')=='admin' || basename($_SERVER['PHP_SELF'])=='index.php'))
+	if( isset( $_POST['staff'] )
+		&& count( $_POST['staff'] )
+		&& ( User( 'PROFILE' ) === 'admin'
+			|| basename( $_SERVER['PHP_SELF'] ) === 'index.php' ) )
 	{
 		$required_error = false;
 

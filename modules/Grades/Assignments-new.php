@@ -1,34 +1,49 @@
 <?php
-include 'modules/Grades/DeletePromptX.fnc.php';
-//echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
-DrawHeader(ProgramTitle());
-$_ROSARIO['allow_edit'] = ($_REQUEST['allow_edit']=='Y');
 
-if($_REQUEST['day_values'] && $_POST['day_values'])
+include( 'modules/Grades/DeletePromptX.fnc.php' );
+
+DrawHeader( ProgramTitle() );
+
+$_ROSARIO['allow_edit'] = ( $_REQUEST['allow_edit'] === 'Y' );
+
+if ( isset( $_POST['day_values'] )
+	&& isset( $_POST['month_values'] )
+	&& isset( $_POST['year_values'] ) )
 {
-	foreach($_REQUEST['day_values'] as $id=>$values)
+	foreach ( (array)$_REQUEST['month_values'] as $id => $month )
 	{
-		if($_REQUEST['day_values'][$id]['ASSIGNED_DATE'] && $_REQUEST['month_values'][$id]['ASSIGNED_DATE'] && $_REQUEST['year_values'][$id]['ASSIGNED_DATE'])
+		// assigned date
+		if ( isset( $_REQUEST['day_values'][$id]['ASSIGNED_DATE'] )
+			&& isset( $month['ASSIGNED_DATE'] )
+			&& isset( $_REQUEST['year_values'][$id]['ASSIGNED_DATE'] ) )
 		{
-			while(!VerifyDate($_REQUEST['day_values'][$id]['ASSIGNED_DATE'].'-'.$_REQUEST['month_values'][$id]['ASSIGNED_DATE'].'-'.$_REQUEST['year_values'][$id]['ASSIGNED_DATE']))
-				$_REQUEST['day_values'][$id]['ASSIGNED_DATE']--;
-			$_REQUEST['values'][$id]['ASSIGNED_DATE'] = $_REQUEST['day_values'][$id]['ASSIGNED_DATE'].'-'.$_REQUEST['month_values'][$id]['ASSIGNED_DATE'].'-'.$_REQUEST['year_values'][$id]['ASSIGNED_DATE'];
+			$_REQUEST['values'][$id]['ASSIGNED_DATE'] =
+			$_POST['values'][$id]['ASSIGNED_DATE'] = RequestedDate(
+				$_REQUEST['day_values'][$id]['ASSIGNED_DATE'],
+				$month['ASSIGNED_DATE'],
+				$_REQUEST['year_values'][$id]['ASSIGNED_DATE']
+			);
 		}
-		if($_REQUEST['day_values'][$id]['DUE_DATE'] && $_REQUEST['month_values'][$id]['DUE_DATE'] && $_REQUEST['year_values'][$id]['DUE_DATE'])
+
+		// due date
+		if ( isset( $_REQUEST['day_values'][$id]['DUE_DATE'] )
+			&& isset( $month['DUE_DATE'] )
+			&& isset( $_REQUEST['year_values'][$id]['DUE_DATE'] ) )
 		{
-			while(!VerifyDate($_REQUEST['day_values'][$id]['DUE_DATE'].'-'.$_REQUEST['month_values'][$id]['DUE_DATE'].'-'.$_REQUEST['year_values'][$id]['DUE_DATE']))
-				$_REQUEST['day_values'][$id]['DUE_DATE']--;
-			$_REQUEST['values'][$id]['DUE_DATE'] = $_REQUEST['day_values'][$id]['DUE_DATE'].'-'.$_REQUEST['month_values'][$id]['DUE_DATE'].'-'.$_REQUEST['year_values'][$id]['DUE_DATE'];
+			$_REQUEST['values'][$id]['DUE_DATE'] =
+			$_POST['values'][$id]['DUE_DATE'] = RequestedDate(
+				$_REQUEST['day_values'][$id]['DUE_DATE'],
+				$month['DUE_DATE'],
+				$_REQUEST['year_values'][$id]['DUE_DATE']
+			);
 		}
 	}
-	$_POST['values'] = $_REQUEST['values'];
-	unset($_REQUEST['day_values']); unset($_REQUEST['month_values']); unset($_REQUEST['year_values']);
-	unset($_SESSION['_REQUEST_vars']['day_values']); unset($_SESSION['_REQUEST_vars']['month_values']); unset($_SESSION['_REQUEST_vars']['year_values']);
 }
 
 if($_REQUEST['modfunc']=='update')
 {
-	if($_REQUEST['values'] && $_POST['values'])
+	if ( isset( $_POST['values'] )
+		&& count( $_POST['values'] ) )
 	{
 		foreach($_REQUEST['values'] as $id=>$columns)
 		{
@@ -151,7 +166,9 @@ if($_REQUEST['modfunc']=='update')
 				echo ErrorMessage(array(_('Please fill in the required fields')));
 		}
 	}
-	unset($_REQUEST['modfunc']);
+
+	unset( $_REQUEST['modfunc'] );
+	unset( $_SESSION['_REQUEST_vars']['modfunc'] );
 }
 
 if($_REQUEST['modfunc']=='remove')

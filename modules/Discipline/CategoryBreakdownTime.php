@@ -1,29 +1,48 @@
 <?php
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start'])
+// set start date
+if ( isset( $_REQUEST['day_start'] )
+	&& isset( $_REQUEST['month_start'] )
+	&& isset( $_REQUEST['year_start'] ) )
 {
-	while(!VerifyDate($start_date = $_REQUEST['day_start'].'-'.$_REQUEST['month_start'].'-'.$_REQUEST['year_start']))
-		$_REQUEST['day_start']--;
+	$start_date = RequestedDate(
+		$_REQUEST['day_start'],
+		$_REQUEST['month_start'],
+		$_REQUEST['year_start']
+	);
 }
-else
+
+if ( empty( $start_date ) )
 {
-	$min_date = DBGet(DBQuery("SELECT min(SCHOOL_DATE) AS MIN_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
-	if($min_date[1]['MIN_DATE'])
+	$min_date = DBGet( DBQuery( "SELECT min(SCHOOL_DATE) AS MIN_DATE
+		FROM ATTENDANCE_CALENDAR
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'" ) );
+
+	if ( count( $min_date ) )
 		$start_date = $min_date[1]['MIN_DATE'];
 	else
-		$start_date = '01-'.mb_strtoupper(date('M-y'));
+		$start_date = '01-' . mb_strtoupper( date( 'M-Y' ) );
+
 }
 
-if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
+// set end date
+if( isset( $_REQUEST['day_end'] )
+	&& isset( $_REQUEST['month_end'] )
+	&& isset( $_REQUEST['year_end'] ) )
 {
-	while(!VerifyDate($end_date = $_REQUEST['day_end'].'-'.$_REQUEST['month_end'].'-'.$_REQUEST['year_end']))
-		$_REQUEST['day_end']--;
+	$end_date = RequestedDate(
+		$_REQUEST['day_end'],
+		$_REQUEST['month_end'],
+		$_REQUEST['year_end']
+	);
 }
-else
+
+if ( empty( $end_date ) )
 	$end_date = DBDate();
-	
+
 if(!$_REQUEST['timeframe'])
 	$_REQUEST['timeframe'] = 'month';
 

@@ -1,29 +1,26 @@
 <?php
-if($_REQUEST['month_values'] && $_POST['month_values'])
+
+if ( isset( $_POST['day_values'] )
+	&& isset( $_POST['month_values'] )
+	&& isset( $_POST['year_values'] ) )
 {
-	foreach($_REQUEST['month_values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['month_values'] as $id => $columns )
 	{
-		foreach($columns as $column=>$value)
+		foreach ( (array)$columns as $column => $month )
 		{
-			$_REQUEST['values'][$id][$column] = $_REQUEST['day_values'][$id][$column].'-'.$value.'-'.$_REQUEST['year_values'][$id][$column];
-			//FJ bugfix SQL bug when incomplete or non-existent date
-			//if($_REQUEST['values'][$id][$column]=='--')
-			if(mb_strlen($_REQUEST['values'][$id][$column]) < 11)
-				$_REQUEST['values'][$id][$column] = '';
-			else
-			{
-				while(!VerifyDate($_REQUEST['values'][$id][$column]))
-				{
-					$_REQUEST['day_values'][$id][$column]--;
-					$_REQUEST['values'][$id][$column] = $_REQUEST['day_values'][$id][$column].'-'.$value.'-'.$_REQUEST['year_values'][$id][$column];
-				}
-			}
+			$_REQUEST['values'][$id][$column] =
+			$_POST['values'][$id][$column] = RequestedDate(
+				$_REQUEST['day_values'][$id][$column],
+				$month,
+				$_REQUEST['year_values'][$id][$column]
+			);
 		}
 	}
-	$_POST['values'] = $_REQUEST['values'];
 }
 
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( isset( $_POST['values'] )
+	&& count( $_POST['values'] )
+	&& AllowEdit() )
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{	

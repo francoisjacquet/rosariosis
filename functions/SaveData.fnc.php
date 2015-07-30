@@ -8,31 +8,26 @@ function SaveData($iu_extra,$fields_done=false,$field_names=false)
 	if(!$field_names)
 		$field_names = array();
 
-	if($_REQUEST['month_values'])
+	if ( isset( $_REQUEST['day_values'] )
+		&& isset( $_REQUEST['month_values'] )
+		&& isset( $_REQUEST['year_values'] ) )
 	{
-		foreach($_REQUEST['month_values'] as $table=>$values)
+		foreach( (array)$_REQUEST['month_values'] as $table => $values )
 		{
-			foreach($values as $id=>$columns)
+			foreach( (array)$values as $id => $columns )
 			{
-				foreach($columns as $column=>$value)
+				foreach( (array)$columns as $column => $month )
 				{
-					$_REQUEST['values'][$table][$id][$column] = $_REQUEST['day_values'][$table][$id][$column].'-'.$value.'-'.$_REQUEST['year_values'][$table][$id][$column];
-					//FJ bugfix SQL bug when incomplete or non-existent date
-					//if($_REQUEST['values'][$table][$id][$column]=='--')
-					if(mb_strlen($_REQUEST['values'][$table][$id][$column]) < 11)
-						$_REQUEST['values'][$table][$id][$column] = '';
-					else
-					{
-						while(!VerifyDate($_REQUEST['values'][$table][$id][$column]))
-						{
-							$_REQUEST['day_values'][$table][$id][$column]--;
-							$_REQUEST['values'][$table][$id][$column] = $_REQUEST['day_values'][$table][$id][$column].'-'.$value.'-'.$_REQUEST['year_values'][$table][$id][$column];
-						}
-					}
+					$_REQUEST['values'][$table][$id][$column] = RequestedDate(
+						$_REQUEST['day_values'][$table][$id][$column],
+						$month,
+						$_REQUEST['year_values'][$table][$id][$column]
+					);
 				}
 			}
 		}
 	}
+
 	foreach($_REQUEST['values'] as $table=>$values)
 	{
 		$table_properties = db_properties($table);

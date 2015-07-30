@@ -29,26 +29,146 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 	AND (s.SCHOOLS IS NULL OR position(','||ac.SCHOOL_ID||',' IN s.SCHOOLS)>0) 
 	ORDER BY ".db_case(array('ac.SCHOOL_ID',"'".UserSchool()."'",0,'ac.SCHOOL_ID')).",ac.DEFAULT_CALENDAR ASC,ac.TITLE"));
 
-	$message = '<SELECT name=copy_id><OPTION value="">'._('N/A');
-	foreach($title_RET as $id=>$title)
-	{
-		if($_REQUEST['calendar_id'] && $title['CALENDAR_ID']==$_REQUEST['calendar_id'])
-		{
-			$message .=  '<OPTION value="'.$title['CALENDAR_ID'].'" selected>'.$title['TITLE'].(AllowEdit()&&$title['DEFAULT_CALENDAR']=='Y'?' ('._('Default').')':'');
-			$default_id = $id;
-			$prompt = $title['TITLE'];
-		}
-		else
-            $message .= '<OPTION value="'.$title['CALENDAR_ID'].'">'.($title['SCHOOL_ID']!=UserSchool()?$title['SCHOOL_TITLE'].':':'').$title['TITLE'].(AllowEdit()&&$title['DEFAULT_CALENDAR']=='Y'?' ('._('Default').')':'');
+	// prepare table for Copy Calendar & add ' (Default)' mention
+	$copy_calendar_options = array();
 
+	foreach( (array)$title_RET as $id => $title )
+	{
+		$copy_calendar_options[$id] = $title['TITLE'];
+
+		if ( AllowEdit()
+			&& $title['DEFAULT_CALENDAR'] == 'Y' )
+		{
+			$default_id = $id;
+
+			$copy_calendar_options[$id] .= ' (' . _( 'Default' ) . ')';
+		}
 	}
-	$message .= '</SELECT>';
-//FJ add <label> on checkbox
-	$message = '<TABLE><TR><TD colspan="7"><table><tr class="st"><td>'.NoInput('<INPUT type="text" name="title"'.($_REQUEST['calendar_id']?' value="'.$title_RET[$default_id]['TITLE'].'"':'').'>',_('Title')).'</td><td><label>'.NoInput('<INPUT type="checkbox" name="default" value="Y"'.($_REQUEST['calendar_id']&&$title_RET[$default_id]['DEFAULT_CALENDAR']=='Y'?' checked':'').'>').' '._('Default Calendar for this School').'</label></td><td>'.NoInput($message,_('Copy Calendar')).'</td></tr></table></TD></TR>';
-	$message .= '<TR><TD colspan="7" class="center"><table><tr class="st"><td>'._('From').' '.NoInput(PrepareDate($_REQUEST['calendar_id']&&$title_RET[$default_id]['START_DATE']?$title_RET[$default_id]['START_DATE']:$fy_RET['START_DATE'],'_min')).'</td><td>'._('To').' '.NoInput(PrepareDate($_REQUEST['calendar_id']&&$title_RET[$default_id]['END_DATE']?$title_RET[$default_id]['END_DATE']:$fy_RET['END_DATE'],'_max')).'</td></tr></table></TD></TR>';
-	$message .= '<TR class="st"><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[0]"'.($_REQUEST['calendar_id']?' checked':'').'>').' '._('Sunday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[1]" checked />').' '._('Monday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[2]" checked />').' '._('Tuesday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[3]" checked />').' '._('Wednesday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[4]" checked />').' '._('Thursday').'</label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[5]" checked />').' '._('Friday').'<label></TD><TD><label>'.NoInput('<INPUT type="checkbox" value="Y" name="weekdays[6]"'.($_REQUEST['calendar_id']?' checked':'').'>').' '._('Saturday').'</label></TD></TR>';
-	$message .= '<TR><TD colspan="7" class="center"><table><tr><td>'.NoInput('<INPUT type="text" name="minutes" size="3" maxlength="3">',_('Minutes')).'</td><td><span class="legend-gray">('.($_REQUEST['calendar_id']?_('Default is Full Day if Copy Calendar is N/A.').'<BR />'._('Otherwise Default is minutes from the Copy Calendar'):_('Default is Full Day')).')</span></td></tr></table></TD></TR>';
-	$message .= '</TABLE>';
+
+	$div = false;
+
+	$message = '<table class="width-100p valign-top"><tr class="st"><td>';
+
+	// title
+	$message .= TextInput(
+		( $_REQUEST['calendar_id'] ? $title_RET[$default_id]['TITLE'] : '' ),
+		'title',
+		'<span class="legend-red">' . _( 'Title' ) . '</span>',
+		'required',
+		$div
+	);
+
+	$message .= '</td><td>';
+
+	// default
+	$message .= CheckboxInput(
+		$_REQUEST['calendar_id'] && $title_RET[$default_id]['DEFAULT_CALENDAR'] == 'Y',
+		'default',
+		_( 'Default Calendar for this School' ),
+		'',
+		true
+	);
+
+	$message .= '</td><td>';
+
+	// copy calendar
+	$message .= SelectInput(
+		$_REQUEST['calendar_id'],
+		'copy_id',
+		_( 'Copy Calendar' ),
+		$copy_calendar_options,
+		'N/A',
+		'',
+		$div
+	);
+
+	$message .= '</td></tr></table>';
+
+	// from date
+	$message .= '<table class="width-100p valign-top"><tr class="st"><td>' . _( 'From' ) . ' ';
+
+	$message .= DateInput(
+		$_REQUEST['calendar_id'] && $title_RET[$default_id]['START_DATE'] ?
+			$title_RET[$default_id]['START_DATE'] :
+			$fy_RET['START_DATE'],
+		'min',
+		'',
+		$div,
+		true,
+		!( $_REQUEST['calendar_id'] && $title_RET[$default_id]['START_DATE'] )
+	);
+
+	// to date
+	$message .= '</td><td>' . _( 'To' )  . ' ';
+	$message .= DateInput(
+		$_REQUEST['calendar_id'] && $title_RET[$default_id]['END_DATE'] ?
+			$title_RET[$default_id]['END_DATE'] :
+			$fy_RET['END_DATE'],
+		'max',
+		'',
+		$div,
+		true,
+		!( $_REQUEST['calendar_id'] && $title_RET[$default_id]['END_DATE'] )
+	);
+
+	$message .= '</td></tr></table>';
+
+	$message .= '<table class="width-100p valign-top"><tr class="st"><td>';
+
+	// weekdays
+	$weekdays = array(
+		_( 'Sunday' ),
+		_( 'Monday' ),
+		_( 'Tuesday' ),
+		_( 'Wednesday' ),
+		_( 'Thursday' ),
+		_( 'Friday' ),
+		_( 'Saturday' ),
+	);
+
+	$weekdays_inputs = array();
+
+	foreach ( (array)$weekdays as $id => $weekday )
+	{
+		$value = 'Y';
+
+		// unckeck Saturday & Sunday
+		if ( ( $id === 0
+				|| $id === 6 )
+			&& $_REQUEST['calendar_id'] )
+			$value = 'N';
+
+		$weekdays_inputs[] .= CheckboxInput(
+			$value,
+			'weekdays[' . $id . ']',
+			$weekday,
+			'',
+			true
+		);
+	}
+
+	$message .= implode( '</TD><TD>', $weekdays_inputs );
+
+	$message .= '</td></tr></table>';
+
+	$message .= '<table class="width-100p"><tr class="st valign-top"><td>';
+
+	// minutes
+	$minutes_tip_text = ( $_REQUEST['calendar_id'] ?
+		_( 'Default is Full Day if Copy Calendar is N/A.' ) . ' ' . _( 'Otherwise Default is minutes from the Copy Calendar' ) :
+		_( 'Default is Full Day' )
+	);
+
+	$message .= TextInput(
+		( $_REQUEST['calendar_id'] ? $title_RET[$default_id]['MINUTES'] : '' ),
+		'minutes',
+		'<span class="legend-gray" title="' . $minutes_tip_text . '" style="cursor:help">' . _( 'Minutes' ) . '*</span>',
+		'size="3" maxlength="3"',
+		$div
+	);
+
+	$message .= '</td></tr></table>';
+
 	if(Prompt($_REQUEST['calendar_id']?sprintf(_('Recreate %s calendar'),$prompt):_('Create new calendar'),'',$message))
 	{
 		if($_REQUEST['calendar_id'])
@@ -87,30 +207,36 @@ if($_REQUEST['modfunc']=='create' && AllowEdit())
 					DBQuery("DELETE FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$calendar_id."'");
 
 				$create_calendar_sql = "INSERT INTO ATTENDANCE_CALENDAR (SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID) (SELECT '".UserSyear()."','".UserSchool()."',SCHOOL_DATE,". $minutes .",'".$calendar_id."' FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$_REQUEST['copy_id']."' AND extract(DOW FROM SCHOOL_DATE) IN (".$weekdays_list.")";
+
 				//FJ bugfix SQL bug empty school dates
-				if($_REQUEST['month_min'] && $_REQUEST['month_max'])
+				if ( isset( $_REQUEST['day_min'] )
+					&& isset( $_REQUEST['month_min'] )
+					&& isset( $_REQUEST['year_min'] )
+					&& isset( $_REQUEST['day_max'] )
+					&& isset( $_REQUEST['month_max'] )
+					&& isset( $_REQUEST['year_max'] ) )
 				{
-					$_REQUEST['date_min'] = $_REQUEST['day_min'].'-'.$_REQUEST['month_min'].'-'.$_REQUEST['year_min'];
-					$_REQUEST['date_max'] = $_REQUEST['day_max'].'-'.$_REQUEST['month_max'].'-'.$_REQUEST['year_max'];
-					
-					if(mb_strlen($_REQUEST['date_min']) < 11 || mb_strlen($_REQUEST['date_max']) < 11)
-						$_REQUEST['date_min'] = $_REQUEST['date_max'] = '';
-					else
+					$_REQUEST['date_min'] = RequestedDate(
+						$_REQUEST['day_min'],
+						$_REQUEST['month_min'],
+						$_REQUEST['year_min']
+					);
+
+					$_REQUEST['date_max'] = RequestedDate(
+						$_REQUEST['day_max'],
+						$_REQUEST['month_max'],
+						$_REQUEST['year_max']
+					);
+
+					if ( !empty( $_REQUEST['date_min'] )
+						&& !empty( $_REQUEST['date_max'] ) )
 					{
-						while(!VerifyDate($_REQUEST['date_min']))
-						{
-							$_REQUEST['day_min']--;
-							$_REQUEST['date_min'] = $_REQUEST['day_min'].'-'.$_REQUEST['month_min'].'-'.$_REQUEST['year_min'];
-						}
-						while(!VerifyDate($_REQUEST['date_max']))
-						{
-							$_REQUEST['day_max']--;
-							$_REQUEST['date_max'] = $_REQUEST['day_max'].'-'.$_REQUEST['month_max'].'-'.$_REQUEST['year_max'];
-						}
+						$create_calendar_sql .= " AND SCHOOL_DATE
+							BETWEEN '" . $_REQUEST['date_min'] . "'
+							AND '" . $_REQUEST['date_max'] . "'";
 					}
 				}
-				if($_REQUEST['date_min'] && $_REQUEST['date_max'])
-					$create_calendar_sql .= " AND SCHOOL_DATE BETWEEN '".$_REQUEST['date_min']."' AND '".$_REQUEST['date_max']."'";
+
 				$create_calendar_sql .= ")";
 				DBQuery($create_calendar_sql);
 			}
@@ -377,8 +503,11 @@ if($_REQUEST['modfunc']=='list_events')
 {
 	if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start'])
 	{
-		while(!VerifyDate($start_date = $_REQUEST['day_start'].'-'.$_REQUEST['month_start'].'-'.$_REQUEST['year_start']))
-			$_REQUEST['day_start']--;
+		$start_date = RequestedDate(
+			$_REQUEST['day_start'],
+			$_REQUEST['month_start'],
+			$_REQUEST['year_start']
+		);
 	}
 	else
 	{
@@ -391,8 +520,11 @@ if($_REQUEST['modfunc']=='list_events')
 
 	if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
 	{
-		while(!VerifyDate($end_date = $_REQUEST['day_end'].'-'.$_REQUEST['month_end'].'-'.$_REQUEST['year_end']))
-			$_REQUEST['day_end']--;
+		$end_date = RequestedDate(
+			$_REQUEST['day_end'],
+			$_REQUEST['month_end'],
+			$_REQUEST['year_end']
+		);
 	}
 	else
 	{

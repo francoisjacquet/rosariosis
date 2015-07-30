@@ -11,28 +11,24 @@
 * See COPYRIGHT.txt for copyright notices and details.
 */
 
-if($_REQUEST['month_values'] && $_POST['month_values'])
+if ( isset( $_POST['day_values'] )
+	&& isset( $_POST['month_values'] )
+	&& isset( $_POST['year_values'] ) )
 {
-	foreach($_REQUEST['month_values'] as $column=>$value)
+	foreach ( (array)$_REQUEST['month_values'] as $column => $month )
 	{
-		$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
-		//FJ bugfix SQL bug when incomplete or non-existent date
-		//if($_REQUEST['values'][$column]=='--')
-		if(mb_strlen($_REQUEST['values'][$column]) < 11)
-			$_REQUEST['values'][$column] = '';
-		else
-		{
-			while(!VerifyDate($_REQUEST['values'][$column]))
-			{
-				$_REQUEST['day_values'][$column]--;
-				$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
-			}
-		}
+		$_REQUEST['values'][$column] =
+		$_POST['values'][$column] = RequestedDate(
+			$_REQUEST['day_values'][$column],
+			$month,
+			$_REQUEST['year_values'][$column]
+		);
 	}
-	$_POST['values'] = $_REQUEST['values'];
 }
 
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( isset( $_POST['values'] )
+	&& count( $_POST['values'] )
+	&& AllowEdit() )
 {
 	$sql = "UPDATE DISCIPLINE_REFERRALS SET ";
 

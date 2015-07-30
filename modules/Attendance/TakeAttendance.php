@@ -5,9 +5,17 @@ require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 //FJ add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='attendance'"),array(),array('TITLE'));
 
-if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
-	while(!VerifyDate($date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date']))
-		$_REQUEST['day_date']--;
+// set date
+if ( isset( $_REQUEST['month_date'] )
+	&& isset( $_REQUEST['day_date'] )
+	&& isset( $_REQUEST['year_date'] ) )
+{
+	$date = RequestedDate(
+		$_REQUEST['day_date'],
+		$_REQUEST['month_date'],
+		$_REQUEST['year_date']
+	);
+}
 else
 {
 	$_REQUEST['day_date'] = date('d');

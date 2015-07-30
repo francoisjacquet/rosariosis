@@ -2,23 +2,37 @@
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
 require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 
-if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start'])
-{
-	while(!VerifyDate($start_date = $_REQUEST['day_start'].'-'.$_REQUEST['month_start'].'-'.$_REQUEST['year_start']))
-		$_REQUEST['day_start']--;
-}
-else
-	$start_date = '01-'.mb_strtoupper(date('M-y'));
+DrawHeader( ProgramTitle() );
 
-if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
+// set start date
+if ( isset( $_REQUEST['day_start'] )
+	&& isset( $_REQUEST['month_start'] )
+	&& isset( $_REQUEST['year_start'] ) )
 {
-	while(!VerifyDate($end_date = $_REQUEST['day_end'].'-'.$_REQUEST['month_end'].'-'.$_REQUEST['year_end']))
-		$_REQUEST['day_end']--;
+	$start_date = RequestedDate(
+		$_REQUEST['day_start'],
+		$_REQUEST['month_start'],
+		$_REQUEST['year_start']
+	);
 }
-else
+
+if ( empty( $start_date ) )
+	$start_date = '01-' . mb_strtoupper( date( 'M-Y' ) );
+
+// set end date
+if( isset( $_REQUEST['day_end'] )
+	&& isset( $_REQUEST['month_end'] )
+	&& isset( $_REQUEST['year_end'] ) )
+{
+	$end_date = RequestedDate(
+		$_REQUEST['day_end'],
+		$_REQUEST['month_end'],
+		$_REQUEST['year_end']
+	);
+}
+
+if ( empty( $end_date ) )
 	$end_date = DBDate();
-
-DrawHeader(ProgramTitle());
 
 if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 {

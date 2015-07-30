@@ -1,9 +1,18 @@
 <?php
 
-if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start'])
-	while(!VerifyDate($start_date = $_REQUEST['day_start'].'-'.$_REQUEST['month_start'].'-'.$_REQUEST['year_start']))
-		$_REQUEST['day_start']--;
-else
+// set start date
+if ( isset( $_REQUEST['day_start'] )
+	&& isset( $_REQUEST['month_start'] )
+	&& isset( $_REQUEST['year_start'] ) )
+{
+	$start_date = RequestedDate(
+		$_REQUEST['day_start'],
+		$_REQUEST['month_start'],
+		$_REQUEST['year_start']
+	);
+}
+
+if ( empty( $start_date ) )
 {
 	$_REQUEST['day_start'] = '01';
 	$_REQUEST['month_start'] = mb_strtoupper(date('M'));
@@ -11,10 +20,19 @@ else
 	$start_date = $_REQUEST['day_start'].'-'.$_REQUEST['month_start'].'-'.$_REQUEST['year_start'];
 }
 
-if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
-	while(!VerifyDate($end_date = $_REQUEST['day_end'].'-'.$_REQUEST['month_end'].'-'.$_REQUEST['year_end']))
-		$_REQUEST['day_end']--;
-else
+// set end date
+if( isset( $_REQUEST['day_end'] )
+	&& isset( $_REQUEST['month_end'] )
+	&& isset( $_REQUEST['year_end'] ) )
+{
+	$end_date = RequestedDate(
+		$_REQUEST['day_end'],
+		$_REQUEST['month_end'],
+		$_REQUEST['year_end']
+	);
+}
+
+if ( empty( $end_date ) )
 {
 	$_REQUEST['day_end'] = date('d');
 	$_REQUEST['month_end'] = mb_strtoupper(date('M'));

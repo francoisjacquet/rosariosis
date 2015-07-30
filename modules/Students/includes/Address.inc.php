@@ -4,32 +4,27 @@ $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='"
 // set this to false to disable auto-pull-downs for the contact info Description field
 $info_apd = true;
 
-if($_REQUEST['month_values'] && $_POST['month_values'])
+if ( isset( $_POST['day_values'] )
+	&& isset( $_POST['month_values'] )
+	&& isset( $_POST['year_values'] ) )
 {
-	foreach($_REQUEST['month_values'] as $field_category=>$columns)
+	foreach( (array)$_REQUEST['month_values'] as $field_category => $columns )
 	{
-		foreach($columns as $column=>$value)
+		foreach( $columns as $column => $month )
 		{
-			$_REQUEST['values'][$field_category][$column] = $_REQUEST['day_values'][$field_category][$column].'-'.$value.'-'.$_REQUEST['year_values'][$field_category][$column];
-			//FJ bugfix SQL bug when incomplete or non-existent date
-			//if($_REQUEST['values'][$column]=='--')
-			if(mb_strlen($_REQUEST['values'][$field_category][$column]) < 11)
-				$_REQUEST['values'][$field_category][$column] = '';
-			else
-			{
-				while(!VerifyDate($_REQUEST['values'][$field_category][$column]))
-				{
-					$_REQUEST['day_values'][$field_category][$column]--;
-					$_REQUEST['values'][$field_category][$column] = $_REQUEST['day_values'][$field_category][$column].'-'.$value.'-'.$_REQUEST['year_values'][$field_category][$column];
-				}
-			}
+			$_REQUEST['values'][$field_category][$column] =
+			$_POST['values'][$field_category][$column] = RequestedDate(
+				$_REQUEST['day_values'][$field_category][$column],
+				$month,
+				$_REQUEST['year_values'][$field_category][$column]
+			);
 		}
 	}
-	unset($_REQUEST['day_values']); unset($_REQUEST['month_values']); unset($_REQUEST['year_values']);
-	$_POST['values'] = $_REQUEST['values'];
 }
 
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( isset( $_POST['values'] )
+	&& count( $_POST['values'] )
+	&& AllowEdit() )
 {
 
 	if($_REQUEST['values']['EXISTING'])

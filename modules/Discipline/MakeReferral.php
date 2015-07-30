@@ -11,44 +11,55 @@
 * See COPYRIGHT.txt for copyright notices and details.
 */
 
-if($_REQUEST['day_start'] && $_REQUEST['month_start'] && $_REQUEST['year_start'])
-{
-	while(!VerifyDate($start_date = $_REQUEST['day_start'].'-'.$_REQUEST['month_start'].'-'.$_REQUEST['year_start']))
-		$_REQUEST['day_start']--;
-}
-else
-	$start_date = '01-'.mb_strtoupper(date('M-y'));
+DrawHeader( ProgramTitle() );
 
-if($_REQUEST['day_end'] && $_REQUEST['month_end'] && $_REQUEST['year_end'])
+// set start date
+if ( isset( $_REQUEST['day_start'] )
+	&& isset( $_REQUEST['month_start'] )
+	&& isset( $_REQUEST['year_start'] ) )
 {
-	while(!VerifyDate($end_date = $_REQUEST['day_end'].'-'.$_REQUEST['month_end'].'-'.$_REQUEST['year_end']))
-		$_REQUEST['day_end']--;
+	$start_date = RequestedDate(
+		$_REQUEST['day_start'],
+		$_REQUEST['month_start'],
+		$_REQUEST['year_start']
+	);
 }
-else
+
+if ( empty( $start_date ) )
+	$start_date = '01-' . mb_strtoupper( date( 'M-Y' ) );
+
+// set end date
+if( isset( $_REQUEST['day_end'] )
+	&& isset( $_REQUEST['month_end'] )
+	&& isset( $_REQUEST['year_end'] ) )
+{
+	$end_date = RequestedDate(
+		$_REQUEST['day_end'],
+		$_REQUEST['month_end'],
+		$_REQUEST['year_end']
+	);
+}
+
+if ( empty( $end_date ) )
 	$end_date = DBDate();
 
-if($_REQUEST['month_values'] && $_POST['month_values'])
+if ( isset( $_POST['day_values'] )
+	&& isset( $_POST['month_values'] )
+	&& isset( $_POST['year_values'] ) )
 {
-	foreach($_REQUEST['month_values'] as $column=>$value)
+	foreach ( (array)$_REQUEST['month_values'] as $column => $month )
 	{
-		$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
-		//FJ bugfix SQL bug when incomplete or non-existent date
-		//if($_REQUEST['values'][$column]=='--')
-		if(mb_strlen($_REQUEST['values'][$column]) < 11)
-			$_REQUEST['values'][$column] = '';
-		else
-		{
-			while(!VerifyDate($_REQUEST['values'][$column]))
-			{
-				$_REQUEST['day_values'][$column]--;
-				$_REQUEST['values'][$column] = $_REQUEST['day_values'][$column].'-'.$value.'-'.$_REQUEST['year_values'][$column];
-			}
-		}
+		$_REQUEST['values'][$column] =
+		$_POST['values'][$column] = RequestedDate(
+			$_REQUEST['day_values'][$column],
+			$month,
+			$_REQUEST['year_values'][$column]
+		);
 	}
-	$_POST['values'] = $_REQUEST['values'];
 }
 
-if($_REQUEST['values'] && $_POST['values'])
+if ( isset( $_POST['values'] )
+	&& count( $_POST['values'] ) )
 {
 	$sql = "INSERT INTO DISCIPLINE_REFERRALS ";
 	
@@ -101,8 +112,6 @@ if($_REQUEST['values'] && $_POST['values'])
 	unset($_REQUEST['student_id']);
 	unset($_SESSION['student_id']);
 }
-
-DrawHeader(ProgramTitle());
 
 if(isset($error))
 	echo ErrorMessage($error);

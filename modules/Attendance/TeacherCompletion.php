@@ -1,8 +1,16 @@
 <?php
 
-if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
-	while(!VerifyDate($date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date']))
-		$_REQUEST['day_date']--;
+// set date
+if ( isset( $_REQUEST['month_date'] )
+	&& isset( $_REQUEST['day_date'] )
+	&& isset( $_REQUEST['year_date'] ) )
+{
+	$date = RequestedDate(
+		$_REQUEST['day_date'],
+		$_REQUEST['month_date'],
+		$_REQUEST['year_date']
+	);
+}
 else
 {
 	$_REQUEST['day_date'] = date('d');

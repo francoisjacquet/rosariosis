@@ -4,10 +4,17 @@ require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
+// set date
+if ( isset( $_REQUEST['month_date'] )
+	&& isset( $_REQUEST['day_date'] )
+	&& isset( $_REQUEST['year_date'] ) )
 {
-	while(!VerifyDate($date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date']))
-		$_REQUEST['day_date']--;
+	$date = RequestedDate(
+		$_REQUEST['day_date'],
+		$_REQUEST['month_date'],
+		$_REQUEST['year_date']
+	);
+
 	if($_SESSION['Administration.php']['date'] && $_SESSION['Administration.php']['date']!=$date)
 	{
 		unset($_REQUEST['attendance']);

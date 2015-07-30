@@ -11,19 +11,40 @@ $_ROSARIO['allow_edit'] = true;
 //unset($_SESSION['_REQUEST_vars']['assignment_type_id']);
 //unset($_SESSION['_REQUEST_vars']['assignment_id']);
 
-if($_REQUEST['day_tables'] && $_POST['day_tables'])
+if ( isset( $_POST['day_tables'] )
+	&& isset( $_POST['month_tables'] )
+	&& isset( $_POST['year_tables'] ) )
 {
-	foreach($_REQUEST['day_tables'] as $id=>$values)
+	foreach( (array)$_REQUEST['month_tables'] as $id => $month )
 	{
-		if($_REQUEST['day_tables'][$id]['DUE_DATE'] && $_REQUEST['month_tables'][$id]['DUE_DATE'] && $_REQUEST['year_tables'][$id]['DUE_DATE'])
-			$_REQUEST['tables'][$id]['DUE_DATE'] = $_REQUEST['day_tables'][$id]['DUE_DATE'].'-'.$_REQUEST['month_tables'][$id]['DUE_DATE'].'-'.$_REQUEST['year_tables'][$id]['DUE_DATE'];
-		if($_REQUEST['day_tables'][$id]['ASSIGNED_DATE'] && $_REQUEST['month_tables'][$id]['ASSIGNED_DATE'] && $_REQUEST['year_tables'][$id]['ASSIGNED_DATE'])
-			$_REQUEST['tables'][$id]['ASSIGNED_DATE'] = $_REQUEST['day_tables'][$id]['ASSIGNED_DATE'].'-'.$_REQUEST['month_tables'][$id]['ASSIGNED_DATE'].'-'.$_REQUEST['year_tables'][$id]['ASSIGNED_DATE'];
+		// due date
+		if ( isset( $_REQUEST['day_tables'][$id]['DUE_DATE'] )
+			&& isset( $_REQUEST['year_tables'][$id]['DUE_DATE'] ) )
+		{
+			$_REQUEST['tables'][$id]['DUE_DATE'] =
+			$_POST['tables'][$id]['DUE_DATE'] = RequestedDate(
+				$_REQUEST['day_tables'][$id]['DUE_DATE'],
+				$month['DUE_DATE'],
+				$_REQUEST['year_tables'][$id]['DUE_DATE']
+			);
+		}
+
+		// assigned date
+		if ( isset( $_REQUEST['day_tables'][$id]['ASSIGNED_DATE'] )
+			&& isset( $_REQUEST['year_tables'][$id]['ASSIGNED_DATE'] ) )
+		{
+			$_REQUEST['tables'][$id]['ASSIGNED_DATE'] =
+			$_POST['tables'][$id]['ASSIGNED_DATE'] = RequestedDate(
+				$_REQUEST['day_tables'][$id]['ASSIGNED_DATE'],
+				$month['ASSIGNED_DATE'],
+				$_REQUEST['year_tables'][$id]['ASSIGNED_DATE']
+			);
+		}
 	}
-	$_POST['tables'] = $_REQUEST['tables'];
 }
 
-if($_REQUEST['tables'] && $_POST['tables'])
+if ( isset( $_POST['tables'] )
+	&& count( $_POST['tables'] ) )
 {
 	$table = $_REQUEST['table'];
 	foreach($_REQUEST['tables'] as $id=>$columns)

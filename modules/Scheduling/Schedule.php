@@ -6,29 +6,43 @@ include('modules/Scheduling/includes/calcSeats0.fnc.php');
 // REPLACE DBDate() & date() WITH USER ENTERED VALUES
 // ERROR HANDLING
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-if($_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
-	while(!VerifyDate($date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date']))
-		$_REQUEST['day_date']--;
+// date
+if ( isset( $_REQUEST['month_date'] )
+	&& isset( $_REQUEST['day_date'] )
+	&& isset( $_REQUEST['year_date'] ) )
+{
+	$date = RequestedDate(
+		$_REQUEST['day_date'],
+		$_REQUEST['month_date'],
+		$_REQUEST['year_date']
+	);
+}
+// default date
 else
 {
-	$min_date = DBGet(DBQuery("SELECT min(SCHOOL_DATE) AS MIN_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
+	$min_date = DBGet( DBQuery( "SELECT min(SCHOOL_DATE) AS MIN_DATE
+		FROM ATTENDANCE_CALENDAR
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'" ) );
 
-	if ( $min_date[1]['MIN_DATE']
+	// if today < first attendance day
+	if ( count( $min_date )
 		&& strtotime( DBDate() ) < strtotime( $min_date[1]['MIN_DATE'] ) )
 	{
 		$date = $min_date[1]['MIN_DATE'];
-		$_REQUEST['day_date'] = date('d',strtotime($date));
-		$_REQUEST['month_date'] = mb_strtoupper(date('M',strtotime($date)));
-		$_REQUEST['year_date'] = date('y',strtotime($date));
+		$_REQUEST['day_date'] = date( 'd', strtotime( $date ) );
+		$_REQUEST['month_date'] = mb_strtoupper( date( 'M', strtotime( $date ) ) );
+		$_REQUEST['year_date'] = date( 'Y', strtotime( $date ) );
 	}
+	// today
 	else
 	{
-		$_REQUEST['day_date'] = date('d');
-		$_REQUEST['month_date'] = mb_strtoupper(date('M'));
-		$_REQUEST['year_date'] = date('Y');
-		$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
+		$_REQUEST['day_date'] = date( 'd' );
+		$_REQUEST['month_date'] = mb_strtoupper( date( 'M' ) );
+		$_REQUEST['year_date'] = date( 'Y' );
+		$date = $_REQUEST['day_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['year_date'];
 	}
 }
 unset($_SESSION['_REQUEST_vars']['modfunc']);
@@ -38,26 +52,21 @@ Widgets('request');
 
 Search('student_id',$extra);
 
-if($_REQUEST['month_schedule'] && $_POST['month_schedule'])
+if ( isset( $_POST['day_schedule'] )
+	&& isset( $_POST['month_schedule'] )
+	&& isset( $_POST['year_schedule'] ) )
 {
-	foreach($_REQUEST['month_schedule'] as $id=>$start_dates)
-	foreach($start_dates as $start_date=>$columns)
+	foreach ( (array)$_REQUEST['month_schedule'] as $id => $start_dates )
+	foreach ( (array)$start_dates as $start_date => $columns )
 	{
-		foreach($columns as $column=>$value)
+		foreach ( (array)$columns as $column => $month )
 		{
-			$_REQUEST['schedule'][$id][$start_date][$column] = $_REQUEST['day_schedule'][$id][$start_date][$column].'-'.$value.'-'.$_REQUEST['year_schedule'][$id][$start_date][$column];
-			//FJ bugfix SQL bug when incomplete or non-existent date
-			//if($_REQUEST['schedule'][$id][$start_date][$column]=='--')
-			if(mb_strlen($_REQUEST['schedule'][$id][$start_date][$column]) < 11)
-				$_REQUEST['schedule'][$id][$start_date][$column] = '';
-			else
-			{
-				while(!VerifyDate($_REQUEST['schedule'][$id][$start_date][$column]))
-				{
-					$_REQUEST['day_schedule'][$id][$start_date][$column]--;
-					$_REQUEST['schedule'][$id][$start_date][$column] = $_REQUEST['day_schedule'][$id][$start_date][$column].'-'.$value.'-'.$_REQUEST['year_schedule'][$id][$start_date][$column];
-				}
-			}
+			$_REQUEST['schedule'][$id][$start_date][$column] =
+			$_POST['schedule'][$id][$start_date][$column] = RequestedDate(
+				$_REQUEST['day_schedule'][$id][$start_date][$column],
+				$month,
+				$_REQUEST['year_schedule'][$id][$start_date][$column]
+			);
 		}
 	}
 	unset($_REQUEST['month_schedule']);
@@ -66,7 +75,6 @@ if($_REQUEST['month_schedule'] && $_POST['month_schedule'])
 	unset($_SESSION['_REQUEST_vars']['month_schedule']);
 	unset($_SESSION['_REQUEST_vars']['day_schedule']);
 	unset($_SESSION['_REQUEST_vars']['year_schedule']);
-	$_POST['schedule'] = $_REQUEST['schedule'];
 }
 
 if($_REQUEST['schedule'] && AllowEdit())
