@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.18
+-----------------
+- Bugfix include Edit Pull-Downs when generating options in StudentUsersInfo.fnc.php
+
 Changes in 2.8.17
 -----------------
 - Fix $function_to_remove var name typo in Actions.php

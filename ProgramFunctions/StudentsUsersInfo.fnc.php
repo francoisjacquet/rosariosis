@@ -145,7 +145,9 @@ function _makeAutoSelectInput($column,$name,$request)
 //	$options['---'] = '---';
 	$options['---'] = '-'. _('Edit') .'-';
 
-	if($field['TYPE']=='autos' && AllowEdit()) // we don't really need the select list if we can't edit anyway
+	if( ( $field['TYPE']=='autos'
+			|| $field['TYPE']=='edits' )
+		&& AllowEdit()) // we don't really need the select list if we can't edit anyway
 	{
 		// add values found in current and previous year
 		if($request=='values[ADDRESS]')
