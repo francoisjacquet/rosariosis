@@ -4,7 +4,7 @@ include( 'Warehouse.php' );
 
 // Print PDF
 if( isset( $_REQUEST['modfunc'] ) &&
-	$_REQUEST['modfunc'] == 'print' )
+	$_REQUEST['modfunc'] === 'print' )
 {
 	if( $_REQUEST['expanded_view'] )
 		$_SESSION['orientation'] = 'landscape';
@@ -22,7 +22,7 @@ if( isset( $_REQUEST['modfunc'] ) &&
 		$_ROSARIO['allow_edit'] = false;
 		
 	//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-	if ( mb_substr( $modname, -4, 4 ) != '.php'
+	if ( mb_substr( $modname, -4, 4 ) !== '.php'
 		|| mb_strpos( $modname, '..' ) !== false
 		|| !is_file( 'modules/' . $modname ) )
 	{
@@ -38,7 +38,7 @@ if( isset( $_REQUEST['modfunc'] ) &&
 
 // Inline Help
 elseif( isset( $_REQUEST['modfunc'] ) &&
-	$_REQUEST['modfunc'] == 'help' )
+	$_REQUEST['modfunc'] === 'help' )
 {
 	$help_translated = 'Help_' . mb_substr( $locale, 0, 2 ) . '.php';
 	$help_english = 'Help_en.php';
