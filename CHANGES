@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.18
 -----------------
 - Bugfix include Edit Pull-Downs when generating options in StudentUsersInfo.fnc.php
+- Align inputs (same height) + add .checkbox-label CSS class in stylesheet.css & Inputs.php
 
 Changes in 2.8.17
 -----------------
