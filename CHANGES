@@ -4,8 +4,9 @@ Changes in 2.9
 --------------
 - Add Debug mode as optional config.inc.php option in Warehouse.php + INSTALL
 - Bugfix Postgres datestyle = 'iso, ymd', programwide
-- Add Parsedown 1.5.3 class (markdown parser) in classes/Parsedown/
+- Add Parsedown 1.5.3 class (markdown parser) in classes/Parsedown.php
 - Add RequestedDate() function in Date.php
+- Add PHPMailer 5.2.10 class (email creation & (SMTP) transport) in classes/PHPMailer/
 
 Changes in 2.8.11
 -----------------
