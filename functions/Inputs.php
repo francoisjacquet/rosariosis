@@ -332,9 +332,17 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 	return $return;
 }
 
-function NoInput($value,$title='')
+function NoInput( $value, $title = '' )
 {
-	return ($value!=''?$value:'-').($title!=''?'<BR />'.(mb_strpos(mb_strtolower($title),'<span ')===false?'<span class="legend-gray">':'').$title.(mb_strpos(mb_strtolower($title),'<span ')===false?'</span>':''):'');
+	if ( mb_stripos( $title, '<span ' ) === false )
+		$title = '<span class="legend-gray">' . $title . '</span>';
+
+	if ( !empty( $title ) )
+		$title = '<BR />' . $title;
+
+	return '<span class="no-input-value">' .
+		( !empty( $value ) || $value == '0' ? $value : '-' ) .
+		'</span>' . $title;
 }
 
 function CheckBoxOnclick($name)
