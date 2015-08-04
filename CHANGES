@@ -7,6 +7,7 @@ Changes in 2.9
 - Add Parsedown 1.5.3 class (markdown parser) in classes/Parsedown.php
 - Add RequestedDate() function in Date.php
 - Add PHPMailer 5.2.10 class (email creation & (SMTP) transport) in classes/PHPMailer/
+- Add .logo CSS class & bigger logo.png definition
 
 Changes in 2.8.11
 -----------------

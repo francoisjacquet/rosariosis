@@ -281,8 +281,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() .
 
 		<?php // User Information ?>
 
-		<a href="index.php" target="_top">
-			<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" id="SideLogo" />
+		<a href="index.php" target="_top" class="center">
+			<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="logo" />
 		</a>
 		<FORM action="Side.php?sidefunc=update" method="POST" target="menu">
 			<span class="br-after">&nbsp;<b><?php echo User('NAME'); ?></b></span>

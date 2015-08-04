@@ -509,11 +509,12 @@ span.legend-gray, span.legend-red{
 	margin-bottom:7px;
 	display:block
 }
-#SideLogo{
-	margin-left:25px;
-	margin-bottom:4px;
-	margin-top:2px;
-	max-width:150px
+.logo{
+	max-width:150px;
+	max-height:150px
+}
+#menu .logo{
+	margin-top:4px
 }
 .onclick{
 	cursor:pointer
@@ -557,7 +558,8 @@ span.nobr{
 div.nobr div{
 	display:inline
 }
-span.center{
+span.center,
+a.center{
 	display:block
 }
 tr.address > td{
@@ -750,7 +752,7 @@ table.mceLayout,textarea.tinymce{
 		position:relative !important;
 		border:0
 	}
-	#SideLogo{
+	#menu .logo{
 		max-width:130px;
 		margin:2px;
 		max-height:130px;

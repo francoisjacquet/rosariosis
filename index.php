@@ -293,7 +293,7 @@ if( empty( $_SESSION['STAFF_ID'] )
 	<table>
 		<tr class="st">
 		<td class="center">
-			<img src="assets/themes/<?php echo Config( 'THEME' ); ?>/logo.png" />
+			<img src="assets/themes/<?php echo Config( 'THEME' ); ?>/logo.png" class="logo" />
 		</td>
 		<td>
 			<form name="loginform" method="post" action="index.php" class="login">
