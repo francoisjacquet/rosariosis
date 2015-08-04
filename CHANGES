@@ -5,6 +5,7 @@ Changes in 2.8.18
 - Bugfix include Edit Pull-Downs when generating options in StudentUsersInfo.fnc.php
 - Align inputs (same height) + add .checkbox-label CSS class in stylesheet.css & Inputs.php
 - Add .no-input-value CSS class in stylesheet.css & Inputs.php
+- Remove -Edit- option for edits & autos Pull-Downs in Search.fnc.php
 
 Changes in 2.8.17
 -----------------
