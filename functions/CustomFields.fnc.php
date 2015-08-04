@@ -9,8 +9,8 @@
  *          $extra['WHERE'] .= CustomFields( 'where' );
  *
  * @param  string $location part of the SQL statement (always 'where')
- * @param  string $type     student|staff
- * @param  array  $extra    disable search terms: array( 'NoSearchTerms' => true )
+ * @param  string $type     student|staff (optional)
+ * @param  array  $extra    disable search terms: array( 'NoSearchTerms' => true ) (optional)
  *
  * @return string           Custom Fields SQL WHERE
  */
