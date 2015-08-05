@@ -164,7 +164,9 @@ function Search($type,$extra=null)
 					echo '<TR class="'.$TR_classes.'"><TD>
 					'.$column['TITLE'].'
 					</TD><TD>
-					<span class="sizep2">&ge;</span> <INPUT type="text" name="cust_begin['.$column['COLUMN_NAME'].']" size="3" maxlength="11" /> <span class="sizep2">&le;</span> <INPUT type="text" name="cust_end['.$column['COLUMN_NAME'].']" size="3" maxlength="11" /> <label>'._('No Value').' <INPUT type="checkbox" name="cust_null['.$column['COLUMN_NAME'].']" /></label>&nbsp;
+					<span class="sizep2">&ge;</span> <INPUT type="text" name="custb['.$column['COLUMN_NAME'].']" size="3" maxlength="11" /> 
+					<span class="sizep2">&le;</span> <INPUT type="text" name="custe['.$column['COLUMN_NAME'].']" size="3" maxlength="11" /> 
+					<label>'._('No Value').' <INPUT type="checkbox" name="custn['.$column['COLUMN_NAME'].']" /></label>&nbsp;
 					</TD></TR>';
 				}
 
@@ -229,16 +231,16 @@ function Search($type,$extra=null)
 				{
 					echo '<TR class="'.$TR_classes.'"><TD>
 					'.$column['TITLE'].'<BR />
-					<label>'._('No Value').'&nbsp;<INPUT type="checkbox" name="cust_null['.$column['COLUMN_NAME'].']" /></label>
+					<label>'._('No Value').'&nbsp;<INPUT type="checkbox" name="custn['.$column['COLUMN_NAME'].']" /></label>
 					</TD><TD>
 					<table class="cellspacing-0"><tr><td>
 					<span class="sizep2">&ge;</span>&nbsp;
 					</td><td>
-					'.PrepareDate('','_cust_begin['.$column['COLUMN_NAME'].']',true,array('short'=>true)).'
+					'.PrepareDate('','_custb['.$column['COLUMN_NAME'].']',true,array('short'=>true)).'
 					</td></tr><tr><td>
 					<span class="sizep2">&le;</span>&nbsp;
 					</td><td>
-					'.PrepareDate('','_cust_end['.$column['COLUMN_NAME'].']',true,array('short'=>true)).'
+					'.PrepareDate('','_custe['.$column['COLUMN_NAME'].']',true,array('short'=>true)).'
 					</td></tr></table>
 					</TD></TR>';
 				}

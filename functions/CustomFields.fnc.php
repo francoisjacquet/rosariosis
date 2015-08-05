@@ -39,42 +39,56 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	// Format & Verify begin dates
 	$cust_begin = array();
 
-	foreach ( (array)$_REQUEST['month_cust_begin'] as $field_name => $month )
+	if ( isset( $_REQUEST['day_custb'] )
+		&& isset( $_REQUEST['month_custb'] )
+		&& isset( $_REQUEST['year_custb'] ) )
 	{
-		$cust_begin[$field_name] = $_REQUEST['day_cust_begin'][$field_name] . '-' .
-			$month . '-' .
-			$_REQUEST['year_cust_begin'][$field_name];
+		foreach ( (array)$_REQUEST['month_custb'] as $field_name => $month )
+		{
+			$begin_date = RequestedDate(
+				$_REQUEST['day_custb'][$field_name],
+				$month,
+				$_REQUEST['year_custb'][$field_name]
+			);
 
-		if ( !VerifyDate( $cust_begin[$field_name] ) )
-			unset( $cust_begin[$field_name] );
+			if ( !empty( $begin_date ) )
+				$cust_begin[$field_name] = $begin_date;
+		}
 	}
 
 	// Add begin Number
-	$cust_begin += (array)$_REQUEST['cust_begin'];
+	$cust_begin += (array)$_REQUEST['custb'];
 
 
 	// Format & Verify end dates
 	$cust_end = array();
 
-	foreach ( (array)$_REQUEST['month_cust_end'] as $field_name => $month )
+	if ( isset( $_REQUEST['day_custe'] )
+		&& isset( $_REQUEST['month_custe'] )
+		&& isset( $_REQUEST['year_custe'] ) )
 	{
-		$cust_end[$field_name] = $_REQUEST['day_cust_end'][$field_name] . '-' .
-			$month . '-' .
-			$_REQUEST['year_cust_end'][$field_name];
+		foreach ( (array)$_REQUEST['month_custe'] as $field_name => $month )
+		{
+			$end_date = RequestedDate(
+				$_REQUEST['day_custe'][$field_name],
+				$month,
+				$_REQUEST['year_custe'][$field_name]
+			);
 
-		if ( !VerifyDate( $cust_end[$field_name] ) )
-			unset( $cust_end[$field_name] );
+			if ( !empty( $end_date ) )
+				$cust_end[$field_name] = $end_date;
+		}
 	}
 
 	// Add end Number
-	$cust_end += (array)$_REQUEST['cust_end'];
+	$cust_end += (array)$_REQUEST['custe'];
 
 
 	// Get custom (staff) fields
 	if ( count( $cust )
 		|| count( $cust_begin )
 		|| count( $cust_end )
-		|| count( (array)$_REQUEST['cust_null'] ) )
+		|| count( (array)$_REQUEST['custn'] ) )
 		$fields = ParseMLArray( DBGet( DBQuery( "SELECT TITLE,ID,TYPE,SELECT_OPTIONS
 			FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS" ), array(), array( 'ID' ) ), 'TITLE' );
 
@@ -294,7 +308,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	}
 
 	// No Value for Dates & Number
-	foreach( (array)$_REQUEST['cust_null'] as $field_name => $y )
+	foreach( (array)$_REQUEST['custn'] as $field_name => $y )
 	{
 		$field_id = mb_substr( $field_name, 7 );
 
