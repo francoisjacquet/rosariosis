@@ -155,7 +155,7 @@ function ajaxPrepare(target) {
 		touchScroll(e.tBodies[0]);
 	});
 
-	var h3 = $('#body h3.title').text();
+	var h3 = $('#body h3.title').text().trim();
 	document.title = $('#body h2').text() + (h3 ? ' | ' + h3 : '');
 
 	submenuOffset();
