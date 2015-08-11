@@ -250,11 +250,8 @@ function _makeReadMe($plugin_title,$activated=null)
 		//get README content
 		$readme_content = file_get_contents('plugins/'.$plugin_title.'/README');
 		
-		//format content
-		include_once('ProgramFunctions/Linkify.fnc.php');
-
-		$readme_content = Linkify($readme_content);
-		$readme_content = nl2br($readme_content);
+		// convert MarkDown text to HTML
+		$readme_content = MarkDownToHTML( $readme_content );
 
 		$return .= includeOnceColorBox();
 

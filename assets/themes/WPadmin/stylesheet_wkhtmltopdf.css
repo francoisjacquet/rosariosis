@@ -137,7 +137,8 @@ select{
 }
 h1,h2,h3,h4{
 	display:block;
-	font-weight:bold
+	font-weight:bold;
+	line-height:1em
 }
 h1{
 	font-size:2em;
@@ -152,7 +153,6 @@ h2{
 	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
 	font-size:30px;
 	padding:0 15px 14px 0;
-	line-height:30px
 }
 h3{
 	font-size:1.17em;
@@ -502,6 +502,11 @@ h3 span{
 .underline-dots, .checkbox-label, .no-input-value{
 	line-height:27px;
 	margin:5px 0px
+}
+.textarea.underline-dots{
+	line-height:inherit;
+	overflow:auto;
+	max-height: 240px
 }
 span.legend-gray, span.legend-red{
 	margin-top:5px;

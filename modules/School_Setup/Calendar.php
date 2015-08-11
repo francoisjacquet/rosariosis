@@ -769,17 +769,11 @@ if(empty($_REQUEST['modfunc']))
 }
 
 
-function _formatContent($value,$column)
-{	global $THIS_RET;
-
-	if (AllowEdit())
+function _formatContent( $value, $column )
+{
+	if ( AllowEdit() )
 		return $value;
 
-	$id = $THIS_RET['ID'];
-
-	//Linkify
-	include_once('ProgramFunctions/Linkify.fnc.php');
-
-	return Linkify($value);
+	// convert MarkDown to HTML
+	return MarkDownToHTML( $value );
 }
-?>

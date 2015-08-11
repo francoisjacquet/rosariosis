@@ -541,15 +541,13 @@ function _formatContent($value,$column)
 
 	$id = $THIS_RET['ID'];
 
-	//Linkify
-	include_once('ProgramFunctions/Linkify.fnc.php');
-
-	$value_url = Linkify($value);
-	$value_br_url = nl2br($value_url);
+	// convert MarkDown to HTML
+	$valueHTML = MarkDownToHTML( $value );
 
 	//FJ responsive rt td too large
-	if ($value_br_url==$value && mb_strlen($value) < 50)
-		$return = $value_br_url;
+	if ( $valueHTML === $value
+		&& mb_strlen( $value ) < 50 )
+		$return = $valueHTML;
 	else
 	{
 		if (!isset($_REQUEST['_ROSARIO_PDF']))
@@ -561,7 +559,7 @@ function _formatContent($value,$column)
 				$return = includeOnceColorBox('divNoteContent'.$id).'<DIV id="divNoteContent'.$id.'" class="rt2colorBox">';
 		}
 
-		$return .= $value_br_url;
+		$return .= $valueHTML;
 
 		if (!isset($_REQUEST['_ROSARIO_PDF']))
 			$return .= '</DIV>';

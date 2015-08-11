@@ -4,6 +4,8 @@ function DateInput($value,$name,$title='',$div=true,$allow_na=true,$required=fal
 {
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
+		$id = GetInputID( $name );
+
 		$options = array();
 
 		//FJ date field is required
@@ -14,15 +16,15 @@ function DateInput($value,$name,$title='',$div=true,$allow_na=true,$required=fal
 			return PrepareDate($value, '_'.$name, $allow_na, $options) . ($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 		else
 		{
-			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
+			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 
 			$options = $options + array('Y'=>1,'M'=>1,'D'=>1);
 
 			$input = PrepareDate($value, '_'.$name, $allow_na, $options) . ($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':''):'');
 
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($input).';</script>'.$return;
+			$return = '<script>var html' . $id.'='.json_encode($input).';</script>'.$return;
 			
-			$return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.($value!=''?ProperDate($value):'-').'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.($value!=''?ProperDate($value):'-').'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 			return $return;
 		}
 	}
@@ -35,6 +37,8 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 	// mab - support array style $option values
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
+		$id = GetInputID( $name );
+
 		$value1 = is_array($value) ? $value[1] : $value;
 		$value = is_array($value) ? $value[0] : $value;
 
@@ -44,16 +48,16 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 			$options .= ' size=10';
 
 		if(trim($value)=='' || $div==false)
-			return '<INPUT type="text" name="'.$name.'" id="'.$name.'" '.($value || $value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+			return '<INPUT type="text" name="'.$name.'" id="' . $id . '" '.($value || $value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label "for="' . $id . '">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 		else
 		{
-			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
+			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 			
 			$input = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($input).';</script>'.$return;
+			$return = '<script>var html' . $id.'='.json_encode($input).';</script>'.$return;
 			
-			$return .= ',"div'.$name.'",true); if (input = document.getElementById("input'.$name.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div' . $id . '",true); if (input = document.getElementById("input'.$name.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 
 			return $return;
 		}
@@ -108,7 +112,7 @@ function setMLvalue(id,loc,value){
 	document.getElementById(id).value = res.join("|");                                
 }
 </script>';
-		$ret .= '<DIV><INPUT type="hidden" id="'.$name.'" name="'.$name.'" value="'.$value.'" />';
+		$ret .= '<DIV><INPUT type="hidden" id="' . $id . '" name="'.$name.'" value="'.$value.'" />';
 
 		foreach ($RosarioLocales as $id=>$loc) {
 			$ret .= '<label><IMG src="assets/flags/'.$loc.'.png" class="button bigger" /> ';
@@ -126,36 +130,67 @@ function setMLvalue(id,loc,value){
 	return $ret;
 }
 
-function TextAreaInput($value,$name,$title='',$options='',$div=true)
+function TextAreaInput( $value, $name, $title = '', $options = '', $div = true )
 {
-	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	$id = GetInputID( $name );
+
+	if ( $title != '' )
 	{
-		if(mb_strpos($options,'cols')===false)
-			$options .= ' cols=30';
-		if(mb_strpos($options,'rows')===false)
-			$options .= ' rows=4';
-		$rows = mb_substr($options,mb_strpos($options,'rows')+5,2)*1;
-		$cols = mb_substr($options,mb_strpos($options,'cols')+5,2)*1;
+		$legend_gray = '';
 
-		if($value=='' || $div==false)
-			return '<TEXTAREA name="'.$name.'" id="'.$name.'" '.$options.'>'.$value.'</TEXTAREA>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
-		else
-//FJ remove ereg
+		if ( mb_stripos( $title, '<span ' ) === false )
+			$legend_gray = ' class="legend-gray"';
+
+		$title = '<BR /><label for="' . $id . '"' . $legend_gray . '>' . $title . '</label>';
+	}
+
+	if ( AllowEdit()
+		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		// columns
+		if ( mb_strpos( $options, 'cols' ) === false )
 		{
-			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
-			
-			$textarea = '<TEXTAREA id="textarea'.$name.'" name="'.$name.'" '.$options.'>'.$value.'</TEXTAREA>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+			$options .= ' cols=30';
+			$cols = 30;
+		}
+		else
+			$cols = mb_substr( $options, mb_strpos( $options, 'cols' ) + 5, 2 ) *1;
 
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($textarea).';</script>'.$return;
+		// rows
+		if ( mb_strpos( $options, 'rows' ) === false )
+			$options .= ' rows=5';
+
+		if ( $value == ''
+			|| $div == false )
+		{
+			return '<TEXTAREA name="' . $name . '" id="' . $name . '" ' . $options . '>' .
+				$value . '</TEXTAREA>' .
+				$title;
+		}
+		else
+		{
+			$htmlvar = 'html' . str_replace( array( '[', ']', '-' ), '', $name );
+
+			$return = '<DIV id="div' . $name . '">
+				<div class="onclick" onclick=\'javascript:addHTML(' . $htmlvar;
 			
-			$return .= ',"div'.$name.'",true); document.getElementById("textarea'.$name.'").value=unescape(document.getElementById("textarea'.$name.'").value);\'>'.'<TABLE style="height:100%;"><TR><TD>'.((mb_substr_count($value,"\r\n")>$rows)?'<DIV style="overflow:auto; height:'.(15*$rows).'px; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>':'<DIV style="overflow:auto; width:'.($cols*9).'; padding-right:16px;" class="underline-dots">'.nl2br($value).'</DIV>').'</TD></TR></TABLE>'.($title!=''?''.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$textarea = '<TEXTAREA id="textarea' . $name . '" name="' . $name . '" ' . $options . '>' .
+				$value . '</TEXTAREA>' . $title;
+
+			$return = '<script>var ' . $htmlvar . '=' . json_encode( $textarea ) . ';</script>' . $return;
+
+			$return .= ',"div' . $name . '",true);
+				document.getElementById("textarea' . $name . '").value=unescape(document.getElementById("textarea' . $name . '").value);\'>' .
+				'<DIV style="width:' . ( $cols * 9 ) . 'px; " class="underline-dots textarea">' .
+				MarkDownToHTML( $value ) . '</DIV>' .
+				$title . '</div></DIV>';
 
 			return $return;
 		}
 			
 	}
 	else
-		return ($value!=''?nl2br($value):'-').($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+		return ( $value != '' ? MarkDownToHTML( $value ) : '-' ) . $title;
 }
 
 function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',$no='No',$div=true,$extra='')
@@ -168,17 +203,19 @@ function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
+		$id = GetInputID( $name );
+
 		if($new || $div==false)
 			return '<label class="checkbox-label"><INPUT type="checkbox" name="'.$name.'" value="Y" '.$checked.' '.$extra.' />&nbsp;'.$title.'</label>';
 		else
 		{
-			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
+			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 			
 			$checkbox = '<INPUT type="hidden" name="'.$name.'" value="" /><label class="checkbox-label"><INPUT type="checkbox" name="'.$name.'" '.$checked.' value="Y" '.$extra.' />&nbsp;'.$title.'</label>';
 
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($checkbox).';</script>'.$return;
+			$return = '<script>var html' . $id.'='.json_encode($checkbox).';</script>'.$return;
 			
-			$return .= ',"div'.$name.'",true)\'>'.'<span class="underline-dots">'.($value?($yes=='Yes'?_('Yes'):$yes):($no=='No'?_('No'):$no)).'</span>&nbsp;'.$title.'</div></DIV>';
+			$return .= ',"div' . $id . '",true)\'>'.'<span class="underline-dots">'.($value?($yes=='Yes'?_('Yes'):$yes):($no=='No'?_('No'):$no)).'</span>&nbsp;'.$title.'</div></DIV>';
 			return $return;
 		}
 	}
@@ -199,10 +236,12 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
+		$id = GetInputID( $name );
+
 		if($value!='' && $div)
-			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
+			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 		
-		$select = '<SELECT name="'.$name.'" id="'.$name.'" '.$extra.'>';
+		$select = '<SELECT name="'.$name.'" id="' . $id . '" '.$extra.'>';
 
 		if($allow_na!==false)
 		{
@@ -219,13 +258,13 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 		}
 		$select .= '</SELECT>';
 		
-		$select .= ($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':''):'');
+		$select .= ($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label "for="' . $id . '">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':''):'');
 		
 		if($value!='' && $div)
 		{
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($select).';</script>'.$return;
+			$return = '<script>var html' . $id.'='.json_encode($select).';</script>'.$return;
 
-			$return .= ',"div'.$name.'",true);\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div' . $id . '",true);\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
 		else
 			$return = $select;
@@ -248,12 +287,14 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
     if ($value!='' && $options[$value]=='')
         $options[$value] = array($value,'<span style="color:red">'.$value.'</span>');
 
-    if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
-    {
+	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	{
+		$id = GetInputID( $name );
+
 		if($value!='' && $div)
-			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
+			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 			
-		$select = '<SELECT name="'.$name.'" id="'.$name.'" '.$extra.'>';
+		$select = '<SELECT name="'.$name.'" id="' . $id . '" '.$extra.'>';
 			
         if($allow_na!==false)
         {
@@ -269,13 +310,13 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
         }
         $select .= '</SELECT>';
 		
-		$select .= '<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'';
+		$select .= '<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label "for="' . $id . '">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'';
 			
         if($value!='' && $div)
 		{
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($select).';</script>'.$return;
+			$return = '<script>var html' . $id.'='.json_encode($select).';</script>'.$return;
 
-            $return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+            $return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
 		else
 			$return = $select;
@@ -293,8 +334,10 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
+		$id = GetInputID( $name );
+
 		if($value!='' && $div)
-			$return = '<DIV id="div'.$name.'"><div class="onclick" onclick=\'javascript:addHTML(html'.str_replace(array('[',']','-'),'',$name);
+			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 		
 		$table = '<TABLE class="cellspacing-0 cellpadding-5" '.$extra.'><TR class="center">';
 			
@@ -313,13 +356,13 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 		}
 		$table .= '</TR></TABLE>';
 		
-		$table .= ''.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'';
+		$table .= ''.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label "for="' . $id . '">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'';
 			
 		if($value!='' && $div)
 		{
-			$return = '<script>var html'.str_replace(array('[',']','-'),'',$name).'='.json_encode($table).';</script>'.$return;
+			$return = '<script>var html' . $id.'='.json_encode($table).';</script>'.$return;
 
-			$return .= ',"div'.$name.'",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
 		}
 		else
 			$return = $table;
@@ -351,4 +394,22 @@ function CheckBoxOnclick($name)
 	$link_nb++;
 	return $return;
 }
-?>
+
+/**
+ * Get Javascript friendly input HTML ID attribute
+ * From name attribute value
+ *
+ * @example GetInputID( 'cust[CUSTOM_1]' )
+ *          will return "custCUSTOM_1"
+ *
+ * @param  string $name input name attribute
+ *
+ * @return string input ID attribute
+ */
+function GetInputID( $name )
+{
+	if ( empty( $name ) )
+		return $name;
+
+	return str_replace( array( '[', ']', '-' ), '', $name );
+}

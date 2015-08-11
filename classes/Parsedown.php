@@ -13,6 +13,11 @@
 #
 #
 
+// TODO: fix CSS (titles h2 ## + h3 ###)
+// and add Help (general)
+// and fully implement MarkDown to EVERY <TEXTAREA>
+// https://jbt.github.io/markdown-editor/
+// replace TinyMCE with ^ Markdown editor?
 class Parsedown
 {
     # ~
@@ -647,7 +652,7 @@ class Parsedown
 
         if (chop($Line['text'], $Line['text'][0]) === '')
         {
-            $Block['element']['name'] = $Line['text'][0] === '=' ? 'h1' : 'h2';
+           $Block['element']['name'] = $Line['text'][0] === '=' ? 'h1' : 'h2';
 
             return $Block;
         }
@@ -1176,6 +1181,8 @@ class Parsedown
             'attributes' => array(
                 'href' => null,
                 'title' => null,
+                // FJ open link in new tab
+                'target' => '_blank',
             ),
         );
 
