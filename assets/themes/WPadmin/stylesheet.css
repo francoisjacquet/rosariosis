@@ -482,6 +482,7 @@ h3 span{
 	border-style:solid;
 	border-width:1px;
 	padding:4px;
+	right:0;
 	display:none
 }
 .size-3{

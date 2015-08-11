@@ -60,7 +60,8 @@ if($_REQUEST['modfunc']=='XMLHttpRequest')
 
 if(!$_REQUEST['modfunc'] && UserStudentID())
 {
-	echo '<script>
+?>
+<script>
 function SendXMLRequest(subject_id,course)
 {
 	if(window.XMLHttpRequest)
@@ -68,7 +69,7 @@ function SendXMLRequest(subject_id,course)
 	else if(window.ActiveXObject)
 		connection = new ActiveXObject("Microsoft.XMLHTTP");
 	connection.onreadystatechange = processRequest;
-	connection.open("GET","Modules.php?modname='.$_REQUEST['modname'].'&_ROSARIO_PDF=true&modfunc=XMLHttpRequest&subject_id="+subject_id+"&course_title="+course,true);
+	connection.open("GET","Modules.php?modname=<?php echo $_REQUEST['modname']; ?>&_ROSARIO_PDF=true&modfunc=XMLHttpRequest&subject_id="+subject_id+"&course_title="+course,true);
 	connection.send(null);
 }
 
@@ -76,7 +77,7 @@ function changeStyle(tag,over)
 {
 	if(over)
 	{
-		tag.style.backgroundColor="#'.Preferences('HIGHLIGHT').'";
+		tag.style.backgroundColor="#<?php echo Preferences('HIGHLIGHT'); ?>";
 		tag.style.color="#000";
 	}
 	else
@@ -89,7 +90,7 @@ function changeStyle(tag,over)
 function doOnClick(course)
 {
 	var courseonclick = document.createElement("a");
-	courseonclick.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&course="+course;
+	courseonclick.href = "Modules.php?modname=<?php echo $_REQUEST['modname']; ?>&modfunc=add&course="+course;
 	courseonclick.target = "body";
 	ajaxLink(courseonclick);
 }
@@ -100,7 +101,7 @@ function processRequest()
 	if(connection.readyState == 4 && connection.status == 200)
 	{
 		XMLResponse = connection.responseXML;
-		document.getElementById("courses_div").style.display = "inline";
+		document.getElementById("courses_div").style.display = "block";
 		course_list = XMLResponse.getElementsByTagName("courses");
 		course_list = course_list[0];
 		courses = course_list.getElementsByTagName("course");
@@ -109,11 +110,12 @@ function processRequest()
 		{
 			id = courses[i].getElementsByTagName("id")[0].firstChild.data;
 			title = courses[i].getElementsByTagName("title")[0].firstChild.data;
-			document.getElementById("courses_div").innerHTML = document.getElementById("courses_div").innerHTML + "<A onmousedown=\"doOnClick(\'"+ id +"\')\" href=\"#\">" + title + "</A><br />";
+			document.getElementById("courses_div").innerHTML += "<A onclick=\"doOnClick(\'"+ id +"\'); return false;\" href=\"#\">" + title + "</A><br />";
 		}
 	}
 }
-</script>';
+</script>
+<?php
 
 	$functions = array('COURSE'=>'_makeCourse','WITH_TEACHER_ID'=>'_makeTeacher','WITH_PERIOD_ID'=>'_makePeriod');
 	$requests_RET = DBGet(DBQuery("SELECT r.REQUEST_ID,c.TITLE as COURSE,r.COURSE_ID,r.MARKING_PERIOD_ID,r.WITH_TEACHER_ID,r.NOT_TEACHER_ID,r.WITH_PERIOD_ID,r.NOT_PERIOD_ID FROM SCHEDULE_REQUESTS r,COURSES c WHERE r.COURSE_ID=c.COURSE_ID AND r.SYEAR='".UserSyear()."' AND r.STUDENT_ID='".UserStudentID()."'"),$functions);
@@ -132,7 +134,7 @@ function processRequest()
 //FJ css WPadmin
 	$link['add']['span'] = ''._('Add a Request').': &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <INPUT type="text" id="course_title" name="course_title" onkeypress="if(event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><DIV id="courses_div"></DIV>';
 	ListOutput($requests_RET,$columns,'Request','Requests',$link);
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<br /><span class="center">'.SubmitButton(_('Save')).'</span><br />';
 	echo '</FORM>';
 }
 
