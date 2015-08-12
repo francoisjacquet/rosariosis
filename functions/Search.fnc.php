@@ -250,6 +250,9 @@ function Search($type,$extra=null)
 						foreach($options_RET as $option)
 							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
 
+						//FJ new option
+						echo '<OPTION value="---">-'. _('Edit') .'-</OPTION>';
+
 						echo '</SELECT>';
 						echo '</TD></TR>';
 					}
@@ -273,6 +276,9 @@ function Search($type,$extra=null)
 						$options = array();
 						foreach($options_RET as $option)
 							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
+
+						//FJ new option
+						echo '<OPTION value="---">-'. _('Edit') .'-</OPTION>';
 
 						echo '<OPTION value="~">'._('Other Value').'</OPTION>';
 						echo '</SELECT>';
