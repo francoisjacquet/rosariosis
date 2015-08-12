@@ -66,7 +66,29 @@ function ajaxOptions(target, url, form) {
 			$('#BottomSpinner').css('visibility', 'visible');
 		},
 		success: function (data) {
-			if (form && form.method == 'get') url = url + (url.indexOf('?') != -1 ? '&' : '?') + $(form).formSerialize();
+			if (form && form.method == 'get') {
+
+				var i,max,el,getStr,formArray;
+
+				// Fix advanced search forms (student & user) URL > 2000 chars
+				if (form.name == 'search') {
+					formArray = $(form).formToArray();
+
+					for(i=0, getStr='', max=formArray.length; i < max; i++) {
+						el = formArray[i];
+						// only add not empty values
+						if (el.value !== '')
+							getStr += '&' + el.name + '=' + el.value;
+					}
+				}
+				else {
+					getStr = $(form).formSerialize();
+				}
+
+				url += (url.indexOf('?') != -1 ? '&' : '?') + getStr;
+
+			}
+
 			ajaxSuccess(data, target, url);
 		},
 		error: function (x, st, err) {
@@ -136,7 +158,7 @@ function ajaxPrepare(target) {
 		touchScroll(e.tBodies[0]);
 	});
 
-	var h3 = $('#body h3.title').text();
+	var h3 = $('#body h3.title').text().trim();
 	document.title = $('#body h2').text() + (h3 ? ' | ' + h3 : '');
 
 	submenuOffset();

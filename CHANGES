@@ -6,6 +6,7 @@ Changes in 2.8.18
 - Align inputs (same height) + add .checkbox-label CSS class in stylesheet.css & Inputs.php
 - Add .no-input-value CSS class in stylesheet.css & Inputs.php
 - Remove -Edit- option for edits & autos Pull-Downs in Search.fnc.php
+- Fix advanced search forms (student & user) URL > 2000 chars in warehouse.js
 
 Changes in 2.8.17
 -----------------
