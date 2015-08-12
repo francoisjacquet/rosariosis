@@ -12,7 +12,7 @@ function HackingLog()
 			$ip = $_SERVER['REMOTE_ADDR'];
 
 		//FJ add SendEmail function
-		include('ProgramFunctions/SendEmail.fnc.php');
+		include_once('ProgramFunctions/SendEmail.fnc.php');
 		
 		$message = "INSERT INTO HACKING_LOG (HOST_NAME,IP_ADDRESS,LOGIN_DATE,VERSION,PHP_SELF,DOCUMENT_ROOT,SCRIPT_NAME,MODNAME,QUERY_STRING,USERNAME) 
 values('".$_SERVER['SERVER_NAME']."','".$ip."','".date('Y-m-d')."','".$RosarioVersion."','".$_SERVER['PHP_SELF']."','".$_SERVER['DOCUMENT_ROOT']."','".$_SERVER['SCRIPT_NAME']."','".$_REQUEST['modname']."','".$_SERVER['QUERY_STRING']."','".User('USERNAME')."')";

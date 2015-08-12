@@ -73,7 +73,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$msg = str_replace('__PASSWORD__',$password,$msg);
 			
 			//FJ add SendEmail function
-			include('ProgramFunctions/SendEmail.fnc.php');
+			include_once('ProgramFunctions/SendEmail.fnc.php');
 			
 			$to = empty($test_email)?$staff['EMAIL']:$test_email;
 			

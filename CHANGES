@@ -8,6 +8,7 @@ Changes in 2.8.18
 - Add .textarea CSS class in stylesheet.css & Inputs.php
 - Fix advanced search forms (student & user) URL > 2000 chars in warehouse.js
 - Better AJAX Courses Requests DIV display in Requests.php
+- Fix #114 PHP error Cannot redeclare SendEmail()
 
 Changes in 2.8.17
 -----------------

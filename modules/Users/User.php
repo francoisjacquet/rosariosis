@@ -288,7 +288,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				if ($_REQUEST['staff']['PROFILE_ID'] == 1 && $RosarioNotifyAddress)
 				{
 					//FJ add SendEmail function
-					include('ProgramFunctions/SendEmail.fnc.php');
+					include_once('ProgramFunctions/SendEmail.fnc.php');
 
 					$to = $RosarioNotifyAddress;
 

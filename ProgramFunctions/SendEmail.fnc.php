@@ -11,7 +11,7 @@
 	if($RosarioNotifyAddress)
 	{
 		//FJ add SendEmail function
-		include('ProgramFunctions/SendEmail.fnc.php');
+		include_once('ProgramFunctions/SendEmail.fnc.php');
 		
 		$message = "System: ".ParseMLField(Config('TITLE'))." \n";
 		$message .= "Date: ".date("m/d/Y h:i:s")."\n";
@@ -25,6 +25,8 @@
 		SendEmail($RosarioNotifyAddress,'Database Error',$message);
 	}
 */
+
+if ( !function_exists( 'SendEmail') ) {
 
 function SendEmail($to, $subject, $message, $from = null, $cc = null)
 {	
@@ -56,4 +58,5 @@ function SendEmail($to, $subject, $message, $from = null, $cc = null)
 	return @mail($to,$subject,$message,$headers);	
 }
 
+}
 ?>

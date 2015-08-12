@@ -263,7 +263,7 @@ function db_show_error($sql,$failnote,$additional='')
 	if($RosarioNotifyAddress)
 	{
 		//FJ add SendEmail function
-		include('ProgramFunctions/SendEmail.fnc.php');
+		include_once('ProgramFunctions/SendEmail.fnc.php');
 		
 		$message = "System: ".ParseMLField(Config('TITLE'))." \n";
 		$message .= "Date: ".date("m/d/Y h:i:s")."\n";
