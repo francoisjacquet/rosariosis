@@ -100,7 +100,7 @@ function processRequest()
 	if(connection.readyState == 4 && connection.status == 200)
 	{
 		XMLResponse = connection.responseXML;
-		document.getElementById("courses_div").style.display = "inline";
+		document.getElementById("courses_div").style.display = "block";
 		course_list = XMLResponse.getElementsByTagName("courses");
 		course_list = course_list[0];
 		courses = course_list.getElementsByTagName("course");
@@ -109,7 +109,7 @@ function processRequest()
 		{
 			id = courses[i].getElementsByTagName("id")[0].firstChild.data;
 			title = courses[i].getElementsByTagName("title")[0].firstChild.data;
-			document.getElementById("courses_div").innerHTML = document.getElementById("courses_div").innerHTML + "<A onmousedown=\"doOnClick(\'"+ id +"\')\" href=\"#\">" + title + "</A><br />";
+			document.getElementById("courses_div").innerHTML += "<A onclick=\"doOnClick(\'"+ id +"\'); return false;\" href=\"#\">" + title + "</A><br />";
 		}
 	}
 }
@@ -132,7 +132,7 @@ function processRequest()
 //FJ css WPadmin
 	$link['add']['span'] = ''._('Add a Request').': &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <INPUT type="text" id="course_title" name="course_title" onkeypress="if(event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><DIV id="courses_div"></DIV>';
 	ListOutput($requests_RET,$columns,'Request','Requests',$link);
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<br /><span class="center">'.SubmitButton(_('Save')).'</span><br />';
 	echo '</FORM>';
 }
 

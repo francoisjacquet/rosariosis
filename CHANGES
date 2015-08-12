@@ -7,6 +7,7 @@ Changes in 2.8.18
 - Add .no-input-value CSS class in stylesheet.css & Inputs.php
 - Remove -Edit- option for edits & autos Pull-Downs in Search.fnc.php
 - Fix advanced search forms (student & user) URL > 2000 chars in warehouse.js
+- Better AJAX Courses Requests DIV display in Requests.php
 
 Changes in 2.8.17
 -----------------
