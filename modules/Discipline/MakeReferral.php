@@ -52,8 +52,12 @@ if($_REQUEST['values'] && $_POST['values'])
 {
 	$sql = "INSERT INTO DISCIPLINE_REFERRALS ";
 	
+	$referral_id_RET = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'DISCIPLINE_REFERRALS_SEQ' ) . " AS ID;" ) );
+
+	$referral_id = $referral_id_RET[1]['ID'];
+
 	$fields = "ID,SYEAR,SCHOOL_ID,STUDENT_ID,";
-	$values = db_seq_nextval('DISCIPLINE_REFERRALS_SEQ').",'".UserSyear()."','".UserSchool()."','".UserStudentID()."',";
+	$values = $referral_id.",'".UserSyear()."','".UserSchool()."','".UserStudentID()."',";
 
 	$go = 0;
 
@@ -93,6 +97,18 @@ if($_REQUEST['values'] && $_POST['values'])
 	if ($go)
 	{
 		DBQuery($sql);
+
+		// FJ email Discipline Referral feature
+		if ( isset( $_REQUEST['emails'] ) )
+		{
+			include_once( 'modules/Discipline/includes/EmailReferral.fnc.php' );
+
+			if ( EmailReferral( $referral_id, $_REQUEST['emails'] ) )
+			{
+				$note[] = _( 'That discipline incident has been emailed.' );
+			}
+		}
+
 		$note[] = _('That discipline incident has been referred to an administrator.');
 	}
 
@@ -138,7 +154,7 @@ if(UserStudentID() && $_REQUEST['student_id'])
 	echo '</TD></TR>';
 
 	echo '<TR class="st"><TD><span class="legend-gray">'._('Reporter').'</span></TD><TD>';
-	$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
+	$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME,EMAIL,PROFILE FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
 	echo '<SELECT name="values[STAFF_ID]">';
 	foreach($users_RET as $user)
 		echo '<OPTION value="'.$user['STAFF_ID'].'"'.(User('STAFF_ID')==$user['STAFF_ID']?' SELECTED':'').'>'.$user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'].'</OPTION>';
@@ -148,6 +164,44 @@ if(UserStudentID() && $_REQUEST['student_id'])
 	echo '<TR class="st"><TD><span class="legend-gray">'._('Incident Date').'</span></TD><TD>';
 	echo PrepareDate(DBDate(),'_values[ENTRY_DATE]');
 	echo '</TD></TR>';
+
+	// FJ email Discipline Referral feature
+	// email Referral to: Administrators and/or Teachers
+	// get Administrators & Teachers with valid emails:
+	foreach ( $users_RET as $user )
+	{
+		if ( filter_var( $user['EMAIL'], FILTER_VALIDATE_EMAIL ) )
+		{
+			if ( $user['PROFILE'] === 'admin' )
+			{
+				$emailadmin_options[$user['EMAIL']] = $user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'];
+			}
+			elseif ( $user['PROFILE'] === 'teacher' )
+			{
+				$emailteacher_options[$user['EMAIL']] = $user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'];
+			}
+		}
+	}
+
+	echo '<TR class="st"><TD><span class="legend-gray">'._('Email Referral to').'</span></TD><TD>';
+
+	$value = $allow_na = $div = false;
+
+	// multiple select input
+	$extra = 'multiple title="' . _( 'Hold the CTRL key down to select multiple options' ) . '"';
+
+	echo '<TABLE><TR class="st"><TD>';
+
+	echo SelectInput( $value, 'emails[]', _( 'Administrators' ), $emailadmin_options, $allow_na, $extra, $div );
+
+	echo '</TD><TD>';
+
+	echo SelectInput( $value, 'emails[]', _( 'Teachers' ), $emailteacher_options, $allow_na, $extra, $div );
+
+	echo '</TD></TR></TABLE>';
+
+	echo '</TD></TR>';
+	
 
 	foreach($categories_RET as $category)
 	{

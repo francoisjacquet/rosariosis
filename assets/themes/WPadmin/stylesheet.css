@@ -103,6 +103,9 @@ td,textarea{
 input,select{
 	line-height:1.2
 }
+select[multiple]{
+	height:6em
+}
 a,input,select:focus{
 	outline:0;
 	text-decoration:none

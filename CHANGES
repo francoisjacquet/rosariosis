@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.19
+-----------------
+- Email Discipline Referral feature, sponsored by Hisham Abu Dawoud
+
 Changes in 2.8.18
 -----------------
 - Bugfix include Edit Pull-Downs when generating options in StudentUsersInfo.fnc.php
