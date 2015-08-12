@@ -144,7 +144,7 @@ if($_REQUEST['values'])
 	if( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 	{
 		//FJ add SendEmail function
-		include('ProgramFunctions/SendEmail.fnc.php');
+		include_once('ProgramFunctions/SendEmail.fnc.php');
 		
 		$student_name = $student[1]['FIRST_NAME'].' '.$student[1]['LAST_NAME'];
 	

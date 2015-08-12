@@ -283,7 +283,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 					&& filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 				{
 					//FJ add SendEmail function
-					include('ProgramFunctions/SendEmail.fnc.php');
+					include_once('ProgramFunctions/SendEmail.fnc.php');
 
 					$to = $RosarioNotifyAddress;
 
