@@ -753,5 +753,3 @@ function _ReindexResults($array)
 	}
 	return $new;
 }
-
-?>

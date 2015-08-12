@@ -62,4 +62,3 @@ function ErrorMessage($errors,$code='error')
 		return $return;
 	}
 }
-?>

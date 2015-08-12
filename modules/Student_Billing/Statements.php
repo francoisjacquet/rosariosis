@@ -73,4 +73,3 @@ else
 	else
 		BackPrompt(_('No Students were found.'));
 }
-?>

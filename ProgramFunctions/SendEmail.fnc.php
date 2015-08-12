@@ -55,5 +55,3 @@ function SendEmail($to, $subject, $message, $from = null, $cc = null)
 
 	return @mail($to,$subject,$message,$headers);	
 }
-
-?>

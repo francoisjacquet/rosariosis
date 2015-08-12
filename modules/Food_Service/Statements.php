@@ -118,4 +118,3 @@ function red($value)
 	else
 		return $value;
 }
-?>

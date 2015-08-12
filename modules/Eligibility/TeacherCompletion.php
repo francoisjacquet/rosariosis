@@ -114,4 +114,3 @@ if(!$_REQUEST['period'])
 }
 
 ListOutput($staff_RET,$columns,'Teacher who hasn\'t entered eligibility','Teachers who haven\'t entered eligibility');
-?>

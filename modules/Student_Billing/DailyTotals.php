@@ -51,4 +51,3 @@ echo '<TR><TD><B>'._('Total').': '.'</B></TD><TD><B>'.Currency(($billing_payment
 echo '</TABLE>';
 
 PopTable('footer');
-?>

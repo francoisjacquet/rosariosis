@@ -242,4 +242,3 @@ function mySearch($extra)
 	echo '<BR /><span class="center"><INPUT type="submit" value="'._('Create Class Lists for Selected Course Periods').'" /></span>';
 	echo '</FORM>';
 }
-?>

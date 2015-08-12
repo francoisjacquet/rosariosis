@@ -59,5 +59,3 @@ function core_user_update_users_response($response)
 
 	return '';
 }
-
-?>

@@ -289,4 +289,3 @@ function _delTree($dir) {
 	}
 	return rmdir($dir);
 }
-?>

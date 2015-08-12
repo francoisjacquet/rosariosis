@@ -335,4 +335,3 @@ function _makePollVotes($value,$name)
 		return CheckboxInput('',"values[new][DISPLAY_VOTES]",_('Results Display'),'',true);
 
 }
-?>

@@ -328,4 +328,3 @@ function _makeContactSelect($value,$column)
 	}
 	return $return;
 }
-?>

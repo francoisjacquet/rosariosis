@@ -155,4 +155,3 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 	else
 		ErrorMessage(array(_('This student does not have a valid Meal Account.')),'fatal');
 }
-?>

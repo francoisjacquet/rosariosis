@@ -588,5 +588,3 @@ function PHPCheck() {
 function _eventDay($string, $key) {
 	return _(trim($string));
 }
-
-?>

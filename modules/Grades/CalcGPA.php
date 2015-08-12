@@ -54,4 +54,3 @@ if($go)
 	ob_end_flush();
 	Prompt(_('GPA Calculation'),_('Calculate GPA and Class Rank'),$table);
 }
-?>

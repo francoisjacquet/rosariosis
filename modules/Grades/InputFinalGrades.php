@@ -991,4 +991,3 @@ function _makeCommentsB($value,$column)
 
 	return $return;
 }
-?>

@@ -216,4 +216,3 @@ function GetCurrentMP($mp,$date,$error=true)
 	elseif($error)
 		ErrorMessage(array(_('You are not currently in a marking period')),'fatal');
 }
-?>

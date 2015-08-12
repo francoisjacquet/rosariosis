@@ -56,4 +56,3 @@ function is_money($value)
 	}
 	else return false;
 }
-?>

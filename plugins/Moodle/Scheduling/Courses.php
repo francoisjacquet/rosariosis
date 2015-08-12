@@ -607,4 +607,3 @@ function core_course_update_courses_response($response)
 {
 	return null;
 }
-?>

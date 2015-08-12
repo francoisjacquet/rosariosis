@@ -59,4 +59,3 @@
 		echo '</TR>';
 	}
 	echo '</TABLE>';
-?>

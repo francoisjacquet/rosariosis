@@ -447,4 +447,3 @@ function _makeAddress($value)
 		$checked = ' checked';
 	return '<INPUT type="radio" name="values[StudentFieldsView][ADDRESS]" value="'.$value.'"'.$checked.'>';
 }
-?>

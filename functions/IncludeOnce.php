@@ -23,5 +23,3 @@ function includeOnceColorBox($rt2colorBoxDiv = false)
 	$included = true;
 	return $return;
 }
-
-?>

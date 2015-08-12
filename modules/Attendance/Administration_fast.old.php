@@ -257,5 +257,3 @@ function _makeStateValue($value,$name)
 	else
 		return 'Full-Day';
 }
-
-?>

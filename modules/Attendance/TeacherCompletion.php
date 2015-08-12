@@ -141,4 +141,3 @@ else
 	}
 	ListOutput($RET,array('FULL_NAME'=>_('Teacher'),'COURSE_TITLE'=>_('Course'),'COMPLETED'=>_('Completed')),sprintf(_('Teacher who takes %s attendance'),$period_title),sprintf(_('Teachers who take %s attendance'),$period_title),false,array('STAFF_ID'));
 }
-?>

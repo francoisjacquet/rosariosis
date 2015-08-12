@@ -115,4 +115,3 @@ function makeGradeInput($value,$name)
 	
 	return SelectInput($value,'values['.$id.']['.$name.']','',$grades,_('N/A'));
 }
-?>

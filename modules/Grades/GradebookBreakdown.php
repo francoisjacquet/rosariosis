@@ -316,4 +316,3 @@ function _makeGrade($value,$column)
 			return _('N/A');
 	}
 }
-?>

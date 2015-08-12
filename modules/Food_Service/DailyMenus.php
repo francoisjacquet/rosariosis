@@ -190,4 +190,3 @@ function makeDescriptionInput($value,$name)
 
 	return TextInput($value,'food_service['.$THIS_RET['SCHOOL_DATE'].'][text]','','size=20');
 }
-?>

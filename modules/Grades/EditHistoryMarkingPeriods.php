@@ -170,4 +170,3 @@ function makeSchoolYearSelectInput($value,$name)
 
     return SelectInput(trim($value),"values[$id][$name]",'',$options,false);
 }
-?>

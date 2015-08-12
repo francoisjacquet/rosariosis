@@ -29,4 +29,3 @@ function MyWidgets($item)
 		break;
 	}
 }
-?>

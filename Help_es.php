@@ -318,4 +318,3 @@ else
 
 	$help['Eligibility/StudentList.php'] = '<p><i>Lista de Estudiante</i> es un reporte que muestra todas las calificaciones y las calificaciones de elegibilidad de su estudiante.</p><p>Usted puede especificar el transcurso de elegibilidad que quiere ver escogiendo las fechas en el menú desplegable en la parte superior de la pantalla y presionando el botón «Ir». La elegibilidad está entrada cada semana.</p>';
 }
-?>

@@ -500,4 +500,3 @@ function _makeComments($value,$column)
 	AND COURSE_PERIOD_ID='".$THIS_RET['COURSE_PERIOD_ID']."'
 	AND MARKING_PERIOD_ID='".$value."' ORDER BY SORT_ORDER"));
 }
-?>

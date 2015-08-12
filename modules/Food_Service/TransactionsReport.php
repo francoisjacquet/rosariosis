@@ -155,4 +155,3 @@ function bump_amount($value,$column)
 
 	return $value;
 }
-?>

@@ -252,5 +252,3 @@ function _makeRemove($value,$column)
 
 	return $return;
 }
-
-?>

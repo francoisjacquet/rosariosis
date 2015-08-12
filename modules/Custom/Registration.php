@@ -351,4 +351,3 @@ function PrepareAddress($temp)
 		$address['STREET'] = $temp;
 	return $address;
 }
-?>

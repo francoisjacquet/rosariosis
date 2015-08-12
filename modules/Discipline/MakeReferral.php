@@ -237,4 +237,3 @@ if(UserStudentID() && $_REQUEST['student_id'])
 
 	echo '</FORM>';
 }
-?>

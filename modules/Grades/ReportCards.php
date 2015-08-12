@@ -599,4 +599,3 @@ function _makeTeacher($teacher,$column)
 {
 	return mb_substr($teacher,mb_strrpos(str_replace(' - ',' ^ ',$teacher),'^')+2);
 }
-?>

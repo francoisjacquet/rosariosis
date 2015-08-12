@@ -132,4 +132,3 @@ function _makePoints($value,$column)
 		return '<span style="color:#0000ff">'._('Extra Credit').'</span>';
 	return number_format(($value/$THIS_RET['TOTAL_POINTS'])*100,0).'%';
 }
-?>

@@ -314,4 +314,3 @@ function makeAttendanceReason($student_id,$column)
 		return $current_RET[$student_id][1]['ATTENDANCE_REASON'];
 	}
 }
-?>

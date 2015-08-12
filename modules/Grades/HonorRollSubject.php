@@ -325,4 +325,3 @@ function MyWidgets($item)
 		break;
 	}
 }
-?>

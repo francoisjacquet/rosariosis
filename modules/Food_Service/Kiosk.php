@@ -86,4 +86,3 @@ if(count($items_RET))
 }
 //FJ remove WrapTabs params
 echo '<span class="center">'.WrapTabs($cats,'Modules.php?modname='.$_REQUEST['modname'].'&cat_id='.$_REQUEST['cat_id']).'</span>';
-?>

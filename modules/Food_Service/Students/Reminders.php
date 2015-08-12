@@ -220,4 +220,3 @@ function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 	echo '</TD></TR>';
 	echo '<TR><TD colspan="3"><BR /><BR /><HR><BR /><BR /></TD></TR></TABLE>';
 }
-?>

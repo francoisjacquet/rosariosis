@@ -40,4 +40,3 @@ function PromptX($title='Confirm',$question='',$message='',$pdf='')
 	else
 		return true;
 }
-?>

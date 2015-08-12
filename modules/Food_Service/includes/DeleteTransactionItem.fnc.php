@@ -25,4 +25,3 @@ function DeleteTransactionItem($transaction_id,$item_id,$type='student')
 		DeleteTransaction($transaction_id,$type);
 	}
 }
-?>

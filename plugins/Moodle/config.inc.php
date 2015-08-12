@@ -78,4 +78,3 @@ else
 	$error[] = _('You\'re not allowed to use this program!');
 	echo ErrorMessage($error, 'fatal');
 }
-?>

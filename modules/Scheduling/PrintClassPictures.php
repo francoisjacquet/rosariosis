@@ -308,4 +308,3 @@ function _makeChooseCheckbox($value,$title)
 {
 	return '<INPUT type="checkbox" name="cp_arr[]" value="'.$value.'" checked />';
 }
-?>

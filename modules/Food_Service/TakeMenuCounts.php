@@ -210,4 +210,3 @@ function makeTextInput($value,$name)
 	$extra = 'size=6 maxlength=8';
 	return TextInput($value,'values['.$THIS_RET['ITEM_ID'].']['.$name.']','',$extra);
 }
-?>

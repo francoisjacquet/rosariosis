@@ -229,4 +229,3 @@ function _makeContentInput($value,$name)
 	
 	return $return;
 }
-?>

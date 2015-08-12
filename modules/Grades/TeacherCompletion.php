@@ -111,4 +111,3 @@ else
 	
 	ListOutput($RET,array('FULL_NAME'=>_('Teacher'),'COURSE_TITLE'=>_('Course'),'COMPLETED'=>_('Completed')),sprintf(_('Teacher who enters grades for %s'), $period_title),sprintf(_('Teachers who enter grades for %s'), $period_title),false,array('STAFF_ID'));
 }
-?>

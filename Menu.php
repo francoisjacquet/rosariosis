@@ -98,4 +98,3 @@ if ( empty( $_ROSARIO['Menu'] ) )
 			unset( $_ROSARIO['Menu'][$modcat] );
 	}
 }
-?>

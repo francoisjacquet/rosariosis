@@ -507,4 +507,3 @@ function appendSQL($sql,$extra=array())
 
 	return $sql;
 }
-?>

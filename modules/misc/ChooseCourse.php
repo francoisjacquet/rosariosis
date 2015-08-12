@@ -15,5 +15,3 @@ else
 	echo json_encode($toEscape);
 	echo '; window.close();</script>';
 }
-
-?>

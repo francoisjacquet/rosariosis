@@ -420,4 +420,3 @@ function _makeSchoolInput($value,$column)
 		//FJ save new Student's Enrollment in Enrollment.inc.php
 		return '<input type="hidden" name="values[STUDENT_ENROLLMENT][new][SCHOOL_ID]" value="'.UserSchool().'" />'.$schools[UserSchool()][1]['TITLE'];
 }
-?>

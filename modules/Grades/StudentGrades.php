@@ -402,4 +402,3 @@ function bargraph2($x,$lo=0,$hi=0)
 	else
 		return '<div style="float:left;">&nbsp;</div>';
 }
-?>

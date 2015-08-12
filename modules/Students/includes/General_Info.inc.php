@@ -130,4 +130,3 @@ else
 	if ($PopTable_opened)
 		PopTable('footer');
 }
-?>

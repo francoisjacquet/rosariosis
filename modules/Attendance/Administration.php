@@ -453,4 +453,3 @@ function _makeStateValue($value,$name)
 	else
 		return TextInput($value,'attendance_day['.$THIS_RET['STUDENT_ID'].'][COMMENT]');
 }
-?>

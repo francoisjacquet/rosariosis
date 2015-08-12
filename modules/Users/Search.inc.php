@@ -260,4 +260,3 @@ else
 		echo ErrorMessage(array(_('No Users were found.')));
 	}
 }
-?>

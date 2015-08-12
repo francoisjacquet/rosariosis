@@ -68,4 +68,3 @@ function BackPrompt($message)
 
 	<?php exit();
 }
-?>

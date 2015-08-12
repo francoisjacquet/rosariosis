@@ -66,4 +66,3 @@ if(!$_REQUEST['modfunc'] && UserStaffID())
 	echo '</TD></TR>';
 	echo '</TABLE>';
 }
-?>

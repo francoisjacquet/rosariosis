@@ -55,4 +55,3 @@ $extra['new'] = true;
 $extra['Redirect'] = false;
 
 Search('student_id',$extra);
-?>

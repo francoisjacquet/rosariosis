@@ -385,4 +385,3 @@ function _makeColorInput($value,$name)
 	}
 	return RadioInput($value,"values[$id][COLOR]",'',$color_select);
 }
-?>

@@ -18,4 +18,3 @@ function DeleteTransaction($transaction_id,$type='student')
 	}
 	DBQuery('BEGIN; '.$sql1.'; '.$sql2.'; '.$sql3.'; '.$sql4.'; COMMIT');
 }
-?>

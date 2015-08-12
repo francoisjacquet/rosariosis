@@ -303,4 +303,3 @@ function _make($value,$column)
 
 	return str_replace('||',',<BR />',trim($value,'|'));
 }
-?>

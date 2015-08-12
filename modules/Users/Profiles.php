@@ -284,4 +284,3 @@ function changeHTML(show,hide){
 
 	echo _('Type').' <SELECT name="new_profile_type"><OPTION value="admin">'._('Administrator').'<OPTION value="teacher">'._('Teacher').'<OPTION value="parent">'._('Parent').'</SELECT></DIV>';
 }
-?>

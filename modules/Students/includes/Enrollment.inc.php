@@ -82,4 +82,3 @@ ListOutput($RET,$columns,'Enrollment Record','Enrollment Records',$link,array(),
 
 if ($PopTable_opened)
 	echo '<TABLE><TR><TD>';
-?>

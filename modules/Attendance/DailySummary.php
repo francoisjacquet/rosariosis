@@ -294,4 +294,3 @@ function makeCodePulldown($value,$student_id,$date)
 
 	return SelectInput($value,'attendance['.$student_id.']['.$date.'][ATTENDANCE_CODE]','',$_ROSARIO['code_options']);
 }
-?>

@@ -194,4 +194,3 @@ function makeLogin($value,$title='LAST_LOGIN')
 			return $value;
 	}
 }
-?>

@@ -143,4 +143,3 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 	else
 		ErrorMessage(array(_('This user does not have a Food Service Account.')),'fatal');
 }
-?>

@@ -67,5 +67,3 @@ foreach($fields_RET as $field)
 	}
 }
 echo '</TABLE>';
-
-?>

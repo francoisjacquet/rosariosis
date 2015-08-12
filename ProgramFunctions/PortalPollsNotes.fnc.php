@@ -476,4 +476,3 @@ function makeFileAttached($value,$name)
 		
 	return $return;
 }
-?>

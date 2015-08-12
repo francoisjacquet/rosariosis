@@ -317,4 +317,3 @@ else
 
 	$help['Eligibility/StudentList.php'] = "<p><i>Student List</i> is a report that shows every course and eligibility grade assigned to your child.</p><p>You can specify the eligibility timeframe you want to view by choosing the timeframe from the pull-down menu at the top of the screen and clicking the \"Go\" button.  Eligibility is entered once per week.</p>";
 }
-?>

@@ -379,4 +379,3 @@ function _makeNumeric($number,$column)
 	
 	return;
 }
-?>

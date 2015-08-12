@@ -45,4 +45,3 @@ else
 	else
 		BackPrompt(_('No Staff were found.'));
 }
-?>

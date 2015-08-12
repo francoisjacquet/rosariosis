@@ -98,4 +98,3 @@ function _rollover($table)
 		break;
 	}
 }
-?>

@@ -301,4 +301,3 @@ function _schedule_table_RET($schedule_table_RET)
 	}
 	return $schedule_table_body;
 }
-?>

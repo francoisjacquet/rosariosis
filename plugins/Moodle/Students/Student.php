@@ -375,7 +375,3 @@ function core_files_upload_response($response)
 */
 	return null;
 }
-
-
-
-?>

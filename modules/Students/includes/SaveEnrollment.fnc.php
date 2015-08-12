@@ -48,5 +48,3 @@ function SaveEnrollment()
 		SaveData($iu_extra);
 	}
 }
-
-?>

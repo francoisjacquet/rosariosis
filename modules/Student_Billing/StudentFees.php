@@ -147,5 +147,3 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 		echo '</FORM>';
 	}
 }
-
-?>

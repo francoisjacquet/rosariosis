@@ -27,4 +27,3 @@ function Linkify($text)
 		return '<a href="'.$url.'" target="_blank">'.$input.'</a>';
 	}, $text);
 }
-?>

@@ -101,4 +101,3 @@ function _makeTV($value,$column)
 	$i = mb_substr($column,6);
 	return $person_RET[$i][$tv];
 }
-?>

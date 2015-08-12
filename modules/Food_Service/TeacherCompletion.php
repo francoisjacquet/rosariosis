@@ -142,5 +142,3 @@ ListOutput($totals,array('DESCRIPTION'=>_('Item'),'COUNT'=>_('Total Count')),'It
 echo '</TD></TR></TABLE>';
 
 echo '</FORM>';
-
-?>

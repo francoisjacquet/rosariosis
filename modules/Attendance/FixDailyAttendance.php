@@ -39,4 +39,3 @@ if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'
 	//FJ display notice while calculating daily attendance
 	echo '<script>var msg_done='.json_encode(ErrorMessage(array(_('The Daily Attendance for that timeframe has been recalculated.')), 'note')).'; document.getElementById("messageDIV").innerHTML = msg_done;</script>';
 }
-?>

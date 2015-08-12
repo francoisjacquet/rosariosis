@@ -19,4 +19,3 @@ function SchoolInfo($field=null){
 	else
 		return $_SESSION['SchoolData'];
 }
-?>

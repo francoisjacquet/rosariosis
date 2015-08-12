@@ -97,4 +97,3 @@ function _makeChooseCheckbox($value,$title)
 
 	return '<INPUT type="checkbox" name="staff['.$THIS_RET['STAFF_ID'].']" value="Y" />';
 }
-?>

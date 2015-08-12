@@ -91,4 +91,3 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 	else
 		echo ErrorMessage(array(_('This user does not have a Meal Account.')));
 }
-?>

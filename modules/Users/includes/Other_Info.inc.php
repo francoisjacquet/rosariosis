@@ -145,5 +145,3 @@ if ($i > 1)
 		echo '</TR>';
 	echo '</TABLE>';
 }
-
-?>

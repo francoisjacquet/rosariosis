@@ -15,4 +15,3 @@ function makeIcon($value,$name,$height='30')
 	else
 		return '&nbsp;';
 }
-?>

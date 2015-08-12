@@ -184,4 +184,3 @@ $_REQUEST['category_id'] = '1';
 $separator = '<hr />';
 
 include('modules/Users/includes/Other_Info.inc.php');
-?>

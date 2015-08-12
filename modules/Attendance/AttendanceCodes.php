@@ -205,4 +205,3 @@ function _makeCheckBoxInput($value,$name)
 
 	return CheckBoxInput($value,'values['.$id.']['.$name.']','','',$new);
 }
-?>

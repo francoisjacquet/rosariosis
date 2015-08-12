@@ -274,4 +274,3 @@ function printCustom(&$categories, &$values)
 		echo '</TR>';
 	}
 }
-?>

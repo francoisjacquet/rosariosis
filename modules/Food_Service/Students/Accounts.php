@@ -154,4 +154,3 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
 	echo '</FORM>';
 }
-?>

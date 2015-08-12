@@ -115,4 +115,3 @@ function _makeLink($value,$name)
 	 
 	return '<a href="'.$value.'" target="_blank">'.$truncated_link.'</a>';
 }
-?>

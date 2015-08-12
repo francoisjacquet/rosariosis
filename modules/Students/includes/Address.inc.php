@@ -920,4 +920,3 @@ function _makeAutoSelectInputX($value,$column,$table,$title,$select,$id='',$div=
 //		return TextInput($value=='---'?array('---','<span style="color:red">---</span>'):$value,"values[$table]".($id?"[$id]":'')."[$column]",$title,$options,$div);
 		return TextInput($value=='---'?array('---','<span style="color:red">-'. _('Edit') .'-</span>'):$value,"values[$table]".($id?"[$id]":'')."[$column]",$title,$options,$div);
 }
-?>

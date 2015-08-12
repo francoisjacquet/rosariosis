@@ -84,4 +84,3 @@ if(!$_REQUEST['modfunc'] && UserStudentID())
 	echo '</TD></TR>';
 	echo '</TABLE>';
 }
-?>

@@ -237,4 +237,3 @@ if(empty($_REQUEST['modfunc']))
 
 	echo '</FORM>';
 }
-?>

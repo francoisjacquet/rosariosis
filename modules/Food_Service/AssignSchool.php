@@ -62,4 +62,3 @@ function _make_staff_school($value,$column)
 
 	return SelectInput($value,'staff['.$THIS_RET['TRANSACTION_ID'].']','',$schools_select[$THIS_RET['SYEAR']]);
 }
-?>

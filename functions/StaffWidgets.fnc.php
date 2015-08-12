@@ -250,4 +250,3 @@ function StaffWidgets($item,&$myextra=NULL)
 		$_ROSARIO['StaffWidgets'][$item] = true;
 	}
 }
-?>

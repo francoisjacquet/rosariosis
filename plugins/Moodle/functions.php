@@ -645,5 +645,3 @@ function IsMoodleCoursePeriod($course_period_id)
 {
 	return count(DBGet(DBQuery("SELECT 1 FROM moodlexrosario WHERE rosario_id='".$course_period_id."' AND \"column\"='course_period_id'")));
 }
-
-?>

@@ -128,4 +128,3 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 
 	ListOutput($RET,$columns,'Transaction','Transactions',$link,$group,array('save'=>false,'search'=>false,'print'=>false));
 }
-?>

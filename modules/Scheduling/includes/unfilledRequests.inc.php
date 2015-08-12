@@ -61,4 +61,3 @@ function _getPeriod($period_id)
 
 	return $periods_RET[$period_id][1]['TITLE'];
 }
-s?>

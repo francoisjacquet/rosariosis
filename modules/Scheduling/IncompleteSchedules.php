@@ -96,4 +96,3 @@ function _preparePeriods($value,$name)
 	}
 	return $return;
 }
-?>

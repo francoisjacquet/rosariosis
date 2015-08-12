@@ -121,4 +121,3 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 		echo ErrorMessage(array(_('This student does not have a valid Meal Account.')));
 	echo '</FORM>';
 }
-?>

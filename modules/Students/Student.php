@@ -449,4 +449,3 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 			include('modules/Students/includes/Other_Info.inc.php');
 		}
 }
-?>

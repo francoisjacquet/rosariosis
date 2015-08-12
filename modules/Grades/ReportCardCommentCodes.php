@@ -200,4 +200,3 @@ function makeTextInput($value,$name)
 
 	return TextInput($value,"values[$id][$name]",'',$extra);
 }
-?>

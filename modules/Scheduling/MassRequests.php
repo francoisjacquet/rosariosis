@@ -145,5 +145,3 @@ function _makeChooseCheckbox($value,$title)
 
 	return '<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
 }
-
-?>

@@ -197,4 +197,3 @@ PopTable('footer');
 
 echo '<BR /><span class="center"><INPUT type="submit" value="'._('Save').'" /></span>';
 echo '</FORM>';
-?>

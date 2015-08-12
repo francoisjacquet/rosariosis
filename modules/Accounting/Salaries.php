@@ -128,5 +128,3 @@ if(UserStaffID() && !$_REQUEST['modfunc'])
 		echo '</FORM>';
 	}
 }
-
-?>

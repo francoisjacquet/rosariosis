@@ -143,4 +143,3 @@ function bump_items_count($value)
 		$types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'] += array($value=>array(1=>array('DESCRIPTION'=>'<span style="color:red">'.$value.'</span>','COUNT'=>1,'AMOUNT'=>$THIS_RET['AMOUNT'])));
 	return $value;
 }
-?>

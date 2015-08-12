@@ -195,4 +195,3 @@ function _makeChooseCheckbox($value,$title)
 {
 	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }
-?>

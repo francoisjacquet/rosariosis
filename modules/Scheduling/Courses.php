@@ -1126,4 +1126,3 @@ function calcSeats1(&$periods,$date)
 			$periods[$key]['AVAILABLE_SEATS'] = mb_substr($periods[$key]['AVAILABLE_SEATS'],0,-3);
 	}
 }
-?>

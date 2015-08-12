@@ -162,5 +162,3 @@ function makeRadio($value,$title)
 	else
 		return '<INPUT type="radio" name="values['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'">';
 }
-
-?>

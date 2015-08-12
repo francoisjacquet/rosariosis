@@ -171,5 +171,3 @@ function _makeMP($value,$column)
 
 	return SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][MARKING_PERIOD_ID]');
 }
-
-?>

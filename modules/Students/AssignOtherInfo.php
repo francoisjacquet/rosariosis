@@ -404,4 +404,3 @@ function _makeCheckboxInput($column,$name)
 {
 	return CheckboxInput('','values['.$column.']',$name,'',true);
 }
-?>

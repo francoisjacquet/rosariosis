@@ -94,4 +94,3 @@ function SaveData($iu_extra,$fields_done=false,$field_names=false)
 		}
 	}
 }
-?>

@@ -30,4 +30,3 @@ function MailingLabel($address_id)
 
 	return $_ROSARIO['MailingLabel'][$address_id][$student_id];
 }
-?>

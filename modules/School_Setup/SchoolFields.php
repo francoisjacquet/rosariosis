@@ -251,4 +251,3 @@ function _makeType($value,$name)
 	$options = array('text'=>_('Text'),'date'=>_('Date'),'numeric'=>_('Number'),'textarea'=>_('Long Text'));
 	return $options[$value];
 }
-?>

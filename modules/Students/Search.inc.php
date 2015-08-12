@@ -286,4 +286,3 @@ else
 		echo ErrorMessage(array(_('No Students were found.')));
 	}
 }
-?>

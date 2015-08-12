@@ -146,4 +146,3 @@ function reminder($staff,$school,$target,$last_deposit,$note)
 	echo '</TD></TR>';
 	echo '<TR><TD colspan="3"><BR /><BR /><HR><BR /><BR /></TD></TR></TABLE>';
 }
-?>

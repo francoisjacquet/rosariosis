@@ -157,4 +157,3 @@ function _makeChooseCheckbox($value,$title)
 	else
 		return '';
 }
-?>

@@ -136,4 +136,3 @@ if(!$_REQUEST['modfunc'])
 	if(!$_REQUEST['print_statements'] && AllowEdit())
 		echo '</FORM>';
 }
-?>

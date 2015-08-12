@@ -290,4 +290,3 @@ function get_icons_select($path)
 	ksort($files);
 	return $files;
 }
-?>

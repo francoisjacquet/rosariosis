@@ -501,4 +501,3 @@ function _Prompt($title='Confirm',$question='',$message='')
 	else
 		return true;
 }
-?>

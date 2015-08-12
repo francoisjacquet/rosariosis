@@ -151,4 +151,3 @@ function _makeTimeInput($value,$name)
     else
         return '<TABLE><TR><TD>'.SelectInput($hour,'values['.$id.']['.$name.'_HOUR]','',$hour_options,_('N/A'),'',false).':</TD><TD>'.SelectInput($minute,'values['.$id.']['.$name.'_MINUTE]','',$minute_options,_('N/A'),'',false).'</TD><TD>'.SelectInput($m,'values['.$id.']['.$name.'_M]','',$m_options,_('N/A'),'',false).'</TD></TR></TABLE>';
 }
-?>

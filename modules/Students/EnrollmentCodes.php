@@ -121,4 +121,3 @@ function makeCheckBoxInput($value,$name)
 //	return CheckboxInput($value,'values['.$id.']['.$name.']','','',($id=='new'));
 	return CheckboxInput($value, 'values['.$id.']['.$name.']', '', '', ($id=='new'), button('check'), button('x'));
 }
-?>

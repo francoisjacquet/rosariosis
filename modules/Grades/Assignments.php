@@ -437,4 +437,3 @@ function _makePercent($value,$column)
 {
 	return number_format($value*100,2).'%';
 }
-?>

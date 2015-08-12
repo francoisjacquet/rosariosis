@@ -33,4 +33,3 @@ function _makeTeachers($value,$column)
 		$return .= $row.'<BR />';
 	return mb_substr($return,0,-4);
 }
-?>
