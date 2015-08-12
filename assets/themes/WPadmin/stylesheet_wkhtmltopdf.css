@@ -504,6 +504,9 @@ h3 span{
 	line-height:27px;
 	margin:5px 0px
 }
+.textarea.underline-dots{
+	line-height:inherit;
+}
 span.legend-gray, span.legend-red{
 	margin-top:5px;
 	margin-bottom:7px;
