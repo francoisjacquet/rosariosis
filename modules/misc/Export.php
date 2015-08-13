@@ -149,6 +149,7 @@ if( $_REQUEST['search_modfunc'] == 'list' )
 			'ZIPCODE' => _( 'Zip Code' ),
 			'PHONE' => _( 'Home Phone' ),
 			'PARENTS' => _( 'Contacts' ),
+			'LAST_LOGIN'=> _( 'Last Login' ),
 		);
 
 		//FJ disable mailing address display
