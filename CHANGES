@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.19
 -----------------
 - Email Discipline Referral feature, sponsored by Hisham Abu Dawoud
+- Add 'Last Login' column label in Export.php
 
 Changes in 2.8.18
 -----------------

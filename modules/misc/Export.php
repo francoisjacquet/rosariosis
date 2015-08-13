@@ -108,7 +108,8 @@ if($_REQUEST['search_modfunc']=='list')
 			'MAIL_CITY'=>_('Mailing City'),
 			'MAIL_STATE'=>_('Mailing State'),
 			'MAIL_ZIPCODE'=>_('Mailing Zipcode'),
-			'PARENTS'=>_('Contacts'));
+			'PARENTS'=>_('Contacts'),
+			'LAST_LOGIN'=>_('Last Login'));
 		else
 			$fields_list = array('FULL_NAME'=>_('Last, First M'),
 			'FIRST_NAME'=>_('First Name'),
@@ -132,7 +133,8 @@ if($_REQUEST['search_modfunc']=='list')
 			'STATE'=>_('State'),
 			'ZIPCODE'=>_('Zip Code'),
 			'PHONE'=>_('Home Phone'),
-			'PARENTS'=>_('Contacts'));
+			'PARENTS'=>_('Contacts'),
+			'LAST_LOGIN'=>_('Last Login'));
 		
 		
 		if($extra['field_names'])
