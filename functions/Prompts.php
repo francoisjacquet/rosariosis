@@ -33,7 +33,7 @@ function DeletePrompt($title,$action='Delete',$remove_modfunc_on_cancel=true)
 
 function Prompt($title='Confirm',$question='',$message='',$pdf='',$remove_modfunc_on_cancel=true)
 {
-	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	if(!$_REQUEST['delete_ok'])
 	{
 		echo '<BR />';
 
