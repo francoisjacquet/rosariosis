@@ -3,6 +3,15 @@
 
 DrawHeader(ProgramTitle());
 
+// remove current student
+if ( UserStudentID() )
+{
+	unset($_SESSION['student_id']);
+
+	//remove student_id from URL
+	unset($_SESSION['_REQUEST_vars']['student_id']);
+}
+
 // The $email_column corresponds to a student field or an address field which is created for the email address.  The COLUMN_# is the column in the
 // students table or the address table which holds the student contact email address.  You will need to create the column and inspect rosario database
 // to determine the email column and assign it here.
@@ -230,7 +239,7 @@ if (isset($error))
 
 if(empty($_REQUEST['modfunc']) && !empty($email_column))
 {
-	if($_REQUEST['search_modfunc']=='list' || UserStudentID())
+	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Create Parent Accounts for Selected Students'));
@@ -273,18 +282,9 @@ if(empty($_REQUEST['modfunc']) && !empty($email_column))
 	$extra['SELECT'] .= ",a.ADDRESS_ID";
 	$extra['STUDENTS_JOIN_ADDRESS'] .= " AND sam.RESIDENCE='Y'";
 
-	if(!UserStudentID())
-		Search('student_id',$extra);
-	else
-	{
-		DrawHeader('',$extra['header_right']);
-		$extra['WHERE'] .= " AND s.STUDENT_ID='".UserStudentID()."'";//var_dump($extra['SELECT'].$extra['WHERE']);exit;
-		$LO_ret = GetStuList($extra);
-		$LO_columns = $extra['columns_before']+array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'))+$extra['columns_after'];
-		ListOutput($LO_ret,$LO_columns,'Student','Students',$extra['link'],$extra['LO_group']);
-	}
+	Search('student_id',$extra);
 
-	if($_REQUEST['search_modfunc']=='list' || UserStudentID())
+	if($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><span class="center">'.SubmitButton(_('Create Parent Accounts for Selected Students')).'</span>';
 		echo '</FORM>';
@@ -294,7 +294,20 @@ if(empty($_REQUEST['modfunc']) && !empty($email_column))
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	if(filter_var($THIS_RET['EMAIL'], FILTER_VALIDATE_EMAIL))
+	if ( empty( $THIS_RET['STAFF_ID'] ) )
+	{
+		$has_parents = DBGet( DBQuery( "SELECT 1 
+			FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p 
+			WHERE p.PERSON_ID=sjp.PERSON_ID 
+			AND sjp.STUDENT_ID='" . $value . "' 
+			AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "' 
+			ORDER BY sjp.STUDENT_RELATION" ) );
+	}
+	else
+		$has_parents = true;
+
+	if ( filter_var( $THIS_RET['EMAIL'], FILTER_VALIDATE_EMAIL )
+		&& $has_parents )
 		return '<INPUT type="checkbox" name="student['.$value.']" value="'.$value.'" />';
 	else
 		return '';

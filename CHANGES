@@ -5,6 +5,7 @@ Changes in 2.8.19
 - Email Discipline Referral feature, sponsored by Hisham Abu Dawoud
 - Add 'Last Login' column label in Export.php
 - Bugfix do not pass prompt when Cancel in Prompts.php
+- Fix bug when email set without any contact + bug when current student in CreateParents.php
 
 Changes in 2.8.18
 -----------------
