@@ -97,7 +97,9 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 			global $old_student_in_moodle;
 
 			//propose to create student in Moodle: if 1) this is a creation, 2) this is an already created student but not in Moodle yet
-			if (AllowEdit() && $_REQUEST['include']=='General_Info')
+			if (AllowEdit()
+				&& ( !isset($_REQUEST['category_id'])
+					|| $_REQUEST['category_id'] == 1 ) ) // General Info
 			{
 				//2) verify the student is not in Moodle:
 				if (UserStudentID())
@@ -188,7 +190,9 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 			//1) this is a creation
 			//2) this is an already created user but not in Moodle yet
 			//3) the users have not been rolled yet
-			if (AllowEdit() && $_REQUEST['include']=='General_Info')
+			if (AllowEdit()
+				&& ( !isset($_REQUEST['category_id'])
+					|| $_REQUEST['category_id'] == 1 ) ) // General Info
 			{
 				//2) verify the user is not in Moodle:
 				if (UserStaffID())
