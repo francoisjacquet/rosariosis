@@ -7,6 +7,7 @@ Changes in 2.8.19
 - Bugfix do not pass prompt when Cancel in Prompts.php
 - Fix bug when email set without any contact + bug when current student in CreateParents.php
 - Fix propose to create user in Moodle in Moodle/functions.php
+- Add .no-touch CSS class in warehouse.js & stylesheet.css
 
 Changes in 2.8.18
 -----------------

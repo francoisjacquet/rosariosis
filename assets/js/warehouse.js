@@ -59,6 +59,9 @@ function isTouchDevice() {
 if (isTouchDevice()) $(document).bind("cbox_complete", function () {
 	touchScroll(document.getElementById("cboxLoadedContent"));
 });
+else // add .no-touch CSS class
+	document.documentElement.className += " no-touch";
+
 
 function ajaxOptions(target, url, form) {
 	return {
