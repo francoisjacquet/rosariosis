@@ -191,6 +191,13 @@ fieldset{
 .underline-dots{
 	border-bottom-color:gray
 }
+/* MarkDown */
+.md-preview > a{
+	border-color:#dfdfdf
+}
+.md-preview > a:hover{
+	background-color:#fff
+}
 hr{
 	color:#fff
 }

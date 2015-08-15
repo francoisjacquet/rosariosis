@@ -60,6 +60,38 @@ if (isTouchDevice()) $(document).bind("cbox_complete", function () {
 	touchScroll(document.getElementById("cboxLoadedContent"));
 });
 
+// MarkDown
+function MarkDownInputPreview( input_id, link )
+{
+	var input = $('#' + input_id);
+
+	// send AJAX request only if input modified
+	if ( input.is(":visible") &&
+		( !MarkDownInputPreview.last_val || MarkDownInputPreview.last_val != input.val() ) )
+	{
+		// copy textarea value inside md_preview
+		var md_preview = document.createElement("textarea");
+		md_preview.name = "md_preview";
+		md_preview.value = MarkDownInputPreview.last_val = input.val();
+
+		// create invisible form
+		var form = document.createElement("form");
+		form.method = 'post';
+		form.action = "functions/MarkDown.php";
+		form.target = "divMDPreview" + input_id;
+		form.appendChild( md_preview );
+
+		ajaxPostForm(form, true);
+	}
+
+	// toggle MD preview & Input
+	input.toggle();
+	$('#divMDPreview' + input_id).toggle();
+	var old_txt = link.innerHTML;
+	link.innerHTML = $( link ).attr('data-text');
+	$( link ).attr('data-text', old_txt);
+}
+
 function ajaxOptions(target, url, form) {
 	return {
 		beforeSend: function (data) {
@@ -140,7 +172,7 @@ function ajaxSuccess(data, target, url) {
 }
 
 function ajaxPrepare(target) {
-	if (scrollTop == 'Y' && target) body.scrollIntoView();
+	if (scrollTop == 'Y' && target == 'body') body.scrollIntoView();
 
 	$(target + ' form').each(function () {
 		ajaxPostForm(this, false);

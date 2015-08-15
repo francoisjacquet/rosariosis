@@ -512,6 +512,21 @@ h3 span{
 	overflow:auto;
 	max-height: 240px
 }
+/* MarkDown */
+.md-preview > a{
+	border-width:1px;
+	border-bottom:0;
+	border-style: solid;
+	border-top-left-radius:3px;
+	border-top-right-radius:3px;
+	font-weight:bold;
+	padding:5px 7px;
+	margin-bottom:-2px;
+	line-height:27px
+}
+.md-preview div{
+	display:none
+}
 span.legend-gray, span.legend-red{
 	margin-top:5px;
 	margin-bottom:7px;

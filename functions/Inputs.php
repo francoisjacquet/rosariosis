@@ -163,24 +163,24 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true )
 		if ( $value == ''
 			|| $div == false )
 		{
-			return '<TEXTAREA name="' . $name . '" id="' . $name . '" ' . $options . '>' .
+			return '<TEXTAREA name="' . $name . '" id="' . $id . '" ' . $options . '>' .
 				$value . '</TEXTAREA>' .
 				$title;
 		}
 		else
 		{
-			$htmlvar = 'html' . str_replace( array( '[', ']', '-' ), '', $name );
+			$htmlvar = 'html' . $id;
 
-			$return = '<DIV id="div' . $name . '">
+			$return = '<DIV id="div' . $id . '">
 				<div class="onclick" onclick=\'javascript:addHTML(' . $htmlvar;
 			
-			$textarea = '<TEXTAREA id="textarea' . $name . '" name="' . $name . '" ' . $options . '>' .
+			$textarea =  MarkDownInputPreview( $id ) . '<TEXTAREA id="' . $id . '" name="' . $name . '" ' . $options . '>' .
 				$value . '</TEXTAREA>' . $title;
 
 			$return = '<script>var ' . $htmlvar . '=' . json_encode( $textarea ) . ';</script>' . $return;
 
-			$return .= ',"div' . $name . '",true);
-				document.getElementById("textarea' . $name . '").value=unescape(document.getElementById("textarea' . $name . '").value);\'>' .
+			$return .= ',"div' . $id . '",true);
+				document.getElementById("' . $id . '").value=unescape(document.getElementById("' . $id . '").value);\'>' .
 				'<DIV style="width:' . ( $cols * 9 ) . 'px; " class="underline-dots textarea">' .
 				MarkDownToHTML( $value ) . '</DIV>' .
 				$title . '</div></DIV>';
