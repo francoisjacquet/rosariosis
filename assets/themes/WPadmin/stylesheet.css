@@ -313,7 +313,7 @@ label{
 .menu-module{
 	position: relative;
 }
-.menu-module:hover .menu-top:after{
+.no-touch .menu-module:hover .menu-top:after{
 	content: "\276F";
 	padding-top: 6px;
 	position: absolute;
@@ -322,7 +322,7 @@ label{
 #selectedModuleLink:after{
 	content: "";
 }
-.menu-module:hover .wp-submenu{
+.no-touch .menu-module:hover .wp-submenu{
 	-webkit-transition-delay: .15s;
 	transition-delay: .15s;
 	z-index: 20;
@@ -797,10 +797,10 @@ table.mceLayout,textarea.tinymce{
 	.menu-top img{
 		height:24px
 	}
-	.menu-module:hover .menu-top:after{
+	.no-touch .menu-module:hover .menu-top:after{
 		content: "";
 	}
-	.menu-module:hover .wp-submenu{
+	.no-touch .menu-module:hover .wp-submenu{
 		top: -1000em;
 	}
 	#body{
