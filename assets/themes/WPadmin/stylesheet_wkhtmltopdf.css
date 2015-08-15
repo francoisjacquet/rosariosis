@@ -718,6 +718,12 @@ div.st{
 	line-height:1
 }
 
+/* colorBox */
+#cboxLoadedContent{
+	margin:1px;
+	padding:5px !important
+}
+
 /*responsive tables*/
 .rt .link2colorBox{
 	display:none

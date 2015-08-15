@@ -255,7 +255,7 @@ function _makeReadMe($plugin_title,$activated=null)
 
 		$return .= includeOnceColorBox();
 
-		$return .= '<div style="display:none;"><div id="README_'.$plugin_title.'" style="background-color:#fff; padding:5px;">'.$readme_content.'</div></div>';
+		$return .= '<div style="display:none;"><div id="README_'.$plugin_title.'">'.$readme_content.'</div></div>';
 
 		$return .= '<a class="colorboxinline" href="#README_'.$plugin_title.'">'.$plugin_title_echo.'</a>';
 	}

@@ -231,13 +231,16 @@ hr{
 	color:#000
 }
 
+/* colorBox */
+#cboxLoadedContent{
+	background-color:#fff !important
+}
+
+
 /*responsive tables*/
 @media only screen and (max-width: 1023px){
 	.rt tr{
 		border-right-color:#dfdfdf
-	}
-	.rt2colorBox{
-		background-color:#fff
 	}
 }
 @media only screen and (max-width:640px){
