@@ -18,27 +18,23 @@ else
 
 DrawHeader(ProgramTitle());
 
-//FJ multiple school periods for a course period
-//$categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER WHERE position(',0,' IN (SELECT DOES_ATTENDANCE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'))>0 UNION SELECT ID,TITLE,1,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND position(','||ID||',' IN (SELECT DOES_ATTENDANCE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'))>0 ORDER BY 3,SORT_ORDER,TITLE"));
-$categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER 
-WHERE position(',0,' IN 
-	(SELECT cp.DOES_ATTENDANCE 
-	FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-	AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')
-)>0 
-UNION 
-	SELECT ID,TITLE,1,SORT_ORDER 
-	FROM ATTENDANCE_CODE_CATEGORIES 
-	WHERE SYEAR='".UserSyear()."' 
-	AND SCHOOL_ID='".UserSchool()."' 
-	AND position(','||ID||',' IN 
-		(SELECT cp.DOES_ATTENDANCE 
-		FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-		WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-		AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')
-	)>0 
-	ORDER BY 3,SORT_ORDER,TITLE"));
+//FJ bugfix SQL bug more than one row returned by a subquery
+$categories_RET = DBGet( DBQuery( "SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER
+	WHERE position(',0,' IN
+		(SELECT DOES_ATTENDANCE
+		FROM COURSE_PERIODS
+		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+	)>0
+	UNION SELECT ID,TITLE,1,SORT_ORDER
+	FROM ATTENDANCE_CODE_CATEGORIES
+	WHERE SYEAR='" . UserSyear() . "'
+	AND SCHOOL_ID='" . UserSchool() . "'
+	AND position(','||ID||',' IN
+		(SELECT DOES_ATTENDANCE
+		FROM COURSE_PERIODS
+		WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+	)>0
+	ORDER BY 3,SORT_ORDER,TITLE" ) );
 
 if(count($categories_RET)==0)
 {
