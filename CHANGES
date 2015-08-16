@@ -8,6 +8,7 @@ Changes in 2.8.19
 - Fix bug when email set without any contact + bug when current student in CreateParents.php
 - Fix propose to create user in Moodle in Moodle/functions.php
 - Add .no-touch CSS class in warehouse.js & stylesheet.css
+- Fix #115 SQL bug more than one row returned by a subquery in TakeAttendance.php
 
 Changes in 2.8.18
 -----------------
