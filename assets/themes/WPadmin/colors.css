@@ -192,11 +192,12 @@ fieldset{
 	border-bottom-color:gray
 }
 /* MarkDown */
-.md-preview > a{
+.md-preview > a,.md-preview > div{
 	border-color:#dfdfdf
 }
 .md-preview > a:hover{
-	background-color:#fff
+	background-color:#fff;
+	border-color:#bbb
 }
 hr{
 	color:#fff

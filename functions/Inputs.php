@@ -163,7 +163,7 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true )
 		if ( $value == ''
 			|| $div == false )
 		{
-			return '<TEXTAREA name="' . $name . '" id="' . $id . '" ' . $options . '>' .
+			return MarkDownInputPreview( $id ) . '<TEXTAREA name="' . $name . '" id="' . $id . '" ' . $options . '>' .
 				$value . '</TEXTAREA>' .
 				$title;
 		}

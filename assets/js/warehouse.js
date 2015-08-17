@@ -63,18 +63,18 @@ else // add .no-touch CSS class
 	document.documentElement.className += " no-touch";
 
 // MarkDown
+var md_last_val = '';
 function MarkDownInputPreview( input_id, link )
 {
 	var input = $('#' + input_id);
 
 	// send AJAX request only if input modified
-	if ( input.is(":visible") &&
-		( !MarkDownInputPreview.last_val || MarkDownInputPreview.last_val != input.val() ) )
+	if ( input.is(":visible") && input.val() !== '' && md_last_val != input.val() )
 	{
 		// copy textarea value inside md_preview
 		var md_preview = document.createElement("textarea");
 		md_preview.name = "md_preview";
-		md_preview.value = MarkDownInputPreview.last_val = input.val();
+		md_preview.value = md_last_val = input.val();
 
 		// create invisible form
 		var form = document.createElement("form");

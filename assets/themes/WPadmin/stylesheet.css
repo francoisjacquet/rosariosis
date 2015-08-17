@@ -522,11 +522,18 @@ h3 span{
 	border-top-right-radius:3px;
 	font-weight:bold;
 	padding:5px 7px;
-	margin-bottom:-2px;
+	margin-left:1px;
 	line-height:27px
 }
-.md-preview div{
-	display:none
+.md-preview > div{
+	display:none;
+	border-top-width:1px;
+	border-top-style:solid
+}
+.md-preview + textarea{
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin-top:0
 }
 span.legend-gray, span.legend-red{
 	margin-top:5px;
@@ -961,7 +968,7 @@ table.mceLayout,textarea.tinymce{
 	.calendar{
 		z-index:10000
 	}
-	table.mceLayout,textarea{
+	table.mceLayout{
 		width:90% !important
 	}
 }
