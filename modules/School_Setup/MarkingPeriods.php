@@ -412,13 +412,12 @@ if ( $_REQUEST['modfunc'] === 'delete'
 			WHERE MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'");
 
 		unset( $_REQUEST['modfunc'] );
+		unset( $_SESSION['_REQUEST_vars']['modfunc'] );
 
 		$_REQUEST['mp_term'] = $parent_term;
 
 		$_REQUEST['marking_period_id'] = $parent_id;
 	}
-
-	unset( $_SESSION['_REQUEST_vars']['modfunc'] );
 }
 
 if( empty( $_REQUEST['modfunc'] ) )
