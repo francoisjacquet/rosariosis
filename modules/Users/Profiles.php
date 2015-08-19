@@ -20,20 +20,60 @@ if($_REQUEST['profile_id']!='')
 	}
 }
 
-if($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& AllowEdit() )
 {
-	$profile_RET = DBGet(DBQuery("SELECT TITLE FROM USER_PROFILES WHERE ID='".$_REQUEST['profile_id']."'"));
-
-	if(Prompt(_('Confirm Delete'),sprintf(_('Are you sure you want to delete the user profile <i>%s</i>?'), $profile_RET[1]['TITLE']),sprintf(_('Users of that profile will retain their permissions as a custom set which can be modified on a per-user basis through %s.'), _('User Permissions'))))
+	if ( isset( $_REQUEST['profile_id'] )
+		&& (int)$_REQUEST['profile_id'] > 3 )
 	{
-		DBQuery("DELETE FROM USER_PROFILES WHERE ID='".$_REQUEST['profile_id']."'");
-		DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID IN (SELECT STAFF_ID FROM STAFF WHERE PROFILE_ID='".$_REQUEST['profile_id']."')");
-		DBQuery("INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT) SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT FROM STAFF s,PROFILE_EXCEPTIONS e WHERE s.PROFILE_ID='".$_REQUEST['profile_id']."' AND s.PROFILE_ID=e.PROFILE_ID");
-		DBQuery("DELETE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".$_REQUEST['profile_id']."'");
+		$_REQUEST['profile_id'] = (int)$_REQUEST['profile_id'];
+
+		$profile_RET = DBGet( DBQuery( "SELECT TITLE
+			FROM USER_PROFILES
+			WHERE ID='" . $_REQUEST['profile_id'] . "'" ) );
+	}
+	else // bad profile ID
+		$profile_RET = null;
+
+	if ( count( $profile_RET ) )
+	{
+		$go = Prompt(
+			_( 'Confirm Delete' ),
+			sprintf( _( 'Are you sure you want to delete the user profile <i>%s</i>?' ), $profile_RET[1]['TITLE'] ),
+			sprintf( _( 'Users of that profile will retain their permissions as a custom set which can be modified on a per-user basis through %s.' ), _( 'User Permissions' ) )
+		);
+
+		if ( $go )
+		{
+			DBQuery( "DELETE FROM USER_PROFILES
+				WHERE ID='" . $_REQUEST['profile_id'] . "'" );
+
+			DBQuery( "DELETE FROM STAFF_EXCEPTIONS
+				WHERE USER_ID IN (SELECT STAFF_ID
+					FROM STAFF
+					WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "')" );
+
+			DBQuery( "INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT)
+				SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT
+				FROM STAFF s,PROFILE_EXCEPTIONS e
+				WHERE s.PROFILE_ID='" . $_REQUEST['profile_id'] . "'
+				AND s.PROFILE_ID=e.PROFILE_ID" );
+
+			DBQuery( "DELETE FROM PROFILE_EXCEPTIONS
+				WHERE PROFILE_ID='" . $_REQUEST['profile_id'] . "'" );
+
+			unset( $_REQUEST['modfunc'] );
+			unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+			unset( $_REQUEST['profile_id'] );
+			unset( $_SESSION['_REQUEST_vars']['profile_id'] );
+		}
+	}
+	else // bad or already deleted profile ID
+	{
 		unset($_REQUEST['modfunc']);
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
-		unset($_REQUEST['profile_id']);
-		unset($_SESSION['_REQUEST_vars']['profile_id']);
+		unset( $_REQUEST['profile_id'] );
+		unset( $_SESSION['_REQUEST_vars']['profile_id'] );
 	}
 }
 
@@ -63,7 +103,8 @@ if($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdi
 			if (mb_strpos($modname, 'TeacherPrograms') !== false)
 				unset ($tmp_menu['Users'][$profile][$modname]);
 	}
-	
+
+	if ( isset( $_POST['can_use'] ) )
 	foreach($tmp_menu as $modcat=>$profiles)
 	{
 		$values = $profiles[$xprofile];
