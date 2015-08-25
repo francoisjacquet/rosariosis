@@ -3,7 +3,7 @@
 //$key, for example 'photo' (name of the input file field)
 //$path with trailing slash, for example $StudentPicturesPath.UserSyear()
 //$extensions_white_list, for example array('.jpg', '.jpeg')
-//$size_limit in Mb
+//$size_limit in Mb, set it to 0 to use server limit (upload_max_filesize)
 //$error the errors array
 //$final_extension (optional) is the extension of the saved file (useful for .jpg, if .jpeg submitted)
 //$file_name_without_extension (optional), for example UserStudentID()
@@ -25,7 +25,8 @@ function FileUpload($key, $path, $extensions_white_list, $size_limit, &$error, $
 	elseif ( !in_array( mb_strtolower(mb_strrchr($_FILES[$key]['name'], '.')), $extensions_white_list ) )
 		$error[] = sprintf(_('Wrong file type: %s (%s required)'),$_FILES[$key]['type'],implode(', ', $extensions_white_list));
 		
-	elseif ($_FILES[$key]['size'] > $size_limit*1024*1024)
+	elseif ( $size_limit
+		&& $_FILES[$key]['size'] > $size_limit*1024*1024 )
 		$error[] = sprintf(_('File size > %01.2fMb: %01.2fMb'),$size_limit,(($_FILES[$key]['size']/1024)/1024));
 		
 	//if folder doesnt exist, create it!
@@ -46,6 +47,62 @@ function no_accents($string_accents){
 	 $string_accents = strtr(utf8_decode($string_accents), utf8_decode('ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïñðòóôõöùúûüýÿ/'), 'AAAAAACEEEEIIIINOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyy/');
 	 $string_accents = preg_replace('/([^_\-.a-z\/0-9]+)/i', '_', ucwords($string_accents));//replace characters others than letters and numbers and points by _
 	 return utf8_encode($string_accents);
+}
+
+
+/**
+ * Get server maximum file upload size (Mb)
+ *
+ * @see  php.ini directives (upload_max_filesize & post_max_size)
+ *
+ * @uses return_megabytes() function
+ *
+ * @return float maximum file upload size in Mega Bytes (Mb)
+ */
+function FileUploadMaxSize()
+{
+	// size is limited by server configuration (upload_max_filesize & post_max_size)
+	return (float) min(
+		return_megabytes( ini_get( 'post_max_size' ) ),
+		return_megabytes( ini_get( 'upload_max_filesize' ) )
+	);
+}
+
+
+/**
+ * Return value in Mega Bytes (MB)
+ *
+ * @example return_megabytes( ini_get( 'upload_max_filesize' ) )
+ *
+ * @param  string $val php.ini value, shorthand notation
+ *
+ * @return string      value in Mega Bytes (MB)
+ */
+function return_megabytes( $val ) {
+
+	$val = trim( $val );
+
+	$last = strtolower( $val[strlen( $val ) - 1] );
+
+	switch( $last ) {
+
+		// The 'G' modifier is available since PHP 5.1.0
+		case 'g':
+			$val *= 1024;
+
+		case 'm':
+			$val *= 1;
+
+		break;
+
+		default:
+			$val /= 1024;
+
+		case 'k':
+			$val /= 1024;
+	}
+
+	return $val;
 }
 
 ?>

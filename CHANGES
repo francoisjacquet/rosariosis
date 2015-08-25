@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.20
 -----------------
 - Add Canadian English locale in locale/en_CA.utf8
+- Add return_megabytes() & FileUploadMaxSize() functions in FileUpload.fnc.php
 
 Changes in 2.8.19
 -----------------
