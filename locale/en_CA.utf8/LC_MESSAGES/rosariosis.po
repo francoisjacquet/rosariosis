@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-20 15:03-0500\n"
-"PO-Revision-Date: 2015-08-24 17:21-0500\n"
+"PO-Revision-Date: 2015-08-26 18:47-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: RDH Associates Inc. <rdha@rogers.com>\n"
 "Language: en_CA\n"
@@ -835,7 +835,7 @@ msgstr ""
 
 #: functions/Widgets.fnc.php:77 functions/Widgets.fnc.php:442
 msgid "Eligibility"
-msgstr ""
+msgstr "Extra Curricular"
 
 #: functions/Widgets.fnc.php:99
 msgid "Discipline"
@@ -1893,7 +1893,7 @@ msgstr ""
 #: modules/Eligibility/EnterEligibility.php:145
 #, php-format
 msgid "You can only enter eligibility from %s %s to %s %s."
-msgstr ""
+msgstr "You can only enter extra-curricular from %s %s to %s %s."
 
 #: modules/Eligibility/EnterEligibility.php:149
 msgid "Use Gradebook Grades"
@@ -1901,7 +1901,7 @@ msgstr ""
 
 #: modules/Eligibility/EntryTimes.php:75
 msgid "Allow Eligibility Posting"
-msgstr ""
+msgstr "Allow Extra Curricular Posting"
 
 #: modules/Eligibility/EntryTimes.php:81
 msgid "To"
@@ -1925,7 +1925,7 @@ msgstr ""
 
 #: modules/Eligibility/Menu.php:16 modules/Eligibility/Menu.php:27
 msgid "Enter Eligibility"
-msgstr ""
+msgstr "Enter Extra Curricular"
 
 #: modules/Eligibility/Student.php:17
 msgid "The activity you selected is already assigned to this student!"
@@ -1947,8 +1947,8 @@ msgstr ""
 #: modules/Eligibility/TeacherCompletion.php:116
 msgid "Teacher who hasn't entered eligibility"
 msgid_plural "Teachers who haven't entered eligibility"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Teacher who hasn't entered extra curricular"
+msgstr[1] "Teachers who haven't entered extra curricular"
 
 #: modules/Food_Service/Accounts.php:17
 #: modules/Food_Service/ActivityReport.php:24
@@ -4325,7 +4325,7 @@ msgstr ""
 
 #: modules/School_Setup/CopySchool.php:3 modules/School_Setup/Rollover.php:7
 msgid "Eligibility Activity Codes"
-msgstr ""
+msgstr "Extra Curricular Activity Codes"
 
 #: modules/School_Setup/CopySchool.php:18
 msgid "New School's Title"
