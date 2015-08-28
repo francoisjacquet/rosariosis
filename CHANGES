@@ -5,6 +5,7 @@ Changes in 2.8.20
 - Add Canadian English locale in locale/en_CA.utf8
 - Add return_megabytes() & FileUploadMaxSize() functions in FileUpload.fnc.php
 - Remove 10Mb limit for Portal Notes file uploads in PortalNotes.php
+- Send emails from programname instead of rosariosis in SendEmail.fnc.php
 
 Changes in 2.8.19
 -----------------
