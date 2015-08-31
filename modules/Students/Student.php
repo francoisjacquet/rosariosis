@@ -202,19 +202,15 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		}
 		elseif (!isset($error)) //new student
 		{
-			if($_REQUEST['assign_student_id'])
+			if ( ( $student_id = filter_input( INPUT_POST, 'assign_student_id', FILTER_VALIDATE_INT ) ) > 0 )
 			{
-				if(is_numeric($_REQUEST['assign_student_id']))
+				if(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))))
 				{
-					$student_id = $_REQUEST['assign_student_id'];
-					if(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))))
-					{
-						$error[] = sprintf(_('That %s ID is already taken. Please select a different one.'),Config('NAME'));
-					}
+					$error[] = sprintf(_('That %s ID is already taken. Please select a different one.'),Config('NAME'));
 				}
-				else
-					$error[] = _('Please enter valid Numeric data.');
 			}
+			else
+				$error[] = _('Please enter valid Numeric data.');
 
 			//hook
 			do_action('Students/Student.php|create_student_checks');

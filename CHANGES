@@ -6,6 +6,7 @@ Changes in 2.8.20
 - Add return_megabytes() & FileUploadMaxSize() functions in FileUpload.fnc.php
 - Remove 10Mb limit for Portal Notes file uploads in PortalNotes.php
 - Send emails from programname instead of rosariosis in SendEmail.fnc.php
+- Bugfix photo name when assign student ID with leading 000 in Student.php
 
 Changes in 2.8.19
 -----------------
