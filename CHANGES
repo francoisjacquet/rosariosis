@@ -7,6 +7,7 @@ Changes in 2.8.20
 - Remove 10Mb limit for Portal Notes file uploads in PortalNotes.php
 - Send emails from programname instead of rosariosis in SendEmail.fnc.php
 - Bugfix photo name when assign student ID with leading 000 in Student.php
+- Add .odt, .ods & .odp (LibreOffice docs) to Portal Notes attached file in PortalNotes.php
 
 Changes in 2.8.19
 -----------------
