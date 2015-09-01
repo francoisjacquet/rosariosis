@@ -8,6 +8,7 @@ Changes in 2.8.20
 - Send emails from programname instead of rosariosis in SendEmail.fnc.php
 - Bugfix photo name when assign student ID with leading 000 in Student.php
 - Add .odt, .ods & .odp (LibreOffice docs) to Portal Notes attached file in PortalNotes.php
+- Fix StudentGrades.php student Help text in Help_en.php
 
 Changes in 2.8.19
 -----------------

@@ -253,7 +253,7 @@ else
 
 	$help['Grades/Transcripts.php'] = "<p><i>Transcripts</i> is a utility that allows you to print transcripts for your child.</p><p>Before printing the transcripts, you must select which marking periods to display on the transcript by checking desired marking period checkboxes.</p><p>The transcripts will be automatically downloaded to your computer in the printable PDF format when you click the \"Submit\" button.</p>";
 
-	$help['Grades/ReportCards.php?modfunc=gradelist'] = "<p><i>Student Grades</i> allows you to view the grades earned by your child.</p><p>Before searching, you must select which marking periods to display by checking desired marking period checkboxes.</p>";
+	$help['Grades/StudentGrades.php'] = "<p><i>Gradebook Grades</i> allows you to view the grades earned by your child.</p><p>Before searching, you must select which marking periods to display by checking desired marking period checkboxes.</p>";
 
 	$help['Grades/GPARankList.php'] = "<p><i>GPA / Class Rank</i> is a report that shows the unweighted GPA, weighted GPA, and class rank of your child.</p>";
 }
