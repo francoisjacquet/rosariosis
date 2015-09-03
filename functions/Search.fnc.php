@@ -236,19 +236,33 @@ function Search($type,$extra=null)
 				{
 					foreach($search_fields_RET['autos'] as $column)
 					{
-						if($column['SELECT_OPTIONS'])
+						// Get autos pull-down options
+						if ( strpos( $type, 'student' ) !== false )
 						{
-							$column['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$column['SELECT_OPTIONS']));
-							$options_RET = explode("\r",$column['SELECT_OPTIONS']);
+							$options_RET = DBGet( DBQuery(
+								"SELECT DISTINCT s." . $column['COLUMN_NAME'] . ",upper(s." . $column['COLUMN_NAME'] . ") AS SORT_KEY
+								FROM STUDENTS s,STUDENT_ENROLLMENT sse
+								WHERE sse.STUDENT_ID=s.STUDENT_ID
+								AND sse.SYEAR='" . UserSyear() . "'
+								AND s." . $column['COLUMN_NAME'] . " IS NOT NULL
+								ORDER BY SORT_KEY"
+							) );
 						}
-						else
-							$options_RET = array();
+						else // staff
+						{
+							$options_RET = DBGet( DBQuery(
+								"SELECT DISTINCT s." . $column['COLUMN_NAME'] . ",upper(s." . $column['COLUMN_NAME'] . ") AS KEY
+								FROM STAFF s WHERE s.SYEAR='" . UserSyear() . "'
+								AND s." . $column['COLUMN_NAME'] . " IS NOT NULL
+								ORDER BY KEY"
+							));
+						}
 
 						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].']"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
-						foreach($options_RET as $option)
-							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
+						foreach((array)$options_RET as $option)
+							echo '<OPTION value="'.$option[$column['COLUMN_NAME']].'">'.$option[$column['COLUMN_NAME']].'</OPTION>';
 
 						//FJ new option
 						echo '<OPTION value="---">-'. _('Edit') .'-</OPTION>';
@@ -262,20 +276,33 @@ function Search($type,$extra=null)
 				{
 					foreach($search_fields_RET['edits'] as $column)
 					{
-						if($column['SELECT_OPTIONS'])
+						// Get edits pull-down options
+						if ( strpos( $type, 'student' ) !== false )
 						{
-							$column['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$column['SELECT_OPTIONS']));
-							$options_RET = explode("\r",$column['SELECT_OPTIONS']);
+							$options_RET = DBGet( DBQuery(
+								"SELECT DISTINCT s." . $column['COLUMN_NAME'] . ",upper(s." . $column['COLUMN_NAME'] . ") AS SORT_KEY
+								FROM STUDENTS s,STUDENT_ENROLLMENT sse
+								WHERE sse.STUDENT_ID=s.STUDENT_ID
+								AND sse.SYEAR='" . UserSyear() . "'
+								AND s." . $column['COLUMN_NAME'] . " IS NOT NULL
+								ORDER BY SORT_KEY"
+							) );
 						}
-						else
-							$options_RET = array();
+						else // staff
+						{
+							$options_RET = DBGet( DBQuery(
+								"SELECT DISTINCT s." . $column['COLUMN_NAME'] . ",upper(s." . $column['COLUMN_NAME'] . ") AS KEY
+								FROM STAFF s WHERE s.SYEAR='" . UserSyear() . "'
+								AND s." . $column['COLUMN_NAME'] . " IS NOT NULL
+								ORDER BY KEY"
+							));
+						}
 
 						echo '<TR class="'.$TR_classes.'"><TD>'.$column['TITLE'].'</TD><TD>';
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].']"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
-						$options = array();
-						foreach($options_RET as $option)
-							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
+						foreach((array)$options_RET as $option)
+							echo '<OPTION value="'.$option[$column['COLUMN_NAME']].'">'.$option[$column['COLUMN_NAME']].'</OPTION>';
 
 						//FJ new option
 						echo '<OPTION value="---">-'. _('Edit') .'-</OPTION>';
