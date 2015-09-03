@@ -10,6 +10,7 @@ Changes in 2.8.20
 - Add .odt, .ods & .odp (LibreOffice docs) to Portal Notes attached file in PortalNotes.php
 - Fix StudentGrades.php student Help text in Help_en.php
 - Fix Auto & Edit pull-downs options Advanced Search in Search.fnc.php
+- Correct Class Rank field type to checkbox in EditReportCardGrades.php
 
 Changes in 2.8.19
 -----------------

@@ -279,7 +279,7 @@ if(UserStudentID())
 				'CREDIT_ATTEMPTED'=>makeTextInput('','CREDIT_ATTEMPTED'),
 				'CREDIT_EARNED'=>makeTextInput('','CREDIT_EARNED'),
 				'CREDIT_CATEGORY'=>makeTextInput('','CREDIT_CATEGORY'),
-				'CLASS_RANK'=>makeTextInput('','CLASS_RANK')
+				'CLASS_RANK'=>makeCheckBoxInput('','CLASS_RANK')
 				);
 			}
 
