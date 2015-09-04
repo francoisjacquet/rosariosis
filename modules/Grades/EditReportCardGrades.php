@@ -336,7 +336,7 @@ function makeCheckBoxInput($value, $name)
 	else
 		$id = 'new';
 
-	return CheckBoxInput($value, "values[$id][$name]",'','');
+	return CheckBoxInput($value, "values[$id][$name]",'', '', ( $id === 'new' ) );
 
 }
 ?>
