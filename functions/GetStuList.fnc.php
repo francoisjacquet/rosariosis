@@ -205,7 +205,7 @@ function GetStuList(&$extra=array())
 
 			if(isset($_REQUEST['include_inactive']) && $_REQUEST['include_inactive']=='Y')
 				//$sql .= " AND ssm.ID=(SELECT max(ID) FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR<='".UserSyear()."')";
-				$sql .= " AND ssm.ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR<='".UserSyear()."' ORDER BY SYEAR DESC,START_DATE DESC LIMIT 1)";
+				$sql .= " AND ssm.ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR='".UserSyear()."' ORDER BY SYEAR DESC,START_DATE DESC LIMIT 1)";
 			else
 				$sql .= " AND ssm.SYEAR='".UserSyear()."' AND ('".$extra['DATE']."'>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR '".$extra['DATE']."'<=ssm.END_DATE))";
 
