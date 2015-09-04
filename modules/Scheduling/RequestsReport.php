@@ -10,5 +10,5 @@
 	$columns = array('SUBJECT_TITLE'=>_('Subject'),'COURSE_TITLE'=>_('Course'),'COUNT'=>_('Number of Requests'),'SEATS'=>_('Seats'));
 	
 	DrawHeader(ProgramTitle());
-	ListOutput($count_RET,$columns,'Course','Courses',array(),array(array('SUBJECT_TITLE')));
+	ListOutput($count_RET,$columns,'Subject','Subjects',array(),array(array('SUBJECT_TITLE')));
 ?>
