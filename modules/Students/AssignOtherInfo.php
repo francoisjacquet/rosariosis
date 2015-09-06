@@ -221,27 +221,23 @@ if(empty($_REQUEST['modfunc']))
 						if($option!='')
 							$select_options[$option] = $option;
 				}
+
 				// add the 'new' option, is also the separator
-//FJ new option
-//				$select_options['---'] = '---';
 				$select_options['---'] = '-'. _('Edit') .'-';
 
 				// add values found in current and previous year
 				$options_RET = DBGet(DBQuery("SELECT DISTINCT s.CUSTOM_".$field['ID'].",upper(s.CUSTOM_".$field['ID'].") AS KEY FROM STUDENTS s,STUDENT_ENROLLMENT sse WHERE sse.STUDENT_ID=s.STUDENT_ID AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') AND s.CUSTOM_".$field['ID']." IS NOT NULL ORDER BY KEY"));
-				
-				if(count($options_RET))
-				{
-					foreach($options_RET as $option)
-						if($option['CUSTOM_'.$field['ID']]!='' && !$options[$option['CUSTOM_'.$field['ID']]])
-							$select_options[$option['CUSTOM_'.$field['ID']]] = array($option['CUSTOM_'.$field['ID']],'<span style="color:blue">'.$option['CUSTOM_'.$field['ID']].'</span>');
-				}
+
+				foreach( (array)$options_RET as $option )
+					if($option['CUSTOM_'.$field['ID']]!='' && !$options[$option['CUSTOM_'.$field['ID']]])
+						$select_options[$option['CUSTOM_'.$field['ID']]] = array($option['CUSTOM_'.$field['ID']],'<span style="color:blue">'.$option['CUSTOM_'.$field['ID']].'</span>');
 
 				echo '<TR><TD><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
 			}
 		}
 
 		if(count($fields_RET['edits']))
-			{
+		{
 			foreach($fields_RET['edits'] as $field)
 			{
 				$select_options = array();
@@ -253,10 +249,16 @@ if(empty($_REQUEST['modfunc']))
 						if($option!='')
 							$select_options[$option] = $option;
 				}
+
 				// add the 'new' option
-//FJ new option
-//				$select_options['---'] = '---';
 				$select_options['---'] = '-'. _('Edit') .'-';
+
+				// add values found in current and previous year
+				$options_RET = DBGet(DBQuery("SELECT DISTINCT s.CUSTOM_".$field['ID'].",upper(s.CUSTOM_".$field['ID'].") AS KEY FROM STUDENTS s,STUDENT_ENROLLMENT sse WHERE sse.STUDENT_ID=s.STUDENT_ID AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') AND s.CUSTOM_".$field['ID']." IS NOT NULL ORDER BY KEY"));
+
+				foreach( (array)$options_RET as $option )
+					if($option['CUSTOM_'.$field['ID']]!='' && !$options[$option['CUSTOM_'.$field['ID']]])
+						$select_options[$option['CUSTOM_'.$field['ID']]] = array($option['CUSTOM_'.$field['ID']],'<span style="color:blue">'.$option['CUSTOM_'.$field['ID']].'</span>');
 
 				echo '<TR><TD><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
 			}

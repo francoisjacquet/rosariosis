@@ -10,6 +10,7 @@ Changes in 2.8.20
 - Add .odt, .ods & .odp (LibreOffice docs) to Portal Notes attached file in PortalNotes.php
 - Fix StudentGrades.php student Help text in Help_en.php
 - Fix Auto & Edit pull-downs options Advanced Search in Search.fnc.php
+- Add values found in current and previous year to Edit pull-downs in AssingOtherInfo.php
 - Correct Class Rank field type to checkbox in EditReportCardGrades.php
 - Fix Do not include students enrolled in previous school years in GetStuList.fnc.php
 - Limit Requests Course DIV height in stylesheet.css
