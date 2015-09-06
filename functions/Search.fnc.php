@@ -225,7 +225,8 @@ function Search($type,$extra=null)
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].']"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
 						foreach($options as $option)
-							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
+							if($option!='')
+								echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
 
 						echo '</SELECT>';
 						echo '</TD></TR>';
@@ -243,7 +244,8 @@ function Search($type,$extra=null)
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].']"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
 						foreach((array)$options as $option)
-							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
+							if($option!='')
+								echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
 
 						// add the 'new' option, is also the separator
 						echo '<OPTION value="---">-'. _('Edit') .'-</OPTION>';
@@ -288,7 +290,8 @@ function Search($type,$extra=null)
 						echo '<SELECT name="cust['.$column['COLUMN_NAME'].']"><OPTION value="">'._('N/A').'</OPTION><OPTION value="!">'._('No Value').'</OPTION>';
 
 						foreach((array)$options as $option)
-							echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
+							if($option!='')
+								echo '<OPTION value="'.$option.'">'.$option.'</OPTION>';
 
 						// add the 'new' option
 						echo '<OPTION value="---">-'. _('Edit') .'-</OPTION>';
