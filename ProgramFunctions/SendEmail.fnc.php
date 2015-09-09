@@ -39,7 +39,15 @@ function SendEmail($to, $subject, $message, $from = null, $cc = null)
 			$sitename = substr( $sitename, 4 );
 		}
 
-		$from = 'rosariosis@' . $sitename;
+		$programname = mb_strtolower( filter_var(
+			Config( 'NAME' ),
+			FILTER_SANITIZE_EMAIL
+		));
+
+		if ( !$programname )
+			$programname = 'rosariosis';
+
+		$from = $programname . '@' . $sitename;
 	}
 
 	$headers = 'From:'. $from ."\r\n";
