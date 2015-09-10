@@ -12,6 +12,7 @@ Changes in 2.9
 - Add .logo CSS class & bigger logo.png definition
 - Remove closing PHP tags ?> at end of files program wide
 - Load body after browser history in warehouse.js
+- Use Heredoc & comment Help texts in Help_en.php & Help_es.php
 
 Changes in 2.8.11
 -----------------
