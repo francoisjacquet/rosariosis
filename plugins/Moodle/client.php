@@ -2,7 +2,7 @@
 //FJ Moodle integrator
 
 //XMLRPC client for Moodle 2
-require_once('plugins/Moodle/curl.php');
+require_once( 'classes/curl.php' );
 
 // XML-RPC CALL
 function moodle_xmlrpc_call($functionname, $object)
