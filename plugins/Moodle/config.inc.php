@@ -41,6 +41,9 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 
 	if(empty($_REQUEST['save']))
 	{
+		if ( !_validMoodleURLandToken() )
+			$error[] = _( 'The Moodle URL is not valid.' );
+
 		if (!empty($note))
 			echo ErrorMessage($note, 'note');
 		if (!empty($error))
@@ -77,4 +80,72 @@ else
 {
 	$error[] = _('You\'re not allowed to use this program!');
 	echo ErrorMessage($error, 'fatal');
+}
+
+
+/**
+ * Check Moodle URL and Token
+ * Forms a valid URL
+ * And that Moodle server responds to webservice test request
+ *
+ * TODO test
+ *
+ * @return bool true if URL or Token not set or if URL and Token are OK, else false
+ */
+function _validMoodleURLandToken()
+{
+	$url_available = true;
+
+	// Check Moodle URL is available if set
+	if ( !empty( MOODLE_URL )
+		&& !empty( MOODLE_TOKEN ) )
+	{
+		$serverurl = MOODLE_URL . '/webservice/xmlrpc/server.php?wstoken=' . MOODLE_TOKEN;
+
+		if ( filter_var( $serverurl, FILTER_VALIDATE_URL) === false )
+		{
+			$url_available = false;
+		}
+		else // Check URL is available with cURL
+		{
+			$functionname = 'core_user_create_users';
+
+			$object = core_user_create_users_object();
+
+			moodle_xmlrpc_call( $functionname, $object );
+
+			// Leave $url_available = true as moodle_xmlrpc_call()
+			// will already add the error to the $error global var
+		}
+
+	}
+
+	return $url_available;
+}
+
+//core_user_get_users_by_id function
+//TODO write function!
+function core_user_get_users_by_id_object()
+{
+	//then, convert variables for the Moodle object:
+/*
+list of (
+	object {
+)
+*/
+	$idnumber = 1; // Default Admin
+
+	$users = array(
+		array(
+			'idnumber' => $idnumber,
+		)
+	);
+
+	return array( $users );
+}
+
+
+function core_user_get_users_by_id_response( $response )
+{
+	return null;
 }
