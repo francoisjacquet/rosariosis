@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.21
+-----------------
+- Add Grade Scale default value in EditReportCardGrades.php
+
 Changes in 2.8.20
 -----------------
 - Add Canadian English locale in locale/en_CA.utf8

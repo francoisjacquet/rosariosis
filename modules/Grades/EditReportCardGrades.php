@@ -258,7 +258,7 @@ if(UserStudentID())
 				'GRADE_LETTER'=>makeTextInput('','GRADE_LETTER'),
 				'WEIGHTED_GP'=>makeTextInput('','WEIGHTED_GP'),
 				'UNWEIGHTED_GP'=>makeTextInput('','UNWEIGHTED_GP'),
-				'GP_SCALE'=>makeTextInput('','GP_SCALE'),
+				'GP_SCALE'=>makeTextInput( SchoolInfo( 'REPORTING_GP_SCALE' ), 'GP_SCALE' ),
 				);
 			}
 			else
@@ -292,7 +292,7 @@ if(UserStudentID())
 		}
 
 		echo '<br /><span class="center">';
-		if (!$LO_ret)
+		if ($mp_id=="0")
 		{
 			echo SubmitButton(_('Remove Marking Period'), 'removemp');
 		}
@@ -322,9 +322,9 @@ function makeTextInput($value,$name)
 	//elseif($name=='UNWEIGHTED_GP_VALUE')
 
 	else
-		$extra = 'size=10 maxlength=10';
+		$extra = 'size=5 maxlength=10';
 
-	return TextInput($value,"values[$id][$name]",'',$extra);
+	return TextInput($value,"values[$id][$name]",'',$extra, ( $id !== 'new' ) );
 }
 
 function makeCheckBoxInput($value, $name)
