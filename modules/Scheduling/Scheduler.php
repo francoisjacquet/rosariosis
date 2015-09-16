@@ -247,7 +247,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 
 	if($_REQUEST['test_mode']!='Y' || $_REQUEST['delete']=='Y')
 	{
-		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/spinning.gif" /> '._('Optimizing ...').' ').';</script>';
+		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif" /> '._('Optimizing ...').' ').';</script>';
 		echo str_pad(' ',4096);
 		ob_flush();
 		flush();
