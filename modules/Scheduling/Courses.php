@@ -128,7 +128,7 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	$temp_PERIOD_ID = array();
 	foreach($_REQUEST['tables'] as $table_name=>$tables)
 	{
-		foreach($tables as $id=>$columns)
+		foreach((array)$tables as $id=>$columns)
 		{
 			//FJ fix SQL bug invalid numeric data
 			if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['CREDIT_HOURS']) || is_numeric($columns['CREDIT_HOURS'])) && (empty($columns['CREDITS']) || is_numeric($columns['CREDITS'])))

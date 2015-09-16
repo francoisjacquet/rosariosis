@@ -3,6 +3,8 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.21
 -----------------
 - Add Grade Scale default value in EditReportCardGrades.php
+- Fix PHP error Invalid argument supplied for foreach() in Courses.php
+
 
 Changes in 2.8.20
 -----------------
