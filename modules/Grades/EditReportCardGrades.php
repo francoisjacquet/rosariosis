@@ -1,16 +1,20 @@
 <?php
-include 'modules/Grades/DeletePromptX.fnc.php';
-DrawHeader(ProgramTitle());
-Search('student_id');
+include( 'modules/Grades/DeletePromptX.fnc.php' );
 
-if(UserStudentID())
+DrawHeader( ProgramTitle() );
+
+Search( 'student_id' );
+
+if ( UserStudentID() )
 {
 	$student_id = UserStudentID();
+
 	$mp_id = $_REQUEST['mp_id'];
+
 	$tab_id = ($_REQUEST['tab_id']?$_REQUEST['tab_id']:'grades');
 
-//FJ add translation
-//FJ fix bug no delete MP
+	//FJ add translation
+	//FJ fix bug no delete MP
 	//if ($_REQUEST['modfunc']=='update' && $_REQUEST['removemp'] && $mp_id && DeletePromptX(_('Marking Period'))){
 	if ($_REQUEST['modfunc']=='update' && $_REQUEST['removemp'] && $_REQUEST['new_sms'] && DeletePromptX(_('Marking Period')))
 	{
@@ -24,7 +28,7 @@ if(UserStudentID())
 
 		if ($_REQUEST['new_sms'])
 		{
-//FJ fix SQL bug when marking period already exist
+			//FJ fix SQL bug when marking period already exist
 			$smsRET = DBGet(DBQuery("SELECT * FROM STUDENT_MP_STATS WHERE student_id='".$student_id."' and marking_period_id='".$_REQUEST['new_sms']."'"));
 
 			if (empty($smsRET))
@@ -193,8 +197,6 @@ if(UserStudentID())
 		DrawHeader('',SubmitButton(_('Save')));
 		echo '<BR />';
 
-//FJ add translation
-//FJ css WPadmin
 		echo '<table class="postbox cellspacing-0"><tr><td><h3>'.$displayname.'</h3></td></tr><tr><td><table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">'._('Marking Period Statistics').'</td></tr><tr><td>'._('GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['weighted_gpa']).'</td><td>'._('Unweighted').": ".sprintf('%0.3f',$gmp[$mp_id]['unweighted_gpa']).'</td></tr>';
 		echo '<tr><td>'._('Class Rank GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_weighted']).'</td><td>'._('Unweighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_unweighted']).'</td></tr></table></td></tr></table><BR />';
 
@@ -226,8 +228,8 @@ if(UserStudentID())
 		{
 			echo $sms_grade_level;
 			$tabs = array();
-			$tabs[] = array('title'=>'Grades','link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=grades&mp_id='.$mp_id);
-			$tabs[] = array('title'=>'Credits','link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=credits&mp_id='.$mp_id);
+			$tabs[] = array('title' => 'Grades','link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=grades&mp_id='.$mp_id);
+			$tabs[] = array('title' => 'Credits','link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=credits&mp_id='.$mp_id);
 			//FJ css WPadmin
 			$LO_options = array('count'=>false,'download'=>false,'search'=>false,
 			'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$tab_id.'&mp_id='.$mp_id));
@@ -239,52 +241,62 @@ if(UserStudentID())
 			//build forms based on tab selected
 			if ($_REQUEST['tab_id']=='grades' || $_REQUEST['tab_id'] == '')
 			{
-				$functions = array( 'COURSE_TITLE'=>'makeTextInput',
-				'GRADE_PERCENT'=>'makeTextInput',
-				'GRADE_LETTER'=>'makeTextInput',
-				'WEIGHTED_GP'=>'makeTextInput',
-				'UNWEIGHTED_GP'=>'makeTextInput',
-				'GP_SCALE'=>'makeTextInput',
+				$functions = array(
+					'COURSE_TITLE' => '_makeTextInput',
+					'GRADE_PERCENT' => '_makeTextInput',
+					'GRADE_LETTER' => '_makeTextInput',
+					'WEIGHTED_GP' => '_makeTextInput',
+					'UNWEIGHTED_GP' => '_makeTextInput',
+					'GP_SCALE' => '_makeTextInput',
 				);
-				$LO_columns = array('COURSE_TITLE'=>_('Course'),
-				'GRADE_PERCENT'=>_('Percentage'),
-				'GRADE_LETTER'=>_('Grade'),
-				'WEIGHTED_GP'=>_('Grade Points'),
-				'UNWEIGHTED_GP'=>_('Unweighted Grade Points'),
-				'GP_SCALE'=>_('Grade Scale'),
+
+				$LO_columns = array(
+					'COURSE_TITLE' => _( 'Course' ),
+				'GRADE_PERCENT' => _( 'Percentage' ),
+				'GRADE_LETTER' => _( 'Grade' ),
+				'WEIGHTED_GP' => _( 'Grade Points' ),
+				'UNWEIGHTED_GP' => _( 'Unweighted Grade Points' ),
+				'GP_SCALE' => _( 'Grade Scale' ),
 				);
-				$link['add']['html'] = array('COURSE_TITLE'=>makeTextInput('','COURSE_TITLE'),
-				'GRADE_PERCENT'=>makeTextInput('','GRADE_PERCENT'),
-				'GRADE_LETTER'=>makeTextInput('','GRADE_LETTER'),
-				'WEIGHTED_GP'=>makeTextInput('','WEIGHTED_GP'),
-				'UNWEIGHTED_GP'=>makeTextInput('','UNWEIGHTED_GP'),
-				'GP_SCALE'=>makeTextInput('','GP_SCALE'),
+
+				$link['add']['html'] = array(
+					'COURSE_TITLE' => _makeTextInput( '', 'COURSE_TITLE' ),
+					'GRADE_PERCENT' => _makeTextInput( '', 'GRADE_PERCENT' ),
+					'GRADE_LETTER' => _makeTextInput( '', 'GRADE_LETTER' ),
+					'WEIGHTED_GP' => _makeTextInput( '', 'WEIGHTED_GP' ),
+					'UNWEIGHTED_GP' => _makeTextInput( '', 'UNWEIGHTED_GP' ),
+					'GP_SCALE' => _makeTextInput( SchoolInfo( 'REPORTING_GP_SCALE' ), 'GP_SCALE' ),
 				);
 			}
 			else
 			{
-				$functions = array( 'COURSE_TITLE'=>'makeTextInput',
-				'CREDIT_ATTEMPTED'=>'makeTextInput',
-				'CREDIT_EARNED'=>'makeTextInput',
-				'CREDIT_CATEGORY'=>'makeTextInput',
-				'CLASS_RANK'=>'makeCheckBoxInput'
+				$functions = array(
+					'COURSE_TITLE' => '_makeTextInput',
+					'CREDIT_ATTEMPTED' => '_makeTextInput',
+					'CREDIT_EARNED' => '_makeTextInput',
+					'CREDIT_CATEGORY' => '_makeTextInput',
+					'CLASS_RANK' => '_makeCheckBoxInput'
 				);
-				$LO_columns = array('COURSE_TITLE'=>_('Course'),
-				'CREDIT_ATTEMPTED'=>_('Credit Attempted'),
-				'CREDIT_EARNED'=>_('Credit Earned'),
-				'CREDIT_CATEGORY'=>_('Credit Category'),
-				'CLASS_RANK'=>_('Affects Class Rank')
+
+				$LO_columns = array(
+					'COURSE_TITLE' => _( 'Course' ),
+					'CREDIT_ATTEMPTED' => _( 'Credit Attempted' ),
+					'CREDIT_EARNED' => _( 'Credit Earned' ),
+					'CREDIT_CATEGORY' => _( 'Credit Category' ),
+					'CLASS_RANK' => _( 'Affects Class Rank' )
 				);
-				$link['add']['html'] = array('COURSE_TITLE'=>makeTextInput('','COURSE_TITLE'),
-				'CREDIT_ATTEMPTED'=>makeTextInput('','CREDIT_ATTEMPTED'),
-				'CREDIT_EARNED'=>makeTextInput('','CREDIT_EARNED'),
-				'CREDIT_CATEGORY'=>makeTextInput('','CREDIT_CATEGORY'),
-				'CLASS_RANK'=>makeTextInput('','CLASS_RANK')
+
+				$link['add']['html'] = array(
+					'COURSE_TITLE' => _makeTextInput( '', 'COURSE_TITLE' ),
+					'CREDIT_ATTEMPTED' => _makeTextInput( '', 'CREDIT_ATTEMPTED' ),
+					'CREDIT_EARNED' => _makeTextInput( '', 'CREDIT_EARNED' ),
+					'CREDIT_CATEGORY' => _makeTextInput( '', 'CREDIT_CATEGORY' ),
+					'CLASS_RANK' => _makeCheckBoxInput( '', 'CLASS_RANK' )
 				);
 			}
 
 			$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&mp_id='.$mp_id;
-			$link['remove']['variables'] = array('id'=>'ID');
+			$link['remove']['variables'] = array('id' => 'ID');
 			$link['add']['html']['remove'] = button('add');
 			$LO_ret = DBGet(DBQuery($sql),$functions);
 			//                ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),array('count'=>false,'download'=>false,'search'=>false));
@@ -292,7 +304,8 @@ if(UserStudentID())
 		}
 
 		echo '<br /><span class="center">';
-		if (!$LO_ret)
+
+		if ( $mp_id == "0" )
 		{
 			echo SubmitButton(_('Remove Marking Period'), 'removemp');
 		}
@@ -301,8 +314,10 @@ if(UserStudentID())
 		echo '</FORM>';
 	}
 }
-function makeTextInput($value,$name)
-{	global $THIS_RET;
+
+function _makeTextInput( $value, $name )
+{
+	global $THIS_RET;
 
 	if($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
@@ -322,12 +337,12 @@ function makeTextInput($value,$name)
 	//elseif($name=='UNWEIGHTED_GP_VALUE')
 
 	else
-		$extra = 'size=10 maxlength=10';
+		$extra = 'size=5 maxlength=10';
 
-	return TextInput($value,"values[$id][$name]",'',$extra);
+	return TextInput( $value, "values[" . $id . "][" . $name . "]", '', $extra, ( $id !== 'new' ) );
 }
 
-function makeCheckBoxInput($value, $name)
+function _makeCheckBoxInput( $value, $name )
 {
 	global $THIS_RET;
 
@@ -336,6 +351,6 @@ function makeCheckBoxInput($value, $name)
 	else
 		$id = 'new';
 
-	return CheckBoxInput($value, "values[$id][$name]",'','');
+	return CheckBoxInput( $value, "values[" . $id . "][" . $name . "]", '', '', ( $id === 'new' ) );
 
 }
