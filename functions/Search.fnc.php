@@ -179,7 +179,7 @@ function Search( $type, $extra = null )
 					AND USER_ID='" . User( 'STAFF_ID' ) . "' AND VALUE='Y') 
 				ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE";
 			}
-			elseif ($type === 'staff_fields' )
+			elseif ( $type === 'staff_fields' )
 			{
 				$categories_SQL = "SELECT '0' AS ID,'' AS CATEGORY_TITLE,
 				'CUSTOM_'||cf.ID AS COLUMN_NAME,cf.TYPE,cf.TITLE,cf.SELECT_OPTIONS 
@@ -293,6 +293,8 @@ function Search( $type, $extra = null )
 				{
 					$options = array();
 
+					$col_name = $col['COLUMN_NAME'];
+
 					if ( $col['SELECT_OPTIONS'] )
 					{
 						$options = explode(
@@ -301,7 +303,7 @@ function Search( $type, $extra = null )
 						);
 					}
 
-					$name = 'cust[' . $col['COLUMN_NAME'] . ']';
+					$name = 'cust[' . $col_name . ']';
 
 					$id = GetInputID( $name );
 
@@ -336,6 +338,39 @@ function Search( $type, $extra = null )
 					// edits specificities
 					if ( $col['TYPE'] === 'edits' )
 						echo '<OPTION value="~">' . _( 'Other Value' ) . '</OPTION>';
+
+					// Get autos / edits pull-down edited options
+					if ( $col['TYPE'] === 'autos'
+						|| $col['TYPE'] === 'edits' )
+					{
+						if ( mb_strpos( $type, 'student' ) !== false )
+						{
+							$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS SORT_KEY
+								FROM STUDENTS s,STUDENT_ENROLLMENT sse
+								WHERE sse.STUDENT_ID=s.STUDENT_ID
+								AND sse.SYEAR='" . UserSyear() . "'
+								AND s." . $col_name . " IS NOT NULL
+								AND s." . $col_name . " != ''
+								ORDER BY SORT_KEY";
+						}
+						else // staff
+						{
+							$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS KEY
+								FROM STAFF s WHERE s.SYEAR='" . UserSyear() . "'
+								AND s." . $col_name . " IS NOT NULL
+								AND s." . $col_name . " != ''
+								ORDER BY KEY";
+						}
+
+						$options_RET = DBGet( DBQuery( $sql_options ) );
+
+						// add the 'new' option, is also the separator
+						echo '<OPTION value="---">-' . _( 'Edit' ) . '-</OPTION>';
+
+						foreach( (array)$options_RET as $option )
+							if ( !in_array( $option[$col_name], $options ) )
+								echo '<OPTION value="' . $option[$col_name] . '">' . $option[$col_name] . '</OPTION>';
+					}
 
 					echo '</SELECT></TD></TR>';
 				}
