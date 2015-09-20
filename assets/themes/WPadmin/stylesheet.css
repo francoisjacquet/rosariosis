@@ -486,7 +486,10 @@ h3 span{
 	border-width:1px;
 	padding:4px;
 	right:0;
-	display:none
+	display:none;
+	max-height:80px;
+	overflow:auto;
+	width:98%
 }
 .size-3{
 	font-size:11px
