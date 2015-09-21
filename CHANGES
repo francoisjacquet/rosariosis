@@ -7,6 +7,7 @@ Changes in 2.8.21
 - Fix spinner image reference in Scheduler.php
 - Fixes: Dates not required & Points can be 0 in Assignments.php
 - List table cells middle align in stylesheet.css
+- Correct Students Contact query: only if Custody / Emergency checked in GetStuList.fnc.php
 
 Changes in 2.8.20
 -----------------
