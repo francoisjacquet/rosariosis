@@ -203,7 +203,7 @@ if(UserStudentID())
 	if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0)
 		$LO_columns['LETTER_GRADE'] = _('Letter');
 
-	$LO_columns += array('TITLE'=>_('Assignment'),'POINTS'=>_('Points'),/*'PERCENT_GRADE'=>_('Percent'),*/'LETTER_GRADE'=>_('Letter'),'COMMENT'=>_('Comment'));
+	$LO_columns += array('TITLE'=>_('Assignment'),'POINTS'=>_('Points'),/*'PERCENT_GRADE'=>_('Percent'),'LETTER_GRADE'=>_('Letter'),*/'COMMENT'=>_('Comment'));
 
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'];
 	$link['TITLE']['variables'] = array('type_id'=>'ASSIGNMENT_TYPE_ID','assignment_id'=>'ASSIGNMENT_ID');
