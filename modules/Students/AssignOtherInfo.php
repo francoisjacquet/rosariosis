@@ -208,36 +208,44 @@ if(empty($_REQUEST['modfunc']))
 			}
 		}
 
-		if(count($fields_RET['autos']))
+		// TODO: (see Search.fnc.php)
+		// merge select, autos, edits, exports & codeds
+		// (same or similar SELECT output)
+		foreach( (array)$fields_RET['autos'] as $field )	
 		{
-			foreach($fields_RET['autos'] as $field)	
-			{
-				$select_options = array();
-				$field['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
-				$options = explode("\r",$field['SELECT_OPTIONS']);
-				if(count($options))
-				{
-					foreach($options as $option)
-						if($option!='')
-							$select_options[$option] = $option;
-				}
-				// add the 'new' option, is also the separator
-//FJ new option
-//				$select_options['---'] = '---';
-				$select_options['---'] = '-'. _('Edit') .'-';
+			$select_options = array();
 
-				// add values found in current and previous year
-				$options_RET = DBGet(DBQuery("SELECT DISTINCT s.CUSTOM_".$field['ID'].",upper(s.CUSTOM_".$field['ID'].") AS KEY FROM STUDENTS s,STUDENT_ENROLLMENT sse WHERE sse.STUDENT_ID=s.STUDENT_ID AND (sse.SYEAR='".UserSyear()."' OR sse.SYEAR='".(UserSyear()-1)."') AND s.CUSTOM_".$field['ID']." IS NOT NULL ORDER BY KEY"));
-				
-				if(count($options_RET))
-				{
-					foreach($options_RET as $option)
-						if($option['CUSTOM_'.$field['ID']]!='' && !$options[$option['CUSTOM_'.$field['ID']]])
-							$select_options[$option['CUSTOM_'.$field['ID']]] = array($option['CUSTOM_'.$field['ID']],'<span style="color:blue">'.$option['CUSTOM_'.$field['ID']].'</span>');
-				}
+			$options = explode(
+				'<br />',
+				nl2br( $field['SELECT_OPTIONS'] )
+			);
 
-				echo '<TR><TD><b>'.ParseMLField($field[TITLE]).'</b></TD><TD>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</TD></TR>';
-			}
+			foreach( (array)$options as $option )
+				if ( $option != '' )
+					$select_options[$option] = $option;
+
+			// add the 'new' option, is also the separator
+			$select_options['---'] = '-' . _( 'Edit' ) . '-';
+
+			$field_name = 'CUSTOM_' . $field['ID'];
+
+			// add values found in current and previous year
+			$options_RET = DBGet( DBQuery( "SELECT DISTINCT s." . $field_name . ",upper(s." . $field_name . ") AS KEY
+				FROM STUDENTS s,STUDENT_ENROLLMENT sse
+				WHERE sse.STUDENT_ID=s.STUDENT_ID
+				AND (sse.SYEAR='" . UserSyear() . "' OR sse.SYEAR='" . ( UserSyear() - 1 ) . "')
+				AND s." . $field_name . " IS NOT NULL
+				AND s." . $field_name . " != ''
+				ORDER BY KEY" ) );
+			
+			foreach( (array)$options_RET as $option )
+				if ( !in_array( $option[$field_name], $options ) )
+					$select_options[$option[$field_name]] = array(
+						$option[$field_name],
+						'<span style="color:blue">' . $option[$field_name] . '</span>'
+					);
+
+			echo '<TR><TD><b>'.ParseMLField($field['TITLE']).'</b></TD><TD>'._makeSelectInput($field_name,$select_options).'</TD></TR>';
 		}
 
 		if(count($fields_RET['edits']))
