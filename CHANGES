@@ -5,6 +5,7 @@ Changes in 2.8.21
 - Add Grade Scale default value in EditReportCardGrades.php
 - Fix PHP error Invalid argument supplied for foreach() in Courses.php
 - Fix spinner image reference in Scheduler.php
+- Fixes: Dates not required & Points can be 0 in Assignments.php
 
 Changes in 2.8.20
 -----------------

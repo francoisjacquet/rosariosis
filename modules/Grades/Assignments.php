@@ -29,11 +29,20 @@ if($_REQUEST['tables'] && $_POST['tables'])
 	foreach($_REQUEST['tables'] as $id=>$columns)
 	{
 		//FJ added SQL constraint TITLE & POINTS are not null
-		if ((!isset($columns['TITLE']) || !empty($columns['TITLE'])) && (!isset($columns['POINTS']) || !empty($columns['POINTS'])))
+		if ( ( !isset( $columns['TITLE'] )
+				|| !empty( $columns['TITLE'] ) )
+			&& ( !isset( $columns['POINTS'] )
+				|| $columns['POINTS'] !== '') )
 		{
 			//FJ fix SQL bug invalid numeric data
 			//FJ default points
-			if ((empty($columns['POINTS']) || (is_numeric($columns['POINTS']) && intval($columns['POINTS'])>=0)) && (empty($columns['DEFAULT_POINTS']) || $columns['DEFAULT_POINTS']=='*' || (is_numeric($columns['DEFAULT_POINTS']) && intval($columns['DEFAULT_POINTS'])>=0)))
+			if ( ( !isset( $columns['POINTS'] )
+					|| ( is_numeric( $columns['POINTS'] )
+						&& intval( $columns['POINTS'] ) >= 0 ) )
+				&& ( !isset( $columns['DEFAULT_POINTS'] )
+					|| $columns['DEFAULT_POINTS'] === '*'
+					|| ( is_numeric( $columns['DEFAULT_POINTS'] )
+						&& intval( $columns['DEFAULT_POINTS'] ) >= 0 ) ) )
 			{
 				
 				//FJ fix SQL bug invalid sort order
@@ -51,10 +60,12 @@ if($_REQUEST['tables'] && $_POST['tables'])
 
 						foreach($columns as $column=>$value)
 						{
-							if($column=='DUE_DATE' || $column=='ASSIGNED_DATE')
+							if ( ( $column === 'DUE_DATE'
+								|| $column === 'ASSIGNED_DATE' )
+								&& $value !== '' )
 							{
-								if(!VerifyDate($value))
-									$error[] = _('Some dates were not entered correctly.');
+								if ( !VerifyDate( $value ) )
+									$error[] = _( 'Some dates were not entered correctly.' );
 							}
 							elseif($column=='COURSE_ID' && $value=='Y' && $table=='GRADEBOOK_ASSIGNMENTS')
 							{
@@ -112,10 +123,12 @@ if($_REQUEST['tables'] && $_POST['tables'])
 
 						foreach($columns as $column=>$value)
 						{
-							if($column=='DUE_DATE' || $column=='ASSIGNED_DATE')
+							if ( ( $column === 'DUE_DATE'
+								|| $column === 'ASSIGNED_DATE' )
+								&& $value !== '' )
 							{
-								if(!VerifyDate($value))
-									$error[] = _('Some dates were not entered correctly.');
+								if ( !VerifyDate( $value ) )
+									$error[] = _( 'Some dates were not entered correctly.' );
 							}
 							elseif($column=='COURSE_ID' && $value=='Y')
 								$value = $course_id;
