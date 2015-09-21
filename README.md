@@ -1,5 +1,5 @@
-RosarioSIS, Student Information System
-=======================================
+RosarioSIS Student Information System
+=====================================
 
 [![RosarioSIS logo](http://www.rosariosis.org/wp-content/uploads/2013/02/rosariosis_logo2half.png)](http://www.rosariosis.org)
 
@@ -15,17 +15,15 @@ You MUST read and agree to the terms of this license prior to installing Rosario
 Documentation
 -------------
 
-For installation directions, please refer to the 'INSTALL' file part of this distribution.
+For installation directions, please refer to the [INSTALL](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL) file part of this distribution.
 
-Quick Setup Guide:
-https://github.com/francoisjacquet/rosariosis/wiki/Quick-Setup-Guide
+[Quick Setup Guide](https://github.com/francoisjacquet/rosariosis/wiki/Quick-Setup-Guide)
 
 Handbooks:
 You can generate PDF Handbooks by calling the Help.php script once you are logged in. The 
 Handbook will depend on your profile (Administrator, Teacher, Parent or Student).
 
-And yes, YOU NEED TO READ THE ABOVE DOCUMENTATION prior to attempting any install or upgrade,
-and before asking any question in the user forums ...
+And yes, YOU NEED TO READ THE ABOVE DOCUMENTATION prior to attempting any install or upgrade.
 
 
 About RosarioSIS
