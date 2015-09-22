@@ -156,18 +156,22 @@ function makeSelectInput($value,$name)
     return SelectInput(trim($value),"values[$id][$name]",'',$options,false);
 }
 
-function makeSchoolYearSelectInput($value,$name)
-{    global $THIS_RET;
+function makeSchoolYearSelectInput( $value, $name )
+{
+	global $THIS_RET;
 
-    if($THIS_RET['MARKING_PERIOD_ID'])
-        $id = $THIS_RET['MARKING_PERIOD_ID'];
-    else
-        $id = 'new';
-    $options = array();
-    foreach (range(UserSyear()-6, UserSyear()) as $year)
-//FJ school year over one/two calendar years format
-        $options[$year] = FormatSyear($year,Config('SCHOOL_SYEAR_OVER_2_YEARS'));
+	if ( $THIS_RET['MARKING_PERIOD_ID'] )
+		$id = $THIS_RET['MARKING_PERIOD_ID'];
+	else
+		$id = 'new';
 
-    return SelectInput(trim($value),"values[$id][$name]",'',$options,false);
+	$options = array();
+
+	$years = range( UserSyear() - 5, UserSyear() );
+
+	foreach ( $years as $year )
+		//FJ school year over one/two calendar years format
+		$options[$year] = FormatSyear( $year, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
+
+	return SelectInput( trim( $value ), "values[" . $id . "][" . $name . "]", '', $options, false );
 }
-?>
