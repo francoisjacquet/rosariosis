@@ -174,7 +174,7 @@ function ajaxSuccess(data, target, url) {
 }
 
 function ajaxPrepare(target) {
-	if (scrollTop == 'Y' && target == 'body') body.scrollIntoView();
+	if (scrollTop == 'Y' && target == '#body') body.scrollIntoView();
 
 	$(target + ' form').each(function () {
 		ajaxPostForm(this, false);
@@ -217,6 +217,20 @@ window.onload = function () {
 		}, false);
 	}, 1);
 };
+
+//ListOutput JS
+function LOSearch( event, val, url ) {
+
+	if ( val !== '' && ( !event || event.keyCode == 13 ) )
+	{
+		var search_a = document.createElement("a");
+		search_a.href = document.URL + "&LO_search=" + val;
+		search_a.target = "body";
+		ajaxLink(search_a);
+	}
+
+	return false;
+}
 
 //Side.php JS
 var old_modcat = false;

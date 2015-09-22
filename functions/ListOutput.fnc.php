@@ -474,8 +474,10 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				if(!isset($_REQUEST['_ROSARIO_PDF']) && $options['search'])
 				{
 					echo '<TD style="text-align:right">';
-					echo '<script>var LO_searchonclick = document.createElement("a"); LO_searchonclick.href = "'.PreparePHP_SELF($_REQUEST,array('LO_search','LO_page')).'&LO_search="; LO_searchonclick.target = "body";</script>';
-					echo '<INPUT type="text" id="LO_search" name="LO_search" value="'.htmlspecialchars($_REQUEST['LO_search'],ENT_QUOTES).'" placeholder="'._('Search').'" onkeypress="if(event.keyCode==13 && this.value!=\'\'){LO_searchonclick.href += this.value; ajaxLink(LO_searchonclick); return false;}" /><INPUT type="button" value="'._('Go').'" onclick="if(document.getElementById(\'LO_search\').value!=\'\'){LO_searchonclick.href += document.getElementById(\'LO_search\').value; ajaxLink(LO_searchonclick);}" /></TD>';
+
+					$search_URL = PreparePHP_SELF( $_REQUEST, array( 'LO_search', 'LO_page' ) ) . '&LO_search=';
+
+					echo '<INPUT type="text" id="LO_search" name="LO_search" value="'.htmlspecialchars($_REQUEST['LO_search'],ENT_QUOTES).'" placeholder="'._('Search').'" onkeypress="LOSearch(event, this.value, \'' . $search_URL . '\');" /><INPUT type="button" value="'._('Go').'" onclick="LOSearch(false, document.getElementById(\'LO_search\').value, \'' . $search_URL . '\');" /></TD>';
 					$colspan++;
 				}
 
