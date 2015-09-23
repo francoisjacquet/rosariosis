@@ -516,6 +516,7 @@ h3 span{
 	overflow:auto;
 	max-height: 240px
 }
+
 /* MarkDown */
 .md-preview > a{
 	border-width:1px;
@@ -528,6 +529,10 @@ h3 span{
 	margin-left:1px;
 	line-height:27px
 }
+.md-preview > .disabled{
+	pointer-events:none;
+	cursor:default
+}
 .md-preview > div{
 	display:none;
 	border-top-width:1px;
@@ -538,6 +543,7 @@ h3 span{
 	border-top-right-radius: 0;
 	margin-top:0
 }
+
 span.legend-gray, span.legend-red{
 	margin-top:5px;
 	margin-bottom:7px;

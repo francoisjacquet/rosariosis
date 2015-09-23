@@ -515,7 +515,7 @@ h3 span{
 	overflow:auto;
 	max-height: 240px
 }
-/* MarkDown */
+
 /* MarkDown */
 .md-preview > a{
 	border-width:1px;
@@ -527,6 +527,10 @@ h3 span{
 	padding:5px 7px;
 	margin-left:1px;
 	line-height:27px
+}
+.md-preview > .disabled{
+	pointer-events:none;
+	cursor:default
 }
 .md-preview > div{
 	display:none;

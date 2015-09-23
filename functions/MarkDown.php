@@ -59,7 +59,10 @@ function MarkDownInputPreview( $input_id )
 
 	?>
 	<div class="md-preview">
-		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>', this); return false;" data-text="<?php echo _( 'Write' ); ?>">
+		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="disabled">
+			<?php echo _( 'Write' ); ?>
+		</a>
+		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;">
 			<?php echo _( 'Preview' ); ?>
 		</a>
 		<div id="divMDPreview<?php echo $input_id; ?>"></div>
@@ -89,6 +92,9 @@ if ( isset( $_POST['md_preview'] )
 	 */
 	if ( isset( $_POST['md_preview'] ) )
 	{
-		echo MarkDownToHTML( $_POST['md_preview'] );
+		// strip HTML tags
+		$md_preview = strip_tags( $_POST['md_preview'] );
+
+		echo MarkDownToHTML( $md_preview );
 	}
 }

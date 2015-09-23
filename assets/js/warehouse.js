@@ -64,7 +64,7 @@ else // add .no-touch CSS class
 
 // MarkDown
 var md_last_val = '';
-function MarkDownInputPreview( input_id, link )
+function MarkDownInputPreview( input_id )
 {
 	var input = $('#' + input_id);
 
@@ -89,9 +89,8 @@ function MarkDownInputPreview( input_id, link )
 	// toggle MD preview & Input
 	input.toggle();
 	$('#divMDPreview' + input_id).toggle();
-	var old_txt = link.innerHTML;
-	link.innerHTML = $( link ).attr('data-text');
-	$( link ).attr('data-text', old_txt);
+	// disable Write / Preview tab
+	$('#divMDPreview' + input_id).siblings('a').toggleClass('disabled');
 }
 
 function ajaxOptions(target, url, form) {
