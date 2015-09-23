@@ -6,7 +6,6 @@ Changes in 2.8.21
 - Fix PHP error Invalid argument supplied for foreach() in Courses.php
 - Fix spinner image reference in Scheduler.php
 - Fixes: Dates not required & Points can be 0 in Assignments.php
-- List table cells middle align in stylesheet.css
 - Correct Students Contact query: only if Custody / Emergency checked in GetStuList.fnc.php
 - Limit School Years input to 5 past years in EditHistoryMarkingPeriods.php
 
