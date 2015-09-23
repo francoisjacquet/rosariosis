@@ -215,7 +215,7 @@ if($_REQUEST['modfunc']!='remove')
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id'=>'ID');
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<img src=assets/themes/'. Preferences('THEME') .'/spinning.gif />\';">';
+	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<span class=loading></span>\';">';
 
 	DrawHeader('',SubmitButton(_('Save')));
 

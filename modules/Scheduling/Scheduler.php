@@ -9,8 +9,22 @@ if($_REQUEST['modname']=='Scheduling/Scheduler.php' && !$_REQUEST['run'])
 }
 else
 	$function = '_returnTrue';
-//FJ add <label> on checkbox
-if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the scheduler?'),'<TABLE><TR><TD><label><INPUT type="checkbox" name="test_mode" value="Y">&nbsp;'._('Test Mode').'</label></TD></TR><TR><TD><label><INPUT type="checkbox" name="delete" value="Y">&nbsp;'._('Delete Current Schedules').'</label></TD></TR></TABLE>'))
+
+$confirm_HTML = '<TABLE class="width-100p"><TR><TD>
+	<label><INPUT type="checkbox" name="test_mode" value="Y">&nbsp;' . _( 'Test Mode' ) . '</label>
+</TD></TR>
+<TR><TD>
+	<label><INPUT type="checkbox" name="delete" value="Y">&nbsp;' . _( 'Delete Current Schedules' ) . '</label>
+</TD></TR>
+</TABLE>';
+
+$ok = $function(
+	_( 'Confirm Scheduler Run' ),
+	_( 'Are you sure you want to run the scheduler?' ),
+	$confirm_HTML
+);
+
+if ( $ok )
 {
 	echo '<BR />';
 	PopTable('header',_('Scheduler Progress'));
@@ -19,7 +33,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 	for($i=1;$i<=100;$i++)
 		echo '<TD id="cell'.$i.'" style="width:3px;"></TD>';
 
-	echo '</TR></TABLE><BR /><DIV id="percentDIV"><IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif"> '._('Processing Requests ...').' </DIV>';
+	echo '</TR></TABLE><BR /><DIV id="percentDIV"><span class="loading"></span> '._('Processing Requests ...').' </DIV>';
 	PopTable('footer');
 	ob_flush();
 	flush();
@@ -193,7 +207,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 
 	if($_REQUEST['test_mode']!='Y')
 	{
-		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif" /> '._('Saving Schedules ...').' ').';</script>';
+		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<span class="loading"></span> '._('Saving Schedules ...').' ').';</script>';
 		echo str_pad(' ',4096);
 		ob_flush();
 		flush();
@@ -247,7 +261,7 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 
 	if($_REQUEST['test_mode']!='Y' || $_REQUEST['delete']=='Y')
 	{
-		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif" /> '._('Optimizing ...').' ').';</script>';
+		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<span class="loading"></span> '._('Optimizing ...').' ').';</script>';
 		echo str_pad(' ',4096);
 		ob_flush();
 		flush();
@@ -262,6 +276,8 @@ if($function(_('Confirm Scheduler Run'),_('Are you sure you want to run the sche
 
 	echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode($error_msg. button('check', '', '', 'bigger') .' <B>'._('Done.').'</B>').';</script>';
 	ob_end_flush();
+
+	echo '<BR /><BR />';
 
 	//$_REQUEST['modname'] = 'Scheduling/UnfilledRequests.php';
 	$_REQUEST['search_modfunc']='list';

@@ -11,7 +11,7 @@ if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'
 	//FJ display notice while calculating daily attendance
 	echo '<BR />';
 	PopTable('header',_('Recalculate Daily Attendance'));
-	echo '<DIV id="messageDIV" style="align-text:center;"><IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif"> '._('Calculating ...').' </DIV>';
+	echo '<DIV id="messageDIV" class="center"><span class="loading"></span> '._('Calculating ...').' </DIV>';
 	PopTable('footer');
 	ob_flush();
 	flush();

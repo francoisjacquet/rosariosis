@@ -97,7 +97,7 @@ function MarkDownInputPreview( input_id, link )
 function ajaxOptions(target, url, form) {
 	return {
 		beforeSend: function (data) {
-			$('#BottomSpinner').css('visibility', 'visible');
+			$('.loading').css('visibility', 'visible');
 		},
 		success: function (data) {
 			if (form && form.method == 'get') {
@@ -126,7 +126,7 @@ function ajaxOptions(target, url, form) {
 			alert("Ajax get error\nStatus: " + st + "\nHTTP status: " + err + "\nURL: " + url);
 		},
 		complete: function () {
-			$('#BottomSpinner').css('visibility', 'hidden');
+			$('.loading').css('visibility', 'hidden');
 
 			hideHelp();
 		}

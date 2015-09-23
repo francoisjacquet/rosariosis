@@ -13,6 +13,7 @@ Changes in 2.9
 - Remove closing PHP tags ?> at end of files program wide
 - Load body after browser history in warehouse.js
 - Use Heredoc & comment Help texts in Help_en.php & Help_es.php
+- Add .loading CSS class to show multiple spinners at once
 
 Changes in 2.8.11
 -----------------

@@ -35,7 +35,7 @@ if($go)
 	//FJ waiting message
 	echo '<BR />';
 	PopTable('header',_('Calculating GPA and class rank'));
-	echo '<span class="center"><DIV id="statusDIV"><IMG SRC="assets/themes/'. Preferences('THEME') .'/spinning.gif"> '._('Calculating ...').' </DIV></span>';
+	echo '<DIV id="statusDIV" class="center"><span class="loading"></span> '._('Calculating ...').' </DIV>';
 	PopTable('footer');
 	ob_flush();
 	flush();

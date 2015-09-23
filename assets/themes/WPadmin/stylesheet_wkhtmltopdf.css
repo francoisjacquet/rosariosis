@@ -680,9 +680,18 @@ form.login input[type=text],form.login input[type=password]{
 	font-weight:bold;
 	vertical-align:top
 }
-#BottomSpinner{
+.BottomButton.loading{
 	float:right;
-	visibility:hidden;
+	padding-bottom:10px
+}
+
+/* Loading spinner */
+.loading{
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background: url('spinning.gif') no-repeat;
+	visibility:hidden
 }
 
 /*bars*/

@@ -7,7 +7,7 @@ if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 	<a href="#" id="aFormStudentPhoto"><?php echo button('add', '', '', 'smaller'); ?>&nbsp;<?php echo _('Student Photo'); ?></a><br />
 	<div id="formStudentPhoto" style="display:none;">
 		<br />
-		<input type="file" id="photo" name="photo" accept="image/*" /><img src="assets/themes/<?php echo Preferences('THEME'); ?>/spinning.gif" alt="Spinner" id="loading" style="display:none;" />
+		<input type="file" id="photo" name="photo" accept="image/*" /><span class="loading"></span>
 		<BR /><span class="legend-gray"><?php echo _('Student Photo'); ?> (.jpg)</span>
 	</div>
 	<script> 

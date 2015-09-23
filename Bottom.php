@@ -176,7 +176,7 @@ else
 			<img src="<?php echo $btn_path; ?>logout.png" />&nbsp;
 			<span><?php echo _( 'Logout' ); ?></span>
 		</a>
-		<img id="BottomSpinner" class="BottomButton" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/spinning.gif" alt="Loading" />
+		<span class="loading BottomButton"></span>
 	</div>
 
 	<div id="footerhelp"></div>
