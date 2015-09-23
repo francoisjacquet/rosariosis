@@ -15,7 +15,7 @@ function includeOnceColorBox($rt2colorBoxDiv = false)
 		$(document).ready(function(){
 			$(\'.colorbox\').colorbox();
 			$(\'.colorboxiframe\').colorbox({iframe:true, innerWidth:cWidth, innerHeight:cHeight});
-			$(\'.colorboxinline\').colorbox({inline:true, maxWidth:\'85%\', maxHeight:\'85%\', scrolling:true});
+			$(\'.colorboxinline\').colorbox({inline:true, maxWidth:\'95%\', maxHeight:\'85%\', scrolling:true});
 		});
 	</script>' : '');
 	$return .= ($rt2colorBoxDiv ? '<div class="link2colorBox"><a class="colorboxinline" href="#'.$rt2colorBoxDiv.'"><img src="assets/themes/'. Preferences('THEME') .'/btn/visualize.png" class="button bigger" /> '._('View Online').'</a></div>' : '');

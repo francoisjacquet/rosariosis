@@ -56,7 +56,7 @@ function button( $type, $text = '', $link = '', $class = '' )
 	$button .= '<img src="' . $button_file . '" class="button ' . $class . '" />';
 
 	if ( $text !== '' )
-		$button .= ' <b>' . $text . '</b>';
+		$button .= '&nbsp;<b>' . $text . '</b>';
 
 	if ( $link !== '' )
 		$button .= '</a>';
