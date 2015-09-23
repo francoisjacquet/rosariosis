@@ -74,7 +74,7 @@ if( empty( $_REQUEST['modfunc'] ) )
 	<TABLE id="student-comments">
 		<TR>
 			<TD>
-				<b><?php echo $mp['TITLE'] . ' ' . _( 'Comments' ); ?></b>
+				<b><?php echo GetMP( $comments_MP, 'TITLE' ) . ' ' . _( 'Comments' ); ?></b>
 				<BR />
 
 	<?php //FJ remove maxlength limitation as it is not technically needed ?>
