@@ -73,14 +73,19 @@ if( empty( $_REQUEST['modfunc'] ) )
 	
 	?>
 
-	<TABLE id="student-comments">
+	<TABLE>
 		<TR>
 			<TD>
 				<b><?php echo GetMP( $comments_MP, 'TITLE' ) . ' ' . _( 'Comments' ); ?></b>
 				<BR />
 
-	<?php //FJ remove maxlength limitation as it is not technically needed ?>
-				<TEXTAREA id="textarea" name="values[STUDENT_MP_COMMENTS][<?php echo UserStudentID(); ?>][COMMENT]" rows="10" cols="66" style="width:100%;"<?php echo AllowEdit() ? '' : ' readonly'; ?>></TEXTAREA>
+				<?php echo TextAreaInput(
+					'',
+					'values[STUDENT_MP_COMMENTS][' . UserStudentID() . '][COMMENT]',
+					'',
+					'rows="10"' . ( AllowEdit() ? '' : ' readonly' ),
+					false
+				); ?>
 			</TD>
 		</TR>
 	<?php
@@ -90,7 +95,7 @@ if( empty( $_REQUEST['modfunc'] ) )
 	//FJ add time and user to comments "comment thread" like
 	?>
 		<TR>
-			<TD>
+			<TD id="student-comments">
 	<?php
 	if (!empty($comments_RET[1]['COMMENT']))
 	{
@@ -128,7 +133,7 @@ if( empty( $_REQUEST['modfunc'] ) )
 			}
 			else
 				// Comment text
-				echo '<div>' . nl2br( $comment ) . '</div>';
+				echo '<div>' . MarkDownToHTML( $comment ) . '</div>';
 		}
 	}
 	?>

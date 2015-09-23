@@ -724,7 +724,8 @@ div.st{
 
 /*student comments*/
 #student-comments{
-	max-width:500px
+	max-width:100%;
+	width: 500px;
 }
 #student-comments span{
 	font-style:italic
