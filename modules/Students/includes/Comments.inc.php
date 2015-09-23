@@ -16,8 +16,10 @@ if ( $program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE'] )
 
 
 //$_ROSARIO['allow_edit'] = true;
-if( $_REQUEST['modfunc'] == 'update'
-	&& AllowEdit() )
+if( $_REQUEST['modfunc'] === 'update'
+	&& AllowEdit()
+	&& isset( $_POST['values'] )
+	&& trim( $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] ) !== '' )
 {
 	//FJ add time and user to comments "comment thread" like
 	$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] =
