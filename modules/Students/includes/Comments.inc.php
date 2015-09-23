@@ -25,7 +25,7 @@ if( $_REQUEST['modfunc'] === 'update'
 	$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] =
 		date('Y-m-d G:i:s') . '|'
 		. User('STAFF_ID') . '||'
-		. $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'];
+		. preg_replace( '/[|]+/', '', $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] );
 	
 	$existing_RET = DBGet( DBQuery( "SELECT STUDENT_ID, COMMENT
 		FROM STUDENT_MP_COMMENTS
@@ -101,6 +101,8 @@ if( empty( $_REQUEST['modfunc'] ) )
 	{
 		$comments = explode( '||', $comments_RET[1]['COMMENT'] );
 
+		$comments_HTML = array();
+
 		foreach( $comments as $comment )
 		{
 			if( is_array( list( $timestamp, $staff_id ) = explode( '|', $comment ) )
@@ -125,7 +127,7 @@ if( empty( $_REQUEST['modfunc'] ) )
 				}
 
 				// Comment meta data: "Date hour, User name:"
-				echo '<span>' .
+				$comment_meta = '<span>' .
 					ProperDate( mb_substr( $timestamp, 0, 10 ) ) .
 					mb_substr( $timestamp, 10 ) . ', ' .
 					$staff_name .
@@ -133,8 +135,11 @@ if( empty( $_REQUEST['modfunc'] ) )
 			}
 			else
 				// Comment text
-				echo '<div>' . MarkDownToHTML( $comment ) . '</div>';
+				$comments_HTML[] = $comment_meta . '<div>' . MarkDownToHTML( $comment ) . '</div>';
 		}
+
+		// Latest comments first!
+		echo implode( "\n", array_reverse( $comments_HTML ) );
 	}
 	?>
 			</TD>
