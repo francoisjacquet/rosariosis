@@ -511,6 +511,10 @@ h3 span{
 	line-height:27px;
 	margin:5px 0px
 }
+textarea{
+	width: 100%;
+	min-width: 280px;
+}
 .textarea.underline-dots{
 	line-height:inherit;
 	overflow:auto;

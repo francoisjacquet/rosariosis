@@ -130,7 +130,7 @@ function setMLvalue(id,loc,value){
 	return $ret;
 }
 
-function TextAreaInput( $value, $name, $title = '', $options = '', $div = true )
+function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, $markdown = true )
 {
 	$id = GetInputID( $name );
 
@@ -148,13 +148,13 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true )
 		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		// columns
-		if ( mb_strpos( $options, 'cols' ) === false )
+		/*if ( mb_strpos( $options, 'cols' ) === false )
 		{
 			$options .= ' cols=30';
 			$cols = 30;
 		}
 		else
-			$cols = mb_substr( $options, mb_strpos( $options, 'cols' ) + 5, 2 ) *1;
+			$cols = mb_substr( $options, mb_strpos( $options, 'cols' ) + 5, 2 ) *1;*/
 
 		// rows
 		if ( mb_strpos( $options, 'rows' ) === false )
@@ -163,7 +163,7 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true )
 		if ( $value == ''
 			|| $div == false )
 		{
-			return MarkDownInputPreview( $id ) . '<TEXTAREA name="' . $name . '" id="' . $id . '" ' . $options . '>' .
+			return ( $markdown ? MarkDownInputPreview( $id ) : '' ) . '<TEXTAREA name="' . $name . '" id="' . $id . '" ' . $options . '>' .
 				$value . '</TEXTAREA>' .
 				$title;
 		}
@@ -174,15 +174,16 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true )
 			$return = '<DIV id="div' . $id . '">
 				<div class="onclick" onclick=\'javascript:addHTML(' . $htmlvar;
 			
-			$textarea =  MarkDownInputPreview( $id ) . '<TEXTAREA id="' . $id . '" name="' . $name . '" ' . $options . '>' .
+			$textarea =  ( $markdown ? MarkDownInputPreview( $id ) : '' ) . '<TEXTAREA id="' . $id . '" name="' . $name . '" ' . $options . '>' .
 				$value . '</TEXTAREA>' . $title;
 
 			$return = '<script>var ' . $htmlvar . '=' . json_encode( $textarea ) . ';</script>' . $return;
 
 			$return .= ',"div' . $id . '",true);
 				document.getElementById("' . $id . '").value=unescape(document.getElementById("' . $id . '").value);\'>' .
-				'<DIV style="width:' . ( $cols * 9 ) . 'px; " class="underline-dots textarea">' .
-				MarkDownToHTML( $value ) . '</DIV>' .
+				//'<DIV style="width:' . ( $cols * 9 ) . 'px; " class="underline-dots textarea">' .
+				'<DIV class="underline-dots textarea">' .
+				( $markdown ? MarkDownToHTML( $value ) : nl2br( $value ) ) . '</DIV>' .
 				$title . '</div></DIV>';
 
 			return $return;
@@ -190,7 +191,7 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true )
 			
 	}
 	else
-		return ( $value != '' ? MarkDownToHTML( $value ) : '-' ) . $title;
+		return ( $value != '' ? ( $markdown ? MarkDownToHTML( $value ) : nl2br( $value ) ) : '-' ) . $title;
 }
 
 function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',$no='No',$div=true,$extra='')

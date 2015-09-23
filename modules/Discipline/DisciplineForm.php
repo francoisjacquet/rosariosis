@@ -208,8 +208,9 @@ function _makeTextInput($value,$name)
 		return $comment.TextInput($value,'values['.$id.']['.$name.']','',$extra);
 }
 
-function _makeTextAreaInput($value,$name)
-{	global $THIS_RET;
+function _makeTextAreaInput( $value, $name )
+{
+	global $THIS_RET;
 	
 	if($THIS_RET['USAGE_ID'])
 		$id = $THIS_RET['USAGE_ID'];
@@ -218,19 +219,30 @@ function _makeTextAreaInput($value,$name)
 	else
 		$id = 'new';
 
-	if($id=='usage')
+	if ( $id === 'usage' )
 		return $value;
-	elseif($id=='new' || $THIS_RET['DATA_TYPE']=='multiple_checkbox' || $THIS_RET['DATA_TYPE']=='multiple_radio' || $THIS_RET['DATA_TYPE']=='select')
+
+	elseif ( $id === 'new'
+		|| $THIS_RET['DATA_TYPE'] === 'multiple_checkbox'
+		|| $THIS_RET['DATA_TYPE'] === 'multiple_radio'
+		|| $THIS_RET['DATA_TYPE'] === 'select' )
 	{
+		// No MarkDown
+		$markdown = false;
+
+		$return = TextAreaInput( $value, 'values[' . $id . '][' . $name . ']', '', '', $id !== 'new', $markdown );
+
 		//FJ responsive rt td too large
-		if (!isset($_REQUEST['_ROSARIO_PDF']))
+		if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
-			$return .= includeOnceColorBox('divTextAreaContent'.$id);
-			$return .= '<DIV id="divTextAreaContent'.$id.'" class="rt2colorBox">';
+			$colorBox = includeOnceColorBox( 'divTextAreaContent' . $id );
+
+			$return = $colorBox .
+				'<DIV id="divTextAreaContent' . $id . '" class="rt2colorBox">' .
+					$return .
+				'</DIV>';
 		}
-		$return .= TextAreaInput($value,'values['.$id.']['.$name.']','','',false);
-		if (!isset($_REQUEST['_ROSARIO_PDF']))
-			$return .= '</DIV>';
+
 		return $return;
 	}
 	else
@@ -245,7 +257,7 @@ function _makeRemove($value,$column)
 		if($THIS_RET['USAGE_ID'])
 		{
 			$return = button('remove',_('Don\'t use'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_usage&id='.$THIS_RET['USAGE_ID'].'"');
-			$return .= '&nbsp;'.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&id='.$THIS_RET['ID'].'"');
+			$return .= ' '.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&id='.$THIS_RET['ID'].'"');
 		}
 		else
 			$return = button('add',_('Use at this school'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add_usage&id='.$THIS_RET['ID'].'"');
