@@ -183,7 +183,7 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 				document.getElementById("' . $id . '").value=unescape(document.getElementById("' . $id . '").value);\'>' .
 				//'<DIV style="width:' . ( $cols * 9 ) . 'px; " class="underline-dots textarea">' .
 				'<DIV class="underline-dots textarea">' .
-				( $markdown ? MarkDownToHTML( $value ) : nl2br( $value ) ) . '</DIV>' .
+				( $markdown ? '<div class="markdown-to-html">' . $value . '</div>' : nl2br( $value ) ) . '</DIV>' .
 				$title . '</div></DIV>';
 
 			return $return;
@@ -191,8 +191,46 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 			
 	}
 	else
-		return ( $value != '' ? ( $markdown ? MarkDownToHTML( $value ) : nl2br( $value ) ) : '-' ) . $title;
+		return ( $value != '' ? ( $markdown ? '<div class="markdown-to-html">' . $value . '</div>' : nl2br( $value ) ) : '-' ) . $title;
 }
+
+
+/**
+ * Adds MarkDown preview to <TEXTAREA> input fields
+ *
+ * @uses   MarkDownInputPreview() Javascript function
+ * @see    warehouse.js, and below for AJAX calls handling
+ *
+ * @param  string $input_id input ID attribute value
+ *
+ * @return HTML   preview link & preview DIV
+ *
+ * TODO : configure showdown & protect XSS
+ */
+function MarkDownInputPreview( $input_id )
+{
+	if ( !is_string( $input_id ) )
+		return false;
+
+	ob_start();
+
+	?>
+	<div class="md-preview">
+		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="disabled">
+			<?php echo _( 'Write' ); ?>
+		</a>
+		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;">
+			<?php echo _( 'Preview' ); ?>
+		</a>
+		<div id="divMDPreview<?php echo $input_id; ?>">
+			<p><?php echo _( 'Nothing to preview.' ); ?></p>
+		</div>
+	</div>
+	<?php
+
+	return ob_get_clean();
+}
+
 
 function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',$no='No',$div=true,$extra='')
 {

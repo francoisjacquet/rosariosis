@@ -64,33 +64,34 @@ else // add .no-touch CSS class
 
 // MarkDown
 var md_last_val = '';
+var sdc = new showdown.Converter();
 function MarkDownInputPreview( input_id )
 {
 	var input = $('#' + input_id);
+	var html = input.val();
+	var md_prev = $('#divMDPreview' + input_id);
 
 	// send AJAX request only if input modified
-	if ( input.is(":visible") && input.val() !== '' && md_last_val != input.val() )
+	if ( input.is(":visible") && html !== '' && md_last_val != html )
 	{
-		// copy textarea value inside md_preview
-		var md_preview = document.createElement("textarea");
-		md_preview.name = "md_preview";
-		md_preview.value = md_last_val = input.val();
+		md_last_val = html;
 
-		// create invisible form
-		var form = document.createElement("form");
-		form.method = 'post';
-		form.action = "functions/MarkDown.php";
-		form.target = "divMDPreview" + input_id;
-		form.appendChild( md_preview );
-
-		ajaxPostForm(form, true);
+		// Convert MarkDown to HTML
+		md_prev.html( sdc.makeHtml( html ) );
 	}
 
 	// toggle MD preview & Input
 	input.toggle();
-	$('#divMDPreview' + input_id).toggle();
+	md_prev.toggle();
 	// disable Write / Preview tab
-	$('#divMDPreview' + input_id).siblings('a').toggleClass('disabled');
+	md_prev.siblings('a').toggleClass('disabled');
+}
+
+function MarkDownToHTML()
+{
+	$('.markdown-to-html').html(function(i, html){
+		return sdc.makeHtml( html );
+	});
 }
 
 function ajaxOptions(target, url, form) {
@@ -190,6 +191,8 @@ function ajaxPrepare(target) {
 
 	var h3 = $('#body h3.title').text().trim();
 	document.title = $('#body h2').text() + (h3 ? ' | ' + h3 : '');
+
+	MarkDownToHTML();
 
 	submenuOffset();
 }
