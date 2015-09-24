@@ -904,7 +904,11 @@ showdown.subParser('anchors', function (text, config, globals) {
       result += ' title="' + title + '"';
     }
 
-    result += '>' + linkText + '</a>';
+    // FJ add target="_blank"
+    // see .min.js: o+=(m.indexOf('http')===0?' target="_blank"':'')+">"+k+"</a>"
+    var target = url.indexOf('http') === 0 ? ' target="_blank"' : '';
+    //result += '>' + linkText + '</a>';
+    result += target + '>' + linkText + '</a>';
 
     return result;
   };

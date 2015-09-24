@@ -169,6 +169,12 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 		}
 		else
 		{
+			// convert MarkDown to HTML
+			if ( $markdown )
+				$display_val = '<div class="markdown-to-html">' . $value . '</div>';
+			else
+				$display_val = nl2br( $value );
+
 			$htmlvar = 'html' . $id;
 
 			$return = '<DIV id="div' . $id . '">
@@ -182,8 +188,7 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 			$return .= ',"div' . $id . '",true);
 				document.getElementById("' . $id . '").value=unescape(document.getElementById("' . $id . '").value);\'>' .
 				//'<DIV style="width:' . ( $cols * 9 ) . 'px; " class="underline-dots textarea">' .
-				'<DIV class="underline-dots textarea">' .
-				( $markdown ? '<div class="markdown-to-html">' . $value . '</div>' : nl2br( $value ) ) . '</DIV>' .
+				'<DIV class="underline-dots textarea">' . $display_val . '</DIV>' .
 				$title . '</div></DIV>';
 
 			return $return;
@@ -191,7 +196,27 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 			
 	}
 	else
-		return ( $value != '' ? ( $markdown ? '<div class="markdown-to-html">' . $value . '</div>' : nl2br( $value ) ) : '-' ) . $title;
+	{
+		if ( $value !== '' )
+		{
+			// convert MarkDown to HTML
+			if ( $markdown )
+				if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+				{
+					include_once( 'ProgramFunctions/MarkDown.fnc.php' );
+
+					$display_val = MarkDownToHTML( $value );
+				}
+				else
+					$display_val = '<div class="markdown-to-html">' . $value . '</div>';
+			else
+				$display_val = nl2br( $value );
+		}
+		else
+			$display_val = '-';
+
+		return $display_val . $title;
+	}
 }
 
 
@@ -200,12 +225,11 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
  *
  * @uses   MarkDownInputPreview() Javascript function
  * @see    warehouse.js, and below for AJAX calls handling
+ * @since  2.9
  *
  * @param  string $input_id input ID attribute value
  *
  * @return HTML   preview link & preview DIV
- *
- * TODO : configure showdown & protect XSS
  */
 function MarkDownInputPreview( $input_id )
 {

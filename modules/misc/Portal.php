@@ -537,34 +537,32 @@ switch (User('PROFILE'))
 }
 
 function _formatContent($value,$column)
-{	global $THIS_RET;
+{
+	global $THIS_RET;
 
 	$id = $THIS_RET['ID'];
 
-	// convert MarkDown to HTML
-	$valueHTML = MarkDownToHTML( $value );
+	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		include_once( 'ProgramFunctions/MarkDown.fnc.php' );
 
+		// convert MarkDown to HTML
+		$return = MarkDownToHTML( $value );
+	}
 	//FJ responsive rt td too large
-	if ( $valueHTML === $value
-		&& mb_strlen( $value ) < 50 )
-		$return = $valueHTML;
 	else
 	{
-		if (!isset($_REQUEST['_ROSARIO_PDF']))
-		{
-			//FJ Portal Assignments
-			if(isset($THIS_RET['COURSE']))
-				$return = includeOnceColorBox('divAssignmentContent'.$id).'<DIV id="divAssignmentContent'.$id.'" class="rt2colorBox">';
-			else
-				$return = includeOnceColorBox('divNoteContent'.$id).'<DIV id="divNoteContent'.$id.'" class="rt2colorBox">';
-		}
+		//FJ Portal Assignments
+		if ( isset( $THIS_RET['COURSE'] ) )
+			$return = includeOnceColorBox('divAssignmentContent'.$id).'<DIV id="divAssignmentContent'.$id.'" class="rt2colorBox">';
+		else
+			$return = includeOnceColorBox('divNoteContent'.$id).'<DIV id="divNoteContent'.$id.'" class="rt2colorBox">';
 
 		$return .= $valueHTML;
 
-		if (!isset($_REQUEST['_ROSARIO_PDF']))
-			$return .= '</DIV>';
+		$return .= '</DIV>';
 	}
-	
+
 	return $return;
 }
 

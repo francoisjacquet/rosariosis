@@ -255,7 +255,7 @@ function _makeReadMe($module_title,$activated=null)
 		$readme_content = file_get_contents('modules/'.$module_title.'/README');
 		
 		// convert MarkDown text to HTML
-		$readme_content = MarkDownToHTML( $readme_content );
+		$readme_content = '<div class="markdown-to-html">' . $readme_content . '</div>';
 
 		$return .= includeOnceColorBox();
 		

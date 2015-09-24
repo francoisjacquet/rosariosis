@@ -775,5 +775,5 @@ function _formatContent( $value, $column )
 		return $value;
 
 	// convert MarkDown to HTML
-	return MarkDownToHTML( $value );
+	return '<div class="markdown-to-html">' . $value . '</div>';
 }

@@ -4,9 +4,10 @@ Changes in 2.9
 --------------
 - Add Debug mode as optional config.inc.php option in Warehouse.php + INSTALL
 - Bugfix Postgres datestyle = 'iso, ymd', programwide
-- Add Parsedown 1.5.3 class (markdown parser) in classes/Parsedown.php
-- Add MarkDownToHTML() function to parse MarkDown from <TEXTAREA> fields in functions/MarkDown.php
-- Add MarkDownInputPreview() functions to preview <TEXTAREA> fields in functions/MarkDown.php & warehouse.js
+- Add Parsedown 1.5.3 class (MarkDown parser) in classes/Parsedown.php
+- Add MarkDownToHTML() function to parse MarkDown text in ProgramFunctions/MarkDown.fnc.php
+- Add showdown.js 1.2.3 (MarkDown to HTML) in assets/js/showdown/
+- Add MarkDownInputPreview() functions to preview <TEXTAREA> fields in functions/Inputs.php & warehouse.js
 - Add RequestedDate() function in Date.php
 - Add PHPMailer 5.2.10 class (email creation & (SMTP) transport) in classes/PHPMailer/
 - Add .logo CSS class & bigger logo.png definition

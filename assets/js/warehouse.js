@@ -64,7 +64,12 @@ else // add .no-touch CSS class
 
 // MarkDown
 var md_last_val = '';
-var sdc = new showdown.Converter();
+var sdc = new showdown.Converter({
+	tables: true,
+	simplifiedAutoLink: true,
+	parseImgDimensions: true,
+	tasklists: true,
+});
 function MarkDownInputPreview( input_id )
 {
 	var input = $('#' + input_id);
