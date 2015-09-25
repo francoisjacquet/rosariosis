@@ -21,46 +21,54 @@ if( $_REQUEST['modfunc'] === 'update'
 	&& isset( $_POST['values'] )
 	&& trim( $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] ) !== '' )
 {
-	//FJ add time and user to comments "comment thread" like
-	$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] =
-		date('Y-m-d G:i:s') . '|'
-		. User('STAFF_ID') . '||'
-		. preg_replace( '/[|]+/', '', $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] );
-	
-	$existing_RET = DBGet( DBQuery( "SELECT STUDENT_ID, COMMENT
-		FROM STUDENT_MP_COMMENTS
-		WHERE STUDENT_ID='" . UserStudentID() . "'
-		AND SYEAR='" . UserSyear() . "'
-		AND MARKING_PERIOD_ID='" . $comments_MP . "'"
-	) );
-	
-	if( !$existing_RET )
-		DBQuery( "INSERT INTO STUDENT_MP_COMMENTS
-			(
-				SYEAR,
-				STUDENT_ID,
-				MARKING_PERIOD_ID
-			)
-			values(
-				'" . UserSyear() . "',
-				'" . UserStudentID() . "',
-				'" . $comments_MP . "'
-			)"
-		);
-	else
-		$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] =
-			DBEscapeString( $existing_RET[1]['COMMENT'] ) . '||'
-			. $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'];
-		
-	SaveData(
-		array( 'STUDENT_MP_COMMENTS' => "STUDENT_ID='" . UserStudentID() . "'
+	include_once( 'ProgramFunctions/MarkDown.fnc.php' );
+
+	// Sanitize MarkDown
+	$comment = SanitizeMarkDown( $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] );
+
+	if ( $comment )
+	{
+		//FJ add time and user to comments "comment thread" like
+		$comment = array(array(
+			'date' => date('Y-m-d G:i:s'),
+			'staff_id' => User('STAFF_ID'),
+			'comment' => $comment,
+		));
+
+		$existing_RET = DBGet( DBQuery( "SELECT STUDENT_ID, COMMENT
+			FROM STUDENT_MP_COMMENTS
+			WHERE STUDENT_ID='" . UserStudentID() . "'
 			AND SYEAR='" . UserSyear() . "'
-			AND MARKING_PERIOD_ID='" . $comments_MP . "'" ),
-		'',
-		array( 'COMMENT' => _( 'Comment' ) )
-	);
-	//unset($_SESSION['_REQUEST_vars']['modfunc']);
-	//unset($_SESSION['_REQUEST_vars']['values']);
+			AND MARKING_PERIOD_ID='" . $comments_MP . "'"
+		) );
+
+		if( !$existing_RET )
+			DBQuery( "INSERT INTO STUDENT_MP_COMMENTS
+				(
+					SYEAR,
+					STUDENT_ID,
+					MARKING_PERIOD_ID
+				)
+				values(
+					'" . UserSyear() . "',
+					'" . UserStudentID() . "',
+					'" . $comments_MP . "'
+				)"
+			);
+
+		if ( !empty( $existing_RET[1]['COMMENT'] ) )
+			$comment = array_merge( $comment, (array)unserialize( $existing_RET[1]['COMMENT'] ) );
+
+		$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] = DBEscapeString( serialize( $comment ) );
+
+		SaveData(
+			array( 'STUDENT_MP_COMMENTS' => "STUDENT_ID='" . UserStudentID() . "'
+				AND SYEAR='" . UserSyear() . "'
+				AND MARKING_PERIOD_ID='" . $comments_MP . "'" ),
+			'',
+			array( 'COMMENT' => _( 'Comment' ) )
+		);
+	}
 }
 
 if( empty( $_REQUEST['modfunc'] ) )
@@ -97,20 +105,20 @@ if( empty( $_REQUEST['modfunc'] ) )
 		<TR>
 			<TD id="student-comments">
 	<?php
-	if (!empty($comments_RET[1]['COMMENT']))
+	if ( ( $comments = unserialize( $comments_RET[1]['COMMENT'] ) ) )
 	{
-		$comments = explode( '||', $comments_RET[1]['COMMENT'] );
+		$comments_HTML = $staff_name = array();
 
-		$comments_HTML = array();
-
-		foreach( $comments as $comment )
+		foreach( (array)$comments as $comment )
 		{
-			if( is_array( list( $timestamp, $staff_id ) = explode( '|', $comment ) )
-				&& is_numeric( $staff_id ) )
-			{
-				if ( User('STAFF_ID') == $staff_id )
-					$staff_name = User( 'NAME' );
+			$id = $comment['staff_id'];
 
+			if ( !isset( $staff_name[$id] ) )
+			{
+				if ( User('STAFF_ID') === $id )
+				{
+					$staff_name[$id] = User( 'NAME' );
+				}
 				else
 				{
 					$staff_name_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME AS NAME
@@ -120,26 +128,27 @@ if( empty( $_REQUEST['modfunc'] ) )
 							SELECT USERNAME
 							FROM STAFF
 							WHERE SYEAR='" . Config( 'SYEAR' ) . "'
-							AND STAFF_ID='" . $staff_id . "'
+							AND STAFF_ID='" . $id . "'
 						)" ) );
 
-					$staff_name = $staff_name_RET[1]['NAME'];
+					$staff_name[$id] = $staff_name_RET[1]['NAME'];
 				}
-
-				// Comment meta data: "Date hour, User name:"
-				$comment_meta = '<span>' .
-					ProperDate( mb_substr( $timestamp, 0, 10 ) ) .
-					mb_substr( $timestamp, 10 ) . ', ' .
-					$staff_name .
-					':</span>';
 			}
-			else
-				// Comment text
-				$comments_HTML[] = $comment_meta . '<div>' . MarkDownToHTML( $comment ) . '</div>';
+
+			// Comment meta data: "Date hour, User name:"
+			$comment_meta = '<span>' .
+				ProperDate( mb_substr( $comment['date'], 0, 10 ) ) .
+				mb_substr( $comment['date'], 10 ) . ', ' .
+				$staff_name[$id] .
+				':</span>';
+
+			// convert MarkDown to HTML
+			$comment_MD = '<div class="markdown-to-html">' . $comment['comment'] . '</div>';
+
+			$comments_HTML[] = $comment_meta . $comment_MD;
 		}
 
-		// Latest comments first!
-		echo implode( "\n", array_reverse( $comments_HTML ) );
+		echo implode( "\n", $comments_HTML );
 	}
 	?>
 			</TD>
@@ -149,5 +158,3 @@ if( empty( $_REQUEST['modfunc'] ) )
 
 	include( 'modules/Students/includes/Other_Info.inc.php' );
 }
-
-?>
