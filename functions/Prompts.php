@@ -96,15 +96,14 @@ function Prompt( $title = 'Confirm', $question = '', $message = '' )
 
 		PopTable( 'header', $title );
 
-		echo '<div class="center">
-			<h4>' . $question . '</h4>
+		echo '<h4 class="center">' . $question . '</h4>
 			<FORM action="' . $PHP_tmp_SELF . '" METHOD="POST">' .
 				$message .
-				'<BR /><BR />' .
+				'<BR /><span class="center">' .
 				SubmitButton( _( 'OK' ), 'delete_ok' ) .
 				'<INPUT type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="javascript:self.history.go(-1);">
-			</FORM>
-		</div>';
+				</span><BR />
+			</FORM>';
 
 		PopTable( 'footer' );
 
