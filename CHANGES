@@ -20,7 +20,6 @@ Changes in 2.9
 - Use Heredoc & comment Help texts in Help_en.php & Help_es.php
 - Add .loading CSS class to show multiple spinners at once
 - Add course_period_school_periods_id to course_period_school_periods table primary key in rosariosis.sql
-- Add Update() function in ProgramFunctions/Update.fnc.php
 
 Changes in 2.8.11
 -----------------
