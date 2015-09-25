@@ -450,7 +450,7 @@ function RequestedDate( $day, $month, $year )
 function MonthNWSwitch( $month, $direction = 'both' )
 {
 	// To number
-	if ( $direction == 'tonum' )
+	if ( $direction === 'tonum' )
 	{
 		if ( mb_strlen( $month ) < 3 ) // assume already num.
 			return $month;
@@ -458,7 +458,7 @@ function MonthNWSwitch( $month, $direction = 'both' )
 			return __mnwswitch_char2num( $month );
 	}
 	// To characters
-	elseif($direction=='tochar')
+	elseif ( $direction === 'tochar' )
 	{
 		if ( mb_strlen( $month === 3 ) ) // assume already char.
 			return $month;
@@ -501,9 +501,9 @@ function __mnwswitch_num2char( $month )
 		'00' => 'DEC'
 	);
 
-	if ( mb_strlen( $month === 1 ) )
+	if ( mb_strlen( $month ) === 1 )
 		$month = '0' . $month;
-		
+
 	if ( array_key_exists( $month, $months_number ) )
 		return $months_number[$month];
 
