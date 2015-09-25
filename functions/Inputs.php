@@ -48,7 +48,7 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 			$options .= ' size=10';
 
 		if(trim($value)=='' || $div==false)
-			return '<INPUT type="text" name="'.$name.'" id="' . $id . '" '.($value || $value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label "for="' . $id . '">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+			return '<INPUT type="text" name="'.$name.'" id="' . $id . '" '.($value || $value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="' . $id . '">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 		else
 		{
 			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
