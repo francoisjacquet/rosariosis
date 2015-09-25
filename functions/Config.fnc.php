@@ -34,4 +34,8 @@ function Config( $item )
 	return $_ROSARIO['Config'][$item][1]['CONFIG_VALUE'];
 }
 
-?>
+//TODO write ProgramConfig and use it where "FROM PROGRAM_CONFIG"
+function ProgramConfig()
+{
+	return true;
+}
