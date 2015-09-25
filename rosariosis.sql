@@ -4478,7 +4478,7 @@ ALTER TABLE ONLY calendar_events
 --
 
 ALTER TABLE ONLY course_period_school_periods
-    ADD CONSTRAINT course_period_school_periods_pkey PRIMARY KEY (course_period_id, period_id);
+    ADD CONSTRAINT course_period_school_periods_pkey PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id);
 
 
 --
