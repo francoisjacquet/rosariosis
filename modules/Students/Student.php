@@ -96,6 +96,29 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				if (isset($_REQUEST['students']['CUSTOM_'.$other_required['ID']]) && empty($_REQUEST['students']['CUSTOM_'.$other_required['ID']]))
 					$required_error = true;
 
+		//FJ textarea fields MarkDown sanitize
+		$others_textarea_RET = DBGet( DBQuery( "SELECT ID
+			FROM CUSTOM_FIELDS
+			WHERE TYPE='textarea'") );
+
+		if ( $others_textarea_RET )
+		{
+			include_once( 'ProgramFunctions/MarkDown.fnc.php' );
+
+			foreach( (array)$others_textarea_RET as $other_textarea )
+			{
+				if ( isset( $_REQUEST['students']['CUSTOM_' . $other_textarea['ID']] )
+					&& !empty( $_REQUEST['students']['CUSTOM_' . $other_textarea['ID']] ) )
+				{
+					$_REQUEST['students']['CUSTOM_' . $other_textarea['ID']] = DBEscapeString(
+						SanitizeMarkDown(
+							$_REQUEST['students']['CUSTOM_' . $other_textarea['ID']]
+						)
+					);
+				}
+			}
+		}
+
 		//FJ create account
 		if (basename($_SERVER['PHP_SELF'])=='index.php')
 		{

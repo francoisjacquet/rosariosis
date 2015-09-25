@@ -847,8 +847,10 @@ class Parsedown
                     $alignment = $alignments[$index];
 
                     $HeaderElement['attributes'] = array(
-                        'style' => 'text-align: '.$alignment.';',
-                    );
+                        //FJ style attribute is evil (do NOT pass SanitizeMarkDown())
+                        //'style' => 'text-align: '.$alignment.';',
+                        'align' => $alignment,
+                   );
                 }
 
                 $HeaderElements []= $HeaderElement;
@@ -917,7 +919,9 @@ class Parsedown
                 if (isset($Block['alignments'][$index]))
                 {
                     $Element['attributes'] = array(
-                        'style' => 'text-align: '.$Block['alignments'][$index].';',
+                        //FJ style attribute is evil (do NOT pass SanitizeMarkDown())
+                        //'style' => 'text-align: '.$Block['alignments'][$index].';',
+                        'align' => $Block['alignments'][$index],
                     );
                 }
 
