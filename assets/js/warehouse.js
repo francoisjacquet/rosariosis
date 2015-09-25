@@ -77,8 +77,10 @@ function MarkDownInputPreview( input_id )
 	var html = input.val();
 	var md_prev = $('#divMDPreview' + input_id);
 
+	console.log(input.is(":visible"), html, md_last_val);
+
 	// send AJAX request only if input modified
-	if ( input.is(":visible") && html !== '' && md_last_val != html )
+	if ( input.is(":visible") && html !== '' && md_last_val !== html )
 	{
 		md_last_val = html;
 
