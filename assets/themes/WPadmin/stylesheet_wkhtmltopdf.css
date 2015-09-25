@@ -584,6 +584,7 @@ td.popTable{
 td.valign-top,tr.valign-top,table.valign-top td{
 	vertical-align:top
 }
+.align-right,
 .align-right td{
 	text-align:right
 }
@@ -740,16 +741,25 @@ div.st{
 
 /*calendar*/
 #calendar{
-	margin:0 auto
-}
-#calendar > tbody > tr > td{
-	width:126px
+	table-layout:fixed;
 }
 .calendar-day{
+	min-width:126px;
+	height:85px
+}
+.calendar-day > table{
 	height:inherit
 }
 .calendar-day td{
 	line-height:1
+}
+.calendar-day .bold{
+	font-weight:bold
+}
+.calendar-event{
+	border-left-width:3px;
+	border-left-style:solid;
+	padding: 2px;
 }
 
 /* colorBox */

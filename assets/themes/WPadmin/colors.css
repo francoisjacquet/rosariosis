@@ -224,6 +224,34 @@ hr{
 	background-color:#fff
 }
 
+/*calendar*/
+#calendar{
+	background-color:#DFDFDF
+}
+#calendar th{
+	background-color:#000;
+	color:#fff
+}
+.calendar-day.full{
+	background-color:#EEFFEE
+}
+.calendar-day.minutes{
+	background-color:#EEEEFF
+}
+.calendar-day.no-school{
+	background-color:#FFEEEE
+}
+.calendar-event{
+	border-color:#000
+}
+.calendar-event.assignment{
+	border-color:#FF0000
+}
+.calendar-event.assigned{
+	border-color:#00FF00
+}
+
+
 /*arrows*/
 .switchMenu:before{
 	color:gray
