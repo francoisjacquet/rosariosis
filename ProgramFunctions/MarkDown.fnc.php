@@ -57,7 +57,7 @@ function MarkDownToHTML( $MD, $column = '' )
  *
  * @param   string $MD MarkDown text
  *
- * @return  string Input or empty string if Sanitized MD != Input MD
+ * @return  string Input with HTML encoded single quotes or empty string if Sanitized MD != Input MD
  */
 function SanitizeMarkDown( $MD )
 {
@@ -65,7 +65,23 @@ function SanitizeMarkDown( $MD )
 		|| empty( $MD ) )
 		return $MD;
 
-	$HTML = MarkDownToHTML( $MD );
+	/**
+	 * undo DBEscapeString()
+	 * $MD is supposed to be USER input
+	 */
+	$MD = str_replace( "''", "'",	$MD );
+
+	/**
+	 * convert single quotes to HTML entities
+	 *
+	 * Fixes bug related to:
+	 * replace empty strings ('') with NULL values
+	 * @see DBQuery()
+	 */
+	$MD_quotes = str_replace( "'", '&#039;', $MD );
+
+	// convert MarkDown to HTML
+	$HTML = MarkDownToHTML( $MD_quotes );
 
 	global $Security;
 
@@ -80,7 +96,12 @@ function SanitizeMarkDown( $MD )
 	$sanitizedHTML = $Security->xss_clean( $HTML );
 
 	if ( $sanitizedHTML === $HTML )
-		return $MD;
+		return $MD_quotes;
 	else
+	{
+		if ( ROSARIO_DEBUG )
+			var_dump( $HTML, $sanitizedHTML );
+
 		return ''; // anyone has an idea to get sanitized MD back?
+	}
 }

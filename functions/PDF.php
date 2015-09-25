@@ -77,6 +77,9 @@ function PDFStop( $handle )
 	if ( $handle['css'] )
 		$html .= '<link rel="stylesheet" type="text/css" href="assets/themes/' . Preferences( 'THEME' ).'/stylesheet_wkhtmltopdf.css" />';
 
+	$html .= '<script src="assets/js/showdown/showdown.min.js"></script>';
+	$html .= '<script src="assets/js/warehouse_wkhtmltopdf.js"></script>';
+
 	//FJ bugfix wkhtmltopdf screen resolution on linux
 	//see: https://code.google.com/p/wkhtmltopdf/issues/detail?id=118
 	$html .= '<title>' . $page_title . '</title>
@@ -136,7 +139,7 @@ function PDFStop( $handle )
 
 		} catch ( Exception $e ) {
 
-			echo $e->getMessage();
+			echo ErrorMessage( array( $e->getMessage() ) );
 		}
 	}
 	// if no wkhtmltopdf, render in html

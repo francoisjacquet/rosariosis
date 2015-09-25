@@ -169,8 +169,8 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 		}
 		else
 		{
-			// convert MarkDown to HTML
 			if ( $markdown )
+				// convert MarkDown to HTML
 				$display_val = '<div class="markdown-to-html">' . $value . '</div>';
 			else
 				$display_val = nl2br( $value );
@@ -199,16 +199,9 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 	{
 		if ( $value !== '' )
 		{
-			// convert MarkDown to HTML
 			if ( $markdown )
-				if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
-				{
-					include_once( 'ProgramFunctions/MarkDown.fnc.php' );
-
-					$display_val = MarkDownToHTML( $value );
-				}
-				else
-					$display_val = '<div class="markdown-to-html">' . $value . '</div>';
+				// convert MarkDown to HTML
+				$display_val = '<div class="markdown-to-html">' . $value . '</div>';
 			else
 				$display_val = nl2br( $value );
 		}
@@ -240,11 +233,14 @@ function MarkDownInputPreview( $input_id )
 
 	?>
 	<div class="md-preview">
-		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="disabled">
+		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="tab disabled">
 			<?php echo _( 'Write' ); ?>
 		</a>
-		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;">
+		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="tab">
 			<?php echo _( 'Preview' ); ?>
+		</a>
+		<a href="https://gitbookio.gitbooks.io/markdown/content/" title="<?php echo _( 'What is MarkDown?' ); ?>" target="_blank">
+			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" />
 		</a>
 		<div id="divMDPreview<?php echo $input_id; ?>">
 			<p><?php echo _( 'Nothing to preview.' ); ?></p>

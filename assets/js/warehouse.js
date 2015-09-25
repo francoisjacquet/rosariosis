@@ -69,6 +69,7 @@ var sdc = new showdown.Converter({
 	simplifiedAutoLink: true,
 	parseImgDimensions: true,
 	tasklists: true,
+	literalMidWordUnderscores: true,
 });
 function MarkDownInputPreview( input_id )
 {

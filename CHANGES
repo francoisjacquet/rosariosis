@@ -8,6 +8,8 @@ Changes in 2.9
 - Add MarkDownToHTML() function to parse MarkDown text in ProgramFunctions/MarkDown.fnc.php
 - Add showdown.js 1.2.3 (MarkDown to HTML) in assets/js/showdown/
 - Add MarkDownInputPreview() functions to preview <TEXTAREA> fields in functions/Inputs.php & warehouse.js
+- Add MarkDownToHTML() functions to parse MarkDown text in warehouse.js & warehouse_wkhtmltopdf.js
+- Add MarkDown button image in assets/themes/WPadmin/btn/md_button.png
 - Add RequestedDate() function in Date.php
 - Add PHPMailer 5.2.10 class (email creation & (SMTP) transport) in classes/PHPMailer/
 - Add .logo CSS class & bigger logo.png definition

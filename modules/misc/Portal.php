@@ -542,26 +542,17 @@ function _formatContent($value,$column)
 
 	$id = $THIS_RET['ID'];
 
-	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
-	{
-		include_once( 'ProgramFunctions/MarkDown.fnc.php' );
-
-		// convert MarkDown to HTML
-		$return = MarkDownToHTML( $value );
-	}
 	//FJ responsive rt td too large
+	//FJ Portal Assignments
+	if ( isset( $THIS_RET['COURSE'] ) )
+		$return = includeOnceColorBox('divAssignmentContent'.$id).'<DIV id="divAssignmentContent'.$id.'" class="rt2colorBox">';
 	else
-	{
-		//FJ Portal Assignments
-		if ( isset( $THIS_RET['COURSE'] ) )
-			$return = includeOnceColorBox('divAssignmentContent'.$id).'<DIV id="divAssignmentContent'.$id.'" class="rt2colorBox">';
-		else
-			$return = includeOnceColorBox('divNoteContent'.$id).'<DIV id="divNoteContent'.$id.'" class="rt2colorBox">';
+		$return = includeOnceColorBox('divNoteContent'.$id).'<DIV id="divNoteContent'.$id.'" class="rt2colorBox">';
 
-		$return .= $valueHTML;
+	// convert MarkDown to HTML
+	$return .= '<div class="markdown-to-html">' . $value . '</div>';
 
-		$return .= '</DIV>';
-	}
+	$return .= '</DIV>';
 
 	return $return;
 }
