@@ -1,4 +1,5 @@
-Rosario Student Information System - CHANGES
+# CHANGES
+## RosarioSIS Student Information System
 
 Changes in 2.9
 --------------
@@ -22,6 +23,7 @@ Changes in 2.9
 - Add course_period_school_periods_id to course_period_school_periods table primary key in rosariosis.sql
 - Add Update() function in ProgramFunctions/Update.fnc.php
 - Rework Student Comments: serialize, MarkDown in Students/includes/Comments.inc.php
+- CHANGES, INSTALL & WHATS_NEW files: use MarkDown
 
 Changes in 2.8.11
 -----------------
