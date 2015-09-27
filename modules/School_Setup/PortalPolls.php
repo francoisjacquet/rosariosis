@@ -278,11 +278,7 @@ function _makeOptionsInputs($value,$name)
 
 	
 	//FJ responsive rt td too large
-	if (!isset($_REQUEST['_ROSARIO_PDF']))
-	{
-		$return .= includeOnceColorBox('divPollOptions'.$id);
-		$return .= '<div id="divPollOptions'.$id.'" style="max-height: 350px; overflow-y: auto;" class="rt2colorBox">';
-	}
+	$return .= '<div id="divPollOptions' . $id . '" style="max-height: 350px; overflow-y: auto;" class="rt2colorBox">';
 	
 	if ($id == 'new')
 	{
@@ -312,8 +308,8 @@ function _makeOptionsInputs($value,$name)
 	{
 		$return .= '<TABLE class="cellspacing-0 widefat"><TR><TD><b>'._('Question').'</b></TD><TD><b>'._('Options').'</b></TD><TD><b>'._('Data Type').'</b></TD></TR>'.$value.'</TABLE>';
 	}
-	if (!isset($_REQUEST['_ROSARIO_PDF']))
-		$return .= '</div>';
+
+	$return .= '</div>';
 		
 	return $return;
 }

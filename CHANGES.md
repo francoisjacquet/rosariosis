@@ -24,6 +24,8 @@ Changes in 2.9
 - Add Update() function in ProgramFunctions/Update.fnc.php
 - Rework Student Comments: serialize, MarkDown in Students/includes/Comments.inc.php
 - CHANGES, INSTALL, WHATS_NEW, plugins & modules README files: use MarkDown
+- Move from includeOnceColorBox() to ColorBox to plugins.min.js
+- Remove functions/IncludeOnce.php file
 
 Changes in 2.8.11
 -----------------

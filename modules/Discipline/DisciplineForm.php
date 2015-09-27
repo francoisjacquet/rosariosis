@@ -233,15 +233,9 @@ function _makeTextAreaInput( $value, $name )
 		$return = TextAreaInput( $value, 'values[' . $id . '][' . $name . ']', '', '', $id !== 'new', $markdown );
 
 		//FJ responsive rt td too large
-		if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
-		{
-			$colorBox = includeOnceColorBox( 'divTextAreaContent' . $id );
-
-			$return = $colorBox .
-				'<DIV id="divTextAreaContent' . $id . '" class="rt2colorBox">' .
-					$return .
-				'</DIV>';
-		}
+		$return = '<DIV id="divTextAreaContent' . $id . '" class="rt2colorBox">' .
+			$return .
+		'</DIV>';
 
 		return $return;
 	}

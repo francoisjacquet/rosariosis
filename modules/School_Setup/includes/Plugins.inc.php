@@ -253,8 +253,6 @@ function _makeReadMe($plugin_title,$activated=null)
 		// convert MarkDown text to HTML
 		$readme_content = '<div class="markdown-to-html">' . $readme_content . '</div>';
 
-		$return .= includeOnceColorBox();
-
 		$return .= '<div style="display:none;"><div id="README_'.$plugin_title.'">'.$readme_content.'</div></div>';
 
 		$return .= '<a class="colorboxinline" href="#README_'.$plugin_title.'">'.$plugin_title_echo.'</a>';

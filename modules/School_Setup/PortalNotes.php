@@ -250,13 +250,9 @@ function _makeContentInput($value,$name)
 	else
 		$id = 'new';
 
-	if (isset($_REQUEST['_ROSARIO_PDF']))
-		$return = TextareaInput($value,"values[$id][$name]",'','rows=5');
-	else
-	{
-		$return = includeOnceColorBox('divNoteContent'.$id);
-		$return .= '<DIV id="divNoteContent'.$id.'" class="rt2colorBox">'.TextareaInput($value,"values[$id][$name]",'','rows=5').'</DIV>';
-	}
+	$return .= '<DIV id="divNoteContent' . $id . '" class="rt2colorBox">' .
+		TextareaInput( $value, "values[" . $id . "][" . $name . "]", '', 'rows=5' ) .
+	'</DIV>';
 	
 	return $return;
 }

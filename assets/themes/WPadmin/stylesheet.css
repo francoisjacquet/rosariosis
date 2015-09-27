@@ -1,5 +1,6 @@
 @import url("colors.css");
 @import url("../../js/jscalendar/calendar-blue.css");
+@import url("../../js/colorbox/colorbox.css");
 
 #wrap{
 	height:auto;
@@ -952,7 +953,14 @@ table.mceLayout,textarea.tinymce{
 		max-width:150px
 	}
 	.rt .link2colorBox{
-		display:inline
+		display:block
+	}
+	.rt .link2colorBox .colorboxinline{
+		background:url('btn/visualize.png') no-repeat;
+		background-size:contain;
+		width:24px;
+		height:24px;
+		display:block
 	}
 	.rt .link2colorBox + .rt2colorBox{
 		display:none

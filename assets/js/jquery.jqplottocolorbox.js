@@ -22,7 +22,6 @@ $(document).ready(function(){
 
 				header.html(saveImgText);
 				header.css('padding', '5px');
-				header.css('color', '#fff');
 
 				$(this).after(hiddenOuterDiv);
 				hiddenOuterDiv.hide();

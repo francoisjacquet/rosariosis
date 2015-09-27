@@ -141,8 +141,6 @@ if(count($grouped_RET))
 <?php
 		}
 ?>
-		<script src="assets/js/colorbox/jquery.colorbox-min.js"></script>
-		<link rel="stylesheet" href="assets/js/colorbox/colorbox.css" type="text/css" media="screen" />
 		<script src="assets/js/jquery.jqplottocolorbox.js"></script>
 <?php
 		PopTable('footer');

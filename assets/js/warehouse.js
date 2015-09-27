@@ -56,11 +56,29 @@ function isTouchDevice() {
 		return false;
 	}
 }
+// ColorBox
 if (isTouchDevice()) $(document).bind("cbox_complete", function () {
 	touchScroll(document.getElementById("cboxLoadedContent"));
 });
 else // add .no-touch CSS class
 	document.documentElement.className += " no-touch";
+
+function ColorBox() {
+	var cWidth = 640, cHeight = 390;
+	if ( screen.width < 768 ) {
+		cWidth = 300; cHeight = 183;
+	}
+
+	$('.rt2colorBox').before(function(i,el){
+		if ( this.id ) {
+			return '<div class="link2colorBox"><a class="colorboxinline" href="#' + this.id + '"></a></div>';
+		}
+	});
+	$('.colorbox').colorbox();
+	$('.colorboxiframe').colorbox({iframe:true, innerWidth:cWidth, innerHeight:cHeight});
+	$('.colorboxinline').colorbox({inline:true, maxWidth:'95%', maxHeight:'85%', scrolling:true});
+	
+}
 
 // MarkDown
 var md_last_val = '';
@@ -203,6 +221,7 @@ function ajaxPrepare(target) {
 	document.title = $('#body h2').text() + (h3 ? ' | ' + h3 : '');
 
 	MarkDownToHTML();
+	ColorBox();
 
 	submenuOffset();
 }

@@ -153,7 +153,7 @@ function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
 	
 	//FJ responsive rt td too large
 	if (!isset($_REQUEST['_ROSARIO_PDF']))
-		$PollForm .= includeOnceColorBox('divPortalPoll'.$poll_id).'<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">';
+		$PollForm .= '<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">';
 
 	$PollForm .= '<form method="POST" id="formPortalPoll'.$poll_id.'" action="ProgramFunctions/PortalPollsNotes.fnc.php" target="divPortalPoll'.$poll_id.'">
 	<input type="hidden" name="profile_id" value="'.$profile_id.'" />
@@ -216,9 +216,8 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	}
 	
 	//FJ responsive rt td too large
-	if (!$js_included_is_voting && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (!$js_included_is_voting)
 	{
-		$votes_display .= includeOnceColorBox('divPortalPoll'.$poll_id);
 		$votes_display .= '<DIV id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">'."\n";
 	}
 	
@@ -255,7 +254,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 
 	$votes_display .= '<p>'.$total_votes_str.': '.$votes_number.'</p>';
 
-	if (!$js_included_is_voting && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (!$js_included_is_voting)
 		$votes_display .= '</DIV>'; 
 	
 	return $votes_display;
@@ -301,14 +300,8 @@ function makePublishing($value,$name)
 	else
 		$id = 'new';
 
-	$return = '';
-
 	//FJ responsive rt td too large
-	if (!isset($_REQUEST['_ROSARIO_PDF']))
-	{
-		$return .= includeOnceColorBox('divPublishing'.$id);
-		$return .= '<DIV id="divPublishing'.$id.'" class="rt2colorBox">'."\n";
-	}
+	$return = '<DIV id="divPublishing'.$id.'" class="rt2colorBox">'."\n";
 
 	//FJ remove LO_field
 	$return .= '<TABLE class="cellspacing-0 widefat"><TR><TD><b>'._('Visible Between').':</b><BR />';
@@ -420,8 +413,6 @@ function makeFileAttached($value,$name)
 {	global $THIS_RET, $PortalNotesFilesPath;
 	static $filesAttachedCount = 0;
 
-	$loadColorBox = false;
-	
 	if($THIS_RET['ID'])
 	{
 		
@@ -442,7 +433,6 @@ function makeFileAttached($value,$name)
 			if (filter_var($value, FILTER_VALIDATE_URL) !== false) //embed link
 			{
 				$return = '<a href="'.$value.'" title="'.$value.'" class="colorboxiframe">'. $view_online .'</a>';
-				$loadColorBox = true;
 			}
 			else
 			{
@@ -454,7 +444,6 @@ function makeFileAttached($value,$name)
 	{
 		$id = 'new';
 		
-		$return = includeOnceColorBox('divFileAttached'.$id);
 		$return .= '<DIV id="divFileAttached'.$id.'" class="rt2colorBox">';
 		$return .= '<div>
 			<label>
@@ -470,9 +459,6 @@ function makeFileAttached($value,$name)
 			</label>
 		</div></DIV>';
 	}
-		
-	if ($loadColorBox && !isset($_REQUEST['_ROSARIO_PDF']))
-		$return .= includeOnceColorBox(false);
 		
 	return $return;
 }
