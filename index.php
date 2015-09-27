@@ -25,9 +25,9 @@ if( isset( $_REQUEST['modfunc'] )
 
 // Login
 elseif( isset( $_POST['USERNAME'] )
-	&& $_POST['USERNAME'] != ''
+	&& $_POST['USERNAME'] !== ''
 	&& isset( $_POST['PASSWORD'] )
-	&& $_POST['PASSWORD'] != '' )
+	&& $_POST['PASSWORD'] !== '' )
 {
 	//FJ check accept cookies
 	if( !isset( $_COOKIE['RosarioSIS'] )
@@ -61,12 +61,12 @@ elseif( isset( $_POST['USERNAME'] )
 	{
 		// lookup for student $username in DB
 		$student_RET = DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,s.FAILED_LOGIN,s.PASSWORD
-		FROM STUDENTS s,STUDENT_ENROLLMENT se
-		WHERE UPPER(s.USERNAME)=UPPER('" . $username . "')
-		AND se.STUDENT_ID=s.STUDENT_ID
-		AND se.SYEAR='" . Config( 'SYEAR' ) . "'
-		AND CURRENT_DATE>=se.START_DATE
-		AND (CURRENT_DATE<=se.END_DATE OR se.END_DATE IS NULL)" ) );
+			FROM STUDENTS s,STUDENT_ENROLLMENT se
+			WHERE se.STUDENT_ID=s.STUDENT_ID
+			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
+			AND CURRENT_DATE>=se.START_DATE
+			AND (CURRENT_DATE<=se.END_DATE OR se.END_DATE IS NULL)
+			AND UPPER(s.USERNAME)=UPPER('" . $username . "')" ) );
 		
 		if ( $student_RET
 			&& match_password( $student_RET[1]['PASSWORD'], $_POST['PASSWORD'] ) )
@@ -74,12 +74,12 @@ elseif( isset( $_POST['USERNAME'] )
 
 		//student account not verified (enrollment school + start date + last login are NULL)
 		elseif ( DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,s.FAILED_LOGIN,se.START_DATE
-		FROM STUDENTS s,STUDENT_ENROLLMENT se
-		WHERE UPPER(s.USERNAME)=UPPER('" . $username . "')
-		AND se.STUDENT_ID=s.STUDENT_ID
-		AND se.SYEAR='" . Config( 'SYEAR' ) . "'
-		AND se.START_DATE IS NULL
-		AND s.LAST_LOGIN IS NULL")))
+			FROM STUDENTS s,STUDENT_ENROLLMENT se
+			WHERE se.STUDENT_ID=s.STUDENT_ID
+			AND se.SYEAR='" . Config( 'SYEAR' ) . "'
+			AND se.START_DATE IS NULL
+			AND s.LAST_LOGIN IS NULL
+			AND UPPER(s.USERNAME)=UPPER('" . $username . "')")))
 			$student_RET = 0;
 
 		else
@@ -88,9 +88,9 @@ elseif( isset( $_POST['USERNAME'] )
 	
 	// Admin, teacher or parent: initiate session
 	if( $login_RET
-		&& ( $login_RET[1]['PROFILE'] == 'admin'
-			|| $login_RET[1]['PROFILE'] == 'teacher'
-			|| $login_RET[1]['PROFILE'] == 'parent' ) )
+		&& ( $login_RET[1]['PROFILE'] === 'admin'
+			|| $login_RET[1]['PROFILE'] === 'teacher'
+			|| $login_RET[1]['PROFILE'] === 'parent' ) )
 	{
 		$_SESSION['STAFF_ID'] = $login_RET[1]['STAFF_ID'];
 
@@ -103,15 +103,15 @@ elseif( isset( $_POST['USERNAME'] )
 			WHERE STAFF_ID='" . $login_RET[1]['STAFF_ID'] . "'" );
 
 		// if 1st login, Confirm Successful Installation screen
-		if( Config( 'LOGIN' ) == 'No' )
+		if( Config( 'LOGIN' ) !== 'No' )
 		{
 			Warehouse( 'header' ); ?>
 
-	<form action="index.php" method="POST"><BR />
+	<form action="index.php" method="POST" target="_top"><BR />
 
 	<?php PopTable( 'header', _( 'Confirm Successful Installation' ) ); ?>
 
-	<span class="center">
+	<div class="center">
 		<h4>
 			<?php
 				echo sprintf(
@@ -128,19 +128,13 @@ elseif( isset( $_POST['USERNAME'] )
 				);
 			?>
 		</p>
-		<BR /><BR />
-		<input type="submit" name="submit" id="submit" value="<?php echo _( 'OK' ); ?>" />
-	</span>
+		<BR />
+		<input type="submit" value="<?php echo _( 'OK' ); ?>" />
+	</div>
 
 	<?php PopTable( 'footer' ); ?>
 
 	</FORM>
-
-	<script>
-		$('#submit').click(function(){
-			$('form').ajaxFormUnbind();
-		});
-	</script>
 
 </BODY>
 </HTML>

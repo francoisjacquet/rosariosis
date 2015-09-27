@@ -164,6 +164,8 @@ function ajaxPostForm(form, submit) {
 		form.method = 'post';
 		return true;
 	}
+	if (target == '_top')
+		return true;
 
 	var options = ajaxOptions(target, form.action, form);
 	if (submit) $(form).ajaxSubmit(options);
