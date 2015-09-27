@@ -49,13 +49,12 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel=tru
 			cancel_link.target = "body";
 		</script>';
 
-		echo $addJavascript . '<span class="center">
-			<h4>' . sprintf( _( 'Are you sure you want to %s that %s?' ), $action, $title ).'</h4>
-			<FORM action="' . $PHP_tmp_SELF . '" METHOD="POST">' .
+		echo $addJavascript . '<h4 class="center">' . sprintf( _( 'Are you sure you want to %s that %s?' ), $action, $title ).'</h4>
+			<FORM action="' . $PHP_tmp_SELF . '" METHOD="POST" class="center">' .
 				SubmitButton( _( 'OK' ), 'delete_ok' ) .
 				'<INPUT type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="ajaxLink(cancel_link);" />
 			</FORM>
-		</span>';
+		</div>';
 
 		PopTable( 'footer' );
 
@@ -99,10 +98,10 @@ function Prompt( $title = 'Confirm', $question = '', $message = '' )
 		echo '<h4 class="center">' . $question . '</h4>
 			<FORM action="' . $PHP_tmp_SELF . '" METHOD="POST">' .
 				$message .
-				'<BR /><span class="center">' .
+				'<BR /><div class="center">' .
 				SubmitButton( _( 'OK' ), 'delete_ok' ) .
 				'<INPUT type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="javascript:self.history.go(-1);">
-				</span><BR />
+				</div><BR />
 			</FORM>';
 
 		PopTable( 'footer' );
