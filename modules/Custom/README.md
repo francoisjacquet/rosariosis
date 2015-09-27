@@ -1,19 +1,24 @@
-Custom Module
-This module is part of RosarioSIS
+# Custom Module
+
+This module is part of [RosarioSIS](http://www.rosariosis.org)
+
 Author François Jacquet
 
-DESCRIPTION
------------
+## Description
+
 This module adds 4 utilities to other modules of RosarioSIS.
 
-CONTENT
--------
+## Content
+
 Students
+
 - My Report
 - Create Parent Users (created from the students' contacts)
 
 Users
+
 - Notify Parents (who never logged into RosarioSIS)
 
 Attendance
+
 - Attendance Summary

@@ -244,11 +244,11 @@ function _makeReadMe($plugin_title,$activated=null)
 	else
 		$plugin_title_echo = _(str_replace('_', ' ', $plugin_title));
 
-	//if README file, display in Colorbox
-	if (!isset($_REQUEST['_ROSARIO_PDF']) && file_exists('plugins/'.$plugin_title.'/README'))
+	//if README.md file, display in Colorbox
+	if (!isset($_REQUEST['_ROSARIO_PDF']) && file_exists('plugins/'.$plugin_title.'/README.md'))
 	{
-		//get README content
-		$readme_content = file_get_contents('plugins/'.$plugin_title.'/README');
+		//get README.md content
+		$readme_content = file_get_contents('plugins/'.$plugin_title.'/README.md');
 		
 		// convert MarkDown text to HTML
 		$readme_content = '<div class="markdown-to-html">' . $readme_content . '</div>';
