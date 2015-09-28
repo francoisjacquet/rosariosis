@@ -399,11 +399,20 @@ if($_REQUEST['modfunc']=='list_events')
 	}
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" METHOD="POST">';
-	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end'), Buttons( _('Go') ) );
+
 	DrawHeader( '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('Back to Calendar').'</A>' );
-	$functions = array('SCHOOL_DATE'=>'ProperDate');
+
+	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end') . ' ' . Buttons( _('Go') ) );
+
+	$functions = array(
+		'SCHOOL_DATE' => 'ProperDate',
+		'DESCRIPTION' => '_formatDescription'
+	);
+
 	$events_RET = DBGet(DBQuery("SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION FROM CALENDAR_EVENTS WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),$functions);
+
 	ListOutput($events_RET,array('SCHOOL_DATE'=>'Date','TITLE'=>_('Event'),'DESCRIPTION'=>'Description'),'Event','Events');
+
 	echo '</FORM>';
 }
 
@@ -646,4 +655,21 @@ function _formatContent($value,$column)
 
 	return Linkify($value);
 }
-?>
+
+function _formatDescription( $value, $column )
+{
+	global $THIS_RET;
+
+	$id = $THIS_RET['ID'];
+
+	//Linkify
+	include_once( 'ProgramFunctions/Linkify.fnc.php' );
+
+	$return = Linkify( nl2br( $value ) );
+
+	//FJ responsive rt td too large
+	$return = includeOnceColorBox( 'divEventDescription' . $id ) .
+		'<div id="divEventDescription' . $id . '" class="rt2colorBox">' . $return . '</div>';
+
+	return $return;
+}
