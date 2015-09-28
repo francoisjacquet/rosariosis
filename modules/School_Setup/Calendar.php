@@ -399,7 +399,8 @@ if($_REQUEST['modfunc']=='list_events')
 	}
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" METHOD="POST">';
-	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('Back to Calendar').'</A>',SubmitButton(_('Go')));
+	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end'), Buttons( _('Go') ) );
+	DrawHeader( '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'">'._('Back to Calendar').'</A>' );
 	$functions = array('SCHOOL_DATE'=>'ProperDate');
 	$events_RET = DBGet(DBQuery("SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION FROM CALENDAR_EVENTS WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"),$functions);
 	ListOutput($events_RET,array('SCHOOL_DATE'=>'Date','TITLE'=>_('Event'),'DESCRIPTION'=>'Description'),'Event','Events');
