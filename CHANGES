@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.22
 -----------------
 - Fix PHP Warning division by 0 in GradebookBreakdown.php
+- Fix Default Points not required in Assignments.php
 
 Changes in 2.8.21
 -----------------

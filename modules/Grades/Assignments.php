@@ -40,6 +40,7 @@ if($_REQUEST['tables'] && $_POST['tables'])
 					|| ( is_numeric( $columns['POINTS'] )
 						&& intval( $columns['POINTS'] ) >= 0 ) )
 				&& ( !isset( $columns['DEFAULT_POINTS'] )
+					|| $columns['DEFAULT_POINTS'] === ''
 					|| $columns['DEFAULT_POINTS'] === '*'
 					|| ( is_numeric( $columns['DEFAULT_POINTS'] )
 						&& intval( $columns['DEFAULT_POINTS'] ) >= 0 ) ) )
