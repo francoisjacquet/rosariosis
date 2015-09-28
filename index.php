@@ -103,7 +103,7 @@ elseif( isset( $_POST['USERNAME'] )
 			WHERE STAFF_ID='" . $login_RET[1]['STAFF_ID'] . "'" );
 
 		// if 1st login, Confirm Successful Installation screen
-		if( Config( 'LOGIN' ) !== 'No' )
+		if( Config( 'LOGIN' ) === 'No' )
 		{
 			Warehouse( 'header' ); ?>
 
