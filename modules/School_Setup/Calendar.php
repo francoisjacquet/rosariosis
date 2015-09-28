@@ -726,10 +726,12 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 	DrawHeader(
 		_( 'Timeframe' ) . ': ' .
 		PrepareDate( $start_date, '_start' ) . ' ' .
-		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) .
-		' <A HREF="Modules.php?modname=' . $_REQUEST['modname'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" >' . _( 'Back to Calendar' ) . '</A>',
-		SubmitButton( _( 'Go' ) )
+		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ),
+		Buttons( _( 'Go' ) )
 	);
+
+	DrawHeader( '<A HREF="Modules.php?modname=' . $_REQUEST['modname'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" >' . _( 'Back to Calendar' ) . '</A>' );
+
 
 	$functions = array( 'SCHOOL_DATE' => 'ProperDate', 'DESCRIPTION' => '_formatContent' );
 
