@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.22
+-----------------
+- Fix PHP Warning division by 0 in GradebookBreakdown.php
+
 Changes in 2.8.21
 -----------------
 - Add Grade Scale default value in EditReportCardGrades.php

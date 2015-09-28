@@ -321,8 +321,13 @@ function _makeGrade($value,$column)
 	}
 	else
 	{
+		if ( $total_points != 0 )
+			$grade = $current_RET[$THIS_RET['STUDENT_ID']][$_REQUEST['assignment_id']][1]['POINTS'] / $total_points;
+		else
+			$grade = $current_RET[$THIS_RET['STUDENT_ID']][$_REQUEST['assignment_id']][1]['POINTS'];
+
 		if($current_RET[$THIS_RET['STUDENT_ID']][$_REQUEST['assignment_id']][1]['POINTS']!='*')
-			return _makeLetterGrade($current_RET[$THIS_RET['STUDENT_ID']][$_REQUEST['assignment_id']][1]['POINTS']/$total_points,UserCoursePeriod());
+			return _makeLetterGrade( $grade, UserCoursePeriod() );
 		else
 			return _('N/A');
 	}
