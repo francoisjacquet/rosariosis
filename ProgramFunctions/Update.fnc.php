@@ -23,6 +23,7 @@ function Update()
 	$to_version = ROSARIO_VERSION;
 
 	// Check if version in DB >= ROSARIO_VERSION
+	// TODO 2.9-beta < 2.9? No, freeze in beta!
 	if ( $from_version >= $to_version )
 	{
 		return false;

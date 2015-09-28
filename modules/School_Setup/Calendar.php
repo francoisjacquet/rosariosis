@@ -1152,7 +1152,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		foreach( (array)$assignments_RET[$date] as $assignment )
 		{
 			echo '<div class="calendar-event assignment' . ( $assignment['ASSIGNED'] == 'Y' ? ' assigned' : '' ) . '">' .
-				'<A HREF="#" onclick="CalEventPopup(popUpURL + \'&assignment_id=' . $assignment['ID'] . '\'); return false;" title="' . htmlentities( $assignment['TITLE'] ) . '">' .
+				'<A HREF="#" onclick="CalEventPopup(popupURL + \'&assignment_id=' . $assignment['ID'] . '\'); return false;" title="' . htmlentities( $assignment['TITLE'] ) . '">' .
 					$assignment['TITLE'] .
 				'</A>
 			</div>';
