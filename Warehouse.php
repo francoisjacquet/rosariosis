@@ -2,7 +2,7 @@
 if(!defined('WAREHOUSE_PHP'))
 {
 	define("WAREHOUSE_PHP",1);
-	$RosarioVersion = '2.8.21';
+	$RosarioVersion = '2.8.22';
 
 	if (!file_exists ('config.inc.php'))
 		die ('config.inc.php not found. Please read the configuration guide.');
