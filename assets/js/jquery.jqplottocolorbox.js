@@ -1,7 +1,7 @@
 ﻿//Francois: add a button to export the graph to an image and open it in a colorbox
-$(document).ready(function(){
-
-    if (screen.width>=768) {
+function jqplotToColorBox()
+{
+	if (screen.width>=768) {
 		if (!$.jqplot.use_excanvas) {
 			var i = 1;
 			$('div.jqplot-target').each(function(){
@@ -48,8 +48,5 @@ $(document).ready(function(){
 			});
 			$('.colorbox').colorbox({inline:true});
 		}
-    }
-
-
-    $(document).unload(function() {$('*').unbind(); });
-});
+	}
+}

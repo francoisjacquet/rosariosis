@@ -436,16 +436,20 @@ if(empty($_REQUEST['modfunc']))
 		}
 		else
 		{
-			$_REQUEST['modfunc'] = 'SendChartData';
 //FJ jqplot charts
-//FJ colorbox
 ?>
 			<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 			<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
+
+			<script src="assets/js/jquery.jqplottocolorbox.js"></script>
+
 			<script>	
 				var saveImgText = <?php echo json_encode(_('Right Click to Save Image As...')); ?>;
 				var chartTitle = <?php echo json_encode(sprintf(_('%s Breakdown'),ParseMLField($category_RET[1]['TITLE'])).$_ROSARIO['SearchTerms']); ?>;
 			</script>
+
+			<div id="chart"></div>
+
 			<script src="assets/js/jqplot/plugins/jqplot.barRenderer.min.js"></script>
 			<script src="assets/js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
 			<script src="assets/js/jqplot/plugins/jqplot.pointLabels.min.js"></script>
@@ -487,13 +491,14 @@ if(empty($_REQUEST['modfunc']))
 						},     
 						title: chartTitle
 					});
+
+					jqplotToColorBox();
 				});		
 			</script>
-			<div id="chart"></div>
-			<script src="assets/js/jquery.jqplottocolorbox.js"></script>
 <?php
 			unset($_REQUEST['_ROSARIO_PDF']);
 		}
+
 		PopTable('footer');
 	}
 	echo '</FORM>';
