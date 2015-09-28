@@ -723,17 +723,17 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 
 	echo '<FORM action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" METHOD="POST">';
 
+	DrawHeader( '<A HREF="Modules.php?modname=' . $_REQUEST['modname'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" >' . _( 'Back to Calendar' ) . '</A>' );
+
 	DrawHeader(
 		_( 'Timeframe' ) . ': ' .
 		PrepareDate( $start_date, '_start' ) . ' ' .
-		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ),
+		_( 'to' ) . ' ' . PrepareDate( $end_date, '_end' ) . ' ' .
 		Buttons( _( 'Go' ) )
 	);
 
-	DrawHeader( '<A HREF="Modules.php?modname=' . $_REQUEST['modname'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" >' . _( 'Back to Calendar' ) . '</A>' );
 
-
-	$functions = array( 'SCHOOL_DATE' => 'ProperDate', 'DESCRIPTION' => '_formatContent' );
+	$functions = array( 'SCHOOL_DATE' => 'ProperDate', 'DESCRIPTION' => '_formatDescription' );
 
 	$events_RET = DBGet( DBQuery( "SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION
 		FROM CALENDAR_EVENTS
@@ -1209,4 +1209,17 @@ function _formatContent( $value, $column )
 {
 	// convert MarkDown to HTML
 	return '<div class="markdown-to-html">' . $value . '</div>';
+}
+
+function _formatDescription( $value, $column )
+{
+	global $THIS_RET;
+
+	$id = $THIS_RET['ID'];
+
+	// convert MarkDown to HTML
+	$return = '<div class="markdown-to-html">' . $value . '</div>';
+
+	//FJ responsive rt td too large
+	return '<div id="divEventDescription' . $id . '" class="rt2colorBox">' . $return . '</div>';
 }
