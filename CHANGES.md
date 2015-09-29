@@ -25,7 +25,9 @@ Changes in 2.9
 - Rework Student Comments: serialize, MarkDown in Students/includes/Comments.inc.php
 - CHANGES, INSTALL, WHATS_NEW, plugins & modules README files: use MarkDown
 - Move from includeOnceColorBox() to ColorBox to plugins.min.js
+- Update ColorBox to version 1.6.3 in assets/js/colorbox/
 - Remove functions/IncludeOnce.php file
+- Add all jqPlot plugins & excanvas (IE version<9 compat) in assets/js/jqplot
 
 Changes in 2.8.11
 -----------------
