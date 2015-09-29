@@ -38,20 +38,6 @@ foreach( (array)$grades_RET as $grade )
 	$grades[] = array( 'TITLE' => $grade['TITLE'], 'GPA_VALUE' => $grade['GPA_VALUE'] );
 }
 
-
-//FJ fix error column USERNAME doesnt exist
-//$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USERNAME='".User('USERNAME')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
-$config_RET = DBGet( DBQuery( "SELECT TITLE,VALUE
-	FROM PROGRAM_USER_CONFIG
-	WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
-	AND PROGRAM='Gradebook'" ), array(), array( 'TITLE' ) );
-
-if( count( $config_RET ) )
-{
-	foreach( (array)$config_RET as $title => $value )
-		$programconfig[$title] = $value[1]['VALUE'];
-}
-
 $sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE
 	FROM GRADEBOOK_ASSIGNMENT_TYPES
 	WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
@@ -68,9 +54,7 @@ $assignments_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 	AND MARKING_PERIOD_ID='" . UserMP() . "' 
 	ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" ) );
 
-$assignment_select = '<script>var assignment_idonchange = document.createElement("a"); assignment_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&assignment_id="; assignment_idonchange.target = "body";</script>';
-
-$assignment_select .= '<SELECT name="assignment_id" id="assignment_id" onchange="assignment_idonchange.href += this.options[selectedIndex].value; ajaxLink(assignment_idonchange);">';
+$assignment_select .= '<SELECT name="assignment_id" id="assignment_id" onchange="ajaxPostForm(this.form, true)">';
 
 $assignment_select .= '<OPTION value="totals"' . ( $_REQUEST['assignment_id'] === 'totals' ? ' SELECTED' : '' ) . '>' .
 	_( 'Totals' ) .
@@ -232,7 +216,7 @@ foreach( (array)$grades as $option )
 
 if ( empty( $_REQUEST['modfunc'] ) )
 {
-	echo '<FORM action="' . PreparePHP_SELF( $_REQUEST, array( 'chart_type' ), array( 'chart_type' => $_REQUEST['chart_type'] ) ) . '" method="POST">';
+	echo '<FORM action="' . PreparePHP_SELF( $_REQUEST, array( 'chart_type' ), array( 'chart_type' => $_REQUEST['chart_type'] ) ) . '" method="GET">';
 
 	$RET = GetStuList();
 
@@ -248,15 +232,15 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		$tabs = array(
 			array(
 				'title' => _( 'Line' ),
-				'link' => PreparePHP_SELF( $_REQUEST, array( 'chart_type' ), array( 'chart_type' => 'column' ) ),
+				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'column' ) ),
 			),
 			array(
 				'title' => _( 'Pie' ),
-				'link' => PreparePHP_SELF( $_REQUEST, array( 'chart_type' ), array( 'chart_type' => 'pie' ) ),
+				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'pie' ) ),
 			),
 			array(
 				'title' => _( 'List' ),
-				'link' => PreparePHP_SELF( $_REQUEST, array( 'chart_type' ), array( 'chart_type' => 'list' ) ),
+				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'list' ) ),
 			)
 		);
 
@@ -294,6 +278,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		else
 		{
 ?>
+<!--[if lt IE 9]><script src="assets/js/jqplot/excanvas.min.js"></script><![endif]-->
 <script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
 <link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
 
