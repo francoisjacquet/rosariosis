@@ -22,16 +22,16 @@ if ( User( 'PROFILE' ) === 'admin' )
 	Usted tiene acceso a cualquier institución en el sistema. Para escoger una institución para trabajar, seleccione la institución desde el menú desplegable en el marco izquierdo. El programa refrescara automáticamente el espacio de trabajo con la nueva institución. De la misma manera, usted también puede cambiar el año escolar y el periodo a calificar.
 </p>
 <p>
-	Usando RosarioSIS, usted vera aparecer otras opciones en el marco izquierdo. Cuando usted selecciona un estudiante para trabajar, el nombre del estudiante aparece debajo del menú desplegable del periodo a calificar. Cambiando de servicio, usted sigue trabajando con el estudiante. Si usted quiere trabajar con otro estudiante, haga click sobre la cruz roja al lado del nombre del estudiante. Usted también puede acceder rápidamente a los Datos Personales del estudiante haciendo click sobre el nombre del estudiante. Igualmente ocurre, cuando usted selecciona un usuario para trabajar.
+	Usando RosarioSIS, usted vera aparecer otras opciones en el marco izquierdo. Cuando usted selecciona un estudiante para trabajar, el nombre del estudiante aparece debajo del menú desplegable del periodo a calificar. Cambiando de servicio, usted sigue trabajando con el estudiante. Si usted quiere trabajar con otro estudiante, haga clic sobre la cruz roja al lado del nombre del estudiante. Usted también puede acceder rápidamente a los Datos Personales del estudiante haciendo clic sobre el nombre del estudiante. Igualmente ocurre, cuando usted selecciona un usuario para trabajar.
 </p>
 <p>
-	Cuando usted hace click sobre cualquier icono del marco izquierdo, podrá ver una lista de los servicios disponibles en el módulo. Haciendo click sobre cualquier titulo de servicio, este se abrirá en el marco principal, y se actualizará el marco de ayuda (abajo).
+	Cuando usted hace clic sobre cualquier icono del marco izquierdo, podrá ver una lista de los servicios disponibles en el módulo. Haciendo clic sobre cualquier titulo de servicio, este se abrirá en el marco principal, y se actualizará el marco de ayuda (abajo).
 </p>
 <p>
-	En muchos lugares de RosarioSIS, usted podrá ver listas de datos que están modificables. A menudo, usted deberá hacer click primero sobre el dato que usted quiere cambiar para tener acceso a el campo de entrada.
+	En muchos lugares de RosarioSIS, usted podrá ver listas de datos que están modificables. A menudo, usted deberá hacer clic primero sobre el dato que usted quiere cambiar para tener acceso a el campo de entrada.
 </p>
 <p>
-	Usted puede salir de RosarioSIS en cualquier momento haciendo click sobre el enlace «Salir» en el marco inferior.
+	Usted puede salir de RosarioSIS en cualquier momento haciendo clic sobre el enlace «Salir» en el marco inferior.
 </p>
 HTML;
 
@@ -44,16 +44,16 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 	Para escoger una clase para trabajar, seleccionela en el menú desplegable del marco izquierdo. El programa refrescara automáticamente el espacio de trabajo con la nueva clase. De la misma manera, usted puede también cambiar el año escolar y el periodo a calificar.
 </p>
 <p>
-	Usando RosarioSIS, usted vera aparecer otras opciones en el marco izquierdo. Cuando usted selecciona un estudiante para trabajar, el nombre del estudiante aparece debajo del menú desplegable del periodo a calificar. Moviendose entre los servicios, usted sigue trabajando con el estudiante. Si usted quiere trabajar con otro estudiante, haga click sobre la cruz roja al lado del nombre del estudiante. Usted también puede acceder rápidamente a los Datos Personales del estudiante haciendo click sobre el nombre del estudiante.
+	Usando RosarioSIS, usted vera aparecer otras opciones en el marco izquierdo. Cuando usted selecciona un estudiante para trabajar, el nombre del estudiante aparece debajo del menú desplegable del periodo a calificar. Moviendose entre los servicios, usted sigue trabajando con el estudiante. Si usted quiere trabajar con otro estudiante, haga clic sobre la cruz roja al lado del nombre del estudiante. Usted también puede acceder rápidamente a los Datos Personales del estudiante haciendo clic sobre el nombre del estudiante.
 </p>
 <p>
-	Cuando usted hace click sobre cualquier icono del marco izquierdo, usted podrá ver una lista de los servicios disponibles para usted en el módulo. Haciendo click sobre cualquier título de servicio, este se abrirá en el marco principal, y se actualizara el marco de ayuda (abajo).
+	Cuando usted hace clic sobre cualquier icono del marco izquierdo, usted podrá ver una lista de los servicios disponibles para usted en el módulo. Haciendo clic sobre cualquier título de servicio, este se abrirá en el marco principal, y se actualizara el marco de ayuda (abajo).
 </p>
 <p>
-	En el libro de calificaciones, usted podrá ver listas de datos que están modificables. A menudo, usted deberá hacer click primero sobre el dato que usted quiere cambiar para tener acceso a un campo de entrada.
+	En el libro de calificaciones, usted podrá ver listas de datos que están modificables. A menudo, usted deberá hacer clic primero sobre el dato que usted quiere cambiar para tener acceso a un campo de entrada.
 </p>
 <p>
-	Usted puede salir de RosarioSIS en cualquier momento haciendo click sobre el enlace «Salir» en el marco inferior.
+	Usted puede salir de RosarioSIS en cualquier momento haciendo clic sobre el enlace «Salir» en el marco inferior.
 </p>
 HTML;
 
@@ -66,10 +66,10 @@ elseif ( User( 'PROFILE' ) === 'parent' )
 	Para escoger un estudiante, seleccione el nombre del estudiante en el menú desplegable en el marco izquierdo. El programa refrescara automáticamente el espacio de trabajo con el nuevo estudiante. De la misma manera, usted puede también cambiar el año escolar y el periodo a calificar.
 </p>
 <p>
-	Usando RosarioSIS, usted vera aparecer otras opciones en el marco izquierdo. Cuando usted hace click sobre cualquier icono del marco izquierdo, podrá ver una lista de los programas disponibles para usted en el módulo. Haciendo click sobre cualquier titulo de servicio, este se abrirá en el marco principal, y se actualizara el marco de ayuda (abajo).
+	Usando RosarioSIS, usted vera aparecer otras opciones en el marco izquierdo. Cuando usted hace clic sobre cualquier icono del marco izquierdo, podrá ver una lista de los programas disponibles para usted en el módulo. Haciendo clic sobre cualquier titulo de servicio, este se abrirá en el marco principal, y se actualizara el marco de ayuda (abajo).
 </p>
 <p>
-	Usted puede salir de RosarioSIS en cualquier momento haciendo click sobre el enlace «Salir» en el marco inferior.
+	Usted puede salir de RosarioSIS en cualquier momento haciendo clic sobre el enlace «Salir» en el marco inferior.
 </p>
 HTML;
 
@@ -82,10 +82,10 @@ elseif ( User( 'PROFILE' ) === 'student' )
 	Usted puede cambiar el año escolar y el periodo a calificar en los menús desplegables en el marco izquierdo.
 </p>
 <p>
-	Usando RosarioSIS, usted vera aparecer otras opciones en el marco izquierdo. Cuando usted hace click sobre cualquier icono del marco izquierdo, usted podrá ver una lista de los servicios disponibles para usted en el módulo. Haciendo click sobre cualquier titulo de servicio, este se abrirá en el marco principal, y se actualizara el marco de ayuda (abajo).
+	Usando RosarioSIS, usted vera aparecer otras opciones en el marco izquierdo. Cuando usted hace clic sobre cualquier icono del marco izquierdo, usted podrá ver una lista de los servicios disponibles para usted en el módulo. Haciendo clic sobre cualquier titulo de servicio, este se abrirá en el marco principal, y se actualizara el marco de ayuda (abajo).
 </p>
 <p>
-	Usted puede salir de RosarioSIS en cualquier momento haciendo click sobre el enlace «Salir» en el marco inferior.
+	Usted puede salir de RosarioSIS en cualquier momento haciendo clic sobre el enlace «Salir» en el marco inferior.
 </p>
 HTML;
 
@@ -95,7 +95,7 @@ if ( User( 'PROFILE' ) === 'admin' )
 {
 	$help['School_Setup/Schools.php'] = <<<HTML
 <p>
-	<i>Información de la Institución</i> le permite cambiar el nombre, la dirección y el director de la institución. Haga click sobre cualquier dato para cambiarlo. Después de haber hecho los cambios necesarios para su institución, presione el botón «Guardar» para guardar sus cambios.
+	<i>Información de la Institución</i> le permite cambiar el nombre, la dirección y el director de la institución. Haga clic sobre cualquier dato para cambiarlo. Después de haber hecho los cambios necesarios para su institución, presione el botón «Guardar» para guardar sus cambios.
 </p>
 HTML;
 
@@ -128,13 +128,13 @@ HTML;
 	<i>Períodos a Calificar</i> le permite configurar los períodos a calificar de la institución. Hay tres tercios de períodos a calificar: algo como Semestres, Bimestres y Períodos intermedios está sugerido. A pesar de sus nombres, puede ser menos de 2 semestres y mas o menos de 4 bimestres.
 </p>
 <p>
-	Para agregar un período a calificar, haga click sobre el icono «+» en la columna del tipo de período a calificar que usted quiere agregar. Luego, completa los datos del período a calificar en los campos de arriba y presione el botón «Guardar».
+	Para agregar un período a calificar, haga clic sobre el icono «+» en la columna del tipo de período a calificar que usted quiere agregar. Luego, completa los datos del período a calificar en los campos de arriba y presione el botón «Guardar».
 </p>
 <p>
-	Para cambiar un período a calificar, haga click sobre el período a calificar que usted quiere cambiar, y haga click sobre cualquier valor que usted quiere cambiar en la zona de arriba. Luego, cambie el valor y presione el botón «Guardar».
+	Para cambiar un período a calificar, haga clic sobre el período a calificar que usted quiere cambiar, y haga clic sobre cualquier valor que usted quiere cambiar en la zona de arriba. Luego, cambie el valor y presione el botón «Guardar».
 </p>
 <p>
-	Para eliminar un período a calificar, seleccione lo haciendo click sobre su titulo en la lista y presione el botón «Eliminar» en la parte superior de la pantalla. Se le preguntará si desea confirmar la eliminación.
+	Para eliminar un período a calificar, seleccione lo haciendo clic sobre su titulo en la lista y presione el botón «Eliminar» en la parte superior de la pantalla. Se le preguntará si desea confirmar la eliminación.
 </p>
 <p>
 	Note que dos períodos a calificar o dos periodos de publicación de calificaciones no se pueden cruzar. También, los períodos a calificar de un mismo tercio deben tener un orden diferente.
@@ -146,22 +146,22 @@ HTML;
 	<i>Calendario</i> le permite configurar el calendario de su institución para el año. El calendario muestra el mes actual por defecto. El mes y el año mostrado se pueden cambiar en los menús desplegables del mes y del año en la parte superior de la pantalla.
 </p>
 <p>
-	En días completos de institución, la casilla en la esquina superior derecha del día debería estar marcada. Para los días parciales, la casilla no debería estar marcada y el número de minutos de asistencia a la institución, debería estar en el campo de texto al lado de la casilla. Para los días sin institución, la casilla no debería estar marcada y el campo de texto vacío. Para desactivar la casilla o cambiar el número de minutos en el día, usted debe primero hacer click sobre el valor que desee cambiar. Después de hacer un cambio al calendario, presione el botón «Actualizar» en la parte superior de la pantalla.
+	En días completos de institución, la casilla en la esquina superior derecha del día debería estar marcada. Para los días parciales, la casilla no debería estar marcada y el número de minutos de asistencia a la institución, debería estar en el campo de texto al lado de la casilla. Para los días sin institución, la casilla no debería estar marcada y el campo de texto vacío. Para desactivar la casilla o cambiar el número de minutos en el día, usted debe primero hacer clic sobre el valor que desee cambiar. Después de hacer un cambio al calendario, presione el botón «Actualizar» en la parte superior de la pantalla.
 </p>
 <p>
 	Si la institución usa una rotación de días enumerados, el numero del día aparece en el cuadro de los días de institución.
 </p>
 <p>
-	Para configurar su calendario al comienzo del año, usted debería usar «Crear un nuevo calendario». Haciendo click sobre este enlace, usted puede configurar todos los días en un transcurso especificado como días completos de clase. Usted puede también seleccionar cuales días de la semana su institución trabaja. Después de seleccionar las fechas de comienzo y fin del año escolar y los días de trabajo de la institución, presione el botón «OK». Usted ya puede navegar por el calendario y marcar las vacaciones y días parciales.
+	Para configurar su calendario al comienzo del año, usted debería usar «Crear un nuevo calendario». Haciendo clic sobre este enlace, usted puede configurar todos los días en un transcurso especificado como días completos de clase. Usted puede también seleccionar cuales días de la semana su institución trabaja. Después de seleccionar las fechas de comienzo y fin del año escolar y los días de trabajo de la institución, presione el botón «OK». Usted ya puede navegar por el calendario y marcar las vacaciones y días parciales.
 </p>
 <p>
 	El calendario muestra también los eventos de la institución. Esto puede incluir todo, desde los días de servicio de los docentes hasta los eventos de deporte. Estos eventos están visibles por los otros administradores y también por los padres y docentes de la institución.
 </p>
 <p>
-	Para agregar un evento, haga click sobre el icono «+» en la esquina inferior izquierda de la fecha del evento. En la ventana emergente que aparece, entrar los datos del evento y presione el botón «Guardar». La ventana emergente se cerrara, y el calendario será actualizado para mostrar el evento agregado.
+	Para agregar un evento, haga clic sobre el icono «+» en la esquina inferior izquierda de la fecha del evento. En la ventana emergente que aparece, entrar los datos del evento y presione el botón «Guardar». La ventana emergente se cerrara, y el calendario será actualizado para mostrar el evento agregado.
 </p>
 <p>
-	Para cambiar un evento, haga click sobre el evento que quiere modificar, y cambie los datos del evento en la ventana emergente que aparece. Luego, presione el botón «Guardar». La ventana se cerrara y el calendario será actualizado para mostrar el cambio.
+	Para cambiar un evento, haga clic sobre el evento que quiere modificar, y cambie los datos del evento en la ventana emergente que aparece. Luego, presione el botón «Guardar». La ventana se cerrara y el calendario será actualizado para mostrar el cambio.
 </p>
 HTML;
 
@@ -173,10 +173,10 @@ HTML;
 	Para agregar una hora, llene el titulo de la hora, su nombre corto, orden, y duración en minutos en los campos vacíos al pié de la lista de horas y presione el botón «Guardar».
 </p>
 <p>
-	Para cambiar una hora, haga click sobre cualquiera dato de la hora, cambie el dato, y presione el botón «Guardar».
+	Para cambiar una hora, haga clic sobre cualquiera dato de la hora, cambie el dato, y presione el botón «Guardar».
 </p>
 <p>
-	Para eliminar una hora, haga click sobre el icono «-» al lado de la hora que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
+	Para eliminar una hora, haga clic sobre el icono «-» al lado de la hora que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
 </p>
 HTML;
 
@@ -188,10 +188,10 @@ HTML;
 	Para agregar un grado, llene el titulo del grado, su nombre corto, orden, y grado siguiente en los campos vacíos al pié de la lista de grados y presione el botón «Guardar». El campo «Grado Siguiente» indica el grado al cual pasarán los estudiantes en el año escolar siguiente.
 </p>
 <p>
-	Para cambiar un grado, haga click sobre cualquier dato del grado, cambie el valor, y presione el botón «Guardar».
+	Para cambiar un grado, haga clic sobre cualquier dato del grado, cambie el valor, y presione el botón «Guardar».
 </p>
 <p>
-	Para eliminar un grado, haga click sobre el icono «-» al lado del grado que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
+	Para eliminar un grado, haga clic sobre el icono «-» al lado del grado que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
 </p>
 HTML;
 
@@ -294,7 +294,7 @@ HTML;
 	Pestaña <b>Módulos</b>: gestionar los módulos de RosarioSIS. Desactivar cualquier módulo que no se usa o instalar nuevos módulos.
 </p>
 <p>
-	Pestaña <b>Plugins</b>: gestionar los plugins de RosarioSIS. Activar, desactivar y configurar los plugins. Haga click sobre el título del plugin para obtener más información.
+	Pestaña <b>Plugins</b>: gestionar los plugins de RosarioSIS. Activar, desactivar y configurar los plugins. Haga clic sobre el título del plugin para obtener más información.
 </p>
 HTML;
 }
@@ -311,7 +311,7 @@ HTML;
 	<i>Calendario</i> muestra los eventos de la institución y las tareas de sus estudiantes. El calendario muestra también los días de institución. Por defecto, el calendario muestra el mes actual. El mes y el año mostrados pueden ser cambiados en los menús desplegables del mes y del año en la parte superior de la pantalla.
 </p>
 <p>
-	Los títulos de los eventos y de las tareas están en cada caja del día. Haciendo click sobre estos títulos abrirá una ventana emergente que muestra mas información sobre el evento o la tarea.
+	Los títulos de los eventos y de las tareas están en cada caja del día. Haciendo clic sobre estos títulos abrirá una ventana emergente que muestra mas información sobre el evento o la tarea.
 </p>
 <p>
 	En días completos de institución, el día aparece en verde. Para los días parciales, el número de minutos de asistencia en la institución aparece en la esquina superior derecha. Para los días sin institución, el día aparece en rosado.
@@ -343,7 +343,7 @@ HTML;
 	Una vez que una cuenta de padre esté lista, sus hijos deben ser relacionados con este programa. Si usted ya no ha seleccionado un estudiante para la sesión, seleccione uno con la pantalla de búsqueda «Encontrar un Estudiante». Luego, busque un usuario para relacionar con la cuenta del estudiante. Desde el resultado de la búsqueda, usted puede seleccionar cualquier número de padres. Después de seleccionar cada padre deseado desde la lista, presione el botón «Agregar los Padres Seleccionados» en la parte superior de la pantalla.
 </p>
 <p>
-	Después de seleccionar un estudiante, usted puede ver los padres que ya están relacionados con el estudiante. Estos padres pueden ser disociados de este usuario haciendo click sobre el icono «-» al lado del el padre. Se le preguntará si desea confirmar la acción.
+	Después de seleccionar un estudiante, usted puede ver los padres que ya están relacionados con el estudiante. Estos padres pueden ser disociados de este usuario haciendo clic sobre el icono «-» al lado del el padre. Se le preguntará si desea confirmar la acción.
 </p>
 HTML;
 
@@ -405,7 +405,7 @@ HTML;
 
 	$help['Students/Datos Personales'] = <<<HTML
 <p>
-	<i>Datos Personales</i> muestra los datos fundamentales del estudiante. Usted puede cambiar cualquier dato haciendo click sobre el valor que quiere cambiar, cambiando el valor, y presionando el botón «Guardar» en la parte superior de la pantalla.
+	<i>Datos Personales</i> muestra los datos fundamentales del estudiante. Usted puede cambiar cualquier dato haciendo clic sobre el valor que quiere cambiar, cambiando el valor, y presionando el botón «Guardar» en la parte superior de la pantalla.
 </p>
 HTML;
 
@@ -420,13 +420,13 @@ HTML;
 	Ahora, usted puede agregar un contacto a esta dirección. Para hacerlo, llene el nombre del contacto, y presione el botón «Guardar».
 </p>
 <p>
-	Usted puede ahora añadir mas información sobre este contacto marcando las casillas «Custodia» y «Emergencia» después de hacer click sobre la cruz roja. Los contactos marcados como «Custodia» del estudiante reciben los correos, y los contactos marcados como «Emergencia» pueden ser contactados en caso de emergencia.
+	Usted puede ahora añadir mas información sobre este contacto marcando las casillas «Custodia» y «Emergencia» después de hacer clic sobre la cruz roja. Los contactos marcados como «Custodia» del estudiante reciben los correos, y los contactos marcados como «Emergencia» pueden ser contactados en caso de emergencia.
 </p>
 <p>
 	Usted puede agregar otras informaciones sobre este contacto, como su teléfono, profesión, etc.
 </p>
 <p>
-	Contactos e informaciones sobre un contacto pueden ser eliminados haciendo click sobre el icono «-» al lado de la información a eliminar. Cualquier información en la pantalla puede ser modificada haciendo click sobre la información primero, luego cambiando el dato, y finalmente presionando el botón «Guardar» en la parte superior de la pantalla.
+	Contactos e informaciones sobre un contacto pueden ser eliminados haciendo clic sobre el icono «-» al lado de la información a eliminar. Cualquier información en la pantalla puede ser modificada haciendo clic sobre la información primero, luego cambiando el dato, y finalmente presionando el botón «Guardar» en la parte superior de la pantalla.
 </p>
 HTML;
 
@@ -435,7 +435,7 @@ HTML;
 	<i>Médico</i> muestra la información médica de un estudiante.
 </p>
 <p>
-	Esta incluye el médico del estudiante, el teléfono del médico, el hospital preferido, cualquier comentario médico, si el estudiante tiene una nota del médico o no, y comentarios sobre la nota. Para cambiar cualquier valor, haga click sobre el dato que quiere cambiar, cambielo, y presione el botón «Guardar» en la parte superior de la pantalla.
+	Esta incluye el médico del estudiante, el teléfono del médico, el hospital preferido, cualquier comentario médico, si el estudiante tiene una nota del médico o no, y comentarios sobre la nota. Para cambiar cualquier valor, haga clic sobre el dato que quiere cambiar, cambielo, y presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
 	Usted también puede agregar entradas para cada inmunización o chequeo que recibe el estudiante así como alertas médicas como enfermedades o alergias.
@@ -444,10 +444,10 @@ HTML;
 	Para agregar una vacuna, un chequeo, o una alerta médica, llene los campos vacíos al final de la lista apropiada, y presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
-	Para cambiar una vacuna, un chequeo, o una alerta médica, haga click sobre el dato que desee cambiar, cambielo, y presione el botón «Guardar» en la parte superior de la pantalla.
+	Para cambiar una vacuna, un chequeo, o una alerta médica, haga clic sobre el dato que desee cambiar, cambielo, y presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
-	Para eliminar una vacuna, un chequeo, o una alerta médica, haga click sobre el icono «-» al lado del artículo que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
+	Para eliminar una vacuna, un chequeo, o una alerta médica, haga clic sobre el icono «-» al lado del artículo que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
 </p>
 HTML;
 
@@ -462,7 +462,7 @@ HTML;
 	Usted puede ahora matricular de nuevo el estudiante. Para hacerlo, seleccione la fecha efectiva de matrícula del estudiante y la razón desde la linea blanca al fin de la lista. Seleccione también la institución donde el estudiante será matriculado y presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
-	Las fechas de matrícula y retiro y las razones se pueden cambiar haciendo click sobre los datos, cambiando los, y presionando el botón «Guardar» en la parte superior de la pantalla.
+	Las fechas de matrícula y retiro y las razones se pueden cambiar haciendo clic sobre los datos, cambiando los, y presionando el botón «Guardar» en la parte superior de la pantalla.
 </p>
 HTML;
 
@@ -612,10 +612,10 @@ HTML;
 	Para agregar un código de matrícula, llene el titulo del código, su nombre corto, y tipo en los campos vacíos al fin de la lista de códigos de matrícula. Presione el botón «Guardar».
 </p>
 <p>
-	Para cambiar un código de matrícula, haga click sobre cualquiera información del código de matrícula, cambie el dato, y presione el botón «Guardar».
+	Para cambiar un código de matrícula, haga clic sobre cualquiera información del código de matrícula, cambie el dato, y presione el botón «Guardar».
 </p>
 <p>
-	Para eliminar un código de matrícula, haga click sobre el icono «-» al lado del código de matrícula que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
+	Para eliminar un código de matrícula, haga clic sobre el icono «-» al lado del código de matrícula que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
 </p>
 HTML;
 }
@@ -649,7 +649,7 @@ if ( User( 'PROFILE' ) === 'admin' )
 {
 	$help['Users/User.php'] = <<<HTML
 <p>
-	<i>Datos Personales</i> muestra los datos fundamentales de un usuario. Si usted es administrador, usted puede cambiar cualquier dato haciendo click sobre el dato que quiere cambiar, cambiando el dato, y presionando el botón «Guardar» en la parte superior de la pantalla. Usted puede eliminar un usuario presionando el botón «Eliminar» en la parte superior de la pantalla. Note que usted nunca debería eliminar un docente después que el ha dado una clase, porque el usuario debe quedar para que el nombre del docente pueda aparecer en los expedientes académicos.
+	<i>Datos Personales</i> muestra los datos fundamentales de un usuario. Si usted es administrador, usted puede cambiar cualquier dato haciendo clic sobre el dato que quiere cambiar, cambiando el dato, y presionando el botón «Guardar» en la parte superior de la pantalla. Usted puede eliminar un usuario presionando el botón «Eliminar» en la parte superior de la pantalla. Note que usted nunca debería eliminar un docente después que el ha dado una clase, porque el usuario debe quedar para que el nombre del docente pueda aparecer en los expedientes académicos.
 </p>
 HTML;
 
@@ -667,7 +667,7 @@ HTML;
 	Una vez que una cuenta de padre esté lista, sus estudiantes deben ser relacionados con este servicio. Si usted ya no ha seleccionado un usuario para la sesión, seleccione uno con la pantalla de búsqueda «Encontrar un Usuario». Luego, busque un estudiante para relacionar con la cuenta del usuario. Desde el resultado de la búsqueda, usted puede seleccionar cualquier número de estudiantes. Después de seleccionar cada estudiante deseado desde la lista, presione el botón «Agregar los Estudiantes Seleccionados» en la parte superior de la pantalla.
 </p>
 <p>
-	Después de seleccionar un usuario, usted puede ver los estudiantes que ya están relacionados con el usuario. Estos estudiantes pueden ser disociados de este usuario haciendo click sobre el icono «-» al lado del el estudiante. Se le preguntará si desea confirmar la acción.
+	Después de seleccionar un usuario, usted puede ver los estudiantes que ya están relacionados con el usuario. Estos estudiantes pueden ser disociados de este usuario haciendo clic sobre el icono «-» al lado del el estudiante. Se le preguntará si desea confirmar la acción.
 </p>
 HTML;
 
@@ -757,7 +757,7 @@ HTML;
 	<i>Permisos de Usuario</i> le permite prohibir acceso y/o privilegios de edición a cualquier servicio para un usuario con permisos configurados (Ver los Datos Personales del usuario).
 </p>
 <p>
-	Para asignar privilegios a un usuario, seleccionelo primero, y haga click sobre su nombre en la lista. Luego, use las casillas para definir cuales servicios el usuario puede visualizar y cuales servicios el puede editar. Si un usuario no puede usar un servicio especifico, este servicio no será mostrado en su menú. Si el usuario puede usar el servicio, pero no puede editar información con el servicio, el servicio mostrara los datos, pero no le dejara cambiar nada. Después de marcar las casillas, presione el botón «Guardar» para guardar los permisos.
+	Para asignar privilegios a un usuario, seleccionelo primero, y haga clic sobre su nombre en la lista. Luego, use las casillas para definir cuales servicios el usuario puede visualizar y cuales servicios el puede editar. Si un usuario no puede usar un servicio especifico, este servicio no será mostrado en su menú. Si el usuario puede usar el servicio, pero no puede editar información con el servicio, el servicio mostrara los datos, pero no le dejara cambiar nada. Después de marcar las casillas, presione el botón «Guardar» para guardar los permisos.
 </p>
 HTML;
 
@@ -838,7 +838,7 @@ HTML;
 	Una vez que usted esté en el periodo a calificar adecuado, usted puede entrar las calificaciones de los estudiantes seleccionando la calificación para cada estudiante y entrando comentarios como desee. Una vez que todas las calificaciones y los comentarios han sido entrados, presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
-	Si el docente seleccionado usa el Libro de Calificaciones, RosarioSIS puede calcular las calificaciones de cada estudiante para el bimestre haciendo click sobre el enlace «Obtener las Calificaciones del Libro de Calificaciones.» de arriba.
+	Si el docente seleccionado usa el Libro de Calificaciones, RosarioSIS puede calcular las calificaciones de cada estudiante para el bimestre haciendo clic sobre el enlace «Obtener las Calificaciones del Libro de Calificaciones.» de arriba.
 </p>
 HTML;
 
@@ -874,7 +874,7 @@ HTML;
 	Una vez que usted esté en la clase adecuada, usted puede entrar la elegibilidad seleccionando el código de elegibilidad para cada estudiante. Una vez que la elegibilidad ha sido entrada para todos los estudiantes, presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
-	Si el docente seleccionado usa el Libro de Calificaciones, RosarioSIS puede calcular la elegibilidad de cada estudiante haciendo click sobre el enlace «Usar la Calificaciones del Libro de Calificaciones» de arriba.
+	Si el docente seleccionado usa el Libro de Calificaciones, RosarioSIS puede calcular la elegibilidad de cada estudiante haciendo clic sobre el enlace «Usar la Calificaciones del Libro de Calificaciones» de arriba.
 </p>
 <p>
 	Usted debe entrar la elegibilidad cada semana durante el transcurso especificado por el administrador de su institución.
@@ -894,10 +894,10 @@ if ( User( 'PROFILE' ) === 'admin' )
 	Usted debe primero seleccionar un estudiante usando la pantalla de búsqueda «Encontrar un Estudiante». Usted puede buscar estudiantes que han solicitado un curso especifico haciendo clic sobre el enlace «Escoger» al lado de las opciones de búsqueda «Curso» y «Solicitud» y escogiendo un curso desde la ventana emergente que aparece.
 </p>
 <p>
-	Para agregar un curso al horario del estudiante, haga click sobre el enlace «Agregar un Curso» al lado del icono «+» y seleccione el curso desde la ventana emergente que aparece. La pantalla se refrescara automáticamente para mostrar el curso.
+	Para agregar un curso al horario del estudiante, haga clic sobre el enlace «Agregar un Curso» al lado del icono «+» y seleccione el curso desde la ventana emergente que aparece. La pantalla se refrescara automáticamente para mostrar el curso.
 </p>
 <p>
-	Para retirar un curso existente, haga click sobre el icono «-» al lado del curso que quiere retirar del horario del estudiante.
+	Para retirar un curso existente, haga clic sobre el icono «-» al lado del curso que quiere retirar del horario del estudiante.
 </p>
 <p>
 	Para cambiar una clase de un curso de un estudiante, haga clic sobre «Hora - Docente» del curso que quiere cambiar y seleccione la nueva clase. Usted también puede cambiar el periodo de la misma manera.
@@ -912,7 +912,7 @@ HTML;
 	<i>Solicitudes de Estudiante</i> le permite especificar cuales cursos un estudiante debe tomar para el siguiente año escolar. Esas solicitudes son usadas por el Programador para completar el horario de un estudiante.
 </p>
 <p>
-	Usted debe primero seleccionar un estudiante usando la pantalla de búsqueda «Encontrar un Estudiante». Usted puede buscar estudiantes que han solicitado un curso especifico haciendo click sobre el enlace «Escoger» al lado de la opción de búsqueda «Solicitud» y escogiendo un curso desde la ventana emergente que aparece.
+	Usted debe primero seleccionar un estudiante usando la pantalla de búsqueda «Encontrar un Estudiante». Usted puede buscar estudiantes que han solicitado un curso especifico haciendo clic sobre el enlace «Escoger» al lado de la opción de búsqueda «Solicitud» y escogiendo un curso desde la ventana emergente que aparece.
 </p>
 <p>
 	Usted puede agregar una solicitud seleccionando el curso que usted quiere agregar buscando la materia. Usted puede agregar otras solicitudes desde cada materia de la misma manera. Una vez que usted ha agregado todas las solicitudes deseadas, presione el botón «Guardar» en la parte superior de la pantalla.
@@ -921,7 +921,7 @@ HTML;
 	Además, usted tiene la posibilidad de especificar un docente o una hora y de excluir un docente o una hora. Para hacerlo, seleccione el docente o la hora desde los menús desplegables «Con» y «Sin».
 </p>
 <p>
-	Para eliminar una solicitud, haga click sobre el icono «-» al lado de la solicitud. Se le preguntará si desea confirmar la eliminación.
+	Para eliminar una solicitud, haga clic sobre el icono «-» al lado de la solicitud. Se le preguntará si desea confirmar la eliminación.
 </p>
 HTML;
 
@@ -984,7 +984,7 @@ HTML;
 	<i>Imprimir Horarios</i> le permite imprimir los horarios para cualquier número de estudiantes.
 </p>
 <p>
-	Usted puede buscar estudiantes que solicitaron o están en un curso especifico haciendo click sobre el enlace «Escoger» al lado de las opciones «Solicitud» y «Curso» y escogiendo un curso desde la ventana emergente que aparece.
+	Usted puede buscar estudiantes que solicitaron o están en un curso especifico haciendo clic sobre el enlace «Escoger» al lado de las opciones «Solicitud» y «Curso» y escogiendo un curso desde la ventana emergente que aparece.
 </p>
 <p>
 	También puede escoger imprimir las solicitudes con etiquetas de correo. Las solicitudes tendrán etiquetas de correo posicionadas de una manera visible para un sobre con ventana cuando la hoja está doblada en tercios. Mas de una carta puede ser impreza por estudiante si el estudiante tiene padres residiendo en mas de una dirección.
@@ -1020,13 +1020,13 @@ HTML;
 	<i>Imprimir Solicitudes</i> le permite imprimir hojas de solicitudes para cualquier número de estudiantes.
 </p>
 <p>
-	Se puede buscar estudiantes que solicitaron un curso especifico haciendo click sobre el enlace «Escoger» al lado de la opción «Solicitud» y escogiendo un curso desde la ventana emergente que aparece.
+	Se puede buscar estudiantes que solicitaron un curso especifico haciendo clic sobre el enlace «Escoger» al lado de la opción «Solicitud» y escogiendo un curso desde la ventana emergente que aparece.
 </p>
 <p>
 	Also, you can choose to print the requests sheets with mailing labels. The requests sheets will have mailing labels positioned in such a way as to be visible in a windowed envelope when the sheet is folded in thirds. More than one request sheet may be printed per student if the student has guardians residing at more than one address.
 </p>
 <p>
-	The request sheets will be automatically downloaded to your computer in the printable PDF format when you click the "Submit" button.
+	The request sheets will be automatically downloaded to your computer in the printable PDF format when you clic the "Submit" button.
 </p>
 HTML;
 
@@ -1035,10 +1035,10 @@ HTML;
 	<i>Reporte de Horario</i> es un reporte que muestra los estudiantes programados en cada curso, los estudiantes que solicitaron el curso pero que no fueron programados, el número de solicitudes, los cupos abiertos, y el total de asientos en cada curso.
 </p>
 <p>
-	Para navegar en este reporte, haga click primero sobre una de las materias. Usted vera cada curso en esta materia también como el número de solicitudes para este curso, los cupos abiertos y el total de asientos. Si usted escoge un curso haciendo click sobre este, usted vera una lista de los estudiantes programados en este curso o una lista de los estudiantes que solicitaron el curso pero que no fueron programados haciendo click sobre el enlace «Listar Estudiantes no Programados».
+	Para navegar en este reporte, haga clic primero sobre una de las materias. Usted vera cada curso en esta materia también como el número de solicitudes para este curso, los cupos abiertos y el total de asientos. Si usted escoge un curso haciendo clic sobre este, usted vera una lista de los estudiantes programados en este curso o una lista de los estudiantes que solicitaron el curso pero que no fueron programados haciendo clic sobre el enlace «Listar Estudiantes no Programados».
 </p>
 <p>
-	Cualquier momento después de seleccionar una materia, usted puede navegar atrás haciendo click sobre los enlaces que aparezcan en la parte superior de la pantalla.
+	Cualquier momento después de seleccionar una materia, usted puede navegar atrás haciendo clic sobre los enlaces que aparezcan en la parte superior de la pantalla.
 </p>
 HTML;
 
@@ -1089,13 +1089,13 @@ HTML;
 	<i>Cursos</i> le permite configurar los cursos de su institución. Hay tres tercios: Materias, Cursos, Clases.
 </p>
 <p>
-	Para agregar cualquier de esos tres tercios, haga click sobre el icono «+» en la columna correspondiendo a lo que quiere agregar. Luego, llene la información necesaria en los campos arriba de las listas y presione el botón «Guardar».
+	Para agregar cualquier de esos tres tercios, haga clic sobre el icono «+» en la columna correspondiendo a lo que quiere agregar. Luego, llene la información necesaria en los campos arriba de las listas y presione el botón «Guardar».
 </p>
 <p>
-	Para cambiar cualquier de esos tres tercios, haga click sobre el articulo que quiere cambiar, y haga click sobre cualquier dato que quiere cambiar en la parte superior de las listas. Luego, cambie el dato y presione el botón «Guardar».
+	Para cambiar cualquier de esos tres tercios, haga clic sobre el articulo que quiere cambiar, y haga clic sobre cualquier dato que quiere cambiar en la parte superior de las listas. Luego, cambie el dato y presione el botón «Guardar».
 </p>
 <p>
-	Finalmente, para eliminar algo, seleccione lo haciendo click sobre su titulo en la lista y presione el botón «Eliminar» en la parte superior de la pantalla. Se le preguntará si desea confirmar la eliminación.
+	Finalmente, para eliminar algo, seleccione lo haciendo clic sobre su titulo en la lista y presione el botón «Eliminar» en la parte superior de la pantalla. Se le preguntará si desea confirmar la eliminación.
 </p>
 HTML;
 
@@ -1138,7 +1138,7 @@ if ( User( 'PROFILE' ) === 'admin' )
 	<i>Boletines de Calificaciones</i> le permite imprimir boletines de calificaciones para cualquier número de estudiantes.
 </p>
 <p>
-	Usted puede buscar estudiantes que están en un curso especifico haciendo click sobre el enlace «Escoger» al lado de la opción «Curso» y escogiendo un curso desde la ventana emergente que aparece. Usted también puede limitar su búsqueda por promedio, puesto en la clase, y calificación en la Búsqueda Avanzada. Por ejemplo, usted puede buscar los 10 mejores estudiantes de una clase, los estudiantes que fallan.
+	Usted puede buscar estudiantes que están en un curso especifico haciendo clic sobre el enlace «Escoger» al lado de la opción «Curso» y escogiendo un curso desde la ventana emergente que aparece. Usted también puede limitar su búsqueda por promedio, puesto en la clase, y calificación en la Búsqueda Avanzada. Por ejemplo, usted puede buscar los 10 mejores estudiantes de una clase, los estudiantes que fallan.
 </p>
 <p>
 	También puede escoger imprimir los boletines con etiquetas de correo. Los boletines tendrán etiquetas de correo posicionadas de una manera visible para un sobre con ventana cuando la hoja está doblada en tercios. Mas de una carta puede ser impreza por estudiante si el estudiante tiene padres residiendo en mas de una dirección.
@@ -1180,7 +1180,7 @@ HTML;
 	<i>Expedientes Académicos</i> le permite imprimir expedientes académicos para cualquier número de estudiantes.
 </p>
 <p>
-	Usted puede buscar estudiantes que están en un curso especifico haciendo click sobre el enlace «Escoger» al lado de la opción «Curso» y escogiendo un curso desde la ventana emergente que aparece. Usted también puede limitar su búsqueda por promedio, puesto en la clase, y calificación en la Búsqueda Avanzada. Por ejemplo, usted puede buscar los 10 mejores estudiantes de una clase, los estudiantes que fallan.
+	Usted puede buscar estudiantes que están en un curso especifico haciendo clic sobre el enlace «Escoger» al lado de la opción «Curso» y escogiendo un curso desde la ventana emergente que aparece. Usted también puede limitar su búsqueda por promedio, puesto en la clase, y calificación en la Búsqueda Avanzada. Por ejemplo, usted puede buscar los 10 mejores estudiantes de una clase, los estudiantes que fallan.
 </p>
 <p>
 	Antes de imprimir los expedientes, usted debe seleccionar cuales periodos a calificar serán en el expediente marcando las casillas de los periodos a calificar. También puede escoger incluir la foto del estudiante o los comentarios asociados a cada curso.
@@ -1216,7 +1216,7 @@ HTML;
 	<i>Calificaciones de los Estudiantes</i> le permite ver las calificaciones de cualquier número de estudiantes.
 </p>
 <p>
-	Usted puede buscar estudiantes que están en un curso especifico haciendo click sobre el enlace «Escoger» al lado de la opción «Curso» y escogiendo un curso desde la ventana emergente que aparece. Usted también puede limitar su búsqueda por promedio, puesto en la clase, y calificación en la Búsqueda Avanzada. Por ejemplo, usted puede buscar los 10 mejores estudiantes de una clase, los estudiantes que fallan.
+	Usted puede buscar estudiantes que están en un curso especifico haciendo clic sobre el enlace «Escoger» al lado de la opción «Curso» y escogiendo un curso desde la ventana emergente que aparece. Usted también puede limitar su búsqueda por promedio, puesto en la clase, y calificación en la Búsqueda Avanzada. Por ejemplo, usted puede buscar los 10 mejores estudiantes de una clase, los estudiantes que fallan.
 </p>
 HTML;
 
@@ -1246,7 +1246,7 @@ HTML;
 	<i>Lista de Promedio / Puesto en la Clase</i> es un reporte que muestra el promedio ponderado, no ponderado, y puesto en la clase de cada estudiante en su institución.
 </p>
 <p>
-	Como para cada lista en RosarioSIS, usted puede ordenar cualquier dato haciendo click sobre el titulo de la columna en el encabezado. Por ejemplo, usted puede ordenar por grado haciendo click sobre «Grado» en el encabezado.
+	Como para cada lista en RosarioSIS, usted puede ordenar cualquier dato haciendo clic sobre el titulo de la columna en el encabezado. Por ejemplo, usted puede ordenar por grado haciendo clic sobre «Grado» en el encabezado.
 </p>
 HTML;
 
@@ -1335,7 +1335,7 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 	Una vez que esté en el periodo a calificar deseado, usted puede entrar las calificaciones de los estudiantes seleccionando la calificación para cada estudiante y entrar comentarios si lo desea. Una vez que todos los grados y comentarios están entrados, presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
-	Si usted usa el Libro de Calificaciones, RosarioSIS puede calcular cada calificación del bimestre haciendo click sobre el enlace «Usar la Calificaciones del Libro de Calificaciones» de arriba.
+	Si usted usa el Libro de Calificaciones, RosarioSIS puede calcular cada calificación del bimestre haciendo clic sobre el enlace «Usar la Calificaciones del Libro de Calificaciones» de arriba.
 </p>
 <p>
 	Si el mensaje «Usted no puede editar estas calificaciones.» aparece, usted no puede entrar las calificaciones finales ese día porque este no se encuentra en el transcurso de publicación de la calificaciones configurado por el periodo a calificar. Ver el servicio Períodos a Calificar para conocer las fechas de publicación de calificaciones.
@@ -1359,16 +1359,16 @@ HTML;
 	Usted tendrá probablemente tipos de tareas llamados «Trabajo», «Quiz», o «Previa». Los tipos de tareas se crean para cada curso que usted tiene.
 </p>
 <p>
-	Para agregar un tipo de tarea o una tarea, haga click sobre el icono «+» en la columna deseada. Luego, llene los datos en los campos arriba de las listas y presione el botón «Guardar».
+	Para agregar un tipo de tarea o una tarea, haga clic sobre el icono «+» en la columna deseada. Luego, llene los datos en los campos arriba de las listas y presione el botón «Guardar».
 </p>
 <p>
 	Si usted marca la casilla «Aplicar a todas las Clases para este Curso», la tarea será asignada a cada clase del curso que usted tiene, de la misma manera que están agregados los tipos de tarea.
 </p>
 <p>
-	Para cambiar un tipo o una tarea, haga click sobre el tipo o la tarea usted quiere cambiar y luego haga click sobre el dato que usted quiere cambiar en la parte superior de las listas de tareas y tipos. Luego, cambie el dato y presione el botón «Guardar».
+	Para cambiar un tipo o una tarea, haga clic sobre el tipo o la tarea usted quiere cambiar y luego haga clic sobre el dato que usted quiere cambiar en la parte superior de las listas de tareas y tipos. Luego, cambie el dato y presione el botón «Guardar».
 </p>
 <p>
-	Finalmente, para eliminar una tarea o un tipo, seleccionelo haciendo click sobre su titulo en la lista y presione el botón «Eliminar». Se le preguntará si desea confirmar la eliminación.
+	Finalmente, para eliminar una tarea o un tipo, seleccionelo haciendo clic sobre su titulo en la lista y presione el botón «Eliminar». Se le preguntará si desea confirmar la eliminación.
 </p>
 HTML;
 
@@ -1377,10 +1377,10 @@ HTML;
 	<i>Libro de Calificaciones - Calificaciones</i> le permite entrar las calificaciones de las tareas para todos sus estudiantes en el periodo a calificar actual. Por defecto, el servicio lista los estudiantes de su primera clase. Usted puede cambiar la clase actual en el menú desplegable del marco izquierdo.
 </p>
 <p>
-	Una vez que usted ha escogido la clase correcta, usted vera el total de puntos y la calificación ponderada de cada estudiante en su clase. Usted puede ver las calificaciones de una tarea seleccionandola en el menú desplegable de las tareas en la parte superior de la pantalla. Luego, usted puede entrar una nueva calificación entrando los puntos en el campo vacío al lado del nombre del estudiante o usted puede cambiar una calificación existente haciendo click sobre los puntos y cambiando el dato. Después de cambiar las calificaciones, presione el botón «Guardar» en la parte superior de la pantalla.
+	Una vez que usted ha escogido la clase correcta, usted vera el total de puntos y la calificación ponderada de cada estudiante en su clase. Usted puede ver las calificaciones de una tarea seleccionandola en el menú desplegable de las tareas en la parte superior de la pantalla. Luego, usted puede entrar una nueva calificación entrando los puntos en el campo vacío al lado del nombre del estudiante o usted puede cambiar una calificación existente haciendo clic sobre los puntos y cambiando el dato. Después de cambiar las calificaciones, presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
-	Usted también puede ver y cambiar todas las calificaciones de un estudiante haciendo click sobre su nombre en la lista.
+	Usted también puede ver y cambiar todas las calificaciones de un estudiante haciendo clic sobre su nombre en la lista.
 </p>
 HTML;
 
@@ -1447,19 +1447,19 @@ if ( User( 'PROFILE' ) === 'admin' )
 	<i>Administración</i> le permite ver y cambiar los registros de asistencia de cualquier día.
 </p>
 <p>
-	Para cambiar el estado de asistencia para cualquier hora, haga click sobre el dato y seleccione el nombre corto del código de asistencia que usted quisiera asociar a este estudiante. Después de hacer las modificaciones, presione el botón «Actualizar». Usted puede limitar la lista de estudiantes escogiendo un código de asistencia en el menú desplegable en la parte superior derecha de la pantalla. Por defecto, todos los estudiantes con cualquier código de estado «Ausente» están listados. Usted puede agregar un código de asistencia haciendo click sobre el icono «+» al lado del menú desplegable de los códigos de asistencia.
+	Para cambiar el estado de asistencia para cualquier hora, haga clic sobre el dato y seleccione el nombre corto del código de asistencia que usted quisiera asociar a este estudiante. Después de hacer las modificaciones, presione el botón «Actualizar». Usted puede limitar la lista de estudiantes escogiendo un código de asistencia en el menú desplegable en la parte superior derecha de la pantalla. Por defecto, todos los estudiantes con cualquier código de estado «Ausente» están listados. Usted puede agregar un código de asistencia haciendo clic sobre el icono «+» al lado del menú desplegable de los códigos de asistencia.
 </p>
 <p>
-	Usted puede cambiar la fecha mostrada haciendo click sobre la fecha en la parte superior izquierda de la pantalla y cambiándola por la fecha deseada.
+	Usted puede cambiar la fecha mostrada haciendo clic sobre la fecha en la parte superior izquierda de la pantalla y cambiándola por la fecha deseada.
 </p>
 <p>
 	Después de cambiar el código de asistencia o la fecha, presione el botón «Actualizar» para refrescar la pantalla con los nuevos parámetros.
 </p>
 <p>
-	Usted también puede ver el código de asistencia asignado por el docente y también ver y entrar un comentario para cada hora haciendo click sobre el nombre del estudiante.
+	Usted también puede ver el código de asistencia asignado por el docente y también ver y entrar un comentario para cada hora haciendo clic sobre el nombre del estudiante.
 </p>
 <p>
-	Haciendo click sobre el enlace «Estudiante actual» en la parte superior de la pantalla mostrara los registros de asistencia del día para el estudiante actual presente en el marco izquierdo.
+	Haciendo clic sobre el enlace «Estudiante actual» en la parte superior de la pantalla mostrara los registros de asistencia del día para el estudiante actual presente en el marco izquierdo.
 </p>
 HTML;
 
@@ -1477,7 +1477,7 @@ HTML;
 	<i>Asistencia Diaria Promedio</i> es un reporte que muestra el número de estudiantes, los días posibles, el número de estudiantes presentes por los días posibles, el número de estudiantes ausentes por los días posibles, la Asistencia Diaria Promedio, el número de estudiantes presentes por día promedio, y el número de estudiantes ausentes por día promedio. Estos números están para cada grado.
 </p>
 <p>
-	Usted puede cambiar el periodo con los menús desplegables de las fechas en la parte superior de la pantalla y presionando el botón «Ir». Usted también puede limitar los números buscando por sexo o cualquier campo de dato haciendo click sobre el enlace «Avanzado».
+	Usted puede cambiar el periodo con los menús desplegables de las fechas en la parte superior de la pantalla y presionando el botón «Ir». Usted también puede limitar los números buscando por sexo o cualquier campo de dato haciendo clic sobre el enlace «Avanzado».
 </p>
 HTML;
 
@@ -1486,7 +1486,7 @@ HTML;
 	<i>Asistencia Promedio por Día</i> es un reporte que muestra el número de estudiantes, los días posibles, el número de estudiantes presentes por los días posibles, el número de estudiantes ausentes por los días posibles, la Asistencia Diaria Promedio por día, el número de estudiantes presentes por día promedio, y el número de estudiantes ausentes por día promedio. Estos números están para cada grado.
 </p>
 <p>
-	Usted puede cambiar el periodo con los menús desplegables de las fechas en la parte superior de la pantalla y presionando el botón «Ir». Usted también puede limitar los números buscando por sexo o cualquier campo de dato haciendo click sobre el enlace «Avanzado».
+	Usted puede cambiar el periodo con los menús desplegables de las fechas en la parte superior de la pantalla y presionando el botón «Ir». Usted también puede limitar los números buscando por sexo o cualquier campo de dato haciendo clic sobre el enlace «Avanzado».
 </p>
 HTML;
 
@@ -1498,7 +1498,7 @@ HTML;
 	Después de buscar por estudiantes, usted puede cambiar el periodo con las fechas en los menús desplegables en la parte superior de la pantalla. La lista muestra el dato de asistencia diaria de cada estudiante para cada día con un código de color. Rojo significa ausente todo el día, amarillo significa ausente medio día y verde significa presente todo el día.
 </p>
 <p>
-	Usted puede ver los registros de asistencia para cada hora, para cualquier estudiante haciendo click sobre el nombre del estudiante. Aquí, el código está en la casilla de color.
+	Usted puede ver los registros de asistencia para cada hora, para cualquier estudiante haciendo clic sobre el nombre del estudiante. Aquí, el código está en la casilla de color.
 </p>
 HTML;
 
@@ -1549,10 +1549,10 @@ HTML;
 	Para agregar un código de asistencia, llene el titulo, nombre corto, tipo, y código del estado. Seleccione si el código debería estar o no por defecto para el docente desde los campos vacíos al pié de la lista y presione el botón «Guardar». Si el código de asistencia es del tipo «Oficina Solamente», un docente no será capaz de seleccionarlo desde su servicio «Tomar Asistencia».
 </p>
 <p>
-	Para cambiar un código de asistencia, haga click sobre cualquier dato del código de asistencia, cambie el dato, y presione el botón «Guardar».
+	Para cambiar un código de asistencia, haga clic sobre cualquier dato del código de asistencia, cambie el dato, y presione el botón «Guardar».
 </p>
 <p>
-	Para eliminar un código de asistencia, haga click sobre el icono «-» al lado del código de asistencia que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
+	Para eliminar un código de asistencia, haga clic sobre el icono «-» al lado del código de asistencia que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
 </p>
 HTML;
 
@@ -1598,7 +1598,7 @@ if ( User( 'PROFILE' ) === 'admin' )
 	<i>Pantalla Estudiante</i> muestra las actividades del estudiante y las calificaciones de elegibilidad del transcurso actual. El servicio le permite también de agregar y eliminar actividades del estudiante.
 </p>
 <p>
-	Usted debe primero seleccionar un estudiante usando la pantalla «Encontrar un estudiante». Usted puede buscar estudiantes que están en un curso especifico haciendo click sobre el enlace «Escoger» al lado de la opción «Curso» y escogiendo un curso desde la ventana emergente que aparece. Usted también puede buscar estudiantes que toman una actividad especifica y estudiantes que están inelegibles actualmente.
+	Usted debe primero seleccionar un estudiante usando la pantalla «Encontrar un estudiante». Usted puede buscar estudiantes que están en un curso especifico haciendo clic sobre el enlace «Escoger» al lado de la opción «Curso» y escogiendo un curso desde la ventana emergente que aparece. Usted también puede buscar estudiantes que toman una actividad especifica y estudiantes que están inelegibles actualmente.
 </p>
 <p>
 	Para agregar una actividad a un estudiante, seleccione la actividad deseada en el menú desplegable al lado del icono «+» y presione el botón «Agregar».
@@ -1613,7 +1613,7 @@ HTML;
 	<i>Agregar Actividad</i> le permite agregar una actividad a un grupo de estudiantes de una vez.
 </p>
 <p>
-	Primero, busca estudiantes. Note que se puede buscar estudiantes que están en una actividad o en un curso especifico. Desde el resultado de la búsqueda, usted puede seleccionar cualquier número de estudiantes. Usted puede seleccionar todos los estudiantes de la lista haciendo click sobre la casilla en el encabezado de la lista. Después de seleccionar los estudiantes, seleccione una actividad en el menú desplegable en la parte superior de la pantalla. Finalmente, presione el botón «Agregar la Actividad a los Estudiantes Seleccionados».
+	Primero, busca estudiantes. Note que se puede buscar estudiantes que están en una actividad o en un curso especifico. Desde el resultado de la búsqueda, usted puede seleccionar cualquier número de estudiantes. Usted puede seleccionar todos los estudiantes de la lista haciendo clic sobre la casilla en el encabezado de la lista. Después de seleccionar los estudiantes, seleccione una actividad en el menú desplegable en la parte superior de la pantalla. Finalmente, presione el botón «Agregar la Actividad a los Estudiantes Seleccionados».
 </p>
 HTML;
 
@@ -1625,10 +1625,10 @@ HTML;
 	Para agregar una actividad, llene su titulo, fecha de comienzo y fecha de fin en los campos vacíos al fin de la lista y presione el botón «Guardar».
 </p>
 <p>
-	Para modificar una actividad, haga click sobre cualquier dato de la actividad, cambie el dato, y presione el botón «Guardar».
+	Para modificar una actividad, haga clic sobre cualquier dato de la actividad, cambie el dato, y presione el botón «Guardar».
 </p>
 <p>
-	Para eliminar una actividad, haga click sobre el icono «-» al lado de la actividad que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
+	Para eliminar una actividad, haga clic sobre el icono «-» al lado de la actividad que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
 </p>
 HTML;
 
@@ -1672,7 +1672,7 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 	Una vez que esté en la clase correcta, usted puede entrar las calificaciones de elegibilidad seleccionando el código para cada estudiante. Una vez que usted ha entrado la elegibilidad para todos sus estudiantes, presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 <p>
-	Si usted usa el Libro de Calificaciones, RosarioSIS puede calcular la elegibilidad de cada estudiante haciendo click sobre el enlace «Usar la Calificaciones del Libro de Calificaciones» de arriba.
+	Si usted usa el Libro de Calificaciones, RosarioSIS puede calcular la elegibilidad de cada estudiante haciendo clic sobre el enlace «Usar la Calificaciones del Libro de Calificaciones» de arriba.
 </p>
 <p>
 	Usted debe entrar la elegibilidad cada semena durante el transcurso especificado por la administración de su institución.
