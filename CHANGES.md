@@ -23,7 +23,7 @@ Changes in 2.9
 - Add course_period_school_periods_id to course_period_school_periods table primary key in rosariosis.sql
 - Add Update() function in ProgramFunctions/Update.fnc.php
 - Rework Student Comments: serialize, MarkDown in Students/includes/Comments.inc.php
-- CHANGES, INSTALL, WHATS_NEW, plugins & modules README files: use MarkDown
+- CHANGES, INSTALL, WHATS_NEW, themes, plugins & modules README files: use MarkDown
 - Move from includeOnceColorBox() to ColorBox to plugins.min.js
 - Update ColorBox to version 1.6.3 in assets/js/colorbox/
 - Remove functions/IncludeOnce.php file
