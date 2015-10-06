@@ -1,5 +1,14 @@
 <?php
+/**
+ * Students module Menu entries
+ *
+ * @uses $menu global var
+ *
+ * @see  Menu.php in root folder
+ */
+
 $menu['Students']['admin'] = array(
+	'title' => _( 'Students' ),
 	'default' => 'Students/Student.php',
 	'Students/Student.php' => _( 'Student Info' ),
 	'Students/Student.php&include=General_Info&student_id=new' => _( 'Add a Student' ),
@@ -22,6 +31,7 @@ $menu['Students']['admin'] = array(
 );
 
 $menu['Students']['teacher'] = array(
+	'title' => _( 'Students' ),
 	'default' => 'Students/Student.php',
 	'Students/Student.php' => _( 'Student Info' ),
 	'Students/AddUsers.php' => _( 'Associated Parents' ),
@@ -32,6 +42,7 @@ $menu['Students']['teacher'] = array(
 );
 
 $menu['Students']['parent'] = array(
+	'title' => _( 'Students' ),
 	'default' => 'Students/Student.php',
 	'Students/Student.php' => _( 'Student Info' )
 );
@@ -40,4 +51,3 @@ $exceptions['Students'] = array(
 	'Students/Student.php&include=General_Info&student_id=new' => true,
 	'Students/AssignOtherInfo.php' => true
 );
-?>

@@ -1,5 +1,14 @@
 <?php
+/**
+ * Users module Menu entries
+ *
+ * @uses $menu global var
+ *
+ * @see  Menu.php in root folder
+ */
+
 $menu['Users']['admin'] = array(
+	'title' => _( 'Users' ),
 	'default' => 'Users/User.php',
 	'Users/User.php' => _( 'User Info' ),
 	'Users/User.php&staff_id=new' => _( 'Add a User' ),
@@ -13,12 +22,14 @@ $menu['Users']['admin'] = array(
 );
 
 $menu['Users']['teacher'] = array(
+	'title' => _( 'Users' ),
 	'default' => 'Users/User.php',
 	'Users/User.php' => _( 'User Info' ),
 	'Users/Preferences.php' => _( 'My Preferences' )
 );
 
 $menu['Users']['parent'] = array(
+	'title' => _( 'Users' ),
 	'default' => 'Users/User.php',
 	'Users/User.php' => _( 'User Info' ),
 	'Users/Preferences.php' => _( 'My Preferences' )
@@ -31,5 +42,3 @@ if ( User( 'PROFILE' ) == 'student' )
 $exceptions['Users'] = array(
 	'Users/User.php&staff_id=new' => true
 );
-
-?>

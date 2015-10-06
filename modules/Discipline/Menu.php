@@ -1,5 +1,14 @@
 <?php
+/**
+ * Discipline module Menu entries
+ *
+ * @uses $menu global var
+ *
+ * @see  Menu.php in root folder
+ */
+
 $menu['Discipline']['admin'] = array(
+	'title' => _( 'Discipline' ),
 	'default' => 'Discipline/Referrals.php',
 	'Discipline/MakeReferral.php' => _( 'Add Referral' ),
 	'Discipline/Referrals.php' => _( 'Referrals' ),
@@ -13,6 +22,7 @@ $menu['Discipline']['admin'] = array(
 );
 
 $menu['Discipline']['teacher'] = array(
+	'title' => _( 'Discipline' ),
 	'default' => 'Discipline/Referrals.php',
 	'Discipline/MakeReferral.php' => _( 'Add Referral' ),
 	'Discipline/Referrals.php' => _( 'Referrals' )
@@ -24,4 +34,3 @@ $menu['Discipline']['parent'] = array(
 
 $exceptions['Discipline'] = array(
 );
-?>

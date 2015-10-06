@@ -1,5 +1,14 @@
 <?php
+/**
+ * Student Billing module Menu entries
+ *
+ * @uses $menu global var
+ *
+ * @see  Menu.php in root folder
+ */
+
 $menu['Student_Billing']['admin'] = array(
+	'title' => _( 'Student Billing' ),
 	'default' => 'Student_Billing/StudentFees.php',
 	'Student_Billing/StudentFees.php' => _( 'Fees' ),
 	'Student_Billing/StudentPayments.php' => _( 'Payments' ),
@@ -16,6 +25,7 @@ $menu['Student_Billing']['teacher'] = array(
 );
 
 $menu['Student_Billing']['parent'] = array(
+	'title' => _( 'Student Billing' ),
 	'default' => 'Student_Billing/StudentFees.php',
 	'Student_Billing/StudentFees.php' => _( 'Fees' ),
 	'Student_Billing/StudentPayments.php' => _( 'Payments' ),
@@ -27,4 +37,3 @@ $menu['Student_Billing']['parent'] = array(
 
 $exceptions['Student_Billing'] = array(
 );
-?>

@@ -1,5 +1,14 @@
 <?php
+/**
+ * Accounting module Menu entries
+ *
+ * @uses $menu global var
+ *
+ * @see  Menu.php in root folder
+ */
+
 $menu['Accounting']['admin'] = array(
+	'title' => _( 'Accounting' ),
 	'default' => 'Accounting/Incomes.php',
 	'Accounting/Incomes.php' => _( 'Incomes' ),
 	'Accounting/Expenses.php' => _( 'Expenses' ),
@@ -12,6 +21,7 @@ $menu['Accounting']['admin'] = array(
 );
 
 $menu['Accounting']['teacher'] = array(
+	'title' => _( 'Accounting' ),
 	'default' => 'Accounting/Salaries.php',
 	1 => _( 'Staff Payroll' ),
 	'Accounting/Salaries.php' => _( 'Salaries' ),
@@ -21,5 +31,3 @@ $menu['Accounting']['teacher'] = array(
 
 $menu['Accounting']['parent'] = array(
 );
-
-?>

@@ -1,5 +1,14 @@
 <?php
+/**
+ * School Setup module Menu entries
+ *
+ * @uses $menu global var
+ *
+ * @see  Menu.php in root folder
+ */
+
 $menu['School_Setup']['admin'] = array(
+	'title' => _( 'School Setup' ),
 	'default' => 'School_Setup/Calendar.php',
 	'School_Setup/PortalNotes.php' => _( 'Portal Notes' ),
 	//FJ Portal Polls
@@ -22,6 +31,7 @@ $menu['School_Setup']['admin'] = array(
 );
 
 $menu['School_Setup']['teacher'] = array(
+	'title' => _( 'School' ),
 	'default' => 'School_Setup/Calendar.php',
 	'School_Setup/Schools.php' => _( 'School Information' ),
 	'School_Setup/MarkingPeriods.php' => _( 'Marking Periods' ),
@@ -31,6 +41,7 @@ $menu['School_Setup']['teacher'] = array(
 );
 
 $menu['School_Setup']['parent'] = array(
+	'title' => _( 'School' ),
 	'default' => 'School_Setup/Calendar.php',
 	'School_Setup/Schools.php' => _( 'School Information' ),
 	'School_Setup/Calendar.php' => _( 'Calendars' )
@@ -41,7 +52,3 @@ $exceptions['School_Setup'] = array(
 	'School_Setup/Schools.php&new_school=true' => true,
 	'School_Setup/Rollover.php' => true
 );
-
-//FJ add translation
-_( 'School Setup' );
-?>

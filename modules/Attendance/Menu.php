@@ -1,5 +1,14 @@
 <?php
+/**
+ * Attendance module Menu entries
+ *
+ * @uses $menu global var
+ *
+ * @see  Menu.php in root folder
+ */
+
 $menu['Attendance']['admin'] = array(
+	'title' => _( 'Attendance' ),
 	'default' => 'Attendance/Administration.php',
 	'Attendance/Administration.php' => _( 'Administration' ),
 	'Attendance/AddAbsences.php' => _( 'Add Absences' ),
@@ -19,6 +28,7 @@ $menu['Attendance']['admin'] = array(
 );
 
 $menu['Attendance']['teacher'] = array(
+	'title' => _( 'Attendance' ),
 	'default' => 'Attendance/TakeAttendance.php',
 	'Attendance/TakeAttendance.php' => _( 'Take Attendance' ),
 	'Attendance/DailySummary.php' => _( 'Attendance Chart' ),
@@ -26,12 +36,13 @@ $menu['Attendance']['teacher'] = array(
 );
 
 $menu['Attendance']['parent'] = array(
+	'title' => _( 'Attendance' ),
 	'default' => 'Attendance/StudentSummary.php',
 	'Attendance/StudentSummary.php' => _( 'Absences' ),
 	'Attendance/DailySummary.php' => _( 'Daily Summary' )
 );
 
-if ($RosarioModules['Users'])
+if ( $RosarioModules['Users'] )
 	$menu['Users']['admin'] += array(
 		'Users/TeacherPrograms.php&include=Attendance/TakeAttendance.php' => _( 'Take Attendance' )
 	);
@@ -39,5 +50,3 @@ if ($RosarioModules['Users'])
 $exceptions['Attendance'] = array(
 	'Attendance/AddAbsences.php' => true
 );
-
-?>

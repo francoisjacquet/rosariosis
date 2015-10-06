@@ -260,20 +260,20 @@ if ( $unset_staff )
 // update "#body" Module page
 if ( $update_body )
 {
-	$addJavascripts .= 'var body_link = document.createElement("a"); body_link.href = "' .
+	$addJavascripts .= 'ajaxLink("' .
 		str_replace( '&amp;', '&', PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array('advanced') ) ) .
-		'"; body_link.target = "body"; ajaxLink(body_link);';
+	'");';
 }
 
 /**
- * set menu
+ * Set menu
  * Student / User / School / CoursePeriod
  * verify if have been changed in Warehouse.php
  */
-$addJavascripts .= 'var menuStudentID = "' . UserStudentID() .
-	'"; var menuStaffID = "' . UserStaffID() .
-	'"; var menuSchool = "' . UserSchool() .
-	'"; var menuCoursePeriod = "' . UserCoursePeriod() . '";';
+$addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
+	menuStaffID = "' . UserStaffID() . '",
+	menuSchool = "' . UserSchool() . '",
+	menuCoursePeriod = "' . UserCoursePeriod() . '";';
 
 ?>
 		<script><?php echo $addJavascripts; ?></script>
@@ -664,21 +664,18 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() .
 
 		for ( $i = 0; $i < $size; $i++ ) :
 
-			if ( count( $modcat_menu = $_ROSARIO['Menu'][$key[$i]] ) ) :
-
-				// translate Module title
-				if ( !in_array( $key[$i], $RosarioCoreModules ) )
-
-					$module_title = dgettext( $key[$i], str_replace( '_', ' ', $key[$i] ) );
-				else
-					$module_title = _( str_replace( '_', ' ', $key[$i] ) );
-			?>
-			<li class="menu-module">
+			if ( count( $modcat_menu = $_ROSARIO['Menu'][$key[$i]] ) ) : 
+				$modcat_class = mb_strtolower( str_replace( '_', '-', $key[$i] ) ); ?>
+			<li class="menu-module <?php echo $modcat_class; ?>">
 				<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top">
-					<IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" />&nbsp;<?php echo $module_title; ?>
+					<IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" />&nbsp;<?php echo $modcat_menu['title']; ?>
 				</A>
 				<ul id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
-				<?php unset( $modcat_menu['default'] );
+				<?php
+				unset(
+					$modcat_menu['default'],
+					$modcat_menu['title']
+				);
 				
 				$keys_modcat = array_keys( $modcat_menu );
 				$size_modcat = sizeOf( $keys_modcat );

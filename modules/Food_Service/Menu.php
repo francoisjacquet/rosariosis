@@ -1,5 +1,14 @@
 <?php
+/**
+ * Food Service module Menu entries
+ *
+ * @uses $menu global var
+ *
+ * @see  Menu.php in root folder
+ */
+
 $menu['Food_Service']['admin'] = array(
+	'title' => _( 'Food Service' ),
 	'default' => 'Food_Service/Accounts.php',
 	'Food_Service/Accounts.php' => _( 'Accounts' ),
 	'Food_Service/Statements.php' => _( 'Statements' ),
@@ -21,6 +30,7 @@ $menu['Food_Service']['admin'] = array(
 );
 
 $menu['Food_Service']['teacher'] = array(
+	'title' => _( 'Food Service' ),
 	'default' => 'Food_Service/Accounts.php',
 	'Food_Service/Accounts.php' => _( 'Accounts' ),
 	'Food_Service/Statements.php' => _( 'Statements' ),
@@ -30,6 +40,7 @@ $menu['Food_Service']['teacher'] = array(
 );
 
 $menu['Food_Service']['parent'] = array(
+	'title' => _( 'Food Service' ),
 	'default' => 'Food_Service/Accounts.php',
 	'Food_Service/Accounts.php' => _( 'Accounts' ),
 	'Food_Service/Statements.php' => _( 'Statements' ),
@@ -41,5 +52,3 @@ $menu['Food_Service']['parent'] = array(
 $exceptions['Food_Service'] = array(
 	'Food_Service/ServeMenus.php' => true
 );
-
-?>
