@@ -28,6 +28,7 @@ Changes in 2.9
 - Update ColorBox to version 1.6.3 in assets/js/colorbox/
 - Remove functions/IncludeOnce.php file
 - Add all jqPlot plugins & excanvas (IE version<9 compat) in assets/js/jqplot
+- Regroup Charts (jqPlot) functions in ProgramFunctions/Charts.fnc.php
 
 Changes in 2.8.11
 -----------------

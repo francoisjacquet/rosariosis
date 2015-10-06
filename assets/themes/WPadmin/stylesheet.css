@@ -389,7 +389,7 @@ label{
 	line-height:1
 }
 .postbox h3{
-	padding:6px 10px;
+	line-height:27px;
 	border:0
 }
 .postbox .h3multi h3{
@@ -408,6 +408,10 @@ label{
 .postbox h3,.postbox h3 a{
 	font-size:15px;
 	font-weight:normal
+}
+.postbox h3 a{
+	display:inline-block;
+	padding:0 10px
 }
 .postbox .h3multi{
 	border-bottom-width:1px;
@@ -556,7 +560,7 @@ textarea{
 span.legend-gray, span.legend-red{
 	margin-top:5px;
 	margin-bottom:7px;
-	display:block
+	display:inline-block
 }
 .logo{
 	max-width:150px;
@@ -745,15 +749,20 @@ div.st{
 /*calendar*/
 #calendar{
 	table-layout:fixed;
+	height: 80%;
 }
 .calendar-day{
-	min-width:126px;
-	height:85px
+	min-width:109px;
+	height:96px;
 }
 .calendar-day > table{
 	height:inherit
 }
+/*http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell*/
 .calendar-day td{
+	max-width:103px;
+	overflow:hidden;
+	white-space:nowrap;
 	line-height:1
 }
 .calendar-day .bold{
@@ -762,7 +771,11 @@ div.st{
 .calendar-event{
 	border-left-width:3px;
 	border-left-style:solid;
-	padding: 2px;
+	margin:1px 0
+}
+.calendar-event a{
+	padding:4px 2px;
+	display:inline-block
 }
 
 /* colorBox */
@@ -792,11 +805,10 @@ div.st{
 }
 
 /*jqplot charts*/
-#chart{
-	margin-top:20px;
-	margin-left:20px;
-	width:600px;
-	height:480px
+.chart{
+	margin:20px 10px;
+	width:700px;
+	height:560px
 }
 
 /*tinymce*/
@@ -872,11 +884,10 @@ table.mceLayout,textarea.tinymce{
 		border-style:none none dotted none;
 		padding:12px 0 12px 0
 	}
-	#chart,.chart{
-		margin-top:0;
-		margin-left:0;
+	.chart{
+		margin:20px 0;
 		width:300px;
-		height:240px
+		height:300px
 	}
 	input[type=submit],input[type=reset],input[type=button]{
 		margin:0 4px;

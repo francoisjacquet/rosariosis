@@ -1,10 +1,13 @@
 ﻿//Francois: add a button to export the graph to an image and open it in a colorbox
-function jqplotToColorBox()
+function jqplotToColorBox( saveImgText )
 {
 	if (screen.width>=768) {
+
 		if (!$.jqplot.use_excanvas) {
+
 			var i = 1;
 			$('div.jqplot-target').each(function(){
+
 				var hiddenOuterDiv = $(document.createElement('div'));
 				var outerDiv = $(document.createElement('div'));
 				var header = $(document.createElement('div'));
@@ -29,12 +32,13 @@ function jqplotToColorBox()
 				hiddenOuterDiv = outerDiv = header = div = null;
 
 				if (!$.jqplot._noToImageButton) {
+
 					var save = $(document.createElement('a'));
 					save.html('<img src="assets/themes/WPadmin/btn/download.png" class="alignImg" />');
 					save.attr('href', '#'+outerDivId); //colorbox link
 					save.addClass('colorbox');
 					var imgelem = $(this).jqplotToImageElem();
-					var div = $('#'+outerDivId);
+					div = $('#'+outerDivId);
 					div.children('div.jqplot-image-container-content').empty();
 					div.children('div.jqplot-image-container-content').append(imgelem);
 					//div.show(500);
@@ -44,8 +48,10 @@ function jqplotToColorBox()
 					save.after('<br />');
 					save = null;
 				}
+
 				i++;
 			});
+
 			$('.colorbox').colorbox({inline:true});
 		}
 	}

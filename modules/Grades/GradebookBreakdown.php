@@ -2,11 +2,22 @@
 
 include( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
 
+include_once( 'ProgramFunctions/Charts.fnc.php' );
+
 DrawHeader( ProgramTitle() );
 
+// Set Assignment ID
 if ( !isset( $_REQUEST['assignment_id'] )
 	|| empty( $_REQUEST['assignment_id'] ) )
 	$_REQUEST['assignment_id'] = 'totals';
+
+$chart_types = array( 'line', 'pie', 'list' );
+
+// set Chart Type
+if ( !isset( $_REQUEST['chart_type'] )
+	|| !in_array( $_REQUEST['chart_type'], $chart_types ) )
+	$_REQUEST['chart_type'] = 'line';
+
 
 //FJ fix errors relation «course_weights» doesnt exist & columns c.grad_subject_id & cp.does_grades & cp.does_gpa do not exist
 //$course_id = DBGet(DBQuery("SELECT c.GRAD_SUBJECT_ID,cp.COURSE_ID,cp.TITLE,c.TITLE AS COURSE_TITLE,c.SHORT_NAME AS COURSE_NUM,cw.CREDITS,cw.GPA_MULTIPLIER,cp.DOES_GRADES,cp.GRADE_SCALE_ID,cp.DOES_GPA as AFFECTS_GPA FROM COURSE_PERIODS cp,COURSES c,COURSE_WEIGHTS cw WHERE cw.COURSE_ID=cp.COURSE_ID AND cw.COURSE_WEIGHT=cp.COURSE_WEIGHT AND c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
@@ -117,6 +128,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 		GROUP BY g.STUDENT_ID"), array(), array( 'STUDENT_ID' ) );
 
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
+	{
 		$percent_RET = DBGet( DBQuery( "SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID," .
 			db_case(array(
 				"sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ")",
@@ -134,6 +146,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),
 		array(),
 		array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
+	}
 
 	foreach( (array)$assignments_RET as $assignment )
 		$total_points[$assignment['ASSIGNMENT_ID']] = $assignment['POINTS'];
@@ -155,6 +168,7 @@ elseif ( !is_numeric( $_REQUEST['assignment_id'] ) )
 		GROUP BY g.STUDENT_ID" ), array(), array( 'STUDENT_ID' ) );
 
 	if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y' )
+	{
 		$percent_RET = DBGet( DBQuery( "SELECT gt.ASSIGNMENT_TYPE_ID,gg.STUDENT_ID," .
 			db_case( array(
 				"sum(" . db_case( array( 'gg.POINTS', "'-1'", "'0'", 'ga.POINTS' ) ) . ")",
@@ -173,6 +187,7 @@ elseif ( !is_numeric( $_REQUEST['assignment_id'] ) )
 			GROUP BY gg.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),
 		array(),
 		array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
+	}
 
 	foreach( (array)$assignments_RET as $assignment )
 		$total_points[$assignment['ASSIGNMENT_ID']] = $assignment['POINTS'];	
@@ -194,9 +209,6 @@ elseif ( $_REQUEST['assignment_id'] )
 	array( 'STUDENT_ID', 'ASSIGNMENT_ID' ) );
 }
 
-if ( !isset( $_REQUEST['chart_type'] ) )
-	$_REQUEST['chart_type'] = 'column';
-	
 $stu_RET = GetStuList( $extra );
 
 foreach( (array)$stu_RET as $stu )
@@ -216,7 +228,7 @@ foreach( (array)$grades as $option )
 
 if ( empty( $_REQUEST['modfunc'] ) )
 {
-	echo '<FORM action="' . PreparePHP_SELF( $_REQUEST, array( 'chart_type' ), array( 'chart_type' => $_REQUEST['chart_type'] ) ) . '" method="GET">';
+	echo '<FORM action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 
 	$RET = GetStuList();
 
@@ -232,7 +244,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		$tabs = array(
 			array(
 				'title' => _( 'Line' ),
-				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'column' ) ),
+				'link' => PreparePHP_SELF( $_REQUEST, array(), array( 'chart_type' => 'line' ) ),
 			),
 			array(
 				'title' => _( 'Pie' ),
@@ -255,11 +267,11 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		{
 			$chart_data = array( '0' => '' );
 
-			foreach( (array)$chart['chart_data'][1] as $key => $value )
+			foreach( (array)$chart['chart_data'][1] as $key => $y )
 				$chart_data[] = array(
 					'TITLE' => $chart['chart_data'][2][$key],
 					'GPA' => $chart['chart_data'][0][$key],
-					'VALUE' => $value
+					'VALUE' => $y
 				);
 
 			unset( $chart_data[0] );
@@ -277,105 +289,28 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		//FJ jqplot charts
 		else
 		{
-?>
-<!--[if lt IE 9]><script src="assets/js/jqplot/excanvas.min.js"></script><![endif]-->
-<script src="assets/js/jqplot/jquery.jqplot.min.js"></script>
-<link rel="stylesheet" type="text/css" href="assets/js/jqplot/jquery.jqplot.min.css" />
+			$chartTitle = sprintf( _( '%s Breakdown' ), $title );
 
-<script src="assets/js/jquery.jqplottocolorbox.js"></script>
-
-<script>
-	var saveImgText = <?php echo json_encode( _( 'Right Click to Save Image As...' ) ); ?>;
-	var chartTitle = <?php echo json_encode( sprintf( _( '%s Breakdown' ), $title ) ); ?>;
-
-	/*FJ responsive labels: limit label to 20 char max.*/
-	if (screen.width<768)
-	{
-		if (window.datapie)
-			for(i=0; i<datapie.length; i++)
-				datapie[i][0] = datapie[i][0].substr(0, 20);
-	}
-</script>
-
-<div id="chart"></div>
-<?php
-			$jsData = '';
-
-			if ( $_REQUEST['chart_type'] === 'column' )
+			if ( $_REQUEST['chart_type'] === 'line' )
 			{
-				$jsData = array();
-
-				$chart_data_count = count( $chart['chart_data'][0] );
-
-				for ( $i = 0; $i < $chart_data_count; $i++ )
-				{
-					$jsData[] = '[' . $chart['chart_data'][0][$i] . ', ' . $chart['chart_data'][1][$i] . ']';
-				}
-
-				$jsData = 'var datacolumn = [' . implode( ',', $jsData ) . "];\n";
-
-?>
-<script src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
-<script>
-	$(document).ready(function(){
-		<?php echo $jsData . $jsDataTicks; ?>
-
-		var plotcolumn = $.jqplot('chart', [datacolumn], {
-			axesDefaults: {
-				pad: 0 //start axes at 0
-			},
-			highlighter: {
-				show: true,
-				tooltipAxes: 'both',
-				formatString:'<span style="font-size:larger;font-weight:bold;">%s; %s</span>',
-			},
-			title: chartTitle
-		});
-
-		jqplotToColorBox();
-	});
-</script>
-<?php
+				echo jqPlotChart( 'line', $chart['chart_data'], $chartTitle );
 			}
 			else //pie chart
 			{
-				// Specific Pie Chart JS
-				$jsData = 'var datapie = [';
+				$chartData = array();
 
-				$chart_data_count = count( $chart['chart_data'][0] );
-
-				for ( $i = 0; $i < $chart_data_count; $i++ )
+				foreach( $chart['chart_data'][0] as $i => $x )
 				{
 					//remove empty slices not to overload the legends
 					if ( $chart['chart_data'][1][$i] > 0 )
-						$jsData .= "[" . json_encode( $chart['chart_data'][2][$i] . ', ' . $chart['chart_data'][0][$i] ) . ", " .
-							$chart['chart_data'][1][$i] . "],";
+					{
+						$chartData[0][] = $chart['chart_data'][2][$i] . ', ' . $x;
+
+						$chartData[1][] = $chart['chart_data'][1][$i];
+					}
 				}
-				$jsData = mb_substr( $jsData, 0, -1 );
 
-				$jsData .= "];\n";
-
-?>		
-<script src="assets/js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
-<script>
-	$(document).ready(function(){ 
-		<?php echo $jsData; ?>
-
-		var plotpie = $.jqplot('chart', [datapie], {
-			seriesDefaults:{
-				renderer:$.jqplot.PieRenderer,
-				rendererOptions: {
-					showDataLabels: true,
-				},
-			},
-			legend:{show:true},
-			title: chartTitle
-		});
-
-		jqplotToColorBox();
-	});
-</script>
-<?php
+				echo jqPlotChart( 'pie', $chartData, $chartTitle );
 			}
 
 			unset( $_REQUEST['_ROSARIO_PDF'] );

@@ -387,7 +387,7 @@ label{
 	line-height:1
 }
 .postbox h3{
-	padding:6px 10px;
+	line-height:27px;
 	border:0
 }
 .postbox .h3multi h3{
@@ -406,6 +406,10 @@ label{
 .postbox h3,.postbox h3 a{
 	font-size:15px;
 	font-weight:normal
+}
+.postbox h3 a{
+	display:inline-block;
+	padding:0 10px
 }
 .postbox .h3multi{
 	border-bottom-width:1px;
@@ -554,7 +558,7 @@ textarea{
 span.legend-gray, span.legend-red{
 	margin-top:5px;
 	margin-bottom:7px;
-	display:block
+	display:inline-block
 }
 .logo{
 	max-width:150px;
@@ -789,11 +793,10 @@ div.st{
 }
 
 /*jqplot charts*/
-#chart{
-	margin-top:20px;
-	margin-left:20px;
-	width:600px;
-	height:480px
+.chart{
+	margin:20px 10px;
+	width:700px;
+	height:560px
 }
 
 /*tinymce*/
