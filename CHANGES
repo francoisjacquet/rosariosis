@@ -6,6 +6,7 @@ Changes in 2.8.23
 - Format Events List descriptions in Calendar.php
 - Unset REQUEST students var in session after update in Student.php
 - Various corrections for French translation
+- Use AJAX after browser history instead of reloading page in warehouse.js
 
 Changes in 2.8.22
 -----------------

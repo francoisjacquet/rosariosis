@@ -179,10 +179,13 @@ $(document).ajaxStop(function () {
 window.onload = function () {
 	ajaxPrepare('');
 
-	//reload page after browser history
+	//AJAX after browser history
 	if (history.pushState) window.setTimeout(function () {
 		window.addEventListener('popstate', function (e) {
-			document.location.href = document.URL;
+			var pop = document.createElement('a');
+			pop.target = 'body';
+			pop.href = document.URL;
+			ajaxLink(pop);
 		}, false);
 	}, 1);
 };
