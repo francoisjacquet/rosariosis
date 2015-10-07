@@ -88,7 +88,7 @@ if(!$_REQUEST['modfunc'])
 		$options = array('center'=>false);
 	ListOutput($RET,$columns,'Income','Incomes',$link,array(),$options);
 	if(!$_REQUEST['print_statements'] && AllowEdit())
-		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '<BR />';
 
 	$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NULL AND p.SYEAR='".UserSyear()."'"));

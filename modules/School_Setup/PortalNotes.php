@@ -221,7 +221,7 @@ if($_REQUEST['modfunc']!='remove')
 
 	ListOutput($notes_RET,$columns,'Note','Notes',$link);
 
-	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

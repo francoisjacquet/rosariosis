@@ -168,7 +168,7 @@ if(empty($_REQUEST['modfunc']))
 //FJ add translation
 		ListOutput($LO_ret,$LO_columns,'Meal','Meals',$link,array(),$extra);
 
-	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

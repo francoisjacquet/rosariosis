@@ -74,7 +74,7 @@ if(Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to rol
 	else
 		echo ErrorMessage($error);
 		
-	echo '<span class="center"><INPUT type="submit" value="'._('OK').'" /></span></FORM>';
+	echo '<div class="center"><INPUT type="submit" value="'._('OK').'" /></div></FORM>';
 	unset($_SESSION['_REQUEST_vars']['tables']);
 	unset($_SESSION['_REQUEST_vars']['delete_ok']);
 }

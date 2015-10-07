@@ -70,7 +70,7 @@ if(empty($_REQUEST['modfunc']))
 	DrawHeader('',SubmitButton(_('Save')));
 
 	ListOutput($resources_RET,$columns,'Resource','Resources',$link);
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

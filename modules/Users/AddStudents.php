@@ -101,7 +101,7 @@ if($_REQUEST['modfunc']!='delete')
 		echo '</TD></TR></TABLE>';
 
 		if($_REQUEST['search_modfunc']=='list')
-			echo '<BR /><span class="center">'.SubmitButton(_('Add Selected Students')).'</span></FORM>';
+			echo '<BR /><div class="center">' . SubmitButton(_('Add Selected Students')) . '</div></FORM>';
 	}
 }
 

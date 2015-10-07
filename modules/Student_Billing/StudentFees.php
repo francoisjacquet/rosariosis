@@ -129,7 +129,7 @@ if(UserStudentID() && !$_REQUEST['modfunc'])
 	ListOutput($RET,$columns,'Fee','Fees',$link,array(),$options);
 
 	if(!$_REQUEST['print_statements'] && AllowEdit())
-		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
 	echo '<BR />';
 	if(!$_REQUEST['print_statements'])

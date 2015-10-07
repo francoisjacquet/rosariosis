@@ -105,7 +105,7 @@ if(empty($_REQUEST['modfunc']))
 
 	ListOutput($LO_ret,$LO_columns,'History Marking Period','History Marking Periods',$link,array(),array('count'=>true,'download'=>false,'search'=>false));
 
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

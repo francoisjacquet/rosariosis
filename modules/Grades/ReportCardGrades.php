@@ -182,7 +182,7 @@ if(empty($_REQUEST['modfunc']))
 
 	ListOutput($LO_ret,$LO_columns,$singular,$plural,$link,array(),$LO_options);
 
-	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

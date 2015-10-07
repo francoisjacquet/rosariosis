@@ -315,7 +315,7 @@ function changeHTML(show,hide){
 
 		PopTable('footer');
 
-		echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+		echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	}
 	echo '</DIV>';
 	echo '</TD></TR></TABLE>';

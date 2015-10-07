@@ -303,14 +303,14 @@ if ( UserStudentID() )
 			ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),$LO_options);
 		}
 
-		echo '<br /><span class="center">';
+		echo '<br /><div class="center">';
 
 		if ( $mp_id == "0" )
 		{
 			echo SubmitButton(_('Remove Marking Period'), 'removemp');
 		}
 
-		echo SubmitButton(_('Save')).'</span>';
+		echo SubmitButton(_('Save')).'</div>';
 		echo '</FORM>';
 	}
 }

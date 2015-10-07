@@ -96,7 +96,7 @@ if(!$_REQUEST['modfunc'])
 	ListOutput($RET,$columns,'Expense','Expenses',$link,array(),$options);
 
 	if(!$_REQUEST['print_statements'] && AllowEdit())
-		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
 	echo '<BR />';
 

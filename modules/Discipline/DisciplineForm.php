@@ -167,7 +167,7 @@ if(empty($_REQUEST['modfunc']))
 	DrawHeader('',SubmitButton(_('Save')));
 
 	ListOutput($referrals_RET,$columns,'Referral Form Category','Referral Form Categories',$link);
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

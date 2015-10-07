@@ -274,7 +274,7 @@ if(empty($_REQUEST['modfunc']))
 
 	if($_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><span class="center">'.SubmitButton(_('Create Attendance Report for Selected Students')).'</span>';
+		echo '<BR /><div class="center">' . SubmitButton(_('Create Attendance Report for Selected Students')) . '</div>';
 		echo '</FORM>';
 	}
 }

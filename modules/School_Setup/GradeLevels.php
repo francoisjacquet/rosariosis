@@ -75,7 +75,7 @@ if($_REQUEST['modfunc']!='remove')
 	DrawHeader('',SubmitButton(_('Save')));
 
 	ListOutput($grades_RET,$columns,'Grade Level','Grade Levels',$link);
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

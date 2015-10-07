@@ -85,7 +85,7 @@ if($_REQUEST['modfunc']!='remove')
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 	ListOutput($activities_RET,$columns,'Activity','Activities',$link);
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

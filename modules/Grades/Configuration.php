@@ -195,5 +195,5 @@ echo '</fieldset>';
 
 PopTable('footer');
 
-echo '<BR /><span class="center"><INPUT type="submit" value="'._('Save').'" /></span>';
+echo '<BR /><div class="center"><INPUT type="submit" value="'._('Save').'" /></div>';
 echo '</FORM>';

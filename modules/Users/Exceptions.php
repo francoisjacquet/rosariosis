@@ -178,7 +178,7 @@ if(!$staff_RET[1]['PROFILE_ID'])
 	}
 	echo '</TABLE>';
 	PopTable('footer');
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
 	echo '</DIV>';
 	echo '</TD></TR></TABLE>';

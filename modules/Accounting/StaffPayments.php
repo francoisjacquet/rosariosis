@@ -105,7 +105,7 @@ if(UserStaffID() && !$_REQUEST['modfunc'])
 	ListOutput($RET,$columns,'Payment','Payments',$link,array(),$options);
 
 	if(!$_REQUEST['print_statements'] && AllowEdit())
-		echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
 	echo '<BR />';
 

@@ -150,7 +150,7 @@ else
 
 	$LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level')) + $columns;
 	ListOutput($stu_RET,$LO_columns,'Student','Students');
-	echo '<span class="center"><INPUT type="submit" value="'._('Save').'" /></span>';
+	echo '<div class="center"><INPUT type="submit" value="'._('Save').'" /></div>';
 }
 echo '</FORM>';
 

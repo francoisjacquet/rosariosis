@@ -165,7 +165,7 @@ $LO_columns = array('DESCRIPTION'=>_('Item'),'COUNT'=>_('Count'));
 			$tabs[] = array('title'=>$meal[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id.'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date']);
 
 		echo '<BR />';
-		echo '<span class="center">'.WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date']).'</span>';
+		echo '<div class="center">' . WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date']) . '</div>';
 		$extra = array('count'=>false,'download'=>false,'search'=>false);
 	}
 	else
@@ -177,7 +177,7 @@ $LO_columns = array('DESCRIPTION'=>_('Item'),'COUNT'=>_('Count'));
 
 ListOutput($items_RET,$LO_columns,$singular,$plural,false,false,$extra);
 
-echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 echo '</TD><TD style="width:50%;">';
 
 $extra['SELECT'] .= ',fsa.BALANCE,fssa.STATUS';

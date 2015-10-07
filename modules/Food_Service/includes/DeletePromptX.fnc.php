@@ -16,7 +16,7 @@ function DeletePromptX($title,$action='Delete')
 		echo '<BR />';
 //FJ add translation
 		PopTable('header',_('Confirm').(mb_strpos($action,' ')===false?' '.($action=='Delete'?_('Delete'):$action):''));
-		echo '<span class="center"><h4>'.sprintf(_('Are you sure you want to %s that %s?'),($action=='Delete'?_('Delete'):$action),$title).'</h4><FORM action="'.$PHP_tmp_SELF.'" METHOD="POST"><INPUT type="submit" name="delete_ok" value="'._('OK').'"><INPUT type="submit" name="delete_cancel" value="'._('Cancel').'"></FORM></span>';
+		echo '<div class="center"><h4>'.sprintf(_('Are you sure you want to %s that %s?'),($action=='Delete'?_('Delete'):$action),$title).'</h4><FORM action="'.$PHP_tmp_SELF.'" METHOD="POST"><INPUT type="submit" name="delete_ok" value="'._('OK').'"><INPUT type="submit" name="delete_cancel" value="'._('Cancel').'"></FORM></div>';
 		PopTable('footer');
 		return false;
 	}
@@ -33,7 +33,7 @@ function PromptX($title='Confirm',$question='',$message='',$pdf='')
 	{
 		echo '<BR />';
 		PopTable('header',$title);
-		echo '<span class="center"><h4>'.$question.'</h4><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST">'.$message.'<BR /><BR /><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onClick="javascript:history.back()"></FORM></span>';
+		echo '<div class="center"><h4>'.$question.'</h4><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST">'.$message.'<BR /><BR /><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onClick="javascript:history.back()"></FORM></div>';
 		PopTable('footer');
 		return false;
 	}

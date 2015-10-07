@@ -67,7 +67,7 @@ if($_REQUEST['search_modfunc']=='list')
 
 Search('student_id',$extra);
 if($_REQUEST['search_modfunc']=='list')
-	echo '<BR /><span class="center">'.SubmitButton(_('Add Activity to Selected Students')).'</span></FORM>';
+	echo '<BR /><div class="center">' . SubmitButton(_('Add Activity to Selected Students')) . '</div></FORM>';
 
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;

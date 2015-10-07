@@ -342,21 +342,21 @@ if( empty( $_SESSION['STAFF_ID'] )
 
 			<?php if( Config( 'CREATE_USER_ACCOUNT' ) ) : ?>
 
-				<span class="center">[
+				<div class="center">[
 					<a href="index.php?create_account=user&amp;staff_id=new">
 						<?php echo _( 'Create User Account' ); ?>
 					</a>
-				]</span>
+				]</div>
 
 			<?php endif;
 
 			if( Config( 'CREATE_STUDENT_ACCOUNT' ) ) : ?>
 
-				<span class="center">[
+				<div class="center">[
 					<a href="index.php?create_account=student&amp;student_id=new">
 						<?php echo _( 'Create Student Account' ); ?>
 					</a>
-				]</span>
+				]</div>
 
 			<?php endif; ?>
 
@@ -379,12 +379,12 @@ if( empty( $_SESSION['STAFF_ID'] )
 			</td>
 		</tr>
 	</table>
-	<span class="center">
+	<div class="center">
 		<?php echo sprintf( _( '%s version %s' ), 'RosarioSIS', ROSARIO_VERSION ); ?>
 		<BR />&copy; 2004-2009 <a href="http://www.miller-group.net" noreferrer>The Miller Group, Inc</a>
 		<BR />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
 		<BR />&copy; 2012-2015 <a href="http://www.rosariosis.org" noreferrer>François Jacquet</a>
-	</span>
+	</div>
 
 <?php PopTable( 'footer' ); ?>
 

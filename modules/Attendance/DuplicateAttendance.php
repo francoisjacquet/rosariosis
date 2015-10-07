@@ -346,7 +346,7 @@ if(isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' && 
 		else
 		{
 			echo '</TBODY></TABLE>';
-			echo '<BR /><span class="center"><input type="submit" name="submit" value="'._('Delete').'" /></span>';
+			echo '<BR /><div class="center"><input type="submit" name="submit" value="'._('Delete').'" /></div>';
 		}
 
 		echo '</form>';

@@ -86,7 +86,7 @@ if($_REQUEST['modfunc']!='remove')
 	DrawHeader('',SubmitButton(_('Save')));
 
 	ListOutput($periods_RET,$columns,'Period','Periods',$link);
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

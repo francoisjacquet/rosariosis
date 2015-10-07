@@ -293,7 +293,7 @@ if(empty($_REQUEST['modfunc']))
     else
         ListOutput($LO_ret,$LO_columns,'Assignment Type','Assignment Types',$link,array(),$LO_options);
 
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

@@ -157,7 +157,7 @@ if(empty($_REQUEST['modfunc']))
     elseif ($subject == 'Comment Code Scales') 
         ListOutput($LO_ret,$LO_columns,'Comment Code Scale','Comment Code Scales',$link,array(),$LO_options);
         
-	echo '<br /><span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</TD></TR></TABLE></FORM>';
 }
 

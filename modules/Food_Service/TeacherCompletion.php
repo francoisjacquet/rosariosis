@@ -126,7 +126,7 @@ if(count($menus_RET)>1)
 		$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
 
 	echo '<BR />';
-	echo '<span class="center">'.WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']).'</span>';
+	echo '<div class="center">' . WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']) . '</div>';
 }
 
 echo '<TABLE class="width-100p"><TR><TD>';

@@ -53,6 +53,5 @@ if($_REQUEST['modfunc']=='choose')
 	$columns = array('');
 	ListOutput($requests_RET,$columns,'Request','Requests');
 
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span></FORM>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div></FORM>';
 }
-?>

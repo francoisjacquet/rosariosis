@@ -61,7 +61,7 @@ ORDER BY (SELECT SORT_ORDER FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID=fsmi.
 
 echo '<BR />';
 
-echo '<span class="center">'.WrapTabs($meals,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']).'</span>';
+echo '<div class="center">' . WrapTabs($meals,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']) . '</div>';
 
 if(count($items_RET))
 {
@@ -85,4 +85,4 @@ if(count($items_RET))
 	echo '</TABLE>';
 }
 //FJ remove WrapTabs params
-echo '<span class="center">'.WrapTabs($cats,'Modules.php?modname='.$_REQUEST['modname'].'&cat_id='.$_REQUEST['cat_id']).'</span>';
+echo '<div class="center">' . WrapTabs($cats,'Modules.php?modname='.$_REQUEST['modname'].'&cat_id='.$_REQUEST['cat_id']) . '</div>';

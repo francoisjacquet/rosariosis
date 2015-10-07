@@ -178,7 +178,7 @@ else
 //FJ add translation
 	ListOutput($events_RET,$LO_columns,$singular,$plural,array(),array(),$extra);
 
-	echo '<BR /><span class="center">'.SubmitButton(_('Save'),'submit[save]').'</span>';
+	echo '<BR /><div class="center">' . SubmitButton(_('Save'),'submit[save]') . '</div>';
 	echo '</FORM>';
 }
 

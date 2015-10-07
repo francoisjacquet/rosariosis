@@ -148,7 +148,7 @@ if(empty($_REQUEST['modfunc']))
 	Search('student_id',$extra);
 	if($_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><span class="center">'.SubmitButton(_('Drop Course for Selected Students')).'</span>';
+		echo '<BR /><div class="center">' . SubmitButton(_('Drop Course for Selected Students')) . '</div>';
 		echo '</FORM>';
 	}
 }

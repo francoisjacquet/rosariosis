@@ -118,7 +118,7 @@ if(empty($_REQUEST['modfunc']))
 
 	Search('student_id',$extra);
 	if($_REQUEST['search_modfunc']=='list')
-		echo '<BR /><span class="center">'.SubmitButton(_('Add Request to Selected Students'))."</span></FORM>";
+		echo '<BR /><div class="center">'.SubmitButton(_('Add Request to Selected Students'))."</div></FORM>";
 }
 
 if($_REQUEST['modfunc']=='choose_course')

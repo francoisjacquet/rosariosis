@@ -144,7 +144,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 
 	if($_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><span class="center">'.SubmitButton(_('Notify Selected Parents')).'</span>';
+		echo '<BR /><div class="center">' . SubmitButton(_('Notify Selected Parents')) . '</div>';
 		echo '</FORM>';
 	}
 }

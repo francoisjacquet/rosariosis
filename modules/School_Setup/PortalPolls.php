@@ -213,7 +213,7 @@ if($_REQUEST['modfunc']!='remove')
 	
 	ListOutput($polls_RET,$columns,'Poll','Polls',$link);
 
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

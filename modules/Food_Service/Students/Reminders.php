@@ -147,7 +147,7 @@ if(empty($_REQUEST['modfunc']))
 	Search('student_id',$extra);
 	if($_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><span class="center">'.SubmitButton(_('Create Reminders for Selected Students')).'</span>';
+		echo '<BR /><div class="center">' . SubmitButton(_('Create Reminders for Selected Students')) . '</div>';
 		echo '</FORM>';
 	}
 }

@@ -393,7 +393,7 @@ if(empty($_REQUEST['modfunc']))
 	if (!in_array($_REQUEST['tab'], array('student_fields','staff_fields')))
 		PopTable('footer');
 
-	echo '<BR /><span class="center"><INPUT type="submit" value="'._('Save').'" /></span>';
+	echo '<BR /><div class="center"><INPUT type="submit" value="'._('Save').'" /></div>';
 	echo '</FORM>';
 }
 
