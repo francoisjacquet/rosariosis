@@ -330,17 +330,19 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			include('modules/'.$include.'.inc.php');
 	}
 
-	if ($error && !UserStudentID())
+	if ( $error
+		&& !UserStudentID() )
 		$_REQUEST['student_id'] = 'new';
 
-	unset($_REQUEST['modfunc']);
+	unset( $_REQUEST['modfunc'] );
 
 	// SHOULD THIS BE HERE???
-	if(!UserStudentID())
-		unset($_REQUEST['values']);
+	if ( !UserStudentID() )
+		unset( $_REQUEST['values'] );
 
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
-	unset($_SESSION['_REQUEST_vars']['values']);
+	unset( $_SESSION['_REQUEST_vars']['modfunc'] );
+	unset( $_SESSION['_REQUEST_vars']['students'] );
+	unset( $_SESSION['_REQUEST_vars']['values'] );
 }
 
 if(basename($_SERVER['PHP_SELF'])!='index.php')
@@ -392,7 +394,7 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 	//$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES WHERE ".($_REQUEST['student_id']!='new'?'TRUE':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE"));
 
-	if($_REQUEST['modfunc']!='delete' || $_REQUEST['delete_ok']=='1')
+	if($_REQUEST['modfunc']!='delete' || $_REQUEST['delete_ok'])
 	{
 		if($_REQUEST['student_id']!='new')
 		{
@@ -461,7 +463,7 @@ if(UserStudentID() || $_REQUEST['student_id']=='new')
 		}
 		echo PopTable('footer');
 
-		echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+		echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 		echo '</FORM>';
 	}
 	elseif ($can_use_RET['Students/Student.php&category_id='.$category_id])
