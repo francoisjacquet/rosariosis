@@ -36,7 +36,7 @@ Widgets('fsa_status');
 Widgets('fsa_barcode');
 Widgets('fsa_account_id');
 
-$extra['SELECT'] .= ",coalesce(fssa.STATUS,'Active') AS STATUS";
+$extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
 if(!mb_strpos($extra['FROM'],'fssa'))
 {
@@ -113,7 +113,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 		$columns = array('TYPE'=>_('Type'),'DESCRIPTION'=>_('Description'),'AMOUNT'=>_('Amount'));
 
 		ListOutput($RET,$columns,'Earlier Transaction','Earlier Transactions',$link,false,array('save'=>false,'search'=>false));
-		echo '<br /><span class="center">'.SubmitButton(_('Save'),'save').'</span>';
+		echo '<br /><div class="center">' . SubmitButton(_('Save'),'save') . '</div>';
 
 		echo '</TD></TR></TABLE>';
 	}

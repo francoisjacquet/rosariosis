@@ -5,7 +5,7 @@ Widgets('fsa_status');
 Widgets('fsa_barcode');
 Widgets('fsa_account_id');
 
-$extra['SELECT'] .= ",coalesce(fssa.STATUS,'Active') AS STATUS";
+$extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
 if(!mb_strpos($extra['FROM'],'fssa'))
 {

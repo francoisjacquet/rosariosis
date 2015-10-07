@@ -64,7 +64,7 @@ Widgets('fsa_status');
 Widgets('fsa_barcode');
 Widgets('fsa_account_id');
 
-$extra['SELECT'] .= ",coalesce(fssa.STATUS,'"._('Active')."') AS STATUS";
+$extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
 if(!mb_strpos($extra['FROM'],'fssa'))
 {
@@ -151,6 +151,6 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 
 	PopTable('footer');
 
-	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
