@@ -1,6 +1,7 @@
 <?php
 //FJ add School Configuration
 $program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
+
 // set this to false to disable auto-pull-downs for the contact info Description field
 $info_apd = true;
 
@@ -587,10 +588,10 @@ if(empty($_REQUEST['modfunc']))
 			$state_options = _makeAutoSelect('STATE','ADDRESS',array(array('STATE'=>$this_address['STATE']),array('STATE'=>$this_address['MAIL_STATE'])),array());
 			$zip_options = _makeAutoSelect('ZIPCODE','ADDRESS',array(array('ZIPCODE'=>$this_address['ZIPCODE']),array('ZIPCODE'=>$this_address['MAIL_ZIPCODE'])),array());
 
-//FJ css WPadmin
+			//FJ css WPadmin
 			echo '<TABLE class="widefat width-100p cellspacing-0"><TR><TH colspan="3">';
 			echo _('Address').'</TH></TR>';
-			echo '<TR><TD colspan="3">'.TextInput($this_address['ADDRESS'],'values[ADDRESS][ADDRESS]',_('Street'),$size?'size=20':'').'</TD>';
+			echo '<TR><TD colspan="3">'.TextInput($this_address['ADDRESS'],'values[ADDRESS][ADDRESS]',_('Street'),$size?'required size=20':'required').'</TD>';
 			echo '</TR><TR><TD>'._makeAutoSelectInputX($this_address['CITY'],'CITY','ADDRESS',_('City'),$city_options).'</TD>';
 			echo '<TD>'._makeAutoSelectInputX($this_address['STATE'],'STATE','ADDRESS',_('State'),$state_options).'</TD>';
 			echo '<TD>'._makeAutoSelectInputX($this_address['ZIPCODE'],'ZIPCODE','ADDRESS',_('Zip'),$zip_options).'</TD></TR>';
@@ -617,7 +618,7 @@ if(empty($_REQUEST['modfunc']))
 				}
 			}
 
-//FJ css WPadmin
+			//FJ css WPadmin
 			echo '<br /><TABLE class="widefat cellspacing-0"><TR><TD>'.CheckboxInput($this_address['RESIDENCE'], 'values[STUDENTS_JOIN_ADDRESS][RESIDENCE]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('house','','','bigger') .'</TD><TD>'._('Residence').'</TD></TR>';
 
 			echo '<TR><TD>'.CheckboxInput($this_address['BUS_PICKUP'], 'values[STUDENTS_JOIN_ADDRESS][BUS_PICKUP]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('bus','','','bigger') .'</TD><TD>'._('Bus Pickup').'</TD></TR>';
@@ -670,7 +671,7 @@ if(empty($_REQUEST['modfunc']))
 			{
 				$relation_options = _makeAutoSelect('STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',$this_contact['STUDENT_RELATION'],array());
 
-//FJ css WPadmin
+				//FJ css WPadmin
 				echo '<TABLE class="widefat cellspacing-0"><TR><TH colspan="3">'._('Contact Information').'</TH></TR>';
 
 				if($_REQUEST['person_id']!='new')
@@ -763,29 +764,9 @@ if(empty($_REQUEST['modfunc']))
 						{
 							echo '<TR>';
 							echo '<TD>'.button('add').'</TD>';
-//							echo '<TD style="border-color: #BBBBBB; border: 1; border-style: solid none none none;">'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]','Value').'<BR />';
 							echo '<TD>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]',_('Value'),'maxlength=100');
 							echo (count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),'maxlength=100')).'</TD>';
 							echo '</TR>';
-						}
-					}
-
-					$categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
-					if($categories_RET)
-					{
-						$value = DBGet(DBQuery("SELECT * FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
-						$value = $value[1];
-						$request = 'values[PEOPLE]';
-						foreach($categories_RET as $fields_RET)
-						{
-							if(!$fields_RET['CUSTODY']&&!$fields_RET['EMERGENCY'] || $fields_RET['CUSTODY']=='Y'&&$this_contact['CUSTODY']=='Y' || $fields_RET['EMERGENCY']=='Y'&&$this_contact['EMERGENCY']=='Y')
-							{
-								echo '<TR><TD>';
-								echo '<FIELDSET><LEGEND>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</LEGEND>';
-								include('modules/Students/includes/Other_Fields.inc.php');
-								echo '</FIELDSET>';
-								echo '</TD></TR>';
-							}
 						}
 					}
 				}
@@ -809,6 +790,35 @@ if(empty($_REQUEST['modfunc']))
 
 				}
 				echo '</TABLE>';
+
+				$categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
+				if($categories_RET)
+				{
+					echo '<TD class="valign-top">';
+					if ( $_REQUEST['person_id'] !== 'new' )
+					{
+						$value = DBGet(DBQuery("SELECT * FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
+						$value = $value[1];
+					}
+					else
+						$value = array();
+
+					$request = 'values[PEOPLE]';
+					echo '<TABLE>';
+					foreach($categories_RET as $fields_RET)
+					{
+						if(!$fields_RET['CUSTODY']&&!$fields_RET['EMERGENCY'] || $fields_RET['CUSTODY']=='Y'&&$this_contact['CUSTODY']=='Y' || $fields_RET['EMERGENCY']=='Y'&&$this_contact['EMERGENCY']=='Y')
+						{
+							echo '<TR><TD>';
+							echo '<FIELDSET><LEGEND>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</LEGEND>';
+							include('modules/Students/includes/Other_Fields.inc.php');
+							echo '</FIELDSET>';
+							echo '</TD></TR>';
+						}
+					}
+					echo '</TABLE>';
+					echo '</TD>';
+				}
 			}
 			elseif($_REQUEST['person_id']=='old')
 			{
@@ -818,7 +828,7 @@ if(empty($_REQUEST['modfunc']))
 				echo SelectInput('','values[EXISTING][person_id]',_('Select Person'),$people_select);
 			}
 		}
-		elseif($_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old')
+		elseif($_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='old')
 		{
 			$categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM ADDRESS_FIELD_CATEGORIES c,ADDRESS_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
 
@@ -826,8 +836,14 @@ if(empty($_REQUEST['modfunc']))
 			{
 				//echo '<TD style="width:10px; border:1;">&nbsp;</TD>';
 				echo '<TD class="valign-top">';
-				$value = DBGet(DBQuery("SELECT * FROM ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'"));
-				$value = $value[1];
+				if ( $_REQUEST['address_id']!='new' )
+				{
+					$value = DBGet(DBQuery("SELECT * FROM ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'"));
+					$value = $value[1];
+				}
+				else
+					$value = array();
+
 				$request = 'values[ADDRESS]';
 				echo '<TABLE>';
 				foreach($categories_RET as $fields_RET)
