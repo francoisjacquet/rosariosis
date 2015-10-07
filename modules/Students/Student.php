@@ -322,6 +322,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 	unset($_SESSION['_REQUEST_vars']['values']);
+	unset($_SESSION['_REQUEST_vars']['students']);
 }
 
 if(basename($_SERVER['PHP_SELF'])!='index.php')
