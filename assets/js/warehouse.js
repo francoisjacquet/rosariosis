@@ -175,18 +175,9 @@ function ajaxLink(link) {
 
 	if ( typeof link == 'string' ) {
 		href = link;
-		switch(href) {
-			case 'Side.php':
-				target = 'menu';
-			break;
-
-			case 'Bottom.php':
-				target = 'footer';
-			break;
-
-			default:
-				target = 'body';
-		}
+		target = 'body';
+		if ( href == 'Side.php' ) target = 'menu';
+		else if ( href == 'Bottom.php' ) target = 'footer';
 	} else {
 		href = link.href;
 		target = link.target;
@@ -255,7 +246,7 @@ function ajaxPrepare(target) {
 
 	ColorBox();
 
-	RepeatListTHead( $('table.list') );
+	repeatListTHead( $('table.list') );
 
 	submenuOffset();
 }
@@ -294,7 +285,7 @@ function LOSearch( event, val, url ) {
 //Repeat long list table header
 //TODO: check lists with checkbox
 //TODO: responsive display none .thead-repeat
-function RepeatListTHead( $lists )
+function repeatListTHead( $lists )
 {
 	if ( !$lists.length )
 		return;
@@ -376,7 +367,7 @@ function showHelp() {
 	}
 	$('#footerhelp').show();
 	$('#footer').css('height', function (i, val) {
-		return parseInt(val) + parseInt($('#footerhelp').css('height'));
+		return parseInt(val,10) + parseInt($('#footerhelp').css('height'),10);
 	});
 }
 
