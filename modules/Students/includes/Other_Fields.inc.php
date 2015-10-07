@@ -1,69 +1,73 @@
 <?php
-include_once('ProgramFunctions/StudentsUsersInfo.fnc.php');
-$fields_RET = ParseMLArray($fields_RET,'TITLE');
+include_once( 'ProgramFunctions/StudentsUsersInfo.fnc.php' );
+
+$fields_RET = ParseMLArray( $fields_RET, 'TITLE' );
 
 //echo '<pre>'; var_dump($fields_RET); echo '</pre>';
+
 echo '<TABLE class="width-100p">';
-foreach($fields_RET as $field)
+
+foreach( (array)$fields_RET as $field )
 {
 	//echo '<pre>'; var_dump($field); echo '</pre>';
-	switch($field['TYPE'])
+
+	echo '<TR><TD>';
+
+	switch( $field['TYPE'] )
 	{
 		case 'text':
-			echo '<TR><TD>';
-			echo _makeTextInput('CUSTOM_'.$field['ID'],$field['TITLE'],'',$request);
-			echo '</TD></TR>';
-			break;
+
+			echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );
+
+		break;
 
 		case 'autos':
-			echo '<TR><TD>';
-			echo _makeAutoSelectInput('CUSTOM_'.$field['ID'],$field['TITLE'],$request);
-			echo '</TD></TR>';
-			break;
-
 		case 'edits':
-			echo '<TR><TD>';
-			echo _makeAutoSelectInput('CUSTOM_'.$field['ID'],$field['TITLE'],$request);
-			echo '</TD></TR>';
-			break;
+
+			echo _makeAutoSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );
+
+		break;
 
 		case 'numeric':
-			echo '<TR><TD>';
-			echo _makeTextInput('CUSTOM_'.$field['ID'],$field['TITLE'],'size=9 maxlength=18',$request);
-			echo '</TD></TR>';
-			break;
+
+			echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'size=9 maxlength=18', $request );
+
+		break;
 
 		case 'date':
-			echo '<TR><TD>';
-			echo _makeDateInput('CUSTOM_'.$field['ID'],$field['TITLE'],$request);
-			echo '</TD></TR>';
-			break;
+
+			echo _makeDateInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );
+
+		break;
 
 		case 'exports':
 		case 'codeds':
 		case 'select':
-			echo '<TR><TD>';
-			echo _makeSelectInput('CUSTOM_'.$field['ID'],$field['TITLE'],$request);
-			echo '</TD></TR>';
-			break;
+
+			echo _makeSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );
+
+		break;
 
 		case 'multiple':
-			echo '<TR><TD>';
-			echo _makeMultipleInput('CUSTOM_'.$field['ID'],$field['TITLE'],$request);
-			echo '</TD></TR>';
-			break;
+
+			echo _makeMultipleInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );
+
+		break;
 
 		case 'radio':
-			echo '<TR><TD>';
-			echo _makeCheckboxInput('CUSTOM_'.$field['ID'],$field['TITLE'],$request);
-			echo '</TD></TR>';
-			break;
 
-		case'textarea':
-			echo '<TR><TD>';
-			echo _makeTextareaInput('CUSTOM_'.$field['ID'],$field['TITLE'],$request);
-			echo '</TD></TR>';
-			break;
+			echo _makeCheckboxInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );
+
+		break;
+
+		case 'textarea':
+
+			echo _makeTextareaInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );
+
+		break;
 	}
+
+	echo '</TD></TR>';
 }
+
 echo '</TABLE>';
