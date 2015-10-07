@@ -155,12 +155,12 @@ if(empty($_REQUEST['modfunc']))
 
 	PopTable('header',$school_name);
 
-	echo '<FIELDSET><TABLE>';
+	echo '<TABLE>';
 
 	if ($_REQUEST['new_school']!='true')
 		echo '<TR><TD colspan="3">'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<img src="assets/school_logo_'.UserSchool().'.jpg" style="max-width:225px; max-height:225px;" /><br /><span class="legend-gray">'._('School logo').'</span>' : '').'</TD></TR>';
 
-//FJ school name field required
+	//FJ school name field required
 	echo '<TR><TD colspan="3">'.TextInput($schooldata['TITLE'],'values[TITLE]',(!$schooldata['TITLE']?'<span class="legend-red">':'')._('School Name').(!$schooldata['TITLE']?'</span>':''),'required maxlength=100').'</TD></TR>';
 
 	echo '<TR><TD colspan="3">'.TextInput($schooldata['ADDRESS'],'values[ADDRESS]',_('Address'),'maxlength=100').'</TD></TR>';
@@ -193,47 +193,95 @@ if(empty($_REQUEST['modfunc']))
 	$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,DEFAULT_SELECTION,REQUIRED FROM SCHOOL_FIELDS ORDER BY SORT_ORDER,TITLE"));
 	$fields_RET = ParseMLArray($fields_RET,'TITLE');
 	
-	if(count($fields_RET))
+	if ( count( $fields_RET ) )
 		echo '<TR><TD colspan="3"><hr /></TD></TR>';
 		
-	foreach($fields_RET as $field)
+	foreach( (array)$fields_RET as $field )
 	{
 		$value_custom = '';
-		if ($_REQUEST['new_school']!='true')
+
+		if ( $_REQUEST['new_school'] != 'true' )
 		{
-			$value_custom = DBGet(DBQuery("SELECT CUSTOM_".$field['ID']." FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-			$value_custom = $value_custom[1]['CUSTOM_'.$field['ID']];
+			$value_custom = DBGet( DBQuery( "SELECT CUSTOM_" . $field['ID'] . "
+				FROM SCHOOLS
+				WHERE ID='" . UserSchool() . "'
+				AND SYEAR='" . UserSyear() . "'" ) );
+
+			$value_custom = $value_custom[1]['CUSTOM_' . $field['ID']];
+
+			$div = true;
+		}
+		elseif ( $field['DEFAULT_SELECTION'] )
+		{
+			$value_custom = $field['DEFAULT_SELECTION'];
+
+			$div = false;
 		}
 		
-		$title_custom = (AllowEdit() && !$value_custom && $field['REQUIRED']?'<span class="legend-red">':'').$field['TITLE'].(AllowEdit() && !$value_custom && $field['REQUIRED']);
+		$title_custom = AllowEdit() && !$value_custom && $field['REQUIRED'] ?
+			'<span class="legend-red">' . $field['TITLE'] . '</span>' :
+			$field['TITLE'];
 		
 		echo '<TR><TD colspan="3">';
-		switch($field['TYPE'])
+
+		switch( $field['TYPE'] )
 		{
 			case 'text':
-				echo TextInput($value_custom,'values[CUSTOM_'.$field['ID'].']',$title_custom,($field['REQUIRED']?' required':''));
+				echo TextInput(
+					$value_custom,
+					'values[CUSTOM_' . $field['ID'] . ']',
+					$title_custom,
+					( $field['REQUIRED'] ? ' required' : '' ),
+					$div
+				);
+
 				break;
 
 			case 'numeric':
-				echo TextInput($value_custom,'values[CUSTOM_'.$field['ID'].']',$title_custom,'size=9 maxlength=18'.($field['REQUIRED']?' required':''));
+				echo TextInput(
+					$value_custom,
+					'values[CUSTOM_' . $field['ID'] . ']',
+					$title_custom,
+					'size=9 maxlength=18' . ( $field['REQUIRED'] ? ' required' : '' ),
+					$div
+				);
+
 				break;
 
 			case 'date':
-				echo DateInput($value_custom,'values[CUSTOM_'.$field['ID'].']',$title_custom);
+				echo DateInput(
+					$value_custom,
+					'values[CUSTOM_' . $field['ID'] . ']',
+					$title_custom,
+					$div,
+					true,
+					$field['REQUIRED']
+				);
+
 				break;
+
 			case 'textarea':
-				echo TextAreaInput($value_custom,'values[CUSTOM_'.$field['ID'].']',$title_custom,($field['REQUIRED']?' required':''));
+				echo TextAreaInput(
+					$value_custom,
+					'values[CUSTOM_' . $field['ID'] . ']',
+					$title_custom,
+					( $field['REQUIRED'] ? ' required' : '' ),
+					$div
+				);
+
 				break;
 		}
+
 		echo '</TD></TR>';
 	}
 	
-	echo '</TABLE></FIELDSET>';
+	echo '</TABLE>';
 
-	PopTable('footer');
+	PopTable( 'footer' );
 
-	if(User('PROFILE')=='admin' && AllowEdit())
-		echo '<BR /><span class="center">'.SubmitButton(_('Save'), 'button').'</span>';
+	if ( User('PROFILE') === 'admin'
+		&& AllowEdit() )
+		echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ), 'button' ) . '</div>';
 
 	echo '</FORM>';
 }
