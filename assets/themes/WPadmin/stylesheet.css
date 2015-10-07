@@ -133,7 +133,7 @@ li,dd{
 	margin-bottom:6px
 }
 textarea,input,select{
-	margin:2px 1px;
+	margin:2px 2px 2px 0;
 	padding:2px
 }
 select{
@@ -393,10 +393,7 @@ label{
 	border:0
 }
 .postbox .h3multi h3{
-	display:inline-block;
-	/* IE7 inline-block hack:*/
-	zoom:1;
-	*display:inline
+	display:inline-block
 }
 .postbox h3,.postbox .h3multi{
 	margin:0;
@@ -514,11 +511,11 @@ h3 span{
 }
 .underline-dots, .checkbox-label, .no-input-value{
 	line-height:27px;
-	margin:5px 0px
+	margin:5px 0
 }
 textarea{
-	width: 100%;
-	min-width: 280px;
+	width:100%;
+	min-width:280px
 }
 .textarea.underline-dots{
 	line-height:inherit;
@@ -535,29 +532,31 @@ textarea{
 	border-top-right-radius:3px;
 	font-weight:bold;
 	padding:5px 7px;
-	margin-left:1px;
 	line-height:27px
 }
 .md-preview > .tab.disabled{
 	pointer-events:none;
 	cursor:default
 }
+.md-preview .md-link{
+	line-height:27px;
+	float:right
+}
 .md-preview > div{
 	display:none;
-	border-top-width:1px;
-	border-top-style:solid
+	border-width:1px;
+	border-style:solid;
+	margin:0 0 2px 0;
+	padding:2px 7px;
+	box-sizing:border-box
 }
 .md-preview + textarea{
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 	margin-top:0
 }
-.md-preview > a .button{
-	float: right;
-	padding:4px 0
-}
 
-span.legend-gray, span.legend-red{
+.legend-gray, .legend-red{
 	margin-top:5px;
 	margin-bottom:7px;
 	display:inline-block
@@ -848,8 +847,8 @@ table.mceLayout,textarea.tinymce{
 	#menu,#body{
 		margin-bottom:0
 	}
-	.adminmenu a.menu-top{
-		padding:4px
+	.adminmenu a{
+		padding:3px 5px
 	}
 	.menu-top img{
 		height:24px
@@ -864,9 +863,9 @@ table.mceLayout,textarea.tinymce{
 		padding:0 2px
 	}
 	h2{
-		font-size:20px;
+		font-size:22px;
 		padding:0 8px 7px 0;
-		line-height:20px
+		line-height:24px
 	}
 	.BottomButton span{
 		display:none
