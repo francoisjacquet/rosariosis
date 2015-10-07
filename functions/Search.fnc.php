@@ -249,7 +249,7 @@ function Search( $type, $extra = null )
 					|| $type === 'staff_fields_all' )
 				{
 					echo '<TR><TD colspan="2">
-					<TABLE style="border-collapse:separate; border-spacing:2px" class="width-100p">
+					<TABLE class="width-100p">
 					<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(this); return false;" href="#" class="switchMenu"><B>' . $category[key($category)][1]['CATEGORY_TITLE'] . '</B></A>
 					<BR />
 					<TABLE class="widefat width-100p cellspacing-0 col1-align-right hide">';
