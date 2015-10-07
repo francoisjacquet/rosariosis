@@ -329,15 +329,36 @@ $stu_RET = GetStuList($extra);
 //echo '<pre>'; var_dump($stu_RET); echo '</pre>';
 
 //FJ add translation
-$type_select = '<script>var type_idonchange = document.createElement("a"); type_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'].($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&type_id="; type_idonchange.target = "body";</script>';
-$type_select .= '<SELECT name="type_id" onchange="type_idonchange.href += this.options[selectedIndex].value; ajaxLink(type_idonchange);"><OPTION value=""'.(!$_REQUEST['type_id']?' SELECTED':'').'>'._('All').'</OPTION>';
+$type_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+	'&include_inactive=' . $_REQUEST['include_inactive'] .
+	'&include_all=' . $_REQUEST['include_all'] .
+	( $_REQUEST['assignment_id'] === 'all' ? '&assignment_id=all' : '' ) .
+	( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) .
+	"&type_id='";
+
+$type_select = '<SELECT name="type_id" onchange="ajaxLink(' . $type_onchange_URL . ' + this.options[selectedIndex].value);">';
+
+$type_select .= '<OPTION value=""' . ( !$_REQUEST['type_id'] ? ' SELECTED' : '' ) . '>' .
+	_( 'All' ) .
+'</OPTION>';
 
 foreach($types_RET as $id=>$type)
 	$type_select .= '<OPTION value="'.$id.'"'.($_REQUEST['type_id']==$id?' SELECTED':'').'>'.$type[1]['TITLE'].'</OPTION>';
 $type_select .= '</SELECT>';
 
-$assignment_select = '<script>var assignment_idonchange = document.createElement("a"); assignment_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'].'&type_id='.$_REQUEST['type_id'].'&assignment_id="; assignment_idonchange.target = "body";</script>';
-$assignment_select .= '<SELECT name="assignment_id" onchange="assignment_idonchange.href += this.options[selectedIndex].value; ajaxLink(assignment_idonchange);"><OPTION value="">'._('Totals').'</OPTION><OPTION value="all"'.(($_REQUEST['assignment_id']=='all' && !UserStudentID())?' SELECTED':'').'>'._('All').'</OPTION>';
+$assignment_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+	'&include_inactive=' . $_REQUEST['include_inactive'] .
+	'&include_all=' . $_REQUEST['include_all'] .
+	'&type_id=' . $_REQUEST['type_id'] .
+	"&assignment_id='";
+
+$assignment_select = '<SELECT name="assignment_id" onchange="ajaxLink(' . $assignment_onchange_URL . ' + this.options[selectedIndex].value);">';
+
+$assignment_select .= '<OPTION value="">' . _( 'Totals' ) . '</OPTION>';
+
+$assignment_select .= '<OPTION value="all"' . ( ( $_REQUEST['assignment_id'] === 'all' && !UserStudentID() ) ? ' SELECTED' : '' ) . '>' .
+	_( 'All' ) .
+'</OPTION>';
 
 if(UserStudentID() && $_REQUEST['assignment_id']=='all')
 	$assignment_select .= '<OPTION value="all" SELECTED>'.$stu_RET[1]['FULL_NAME'].'</OPTION>';
@@ -379,7 +400,7 @@ if (UserStudentID())
 else
 	ListOutput($stu_RET,$LO_columns,'Student','Students',$link,array(),$LO_options);
 
-echo $_REQUEST['assignment_id']?'<span class="center">'.SubmitButton(_('Save')).'</span>':'';
+echo $_REQUEST['assignment_id']?'<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>':'';
 echo '</FORM>';
 
 function _makeExtraAssnCols($assignment_id,$column)

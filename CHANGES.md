@@ -30,6 +30,7 @@ Changes in 2.9
 - Add all jqPlot plugins & excanvas (IE version<9 compat) in assets/js/jqplot
 - Regroup Charts (jqPlot) functions in ProgramFunctions/Charts.fnc.php
 - Add Module Title to Menu.php files
+- ajaLink() JS function now directly accepts URLs in warehouse.js & program wide
 
 Changes in 2.8.11
 -----------------

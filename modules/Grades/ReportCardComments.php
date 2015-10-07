@@ -101,9 +101,10 @@ if(empty($_REQUEST['modfunc']))
 		if(!$_REQUEST['course_id'] || !$courses_RET[$_REQUEST['course_id']])
 			$_REQUEST['course_id'] = key($courses_RET).'';
 
-		$subject_select = '<script>var subject_idonchange = document.createElement("a"); subject_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&subject_id="; subject_idonchange.target = "body";</script>';
+		$subject_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+			"&subject_id='";
 
-		$subject_select .= '<SELECT name="subject_id" onchange="subject_idonchange.href += this.options[selectedIndex].value; ajaxLink(subject_idonchange);">';
+		$subject_select = '<SELECT name="subject_id" onchange="ajaxLink(' . $subject_onchange_URL . ' + this.options[selectedIndex].value);">';
 
 		//FJ Add No Courses were found error
 		if (empty($subjects_RET))
@@ -114,9 +115,11 @@ if(empty($_REQUEST['modfunc']))
 
 		$subject_select .= '</SELECT>';
 
-		$course_select = '<script>var course_idonchange = document.createElement("a"); course_idonchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id="; course_idonchange.target = "body";</script>';
+		$course_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+			'&subject_id=' . $_REQUEST['subject_id'] .
+			"&course_id='";
 
-		$course_select .= '<SELECT name="course_id" onchange="course_idonchange.href += this.options[selectedIndex].value; ajaxLink(course_idonchange);">';
+		$course_select .= '<SELECT name="course_id" onchange="ajaxLink(' . $course_onchange_URL . ' + this.options[selectedIndex].value);">';
 
 		//FJ Add No Courses were found error
 		if (empty($courses_RET))
@@ -247,7 +250,7 @@ if(empty($_REQUEST['modfunc']))
 	else
 		ListOutput($LO_ret,$LO_columns,'Comment','Comments',$link,array(),$LO_options);
 
-	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

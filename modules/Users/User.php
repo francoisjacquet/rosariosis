@@ -325,13 +325,13 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 	if ($error && !UserStaffID())
 		$_REQUEST['staff_id'] = 'new';
 
-	unset($_REQUEST['staff']);
-	unset($_REQUEST['modfunc']);
-	unset($_SESSION['_REQUEST_vars']['staff']);
-	unset($_SESSION['_REQUEST_vars']['modfunc']);
+	unset( $_REQUEST['staff'] );
+	unset( $_REQUEST['modfunc'] );
+	unset( $_SESSION['_REQUEST_vars']['staff'] );
+	unset( $_SESSION['_REQUEST_vars']['modfunc'] );
 
-	if(User('STAFF_ID')==$_REQUEST['staff_id'])
-		unset($_ROSARIO['User']);
+	if ( User('STAFF_ID') == $_REQUEST['staff_id'] )
+		unset( $_ROSARIO['User'] );
 }
 
 if(basename($_SERVER['PHP_SELF'])!='index.php')
@@ -405,8 +405,10 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 	{
 		if(UserStaffID() && UserStaffID()!=User('STAFF_ID') && UserStaffID()!=$_SESSION['STAFF_ID'] && User('PROFILE')=='admin' && AllowEdit())
 		{
-			$delete_button = '<script>var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete"; delete_link.target = "body";</script>';
-			$delete_button .= '<INPUT type="button" value="'._('Delete').'" onClick="javascript:ajaxLink(delete_link);" />';
+			$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+				"&modfunc=delete'";
+
+			$delete_button = '<INPUT type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
 		}
 	}
 
@@ -475,6 +477,6 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 
 	PopTable('footer');
 
-	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }

@@ -527,10 +527,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			$opener_URL = "Modules.php?modname=" . $_REQUEST['modname'] . "&year=" . $_REQUEST['year'] . "&month=" . $_REQUEST['month'];
 			?>
 <script>
-	var opener_reload = document.createElement("a");
-	opener_reload.href = <?php echo json_encode( $opener_URL ); ?>;
-	opener_reload.target = "body";
-	window.opener.ajaxLink(opener_reload);
+	window.opener.ajaxLink(<?php echo json_encode( $opener_URL ); ?>);
 	window.close();
 </script>
 			<?php
@@ -554,10 +551,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			$opener_URL = "Modules.php?modname=" . $_REQUEST['modname'] . "&year=" . $_REQUEST['year'] . "&month=" . $_REQUEST['month'];
 			?>
 <script>
-	var opener_reload = document.createElement("a");
-	opener_reload.href = <?php echo json_encode( $opener_URL ); ?>;
-	opener_reload.target = "body";
-	window.opener.ajaxLink(opener_reload);
+	window.opener.ajaxLink(<?php echo json_encode( $opener_URL ); ?>);
 	window.close();
 </script>
 			<?php
@@ -771,16 +765,20 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		mktime( 0, 0, 0, MonthNWSwitch( $_REQUEST['month'], 'tonum' ), $last, $_REQUEST['year'] )
 	);
 
-	$calendar_RET = DBGet( DBQuery( "SELECT to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE,MINUTES,BLOCK
+	$calendar_SQL = "SELECT to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE,MINUTES,BLOCK
 		FROM ATTENDANCE_CALENDAR
 		WHERE SCHOOL_DATE BETWEEN '" . $first_day_month . "'
 		AND '" . $last_day_month . "'
 		AND SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
-		AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" ), array(), array( 'SCHOOL_DATE' ) );
+		AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'";
+
+	$calendar_RET = DBGet( DBQuery( $calendar_SQL ), array(), array( 'SCHOOL_DATE' ) );
+
+	$update_calendar = false;
 
 	// Update School Day minutes
-	if ( $_REQUEST['minutes'] )
+	if ( isset( $_REQUEST['minutes'] ) )
 	{
 		foreach( (array)$_REQUEST['minutes'] as $date => $minutes )
 		{
@@ -805,6 +803,8 @@ if ( empty( $_REQUEST['modfunc'] ) )
 						AND SCHOOL_ID='" . UserSchool() . "'
 						AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
 				}
+
+				$update_calendar = true;
 			}
 			//elseif($minutes!='0' && $minutes!='')
 			//FJ fix bug MINUTES not numeric
@@ -813,6 +813,8 @@ if ( empty( $_REQUEST['modfunc'] ) )
 				DBQuery( "INSERT INTO ATTENDANCE_CALENDAR
 					(SYEAR,SCHOOL_ID,SCHOOL_DATE,CALENDAR_ID,MINUTES)
 					values('" . UserSyear() . "','" . UserSchool() . "','" . $date . "','" . $_REQUEST['calendar_id'] . "','" . intval( $minutes ) . "')" );
+
+				$update_calendar = true;
 			}
 		}
 
@@ -821,7 +823,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	}
 
 	// Update All day school
-	if ( $_REQUEST['all_day'] )
+	if ( isset( $_REQUEST['all_day'] ) )
 	{
 		foreach( (array)$_REQUEST['all_day'] as $date => $yes )
 		{
@@ -852,6 +854,8 @@ if ( empty( $_REQUEST['modfunc'] ) )
 					AND SCHOOL_ID='" . UserSchool() . "'
 					AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
 			}
+
+			$update_calendar = true;
 		}
 
 		unset( $_REQUEST['all_day'] );
@@ -859,7 +863,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	}
 
 	// Update Blocks
-	if ( $_REQUEST['blocks'] )
+	if ( isset( $_REQUEST['blocks'] ) )
 	{
 		foreach( (array)$_REQUEST['blocks'] as $date => $block )
 		{
@@ -871,6 +875,8 @@ if ( empty( $_REQUEST['modfunc'] ) )
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'
 					AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" );
+
+				$update_calendar = true;
 			}
 		}
 
@@ -879,17 +885,9 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	}
 
 	// Update Calendar RET
-	if ( $_REQUEST['blocks']
-		|| $_REQUEST['all_day']
-		|| $_REQUEST['minutes'] )
+	if ( $update_calendar )
 	{
-		$calendar_RET = DBGet( DBQuery( "SELECT to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE,MINUTES,BLOCK
-			FROM ATTENDANCE_CALENDAR
-			WHERE SCHOOL_DATE BETWEEN '" . $first_day_month . "'
-			AND '" . $last_day_month . "'
-			AND SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'
-			AND CALENDAR_ID='" . $_REQUEST['calendar_id'] . "'" ), array(), array( 'SCHOOL_DATE' ) );
+		$calendar_RET = DBGet( DBQuery( $calendar_SQL ), array(), array( 'SCHOOL_DATE' ) );
 	}
 
 
@@ -912,19 +910,15 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		}
 
 		//FJ bugfix erase calendar onchange
-		$calendar_onchange = '<script>
-			var calendar_onchange = document.createElement("a");
-			calendar_onchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&calendar_id=";
-			calendar_onchange.target = "body";
-		</script>';
+		$calendar_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] . "&calendar_id='";
 
-		$links = $calendar_onchange . SelectInput(
+		$links = SelectInput(
 			$_REQUEST['calendar_id'],
 			'calendar_id',
 			'',
 			$options,
 			false,
-			' onchange="calendar_onchange.href += document.getElementById(\'calendar_id\').value; ajaxLink(calendar_onchange);" ',
+			' onchange="ajaxLink(' . $calendar_onchange_URL . ' + document.getElementById(\'calendar_id\').value);" ',
 			false
 		) .
 		'<A HREF="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create" class="nobr">' .
@@ -1200,7 +1194,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	echo '</TR></TBODY></TABLE>';
 
-	echo '<BR /><span class="center">' . SubmitButton( _( 'Save' ) ) . '</span>';
+	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '<BR /><BR /></FORM>';
 }
 

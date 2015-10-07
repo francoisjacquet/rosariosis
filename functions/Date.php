@@ -185,26 +185,12 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		// Add year / month / day parameters to href
 		$add_args_js = array();
 
-		foreach( $URL_args as $URL_arg )
+		foreach( (array)$URL_args as $URL_arg )
 		{
-			$add_args_js[] = '( el.form.' . $URL_arg . ' ? \'&' . $URL_arg . '=\' +
-				el.form.' . $URL_arg . '.value : \'\' )';
+			$add_args_js[] = '(this.form.' . $URL_arg . ' ? \'&' . $URL_arg . '=\' + this.form.' . $URL_arg . '.value : \'\')';
 		}
 
-		$return .= '<script>
-			function dateOnChange( el )
-			{
-				var date_onchange = document.createElement( "a" );
-				date_onchange.href = "' . $date_onchange_href . '";
-				date_onchange.target = "body";
-
-				date_onchange.href += ' . implode( ' + ', $add_args_js ) . ';
-
-				ajaxLink( date_onchange );
-			}
-		</script>';
-
-		$e = ' onchange="dateOnChange(this);"';
+		$e = ' onchange="ajaxLink( \'' . $date_onchange_href . '\' + ' . implode( '+', $add_args_js ) . ' );"';
 
 		$extraM .= $e;
 

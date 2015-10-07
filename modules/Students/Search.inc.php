@@ -100,7 +100,7 @@ if(!$_REQUEST['search_modfunc'])
 
 			// set focus to last name text box
 			// update Bottom.php
-			echo '<script> document.search.last.focus(); var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname=""; </script>';
+			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 
 			PopTable('footer');
 		break;
@@ -220,7 +220,7 @@ else
 			}
 
 			if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
-				echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+				echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 		}
 
 		if($_REQUEST['address_group'])

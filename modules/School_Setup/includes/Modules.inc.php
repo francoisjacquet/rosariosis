@@ -281,7 +281,7 @@ function _saveRosarioModules()
 function _reloadMenu()
 {
 	?>
-	<script>ajaxLink(menu_link);</script>
+	<script>ajaxLink('Side.php');</script>
 	<?php
 
 	return true;

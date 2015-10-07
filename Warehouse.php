@@ -316,7 +316,7 @@ if( !defined( 'WAREHOUSE_PHP' ) )
 			|| menuStaffID != "<?php echo UserStaffID(); ?>"
 			|| menuSchool != "<?php echo UserSchool(); ?>"
 			|| menuCoursePeriod != "<?php echo UserCoursePeriod(); ?>")) { 
-		ajaxLink( menu_link );
+		ajaxLink( 'Side.php' );
 	}
 <?php 			if ( !empty( $_ROSARIO['ProgramLoaded'] ) ) : ?>
 	else
@@ -360,5 +360,3 @@ if( !defined( 'WAREHOUSE_PHP' ) )
 		} // end switch
 	} // end Warehouse()
 }
-
-?>

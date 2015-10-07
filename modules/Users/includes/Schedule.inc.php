@@ -5,12 +5,16 @@ include('modules/Users/includes/Other_Info.inc.php');
 
 if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
 {
-//FJ add <label> on checkbox
+	//FJ add <label> on checkbox
 	if ($PopTable_opened)
 		PopTable('footer');
 
-	$input_all_schools = '<script>var all_schoolsonclick = document.createElement("a"); all_schoolsonclick.href = "'.($_REQUEST['all_schools']=='Y' ? PreparePHP_SELF($_REQUEST,array(),array('all_schools'=>'')) : PreparePHP_SELF($_REQUEST,array(),array('all_schools'=>'Y'))).'"; all_schoolsonclick.target = "body";</script>';
-	$input_all_schools .= '<INPUT type="checkbox" name="all_schools" value="Y" onclick="ajaxLink(all_schoolsonclick);"'.($_REQUEST['all_schools']=='Y' ? 'checked' : '').' />';
+	$all_schools_onclick_URL = "'" . ( $_REQUEST['all_schools'] == 'Y' ?
+		PreparePHP_SELF( $_REQUEST, array(), array( 'all_schools' => '' ) ) :
+		PreparePHP_SELF( $_REQUEST, array(), array( 'all_schools' => 'Y' ) ) ) . "'";
+
+	$input_all_schools = '<INPUT type="checkbox" name="all_schools" value="Y" onclick="ajaxLink(' . $all_schools_onclick_URL . ');"' . ( $_REQUEST['all_schools'] == 'Y' ? 'checked' : '' ) . ' />';
+
 	DrawHeader('','','<label>'.$input_all_schools.' '._('List Courses For All Schools').'</label>');
 
 	// preload GetMP cache with all schools

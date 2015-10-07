@@ -632,8 +632,10 @@ if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['submit']['cancel'])
 
 $time = strtotime(DBDate());
 
-$mps_select = '<script>var mponchange = document.createElement("a"); mponchange.href = "Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&mp="; mponchange.target = "body";</script>';
-$mps_select .= '<SELECT name="mp" onchange="mponchange.href += this.options[selectedIndex].value; ajaxLink(mponchange);">';
+$mps_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+	'&include_inactive=' . $_REQUEST['include_inactive'] . "&mp='";
+
+$mps_select .= '<SELECT name="mp" onchange="ajaxLink(' . $mps_onchange_URL . ' + this.options[selectedIndex].value);">';
 
 if($pros!='')
 	foreach(explode(',',str_replace("'",'',$pros)) as $pro)
@@ -841,7 +843,7 @@ echo '<BR />';
 
 ListOutput($stu_RET,$LO_columns,'Student','Students',false,array(),$LO_options);
 
-echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 echo '</FORM>';
 
 function _makeLetterPercent($student_id,$column)

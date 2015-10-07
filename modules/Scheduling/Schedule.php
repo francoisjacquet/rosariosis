@@ -234,9 +234,9 @@ if(UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_d
 
 	VerifySchedule($schedule_RET);
 
-	ListOutput($schedule_RET,$columns,'Course','Courses',$link);
+	ListOutput( $schedule_RET, $columns, 'Course', 'Courses', $link );
 
-	echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 
 	if(AllowEdit())
@@ -352,7 +352,13 @@ if($_REQUEST['modfunc']=='choose_course')
 
 			do_action('Scheduling/Schedule.php|schedule_student');
 
-			echo '<script>var opener_reload = document.createElement("a"); opener_reload.href = "Modules.php?modname='.$_REQUEST['modname'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&time='.time().'"; opener_reload.target = "body"; window.opener.ajaxLink(opener_reload); window.close();</script>';
+			$opener_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+				'&year_date=' . $_REQUEST['year_date'] .
+				'&month_date=' . $_REQUEST['month_date'] .
+				'&day_date=' . $_REQUEST['day_date'] .
+				'&time=' . time() . "'";
+
+			echo '<script>window.opener.ajaxLink(' . $opener_URL . '); window.close();</script>';
 		}
 	}
 }
@@ -486,16 +492,29 @@ function _str_split($str)
 }
 
 //custom Prompt function: we need modfunc to be kept here
-function _Prompt($title='Confirm',$question='',$message='')
+function _Prompt( $title='Confirm', $question = '', $message = '' )
 {
-	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok'),array());
+	$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST, array( 'delete_ok' ), array() );
 
-	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	if ( !$_REQUEST['delete_ok']
+		&& !$_REQUEST['delete_cancel'] )
 	{
 		echo '<BR />';
-		PopTable('header',($title=='Confirm'?_('Confirm'):$title));
-		echo '<span class="center"><h4>'.$question.'</h4></span><FORM action="'.$PHP_tmp_SELF.'&delete_ok=1" METHOD="POST">'.$message.'<BR /><BR /><span class="center"><INPUT type="submit" value="'._('OK').'"><INPUT type="button" name="delete_cancel" value="'._('Cancel').'" onclick="javascript:this.form.action=\''.str_replace('&course_period_id='.$_REQUEST['course_period_id'], '', $PHP_tmp_SELF).'\';ajaxPostForm(this.form,true);"></span></FORM>';
-		PopTable('footer');
+
+		PopTable( 'header', ( $title == 'Confirm' ? _( 'Confirm' ) : $title ) );
+
+		echo '<h4 class="center">' . $question . '</h4>
+			<FORM action="' . $PHP_tmp_SELF . '&delete_ok=1" METHOD="POST">' .
+			$message .
+			'<BR /><BR />
+			<div class="center">
+				<INPUT type="submit" value="' . _( 'OK' ) . '">
+				<INPUT type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="javascript:this.form.action=\'' . str_replace( '&course_period_id=' . $_REQUEST['course_period_id'], '', $PHP_tmp_SELF ) . '\'; ajaxPostForm(this.form,true);">
+			</div>
+		</FORM>';
+
+		PopTable( 'footer' );
+
 		return false;
 	}
 	else

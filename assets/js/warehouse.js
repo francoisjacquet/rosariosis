@@ -81,40 +81,48 @@ function ColorBox() {
 }
 
 // MarkDown
-var md_last_val = '';
-var sdc = new showdown.Converter({
+var md_last_val,
+	sdc = new showdown.Converter({
 	tables: true,
 	simplifiedAutoLink: true,
 	parseImgDimensions: true,
 	tasklists: true,
 	literalMidWordUnderscores: true,
 });
+
 function MarkDownInputPreview( input_id )
 {
-	var input = $('#' + input_id);
-	var html = input.val();
-	var md_prev = $('#divMDPreview' + input_id);
+	var input = $('#' + input_id),
+		html = input.val(),
+		md_prev = $('#divMDPreview' + input_id);
 
-	console.log(input.is(":visible"), html, md_last_val);
-
+	/*if ( !md_last_val )
+		md_last_val = {};*/
+console.log(md_last_val);
 	// send AJAX request only if input modified
-	if ( input.is(":visible") && html !== '' && md_last_val !== html )
+	if ( input.is(":visible") && html !== '' && md_last_val[input_id] !== html )
 	{
-		md_last_val = html;
+		md_last_val[input_id] = html;
 
 		// Convert MarkDown to HTML
 		md_prev.html( sdc.makeHtml( html ) );
 	}
 
+	// MD preview = Input size
+	if ( input.is(":visible") && md_prev.css('width') != input.css('width') )
+		md_prev.css({ 'width': input.css('width'), 'min-height': input.css('height') });
+
 	// toggle MD preview & Input
-	input.toggle();
 	md_prev.toggle();
+	input.toggle();
 	// disable Write / Preview tab
-	md_prev.siblings('a').toggleClass('disabled');
+	md_prev.siblings('.tab').toggleClass('disabled');
 }
 
 function MarkDownToHTML()
 {
+	md_last_val = {};
+
 	$('.markdown-to-html').html(function(i, html){
 		return sdc.makeHtml( html );
 	});
@@ -127,18 +135,19 @@ function ajaxOptions(target, url, form) {
 		},
 		success: function (data) {
 			if (form && form.method == 'get') {
-				var i,max,el,getStr,formArray;
+				var getStr = [];
 
 				// Fix advanced search forms (student & user) URL > 2000 chars
 				if (form.name == 'search') {
-					formArray = $(form).formToArray();
+					var formArray = $(form).formToArray();
 
-					for(i=0, getStr='', max=formArray.length; i < max; i++) {
-						el = formArray[i];
+					$(formArray).each(function(i,el){
 						// only add not empty values
 						if (el.value !== '')
-							getStr += '&' + el.name + '=' + el.value;
-					}
+							getStr.push(el.name + '=' + el.value);
+					});
+
+					getStr = getStr.join('&');
 				}
 				else {
 					getStr = $(form).formSerialize();
@@ -161,15 +170,37 @@ function ajaxOptions(target, url, form) {
 
 function ajaxLink(link) {
 	//will work only if in the onclick there is no error!
-	var target = link.target;
-	if (link.href.indexOf('#') != -1 || target == '_blank' || target == '_top') //internal/external/index.php anchor
+
+	var href,target;
+
+	if ( typeof link == 'string' ) {
+		href = link;
+		switch(href) {
+			case 'Side.php':
+				target = 'menu';
+			break;
+
+			case 'Bottom.php':
+				target = 'footer';
+			break;
+
+			default:
+				target = 'body';
+		}
+	} else {
+		href = link.href;
+		target = link.target;
+	}
+
+	if (href.indexOf('#') != -1 || target == '_blank' || target == '_top') //internal/external/index.php anchor
 		return true;
+
 	if (!target) {
-		if (link.href.indexOf('Modules.php') != -1) target = 'body';
+		if (href.indexOf('Modules.php') != -1) target = 'body';
 		else return true;
 	}
 
-	$.ajax(link.href, ajaxOptions(target, link.href, false));
+	$.ajax(href, ajaxOptions(target, href, false));
 	return false;
 }
 
@@ -221,7 +252,10 @@ function ajaxPrepare(target) {
 	document.title = $('#body h2').text() + (h3 ? ' | ' + h3 : '');
 
 	MarkDownToHTML();
+
 	ColorBox();
+
+	RepeatListTHead( $('table.list') );
 
 	submenuOffset();
 }
@@ -241,10 +275,7 @@ window.onload = function () {
 	//load body after browser history
 	if (history.pushState) window.setTimeout(function () {
 		window.addEventListener('popstate', function (e) {
-			var pop = document.createElement('a');
-			pop.target = 'body';
-			pop.href = document.URL;
-			ajaxLink(pop);
+			ajaxLink(document.URL);
 		}, false);
 	}, 1);
 };
@@ -254,20 +285,44 @@ function LOSearch( event, val, url ) {
 
 	if ( val !== '' && ( !event || event.keyCode == 13 ) )
 	{
-		var search_a = document.createElement("a");
-		search_a.href = document.URL + "&LO_search=" + val;
-		search_a.target = "body";
-		ajaxLink(search_a);
+		ajaxLink(document.URL + "&LO_search=" + val);
 	}
 
 	return false;
 }
 
+//Repeat long list table header
+//TODO: check lists with checkbox
+//TODO: responsive display none .thead-repeat
+function RepeatListTHead( $lists )
+{
+	if ( !$lists.length )
+		return;
+
+	$lists.each(function( i, tbl ){
+		var trs = tbl.getElementsByTagName("tr"),
+			tr_num = trs.length,
+			tr_max = 20;
+
+		// If more than 20 rows
+		if ( tr_num > tr_max ) {
+			var th = trs[0];
+
+			// each 20 rows, or at the end if number of rows <= 40
+			for( i = (tr_num > tr_max*2 ? tr_max : tr_num-1), trs2th = []; i < tr_num; i += tr_max ) {
+				trs2th.push(trs[i]);
+			}
+
+			// clone header
+			$(th).clone().addClass('thead-repeat').insertAfter( trs2th );
+		}
+	});
+}
+
+
 //Side.php JS
-var old_modcat = false;
-var menu_link = document.createElement("a");
-menu_link.href = "Side.php";
-menu_link.target = "menu";
+var old_modcat = false,
+	menu_link = 'Side.php';
 
 function openMenu(modname) {
 	if (modname != 'misc/Portal.php') {

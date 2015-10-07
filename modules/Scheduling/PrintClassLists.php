@@ -118,7 +118,7 @@ if(empty($_REQUEST['modfunc']))
 			unset($_SESSION['List_PHP_SELF']);
 		}
 
-		echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+		echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 
 		echo '<BR />';
 
@@ -234,11 +234,11 @@ function mySearch($extra)
 			unset($_SESSION['Search_PHP_SELF']);
 		}
 
-		echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+		echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 	}
 
 	ListOutput($course_periods_RET,$LO_columns,'Course Period','Course Periods');
 
-	echo '<BR /><span class="center"><INPUT type="submit" value="'._('Create Class Lists for Selected Course Periods').'" /></span>';
+	echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Class Lists for Selected Course Periods').'" /></div>';
 	echo '</FORM>';
 }

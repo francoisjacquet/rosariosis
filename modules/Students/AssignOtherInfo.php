@@ -141,16 +141,20 @@ if(empty($_REQUEST['modfunc']))
 
 		$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
 
-//FJ css WPadmin
-		echo '<span class="center">';
-		echo '<script>var category_idonchange = document.createElement("a"); category_idonchange.href = "'.PreparePHP_SELF($_REQUEST,array('category_id')).'&category_id="; category_idonchange.target = "body";</script>';
+		//FJ css WPadmin
+		echo '<div class="center">';
 
-		echo '<SELECT name="category_id" onchange="category_idonchange.href += this.options[selectedIndex].value; ajaxLink(category_idonchange);"><OPTION value="">'._('All Categories').'</OPTION>';
+		$category_onchange_URL = "'" . PreparePHP_SELF( $_REQUEST, array( 'category_id' ) ) . "&category_id='";
+
+		echo '<SELECT name="category_id" onchange="ajaxLink(' . $category_onchange_URL . ' + this.options[selectedIndex].value);">';
+
+		echo '<OPTION value="">' . _( 'All Categories' ) . '</OPTION>';
+
 		foreach($categories_RET as $category)
 			echo '<OPTION value="'.$category['ID'].'"'.($_REQUEST['category_id']==$category['ID']?' SELECTED':'').'>'.ParseMLField($category['TITLE']).'</OPTION>';
 		echo '</SELECT>';
 
-		echo '</span><TABLE class="widefat cellspacing-0 center col1-align-right">';
+		echo '</div><TABLE class="widefat cellspacing-0 center col1-align-right">';
 
 		if(count($fields_RET['text']))
 		{
@@ -374,7 +378,7 @@ if(empty($_REQUEST['modfunc']))
 
 	Search('student_id',$extra);
 	if($_REQUEST['search_modfunc']=='list')
-		echo '<BR /><span class="center">'.SubmitButton(_('Save')).'</span></FORM>';
+		echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div></FORM>';
 }
 
 function _makeChooseCheckbox($value,$title='')

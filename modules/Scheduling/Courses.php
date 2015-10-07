@@ -535,8 +535,12 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 	{
 		if(AllowEdit())
 		{
-			$delete_button = '<script>var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id='.$_REQUEST['course_period_id'].'"; delete_link.target = "body";</script>';
-			$delete_button .= '<INPUT type="button" value="'._('Delete').'" onClick="javascript:ajaxLink(delete_link);" />';
+			$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
+				'&modfunc=delete&subject_id=' . $_REQUEST['subject_id'] .
+				'&course_id=' . $_REQUEST['course_id'] .
+				'&course_period_id=' . $_REQUEST['course_period_id'] . "'";
+
+			$delete_button = '<INPUT type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
 		}
 		// ADDING & EDITING FORM
 		if($_REQUEST['course_period_id'])

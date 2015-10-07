@@ -118,7 +118,7 @@ if(!$_REQUEST['search_modfunc'])
 
 			// set focus to last name text box
 			// update Bottom.php
-			echo '<script> document.search.last.focus(); var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 
 			PopTable('footer');
 		break;
@@ -205,7 +205,7 @@ else
 				unset($_SESSION['Search_PHP_SELF']);
 			}
 
-			echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 		}
 
 		if($extra['profile'])

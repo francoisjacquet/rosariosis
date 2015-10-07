@@ -89,10 +89,7 @@ function changeStyle(tag,over)
 
 function doOnClick(course)
 {
-	var courseonclick = document.createElement("a");
-	courseonclick.href = "Modules.php?modname=<?php echo $_REQUEST['modname']; ?>&modfunc=add&course="+course;
-	courseonclick.target = "body";
-	ajaxLink(courseonclick);
+	ajaxLink("Modules.php?modname=<?php echo $_REQUEST['modname']; ?>&modfunc=add&course=" + course);
 }
 
 function processRequest()
@@ -134,7 +131,7 @@ function processRequest()
 //FJ css WPadmin
 	$link['add']['span'] = ''._('Add a Request').': &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <INPUT type="text" id="course_title" name="course_title" onkeypress="if(event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><DIV id="courses_div"></DIV>';
 	ListOutput($requests_RET,$columns,'Request','Requests',$link);
-	echo '<br /><span class="center">'.SubmitButton(_('Save')).'</span><br />';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';
 }
 

@@ -43,16 +43,10 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel=tru
 
 		PopTable( 'header', _( 'Confirm' ) . ( mb_strpos( $action, ' ' ) === false ? ' '. $action : '' ) );
 
-		$addJavascript .= '<script>
-			var cancel_link = document.createElement("a");
-			cancel_link.href = "' .	$PHP_tmp_SELF_cancel . '";
-			cancel_link.target = "body";
-		</script>';
-
-		echo $addJavascript . '<h4 class="center">' . sprintf( _( 'Are you sure you want to %s that %s?' ), $action, $title ).'</h4>
+		echo '<h4 class="center">' . sprintf( _( 'Are you sure you want to %s that %s?' ), $action, $title ).'</h4>
 			<FORM action="' . $PHP_tmp_SELF . '" METHOD="POST" class="center">' .
 				SubmitButton( _( 'OK' ), 'delete_ok' ) .
-				'<INPUT type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="ajaxLink(cancel_link);" />
+				'<INPUT type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="ajaxLink(\'' . $PHP_tmp_SELF_cancel . '\');" />
 			</FORM>
 		</div>';
 

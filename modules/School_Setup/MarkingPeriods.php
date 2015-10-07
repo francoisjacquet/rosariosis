@@ -445,13 +445,9 @@ if( empty( $_REQUEST['modfunc'] ) )
 	if ( AllowEdit()
 		&& $_REQUEST['marking_period_id'] !== 'new' )
 	{
-		$delete_button = '<script>
-			var delete_link = document.createElement("a");
-			delete_link.href = "' . $mp_href . '&modfunc=delete";
-			delete_link.target = "body";
-		</script>';
+		$delete_URL = "'" . $mp_href . "&modfunc=delete'";
 
-		$delete_button .= '<INPUT type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(delete_link);" />';
+		$delete_button = '<INPUT type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
 	}
 
 	echo '<FORM action="' . $mp_href . '" method="POST">';

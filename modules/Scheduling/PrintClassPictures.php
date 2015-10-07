@@ -160,7 +160,7 @@ if(empty($_REQUEST['modfunc']))
 	mySearch('course_period',$extra);
 	if($_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><span class="center"><INPUT type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" /></span>';
+		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" /></div>';
 		echo '</FORM>';
 	}
 }
@@ -178,7 +178,7 @@ function mySearch($type,$extra='')
 			unset($_SESSION['List_PHP_SELF']);
 		}
 
-		echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+		echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 
 		echo '<BR />';
 
@@ -296,7 +296,7 @@ function mySearch($type,$extra='')
 			}
 
 			if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
-				echo '<script>var footer_link = document.createElement("a"); footer_link.href = "Bottom.php"; footer_link.target = "footer"; ajaxLink(footer_link); old_modname="";</script>';
+				echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 		}
 
 		echo '<INPUT type="hidden" name="relation">';

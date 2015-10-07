@@ -169,8 +169,11 @@ if(empty($_REQUEST['modfunc']))
 
 	if(AllowEdit() && $_REQUEST['id']!='new' && $_REQUEST['category_id']!='new' && ($_REQUEST['id'] || $_REQUEST['category_id']>2))
 	{
-		$delete_button = '<script>var delete_link = document.createElement("a"); delete_link.href = "Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&category_id='.$_REQUEST['category_id'].'&id='.$_REQUEST['id'].'"; delete_link.target = "body";</script>';
-		$delete_button .= '<INPUT type="button" value="'._('Delete').'" onClick="javascript:ajaxLink(delete_link);" />';
+		$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
+			'&modfunc=delete&category_id=' . $_REQUEST['category_id'] .
+			'&id=' . $_REQUEST['id'] . "'";
+
+		$delete_button = '<INPUT type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
 	}
 
 	// ADDING & EDITING FORM
