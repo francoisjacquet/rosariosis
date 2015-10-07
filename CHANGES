@@ -5,6 +5,7 @@ Changes in 2.8.23
 - Go button display when no Edit Allowed in Calendar.php
 - Format Events List descriptions in Calendar.php
 - Unset REQUEST students var in session after update in Student.php
+- Various corrections for French translation
 
 Changes in 2.8.22
 -----------------
