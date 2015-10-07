@@ -484,7 +484,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				echo '</TR></TABLE>';
 			}
 
-			echo '<div style="overflow-x:auto;"><TABLE class="widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
+			echo '<div style="overflow-x:auto;"><TABLE class="list widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
 			echo '<THEAD><TR>';
 
 			$i = 1;
@@ -507,16 +507,20 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					{
 						echo '<TD style="background-color:'.$options['header_color'].'; color:#fff;"><b>';
 						echo ParseMLField($value);
-						echo '</b></span></TD>';
+						echo '</b></TD>';
 					}
 					else
 					{
-						echo '<TH><A ';
+						echo '<TH>';
 
-						if($options['sort'])
-							echo 'HREF="'.$PHP_tmp_SELF.'&amp;LO_page='.$_REQUEST['LO_page'].'&amp;LO_sort='.$key.'&amp;LO_direction='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'');
+						if ( $options['sort'] )
+							echo '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_page='.$_REQUEST['LO_page'].'&amp;LO_sort='.$key.'&amp;LO_direction='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'') . '">' .
+								ParseMLField( $value ) .
+							'</A>';
+						else
+							echo ParseMLField( $value );
 
-						echo '">'.ParseMLField($value).'</A></TH>';
+						echo '</TH>';
 					}
 					$i++;
 				}
@@ -693,7 +697,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				echo '<TABLE class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:0px;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
 
 			if($link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
-				echo '<span class="center">' . button('add',$link['add']['title'],$link['add']['link']) . '</span>';
+				echo '<div class="center">' . button('add',$link['add']['title'],$link['add']['link']) . '</div>';
 			elseif(($link['add']['html'] || $link['add']['span']) && count($column_names) && !isset($_REQUEST['_ROSARIO_PDF']))
 			{
 				// WIDTH=100%
