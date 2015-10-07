@@ -504,16 +504,16 @@ function CheckBoxOnclick($name)
 	return '<INPUT type="checkbox" name="' . $name . '" value="Y"' . ( $_REQUEST[$name] == 'Y' ? ' checked' : '' ) . ' onclick="ajaxLink(' . $onclick_URL . ');" />';
 }
 
+
 /**
  * Get Javascript friendly input HTML ID attribute
  * From name attribute value
  *
- * @example GetInputID( 'cust[CUSTOM_1]' )
- *          will return "custCUSTOM_1"
+ * @example GetInputID( 'cust[CUSTOM_1]' ); will return "custCUSTOM_1"
  *
- * @param  string $name input name attribute
+ * @param  string $name Input name attribute
  *
- * @return string input ID attribute
+ * @return string Input ID attribute
  */
 function GetInputID( $name )
 {

@@ -59,5 +59,3 @@ function DrawHeader( $left, $right = '', $center = '' )
 	// Secondary Headers
 	$_ROSARIO['DrawHeader'] = ' class="header2"';
 }
-
-?>

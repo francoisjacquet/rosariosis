@@ -15,9 +15,9 @@
  * Grades/StudentGrades.php
  *
  * @param  string  $percent          precent grade
- * @param  integer $course_period_id course period ID
- * @param  integer $staff_id         staff ID
- * @param  string  $ret              returned column
+ * @param  integer $course_period_id course period ID (optional)
+ * @param  integer $staff_id         staff ID (optional)
+ * @param  string  $ret              returned column (optional). Defaults to 'TITLE'
  *
  * @return string                    report card letter grade
  */
@@ -109,5 +109,3 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 			return $grade[$ret];
 	}
 }
-
-?>

@@ -51,5 +51,3 @@ function ProgramTitle( $modname = '' )
 
 	return 'RosarioSIS';
 }
-
-?>

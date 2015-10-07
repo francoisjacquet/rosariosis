@@ -16,4 +16,3 @@ function GetGrade($grade,$column='TITLE')
 
 	return $extra.$_ROSARIO['GetGrade'][$grade][1][$column];
 }
-?>

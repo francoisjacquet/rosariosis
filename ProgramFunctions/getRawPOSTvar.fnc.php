@@ -13,5 +13,3 @@ function GetRawPOSTvar($key)
 	else
 		return null;
 }
-
-?>

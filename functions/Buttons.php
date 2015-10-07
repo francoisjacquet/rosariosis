@@ -26,9 +26,7 @@ function Buttons( $submit_value, $reset_value = '' )
  *
  * @example echo button( 'x', '', '', 'bigger' );
  *
- * @param  string $type  [type]_button.png
- *                       ie. 'remove' will display
- *                       the assets/themes/WPadmin/btn/remove_button.png image
+ * @param  string $type  [type]_button.png; ie. 'remove' will display the assets/themes/[user_theme]/btn/remove_button.png image
  * @param  string $text  button text (optional)
  * @param  string $link  button link (optional)
  * @param  string $class CSS classes (optional)
@@ -68,7 +66,7 @@ function button( $type, $text = '', $link = '', $class = '' )
 /**
  * Submit button if user Can Edit
  *
- * @example  echo SubmitButton( _( 'Save' ) );
+ * @example echo SubmitButton( _( 'Save' ) );
  *
  * @param  string $value   Button text
  * @param  string $name    Button name attribute (optional)
@@ -95,7 +93,7 @@ function SubmitButton( $value, $name = '', $options = '' )
 /**
  * Reset button if user Can Edit
  *
- * @example  echo ResetButton( _( 'Cancel' ) );
+ * @example echo ResetButton( _( 'Cancel' ) );
  *
  * @param  string $value   Button text
  * @param  string $options Button options (optional)
@@ -109,5 +107,3 @@ function ResetButton( $value, $options = '' )
 	else
 		return '';
 }
-
-?>

@@ -35,4 +35,3 @@ function _makePercentGrade($grade_id,$course_period_id=0,$staff_id=0)
 	}
 	return 0;
 }
-?>

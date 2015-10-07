@@ -14,4 +14,3 @@ function GetTeacher($teacher_id,$title='',$column='FULL_NAME',$schools=true)
 
 	return $_ROSARIO['GetTeacher'][$teacher_id][1][$column];
 }
-?>

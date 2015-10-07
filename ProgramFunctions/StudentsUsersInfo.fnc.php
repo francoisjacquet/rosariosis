@@ -795,6 +795,7 @@ function _makeSchoolInput( $value, $column )
 
 /**
  * Is New Student / User / People / Address?
+ * Local function
  * 
  * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
  *

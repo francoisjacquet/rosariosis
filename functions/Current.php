@@ -91,9 +91,9 @@ function UserStaffID()
  * Student:
  * Forbid
  * 
- * @param int $staff_id
+ * @param  int  $staff_id Staff ID
  *
- * @return  exit to HackingLog if not permitted
+ * @return void exit to HackingLog if not permitted
  */
 function SetUserStaffID( $staff_id )
 {
@@ -178,9 +178,9 @@ function SetUserStaffID( $staff_id )
  * Admin:
  * Check $student_id is in current Year & School
  * 
- * @param int $student_id
+ * @param  int  $student_id Student ID
  *
- * @return  exit to HackingLog if not permitted
+ * @return void exit to HackingLog if not permitted
  */
 function SetUserStudentID( $student_id )
 {
@@ -265,5 +265,3 @@ function SetUserStudentID( $student_id )
 	
 	$_SESSION['student_id'] = $student_id;
 }
-
-?>

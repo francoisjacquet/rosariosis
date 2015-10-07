@@ -13,10 +13,9 @@
  * before displaying fields / options to edit data
  * AND before saving or updating data
  *
- * @param  string  $modname Specify program name (optional)
- *                          defaults to current program
+ * @param  string  $modname Specify program name (optional) defaults to current program
  *
- * @return boolean          false if not allowed, true if allowed
+ * @return boolean false if not allowed, true if allowed
  */
 function AllowEdit( $modname = false )
 {
@@ -63,10 +62,9 @@ function AllowEdit( $modname = false )
 /**
  * Can Use program check
  *
- * @param  string  $modname Specify program name (optional)
- *                          defaults to current program
+ * @param  string  $modname Specify program name (optional) defaults to current program
  *
- * @return boolean          false if not allowed, true if allowed
+ * @return boolean false if not allowed, true if allowed
  */
 function AllowUse( $modname = false )
 {
@@ -99,5 +97,3 @@ function AllowUse( $modname = false )
 	else
 		return false;
 }
-
-?>

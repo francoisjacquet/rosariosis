@@ -62,4 +62,3 @@ function myUrlEncode($string) {
      $replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "%", "#", "[", "]");
      return str_replace($entities, $replacements, urlencode($string));
 }
-?>

@@ -323,5 +323,3 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 
 	return $return;
 }
-
-?>

@@ -5,9 +5,7 @@
  *
  * @example User( 'PROFILE' )
  *
- * @param  string $item User info item, see
- *                      STAFF table fields for Admin/Parent/Teacher
- *                      STUDENT & STUDENT_ENROLLMENT fields for Student
+ * @param  string $item User info item; see STAFF table fields for Admin/Parent/Teacher; STUDENT & STUDENT_ENROLLMENT fields for Student
  *
  * @return string       User info value
  */
@@ -130,5 +128,3 @@ function Preferences( $item, $program = 'Preferences' )
 
 	return $_ROSARIO['Preferences'][$program][$item][1]['VALUE'];
 }
-
-?>

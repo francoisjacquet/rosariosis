@@ -4,11 +4,10 @@
  * Widgets
  * Essentially used in the Find a Student form
  *
- * @param  string $item     widget name or 'all' widgets
- * @param  array  &$myextra Search.inc.php extra (HTML, functions...)
+ * @param  string  $item     widget name or 'all' widgets
+ * @param  array   &$myextra Search.inc.php extra (HTML, functions...)
  *
- * @return bool             true if Widget loaded
- *                          false if insufficient rights or already saved widget
+ * @return boolean true if Widget loaded, false if insufficient rights or already saved widget
  */
 function Widgets( $item, &$myextra = null )
 {
@@ -1698,4 +1697,3 @@ function Widgets( $item, &$myextra = null )
 
 	return true;
 }
-?>

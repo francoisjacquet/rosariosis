@@ -6,17 +6,13 @@
  * Prompt before Delete
  * and display OK & Cancel buttons
  *
- * @example
- * if ( DeletePrompt( _( 'Title' ) ) )
- * {
- * 		DBQuery( "DELETE FROM BOK WHERE id='" . $_REQUEST['benchmark_id'] . "'" );
- * }
+ * @example if ( DeletePrompt( _( 'Title' ) ) ) DBQuery( "DELETE FROM BOK WHERE id='" . $_REQUEST['benchmark_id'] . "'" );
  *
- * @param string  $title                    Prompt title
- * @param string  $action                   Prompt action (optional)
- * @param boolean $remove_modfunc_on_cancel Remove &modufnc=XXX part of the cancel button URL (optional)
+ * @param  string  $title                    Prompt title
+ * @param  string  $action                   Prompt action (optional)
+ * @param  boolean $remove_modfunc_on_cancel Remove &modufnc=XXX part of the cancel button URL (optional)
  *
- * @return true if user clicks OK or Cancel + modfunc, else false
+ * @return boolean true if user clicks OK or Cancel + modfunc, else false
  */
 function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel=true )
 {
@@ -67,11 +63,11 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel=tru
  *
  * @example if ( Prompt( _( 'Confirm' ), _( 'Do you want to dance?' ), $message ) )
  *
- * @param string $title    Prompt title (optional)
- * @param string $question Prompt question (optional)
- * @param string $message  Prompt message (optional)
+ * @param  string  $title    Prompt title (optional)
+ * @param  string  $question Prompt question (optional)
+ * @param  string  $message  Prompt message (optional)
  *
- * @return true if user clicks OK, else false
+ * @return boolean true if user clicks OK, else false
  */
 function Prompt( $title = 'Confirm', $question = '', $message = '' )
 {
@@ -115,7 +111,9 @@ function Prompt( $title = 'Confirm', $question = '', $message = '' )
  * in a script opened in a new window (ie. PDF printing)
  * BackPrompt will alert the message and close the window
  *
- * @param string $message Alert box message
+ * @param  string $message Alert box message
+ *
+ * @return string JS Alert box & close window, then exits
  */
 function BackPrompt( $message )
 {

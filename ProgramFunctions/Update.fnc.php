@@ -14,7 +14,7 @@
  *
  * Call the specific versions functions
  *
- * @return bool false if wrong version or update failed, else true
+ * @return boolean false if wrong version or update failed, else true
  */
 function Update()
 {
@@ -51,7 +51,7 @@ function Update()
  *
  * Local function
  *
- * @return bool false if update failed or if not called by Update(), else true
+ * @return boolean false if update failed or if not called by Update(), else true
  */
 function _update29()
 {

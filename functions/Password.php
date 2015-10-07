@@ -14,4 +14,3 @@ function match_password($password, $plain) {
 	//$salt = mb_substr($password, 0, 19);
 	return $password == crypt($plain, $password);
 }
-?>

@@ -9,7 +9,7 @@
  * @param  string  $sign Minus sign or credit (CR) (optional)
  * @param  boolean $red  Red if negative amount (optional)
  *
- * @return string        Formatted number
+ * @return string  Formatted number
  */
 function Currency( $num, $sign = 'before', $red = false )
 {
@@ -50,5 +50,3 @@ function Currency( $num, $sign = 'before', $red = false )
 
 	return '<!-- ' . $original . ' -->' . $num;
 }
-
-?>

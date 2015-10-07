@@ -4,7 +4,7 @@
  * Log Hacking attempt
  * Send email to $RosarioNotifyAddress if set
  *
- * @return outputs error message and exit
+ * @return string outputs error message and exit
  */
 function HackingLog()
 {
@@ -50,11 +50,9 @@ function HackingLog()
 		SendEmail( $RosarioNotifyAddress, 'HACKING ATTEMPT', $message );
 	}
 
-	$error[] = _('You\'re not allowed to use this program!') . ' ' .
-		_('This attempted violation has been logged and your IP address was captured.');
+	$error[] = _( 'You\'re not allowed to use this program!' ) . ' ' .
+		_( 'This attempted violation has been logged and your IP address was captured.' );
 
 	// display error message and exit
 	return ErrorMessage( $error, 'fatal' );
 }
-
-?>

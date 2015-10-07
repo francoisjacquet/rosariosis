@@ -16,4 +16,3 @@ function FormatSyear($syear, $syear_over_two_years=true)
 	else
 		return $syear;
 }
-?>

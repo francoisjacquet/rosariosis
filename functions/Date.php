@@ -4,13 +4,13 @@
  * Get the Date of the day
  * Database (Oracle) format, ready for SQL
  *
- * @example  "SELECT SCHOOL_DATE
+ * @example "SELECT SCHOOL_DATE
  *               FROM ATTENDANCE_CALENDAR
  *               WHERE SCHOOL_DATE<'" . DBDate() . "'";
  *
- * @example  strtotime( DBDate() ) > strtotime( $res['DATE'] )
+ * @example strtotime( DBDate() ) > strtotime( $res['DATE'] )
  *
- * @return string       Date of the day
+ * @return string Date of the day
  */
 function DBDate()
 {
@@ -28,8 +28,7 @@ function DBDate()
  * @param  string $date   Date
  * @param  string $length long|short Month name length (optional)
  *
- * @return string         Formatted & localized date
- *                        or empty string if invalid format
+ * @return string Formatted & localized date or empty string if invalid format
  */
 function ProperDate( $date, $length = 'long' )
 {
@@ -91,9 +90,9 @@ function ProperDate( $date, $length = 'long' )
  *
  * Accepts 3 dates formats (Oracle & Postgres)
  * 
- * @param string $date date to verify
+ * @param  string  $date date to verify
  *
- * @return  bool       true if valid date, else false
+ * @return boolean true if valid date, else false
  */
 function VerifyDate( $date )
 {
@@ -123,9 +122,7 @@ function VerifyDate( $date )
  * @param  boolean $allow_na  Allow N/A, defaults to true (optional)
  * @param  array   $options   Keys: Y|M|D|C|short|submit|required (optional)
  *
- * @return string             ProperDate (PDF)
- *                            or date selection series of pull-down menus
- *                            with an optional JS calendar
+ * @return string  ProperDate (PDF) or date selection series of pull-down menus with an optional JS calendar
  */
 function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array() )
 {
@@ -333,11 +330,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
  *
  * @param  string $date Postgres or Oracle date
  *
- * @return array        array(
- *                          'year'  => $4_digits_year,
- *                          'month' => $numeric_month,
- *                          'day'   => $day
- *                      ) 
+ * @return array  array( 'year' => '4_digits_year', 'month' => 'numeric_month', 'day' => 'day' ) 
  */
 function ExplodeDate( $date )
 {
@@ -388,9 +381,11 @@ function ExplodeDate( $date )
  *
  * @example RequestedDate( $day, $month, $year );
  *
- * @param string $day   Requested day
- * @param string $month Requested month
- * @param string $year  Requested year
+ * @param  string $day   Requested day
+ * @param  string $month Requested month
+ * @param  string $year  Requested year
+ *
+ * @return string Empty string if malformed/incomplete date or date
  */
 function RequestedDate( $day, $month, $year )
 {
@@ -409,7 +404,9 @@ function RequestedDate( $day, $month, $year )
 		|| __mnwswitch_char2num( $month ) === $month
 		|| (int)$year < 1
 		|| (int)$year > 9999 )
+	{
 		$date = '';
+	}
 	else
 	{
 		// correct date if day does not exist in month
@@ -464,6 +461,7 @@ function MonthNWSwitch( $month, $direction = 'both' )
 
 /**
  * Switch number month to characters
+ * Local function
  *
  * @param  string $month number month
  *
@@ -500,6 +498,7 @@ function __mnwswitch_num2char( $month )
 
 /**
  * Switch characters month to number
+ * Local function
  *
  * @param  string $month characters month
  *
@@ -530,5 +529,3 @@ function __mnwswitch_char2num( $month )
 	else 
 		return $month;
 }
-
-?>

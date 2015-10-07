@@ -4,8 +4,8 @@
  * Wrap Tabs
  * used by PopTable() or ListOutput() header
  *
- * @param array $tabs           Tabs, titles + links
- * @param string $selected      Selected Tab link
+ * @param  array  $tabs     Tabs, titles + links
+ * @param  string $selected Selected Tab link (optional)
  *
  * @return string Tabs HTML
  */
@@ -36,11 +36,11 @@ function WrapTabs( $tabs, $selected = '' )
  * Draw Tab
  * used by PopTable() & WrapTabs()
  *
- * @param string  $title      Tab title
- * @param string  $link       Tab link
- * @param boolean $selected   Selected Tab
+ * @param  string  $title    Tab title
+ * @param  string  $link     Tab link (optional)
+ * @param  boolean $selected Selected Tab (optional)
  *
- * @return  string Tab HTML
+ * @return string  Tab HTML
  */
 function DrawTab( $title, $link = '', $selected = false )
 {
@@ -63,5 +63,3 @@ function DrawTab( $title, $link = '', $selected = false )
 		
 	return $block_table;
 }
-
-?>

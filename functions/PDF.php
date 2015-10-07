@@ -10,10 +10,10 @@
  *
  * Note: for landscape format, set $_SESSION['orientation'] = 'landscape'
  *
- * @param boolean $css     include theme CSS in HTML output
- * @param array   $margins margins unit in millimeters
+ * @param  boolean $css     include theme CSS in HTML output (optional)
+ * @param  array   $margins margins unit in millimeters (optional)
  *
- * @return  array $handle
+ * @return array   PDF options
  */
 function PDFStart( $css = true, $margins = array() )
 {
@@ -35,9 +35,9 @@ function PDFStart( $css = true, $margins = array() )
 /**
  * Get buffer and generate PDF
  *
- * @param array $handle from PDFStart()
+ * @param  array  $handle from PDFStart()
  *
- * @return  outputs HTML if not wkhtmltopdf or embed PDF
+ * @return string outputs HTML if not wkhtmltopdf or embed PDF
  */
 function PDFStop( $handle )
 {
@@ -146,5 +146,3 @@ function PDFStop( $handle )
 	else
 		echo $html;
 }
-
-?>

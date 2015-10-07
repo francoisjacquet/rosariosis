@@ -72,4 +72,3 @@ function DBGet($QI,$functions=array(),$index=array())
 
 	return $results;
 }
-?>

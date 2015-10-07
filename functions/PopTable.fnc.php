@@ -3,11 +3,11 @@
 /**
  * PopTable
  *
- * @param string $action    'header' or 'footer'
- * @param string $title     PopTable Tab(s) title(s)
- * @param string $table_att <table [attributes]>
+ * @param  string $action    'header' or 'footer'
+ * @param  string $title     PopTable Tab(s) title(s) (optional)
+ * @param  string $table_att <table [attributes]> (optional)
  *
- * @return  outputs PopTable HTML
+ * @return string outputs PopTable HTML
  */
 function PopTable( $action, $title = 'Search', $table_att = '' )
 {
@@ -33,5 +33,3 @@ function PopTable( $action, $title = 'Search', $table_att = '' )
 		echo '</td></tr></tbody></table>';
 	}
 }
-
-?>
