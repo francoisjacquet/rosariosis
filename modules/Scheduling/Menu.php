@@ -1,5 +1,14 @@
 <?php
+/**
+ * Scheduling module Menu entries
+ *
+ * @uses $menu global var
+ *
+ * @see  Menu.php in root folder
+ */
+
 $menu['Scheduling']['admin'] = array(
+	'title' => _( 'Scheduling' ),
 	'default' => 'Scheduling/Schedule.php',
 	'Scheduling/Schedule.php' => _( 'Student Schedule' ),
 	'Scheduling/Requests.php' => _( 'Student Requests' ),
@@ -24,6 +33,7 @@ $menu['Scheduling']['admin'] = array(
 );
 
 $menu['Scheduling']['teacher'] = array(
+	'title' => _( 'Scheduling' ),
 	'default' => 'Scheduling/Schedule.php',
 	'Scheduling/Schedule.php' => _( 'Schedule' ),
 	1 => _( 'Reports' ),
@@ -33,6 +43,7 @@ $menu['Scheduling']['teacher'] = array(
 );
 
 $menu['Scheduling']['parent'] = array(
+	'title' => _( 'Scheduling' ),
 	'default' => 'Scheduling/Schedule.php',
 	'Scheduling/Schedule.php' => _( 'Schedule' ),
 	//FJ activate Print Schedules for parents and students
@@ -46,4 +57,3 @@ $exceptions['Scheduling'] = array(
 	'Scheduling/MassRequests.php' => true,
 	'Scheduling/Scheduler.php' => true
 );
-?>
