@@ -1,44 +1,64 @@
 <?php
 
-function DateInput($value,$name,$title='',$div=true,$allow_na=true,$required=false)
+function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $required = false )
 {
-	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
-	{
-		$id = GetInputID( $name );
+	$id = GetInputID( $name );
 
+	if ( $title !== '' )
+	{
+		if ( mb_stripos( $title, '<span ' ) === false )
+			$title = '<span class="legend-gray">' . $title . '</span>';
+
+		$title = '<br />' . $title;
+	}
+
+	if ( AllowEdit()
+		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
 		$options = array();
 
 		//FJ date field is required
-		if ($required)
+		if ( $required )
 			$options['required'] = true;
 
-		if($value=='' || $div==false)
-			return PrepareDate($value, '_'.$name, $allow_na, $options) . ($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+		if ( $value == ''
+			|| $div == false )
+		{
+			return PrepareDate( $value, '_' . $name, $allow_na, $options ) . $title;
+		}
 		else
 		{
 			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 
-			$options = $options + array('Y'=>1,'M'=>1,'D'=>1);
+			$options = $options + array( 'Y' => 1, 'M' => 1, 'D' => 1 );
 
-			$input = PrepareDate($value, '_'.$name, $allow_na, $options) . ($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':''):'');
+			$input = PrepareDate( $value, '_' . $name, $allow_na, $options ) . $title;
 
 			$return = '<script>var html' . $id.'='.json_encode($input).';</script>'.$return;
 			
-			$return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.($value!=''?ProperDate($value):'-').'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div' . $id . '",true)\'><span class="underline-dots">' . ( $value != '' ? ProperDate( $value ) : '-' ) . '</span>' . $title . '</div></DIV>';
 			return $return;
 		}
 	}
 	else
-		return ($value!=''?ProperDate($value):'-').($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+		return ($value != '' ? ProperDate( $value) : '-' ) . $title;
 }
 
 function TextInput($value,$name,$title='',$options='',$div=true)
 {
+	$id = GetInputID( $name );
+
+	if ( $title !== '' )
+	{
+		if ( mb_stripos( $title, '<span ' ) === false )
+			$title = '<span class="legend-gray">' . $title . '</span>';
+
+		$title = '<br /><label for="' . $id . '">' . $title . '</label>';
+	}
+
 	// mab - support array style $option values
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		$id = GetInputID( $name );
-
 		$value1 = is_array($value) ? $value[1] : $value;
 		$value = is_array($value) ? $value[0] : $value;
 
@@ -48,26 +68,27 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 			$options .= ' size=10';
 
 		if(trim($value)=='' || $div==false)
-			return '<INPUT type="text" name="'.$name.'" id="' . $id . '" '.($value || $value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="' . $id . '">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+			return '<INPUT type="text" name="'.$name.'" id="' . $id . '" '.($value || $value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />' . $title;
 		else
 		{
 			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 			
-			$input = '<INPUT type="text" id="input'.$name.'" name="'.$name.'" '.($value||$value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label for="input'.$name.'">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+			$input = '<INPUT type="text" id="' . $id . '" name="' . $name . '" '.($value||$value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />' . $title;
 
 			$return = '<script>var html' . $id.'='.json_encode($input).';</script>'.$return;
 			
-			$return .= ',"div' . $id . '",true); if (input = document.getElementById("input'.$name.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div' . $id . '",true); if (input = document.getElementById("input'.$name.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>' . $title . '</div></DIV>';
 
 			return $return;
 		}
 	}
 	else
-		return (((is_array($value)?$value[1]:$value)!='')?(is_array($value)?$value[1]:$value):'-').($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+		return (((is_array($value)?$value[1]:$value)!='')?(is_array($value)?$value[1]:$value):'-'). $title;
 }
 
 function MLTextInput($value,$name,$title='',$options='',$div=true)
-{	global $RosarioLocales;
+{
+	global $RosarioLocales;
 
 	if (sizeof($RosarioLocales) < 2)
 		return TextInput($value,$name,$title,$options,$div);
@@ -88,10 +109,6 @@ function MLTextInput($value,$name,$title='',$options='',$div=true)
 function setMLvalue(id,loc,value){
 	res = document.getElementById(id).value.split("|");
 	if(loc=="") {
-		if (value == "") {
-			alert("The first translation string cannot be empty.");
-			value = "Something";
-		}
 		res[0] = value;
 	} else {
 		found = 0;
@@ -112,7 +129,7 @@ function setMLvalue(id,loc,value){
 	document.getElementById(id).value = res.join("|");                                
 }
 </script>';
-		$ret .= '<DIV><INPUT type="hidden" id="' . $id . '" name="'.$name.'" value="'.$value.'" />';
+		$ret .= '<DIV><INPUT type="hidden" id="' . $name . '" name="'.$name.'" value="'.$value.'" />';
 
 		foreach ($RosarioLocales as $id=>$loc) {
 			$ret .= '<label><IMG src="assets/flags/'.$loc.'.png" class="button bigger" /> ';
@@ -126,7 +143,16 @@ function setMLvalue(id,loc,value){
 	else
 		$ret .= ParseMLField($value);
 
-	$ret .= ($title!=''?(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':''):'');
+	if ( $title !== '' )
+	{
+		if ( mb_stripos( $title, '<span ' ) === false )
+			$title = '<span class="legend-gray">' . $title . '</span>';
+
+		$title = '<label>' . $title . '</label>';
+	}
+
+	$ret .= $title;
+
 	return $ret;
 }
 
@@ -136,12 +162,10 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 
 	if ( $title != '' )
 	{
-		$legend_gray = '';
-
 		if ( mb_stripos( $title, '<span ' ) === false )
-			$legend_gray = ' class="legend-gray"';
+			$title = '<span class="legend-gray">' . $title . '</span>';
 
-		$title = '<BR /><label for="' . $id . '"' . $legend_gray . '>' . $title . '</label>';
+		$title = '<label for="' . $id . '"' . $legend_gray . '>' . $title . '</label>';
 	}
 
 	if ( AllowEdit()
@@ -233,13 +257,11 @@ function MarkDownInputPreview( $input_id )
 
 	?>
 	<div class="md-preview">
-		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="tab disabled">
-			<?php echo _( 'Write' ); ?>
-		</a>
-		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="tab">
-			<?php echo _( 'Preview' ); ?>
-		</a>
-		<a href="https://guides.github.com/features/mastering-markdown/" title="<?php echo _( 'Mastering MarkDown' ); ?>" target="_blank">
+		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="tab disabled"><?php echo _( 'Write' ); ?></a>
+
+		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="tab"><?php echo _( 'Preview' ); ?></a>
+
+		<a href="https://guides.github.com/features/mastering-markdown/" title="<?php echo _( 'Mastering MarkDown' ); ?>" target="_blank" class="md-link">
 			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" />
 		</a>
 		<div id="divMDPreview<?php echo $input_id; ?>">
@@ -285,6 +307,16 @@ function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',
 
 function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$extra='',$div=true)
 {
+	$id = GetInputID( $name );
+
+	if ( $title !== '' )
+	{
+		if ( mb_stripos( $title, '<span ' ) === false )
+			$title = '<span class="legend-gray">' . $title . '</span>';
+
+		$title = '<br /><label for="' . $id . '">' . $title . '</label>';
+	}
+
 	// mab - support array style $option values
 	// mab - append current val to select list if not in list
 	if (is_array($value))
@@ -295,8 +327,6 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		$id = GetInputID( $name );
-
 		if($value!='' && $div)
 			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 		
@@ -317,19 +347,19 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 		}
 		$select .= '</SELECT>';
 		
-		$select .= ($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label "for="' . $id . '">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':''):'');
+		$select .= $title;
 		
 		if($value!='' && $div)
 		{
 			$return = '<script>var html' . $id.'='.json_encode($select).';</script>'.$return;
 
-			$return .= ',"div' . $id . '",true);\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div' . $id . '",true);\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>' . $title . '</div></DIV>';
 		}
 		else
 			$return = $select;
 	}
 	else
-		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?('N/A'?_($allow_na):$allow_na):'-'):'-')).($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?('N/A'?_($allow_na):$allow_na):'-'):'-')) . $title;
 
 	return $return;
 }
@@ -338,18 +368,26 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
 {
    global $RosarioLocales, $locale;
 
-    if (sizeof($RosarioLocales) < 2)
-        return SelectInput($value,$name,$title,$options,$div);
-        
-    // mab - support array style $option values
-    // mab - append current val to select list if not in list
-    if ($value!='' && $options[$value]=='')
-        $options[$value] = array($value,'<span style="color:red">'.$value.'</span>');
+	$id = GetInputID( $name );
+
+	if ( $title !== '' )
+	{
+		if ( mb_stripos( $title, '<span ' ) === false )
+			$title = '<span class="legend-gray">' . $title . '</span>';
+
+		$title = '<br /><label for="' . $id . '">' . $title . '</label>';
+	}
+
+	if (sizeof($RosarioLocales) < 2)
+		return SelectInput($value,$name,$title,$options,$div);
+
+	// mab - support array style $option values
+	// mab - append current val to select list if not in list
+	if ($value!='' && $options[$value]=='')
+		$options[$value] = array($value,'<span style="color:red">'.$value.'</span>');
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		$id = GetInputID( $name );
-
 		if($value!='' && $div)
 			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 			
@@ -369,32 +407,40 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
         }
         $select .= '</SELECT>';
 		
-		$select .= '<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label "for="' . $id . '">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'';
+		$select .= $title;
 			
         if($value!='' && $div)
 		{
 			$return = '<script>var html' . $id.'='.json_encode($select).';</script>'.$return;
 
-            $return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+            $return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'. $title . '</div></DIV>';
 		}
 		else
 			$return = $select;
     }
     else
-        $return = ParseMLField((((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')),$locale).($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+        $return = ParseMLField((((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')),$locale). $title;
 
     return $return;
 }
 
 function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$div=true)
 {
+	$id = GetInputID( $name );
+
+	if ( $title !== '' )
+	{
+		if ( mb_stripos( $title, '<span ' ) === false )
+			$title = '<span class="legend-gray">' . $title . '</span>';
+
+		$title = '<br /><label for="' . $id . '">' . $title . '</label>';
+	}
+
 	if ($value!='' && $options[$value]=='')
 		$options[$value] = array($value,'<span style="color:red">'.$value.'</span>');
 
 	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		$id = GetInputID( $name );
-
 		if($value!='' && $div)
 			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 		
@@ -402,7 +448,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 			
 		if($allow_na!==false)
 		{
-//FJ add <label> on radio
+			//FJ add <label> on radio
 			$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value=""'.($value==''?' checked':'').' /> '.($allow_na=='N/A'?_('N/A'):$allow_na).'</label></TD>';
 		}
 		if(count($options))
@@ -415,30 +461,32 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 		}
 		$table .= '</TR></TABLE>';
 		
-		$table .= ''.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').'<label "for="' . $id . '">'.$title.'</label>'.(mb_stripos( $title,'<span ')===false?'</span>':'').'';
+		$table .= $title;
 			
 		if($value!='' && $div)
 		{
 			$return = '<script>var html' . $id.'='.json_encode($table).';</script>'.$return;
 
-			$return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'.($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'').'</div></DIV>';
+			$return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'. $title . '</div></DIV>';
 		}
 		else
 			$return = $table;
 	}
 	else
-		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')).($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+		$return = (((is_array($options[$value])?$options[$value][1]:$options[$value])!='')?(is_array($options[$value])?$options[$value][1]:$options[$value]):($allow_na!==false?($allow_na?$allow_na:'-'):'-')). $title;
 
 	return $return;
 }
 
 function NoInput( $value, $title = '' )
 {
-	if ( mb_stripos( $title, '<span ' ) === false )
-		$title = '<span class="legend-gray">' . $title . '</span>';
+	if ( $title !== '' )
+	{
+		if ( mb_stripos( $title, '<span ' ) === false )
+			$title = '<span class="legend-gray">' . $title . '</span>';
 
-	if ( !empty( $title ) )
-		$title = '<BR />' . $title;
+		$title = '<br /><label>' . $title . '</label>';
+	}
 
 	return '<span class="no-input-value">' .
 		( !empty( $value ) || $value == '0' ? $value : '-' ) .
@@ -447,11 +495,13 @@ function NoInput( $value, $title = '' )
 
 function CheckBoxOnclick($name)
 {
-	static $link_nb = 0;
-	$return .= '<script>var CheckBoxOnclick'.$link_nb.' = document.createElement("a"); CheckBoxOnclick'.$link_nb.'.href = "'.PreparePHP_SELF($_REQUEST,array(),($_REQUEST[$name]=='Y'?array($name=>''):array($name=>'Y'))).'"; CheckBoxOnclick'.$link_nb.'.target = "body";</script>';
-	$return .= '<INPUT type="checkbox" name="'.$name.'" value="Y"'.($_REQUEST[$name]=='Y'?' checked':'').' onclick=\'ajaxLink(CheckBoxOnclick'.$link_nb.');\' />';
-	$link_nb++;
-	return $return;
+	$onclick_URL = "'" . PreparePHP_SELF(
+		$_REQUEST,
+		array(),
+		$_REQUEST[$name] == 'Y' ? array( $name => '' ) : array( $name => 'Y' )
+	) . "'";
+
+	return '<INPUT type="checkbox" name="' . $name . '" value="Y"' . ( $_REQUEST[$name] == 'Y' ? ' checked' : '' ) . ' onclick="ajaxLink(' . $onclick_URL . ');" />';
 }
 
 /**
