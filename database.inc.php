@@ -50,9 +50,9 @@ function db_start()
  *
  * @example $processable_results = DBQuery( "SELECT * FROM students" );
  *
- * @param string $sql SQL statement
+ * @param  string   $sql SQL statement
  *
- * @return PostgreSQL result resource
+ * @return resource PostgreSQL result resource
  */
 function DBQuery( $sql )
 {
