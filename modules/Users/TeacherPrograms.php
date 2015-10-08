@@ -108,7 +108,17 @@ if(UserStaffID())
 	$_ROSARIO['HeaderIcon'] = false;
 
 	$_ROSARIO['allow_edit'] = AllowEdit($_REQUEST['modname']);
-	$_ROSARIO['User'] = array(0=>$_ROSARIO['User'][1],1=>array('STAFF_ID'=>UserStaffID(),'NAME'=>GetTeacher(UserStaffID()),'USERNAME'=>GetTeacher(UserStaffID(),'','USERNAME'),'PROFILE'=>'teacher','SCHOOLS'=>','.UserSchool().',','SYEAR'=>UserSyear()));
+	$_ROSARIO['User'] = array(
+		0 => $_ROSARIO['User'][1],
+		1 => array(
+			'STAFF_ID' => UserStaffID(),
+			'NAME' => GetTeacher( UserStaffID() ),
+			'USERNAME' => GetTeacher( UserStaffID(), 'USERNAME' ),
+			'PROFILE' => 'teacher',
+			'SCHOOLS' => ',' . UserSchool() . ',',
+			'SYEAR' => UserSyear()
+		)
+	);
 
 	echo '<div class="width-100p" style="border:1px solid; padding: 1px;">';
 

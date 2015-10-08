@@ -3,7 +3,7 @@
 $_REQUEST['category_id'] = '2';
 include('modules/Users/includes/Other_Info.inc.php');
 
-if(GetTeacher(UserStaffID(),'','PROFILE',false)=='teacher')
+if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 {
 	//FJ add <label> on checkbox
 	if ($PopTable_opened)
