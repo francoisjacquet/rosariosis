@@ -570,7 +570,16 @@ if(empty($_REQUEST['modfunc']))
 			foreach($blocks_RET as $block)
 				$options[$block['BLOCK']] = $block['BLOCK'];
 
-			echo SelectInput($calendar_RET[$date][1]['BLOCK'],"blocks[$date]",'',$options);
+			if ( $calendar_RET[$date][1]['BLOCK']
+				|| User( 'PROFILE' ) === 'admin' )
+			{
+				echo SelectInput(
+					$calendar_RET[$date][1]['BLOCK'],
+					"blocks[" . $date . "]",
+					'',
+					$options
+				);
+			}
 		}
 		echo '</td></tr><tr><TD colspan="2" style="height:50px;" class="valign-top">';
 

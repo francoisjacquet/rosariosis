@@ -7,6 +7,7 @@ Changes in 2.8.23
 - Unset REQUEST students var in session after update in Student.php
 - Various corrections for French translation
 - Use AJAX after browser history instead of reloading page in warehouse.js
+- Only show Block on Calendar Day to non admins if set
 
 Changes in 2.8.22
 -----------------
