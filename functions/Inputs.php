@@ -77,7 +77,7 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 
 			$return = '<script>var html' . $id.'='.json_encode($input).';</script>'.$return;
 			
-			$return .= ',"div' . $id . '",true); if (input = document.getElementById("input'.$name.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>' . $title . '</div></DIV>';
+			$return .= ',"div' . $id . '",true); if (input = document.getElementById("'.$id.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>' . $title . '</div></DIV>';
 
 			return $return;
 		}
