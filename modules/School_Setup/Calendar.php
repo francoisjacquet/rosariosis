@@ -665,11 +665,20 @@ function _formatDescription( $value, $column )
 	//Linkify
 	include_once( 'ProgramFunctions/Linkify.fnc.php' );
 
-	$return = Linkify( nl2br( $value ) );
+	$value_br_url = Linkify( nl2br( $value ) );
 
 	//FJ responsive rt td too large
-	$return = includeOnceColorBox( 'divEventDescription' . $id ) .
-		'<div id="divEventDescription' . $id . '" class="rt2colorBox">' . $return . '</div>';
+	if ( $value_br_url == $value
+		&& mb_strlen( $value ) < 50 )
+		$return = $value_br_url;
+	else
+	{
+		if (!isset($_REQUEST['_ROSARIO_PDF']))
+		{
+			$return = includeOnceColorBox( 'divEventDescription' . $id ) .
+				'<div id="divEventDescription' . $id . '" class="rt2colorBox">' . $value_br_url . '</div>';
+		}
+	}
 
 	return $return;
 }
