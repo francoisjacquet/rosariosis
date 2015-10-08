@@ -140,7 +140,7 @@ function ajaxSuccess(data, target, url) {
 	//http://stackoverflow.com/questions/5525890/how-to-change-url-after-an-ajax-request#5527095
 	$('#' + target).html(data);
 
-	if (history.pushState && target == 'body') history.pushState(null, document.title, url);
+	if (history.pushState && target == 'body' && document.URL != url) history.pushState(null, document.title, url);
 
 	ajaxPrepare('#' + target);
 }
