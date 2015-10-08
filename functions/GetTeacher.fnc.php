@@ -1,16 +1,39 @@
 <?php
 
-function GetTeacher($teacher_id,$title='',$column='FULL_NAME',$schools=true)
-{	global $_ROSARIO;
+/**
+ * Get Teacher Info
+ *
+ * @param  integer $teacher_id Teacher ID
+ * @param  string  $column     FULL_NAME|LAST_NAME|FIRST_NAME|USERNAME|PROFILE Column name (optional). Defaults to FULL_NAME
+ * @param  boolean $schools    Is Teacher in current School (optional). Defaults to true
+ *
+ * @return string  Teacher Column content
+ */
+function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
+{
+	static $teachers = null;
 
-	if(!$_ROSARIO['GetTeacher'])
+	// Column defaults to FULL_NAME
+	if ( $column !== 'FULL_NAME'
+		&& $column !== 'LAST_NAME'
+		&& $column !== 'FIRST_NAME'
+		&& $column !== 'USERNAME'
+		&& $column !== 'PROFILE' )
 	{
-		$QI=DBQuery("SELECT STAFF_ID,LAST_NAME||', '||FIRST_NAME AS FULL_NAME,USERNAME,PROFILE 
-		FROM STAFF 
-		WHERE SYEAR='".UserSyear()."'".
-		($schools?" AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%,".UserSchool().",%')":''));
-		$_ROSARIO['GetTeacher'] = DBGet($QI,array(),array('STAFF_ID'));
+		$column = 'FULL_NAME';
 	}
 
-	return $_ROSARIO['GetTeacher'][$teacher_id][1][$column];
+	if ( is_null( $teachers ) )
+	{
+		$teachers = DBGet( DBQuery(
+			"SELECT STAFF_ID,LAST_NAME,FIRST_NAME,LAST_NAME||', '||FIRST_NAME AS FULL_NAME,USERNAME,PROFILE 
+			FROM STAFF 
+			WHERE SYEAR='" . UserSyear() . "'" .
+			( $schools ? " AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')" : '' ),
+			array(),
+			array( 'STAFF_ID' )
+		) );
+	}
+
+	return $teachers[$teacher_id][1][$column];
 }
