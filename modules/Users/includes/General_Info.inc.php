@@ -17,10 +17,6 @@ if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 		$('#userImg').toggle();
 		return false;
 	});
-	$('form[name="staff"]').submit(function () {
-		if ($('#photo').val())
-			$('#loading').show();
-	});
 	</script>
 <?php endif;
 
