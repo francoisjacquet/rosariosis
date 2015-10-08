@@ -16,6 +16,7 @@ foreach( (array)$fields_RET as $field )
 	switch( $field['TYPE'] )
 	{
 		case 'text':
+		case 'numeric':
 
 			echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );
 
@@ -25,12 +26,6 @@ foreach( (array)$fields_RET as $field )
 		case 'edits':
 
 			echo _makeAutoSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );
-
-		break;
-
-		case 'numeric':
-
-			echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'size=9 maxlength=18', $request );
 
 		break;
 

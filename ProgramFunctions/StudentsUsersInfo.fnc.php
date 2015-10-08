@@ -40,11 +40,16 @@ function _makeTextInput( $column, $name, $request )
 	}
 
 	if ( $field['TYPE'] === 'numeric' )
+	{
 		$value[$column] = str_replace( '.00', '', $value[$column] );
 
+		$options = 'size=9 maxlength=18';
+	}
+	else
+		$options = 'maxlength=255';
+
 	//FJ text field is required
-	//FJ text field maxlength=255
-	$options = 'maxlength=255' . ( $field['REQUIRED'] === 'Y' ? ' required' : '' );
+	$options .= $field['REQUIRED'] === 'Y' ? ' required' : '';
 
 	return TextInput(
 		$value[$column],

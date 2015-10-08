@@ -53,6 +53,7 @@ foreach( (array)$fields_RET as $field )
 	switch( $field['TYPE'] )
 	{
 		case 'text':
+		case 'numeric':
 
 			echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 
@@ -65,9 +66,7 @@ foreach( (array)$fields_RET as $field )
 
 		break;
 
-		case 'numeric':
-
-			echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'size=9 maxlength=18', 'staff' );
+			echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 
 		break;
 

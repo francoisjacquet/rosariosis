@@ -52,6 +52,7 @@ foreach( (array)$fields_RET as $field )
 	switch( $field['TYPE'] )
 	{
 		case 'text':
+		case 'numeric':
 			
 			//FJ Moodle integrator / email field
 			if ($_REQUEST['moodle_create_student'] && ROSARIO_STUDENTS_EMAIL_FIELD_ID == $field['ID'])
@@ -65,12 +66,6 @@ foreach( (array)$fields_RET as $field )
 		case 'edits':
 
 			echo _makeAutoSelectInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'students' );
-
-		break;
-
-		case 'numeric':
-
-			echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'size=9 maxlength=18', 'students' );
 
 		break;
 
