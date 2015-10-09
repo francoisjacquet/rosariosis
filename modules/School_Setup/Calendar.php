@@ -1209,12 +1209,6 @@ if ( empty( $_REQUEST['modfunc'] ) )
 }
 
 
-function _formatContent( $value, $column )
-{
-	// convert MarkDown to HTML
-	return '<div class="markdown-to-html">' . $value . '</div>';
-}
-
 function _formatDescription( $value, $column )
 {
 	global $THIS_RET;
@@ -1222,7 +1216,10 @@ function _formatDescription( $value, $column )
 	$id = $THIS_RET['ID'];
 
 	// convert MarkDown to HTML
-	$return = '<div class="markdown-to-html">' . $value . '</div>';
+	if ( $value )
+		$return = '<div class="markdown-to-html">' . $value . '</div>';
+	else
+		return '';
 
 	//FJ responsive rt td too large
 	return '<div id="divEventDescription' . $id . '" class="rt2colorBox">' . $return . '</div>';

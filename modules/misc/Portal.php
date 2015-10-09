@@ -542,12 +542,15 @@ function _formatContent($value,$column)
 
 	$id = $THIS_RET['ID'];
 
+	if ( !$value )
+		return '';
+
 	//FJ responsive rt td too large
 	//FJ Portal Assignments
 	if ( isset( $THIS_RET['COURSE'] ) )
-		$return = '<DIV id="divAssignmentContent'.$id.'" class="rt2colorBox">';
+		$return = '<DIV id="divAssignmentContent' . $id . '" class="rt2colorBox">';
 	else
-		$return = '<DIV id="divNoteContent'.$id.'" class="rt2colorBox">';
+		$return = '<DIV id="divNoteContent' . $id . '" class="rt2colorBox">';
 
 	// convert MarkDown to HTML
 	$return .= '<div class="markdown-to-html">' . $value . '</div>';
