@@ -745,15 +745,20 @@ div.st{
 /*calendar*/
 #calendar{
 	table-layout:fixed;
+	height: 80%;
 }
 .calendar-day{
-	min-width:126px;
-	height:85px
+	min-width:109px;
+	height:96px;
 }
 .calendar-day > table{
 	height:inherit
 }
+/*http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell*/
 .calendar-day td{
+	max-width:103px;
+	overflow:hidden;
+	white-space:nowrap;
 	line-height:1
 }
 .calendar-day .bold{
@@ -762,7 +767,11 @@ div.st{
 .calendar-event{
 	border-left-width:3px;
 	border-left-style:solid;
-	padding: 2px;
+	margin:1px 0
+}
+.calendar-event a, .calendar-event span{
+	padding:4px 2px;
+	display:inline-block
 }
 
 /* colorBox */

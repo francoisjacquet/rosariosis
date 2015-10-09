@@ -772,7 +772,7 @@ div.st{
 	border-left-style:solid;
 	margin:1px 0
 }
-.calendar-event a{
+.calendar-event a, .calendar-event span{
 	padding:4px 2px;
 	display:inline-block
 }

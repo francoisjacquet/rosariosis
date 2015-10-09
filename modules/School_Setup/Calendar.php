@@ -1018,6 +1018,21 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	echo '</TR></THEAD><TBODY><TR>';
 
+	// Get Blocks
+	$blocks_RET = DBGet( DBQuery( "SELECT DISTINCT BLOCK
+		FROM SCHOOL_PERIODS
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOL_ID='" . UserSchool() . "'
+		AND BLOCK IS NOT NULL
+		ORDER BY BLOCK" ) );
+
+	$block_options = array();
+
+	foreach( (array)$blocks_RET as $block)
+	{
+		$block_options[$block['BLOCK']] = $block['BLOCK'];
+	}
+
 	// Skip until first Day of Month
 	$skip = date( "w", $time );
 
@@ -1110,21 +1125,16 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		}
 
 		// Blocks
-		$blocks_RET = DBGet( DBQuery( "SELECT DISTINCT BLOCK
-			FROM SCHOOL_PERIODS
-			WHERE SYEAR='" . UserSyear() . "'
-			AND SCHOOL_ID='" . UserSchool() . "'
-			AND BLOCK IS NOT NULL
-			ORDER BY BLOCK" ) );
-
-		if ( count( $blocks_RET ) > 0 )
+		if ( count( $blocks_RET )
+			&& ( $calendar_RET[$date][1]['BLOCK']
+				|| User( 'PROFILE' ) === 'admin' ) )
 		{
-			unset( $options );
-
-			foreach( (array)$blocks_RET as $block)
-				$options[$block['BLOCK']] = $block['BLOCK'];
-
-			echo SelectInput( $calendar_RET[$date][1]['BLOCK'], "blocks[" . $date . "]", '', $options );
+			echo SelectInput(
+				$calendar_RET[$date][1]['BLOCK'],
+				"blocks[" . $date . "]",
+				'',
+				$block_options
+			);
 		}
 
 		echo '</td></tr>
@@ -1139,7 +1149,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 				( AllowEdit() || $event['DESCRIPTION'] ?
 					'<A HREF="#" onclick="CalEventPopup(popupURL + \'&event_id=' . $event['ID'] . '\'); return false;" title="' . htmlentities( $title ) . '">' .
 					$title . '</A>'
-					: $title
+					: '<span title="' . htmlentities( $title ) . '">' . $title . '</span>'
 				) .
 			'</div>';
 		}
