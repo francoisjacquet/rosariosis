@@ -25,9 +25,9 @@ if( isset( $_REQUEST['modfunc'] )
 
 // Login
 elseif( isset( $_POST['USERNAME'] )
-	&& $_POST['USERNAME'] !== ''
+	&& $_REQUEST['USERNAME'] !== ''
 	&& isset( $_POST['PASSWORD'] )
-	&& $_POST['PASSWORD'] !== '' )
+	&& $_REQUEST['PASSWORD'] !== '' )
 {
 	//FJ check accept cookies
 	if( !isset( $_COOKIE['RosarioSIS'] )
@@ -42,7 +42,9 @@ elseif( isset( $_POST['USERNAME'] )
 	elseif( isset( $_COOKIE['RosarioSIS'] ) )
 		session_regenerate_id( true ); //and invalidate old session
 
-	$username = DBEscapeString( $_POST['USERNAME'] );
+	$username = $_REQUEST['USERNAME'];
+
+	unset( $_REQUEST['USERNAME'], $_POST['USERNAME'] );
 
 	// lookup for user $username in DB
 	$login_RET = DBGet( DBQuery( "SELECT USERNAME,PROFILE,STAFF_ID,LAST_LOGIN,FAILED_LOGIN,PASSWORD
@@ -51,8 +53,8 @@ elseif( isset( $_POST['USERNAME'] )
 	AND UPPER(USERNAME)=UPPER('" . $username . "')" ) );
 	
 	if ( $login_RET
-		&& match_password( $login_RET[1]['PASSWORD'], $_POST['PASSWORD'] ) )
-		unset( $_POST['PASSWORD'] );
+		&& match_password( $login_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'] ) )
+		unset( $_REQUEST['PASSWORD'], $_POST['PASSWORD'] );
 
 	else
 		$login_RET = false;
@@ -69,8 +71,8 @@ elseif( isset( $_POST['USERNAME'] )
 			AND UPPER(s.USERNAME)=UPPER('" . $username . "')" ) );
 		
 		if ( $student_RET
-			&& match_password( $student_RET[1]['PASSWORD'], $_POST['PASSWORD'] ) )
-			unset( $_POST['PASSWORD'] );
+			&& match_password( $student_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'] ) )
+			unset( $_REQUEST['PASSWORD'], $_POST['PASSWORD'] );
 
 		//student account not verified (enrollment school + start date + last login are NULL)
 		elseif ( DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,s.FAILED_LOGIN,se.START_DATE
