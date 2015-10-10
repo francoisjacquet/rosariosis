@@ -595,7 +595,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			//hook
 			do_action('Scheduling/Courses.php|header');
 
-			$header .= '<TABLE class="width-100p valign-top" id="coursesTable">';
+			$header .= '<table class="width-100p valign-top fixed-col" id="coursesTable">';
 			$header .= '<TR class="st">';
 
 			//FJ Moodle integrator
@@ -610,7 +610,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 			}
 
 			//FJ Moodle integrator
-			$header .= '<TD>' . SelectInput($RET['TEACHER_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][TEACHER_ID]',($RET['TEACHER_ID']?'':'<span class="legend-red">')._('Teacher').($RET['TEACHER_ID']?'':'</span>'),$teachers, ($_REQUEST['moodle_create_course_period'] ? false : true), '', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
+			$header .= '<TD colspan="2">' . SelectInput($RET['TEACHER_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][TEACHER_ID]',($RET['TEACHER_ID']?'':'<span class="legend-red">')._('Teacher').($RET['TEACHER_ID']?'':'</span>'),$teachers, ($_REQUEST['moodle_create_course_period'] ? false : true), '', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
 
 			$header .= '<TD>' . TextInput($RET['ROOM'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][ROOM]',_('Room')) . '</TD>';
 
@@ -634,7 +634,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 			//FJ Moodle integrator
 			$header .= '<TD>' . SelectInput($RET['MARKING_PERIOD_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][MARKING_PERIOD_ID]',($RET['MARKING_PERIOD_ID']?'':'<span class="legend-red">')._('Marking Period').($RET['MARKING_PERIOD_ID']?'':'</span>'),$options,false, '', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</TD>';
-			$header .= '<TD>' . TextInput($RET['TOTAL_SEATS'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][TOTAL_SEATS]',_('Seats'),'size=4') . '</TD>';
+			$header .= '<TD colspan="2">' . TextInput($RET['TOTAL_SEATS'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][TOTAL_SEATS]',_('Seats'),'size=4') . '</TD>';
 
 			$header .= '</TR>';
 
@@ -671,7 +671,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 				else
 					$header .= '<TD>' . SelectInput($school_period['PERIOD_ID'],'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]',($school_period['PERIOD_ID']?'':'<span class="legend-red">')._('Period').($school_period['PERIOD_ID']?'':'</span>'),$periods) . '</TD>';
 
-				$header .= '<TD>';
+				$header .= '<TD colspan="6">';
 
 				if($new==false)
 				{
@@ -723,7 +723,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 					break;
 			} while ( $i <= count($RET2) );
 			
-			$header .= '<TR class="st"><TD><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;">'. button('add') .' '._('New Period').'</a></TD></TR>';
+			$header .= '<TR class="st"><TD colspan="7"><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;">'. button('add') .' '._('New Period').'</a></TD></TR>';
 			if (!$new)
 				$header .= '<script>document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
 			?>
@@ -828,10 +828,7 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 			$header .= '<TD>' . CheckboxInput($RET['HALF_DAY'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][HALF_DAY]', _('Half Day'), $checked, $new, button('check'), button('x')) . '</TD>';
 
-			$header .= '<TD>' . CheckboxInput($RET['DOES_BREAKOFF'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_BREAKOFF]', _('Allow Teacher Grade Scale'), $checked, $new, button('check'), button('x')) . '</TD>';
-
-			//BJJ added cells to place parent selection in the last column
-			$header .= '<TD colspan="4">&nbsp;</td>';
+			$header .= '<TD colspan="4">' . CheckboxInput($RET['DOES_BREAKOFF'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_BREAKOFF]', _('Allow Teacher Grade Scale'), $checked, $new, button('check'), button('x')) . '</TD>';
 
 			if($_REQUEST['course_period_id']!='new' && $RET['PARENT_ID']!=$_REQUEST['course_period_id'])
 			{
@@ -924,8 +921,8 @@ if((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUES
 
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'" method="POST">';
 			DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-			$header .= '<TABLE class="width-100p valign-top">';
-			$header .= '<TR>';
+			$header .= '<TABLE class="width-100p valign-top fixed-col">';
+			$header .= '<TR class="st">';
 
 			//FJ title required
 			$header .= '<TD>' . TextInput($RET['TITLE'],'tables[COURSE_SUBJECTS]['.$_REQUEST['subject_id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</TD>';

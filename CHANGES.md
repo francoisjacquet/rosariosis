@@ -32,6 +32,7 @@ Changes in 2.9
 - Add Module Title to Menu.php files
 - ajaLink() JS function now directly accepts URLs in warehouse.js & program wide
 - Display Address & People fields when adding new in Address.inc.php
+- Add .fixed-col CSS class for fixed width tables
 
 Changes in 2.8.11
 -----------------

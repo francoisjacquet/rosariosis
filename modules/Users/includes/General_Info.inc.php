@@ -1,5 +1,5 @@
 <?php
-echo '<TABLE class="width-100p valign-top">';
+echo '<TABLE class="width-100p valign-top fixed-col">';
 echo '<TR class="st"><TD rowspan="2">';
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):

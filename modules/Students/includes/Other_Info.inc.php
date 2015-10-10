@@ -27,7 +27,7 @@ if ( count( $fields_RET ) )
 {
 	echo $separator;
 
-	echo '<TABLE class="width-100p valign-top">';
+	echo '<TABLE class="width-100p valign-top fixed-col">';
 }
 
 $i = 1;
@@ -79,7 +79,16 @@ foreach( (array)$fields_RET as $field )
 
 		case 'age':
 
-			echo _makeStudentAge('CUSTOM_'.$field['ID'], _('Age'));
+			echo '</TD>';
+
+			$i++;
+
+			if ( ( $i - 1 )%$per_row === 0 )
+				echo '</TR><TR class="st">';
+
+			echo '<TD>';
+
+			echo _makeStudentAge( 'CUSTOM_' . $field['ID'], _( 'Age' ) );
 
 		break;
 
@@ -111,9 +120,9 @@ foreach( (array)$fields_RET as $field )
 				// New row
 				echo '</TD></TR><TR class="st">';
 
-				echo '<TD colspan="' . ( $per_row - 1 ) . '">';
+				echo '<TD colspan="' . round( $per_row / 2 ) . '">';
 
-				$i = $i + $i%$per_row;
+				$i = round( $per_row / 2 );
 			}
 
 			echo _makeTextareaInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'students' );

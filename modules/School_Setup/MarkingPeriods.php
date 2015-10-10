@@ -454,7 +454,7 @@ if( empty( $_REQUEST['modfunc'] ) )
 
 	DrawHeader( $title, $delete_button . SubmitButton( _( 'Save' ) ) );
 
-	$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
+	$header .= '<TABLE class="width-100p valign-top fixed-col"><TR class="st">';
 
 	$header .= '<TD>' . TextInput(
 		$RET['TITLE'],

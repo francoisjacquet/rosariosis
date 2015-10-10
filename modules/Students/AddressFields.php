@@ -200,7 +200,7 @@ if(empty($_REQUEST['modfunc']))
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
 
-		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
+		$header .= '<TABLE class="width-100p valign-top fixed-col"><TR class="st">';
 
 		//FJ field name required
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')).'</TD>';
