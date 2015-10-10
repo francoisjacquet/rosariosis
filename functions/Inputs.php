@@ -264,7 +264,7 @@ function MarkDownInputPreview( $input_id )
 		<a href="https://guides.github.com/features/mastering-markdown/" title="<?php echo _( 'Mastering MarkDown' ); ?>" target="_blank" class="md-link">
 			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" />
 		</a>
-		<div id="divMDPreview<?php echo $input_id; ?>">
+		<div class="markdown" id="divMDPreview<?php echo $input_id; ?>">
 			<p><?php echo _( 'Nothing to preview.' ); ?></p>
 		</div>
 	</div>

@@ -96,11 +96,10 @@ function MarkDownInputPreview( input_id )
 		html = input.val(),
 		md_prev = $('#divMDPreview' + input_id);
 
-	/*if ( !md_last_val )
-		md_last_val = {};*/
 console.log(md_last_val);
+
 	// send AJAX request only if input modified
-	if ( input.is(":visible") && html !== '' && md_last_val[input_id] !== html )
+	if ( !md_prev.is(":visible") && html !== '' && md_last_val[input_id] !== html )
 	{
 		md_last_val[input_id] = html;
 
@@ -109,12 +108,15 @@ console.log(md_last_val);
 	}
 
 	// MD preview = Input size
-	if ( input.is(":visible") && md_prev.css('width') != input.css('width') )
-		md_prev.css({ 'width': input.css('width'), 'min-height': input.css('height') });
+	if ( !md_prev.is(":visible") ) {
+
+		md_prev.css('height', input.css('height'));
+		md_prev.parent('.md-preview').css({'max-width': input.css('width')});
+	}
 
 	// toggle MD preview & Input
 	md_prev.toggle();
-	input.toggle();
+	input.toggleClass('hidden');
 	// disable Write / Preview tab
 	md_prev.siblings('.tab').toggleClass('disabled');
 }

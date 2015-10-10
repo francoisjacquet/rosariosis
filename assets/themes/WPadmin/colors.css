@@ -193,11 +193,11 @@ fieldset{
 }
 
 /* MarkDown */
-.md-preview > a,.md-preview > div{
+.md-preview .tab,.md-preview > div{
 	border-color:#dfdfdf
 }
-.md-preview > a:hover,
-.md-preview > .disabled{
+.md-preview .tab:hover,
+.md-preview .tab.disabled{
 	background-color:#fff;
 	border-color:#bbb
 }

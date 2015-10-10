@@ -577,6 +577,9 @@ textarea{
 	/*width="100%"*/
 	width:100%
 }
+.fixed-col{
+	table-layout:fixed
+}
 .cellpadding-5 td{
 	padding-right:5px;
 	padding-bottom:5px
