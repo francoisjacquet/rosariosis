@@ -1,27 +1,27 @@
 <?php
 
-// If there are missing vals or similar, show them a msg.
-//
-// Pass in an array with error messages and this will display them
-// in a standard fashion.
-//
-// in a program you may have:
-/*
-if(!$sch)
-	$error[]="School not provided.";
-if($count == 0)
-	$error[]="Number of students is zero.";
-ErrorMessage($error);
-*/
-// (note that array[], the brackets with nothing in them makes
-// PHP automatically use the next index.
-
-// Why use this?  It will tell the user if they have multiple errors
-// without them having to re-run the program each time finding new
-// problems.  Also, the error display will be standardized.
-
-// If a 2ND is sent, the list will not be treated as errors, but shown anyway
-
+/**
+ * Error Message
+ *
+ * Use 'fatal' code to exit program.
+ * Use 'note' code for Notes and Update messages.
+ *
+ * If there are missing vals or similar, show them a msg.
+ * Pass in an array with error messages and this will display them
+ * in a standard fashion.
+ * In a program you may have:
+ * @example if ( !$sch ) $error[] = _( 'School not provided.' );
+ * @example if ( $count === 0 ) $error[] = _( 'Number of students is zero.' ); ErrorMessage( $error );
+ *
+ * Why use this? It will tell the user if they have multiple errors
+ * without them having to re-run the program each time finding new
+ * problems.  Also, the error display will be standardized.
+ *
+ * @param  array  $errors Array of errors or notes
+ * @param  string $code   error|fatal|note (optional). Defaults to 'error'
+ *
+ * @return string Error / Note Message, exits if 'fatal' code
+ */
 function ErrorMessage( $errors, $code = 'error' )
 {
 	$return = '';
