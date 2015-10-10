@@ -3,7 +3,7 @@
 /**
  * Get Teacher Info
  *
- * @param  integer $teacher_id Teacher ID
+ * @param  string $teacher_id Teacher ID
  * @param  string  $column     FULL_NAME|LAST_NAME|FIRST_NAME|USERNAME|PROFILE Column name (optional). Defaults to FULL_NAME
  * @param  boolean $schools    Is Teacher in current School (optional). Defaults to true
  *
@@ -29,10 +29,10 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 			"SELECT STAFF_ID,LAST_NAME,FIRST_NAME,LAST_NAME||', '||FIRST_NAME AS FULL_NAME,USERNAME,PROFILE 
 			FROM STAFF 
 			WHERE SYEAR='" . UserSyear() . "'" .
-			( $schools ? " AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')" : '' ),
+			( $schools ? " AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')" : '' ) ),
 			array(),
 			array( 'STAFF_ID' )
-		) );
+		);
 	}
 
 	return $teachers[$teacher_id][1][$column];
