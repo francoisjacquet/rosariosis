@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.24
 -----------------
 - Fix SQL error when saving Parent Course Period in Courses.php
+- Improve French translations
 
 Changes in 2.8.23
 -----------------

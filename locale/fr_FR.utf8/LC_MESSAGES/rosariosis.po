@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-12 17:05-0500\n"
-"PO-Revision-Date: 2015-10-07 14:18-0500\n"
+"PO-Revision-Date: 2015-10-13 17:43-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -1347,7 +1347,7 @@ msgstr "Cours"
 #: modules/Users/includes/Schedule.inc.php:21
 #: modules/Users/includes/Schedule.inc.php:41 modules/misc/ChooseCourse.php:14
 msgid "Course Period"
-msgstr "Période de Cours"
+msgstr "Classe"
 
 #: functions/Widgets.fnc.php:158 functions/Widgets.fnc.php:190
 #: modules/Scheduling/Courses.php:875 modules/Scheduling/functions.inc.php:28
@@ -1390,7 +1390,7 @@ msgstr "Année à ce jour"
 
 #: functions/Widgets.fnc.php:332 functions/Widgets.fnc.php:338
 msgid "Course Period Absences"
-msgstr "Absences Période de Cours"
+msgstr "Absences d'une Classe"
 
 #: functions/Widgets.fnc.php:337
 msgid ""
@@ -1398,7 +1398,7 @@ msgid ""
 "Course Period."
 msgstr ""
 "Utiliser le lien Choisir du widget Cours (sous Planification) pour choisir "
-"une Période de Cours."
+"une Classe."
 
 #: functions/Widgets.fnc.php:366 functions/Widgets.fnc.php:379
 #: modules/Grades/GPAMPList.php:112 modules/Grades/GPARankList.php:113
@@ -2186,7 +2186,7 @@ msgstr "Pas Présent"
 #: modules/Scheduling/Courses.php:824 modules/Scheduling/Courses.php:872
 #: modules/Users/Preferences.php:289
 msgid "None"
-msgstr "Aucun"
+msgstr "Aucun(e)"
 
 #: modules/Attendance/Administration.php:446
 #: modules/Attendance/AttendanceCodes.php:190
@@ -2432,7 +2432,7 @@ msgstr "de %d pages."
 
 #: modules/Attendance/DuplicateAttendance.php:234
 msgid "Course Period ID"
-msgstr "ID de Période Scolaire"
+msgstr "ID de Classe"
 
 #: modules/Attendance/DuplicateAttendance.php:235
 msgid "Course Start Date"
@@ -2664,8 +2664,7 @@ msgstr "Vous ne pouvez pas entrer les absences pour cette classe."
 
 #: modules/Attendance/TakeAttendance.php:106
 msgid "You cannot take attendance for this period on this day."
-msgstr ""
-"Vous ne pouvez pas entrer les absences pour cette période et cette journée."
+msgstr "Vous ne pouvez pas entrer les absences pour cette période ce jour."
 
 #: modules/Attendance/TakeAttendance.php:208
 #: modules/Food_Service/TakeMenuCounts.php:123
@@ -4324,7 +4323,7 @@ msgstr "Nouveau Type de Devoir"
 
 #: modules/Grades/Assignments.php:295
 msgid "Apply to all Periods for this Course"
-msgstr "Appliquer à toutes les Périodes de ce Cours"
+msgstr "Appliquer à toutes les Classes de ce Cours"
 
 #: modules/Grades/Assignments.php:325
 msgid "Percent of Final Grade"
@@ -4648,7 +4647,7 @@ msgstr "Autres Absences Depuis le Début de l'Année"
 
 #: modules/Grades/FinalGrades.php:413 modules/Grades/ReportCards.php:528
 msgid "Period-by-period absences"
-msgstr "Absences période par période"
+msgstr "Absences classe par classe"
 
 #: modules/Grades/FinalGrades.php:421 modules/Grades/ReportCards.php:535
 #: modules/Grades/Transcripts.php:365 modules/School_Setup/CopySchool.php:3
@@ -5224,7 +5223,7 @@ msgstr "Places Disponibles"
 
 #: modules/Scheduling/Courses.php:596
 msgid "New Course Period"
-msgstr "Nouvelle Période de Cours"
+msgstr "Nouvelle Classe"
 
 #: modules/Scheduling/Courses.php:624
 #: modules/Scheduling/MasterScheduleReport.php:14
@@ -5247,7 +5246,7 @@ msgstr "Places"
 
 #: modules/Scheduling/Courses.php:729
 msgid "Meeting Days"
-msgstr "Journées Rencontre"
+msgstr "Jours de Classe"
 
 #: modules/Scheduling/Courses.php:745
 msgid "New Period"
@@ -5287,7 +5286,7 @@ msgstr "Permettre l'Échelle de Notation Professeur"
 
 #: modules/Scheduling/Courses.php:875
 msgid "Parent Course Period"
-msgstr "Période de Cours Parente"
+msgstr "Classe Parente"
 
 #: modules/Scheduling/Courses.php:903
 msgid "New Course"
@@ -5304,7 +5303,7 @@ msgstr "Choisir un(e)"
 #: modules/Scheduling/Courses.php:972 modules/Scheduling/Courses.php:977
 #: modules/Scheduling/functions.inc.php:24
 msgid "Last Year Course Period"
-msgstr "Période de Cours de l'Année Passée"
+msgstr "Classe de l'Année Passée"
 
 #: modules/Scheduling/Courses.php:972 modules/Scheduling/Courses.php:977
 #: modules/Scheduling/functions.inc.php:16
@@ -5509,12 +5508,12 @@ msgstr "Liste de Classe"
 #: modules/Scheduling/PrintClassLists.php:90
 #: modules/Scheduling/PrintClassPictures.php:133
 msgid "You must choose at least one course period."
-msgstr "Vous devez choisir au moins une période de cours."
+msgstr "Vous devez choisir au moins une classe."
 
 #: modules/Scheduling/PrintClassLists.php:103
 #: modules/Scheduling/PrintClassLists.php:241
 msgid "Create Class Lists for Selected Course Periods"
-msgstr "Créer les Listes de Classe pour la Période de Cours Sélectionnée"
+msgstr "Créer les Listes de Classe pour la Classe Sélectionnée"
 
 #: modules/Scheduling/PrintClassLists.php:124
 #: modules/Scheduling/PrintClassPictures.php:185
@@ -5524,7 +5523,7 @@ msgstr "Trouver un Cours"
 #: modules/Scheduling/PrintClassPictures.php:146
 #: modules/Scheduling/PrintClassPictures.php:163
 msgid "Create Class Pictures for Selected Course Periods"
-msgstr "Créer les Photos de Classe pour la Période de Cours Sélectionnée"
+msgstr "Créer les Photos de Classe pour la Classe Sélectionnée"
 
 #: modules/Scheduling/PrintClassPictures.php:151
 msgid "Include Teacher"
@@ -7512,8 +7511,8 @@ msgstr "Des enseignants n'ont pas renseigné les absences"
 #: modules/misc/Portal.php:174 modules/misc/Portal.php:339
 msgid "Course Period with missing attendance data"
 msgid_plural "Course Periods with missing attendance data"
-msgstr[0] "Période de Cours avec des absences manquantes"
-msgstr[1] "Périodes de Cours avec des absences manquantes"
+msgstr[0] "Classe avec des absences non renseignées"
+msgstr[1] "Classes avec des absences non renseignées"
 
 #: modules/misc/Portal.php:188 modules/misc/Portal.php:352
 #: modules/misc/Portal.php:458
@@ -7632,7 +7631,7 @@ msgstr "Créer Utilisateur dans Moodle"
 
 #: plugins/Moodle/functions.php:345
 msgid "Create Course Period in Moodle"
-msgstr "Créer Période de Cours dans Moodle"
+msgstr "Créer la Classe dans Moodle"
 
 #: plugins/Moodle/functions.php:435
 msgid "Publish Event in Moodle?"
