@@ -104,8 +104,12 @@ if($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				'COURSE_PERIODS'=>'COURSE_PERIOD_ID',
 				'COURSE_PERIOD_SCHOOL_PERIODS'=>'COURSE_PERIOD_SCHOOL_PERIODS_ID');
 
-	if($_REQUEST['tables']['parent_id'])
+	if ( isset( $_REQUEST['tables']['parent_id'] ) )
+	{
 		$_REQUEST['tables']['COURSE_PERIODS'][$_REQUEST['course_period_id']]['PARENT_ID'] = $_REQUEST['tables']['parent_id'];
+
+		unset( $_REQUEST['tables']['parent_id'] );
+	}
 
 	//FJ bugfix SQL error invalid input syntax for type numeric
 	//when COURSE_PERIOD_SCHOOL_PERIODS saved before COURSE_PERIODS, but why?

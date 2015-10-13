@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.24
+-----------------
+- Fix SQL error when saving Parent Course Period in Courses.php
+
 Changes in 2.8.23
 -----------------
 - Go button display when no Edit Allowed in Calendar.php
