@@ -2,7 +2,7 @@
 /**
  * The base configurations of RosarioSIS
  *
- * You can find more information in the INSTALL file
+ * You can find more information in the INSTALL.md file
  */
 
 /**
@@ -64,7 +64,7 @@ $DefaultSyear = '2015';
 
 
 /**
- * email address
+ * Notify email address
  * where to send error and new administrator notifications
  *
  * Leave empty to not receive email notifications
@@ -76,8 +76,8 @@ $RosarioNotifyAddress = '';
  * Locales
  *
  * Add other languages you want to support here
- * ex: array('en_US.utf8', 'fr_FR.utf8', 'es_ES.utf8');
+ *
+ * For American, French and Spanish:
+ * @example array('en_US.utf8', 'fr_FR.utf8', 'es_ES.utf8');
  */
 $RosarioLocales = array('en_US.utf8');
-
-?>
