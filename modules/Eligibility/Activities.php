@@ -4,18 +4,15 @@ if ( isset( $_POST['day_values'] )
 	&& isset( $_POST['month_values'] )
 	&& isset( $_POST['year_values'] ) )
 {
-	foreach ( (array)$_REQUEST['month_values'] as $id => $columns )
-	{
-		foreach ( (array)$columns as $column => $month )
-		{
-			$_REQUEST['values'][$id][$column] =
-			$_POST['values'][$id][$column] = RequestedDate(
-				$_REQUEST['day_values'][$id][$column],
-				$month,
-				$_REQUEST['year_values'][$id][$column]
-			);
-		}
-	}
+	$requested_dates = RequestedDates(
+		$_REQUEST['day_values'],
+		$_REQUEST['month_values'],
+		$_REQUEST['year_values']
+	);
+
+	$_REQUEST['values'] = array_merge_recursive( $_REQUEST['values'], $requested_dates );
+
+	$_POST['values'] = array_merge_recursive( $_POST['values'], $requested_dates );
 }
 
 if ( isset( $_POST['values'] )

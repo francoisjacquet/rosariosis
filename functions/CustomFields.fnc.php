@@ -43,17 +43,11 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		&& isset( $_REQUEST['month_custb'] )
 		&& isset( $_REQUEST['year_custb'] ) )
 	{
-		foreach ( (array)$_REQUEST['month_custb'] as $field_name => $month )
-		{
-			$begin_date = RequestedDate(
-				$_REQUEST['day_custb'][$field_name],
-				$month,
-				$_REQUEST['year_custb'][$field_name]
-			);
-
-			if ( !empty( $begin_date ) )
-				$cust_begin[$field_name] = $begin_date;
-		}
+		$cust_begin = RequestedDates(
+			$_REQUEST['day_custb'],
+			$_REQUEST['month_custb'],
+			$_REQUEST['year_custb']
+		);
 	}
 
 	// Add begin Number
@@ -67,17 +61,11 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		&& isset( $_REQUEST['month_custe'] )
 		&& isset( $_REQUEST['year_custe'] ) )
 	{
-		foreach ( (array)$_REQUEST['month_custe'] as $field_name => $month )
-		{
-			$end_date = RequestedDate(
-				$_REQUEST['day_custe'][$field_name],
-				$month,
-				$_REQUEST['year_custe'][$field_name]
-			);
-
-			if ( !empty( $end_date ) )
-				$cust_end[$field_name] = $end_date;
-		}
+		$cust_end = RequestedDates(
+			$_REQUEST['day_custe'],
+			$_REQUEST['month_custe'],
+			$_REQUEST['year_custe']
+		);
 	}
 
 	// Add end Number

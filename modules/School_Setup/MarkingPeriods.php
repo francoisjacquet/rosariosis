@@ -54,56 +54,15 @@ if ( isset( $_POST['day_tables'] )
 	&& isset( $_POST['month_tables'] )
 	&& isset( $_POST['year_tables'] ) )
 {
-	foreach ( (array)$_REQUEST['month_tables'] as $id => $month )
-	{
-		// start date
-		if ( isset( $_REQUEST['day_tables'][$id]['START_DATE'] )
-			&& isset( $_REQUEST['year_tables'][$id]['START_DATE'] ) )
-		{
-			$_REQUEST['tables'][$id]['START_DATE'] =
-			$_POST['tables'][$id]['START_DATE'] = RequestedDate(
-				$_REQUEST['day_tables'][$id]['START_DATE'],
-				$month['START_DATE'],
-				$_REQUEST['year_tables'][$id]['START_DATE']
-			);
-		}
+	$requested_dates = RequestedDates(
+		$_REQUEST['day_tables'],
+		$_REQUEST['month_tables'],
+		$_REQUEST['year_tables']
+	);
 
-		// end date
-		if ( isset( $_REQUEST['day_tables'][$id]['END_DATE'] )
-			&& isset( $_REQUEST['year_tables'][$id]['END_DATE'] ) )
-		{
-			$_REQUEST['tables'][$id]['END_DATE'] =
-			$_POST['tables'][$id]['END_DATE'] = RequestedDate(
-				$_REQUEST['day_tables'][$id]['END_DATE'],
-				$month['END_DATE'],
-				$_REQUEST['year_tables'][$id]['END_DATE']
-			);
-		}
+	$_POST['tables'] = array_merge_recursive( $_POST['tables'], $requested_dates);
 
-		// post start date
-		if ( isset( $_REQUEST['day_tables'][$id]['POST_START_DATE'] )
-			&& isset( $_REQUEST['year_tables'][$id]['POST_START_DATE'] ) )
-		{
-			$_REQUEST['tables'][$id]['POST_START_DATE'] =
-			$_POST['tables'][$id]['POST_START_DATE'] = RequestedDate(
-				$_REQUEST['day_tables'][$id]['POST_START_DATE'],
-				$month['POST_START_DATE'],
-				$_REQUEST['year_tables'][$id]['POST_START_DATE']
-			);
-		}
-
-		// post end date
-		if ( isset( $_REQUEST['day_tables'][$id]['POST_END_DATE'] )
-			&& isset( $_REQUEST['year_tables'][$id]['POST_END_DATE'] ) )
-		{
-			$_REQUEST['tables'][$id]['POST_END_DATE'] =
-			$_POST['tables'][$id]['POST_END_DATE'] = RequestedDate(
-				$_REQUEST['day_tables'][$id]['POST_END_DATE'],
-				$month['POST_END_DATE'],
-				$_REQUEST['year_tables'][$id]['POST_END_DATE']
-			);
-		}
-	}
+	$_REQUEST['tables'] = array_merge_recursive( $_REQUEST['tables'], $requested_dates);
 }
 
 if ( isset( $_POST['tables'] )

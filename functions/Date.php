@@ -371,7 +371,6 @@ function ExplodeDate( $date )
 	return array( 'year' => $year, 'month' => $month, 'day' => $day );
 }
 
-
 /**
  * Get date requested by User
  * Returns an empty string if date is malformed / incomplete
@@ -419,6 +418,47 @@ function RequestedDate( $day, $month, $year )
 	}
 
 	return $date;
+}
+
+
+/**
+ * Get dates requested by User
+ *
+ * Calls RequestedDate() function
+ * Recursive function
+ *
+ * @example RequestedDates( $_REQUEST['day_tables'], $_REQUEST['month_tables'], $_REQUEST['year_tables'] );
+ *
+ * @param  array $day_array   Requested days
+ * @param  array $month_array Requested months
+ * @param  array $year_array  Requested years
+ *
+ * @return array Requested dates, or empty if no dates found or malformed/incomplete dates
+ */
+function RequestedDates( $day_array, $month_array, $year_array )
+{
+	$return = array();
+
+	foreach ( (array)$month_array as $field_name => $month )
+	{
+		if ( !is_array( $month ) )
+		{
+			$date = RequestedDate(
+				$day_array[$field_name],
+				$month,
+				$year_array[$field_name]
+			);
+
+			if ( !empty( $date ) )
+				$return[$field_name] = $date;
+		}
+		else
+		{
+			$return[$field_name] = RequestedDates( $day_array[$field_name], $month, $year_array[$field_name] );
+		}
+	}
+
+	return $return;
 }
 
 

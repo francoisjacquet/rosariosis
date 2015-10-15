@@ -10,34 +10,15 @@ if ( isset( $_POST['day_values'] )
 	&& isset( $_POST['month_values'] )
 	&& isset( $_POST['year_values'] ) )
 {
-	foreach ( (array)$_REQUEST['month_values'] as $id => $month )
-	{
-		// assigned date
-		if ( isset( $_REQUEST['day_values'][$id]['ASSIGNED_DATE'] )
-			&& isset( $month['ASSIGNED_DATE'] )
-			&& isset( $_REQUEST['year_values'][$id]['ASSIGNED_DATE'] ) )
-		{
-			$_REQUEST['values'][$id]['ASSIGNED_DATE'] =
-			$_POST['values'][$id]['ASSIGNED_DATE'] = RequestedDate(
-				$_REQUEST['day_values'][$id]['ASSIGNED_DATE'],
-				$month['ASSIGNED_DATE'],
-				$_REQUEST['year_values'][$id]['ASSIGNED_DATE']
-			);
-		}
+	$requested_dates = RequestedDates(
+		$_REQUEST['day_values'],
+		$_REQUEST['month_values'],
+		$_REQUEST['year_values']
+	);
 
-		// due date
-		if ( isset( $_REQUEST['day_values'][$id]['DUE_DATE'] )
-			&& isset( $month['DUE_DATE'] )
-			&& isset( $_REQUEST['year_values'][$id]['DUE_DATE'] ) )
-		{
-			$_REQUEST['values'][$id]['DUE_DATE'] =
-			$_POST['values'][$id]['DUE_DATE'] = RequestedDate(
-				$_REQUEST['day_values'][$id]['DUE_DATE'],
-				$month['DUE_DATE'],
-				$_REQUEST['year_values'][$id]['DUE_DATE']
-			);
-		}
-	}
+	$_REQUEST['values'] = array_merge_recursive( $_REQUEST['values'], $requested_dates );
+
+	$_POST['values'] = array_merge_recursive( $_POST['values'], $requested_dates );
 }
 
 if($_REQUEST['modfunc']=='update')

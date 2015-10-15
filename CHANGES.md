@@ -13,7 +13,7 @@ Changes in 2.9
 - Add MarkDown button image in assets/themes/WPadmin/btn/md_button.png
 - Add Security class in classes/Security.php
 - Add SanitizeMarkdown() function in ProgramFunctions/MarkDown.fnc.php
-- Add RequestedDate() function in Date.php
+- Add RequestedDate() & RequestedDates() functions in Date.php
 - Add PHPMailer 5.2.10 class (email creation & (SMTP) transport) in classes/PHPMailer/
 - Add .logo CSS class & bigger logo.png definition
 - Remove closing PHP tags ?> at end of files program wide

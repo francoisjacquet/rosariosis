@@ -56,19 +56,16 @@ if ( isset( $_POST['day_schedule'] )
 	&& isset( $_POST['month_schedule'] )
 	&& isset( $_POST['year_schedule'] ) )
 {
-	foreach ( (array)$_REQUEST['month_schedule'] as $id => $start_dates )
-	foreach ( (array)$start_dates as $start_date => $columns )
-	{
-		foreach ( (array)$columns as $column => $month )
-		{
-			$_REQUEST['schedule'][$id][$start_date][$column] =
-			$_POST['schedule'][$id][$start_date][$column] = RequestedDate(
-				$_REQUEST['day_schedule'][$id][$start_date][$column],
-				$month,
-				$_REQUEST['year_schedule'][$id][$start_date][$column]
-			);
-		}
-	}
+	$requested_dates = RequestedDates(
+		$_REQUEST['day_schedule'],
+		$_REQUEST['month_schedule'],
+		$_REQUEST['year_schedule']
+	);
+
+	$_REQUEST['schedule'] = array_merge_recursive( $_REQUEST['schedule'], $requested_dates );
+
+	$_POST['schedule'] = array_merge_recursive( $_POST['schedule'], $requested_dates );
+
 	unset($_REQUEST['month_schedule']);
 	unset($_REQUEST['day_schedule']);
 	unset($_REQUEST['year_schedule']);
@@ -77,7 +74,9 @@ if ( isset( $_POST['day_schedule'] )
 	unset($_SESSION['_REQUEST_vars']['year_schedule']);
 }
 
-if($_REQUEST['schedule'] && AllowEdit())
+if ( isset( $_POST['schedule'] )
+	&& count( $_POST['schedule'] )
+	&& AllowEdit() )
 {
 	foreach($_REQUEST['schedule'] as $course_period_id=>$start_dates)
 	foreach($start_dates as $start_date=>$columns)

@@ -15,32 +15,15 @@ if ( isset( $_POST['day_tables'] )
 	&& isset( $_POST['month_tables'] )
 	&& isset( $_POST['year_tables'] ) )
 {
-	foreach( (array)$_REQUEST['month_tables'] as $id => $month )
-	{
-		// due date
-		if ( isset( $_REQUEST['day_tables'][$id]['DUE_DATE'] )
-			&& isset( $_REQUEST['year_tables'][$id]['DUE_DATE'] ) )
-		{
-			$_REQUEST['tables'][$id]['DUE_DATE'] =
-			$_POST['tables'][$id]['DUE_DATE'] = RequestedDate(
-				$_REQUEST['day_tables'][$id]['DUE_DATE'],
-				$month['DUE_DATE'],
-				$_REQUEST['year_tables'][$id]['DUE_DATE']
-			);
-		}
+	$requested_dates = RequestedDates(
+		$_REQUEST['day_tables'],
+		$_REQUEST['month_tables'],
+		$_REQUEST['year_tables']
+	);
 
-		// assigned date
-		if ( isset( $_REQUEST['day_tables'][$id]['ASSIGNED_DATE'] )
-			&& isset( $_REQUEST['year_tables'][$id]['ASSIGNED_DATE'] ) )
-		{
-			$_REQUEST['tables'][$id]['ASSIGNED_DATE'] =
-			$_POST['tables'][$id]['ASSIGNED_DATE'] = RequestedDate(
-				$_REQUEST['day_tables'][$id]['ASSIGNED_DATE'],
-				$month['ASSIGNED_DATE'],
-				$_REQUEST['year_tables'][$id]['ASSIGNED_DATE']
-			);
-		}
-	}
+	$_REQUEST['tables'] = array_merge_recursive( $_REQUEST['tables'], $requested_dates );
+
+	$_POST['tables'] = array_merge_recursive( $_POST['tables'], $requested_dates );
 }
 
 if ( isset( $_POST['tables'] )

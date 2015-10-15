@@ -12,20 +12,13 @@ function SaveData($iu_extra,$fields_done=false,$field_names=false)
 		&& isset( $_REQUEST['month_values'] )
 		&& isset( $_REQUEST['year_values'] ) )
 	{
-		foreach( (array)$_REQUEST['month_values'] as $table => $values )
-		{
-			foreach( (array)$values as $id => $columns )
-			{
-				foreach( (array)$columns as $column => $month )
-				{
-					$_REQUEST['values'][$table][$id][$column] = RequestedDate(
-						$_REQUEST['day_values'][$table][$id][$column],
-						$month,
-						$_REQUEST['year_values'][$table][$id][$column]
-					);
-				}
-			}
-		}
+		$requested_dates = RequestedDates(
+			$_REQUEST['day_values'],
+			$_REQUEST['month_values'],
+			$_REQUEST['year_values']
+		);
+
+		$_REQUEST['values'] = array_merge_recursive( $_REQUEST['values'], $requested_dates );
 	}
 
 	foreach($_REQUEST['values'] as $table=>$values)

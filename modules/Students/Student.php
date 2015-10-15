@@ -67,15 +67,15 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		&& isset( $_POST['month_students'] )
 		&& isset( $_POST['year_students'] ) )
 	{
-		foreach( (array)$_REQUEST['month_students'] as $column => $value )
-		{
-			$_REQUEST['students'][$column] =
-			$_POST['students'][$column] = RequestedDate(
-				$_REQUEST['day_students'][$column],
-				$value,
-				$_REQUEST['year_students'][$column]
-			);
-		}
+		$requested_dates = RequestedDates(
+			$_REQUEST['day_students'],
+			$_REQUEST['month_students'],
+			$_REQUEST['year_students']
+		);
+
+		$_REQUEST['students'] = array_merge_recursive( $_REQUEST['students'], $requested_dates );
+
+		$_POST['students'] = array_merge_recursive( $_POST['students'], $requested_dates );
 	}
 
 	if ( ( isset( $_POST['students'] )

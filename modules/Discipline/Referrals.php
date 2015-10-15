@@ -4,15 +4,15 @@ if ( isset( $_POST['day_values'] )
 	&& isset( $_POST['month_values'] )
 	&& isset( $_POST['year_values'] ) )
 {
-	foreach ( (array)$_REQUEST['month_values'] as $column => $month )
-	{
-		$_REQUEST['values'][$column] =
-		$_POST['values'][$column] = RequestedDate(
-			$_REQUEST['day_values'][$column],
-			$month,
-			$_REQUEST['year_values'][$column]
-		);
-	}
+	$requested_dates = RequestedDates(
+		$_REQUEST['day_values'],
+		$_REQUEST['month_values'],
+		$_REQUEST['year_values']
+	);
+
+	$_REQUEST['values'] = array_merge_recursive( $_REQUEST['values'], $requested_dates );
+
+	$_POST['values'] = array_merge_recursive( $_POST['values'], $requested_dates );
 }
 
 if ( isset( $_POST['values'] )
@@ -105,17 +105,6 @@ $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'
 $extra['link']['FULL_NAME']['variables'] = array('referral_id'=>'ID');
 $extra['link']['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 $extra['link']['remove']['variables'] = array('id'=>'ID');
-
-if($_REQUEST['search_modfunc']=='list' && $_REQUEST['student_header']=='true')
-	DrawStudentHeader();
-
-if($_REQUEST['student_header']=='true')
-{
-	$extra['NoSearchTerms'] = true;
-	if(AllowUse('Discipline/MakeReferral.php'))
-		$add_link = button('add',_('Add Referral'),'"Modules.php?modname=Discipline/MakeReferral.php&search_modfunc=result&student_id='.UserStudentID().'"');
-	DrawHeader('',$add_link);
-}
 
 if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 {
