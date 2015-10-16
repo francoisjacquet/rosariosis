@@ -378,6 +378,8 @@ function ExplodeDate( $date )
  * if day does not exist in month,
  * for example, 31-FEB-2015 will return 28-FEB-2015
  *
+ * @since 2.9
+ *
  * @example RequestedDate( $day, $month, $year );
  *
  * @param  string $day   Requested day
@@ -427,6 +429,8 @@ function RequestedDate( $day, $month, $year )
  * Calls RequestedDate() function
  * Recursive function
  *
+ * @since 2.9
+ *
  * @example RequestedDates( $_REQUEST['day_tables'], $_REQUEST['month_tables'], $_REQUEST['year_tables'] );
  *
  * @param  array $day_array   Requested days
@@ -454,7 +458,10 @@ function RequestedDates( $day_array, $month_array, $year_array )
 		}
 		else
 		{
-			$return[$field_name] = RequestedDates( $day_array[$field_name], $month, $year_array[$field_name] );
+			$dates = RequestedDates( $day_array[$field_name], $month, $year_array[$field_name] );
+
+			if ( !empty( $dates ) )
+				$return[$field_name] = $dates;
 		}
 	}
 

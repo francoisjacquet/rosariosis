@@ -16,9 +16,9 @@ if ( isset( $_POST['day_values'] )
 		$_REQUEST['year_values']
 	);
 
-	$_REQUEST['values'] = array_merge_recursive( $_REQUEST['values'], $requested_dates );
+	$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );
 
-	$_POST['values'] = array_merge_recursive( $_POST['values'], $requested_dates );
+	$_POST['values'] = array_replace_recursive( $_POST['values'], $requested_dates );
 }
 
 if($_REQUEST['modfunc']=='update')
