@@ -34,6 +34,7 @@ Changes in 2.9
 - Display Address & People fields when adding new in Address.inc.php
 - Add .fixed-col CSS class for fixed width tables
 - Reduce PNG images / icons size using CompressPNG.com program wide
+- Show Assignment Type color in Grades.php
 
 Changes in 2.8.11
 -----------------

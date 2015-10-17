@@ -259,17 +259,29 @@ else
 		$extra['SELECT'] = ",extract(EPOCH FROM ".db_greatest('ssm.START_DATE','ss.START_DATE').") AS START_EPOCH,extract(EPOCH FROM ".db_least('ssm.END_DATE','ss.END_DATE').") AS END_EPOCH";
 		$extra['functions'] = array();
 
-		if(count($assignments_RET))
+		foreach( (array)$assignments_RET as $id => $assignment )
 		{
-			foreach($assignments_RET as $id=>$assignment)
+			$assignment = $assignment[1];
+
+			$extra['SELECT'] .= ",'" . $id . "' AS G" . $id;
+
+			$extra['functions'] += array('G' . $id => '_makeExtraCols' );
+
+			$column_title = $assignment['TITLE'];
+
+			if ( !$_REQUEST['type_id'] )
 			{
-				$assignment = $assignment[1];
-				$extra['SELECT'] .= ",'".$id."' AS G$id";
-				$extra['functions'] += array('G'.$id=>'_makeExtraCols');
-				$LO_columns['G'.$id] = ($_REQUEST['type_id']?'':$types_RET[$assignment['ASSIGNMENT_TYPE_ID']][1]['TITLE'].'<BR />').$assignment['TITLE'];
-				/*if(!$_REQUEST['type_id'] && $types_RET[$assignment['ASSIGNMENT_TYPE_ID']][1]['COLOR'])
-					$LO_options['header_colors']['G'.$id] = $types_RET[$assignment['ASSIGNMENT_TYPE_ID']][1]['COLOR'];*/
+				$column_title = $types_RET[$assignment['ASSIGNMENT_TYPE_ID']][1]['TITLE'] . '<BR />' . $column_title;
 			}
+
+			if ( !$_REQUEST['type_id']
+				&& $types_RET[$assignment['ASSIGNMENT_TYPE_ID']][1]['COLOR'] )
+			{
+				$column_title = '<span style="background-color: ' . $types_RET[$assignment['ASSIGNMENT_TYPE_ID']][1]['COLOR'] . ';">&nbsp;</span>&nbsp;' .
+					$column_title;
+			}
+
+			$LO_columns['G' . $id] = $column_title;
 		}
 	}
 	elseif($_REQUEST['assignment_id'])
@@ -342,8 +354,13 @@ $type_select .= '<OPTION value=""' . ( !$_REQUEST['type_id'] ? ' SELECTED' : '' 
 	_( 'All' ) .
 '</OPTION>';
 
-foreach($types_RET as $id=>$type)
-	$type_select .= '<OPTION value="'.$id.'"'.($_REQUEST['type_id']==$id?' SELECTED':'').'>'.$type[1]['TITLE'].'</OPTION>';
+foreach( (array)$types_RET as $id => $type )
+{
+	$type_select .= '<OPTION value="' . $id . '"' . ( $_REQUEST['type_id'] == $id? ' SELECTED' : '' ) . '>' .
+		$type[1]['TITLE'] .
+	'</OPTION>';
+}
+
 $type_select .= '</SELECT>';
 
 $assignment_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
@@ -369,10 +386,23 @@ $assignment_select .= '</SELECT>';
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'" method="POST">';
 
-$tabs = array(array('title'=>_('All'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&type_id='.($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all']));
+$tabs = array( array(
+	'title' => _( 'All' ),
+	'link'=>'Modules.php?modname=' . $_REQUEST['modname'] . '&type_id=' . ( $_REQUEST['assignment_id'] == 'all' ? '&assignment_id=all' : '' ) . ( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) . '&include_inactive=' . $_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all']
+));
 
-foreach($types_RET as $id=>$type)
-	$tabs[] = array('title'=>$type[1]['TITLE'].($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?'|'.number_format(100*$type[1]['FINAL_GRADE_PERCENT'],0).'%':''),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&type_id='.$id.($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'])+($type[1]['COLOR']?array('color'=>$type[1]['COLOR']):array());
+foreach( (array)$types_RET as $id => $type )
+{
+	$color = '';
+
+	if ( $type[1]['COLOR'] )
+		$color = '<span style="background-color: ' . $type[1]['COLOR'] . ';">&nbsp;</span>&nbsp;';
+
+	$tabs[] = array(
+		'title' => $color . $type[1]['TITLE'] . ( $programconfig[User( 'STAFF_ID' )]['WEIGHT'] == 'Y' ? '|' . number_format( 100 * $type[1]['FINAL_GRADE_PERCENT'], 0 ) . '%' : '' ),
+		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&type_id=' . $id . ( $_REQUEST['assignment_id'] == 'all' ? '&assignment_id=all' : '' ) . ( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) . '&include_inactive=' .$_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all']
+	);
+}
 
 //FJ add label on checkbox
 DrawHeader($type_select.$assignment_select,$_REQUEST['assignment_id']?SubmitButton(_('Save')):'');
@@ -387,9 +417,6 @@ if($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all')
 
 	DrawHeader('<b>'._('Assigned Date').':</b> '.($assigned_date ? ProperDate($assigned_date) : _('N/A')).', <b>'._('Due Date').':</b> '.($due_date ? ProperDate($due_date) : _('N/A')).($due ? ' - <b>'._('Assignment is Due').'</b>' : ''));
 }
-
-if($_REQUEST['type_id'] && $types_RET[$_REQUEST['type_id']][1]['COLOR'])
-	$LO_options['header_color'] = $types_RET[$_REQUEST['type_id']][1]['COLOR'];
 
 $LO_options['header'] = WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&type_id='.($_REQUEST['type_id']?$_REQUEST['type_id']:($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all'?$assignments_RET[$_REQUEST['assignment_id']][1]['ASSIGNMENT_TYPE_ID']:'')).($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all']);
 
