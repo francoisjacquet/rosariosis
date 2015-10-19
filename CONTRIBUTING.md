@@ -1,14 +1,14 @@
-# README before creating a new Issue
+# To read before creating a new Issue
 
-Before reporting an issue related to RosarioSIS, please observe the following recommandations:
+Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues/) related to RosarioSIS, please observe the following recommandations:
 
-1. Specify your RosarioSIS, PHP & PostgreSQL **versions**, the server & browser used.
+1. Search the [closed issues](https://github.com/francoisjacquet/rosariosis/issues?q=is%3Aissue+is%3Aclosed) or the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki), your problem may already have been answered. Do not create **duplicates**!
 
-2. Provide **steps to reproduce** the problem.
+2. Specify your RosarioSIS, PHP & PostgreSQL **versions**, the server & browser used.
 
-3. Attach a **screenshot** of the problem, use [Framapic](https://framapic.org/) for example or [Paste clipboard image (Chrome only)](https://github.com/tiimgreen/github-cheat-sheet#pasting-clipboard-image-to-comments).
+3. Provide **steps to reproduce** the problem.
 
-4. Do not create **duplicates**: search the [closed issues](https://github.com/francoisjacquet/rosariosis/issues?q=is%3Aissue+is%3Aclosed) or the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki), your problem may already have been answered.
+4. Attach a **screenshot** of the problem. [Paste clipboard image (Chrome only)](https://github.com/tiimgreen/github-cheat-sheet#pasting-clipboard-image-to-comments).
 
 5. RosarioSIS errors, bugs (PHP, SQL, JS errors) & design or logic errors are welcome here.
 
@@ -29,6 +29,10 @@ Please follow these coding standards:
 
 1. [Wordpress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/)
 
-2. Comment your code: use [PHPDoc](https://duckduckgo.com/l/?kh=-1&uddg=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FPHPDoc)
+2. RosarioSIS coding standards?
 
-3. Quality Assurance: use code linters & other [QA tools](http://phpqatools.org/)
+3. Comment your code: use [PHPDoc](https://duckduckgo.com/l/?kh=-1&uddg=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FPHPDoc)
+
+4. Quality Assurance: use code linters & other [QA tools](http://phpqatools.org/)
+
+5. Activate debug mode
