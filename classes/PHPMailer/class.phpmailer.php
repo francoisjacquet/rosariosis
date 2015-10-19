@@ -3548,8 +3548,9 @@ class PHPMailer
                 $to_header = $header;
                 $current = 'to_header';
             } else {
-                if (!empty($$current) && strpos($header, ' =?') === 0) {
-                    $$current .= $header;
+                // FJ right dynamic var name using {}
+                if (!empty(${$current}) && strpos($header, ' =?') === 0) {
+                    ${$current} .= $header;
                 } else {
                     $current = '';
                 }
