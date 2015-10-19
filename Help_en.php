@@ -26,7 +26,7 @@ if ( User( 'PROFILE' ) === 'admin' )
 	You have access to any school in the system. To choose a school to work on, select the school from the pull-down menu on the left frame. The program will automatically refresh with the new school in the workspace. You can also change the school year and current marking period in a similar fashion.
 </p>
 <p>
-	As you use RosarioSIS, you will notice other items appear in your side menu. When you select a student to work on, the student's name will appear under the marking period pull-down menu preceded by two dots. As you move between programs, you will continue to work on this student. If you want to change the working student, click on the two dots by the student's name. You can also quickly access the student's General Information screen by clicking on the student's name.
+	As you use RosarioSIS, you will notice other items appear in your side menu. When you select a student to work on, the student's name will appear under the marking period pull-down menu preceded by a cross. As you move between programs, you will continue to work on this student. If you want to change the working student, click on the cross by the student's name. You can also quickly access the student's General Information screen by clicking on the student's name.
 </p>
 <p>
 	If you select a user to work on, the user's name will also appear in the side menu. This will behave identically to the student's name.
