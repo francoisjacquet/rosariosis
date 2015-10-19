@@ -1,8 +1,5 @@
 <?php
-include 'ProgramFunctions/_makeLetterGrade.fnc.php';
-
-//FJ add School Configuration
-$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
+include( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
 
 $course_period_id = UserCoursePeriod();
 $course_id = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
@@ -29,17 +26,23 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	if(count($RET))
 	{
 		$LO_columns = array('TITLE'=>_('Assignment'));
+
 		if($_REQUEST['assigned_date']=='Y')
 			$LO_columns += array('ASSIGNED_DATE'=>_('Assigned Date'));
+
 		if($_REQUEST['due_date']=='Y')
 			$LO_columns += array('DUE_DATE'=>_('Due Date'));
+
 		// modif Francois: display percent grade according to Configuration
 		$LO_columns += array('POINTS'=>_('Points'));
-		if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>=0)
+
+		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
 			$LO_columns['PERCENT_GRADE'] = _('Percent');
+
 		// modif Francois: display letter grade according to Configuration
-		if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0)
+		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 			$LO_columns['LETTER_GRADE'] = _('Letter');
+
 		//$LO_columns += array('POINTS'=>_('Points'),'PERCENT_GRADE'=>_('Percent'),'LETTER_GRADE'=>_('Letter'),'COMMENT'=>_('Comment'));
 		$LO_columns += array('COMMENT'=>_('Comment'));
 

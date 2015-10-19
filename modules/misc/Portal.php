@@ -180,7 +180,7 @@ switch (User('PROFILE'))
 
 		if($RosarioModules['Food_Service'] && Preferences('HIDE_ALERTS')!='Y')
 		{
-			$food_service_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='food_service'"),array(),array('TITLE'));
+			$FS_config = ProgramConfig( 'food_service' );
 			
 			// warn if negative food service balance
 			$staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
@@ -192,12 +192,12 @@ switch (User('PROFILE'))
 			$extra = array();
 			$extra['SELECT'] = ',fssa.STATUS,fsa.BALANCE';
 			$extra['FROM'] = ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
-			$extra['WHERE'] = ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NULL AND fsa.BALANCE<\''.$food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'].'\'';
+			$extra['WHERE'] = ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NULL AND fsa.BALANCE<\''.$FS_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'].'\'';
 			$_REQUEST['_search_all_schools'] = 'Y';
 			$RET = GetStuList($extra);
 			if (count($RET))
 			{
-			    echo ErrorMessage(array(sprintf(_('Some students have food service balances below %1.2f'),$food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'])), 'warning');
+			    echo ErrorMessage(array(sprintf(_('Some students have food service balances below %1.2f'),$FS_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'])), 'warning');
 
 			    ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'BALANCE'=>_('Balance')),'Student','Students',array(),array(),array('save'=>false,'search'=>false));
 //			    echo '</p>';
@@ -434,19 +434,19 @@ switch (User('PROFILE'))
 
 		if($RosarioModules['Food_Service'] && Preferences('HIDE_ALERTS')!='Y')
 		{
-			$food_service_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='food_service'"),array(),array('TITLE'));
+			$FS_config = ProgramConfig( 'food_service' );
 			
 			// warn if students with low food service balances
-			$extra['SELECT'] = ',fssa.STATUS,fsa.ACCOUNT_ID,fsa.BALANCE AS BALANCE,'.$food_service_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'].'-fsa.BALANCE AS DEPOSIT';
+			$extra['SELECT'] = ',fssa.STATUS,fsa.ACCOUNT_ID,fsa.BALANCE AS BALANCE,'.$FS_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'].'-fsa.BALANCE AS DEPOSIT';
 			$extra['FROM'] = ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
-			$extra['WHERE'] = ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NULL AND fsa.BALANCE<\''.$food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'].'\'';
+			$extra['WHERE'] = ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NULL AND fsa.BALANCE<\''.$FS_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'].'\'';
 			$extra['ASSOCIATED'] = User('STAFF_ID');
 
 			$RET = GetStuList($extra);
 
 			if (count($RET))
 			{
-				echo ErrorMessage(array(sprintf(_('You have students with food service balance below %1.2f - please deposit at least the Minimum Deposit into you children\'s accounts.'),$food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'])), 'warning');
+				echo ErrorMessage(array(sprintf(_('You have students with food service balance below %1.2f - please deposit at least the Minimum Deposit into you children\'s accounts.'),$FS_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'])), 'warning');
 
 				ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level'),'ACCOUNT_ID'=>_('Account ID'),'BALANCE'=>_('Balance'),'DEPOSIT'=>_('Minimum Deposit')),'Student','Students',array(),array(),array('save'=>false,'search'=>false));
 			}

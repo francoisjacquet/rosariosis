@@ -26,7 +26,7 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 					$note[] = button('check') .'&nbsp;'._('The plugin configuration has been modified.');
 				}
 				
-				unset($_ROSARIO['Config']);//update Config var
+				unset( $_ROSARIO['ProgramConfig'] ); // update ProgramConfig var
 			}
 			else
 			{
@@ -44,30 +44,61 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 		if ( !_validMoodleURLandToken() )
 			$error[] = _( 'The Moodle URL is not valid.' );
 
-		if (!empty($note))
-			echo ErrorMessage($note, 'note');
-		if (!empty($error))
-			echo ErrorMessage($error, 'error');
-		
 		echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=config&plugin=Moodle&save=true" METHOD="POST">';
 	
 		DrawHeader('',SubmitButton(_('Save')));
 		
+		if (!empty($note))
+			echo ErrorMessage($note, 'note');
+
+		if (!empty($error))
+			echo ErrorMessage($error, 'error');
+
 		echo '<BR />';
 		PopTable('header',_('Moodle'));
 
-		//get config values from PROGRAM_CONFIG table
-		$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='moodle'"),array(),array('TITLE'));
-
 		echo '<FIELDSET><legend>'._('Moodle').'</legend><TABLE>';
-		echo '<TR><TD>'.TextInput($program_config['MOODLE_URL'][1]['VALUE'],'values[PROGRAM_CONFIG][MOODLE_URL]',_('Moodle URL'),'size=29 placeholder=http://localhost/moodle').'</TD></TR>';
+
+		// URL
+		echo '<TR><TD>' . TextInput(
+			ProgramConfig( 'moodle', 'MOODLE_URL' ),
+			'values[PROGRAM_CONFIG][MOODLE_URL]',
+			_( 'Moodle URL' ),
+			'size=29 placeholder=http://localhost/moodle'
+		) .	'</TD></TR>';
+
+		$token = ProgramConfig( 'moodle', 'MOODLE_TOKEN' );
+
+		if ( $token
+			&& !AllowEdit() ) //obfuscate token as it is sensitive data
+		{
+			$token = mb_strimwidth( $token, 0, 19, "..." );
+		}
+
+		// Token
+		echo '<TR><TD>' . TextInput(
+			$token,
+			'values[PROGRAM_CONFIG][MOODLE_TOKEN]',
+			_( 'Moodle Token' ),
+			'maxlength=32 size=29 placeholder=d6c51ea6ffd9857578722831bcb070e1'
+		) . '</TD></TR>';
+
+		// Parent Role ID
+		echo '<TR><TD>' . TextInput(
+			ProgramConfig( 'moodle', 'MOODLE_PARENT_ROLE_ID' ),
+			'values[PROGRAM_CONFIG][MOODLE_PARENT_ROLE_ID]',
+			_( 'Moodle Parent Role ID' ),
+			'maxlength=2 size=2 min=0 placeholder=10'
+		) . '</TD></TR>';
+
+		// Students email Field ID	
+		echo '<TR><TD>' . TextInput(
+			ProgramConfig( 'moodle', 'ROSARIO_STUDENTS_EMAIL_FIELD_ID' ),
+			'values[PROGRAM_CONFIG][ROSARIO_STUDENTS_EMAIL_FIELD_ID]',
+			sprintf( _( '%s Student email field ID' ), Config( 'NAME' ) ),
+			'maxlength=2 size=2 min=0 placeholder=11'
+		) . '</TD></TR>';
 	
-		if (!empty($program_config['MOODLE_TOKEN'][1]['VALUE']) && !AllowEdit()) //obfuscate token as it is sensitive data
-			$program_config['MOODLE_TOKEN'][1]['VALUE'] = mb_strimwidth($program_config['MOODLE_TOKEN'][1]['VALUE'], 0, 19, "...");
-		
-		echo '<TR><TD>'.TextInput($program_config['MOODLE_TOKEN'][1]['VALUE'],'values[PROGRAM_CONFIG][MOODLE_TOKEN]',_('Moodle Token'),'maxlength=32 size=29 placeholder=d6c51ea6ffd9857578722831bcb070e1').'</TD></TR>';
-		echo '<TR><TD>'.TextInput($program_config['MOODLE_PARENT_ROLE_ID'][1]['VALUE'],'values[PROGRAM_CONFIG][MOODLE_PARENT_ROLE_ID]',_('Moodle Parent Role ID'),'maxlength=2 size=2 min=0 placeholder=10').'</TD></TR>';
-		echo '<TR><TD>'.TextInput($program_config['ROSARIO_STUDENTS_EMAIL_FIELD_ID'][1]['VALUE'],'values[PROGRAM_CONFIG][ROSARIO_STUDENTS_EMAIL_FIELD_ID]',sprintf(_('%s Student email field ID'),Config('NAME')),'maxlength=2 size=2 min=0 placeholder=11').'</TD></TR>';
 		echo '</TABLE></FIELDSET>';
 
 		PopTable('footer');

@@ -1,5 +1,5 @@
 <?php
-$food_service_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='food_service'"),array(),array('TITLE'));
+$food_service_config = ProgramConfig( 'food_service' );
 
 $target = $food_service_config['FOOD_SERVICE_BALANCE_TARGET'][1]['VALUE'];
 $warning = $food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'];

@@ -1,8 +1,5 @@
 <?php
 
-//FJ add School Configuration
-$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
-
 if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if(count($_REQUEST['mp_type_arr']) && count($_REQUEST['st_arr']))
@@ -218,9 +215,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						
 						if ($showGrades)
 						{
-							if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE'] > 0)
+							if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
 								$listOutput_RET[$i][$mp_id] = $grade['GRADE_PERCENT'].'%';
-							elseif ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE'] < 0)
+							elseif ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
 								$listOutput_RET[$i][$mp_id] = $grade['GRADE_LETTER'];
 							else
 								$listOutput_RET[$i][$mp_id] = $grade['GRADE_LETTER'].'&nbsp;&nbsp;'.$grade['GRADE_PERCENT'].'%';

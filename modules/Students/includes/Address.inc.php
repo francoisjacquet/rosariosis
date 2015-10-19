@@ -1,6 +1,4 @@
 <?php
-//FJ add School Configuration
-$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='students'"),array(),array('TITLE'));
 
 // set this to false to disable auto-pull-downs for the contact info Description field
 $info_apd = true;
@@ -608,7 +606,8 @@ if(empty($_REQUEST['modfunc']))
 				$new = true;
 				$this_address['RESIDENCE'] = 'Y';
 				$this_address['MAILING'] = 'Y';
-				if($program_config['STUDENTS_USE_BUS'][1]['VALUE'])
+
+				if ( ProgramConfig( 'students', 'STUDENTS_USE_BUS' ) )
 				{
 					$this_address['BUS_PICKUP'] = 'Y';
 					$this_address['BUS_DROPOFF'] = 'Y';
@@ -718,7 +717,8 @@ if(empty($_REQUEST['modfunc']))
 							echo '</TR>';
 							}
 						}
-						if(AllowEdit() && $program_config['STUDENTS_USE_CONTACT'][1]['VALUE'])
+						if ( AllowEdit()
+							&& ProgramConfig( 'students', 'STUDENTS_USE_CONTACT' ) )
 						{
 							echo '<TR>';
 							echo '<TD>'.button('add').'</TD>';
@@ -757,7 +757,8 @@ if(empty($_REQUEST['modfunc']))
 								echo '</TR>';
 							}
 						}
-						if(AllowEdit() && $program_config['STUDENTS_USE_CONTACT'][1]['VALUE'])
+						if ( AllowEdit()
+							&& ProgramConfig( 'students', 'STUDENTS_USE_CONTACT' ) )
 						{
 							echo '<TR>';
 							echo '<TD>'.button('add').'</TD>';

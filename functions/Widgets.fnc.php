@@ -767,13 +767,6 @@ function Widgets( $item, &$myextra = null )
 
 			if ( $_REQUEST['ineligible'] == 'Y' )
 			{
-				$start_end_RET = DBGet( DBQuery( "SELECT TITLE,VALUE
-					FROM PROGRAM_CONFIG
-					WHERE SYEAR='" . UserSyear() . "'
-					AND SCHOOL_ID='" . UserSchool() . "'
-					AND PROGRAM='eligibility'
-					AND TITLE IN ('START_DAY','END_DAY')" ) );
-
 				switch ( date( 'D' ) )
 				{
 					case 'Mon':
@@ -807,7 +800,7 @@ function Widgets( $item, &$myextra = null )
 
 				$start_date = mb_strtoupper( date(
 					'd-M-y',
-					time() - ( $today - $start_end_RET[1]['START_DAY'] ) * 60 * 60 * 24
+					time() - ( $today - ProgramConfig( 'eligibility', 'START_DAY' ) ) * 60 * 60 * 24
 				) );
 
 				$end_date = mb_strtoupper( date( 'd-M-y', time() ) );

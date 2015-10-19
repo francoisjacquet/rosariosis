@@ -1,9 +1,12 @@
 <?php
-//FJ add School Configuration
-$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
-$do_stats = $program_config['GRADES_DO_STATS_STUDENTS_PARENTS'][1]['VALUE'] == 'Y' || ((User('PROFILE')=='teacher' || User('PROFILE')=='admin') && $program_config['GRADES_DO_STATS_ADMIN_TEACHERS'][1]['VALUE'] == 'Y');
 
-require_once('ProgramFunctions/_makeLetterGrade.fnc.php');
+$do_stats = ProgramConfig( 'grades', 'GRADES_DO_STATS_STUDENTS_PARENTS' ) == 'Y'
+	|| ( ( User( 'PROFILE' ) === 'teacher'
+			|| User( 'PROFILE' ) === 'admin' )
+		&& ProgramConfig( 'grades', 'GRADES_DO_STATS_ADMIN_TEACHERS' ) == 'Y' );
+
+require_once( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
+
 $_ROSARIO['allow_edit'] = false;
 
 DrawHeader(ProgramTitle());
@@ -38,9 +41,11 @@ if(!$_REQUEST['id'])
 		DrawHeader('','<label>'.CheckBoxOnclick('do_stats').' '._('Include Anonymous Statistics').'</label>');
 		
 	$LO_columns = array('TITLE'=>_('Course Title'),'TEACHER'=>_('Teacher'),'UNGRADED'=>_('Ungraded'));
-	if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0)
+
+	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
 		$LO_columns['GRADE'] = _('Letter');
-	if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0)
+
+	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
 		$LO_columns['PERCENT'] = _('Percent');
 
 	if($do_stats && $_REQUEST['do_stats'])
@@ -249,9 +254,9 @@ else
 			//echo '<pre>'; var_dump($all_RET); echo '</pre>';
 
 			$LO_columns = array('TITLE'=>_('Title'),'CATEGORY'=>_('Category'),'POINTS'=>_('Points / Possible'));
-			if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0)
+			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
 				$LO_columns['PERCENT'] = _('Percent');
-			if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0)
+			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
 				if($programconfig[$staff_id]['LETTER_GRADE_ALL']!='Y')
 					$LO_columns['LETTER'] = _('Letter');
 				

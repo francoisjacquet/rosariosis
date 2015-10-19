@@ -1,5 +1,5 @@
 <?php
-$food_service_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='food_service'"),array(),array('TITLE'));
+$food_service_config = ProgramConfig( 'food_service' );
 
 // if $homeroom is null then teacher and subject for period used for attendance are used for homeroom teacher and subject
 // if $homeroom is set then teacher for $homeroom subject and $homeroom are used for teacher and subject

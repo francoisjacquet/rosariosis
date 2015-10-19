@@ -6,10 +6,7 @@
 
 DrawHeader(_('Gradebook').' - '.ProgramTitle());
 
-//FJ add School Configuration
-$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
-
-include 'ProgramFunctions/_makeLetterGrade.fnc.php';
+include( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
 if(!isset($_ROSARIO['allow_edit']))
@@ -196,11 +193,11 @@ if(UserStudentID())
 	$LO_columns += array('TITLE'=>_('Assignment'),'POINTS'=>_('Points'),'COMMENT'=>_('Comment'));
 
 	// modif Francois: display percent grade according to Configuration
-	if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>=0)
+	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
 		$LO_columns['PERCENT_GRADE'] = _('Percent');
 
 	// modif Francois: display letter grade according to Configuration
-	if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0)
+	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 		$LO_columns['LETTER_GRADE'] = _('Letter');
 
 	$LO_columns += array('TITLE'=>_('Assignment'),'POINTS'=>_('Points'),/*'PERCENT_GRADE'=>_('Percent'),'LETTER_GRADE'=>_('Letter'),*/'COMMENT'=>_('Comment'));
@@ -293,11 +290,11 @@ else
 		$LO_columns += array('POINTS'=>_('Points'),'COMMENT'=>_('Comment'));
 
 		// modif Francois: display percent grade according to Configuration
-		if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>=0)
+		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
 			$LO_columns['PERCENT_GRADE'] = _('Percent');
 
 		// modif Francois: display letter grade according to Configuration
-		if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0)
+		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 			$LO_columns['LETTER_GRADE'] = _('Letter');
 
 		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
@@ -327,11 +324,11 @@ else
 			$LO_columns['POINTS'] = _('Points');
 
 			// modif Francois: display percent grade according to Configuration
-			if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>=0)
+			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
 				$LO_columns['PERCENT_GRADE'] = _('Percent');
 
 			// modif Francois: display letter grade according to Configuration
-			if ($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0)
+			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 				$LO_columns['LETTER_GRADE'] = _('Letter');
 		}
 	}
@@ -636,7 +633,7 @@ function _makeExtraStuCols($value,$column)
 }
 
 function _makeExtraCols($assignment_id,$column)
-{	global $THIS_RET,$assignments_RET,$current_RET,$old_student_id,$student_count,$tabindex,$count_students,$max_allowed,$program_config;
+{	global $THIS_RET,$assignments_RET,$current_RET,$old_student_id,$student_count,$tabindex,$count_students,$max_allowed;
 
 	if($THIS_RET['STUDENT_ID']!=$old_student_id)
 	{
@@ -673,8 +670,8 @@ function _makeExtraCols($assignment_id,$column)
 				return '<span'.($div ? ' style="float:left"' : '').'>'.
 				TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span>
 				<span>&nbsp;/&nbsp;'.$total_points.
-				($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>=0 ? '&nbsp;&minus;&nbsp;'.($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'<span style="color:red">':'<span>'):'<span>')._Percent($points/$total_points,0).'</span>' : '').
-				($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<=0 ? '&nbsp;&minus;&nbsp;<B>'._makeLetterGrade($points/$total_points).'</B>' : '').'</span>';
+				( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 ? '&nbsp;&minus;&nbsp;'.($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'<span style="color:red">':'<span>'):'<span>')._Percent($points/$total_points,0).'</span>' : '').
+				( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 ? '&nbsp;&minus;&nbsp;<B>'._makeLetterGrade($points/$total_points).'</B>' : '').'</span>';
 			else
 //				return '<TABLE cellspacing=0 cellpadding=1><TR align=center><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<HR>'.$total_points.'</TD><TD>&nbsp;'._('N/A').'<BR />&nbsp;'._('N/A').'</TD></TR></TABLE>';
 				return '<span'.($div ? ' style="float:left"' : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span>

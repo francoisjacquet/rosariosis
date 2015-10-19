@@ -2,9 +2,6 @@
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
 require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 
-//FJ add School Configuration
-$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='attendance'"),array(),array('TITLE'));
-
 // set date
 if ( isset( $_REQUEST['month_date'] )
 	&& isset( $_REQUEST['day_date'] )
@@ -128,8 +125,17 @@ if(!isset($_ROSARIO['allow_edit']))
 
 	$time = strtotime(DBDate());
 
-	if(($current_qtr_id && $qtr_id==$current_qtr_id || GetMP($qtr_id,'POST_START_DATE') && ($time<=strtotime(GetMP($qtr_id,'POST_END_DATE')))) && ($program_config['ATTENDANCE_EDIT_DAYS_BEFORE'][1]['VALUE']==null || strtotime($date)<=$time+$program_config['ATTENDANCE_EDIT_DAYS_BEFORE'][1]['VALUE']*86400) && ($program_config['ATTENDANCE_EDIT_DAYS_AFTER'][1]['VALUE']=='' || strtotime($date)>=$time-$program_config['ATTENDANCE_EDIT_DAYS_AFTER'][1]['VALUE']*86400))
+	if ( ($current_qtr_id
+			&& $qtr_id == $current_qtr_id
+			|| GetMP( $qtr_id, 'POST_START_DATE' )
+			&& $time <= strtotime( GetMP( $qtr_id, 'POST_END_DATE' ) ) )
+		&& ( !ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' )
+			|| strtotime( $date ) <= $time + ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' ) * 86400 )
+		&& ( !ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER' )
+			|| strtotime( $date ) >= $time - ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER' ) * 86400 ) )
+	{
 		$_ROSARIO['allow_edit'] = true;
+	}
 }
 
 $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PERIOD_ID,ATTENDANCE_REASON FROM ".$table." t WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."'".($table=='LUNCH_PERIOD'?" AND TABLE_NAME='".$_REQUEST['table']."'":'');

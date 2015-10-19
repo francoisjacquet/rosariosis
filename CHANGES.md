@@ -35,6 +35,7 @@ Changes in 2.9
 - Add .fixed-col CSS class for fixed width tables
 - Reduce PNG images / icons size using CompressPNG.com program wide
 - Show Assignment Type color in Grades.php
+- Add ProgramConfig() function in Config.fnc.php
 
 Changes in 2.8.11
 -----------------

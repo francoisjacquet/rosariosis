@@ -1,10 +1,10 @@
 <?php
 // GET ALL THE CONFIG ITEMS FOR ELIGIBILITY
-$start_end_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_CONFIG WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND PROGRAM='eligibility'"));
-if(count($start_end_RET))
+$eligibility_config = ProgramConfig( 'eligibility' );
+
+foreach( (array)$eligibility_config as $value )
 {
-	foreach($start_end_RET as $value)
-		$$value['TITLE'] = $value['VALUE'];
+	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
 
 if($_REQUEST['values'])
@@ -21,18 +21,21 @@ if($_REQUEST['values'])
 	{
 		foreach($_REQUEST['values'] as $key=>$value)
 		{
-			if(isset($$key))
+			if ( isset( ${$key} ) )
 				DBQuery("UPDATE PROGRAM_CONFIG SET VALUE='".$value."' WHERE PROGRAM='eligibility' AND TITLE='".$key."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'");
 			else
 				DBQuery("INSERT INTO PROGRAM_CONFIG (SYEAR,SCHOOL_ID,PROGRAM,TITLE,VALUE) values('".UserSyear()."','".UserSchool()."','eligibility','".$key."','".$value."')");
 		}
 	}
 
-	$start_end_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_CONFIG WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND PROGRAM='eligibility'"));
-	if(count($start_end_RET))
+	unset( $_ROSARIO['ProgramConfig'] ); // update ProgramConfig var
+
+	// UPDATE ALL THE CONFIG ITEMS FOR ELIGIBILITY
+	$eligibility_config = ProgramConfig( 'eligibility' );
+
+	foreach( (array)$eligibility_config as $value )
 	{
-		foreach($start_end_RET as $value)
-			$$value['TITLE'] = $value['VALUE'];
+		${$value[1]['TITLE']} = $value[1]['VALUE'];
 	}
 }
 
@@ -84,5 +87,3 @@ echo '</TABLE>';
 echo '</FORM>';
 
 PopTable('footer');
-
-?>

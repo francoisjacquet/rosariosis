@@ -1,9 +1,6 @@
 <?php
 DrawHeader(ProgramTitle());
 
-//FJ add School Configuration
-$program_config = DBGet(DBQuery("SELECT * FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND PROGRAM='grades'"),array(),array('TITLE'));
-
 $sem = GetParentMP('SEM',UserMP());
 $fy = GetParentMP('FY',$sem);
 $pros = GetChildrenMP('PRO',UserMP());
@@ -128,7 +125,7 @@ if($_REQUEST['modfunc']=='gradebook')
 
 		$_ROSARIO['_makeLetterGrade']['courses'][$course_period_id] = DBGet(DBQuery("SELECT DOES_BREAKOFF,GRADE_SCALE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$course_period_id."'"));
 
-		include 'ProgramFunctions/_makeLetterGrade.fnc.php';
+		include( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
 
 		if(GetMP($_REQUEST['mp'],'MP')=='QTR' || GetMP($_REQUEST['mp'],'MP')=='PRO')
 		{
@@ -241,7 +238,7 @@ if($_REQUEST['modfunc']=='grades')
 {
 	if($_REQUEST['prev_mp'])
 	{
-		include 'ProgramFunctions/_makePercentGrade.fnc.php';
+		include( 'ProgramFunctions/_makePercentGrade.fnc.php' );
 
 		$import_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."' AND g.MARKING_PERIOD_ID='".$_REQUEST['prev_mp']."'"),array(),array('STUDENT_ID'));
 
@@ -312,8 +309,8 @@ if($_REQUEST['modfunc']=='clearall')
 
 if($_REQUEST['values'] && $_POST['values'])
 {
-	include 'ProgramFunctions/_makeLetterGrade.fnc.php';
-	include 'ProgramFunctions/_makePercentGrade.fnc.php';
+	include( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
+	include( 'ProgramFunctions/_makePercentGrade.fnc.php' );
 	$completed = true;
 	
 	//FJ add precision to year weighted GPA if not year course period
@@ -476,9 +473,22 @@ if($_REQUEST['values'] && $_POST['values'])
 		{
 			DBQuery($sql);
 		}
+
 		//DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'");
-		if(!($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0?$grade:($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0?$percent!='':$percent!=''&&$grade)))
-			$completed = false;
+
+		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
+		{
+			$completed = (bool)$grade;
+		}
+		elseif ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
+		{
+			$completed = $percent != '';
+		}
+		else
+			$completed = $percent != '' && $grade;
+
+		/*if ( !( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 ? $grade : ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 ? $percent != '' : $percent != '' && $grade ) ) )
+			$completed = false;*/
 
 		if (isset($columns['commentsA']) && is_array($columns['commentsA']))
 			foreach($columns['commentsA'] as $id=>$comment)
@@ -670,8 +680,12 @@ $mps_select .= '</SELECT>';
 $grade_posting_RET = DBGet(DBQuery("SELECT 1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND (POST_START_DATE IS NULL OR POST_START_DATE<=CURRENT_DATE) AND (POST_END_DATE IS NULL OR POST_END_DATE>=CURRENT_DATE)"));
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
-if(!isset($_ROSARIO['allow_edit']))
-	$_ROSARIO['allow_edit'] = ($program_config['GRADES_TEACHER_ALLOW_EDIT'][1]['VALUE']||$allow_edit)&&!empty($grade_posting_RET);
+if ( !isset( $_ROSARIO['allow_edit'] ) )
+{
+	$_ROSARIO['allow_edit'] = ( ProgramConfig( 'grades', 'GRADES_TEACHER_ALLOW_EDIT' )
+			|| $allow_edit )
+		&& !empty( $grade_posting_RET );
+}
 
 $extra['SELECT'] = ",ssm.STUDENT_ID AS REPORT_CARD_GRADE";
 $extra['functions'] = array('REPORT_CARD_GRADE'=>'_makeLetterPercent');
@@ -805,7 +819,11 @@ $LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),C
 if($_REQUEST['include_inactive']=='Y')
 	$LO_columns += array('ACTIVE'=>_('School Status'),'ACTIVE_SCHEDULE'=>_('Course Status'));
 
-$LO_columns += array('REPORT_CARD_GRADE'=>($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0?_('Letter'):($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0?_('Percent'):'<span class="nobr">'._('Letter').' '._('Percent').'</span>')));
+$LO_columns += array(
+	'REPORT_CARD_GRADE' => ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 ? _( 'Letter' ) :
+		( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 ? _( 'Percent' ) :
+			'<span class="nobr">' . _( 'Letter' ) . ' ' . _( 'Percent' ) . '</span>' ) )
+);
 
 if(GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
@@ -823,8 +841,11 @@ if(GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 		$LO_columns += array('CB'.$i=>_('Add Comment'));
 }
 
-if(!$program_config['GRADES_HIDE_NON_ATTENDANCE_COMMENT'][1]['VALUE'] || $course_RET[1]['ATTENDANCE']=='Y')
-	$LO_columns += array('COMMENT'=>_('Comment'));
+if ( !ProgramConfig( 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT' )
+	|| $course_RET[1]['ATTENDANCE'] == 'Y' )
+{
+	$LO_columns += array( 'COMMENT' => _( 'Comment' ) );
+}
 
 foreach($categories_RET as $id=>$category)
 	$tabs[] = array('title'=>$category[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&mp='.$_REQUEST['mp'].'&tab_id='.$id)+($category[1]['COLOR']?array('color'=>$category[1]['COLOR']):array());
@@ -847,7 +868,7 @@ echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 echo '</FORM>';
 
 function _makeLetterPercent($student_id,$column)
-{	global $current_RET,$import_RET,$grades_select,$student_count,$tabindex,$program_config;
+{	global $current_RET,$import_RET,$grades_select,$student_count,$tabindex;
 
 	if($import_RET[$student_id])
 	{
@@ -867,11 +888,11 @@ function _makeLetterPercent($student_id,$column)
 		$student_count++;
 		$tabindex = $student_count;
 
-		if($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0)
+		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
 		{
 			$return = SelectInput($select_grade,'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',$div);
 		}
-		elseif($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0)
+		elseif ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
 		{
 			$return = TextInput($select_percent==''?'':$select_percent.'%',"values[$student_id][percent]",'','size=5 tabindex='.$tabindex,$div);
 		}
@@ -892,11 +913,11 @@ function _makeLetterPercent($student_id,$column)
 	}
 	else
 	{
-		if($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']<0)
+		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
 		{
 			$return = ($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>');
 		}
-		elseif($program_config['GRADES_DOES_LETTER_PERCENT'][1]['VALUE']>0)
+		elseif ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
 		{
 			$return = $select_percent.'%';
 		}

@@ -1,10 +1,10 @@
 <?php
+// GET ALL THE CONFIG ITEMS FOR ELIGIBILITY
+$eligibility_config = ProgramConfig( 'eligibility' );
 
-$start_end_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_CONFIG WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND PROGRAM='eligibility' AND TITLE IN ('START_DAY','END_DAY')"));
-if(count($start_end_RET))
+foreach( (array)$eligibility_config as $value )
 {
-	foreach($start_end_RET as $value)
-		$$value['TITLE'] = $value['VALUE'];
+	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
 
 switch(date('D'))
