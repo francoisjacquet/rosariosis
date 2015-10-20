@@ -27,7 +27,7 @@ if ($_REQUEST['values'])
 {
 	if ($_REQUEST['values']['ADDRESS'])
 	{
-		foreach($_REQUEST['values']['ADDRESS'] as $key=>$columns)
+		foreach ( (array)$_REQUEST['values']['ADDRESS'] as $key=>$columns)
 		{
 			if ($columns['ADDRESS'] && !$inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))])
 			{
@@ -46,7 +46,7 @@ if ($_REQUEST['values'])
 
 				unset($address['ADDRESS']);
 				$go = 0;
-				foreach($columns as $column=>$value)
+				foreach ( (array)$columns as $column=>$value)
 				{
 					if (!empty($value) || $value=='0')
 					{
@@ -71,7 +71,7 @@ if ($_REQUEST['values'])
 
 	if ($_REQUEST['values']['PEOPLE'])
 	{
-		foreach($_REQUEST['values']['PEOPLE'] as $key=>$person)
+		foreach ( (array)$_REQUEST['values']['PEOPLE'] as $key=>$person)
 		{
 			if ($person['FIRST_NAME'] && $person['LAST_NAME'])
 			{
@@ -83,7 +83,7 @@ if ($_REQUEST['values'])
 				elseif ($key>=3 && $key<=6)
 					$person['extra']['Relation'] = 'Grandparent';
 
-				foreach($person['extra'] as $column=>$value)
+				foreach ( (array)$person['extra'] as $column=>$value)
 				{
 					if (!empty($value) || $value=='0')
 					{
@@ -102,7 +102,7 @@ if ($_REQUEST['values'])
 				$fields = 'PERSON_ID,';
 				$values = "'".$person_id."',";
 				$go = 0;
-				foreach($person as $column=>$value)
+				foreach ( (array)$person as $column=>$value)
 				{
 					if (!empty($value) || $value=='0')
 					{
@@ -130,7 +130,7 @@ if ($_REQUEST['values'])
 	if ($_REQUEST['values']['STUDENTS'])
 	{
 		$sql = "UPDATE STUDENTS SET ";
-		foreach($_REQUEST['values']['STUDENTS'] as $column_name=>$value)
+		foreach ( (array)$_REQUEST['values']['STUDENTS'] as $column_name=>$value)
 		{
 			$sql .= "$column_name='".$value."',";
 		}

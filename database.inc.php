@@ -110,7 +110,7 @@ function db_fetch_row( $result )
 			if ( is_int( $key[$i] ) )
 				unset( $return[$key[$i]] );
 		
-		/*foreach($return as $key => $value)
+		/*foreach ( (array)$return as $key => $value )
 		{
 			if (is_int($key))
 				unset($return[$key]);

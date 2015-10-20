@@ -154,7 +154,7 @@ function _ErrorMessage( $errors, $code = 'error' )
 
 			$return .= '<ul>';
 
-			foreach( $errors as $value )
+			foreach ( (array)$errors as $value )
 				$return .= '<LI>' . $value . '</LI>';
 
 			$return .= '</ul>';

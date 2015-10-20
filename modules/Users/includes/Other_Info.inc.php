@@ -40,7 +40,7 @@ $i = 1;
  */
 $per_row = $category_RET[1]['COLUMNS'] ? (int)$category_RET[1]['COLUMNS'] : 3;
 
-foreach( (array)$fields_RET as $field )
+foreach ( (array)$fields_RET as $field )
 {
 
 	//echo '<pre>'; var_dump($field); echo '</pre>';

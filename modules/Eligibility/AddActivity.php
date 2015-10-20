@@ -8,7 +8,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	//FJ fix bug add the same activity more than once
 	//		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_SESSION['activity_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
 			$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_REQUEST['activity_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
-			foreach($_REQUEST['student'] as $student_id=>$yes)
+			foreach ( (array)$_REQUEST['student'] as $student_id=>$yes)
 			{
 				if (!$current_RET[$student_id])
 				{
@@ -48,7 +48,7 @@ if ($_REQUEST['search_modfunc']=='list')
 	echo '<SELECT name="activity_id"><OPTION value="">'._('N/A').'</OPTION>';
 	if (count($activities_RET))
 	{
-		foreach($activities_RET as $activity)
+		foreach ( (array)$activities_RET as $activity)
 			echo '<OPTION value="'.$activity['ID'].'">'.$activity['TITLE'].'</OPTION>';
 	}
 	echo '</SELECT>';

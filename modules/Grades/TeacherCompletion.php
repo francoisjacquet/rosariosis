@@ -14,13 +14,13 @@ $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".Use
 $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
 $period_select = '<SELECT name="period" onChange="ajaxPostForm(this.form,true);"><OPTION value="">'._('All').'</OPTION>';
-foreach($periods_RET as $id=>$period)
+foreach ( (array)$periods_RET as $id=>$period)
 	$period_select .= '<OPTION value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED':'').">".$period[1]['TITLE']."</OPTION>";
 $period_select .= "</SELECT>";
 
 $mp_select = '<SELECT name="mp" onChange="ajaxPostForm(this.form,true);">';
 if ($pros!='')
-	foreach(explode(',',str_replace("'",'',$pros)) as $pro)
+	foreach ( explode(',',str_replace("'",'',$pros)) as $pro)
 		if (GetMP($pro,'DOES_GRADES')=='Y')
 			$mp_select .= '<OPTION value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($pro)."</OPTION>";
 
@@ -63,11 +63,11 @@ if (!$_REQUEST['period'])
 {
 	$tiptitle = false;
 
-	foreach($RET as $staff_id=>$periods)
+	foreach ( (array)$RET as $staff_id=>$periods)
 	{
 		$i++;
 		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
-		foreach($periods as $period)
+		foreach ( (array)$periods as $period)
 		{
 			if (!isset($_REQUEST['_ROSARIO_PDF']))
 			{
@@ -89,7 +89,7 @@ if (!$_REQUEST['period'])
 	}
 
 	$columns = array('FULL_NAME'=>_('Teacher'));
-	foreach($periods_RET as $id=>$period)
+	foreach ( (array)$periods_RET as $id=>$period)
 		$columns[$id] = $period[1]['TITLE'];
 
 	ListOutput($staff_RET,$columns,'Teacher who enters grades','Teachers who enter grades');
@@ -98,9 +98,9 @@ else
 {
 	$period_title = $periods_RET[$_REQUEST['period']][1]['TITLE'];
 
-	foreach($RET as $staff_id=>$periods)
+	foreach ( (array)$RET as $staff_id=>$periods)
 	{
-		foreach($periods as $period_id=>$period)
+		foreach ( (array)$periods as $period_id=>$period)
 		{
 			if (!isset($_REQUEST['_ROSARIO_PDF']))
 				$RET[$staff_id][$period_id]['COMPLETED'] = button($period['COMPLETED']=='Y'?'check':'x','','').' ';

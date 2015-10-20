@@ -42,7 +42,7 @@ function GetStuList(&$extra=array())
 			$extra['columns_after'] = array('ADDRESS'=>_('Mailing Address'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode')) + $extra['columns_after'];
 			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000001)"));
 			$select = '';
-			foreach($custom_fields_RET as $field)
+			foreach ( (array)$custom_fields_RET as $field)
 			{
 				$extra['columns_after'] = array('CUSTOM_'.$field['ID']=>ParseMLField($field['TITLE'])) + $extra['columns_after'];
 				// if gender and ethnicity are converted to codeds or exports type
@@ -107,7 +107,7 @@ function GetStuList(&$extra=array())
 				$_REQUEST['expanded_view'] = $expanded_view;
 				$_REQUEST['addr'] = $addr;
 			}
-			foreach($view_fields_RET as $field)
+			foreach ( (array)$view_fields_RET as $field)
 			{
 				$extra['columns_after']['CUSTOM_'.$field['ID']] = $field['TITLE'];
 				if ($field['TYPE']=='date')
@@ -161,7 +161,7 @@ function GetStuList(&$extra=array())
 				$extra['columns_after'] = array();
 
 			$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE FROM CUSTOM_FIELDS cf WHERE cf.ID IN (".$extra['student_fields']['view'].") ORDER BY cf.SORT_ORDER,cf.TITLE"));
-			foreach($view_fields_RET as $field)
+			foreach ( (array)$view_fields_RET as $field)
 			{
 				$extra['columns_after']['CUSTOM_'.$field['ID']] = $field['TITLE'];
 				if ($field['TYPE']=='date')
@@ -328,7 +328,7 @@ function makeContactInfo($student_id,$column)
 
 	if (count($contacts_RET[$student_id]))
 	{
-		foreach($contacts_RET[$student_id] as $person)
+		foreach ( (array)$contacts_RET[$student_id] as $person)
 		{
 			if ($person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'])
 				$tipmessage .= $person[1]['STUDENT_RELATION'].': '.$person[1]['FIRST_NAME'].' '.$person[1]['LAST_NAME'].'<BR />';
@@ -337,7 +337,7 @@ function makeContactInfo($student_id,$column)
 			if ($person[1]['PHONE'])
 				$tipmessage .= '<TR><TD><span class="legend-gray">'._('Home Phone').'</span> </TD><TD>'.$person[1]['PHONE'].'</TD></TR>';
 
-			foreach($person as $info)
+			foreach ( (array)$person as $info)
 			{
 				if ($info['TITLE'] || $info['VALUE'])
 					$tipmessage .= '<TR><TD><span class="legend-gray">'.$info['TITLE'].'</span></TD><TD>'.$info['VALUE'].'</TD></TR>';
@@ -409,7 +409,7 @@ function makeParents($student_id,$column)
 		if (count($people_RET))
 		{
 			$THIS_RET['PARENTS'] .= '<TABLE class="cellspacing-0">';
-			foreach($people_RET as $person)
+			foreach ( (array)$people_RET as $person)
 			{
 				//FJ PrintClassLists with all contacts
 				if ($person['CUSTODY']=='Y')
@@ -491,7 +491,7 @@ function appendSQL($sql,$extra=array())
 			$_ROSARIO['SearchTerms'] .= '<b>'.ngettext('Grade','Grades',sizeof($_REQUEST['grades'])).': </b>'.($_REQUEST['grades_not']=='Y'?_('Excluded').' ':'');
 
 		$list = $sep = '';
-		foreach($_REQUEST['grades'] as $id=>$y)
+		foreach ( (array)$_REQUEST['grades'] as $id=>$y)
 		{
 			$list .= $sep."'".$id."'";
 

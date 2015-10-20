@@ -11,7 +11,7 @@ if ($_REQUEST['modfunc']=='update')
 	{
 		if ($_REQUEST['tab_id'])
 		{
-			foreach($_REQUEST['values'] as $id=>$columns)
+			foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 			{
 		//FJ fix SQL bug invalid sort order
 				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -28,7 +28,7 @@ if ($_REQUEST['modfunc']=='update')
 								$sql = "UPDATE FOOD_SERVICE_ITEMS SET ";
 
 							$go = false;
-							foreach($columns as $column=>$value)
+							foreach ( (array)$columns as $column=>$value)
 								if (!empty($value) || $value=='0')
 								{
 									$sql .= $column."='".$value."',";
@@ -62,7 +62,7 @@ if ($_REQUEST['modfunc']=='update')
 						}
 
 						$go = false;
-						foreach($columns as $column=>$value)
+						foreach ( (array)$columns as $column=>$value)
 							if (!empty($value) || $value=='0')
 							{
 								$fields .= $column.',';
@@ -135,19 +135,19 @@ if (empty($_REQUEST['modfunc']))
 	}
 
 	$tabs = array();
-	foreach($menus_RET as $id=>$menu)
+	foreach ( (array)$menus_RET as $id=>$menu)
 		$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
 
 	if ($_REQUEST['tab_id']!='new')
 	{
 		$items_RET = DBGet(DBQuery('SELECT ITEM_ID,DESCRIPTION FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'));
 		$items_select = array();
-		foreach($items_RET as $item)
+		foreach ( (array)$items_RET as $item)
 			$items_select += array($item['ITEM_ID']=>$item['DESCRIPTION']);
 
 		$categories_RET = DBGet(DBQuery('SELECT CATEGORY_ID,TITLE FROM FOOD_SERVICE_CATEGORIES WHERE MENU_ID=\''.$_REQUEST['tab_id'].'\' ORDER BY SORT_ORDER'));
 		$categories_select = array();
-		foreach($categories_RET as $category)
+		foreach ( (array)$categories_RET as $category)
 			$categories_select += array($category['CATEGORY_ID']=>$category['TITLE']);
 
 		$sql = 'SELECT *,(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM FOOD_SERVICE_MENU_ITEMS fsmi WHERE MENU_ID=\''.$_REQUEST['tab_id'].'\' ORDER BY (SELECT SORT_ORDER FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER';

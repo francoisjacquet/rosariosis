@@ -4,7 +4,7 @@ include('ProgramFunctions/PortalPollsNotes.fnc.php');
 
 if ($_REQUEST['day_values'] && $_POST['day_values'])
 {
-	foreach($_REQUEST['day_values'] as $id=>$values)
+	foreach ( (array)$_REQUEST['day_values'] as $id=>$values)
 	{
 		if ($_REQUEST['day_values'][$id]['START_DATE'] && $_REQUEST['month_values'][$id]['START_DATE'] && $_REQUEST['year_values'][$id]['START_DATE'])
 			$_REQUEST['values'][$id]['START_DATE'] = $_REQUEST['day_values'][$id]['START_DATE'].'-'.$_REQUEST['month_values'][$id]['START_DATE'].'-'.$_REQUEST['year_values'][$id]['START_DATE'];
@@ -25,16 +25,16 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 {
 	$polls_RET = DBGet(DBQuery("SELECT ID FROM PORTAL_POLLS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
-	foreach($polls_RET as $poll_id)
+	foreach ( (array)$polls_RET as $poll_id)
 	{
 		$poll_id = $poll_id['ID'];
 		$_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'] = '';
-		foreach(array('admin','teacher','parent') as $profile_id)
+		foreach ( array('admin','teacher','parent') as $profile_id)
 			if ($_REQUEST['profiles'][$poll_id][$profile_id])
 				$_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'] .= ','.$profile_id;
 		if (count($_REQUEST['profiles'][$poll_id]))
 		{
-			foreach($profiles_RET as $profile)
+			foreach ( (array)$profiles_RET as $profile)
 			{
 				$profile_id = $profile['ID'];
 
@@ -50,7 +50,7 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	
-	foreach($_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -62,13 +62,13 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 				$sql_questions = array();
 				$id_questions = array();
-				foreach($columns as $column=>$value)
+				foreach ( (array)$columns as $column=>$value)
 				{
 					if (is_array($value))
 					{
 						$id_questions[] = $column;
 						$sql_question_cols = '';
-						foreach($value as $col=>$val)
+						foreach ( (array)$value as $col=>$val)
 						{
 							$sql_question_cols .= $col."='".$val."',";
 						}
@@ -81,7 +81,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				DBQuery($sql);
 				
 				$q = 0;
-				foreach($sql_questions as $sql_question)
+				foreach ( (array)$sql_questions as $sql_question)
 				{
 					$sql_question = mb_substr($sql_question,0,-1) . " WHERE ID='".$id_questions[$q]."'";
 					DBQuery($sql_question);
@@ -92,13 +92,13 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				if (count($_REQUEST['profiles']['new']))
 				{
-					foreach(array('admin','teacher','parent') as $profile_id)
+					foreach ( array('admin','teacher','parent') as $profile_id)
 					{
 						if ($_REQUEST['profiles']['new'][$profile_id])
 							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
 						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
 					}
-					foreach($profiles_RET as $profile)
+					foreach ( (array)$profiles_RET as $profile)
 					{
 						$profile_id = $profile['ID'];
 
@@ -120,7 +120,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				
 				$go = 0;
 				$sql_questions = array();
-				foreach($columns as $column=>$value)
+				foreach ( (array)$columns as $column=>$value)
 				{
 					if (!empty($value) || $value=='0')
 					{
@@ -131,7 +131,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 							$portal_poll_question_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('PORTAL_POLL_QUESTIONS_SEQ').' AS PORTAL_POLL_QUESTION_ID '.FROM_DUAL));
 							$portal_poll_question_id = $portal_poll_question_RET[1]['PORTAL_POLL_QUESTION_ID'];
 							$values_question = $portal_poll_question_id.",".$portal_poll_id.",";
-							foreach($value as $col=>$val)
+							foreach ( (array)$value as $col=>$val)
 							{
 								if ($val)
 								{
@@ -156,7 +156,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				if ($go)
 				{
 					DBQuery($sql);
-					foreach($sql_questions as $sql_question)
+					foreach ( (array)$sql_questions as $sql_question)
 						DBQuery($sql_question);
 				}
 			}

@@ -91,7 +91,7 @@ $users_columns = array('ELLIGIBLE'=>_('Eligible'),'DAYS_POSSIBLE'=>_('Days Possi
 $items_RET = DBGet(DBQuery('SELECT SHORT_NAME,DESCRIPTION FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'));
 $items = array();
 $items_columns = array();
-foreach($items_RET as $value)
+foreach ( (array)$items_RET as $value)
 {
 	$items += array($value['SHORT_NAME']=>0);
 	$items_columns += array($value['SHORT_NAME']=>$value['DESCRIPTION']);
@@ -179,10 +179,10 @@ if ($_REQUEST['type_select']=='sales')
 	GROUP BY fsti.SHORT_NAME"),array('SHORT_NAME'=>'bump_count'));
 
 	$LO_types = array(0=>array(array()));
-	foreach($users as $user=>$discounts)
+	foreach ( (array)$users as $user=>$discounts)
 	{
 		$TMP_types = array(0=>array());
-		foreach($discounts as $discount=>$value)
+		foreach ( (array)$discounts as $discount=>$value)
 		{
 			$total = array_sum($types[$user][$discount]);
 			$TMP_types[] = array('TYPE'=>(empty($users_locale[$user])?$user:$users_locale[$user]),'DISCOUNT'=>$discount,'ELLIGIBLE'=>number_format($value['ELLIGIBLE'],1),'DAYS_POSSIBLE'=>number_format((!empty($value['ELLIGIBLE']) ? $value['DAYS']/$value['ELLIGIBLE'] : 0),1),'TOTAL_ELLIGIBLE'=>$value['DAYS'],'PARTICIPATED'=>$value['PARTICIPATED'],'TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('format',$types[$user][$discount]);
@@ -194,7 +194,7 @@ if ($_REQUEST['type_select']=='sales')
 		$LO_types[] = $TMP_types;
 	}
 	$total = array_sum($types_totals['']);
-	foreach($types_totals[''] as $key=>$value)
+	foreach ( (array)$types_totals[''] as $key=>$value)
 		if ($value==0)
 			unset($types_columns[$key]);
 	$LO_types[] = array(array('TYPE'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.number_format((!empty($users_totals['']['ELLIGIBLE']) ? $users_totals['']['DAYS']/$users_totals['']['ELLIGIBLE'] : 0),1).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals['']['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals['']['PARTICIPATED'].'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals['']));
@@ -222,10 +222,10 @@ else
 
 	$LO_types = array(0=>array());
 
-	foreach($users as $user=>$discounts)
+	foreach ( (array)$users as $user=>$discounts)
 	{
 		$TMP_types = array(0=>array());
-		foreach($discounts as $discount=>$value)
+		foreach ( (array)$discounts as $discount=>$value)
 		{
 //FJ fix error Warning: Division by zero
 			$TMP_types[] = array('TYPE'=>(empty($users_locale[$user])?$user:$users_locale[$user]),'DISCOUNT'=>$discount,'ELLIGIBLE'=>number_format($value['ELLIGIBLE'],1),'DAYS_POSSIBLE'=>($value['ELLIGIBLE']==0?'0.0':number_format($value['DAYS']/$value['ELLIGIBLE'],1)),'TOTAL_ELLIGIBLE'=>$value['DAYS'],'PARTICIPATED'=>$value['PARTICIPATED']) + $types[$user][$discount];
@@ -234,7 +234,7 @@ else
 		unset($TMP_types[0]);
 		$LO_types[] = $TMP_types;
 	}
-	foreach($types_totals[''] as $key=>$value)
+	foreach ( (array)$types_totals[''] as $key=>$value)
 		if ($value == 0)
 			unset($types_columns[$key]);
 	$LO_types[] = array(array('TYPE'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.number_format((empty($users_totals['']['ELLIGIBLE']) ? 0 : $users_totals['']['DAYS']/$users_totals['']['ELLIGIBLE']),1).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals['']['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals['']['PARTICIPATED'].'</b>') + array_map('bold',$types_totals['']));
@@ -249,7 +249,7 @@ DrawHeader($type_select);
 echo '<BR />';
 
 $tabs = array();
-foreach($menus_RET as $id=>$menu)
+foreach ( (array)$menus_RET as $id=>$menu)
 	$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id.'&day_start='.$_REQUEST['day_start'].'&month_start='.$_REQUEST['month_start'].'&year_start='.$_REQUEST['year_start'].'&day_end='.$_REQUEST['day_end'].'&month_end='.$_REQUEST['month_end'].'&year_end='.$_REQUEST['year_end'].'&type_select='.$_REQUEST['type_select']);
 
 $LO_options = array('count'=>false,'download'=>false,'search'=>false,

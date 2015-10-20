@@ -2,7 +2,7 @@
 // GET ALL THE CONFIG ITEMS FOR ELIGIBILITY
 $eligibility_config = ProgramConfig( 'eligibility' );
 
-foreach( (array)$eligibility_config as $value )
+foreach ( (array)$eligibility_config as $value )
 {
 	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
@@ -52,7 +52,7 @@ $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".Use
 $periods_RET = DBGet($QI);
 
 $period_select =  '<SELECT name="period"><OPTION value="">'._('All').'</OPTION>';
-foreach($periods_RET as $period)
+foreach ( (array)$periods_RET as $period)
 	$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED':'').">".$period['TITLE'].'</OPTION>';
 $period_select .= '</SELECT>';
 
@@ -98,18 +98,18 @@ $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID','PERIOD_ID'));
 $i = 0;
 if (count($RET))
 {
-	foreach($RET as $staff_id=>$periods)
+	foreach ( (array)$RET as $staff_id=>$periods)
 	{
 		$i++;
 		$staff_RET[$i]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
-		foreach($periods as $period_id=>$period)
+		foreach ( (array)$periods as $period_id=>$period)
 			$staff_RET[$i][$period_id] = button('x');
 	}
 }
 $columns = array('FULL_NAME'=>_('Teacher'));
 if (!$_REQUEST['period'])
 {
-	foreach($periods_RET as $period)
+	foreach ( (array)$periods_RET as $period)
 		$columns[$period['PERIOD_ID']] = $period['TITLE'];
 }
 

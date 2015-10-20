@@ -40,7 +40,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		AND ssm.STUDENT_ID=s.STUDENT_ID 
 		AND ssm.SYEAR='".UserSyear()."'"));
 		$handle = PDFStart();
-		foreach($students as $student)
+		foreach ( (array)$students as $student)
 		{
 			if ($homeroom)
 				$teacher = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,cs.TITLE
@@ -171,7 +171,7 @@ function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 	if (count($xstudents))
 	{
 		echo '<BR />'._('Other students on this account').':';
-		foreach($xstudents as $xstudent)
+		foreach ( (array)$xstudents as $xstudent)
 			echo '<BR />&nbsp;&nbsp;'.($xstudent['NICKNAME']?$xstudent['NICKNAME']:$xstudent['FIRST_NAME']).' '.$xstudent['LAST_NAME'];
 		echo '';
 	}

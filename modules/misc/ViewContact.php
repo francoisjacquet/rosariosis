@@ -7,9 +7,9 @@ echo '<BR />';
 PopTable('header',($person_RET[1]['STUDENT_RELATION']?$person_RET[1]['STUDENT_RELATION'].': ':'').$person_RET[1]['FIRST_NAME'].' '.$person_RET[1]['MIDDLE_NAME'].' '.$person_RET[1]['LAST_NAME'],'width="75%"');
 if (count($contacts_RET) || count($fields_RET))
 {
-	foreach($contacts_RET as $info)
+	foreach ( (array)$contacts_RET as $info)
 		echo '<B>'.$info['TITLE'].'</B>: '.$info['VALUE'].'<BR />';
-	foreach($fields_RET as $info)
+	foreach ( (array)$fields_RET as $info)
 		echo '<B>'.$info['TITLE'].'</B>: '.$person_RET[1]['CUSTOM_'.$info['ID']].'<BR />';
 }
 else

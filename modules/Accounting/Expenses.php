@@ -5,13 +5,13 @@ if (!$_REQUEST['print_statements'])
 
 if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach($_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
 		if ($id!='new')
 		{
 			$sql = "UPDATE ACCOUNTING_PAYMENTS SET ";
 							
-			foreach($columns as $column=>$value)
+			foreach ( (array)$columns as $column=>$value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -29,7 +29,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$values = "'".$id."','".UserSyear()."','".UserSchool()."','".DBDate()."',";
 			
 			$go = 0;
-			foreach($columns as $column=>$value)
+			foreach ( (array)$columns as $column=>$value)
 			{
 				if (!empty($value) || $value=='0')
 				{
@@ -70,7 +70,7 @@ if (!$_REQUEST['modfunc'])
 	$payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE SYEAR='".UserSyear()."' AND STAFF_ID IS NULL ORDER BY ID"),$functions);
 	$i = 1;
 	$RET = array();
-	foreach($payments_RET as $payment)
+	foreach ( (array)$payments_RET as $payment)
 	{
 		$RET[$i] = $payment;
 		$i++;

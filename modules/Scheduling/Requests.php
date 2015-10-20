@@ -20,11 +20,11 @@ if ($_REQUEST['modfunc']=='update')
 {
 	//FJ fix error Warning: Invalid argument supplied for foreach()
 	if (isset($_REQUEST['values']) && AllowEdit())
-		foreach($_REQUEST['values'] as $request_id=>$columns)
+		foreach ( (array)$_REQUEST['values'] as $request_id=>$columns)
 		{
 			$sql = "UPDATE SCHEDULE_REQUESTS SET ";
 
-			foreach($columns as $column=>$value)
+			foreach ( (array)$columns as $column=>$value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -52,7 +52,7 @@ if ($_REQUEST['modfunc']=='XMLHttpRequest')
 	echo '<?phpxml version="1.0" standalone="yes"?><courses>';
 	if (count($courses_RET))
 	{
-		foreach($courses_RET as $course)
+		foreach ( (array)$courses_RET as $course)
 			echo '<course><id>'.$course['COURSE_ID'].'</id><title>'.str_replace('&','&amp;',$course['TITLE']).'</title></course>';
 	}
 	echo '</courses>';
@@ -122,7 +122,7 @@ function processRequest()
 	$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 //FJ add translation
 	$subjects = '<SELECT name="subject_id" onchange="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"><option value="">'._('All Subjects').'</option>';
-	foreach($subjects_RET as $subject)
+	foreach ( (array)$subjects_RET as $subject)
 		$subjects .= '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
 	$subjects .= '</SELECT>';
 	$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove','variables'=>array('id'=>'REQUEST_ID'));
@@ -144,7 +144,7 @@ function _makeTeacher($value,$column)
 {	global $THIS_RET;
 
 	$teachers_RET = DBGet(DBQuery("SELECT s.FIRST_NAME,s.LAST_NAME,s.STAFF_ID AS TEACHER_ID FROM STAFF s,COURSE_PERIODS cp WHERE s.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_ID='".$THIS_RET['COURSE_ID']."'"));
-	foreach($teachers_RET as $teacher)
+	foreach ( (array)$teachers_RET as $teacher)
 		$options[$teacher['TEACHER_ID']] = $teacher['FIRST_NAME'].' '.$teacher['LAST_NAME'];
 
 	return '<div style="display:table-cell;">'._('With').':&nbsp;</div><div style="display:table-cell;">'.SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][WITH_TEACHER_ID]','',$options).'</div><div style="display:table-cell;">'.'&nbsp;-&nbsp;'._('Without').':&nbsp;</div><div style="display:table-cell;">'.SelectInput($THIS_RET['NOT_TEACHER_ID'],'values['.$THIS_RET['REQUEST_ID'].'][NOT_TEACHER_ID]','',$options).'</div>';
@@ -156,7 +156,7 @@ function _makePeriod($value,$column)
 	//FJ multiple school periods for a course period
 	//$periods_RET = DBGet(DBQuery("SELECT p.TITLE,p.PERIOD_ID FROM SCHOOL_PERIODS p,COURSE_PERIODS cp WHERE p.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_ID='".$THIS_RET['COURSE_ID']."'"));
 	$periods_RET = DBGet(DBQuery("SELECT p.TITLE,p.PERIOD_ID FROM SCHOOL_PERIODS p,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND p.PERIOD_ID=cpsp.PERIOD_ID AND cp.COURSE_ID='".$THIS_RET['COURSE_ID']."'"));
-	foreach($periods_RET as $period)
+	foreach ( (array)$periods_RET as $period)
 		$options[$period['PERIOD_ID']] = $period['TITLE'];
 
 	return '<div style="display:table-cell;">'._('On').':&nbsp;</div><div style="display:table-cell;">'.SelectInput($value,'values['.$THIS_RET['REQUEST_ID'].'][WITH_PERIOD_ID]','',$options).'</div><div style="display:table-cell;">'.'&nbsp;-&nbsp;'._('Not on').':&nbsp;</div><div style="display:table-cell;">'.SelectInput($THIS_RET['NOT_PERIOD_ID'],'values['.$THIS_RET['REQUEST_ID'].'][NOT_PERIOD_ID]','',$options).'</div>';

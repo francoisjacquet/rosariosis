@@ -95,9 +95,9 @@ else
 {
 	include( 'Menu.php' );
 
-	foreach( $_ROSARIO['Menu'] as $modcat => $programs )
+	foreach ( (array)$_ROSARIO['Menu'] as $modcat => $programs )
 	{
-		foreach( $programs as $program => $title )
+		foreach ( (array)$programs as $program => $title )
 		{
 			//FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF
 			if ( $modname == $program

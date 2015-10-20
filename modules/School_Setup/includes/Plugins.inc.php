@@ -143,7 +143,7 @@ if (empty($_REQUEST['modfunc']))
 		echo ErrorMessage($error);
 
 	$plugins_RET = array('');
-	foreach($RosarioPlugins as $plugin_title => $activated)
+	foreach ( (array)$RosarioPlugins as $plugin_title => $activated)
 	{
 		$THIS_RET = array();
 		$THIS_RET['DELETE'] =  _makeDelete($plugin_title,$activated);

@@ -89,10 +89,10 @@ $LO_types = array(0=>array());
 //FJ add translation
 $users_locale = array('Student'=>_('Student'), 'User'=>_('User'));
 
-foreach($types as $user=>$trans)
+foreach ( (array)$types as $user=>$trans)
 {
 	$TMP_types = array(0=>array());
-	foreach($trans as $tran=>$value)
+	foreach ( (array)$trans as $tran=>$value)
 	{
 		//echo '<pre>'; var_dump($value); echo '</pre>';
 		$total = array_sum($value);
@@ -108,7 +108,7 @@ foreach($types as $user=>$trans)
 }
 $total = array_sum($types_totals['']);
 bold_format($total);
-foreach($types_totals[''] as $key=>$value)
+foreach ( (array)$types_totals[''] as $key=>$value)
 	if ($value == 0)
 		unset($types_columns[$key]);
 $LO_types[] = array(array('TYPE'=>'<b>'._('Totals').'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals['']));

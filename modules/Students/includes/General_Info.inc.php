@@ -115,7 +115,7 @@ else
 
 	$school_options = array();
 
-	foreach($schools_RET as $school)
+	foreach ( (array)$schools_RET as $school)
 	{
 		$school_options[$school['ID']] = $school['TITLE'];
 	}

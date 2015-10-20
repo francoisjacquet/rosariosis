@@ -66,10 +66,10 @@ if ($_REQUEST['values'] && $_POST['values'])
 		{
 			DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM".($_REQUEST['tab']=='student_fields'?" IN ('StudentFieldsSearch','StudentFieldsView')":($_REQUEST['tab']=='widgets'?"='WidgetsSearch'":($_REQUEST['tab']=='staff_fields'?" IN ('StaffFieldsSearch','StaffFieldsView')":"='StaffWidgetsSearch'"))));
 
-			foreach($_REQUEST['values'] as $program=>$values)
+			foreach ( (array)$_REQUEST['values'] as $program=>$values)
 			{
 				if (is_array($values))
-					foreach($values as $name=>$value)
+					foreach ( (array)$values as $name=>$value)
 					{
 						if (isset($value))
 							DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','".$program."','".$name."','".$value."')");
@@ -78,9 +78,9 @@ if ($_REQUEST['values'] && $_POST['values'])
 		}
 		else
 		{
-			foreach($_REQUEST['values'] as $program=>$values)
+			foreach ( (array)$_REQUEST['values'] as $program=>$values)
 			{
-				foreach($values as $name=>$value)
+				foreach ( (array)$values as $name=>$value)
 				{
 					if (!$current_RET[$program][$name] && $value!='')
 						DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','".$program."','".$name."','".$value."')");
@@ -188,7 +188,7 @@ if (empty($_REQUEST['modfunc']))
 //		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
 		echo '<TR class="st"><TD><span class="legend-gray">'._('Highlight Color').'</span></TD><TD><TABLE><TR>';
-		foreach($colors as $color)
+		foreach ( (array)$colors as $color)
 			echo '<TD style="background-color:'.$color.';"><INPUT type="radio" name="values[Preferences][HIGHLIGHT]" value="'.$color.'"'.((Preferences('HIGHLIGHT')==$color)?' checked':'').'></TD>';
 		echo '</TR></TABLE></TD></TR>';
 
@@ -198,7 +198,7 @@ if (empty($_REQUEST['modfunc']))
 		//FJ display locale with strftime()
 		$values = array('%B','%b','%m');
 
-		foreach($values as $value)
+		foreach ( (array)$values as $value)
 			echo '<OPTION value="'.$value.'"'.((Preferences('MONTH')==$value)?' SELECTED':'').'>'.mb_convert_case(iconv('','UTF-8',strftime($value)), MB_CASE_TITLE, "UTF-8").'</OPTION>';
 
 		echo '</SELECT>';
@@ -206,7 +206,7 @@ if (empty($_REQUEST['modfunc']))
 		echo '<SELECT name="values[Preferences][DAY]">';
 		$values = array('%d');
 
-		foreach($values as $value)
+		foreach ( (array)$values as $value)
 			echo '<OPTION value="'.$value.'"'.((Preferences('DAY')==$value)?' SELECTED':'').'>'.strftime($value).'</OPTION>';
 
 		echo '</SELECT>';
@@ -214,7 +214,7 @@ if (empty($_REQUEST['modfunc']))
 		echo '<SELECT name=values[Preferences][YEAR]>';
 		$values = array('%Y','%y');
 
-		foreach($values as $value)
+		foreach ( (array)$values as $value)
 			echo '<OPTION value="'.$value.'"'.((Preferences('YEAR')==$value || (!Preferences('YEAR') && !$value))?' SELECTED':'').'>'.strftime($value).'</OPTION>';
 
 		echo '</SELECT>';
@@ -233,13 +233,13 @@ if (empty($_REQUEST['modfunc']))
 		echo '<TABLE>';
 		$page_sizes = array('A4'=>'A4','LETTER'=>_('US Letter'));
 		echo '<TR class="st"><TD><span class="legend-gray">'._('Page Size').'</span></TD><TD><TABLE><TR>';
-		foreach($page_sizes as $page_size=>$title)
+		foreach ( (array)$page_sizes as $page_size=>$title)
 			echo '<TD><label><INPUT type="radio" name="values[Preferences][PAGE_SIZE]" value="'.$page_size.'"'.((Preferences('PAGE_SIZE')==$page_size)?' checked':'').' /> '.$title.'</label></TD>';
 		echo '</TR></TABLE></TD></TR>';
 		
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		echo '<TR class="st"><TD><span class="legend-gray">'._('PDF List Header Color').'</span></TD><TD><TABLE><TR>';
-		foreach($colors as $color)
+		foreach ( (array)$colors as $color)
 			echo '<TD style="background-color:'.$color.';"><INPUT type="radio" name="values[Preferences][HEADER]" value="'.$color.'"'.((Preferences('HEADER')==$color)?' checked':'').'></TD>';
 		echo '</TR></TABLE></TD></TR>';
 
@@ -327,7 +327,7 @@ if (empty($_REQUEST['modfunc']))
 			$widgets += array('balance'=>_('Student Billing Balance'));
 
 		$widgets_RET[0] = array();
-		foreach($widgets as $widget=>$title)
+		foreach ( (array)$widgets as $widget=>$title)
 		{
 			$THIS_RET['ID'] = $widget;
 			$widgets_RET[] = array('ID'=>$widget,'TITLE'=>$title,'WIDGET'=>_make('','WIDGET'));
@@ -376,7 +376,7 @@ if (empty($_REQUEST['modfunc']))
 			$widgets += array('fsa_balance'=>_('Food Service Balance'),'fsa_status'=>_('Food Service Status'),'fsa_barcode'=>_('Food Service Barcode'));
 
 		$widgets_RET[0] = array();
-		foreach($widgets as $widget=>$title)
+		foreach ( (array)$widgets as $widget=>$title)
 		{
 			$THIS_RET['ID'] = $widget;
 			$widgets_RET[] = array('ID'=>$widget,'TITLE'=>$title,'STAFF_WIDGET'=>_make('','STAFF_WIDGET'));

@@ -328,7 +328,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		{
 			$chart_data = array( '0' => '' );
 
-			foreach( (array)$chart['chart_data'][1] as $key => $value )
+			foreach ( (array)$chart['chart_data'][1] as $key => $value )
 				$chart_data[] = array( 'TITLE' => $chart['chart_data'][0][$key], 'VALUE' => $value );
 
 			unset( $chart_data[0] );

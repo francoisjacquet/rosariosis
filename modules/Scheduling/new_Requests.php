@@ -16,7 +16,7 @@ if ($_REQUEST['modfunc']=='verify')
 
 	DBQuery("DELETE FROM SCHEDULE_REQUESTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."'");
 	
-	foreach($_REQUEST['courses'] as $subject=>$courses)
+	foreach ( (array)$_REQUEST['courses'] as $subject=>$courses)
 	{
 		$courses_count = count($courses);
 		for($i=0;$i<$courses_count;$i++)

@@ -39,13 +39,13 @@ if (empty($email_column))
 	$select_html = _('Select Parents email field').': <SELECT id="email_column" name="email_column">';
 
 	$select_html .= '<OPTGROUP label="'.htmlspecialchars(_('Student Fields')).'">';
-	foreach($student_columns as $student_column)
+	foreach ( (array)$student_columns as $student_column)
 	{
 		$select_html .= '<OPTION value="'.$student_column['COLUMN'].'">'.ParseMLField($student_column['CATEGORY']).' - '.ParseMLField($student_column['TITLE']).'</OPTION>';
 	}
 
 	$select_html .= '</OPTGROUP><OPTGROUP label="'.htmlspecialchars(_('Address Fields')).'">';
-	foreach($address_columns as $address_column)
+	foreach ( (array)$address_columns as $address_column)
 	{
 		$select_html .= '<OPTION value="'.$address_column['COLUMN'].'">'.ParseMLField($address_column['CATEGORY']).' - '.ParseMLField($address_column['TITLE']).'</OPTION>';
 	}
@@ -113,7 +113,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 		$RET = GetStuList($extra);
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
 
-		foreach($RET as $email=>$students)
+		foreach ( (array)$RET as $email=>$students)
 		{
 			unset($id);
 			$student_id = $students[1]['STUDENT_ID'];
@@ -179,7 +179,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			{
 				$staff = $staff[1];
 				$student_list = '';
-				foreach($students as $student)
+				foreach ( (array)$students as $student)
 				{
 					//join users to students
 					if (!$test_email)
@@ -330,7 +330,7 @@ function _makeContactSelect($value,$column)
 	{
 		$checked = ' checked';
 		$return = '<TABLE class="cellspacing-0">';
-		foreach($RET as $contact)
+		foreach ( (array)$RET as $contact)
 		{
 			$return .= '<TR><TD>'.($contact['PERSON_ID']?'<INPUT type="radio" name="contact['.$value.']" value='.$contact['PERSON_ID'].$checked.' />':'&nbsp;').'</TD>';
 			$return .= '<TD>'.$contact['CONTACT'].'</TD>';

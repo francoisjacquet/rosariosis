@@ -52,7 +52,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			$cols = 0;
 			$rows = 0;
-			foreach($skipRET+$RET as $i=>$student)
+			foreach ( (array)$skipRET+$RET as $i=>$student)
 			{
 				if ($cols<1)
 					echo '<tr>';

@@ -57,7 +57,7 @@ if ( isset( $_POST['values'] )
 
 			$go = 0;
 			
-			foreach($_REQUEST['values']['ADDRESS'] as $column=>$value)
+			foreach ( (array)$_REQUEST['values']['ADDRESS'] as $column=>$value)
 			{
 				if (1)//!empty($value) || $value=='0')
 				{
@@ -73,7 +73,7 @@ if ( isset( $_POST['values'] )
 					else
 					{
 						$sql .= $column."='||";
-						foreach($value as $val)
+						foreach ( (array)$value as $val)
 						{
 							if ($val)
 								$sql .= str_replace('&quot;','"',$val).'||';
@@ -103,7 +103,7 @@ if ( isset( $_POST['values'] )
 			$values = "'".$id."',";
 
 			$go = 0;
-			foreach($_REQUEST['values']['ADDRESS'] as $column=>$value)
+			foreach ( (array)$_REQUEST['values']['ADDRESS'] as $column=>$value)
 			{
 				if (!empty($value) || $value=='0')
 				{
@@ -135,7 +135,7 @@ if ( isset( $_POST['values'] )
 
 			$go = 0;
 			
-			foreach($_REQUEST['values']['PEOPLE'] as $column=>$value)
+			foreach ( (array)$_REQUEST['values']['PEOPLE'] as $column=>$value)
 			{
 				if (1)//!empty($value) || $value=='0')
 				{
@@ -165,7 +165,7 @@ if ( isset( $_POST['values'] )
 			$values = "'".$id."',";
 
 			$go = 0;
-			foreach($_REQUEST['values']['PEOPLE'] as $column=>$value)
+			foreach ( (array)$_REQUEST['values']['PEOPLE'] as $column=>$value)
 			{
 				if (!empty($value) || $value=='0')
 				{
@@ -188,13 +188,13 @@ if ( isset( $_POST['values'] )
 
 	if ($_REQUEST['values']['PEOPLE_JOIN_CONTACTS'])
 	{
-		foreach($_REQUEST['values']['PEOPLE_JOIN_CONTACTS'] as $id=>$values)
+		foreach ( (array)$_REQUEST['values']['PEOPLE_JOIN_CONTACTS'] as $id=>$values)
 		{
 			if ($id!='new')
 			{
 				$sql = "UPDATE PEOPLE_JOIN_CONTACTS SET ";
 
-				foreach($values as $column=>$value)
+				foreach ( (array)$values as $column=>$value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -211,7 +211,7 @@ if ( isset( $_POST['values'] )
 					$vals = db_seq_nextval('PEOPLE_JOIN_CONTACTS_SEQ').",'".$_REQUEST['person_id']."',";
 
 					$go = 0;
-					foreach($values as $column=>$value)
+					foreach ( (array)$values as $column=>$value)
 					{
 						if (!empty($value) || $value=='0')
 						{
@@ -232,7 +232,7 @@ if ( isset( $_POST['values'] )
 	{
 		$sql = "UPDATE STUDENTS_JOIN_PEOPLE SET ";
 
-		foreach($_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] as $column=>$value)
+		foreach ( (array)$_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] as $column=>$value)
 		{
 			$sql .= $column."='".$value."',";
 		}
@@ -244,7 +244,7 @@ if ( isset( $_POST['values'] )
 	{
 		$sql = "UPDATE STUDENTS_JOIN_ADDRESS SET ";
 
-		foreach($_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] as $column=>$value)
+		foreach ( (array)$_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] as $column=>$value)
 		{
 			$sql .= $column."='".$value."',";
 		}
@@ -335,7 +335,7 @@ if (empty($_REQUEST['modfunc']))
 
 		if (count($addresses_RET))
 		{
-			foreach($addresses_RET as $address_id=>$addresses)
+			foreach ( (array)$addresses_RET as $address_id=>$addresses)
 			{
 				echo '<TR>';
 
@@ -346,7 +346,7 @@ if (empty($_REQUEST['modfunc']))
 				if (count($xstudents))
 				{
 					$warning = _('Other students associated with this address').':<BR />';
-					foreach($xstudents as $xstudent)
+					foreach ( (array)$xstudents as $xstudent)
 					{
 						$ximages = '';
 						if ($xstudent['RESIDENCE']=='Y')
@@ -372,7 +372,7 @@ if (empty($_REQUEST['modfunc']))
 					echo '<TH>&nbsp;</TH>';
 
 				$relation_list = '';
-				foreach($addresses as $address)
+				foreach ( (array)$addresses as $address)
 //FJ fix Warning: mb_strpos(): Empty delimiter
 //					$relation_list .= ($address['STUDENT_RELATION']&&mb_strpos($address['STUDENT_RELATION'].', ',$relation_list)==false?$address['STUDENT_RELATION']:'---').', ';
 					$relation_list .= ($address['STUDENT_RELATION']&&(empty($relation_list)?false:mb_strpos($address['STUDENT_RELATION'].', ',$relation_list))==false?$address['STUDENT_RELATION']:'---').', ';
@@ -483,7 +483,7 @@ if (empty($_REQUEST['modfunc']))
 			$i = 1;
 			if (count($contacts_RET))
 			{
-				foreach($contacts_RET as $contact)
+				foreach ( (array)$contacts_RET as $contact)
 				{
 					$THIS_RET = $contact;
 					if ($contact['PERSON_ID']==$_REQUEST['person_id'])
@@ -508,7 +508,7 @@ if (empty($_REQUEST['modfunc']))
 					if (count($xstudents))
 					{
 						$warning = _('Other students associated with this person').':<BR />';
-						foreach($xstudents as $xstudent)
+						foreach ( (array)$xstudents as $xstudent)
 						{
 							$ximages = '';
 							if ($xstudent['CUSTODY']=='Y')
@@ -651,7 +651,7 @@ if (empty($_REQUEST['modfunc']))
 		if ($_REQUEST['address_id']=='old')
 		{
 			$addresses_RET = DBGet(DBQuery("SELECT ADDRESS_ID,ADDRESS,CITY,STATE,ZIPCODE FROM ADDRESS WHERE ADDRESS_ID!='0' AND ADDRESS_ID NOT IN (SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID='".UserStudentID()."') ORDER BY ADDRESS,CITY,STATE,ZIPCODE"));
-			foreach($addresses_RET as $address)
+			foreach ( (array)$addresses_RET as $address)
 				$address_select[$address['ADDRESS_ID']] = $address['ADDRESS'].', '.$address['CITY'].', '.$address['STATE'].', '.$address['ZIPCODE'];
 			echo SelectInput('','values[EXISTING][address_id]',_('Select Address'),$address_select);
 		}
@@ -702,7 +702,7 @@ if (empty($_REQUEST['modfunc']))
 
 						if (count($info_RET))
 						{
-							foreach($info_RET as $info)
+							foreach ( (array)$info_RET as $info)
 							{
 							echo '<TR>';
 							if (AllowEdit())
@@ -739,7 +739,7 @@ if (empty($_REQUEST['modfunc']))
 					{
 						if (count($info_RET))
 						{
-							foreach($info_RET as $info)
+							foreach ( (array)$info_RET as $info)
 							{
 								echo '<TR>';
 								if (AllowEdit())
@@ -803,7 +803,7 @@ if (empty($_REQUEST['modfunc']))
 
 					$request = 'values[PEOPLE]';
 					echo '<TABLE>';
-					foreach($categories_RET as $fields_RET)
+					foreach ( (array)$categories_RET as $fields_RET)
 					{
 						if (!$fields_RET['CUSTODY']&&!$fields_RET['EMERGENCY'] || $fields_RET['CUSTODY']=='Y'&&$this_contact['CUSTODY']=='Y' || $fields_RET['EMERGENCY']=='Y'&&$this_contact['EMERGENCY']=='Y')
 						{
@@ -821,7 +821,7 @@ if (empty($_REQUEST['modfunc']))
 			elseif ($_REQUEST['person_id']=='old')
 			{
 				$people_RET = DBGet(DBQuery("SELECT DISTINCT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp WHERE sjp.PERSON_ID=p.PERSON_ID AND sjp.ADDRESS_ID".($_REQUEST['address_id']!='0'?'!=':'=')."'0' AND p.PERSON_ID NOT IN (SELECT PERSON_ID FROM STUDENTS_JOIN_PEOPLE WHERE STUDENT_ID='".UserStudentID()."') ORDER BY LAST_NAME,FIRST_NAME"));
-				foreach($people_RET as $people)
+				foreach ( (array)$people_RET as $people)
 					$people_select[$people['PERSON_ID']] = $people['LAST_NAME'].', '.$people['FIRST_NAME'];
 				echo SelectInput('','values[EXISTING][person_id]',_('Select Person'),$people_select);
 			}
@@ -844,7 +844,7 @@ if (empty($_REQUEST['modfunc']))
 
 				$request = 'values[ADDRESS]';
 				echo '<TABLE>';
-				foreach($categories_RET as $fields_RET)
+				foreach ( (array)$categories_RET as $fields_RET)
 				{
 					if (!$fields_RET[1]['RESIDENCE']&&!$fields_RET[1]['MAILING']&&!$fields_RET[1]['BUS'] || $fields_RET[1]['RESIDENCE']=='Y'&&$this_address['RESIDENCE']=='Y' || $fields_RET[1]['MAILING']=='Y'&&$this_address['MAILING']=='Y' || $fields_RET[1]['BUS']=='Y'&&($this_address['BUS_PICKUP']=='Y'||$this_address['BUS_DROPOFF']=='Y'))
 					{
@@ -898,14 +898,14 @@ function _makeAutoSelect($column,$table,$values='',$options=array())
 		// add values already in table
 		$options_RET = DBGet(DBQuery("SELECT DISTINCT $column,upper($column) AS SORT_KEY FROM $table ORDER BY SORT_KEY"));
 		if (count($options_RET))
-			foreach($options_RET as $option)
+			foreach ( (array)$options_RET as $option)
 				if ($option[$column]!='' && !$options[$option[$column]])
 					$options[$option[$column]] = array($option[$column],$option[$column]);
 	}
 	// make sure values are in the list
 	if (isset($values) && is_array($values))
 	{
-		foreach($values as $value)
+		foreach ( (array)$values as $value)
 			if ($value[$column]!='' && !$options[$value[$column]])
 				$options[$value[$column]] = array($value[$column],$value[$column]);
 	}

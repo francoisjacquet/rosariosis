@@ -35,12 +35,12 @@
 	$periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,SHORT_NAME FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 	echo '<TABLE class="center" style="border: 1px solid;">';
 	echo '<TR><TD></TD>';
-	foreach($periods_RET as $period)
+	foreach ( (array)$periods_RET as $period)
 		echo '<TD><b>'.$period['SHORT_NAME'].'</b></TD>';
-	foreach($requests_RET as $course=>$periods)
+	foreach ( (array)$requests_RET as $course=>$periods)
 	{
 		echo '<TR><TD><b>'.$periods[key($periods)][1]['COURSE_TITLE'].'</b></TD>';
-		foreach($periods_RET as $period)
+		foreach ( (array)$periods_RET as $period)
 		{
 			if ($periods[$period['PERIOD_ID']][1]['SCHEDULED'])
 				$color = '0000FF';

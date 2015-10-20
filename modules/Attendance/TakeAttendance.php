@@ -144,7 +144,7 @@ $current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID'));
 
 if ($_REQUEST['attendance'] && $_POST['attendance'])
 {
-	foreach($_REQUEST['attendance'] as $student_id=>$value)
+	foreach ( (array)$_REQUEST['attendance'] as $student_id=>$value)
 	{
 		if ($current_RET[$student_id])
 		{
@@ -186,7 +186,7 @@ ORDER BY SORT_ORDER"));
 
 if (count($codes_RET))
 {
-	foreach($codes_RET as $code)
+	foreach ( (array)$codes_RET as $code)
 	{
 		$extra['SELECT'] .= ",'".$code['STATE_CODE']."' AS CODE_".$code['ID'];
 
@@ -234,7 +234,7 @@ if (isset($note))
 
 $LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level')) + $columns;
 
-foreach($categories_RET as $category)
+foreach ( (array)$categories_RET as $category)
 	$tabs[] = array('title'=>ParseMLField($category['TITLE']),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date']);
 
 echo '<BR />';

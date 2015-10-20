@@ -123,7 +123,7 @@ if (basename($_SERVER['PHP_SELF'])!='index.php')
 	if ($_REQUEST['staff_id']!='new')
 	{
 		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES WHERE PROFILE='".$staff['PROFILE']."' ORDER BY ID"));
-		foreach($profiles_RET as $profile)
+		foreach ( (array)$profiles_RET as $profile)
 //FJ add translation
 			$profiles[$profile['ID']] = _($profile['TITLE']);
 		$na = _('Custom');
@@ -146,7 +146,7 @@ if (basename($_SERVER['PHP_SELF'])!='index.php')
 		{
 			$i = 0;
 			echo '<TABLE><TR class="st">';
-			foreach($schools_RET as $value)
+			foreach ( (array)$schools_RET as $value)
 			{
 				if ($i%3==0)
 					echo '</TR><TR class="st">';

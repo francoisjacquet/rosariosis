@@ -44,7 +44,7 @@ $grades_RET = DBGet( DBQuery( "SELECT ID,TITLE,GPA_VALUE
 
 $grades = array();
 
-foreach( (array)$grades_RET as $grade )
+foreach ( (array)$grades_RET as $grade )
 {
 	$grades[] = array( 'TITLE' => $grade['TITLE'], 'GPA_VALUE' => $grade['GPA_VALUE'] );
 }
@@ -72,7 +72,7 @@ $assignment_select .= '<OPTION value="totals"' . ( $_REQUEST['assignment_id'] ==
 '</OPTION>';
 
 // Assignment Types
-foreach( (array)$types_RET as $type )
+foreach ( (array)$types_RET as $type )
 {
 	$selected = '';
 
@@ -90,7 +90,7 @@ foreach( (array)$types_RET as $type )
 }
 
 // Assignments
-foreach( (array)$assignments_RET as $assignment )
+foreach ( (array)$assignments_RET as $assignment )
 {
 	$selected = '';
 
@@ -148,7 +148,7 @@ if ( $_REQUEST['assignment_id'] === 'totals' )
 		array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
 	}
 
-	foreach( (array)$assignments_RET as $assignment )
+	foreach ( (array)$assignments_RET as $assignment )
 		$total_points[$assignment['ASSIGNMENT_ID']] = $assignment['POINTS'];
 }
 // Assignment Type
@@ -189,7 +189,7 @@ elseif ( !is_numeric( $_REQUEST['assignment_id'] ) )
 		array( 'STUDENT_ID', 'ASSIGNMENT_TYPE_ID' ) );
 	}
 
-	foreach( (array)$assignments_RET as $assignment )
+	foreach ( (array)$assignments_RET as $assignment )
 		$total_points[$assignment['ASSIGNMENT_ID']] = $assignment['POINTS'];	
 }
 // Assignment
@@ -211,12 +211,12 @@ elseif ( $_REQUEST['assignment_id'] )
 
 $stu_RET = GetStuList( $extra );
 
-foreach( (array)$stu_RET as $stu )
+foreach ( (array)$stu_RET as $stu )
 	$RET[$stu['LETTER_GRADE']]++;
 
 $chart['chart_data'][1] = array();
 
-foreach( (array)$grades as $option )
+foreach ( (array)$grades as $option )
 {
 	$chart['chart_data'][0][] = $option['GPA_VALUE'];
 
@@ -267,7 +267,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		{
 			$chart_data = array( '0' => '' );
 
-			foreach( (array)$chart['chart_data'][1] as $key => $y )
+			foreach ( (array)$chart['chart_data'][1] as $key => $y )
 				$chart_data[] = array(
 					'TITLE' => $chart['chart_data'][2][$key],
 					'GPA' => $chart['chart_data'][0][$key],
@@ -299,7 +299,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			{
 				$chartData = array();
 
-				foreach( $chart['chart_data'][0] as $i => $x )
+				foreach ( $chart['chart_data'][0] as $i => $x )
 				{
 					//remove empty slices not to overload the legends
 					if ( $chart['chart_data'][1][$i] > 0 )
@@ -349,7 +349,7 @@ function _makeGrade( $value, $column )
 		{
 			$total = 0;
 
-			foreach( (array)$percent_RET[$THIS_RET['STUDENT_ID']] as $type_id => $type )
+			foreach ( (array)$percent_RET[$THIS_RET['STUDENT_ID']] as $type_id => $type )
 				$total += $type[1]['PARTIAL_PERCENT'];
 		}
 		elseif ( $current_RET[$THIS_RET['STUDENT_ID']][1]['TOTAL_POINTS'] )

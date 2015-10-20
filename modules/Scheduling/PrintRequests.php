@@ -38,11 +38,11 @@ else
 	{
 		$__DBINC_NO_SQLSHOW = true;
 		$handle = PDFStart();
-		foreach($RET as $student_id=>$courses)
+		foreach ( (array)$RET as $student_id=>$courses)
 		{
 			if ($_REQUEST['mailing_labels']=='Y')
 			{
-				foreach($courses as $address)
+				foreach ( (array)$courses as $address)
 				{
 					echo '<BR /><BR /><BR />';
 					unset($_ROSARIO['DrawHeader']);

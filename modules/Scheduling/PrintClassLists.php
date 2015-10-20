@@ -31,7 +31,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$no_students_backprompt = true;
 
-		foreach($course_periods_RET as $teacher_id=>$course_period)
+		foreach ( (array)$course_periods_RET as $teacher_id=>$course_period)
 		{
 			$_SESSION['UserCoursePeriod'] = $course_period['COURSE_PERIOD_ID'];
 
@@ -134,7 +134,7 @@ if (empty($_REQUEST['modfunc']))
 
 		echo '<SELECT name="teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
 
-		foreach($RET as $teacher)
+		foreach ( (array)$RET as $teacher)
 			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['FULL_NAME'].'</OPTION>';
 
 		echo '</SELECT></TD></TR>';
@@ -143,7 +143,7 @@ if (empty($_REQUEST['modfunc']))
 		echo '<TR class="st"><TD>'._('Subject').'</TD><TD>';
 		echo '<SELECT name="subject_id"><OPTION value="">'._('N/A').'</OPTION>';
 
-		foreach($RET as $subject)
+		foreach ( (array)$RET as $subject)
 			echo '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
 
 		echo '</SELECT></TD></TR>';
@@ -152,7 +152,7 @@ if (empty($_REQUEST['modfunc']))
 		echo '<TR class="st"><TD>'._('Period').'</TD><TD>';
 		echo '<SELECT name="period_id"><OPTION value="">'._('N/A').'</OPTION>';
 
-		foreach($RET as $period)
+		foreach ( (array)$RET as $period)
 			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
 
 		echo '</SELECT></TD></TR>';

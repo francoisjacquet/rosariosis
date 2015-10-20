@@ -27,11 +27,11 @@ else
 	{
 		$SESSION_student_id_save = UserStudentID();
 		$handle = PDFStart();
-		foreach($RET as $student)
+		foreach ( (array)$RET as $student)
 		{
 			if ($_REQUEST['mailing_labels']=='Y')
 			{
-				foreach($student as $address)
+				foreach ( (array)$student as $address)
 				{
 					echo '<BR /><BR /><BR />';
 					unset($_ROSARIO['DrawHeader']);

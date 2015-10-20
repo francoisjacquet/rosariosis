@@ -24,7 +24,7 @@ function GetStaffList(& $extra)
 				WHERE ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StaffFieldsView' AND USER_ID='".User('STAFF_ID')."')='Y'".($extra['staff_fields']['view']?" OR cf.ID IN (".$extra['staff_fields']['view'].")":'').") 
 				ORDER BY cf.SORT_ORDER,cf.TITLE"));
 
-				foreach($view_fields_RET as $field)
+				foreach ( (array)$view_fields_RET as $field)
 				{
 					$extra['columns_after']['CUSTOM_'.$field['ID']] = $field['TITLE'];
 					if ($field['TYPE']=='date')
@@ -47,7 +47,7 @@ function GetStaffList(& $extra)
 				if ($extra['staff_fields']['view'])
 				{
 					$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE FROM STAFF_FIELDS cf WHERE cf.ID IN (".$extra['staff_fields']['view'].") ORDER BY cf.SORT_ORDER,cf.TITLE"));
-					foreach($view_fields_RET as $field)
+					foreach ( (array)$view_fields_RET as $field)
 					{
 						$extra['columns_after']['CUSTOM_'.$field['ID']] = $field['TITLE'];
 						if ($field['TYPE']=='date')

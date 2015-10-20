@@ -54,7 +54,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			$css = true;
 			$handle = PDFStart($css);
-			foreach($RET as $student)
+			foreach ( (array)$RET as $student)
 			{
 				$student_points = $total_points = 0;
 				unset($_ROSARIO['DrawHeader']);
@@ -72,7 +72,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$student['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
 
 				$letter_text = $REQUEST_letter_text;
-				foreach($student as $column=>$value)
+				foreach ( (array)$student as $column=>$value)
 					$letter_text = str_replace('__'.$column.'__',$value,$letter_text);
 
 				echo '<BR />'.$letter_text;

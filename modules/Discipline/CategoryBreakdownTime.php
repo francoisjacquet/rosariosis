@@ -501,7 +501,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 					unset( $values[0] );
 
-					foreach( (array)$values as $key => $value )
+					foreach ( (array)$values as $key => $value )
 					{
 						$chart_data[$key][$timeframe] = $value;
 					}
@@ -510,7 +510,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 				{
 					unset( $values[0] );
 
-					foreach( (array)$values as $key => $value )
+					foreach ( (array)$values as $key => $value )
 					{
 						$chart_data[$key]['TITLE'] = $value;
 					}

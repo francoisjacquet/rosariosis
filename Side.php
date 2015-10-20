@@ -318,7 +318,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 				<span class="br-after">
 					<SELECT name="school" onChange="ajaxPostForm(this.form,true);">
-				<?php foreach( $RET as $school ) : ?>
+				<?php foreach ( (array)$RET as $school ) : ?>
 					<OPTION value="<?php echo $school['ID']; ?>"<?php echo ( ( UserSchool() == $school['ID'] ) ? ' SELECTED' : '' ); ?>><?php
 						echo ( $school['SHORT_NAME'] ? $school['SHORT_NAME'] : $school['TITLE'] );
 					?></OPTION>
@@ -349,7 +349,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 				<span class="br-after">
 					<SELECT name="student_id" onChange="ajaxPostForm(this.form,true);">
-				<?php foreach( (array)$RET as $student ) : ?>
+				<?php foreach ( (array)$RET as $student ) : ?>
 					<OPTION value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ( ( UserStudentID() == $student['STUDENT_ID'] ) ? ' SELECTED' : '' ); ?>><?php
 						echo $student['FULL_NAME'];
 					?></OPTION>
@@ -403,9 +403,9 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 			<span class="br-after">
 				<SELECT name="syear" onChange="ajaxPostForm(this.form,true);">
-			<?php foreach( $years_RET as $year ) : ?>
+			<?php foreach ( (array)$years_RET as $year ) : ?>
 				<OPTION value="<?php echo $year['SYEAR']; ?>"<?php echo ( ( UserSyear() == $year['SYEAR'] ) ? ' SELECTED' : '' ); ?>><?php
-					echo FormatSyear( $year['SYEAR'], Config('SCHOOL_SYEAR_OVER_2_YEARS') );
+					echo FormatSyear( $year['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 				?></OPTION>
 			<?php endforeach; ?>
 				</SELECT>

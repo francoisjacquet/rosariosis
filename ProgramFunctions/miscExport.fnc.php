@@ -29,7 +29,7 @@ function _makeCalendar($value,$column)
 
 function _makeTeachers($value,$column)
 {
-	foreach(explode('","',mb_substr($value,2,-2)) as $row)
+	foreach ( explode('","',mb_substr($value,2,-2)) as $row)
 		$return .= $row.'<BR />';
 	return mb_substr($return,0,-4);
 }

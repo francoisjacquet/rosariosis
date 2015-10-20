@@ -1,7 +1,7 @@
 <?php
 if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach($_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
 //FJ fix SQL bug invalid numeric data
 		if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['LENGTH']) || is_numeric($columns['LENGTH'])))
@@ -21,7 +21,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql = "UPDATE SCHOOL_PERIODS SET ";
 
-				foreach($columns as $column=>$value)
+				foreach ( (array)$columns as $column=>$value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -36,7 +36,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$values = db_seq_nextval('SCHOOL_PERIODS_SEQ').",'".UserSchool()."','".UserSyear()."',";
 
 				$go = false;
-				foreach($columns as $column=>$value)
+				foreach ( (array)$columns as $column=>$value)
 				{
 					if (!empty($value) || $value=='0')
 					{

@@ -22,13 +22,13 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 	}
 
 	// Remove Cookie vars
-	foreach( (array)$_COOKIE as $key => $value )
+	foreach ( (array)$_COOKIE as $key => $value )
 	{
 		unset( $tmp_REQUEST[$key] );
 	}
 
 	// Remove vars in $remove
-	foreach( (array)$remove as $key )
+	foreach ( (array)$remove as $key )
 	{
 		unset( $tmp_REQUEST[$key] );
 	}
@@ -43,7 +43,7 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 	);
 
 	// Add vars in $add
-	foreach( (array)$add as $key => $value )
+	foreach ( (array)$add as $key => $value )
 	{
 		$tmp_REQUEST[$key] = $value;
 	}
@@ -64,19 +64,19 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 	);
 
 	// Add other params
-	foreach( (array)$tmp_REQUEST as $key => $value )
+	foreach ( (array)$tmp_REQUEST as $key => $value )
 	{
 		if ( is_array( $value ) )
 		{
-			foreach( (array)$value as $key1 => $value1 )
+			foreach ( (array)$value as $key1 => $value1 )
 			{
 				if ( is_array( $value1 ) )
 				{
-					foreach( (array)$value1 as $key2 => $value2 )
+					foreach ( (array)$value1 as $key2 => $value2 )
 					{
 						if ( is_array( $value2 ) )
 						{
-							foreach( (array)$value2 as $key3 => $value3 )
+							foreach ( (array)$value2 as $key3 => $value3 )
 							{
 								$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . '][' . $key2 . '][' . $key3 . ']=' .
 									_myURLEncode( $value3 );

@@ -107,13 +107,13 @@ function _update29()
 
 		$SQL_updt_coms = '';
 
-		foreach( $comments_RET as $comment )
+		foreach ( $comments_RET as $comment )
 		{
 			$coms = explode( '||', $comment['COMMENT'] );
 			$ser_coms = array();
 			$i = 0;
 
-			foreach( (array)$coms as $com )
+			foreach ( (array)$coms as $com )
 			{
 				if ( is_array( list( $date, $staff_id ) = explode( '|', $com ) ) 
 					&& (int)$staff_id > 0 )

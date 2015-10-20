@@ -174,7 +174,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 			AND SCHOOL_ID='".UserSchool()."'
 			ORDER BY SORT_ORDER" ) );
 
-		foreach( $periods_RET as $period )
+		foreach ( $periods_RET as $period )
 			$fields_list['PERIOD_'.$period['PERIOD_ID']] = $period['TITLE'] . ' ' . _( 'Teacher' ) .' - ' . _( 'Room' );
 	}
 
@@ -183,7 +183,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		WHERE ID!='200000002'
 		ORDER BY SORT_ORDER,TITLE" ), array(), array( 'ID' ) );
 
-	foreach( $custom_RET as $id => $field )
+	foreach ( $custom_RET as $id => $field )
 	{
 		if ( !$fields_list['CUSTOM_' . $id] )
 			$fields_list['CUSTOM_' . $id] = $field[1]['TITLE'];
@@ -193,7 +193,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		FROM ADDRESS_FIELDS
 		ORDER BY SORT_ORDER,TITLE" ), array(), array( 'ID' ) );
 
-	foreach( $address_RET as $id => $field )
+	foreach ( $address_RET as $id => $field )
 	{
 		if ( !$fields_list['ADDRESS_' . $id ] )
 		{
@@ -253,7 +253,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')
 		AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
 
-	foreach( $periods_RET as $period )
+	foreach ( $periods_RET as $period )
 	{
 		if ( $_REQUEST['fields']['PERIOD_' . $period['PERIOD_ID']] == 'Y' )
 		{
@@ -333,7 +333,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 
 	if ( $_REQUEST['fields'] )
 	{
-		foreach( $_REQUEST['fields'] as $field => $on )
+		foreach ( $_REQUEST['fields'] as $field => $on )
 		{
 			$columns[$field] = ParseMLField( $fields_list[$field] );
 
@@ -631,7 +631,7 @@ else
 		}
 
 		// Draw fields
-		foreach( $fields as $field => $title )
+		foreach ( $fields as $field => $title )
 		{
 			$i++;
 

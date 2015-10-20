@@ -69,7 +69,7 @@ if ( isset( $_POST['tables'] )
 	&& count( $_POST['tables'] )
 	&& AllowEdit() )
 {
-	foreach( (array)$_REQUEST['tables'] as $id => $columns )
+	foreach ( (array)$_REQUEST['tables'] as $id => $columns )
 	{
 		//FJ fix SQL bug invalid sort order
 		if ( isset( $columns['SORT_ORDER'] )
@@ -86,7 +86,7 @@ if ( isset( $_POST['tables'] )
 		{
 			$sql = "UPDATE SCHOOL_MARKING_PERIODS SET ";
 
-			foreach( $columns as $column => $value )
+			foreach ( $columns as $column => $value )
 			{
 				if ( $column === 'START_DATE'
 					|| $column === 'END_DATE'
@@ -182,7 +182,7 @@ if ( isset( $_POST['tables'] )
 
 			$go = false;
 
-			foreach( $columns as $column => $value )
+			foreach ( $columns as $column => $value )
 			{
 				if ( $column === 'START_DATE'
 					|| $column === 'END_DATE'
@@ -364,7 +364,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 	if ( DeletePrompt( $name ) )
 	{
-		foreach( $extra as $sql )
+		foreach ( $extra as $sql )
 			DBQuery( $sql );
 
 		DBQuery( "DELETE FROM SCHOOL_MARKING_PERIODS
@@ -528,7 +528,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			if ( $_REQUEST['mp_term'] === 'FY' )
 				$_REQUEST['year_id'] = $_REQUEST['marking_period_id'];
 
-			foreach( $fy_RET as $key => $value )
+			foreach ( $fy_RET as $key => $value )
 			{
 				if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['year_id'] )
 					$fy_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
@@ -575,7 +575,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 				if ( $_REQUEST['mp_term'] === 'SEM' )
 					$_REQUEST['semester_id'] = $_REQUEST['marking_period_id'];
 
-				foreach( $sem_RET as $key => $value )
+				foreach ( $sem_RET as $key => $value )
 				{
 					if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['semester_id'] )
 						$sem_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );

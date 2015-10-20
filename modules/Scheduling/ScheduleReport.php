@@ -36,7 +36,7 @@ if (!$_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['stud
 	$RET = DBGet($QI);
 	if (count($RET) && $_REQUEST['subject_id'])
 	{
-		foreach($RET as $key=>$value)
+		foreach ( (array)$RET as $key=>$value)
 		{
 			if ($value['SUBJECT_ID']==$_REQUEST['subject_id'])
 				$RET[$key]['row_color'] = Preferences('HIGHLIGHT');
@@ -68,7 +68,7 @@ if ($_REQUEST['modfunc']=='courses')
 
 	if (count($RET) && $_REQUEST['course_id'])
 	{
-		foreach($RET as $key=>$value)
+		foreach ( (array)$RET as $key=>$value)
 		{
 			if ($value['COURSE_ID']==$_REQUEST['course_id'])
 				$RET[$key]['row_color'] = Preferences('HIGHLIGHT');
@@ -81,7 +81,7 @@ if ($_REQUEST['modfunc']=='courses')
 	{
 		$OFT_string = mb_substr(_('Open'),0,1).'&#124;'.mb_substr(_('Filled'),0,1).'&#124;'.mb_substr(_('Total'),0,1);
 		//FJ fix error Missing argument 1
-		foreach(explode(',',GetAllMP('')) as $mp)
+		foreach ( explode(',',GetAllMP('')) as $mp)
 		{
 			$mp = trim($mp,"'");
 			$columns += array('OFT_'.$mp=>(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'<BR />'.$OFT_string);
@@ -103,7 +103,7 @@ if ($_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_per
 	$QI = DBQuery("SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SHORT_NAME,TITLE");
 	$RET = DBGet($QI);
 
-	foreach($RET as $key=>$period)
+	foreach ( (array)$RET as $key=>$period)
 	{
 		$value = array();
 		if ($_REQUEST['include_child_mps'])
@@ -113,7 +113,7 @@ if ($_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_per
 		calcSeats1($period,$total_seats,$filled_seats);
 		if ($_REQUEST['include_child_mps'])
 		{
-			foreach($total_seats as $mp=>$total)
+			foreach ( (array)$total_seats as $mp=>$total)
 			{
 				$value += array('OFT_'.$mp=>($total!==false?($filled_seats[$mp]!==false?$total-$filled_seats[$mp]:''):_('N/A')).'|'.($filled_seats[$mp]!==false?$filled_seats[$mp]:'').'|'.($total!==false?$total:_('N/A')));
 			}
@@ -125,7 +125,7 @@ if ($_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_per
 
 	if (count($RET) && $_REQUEST['course_period_id'])
 	{
-		foreach($RET as $key=>$value)
+		foreach ( (array)$RET as $key=>$value)
 		{
 			if ($value['COURSE_PERIOD_ID']==$_REQUEST['course_period_id'])
 				$RET[$key]['row_color'] = Preferences('HIGHLIGHT');
@@ -138,7 +138,7 @@ if ($_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_per
 	$columns = array('TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'));
 	if ($_REQUEST['include_child_mps'])
 	{
-		foreach(explode(',',GetAllMP()) as $mp)
+		foreach ( explode(',',GetAllMP()) as $mp)
 		{
 			$mp = trim($mp,"'");
 			$columns += array('OFT_'.$mp=>(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'<BR />O|F|T');
@@ -227,7 +227,7 @@ function calcSeats1($period,&$total_seats,&$filled_seats)
 	else
 		$mps = "'".$period['MARKING_PERIOD_ID']."'";
 
-	foreach(explode(',',$mps) as $mp)
+	foreach ( explode(',',$mps) as $mp)
 	{
 		$mp = trim($mp,"'");
 		$seats = DBGet(DBQuery("SELECT 
@@ -273,20 +273,20 @@ function calcSeats1($period,&$total_seats,&$filled_seats)
 function calcSeats(&$_RET,$columns)
 {
 	$RET = array(0=>array());
-	foreach($_RET as $periods)
+	foreach ( (array)$_RET as $periods)
 	{
 		$value = array();
-		foreach($columns as $column)
+		foreach ( (array)$columns as $column)
 			$value += array($column=>$periods[key($periods)][$column]);
 		if ($_REQUEST['include_child_mps'])
 			$total_seats = $filled_seats = array();
 		else
 			$total_seats = $filled_seats = 0;
-		foreach($periods as $period)
+		foreach ( (array)$periods as $period)
 			calcSeats1($period,$total_seats,$filled_seats);
 		if ($_REQUEST['include_child_mps'])
 		{
-			foreach($total_seats as $mp=>$total)
+			foreach ( (array)$total_seats as $mp=>$total)
 			{
 				$filled = $filled_seats[$mp];
 				$value += array('OFT_'.$mp=>($total!==false?($filled!==false?$total-$filled:''):'n/a').'|'.($filled!==false?$filled:'').'|'.($total!==false?$total:'n/a'));

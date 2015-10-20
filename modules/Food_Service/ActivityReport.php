@@ -82,7 +82,7 @@ $types = array('DEPOSIT'=>array('DESCRIPTION'=>_('Deposit'),'COUNT'=>0,'AMOUNT'=
 		'DEBIT'=>array('DESCRIPTION'=>_('Debit'),'COUNT'=>0,'AMOUNT'=>0,'ITEMS'=>$transaction_items)
 		);
 
-foreach($menus_RET as $menu)
+foreach ( (array)$menus_RET as $menu)
 	$types += array($menu['TITLE']=>array('DESCRIPTION'=>$menu['TITLE'],'COUNT'=>0,'AMOUNT'=>0,'ITEMS'=>$items));
 
 

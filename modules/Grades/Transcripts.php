@@ -97,7 +97,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$school_info = DBGet(DBQuery('select * from schools where syear = '.UserSyear().' AND id = '.$school_id));
 			$school_info = $school_info[1];
 					
-			foreach($t_grades as $student_id=>$mps)
+			foreach ( (array)$t_grades as $student_id=>$mps)
 			{
 				$student_data = $students_data[$student_id][1];
 
@@ -202,12 +202,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$total_credit_earned = 0;
 				$total_credit_attempted = 0;
 
-				foreach($mps as $mp_id=>$grades)
+				foreach ( (array)$mps as $mp_id=>$grades)
 				{
 					$columns[$mp_id] = $grades[1]['SHORT_NAME'];
 					//$i = 1;
 
-					foreach($grades as $grade)
+					foreach ( (array)$grades as $grade)
 					{
 						$i = $grade['COURSE_TITLE'];
 
@@ -348,7 +348,7 @@ if (empty($_REQUEST['modfunc']))
 				$extra['extra_header_left'] .= '<TR class="st"><TD>'._('School Year').':</TD><TD>';
 
 				$syoptions[UserSyear()] = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS'));
-				foreach($syear_history_RET as $syear_history)
+				foreach ( (array)$syear_history_RET as $syear_history)
 				{
 					$syoptions[$syear_history['SYEAR']] = FormatSyear($syear_history['SYEAR'],Config('SCHOOL_SYEAR_OVER_2_YEARS'));
 				}
@@ -364,7 +364,7 @@ if (empty($_REQUEST['modfunc']))
 		//FJ add translation
 		$marking_periods_locale = array('Year'=>_('Year'), 'Semester'=>_('Semester'), 'Quarter'=>_('Quarter'));
 
-		foreach($mp_types as $mp_type)
+		foreach ( (array)$mp_types as $mp_type)
 		{
 			$extra['extra_header_left'] .= '<TR>';
 			//FJ add <label> on checkbox

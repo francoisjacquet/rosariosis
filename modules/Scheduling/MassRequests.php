@@ -7,7 +7,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		if (isset($_REQUEST['student']) && is_array($_REQUEST['student']))
 		{
 			$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE_REQUESTS WHERE COURSE_ID='".$_REQUEST['MassRequests.php']['course_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
-			foreach($_REQUEST['student'] as $student_id=>$yes)
+			foreach ( (array)$_REQUEST['student'] as $student_id=>$yes)
 			{
 				if (!$current_RET[$student_id])
 				{
@@ -68,14 +68,14 @@ if ($_REQUEST['modfunc']!='choose_course')
 		//$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE SCHOOLS LIKE '%,".UserSchool().",%' AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
 		$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS LIKE '%,".UserSchool().",%' OR SCHOOLS IS NULL) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
 
-		foreach($teachers_RET as $teacher)
+		foreach ( (array)$teachers_RET as $teacher)
 			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'].'</OPTION>';
 
 		echo '</SELECT></TD></TR><TR class="st"><TD>'._('Period').'</TD><TD><SELECT name="with_period_id"><OPTION value="">'._('N/A').'</OPTION>';
 
 		$periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER"));
 
-		foreach($periods_RET as $period)
+		foreach ( (array)$periods_RET as $period)
 			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
 
 		echo '</SELECT></TD></TR></TABLE>';
@@ -84,12 +84,12 @@ if ($_REQUEST['modfunc']!='choose_course')
 
 		echo '<TABLE><TR class="st"><TD>'._('Teacher').'</TD><TD><SELECT name="without_teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
 
-		foreach($teachers_RET as $teacher)
+		foreach ( (array)$teachers_RET as $teacher)
 			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'].'</OPTION>';
 
 		echo '</SELECT></TD></TR><TR class="st"><TD>'._('Period').'</TD><TD><SELECT name="without_period_id"><OPTION value="">'._('N/A').'</OPTION>';
 
-		foreach($periods_RET as $period)
+		foreach ( (array)$periods_RET as $period)
 			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
 
 		echo '</SELECT></TD></TR></TABLE>';

@@ -23,7 +23,7 @@ function ProgramTitle( $modname = '' )
 	// loop modules
 	foreach ( (array)$_ROSARIO['Menu'] as $modcat => $programs )
 	{
-		foreach( (array)$programs as $program => $title )
+		foreach ( (array)$programs as $program => $title )
 		{
 			// if current program
 			if ( $modname === $program )

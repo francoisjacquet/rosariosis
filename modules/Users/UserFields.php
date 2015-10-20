@@ -5,7 +5,7 @@ DrawHeader(ProgramTitle());
 if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 {
 	$table = $_REQUEST['table'];
-	foreach($_REQUEST['tables'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['tables'] as $id=>$columns)
 	{
 //FJ fix SQL bug invalid sort order
 //FJ fix SQL bug invalid display columns
@@ -21,7 +21,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 					$sql = "UPDATE $table SET ";
 
-					foreach($columns as $column=>$value)
+					foreach ( (array)$columns as $column=>$value)
 						$sql .= $column."='".$value."',";
 					$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 					$go = true;
@@ -98,7 +98,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 					$go = false;
 
-					foreach($columns as $column=>$value)
+					foreach ( (array)$columns as $column=>$value)
 					{
 						if (!empty($value) || $value=='0')
 						{
@@ -140,7 +140,7 @@ if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 		if (DeletePrompt(_('User Field Category').' '._('and all fields in the category')))
 		{
 			$fields = DBGet(DBQuery("SELECT ID FROM STAFF_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."'"));
-			foreach($fields as $field)
+			foreach ( (array)$fields as $field)
 			{
 				DBQuery("DELETE FROM STAFF_FIELDS WHERE ID='".$field['ID']."'");
 				DBQuery("ALTER TABLE STAFF DROP COLUMN CUSTOM_$field[ID]");
@@ -238,7 +238,7 @@ if (empty($_REQUEST['modfunc']))
 			$_ROSARIO['allow_edit'] = $allow_edit;
 			$_ROSARIO['AllowEdit'][$modname] = $AllowEdit;
 		}
-		foreach($categories_RET as $type)
+		foreach ( (array)$categories_RET as $type)
 			$categories_options[$type['ID']] = $type['TITLE'];
 
 		$header .= '<TD>' . MLSelectInput($RET['CATEGORY_ID']?$RET['CATEGORY_ID']:$_REQUEST['category_id'],'tables['.$_REQUEST['id'].'][CATEGORY_ID]',_('User Field Category'),$categories_options,false) . '</TD>';
@@ -320,7 +320,7 @@ if (empty($_REQUEST['modfunc']))
 	{
 		if ($_REQUEST['category_id'])
 		{
-			foreach($categories_RET as $key=>$value)
+			foreach ( (array)$categories_RET as $key=>$value)
 			{
 				if ($value['ID']==$_REQUEST['category_id'])
 					$categories_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
@@ -349,7 +349,7 @@ if (empty($_REQUEST['modfunc']))
 		{
 			if ($_REQUEST['id'] && $_REQUEST['id']!='new')
 			{
-				foreach($fields_RET as $key=>$value)
+				foreach ( (array)$fields_RET as $key=>$value)
 				{
 					if ($value['ID']==$_REQUEST['id'])
 						$fields_RET[$key]['row_color'] = Preferences('HIGHLIGHT');

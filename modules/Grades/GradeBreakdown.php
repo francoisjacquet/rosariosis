@@ -29,7 +29,7 @@ AND MP='PRO'
 ORDER BY 5,SORT_ORDER"));
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 $mp_select = '<SELECT name="mp" onchange="ajaxPostForm(this.form,true);">';
-foreach($mps_RET as $mp)
+foreach ( (array)$mps_RET as $mp)
 {
     if ($mp['DOES_GRADES']=='Y' || $mp['MARKING_PERIOD_ID']==UserMP())
         $mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED':'').'>'.($UserMPTitle = $mp['TITLE']).'</OPTION>';
@@ -68,16 +68,16 @@ if (count($grouped_RET))
 		$columns = array();
 		
 		$columns = array('GRADES'=>_('Grades'));
-		foreach($grades_RET as $grade)
+		foreach ( (array)$grades_RET as $grade)
 		{
 			$i++;
 			$teachers_RET[$i]['GRADES'] = $grade['TITLE'];
 		}
 			
-		foreach($grouped_RET as $staff_id=>$grades)
+		foreach ( (array)$grouped_RET as $staff_id=>$grades)
 		{
 			$columns[$staff_id] = $grades[key($grades)][1]['FULL_NAME'];
-			foreach($grades_RET as $grade)
+			foreach ( (array)$grades_RET as $grade)
 			{
 				$j++;
 				$teachers_RET[$j][$staff_id] = count($grades[$grade['ID']]);
@@ -101,12 +101,12 @@ if (count($grouped_RET))
 			var saveImgText = <?php echo json_encode(_('Right Click to Save Image As...')); ?>;
 			$(document).ready(function(){
 <?php
-		foreach($grouped_RET as $staff_id=>$grades)
+		foreach ( (array)$grouped_RET as $staff_id=>$grades)
 		{
 			$i++;
 			$chartData = 'var chartTitle'.$i." = '".htmlspecialchars($grades[key($grades)][1]['FULL_NAME'].' - '.$UserMPTitle.' - '._('Grade Breakdown'),ENT_QUOTES)."';\n"; 
 			$chartData .= 'var jsData'.$i.' = [';
-			foreach($grades_RET as $grade)
+			foreach ( (array)$grades_RET as $grade)
 			{
 				$chartData .= "[".$grade['GPA_VALUE'].", ".count($grades[$grade['ID']]).'], ';
 			}

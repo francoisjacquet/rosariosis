@@ -32,7 +32,7 @@ function MyWidgets($item)
 
 			$extra['search'] .= '<TR><TD><label for="birthmonth">'._('Birth Month').'</label></TD><TD><SELECT name="birthmonth" id="birthmonth"><OPTION value="">'._('N/A').'</OPTION>';
 
-			foreach($options as $key=>$val)
+			foreach ( (array)$options as $key=>$val)
 				 $extra['search'] .= '<OPTION value="'.$key.'">'.$val.'</OPTION>';
 
 			$extra['search'] .= '</SELECT></TD></TR>';
@@ -53,7 +53,7 @@ function MyWidgets($item)
 
 			$extra['search'] .= '<TR><TD><label for="birthday">'._('Birth Day').'</label></TD><TD><SELECT name="birthday" id="birthday"><OPTION value="">'._('N/A').'</OPTION>';
 
-			foreach($options as $key=>$val)
+			foreach ( (array)$options as $key=>$val)
 				 $extra['search'] .= '<OPTION value="'.$key.'">'.$val.'</OPTION>';
 
 			$extra['search'] .= '</SELECT></TD></TR>';

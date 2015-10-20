@@ -84,7 +84,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 
 				$seriesLabels = array_keys( $data );
 
-				foreach( (array)$seriesLabels as $key => $seriesLabel )
+				foreach ( (array)$seriesLabels as $key => $seriesLabel )
 				{
 					$seriesLabels[$key] = "{label:" . json_encode( $seriesLabel ) . "}";
 				}

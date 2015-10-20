@@ -76,7 +76,7 @@ if (!isset($_REQUEST['accounting']) || $_REQUEST['accounting']=='true')
 
 	$payments_RET = DBGet(DBQuery($payments_SQL),$extra['functions']);
 
-	foreach($payments_RET as $payment)
+	foreach ( (array)$payments_RET as $payment)
 	{
 		$RET[] = $payment;
 	}
@@ -98,7 +98,7 @@ if (!empty($_REQUEST['staff_payroll']))
 
 	$salaries_RET = GetStaffList($salaries_extra);
 	
-	foreach($salaries_RET as $salary)
+	foreach ( (array)$salaries_RET as $salary)
 	{
 		$RET[] = $salary;
 	}
@@ -110,7 +110,7 @@ if (!empty($_REQUEST['staff_payroll']))
 
 	$staff_payments_RET = GetStaffList($staff_payments_extra);
 	
-	foreach($staff_payments_RET as $staff_payment)
+	foreach ( (array)$staff_payments_RET as $staff_payment)
 	{
 		$RET[] = $staff_payment;
 	}
@@ -133,7 +133,7 @@ if (!empty($_REQUEST['student_billing']) && $RosarioModules['Student_Billing'])
 
 	$fees_RET = GetStuList($fees_extra);
 	
-	foreach($fees_RET as $fee)
+	foreach ( (array)$fees_RET as $fee)
 	{
 		$RET[] = $fee;
 	}
@@ -145,7 +145,7 @@ if (!empty($_REQUEST['student_billing']) && $RosarioModules['Student_Billing'])
 
 	$student_payments_RET = GetStuList($student_payments_extra);
 	
-	foreach($student_payments_RET as $student_payment)
+	foreach ( (array)$student_payments_RET as $student_payment)
 	{
 		$RET[] = $student_payment;
 	}

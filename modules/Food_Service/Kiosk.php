@@ -42,14 +42,14 @@ if ((!$_REQUEST['cat_id'] || !$categories_RET[$_REQUEST['menu_id']][$_REQUEST['c
 	$_REQUEST['cat_id'] = key($categories_RET[$_REQUEST['menu_id']]);
 
 $meals = array();
-foreach($menus_RET as $id=>$menu)
+foreach ( (array)$menus_RET as $id=>$menu)
 	$meals[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
 
 $cats = array();
 //FJ fix error Warning: Invalid argument supplied for foreach()
 if (isset($categories_RET[$_REQUEST['menu_id']]))
 {
-	foreach($categories_RET[$_REQUEST['menu_id']] as $category_id=>$category)
+	foreach ( (array)$categories_RET[$_REQUEST['menu_id']] as $category_id=>$category)
 		$cats[] = array('title'=>$category[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&cat_id='.$category_id);
 }
 
@@ -68,7 +68,7 @@ if (count($items_RET))
 	$per_row = ceil(sqrt(count($items_RET)));
 //FJ css WPadmin
 	echo '<TABLE class="center cellpadding-5">';
-	foreach($items_RET as $item)
+	foreach ( (array)$items_RET as $item)
 	{
 		if (!$i)
 		{

@@ -15,7 +15,7 @@ $table = '<TABLE><TR class="st"><TD class="valign-top"><TABLE>
 		<TD class="valign-top"><span class="legend-gray">'._('Calculate GPA for').'</span></TD>
 		<TD>';
 
-foreach($mps as $mp)
+foreach ( (array)$mps as $mp)
 {
 	if ($mp!='0')
 //FJ add <label> on radio

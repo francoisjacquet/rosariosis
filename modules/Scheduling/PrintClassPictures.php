@@ -21,7 +21,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$no_students_backprompt = true;
 
-		foreach($course_periods_RET as $course_period)
+		foreach ( (array)$course_periods_RET as $course_period)
 		{
 			$course_period_id = $course_period['COURSE_PERIOD_ID'];
 			$teacher_id = $course_period['TEACHER_ID'];
@@ -89,7 +89,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						$i++;
 					}
 
-					foreach($RET as $student)
+					foreach ( (array)$RET as $student)
 					{
 						$student_id = $student['STUDENT_ID'];
 
@@ -194,7 +194,7 @@ function mySearch($type,$extra='')
 
 		echo '<SELECT name="teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
 
-		foreach($RET as $teacher)
+		foreach ( (array)$RET as $teacher)
 			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['FULL_NAME'].'</OPTION>';
 
 		echo '</SELECT></TD></TR>';
@@ -204,7 +204,7 @@ function mySearch($type,$extra='')
 
 		echo '<SELECT name="subject_id"><OPTION value="">'._('N/A').'</OPTION>';
 
-		foreach($RET as $subject)
+		foreach ( (array)$RET as $subject)
 			echo '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
 
 		echo '</SELECT></TD></TR>';
@@ -214,7 +214,7 @@ function mySearch($type,$extra='')
 
 		echo '<SELECT name="period_id"><OPTION value="">'._('N/A').'</OPTION>';
 
-		foreach($RET as $period)
+		foreach ( (array)$RET as $period)
 			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
 
 		echo '</SELECT></TD></TR>';

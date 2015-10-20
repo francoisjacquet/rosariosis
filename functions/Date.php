@@ -182,7 +182,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		// Add year / month / day parameters to href
 		$add_args_js = array();
 
-		foreach( (array)$URL_args as $URL_arg )
+		foreach ( (array)$URL_args as $URL_arg )
 		{
 			$add_args_js[] = '(this.form.' . $URL_arg . ' ? \'&' . $URL_arg . '=\' + this.form.' . $URL_arg . '.value : \'\')';
 		}
@@ -247,7 +247,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 		$month_char = MonthNWSwitch( $date_exploded['month'], 'tochar' );
 
-		foreach( $months_locale as $key => $name )
+		foreach ( $months_locale as $key => $name )
 			$return .= '<option value="' . $key . '"' . ( $month_char == $key ? ' selected' : '' ) . '>' . $name;
 
 		$return .= '</select>';

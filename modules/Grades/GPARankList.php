@@ -23,7 +23,7 @@ if ($_REQUEST['search_modfunc'] == 'list')
 	$pros = explode(',',str_replace("'",'',$pro));
 	$pro_grading = false;
 	$pro_select = '';
-	foreach($pros as $pro)
+	foreach ( (array)$pros as $pro)
 	{
 		if (GetMP($pro,'DOES_GRADES')=='Y')
 		{
@@ -87,7 +87,7 @@ if ($_REQUEST['search_modfunc'] == 'list')
 	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
 	
 	$mp_select = '<SELECT name="mp" onchange="ajaxPostForm(this.form,true);">';
-	foreach($mps_RET as $mp)
+	foreach ( (array)$mps_RET as $mp)
 	{
 		if ($mp['DOES_GRADES']=='Y' || $mp['MARKING_PERIOD_ID']==UserMP())
 			$mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED':'').'>'.$mp['TITLE'].'</OPTION>';

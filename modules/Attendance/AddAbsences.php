@@ -15,11 +15,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if (count($_REQUEST['period']) && count($_REQUEST['student']) && count($_REQUEST['dates']))
 	{
-		foreach($_REQUEST['period'] as $period_id=>$yes)
+		foreach ( (array)$_REQUEST['period'] as $period_id=>$yes)
 			$periods_list .= ",'".$period_id."'";
 		$periods_list = '('.mb_substr($periods_list,1).')';
 
-		foreach($_REQUEST['student'] as $student_id=>$yes)
+		foreach ( (array)$_REQUEST['student'] as $student_id=>$yes)
 			$students_list .= ",'".$student_id."'";
 		$students_list = '('.mb_substr($students_list,1).')';
 
@@ -31,9 +31,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		AND STUDENT_ID IN ".$students_list),array(),array('STUDENT_ID','SCHOOL_DATE','PERIOD_ID'));
 		$state_code = DBGet(DBQuery("SELECT STATE_CODE FROM ATTENDANCE_CODES WHERE ID='".$_REQUEST['absence_code']."'"));
 		$state_code = $state_code[1]['STATE_CODE'];
-		foreach($_REQUEST['student'] as $student_id=>$yes)
+		foreach ( (array)$_REQUEST['student'] as $student_id=>$yes)
 		{
-			foreach($_REQUEST['dates'] as $date=>$yes)
+			foreach ( (array)$_REQUEST['dates'] as $date=>$yes)
 			{
 				$current_mp = GetCurrentMP('QTR',$date);
 				$all_mp = GetAllMP('QTR',$current_mp);
@@ -66,7 +66,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$course_periods_RET = DBGet(DBQuery("SELECT s.COURSE_PERIOD_ID,cpsp.PERIOD_ID,cp.HALF_DAY FROM SCHEDULE s,COURSE_PERIODS cp,ATTENDANCE_CALENDAR ac,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE sp.PERIOD_ID=cpsp.PERIOD_ID AND ac.SCHOOL_DATE='".$date."' AND ac.CALENDAR_ID=cp.CALENDAR_ID AND (ac.BLOCK=sp.BLOCK OR sp.BLOCK IS NULL) AND s.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND s.STUDENT_ID='".$student_id."' AND cpsp.PERIOD_ID IN $periods_list AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND (ac.SCHOOL_DATE BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND ac.SCHOOL_DATE>=s.START_DATE)) AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM ac.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 AND s.MARKING_PERIOD_ID IN ($all_mp)"),array(),array('PERIOD_ID'));				
 				}
 				//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
-				foreach($_REQUEST['period'] as $period_id=>$yes)
+				foreach ( (array)$_REQUEST['period'] as $period_id=>$yes)
 				{
 					$course_period_id = $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'];
 					if ($course_period_id && !($course_periods_RET[$period_id][1]['COURSE_PERIOD_ID']=='Y' && $state_code=='H'))
@@ -129,14 +129,14 @@ if (empty($_REQUEST['modfunc']))
 		AND SCHOOL_ID='".UserSchool()."' 
 		AND EXISTS (SELECT '' FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp, COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=SCHOOL_PERIODS.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0) 
 		ORDER BY SORT_ORDER"));
-		foreach($periods_RET as $period)
+		foreach ( (array)$periods_RET as $period)
 //FJ add <label> on checkbox
 			echo '<TD><label><INPUT type="CHECKBOX" value="Y" name="period['.$period['PERIOD_ID'].']"> '.$period['SHORT_NAME'].'</label></TD>';
 		echo '</TR></TABLE></TD>';
 
 		echo '<TR><TD>'._('Absence Code').'</TD><TD><SELECT name="absence_code">';
 		$codes_RET = DBGet(DBQuery("SELECT TITLE,ID FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0'"));
-		foreach($codes_RET as $code)
+		foreach ( (array)$codes_RET as $code)
 			echo '<OPTION value='.$code['ID'].'>'.$code['TITLE'].'</OPTION>';
 		echo '</SELECT></TD></TR>';
 

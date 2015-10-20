@@ -14,7 +14,7 @@ function MailingLabel($address_id)
 
 		if (count($people_RET))
 		{
-			foreach($people_RET as $people)
+			foreach ( (array)$people_RET as $people)
 			{
 				$people_total = count($people);
 				for($i=1;$i<$people_total;$i++)

@@ -72,10 +72,10 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 		unset($result);
 		$result[0] = '';
 
-		foreach($group_result as $item1)
+		foreach ( (array)$group_result as $item1)
 		{
 			$i=0;
-			foreach($item1 as $item2)
+			foreach ( (array)$item1 as $item2)
 			{
 				if ($group_count==1)
 				{
@@ -83,7 +83,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					if (count($group[0]) && $i!=1)
 					{
 //FJ fix error Warning: Invalid argument supplied for foreach()
-//						foreach($group[0] as $column)
+//						foreach ( (array)$group[0] as $column)
 						$group[0]=$column;
 							$item2[$column] = str_replace('<!-- <!--','<!--','<!-- '.str_replace('-->','--><!--',$item2[$column])).' -->&nbsp;';
 					}
@@ -91,7 +91,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				}
 				else
 				{
-					foreach($item2 as $item3)
+					foreach ( (array)$item2 as $item3)
 					{
 						if ($group_count==2)
 						{
@@ -99,14 +99,14 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 							if (count($group[0]) && $i!=1)
 							{
 //FJ fix error Warning: Invalid argument supplied for foreach()
-		//						foreach($group[0] as $column)
+		//						foreach ( (array)$group[0] as $column)
 								$group[0]=$column;
 									$item3[$column] = '<!-- '.$item3[$column].' -->';
 							}
 							if (count($group[1]) && $i!=1)
 							{
 //FJ fix error Warning: Invalid argument supplied for foreach()
-//								foreach($group[1] as $column)
+//								foreach ( (array)$group[1] as $column)
 								$group[1]=$column;
 									$item3[$column] = '<!-- '.$item3[$column].' -->';
 							}
@@ -115,7 +115,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						}
 						else
 						{
-							foreach($item3 as $item4)
+							foreach ( (array)$item3 as $item4)
 							{
 								if ($group_count==3)
 								{
@@ -123,7 +123,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 									if (count($group[2]) && $i!=1)
 									{
 //FJ fix error Warning: Invalid argument supplied for foreach()
-//										foreach($group[2] as $column)
+//										foreach ( (array)$group[2] as $column)
 										$group[2]=$column;
 											unset($item4[$column]);
 									}
@@ -187,10 +187,10 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				foreach ($ignored_words as $word)
 					unset($terms[trim($word)]);
 
-				foreach($result as $key=>$value)
+				foreach ( (array)$result as $key=>$value)
 				{
 					$values[$key] = 0;
-					foreach($value as $val)
+					foreach ( (array)$value as $val)
 					{
 						//FJ better list searching by isolating the values
 						//$val = preg_replace('/[^a-zA-Z0-9 _]+/','',mb_strtolower($val));
@@ -200,7 +200,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						if ($search_term==$val)
 							$values[$key] += 25;
 
-						foreach($terms as $term=>$one)
+						foreach ( (array)$terms as $term=>$one)
 						{
 							if (mb_strpos($val,$term)!==FALSE)
 								$values[$key] += 3;
@@ -239,7 +239,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 
 			if (!empty($LO_sort))
 			{
-				foreach($result as $sort)
+				foreach ( (array)$result as $sort)
 				{
 					if (mb_substr($sort[$LO_sort],0,4)!='<!--')
 						//FJ better list sorting by isolating the values
@@ -287,7 +287,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			ob_end_clean();
 			if ($options['save_delimiter']!='xml')
 			{
-				foreach($column_names as $key=>$value)
+				foreach ( (array)$column_names as $key=>$value)
 				{
 					$value = ParseMLField($value);
 					if ($options['save_delimiter']=='comma' && !$options['save_quotes'])
@@ -296,9 +296,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				}
 				$output .= "\n";
 			}
-			foreach($result as $item)
+			foreach ( (array)$result as $item)
 			{
-				foreach($column_names as $key=>$value)
+				foreach ( (array)$column_names as $key=>$value)
 				{
 					$value = $item[$key];
 					if ($options['save_delimiter']=='comma' && !$options['save_quotes'])
@@ -496,7 +496,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 
 			if ($result_count!=0 && $cols)
 			{
-				foreach($column_names as $key=>$value)
+				foreach ( (array)$column_names as $key=>$value)
 				{
 					if (isset($LO_sort) && $LO_sort==$key)
 						$direction = -1 * $_REQUEST['LO_direction'];
@@ -543,7 +543,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					elseif ($remove && !isset($_REQUEST['_ROSARIO_PDF']))
 						echo '<TD>'.button('add').'</TD>';
 
-					foreach($column_names as $key=>$value)
+					foreach ( (array)$column_names as $key=>$value)
 					{
 						echo '<TD>'.$link['add']['html'][$key].'</TD>';
 					}
@@ -567,7 +567,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						$item[$key[$j]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
 					}
 					
-					/*foreach($item as $key=>$value)
+					/*foreach ( (array)$item as $key=>$value)
 					{
 						$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$value);
 						$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
@@ -590,7 +590,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$button_link = $link['remove']['link'];
 					if (count($link['remove']['variables']))
 					{
-						foreach($link['remove']['variables'] as $var=>$val)
+						foreach ( (array)$link['remove']['variables'] as $var=>$val)
 							$button_link .= "&$var=" . urlencode($item[$val]);
 					}
 
@@ -599,7 +599,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 
 				if ($cols)
 				{
-					foreach($column_names as $key=>$value)
+					foreach ( (array)$column_names as $key=>$value)
 					{
 						if (!empty($link[$key]) && $item[$key]!==false && !isset($_REQUEST['_ROSARIO_PDF']))
 						{
@@ -612,7 +612,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 								echo '<A HREF="#" onclick=\'window.open("'.$link[$key]['link'];
 								if (count($link[$key]['variables']))
 								{
-									foreach($link[$key]['variables'] as $var=>$val)
+									foreach ( (array)$link[$key]['variables'] as $var=>$val)
 										echo "&$var=".urlencode($item[$val]);
 								}
 								echo '","","scrollbars=yes,resizable=yes,width=800,height=400");\'';
@@ -625,7 +625,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 								echo '<A HREF="'.$link[$key]['link'];
 								if (count($link[$key]['variables']))
 								{
-									foreach($link[$key]['variables'] as $var=>$val)
+									foreach ( (array)$link[$key]['variables'] as $var=>$val)
 										echo '&'.$var.'='.urlencode($item[$val]);
 								}
 								echo '"';
@@ -671,7 +671,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					elseif ($remove && !isset($_REQUEST['_ROSARIO_PDF']))
 						echo '<TD>'.button('add').'</TD>';
 
-					foreach($column_names as $key=>$value)
+					foreach ( (array)$column_names as $key=>$value)
 					{
 						echo '<TD>'.$link['add']['html'][$key].'</TD>';
 					}
@@ -712,7 +712,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 
 					echo '"><THEAD><TR><TH>&nbsp;</TH>';
 
-					foreach($column_names as $key=>$value)
+					foreach ( (array)$column_names as $key=>$value)
 					{
 						echo '<TH>' . str_replace(' ','&nbsp;',$value) . '</TH>';
 					}
@@ -725,7 +725,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					else
 						echo '<TD>'.button('add').'</TD>';
 
-					foreach($column_names as $key=>$value)
+					foreach ( (array)$column_names as $key=>$value)
 					{
 						echo '<TD>'.$link['add']['html'][$key].'</TD>';
 					}
@@ -752,7 +752,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 function _ReindexResults($array)
 {
  	$i=1;
-	foreach($array as $value)
+	foreach ( (array)$array as $value)
 	{
 		$new[$i]=$value;
 		$i++;

@@ -9,13 +9,13 @@ if (empty($_REQUEST['modfunc']))
 		$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000001)"));
 		$address_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM ADDRESS_FIELDS"));
 		$people_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM PEOPLE_FIELDS"));
-		foreach($custom_fields_RET as $field)
+		foreach ( (array)$custom_fields_RET as $field)
 			$extra['SELECT'] .= ",s.CUSTOM_".$field['ID'];
 		$extra['SELECT'] .= ",a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,a.PHONE";
-		foreach($address_fields_RET as $field)
+		foreach ( (array)$address_fields_RET as $field)
 			$extra['SELECT'] .= ",a.CUSTOM_".$field['ID']." AS ADDRESS_".$field['ID'];
 		$extra['SELECT'] .= ",p.PERSON_ID,p.FIRST_NAME||' '||p.LAST_NAME AS PERSON_NAME";
-		foreach($people_fields_RET as $field)
+		foreach ( (array)$people_fields_RET as $field)
 			$extra['SELECT'] .= ",p.CUSTOM_".$field['ID']." AS PEOPLE_".$field['ID'];
 		$extra['functions'] = array();
 		for($i=1; $i<=10; $i++)
@@ -47,7 +47,7 @@ if (empty($_REQUEST['modfunc']))
 		}
 		$students_RET = GetStuList($extra);
 		$LO_columns += array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'));
-		foreach($custom_fields_RET as $field)
+		foreach ( (array)$custom_fields_RET as $field)
 			$LO_columns += array('CUSTOM_'.$field['ID']=>ParseMLField($field['TITLE']));
 		
 //FJ disable mailing address display
@@ -55,11 +55,11 @@ if (empty($_REQUEST['modfunc']))
 			$LO_columns += array('ADDRESS'=>_('Street'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode'),'PHONE'=>_('Phone'),'MAIL_ADDRESS'=>_('Mailing Street'),'MAIL_CITY'=>_('Mailing City'),'MAIL_STATE'=>_('Mailing State'),'MAIL_ZIPCODE'=>_('Mailing Zipcode'));
 		else
 			$LO_columns += array('ADDRESS'=>_('Street'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode'),'PHONE'=>_('Phone'));
-		foreach($address_fields_RET as $field)
+		foreach ( (array)$address_fields_RET as $field)
 //FJ add translation
 			$LO_columns += array('ADDRESS_'.$field['ID']=>ParseMLField($field['TITLE']));
 		$LO_columns += array('PERSON_NAME'=>_('Person Name'));
-		foreach($people_fields_RET as $field)
+		foreach ( (array)$people_fields_RET as $field)
 			$LO_columns += array('PEOPLE_'.$field['ID']=>ParseMLField($field['TITLE']));
 		for($i=1; $i<=$maxTV; $i++)
                         $LO_columns += array('TITLE_'.$i=>_('Title').' '.$i,'VALUE_'.$i=>_('Value').' '.$i);

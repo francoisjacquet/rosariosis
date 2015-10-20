@@ -339,7 +339,7 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 		}
 		if (count($options))
 		{
-			foreach($options as $key=>$val)
+			foreach ( (array)$options as $key=>$val)
 			{
 				$key .= '';
 				$select .= '<OPTION value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED':'').'>'.(is_array($val)?$val[0]:$val).'</OPTION>';
@@ -399,7 +399,7 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
         }
         if (count($options))
         {
-            foreach($options as $key=>$val)
+            foreach ( (array)$options as $key=>$val)
             {
                 $key .= '';
                 $select .= '<OPTION value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED':'').'>'.(is_array($val)?ParseMLField($val[0], $locale):ParseMLField($val, $locale)).'</OPTION>';
@@ -453,7 +453,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 		}
 		if (count($options))
 		{
-			foreach($options as $key=>$val)
+			foreach ( (array)$options as $key=>$val)
 			{
 				$key .= '';
 				$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value="'.htmlspecialchars($key,ENT_QUOTES).'" '.($value==$key && (!($value==false && $value!==$key) || ($value==='0' && $key===0))?'checked':'').' /> '.(is_array($val)?$val[0]:$val).'</label></TD>';

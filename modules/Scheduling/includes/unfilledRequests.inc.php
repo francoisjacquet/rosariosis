@@ -15,7 +15,7 @@ function calcSeats()
 	($THIS_RET['NOT_PERIOD_ID']?" AND '".$THIS_RET['NOT_PERIOD_ID']."' NOT IN(SELECT cpsp.PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID)":'')));
 	//echo '<pre>'; var_dump($periods_RET); echo '</pre>';
 
-	foreach($periods_RET as $period)
+	foreach ( (array)$periods_RET as $period)
 	{
 		$seats = calcSeats0($period);
 		if ($total_seats!==false)

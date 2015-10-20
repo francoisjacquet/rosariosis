@@ -1,6 +1,6 @@
 <?php
 
-if( !defined( 'WAREHOUSE_PHP' ) )
+if ( !defined( 'WAREHOUSE_PHP' ) )
 {
 	define( 'WAREHOUSE_PHP', 1 );
 
@@ -73,7 +73,7 @@ if( !defined( 'WAREHOUSE_PHP' ) )
 	session_start();
 
 	// Logout if no Staff or Student session ID
-	if( empty( $_SESSION['STAFF_ID'] )
+	if ( empty( $_SESSION['STAFF_ID'] )
 		&& empty( $_SESSION['STUDENT_ID'] )
 		&& basename( $_SERVER['SCRIPT_NAME'] ) !== 'index.php' )
 	{
@@ -189,7 +189,7 @@ if( !defined( 'WAREHOUSE_PHP' ) )
 	$RosarioPlugins = unserialize( Config( 'PLUGINS' ) );
 	
 	// Load plugins functions.
-	foreach( (array)$RosarioPlugins as $plugin => $activated )
+	foreach ( (array)$RosarioPlugins as $plugin => $activated )
 	{
 		if ( $activated )
 			include( 'plugins/' . $plugin . '/functions.php' );
@@ -223,15 +223,15 @@ if( !defined( 'WAREHOUSE_PHP' ) )
 		|| ( $not_core_plugins = array_diff( array_keys( $RosarioPlugins ), $RosarioCorePlugins ) ) )
 	{
 		// load module locale
-		foreach( $not_core_modules as $not_core_module )
+		foreach ( (array)$not_core_modules as $not_core_module )
 			//if module activated
-			if( $RosarioModules[$not_core_module] )
+			if ( $RosarioModules[$not_core_module] )
 				_LoadAddonLocale( $not_core_module, 'modules/' );
 
 		// load plugin locale
-		foreach( $not_core_plugins as $not_core_plugin )
+		foreach ( (array)$not_core_plugins as $not_core_plugin )
 			//if plugin activated
-			if( $RosarioPlugins[$not_core_plugin] )
+			if ( $RosarioPlugins[$not_core_plugin] )
 				_LoadAddonLocale( $not_core_plugin, 'plugins/' );
 	}
 

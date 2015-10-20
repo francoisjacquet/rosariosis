@@ -38,7 +38,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					next($RET);
 					if ($_REQUEST['to_address']=='student')
 					{
-						foreach($addresses as $key=>$address)
+						foreach ( (array)$addresses as $key=>$address)
 						{
 							if ($_REQUEST['student_name']=='given')
 								$name = $address['LAST_NAME'].', '.$address['FIRST_NAME'].' '.$address['MIDDLE_NAME'];
@@ -54,15 +54,15 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					{
 						// if grouping by address, replace people list in mailing labels with students list
 						$lasts = array();
-						foreach($addresses as $address)
+						foreach ( (array)$addresses as $address)
 							$lasts[$address['LAST_NAME']][] = $address['FIRST_NAME'];
 
 						$students = '';
-						foreach($lasts as $last=>$firsts)
+						foreach ( (array)$lasts as $last=>$firsts)
 						{
 							$student = '';
 							$previous = '';
-							foreach($firsts as $first)
+							foreach ( (array)$firsts as $first)
 							{
 								if ($student && $previous)
 									$student .= ', '.$previous;
@@ -83,7 +83,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				else
 					$addresses = array(1=>array('MAILING_LABEL'=>' '));
 
-				foreach($addresses as $address)
+				foreach ( (array)$addresses as $address)
 				{
 					if (!$address['MAILING_LABEL'])
 						continue;

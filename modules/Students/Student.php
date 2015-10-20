@@ -93,7 +93,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		//FJ other fields required
 		$others_required_RET = DBGet(DBQuery("SELECT ID FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$category_id."' AND REQUIRED='Y'"));
 		if (count($others_required_RET))
-			foreach($others_required_RET as $other_required)
+			foreach ( (array)$others_required_RET as $other_required)
 				if (isset($_REQUEST['students']['CUSTOM_'.$other_required['ID']]) && empty($_REQUEST['students']['CUSTOM_'.$other_required['ID']]))
 					$required_error = true;
 
@@ -106,7 +106,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		{
 			include_once( 'ProgramFunctions/MarkDown.fnc.php' );
 
-			foreach( (array)$others_textarea_RET as $other_textarea )
+			foreach ( (array)$others_textarea_RET as $other_textarea )
 			{
 				if ( isset( $_REQUEST['students']['CUSTOM_' . $other_textarea['ID']] )
 					&& !empty( $_REQUEST['students']['CUSTOM_' . $other_textarea['ID']] ) )
@@ -163,7 +163,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql = "UPDATE STUDENTS SET ";
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 				$go = false;
-				foreach($_REQUEST['students'] as $column=>$value)
+				foreach ( (array)$_REQUEST['students'] as $column=>$value)
 				{
 					if (1)//!empty($value) || $value=='0')
 					{
@@ -194,7 +194,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 							//FJ fix bug none selected not saved
 							$sql .= $column."='";
 							$sql_multiple_input = '';
-							foreach($value as $val)
+							foreach ( (array)$value as $val)
 							{
 								if ($val)
 									$sql_multiple_input .= str_replace('&quot;','"',$val).'||';
@@ -254,7 +254,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$values = "'".$student_id."',";
 
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
-				foreach($_REQUEST['students'] as $column=>$value)
+				foreach ( (array)$_REQUEST['students'] as $column=>$value)
 				{
 					if (!empty($value) || $value=='0')
 					{
@@ -280,7 +280,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 						else
 						{
 							$values .= "'||";
-							foreach($value as $val)
+							foreach ( (array)$value as $val)
 							{
 								if ($val)
 									$values .= $val.'||';
@@ -428,7 +428,7 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 		//hook
 		do_action('Students/Student.php|header');
 
-		foreach($categories_RET as $category)
+		foreach ( (array)$categories_RET as $category)
 		{
 			if ($can_use_RET['Students/Student.php&category_id='.$category['ID']])
 			{

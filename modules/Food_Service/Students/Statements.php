@@ -38,7 +38,7 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 	{
 		$student_select = _('Student').' <SELECT name="student_select"><OPTION value="">'._('Not Specified').'</OPTION>';
 		$student_select .= '<OPTION value="'.$student['STUDENT_ID'].'"'.($_REQUEST['student_select']==$student['STUDENT_ID'] ? ' SELECTED' : '').'>'.$student['FULL_NAME'].'</OPTION>';
-		foreach($xstudents as $xstudent)
+		foreach ( (array)$xstudents as $xstudent)
 			$student_select .= '<OPTION value="'.$xstudent['STUDENT_ID'].'"'.($_REQUEST['student_select']==$xstudent['STUDENT_ID'] ? ' SELECTED' : '').'>'.$xstudent['FULL_NAME'].'</OPTION>';
 		$student_select .= '</SELECT>';
 	}
@@ -77,15 +77,15 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 			$where." 
 			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','BALANCE'=>'red'));
 //FJ add translation
-			foreach($RET as $RET_key=>$RET_val) {
+			foreach ( (array)$RET as $RET_key=>$RET_val) {
 				$RET[$RET_key]=array_map('types_locale', $RET_val);
 			}	
 			// get details of each transaction
-			foreach($RET as $key=>$value)
+			foreach ( (array)$RET as $key=>$value)
 			{
 				$tmpRET = DBGet(DBQuery("SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$value['TRANSACTION_ID']."'"));
 //FJ add translation
-				foreach($tmpRET as $RET_key=>$RET_val) {
+				foreach ( (array)$tmpRET as $RET_key=>$RET_val) {
 					$tmpRET[$RET_key]=array_map('options_locale', $RET_val);
 				}	
 				// merge transaction and detail records
@@ -108,7 +108,7 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','BALANCE'=>'red'));
 			$columns = array('TRANSACTION_ID'=>_('ID'),'DATE'=>_('Date'),'TIME'=>_('Time'),'BALANCE'=>_('Balance'),'DISCOUNT'=>_('Discount'),'DESCRIPTION'=>_('Description'),'AMOUNT'=>_('Amount'));
 //FJ add translation
-			foreach($RET as $RET_key=>$RET_val) {
+			foreach ( (array)$RET as $RET_key=>$RET_val) {
 				$RET[$RET_key]=array_map('types_locale', $RET_val);
 			}	
 		}

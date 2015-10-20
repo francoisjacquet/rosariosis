@@ -7,7 +7,7 @@ if ($_REQUEST['modfunc']=='update')
 		if (count($_REQUEST['food_service']))
 		{
 			$sql = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ";
-			foreach($_REQUEST['food_service'] as $column_name=>$value)
+			foreach ( (array)$_REQUEST['food_service'] as $column_name=>$value)
 				$sql .= $column_name."='".trim($value)."',";
 			$sql = mb_substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
 			DBQuery($sql);

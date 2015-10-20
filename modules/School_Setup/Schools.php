@@ -33,7 +33,7 @@ if ($_REQUEST['modfunc']=='update')
 				
 					$go = 0;
 				
-					foreach($_REQUEST['values'] as $column=>$value)
+					foreach ( (array)$_REQUEST['values'] as $column=>$value)
 					{
 						if (1)//!empty($value) || $value=='0')
 						{
@@ -59,7 +59,7 @@ if ($_REQUEST['modfunc']=='update')
 				{
 					$fields = $values = '';
 
-					foreach($_REQUEST['values'] as $column=>$value)
+					foreach ( (array)$_REQUEST['values'] as $column=>$value)
 						if ($column!='ID' && $value)
 						{
 							$fields .= ','.$column;
@@ -196,7 +196,7 @@ if (empty($_REQUEST['modfunc']))
 	if ( count( $fields_RET ) )
 		echo '<TR><TD colspan="3"><hr /></TD></TR>';
 		
-	foreach( (array)$fields_RET as $field )
+	foreach ( (array)$fields_RET as $field )
 	{
 		$value_custom = '';
 

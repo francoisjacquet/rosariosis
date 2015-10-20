@@ -36,13 +36,13 @@ if ( empty( $end_date ) )
 
 if ($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 {
-	foreach($_REQUEST['attendance'] as $student_id=>$values)
+	foreach ( (array)$_REQUEST['attendance'] as $student_id=>$values)
 	{
-		foreach($values as $school_date=>$columns)
+		foreach ( (array)$values as $school_date=>$columns)
 		{
 			$sql = "UPDATE ATTENDANCE_PERIOD SET ADMIN='Y',";
 
-			foreach($columns as $column=>$value)
+			foreach ( (array)$columns as $column=>$value)
 				$sql .= $column."='".$value."',";
 
 			$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$school_date."' AND PERIOD_ID='".$_REQUEST['period_id']."' AND STUDENT_ID='".$student_id."'";
@@ -72,7 +72,7 @@ if ($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='
 			AND sp.SCHOOL_ID='".UserSchool()."' 
 			AND (SELECT count(1) FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND cpsp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR=sp.SYEAR AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0 
 			ORDER BY sp.SORT_ORDER"));
-			foreach($periods_RET as $period)
+			foreach ( (array)$periods_RET as $period)
 				$period_select .= '<OPTION value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period['TITLE'].'</OPTION>';
 		}
 		else
@@ -152,7 +152,7 @@ if ($_REQUEST['student_id'] || User('PROFILE')=='parent')
 	$i = 0;
 	if (count($schedule_RET))
 	{
-		foreach($schedule_RET as $course)
+		foreach ( (array)$schedule_RET as $course)
 		{
 			$i++;
 			$student_RET[$i]['TITLE'] = $course['COURSE_PERIOD'];
@@ -161,7 +161,7 @@ if ($_REQUEST['student_id'] || User('PROFILE')=='parent')
 				$student_RET[$i]['PERIOD'] = $course['PERIOD'];
 				$col_period = true;
 			}
-			foreach($cal_RET as $value)
+			foreach ( (array)$cal_RET as $value)
 				$student_RET[$i][$value['SHORT_DATE']] = _makePeriodColor($attendance_RET[$value['SCHOOL_DATE']][$course['PERIOD_ID']][1]['SHORT_NAME'],$attendance_RET[$value['SCHOOL_DATE']][$course['PERIOD_ID']][1]['STATE_CODE'],$attendance_RET[$value['SCHOOL_DATE']][$course['PERIOD_ID']][1]['DEFAULT_CODE']);
 		}
 	}
@@ -171,7 +171,7 @@ if ($_REQUEST['student_id'] || User('PROFILE')=='parent')
 		$columns['PERIOD'] = _('Period');
 	if (count($cal_RET))
 	{
-		foreach($cal_RET as $value)
+		foreach ( (array)$cal_RET as $value)
 			$columns[$value['SHORT_DATE']] = (isset($_REQUEST['LO_save']) ? strip_tags(ProperDate($value['SCHOOL_DATE'],'short')) : ProperDate($value['SCHOOL_DATE'],'short'));
 	}
 
@@ -204,7 +204,7 @@ else
 
 	if (count($cal_RET))
 	{
-		foreach($cal_RET as $value)
+		foreach ( (array)$cal_RET as $value)
 		{
 			$extra['SELECT'] .= ",'' as _".str_replace('-','',$value['SCHOOL_DATE']);
 			$extra['columns_after']['_'.str_replace('-','',$value['SCHOOL_DATE'])] = (isset($_REQUEST['LO_save']) ? strip_tags(ProperDate($value['SCHOOL_DATE'],'short')) : ProperDate($value['SCHOOL_DATE'],'short'));
@@ -288,7 +288,7 @@ function makeCodePulldown($value,$student_id,$date)
 
 	if (!$_ROSARIO['code_options'])
 	{
-		foreach($attendance_codes as $id=>$code)
+		foreach ( (array)$attendance_codes as $id=>$code)
 			$_ROSARIO['code_options'][$id] = $code[1]['SHORT_NAME'];
 	}
 

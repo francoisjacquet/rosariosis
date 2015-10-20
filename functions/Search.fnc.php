@@ -241,7 +241,7 @@ function Search( $type, $extra = null )
 				array( 'CATEGORY_TITLE', 'TITLE' )
 			);
 
-			foreach( (array)$categories_RET as $category )
+			foreach ( (array)$categories_RET as $category )
 			{
 				$TR_classes = '';
 
@@ -257,7 +257,7 @@ function Search( $type, $extra = null )
 					$TR_classes .= 'st';
 				}
 
-				foreach( (array)$category['text'] as $col )
+				foreach ( (array)$category['text'] as $col )
 				{
 					$name = 'cust[' . $col['COLUMN_NAME'] . ']';
 
@@ -270,7 +270,7 @@ function Search( $type, $extra = null )
 					</TD></TR>';
 				}
 
-				foreach( (array)$category['numeric'] as $col )
+				foreach ( (array)$category['numeric'] as $col )
 				{
 					echo '<TR class="' . $TR_classes . '"><TD>' . $col['TITLE'] . '</TD><TD>
 					<span class="sizep2">&ge;</span> <INPUT type="text" name="custb[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
@@ -289,7 +289,7 @@ function Search( $type, $extra = null )
 					(array)$category['codeds']
 				);
 
-				foreach( (array)$category['select_autos_edits_exports_codeds'] as $col )
+				foreach ( (array)$category['select_autos_edits_exports_codeds'] as $col )
 				{
 					$options = array();
 
@@ -313,7 +313,7 @@ function Search( $type, $extra = null )
 						<OPTION value="">' . _( 'N/A' ) . '</OPTION>
 						<OPTION value="!">' . _( 'No Value' ) . '</OPTION>';
 
-					foreach( (array)$options as $option )
+					foreach ( (array)$options as $option )
 					{
 						$value = $option;
 
@@ -367,7 +367,7 @@ function Search( $type, $extra = null )
 						// add the 'new' option, is also the separator
 						echo '<OPTION value="---">-' . _( 'Edit' ) . '-</OPTION>';
 
-						foreach( (array)$options_RET as $option )
+						foreach ( (array)$options_RET as $option )
 							if ( !in_array( $option[$col_name], $options ) )
 								echo '<OPTION value="' . $option[$col_name] . '">' . $option[$col_name] . '</OPTION>';
 					}
@@ -375,7 +375,7 @@ function Search( $type, $extra = null )
 					echo '</SELECT></TD></TR>';
 				}
 
-				foreach( (array)$category['date'] as $col )
+				foreach ( (array)$category['date'] as $col )
 				{
 					echo '<TR class="' . $TR_classes . '"><TD>' . $col['TITLE'] . '<BR />
 					<label>' . _( 'No Value' ) . '&nbsp;<INPUT type="checkbox" name="custn[' . $col['COLUMN_NAME'] . ']" /></label>
@@ -388,7 +388,7 @@ function Search( $type, $extra = null )
 					</table></TD></TR>';
 				}
 
-				foreach( (array)$category['radio'] as $col )
+				foreach ( (array)$category['radio'] as $col )
 				{
 					$name = 'cust[' . $col['COLUMN_NAME'] . ']';
 

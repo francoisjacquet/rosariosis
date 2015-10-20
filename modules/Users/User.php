@@ -85,7 +85,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 		}
 
 		$schools = $current_schools;
-		foreach($_REQUEST['staff']['SCHOOLS'] as $school_id=>$yes)
+		foreach ( (array)$_REQUEST['staff']['SCHOOLS'] as $school_id=>$yes)
 		{
 			if ($yes == 'Y' && mb_strpos($current_schools, ','.$school_id.',')===false)
 				$schools .= $school_id.',';
@@ -120,7 +120,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 		//FJ other fields required
 		$others_required_RET = DBGet(DBQuery("SELECT ID FROM STAFF_FIELDS WHERE CATEGORY_ID='".$category_id."' AND REQUIRED='Y'"));
 		if (count($others_required_RET))
-			foreach($others_required_RET as $other_required)
+			foreach ( (array)$others_required_RET as $other_required)
 				if (isset($_REQUEST['staff']['CUSTOM_'.$other_required['ID']]) && empty($_REQUEST['staff']['CUSTOM_'.$other_required['ID']]))
 					$required_error = true;
 
@@ -180,7 +180,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 				$sql = "UPDATE STAFF SET ";
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 				$go = false;
-				foreach($_REQUEST['staff'] as $column_name=>$value)
+				foreach ( (array)$_REQUEST['staff'] as $column_name=>$value)
 				{
 					if (1)//!empty($value) || $value=='0')
 					{
@@ -246,7 +246,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 				}
 
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
-				foreach($_REQUEST['staff'] as $column=>$value)
+				foreach ( (array)$_REQUEST['staff'] as $column=>$value)
 				{
 					if (!empty($value) || $value=='0')
 					{
@@ -439,7 +439,7 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 	$profile = $profile[1]['PROFILE'];
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ".($profile?mb_strtoupper($profile).'=\'Y\'':'ID=\'1\'')." ORDER BY SORT_ORDER,TITLE"));
 
-	foreach($categories_RET as $category)
+	foreach ( (array)$categories_RET as $category)
 	{
 		if ($can_use_RET['Users/User.php&category_id='.$category['ID']])
 		{

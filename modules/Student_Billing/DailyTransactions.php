@@ -61,7 +61,7 @@ $payments_RET = GetStuList($payments_extra);
 if (!empty($payments_RET))
 {
 	$i = count($RET) + 1;
-	foreach($payments_RET as $payment)
+	foreach ( (array)$payments_RET as $payment)
 	{
 		$RET[$i++] = $payment;
 	}

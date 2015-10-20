@@ -6,13 +6,13 @@ if (!$_REQUEST['print_statements'])
 
 if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach($_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
 		if ($id!='new')
 		{
 			$sql = "UPDATE ACCOUNTING_INCOMES SET ";
 							
-			foreach($columns as $column=>$value)
+			foreach ( (array)$columns as $column=>$value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -27,7 +27,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$values = db_seq_nextval('ACCOUNTING_INCOMES_SEQ').",'".UserSchool()."','".UserSyear()."','".DBDate()."',";
 			
 			$go = 0;
-			foreach($columns as $column=>$value)
+			foreach ( (array)$columns as $column=>$value)
 			{
 				if (!empty($value) || $value=='0')
 				{
@@ -63,7 +63,7 @@ if (!$_REQUEST['modfunc'])
 	$incomes_RET = DBGet(DBQuery("SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.COMMENTS,f.AMOUNT FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='".UserSyear()."' ORDER BY f.ASSIGNED_DATE"),$functions);
 	$i = 1;
 	$RET = array();
-	foreach($incomes_RET as $income)
+	foreach ( (array)$incomes_RET as $income)
 	{
 		$RET[$i] = $income;
 		$i++;

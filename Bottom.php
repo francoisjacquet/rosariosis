@@ -52,7 +52,7 @@ elseif ( isset( $_REQUEST['modfunc'] ) &&
 	//FJ add help for non-core modules
 	$not_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
 
-	foreach( $not_core_modules as $not_core_module )
+	foreach ( (array)$not_core_modules as $not_core_module )
 	{
 		$not_core_dir = 'modules/' . $not_core_module . '/';
 
@@ -67,7 +67,7 @@ elseif ( isset( $_REQUEST['modfunc'] ) &&
 
 	if ( !empty( $_REQUEST['modname'] ) )
 	{
-		foreach( $help as $program => $help_txt )
+		foreach ( (array)$help as $program => $help_txt )
 		{
 			//FJ fix bug URL Modules.php?modfunc=help&modname=Student_Billing/Statements.php&_ROSARIO_PDF
 			if ( $_REQUEST['modname'] === $program ||

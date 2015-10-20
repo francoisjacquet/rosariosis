@@ -7,7 +7,7 @@ $fields_RET = ParseMLArray( $fields_RET, 'TITLE' );
 
 echo '<TABLE class="width-100p">';
 
-foreach( (array)$fields_RET as $field )
+foreach ( (array)$fields_RET as $field )
 {
 	//echo '<pre>'; var_dump($field); echo '</pre>';
 

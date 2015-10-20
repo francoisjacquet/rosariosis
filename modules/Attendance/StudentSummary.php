@@ -61,7 +61,7 @@ if ($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='
 			if (count($periods_RET) > 1)
 				$period_select .= '<OPTION value="all"'.(($_REQUEST['period_id']=='all')?' SELECTED':'').'>'._('All Periods').'</OPTION>';
 
-			foreach($periods_RET as $period)
+			foreach ( (array)$periods_RET as $period)
 				$period_select .= '<OPTION value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period['TITLE'].'</OPTION>';
 		}
 		$period_select .= '</SELECT>';
@@ -82,7 +82,7 @@ if ($_REQUEST['period_id'])
 		
 		$period_ids_list = array();
 
-		foreach($period_ids_RET as $period_id)
+		foreach ( (array)$period_ids_RET as $period_id)
 			$period_ids_list[] = $period_id['PERIOD_ID'];
 		
 		$period_ids_list = implode(',',$period_ids_list);
@@ -100,7 +100,7 @@ if ($_REQUEST['period_id'])
 
 	if (count($codes_RET)>1)
 	{
-		foreach($codes_RET as $code)
+		foreach ( (array)$codes_RET as $code)
 		{
 			$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
 						WHERE ac.ID=ap.ATTENDANCE_CODE 
@@ -143,13 +143,13 @@ if (UserStudentID())
 	AND '".$end_date."' 
 	AND ad.SYEAR='".UserSyear()."' 
 	ORDER BY ap.SCHOOL_DATE"),array(),array('SCHOOL_DATE','PERIOD_ID'));
-	foreach($absences_RET as $school_date=>$absences)
+	foreach ( (array)$absences_RET as $school_date=>$absences)
 	{
 		$i++;
 		$days_RET[$i]['SCHOOL_DATE'] = ProperDate($school_date);
 		$days_RET[$i]['DAILY'] = _makeStateValue($absences[key($absences)][1]['STATE_VALUE']);
 		$days_RET[$i]['OFFICE_COMMENT'] = $absences[key($absences)][1]['OFFICE_COMMENT'];
-		foreach($absences as $period_id=>$absence)
+		foreach ( (array)$absences as $period_id=>$absence)
 		{
 			//$days_RET[$i][$period_id] =            $absence[1]['SHORT_NAME'];
 			$days_RET[$i][$period_id] = _makeColor($absence[1]['SHORT_NAME'],$absence[1]['STATE_CODE']);
@@ -172,7 +172,7 @@ if (UserStudentID())
 	$columns['SCHOOL_DATE'] = _('Date');
 	$columns['DAILY'] = _('Present');
 	$columns['OFFICE_COMMENT'] = _('Office Comment');
-	foreach($periods_RET as $period)
+	foreach ( (array)$periods_RET as $period)
 	{
 		$columns[$period['PERIOD_ID']] = $period['SHORT_NAME'];
 		$columns['COMMENT_'.$period['PERIOD_ID']] = $period['SHORT_NAME'].' '._('Comment');

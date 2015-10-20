@@ -53,7 +53,7 @@ function DBGet( $QI, $functions = array(), $index = array() )
 		{
 			$ind = '';
 
-			foreach( (array)$index as $col )
+			foreach ( (array)$index as $col )
 			{
 				$ind .= "['" . str_replace( "'", "\'", $THIS_RET[$col] ) . "']";
 			}
@@ -72,7 +72,7 @@ function DBGet( $QI, $functions = array(), $index = array() )
 		else
 			$s++; // 1-based if no index specified
 
-		foreach( (array)$RET as $key => $value )
+		foreach ( (array)$RET as $key => $value )
 		{
 			if ( array_key_exists( $key, $functions )
 				&& function_exists( $functions[$key] ) )

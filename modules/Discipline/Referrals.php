@@ -25,7 +25,7 @@ if ( isset( $_POST['values'] )
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
 	
-	foreach($_REQUEST['values'] as $column_name=>$value)
+	foreach ( (array)$_REQUEST['values'] as $column_name=>$value)
 	{
 		if (1)//!empty($value) || $value=='0')
 		{
@@ -41,7 +41,7 @@ if ( isset( $_POST['values'] )
 			else
 			{
 				$sql .= $column_name."='||";
-				foreach($value as $val)
+				foreach ( (array)$value as $val)
 				{
 					if ($val)
 						$sql .= str_replace('&quot;','"',$val).'||';
@@ -91,7 +91,7 @@ $extra['ORDER_BY'] = 'dr.ENTRY_DATE DESC,s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME'
 $extra['columns_after'] = array('STAFF_ID'=>_('Reporter'),'ENTRY_DATE'=>_('Incident Date'));
 $extra['functions'] = array('STAFF_ID'=>'GetTeacher','ENTRY_DATE'=>'ProperDate');
 
-foreach($categories_RET as $category)
+foreach ( (array)$categories_RET as $category)
 {
 	$extra['columns_after']['CATEGORY_'.$category['ID']] = $category['TITLE'];
 	$extra['functions']['CATEGORY_'.$category['ID']] = '_make';
@@ -143,7 +143,7 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 		echo '<TR class="st"><TD><span class="legend-gray">'._('Reporter').'</span></TD><TD>';
 		$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
 
-		foreach($users_RET as $user)
+		foreach ( (array)$users_RET as $user)
 			$options[$user['STAFF_ID']] = $user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'];
 
 		echo SelectInput($RET['STAFF_ID'],'values[STAFF_ID]','',$options);
@@ -153,7 +153,7 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 		echo DateInput($RET['ENTRY_DATE'],'values[ENTRY_DATE]');
 		echo '</TD></TR>';
 
-		foreach($categories_RET as $category)
+		foreach ( (array)$categories_RET as $category)
 		{
 			echo '<TR class="st"><TD><span class="legend-gray">'.$category['TITLE'].'</span></TD><TD>';
 
@@ -194,7 +194,7 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 						$toEscape = '<TABLE class="cellpadding-5"><TR class="st">';
 
 						$i = 0;
-						foreach($options as $option)
+						foreach ( (array)$options as $option)
 						{
 							$i++;
 							if ($i%3==0)
@@ -222,7 +222,7 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 						$toEscape = '<TABLE class="cellpadding-5"><TR class="st">';
 
 						$i = 0;
-						foreach($options as $option)
+						foreach ( (array)$options as $option)
 						{
 							$i++;
 							if ($i%3==0)
@@ -244,13 +244,13 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 					$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 					$select_options = explode("\r",$category['SELECT_OPTIONS']);
 
-					foreach($select_options as $option)
+					foreach ( (array)$select_options as $option)
 						$options[$option] = $option;
 
 					echo SelectInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','',$options,'N/A');
 					/*
 					echo '<SELECT name=values[CATEGORY_'.$category['ID'].']><OPTION value="">N/A';
-					foreach($options as $option)
+					foreach ( (array)$options as $option)
 					{
 						echo '<OPTION value="'.str_replace('"','&quot;',$option).'"'.($RET['CATEGORY_'.$category['ID']]==str_replace('"','&quot;',$option)?' SELECTED':'').'>'.$option.'</OPTION>';
 					}

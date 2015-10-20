@@ -78,12 +78,12 @@ if ( isset( $_POST['schedule'] )
 	&& count( $_POST['schedule'] )
 	&& AllowEdit() )
 {
-	foreach($_REQUEST['schedule'] as $course_period_id=>$start_dates)
-	foreach($start_dates as $start_date=>$columns)
+	foreach ( (array)$_REQUEST['schedule'] as $course_period_id=>$start_dates)
+	foreach ( (array)$start_dates as $start_date=>$columns)
 	{
 		$sql = "UPDATE SCHEDULE SET ";
 
-		foreach($columns as $column=>$value)
+		foreach ( (array)$columns as $column=>$value)
 		{
 			$sql .= $column."='".$value."',";
 		}
@@ -327,7 +327,7 @@ if ($_REQUEST['modfunc']=='choose_course')
 		AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)"));
 		
 		$days_conflict = false;
-		foreach($period_RET as $existing)
+		foreach ( (array)$period_RET as $existing)
 		{
 			if (mb_strlen($mp_RET[1]['DAYS'])+mb_strlen($existing['DAYS'])>7)
 			{
@@ -376,7 +376,7 @@ function _makePeriodSelect($course_period_id,$column)
 	//$orders_RET = DBGet(DBQuery("SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$THIS_RET['COURSE_ID']."' ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID),TITLE"));
 	$orders_RET = DBGet(DBQuery("SELECT COURSE_PERIOD_ID,PARENT_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,(SELECT SHORT_NAME FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=cp.PARENT_ID) AS PARENT,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$THIS_RET['COURSE_ID']."' ORDER BY SHORT_NAME,TITLE"));
 
-	foreach($orders_RET as $value)
+	foreach ( (array)$orders_RET as $value)
 	{
 		if ($value['TOTAL_SEATS'] && $_REQUEST['include_seats'])
 			$seats = calcSeats0($value);
@@ -396,30 +396,30 @@ function _makeMPSelect($mp_id,$name)
 		$quarters_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 
 		$_ROSARIO['_makeMPSelect'][$fy_id][1] = array('MARKING_PERIOD_ID'=>$fy_id,'TITLE'=>_('Full Year'),'PARENT_ID'=>'');
-		foreach($semesters_RET as $sem)
+		foreach ( (array)$semesters_RET as $sem)
 			$_ROSARIO['_makeMPSelect'][$fy_id][] = $sem;
-		foreach($quarters_RET as $qtr)
+		foreach ( (array)$quarters_RET as $qtr)
 			$_ROSARIO['_makeMPSelect'][$fy_id][] = $qtr;
 
 		$quarters_QI = DBQuery("SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER");
 		$quarters_indexed_RET = DBGet($quarters_QI,array(),array('PARENT_ID'));
 
-		foreach($semesters_RET as $sem)
+		foreach ( (array)$semesters_RET as $sem)
 		{
 			$_ROSARIO['_makeMPSelect'][$sem['MARKING_PERIOD_ID']][1] = $sem;
 
 			if (is_array($quarters_indexed_RET[$sem['MARKING_PERIOD_ID']]))
-				foreach($quarters_indexed_RET[$sem['MARKING_PERIOD_ID']] as $qtr)
+				foreach ( (array)$quarters_indexed_RET[$sem['MARKING_PERIOD_ID']] as $qtr)
 					$_ROSARIO['_makeMPSelect'][$sem['MARKING_PERIOD_ID']][] = $qtr;
 		}
 
-		foreach($quarters_RET as $qtr)
+		foreach ( (array)$quarters_RET as $qtr)
 			$_ROSARIO['_makeMPSelect'][$qtr['MARKING_PERIOD_ID']][] = $qtr;
 	}
 
 	if (is_array($_ROSARIO['_makeMPSelect'][$mp_id]))
 	{
-		foreach($_ROSARIO['_makeMPSelect'][$mp_id] as $value)
+		foreach ( (array)$_ROSARIO['_makeMPSelect'][$mp_id] as $value)
 		{
 			if ($value['MARKING_PERIOD_ID']!=$THIS_RET['MARKING_PERIOD_ID'] && $THIS_RET['TOTAL_SEATS'] && $_REQUEST['include_seats'])
 				$seats = calcSeats0($THIS_RET);
@@ -477,7 +477,7 @@ function VerifySchedule(&$schedule)
 										break;
 									}
 
-	foreach($conflicts as $i=>$true)
+	foreach ( (array)$conflicts as $i=>$true)
 		$schedule[$i]['TITLE'] = '<span style="color:red">'.$schedule[$i]['TITLE'].'</span>';
 }
 

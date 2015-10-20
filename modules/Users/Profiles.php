@@ -82,7 +82,7 @@ if ($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEd
 	$tmp_menu = $menu;
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
 
-	foreach($categories_RET as $category)
+	foreach ( (array)$categories_RET as $category)
 	{
 		$file = 'Students/Student.php&category_id='.$category['ID'];
 		$tmp_menu['Students'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
@@ -90,14 +90,14 @@ if ($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEd
 
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES"));
 
-	foreach($categories_RET as $category)
+	foreach ( (array)$categories_RET as $category)
 	{
 		$file = 'Users/User.php&category_id='.$category['ID'];
 		$tmp_menu['Users'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
 		
 	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
-	foreach($tmp_menu['Users'] as $profile => $modname_array)
+	foreach ( (array)$tmp_menu['Users'] as $profile => $modname_array)
 	{
 		foreach ($modname_array as $modname=>$title)
 			if (mb_strpos($modname, 'TeacherPrograms') !== false)
@@ -105,10 +105,10 @@ if ($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEd
 	}
 
 	if ( isset( $_POST['can_use'] ) )
-	foreach($tmp_menu as $modcat=>$profiles)
+	foreach ( (array)$tmp_menu as $modcat=>$profiles)
 	{
 		$values = $profiles[$xprofile];
-		foreach($values as $modname=>$title)
+		foreach ( (array)$values as $modname=>$title)
 		{
 			if (!is_numeric($modname) && $modname!='default')
 			{
@@ -176,9 +176,9 @@ if ($_REQUEST['modfunc']!='delete')
 	//$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES"));
 	$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES ORDER BY ID"),array(),array('PROFILE','ID'));
 	echo '<TR><TH colspan="3">'._('Profiles').'</TH></TR>';
-	foreach(array('admin','teacher','parent','student') as $profiles)
+	foreach ( array('admin','teacher','parent','student') as $profiles)
 	{
-		foreach($profiles_RET[$profiles] as $id=>$profile)
+		foreach ( (array)$profiles_RET[$profiles] as $id=>$profile)
 		{
 			if ($_REQUEST['profile_id']!='' && $id==$_REQUEST['profile_id'])
 				echo '<TR id="selected_tr" class="highlight"><TD>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</TD><TD>';
@@ -224,7 +224,7 @@ function changeHTML(show,hide){
 		PopTable('header',_('Permissions'));
 //		echo '<TABLE cellspacing=0>';
 		echo '<TABLE class="widefat cellspacing-0">';
-		foreach($menu as $modcat=>$profiles)
+		foreach ( (array)$menu as $modcat=>$profiles)
 		{
 			$values = $profiles[$xprofile];
 
@@ -246,7 +246,7 @@ function changeHTML(show,hide){
 			echo '<TH>&nbsp;</TH></TR>';
 			if (count($values))
 			{
-				foreach($values as $file=>$title)
+				foreach ( (array)$values as $file=>$title)
 				{
 					if (!is_numeric($file) && $file!='default')
 					{
@@ -267,7 +267,7 @@ function changeHTML(show,hide){
 						if ($modcat=='Students' && $file=='Students/Student.php')
 						{
 							$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
-							foreach($categories_RET as $category)
+							foreach ( (array)$categories_RET as $category)
 							{
 								$file = 'Students/Student.php&category_id='.$category['ID'];
 								$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
@@ -285,7 +285,7 @@ function changeHTML(show,hide){
 						elseif ($modcat=='Users' && $file=='Users/User.php')
 						{
 							$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
-							foreach($categories_RET as $category)
+							foreach ( (array)$categories_RET as $category)
 							{
 								$file = 'Users/User.php&category_id='.$category['ID'];
 								$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);

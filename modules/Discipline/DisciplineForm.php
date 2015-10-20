@@ -4,7 +4,7 @@ DrawHeader(ProgramTitle());
 
 if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach($_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -13,7 +13,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql = "UPDATE DISCIPLINE_FIELD_USAGE SET ";
 
-				foreach($columns as $column=>$value)
+				foreach ( (array)$columns as $column=>$value)
 					$sql .= $column."='".$value."',";
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				$go = true;
@@ -31,7 +31,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$go = 0;
 				if ($columns['TITLE'])
 				{
-					foreach($columns as $column=>$value)
+					foreach ( (array)$columns as $column=>$value)
 					{
 						if ($value && $column!='SORT_ORDER' && $column!='SELECT_OPTIONS')
 						{
@@ -48,7 +48,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					$fields = "ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,";
 					$values = db_seq_nextval('DISCIPLINE_FIELD_USAGE_SEQ').",'".$id."','".UserSyear()."','".UserSchool()."',";
 		
-					foreach($columns as $column=>$value)
+					foreach ( (array)$columns as $column=>$value)
 					{
 						if ($value && $column!='DATA_TYPE')
 						{
@@ -148,7 +148,7 @@ if (empty($_REQUEST['modfunc']))
 	$QI = DBQuery($sql);
 	$referrals_RET = DBGet($QI,array('REMOVE'=>'_makeRemove','TITLE'=>'_makeTextInput','SORT_ORDER'=>'_makeTextInput','DATA_TYPE'=>'_makeType','SELECT_OPTIONS'=>'_makeTextAreaInput'));
 	
-	foreach($referrals_RET as $key=>$item)
+	foreach ( (array)$referrals_RET as $key=>$item)
 	{
 		if (!$item['USAGE_ID'])
 			$referrals_RET[$key]['row_color']='CCCCCC';

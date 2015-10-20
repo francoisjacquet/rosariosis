@@ -17,7 +17,7 @@ function WrapTabs( $tabs, $selected = '' )
 
 	$self_link = PreparePHP_SELF();
 
-	foreach( (array)$tabs as $key => $tab )
+	foreach ( (array)$tabs as $key => $tab )
 	{
 		$selected_tab = false;
 

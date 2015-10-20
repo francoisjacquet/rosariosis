@@ -114,7 +114,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 		{
 			case 'PRO':
 
-				foreach( (array)$qtr_RET as $qtr )
+				foreach ( (array)$qtr_RET as $qtr )
 				{
 					$qtr_id = $qtr['MARKING_PERIOD_ID'];
 
@@ -130,7 +130,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 			case 'QTR':
 
-				foreach( (array)$qtr_RET as $qtr )
+				foreach ( (array)$qtr_RET as $qtr )
 				{
 					$qtr_id = $qtr['MARKING_PERIOD_ID'];
 
@@ -141,11 +141,11 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 			case 'SEM':
 
-				foreach( (array)$qtr_RET as $sem => $qtrs )
+				foreach ( (array)$qtr_RET as $sem => $qtrs )
 				{
 					$all_mp[$mp][$sem] = "'" . $fy . "','" . $sem . "'";
 
-					foreach( (array)$qtrs as $qtr )
+					foreach ( (array)$qtrs as $qtr )
 					{
 						$all_mp[$mp][$sem] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
 					}
@@ -153,7 +153,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 				$sem_RET = DBGet( DBQuery( $sem_SQL ) );
 
-				foreach( (array)$sem_RET as $sem )
+				foreach ( (array)$sem_RET as $sem )
 				{
 					$sem_id = $sem['MARKING_PERIOD_ID'];
 
@@ -167,11 +167,11 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 				// there should be exactly one fy marking period which better be $marking_period_id
 				$all_mp[$mp][$marking_period_id] = "'" . $marking_period_id . "'";
 			
-				foreach( $qtr_RET as $sem => $qtrs )
+				foreach ( $qtr_RET as $sem => $qtrs )
 				{
 					$all_mp[$mp][$marking_period_id] .= ",'" . $sem . "'";
 
-					foreach( (array)$qtrs as $qtr )
+					foreach ( (array)$qtrs as $qtr )
 					{
 						$all_mp[$mp][$marking_period_id] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
 					}
@@ -179,7 +179,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 				$sem_RET = DBGet( DBQuery( $sem_SQL ) );
 
-				foreach( (array)$sem_RET as $sem )
+				foreach ( (array)$sem_RET as $sem )
 				{
 					$all_mp[$mp][$marking_period_id] .= ",'" . $sem['MARKING_PERIOD_ID'] . "'";
 				}
@@ -283,11 +283,11 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 				$qtr_RET = DBGet( DBQuery( $qtr_SQL ), array(), array( 'PARENT_ID' ) );
 
-				foreach( (array)$qtr_RET as $sem => $qtrs )
+				foreach ( (array)$qtr_RET as $sem => $qtrs )
 				{
 					$children_mp[$mp]['0'] .= ",'" . $sem . "'";
 
-					foreach( (array)$qtrs as $qtr )
+					foreach ( (array)$qtrs as $qtr )
 					{
 						$children_mp[$mp]['0'] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
 					}
@@ -303,9 +303,9 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 				$qtr_RET = DBGet( DBQuery( $qtr_SQL ), array(), array( 'PARENT_ID' ) );
 
-				foreach( (array)$qtr_RET as $sem => $qtrs )
+				foreach ( (array)$qtr_RET as $sem => $qtrs )
 				{
-					foreach( (array)$qtrs as $qtr )
+					foreach ( (array)$qtrs as $qtr )
 					{
 						$children_mp[$mp][$sem] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
 					}
@@ -329,9 +329,9 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'"), array(), array( 'PARENT_ID' ) );
 
-				foreach( (array)$pro_RET as $qtr => $pros )
+				foreach ( (array)$pro_RET as $qtr => $pros )
 				{
-					foreach( (array)$pros as $pro )
+					foreach ( (array)$pros as $pro )
 					{
 						$children_mp[$mp][$qtr] .= ",'" . $pro['MARKING_PERIOD_ID'] . "'";
 					}

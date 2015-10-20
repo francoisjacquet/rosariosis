@@ -59,7 +59,7 @@ if ( isset( $_POST['values'] )
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
 	
-	foreach($_REQUEST['values'] as $column=>$value)
+	foreach ( (array)$_REQUEST['values'] as $column=>$value)
 	{
 		if (!empty($value) || $value=='0')
 		{
@@ -77,7 +77,7 @@ if ( isset( $_POST['values'] )
 			else
 			{
 				$values .= "'||";
-				foreach($value as $val)
+				foreach ( (array)$value as $val)
 				{
 					if ($val)
 						$values .= str_replace('&quot;','"',$val).'||';
@@ -150,7 +150,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 	echo '<TR class="st"><TD><span class="legend-gray">'._('Reporter').'</span></TD><TD>';
 	$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
 	echo '<SELECT name="values[STAFF_ID]">';
-	foreach($users_RET as $user)
+	foreach ( (array)$users_RET as $user)
 		echo '<OPTION value="'.$user['STAFF_ID'].'"'.(User('STAFF_ID')==$user['STAFF_ID']?' SELECTED':'').'>'.$user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'].'</OPTION>';
 	echo '</SELECT>';
 	echo '</TD></TR>';
@@ -196,7 +196,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 	echo '</TD></TR>';
 
-	foreach($categories_RET as $category)
+	foreach ( (array)$categories_RET as $category)
 	{
 		echo '<TR class="st"><TD><span class="legend-gray">'.$category['TITLE'].'</span></TD><TD>';
 		switch($category['DATA_TYPE'])
@@ -232,7 +232,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 				
 				echo '<TABLE class="cellpadding-5"><TR class="st">';
 				$i = 0;
-				foreach($options as $option)
+				foreach ( (array)$options as $option)
 				{
 					$i++;
 					if ($i%3==0)
@@ -248,7 +248,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 				
 				echo '<TABLE class="cellpadding-5"><TR class="st">';
 				$i = 0;
-				foreach($options as $option)
+				foreach ( (array)$options as $option)
 				{
 					$i++;
 					if ($i%3==0)
@@ -264,12 +264,12 @@ if (UserStudentID() && $_REQUEST['student_id'])
 
 				$select_options = explode("\r",$category['SELECT_OPTIONS']);
 
-				foreach($select_options as $option)
+				foreach ( (array)$select_options as $option)
 					$options[$option] = $option;
 
 				echo SelectInput('','values[CATEGORY_'.$category['ID'].']','',$options,'N/A');
 				/*echo '<SELECT name="values[CATEGORY_'.$category['ID'].']"><OPTION value="">'._('N/A').'</OPTION>';
-				foreach($options as $option)
+				foreach ( (array)$options as $option)
 				{
 					echo '<OPTION value="'.str_replace('"','&quot;',$option).'">'.$option.'</OPTION>';
 				}

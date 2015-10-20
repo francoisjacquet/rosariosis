@@ -46,7 +46,7 @@ if ( UserStudentID() )
 
 		if (is_array($_REQUEST['values']))
 		{
-			foreach($_REQUEST['values'] as $id=>$columns)
+			foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 			{
 				//FJ fix SQL bug when text data entered, data verification
 				if ((empty($columns['GRADE_PERCENT']) || is_numeric($columns['GRADE_PERCENT'])) && (empty($columns['GP_SCALE']) || is_numeric($columns['GP_SCALE'])) && (empty($columns['UNWEIGHTED_GP']) || is_numeric($columns['UNWEIGHTED_GP'])) && (empty($columns['WEIGHTED_GP']) || is_numeric($columns['WEIGHTED_GP'])) && (empty($columns['CREDIT_EARNED']) || is_numeric($columns['CREDIT_EARNED'])) && (empty($columns['CREDIT_ATTEMPTED']) || is_numeric($columns['CREDIT_ATTEMPTED'])))
@@ -54,7 +54,7 @@ if ( UserStudentID() )
 					if ($id!='new')
 					{
 						$sql = "UPDATE student_report_card_grades SET ";
-						foreach($columns as $column=>$value)
+						foreach ( (array)$columns as $column=>$value)
 							$sql .= $column."='".$value."',";
 
 						if ($_REQUEST['tab_id']!='new')
@@ -96,7 +96,7 @@ if ( UserStudentID() )
 							$columns['CLASS_RANK']='Y';
 
 						$go = false;
-						foreach($columns as $column=>$value)
+						foreach ( (array)$columns as $column=>$value)
 							if (!empty($value) || $value=='0')
 							{
 								$fields .= $column.',';
@@ -158,7 +158,7 @@ if ( UserStudentID() )
 
 		if ($GRET)
 		{
-			foreach($GRET as $rec)
+			foreach ( (array)$GRET as $rec)
 			{
 				if ($mp_id == null || $mp_id == $rec['MP_ID'])
 					$mp_id = $rec['MP_ID'];

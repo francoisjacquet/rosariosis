@@ -24,7 +24,7 @@ $categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES
 if ($_REQUEST['table']=='')
 	$_REQUEST['table'] = '0';
 $category_select = "<SELECT name=table onChange='ajaxPostForm(this.form,true);'><OPTION value='0'".($_REQUEST['table']=='0'?' SELECTED':'').">"._('Attendance')."</OPTION>";
-foreach($categories_RET as $category)
+foreach ( (array)$categories_RET as $category)
 	$category_select .= '<OPTION value="'.$category[ID].'"'.(($_REQUEST['table']==$category['ID'])?' SELECTED':'').">".$category['TITLE']."</OPTION>";
 $category_select .= "</SELECT>";
 
@@ -32,7 +32,7 @@ $QI = DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHO
 $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
 $period_select = "<SELECT name=period onChange='ajaxPostForm(this.form,true);'><OPTION value=''>"._('All')."</OPTION>";
-foreach($periods_RET as $id=>$period)
+foreach ( (array)$periods_RET as $id=>$period)
 	$period_select .= '<OPTION value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED':'').">".$period[1]['TITLE']."</OPTION>";
 $period_select .= "</SELECT>";
 
@@ -79,11 +79,11 @@ if (!$_REQUEST['period'])
 {
 	$tiptitle = false;
 
-	foreach($RET as $staff_id=>$periods)
+	foreach ( (array)$RET as $staff_id=>$periods)
 	{
 		$i++;
 		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
-		foreach($periods as $period)
+		foreach ( (array)$periods as $period)
 		{
 			if (!isset($_REQUEST['_ROSARIO_PDF']))
 			{
@@ -105,7 +105,7 @@ if (!$_REQUEST['period'])
 	}
 
 	$columns = array('FULL_NAME'=>_('Teacher'));
-	foreach($periods_RET as $id=>$period)
+	foreach ( (array)$periods_RET as $id=>$period)
 		$columns[$id] = $period[1]['TITLE'];
 
 	ListOutput($staff_RET,$columns,'Teacher who takes attendance','Teachers who take attendance');
@@ -117,9 +117,9 @@ else
 	$tiptitle = false;
 
 	//FJ display icon for completed column
-	foreach($RET as $staff_id=>$periods)
+	foreach ( (array)$RET as $staff_id=>$periods)
 	{
-		foreach($periods as $id=>$period)
+		foreach ( (array)$periods as $id=>$period)
 		{
 			if (!isset($_REQUEST['_ROSARIO_PDF']))
 			{

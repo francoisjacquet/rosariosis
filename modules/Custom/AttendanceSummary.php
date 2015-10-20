@@ -27,7 +27,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	$extra['SELECT'] = ",ssm.CALENDAR_ID,ssm.START_DATE,ssm.END_DATE";
 
-	foreach($custom_RET as $id=>$custom)
+	foreach ( (array)$custom_RET as $id=>$custom)
 		$extra['SELECT'] .= ",CUSTOM_".$id;
 
 	// ACTIVE logic taken from GetStuList()
@@ -52,7 +52,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$handle = PDFStart();
 
-		foreach($RET as $student)
+		foreach ( (array)$RET as $student)
 		{
 			$calendar_RET = DBGet(DBquery("SELECT ".db_case(array(
 				"MINUTES>=".Config('ATTENDANCE_FULL_DAY_MINUTES'),
@@ -110,7 +110,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			<span class="sizep1"><B>'._('Demographics').'</B></span>
 			<TABLE style="width:98%;" class="cellspacing-0 center"><TR>';
 
-			foreach($custom_RET as $id=>$custom)
+			foreach ( (array)$custom_RET as $id=>$custom)
 				echo '<TD style="text-align:right">'.ParseMLField($custom_RET[$id][1]['TITLE']).':&nbsp;</TD>
 				<TD>'.$student['CUSTOM_'.$id].'</TD>';
 
@@ -157,7 +157,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$last_month = explode('-', $FY_dates[1]['END_DATE']);
 			$last_month = (int)$last_month[1];
 
-			//foreach(array(7,8,9,10,11,12,1,2,3,4,5,6) as $month)
+			//foreach ( array(7,8,9,10,11,12,1,2,3,4,5,6) as $month)
 			if ($last_month > $first_month)
 				$last_month_tmp = $last_month;
 			else

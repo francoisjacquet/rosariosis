@@ -188,7 +188,7 @@ function Widgets( $item, &$myextra = null )
 					'' )
 				) );
 
-			foreach( $widgets_RET as $widget )
+			foreach ( $widgets_RET as $widget )
 				Widgets( $widget['TITLE'], $extra );
 
 		break;
@@ -1113,7 +1113,7 @@ function Widgets( $item, &$myextra = null )
 						unset( $_REQUEST['discipline'][$key[$i]] );
 					}
 
-				/*foreach($_REQUEST['discipline'] as $key=>$value)
+				/*foreach ( (array)$_REQUEST['discipline'] as $key=>$value)
 				{
 					if (!$value)
 						unset($_REQUEST['discipline'][$key]);
@@ -1135,7 +1135,7 @@ function Widgets( $item, &$myextra = null )
 						unset( $_REQUEST['discipline_begin'][$key[$i]] );
 					}
 
-				/*foreach($_REQUEST['discipline_begin'] as $key=>$value)
+				/*foreach ( (array)$_REQUEST['discipline_begin'] as $key=>$value)
 				{
 					if (!$value)
 						unset($_REQUEST['discipline_begin'][$key]);
@@ -1156,7 +1156,7 @@ function Widgets( $item, &$myextra = null )
 						unset( $_REQUEST['discipline_end'][$key[$i]] );
 					}
 
-				/*foreach($_REQUEST['discipline_end'] as $key=>$value)
+				/*foreach ( (array)$_REQUEST['discipline_end'] as $key=>$value)
 				{
 					if (!$value)
 						unset($_REQUEST['discipline_end'][$key]);
@@ -1183,7 +1183,7 @@ function Widgets( $item, &$myextra = null )
 				AND f.DATA_TYPE!='textarea'
 				AND f.DATA_TYPE!='date'" ) );
 
-			foreach( (array)$categories_RET as $category )
+			foreach ( (array)$categories_RET as $category )
 			{
 				$extra['search'] .= '<TR class="st"><TD>' . $category['TITLE'] . '</TD><TD>';
 
@@ -1378,7 +1378,7 @@ function Widgets( $item, &$myextra = null )
 				<OPTION value="">' . _( 'N/A' ) . '</OPTION>
 				<OPTION value="!">' . _( 'No Value' ) . '</OPTION>';
 
-			foreach( (array)$calendars_RET as $id => $calendar )
+			foreach ( (array)$calendars_RET as $id => $calendar )
 				$extra['search'] .= '<OPTION value="' . $id . '">' . $calendar[1]['TITLE'] . '</OPTION>';
 
 			$extra['search'] .= '</SELECT></TD></TR>';

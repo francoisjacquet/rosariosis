@@ -6,7 +6,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 {
 	if ($_REQUEST['values'] && $_POST['values'])
 	{
-		foreach($_REQUEST['values'] as $id=>$columns)
+		foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 		{
 			//FJ fix SQL bug invalid sort order
 			if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -21,7 +21,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 					else
 						$sql = "UPDATE ATTENDANCE_CODE_CATEGORIES SET ";
 
-					foreach($columns as $column=>$value)
+					foreach ( (array)$columns as $column=>$value)
 						$sql .= $column."='".$value."',";
 
 					$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
@@ -43,7 +43,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 					}
 
 					$go = false;
-					foreach($columns as $column=>$value)
+					foreach ( (array)$columns as $column=>$value)
 					{
 						if (isset($value) && $value!='')
 						{
@@ -105,7 +105,7 @@ if (empty($_REQUEST['modfunc']))
 
 	$tabs = array(array('title'=>_('Attendance'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table=0'));
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
-	foreach($categories_RET as $category)
+	foreach ( (array)$categories_RET as $category)
 		$tabs[] = array('title'=>$category['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID']);
 
 	if ($_REQUEST['table']!='new')

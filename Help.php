@@ -14,7 +14,7 @@ else
 //FJ add help for non-core modules
 $not_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
 
-foreach( $not_core_modules as $not_core_module )
+foreach ( (array)$not_core_modules as $not_core_module )
 {
 	$not_core_dir = 'modules/' . $not_core_module . '/';
 
@@ -60,7 +60,7 @@ $handle = PDFStart();
 <HR />
 
 <?php
-foreach( $help as $program => $value )
+foreach ( (array)$help as $program => $value )
 {
 	$_REQUEST['modname'] = $program;
 

@@ -85,7 +85,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 			}
 			return $option;
 		}
-		foreach($RET as $RET_key=>$RET_val) {
+		foreach ( (array)$RET as $RET_key=>$RET_val) {
 			$RET_temp[$RET_key]=array_map('types_locale', $RET_val);
 			$RET[$RET_key]=array_map('options_locale', $RET_temp[$RET_key]);
 		}	

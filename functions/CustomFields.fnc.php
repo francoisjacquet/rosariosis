@@ -80,7 +80,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		$fields = ParseMLArray( DBGet( DBQuery( "SELECT TITLE,ID,TYPE,SELECT_OPTIONS
 			FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS" ), array(), array( 'ID' ) ), 'TITLE' );
 
-	foreach( (array)$cust as $field_name => $value )
+	foreach ( (array)$cust as $field_name => $value )
 	{
 		$field_id = mb_substr( $field_name, 7 );
 
@@ -134,7 +134,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 					{
 						$select_options = explode( '<br />', nl2br( $fields[$field_id][1]['SELECT_OPTIONS'] ) );
 
-						foreach( (array)$select_options as $option )
+						foreach ( (array)$select_options as $option )
 						{
 							$option = explode( '|', $option );
 
@@ -238,7 +238,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	}
 
 	// Begin Dates / Number
-	foreach( (array)$cust_begin as $field_name => $value )
+	foreach ( (array)$cust_begin as $field_name => $value )
 	{
 		$field_id = mb_substr( $field_name, 7 );
 
@@ -267,7 +267,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	}
 
 	// End Dates / Number
-	foreach( (array)$cust_end as $field_name => $value )
+	foreach ( (array)$cust_end as $field_name => $value )
 	{
 		$field_id = mb_substr( $field_name, 7 );
 
@@ -296,7 +296,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	}
 
 	// No Value for Dates & Number
-	foreach( (array)$_REQUEST['custn'] as $field_name => $y )
+	foreach ( (array)$_REQUEST['custn'] as $field_name => $y )
 	{
 		$field_id = mb_substr( $field_name, 7 );
 

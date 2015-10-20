@@ -144,12 +144,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		else
 			$mp_TITLE = 'TITLE';
 
-		foreach($_REQUEST['mp_arr'] as $mp)
+		foreach ( (array)$_REQUEST['mp_arr'] as $mp)
 			$columns[$mp] = GetMP($mp,$mp_TITLE);
 
 		if ($_REQUEST['elements']['comments']=='Y')
 		{
-			foreach($all_commentsA_RET as $comment)
+			foreach ( (array)$all_commentsA_RET as $comment)
 				$columns['C'.$comment[1]['ID']] = $comment[1]['TITLE'];
 
 			$columns['COMMENT'] = _('Comments');
@@ -157,20 +157,20 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$handle = PDFStart();
 		//echo '<!-- MEDIA SIZE 8.5x11in -->';
-		foreach($RET as $student_id=>$course_periods)
+		foreach ( (array)$RET as $student_id=>$course_periods)
 		{
 			$comments_arr = array();
 			$comments_arr_key = count($all_commentsA_RET)>0;
 			unset($grades_RET);
 			$i = 0;
 			
-			foreach($course_periods as $course_period_id=>$mps)
+			foreach ( (array)$course_periods as $course_period_id=>$mps)
 			{
 				$i++;
 				$grades_RET[$i]['COURSE_TITLE'] = $mps[key($mps)][1]['COURSE_TITLE'];
 				$grades_RET[$i]['TEACHER'] = $mps[key($mps)][1]['TEACHER'];
 
-				foreach($_REQUEST['mp_arr'] as $mp)
+				foreach ( (array)$_REQUEST['mp_arr'] as $mp)
 				{
 					if ($mps[$mp])
 					{
@@ -190,8 +190,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							//if (is_array($comments_RET[$student_id][$course_period_id][$last_mp]))
 							if (isset($comments_RET[$student_id][$course_period_id][$mp]) && is_array($comments_RET[$student_id][$course_period_id][$mp]))
 							{
-								//foreach($comments_RET[$student_id][$course_period_id][$last_mp] as $comment)
-								foreach($comments_RET[$student_id][$course_period_id][$mp] as $comment)
+								//foreach ( (array)$comments_RET[$student_id][$course_period_id][$last_mp] as $comment)
+								foreach ( (array)$comments_RET[$student_id][$course_period_id][$mp] as $comment)
 								{
 									if ($all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']])
 										$grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT']!=' ' ? (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).$comment['COMMENT'] : (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).'&middot;';
@@ -251,7 +251,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			else
 				$addresses = array(0=>array());
 
-			foreach($addresses as $address)
+			foreach ( (array)$addresses as $address)
 			{
 				unset($_ROSARIO['DrawHeader']);
 
@@ -277,7 +277,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					//FJ fix error Invalid argument supplied for foreach()
 					if (isset($attendance_day_RET[$student_id][$last_mp]) && is_array($attendance_day_RET[$student_id][$last_mp]))
 					{
-						foreach($attendance_day_RET[$student_id][$last_mp] as $abs)
+						foreach ( (array)$attendance_day_RET[$student_id][$last_mp] as $abs)
 							$count += 1-$abs['STATE_VALUE'];
 					}
 					$mp_absences = sprintf(_('Absences in %s'),GetMP($last_mp,'TITLE')).': '.$count;
@@ -289,8 +289,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					//FJ fix error Invalid argument supplied for foreach()
 					if (isset($attendance_day_RET[$student_id]) && is_array($attendance_day_RET[$student_id]))
 					{
-						foreach($attendance_day_RET[$student_id] as $mp_abs)
-							foreach($mp_abs as $abs)
+						foreach ( (array)$attendance_day_RET[$student_id] as $mp_abs)
+							foreach ( (array)$mp_abs as $abs)
 								$count += 1-$abs['STATE_VALUE'];
 					}
 
@@ -308,7 +308,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$count = 0;
 
 					if (is_array($attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp]))
-						foreach($attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] as $abs)
+						foreach ( (array)$attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] as $abs)
 							$count++;
 
 					$mp_tardies = sprintf(_('Tardy in %s'),GetMP($last_mp,'TITLE')).': '.$count;
@@ -318,8 +318,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$count = 0;
 
 					if (is_array($attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']]))
-						foreach($attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] as $mp_abs)
-							foreach($mp_abs as $abs)
+						foreach ( (array)$attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] as $mp_abs)
+							foreach ( (array)$mp_abs as $abs)
 								$count++;
 
 					DrawHeader(_('Tardy this year').': '.$count,$mp_tardies);
@@ -376,7 +376,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$i = 0;
 					$scale_title = '';
 					if ($comments_arr_key)
-						foreach($comment_codes_RET as $comment)
+						foreach ( (array)$comment_codes_RET as $comment)
 						{
 							//FJ limit comment scales to the ones used in student's courses
 							if (in_array($comment['SCALE_ID'], $student_comment_scales))
@@ -412,7 +412,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					$commentsA_txt = _('Course-specific Comments').'<BR /><ul>';
 
-					foreach($comments_arr as $comment_course_title=>$comments)
+					foreach ( (array)$comments_arr as $comment_course_title=>$comments)
 						foreach ($comments as $comment=>$sort_order)
 						{
 							if ($commentsA_RET[$comment])
@@ -514,13 +514,13 @@ if (empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '</TR><TR>';
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[ytd_tardies]" value="Y" /> '._('Other Attendance Year-to-date').':</label> <SELECT name="ytd_tardies_code">';
 
-		foreach($attendance_codes as $code)
+		foreach ( (array)$attendance_codes as $code)
 			$extra['extra_header_left'] .= '<OPTION value='.$code['ID'].'>'.$code['TITLE'].'</OPTION>';
 
 		$extra['extra_header_left'] .= '</SELECT></TD>';
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="elements[mp_tardies]" value="Y"> '._('Other Attendance this quarter').':</label> <SELECT name="mp_tardies_code">';
 
-		foreach($attendance_codes as $code)
+		foreach ( (array)$attendance_codes as $code)
 			$extra['extra_header_left'] .= '<OPTION value='.$code['ID'].'>'.$code['TITLE'].'</OPTION>';
 
 		$extra['extra_header_left'] .= '</SELECT></TD>';
@@ -533,16 +533,16 @@ if (empty($_REQUEST['modfunc']))
 		//FJ get the title instead of the short marking period name
 		$mps_RET = DBGet(DBQuery("SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('PARENT_ID'));
 		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Marking Periods').':</TD><TD><TABLE><TR><TD><TABLE>';
-		foreach($mps_RET as $sem=>$quarters)
+		foreach ( (array)$mps_RET as $sem=>$quarters)
 		{
 			$extra['extra_header_left'] .= '<TR class="st">';
-			foreach($quarters as $qtr)
+			foreach ( (array)$quarters as $qtr)
 			{
 				$pro = GetChildrenMP('PRO',$qtr['MARKING_PERIOD_ID']);
 				if ($pro)
 				{
 					$pros = explode(',',str_replace("'",'',$pro));
-					foreach($pros as $pro)
+					foreach ( (array)$pros as $pro)
 						if (GetMP($pro,'DOES_GRADES')=='Y')
 							$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="mp_arr[]" value="'.$pro.'" /> '.GetMP($pro,'TITLE').'</label></TD>';
 				}

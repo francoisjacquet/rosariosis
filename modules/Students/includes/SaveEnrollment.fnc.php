@@ -11,7 +11,7 @@ function SaveEnrollment()
 	if ($_POST['month_values']['STUDENT_ENROLLMENT'] || $_POST['values']['STUDENT_ENROLLMENT'])
 	{
 		//FJ check if student already enrolled on that date when updating START_DATE
-		foreach($_REQUEST['month_values']['STUDENT_ENROLLMENT'] as $stu_enrol_id => $stu_enrol_month)
+		foreach ( (array)$_REQUEST['month_values']['STUDENT_ENROLLMENT'] as $stu_enrol_id => $stu_enrol_month)
 		{
 			if ($stu_enrol_id=='new' && !$_REQUEST['values']['STUDENT_ENROLLMENT']['new']['ENROLLMENT_CODE'] && !$_REQUEST['month_values']['STUDENT_ENROLLMENT']['new']['START_DATE'])
 			{

@@ -42,7 +42,7 @@ if (!$_REQUEST['search_modfunc'])
 
 			echo '<TR><TD><label for="profile">'._('Profile').'</label></TD><TD><SELECT name="profile" id="profile">';
 
-			foreach($options as $key=>$val)
+			foreach ( (array)$options as $key=>$val)
 				echo '<OPTION value="'.$key.'">'.$val.'</OPTION>';
 
 			echo '</SELECT></TD></TR>';
@@ -217,7 +217,7 @@ else
 	{
 		if (count($link['FULL_NAME']['variables']))
 		{
-			foreach($link['FULL_NAME']['variables'] as $var=>$val)
+			foreach ( (array)$link['FULL_NAME']['variables'] as $var=>$val)
 				$_REQUEST[$var] = $staff_RET['1'][$val];
 		}
 

@@ -49,7 +49,7 @@ if ($_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_ser
 	AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'"),array(),array('SCHOOL_DATE'));
 	//echo '<pre>'; var_dump($events_RET); echo '</pre>';
 
-	foreach($_REQUEST['food_service'] as $school_date=>$description)
+	foreach ( (array)$_REQUEST['food_service'] as $school_date=>$description)
 	{
 		if ($events_RET[$school_date])
 			if ($description['text'] || $description['select'])
@@ -104,7 +104,7 @@ if ($_REQUEST['submit']['print'])
 
 		if (count($events_RET[$date]))
 		{
-			foreach($events_RET[$date] as $event)
+			foreach ( (array)$events_RET[$date] as $event)
 			{
 				if ($event['TITLE']!=$menus_RET[$_REQUEST['menu_id']][1]['TITLE'])
 					echo '<BR /><i>'.$event['TITLE'].'</i>';
@@ -133,7 +133,7 @@ else
 		if (count($description_RET))
 		{
 			$description_select = '<OPTION value="">'._('or select previous meal').'</OPTION>';
-			foreach($description_RET as $description)
+			foreach ( (array)$description_RET as $description)
 				$description_select .= '<OPTION value="'.$description['DESCRIPTION'].'">'.$description['DESCRIPTION'].'</OPTION>';
 			$description_select .= '</SELECT>';
 		}
@@ -157,7 +157,7 @@ else
 	ORDER BY SCHOOL_DATE"),array('DESCRIPTION'=>'makeDescriptionInput','SCHOOL_DATE'=>'ProperDate'));
 
 	$events_RET[0] = array(); // make sure indexing from 1
-	foreach($calendar_RET as $school_date=>$value)
+	foreach ( (array)$calendar_RET as $school_date=>$value)
 		$events_RET[] = array('ID'=>'new','SCHOOL_DATE'=>ProperDate($school_date),'DESCRIPTION'=>TextInput('','food_service['.$school_date.'][text]','','size=20').($description_select ? '<SELECT name="food_service['.$school_date.'][select]">'.$description_select : ''));
 	unset($events_RET[0]);
 	$LO_columns = array('ID'=>_('ID'),'SCHOOL_DATE'=>_('Date'),'DESCRIPTION'=>_('Description'));
@@ -167,7 +167,7 @@ else
 	echo '<BR />';
 
 	$tabs = array();
-	foreach($menus_RET as $id=>$meal)
+	foreach ( (array)$menus_RET as $id=>$meal)
 		$tabs[] = array('title'=>$meal[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id=$id&month='.$_REQUEST['month'].'&year='.$_REQUEST['year']);
 
 	$extra = array('save'=>false,'search'=>false,
