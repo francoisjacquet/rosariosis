@@ -15,7 +15,7 @@ if (count($RET))
 	}
 }
 
-if ($add)
+if ( $add)
 	$link['add']['html'] = array('START_DATE'=>_makeStartInput('','START_DATE'),'SCHOOL_ID'=>_makeSchoolInput('','SCHOOL_ID'));
 
 $columns = array('START_DATE'=>_('Attendance Start Date this School Year'),'END_DATE'=>_('Dropped'),'SCHOOL_ID'=>_('School'));
@@ -42,7 +42,7 @@ if (count($gradelevels_RET))
 		$gradelevel_options[$gradelevel['ID']] = $gradelevel['TITLE'];
 }
 
-if ($_REQUEST['student_id']!='new' && count($RET))
+if ( $_REQUEST['student_id']!='new' && count($RET))
 {
 	$id = $RET[count($RET)]['ID'];
 
@@ -75,10 +75,10 @@ echo '<TD>'.SelectInput($next_school,'values[STUDENT_ENROLLMENT]['.$id.'][NEXT_S
 
 echo '</TR></TABLE>';
 
-if ($PopTable_opened)
+if ( $PopTable_opened)
 	PopTable('footer');
 
 ListOutput($RET,$columns,'Enrollment Record','Enrollment Records',$link,array(),array('save'=>false,'search'=>false));
 
-if ($PopTable_opened)
+if ( $PopTable_opened)
 	echo '<TABLE><TR><TD>';

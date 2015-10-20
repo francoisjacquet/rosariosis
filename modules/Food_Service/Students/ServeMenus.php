@@ -5,15 +5,15 @@ Widgets('fsa_barcode');
 
 Search('student_id',$extra);
 
-if ($_REQUEST['modfunc']=='submit')
+if ( $_REQUEST['modfunc']=='submit')
 {
-	if ($_REQUEST['submit']['cancel'])
+	if ( $_REQUEST['submit']['cancel'])
 	{
 //FJ add translation
 		if (DeletePromptX(_('Sale'),_('Cancel')))
 			unset($_SESSION['FSA_sale']);
 	}
-	elseif ($_REQUEST['submit']['save'])
+	elseif ( $_REQUEST['submit']['save'])
 	{
 		if (count($_SESSION['FSA_sale']))
 		{
@@ -32,13 +32,13 @@ if ($_REQUEST['modfunc']=='submit')
 				// determine price based on discount
 				$price = $items_RET[$item_sn][1]['PRICE'];
 				$discount = $student['DISCOUNT'];
-				if ($student['DISCOUNT']=='Reduced')
-					if ($items_RET[$item_sn][1]['PRICE_REDUCED']!='')
+				if ( $student['DISCOUNT']=='Reduced')
+					if ( $items_RET[$item_sn][1]['PRICE_REDUCED']!='')
 						$price = $items_RET[$item_sn][1]['PRICE_REDUCED'];
 					else
 						$discount = '';
-				elseif ($student['DISCOUNT']=='Free')
-					if ($items_RET[$item_sn][1]['PRICE_FREE']!='')
+				elseif ( $student['DISCOUNT']=='Free')
+					if ( $items_RET[$item_sn][1]['PRICE_FREE']!='')
 						$price = $items_RET[$item_sn][1]['PRICE_FREE'];
 					else
 						$discount = '';
@@ -79,7 +79,7 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 
-	if ($student['BALANCE']!='')
+	if ( $student['BALANCE']!='')
 	{
 		echo '<TABLE class="width-100p">';
 		echo '<TR class="st"><TD class="width-100p valign-top">';
@@ -118,13 +118,13 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 			{
 				// determine price based on discount
 				$price = $items_RET[$item_sn][1]['PRICE'];
-				if ($student['DISCOUNT']=='Reduced')
+				if ( $student['DISCOUNT']=='Reduced')
 				{
-					if ($items_RET[$item_sn][1]['PRICE_REDUCED']!='')
+					if ( $items_RET[$item_sn][1]['PRICE_REDUCED']!='')
 						$price = $items_RET[$item_sn][1]['PRICE_REDUCED'];
 				}
-				elseif ($student['DISCOUNT']=='Free')
-					if ($items_RET[$item_sn][1]['PRICE_FREE']!='')
+				elseif ( $student['DISCOUNT']=='Free')
+					if ( $items_RET[$item_sn][1]['PRICE_FREE']!='')
 						$price = $items_RET[$item_sn][1]['PRICE_FREE'];
 				$LO_ret[] = array('SALE_ID'=>$id,'PRICE'=>$price,'DESCRIPTION'=>$items_RET[$item_sn][1]['DESCRIPTION'],'ICON'=>$items_RET[$item_sn][1]['ICON']);
 			}

@@ -9,14 +9,14 @@ $period_select .= "</SELECT>";
 */
 
 DrawHeader(ProgramTitle());
-if ($period_select)
+if ( $period_select)
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 	DrawHeader($period_select);
 	echo '</FORM>';
 }
 
-if ($_REQUEST['search_modfunc']=='list')
+if ( $_REQUEST['search_modfunc']=='list')
 {
 	Widgets('course');
 	Widgets('request');
@@ -48,7 +48,7 @@ foreach ( (array)$periods_RET as $period)
 	$extra['columns_after']['PERIOD_'.$period['PERIOD_ID']] = $period['TITLE'];
 	$extra['functions']['PERIOD_'.$period['PERIOD_ID']] = '_preparePeriods';
 }
-if (!$_REQUEST['search_modfunc'])
+if ( !$_REQUEST['search_modfunc'])
 	Search('student_id',$extra);
 else
 {
@@ -63,7 +63,7 @@ else
 		if (count($schedule_RET[$student['STUDENT_ID']])!=count($periods_RET))
 			$bad_students[] = $student;
 	}
-	if (!isset($extra['columns_after']) || !is_array($extra['columns_after']))
+	if ( !isset($extra['columns_after']) || !is_array($extra['columns_after']))
 		$extra['columns_after'] = array();
 	unset($bad_students[0]);
 	if (AllowUse('Scheduling/Schedule.php'))
@@ -80,7 +80,7 @@ function _preparePeriods($value,$name)
 {	global $THIS_RET,$schedule_RET;
 
 	$period_id = mb_substr($name,7);
-	if (!$schedule_RET[$THIS_RET['STUDENT_ID']][$period_id])
+	if ( !$schedule_RET[$THIS_RET['STUDENT_ID']][$period_id])
 	{
 		if (isset($_REQUEST['LO_save']))
 			$return = _('No');

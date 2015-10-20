@@ -784,7 +784,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		{
 			if ( $calendar_RET[$date] )
 			{
-				//if ($minutes!='0' && $minutes!='')
+				//if ( $minutes!='0' && $minutes!='')
 				//FJ fix bug MINUTES not numeric
 				if ( intval( $minutes ) > 0 )
 				{
@@ -806,7 +806,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 				$update_calendar = true;
 			}
-			//elseif ($minutes!='0' && $minutes!='')
+			//elseif ( $minutes!='0' && $minutes!='')
 			//FJ fix bug MINUTES not numeric
 			elseif ( intval( $minutes ) > 0 )
 			{

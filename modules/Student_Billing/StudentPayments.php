@@ -2,7 +2,7 @@
 
 include_once('modules/Student_Billing/functions.inc.php');
 
-if (!$_REQUEST['print_statements'])
+if ( !$_REQUEST['print_statements'])
 {
 	DrawHeader(ProgramTitle());
 
@@ -10,11 +10,11 @@ if (!$_REQUEST['print_statements'])
 	Search('student_id');
 }
 
-if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
-		if ($id!='new')
+		if ( $id!='new')
 		{
 			$sql = "UPDATE BILLING_PAYMENTS SET ";
 							
@@ -38,13 +38,13 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$go = 0;
 			foreach ( (array)$columns as $column=>$value)
 			{
-				if (!empty($value) || $value=='0')
+				if ( !empty($value) || $value=='0')
 				{
-					if ($column=='AMOUNT')
+					if ( $column=='AMOUNT')
 					{
 						$value = preg_replace('/[^0-9.]/','',$value);
 //FJ fix SQL bug invalid amount
-						if (!is_numeric($value))
+						if ( !is_numeric($value))
 							$value = 0;
 					}
 					$fields .= $column.',';
@@ -54,14 +54,14 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			
-			if ($go)
+			if ( $go)
 				DBQuery($sql);
 		}
 	}
 	unset($_REQUEST['values']);
 }
 
-if ($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if (DeletePrompt(_('Payment')))
 	{
@@ -70,7 +70,7 @@ if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if ($_REQUEST['modfunc']=='refund' && AllowEdit())
+if ( $_REQUEST['modfunc']=='refund' && AllowEdit())
 {
 	if (DeletePrompt(_('Payment'),_('Refund')))
 	{
@@ -94,7 +94,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	foreach ( (array)$payments_RET as $payment)
 	{
 		$RET[$i] = $payment;
-		if ($refunded_payments_RET[$payment['ID']])
+		if ( $refunded_payments_RET[$payment['ID']])
 		{
 			$i++;
 			$RET[$i] = ($refunded_payments_RET[$payment['ID']][1] + array('row_color'=>'FF0000'));
@@ -108,9 +108,9 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 		$columns = array();
 	
 	$columns += array('AMOUNT'=>_('Amount'),'PAYMENT_DATE'=>_('Date'),'COMMENTS'=>_('Comment'),'LUNCH_PAYMENT'=>_('Lunch Payment'));
-	if (!$_REQUEST['print_statements'] && AllowEdit())
+	if ( !$_REQUEST['print_statements'] && AllowEdit())
 		$link['add']['html'] = array('REMOVE'=>button('add'),'AMOUNT'=>_makePaymentsTextInput('','AMOUNT'),'PAYMENT_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makePaymentsTextInput('','COMMENTS'),'LUNCH_PAYMENT'=>_lunchInput('','LUNCH_PAYMENT'));
-	if (!$_REQUEST['print_statements'])
+	if ( !$_REQUEST['print_statements'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		//DrawStudentHeader();
@@ -123,7 +123,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 
 	ListOutput($RET,$columns,'Payment','Payments',$link,array(),$options);
 
-	if (!$_REQUEST['print_statements'] && AllowEdit())
+	if ( !$_REQUEST['print_statements'] && AllowEdit())
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
 	echo '<BR />';
@@ -136,11 +136,11 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 
 	$table .= '<TR><TD>'._('Balance').': <b>'.'</b></TD><TD><b>'.Currency(($fees_total[1]['TOTAL']-$payments_total),'CR').'</b></TD></TR></TABLE>';
 
-	if (!$_REQUEST['print_statements'])
+	if ( !$_REQUEST['print_statements'])
 		DrawHeader('','',$table);
 	else
 		DrawHeader($table,'','',null,null,true);
 	
-	if (!$_REQUEST['print_statements'] && AllowEdit())
+	if ( !$_REQUEST['print_statements'] && AllowEdit())
 		echo '</FORM>';
 }

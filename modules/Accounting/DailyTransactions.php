@@ -35,7 +35,7 @@ echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&accounting=" me
 
 $header_checkboxes = '<label><input type="checkbox" value="true" name="accounting" id="accounting" '.(!isset($_REQUEST['accounting']) || $_REQUEST['accounting']=='true' ? 'checked ' : '').'/> '._('Expense').' & '._('Income').'</label>&nbsp; ';	
 $header_checkboxes .= '<label><input type="checkbox" value="true" name="staff_payroll" id="staff_payroll" '.(!empty($_REQUEST['staff_payroll']) ? 'checked ' : '').'/> '._('Staff Payroll').'</label>&nbsp; ';
-if ($RosarioModules['Student_Billing'])
+if ( $RosarioModules['Student_Billing'])
 	$header_checkboxes .= '<label><input type="checkbox" value="true" name="student_billing" id="student_billing" '.(!empty($_REQUEST['student_billing']) ? 'checked ' : '').'/> '._('Student Billing').'</label>';
 DrawHeader($header_checkboxes,'');
 
@@ -44,7 +44,7 @@ DrawHeader('<B>'._('Report Timeframe').': </B>'.PrepareDate($start_date,'_start'
 echo '</FORM>';
 
 // sort by date since the list is two lists merged and not already properly sorted
-if (!$_REQUEST['LO_sort'])
+if ( !$_REQUEST['LO_sort'])
 	$_REQUEST['LO_sort'] = 'DATE';
 
 //Widgets('all');
@@ -53,7 +53,7 @@ $extra['functions'] = array('DEBIT'=>'_makeCurrency','CREDIT'=>'_makeCurrency','
 $RET = $debit_col = $credit_col = $name_col = array();
 
 //Accounting
-if (!isset($_REQUEST['accounting']) || $_REQUEST['accounting']=='true')
+if ( !isset($_REQUEST['accounting']) || $_REQUEST['accounting']=='true')
 {
 	$name_col_sql = '';
 	if (isset($_REQUEST['staff_payroll']) || isset($_REQUEST['student_billing']))
@@ -86,7 +86,7 @@ if (!isset($_REQUEST['accounting']) || $_REQUEST['accounting']=='true')
 }
 
 //Staff salaries
-if (!empty($_REQUEST['staff_payroll']))
+if ( !empty($_REQUEST['staff_payroll']))
 {
 	$salaries_extra = $extra;
 	$name_col_sql = '';
@@ -121,7 +121,7 @@ if (!empty($_REQUEST['staff_payroll']))
 }
 
 //Student Billing
-if (!empty($_REQUEST['student_billing']) && $RosarioModules['Student_Billing'])
+if ( !empty($_REQUEST['student_billing']) && $RosarioModules['Student_Billing'])
 {
 	$fees_extra = $extra;
 	$name_col_sql = '';
@@ -173,7 +173,7 @@ function _makeCurrency($value,$column)
 {	global $totals;
 
 	$totals[$column] += $value;
-	if (!empty($value) || $value=='0')
+	if ( !empty($value) || $value=='0')
 		return Currency($value);
 }
 ?>

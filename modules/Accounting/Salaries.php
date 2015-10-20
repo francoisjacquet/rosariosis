@@ -4,7 +4,7 @@ include_once('modules/Accounting/functions.inc.php');
 if (User('PROFILE')=='teacher')//limit to teacher himself
 	$_REQUEST['staff_id'] = User('STAFF_ID');
 
-if (!$_REQUEST['print_statements'])
+if ( !$_REQUEST['print_statements'])
 {
 	DrawHeader(ProgramTitle());
 	
@@ -12,7 +12,7 @@ if (!$_REQUEST['print_statements'])
 	Search('staff_id',$extra);
 }
 
-if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	if (count($_REQUEST['month_']))
 	{
@@ -20,7 +20,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		{
 			foreach ( (array)$columns as $column=>$value)
 			{
-				if ($_REQUEST['day_'][$id][$column] && $_REQUEST['month_'][$id][$column] && $_REQUEST['year_'][$id][$column])
+				if ( $_REQUEST['day_'][$id][$column] && $_REQUEST['month_'][$id][$column] && $_REQUEST['year_'][$id][$column])
 					$_REQUEST['values'][$id][$column] = $_REQUEST['day_'][$id][$column].'-'.$_REQUEST['month_'][$id][$column].'-'.$_REQUEST['year_'][$id][$column];
 			}
 		}
@@ -28,7 +28,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
-		if ($id!='new')
+		if ( $id!='new')
 		{
 			$sql = "UPDATE ACCOUNTING_SALARIES SET ";
 							
@@ -49,9 +49,9 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$go = 0;
 			foreach ( (array)$columns as $column=>$value)
 			{
-				if (!empty($value) || $value=='0')
+				if ( !empty($value) || $value=='0')
 				{
-					if ($column=='AMOUNT')
+					if ( $column=='AMOUNT')
 						$value = preg_replace('/[^0-9.-]/','',$value);
 					$fields .= $column.',';
 					$values .= "'".$value."',";
@@ -60,14 +60,14 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			
-			if ($go)
+			if ( $go)
 				DBQuery($sql);
 		}
 	}
 	unset($_REQUEST['values']);
 }
 
-if ($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if (DeletePrompt(_('Salary')))
 	{
@@ -95,9 +95,9 @@ if (UserStaffID() && !$_REQUEST['modfunc'])
 		$columns = array();
 
 	$columns += array('TITLE'=>_('Salary'),'AMOUNT'=>_('Amount'),'ASSIGNED_DATE'=>_('Assigned'),'DUE_DATE'=>_('Due'),'COMMENTS'=>_('Comment'));
-	if (!$_REQUEST['print_statements'])
+	if ( !$_REQUEST['print_statements'])
 		$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeSalariesTextInput('','TITLE'),'AMOUNT'=>_makeSalariesTextInput('','AMOUNT'),'ASSIGNED_DATE'=>ProperDate(DBDate()),'DUE_DATE'=>_makeSalariesDateInput('','DUE_DATE'),'COMMENTS'=>_makeSalariesTextInput('','COMMENTS'));
-	if (!$_REQUEST['print_statements'])
+	if ( !$_REQUEST['print_statements'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		if (AllowEdit())
@@ -109,11 +109,11 @@ if (UserStaffID() && !$_REQUEST['modfunc'])
 
 	ListOutput($RET,$columns,'Salary','Salaries',$link,array(),$options);
 
-	if (!$_REQUEST['print_statements'] && AllowEdit())
+	if ( !$_REQUEST['print_statements'] && AllowEdit())
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '<BR />';
 
-	if (!$_REQUEST['print_statements'])
+	if ( !$_REQUEST['print_statements'])
 	{
 		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID='".UserStaffID()."' AND p.SYEAR='".UserSyear()."'"));
 

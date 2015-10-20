@@ -11,7 +11,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.TITLE,TEACHER_ID,cp.MARKING_PERIOD_ID,cp.MP FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID IN (".$cp_list.") ORDER BY cp.SHORT_NAME,cp.TITLE"));
 		//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
 
-		if ($_REQUEST['include_teacher']=='Y')
+		if ( $_REQUEST['include_teacher']=='Y')
 			$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,ROLLOVER_ID FROM STAFF WHERE STAFF_ID IN (SELECT TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID IN (".$cp_list."))"),array(),array('STAFF_ID'));
 		//echo '<pre>'; var_dump($teachers_RET); echo '</pre>';
 
@@ -26,7 +26,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$course_period_id = $course_period['COURSE_PERIOD_ID'];
 			$teacher_id = $course_period['TEACHER_ID'];
 
-			if ($teacher_id)
+			if ( $teacher_id)
 			{
 				$_SESSION['UserCoursePeriod'] = $course_period_id;
 
@@ -68,15 +68,15 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					echo '<TR><TD colspan="5" class="center"><h3>'.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.$course_period['TITLE'].'</h3></TD></TR>';
 
 					$i = 0;
-					if ($_REQUEST['include_teacher']=='Y')
+					if ( $_REQUEST['include_teacher']=='Y')
 					{
 						$teacher = $teachers_RET[$teacher_id][1];
 
 						echo '<TR><TD style="vertical-align:bottom;"><TABLE>';
 
-						if ($UserPicturesPath && (($size=@getimagesize($picture_path=$UserPicturesPath.UserSyear().'/'.$teacher_id.'.JPG')) || $_REQUEST['last_year']=='Y' && $staff['ROLLOVER_ID'] && ($size=@getimagesize($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.$staff['ROLLOVER_ID'].'.JPG'))))
+						if ( $UserPicturesPath && (($size=@getimagesize($picture_path=$UserPicturesPath.UserSyear().'/'.$teacher_id.'.JPG')) || $_REQUEST['last_year']=='Y' && $staff['ROLLOVER_ID'] && ($size=@getimagesize($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.$staff['ROLLOVER_ID'].'.JPG'))))
 						{
-							if ($size[1]/$size[0] > 172/130)
+							if ( $size[1]/$size[0] > 172/130)
 								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" height="172"></TD></TR>';
 							else
 								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" width="130"></TD></TR>';
@@ -93,14 +93,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					{
 						$student_id = $student['STUDENT_ID'];
 
-						if ($i++%5==0)
+						if ( $i++%5==0)
 							echo '<TR>';
 
 						echo '<TD style="vertical-align:bottom;"><TABLE>';
 
-						if ($StudentPicturesPath && (($size=@getimagesize($picture_path=$StudentPicturesPath.UserSyear().'/'.$student_id.'.jpg')) || $_REQUEST['last_year']=='Y' && ($size=@getimagesize($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.$student_id.'.jpg'))))
+						if ( $StudentPicturesPath && (($size=@getimagesize($picture_path=$StudentPicturesPath.UserSyear().'/'.$student_id.'.jpg')) || $_REQUEST['last_year']=='Y' && ($size=@getimagesize($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.$student_id.'.jpg'))))
 						{
-							if ($size[1]/$size[0] > 172/130)
+							if ( $size[1]/$size[0] > 172/130)
 								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" height="172"></TD></TR>';
 							else
 								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" width="130"></TD></TR>';
@@ -111,11 +111,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						echo '<TR><TD><span class="size-1"><B>'.$student['LAST_NAME'].'</B><BR />'.$student['FIRST_NAME'].'</span></TD></TR>';
 						echo '</TABLE></TD>';
 
-						if ($i%5==0)
+						if ( $i%5==0)
 							echo '</TR><!-- NEED 2in -->';
 					}
 
-					if ($i%5!=0)
+					if ( $i%5!=0)
 						echo '</TR>';
 
 					echo '</TABLE><div style="page-break-after: always;"></div>';
@@ -124,7 +124,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		}
 		$_SESSION['UserCoursePeriod'] = $PCP_UserCoursePeriod;
 
-		if ($no_students_backprompt)
+		if ( $no_students_backprompt)
 			BackPrompt(_('No Students were found.'));
 
 		PDFStop($handle);
@@ -140,7 +140,7 @@ if (empty($_REQUEST['modfunc']))
 	if (User('PROFILE')!='admin')
 		$_REQUEST['search_modfunc'] = 'list';
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
 		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" />';
@@ -158,7 +158,7 @@ if (empty($_REQUEST['modfunc']))
 	}
 
 	mySearch('course_period',$extra);
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" /></div>';
 		echo '</FORM>';
@@ -168,11 +168,11 @@ if (empty($_REQUEST['modfunc']))
 function mySearch($type,$extra='')
 {	global $extra;
 
-	if (!$_REQUEST['search_modfunc'])
+	if ( !$_REQUEST['search_modfunc'])
 	{
 		$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
-		if ($_SESSION['Back_PHP_SELF']!='course')
+		if ( $_SESSION['Back_PHP_SELF']!='course')
 		{
 			$_SESSION['Back_PHP_SELF'] = 'course';
 			unset($_SESSION['List_PHP_SELF']);
@@ -237,28 +237,28 @@ function mySearch($type,$extra='')
 
 		if (User('PROFILE')=='admin')
 		{
-			if ($_REQUEST['teacher_id'])
+			if ( $_REQUEST['teacher_id'])
 				$where .= " AND cp.TEACHER_ID='".$_REQUEST['teacher_id']."'";
 
-			if ($_REQUEST['first'])
+			if ( $_REQUEST['first'])
 				$where .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 
-			if ($_REQUEST['w_course_period_id'])
+			if ( $_REQUEST['w_course_period_id'])
 			{
-				if ($_REQUEST['w_course_period_id_which']=='course')
+				if ( $_REQUEST['w_course_period_id_which']=='course')
 					$where .= " AND cp.COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."')";
 				else
 					$where .= " AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'";
 			}
 
-			if ($_REQUEST['subject_id'])
+			if ( $_REQUEST['subject_id'])
 			{
 				$from .= ",COURSES c";
 				$where .= " AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID='".$_REQUEST['subject_id']."'";
 			}
 
 			//FJ multiple school periods for a course period
-			if ($_REQUEST['period_id'])
+			if ( $_REQUEST['period_id'])
 			{
 				//$where .= " AND cp.PERIOD_ID='".$_REQUEST['period_id']."'";
 				$where .= " AND cpsp.PERIOD_ID='".$_REQUEST['period_id']."' AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
@@ -285,11 +285,11 @@ function mySearch($type,$extra='')
 		$course_periods_RET = DBGet(DBQuery($sql),array('COURSE_PERIOD_ID'=>'_makeChooseCheckbox'));
 		$LO_columns = array('COURSE_PERIOD_ID'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');" checked /><A>','TITLE'=>_('Course Period'));
 
-		if (!$_REQUEST['LO_save'] && !$extra['suppress_save'])
+		if ( !$_REQUEST['LO_save'] && !$extra['suppress_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
-			if ($_SESSION['Back_PHP_SELF']!='course')
+			if ( $_SESSION['Back_PHP_SELF']!='course')
 			{
 				$_SESSION['Back_PHP_SELF'] = 'course';
 				unset($_SESSION['Search_PHP_SELF']);

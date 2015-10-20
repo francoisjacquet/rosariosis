@@ -15,13 +15,13 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 {
 
 	$where = '';
-	if ($_REQUEST['type_select'])
+	if ( $_REQUEST['type_select'])
 		$where .= "AND fst.SHORT_NAME='".$_REQUEST['type_select']."' ";
 
-	if ($_REQUEST['staff_select'])
+	if ( $_REQUEST['staff_select'])
 		$where .= "AND fst.SELLER_ID='".$_REQUEST['staff_select']."' ";
 		
-	if ($_REQUEST['detailed_view']=='true')
+	if ( $_REQUEST['detailed_view']=='true')
 	{
 	    $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,fst.SHORT_NAME,fst.STAFF_ID,(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,fst.BALANCE,to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE,to_char(fst.TIMESTAMP,'HH:MI:SS AM') AS TIME,fst.DESCRIPTION,".db_case(array('fst.STAFF_ID',"''",'NULL',"(SELECT LAST_NAME||', '||FIRST_NAME FROM STAFF WHERE STAFF_ID=fst.STAFF_ID)"))." AS FULL_NAME,".db_case(array('fst.SELLER_ID',"''",'NULL',"(SELECT FIRST_NAME||' '||LAST_NAME FROM STAFF WHERE STAFF_ID=fst.SELLER_ID)"))." AS SELLER 
 		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst 
@@ -88,26 +88,26 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 	DrawHeader('<label>'.CheckBoxOnclick('by_name').' '._('Sort by Name').'</label>');
 	echo '</FORM>';
 
-	if ($_REQUEST['type_select'])
+	if ( $_REQUEST['type_select'])
 		$where = "AND fst.SHORT_NAME='".$_REQUEST['type_select']."' ";
 
-	if ($_REQUEST['staff_select'])
+	if ( $_REQUEST['staff_select'])
 		$where = "AND fst.SELLER_ID='".$_REQUEST['staff_select']."' ";
 
-	if ($_REQUEST['detailed_view']!='true')
+	if ( $_REQUEST['detailed_view']!='true')
 		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view'=>'true')).'">'._('Detailed View').'</A>');
 	else
 		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view'=>'false')).'">'._('Original View').'</A>');
 
-	if ($_REQUEST['detailed_view']=='true')
+	if ( $_REQUEST['detailed_view']=='true')
 	{
 		$LO_types = array(array(array()));
 		foreach ( (array)$types as $type)
-			if ($type['COUNT'])
+			if ( $type['COUNT'])
 			{
 				$LO_types[] = array(array('DESCRIPTION'=>$type['DESCRIPTION'],'DETAIL'=>'','COUNT'=>$type['COUNT'],'AMOUNT'=>number_format($type['AMOUNT'],2)));
 				foreach ( (array)$type['ITEMS'] as $item)
-					if ($item[1]['COUNT'])
+					if ( $item[1]['COUNT'])
 						$LO_types[last($LO_types)][] = array('DESCRIPTION'=>$type['DESCRIPTION'],'DETAIL'=>$item[1]['DESCRIPTION'],'COUNT'=>$item[1]['COUNT'],'AMOUNT'=>number_format($item[1]['AMOUNT'],2));
 			}
 		$types_columns = array('DESCRIPTION'=>_('Description'),'DETAIL'=>_('Detail'),'COUNT'=>_('Count'),'AMOUNT'=>_('Amount'));
@@ -117,7 +117,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 	{
 		$LO_types = array(array());
 		foreach ( (array)$types as $type)
-			if ($type['COUNT'])
+			if ( $type['COUNT'])
 				$LO_types[] = array('DESCRIPTION'=>$type['DESCRIPTION'],'COUNT'=>$type['COUNT'],'AMOUNT'=>number_format($type['AMOUNT'],2));
 		$types_columns = array('DESCRIPTION'=>_('Description'),'COUNT'=>_('Count'),'AMOUNT'=>_('Amount'));
 	}

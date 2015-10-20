@@ -17,7 +17,7 @@ $table = '<TABLE><TR class="st"><TD class="valign-top"><TABLE>
 
 foreach ( (array)$mps as $mp)
 {
-	if ($mp!='0')
+	if ( $mp!='0')
 //FJ add <label> on radio
 		$table .= '<label><INPUT type="radio" name="marking_period_id" value="'.$mp.'"'.($mp==UserMP()?' checked':'').'> '.GetMP($mp).'</label><BR />';
 }
@@ -30,7 +30,7 @@ $table .= '</TD>
 '</TABLE></TD><TD style="max-width:300px;">'._('GPA calculation modifies existing records.').'<BR /><BR />'._('Weighted and unweighted GPA is calculated by dividing the weighted and unweighted grade points configured for each letter grade (assigned in the Report Card Codes setup program) by the base grading scale specified in the school setup.').' </TD></TR></TABLE>';
 
 $go = Prompt(_('GPA Calculation'),_('Calculate GPA and Class Rank'),$table);
-if ($go)
+if ( $go)
 {
 	//FJ waiting message
 	echo '<BR />';

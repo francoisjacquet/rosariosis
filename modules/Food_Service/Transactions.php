@@ -1,11 +1,11 @@
 <?php
 
-if ($_REQUEST['type'])
+if ( $_REQUEST['type'])
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
 
-/*if ($_REQUEST['type']=='staff')
+/*if ( $_REQUEST['type']=='staff')
 {
 	$tabcolor_s = '#DFDFDF'; $textcolor_s = '#999999';
 	$tabcolor_u = Preferences('HEADER'); $textcolor_u = '#FFFFFF';
@@ -22,7 +22,7 @@ $header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&type=staff"
 DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle());
 User('PROFILE')=='student'?'':DrawHeader($header);
 
-if ($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
 //FJ add translation
@@ -41,7 +41,7 @@ include('modules/Food_Service/'.($_REQUEST['type']=='staff'?'Users':'Students').
 
 function red($value)
 {
-	if ($value<0)
+	if ( $value<0)
 		return '<span style="color:red">'.$value.'</span>';
 	else
 		return $value;
@@ -49,9 +49,9 @@ function red($value)
 
 function is_money($value)
 {
-	if ($value > 0) {
+	if ( $value > 0) {
 		if (mb_strpos($value,'.')) return $value;
-		elseif ($value >= 100) return $value/100;
+		elseif ( $value >= 100) return $value/100;
 		else return $value;
 	}
 	else return false;

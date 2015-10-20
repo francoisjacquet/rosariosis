@@ -5,7 +5,7 @@ DrawHeader(ProgramTitle());
 //$extra['header_left'] .= sprintf(_('Include courses active as of %s'),PrepareDate('','_include_active_date'));
 
 $custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000004 AND TYPE='date'"),array(),array('ID'));
-if ($custom_fields_RET['200000004'])
+if ( $custom_fields_RET['200000004'])
 {
 	MyWidgets('birthmonth');
 	MyWidgets('birthday');
@@ -20,13 +20,13 @@ function MyWidgets($item)
 		case 'birthmonth':
 			$options = array('1'=>_('January'),'2'=>_('February'),'3'=>_('March'),'4'=>_('April'),'5'=>_('May'),'6'=>_('June'),'7'=>_('July'),'8'=>_('August'),'9'=>_('September'),'10'=>_('October'),'11'=>_('November'),'12'=>_('December'));
 
-			if ($_REQUEST['birthmonth'])
+			if ( $_REQUEST['birthmonth'])
 			{
 				$extra['SELECT'] .= ",to_char(s.CUSTOM_200000004,'Mon DD') AS BIRTHMONTH";
 				$extra['WHERE'] .= " AND extract(month from s.CUSTOM_200000004)='".$_REQUEST['birthmonth']."'";
 				$extra['columns_after']['BIRTHMONTH'] = _('Birth Month');
 
-				if (!$extra['NoSearchTerms'])
+				if ( !$extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<b>'._('Birth Month').': </b>'.$options[$_REQUEST['birthmonth']].'<BR />';
 			}
 
@@ -41,13 +41,13 @@ function MyWidgets($item)
 		case 'birthday':
 			$options = array('1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8','9'=>'9','10'=>'10','11'=>'11','12'=>'12','13'=>'13','14'=>'14','15'=>'15','16'=>'16','17'=>'17','18'=>'18','19'=>'19','20'=>'20','21'=>'21','22'=>'22','23'=>'23','24'=>'24','25'=>'25','26'=>'26','27'=>'27','28'=>'28','29'=>'29','30'=>'30','31'=>'31');
 
-			if ($_REQUEST['birthday'])
+			if ( $_REQUEST['birthday'])
 			{
 				$extra['SELECT'] .= ",to_char(s.CUSTOM_200000004,'DD') AS BIRTHDAY";
 				$extra['WHERE'] .= " AND extract(day from s.CUSTOM_200000004)='".$_REQUEST['birthday']."'";
 				$extra['columns_after']['BIRTHDAY'] = _('Birth Day');
 
-				if (!$extra['NoSearchTerms'])
+				if ( !$extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<b>'._('Birth Day').': </b>'.$options[$_REQUEST['birthday']].'<BR />';
 			}
 

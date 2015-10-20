@@ -2,7 +2,7 @@
 Widgets('request');
 Widgets('mailing_labels');
 
-if (!$_REQUEST['search_modfunc'])
+if ( !$_REQUEST['search_modfunc'])
 {
 	DrawHeader(ProgramTitle());
 
@@ -25,7 +25,7 @@ else
 	//FJ add ORDER BY COURSE_TITLE
 	$extra['ORDER_BY'] = 'COURSE_TITLE';
 
-	if ($_REQUEST['mailing_labels']=='Y')
+	if ( $_REQUEST['mailing_labels']=='Y')
 		$extra['group'][] = 'ADDRESS_ID';	
 	
 	//FJ fix advanced search
@@ -40,7 +40,7 @@ else
 		$handle = PDFStart();
 		foreach ( (array)$RET as $student_id=>$courses)
 		{
-			if ($_REQUEST['mailing_labels']=='Y')
+			if ( $_REQUEST['mailing_labels']=='Y')
 			{
 				foreach ( (array)$courses as $address)
 				{
@@ -82,17 +82,17 @@ function _makeExtra($value,$title='')
 
 	$return = array();
 
-	if ($THIS_RET['WITH_TEACHER_ID'])
+	if ( $THIS_RET['WITH_TEACHER_ID'])
 		$return[] = _('With').':&nbsp;'.GetTeacher($THIS_RET['WITH_TEACHER_ID']);
-	if ($THIS_RET['NOT_TEACHER_ID'])
+	if ( $THIS_RET['NOT_TEACHER_ID'])
 		$return[] = _('Not With').':&nbsp;'.GetTeacher($THIS_RET['NOT_TEACHER_ID']);
-	if ($THIS_RET['WITH_PERIOD_ID'])
+	if ( $THIS_RET['WITH_PERIOD_ID'])
 		$return[] = _('On').':&nbsp;'._getPeriod($THIS_RET['WITH_PERIOD_ID']);
-	if ($THIS_RET['NOT_PERIOD_ID'])
+	if ( $THIS_RET['NOT_PERIOD_ID'])
 		$return[] = _('Not on').':&nbsp;'._getPeriod($THIS_RET['NOT_PERIOD_ID']);
-	if ($THIS_RET['PRIORITY'])
+	if ( $THIS_RET['PRIORITY'])
 		$return[] = _('Priority').':&nbsp;'.$THIS_RET['PRIORITY'];
-	if ($THIS_RET['MARKING_PERIOD_ID'])
+	if ( $THIS_RET['MARKING_PERIOD_ID'])
 		$return[] = _('Marking Period').':&nbsp;'.GetMP($THIS_RET['MARKING_PERIOD_ID']);
 
 	$return = implode('&nbsp;-&nbsp;', $return);

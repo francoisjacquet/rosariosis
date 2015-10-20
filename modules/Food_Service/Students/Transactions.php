@@ -1,6 +1,6 @@
 <?php
 
-if ($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
+if ( $_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 {
 	if (UserStudentID() && AllowEdit())
 	{
@@ -38,7 +38,7 @@ Widgets('fsa_account_id');
 
 $extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
-if (!mb_strpos($extra['FROM'],'fssa'))
+if ( !mb_strpos($extra['FROM'],'fssa'))
 {
 	$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
@@ -67,7 +67,7 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 
-	if ($student['BALANCE']!='')
+	if ( $student['BALANCE']!='')
 	{
         $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT 
 		FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti 

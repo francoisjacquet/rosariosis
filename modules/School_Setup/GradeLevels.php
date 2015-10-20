@@ -1,12 +1,12 @@
 <?php
-if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
-			if ($id!='new')
+			if ( $id!='new')
 			{
 				$sql = "UPDATE SCHOOL_GRADELEVELS SET ";
 								
@@ -27,7 +27,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$go = 0;
 				foreach ( (array)$columns as $column=>$value)
 				{
-					if (!empty($value) || $value=='0')
+					if ( !empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";
@@ -36,7 +36,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				}
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 				
-				if ($go)
+				if ( $go)
 					DBQuery($sql);
 			}
 		}
@@ -47,7 +47,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 DrawHeader(ProgramTitle());
 
-if ($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if (DeletePrompt(_('Grade Level')))
 	{
@@ -60,7 +60,7 @@ if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 if (isset($error))
 	echo ErrorMessage($error);
 
-if ($_REQUEST['modfunc']!='remove')
+if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT ID,TITLE,SHORT_NAME,SORT_ORDER,NEXT_GRADE_ID FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER";
 	$QI = DBQuery($sql);
@@ -82,14 +82,14 @@ if ($_REQUEST['modfunc']!='remove')
 function makeTextInput($value,$name)
 {	global $THIS_RET;
 	
-	if ($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 	
-	if ($name!='TITLE')
+	if ( $name!='TITLE')
 		$extra = 'size=5 maxlength=2';
-	if ($name=='SORT_ORDER')
+	if ( $name=='SORT_ORDER')
 		$comment = '<!-- '.$value.' -->';
 
 	return $comment.TextInput($value,'values['.$id.']['.$name.']','',$extra);
@@ -98,12 +98,12 @@ function makeTextInput($value,$name)
 function makeGradeInput($value,$name)
 {	global $THIS_RET,$grades;
 	
-	if ($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 		
-	if (!$grades)
+	if ( !$grades)
 	{
 		$grades_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 		if (count($grades_RET))

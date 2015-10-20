@@ -65,7 +65,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 		if ( $programconfig[$staff_id]['ROUNDING'] == 'UP' )
 			$percent = ceil( $percent );
 
-		elseif ($programconfig[$staff_id]['ROUNDING'] == 'DOWN' )
+		elseif ( $programconfig[$staff_id]['ROUNDING'] == 'DOWN' )
 			$percent = floor( $percent );
 
 		elseif ( $programconfig[$staff_id]['ROUNDING'] == 'NORMAL' )

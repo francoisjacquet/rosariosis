@@ -11,7 +11,7 @@ function DeletePromptX($title,$action='Delete')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok','delete_cancel'));
 
-	if (!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	if ( !$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
 	{
 		echo '<BR />';
 //FJ add translation
@@ -20,8 +20,8 @@ function DeletePromptX($title,$action='Delete')
 		PopTable('footer');
 		return false;
 	}
-	if ($_REQUEST['delete_ok']) { unset($_REQUEST['delete_ok']); unset($_REQUEST['modfunc']); return true; }
-	if ($_REQUEST['delete_cancel']) { unset($_REQUEST['delete_cancel']); unset($_REQUEST['modfunc']); return false; }
+	if ( $_REQUEST['delete_ok']) { unset($_REQUEST['delete_ok']); unset($_REQUEST['modfunc']); return true; }
+	if ( $_REQUEST['delete_cancel']) { unset($_REQUEST['delete_cancel']); unset($_REQUEST['modfunc']); return false; }
 	return false;
 }
 
@@ -29,7 +29,7 @@ function PromptX($title='Confirm',$question='',$message='',$pdf='')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok'),$pdf==true?array('_ROSARIO_PDF'=>true):array());
 
-	if (!$_REQUEST['delete_ok'] &&!$_REQUEST['delete_cancel'])
+	if ( !$_REQUEST['delete_ok'] &&!$_REQUEST['delete_cancel'])
 	{
 		echo '<BR />';
 		PopTable('header',$title);

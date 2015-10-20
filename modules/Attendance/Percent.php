@@ -31,7 +31,7 @@ if ( isset( $_REQUEST['day_end'] )
 if ( empty( $end_date ) )
 	$end_date = DBDate();
 
-if ($_REQUEST['modfunc']=='search')
+if ( $_REQUEST['modfunc']=='search')
 {
 	echo '<BR />';
 //FJ add translation 
@@ -42,16 +42,16 @@ if ($_REQUEST['modfunc']=='search')
 	echo '<TR class="valign-top"><TD>';
 	echo '<TABLE class="width-100p" id="general_table">';
 	Search('general_info',$extra['grades']);
-	if (!isset($extra))
+	if ( !isset($extra))
 		$extra = array();
 	Widgets('user',$extra);
-	if ($extra['search'])
+	if ( $extra['search'])
 		echo $extra['search'];
 	Search('student_fields',is_array($extra['student_fields'])?$extra['student_fields']:array());
 	echo '</TABLE>';
 	echo '</TD><TD>';
 	echo '<TABLE class="width-100p"><TR><TD class="center"><BR />';
-	if ($extra['search_second_col'])
+	if ( $extra['search_second_col'])
 		echo $extra['search_second_col'];
 	if (User('PROFILE')=='admin')
 	{
@@ -67,7 +67,7 @@ if ($_REQUEST['modfunc']=='search')
 	echo '</TD></TR>';
 
 	echo '<TR class="valign-top"><TD><TABLE class="width-100p cellspacing-0">';
-	if ($_REQUEST['advanced']=='Y')
+	if ( $_REQUEST['advanced']=='Y')
 	{
 		$extra['search'] = '';
 		Widgets('all',$extra);
@@ -105,10 +105,10 @@ if ($_REQUEST['modfunc']=='search')
 if (empty($_REQUEST['modfunc']))
 
 {
-	if (!isset($extra))
+	if ( !isset($extra))
 		$extra = array();
 	Widgets('user');
-	if ($_REQUEST['advanced']=='Y')
+	if ( $_REQUEST['advanced']=='Y')
 		Widgets('all');
 	$extra['WHERE'] .= appendSQL('');
 	$extra['WHERE'] .= CustomFields('where');
@@ -117,10 +117,10 @@ if (empty($_REQUEST['modfunc']))
 	$advanced_link = ' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=search&list_by_day='.$_REQUEST['list_by_day'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST[month_start].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'">'._('Advanced').'</A>';
 	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').$advanced_link,SubmitButton(_('Go')));
 	echo '</FORM>';
-	if ($_ROSARIO['SearchTerms'])
+	if ( $_ROSARIO['SearchTerms'])
 		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 
-	if ($_REQUEST['list_by_day']=='true')
+	if ( $_REQUEST['list_by_day']=='true')
 	{
 		$cal_days = 1;
 

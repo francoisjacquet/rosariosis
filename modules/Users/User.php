@@ -14,7 +14,7 @@ if (User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_i
 
 $categories = array('1'=>'General_Info', '2'=>'Schedule', 'Other_Info'=>'Other_Info');
 
-if (!isset($_REQUEST['category_id']))
+if ( !isset($_REQUEST['category_id']))
 {
 	$category_id = '1';
 	$include = 'General_Info';
@@ -53,11 +53,11 @@ if (User('PROFILE')!='admin')
 		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Users/User.php&category_id=".$category_id."' AND CAN_EDIT='Y'"));
 	else
 		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Users/User.php&category_id=".$category_id."' AND CAN_EDIT='Y'"),array(),array('MODNAME'));
-	if ($can_edit_RET)
+	if ( $can_edit_RET)
 		$_ROSARIO['allow_edit'] = true;
 }
 
-if ($_REQUEST['modfunc']=='update' && AllowEdit())
+if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 {
 	if ( isset( $_POST['day_staff'] )
 		&& isset( $_POST['month_staff'] )
@@ -74,22 +74,22 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 		$_POST['staff'] = array_merge_recursive( $_POST['staff'], $requested_dates );
 	}
 
-	if ($_REQUEST['staff']['SCHOOLS'])
+	if ( $_REQUEST['staff']['SCHOOLS'])
 	{
 		$current_schools = ',';
-		if ($_REQUEST['staff_id']!='new')
+		if ( $_REQUEST['staff_id']!='new')
 		{
 			$current_schools_RET = DBGet(DBQuery("SELECT SCHOOLS FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
-			if (!empty($current_schools_RET[1]['SCHOOLS']))
+			if ( !empty($current_schools_RET[1]['SCHOOLS']))
 				$current_schools = $current_schools_RET[1]['SCHOOLS'];
 		}
 
 		$schools = $current_schools;
 		foreach ( (array)$_REQUEST['staff']['SCHOOLS'] as $school_id=>$yes)
 		{
-			if ($yes == 'Y' && mb_strpos($current_schools, ','.$school_id.',')===false)
+			if ( $yes == 'Y' && mb_strpos($current_schools, ','.$school_id.',')===false)
 				$schools .= $school_id.',';
-			elseif ($yes != 'Y' && mb_strpos($current_schools, ','.$school_id.',')!==false)
+			elseif ( $yes != 'Y' && mb_strpos($current_schools, ','.$school_id.',')!==false)
 				$schools = str_replace($school_id.',', '', $schools);
 		}
 
@@ -139,7 +139,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 			}
 		}
 
-		if ($required_error)
+		if ( $required_error)
 			$error[] = _('Please fill in the required fields');
 
 		//check username unicity
@@ -159,15 +159,15 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 
 			if (isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']!=$profile_RET[1]['PROFILE_ID'])
 			{
-				if ($_REQUEST['staff']['PROFILE']=='admin')
+				if ( $_REQUEST['staff']['PROFILE']=='admin')
 					$_REQUEST['staff']['PROFILE_ID'] = '1';
-				elseif ($_REQUEST['staff']['PROFILE']=='teacher')
+				elseif ( $_REQUEST['staff']['PROFILE']=='teacher')
 					$_REQUEST['staff']['PROFILE_ID'] = '2';
-				elseif ($_REQUEST['staff']['PROFILE']=='parent')
+				elseif ( $_REQUEST['staff']['PROFILE']=='parent')
 					$_REQUEST['staff']['PROFILE_ID'] = '3';
 			}
 
-			if ($_REQUEST['staff']['PROFILE_ID'])
+			if ( $_REQUEST['staff']['PROFILE_ID'])
 				DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".UserStaffID()."'");
 			elseif (isset($_REQUEST['staff']['PROFILE_ID']) && $profile_RET[1]['PROFILE_ID'])
 			{
@@ -175,7 +175,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 				DBQuery("INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT) SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT FROM STAFF s,PROFILE_EXCEPTIONS e WHERE s.STAFF_ID='".UserStaffID()."' AND s.PROFILE_ID=e.PROFILE_ID");
 			}
 
-			if (!isset($error))
+			if ( !isset($error))
 			{
 				$sql = "UPDATE STAFF SET ";
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
@@ -185,19 +185,19 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 					if (1)//!empty($value) || $value=='0')
 					{
 						//FJ check numeric fields
-						if ($fields_RET[str_replace('CUSTOM_','',$column_name)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
+						if ( $fields_RET[str_replace('CUSTOM_','',$column_name)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 						{
 							$error[] = _('Please enter valid Numeric data.');
 							continue;
 						}
 						
 						//FJ add password encryption
-						if ($column_name!=='PASSWORD')
+						if ( $column_name!=='PASSWORD')
 						{
 							$sql .= "$column_name='".$value."',";
 							$go = true;
 						}
-						if ($column_name=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
+						if ( $column_name=='PASSWORD' && !empty($value) && $value!==str_repeat('*',8))
 						{
 							$value = str_replace("''","'",$value);
 							$sql .= "$column_name='".encrypt_password($value)."',";
@@ -207,7 +207,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."'";
 
-				if ($go)
+				if ( $go)
 				{
 					DBQuery($sql);
 					
@@ -217,20 +217,20 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 			}
 		
 		}
-		elseif (!isset($error)) //new user
+		elseif ( !isset($error)) //new user
 		{
 
 			//hook
 			do_action('Users/User.php|create_user_checks');
 
-			if ($_REQUEST['staff']['PROFILE']=='admin')
+			if ( $_REQUEST['staff']['PROFILE']=='admin')
 				$_REQUEST['staff']['PROFILE_ID'] = '1';
-			elseif ($_REQUEST['staff']['PROFILE']=='teacher')
+			elseif ( $_REQUEST['staff']['PROFILE']=='teacher')
 				$_REQUEST['staff']['PROFILE_ID'] = '2';
-			elseif ($_REQUEST['staff']['PROFILE']=='parent')
+			elseif ( $_REQUEST['staff']['PROFILE']=='parent')
 				$_REQUEST['staff']['PROFILE_ID'] = '3';
 
-			if (!isset($error))
+			if ( !isset($error))
 			{
 				$staff_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID'.FROM_DUAL));
 				$staff_id = $staff_id[1]['STAFF_ID'];
@@ -248,10 +248,10 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 				foreach ( (array)$_REQUEST['staff'] as $column=>$value)
 				{
-					if (!empty($value) || $value=='0')
+					if ( !empty($value) || $value=='0')
 					{
 						//FJ check numeric fields
-						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
+						if ( $fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 						{
 							$error[] = _('Please enter valid Numeric data.');
 							break;
@@ -260,7 +260,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 						$fields .= $column.',';
 
 						//FJ add password encryption
-						if ($column!=='PASSWORD')
+						if ( $column!=='PASSWORD')
 							$values .= "'".$value."',";
 						else
 						{
@@ -316,13 +316,13 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 
 	}
 
-	if (!in_array($include, $categories))
-		if (!mb_strpos($include,'/'))
+	if ( !in_array($include, $categories))
+		if ( !mb_strpos($include,'/'))
 			include('modules/Users/includes/'.$include.'.inc.php');
 		else
 			include('modules/'.$include.'.inc.php');
 
-	if ($error && !UserStaffID())
+	if ( $error && !UserStaffID())
 		$_REQUEST['staff_id'] = 'new';
 
 	unset( $_REQUEST['staff'] );
@@ -336,7 +336,7 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 
 if (basename($_SERVER['PHP_SELF'])!='index.php')
 {
-	if ($_REQUEST['staff_id']=='new')
+	if ( $_REQUEST['staff_id']=='new')
 	{
 		$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
 		DrawHeader(_('Add a User'));
@@ -346,7 +346,7 @@ if (basename($_SERVER['PHP_SELF'])!='index.php')
 		Search('staff_id',$extra);
 }
 //FJ create account
-elseif (!UserStaffID())
+elseif ( !UserStaffID())
 {
 	$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
 	DrawHeader(_('Create User Account'));
@@ -364,7 +364,7 @@ else
 if (isset($error))
 	echo ErrorMessage($error);
 
-if ($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
 {
 	if (DeletePrompt(_('User')))
 	{
@@ -387,7 +387,7 @@ if ($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php
 
 if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='delete')
 {
-	if ($_REQUEST['staff_id']!='new')
+	if ( $_REQUEST['staff_id']!='new')
 	{
 		$sql = "SELECT s.STAFF_ID,s.TITLE,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
 						s.USERNAME,s.PASSWORD,s.SCHOOLS,s.PROFILE,s.PROFILE_ID,s.PHONE,s.EMAIL,s.LAST_LOGIN,s.SYEAR,s.ROLLOVER_ID
@@ -412,7 +412,7 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 		}
 	}
 
-	if ($_REQUEST['staff_id']!='new')
+	if ( $_REQUEST['staff_id']!='new')
 	{
 		//FJ add translation
 		$titles_array = array('Mr'=>_('Mr'),'Mrs'=>_('Mrs'),'Ms'=>_('Ms'),'Miss'=>_('Miss'),'Dr'=>_('Dr'));
@@ -441,14 +441,14 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 
 	foreach ( (array)$categories_RET as $category)
 	{
-		if ($can_use_RET['Users/User.php&category_id='.$category['ID']])
+		if ( $can_use_RET['Users/User.php&category_id='.$category['ID']])
 		{
 			//FJ Remove $_REQUEST['include']
-			/*if ($category['ID']=='1')
+			/*if ( $category['ID']=='1')
 				$include = 'General_Info';
-			elseif ($category['ID']=='2')
+			elseif ( $category['ID']=='2')
 				$include = 'Schedule';
-			elseif ($category['INCLUDE'])
+			elseif ( $category['INCLUDE'])
 				$include = $category['INCLUDE'];
 			else
 				$include = 'Other_Info';*/
@@ -463,9 +463,9 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 	PopTable('header',$tabs,'width="100%"');
 	$PopTable_opened = true;
 
-	if ($can_use_RET['Users/User.php&category_id='.$category_id])
+	if ( $can_use_RET['Users/User.php&category_id='.$category_id])
 	{
-		if (!mb_strpos($include,'/'))
+		if ( !mb_strpos($include,'/'))
 			include('modules/Users/includes/'.$include.'.inc.php');
 		else
 		{

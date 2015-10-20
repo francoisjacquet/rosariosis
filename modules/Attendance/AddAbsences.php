@@ -2,11 +2,11 @@
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
 require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
 
-if (!$_REQUEST['month'])
+if ( !$_REQUEST['month'])
 	$_REQUEST['month'] = date("m");
 else
 	$_REQUEST['month'] = MonthNWSwitch($_REQUEST['month'],'tonum');
-if (!$_REQUEST['year'])
+if ( !$_REQUEST['year'])
 	$_REQUEST['year'] = date("Y");
 else
 	$_REQUEST['year'] = ($_REQUEST['year']<1900?'20'.$_REQUEST['year']:$_REQUEST['year']);
@@ -69,9 +69,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				foreach ( (array)$_REQUEST['period'] as $period_id=>$yes)
 				{
 					$course_period_id = $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'];
-					if ($course_period_id && !($course_periods_RET[$period_id][1]['COURSE_PERIOD_ID']=='Y' && $state_code=='H'))
+					if ( $course_period_id && !($course_periods_RET[$period_id][1]['COURSE_PERIOD_ID']=='Y' && $state_code=='H'))
 					{
-						if (!$current_RET[$student_id][$date][$period_id])
+						if ( !$current_RET[$student_id][$date][$period_id])
 						{
 							$sql = "INSERT INTO ATTENDANCE_PERIOD (STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_REASON,ADMIN)
 										values('".$student_id."','".$date."','".$period_id."','".$current_mp."','".$course_period_id."','".$_REQUEST['absence_code']."','".$_REQUEST['absence_reason']."','Y')";
@@ -110,7 +110,7 @@ if (empty($_REQUEST['modfunc']))
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" METHOD="POST">';
 		DrawHeader('',SubmitButton(_('Add Absences to Selected Students')));
@@ -160,7 +160,7 @@ if (empty($_REQUEST['modfunc']))
 		for($i=1;$i<=$last;$i++)
 		{
 			$this_date = $_REQUEST['year'].'-'.$_REQUEST['month'].'-'.($i<10?'0'.$i:$i);
-			if (!$calendar_RET[$this_date])
+			if ( !$calendar_RET[$this_date])
 				$disabled = ' DISABLED';
 			elseif (date('Y-m-d')==$this_date)
 				$disabled = ' checked';
@@ -169,7 +169,7 @@ if (empty($_REQUEST['modfunc']))
 
 			echo '<TD style="text-align:right"><label>'.$i.'<INPUT type="checkbox" name="dates['.$this_date.']" value="Y"'.$disabled.'></label></TD>';
 			$skip++;
-			if ($skip%7==0 && $i!=$last)
+			if ( $skip%7==0 && $i!=$last)
 				echo '</TR><TR>';
 		}
 		echo '</TR></TABLE>';
@@ -184,7 +184,7 @@ if (empty($_REQUEST['modfunc']))
 	$extra['new'] = true;
 
 	Search('student_id',$extra);
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 		echo '<BR /><div class="center">' . SubmitButton(_('Add Absences to Selected Students')) . '</div></FORM>';
 }
 

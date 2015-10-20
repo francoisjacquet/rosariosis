@@ -3,18 +3,18 @@ require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
 
 include_once('modules/Food_Service/includes/FS_Icons.inc.php');
 
-if ($_REQUEST['modfunc']=='select')
+if ( $_REQUEST['modfunc']=='select')
 {
 	$_SESSION['FSA_type'] = $_REQUEST['fsa_type'];
 	unset($_REQUEST['modfunc']);
 }
 
-if ($_REQUEST['type'])
+if ( $_REQUEST['type'])
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
 
-/*if ($_REQUEST['type']=='staff')
+/*if ( $_REQUEST['type']=='staff')
 {
 	$tabcolor_s = '#DFDFDF'; $textcolor_s = '#999999';
 	$tabcolor_u = Preferences('HEADER'); $textcolor_u = '#FFFFFF';
@@ -32,9 +32,9 @@ DrawHeader(($_SESSION['FSA_type']=='staff' ? _('User') : _('Student')).' &minus;
 User('PROFILE')=='student'?'':DrawHeader($header);
 
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-if (!$_REQUEST['menu_id'])
+if ( !$_REQUEST['menu_id'])
 {
-	if (!$_SESSION['FSA_menu_id'])
+	if ( !$_SESSION['FSA_menu_id'])
 		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
@@ -46,16 +46,16 @@ if (!$_REQUEST['menu_id'])
 else
 	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 
-if ($_REQUEST['modfunc']=='add')
+if ( $_REQUEST['modfunc']=='add')
 {
-	if ($_REQUEST['item_sn'])
+	if ( $_REQUEST['item_sn'])
 		$_SESSION['FSA_sale'][] = $_REQUEST['item_sn'];
 	unset($_REQUEST['modfunc']);
 }
 
-if ($_REQUEST['modfunc']=='remove')
+if ( $_REQUEST['modfunc']=='remove')
 {
-	if ($_REQUEST['id']!='')
+	if ( $_REQUEST['id']!='')
 		unset($_SESSION['FSA_sale'][$_REQUEST['id']]);
 	unset($_REQUEST['modfunc']);
 }
@@ -64,7 +64,7 @@ include('modules/Food_Service/'.($_SESSION['FSA_type']=='staff'?'Users/':'Studen
 
 function red($value)
 {
-        if ($value<0)
+        if ( $value<0)
                 return '<span style="color:red">'.$value.'</span>';
         else
                 return $value;

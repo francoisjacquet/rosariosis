@@ -13,30 +13,30 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		if (User('PROFILE')=='admin')
 		{
-			if ($_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
+			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
-				if ($_REQUEST['teacher'])
+				if ( $_REQUEST['teacher'])
 					$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."') AS TEACHER";
 
-				if ($_REQUEST['room'])
+				if ( $_REQUEST['room'])
 					$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."') AS ROOM";
 			}
 			else
 			{
-				if ($_REQUEST['teacher'])
+				if ( $_REQUEST['teacher'])
 //FJ multiple school periods for a course period
 					$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE st.STAFF_ID=cp.TEACHER_ID AND cpsp.PERIOD_id=p.PERIOD_ID AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS TEACHER";
 
-				if ($_REQUEST['room'])
+				if ( $_REQUEST['room'])
 					$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp,SCHOOL_PERIODS p,SCHEDULE ss, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cpsp.PERIOD_id=p.PERIOD_ID AND cpsp.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND p.ATTENDANCE='Y' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."' AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',DBDate(),false)).") AND (ss.START_DATE<='".DBDate()."' AND (ss.END_DATE>='".DBDate()."' OR ss.END_DATE IS NULL)) ORDER BY p.SORT_ORDER LIMIT 1) AS ROOM";
 			}
 		}
 		else
 		{
-			if ($_REQUEST['teacher'])
+			if ( $_REQUEST['teacher'])
 				$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."') AS TEACHER";
 
-			if ($_REQUEST['room'])
+			if ( $_REQUEST['room'])
 				$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='".UserCoursePeriod()."') AS ROOM";
 		}
 		$RET = GetStuList($extra);
@@ -54,35 +54,35 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$rows = 0;
 			foreach ( (array)$skipRET+$RET as $i=>$student)
 			{
-				if ($cols<1)
+				if ( $cols<1)
 					echo '<tr>';
 				echo '<td style="text-align:center; width:33%; vertical-align: middle;">';
 
-				if ($_REQUEST['full_name']=='given')
+				if ( $_REQUEST['full_name']=='given')
 					$name = $student['LAST_NAME'].', '.$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'];
-				elseif ($_REQUEST['full_name']=='given_natural')
+				elseif ( $_REQUEST['full_name']=='given_natural')
 					$name = $student['FIRST_NAME'].' '.$student['LAST_NAME'];
 				else
 					$name = $student['FULL_NAME'];
 
 				echo '<B>'.$name.'</B>';
 
-				if ($_REQUEST['teacher'])
+				if ( $_REQUEST['teacher'])
 					echo '<BR />'._('Teacher').':&nbsp;'.$student['TEACHER'];
-				if ($_REQUEST['room'])
+				if ( $_REQUEST['room'])
 					echo '<BR />'._('Room').':&nbsp;'.$student['ROOM'];
 				echo '</td>';
 
 				$cols++;
 
-				if ($cols==$max_cols)
+				if ( $cols==$max_cols)
 				{
 					echo '</tr><tr><td clospan="'.$max_cols.'">&nbsp;</td></tr>';
 					$rows++;
 					$cols = 0;
 				}
 
-				if ($rows==$max_rows)
+				if ( $rows==$max_rows)
 				{
 					echo '</table>';
 					echo '<div style="page-break-after: always;"></div>';
@@ -91,7 +91,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 			}
 
-			if ($cols==0 && $rows==0)
+			if ( $cols==0 && $rows==0)
 			{}
 			else
 			{
@@ -100,7 +100,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					echo '<td style="text-align:center; width:33%; vertical-align: middle; padding-bottom: 8px;">&nbsp;</td>';
 					$cols++;
 				}
-				if ($cols==$max_cols)
+				if ( $cols==$max_cols)
 					echo '</tr>';
 				echo '</table>';
 			}
@@ -118,7 +118,7 @@ if (empty($_REQUEST['modfunc']))
 {
 	DrawHeader(ProgramTitle());
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].(User('PROFILE')=='admin'?'&w_course_period_id_which='.$_REQUEST['w_course_period_id_which'].'&w_course_period_id='.$_REQUEST['w_course_period_id']:'').'&_ROSARIO_PDF=true" method="POST">';
 		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Labels for Selected Students').'" />';
@@ -132,7 +132,7 @@ if (empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="full_name" value="given_natural"> '._('Given Last').'</label></TD>';
 		if (User('PROFILE')=='admin')
 		{
-			if ($_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
+			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
 				$course_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS TEACHER,cp.ROOM FROM STAFF s,COURSE_PERIODS cp WHERE s.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'"));
 //FJ add <label> on checkbox
@@ -184,7 +184,7 @@ if (empty($_REQUEST['modfunc']))
 	$extra['new'] = true;
 
 	Search('student_id',$extra);
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Labels for Selected Students').'" /></div>';
 		echo '</FORM>';

@@ -1,6 +1,6 @@
 <?php
 
-if ($_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc']=='update')
 {
 	if (UserStaffID() && AllowEdit())
 	{
@@ -18,7 +18,7 @@ if ($_REQUEST['modfunc']=='update')
 	unset($_SESSION['_REQUEST_vars']['food_service']);
 }
 
-if (!$_REQUEST['modfunc'] && UserStaffID())
+if ( !$_REQUEST['modfunc'] && UserStaffID())
 {
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME,
 	(SELECT s.STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
@@ -37,7 +37,7 @@ if (!$_REQUEST['modfunc'] && UserStaffID())
 	echo '<TD class="valign-top">'.NoInput(($staff['BALANCE']<0?'<span style="color:red">':'').$staff['BALANCE'].($staff['BALANCE']<0?'</span>':''),'Balance');
 
 	// warn if account non-existent (balance query failed)
-	if (!$staff['ACCOUNT_ID'])
+	if ( !$staff['ACCOUNT_ID'])
 	{
 		$warning = _('This user does not have a Meal Account.');
 

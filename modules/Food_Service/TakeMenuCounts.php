@@ -25,7 +25,7 @@ DrawHeader(ProgramTitle());
 $course_RET = DBGet(DBQuery("SELECT DOES_FS_COUNTS,DAYS,CALENDAR_ID,MP,MARKING_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
 //echo '<pre>'; var_dump($course_RET); echo '</pre>';
 
-if (!trim($course_RET[1]['DOES_FS_COUNTS'],','))
+if ( !trim($course_RET[1]['DOES_FS_COUNTS'],','))
 	ErrorMessage(array(_('You cannot take meal counts for this period.')),'fatal');
 
 // the following query is for when doea_fs_counts is a comma quoted string of meal_id's, ex. ,1,2,4,
@@ -33,8 +33,8 @@ if (!trim($course_RET[1]['DOES_FS_COUNTS'],','))
 // use all meal_id's for now
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
 //echo '<pre>'; var_dump($menus_RET); echo '</pre>';
-if (!$_REQUEST['menu_id'])
-	if (!$_SESSION['FSA_menu_id'] || !$menus_RET[$_SESSION['FSA_menu_id']])
+if ( !$_REQUEST['menu_id'])
+	if ( !$_SESSION['FSA_menu_id'] || !$menus_RET[$_SESSION['FSA_menu_id']])
 		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
@@ -44,7 +44,7 @@ if (!$_REQUEST['menu_id'])
 else
 	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 
-if ($course_RET[1]['CALENDAR_ID'])
+if ( $course_RET[1]['CALENDAR_ID'])
 	$calendar_id = $course_RET[1]['CALENDAR_ID'];
 else
 {
@@ -55,7 +55,7 @@ else
 $calendar_RET = DBGet(DBQuery("SELECT MINUTES FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$calendar_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND SCHOOL_DATE='".$date."'"));
 //echo '<pre>'; var_dump($calendar_RET); echo '</pre>';
 
-if (!$calendar_RET[1]['MINUTES'])
+if ( !$calendar_RET[1]['MINUTES'])
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
@@ -97,7 +97,7 @@ if (mb_strpos($days,$day)===false)
 }
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
-if (!isset($_ROSARIO['allow_edit']))
+if ( !isset($_ROSARIO['allow_edit']))
 {
 	$time = strtotime( DBDate() );
 
@@ -107,12 +107,12 @@ if (!isset($_ROSARIO['allow_edit']))
 
 $current_RET = DBGet(DBQuery('SELECT ITEM_ID FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND MENU_ID=\''.$_REQUEST['menu_id'].'\''),array(),array('ITEM_ID'));
 //echo '<pre>'; var_dump($current_RET); echo '</pre>';
-if ($_REQUEST['values'] && $_POST['values'])
+if ( $_REQUEST['values'] && $_POST['values'])
 {
 	GetCurrentMP('QTR',$date);
 	foreach ( (array)$_REQUEST['values'] as $id=>$value)
 	{
-		if ($current_RET[$id])
+		if ( $current_RET[$id])
 		{
 			$sql = 'UPDATE FOOD_SERVICE_COMPLETED SET ';
 			$sql .= 'COUNT=\''.$value['COUNT'].'\' ';
@@ -129,12 +129,12 @@ if ($_REQUEST['values'] && $_POST['values'])
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
-if ($date != DBDate())
+if ( $date != DBDate())
 	$date_note = ' <span style="color:red">'._('The selected date is not today').'</span>';
 
 $completed = DBGet(DBQuery('SELECT count(\'Y\') AS COMPLETED FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND MENU_ID=\''.$_REQUEST['menu_id'].'\''));
 
-if ($completed[1]['COMPLETED'])
+if ( $completed[1]['COMPLETED'])
 	$note[] = button('check')._('You have taken lunch counts today for this period.');
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
@@ -145,7 +145,7 @@ if (isset($note))
 
 $meal_RET = DBGet(DBQuery('SELECT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='.UserSyear().' AND SCHOOL_ID='.UserSchool().' AND SCHOOL_DATE=\''.$date.'\' AND TITLE=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\''));
 
-if ($meal_RET)
+if ( $meal_RET)
 {
 	echo '<TABLE class="width-100p">';
 	echo '<TR><TD class="center">';
@@ -184,7 +184,7 @@ $extra['SELECT'] .= ',fsa.BALANCE,fssa.STATUS';
 $extra['FROM'] .= ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 $extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NOT NULL';
 
-if (!$extra['functions'])
+if ( !$extra['functions'])
 	$extra['functions'] = array();
 
 $extra['functions'] += array('BALANCE'=>'red');
@@ -198,7 +198,7 @@ echo '</FORM>';
 
 function red($value)
 {
-	if ($value<0)
+	if ( $value<0)
 		return '<span style="color:red">'.$value.'</span>';
 	else
 		return $value;

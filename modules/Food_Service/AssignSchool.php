@@ -1,18 +1,18 @@
 <?php
 DrawHeader(ProgramTitle());
 
-if ($_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc']=='update')
 {
-	if ($_REQUEST['student'] && $_POST['student'])
+	if ( $_REQUEST['student'] && $_POST['student'])
 	{
 		foreach ( (array)$_REQUEST['student'] as $transaction_id=>$school_id)
-			if ($school_id)
+			if ( $school_id)
 				DBQuery("UPDATE FOOD_SERVICE_TRANSACTIONS SET SCHOOL_ID='".$school_id."' WHERE TRANSACTION_ID='".$transaction_id."'");
 	}
-	if ($_REQUEST['staff'] && $_POST['staff'])
+	if ( $_REQUEST['staff'] && $_POST['staff'])
 	{
 		foreach ( (array)$_REQUEST['staff'] as $transaction_id=>$school_id)
-			if ($school_id)
+			if ( $school_id)
 				DBQuery("UPDATE FOOD_SERVICE_STAFF_TRANSACTIONS SET SCHOOL_ID='".$school_id."' WHERE TRANSACTION_ID='".$transaction_id."'");
 	}
 	unset($_REQUEST['student']);

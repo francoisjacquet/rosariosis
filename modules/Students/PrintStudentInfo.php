@@ -8,7 +8,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
 
 	$extra['functions'] = array('GRADE_ID'=>'_grade_id');
-	if ($_REQUEST['mailing_labels']=='Y')
+	if ( $_REQUEST['mailing_labels']=='Y')
 		Widgets('mailing_labels');
 
 	$RET = GetStuList($extra);
@@ -34,7 +34,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 
 			unset($_ROSARIO['DrawHeader']);
 
-			if ($_REQUEST['mailing_labels']=='Y')
+			if ( $_REQUEST['mailing_labels']=='Y')
 				echo '<BR /><BR /><BR />';
 			//School logo
 			$logo_pic =  'assets/school_logo_'.UserSchool().'.jpg';
@@ -46,16 +46,16 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			DrawHeader($student['STUDENT_ID'],GetGrade($student['GRADE_ID']));
 			DrawHeader(ProperDate(DBDate()));
 
-			if ($_REQUEST['mailing_labels']=='Y')
+			if ( $_REQUEST['mailing_labels']=='Y')
 				echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$student['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
 
-			if ($_REQUEST['category']['1'])
+			if ( $_REQUEST['category']['1'])
 			{
 				include('modules/Students/includes/General_Info.inc.php');
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			if ($_REQUEST['category']['3'])
+			if ( $_REQUEST['category']['3'])
 			{
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['3'][1]['TITLE']));
@@ -78,13 +78,13 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				foreach ( (array)$addresses_RET as $address)
 				{
 					$address_current = $address['ADDRESS'];
-					if ($address_current != $address_previous)
+					if ( $address_current != $address_previous)
 					{
 						echo $address['ADDRESS'].'<BR />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'<BR />';
 						foreach ( (array)$address_categories_RET as $categories)
 						{
 							echo '<BR /><TABLE>';
-							if (!$categories[1]['RESIDENCE']&&!$categories[1]['MAILING']&&!$categories[1]['BUS'] || $categories[1]['RESIDENCE']=='Y'&&$address['RESIDENCE']=='Y' || $categories[1]['MAILING']=='Y'&&$address['MAILING']=='Y' || $categories[1]['BUS']=='Y'&&($address['BUS_PICKUP']=='Y'||$address['BUS_DROPOFF']=='Y'))
+							if ( !$categories[1]['RESIDENCE']&&!$categories[1]['MAILING']&&!$categories[1]['BUS'] || $categories[1]['RESIDENCE']=='Y'&&$address['RESIDENCE']=='Y' || $categories[1]['MAILING']=='Y'&&$address['MAILING']=='Y' || $categories[1]['BUS']=='Y'&&($address['BUS_PICKUP']=='Y'||$address['BUS_DROPOFF']=='Y'))
 								printCustom($categories,$address);
 							echo '</TABLE>';
 						}
@@ -103,7 +103,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 							}
 
 							foreach ( (array)$people_categories_RET as $categories)
-								if (!$categories[1]['CUSTODY']&&!$categories[1]['EMERGENCY'] || $categories[1]['CUSTODY']=='Y'&&$contact['CUSTODY']=='Y' || $categories[1]['EMERGENCY']=='Y'&&$contact['EMERGENCY']=='Y')
+								if ( !$categories[1]['CUSTODY']&&!$categories[1]['EMERGENCY'] || $categories[1]['CUSTODY']=='Y'&&$contact['CUSTODY']=='Y' || $categories[1]['EMERGENCY']=='Y'&&$contact['EMERGENCY']=='Y')
 									printCustom($categories,$contact);
 							echo '</TABLE>';
 						}
@@ -114,7 +114,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			if ($_REQUEST['category']['2'])
+			if ( $_REQUEST['category']['2'])
 			{
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['2'][1]['TITLE']));
@@ -122,7 +122,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				include('modules/Students/includes/Medical.inc.php');
 				echo '<div style="page-break-after: always;"></div>';
 			}
-			if ($_REQUEST['category']['4'])
+			if ( $_REQUEST['category']['4'])
 			{
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['4'][1]['TITLE']));
@@ -132,16 +132,16 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			}
 			foreach ( (array)$categories_RET as $id=>$category)
 			{
-				if ($id!='1' && $id!='3' && $id!='2' && $id!='4' && $_REQUEST['category'][$id])
+				if ( $id!='1' && $id!='3' && $id!='2' && $id!='4' && $_REQUEST['category'][$id])
 				{
 					$_REQUEST['category_id'] = $id;
 					$_ROSARIO['DrawHeader'] = '';
 					DrawHeader(ParseMLField($category[1]['TITLE']));
 					echo '<BR />';
 					$separator = '';
-					if (!$category[1]['INCLUDE'])
+					if ( !$category[1]['INCLUDE'])
 						include('modules/Students/includes/Other_Info.inc.php');
-					elseif (!mb_strpos($category[1]['INCLUDE'],'/'))
+					elseif ( !mb_strpos($category[1]['INCLUDE'],'/'))
 						include('modules/Students/includes/'.$category[1]['INCLUDE'].'.inc.php');
 					else
 					{
@@ -169,7 +169,7 @@ if (empty($_REQUEST['modfunc']))
 {
 	DrawHeader(ProgramTitle());
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Print Info for Selected Students'));
@@ -187,7 +187,7 @@ if (empty($_REQUEST['modfunc']))
 		$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 		$extra['extra_header_right'] = '<TABLE>';
 		foreach ( (array)$categories_RET as $category)
-			if ($can_use_RET['Students/Student.php&category_id='.$category['ID']])
+			if ( $can_use_RET['Students/Student.php&category_id='.$category['ID']])
 			{
 				$extra['extra_header_right'] .= '<TR><TD><label>'.ParseMLField($category['TITLE']).'&nbsp;<INPUT type="checkbox" name="category['.$category['ID'].']" value="Y" checked /></label></TD></TR>';
 			}
@@ -211,7 +211,7 @@ if (empty($_REQUEST['modfunc']))
 	//Widgets('eligibility');
 
 	Search('student_id',$extra);
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Print Info for Selected Students')) . '</div>';
 		echo '</FORM>';
@@ -237,17 +237,17 @@ function explodeCustom(&$categories_RET, &$custom, $prefix)
 		foreach ( (array)$category as $i=>$field)
 		{
 			$custom .= ','.$prefix.'.CUSTOM_'.$field['ID'];
-			if ($field['TYPE']=='select' || $field['TYPE']=='codeds')
+			if ( $field['TYPE']=='select' || $field['TYPE']=='codeds')
 			{
 				$select_options = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
 				$select_options = explode("\r",$select_options);
 				$options = array();
 				foreach ( (array)$select_options as $option)
 				{
-					if ($field['TYPE']=='codeds')
+					if ( $field['TYPE']=='codeds')
 					{
 						$option = explode('|',$option);
-						if ($option[0]!='' && $option[1]!='')
+						if ( $option[0]!='' && $option[1]!='')
 							$options[$option[0]] = $option[1];
 					}
 					else
@@ -265,9 +265,9 @@ function printCustom(&$categories, &$values)
 	{
 		echo '<TR><TD>&nbsp;</TD>';
 		echo '<TD>'.($field['REQUIRED']&&$values['CUSTOM_'.$field['ID']]==''?'<span style="color:red">':'').ParseMLField($field['TITLE']).($field['REQUIRED']&&$values['CUSTOM_'.$field['ID']]==''?'</span>':'').'</TD>';
-		if ($field['TYPE']=='select')
+		if ( $field['TYPE']=='select')
 			echo '<TD>'.($field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]!=''?'':'<span style="color:red">').$values['CUSTOM_'.$field['ID']].($field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]!=''?'':'</span>').'</TD>';
-		elseif ($field['TYPE']=='codeds')
+		elseif ( $field['TYPE']=='codeds')
 			echo '<TD>'.($field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]!=''?$field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]:'<span style="color:red">'.$values['CUSTOM_'.$field['ID']].'</span>').'</TD>';
 		else
 			echo '<TD>'.$values['CUSTOM_'.$field['ID']].'</TD>';

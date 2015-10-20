@@ -6,18 +6,18 @@ $max_allowed = Preferences('ANOMALOUS_MAX','Gradebook')/100;
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader('<label>'.CheckBoxOnclick('include_all_courses').' '._('Include All Courses').'</label>','','&nbsp;<label>'.CheckBoxOnclick('include_inactive').' '._('Include Inactive Students').'</label>');
-if (!$_REQUEST['missing'] && !$_REQUEST['negative'] && !$_REQUEST['max_allowed'])
+if ( !$_REQUEST['missing'] && !$_REQUEST['negative'] && !$_REQUEST['max_allowed'])
 	$_REQUEST['missing'] = $_REQUEST['negative'] = $_REQUEST['max_allowed'] = 'Y';
 DrawHeader(_('Include').': <label>'.CheckBoxOnclick('missing').' '._('Missing Grades').'</label> &nbsp;<label>'.CheckBoxOnclick('negative').' '._('Excused and Negative Grades').'</label> &nbsp;<label>'.CheckBoxOnclick('max_allowed').' '.sprintf(_('Exceed %d%% and Extra Credit Grades'),($max_allowed*100)).'</label>');
 echo '</FORM>';
 
-if ($_REQUEST['student_id'])
+if ( $_REQUEST['student_id'])
 {
-	if ($_REQUEST['student_id']!=UserStudentID())
+	if ( $_REQUEST['student_id']!=UserStudentID())
 	{
 		SetUserStudentID($_REQUEST['student_id']);
 
-		if ($_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
+		if ( $_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
 	}
 }
@@ -27,18 +27,18 @@ else
 	{
 		unset($_SESSION['student_id']);
 
-		if ($_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
+		if ( $_REQUEST['period'] && $_REQUEST['period']!=UserCoursePeriod())
 			$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
 	}
 }
-if ($_REQUEST['period'])
+if ( $_REQUEST['period'])
 {
-	if ($_REQUEST['period']!=UserCoursePeriod())
+	if ( $_REQUEST['period']!=UserCoursePeriod())
 	{
 		$_SESSION['UserCoursePeriod'] = $_REQUEST['period'];
-		if ($_REQUEST['student_id'])
+		if ( $_REQUEST['student_id'])
 		{
-			if ($_REQUEST['student_id']!=UserStudentID())
+			if ( $_REQUEST['student_id']!=UserStudentID())
 				SetUserStudentID($_REQUEST['student_id']);
 		}
 		else
@@ -55,21 +55,21 @@ $extra['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COU
 $extra['WHERE'] .= ' AND (';
 
 // missing
-if ($_REQUEST['missing'])
+if ( $_REQUEST['missing'])
 	$extra['WHERE'] .= 'gg.POINTS IS NULL AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)) OR ';
 
 // excused or negative
-if ($_REQUEST['negative'])
+if ( $_REQUEST['negative'])
 	$extra['WHERE'] .= 'gg.POINTS<0 OR ';
 
 // greater than max percent or extra credit
-if ($_REQUEST['max_allowed'])
+if ( $_REQUEST['max_allowed'])
 	$extra['WHERE'] .= 'gg.POINTS>ga.POINTS*'.$max_allowed.' OR ';
 
 $extra['WHERE'] .= 'FALSE) AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID';
 $extra['WHERE'] .=" AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))";
 
-if ($_REQUEST['include_all_courses']=='Y')
+if ( $_REQUEST['include_all_courses']=='Y')
 {
 	$extra['SELECT'] .= ',cp.COURSE_PERIOD_ID,cp.TITLE AS COURSE_TITLE';
 	$extra['all_courses'] = 'Y';
@@ -77,7 +77,7 @@ if ($_REQUEST['include_all_courses']=='Y')
 
 $extra['functions'] = array('POINTS'=>'_makePoints');
 
-if (!UserStudentID())
+if ( !UserStudentID())
 	$extra['group'] = array('STUDENT_ID');
 
 $students_RET = GetStuList($extra);
@@ -93,23 +93,23 @@ else
 {
 	$columns = array('FULL_NAME'=>_('Name'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'POINTS'=>_('Problem'));
 	$link = array('FULL_NAME'=>array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&include_all_courses='.$_REQUEST['include_all_courses'].'&include_inactive='.$_REQUEST['include_inactive'].'&missing='.$_REQUEST['missing'].'&negative='.$_REQUEST['negative'].'&max_allowed='.$_REQUEST['max_allowed'],'variables'=>array('student_id'=>'STUDENT_ID')));
-	if ($_REQUEST['include_all_courses']=='Y')
+	if ( $_REQUEST['include_all_courses']=='Y')
 		$link['FULL_NAME']['variables']['period'] = 'COURSE_PERIOD_ID';
 	$group = array('STUDENT_ID');
 }
-if ($_REQUEST['include_all_courses']=='Y')
+if ( $_REQUEST['include_all_courses']=='Y')
 {
 	$columns += array('COURSE_TITLE'=>_('Course'));
 }
 $columns += array('TYPE_TITLE'=>_('Category'),'TITLE'=>_('Assignment'),'COMMENT'=>_('Comment'));
-if ($_REQUEST['include_inactive'])
+if ( $_REQUEST['include_inactive'])
 	$columns += array('ACTIVE'=>_('School Status'),'ACTIVE_SCHEDULE'=>_('Course Status'));
 
 $modname = str_replace('AnomalousGrades','Grades',$_REQUEST['modname']);
 if (AllowUse($modname))
 {
 	$link += array('TITLE'=>array('link'=>"Modules.php?modname=$modname&include_inactive=$_REQUEST[include_inactive]",'variables'=>array('type_id'=>'ASSIGNMENT_TYPE_ID','assignment_id'=>'ASSIGNMENT_ID','student_id'=>'STUDENT_ID')));
-	if ($_REQUEST['include_all_courses']=='Y')
+	if ( $_REQUEST['include_all_courses']=='Y')
 		$link['TITLE']['variables']['period'] = 'COURSE_PERIOD_ID';
 }
 
@@ -122,13 +122,13 @@ else
 function _makePoints($value,$column)
 {	global $THIS_RET;
 
-	if ($value=='')
+	if ( $value=='')
 		return '<span style="color:#ff0000">'._('Missing').'</span>';
-	elseif ($value=='-1')
+	elseif ( $value=='-1')
 		return '<span style="color:#00a000">'._('Excused').'</span>';
-	elseif ($value<0)
+	elseif ( $value<0)
 		return '<span style="color:#ff0000">'._('Negative').'</span>';
-	elseif ($THIS_RET['TOTAL_POINTS']==0)
+	elseif ( $THIS_RET['TOTAL_POINTS']==0)
 		return '<span style="color:#0000ff">'._('Extra Credit').'</span>';
 	return number_format(($value/$THIS_RET['TOTAL_POINTS'])*100,0).'%';
 }

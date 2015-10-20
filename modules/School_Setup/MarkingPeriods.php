@@ -619,7 +619,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 					&& $_REQUEST['marking_period_id'] !== 'new' )
 					|| $_REQUEST['mp_term'] === 'PRO' )
 				{
-					if ($_REQUEST['mp_term']=='QTR')
+					if ( $_REQUEST['mp_term']=='QTR')
 						$_REQUEST['quarter_id'] = $_REQUEST['marking_period_id'];
 
 					foreach ( $qtr_RET as $key => $value )

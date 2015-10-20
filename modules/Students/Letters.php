@@ -12,14 +12,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
 
-		if ($_REQUEST['mailing_labels']=='Y')
+		if ( $_REQUEST['mailing_labels']=='Y')
 			Widgets('mailing_labels');
 
 		$extra['SELECT'] .= ",s.FIRST_NAME AS NICK_NAME";
 
 		if (User('PROFILE')=='admin')
 		{
-			if ($_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
+			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
 				$extra['SELECT'] .= ",(SELECT st.FIRST_NAME||' '||st.LAST_NAME FROM STAFF st,COURSE_PERIODS cp WHERE st.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."') AS TEACHER";
 				$extra['SELECT'] .= ",(SELECT cp.ROOM FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."') AS ROOM";
@@ -45,7 +45,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			//FJ add Template
 			$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
-			if (!$template_update)
+			if ( !$template_update)
 				DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_letter_text."')");
 			else
 				DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_letter_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
@@ -59,7 +59,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$student_points = $total_points = 0;
 				unset($_ROSARIO['DrawHeader']);
 
-				if ($_REQUEST['mailing_labels']=='Y')
+				if ( $_REQUEST['mailing_labels']=='Y')
 					echo '<BR /><BR /><BR />';
 				//DrawHeader(ParseMLField(Config('TITLE')).' Letter');
 				DrawHeader('&nbsp;');
@@ -68,7 +68,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				//DrawHeader('',GetMP(GetCurrentMP('QTR',DBDate(),false)));
 				DrawHeader(ProperDate(DBDate()));
 
-				if ($_REQUEST['mailing_labels']=='Y')
+				if ( $_REQUEST['mailing_labels']=='Y')
 					echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$student['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
 
 				$letter_text = $REQUEST_letter_text;
@@ -92,7 +92,7 @@ if (empty($_REQUEST['modfunc']))
 {
 	DrawHeader(ProgramTitle());
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		//FJ add TinyMCE to the textarea
 		?>
@@ -187,7 +187,7 @@ if (empty($_REQUEST['modfunc']))
 	$extra['new'] = true;
 
 	Search('student_id',$extra);
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Print Letters for Selected Students').'" /></div>';
 		echo '</FORM>';

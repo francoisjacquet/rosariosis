@@ -20,12 +20,12 @@ if ( empty( $date ) )
 	$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
 }
 
-if ($_REQUEST['type'])
+if ( $_REQUEST['type'])
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
 
-if ($_REQUEST['type']=='staff')
+if ( $_REQUEST['type']=='staff')
 {
 	$tabcolor_s = '#DFDFDF'; $textcolor_s = '#999999';
 	$tabcolor_u = Preferences('HEADER'); $textcolor_u = '#FFFFFF';
@@ -43,7 +43,7 @@ $header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&day_date='.
 DrawHeader(($_SESSION['FSA_type']=='staff' ? _('User') : _('Student')).' &minus; '.ProgramTitle());
 User('PROFILE')=='student'?'':DrawHeader($header);
 
-if ($_REQUEST['search_modfunc']=='list')
+if ( $_REQUEST['search_modfunc']=='list')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
@@ -67,12 +67,12 @@ $extra['link'] = array('FULL_NAME'=>false);
 
 Search('student_id',$extra);
 
-if ($_REQUEST['search_modfunc']=='list')
+if ( $_REQUEST['search_modfunc']=='list')
 	echo DrawHeader(_('Total of Balances').' = '.number_format($total,2));
 
 function _total($value)
 {	global $THIS_RET,$account_id,$total;
-	if (!$account_id[$value])
+	if ( !$account_id[$value])
 	{
 		$total += $THIS_RET['BALANCE'];
 		$account_id[$value] = true;

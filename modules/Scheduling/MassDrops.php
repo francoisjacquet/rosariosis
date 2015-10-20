@@ -2,12 +2,12 @@
 
 DrawHeader(ProgramTitle());
 
-if (!$_REQUEST['modfunc'] && $_REQUEST['search_modfunc']!='list')
+if ( !$_REQUEST['modfunc'] && $_REQUEST['search_modfunc']!='list')
 	unset($_SESSION['MassDrops.php']);
 
 if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if ($_SESSION['MassDrops.php'])
+	if ( $_SESSION['MassDrops.php'])
 	{
 		if (isset($_REQUEST['student']) && is_array($_REQUEST['student']))
 		{
@@ -18,7 +18,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$course_mp = $course_mp[1]['MARKING_PERIOD_ID'];
 				$course_mp_table = GetMP($course_mp,'MP');
 
-				if ($course_mp_table=='FY' || $course_mp==$_REQUEST['marking_period_id'] || mb_strpos(GetChildrenMP($course_mp_table,$course_mp),"'".$_REQUEST['marking_period_id']."'")!==false)
+				if ( $course_mp_table=='FY' || $course_mp==$_REQUEST['marking_period_id'] || mb_strpos(GetChildrenMP($course_mp_table,$course_mp),"'".$_REQUEST['marking_period_id']."'")!==false)
 				{
 					$mp_table = GetMP($_REQUEST['marking_period_id'],'MP');
 					//$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)"),array(),array('STUDENT_ID'));
@@ -26,7 +26,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					foreach ( (array)$_REQUEST['student'] as $student_id=>$yes)
 					{
-						if ($current_RET[$student_id])
+						if ( $current_RET[$student_id])
 						{
 							DBQuery("UPDATE SCHEDULE SET END_DATE='".$END_DATE."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
 
@@ -40,7 +40,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 								if (DeletePrompt(_('Students\' Absences and Grades'), 'Delete', false))
 								{
 									//if user clicked OK
-									if ($_REQUEST['delete_ok'])
+									if ( $_REQUEST['delete_ok'])
 									{
 										DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
 										DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
@@ -91,9 +91,9 @@ if (isset($error))
 if (isset($note))
 	echo ErrorMessage($note, 'note');
 
-if ($_REQUEST['modfunc']!='choose_course')
+if ( $_REQUEST['modfunc']!='choose_course')
 {
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Drop Course for Selected Students')));
@@ -104,7 +104,7 @@ if ($_REQUEST['modfunc']!='choose_course')
 
 		echo '<TABLE><TR><TD colspan="2"><DIV id=course_div>';
 
-		if ($_SESSION['MassDrops.php'])
+		if ( $_SESSION['MassDrops.php'])
 		{
 			$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassDrops.php']['course_id']."'"));
 			$course_title = $course_title[1]['TITLE'];
@@ -133,7 +133,7 @@ if ($_REQUEST['modfunc']!='choose_course')
 if (empty($_REQUEST['modfunc']))
 
 {
-	if ($_REQUEST['search_modfunc']!='list')
+	if ( $_REQUEST['search_modfunc']!='list')
 		unset($_SESSION['MassDrops.php']);
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
@@ -146,17 +146,17 @@ if (empty($_REQUEST['modfunc']))
 	Widgets('activity');
 
 	Search('student_id',$extra);
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Drop Course for Selected Students')) . '</div>';
 		echo '</FORM>';
 	}
 }
 
-if ($_REQUEST['modfunc']=='choose_course')
+if ( $_REQUEST['modfunc']=='choose_course')
 {
 
-	if (!$_REQUEST['course_period_id'])
+	if ( !$_REQUEST['course_period_id'])
 		include 'modules/Scheduling/Courses.php';
 	else
 	{

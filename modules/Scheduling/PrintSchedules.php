@@ -7,7 +7,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
 
-	if ($_REQUEST['day_include_active_date'] && $_REQUEST['month_include_active_date'] && $_REQUEST['year_include_active_date'])
+	if ( $_REQUEST['day_include_active_date'] && $_REQUEST['month_include_active_date'] && $_REQUEST['year_include_active_date'])
 	{
 		$date = $_REQUEST['day_include_active_date'].'-'.$_REQUEST['month_include_active_date'].'-'.$_REQUEST['year_include_active_date'];
 		$date_extra = 'OR (\''.$date.'\' >= sr.START_DATE AND sr.END_DATE IS NULL)';
@@ -27,7 +27,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.ROOM';
 	$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,COURSE_PERIODS p_cp ';
 	$extra['WHERE'] .= " AND ssm.SYEAR=sr.SYEAR AND sr.COURSE_ID=c.COURSE_ID AND sr.COURSE_PERIOD_ID=p_cp.COURSE_PERIOD_ID  AND ('".$date."' BETWEEN sr.START_DATE AND sr.END_DATE ".$date_extra.")";
-	if ($_REQUEST['mp_id'])
+	if ( $_REQUEST['mp_id'])
 		$extra['WHERE'] .= ' AND sr.MARKING_PERIOD_ID IN ('.GetAllMP(GetMP($_REQUEST['mp_id'],'MP'),$_REQUEST['mp_id']).')';
 
 //	$extra['functions'] = array('MARKING_PERIOD_ID'=>'GetMP','DAYS'=>'_makeDays');
@@ -35,7 +35,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$extra['functions'] = array('MARKING_PERIOD_ID'=>'GetMP');
 	$extra['group'] = array('STUDENT_ID');
 //	$extra['ORDER'] = ',sp.SORT_ORDER';
-	if ($_REQUEST['mailing_labels']=='Y')
+	if ( $_REQUEST['mailing_labels']=='Y')
 		$extra['group'][] = 'ADDRESS_ID';
 	Widgets('mailing_labels');
 
@@ -71,17 +71,17 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$columns_table = array('SCHOOL_PERIOD' => _('Periods'));
 	foreach ($schedule_table_days as $day=>$true)
 	{
-		if ($true)
+		if ( $true)
 			$columns_table[$day] = $days_convert[$day];
 	}
 	
 	if (count($RET))
 	{
 		$handle = PDFStart();
-		if ($_REQUEST['schedule_table'] == 'No')	
+		if ( $_REQUEST['schedule_table'] == 'No')	
 			foreach ( (array)$RET as $student_id=>$courses)
 			{
-				if ($_REQUEST['mailing_labels']=='Y')
+				if ( $_REQUEST['mailing_labels']=='Y')
 				{
 					foreach ( (array)$courses as $address)
 					{
@@ -118,7 +118,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			}
 			
 	//FJ add schedule table
-		if ($_REQUEST['schedule_table'] == 'Yes')	
+		if ( $_REQUEST['schedule_table'] == 'Yes')	
 			foreach ( (array)$schedule_table_RET as $student_id=>$schedule_table)
 			{
 				/*foreach ( (array)$schedule_table as $period=>$course_periods)
@@ -130,7 +130,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					{
 						foreach ($course_period['DAYS'] as $course_period_day)
 						{
-							if (!is_array($schedule_table_TDs[$course_period_day]))
+							if ( !is_array($schedule_table_TDs[$course_period_day]))
 								$schedule_table_TDs[$course_period_day] = array();
 							$schedule_table_TDs[$course_period_day][] = '<TD>'.$course_period['TITLE'].'<BR />'.$course_period['FULL_NAME'].(empty($course_period['ROOM'])?'':'<BR />'._('Room').': '.$course_period['ROOM']).'</TD>';
 						}
@@ -149,7 +149,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 				$schedule_table_body .= '</TABLE>';*/
 
-				if ($_REQUEST['mailing_labels']=='Y' && isset($RET[$student_id]))
+				if ( $_REQUEST['mailing_labels']=='Y' && isset($RET[$student_id]))
 				{
 					foreach ( (array)$RET[$student_id] as $address)
 					{
@@ -205,7 +205,7 @@ if (empty($_REQUEST['modfunc']))
 {
 	DrawHeader(ProgramTitle());
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		$mp_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,".db_case(array('MP',"'FY'","'0'","'SEM'","'1'","'QTR'","'2'"))." AS TBL FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TBL,SORT_ORDER"));
 		$mp_select = '<SELECT name="mp_id"><OPTION value="">'._('N/A');
@@ -243,7 +243,7 @@ if (empty($_REQUEST['modfunc']))
 
 	Search('student_id',$extra);
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Schedules for Selected Students').'" /></div>';
 		echo '</FORM>';
@@ -281,7 +281,7 @@ function _schedule_table_RET($schedule_table_RET)
 		{
 			foreach ($course_period['DAYS'] as $course_period_day)
 			{
-				if (!isset($schedule_table_body[$i][$course_period_day]) || !is_array($schedule_table_body[$i][$course_period_day]))
+				if ( !isset($schedule_table_body[$i][$course_period_day]) || !is_array($schedule_table_body[$i][$course_period_day]))
 					$schedule_table_body[$i][$course_period_day] = array();
 				$schedule_table_body[$i][$course_period_day][] = '<TD>'.$course_period['TITLE'].'<BR />'.$course_period['FULL_NAME'].(empty($course_period['ROOM'])?'':'<BR />'._('Room').': '.$course_period['ROOM']).'</TD>';
 			}
@@ -290,7 +290,7 @@ function _schedule_table_RET($schedule_table_RET)
 		foreach ($schedule_table_body[$i] as $day_key => $schedule_table_day)
 		{
 			$j++;
-			if ($j == 1) // skip SCHOOL_PERIOD column
+			if ( $j == 1) // skip SCHOOL_PERIOD column
 				continue;
 			if (count($schedule_table_day) == 1)
 				$schedule_table_body[$i][$day_key] = str_replace(array('<TD>', '</TD>'), '', $schedule_table_day[0]);

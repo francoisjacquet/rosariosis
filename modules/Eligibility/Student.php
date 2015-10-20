@@ -8,7 +8,7 @@ Widgets('eligibility');
 
 Search('student_id',$extra);
 
-if ($_REQUEST['modfunc']=='add' && AllowEdit())
+if ( $_REQUEST['modfunc']=='add' && AllowEdit())
 {
 //FJ fix bug add the same activity more than once
 	$activity_RET = DBGet(DBQuery("SELECT ACTIVITY_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE STUDENT_ID='".UserStudentID()."' AND ACTIVITY_ID='".$_REQUEST['new_activity']."' AND SYEAR='".UserSyear()."'"));
@@ -20,7 +20,7 @@ if ($_REQUEST['modfunc']=='add' && AllowEdit())
 	unset($_REQUEST['modfunc']);
 }
 
-if ($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if (DeletePrompt(_('Activity')))
 	{
@@ -67,7 +67,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	$start = time() - ($today-$START_DAY)*60*60*24;
 	$end = time();
 	
-	if (!$_REQUEST['start_date'])
+	if ( !$_REQUEST['start_date'])
 	{
 		$start_time = $start;
 		$start_date = mb_strtoupper(date('d-M-Y',$start_time));

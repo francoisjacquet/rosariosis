@@ -6,7 +6,7 @@ include('modules/Users/includes/Other_Info.inc.php');
 if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 {
 	//FJ add <label> on checkbox
-	if ($PopTable_opened)
+	if ( $PopTable_opened)
 		PopTable('footer');
 
 	$all_schools_onclick_URL = "'" . ( $_REQUEST['all_schools'] == 'Y' ?
@@ -18,12 +18,12 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	DrawHeader('','','<label>'.$input_all_schools.' '._('List Courses For All Schools').'</label>');
 
 	// preload GetMP cache with all schools
-	if ($_REQUEST['all_schools']=='Y')
+	if ( $_REQUEST['all_schools']=='Y')
 		$_ROSARIO['GetMP'] = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS FROM SCHOOL_MARKING_PERIODS WHERE SYEAR='".UserSyear()."'"),array(),array('MARKING_PERIOD_ID'));
 
 	//$columns = array('TITLE'=>_('Course'),'PERIOD_ID'=>_('Period'),'ROOM'=>_('Room'),'MARKING_PERIOD_ID'=>_('Marking Period'));
 	$columns = array('TITLE'=>_('Course'),'COURSE_PERIOD'=>_('Course Period'),'ROOM'=>_('Room'),'MARKING_PERIOD_ID'=>_('Marking Period'));
-	if ($_REQUEST['all_schools']=='Y')
+	if ( $_REQUEST['all_schools']=='Y')
 	{
 		$columns += array('SCHOOL'=>_('School'));
 		$group = array('SCHOOL_ID');
@@ -80,7 +80,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	$columns = array('SCHOOL_PERIOD' => _('Periods'));
 	foreach ($schedule_table_days as $day=>$true)
 	{
-		if ($true)
+		if ( $true)
 			$columns[$day] = $days_convert[$day];
 	}
 	
@@ -88,7 +88,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	
 	ListOutput($schedule_table_RET,$columns,'Period','Periods',false,array(),array('save'=>false));
 
-	if ($PopTable_opened)
+	if ( $PopTable_opened)
 		echo '<TABLE><TR><TD>';
 }
 
@@ -118,7 +118,7 @@ function _schedule_table_RET($schedule_table_RET)
 		{
 			foreach ($course_period['DAYS'] as $course_period_day)
 			{
-				if (!is_array($schedule_table_body[$i][$course_period_day]))
+				if ( !is_array($schedule_table_body[$i][$course_period_day]))
 					$schedule_table_body[$i][$course_period_day] = array();
 				$schedule_table_body[$i][$course_period_day][] = '<div style="display:table-cell;">'.$course_period['TITLE'].' '.(empty($course_period['SHORT_NAME'])?'':'<span style="font-size:smaller;">('.$course_period['SHORT_NAME']).')'.(empty($course_period['ROOM'])?'':' '._('Room').': '.$course_period['ROOM'].'</span>').'&nbsp;</div>';
 			}
@@ -127,7 +127,7 @@ function _schedule_table_RET($schedule_table_RET)
 		foreach ($schedule_table_body[$i] as $day_key => $schedule_table_day)
 		{
 			$j++;
-			if ($j == 1) // skip SCHOOL_PERIOD column
+			if ( $j == 1) // skip SCHOOL_PERIOD column
 				continue;
 			if (count($schedule_table_day) == 1)
 				$schedule_table_body[$i][$day_key] = str_replace(array('<div style="display:table-cell;">', '</div>'), '', $schedule_table_day[0]);

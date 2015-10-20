@@ -2,7 +2,7 @@
 
 include('modules/Scheduling/includes/calcSeats0.fnc.php');
 
-if ($_REQUEST['modname']=='Scheduling/Scheduler.php' && !$_REQUEST['run'])
+if ( $_REQUEST['modname']=='Scheduling/Scheduler.php' && !$_REQUEST['run'])
 {
 	$function = 'Prompt';
 	DrawHeader(ProgramTitle());
@@ -44,7 +44,7 @@ if ( $ok )
 	$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
 	
 	$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000"),array(),array('ID'));
-	if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
+	if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 		$sql_gender = ',s.CUSTOM_200000000 as GENDER';
 	else
 		$sql_gender = ',\'None\' as GENDER';
@@ -59,7 +59,7 @@ if ( $ok )
 	
 	$requests_RET = DBGet(DBQuery($sql),array(),array('REQUEST_ID'));
 	
-	if ($_REQUEST['delete']=='Y' && count($requests_RET)>0)
+	if ( $_REQUEST['delete']=='Y' && count($requests_RET)>0)
 		DBQuery("DELETE FROM SCHEDULE WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND (SCHEDULER_LOCK!='Y' OR SCHEDULER_LOCK IS NULL)");
 
 	$periods_RET = DBGet(DBQuery("SELECT COURSE_PERIOD_ID,MARKING_PERIOD_ID,MP,TOTAL_SEATS,CALENDAR_ID FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
@@ -143,7 +143,7 @@ if ( $ok )
 	foreach ( (array)$requests_RET as $request_id=>$request)
 	{
 		// EXISTING / LOCKED COURSE
-		if (!empty($locked_RET[$request[1]['STUDENT_ID']][$request[1]['REQUEST_ID']]))
+		if ( !empty($locked_RET[$request[1]['STUDENT_ID']][$request[1]['REQUEST_ID']]))
 		{
 			$completed++;
 			continue;
@@ -151,16 +151,16 @@ if ( $ok )
 
 		$scheduled = _scheduleRequest($request[1]);
 
-		if (!$scheduled)
+		if ( !$scheduled)
 		{
 			$not_request = array();
-			if (!empty($locked_RET[$request[1]['STUDENT_ID']]))
+			if ( !empty($locked_RET[$request[1]['STUDENT_ID']]))
 				foreach ( (array)$locked_RET[$request[1]['STUDENT_ID']] as $request_id=>$requests)
 					$not_request[] = $request_id;
 
 			$moved = _moveRequest($request[1],$not_request);
 
-			if (!$moved)
+			if ( !$moved)
 				$unfilled[] = $request;
 			else
 				$filled[$request[1]['REQUEST_ID']] = true;
@@ -171,7 +171,7 @@ if ( $ok )
 		$completed++;
 
 		$percent = round($completed*100/$requests_count,0);
-		if ($percent>$last_percent)
+		if ( $percent>$last_percent)
 		{
 			echo '<script>';
 			for($i=$last_percent+1;$i<=$percent;$i++)
@@ -188,16 +188,16 @@ if ( $ok )
 	{
 		$scheduled = _scheduleRequest($request[1]);
 
-		if (!$scheduled)
+		if ( !$scheduled)
 		{
 			$not_request = array();
-			if (!empty($locked_RET[$request[1]['STUDENT_ID']]))
+			if ( !empty($locked_RET[$request[1]['STUDENT_ID']]))
 				foreach ( (array)$locked_RET[$request[1]['STUDENT_ID']] as $request_id=>$requests)
 					$not_request[] = $request_id;
 
 			$moved = _moveRequest($request[1],$not_request);
 
-			if ($moved)
+			if ( $moved)
 				unset($unfilled[$key]);
 		}
 		else
@@ -205,7 +205,7 @@ if ( $ok )
 	}
 	echo '<!-- unfilled '.count($unfilled).' -->';
 
-	if ($_REQUEST['test_mode']!='Y')
+	if ( $_REQUEST['test_mode']!='Y')
 	{
 		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<span class="loading"></span> '._('Saving Schedules ...').' ').';</script>';
 		echo str_pad(' ',4096);
@@ -252,14 +252,14 @@ if ( $ok )
 		foreach ( (array)$cp_parent_RET as $parent_id=>$course_period)
 		{
 			$course_period = $course_period[1];
-			//if ($course_period['AVAILABLE_SEATS']<='0')
+			//if ( $course_period['AVAILABLE_SEATS']<='0')
 			//	echo $course_period['COURSE_ID'].': '.$course_period['COURSE_PERIOD_ID'].'<BR />';
 			db_trans_query($connection,"UPDATE COURSE_PERIODS SET FILLED_SEATS=TOTAL_SEATS-'".$course_period['AVAILABLE_SEATS']."' WHERE PARENT_ID='".$parent_id."'");
 		}
 		db_trans_commit($connection);
 	}
 
-	if ($_REQUEST['test_mode']!='Y' || $_REQUEST['delete']=='Y')
+	if ( $_REQUEST['test_mode']!='Y' || $_REQUEST['delete']=='Y')
 	{
 		echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode('<span class="loading"></span> '._('Optimizing ...').' ').';</script>';
 		echo str_pad(' ',4096);
@@ -297,27 +297,27 @@ function _scheduleRequest($request,$not_parent_id=false)
 			foreach ( (array)$cp_parent_RET[$course_period['COURSE_PERIOD_ID']] as $slice)
 			{
 				// ALREADY SCHEDULED HERE
-				if ($slice['PARENT_ID']==$not_parent_id)
+				if ( $slice['PARENT_ID']==$not_parent_id)
 					continue 2;
 
 				// NO SEATS
-				if ($slice['AVAILABLE_SEATS']<=0)
+				if ( $slice['AVAILABLE_SEATS']<=0)
 					continue 2;
 
 				// SLICE VIOLATES GENDER RESTRICTION
-				if ($slice['GENDER_RESTRICTION']!='N' && $slice['GENDER_RESTRICTION']!=mb_substr($request['GENDER'],0,1))
+				if ( $slice['GENDER_RESTRICTION']!='N' && $slice['GENDER_RESTRICTION']!=mb_substr($request['GENDER'],0,1))
 					continue 2;
 
 				// PARENT VIOLATES TEACHER / PERIOD REQUESTS
-				if ($slice['PARENT_ID']==$slice['COURSE_PERIOD_ID'] && (($request['WITH_TEACHER_ID']!='' && $slice['TEACHER_ID']!=$request['WITH_TEACHER_ID']) || ($request['WITH_PERIOD_ID'] && $slice['PERIOD_ID']!=$request['WITH_PERIOD_ID']) || ($request['NOT_TEACHER_ID'] && $slice['TEACHER_ID']==$request['NOT_TEACHER_ID']) || ($request['NOT_PERIOD_ID'] && $slice['PERIOD_ID']==$request['NOT_PERIOD_ID'])))
+				if ( $slice['PARENT_ID']==$slice['COURSE_PERIOD_ID'] && (($request['WITH_TEACHER_ID']!='' && $slice['TEACHER_ID']!=$request['WITH_TEACHER_ID']) || ($request['WITH_PERIOD_ID'] && $slice['PERIOD_ID']!=$request['WITH_PERIOD_ID']) || ($request['NOT_TEACHER_ID'] && $slice['TEACHER_ID']==$request['NOT_TEACHER_ID']) || ($request['NOT_PERIOD_ID'] && $slice['PERIOD_ID']==$request['NOT_PERIOD_ID'])))
 					continue 2;
 
-				if (!empty($schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']]))
+				if ( !empty($schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']]))
 				{
 					// SHOULD LOOK FOR COMPATIBLE CP's IF NOT THE COMPLETE WEEK/YEAR
 					foreach ( (array)$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']] as $existing_slice)
 					{
-						if ($existing_slice['PARENT_ID']!=$not_parent_id && _isConflict($existing_slice,$slice))
+						if ( $existing_slice['PARENT_ID']!=$not_parent_id && _isConflict($existing_slice,$slice))
 							continue 3;
 					}
 				}
@@ -329,13 +329,13 @@ function _scheduleRequest($request,$not_parent_id=false)
 	if (count($possible))
 	{
 		// IF THIS COURSE IS BEING SCHEDULED A SECOND TIME, DELETE THE ORIGINAL ONE
-		if ($not_parent_id)
+		if ( $not_parent_id)
 		{
 			foreach ( (array)$cp_parent_RET[$not_parent_id] as $key=>$slice)
 			{
 				foreach ( (array)$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']] as $key2=>$item)
 				{
-					if ($item['COURSE_PERIOD_ID']==$slice['COURSE_PERIOD_ID'])
+					if ( $item['COURSE_PERIOD_ID']==$slice['COURSE_PERIOD_ID'])
 					{
 						$filled[$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']][$key2]['REQUEST_ID']] = false;
 						unset($schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']][$key2]);
@@ -357,7 +357,7 @@ function _moveRequest($request,$not_request=false,$not_parent_id=false)
 //{	global $requests_RET,$cp_parent_RET,$cp_course_RET,$mps_RET,$schedule,$filled,$unfilled;
 {	global $requests_RET,$cp_parent_RET,$cp_course_RET,$schedule;
 
-	if (!$not_request || !is_array($not_request))
+	if ( !$not_request || !is_array($not_request))
 		$not_request = array();
 
 	if (count($cp_course_RET[$request['COURSE_ID']]))
@@ -369,18 +369,18 @@ function _moveRequest($request,$not_request=false,$not_parent_id=false)
 			{
 				/* Don't bother to move courses around if request can't be scheduled here anyway. */
 				// SEAT COUNTS
-				if ($slice['AVAILABLE_SEATS']<=0)
+				if ( $slice['AVAILABLE_SEATS']<=0)
 					continue 2;
 
 				// SLICE VIOLATES GENDER RESTRICTION
-				if ($slice['GENDER_RESTRICTION']!='N' && $slice['GENDER_RESTRICTION']!=mb_substr($request['GENDER'],0,1))
+				if ( $slice['GENDER_RESTRICTION']!='N' && $slice['GENDER_RESTRICTION']!=mb_substr($request['GENDER'],0,1))
 					continue 2;
 
 				// PARENT VIOLATES TEACHER / PERIOD REQUESTS
-				if ($slice['PARENT_ID']==$slice['COURSE_PERIOD_ID'] && (($request['WITH_TEACHER_ID']!='' && $slice['TEACHER_ID']!=$request['WITH_TEACHER_ID']) || ($request['WITH_PERIOD_ID'] && $slice['PERIOD_ID']!=$request['WITH_PERIOD_ID']) || ($request['NOT_TEACHER_ID'] && $slice['TEACHER_ID']==$request['NOT_TEACHER_ID']) || ($request['NOT_PERIOD_ID'] && $slice['PERIOD_ID']==$request['NOT_PERIOD_ID'])))
+				if ( $slice['PARENT_ID']==$slice['COURSE_PERIOD_ID'] && (($request['WITH_TEACHER_ID']!='' && $slice['TEACHER_ID']!=$request['WITH_TEACHER_ID']) || ($request['WITH_PERIOD_ID'] && $slice['PERIOD_ID']!=$request['WITH_PERIOD_ID']) || ($request['NOT_TEACHER_ID'] && $slice['TEACHER_ID']==$request['NOT_TEACHER_ID']) || ($request['NOT_PERIOD_ID'] && $slice['PERIOD_ID']==$request['NOT_PERIOD_ID'])))
 					continue 2;
 
-				if (!empty($schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']]))
+				if ( !empty($schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']]))
 				{
 					foreach ( (array)$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']] as $existing_slice)
 					{
@@ -391,9 +391,9 @@ function _moveRequest($request,$not_request=false,$not_parent_id=false)
 						{
 							$not_request_temp = $not_request;
 							$not_request_temp[] = $existing_slice['REQUEST_ID'];
-							if (!$scheduled = _scheduleRequest($requests_RET[$existing_slice['REQUEST_ID']][1],$existing_slice['PARENT_ID']))
+							if ( !$scheduled = _scheduleRequest($requests_RET[$existing_slice['REQUEST_ID']][1],$existing_slice['PARENT_ID']))
 							{
-								if (!$moved = _moveRequest($requests_RET[$existing_slice['REQUEST_ID']][1],$not_request_temp,$existing_slice['PARENT_ID']))
+								if ( !$moved = _moveRequest($requests_RET[$existing_slice['REQUEST_ID']][1],$not_request_temp,$existing_slice['PARENT_ID']))
 									continue 3;
 							}
 						}
@@ -420,20 +420,20 @@ function _isConflict($existing_slice,$slice)
 	// LOOK FOR CONFLICT IN SCHEDULED SLICE -- CONFLICT == SEATS,MP,DAYS,PERIOD TIMES
 
 	// MARKING PERIOD CONFLICTS
-	if ($existing_slice['MARKING_PERIOD_ID']=="$fy_id" || ($slice['MARKING_PERIOD_ID']=="$fy_id" && (!$request['MARKING_PERIOD_ID'] || $request['MARKING_PERIOD_ID']==$slice['MARKING_PERIOD_ID'])))
+	if ( $existing_slice['MARKING_PERIOD_ID']=="$fy_id" || ($slice['MARKING_PERIOD_ID']=="$fy_id" && (!$request['MARKING_PERIOD_ID'] || $request['MARKING_PERIOD_ID']==$slice['MARKING_PERIOD_ID'])))
 		$mp_conflict = true; // if either course is full year
-	elseif ($existing_slice['MARKING_PERIOD_ID']==$slice['MARKING_PERIOD_ID'])
+	elseif ( $existing_slice['MARKING_PERIOD_ID']==$slice['MARKING_PERIOD_ID'])
 		$mp_conflict = true; // if both fall in the same QTR or SEM
-	elseif ($existing_slice['MP']==$slice['MP'])
+	elseif ( $existing_slice['MP']==$slice['MP'])
 		$mp_conflict = false; // both are SEM's or QTR's, but not the same
-	elseif ($existing_slice['MP']=='SEM' && $mps_RET[$existing_slice['MARKING_PERIOD_ID']][$slice['MARKING_PERIOD_ID']])
+	elseif ( $existing_slice['MP']=='SEM' && $mps_RET[$existing_slice['MARKING_PERIOD_ID']][$slice['MARKING_PERIOD_ID']])
 		$mp_conflict = true; // the new course is a quarter in the existing semester
-	elseif ($mps_RET[$slice['MARKING_PERIOD_ID']][$existing_slice['MARKING_PERIOD_ID']])
+	elseif ( $mps_RET[$slice['MARKING_PERIOD_ID']][$existing_slice['MARKING_PERIOD_ID']])
 		$mp_conflict = true; // the existing course is a quarter in the new semester
 	else
 		$mp_conflict = false; // not the same MP, but no conflict
 
-	if ($mp_conflict) // only look for a day conflict if there's already an MP conflict
+	if ( $mp_conflict) // only look for a day conflict if there's already an MP conflict
 	{
 		if (mb_strlen($slice['DAYS'])+mb_strlen($existing_slice['DAYS'])>7)
 			$days_conflict = true;
@@ -449,7 +449,7 @@ function _isConflict($existing_slice,$slice)
 				}
 			}
 		}
-		if ($days_conflict)
+		if ( $days_conflict)
 			return true; // Go to the next available section
 	}
 
@@ -465,7 +465,7 @@ function _scheduleBest($request,$possible)
 	{
 		foreach ( (array)$possible as $course_period)
 		{
-			if ($cp_parent_RET[$course_period['COURSE_PERIOD_ID']][1]['AVAILABLE_SEATS']>$cp_parent_RET[$best['COURSE_PERIOD_ID']][1]['AVAILABLE_SEATS'])
+			if ( $cp_parent_RET[$course_period['COURSE_PERIOD_ID']][1]['AVAILABLE_SEATS']>$cp_parent_RET[$best['COURSE_PERIOD_ID']][1]['AVAILABLE_SEATS'])
 				$best = $course_period;
 		}
 	}

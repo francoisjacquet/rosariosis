@@ -24,9 +24,9 @@ if ( ( isset( $_POST['values'] )
 	);
 }
 
-if ($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if (!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	if ( !$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
 		echo '</FORM>';
 	if (DeletePrompt($_REQUEST['title']))
 	{
@@ -39,7 +39,7 @@ if (empty($_REQUEST['modfunc']))
 {
 	include('modules/Students/includes/Other_Info.inc.php');
 	
-	if ($PopTable_opened)
+	if ( $PopTable_opened)
 		PopTable('footer');
 	
 	$table = 'STUDENT_MEDICAL';
@@ -72,6 +72,6 @@ if (empty($_REQUEST['modfunc']))
 		$link['remove']['variables'] = array('id'=>'ID');
 		ListOutput($med_RET,$columns,'Nurse Visit','Nurse Visits',$link,array(),array('search'=>false));
 	}
-	if ($PopTable_opened)//FJ bugfix display in PrintStudentInfo.php
+	if ( $PopTable_opened)//FJ bugfix display in PrintStudentInfo.php
 		echo '<TABLE><TR><TD>';
 }

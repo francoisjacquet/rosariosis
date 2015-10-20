@@ -15,14 +15,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$cc = '';
 	if (User('EMAIL'))
 		$cc = User('EMAIL');
-	elseif (!filter_var($test_email, FILTER_VALIDATE_EMAIL))
+	elseif ( !filter_var($test_email, FILTER_VALIDATE_EMAIL))
 		ErrorMessage(array(_('You must set the <b>test mode email</b> or have a user email address to use this script.')),'fatal');
 		
 	$subject = _('New Parent Account');
 
 	//FJ add Template
 	$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Custom/NotifyParents.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
-	if (!$template_update)
+	if ( !$template_update)
 		DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('Custom/NotifyParents.php', '".User('STAFF_ID')."', '".$_REQUEST['inputnotifyparentstext']."')");
 	else
 		DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$_REQUEST['inputnotifyparentstext']."' WHERE MODNAME = 'Custom/NotifyParents.php' AND STAFF_ID = '".User('STAFF_ID')."'");
@@ -100,7 +100,7 @@ if (isset($error))
 
 if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 {
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Notify Selected Parents'));
@@ -142,7 +142,7 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 
 	Search('staff_id',$extra);
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Notify Selected Parents')) . '</div>';
 		echo '</FORM>';
@@ -152,7 +152,7 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	if ($THIS_RET['USERNAME'] && $THIS_RET['EMAIL'] && $THIS_RET['ASSOCIATED']>0)
+	if ( $THIS_RET['USERNAME'] && $THIS_RET['EMAIL'] && $THIS_RET['ASSOCIATED']>0)
 		return '<INPUT type="checkbox" name="staff['.$value.']" value="'.$value.'" />';
 	else
 		return '';

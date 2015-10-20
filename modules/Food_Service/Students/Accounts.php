@@ -1,15 +1,15 @@
 <?php
 
-if ($_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc']=='update')
 {
     if (UserStudentID() && AllowEdit())
     {
         if (count($_REQUEST['food_service']))
         {
-            if ($_REQUEST['food_service']['BARCODE'])
+            if ( $_REQUEST['food_service']['BARCODE'])
             {
                 $RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STUDENT_ID!='".UserStudentID()."'"));
-                if ($RET)
+                if ( $RET)
                 {
                     $student_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID=fssa.STUDENT_ID AND fssa.ACCOUNT_ID='".$RET[1]['ACCOUNT_ID']."'"));
                     $question = _("Are you sure you want to assign that barcode?");
@@ -18,7 +18,7 @@ if ($_REQUEST['modfunc']=='update')
                 else
                 {
                     $RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'"));
-                    if ($RET)
+                    if ( $RET)
                     {
                         $staff_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".$RET[1]['STAFF_ID']."'"));
                         $question = _("Are you sure you want to assign that barcode?");
@@ -26,7 +26,7 @@ if ($_REQUEST['modfunc']=='update')
                     }
                 }
             }
-            if (!$RET || PromptX($title='Confirm',$question,$message))
+            if ( !$RET || PromptX($title='Confirm',$question,$message))
             {
                 if (is_numeric($_REQUEST['food_service']['ACCOUNT_ID']) && intval($_REQUEST['food_service']['ACCOUNT_ID'])>=0)
 				{
@@ -36,7 +36,7 @@ if ($_REQUEST['modfunc']=='update')
 						$sql .= $column_name."='".trim($value)."',";
 					}
 					$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='".UserStudentID()."'";
-					if ($_REQUEST['food_service']['BARCODE'])
+					if ( $_REQUEST['food_service']['BARCODE'])
 					{
 						DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
 						DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
@@ -66,7 +66,7 @@ Widgets('fsa_account_id');
 
 $extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
-if (!mb_strpos($extra['FROM'],'fssa'))
+if ( !mb_strpos($extra['FROM'],'fssa'))
 {
 	$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
@@ -113,7 +113,7 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 	echo '<TABLE class="width-100p cellspacing-0 valign-top"><TR><TD>';
 
 	// warn if account non-existent (balance query failed)
-	if ($student['BALANCE']=='')
+	if ( $student['BALANCE']=='')
 	{
 		//var_dump($student['ACCOUNT_ID']);
 		echo TextInput(array($student['ACCOUNT_ID'],'<span style="color:red">'.$student['ACCOUNT_ID'].'</span>'),'food_service[ACCOUNT_ID]',_('Account ID'),'size=12 maxlength=10');

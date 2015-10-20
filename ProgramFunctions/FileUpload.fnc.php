@@ -16,10 +16,10 @@ function FileUpload($key, $path, $extensions_white_list, $size_limit, &$error, $
 {
 	$file_name = $full_path = false;
 	
-	if ($final_extension!=false && $file_name_without_extension!=false)
+	if ( $final_extension!=false && $file_name_without_extension!=false)
 		$file_name = $file_name_without_extension.$final_extension;
 	
-	if (!is_uploaded_file($_FILES[$key]['tmp_name']))
+	if ( !is_uploaded_file($_FILES[$key]['tmp_name']))
 		$error[] = _('File not uploaded'); //Check the post_max_size & php_value upload_max_filesize values in the php.ini file
 
 	elseif ( !in_array( mb_strtolower(mb_strrchr($_FILES[$key]['name'], '.')), $extensions_white_list ) )
@@ -30,14 +30,14 @@ function FileUpload($key, $path, $extensions_white_list, $size_limit, &$error, $
 		$error[] = sprintf(_('File size > %01.2fMb: %01.2fMb'),$size_limit,(($_FILES[$key]['size']/1024)/1024));
 		
 	//if folder doesnt exist, create it!
-	elseif (!is_dir($path) && !mkdir($path))
+	elseif ( !is_dir($path) && !mkdir($path))
 		$error[] = sprintf(_('Folder not created').': %s',$path);
 			
-	elseif (!is_writable($path))
+	elseif ( !is_writable($path))
 		$error[] = sprintf(_('Folder not writable').': %s',$path); //see PHP user rights
 
 	//store file
-	elseif (!move_uploaded_file($_FILES[$key]['tmp_name'],$full_path = ($path.($file_name!=false ? $file_name : ($final_extension==false ? no_accents($_FILES[$key]['name']) : no_accents(mb_substr($_FILES[$key]['name'], 0, mb_strrpos($_FILES[$key]['name'],'.'))).$final_extension)))))
+	elseif ( !move_uploaded_file($_FILES[$key]['tmp_name'],$full_path = ($path.($file_name!=false ? $file_name : ($final_extension==false ? no_accents($_FILES[$key]['name']) : no_accents(mb_substr($_FILES[$key]['name'], 0, mb_strrpos($_FILES[$key]['name'],'.'))).$final_extension)))))
 		$error[] = sprintf(_('File invalid or not moveable').': %s',$_FILES[$key]['tmp_name']);
 
 	return $full_path;

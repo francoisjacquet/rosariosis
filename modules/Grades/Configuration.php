@@ -1,6 +1,6 @@
 <?php
 
-if ($_REQUEST['values'])
+if ( $_REQUEST['values'])
 {
 	DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'");
 	foreach ( (array)$_REQUEST['values'] as $title=>$value)
@@ -39,12 +39,12 @@ echo '<legend>'._('Assignments').'</legend>';
 echo '<TABLE>';
 if (count($grades))
 {
-	//if (!$programconfig['ROUNDING'])
+	//if ( !$programconfig['ROUNDING'])
 	//	$programconfig['ROUNDING'] = 'NORMAL';
 //FJ add <label> on radio
 	echo '<TR><TD><TABLE><TR><TD colspan="4"><B>'._('Score Rounding').'</B></TD></TR><TR><TD><label><INPUT type="radio" name="values[ROUNDING]" value=UP'.(($programconfig['ROUNDING']=='UP')?' checked':'').'>&nbsp;'._('Up').'</label></TD><TD><label><INPUT type="radio" name="values[ROUNDING]" value=DOWN'.(($programconfig['ROUNDING']=='DOWN')?' checked':'').'>&nbsp;'._('Down').'</label></TD><TD><label><INPUT type="radio" name="values[ROUNDING]" value="NORMAL"'.(($programconfig['ROUNDING']=='NORMAL')?' checked':'').'>&nbsp;'._('Normal').'</label></TD><TD><label><INPUT type="radio" name="values[ROUNDING]" value="'.(($programconfig['ROUNDING']=='')?' checked':'').'">&nbsp;'._('None').'</label></TD></TR></TABLE></TD></TR>';
 }
-if (!$programconfig['ASSIGNMENT_SORTING'])
+if ( !$programconfig['ASSIGNMENT_SORTING'])
 	$programconfig['ASSIGNMENT_SORTING'] = 'ASSIGNMENT_ID';
 echo '<TR><TD><TABLE><TR><TD colspan="3"><B>'._('Assignment Sorting').'</B></TD></TR><TR class="st"><TD><label><INPUT type="radio" name="values[ASSIGNMENT_SORTING]" value="ASSIGNMENT_ID"'.(($programconfig['ASSIGNMENT_SORTING']=='ASSIGNMENT_ID')?' checked':'').'>&nbsp;'._('Newest First').'</label></TD><TD><label><INPUT type="radio" name="values[ASSIGNMENT_SORTING]" value="DUE_DATE"'.(($programconfig['ASSIGNMENT_SORTING']=='DUE_DATE')?' checked':'').'>&nbsp;'._('Due Date').'</label></TD><TD><label><INPUT type="radio" name="values[ASSIGNMENT_SORTING]" value=ASSIGNED_DATE'.(($programconfig['ASSIGNMENT_SORTING']=='ASSIGNED_DATE')?' checked':'').'>&nbsp;'._('Assigned Date').'</label></TD></TR></TABLE></TD></TR>';
 
@@ -59,7 +59,7 @@ echo '<TR><TD><INPUT type="text" name="values[LATENCY]" value="'.round($programc
 echo '</TABLE>';
 echo '</fieldset><BR />';
 
-if ($RosarioModules['Eligibility'])
+if ( $RosarioModules['Eligibility'])
 {
 	echo '<fieldset>';
 	echo '<legend>'._('Eligibility').'</legend>';
@@ -75,7 +75,7 @@ WHERE rccs.SCHOOL_ID='".UserSchool()."'
 AND rccc.SCALE_ID=rccs.ID 
 ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID"),array(),array('ID'));
 
-if ($comment_codes_RET)
+if ( $comment_codes_RET)
 {
 	echo '<fieldset>';
 	echo '<legend>'._('Final Grades').'</legend>';
@@ -119,7 +119,7 @@ if (count($grades))
 			$i++;
 			$table .= '<TD>&nbsp;<B>'.$grade['TITLE'].'</B><BR />';
 			$table .= '<INPUT type="text" name="values['.$course_period_id.'-'.$grade['ID'].']" value="'.$programconfig[$course_period_id.'-'.$grade['ID']].'" size="2" maxlength="5" /></TD>';
-			if ($i % 10 == 0)
+			if ( $i % 10 == 0)
 				$table .= '</TR><TR class="st">';
 		}
 		$table .= '</TR>';
@@ -139,7 +139,7 @@ echo '<fieldset>';
 echo '<legend>'._('Final Grading Percentages').'</legend>';
 echo '<TABLE>';
 foreach ( (array)$semesters as $sem)
-	if ($sem['DOES_GRADES']=='Y')
+	if ( $sem['DOES_GRADES']=='Y')
 	{
 		$table = '<TABLE>';
 		$table .= '<TR class="st"><TD><span class="legend-gray">'.$sem['TITLE'].'</span>&nbsp;</TD>';
@@ -152,14 +152,14 @@ foreach ( (array)$semesters as $sem)
 			$total += $programconfig['SEM-'.$qtr['MARKING_PERIOD_ID']];
 		}
 
-		if ($total!=100)
+		if ( $total!=100)
 			$table .= '<TD><span class="legend-red">'._('Total').' &#8800; 100%!</span></TD>';
 
 		$table .= '</TR></TABLE>';
 		echo '<TR><TD>'.$table.'</TD></TR>';
 	}
 
-if ($year[1]['DOES_GRADES']=='Y')
+if ( $year[1]['DOES_GRADES']=='Y')
 {
 	$table = '<TABLE>';
 	$table .= '<TR class="st"><TD><span class="legend-gray;">'.$year[1]['TITLE'].'</span>&nbsp;</TD>';
@@ -174,7 +174,7 @@ if ($year[1]['DOES_GRADES']=='Y')
 			$total += $programconfig['FY-'.$qtr['MARKING_PERIOD_ID']];
 		}
 
-		if ($sem['DOES_GRADES']=='Y')
+		if ( $sem['DOES_GRADES']=='Y')
 		{
 			$table .= '<TD><span style="white-space:nowrap;">'.$sem['TITLE'].'&nbsp;</span><BR />';
 			$table .= '<INPUT type="text" name="values[FY-'.$sem['MARKING_PERIOD_ID'].']" value="'.$programconfig['FY-'.$sem['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
@@ -182,7 +182,7 @@ if ($year[1]['DOES_GRADES']=='Y')
 		}
 	}
 
-	if ($total!=100)
+	if ( $total!=100)
 		$table .= '<TD><span class="legend-red">'._('Total').' &#8800; 100%!</span></TD>';
 
 	$table .= '</TR></TABLE>';

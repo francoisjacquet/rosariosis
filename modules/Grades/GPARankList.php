@@ -1,18 +1,18 @@
 <?php
 DrawHeader(ProgramTitle());
-if (!$_REQUEST['LO_sort']) {
+if ( !$_REQUEST['LO_sort']) {
     $_REQUEST['LO_sort']="CUM_RANK";
     $_REQUEST['LO_direction']=1;
 }
-if ($_REQUEST['search_modfunc'] == 'list')
+if ( $_REQUEST['search_modfunc'] == 'list')
 {
 //FJ changed MP list to GradeBreakdown.php style
-	/*if (!$_REQUEST['mp'] && GetMP(UserMP(),'POST_START_DATE'))
+	/*if ( !$_REQUEST['mp'] && GetMP(UserMP(),'POST_START_DATE'))
 		$_REQUEST['mp'] = UserMP();
 	elseif (mb_strpos(GetAllMP('QTR',UserMP()),$_REQUEST['mp'])===false && mb_strpos(GetChildrenMP('PRO',UserMP()),"'".$_REQUEST['mp']."'")===false && GetMP(UserMP(),'POST_START_DATE'))
 		$_REQUEST['mp'] = UserMP();
 
-	if (!$_REQUEST['mp'] && GetMP(GetParentMP('SEM',UserMP()),'POST_START_DATE'))
+	if ( !$_REQUEST['mp'] && GetMP(GetParentMP('SEM',UserMP()),'POST_START_DATE'))
 		$_REQUEST['mp'] = GetParentMP('SEM',UserMP());
 
 	$sem = GetParentMP('SEM',UserMP());
@@ -27,7 +27,7 @@ if ($_REQUEST['search_modfunc'] == 'list')
 	{
 		if (GetMP($pro,'DOES_GRADES')=='Y')
 		{
-			if (!$_REQUEST['mp'])
+			if ( !$_REQUEST['mp'])
 			{
 				$_REQUEST['mp'] = $pro;
 				$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."' AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'"),array(),array('STUDENT_ID'));
@@ -43,7 +43,7 @@ if ($_REQUEST['search_modfunc'] == 'list')
 
 	if (GetMP(UserMP(),'DOES_GRADES')=='Y')
 		$mps_select .= '<OPTION value="'.UserMP().'">'.GetMP(UserMP()).'</OPTION>';
-	elseif ($_REQUEST['mp']==UserMP())
+	elseif ( $_REQUEST['mp']==UserMP())
 		$_REQUEST['mp'] = $sem;
 
 	if (GetMP($sem,'DOES_GRADES')=='Y')
@@ -53,12 +53,12 @@ if ($_REQUEST['search_modfunc'] == 'list')
 	if (GetMP($year,'DOES_GRADES')=='Y')
         $mps_select .= '<OPTION value="'.$year.'"'.($year==$_REQUEST['mp']?' SELECTED':'').">".GetMP($year)."</OPTION>";
 
-	if ($pro_grading)
+	if ( $pro_grading)
 		$mps_select .= $pro_select;
 
 	$mps_select .= '</SELECT>';*/
 	
-	if (!$_REQUEST['mp'])
+	if ( !$_REQUEST['mp'])
 		$_REQUEST['mp'] = UserMP();
 
 	// Get all the mp's associated with the current mp
@@ -89,7 +89,7 @@ if ($_REQUEST['search_modfunc'] == 'list')
 	$mp_select = '<SELECT name="mp" onchange="ajaxPostForm(this.form,true);">';
 	foreach ( (array)$mps_RET as $mp)
 	{
-		if ($mp['DOES_GRADES']=='Y' || $mp['MARKING_PERIOD_ID']==UserMP())
+		if ( $mp['DOES_GRADES']=='Y' || $mp['MARKING_PERIOD_ID']==UserMP())
 			$mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED':'').'>'.$mp['TITLE'].'</OPTION>';
 	}
 	$mp_select .= "</SELECT>";

@@ -1,7 +1,7 @@
 <?php
 DrawHeader(_('Gradebook').' - '.ProgramTitle());
 
-if (!UserCoursePeriod())
+if ( !UserCoursePeriod())
 	echo ErrorMessage(array(_('No courses assigned to teacher.')),'fatal');
 	
 $course_id = DBGet(DBQuery("SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
@@ -53,14 +53,14 @@ if ( isset( $_POST['tables'] )
 				//FJ fix SQL bug invalid sort order
 				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 				{
-					if ($id!='new')
+					if ( $id!='new')
 					{
-						if ($columns['ASSIGNMENT_TYPE_ID'] && $columns['ASSIGNMENT_TYPE_ID']!=$_REQUEST['assignment_type_id'])
+						if ( $columns['ASSIGNMENT_TYPE_ID'] && $columns['ASSIGNMENT_TYPE_ID']!=$_REQUEST['assignment_type_id'])
 							$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
 
 						$sql = "UPDATE $table SET ";
 
-						//if (!$columns['COURSE_ID'] && $table=='GRADEBOOK_ASSIGNMENTS')
+						//if ( !$columns['COURSE_ID'] && $table=='GRADEBOOK_ASSIGNMENTS')
 						//	$columns['COURSE_ID'] = 'N';
 
 						foreach ( (array)$columns as $column=>$value)
@@ -72,21 +72,21 @@ if ( isset( $_POST['tables'] )
 								if ( !VerifyDate( $value ) )
 									$error[] = _( 'Some dates were not entered correctly.' );
 							}
-							elseif ($column=='COURSE_ID' && $value=='Y' && $table=='GRADEBOOK_ASSIGNMENTS')
+							elseif ( $column=='COURSE_ID' && $value=='Y' && $table=='GRADEBOOK_ASSIGNMENTS')
 							{
 								$value = $course_id;
 								$sql .= 'COURSE_PERIOD_ID=NULL,';
 							}
-							elseif ($column=='COURSE_ID' && $table=='GRADEBOOK_ASSIGNMENTS')
+							elseif ( $column=='COURSE_ID' && $table=='GRADEBOOK_ASSIGNMENTS')
 							{
 								$column = 'COURSE_PERIOD_ID';
 								$value = UserCoursePeriod();
 								$sql .= 'COURSE_ID=NULL,';
 							}
-							elseif ($column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
+							elseif ( $column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
 								$value = preg_replace('/[^0-9.]/','',$value) / 100;
 							//FJ default points
-							elseif ($column=='DEFAULT_POINTS' && $value=='*' && $table=='GRADEBOOK_ASSIGNMENTS')
+							elseif ( $column=='DEFAULT_POINTS' && $value=='*' && $table=='GRADEBOOK_ASSIGNMENTS')
 								$value = '-1';
 
 							$sql .= $column."='".$value."',";
@@ -99,9 +99,9 @@ if ( isset( $_POST['tables'] )
 					{
 						$sql = "INSERT INTO $table ";
 
-						if ($table=='GRADEBOOK_ASSIGNMENTS')
+						if ( $table=='GRADEBOOK_ASSIGNMENTS')
 						{
-							if ($columns['ASSIGNMENT_TYPE_ID'])
+							if ( $columns['ASSIGNMENT_TYPE_ID'])
 							{
 								$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
 								unset($columns['ASSIGNMENT_TYPE_ID']);
@@ -112,7 +112,7 @@ if ( isset( $_POST['tables'] )
 							$values = $id.",'".$_REQUEST['assignment_type_id']."','".User('STAFF_ID')."','".UserMP()."',";
 							$_REQUEST['assignment_id'] = $id;
 						}
-						elseif ($table=='GRADEBOOK_ASSIGNMENT_TYPES')
+						elseif ( $table=='GRADEBOOK_ASSIGNMENT_TYPES')
 						{
 							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('GRADEBOOK_ASSIGNMENT_TYPES_SEQ').' AS ID '.FROM_DUAL));
 							$id = $id[1]['ID'];
@@ -123,7 +123,7 @@ if ( isset( $_POST['tables'] )
 
 						$go = false;
 
-						if (!$columns['COURSE_ID'] && $_REQUEST['table']=='GRADEBOOK_ASSIGNMENTS')
+						if ( !$columns['COURSE_ID'] && $_REQUEST['table']=='GRADEBOOK_ASSIGNMENTS')
 							$columns['COURSE_ID'] = 'N';
 
 						foreach ( (array)$columns as $column=>$value)
@@ -135,20 +135,20 @@ if ( isset( $_POST['tables'] )
 								if ( !VerifyDate( $value ) )
 									$error[] = _( 'Some dates were not entered correctly.' );
 							}
-							elseif ($column=='COURSE_ID' && $value=='Y')
+							elseif ( $column=='COURSE_ID' && $value=='Y')
 								$value = $course_id;
-							elseif ($column=='COURSE_ID')
+							elseif ( $column=='COURSE_ID')
 							{
 								$column = 'COURSE_PERIOD_ID';
 								$value = UserCoursePeriod();
 							}
-							elseif ($column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
+							elseif ( $column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
 								$value = preg_replace('/[^0-9.]/','',$value) / 100;
 							//FJ default points
-							elseif ($column=='DEFAULT_POINTS' && $value=='*' && $table=='GRADEBOOK_ASSIGNMENTS')
+							elseif ( $column=='DEFAULT_POINTS' && $value=='*' && $table=='GRADEBOOK_ASSIGNMENTS')
 								$value = '-1';
 
-							if ($value!='')
+							if ( $value!='')
 							{
 								$fields .= $column.',';
 								$values .= "'".$value."',";
@@ -167,13 +167,13 @@ if ( isset( $_POST['tables'] )
 		else
 			$error[] = _('Please fill in the required fields');
 
-		if (!isset($error) && $go)
+		if ( !isset($error) && $go)
 		{
 			DBQuery($sql);
 			
-			if ($table=='GRADEBOOK_ASSIGNMENTS')
+			if ( $table=='GRADEBOOK_ASSIGNMENTS')
 			{
-				if ($gradebook_assignment_update)
+				if ( $gradebook_assignment_update)
 				{
 					//hook
 					do_action('Grades/Assignments.php|update_assignment');
@@ -188,9 +188,9 @@ if ( isset( $_POST['tables'] )
 	unset($_SESSION['_REQUEST_vars']['tables']);
 }
 
-if ($_REQUEST['modfunc']=='delete')
+if ( $_REQUEST['modfunc']=='delete')
 {
-	if ($_REQUEST['assignment_id'])
+	if ( $_REQUEST['assignment_id'])
 	{
 		$table = _('Assignment');
 		$sql = "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'";
@@ -204,7 +204,7 @@ if ($_REQUEST['modfunc']=='delete')
 	if (DeletePrompt($table))
 	{
 		DBQuery($sql);
-		if (!$_REQUEST['assignment_id'])
+		if ( !$_REQUEST['assignment_id'])
 		{
 			$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'"));
 			if (count($assignments_RET))
@@ -247,7 +247,7 @@ if (empty($_REQUEST['modfunc']))
 	$QI = DBQuery($sql);
 	$types_RET = DBGet($QI);
 
-	if ($_REQUEST['assignment_id']!='new' && $_REQUEST['assignment_type_id']!='new')
+	if ( $_REQUEST['assignment_id']!='new' && $_REQUEST['assignment_type_id']!='new')
 	{
 		$delete_url = "'Modules.php?modname=" . $_REQUEST['modname'] .
 			'&modfunc=delete&assignment_type_id=' . $_REQUEST['assignment_type_id'] .
@@ -257,7 +257,7 @@ if (empty($_REQUEST['modfunc']))
 	}
 
 	// ADDING & EDITING FORM
-	if ($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='new')
+	if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='new')
 	{
 		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,DESCRIPTION,DEFAULT_POINTS,
 				CASE WHEN DUE_DATE<ASSIGNED_DATE THEN 'Y' ELSE NULL END AS DATE_ERROR,
@@ -270,7 +270,7 @@ if (empty($_REQUEST['modfunc']))
 		$RET = $RET[1];
 		$title = $RET['TITLE'];
 	}
-	elseif ($_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id']!='new' && $_REQUEST['assignment_id']!='new')
+	elseif ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id']!='new' && $_REQUEST['assignment_id']!='new')
 	{
 		$sql = "SELECT at.TITLE,at.FINAL_GRADE_PERCENT,SORT_ORDER,COLOR,
 				(SELECT sum(FINAL_GRADE_PERCENT) FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') AND STAFF_ID='".User('STAFF_ID')."') AS TOTAL_PERCENT
@@ -281,12 +281,12 @@ if (empty($_REQUEST['modfunc']))
 		$RET = $RET[1];
 		$title = $RET['TITLE'];
 	}
-	elseif ($_REQUEST['assignment_id']=='new')
+	elseif ( $_REQUEST['assignment_id']=='new')
 	{
 		$title = _('New Assignment');
 		$new = true;
 	}
-	elseif ($_REQUEST['assignment_type_id']=='new')
+	elseif ( $_REQUEST['assignment_type_id']=='new')
 	{
 		$sql = "SELECT sum(FINAL_GRADE_PERCENT) AS TOTAL_PERCENT FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') AND STAFF_ID='".User('STAFF_ID')."'";
 		$QI = DBQuery($sql);
@@ -295,10 +295,10 @@ if (empty($_REQUEST['modfunc']))
 		$title = _('New Assignment Type');
 	}
 
-	if ($_REQUEST['assignment_id'])
+	if ( $_REQUEST['assignment_id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id='.$_REQUEST['assignment_type_id'];
-		if ($_REQUEST['assignment_id']!='new')
+		if ( $_REQUEST['assignment_id']!='new')
 			echo '&assignment_id='.$_REQUEST['assignment_id'];
 		echo '&table=GRADEBOOK_ASSIGNMENTS" method="POST">';
 
@@ -311,7 +311,7 @@ if (empty($_REQUEST['modfunc']))
 		$header .= '<TD>' . TextInput($RET['POINTS'],'tables['.$_REQUEST['assignment_id'].'][POINTS]',($RET['POINTS']!=''?'':'<span class="legend-red">')._('Points').($RET['POINTS']?'':'</span>'),'required size=4 maxlength=4 min=0') . '</TD>';
 
 		//FJ default points
-		if ($RET['DEFAULT_POINTS']=='-1')
+		if ( $RET['DEFAULT_POINTS']=='-1')
 			$RET['DEFAULT_POINTS'] = '*';
 		$header .= '<TD>' . TextInput($RET['DEFAULT_POINTS'],'tables['.$_REQUEST['assignment_id'].'][DEFAULT_POINTS]','<span class="legend-gray" title="'._('Enter an asterisk (*) to excuse student').'" style="cursor:help">'._('Default Points').'*</span>',' size=4 maxlength=4') . '</TD>';
 
@@ -335,10 +335,10 @@ if (empty($_REQUEST['modfunc']))
 		$header .= '<TR><TD class="valign-top" colspan="3">'.mb_substr($errors,0,-6).'</TD></TR>';
 		$header .= '</TABLE>';
 	}
-	elseif ($_REQUEST['assignment_type_id'])
+	elseif ( $_REQUEST['assignment_type_id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table=GRADEBOOK_ASSIGNMENT_TYPES';
-		if ($_REQUEST['assignment_type_id']!='new')
+		if ( $_REQUEST['assignment_type_id']!='new')
 			echo '&assignment_type_id='.$_REQUEST['assignment_type_id'];
 		echo '" method="POST">';
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
@@ -366,7 +366,7 @@ if (empty($_REQUEST['modfunc']))
 	else
 		$header = false;
 
-	if ($header)
+	if ( $header)
 	{
 		DrawHeader($header);
 		echo '</FORM>';
@@ -377,11 +377,11 @@ if (empty($_REQUEST['modfunc']))
 
 	if (count($types_RET))
 	{
-		if ($_REQUEST['assignment_type_id'])
+		if ( $_REQUEST['assignment_type_id'])
 		{
 			foreach ( (array)$types_RET as $key=>$value)
 			{
-				if ($value['ASSIGNMENT_TYPE_ID']==$_REQUEST['assignment_type_id'])
+				if ( $value['ASSIGNMENT_TYPE_ID']==$_REQUEST['assignment_type_id'])
 					$types_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 			}
 		}
@@ -400,7 +400,7 @@ if (empty($_REQUEST['modfunc']))
 
 
 	// ASSIGNMENTS
-	if ($_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id']!='new' && count($types_RET))
+	if ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id']!='new' && count($types_RET))
 	{
 		$sql = "SELECT ASSIGNMENT_ID,TITLE,POINTS 
 		FROM GRADEBOOK_ASSIGNMENTS 
@@ -414,11 +414,11 @@ if (empty($_REQUEST['modfunc']))
 
 		if (count($assn_RET))
 		{
-			if ($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='new')
+			if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='new')
 			{
 				foreach ( (array)$assn_RET as $key=>$value)
 				{
-					if ($value['ASSIGNMENT_ID']==$_REQUEST['assignment_id'])
+					if ( $value['ASSIGNMENT_ID']==$_REQUEST['assignment_id'])
 						$assn_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 				}
 			}

@@ -21,7 +21,7 @@ if ( isset( $_POST['values'] )
 {
 	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{	
-		if ($id!='new')
+		if ( $id!='new')
 		{
 			$sql = "UPDATE ELIGIBILITY_ACTIVITIES SET ";
 							
@@ -42,7 +42,7 @@ if ( isset( $_POST['values'] )
 			$go = 0;
 			foreach ( (array)$columns as $column=>$value)
 			{
-				if (!empty($value) || $value=='0')
+				if ( !empty($value) || $value=='0')
 				{
 					$fields .= $column.',';
 					$values .= "'".$value."',";
@@ -51,7 +51,7 @@ if ( isset( $_POST['values'] )
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			
-			if ($go)
+			if ( $go)
 				DBQuery($sql);
 		}
 	}
@@ -59,7 +59,7 @@ if ( isset( $_POST['values'] )
 
 DrawHeader(ProgramTitle());
 
-if ($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if (DeletePrompt(_('Activity')))
 	{
@@ -68,7 +68,7 @@ if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if ($_REQUEST['modfunc']!='remove')
+if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT ID,TITLE,START_DATE,END_DATE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY TITLE";
 	$QI = DBQuery($sql);
@@ -89,7 +89,7 @@ if ($_REQUEST['modfunc']!='remove')
 function makeTextInput($value,$name)
 {	global $THIS_RET;
 	
-	if ($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
@@ -100,7 +100,7 @@ function makeTextInput($value,$name)
 function makeDateInput($value,$name)
 {	global $THIS_RET;
 	
-	if ($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';

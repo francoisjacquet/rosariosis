@@ -1,10 +1,10 @@
 <?php
 
-if ($_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc']=='update')
 {
     if (UserStaffID() && AllowEdit())
     {
-        if ($_REQUEST['submit']['delete'])
+        if ( $_REQUEST['submit']['delete'])
         {
 //FJ add translation
             if (DeletePromptX(_('User Account')))
@@ -15,10 +15,10 @@ if ($_REQUEST['modfunc']=='update')
         {
             if (count($_REQUEST['food_service']))
             {
-                if ($_REQUEST['food_service']['BARCODE'])
+                if ( $_REQUEST['food_service']['BARCODE'])
                 {
                     $RET = DBGet(DBQuery("SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."' AND STAFF_ID!='".UserStaffID()."'"));
-                    if ($RET)
+                    if ( $RET)
                     {
                         $staff_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".$RET[1]['STAFF_ID']."'"));
                         $question = _("Are you sure you want to assign that barcode?");
@@ -27,7 +27,7 @@ if ($_REQUEST['modfunc']=='update')
                     else
                     {
                         $RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE']))."'");
-                        if ($RET)
+                        if ( $RET)
                         {
                             $student_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID=fssa.STUDENT_ID AND fssa.ACCOUNT_ID='".$RET[1]['ACCOUNT_ID']."'"));
                             $question = _("Are you sure you want to assign that barcode?");
@@ -35,13 +35,13 @@ if ($_REQUEST['modfunc']=='update')
                         }
                     }
                 }
-                if (!$RET || PromptX($title='Confirm',$question,$message))
+                if ( !$RET || PromptX($title='Confirm',$question,$message))
                 {
                     $sql = 'UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ';
                     foreach ( (array)$_REQUEST['food_service'] as $column_name=>$value)
                         $sql .= $column_name."='".trim($value)."',";
                     $sql = mb_substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
-                    if ($_REQUEST['food_service']['BARCODE'])
+                    if ( $_REQUEST['food_service']['BARCODE'])
                     {
                         DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
                         DBQuery("UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET BARCODE=NULL WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'");
@@ -62,7 +62,7 @@ if ($_REQUEST['modfunc']=='update')
     }
 }
 
-if ($_REQUEST['modfunc']=='create')
+if ( $_REQUEST['modfunc']=='create')
 {
 	if (UserStaffID() && AllowEdit())
 	{
@@ -105,7 +105,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 	WHERE s.STAFF_ID='".UserStaffID()."'"));
 	$staff = $staff[1];
 
-	if ($staff['ACCOUNT_ID'])
+	if ( $staff['ACCOUNT_ID'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 		DrawHeader('',SubmitButton(_('Save'),'submit[save]').($staff['BALANCE'] == 0 ? SubmitButton(_('Delete Account'),'submit[delete]') : ''));
@@ -124,7 +124,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 	echo '<TD>'.NoInput($staff['FULL_NAME'],$staff['STAFF_ID']);
 
 	// warn if other users associated with the same account
-	if (!$staff['ACCOUNT_ID'])
+	if ( !$staff['ACCOUNT_ID'])
 	{
 		$warning = _('This user does not have a Meal Account.');
 

@@ -35,9 +35,9 @@ if ( empty( $end_date ) )
 //	$_REQUEST['period_id'] = UserPeriod();
 
 //FJ bugfix bug when Back to Student Search
-if ($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
+if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
-	if (!UserStudentID() && !$_REQUEST['student_id'])
+	if ( !UserStudentID() && !$_REQUEST['student_id'])
 	{
 		//FJ multiple school periods for a course period
 		//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND EXISTS(SELECT '' FROM COURSE_PERIODS cp WHERE cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0".(User('PROFILE')=='teacher'?" AND cp.PERIOD_ID='".UserPeriod()."'":'').") ORDER BY sp.SORT_ORDER"));
@@ -73,10 +73,10 @@ if ($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='
 	echo '</FORM>';
 }
 
-if ($_REQUEST['period_id'])
+if ( $_REQUEST['period_id'])
 {
 	//FJ All periods
-	if ($_REQUEST['period_id'] == 'all')
+	if ( $_REQUEST['period_id'] == 'all')
 	{
 		$period_ids_RET = DBGet(DBQuery("SELECT PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')"));
 		
@@ -182,9 +182,9 @@ if (UserStudentID())
 
 function _makeStateValue($value)
 {
-	if ($value=='0.0')
+	if ( $value=='0.0')
 		return _('None');
-	elseif ($value=='.5')
+	elseif ( $value=='.5')
 		return _('Half Day');
 	else
 		return _('Full Day');

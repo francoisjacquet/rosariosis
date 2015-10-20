@@ -19,7 +19,7 @@ if (isset($_REQUEST['plugin']) && strpos($_REQUEST['plugin'], '..') !== false)
 }
 
 
-if ($_REQUEST['modfunc']=='config')
+if ( $_REQUEST['modfunc']=='config')
 {
 	//if the plugin is activated, show configuration (call the plugin's config.inc.php file)
 	if (in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == true && file_exists('plugins/'.$_REQUEST['plugin'].'/config.inc.php'))
@@ -31,12 +31,12 @@ if ($_REQUEST['modfunc']=='config')
 	}
 }
 
-if ($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if (DeletePrompt(_('Plugin')))
 	{
 		//verify if not in $RosarioCorePlugins but in $RosarioPlugins
-		if (!in_array($_REQUEST['plugin'], $RosarioCorePlugins) && in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == false)
+		if ( !in_array($_REQUEST['plugin'], $RosarioCorePlugins) && in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == false)
 		{
 			//delete plugin: execute delete.sql script
 			if (file_exists('plugins/'.$_REQUEST['plugin'].'/delete.sql'))
@@ -54,7 +54,7 @@ if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 			if (is_dir('plugins/'.$_REQUEST['plugin']))
 			{
 				//remove files & dir
-				if (!_delTree('plugins/'.$_REQUEST['plugin']))
+				if ( !_delTree('plugins/'.$_REQUEST['plugin']))
 					$error[] = _('Files not eraseable.');
 			}
 		}
@@ -64,7 +64,7 @@ if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if ($_REQUEST['modfunc']=='deactivate' && AllowEdit())
+if ( $_REQUEST['modfunc']=='deactivate' && AllowEdit())
 {
 	if (DeletePrompt(_('Plugin'),_('Deactivate')))
 	{
@@ -79,7 +79,7 @@ if ($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 		}
 		
 		//verify plugin dir exists
-		if (!is_dir('plugins/'.$_REQUEST['plugin']) || !file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
+		if ( !is_dir('plugins/'.$_REQUEST['plugin']) || !file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
 		{
 			$error[] = _('Incomplete or inexistant plugin.');
 		}
@@ -89,12 +89,12 @@ if ($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 	}
 }
 
-if ($_REQUEST['modfunc']=='activate' && AllowEdit())
+if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 {
 	$update_RosarioPlugins = false;
 	
 	//verify not already in $RosarioPlugins
-	if (!in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)))
+	if ( !in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)))
 	{
 		//verify directory exists
 		if (is_dir('plugins/'.$_REQUEST['plugin']) && file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
@@ -112,17 +112,17 @@ if ($_REQUEST['modfunc']=='activate' && AllowEdit())
 			$error[] = _('Incomplete or inexistant plugin.');
 	}
 	//verify in $RosarioPlugins
-	elseif ($RosarioPlugins[$_REQUEST['plugin']] == false && is_dir('plugins/'.$_REQUEST['plugin']))
+	elseif ( $RosarioPlugins[$_REQUEST['plugin']] == false && is_dir('plugins/'.$_REQUEST['plugin']))
 	{
 		$update_RosarioPlugins = true;
 	}
 	//no plugin dir
-	elseif (!is_dir('plugins/'.$_REQUEST['plugin']) || !file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
+	elseif ( !is_dir('plugins/'.$_REQUEST['plugin']) || !file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
 	{
 		$error[] = _('Incomplete or inexistant plugin.');
 	}
 
-	if ($update_RosarioPlugins)
+	if ( $update_RosarioPlugins)
 	{
 		//update $RosarioPlugins
 		$RosarioPlugins[$_REQUEST['plugin']] = true;
@@ -139,7 +139,7 @@ if ($_REQUEST['modfunc']=='activate' && AllowEdit())
 if (empty($_REQUEST['modfunc']))
 {
 	
-	if ($error)
+	if ( $error)
 		echo ErrorMessage($error);
 
 	$plugins_RET = array('');
@@ -181,14 +181,14 @@ if (empty($_REQUEST['modfunc']))
 
 function _makeActivated($activated)
 {
-	if ($activated)
+	if ( $activated)
 		$return = button('check');
 	else
 		$return = button('x');
 
 	if (isset($_REQUEST['LO_save']))
 	{
-		if ($activated)
+		if ( $activated)
 			$return = _('Yes');
 		else
 			$return = _('No');
@@ -200,7 +200,7 @@ function _makeActivated($activated)
 function _makeConfiguration($plugin_title,$activated)
 {	
 	//verify plugin is activated & config.inc.php file exists
-	if ($activated && file_exists('plugins/'.$plugin_title.'/config.inc.php'))
+	if ( $activated && file_exists('plugins/'.$plugin_title.'/config.inc.php'))
 		$return = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=config&plugin='.$plugin_title.'">'._('Configuration').'</a>';
 	else
 		$return = '';
@@ -215,7 +215,7 @@ function _makeDelete($plugin_title,$activated=null)
 	$return = '';
 	if (AllowEdit())
 	{
-		if ($activated)
+		if ( $activated)
 		{
 			$return = button('remove',_('Deactivate'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=deactivate&plugin='.$plugin_title.'"');
 		}
@@ -227,7 +227,7 @@ function _makeDelete($plugin_title,$activated=null)
 				$return = '<span style="color:red">'.sprintf(_('%s file missing or wrong permissions.'),'functions.php').'</span>';
 
 			//if not core plugin & already installed, delete link
-			if (!in_array($plugin_title, $RosarioCorePlugins) && in_array($plugin_title, array_keys($RosarioPlugins)))
+			if ( !in_array($plugin_title, $RosarioCorePlugins) && in_array($plugin_title, array_keys($RosarioPlugins)))
 				$return .= '&nbsp;'.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=delete&plugin='.$plugin_title.'"');
 		}
 	}
@@ -239,13 +239,13 @@ function _makeReadMe($plugin_title,$activated=null)
 	global $RosarioCorePlugins;
 
 	//format & translate plugin title
-	if (!in_array($plugin_title, $RosarioCorePlugins) && $activated)
+	if ( !in_array($plugin_title, $RosarioCorePlugins) && $activated)
 		$plugin_title_echo = dgettext($plugin_title, str_replace('_', ' ', $plugin_title));
 	else
 		$plugin_title_echo = _(str_replace('_', ' ', $plugin_title));
 
 	//if README.md file, display in Colorbox
-	if (!isset($_REQUEST['_ROSARIO_PDF']) && file_exists('plugins/'.$plugin_title.'/README.md'))
+	if ( !isset($_REQUEST['_ROSARIO_PDF']) && file_exists('plugins/'.$plugin_title.'/README.md'))
 	{
 		//get README.md content
 		$readme_content = file_get_contents('plugins/'.$plugin_title.'/README.md');

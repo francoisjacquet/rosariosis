@@ -39,12 +39,12 @@ if (isset($_REQUEST['module']) && strpos($_REQUEST['module'], '..') !== false)
 }
 
 
-if ($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if (DeletePrompt(_('Module')))
 	{
 		//verify if not in $always_activated & not in $RosarioCoreModules but in $RosarioModules
-		if (!in_array($_REQUEST['module'], $always_activated) && !in_array($_REQUEST['module'], $RosarioCoreModules) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == false)
+		if ( !in_array($_REQUEST['module'], $always_activated) && !in_array($_REQUEST['module'], $RosarioCoreModules) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == false)
 		{
 			//delete module: execute delete.sql script
 			if (file_exists('modules/'.$_REQUEST['module'].'/delete.sql'))
@@ -62,7 +62,7 @@ if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 			if (is_dir('modules/'.$_REQUEST['module']))
 			{
 				//remove files & dir
-				if (!_delTree('modules/'.$_REQUEST['module']))
+				if ( !_delTree('modules/'.$_REQUEST['module']))
 					$error[] = _('Files not eraseable.');
 			}
 		}
@@ -72,12 +72,12 @@ if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if ($_REQUEST['modfunc']=='deactivate' && AllowEdit())
+if ( $_REQUEST['modfunc']=='deactivate' && AllowEdit())
 {
 	if (DeletePrompt(_('Module'),_('Deactivate')))
 	{
 		//verify if not in $always_activated  & activated
-		if (!in_array($_REQUEST['module'], $always_activated) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == true)
+		if ( !in_array($_REQUEST['module'], $always_activated) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == true)
 		{
 			//update $RosarioModules
 			$RosarioModules[$_REQUEST['module']] = false;
@@ -90,7 +90,7 @@ if ($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 		}
 		
 		//verify module dir exists
-		if (!is_dir('modules/'.$_REQUEST['module']) || !file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
+		if ( !is_dir('modules/'.$_REQUEST['module']) || !file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
 		{
 			$error[] = _('Incomplete or inexistant module.');
 		}
@@ -100,12 +100,12 @@ if ($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 	}
 }
 
-if ($_REQUEST['modfunc']=='activate' && AllowEdit())
+if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 {
 	$update_RosarioModules = false;
 	
 	//verify not already in $RosarioModules
-	if (!in_array($_REQUEST['module'], array_keys($RosarioModules)))
+	if ( !in_array($_REQUEST['module'], array_keys($RosarioModules)))
 	{
 		//verify directory exists
 		if (is_dir('modules/'.$_REQUEST['module']) && file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
@@ -123,17 +123,17 @@ if ($_REQUEST['modfunc']=='activate' && AllowEdit())
 			$error[] = _('Incomplete or inexistant module.');
 	}
 	//verify in $RosarioModules
-	elseif ($RosarioModules[$_REQUEST['module']] == false && is_dir('modules/'.$_REQUEST['module']))
+	elseif ( $RosarioModules[$_REQUEST['module']] == false && is_dir('modules/'.$_REQUEST['module']))
 	{
 		$update_RosarioModules = true;
 	}
 	//no module dir
-	elseif (!is_dir('modules/'.$_REQUEST['module']) || !file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
+	elseif ( !is_dir('modules/'.$_REQUEST['module']) || !file_exists('modules/'.$_REQUEST['module'].'/Menu.php'))
 	{
 		$error[] = _('Incomplete or inexistant module.');
 	}
 
-	if ($update_RosarioModules)
+	if ( $update_RosarioModules)
 	{
 		//update $RosarioModules
 		$RosarioModules[$_REQUEST['module']] = true;
@@ -153,7 +153,7 @@ if ($_REQUEST['modfunc']=='activate' && AllowEdit())
 if (empty($_REQUEST['modfunc']))
 {
 	
-	if ($error)
+	if ( $error)
 		echo ErrorMessage($error);
 
 	$modules_RET = array('');
@@ -193,14 +193,14 @@ if (empty($_REQUEST['modfunc']))
 
 function _makeActivated($activated)
 {
-	if ($activated)
+	if ( $activated)
 		$return = button('check');
 	else
 		$return = button('x');
 
 	if (isset($_REQUEST['LO_save']))
 	{
-		if ($activated)
+		if ( $activated)
 			$return = _('Yes');
 		else
 			$return = _('No');
@@ -216,9 +216,9 @@ function _makeDelete($module_title,$activated=null)
 	$return = '';
 	if (AllowEdit())
 	{
-		if ($activated)
+		if ( $activated)
 		{
-			if (!in_array($module_title, $always_activated))
+			if ( !in_array($module_title, $always_activated))
 			{
 				$return = button('remove',_('Deactivate'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=modules&modfunc=deactivate&module='.$module_title.'"');
 			}
@@ -231,7 +231,7 @@ function _makeDelete($module_title,$activated=null)
 				$return = '<span style="color:red">'.sprintf(_('%s file missing or wrong permissions.'),'Menu.php').'</span>';
 
 			//if not core module & already installed, delete link
-			if (!in_array($module_title, $always_activated) && !in_array($module_title, $RosarioCoreModules) && in_array($module_title, array_keys($RosarioModules)))
+			if ( !in_array($module_title, $always_activated) && !in_array($module_title, $RosarioCoreModules) && in_array($module_title, array_keys($RosarioModules)))
 				$return .= '&nbsp;'.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=modules&modfunc=delete&module='.$module_title.'"');
 		}
 	}
@@ -243,13 +243,13 @@ function _makeReadMe($module_title,$activated=null)
 	global $RosarioCoreModules;
 
 	//format & translate module title
-	if (!in_array($module_title, $RosarioCoreModules) && $activated)
+	if ( !in_array($module_title, $RosarioCoreModules) && $activated)
 		$module_title_echo = dgettext($module_title, str_replace('_', ' ', $module_title));
 	else
 		$module_title_echo = _(str_replace('_', ' ', $module_title));
 
 	//if README.md file, display in Colorbox
-	if (!isset($_REQUEST['_ROSARIO_PDF']) && file_exists('modules/'.$module_title.'/README.md'))
+	if ( !isset($_REQUEST['_ROSARIO_PDF']) && file_exists('modules/'.$module_title.'/README.md'))
 	{
 		//get README.md content
 		$readme_content = file_get_contents('modules/'.$module_title.'/README.md');

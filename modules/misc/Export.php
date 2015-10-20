@@ -83,7 +83,7 @@ if ( $_REQUEST['fields']['ADDRESS']
 		$view_other_RET['ALL_CONTACTS'][1]['VALUE'] = 'Y';
 
 		//FJ PrintClassLists with all contacts
-		/*if ($_REQUEST['relation']!='')
+		/*if ( $_REQUEST['relation']!='')
 		{*/
 			$_ROSARIO['makeParents'] = $_REQUEST['relation'];
 			/*$extra['STUDENTS_JOIN_ADDRESS'] .= " AND EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.ADDRESS_ID=sam.ADDRESS_ID AND ".($_REQUEST['relation']!='!'?"lower(sjp.STUDENT_RELATION) LIKE '".mb_strtolower($_REQUEST['relation'])."%'":"sjp.STUDENT_RELATION IS NULL").") ";

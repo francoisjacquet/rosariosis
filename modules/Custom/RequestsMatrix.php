@@ -42,11 +42,11 @@
 		echo '<TR><TD><b>'.$periods[key($periods)][1]['COURSE_TITLE'].'</b></TD>';
 		foreach ( (array)$periods_RET as $period)
 		{
-			if ($periods[$period['PERIOD_ID']][1]['SCHEDULED'])
+			if ( $periods[$period['PERIOD_ID']][1]['SCHEDULED'])
 				$color = '0000FF';
-			elseif ($periods[$period['PERIOD_ID']])
+			elseif ( $periods[$period['PERIOD_ID']])
 			{
-				if ($periods[$period['PERIOD_ID']][1]['OPEN_SEATS']==0)
+				if ( $periods[$period['PERIOD_ID']][1]['OPEN_SEATS']==0)
 					$color = 'FFFF00';
 				else
 					$color = '00FF00';

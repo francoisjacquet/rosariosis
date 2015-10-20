@@ -5,14 +5,14 @@ function MyWidgets($item)
 	switch($item)
 	{
 		case 'ly_course':
-			if ($_REQUEST['w_ly_course_period_id'])
+			if ( $_REQUEST['w_ly_course_period_id'])
 			{
-				if ($_REQUEST['w_ly_course_period_id_which']=='course')
+				if ( $_REQUEST['w_ly_course_period_id_which']=='course')
 				{
 					$course = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_ly_course_period_id']."'"));
 					$extra['WHERE'] .= " AND exists(SELECT '' FROM SCHEDULE WHERE STUDENT_ID=ssm.STUDENT_ID AND COURSE_ID='".$course[1]['COURSE_ID']."')";
 
-					if (!$extra['NoSearchTerms'])
+					if ( !$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Last Year Course').': </b>'.$course[1]['COURSE_TITLE'].'<BR />';
 				}
 				else
@@ -20,7 +20,7 @@ function MyWidgets($item)
 					$extra['WHERE'] .= " AND exists(SELECT '' FROM SCHEDULE WHERE STUDENT_ID=ssm.STUDENT_ID AND COURSE_PERIOD_ID='".$_REQUEST['w_ly_course_period_id']."')";
 					$course = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_ly_course_period_id']."'"));
 
-					if (!$extra['NoSearchTerms'])
+					if ( !$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Last Year Course Period').': </b>'.$course[1]['COURSE_TITLE'].' - '.$course[1]['TITLE'].'<BR />';
 				}
 			}

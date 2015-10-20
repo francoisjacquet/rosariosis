@@ -4,19 +4,19 @@ include('modules/Scheduling/includes/calcSeats0.fnc.php');
 
 include_once('modules/Scheduling/functions.inc.php');
 
-if (!$_REQUEST['modfunc'] && $_REQUEST['search_modfunc']!='list')
+if ( !$_REQUEST['modfunc'] && $_REQUEST['search_modfunc']!='list')
 	unset($_SESSION['MassSchedule.php']);
 
-if ($_REQUEST['modfunc']!='choose_course')
+if ( $_REQUEST['modfunc']!='choose_course')
 {
 	DrawHeader(ProgramTitle());
 }
 
 if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 {
-	if ($_SESSION['MassSchedule.php'])
+	if ( $_SESSION['MassSchedule.php'])
 	{
-		if (!empty($_REQUEST['student']))
+		if ( !empty($_REQUEST['student']))
 		{
 			$start_date = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
 			if (VerifyDate($start_date))
@@ -26,14 +26,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				$course_mp = $course_period_RET[1]['MARKING_PERIOD_ID'];
 				$course_mp_table = GetMP($course_mp,'MP');
 
-				if ($course_mp_table=='FY' || $course_mp==$_REQUEST['marking_period_id'] || mb_strpos(GetChildrenMP($course_mp_table,$course_mp),"'".$_REQUEST['marking_period_id']."'")!==false)
+				if ( $course_mp_table=='FY' || $course_mp==$_REQUEST['marking_period_id'] || mb_strpos(GetChildrenMP($course_mp_table,$course_mp),"'".$_REQUEST['marking_period_id']."'")!==false)
 				{
 					//get available seats:
-					if ($course_period_RET[1]['TOTAL_SEATS'])
+					if ( $course_period_RET[1]['TOTAL_SEATS'])
 					{
 						$seats = calcSeats0($course_period_RET[1],$start_date);
 
-						if ($seats!='' && $seats>=$course_period_RET[1]['TOTAL_SEATS'])
+						if ( $seats!='' && $seats>=$course_period_RET[1]['TOTAL_SEATS'])
 							$warnings[] = _('The number of selected students exceeds the available seats.');
 					}
 
@@ -46,7 +46,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 						$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)"),array(),array('STUDENT_ID'));
 						foreach ( (array)$_REQUEST['student'] as $student_id=>$yes)
 						{
-							if (!$current_RET[$student_id])
+							if ( !$current_RET[$student_id])
 							{
 								$sql = "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID,START_DATE)
 											values('".UserSyear()."','".UserSchool()."','".$student_id."','".$_SESSION['MassSchedule.php']['course_id']."','".$_SESSION['MassSchedule.php']['course_period_id']."','".$mp_table."','".$_REQUEST['marking_period_id']."','".$start_date."')";
@@ -85,7 +85,7 @@ if (isset($note))
 		
 if (empty($_REQUEST['modfunc']))
 {
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Course to Selected Students')));
@@ -96,7 +96,7 @@ if (empty($_REQUEST['modfunc']))
 
 		echo '<TABLE><TR><TD colspan="2"><DIV id=course_div>';
 
-		if ($_SESSION['MassSchedule.php'])
+		if ( $_SESSION['MassSchedule.php'])
 		{
 			$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassSchedule.php']['course_id']."'"));
 			$course_title = $course_title[1]['TITLE'];
@@ -121,7 +121,7 @@ if (empty($_REQUEST['modfunc']))
 		echo '<BR />';
 	}
 
-	if ($_REQUEST['search_modfunc']!='list')
+	if ( $_REQUEST['search_modfunc']!='list')
 		unset($_SESSION['MassSchedule.php']);
 
 	$extra['link'] = array('FULL_NAME'=>false);
@@ -137,7 +137,7 @@ if (empty($_REQUEST['modfunc']))
 
 	Search('student_id',$extra);
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Add Course to Selected Students')) . '</div>';
 		echo '</FORM>';
@@ -145,10 +145,10 @@ if (empty($_REQUEST['modfunc']))
 
 }
 
-if ($_REQUEST['modfunc']=='choose_course')
+if ( $_REQUEST['modfunc']=='choose_course')
 {
 
-	if (!$_REQUEST['course_period_id'])
+	if ( !$_REQUEST['course_period_id'])
 		include 'modules/Scheduling/Courses.php';
 	else
 	{

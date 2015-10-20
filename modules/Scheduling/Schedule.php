@@ -90,7 +90,7 @@ if ( isset( $_POST['schedule'] )
 		$sql = mb_substr($sql,0,-1) . " WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND START_DATE='".$start_date."'";
 		DBQuery($sql);
 
-		if ($columns['START_DATE'] || $columns['END_DATE'])
+		if ( $columns['START_DATE'] || $columns['END_DATE'])
 		{
 			$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
 
@@ -101,7 +101,7 @@ if ( isset( $_POST['schedule'] )
 				if (DeletePrompt(_('Student\'s Absences and Grades'), 'Delete', false))
 				{
 					//if user clicked OK
-					if ($_REQUEST['delete_ok'])
+					if ( $_REQUEST['delete_ok'])
 					{
 						DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
 						DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
@@ -195,7 +195,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 				AND s.STUDENT_ID='".UserStudentID()."'
 				AND s.SYEAR='".UserSyear()."'
 				AND s.SCHOOL_ID = '".UserSchool()."'";
-	if ($_REQUEST['include_inactive']!='Y')
+	if ( $_REQUEST['include_inactive']!='Y')
 		$sql .= " AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR (s.END_DATE IS NULL AND s.START_DATE<='".$date."')) ";
 	//$sql .= " ORDER BY sp.SORT_ORDER,s.MARKING_PERIOD_ID";
 	$sql .= " ORDER BY cp.SHORT_NAME,s.MARKING_PERIOD_ID";
@@ -253,7 +253,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 
 		$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID=200000000"),array(),array('ID'));
 
-		if ($custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
+		if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 			$extra['SELECT'] .= ',s.CUSTOM_200000000,c.TITLE AS COURSE,sr.SUBJECT_ID,sr.COURSE_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,\'0\' AS AVAILABLE_SEATS,(SELECT count(*) AS SECTIONS FROM COURSE_PERIODS cp WHERE cp.COURSE_ID=sr.COURSE_ID AND (cp.GENDER_RESTRICTION=\'N\' OR cp.GENDER_RESTRICTION=substring(s.CUSTOM_200000000,1,1)) AND (sr.WITH_TEACHER_ID IS NULL OR sr.WITH_TEACHER_ID=cp.TEACHER_ID) AND (sr.NOT_TEACHER_ID IS NULL OR sr.NOT_TEACHER_ID!=cp.TEACHER_ID)) AS SECTIONS ';
 		else //'None' as GENDER
 			$extra['SELECT'] .= ',\'None\' AS CUSTOM_200000000,c.TITLE AS COURSE,sr.SUBJECT_ID,sr.COURSE_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,\'0\' AS AVAILABLE_SEATS,(SELECT count(*) AS SECTIONS FROM COURSE_PERIODS cp WHERE cp.COURSE_ID=sr.COURSE_ID AND (cp.GENDER_RESTRICTION=\'N\' OR cp.GENDER_RESTRICTION=substring(\'None\',1,1)) AND (sr.WITH_TEACHER_ID IS NULL OR sr.WITH_TEACHER_ID=cp.TEACHER_ID) AND (sr.NOT_TEACHER_ID IS NULL OR sr.NOT_TEACHER_ID!=cp.TEACHER_ID)) AS SECTIONS ';
@@ -263,7 +263,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 
 		$columns = array('COURSE'=>_('Request'),'SECTIONS'=>_('Sections'),'WITH_TEACHER_ID'=>_('Teacher'),'WITH_PERIOD_ID'=>_('Period'));
 
-		if ($_REQUEST['include_seats'])
+		if ( $_REQUEST['include_seats'])
 		{
 			$columns += array('AVAILABLE_SEATS'=>_('Available Seats'));
 			$extra['functions'] += array('AVAILABLE_SEATS'=>'CalcSeats');
@@ -281,10 +281,10 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 	}
 }
 
-if ($_REQUEST['modfunc']=='choose_course')
+if ( $_REQUEST['modfunc']=='choose_course')
 {
 
-	if (!$_REQUEST['course_period_id'])
+	if ( !$_REQUEST['course_period_id'])
 		include "modules/Scheduling/Courses.php";
 	else
 	{
@@ -295,17 +295,17 @@ if ($_REQUEST['modfunc']=='choose_course')
 			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
 			AND cp.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
 
-		if ($_REQUEST['course_marking_period_id'])
+		if ( $_REQUEST['course_marking_period_id'])
 		{
 			$mp_RET[1]['MARKING_PERIOD_ID'] = $_REQUEST['course_marking_period_id'];
 			$mp_RET[1]['MP'] = GetMP($_REQUEST['course_marking_period_id'],'MP');
 		}
 		$mps = GetAllMP($mp_RET[1]['MP'],$mp_RET[1]['MARKING_PERIOD_ID']);
 
-		if ($mp_RET[1]['TOTAL_SEATS'])
+		if ( $mp_RET[1]['TOTAL_SEATS'])
 		{
 			$seats = calcSeats0($mp_RET[1],$date);
-			if ($seats!='' && $seats>=$mp_RET[1]['TOTAL_SEATS'])
+			if ( $seats!='' && $seats>=$mp_RET[1]['TOTAL_SEATS'])
 				$warnings[] = _('This section is already full.');
 		}
 
@@ -342,7 +342,7 @@ if ($_REQUEST['modfunc']=='choose_course')
 						break 2;
 					}
 		}
-		if ($days_conflict)
+		if ( $days_conflict)
 			$warnings[] = _('There is already a course scheduled in that period.');
 
 		if (empty($warnings) || _Prompt('Confirm',_('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
@@ -378,7 +378,7 @@ function _makePeriodSelect($course_period_id,$column)
 
 	foreach ( (array)$orders_RET as $value)
 	{
-		if ($value['TOTAL_SEATS'] && $_REQUEST['include_seats'])
+		if ( $value['TOTAL_SEATS'] && $_REQUEST['include_seats'])
 			$seats = calcSeats0($value);
 
 		$periods[$value['COURSE_PERIOD_ID']] = $value['TITLE'] . (($value['MARKING_PERIOD_ID']!=$fy_id && $value['COURSE_PERIOD_ID']!=$course_period_id)?' ('.GetMP($value['MARKING_PERIOD_ID']).')':'').(($value['TOTAL_SEATS'] && $_REQUEST['include_seats'] && $seats!='')?' '.sprintf(_('(%d seats)'),($value['TOTAL_SEATS']-$seats)):'').(($value['COURSE_PERIOD_ID']!=$course_period_id && $value['COURSE_PERIOD_ID']!=$value['PARENT_ID'] && $value['PARENT'])?' -> '.$value['PARENT']:'');
@@ -390,7 +390,7 @@ function _makePeriodSelect($course_period_id,$column)
 function _makeMPSelect($mp_id,$name)
 {	global $_ROSARIO,$THIS_RET,$fy_id;
 
-	if (!$_ROSARIO['_makeMPSelect'])
+	if ( !$_ROSARIO['_makeMPSelect'])
 	{
 		$semesters_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,NULL AS PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 		$quarters_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
@@ -421,7 +421,7 @@ function _makeMPSelect($mp_id,$name)
 	{
 		foreach ( (array)$_ROSARIO['_makeMPSelect'][$mp_id] as $value)
 		{
-			if ($value['MARKING_PERIOD_ID']!=$THIS_RET['MARKING_PERIOD_ID'] && $THIS_RET['TOTAL_SEATS'] && $_REQUEST['include_seats'])
+			if ( $value['MARKING_PERIOD_ID']!=$THIS_RET['MARKING_PERIOD_ID'] && $THIS_RET['TOTAL_SEATS'] && $_REQUEST['include_seats'])
 				$seats = calcSeats0($THIS_RET);
 
 			$mps[$value['MARKING_PERIOD_ID']] = (($value['MARKING_PERIOD_ID']==$THIS_RET['MARKING_PERIOD_ID'] && $value['MARKING_PERIOD_ID']!=$mp_id)?'* ':'').$value['TITLE'].(($value['MARKING_PERIOD_ID']!=$THIS_RET['MARKING_PERIOD_ID'] && $THIS_RET['TOTAL_SEATS'] && $_REQUEST['include_seats'] && $seats!='')?' '.sprintf(_('(%d seats)'),($THIS_RET['TOTAL_SEATS']-$seats)):'');
@@ -437,7 +437,7 @@ function _makeMPSelect($mp_id,$name)
 function _makeDate($value,$column)
 {	global $THIS_RET;
 
-	if ($column=='START_DATE')
+	if ( $column=='START_DATE')
 		$allow_na = false;
 	else
 		$allow_na = true;
@@ -452,20 +452,20 @@ function VerifySchedule(&$schedule)
 	$ij = count($schedule);
 	for($i=1; $i<$ij; $i++)
 		for($j=$i+1; $j<=$ij; $j++)
-			if (!$conflicts[$i] || !$conflicts[$j])
+			if ( !$conflicts[$i] || !$conflicts[$j])
 				// the following two if's are equivalent, the second matches the 'Add a Course' logic, the first is the demorgan equivalent and easier to follow
 				// if -not- marking periods don't overlap -or- dates don't overlap (i ends and j starts after i -or- j ends and i starts after j) then check further
-				//if (! (mb_strpos(GetAllMP(GetMP($schedule[$i]['MARKING_PERIOD_ID'],'MP'),$schedule[$i]['MARKING_PERIOD_ID']),"'".$schedule[$j]['MARKING_PERIOD_ID']."'")===false
+				//if ( ! (mb_strpos(GetAllMP(GetMP($schedule[$i]['MARKING_PERIOD_ID'],'MP'),$schedule[$i]['MARKING_PERIOD_ID']),"'".$schedule[$j]['MARKING_PERIOD_ID']."'")===false
 				//|| $schedule[$i]['END_EPOCH'] && $schedule[$j]['START_EPOCH']>$schedule[$i]['END_EPOCH'] || $schedule[$j]['END_EPOCH'] && $schedule[$i]['START_EPOCH']>$schedule[$j]['END_EPOCH']))
 				// if marking periods overlap -and- dates overlap (i doesn't end or j starts before i ends -and- j doesn't end or i starts before j ends) check further
 				if (mb_strpos(GetAllMP(GetMP($schedule[$i]['MARKING_PERIOD_ID'],'MP'),$schedule[$i]['MARKING_PERIOD_ID']),"'".$schedule[$j]['MARKING_PERIOD_ID']."'")!==false
 				&& (!$schedule[$i]['END_EPOCH'] || $schedule[$j]['START_EPOCH']<=$schedule[$i]['END_EPOCH']) && (!$schedule[$j]['END_EPOCH'] || $schedule[$i]['START_EPOCH']<=$schedule[$j]['END_EPOCH']))
 					// should not be enrolled in the same course with overlapping marking periods and dates
-					if ($schedule[$i]['COURSE_ID']==$schedule[$j]['COURSE_ID'])
+					if ( $schedule[$i]['COURSE_ID']==$schedule[$j]['COURSE_ID'])
 						$conflicts[$i] = $conflicts[$j] = true;
 					else
 						// if different periods then okay
-						if ($schedule[$i]['PERIOD_ID']==$schedule[$j]['PERIOD_ID'])
+						if ( $schedule[$i]['PERIOD_ID']==$schedule[$j]['PERIOD_ID'])
 							// should not be enrolled in the same period on the same day
 							if (mb_strlen($schedule[$i]['DAYS'])+mb_strlen($schedule[$j]['DAYS'])>7)
 								$conflicts[$i] = $conflicts[$j] = true;

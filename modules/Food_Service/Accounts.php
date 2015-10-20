@@ -1,10 +1,10 @@
 <?php
 require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
 
-if (!$_SESSION['FSA_type'])
+if ( !$_SESSION['FSA_type'])
 	$_SESSION['FSA_type'] = 'student';
 
-if ($_REQUEST['type'])
+if ( $_REQUEST['type'])
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
@@ -21,7 +21,7 @@ include('modules/Food_Service/'.($_REQUEST['type']=='staff'?'Users':'Students').
 
 function red($value)
 {
-	if ($value<0)
+	if ( $value<0)
 		return '<span style="color:red">'.$value.'</span>';
 	else
 		return $value;

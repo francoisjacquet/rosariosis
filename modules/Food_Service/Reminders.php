@@ -1,10 +1,10 @@
 <?php
-if ($_REQUEST['type'])
+if ( $_REQUEST['type'])
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
 
-if ($_REQUEST['modfunc']!='save')
+if ( $_REQUEST['modfunc']!='save')
 {
 	//FJ remove DrawTab params
 	$header .= '<a href="Modules.php?modname='.$_REQUEST['modname'].'&type=student"><b>'._('Students').'</b></a>';
@@ -24,7 +24,7 @@ function _makeChooseCheckbox($value,$title)
 
 function x($value)
 {
-	if ($value)
+	if ( $value)
 		return button('x');
 	else
 		return '&nbsp;';
@@ -32,7 +32,7 @@ function x($value)
 
 function red($value)
 {
-	if ($value<0)
+	if ( $value<0)
 		return '<span style="color:red">'.$value.'</span>';
 	else
 		return $value;

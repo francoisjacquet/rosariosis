@@ -20,7 +20,7 @@ if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 	</script> 
 <?php endif;
 
-if ($_REQUEST['student_id']!='new' && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg','r')) || ($file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg','r'))):
+if ( $_REQUEST['student_id']!='new' && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg','r')) || ($file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg','r'))):
 	fclose($file);
 ?>
 	<IMG SRC="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" id="studentImg" />
@@ -31,7 +31,7 @@ echo '</TD><TD>';
 
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 //FJ Moodle integrator
-	if ($_REQUEST['student_id']=='new' || $_REQUEST['moodle_create_student'])
+	if ( $_REQUEST['student_id']=='new' || $_REQUEST['moodle_create_student'])
 		echo '<TABLE>
 		<TR class="st"><TD>
 		'.TextInput($student['FIRST_NAME'],'students[FIRST_NAME]',($student['FIRST_NAME']==''?'<span class="legend-red">':'')._('First Name').($student['FIRST_NAME']==''?'</span>':''),'size=12 maxlength=50 required', ($_REQUEST['moodle_create_student'] ? false : true)).'
@@ -68,7 +68,7 @@ else
 
 echo '</TD><TD colspan="2">';
 
-if ($_REQUEST['student_id']=='new')
+if ( $_REQUEST['student_id']=='new')
 	echo TextInput('','assign_student_id',sprintf(_('%s ID'),Config('NAME')),'maxlength=10 size=10');
 else
 	echo NoInput(UserStudentID(),sprintf(_('%s ID'),Config('NAME')));
@@ -103,7 +103,7 @@ $separator = '<hr />';
 
 include 'modules/Students/includes/Other_Info.inc.php';
 
-if ($_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool() && $student['SCHOOL_ID'])
+if ( $_REQUEST['student_id']!='new' && $student['SCHOOL_ID']!=UserSchool() && $student['SCHOOL_ID'])
 	$_ROSARIO['AllowEdit'][$_REQUEST['modname']] = $_ROSARIO['allow_edit'] = false;
 
 if (basename($_SERVER['PHP_SELF'])!='index.php')
@@ -123,6 +123,6 @@ else
 	//add School select input
 	echo SelectInput('','values[STUDENT_ENROLLMENT][new][SCHOOL_ID]',_('School'),$school_options,false);
 
-	if ($PopTable_opened)
+	if ( $PopTable_opened)
 		PopTable('footer');
 }

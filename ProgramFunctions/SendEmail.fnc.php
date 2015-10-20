@@ -51,7 +51,7 @@ function SendEmail($to, $subject, $message, $from = null, $cc = null)
 	}
 
 	$headers = 'From:'. $from ."\r\n";
-	if (!empty($cc))
+	if ( !empty($cc))
 		$headers .= "Cc:". $cc ."\r\n";
 	$headers .= 'Return-Path:'. $from ."\r\n"; 
 	$headers .= 'Reply-To:'. $from ."\r\n". 'X-Mailer: PHP/' . phpversion() ."\r\n";

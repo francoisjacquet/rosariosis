@@ -158,14 +158,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$last_month = (int)$last_month[1];
 
 			//foreach ( array(7,8,9,10,11,12,1,2,3,4,5,6) as $month)
-			if ($last_month > $first_month)
+			if ( $last_month > $first_month)
 				$last_month_tmp = $last_month;
 			else
 				$last_month_tmp = 12;
 
 			for ($month=$first_month; $month<=$last_month_tmp; $month++)
 			{
-				if ($calendar_RET[$month] || $attendance_RET[$month])
+				if ( $calendar_RET[$month] || $attendance_RET[$month])
 				{
 					echo '<TR><TD>'.$months[$month].'</TD>';
 
@@ -173,11 +173,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					for($day=1; $day<=31; $day++)
 					{
-						if ($calendar_RET[$month][$day])
+						if ( $calendar_RET[$month][$day])
 						{
 							$calendar = $calendar_RET[$month][$day][1];
 
-							if ($attendance_RET[$month][$day])
+							if ( $attendance_RET[$month][$day])
 							{
 								$attendance = $attendance_RET[$month][$day][1];
 
@@ -194,7 +194,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						else
 						{
 							//attendance record before attendance start date!
-							if ($attendance_RET[$month][$day])
+							if ( $attendance_RET[$month][$day])
 							{
 								$attendance = $attendance_RET[$month][$day][1];
 
@@ -215,7 +215,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 
 				//school year over 2 calendar years, reset month to January
-				if ($month == 12 && $last_month != 12)
+				if ( $month == 12 && $last_month != 12)
 				{
 					$month = 0;
 					$last_month_tmp = $last_month;
@@ -250,7 +250,7 @@ if (empty($_REQUEST['modfunc']))
 {
 	DrawHeader(ProgramTitle());
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
 
@@ -272,7 +272,7 @@ if (empty($_REQUEST['modfunc']))
 
 	Search('student_id',$extra);
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Create Attendance Report for Selected Students')) . '</div>';
 		echo '</FORM>';

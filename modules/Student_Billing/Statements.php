@@ -4,7 +4,7 @@
 Widgets('mailing_labels');
 //Widgets('document_template');
 
-if (!$_REQUEST['search_modfunc'])
+if ( !$_REQUEST['search_modfunc'])
 {
 	DrawHeader(ProgramTitle());
 
@@ -16,7 +16,7 @@ else
 {
 	// For the Student Fees / Student Payments programs
 	$_REQUEST['print_statements'] = true;
-	if ($_REQUEST['mailing_labels']=='Y')
+	if ( $_REQUEST['mailing_labels']=='Y')
 		$extra['group'][] = 'ADDRESS_ID';	
 	
 //FJ fix Advanced Search
@@ -29,7 +29,7 @@ else
 		$handle = PDFStart();
 		foreach ( (array)$RET as $student)
 		{
-			if ($_REQUEST['mailing_labels']=='Y')
+			if ( $_REQUEST['mailing_labels']=='Y')
 			{
 				foreach ( (array)$student as $address)
 				{

@@ -7,7 +7,7 @@ Widgets('fsa_account_id');
 
 $extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
-if (!mb_strpos($extra['FROM'],'fssa'))
+if ( !mb_strpos($extra['FROM'],'fssa'))
 {
 	$extra['FROM'] = ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
@@ -49,20 +49,20 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 
-	if ($_REQUEST['detailed_view']!='true')
+	if ( $_REQUEST['detailed_view']!='true')
 		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view'=>'true')).'">'._('Detailed View').'</A>');
 	else
 		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view'=>'false')).'">'._('Original View').'</A>');
 
-	if ($student['BALANCE'])
+	if ( $student['BALANCE'])
 	{
-		if ($_REQUEST['student_select'])
+		if ( $_REQUEST['student_select'])
 			$where = " AND fst.STUDENT_ID='".$_REQUEST['student_select']."'";
 
-		if ($_REQUEST['type_select'])
+		if ( $_REQUEST['type_select'])
 			$where .= " AND fst.SHORT_NAME='".$_REQUEST['type_select']."'";
 
-		if ($_REQUEST['detailed_view']=='true')
+		if ( $_REQUEST['detailed_view']=='true')
 		{
 			$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID AS TRANS_ID,fst.TRANSACTION_ID,fst.STUDENT_ID,fst.DISCOUNT,
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,

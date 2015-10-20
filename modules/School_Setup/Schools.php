@@ -17,15 +17,15 @@ if ( isset( $_POST['day_values'] )
 	$_POST['values'] = array_replace_recursive( $_POST['values'], $requested_dates );
 }
 
-if ($_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc']=='update')
 {
-	if ($_REQUEST['button']==_('Save') && AllowEdit())
+	if ( $_REQUEST['button']==_('Save') && AllowEdit())
 	{
-		if ($_REQUEST['values'] && $_POST['values'])
+		if ( $_REQUEST['values'] && $_POST['values'])
 		{
 			if ((empty($_REQUEST['values']['NUMBER_DAYS_ROTATION']) || is_numeric($_REQUEST['values']['NUMBER_DAYS_ROTATION'])) && (empty($_REQUEST['values']['REPORTING_GP_SCALE']) || is_numeric($_REQUEST['values']['REPORTING_GP_SCALE'])))
 			{
-				if ($_REQUEST['new_school']!='true')
+				if ( $_REQUEST['new_school']!='true')
 				{
 					$sql = "UPDATE SCHOOLS SET ";
 
@@ -38,7 +38,7 @@ if ($_REQUEST['modfunc']=='update')
 						if (1)//!empty($value) || $value=='0')
 						{
 							//FJ check numeric fields
-							if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
+							if ( $fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
 							{
 								$error[] = _('Please enter valid Numeric data.');
 								continue;
@@ -49,7 +49,7 @@ if ($_REQUEST['modfunc']=='update')
 						}
 					}
 					$sql = mb_substr($sql,0,-1) . " WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'";
-					if ($go)
+					if ( $go)
 					{
 						DBQuery($sql);
 						$note[] = button('check') .'&nbsp;'._('This school has been modified.');
@@ -60,13 +60,13 @@ if ($_REQUEST['modfunc']=='update')
 					$fields = $values = '';
 
 					foreach ( (array)$_REQUEST['values'] as $column=>$value)
-						if ($column!='ID' && $value)
+						if ( $column!='ID' && $value)
 						{
 							$fields .= ','.$column;
 							$values .= ",'".$value."'";
 						}
 
-					if ($fields && $values)
+					if ( $fields && $values)
 					{
 						$id = DBGet(DBQuery("SELECT ".db_seq_nextval('SCHOOLS_SEQ')." AS ID".FROM_DUAL));
 						$id = $id[1]['ID'];
@@ -96,7 +96,7 @@ if ($_REQUEST['modfunc']=='update')
 		unset($_SESSION['_REQUEST_vars']['values']);
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
 	}
-	elseif ($_REQUEST['button']==_('Delete') && User('PROFILE')=='admin' && AllowEdit())
+	elseif ( $_REQUEST['button']==_('Delete') && User('PROFILE')=='admin' && AllowEdit())
 	{
 		if (DeletePrompt(_('School')))
 		{
@@ -126,12 +126,12 @@ if ($_REQUEST['modfunc']=='update')
 
 if (empty($_REQUEST['modfunc']))
 {
-	if (!empty($note))
+	if ( !empty($note))
 		echo ErrorMessage($note, 'note');
-	if (!empty($error))
+	if ( !empty($error))
 		echo ErrorMessage($error, 'error');
 
-	if (!$_REQUEST['new_school'])
+	if ( !$_REQUEST['new_school'])
 	{
 		$schooldata = DBGet(DBQuery("SELECT ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,PRINCIPAL,WWW_ADDRESS,SCHOOL_NUMBER,REPORTING_GP_SCALE,SHORT_NAME,NUMBER_DAYS_ROTATION FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 		$schooldata = $schooldata[1];
@@ -144,7 +144,7 @@ if (empty($_REQUEST['modfunc']))
 	
 	//FJ delete school only if more than one school
 	$delete_button = false;
-	if ($_REQUEST['new_school']!='true' && $_SESSION['SchoolData']['SCHOOLS_NB'] > 1)
+	if ( $_REQUEST['new_school']!='true' && $_SESSION['SchoolData']['SCHOOLS_NB'] > 1)
 		$delete_button = true;
 		
 	//FJ fix bug: no save button if no admin
@@ -157,7 +157,7 @@ if (empty($_REQUEST['modfunc']))
 
 	echo '<TABLE>';
 
-	if ($_REQUEST['new_school']!='true')
+	if ( $_REQUEST['new_school']!='true')
 		echo '<TR><TD colspan="3">'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<img src="assets/school_logo_'.UserSchool().'.jpg" style="max-width:225px; max-height:225px;" /><br /><span class="legend-gray">'._('School logo').'</span>' : '').'</TD></TR>';
 
 	//FJ school name field required
@@ -186,7 +186,7 @@ if (empty($_REQUEST['modfunc']))
 
 	if (AllowEdit())
 		echo '<TR><TD colspan="3">'.TextInput($schooldata['NUMBER_DAYS_ROTATION'],'values[NUMBER_DAYS_ROTATION]','<SPAN style="cursor:help" class="legend-gray" title="'._('Leave the field blank if the school does not use a Rotation of Numbered Days').'">'._('Number of Days for the Rotation').'*</SPAN>','maxlength=1 size=1 min=1').'</TD></TR>';
-	elseif (!empty($schooldata['NUMBER_DAYS_ROTATION'])) //do not show if no rotation set
+	elseif ( !empty($schooldata['NUMBER_DAYS_ROTATION'])) //do not show if no rotation set
 		echo '<TR><TD colspan="3">'.TextInput($schooldata['NUMBER_DAYS_ROTATION'],'values[NUMBER_DAYS_ROTATION]',_('Number of Days for the Rotation'),'maxlength=1 size=1 min=1').'</TD></TR>';
 
 	//FJ add School Fields

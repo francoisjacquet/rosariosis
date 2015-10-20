@@ -1,11 +1,11 @@
 <?php
 
-if ($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
+if ( $_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 {
 	if (UserStaffID() && AllowEdit())
 	{
 		//$existing_account = DBGet(DBQuery('SELECT \'exists\' FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='.UserStaffID()));
-		//if (!count($existing_account))
+		//if ( !count($existing_account))
 		//	BackPrompt('That user does not have a Meal Account. Choose a different username and try again.');
 		if (($_REQUEST['values']['TYPE']=='Deposit' || $_REQUEST['values']['TYPE']=='Credit' || $_REQUEST['values']['TYPE']=='Debit') && ($amount = is_money($_REQUEST['values']['AMOUNT'])))
 		{
@@ -62,7 +62,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 //	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($staff['BALANCE']),_('Balance')));
 
-	if ($staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
+	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
 	{
 		$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT 
 		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti 

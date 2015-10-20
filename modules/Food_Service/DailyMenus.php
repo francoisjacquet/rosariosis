@@ -1,10 +1,10 @@
 <?php
 
-if (!$_REQUEST['month'])
+if ( !$_REQUEST['month'])
 	$_REQUEST['month'] = date("n");
 else
 	$_REQUEST['month'] = MonthNWSwitch($_REQUEST['month'],'tonum')+0;
-if (!$_REQUEST['year'])
+if ( !$_REQUEST['year'])
 	$_REQUEST['year'] = date("Y");
 
 $last = 31;
@@ -28,8 +28,8 @@ else
 }
 
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-if (!$_REQUEST['menu_id'])
-	if (!$_SESSION['FSA_menu_id'])
+if ( !$_REQUEST['menu_id'])
+	if ( !$_SESSION['FSA_menu_id'])
 		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
@@ -39,7 +39,7 @@ if (!$_REQUEST['menu_id'])
 else
 		$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 
-if ($_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_service'] && AllowEdit())
+if ( $_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_service'] && AllowEdit())
 {
 	$events_RET = DBGet(DBQuery("SELECT ID,to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE 
 	FROM CALENDAR_EVENTS 
@@ -51,20 +51,20 @@ if ($_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_ser
 
 	foreach ( (array)$_REQUEST['food_service'] as $school_date=>$description)
 	{
-		if ($events_RET[$school_date])
-			if ($description['text'] || $description['select'])
+		if ( $events_RET[$school_date])
+			if ( $description['text'] || $description['select'])
 				DBQuery("UPDATE CALENDAR_EVENTS SET DESCRIPTION='".$description['text'].$description['select']."' WHERE ID='".$events_RET[$school_date][1]['ID']."'");
 			else
 				DBQuery("DELETE FROM CALENDAR_EVENTS WHERE ID='".$events_RET[$school_date][1]['ID']."'");
 		else
-			if ($description['text'] || $description['select'])
+			if ( $description['text'] || $description['select'])
 				DBQuery("INSERT INTO CALENDAR_EVENTS (ID,SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION) values(".db_seq_nextval('CALENDAR_EVENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$school_date."','".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."','".$description['text'].$description['select']."')");
 	}
 	unset($_REQUEST['food_service']);
 	unset($_SESSION['_REQUEST_vars']['food_service']);
 }
 
-if ($_REQUEST['submit']['print'])
+if ( $_REQUEST['submit']['print'])
 {
 	$events_RET = DBGet(DBQuery("SELECT TITLE,DESCRIPTION,to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE 
 	FROM CALENDAR_EVENTS 
@@ -77,7 +77,7 @@ if ($_REQUEST['submit']['print'])
 
 	echo '<!-- MEDIA TOP 1in --><P class="center">';
 	echo '<TABLE style="background-color: #fff;" class="width-100p">'."\n";
-	if ($_REQUEST['_ROSARIO_PDF'])
+	if ( $_REQUEST['_ROSARIO_PDF'])
 		if (is_file('assets/dailymenu'.UserSchool().'.jpg'))
 		{
 			echo '<TR class="center"><TD colspan="3"><img src="assets/dailymenu'.UserSchool().'.jpg" /></TD></TR>'."\n";
@@ -90,12 +90,12 @@ if ($_REQUEST['submit']['print'])
 	echo '<TH>'.mb_substr(_('Sunday'),0,3).'<span>'.mb_substr(_('Sunday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Monday'),0,3).'<span>'.mb_substr(_('Monday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Tuesday'),0,3).'<span>'.mb_substr(_('Tuesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Wednesday'),0,3).'<span>'.mb_substr(_('Wednesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Thursday'),0,3).'<span>'.mb_substr(_('Thursday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Friday'),0,3).'<span>'.mb_substr(_('Friday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Saturday'),0,3).'<span>'.mb_substr(_('Saturday'),3).'</span>'.'</TH>'."\n";
 	echo '</TR></THEAD><TBODY>';
 
-	if ($skip)
+	if ( $skip)
 		echo '<TR><TD style="background-color:#C0C0C0;" colspan="'.$skip.'">&nbsp;</TD>'."\n";
 
 	for($i = 1; $i <= $last; $i++)
 	{
-		if ($skip%7==0)
+		if ( $skip%7==0)
 			echo '<TR>';
 		$day_time = mktime(0,0,0,$_REQUEST['month'],$i,$_REQUEST['year']);
 		$date = mb_strtoupper(date('d-M-Y',$day_time));
@@ -106,7 +106,7 @@ if ($_REQUEST['submit']['print'])
 		{
 			foreach ( (array)$events_RET[$date] as $event)
 			{
-				if ($event['TITLE']!=$menus_RET[$_REQUEST['menu_id']][1]['TITLE'])
+				if ( $event['TITLE']!=$menus_RET[$_REQUEST['menu_id']][1]['TITLE'])
 					echo '<BR /><i>'.$event['TITLE'].'</i>';
 				echo '<BR />'.htmlspecialchars($event['DESCRIPTION'],ENT_QUOTES);
 			}
@@ -115,10 +115,10 @@ if ($_REQUEST['submit']['print'])
 
 		$skip++;
 
-		if ($skip%7==0)
+		if ( $skip%7==0)
 			echo '</TR>';
 	}
-	if ($skip%7!=0)
+	if ( $skip%7!=0)
 		echo '<TD style="background-color:#C0C0C0;" colspan="'.(7-$skip%7).'">&nbsp;</TD></TR>';
 
 	echo '</TBODY></TABLE></P>';
@@ -185,7 +185,7 @@ else
 function makeDescriptionInput($value,$name)
 {	global $THIS_RET,$calendar_RET;
 
-	if ($calendar_RET[$THIS_RET['SCHOOL_DATE']])
+	if ( $calendar_RET[$THIS_RET['SCHOOL_DATE']])
 		unset($calendar_RET[$THIS_RET{'SCHOOL_DATE'}]);
 
 	return TextInput($value,'food_service['.$THIS_RET['SCHOOL_DATE'].'][text]','','size=20');

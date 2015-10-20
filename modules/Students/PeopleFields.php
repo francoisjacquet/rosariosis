@@ -2,7 +2,7 @@
 DrawHeader(ProgramTitle());
 //$_ROSARIO['allow_edit'] = true;
 
-if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
+if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 {
 	$table = $_REQUEST['table'];
 	foreach ( (array)$_REQUEST['tables'] as $id=>$columns)
@@ -13,9 +13,9 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 			//FJ added SQL constraint TITLE is not null
 			if ((!isset($columns['TITLE']) || !empty($columns['TITLE'])))
 			{
-				if ($id!='new')
+				if ( $id!='new')
 				{
-					if ($columns['CATEGORY_ID'] && $columns['CATEGORY_ID']!=$_REQUEST['category_id'])
+					if ( $columns['CATEGORY_ID'] && $columns['CATEGORY_ID']!=$_REQUEST['category_id'])
 						$_REQUEST['category_id'] = $columns['CATEGORY_ID'];
 
 					$sql = "UPDATE $table SET ";
@@ -29,9 +29,9 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				{
 					$sql = "INSERT INTO $table ";
 
-					if ($table=='PEOPLE_FIELDS')
+					if ( $table=='PEOPLE_FIELDS')
 					{
-						if ($columns['CATEGORY_ID'])
+						if ( $columns['CATEGORY_ID'])
 						{
 							$_REQUEST['category_id'] = $columns['CATEGORY_ID'];
 							unset($columns['CATEGORY_ID']);
@@ -78,10 +78,10 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								$create_index = false; //FJ SQL bugfix index row size exceeds maximum 2712 for index
 							break;
 						}
-						if ($create_index)
+						if ( $create_index)
 							DBQuery("CREATE INDEX PEOPLE_IND$id ON PEOPLE (CUSTOM_$id)");
 					}
-					elseif ($table=='PEOPLE_FIELD_CATEGORIES')
+					elseif ( $table=='PEOPLE_FIELD_CATEGORIES')
 					{
 						$id = DBGet(DBQuery("SELECT ".db_seq_nextval('PEOPLE_FIELD_CATEGORIES_SEQ').' AS ID '.FROM_DUAL));
 						$id = $id[1]['ID'];
@@ -94,7 +94,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 					foreach ( (array)$columns as $column=>$value)
 					{
-						if (!empty($value) || $value=='0')
+						if ( !empty($value) || $value=='0')
 						{
 							$fields .= $column.',';
 							$values .= "'".$value."',";
@@ -104,7 +104,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 				}
 
-				if ($go)
+				if ( $go)
 					DBQuery($sql);
 			}
 			else
@@ -116,9 +116,9 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	unset($_REQUEST['tables']);
 }
 
-if ($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if ($_REQUEST['id'])
+	if ( $_REQUEST['id'])
 	{
 		if (DeletePrompt(_('Contact Field')))
 		{
@@ -129,7 +129,7 @@ if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 			unset($_REQUEST['id']);
 		}
 	}
-	elseif ($_REQUEST['category_id'])
+	elseif ( $_REQUEST['category_id'])
 	{
 		if (DeletePrompt(_('Contact Field Category').' '._('and all fields in the category')))
 		{
@@ -168,14 +168,14 @@ if (empty($_REQUEST['modfunc']))
 	}
 
 	// ADDING & EDITING FORM
-	if ($_REQUEST['id'] && $_REQUEST['id']!='new')
+	if ( $_REQUEST['id'] && $_REQUEST['id']!='new')
 	{
 		$sql = "SELECT CATEGORY_ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,SORT_ORDER,REQUIRED,(SELECT TITLE FROM PEOPLE_FIELD_CATEGORIES WHERE ID=CATEGORY_ID) AS CATEGORY_TITLE FROM PEOPLE_FIELDS WHERE ID='".$_REQUEST['id']."'";
 		$RET = DBGet(DBQuery($sql));
 		$RET = $RET[1];
 		$title = ParseMLField($RET['CATEGORY_TITLE']).' - '.ParseMLField($RET['TITLE']);
 	}
-	elseif ($_REQUEST['category_id'] && $_REQUEST['category_id']!='new' && $_REQUEST['id']!='new')
+	elseif ( $_REQUEST['category_id'] && $_REQUEST['category_id']!='new' && $_REQUEST['id']!='new')
 	{
 		$sql = "SELECT TITLE,CUSTODY,EMERGENCY,SORT_ORDER
 				FROM PEOPLE_FIELD_CATEGORIES
@@ -184,16 +184,16 @@ if (empty($_REQUEST['modfunc']))
 		$RET = $RET[1];
 		$title = ParseMLField($RET['TITLE']);
 	}
-	elseif ($_REQUEST['id']=='new')
+	elseif ( $_REQUEST['id']=='new')
 		$title = _('New Contact Field');
-	elseif ($_REQUEST['category_id']=='new')
+	elseif ( $_REQUEST['category_id']=='new')
 		$title = _('New Contact Field Category');
 
-	if ($_REQUEST['id'])
+	if ( $_REQUEST['id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'];
 
-		if ($_REQUEST['id']!='new')
+		if ( $_REQUEST['id']!='new')
 			echo '&id='.$_REQUEST['id'];
 
 		echo '&table=PEOPLE_FIELDS" method="POST">';
@@ -207,9 +207,9 @@ if (empty($_REQUEST['modfunc']))
 
 		// You can't change a people field type after it has been created
 		// mab - allow changing between select and autos and edits and text and exports
-		if ($_REQUEST['id']!='new')
+		if ( $_REQUEST['id']!='new')
 		{
-			if ($RET['TYPE']!='select' && $RET['TYPE']!='autos' && $RET['TYPE']!='edits' && $RET['TYPE']!='text' && $RET['TYPE']!='exports')
+			if ( $RET['TYPE']!='select' && $RET['TYPE']!='autos' && $RET['TYPE']!='edits' && $RET['TYPE']!='text' && $RET['TYPE']!='exports')
 			{
 				$allow_edit = $_ROSARIO['allow_edit'];
 				$AllowEdit = $_ROSARIO['AllowEdit'][$modname];
@@ -224,7 +224,7 @@ if (empty($_REQUEST['modfunc']))
 			$type_options = array('select'=>_('Pull-Down'),'autos'=>_('Auto Pull-Down'),'edits'=>_('Edit Pull-Down'),'text'=>_('Text'),'radio'=>_('Checkbox'),'codeds'=>_('Coded Pull-Down'),'exports'=>_('Export Pull-Down'),'numeric'=>_('Number'),'multiple'=>_('Select Multiple from Options'),'date'=>_('Date'),'textarea'=>_('Long Text'));
 
 		$header .= '<TD>' . SelectInput($RET['TYPE'],'tables['.$_REQUEST['id'].'][TYPE]','Data Type',$type_options,false) . '</TD>';
-		if ($_REQUEST['id']!='new' && $RET['TYPE']!='select' && $RET['TYPE']!='autos' && $RET['TYPE']!='edits' && $RET['TYPE']!='text' && $RET['TYPE']!='exports')
+		if ( $_REQUEST['id']!='new' && $RET['TYPE']!='select' && $RET['TYPE']!='autos' && $RET['TYPE']!='edits' && $RET['TYPE']!='text' && $RET['TYPE']!='exports')
 		{
 			$_ROSARIO['allow_edit'] = $allow_edit;
 			$_ROSARIO['AllowEdit'][$modname] = $AllowEdit;
@@ -238,7 +238,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$header .= '</TR><TR class="st">';
 		$colspan = 2;
-		if ($RET['TYPE']=='autos' || $RET['TYPE']=='edits' || $RET['TYPE']=='select' || $RET['TYPE']=='codeds' || $RET['TYPE']=='multiple' || $RET['TYPE']=='exports' || $_REQUEST['id']=='new')
+		if ( $RET['TYPE']=='autos' || $RET['TYPE']=='edits' || $RET['TYPE']=='select' || $RET['TYPE']=='codeds' || $RET['TYPE']=='multiple' || $RET['TYPE']=='exports' || $_REQUEST['id']=='new')
 		{
 			$header .= '<TD colspan="2">'.TextAreaInput($RET['SELECT_OPTIONS'],'tables['.$_REQUEST['id'].'][SELECT_OPTIONS]',_('Pull-Down').'/'._('Auto Pull-Down').'/'._('Coded Pull-Down').'/'._('Select Multiple from Options').'<BR />'._('* one per line'),'rows=7 cols=40') . '</TD>';
 			$colspan = 1;
@@ -251,11 +251,11 @@ if (empty($_REQUEST['modfunc']))
 		$header .= '</TR>';
 		$header .= '</TABLE>';
 	}
-	elseif ($_REQUEST['category_id'])
+	elseif ( $_REQUEST['category_id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table=PEOPLE_FIELD_CATEGORIES';
 
-		if ($_REQUEST['category_id']!='new')
+		if ( $_REQUEST['category_id']!='new')
 			echo '&category_id='.$_REQUEST['category_id'];
 
 		echo '" method="POST">';
@@ -268,7 +268,7 @@ if (empty($_REQUEST['modfunc']))
 		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Title').(!$RET['TITLE']?'</span>':'')) . '</TD>';
 		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['category_id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</TD>';
 
-		if ($_REQUEST['category_id']=='new')
+		if ( $_REQUEST['category_id']=='new')
 			$new = true;
 
 		$header .= '<TD><TABLE><TR>';
@@ -287,7 +287,7 @@ if (empty($_REQUEST['modfunc']))
 	else
 		$header = false;
 
-	if ($header)
+	if ( $header)
 	{
 		DrawHeader($header);
 		echo '</FORM>';
@@ -298,11 +298,11 @@ if (empty($_REQUEST['modfunc']))
 
 	if (count($categories_RET))
 	{
-		if ($_REQUEST['category_id'])
+		if ( $_REQUEST['category_id'])
 		{
 			foreach ( (array)$categories_RET as $key=>$value)
 			{
-				if ($value['ID']==$_REQUEST['category_id'])
+				if ( $value['ID']==$_REQUEST['category_id'])
 					$categories_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 			}
 		}
@@ -322,18 +322,18 @@ if (empty($_REQUEST['modfunc']))
 	echo '</div>';
 
 	// FIELDS
-	if ($_REQUEST['category_id'] && $_REQUEST['category_id']!='new' && count($categories_RET))
+	if ( $_REQUEST['category_id'] && $_REQUEST['category_id']!='new' && count($categories_RET))
 	{
 		$sql = "SELECT ID,TITLE,TYPE,SORT_ORDER FROM PEOPLE_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."' ORDER BY SORT_ORDER,TITLE";
 		$fields_RET = DBGet(DBQuery($sql),array('TYPE'=>'_makeType'));
 
 		if (count($fields_RET))
 		{
-			if ($_REQUEST['id'] && $_REQUEST['id']!='new')
+			if ( $_REQUEST['id'] && $_REQUEST['id']!='new')
 			{
 				foreach ( (array)$fields_RET as $key=>$value)
 				{
-					if ($value['ID']==$_REQUEST['id'])
+					if ( $value['ID']==$_REQUEST['id'])
 						$fields_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 				}
 			}

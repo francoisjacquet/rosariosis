@@ -2,7 +2,7 @@
 DrawHeader(ProgramTitle());
 //$_ROSARIO['allow_edit'] = true;
 
-if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
+if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 {
 	$table = $_REQUEST['table'];
 	foreach ( (array)$_REQUEST['tables'] as $id=>$columns)
@@ -13,9 +13,9 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 			//FJ added SQL constraint TITLE is not null
 			if ((!isset($columns['TITLE']) || !empty($columns['TITLE'])))
 			{
-				if ($id!='new')
+				if ( $id!='new')
 				{
-					if ($columns['CATEGORY_ID'] && $columns['CATEGORY_ID']!=$_REQUEST['category_id'])
+					if ( $columns['CATEGORY_ID'] && $columns['CATEGORY_ID']!=$_REQUEST['category_id'])
 						$_REQUEST['category_id'] = $columns['CATEGORY_ID'];
 
 					$sql = "UPDATE $table SET ";
@@ -29,7 +29,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				{
 					$sql = "INSERT INTO $table ";
 
-					if ($table=='SCHOOL_FIELDS')
+					if ( $table=='SCHOOL_FIELDS')
 					{
 						$id = DBGet(DBQuery("SELECT ".db_seq_nextval('SCHOOL_SEQ').' AS ID '.FROM_DUAL));
 						$id = $id[1]['ID'];
@@ -61,7 +61,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 					foreach ( (array)$columns as $column=>$value)
 					{
-						if (!empty($value) || $value=='0')
+						if ( !empty($value) || $value=='0')
 						{
 							$fields .= $column.',';
 							$values .= "'".$value."',";
@@ -71,7 +71,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 				}
 
-				if ($go)
+				if ( $go)
 					DBQuery($sql);
 			}
 			else
@@ -83,9 +83,9 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	unset($_REQUEST['tables']);
 }
 
-if ($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if ($_REQUEST['id'])
+	if ( $_REQUEST['id'])
 	{
 		if (DeletePrompt(_('Student Field')))
 		{
@@ -96,7 +96,7 @@ if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 			unset($_REQUEST['id']);
 		}
 	}
-	elseif ($_REQUEST['category_id'])
+	elseif ( $_REQUEST['category_id'])
 	{
 		if (DeletePrompt(_('Student Field Category').' '._('and all fields in the category')))
 		{
@@ -131,21 +131,21 @@ if (empty($_REQUEST['modfunc']))
 	}
 
 	// ADDING & EDITING FORM
-	if ($_REQUEST['id'] && $_REQUEST['id']!='new')
+	if ( $_REQUEST['id'] && $_REQUEST['id']!='new')
 	{
 		$sql = "SELECT TITLE,TYPE,DEFAULT_SELECTION,SORT_ORDER,REQUIRED FROM SCHOOL_FIELDS WHERE ID='".$_REQUEST['id']."'";
 		$RET = DBGet(DBQuery($sql));
 		$RET = $RET[1];
 		$title = ParseMLField($RET['TITLE']);
 	}
-	elseif ($_REQUEST['id']=='new')
+	elseif ( $_REQUEST['id']=='new')
 		$title = _('New School Field');
 
-	if ($_REQUEST['id'])
+	if ( $_REQUEST['id'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'];
 
-		if ($_REQUEST['id']!='new')
+		if ( $_REQUEST['id']!='new')
 			echo '&id='.$_REQUEST['id'];
 
 		echo '&table=SCHOOL_FIELDS" method="POST">';
@@ -159,9 +159,9 @@ if (empty($_REQUEST['modfunc']))
 
 		// You can't change a student field type after it has been created
 		// mab - allow changing between select and autos and edits and text and exports
-		if ($_REQUEST['id']!='new')
+		if ( $_REQUEST['id']!='new')
 		{
-			if ($RET['TYPE']!='text')
+			if ( $RET['TYPE']!='text')
 			{
 				$allow_edit = $_ROSARIO['allow_edit'];
 				$AllowEdit = $_ROSARIO['AllowEdit'][$modname];
@@ -176,7 +176,7 @@ if (empty($_REQUEST['modfunc']))
 			$type_options = array('text'=>_('Text'),'numeric'=>_('Number'),'date'=>_('Date'),'textarea'=>_('Long Text'));
 
 		$header .= '<TD>' . SelectInput($RET['TYPE'],'tables['.$_REQUEST['id'].'][TYPE]',_('Data Type'),$type_options,false) . '</TD>';
-		if ($_REQUEST['id']!='new' && $RET['TYPE']!='text')
+		if ( $_REQUEST['id']!='new' && $RET['TYPE']!='text')
 		{
 			$_ROSARIO['allow_edit'] = $allow_edit;
 			$_ROSARIO['AllowEdit'][$modname] = $AllowEdit;
@@ -196,7 +196,7 @@ if (empty($_REQUEST['modfunc']))
 	else
 		$header = false;
 
-	if ($header)
+	if ( $header)
 	{
 		DrawHeader($header);
 		echo '</FORM>';
@@ -207,11 +207,11 @@ if (empty($_REQUEST['modfunc']))
 
 	if (count($categories_RET))
 	{
-		if ($_REQUEST['category_id'])
+		if ( $_REQUEST['category_id'])
 		{
 			foreach ( (array)$categories_RET as $key=>$value)
 			{
-				if ($value['ID']==$_REQUEST['category_id'])
+				if ( $value['ID']==$_REQUEST['category_id'])
 					$categories_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 			}
 		}
@@ -223,11 +223,11 @@ if (empty($_REQUEST['modfunc']))
 
 	if (count($fields_RET))
 	{
-		if ($_REQUEST['id'] && $_REQUEST['id']!='new')
+		if ( $_REQUEST['id'] && $_REQUEST['id']!='new')
 		{
 			foreach ( (array)$fields_RET as $key=>$value)
 			{
-				if ($value['ID']==$_REQUEST['id'])
+				if ( $value['ID']==$_REQUEST['id'])
 					$fields_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 			}
 		}

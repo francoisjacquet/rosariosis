@@ -3,7 +3,7 @@ require_once('modules/Grades/DeletePromptX.fnc.php');
 
 DrawHeader(ProgramTitle());
 
-if ($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 //FJ add translation
 	if (($dp=DeletePromptX(_('Final Grade'))))
@@ -12,7 +12,7 @@ if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 		DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE SYEAR='".UserSyear()."' AND STUDENT_ID='".$_REQUEST['student_id']."' AND COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."' AND MARKING_PERIOD_ID='".$_REQUEST['marking_period_id']."'");
 		$_REQUEST['modfunc'] = 'save';
 	}
-	elseif ($dp===false)
+	elseif ( $dp===false)
 		$_REQUEST['modfunc'] = 'save';
 }
 
@@ -27,7 +27,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$extra['SELECT'] .= ",rpg.TITLE as GRADE_TITLE,sg1.GRADE_PERCENT,sg1.COMMENT as COMMENT_TITLE,sg1.STUDENT_ID,sg1.COURSE_PERIOD_ID,sg1.MARKING_PERIOD_ID,c.TITLE as COURSE_TITLE,rc_cp.TITLE AS TEACHER,sp.SORT_ORDER";
 
-		if ($_REQUEST['elements']['period_absences']=='Y')
+		if ( $_REQUEST['elements']['period_absences']=='Y')
 			//modif: SQL error fix: operator does not exist: character varying = integer, add explicit type casts
 			$extra['SELECT'] .= ",rc_cp.DOES_ATTENDANCE,
 			(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
@@ -41,7 +41,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				AND cast(sg1.MARKING_PERIOD_ID as integer)=ap.MARKING_PERIOD_ID
 				AND ap.STUDENT_ID=ssm.STUDENT_ID) AS MP_ABSENCES";
 
-		if ($_REQUEST['elements']['comments']=='Y')
+		if ( $_REQUEST['elements']['comments']=='Y')
 			$extra['SELECT'] .= ',sg1.MARKING_PERIOD_ID AS COMMENTS_RET';
 
 		//FJ multiple school periods for a course period
@@ -62,7 +62,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$extra['ORDER'] .= ",sp.SORT_ORDER,c.TITLE";
 		$extra['functions']['TEACHER'] = '_makeTeacher';
 
-		if ($_REQUEST['elements']['comments']=='Y')
+		if ( $_REQUEST['elements']['comments']=='Y')
 			$extra['functions']['COMMENTS_RET'] = '_makeComments';
 
 		$extra['group'] = array('STUDENT_ID');
@@ -72,7 +72,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$RET = GetStuList($extra);
 
 		// GET THE COMMENTS
-		if ($_REQUEST['elements']['comments']=='Y')
+		if ( $_REQUEST['elements']['comments']=='Y')
 		{
 			//$comments_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('ID'));
 			//FJ get color for Course specific categories & get comment scale
@@ -88,7 +88,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		}
 
-		if ($_REQUEST['elements']['mp_tardies']=='Y' || $_REQUEST['elements']['ytd_tardies']=='Y')
+		if ( $_REQUEST['elements']['mp_tardies']=='Y' || $_REQUEST['elements']['ytd_tardies']=='Y')
 		{
 			// GET THE ATTENDANCE
 			unset($extra);
@@ -109,7 +109,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$attendance_RET = GetStuList($extra);
 		}
 
-		if ($_REQUEST['elements']['mp_absences']=='Y' || $_REQUEST['elements']['ytd_absences']=='Y')
+		if ( $_REQUEST['elements']['mp_absences']=='Y' || $_REQUEST['elements']['ytd_absences']=='Y')
 		{
 			// GET THE DAILY ATTENDANCE
 			unset($extra);
@@ -133,20 +133,20 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			$columns = array('FULL_NAME'=>_('Student'),'COURSE_TITLE'=>_('Course'));
 
-			if ($_REQUEST['elements']['teacher']=='Y')
+			if ( $_REQUEST['elements']['teacher']=='Y')
 				$columns += array('TEACHER'=>_('Teacher'));
 
-			if ($_REQUEST['elements']['period_absences']=='Y')
+			if ( $_REQUEST['elements']['period_absences']=='Y')
 				$columns['ABSENCES'] = _('Abs<BR />YTD / MP');
 
 			foreach ( (array)$_REQUEST['mp_arr'] as $mp)
 			{
-				if ($_REQUEST['elements']['percents']=='Y')
+				if ( $_REQUEST['elements']['percents']=='Y')
 					$columns[$mp.'%'] = '%';
 				$columns[$mp] = GetMP($mp);
 			}
 
-			if ($_REQUEST['elements']['comments']=='Y')
+			if ( $_REQUEST['elements']['comments']=='Y')
 			{
 				//FJ add columns for All Courses comments
 				foreach ( (array)$all_commentsA_RET as $comment)
@@ -175,36 +175,36 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					foreach ( (array)$_REQUEST['mp_arr'] as $mp)
 					{
-						if ($mps[$mp])
+						if ( $mps[$mp])
 						{
 							$grades_RET[$i][$mp] = $mps[$mp][1]['GRADE_TITLE'];
 
-							if ($_REQUEST['elements']['percents']=='Y' && $mps[$mp][1]['GRADE_PERCENT']>0)
+							if ( $_REQUEST['elements']['percents']=='Y' && $mps[$mp][1]['GRADE_PERCENT']>0)
 								$grades_RET[$i][$mp.'%'] = $mps[$mp][1]['GRADE_PERCENT'].'%';
 
 							$last_mp = $mp;
 						}
 					}
 
-					if ($_REQUEST['elements']['period_absences']=='Y')
+					if ( $_REQUEST['elements']['period_absences']=='Y')
 						if (mb_strpos($mps[$last_mp][1]['DOES_ATTENDANCE'],',0,')!==false)
 							$grades_RET[$i]['ABSENCES'] = $mps[$last_mp][1]['YTD_ABSENCES'].' / '.$mps[$last_mp][1]['MP_ABSENCES'];
 						else
 							$grades_RET[$i]['ABSENCES'] = _('N/A');
 
-					if ($_REQUEST['elements']['comments']=='Y')
+					if ( $_REQUEST['elements']['comments']=='Y')
 					{
 						//FJ add comments for each MP
 						$sep = '; ';
 						$sep_mp = ' | ';
 						foreach ( (array)$mps as $mp)
 						{
-							if (!empty($grades_RET[$i]['COMMENT']))
+							if ( !empty($grades_RET[$i]['COMMENT']))
 								$grades_RET[$i]['COMMENT'] = $grades_RET[$i]['COMMENT'].$sep_mp;
 
 							foreach ( (array)$mp[1]['COMMENTS_RET'] as $comment)
 							{
-								if ($all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']])
+								if ( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']])
 									$grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT']!=' ' ? (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).$comment['COMMENT'] : (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).'&middot;';
 								else
 								{
@@ -212,19 +212,19 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 									$color = $comments_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['COLOR'];
 
-									if ($color)
+									if ( $color)
 										$color_html = '<span style="color:'.$color.'">';
 									else
 										$color_html = '';
 
 									$grades_RET[$i]['COMMENT'] .= $sep_tmp.$color_html.$comments_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
 
-									if ($comment['COMMENT'])
+									if ( $comment['COMMENT'])
 										$grades_RET[$i]['COMMENT'] .= '('.($comment['COMMENT']!=' '?$comment['COMMENT']:'&middot;').')'.($color_html ? '</span>':'');
 								}
 							}
 
-							if ($mp[1]['COMMENT_TITLE'])
+							if ( $mp[1]['COMMENT_TITLE'])
 								$grades_RET[$i]['COMMENT'] .= (empty($grades_RET[$i]['COMMENT']) || mb_substr($grades_RET[$i]['COMMENT'],-3)==$sep_mp ? '' : $sep).$mp[1]['COMMENT_TITLE'];
 						}
 					}
@@ -240,7 +240,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			}
 
 			//Display comment codes tooltips
-			if (!isset($_REQUEST['_ROSARIO_PDF']) && $_REQUEST['elements']['comments']=='Y')
+			if ( !isset($_REQUEST['_ROSARIO_PDF']) && $_REQUEST['elements']['comments']=='Y')
 			{
 				$commentsB_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NULL ORDER BY SORT_ORDER"),array(),array('ID'));
 
@@ -328,7 +328,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						{
 							$color = $commentA['COLOR'];
 
-							if ($color)
+							if ( $color)
 								$color_html = '<span style="color:'.$color.'">';
 							else
 								$color_html = '';
@@ -372,7 +372,7 @@ if (empty($_REQUEST['modfunc']))
 	if (isset($error))
 		echo ErrorMessage($error);
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		$_ROSARIO['allow_edit'] = true;
 
@@ -426,7 +426,7 @@ if (empty($_REQUEST['modfunc']))
 			foreach ( (array)$quarters as $qtr)
 			{
 				$pro = GetChildrenMP('PRO',$qtr['MARKING_PERIOD_ID']);
-				if ($pro)
+				if ( $pro)
 				{
 					$pros = explode(',',str_replace("'",'',$pro));
 					foreach ( (array)$pros as $pro)
@@ -444,7 +444,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] .= '</TABLE></TD>';
 
-		if ($sem)
+		if ( $sem)
 		{
 			$fy = GetParentMP('FY',$sem);
 			$extra['extra_header_left'] .= '<TD><TABLE><TR>';
@@ -473,7 +473,7 @@ if (empty($_REQUEST['modfunc']))
 
 	Search('student_id',$extra);
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Create Grade Lists for Selected Students')) . '</div>';
 		echo '</FORM>';

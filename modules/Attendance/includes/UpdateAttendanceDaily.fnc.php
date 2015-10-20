@@ -2,7 +2,7 @@
 
 function UpdateAttendanceDaily($student_id,$date='',$comment=false)
 {
-	if (!$date)
+	if ( !$date)
 		$date = DBDate();
 
 	//FJ days numbered
@@ -43,7 +43,7 @@ function UpdateAttendanceDaily($student_id,$date='',$comment=false)
 	}
 	$RET = DBGet(DBQuery($sql));
 	$total = $RET[1]['TOTAL'];
-	if ($total==0)
+	if ( $total==0)
 		return;
 
 	$sql = "SELECT sum(sp.LENGTH) AS TOTAL
@@ -60,9 +60,9 @@ function UpdateAttendanceDaily($student_id,$date='',$comment=false)
 	$RET = DBGet(DBQuery($sql));
 	$total -= $RET[1]['TOTAL']*.5;
 
-	if ($total >= Config('ATTENDANCE_FULL_DAY_MINUTES'))
+	if ( $total >= Config('ATTENDANCE_FULL_DAY_MINUTES'))
 		$length = '1.0';
-	elseif ($total >= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2))
+	elseif ( $total >= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2))
 		$length = '.5';
 	else
 		$length = '0.0';

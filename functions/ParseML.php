@@ -91,10 +91,10 @@ function ParseMLArray( $array, $keys )
 		if (is_array($v))
 			$array[$k] = ParseMLArray($v, $keys);
 		else {
-			if (!is_array($keys)) $keys = array($keys);
+			if ( !is_array($keys)) $keys = array($keys);
 
 			foreach ($keys as $key)
-				if ($k == $key) $array[$k] = ParseMLField($v);
+				if ( $k == $key) $array[$k] = ParseMLField($v);
 		}
 	}*/
 	return $array;

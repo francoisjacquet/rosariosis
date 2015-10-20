@@ -6,7 +6,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'"),array(),array('STUDENT_ID'));
 		foreach ( (array)$_REQUEST['student'] as $student_id=>$yes)
 		{
-			if (!$current_RET[$student_id])
+			if ( !$current_RET[$student_id])
 			{
 				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STUDENT_ID,STAFF_ID) values('".$student_id."','".UserStaffID()."')";
 
@@ -27,7 +27,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 DrawHeader(ProgramTitle());
 
-if ($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if (DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['student_id_remove']))
 	{
@@ -46,12 +46,12 @@ if (isset($note))
 if (isset($error))
 	echo ErrorMessage($error);
 
-if ($_REQUEST['modfunc']!='delete')
+if ( $_REQUEST['modfunc']!='delete')
 {
 	if (UserStaffID())
 	{
 		$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
-		if ($profile[1]['PROFILE']!='parent')
+		if ( $profile[1]['PROFILE']!='parent')
 			unset($_SESSION['staff_id']);
 	}
 
@@ -67,12 +67,12 @@ if ($_REQUEST['modfunc']!='delete')
 
 	$extra['profile'] = 'parent';
 
-	if (!UserStaffID())
+	if ( !UserStaffID())
 		Search('staff_id',$extra);
 
 	if (UserStaffID())
 	{
-		if ($_REQUEST['search_modfunc']=='list')
+		if ( $_REQUEST['search_modfunc']=='list')
 		{
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 			DrawHeader('',SubmitButton(_('Add Selected Students')));
@@ -100,7 +100,7 @@ if ($_REQUEST['modfunc']!='delete')
 
 		echo '</TD></TR></TABLE>';
 
-		if ($_REQUEST['search_modfunc']=='list')
+		if ( $_REQUEST['search_modfunc']=='list')
 			echo '<BR /><div class="center">' . SubmitButton(_('Add Selected Students')) . '</div></FORM>';
 	}
 }

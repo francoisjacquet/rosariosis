@@ -20,7 +20,7 @@ if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 	</script>
 <?php endif;
 
-if ($_REQUEST['staff_id']!='new' && ($file = @fopen($picture_path=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r')) || ($file = @fopen($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))):
+if ( $_REQUEST['staff_id']!='new' && ($file = @fopen($picture_path=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r')) || ($file = @fopen($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))):
 	fclose($file);
 ?>
 	<IMG SRC="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" id="userImg" />
@@ -35,7 +35,7 @@ $suffixes_array = array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'
 
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 {
-	if ($_REQUEST['staff_id']=='new' || $_REQUEST['moodle_create_user'])
+	if ( $_REQUEST['staff_id']=='new' || $_REQUEST['moodle_create_user'])
 //FJ last & first name required
 		echo '<TABLE>
 		<TR class="st"><TD>
@@ -120,7 +120,7 @@ if (basename($_SERVER['PHP_SELF'])!='index.php')
 	echo '</TD></TR><TR><TD>';
 
 	unset($profiles);
-	if ($_REQUEST['staff_id']!='new')
+	if ( $_REQUEST['staff_id']!='new')
 	{
 		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES WHERE PROFILE='".$staff['PROFILE']."' ORDER BY ID"));
 		foreach ( (array)$profiles_RET as $profile)
@@ -136,7 +136,7 @@ if (basename($_SERVER['PHP_SELF'])!='index.php')
 	echo '</TD><TD>';
 
 	//FJ remove Schools for Parents
-	if ($staff['PROFILE']!='parent')
+	if ( $staff['PROFILE']!='parent')
 	{
 		$sql = "SELECT ID,TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."'";
 		$QI = DBQuery($sql);
@@ -148,7 +148,7 @@ if (basename($_SERVER['PHP_SELF'])!='index.php')
 			echo '<TABLE><TR class="st">';
 			foreach ( (array)$schools_RET as $value)
 			{
-				if ($i%3==0)
+				if ( $i%3==0)
 					echo '</TR><TR class="st">';
 				echo '<TD>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'], '', false, button('check'), button('x')).'</TD>';
 				$i++;

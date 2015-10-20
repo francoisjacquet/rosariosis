@@ -24,7 +24,7 @@ function dayToNumber($day_time)
 	$school_days_RET = DBGet(DBQuery("SELECT COUNT(school_date) AS school_days FROM attendance_calendar WHERE school_date>='".$begin_quarter."' AND school_date<='".$date."' AND school_id='".$school_id."'"));
 	$school_days = $school_days_RET[1]['SCHOOL_DAYS'];
 	
-	if ($school_days % SchoolInfo('NUMBER_DAYS_ROTATION') == 0) return SchoolInfo('NUMBER_DAYS_ROTATION');
+	if ( $school_days % SchoolInfo('NUMBER_DAYS_ROTATION') == 0) return SchoolInfo('NUMBER_DAYS_ROTATION');
 	return $school_days % SchoolInfo('NUMBER_DAYS_ROTATION');
 }
 

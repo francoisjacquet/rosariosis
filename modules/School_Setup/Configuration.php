@@ -24,13 +24,13 @@ else
 
 	include('ProgramFunctions/FileUpload.fnc.php');
 
-	if ($_REQUEST['modfunc']=='update')
+	if ( $_REQUEST['modfunc']=='update')
 	{
 		//FJ upload school logo
-		if ($_FILES['LOGO_FILE'] && AllowEdit())
+		if ( $_FILES['LOGO_FILE'] && AllowEdit())
 			FileUpload('LOGO_FILE', 'assets'.'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', 'school_logo_'.UserSchool());
 
-		if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+		if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		{
 			if ((empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE'])
 				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE']))
@@ -70,7 +70,7 @@ else
 							AND SYEAR='" . UserSyear() . "';";
 					}
 
-				if ($sql != '')
+				if ( $sql != '')
 				{
 					DBQuery($sql);
 
@@ -99,10 +99,10 @@ else
 		if (AllowEdit())
 			DrawHeader('',SubmitButton(_('Save')));
 
-		if (!empty($note))
+		if ( !empty($note))
 			echo ErrorMessage($note, 'note');
 
-		if (!empty($error))
+		if ( !empty($error))
 			echo ErrorMessage($error, 'error');
 
 		echo '<BR />';
@@ -124,7 +124,7 @@ else
 
 			echo '<TD><label><INPUT type="radio" name="values[CONFIG][THEME]" value="'.$theme_name.'"'.((Config('THEME')==$theme_name)?' checked':'').'> '.$theme_name.'</label></TD>';
 
-			if ($count++%3==0)
+			if ( $count++%3==0)
 				echo '</TR><TR class="st">';
 		}
 		echo '</TR></TABLE></TD></TR>';
@@ -154,7 +154,7 @@ else
 
 		echo '</TABLE></FIELDSET>';
 	
-		if ($RosarioModules['Students'])
+		if ( $RosarioModules['Students'])
 		{
 			echo '<BR /><FIELDSET><legend>'._('Students').'</legend><TABLE>';
 
@@ -193,7 +193,7 @@ else
 			echo '</TABLE></FIELDSET>';
 		}
 	
-		if ($RosarioModules['Grades'])
+		if ( $RosarioModules['Grades'])
 		{
 			echo '<BR /><FIELDSET><legend>'._('Grades').'</legend><TABLE>';
 			$options = array('-1' => _('Use letter grades only'), '0' => _('Use letter and percent grades'), '1' => _('Use percent grades only'));
@@ -249,7 +249,7 @@ else
 			echo '</TABLE></FIELDSET>';
 		}
 
-		if ($RosarioModules['Attendance'])
+		if ( $RosarioModules['Attendance'])
 		{
 			echo '<BR /><FIELDSET><legend>'._('Attendance').'</legend><TABLE>';
 
@@ -274,7 +274,7 @@ else
 			echo '</TABLE></FIELDSET>';
 		}
 
-		if ($RosarioModules['Food_Service'])
+		if ( $RosarioModules['Food_Service'])
 		{
 			echo '<BR /><FIELDSET><legend>'._('Food Service').'</legend><TABLE>';
 

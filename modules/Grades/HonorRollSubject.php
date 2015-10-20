@@ -12,7 +12,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		//FJ add Template
 		$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
 
-		if (!$template_update)
+		if ( !$template_update)
 			DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_honor_roll_text."')");
 		else
 			DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_honor_roll_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
@@ -58,7 +58,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			echo '<style type="text/css"> body {margin:0; padding:0;} div#background {background: width:100%; height:'.$height.'; position:relative;} div#background * {z-index:1; position:relative;}</style>';
 			echo '<div id="background">';
 
-			if (!empty($_REQUEST['frame']))
+			if ( !empty($_REQUEST['frame']))
 			{
 				echo '<img src="assets/Frames/'.$_REQUEST['frame'].'" style="z-index:0; width:100%; height:100%; position:absolute;" />';
 			}
@@ -110,7 +110,7 @@ if (empty($_REQUEST['modfunc']))
 {
 	DrawHeader(ProgramTitle());
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		//FJ add TinyMCE to the textarea
 		?>
@@ -242,7 +242,7 @@ if (empty($_REQUEST['modfunc']))
 
 	$extra['new'] = true;
 
-	if (!isset($_REQUEST['_ROSARIO_PDF']))
+	if ( !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 		$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
@@ -254,12 +254,12 @@ if (empty($_REQUEST['modfunc']))
 
 	MyWidgets('honor_roll_subject');
 
-	if ($for_news_web)
+	if ( $for_news_web)
 		$extra['student_fields'] = array('search'=>"'".$for_news_web."'",'view'=>"'".$for_news_web."'");
 		
 	Search('student_id',$extra);
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Create Honor Roll by Subject for Selected Students')) . '</div>';
 		echo '</FORM>';
@@ -277,7 +277,7 @@ function MyWidgets($item)
 	switch($item)
 	{
 		case 'honor_roll_subject':
-			if (!empty($_REQUEST['subject_id']))
+			if ( !empty($_REQUEST['subject_id']))
 			{
 				$extra['WHERE'] .=  " AND exists(SELECT ''
 				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp, COURSES c
@@ -302,7 +302,7 @@ function MyWidgets($item)
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
 				AND rg.GPA_VALUE<(SELECT HRS_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
 
-				if (!$extra['NoSearchTerms'])
+				if ( !$extra['NoSearchTerms'])
 				{
 					$subject_RET = DBGet(DBQuery("SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$_REQUEST['subject_id']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 

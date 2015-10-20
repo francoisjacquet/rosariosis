@@ -14,10 +14,10 @@ if (count($_REQUEST['mp_arr']))
 //Widgets('letter_grade');
 
 
-if ($_REQUEST['delete']=='true')
+if ( $_REQUEST['delete']=='true')
 {
 	//DeletePrompt(_('Duplicate Attendance Record'));
-	if (!empty($_REQUEST['deletecheck']))
+	if ( !empty($_REQUEST['deletecheck']))
 	{
 		if (DeletePrompt(_('Duplicate Attendance Record')))
 		{
@@ -34,25 +34,25 @@ if ($_REQUEST['delete']=='true')
 			foreach ( (array)$cnt as $a => $val_dchck)
 			{
 				$val1 = $val_dchck;
-				if ($val1 >= 0)
+				if ( $val1 >= 0)
 				{
 					//echo "$val1 |";
 					foreach ( (array)$sid as $b => $val_sid)
 					{
 						$val2 = $val_sid;
-						if ($val1 == $i)
+						if ( $val1 == $i)
 						{
 							//echo "$val2 - $i||| ";
 							foreach ( (array)$pid as $c => $val_pid)
 							{
 								$val3 = $val_pid;
-								if ($val1 == $ii)
+								if ( $val1 == $ii)
 								{
 									//echo "$val1 - $val2 - $val3 ||| ";
 									foreach ( (array)$sdt as $d => $val_sdt)
 									{
 										$val4 = $val_sdt;
-										if ($val1 == $iii)
+										if ( $val1 == $iii)
 										{
 											//echo "$val1 - $val2 - $val3 - $val4 ||| ";
 											DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".$val2."' AND SCHOOL_DATE='".$val4."' AND COURSE_PERIOD_ID='".$val3."'");
@@ -138,7 +138,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 			$startr = $rr['START_DATE'];
 			$endr = $rr['END_DATE'];
 
-			if ($schooldater > $endr)
+			if ( $schooldater > $endr)
 			{
 				$afterr = "Y";
 			}
@@ -197,7 +197,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 
 		$num_rows = $totalrows;
 
-		if ($num_rows > $rows_per_page)
+		if ( $num_rows > $rows_per_page)
 		{
 			$totalpages = $num_rows/$rows_per_page;
 			$totalpages = ceil($totalpages);
@@ -208,7 +208,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 			for($i=0;$i<$totalpages;$i++)
 			{
 
-				if ($urlpage == $ii)
+				if ( $urlpage == $ii)
 				{
 					echo '<b>'.$ii.'</b> &nbsp;';
 				}
@@ -256,7 +256,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 			$start = $r['START_DATE'];
 			$end = $r['END_DATE'];
 
-			if ($schooldate > $end)
+			if ( $schooldate > $end)
 			{
 				$after = "Y";
 			}
@@ -266,14 +266,14 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 
 				$URIcount++;
 				//echo "$URIcount | ";
-				if ($URIcount > $startrow && $URIcount < $endrow){
+				if ( $URIcount > $startrow && $URIcount < $endrow){
 
 					echo '<input type="hidden" name="delete" value="true">';
 					echo '<input type="hidden" name="studentidx['.$count.']" value="'.$studentid.'">';
 					echo '<input type="hidden" name="periodidx['.$count.']" value="'.$courseid.'">';
 					echo '<input type="hidden" name="schooldatex['.$count.']" value="'.$schooldate.'">';
 
-					if ($yellow == 0)
+					if ( $yellow == 0)
 					{
 						   $color = 'F8F8F9';
 						   $yellow++;
@@ -295,7 +295,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 
 				$URIcount++;
 				//echo "$URIcount | ";
-				if ($URIcount > $startrow && $URIcount < $endrow)
+				if ( $URIcount > $startrow && $URIcount < $endrow)
 				{
 
 					echo '<input type="hidden" name="delete" value="true">';
@@ -303,7 +303,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 					echo '<input type="hidden" name="periodidx['.$count.']" value="'.$courseid.'">';
 					echo '<input type="hidden" name="schooldatex['.$count.']" value="'.$schooldate.'">';
 
-					if ($yellow == 0)
+					if ( $yellow == 0)
 					{
 						   $color = 'F8F8F9';
 						   $yellow++;
@@ -339,7 +339,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 			//echo "$studentid | $courseid";
 		}
 
-		if ($count == 0){
+		if ( $count == 0){
 			echo '<tr><td><b>'._('No Duplicates Found').'</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
 			echo '</TBODY></TABLE>';
 		}
@@ -360,7 +360,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 	}
 }
 
-if (!isset($_REQUEST['search_modfunc']) && $_REQUEST['delete']!='true')
+if ( !isset($_REQUEST['search_modfunc']) && $_REQUEST['delete']!='true')
 {
 	if (isset($error))
 		echo ErrorMessage($error);

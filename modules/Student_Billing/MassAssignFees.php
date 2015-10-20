@@ -42,7 +42,7 @@ if (empty($_REQUEST['modfunc']))
 	if (isset($note))
 		echo ErrorMessage($note, 'note');
 		
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Fee to Selected Students')));
@@ -80,7 +80,7 @@ if (empty($_REQUEST['modfunc']))
 	//Widgets('all');
 	
 	Search('student_id',$extra);
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Add Fee to Selected Students')) . '</div>';
 		echo '</FORM>';

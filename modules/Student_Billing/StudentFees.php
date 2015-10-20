@@ -2,7 +2,7 @@
 
 include_once('modules/Student_Billing/functions.inc.php');
 
-if (!$_REQUEST['print_statements'])
+if ( !$_REQUEST['print_statements'])
 {
 	DrawHeader(ProgramTitle());
 
@@ -10,7 +10,7 @@ if (!$_REQUEST['print_statements'])
 	Search('student_id',$extra);
 }
 
-if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	if (count($_REQUEST['month_']))
 	{
@@ -18,7 +18,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		{
 			foreach ( (array)$columns as $column=>$value)
 			{
-				if ($_REQUEST['day_'][$id][$column] && $_REQUEST['month_'][$id][$column] && $_REQUEST['year_'][$id][$column])
+				if ( $_REQUEST['day_'][$id][$column] && $_REQUEST['month_'][$id][$column] && $_REQUEST['year_'][$id][$column])
 					$_REQUEST['values'][$id][$column] = $_REQUEST['day_'][$id][$column].'-'.$_REQUEST['month_'][$id][$column].'-'.$_REQUEST['year_'][$id][$column];
 			}
 		}
@@ -26,7 +26,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
-		if ($id!='new')
+		if ( $id!='new')
 		{
 			$sql = "UPDATE BILLING_FEES SET ";
 							
@@ -47,9 +47,9 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$go = 0;
 			foreach ( (array)$columns as $column=>$value)
 			{
-				if (!empty($value) || $value=='0')
+				if ( !empty($value) || $value=='0')
 				{
-					if ($column=='AMOUNT')
+					if ( $column=='AMOUNT')
 						$value = preg_replace('/[^0-9.-]/','',$value);
 					$fields .= $column.',';
 					$values .= "'".$value."',";
@@ -58,14 +58,14 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			
-			if ($go)
+			if ( $go)
 				DBQuery($sql);
 		}
 	}
 	unset($_REQUEST['values']);
 }
 
-if ($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if (DeletePrompt(_('Fee')))
 	{
@@ -75,7 +75,7 @@ if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if ($_REQUEST['modfunc']=='waive' && AllowEdit())
+if ( $_REQUEST['modfunc']=='waive' && AllowEdit())
 {
 	if (DeletePrompt(_('Fee'),_('Waive')))
 	{
@@ -99,7 +99,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	foreach ( (array)$fees_RET as $fee)
 	{
 		$RET[$i] = $fee;
-		if ($waived_fees_RET[$fee['ID']])
+		if ( $waived_fees_RET[$fee['ID']])
 		{
 			$i++;
 			$RET[$i] = ($waived_fees_RET[$fee['ID']][1] + array('row_color'=>'00FF66'));
@@ -113,9 +113,9 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 		$columns = array();
 
 	$columns += array('TITLE'=>_('Fee'),'AMOUNT'=>_('Amount'),'ASSIGNED_DATE'=>_('Assigned'),'DUE_DATE'=>_('Due'),'COMMENTS'=>_('Comment'));
-	if (!$_REQUEST['print_statements'])
+	if ( !$_REQUEST['print_statements'])
 		$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeFeesTextInput('','TITLE'),'AMOUNT'=>_makeFeesTextInput('','AMOUNT'),'ASSIGNED_DATE'=>ProperDate(DBDate()),'DUE_DATE'=>_makeFeesDateInput('','DUE_DATE'),'COMMENTS'=>_makeFeesTextInput('','COMMENTS'));
-	if (!$_REQUEST['print_statements'])
+	if ( !$_REQUEST['print_statements'])
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		//DrawStudentHeader();
@@ -128,11 +128,11 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 
 	ListOutput($RET,$columns,'Fee','Fees',$link,array(),$options);
 
-	if (!$_REQUEST['print_statements'] && AllowEdit())
+	if ( !$_REQUEST['print_statements'] && AllowEdit())
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
 	echo '<BR />';
-	if (!$_REQUEST['print_statements'])
+	if ( !$_REQUEST['print_statements'])
 	{
 		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID='".UserStudentID()."' AND p.SYEAR='".UserSyear()."'"));
 

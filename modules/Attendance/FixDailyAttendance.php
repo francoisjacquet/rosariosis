@@ -25,7 +25,7 @@ if (Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?
 
 	for($i=$begin;$i<=$end;$i+=86400)
 	{
-		if ($current_RET[mb_strtoupper(date('d-M-Y',$i))])
+		if ( $current_RET[mb_strtoupper(date('d-M-Y',$i))])
 		{
 			foreach ( (array)$students_RET as $student)
 			{

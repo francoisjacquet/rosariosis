@@ -82,7 +82,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		}
 		$_SESSION['UserCoursePeriod'] = $PCL_UserCoursePeriod;
 
-		if ($no_students_backprompt)
+		if ( $no_students_backprompt)
 			BackPrompt(_('No Students were found.'));
 
 		PDFStop($handle);
@@ -98,7 +98,7 @@ if (empty($_REQUEST['modfunc']))
 	if (User('PROFILE')!='admin')
 		$_REQUEST['search_modfunc'] = 'list';
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		$_REQUEST['search_modfunc'] = 'select';
 		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Class Lists for Selected Course Periods').'" />';
@@ -112,7 +112,7 @@ if (empty($_REQUEST['modfunc']))
 	{
 		$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
-		if ($_SESSION['Back_PHP_SELF']!='course')
+		if ( $_SESSION['Back_PHP_SELF']!='course')
 		{
 			$_SESSION['Back_PHP_SELF'] = 'course';
 			unset($_SESSION['List_PHP_SELF']);
@@ -182,29 +182,29 @@ function mySearch($extra)
 
 	if (User('PROFILE')=='admin')
 	{
-		if ($_REQUEST['teacher_id'])
+		if ( $_REQUEST['teacher_id'])
 			$where .= " AND cp.TEACHER_ID='".$_REQUEST['teacher_id']."'";
 
-		if ($_REQUEST['first'])
+		if ( $_REQUEST['first'])
 			$where .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 
-		if ($_REQUEST['w_course_period_id'])
-			if ($_REQUEST['w_course_period_id'])
+		if ( $_REQUEST['w_course_period_id'])
+			if ( $_REQUEST['w_course_period_id'])
 			{
-				if ($_REQUEST['w_course_period_id_which']=='course')
+				if ( $_REQUEST['w_course_period_id_which']=='course')
 					$where .= " AND cp.COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."')";
 				else
 					$where .= " AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'";
 			}
 
-		if ($_REQUEST['subject_id'])
+		if ( $_REQUEST['subject_id'])
 		{
 			$from .= ",COURSES c";
 			$where .= " AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID='".$_REQUEST['subject_id']."'";
 		}
 
 		//FJ multiple school periods for a course period
-		if ($_REQUEST['period_id'])
+		if ( $_REQUEST['period_id'])
 		{
 			$from .= ',COURSE_PERIOD_SCHOOL_PERIODS cpsp';
 			$where .= " AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID='".$_REQUEST['period_id']."'";
@@ -224,11 +224,11 @@ function mySearch($extra)
 	$course_periods_RET = DBGet(DBQuery($sql));
 	$LO_columns = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');"><A>','TITLE'=>_('Course Period'));
 
-	if (!$_REQUEST['LO_save'] && !$extra['suppress_save'])
+	if ( !$_REQUEST['LO_save'] && !$extra['suppress_save'])
 	{
 		$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
-		if ($_SESSION['Back_PHP_SELF']!='course')
+		if ( $_SESSION['Back_PHP_SELF']!='course')
 		{
 			$_SESSION['Back_PHP_SELF'] = 'course';
 			unset($_SESSION['Search_PHP_SELF']);

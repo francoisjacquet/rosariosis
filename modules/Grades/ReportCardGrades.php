@@ -3,20 +3,20 @@ include 'modules/Grades/DeletePromptX.fnc.php';
 //echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
 DrawHeader(ProgramTitle());
 
-if ($_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc']=='update')
 {
-	if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+	if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{
-		if ($_REQUEST['tab_id'])
+		if ( $_REQUEST['tab_id'])
 		{
 			foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 			{
 		//FJ fix SQL bug invalid numeric data
 				if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['BREAK_OFF']) || is_numeric($columns['BREAK_OFF'])) && (empty($columns['GPA_VALUE']) || is_numeric($columns['GPA_VALUE'])) && (empty($columns['UNWEIGHTED_GP']) || is_numeric($columns['UNWEIGHTED_GP'])))
 				{
-					if ($id!='new')
+					if ( $id!='new')
 					{
-						if ($_REQUEST['tab_id']!='new')
+						if ( $_REQUEST['tab_id']!='new')
 							$sql = "UPDATE REPORT_CARD_GRADES SET ";
 						else
 							$sql = "UPDATE REPORT_CARD_GRADE_SCALES SET ";
@@ -24,7 +24,7 @@ if ($_REQUEST['modfunc']=='update')
 						foreach ( (array)$columns as $column=>$value)
 							$sql .= $column."='".$value."',";
 
-						if ($_REQUEST['tab_id']!='new')
+						if ( $_REQUEST['tab_id']!='new')
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 						else
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
@@ -32,7 +32,7 @@ if ($_REQUEST['modfunc']=='update')
 					}
 					else
 					{
-						if ($_REQUEST['tab_id']!='new')
+						if ( $_REQUEST['tab_id']!='new')
 						{
 							$sql = 'INSERT INTO REPORT_CARD_GRADES ';
 							$fields = 'ID,SCHOOL_ID,SYEAR,GRADE_SCALE_ID,';
@@ -47,7 +47,7 @@ if ($_REQUEST['modfunc']=='update')
 
 						$go = false;
 						foreach ( (array)$columns as $column=>$value)
-							if (!empty($value) || $value=='0')
+							if ( !empty($value) || $value=='0')
 							{
 								$fields .= $column.',';
 								$values .= '\''.$value.'\',';
@@ -55,7 +55,7 @@ if ($_REQUEST['modfunc']=='update')
 							}
 						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-						if ($go)
+						if ( $go)
 							DBQuery($sql);
 					}
 				}
@@ -67,9 +67,9 @@ if ($_REQUEST['modfunc']=='update')
 	unset($_REQUEST['modfunc']);
 }
 
-if ($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if ($_REQUEST['tab_id']!='new')
+	if ( $_REQUEST['tab_id']!='new')
 	{
 //FJ add translation
 		if (DeletePromptX(_('Report Card Grade')))
@@ -94,7 +94,7 @@ if (empty($_REQUEST['modfunc']))
 	if (User('PROFILE')=='admin')
 	{
 		$grade_scales_RET = DBGet(DBQuery('SELECT ID,TITLE FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID=\''.UserSchool().'\' AND SYEAR=\''.UserSyear().'\' ORDER BY SORT_ORDER'),array(),array('ID'));
-		if ($_REQUEST['tab_id']=='' || $_REQUEST['tab_id']!='new' && !$grade_scales_RET[$_REQUEST['tab_id']])
+		if ( $_REQUEST['tab_id']=='' || $_REQUEST['tab_id']!='new' && !$grade_scales_RET[$_REQUEST['tab_id']])
 			if (count($grade_scales_RET))
 				$_REQUEST['tab_id'] = key($grade_scales_RET).'';
 			else
@@ -103,10 +103,10 @@ if (empty($_REQUEST['modfunc']))
 	else
 	{
 		$course_period_RET = DBGet(DBQuery('SELECT GRADE_SCALE_ID,DOES_BREAKOFF,TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\''.UserCoursePeriod().'\''));
-		if (!$course_period_RET[1]['GRADE_SCALE_ID'])
+		if ( !$course_period_RET[1]['GRADE_SCALE_ID'])
 			ErrorMessage(array(_('This course is not graded.')),'fatal');
 		$grade_scales_RET = DBGet(DBQuery('SELECT ID,TITLE FROM REPORT_CARD_GRADE_SCALES WHERE ID=\''.$course_period_RET[1]['GRADE_SCALE_ID'].'\''),array(),array('ID'));
-		if ($course_period_RET[1]['DOES_BREAKOFF']=='Y')
+		if ( $course_period_RET[1]['DOES_BREAKOFF']=='Y')
 		{
 			$teacher_id = $course_period_RET[1]['TEACHER_ID'];
 			$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$teacher_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
@@ -122,7 +122,7 @@ if (empty($_REQUEST['modfunc']))
 		$grade_scale_select[$id] = $grade_scale[1]['TITLE'];
 	}
 
-	if ($_REQUEST['tab_id']!='new')
+	if ( $_REQUEST['tab_id']!='new')
 	{
 		$sql = 'SELECT * FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID=\''.$_REQUEST['tab_id'].'\' AND SYEAR=\''.UserSyear().'\' AND SCHOOL_ID=\''.UserSchool().'\' ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC, SORT_ORDER';
 		$functions = array('TITLE'=>'makeGradesInput',
@@ -189,21 +189,21 @@ if (empty($_REQUEST['modfunc']))
 function makeGradesInput($value,$name)
 {	global $THIS_RET,$grade_scale_select,$teacher_id,$config_RET;
 
-	if ($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 
-	if ($name=='GRADE_SCALE_ID')
+	if ( $name=='GRADE_SCALE_ID')
 		return SelectInput($value,"values[$id][$name]",'',$grade_scale_select,false);
-	elseif ($name=='COMMENT')
+	elseif ( $name=='COMMENT')
 		$extra = 'size=15 maxlength=100';
 //FJ Honor Roll by Subject
-	elseif ($name=='GPA_VALUE' || $name=='HHR_GPA_VALUE' || $name=='HR_GPA_VALUE' || $name=='HRS_GPA_VALUE')
+	elseif ( $name=='GPA_VALUE' || $name=='HHR_GPA_VALUE' || $name=='HR_GPA_VALUE' || $name=='HRS_GPA_VALUE')
 		$extra = 'size=5 maxlength=5';
-	elseif ($name=='SORT_ORDER')
+	elseif ( $name=='SORT_ORDER')
 		$extra = 'size=5 maxlength=5';
-	elseif ($name=='BREAK_OFF' && $teacher_id && $config_RET[UserCoursePeriod().'-'.$THIS_RET['ID']][1]['VALUE']!='')
+	elseif ( $name=='BREAK_OFF' && $teacher_id && $config_RET[UserCoursePeriod().'-'.$THIS_RET['ID']][1]['VALUE']!='')
 		return '<span style="color:blue">'.$config_RET[UserCoursePeriod().'-'.$THIS_RET['ID']][1]['VALUE'].'</span>';
 	else
 		$extra = 'size=5 maxlength=5';
@@ -214,16 +214,16 @@ function makeGradesInput($value,$name)
 function makeTextInput($value,$name)
 {	global $THIS_RET;
 
-	if ($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
     //bjj adding 'GP_SCALE'
-	if ($name=='TITLE')
+	if ( $name=='TITLE')
 		$extra = 'size=15 maxlength=25';
-    elseif ($name=='GP_SCALE')
+    elseif ( $name=='GP_SCALE')
         $extra = 'size=5 maxlength=5';
-	elseif ($name=='COMMENT')
+	elseif ( $name=='COMMENT')
 		$extra = 'size=15 maxlength=100';
 	else
 		$extra = 'size=5 maxlength=5';

@@ -1,23 +1,23 @@
 <?php
-if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
 //FJ fix SQL bug invalid numeric data
 		if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['LENGTH']) || is_numeric($columns['LENGTH'])))
 		{
-			if ($columns['START_TIME_HOUR']!='' && $columns['START_TIME_MINUTE'] && $columns['START_TIME_M'])
+			if ( $columns['START_TIME_HOUR']!='' && $columns['START_TIME_MINUTE'] && $columns['START_TIME_M'])
 			{
 				$columns['START_TIME'] = $columns['START_TIME_HOUR'].':'.$columns['START_TIME_MINUTE'].' '.$columns['START_TIME_M'];
 			}
 			unset($columns['START_TIME_HOUR']);unset($columns['START_TIME_MINUTE']);unset($columns['START_TIME_M']);
-			if ($columns['END_TIME_HOUR']!='' && $columns['END_TIME_MINUTE'] && $columns['END_TIME_M'])
+			if ( $columns['END_TIME_HOUR']!='' && $columns['END_TIME_MINUTE'] && $columns['END_TIME_M'])
 			{
 				$columns['END_TIME'] = $columns['END_TIME_HOUR'].':'.$columns['END_TIME_MINUTE'].' '.$columns['END_TIME_M'];
 			}
 			unset($columns['END_TIME_HOUR']);unset($columns['END_TIME_MINUTE']);unset($columns['END_TIME_M']);
 
-			if ($id!='new')
+			if ( $id!='new')
 			{
 				$sql = "UPDATE SCHOOL_PERIODS SET ";
 
@@ -38,7 +38,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$go = false;
 				foreach ( (array)$columns as $column=>$value)
 				{
-					if (!empty($value) || $value=='0')
+					if ( !empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";
@@ -47,7 +47,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				}
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-				if ($go)
+				if ( $go)
 					DBQuery($sql);
 			}
 		}
@@ -58,7 +58,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 DrawHeader(ProgramTitle());
 
-if ($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if (DeletePrompt(_('Period')))
 	{
@@ -71,7 +71,7 @@ if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 if (isset($error))
 	echo ErrorMessage($error);
 
-if ($_REQUEST['modfunc']!='remove')
+if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT PERIOD_ID,TITLE,SHORT_NAME,SORT_ORDER,LENGTH,START_TIME,END_TIME,BLOCK,ATTENDANCE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER";
 	$QI = DBQuery($sql);
@@ -93,12 +93,12 @@ if ($_REQUEST['modfunc']!='remove')
 function _makeTextInput($value,$name)
 {	global $THIS_RET;
 
-	if ($THIS_RET['PERIOD_ID'])
+	if ( $THIS_RET['PERIOD_ID'])
 		$id = $THIS_RET['PERIOD_ID'];
 	else
 		$id = 'new';
 
-	if ($name!='TITLE')
+	if ( $name!='TITLE')
 		$extra = 'size=5 maxlength=10';
 
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
@@ -107,7 +107,7 @@ function _makeTextInput($value,$name)
 function _makeCheckboxInput($value,$name)
 {	global $THIS_RET;
 
-	if ($THIS_RET['PERIOD_ID'])
+	if ( $THIS_RET['PERIOD_ID'])
 		$id = $THIS_RET['PERIOD_ID'];
 	else
 		$id = 'new';
@@ -118,7 +118,7 @@ function _makeCheckboxInput($value,$name)
 function _makeTimeInput($value,$name)
 {	global $THIS_RET;
 
-	if ($THIS_RET['PERIOD_ID'])
+	if ( $THIS_RET['PERIOD_ID'])
 		$id = $THIS_RET['PERIOD_ID'];
 	else
 		$id = 'new';
@@ -138,7 +138,7 @@ function _makeTimeInput($value,$name)
 
 	$m_options = array('AM'=>'AM','PM'=>'PM');
 
-    if ($id!='new' && $value)
+    if ( $id!='new' && $value)
 	{
 		$return = '<DIV id='.$name.$id.'><div class="onclick" onclick=\'addHTML("';
 		

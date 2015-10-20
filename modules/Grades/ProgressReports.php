@@ -27,10 +27,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		$LO_columns = array('TITLE'=>_('Assignment'));
 
-		if ($_REQUEST['assigned_date']=='Y')
+		if ( $_REQUEST['assigned_date']=='Y')
 			$LO_columns += array('ASSIGNED_DATE'=>_('Assigned Date'));
 
-		if ($_REQUEST['due_date']=='Y')
+		if ( $_REQUEST['due_date']=='Y')
 			$LO_columns += array('DUE_DATE'=>_('Due Date'));
 
 		// modif Francois: display percent grade according to Configuration
@@ -50,12 +50,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$extra2['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
 		$extra2['WHERE'] = " AND gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
 		$extra2['WHERE'] .=" AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))";
-		if ($_REQUEST['exclude_notdue']=='Y')
+		if ( $_REQUEST['exclude_notdue']=='Y')
 			$extra2['WHERE'] .= " AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
-		if ($_REQUEST['exclude_ec']=='Y')
+		if ( $_REQUEST['exclude_ec']=='Y')
 			$extra2['WHERE'] .= " AND (ga.POINTS!='0' OR gg.POINTS IS NOT NULL AND gg.POINTS!='-1')";
 		$extra2['ORDER_BY'] = "ga.ASSIGNMENT_ID";
-		if ($_REQUEST['by_category']=='Y')
+		if ( $_REQUEST['by_category']=='Y')
 		{
 			$extra2['group'] = $LO_group = array('ASSIGNMENT_TYPE_ID');
 		}
@@ -70,7 +70,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			unset($_ROSARIO['DrawHeader']);
 
-			if ($_REQUEST['mailing_labels']=='Y')
+			if ( $_REQUEST['mailing_labels']=='Y')
 				echo '<BR /><BR /><BR />';
 			DrawHeader(_('Progress Report'));
 			DrawHeader($student['FULL_NAME'],$student['STUDENT_ID']);
@@ -78,7 +78,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			DrawHeader($course_title,GetMP(UserMP()));
 			DrawHeader(ProperDate(DBDate()));
 
-			if ($_REQUEST['mailing_labels']=='Y')
+			if ( $_REQUEST['mailing_labels']=='Y')
 				echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$student['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
 
 			$extra = $extra2;
@@ -95,11 +95,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$sum_points += $student_points[$assignment_type_id]*($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$percent/$total_points[$assignment_type_id]:1);
 				$sum_percent += ($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$percent:$total_points[$assignment_type_id]);
 			}
-			if ($sum_percent>0)
+			if ( $sum_percent>0)
 				$sum_points /= $sum_percent;
 			else
 				$sum_points = 0;
-			if ($_REQUEST['by_category']=='Y')
+			if ( $_REQUEST['by_category']=='Y')
 			{
 				foreach ( (array)$grades_RET as $assignment_type_id=>$grades)
 				{
@@ -116,7 +116,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$link['add']['html']['ASSIGNED_DATE'] = $link['add']['html']['DUE_DATE'] = $link['add']['html']['COMMENT'] = ' &nbsp; ';
 
 //FJ add translation
-			if ($_REQUEST['by_category']=='Y')
+			if ( $_REQUEST['by_category']=='Y')
 				ListOutput($grades_RET,$LO_columns,'Assignment Type','Assignment Types',$link,$LO_group,array('center'=>false,'add'=>true));
 			else
 				ListOutput($grades_RET,$LO_columns,'Assignment','Assignments',$link,$LO_group,array('center'=>false,'add'=>true));
@@ -136,7 +136,7 @@ if (empty($_REQUEST['modfunc']))
 {
 	DrawHeader(_('Gradebook').' - '.ProgramTitle());
 
-	if ($_REQUEST['search_modfunc']=='list') // || UserStudentID())
+	if ( $_REQUEST['search_modfunc']=='list') // || UserStudentID())
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
 		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Progress Reports for Selected Students').'" />';
@@ -166,7 +166,7 @@ if (empty($_REQUEST['modfunc']))
 
 	Search('student_id',$extra);
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Progress Reports for Selected Students').'" /></div>';
 		echo '</FORM>';
@@ -176,12 +176,12 @@ if (empty($_REQUEST['modfunc']))
 function _makeExtra($value,$column)
 {	global $THIS_RET,$student_points,$total_points,$percent_weights;
 
-	if ($column=='POINTS')
+	if ( $column=='POINTS')
 	{
-		if ($THIS_RET['TOTAL_POINTS']!='0')
-			if ($value!='-1')
+		if ( $THIS_RET['TOTAL_POINTS']!='0')
+			if ( $value!='-1')
 			{
-				if ($THIS_RET['DUE'] || $value!='')
+				if ( $THIS_RET['DUE'] || $value!='')
 				{
 					$student_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] += $value;
 					$total_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] += $THIS_RET['TOTAL_POINTS'];
@@ -197,11 +197,11 @@ function _makeExtra($value,$column)
 			return '<TABLE class="cellspacing-0"><TR><TD><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></TD><TD><span class="size-1">&nbsp;/&nbsp;</span></TD><TD><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></TD></TR></TABLE>';
 		}
 	}
-	elseif ($column=='PERCENT_GRADE')
+	elseif ( $column=='PERCENT_GRADE')
 	{
-		if ($THIS_RET['TOTAL_POINTS']!='0')
-			if ($value!='-1')
-				if ($THIS_RET['DUE'] || $value!='')
+		if ( $THIS_RET['TOTAL_POINTS']!='0')
+			if ( $value!='-1')
+				if ( $THIS_RET['DUE'] || $value!='')
 					return _Percent($value/$THIS_RET['TOTAL_POINTS'],1);
 				else
 					return _('Not due');
@@ -210,11 +210,11 @@ function _makeExtra($value,$column)
 		else
 			return _('E/C');
 	}
-	elseif ($column=='LETTER_GRADE')
+	elseif ( $column=='LETTER_GRADE')
 	{
-		if ($THIS_RET['TOTAL_POINTS']!='0')
-			if ($value!='-1')
-				if ($THIS_RET['DUE'] || $value!='')
+		if ( $THIS_RET['TOTAL_POINTS']!='0')
+			if ( $value!='-1')
+				if ( $THIS_RET['DUE'] || $value!='')
 					return _makeLetterGrade($value/$THIS_RET['TOTAL_POINTS']);
 				else
 					return _('Not due');
@@ -227,7 +227,7 @@ function _makeExtra($value,$column)
 
 function _removeSpaces($value,$column)
 {
-	if ($column=='ASSIGNED_DATE' || $column=='DUE_DATE')
+	if ( $column=='ASSIGNED_DATE' || $column=='DUE_DATE')
 		$value = ''.ProperDate($value).'';
 
 	return str_replace(' ','&nbsp;',str_replace('&','&amp;',$value));

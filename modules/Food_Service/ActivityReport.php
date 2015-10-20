@@ -20,7 +20,7 @@ if ( empty( $date ) )
 	$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
 }
 
-if ($_REQUEST['type'])
+if ( $_REQUEST['type'])
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
@@ -33,10 +33,10 @@ $header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&day_date='.
 DrawHeader(($_REQUEST['type']=='staff' ? _('User') : _('Student')).' &minus; '.ProgramTitle());
 User('PROFILE')=='student'?'':DrawHeader($header);
 
-if ($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
-	if ($_REQUEST['item_id']!='')
+	if ( $_REQUEST['item_id']!='')
 	{
 //FJ add translation
 		if (DeletePromptX(_('Transaction Item')))
@@ -122,7 +122,7 @@ function last(&$array)
 function bump_count($value)
 {	global $THIS_RET,$types;
 
-	if ($types[$value])
+	if ( $types[$value])
 	{
 		$types[$value]['COUNT']++;
 		$types[$value]['AMOUNT'] += $THIS_RET['AMOUNT'];
@@ -134,7 +134,7 @@ function bump_count($value)
 function bump_items_count($value)
 {	global $THIS_RET,$types;
 
-	if ($types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'][$value])
+	if ( $types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'][$value])
 	{
 		$types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'][$value][1]['COUNT']++;
 		$types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'][$value][1]['AMOUNT'] += $THIS_RET['AMOUNT'];;

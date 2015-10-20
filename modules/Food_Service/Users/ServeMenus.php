@@ -6,14 +6,14 @@ StaffWidgets('fsa_exists_Y');
 
 Search('staff_id',$extra);
 
-if ($_REQUEST['modfunc']=='submit')
+if ( $_REQUEST['modfunc']=='submit')
 {
-	if ($_REQUEST['submit']['cancel'])
+	if ( $_REQUEST['submit']['cancel'])
 	{
 		if (DeletePromptX(_('Sale'),_('Cancel')))
 			unset($_SESSION['FSA_sale']);
 	}
-	elseif ($_REQUEST['submit']['save'])
+	elseif ( $_REQUEST['submit']['save'])
 	{
 		if (count($_SESSION['FSA_sale']))
 		{
@@ -67,7 +67,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 
 	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($staff['BALANCE']),_('Balance')));
 
-	if ($staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
+	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
 	{
 		echo '<TABLE class="width-100p">';
 		echo '<TR class="st"><TD class="width-100p valign-top">';
@@ -87,7 +87,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		ListOutput($RET,$columns,$singular,$plural,$link,false,array('save'=>false,'search'=>false));
 
 		// IMAGE
-		if ($file = @fopen($picture=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r') || $file = @fopen($picture=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))
+		if ( $file = @fopen($picture=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r') || $file = @fopen($picture=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))
 		{
 			fclose($file);
 			echo '</TD><TD rowspan="2"><IMG SRC="'.$picture.'" width="150" />';

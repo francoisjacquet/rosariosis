@@ -374,7 +374,7 @@ if ( isset( $_REQUEST['category_id'] )
 
 				foreach ($chart_data as $tick)
 				{
-					if ($jump)
+					if ( $jump)
 						$jump = false;
 					else
 						$ticks[] = $tick;

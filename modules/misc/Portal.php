@@ -1,6 +1,6 @@
 <?php
  
-if (!UserSyear())
+if ( !UserSyear())
 {
 	$_SESSION['UserSyear'] = Config('SYEAR');
 }
@@ -18,7 +18,7 @@ else salute.innerHTML='.json_encode(sprintf(_('Good Evening, %s.'), User('NAME')
 
 $welcome = sprintf(_('Welcome to %s!'), ParseMLField(Config('TITLE')));
 
-if (!empty($_SESSION['LAST_LOGIN']))
+if ( !empty($_SESSION['LAST_LOGIN']))
 	$welcome .= '<BR />&nbsp;'.sprintf(_('Your last login was <b>%s</b>.'), ProperDate(mb_substr($_SESSION['LAST_LOGIN'],0,10)).mb_substr($_SESSION['LAST_LOGIN'],10));
 
 if ( !empty( $failed_login ) )
@@ -30,11 +30,11 @@ switch (User('PROFILE'))
 		DrawHeader($welcome.'<BR />&nbsp;'._('You are an <b>Administrator</b> on the system.'));
 
 		$PHPCheck = PHPCheck();
-		if (!empty($PHPCheck))
+		if ( !empty($PHPCheck))
 			echo ErrorMessage($PHPCheck, 'warning');
 
 		//FJ Discipline new referrals alert
-		if ($RosarioModules['Discipline'] && AllowUse('Discipline/Referrals.php') && $_SESSION['LAST_LOGIN'])
+		if ( $RosarioModules['Discipline'] && AllowUse('Discipline/Referrals.php') && $_SESSION['LAST_LOGIN'])
 		{
 			$last_login_date = mb_substr( $_SESSION['LAST_LOGIN'], 0, 10 );
 
@@ -45,7 +45,7 @@ switch (User('PROFILE'))
 			
 			$disc_RET = GetStuList($extra);
 
-			if ($disc_RET[1]['COUNT']>0)
+			if ( $disc_RET[1]['COUNT']>0)
 			{
 				$message = '<A HREF="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin='.$last_login_date.'&discipline_entry_end='.DBDate().'"><img src="modules/Discipline/icon.png" class="button bigger" /> ';
 				$message .= sprintf(ngettext('%d new referral', '%d new referrals', $disc_RET[1]['COUNT']), $disc_RET[1]['COUNT']);
@@ -178,14 +178,14 @@ switch (User('PROFILE'))
 		}
 		}
 
-		if ($RosarioModules['Food_Service'] && Preferences('HIDE_ALERTS')!='Y')
+		if ( $RosarioModules['Food_Service'] && Preferences('HIDE_ALERTS')!='Y')
 		{
 			$FS_config = ProgramConfig( 'food_service' );
 			
 			// warn if negative food service balance
 			$staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
 			$staff = $staff[1];
-			if ($staff['BALANCE'] && $staff['BALANCE']<0)
+			if ( $staff['BALANCE'] && $staff['BALANCE']<0)
 				echo ErrorMessage(array(sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE'])), 'warning');
 
 			// warn if students with food service balances below minimum
@@ -343,13 +343,13 @@ switch (User('PROFILE'))
 			}
 		}
 
-		if ($RosarioModules['Food_Service'] && Preferences('HIDE_ALERTS')!='Y')
+		if ( $RosarioModules['Food_Service'] && Preferences('HIDE_ALERTS')!='Y')
 		{
 			// warn if negative food service balance
 			$staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
 			$staff = $staff[1];
 
-			if ($staff['BALANCE'] && $staff['BALANCE']<0)
+			if ( $staff['BALANCE'] && $staff['BALANCE']<0)
 				echo ErrorMessage(array(sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),$staff['BALANCE'])), 'warning');
 		}
 
@@ -432,7 +432,7 @@ switch (User('PROFILE'))
 
         //RSSOutput(USER('PROFILE'));
 
-		if ($RosarioModules['Food_Service'] && Preferences('HIDE_ALERTS')!='Y')
+		if ( $RosarioModules['Food_Service'] && Preferences('HIDE_ALERTS')!='Y')
 		{
 			$FS_config = ProgramConfig( 'food_service' );
 			
@@ -455,7 +455,7 @@ switch (User('PROFILE'))
 			$staff = DBGet(DBQuery("SELECT (SELECT STATUS FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".User('STAFF_ID')."'"));
 			$staff = $staff[1];
 
-			if ($staff['BALANCE'] && $staff['BALANCE']<0)
+			if ( $staff['BALANCE'] && $staff['BALANCE']<0)
 				echo ErrorMessage(array(sprintf(_('You have a <b>negative</b> food service balance of <span style="color:red">%s</span>'),Currency($staff['BALANCE']))), 'warning');
 		}
 

@@ -5,10 +5,10 @@ include_once('modules/Food_Service/includes/FS_Icons.inc.php');
 DrawHeader(ProgramTitle());
 
 $menus_RET = DBGet(DBQuery("SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('MENU_ID'));
-if ($_REQUEST['menu_id'])
+if ( $_REQUEST['menu_id'])
 {
-	if ($_REQUEST['menu_id']!='new')
-		if ($menus_RET[$_REQUEST['menu_id']])
+	if ( $_REQUEST['menu_id']!='new')
+		if ( $menus_RET[$_REQUEST['menu_id']])
 			$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 		elseif (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
@@ -21,8 +21,8 @@ if ($_REQUEST['menu_id'])
 }
 else
 {
-	if ($_SESSION['FSA_menu_id'])
-		if ($menus_RET[$_SESSION['FSA_menu_id']])
+	if ( $_SESSION['FSA_menu_id'])
+		if ( $menus_RET[$_SESSION['FSA_menu_id']])
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'];
 		elseif (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
@@ -37,7 +37,7 @@ else
 
 $categories_RET = DBGet(DBQuery("SELECT MENU_ID,CATEGORY_ID,TITLE FROM FOOD_SERVICE_CATEGORIES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('MENU_ID','CATEGORY_ID'));
 //FJ fix error Warning: key() expects parameter 1 to be array, null given
-//if (!$_REQUEST['cat_id'] || !$categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']])
+//if ( !$_REQUEST['cat_id'] || !$categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']])
 if ((!$_REQUEST['cat_id'] || !$categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']]) && isset($categories_RET[$_REQUEST['menu_id']]))
 	$_REQUEST['cat_id'] = key($categories_RET[$_REQUEST['menu_id']]);
 
@@ -70,17 +70,17 @@ if (count($items_RET))
 	echo '<TABLE class="center cellpadding-5">';
 	foreach ( (array)$items_RET as $item)
 	{
-		if (!$i)
+		if ( !$i)
 		{
 			echo '<TR>';
 			$i = $per_row;
 		}
 		echo '<TD style="border: 1px solid">'.makeIcon($item['ICON'],'','128').'</TD>';
 		$i--;
-		if (!$i)
+		if ( !$i)
 			echo '</TR>';
 	}
-	if ($i)
+	if ( $i)
 		echo '</TR>';
 	echo '</TABLE>';
 }

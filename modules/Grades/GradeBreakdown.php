@@ -1,10 +1,10 @@
 <?php
 DrawHeader(ProgramTitle());
 
-if (!$_REQUEST['mp'])
+if ( !$_REQUEST['mp'])
 	$_REQUEST['mp'] = UserMP();
 
-if (!$_REQUEST['chart_type'])
+if ( !$_REQUEST['chart_type'])
 	$_REQUEST['chart_type'] = 'column';
 
 // Get all the mp's associated with the current mp
@@ -31,7 +31,7 @@ echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">
 $mp_select = '<SELECT name="mp" onchange="ajaxPostForm(this.form,true);">';
 foreach ( (array)$mps_RET as $mp)
 {
-    if ($mp['DOES_GRADES']=='Y' || $mp['MARKING_PERIOD_ID']==UserMP())
+    if ( $mp['DOES_GRADES']=='Y' || $mp['MARKING_PERIOD_ID']==UserMP())
         $mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED':'').'>'.($UserMPTitle = $mp['TITLE']).'</OPTION>';
 }
 $mp_select .= '</SELECT>';
@@ -63,7 +63,7 @@ if (count($grouped_RET))
 	$_ROSARIO['selected_tab'] = str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type='.str_replace(' ','+',$_REQUEST['chart_type']),$link);
 	echo '<BR />';
 
-	if ($_REQUEST['chart_type']=='list')
+	if ( $_REQUEST['chart_type']=='list')
 	{
 		$columns = array();
 		

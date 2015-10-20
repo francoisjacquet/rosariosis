@@ -1,11 +1,11 @@
 <?php
-if ($_REQUEST['modfunc']!='XMLHttpRequest')
+if ( $_REQUEST['modfunc']!='XMLHttpRequest')
 	DrawHeader(ProgramTitle());
 
 Widgets('request');
 Search('student_id',$extra);
 
-if ($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if (DeletePrompt(_('Request')))
 	{
@@ -16,7 +16,7 @@ if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if ($_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc']=='update')
 {
 	//FJ fix error Warning: Invalid argument supplied for foreach()
 	if (isset($_REQUEST['values']) && AllowEdit())
@@ -35,7 +35,7 @@ if ($_REQUEST['modfunc']=='update')
 	unset($_REQUEST['modfunc']);
 }
 
-if ($_REQUEST['modfunc']=='add' && AllowEdit())
+if ( $_REQUEST['modfunc']=='add' && AllowEdit())
 {
     $course_id = $_REQUEST['course'];
 	$subject_id = DBGet(DBQuery("SELECT SUBJECT_ID FROM COURSES WHERE COURSE_ID='".$course_id."'"));
@@ -45,7 +45,7 @@ if ($_REQUEST['modfunc']=='add' && AllowEdit())
 	unset($_REQUEST['modfunc']);
 }
 
-if ($_REQUEST['modfunc']=='XMLHttpRequest')
+if ( $_REQUEST['modfunc']=='XMLHttpRequest')
 {
 	header("Content-Type: text/xml\n\n");
     $courses_RET = DBGet(DBQuery("SELECT c.COURSE_ID,c.TITLE FROM COURSES c WHERE ".($_REQUEST['subject_id']?"c.SUBJECT_ID='".$_REQUEST['subject_id']."' AND ":'')."UPPER(c.TITLE) LIKE '".mb_strtoupper($_REQUEST['course_title'])."%' AND c.SYEAR='".UserSyear()."' AND c.SCHOOL_ID='".UserSchool()."'"));
@@ -58,7 +58,7 @@ if ($_REQUEST['modfunc']=='XMLHttpRequest')
 	echo '</courses>';
 }
 
-if (!$_REQUEST['modfunc'] && UserStudentID())
+if ( !$_REQUEST['modfunc'] && UserStudentID())
 {
 ?>
 <script>

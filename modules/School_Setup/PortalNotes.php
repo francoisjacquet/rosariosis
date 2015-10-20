@@ -2,21 +2,21 @@
 include('ProgramFunctions/PortalPollsNotes.fnc.php');
 include('ProgramFunctions/FileUpload.fnc.php');
 
-if ($_REQUEST['day_values'] && $_POST['day_values'])
+if ( $_REQUEST['day_values'] && $_POST['day_values'])
 {
 	foreach ( (array)$_REQUEST['day_values'] as $id=>$values)
 	{
-		if ($_REQUEST['day_values'][$id]['START_DATE'] && $_REQUEST['month_values'][$id]['START_DATE'] && $_REQUEST['year_values'][$id]['START_DATE'])
+		if ( $_REQUEST['day_values'][$id]['START_DATE'] && $_REQUEST['month_values'][$id]['START_DATE'] && $_REQUEST['year_values'][$id]['START_DATE'])
 			$_REQUEST['values'][$id]['START_DATE'] = $_REQUEST['day_values'][$id]['START_DATE'].'-'.$_REQUEST['month_values'][$id]['START_DATE'].'-'.$_REQUEST['year_values'][$id]['START_DATE'];
 		elseif (isset($_REQUEST['day_values'][$id]['START_DATE']) && isset($_REQUEST['month_values'][$id]['START_DATE']) && isset($_REQUEST['year_values'][$id]['START_DATE']))
 			$_REQUEST['values'][$id]['START_DATE'] = '';
 
-		if ($_REQUEST['day_values'][$id]['END_DATE'] && $_REQUEST['month_values'][$id]['END_DATE'] && $_REQUEST['year_values'][$id]['END_DATE'])
+		if ( $_REQUEST['day_values'][$id]['END_DATE'] && $_REQUEST['month_values'][$id]['END_DATE'] && $_REQUEST['year_values'][$id]['END_DATE'])
 			$_REQUEST['values'][$id]['END_DATE'] = $_REQUEST['day_values'][$id]['END_DATE'].'-'.$_REQUEST['month_values'][$id]['END_DATE'].'-'.$_REQUEST['year_values'][$id]['END_DATE'];
 		elseif (isset($_REQUEST['day_values'][$id]['END_DATE']) && isset($_REQUEST['month_values'][$id]['END_DATE']) && isset($_REQUEST['year_values'][$id]['END_DATE']))
 			$_REQUEST['values'][$id]['END_DATE'] = '';
 	}
-	if (!$_POST['values'])
+	if ( !$_POST['values'])
 		$_POST['values'] = $_REQUEST['values'];
 }
 
@@ -30,7 +30,7 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 		$note_id = $note_id['ID'];
 		$_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'] = '';
 		foreach ( array('admin','teacher','parent') as $profile_id)
-			if ($_REQUEST['profiles'][$note_id][$profile_id])
+			if ( $_REQUEST['profiles'][$note_id][$profile_id])
 				$_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'] .= ','.$profile_id;
 		if (count($_REQUEST['profiles'][$note_id]))
 		{
@@ -38,23 +38,23 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 			{
 				$profile_id = $profile['ID'];
 
-				if ($_REQUEST['profiles'][$note_id][$profile_id])
+				if ( $_REQUEST['profiles'][$note_id][$profile_id])
 					$_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'] .= ','.$profile_id;
 			}
 		}
-		if ($_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'])
+		if ( $_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'])
 			$_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'] .= ',';
 	}
 }
 
-if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
-			if ($id!='new')
+			if ( $id!='new')
 			{
 				$sql = "UPDATE PORTAL_NOTES SET ";
 
@@ -75,7 +75,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					foreach ( array('admin','teacher','parent') as $profile_id)
 					{
-						if ($_REQUEST['profiles']['new'][$profile_id])
+						if ( $_REQUEST['profiles']['new'][$profile_id])
 							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
 						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
 					}
@@ -83,7 +83,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					{
 						$profile_id = $profile['ID'];
 
-						if ($_REQUEST['profiles']['new'][$profile_id])
+						if ( $_REQUEST['profiles']['new'][$profile_id])
 							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
 						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
 					}
@@ -135,10 +135,10 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					'.csv',
 				);
 				
-				if ($columns['FILE_OR_EMBED'] == 'FILE')
+				if ( $columns['FILE_OR_EMBED'] == 'FILE')
 					$columns['FILE_ATTACHED'] = FileUpload('FILE_ATTACHED_FILE', $PortalNotesFilesPath, $file_attached_ext_white_list, 0, $error);
 					
-				elseif ($columns['FILE_OR_EMBED'] == 'EMBED')
+				elseif ( $columns['FILE_OR_EMBED'] == 'EMBED')
 					if (filter_var($columns['FILE_ATTACHED_EMBED'], FILTER_VALIDATE_URL) !== false)
 						$columns['FILE_ATTACHED'] = $columns['FILE_ATTACHED_EMBED'];
 						
@@ -147,7 +147,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$go = 0;
 				foreach ( (array)$columns as $column=>$value)
 				{
-					if (!empty($value) || $value=='0')
+					if ( !empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";
@@ -156,7 +156,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				}
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-				if ($go && empty($error))
+				if ( $go && empty($error))
 				{
 					DBQuery($sql);
 
@@ -176,7 +176,7 @@ if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 DrawHeader(ProgramTitle());
 
-if ($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if (DeletePrompt(_('Note')))
 	{
@@ -193,10 +193,10 @@ if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 }
 
 //FJ fix SQL bug invalid sort order
-if (!empty($error))
+if ( !empty($error))
 	echo ErrorMessage($error);
 
-if ($_REQUEST['modfunc']!='remove')
+if ( $_REQUEST['modfunc']!='remove')
 {
 //FJ file attached to portal notes
 	$sql = "SELECT ID,SORT_ORDER,TITLE,CONTENT,START_DATE,END_DATE,PUBLISHED_PROFILES,FILE_ATTACHED,
@@ -228,15 +228,15 @@ if ($_REQUEST['modfunc']!='remove')
 function _makeTextInput($value,$name)
 {	global $THIS_RET;
 
-	if ($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 
-	if ($name!='TITLE')
+	if ( $name!='TITLE')
 		$extra = 'size=5 maxlength=10';
 //FJ title field required
-	if ($name=='TITLE' && $id != 'new')
+	if ( $name=='TITLE' && $id != 'new')
 		$extra = 'required';
 
 	return TextInput($name=='TITLE' && $THIS_RET['EXPIRED']?array($value,'<span style="color:red">'.$value.'</span>'):$value,"values[$id][$name]",'',$extra);
@@ -245,7 +245,7 @@ function _makeTextInput($value,$name)
 function _makeContentInput($value,$name)
 {	global $THIS_RET;
 
-	if ($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';

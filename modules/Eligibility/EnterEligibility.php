@@ -44,7 +44,7 @@ $end_date = mb_strtoupper(date('d-M-Y',time()+($END_DAY-$today)*60*60*24));
 
 $current_RET = DBGet(DBQuery("SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID'));
 
-if ($_REQUEST['modfunc']=='gradebook')
+if ( $_REQUEST['modfunc']=='gradebook')
 {
 	$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 	if (count($config_RET))
@@ -60,7 +60,7 @@ if ($_REQUEST['modfunc']=='gradebook')
 
 	$grades_RET = DBGet(DBQuery("SELECT ID,TITLE,GPA_VALUE FROM REPORT_CARD_GRADES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('ID'));
 
-	if ($programconfig[User('STAFF_ID')]['WEIGHT']=='Y')
+	if ( $programconfig[User('STAFF_ID')]['WEIGHT']=='Y')
 		$points_RET = DBGet(DBQuery("SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT 
 		FROM STUDENTS s 
 		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='".$course_period_id."') 
@@ -88,23 +88,23 @@ if ($_REQUEST['modfunc']=='gradebook')
 		{
 			$total = $total_percent = 0;
 			foreach ( (array)$student as $partial_points)
-				if ($partial_points['PARTIAL_TOTAL']!=0)
+				if ( $partial_points['PARTIAL_TOTAL']!=0)
 				{
 					$total += $partial_points['PARTIAL_POINTS'] * $partial_points['FINAL_GRADE_PERCENT'] / $partial_points['PARTIAL_TOTAL'];
 					$total_percent += $partial_points['FINAL_GRADE_PERCENT'];
 				}
-			if ($total_percent!=0)
+			if ( $total_percent!=0)
 				$total /= $total_percent;
 
 			$grade = $grades_RET[_makeLetterGrade($total,0,0,'ID')][1];
-			if ($grade['GPA_VALUE']=='0' || !$grade['GPA_VALUE'])
+			if ( $grade['GPA_VALUE']=='0' || !$grade['GPA_VALUE'])
 				$code = 'FAILING';
 			elseif (mb_strpos($grade['TITLE'],'D')!==false || $grade['GPA_VALUE']<2)
 				$code = 'BORDERLINE';
 			else
 				$code = 'PASSING';
 
-			if ($current_RET[$student_id])
+			if ( $current_RET[$student_id])
 				$sql = "UPDATE ELIGIBILITY SET ELIGIBILITY_CODE='".$code."' WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."' AND STUDENT_ID='".$student_id."'";
 			else
 				$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('".$student_id."','".DBDate()."','".UserSyear()."','".UserPeriod()."','".$course_period_id."','".$code."')";
@@ -114,19 +114,19 @@ if ($_REQUEST['modfunc']=='gradebook')
 	}
 }
 
-if ($_REQUEST['values'] && $_POST['values'])
+if ( $_REQUEST['values'] && $_POST['values'])
 {
 	$course_period_id = UserCoursePeriod();
 	foreach ( (array)$_REQUEST['values'] as $student_id=>$value)
 	{
-		if ($current_RET[$student_id])
+		if ( $current_RET[$student_id])
 			$sql = "UPDATE ELIGIBILITY SET ELIGIBILITY_CODE='".$value."' WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";
 		else
 			$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('".$student_id."','".DBDate()."','".UserSyear()."','".UserPeriod()."','".$course_period_id."','".$value."')";
 		DBQuery($sql);
 	}
 	$RET = DBGet(DBQuery("SELECT 'completed' AS COMPLETED FROM ELIGIBILITY_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."'"));
-	if (!count($RET))
+	if ( !count($RET))
 		DBQuery("INSERT INTO ELIGIBILITY_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID) values('".User('STAFF_ID')."','".DBDate()."','".UserPeriod()."')");
 
 	$current_RET = DBGet(DBQuery("SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILITY WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."'"),array(),array('STUDENT_ID'));
@@ -141,7 +141,7 @@ $stu_RET = GetStuList($extra);
 echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader(ProgramTitle());
 
-if ($today>$END_DAY || $today<$START_DAY || ($today==$START_DAY && date('Gi')<($START_HOUR.$START_MINUTE)) || ($today==$END_DAY && date('Gi')>($END_HOUR.$END_MINUTE)))
+if ( $today>$END_DAY || $today<$START_DAY || ($today==$START_DAY && date('Gi')<($START_HOUR.$START_MINUTE)) || ($today==$END_DAY && date('Gi')>($END_HOUR.$END_MINUTE)))
 {
 	echo ErrorMessage(array(sprintf(_('You can only enter eligibility from %s %s to %s %s.'),$days[$START_DAY],$START_HOUR.':'.$START_MINUTE,$days[$END_DAY],$END_HOUR.':'.$END_MINUTE)),'error');
 }

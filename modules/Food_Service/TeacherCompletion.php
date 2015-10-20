@@ -58,9 +58,9 @@ $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID','PERIOD_ID'));
 
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-if (!$_REQUEST['menu_id'])
+if ( !$_REQUEST['menu_id'])
 {
-	if (!$_SESSION['FSA_menu_id'])
+	if ( !$_SESSION['FSA_menu_id'])
 		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
@@ -84,17 +84,17 @@ if (count($RET))
 			//$sql = 'SELECT (SELECT DESCRIPTION FROM FOOD_SERVICE_LUNCH_ITEMS WHERE ITEM_ID=ac.ITEM_ID) AS DESCRIPTION,(SELECT SORT_ORDER FROM FOOD_SERVICE_MENU_ITEMS WHERE ITEM_ID=ac.ITEM_ID AND MENU_ID=\''.$_REQUEST['menu_id'].'\') AS SORT_ORDER,ac.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac WHERE ac.STAFF_ID=\''.$staff_id.'\' AND ac.SCHOOL_DATE=\''.$date.'\' AND ac.PERIOD_ID=\''.$period_id.'\' ORDER BY SORT_ORDER';
 			$sql = 'SELECT fsi.DESCRIPTION,fsi.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac,FOOD_SERVICE_ITEMS fsi WHERE ac.STAFF_ID=\''.$staff_id.'\' AND ac.SCHOOL_DATE=\''.$date.'\' AND ac.PERIOD_ID=\''.$period_id.'\' AND ac.MENU_ID=\''.$_REQUEST['menu_id'].'\' AND fsi.ITEM_ID=ac.ITEM_ID ORDER BY fsi.SORT_ORDER';
 			$items_RET = DBGet(DBQuery($sql));
-			if ($items_RET) {
+			if ( $items_RET) {
 				$color = 'FFFFFF';
 
 				$staff_RET[$i][$period_id] = '<TABLE style="background-color:#'.$color.'"><TR>';
 				foreach ( (array)$items_RET as $item) {
 					$staff_RET[$i][$period_id] .= '<TD style="background-color:#'.$color.'">'.($item['COUNT'] ? $item['COUNT'] : '0').'<BR />'.$item['DESCRIPTION'].'</TD>';
-					if ($color=='FFFFFF')
+					if ( $color=='FFFFFF')
 						$color = 'F0F0F0';
 					else
 						$color = 'FFFFFF';
-					if ($totals[$item['SHORT_NAME']])
+					if ( $totals[$item['SHORT_NAME']])
 						$totals[$item['SHORT_NAME']]['COUNT'] += $item['COUNT'];
 					else
 						$totals+= array($item['SHORT_NAME']=>array('DESCRIPTION'=>$item['DESCRIPTION'],'COUNT'=>$item['COUNT']));
@@ -108,7 +108,7 @@ if (count($RET))
 }
 
 $columns = array('FULL_NAME'=>'Teacher');
-if (!$_REQUEST['period'])
+if ( !$_REQUEST['period'])
 {
 	foreach ( (array)$periods_RET as $period)
 		$columns[$period['PERIOD_ID']] = $period['TITLE'];

@@ -30,13 +30,13 @@ AND c.COURSE_ID=cp.COURSE_ID
 ORDER BY cp.SHORT_NAME, cp.TITLE"),array(),array('COURSE_PERIOD_ID'));
 //echo '<pre>'; var_dump($courses_RET); echo '</pre>';
 
-if ($_REQUEST['id'] && $_REQUEST['id']!='all' && !$courses_RET[$_REQUEST['id']])
+if ( $_REQUEST['id'] && $_REQUEST['id']!='all' && !$courses_RET[$_REQUEST['id']])
 	unset($_REQUEST['id']);
 
-if (!$_REQUEST['id'])
+if ( !$_REQUEST['id'])
 {
 	DrawHeader(_('Totals'),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&id=all'.($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Expand All').'</A>');
-	if ($do_stats)
+	if ( $do_stats)
 //FJ add label on checkbox
 		DrawHeader('','<label>'.CheckBoxOnclick('do_stats').' '._('Include Anonymous Statistics').'</label>');
 		
@@ -48,7 +48,7 @@ if (!$_REQUEST['id'])
 	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
 		$LO_columns['PERCENT'] = _('Percent');
 
-	if ($do_stats && $_REQUEST['do_stats'])
+	if ( $do_stats && $_REQUEST['do_stats'])
 		$LO_columns += array('BAR1'=>_('Grade Range'),'BAR2'=>_('Class Rank'));
 
 	if (count($courses_RET))
@@ -65,7 +65,7 @@ if (!$_REQUEST['id'])
             $assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,TITLE,POINTS FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".$staff_id."' AND (COURSE_ID='".$course_id."' OR COURSE_PERIOD_ID='".$course_period_id."') AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY DUE_DATE DESC,ASSIGNMENT_ID"));
 			//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
-			if (!$programconfig[$staff_id])
+			if ( !$programconfig[$staff_id])
 			{
                 $config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 				if (count($config_RET))
@@ -78,7 +78,7 @@ if (!$_REQUEST['id'])
 			$sql = "SELECT s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT,sum(".db_case(array('gg.POINTS',"''","1","0")).") AS UNGRADED 
 			FROM STUDENTS s 
 			JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."'";
-            if ($_REQUEST['include_inactive']=='Y')
+            if ( $_REQUEST['include_inactive']=='Y')
                 $sql .= " AND ss.START_DATE=(SELECT START_DATE FROM SCHEDULE WHERE STUDENT_ID=s.STUDENT_ID AND SYEAR=ss.SYEAR AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID ORDER BY START_DATE DESC LIMIT 1)";
             else
                 $sql .= " AND ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND (CURRENT_DATE>=ss.START_DATE AND (CURRENT_DATE<=ss.END_DATE OR ss.END_DATE IS NULL))";
@@ -86,7 +86,7 @@ if (!$_REQUEST['id'])
             $sql .= ") JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."')
                 JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID AND ssm.SYEAR=ss.SYEAR AND ssm.SCHOOL_ID='".UserSchool()."'";
 
-            if ($_REQUEST['include_inactive']=='Y')
+            if ( $_REQUEST['include_inactive']=='Y')
                 $sql .= " AND ssm.ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR=ssm.SYEAR ORDER BY START_DATE DESC LIMIT 1)";
             else
                 $sql .= " AND (CURRENT_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR CURRENT_DATE<=ssm.END_DATE))";
@@ -94,7 +94,7 @@ if (!$_REQUEST['id'])
             $sql .= " WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($programconfig[$staff_id]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
             $sql .= " AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))".($do_stats&&$_REQUEST['do_stats']?'':" AND s.STUDENT_ID='".UserStudentID()."'");
             $sql .= " GROUP BY gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT,s.STUDENT_ID";
-            if ($do_stats && $_REQUEST['do_stats'])
+            if ( $do_stats && $_REQUEST['do_stats'])
             {
                 $group = array('STUDENT_ID');
                 $all_RET = DBGet(DBQuery($sql),array(),$group);
@@ -111,19 +111,19 @@ if (!$_REQUEST['id'])
 				$ungraded = 0;
 				foreach ( (array)$points_RET as $partial_points)
 				{
-                    if ($partial_points['PARTIAL_TOTAL']!=0 || $programconfig[$staff_id]['WEIGHT']!='Y')
+                    if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[$staff_id]['WEIGHT']!='Y')
 					{
 						$total += $partial_points['PARTIAL_POINTS']*($programconfig[$staff_id]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
 						$total_percent += ($programconfig[$staff_id]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
 					}
 					$ungraded += $partial_points['UNGRADED'];
 				}
-				if ($total_percent!=0)
+				if ( $total_percent!=0)
 					$percent = $total/$total_percent;
 				else
 					$percent = false;
 
-				if ($do_stats && $_REQUEST['do_stats'])
+				if ( $do_stats && $_REQUEST['do_stats'])
 				{
 					$min_percent = $max_percent = $percent;
 					$avg_percent = 0;
@@ -132,22 +132,22 @@ if (!$_REQUEST['id'])
 					{
 						$total = $total_percent = 0;
 						foreach ( (array)$student as $partial_points)
-                            if ($partial_points['PARTIAL_TOTAL']!=0 || $programconfig[$staff_id]['WEIGHT']!='Y')
+                            if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[$staff_id]['WEIGHT']!='Y')
 							{
 								$total += $partial_points['PARTIAL_POINTS'] * ($programconfig[$staff_id]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
 								$total_percent += ($programconfig[$staff_id]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
 							}
-						if ($total_percent!=0)
+						if ( $total_percent!=0)
 						{
 							$total /= $total_percent;
 
-							if ($min_percent===false || $total<$min_percent)
+							if ( $min_percent===false || $total<$min_percent)
 								$min_percent = $total;
-							if ($max_percent===false || $total>$max_percent)
+							if ( $max_percent===false || $total>$max_percent)
 								$max_percent = $total;
 							$avg_percent += $total;
-							if ($xstudent_id!=UserStudentID() && $percent!==false)
-								if ($total>$percent)
+							if ( $xstudent_id!=UserStudentID() && $percent!==false)
+								if ( $total>$percent)
 									$higher++;
 								else
 									$lower++;
@@ -190,7 +190,7 @@ if (!$_REQUEST['id'])
 }
 else
 {
-	if ($_REQUEST['id']=='all')
+	if ( $_REQUEST['id']=='all')
 	{
 //FJ add translation
 		DrawHeader(_('All Courses'),'');
@@ -200,7 +200,7 @@ else
 		$courses_RET = array($_REQUEST['id']=>$courses_RET[$_REQUEST['id']]);
 		DrawHeader('<B>'.$courses_RET[$_REQUEST['id']][1]['COURSE_TITLE'].'</B> - '.mb_substr($courses_RET[$_REQUEST['id']][1]['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$courses_RET[$_REQUEST['id']][1]['TITLE']),'^')+2),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</A>');
 	}
-	if ($do_stats)
+	if ( $do_stats)
 //FJ add label on checkbox
 		DrawHeader('','<label>'.CheckBoxOnclick('do_stats').' '._('Include Anonymous Statistics').'</label>');
 	//echo '<pre>'; var_dump($courses_RET); echo '</pre>';
@@ -209,7 +209,7 @@ else
 	{
 		$course = $course[1];
 		$staff_id = $course['STAFF_ID'];
-		if (!$programconfig[$staff_id])
+		if ( !$programconfig[$staff_id])
 		{
 			$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 			if (count($config_RET))
@@ -233,7 +233,7 @@ else
 		//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 		if (count($assignments_RET))
 		{
-			if ($do_stats && $_REQUEST['do_stats'])
+			if ( $do_stats && $_REQUEST['do_stats'])
 				//FJ bugfix broken statistics, MIN calculus when gg.POINTS is NULL
 				$all_RET = DBGet(DBQuery("SELECT ga.ASSIGNMENT_ID,
 				min(".db_case(array('gg.POINTS',"'-1'",'ga.POINTS',db_case(array('gg.POINTS',"''",'0','gg.POINTS')))).") AS MIN,
@@ -257,24 +257,24 @@ else
 			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
 				$LO_columns['PERCENT'] = _('Percent');
 			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
-				if ($programconfig[$staff_id]['LETTER_GRADE_ALL']!='Y')
+				if ( $programconfig[$staff_id]['LETTER_GRADE_ALL']!='Y')
 					$LO_columns['LETTER'] = _('Letter');
 				
 			$LO_columns += array('COMMENT'=>_('Comment'));
-			if ($do_stats && $_REQUEST['do_stats'])
+			if ( $do_stats && $_REQUEST['do_stats'])
 				$LO_columns += array('BAR1'=>_('Grade Range'),'BAR2'=>_('Class Rank'));
 
 			$LO_ret = array(0=>array());
 
 			foreach ( (array)$assignments_RET as $assignment)
 			{
-				if ($do_stats && $_REQUEST['do_stats'])
+				if ( $do_stats && $_REQUEST['do_stats'])
 				{
-					if ($all_RET[$assignment['ASSIGNMENT_ID']])
+					if ( $all_RET[$assignment['ASSIGNMENT_ID']])
 					{
 						$all = $all_RET[$assignment['ASSIGNMENT_ID']][1];
 
-						if ($assignment['POINTS']!='-1' && $assignment['POINTS']!='')
+						if ( $assignment['POINTS']!='-1' && $assignment['POINTS']!='')
 						{
 							$bargraph1 = bargraph1($assignment['POINTS'],$all['MIN'],$all['AVG'],$all['MAX'],$assignment['POINTS_POSSIBLE']);
 							$bargraph2 = bargraph2(0,$all['LOWER'],$all['HIGHER']);
@@ -293,7 +293,7 @@ else
 				}
 				$LO_ret[] = array('TITLE'=>$assignment['TITLE'],'CATEGORY'=>$assignment['CATEGORY'],'POINTS'=>($assignment['POINTS']=='-1'?'*':($assignment['POINTS']==''?'<span style="color:red">0</span>':rtrim(rtrim($assignment['POINTS'],'0'),'.'))).' / '.$assignment['POINTS_POSSIBLE'],'PERCENT'=>($assignment['POINTS_POSSIBLE']=='0'?_('E/C'):($assignment['POINTS']=='-1'?'*':number_format(100*$assignment['POINTS']/$assignment['POINTS_POSSIBLE'],1).'%')),'LETTER'=>($programconfig[$staff_id]['LETTER_GRADE_ALL']=='Y'?'':($assignment['POINTS_POSSIBLE']=='0'?_('N/A'):($assignment['POINTS']=='-1'?_('N/A'):($assignment['POINTS_POSSIBLE']>=$programconfig[$staff_id]['LETTER_GRADE_MIN']?'<b>'._makeLetterGrade($assignment['POINTS']/$assignment['POINTS_POSSIBLE'],$course['COURSE_PERIOD_ID'],$staff_id).'</b>':'')))),'COMMENT'=>$assignment['COMMENT'].($assignment['POINTS']==''?($assignment['COMMENT']?'<BR />':'').'<span style="color:red">'._('No Grade').'</span>':''))+($do_stats&&$_REQUEST['do_stats']?array('BAR1'=>$bargraph1,'BAR2'=>$bargraph2):array());
 			}
-			if ($_REQUEST['id']=='all')
+			if ( $_REQUEST['id']=='all')
 			{
 				//echo '<BR />';
 				DrawHeader('<B>'.mb_substr($course['TITLE'],0,mb_strpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')).'</B> - '.mb_substr($course['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')+2),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</A>');
@@ -302,7 +302,7 @@ else
 			ListOutput($LO_ret,$LO_columns,'Assignment','Assignments',array(),array(),array('center'=>false,'save'=>$_REQUEST['id']!='all','search'=>false));
 		}
 		else
-			if ($_REQUEST['id']!='all')
+			if ( $_REQUEST['id']!='all')
 				DrawHeader(_('There are no grades available for this student.'));
 	}
 }
@@ -315,21 +315,21 @@ function _makeTipTitle($value,$column)
 
 	if (($THIS_RET['DESCRIPTION'] || $THIS_RET['ASSIGNED_DATE'] || $THIS_RET['DUE_DATE']) && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		if ($THIS_RET['DESCRIPTION'])
+		if ( $THIS_RET['DESCRIPTION'])
 		{
 			$tipmsg = $THIS_RET['DESCRIPTION'];
 			$tipmsg = _('Description').': '.str_replace("\r\n",'<BR />',$tipmsg);
 		}
 
-		if ($THIS_RET['ASSIGNED_DATE'])
+		if ( $THIS_RET['ASSIGNED_DATE'])
 			$tipmsg .= ($tipmsg?'<BR />':'')._('Assigned').': '.ProperDate($THIS_RET['ASSIGNED_DATE']);
 
-		if ($THIS_RET['DUE_DATE'])
+		if ( $THIS_RET['DUE_DATE'])
 			$tipmsg .= ($tipmsg?'<BR />':'')._('Due').': '.ProperDate($THIS_RET['DUE_DATE']);
 
 		$tipJS = '<script>';
 
-		if (!$tiptitle)
+		if ( !$tiptitle)
 		{
 			$tipJS .= 'var tiptitle='.json_encode(_('Details')).';';
 
@@ -350,15 +350,15 @@ function _makeTipTitle($value,$column)
 //function bargraph1($x,$lo,$avg,$hi,$max)
 function bargraph1($x,$lo=0,$avg=0,$hi=0,$max=0)
 {
-	if ($x!==false)
+	if ( $x!==false)
 	{
 		$scale = $hi>$max?$hi:$max;
 		$w1 = round(100*$lo/$scale);
 		$w5 = round(100*(1.0-$hi/$scale));
-		if ($x!==true)
+		if ( $x!==true)
 		{
 			//FJ add grades legends on the graph
-			if ($x<$avg)
+			if ( $x<$avg)
 			{
 				$w2 = round(100*($x-$lo)/$scale); $c2 = '#ff0000'; $legendc2 = $x;
 				$w4 = round(100*($hi-$avg)/$scale); $c4 = '#00ff00'; $legendc4 = round($avg,2).' ('._('Average').')';
@@ -371,7 +371,7 @@ function bargraph1($x,$lo=0,$avg=0,$hi=0,$max=0)
 			$w3 = 100-$w1-$w2-$w4-$w5;
 			
 			$correction = 4;
-			if ($w1>0 && $w5>0)
+			if ( $w1>0 && $w5>0)
 				$correction = 2;
 				
 			return '<div style="float:left; width:150px; border: #333 1px solid;">'.($w1>0?'<div style="width:'.($w1 - $correction).'%;float:left; background-color:#fff;">&nbsp;</div>':'').($w2>0?'<div style="width:'.$w2.'%; background-color:#00a000;float:left;">&nbsp;</div>':'').'<div style="width:2%; background-color:'.$c2.'; cursor:pointer;float:left;" title="'.$legendc2.'" >&nbsp;</div>'.($w3>0?'<div style="width:'.$w3.'%; background-color:#00a000;float:left;">&nbsp;</div>':'').'<div style="width:2%; background-color:'.$c4.'; cursor:pointer;float:left;" title="'.$legendc4.'">&nbsp;</div>'.($w4>0?'<div style="width:'.$w4.'%; background-color:#00a000;float:left;">&nbsp;</div>':'').($w5>0?'<div style="width:'.($w5 - $correction).'%;float:left;background-color:#fff;">&nbsp;</div>':'').'</div>';
@@ -382,7 +382,7 @@ function bargraph1($x,$lo=0,$avg=0,$hi=0,$max=0)
 			$w4 = round(100*($hi-$avg)/$scale);
 			
 			$correction = 2;
-			if ($w1>0 && $w5>0)
+			if ( $w1>0 && $w5>0)
 				$correction = 1;
 				
 			return '<div style="float:left; width:150px; border: #333 1px solid;">'.($w1>0?'<div style="width:'.($w1 - $correction).'%;float:left; background-color:#fff;">&nbsp;</div>':'').($w2>0?'<div style="width:'.$w2.'%; background-color:#00a000;float:left;">&nbsp;</div>':'').'<div style="width:2%; background-color:#00a000;float:left;">&nbsp;</div>'.($w4>0?'<div style="width:'.$w4.'%; background-color:#00a000;float:left;">&nbsp;</div>':'').($w5>0?'<div style="width:'.($w5 - $correction).'%;float:left;background-color:#fff;">&nbsp;</div>':'').'</div>';
@@ -396,7 +396,7 @@ function bargraph1($x,$lo=0,$avg=0,$hi=0,$max=0)
 //function bargraph2($x,$lo,$hi)
 function bargraph2($x,$lo=0,$hi=0)
 {
-	if ($x!==false && $x!==true)
+	if ( $x!==false && $x!==true)
 	{
 			$scale = $lo+$hi+1;
 			$w1 = round(100*$lo/$scale);

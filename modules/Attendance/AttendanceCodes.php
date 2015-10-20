@@ -1,22 +1,22 @@
 <?php
-if ($_REQUEST['table']=='')
+if ( $_REQUEST['table']=='')
 	$_REQUEST['table'] = '0';
 
-if ($_REQUEST['modfunc']=='update' && AllowEdit())
+if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 {
-	if ($_REQUEST['values'] && $_POST['values'])
+	if ( $_REQUEST['values'] && $_POST['values'])
 	{
 		foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 		{
 			//FJ fix SQL bug invalid sort order
 			if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 			{
-				if ($columns['DEFAULT_CODE']=='Y')
+				if ( $columns['DEFAULT_CODE']=='Y')
 					DBQuery("UPDATE ATTENDANCE_CODES SET DEFAULT_CODE=NULL WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='".$_REQUEST['table']."'");
 
-				if ($id!='new')
+				if ( $id!='new')
 				{
-					if ($_REQUEST['table']!='new')
+					if ( $_REQUEST['table']!='new')
 						$sql = "UPDATE ATTENDANCE_CODES SET ";
 					else
 						$sql = "UPDATE ATTENDANCE_CODE_CATEGORIES SET ";
@@ -29,7 +29,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 				}
 				else
 				{
-					if ($_REQUEST['table']!='new')
+					if ( $_REQUEST['table']!='new')
 					{
 						$sql = "INSERT INTO ATTENDANCE_CODES ";
 						$fields = 'ID,SCHOOL_ID,SYEAR,TABLE_NAME,';
@@ -54,7 +54,7 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 					}
 					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-					if ($go)
+					if ( $go)
 						DBQuery($sql);
 				}
 			}
@@ -67,9 +67,9 @@ if ($_REQUEST['modfunc']=='update' && AllowEdit())
 
 DrawHeader(ProgramTitle());
 
-if ($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if ($_REQUEST['table']!='new')
+	if ( $_REQUEST['table']!='new')
 	{
 		if (DeletePrompt(_('Attendance Code')))
 		{
@@ -96,7 +96,7 @@ if (isset($error))
 
 if (empty($_REQUEST['modfunc']))
 {
-	if ($_REQUEST['table']!=='new')
+	if ( $_REQUEST['table']!=='new')
 	{
 		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='".$_REQUEST['table']."' ORDER BY SORT_ORDER,TITLE";
 		$QI = DBQuery($sql);
@@ -108,12 +108,12 @@ if (empty($_REQUEST['modfunc']))
 	foreach ( (array)$categories_RET as $category)
 		$tabs[] = array('title'=>$category['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID']);
 
-	if ($_REQUEST['table']!='new')
+	if ( $_REQUEST['table']!='new')
 	{
 		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='".$_REQUEST['table']."' ORDER BY SORT_ORDER,TITLE";
 		$functions = array('TITLE'=>'_makeTextInput','SHORT_NAME'=>'_makeTextInput','SORT_ORDER'=>'_makeTextInput','TYPE'=>'_makeSelectInput','DEFAULT_CODE'=>'_makeCheckBoxInput');
 		$LO_columns = array('TITLE'=>_('Title'),'SHORT_NAME'=>_('Short Name'),'SORT_ORDER'=>_('Sort Order'),'TYPE'=>_('Type'),'DEFAULT_CODE'=>_('Default for Teacher'));
-		if ($_REQUEST['table']=='0')
+		if ( $_REQUEST['table']=='0')
 		{
 			$functions['STATE_CODE'] = '_makeSelectInput';
 			$LO_columns['STATE_CODE'] = _('State Code');
@@ -121,7 +121,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'TYPE'=>_makeSelectInput('','TYPE'),'DEFAULT_CODE'=>_makeCheckBoxInput('','DEFAULT_CODE'));
 
-		if ($_REQUEST['table']=='0')
+		if ( $_REQUEST['table']=='0')
 			$link['add']['html']['STATE_CODE'] = _makeSelectInput('','STATE_CODE');
 
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&table='.$_REQUEST['table'];
@@ -159,12 +159,12 @@ if (empty($_REQUEST['modfunc']))
 function _makeTextInput($value,$name)
 {	global $THIS_RET;
 
-	if ($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 
-	if ($name=='SHORT_NAME' || $name=='SORT_ORDER')
+	if ( $name=='SHORT_NAME' || $name=='SORT_ORDER')
 		$extra = 'size=5 maxlength=10';
 
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
@@ -173,7 +173,7 @@ function _makeTextInput($value,$name)
 function _makeSelectInput($value,$name)
 {	global $THIS_RET;
 
-	if ($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 	{
 		$id = $THIS_RET['ID'];
 		$extra = 'required';
@@ -184,9 +184,9 @@ function _makeSelectInput($value,$name)
 		$extra = '';
 	}
 
-	if ($name=='TYPE')
+	if ( $name=='TYPE')
 		$options = array('teacher'=>_('Teacher & Office'),'official'=>_('Office Only'));
-	elseif ($name='STATE_CODE')
+	elseif ( $name='STATE_CODE')
 		$options = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half Day'));
 
 	return SelectInput($value,'values['.$id.']['.$name.']','',$options,'N/A',$extra);
@@ -195,7 +195,7 @@ function _makeSelectInput($value,$name)
 function _makeCheckBoxInput($value,$name)
 {	global $THIS_RET;
 
-	if ($THIS_RET['ID'])
+	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 	{

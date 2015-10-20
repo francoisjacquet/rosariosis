@@ -7,9 +7,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		foreach ( (array)$_REQUEST['month_values'] as $field_name=>$month)
 		{
 			$_REQUEST['values'][$field_name] = $_REQUEST['day_values'][$field_name].'-'.$month.'-'.$_REQUEST['year_values'][$field_name];
-			if (!VerifyDate($_REQUEST['values'][$field_name]))
+			if ( !VerifyDate($_REQUEST['values'][$field_name]))
 			{
-				if ($_REQUEST['values'][$field_name]!='--')
+				if ( $_REQUEST['values'][$field_name]!='--')
 					$warning[] = _('The date you specified is not valid, so was not used. The other data was saved.');
 
 				unset($_REQUEST['values'][$field_name]);
@@ -19,27 +19,27 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	if (count($_REQUEST['values']) && count($_REQUEST['student']))
 	{
-		if ($_REQUEST['values']['GRADE_ID']!='')
+		if ( $_REQUEST['values']['GRADE_ID']!='')
 		{
 			$grade_id = $_REQUEST['values']['GRADE_ID'];
 			unset($_REQUEST['values']['GRADE_ID']);
 		}
-		if ($_REQUEST['values']['NEXT_SCHOOL']!='')
+		if ( $_REQUEST['values']['NEXT_SCHOOL']!='')
 		{
 			$next_school = $_REQUEST['values']['NEXT_SCHOOL'];
 			unset($_REQUEST['values']['NEXT_SCHOOL']);
 		}
-		if ($_REQUEST['values']['CALENDAR_ID'])
+		if ( $_REQUEST['values']['CALENDAR_ID'])
 		{
 			$calendar = $_REQUEST['values']['CALENDAR_ID'];
 			unset($_REQUEST['values']['CALENDAR_ID']);
 		}
-		if ($_REQUEST['values']['START_DATE']!='')
+		if ( $_REQUEST['values']['START_DATE']!='')
 		{
 			$start_date = $_REQUEST['values']['START_DATE'];
 			unset($_REQUEST['values']['START_DATE']);
 		}
-		if ($_REQUEST['values']['ENROLLMENT_CODE']!='')
+		if ( $_REQUEST['values']['ENROLLMENT_CODE']!='')
 		{
 			$enrollment_code = $_REQUEST['values']['ENROLLMENT_CODE'];
 			unset($_REQUEST['values']['ENROLLMENT_CODE']);
@@ -56,22 +56,22 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		foreach ( (array)$_REQUEST['student'] as $student_id=>$yes)
 		{
-			if ($yes=='Y')
+			if ( $yes=='Y')
 			{
 				$students .= ",'".$student_id."'";
 				$students_count++;
 
 				//enrollment: update only the LAST enrollment record
-				if ($grade_id!='')
+				if ( $grade_id!='')
 					DBQuery("UPDATE STUDENT_ENROLLMENT SET GRADE_ID='".$grade_id."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID='".$student_id."' ORDER BY START_DATE DESC LIMIT 1)");
 
-				if ($next_school!='')
+				if ( $next_school!='')
 					DBQuery("UPDATE STUDENT_ENROLLMENT SET NEXT_SCHOOL='".$next_school."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID='".$student_id."' ORDER BY START_DATE DESC LIMIT 1)");
 
-				if ($calendar)
+				if ( $calendar)
 					DBQuery("UPDATE STUDENT_ENROLLMENT SET CALENDAR_ID='".$calendar."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID='".$student_id."' ORDER BY START_DATE DESC LIMIT 1)");
 
-				if ($start_date!='')
+				if ( $start_date!='')
 				{
 					//FJ check if student already enrolled on that date when updating START_DATE
 					$found_RET = DBGet(DBQuery("SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".$student_id."' AND SYEAR='".UserSyear()."' AND '".$start_date."' BETWEEN START_DATE AND END_DATE"));
@@ -86,20 +86,20 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					}
 				}
 
-				if ($enrollment_code!='')
+				if ( $enrollment_code!='')
 					DBQuery("UPDATE STUDENT_ENROLLMENT SET ENROLLMENT_CODE='".$enrollment_code."' WHERE ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND STUDENT_ID='".$student_id."' ORDER BY START_DATE DESC LIMIT 1)");
 
 			}
 		}
 
-		if ($values_count && $students_count)
+		if ( $values_count && $students_count)
 			DBQuery('UPDATE STUDENTS SET '.mb_substr($update,1).' WHERE STUDENT_ID IN ('.mb_substr($students,1).')');
 		elseif (isset($warning))
 			$warning[0] = mb_substr($warning,0,mb_strpos($warning,'. '));
-		elseif ($grade_id=='' && $next_school=='' && !$calendar && $start_date=='' && $enrollment_code=='')
+		elseif ( $grade_id=='' && $next_school=='' && !$calendar && $start_date=='' && $enrollment_code=='')
 			$warning[] = _('No data was entered.');
 
-		if (!isset($warning))
+		if ( !isset($warning))
 			$note[] = button('check') .'&nbsp;'._('The specified information was applied to the selected students.');
 	}
 	else
@@ -128,13 +128,13 @@ if (empty($_REQUEST['modfunc']))
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Save')));
 		echo '<BR />';
 
-		if ($_REQUEST['category_id'])
+		if ( $_REQUEST['category_id'])
 			$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."'"),array(),array('TYPE'));
 		else
 			$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS"),array(),array('TYPE'));
@@ -184,7 +184,7 @@ if (empty($_REQUEST['modfunc']))
 				if (count($options))
 				{
 					foreach ( (array)$options as $option)
-						if ($option!='')
+						if ( $option!='')
 							$select_options[$option] = $option;
 				}
 
@@ -204,7 +204,7 @@ if (empty($_REQUEST['modfunc']))
 					foreach ( (array)$options as $option)
 					{
 						$option = explode('|',$option);
-						if ($option[0]!='' && $option[1]!='')
+						if ( $option[0]!='' && $option[1]!='')
 							$select_options[$option[0]] = $option[1];
 					}
 				}
@@ -262,7 +262,7 @@ if (empty($_REQUEST['modfunc']))
 				if (count($options))
 				{
 					foreach ( (array)$options as $option)
-						if ($option!='')
+						if ( $option!='')
 							$select_options[$option] = $option;
 				}
 				// add the 'new' option
@@ -286,7 +286,7 @@ if (empty($_REQUEST['modfunc']))
 					foreach ( (array)$options as $option)
 					{
 						$option = explode('|',$option);
-						if ($option[0]!='')
+						if ( $option[0]!='')
 							$select_options[$option[0]] = $option[0];
 					}
 				}
@@ -304,7 +304,7 @@ if (empty($_REQUEST['modfunc']))
 			}
 		}
 
-		if (!$_REQUEST['category_id'] || $_REQUEST['category_id']=='1')
+		if ( !$_REQUEST['category_id'] || $_REQUEST['category_id']=='1')
 		{
 			echo '<TR><TD><b>'._('Grade Level').'</b></TD><TD>';
 			$gradelevels_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
@@ -341,7 +341,7 @@ if (empty($_REQUEST['modfunc']))
 
 			echo '<TR><TD><b>'._('Attendance Start Date this School Year').'</b></TD><TD>';
 			$options_RET = DBGet(DBQuery("SELECT ID,TITLE AS TITLE FROM STUDENT_ENROLLMENT_CODES WHERE SYEAR='".UserSyear()."' AND TYPE='Add' ORDER BY SORT_ORDER"));
-			if ($options_RET)
+			if ( $options_RET)
 			{
 				foreach ( (array)$options_RET as $option)
 					$add_codes[$option['ID']] = $option['TITLE'];
@@ -353,13 +353,13 @@ if (empty($_REQUEST['modfunc']))
 		echo '</TABLE><BR />';
 
 		$radio_count = count($fields_RET['radio']);
-		if ($radio_count)
+		if ( $radio_count)
 		{
 			echo '<TABLE class="widefat cellspacing-0 cellpadding-5 center"><TR>';
 			for($i=1;$i<=$radio_count;$i++)
 			{
 				echo '<TD>'._makeCheckboxInput('CUSTOM_'.$fields_RET['radio'][$i]['ID'],'<b>'.ParseMLField($fields_RET['radio'][$i]['TITLE']).'</b>').'</TD>';
-				if ($i%5==0 && $i!=$radio_count)
+				if ( $i%5==0 && $i!=$radio_count)
 					echo '</TR><TR>';
 			}
 			echo '</TR></TABLE>';
@@ -377,7 +377,7 @@ if (empty($_REQUEST['modfunc']))
 	$extra['new'] = true;
 
 	Search('student_id',$extra);
-	if ($_REQUEST['search_modfunc']=='list')
+	if ( $_REQUEST['search_modfunc']=='list')
 		echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div></FORM>';
 }
 
@@ -389,7 +389,7 @@ function _makeChooseCheckbox($value,$title='')
 
 function _makeTextInput($column,$numeric=false)
 {
-	if ($numeric===true)
+	if ( $numeric===true)
 		$options = 'size=3 maxlength=11';
 	else
 		$options = 'size=20';

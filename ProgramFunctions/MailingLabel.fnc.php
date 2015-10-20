@@ -4,7 +4,7 @@ function MailingLabel($address_id)
 {	global $THIS_RET,$_ROSARIO;
 
 	$student_id = $THIS_RET['STUDENT_ID'];
-	if ($address_id && !$_ROSARIO['MailingLabel'][$address_id][$student_id])
+	if ( $address_id && !$_ROSARIO['MailingLabel'][$address_id][$student_id])
 	{
 		$people_RET = DBGet(DBQuery("SELECT p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
 			coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE

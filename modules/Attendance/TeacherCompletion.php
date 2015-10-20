@@ -21,7 +21,7 @@ else
 
 DrawHeader(ProgramTitle());
 $categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE"));
-if ($_REQUEST['table']=='')
+if ( $_REQUEST['table']=='')
 	$_REQUEST['table'] = '0';
 $category_select = "<SELECT name=table onChange='ajaxPostForm(this.form,true);'><OPTION value='0'".($_REQUEST['table']=='0'?' SELECTED':'').">"._('Attendance')."</OPTION>";
 foreach ( (array)$categories_RET as $category)
@@ -75,7 +75,7 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 }
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
-if (!$_REQUEST['period'])
+if ( !$_REQUEST['period'])
 {
 	$tiptitle = false;
 
@@ -85,11 +85,11 @@ if (!$_REQUEST['period'])
 		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
 		foreach ( (array)$periods as $period)
 		{
-			if (!isset($_REQUEST['_ROSARIO_PDF']))
+			if ( !isset($_REQUEST['_ROSARIO_PDF']))
 			{
 				$tipJS = '<script>';
 
-				if (!$tiptitle)
+				if ( !$tiptitle)
 				{
 					$tipJS .= 'var tiptitle='.json_encode(_('Course Title')).';';
 					$tiptitle = true;
@@ -121,11 +121,11 @@ else
 	{
 		foreach ( (array)$periods as $id=>$period)
 		{
-			if (!isset($_REQUEST['_ROSARIO_PDF']))
+			if ( !isset($_REQUEST['_ROSARIO_PDF']))
 			{
 				$tipJS = '<script>';
 
-				if (!$tiptitle)
+				if ( !$tiptitle)
 				{
 					$tipJS .= 'var tiptitle='.json_encode(_('Course Title')).';';
 					$tiptitle = true;

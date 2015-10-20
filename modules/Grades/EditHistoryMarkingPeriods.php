@@ -3,13 +3,13 @@
 include 'modules/Grades/DeletePromptX.fnc.php';
 DrawHeader(ProgramTitle());
 
-if ($_REQUEST['modfunc']=='update')
+if ( $_REQUEST['modfunc']=='update')
 {
 	foreach ( (array)$_REQUEST['year_values'] as $id=>$column)
 	{
 		foreach ( (array)$column as $colname=>$colvalue)
 		{
-			if ($_REQUEST['day_values'][$id][$colname] && $_REQUEST['month_values'][$id][$colname] && $_REQUEST['year_values'][$id][$colname])
+			if ( $_REQUEST['day_values'][$id][$colname] && $_REQUEST['month_values'][$id][$colname] && $_REQUEST['year_values'][$id][$colname])
 				$_REQUEST['values'][$id][$colname] = $_REQUEST['day_values'][$id][$colname].'-'.
 					   $_REQUEST['month_values'][$id][$colname].'-'.
 					   $_REQUEST['year_values'][$id][$colname];
@@ -18,14 +18,14 @@ if ($_REQUEST['modfunc']=='update')
 
 	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
 	{
-		if ($id!='new')
+		if ( $id!='new')
 		{
 			$sql = "UPDATE history_marking_periods SET ";
 
 			foreach ( (array)$columns as $column=>$value)
 				$sql .= $column."='".$value."',";
 
-			if ($_REQUEST['tab_id']!='new')
+			if ( $_REQUEST['tab_id']!='new')
 				$sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='".$id."'";
 			else
 				$sql = mb_substr($sql,0,-1) . " WHERE MARKING_PERIOD_ID='".$id."'";
@@ -40,7 +40,7 @@ if ($_REQUEST['modfunc']=='update')
 
 			$go = false;
 			foreach ( (array)$columns as $column=>$value)
-				if (!empty($value) || $value=='0')
+				if ( !empty($value) || $value=='0')
 				{
 					$fields .= $column.',';
 					$values .= '\''.$value.'\',';
@@ -49,14 +49,14 @@ if ($_REQUEST['modfunc']=='update')
 
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-			if ($go && $columns['NAME'])
+			if ( $go && $columns['NAME'])
 				DBQuery($sql);
 		}
 	}
 	unset($_REQUEST['modfunc']);
 }
 
-if ($_REQUEST['modfunc']=='remove')
+if ( $_REQUEST['modfunc']=='remove')
 {
 	//FJ add translation
 	if (DeletePromptX(_('History Marking Period')))
@@ -112,20 +112,20 @@ if (empty($_REQUEST['modfunc']))
 function makeTextInput($value,$name)
 {    global $THIS_RET;
 
-    if ($THIS_RET['MARKING_PERIOD_ID'])
+    if ( $THIS_RET['MARKING_PERIOD_ID'])
         $id = $THIS_RET['MARKING_PERIOD_ID'];
     else
         $id = 'new';
         
-//    if ($name=='COURSE_TITLE')
+//    if ( $name=='COURSE_TITLE')
 //        $extra = 'size=20 maxlength=25';
-//    elseif ($name=='GRADE_PERCENT')
+//    elseif ( $name=='GRADE_PERCENT')
 //        $extra = 'size=6 maxlength=6';
-//    elseif ($name=='GRADE_LETTER' || $name=='GP_VALUE' || $name=='UNWEIGHTED_GP_VALUE')
+//    elseif ( $name=='GRADE_LETTER' || $name=='GP_VALUE' || $name=='UNWEIGHTED_GP_VALUE')
 //        $extra = 'size=5 maxlength=5';
        
 //    else
-    if ($name=='NAME')
+    if ( $name=='NAME')
 	$extra = 'size=20 maxlength=25';
     else
     	$extra = 'size=10 maxlength=10';
@@ -136,7 +136,7 @@ function makeTextInput($value,$name)
 function makeDateInput($value,$name)
 {    global $THIS_RET;
 
-    if ($THIS_RET['MARKING_PERIOD_ID'])
+    if ( $THIS_RET['MARKING_PERIOD_ID'])
         $id = $THIS_RET['MARKING_PERIOD_ID'];
     else
         $id = 'new';
@@ -146,7 +146,7 @@ function makeDateInput($value,$name)
 function makeSelectInput($value,$name)
 {    global $THIS_RET;
 
-    if ($THIS_RET['MARKING_PERIOD_ID'])
+    if ( $THIS_RET['MARKING_PERIOD_ID'])
         $id = $THIS_RET['MARKING_PERIOD_ID'];
     else
         $id = 'new';

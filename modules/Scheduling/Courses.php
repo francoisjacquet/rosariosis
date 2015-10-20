@@ -1,6 +1,6 @@
 <?php
 
-if ($_REQUEST['modfunc']!='choose_course')
+if ( $_REQUEST['modfunc']!='choose_course')
 	DrawHeader(ProgramTitle());
 		
 //unset($_SESSION['_REQUEST_vars']['subject_id']);
@@ -8,7 +8,7 @@ if ($_REQUEST['modfunc']!='choose_course')
 //unset($_SESSION['_REQUEST_vars']['course_period_id']);
 
 // if only one subject, select it automatically -- works for Course Setup and Choose a Course
-if ($_REQUEST['modfunc']!='delete' && !$_REQUEST['subject_id'])
+if ( $_REQUEST['modfunc']!='delete' && !$_REQUEST['subject_id'])
 {
 	$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."'"));
 	if (count($subjects_RET)==1)
@@ -17,13 +17,13 @@ if ($_REQUEST['modfunc']!='delete' && !$_REQUEST['subject_id'])
 
 $LO_options = array('save'=>false,'search'=>false,'responsive'=>false);
 
-if ($_REQUEST['course_modfunc']=='search')
+if ( $_REQUEST['course_modfunc']=='search')
 {
 	echo '<BR />';
 	PopTable('header',_('Search'));
 	echo '<FORM name="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&course_modfunc=search&last_year='.$_REQUEST['last_year'].'" method="POST">';
 	echo '<TABLE><TR><TD><INPUT type="text" name="search_term" value="'.$_REQUEST['search_term'].'" required></TD><TD><INPUT type="submit" value="'._('Search').'"></TD></TR></TABLE>';
-	if ($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php')
+	if ( $_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php')
 		echo '<INPUT type="hidden" name="include_child_mps" value="'.$_REQUEST['include_child_mps'].'"><INPUT type="hidden" name="year_date" value="'.$_REQUEST['year_date'].'"><INPUT type="hidden" name="month_date" value="'.$_REQUEST['month_date'].'"><INPUT type="hidden" name="day_date" value="'.$_REQUEST['day_date'].'">';
 	echo '</FORM>';
 	echo '<script><!--
@@ -31,10 +31,10 @@ if ($_REQUEST['course_modfunc']=='search')
 		--></script>';
 	PopTable('footer');
 
-	if ($_REQUEST['search_term'])
+	if ( $_REQUEST['search_term'])
 	{
 		//FJ add Available Seats column to every choose course popup
-		if ($_REQUEST['modname']!=='Scheduling/Schedule.php')
+		if ( $_REQUEST['modname']!=='Scheduling/Schedule.php')
 			$date = DBDate();
 
 		$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE (UPPER(TITLE) LIKE '%".mb_strtoupper($_REQUEST['search_term'])."%' OR UPPER(SHORT_NAME)='".mb_strtoupper($_REQUEST['search_term'])."') AND SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE"));
@@ -51,14 +51,14 @@ if ($_REQUEST['course_modfunc']=='search')
 		($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." 
 		ORDER BY cp.SHORT_NAME,TITLE"));
 		
-		//if ($_REQUEST['modname']=='Scheduling/Schedule.php')
+		//if ( $_REQUEST['modname']=='Scheduling/Schedule.php')
 		calcSeats1($periods_RET,$date);
 
 		$link = array();
 
 		$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'];
 		
-		if ($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php')
+		if ( $_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php')
 			$link['TITLE']['link'] .= '&include_child_mps='.$_REQUEST['include_child_mps'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'];
 
 		$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID');
@@ -73,16 +73,16 @@ if ($_REQUEST['course_modfunc']=='search')
 		$columns = array('TITLE'=>_('Course Period'));
 		$link = array();
 
-		if ($_REQUEST['modname']!='Scheduling/Schedule.php' || ($_REQUEST['modname']=='Scheduling/Schedule.php' && !$_REQUEST['include_child_mps']))
+		if ( $_REQUEST['modname']!='Scheduling/Schedule.php' || ($_REQUEST['modname']=='Scheduling/Schedule.php' && !$_REQUEST['include_child_mps']))
 		{
 			$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'];
 			$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID','course_id'=>'COURSE_ID','course_period_id'=>'COURSE_PERIOD_ID');
 
-			if ($_REQUEST['modfunc']=='choose_course')
+			if ( $_REQUEST['modfunc']=='choose_course')
 				$link['TITLE']['link'] .= '&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'];
 		}
 
-		//if ($_REQUEST['modname']=='Scheduling/Schedule.php')
+		//if ( $_REQUEST['modname']=='Scheduling/Schedule.php')
 		$columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
 
 		echo '</div><div class="st">';
@@ -99,7 +99,7 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 
 
 // UPDATING
-if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
+if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 {
 	$where = array('COURSE_SUBJECTS'=>'SUBJECT_ID',
 				'COURSES'=>'COURSE_ID',
@@ -115,11 +115,11 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 	//FJ bugfix SQL error invalid input syntax for type numeric
 	//when COURSE_PERIOD_SCHOOL_PERIODS saved before COURSE_PERIODS, but why?
-	if ($_REQUEST['course_period_id']=='new')
+	if ( $_REQUEST['course_period_id']=='new')
 	{
 		foreach ( (array)$_REQUEST['tables'] as $table_name=>$tables)
 		{
-			if ($table_name == 'COURSE_PERIOD_SCHOOL_PERIODS')
+			if ( $table_name == 'COURSE_PERIOD_SCHOOL_PERIODS')
 			{
 				unset($_REQUEST['tables'][$table_name]);
 
@@ -140,44 +140,44 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 			if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['CREDIT_HOURS']) || is_numeric($columns['CREDIT_HOURS'])) && (empty($columns['CREDITS']) || is_numeric($columns['CREDITS'])))
 			{
 				//FJ added SQL constraint TITLE (course_subjects & courses) & SHORT_NAME, TEACHER_ID (course_periods) & PERIOD_ID (course_period_school_periods) are not null
-				if (!((isset($columns['TITLE']) && empty($columns['TITLE'])) || ($table_name=='COURSE_PERIODS' && ((isset($columns['SHORT_NAME']) && empty($columns['SHORT_NAME'])) || (isset($columns['TEACHER_ID']) && empty($columns['TEACHER_ID'])))) || (mb_strpos($id,'new')!==false && !empty($columns['PERIOD_ID']) && !isset($columns['DAYS']))))
+				if ( !((isset($columns['TITLE']) && empty($columns['TITLE'])) || ($table_name=='COURSE_PERIODS' && ((isset($columns['SHORT_NAME']) && empty($columns['SHORT_NAME'])) || (isset($columns['TEACHER_ID']) && empty($columns['TEACHER_ID'])))) || (mb_strpos($id,'new')!==false && !empty($columns['PERIOD_ID']) && !isset($columns['DAYS']))))
 				{
-					if ($columns['TOTAL_SEATS'] && !is_numeric($columns['TOTAL_SEATS']))
+					if ( $columns['TOTAL_SEATS'] && !is_numeric($columns['TOTAL_SEATS']))
 						$columns['TOTAL_SEATS'] = preg_replace('/[^0-9]+/','',$columns['TOTAL_SEATS']);
 
 					$days = '';
-					if ($columns['DAYS'])
+					if ( $columns['DAYS'])
 					{
 						foreach ( (array)$columns['DAYS'] as $day=>$y)
 						{
-							if ($y=='Y')
+							if ( $y=='Y')
 								$days .= $day;
 						}
 						$columns['DAYS'] = $days;
 					}
 
-					if ($columns['DOES_ATTENDANCE'])
+					if ( $columns['DOES_ATTENDANCE'])
 					{        
 						foreach ( (array)$columns['DOES_ATTENDANCE'] as $tbl=>$y)
 						{
-							if ($y=='Y')
+							if ( $y=='Y')
 								$tbls .= ','.$tbl;
 						}
-						if ($tbls)
+						if ( $tbls)
 							$columns['DOES_ATTENDANCE'] = $tbls.',';
 						else
 							$columns['DOES_ATTENDANCE'] = '';
 					}
 
-					//if ($id!='new')
+					//if ( $id!='new')
 					if (mb_strpos($id,'new')===FALSE)
 					{
-						if ($table_name=='COURSES' && $columns['SUBJECT_ID'] && $columns['SUBJECT_ID']!=$_REQUEST['subject_id'])
+						if ( $table_name=='COURSES' && $columns['SUBJECT_ID'] && $columns['SUBJECT_ID']!=$_REQUEST['subject_id'])
 							$_REQUEST['subject_id'] = $columns['SUBJECT_ID'];
 
 						$sql = "UPDATE ".$table_name." SET ";
 
-						if ($table_name=='COURSE_PERIODS')
+						if ( $table_name=='COURSE_PERIODS')
 						{
 							//$current = DBGet(DBQuery("SELECT TEACHER_ID,PERIOD_ID,MARKING_PERIOD_ID,DAYS,SHORT_NAME FROM COURSE_PERIODS WHERE ".$where[$table_name]."='".$id."'"));
 							$current = DBGet(DBQuery("SELECT TEACHER_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM COURSE_PERIODS WHERE ".$where[$table_name]."='".$id."'"));
@@ -192,7 +192,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							else
 								$marking_period_id = $current[1]['MARKING_PERIOD_ID'];
 
-							if ($columns['SHORT_NAME'])
+							if ( $columns['SHORT_NAME'])
 								$short_name = $columns['SHORT_NAME'];
 							else
 								$short_name = $current[1]['SHORT_NAME'];
@@ -212,7 +212,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							$periods_title = '';
 							//get the missing part of the title before the short name:
 							$base_title_pos = mb_strpos($current[1]['TITLE'], (GetMP($current[1]['MARKING_PERIOD_ID'],'MP')!='FY' ? GetMP($current[1]['MARKING_PERIOD_ID'],'SHORT_NAME') : $current[1]['SHORT_NAME']));
-							if ($base_title_pos!= 0)
+							if ( $base_title_pos!= 0)
 								$periods_title = mb_substr($current[1]['TITLE'],0,$base_title_pos);
 								
 							$sql .= "TITLE='".$periods_title.$base_title."',";
@@ -228,7 +228,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							}
 						}
 						//FJ multiple school period for a course period
-						if ($table_name=='COURSE_PERIOD_SCHOOL_PERIODS')
+						if ( $table_name=='COURSE_PERIOD_SCHOOL_PERIODS')
 						{
 							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."' AND ".$where[$table_name]."<>'".$id."'"));
 
@@ -259,7 +259,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 								$base_title = mb_substr($current_cp[1]['TITLE'], mb_strpos($current_cp[1]['TITLE'], (GetMP($current_cp[1]['MARKING_PERIOD_ID'],'MP')!='FY' ? GetMP($current_cp[1]['MARKING_PERIOD_ID'],'SHORT_NAME') : $current_cp[1]['SHORT_NAME'])));
 							}
 								
-							if (!empty($columns['DAYS']))
+							if ( !empty($columns['DAYS']))
 							{
 								//FJ days display to locale	
 								$nb_days = mb_strlen($columns['DAYS']);
@@ -295,17 +295,17 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						$sql = mb_substr($sql,0,-1) . " WHERE ".$where[$table_name]."='".$id."'";
 						DBQuery($sql);
 						
-						if ($table_name=='COURSE_SUBJECTS')
+						if ( $table_name=='COURSE_SUBJECTS')
 						{
 							//hook
 							do_action('Scheduling/Courses.php|update_course_subject');
 						}
-						elseif ($table_name=='COURSES')
+						elseif ( $table_name=='COURSES')
 						{
 							//hook
 							do_action('Scheduling/Courses.php|update_course');
 						}
-						elseif ($table_name=='COURSE_PERIODS') 
+						elseif ( $table_name=='COURSE_PERIODS') 
 						{
 							//hook
 							do_action('Scheduling/Courses.php|update_course_period');
@@ -316,14 +316,14 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 					{
 						$sql = "INSERT INTO ".$table_name." ";
 
-						if ($table_name=='COURSE_SUBJECTS')
+						if ( $table_name=='COURSE_SUBJECTS')
 						{
 							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_SUBJECTS_SEQ').' AS ID'.FROM_DUAL));
 							$fields = 'SUBJECT_ID,SCHOOL_ID,SYEAR,';
 							$values = "'".$id[1]['ID']."','".UserSchool()."','".UserSyear()."',";
 							$_REQUEST['subject_id'] = $id[1]['ID'];
 						}
-						elseif ($table_name=='COURSES')
+						elseif ( $table_name=='COURSES')
 						{
 							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSES_SEQ').' AS ID'.FROM_DUAL));
 							$fields = 'COURSE_ID,SUBJECT_ID,SCHOOL_ID,SYEAR,';
@@ -332,13 +332,13 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							$values = "'".$id[1]['ID']."','".UserSchool()."','".UserSyear()."',";*/
 							$_REQUEST['course_id'] = $id[1]['ID'];
 						}
-						elseif ($table_name=='COURSE_PERIODS')
+						elseif ( $table_name=='COURSE_PERIODS')
 						{
 							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_PERIODS_SEQ').' AS ID'.FROM_DUAL));
 							$fields = 'SYEAR,SCHOOL_ID,COURSE_PERIOD_ID,COURSE_ID,TITLE,FILLED_SEATS,';
 							$teacher = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND STAFF_ID='".$columns['TEACHER_ID']."'"));
 
-							if (!isset($columns['PARENT_ID']))
+							if ( !isset($columns['PARENT_ID']))
 								$columns['PARENT_ID'] = $id[1]['ID'];
 
 							$mp_title = '';
@@ -355,7 +355,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 									$mp_title = GetMP($columns['MARKING_PERIOD_ID'],'SHORT_NAME').' - ';
 							}
 
-							if ($columns['SHORT_NAME'])
+							if ( $columns['SHORT_NAME'])
 								$base_title = $mp_title.$columns['SHORT_NAME'].' - ';
 								
 							//$base_title = str_replace("'","''",$base_title.$teacher[1]['FIRST_NAME'].' '.$teacher[1]['MIDDLE_NAME'].' '.$teacher[1]['LAST_NAME']);
@@ -367,7 +367,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 							
 						}
 						//FJ multiple school period for a course period
-						elseif ($table_name=='COURSE_PERIOD_SCHOOL_PERIODS')
+						elseif ( $table_name=='COURSE_PERIOD_SCHOOL_PERIODS')
 						{
 							//FJ add new school period to existing course period
 							if (isset($columns['PERIOD_ID']) && empty($columns['PERIOD_ID']))
@@ -414,21 +414,21 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						}
 						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-						if ($go)
+						if ( $go)
 						{
 							DBQuery($sql);				
 
-							if ($table_name=='COURSE_SUBJECTS')
+							if ( $table_name=='COURSE_SUBJECTS')
 							{
 								//hook
 								do_action('Scheduling/Courses.php|create_course_subject');
 							}
-							elseif ($table_name=='COURSES')
+							elseif ( $table_name=='COURSES')
 							{
 								//hook
 								do_action('Scheduling/Courses.php|create_course');
 							}
-							elseif ($table_name=='COURSE_PERIODS')
+							elseif ( $table_name=='COURSE_PERIODS')
 							{
 								//hook
 								do_action('Scheduling/Courses.php|create_course_period');
@@ -440,7 +440,7 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 				{
 					$error[] = _('Please fill in the required fields');
 
-					if ($table_name=='COURSE_PERIODS')
+					if ( $table_name=='COURSE_PERIODS')
 						break 2; //skip COURSE_PERIOD_SCHOOL_PERIODS
 				}
 			}
@@ -451,9 +451,9 @@ if ($_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	unset($_REQUEST['tables']);
 }
 
-if ($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if ($_REQUEST['course_period_id'])
+	if ( $_REQUEST['course_period_id'])
 	{
 		$table = _('Course Period');
 
@@ -465,7 +465,7 @@ if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 
 		$unset = 'course_period_id';
 	}
-	elseif ($_REQUEST['course_id'])
+	elseif ( $_REQUEST['course_id'])
 	{
 		$table = _('Course');
 
@@ -477,7 +477,7 @@ if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 
 		$unset = 'course_id';
 	}
-	elseif ($_REQUEST['subject_id'])
+	elseif ( $_REQUEST['subject_id'])
 	{
 		$table = _('Subject');
 
@@ -503,18 +503,18 @@ if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 		foreach ( (array)$sql as $query)
 			DBQuery($query);
 
-		if ($_REQUEST['course_period_id'])
+		if ( $_REQUEST['course_period_id'])
 		{
 			//hook
 			do_action('Scheduling/Courses.php|delete_course_period');
 		}
-		elseif ($_REQUEST['subject_id'])
+		elseif ( $_REQUEST['subject_id'])
 		{
 			//hook
 			do_action('Scheduling/Courses.php|delete_course_subject');
 		
 		}
-		elseif ($_REQUEST['course_id'])
+		elseif ( $_REQUEST['course_id'])
 		{
 			//hook
 			do_action('Scheduling/Courses.php|delete_course');
@@ -535,7 +535,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 	$QI = DBQuery($sql);
 	$subjects_RET = DBGet($QI);
 
-	if ($_REQUEST['modfunc']!='choose_course')
+	if ( $_REQUEST['modfunc']!='choose_course')
 	{
 		if (AllowEdit())
 		{
@@ -547,9 +547,9 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			$delete_button = '<INPUT type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
 		}
 		// ADDING & EDITING FORM
-		if ($_REQUEST['course_period_id'])
+		if ( $_REQUEST['course_period_id'])
 		{
-			if ($_REQUEST['course_period_id']!='new')
+			if ( $_REQUEST['course_period_id']!='new')
 			{
 			//FJ multiple school periods for a course period
 				/*$sql = "SELECT PARENT_ID,TITLE,SHORT_NAME,PERIOD_ID,DAYS,
@@ -655,14 +655,14 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			{
 				$i++;
 				//FJ add new school period to existing course period
-				if (!$new && $i > count($RET2))
+				if ( !$new && $i > count($RET2))
 				{
 					$new = true;
 					$not_really_new = true;
 					unset($school_period);
 				}
 
-				if (!$new)
+				if ( !$new)
 					$school_period = $RET2[$i];
 				else
 					$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] = 'new' . $i;
@@ -670,14 +670,14 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 				$header .= '<TR id="schoolPeriod'.$i.'" class="st">';
 
 				//FJ existing school period not modifiable
-				if (!$new)
+				if ( !$new)
 					$header .= '<TD>' . $periods[$school_period['PERIOD_ID']] . '<BR /><span class="legend-gray">' ._('Period'). '</span></TD>';
 				else
 					$header .= '<TD>' . SelectInput($school_period['PERIOD_ID'],'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]',($school_period['PERIOD_ID']?'':'<span class="legend-red">')._('Period').($school_period['PERIOD_ID']?'':'</span>'),$periods) . '</TD>';
 
 				$header .= '<TD colspan="6">';
 
-				if ($new==false)
+				if ( $new==false)
 				{
 					$header .= '<DIV id="divtables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]"><div class="onclick" onclick=\'addHTML("';
 					$header .= str_replace('"','\"', '<input type="hidden" name="tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]" value="'.$school_period['PERIOD_ID'].'" />');
@@ -695,7 +695,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 	//				$header .= '<TD>'.str_replace('"','\"',CheckboxInput($value,'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DAYS]['.$day.']',($day=='U'?'S':$day),$checked,false,'','',false)).'</TD>';
 					$header_temp = '<TD>'.CheckboxInput($value,'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]['.$day.']',mb_substr($days_convert[$day],0,3),$checked,$new,'','',false).'</TD>';
 
-					if ($new==false)
+					if ( $new==false)
 						$header .= str_replace('"','\"',$header_temp);
 					else
 						$header .= $header_temp;
@@ -703,7 +703,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 
 				$header .= '</TR></TABLE>';
 
-				if ($new==false)
+				if ( $new==false)
 				{
 					//FJ days display to locale						
 					$school_period_locale = '';
@@ -721,14 +721,14 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 				$header .= '</TD>';
 				$header .= '</TR>';
 				
-				if ($not_really_new)
+				if ( $not_really_new)
 					$new = false;
-				if ($new)
+				if ( $new)
 					break;
 			} while ( $i <= count($RET2) );
 			
 			$header .= '<TR class="st"><TD colspan="7"><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;">'. button('add') .' '._('New Period').'</a></TD></TR>';
-			if (!$new)
+			if ( !$new)
 				$header .= '<script>document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
 			?>
 			<script>
@@ -760,7 +760,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 
 			$header .= '<TD>';
 
-			if ($new==false)
+			if ( $new==false)
 				$header .= '<DIV id="attendance"><div class="onclick" onclick=\'addHTML("';
 
 			$header .= '<TABLE><TR>';
@@ -781,7 +781,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 
 				$header_temp = '<TD>'.CheckboxInput($val,'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_ATTENDANCE]['.$value['ID'].']',$value['TITLE'],$checked,false,'','',false).'</TD>';
 
-				if ($new==false)
+				if ( $new==false)
 					$header .= str_replace('"','\"',$header_temp);
 				else
 					$header .= $header_temp;
@@ -791,7 +791,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			$header .= '</TR></TABLE>';
 			$top .= '</TR></TABLE>';
 
-			if ($new==false)
+			if ( $new==false)
 				$header .= '","attendance",true);\'>'.$top.'</div></DIV>';
 
 			$header .= '<span class="legend-gray">'._('Takes Attendance').'</span>';
@@ -834,12 +834,12 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 
 			$header .= '<TD colspan="4">' . CheckboxInput($RET['DOES_BREAKOFF'], 'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DOES_BREAKOFF]', _('Allow Teacher Grade Scale'), $checked, $new, button('check'), button('x')) . '</TD>';
 
-			if ($_REQUEST['course_period_id']!='new' && $RET['PARENT_ID']!=$_REQUEST['course_period_id'])
+			if ( $_REQUEST['course_period_id']!='new' && $RET['PARENT_ID']!=$_REQUEST['course_period_id'])
 			{
 				$parent = DBGet(DBQuery("SELECT cp.TITLE as CP_TITLE,c.TITLE AS C_TITLE FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$RET['PARENT_ID']."'"));
 				$parent = $parent[1]['C_TITLE'].': '.$parent[1]['CP_TITLE'];
 			}
-			elseif ($_REQUEST['course_period_id']!='new')
+			elseif ( $_REQUEST['course_period_id']!='new')
 			{
 				$children = DBGet(DBQuery("SELECT COURSE_PERIOD_ID FROM COURSE_PERIODS WHERE PARENT_ID='".$_REQUEST['course_period_id']."' AND COURSE_PERIOD_ID!='".$_REQUEST['course_period_id']."'"));
 
@@ -856,9 +856,9 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			DrawHeader($header);
 			//echo '</FORM>';
 		}
-		elseif ($_REQUEST['course_id'])
+		elseif ( $_REQUEST['course_id'])
 		{
-			if ($_REQUEST['course_id']!='new')
+			if ( $_REQUEST['course_id']!='new')
 			{
 //FJ add Credit Hours to Courses
 				//$sql = "SELECT TITLE,SHORT_NAME,GRADE_LEVEL
@@ -893,7 +893,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			//FJ add Credit Hours to Courses
 			$header .= '<TD>' . TextInput($RET['CREDIT_HOURS'],'tables[COURSES]['.$_REQUEST['course_id'].'][CREDIT_HOURS]',_('Credit Hours')) . '</TD>';
 			//FJ SQL error column "subject_id" specified more than once
-			/*if ($_REQUEST['modfunc']!='choose_course')
+			/*if ( $_REQUEST['modfunc']!='choose_course')
 			{
 				foreach ( (array)$subjects_RET as $type)
 					$options[$type['SUBJECT_ID']] = $type['TITLE'];
@@ -905,9 +905,9 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			DrawHeader($header);
 			echo '</FORM>';
 		}
-		elseif ($_REQUEST['subject_id'])
+		elseif ( $_REQUEST['subject_id'])
 		{
-			if ($_REQUEST['subject_id']!='new')
+			if ( $_REQUEST['subject_id']!='new')
 			{
 				$sql = "SELECT TITLE,SORT_ORDER
 						FROM COURSE_SUBJECTS
@@ -940,9 +940,9 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 	}
 
 	// DISPLAY THE MENU
-	if ($_REQUEST['modfunc']=='choose_course')
+	if ( $_REQUEST['modfunc']=='choose_course')
 	{
-		if ($_REQUEST['modname']=='Scheduling/Schedule.php')
+		if ( $_REQUEST['modname']=='Scheduling/Schedule.php')
 		{
 //FJ add translation
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
@@ -953,17 +953,17 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 		else
 			DrawHeader(_('Choose a').' '.($_REQUEST['subject_id']?($_REQUEST['course_id']?($_REQUEST['last_year']=='true'?_('Last Year Course Period'):_('Course Period')):($_REQUEST['last_year']=='true'?_('Last Year Course'):_('Course'))):($_REQUEST['last_year']=='true'?_('Last Year Subject'):_('Subject'))));
 	}
-	elseif (!$_REQUEST['subject_id'])
+	elseif ( !$_REQUEST['subject_id'])
 		DrawHeader(_('Courses'));
 	DrawHeader('','<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&course_modfunc=search&last_year='.$_REQUEST['last_year'].($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['modname']=='Scheduling/Schedule.php'?'&include_child_mps='.$_REQUEST['include_child_mps'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date']:'').'">'._('Search').'</A>&nbsp;');
 
 	if (count($subjects_RET))
 	{
-		if ($_REQUEST['subject_id'])
+		if ( $_REQUEST['subject_id'])
 		{
 			foreach ( (array)$subjects_RET as $key=>$value)
 			{
-				if ($value['SUBJECT_ID']==$_REQUEST['subject_id'])
+				if ( $value['SUBJECT_ID']==$_REQUEST['subject_id'])
 					$subjects_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 			}
 		}
@@ -973,7 +973,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 	$link = array();
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'];
 	$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID');
-	if ($_REQUEST['modfunc']=='choose_course')
+	if ( $_REQUEST['modfunc']=='choose_course')
 		$link['TITLE']['link'] .= '&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'].($_REQUEST['modname']=='Scheduling/Schedule.php'?'&include_child_mps='.$_REQUEST['include_child_mps'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date']:'');
 	else
 		$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id=new';
@@ -982,7 +982,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 	ListOutput($subjects_RET,$columns,'Subject','Subjects',$link,array(),$LO_options);
 	echo '</div>';
 
-	if ($_REQUEST['subject_id'] && $_REQUEST['subject_id']!='new')
+	if ( $_REQUEST['subject_id'] && $_REQUEST['subject_id']!='new')
 	{
 		$sql = "SELECT COURSE_ID,TITLE FROM COURSES WHERE SUBJECT_ID='".$_REQUEST['subject_id']."' ORDER BY TITLE";
 		$QI = DBQuery($sql);
@@ -990,11 +990,11 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 
 		if (count($courses_RET))
 		{
-			if ($_REQUEST['course_id'])
+			if ( $_REQUEST['course_id'])
 			{
 				foreach ( (array)$courses_RET as $key=>$value)
 				{
-					if ($value['COURSE_ID']==$_REQUEST['course_id'])
+					if ( $value['COURSE_ID']==$_REQUEST['course_id'])
 						$courses_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 				}
 			}
@@ -1004,7 +1004,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 		$link = array();
 		$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'];
 		$link['TITLE']['variables'] = array('course_id'=>'COURSE_ID');
-		if ($_REQUEST['modfunc']=='choose_course')
+		if ( $_REQUEST['modfunc']=='choose_course')
 			$link['TITLE']['link'] .= '&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'].($_REQUEST['modname']=='Scheduling/Schedule.php'?'&include_child_mps='.$_REQUEST['include_child_mps'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date']:'');
 		else
 			$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id=new';
@@ -1013,10 +1013,10 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 		ListOutput($courses_RET,$columns,'Course','Courses',$link,array(),$LO_options);
 		echo '</div>';
 
-		if ($_REQUEST['course_id'] && $_REQUEST['course_id']!='new')
+		if ( $_REQUEST['course_id'] && $_REQUEST['course_id']!='new')
 		{
 			//FJ add Available Seats column to every choose course popup
-			if ($_REQUEST['modname']!=='Scheduling/Schedule.php')
+			if ( $_REQUEST['modname']!=='Scheduling/Schedule.php')
 				$date = DBDate();
 
 			//FJ multiple school periods for a course period
@@ -1027,16 +1027,16 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 				($_REQUEST['modfunc']=='choose_course' && $_REQUEST['modname']=='Scheduling/Schedule.php'?" AND '".$date."'<=(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE SYEAR=cp.SYEAR AND MARKING_PERIOD_ID=cp.MARKING_PERIOD_ID)":'')." 
 				ORDER BY SHORT_NAME,TITLE"));
 
-			//if ($_REQUEST['modname']=='Scheduling/Schedule.php')
+			//if ( $_REQUEST['modname']=='Scheduling/Schedule.php')
 			calcSeats1($periods_RET,$date);
 
 			if (count($periods_RET))
 			{
-				if ($_REQUEST['course_period_id'])
+				if ( $_REQUEST['course_period_id'])
 				{
 					foreach ( (array)$periods_RET as $key=>$value)
 					{
-						if ($value['COURSE_PERIOD_ID']==$_REQUEST['course_period_id'])
+						if ( $value['COURSE_PERIOD_ID']==$_REQUEST['course_period_id'])
 							$periods_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 					}
 				}
@@ -1046,20 +1046,20 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 
 			$link = array();
 
-			if ($_REQUEST['modname']!='Scheduling/Schedule.php' || ($_REQUEST['modname']=='Scheduling/Schedule.php' && !$_REQUEST['include_child_mps']))
+			if ( $_REQUEST['modname']!='Scheduling/Schedule.php' || ($_REQUEST['modname']=='Scheduling/Schedule.php' && !$_REQUEST['include_child_mps']))
 			{
 				$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'];
 
 				$link['TITLE']['variables'] = array('course_period_id'=>'COURSE_PERIOD_ID','course_marking_period_id'=>'MARKING_PERIOD_ID');
 
-				if ($_REQUEST['modfunc']=='choose_course')
+				if ( $_REQUEST['modfunc']=='choose_course')
 					$link['TITLE']['link'] .= '&modfunc='.$_REQUEST['modfunc'].'&student_id='.$_REQUEST['student_id'].'&last_year='.$_REQUEST['last_year'];
 
 				else
 					$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&course_period_id=new';
 			}
 
-			//if ($_REQUEST['modname']=='Scheduling/Schedule.php')
+			//if ( $_REQUEST['modname']=='Scheduling/Schedule.php')
 			$columns += array('AVAILABLE_SEATS'=>($_REQUEST['include_child_mps']?_('MP').'('._('Available Seats').')':_('Available Seats')));
 
 			echo '<div class="st">';
@@ -1069,7 +1069,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 	}
 }
 
-if ($_REQUEST['modname']=='Scheduling/Courses.php' && $_REQUEST['modfunc']=='choose_course' && $_REQUEST['course_period_id'])
+if ( $_REQUEST['modname']=='Scheduling/Courses.php' && $_REQUEST['modfunc']=='choose_course' && $_REQUEST['course_period_id'])
 {
 	$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
 	$course_title = $course_title[1]['TITLE'] . '<INPUT type="hidden" name="tables[parent_id]" value="'.$_REQUEST['course_period_id'].'">';
@@ -1082,10 +1082,10 @@ function calcSeats1(&$periods,$date)
 	$date_time = strtotime($date);
 	foreach ( (array)$periods as $key=>$period)
 	{
-		if ($_REQUEST['include_child_mps'])
+		if ( $_REQUEST['include_child_mps'])
 		{
 			$mps = GetChildrenMP($period['MP'],$period['MARKING_PERIOD_ID']);
-			if ($period['MP']=='FY' || $period['MP']=='SEM')
+			if ( $period['MP']=='FY' || $period['MP']=='SEM')
 				$mps = "'".$period['MARKING_PERIOD_ID']."'".($mps?','.$mps:'');
 		}
 		else
@@ -1099,7 +1099,7 @@ function calcSeats1(&$periods,$date)
 				$link = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&subject_id='.$period['SUBJECT_ID'].'&course_id='.$period['COURSE_ID'];
 				$link .= '&last_year='.$_REQUEST['last_year'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'];
 				$link .= '&course_period_id='.$period['COURSE_PERIOD_ID'].'&course_marking_period_id='.$mp;
-				if ($period['AVAILABLE_SEATS'])
+				if ( $period['AVAILABLE_SEATS'])
 				{
 					$seats = DBGet(DBQuery("SELECT 
 						max((SELECT count(1) 
@@ -1114,20 +1114,20 @@ function calcSeats1(&$periods,$date)
 					WHERE ac.CALENDAR_ID='".$period['CALENDAR_ID']."' 
 					AND ac.SCHOOL_DATE BETWEEN '".$date."' 
 					AND '".GetMP($mp,'END_DATE')."'"));
-					if ($seats[1]['FILLED_SEATS']!='')
-						if ($_REQUEST['include_child_mps'])
+					if ( $seats[1]['FILLED_SEATS']!='')
+						if ( $_REQUEST['include_child_mps'])
 							$periods[$key]['AVAILABLE_SEATS'] .= '<A href='.$link.'>'.(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'('.($period['AVAILABLE_SEATS']-$seats[1]['FILLED_SEATS']).')</A> | ';
 						else
 							$periods[$key]['AVAILABLE_SEATS'] = $period['AVAILABLE_SEATS']-$seats[1]['FILLED_SEATS'];
 				}
 				else
-					if ($_REQUEST['include_child_mps'])
+					if ( $_REQUEST['include_child_mps'])
 						$periods[$key]['AVAILABLE_SEATS'] .= '<A href='.$link.'>'.(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'</A> | ';
 					else
 						$periods[$key]['AVAILABLE_SEATS'] = _('N/A');
 			}
 		}
-		if ($_REQUEST['include_child_mps'])
+		if ( $_REQUEST['include_child_mps'])
 			$periods[$key]['AVAILABLE_SEATS'] = mb_substr($periods[$key]['AVAILABLE_SEATS'],0,-3);
 	}
 }

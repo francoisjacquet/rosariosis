@@ -18,7 +18,7 @@ ListOutput($sections_RET,$columns,'Course','Courses',array(),array(array('COURSE
 
 function _makeMP($marking_period_id,$column)
 {
-	if (!$mp_title = GetMP($marking_period_id,'TITLE'))
+	if ( !$mp_title = GetMP($marking_period_id,'TITLE'))
 		$mp_title = $marking_period_id;
 	return $mp_title;
 }
