@@ -36,6 +36,8 @@ Changes in 2.9
 - Reduce PNG images / icons size using CompressPNG.com program wide
 - Show Assignment Type color in Grades.php
 - Add ProgramConfig() function in Config.fnc.php
+- Add space after control structures keywords: if, for, foreach, while, switch
+- Add spaces before and after arrow: => (foreach & associative arrays)
 
 Changes in 2.8.11
 -----------------
