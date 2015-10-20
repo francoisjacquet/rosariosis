@@ -8,7 +8,7 @@
 
 //example:
 /*
-	if( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
+	if ( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 	{
 		//FJ add SendEmail function
 		include_once('ProgramFunctions/SendEmail.fnc.php');

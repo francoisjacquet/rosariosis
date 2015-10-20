@@ -24,7 +24,7 @@ $extra['second_col'] .= '</TABLE></fieldset></TD></TR>';
 $extra['new'] = true;
 $extra['action'] .= '&_ROSARIO_PDF=true';
 
-if(!$_REQUEST['search_modfunc'])
+if (!$_REQUEST['search_modfunc'])
 {
 	DrawHeader(ProgramTitle());
 	
@@ -32,17 +32,17 @@ if(!$_REQUEST['search_modfunc'])
 }
 else
 {
-	if($_REQUEST['month_discipline_entry_begin'] && $_REQUEST['day_discipline_entry_begin'] && $_REQUEST['year_discipline_entry_begin'])
+	if ($_REQUEST['month_discipline_entry_begin'] && $_REQUEST['day_discipline_entry_begin'] && $_REQUEST['year_discipline_entry_begin'])
 	{
 		$start_date = $_REQUEST['day_discipline_entry_begin'].'-'.$_REQUEST['month_discipline_entry_begin'].'-'.$_REQUEST['year_discipline_entry_begin'];
-		if(!VerifyDate($start_date))
+		if (!VerifyDate($start_date))
 			unset($start_date);
 		$end_date = $_REQUEST['day_discipline_entry_end'].'-'.$_REQUEST['month_discipline_entry_end'].'-'.$_REQUEST['year_discipline_entry_end'];
-		if(!VerifyDate($end_date))
+		if (!VerifyDate($end_date))
 			unset($end_date);
 	}
 
-	if(!isset($_REQUEST['_ROSARIO_PDF']))
+	if (!isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		DrawHeader(ProgramTitle());
 		echo '<BR /><BR />';
@@ -55,7 +55,7 @@ else
 
 	$extra['FROM'] .= ',DISCIPLINE_REFERRALS r ';
 	$extra['WHERE'] .= " AND r.STUDENT_ID=ssm.STUDENT_ID AND r.SYEAR=ssm.SYEAR ";
-	if(mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS dr')!==false)
+	if (mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS dr')!==false)
 		$extra['WHERE'] .= ' AND r.ID=dr.ID';
 	
 	$extra['group'] = array('STUDENT_ID');
@@ -64,7 +64,7 @@ else
 	
 	$RET = GetStuList($extra);
 
-	if(count($RET))
+	if (count($RET))
 	{
 		$handle = PDFStart();
 		foreach($RET as $student_id=>$referrals)
@@ -74,7 +74,7 @@ else
 
 			DrawHeader($referrals[1]['FULL_NAME'],$referrals[1]['STUDENT_ID']);
 			DrawHeader(SchoolInfo('TITLE'),$courses[1]['GRADE_ID']);
-			if($start_date && $end_date)
+			if ($start_date && $end_date)
 				DrawHeader(ProperDate($start_date).' - '.ProperDate($end_date));
 			else
 //FJ school year over one/two calendar years format
@@ -85,24 +85,24 @@ else
 
 			foreach($referrals as $referral)
 			{
-				if($_REQUEST['elements']['ENTRY_DATE'])
+				if ($_REQUEST['elements']['ENTRY_DATE'])
 					DrawHeader('<b>'._('Date').': </b>'.ProperDate($referral['ENTRY_DATE']));
 
-				if($_REQUEST['elements']['STAFF_ID'])
+				if ($_REQUEST['elements']['STAFF_ID'])
 					DrawHeader('<b>'._('Reporter').': </b>'.GetTeacher($referral['STAFF_ID']));
 
 				foreach($_REQUEST['elements'] as $column=>$Y)
 				{
-					if($column=='ENTRY_DATE' || $column=='STAFF_ID')
+					if ($column=='ENTRY_DATE' || $column=='STAFF_ID')
 						continue;
 
-					if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']!='textarea')
+					if ($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']!='textarea')
 					{
 						$title_txt = '<b>'.$categories_RET[mb_substr($column,9)][1]['TITLE'].': </b> ';
 
-						if($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='checkbox')
+						if ($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='checkbox')
 							DrawHeader($title_txt.($referral[$column] == 'Y' ? button('check', '', '', 'bigger') : button('x', '', '', 'bigger')));
-						elseif($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='multiple_checkbox')
+						elseif ($categories_RET[mb_substr($column,9)][1]['DATA_TYPE']=='multiple_checkbox')
 							DrawHeader($title_txt.str_replace('||',', ',mb_substr($referral[$column],2,-2)));
 						else
 							DrawHeader($title_txt.$referral[$column]);

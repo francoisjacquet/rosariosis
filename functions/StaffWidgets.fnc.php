@@ -9,16 +9,16 @@
 function StaffWidgets($item,&$myextra=NULL)
 {	global $extra,$_ROSARIO,$RosarioModules;
 
-	if(isset($myextra))
+	if (isset($myextra))
 		$extra =& $myextra;
 
-	if(!isset($_ROSARIO['StaffWidgets']) || !is_array($_ROSARIO['StaffWidgets']))
+	if (!isset($_ROSARIO['StaffWidgets']) || !is_array($_ROSARIO['StaffWidgets']))
 		$_ROSARIO['StaffWidgets'] = array();
 
-	if(!isset($extra['functions']) || !is_array($extra['functions']))
+	if (!isset($extra['functions']) || !is_array($extra['functions']))
 		$extra['functions'] = array();
 
-	if((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && !$_ROSARIO['StaffWidgets'][$item])
+	if ((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && !$_ROSARIO['StaffWidgets'][$item])
 	{
 		switch($item)
 		{
@@ -36,7 +36,7 @@ function StaffWidgets($item,&$myextra=NULL)
 
 				$widget_wrap_footer = '</TABLE></TD></TR>';
 
-				if($RosarioModules['Users'] && (!$_ROSARIO['StaffWidgets']['permissions']))
+				if ($RosarioModules['Users'] && (!$_ROSARIO['StaffWidgets']['permissions']))
 				{
 					$extra['search'] .= $widget_wrap_header(_('Users'));
 
@@ -45,7 +45,7 @@ function StaffWidgets($item,&$myextra=NULL)
 					$extra['search'] .= $widget_wrap_footer;
 				}
 
-				if($RosarioModules['Food_Service'] && (!$_ROSARIO['StaffWidgets']['fsa_balance'] || !$_ROSARIO['StaffWidgets']['fsa_status'] || !$_ROSARIO['StaffWidgets']['fsa_barcode']))
+				if ($RosarioModules['Food_Service'] && (!$_ROSARIO['StaffWidgets']['fsa_balance'] || !$_ROSARIO['StaffWidgets']['fsa_status'] || !$_ROSARIO['StaffWidgets']['fsa_barcode']))
 				{
 					$extra['search'] .= $widget_wrap_header(_('Food Service'));
 
@@ -57,7 +57,7 @@ function StaffWidgets($item,&$myextra=NULL)
 					$extra['search'] .= $widget_wrap_footer;
 				}
 
-				if($RosarioModules['Accounting'] && (!$_ROSARIO['Widgets']['staff_balance']) && AllowUse('Accounting/StaffBalances.php'))
+				if ($RosarioModules['Accounting'] && (!$_ROSARIO['Widgets']['staff_balance']) && AllowUse('Accounting/StaffBalances.php'))
 				{
 					$extra['search'] .= $widget_wrap_header(_('Accounting'));
 
@@ -82,13 +82,13 @@ function StaffWidgets($item,&$myextra=NULL)
 				$item = 'permissions';
 
 			case 'permissions':
-				if($RosarioModules['Users'])
+				if ($RosarioModules['Users'])
 				{
-				if($_REQUEST['permissions'])
+				if ($_REQUEST['permissions'])
 				{
 					$extra['WHERE'] .= " AND s.PROFILE_ID IS ".($_REQUEST['permissions']=='Y'?'NOT':'')." NULL AND s.PROFILE!='none'";
 
-					if(!$extra['NoSearchTerms'])
+					if (!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Permissions').': </b>'.($_REQUEST['permissions']=='Y'?_('Profile'):_('Custom')).'<BR />';
 				}
 
@@ -107,9 +107,9 @@ function StaffWidgets($item,&$myextra=NULL)
 				$item = 'fsa_balance';
 
 			case 'fsa_balance':
-				if($RosarioModules['Food_Service'])
+				if ($RosarioModules['Food_Service'])
 				{
-				if($_REQUEST['fsa_balance']!='')
+				if ($_REQUEST['fsa_balance']!='')
 				{
 					if (!mb_strpos($extra['FROM'],'fssa'))
 					{
@@ -119,7 +119,7 @@ function StaffWidgets($item,&$myextra=NULL)
 
 					$extra['WHERE'] .= " AND fssa.BALANCE".($_REQUEST['fsa_bal_gt']=='Y'?'>=':'<')."'".round($_REQUEST['fsa_balance'],2)."'";
 
-					if(!$extra['NoSearchTerms'])
+					if (!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Balance').': </b><span class="sizep2">'.($_REQUEST['fsa_bal_ge']=='Y'?'&ge;':'&lt;').'</span>'.number_format($_REQUEST['fsa_balance'],2).'<BR />';
 				}
 
@@ -142,9 +142,9 @@ function StaffWidgets($item,&$myextra=NULL)
 				$item = 'fsa_status';
 
 			case 'fsa_status':
-				if($RosarioModules['Food_Service'])
+				if ($RosarioModules['Food_Service'])
 				{
-				if($_REQUEST['fsa_status'])
+				if ($_REQUEST['fsa_status'])
 				{
 					if (!mb_strpos($extra['FROM'],'fssa'))
 					{
@@ -152,12 +152,12 @@ function StaffWidgets($item,&$myextra=NULL)
 						$extra['WHERE'] .= ' AND fssa.STAFF_ID=s.STAFF_ID';
 					}
 
-					if($_REQUEST['fsa_status']=='Active')
+					if ($_REQUEST['fsa_status']=='Active')
 						$extra['WHERE'] .= ' AND fssa.STATUS IS NULL';
 					else
 						$extra['WHERE'] .= ' AND fssa.STATUS=\''.$_REQUEST['fsa_status'].'\'';
 
-					if(!$extra['NoSearchTerms'])
+					if (!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Status').': </b>'.$_REQUEST['fsa_status'].'<BR />';
 				}
 
@@ -176,9 +176,9 @@ function StaffWidgets($item,&$myextra=NULL)
 			break;
 
 			case 'fsa_barcode':
-				if($RosarioModules['Food_Service'])
+				if ($RosarioModules['Food_Service'])
 				{
-				if($_REQUEST['fsa_barcode'])
+				if ($_REQUEST['fsa_barcode'])
 				{
 					if (!mb_strpos($extra['FROM'],'fssa'))
 					{
@@ -188,7 +188,7 @@ function StaffWidgets($item,&$myextra=NULL)
 
 					$extra['WHERE'] .= ' AND fssa.BARCODE=\''.$_REQUEST['fsa_barcode'].'\'';
 
-					if(!$extra['NoSearchTerms'])
+					if (!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Barcode').': </b>'.$_REQUEST['fsa_barcode'].'<BR />';
 				}
 
@@ -206,13 +206,13 @@ function StaffWidgets($item,&$myextra=NULL)
 				$item = 'fsa_exists';
 
 			case 'fsa_exists':
-				if($RosarioModules['Food_Service'])
+				if ($RosarioModules['Food_Service'])
 				{
-				if($_REQUEST['fsa_exists'])
+				if ($_REQUEST['fsa_exists'])
 				{
 					$extra['WHERE'] .= ' AND '.($_REQUEST['fsa_exists']=='N'?'NOT ':'').'EXISTS (SELECT \'exists\' FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID)';
 
-					if(!$extra['NoSearchTerms'])
+					if (!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= _('Food Service Account Exists').': '.($_REQUEST['fsa_exists']=='Y'?_('Yes'):_('No')).'<BR />';
 				}
 
@@ -226,11 +226,11 @@ function StaffWidgets($item,&$myextra=NULL)
 			break;
 			
 			case 'staff_balance':
-				if($RosarioModules['Accounting'] && AllowUse('Accounting/StaffBalances.php'))
+				if ($RosarioModules['Accounting'] && AllowUse('Accounting/StaffBalances.php'))
 				{
-				if(is_numeric($_REQUEST['balance_low']) && is_numeric($_REQUEST['balance_high']))
+				if (is_numeric($_REQUEST['balance_low']) && is_numeric($_REQUEST['balance_high']))
 				{
-					if($_REQUEST['balance_low'] > $_REQUEST['balance_high'])
+					if ($_REQUEST['balance_low'] > $_REQUEST['balance_high'])
 					{
 						$temp = $_REQUEST['balance_high'];
 						$_REQUEST['balance_high'] = $_REQUEST['balance_low'];
@@ -239,7 +239,7 @@ function StaffWidgets($item,&$myextra=NULL)
 
 					$extra['WHERE'] .= " AND (coalesce((SELECT sum(p.AMOUNT) FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID=s.STAFF_ID AND p.SYEAR=s.SYEAR),0)-coalesce((SELECT sum(f.AMOUNT) FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID=s.STAFF_ID AND f.SYEAR=s.SYEAR),0)) BETWEEN '".$_REQUEST['balance_low']."' AND '".$_REQUEST['balance_high']."' ";
 
-					if(!$extra['NoSearchTerms'])
+					if (!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Staff Payroll Balance').': </b>'._('Between').' '.$_REQUEST['balance_low'].' &amp; '.$_REQUEST['balance_high'].'<BR />';
 				}
 

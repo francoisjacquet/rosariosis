@@ -103,7 +103,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 						$_ROSARIO['SearchTerms'] .= _( 'Yes' );
 				}
 				// No
-				elseif( $value == 'N' )
+				elseif ( $value == 'N' )
 				{
 					$return .= " AND (s." . $field_name . "!='Y' OR s." . $field_name . " IS NULL) ";
 
@@ -177,7 +177,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 						$_ROSARIO['SearchTerms'] .= _( 'No Value' );
 				}
 				// Other Value (Edit Pull-Down only)
-				elseif( $fields[$field_id][1]['TYPE'] == 'edits'
+				elseif ( $fields[$field_id][1]['TYPE'] == 'edits'
 					&& $value === '~' )
 				{
 					$return .= " AND position('\r'||s." . $field_name . "||'\r'
@@ -273,7 +273,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 
 		$field_title = $fields[$field_id][1]['TITLE'];
 
-		if( $fields[$field_id][1]['TYPE'] == 'numeric' )
+		if ( $fields[$field_id][1]['TYPE'] == 'numeric' )
 			$value = preg_replace( '/[^0-9.-]+/', '', $value );
 
 		if ( $value !== '' )

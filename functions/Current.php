@@ -138,7 +138,7 @@ function SetUserStaffID( $staff_id )
 				WHERE STAFF_ID='" . $staff_id . "'
 				AND SYEAR='" . UserSyear() . "'" ) );
 
-			if( !count( $is_admin_staff ) )
+			if ( !count( $is_admin_staff ) )
 				$isHack = true;
 
 		break;
@@ -243,7 +243,7 @@ function SetUserStudentID( $student_id )
 				AND SCHOOL_ID=" . UserSchool() . "
 				AND SYEAR='" . UserSyear() . "'") );
 
-			if( !count( $is_admin_student ) )
+			if ( !count( $is_admin_student ) )
 				$isHack = true;
 		break;
 

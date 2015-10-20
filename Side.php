@@ -354,7 +354,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 						echo $student['FULL_NAME'];
 					?></OPTION>
 					<?php // set current School
-					if( UserStudentID() == $student['STUDENT_ID'] )
+					if ( UserStudentID() == $student['STUDENT_ID'] )
 						$_SESSION['UserSchool'] = $student['SCHOOL_ID'];
 
 				endforeach; ?>
@@ -703,7 +703,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 								echo $title;
 						?></A></li>
 					<?php // if is a section
-					elseif( $keys_modcat[$j+1]
+					elseif ( $keys_modcat[$j+1]
 						&& !is_numeric( $keys_modcat[$j+1] ) ) : ?>
 
 						<li class="menu-inter"><?php

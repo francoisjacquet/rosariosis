@@ -9,14 +9,14 @@ $period_select .= "</SELECT>";
 */
 
 DrawHeader(ProgramTitle());
-if($period_select)
+if ($period_select)
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 	DrawHeader($period_select);
 	echo '</FORM>';
 }
 
-if($_REQUEST['search_modfunc']=='list')
+if ($_REQUEST['search_modfunc']=='list')
 {
 	Widgets('course');
 	Widgets('request');
@@ -26,7 +26,7 @@ if($_REQUEST['search_modfunc']=='list')
 	$extra['FROM'] .= ',SCHOOL_PERIODS sp,SCHEDULE ss,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp';
 	/*$extra['WHERE'] .= ' AND (\''.DBDate().'\' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL) AND ss.SCHOOL_ID=ssm.SCHOOL_ID AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',UserMP()).') AND ss.STUDENT_ID=ssm.STUDENT_ID AND ss.SYEAR=ssm.SYEAR AND ss.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID ';*/
 	$extra['WHERE'] .= ' AND cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND (\''.DBDate().'\' BETWEEN ss.START_DATE AND ss.END_DATE OR ss.END_DATE IS NULL) AND ss.SCHOOL_ID=ssm.SCHOOL_ID AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',UserMP()).') AND ss.STUDENT_ID=ssm.STUDENT_ID AND ss.SYEAR=ssm.SYEAR AND ss.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID=sp.PERIOD_ID ';
-	//if(UserStudentID())
+	//if (UserStudentID())
 	//	$extra['WHERE'] .= " AND s.STUDENT_ID='".UserStudentID()."' ";
 	$extra['group'] = array('STUDENT_ID','PERIOD_ID');
 
@@ -48,7 +48,7 @@ foreach($periods_RET as $period)
 	$extra['columns_after']['PERIOD_'.$period['PERIOD_ID']] = $period['TITLE'];
 	$extra['functions']['PERIOD_'.$period['PERIOD_ID']] = '_preparePeriods';
 }
-if(!$_REQUEST['search_modfunc'])
+if (!$_REQUEST['search_modfunc'])
 	Search('student_id',$extra);
 else
 {
@@ -60,13 +60,13 @@ else
 	$bad_students[0] = array();
 	foreach($students_RET as $student)
 	{
-		if(count($schedule_RET[$student['STUDENT_ID']])!=count($periods_RET))
+		if (count($schedule_RET[$student['STUDENT_ID']])!=count($periods_RET))
 			$bad_students[] = $student;
 	}
-	if(!isset($extra['columns_after']) || !is_array($extra['columns_after']))
+	if (!isset($extra['columns_after']) || !is_array($extra['columns_after']))
 		$extra['columns_after'] = array();
 	unset($bad_students[0]);
-	if(AllowUse('Scheduling/Schedule.php'))
+	if (AllowUse('Scheduling/Schedule.php'))
 	{
 		$link['FULL_NAME']['link'] = "Modules.php?modname=Scheduling/Schedule.php";
 		$link['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
@@ -80,7 +80,7 @@ function _preparePeriods($value,$name)
 {	global $THIS_RET,$schedule_RET;
 
 	$period_id = mb_substr($name,7);
-	if(!$schedule_RET[$THIS_RET['STUDENT_ID']][$period_id])
+	if (!$schedule_RET[$THIS_RET['STUDENT_ID']][$period_id])
 	{
 		if (isset($_REQUEST['LO_save']))
 			$return = _('No');

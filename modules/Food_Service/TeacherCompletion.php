@@ -58,10 +58,10 @@ $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID','PERIOD_ID'));
 
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-if(!$_REQUEST['menu_id'])
+if (!$_REQUEST['menu_id'])
 {
-	if(!$_SESSION['FSA_menu_id'])
-		if(count($menus_RET))
+	if (!$_SESSION['FSA_menu_id'])
+		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array('There are no menus yet setup.'),'fatal');
@@ -73,7 +73,7 @@ else
 	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 
 $totals = array(array());
-if(count($RET))
+if (count($RET))
 {
 	foreach($RET as $staff_id=>$periods)
 	{
@@ -90,7 +90,7 @@ if(count($RET))
 				$staff_RET[$i][$period_id] = '<TABLE style="background-color:#'.$color.'"><TR>';
 				foreach($items_RET as $item) {
 					$staff_RET[$i][$period_id] .= '<TD style="background-color:#'.$color.'">'.($item['COUNT'] ? $item['COUNT'] : '0').'<BR />'.$item['DESCRIPTION'].'</TD>';
-					if($color=='FFFFFF')
+					if ($color=='FFFFFF')
 						$color = 'F0F0F0';
 					else
 						$color = 'FFFFFF';
@@ -108,7 +108,7 @@ if(count($RET))
 }
 
 $columns = array('FULL_NAME'=>'Teacher');
-if(!$_REQUEST['period'])
+if (!$_REQUEST['period'])
 {
 	foreach($periods_RET as $period)
 		$columns[$period['PERIOD_ID']] = $period['TITLE'];
@@ -119,7 +119,7 @@ DrawHeader(PrepareDate($date,'_date').' : '.$period_select.' : <INPUT type=submi
 echo '</FORM>';
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
-if(count($menus_RET)>1)
+if (count($menus_RET)>1)
 {
 	$tabs = array();
 	foreach($menus_RET as $id=>$menu)

@@ -1,15 +1,15 @@
 <?php
 include_once('modules/Scheduling/functions.inc.php');
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if($_SESSION['MassRequests.php'])
+	if ($_SESSION['MassRequests.php'])
 	{
 		if (isset($_REQUEST['student']) && is_array($_REQUEST['student']))
 		{
 			$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE_REQUESTS WHERE COURSE_ID='".$_REQUEST['MassRequests.php']['course_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
 			foreach($_REQUEST['student'] as $student_id=>$yes)
 			{
-				if(!$current_RET[$student_id])
+				if (!$current_RET[$student_id])
 				{
 					$sql = "INSERT INTO SCHEDULE_REQUESTS (REQUEST_ID,SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID)
 								values(".db_seq_nextval('SCHEDULE_REQUESTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$student_id."','".$_SESSION['MassRequests.php']['subject_id']."','".$_SESSION['MassRequests.php']['course_id']."',NULL,'".$_REQUEST['with_teacher_id']."','".$_REQUEST['without_teacher_id']."','".$_REQUEST['with_period_id']."','".$_REQUEST['without_period_id']."')";
@@ -30,16 +30,16 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 }
 
 
-if($_REQUEST['modfunc']!='choose_course')
+if ($_REQUEST['modfunc']!='choose_course')
 {
 	DrawHeader(ProgramTitle());
 	
 	if (isset($error))
 		echo ErrorMessage($error);
-	if(isset($note))
+	if (isset($note))
 		echo ErrorMessage($note, 'note');
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 
@@ -51,7 +51,7 @@ if($_REQUEST['modfunc']!='choose_course')
 
 		echo '<TABLE><TR><TD>&nbsp;</TD><TD><DIV id="course_div">';
 
-		if($_SESSION['MassRequests.php'])
+		if ($_SESSION['MassRequests.php'])
 		{
 			$course_title = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_SESSION['MassRequests.php']['course_id']."'"));
 			$course_title = $course_title[1]['TITLE'];
@@ -101,10 +101,10 @@ if($_REQUEST['modfunc']!='choose_course')
 	}
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 
 {
-	if($_REQUEST['search_modfunc']!='list')
+	if ($_REQUEST['search_modfunc']!='list')
 		unset($_SESSION['MassRequests.php']);
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
@@ -117,15 +117,15 @@ if(empty($_REQUEST['modfunc']))
 	//Widgets('activity');
 
 	Search('student_id',$extra);
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 		echo '<BR /><div class="center">'.SubmitButton(_('Add Request to Selected Students'))."</div></FORM>";
 }
 
-if($_REQUEST['modfunc']=='choose_course')
+if ($_REQUEST['modfunc']=='choose_course')
 {
 
 //FJ fix bug window closed
-	if(!$_REQUEST['course_id'])
+	if (!$_REQUEST['course_id'])
 		include 'modules/Scheduling/Courses.php';
 	else
 	{

@@ -1115,7 +1115,7 @@ function Widgets( $item, &$myextra = null )
 
 				/*foreach($_REQUEST['discipline'] as $key=>$value)
 				{
-					if(!$value)
+					if (!$value)
 						unset($_REQUEST['discipline'][$key]);
 				}*/
 			}
@@ -1137,7 +1137,7 @@ function Widgets( $item, &$myextra = null )
 
 				/*foreach($_REQUEST['discipline_begin'] as $key=>$value)
 				{
-					if(!$value)
+					if (!$value)
 						unset($_REQUEST['discipline_begin'][$key]);
 				}*/
 			}
@@ -1158,7 +1158,7 @@ function Widgets( $item, &$myextra = null )
 
 				/*foreach($_REQUEST['discipline_end'] as $key=>$value)
 				{
-					if(!$value)
+					if (!$value)
 						unset($_REQUEST['discipline_end'][$key]);
 				}*/
 			}
@@ -1268,7 +1268,7 @@ function Widgets( $item, &$myextra = null )
 									" LIKE '%||" . $_REQUEST['discipline'][$category['ID']] . "||%' ";
 							}
 
-							if( !$extra['NoSearchTerms'] )
+							if ( !$extra['NoSearchTerms'] )
 								$_ROSARIO['SearchTerms'] .= '<b>' . $category['TITLE'] . ': </b>' .
 									$_REQUEST['discipline'][$category['ID']] . '<BR />';
 						}

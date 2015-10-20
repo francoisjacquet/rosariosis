@@ -1,10 +1,10 @@
 <?php
 // example:
 //
-//	if(($dp=DeletePrompt(_('Title')))
+//	if (($dp=DeletePrompt(_('Title')))
 //		// OK
 //		DBQuery("DELETE FROM BOK WHERE id='".$_REQUEST['benchmark_id']."'");
-//	elseif($dp==false)
+//	elseif ($dp==false)
 //		// Cancel
 //
 
@@ -12,7 +12,7 @@ function DeletePromptX($title,$action='Delete')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok','delete_cancel'));
 
-	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	if (!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
 	{
 		echo '<BR />';
 //FJ add translation
@@ -21,7 +21,7 @@ function DeletePromptX($title,$action='Delete')
 		PopTable('footer');
 		return '';
 	}
-	if($_REQUEST['delete_ok'])
+	if ($_REQUEST['delete_ok'])
 	{
 		unset($_REQUEST['delete_ok']);
 		unset($_REQUEST['modfunc']);

@@ -51,20 +51,20 @@ if ( UserStudentID() )
 				//FJ fix SQL bug when text data entered, data verification
 				if ((empty($columns['GRADE_PERCENT']) || is_numeric($columns['GRADE_PERCENT'])) && (empty($columns['GP_SCALE']) || is_numeric($columns['GP_SCALE'])) && (empty($columns['UNWEIGHTED_GP']) || is_numeric($columns['UNWEIGHTED_GP'])) && (empty($columns['WEIGHTED_GP']) || is_numeric($columns['WEIGHTED_GP'])) && (empty($columns['CREDIT_EARNED']) || is_numeric($columns['CREDIT_EARNED'])) && (empty($columns['CREDIT_ATTEMPTED']) || is_numeric($columns['CREDIT_ATTEMPTED'])))
 				{
-					if($id!='new')
+					if ($id!='new')
 					{
 						$sql = "UPDATE student_report_card_grades SET ";
 						foreach($columns as $column=>$value)
 							$sql .= $column."='".$value."',";
 
-						if($_REQUEST['tab_id']!='new')
+						if ($_REQUEST['tab_id']!='new')
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 						else
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 
 						DBQuery($sql);
 					}
-					elseif($columns['COURSE_TITLE'])
+					elseif ($columns['COURSE_TITLE'])
 					{
 						$sql = 'INSERT INTO student_report_card_grades ';
 
@@ -78,26 +78,26 @@ if ( UserStudentID() )
 						//$values = db_seq_nextval('student_report_card_grades_seq').','.UserSchool().", $student_id, $mp_id, ";
 						$values = db_seq_nextval('student_report_card_grades_seq').",'".UserSchool()."', '".$student_id."', '".$mp_id."', '".$syear."', ";
 
-						if(!$columns['GP_SCALE'])
+						if (!$columns['GP_SCALE'])
 							$columns['GP_SCALE'] = SchoolInfo('REPORTING_GP_SCALE');
 
-						if(!$columns['CREDIT_ATTEMPTED'])
+						if (!$columns['CREDIT_ATTEMPTED'])
 							$columns['CREDIT_ATTEMPTED'] = 1;
 
-						if(!$columns['CREDIT_EARNED'])
+						if (!$columns['CREDIT_EARNED'])
 						{
-							if($columns['UNWEIGHTED_GP'] > 0 || $columns['WEIGHTED_GP'] > 0) 
+							if ($columns['UNWEIGHTED_GP'] > 0 || $columns['WEIGHTED_GP'] > 0) 
 								$columns['CREDIT_EARNED'] = 1;
 							else
 								$columns['CREDIT_EARNED'] = 0;
 						}
 
-						if(!$columns['CLASS_RANK'])
+						if (!$columns['CLASS_RANK'])
 							$columns['CLASS_RANK']='Y';
 
 						$go = false;
 						foreach($columns as $column=>$value)
-							if(!empty($value) || $value=='0')
+							if (!empty($value) || $value=='0')
 							{
 								$fields .= $column.',';
 								$values .= '\''.$value.'\',';
@@ -106,7 +106,7 @@ if ( UserStudentID() )
 
 						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-						if($go && $mp_id && $student_id)
+						if ($go && $mp_id && $student_id)
 							DBQuery($sql);
 					}
 				}
@@ -118,19 +118,19 @@ if ( UserStudentID() )
 		unset($_REQUEST['modfunc']); 
 	}
 
-	if($_REQUEST['modfunc']=='remove')
+	if ($_REQUEST['modfunc']=='remove')
 	{
-		if(DeletePromptX(_('Student Grade')))
+		if (DeletePromptX(_('Student Grade')))
 		{
 			DBQuery("DELETE FROM student_report_card_grades WHERE ID='".$_REQUEST['id']."'");
 		}
 	}
 
 	//FJ fix SQL bug when text data entered, data verification
-	if(isset($error))
+	if (isset($error))
 		echo ErrorMessage($error);
 
-	if(empty($_REQUEST['modfunc']))
+	if (empty($_REQUEST['modfunc']))
 	{  
 		$stuRET = DBGet(DBQuery("SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, NAME_SUFFIX from STUDENTS where STUDENT_ID = $student_id"));
 		$stuRET = $stuRET[1];
@@ -156,7 +156,7 @@ if ( UserStudentID() )
 		$gmp = array(); //grade marking_periods
 		$grecs = array();  //grade records
 
-		if($GRET)
+		if ($GRET)
 		{
 			foreach($GRET as $rec)
 			{
@@ -319,22 +319,22 @@ function _makeTextInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 	//    //bjj adding 'GP_SCALE'
-	if($name=='COURSE_TITLE')
+	if ($name=='COURSE_TITLE')
 		$extra = 'size=20 maxlength=25';
-	elseif($name=='GRADE_PERCENT')
+	elseif ($name=='GRADE_PERCENT')
 		$extra = 'size=6 maxlength=6';
-	elseif($name=='GRADE_LETTER' || $name=='WEIGHTED_GP' || $name=='UNWEIGHTED_GP')
+	elseif ($name=='GRADE_LETTER' || $name=='WEIGHTED_GP' || $name=='UNWEIGHTED_GP')
 		$extra = 'size=5 maxlength=5';
-	elseif($name=='CLASS_RANK')
+	elseif ($name=='CLASS_RANK')
 		$extra = 'size=1 maxlength=1';
-	//elseif($name=='GP_VALUE')
+	//elseif ($name=='GP_VALUE')
 	//    $extra = 'size=5 maxlength=5';
-	//elseif($name=='UNWEIGHTED_GP_VALUE')
+	//elseif ($name=='UNWEIGHTED_GP_VALUE')
 
 	else
 		$extra = 'size=5 maxlength=10';
@@ -346,7 +346,7 @@ function _makeCheckBoxInput( $value, $name )
 {
 	global $THIS_RET;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';

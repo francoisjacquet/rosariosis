@@ -5,10 +5,10 @@ include_once('modules/Scheduling/includes/calcSeats0.fnc.php');
 //include calcSeats, _makeRequestTeacher & _makeRequestPeriod functions
 include_once('modules/Scheduling/includes/unfilledRequests.inc.php');
 
-if($_REQUEST['modname']=='Scheduling/UnfilledRequests.php')
+if ($_REQUEST['modname']=='Scheduling/UnfilledRequests.php')
 {
 	DrawHeader(ProgramTitle());
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" METHOD="POST">';
 		DrawHeader('<label>'.CheckBoxOnclick('include_seats').' '._('Show Available Seats').'</label>');
@@ -33,19 +33,19 @@ $extra['FROM'] = ',SCHEDULE_REQUESTS sr,COURSES c';
 $extra['WHERE'] = ' AND sr.STUDENT_ID=ssm.STUDENT_ID AND sr.SYEAR=ssm.SYEAR AND sr.SCHOOL_ID=ssm.SCHOOL_ID AND sr.COURSE_ID=c.COURSE_ID AND NOT EXISTS (SELECT \'\' FROM SCHEDULE s WHERE s.STUDENT_ID=sr.STUDENT_ID AND s.COURSE_ID=sr.COURSE_ID)';
 $extra['functions'] = array('WITH_TEACHER_ID'=>'_makeRequestTeacher','WITH_PERIOD_ID'=>'_makeRequestPeriod');
 
-if($_REQUEST['include_seats'])
+if ($_REQUEST['include_seats'])
 	$extra['functions'] += array('AVAILABLE_SEATS'=>'CalcSeats');
 
 $extra['columns_after'] = array('COURSE'=>_('Request'));
 
-if($_REQUEST['include_seats'])
+if ($_REQUEST['include_seats'])
 	$extra['columns_after'] += array('AVAILABLE_SEATS'=>_('Available Seats'));
 
 $extra['columns_after'] += array('SECTIONS'=>_('Sections'),'WITH_TEACHER_ID'=>_('Teacher'),'WITH_PERIOD_ID'=>_('Period'));
 $extra['singular'] = _('Unfilled Request');
 $extra['plural'] = _('Unfilled Requests');
 
-if(!$extra['link']['FULL_NAME'])
+if (!$extra['link']['FULL_NAME'])
 {
 	$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname=Scheduling/Requests.php';
 	$extra['link']['FULL_NAME']['variables']['student_id'] = 'STUDENT_ID';

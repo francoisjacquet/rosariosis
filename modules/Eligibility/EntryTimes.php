@@ -7,17 +7,17 @@ foreach( (array)$eligibility_config as $value )
 	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
 
-if($_REQUEST['values'])
+if ($_REQUEST['values'])
 {
-	if($_REQUEST['values']['START_M']=='PM')
+	if ($_REQUEST['values']['START_M']=='PM')
 		$_REQUEST['values']['START_HOUR']+=12;
-	if($_REQUEST['values']['END_M']=='PM')
+	if ($_REQUEST['values']['END_M']=='PM')
 		$_REQUEST['values']['END_HOUR']+=12;
 
 	$start = $_REQUEST['values']['START_DAY'].$_REQUEST['values']['START_HOUR'].$_REQUEST['values']['START_MINUTE'];
 	$end = $_REQUEST['values']['END_DAY'].$_REQUEST['values']['END_HOUR'].$_REQUEST['values']['END_MINUTE'];
 
-	if($start<=$end)
+	if ($start<=$end)
 	{
 		foreach($_REQUEST['values'] as $key=>$value)
 		{
@@ -58,7 +58,7 @@ for($i=10;$i<=59;$i++)
 
 $m_options = array('AM'=>'AM','PM'=>'PM');
 
-if($START_HOUR>12)
+if ($START_HOUR>12)
 {
 	$START_HOUR-=12;
 	$START_M = 'PM';
@@ -66,7 +66,7 @@ if($START_HOUR>12)
 else
 	$START_M = 'AM';
 
-if($END_HOUR>12)
+if ($END_HOUR>12)
 {
 	$END_HOUR-=12;
 	$END_M = 'PM';

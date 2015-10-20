@@ -33,9 +33,9 @@ echo '</TD><TD>';
 $titles_array = array('Mr'=>_('Mr'),'Mrs'=>_('Mrs'),'Ms'=>_('Ms'),'Miss'=>_('Miss'),'Dr'=>_('Dr'));
 $suffixes_array = array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V'));
 
-if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 {
-	if($_REQUEST['staff_id']=='new' || $_REQUEST['moodle_create_user'])
+	if ($_REQUEST['staff_id']=='new' || $_REQUEST['moodle_create_user'])
 //FJ last & first name required
 		echo '<TABLE>
 		<TR class="st"><TD>
@@ -108,7 +108,7 @@ echo NoInput(makeLogin($staff['LAST_LOGIN']),_('Last Login'));
 echo '</TD></TR></TABLE><HR />';
 
 echo '<TABLE class="width-100p valign-top">';
-if(basename($_SERVER['PHP_SELF'])!='index.php')
+if (basename($_SERVER['PHP_SELF'])!='index.php')
 {
 	echo '<TR class="st"><TD>';
 
@@ -120,7 +120,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 	echo '</TD></TR><TR><TD>';
 
 	unset($profiles);
-	if($_REQUEST['staff_id']!='new')
+	if ($_REQUEST['staff_id']!='new')
 	{
 		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES WHERE PROFILE='".$staff['PROFILE']."' ORDER BY ID"));
 		foreach($profiles_RET as $profile)
@@ -142,13 +142,13 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 		$QI = DBQuery($sql);
 		$schools_RET = DBGet($QI);
 		unset($options);
-		if(count($schools_RET))
+		if (count($schools_RET))
 		{
 			$i = 0;
 			echo '<TABLE><TR class="st">';
 			foreach($schools_RET as $value)
 			{
-				if($i%3==0)
+				if ($i%3==0)
 					echo '</TR><TR class="st">';
 				echo '<TD>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'], '', false, button('check'), button('x')).'</TD>';
 				$i++;

@@ -22,9 +22,9 @@ $minimum_note = _('%N now has a <b>negative balance</b> below the allowed minimu
 $year_end_note = _('%N\'s lunch account is getting low.  The requested payment anount is estimated so %h account will have a zero balance at the end of the school year.  Please send in the requested amount with %h reminder slip.  THANK YOU!');
 $year_end_note = _('%N\'s lunch account is getting low.  It\'s estimated that %g needs about a %T current balance to finish the year with a zero balance.  Please send in the requested amount with %h reminder slip.  THANK YOU!');
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if(count($_REQUEST['st_arr']))
+	if (count($_REQUEST['st_arr']))
 	{
 		$st_list = "'".implode("','",$_REQUEST['st_arr'])."'";
 
@@ -42,7 +42,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$handle = PDFStart();
 		foreach($students as $student)
 		{
-			if($homeroom)
+			if ($homeroom)
 				$teacher = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,cs.TITLE
 				FROM STAFF s,SCHEDULE sch,COURSE_PERIODS cp,COURSES c,COURSE_SUBJECTS cs
 				WHERE s.STAFF_ID=cp.TEACHER_ID AND sch.STUDENT_ID='".$student['STUDENT_ID']."' AND cp.COURSE_ID=sch.COURSE_ID AND c.COURSE_ID=cp.COURSE_ID AND c.SUBJECT_ID=cs.SUBJECT_ID AND cs.TITLE='".$homeroom."' AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND sch.SYEAR='".UserSyear()."'"));
@@ -80,7 +80,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1"),array('DATE'=>'ProperDate'));
 			$last_deposit = $last_deposit[1];
 
-			if($_REQUEST['year_end']=='Y')
+			if ($_REQUEST['year_end']=='Y')
 			{
 				$xtarget = number_format($student['DAYS']*$student['T_AMOUNT']/$student['T_DAYS'],2);
 				reminder($student,$teacher,$xstudents,$xtarget,$last_deposit,$year_end_note);
@@ -88,11 +88,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			else
 			{
 				$xtarget = number_format($target*(count($xstudents)+1),2);
-				if($student['BALANCE'] < $minimum)
+				if ($student['BALANCE'] < $minimum)
 					reminder($student,$teacher,$xstudents,$xtarget,$last_deposit,$minimum_note);
-				elseif($student['BALANCE'] < 0)
+				elseif ($student['BALANCE'] < 0)
 					reminder($student,$teacher,$xstudents,$xtarget,$last_deposit,$negative_note);
-				elseif($student['BALANCE'] < $warning)
+				elseif ($student['BALANCE'] < $warning)
 					reminder($student,$teacher,$xstudents,$xtarget,$last_deposit,$warning_note);
 			}
 
@@ -104,10 +104,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one student.'));
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 
 {
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
 		//DrawHeader('',SubmitButton('Create Reminders for Selected Students'));
@@ -131,12 +131,12 @@ if(empty($_REQUEST['modfunc']))
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$warning.'\' AND fsa.BALANCE >= 0) AS WARNING';
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= \''.$minimum.'\') AS NEGATIVE';
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$minimum.'\') AS MINIMUM';
-	if(!mb_strpos($extra['FROM'],'fssa'))
+	if (!mb_strpos($extra['FROM'],'fssa'))
 	{
 		$extra['FROM'] .= ',FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 		$extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID';
 	}
-	if(!mb_strpos($extra['FROM'],'fsa'))
+	if (!mb_strpos($extra['FROM'],'fsa'))
 	{
 		$extra['FROM'] .= ',FOOD_SERVICE_ACCOUNTS fsa';
 		$extra['WHERE'] .= ' AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID';
@@ -145,7 +145,7 @@ if(empty($_REQUEST['modfunc']))
 	$extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'),'WARNING'=>_('Warning').'<BR />&lt; '.$warning,'NEGATIVE'=>_('Negative'),'MINIMUM'=>_('Minimum').'<BR />'.$minimum);
 
 	Search('student_id',$extra);
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Create Reminders for Selected Students')) . '</div>';
 		echo '</FORM>';
@@ -155,9 +155,9 @@ if(empty($_REQUEST['modfunc']))
 function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 {
 	$payment = $target - $student['BALANCE'];
-	if($_REQUEST['year_end']=='Y')
+	if ($_REQUEST['year_end']=='Y')
 		$payment = floor($payment * 2 + 0.99) / 2;
-	if($payment <= 0)
+	if ($payment <= 0)
 		return;
 	$payment = number_format($payment,2);
 
@@ -168,7 +168,7 @@ function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 	echo '<TR><TD style="width:33%;">';
 	echo ($student['NICKNAME']?$student['NICKNAME']:$student['FIRST_NAME']).' '.$student['LAST_NAME'].'<BR />';
 	echo ''.$student['STUDENT_ID'].'';
-	if(count($xstudents))
+	if (count($xstudents))
 	{
 		echo '<BR />'._('Other students on this account').':';
 		foreach($xstudents as $xstudent)

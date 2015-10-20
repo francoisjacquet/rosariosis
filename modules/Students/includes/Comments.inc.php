@@ -10,7 +10,7 @@ if ( ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ) )
 }
 
 
-if( AllowEdit()
+if ( AllowEdit()
 	&& isset( $_POST['values'] )
 	&& trim( $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] ) !== '' )
 {

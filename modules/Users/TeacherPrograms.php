@@ -5,17 +5,17 @@ $REQUEST_include = $_REQUEST['include'];
 unset($_REQUEST['include']);
 DrawHeader(_('Teacher Programs').' - '.ProgramTitle($_REQUEST['modname']));
 
-if(UserStaffID())
+if (UserStaffID())
 {
 	$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
-	if($profile[1]['PROFILE']!='teacher')
+	if ($profile[1]['PROFILE']!='teacher')
 		unset($_SESSION['staff_id']);
 }
 
 $extra['profile'] = 'teacher';
 Search('staff_id',$extra);
 
-if(UserStaffID())
+if (UserStaffID())
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 	//FJ multiple school periods for a course period
@@ -35,14 +35,14 @@ if(UserStaffID())
 	// get the fy marking period id, there should be exactly one fy marking period
 	$fy_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 
-	if($_REQUEST['period'])
+	if ($_REQUEST['period'])
 	{
 		list($CoursePeriod, $CoursePeriodSchoolPeriod) = explode('.', $_REQUEST['period']);
 		$_SESSION['UserCoursePeriod'] = $CoursePeriod;
 		$_SESSION['UserCoursePeriodSchoolPeriod'] = $CoursePeriodSchoolPeriod;
 	}
 
-	if(!UserCoursePeriod())
+	if (!UserCoursePeriod())
 	{
 		$_SESSION['UserCoursePeriod'] = $RET[1]['COURSE_PERIOD_ID'];
 		$_SESSION['UserCoursePeriodSchoolPeriod'] = $RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
@@ -61,8 +61,8 @@ if(UserStaffID())
 		if ($optgroup!==FALSE && $optgroup!=$period['COURSE_TITLE']) //close optgroup
 			$period_select .= '</optgroup>';
 
-			//if(UserCoursePeriod()==$period['COURSE_PERIOD_ID'])
-		if(UserCoursePeriodSchoolPeriod()==$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'])
+			//if (UserCoursePeriod()==$period['COURSE_PERIOD_ID'])
+		if (UserCoursePeriodSchoolPeriod()==$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'])
 		{
 			$selected = ' SELECTED';
 			$_SESSION['UserPeriod'] = $period['PERIOD_ID'];
@@ -88,7 +88,7 @@ if(UserStaffID())
 		$period_select .= '<OPTION value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['TITLE'].(mb_strlen($period['DAYS'])<5?(mb_strlen($period['DAYS'])<2?' '._('Day').' '.$period_DAYS_locale.' - ':' '._('Days').' '.$period_DAYS_locale.' - '):' - ').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME').' - ':'').$period['CP_SHORT_NAME'].'</OPTION>';
 
 	}
-	if(!$found)
+	if (!$found)
 	{
 		$_SESSION['UserCoursePeriod'] = $RET[1]['COURSE_PERIOD_ID'];
 //FJ fix bug SQL no course period in the user period

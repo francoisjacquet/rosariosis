@@ -27,7 +27,7 @@ if ( isset( $_POST['values'] )
 	
 	foreach($_REQUEST['values'] as $column_name=>$value)
 	{
-		if(1)//!empty($value) || $value=='0')
+		if (1)//!empty($value) || $value=='0')
 		{
 			//FJ check numeric fields
 			if ($categories_RET[str_replace('CATEGORY_','',$column_name)][1]['DATA_TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
@@ -36,14 +36,14 @@ if ( isset( $_POST['values'] )
 				continue;
 			}
 
-			if(!is_array($value))
+			if (!is_array($value))
 				$sql .= "$column_name='".str_replace("&rsquo;","''",$value)."',";
 			else
 			{
 				$sql .= $column_name."='||";
 				foreach($value as $val)
 				{
-					if($val)
+					if ($val)
 						$sql .= str_replace('&quot;','"',$val).'||';
 				}
 				$sql .= "',";
@@ -61,12 +61,12 @@ if ( isset( $_POST['values'] )
 
 DrawHeader(ProgramTitle());
 
-if($error)
+if ($error)
 	echo ErrorMessage(array(_('Please enter valid Numeric data.')));
 
-if($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if(DeletePrompt(_('Referral')))
+	if (DeletePrompt(_('Referral')))
 	{
 		DBQuery("DELETE FROM DISCIPLINE_REFERRALS WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
@@ -80,7 +80,7 @@ Widgets( 'incident_date' );
 Widgets( 'discipline_fields' );
 
 $extra['SELECT'] = ',dr.*';
-if(mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS')===false)
+if (mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS')===false)
 {
 	$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
 	$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SYEAR=ssm.SYEAR AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
@@ -106,7 +106,7 @@ $extra['link']['FULL_NAME']['variables'] = array('referral_id'=>'ID');
 $extra['link']['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 $extra['link']['remove']['variables'] = array('id'=>'ID');
 
-if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
+if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 {
 
 	//FJ prevent referral ID hacking
@@ -185,7 +185,7 @@ if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 				break;
 
 				case 'multiple_checkbox':
-					if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+					if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 					{
 						$return = '<DIV id="divvalues[CATEGORY_'.$category['ID'].']"><div onclick=\'javascript:addHTML(htmlCATEGORY_'.$category['ID'];
 						$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
@@ -197,7 +197,7 @@ if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 						foreach($options as $option)
 						{
 							$i++;
-							if($i%3==0)
+							if ($i%3==0)
 								$toEscape .= '</TR><TR class="st">';
 							$toEscape .= '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],$option)!==false?' checked':'').' />&nbsp;'.$option.'</label></TD>';
 						}
@@ -212,7 +212,7 @@ if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 				break;
 
 				case 'multiple_radio':
-					if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+					if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 					{
 						$return = '<DIV id="divvalues[CATEGORY_'.$category['ID'].']"><div onclick=\'javascript:addHTML(htmlCATEGORY_'.$category['ID'];
 
@@ -225,7 +225,7 @@ if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 						foreach($options as $option)
 						{
 							$i++;
-							if($i%3==0)
+							if ($i%3==0)
 								$toEscape .= '</TR><TR class="st">';
 							$toEscape .= '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.$option.'</label></TD>';
 						}
@@ -263,7 +263,7 @@ if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 
 		echo PopTable('footer');
 
-		if(AllowEdit())
+		if (AllowEdit())
 			echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
 		echo '</FORM>';
@@ -278,14 +278,14 @@ if(empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 if (isset($error))
 	echo ErrorMessage($error);
 
-if(!$_REQUEST['referral_id'] && !$_REQUEST['modfunc'])
+if (!$_REQUEST['referral_id'] && !$_REQUEST['modfunc'])
 	Search('student_id',$extra);
 
 function _make($value,$column)
 {
-	if(mb_substr_count($value,'-')==2 && VerifyDate($value))
+	if (mb_substr_count($value,'-')==2 && VerifyDate($value))
 		$value = ProperDate($value);
-	elseif(is_numeric($value))
+	elseif (is_numeric($value))
 		$value = ((mb_strpos($value,'.')===false)?$value:rtrim(rtrim($value,'0'),'.'));
 	elseif ($value == 'Y')
 		$value = button('check');

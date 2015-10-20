@@ -35,7 +35,7 @@ switch(date('D'))
 $start = time() - ($today-$START_DAY)*60*60*24;
 $end = time();
 
-if(!$_REQUEST['start_date'])
+if (!$_REQUEST['start_date'])
 {
 	$start_time = $start;
 	$start_date = mb_strtoupper(date('d-M-Y',$start_time));
@@ -62,7 +62,7 @@ echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">
 $begin_year = DBGet(DBQuery("SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 $begin_year = $begin_year[1]['SCHOOL_DATE'];
 
-if($start && $begin_year)
+if ($start && $begin_year)
 {
 //modif: days display to locale
 	$date_select = '<OPTION value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</OPTION>';
@@ -96,7 +96,7 @@ $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID','PERIOD_ID'));
 
 $i = 0;
-if(count($RET))
+if (count($RET))
 {
 	foreach($RET as $staff_id=>$periods)
 	{
@@ -107,7 +107,7 @@ if(count($RET))
 	}
 }
 $columns = array('FULL_NAME'=>_('Teacher'));
-if(!$_REQUEST['period'])
+if (!$_REQUEST['period'])
 {
 	foreach($periods_RET as $period)
 		$columns[$period['PERIOD_ID']] = $period['TITLE'];

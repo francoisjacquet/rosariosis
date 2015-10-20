@@ -123,7 +123,7 @@ function PortalPollsDisplay($value,$name)
 	//verify if user is in excluded users list (format = '|[profile_id]:[user_id]')
 	$profile_id = User('PROFILE_ID');
 
-	if($profile_id != 0) //FJ call right Student/Staff ID
+	if ($profile_id != 0) //FJ call right Student/Staff ID
 		$user_id = $_SESSION['STAFF_ID'];
 	else
 		$user_id = $_SESSION['STUDENT_ID'];
@@ -295,7 +295,7 @@ function makePublishing($value,$name)
 {	global $THIS_RET;
 	static $profiles = null;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
@@ -310,7 +310,7 @@ function makePublishing($value,$name)
 
 	$return .= '<TR><TD style="padding:0;">';
 
-	if(is_null($profiles))
+	if (is_null($profiles))
 	{
 		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID"));
 
@@ -357,7 +357,7 @@ function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 
 	$teachers = array();
 
-	if(count($teachers_RET))
+	if (count($teachers_RET))
 	{
 		foreach($teachers_RET as $teacher)
 			$teachers[$teacher['STAFF_ID']] = $teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'];
@@ -386,7 +386,7 @@ function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 
 		$visibleTo .= '</TD>';
 			
-		if($i%2==0 && $i!=count($profiles))
+		if ($i%2==0 && $i!=count($profiles))
 			$visibleTo .= '</TR><TR class="st">';
 	}
 
@@ -413,7 +413,7 @@ function makeFileAttached($value,$name)
 {	global $THIS_RET, $PortalNotesFilesPath;
 	static $filesAttachedCount = 0;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 	{
 		
 		$id = $THIS_RET['ID'];

@@ -1,15 +1,15 @@
 <?php
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['values'] && $_POST['values'])
+if ($_REQUEST['values'] && $_POST['values'])
 {
-	if($_REQUEST['tab']=='password')
+	if ($_REQUEST['tab']=='password')
 	{
 		$current_password = str_replace("''","'",$_REQUEST['values']['current']);
 		$new_password = str_replace("''","'",$_REQUEST['values']['new']);
 		$verify_password = str_replace("''","'",$_REQUEST['values']['verify']);
 		
-		if(mb_strtolower($new_password)!=mb_strtolower($verify_password))
+		if (mb_strtolower($new_password)!=mb_strtolower($verify_password))
 			$error[] = _('Your new passwords did not match.');
 
 		//hook
@@ -24,8 +24,8 @@ if($_REQUEST['values'] && $_POST['values'])
 				$password_RET = DBGet(DBQuery("SELECT PASSWORD FROM STAFF WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'"));
 			
 			//FJ add password encryption
-			//if(mb_strtolower($password_RET[1]['PASSWORD'])!=mb_strtolower($current_password))
-			if(!match_password($password_RET[1]['PASSWORD'],$current_password))
+			//if (mb_strtolower($password_RET[1]['PASSWORD'])!=mb_strtolower($current_password))
+			if (!match_password($password_RET[1]['PASSWORD'],$current_password))
 				$error[] = _('Your current password was incorrect.');
 			else
 			{
@@ -47,22 +47,22 @@ if($_REQUEST['values'] && $_POST['values'])
 	{
 		$current_RET = DBGet(DBQuery("SELECT TITLE,VALUE,PROGRAM FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM IN ('Preferences','StudentFieldsSearch','StudentFieldsView','WidgetsSearch','StaffFieldsSearch','StaffFieldsView','StaffWidgetsSearch')"),array(),array('PROGRAM','TITLE'));
 
-		if($_REQUEST['tab']=='student_listing' && $_REQUEST['values']['Preferences']['SEARCH']!='Y')
+		if ($_REQUEST['tab']=='student_listing' && $_REQUEST['values']['Preferences']['SEARCH']!='Y')
 			$_REQUEST['values']['Preferences']['SEARCH'] = 'N';
 
-		if($_REQUEST['tab']=='student_listing' && User('PROFILE')=='admin' && $_REQUEST['values']['Preferences']['DEFAULT_FAMILIES']!='Y')
+		if ($_REQUEST['tab']=='student_listing' && User('PROFILE')=='admin' && $_REQUEST['values']['Preferences']['DEFAULT_FAMILIES']!='Y')
 			$_REQUEST['values']['Preferences']['DEFAULT_FAMILIES'] = 'N';
 
-		if($_REQUEST['tab']=='student_listing' && User('PROFILE')=='admin' && $_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS']!='Y')
+		if ($_REQUEST['tab']=='student_listing' && User('PROFILE')=='admin' && $_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS']!='Y')
 			$_REQUEST['values']['Preferences']['DEFAULT_ALL_SCHOOLS'] = 'N';
 
-		if($_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['HIDE_ALERTS']!='Y')
+		if ($_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['HIDE_ALERTS']!='Y')
 			$_REQUEST['values']['Preferences']['HIDE_ALERTS'] = 'N';
 
-		if($_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['SCROLL_TOP']!='Y')
+		if ($_REQUEST['tab']=='display_options' && $_REQUEST['values']['Preferences']['SCROLL_TOP']!='Y')
 			$_REQUEST['values']['Preferences']['SCROLL_TOP'] = 'N';
 
-		if($_REQUEST['tab']=='student_fields' || $_REQUEST['tab']=='widgets' || $_REQUEST['tab']=='staff_fields' || $_REQUEST['tab']=='staff_widgets')
+		if ($_REQUEST['tab']=='student_fields' || $_REQUEST['tab']=='widgets' || $_REQUEST['tab']=='staff_fields' || $_REQUEST['tab']=='staff_widgets')
 		{
 			DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM".($_REQUEST['tab']=='student_fields'?" IN ('StudentFieldsSearch','StudentFieldsView')":($_REQUEST['tab']=='widgets'?"='WidgetsSearch'":($_REQUEST['tab']=='staff_fields'?" IN ('StaffFieldsSearch','StaffFieldsView')":"='StaffWidgetsSearch'"))));
 
@@ -71,7 +71,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				if (is_array($values))
 					foreach($values as $name=>$value)
 					{
-						if(isset($value))
+						if (isset($value))
 							DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','".$program."','".$name."','".$value."')");
 					}
 			}
@@ -82,9 +82,9 @@ if($_REQUEST['values'] && $_POST['values'])
 			{
 				foreach($values as $name=>$value)
 				{
-					if(!$current_RET[$program][$name] && $value!='')
+					if (!$current_RET[$program][$name] && $value!='')
 						DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','".$program."','".$name."','".$value."')");
-					elseif($value!='')
+					elseif ($value!='')
 						DBQuery("UPDATE PROGRAM_USER_CONFIG SET VALUE='".$value."' WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='".$program."' AND TITLE='".$name."'");
 					else
 						DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='".$program."' AND TITLE='".$name."'");
@@ -102,17 +102,17 @@ if($_REQUEST['values'] && $_POST['values'])
 unset($_REQUEST['search_modfunc']);
 unset($_SESSION['_REQUEST_vars']['search_modfunc']);
 
-if(isset($error))
+if (isset($error))
 	echo ErrorMessage($error);
 
-if(isset($note))
+if (isset($note))
 	echo ErrorMessage($note,'note');
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	$current_RET = DBGet(DBQuery("SELECT TITLE,VALUE,PROGRAM FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM IN ('Preferences','StudentFieldsSearch','StudentFieldsView','WidgetsSearch','StaffFieldsSearch','StaffFieldsView','StaffWidgetsSearch') "),array(),array('PROGRAM','TITLE'));
 
-	if(!$_REQUEST['tab'])
+	if (!$_REQUEST['tab'])
 	//FJ enable password change for students
 		//$_REQUEST['tab'] = 'display_options';
 		$_REQUEST['tab'] = 'password';
@@ -121,16 +121,16 @@ if(empty($_REQUEST['modfunc']))
 	DrawHeader('','<INPUT type="submit" value="'._('Save').'" />');
 	echo '<BR />';
 
-	if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
+	if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 	{
 		$tabs = array(array('title'=>_('Display Options'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=display_options'),array('title'=>_('Print Options'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=print_options'),array('title'=>_('Student Listing'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=student_listing'),array('title'=>_('Password'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=password'),array('title'=>_('Student Fields'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=student_fields'),array('title'=>_('Widgets'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=widgets'));
-		if(User('PROFILE')=='admin')
+		if (User('PROFILE')=='admin')
 		{
 			$tabs[] = array('title'=>_('User Fields'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=staff_fields');
 			$tabs[] = array('title'=>_('User Widgets'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=staff_widgets');
 		}
 	}
-	elseif(User('PROFILE')=='parent')
+	elseif (User('PROFILE')=='parent')
 	{
 		$tabs = array(array('title'=>_('Display Options'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=display_options'),array('title'=>_('Print Options'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=print_options'),array('title'=>_('Password'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=password'),array('title'=>_('Student Fields'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=student_fields'));
 	}
@@ -146,7 +146,7 @@ if(empty($_REQUEST['modfunc']))
 	else //FJ Responsive student/staff fields preferences
 		$LO_options['header'] = WrapTabs($tabs,$_ROSARIO['selected_tab']);
 
-	if($_REQUEST['tab']=='student_listing')
+	if ($_REQUEST['tab']=='student_listing')
 	{
 		echo '<TABLE>';
 //FJ add <label> on radio
@@ -157,7 +157,7 @@ if(empty($_REQUEST['modfunc']))
 //FJ add <label> on checkbox
 		echo '<TR><TD><BR /></TD><TD><BR /></TD>';
 		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name=values[Preferences][SEARCH] value="Y"'.((Preferences('SEARCH')=='Y')?' checked':'').'> '._('Display student search screen').'</label></TD></TR>';
-		if(User('PROFILE')=='admin')
+		if (User('PROFILE')=='admin')
 		{
 			echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][DEFAULT_FAMILIES]" value="Y"'.((Preferences('DEFAULT_FAMILIES')=='Y')?' checked':'').'> '._('Group by family by default').'</label></TD></TR>';
 //FJ if only one school, no Search All Schools option
@@ -167,7 +167,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '</TABLE>';
 	}
 
-	if($_REQUEST['tab']=='display_options')
+	if ($_REQUEST['tab']=='display_options')
 	{
 		echo '<TABLE>';
 		echo '<TR class="st"><TD style="vertical-align: top;"><span class="legend-gray">'._('Theme').'</span></TD><TD><TABLE><TR>';
@@ -179,7 +179,7 @@ if(empty($_REQUEST['modfunc']))
 
 			echo '<TD><label><INPUT type="radio" name="values[Preferences][THEME]" value="'.$theme_name.'"'.((Preferences('THEME')==$theme_name)?' checked':'').'> '.$theme_name.'</label></TD>';
 
-			if($count++%3==0)
+			if ($count++%3==0)
 				echo '</TR><TR class="st">';
 		}
 		echo '</TR></TABLE></TD></TR>';
@@ -228,7 +228,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '</TABLE>';
 	}
 	
-	if($_REQUEST['tab']=='print_options')
+	if ($_REQUEST['tab']=='print_options')
 	{
 		echo '<TABLE>';
 		$page_sizes = array('A4'=>'A4','LETTER'=>_('US Letter'));
@@ -246,16 +246,16 @@ if(empty($_REQUEST['modfunc']))
 		echo '</TABLE>';
 	}
 
-	if($_REQUEST['tab']=='password')
+	if ($_REQUEST['tab']=='password')
 	{
 //FJ password fields are required
 //FJ Moodle integrator / password
 		echo '<TABLE><TR class="st"><TD><span class="legend-gray">'._('Current Password').'</span></TD><TD><INPUT type="password" name="values[current]" required></TD></TR><TR class="st"><TD><span class="legend-gray">'.($RosarioPlugins['Moodle']?'<SPAN title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'" style="cursor:help">':'')._('New Password').($RosarioPlugins['Moodle']?'*</SPAN>':'').'</span></TD><TD><INPUT type="password" name="values[verify]" required></TD></TR><TR class="st"><TD><span class="legend-gray">'._('Verify New Password').'</span></TD><TD><INPUT type="password" name="values[new]" required></TD></TR></TABLE>';
 	}
 
-	if($_REQUEST['tab']=='student_fields')
+	if ($_REQUEST['tab']=='student_fields')
 	{
-		if(User('PROFILE_ID'))
+		if (User('PROFILE_ID'))
 			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS SEARCH,'' AS DISPLAY 
 			FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc 
 			WHERE sfc.ID=cf.CATEGORY_ID 
@@ -298,7 +298,7 @@ if(empty($_REQUEST['modfunc']))
 
 		$custom_fields_RET[0][] = array('CATEGORY'=>'<B>'._('Addresses').'</B>','ID'=>'ADDRESS','TITLE'=> button('bus', '', '', 'bigger') .' '._('Bus Dropoff'),'DISPLAY'=>_makeAddress('BUS_DROPOFF'));
 
-		if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
+		if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 			$columns = array('CATEGORY'=>'','TITLE'=>_('Field'),'SEARCH'=>_('Search'),'DISPLAY'=>_('Expanded View'));
 		else
 			$columns = array('CATEGORY'=>'','TITLE'=>_('Field'),'DISPLAY'=>_('Expanded View'));
@@ -306,24 +306,24 @@ if(empty($_REQUEST['modfunc']))
 		ListOutput($custom_fields_RET,$columns,'.','.',array(),array(array('CATEGORY')),$LO_options);
 	}
 
-	if($_REQUEST['tab']=='widgets')
+	if ($_REQUEST['tab']=='widgets')
 	{
 		$widgets = array();
-		if($RosarioModules['Students'])
+		if ($RosarioModules['Students'])
 			$widgets += array('calendar'=>_('Calendar'),'next_year'=>_('Next School Year'));
-		if($RosarioModules['Scheduling'] && User('PROFILE')=='admin')
+		if ($RosarioModules['Scheduling'] && User('PROFILE')=='admin')
 			$widgets = array('course'=>_('Course'),'request'=>_('Request'));
-		if($RosarioModules['Attendance'])
+		if ($RosarioModules['Attendance'])
 			$widgets += array('absences'=>_('Days Absent'));
-		if($RosarioModules['Grades'])
+		if ($RosarioModules['Grades'])
 			$widgets += array('gpa'=>_('GPA'),'class_rank'=>_('Class Rank'),'letter_grade'=>_('Grade'));
-		if($RosarioModules['Eligibility'])
+		if ($RosarioModules['Eligibility'])
 			$widgets += array('eligibility'=>_('Eligibility'),'activity'=>_('Activity'));
-		if($RosarioModules['Food_Service'])
+		if ($RosarioModules['Food_Service'])
 			$widgets += array('fsa_balance'=>_('Food Service Balance'),'fsa_discount'=>_('Food Service Discount'),'fsa_status'=>_('Food Service Status'),'fsa_barcode'=>_('Food Service Barcode'));
-		if($RosarioModules['Discipline'])
+		if ($RosarioModules['Discipline'])
 			$widgets += array('discipline'=>_('Discipline'));
-		if($RosarioModules['Student_Billing'])
+		if ($RosarioModules['Student_Billing'])
 			$widgets += array('balance'=>_('Student Billing Balance'));
 
 		$widgets_RET[0] = array();
@@ -341,9 +341,9 @@ if(empty($_REQUEST['modfunc']))
 		ListOutput($widgets_RET,$columns,'.','.',array(),array(),$LO_options);
 	}
 
-	if($_REQUEST['tab']=='staff_fields' && User('PROFILE')=='admin')
+	if ($_REQUEST['tab']=='staff_fields' && User('PROFILE')=='admin')
 	{
-		if(User('PROFILE_ID'))
+		if (User('PROFILE_ID'))
 			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY 
 			FROM STAFF_FIELDS cf,STAFF_FIELD_CATEGORIES sfc 
 			WHERE sfc.ID=cf.CATEGORY_ID 
@@ -367,12 +367,12 @@ if(empty($_REQUEST['modfunc']))
 		ListOutput($custom_fields_RET,$columns,'User Field','User Fields',array(),array(array('CATEGORY')),$LO_options);
 	}
 
-	if($_REQUEST['tab']=='staff_widgets' && User('PROFILE')=='admin')
+	if ($_REQUEST['tab']=='staff_widgets' && User('PROFILE')=='admin')
 	{
 		$widgets = array();
-		if($RosarioModules['Users'])
+		if ($RosarioModules['Users'])
 			$widgets += array('permissions'=>_('Permissions'));
-		if($RosarioModules['Food_Service'])
+		if ($RosarioModules['Food_Service'])
 			$widgets += array('fsa_balance'=>_('Food Service Balance'),'fsa_status'=>_('Food Service Status'),'fsa_barcode'=>_('Food Service Barcode'));
 
 		$widgets_RET[0] = array();
@@ -403,37 +403,37 @@ function _make($value,$name)
 	switch($name)
 	{
 		case 'SEARCH':
-			if($current_RET['StudentFieldsSearch'][$THIS_RET['ID']])
+			if ($current_RET['StudentFieldsSearch'][$THIS_RET['ID']])
 				$checked = ' checked';
 			return '<INPUT type="checkbox" name="values[StudentFieldsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
 
 		case 'DISPLAY':
-			if($current_RET['StudentFieldsView'][$THIS_RET['ID']])
+			if ($current_RET['StudentFieldsView'][$THIS_RET['ID']])
 				$checked = ' checked';
 			return '<INPUT type="checkbox" name="values[StudentFieldsView]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
 
 		case 'WIDGET':
-			if($current_RET['WidgetsSearch'][$THIS_RET['ID']])
+			if ($current_RET['WidgetsSearch'][$THIS_RET['ID']])
 				$checked = ' checked';
 			return '<INPUT type="checkbox" name="values[WidgetsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
 
 		case 'STAFF_SEARCH':
-			if($current_RET['StaffFieldsSearch'][$THIS_RET['ID']])
+			if ($current_RET['StaffFieldsSearch'][$THIS_RET['ID']])
 				$checked = ' checked';
 			return '<INPUT type="checkbox" name="values[StaffFieldsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
 
 		case 'STAFF_DISPLAY':
-			if($current_RET['StaffFieldsView'][$THIS_RET['ID']])
+			if ($current_RET['StaffFieldsView'][$THIS_RET['ID']])
 				$checked = ' checked';
 			return '<INPUT type="checkbox" name="values[StaffFieldsView]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
 
 		case 'STAFF_WIDGET':
-			if($current_RET['StaffWidgetsSearch'][$THIS_RET['ID']])
+			if ($current_RET['StaffWidgetsSearch'][$THIS_RET['ID']])
 				$checked = ' checked';
 			return '<INPUT type="checkbox" name="values[StaffWidgetsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
@@ -443,7 +443,7 @@ function _make($value,$name)
 function _makeAddress($value)
 {	global $current_RET;
 
-	if($current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE']==$value || (!$current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE'] && $value==''))
+	if ($current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE']==$value || (!$current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE'] && $value==''))
 		$checked = ' checked';
 	return '<INPUT type="radio" name="values[StudentFieldsView][ADDRESS]" value="'.$value.'"'.$checked.'>';
 }

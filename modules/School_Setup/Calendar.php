@@ -784,7 +784,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		{
 			if ( $calendar_RET[$date] )
 			{
-				//if($minutes!='0' && $minutes!='')
+				//if ($minutes!='0' && $minutes!='')
 				//FJ fix bug MINUTES not numeric
 				if ( intval( $minutes ) > 0 )
 				{
@@ -806,7 +806,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 				$update_calendar = true;
 			}
-			//elseif($minutes!='0' && $minutes!='')
+			//elseif ($minutes!='0' && $minutes!='')
 			//FJ fix bug MINUTES not numeric
 			elseif ( intval( $minutes ) > 0 )
 			{
@@ -980,7 +980,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL) 
 			AND a.DUE_DATE BETWEEN '" . $first_day_month . "' AND '" . $last_day_month . "'";
 	}		
-	elseif( User( 'PROFILE' ) === 'teacher' )
+	elseif ( User( 'PROFILE' ) === 'teacher' )
 	{
 		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,to_char(a.DUE_DATE,'dd-MON-YYYY') AS SCHOOL_DATE,a.TITLE,CASE WHEN a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL THEN 'Y' ELSE NULL END AS ASSIGNED 
 			FROM GRADEBOOK_ASSIGNMENTS a 

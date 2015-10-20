@@ -32,16 +32,16 @@ $directories_bypass = array(
 );
 
 //hacking protections
-if(isset($_REQUEST['module']) && strpos($_REQUEST['module'], '..') !== false)
+if (isset($_REQUEST['module']) && strpos($_REQUEST['module'], '..') !== false)
 {
 	include('ProgramFunctions/HackingLog.fnc.php');
 	HackingLog();
 }
 
 
-if($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if(DeletePrompt(_('Module')))
+	if (DeletePrompt(_('Module')))
 	{
 		//verify if not in $always_activated & not in $RosarioCoreModules but in $RosarioModules
 		if (!in_array($_REQUEST['module'], $always_activated) && !in_array($_REQUEST['module'], $RosarioCoreModules) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == false)
@@ -72,9 +72,9 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if($_REQUEST['modfunc']=='deactivate' && AllowEdit())
+if ($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 {
-	if(DeletePrompt(_('Module'),_('Deactivate')))
+	if (DeletePrompt(_('Module'),_('Deactivate')))
 	{
 		//verify if not in $always_activated  & activated
 		if (!in_array($_REQUEST['module'], $always_activated) && in_array($_REQUEST['module'], array_keys($RosarioModules)) && $RosarioModules[$_REQUEST['module']] == true)
@@ -100,7 +100,7 @@ if($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 	}
 }
 
-if($_REQUEST['modfunc']=='activate' && AllowEdit())
+if ($_REQUEST['modfunc']=='activate' && AllowEdit())
 {
 	$update_RosarioModules = false;
 	
@@ -150,7 +150,7 @@ if($_REQUEST['modfunc']=='activate' && AllowEdit())
 }
 
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	
 	if ($error)
@@ -243,7 +243,7 @@ function _makeReadMe($module_title,$activated=null)
 	global $RosarioCoreModules;
 
 	//format & translate module title
-	if(!in_array($module_title, $RosarioCoreModules) && $activated)
+	if (!in_array($module_title, $RosarioCoreModules) && $activated)
 		$module_title_echo = dgettext($module_title, str_replace('_', ' ', $module_title));
 	else
 		$module_title_echo = _(str_replace('_', ' ', $module_title));

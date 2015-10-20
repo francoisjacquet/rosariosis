@@ -1,10 +1,10 @@
 <?php
 
-if($_REQUEST['modfunc']=='update')
+if ($_REQUEST['modfunc']=='update')
 {
-	if(UserStudentID() && AllowEdit())
+	if (UserStudentID() && AllowEdit())
 	{
-		if(count($_REQUEST['food_service']))
+		if (count($_REQUEST['food_service']))
 		{
 			$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
 			foreach($_REQUEST['food_service'] as $column_name=>$value)
@@ -18,7 +18,7 @@ if($_REQUEST['modfunc']=='update')
 	unset($_SESSION['_REQUEST_vars']['food_service']);
 }
 
-if(!$_REQUEST['modfunc'] && UserStudentID())
+if (!$_REQUEST['modfunc'] && UserStudentID())
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fssa.ACCOUNT_ID,fssa.STATUS,fssa.DISCOUNT,fssa.BARCODE,(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID='".UserStudentID()."' AND fssa.STUDENT_ID=s.STUDENT_ID"));
 	$student = $student[1];
@@ -45,7 +45,7 @@ if(!$_REQUEST['modfunc'] && UserStudentID())
 	echo '<TD>';
 
 	// warn if account non-existent (balance query failed)
-	if($student['BALANCE']=='')
+	if ($student['BALANCE']=='')
 	{
 		echo TextInput(array($student['ACCOUNT_ID'],'<span style="color:red">'.$student['ACCOUNT_ID'].'</span>'),'food_service[ACCOUNT_ID]',_('Account ID'),'size=12 maxlength=10');
 
@@ -59,7 +59,7 @@ if(!$_REQUEST['modfunc'] && UserStudentID())
 	 	echo TextInput($student['ACCOUNT_ID'],'food_service[ACCOUNT_ID]','Account ID','size=12 maxlength=10');
 
 	// warn if other students associated with the same account
-	if(count($xstudents))
+	if (count($xstudents))
 	{
 		$warning = _('Other students associated with the same account').':<BR />';
 

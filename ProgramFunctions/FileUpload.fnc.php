@@ -37,7 +37,7 @@ function FileUpload($key, $path, $extensions_white_list, $size_limit, &$error, $
 		$error[] = sprintf(_('Folder not writable').': %s',$path); //see PHP user rights
 
 	//store file
-	elseif(!move_uploaded_file($_FILES[$key]['tmp_name'],$full_path = ($path.($file_name!=false ? $file_name : ($final_extension==false ? no_accents($_FILES[$key]['name']) : no_accents(mb_substr($_FILES[$key]['name'], 0, mb_strrpos($_FILES[$key]['name'],'.'))).$final_extension)))))
+	elseif (!move_uploaded_file($_FILES[$key]['tmp_name'],$full_path = ($path.($file_name!=false ? $file_name : ($final_extension==false ? no_accents($_FILES[$key]['name']) : no_accents(mb_substr($_FILES[$key]['name'], 0, mb_strrpos($_FILES[$key]['name'],'.'))).$final_extension)))))
 		$error[] = sprintf(_('File invalid or not moveable').': %s',$_FILES[$key]['tmp_name']);
 
 	return $full_path;

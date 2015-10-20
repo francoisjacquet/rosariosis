@@ -1,13 +1,13 @@
 <?php
-if($_REQUEST['modfunc']!='XMLHttpRequest')
+if ($_REQUEST['modfunc']!='XMLHttpRequest')
 	DrawHeader(ProgramTitle());
 
 Widgets('request');
 Search('student_id',$extra);
 
-if($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if(DeletePrompt(_('Request')))
+	if (DeletePrompt(_('Request')))
 	{
 		DBQuery("DELETE FROM SCHEDULE_REQUESTS WHERE REQUEST_ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
@@ -16,7 +16,7 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if($_REQUEST['modfunc']=='update')
+if ($_REQUEST['modfunc']=='update')
 {
 	//FJ fix error Warning: Invalid argument supplied for foreach()
 	if (isset($_REQUEST['values']) && AllowEdit())
@@ -35,7 +35,7 @@ if($_REQUEST['modfunc']=='update')
 	unset($_REQUEST['modfunc']);
 }
 
-if($_REQUEST['modfunc']=='add' && AllowEdit())
+if ($_REQUEST['modfunc']=='add' && AllowEdit())
 {
     $course_id = $_REQUEST['course'];
 	$subject_id = DBGet(DBQuery("SELECT SUBJECT_ID FROM COURSES WHERE COURSE_ID='".$course_id."'"));
@@ -45,12 +45,12 @@ if($_REQUEST['modfunc']=='add' && AllowEdit())
 	unset($_REQUEST['modfunc']);
 }
 
-if($_REQUEST['modfunc']=='XMLHttpRequest')
+if ($_REQUEST['modfunc']=='XMLHttpRequest')
 {
 	header("Content-Type: text/xml\n\n");
     $courses_RET = DBGet(DBQuery("SELECT c.COURSE_ID,c.TITLE FROM COURSES c WHERE ".($_REQUEST['subject_id']?"c.SUBJECT_ID='".$_REQUEST['subject_id']."' AND ":'')."UPPER(c.TITLE) LIKE '".mb_strtoupper($_REQUEST['course_title'])."%' AND c.SYEAR='".UserSyear()."' AND c.SCHOOL_ID='".UserSchool()."'"));
 	echo '<?phpxml version="1.0" standalone="yes"?><courses>';
-	if(count($courses_RET))
+	if (count($courses_RET))
 	{
 		foreach($courses_RET as $course)
 			echo '<course><id>'.$course['COURSE_ID'].'</id><title>'.str_replace('&','&amp;',$course['TITLE']).'</title></course>';
@@ -58,15 +58,15 @@ if($_REQUEST['modfunc']=='XMLHttpRequest')
 	echo '</courses>';
 }
 
-if(!$_REQUEST['modfunc'] && UserStudentID())
+if (!$_REQUEST['modfunc'] && UserStudentID())
 {
 ?>
 <script>
 function SendXMLRequest(subject_id,course)
 {
-	if(window.XMLHttpRequest)
+	if (window.XMLHttpRequest)
 		connection = new XMLHttpRequest();
-	else if(window.ActiveXObject)
+	else if (window.ActiveXObject)
 		connection = new ActiveXObject("Microsoft.XMLHTTP");
 	connection.onreadystatechange = processRequest;
 	connection.open("GET","Modules.php?modname=<?php echo $_REQUEST['modname']; ?>&_ROSARIO_PDF=true&modfunc=XMLHttpRequest&subject_id="+subject_id+"&course_title="+course,true);
@@ -75,7 +75,7 @@ function SendXMLRequest(subject_id,course)
 
 function changeStyle(tag,over)
 {
-	if(over)
+	if (over)
 	{
 		tag.style.backgroundColor="#<?php echo Preferences('HIGHLIGHT'); ?>";
 		tag.style.color="#000";
@@ -95,7 +95,7 @@ function doOnClick(course)
 function processRequest()
 {
 	// LOADED && ACCEPTED
-	if(connection.readyState == 4 && connection.status == 200)
+	if (connection.readyState == 4 && connection.status == 200)
 	{
 		XMLResponse = connection.responseXML;
 		document.getElementById("courses_div").style.display = "block";
@@ -129,7 +129,7 @@ function processRequest()
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 //FJ css WPadmin
-	$link['add']['span'] = ''._('Add a Request').': &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <INPUT type="text" id="course_title" name="course_title" onkeypress="if(event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><DIV id="courses_div"></DIV>';
+	$link['add']['span'] = ''._('Add a Request').': &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <INPUT type="text" id="course_title" name="course_title" onkeypress="if (event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><DIV id="courses_div"></DIV>';
 	ListOutput($requests_RET,$columns,'Request','Requests',$link);
 	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</FORM>';

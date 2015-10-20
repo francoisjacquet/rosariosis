@@ -1,13 +1,13 @@
 <?php
 include_once('modules/Accounting/functions.inc.php');
-if(!$_REQUEST['print_statements'])
+if (!$_REQUEST['print_statements'])
 	DrawHeader(ProgramTitle());
 
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
-		if($id!='new')
+		if ($id!='new')
 		{
 			$sql = "UPDATE ACCOUNTING_PAYMENTS SET ";
 							
@@ -31,9 +31,9 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$go = 0;
 			foreach($columns as $column=>$value)
 			{
-				if(!empty($value) || $value=='0')
+				if (!empty($value) || $value=='0')
 				{
-					if($column=='AMOUNT')
+					if ($column=='AMOUNT')
 					{
 						$value = preg_replace('/[^0-9.]/','',$value);
 //FJ fix SQL bug invalid amount
@@ -47,23 +47,23 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			
-			if($go)
+			if ($go)
 				DBQuery($sql);
 		}
 	}
 	unset($_REQUEST['values']);
 }
 
-if($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if(DeletePrompt(_('Payment')))
+	if (DeletePrompt(_('Payment')))
 	{
 		DBQuery("DELETE FROM ACCOUNTING_PAYMENTS WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }
 
-if(!$_REQUEST['modfunc'])
+if (!$_REQUEST['modfunc'])
 {
 	$payments_total = 0;
 	$functions = array('REMOVE'=>'_makePaymentsRemove','AMOUNT'=>'_makePaymentsAmount','PAYMENT_DATE'=>'ProperDate','COMMENTS'=>'_makePaymentsTextInput');
@@ -76,15 +76,15 @@ if(!$_REQUEST['modfunc'])
 		$i++;
 	}
 
-	if(count($RET) && !$_REQUEST['print_statements'] && AllowEdit())
+	if (count($RET) && !$_REQUEST['print_statements'] && AllowEdit())
 		$columns = array('REMOVE'=>'');
 	else
 		$columns = array();
 	
 	$columns += array('AMOUNT'=>_('Amount'),'PAYMENT_DATE'=>_('Date'),'COMMENTS'=>_('Comment'));
-	if(!$_REQUEST['print_statements'] && AllowEdit())
+	if (!$_REQUEST['print_statements'] && AllowEdit())
 		$link['add']['html'] = array('REMOVE'=>button('add'),'AMOUNT'=>_makePaymentsTextInput('','AMOUNT'),'PAYMENT_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makePaymentsTextInput('','COMMENTS'));
-	if(!$_REQUEST['print_statements'] && AllowEdit())
+	if (!$_REQUEST['print_statements'] && AllowEdit())
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		DrawHeader('',SubmitButton(_('Save')));
@@ -95,7 +95,7 @@ if(!$_REQUEST['modfunc'])
 
 	ListOutput($RET,$columns,'Expense','Expenses',$link,array(),$options);
 
-	if(!$_REQUEST['print_statements'] && AllowEdit())
+	if (!$_REQUEST['print_statements'] && AllowEdit())
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
 	echo '<BR />';
@@ -111,7 +111,7 @@ if(!$_REQUEST['modfunc'])
 	//add General Balance
 	$table .= '<TR><TD colspan="2"><hr /></TD></TR><TR><TD>'._('Total from Incomes').': '.'</TD><TD>'.Currency($incomes_total[1]['TOTAL']).'</TD></TR>';
 	
-	if($RosarioModules['Student_Billing'])
+	if ($RosarioModules['Student_Billing'])
 	{
 		$student_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."'"));
 
@@ -128,11 +128,11 @@ if(!$_REQUEST['modfunc'])
 
 	$table .= '<TR><TD>'._('General Balance').': <b>'.'</b></TD><TD><b id="update_balance">'.Currency(($incomes_total[1]['TOTAL']+$student_payments_total[1]['TOTAL']-$payments_total-$Staff_payments_total[1]['TOTAL'])).'</b></TD></TR></TABLE>';
 
-	if(!$_REQUEST['print_statements'])
+	if (!$_REQUEST['print_statements'])
 		DrawHeader('','',$table);
 	else
 		DrawHeader($table,'','',null,null,true);
 	
-	if(!$_REQUEST['print_statements'] && AllowEdit())
+	if (!$_REQUEST['print_statements'] && AllowEdit())
 		echo '</FORM>';
 }

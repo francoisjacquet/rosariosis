@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if (count($_REQUEST['student']) && AllowEdit())
 	{
@@ -8,7 +8,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		if (is_numeric($_REQUEST['amount']))
 		{
 			$due_date = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
-			if(VerifyDate($due_date))
+			if (VerifyDate($due_date))
 			{
 				foreach($_REQUEST['student'] as $student_id=>$yes)
 				{
@@ -32,17 +32,17 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 }
 
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 
 {
 	DrawHeader(ProgramTitle());
 	
 	if (isset($error))
 		echo ErrorMessage($error);
-	if(isset($note))
+	if (isset($note))
 		echo ErrorMessage($note, 'note');
 		
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Fee to Selected Students')));
@@ -69,7 +69,7 @@ if(empty($_REQUEST['modfunc']))
 	}
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",NULL AS CHECKBOX";
@@ -80,7 +80,7 @@ if(empty($_REQUEST['modfunc']))
 	//Widgets('all');
 	
 	Search('student_id',$extra);
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Add Fee to Selected Students')) . '</div>';
 		echo '</FORM>';

@@ -20,7 +20,7 @@ function _makePaymentsRemove($value,$column)
 function _makeIncomesTextInput($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 	{
 		$id = $THIS_RET['ID'];
 		$div = 'force';
@@ -31,7 +31,7 @@ function _makeIncomesTextInput($value,$name)
 		$div = false;
 	}
 	
-	if($name=='AMOUNT')
+	if ($name=='AMOUNT')
 		$extra = 'size=5 maxlength=10';
 	
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra,$div);
@@ -40,7 +40,7 @@ function _makeIncomesTextInput($value,$name)
 function _makeSalariesTextInput($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 	{
 		$id = $THIS_RET['ID'];
 		$div = 'force';
@@ -51,7 +51,7 @@ function _makeSalariesTextInput($value,$name)
 		$div = false;
 	}
 	
-	if($name=='AMOUNT')
+	if ($name=='AMOUNT')
 		$extra = 'size=5 maxlength=10';
 	
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra,$div);
@@ -60,7 +60,7 @@ function _makeSalariesTextInput($value,$name)
 function _makeSalariesDateInput($value='',$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
@@ -73,12 +73,12 @@ function _makeSalariesDateInput($value='',$name)
 function _makePaymentsTextInput($value,$name)
 {	global $THIS_RET;
 	
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 	
-	if($name=='AMOUNT')
+	if ($name=='AMOUNT')
 		$extra = 'size=5 maxlength=10';
 	
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra);

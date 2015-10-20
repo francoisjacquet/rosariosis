@@ -80,13 +80,13 @@ function Search( $type, $extra = null )
 				{
 					SetUserStaffID( $_REQUEST['staff_id'] );
 				}
-				elseif( $_REQUEST['staff_id'] === 'new'
+				elseif ( $_REQUEST['staff_id'] === 'new'
 					&& UserStaffID() )
 				{
 					unset( $_SESSION['staff_id'] );
 				}
 			}
-			elseif( !UserStaffID()
+			elseif ( !UserStaffID()
 				|| $extra['new'] == true )
 			{
 				if ( UserStaffID() )

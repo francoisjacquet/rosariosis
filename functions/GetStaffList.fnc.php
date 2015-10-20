@@ -8,7 +8,7 @@ function GetStaffList(& $extra)
 	{
 		case 'admin':
 		case 'teacher':
-			if($_REQUEST['expanded_view']=='true')
+			if ($_REQUEST['expanded_view']=='true')
 			{
 				$select = ',LAST_LOGIN';
 				$extra['columns_after']['LAST_LOGIN'] = _('Last Login');
@@ -27,13 +27,13 @@ function GetStaffList(& $extra)
 				foreach($view_fields_RET as $field)
 				{
 					$extra['columns_after']['CUSTOM_'.$field['ID']] = $field['TITLE'];
-					if($field['TYPE']=='date')
+					if ($field['TYPE']=='date')
 						$functions['CUSTOM_'.$field['ID']] = 'ProperDate';
-					elseif($field['TYPE']=='numeric')
+					elseif ($field['TYPE']=='numeric')
 						$functions['CUSTOM_'.$field['ID']] = 'removeDot00';
-					elseif($field['TYPE']=='codeds')
+					elseif ($field['TYPE']=='codeds')
 						$functions['CUSTOM_'.$field['ID']] = 'StaffDeCodeds';
-					elseif($field['TYPE']=='exports')
+					elseif ($field['TYPE']=='exports')
 						$functions['CUSTOM_'.$field['ID']] = 'StaffDeCodeds';
 					$select .= ',s.CUSTOM_'.$field['ID'];
 				}
@@ -41,32 +41,32 @@ function GetStaffList(& $extra)
 			}
 			else
 			{
-				if(!$extra['columns_after'])
+				if (!$extra['columns_after'])
 					$extra['columns_after'] = array();
 
-				if($extra['staff_fields']['view'])
+				if ($extra['staff_fields']['view'])
 				{
 					$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE FROM STAFF_FIELDS cf WHERE cf.ID IN (".$extra['staff_fields']['view'].") ORDER BY cf.SORT_ORDER,cf.TITLE"));
 					foreach($view_fields_RET as $field)
 					{
 						$extra['columns_after']['CUSTOM_'.$field['ID']] = $field['TITLE'];
-						if($field['TYPE']=='date')
+						if ($field['TYPE']=='date')
 							$functions['CUSTOM_'.$field['ID']] = 'ProperDate';
-						elseif($field['TYPE']=='numeric')
+						elseif ($field['TYPE']=='numeric')
 							$functions['CUSTOM_'.$field['ID']] = 'removeDot00';
-						elseif($field['TYPE']=='codeds')
+						elseif ($field['TYPE']=='codeds')
 							$functions['CUSTOM_'.$field['ID']] = 'StaffDeCodeds';
-						elseif($field['TYPE']=='exports')
+						elseif ($field['TYPE']=='exports')
 							$functions['CUSTOM_'.$field['ID']] = 'StaffDeCodeds';
 						$select .= ',s.CUSTOM_'.$field['ID'];
 					}
 					$extra['SELECT'] .= $select;
 				}
 			}
-			if(User('PROFILE')!='admin')
+			if (User('PROFILE')!='admin')
 			{
 				$extra['WHERE'] .= " AND (s.STAFF_ID='".User('STAFF_ID')."' OR s.PROFILE='parent' AND exists(SELECT '' FROM STUDENTS_JOIN_USERS _sju,STUDENT_ENROLLMENT _sem,SCHEDULE _ss WHERE _sju.STAFF_ID=s.STAFF_ID AND _sem.STUDENT_ID=_sju.STUDENT_ID AND _sem.SYEAR='".UserSYEAR()."' AND _ss.STUDENT_ID=_sem.STUDENT_ID AND _ss.COURSE_PERIOD_ID='".UserCoursePeriod()."'";
-				if($_REQUEST['include_inactive']!='Y')
+				if ($_REQUEST['include_inactive']!='Y')
 					$extra['WHERE'] .= " AND _ss.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND ('".DBDate()."'>=_sem.START_DATE AND ('".DBDate()."'<=_sem.END_DATE OR _sem.END_DATE IS NULL)) AND ('".DBDate()."'>=_ss.START_DATE AND ('".DBDate()."'<=_ss.END_DATE OR _ss.END_DATE IS NULL))";
 				$extra['WHERE'] .= "))";
 			}
@@ -80,7 +80,7 @@ function GetStaffList(& $extra)
 				WHERE
 					s.SYEAR='".UserSyear()."'";
 			//$sql = appendStaffSQL($sql,array('NoSearchTerms'=>$extra['NoSearchTerms']));
-			if($_REQUEST['_search_all_schools']!='Y')
+			if ($_REQUEST['_search_all_schools']!='Y')
 				$sql .= " AND (s.SCHOOLS LIKE '%,".UserSchool().",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='') ";
 
 			$sql .= $extra['WHERE'].' ';
@@ -99,7 +99,7 @@ function GetStaffList(& $extra)
 function appendStaffSQL($sql,$extra)
 {	global $_ROSARIO;
 
-	if($_REQUEST['usrid'])
+	if ($_REQUEST['usrid'])
 	{
 //FJ allow comma separated list of staff IDs
 		$usrid_array = explode(',', $_REQUEST['usrid']);
@@ -115,40 +115,40 @@ function appendStaffSQL($sql,$extra)
 			//$sql .= " AND s.STAFF_ID='".$_REQUEST['usrid']."'";
 			$sql .= " AND s.STAFF_ID IN (".$usrids.")";
 
-			if(!$extra['NoSearchTerms'])
+			if (!$extra['NoSearchTerms'])
 				$_ROSARIO['SearchTerms'] .= '<b>'._('User ID').': </b>'.$usrids.'<BR />';
 		}
 	}
 
-	if($_REQUEST['last'])
+	if ($_REQUEST['last'])
 	{
 		$sql .= " AND UPPER(s.LAST_NAME) LIKE '".mb_strtoupper($_REQUEST['last'])."%'";
 
-		if(!$extra['NoSearchTerms'])
+		if (!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<b>'._('Last Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
 	}
 
-	if($_REQUEST['first'])
+	if ($_REQUEST['first'])
 	{
 		$sql .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 
-		if(!$extra['NoSearchTerms'])
+		if (!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<b>'._('First Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
 	}
 
-	if($_REQUEST['profile'])
+	if ($_REQUEST['profile'])
 	{
 		$sql .= " AND s.PROFILE='".$_REQUEST['profile']."'";
 
-		if(!$extra['NoSearchTerms'])
+		if (!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<b>'._('Profile').': </b>'._(UCFirst($_REQUEST['profile'])).'<BR />';
 	}
 
-	if($_REQUEST['username'])
+	if ($_REQUEST['username'])
 	{
 		$sql .= " AND UPPER(s.USERNAME) LIKE '".mb_strtoupper($_REQUEST['username'])."%'";
 
-		if(!$extra['NoSearchTerms'])
+		if (!$extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<b>'._('UserName starts with').': </b>'.str_replace("''", "'", $_REQUEST['username']).'<BR />';
 	}
 
@@ -158,19 +158,19 @@ function appendStaffSQL($sql,$extra)
 function makeProfile($value)
 {	global $THIS_RET,$profiles_RET;
 
-	if($value=='admin')
+	if ($value=='admin')
 		$return = _('Administrator');
-	elseif($value=='teacher')
+	elseif ($value=='teacher')
 		$return = _('Teacher');
-	elseif($value=='parent')
+	elseif ($value=='parent')
 		$return = _('Parent');
-	elseif($value=='none')
+	elseif ($value=='none')
 		$return = _('No Access');
 	else $return = $value;
 
-	if($THIS_RET['PROFILE_ID'])
+	if ($THIS_RET['PROFILE_ID'])
 		$return .= ' / '.($profiles_RET[$THIS_RET['PROFILE_ID']]?$profiles_RET[$THIS_RET['PROFILE_ID']][1]['TITLE']:'<span style="color:red">'.$THIS_RET['PROFILE_ID'].'</span>');
-	elseif($value!='none')
+	elseif ($value!='none')
 		$return .= ' w/Custom';
 
 	return $return;
@@ -181,14 +181,14 @@ function makeLogin($value,$title='LAST_LOGIN')
 	//FJ add failed login to expanded view
 	if ($title == 'LAST_LOGIN')
 	{
-		if(empty($value))
+		if (empty($value))
 			return button('x');
 		else
 			return ProperDate(mb_substr($value,0,10)).mb_substr($value,10);
 	}
 	if ($title == 'FAILED_LOGIN')
 	{
-		if(empty($value))
+		if (empty($value))
 			return '0';
 		else
 			return $value;

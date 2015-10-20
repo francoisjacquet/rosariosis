@@ -21,7 +21,7 @@ if ( empty( $start_date ) )
 }
 
 // set end date
-if( isset( $_REQUEST['day_end'] )
+if ( isset( $_REQUEST['day_end'] )
 	&& isset( $_REQUEST['month_end'] )
 	&& isset( $_REQUEST['year_end'] ) )
 {
@@ -43,31 +43,31 @@ if ( empty( $end_date ) )
 DrawHeader(ProgramTitle());
 
 $menus_RET = DBGet(DBQuery("SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('MENU_ID'));
-if($_REQUEST['menu_id'])
+if ($_REQUEST['menu_id'])
 {
-	if($_REQUEST['menu_id']!='new')
-		if($menus_RET[$_REQUEST['menu_id']])
+	if ($_REQUEST['menu_id']!='new')
+		if ($menus_RET[$_REQUEST['menu_id']])
 			$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
-		elseif(count($menus_RET))
+		elseif (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array(_('There are no menus yet setup.')),'fatal');
-	elseif(count($menus_RET))
+	elseif (count($menus_RET))
 		$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 	else
 		ErrorMessage(array(_('There are no menus yet setup.')),'fatal');
 }
 else
 {
-	if($_SESSION['FSA_menu_id'])
-		if($menus_RET[$_SESSION['FSA_menu_id']])
+	if ($_SESSION['FSA_menu_id'])
+		if ($menus_RET[$_SESSION['FSA_menu_id']])
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'];
-		elseif(count($menus_RET))
+		elseif (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array(_('There are no menus yet setup.')),'fatal');
 	else
-		if(count($menus_RET))
+		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
 			ErrorMessage(array(_('There are no menus yet setup.')),'fatal');
@@ -159,7 +159,7 @@ GROUP BY STAFF_ID"),array('PARTICIPATED'=>'bump_dep'));
 //FJ add translation
 $users_locale = array('Student'=>_('Student'), 'User'=>_('User'));
 
-if($_REQUEST['type_select']=='sales')
+if ($_REQUEST['type_select']=='sales')
 {
 	$RET = DBGet(DBQuery("SELECT 'Student' AS TYPE,fsti.SHORT_NAME,fst.DISCOUNT,-sum((SELECT AMOUNT FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fsti.TRANSACTION_ID AND ITEM_ID=fsti.ITEM_ID)) AS COUNT 
 	FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti 
@@ -195,7 +195,7 @@ if($_REQUEST['type_select']=='sales')
 	}
 	$total = array_sum($types_totals['']);
 	foreach($types_totals[''] as $key=>$value)
-		if($value==0)
+		if ($value==0)
 			unset($types_columns[$key]);
 	$LO_types[] = array(array('TYPE'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.number_format((!empty($users_totals['']['ELLIGIBLE']) ? $users_totals['']['DAYS']/$users_totals['']['ELLIGIBLE'] : 0),1).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals['']['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals['']['PARTICIPATED'].'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals['']));
 	unset($LO_types[0]);
@@ -235,7 +235,7 @@ else
 		$LO_types[] = $TMP_types;
 	}
 	foreach($types_totals[''] as $key=>$value)
-		if($value == 0)
+		if ($value == 0)
 			unset($types_columns[$key]);
 	$LO_types[] = array(array('TYPE'=>'<b>'._('Totals').'</b>','ELLIGIBLE'=>'<b>'.number_format($users_totals['']['ELLIGIBLE'],1).'</b>','DAYS_POSSIBLE'=>'<b>'.number_format((empty($users_totals['']['ELLIGIBLE']) ? 0 : $users_totals['']['DAYS']/$users_totals['']['ELLIGIBLE']),1).'</b>','TOTAL_ELLIGIBLE'=>'<b>'.$users_totals['']['DAYS'].'</b>','PARTICIPATED'=>'<b>'.$users_totals['']['PARTICIPATED'].'</b>') + array_map('bold',$types_totals['']));
 	unset($LO_types[0]);
@@ -277,10 +277,10 @@ function bold_format($item)
 function bump_dep($value,$column)
 {	global $THIS_RET,$users,$users_totals;
 
-	if($column=='ELLIGIBLE')
+	if ($column=='ELLIGIBLE')
 		$value = $THIS_RET['DAYS']/$value;
 
-	if(!$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']])
+	if (!$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']])
 		$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']] = array('DAYS'=>0,'ELLIGIBLE'=>0,'PARTICIPATED'=>0);
 	$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']][$column] += $value;
 	$users_totals[$THIS_RET['TYPE']][$column] += $value;
@@ -291,11 +291,11 @@ function bump_dep($value,$column)
 function bump_count($value,$column)
 {	global $THIS_RET,$types,$types_columns,$types_totals;
 
-	if($types[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']])
+	if ($types[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']])
 		$types[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']][$value] += $THIS_RET['COUNT'];
 	else
 		$types[$THIS_RET['TYPE']] += array($THIS_RET['DISCOUNT']=>array($value=>$THIS_RET['COUNT']));
-	if(!$types_columns[$value])
+	if (!$types_columns[$value])
 	{
 		$types_columns += array($value=>'<span style="color:red">'.$value.'</span>');
 		$types_totals['Student'][$value] = 0;

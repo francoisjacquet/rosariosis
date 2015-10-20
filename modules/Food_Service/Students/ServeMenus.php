@@ -15,7 +15,7 @@ if ($_REQUEST['modfunc']=='submit')
 	}
 	elseif ($_REQUEST['submit']['save'])
 	{
-		if(count($_SESSION['FSA_sale']))
+		if (count($_SESSION['FSA_sale']))
 		{
 			$student = DBGet(DBQuery("SELECT ACCOUNT_ID,DISCOUNT FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='".UserStudentID()."'"));
 			$student = $student[1];
@@ -32,13 +32,13 @@ if ($_REQUEST['modfunc']=='submit')
 				// determine price based on discount
 				$price = $items_RET[$item_sn][1]['PRICE'];
 				$discount = $student['DISCOUNT'];
-				if($student['DISCOUNT']=='Reduced')
-					if($items_RET[$item_sn][1]['PRICE_REDUCED']!='')
+				if ($student['DISCOUNT']=='Reduced')
+					if ($items_RET[$item_sn][1]['PRICE_REDUCED']!='')
 						$price = $items_RET[$item_sn][1]['PRICE_REDUCED'];
 					else
 						$discount = '';
-				elseif($student['DISCOUNT']=='Free')
-					if($items_RET[$item_sn][1]['PRICE_FREE']!='')
+				elseif ($student['DISCOUNT']=='Free')
+					if ($items_RET[$item_sn][1]['PRICE_FREE']!='')
 						$price = $items_RET[$item_sn][1]['PRICE_FREE'];
 					else
 						$discount = '';
@@ -64,7 +64,7 @@ if ($_REQUEST['modfunc']=='submit')
 	unset($_REQUEST['submit']);
 }
 
-if(UserStudentID() && empty($_REQUEST['modfunc']))
+if (UserStudentID() && empty($_REQUEST['modfunc']))
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,fsa.DISCOUNT,fsa.BARCODE,
 	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE 
@@ -93,7 +93,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 
 		// IMAGE
 //FJ fix error Warning: fclose() expects parameter 1 to be resource, boolean given
-		if(file_exists($picture=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg') || file_exists($picture=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg'))
+		if (file_exists($picture=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg') || file_exists($picture=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg'))
 			echo '</TD><TD rowspan="2"><IMG SRC="'.$picture.'" width="150" />';
 
 		echo '</TD></TR>';
@@ -118,13 +118,13 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 			{
 				// determine price based on discount
 				$price = $items_RET[$item_sn][1]['PRICE'];
-				if($student['DISCOUNT']=='Reduced')
+				if ($student['DISCOUNT']=='Reduced')
 				{
-					if($items_RET[$item_sn][1]['PRICE_REDUCED']!='')
+					if ($items_RET[$item_sn][1]['PRICE_REDUCED']!='')
 						$price = $items_RET[$item_sn][1]['PRICE_REDUCED'];
 				}
-				elseif($student['DISCOUNT']=='Free')
-					if($items_RET[$item_sn][1]['PRICE_FREE']!='')
+				elseif ($student['DISCOUNT']=='Free')
+					if ($items_RET[$item_sn][1]['PRICE_FREE']!='')
 						$price = $items_RET[$item_sn][1]['PRICE_FREE'];
 				$LO_ret[] = array('SALE_ID'=>$id,'PRICE'=>$price,'DESCRIPTION'=>$items_RET[$item_sn][1]['DESCRIPTION'],'ICON'=>$items_RET[$item_sn][1]['ICON']);
 			}

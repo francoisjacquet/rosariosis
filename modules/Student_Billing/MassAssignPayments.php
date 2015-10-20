@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if (count($_REQUEST['student']) && AllowEdit())
 	{
@@ -25,17 +25,17 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	unset($_REQUEST['modfunc']);
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 
 {
 	DrawHeader(ProgramTitle());
 	
 	if (isset($error))
 		echo ErrorMessage($error);
-	if(isset($note))
+	if (isset($note))
 		echo ErrorMessage($note, 'note');
 		
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 
@@ -59,7 +59,7 @@ if(empty($_REQUEST['modfunc']))
 	}
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 
 {
 	$extra['link'] = array('FULL_NAME'=>false);
@@ -71,7 +71,7 @@ if(empty($_REQUEST['modfunc']))
 	//Widgets('all');
 	
 	Search('student_id',$extra);
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Add Payment to Selected Students')) . '</div>';
 		echo '</FORM>';

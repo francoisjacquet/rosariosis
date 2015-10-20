@@ -5,7 +5,7 @@ $fields_RET = DBGet(DBQuery("SELECT pf.ID,pf.TITLE FROM PEOPLE_FIELDS pf,PEOPLE_
 
 echo '<BR />';
 PopTable('header',($person_RET[1]['STUDENT_RELATION']?$person_RET[1]['STUDENT_RELATION'].': ':'').$person_RET[1]['FIRST_NAME'].' '.$person_RET[1]['MIDDLE_NAME'].' '.$person_RET[1]['LAST_NAME'],'width="75%"');
-if(count($contacts_RET) || count($fields_RET))
+if (count($contacts_RET) || count($fields_RET))
 {
 	foreach($contacts_RET as $info)
 		echo '<B>'.$info['TITLE'].'</B>: '.$info['VALUE'].'<BR />';

@@ -1,14 +1,14 @@
 <?php
 
-if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
+if ($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 {
-	if(UserStudentID() && AllowEdit())
+	if (UserStudentID() && AllowEdit())
 	{
 		$account_id = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE STUDENT_ID='".UserStudentID()."'"));
 		$account_id = $account_id[1]['ACCOUNT_ID'];
 
 
-		if(($_REQUEST['values']['TYPE']=='Deposit' || $_REQUEST['values']['TYPE']=='Credit' || $_REQUEST['values']['TYPE']=='Debit') && ($amount = is_money($_REQUEST['values']['AMOUNT'])))
+		if (($_REQUEST['values']['TYPE']=='Deposit' || $_REQUEST['values']['TYPE']=='Credit' || $_REQUEST['values']['TYPE']=='Debit') && ($amount = is_money($_REQUEST['values']['AMOUNT'])))
 		{
 			// get next transaction id
 			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('FOOD_SERVICE_TRANSACTIONS_SEQ')." AS SEQ_ID ".FROM_DUAL));
@@ -38,7 +38,7 @@ Widgets('fsa_account_id');
 
 $extra['SELECT'] .= ",coalesce(fssa.STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE";
-if(!mb_strpos($extra['FROM'],'fssa'))
+if (!mb_strpos($extra['FROM'],'fssa'))
 {
 	$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
@@ -48,10 +48,10 @@ $extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 
 Search('student_id',$extra);
 
-if(isset($error))
+if (isset($error))
 	echo ErrorMessage($error);
 
-if(UserStudentID() && empty($_REQUEST['modfunc']))
+if (UserStudentID() && empty($_REQUEST['modfunc']))
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fsa.ACCOUNT_ID,fsa.STATUS,
 	(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fsa.ACCOUNT_ID) AS BALANCE 
@@ -67,7 +67,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 
-	if($student['BALANCE']!='')
+	if ($student['BALANCE']!='')
 	{
         $RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT 
 		FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti 
@@ -98,7 +98,7 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 
 		echo '<TABLE class="width-100p"><TR><TD class="width-100p valign-top">';
 
-		if(AllowEdit())
+		if (AllowEdit())
 		{
 			$types = array('Deposit'=>_('Deposit'),'Credit'=>_('Credit'),'Debit'=>_('Debit'));
 			$link['add']['html']['TYPE'] = SelectInput('','values[TYPE]','',$types,false);

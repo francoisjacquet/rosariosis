@@ -46,7 +46,7 @@ function ErrorMessage( $errors, $code = 'error' )
 			$return .= '<div class="updated"><p><b>' . _( 'Note' ) . ':</b> ';
 		}
 
-		if( count( $errors ) === 1 )
+		if ( count( $errors ) === 1 )
 		{
 			$return .= ( isset( $errors[0] ) ? $errors[0] : $errors[1] ) . '</p>';
 		}

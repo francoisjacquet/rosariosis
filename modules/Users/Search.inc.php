@@ -1,17 +1,17 @@
 <?php
 
-if(!$_REQUEST['search_modfunc'])
+if (!$_REQUEST['search_modfunc'])
 {
 	switch(User('PROFILE'))
 	{
 		case 'admin':
 		case 'teacher':
-			//if(UserStaffID() && ($_REQUEST['modname']!='Users/Search.php' || $_REQUEST['student_id']=='new'))
-			if(UserStaffID() && User('PROFILE')=='admin' && $_REQUEST['staff_id']=='new')
+			//if (UserStaffID() && ($_REQUEST['modname']!='Users/Search.php' || $_REQUEST['student_id']=='new'))
+			if (UserStaffID() && User('PROFILE')=='admin' && $_REQUEST['staff_id']=='new')
 				unset($_SESSION['staff_id']);
 
 			$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back','advanced'));
-			if($_SESSION['Back_PHP_SELF']!='staff')
+			if ($_SESSION['Back_PHP_SELF']!='staff')
 			{
 				$_SESSION['Back_PHP_SELF'] = 'staff';
 				unset($_SESSION['List_PHP_SELF']);
@@ -32,12 +32,12 @@ if(!$_REQUEST['search_modfunc'])
 			echo '<TR><TD><label for="usrid">'._('User ID').'</label></TD><TD><input type="text" name="usrid" id="usrid" size="30"></TD></TR>';
 			echo '<TR><TD><label for="username">'._('Username').'</label></TD><TD><INPUT type="text" name="username" id="username" size="30"></TD></TR>';
 
-			if(User('PROFILE')=='admin')
+			if (User('PROFILE')=='admin')
 				$options = array(''=>_('N/A'),'admin'=>_('Administrator'),'teacher'=>_('Teacher'),'parent'=>_('Parent'),'none'=>_('No Access'));
 			else
 				$options = array(''=>_('N/A'),'teacher'=>_('Teacher'),'parent'=>_('Parent'));
 
-			if($extra['profile'])
+			if ($extra['profile'])
 				$options = array($extra['profile']=>$options[$extra['profile']]);
 
 			echo '<TR><TD><label for="profile">'._('Profile').'</label></TD><TD><SELECT name="profile" id="profile">';
@@ -47,7 +47,7 @@ if(!$_REQUEST['search_modfunc'])
 
 			echo '</SELECT></TD></TR>';
 
-			if(!isset($extra))
+			if (!isset($extra))
 				$extra = array();
 
 			StaffWidgets('user',$extra);
@@ -57,10 +57,10 @@ if(!$_REQUEST['search_modfunc'])
 
 			echo '</TABLE></TD><TR><TD class="center">';
 
-			if($extra['search_second_col'])
+			if ($extra['search_second_col'])
 				echo $extra['search_second_col'];
 
-			if(User('PROFILE')=='admin')
+			if (User('PROFILE')=='admin')
 			{
 //FJ add <label> on checkbox
 //FJ if only one school, no Search All Schools option
@@ -78,11 +78,11 @@ if(!$_REQUEST['search_modfunc'])
 			{
 				echo '<TR><TD><TABLE class="widefat width-100p cellspacing-0 col1-align-right">';
 
-				if($extra['search'])
+				if ($extra['search'])
 					echo $extra['search'];
-				if($extra['extra_search'])
+				if ($extra['extra_search'])
 					echo $extra['extra_search'];
-				if($extra['second_col'])
+				if ($extra['second_col'])
 					echo $extra['second_col'];
 
 				echo '</TABLE></TD></TR>';
@@ -90,7 +90,7 @@ if(!$_REQUEST['search_modfunc'])
 				
 			echo '<TR class="valign-top"><TD>';
 
-			if($_REQUEST['advanced']=='Y')
+			if ($_REQUEST['advanced']=='Y')
 			{
 				$extra['search'] = '';
 				StaffWidgets('all',$extra);
@@ -127,38 +127,38 @@ if(!$_REQUEST['search_modfunc'])
 			echo User('PROFILE');
 	}
 }
-//if($_REQUEST['search_modfunc']=='list')
+//if ($_REQUEST['search_modfunc']=='list')
 else
 {
-	if(!$_REQUEST['next_modname'])
+	if (!$_REQUEST['next_modname'])
 		$_REQUEST['next_modname'] = 'Users/User.php';
 
-	if(User('PROFILE')=='admin')
+	if (User('PROFILE')=='admin')
 	{
-		if(!isset($extra))
+		if (!isset($extra))
 			$extra = array();
 
 		StaffWidgets('user',$extra);
 
-		if($_REQUEST['advanced']=='Y')
+		if ($_REQUEST['advanced']=='Y')
 			StaffWidgets('all',$extra);
 	}
 
-	if(!$extra['NoSearchTerms'])
+	if (!$extra['NoSearchTerms'])
 	{
-		if($_REQUEST['_search_all_schools']=='Y')
+		if ($_REQUEST['_search_all_schools']=='Y')
 			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><BR />';
 	}
 
 	$extra['WHERE'] .= appendStaffSQL('',array('NoSearchTerms'=>$extra['NoSearchTerms']));
 	$extra['WHERE'] .= CustomFields('where','staff',array('NoSearchTerms'=>$extra['NoSearchTerms']));
 
-	if(!isset($_ROSARIO['DrawHeader']))
+	if (!isset($_ROSARIO['DrawHeader']))
 		DrawHeader(_('Choose A User'));
 
 	$staff_RET = GetStaffList($extra);
 
-	if($extra['profile'])
+	if ($extra['profile'])
 	{
 		// DO NOT translate those strings since they will be passed to ListOutput ultimately
 		$options = array('admin'=>'Administrator','teacher'=>'Teacher','parent'=>'Parent','none'=>'No Access');
@@ -174,20 +174,20 @@ else
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];
 	$name_link['FULL_NAME']['variables'] = array('staff_id'=>'STAFF_ID');
 
-	if(isset($extra['link']) && is_array($extra['link']))
+	if (isset($extra['link']) && is_array($extra['link']))
 		$link = $extra['link'] + $name_link;
 	else
 		$link = $name_link;
 
-	if(isset($extra['columns_before']) && is_array($extra['columns_before']))
+	if (isset($extra['columns_before']) && is_array($extra['columns_before']))
 		$columns = $extra['columns_before'] + $columns;
 
-	if(isset($extra['columns_after']) && is_array($extra['columns_after']))
+	if (isset($extra['columns_after']) && is_array($extra['columns_after']))
 		$columns += $extra['columns_after'];
 
-	if(count($staff_RET)>1 || $link['add'] || !$link['FULL_NAME'] || $extra['columns_before'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($staff_RET)==0) || ($extra['Redirect']===false && count($staff_RET)==1))
+	if (count($staff_RET)>1 || $link['add'] || !$link['FULL_NAME'] || $extra['columns_before'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($staff_RET)==0) || ($extra['Redirect']===false && count($staff_RET)==1))
 	{
-		if($_REQUEST['expanded_view']!='true')
+		if ($_REQUEST['expanded_view']!='true')
 			DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view'=>'true')) . '">'._('Expanded View').'</A>',$extra['header_right']);
 		else
 			DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view'=>'false')) . '">'._('Original View').'</A>',$extra['header_right']);
@@ -195,11 +195,11 @@ else
 		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
 		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 
-		if(!$_REQUEST['LO_save'] && !$extra['suppress_save'])
+		if (!$_REQUEST['LO_save'] && !$extra['suppress_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
-			if($_SESSION['Back_PHP_SELF']!='staff')
+			if ($_SESSION['Back_PHP_SELF']!='staff')
 			{
 				$_SESSION['Back_PHP_SELF'] = 'staff';
 				unset($_SESSION['Search_PHP_SELF']);
@@ -208,37 +208,37 @@ else
 			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 		}
 
-		if($extra['profile'])
+		if ($extra['profile'])
 			ListOutput($staff_RET,$columns,$singular,$plural,$link,false,$extra['options']);
 		else
 			ListOutput($staff_RET,$columns,'User','Users',$link,false,$extra['options']);
 	}
-	elseif(count($staff_RET)==1)
+	elseif (count($staff_RET)==1)
 	{
-		if(count($link['FULL_NAME']['variables']))
+		if (count($link['FULL_NAME']['variables']))
 		{
 			foreach($link['FULL_NAME']['variables'] as $var=>$val)
 				$_REQUEST[$var] = $staff_RET['1'][$val];
 		}
 
-		if(!is_array($staff_RET[1]['STAFF_ID']))
+		if (!is_array($staff_RET[1]['STAFF_ID']))
 		{
 			SetUserStaffID($staff_RET[1]['STAFF_ID']);
 
 			unset($_REQUEST['search_modfunc']);
 		}
 
-		if($_REQUEST['modname']!=$_REQUEST['next_modname'])
+		if ($_REQUEST['modname']!=$_REQUEST['next_modname'])
 		{
 			$modname = $_REQUEST['next_modname'];
 
-			if(mb_strpos($modname,'?'))
+			if (mb_strpos($modname,'?'))
 				$modname = mb_substr($_REQUEST['next_modname'],0,mb_strpos($_REQUEST['next_modname'],'?'));
 
-			if(mb_strpos($modname,'&'))
+			if (mb_strpos($modname,'&'))
 				$modname = mb_substr($_REQUEST['next_modname'],0,mb_strpos($_REQUEST['next_modname'],'&'));
 
-			if($_REQUEST['modname'])
+			if ($_REQUEST['modname'])
 				$_REQUEST['modname'] = $modname;
 
 			//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html

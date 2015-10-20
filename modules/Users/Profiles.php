@@ -6,12 +6,12 @@ unset($_ROSARIO['Menu']);
 
 include('Menu.php');
 
-if($_REQUEST['profile_id']!='')
+if ($_REQUEST['profile_id']!='')
 {
 	$exceptions_RET = DBGet(DBQuery("SELECT PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".$_REQUEST['profile_id']."'"),array(),array('MODNAME'));
 	$profile_RET = DBGet(DBQuery("SELECT PROFILE FROM USER_PROFILES WHERE ID='".$_REQUEST['profile_id']."'"));
 	$xprofile = $profile_RET[1]['PROFILE'];
-	if($xprofile=='student')
+	if ($xprofile=='student')
 	{
 		$xprofile = 'parent';
 //FJ enable password change for students
@@ -77,7 +77,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 	}
 }
 
-if($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdit())
+if ($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdit())
 {
 	$tmp_menu = $menu;
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
@@ -110,23 +110,23 @@ if($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdi
 		$values = $profiles[$xprofile];
 		foreach($values as $modname=>$title)
 		{
-			if(!is_numeric($modname) && $modname!='default')
+			if (!is_numeric($modname) && $modname!='default')
 			{
-				if(!count($exceptions_RET[$modname]) && ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)]))
+				if (!count($exceptions_RET[$modname]) && ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)]))
 					DBQuery("INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME) values('".$_REQUEST['profile_id']."','".$modname."')");
-				elseif(count($exceptions_RET[$modname]) && !$_REQUEST['can_edit'][str_replace('.','_',$modname)] && !$_REQUEST['can_use'][str_replace('.','_',$modname)])
+				elseif (count($exceptions_RET[$modname]) && !$_REQUEST['can_edit'][str_replace('.','_',$modname)] && !$_REQUEST['can_use'][str_replace('.','_',$modname)])
 					DBQuery("DELETE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".$_REQUEST['profile_id']."' AND MODNAME='".$modname."'");
 
 				if ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)])
 				{
 					$update = "UPDATE PROFILE_EXCEPTIONS SET ";
 
-					if($_REQUEST['can_edit'][str_replace('.','_',$modname)])
+					if ($_REQUEST['can_edit'][str_replace('.','_',$modname)])
 						$update .= "CAN_EDIT='Y',";
 					else
 						$update .= "CAN_EDIT=NULL,";
 
-					if($_REQUEST['can_use'][str_replace('.','_',$modname)])
+					if ($_REQUEST['can_use'][str_replace('.','_',$modname)])
 						$update .= "CAN_USE='Y'";
 					else
 						$update .= "CAN_USE=NULL";
@@ -150,7 +150,7 @@ if($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdi
 	unset($_SESSION['_REQUEST_vars']['can_use']);
 }
 
-if($_REQUEST['new_profile_title'] && AllowEdit())
+if ($_REQUEST['new_profile_title'] && AllowEdit())
 {
 	$id = DBGet(DBQuery("SELECT ".db_seq_nextval('USER_PROFILES_SEQ')." AS ID".FROM_DUAL));
 	$id = $id[1]['ID'];
@@ -164,7 +164,7 @@ if($_REQUEST['new_profile_title'] && AllowEdit())
 	unset($_SESSION['_REQUEST_vars']['new_profile_type']);
 }
 
-if($_REQUEST['modfunc']!='delete')
+if ($_REQUEST['modfunc']!='delete')
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&profile_id='.$_REQUEST['profile_id'].'" method="POST">';
 	DrawHeader(_('Select the programs that users of this profile can use and which programs those users can use to save information.'),SubmitButton(_('Save')));
@@ -180,7 +180,7 @@ if($_REQUEST['modfunc']!='delete')
 	{
 		foreach($profiles_RET[$profiles] as $id=>$profile)
 		{
-			if($_REQUEST['profile_id']!='' && $id==$_REQUEST['profile_id'])
+			if ($_REQUEST['profile_id']!='' && $id==$_REQUEST['profile_id'])
 				echo '<TR id="selected_tr" class="highlight"><TD>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</TD><TD>';
 			else
 				echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="background-color:transparent;";\'><TD>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</TD><TD>';
@@ -192,10 +192,10 @@ if($_REQUEST['modfunc']!='delete')
 			echo '</TR>';
 		}
 	}
-	if($_REQUEST['profile_id']=='')
+	if ($_REQUEST['profile_id']=='')
 		echo '<TR id="selected_tr"><TD colspan="3"></TD></TR>';
 
-	if(AllowEdit())
+	if (AllowEdit())
 	{
 		echo '<script>
 function changeHTML(show,hide){
@@ -219,7 +219,7 @@ function changeHTML(show,hide){
 	echo '</TD><TD></TD><TD>';
 
 	echo '<DIV id="main_div">';
-	if($_REQUEST['profile_id']!='')
+	if ($_REQUEST['profile_id']!='')
 	{
 		PopTable('header',_('Permissions'));
 //		echo '<TABLE cellspacing=0>';
@@ -228,7 +228,7 @@ function changeHTML(show,hide){
 		{
 			$values = $profiles[$xprofile];
 
-			if(!in_array($modcat, $RosarioCoreModules))
+			if (!in_array($modcat, $RosarioCoreModules))
 				$module_title = dgettext($modcat, str_replace('_',' ',$modcat));
 			else
 				$module_title = _(str_replace('_',' ',$modcat));
@@ -238,17 +238,17 @@ function changeHTML(show,hide){
 //FJ add <label> on checkbox
 			echo '<TR><TH><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick="checkAll(this.form,this.form.can_use_'.$modcat.'.checked,\'can_use['.$modcat.'\');">':'').'</label></TH>';
 
-			if($xprofile=='admin' || $modcat=='Students' || $modcat=='Resources')
+			if ($xprofile=='admin' || $modcat=='Students' || $modcat=='Resources')
 				echo '<TH><label>'._('Can Edit').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick="checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,\'can_edit['.$modcat.'\');">':'').'</label></TH>';
 			else
 				echo '<TH>&nbsp;</TH>';
 
 			echo '<TH>&nbsp;</TH></TR>';
-			if(count($values))
+			if (count($values))
 			{
 				foreach($values as $file=>$title)
 				{
-					if(!is_numeric($file) && $file!='default')
+					if (!is_numeric($file) && $file!='default')
 					{
 						$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 						$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
@@ -257,14 +257,14 @@ function changeHTML(show,hide){
 
 						echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
 
-						if($xprofile=='admin' || $modcat=='Resources')
+						if ($xprofile=='admin' || $modcat=='Resources')
 								echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
 						else
 							echo '<TD>&nbsp;</TD>';
 
 						echo'<TD>'.$title.'</TD></TR>';
 
-						if($modcat=='Students' && $file=='Students/Student.php')
+						if ($modcat=='Students' && $file=='Students/Student.php')
 						{
 							$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 							foreach($categories_RET as $category)
@@ -282,7 +282,7 @@ function changeHTML(show,hide){
 								echo '<TD>'.$title.'</TD></TR>';
 							}
 						}
-						elseif($modcat=='Users' && $file=='Users/User.php')
+						elseif ($modcat=='Users' && $file=='Users/User.php')
 						{
 							$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 							foreach($categories_RET as $category)
@@ -295,7 +295,7 @@ function changeHTML(show,hide){
 								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
 								echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
 
-								if($xprofile=='admin')
+								if ($xprofile=='admin')
 									echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
 								else
 									echo '<TD>&nbsp;</TD>';
@@ -304,7 +304,7 @@ function changeHTML(show,hide){
 							}
 						}
 					}
-					elseif($file!='default')
+					elseif ($file!='default')
 						echo '<TR><TD colspan="3" class="center">- '.$title.' -</TD></TR>';
 
 				}

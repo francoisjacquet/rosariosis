@@ -6,8 +6,8 @@ $default_session_name = session_name();
 include( 'Warehouse.php' );
 
 // Logout
-if( isset( $_REQUEST['modfunc'] )
-	&& $_REQUEST['modfunc'] == 'logout' )
+if ( isset( $_REQUEST['modfunc'] )
+	&& $_REQUEST['modfunc'] === 'logout' )
 {
 	//FJ set logout page to old session locale
 	$old_session_locale = $_SESSION['locale'];
@@ -24,13 +24,13 @@ if( isset( $_REQUEST['modfunc'] )
 }
 
 // Login
-elseif( isset( $_POST['USERNAME'] )
+elseif ( isset( $_POST['USERNAME'] )
 	&& $_REQUEST['USERNAME'] !== ''
 	&& isset( $_POST['PASSWORD'] )
 	&& $_REQUEST['PASSWORD'] !== '' )
 {
 	//FJ check accept cookies
-	if( !isset( $_COOKIE['RosarioSIS'] )
+	if ( !isset( $_COOKIE['RosarioSIS'] )
 		&& !isset( $_COOKIE[$default_session_name] ) )
 	{
 		header( 'Location: index.php?modfunc=logout&reason=cookie' );
@@ -39,7 +39,7 @@ elseif( isset( $_POST['USERNAME'] )
 	}
 
 	//only regenerate session ID if session.auto_start == 0
-	elseif( isset( $_COOKIE['RosarioSIS'] ) )
+	elseif ( isset( $_COOKIE['RosarioSIS'] ) )
 		session_regenerate_id( true ); //and invalidate old session
 
 	$username = $_REQUEST['USERNAME'];
@@ -59,7 +59,7 @@ elseif( isset( $_POST['USERNAME'] )
 	else
 		$login_RET = false;
 	
-	if( !$login_RET )
+	if ( !$login_RET )
 	{
 		// lookup for student $username in DB
 		$student_RET = DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,s.FAILED_LOGIN,s.PASSWORD
@@ -89,7 +89,7 @@ elseif( isset( $_POST['USERNAME'] )
 	}
 	
 	// Admin, teacher or parent: initiate session
-	if( $login_RET
+	if ( $login_RET
 		&& ( $login_RET[1]['PROFILE'] === 'admin'
 			|| $login_RET[1]['PROFILE'] === 'teacher'
 			|| $login_RET[1]['PROFILE'] === 'parent' ) )
@@ -105,7 +105,7 @@ elseif( isset( $_POST['USERNAME'] )
 			WHERE STAFF_ID='" . $login_RET[1]['STAFF_ID'] . "'" );
 
 		// if 1st login, Confirm Successful Installation screen
-		if( Config( 'LOGIN' ) === 'No' )
+		if ( Config( 'LOGIN' ) === 'No' )
 		{
 			Warehouse( 'header' ); ?>
 
@@ -151,7 +151,7 @@ elseif( isset( $_POST['USERNAME'] )
 	}
 
 	// User with No access profile
-	elseif( ( $login_RET
+	elseif ( ( $login_RET
 			&& $login_RET[1]['PROFILE'] == 'none' )
 		|| $student_RET === 0 )
 	{
@@ -160,7 +160,7 @@ elseif( isset( $_POST['USERNAME'] )
 	}
 
 	// Student: initiate session
-	elseif( $student_RET )
+	elseif ( $student_RET )
 	{
 		$_SESSION['STUDENT_ID'] = $student_RET[1]['STUDENT_ID'];
 
@@ -191,7 +191,7 @@ elseif( isset( $_POST['USERNAME'] )
 }
 
 //FJ create account
-elseif( isset( $_REQUEST['create_account'] ) )
+elseif ( isset( $_REQUEST['create_account'] ) )
 {
 	$include = false;
 
@@ -220,7 +220,7 @@ elseif( isset( $_REQUEST['create_account'] ) )
 
 
 // Login screen
-if( empty( $_SESSION['STAFF_ID'] )
+if ( empty( $_SESSION['STAFF_ID'] )
 	&& empty( $_SESSION['STUDENT_ID'] )
 	&& !isset( $_REQUEST['create_account'] ) )
 {
@@ -256,32 +256,32 @@ if( empty( $_SESSION['STAFF_ID'] )
 		'style="max-width: 550px;"'
 	);
 	
-	if( isset( $_REQUEST['reason'] ) )
+	if ( isset( $_REQUEST['reason'] ) )
 	{
-		if( $_REQUEST['reason'] == 'javascript' )
+		if ( $_REQUEST['reason'] == 'javascript' )
 			$note[] = sprintf(
 				_( 'You must have javascript enabled to use %s.' ),
 				Config( 'NAME' )
 			);
 
 		//FJ check accept cookies
-		elseif( $_REQUEST['reason'] == 'cookie' )
+		elseif ( $_REQUEST['reason'] == 'cookie' )
 			$note[] = sprintf(
 				_( 'You must accept cookies to use %s.' ),
 				Config( 'NAME' )
 			);
 
 		//FJ create account
-		elseif( $_REQUEST['reason'] == 'account_created' )
+		elseif ( $_REQUEST['reason'] == 'account_created' )
 			$note[] = _( 'Your account has been created.' ) . ' '
 				. _( 'You will be notified when it has been verified by a school administrator.' ) . ' '
 				. _( 'You will then be able to log in.' );
 	}
 
-	if( isset( $error ) )
+	if ( isset( $error ) )
 		echo ErrorMessage( $error );
 
-	if( isset( $note ) )
+	if ( isset( $note ) )
 		echo ErrorMessage( $note, 'note' );
 
 ?>
@@ -342,7 +342,7 @@ if( empty( $_SESSION['STAFF_ID'] )
 				<input type="submit" value="<?php echo _( 'Login' ); ?>" class="button-primary" />
 			</p>
 
-			<?php if( Config( 'CREATE_USER_ACCOUNT' ) ) : ?>
+			<?php if ( Config( 'CREATE_USER_ACCOUNT' ) ) : ?>
 
 				<div class="center">[
 					<a href="index.php?create_account=user&amp;staff_id=new">
@@ -352,7 +352,7 @@ if( empty( $_SESSION['STAFF_ID'] )
 
 			<?php endif;
 
-			if( Config( 'CREATE_STUDENT_ACCOUNT' ) ) : ?>
+			if ( Config( 'CREATE_STUDENT_ACCOUNT' ) ) : ?>
 
 				<div class="center">[
 					<a href="index.php?create_account=student&amp;student_id=new">
@@ -398,7 +398,7 @@ if( empty( $_SESSION['STAFF_ID'] )
 }
 
 // successfully logged in, display Portal
-elseif( !isset( $_REQUEST['create_account'] ) )
+elseif ( !isset( $_REQUEST['create_account'] ) )
 {
 	$_REQUEST['modname'] = 'misc/Portal.php';
 

@@ -21,7 +21,7 @@ if ( empty( $start_date ) )
 }
 
 // set end date
-if( isset( $_REQUEST['day_end'] )
+if ( isset( $_REQUEST['day_end'] )
 	&& isset( $_REQUEST['month_end'] )
 	&& isset( $_REQUEST['year_end'] ) )
 {
@@ -96,7 +96,7 @@ foreach($types as $user=>$trans)
 	{
 		//echo '<pre>'; var_dump($value); echo '</pre>';
 		$total = array_sum($value);
-		if($total!=0)
+		if ($total!=0)
 		{
 			$TMP_types[] = array('TYPE'=>(empty($users_locale[$user])?$user:$users_locale[$user]),'TRANSACTION'=>$types_rows[$tran],'TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('format',$value);
 		}
@@ -109,7 +109,7 @@ foreach($types as $user=>$trans)
 $total = array_sum($types_totals['']);
 bold_format($total);
 foreach($types_totals[''] as $key=>$value)
-	if($value == 0)
+	if ($value == 0)
 		unset($types_columns[$key]);
 $LO_types[] = array(array('TYPE'=>'<b>'._('Totals').'</b>','TOTAL'=>'<b>'.number_format($total,2).'</b>') + array_map('bold_format',$types_totals['']));
 unset($LO_types[0]);
@@ -135,14 +135,14 @@ function bold_format($item)
 function bump_amount($value,$column)
 {	global $THIS_RET,$types,$types_rows,$types_columns,$types_totals;
 
-	if($types[$THIS_RET['TYPE']][$THIS_RET['SHORT_NAME']])
+	if ($types[$THIS_RET['TYPE']][$THIS_RET['SHORT_NAME']])
 		$types[$THIS_RET['TYPE']][$THIS_RET['SHORT_NAME']][$value] +=  $THIS_RET['AMOUNT'];
 	else
 	{
 		$types[$THIS_RET['TYPE']] += array($THIS_RET['SHORT_NAME']=>array($value=>$THIS_RET['AMOUNT']));
 		$types_rows[$THIS_RET['SHORT_NAME']] = $THIS_RET['SHORT_NAME'];
 	}
-	if(!$types_columns[$value])
+	if (!$types_columns[$value])
 	{
 		$types_columns += array($value=>$value);
 		$types_totals['Student'][$value] = 0;

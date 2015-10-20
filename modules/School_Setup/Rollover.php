@@ -9,7 +9,7 @@ if ($RosarioModules['Eligibility'])
 if ($RosarioModules['Food_Service'])
 	$tables += array('FOOD_SERVICE_STAFF_ACCOUNTS'=>_('Food Service Staff Accounts'));
 	
-if($RosarioModules['Discipline'])
+if ($RosarioModules['Discipline'])
 //FJ discipline_field_usage rollover
 	$tables += array(/*'DISCIPLINE_CATEGORIES'=>_('Referral Form'), */'DISCIPLINE_FIELD_USAGE'=>_('Referral Form'));
 
@@ -17,12 +17,12 @@ $table_list = '<TABLE style="float: left">';
 
 foreach($tables as $table=>$name)
 {
-	if($table!='FOOD_SERVICE_STAFF_ACCOUNTS')
+	if ($table!='FOOD_SERVICE_STAFF_ACCOUNTS')
 		$exists_RET[$table] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM $table WHERE SYEAR='".$next_syear."'".(!$no_school_tables[$table]?" AND SCHOOL_ID='".UserSchool()."'":'')));
 	else
 		$exists_RET['FOOD_SERVICE_STAFF_ACCOUNTS'] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM STAFF WHERE SYEAR='".$next_syear."' AND exists(SELECT * FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=STAFF.STAFF_ID)"));
 
-	if($exists_RET[$table][1]['COUNT']>0)
+	if ($exists_RET[$table][1]['COUNT']>0)
 //FJ add <label> on checkbox
 		$table_list .= '<TR><TD><label><INPUT type="checkbox" value="Y" name="tables['.$table.']"><span style="color:grey">&nbsp;'.$name.' ('.$exists_RET[$table][1]['COUNT'].')</span></label></TD></TR>';
 	else
@@ -43,13 +43,13 @@ do_action('School_Setup/Rollover.php|rollover_warnings');
 DrawHeader(ProgramTitle());
 
 //FJ school year over one/two calendar years format
-if(Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to roll the data for %s to the next school year?'),FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS'))),$table_list))
+if (Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to roll the data for %s to the next school year?'),FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS'))),$table_list))
 {
-	if(!($_REQUEST['tables']['COURSES'] && ((!$_REQUEST['tables']['STAFF'] && $exists_RET['STAFF'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_PERIODS'] && $exists_RET['SCHOOL_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['ATTENDANCE_CALENDARS'] && $exists_RET['ATTENDANCE_CALENDARS'][1]['COUNT']<1) || (!$_REQUEST['tables']['REPORT_CARD_GRADES'] && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT']<1))))
+	if (!($_REQUEST['tables']['COURSES'] && ((!$_REQUEST['tables']['STAFF'] && $exists_RET['STAFF'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_PERIODS'] && $exists_RET['SCHOOL_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['ATTENDANCE_CALENDARS'] && $exists_RET['ATTENDANCE_CALENDARS'][1]['COUNT']<1) || (!$_REQUEST['tables']['REPORT_CARD_GRADES'] && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT']<1))))
 	{
-		if(!($_REQUEST['tables']['REPORT_CARD_COMMENTS'] && ((!$_REQUEST['tables']['COURSES'] && $exists_RET['COURSES'][1]['COUNT']<1))))
+		if (!($_REQUEST['tables']['REPORT_CARD_COMMENTS'] && ((!$_REQUEST['tables']['COURSES'] && $exists_RET['COURSES'][1]['COUNT']<1))))
 		{
-			if(count($_REQUEST['tables']))
+			if (count($_REQUEST['tables']))
 			{
 				foreach($_REQUEST['tables'] as $table=>$value)
 				{
@@ -99,7 +99,7 @@ function Rollover($table)
 			$fields_RET = DBGet(DBQuery("SELECT ID FROM STAFF_FIELDS"));
 			foreach($fields_RET as $field)
 				$user_custom .= ',CUSTOM_'.$field['ID'];
-			if($RosarioModules['Food_Service'])
+			if ($RosarioModules['Food_Service'])
 			{
 				DBQuery("UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET STAFF_ID=(SELECT ROLLOVER_ID FROM STAFF WHERE STAFF_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID) WHERE exists(SELECT * FROM STAFF WHERE STAFF_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID AND ROLLOVER_ID IS NOT NULL AND SYEAR='".$next_syear."')");
 				DBQuery("DELETE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE exists(SELECT * FROM STAFF WHERE STAFF_ID=FOOD_SERVICE_STAFF_ACCOUNTS.STAFF_ID AND SYEAR='".$next_syear."')");
@@ -233,7 +233,7 @@ function Rollover($table)
 			$columns = '';
 			foreach($table_properties as $column=>$values)
 			{
-				if($column!='ID' && $column!='SYEAR')
+				if ($column!='ID' && $column!='SYEAR')
 					$columns .= ','.$column;
 			}
 			DBQuery("INSERT INTO $table (ID,SYEAR".$columns.") SELECT ".db_seq_nextval($table.'_SEQ').",SYEAR+1".$columns." FROM $table WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
@@ -246,7 +246,7 @@ function Rollover($table)
 			$columns = '';
 			foreach($table_properties as $column=>$values)
 			{
-				if($column!='ID' && $column!='SYEAR')
+				if ($column!='ID' && $column!='SYEAR')
 					$columns .= ','.$column;
 			}
 			DBQuery("INSERT INTO $table (ID,SYEAR".$columns.") SELECT ".db_seq_nextval($table.'_SEQ').",SYEAR+1".$columns." FROM $table WHERE SYEAR='".UserSyear()."'");

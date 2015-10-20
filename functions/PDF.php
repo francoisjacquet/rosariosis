@@ -99,7 +99,7 @@ function PDFStop( $handle )
 			// way wkhtmltopdf accesses the assets/ directory, empty string means no translation
 			$wkhtmltopdfAssetsPath = $RosarioPath . 'assets/';
 
-		if( !empty( $wkhtmltopdfAssetsPath ) )
+		if ( !empty( $wkhtmltopdfAssetsPath ) )
 			$html = str_replace( 'assets/', $wkhtmltopdfAssetsPath, $html );
 			
 		$html = str_replace( 'modules/', $RosarioPath . 'modules/', $html );

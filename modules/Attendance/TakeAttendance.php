@@ -41,7 +41,7 @@ $categories_RET = DBGet( DBQuery( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Att
 	)>0
 	ORDER BY 3,SORT_ORDER,TITLE" ) );
 
-if(count($categories_RET)==0)
+if (count($categories_RET)==0)
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
@@ -50,10 +50,10 @@ if(count($categories_RET)==0)
 	ErrorMessage(array(_('You cannot take attendance for this course period.')),'fatal');
 }
 
-if($_REQUEST['table']=='')
+if ($_REQUEST['table']=='')
 	$_REQUEST['table'] = $categories_RET[1]['ID'];
 
-if($_REQUEST['table']=='0')
+if ($_REQUEST['table']=='0')
 	$table = 'ATTENDANCE_PERIOD';
 else
 	$table = 'LUNCH_PERIOD';
@@ -98,7 +98,7 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 	AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
 	AND position(',".$_REQUEST['table'].",' IN cp.DOES_ATTENDANCE)>0"));
 }
-if(count($course_RET)==0)
+if (count($course_RET)==0)
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
@@ -108,7 +108,7 @@ if(count($course_RET)==0)
 }
 
 $qtr_id = GetCurrentMP('QTR',$date,false);
-if(!$qtr_id)
+if (!$qtr_id)
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
@@ -118,7 +118,7 @@ if(!$qtr_id)
 }
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
-if(!isset($_ROSARIO['allow_edit']))
+if (!isset($_ROSARIO['allow_edit']))
 {
 	// allow teacher edit if selected date is in the current quarter or in the corresponding grade posting period
 	$current_qtr_id = GetCurrentMP('QTR',DBDate(),false);
@@ -142,18 +142,18 @@ $current_Q = "SELECT ATTENDANCE_TEACHER_CODE,STUDENT_ID,ADMIN,COMMENT,COURSE_PER
 
 $current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID'));
 
-if($_REQUEST['attendance'] && $_POST['attendance'])
+if ($_REQUEST['attendance'] && $_POST['attendance'])
 {
 	foreach($_REQUEST['attendance'] as $student_id=>$value)
 	{
-		if($current_RET[$student_id])
+		if ($current_RET[$student_id])
 		{
 			$sql = "UPDATE $table SET ATTENDANCE_TEACHER_CODE='".mb_substr($value,5)."',COURSE_PERIOD_ID='".UserCoursePeriod()."'";
 
-			if($current_RET[$student_id][1]['ADMIN']!='Y')
+			if ($current_RET[$student_id][1]['ADMIN']!='Y')
 				$sql .= ",ATTENDANCE_CODE='".mb_substr($value,5)."'";
 
-			if($_REQUEST['comment'][$student_id])
+			if ($_REQUEST['comment'][$student_id])
 				$sql .= ",COMMENT='".trim($_REQUEST['comment'][$student_id])."'";
 	
 			$sql .= " WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";
@@ -163,12 +163,12 @@ if($_REQUEST['attendance'] && $_POST['attendance'])
 
 		DBQuery($sql);
 
-		if($_REQUEST['table']=='0')
+		if ($_REQUEST['table']=='0')
 			UpdateAttendanceDaily($student_id,$date);
 	}
 	$RET = DBGet(DBQuery("SELECT 'Y' AS COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
 
-	if(!count($RET))
+	if (!count($RET))
 		DBQuery("INSERT INTO ATTENDANCE_COMPLETED (STAFF_ID,SCHOOL_DATE,PERIOD_ID,TABLE_NAME) values('".User('STAFF_ID')."','".$date."','".UserPeriod()."','".$_REQUEST['table']."')");
 
 	$current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID'));
@@ -184,13 +184,13 @@ AND TABLE_NAME='".$_REQUEST['table']."'".
 ($_REQUEST['table']=='0' && $course_RET[1]['HALF_DAY'] ? " AND STATE_CODE!='H'" : '')." 
 ORDER BY SORT_ORDER"));
 
-if(count($codes_RET))
+if (count($codes_RET))
 {
 	foreach($codes_RET as $code)
 	{
 		$extra['SELECT'] .= ",'".$code['STATE_CODE']."' AS CODE_".$code['ID'];
 
-		if($code['DEFAULT_CODE']=='Y')
+		if ($code['DEFAULT_CODE']=='Y')
 			$extra['functions']['CODE_'.$code['ID']] = '_makeRadioSelected';
 		else
 			$extra['functions']['CODE_'.$code['ID']] = '_makeRadio';
@@ -204,7 +204,7 @@ else
 $extra['SELECT'] .= ',s.STUDENT_ID AS COMMENT,s.STUDENT_ID AS ATTENDANCE_REASON';
 $columns += array('COMMENT'=>_('Teacher Comment'));
 
-if(!isset($extra['functions']) || !is_array($extra['functions']))
+if (!isset($extra['functions']) || !is_array($extra['functions']))
 	$extra['functions'] = array();
 
 $extra['functions'] += array('FULL_NAME'=>'_makeTipMessage','COMMENT'=>'makeCommentInput','ATTENDANCE_REASON'=>'makeAttendanceReason');
@@ -212,7 +212,7 @@ $extra['DATE'] = $date;
 
 $stu_RET = GetStuList($extra);
 
-if($attendance_reason)
+if ($attendance_reason)
 	$columns += array('ATTENDANCE_REASON'=>_('Office Comment'));
 
 $date_note = $date!=DBDate() ? ' <span style="color:red" class="nobr">'._('The selected date is not today').'</span> |' : '';
@@ -220,7 +220,7 @@ $date_note .= AllowEdit() ? ' <span style="color:green" class="nobr">'._('You ca
 
 $completed_RET = DBGet(DBQuery("SELECT 'Y' as COMPLETED FROM ATTENDANCE_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND TABLE_NAME='".$_REQUEST['table']."'"));
 
-if(count($completed_RET))
+if (count($completed_RET))
 	$note[] = button('check') .'&nbsp;'._('You already have taken attendance today for this period.');
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
@@ -238,7 +238,7 @@ foreach($categories_RET as $category)
 	$tabs[] = array('title'=>ParseMLField($category['TITLE']),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date']);
 
 echo '<BR />';
-if(count($categories_RET))
+if (count($categories_RET))
     $LO_options = array('download'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date']));
 else
     $LO_options = array();
@@ -252,7 +252,7 @@ function _makeRadio($value,$title)
 {	global $THIS_RET,$current_RET;
 
 	$colors = array('P'=>'#00FF00','A'=>'#FF0000','H'=>'#FFCC00','T'=>'#0000FF');
-	if($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']==mb_substr($title,5))
+	if ($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']==mb_substr($title,5))
 	{
 		if (isset($_REQUEST['LO_save']))
 			return _('Yes');
@@ -268,8 +268,8 @@ function _makeRadioSelected($value,$title)
 
 	$colors = array('P'=>'#00FF00','A'=>'#FF0000','H'=>'#FFCC00','T'=>'#0000FF');
 	$colors1 = array('P'=>'#DDFFDD','A'=>'#FFDDDD','H'=>'#FFEEDD','T'=>'#DDDDFF');
-	if($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']!='')
-		if($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']==mb_substr($title,5))
+	if ($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']!='')
+		if ($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']==mb_substr($title,5))
 		{
 			if (isset($_REQUEST['LO_save']))
 				return _('Yes');
@@ -290,7 +290,7 @@ function _makeRadioSelected($value,$title)
 function _makeTipMessage($value,$title)
 {	global $THIS_RET,$StudentPicturesPath;
 
-	if($StudentPicturesPath && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.$THIS_RET['STUDENT_ID'].'.jpg','r') || $file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.$THIS_RET['STUDENT_ID'].'.jpg','r')))
+	if ($StudentPicturesPath && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.$THIS_RET['STUDENT_ID'].'.jpg','r') || $file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.$THIS_RET['STUDENT_ID'].'.jpg','r')))
 	{
 		$return = '<script>var tiptitle'.$THIS_RET['STUDENT_ID'].'='.json_encode($THIS_RET['FULL_NAME']).'; var tipmsg'.$THIS_RET['STUDENT_ID'].'='.json_encode('<IMG SRC="'.$picture_path.'" width="150" />').';</script>';
 
@@ -310,7 +310,7 @@ function makeCommentInput($student_id,$column)
 function makeAttendanceReason($student_id,$column)
 {	global $current_RET,$attendance_reason;
 
-	if($current_RET[$student_id][1]['ATTENDANCE_REASON'])
+	if ($current_RET[$student_id][1]['ATTENDANCE_REASON'])
 	{
 		$attendance_reason = true;
 		return $current_RET[$student_id][1]['ATTENDANCE_REASON'];

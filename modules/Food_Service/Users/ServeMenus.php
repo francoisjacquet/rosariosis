@@ -15,7 +15,7 @@ if ($_REQUEST['modfunc']=='submit')
 	}
 	elseif ($_REQUEST['submit']['save'])
 	{
-		if(count($_SESSION['FSA_sale']))
+		if (count($_SESSION['FSA_sale']))
 		{
 
 
@@ -52,7 +52,7 @@ if ($_REQUEST['modfunc']=='submit')
 	unset($_REQUEST['submit']);
 }
 
-if(UserStaffID() && empty($_REQUEST['modfunc']))
+if (UserStaffID() && empty($_REQUEST['modfunc']))
 {
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
 	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
@@ -87,7 +87,7 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 		ListOutput($RET,$columns,$singular,$plural,$link,false,array('save'=>false,'search'=>false));
 
 		// IMAGE
-		if($file = @fopen($picture=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r') || $file = @fopen($picture=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))
+		if ($file = @fopen($picture=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r') || $file = @fopen($picture=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))
 		{
 			fclose($file);
 			echo '</TD><TD rowspan="2"><IMG SRC="'.$picture.'" width="150" />';

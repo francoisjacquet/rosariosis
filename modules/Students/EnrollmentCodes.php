@@ -1,12 +1,12 @@
 <?php
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
-			if($id!='new')
+			if ($id!='new')
 			{
 				$sql = "UPDATE STUDENT_ENROLLMENT_CODES SET ";
 
@@ -27,7 +27,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$go = 0;
 				foreach($columns as $column=>$value)
 				{
-					if(!empty($value) || $value=='0')
+					if (!empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";
@@ -36,7 +36,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				}
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-				if($go)
+				if ($go)
 					DBQuery($sql);
 			}
 		}
@@ -47,9 +47,9 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if(DeletePrompt(_('Enrollment Code')))
+	if (DeletePrompt(_('Enrollment Code')))
 	{
 		DBQuery("DELETE FROM STUDENT_ENROLLMENT_CODES WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
@@ -57,10 +57,10 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 }
 
 //FJ fix SQL bug invalid sort order
-if(isset($error))
+if (isset($error))
 	echo ErrorMessage($error);
 
-if($_REQUEST['modfunc']!='remove')
+if ($_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,SORT_ORDER FROM STUDENT_ENROLLMENT_CODES WHERE SYEAR='".UserSyear()."' ORDER BY SORT_ORDER,TITLE";
 	$QI = DBQuery($sql);
@@ -82,14 +82,14 @@ if($_REQUEST['modfunc']!='remove')
 function makeTextInput($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 
-	if($name=='SHORT_NAME')
+	if ($name=='SHORT_NAME')
 		$extra = 'size=5 maxlength=10';
-	elseif($name=='SORT_ORDER')
+	elseif ($name=='SORT_ORDER')
 		$extra = 'size=5 maxlength=10';
 
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
@@ -98,12 +98,12 @@ function makeTextInput($value,$name)
 function makeSelectInput($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 
-	if($name=='TYPE')
+	if ($name=='TYPE')
 		$options = array('Add'=>_('Add'),'Drop'=>_('Drop'));
 
 	return SelectInput($value,'values['.$id.']['.$name.']','',$options);
@@ -112,7 +112,7 @@ function makeSelectInput($value,$name)
 function makeCheckBoxInput($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';

@@ -3,10 +3,10 @@
 include( 'Warehouse.php' );
 
 // Print PDF
-if( isset( $_REQUEST['modfunc'] ) &&
+if ( isset( $_REQUEST['modfunc'] ) &&
 	$_REQUEST['modfunc'] === 'print' )
 {
-	if( $_REQUEST['expanded_view'] )
+	if ( $_REQUEST['expanded_view'] )
 		$_SESSION['orientation'] = 'landscape';
 		
 	//FJ call PDFStart to generate Print PDF
@@ -18,7 +18,7 @@ if( isset( $_REQUEST['modfunc'] ) &&
 
 	$modname = $_REQUEST['modname'];
 	
-	if( !$wkhtmltopdfPath )
+	if ( !$wkhtmltopdfPath )
 		$_ROSARIO['allow_edit'] = false;
 		
 	//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
@@ -37,7 +37,7 @@ if( isset( $_REQUEST['modfunc'] ) &&
 }
 
 // Inline Help
-elseif( isset( $_REQUEST['modfunc'] ) &&
+elseif ( isset( $_REQUEST['modfunc'] ) &&
 	$_REQUEST['modfunc'] === 'help' )
 {
 	$help_translated = 'Help_' . mb_substr( $locale, 0, 2 ) . '.php';
@@ -70,7 +70,7 @@ elseif( isset( $_REQUEST['modfunc'] ) &&
 		foreach( $help as $program => $help_txt )
 		{
 			//FJ fix bug URL Modules.php?modfunc=help&modname=Student_Billing/Statements.php&_ROSARIO_PDF
-			if( $_REQUEST['modname'] === $program ||
+			if ( $_REQUEST['modname'] === $program ||
 				( mb_strpos( $program, $_REQUEST['modname'] ) === 0
 					&& mb_strpos( $_SERVER['QUERY_STRING'], $program ) === 21 ) )
 				$help_text = $help_txt;
@@ -78,10 +78,10 @@ elseif( isset( $_REQUEST['modfunc'] ) &&
 	}
 
 	// get default help text
-	if( empty( $help_text ) )
+	if ( empty( $help_text ) )
 		$help_text = $help['default'];
 		
-	if( User('PROFILE') == 'student' )
+	if ( User('PROFILE') == 'student' )
 		$help_text = str_replace(
 			'your child',
 			'yourself',
@@ -135,7 +135,7 @@ else
 
 		<?php endif;
 
-		if( isset( $_SESSION['Search_PHP_SELF'] )
+		if ( isset( $_SESSION['Search_PHP_SELF'] )
 			&& ( User('PROFILE') == 'admin'
 				|| User('PROFILE') == 'teacher' ) ) :
 

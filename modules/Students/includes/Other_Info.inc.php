@@ -14,7 +14,7 @@ $fields_RET = ParseMLArray( $fields_RET, 'TITLE' );
 
 $value = array();
 
-if( UserStudentID() )
+if ( UserStudentID() )
 {
 	$custom_RET = DBGet( DBQuery( "SELECT *
 		FROM STUDENTS

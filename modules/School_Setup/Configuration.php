@@ -10,7 +10,7 @@ $configuration_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'"><b
 $modules_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=modules"><b>'._('Modules').'</b></a>';
 $plugins_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins"><b>'._('Plugins').'</b></a>';
 
-if(AllowEdit())
+if (AllowEdit())
 	DrawHeader($configuration_link.' | '.$modules_link.' | '.$plugins_link);
 
 if (isset($_REQUEST['tab']) && $_REQUEST['tab']=='modules')
@@ -24,13 +24,13 @@ else
 
 	include('ProgramFunctions/FileUpload.fnc.php');
 
-	if($_REQUEST['modfunc']=='update')
+	if ($_REQUEST['modfunc']=='update')
 	{
 		//FJ upload school logo
 		if ($_FILES['LOGO_FILE'] && AllowEdit())
 			FileUpload('LOGO_FILE', 'assets'.'/', array('.jpg', '.jpeg'), 2, $error, '.jpg', 'school_logo_'.UserSchool());
 
-		if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+		if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		{
 			if ((empty($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE'])
 				|| is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ATTENDANCE_EDIT_DAYS_BEFORE']))
@@ -92,11 +92,11 @@ else
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
 	}
 
-	if(empty($_REQUEST['modfunc']))
+	if (empty($_REQUEST['modfunc']))
 	{
 		echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
 
-		if(AllowEdit())
+		if (AllowEdit())
 			DrawHeader('',SubmitButton(_('Save')));
 
 		if (!empty($note))
@@ -124,7 +124,7 @@ else
 
 			echo '<TD><label><INPUT type="radio" name="values[CONFIG][THEME]" value="'.$theme_name.'"'.((Config('THEME')==$theme_name)?' checked':'').'> '.$theme_name.'</label></TD>';
 
-			if($count++%3==0)
+			if ($count++%3==0)
 				echo '</TR><TR class="st">';
 		}
 		echo '</TR></TABLE></TD></TR>';
@@ -303,7 +303,7 @@ else
 		}
 
 		PopTable('footer');
-		if(AllowEdit())
+		if (AllowEdit())
 			echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 		echo '</FORM>';
 

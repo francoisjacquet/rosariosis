@@ -23,33 +23,33 @@ if ( isset( $_POST['values'] )
 	&& AllowEdit() )
 {
 
-	if($_REQUEST['values']['EXISTING'])
+	if ($_REQUEST['values']['EXISTING'])
 	{
-		if($_REQUEST['values']['EXISTING']['address_id'] && $_REQUEST['address_id']=='old')
+		if ($_REQUEST['values']['EXISTING']['address_id'] && $_REQUEST['address_id']=='old')
 		{
 			$_REQUEST['address_id'] = $_REQUEST['values']['EXISTING']['address_id'];
-			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."' AND STUDENT_ID='".UserStudentID()."'")))==0)
+			if (count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."' AND STUDENT_ID='".UserStudentID()."'")))==0)
 			{
 				DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID) values(".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'".UserStudentID()."','".$_REQUEST['address_id']."')");
 				DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION) SELECT DISTINCT ON (PERSON_ID) ".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."',PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE ADDRESS_ID='".$_REQUEST['address_id']."'");
 			}
 		}
-		elseif($_REQUEST['values']['EXISTING']['person_id'] && $_REQUEST['person_id']=='old')
+		elseif ($_REQUEST['values']['EXISTING']['person_id'] && $_REQUEST['person_id']=='old')
 		{
 			$_REQUEST['person_id'] = $_REQUEST['values']['EXISTING']['person_id'];
-			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."' AND STUDENT_ID='".UserStudentID()."'")))==0)
+			if (count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."' AND STUDENT_ID='".UserStudentID()."'")))==0)
 			{
 				DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY,EMERGENCY,STUDENT_RELATION) SELECT DISTINCT ON (PERSON_ID) ".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."',PERSON_ID,'".$_REQUEST['address_id']."',CUSTODY,EMERGENCY,STUDENT_RELATION FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'");
-				if($_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
+				if ($_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
 					DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,ADDRESS_ID,STUDENT_ID) values (".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'0','".UserStudentID()."')");
 
 			}
 		}
 	}
 
-	if($_REQUEST['values']['ADDRESS'])
+	if ($_REQUEST['values']['ADDRESS'])
 	{		
-		if($_REQUEST['address_id']!='new')
+		if ($_REQUEST['address_id']!='new')
 		{
 			$sql = "UPDATE ADDRESS SET ";
 
@@ -59,7 +59,7 @@ if ( isset( $_POST['values'] )
 			
 			foreach($_REQUEST['values']['ADDRESS'] as $column=>$value)
 			{
-				if(1)//!empty($value) || $value=='0')
+				if (1)//!empty($value) || $value=='0')
 				{
 					//FJ check numeric fields
 					if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
@@ -68,14 +68,14 @@ if ( isset( $_POST['values'] )
 						continue;
 					}
 					
-					if(!is_array($value))
+					if (!is_array($value))
 						$sql .= $column."='".$value."',";
 					else
 					{
 						$sql .= $column."='||";
 						foreach($value as $val)
 						{
-							if($val)
+							if ($val)
 								$sql .= str_replace('&quot;','"',$val).'||';
 						}
 						$sql .= "',";
@@ -105,7 +105,7 @@ if ( isset( $_POST['values'] )
 			$go = 0;
 			foreach($_REQUEST['values']['ADDRESS'] as $column=>$value)
 			{
-				if(!empty($value) || $value=='0')
+				if (!empty($value) || $value=='0')
 				{
 					$fields .= $column.',';
 					$values .= "'".$value."',";
@@ -113,7 +113,7 @@ if ( isset( $_POST['values'] )
 				}
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			if($go)
+			if ($go)
 			{
 				DBQuery($sql);
 				DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID,RESIDENCE,MAILING,BUS_PICKUP,BUS_DROPOFF) values(".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'".UserStudentID()."','".$id."','".$_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['RESIDENCE']."','".$_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['MAILING']."','".$_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_PICKUP']."','".$_REQUEST['values']['STUDENTS_JOIN_ADDRESS']['BUS_DROPOFF']."')");
@@ -125,9 +125,9 @@ if ( isset( $_POST['values'] )
 		}
 	}
 
-	if($_REQUEST['values']['PEOPLE'])
+	if ($_REQUEST['values']['PEOPLE'])
 	{
-		if($_REQUEST['person_id']!='new')
+		if ($_REQUEST['person_id']!='new')
 		{
 			$sql = "UPDATE PEOPLE SET ";
 
@@ -137,7 +137,7 @@ if ( isset( $_POST['values'] )
 			
 			foreach($_REQUEST['values']['PEOPLE'] as $column=>$value)
 			{
-				if(1)//!empty($value) || $value=='0')
+				if (1)//!empty($value) || $value=='0')
 				{
 					//FJ check numeric fields
 					if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
@@ -151,7 +151,7 @@ if ( isset( $_POST['values'] )
 				}
 			}
 			$sql = mb_substr($sql,0,-1) . " WHERE PERSON_ID='".$_REQUEST['person_id']."'";
-			if($go)
+			if ($go)
 				DBQuery($sql);
 		}
 		else
@@ -167,7 +167,7 @@ if ( isset( $_POST['values'] )
 			$go = 0;
 			foreach($_REQUEST['values']['PEOPLE'] as $column=>$value)
 			{
-				if(!empty($value) || $value=='0')
+				if (!empty($value) || $value=='0')
 				{
 					$fields .= $column.',';
 					$values .= "'".$value."',";
@@ -175,22 +175,22 @@ if ( isset( $_POST['values'] )
 				}
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			if($go)
+			if ($go)
 			{
 				DBQuery($sql);
 				DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,PERSON_ID,STUDENT_ID,ADDRESS_ID,CUSTODY,EMERGENCY) values(".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".$id."','".UserStudentID()."','".$_REQUEST['address_id']."','".$_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['CUSTODY']."','".$_REQUEST['values']['STUDENTS_JOIN_PEOPLE']['EMERGENCY']."')");
-				if($_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
+				if ($_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
 					DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,ADDRESS_ID,STUDENT_ID) values (".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'0','".UserStudentID()."')");
 				$_REQUEST['person_id'] = $id;
 			}
 		}
 	}
 
-	if($_REQUEST['values']['PEOPLE_JOIN_CONTACTS'])
+	if ($_REQUEST['values']['PEOPLE_JOIN_CONTACTS'])
 	{
 		foreach($_REQUEST['values']['PEOPLE_JOIN_CONTACTS'] as $id=>$values)
 		{
-			if($id!='new')
+			if ($id!='new')
 			{
 				$sql = "UPDATE PEOPLE_JOIN_CONTACTS SET ";
 
@@ -203,7 +203,7 @@ if ( isset( $_POST['values'] )
 			}
 			else
 			{
-				if($info_apd || ($values['TITLE'] && $values['VALUE']))
+				if ($info_apd || ($values['TITLE'] && $values['VALUE']))
 				{
 					$sql = "INSERT INTO PEOPLE_JOIN_CONTACTS ";
 
@@ -213,7 +213,7 @@ if ( isset( $_POST['values'] )
 					$go = 0;
 					foreach($values as $column=>$value)
 					{
-						if(!empty($value) || $value=='0')
+						if (!empty($value) || $value=='0')
 						{
 							$fields .= $column.',';
 							$vals .= "'".$value."',";
@@ -221,14 +221,14 @@ if ( isset( $_POST['values'] )
 						}
 					}
 					$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($vals,0,-1) . ')';
-					if($go)
+					if ($go)
 						DBQuery($sql);
 				}
 			}
 		}
 	}
 
-	if($_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] && $_REQUEST['person_id']!='new')
+	if ($_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] && $_REQUEST['person_id']!='new')
 	{
 		$sql = "UPDATE STUDENTS_JOIN_PEOPLE SET ";
 
@@ -240,7 +240,7 @@ if ( isset( $_POST['values'] )
 		DBQuery($sql);
 	}
 
-	if($_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] && $_REQUEST['address_id']!='new')
+	if ($_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] && $_REQUEST['address_id']!='new')
 	{
 		$sql = "UPDATE STUDENTS_JOIN_ADDRESS SET ";
 
@@ -256,27 +256,27 @@ if ( isset( $_POST['values'] )
 	unset($_REQUEST['values']);
 }
 
-if($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if($_REQUEST['contact_id'])
+	if ($_REQUEST['contact_id'])
 	{
-		if(DeletePrompt(_('Contact Information')))
+		if (DeletePrompt(_('Contact Information')))
 		{
 			DBQuery("DELETE FROM PEOPLE_JOIN_CONTACTS WHERE ID='".$_REQUEST['contact_id']."'");
 			unset($_REQUEST['modfunc']);
 		}
 	}
-	elseif($_REQUEST['person_id'])
+	elseif ($_REQUEST['person_id'])
 	{
-		if(DeletePrompt(_('Contact')))
+		if (DeletePrompt(_('Contact')))
 		{
 			DBQuery("DELETE FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."' AND ADDRESS_ID='".$_REQUEST['address_id']."' AND STUDENT_ID='".UserStudentID()."'");
-			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'")))==0)
+			if (count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'")))==0)
 			{
 				DBQuery("DELETE FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'");
 				DBQuery("DELETE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$_REQUEST['person_id']."'");
 			}
-			if($_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
+			if ($_REQUEST['address_id']=='0' && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
 			{
 				DBQuery("DELETE FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'");
 				unset($_REQUEST['address_id']);
@@ -285,16 +285,16 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 			unset($_REQUEST['person_id']);
 		}
 	}
-	elseif($_REQUEST['address_id'])
+	elseif ($_REQUEST['address_id'])
 	{
-		if(DeletePrompt(_('Address')))
+		if (DeletePrompt(_('Address')))
 		{
 			DBQuery("UPDATE STUDENTS_JOIN_PEOPLE SET ADDRESS_ID='0' WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='".$_REQUEST['address_id']."'");
-			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='0'"))) && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
+			if (count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_PEOPLE WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='0'"))) && count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='0' AND STUDENT_ID='".UserStudentID()."'")))==0)
 				DBQuery("UPDATE STUDENTS_JOIN_ADDRESS SET ADDRESS_ID='0',RESIDENCE=NULL,MAILING=NULL,BUS_PICKUP=NULL,BUS_DROPOFF=NULL WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='".$_REQUEST['address_id']."'");
 			else
 				DBQuery("DELETE FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID='".UserStudentID()."' AND ADDRESS_ID='".$_REQUEST['address_id']."'");
-			if(count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'")))==0)
+			if (count(DBGet(DBQuery("SELECT '' FROM STUDENTS_JOIN_ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'")))==0)
 				DBQuery("DELETE FROM ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'");
 			unset($_REQUEST['modfunc']);
 			unset($_REQUEST['address_id']);
@@ -305,7 +305,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 if (isset($error))
 	echo ErrorMessage($error);
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	$addresses_RET = DBGet(DBQuery("SELECT a.ADDRESS_ID, sjp.STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,  sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER 
 	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp 
@@ -322,40 +322,40 @@ if(empty($_REQUEST['modfunc']))
 	ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION"),array(),array('ADDRESS_ID'));
 	//echo '<pre>'; var_dump($addresses_RET); echo '</pre>';
 
-	if(count($addresses_RET)==1 && $_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old' && $_REQUEST['address_id']!='0')
+	if (count($addresses_RET)==1 && $_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old' && $_REQUEST['address_id']!='0')
 		$_REQUEST['address_id'] = key($addresses_RET).'';
 
 	echo '<TABLE><TR class="address st"><TD class="valign-top">';
 	echo '<TABLE class="widefat cellspacing-0">';
-	if(count($addresses_RET) || $_REQUEST['address_id']=='new' || $_REQUEST['address_id']=='0')
+	if (count($addresses_RET) || $_REQUEST['address_id']=='new' || $_REQUEST['address_id']=='0')
 	{
 		$i = 1;
-		if($_REQUEST['address_id']=='')
+		if ($_REQUEST['address_id']=='')
 			$_REQUEST['address_id'] = key($addresses_RET).'';
 
-		if(count($addresses_RET))
+		if (count($addresses_RET))
 		{
 			foreach($addresses_RET as $address_id=>$addresses)
 			{
 				echo '<TR>';
 
-				if($address_id!='0')
+				if ($address_id!='0')
 				{
 				// find other students associated with this address
 				$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja WHERE s.STUDENT_ID=sja.STUDENT_ID AND sja.ADDRESS_ID='".$address_id."' AND sja.STUDENT_ID!='".UserStudentID()."'"));
-				if(count($xstudents))
+				if (count($xstudents))
 				{
 					$warning = _('Other students associated with this address').':<BR />';
 					foreach($xstudents as $xstudent)
 					{
 						$ximages = '';
-						if($xstudent['RESIDENCE']=='Y')
+						if ($xstudent['RESIDENCE']=='Y')
 							$ximages .= ' '. button('house','','','bigger');
 
-						if($xstudent['BUS_PICKUP']=='Y' || $xstudent['BUS_DROPOFF']=='Y')
+						if ($xstudent['BUS_PICKUP']=='Y' || $xstudent['BUS_DROPOFF']=='Y')
 							$ximages .= ' '. button('bus','','','bigger');
 
-						if($xstudent['MAILING']=='Y')
+						if ($xstudent['MAILING']=='Y')
 							$ximages .= ' '. button('mailbox','','','bigger');
 
 						$warning .= '<b>'.$xstudent['FULL_NAME'].'</b>'.$ximages.'';
@@ -380,25 +380,25 @@ if(empty($_REQUEST['modfunc']))
 				$relation_list = mb_substr($relation_list,0,-2);
 
 				$images = '';
-				if($address['RESIDENCE']=='Y')
+				if ($address['RESIDENCE']=='Y')
 					$images .= ' '. button('house','','','bigger');
 
-				if($address['BUS_PICKUP']=='Y' || $address['BUS_DROPOFF']=='Y')
+				if ($address['BUS_PICKUP']=='Y' || $address['BUS_DROPOFF']=='Y')
 					$images .= ' '. button('bus','','','bigger');
 
-				if($address['MAILING']=='Y')
+				if ($address['MAILING']=='Y')
 					$images .= ' '. button('mailbox','','','bigger');
 
 				echo '<TH colspan="2">'.$images.'&nbsp;'.$relation_list.'</TH>';
 
 				echo '</TR>';
 
-				if($address_id==$_REQUEST['address_id'] && $_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='new')
+				if ($address_id==$_REQUEST['address_id'] && $_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='new')
 					$this_address = $address;
 
 				$i++;
 				//echo '<A style="cursor: pointer;">';
-				if($_REQUEST['address_id']==$address['ADDRESS_ID'])
+				if ($_REQUEST['address_id']==$address['ADDRESS_ID'])
 					echo '<TR class="highlight"><TD>'.(($address['ADDRESS_ID']!='0' && AllowEdit()) ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</TD><TD style="color:white;">';
 				else
 					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</TD><TD>';
@@ -417,9 +417,9 @@ if(empty($_REQUEST['modfunc']))
 		echo '<TR><TD colspan="3">'._('This student doesn\'t have an address.').'</TD></TR>';
 
 	// New Address
-	if(AllowEdit())
+	if (AllowEdit())
 	{
-		if($_REQUEST['address_id']=='new')
+		if ($_REQUEST['address_id']=='new')
 			echo '<TR class="highlight"><TD>'.button('add').'</TD><TD>';
 		else
 			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
@@ -430,7 +430,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new"><div class="arrow right"></div></A></TD>';
 		echo '</TR>';
 
-		if($_REQUEST['address_id']=='old')
+		if ($_REQUEST['address_id']=='old')
 			echo '<TR class="highlight"><TD>'.button('add').'</TD><TD>';
 		else
 			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
@@ -441,7 +441,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old"><div class="arrow right"></div></A></TD>';
 		echo '</TR>';
 
-		if($_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='new')
+		if ($_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='new')
 			echo '<TR class="highlight"><TD>'.button('add').'</TD><TD '.$link.'>';
 		else
 			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
@@ -452,7 +452,7 @@ if(empty($_REQUEST['modfunc']))
 		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new"><div class="arrow right"></div></A></TD>';
 		echo '</TR>';
 
-		if($_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='old')
+		if ($_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='old')
 			echo '<TR class="highlight"><TD>'.button('add').'</TD><TD '.$link.'>';
 		else
 			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
@@ -467,12 +467,12 @@ if(empty($_REQUEST['modfunc']))
 	echo '</TD>';
 	//echo '<TD style="width:10px; border:1;">&nbsp;</TD>';
 
-	if(isset($_REQUEST['address_id']))
+	if (isset($_REQUEST['address_id']))
 	{
 		echo '<TD class="valign-top">';
 		echo '<INPUT type="hidden" name="address_id" value="'.$_REQUEST['address_id'].'">';
 
-		if($_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old')
+		if ($_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old')
 		{
 			echo '<TABLE class="widefat width-100p cellspacing-0"><TR><TH colspan="3">';
 
@@ -481,21 +481,21 @@ if(empty($_REQUEST['modfunc']))
 			$contacts_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp WHERE p.PERSON_ID=sjp.PERSON_ID AND sjp.STUDENT_ID='".UserStudentID()."' AND sjp.ADDRESS_ID='".$_REQUEST['address_id']."' ORDER BY sjp.STUDENT_RELATION"));
 
 			$i = 1;
-			if(count($contacts_RET))
+			if (count($contacts_RET))
 			{
 				foreach($contacts_RET as $contact)
 				{
 					$THIS_RET = $contact;
-					if($contact['PERSON_ID']==$_REQUEST['person_id'])
+					if ($contact['PERSON_ID']==$_REQUEST['person_id'])
 						$this_contact = $contact;
 
 					$i++;
-					if(AllowEdit())
+					if (AllowEdit())
 						$remove_button = button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"');
 					else
 						$remove_button = '';
 
-					if($_REQUEST['person_id']==$contact['PERSON_ID'])
+					if ($_REQUEST['person_id']==$contact['PERSON_ID'])
 						echo '<TR class="highlight"><TD>'.$remove_button.'</TD><TD>';
 					else
 						echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.$remove_button.'</TD><TD>';
@@ -505,16 +505,16 @@ if(empty($_REQUEST['modfunc']))
 					// find other students associated with this person
 					$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,STUDENT_RELATION,CUSTODY,EMERGENCY FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp WHERE s.STUDENT_ID=sjp.STUDENT_ID AND sjp.PERSON_ID='".$contact['PERSON_ID']."' AND sjp.STUDENT_ID!='".UserStudentID()."'"));
 
-					if(count($xstudents))
+					if (count($xstudents))
 					{
 						$warning = _('Other students associated with this person').':<BR />';
 						foreach($xstudents as $xstudent)
 						{
 							$ximages = '';
-							if($xstudent['CUSTODY']=='Y')
+							if ($xstudent['CUSTODY']=='Y')
 								$ximages .= ' '. button('gavel','','','bigger');
 
-							if($xstudent['EMERGENCY']=='Y')
+							if ($xstudent['EMERGENCY']=='Y')
 								$ximages .= ' '. button('emergency','','','bigger');
 
 							$warning .= '<b>'.$xstudent['FULL_NAME'].'</b> ('.($xstudent['STUDENT_RELATION']?$xstudent['STUDENT_RELATION']:'---').')'.$ximages.'<BR />';
@@ -525,10 +525,10 @@ if(empty($_REQUEST['modfunc']))
 						$images .= ' '.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2])" onMouseOut="htm()" onclick="return false;"');
 					}
 
-					if($contact['CUSTODY']=='Y')
+					if ($contact['CUSTODY']=='Y')
 						$images .= ' '. button('gavel','','','bigger');
 
-					if($contact['EMERGENCY']=='Y')
+					if ($contact['EMERGENCY']=='Y')
 						$images .= ' '. button('emergency','','','bigger');
 
 					echo '<A style="display: inline-block;" href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'">'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<BR /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></A>';
@@ -542,11 +542,11 @@ if(empty($_REQUEST['modfunc']))
 				echo '<TR><TD colspan="3">'.($_REQUEST['address_id']=='0'?_('There are no contacts without an address.'):_('There are no contacts at this address.')).'</TD></TR>';
 
 			// New Contact
-			if(AllowEdit())
+			if (AllowEdit())
 			{
 //				$style = ' style="border-color: gray; border:1; border-style: solid none none none;"';
 				$style = '';
-				if($_REQUEST['person_id']=='new')
+				if ($_REQUEST['person_id']=='new')
 					echo '<TR class="highlight"><TD>'.button('add').'</TD><TD>';
 				else
 					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
@@ -557,7 +557,7 @@ if(empty($_REQUEST['modfunc']))
 				echo '<TD> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=new"><div class="arrow right"></div></A></TD>';
 				echo '</TR>';
 
-				if($_REQUEST['person_id']=='old')
+				if ($_REQUEST['person_id']=='old')
 					echo '<TR class="highlight"><TD>'.button('add').'</TD><TD>';
 				else
 					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
@@ -572,9 +572,9 @@ if(empty($_REQUEST['modfunc']))
 			echo '</TABLE><BR />';
 		}
 
-		if($_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='old')
+		if ($_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='old')
 		{
-			if($_REQUEST['address_id']=='new')
+			if ($_REQUEST['address_id']=='new')
 				$size = true;
 			else
 				$size = false;
@@ -591,7 +591,7 @@ if(empty($_REQUEST['modfunc']))
 			echo '<TD>'._makeAutoSelectInputX($this_address['STATE'],'STATE','ADDRESS',_('State'),$state_options).'</TD>';
 			echo '<TD>'._makeAutoSelectInputX($this_address['ZIPCODE'],'ZIPCODE','ADDRESS',_('Zip'),$zip_options).'</TD></TR>';
 			echo '<TR><TD colspan="3">'.TextInput($this_address['PHONE'],'values[ADDRESS][PHONE]',_('Phone'),$size?'size=13':'').'</TD></TR>';
-			if($_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='0')
+			if ($_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='0')
 			{
 				$display_address = urlencode($this_address['ADDRESS'].', '.($this_address['CITY']?' '.$this_address['CITY'].', ':'').$this_address['STATE'].($this_address['ZIPCODE']?' '.$this_address['ZIPCODE']:''));
 
@@ -601,7 +601,7 @@ if(empty($_REQUEST['modfunc']))
 			}
 			echo '</TABLE>';
 
-			if($_REQUEST['address_id']=='new')
+			if ($_REQUEST['address_id']=='new')
 			{
 				$new = true;
 				$this_address['RESIDENCE'] = 'Y';
@@ -621,9 +621,9 @@ if(empty($_REQUEST['modfunc']))
 
 			echo '<TR><TD>'.CheckboxInput($this_address['BUS_DROPOFF'], 'values[STUDENTS_JOIN_ADDRESS][BUS_DROPOFF]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('bus','','','bigger') .'</TD><TD>'._('Bus Dropoff').'</TD></TR>';
 
-			if(Config('STUDENTS_USE_MAILING') || $this_address['MAIL_CITY'] || $this_address['MAIL_STATE'] || $this_address['MAIL_ZIPCODE'])
+			if (Config('STUDENTS_USE_MAILING') || $this_address['MAIL_CITY'] || $this_address['MAIL_STATE'] || $this_address['MAIL_ZIPCODE'])
 			{
-				echo '<script> function show_mailing(checkbox){if(checkbox.checked==true) document.getElementById(\'mailing_address_div\').style.visibility=\'visible\'; else document.getElementById(\'mailing_address_div\').style.visibility=\'hidden\';}</script>';
+				echo '<script> function show_mailing(checkbox){if (checkbox.checked==true) document.getElementById(\'mailing_address_div\').style.visibility=\'visible\'; else document.getElementById(\'mailing_address_div\').style.visibility=\'hidden\';}</script>';
 
 				echo '<TR><TD>'.CheckboxInput($this_address['MAILING'], 'values[STUDENTS_JOIN_ADDRESS][MAILING]', '', 'CHECKED', $new, button('check'), button('x'), true, 'onclick=show_mailing(this);').'</TD><TD>'. button('mailbox','','','bigger') .'</TD><TD>'._('Mailing Address').'</TD></TR></TABLE>';
 
@@ -648,7 +648,7 @@ if(empty($_REQUEST['modfunc']))
 				echo '<TR><TD>'.CheckboxInput($this_address['MAILING'], 'values[STUDENTS_JOIN_ADDRESS][MAILING]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('mailbox','','','bigger') .'</TD><TD>'._('Mailing Address').'</TD></TR></TABLE>';
 		}
 
-		if($_REQUEST['address_id']=='old')
+		if ($_REQUEST['address_id']=='old')
 		{
 			$addresses_RET = DBGet(DBQuery("SELECT ADDRESS_ID,ADDRESS,CITY,STATE,ZIPCODE FROM ADDRESS WHERE ADDRESS_ID!='0' AND ADDRESS_ID NOT IN (SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID='".UserStudentID()."') ORDER BY ADDRESS,CITY,STATE,ZIPCODE"));
 			foreach($addresses_RET as $address)
@@ -658,19 +658,19 @@ if(empty($_REQUEST['modfunc']))
 
 		echo '</TD>';
 
-		if($_REQUEST['person_id'])
+		if ($_REQUEST['person_id'])
 		{
 			echo '<TD class="valign-top">';
 			echo '<INPUT type="hidden" name="person_id" value="'.$_REQUEST['person_id'].'" />';
 
-			if($_REQUEST['person_id']!='old')
+			if ($_REQUEST['person_id']!='old')
 			{
 				$relation_options = _makeAutoSelect('STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',$this_contact['STUDENT_RELATION'],array());
 
 				//FJ css WPadmin
 				echo '<TABLE class="widefat cellspacing-0"><TR><TH colspan="3">'._('Contact Information').'</TH></TR>';
 
-				if($_REQUEST['person_id']!='new')
+				if ($_REQUEST['person_id']!='new')
 				{
 					echo '<TR><TD id="person_'.$this_contact['PERSON_ID'].'" colspan="2">';
 					
@@ -688,10 +688,10 @@ if(empty($_REQUEST['modfunc']))
 
 					$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
 
-					if($info_apd)
+					if ($info_apd)
 						$info_options = _makeAutoSelect('TITLE','PEOPLE_JOIN_CONTACTS',$info_RET,array());
 
-					if(!$info_apd)
+					if (!$info_apd)
 					{
 						echo '<TR><TD>
 						</TD><TD>
@@ -700,16 +700,16 @@ if(empty($_REQUEST['modfunc']))
 						<span class="legend-gray">'._('Value').'</span>
 						</TD></TR>';
 
-						if(count($info_RET))
+						if (count($info_RET))
 						{
 							foreach($info_RET as $info)
 							{
 							echo '<TR>';
-							if(AllowEdit())
+							if (AllowEdit())
 								echo '<TD>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</TD>';
 							else
 								echo '<TD></TD>';
-							if($info_apd)
+							if ($info_apd)
 								echo '<TD>'._makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID']).'</TD>';
 							else
 								echo '<TD>'.TextInput($info['TITLE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][TITLE]','','maxlength=100').'</TD>';
@@ -722,7 +722,7 @@ if(empty($_REQUEST['modfunc']))
 						{
 							echo '<TR>';
 							echo '<TD>'.button('add').'</TD>';
-							if($info_apd)
+							if ($info_apd)
 							{
 								echo '<TD>'.(count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','',$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','','maxlength=100')).'</TD>';
 								echo '<TD>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]','','maxlength=100').'</TD>';
@@ -737,12 +737,12 @@ if(empty($_REQUEST['modfunc']))
 					}
 					else
 					{
-						if(count($info_RET))
+						if (count($info_RET))
 						{
 							foreach($info_RET as $info)
 							{
 								echo '<TR>';
-								if(AllowEdit())
+								if (AllowEdit())
 									echo '<TD>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</TD>';
 								else
 									echo '<TD></TD>';
@@ -790,7 +790,7 @@ if(empty($_REQUEST['modfunc']))
 				echo '</TABLE>';
 
 				$categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
-				if($categories_RET)
+				if ($categories_RET)
 				{
 					echo '<TD class="valign-top">';
 					if ( $_REQUEST['person_id'] !== 'new' )
@@ -805,7 +805,7 @@ if(empty($_REQUEST['modfunc']))
 					echo '<TABLE>';
 					foreach($categories_RET as $fields_RET)
 					{
-						if(!$fields_RET['CUSTODY']&&!$fields_RET['EMERGENCY'] || $fields_RET['CUSTODY']=='Y'&&$this_contact['CUSTODY']=='Y' || $fields_RET['EMERGENCY']=='Y'&&$this_contact['EMERGENCY']=='Y')
+						if (!$fields_RET['CUSTODY']&&!$fields_RET['EMERGENCY'] || $fields_RET['CUSTODY']=='Y'&&$this_contact['CUSTODY']=='Y' || $fields_RET['EMERGENCY']=='Y'&&$this_contact['EMERGENCY']=='Y')
 						{
 							echo '<TR><TD>';
 							echo '<FIELDSET><LEGEND>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</LEGEND>';
@@ -818,7 +818,7 @@ if(empty($_REQUEST['modfunc']))
 					echo '</TD>';
 				}
 			}
-			elseif($_REQUEST['person_id']=='old')
+			elseif ($_REQUEST['person_id']=='old')
 			{
 				$people_RET = DBGet(DBQuery("SELECT DISTINCT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp WHERE sjp.PERSON_ID=p.PERSON_ID AND sjp.ADDRESS_ID".($_REQUEST['address_id']!='0'?'!=':'=')."'0' AND p.PERSON_ID NOT IN (SELECT PERSON_ID FROM STUDENTS_JOIN_PEOPLE WHERE STUDENT_ID='".UserStudentID()."') ORDER BY LAST_NAME,FIRST_NAME"));
 				foreach($people_RET as $people)
@@ -826,11 +826,11 @@ if(empty($_REQUEST['modfunc']))
 				echo SelectInput('','values[EXISTING][person_id]',_('Select Person'),$people_select);
 			}
 		}
-		elseif($_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='old')
+		elseif ($_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='old')
 		{
 			$categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM ADDRESS_FIELD_CATEGORIES c,ADDRESS_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
 
-			if($categories_RET)
+			if ($categories_RET)
 			{
 				//echo '<TD style="width:10px; border:1;">&nbsp;</TD>';
 				echo '<TD class="valign-top">';
@@ -846,7 +846,7 @@ if(empty($_REQUEST['modfunc']))
 				echo '<TABLE>';
 				foreach($categories_RET as $fields_RET)
 				{
-					if(!$fields_RET[1]['RESIDENCE']&&!$fields_RET[1]['MAILING']&&!$fields_RET[1]['BUS'] || $fields_RET[1]['RESIDENCE']=='Y'&&$this_address['RESIDENCE']=='Y' || $fields_RET[1]['MAILING']=='Y'&&$this_address['MAILING']=='Y' || $fields_RET[1]['BUS']=='Y'&&($this_address['BUS_PICKUP']=='Y'||$this_address['BUS_DROPOFF']=='Y'))
+					if (!$fields_RET[1]['RESIDENCE']&&!$fields_RET[1]['MAILING']&&!$fields_RET[1]['BUS'] || $fields_RET[1]['RESIDENCE']=='Y'&&$this_address['RESIDENCE']=='Y' || $fields_RET[1]['MAILING']=='Y'&&$this_address['MAILING']=='Y' || $fields_RET[1]['BUS']=='Y'&&($this_address['BUS_PICKUP']=='Y'||$this_address['BUS_DROPOFF']=='Y'))
 					{
 						echo '<TR><TD>';
 						echo '<FIELDSET><LEGEND>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</LEGEND>';
@@ -871,14 +871,14 @@ if(empty($_REQUEST['modfunc']))
 
 function _makePeopleInput($value,$column,$title='')
 {
-	if($column=='LAST_NAME' || $column=='FIRST_NAME')
+	if ($column=='LAST_NAME' || $column=='FIRST_NAME')
 		$options = 'required';
-	if($_REQUEST['person_id']=='new')
+	if ($_REQUEST['person_id']=='new')
 		$div = false;
 	else
 		$div = true;
 
-	if($column=='STUDENT_RELATION')
+	if ($column=='STUDENT_RELATION')
 		$table = 'STUDENTS_JOIN_PEOPLE';
 	else
 		$table = 'PEOPLE';
@@ -893,24 +893,24 @@ function _makeAutoSelect($column,$table,$values='',$options=array())
 //FJ new option
 //	$options['---'] = '---';
 	$options['---'] = '-'. _('Edit') .'-';
-	if(AllowEdit()) // we don't really need the select list if we can't edit anyway
+	if (AllowEdit()) // we don't really need the select list if we can't edit anyway
 	{
 		// add values already in table
 		$options_RET = DBGet(DBQuery("SELECT DISTINCT $column,upper($column) AS SORT_KEY FROM $table ORDER BY SORT_KEY"));
-		if(count($options_RET))
+		if (count($options_RET))
 			foreach($options_RET as $option)
-				if($option[$column]!='' && !$options[$option[$column]])
+				if ($option[$column]!='' && !$options[$option[$column]])
 					$options[$option[$column]] = array($option[$column],$option[$column]);
 	}
 	// make sure values are in the list
-	if(isset($values) && is_array($values))
+	if (isset($values) && is_array($values))
 	{
 		foreach($values as $value)
-			if($value[$column]!='' && !$options[$value[$column]])
+			if ($value[$column]!='' && !$options[$value[$column]])
 				$options[$value[$column]] = array($value[$column],$value[$column]);
 	}
 	else
-		if($values!='' && !$options[$values])
+		if ($values!='' && !$options[$values])
 			$options[$values] = array($values,$values);
 
 	return $options;
@@ -918,16 +918,16 @@ function _makeAutoSelect($column,$table,$values='',$options=array())
 
 function _makeAutoSelectInputX($value,$column,$table,$title,$select,$id='',$div=true)
 {
-	if($column=='CITY' || $column=='MAIL_CITY')
+	if ($column=='CITY' || $column=='MAIL_CITY')
 		$options = 'maxlength=60';
-	if($column=='STATE' || $column=='MAIL_STATE')
+	if ($column=='STATE' || $column=='MAIL_STATE')
 		$options = 'size=3 maxlength=10';
-	elseif($column=='ZIPCODE' || $column=='MAIL_ZIPCODE')
+	elseif ($column=='ZIPCODE' || $column=='MAIL_ZIPCODE')
 		$options = 'maxlength=10';
 	else
 		$options = 'maxlength=100';
 
-	if($value!='---' && count($select)>1)
+	if ($value!='---' && count($select)>1)
 		return SelectInput($value,"values[$table]".($id?"[$id]":'')."[$column]",$title,$select,_('N/A'),'',$div);
 	else
 //FJ new option

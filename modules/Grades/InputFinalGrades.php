@@ -6,12 +6,12 @@ $fy = GetParentMP('FY',$sem);
 $pros = GetChildrenMP('PRO',UserMP());
 
 // if the UserMP has been changed, the REQUESTed MP may not work
-if(!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
+if (!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
 	$_REQUEST['mp'] = UserMP();
 
 $course_period_id = UserCoursePeriod();
 
-if(empty($course_period_id))                                  
+if (empty($course_period_id))                                  
 	ErrorMessage(array(_('You cannot enter grades for this course period.')),'fatal');
 
 //FJ add CLASS_RANK
@@ -20,7 +20,7 @@ if(empty($course_period_id))
 //$course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit($course_period_id, '".$_REQUEST['mp']."') AS CREDITS, (SELECT ATTENDANCE FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID) AS ATTENDANCE FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
 $course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit(CAST(".$course_period_id." AS integer), CAST('".$_REQUEST['mp']."' AS character varying)) AS CREDITS, DOES_CLASS_RANK AS CLASS_RANK, c.CREDIT_HOURS FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
 
-if(!$course_RET[1]['GRADE_SCALE_ID'])                                  
+if (!$course_RET[1]['GRADE_SCALE_ID'])                                  
 	ErrorMessage(array(_('You cannot enter grades for this course period.')),'fatal');
 
 $course_title = $course_RET[1]['TITLE'];
@@ -45,7 +45,7 @@ SELECT -1,'"._('General')."',NULL,3,NULL
 WHERE (SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID IS NULL AND SYEAR='".UserSyear()."')>0
 ORDER BY 4,SORT_ORDER"),array(),array('ID'));
 
-if($_REQUEST['tab_id']=='' || !$categories_RET[$_REQUEST['tab_id']])
+if ($_REQUEST['tab_id']=='' || !$categories_RET[$_REQUEST['tab_id']])
 	$_REQUEST['tab_id'] = key($categories_RET).'';
 
 $comment_codes_RET = DBGet(DBQuery("SELECT SCALE_ID,TITLE,SHORT_NAME,COMMENT FROM REPORT_CARD_COMMENT_CODES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,ID"),array(),array('SCALE_ID'));
@@ -56,7 +56,7 @@ foreach($comment_codes_RET as $scale_id=>$codes)
 	foreach($codes as $code)
 		$commentsA_select[$scale_id][$code['TITLE']] = $code['SHORT_NAME'] ? array($code['TITLE'],$code['SHORT_NAME']) : $code['TITLE'];
 
-if($_REQUEST['tab_id']=='-1')
+if ($_REQUEST['tab_id']=='-1')
 {
 	$commentsB_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NULL ORDER BY SORT_ORDER"),array(),array('ID'));
 
@@ -69,10 +69,10 @@ if($_REQUEST['tab_id']=='-1')
 	$max_current_commentsB = 0;
 
 	foreach($current_commentsB_RET as $comments)
-		if(count($comments)>$max_current_commentsB)
+		if (count($comments)>$max_current_commentsB)
 			$max_current_commentsB = count($comments);
 }
-elseif($_REQUEST['tab_id']=='0')
+elseif ($_REQUEST['tab_id']=='0')
 {
 	$commentsA_RET = DBGet(DBQuery("SELECT ID,TITLE,SCALE_ID FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID='0' ORDER BY SORT_ORDER"));
 
@@ -83,7 +83,7 @@ elseif($_REQUEST['tab_id']=='0')
 	AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."' 
 	AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0')"),array(),array('STUDENT_ID','REPORT_CARD_COMMENT_ID'));
 }
-elseif($_REQUEST['tab_id'])
+elseif ($_REQUEST['tab_id'])
 {
 	$commentsA_RET = DBGet(DBQuery("SELECT ID,TITLE,SCALE_ID FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID='".$course_id."' AND CATEGORY_ID='".$_REQUEST['tab_id']."' ORDER BY SORT_ORDER"));
 
@@ -103,7 +103,7 @@ foreach($grades_RET as $key=>$grade)
 }
 $commentsB_select = array();
 
-if(0)
+if (0)
 	foreach($commentsB_RET as $id=>$comment)
 		$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'],$comment[1]['TITLE']));
 		
@@ -111,13 +111,13 @@ elseif (is_array($commentsB_RET))
 	foreach($commentsB_RET as $id=>$comment)
 		$commentsB_select += array($id=>array($comment[1]['SORT_ORDER'].' - '.(mb_strlen($comment[1]['TITLE']) > 99+3?mb_substr($comment[1]['TITLE'],0,99).'...':$comment[1]['TITLE']),$comment[1]['TITLE']));
 
-if($_REQUEST['modfunc']=='gradebook')
+if ($_REQUEST['modfunc']=='gradebook')
 {
-	if($_REQUEST['mp'])
+	if ($_REQUEST['mp'])
 	{
 		$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 
-		if(count($config_RET))
+		if (count($config_RET))
 			foreach($config_RET as $title=>$value)
 				$programconfig[User('STAFF_ID')][$title] = $value[1]['VALUE'];
 		else
@@ -127,7 +127,7 @@ if($_REQUEST['modfunc']=='gradebook')
 
 		include( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
 
-		if(GetMP($_REQUEST['mp'],'MP')=='QTR' || GetMP($_REQUEST['mp'],'MP')=='PRO')
+		if (GetMP($_REQUEST['mp'],'MP')=='QTR' || GetMP($_REQUEST['mp'],'MP')=='PRO')
 		{
 			// Note: The 'active assignment' determination is not fully correct.  It would be easy to be fully correct here but the same determination
 			// as in Grades.php is used to avoid apparent inconsistencies in the grade calculations.  See also the note at top of Grades.php.
@@ -143,29 +143,29 @@ if($_REQUEST['modfunc']=='gradebook')
 
 			unset($extra);
 
-			if(count($points_RET))
+			if (count($points_RET))
 			{
 				foreach($points_RET as $student_id=>$student)
 				{
 					$total = $total_percent = 0;
 
 					foreach($student as $partial_points)
-						if($partial_points['PARTIAL_TOTAL']!=0 || $programconfig[User('STAFF_ID')]['WEIGHT']!='Y')
+						if ($partial_points['PARTIAL_TOTAL']!=0 || $programconfig[User('STAFF_ID')]['WEIGHT']!='Y')
 						{
 							$total += $partial_points['PARTIAL_POINTS']*($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
 							$total_percent += ($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
 						}
 
-					if($total_percent!=0)
+					if ($total_percent!=0)
 						$total /= $total_percent;
 
 					$import_RET[$student_id] = array(1=>array('REPORT_CARD_GRADE_ID'=>_makeLetterGrade($total,$course_period_id,0,'ID'),'GRADE_PERCENT'=>round(100*$total,1)));
 				}
 			}
 		}
-		elseif(GetMP($_REQUEST['mp'],'MP')=='SEM' || GetMP($_REQUEST['mp'],'MP')=='FY')
+		elseif (GetMP($_REQUEST['mp'],'MP')=='SEM' || GetMP($_REQUEST['mp'],'MP')=='FY')
 		{
-			if(GetMP($_REQUEST['mp'],'MP')=='SEM')
+			if (GetMP($_REQUEST['mp'],'MP')=='SEM')
 			{
 				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,'Y' AS DOES_GRADES 
 				FROM SCHOOL_MARKING_PERIODS 
@@ -200,7 +200,7 @@ if($_REQUEST['modfunc']=='gradebook')
 			}
 			foreach($RET as $mp)
 			{
-				if($mp['DOES_GRADES']=='Y')
+				if ($mp['DOES_GRADES']=='Y')
 					$mps .= "'".$mp['MARKING_PERIOD_ID']."',";
 			}
 			$mps = mb_substr($mps,0,-1);
@@ -234,9 +234,9 @@ if($_REQUEST['modfunc']=='gradebook')
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 }
 
-if($_REQUEST['modfunc']=='grades')
+if ($_REQUEST['modfunc']=='grades')
 {
-	if($_REQUEST['prev_mp'])
+	if ($_REQUEST['prev_mp'])
 	{
 		include( 'ProgramFunctions/_makePercentGrade.fnc.php' );
 
@@ -253,9 +253,9 @@ if($_REQUEST['modfunc']=='grades')
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 }
 
-if($_REQUEST['modfunc']=='comments')
+if ($_REQUEST['modfunc']=='comments')
 {
-	if($_REQUEST['prev_mp'])
+	if ($_REQUEST['prev_mp'])
 	{
 		$import_comments_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM STUDENT_REPORT_CARD_GRADES g
@@ -276,7 +276,7 @@ if($_REQUEST['modfunc']=='comments')
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)"),array(),array('STUDENT_ID'));
 
 		foreach($import_commentsB_RET as $comments)
-			if(count($comments)>$max_current_commentsB)
+			if (count($comments)>$max_current_commentsB)
 				$max_current_commentsB = count($comments);
 
 		unset($_SESSION['_REQUEST_vars']['prev_mp']);
@@ -284,7 +284,7 @@ if($_REQUEST['modfunc']=='comments')
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 }
 
-if($_REQUEST['modfunc']=='clearall')
+if ($_REQUEST['modfunc']=='clearall')
 {
 	foreach($current_RET as $student_id=>$prev)
 	{
@@ -307,7 +307,7 @@ if($_REQUEST['modfunc']=='clearall')
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 }
 
-if($_REQUEST['values'] && $_POST['values'])
+if ($_REQUEST['values'] && $_POST['values'])
 {
 	include( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
 	include( 'ProgramFunctions/_makePercentGrade.fnc.php' );
@@ -320,9 +320,9 @@ if($_REQUEST['values'] && $_POST['values'])
 	foreach($_REQUEST['values'] as $student_id=>$columns)
 	{
 		$sql = $sep = '';
-		if($current_RET[$student_id])
+		if ($current_RET[$student_id])
 		{
-			if($columns['percent']!='')
+			if ($columns['percent']!='')
 			{
 				//FJ bugfix SQL error invalid input syntax for type numeric
 				$percent = trim($columns['percent'],'%');
@@ -330,13 +330,13 @@ if($_REQUEST['values'] && $_POST['values'])
 				if (!is_numeric($percent))
 					$percent = (float)$percent;
 
-				if($percent>999.9)
+				if ($percent>999.9)
 					$percent = '999.9';
 
-				elseif($percent<0)
+				elseif ($percent<0)
 					$percent = '0';
 
-				if($columns['grade'] || $percent!='')
+				if ($columns['grade'] || $percent!='')
 				{
 					$grade = ($columns['grade']?$columns['grade']:_makeLetterGrade($percent/100,$course_period_id,0,'ID'));
 					$letter = $grades_RET[$grade][1]['TITLE'];
@@ -361,7 +361,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				$sql .= ",CREDIT_EARNED='".($weighted&&$weighted>0?$course_RET[1]['CREDITS']:'0')."'";
 				$sep = ',';
 			}
-			elseif($columns['grade'])
+			elseif ($columns['grade'])
 			{
 				$percent = _makePercentGrade($columns['grade'],$course_period_id);
 				$grade = $columns['grade'];
@@ -383,7 +383,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				$sql .= ",CREDIT_EARNED='".($weighted&&$weighted>0?$course_RET[1]['CREDITS']:'0')."'";
 				$sep = ',';
 			}
-			elseif(isset($columns['percent']) || isset($columns['grade']))
+			elseif (isset($columns['percent']) || isset($columns['grade']))
 			{
 				$percent = $grade = '';
 				$sql .= "GRADE_PERCENT=NULL";
@@ -401,15 +401,15 @@ if($_REQUEST['values'] && $_POST['values'])
 				$grade = $current_RET[$student_id][1]['REPORT_CARD_GRADE_ID'];
 			}
 
-			if(isset($columns['comment']))
+			if (isset($columns['comment']))
 				$sql .= $sep."COMMENT='".$columns['comment']."'";
 
-			if($sql)
+			if ($sql)
 				$sql = "UPDATE STUDENT_REPORT_CARD_GRADES SET ".$sql." WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'";
 		}
-		elseif($columns['percent']!='' || $columns['grade'] || $columns['comment'])
+		elseif ($columns['percent']!='' || $columns['grade'] || $columns['comment'])
 		{
-			if($columns['percent']!='')
+			if ($columns['percent']!='')
 			{
 				//FJ bugfix SQL error invalid input syntax for type numeric
 				$percent = trim($columns['percent'],'%');
@@ -417,13 +417,13 @@ if($_REQUEST['values'] && $_POST['values'])
 				if (!is_numeric($percent))
 					$percent = (float)$percent;
 
-				if($percent>999.9)
+				if ($percent>999.9)
 					$percent = '999.9';
 
-				elseif($percent<0)
+				elseif ($percent<0)
 					$percent = '0';
 
-				if($columns['grade'] || $percent!='')
+				if ($columns['grade'] || $percent!='')
 				{
 					$grade = ($columns['grade']?$columns['grade']:_makeLetterGrade($percent/100,$course_period_id,0,'ID'));
 					$letter = $grades_RET[$grade][1]['TITLE'];
@@ -441,7 +441,7 @@ if($_REQUEST['values'] && $_POST['values'])
 				else
 					$grade = $letter = $weighted = $unweighted = $scale = '';
 			}
-			elseif($columns['grade'])
+			elseif ($columns['grade'])
 			{
 					$percent = _makePercentGrade($columns['grade'],$course_period_id);
 					$grade = $columns['grade'];
@@ -469,7 +469,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		else
 			$percent = $grade = '';
 
-		if($sql)
+		if ($sql)
 		{
 			DBQuery($sql);
 		}
@@ -492,14 +492,14 @@ if($_REQUEST['values'] && $_POST['values'])
 
 		if (isset($columns['commentsA']) && is_array($columns['commentsA']))
 			foreach($columns['commentsA'] as $id=>$comment)
-				if($current_commentsA_RET[$student_id][$id])
+				if ($current_commentsA_RET[$student_id][$id])
 				{
-					if($comment)
+					if ($comment)
 						DBQuery("UPDATE STUDENT_REPORT_CARD_COMMENTS SET COMMENT='".$comment."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND REPORT_CARD_COMMENT_ID='".$id."'");
 					else
 						DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND REPORT_CARD_COMMENT_ID='".$id."'");
 				}
-				elseif($comment)
+				elseif ($comment)
 					DBQuery("INSERT INTO STUDENT_REPORT_CARD_COMMENTS
 					(SYEAR, SCHOOL_ID, STUDENT_ID, COURSE_PERIOD_ID, MARKING_PERIOD_ID, REPORT_CARD_COMMENT_ID, COMMENT)
 					values('".UserSyear()."','".UserSchool()."','".$student_id."','".$course_period_id."','".$_REQUEST['mp']."','".$id."','".$comment."')");
@@ -519,10 +519,10 @@ if($_REQUEST['values'] && $_POST['values'])
 		// prune changes already in current set and reserve if in change list
 		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
 			foreach($columns['commentsB'] as $i=>$comment)
-				if($comment)
-					if($old[$comment])
+				if ($comment)
+					if ($old[$comment])
 					{
-						if($change[$old[$comment]])
+						if ($change[$old[$comment]])
 							$change[$old[$comment]]['REPORT_CARD_COMMENT_ID'] = $comment;
 						$columns['commentsB'][$i] = false;
 					}
@@ -531,10 +531,10 @@ if($_REQUEST['values'] && $_POST['values'])
 		$new = array();
 		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
 			foreach($columns['commentsB'] as $i=>$comment)
-				if($comment)
-					if(!$new[$comment])
+				if ($comment)
+					if (!$new[$comment])
 					{
-						if(!$change[$i]['REPORT_CARD_COMMENT_ID'])
+						if (!$change[$i]['REPORT_CARD_COMMENT_ID'])
 						{
 							$change[$i]['REPORT_CARD_COMMENT_ID'] = $comment;
 							$new[$comment] = $i;
@@ -548,9 +548,9 @@ if($_REQUEST['values'] && $_POST['values'])
 		reset($change);
 		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
 			foreach($columns['commentsB'] as $i=>$comment)
-				if($comment)
+				if ($comment)
 				{
-					if(!$new[$comment])
+					if (!$new[$comment])
 					{
 						while($change[key($change)]['REPORT_CARD_COMMENT_ID'])
 							next($change);
@@ -562,10 +562,10 @@ if($_REQUEST['values'] && $_POST['values'])
 
 		// update the db
 		foreach($change as $i=>$comment)
-			if($current_commentsB_RET[$student_id][$i])
-				if($comment['REPORT_CARD_COMMENT_ID'])
+			if ($current_commentsB_RET[$student_id][$i])
+				if ($comment['REPORT_CARD_COMMENT_ID'])
 				{
-					if($comment['REPORT_CARD_COMMENT_ID']!=$current_commentsB_RET[$student_id][$i]['REPORT_CARD_COMMENT_ID'])
+					if ($comment['REPORT_CARD_COMMENT_ID']!=$current_commentsB_RET[$student_id][$i]['REPORT_CARD_COMMENT_ID'])
 						DBQuery("UPDATE STUDENT_REPORT_CARD_COMMENTS
 						SET REPORT_CARD_COMMENT_ID='".$comment['REPORT_CARD_COMMENT_ID']."'
 						WHERE STUDENT_ID='".$student_id."'
@@ -580,24 +580,24 @@ if($_REQUEST['values'] && $_POST['values'])
 					AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'
 					AND REPORT_CARD_COMMENT_ID='".$current_commentsB_RET[$student_id][$i]['REPORT_CARD_COMMENT_ID']."'");
 			else
-				if($comment['REPORT_CARD_COMMENT_ID'])
+				if ($comment['REPORT_CARD_COMMENT_ID'])
 					DBQuery("INSERT INTO STUDENT_REPORT_CARD_COMMENTS
 					(SYEAR, SCHOOL_ID, STUDENT_ID, COURSE_PERIOD_ID, MARKING_PERIOD_ID, REPORT_CARD_COMMENT_ID)
 					values('".UserSyear()."','".UserSchool()."','".$student_id."','".$course_period_id."','".$_REQUEST['mp']."','".$comment['REPORT_CARD_COMMENT_ID']."')");
 	}
 
-	if($completed)
+	if ($completed)
 	{
-		if(!$current_completed)
+		if (!$current_completed)
 			DBQuery("INSERT INTO GRADES_COMPLETED (STAFF_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID) values('".User('STAFF_ID')."','".$_REQUEST['mp']."','".$course_period_id."')");
 	}
 	else
-		if($current_completed)
+		if ($current_completed)
 			DBQuery("DELETE FROM GRADES_COMPLETED WHERE STAFF_ID='".User('STAFF_ID')."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND COURSE_PERIOD_ID='".$course_period_id."'");
 
 	$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT,g.REPORT_CARD_COMMENT_ID,g.COMMENT FROM STUDENT_REPORT_CARD_GRADES g WHERE g.COURSE_PERIOD_ID='".$course_period_id."' AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'"),array(),array('STUDENT_ID'));
 
-	if($_REQUEST['tab_id']=='-1')
+	if ($_REQUEST['tab_id']=='-1')
 	{
 		$current_commentsB_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID
 		FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp
@@ -608,10 +608,10 @@ if($_REQUEST['values'] && $_POST['values'])
 		$max_current_commentsB = 0;
 
 		foreach($current_commentsB_RET as $comments)
-			if(count($comments)>$max_current_commentsB)
+			if (count($comments)>$max_current_commentsB)
 				$max_current_commentsB = count($comments);
 	}
-	elseif($_REQUEST['tab_id']=='0')
+	elseif ($_REQUEST['tab_id']=='0')
 	{
 		$current_commentsA_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp
@@ -620,7 +620,7 @@ if($_REQUEST['values'] && $_POST['values'])
 		AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0')"),array(),array('STUDENT_ID','REPORT_CARD_COMMENT_ID'));
 	}
-	elseif($_REQUEST['tab_id'])
+	elseif ($_REQUEST['tab_id'])
 	{
 		$current_commentsA_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
 		FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp
@@ -635,7 +635,7 @@ if($_REQUEST['values'] && $_POST['values'])
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
-if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['submit']['cancel'])
+if ($_REQUEST['values'] && $_POST['values'] && $_REQUEST['submit']['cancel'])
 {
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
@@ -647,31 +647,31 @@ $mps_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 
 $mps_select .= '<SELECT name="mp" onchange="ajaxLink(' . $mps_onchange_URL . ' + this.options[selectedIndex].value);">';
 
-if($pros!='')
+if ($pros!='')
 	foreach(explode(',',str_replace("'",'',$pros)) as $pro)
 	{
-		if($_REQUEST['mp']==$pro && GetMP($pro,'POST_START_DATE') && ($time>=strtotime(GetMP($pro,'POST_START_DATE')) && $time<=strtotime(GetMP($pro,'POST_END_DATE'))))
+		if ($_REQUEST['mp']==$pro && GetMP($pro,'POST_START_DATE') && ($time>=strtotime(GetMP($pro,'POST_START_DATE')) && $time<=strtotime(GetMP($pro,'POST_END_DATE'))))
 			$allow_edit = true;
 
-		if(GetMP($pro,'DOES_GRADES')=='Y')
+		if (GetMP($pro,'DOES_GRADES')=='Y')
 			$mps_select .= '<OPTION value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($pro)."</OPTION>";
 	}
 
-if($_REQUEST['mp']==UserMP() && GetMP(UserMP(),'POST_START_DATE') && ($time>=strtotime(GetMP(UserMP(),'POST_START_DATE')) && $time<=strtotime(GetMP(UserMP(),'POST_END_DATE'))))
+if ($_REQUEST['mp']==UserMP() && GetMP(UserMP(),'POST_START_DATE') && ($time>=strtotime(GetMP(UserMP(),'POST_START_DATE')) && $time<=strtotime(GetMP(UserMP(),'POST_END_DATE'))))
 	$allow_edit = true;
 
 $mps_select .= '<OPTION value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' SELECTED':'').">".GetMP(UserMP())."</OPTION>";
 
-if(($_REQUEST['mp']==$sem) && GetMP($sem,'POST_START_DATE') && ($time>=strtotime(GetMP($sem,'POST_START_DATE')) && $time<=strtotime(GetMP($sem,'POST_END_DATE'))))
+if (($_REQUEST['mp']==$sem) && GetMP($sem,'POST_START_DATE') && ($time>=strtotime(GetMP($sem,'POST_START_DATE')) && $time<=strtotime(GetMP($sem,'POST_END_DATE'))))
 	$allow_edit = true;
 
-if(GetMP($sem,'DOES_GRADES')=='Y')
+if (GetMP($sem,'DOES_GRADES')=='Y')
 	$mps_select .= '<OPTION value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($sem)."</OPTION>";
 
-if(($_REQUEST['mp']==$fy) && GetMP($fy,'POST_START_DATE') && ($time>=strtotime(GetMP($fy,'POST_START_DATE')) && $time<=strtotime(GetMP($fy,'POST_END_DATE'))))
+if (($_REQUEST['mp']==$fy) && GetMP($fy,'POST_START_DATE') && ($time>=strtotime(GetMP($fy,'POST_START_DATE')) && $time<=strtotime(GetMP($fy,'POST_END_DATE'))))
 	$allow_edit = true;
 
-if(GetMP($fy,'DOES_GRADES')=='Y')
+if (GetMP($fy,'DOES_GRADES')=='Y')
 	$mps_select .= '<OPTION value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($fy)."</OPTION>";
 
 $mps_select .= '</SELECT>';
@@ -690,7 +690,7 @@ if ( !isset( $_ROSARIO['allow_edit'] ) )
 $extra['SELECT'] = ",ssm.STUDENT_ID AS REPORT_CARD_GRADE";
 $extra['functions'] = array('REPORT_CARD_GRADE'=>'_makeLetterPercent');
 
-if(GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
+if (GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
 	//FJ fix error Warning: Invalid argument supplied for foreach()
 	if (isset($commentsA_RET))
@@ -708,7 +708,7 @@ if(GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 		$extra['functions'] += array('CB'.$i=>'_makeCommentsB');
 	}
 
-	if(count($commentsB_select) && AllowEdit())
+	if (count($commentsB_select) && AllowEdit())
 	{
 		$extra['SELECT'] .= ',\''.$i.'\' AS CB'.$i;
 		$extra['functions'] += array('CB'.$i=>'_makeCommentsB');
@@ -724,9 +724,9 @@ $stu_RET = GetStuList($extra);
 
 echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].(count($categories_RET)&&GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y'?'&tab_id='.$_REQUEST['tab_id']:'').'" method="POST">';
 
-if(!isset($_REQUEST['_ROSARIO_PDF']))
+if (!isset($_REQUEST['_ROSARIO_PDF']))
 {
-	if(count($commentsB_RET))
+	if (count($commentsB_RET))
 	{
 		foreach($commentsB_RET as $comment)
 			$tipmessage .= $comment[1]['SORT_ORDER'].' - '.$comment[1]['TITLE'].'<BR />';
@@ -737,7 +737,7 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 	}
 
 	//FJ add All Courses & Course-specific comments scales tipmessage
-	elseif(count($commentsA_RET))
+	elseif (count($commentsA_RET))
 	{
 		$tipmessage = '';
 
@@ -786,7 +786,7 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 	//FJ add translation
 	DrawHeader(($current_completed?'<span style="color:green">'._('These grades are complete.').'</span>':'<span style="color:red">'._('These grades are NOT complete.').'</span>').(AllowEdit()?' | <span style="color:green">'._('You can edit these grades.').$grade_posting_dates_text.'</span>':' | <span style="color:red">'._('You can not edit these grades.').$grade_posting_dates_text.'</span>'));
 
-	if(AllowEdit())
+	if (AllowEdit())
 	{
 		$gb_header .= '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=gradebook&mp='.$_REQUEST['mp'].'">'._('Get Gradebook Grades.').'</A>';
 		$prev_mp = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,START_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='".GetMP($_REQUEST['mp'],'MP')."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND START_DATE<'".GetMP($_REQUEST['mp'],'START_DATE')."' ORDER BY START_DATE DESC LIMIT 1"));
@@ -795,7 +795,7 @@ if(!isset($_REQUEST['_ROSARIO_PDF']))
 		//FJ remove Get previous MP Grades & Comments if course period's marking period is a quarter
 		$mp_is_quarter = DBGet(DBQuery("SELECT '' FROM COURSE_PERIODS WHERE MP='QTR' AND COURSE_PERIOD_ID='".$course_period_id."'"));
 
-		if($prev_mp && !$mp_is_quarter)
+		if ($prev_mp && !$mp_is_quarter)
 		{
 			$gb_header .= ' | <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=grades&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Grades'),$prev_mp['TITLE']).'</A>';
 			$gb_header .= ' | <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=comments&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Comments'),$prev_mp['TITLE']).'</A>';
@@ -816,7 +816,7 @@ else
 
 $LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')));
 
-if($_REQUEST['include_inactive']=='Y')
+if ($_REQUEST['include_inactive']=='Y')
 	$LO_columns += array('ACTIVE'=>_('School Status'),'ACTIVE_SCHEDULE'=>_('Course Status'));
 
 $LO_columns += array(
@@ -825,7 +825,7 @@ $LO_columns += array(
 			'<span class="nobr">' . _( 'Letter' ) . ' ' . _( 'Percent' ) . '</span>' ) )
 );
 
-if(GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
+if (GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
 	//FJ fix error Warning: Invalid argument supplied for foreach()
 	if (isset($commentsA_RET))
@@ -837,7 +837,7 @@ if(GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 	for($i=1; $i<=$max_current_commentsB; $i++)
 		$LO_columns += array('CB'.$i=>sprintf(_('Comment %d'),$i));
 
-	if(count($commentsB_select) && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (count($commentsB_select) && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 		$LO_columns += array('CB'.$i=>_('Add Comment'));
 }
 
@@ -852,11 +852,11 @@ foreach($categories_RET as $id=>$category)
 
 $LO_options = array('save'=>false,'search'=>false);
 
-if(count($categories_RET) && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
+if (count($categories_RET) && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
 	$LO_options['header'] = WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&mp='.$_REQUEST['mp'].'&tab_id='.$_REQUEST['tab_id']);
 
-	if($categories_RET[$_REQUEST['tab_id']][1]['COLOR'])
+	if ($categories_RET[$_REQUEST['tab_id']][1]['COLOR'])
 		$LO_options['header_color'] = $categories_RET[$_REQUEST['tab_id']][1]['COLOR'];
 }
 
@@ -870,7 +870,7 @@ echo '</FORM>';
 function _makeLetterPercent($student_id,$column)
 {	global $current_RET,$import_RET,$grades_select,$student_count,$tabindex;
 
-	if($import_RET[$student_id])
+	if ($import_RET[$student_id])
 	{
 		$select_percent = $import_RET[$student_id][1]['GRADE_PERCENT'];
 		$select_grade = $import_RET[$student_id][1]['REPORT_CARD_GRADE_ID'];
@@ -883,7 +883,7 @@ function _makeLetterPercent($student_id,$column)
 		$div = true;
 	}
 
-	if(!isset($_REQUEST['_ROSARIO_PDF']))
+	if (!isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$student_count++;
 		$tabindex = $student_count;
@@ -898,7 +898,7 @@ function _makeLetterPercent($student_id,$column)
 		}
 		else
 		{
-			if(AllowEdit() && $div && $select_percent!='' && $select_grade)
+			if (AllowEdit() && $div && $select_percent!='' && $select_grade)
 			{
 				$return = '<DIV id="'.$student_id.'"><div class="onclick" onclick=\'addHTML("';
 				
@@ -931,7 +931,7 @@ function _makeLetterPercent($student_id,$column)
 function _makeComment($value,$column)
 {	global $THIS_RET,$current_RET,$import_comments_RET,$tabindex;
 
-	if($import_comments_RET[$THIS_RET['STUDENT_ID']])
+	if ($import_comments_RET[$THIS_RET['STUDENT_ID']])
 	{
 		$select = $import_comments_RET[$THIS_RET['STUDENT_ID']][1]['COMMENT'];
 		$div = false;
@@ -942,7 +942,7 @@ function _makeComment($value,$column)
 		$div = true;
 	}
 
-	if(!isset($_REQUEST['_ROSARIO_PDF']))
+	if (!isset($_REQUEST['_ROSARIO_PDF']))
 		$return = TextInput($select,"values[$THIS_RET[STUDENT_ID]][comment]",'','size=20 maxlength=255 tabindex='.($tabindex+=100),$div);
 	else
 		$return = $select;
@@ -953,14 +953,14 @@ function _makeComment($value,$column)
 function _makeCommentsA($value,$column)
 {	global $THIS_RET,$current_commentsA_RET,$import_commentsA_RET,$commentsA_select,$tabindex;
 
-	if($import_commentsA_RET[$THIS_RET['STUDENT_ID']][$value])
+	if ($import_commentsA_RET[$THIS_RET['STUDENT_ID']][$value])
 	{
 		$select = $import_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT'];
 		$div = false;
 	}
 	else
 	{
-		if(!$current_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT'] && !$import_commentsA_RET && AllowEdit())
+		if (!$current_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT'] && !$import_commentsA_RET && AllowEdit())
 		{
 			$select = Preferences('COMMENT_'.$THIS_RET['CAC'.$value],'Gradebook');
 			$div = false;
@@ -972,7 +972,7 @@ function _makeCommentsA($value,$column)
 		}
 	}
 
-	if(!isset($_REQUEST['_ROSARIO_PDF']))
+	if (!isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$return = SelectInput($select,'values['.$THIS_RET['STUDENT_ID'].'][commentsA]['.$value.']','',$commentsA_select[$THIS_RET['CAC'.$value]],_('N/A'),'tabindex='.($tabindex+=100),$div);
 	}
@@ -985,7 +985,7 @@ function _makeCommentsA($value,$column)
 function _makeCommentsB($value,$column)
 {	global $THIS_RET,$current_commentsB_RET,$import_commentsB_RET,$commentsB_RET,$max_current_commentsB,$commentsB_select,$tabindex;
 
-	if($import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value])
+	if ($import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value])
 	{
 		$select = $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value]['REPORT_CARD_COMMENT_ID'];
 		$div = false;
@@ -996,13 +996,13 @@ function _makeCommentsB($value,$column)
 		$div = true;
 	}
 
-	if(!isset($_REQUEST['_ROSARIO_PDF']))
+	if (!isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		if($value>$max_current_commentsB)
+		if ($value>$max_current_commentsB)
 		{
 			$return = SelectInput('','values['.$THIS_RET['STUDENT_ID'].'][commentsB]['.$value.']','',$commentsB_select,_('N/A'),'tabindex='.($tabindex+=100));
 		}
-		elseif($import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] || isset($current_commentsB_RET[$THIS_RET['STUDENT_ID']][$value]))
+		elseif ($import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] || isset($current_commentsB_RET[$THIS_RET['STUDENT_ID']][$value]))
 		{
 			$return = SelectInput($select,'values['.$THIS_RET['STUDENT_ID'].'][commentsB]['.$value.']','',$commentsB_select,_('N/A'),'tabindex='.($tabindex+=100),$div);
 		}

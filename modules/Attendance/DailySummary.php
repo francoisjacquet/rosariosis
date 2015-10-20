@@ -20,7 +20,7 @@ if ( empty( $start_date ) )
 	$start_date = '01-' . mb_strtoupper( date( 'M-Y' ) );
 
 // set end date
-if( isset( $_REQUEST['day_end'] )
+if ( isset( $_REQUEST['day_end'] )
 	&& isset( $_REQUEST['month_end'] )
 	&& isset( $_REQUEST['year_end'] ) )
 {
@@ -34,7 +34,7 @@ if( isset( $_REQUEST['day_end'] )
 if ( empty( $end_date ) )
 	$end_date = DBDate();
 
-if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
+if ($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 {
 	foreach($_REQUEST['attendance'] as $student_id=>$values)
 	{
@@ -55,14 +55,14 @@ if($_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 }
 
 //FJ bugfix bug when Back to Student Search
-//if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || UserStudentID() || User('PROFILE')=='parent' || User('PROFILE')=='student')
-if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
+//if ($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || UserStudentID() || User('PROFILE')=='parent' || User('PROFILE')=='student')
+if ($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	$period_select = '<SELECT name="period_id" onchange="ajaxPostForm(this.form,true);"><OPTION value=""'.(empty($_REQUEST['period_id'])?' SELECTED':'').'>'._('Daily').'</OPTION>';
-	if(!UserStudentID() && !$_REQUEST['student_id'])
+	if (!UserStudentID() && !$_REQUEST['student_id'])
 	{
-		if(User('PROFILE')=='admin')
+		if (User('PROFILE')=='admin')
 		{
 			//FJ multiple school periods for a course period
 			//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE position(',0,' IN DOES_ATTENDANCE)>0 AND PERIOD_ID=sp.PERIOD_ID AND SYEAR=sp.SYEAR AND SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER"));
@@ -85,11 +85,11 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0 
 			AND sp.PERIOD_ID=cpsp.PERIOD_ID 
 			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'"));
-			if($periods_RET)
+			if ($periods_RET)
 			{
 				//$period_select .= '<OPTION value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'] || !isset($_REQUEST['period_id']))?' SELECTED':'').">".$periods_RET[1]['TITLE'].'</OPTION>';
 				$period_select .= '<OPTION value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'])?' SELECTED':'').">".$periods_RET[1]['TITLE'].'</OPTION>';
-				if(!isset($_REQUEST['period_id']))
+				if (!isset($_REQUEST['period_id']))
 					$_REQUEST['period_id'] = $periods_RET['PERIOD_ID'];
 			}
 		}
@@ -104,12 +104,12 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 $cal_RET = DBGet(DBQuery("SELECT DISTINCT SCHOOL_DATE,'_'||to_char(SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' ORDER BY SCHOOL_DATE"));
 
 //FJ bugfix bug when Back to Student Search
-//if(UserStudentID() || $_REQUEST['student_id'] || User('PROFILE')=='parent')
-if($_REQUEST['student_id'] || User('PROFILE')=='parent')
+//if (UserStudentID() || $_REQUEST['student_id'] || User('PROFILE')=='parent')
+if ($_REQUEST['student_id'] || User('PROFILE')=='parent')
 {
 	// JUST TO SET USERSTUDENTID()
 	Search('student_id');
-	if($_REQUEST['period_id'])
+	if ($_REQUEST['period_id'])
 	{
 		//FJ multiple school periods for a course period
 		/*$sql = "SELECT
@@ -150,7 +150,7 @@ if($_REQUEST['student_id'] || User('PROFILE')=='parent')
 	}
 
 	$i = 0;
-	if(count($schedule_RET))
+	if (count($schedule_RET))
 	{
 		foreach($schedule_RET as $course)
 		{
@@ -169,7 +169,7 @@ if($_REQUEST['student_id'] || User('PROFILE')=='parent')
 	$columns = array('TITLE'=>_('Course'));
 	if (isset($col_period) && $col_period)
 		$columns['PERIOD'] = _('Period');
-	if(count($cal_RET))
+	if (count($cal_RET))
 	{
 		foreach($cal_RET as $value)
 			$columns[$value['SHORT_DATE']] = (isset($_REQUEST['LO_save']) ? strip_tags(ProperDate($value['SCHOOL_DATE'],'short')) : ProperDate($value['SCHOOL_DATE'],'short'));
@@ -181,7 +181,7 @@ else
 {
 	// in pre-2.11 versions the attendance data would be queried for all students here but data for #students*#days can be a lot
 	// in 2.11 this was switched to incremental query in the _makeColor function
-	if(!$_REQUEST['period_id'])
+	if (!$_REQUEST['period_id'])
 	{
 		$att_sql = "SELECT ad.STATE_VALUE,SCHOOL_DATE,'_'||to_char(ad.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE 
 		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm 
@@ -202,7 +202,7 @@ else
 		AND ap.STUDENT_ID=";
 	}
 
-	if(count($cal_RET))
+	if (count($cal_RET))
 	{
 		foreach($cal_RET as $value)
 		{
@@ -228,35 +228,35 @@ function _makeColor($value,$column)
 	//FJ add translation:
 	$attendance_codes_locale = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half Day'));
 		
-	if(!$att_RET[$THIS_RET['STUDENT_ID']])
+	if (!$att_RET[$THIS_RET['STUDENT_ID']])
 		$att_RET[$THIS_RET['STUDENT_ID']] = DBGet(DBQuery($att_sql.$THIS_RET['STUDENT_ID']),array(),array('SHORT_DATE'));
 
-	if($_REQUEST['period_id'])
+	if ($_REQUEST['period_id'])
 	{
-		if(!$attendance_codes)
+		if (!$attendance_codes)
 			$attendance_codes = DBGet(DBQuery("SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0'"),array(),array('ID'));
 
 		$ac = $att_RET[$THIS_RET['STUDENT_ID']][$column][1]['ATTENDANCE_CODE'];
-		if($attendance_codes[$ac][1]['DEFAULT_CODE']=='Y')
+		if ($attendance_codes[$ac][1]['DEFAULT_CODE']=='Y')
 //FJ remove LO_field
 			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
-		elseif($attendance_codes[$ac][1]['STATE_CODE']=='P')
+		elseif ($attendance_codes[$ac][1]['STATE_CODE']=='P')
 			return '<div style="float:left; background-color:#6666FF; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
-		elseif($attendance_codes[$ac][1]['STATE_CODE']=='A')
+		elseif ($attendance_codes[$ac][1]['STATE_CODE']=='A')
 			return '<div style="float:left; background-color:#FF0000; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
-		elseif($attendance_codes[$ac][1]['STATE_CODE']=='H')
+		elseif ($attendance_codes[$ac][1]['STATE_CODE']=='H')
 			return '<div style="float:left; background-color:#FFCC00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
-		elseif($ac)
+		elseif ($ac)
 			return '<div style="float:left; background-color:#FFFF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 	}
 	else
 	{
 		$ac = $att_RET[$THIS_RET['STUDENT_ID']][$column][1]['STATE_VALUE'];
-		if($ac=='0.0')
+		if ($ac=='0.0')
 			return '<div style="float:left; background-color:#FF0000; padding:0 8px;" title="'.$attendance_codes_locale['A'].'">'.mb_substr($attendance_codes_locale['A'],0,3).'</div>';
-		elseif($ac > 0 && $ac < 1)
+		elseif ($ac > 0 && $ac < 1)
 			return '<div style="float:left; background-color:#FFCC00; padding:0 8px;" title="'.$attendance_codes_locale['H'].'">'.mb_substr($attendance_codes_locale['H'],0,3).'</div>';
-		elseif($ac == 1)
+		elseif ($ac == 1)
 			return '<div style="float:left; background-color:#00FF00; padding:0 8px;" title="'.$attendance_codes_locale['P'].'">'.mb_substr($attendance_codes_locale['P'],0,3).'</div>';
 	}
 }
@@ -266,16 +266,16 @@ function _makePeriodColor($name,$state_code,$default_code)
 	//FJ add translation:
 	$attendance_codes_locale = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half Day'));
 
-	if($state_code=='A' || $state_code=='0.0')
+	if ($state_code=='A' || $state_code=='0.0')
 		$color = '#FF0000';
-	elseif($default_code=='Y' || $state_code=='1.0')
+	elseif ($default_code=='Y' || $state_code=='1.0')
 		$color='#00FF00';
-	elseif($state_code=='P' || is_numeric($state_code))
+	elseif ($state_code=='P' || is_numeric($state_code))
 		$color = '#FFCC00';
-	elseif($state_code=='T')
+	elseif ($state_code=='T')
 		$color = '#6666FF';
 
-	if($color) // && $state_code!='1.0')
+	if ($color) // && $state_code!='1.0')
 		return '<div style="float:left; background-color:'.$color.'; padding:0 8px;" title="'.$attendance_codes_locale[$name].'">'.(empty($attendance_codes_locale[$name])?$name:mb_substr($attendance_codes_locale[$name],0,3)).'</div>';
 	else
 		return false;
@@ -286,7 +286,7 @@ function makeCodePulldown($value,$student_id,$date)
 
 	$date = mb_substr($date,1,4).'-'.mb_substr($date,5,2).'-'.mb_substr($date,7);
 
-	if(!$_ROSARIO['code_options'])
+	if (!$_ROSARIO['code_options'])
 	{
 		foreach($attendance_codes as $id=>$code)
 			$_ROSARIO['code_options'][$id] = $code[1]['SHORT_NAME'];

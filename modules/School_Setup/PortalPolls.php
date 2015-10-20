@@ -2,26 +2,26 @@
 //FJ Portal Polls inspired by Portal Notes
 include('ProgramFunctions/PortalPollsNotes.fnc.php');
 
-if($_REQUEST['day_values'] && $_POST['day_values'])
+if ($_REQUEST['day_values'] && $_POST['day_values'])
 {
 	foreach($_REQUEST['day_values'] as $id=>$values)
 	{
-		if($_REQUEST['day_values'][$id]['START_DATE'] && $_REQUEST['month_values'][$id]['START_DATE'] && $_REQUEST['year_values'][$id]['START_DATE'])
+		if ($_REQUEST['day_values'][$id]['START_DATE'] && $_REQUEST['month_values'][$id]['START_DATE'] && $_REQUEST['year_values'][$id]['START_DATE'])
 			$_REQUEST['values'][$id]['START_DATE'] = $_REQUEST['day_values'][$id]['START_DATE'].'-'.$_REQUEST['month_values'][$id]['START_DATE'].'-'.$_REQUEST['year_values'][$id]['START_DATE'];
-		elseif(isset($_REQUEST['day_values'][$id]['START_DATE']) && isset($_REQUEST['month_values'][$id]['START_DATE']) && isset($_REQUEST['year_values'][$id]['START_DATE']))
+		elseif (isset($_REQUEST['day_values'][$id]['START_DATE']) && isset($_REQUEST['month_values'][$id]['START_DATE']) && isset($_REQUEST['year_values'][$id]['START_DATE']))
 			$_REQUEST['values'][$id]['START_DATE'] = '';
 
-		if($_REQUEST['day_values'][$id]['END_DATE'] && $_REQUEST['month_values'][$id]['END_DATE'] && $_REQUEST['year_values'][$id]['END_DATE'])
+		if ($_REQUEST['day_values'][$id]['END_DATE'] && $_REQUEST['month_values'][$id]['END_DATE'] && $_REQUEST['year_values'][$id]['END_DATE'])
 			$_REQUEST['values'][$id]['END_DATE'] = $_REQUEST['day_values'][$id]['END_DATE'].'-'.$_REQUEST['month_values'][$id]['END_DATE'].'-'.$_REQUEST['year_values'][$id]['END_DATE'];
-		elseif(isset($_REQUEST['day_values'][$id]['END_DATE']) && isset($_REQUEST['month_values'][$id]['END_DATE']) && isset($_REQUEST['year_values'][$id]['END_DATE']))
+		elseif (isset($_REQUEST['day_values'][$id]['END_DATE']) && isset($_REQUEST['month_values'][$id]['END_DATE']) && isset($_REQUEST['year_values'][$id]['END_DATE']))
 			$_REQUEST['values'][$id]['END_DATE'] = '';
 	}
-	if(!$_POST['values'])
+	if (!$_POST['values'])
 		$_POST['values'] = $_REQUEST['values'];
 }
 
 $profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID"));
-if((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_POST['values'])) && AllowEdit())
+if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_POST['values'])) && AllowEdit())
 {
 	$polls_RET = DBGet(DBQuery("SELECT ID FROM PORTAL_POLLS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
@@ -30,24 +30,24 @@ if((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_P
 		$poll_id = $poll_id['ID'];
 		$_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'] = '';
 		foreach(array('admin','teacher','parent') as $profile_id)
-			if($_REQUEST['profiles'][$poll_id][$profile_id])
+			if ($_REQUEST['profiles'][$poll_id][$profile_id])
 				$_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'] .= ','.$profile_id;
-		if(count($_REQUEST['profiles'][$poll_id]))
+		if (count($_REQUEST['profiles'][$poll_id]))
 		{
 			foreach($profiles_RET as $profile)
 			{
 				$profile_id = $profile['ID'];
 
-				if($_REQUEST['profiles'][$poll_id][$profile_id])
+				if ($_REQUEST['profiles'][$poll_id][$profile_id])
 					$_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'] .= ','.$profile_id;
 			}
 		}
-		if($_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'])
+		if ($_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'])
 			$_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'] .= ',';
 	}
 }
 
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	
 	foreach($_REQUEST['values'] as $id=>$columns)
@@ -55,7 +55,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
-			if($id!='new')
+			if ($id!='new')
 			{
 				$sql = "UPDATE PORTAL_POLLS SET ";
 				$sql_question = "UPDATE PORTAL_POLL_QUESTIONS SET ";
@@ -90,11 +90,11 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			}
 			else
 			{
-				if(count($_REQUEST['profiles']['new']))
+				if (count($_REQUEST['profiles']['new']))
 				{
 					foreach(array('admin','teacher','parent') as $profile_id)
 					{
-						if($_REQUEST['profiles']['new'][$profile_id])
+						if ($_REQUEST['profiles']['new'][$profile_id])
 							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
 						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
 					}
@@ -102,7 +102,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					{
 						$profile_id = $profile['ID'];
 
-						if($_REQUEST['profiles']['new'][$profile_id])
+						if ($_REQUEST['profiles']['new'][$profile_id])
 							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
 						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
 					}
@@ -122,7 +122,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$sql_questions = array();
 				foreach($columns as $column=>$value)
 				{
-					if(!empty($value) || $value=='0')
+					if (!empty($value) || $value=='0')
 					{
 						if (mb_strpos($column, 'new') !== false)
 						{
@@ -153,7 +153,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				}
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-				if($go)
+				if ($go)
 				{
 					DBQuery($sql);
 					foreach($sql_questions as $sql_question)
@@ -172,9 +172,9 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if(DeletePrompt(_('Poll')))
+	if (DeletePrompt(_('Poll')))
 	{
 		DBQuery("DELETE FROM PORTAL_POLLS WHERE ID='".$_REQUEST['id']."'");
 		DBQuery("DELETE FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='".$_REQUEST['id']."'");
@@ -183,10 +183,10 @@ if($_REQUEST['modfunc']=='remove' && AllowEdit())
 }
 
 //FJ fix SQL bug invalid sort order
-if(isset($error))
+if (isset($error))
 	echo ErrorMessage($error);
 
-if($_REQUEST['modfunc']!='remove')
+if ($_REQUEST['modfunc']!='remove')
 {
 	$sql_questions = "SELECT ppq.ID,ppq.PORTAL_POLL_ID,ppq.OPTIONS,ppq.VOTES,ppq.QUESTION,ppq.TYPE FROM PORTAL_POLL_QUESTIONS ppq, PORTAL_POLLS pp WHERE pp.SCHOOL_ID='".UserSchool()."' AND pp.SYEAR='".UserSyear()."' AND pp.ID=ppq.PORTAL_POLL_ID ORDER BY ppq.ID";
 	$QI_questions = DBQuery($sql_questions);
@@ -220,15 +220,15 @@ if($_REQUEST['modfunc']!='remove')
 function _makeTextInput($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 
-	if($name!='TITLE')
+	if ($name!='TITLE')
 		$extra = 'size=5 maxlength=10';
 //FJ title field required
-	if($name=='TITLE' && $id != 'new')
+	if ($name=='TITLE' && $id != 'new')
 		$extra = 'required';
 
 	return TextInput($name=='TITLE' && $THIS_RET['EXPIRED']?array($value,'<span style="color:red">'.$value.'</span>'):$value,"values[$id][$name]",'',$extra);
@@ -238,7 +238,7 @@ function _makeOptionsInput($value,$name)
 {	global $THIS_RET,$portal_poll_id;
 	static $OptionNb = 0;
 	
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 	{
 		$id = $THIS_RET['ID'];
 		$portal_poll_id = $THIS_RET['PORTAL_POLL_ID'];
@@ -261,7 +261,7 @@ function _makeOptionsInputs($value,$name)
 {	global $THIS_RET,$questions_RET;
 
 	$value = '';
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 	{
 		$id = $THIS_RET['ID'];
 		foreach ($questions_RET as $question)
@@ -317,7 +317,7 @@ function _makeOptionsInputs($value,$name)
 function _makePollVotes($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 	{
 		$poll_id = $THIS_RET['ID'];
 		$poll_questions_RET = DBGet(DBQuery("SELECT QUESTION, VOTES, OPTIONS FROM PORTAL_POLL_QUESTIONS WHERE PORTAL_POLL_ID='".$poll_id."'"));

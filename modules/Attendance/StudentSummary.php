@@ -17,7 +17,7 @@ if ( empty( $start_date ) )
 	$start_date = '01-' . mb_strtoupper( date( 'M-Y' ) );
 
 // set end date
-if( isset( $_REQUEST['day_end'] )
+if ( isset( $_REQUEST['day_end'] )
 	&& isset( $_REQUEST['month_end'] )
 	&& isset( $_REQUEST['year_end'] ) )
 {
@@ -31,13 +31,13 @@ if( isset( $_REQUEST['day_end'] )
 if ( empty( $end_date ) )
 	$end_date = DBDate();
 
-//if(User('PROFILE')=='teacher')
+//if (User('PROFILE')=='teacher')
 //	$_REQUEST['period_id'] = UserPeriod();
 
 //FJ bugfix bug when Back to Student Search
-if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
+if ($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
-	if(!UserStudentID() && !$_REQUEST['student_id'])
+	if (!UserStudentID() && !$_REQUEST['student_id'])
 	{
 		//FJ multiple school periods for a course period
 		//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND EXISTS(SELECT '' FROM COURSE_PERIODS cp WHERE cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0".(User('PROFILE')=='teacher'?" AND cp.PERIOD_ID='".UserPeriod()."'":'').") ORDER BY sp.SORT_ORDER"));
@@ -55,7 +55,7 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 		ORDER BY sp.SORT_ORDER"));
 
 		$period_select = '<SELECT name="period_id" onchange="ajaxPostForm(this.form,true);"><OPTION value="">'._('Daily').'</OPTION>';
-		if(count($periods_RET))
+		if (count($periods_RET))
 		{
 			//FJ All periods
 			if (count($periods_RET) > 1)
@@ -73,7 +73,7 @@ if($_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='p
 	echo '</FORM>';
 }
 
-if($_REQUEST['period_id'])
+if ($_REQUEST['period_id'])
 {
 	//FJ All periods
 	if ($_REQUEST['period_id'] == 'all')
@@ -98,7 +98,7 @@ if($_REQUEST['period_id'])
 	$extra['columns_after']['STATE_ABS'] = _('State Abs');
 	$codes_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0' AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)"));
 
-	if(count($codes_RET)>1)
+	if (count($codes_RET)>1)
 	{
 		foreach($codes_RET as $code)
 		{
@@ -126,7 +126,7 @@ $extra['link']['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
 
 Search('student_id',$extra);
 
-if(UserStudentID())
+if (UserStudentID())
 {
 	$name_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||COALESCE(MIDDLE_NAME,' ')||' '||LAST_NAME AS FULL_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
 	DrawHeader($name_RET[1]['FULL_NAME']);
@@ -182,9 +182,9 @@ if(UserStudentID())
 
 function _makeStateValue($value)
 {
-	if($value=='0.0')
+	if ($value=='0.0')
 		return _('None');
-	elseif($value=='.5')
+	elseif ($value=='.5')
 		return _('Half Day');
 	else
 		return _('Full Day');

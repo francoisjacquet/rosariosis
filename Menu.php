@@ -74,7 +74,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 				continue;
 			}
 
-			// if($_ROSARIO['AllowUse'][$program] && ($profile!='admin' || !$exceptions[$modcat][$program] || AllowEdit($program)))
+			// if ($_ROSARIO['AllowUse'][$program] && ($profile!='admin' || !$exceptions[$modcat][$program] || AllowEdit($program)))
 			// if program allowed, add it
 			if ( !empty( $_ROSARIO['AllowUse'][$program] )
 					&& ( $profile !== 'admin'

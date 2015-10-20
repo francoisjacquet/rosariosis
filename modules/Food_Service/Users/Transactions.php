@@ -1,13 +1,13 @@
 <?php
 
-if($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
+if ($_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 {
-	if(UserStaffID() && AllowEdit())
+	if (UserStaffID() && AllowEdit())
 	{
 		//$existing_account = DBGet(DBQuery('SELECT \'exists\' FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='.UserStaffID()));
-		//if(!count($existing_account))
+		//if (!count($existing_account))
 		//	BackPrompt('That user does not have a Meal Account. Choose a different username and try again.');
-		if(($_REQUEST['values']['TYPE']=='Deposit' || $_REQUEST['values']['TYPE']=='Credit' || $_REQUEST['values']['TYPE']=='Debit') && ($amount = is_money($_REQUEST['values']['AMOUNT'])))
+		if (($_REQUEST['values']['TYPE']=='Deposit' || $_REQUEST['values']['TYPE']=='Credit' || $_REQUEST['values']['TYPE']=='Debit') && ($amount = is_money($_REQUEST['values']['AMOUNT'])))
 		{
 			// get next transaction id
 			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ')." AS SEQ_ID ".FROM_DUAL));
@@ -41,10 +41,10 @@ $extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
 
 Search('staff_id',$extra);
 
-if(isset($error))
+if (isset($error))
 	echo ErrorMessage($error);
 
-if(UserStaffID() && empty($_REQUEST['modfunc']))
+if (UserStaffID() && empty($_REQUEST['modfunc']))
 {
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
 	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
@@ -62,7 +62,7 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 //	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($staff['BALANCE']),_('Balance')));
 
-	if($staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
+	if ($staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
 	{
 		$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT 
 		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti 
@@ -92,7 +92,7 @@ if(UserStaffID() && empty($_REQUEST['modfunc']))
 
 		echo '<TABLE class="width-100p"><TR><TD class="width-100p valign-top">';
 
-		if(AllowEdit())
+		if (AllowEdit())
 		{
 			$types = array('Deposit'=>_('Deposit'),'Credit'=>_('Credit'),'Debit'=>_('Debit'));
 			$link['add']['html']['TYPE'] = SelectInput('','values[TYPE]','',$types,false);

@@ -6,7 +6,7 @@ DrawHeader(ProgramTitle());
 
 //FJ add translation 
 $message = '<TABLE><TR><TD colspan="7" class="center">'._('From').' '.PrepareDate(DBDate(),'_min').' '._('to').' '.PrepareDate(DBDate(),'_max').'</TD></TR></TABLE>';
-if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'),$message))
+if (Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'),$message))
 {
 	//FJ display notice while calculating daily attendance
 	echo '<BR />';
@@ -25,7 +25,7 @@ if(Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'
 
 	for($i=$begin;$i<=$end;$i+=86400)
 	{
-		if($current_RET[mb_strtoupper(date('d-M-Y',$i))])
+		if ($current_RET[mb_strtoupper(date('d-M-Y',$i))])
 		{
 			foreach($students_RET as $student)
 			{

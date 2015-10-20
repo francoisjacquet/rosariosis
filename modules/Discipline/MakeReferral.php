@@ -18,7 +18,7 @@ if ( empty( $start_date ) )
 	$start_date = '01-' . mb_strtoupper( date( 'M-Y' ) );
 
 // set end date
-if( isset( $_REQUEST['day_end'] )
+if ( isset( $_REQUEST['day_end'] )
 	&& isset( $_REQUEST['month_end'] )
 	&& isset( $_REQUEST['year_end'] ) )
 {
@@ -61,7 +61,7 @@ if ( isset( $_POST['values'] )
 	
 	foreach($_REQUEST['values'] as $column=>$value)
 	{
-		if(!empty($value) || $value=='0')
+		if (!empty($value) || $value=='0')
 		{
 			//FJ check numeric fields
 			if ($categories_RET[str_replace('CATEGORY_','',$column)][1]['DATA_TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
@@ -72,14 +72,14 @@ if ( isset( $_POST['values'] )
 			}
 
 			$fields .= $column.',';
-			if(!is_array($value))
+			if (!is_array($value))
 				$values .= "'".str_replace('&quot;','"',$value)."',";
 			else
 			{
 				$values .= "'||";
 				foreach($value as $val)
 				{
-					if($val)
+					if ($val)
 						$values .= str_replace('&quot;','"',$val).'||';
 				}
 				$values .= "',";
@@ -114,22 +114,22 @@ if ( isset( $_POST['values'] )
 	unset($_SESSION['student_id']);
 }
 
-if(isset($error))
+if (isset($error))
 	echo ErrorMessage($error);
 
-if(isset($note))
+if (isset($note))
 	echo ErrorMessage($note,'note');
 
-//if(!$_REQUEST['student_id'])
+//if (!$_REQUEST['student_id'])
 	$extra['new'] = true;
 
 
-if($_REQUEST['student_id'])
+if ($_REQUEST['student_id'])
 	echo '<BR />';
 //Widgets('all');
 Search('student_id',$extra);
 
-if(UserStudentID() && $_REQUEST['student_id'])
+if (UserStudentID() && $_REQUEST['student_id'])
 {
 	//FJ teachers need AllowEdit (to edit the input fields)
 	$_ROSARIO['allow_edit'] = true;
@@ -235,7 +235,7 @@ if(UserStudentID() && $_REQUEST['student_id'])
 				foreach($options as $option)
 				{
 					$i++;
-					if($i%3==0)
+					if ($i%3==0)
 						echo '</TR><TR class="st">';
 					echo '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',$option).'" />&nbsp;'.$option.'</label></TD>';
 				}
@@ -251,7 +251,7 @@ if(UserStudentID() && $_REQUEST['student_id'])
 				foreach($options as $option)
 				{
 					$i++;
-					if($i%3==0)
+					if ($i%3==0)
 						echo '</TR><TR class="st">';
 					echo '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','&quot;',$option).'">&nbsp;'.$option.'</label></TD>';
 				}

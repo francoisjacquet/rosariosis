@@ -16,10 +16,10 @@ if ( !isset( $_REQUEST['modfunc'] ) )
 	$_REQUEST['modfunc'] = false;
 
 // not printing PDF
-if( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 {
 	// save $_REQUEST vars in session
-	if( empty( $_REQUEST['LO_save'] )
+	if ( empty( $_REQUEST['LO_save'] )
 		&& ( mb_strpos( $modname, 'misc/' ) === false
 			|| $modname === 'misc/Portal.php'
 			|| $modname === 'misc/Registration.php'
@@ -100,7 +100,7 @@ else
 		foreach( $programs as $program => $title )
 		{
 			//FJ fix bug URL Modules.php?modname=Student_Billing/Statements.php&_ROSARIO_PDF
-			if( $modname == $program
+			if ( $modname == $program
 				|| ( mb_strpos( $program, $modname ) === 0
 					&& mb_strpos( $_SERVER['QUERY_STRING'], $program ) === 8 ) )
 			{
@@ -116,17 +116,17 @@ else
 	}
 }
 
-if( $allowed )
+if ( $allowed )
 {
 	// force search_modfunc
-	if( Preferences( 'SEARCH' ) !== 'Y' )
+	if ( Preferences( 'SEARCH' ) !== 'Y' )
 		$_REQUEST['search_modfunc'] = 'list';
 
 	include( 'modules/' . $modname );
 }
 
 // not allowed, hacking attempt?
-elseif( User( 'USERNAME' ) )
+elseif ( User( 'USERNAME' ) )
 {
 	include( 'ProgramFunctions/HackingLog.fnc.php' );
 
@@ -134,7 +134,7 @@ elseif( User( 'USERNAME' ) )
 }
 
 // output Footer HTML
-if( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	Warehouse( 'footer' );
 
 ?>

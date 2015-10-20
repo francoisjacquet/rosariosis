@@ -13,13 +13,13 @@ function PopTable( $action, $title = 'Search', $table_att = '' )
 {
 	global $_ROSARIO;
 
-	if( $action == 'header' )
+	if ( $action == 'header' )
 	{
 		echo '<table class="postbox cellspacing-0" ' . $table_att . '>
 			<thead><tr><th class="center">';
 
 		// multiple Tabs
-		if( is_array( $title ) )
+		if ( is_array( $title ) )
 			echo WrapTabs( $title, $_ROSARIO['selected_tab'] );
 		// one Tab
 		else
@@ -28,7 +28,7 @@ function PopTable( $action, $title = 'Search', $table_att = '' )
 		echo '</th></tr></thead>
 			<tbody><tr><td class="popTable">';
 	}
-	elseif( $action == 'footer' )
+	elseif ( $action == 'footer' )
 	{
 		echo '</td></tr></tbody></table>';
 	}

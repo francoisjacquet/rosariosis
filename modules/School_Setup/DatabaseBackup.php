@@ -1,9 +1,9 @@
 <?php
 
-if($_REQUEST['modfunc']!='backup')
+if ($_REQUEST['modfunc']!='backup')
 	DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='backup' && isset($_REQUEST['_ROSARIO_PDF']))
+if ($_REQUEST['modfunc']=='backup' && isset($_REQUEST['_ROSARIO_PDF']))
 {
 	
 //FJ code inspired by phpPgAdmin
@@ -44,7 +44,7 @@ if($_REQUEST['modfunc']=='backup' && isset($_REQUEST['_ROSARIO_PDF']))
 	exit;
 }
 
-if(!$_REQUEST['modfunc'])
+if (!$_REQUEST['modfunc'])
 {
 	echo '<BR />';
 	PopTable('header',_('Database Backup'));

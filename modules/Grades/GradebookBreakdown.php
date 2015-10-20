@@ -352,7 +352,7 @@ function _makeGrade( $value, $column )
 			foreach( (array)$percent_RET[$THIS_RET['STUDENT_ID']] as $type_id => $type )
 				$total += $type[1]['PARTIAL_PERCENT'];
 		}
-		elseif( $current_RET[$THIS_RET['STUDENT_ID']][1]['TOTAL_POINTS'] )
+		elseif ( $current_RET[$THIS_RET['STUDENT_ID']][1]['TOTAL_POINTS'] )
 		{
 			$total = $current_RET[$THIS_RET['STUDENT_ID']][1]['POINTS'] / $current_RET[$THIS_RET['STUDENT_ID']][1]['TOTAL_POINTS'];
 		}

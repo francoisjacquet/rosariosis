@@ -2,9 +2,9 @@
 
 DrawHeader(_(ProgramTitle()));
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000001)"));
 		$address_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM ADDRESS_FIELDS"));
@@ -29,20 +29,20 @@ if(empty($_REQUEST['modfunc']))
 		//$extra['WHERE'] = " AND (a.ADDRESS_ID IS NULL OR a.ADDRESS_ID=sja.ADDRESS_ID)";
 		$extra['WHERE'] .= appendSQL('',array('NoSearchTerms'=>$extra['NoSearchTerms']));
 		$extra['WHERE'] .= CustomFields('where','student',array('NoSearchTerms'=>$extra['NoSearchTerms']));
-		if($_REQUEST['address_group'])
+		if ($_REQUEST['address_group'])
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID=ssm.STUDENT_ID AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
 			$extra['group'] = $LO_group = array('FAMILY_ID','STUDENT_ID');
 			//$LO_group = array(array('FAMILY_ID','STUDENT_ID'));
 			$LO_columns = array('FAMILY_ID'=>_('Address ID'));
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
+			if (!isset($_REQUEST['_ROSARIO_PDF']))
 				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group'=>'')).'">'._('Ungroup by Family').'</A>';
 		}
 		else
 		{
 			$extra['group'] = $LO_group = array('STUDENT_ID');
 			$LO_columns = array();
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
+			if (!isset($_REQUEST['_ROSARIO_PDF']))
 				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group'=>'Y')).'">'._('Group by Family').'</A>';
 		}
 		$students_RET = GetStuList($extra);
@@ -65,10 +65,10 @@ if(empty($_REQUEST['modfunc']))
                         $LO_columns += array('TITLE_'.$i=>_('Title').' '.$i,'VALUE_'.$i=>_('Value').' '.$i);
 		DrawHeader($header_left);
 		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
-		if(!$_REQUEST['LO_save'])
+		if (!$_REQUEST['LO_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
-			if($_SESSION['Back_PHP_SELF']!='student')
+			if ($_SESSION['Back_PHP_SELF']!='student')
 			{
 				$_SESSION['Back_PHP_SELF'] = 'student';
 				unset($_SESSION['Search_PHP_SELF']);
@@ -88,10 +88,10 @@ if(empty($_REQUEST['modfunc']))
 function _makeTV($value,$column)
 {	global $maxTV,$THIS_RET,$person_id,$person_RET;
 
-	if($THIS_RET['PERSON_ID']!=$person_id)
+	if ($THIS_RET['PERSON_ID']!=$person_id)
 	{
 		$person_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$THIS_RET['PERSON_ID']."' LIMIT 10"));
-		if(count($person_RET)>$maxTV)
+		if (count($person_RET)>$maxTV)
 			$maxTV = count($person_RET);
 		$person_id = $THIS_RET['PERSON_ID'];
 		//echo '<pre>'; var_dump($person_RET); echo '</pre>';

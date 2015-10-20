@@ -1,9 +1,9 @@
 <?php
 
 include('ProgramFunctions/FileUpload.fnc.php');
-if(User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id'] && $_REQUEST['staff_id']!=User('STAFF_ID') && $_REQUEST['staff_id']!='new')
+if (User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id'] && $_REQUEST['staff_id']!=User('STAFF_ID') && $_REQUEST['staff_id']!='new')
 {
-	if(User('USERNAME'))
+	if (User('USERNAME'))
 	{
 		include('ProgramFunctions/HackingLog.fnc.php');
 		HackingLog();
@@ -14,7 +14,7 @@ if(User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id
 
 $categories = array('1'=>'General_Info', '2'=>'Schedule', 'Other_Info'=>'Other_Info');
 
-if(!isset($_REQUEST['category_id']))
+if (!isset($_REQUEST['category_id']))
 {
 	$category_id = '1';
 	$include = 'General_Info';
@@ -23,7 +23,7 @@ else
 {
 	$category_id = $_REQUEST['category_id'];
 
-	if(in_array($_REQUEST['category_id'], array_keys($categories)))
+	if (in_array($_REQUEST['category_id'], array_keys($categories)))
 	{
 		$include = $categories[$category_id];
 	}
@@ -31,7 +31,7 @@ else
 	{
 		$category_include = DBGet(DBQuery("SELECT INCLUDE FROM STAFF_FIELD_CATEGORIES WHERE ID='".$_REQUEST['category_id']."'"));
 
-		if(count($category_include))
+		if (count($category_include))
 		{
 			$include = $category_include[1]['INCLUDE'];
 
@@ -47,17 +47,17 @@ else
 	}
 }
 
-if(User('PROFILE')!='admin')
+if (User('PROFILE')!='admin')
 {
-	if(User('PROFILE_ID'))
+	if (User('PROFILE_ID'))
 		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Users/User.php&category_id=".$category_id."' AND CAN_EDIT='Y'"));
 	else
 		$can_edit_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Users/User.php&category_id=".$category_id."' AND CAN_EDIT='Y'"),array(),array('MODNAME'));
-	if($can_edit_RET)
+	if ($can_edit_RET)
 		$_ROSARIO['allow_edit'] = true;
 }
 
-if($_REQUEST['modfunc']=='update' && AllowEdit())
+if ($_REQUEST['modfunc']=='update' && AllowEdit())
 {
 	if ( isset( $_POST['day_staff'] )
 		&& isset( $_POST['month_staff'] )
@@ -74,7 +74,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		$_POST['staff'] = array_merge_recursive( $_POST['staff'], $requested_dates );
 	}
 
-	if($_REQUEST['staff']['SCHOOLS'])
+	if ($_REQUEST['staff']['SCHOOLS'])
 	{
 		$current_schools = ',';
 		if ($_REQUEST['staff_id']!='new')
@@ -94,19 +94,19 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		}
 
 		//FJ remove Schools for Parents
-		if(isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']=='parent')
+		if (isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']=='parent')
 			$_REQUEST['staff']['SCHOOLS'] = '';
 		else
 			$_REQUEST['staff']['SCHOOLS'] = ($schools == ',' ? '' : $schools);
 
 		//FJ reset current school if updating self schools
-		if(User('STAFF_ID') == UserStaffID())
+		if (User('STAFF_ID') == UserStaffID())
 			unset($_SESSION['UserSchool']);
 	}
 /*	else
 		$_REQUEST['staff']['SCHOOLS'] = $_POST['staff'] = '';*/
 
-	if( isset( $_POST['staff'] )
+	if ( isset( $_POST['staff'] )
 		&& count( $_POST['staff'] )
 		&& ( User( 'PROFILE' ) === 'admin'
 			|| basename( $_SERVER['PHP_SELF'] ) === 'index.php' ) )
@@ -144,12 +144,12 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 		//check username unicity
 		$existing_username = DBGet(DBQuery("SELECT 'exists' FROM STAFF WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."' AND SYEAR='".UserSyear()."' AND STAFF_ID!='".UserStaffID()."' UNION SELECT 'exists' FROM STUDENTS WHERE USERNAME='".$_REQUEST['staff']['USERNAME']."'"));
-		if(count($existing_username))
+		if (count($existing_username))
 		{
 			$error[] = _('A user with that username already exists. Choose a different username and try again.');
 		}
 
-		if(UserStaffID() && !isset($error))
+		if (UserStaffID() && !isset($error))
 		{
 
 			//hook
@@ -157,19 +157,19 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 
 			$profile_RET = DBGet(DBQuery("SELECT PROFILE,PROFILE_ID,USERNAME FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 
-			if(isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']!=$profile_RET[1]['PROFILE_ID'])
+			if (isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']!=$profile_RET[1]['PROFILE_ID'])
 			{
-				if($_REQUEST['staff']['PROFILE']=='admin')
+				if ($_REQUEST['staff']['PROFILE']=='admin')
 					$_REQUEST['staff']['PROFILE_ID'] = '1';
-				elseif($_REQUEST['staff']['PROFILE']=='teacher')
+				elseif ($_REQUEST['staff']['PROFILE']=='teacher')
 					$_REQUEST['staff']['PROFILE_ID'] = '2';
-				elseif($_REQUEST['staff']['PROFILE']=='parent')
+				elseif ($_REQUEST['staff']['PROFILE']=='parent')
 					$_REQUEST['staff']['PROFILE_ID'] = '3';
 			}
 
-			if($_REQUEST['staff']['PROFILE_ID'])
+			if ($_REQUEST['staff']['PROFILE_ID'])
 				DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".UserStaffID()."'");
-			elseif(isset($_REQUEST['staff']['PROFILE_ID']) && $profile_RET[1]['PROFILE_ID'])
+			elseif (isset($_REQUEST['staff']['PROFILE_ID']) && $profile_RET[1]['PROFILE_ID'])
 			{
 				DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".UserStaffID()."'");
 				DBQuery("INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT) SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT FROM STAFF s,PROFILE_EXCEPTIONS e WHERE s.STAFF_ID='".UserStaffID()."' AND s.PROFILE_ID=e.PROFILE_ID");
@@ -182,7 +182,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$go = false;
 				foreach($_REQUEST['staff'] as $column_name=>$value)
 				{
-					if(1)//!empty($value) || $value=='0')
+					if (1)//!empty($value) || $value=='0')
 					{
 						//FJ check numeric fields
 						if ($fields_RET[str_replace('CUSTOM_','',$column_name)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
@@ -207,7 +207,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				}
 				$sql = mb_substr($sql,0,-1) . " WHERE STAFF_ID='".UserStaffID()."'";
 
-				if($go)
+				if ($go)
 				{
 					DBQuery($sql);
 					
@@ -223,11 +223,11 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			//hook
 			do_action('Users/User.php|create_user_checks');
 
-			if($_REQUEST['staff']['PROFILE']=='admin')
+			if ($_REQUEST['staff']['PROFILE']=='admin')
 				$_REQUEST['staff']['PROFILE_ID'] = '1';
-			elseif($_REQUEST['staff']['PROFILE']=='teacher')
+			elseif ($_REQUEST['staff']['PROFILE']=='teacher')
 				$_REQUEST['staff']['PROFILE_ID'] = '2';
-			elseif($_REQUEST['staff']['PROFILE']=='parent')
+			elseif ($_REQUEST['staff']['PROFILE']=='parent')
 				$_REQUEST['staff']['PROFILE_ID'] = '3';
 
 			if (!isset($error))
@@ -239,7 +239,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$fields = 'SYEAR,STAFF_ID,';
 				$values = "'".UserSyear()."','".$staff_id."',";
 
-				if(basename($_SERVER['PHP_SELF'])=='index.php')
+				if (basename($_SERVER['PHP_SELF'])=='index.php')
 				{
 					$fields .= 'PROFILE,';
 					$values = "'".Config('SYEAR')."'".mb_substr($values,mb_strpos($values,','))."'none',";
@@ -248,7 +248,7 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 				foreach($_REQUEST['staff'] as $column=>$value)
 				{
-					if(!empty($value) || $value=='0')
+					if (!empty($value) || $value=='0')
 					{
 						//FJ check numeric fields
 						if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
@@ -316,8 +316,8 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 
 	}
 
-	if(!in_array($include, $categories))
-		if(!mb_strpos($include,'/'))
+	if (!in_array($include, $categories))
+		if (!mb_strpos($include,'/'))
 			include('modules/Users/includes/'.$include.'.inc.php');
 		else
 			include('modules/'.$include.'.inc.php');
@@ -334,9 +334,9 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 		unset( $_ROSARIO['User'] );
 }
 
-if(basename($_SERVER['PHP_SELF'])!='index.php')
+if (basename($_SERVER['PHP_SELF'])!='index.php')
 {
-	if($_REQUEST['staff_id']=='new')
+	if ($_REQUEST['staff_id']=='new')
 	{
 		$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
 		DrawHeader(_('Add a User'));
@@ -346,7 +346,7 @@ if(basename($_SERVER['PHP_SELF'])!='index.php')
 		Search('staff_id',$extra);
 }
 //FJ create account
-elseif(!UserStaffID())
+elseif (!UserStaffID())
 {
 	$_ROSARIO['HeaderIcon'] = 'modules/Users/icon.png';
 	DrawHeader(_('Create User Account'));
@@ -361,12 +361,12 @@ else
 }
 
 	
-if(isset($error))
+if (isset($error))
 	echo ErrorMessage($error);
 
-if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
+if ($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
 {
-	if(DeletePrompt(_('User')))
+	if (DeletePrompt(_('User')))
 	{
 		DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".UserStaffID()."'");
 		DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".UserStaffID()."'");
@@ -385,9 +385,9 @@ if($_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php'
 	}
 }
 
-if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='delete')
+if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='delete')
 {
-	if($_REQUEST['staff_id']!='new')
+	if ($_REQUEST['staff_id']!='new')
 	{
 		$sql = "SELECT s.STAFF_ID,s.TITLE,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,
 						s.USERNAME,s.PASSWORD,s.SCHOOLS,s.PROFILE,s.PROFILE_ID,s.PHONE,s.EMAIL,s.LAST_LOGIN,s.SYEAR,s.ROLLOVER_ID
@@ -396,14 +396,14 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 		$staff = $staff[1];
 	}
 
-	if(basename($_SERVER['PHP_SELF'])!='index.php')
+	if (basename($_SERVER['PHP_SELF'])!='index.php')
 		echo '<FORM name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
 	else
 		echo '<FORM action="index.php?create_account=user&staff_id=new&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
 
-	if(basename($_SERVER['PHP_SELF'])!='index.php')
+	if (basename($_SERVER['PHP_SELF'])!='index.php')
 	{
-		if(UserStaffID() && UserStaffID()!=User('STAFF_ID') && UserStaffID()!=$_SESSION['STAFF_ID'] && User('PROFILE')=='admin' && AllowEdit())
+		if (UserStaffID() && UserStaffID()!=User('STAFF_ID') && UserStaffID()!=$_SESSION['STAFF_ID'] && User('PROFILE')=='admin' && AllowEdit())
 		{
 			$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 				"&modfunc=delete'";
@@ -412,7 +412,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 		}
 	}
 
-	if($_REQUEST['staff_id']!='new')
+	if ($_REQUEST['staff_id']!='new')
 	{
 		//FJ add translation
 		$titles_array = array('Mr'=>_('Mr'),'Mrs'=>_('Mrs'),'Ms'=>_('Ms'),'Miss'=>_('Miss'),'Dr'=>_('Dr'));
@@ -426,13 +426,13 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 	//hook
 	do_action('Users/User.php|header');
 
-	if(User('PROFILE_ID'))
+	if (User('PROFILE_ID'))
 		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
 	else
 		$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
 
 	//FJ create account
-	if(basename($_SERVER['PHP_SELF'])=='index.php')
+	if (basename($_SERVER['PHP_SELF'])=='index.php')
 		$can_use_RET['Users/User.php&category_id=1'] = true;
 
 	$profile = DBGet(DBQuery("SELECT PROFILE FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
@@ -441,14 +441,14 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 
 	foreach($categories_RET as $category)
 	{
-		if($can_use_RET['Users/User.php&category_id='.$category['ID']])
+		if ($can_use_RET['Users/User.php&category_id='.$category['ID']])
 		{
 			//FJ Remove $_REQUEST['include']
-			/*if($category['ID']=='1')
+			/*if ($category['ID']=='1')
 				$include = 'General_Info';
-			elseif($category['ID']=='2')
+			elseif ($category['ID']=='2')
 				$include = 'Schedule';
-			elseif($category['INCLUDE'])
+			elseif ($category['INCLUDE'])
 				$include = $category['INCLUDE'];
 			else
 				$include = 'Other_Info';*/
@@ -465,7 +465,7 @@ if((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='del
 
 	if ($can_use_RET['Users/User.php&category_id='.$category_id])
 	{
-		if(!mb_strpos($include,'/'))
+		if (!mb_strpos($include,'/'))
 			include('modules/Users/includes/'.$include.'.inc.php');
 		else
 		{

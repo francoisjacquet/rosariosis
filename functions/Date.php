@@ -50,7 +50,7 @@ function ProperDate( $date, $length = 'long' )
 			$date_exploded['year'];
 
 	// FJ display locale with strftime()
-	if( ( Preferences( 'MONTH' ) === '%m'
+	if ( ( Preferences( 'MONTH' ) === '%m'
 			|| Preferences( 'MONTH' ) === '%b' )
 		&& Preferences( 'DAY' ) === '%d'
 		&& Preferences( 'YEAR' ) )

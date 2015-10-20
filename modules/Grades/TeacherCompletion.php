@@ -7,7 +7,7 @@ $fy = GetParentMP('FY',$sem);
 $pros = GetChildrenMP('PRO',UserMP());
 
 // if the UserMP has been changed, the REQUESTed MP may not work
-if(!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
+if (!$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
 	$_REQUEST['mp'] = UserMP();
 
 $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=school_periods.PERIOD_ID) ORDER BY SORT_ORDER");
@@ -19,17 +19,17 @@ foreach($periods_RET as $id=>$period)
 $period_select .= "</SELECT>";
 
 $mp_select = '<SELECT name="mp" onChange="ajaxPostForm(this.form,true);">';
-if($pros!='')
+if ($pros!='')
 	foreach(explode(',',str_replace("'",'',$pros)) as $pro)
-		if(GetMP($pro,'DOES_GRADES')=='Y')
+		if (GetMP($pro,'DOES_GRADES')=='Y')
 			$mp_select .= '<OPTION value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($pro)."</OPTION>";
 
 $mp_select .= '<OPTION value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' SELECTED':'').">".GetMP(UserMP())."</OPTION>";
 
-if(GetMP($sem,'DOES_GRADES')=='Y')
+if (GetMP($sem,'DOES_GRADES')=='Y')
 	$mp_select .= '<OPTION value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($sem)."</OPTION>";
 
-if(GetMP($fy,'DOES_GRADES')=='Y')
+if (GetMP($fy,'DOES_GRADES')=='Y')
 	$mp_select .= '<OPTION value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($fy)."</OPTION>";
 $mp_select .= '</SELECT>';
 
@@ -59,7 +59,7 @@ $sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,
 		ORDER BY FULL_NAME";
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
-if(!$_REQUEST['period'])
+if (!$_REQUEST['period'])
 {
 	$tiptitle = false;
 
@@ -69,7 +69,7 @@ if(!$_REQUEST['period'])
 		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
 		foreach($periods as $period)
 		{
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
+			if (!isset($_REQUEST['_ROSARIO_PDF']))
 			{
 				$tipJS = '<script>';
 
@@ -102,7 +102,7 @@ else
 	{
 		foreach($periods as $period_id=>$period)
 		{
-			if(!isset($_REQUEST['_ROSARIO_PDF']))
+			if (!isset($_REQUEST['_ROSARIO_PDF']))
 				$RET[$staff_id][$period_id]['COMPLETED'] = button($period['COMPLETED']=='Y'?'check':'x','','').' ';
 			else
 				$RET[$staff_id][$period_id]['COMPLETED'] = $period['COMPLETED']=='Y'?_('Yes').' ':_('No').' ';

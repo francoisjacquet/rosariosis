@@ -1,11 +1,11 @@
 <?php
-if($_REQUEST['modfunc']=='update')
+if ($_REQUEST['modfunc']=='update')
 {
-	if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+	if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{
 		foreach($_REQUEST['values'] as $id=>$columns)
 		{
-			if($id!='new')
+			if ($id!='new')
 			{
 				$sql = "UPDATE RESOURCES SET ";
 							
@@ -26,7 +26,7 @@ if($_REQUEST['modfunc']=='update')
 				$go = 0;
 				foreach($columns as $column=>$value)
 				{
-					if(!empty($value) || $value=='0')
+					if (!empty($value) || $value=='0')
 					{
 						$fields .= $column.',';
 						$values .= "'".$value."',";
@@ -35,7 +35,7 @@ if($_REQUEST['modfunc']=='update')
 				}
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 			
-				if($go)
+				if ($go)
 					DBQuery($sql);
 			}
 		}
@@ -46,16 +46,16 @@ if($_REQUEST['modfunc']=='update')
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='remove' && AllowEdit())
+if ($_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if(DeletePrompt(_('Resource')))
+	if (DeletePrompt(_('Resource')))
 	{
 		DBQuery("DELETE FROM RESOURCES WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	$sql = "SELECT ID,TITLE,LINK FROM RESOURCES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY ID";
 	$QI = DBQuery($sql);
@@ -77,15 +77,15 @@ if(empty($_REQUEST['modfunc']))
 function _makeTextInput($value,$name)
 {	global $THIS_RET;
 	
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
 	
-	if($name=='LINK')
+	if ($name=='LINK')
 		$extra = 'maxlength=1000';
 		
-	if($name=='TITLE')
+	if ($name=='TITLE')
 		$extra = 'maxlength=256';
 
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
@@ -95,7 +95,7 @@ function _makeLink($value,$name)
 {
 	if (AllowEdit())
 	{
-		if($value)
+		if ($value)
 			return '<div style="display:table-cell;"><a href="'.$value.'" target="_blank">'._('Link').'</a>&nbsp;</div><div style="display:table-cell;">'._makeTextInput($value,$name).'</div>';
 		else
 			return _makeTextInput($value,$name);

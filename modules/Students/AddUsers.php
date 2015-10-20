@@ -1,12 +1,12 @@
 <?php
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if (isset($_REQUEST['staff']) && is_array($_REQUEST['staff']) && AllowEdit())
 	{
 		$current_RET = DBGet(DBQuery("SELECT STAFF_ID FROM STUDENTS_JOIN_USERS WHERE STUDENT_ID='".UserStudentID()."'"),array(),array('STAFF_ID'));
 		foreach($_REQUEST['staff'] as $staff_id=>$yes)
 		{
-			if(!$current_RET[$staff_id])
+			if (!$current_RET[$staff_id])
 			{
 				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values('".$staff_id."','".UserStudentID()."')";
 				DBQuery($sql);
@@ -26,9 +26,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if(DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['staff_id_remove']))
+	if (DeletePrompt(_('student from that user'),_('remove access to')) && !empty($_REQUEST['staff_id_remove']))
 	{
 		DBQuery("DELETE FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".$_REQUEST['staff_id_remove']."' AND STUDENT_ID='".UserStudentID()."'");
 
@@ -39,23 +39,23 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if(isset($note))
+if (isset($note))
 	echo ErrorMessage($note,'note');
 
-if(isset($error))
+if (isset($error))
 	echo ErrorMessage($error);
 
-if($_REQUEST['modfunc']!='delete')
+if ($_REQUEST['modfunc']!='delete')
 {
 	$extra['SELECT'] = ",(SELECT count(u.STAFF_ID) FROM STUDENTS_JOIN_USERS u,STAFF st WHERE u.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=u.STAFF_ID AND st.SYEAR=ssm.SYEAR) AS ASSOCIATED";
 	$extra['columns_after'] = array('ASSOCIATED'=>'# '._('Associated'));
 
-	if(!UserStudentID())
+	if (!UserStudentID())
 		Search('student_id',$extra);
 
-	if(UserStudentID())
+	if (UserStudentID())
 	{
-		if($_REQUEST['search_modfunc']=='list')
+		if ($_REQUEST['search_modfunc']=='list')
 		{
 			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 			DrawHeader('',SubmitButton(_('Add Selected Parents')));
@@ -71,7 +71,7 @@ if($_REQUEST['modfunc']!='delete')
 
 		echo '</TD></TR><TR><TD>';
 
-		if(AllowEdit())
+		if (AllowEdit())
 		{
 			unset($extra);
 			$extra['link'] = array('FULL_NAME'=>false);
@@ -87,7 +87,7 @@ if($_REQUEST['modfunc']!='delete')
 
 		echo '</TD></TR></TABLE>';
 
-		if($_REQUEST['search_modfunc']=='list')
+		if ($_REQUEST['search_modfunc']=='list')
 			echo '<BR /><div class="center">' . SubmitButton(_('Add Selected Parents')) . '</div></FORM>';
 	}
 }

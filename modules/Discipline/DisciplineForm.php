@@ -2,14 +2,14 @@
 
 DrawHeader(ProgramTitle());
 
-if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+if ($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	foreach($_REQUEST['values'] as $id=>$columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 		{
-			if($id!='new')
+			if ($id!='new')
 			{
 				$sql = "UPDATE DISCIPLINE_FIELD_USAGE SET ";
 
@@ -29,11 +29,11 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 
 				$go = 0;
-				if($columns['TITLE'])
+				if ($columns['TITLE'])
 				{
 					foreach($columns as $column=>$value)
 					{
-						if($value && $column!='SORT_ORDER' && $column!='SELECT_OPTIONS')
+						if ($value && $column!='SORT_ORDER' && $column!='SELECT_OPTIONS')
 						{
 							$fields .= $column.',';
 							$values .= "'".$value."',";
@@ -50,7 +50,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		
 					foreach($columns as $column=>$value)
 					{
-						if($value && $column!='DATA_TYPE')
+						if ($value && $column!='DATA_TYPE')
 						{
 							$fields .= $column.',';
 							$values .= "'".$value."',";
@@ -93,7 +93,7 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				}
 			}
 
-			if($go)
+			if ($go)
 				DBQuery($sql);
 		}
 		else
@@ -103,9 +103,9 @@ if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
-if($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if(DeletePrompt(_('Category')))
+	if (DeletePrompt(_('Category')))
 	{
 		$id = $_REQUEST['id'];
 		DBQuery("DELETE FROM DISCIPLINE_FIELDS WHERE ID='".$id."'");
@@ -116,9 +116,9 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if($_REQUEST['modfunc']=='delete_usage' && AllowEdit())
+if ($_REQUEST['modfunc']=='delete_usage' && AllowEdit())
 {
-	if(DeletePrompt(_('Category'),_('Don\'t use')))
+	if (DeletePrompt(_('Category'),_('Don\'t use')))
 	{
 		$id = $_REQUEST['id'];
 		DBQuery("DELETE FROM DISCIPLINE_FIELD_USAGE WHERE ID='".$id."'");
@@ -127,7 +127,7 @@ if($_REQUEST['modfunc']=='delete_usage' && AllowEdit())
 	}
 }
 
-if($_REQUEST['modfunc']=='add_usage' && AllowEdit())
+if ($_REQUEST['modfunc']=='add_usage' && AllowEdit())
 {
 	DBQuery("INSERT INTO DISCIPLINE_FIELD_USAGE (ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,TITLE,SELECT_OPTIONS,SORT_ORDER) SELECT ".db_seq_nextval('DISCIPLINE_FIELD_USAGE_SEQ')." AS ID,'".$_REQUEST['id']."' AS DISCIPLINE_FIELD_ID,'".UserSyear()."' AS SYEAR,'".UserSchool()."' AS SCHOOL_ID,TITLE,NULL AS SELECT_OPTIONS,NULL AS SORT_ORDER FROM DISCIPLINE_FIELDS WHERE ID='".$_REQUEST['id']."'");
 	unset($_REQUEST['modfunc']);
@@ -136,10 +136,10 @@ if($_REQUEST['modfunc']=='add_usage' && AllowEdit())
 
 
 //FJ fix SQL bug invalid sort order
-if(isset($error))
+if (isset($error))
 	echo ErrorMessage($error);
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	$sql = "SELECT NULL AS REMOVE,du.ID AS USAGE_ID,df.ID,COALESCE(du.TITLE,df.TITLE) AS TITLE,du.SORT_ORDER,df.DATA_TYPE,du.SELECT_OPTIONS 
 	FROM DISCIPLINE_FIELDS df LEFT 
@@ -150,11 +150,11 @@ if(empty($_REQUEST['modfunc']))
 	
 	foreach($referrals_RET as $key=>$item)
 	{
-		if(!$item['USAGE_ID'])
+		if (!$item['USAGE_ID'])
 			$referrals_RET[$key]['row_color']='CCCCCC';
 	}
 
-	if(count($referrals_RET))
+	if (count($referrals_RET))
 		$columns = array('REMOVE'=>'');
 	else
 		$columns = array();
@@ -174,14 +174,14 @@ if(empty($_REQUEST['modfunc']))
 function _makeType($value,$name)
 {	global $THIS_RET;
 
-	if($THIS_RET['USAGE_ID'])
+	if ($THIS_RET['USAGE_ID'])
 		$id = $THIS_RET['USAGE_ID'];
 	else
 		$id = 'new';
 
 	$new_options = array('checkbox'=>_('Checkbox'),'text'=>_('Text'),'multiple_checkbox'=>_('Select Multiple from Options'),'multiple_radio'=>_('Select One from Options'),'select'=>_('Pull-Down'),'date'=>_('Date'),'numeric'=>_('Number'),'textarea'=>_('Long Text'));
 	
-	if($THIS_RET['ID'])
+	if ($THIS_RET['ID'])
 		return $new_options[$value];
 	else
 		return SelectInput($value,'values[new]['.$name.']','',$new_options,false);
@@ -190,19 +190,19 @@ function _makeType($value,$name)
 function _makeTextInput($value,$name)
 {	global $THIS_RET;
 	
-	if($THIS_RET['USAGE_ID'])
+	if ($THIS_RET['USAGE_ID'])
 		$id = $THIS_RET['USAGE_ID'];
-	elseif($THIS_RET['ID'])
+	elseif ($THIS_RET['ID'])
 		$id = 'usage';
 	else
 		$id = 'new';
 	
-	if($name!='TITLE')
+	if ($name!='TITLE')
 		$extra = 'size=5 maxlength=2';
-	if($name=='SORT_ORDER')
+	if ($name=='SORT_ORDER')
 		$comment = '<!-- '.$value.' -->';
 
-	if($id=='usage')
+	if ($id=='usage')
 		return $value;		
 	else
 		return $comment.TextInput($value,'values['.$id.']['.$name.']','',$extra);
@@ -212,9 +212,9 @@ function _makeTextAreaInput( $value, $name )
 {
 	global $THIS_RET;
 	
-	if($THIS_RET['USAGE_ID'])
+	if ($THIS_RET['USAGE_ID'])
 		$id = $THIS_RET['USAGE_ID'];
-	elseif($THIS_RET['ID'])
+	elseif ($THIS_RET['ID'])
 		$id = 'usage';
 	else
 		$id = 'new';
@@ -248,7 +248,7 @@ function _makeRemove($value,$column)
 	
 	$return = '';
 	if (AllowEdit())
-		if($THIS_RET['USAGE_ID'])
+		if ($THIS_RET['USAGE_ID'])
 		{
 			$return = button('remove',_('Don\'t use'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete_usage&id='.$THIS_RET['USAGE_ID'].'"');
 			$return .= ' '.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&id='.$THIS_RET['ID'].'"');

@@ -16,21 +16,21 @@ function db_start()
 
 	$connectstring = '';
 
-	if( $DatabaseServer != 'localhost' )
+	if ( $DatabaseServer != 'localhost' )
 		$connectstring = 'host=' . $DatabaseServer . ' ';
 
-	if( $DatabasePort != '5432' )
+	if ( $DatabasePort != '5432' )
 		$connectstring .= 'port=' . $DatabasePort .' ';
 
 	$connectstring .= 'dbname=' . $DatabaseName . ' user=' . $DatabaseUsername;
 
-	if( $DatabasePassword !== '' )
+	if ( $DatabasePassword !== '' )
 		$connectstring .= ' password=' . $DatabasePassword;
 
 	$connection = pg_connect( $connectstring );
 
 	// Error code for both.
-	if( $connection === false )
+	if ( $connection === false )
 	{
 		// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support
 		db_show_error(
@@ -76,7 +76,7 @@ function DBQuery( $sql )
 
 	$result = @pg_exec( $connection, $sql );
 
-	if( $result === false )
+	if ( $result === false )
 	{
 		$errstring = pg_last_error( $connection );
 
@@ -99,7 +99,7 @@ function db_fetch_row( $result )
 {
 	$return = @pg_fetch_array( $result );
 
-	if( is_array( $return ) )
+	if ( is_array( $return ) )
 	{
 		//modify loop: use for instead of foreach
 		$key = array_keys( $return );
@@ -112,7 +112,7 @@ function db_fetch_row( $result )
 		
 		/*foreach($return as $key => $value)
 		{
-			if(is_int($key))
+			if (is_int($key))
 				unset($return[$key]);
 		}*/
 	}
@@ -175,7 +175,7 @@ function db_trans_query( $connection, $sql )
 
 	$result = pg_query( $connection, $sql );
 
-	if( $result === false )
+	if ( $result === false )
 	{
 		// rollback commands.
 		pg_query( $connection, 'ROLLBACK' );
@@ -231,7 +231,7 @@ function db_case( $array )
 	{
 		$value = $array[$i];
 
-		if( $value == "''"
+		if ( $value == "''"
 			&& mb_substr( $string, -1 ) == '=' )
 		{
 			$value = ' IS NULL';
@@ -241,17 +241,17 @@ function db_case( $array )
 
 		$string .= $value;
 
-		if( $counter == ( $array_count - 2 )
+		if ( $counter == ( $array_count - 2 )
 			&& $array_count % 2 == 0 )
 			$string .= ' ELSE ';
 
-		elseif( $counter == ( $array_count - 1 ) )
+		elseif ( $counter == ( $array_count - 1 ) )
 			$string .= ' END ';
 
-		elseif( $counter % 2 == 0 )
+		elseif ( $counter % 2 == 0 )
 			$string .= ' WHEN ' . $array[0] . '=';
 
-		elseif( $counter % 2 == 1 )
+		elseif ( $counter % 2 == 1 )
 			$string .= ' THEN ';
 
 		$counter++;
@@ -314,17 +314,17 @@ function db_properties( $table )
 	{
 		$properties[mb_strtoupper( $row['FIELD'] )]['TYPE'] = mb_strtoupper( $row['TYPE'] );
 
-		if( mb_strtoupper( $row['TYPE'] ) == 'NUMERIC' )
+		if ( mb_strtoupper( $row['TYPE'] ) == 'NUMERIC' )
 		{
 			$properties[mb_strtoupper($row['FIELD'])]['SIZE'] = ( $row['LENGTHVAR'] >> 16 ) & 0xffff;
 			$properties[mb_strtoupper($row['FIELD'])]['SCALE'] = ( $row['LENGTHVAR'] - 4 ) & 0xffff;
 		}
 		else
 		{
-			if( $row['LENGTH'] > 0 )
+			if ( $row['LENGTH'] > 0 )
 				$properties[mb_strtoupper( $row['FIELD'] )]['SIZE'] = $row['LENGTH'];
 
-			elseif( $row['LENGTHVAR'] > 0 )
+			elseif ( $row['LENGTHVAR'] > 0 )
 				$properties[mb_strtoupper( $row['FIELD'] )]['SIZE'] = $row['LENGTHVAR'] - 4;
 		}
 
@@ -385,7 +385,7 @@ function db_show_error( $sql, $failnote, $additional = '' )
 	echo '<!-- SQL STATEMENT: ' . "\n\n" . $sql . "\n\n" . ' -->';
 
 	// send notification email if $RosarioNotifyAddress set
-	if( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
+	if ( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 	{
 		//FJ add SendEmail function
 		include( 'ProgramFunctions/SendEmail.fnc.php' );

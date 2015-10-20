@@ -115,7 +115,7 @@ function _update29()
 
 			foreach( (array)$coms as $com )
 			{
-				if( is_array( list( $date, $staff_id ) = explode( '|', $com ) ) 
+				if ( is_array( list( $date, $staff_id ) = explode( '|', $com ) ) 
 					&& (int)$staff_id > 0 )
 				{
 					$ser_coms[$i]['date'] = $date;

@@ -83,7 +83,7 @@ if ( $_REQUEST['fields']['ADDRESS']
 		$view_other_RET['ALL_CONTACTS'][1]['VALUE'] = 'Y';
 
 		//FJ PrintClassLists with all contacts
-		/*if($_REQUEST['relation']!='')
+		/*if ($_REQUEST['relation']!='')
 		{*/
 			$_ROSARIO['makeParents'] = $_REQUEST['relation'];
 			/*$extra['STUDENTS_JOIN_ADDRESS'] .= " AND EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.ADDRESS_ID=sam.ADDRESS_ID AND ".($_REQUEST['relation']!='!'?"lower(sjp.STUDENT_RELATION) LIKE '".mb_strtolower($_REQUEST['relation'])."%'":"sjp.STUDENT_RELATION IS NULL").") ";
@@ -115,7 +115,7 @@ if ( !$extra['functions'] )
 	);
 
 // Generate Report
-if( $_REQUEST['search_modfunc'] == 'list' )
+if ( $_REQUEST['search_modfunc'] == 'list' )
 {
 	if ( empty( $_REQUEST['fields'] ) )
 		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
@@ -123,7 +123,7 @@ if( $_REQUEST['search_modfunc'] == 'list' )
 		else
 			echo ErrorMessage( array( _( 'You must choose at least one field' ) ), 'fatal' );
 
-	if( !$fields_list )
+	if ( !$fields_list )
 	{
 		$fields_list = array(
 			'FULL_NAME' => _( 'Last, First M' ),
@@ -185,7 +185,7 @@ if( $_REQUEST['search_modfunc'] == 'list' )
 
 	foreach( $custom_RET as $id => $field )
 	{
-		if( !$fields_list['CUSTOM_' . $id] )
+		if ( !$fields_list['CUSTOM_' . $id] )
 			$fields_list['CUSTOM_' . $id] = $field[1]['TITLE'];
 	}
 
@@ -195,11 +195,11 @@ if( $_REQUEST['search_modfunc'] == 'list' )
 
 	foreach( $address_RET as $id => $field )
 	{
-		if( !$fields_list['ADDRESS_' . $id ] )
+		if ( !$fields_list['ADDRESS_' . $id ] )
 		{
 			$fields_list['ADDRESS_' . $id] = $field[1]['TITLE'];
 
-			if( $_REQUEST['fields']['ADDRESS_' . $id] )
+			if ( $_REQUEST['fields']['ADDRESS_' . $id] )
 			{
 				$extra['SELECT'] .= ',a.CUSTOM_' . $id . ' AS ADDRESS_' . $id;
 				$extra['addr'] = true;
@@ -207,7 +207,7 @@ if( $_REQUEST['search_modfunc'] == 'list' )
 		}
 	}
 
-	if( $_REQUEST['fields']['START_DATE']
+	if ( $_REQUEST['fields']['START_DATE']
 		|| $_REQUEST['fields']['END_DATE']
 		|| $_REQUEST['fields']['ENROLLMENT_SHORT']
 		|| $_REQUEST['fields']['DROP_SHORT'] )
@@ -255,7 +255,7 @@ if( $_REQUEST['search_modfunc'] == 'list' )
 
 	foreach( $periods_RET as $period )
 	{
-		if( $_REQUEST['fields']['PERIOD_' . $period['PERIOD_ID']] == 'Y' )
+		if ( $_REQUEST['fields']['PERIOD_' . $period['PERIOD_ID']] == 'Y' )
 		{
 			//FJ multiple school periods for a course period
 			//$extra['SELECT'] .= ',array(SELECT st.FIRST_NAME||\' \'||st.LAST_NAME||\' - \'||coalesce(cp.ROOM,\' \') FROM STAFF st,SCHEDULE ss,COURSE_PERIODS cp WHERE ss.STUDENT_ID=ssm.STUDENT_ID AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND cp.TEACHER_ID=st.STAFF_ID AND cp.PERIOD_ID=\''.$period['PERIOD_ID'].'\' AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL) AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')) AS PERIOD_'.$period['PERIOD_ID'];
@@ -273,7 +273,7 @@ if( $_REQUEST['search_modfunc'] == 'list' )
 		}
 	}
 
-	if( $RosarioModules['Food_Service']
+	if ( $RosarioModules['Food_Service']
 		&& ($_REQUEST['fields']['FS_ACCOUNT_ID'] == 'Y'
 			|| $_REQUEST['fields']['FS_DISCOUNT'] == 'Y'
 			|| $_REQUEST['fields']['FS_STATUS'] == 'Y'
@@ -309,7 +309,7 @@ if( $_REQUEST['search_modfunc'] == 'list' )
 		);
 	}
 
-	if( $RosarioModules['Student_Billing']
+	if ( $RosarioModules['Student_Billing']
 		&& ( $_REQUEST['fields']['SB_BALANCE'] == 'Y' ) )
 	{
 
@@ -337,37 +337,37 @@ if( $_REQUEST['search_modfunc'] == 'list' )
 		{
 			$columns[$field] = ParseMLField( $fields_list[$field] );
 
-			if( mb_substr( $field, 0, 7) == 'CUSTOM_' )
+			if ( mb_substr( $field, 0, 7) == 'CUSTOM_' )
 			{
-				if( $custom_RET[ mb_substr( $field, 7 ) ][1]['TYPE'] == 'date'
+				if ( $custom_RET[ mb_substr( $field, 7 ) ][1]['TYPE'] == 'date'
 					&& !$extra['functions'][$field] )
 				{
 					$extra['functions'][$field] = 'ProperDate';
 				}
-				elseif( $custom_RET[ mb_substr( $field, 7 )][1]['TYPE'] == 'codeds'
+				elseif ( $custom_RET[ mb_substr( $field, 7 )][1]['TYPE'] == 'codeds'
 					&& !$extra['functions'][$field] )
 				{
 					$extra['functions'][$field] = 'DeCodeds';
 				}
-				elseif( $custom_RET[ mb_substr( $field, 7 )][1]['TYPE'] == 'exports'
+				elseif ( $custom_RET[ mb_substr( $field, 7 )][1]['TYPE'] == 'exports'
 					&& !$extra['functions'][$field] )
 				{
 					$extra['functions'][$field] = 'DeCodeds';
 				}
 			}
-			elseif( mb_substr( $field, 0, 8 ) == 'ADDRESS_' )
+			elseif ( mb_substr( $field, 0, 8 ) == 'ADDRESS_' )
 			{
 				if ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'date'
 					&& !$extra['functions'][$field] )
 				{
 					$extra['functions'][$field] = 'ProperDate';
 				}
-				elseif( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'codeds'
+				elseif ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'codeds'
 					&& !$extra['functions'][$field] )
 				{
 					$extra['functions'][$field] = 'DeCodeds';
 				}
-				elseif( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'exports'
+				elseif ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'exports'
 					&& !$extra['functions'][$field] )
 				{
 					$extra['functions'][$field] = 'DeCodeds';
@@ -375,7 +375,7 @@ if( $_REQUEST['search_modfunc'] == 'list' )
 			}
 		}
 
-		if( $_REQUEST['address_group'] )
+		if ( $_REQUEST['address_group'] )
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID
 				FROM STUDENTS_JOIN_ADDRESS
@@ -507,7 +507,7 @@ else
 			}
 		}
 
-		if( $extra['field_names'] )
+		if ( $extra['field_names'] )
 			$fields_list['General'] += $extra['field_names'];
 	}
 
@@ -534,7 +534,7 @@ else
 	}
 
 	// Food Service
-	if( $RosarioModules['Food_Service'] )
+	if ( $RosarioModules['Food_Service'] )
 	{
 		$fields_list['Food_Service'] = array(
 			'FS_ACCOUNT_ID' => _( 'Account ID' ),
@@ -673,11 +673,11 @@ else
 
 			echo '</TD>';
 
-			if( $i%2 == 0 )
+			if ( $i%2 == 0 )
 				echo '</TR><TR>';
 		}
 
-		if( $i%2 != 0 )
+		if ( $i%2 != 0 )
 		{
 			echo '<TD>&nbsp;</TD></TR><TR>';
 

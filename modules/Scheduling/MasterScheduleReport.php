@@ -18,7 +18,7 @@ ListOutput($sections_RET,$columns,'Course','Courses',array(),array(array('COURSE
 
 function _makeMP($marking_period_id,$column)
 {
-	if(!$mp_title = GetMP($marking_period_id,'TITLE'))
+	if (!$mp_title = GetMP($marking_period_id,'TITLE'))
 		$mp_title = $marking_period_id;
 	return $mp_title;
 }
@@ -26,7 +26,7 @@ function _makeMP($marking_period_id,$column)
 function _getPeriod($period_id,$title='')
 {	static $periods_RET;
 
-	if(empty($periods_RET))
+	if (empty($periods_RET))
 	{
 		$sql = "SELECT TITLE, PERIOD_ID FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."'";
 		$periods_RET = DBGet(DBQuery($sql),array(),array('PERIOD_ID'));

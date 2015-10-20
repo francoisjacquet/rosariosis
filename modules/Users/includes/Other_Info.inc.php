@@ -14,7 +14,7 @@ $fields_RET = ParseMLArray( $fields_RET, 'TITLE' );
 
 $value = array();
 
-if( UserStaffID() )
+if ( UserStaffID() )
 {
 	$custom_RET = DBGet( DBQuery( "SELECT * FROM
 		STAFF

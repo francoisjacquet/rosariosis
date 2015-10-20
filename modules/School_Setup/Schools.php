@@ -17,15 +17,15 @@ if ( isset( $_POST['day_values'] )
 	$_POST['values'] = array_replace_recursive( $_POST['values'], $requested_dates );
 }
 
-if($_REQUEST['modfunc']=='update')
+if ($_REQUEST['modfunc']=='update')
 {
-	if($_REQUEST['button']==_('Save') && AllowEdit())
+	if ($_REQUEST['button']==_('Save') && AllowEdit())
 	{
-		if($_REQUEST['values'] && $_POST['values'])
+		if ($_REQUEST['values'] && $_POST['values'])
 		{
 			if ((empty($_REQUEST['values']['NUMBER_DAYS_ROTATION']) || is_numeric($_REQUEST['values']['NUMBER_DAYS_ROTATION'])) && (empty($_REQUEST['values']['REPORTING_GP_SCALE']) || is_numeric($_REQUEST['values']['REPORTING_GP_SCALE'])))
 			{
-				if($_REQUEST['new_school']!='true')
+				if ($_REQUEST['new_school']!='true')
 				{
 					$sql = "UPDATE SCHOOLS SET ";
 
@@ -35,7 +35,7 @@ if($_REQUEST['modfunc']=='update')
 				
 					foreach($_REQUEST['values'] as $column=>$value)
 					{
-						if(1)//!empty($value) || $value=='0')
+						if (1)//!empty($value) || $value=='0')
 						{
 							//FJ check numeric fields
 							if ($fields_RET[str_replace('CUSTOM_','',$column)][1]['TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
@@ -60,13 +60,13 @@ if($_REQUEST['modfunc']=='update')
 					$fields = $values = '';
 
 					foreach($_REQUEST['values'] as $column=>$value)
-						if($column!='ID' && $value)
+						if ($column!='ID' && $value)
 						{
 							$fields .= ','.$column;
 							$values .= ",'".$value."'";
 						}
 
-					if($fields && $values)
+					if ($fields && $values)
 					{
 						$id = DBGet(DBQuery("SELECT ".db_seq_nextval('SCHOOLS_SEQ')." AS ID".FROM_DUAL));
 						$id = $id[1]['ID'];
@@ -96,9 +96,9 @@ if($_REQUEST['modfunc']=='update')
 		unset($_SESSION['_REQUEST_vars']['values']);
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
 	}
-	elseif($_REQUEST['button']==_('Delete') && User('PROFILE')=='admin' && AllowEdit())
+	elseif ($_REQUEST['button']==_('Delete') && User('PROFILE')=='admin' && AllowEdit())
 	{
-		if(DeletePrompt(_('School')))
+		if (DeletePrompt(_('School')))
 		{
 			DBQuery("DELETE FROM SCHOOLS WHERE ID='".UserSchool()."'");
 			DBQuery("DELETE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."'");
@@ -124,14 +124,14 @@ if($_REQUEST['modfunc']=='update')
 		unset($_REQUEST['modfunc']);
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	if (!empty($note))
 		echo ErrorMessage($note, 'note');
 	if (!empty($error))
 		echo ErrorMessage($error, 'error');
 
-	if(!$_REQUEST['new_school'])
+	if (!$_REQUEST['new_school'])
 	{
 		$schooldata = DBGet(DBQuery("SELECT ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,PRINCIPAL,WWW_ADDRESS,SCHOOL_NUMBER,REPORTING_GP_SCALE,SHORT_NAME,NUMBER_DAYS_ROTATION FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 		$schooldata = $schooldata[1];
@@ -148,7 +148,7 @@ if(empty($_REQUEST['modfunc']))
 		$delete_button = true;
 		
 	//FJ fix bug: no save button if no admin
-	if(User('PROFILE')=='admin' && AllowEdit())
+	if (User('PROFILE')=='admin' && AllowEdit())
 		DrawHeader('',SubmitButton(_('Save'), 'button').($delete_button?SubmitButton(_('Delete'), 'button'):''));
 
 	echo '<BR />';
@@ -173,7 +173,7 @@ if(empty($_REQUEST['modfunc']))
 
 	echo '<TR><TD colspan="3">'.TextInput($schooldata['PRINCIPAL'],'values[PRINCIPAL]',_('Principal of School'),'maxlength=100').'</TD></TR>';
 
-	if(AllowEdit() || !$schooldata['WWW_ADDRESS'])
+	if (AllowEdit() || !$schooldata['WWW_ADDRESS'])
 		echo '<TR><TD colspan="3">'.TextInput($schooldata['WWW_ADDRESS'],'values[WWW_ADDRESS]',_('Website'),'maxlength=100').'</TD></TR>';
 	else
 		echo '<TR><TD colspan="3"><A HREF="http://'.$schooldata['WWW_ADDRESS'].'" target="_blank">'.$schooldata['WWW_ADDRESS'].'</A><BR /><span class="legend-gray">'._('Website').'</span></TD></TR>';

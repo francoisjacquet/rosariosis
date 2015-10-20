@@ -22,12 +22,12 @@ if ( UserStudentID() )
 $email_column = ''; //example: 'a.CUSTOM_2'
 
 //save $email_column var in SESSION
-if(isset($_SESSION['email_column']) && empty($email_column))
+if (isset($_SESSION['email_column']) && empty($email_column))
 	$email_column = $_SESSION['email_column'];
-elseif(isset($_POST['email_column']))
+elseif (isset($_POST['email_column']))
 	$email_column = $_SESSION['email_column'] = $_POST['email_column'];
 
-if(empty($email_column))
+if (empty($email_column))
 {
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 
@@ -69,7 +69,7 @@ $profile_id = '3';
 // end of user configuration
 
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 {
 	// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
 	// no accounts are created and no associations are made.  Use this to verify the behavior and email operation before actual use.
@@ -99,7 +99,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	$message['new'] = str_replace("''", "'", $_REQUEST['inputcreateparentstext_new']);
 	$message['old'] = str_replace("''", "'", $_REQUEST['inputcreateparentstext_old']);
 
-	if(count($_REQUEST['student']))
+	if (count($_REQUEST['student']))
 	{
 		$st_list = '\''.implode('\',\'',$_REQUEST['student']).'\'';
 
@@ -118,9 +118,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			unset($id);
 			$student_id = $students[1]['STUDENT_ID'];
 
-			if(!$students[1]['STAFF_ID'])
+			if (!$students[1]['STAFF_ID'])
 			{
-				if($_REQUEST['contact'][$student_id])
+				if ($_REQUEST['contact'][$student_id])
 				{
 					//username = user part of the email
 					$tmp_username = $username = trim(mb_strpos($students[1]['EMAIL'],'@')!==false?mb_substr($students[1]['EMAIL'],0,mb_strpos($students[1]['EMAIL'],'@')):$students[1]['EMAIL']);
@@ -141,7 +141,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					//FJ Moodle integrator / password
 					$password = UCFirst($password). '*';
 
-					if(!$test_email)
+					if (!$test_email)
 					{
 						// get staff id
 						$id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS SEQ_ID '.FROM_DUAL));
@@ -175,14 +175,14 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				$account = 'old';
 			}
 
-			if($id)
+			if ($id)
 			{
 				$staff = $staff[1];
 				$student_list = '';
 				foreach($students as $student)
 				{
 					//join users to students
-					if(!$test_email)
+					if (!$test_email)
 					{
 						$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values ('".$id."','".$student['STUDENT_ID']."')";
 						DBQuery($sql);
@@ -211,7 +211,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				$RET[$email][1]['USERNAME'] = $staff['USERNAME'];
 				$RET[$email][1]['PASSWORD'] = (empty($password)?'':$password);
 
-				if($result)
+				if ($result)
 					$RET[$email][1]['RESULT'] = _('Success');
 				else
 					$RET[$email][1]['RESULT'] = _('Fail');
@@ -237,9 +237,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 if (isset($error))
 	echo ErrorMessage($error);
 
-if(empty($_REQUEST['modfunc']) && !empty($email_column))
+if (empty($_REQUEST['modfunc']) && !empty($email_column))
 {
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Create Parent Accounts for Selected Students'));
@@ -284,7 +284,7 @@ if(empty($_REQUEST['modfunc']) && !empty($email_column))
 
 	Search('student_id',$extra);
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Create Parent Accounts for Selected Students')) . '</div>';
 		echo '</FORM>';
@@ -316,7 +316,7 @@ function _makeChooseCheckbox($value,$title)
 function _makeContactSelect($value,$column)
 {	global $THIS_RET;
 
-	if(!$THIS_RET['STAFF_ID'])
+	if (!$THIS_RET['STAFF_ID'])
 		$RET = DBGet(DBQuery("SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,p.FIRST_NAME||' '||p.LAST_NAME AS CONTACT 
 		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p 
 		WHERE p.PERSON_ID=sjp.PERSON_ID 
@@ -326,7 +326,7 @@ function _makeContactSelect($value,$column)
 	else
 		$RET = DBGet(DBQuery("SELECT '' AS PERSON_ID,STAFF_ID AS STUDENT_RELATION,FIRST_NAME||' '||LAST_NAME AS CONTACT FROM STAFF WHERE STAFF_ID='".$THIS_RET['STAFF_ID']."'"));
 
-	if(count($RET))
+	if (count($RET))
 	{
 		$checked = ' checked';
 		$return = '<TABLE class="cellspacing-0">';

@@ -12,14 +12,14 @@ $RosarioCorePlugins = array(
 $directories_bypass = array();
 
 //hacking protections
-if(isset($_REQUEST['plugin']) && strpos($_REQUEST['plugin'], '..') !== false)
+if (isset($_REQUEST['plugin']) && strpos($_REQUEST['plugin'], '..') !== false)
 {
 	include('ProgramFunctions/HackingLog.fnc.php');
 	HackingLog();
 }
 
 
-if($_REQUEST['modfunc']=='config')
+if ($_REQUEST['modfunc']=='config')
 {
 	//if the plugin is activated, show configuration (call the plugin's config.inc.php file)
 	if (in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == true && file_exists('plugins/'.$_REQUEST['plugin'].'/config.inc.php'))
@@ -31,9 +31,9 @@ if($_REQUEST['modfunc']=='config')
 	}
 }
 
-if($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if(DeletePrompt(_('Plugin')))
+	if (DeletePrompt(_('Plugin')))
 	{
 		//verify if not in $RosarioCorePlugins but in $RosarioPlugins
 		if (!in_array($_REQUEST['plugin'], $RosarioCorePlugins) && in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == false)
@@ -64,9 +64,9 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if($_REQUEST['modfunc']=='deactivate' && AllowEdit())
+if ($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 {
-	if(DeletePrompt(_('Plugin'),_('Deactivate')))
+	if (DeletePrompt(_('Plugin'),_('Deactivate')))
 	{
 		//verify if activated
 		if (in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == true)
@@ -89,7 +89,7 @@ if($_REQUEST['modfunc']=='deactivate' && AllowEdit())
 	}
 }
 
-if($_REQUEST['modfunc']=='activate' && AllowEdit())
+if ($_REQUEST['modfunc']=='activate' && AllowEdit())
 {
 	$update_RosarioPlugins = false;
 	
@@ -136,7 +136,7 @@ if($_REQUEST['modfunc']=='activate' && AllowEdit())
 }
 
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	
 	if ($error)
@@ -239,7 +239,7 @@ function _makeReadMe($plugin_title,$activated=null)
 	global $RosarioCorePlugins;
 
 	//format & translate plugin title
-	if(!in_array($plugin_title, $RosarioCorePlugins) && $activated)
+	if (!in_array($plugin_title, $RosarioCorePlugins) && $activated)
 		$plugin_title_echo = dgettext($plugin_title, str_replace('_', ' ', $plugin_title));
 	else
 		$plugin_title_echo = _(str_replace('_', ' ', $plugin_title));

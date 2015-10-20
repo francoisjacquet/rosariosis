@@ -1,8 +1,8 @@
 <?php
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if(count($_REQUEST['mp_type_arr']) && count($_REQUEST['st_arr']))
+	if (count($_REQUEST['mp_type_arr']) && count($_REQUEST['st_arr']))
 	{
 		//limit School & Year to current ones if not admin
 		$syear = (User('PROFILE')=='admin' && $_REQUEST['syear'] ? $_REQUEST['syear'] : UserSyear());
@@ -23,7 +23,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$t_grades = DBGet(DBQuery("select * from transcript_grades where student_id in (".$st_list.") and mp_type in (".$mp_type_list.") and school_id='".$school_id."' and syear='".$syear."' ORDER BY mp_type, end_date"),array(),array('STUDENT_ID', 'MARKING_PERIOD_ID'));
 
-		if(count($t_grades) && count($RET))
+		if (count($t_grades) && count($RET))
 		{
 			
 			$showStudentPic = $_REQUEST['showstudentpic'];
@@ -148,7 +148,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					echo '<td class="center">'.$student_data['GENDER'].'</td>';
 
 				//FJ history grades in Transripts
-				if(empty($student_data['GRADE_LEVEL']))
+				if (empty($student_data['GRADE_LEVEL']))
 					$student_data['GRADE_LEVEL'] = $mps[key($mps)][1]['GRADE_LEVEL_SHORT'];
 
 				echo '<td class="center">'.$student_data['GRADE_LEVEL'].'</td>';
@@ -172,13 +172,13 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '<span>'.$school_info['ADDRESS'].'<br /></span>';
 				echo '<span>'.$school_info['CITY'].(!empty($school_info['STATE'])?', '.$school_info['STATE']:'').(!empty($school_info['ZIPCODE'])?'  '.$school_info['ZIPCODE']:'').'<br /></span>';
 
-				if($school_info['PHONE'])
+				if ($school_info['PHONE'])
 					echo '<span>'._('Phone').': '.$school_info['PHONE'].'<br /></span>';
 
-				if($school_info['WWW_ADDRESS'])
+				if ($school_info['WWW_ADDRESS'])
 					echo '<span>'._('Website').': '.$school_info['WWW_ADDRESS'].'<br /></span>';
 
-				if($school_info['SCHOOL_NUMBER'])
+				if ($school_info['SCHOOL_NUMBER'])
 					echo '<span>'._('School Number').': '.$school_info['SCHOOL_NUMBER'].'<br /><br /></span>';
 
 				echo '<span>'.$school_info['PRINCIPAL'].'<br /></span>';				
@@ -322,11 +322,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one student and one marking period.'));
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	DrawHeader(ProgramTitle());
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		//FJ include gentranscript.php in Transcripts.php
 		//echo '<FORM action="modules/Grades/gentranscript.php" method="POST">';
@@ -448,7 +448,7 @@ if(empty($_REQUEST['modfunc']))
 
 	Search('student_id',$extra);
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Transcripts for Selected Students').'" /></div>';
 		echo '</FORM>';

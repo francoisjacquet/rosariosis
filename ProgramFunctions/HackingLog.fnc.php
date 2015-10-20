@@ -11,7 +11,7 @@ function HackingLog()
 	global $RosarioNotifyAddress;
 	
 	// Send email to $RosarioNotifyAddress if set
-	if( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
+	if ( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 	{
 		if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];

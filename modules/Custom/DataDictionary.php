@@ -13,14 +13,14 @@ $PDF = PDFStart();
 echo '<TABLE>';
 foreach($RET as $table=>$columns)
 {
-	if($i%2==0)
+	if ($i%2==0)
 		echo '<TR><TD class="valign-top">';
 	echo '<b>'.$table.'</b>';
 	echo '<TABLE>';
 	foreach($columns as $column)
 		echo '<TR><TD style="width:15px;">&nbsp; &nbsp; </TD><TD>'.$column['FIELD'].'</TD><TD>'.$column['TYPE'].'</TD></TR>';
 	echo '</TABLE>';
-	if($i%2==0)
+	if ($i%2==0)
 		echo '</TD><TD class="valign-top">';
 	else
 		echo '</TD></TR>';

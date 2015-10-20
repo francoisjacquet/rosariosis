@@ -1,5 +1,5 @@
 <?php
-if(!isset($_REQUEST['_ROSARIO_PDF']) && !$_REQUEST['search_modfunc'])
+if (!isset($_REQUEST['_ROSARIO_PDF']) && !$_REQUEST['search_modfunc'])
 {
 	DrawHeader(ProgramTitle());
 
@@ -12,7 +12,7 @@ else
 	// For the Salaries / Staff Payments programs
 	$_REQUEST['print_statements'] = true;
 
-	if(User('PROFILE')=='teacher')//limit to teacher himself
+	if (User('PROFILE')=='teacher')//limit to teacher himself
 		$extra['WHERE'] .= " AND s.STAFF_ID = '".User('STAFF_ID')."'";
 		
 //FJ fix Advanced Search
@@ -20,7 +20,7 @@ else
 	$extra['WHERE'] .= appendStaffSQL('',$extra);
 	$extra['WHERE'] .= CustomFields('where','staff');
 	$RET = GetStaffList($extra);
-	if(count($RET))
+	if (count($RET))
 	{
 		$SESSION_staff_id_save = UserStaffID();
 		$handle = PDFStart();

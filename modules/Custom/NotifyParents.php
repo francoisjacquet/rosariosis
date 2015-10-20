@@ -6,7 +6,7 @@
 DrawHeader(ProgramTitle());
 
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	// If $test email is set then this script will only 'go through the motions' and email the results to the $test_email address instead of parents
 	$test_email = $_REQUEST['test_email'];
@@ -29,7 +29,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	$message = str_replace("''", "'", $_REQUEST['inputnotifyparentstext']);
 
-	if(count($_REQUEST['staff']))
+	if (count($_REQUEST['staff']))
 	{
 		$st_list = '\''.implode('\',\'',$_REQUEST['staff']).'\'';
 
@@ -98,9 +98,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 if (isset($error))
 	echo ErrorMessage($error);
 
-if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
+if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 {
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Notify Selected Parents'));
@@ -142,7 +142,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 
 	Search('staff_id',$extra);
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Notify Selected Parents')) . '</div>';
 		echo '</FORM>';
@@ -152,7 +152,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	if($THIS_RET['USERNAME'] && $THIS_RET['EMAIL'] && $THIS_RET['ASSOCIATED']>0)
+	if ($THIS_RET['USERNAME'] && $THIS_RET['EMAIL'] && $THIS_RET['ASSOCIATED']>0)
 		return '<INPUT type="checkbox" name="staff['.$value.']" value="'.$value.'" />';
 	else
 		return '';

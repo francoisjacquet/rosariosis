@@ -57,17 +57,17 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 	}
 
 	// mab - support array style $option values
-	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$value1 = is_array($value) ? $value[1] : $value;
 		$value = is_array($value) ? $value[0] : $value;
 
-		if(mb_strpos($options,'size')===false && $value!='')
+		if (mb_strpos($options,'size')===false && $value!='')
 			$options .= ' size='.mb_strlen($value);
-		elseif(mb_strpos($options,'size')===false)
+		elseif (mb_strpos($options,'size')===false)
 			$options .= ' size=10';
 
-		if(trim($value)=='' || $div==false)
+		if (trim($value)=='' || $div==false)
 			return '<INPUT type="text" name="'.$name.'" id="' . $id . '" '.($value || $value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />' . $title;
 		else
 		{
@@ -94,21 +94,21 @@ function MLTextInput($value,$name,$title='',$options='',$div=true)
 		return TextInput($value,$name,$title,$options,$div);
 
 	// mab - support array style $option values
-	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		//$value1 = is_array($value) ? $value[1] : $value;
 		$value = is_array($value) ? $value[0] : $value;
 
-		if(mb_strpos($options,'size')===false && $value!='')
+		if (mb_strpos($options,'size')===false && $value!='')
 			$options .= ' size='.(mb_strlen($value) / (mb_substr_count($value, '|') + 1));
-		elseif(mb_strpos($options,'size')===false)
+		elseif (mb_strpos($options,'size')===false)
 			$options .= ' size=10';
 
 		// ng - foreach possible language
 		$ret = '<script>
 function setMLvalue(id,loc,value){
 	res = document.getElementById(id).value.split("|");
-	if(loc=="") {
+	if (loc=="") {
 		res[0] = value;
 	} else {
 		found = 0;
@@ -277,16 +277,16 @@ function MarkDownInputPreview( $input_id )
 function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',$no='No',$div=true,$extra='')
 {
 	// $checked has been deprecated -- it remains only as a placeholder
-	if($value && $value!=='N')
+	if ($value && $value!=='N')
 		$checked = 'checked';
 	else
 		$checked = '';
 
-	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$id = GetInputID( $name );
 
-		if($new || $div==false)
+		if ($new || $div==false)
 			return '<label class="checkbox-label"><INPUT type="checkbox" name="'.$name.'" value="Y" '.$checked.' '.$extra.' />&nbsp;'.$title.'</label>';
 		else
 		{
@@ -325,19 +325,19 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 	if ($value!='' && (!is_array($options) || !array_key_exists($value,$options)))
 		$options[$value] = array($value,'<span style="color:red">'.$value.'</span>');
 
-	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		if($value!='' && $div)
+		if ($value!='' && $div)
 			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 		
 		$select = '<SELECT name="'.$name.'" id="' . $id . '" '.$extra.'>';
 
-		if($allow_na!==false)
+		if ($allow_na!==false)
 		{
 //FJ add translation
 			$select .= '<OPTION value="">'.($allow_na=='N/A'?_('N/A'):$allow_na).'</OPTION>';
 		}
-		if(count($options))
+		if (count($options))
 		{
 			foreach($options as $key=>$val)
 			{
@@ -349,7 +349,7 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 		
 		$select .= $title;
 		
-		if($value!='' && $div)
+		if ($value!='' && $div)
 		{
 			$return = '<script>var html' . $id.'='.json_encode($select).';</script>'.$return;
 
@@ -386,18 +386,18 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
 	if ($value!='' && $options[$value]=='')
 		$options[$value] = array($value,'<span style="color:red">'.$value.'</span>');
 
-	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		if($value!='' && $div)
+		if ($value!='' && $div)
 			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 			
 		$select = '<SELECT name="'.$name.'" id="' . $id . '" '.$extra.'>';
 			
-        if($allow_na!==false)
+        if ($allow_na!==false)
         {
 			$select .= '<OPTION value="">'.($allow_na=='N/A'?_('N/A'):$allow_na).'</OPTION>';
         }
-        if(count($options))
+        if (count($options))
         {
             foreach($options as $key=>$val)
             {
@@ -409,7 +409,7 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
 		
 		$select .= $title;
 			
-        if($value!='' && $div)
+        if ($value!='' && $div)
 		{
 			$return = '<script>var html' . $id.'='.json_encode($select).';</script>'.$return;
 
@@ -439,19 +439,19 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 	if ($value!='' && $options[$value]=='')
 		$options[$value] = array($value,'<span style="color:red">'.$value.'</span>');
 
-	if(AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		if($value!='' && $div)
+		if ($value!='' && $div)
 			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 		
 		$table = '<TABLE class="cellspacing-0 cellpadding-5" '.$extra.'><TR class="center">';
 			
-		if($allow_na!==false)
+		if ($allow_na!==false)
 		{
 			//FJ add <label> on radio
 			$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value=""'.($value==''?' checked':'').' /> '.($allow_na=='N/A'?_('N/A'):$allow_na).'</label></TD>';
 		}
-		if(count($options))
+		if (count($options))
 		{
 			foreach($options as $key=>$val)
 			{
@@ -463,7 +463,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 		
 		$table .= $title;
 			
-		if($value!='' && $div)
+		if ($value!='' && $div)
 		{
 			$return = '<script>var html' . $id.'='.json_encode($table).';</script>'.$return;
 

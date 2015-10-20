@@ -24,18 +24,18 @@ if ( ( isset( $_POST['values'] )
 	);
 }
 
-if($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if(!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	if (!$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
 		echo '</FORM>';
-	if(DeletePrompt($_REQUEST['title']))
+	if (DeletePrompt($_REQUEST['title']))
 	{
 		DBQuery("DELETE FROM ".$_REQUEST['table']." WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
 	}
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	include('modules/Students/includes/Other_Info.inc.php');
 	
@@ -61,7 +61,7 @@ if(empty($_REQUEST['modfunc']))
 
 	ListOutput($med_RET,$columns,'Medical Alert','Medical Alerts',$link,array(),array('search'=>false));
 
-	if(User('PROFILE')=='admin' || User('PROFILE')=='teacher')
+	if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 	{
 		$table = 'STUDENT_MEDICAL_VISITS';
 		$functions = array('SCHOOL_DATE'=>'_makeDate','TIME_IN'=>'_makeComments','TIME_OUT'=>'_makeComments','REASON'=>'_makeComments','RESULT'=>'_makeComments','COMMENTS'=>'_makeComments');

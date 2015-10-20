@@ -12,7 +12,7 @@ $extra['functions'] = array('BALANCE'=>'_makeCurrency');
 
 //Widgets('all');
 
-if(User('PROFILE')=='parent' || User('PROFILE')=='student')
+if (User('PROFILE')=='parent' || User('PROFILE')=='student')
 	$_REQUEST['search_modfunc'] = 'list';
 Search('student_id',$extra);
 

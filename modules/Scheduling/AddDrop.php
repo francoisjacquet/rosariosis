@@ -18,7 +18,7 @@ if ( empty( $start_date ) )
 	$start_date = '01-' . mb_strtoupper( date( 'M-Y' ) );
 
 // set end date
-if( isset( $_REQUEST['day_end'] )
+if ( isset( $_REQUEST['day_end'] )
 	&& isset( $_REQUEST['month_end'] )
 	&& isset( $_REQUEST['year_end'] ) )
 {

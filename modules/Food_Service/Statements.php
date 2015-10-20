@@ -21,7 +21,7 @@ if ( empty( $start_date ) )
 }
 
 // set end date
-if( isset( $_REQUEST['day_end'] )
+if ( isset( $_REQUEST['day_end'] )
 	&& isset( $_REQUEST['month_end'] )
 	&& isset( $_REQUEST['year_end'] ) )
 {
@@ -40,7 +40,7 @@ if ( empty( $end_date ) )
 	$end_date = $_REQUEST['day_end'].'-'.$_REQUEST['month_end'].'-'.$_REQUEST['year_end'];
 }
 
-if($_REQUEST['type'])
+if ($_REQUEST['type'])
 	$_SESSION['FSA_type'] = $_REQUEST['type'];
 else
 	$_SESSION['_REQUEST_vars']['type'] = $_REQUEST['type'] = $_SESSION['FSA_type'];
@@ -52,13 +52,13 @@ $header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&day_start='
 DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle());
 User('PROFILE')=='student'?'':DrawHeader($header);
 
-if($_REQUEST['modfunc']=='delete' && AllowEdit())
+if ($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
-	if($_REQUEST['item_id']!='')
+	if ($_REQUEST['item_id']!='')
 	{
 //FJ add translation
-		if(DeletePromptX(_('Transaction Item')))
+		if (DeletePromptX(_('Transaction Item')))
 		{
 			require_once('modules/Food_Service/includes/DeleteTransactionItem.fnc.php');
 			DeleteTransactionItem($_REQUEST['transaction_id'],$_REQUEST['item_id'],$_REQUEST['type']);
@@ -70,7 +70,7 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 	else
 	{
-		if(DeletePromptX(_('Transaction')))
+		if (DeletePromptX(_('Transaction')))
 		{
 			require_once('modules/Food_Service/includes/DeleteTransaction.fnc.php');
 			DeleteTransaction($_REQUEST['transaction_id'],$_REQUEST['type']);
@@ -113,7 +113,7 @@ include('modules/Food_Service/'.($_REQUEST['type']=='staff'?'Users':'Students').
 
 function red($value)
 {
-	if($value<0)
+	if ($value<0)
 		return '<span style="color:red">'.$value.'</span>';
 	else
 		return $value;

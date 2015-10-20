@@ -64,14 +64,14 @@ foreach( $help as $program => $value )
 {
 	$_REQUEST['modname'] = $program;
 
-	if( mb_strpos( $program, '/' ) )
+	if ( mb_strpos( $program, '/' ) )
 	{
 		$modcat = mb_substr( $program, 0, mb_strpos( $program, '/' ) );
 
 		if ( !$RosarioModules[$modcat] ) //module not activated
 			break;
 	
-		if( $modcat != $old_modcat
+		if ( $modcat != $old_modcat
 			&& $modcat != 'Custom' ) : ?>
 
 			<div style="page-break-after: always;"></div>
@@ -99,7 +99,7 @@ foreach( $help as $program => $value )
 	<h3>
 
 <?php
-	if( $program == 'default' )
+	if ( $program == 'default' )
 		echo ParseMLField( Config( 'TITLE' ) )
 			. ' - ' . sprintf( _( '%s Handbook' ), $title ) . '<BR />'
 			. sprintf( _( 'version %s' ), '1.1' );
@@ -114,7 +114,7 @@ foreach( $help as $program => $value )
 			<TD class="header2">
 
 <?php
-	if( User( 'PROFILE' ) == 'student' )
+	if ( User( 'PROFILE' ) == 'student' )
 		$value = str_replace(
 			'your child',
 			'yourself',

@@ -8,16 +8,16 @@ $negative_note = _('You now have a <B>negative balance</B> in your lunch account
 $minimum = $food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'];
 $minimum_note = _('You now have a <b>negative balance</b> below the allowed minimum.  Please send in the negative balance plus %T.  THANK YOU!');
 
-if($_REQUEST['staff_id'])
+if ($_REQUEST['staff_id'])
 	unset($_REQUEST['staff_id']);
-if(UserStaffID())
+if (UserStaffID())
 {
 	unset($_SESSION['staff_id']);
 }
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if(count($_REQUEST['st_arr']))
+	if (count($_REQUEST['st_arr']))
 	{
 		$st_list = "'".implode("','",$_REQUEST['st_arr'])."'";
 
@@ -38,11 +38,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1"),array('DATE'=>'ProperDate'));
 			$last_deposit = $last_deposit[1];
 
-			if($staff['BALANCE'] < $minimum)
+			if ($staff['BALANCE'] < $minimum)
 				reminder($staff,$school,$target,$last_deposit,$minimum_note);
-			elseif($staff['BALANCE'] < 0)
+			elseif ($staff['BALANCE'] < 0)
 				reminder($staff,$school,$target,$last_deposit,$negative_note);
-			elseif($staff['BALANCE'] < $warning)
+			elseif ($staff['BALANCE'] < $warning)
 				reminder($staff,$school,$target,$last_deposit,$warning_note);
 
 			echo '<!-- NEED 3in -->';
@@ -53,9 +53,9 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one user'));
 }
 
-if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
+if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 {
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
 		DrawHeader('',SubmitButton(_('Create Reminders for Selected Users')));
@@ -76,7 +76,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$warning.'\' AND fsa.BALANCE >= 0) AS WARNING';
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= \''.$minimum.'\') AS NEGATIVE';
 	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$minimum.'\') AS MINIMUM';
-	if(!mb_strpos($extra['FROM'],'fsa'))
+	if (!mb_strpos($extra['FROM'],'fsa'))
 	{
 		$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fsa';
 		$extra['WHERE'] .= ' AND fsa.STAFF_ID=s.STAFF_ID';
@@ -85,7 +85,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 	$extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'),'WARNING'=>_('Warning').'<BR />&lt; '.$warning,'NEGATIVE'=>_('Negative'),'MINIMUM'=>_('Minimum').'<BR />'.$minimum);
 
 	Search('staff_id',$extra);
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Create Reminders for Selected Users')) . '</div>';
 		echo '</FORM>';
@@ -95,7 +95,7 @@ if(empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 function reminder($staff,$school,$target,$last_deposit,$note)
 {
 	$payment = $target - $staff['BALANCE'];
-	if($payment < 0)
+	if ($payment < 0)
 		return;;
 	$payment = number_format($payment,2);
 

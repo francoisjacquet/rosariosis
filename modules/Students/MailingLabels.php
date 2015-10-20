@@ -4,16 +4,16 @@ $max_cols = 3;
 $max_rows = 10;
 $to_family = _('To the parents of').':';
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if(count($_REQUEST['st_arr']))
+	if (count($_REQUEST['st_arr']))
 	{
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 		$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
 
 		$_REQUEST['mailing_labels']='Y';
 
-		if($_REQUEST['to_address'])
+		if ($_REQUEST['to_address'])
 			$_REQUEST['residence']='Y';
 
 		Widgets('mailing_labels');
@@ -22,7 +22,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$RET = GetStuList($extra);
 
-		if(count($RET))
+		if (count($RET))
 		{
 			$handle = PDFstart();
 			echo '<table style="height: 100%" class="width-100p cellspacing-0">';
@@ -32,17 +32,17 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$RET_count = count($RET);
 			for($i=-(($_REQUEST['start_row']-1)*$max_cols+$_REQUEST['start_col']-1);$i<$RET_count;$i++)
 			{
-				if($i>=0)
+				if ($i>=0)
 				{
 					$addresses = current($RET);
 					next($RET);
-					if($_REQUEST['to_address']=='student')
+					if ($_REQUEST['to_address']=='student')
 					{
 						foreach($addresses as $key=>$address)
 						{
-							if($_REQUEST['student_name']=='given')
+							if ($_REQUEST['student_name']=='given')
 								$name = $address['LAST_NAME'].', '.$address['FIRST_NAME'].' '.$address['MIDDLE_NAME'];
-							elseif($_REQUEST['student_name']=='given_natural')
+							elseif ($_REQUEST['student_name']=='given_natural')
 								$name = $address['FIRST_NAME'].' '.$address['LAST_NAME'];
 							else
 								$name = $address['FULL_NAME'];
@@ -50,7 +50,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							$addresses[$key]['MAILING_LABEL'] = $name.'<BR />'.mb_substr($address['MAILING_LABEL'],mb_strpos($address['MAILING_LABEL'],'<!-- -->'));
 						}
 					}
-					elseif($_REQUEST['to_address']=='family')
+					elseif ($_REQUEST['to_address']=='family')
 					{
 						// if grouping by address, replace people list in mailing labels with students list
 						$lasts = array();
@@ -64,13 +64,13 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							$previous = '';
 							foreach($firsts as $first)
 							{
-								if($student && $previous)
+								if ($student && $previous)
 									$student .= ', '.$previous;
-								elseif($previous)
+								elseif ($previous)
 									$student = $previous;
 								$previous = $first;
 							}
-							if($student)
+							if ($student)
 								$student .= ' & '.$previous.' '.$last;
 							else
 								$student = $previous.' '.$last;
@@ -85,10 +85,10 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				foreach($addresses as $address)
 				{
-					if(!$address['MAILING_LABEL'])
+					if (!$address['MAILING_LABEL'])
 						continue;
 
-					if($cols<1)
+					if ($cols<1)
 						echo '<tr>';
 					echo '<td style="text-align:center; width:33%; vertical-align: middle;">';
 					echo $address['MAILING_LABEL'];
@@ -96,14 +96,14 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					$cols++;
 
-					if($cols==$max_cols)
+					if ($cols==$max_cols)
 					{
 						echo '</tr><tr><td clospan="'.$max_cols.'">&nbsp;</td></tr>';
 						$rows++;
 						$cols = 0;
 					}
 
-					if($rows==$max_rows)
+					if ($rows==$max_rows)
 					{
 						echo '</table><div style="page-break-after: always"></div>';
 						echo '<table style="height: 100%" class="width-100p cellspacing-0">';
@@ -136,12 +136,12 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one student.'));
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 
 {
 	DrawHeader(ProgramTitle());
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
 		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Labels for Selected Students').'">';
@@ -202,7 +202,7 @@ if(empty($_REQUEST['modfunc']))
 	$extra['new'] = true;
 
 	Search('student_id',$extra);
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Create Labels for Selected Students')) . '</div>';
 		echo '</FORM>';

@@ -2,9 +2,9 @@
 
 include('ProgramFunctions/getRawPOSTvar.fnc.php');
 
-if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
-	if(count($_REQUEST['st_arr']))
+	if (count($_REQUEST['st_arr']))
 	{
 		if (empty($_REQUEST['list']))//certificate
 		{
@@ -57,12 +57,12 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$extra['ORDER_BY'] = 'HIGH_HONOR,SORT_ORDER DESC,ROOM,FULL_NAME';
 
-		if($_REQUEST['list'])
+		if ($_REQUEST['list'])
 			$extra['group'] = array('HIGH_HONOR');
 
 		$RET = GetStuList($extra);
 
-		if($_REQUEST['list'])
+		if ($_REQUEST['list'])
 		{
 			$handle = PDFStart();
 			echo '<TABLE class="center" style="width:80%;">';
@@ -71,7 +71,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			foreach(array('Y','') AS $high)
 			{
-				if($n = count($RET[$high]))
+				if ($n = count($RET[$high]))
 				{
 					$n = (int) (($n+1)/2);
 					echo '<TR class="center"><TD colspan="6" style="background-color:#C0C0C0;"><B>'.($high=='Y'?_('High Honor Roll'):_('Honor Roll')).'</B></TD></TR>';
@@ -115,7 +115,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				//adapt height if US Letter paper
 				$height = '270mm';
 
-				if(Preferences('PAGE_SIZE') == 'LETTER')
+				if (Preferences('PAGE_SIZE') == 'LETTER')
 					$height = '296mm';
 
 				echo '<style type="text/css"> body {margin:0; padding:0;} div#background {background: width:100%; height:'.$height.'; position:relative;} div#background * {z-index:1; position:relative;}</style>';
@@ -168,11 +168,11 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one student.'));
 }
 
-if(empty($_REQUEST['modfunc']))
+if (empty($_REQUEST['modfunc']))
 {
 	DrawHeader(ProgramTitle());
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		//FJ add TinyMCE to the textarea
 		?>
@@ -283,7 +283,7 @@ if(empty($_REQUEST['modfunc']))
 
 	$extra['new'] = true;
 
-	if(!isset($_REQUEST['_ROSARIO_PDF']))
+	if (!isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 		$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
@@ -296,12 +296,12 @@ if(empty($_REQUEST['modfunc']))
 	Widgets('course');
 	MyWidgets('honor_roll');
 
-	if($for_news_web)
+	if ($for_news_web)
 		$extra['student_fields'] = array('search'=>"'".$for_news_web."'",'view'=>"'".$for_news_web."'");
 				
 	Search('student_id',$extra);
 
-	if($_REQUEST['search_modfunc']=='list')
+	if ($_REQUEST['search_modfunc']=='list')
 	{
 		echo '<BR /><div class="center">' . SubmitButton(_('Create Honor Roll for Selected Students')) . '</div>';
 		echo '</FORM>';
@@ -310,7 +310,7 @@ if(empty($_REQUEST['modfunc']))
 
 function _makeChooseCheckbox($value,$title)
 {
-	if($_REQUEST['honor_roll']=='Y' || $_REQUEST['high_honor_roll']=='Y')
+	if ($_REQUEST['honor_roll']=='Y' || $_REQUEST['high_honor_roll']=='Y')
 		return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 	else
 		return '';
@@ -322,7 +322,7 @@ function MyWidgets($item)
 	switch($item)
 	{
 		case 'honor_roll':
-			if($_REQUEST['honor_roll']=='Y' && $_REQUEST['high_honor_roll']=='Y')
+			if ($_REQUEST['honor_roll']=='Y' && $_REQUEST['high_honor_roll']=='Y')
 			{
 				$extra['SELECT'] .= ",".db_case(array("exists(SELECT rg.GPA_VALUE
 				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp,REPORT_CARD_GRADES rg
@@ -359,11 +359,11 @@ function MyWidgets($item)
 
 				$extra['columns_after']['HIGH_HONOR'] = _('High Honor');
 
-				if(!$extra['NoSearchTerms'])
+				if (!$extra['NoSearchTerms'])
 					//FJ add translation
 					$_ROSARIO['SearchTerms'] .= '<b>'._('Honor Roll').' & '._('High Honor Roll').'</b><BR />';
 			}
-			elseif($_REQUEST['honor_roll']=='Y')
+			elseif ($_REQUEST['honor_roll']=='Y')
 			{
 				$extra['WHERE'] .=  " AND exists(SELECT ''
 				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp
@@ -398,10 +398,10 @@ function MyWidgets($item)
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
 				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
 
-				if(!$extra['NoSearchTerms'])
+				if (!$extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<b>'._('Honor Roll').'</b><BR />';
 			}
-			elseif($_REQUEST['high_honor_roll']=='Y')
+			elseif ($_REQUEST['high_honor_roll']=='Y')
 			{
 				$extra['WHERE'] .=  " AND exists(SELECT ''
 				FROM STUDENT_REPORT_CARD_GRADES sg,COURSE_PERIODS cp
@@ -423,7 +423,7 @@ function MyWidgets($item)
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
 				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
 
-				if(!$extra['NoSearchTerms'])
+				if (!$extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<b>'._('High Honor Roll').'</b><BR />';
 			}
 
