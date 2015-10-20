@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-08-12 17:05-0500\n"
-"PO-Revision-Date: 2015-10-13 17:43-0500\n"
+"PO-Revision-Date: 2015-10-20 11:38-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -2353,7 +2353,7 @@ msgstr "Défaut pour Enseignant"
 
 #: modules/Attendance/AttendanceCodes.php:119
 msgid "State Code"
-msgstr "Code Region"
+msgstr "Code d'État"
 
 #: modules/Attendance/AttendanceCodes.php:188
 msgid "Teacher & Office"
@@ -2556,7 +2556,7 @@ msgstr "Programmes Enseignants"
 #: modules/Attendance/Menu.php:18 modules/Attendance/Menu.php:23
 #: modules/Attendance/Menu.php:36
 msgid "Take Attendance"
-msgstr "Noter les Absences"
+msgstr "Saisir les Absences"
 
 #: modules/Attendance/Menu.php:30 modules/Custom/AttendanceSummary.php:142
 #: modules/Grades/ReportCards.php:140
@@ -2660,11 +2660,11 @@ msgstr "Abs Etat"
 
 #: modules/Attendance/TakeAttendance.php:49
 msgid "You cannot take attendance for this course period."
-msgstr "Vous ne pouvez pas entrer les absences pour cette classe."
+msgstr "Vous ne pouvez pas saisir les absences pour cette classe."
 
 #: modules/Attendance/TakeAttendance.php:106
 msgid "You cannot take attendance for this period on this day."
-msgstr "Vous ne pouvez pas entrer les absences pour cette période ce jour."
+msgstr "Vous ne pouvez pas saisir les absences pour cette période ce jour."
 
 #: modules/Attendance/TakeAttendance.php:208
 #: modules/Food_Service/TakeMenuCounts.php:123
@@ -2673,7 +2673,7 @@ msgstr "Le jour sélectionné n'est pas aujourd'hui."
 
 #: modules/Attendance/TakeAttendance.php:209
 msgid "You can edit this attendance"
-msgstr "Vous pouvez modifier cette absence."
+msgstr "Vous pouvez modifier ces absences."
 
 #: modules/Attendance/TakeAttendance.php:209
 msgid "You cannot edit this attendance"
