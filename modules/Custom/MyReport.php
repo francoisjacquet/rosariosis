@@ -18,7 +18,7 @@ if (empty($_REQUEST['modfunc']))
 		foreach ( (array)$people_fields_RET as $field)
 			$extra['SELECT'] .= ",p.CUSTOM_".$field['ID']." AS PEOPLE_".$field['ID'];
 		$extra['functions'] = array();
-		for($i=1; $i<=10; $i++)
+		for ( $i=1; $i<=10; $i++)
 		{
 			$extra['SELECT'] .= ",NULL AS TITLE_$i,NULL AS VALUE_$i";
 			$extra['functions'] += array('TITLE_'.$i => '_makeTV','VALUE_'.$i => '_makeTV');
@@ -61,7 +61,7 @@ if (empty($_REQUEST['modfunc']))
 		$LO_columns += array('PERSON_NAME' => _('Person Name'));
 		foreach ( (array)$people_fields_RET as $field)
 			$LO_columns += array('PEOPLE_'.$field['ID']=>ParseMLField($field['TITLE']));
-		for($i=1; $i<=$maxTV; $i++)
+		for ( $i=1; $i<=$maxTV; $i++)
                         $LO_columns += array('TITLE_'.$i => _('Title').' '.$i,'VALUE_'.$i => _('Value').' '.$i);
 		DrawHeader($header_left);
 		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));

@@ -154,10 +154,10 @@ if (empty($_REQUEST['modfunc']))
 //		echo '<TH>S</TH><TH>M</TH><TH>T</TH><TH>W</TH><TH>Th</TH><TH>F</TH><TH>S</TH></TR><TR>';
 		echo '<TH>'.mb_substr(_('Sunday'),0,3).'</TH><TH>'.mb_substr(_('Monday'),0,3).'</TH><TH>'.mb_substr(_('Tuesday'),0,3).'</TH><TH>'.mb_substr(_('Wednesday'),0,3).'</TH><TH>'.mb_substr(_('Thursday'),0,3).'</TH><TH>'.mb_substr(_('Friday'),0,3).'</TH><TH>'.mb_substr(_('Saturday'),0,3).'</TH></TR><TR>';
 		$calendar_RET = DBGet(DBQuery("SELECT SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND MINUTES!='0' AND EXTRACT(MONTH FROM SCHOOL_DATE)='".($_REQUEST['month']*1)."'"),array(),array('SCHOOL_DATE'));
-		for($i=1;$i<=$skip;$i++)
+		for ( $i=1;$i<=$skip;$i++)
 			echo '<TD></TD>';
 
-		for($i=1;$i<=$last;$i++)
+		for ( $i=1;$i<=$last;$i++)
 		{
 			$this_date = $_REQUEST['year'].'-'.$_REQUEST['month'].'-'.($i<10?'0'.$i:$i);
 			if ( !$calendar_RET[$this_date])

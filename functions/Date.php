@@ -308,7 +308,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 				$return .= '<option value="">' . _( 'N/A' );
 		}
 
-		for( $i = $begin; $i <= $end; $i++ )
+		for ( $i = $begin; $i <= $end; $i++ )
 			$return .= '<option value="' . $i . '"' . ( $date_exploded['year'] == $i ?' selected' : '' ) . '>' . $i;
 
 		$return .= '</select>';

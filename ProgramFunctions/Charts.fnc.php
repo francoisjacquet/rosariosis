@@ -188,12 +188,12 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 			{
 				/* Pie Chart labels */
 				if ( $.jqplot.PieRenderer )
-					for( var i=0; i < plot<?php echo $chartID; ?>data.length; i++ )
+					for ( var i=0; i < plot<?php echo $chartID; ?>data.length; i++ )
 						plot<?php echo $chartID; ?>data[i][0] = plot<?php echo $chartID; ?>data[i][0].substr(0, 15);
 
 				/* Column Chart ticks */
 				if ( $.jqplot.CanvasAxisTickRenderer )
-					for( var i=0; i < plot<?php echo $chartID; ?>ticks.length; i++ )
+					for ( var i=0; i < plot<?php echo $chartID; ?>ticks.length; i++ )
 						plot<?php echo $chartID; ?>ticks[i] = plot<?php echo $chartID; ?>ticks[i].substr(0, 20);
 			}
 
@@ -373,7 +373,7 @@ function makeNumeric( $number, $column )
 	}
 	else
 	{
-		for( $i = 1; $i <= 10; $i++ )
+		for ( $i = 1; $i <= 10; $i++ )
 		{
 			if ( ( $number >= $mins[$i]
 					&& $number < $mins[$i + 1])

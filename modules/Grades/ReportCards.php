@@ -342,7 +342,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				{
 					DrawHeader(ProperDate(DBDate()));
 					$count_lines++;
-					for($i=$count_lines;$i<=6;$i++)
+					for ( $i=$count_lines;$i<=6;$i++)
 						echo '<BR />';
 					echo '<TABLE><TR><TD style="width:50px;"> &nbsp; </TD><TD style="width:300px;">'.$address[1]['MAILING_LABEL'].'</TD></TR></TABLE>';
 				}

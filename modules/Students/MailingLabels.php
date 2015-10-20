@@ -30,7 +30,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$cols = 0;
 			$rows = 0;
 			$RET_count = count($RET);
-			for($i=-(($_REQUEST['start_row']-1)*$max_cols+$_REQUEST['start_col']-1);$i<$RET_count;$i++)
+			for ( $i=-(($_REQUEST['start_row']-1)*$max_cols+$_REQUEST['start_col']-1);$i<$RET_count;$i++)
 			{
 				if ( $i>=0)
 				{
@@ -174,11 +174,11 @@ if (empty($_REQUEST['modfunc']))
 		$extra['extra_header_right'] = '<TABLE class="col1-align-right">';
 
 		$extra['extra_header_right'] .= '<TR class="st"><TD>'._('Starting row').'</TD><TD><SELECT name="start_row">';
-		for($row=1; $row<=$max_rows; $row++)
+		for ( $row=1; $row<=$max_rows; $row++)
 			$extra['extra_header_right'] .=  '<OPTION value="'.$row.'">'.$row;
 		$extra['extra_header_right'] .=  '</SELECT></TD></TR>';
 		$extra['extra_header_right'] .= '<TR class="st"><TD>'._('Starting column').'</TD><TD><SELECT name="start_col">';
-		for($col=1; $col<=$max_cols; $col++)
+		for ( $col=1; $col<=$max_cols; $col++)
 			$extra['extra_header_right'] .=  '<OPTION value="'.$col.'">'.$col;
 		$extra['extra_header_right'] .= '</SELECT></TD></TR>';
 

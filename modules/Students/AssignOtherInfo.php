@@ -356,7 +356,7 @@ if (empty($_REQUEST['modfunc']))
 		if ( $radio_count)
 		{
 			echo '<TABLE class="widefat cellspacing-0 cellpadding-5 center"><TR>';
-			for($i=1;$i<=$radio_count;$i++)
+			for ( $i=1;$i<=$radio_count;$i++)
 			{
 				echo '<TD>'._makeCheckboxInput('CUSTOM_'.$fields_RET['radio'][$i]['ID'],'<b>'.ParseMLField($fields_RET['radio'][$i]['TITLE']).'</b>').'</TD>';
 				if ( $i%5==0 && $i!=$radio_count)

@@ -30,7 +30,7 @@ if ( $ok )
 	PopTable('header',_('Scheduler Progress'));
 	echo '<TABLE class="cellspacing-0 center" style="border: solid 1px; height:19px"><TR>';
 
-	for($i=1;$i<=100;$i++)
+	for ( $i=1;$i<=100;$i++)
 		echo '<TD id="cell'.$i.'" style="width:3px;"></TD>';
 
 	echo '</TR></TABLE><BR /><DIV id="percentDIV"><span class="loading"></span> '._('Processing Requests ...').' </DIV>';
@@ -174,7 +174,7 @@ if ( $ok )
 		if ( $percent>$last_percent)
 		{
 			echo '<script>';
-			for($i=$last_percent+1;$i<=$percent;$i++)
+			for ( $i=$last_percent+1;$i<=$percent;$i++)
 				echo 'cell'.$i.'.bgColor="'.Preferences('HIGHLIGHT').'";'."\r";
 			echo 'document.getElementById("percentDIV").innerHTML = '.json_encode(sprintf(_('%d%% Done'),$percent)).';</script>';
 			ob_flush();
@@ -440,7 +440,7 @@ function _isConflict($existing_slice,$slice)
 		else
 		{
 			$days_len = mb_strlen($slice['DAYS']);
-			for($i=0;$i<$days_len;$i++)
+			for ( $i=0;$i<$days_len;$i++)
 			{
 				if (mb_strpos($existing_slice['DAYS'],mb_substr($slice['DAYS'],$i,1))!==false)
 				{

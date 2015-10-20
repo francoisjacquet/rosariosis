@@ -205,7 +205,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 			echo '<span class="center">'._('Page').': ';
 			$first = 0;
 			$ii = 1;
-			for($i=0;$i<$totalpages;$i++)
+			for ( $i=0;$i<$totalpages;$i++)
 			{
 
 				if ( $urlpage == $ii)

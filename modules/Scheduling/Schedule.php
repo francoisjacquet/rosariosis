@@ -450,8 +450,8 @@ function VerifySchedule(&$schedule)
 	$conflicts = array();
 
 	$ij = count($schedule);
-	for($i=1; $i<$ij; $i++)
-		for($j=$i+1; $j<=$ij; $j++)
+	for ( $i=1; $i<$ij; $i++)
+		for ( $j=$i+1; $j<=$ij; $j++)
 			if ( !$conflicts[$i] || !$conflicts[$j])
 				// the following two if's are equivalent, the second matches the 'Add a Course' logic, the first is the demorgan equivalent and easier to follow
 				// if -not- marking periods don't overlap -or- dates don't overlap (i ends and j starts after i -or- j ends and i starts after j) then check further
@@ -485,7 +485,7 @@ function _str_split($str)
 {
 	$ret = array();
 	$len = mb_strlen($str);
-	for($i=0;$i<$len;$i++)
+	for ( $i=0;$i<$len;$i++)
 		$ret [] = mb_substr($str,$i,1);
 	return $ret;
 }

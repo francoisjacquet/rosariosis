@@ -127,13 +127,13 @@ function _makeTimeInput($value,$name)
 	$minute = mb_substr($value,mb_strpos($value,':'),mb_strpos($value,' '));
 	$m = mb_substr($value,mb_strpos($value,' '));
 
-	for($i=1;$i<=11;$i++)
+	for ( $i=1;$i<=11;$i++)
 		$hour_options[$i] = ''.$i;
 	$hour_options['0'] = '12';
 
-	for($i=0;$i<=9;$i++)
+	for ( $i=0;$i<=9;$i++)
 		$minute_options['0'.$i] = '0'.$i;
-	for($i=10;$i<=59;$i++)
+	for ( $i=10;$i<=59;$i++)
 		$minute_options[$i] = ''.$i;
 
 	$m_options = array('AM' => 'AM','PM' => 'PM');

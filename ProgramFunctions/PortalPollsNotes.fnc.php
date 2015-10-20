@@ -390,7 +390,7 @@ function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 			$visibleTo .= '</TR><TR class="st">';
 	}
 
-	for(;$i%2!=0;$i++)
+	for (;$i%2!=0;$i++)
 		$visibleTo .= '<TD>&nbsp;</TD>';
 
 	$visibleTo .= '</TR>';

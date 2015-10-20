@@ -93,7 +93,7 @@ if ( $_REQUEST['submit']['print'])
 	if ( $skip)
 		echo '<TR><TD style="background-color:#C0C0C0;" colspan="'.$skip.'">&nbsp;</TD>'."\n";
 
-	for($i = 1; $i <= $last; $i++)
+	for ( $i = 1; $i <= $last; $i++)
 	{
 		if ( $skip%7==0)
 			echo '<TR>';

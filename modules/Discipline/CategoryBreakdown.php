@@ -194,7 +194,7 @@ if ( isset( $_REQUEST['category_id'] )
 			&& $_REQUEST['chart_type'] !== 'column' )
 		{
 			//FJ correct numeric chart
-			for( $i = 1; $i <= 10; $i++ )
+			for ( $i = 1; $i <= 10; $i++ )
 			{
 				/*$chart['chart_data'][0][$i] = (ceil($diff/5)*($i-1)).' - '.((ceil($diff/5)*$i)-1);
 				$mins[$i] = (ceil($diff/5)*($i-1));

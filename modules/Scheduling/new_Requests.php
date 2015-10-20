@@ -19,7 +19,7 @@ if ( $_REQUEST['modfunc']=='verify')
 	foreach ( (array)$_REQUEST['courses'] as $subject => $courses)
 	{
 		$courses_count = count($courses);
-		for($i=0;$i<$courses_count;$i++)
+		for ( $i=0;$i<$courses_count;$i++)
 		{
 			$course = $courses[$i];
 

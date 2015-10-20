@@ -601,7 +601,7 @@ function _makeNumericTime( $number, $column )
 	}
 	else
 	{
-		for( $i = 1; $i <= $diff_max; $i++ )
+		for ( $i = 1; $i <= $diff_max; $i++ )
 		{
 			if ( ( $number >= $mins[$i]
 					&& $number < $mins[$i + 1] )

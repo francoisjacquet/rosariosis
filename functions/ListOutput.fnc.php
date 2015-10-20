@@ -223,7 +223,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$last_value = 1;
 					$scale = (100/$values[$last_value]);
 
-					for($i=$last_value;$i<=$result_count;$i++)
+					for ( $i=$last_value;$i<=$result_count;$i++)
 						$result[$i]['RELEVANCE'] = '<!--' . ((int) ($values[$i]*$scale)) . '--><div class="bar relevance" style="width:'.((int) ($values[$i]*$scale)).'px;">&nbsp;</div>';
 				}
 				$column_names['RELEVANCE'] = _('Relevance');
@@ -260,7 +260,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						array_multisort($sort_array,$dir,SORT_NUMERIC,$result);
 					else
 						array_multisort($sort_array,$dir,$result);
-					for($i=$result_count-1;$i>=0;$i--)
+					for ( $i=$result_count-1;$i>=0;$i--)
 						$result[$i+1] = $result[$i];
 					unset($result[0]);
 				}
@@ -377,7 +377,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					if (ceil($result_count/$num_displayed) <= 10)
 					{	
 						$ceil = ceil($result_count/$num_displayed);
-						for($i=1;$i<=$ceil;$i++)
+						for ( $i=1;$i<=$ceil;$i++)
 						{
 							if ( $i!=$_REQUEST['LO_page'])
 								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
@@ -388,7 +388,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					}
 					else
 					{
-						for($i=1;$i<=7;$i++)
+						for ( $i=1;$i<=7;$i++)
 						{
 							if ( $i!=$_REQUEST['LO_page'])
 								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
@@ -397,7 +397,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						}
 						$LO_pages = mb_substr($LO_pages,0,-2) . " ... ";
 						$ceil = ceil($result_count/$num_displayed);
-						for($i=$ceil-2;$i<=$ceil;$i++)
+						for ( $i=$ceil-2;$i<=$ceil;$i++)
 						{
 							if ( $i!=$_REQUEST['LO_page'])
 								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
@@ -552,7 +552,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				}
 			}
 
-			for($i=$start;$i<=$stop;$i++)
+			for ( $i=$start;$i<=$stop;$i++)
 			{
 				$item = $result[$i];
 				if (isset($_REQUEST['_ROSARIO_PDF']) && $options['print'] && count($item))

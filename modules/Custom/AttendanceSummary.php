@@ -136,7 +136,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			<B>'._('Month').'</B>
 			</TD>';
 
-			for($day=1; $day<=31; $day++)
+			for ( $day=1; $day<=31; $day++)
 				echo '<TD><B>'.($day<10?'&nbsp;':'').$day.'</B></TD>';
 
 			echo '<TD><B>'._('Absences').'</B></TD>
@@ -171,7 +171,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					$abs = $pos = 0;
 
-					for($day=1; $day<=31; $day++)
+					for ( $day=1; $day<=31; $day++)
 					{
 						if ( $calendar_RET[$month][$day])
 						{

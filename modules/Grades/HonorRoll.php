@@ -76,7 +76,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$n = (int) (($n+1)/2);
 					echo '<TR class="center"><TD colspan="6" style="background-color:#C0C0C0;"><B>'.($high=='Y'?_('High Honor Roll'):_('Honor Roll')).'</B></TD></TR>';
 
-					for($i=1; $i<=$n; $i++)
+					for ( $i=1; $i<=$n; $i++)
 					{
 						echo '<TR><TD>&nbsp;</TD>';
 						$student = $RET[$high][$i];

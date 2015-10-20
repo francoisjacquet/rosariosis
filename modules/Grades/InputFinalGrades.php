@@ -702,7 +702,7 @@ if (GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 		}
 	}
 
-	for($i=1; $i<=$max_current_commentsB; $i++)
+	for ( $i=1; $i<=$max_current_commentsB; $i++)
 	{
 		$extra['SELECT'] .= ',\''.$i.'\' AS CB'.$i;
 		$extra['functions'] += array('CB'.$i => '_makeCommentsB');
@@ -834,7 +834,7 @@ if (GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 			$LO_columns += array('CA'.$value['ID'] => $value['TITLE']);
 	}
 
-	for($i=1; $i<=$max_current_commentsB; $i++)
+	for ( $i=1; $i<=$max_current_commentsB; $i++)
 		$LO_columns += array('CB'.$i=>sprintf(_('Comment %d'),$i));
 
 	if (count($commentsB_select) && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))

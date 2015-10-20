@@ -192,7 +192,7 @@ echo '<BR /><BR /> '._makeInput('values[ADDRESS][1][PHONE]',_('Phone'),'','size=
 echo '<BR /><BR />';
 echo '</TD></TR>';
 
-for($i=3;$i<=6;$i++)
+for ( $i=3;$i<=6;$i++)
 {
 	if ( $i==3 || $i==5)
 		echo '<TR>';
