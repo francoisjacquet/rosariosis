@@ -183,7 +183,7 @@ if (count($categories_RET))
 
 	$headerl .= '<a href="' . $tmp_PHP_SELF . '&amp;table=0"><b>' . _( 'Attendance' ) . '</b></a>';
 
-	foreach ( $categories_RET as $category )
+	foreach ( (array)$categories_RET as $category )
 	{
 		$headerl .= ' - <a href="'. $tmp_PHP_SELF . '&amp;table='. $category['ID'] .'"><b>' .
 			$category['TITLE'] . '</b></a>';

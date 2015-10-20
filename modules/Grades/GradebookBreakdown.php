@@ -299,7 +299,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			{
 				$chartData = array();
 
-				foreach ( $chart['chart_data'][0] as $i => $x )
+				foreach ( (array)$chart['chart_data'][0] as $i => $x )
 				{
 					//remove empty slices not to overload the legends
 					if ( $chart['chart_data'][1][$i] > 0 )

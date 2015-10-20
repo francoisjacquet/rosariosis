@@ -86,7 +86,7 @@ if ( isset( $_POST['tables'] )
 		{
 			$sql = "UPDATE SCHOOL_MARKING_PERIODS SET ";
 
-			foreach ( $columns as $column => $value )
+			foreach ( (array)$columns as $column => $value )
 			{
 				if ( $column === 'START_DATE'
 					|| $column === 'END_DATE'
@@ -182,7 +182,7 @@ if ( isset( $_POST['tables'] )
 
 			$go = false;
 
-			foreach ( $columns as $column => $value )
+			foreach ( (array)$columns as $column => $value )
 			{
 				if ( $column === 'START_DATE'
 					|| $column === 'END_DATE'
@@ -364,7 +364,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 
 	if ( DeletePrompt( $name ) )
 	{
-		foreach ( $extra as $sql )
+		foreach ( (array)$extra as $sql )
 			DBQuery( $sql );
 
 		DBQuery( "DELETE FROM SCHOOL_MARKING_PERIODS
@@ -528,7 +528,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			if ( $_REQUEST['mp_term'] === 'FY' )
 				$_REQUEST['year_id'] = $_REQUEST['marking_period_id'];
 
-			foreach ( $fy_RET as $key => $value )
+			foreach ( (array)$fy_RET as $key => $value )
 			{
 				if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['year_id'] )
 					$fy_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
@@ -575,7 +575,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 				if ( $_REQUEST['mp_term'] === 'SEM' )
 					$_REQUEST['semester_id'] = $_REQUEST['marking_period_id'];
 
-				foreach ( $sem_RET as $key => $value )
+				foreach ( (array)$sem_RET as $key => $value )
 				{
 					if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['semester_id'] )
 						$sem_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
@@ -622,7 +622,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 					if ( $_REQUEST['mp_term']=='QTR')
 						$_REQUEST['quarter_id'] = $_REQUEST['marking_period_id'];
 
-					foreach ( $qtr_RET as $key => $value )
+					foreach ( (array)$qtr_RET as $key => $value )
 					{
 						if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['quarter_id'] )
 							$qtr_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
@@ -666,7 +666,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 					{
 						$_REQUEST['progress_period_id'] = $_REQUEST['marking_period_id'];
 
-						foreach ( $pro_RET as $key => $value )
+						foreach ( (array)$pro_RET as $key => $value )
 						{
 							if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['marking_period_id'] )
 								$pro_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );

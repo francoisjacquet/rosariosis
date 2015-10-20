@@ -167,8 +167,8 @@ function do_action( $tag, $arg = '' )
 	//check if tag exists
 	if ( array_key_exists( (string) $tag, $RosarioActions ) )
 	{
-		foreach ( $RosarioActions[$tag] as $functions )
-			foreach ( $functions as $function => $accepted_args )
+		foreach ( (array)$RosarioActions[$tag] as $functions )
+			foreach ( (array)$functions as $function => $accepted_args )
 				if ( !is_null( $function ) )
 					call_user_func_array( $function, array_slice( $args, 0, (int) $accepted_args ) );
 	}

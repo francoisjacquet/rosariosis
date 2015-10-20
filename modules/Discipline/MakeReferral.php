@@ -162,7 +162,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 	// FJ email Discipline Referral feature
 	// email Referral to: Administrators and/or Teachers
 	// get Administrators & Teachers with valid emails:
-	foreach ( $users_RET as $user )
+	foreach ( (array)$users_RET as $user )
 	{
 		if ( filter_var( $user['EMAIL'], FILTER_VALIDATE_EMAIL ) )
 		{

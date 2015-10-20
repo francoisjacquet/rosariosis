@@ -247,7 +247,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 		$month_char = MonthNWSwitch( $date_exploded['month'], 'tochar' );
 
-		foreach ( $months_locale as $key => $name )
+		foreach ( (array)$months_locale as $key => $name )
 			$return .= '<option value="' . $key . '"' . ( $month_char == $key ? ' selected' : '' ) . '>' . $name;
 
 		$return .= '</select>';

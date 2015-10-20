@@ -384,7 +384,7 @@ if ( isset( $_REQUEST['category_id'] )
 			{
 				$series = true;
 
-				foreach ( $chart_data as $i => $data )
+				foreach ( (array)$chart_data as $i => $data )
 				{
 					if ( $series )
 					{

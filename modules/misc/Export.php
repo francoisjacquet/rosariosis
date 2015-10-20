@@ -174,7 +174,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 			AND SCHOOL_ID='".UserSchool()."'
 			ORDER BY SORT_ORDER" ) );
 
-		foreach ( $periods_RET as $period )
+		foreach ( (array)$periods_RET as $period )
 			$fields_list['PERIOD_'.$period['PERIOD_ID']] = $period['TITLE'] . ' ' . _( 'Teacher' ) .' - ' . _( 'Room' );
 	}
 
@@ -183,7 +183,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		WHERE ID!='200000002'
 		ORDER BY SORT_ORDER,TITLE" ), array(), array( 'ID' ) );
 
-	foreach ( $custom_RET as $id => $field )
+	foreach ( (array)$custom_RET as $id => $field )
 	{
 		if ( !$fields_list['CUSTOM_' . $id] )
 			$fields_list['CUSTOM_' . $id] = $field[1]['TITLE'];
@@ -193,7 +193,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		FROM ADDRESS_FIELDS
 		ORDER BY SORT_ORDER,TITLE" ), array(), array( 'ID' ) );
 
-	foreach ( $address_RET as $id => $field )
+	foreach ( (array)$address_RET as $id => $field )
 	{
 		if ( !$fields_list['ADDRESS_' . $id ] )
 		{
@@ -253,7 +253,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')
 		AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
 
-	foreach ( $periods_RET as $period )
+	foreach ( (array)$periods_RET as $period )
 	{
 		if ( $_REQUEST['fields']['PERIOD_' . $period['PERIOD_ID']] == 'Y' )
 		{
@@ -333,7 +333,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 
 	if ( $_REQUEST['fields'] )
 	{
-		foreach ( $_REQUEST['fields'] as $field => $on )
+		foreach ( (array)$_REQUEST['fields'] as $field => $on )
 		{
 			$columns[$field] = ParseMLField( $fields_list[$field] );
 
@@ -498,9 +498,9 @@ else
 				FROM ADDRESS_FIELDS
 				ORDER BY SORT_ORDER,TITLE" ), array() ,array ( 'CATEGORY_ID' ) );
 
-			foreach ( $categories_RET as $category )
+			foreach ( (array)$categories_RET as $category )
 			{
-				foreach ( $address_RET[$category['ID']] as $field )
+				foreach ( (array)$address_RET[$category['ID']] as $field )
 				{
 					$fields_list['Address']['ADDRESS_' . $field['ID']] = str_replace( "'", '&#39;', $field['TITLE'] );
 				}
@@ -520,14 +520,14 @@ else
 		FROM CUSTOM_FIELDS
 		ORDER BY SORT_ORDER,TITLE" ), array(), array('CATEGORY_ID') );
 
-	foreach ( $categories_RET as $category )
+	foreach ( (array)$categories_RET as $category )
 	{
 		if ( AllowUse( 'Students/Student.php&category_id=' . $category['ID'] ) )
 		{
 			//FJ fix error Warning: Invalid argument supplied for foreach()
 			if ( isset( $custom_RET[$category['ID']] ) )
 			{
-				foreach ( $custom_RET[$category['ID']] as $field )
+				foreach ( (array)$custom_RET[$category['ID']] as $field )
 					$fields_list[$category['TITLE']]['CUSTOM_' . $field['ID']] = str_replace( "'", '&#39;', $field['TITLE'] );
 			}
 		}
@@ -566,7 +566,7 @@ else
 			AND SCHOOL_ID='".UserSchool()."'
 			ORDER BY SORT_ORDER" ) );
 
-		foreach ( $periods_RET as $period )
+		foreach ( (array)$periods_RET as $period )
 			$fields_list['Scheduling']['PERIOD_' . $period['PERIOD_ID']] = $period['TITLE'] . ' ' .
 				_( 'Teacher' ) . ' - ' .
 				_( 'Room' );
@@ -581,7 +581,7 @@ else
 
 
 	// Draw fields & categories
-	foreach ( $fields_list as $category => $fields )
+	foreach ( (array)$fields_list as $category => $fields )
 	{
 
 		// Draw category box
@@ -631,7 +631,7 @@ else
 		}
 
 		// Draw fields
-		foreach ( $fields as $field => $title )
+		foreach ( (array)$fields as $field => $title )
 		{
 			$i++;
 
@@ -660,7 +660,7 @@ else
 
 				$select = '<SELECT id="relation"><OPTION value="">' . _( 'N/A' );
 
-				foreach ( $relations_RET as $relation )
+				foreach ( (array)$relations_RET as $relation )
 					if ( $relation['STUDENT_RELATION'] != '' )
 						$select .= '<OPTION value="' . $relation['STUDENT_RELATION'] . '">' . $relation['STUDENT_RELATION'];
 					else

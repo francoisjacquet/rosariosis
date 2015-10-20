@@ -188,7 +188,7 @@ function Widgets( $item, &$myextra = null )
 					'' )
 				) );
 
-			foreach ( $widgets_RET as $widget )
+			foreach ( (array)$widgets_RET as $widget )
 				Widgets( $widget['TITLE'], $extra );
 
 		break;
@@ -639,7 +639,7 @@ function Widgets( $item, &$myextra = null )
 			{
 				$pros = explode( ',', str_replace( "'", '', $pros ) );
 
-				foreach ( $pros as $pro )
+				foreach ( (array)$pros as $pro )
 					$extra['search'] .= '<label>
 							<INPUT type="radio" name="class_rank_term" value="' . $pro . '">&nbsp;' .
 							GetMP( $pro, 'SHORT_NAME' ) .
@@ -672,7 +672,7 @@ function Widgets( $item, &$myextra = null )
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'"), array(), array( 'ID' ) );
 
-				foreach ( $_REQUEST['letter_grade'] as $grade => $Y )
+				foreach ( (array)$_REQUEST['letter_grade'] as $grade => $Y )
 				{
 					$letter_grades .= ",'" . $grade . "'";
 
@@ -713,7 +713,7 @@ function Widgets( $item, &$myextra = null )
 			{
 				$pros = explode( ',', str_replace( "'", '', $pros ) );
 
-				foreach ( $pros as $pro )
+				foreach ( (array)$pros as $pro )
 					$extra['search'] .= '<label class="nobr">
 							<INPUT type="radio" name="letter_grade_term" value="' . $pro . '" />&nbsp;' .
 							GetMP( $pro, 'SHORT_NAME' ) .
@@ -739,7 +739,7 @@ function Widgets( $item, &$myextra = null )
 					" ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER" ),
 				array(), array( 'GRADE_SCALE_ID' ) );
 
-				foreach ( $letter_grades_RET as $grades )
+				foreach ( (array)$letter_grades_RET as $grades )
 				{
 					$i = 0;
 
@@ -1115,7 +1115,7 @@ function Widgets( $item, &$myextra = null )
 
 				/*foreach ( (array)$_REQUEST['discipline'] as $key=>$value)
 				{
-					if (!$value)
+					if(!$value)
 						unset($_REQUEST['discipline'][$key]);
 				}*/
 			}
@@ -1137,7 +1137,7 @@ function Widgets( $item, &$myextra = null )
 
 				/*foreach ( (array)$_REQUEST['discipline_begin'] as $key=>$value)
 				{
-					if (!$value)
+					if(!$value)
 						unset($_REQUEST['discipline_begin'][$key]);
 				}*/
 			}
@@ -1158,7 +1158,7 @@ function Widgets( $item, &$myextra = null )
 
 				/*foreach ( (array)$_REQUEST['discipline_end'] as $key=>$value)
 				{
-					if (!$value)
+					if(!$value)
 						unset($_REQUEST['discipline_end'][$key]);
 				}*/
 			}
@@ -1183,7 +1183,7 @@ function Widgets( $item, &$myextra = null )
 				AND f.DATA_TYPE!='textarea'
 				AND f.DATA_TYPE!='date'" ) );
 
-			foreach ( (array)$categories_RET as $category )
+			foreach( (array)$categories_RET as $category )
 			{
 				$extra['search'] .= '<TR class="st"><TD>' . $category['TITLE'] . '</TD><TD>';
 
@@ -1268,7 +1268,7 @@ function Widgets( $item, &$myextra = null )
 									" LIKE '%||" . $_REQUEST['discipline'][$category['ID']] . "||%' ";
 							}
 
-							if ( !$extra['NoSearchTerms'] )
+							if( !$extra['NoSearchTerms'] )
 								$_ROSARIO['SearchTerms'] .= '<b>' . $category['TITLE'] . ': </b>' .
 									$_REQUEST['discipline'][$category['ID']] . '<BR />';
 						}
@@ -1300,7 +1300,7 @@ function Widgets( $item, &$myextra = null )
 				'-1' => _( 'Do not enroll after this school year' ),
 			);
 
-			foreach ( $schools_RET as $id => $school )
+			foreach ( (array)$schools_RET as $id => $school )
 				$next_year_options[$id] = $school[1]['TITLE'];
 
 			if ( $_REQUEST['next_year'] )
@@ -1324,7 +1324,7 @@ function Widgets( $item, &$myextra = null )
 			</TD><TD>
 			<SELECT name="next_year">';
 
-			foreach ( $next_year_options as $id => $option )
+			foreach ( (array)$next_year_options as $id => $option )
 				$extra['search'] .= '<OPTION value="' . $id . '"">' . $option . '</OPTION>';
 
 			$extra['search'] .= '</SELECT></TD></TR>';
@@ -1378,7 +1378,7 @@ function Widgets( $item, &$myextra = null )
 				<OPTION value="">' . _( 'N/A' ) . '</OPTION>
 				<OPTION value="!">' . _( 'No Value' ) . '</OPTION>';
 
-			foreach ( (array)$calendars_RET as $id => $calendar )
+			foreach( (array)$calendars_RET as $id => $calendar )
 				$extra['search'] .= '<OPTION value="' . $id . '">' . $calendar[1]['TITLE'] . '</OPTION>';
 
 			$extra['search'] .= '</SELECT></TD></TR>';

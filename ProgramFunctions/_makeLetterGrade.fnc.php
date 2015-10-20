@@ -40,7 +40,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 			AND PROGRAM='Gradebook'" ), array(), array( 'TITLE' ) );
 
 		if ( count( $config_RET ) )
-			foreach ( $config_RET as $title => $value )
+			foreach ( (array)$config_RET as $title => $value )
 				$programconfig[$staff_id][$title] = $value[1]['VALUE'];
 		else
 			$programconfig[$staff_id] = true;
@@ -91,7 +91,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 	if ( $does_breakoff == 'Y'
 		&& is_array( $programconfig[$staff_id] ) )
 	{
-		foreach ( $_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id] as $grade )
+		foreach ( (array)$_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id] as $grade )
 		{
 			if ( is_numeric($programconfig[$staff_id][$course_period_id.'-'.$grade['ID']])
 				&& $percent >= $programconfig[$staff_id][$course_period_id . '-' . $grade['ID']] )
@@ -101,7 +101,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 		}
 	}
 
-	foreach ( $_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id] as $grade )
+	foreach ( (array)$_ROSARIO['_makeLetterGrade']['grades'][$grade_scale_id] as $grade )
 	{
 		if ( $percent >= $grade['BREAK_OFF'] )
 			//FJ use Report Card Grades comments

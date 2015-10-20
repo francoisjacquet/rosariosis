@@ -167,7 +167,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 				// there should be exactly one fy marking period which better be $marking_period_id
 				$all_mp[$mp][$marking_period_id] = "'" . $marking_period_id . "'";
 			
-				foreach ( $qtr_RET as $sem => $qtrs )
+				foreach ( (array)$qtr_RET as $sem => $qtrs )
 				{
 					$all_mp[$mp][$marking_period_id] .= ",'" . $sem . "'";
 

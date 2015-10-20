@@ -107,7 +107,7 @@ function _update29()
 
 		$SQL_updt_coms = '';
 
-		foreach ( $comments_RET as $comment )
+		foreach ( (array)$comments_RET as $comment )
 		{
 			$coms = explode( '||', $comment['COMMENT'] );
 			$ser_coms = array();
