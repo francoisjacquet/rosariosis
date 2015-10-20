@@ -1,23 +1,16 @@
 <?php
 
-//FJ add School Configuration
-$program_config = DBGet( DBQuery( "SELECT *
-	FROM PROGRAM_CONFIG
-	WHERE SCHOOL_ID='" . UserSchool() . "'
-	AND SYEAR='" . UserSyear() . "'
-	AND PROGRAM='students'" ), array(), array( 'TITLE' ) );
-
 // set comments Marking Period
 $comments_MP = UserMP();
 
 // if Semester comment
-if ( $program_config['STUDENTS_SEMESTER_COMMENTS'][1]['VALUE'] )
+if ( ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ) )
+{
 	$comments_MP = GetParentMP( 'SEM', UserMP() );
+}
 
 
-//$_ROSARIO['allow_edit'] = true;
-if( $_REQUEST['modfunc'] === 'update'
-	&& AllowEdit()
+if( AllowEdit()
 	&& isset( $_POST['values'] )
 	&& trim( $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] ) !== '' )
 {
@@ -30,8 +23,8 @@ if( $_REQUEST['modfunc'] === 'update'
 	{
 		//FJ add time and user to comments "comment thread" like
 		$comment = array(array(
-			'date' => date('Y-m-d G:i:s'),
-			'staff_id' => User('STAFF_ID'),
+			'date' => date( 'Y-m-d G:i:s' ),
+			'staff_id' => User( 'STAFF_ID' ),
 			'comment' => $comment,
 		));
 
@@ -42,36 +35,32 @@ if( $_REQUEST['modfunc'] === 'update'
 			AND MARKING_PERIOD_ID='" . $comments_MP . "'"
 		) );
 
-		if( !$existing_RET )
-			DBQuery( "INSERT INTO STUDENT_MP_COMMENTS
-				(
-					SYEAR,
-					STUDENT_ID,
-					MARKING_PERIOD_ID
-				)
-				values(
-					'" . UserSyear() . "',
-					'" . UserStudentID() . "',
-					'" . $comments_MP . "'
-				)"
-			);
-
-		if ( !empty( $existing_RET[1]['COMMENT'] ) )
+		// Add Comment to Existing ones
+		if ( isset( $existing_RET[1]['COMMENT'] ) )
+		{
 			$comment = array_merge( $comment, (array)unserialize( $existing_RET[1]['COMMENT'] ) );
+		}
 
 		$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] = DBEscapeString( serialize( $comment ) );
 
 		SaveData(
-			array( 'STUDENT_MP_COMMENTS' => "STUDENT_ID='" . UserStudentID() . "'
+			array(
+				'STUDENT_MP_COMMENTS' => "STUDENT_ID='" . UserStudentID() . "'
 				AND SYEAR='" . UserSyear() . "'
-				AND MARKING_PERIOD_ID='" . $comments_MP . "'" ),
-			'',
+				AND MARKING_PERIOD_ID='" . $comments_MP . "'",
+				'fields' => array(
+					'STUDENT_MP_COMMENTS' => 'STUDENT_ID,SYEAR,MARKING_PERIOD_ID,',
+				),
+				'values' => array(
+					'STUDENT_MP_COMMENTS' => "'" . UserStudentID() . "','" . UserSyear() . "','" . $comments_MP . "',",
+				) 
+			),
 			array( 'COMMENT' => _( 'Comment' ) )
 		);
 	}
 }
 
-if( empty( $_REQUEST['modfunc'] ) )
+if ( empty( $_REQUEST['modfunc'] ) )
 {
 	$comments_RET = DBGet( DBQuery( "SELECT COMMENT
 		FROM STUDENT_MP_COMMENTS
@@ -82,28 +71,22 @@ if( empty( $_REQUEST['modfunc'] ) )
 	?>
 
 	<TABLE>
-		<TR>
-			<TD>
-				<b><?php echo GetMP( $comments_MP, 'TITLE' ) . ' ' . _( 'Comments' ); ?></b>
-				<BR />
-
-				<?php echo TextAreaInput(
-					'',
-					'values[STUDENT_MP_COMMENTS][' . UserStudentID() . '][COMMENT]',
-					'',
-					'rows="10"' . ( AllowEdit() ? '' : ' readonly' ),
-					false
-				); ?>
-			</TD>
-		</TR>
+		<TR><TD>
+			<?php echo TextAreaInput(
+				'',
+				'values[STUDENT_MP_COMMENTS][' . UserStudentID() . '][COMMENT]',
+				GetMP( $comments_MP, 'TITLE' ) . ' ' . _( 'Comments' ),
+				'rows="10"' . ( AllowEdit() ? '' : ' readonly' ),
+				false
+			); ?>
+		</TD></TR>
 	<?php
 	//echo '<BR /><b>* '._('If more than one teacher will be adding comments for this student').':</b><BR />';
 	//echo '<ul><li>'._('Type your name above the comments you enter.').'</li></ul>';
 	//echo '<li>'._('Leave space for other teachers to enter their comments.').'</li></ul>';
 	//FJ add time and user to comments "comment thread" like
 	?>
-		<TR>
-			<TD id="student-comments">
+		<TR><TD id="student-comments">
 	<?php
 	if ( ( $comments = unserialize( $comments_RET[1]['COMMENT'] ) ) )
 	{
@@ -151,8 +134,7 @@ if( empty( $_REQUEST['modfunc'] ) )
 		echo implode( "\n", $comments_HTML );
 	}
 	?>
-			</TD>
-		</TR>
+		</TD></TR>
 	</TABLE>
 	<?php
 
