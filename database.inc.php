@@ -420,5 +420,3 @@ function DBEscapeString( $input )
 	return pg_escape_string( $input );
 	//return str_replace("'","''",$input);
 }
-
-?>

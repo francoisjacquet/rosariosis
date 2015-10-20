@@ -1,5 +1,9 @@
 <?php
 
+//***********************************************
+// TODO: follow Widgets() function formatting !!
+// **********************************************
+
 //FJ fix error Warning: Missing argument 2 for StaffWidgets()
 //function StaffWidgets($item,&$myextra)
 function StaffWidgets($item,&$myextra=NULL)

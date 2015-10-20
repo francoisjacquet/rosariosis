@@ -1,7 +1,6 @@
 <?php
 
-// TODO 
-// Bug Print after Delete OR Delete OK
+// TODO Bug Print after Delete OR Delete OK
 /**
  * Prompt before Delete
  * and display OK & Cancel buttons
