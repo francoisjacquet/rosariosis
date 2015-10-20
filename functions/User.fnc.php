@@ -115,16 +115,20 @@ function Preferences( $item, $program = 'Preferences' )
 	);
 
 	if ( !isset( $_ROSARIO['Preferences'][$program][$item][1]['VALUE'] ) )
+	{
 		$_ROSARIO['Preferences'][$program][$item][1]['VALUE'] = $defaults[$item];
+	}
 
 	/**
 	 * Force Display student search screen to No
 	 * for Parents & Students
 	 */
-	if( !empty( $_SESSION['STAFF_ID'] )
+	if ( !empty( $_SESSION['STAFF_ID'] )
 		&& User( 'PROFILE' ) === 'parent'
 		|| !empty( $_SESSION['STUDENT_ID'] ) )
+	{
 		$_ROSARIO['Preferences'][$program]['SEARCH'][1]['VALUE'] = 'N';
+	}
 
 	return $_ROSARIO['Preferences'][$program][$item][1]['VALUE'];
 }
