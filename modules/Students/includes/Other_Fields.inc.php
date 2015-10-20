@@ -13,7 +13,7 @@ foreach ( (array)$fields_RET as $field )
 
 	echo '<TR><TD>';
 
-	switch( $field['TYPE'] )
+	switch ( $field['TYPE'] )
 	{
 		case 'text':
 		case 'numeric':

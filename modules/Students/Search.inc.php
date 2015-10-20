@@ -3,7 +3,7 @@
 if ( !$_REQUEST['search_modfunc'])
 {
 	//if (UserStudentID() && User('PROFILE')!='parent' && User('PROFILE')!='student' && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
-	switch(User('PROFILE'))
+	switch (User('PROFILE'))
 	{
 		case 'admin':
 		case 'teacher':

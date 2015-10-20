@@ -157,7 +157,7 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 		{
 			echo '<TR class="st"><TD><span class="legend-gray">'.$category['TITLE'].'</span></TD><TD>';
 
-			switch($category['DATA_TYPE'])
+			switch ( $category['DATA_TYPE'])
 			{
 				case 'text':
 					echo TextInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']');

@@ -4,7 +4,7 @@ function GetStaffList(& $extra)
 {	global $profiles_RET;
 
 	$functions = array('PROFILE' => 'makeProfile');
-	switch(User('PROFILE'))
+	switch (User('PROFILE'))
 	{
 		case 'admin':
 		case 'teacher':

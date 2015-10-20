@@ -20,7 +20,7 @@ function StaffWidgets($item,&$myextra=NULL)
 
 	if ((User('PROFILE')=='admin' || User('PROFILE')=='teacher') && !$_ROSARIO['StaffWidgets'][$item])
 	{
-		switch($item)
+		switch ( $item)
 		{
 			case 'all':
 				$extra['search'] .= '<TR><TD><TABLE class="width-100p">';

@@ -95,7 +95,7 @@ function _rollover( $table )
 {
 	global $id;
 
-	switch( $table )
+	switch ( $table )
 	{
 		//FJ copy School Configuration
 		case 'CONFIG':

@@ -99,7 +99,7 @@ function SetUserStaffID( $staff_id )
 {
 	$isHack = false;
 	
-	switch( User( 'PROFILE' ) )
+	switch ( User( 'PROFILE' ) )
 	{
 		case 'parent':
 			if ( $staff_id !== User( 'STAFF_ID' ) )
@@ -186,7 +186,7 @@ function SetUserStudentID( $student_id )
 {
 	$isHack = false;
 	
-	switch( User( 'PROFILE' ) )
+	switch ( User( 'PROFILE' ) )
 	{
 		case 'student':
 			if ( $student_id !== $_SESSION['STUDENT_ID'] )

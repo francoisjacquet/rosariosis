@@ -44,7 +44,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						$_REQUEST['id'] = $id;
 
 						$create_index = true;
-						switch($columns['TYPE'])
+						switch ( $columns['TYPE'])
 						{
 							case 'radio':
 								DBQuery("ALTER TABLE STAFF ADD CUSTOM_$id VARCHAR(1)");

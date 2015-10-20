@@ -2,7 +2,7 @@
 function MyWidgets($item)
 {	global $extra,$_ROSARIO;
 
-	switch($item)
+	switch ( $item)
 	{
 		case 'ly_course':
 			if ( $_REQUEST['w_ly_course_period_id'])

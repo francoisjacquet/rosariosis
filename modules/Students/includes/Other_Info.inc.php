@@ -49,7 +49,7 @@ foreach ( (array)$fields_RET as $field )
 
 	echo '<TD>';
 
-	switch( $field['TYPE'] )
+	switch ( $field['TYPE'] )
 	{
 		case 'text':
 		case 'numeric':

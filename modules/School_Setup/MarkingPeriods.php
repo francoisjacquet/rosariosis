@@ -29,7 +29,7 @@ if ( !isset( $_REQUEST['marking_period_id'] )
 
 if ( $_REQUEST['marking_period_id'] === 'new' )
 {
-	switch( $_REQUEST['mp_term'] )
+	switch ( $_REQUEST['mp_term'] )
 	{
 		case 'FY':
 			$title = _( 'New Year' );
@@ -162,7 +162,7 @@ if ( isset( $_POST['tables'] )
 
 			$values = "'" . $id_RET[1]['ID'] . "','" . $_REQUEST['mp_term'] . "','" . UserSyear() . "','" . UserSchool() . "',";
 
-			switch( $_REQUEST['mp_term'] )
+			switch ( $_REQUEST['mp_term'] )
 			{
 				case 'SEM':
 					$fields .= "PARENT_ID,";
@@ -301,7 +301,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 {
 	$extra = array();
 
-	switch( $_REQUEST['mp_term'] )
+	switch ( $_REQUEST['mp_term'] )
 	{
 		case 'FY':
 			$name = _( 'Year' );

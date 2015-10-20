@@ -5,7 +5,7 @@ function Search( $type, $extra = null )
 	global $_ROSARIO,
 		$modname;
 
-	switch( $type )
+	switch ( $type )
 	{
 		case 'student_id':
 

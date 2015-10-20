@@ -23,7 +23,7 @@ if ( empty( $date ) )
 DrawHeader(ProgramTitle());
 
 $day = date('D',strtotime($date));
-switch($day)
+switch ( $day)
 {
 	case 'Sun':
 		$day = 'U';

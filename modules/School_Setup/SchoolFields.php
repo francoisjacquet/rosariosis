@@ -37,7 +37,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						$values = $id.",";
 						$_REQUEST['id'] = $id;
 
-						switch($columns['TYPE'])
+						switch ( $columns['TYPE'])
 						{
 							case 'text':
 								DBQuery("ALTER TABLE SCHOOLS ADD CUSTOM_$id VARCHAR(255)");

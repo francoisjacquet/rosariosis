@@ -82,7 +82,7 @@ if (Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to ro
 function Rollover($table)
 {	global $next_syear,$RosarioModules;
 
-	switch($table)
+	switch ( $table)
 	{
 		case 'SCHOOLS':
 			//FJ add School Fields

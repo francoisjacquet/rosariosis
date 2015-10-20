@@ -224,7 +224,7 @@ if (empty($_REQUEST['modfunc']))
 		
 		echo '<TR><TD colspan="3">';
 
-		switch( $field['TYPE'] )
+		switch ( $field['TYPE'] )
 		{
 			case 'text':
 				echo TextInput(

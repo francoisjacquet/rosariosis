@@ -84,7 +84,7 @@ function return_megabytes( $val ) {
 
 	$last = strtolower( $val[strlen( $val ) - 1] );
 
-	switch( $last ) {
+	switch ( $last ) {
 
 		// The 'G' modifier is available since PHP 5.1.0
 		case 'g':

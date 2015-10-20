@@ -274,7 +274,7 @@ function _makeChooseCheckbox($value,$title)
 function MyWidgets($item)
 {	global $extra,$_ROSARIO;
 
-	switch($item)
+	switch ( $item)
 	{
 		case 'honor_roll_subject':
 			if ( !empty($_REQUEST['subject_id']))

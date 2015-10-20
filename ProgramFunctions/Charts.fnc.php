@@ -47,7 +47,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 	$chartData = array();
 
 	// Chart Data & Options
-	switch( $type )
+	switch ( $type )
 	{
 		case 'line':
 			$chartData_count = count( $data[0] );

@@ -430,7 +430,7 @@ echo '</FORM>';
 function _makeExtraAssnCols($assignment_id,$column)
 {	global $THIS_RET,$assignments_RET,$current_RET,$points_RET,$tabindex,$max_allowed,$total,$programconfig;
 
-	switch($column)
+	switch ( $column)
 	{
 		case 'POINTS':
 			$tabindex++;
@@ -577,7 +577,7 @@ function _makeExtraStuCols($value,$column)
 	if (is_null($THIS_RET['POINTS']))
 		$THIS_RET['POINTS'] = $assignments_RET[$THIS_RET['ASSIGNMENT_ID']][1]['DEFAULT_POINTS'];
 	
-	switch($column)
+	switch ( $column)
 	{
 		case 'POINTS':
 			$assignment_count++;

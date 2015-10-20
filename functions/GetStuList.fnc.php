@@ -183,7 +183,7 @@ function GetStuList(&$extra=array())
 		}
 	}
 
-	switch(User('PROFILE'))
+	switch (User('PROFILE'))
 	{
 		case 'admin':
 			$sql = 'SELECT ';

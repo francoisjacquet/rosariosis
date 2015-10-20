@@ -75,7 +75,7 @@ $qtr_id = GetCurrentMP('QTR',$date);
 
 $days = $course_RET[1]['DAYS'];
 $day = date('D',strtotime($date));
-switch($day)
+switch ( $day)
 {
 	case 'Sun':
 		$day = 'U';

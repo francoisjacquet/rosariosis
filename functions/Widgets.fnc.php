@@ -358,7 +358,7 @@ function Widgets( $item, &$myextra = null )
 					AND ad.MARKING_PERIOD_ID IN (" . GetChildrenMP( $_REQUEST['absences_term'], UserMP() ) . "))" .
 					$absences_sql;
 
-				switch( $_REQUEST['absences_term'] )
+				switch ( $_REQUEST['absences_term'] )
 				{
 					case 'FY':
 						$term = _( 'this school year to date' );
@@ -452,7 +452,7 @@ function Widgets( $item, &$myextra = null )
 					" AND ap.STUDENT_ID=ssm.STUDENT_ID)" .
 					$absences_sql;
 
-				switch( $_REQUEST['cp_absences_term'] )
+				switch ( $_REQUEST['cp_absences_term'] )
 				{
 					case 'FY':
 						$term = _( 'this school year to date' );

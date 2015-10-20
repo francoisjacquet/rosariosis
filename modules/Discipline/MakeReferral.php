@@ -199,7 +199,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 	foreach ( (array)$categories_RET as $category)
 	{
 		echo '<TR class="st"><TD><span class="legend-gray">'.$category['TITLE'].'</span></TD><TD>';
-		switch($category['DATA_TYPE'])
+		switch ( $category['DATA_TYPE'])
 		{
 			case 'text':
 				echo TextInput('','values[CATEGORY_'.$category['ID'].']','','maxlength=255');

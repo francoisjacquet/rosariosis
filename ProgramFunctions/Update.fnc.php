@@ -31,7 +31,7 @@ function Update()
 
 	$return = true;
 
-	switch( true )
+	switch ( true )
 	{
 		case $from_version < 2.9:
 

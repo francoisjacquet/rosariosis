@@ -193,7 +193,7 @@ if (empty($_REQUEST['modfunc']))
 function _make($value,$column)
 {	global $THIS_RET,$student_days_absent,$cal_days,$sum,$calendars_RET;
 
-	switch($column)
+	switch ( $column)
 	{
 		case 'STUDENTS':
 			$sum['STUDENTS'] += $value/$cal_days[$THIS_RET['CALENDAR_ID']][1]['COUNT'];
@@ -235,7 +235,7 @@ function _make($value,$column)
 function _makeByDay($value,$column)
 {	global $THIS_RET,$student_days_absent,$cal_days,$sum;
 
-	switch($column)
+	switch ( $column)
 	{
 		case 'STUDENTS':
 			$sum['STUDENTS'] += $value/$cal_days;

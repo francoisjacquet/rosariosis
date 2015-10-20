@@ -162,7 +162,7 @@ if ( !$_REQUEST['id'])
 				}
 
 				//FJ css WPadmin
-				switch($ungraded)
+				switch ( $ungraded)
 				{
 					case 0:
 						$ungraded = button('x');

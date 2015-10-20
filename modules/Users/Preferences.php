@@ -400,7 +400,7 @@ if (empty($_REQUEST['modfunc']))
 function _make($value,$name)
 {	global $THIS_RET,$current_RET;
 
-	switch($name)
+	switch ( $name)
 	{
 		case 'SEARCH':
 			if ( $current_RET['StudentFieldsSearch'][$THIS_RET['ID']])

@@ -61,7 +61,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 		
 					$create_index = true;
-					switch($columns['DATA_TYPE'])
+					switch ( $columns['DATA_TYPE'])
 					{
 						case 'checkbox':
 							DBQuery("ALTER TABLE DISCIPLINE_REFERRALS ADD CATEGORY_$id VARCHAR(1)");

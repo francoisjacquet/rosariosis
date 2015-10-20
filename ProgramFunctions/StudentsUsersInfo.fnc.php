@@ -808,7 +808,7 @@ function _makeSchoolInput( $value, $column )
  */
 function _isNew( $request )
 {
-	switch( $request )
+	switch ( $request )
 	{
 		case 'students':
 

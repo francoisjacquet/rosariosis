@@ -272,7 +272,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 		{
 			if ( !$options['save_delimiter'] && Preferences('DELIMITER')=='CSV')
 				$options['save_delimiter'] = 'comma';
-			switch($options['save_delimiter'])
+			switch ( $options['save_delimiter'])
 			{
 				case 'comma':
 					$extension = 'csv';

@@ -110,7 +110,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 		if ( !$qtr_RET )
 			return ErrorMessage( $error_no_qtr, 'fatal' );
 
-		switch( $mp )
+		switch ( $mp )
 		{
 			case 'PRO':
 
@@ -209,7 +209,7 @@ function GetParentMP( $mp, $marking_period_id )
 	if ( is_null( $parent_mp )
 		|| !isset( $parent_mp[$mp] ) )
 	{
-		switch( $mp )
+		switch ( $mp )
 		{
 			case 'SEM':
 
@@ -277,7 +277,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'";
 
-		switch( $mp )
+		switch ( $mp )
 		{
 			case 'FY':
 

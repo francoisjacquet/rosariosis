@@ -319,7 +319,7 @@ function _makeChooseCheckbox($value,$title)
 function MyWidgets($item)
 {	global $extra,$_ROSARIO;
 
-	switch($item)
+	switch ( $item)
 	{
 		case 'honor_roll':
 			if ( $_REQUEST['honor_roll']=='Y' && $_REQUEST['high_honor_roll']=='Y')

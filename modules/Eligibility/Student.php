@@ -39,7 +39,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 		${$value[1]['TITLE']} = $value[1]['VALUE'];
 	}
 	
-	switch(date('D'))
+	switch (date('D'))
 	{
 		case 'Mon':
 		$today = 1;

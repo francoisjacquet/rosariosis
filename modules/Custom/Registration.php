@@ -319,7 +319,7 @@ function PrepareAddress($temp)
 	elseif ( $temp_dir=='NO' || $temp_dir=='SO' || $temp_dir=='WE' || $temp_dir=='EA')
 	{
 		$temp_dir = str_replace('.','',mb_strtoupper(mb_substr($temp,0,mb_strpos($temp,' '))));
-		switch($temp_dir)
+		switch ( $temp_dir)
 		{
 			case 'NORTH':
 				$address['DIRECTION'] = 'N';

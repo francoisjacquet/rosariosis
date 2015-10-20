@@ -89,7 +89,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		if ( !$extra['NoSearchTerms'] )
 			$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>';
 
-		switch( $fields[$field_id][1]['TYPE'] )
+		switch ( $fields[$field_id][1]['TYPE'] )
 		{
 			// Checkbox
 			case 'radio':

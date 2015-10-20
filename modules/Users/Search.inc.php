@@ -2,7 +2,7 @@
 
 if ( !$_REQUEST['search_modfunc'])
 {
-	switch(User('PROFILE'))
+	switch (User('PROFILE'))
 	{
 		case 'admin':
 		case 'teacher':
