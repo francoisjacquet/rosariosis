@@ -61,7 +61,8 @@ if(User('PROFILE')!='admin')
 		$_ROSARIO['allow_edit'] = true;
 }
 
-if($_REQUEST['modfunc']=='update' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'update'
+	&& AllowEdit() )
 {
 	if ( isset( $_POST['day_students'] )
 		&& isset( $_POST['month_students'] )
@@ -321,18 +322,23 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 		}
 	}
 
-	//FJ add Comments as an exception
-	if(!in_array($include, $categories) || $include=='Comments')
+	if ( !in_array( $include, $categories ) )
 	{
-		if(!mb_strpos($include,'/'))
-			include('modules/Students/includes/'.$include.'.inc.php');
-		else
-			include('modules/'.$include.'.inc.php');
+		if ( !mb_strpos( $include, '/' ) )
+		{
+			include( 'modules/Students/includes/' . $include . '.inc.php' );
+		}
+		else // ex.: Food Service
+		{
+			include( 'modules/' . $include . '.inc.php' );
+		}
 	}
 
 	if ( $error
 		&& !UserStudentID() )
+	{
 		$_REQUEST['student_id'] = 'new';
+	}
 
 	unset( $_REQUEST['modfunc'] );
 
