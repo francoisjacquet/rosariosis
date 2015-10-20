@@ -1,21 +1,21 @@
 <?php
 $next_syear = UserSyear()+1;
-$tables = array('SCHOOLS'=>_('Schools'),'STAFF'=>_('Users'),'SCHOOL_PERIODS'=>_('School Periods'),'SCHOOL_MARKING_PERIODS'=>_('Marking Periods'),'ATTENDANCE_CALENDARS'=>_('Calendars'),'ATTENDANCE_CODES'=>_('Attendance Codes'),'REPORT_CARD_GRADES'=>_('Report Card Grade Codes'),'COURSES'=>_('Courses').'<b>*</b>','STUDENT_ENROLLMENT_CODES'=>_('Student Enrollment Codes'),'STUDENT_ENROLLMENT'=>_('Students').'<b>*</b>','REPORT_CARD_COMMENTS'=>_('Report Card Comment Codes').'<b>*</b>','PROGRAM_CONFIG'=>_('School Configuration'));
+$tables = array('SCHOOLS' => _('Schools'),'STAFF' => _('Users'),'SCHOOL_PERIODS' => _('School Periods'),'SCHOOL_MARKING_PERIODS' => _('Marking Periods'),'ATTENDANCE_CALENDARS' => _('Calendars'),'ATTENDANCE_CODES' => _('Attendance Codes'),'REPORT_CARD_GRADES' => _('Report Card Grade Codes'),'COURSES' => _('Courses').'<b>*</b>','STUDENT_ENROLLMENT_CODES' => _('Student Enrollment Codes'),'STUDENT_ENROLLMENT' => _('Students').'<b>*</b>','REPORT_CARD_COMMENTS' => _('Report Card Comment Codes').'<b>*</b>','PROGRAM_CONFIG' => _('School Configuration'));
 $no_school_tables = array('SCHOOLS'=>true,'STUDENT_ENROLLMENT_CODES'=>true,'STAFF'=>true);
 
 if ( $RosarioModules['Eligibility'])
-	$tables += array('ELIGIBILITY_ACTIVITIES'=>_('Eligibility Activity Codes'));
+	$tables += array('ELIGIBILITY_ACTIVITIES' => _('Eligibility Activity Codes'));
 	
 if ( $RosarioModules['Food_Service'])
-	$tables += array('FOOD_SERVICE_STAFF_ACCOUNTS'=>_('Food Service Staff Accounts'));
+	$tables += array('FOOD_SERVICE_STAFF_ACCOUNTS' => _('Food Service Staff Accounts'));
 	
 if ( $RosarioModules['Discipline'])
 //FJ discipline_field_usage rollover
-	$tables += array(/*'DISCIPLINE_CATEGORIES'=>_('Referral Form'), */'DISCIPLINE_FIELD_USAGE'=>_('Referral Form'));
+	$tables += array(/*'DISCIPLINE_CATEGORIES' => _('Referral Form'), */'DISCIPLINE_FIELD_USAGE' => _('Referral Form'));
 
 $table_list = '<TABLE style="float: left">';
 
-foreach ( (array)$tables as $table=>$name)
+foreach ( (array)$tables as $table => $name)
 {
 	if ( $table!='FOOD_SERVICE_STAFF_ACCOUNTS')
 		$exists_RET[$table] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM $table WHERE SYEAR='".$next_syear."'".(!$no_school_tables[$table]?" AND SCHOOL_ID='".UserSchool()."'":'')));
@@ -51,7 +51,7 @@ if (Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to ro
 		{
 			if (count($_REQUEST['tables']))
 			{
-				foreach ( (array)$_REQUEST['tables'] as $table=>$value)
+				foreach ( (array)$_REQUEST['tables'] as $table => $value)
 				{
 					//hook
 					do_action('School_Setup/Rollover.php|rollover_checks');
@@ -231,7 +231,7 @@ function Rollover($table)
 			DBQuery("DELETE FROM $table WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."'");
 			$table_properties = db_properties($table);
 			$columns = '';
-			foreach ( (array)$table_properties as $column=>$values)
+			foreach ( (array)$table_properties as $column => $values)
 			{
 				if ( $column!='ID' && $column!='SYEAR')
 					$columns .= ','.$column;
@@ -244,7 +244,7 @@ function Rollover($table)
 			DBQuery("DELETE FROM $table WHERE SYEAR='".$next_syear."'");
 			$table_properties = db_properties($table);
 			$columns = '';
-			foreach ( (array)$table_properties as $column=>$values)
+			foreach ( (array)$table_properties as $column => $values)
 			{
 				if ( $column!='ID' && $column!='SYEAR')
 					$columns .= ','.$column;

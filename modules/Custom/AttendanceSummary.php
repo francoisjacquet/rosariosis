@@ -27,7 +27,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	$extra['SELECT'] = ",ssm.CALENDAR_ID,ssm.START_DATE,ssm.END_DATE";
 
-	foreach ( (array)$custom_RET as $id=>$custom)
+	foreach ( (array)$custom_RET as $id => $custom)
 		$extra['SELECT'] .= ",CUSTOM_".$id;
 
 	// ACTIVE logic taken from GetStuList()
@@ -110,7 +110,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			<span class="sizep1"><B>'._('Demographics').'</B></span>
 			<TABLE style="width:98%;" class="cellspacing-0 center"><TR>';
 
-			foreach ( (array)$custom_RET as $id=>$custom)
+			foreach ( (array)$custom_RET as $id => $custom)
 				echo '<TD style="text-align:right">'.ParseMLField($custom_RET[$id][1]['TITLE']).':&nbsp;</TD>
 				<TD>'.$student['CUSTOM_'.$id].'</TD>';
 
@@ -260,8 +260,8 @@ if (empty($_REQUEST['modfunc']))
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 

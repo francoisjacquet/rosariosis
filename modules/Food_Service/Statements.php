@@ -83,11 +83,11 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 }
 
 
-$types = array('DEPOSIT'=>_('Deposit'),'CREDIT'=>_('Credit'),'DEBIT'=>_('Debit'));
+$types = array('DEPOSIT' => _('Deposit'),'CREDIT' => _('Credit'),'DEBIT' => _('Debit'));
 $menus_RET = DBGet(DBQuery('SELECT TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'));
 
 $type_select = _('Type').': <SELECT name=type_select><OPTION value=\'\'>'._('Not Specified').'</OPTION>';
-foreach ( (array)$types as $short_name=>$type)
+foreach ( (array)$types as $short_name => $type)
 	$type_select .= '<OPTION value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' SELECTED' : '').'>'.$type.'</OPTION>';
 foreach ( (array)$menus_RET as $menu)
 	$type_select .= '<OPTION value="'.$menu['TITLE'].'"'.($_REQUEST['type_select']==$menu['TITLE'] ? ' SELECTED' : '').'>'.$menu['TITLE'].'</OPTION>';
@@ -95,14 +95,14 @@ $type_select .= '</SELECT>';
 
 //FJ add translation
 function types_locale($type) {
-	$types = array('Deposit'=>_('Deposit'),'Credit'=>_('Credit'),'Debit'=>_('Debit'));
+	$types = array('Deposit' => _('Deposit'),'Credit' => _('Credit'),'Debit' => _('Debit'));
 	if (array_key_exists($type, $types)) {
 		return $types[$type];
 	}
 	return $type;
 }
 function options_locale($option) {
-	$options = array('Cash '=>_('Cash'),'Check'=>_('Check'),'Credit Card'=>_('Credit Card'),'Debit Card'=>_('Debit Card'),'Transfer'=>_('Transfer'));
+	$options = array('Cash ' => _('Cash'),'Check' => _('Check'),'Credit Card' => _('Credit Card'),'Debit Card' => _('Debit Card'),'Transfer' => _('Transfer'));
 	if (array_key_exists($option, $options)) {
 		return $options[$option];
 	}

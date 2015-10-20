@@ -1,7 +1,7 @@
 <?php
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id => $columns)
 	{
 //FJ fix SQL bug invalid numeric data
 		if ((empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER'])) && (empty($columns['LENGTH']) || is_numeric($columns['LENGTH'])))
@@ -21,7 +21,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql = "UPDATE SCHOOL_PERIODS SET ";
 
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -36,7 +36,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$values = db_seq_nextval('SCHOOL_PERIODS_SEQ').",'".UserSchool()."','".UserSyear()."',";
 
 				$go = false;
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{
@@ -75,12 +75,12 @@ if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT PERIOD_ID,TITLE,SHORT_NAME,SORT_ORDER,LENGTH,START_TIME,END_TIME,BLOCK,ATTENDANCE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER";
 	$QI = DBQuery($sql);
-	$periods_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','SHORT_NAME'=>'_makeTextInput','SORT_ORDER'=>'_makeTextInput','BLOCK'=>'_makeTextInput','LENGTH'=>'_makeTextInput','START_TIME'=>'_makeTimeInput','END_TIME'=>'_makeTimeInput','ATTENDANCE'=>'_makeCheckboxInput'));
+	$periods_RET = DBGet($QI,array('TITLE' => '_makeTextInput','SHORT_NAME' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','BLOCK' => '_makeTextInput','LENGTH' => '_makeTextInput','START_TIME' => '_makeTimeInput','END_TIME' => '_makeTimeInput','ATTENDANCE' => '_makeCheckboxInput'));
 
-	$columns = array('TITLE'=>_('Title'),'SHORT_NAME'=>_('Short Name'),'SORT_ORDER'=>_('Sort Order'),'LENGTH'=>_('Length (minutes)'),'BLOCK'=>_('Block'),'ATTENDANCE'=>_('Used for Attendance')); //,'START_TIME'=>_('Start Time'),'END_TIME'=>_('End Time'));
+	$columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'SORT_ORDER' => _('Sort Order'),'LENGTH' => _('Length (minutes)'),'BLOCK' => _('Block'),'ATTENDANCE' => _('Used for Attendance')); //,'START_TIME' => _('Start Time'),'END_TIME' => _('End Time'));
 	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'LENGTH'=>_makeTextInput('','LENGTH'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'BLOCK'=>_makeTextInput('','BLOCK'),'START_TIME'=>_makeTimeInput('','START_TIME'),'END_TIME'=>_makeTimeInput('','END_TIME'),'ATTENDANCE'=>_makeCheckboxInput('','ATTENDANCE'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-	$link['remove']['variables'] = array('id'=>'PERIOD_ID');
+	$link['remove']['variables'] = array('id' => 'PERIOD_ID');
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
@@ -136,7 +136,7 @@ function _makeTimeInput($value,$name)
 	for($i=10;$i<=59;$i++)
 		$minute_options[$i] = ''.$i;
 
-	$m_options = array('AM'=>'AM','PM'=>'PM');
+	$m_options = array('AM' => 'AM','PM' => 'PM');
 
     if ( $id!='new' && $value)
 	{

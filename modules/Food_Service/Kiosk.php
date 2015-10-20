@@ -42,15 +42,15 @@ if ((!$_REQUEST['cat_id'] || !$categories_RET[$_REQUEST['menu_id']][$_REQUEST['c
 	$_REQUEST['cat_id'] = key($categories_RET[$_REQUEST['menu_id']]);
 
 $meals = array();
-foreach ( (array)$menus_RET as $id=>$menu)
-	$meals[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
+foreach ( (array)$menus_RET as $id => $menu)
+	$meals[] = array('title' => $menu[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
 
 $cats = array();
 //FJ fix error Warning: Invalid argument supplied for foreach()
 if (isset($categories_RET[$_REQUEST['menu_id']]))
 {
-	foreach ( (array)$categories_RET[$_REQUEST['menu_id']] as $category_id=>$category)
-		$cats[] = array('title'=>$category[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&cat_id='.$category_id);
+	foreach ( (array)$categories_RET[$_REQUEST['menu_id']] as $category_id => $category)
+		$cats[] = array('title' => $category[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&cat_id='.$category_id);
 }
 
 $items_RET = DBGet(DBQuery("SELECT *,(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON 

@@ -12,8 +12,8 @@ if ( !mb_strpos($extra['FROM'],'fssa'))
 	$extra['FROM'] = ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 }
-$extra['functions'] += array('BALANCE'=>'red');
-$extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
+$extra['functions'] += array('BALANCE' => 'red');
+$extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'));
 
 Search('student_id',$extra);
 
@@ -34,29 +34,29 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		WHERE SYEAR='".UserSyear()."' 
 		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1 
 		AND SCHOOL_ID='".UserSchool()."'".$where."
-		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','SHORT_NAME'=>'bump_count'));
+		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','SHORT_NAME' => 'bump_count'));
 	//FJ add translation
-		foreach ( (array)$RET as $RET_key=>$RET_val) {
+		foreach ( (array)$RET as $RET_key => $RET_val) {
 			$RET[$RET_key]=array_map('types_locale', $RET_val);
 		}	
 
-		foreach ( (array)$RET as $key=>$value)
+		foreach ( (array)$RET as $key => $value)
 		{
 			// get details of each transaction
-			$tmpRET = DBGet(DBQuery("SELECT TRANSACTION_ID AS TRANS_ID,*,'".$value['SHORT_NAME']."' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$value['TRANSACTION_ID']."'"),array('SHORT_NAME'=>'bump_items_count'));
+			$tmpRET = DBGet(DBQuery("SELECT TRANSACTION_ID AS TRANS_ID,*,'".$value['SHORT_NAME']."' AS TRANSACTION_SHORT_NAME FROM FOOD_SERVICE_TRANSACTION_ITEMS WHERE TRANSACTION_ID='".$value['TRANSACTION_ID']."'"),array('SHORT_NAME' => 'bump_items_count'));
 
 	//FJ add translation
-			foreach ( (array)$tmpRET as $RET_key=>$RET_val) {
+			foreach ( (array)$tmpRET as $RET_key => $RET_val) {
 				$tmpRET[$RET_key]=array_map('options_locale', $RET_val);
 			}	
 			// merge transaction and detail records
 			$RET[$key] = array($value) + $tmpRET;
 		}
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
-		$columns = array('TRANSACTION_ID'=>_('ID'),'ACCOUNT_ID'=>_('Account ID'),'FULL_NAME'=>_('Student'),'DATE'=>_('Date'),'TIME'=>_('Time'),'BALANCE'=>_('Balance'),'DISCOUNT'=>_('Discount'),'DESCRIPTION'=>_('Description'),'DISCOUNT'=>_('Discount'),'AMOUNT'=>_('Amount'),'SELLER'=>_('User'));
+		$columns = array('TRANSACTION_ID' => _('ID'),'ACCOUNT_ID' => _('Account ID'),'FULL_NAME' => _('Student'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DISCOUNT' => _('Discount'),'DESCRIPTION' => _('Description'),'DISCOUNT' => _('Discount'),'AMOUNT' => _('Amount'),'SELLER' => _('User'));
 		$group = array(array('TRANSACTION_ID'));
-		$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array(),array('modfunc'=>'delete'));
-		$link['remove']['variables'] = array('transaction_id'=>'TRANS_ID','item_id'=>'ITEM_ID');
+		$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array(),array('modfunc' => 'delete'));
+		$link['remove']['variables'] = array('transaction_id' => 'TRANS_ID','item_id' => 'ITEM_ID');
 	}
 	else
 	{
@@ -67,16 +67,16 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		WHERE SYEAR='".UserSyear()."' 
 		AND fst.TIMESTAMP BETWEEN '".$date."' AND date '".$date."' +1 
 		AND SCHOOL_ID='".UserSchool()."'".$where."
-		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','SHORT_NAME'=>'bump_count'));
-		$columns = array('TRANSACTION_ID'=>_('ID'),'ACCOUNT_ID'=>_('Account ID'),'FULL_NAME'=>_('Student'),'DATE'=>_('Date'),'TIME'=>_('Time'),'BALANCE'=>_('Balance'),'DISCOUNT'=>_('Discount'),'DESCRIPTION'=>_('Description'),'AMOUNT'=>_('Amount'));
+		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','SHORT_NAME' => 'bump_count'));
+		$columns = array('TRANSACTION_ID' => _('ID'),'ACCOUNT_ID' => _('Account ID'),'FULL_NAME' => _('Student'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DISCOUNT' => _('Discount'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'));
 	//FJ add translation
-		foreach ( (array)$RET as $RET_key=>$RET_val) {
+		foreach ( (array)$RET as $RET_key => $RET_val) {
 			$RET[$RET_key]=array_map('types_locale', $RET_val);
 		}	
 	}
 	
 	$type_select = '<span class="nobr">'._('Type').' <SELECT name="type_select"><OPTION value="">'._('Not Specified').'</OPTION>';
-	foreach ( (array)$types as $short_name=>$type)
+	foreach ( (array)$types as $short_name => $type)
 		$type_select .= '<OPTION value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' SELECTED' : '').'>'.$type['DESCRIPTION'].'</OPTION>';
 	$type_select .= '</SELECT></span>';
 
@@ -96,9 +96,9 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 
 
 	if ( $_REQUEST['detailed_view']!='true')
-		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view'=>'true')).'">'._('Detailed View').'</A>');
+		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'true')).'">'._('Detailed View').'</A>');
 	else
-		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view'=>'false')).'">'._('Original View').'</A>');
+		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'false')).'">'._('Original View').'</A>');
 
 	if ( $_REQUEST['detailed_view']=='true')
 	{
@@ -106,12 +106,12 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		foreach ( (array)$types as $type)
 			if ( $type['COUNT'])
 			{
-				$LO_types[] = array(array('DESCRIPTION'=>$type['DESCRIPTION'],'DETAIL'=>'','COUNT'=>$type['COUNT'],'AMOUNT'=>number_format($type['AMOUNT'],2)));
+				$LO_types[] = array(array('DESCRIPTION' => $type['DESCRIPTION'],'DETAIL' => '','COUNT' => $type['COUNT'],'AMOUNT'=>number_format($type['AMOUNT'],2)));
 				foreach ( (array)$type['ITEMS'] as $item)
 					if ( $item[1]['COUNT'])
-						$LO_types[last($LO_types)][] = array('DESCRIPTION'=>$type['DESCRIPTION'],'DETAIL'=>$item[1]['DESCRIPTION'],'COUNT'=>$item[1]['COUNT'],'AMOUNT'=>number_format($item[1]['AMOUNT'],2));
+						$LO_types[last($LO_types)][] = array('DESCRIPTION' => $type['DESCRIPTION'],'DETAIL' => $item[1]['DESCRIPTION'],'COUNT' => $item[1]['COUNT'],'AMOUNT'=>number_format($item[1]['AMOUNT'],2));
 			}
-		$types_columns = array('DESCRIPTION'=>_('Description'),'DETAIL'=>_('Detail'),'COUNT'=>_('Count'),'AMOUNT'=>_('Amount'));
+		$types_columns = array('DESCRIPTION' => _('Description'),'DETAIL' => _('Detail'),'COUNT' => _('Count'),'AMOUNT' => _('Amount'));
 		$types_group = array('DESCRIPTION');
 	}
 	else
@@ -119,8 +119,8 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		$LO_types = array(array());
 		foreach ( (array)$types as $type)
 			if ( $type['COUNT'])
-				$LO_types[] = array('DESCRIPTION'=>$type['DESCRIPTION'],'COUNT'=>$type['COUNT'],'AMOUNT'=>number_format($type['AMOUNT'],2));
-		$types_columns = array('DESCRIPTION'=>_('Description'),'COUNT'=>_('Count'),'AMOUNT'=>_('Amount'));
+				$LO_types[] = array('DESCRIPTION' => $type['DESCRIPTION'],'COUNT' => $type['COUNT'],'AMOUNT'=>number_format($type['AMOUNT'],2));
+		$types_columns = array('DESCRIPTION' => _('Description'),'COUNT' => _('Count'),'AMOUNT' => _('Amount'));
 	}
 	unset($LO_types[0]);
 	

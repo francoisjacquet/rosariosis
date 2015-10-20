@@ -187,7 +187,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				foreach ($ignored_words as $word)
 					unset($terms[trim($word)]);
 
-				foreach ( (array)$result as $key=>$value)
+				foreach ( (array)$result as $key => $value)
 				{
 					$values[$key] = 0;
 					foreach ( (array)$value as $val)
@@ -200,7 +200,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						if ( $search_term==$val)
 							$values[$key] += 25;
 
-						foreach ( (array)$terms as $term=>$one)
+						foreach ( (array)$terms as $term => $one)
 						{
 							if (mb_strpos($val,$term)!==FALSE)
 								$values[$key] += 3;
@@ -287,7 +287,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			ob_end_clean();
 			if ( $options['save_delimiter']!='xml')
 			{
-				foreach ( (array)$column_names as $key=>$value)
+				foreach ( (array)$column_names as $key => $value)
 				{
 					$value = ParseMLField($value);
 					if ( $options['save_delimiter']=='comma' && !$options['save_quotes'])
@@ -298,7 +298,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			}
 			foreach ( (array)$result as $item)
 			{
-				foreach ( (array)$column_names as $key=>$value)
+				foreach ( (array)$column_names as $key => $value)
 				{
 					$value = $item[$key];
 					if ( $options['save_delimiter']=='comma' && !$options['save_quotes'])
@@ -496,7 +496,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 
 			if ( $result_count!=0 && $cols)
 			{
-				foreach ( (array)$column_names as $key=>$value)
+				foreach ( (array)$column_names as $key => $value)
 				{
 					if (isset($LO_sort) && $LO_sort==$key)
 						$direction = -1 * $_REQUEST['LO_direction'];
@@ -543,7 +543,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					elseif ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
 						echo '<TD>'.button('add').'</TD>';
 
-					foreach ( (array)$column_names as $key=>$value)
+					foreach ( (array)$column_names as $key => $value)
 					{
 						echo '<TD>'.$link['add']['html'][$key].'</TD>';
 					}
@@ -567,7 +567,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						$item[$key[$j]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
 					}
 					
-					/*foreach ( (array)$item as $key=>$value)
+					/*foreach ( (array)$item as $key => $value)
 					{
 						$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$value);
 						$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
@@ -590,7 +590,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$button_link = $link['remove']['link'];
 					if (count($link['remove']['variables']))
 					{
-						foreach ( (array)$link['remove']['variables'] as $var=>$val)
+						foreach ( (array)$link['remove']['variables'] as $var => $val)
 							$button_link .= "&$var=" . urlencode($item[$val]);
 					}
 
@@ -599,7 +599,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 
 				if ( $cols)
 				{
-					foreach ( (array)$column_names as $key=>$value)
+					foreach ( (array)$column_names as $key => $value)
 					{
 						if ( !empty($link[$key]) && $item[$key]!==false && !isset($_REQUEST['_ROSARIO_PDF']))
 						{
@@ -612,7 +612,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 								echo '<A HREF="#" onclick=\'window.open("'.$link[$key]['link'];
 								if (count($link[$key]['variables']))
 								{
-									foreach ( (array)$link[$key]['variables'] as $var=>$val)
+									foreach ( (array)$link[$key]['variables'] as $var => $val)
 										echo "&$var=".urlencode($item[$val]);
 								}
 								echo '","","scrollbars=yes,resizable=yes,width=800,height=400");\'';
@@ -625,7 +625,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 								echo '<A HREF="'.$link[$key]['link'];
 								if (count($link[$key]['variables']))
 								{
-									foreach ( (array)$link[$key]['variables'] as $var=>$val)
+									foreach ( (array)$link[$key]['variables'] as $var => $val)
 										echo '&'.$var.'='.urlencode($item[$val]);
 								}
 								echo '"';
@@ -671,7 +671,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					elseif ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
 						echo '<TD>'.button('add').'</TD>';
 
-					foreach ( (array)$column_names as $key=>$value)
+					foreach ( (array)$column_names as $key => $value)
 					{
 						echo '<TD>'.$link['add']['html'][$key].'</TD>';
 					}
@@ -712,7 +712,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 
 					echo '"><THEAD><TR><TH>&nbsp;</TH>';
 
-					foreach ( (array)$column_names as $key=>$value)
+					foreach ( (array)$column_names as $key => $value)
 					{
 						echo '<TH>' . str_replace(' ','&nbsp;',$value) . '</TH>';
 					}
@@ -725,7 +725,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					else
 						echo '<TD>'.button('add').'</TD>';
 
-					foreach ( (array)$column_names as $key=>$value)
+					foreach ( (array)$column_names as $key => $value)
 					{
 						echo '<TD>'.$link['add']['html'][$key].'</TD>';
 					}

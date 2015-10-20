@@ -59,7 +59,7 @@ if ( isset( $_POST['values'] )
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
 	
-	foreach ( (array)$_REQUEST['values'] as $column=>$value)
+	foreach ( (array)$_REQUEST['values'] as $column => $value)
 	{
 		if ( !empty($value) || $value=='0')
 		{

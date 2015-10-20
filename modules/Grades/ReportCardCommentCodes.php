@@ -9,7 +9,7 @@ if ( $_REQUEST['modfunc']=='update')
 	{
 		if ( $_REQUEST['tab_id'])
 		{
-			foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+			foreach ( (array)$_REQUEST['values'] as $id => $columns)
 			{
 		//FJ fix SQL bug invalid sort order
 				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -21,7 +21,7 @@ if ( $_REQUEST['modfunc']=='update')
 						else
 							$sql = "UPDATE REPORT_CARD_COMMENT_CODE_SCALES SET ";
 
-						foreach ( (array)$columns as $column=>$value)
+						foreach ( (array)$columns as $column => $value)
 							$sql .= $column."='".$value."',";
 
 						if ( $_REQUEST['tab_id']!='new')
@@ -46,7 +46,7 @@ if ( $_REQUEST['modfunc']=='update')
 						}
 
 						$go = false;
-						foreach ( (array)$columns as $column=>$value)
+						foreach ( (array)$columns as $column => $value)
 							if ( !empty($value) || $value=='0')
 							{
 								$fields .= $column.',';
@@ -101,46 +101,46 @@ if (empty($_REQUEST['modfunc']))
 
 	$tabs = array();
 	$comment_scale_select = array();
-	foreach ( (array)$comment_scales_RET as $id=>$comment_scale)
+	foreach ( (array)$comment_scales_RET as $id => $comment_scale)
 	{
-		$tabs[] = array('title'=>$comment_scale[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
+		$tabs[] = array('title' => $comment_scale[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
 		$comment_scale_select[$id] = $comment_scale[1]['TITLE'];
 	}
 
 	if ( $_REQUEST['tab_id']!='new')
 	{
 		$sql = 'SELECT * FROM REPORT_CARD_COMMENT_CODES WHERE SCALE_ID=\''.$_REQUEST['tab_id'].'\' AND SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER,ID';
-		$functions = array('TITLE'=>'makeCommentsInput','SHORT_NAME'=>'makeCommentsInput','COMMENT'=>'makeCommentsInput','SORT_ORDER'=>'makeCommentsInput');
-		$LO_columns = array('TITLE'=>_('Title'),'SHORT_NAME'=>_('Short Name'),'COMMENT'=>_('Comment'),'SORT_ORDER'=>_('Sort Order'));
+		$functions = array('TITLE' => 'makeCommentsInput','SHORT_NAME' => 'makeCommentsInput','COMMENT' => 'makeCommentsInput','SORT_ORDER' => 'makeCommentsInput');
+		$LO_columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'COMMENT' => _('Comment'),'SORT_ORDER' => _('Sort Order'));
 
 		if (User('PROFILE')=='admin' && AllowEdit())
 		{
-			$functions += array('SCALE_ID'=>'makeCommentsInput');
-			$LO_columns += array('SCALE_ID'=>_('Comment Scale'));
+			$functions += array('SCALE_ID' => 'makeCommentsInput');
+			$LO_columns += array('SCALE_ID' => _('Comment Scale'));
 		}
 
 		$link['add']['html'] = array('TITLE'=>makeCommentsInput('','TITLE'),'SHORT_NAME'=>makeCommentsInput('','SHORT_NAME'),'COMMENT'=>makeCommentsInput('','COMMENT'),'SORT_ORDER'=>makeCommentsInput('','SORT_ORDER'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'];
-		$link['remove']['variables'] = array('id'=>_('ID'));
+		$link['remove']['variables'] = array('id' => _('ID'));
 		$link['add']['html']['remove'] = button('add');
 
 		if (User('PROFILE')=='admin')
-			$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+			$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 
 		$subject = 'Codes';
 	}
 	else
 	{
 		$sql = 'SELECT * FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER,ID';
-		$functions = array('TITLE'=>'makeTextInput','COMMENT'=>'makeTextInput','SORT_ORDER'=>'makeTextInput');
-		$LO_columns = array('TITLE'=>_('Comment Scale'),'COMMENT'=>_('Comment'),'SORT_ORDER'=>_('Sort Order'));
+		$functions = array('TITLE' => 'makeTextInput','COMMENT' => 'makeTextInput','SORT_ORDER' => 'makeTextInput');
+		$LO_columns = array('TITLE' => _('Comment Scale'),'COMMENT' => _('Comment'),'SORT_ORDER' => _('Sort Order'));
 
 		$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'COMMENT'=>makeTextInput('','COMMENT'),'HHR_GPA_VALUE'=>makeCommentsInput('','HHR_GPA_VALUE'),'HR_GPA_VALUE'=>makeCommentsInput('','HR_GPA_VALUE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id=new';
-		$link['remove']['variables'] = array('id'=>_('ID'));
+		$link['remove']['variables'] = array('id' => _('ID'));
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=new');
 
 		$subject = 'Comment Code Scales';
 	}

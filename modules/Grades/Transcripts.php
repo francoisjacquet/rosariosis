@@ -92,12 +92,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			echo '<style type="text/css"> * {font-size:large; line-height:1.2;} </style>';
 			
-			$columns = array('COURSE_TITLE'=>_('Course'));
+			$columns = array('COURSE_TITLE' => _('Course'));
 
 			$school_info = DBGet(DBQuery('select * from schools where syear = '.UserSyear().' AND id = '.$school_id));
 			$school_info = $school_info[1];
 					
-			foreach ( (array)$t_grades as $student_id=>$mps)
+			foreach ( (array)$t_grades as $student_id => $mps)
 			{
 				$student_data = $students_data[$student_id][1];
 
@@ -202,7 +202,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$total_credit_earned = 0;
 				$total_credit_attempted = 0;
 
-				foreach ( (array)$mps as $mp_id=>$grades)
+				foreach ( (array)$mps as $mp_id => $grades)
 				{
 					$columns[$mp_id] = $grades[1]['SHORT_NAME'];
 					//$i = 1;
@@ -362,7 +362,7 @@ if (empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align:top;">'._('Marking Periods').':</TD><TD><TABLE><TR class="st"><TD  style="vertical-align:top;"><TABLE>';
 
 		//FJ add translation
-		$marking_periods_locale = array('Year'=>_('Year'), 'Semester'=>_('Semester'), 'Quarter'=>_('Quarter'));
+		$marking_periods_locale = array('Year' => _('Year'), 'Semester' => _('Semester'), 'Quarter' => _('Quarter'));
 
 		foreach ( (array)$mp_types as $mp_type)
 		{
@@ -437,8 +437,8 @@ if (empty($_REQUEST['modfunc']))
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
 	$extra['options']['search'] = false;
 
 	Widgets('course');

@@ -58,7 +58,7 @@ if (count($grouped_RET))
 	$tmp_REQUEST = $_REQUEST;
 	unset($tmp_REQUEST['chart_type']);
 	$link = PreparePHP_SELF($tmp_REQUEST);
-	$tabs = array(array('title'=>_('Line'),'link'=>str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type=column',$link)),array('title'=>_('List'),'link'=>str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type=list',$link)));
+	$tabs = array(array('title' => _('Line'),'link'=>str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type=column',$link)),array('title' => _('List'),'link'=>str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type=list',$link)));
 
 	$_ROSARIO['selected_tab'] = str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type='.str_replace(' ','+',$_REQUEST['chart_type']),$link);
 	echo '<BR />';
@@ -67,14 +67,14 @@ if (count($grouped_RET))
 	{
 		$columns = array();
 		
-		$columns = array('GRADES'=>_('Grades'));
+		$columns = array('GRADES' => _('Grades'));
 		foreach ( (array)$grades_RET as $grade)
 		{
 			$i++;
 			$teachers_RET[$i]['GRADES'] = $grade['TITLE'];
 		}
 			
-		foreach ( (array)$grouped_RET as $staff_id=>$grades)
+		foreach ( (array)$grouped_RET as $staff_id => $grades)
 		{
 			$columns[$staff_id] = $grades[key($grades)][1]['FULL_NAME'];
 			foreach ( (array)$grades_RET as $grade)
@@ -101,7 +101,7 @@ if (count($grouped_RET))
 			var saveImgText = <?php echo json_encode(_('Right Click to Save Image As...')); ?>;
 			$(document).ready(function(){
 <?php
-		foreach ( (array)$grouped_RET as $staff_id=>$grades)
+		foreach ( (array)$grouped_RET as $staff_id => $grades)
 		{
 			$i++;
 			$chartData = 'var chartTitle'.$i." = '".htmlspecialchars($grades[key($grades)][1]['FULL_NAME'].' - '.$UserMPTitle.' - '._('Grade Breakdown'),ENT_QUOTES)."';\n"; 

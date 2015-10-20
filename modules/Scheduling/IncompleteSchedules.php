@@ -69,11 +69,11 @@ else
 	if (AllowUse('Scheduling/Schedule.php'))
 	{
 		$link['FULL_NAME']['link'] = "Modules.php?modname=Scheduling/Schedule.php";
-		$link['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
+		$link['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
 	}
 	else
 		$link = array();
-	ListOutput($bad_students,array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'))+$extra['columns_after'],'Student with an incomplete schedule','Students with incomplete schedules',$link);
+	ListOutput($bad_students,array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level'))+$extra['columns_after'],'Student with an incomplete schedule','Students with incomplete schedules',$link);
 }
 
 function _preparePeriods($value,$name)

@@ -14,9 +14,9 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	if (count($_REQUEST['month_']))
 	{
-		foreach ( (array)$_REQUEST['month_'] as $id=>$columns)
+		foreach ( (array)$_REQUEST['month_'] as $id => $columns)
 		{
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				if ( $_REQUEST['day_'][$id][$column] && $_REQUEST['month_'][$id][$column] && $_REQUEST['year_'][$id][$column])
 					$_REQUEST['values'][$id][$column] = $_REQUEST['day_'][$id][$column].'-'.$_REQUEST['month_'][$id][$column].'-'.$_REQUEST['year_'][$id][$column];
@@ -24,13 +24,13 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		}
 	}
 
-	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id => $columns)
 	{
 		if ( $id!='new')
 		{
 			$sql = "UPDATE BILLING_FEES SET ";
 							
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -45,7 +45,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$values = db_seq_nextval('BILLING_FEES_SEQ').",'".UserStudentID()."','".UserSchool()."','".UserSyear()."','".DBDate()."',";
 			
 			$go = 0;
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				if ( !empty($value) || $value=='0')
 				{
@@ -88,7 +88,7 @@ if ( $_REQUEST['modfunc']=='waive' && AllowEdit())
 if (UserStudentID() && !$_REQUEST['modfunc'])
 {
 	$fees_total = 0;
-	$functions = array('REMOVE'=>'_makeFeesRemove','ASSIGNED_DATE'=>'ProperDate','DUE_DATE'=>'_makeFeesDateInput','COMMENTS'=>'_makeFeesTextInput','AMOUNT'=>'_makeFeesAmount');
+	$functions = array('REMOVE' => '_makeFeesRemove','ASSIGNED_DATE' => 'ProperDate','DUE_DATE' => '_makeFeesDateInput','COMMENTS' => '_makeFeesTextInput','AMOUNT' => '_makeFeesAmount');
 	
 	$waived_fees_RET = DBGet(DBQuery("SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,f.AMOUNT,f.WAIVED_FEE_ID FROM BILLING_FEES f WHERE f.STUDENT_ID='".UserStudentID()."' AND f.SYEAR='".UserSyear()."' AND f.WAIVED_FEE_ID IS NOT NULL"),$functions,array('WAIVED_FEE_ID'));
 	
@@ -102,17 +102,17 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 		if ( $waived_fees_RET[$fee['ID']])
 		{
 			$i++;
-			$RET[$i] = ($waived_fees_RET[$fee['ID']][1] + array('row_color'=>'00FF66'));
+			$RET[$i] = ($waived_fees_RET[$fee['ID']][1] + array('row_color' => '00FF66'));
 		}
 		$i++;
 	}
 	
 	if (count($RET) && !$_REQUEST['print_statements'] && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
-		$columns = array('REMOVE'=>'');
+		$columns = array('REMOVE' => '');
 	else
 		$columns = array();
 
-	$columns += array('TITLE'=>_('Fee'),'AMOUNT'=>_('Amount'),'ASSIGNED_DATE'=>_('Assigned'),'DUE_DATE'=>_('Due'),'COMMENTS'=>_('Comment'));
+	$columns += array('TITLE' => _('Fee'),'AMOUNT' => _('Amount'),'ASSIGNED_DATE' => _('Assigned'),'DUE_DATE' => _('Due'),'COMMENTS' => _('Comment'));
 	if ( !$_REQUEST['print_statements'])
 		$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeFeesTextInput('','TITLE'),'AMOUNT'=>_makeFeesTextInput('','AMOUNT'),'ASSIGNED_DATE'=>ProperDate(DBDate()),'DUE_DATE'=>_makeFeesDateInput('','DUE_DATE'),'COMMENTS'=>_makeFeesTextInput('','COMMENTS'));
 	if ( !$_REQUEST['print_statements'])

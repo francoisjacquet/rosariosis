@@ -45,14 +45,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			$skipRET = array();
 			for($i=($_REQUEST['start_row']-1)*$max_cols+$_REQUEST['start_col']; $i>1; $i--)
-				$skipRET[-$i] = array('LAST_NAME'=>' ');
+				$skipRET[-$i] = array('LAST_NAME' => ' ');
 
 			$handle = PDFstart();
 			echo '<table style="height: 100%" class="width-100p cellspacing-0">';
 
 			$cols = 0;
 			$rows = 0;
-			foreach ( (array)$skipRET+$RET as $i=>$student)
+			foreach ( (array)$skipRET+$RET as $i => $student)
 			{
 				if ( $cols<1)
 					echo '<tr>';
@@ -178,8 +178,8 @@ if (empty($_REQUEST['modfunc']))
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 

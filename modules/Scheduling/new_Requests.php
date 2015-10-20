@@ -16,7 +16,7 @@ if ( $_REQUEST['modfunc']=='verify')
 
 	DBQuery("DELETE FROM SCHEDULE_REQUESTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."'");
 	
-	foreach ( (array)$_REQUEST['courses'] as $subject=>$courses)
+	foreach ( (array)$_REQUEST['courses'] as $subject => $courses)
 	{
 		$courses_count = count($courses);
 		for($i=0;$i<$courses_count;$i++)
@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc']=='verify')
 
 if ( $_REQUEST['modfunc']=='choose')
 {
-	$functions = array('WITH_PERIOD_ID'=>'_makeWithSelects','NOT_PERIOD_ID'=>'_makeWithoutSelects');
+	$functions = array('WITH_PERIOD_ID' => '_makeWithSelects','NOT_PERIOD_ID' => '_makeWithoutSelects');
 	$requests_RET = DBGet(DBQuery("SELECT sr.COURSE_ID,c.COURSE_TITLE,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID 
 	FROM SCHEDULE_REQUESTS sr,COURSES c
 	WHERE sr.SYEAR='".UserSyear()."' 

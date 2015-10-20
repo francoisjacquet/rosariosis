@@ -39,7 +39,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$RET = GetStaffList($extra);
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
 
-		$RESULT = array(0=>array());
+		$RESULT = array(0 => array());
 		$i = 0;
 		foreach ( (array)$RET as $staff)
 		{
@@ -80,11 +80,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			//FJ send email from rosariosis@[domain]
 			$result = SendEmail($to, $subject, $msg, null, $cc);
 
-			$RESULT[] = array('PARENT'=>$staff['FULL_NAME'],'USERNAME'=>$staff['USERNAME'],'EMAIL'=>!$test_email?$staff['EMAIL']:$test_email,'RESULT'=>$result?_('Success'):_('Fail'));
+			$RESULT[] = array('PARENT' => $staff['FULL_NAME'],'USERNAME' => $staff['USERNAME'],'EMAIL'=>!$test_email?$staff['EMAIL']:$test_email,'RESULT' => $result?_('Success'):_('Fail'));
 			$i++;
 		}
 		unset($RESULT[0]);
-		$columns = array('PARENT'=>_('Parent'),'USERNAME'=>_('Username'),'EMAIL'=>_('Email'),'RESULT'=>_('Result'));
+		$columns = array('PARENT' => _('Parent'),'USERNAME' => _('Username'),'EMAIL' => _('Email'),'RESULT' => _('Result'));
 		ListOutput($RESULT,$columns,'Notification Result','Notification Results');
 	}
 	else
@@ -133,9 +133,9 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 	$extra['SELECT'] .= ",(SELECT count(st.STUDENT_ID) FROM STUDENTS st,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju WHERE sju.STAFF_ID=s.STAFF_ID AND st.STUDENT_ID=sju.STUDENT_ID AND sse.STUDENT_ID=sju.STUDENT_ID AND sse.SYEAR='".UserSyear()."' AND sse.END_DATE IS NULL) AS ASSOCIATED";
 
 	$extra['WHERE'] = " AND s.LAST_LOGIN IS NULL";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'staff\');" /><A>');
-	$extra['columns_after'] = array('ASSOCIATED'=>_('Associated Students'),'USERNAME'=>_('Username'),'EMAIL'=>_('Email'));
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'staff\');" /><A>');
+	$extra['columns_after'] = array('ASSOCIATED' => _('Associated Students'),'USERNAME' => _('Username'),'EMAIL' => _('Email'));
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['profile'] = 'parent';
 	$extra['new'] = true;

@@ -122,7 +122,7 @@ else
 }
 
 $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&period_id='.$_REQUEST['period_id'];
-$extra['link']['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
+$extra['link']['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
 
 Search('student_id',$extra);
 
@@ -143,13 +143,13 @@ if (UserStudentID())
 	AND '".$end_date."' 
 	AND ad.SYEAR='".UserSyear()."' 
 	ORDER BY ap.SCHOOL_DATE"),array(),array('SCHOOL_DATE','PERIOD_ID'));
-	foreach ( (array)$absences_RET as $school_date=>$absences)
+	foreach ( (array)$absences_RET as $school_date => $absences)
 	{
 		$i++;
 		$days_RET[$i]['SCHOOL_DATE'] = ProperDate($school_date);
 		$days_RET[$i]['DAILY'] = _makeStateValue($absences[key($absences)][1]['STATE_VALUE']);
 		$days_RET[$i]['OFFICE_COMMENT'] = $absences[key($absences)][1]['OFFICE_COMMENT'];
-		foreach ( (array)$absences as $period_id=>$absence)
+		foreach ( (array)$absences as $period_id => $absence)
 		{
 			//$days_RET[$i][$period_id] =            $absence[1]['SHORT_NAME'];
 			$days_RET[$i][$period_id] = _makeColor($absence[1]['SHORT_NAME'],$absence[1]['STATE_CODE']);
@@ -192,6 +192,6 @@ function _makeStateValue($value)
 
 function _makeColor($value,$state_code)
 {
-	$colors = array('P'=>'#FFCC00','A'=>'#FF0000','H'=>'#FFCC00','T'=>'#6666FF');
+	$colors = array('P' => '#FFCC00','A' => '#FF0000','H' => '#FFCC00','T' => '#6666FF');
 	return '<div style="float:left;'.($colors[$state_code]?' background-color:'.$colors[$state_code].';':'').' padding:0 8px;">'.$value.'</div>';
 }

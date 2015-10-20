@@ -57,7 +57,7 @@ if ( isset( $_POST['values'] )
 
 			$go = 0;
 			
-			foreach ( (array)$_REQUEST['values']['ADDRESS'] as $column=>$value)
+			foreach ( (array)$_REQUEST['values']['ADDRESS'] as $column => $value)
 			{
 				if (1)//!empty($value) || $value=='0')
 				{
@@ -103,7 +103,7 @@ if ( isset( $_POST['values'] )
 			$values = "'".$id."',";
 
 			$go = 0;
-			foreach ( (array)$_REQUEST['values']['ADDRESS'] as $column=>$value)
+			foreach ( (array)$_REQUEST['values']['ADDRESS'] as $column => $value)
 			{
 				if ( !empty($value) || $value=='0')
 				{
@@ -135,7 +135,7 @@ if ( isset( $_POST['values'] )
 
 			$go = 0;
 			
-			foreach ( (array)$_REQUEST['values']['PEOPLE'] as $column=>$value)
+			foreach ( (array)$_REQUEST['values']['PEOPLE'] as $column => $value)
 			{
 				if (1)//!empty($value) || $value=='0')
 				{
@@ -165,7 +165,7 @@ if ( isset( $_POST['values'] )
 			$values = "'".$id."',";
 
 			$go = 0;
-			foreach ( (array)$_REQUEST['values']['PEOPLE'] as $column=>$value)
+			foreach ( (array)$_REQUEST['values']['PEOPLE'] as $column => $value)
 			{
 				if ( !empty($value) || $value=='0')
 				{
@@ -188,13 +188,13 @@ if ( isset( $_POST['values'] )
 
 	if ( $_REQUEST['values']['PEOPLE_JOIN_CONTACTS'])
 	{
-		foreach ( (array)$_REQUEST['values']['PEOPLE_JOIN_CONTACTS'] as $id=>$values)
+		foreach ( (array)$_REQUEST['values']['PEOPLE_JOIN_CONTACTS'] as $id => $values)
 		{
 			if ( $id!='new')
 			{
 				$sql = "UPDATE PEOPLE_JOIN_CONTACTS SET ";
 
-				foreach ( (array)$values as $column=>$value)
+				foreach ( (array)$values as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -211,7 +211,7 @@ if ( isset( $_POST['values'] )
 					$vals = db_seq_nextval('PEOPLE_JOIN_CONTACTS_SEQ').",'".$_REQUEST['person_id']."',";
 
 					$go = 0;
-					foreach ( (array)$values as $column=>$value)
+					foreach ( (array)$values as $column => $value)
 					{
 						if ( !empty($value) || $value=='0')
 						{
@@ -232,7 +232,7 @@ if ( isset( $_POST['values'] )
 	{
 		$sql = "UPDATE STUDENTS_JOIN_PEOPLE SET ";
 
-		foreach ( (array)$_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] as $column=>$value)
+		foreach ( (array)$_REQUEST['values']['STUDENTS_JOIN_PEOPLE'] as $column => $value)
 		{
 			$sql .= $column."='".$value."',";
 		}
@@ -244,7 +244,7 @@ if ( isset( $_POST['values'] )
 	{
 		$sql = "UPDATE STUDENTS_JOIN_ADDRESS SET ";
 
-		foreach ( (array)$_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] as $column=>$value)
+		foreach ( (array)$_REQUEST['values']['STUDENTS_JOIN_ADDRESS'] as $column => $value)
 		{
 			$sql .= $column."='".$value."',";
 		}
@@ -335,7 +335,7 @@ if (empty($_REQUEST['modfunc']))
 
 		if (count($addresses_RET))
 		{
-			foreach ( (array)$addresses_RET as $address_id=>$addresses)
+			foreach ( (array)$addresses_RET as $address_id => $addresses)
 			{
 				echo '<TR>';
 
@@ -579,9 +579,9 @@ if (empty($_REQUEST['modfunc']))
 			else
 				$size = false;
 
-			$city_options = _makeAutoSelect('CITY','ADDRESS',array(array('CITY'=>$this_address['CITY']),array('CITY'=>$this_address['MAIL_CITY'])),array());
-			$state_options = _makeAutoSelect('STATE','ADDRESS',array(array('STATE'=>$this_address['STATE']),array('STATE'=>$this_address['MAIL_STATE'])),array());
-			$zip_options = _makeAutoSelect('ZIPCODE','ADDRESS',array(array('ZIPCODE'=>$this_address['ZIPCODE']),array('ZIPCODE'=>$this_address['MAIL_ZIPCODE'])),array());
+			$city_options = _makeAutoSelect('CITY','ADDRESS',array(array('CITY' => $this_address['CITY']),array('CITY' => $this_address['MAIL_CITY'])),array());
+			$state_options = _makeAutoSelect('STATE','ADDRESS',array(array('STATE' => $this_address['STATE']),array('STATE' => $this_address['MAIL_STATE'])),array());
+			$zip_options = _makeAutoSelect('ZIPCODE','ADDRESS',array(array('ZIPCODE' => $this_address['ZIPCODE']),array('ZIPCODE' => $this_address['MAIL_ZIPCODE'])),array());
 
 			//FJ css WPadmin
 			echo '<TABLE class="widefat width-100p cellspacing-0"><TR><TH colspan="3">';

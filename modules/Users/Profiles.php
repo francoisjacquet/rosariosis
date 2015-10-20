@@ -99,16 +99,16 @@ if ( $_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowE
 	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
 	foreach ( (array)$tmp_menu['Users'] as $profile => $modname_array)
 	{
-		foreach ($modname_array as $modname=>$title)
+		foreach ($modname_array as $modname => $title)
 			if (mb_strpos($modname, 'TeacherPrograms') !== false)
 				unset ($tmp_menu['Users'][$profile][$modname]);
 	}
 
 	if ( isset( $_POST['can_use'] ) )
-	foreach ( (array)$tmp_menu as $modcat=>$profiles)
+	foreach ( (array)$tmp_menu as $modcat => $profiles)
 	{
 		$values = $profiles[$xprofile];
-		foreach ( (array)$values as $modname=>$title)
+		foreach ( (array)$values as $modname => $title)
 		{
 			if ( !is_numeric($modname) && $modname!='default')
 			{
@@ -178,7 +178,7 @@ if ( $_REQUEST['modfunc']!='delete')
 	echo '<TR><TH colspan="3">'._('Profiles').'</TH></TR>';
 	foreach ( array('admin','teacher','parent','student') as $profiles)
 	{
-		foreach ( (array)$profiles_RET[$profiles] as $id=>$profile)
+		foreach ( (array)$profiles_RET[$profiles] as $id => $profile)
 		{
 			if ( $_REQUEST['profile_id']!='' && $id==$_REQUEST['profile_id'])
 				echo '<TR id="selected_tr" class="highlight"><TD>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</TD><TD>';
@@ -224,7 +224,7 @@ function changeHTML(show,hide){
 		PopTable('header',_('Permissions'));
 //		echo '<TABLE cellspacing=0>';
 		echo '<TABLE class="widefat cellspacing-0">';
-		foreach ( (array)$menu as $modcat=>$profiles)
+		foreach ( (array)$menu as $modcat => $profiles)
 		{
 			$values = $profiles[$xprofile];
 
@@ -246,7 +246,7 @@ function changeHTML(show,hide){
 			echo '<TH>&nbsp;</TH></TR>';
 			if (count($values))
 			{
-				foreach ( (array)$values as $file=>$title)
+				foreach ( (array)$values as $file => $title)
 				{
 					if ( !is_numeric($file) && $file!='default')
 					{

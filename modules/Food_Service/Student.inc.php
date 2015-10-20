@@ -7,7 +7,7 @@ if ( $_REQUEST['modfunc']=='update')
 		if (count($_REQUEST['food_service']))
 		{
 			$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
-			foreach ( (array)$_REQUEST['food_service'] as $column_name=>$value)
+			foreach ( (array)$_REQUEST['food_service'] as $column_name => $value)
 				$sql .= $column_name."='".trim($value)."',";
 			$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='".UserStudentID()."'";
 			DBQuery($sql);
@@ -72,10 +72,10 @@ if ( !$_REQUEST['modfunc'] && UserStudentID())
 	}
 
 	echo '</TD>';
-	$options = array('Inactive'=>_('Inactive'),'Disabled'=>_('Disabled'),'Closed'=>_('Closed'));
+	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
 	echo '<TD>'.SelectInput($student['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')).'</TD>';
 	echo '</TR><TR>';
-	$options = array('Reduced'=>'Reduced','Free'=>'Free');
+	$options = array('Reduced' => 'Reduced','Free' => 'Free');
 	echo '<TD>'.SelectInput($student['DISCOUNT'],'food_service[DISCOUNT]',_('Discount'),$options,_('Full')).'</TD>';
 	echo '<TD>'.TextInput($student['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25').'</TD>';
 	echo '</TR>';

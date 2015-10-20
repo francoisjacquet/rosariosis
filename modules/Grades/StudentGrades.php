@@ -40,7 +40,7 @@ if ( !$_REQUEST['id'])
 //FJ add label on checkbox
 		DrawHeader('','<label>'.CheckBoxOnclick('do_stats').' '._('Include Anonymous Statistics').'</label>');
 		
-	$LO_columns = array('TITLE'=>_('Course Title'),'TEACHER'=>_('Teacher'),'UNGRADED'=>_('Ungraded'));
+	$LO_columns = array('TITLE' => _('Course Title'),'TEACHER' => _('Teacher'),'UNGRADED' => _('Ungraded'));
 
 	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
 		$LO_columns['GRADE'] = _('Letter');
@@ -49,13 +49,13 @@ if ( !$_REQUEST['id'])
 		$LO_columns['PERCENT'] = _('Percent');
 
 	if ( $do_stats && $_REQUEST['do_stats'])
-		$LO_columns += array('BAR1'=>_('Grade Range'),'BAR2'=>_('Class Rank'));
+		$LO_columns += array('BAR1' => _('Grade Range'),'BAR2' => _('Class Rank'));
 
 	if (count($courses_RET))
 	{
-		$LO_ret = array(0=>array());
+		$LO_ret = array(0 => array());
 
-		foreach ( (array)$courses_RET as $course_period_id=>$course)
+		foreach ( (array)$courses_RET as $course_period_id => $course)
 		{
 			$course = $course[1];
 			$staff_id = $course['STAFF_ID'];
@@ -69,7 +69,7 @@ if ( !$_REQUEST['id'])
 			{
                 $config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 				if (count($config_RET))
-					foreach ( (array)$config_RET as $title=>$value)
+					foreach ( (array)$config_RET as $title => $value)
 						$programconfig[$staff_id][$title] = $value[1]['VALUE'];
 				else
 					$programconfig[$staff_id] = true;
@@ -128,7 +128,7 @@ if ( !$_REQUEST['id'])
 					$min_percent = $max_percent = $percent;
 					$avg_percent = 0;
 					$lower = $higher = 0;
-					foreach ( (array)$all_RET as $xstudent_id=>$student)
+					foreach ( (array)$all_RET as $xstudent_id => $student)
 					{
 						$total = $total_percent = 0;
 						foreach ( (array)$student as $partial_points)
@@ -176,13 +176,13 @@ if ( !$_REQUEST['id'])
 					break;
 				}
 
-				$LO_ret[] = array('ID'=>$course_period_id,'TITLE'=>$course['COURSE_TITLE'],'TEACHER'=>mb_substr($course_title,mb_strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2),'PERCENT'=>($percent!==false?number_format(100*$percent,1).'%':_('N/A')),'GRADE'=>($percent!==false?'<b>'._makeLetterGrade($percent,$course_period_id,$staff_id).'</b>':_('N/A')),'UNGRADED'=>$ungraded)+($do_stats&&$_REQUEST['do_stats']?array('BAR1'=>$bargraph1,'BAR2'=>$bargraph2):array());
+				$LO_ret[] = array('ID' => $course_period_id,'TITLE' => $course['COURSE_TITLE'],'TEACHER'=>mb_substr($course_title,mb_strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2),'PERCENT'=>($percent!==false?number_format(100*$percent,1).'%':_('N/A')),'GRADE'=>($percent!==false?'<b>'._makeLetterGrade($percent,$course_period_id,$staff_id).'</b>':_('N/A')),'UNGRADED' => $ungraded)+($do_stats&&$_REQUEST['do_stats']?array('BAR1' => $bargraph1,'BAR2' => $bargraph2):array());
 			}
 			//else
-				//$LO_ret[] = array('ID'=>$course_period_id,'TITLE'=>$course['COURSE_TITLE'],'TEACHER'=>mb_substr($course_title,mb_strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2));
+				//$LO_ret[] = array('ID' => $course_period_id,'TITLE' => $course['COURSE_TITLE'],'TEACHER'=>mb_substr($course_title,mb_strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2));
 		}
 		unset($LO_ret[0]);
-		$link = array('TITLE'=>array('link'=>'Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:''),'variables'=>array('id'=>'ID')));
+		$link = array('TITLE' => array('link' => 'Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:''),'variables' => array('id' => 'ID')));
 		ListOutput($LO_ret,$LO_columns,'Course','Courses',$link,array(),array('center'=>false,'save'=>false,'search'=>false));
 	}
 	else
@@ -197,7 +197,7 @@ else
 	}
 	else
 	{
-		$courses_RET = array($_REQUEST['id']=>$courses_RET[$_REQUEST['id']]);
+		$courses_RET = array($_REQUEST['id'] => $courses_RET[$_REQUEST['id']]);
 		DrawHeader('<B>'.$courses_RET[$_REQUEST['id']][1]['COURSE_TITLE'].'</B> - '.mb_substr($courses_RET[$_REQUEST['id']][1]['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$courses_RET[$_REQUEST['id']][1]['TITLE']),'^')+2),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</A>');
 	}
 	if ( $do_stats)
@@ -205,7 +205,7 @@ else
 		DrawHeader('','<label>'.CheckBoxOnclick('do_stats').' '._('Include Anonymous Statistics').'</label>');
 	//echo '<pre>'; var_dump($courses_RET); echo '</pre>';
 
-    foreach ( (array)$courses_RET as $course_period_id=>$course)
+    foreach ( (array)$courses_RET as $course_period_id => $course)
 	{
 		$course = $course[1];
 		$staff_id = $course['STAFF_ID'];
@@ -213,7 +213,7 @@ else
 		{
 			$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 			if (count($config_RET))
-				foreach ( (array)$config_RET as $title=>$value)
+				foreach ( (array)$config_RET as $title => $value)
 					$programconfig[$staff_id][$title] = $value[1]['VALUE'];
 			else
 				$programconfig[$staff_id] = true;
@@ -229,7 +229,7 @@ else
 		AND at.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID 
 		AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($programconfig[$staff_id]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) OR gg.POINTS IS NOT NULL) 
 		AND (ga.POINTS!='0' OR gg.POINTS IS NOT NULL AND gg.POINTS!='-1') 
-		ORDER BY ga.ASSIGNMENT_ID DESC"),array('TITLE'=>'_makeTipTitle'));
+		ORDER BY ga.ASSIGNMENT_ID DESC"),array('TITLE' => '_makeTipTitle'));
 		//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 		if (count($assignments_RET))
 		{
@@ -253,18 +253,18 @@ else
 				GROUP BY ga.ASSIGNMENT_ID"),array(),array('ASSIGNMENT_ID'));
 			//echo '<pre>'; var_dump($all_RET); echo '</pre>';
 
-			$LO_columns = array('TITLE'=>_('Title'),'CATEGORY'=>_('Category'),'POINTS'=>_('Points / Possible'));
+			$LO_columns = array('TITLE' => _('Title'),'CATEGORY' => _('Category'),'POINTS' => _('Points / Possible'));
 			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
 				$LO_columns['PERCENT'] = _('Percent');
 			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
 				if ( $programconfig[$staff_id]['LETTER_GRADE_ALL']!='Y')
 					$LO_columns['LETTER'] = _('Letter');
 				
-			$LO_columns += array('COMMENT'=>_('Comment'));
+			$LO_columns += array('COMMENT' => _('Comment'));
 			if ( $do_stats && $_REQUEST['do_stats'])
-				$LO_columns += array('BAR1'=>_('Grade Range'),'BAR2'=>_('Class Rank'));
+				$LO_columns += array('BAR1' => _('Grade Range'),'BAR2' => _('Class Rank'));
 
-			$LO_ret = array(0=>array());
+			$LO_ret = array(0 => array());
 
 			foreach ( (array)$assignments_RET as $assignment)
 			{
@@ -291,7 +291,7 @@ else
 						$bargraph2 = bargraph2(false);
 					}
 				}
-				$LO_ret[] = array('TITLE'=>$assignment['TITLE'],'CATEGORY'=>$assignment['CATEGORY'],'POINTS'=>($assignment['POINTS']=='-1'?'*':($assignment['POINTS']==''?'<span style="color:red">0</span>':rtrim(rtrim($assignment['POINTS'],'0'),'.'))).' / '.$assignment['POINTS_POSSIBLE'],'PERCENT'=>($assignment['POINTS_POSSIBLE']=='0'?_('E/C'):($assignment['POINTS']=='-1'?'*':number_format(100*$assignment['POINTS']/$assignment['POINTS_POSSIBLE'],1).'%')),'LETTER'=>($programconfig[$staff_id]['LETTER_GRADE_ALL']=='Y'?'':($assignment['POINTS_POSSIBLE']=='0'?_('N/A'):($assignment['POINTS']=='-1'?_('N/A'):($assignment['POINTS_POSSIBLE']>=$programconfig[$staff_id]['LETTER_GRADE_MIN']?'<b>'._makeLetterGrade($assignment['POINTS']/$assignment['POINTS_POSSIBLE'],$course['COURSE_PERIOD_ID'],$staff_id).'</b>':'')))),'COMMENT'=>$assignment['COMMENT'].($assignment['POINTS']==''?($assignment['COMMENT']?'<BR />':'').'<span style="color:red">'._('No Grade').'</span>':''))+($do_stats&&$_REQUEST['do_stats']?array('BAR1'=>$bargraph1,'BAR2'=>$bargraph2):array());
+				$LO_ret[] = array('TITLE' => $assignment['TITLE'],'CATEGORY' => $assignment['CATEGORY'],'POINTS'=>($assignment['POINTS']=='-1'?'*':($assignment['POINTS']==''?'<span style="color:red">0</span>':rtrim(rtrim($assignment['POINTS'],'0'),'.'))).' / '.$assignment['POINTS_POSSIBLE'],'PERCENT'=>($assignment['POINTS_POSSIBLE']=='0'?_('E/C'):($assignment['POINTS']=='-1'?'*':number_format(100*$assignment['POINTS']/$assignment['POINTS_POSSIBLE'],1).'%')),'LETTER'=>($programconfig[$staff_id]['LETTER_GRADE_ALL']=='Y'?'':($assignment['POINTS_POSSIBLE']=='0'?_('N/A'):($assignment['POINTS']=='-1'?_('N/A'):($assignment['POINTS_POSSIBLE']>=$programconfig[$staff_id]['LETTER_GRADE_MIN']?'<b>'._makeLetterGrade($assignment['POINTS']/$assignment['POINTS_POSSIBLE'],$course['COURSE_PERIOD_ID'],$staff_id).'</b>':'')))),'COMMENT' => $assignment['COMMENT'].($assignment['POINTS']==''?($assignment['COMMENT']?'<BR />':'').'<span style="color:red">'._('No Grade').'</span>':''))+($do_stats&&$_REQUEST['do_stats']?array('BAR1' => $bargraph1,'BAR2' => $bargraph2):array());
 			}
 			if ( $_REQUEST['id']=='all')
 			{
@@ -299,7 +299,7 @@ else
 				DrawHeader('<B>'.mb_substr($course['TITLE'],0,mb_strpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')).'</B> - '.mb_substr($course['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')+2),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</A>');
 			}
 			unset($LO_ret[0]);
-			ListOutput($LO_ret,$LO_columns,'Assignment','Assignments',array(),array(),array('center'=>false,'save'=>$_REQUEST['id']!='all','search'=>false));
+			ListOutput($LO_ret,$LO_columns,'Assignment','Assignments',array(),array(),array('center'=>false,'save' => $_REQUEST['id']!='all','search'=>false));
 		}
 		else
 			if ( $_REQUEST['id']!='all')

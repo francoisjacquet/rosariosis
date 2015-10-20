@@ -184,7 +184,7 @@ if (empty($_REQUEST['modfunc']))
 		$modules_RET[] = $THIS_RET;
 	}
 
-	$columns = array('DELETE'=>'','TITLE'=>_('Title'),'ACTIVATED'=>_('Activated'));
+	$columns = array('DELETE' => '','TITLE' => _('Title'),'ACTIVATED' => _('Activated'));
 	
 	unset($modules_RET[0]);
 	

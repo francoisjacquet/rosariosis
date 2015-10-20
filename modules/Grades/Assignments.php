@@ -30,7 +30,7 @@ if ( isset( $_POST['tables'] )
 	&& count( $_POST['tables'] ) )
 {
 	$table = $_REQUEST['table'];
-	foreach ( (array)$_REQUEST['tables'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['tables'] as $id => $columns)
 	{
 		//FJ added SQL constraint TITLE & POINTS are not null
 		if ( ( !isset( $columns['TITLE'] )
@@ -63,7 +63,7 @@ if ( isset( $_POST['tables'] )
 						//if ( !$columns['COURSE_ID'] && $table=='GRADEBOOK_ASSIGNMENTS')
 						//	$columns['COURSE_ID'] = 'N';
 
-						foreach ( (array)$columns as $column=>$value)
+						foreach ( (array)$columns as $column => $value)
 						{
 							if ( ( $column === 'DUE_DATE'
 								|| $column === 'ASSIGNED_DATE' )
@@ -126,7 +126,7 @@ if ( isset( $_POST['tables'] )
 						if ( !$columns['COURSE_ID'] && $_REQUEST['table']=='GRADEBOOK_ASSIGNMENTS')
 							$columns['COURSE_ID'] = 'N';
 
-						foreach ( (array)$columns as $column=>$value)
+						foreach ( (array)$columns as $column => $value)
 						{
 							if ( ( $column === 'DUE_DATE'
 								|| $column === 'ASSIGNED_DATE' )
@@ -277,7 +277,7 @@ if (empty($_REQUEST['modfunc']))
 				FROM GRADEBOOK_ASSIGNMENT_TYPES at
 				WHERE at.ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'";
 		$QI = DBQuery($sql);
-		$RET = DBGet($QI,array('FINAL_GRADE_PERCENT'=>'_makePercent'));
+		$RET = DBGet($QI,array('FINAL_GRADE_PERCENT' => '_makePercent'));
 		$RET = $RET[1];
 		$title = $RET['TITLE'];
 	}
@@ -290,7 +290,7 @@ if (empty($_REQUEST['modfunc']))
 	{
 		$sql = "SELECT sum(FINAL_GRADE_PERCENT) AS TOTAL_PERCENT FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') AND STAFF_ID='".User('STAFF_ID')."'";
 		$QI = DBQuery($sql);
-		$RET = DBGet($QI,array('FINAL_GRADE_PERCENT'=>'_makePercent'));
+		$RET = DBGet($QI,array('FINAL_GRADE_PERCENT' => '_makePercent'));
 		$RET = $RET[1];
 		$title = _('New Assignment Type');
 	}
@@ -379,7 +379,7 @@ if (empty($_REQUEST['modfunc']))
 	{
 		if ( $_REQUEST['assignment_type_id'])
 		{
-			foreach ( (array)$types_RET as $key=>$value)
+			foreach ( (array)$types_RET as $key => $value)
 			{
 				if ( $value['ASSIGNMENT_TYPE_ID']==$_REQUEST['assignment_type_id'])
 					$types_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
@@ -388,10 +388,10 @@ if (empty($_REQUEST['modfunc']))
 	}
 
 	echo '<div class="st">';
-	$columns = array('TITLE'=>_('Assignment Type'),'SORT_ORDER'=>_('Order'));
+	$columns = array('TITLE' => _('Assignment Type'),'SORT_ORDER' => _('Order'));
 	$link = array();
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'];
-	$link['TITLE']['variables'] = array('assignment_type_id'=>'ASSIGNMENT_TYPE_ID');
+	$link['TITLE']['variables'] = array('assignment_type_id' => 'ASSIGNMENT_TYPE_ID');
 	$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id=new';
 	$link['add']['first'] = 5; // number before add link moves to top
 
@@ -416,7 +416,7 @@ if (empty($_REQUEST['modfunc']))
 		{
 			if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='new')
 			{
-				foreach ( (array)$assn_RET as $key=>$value)
+				foreach ( (array)$assn_RET as $key => $value)
 				{
 					if ( $value['ASSIGNMENT_ID']==$_REQUEST['assignment_id'])
 						$assn_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
@@ -425,10 +425,10 @@ if (empty($_REQUEST['modfunc']))
 		}
 
 		echo '<div class="st">';
-		$columns = array('TITLE'=>_('Assignment'),'POINTS'=>_('Points'));
+		$columns = array('TITLE' => _('Assignment'),'POINTS' => _('Points'));
 		$link = array();
 		$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id='.$_REQUEST['assignment_type_id'];
-		$link['TITLE']['variables'] = array('assignment_id'=>'ASSIGNMENT_ID');
+		$link['TITLE']['variables'] = array('assignment_id' => 'ASSIGNMENT_ID');
 		$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id='.$_REQUEST['assignment_type_id'].'&assignment_id=new';
 		$link['add']['first'] = 5; // number before add link moves to top
 

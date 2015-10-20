@@ -36,17 +36,17 @@ if ( !$_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['stu
 	$RET = DBGet($QI);
 	if (count($RET) && $_REQUEST['subject_id'])
 	{
-		foreach ( (array)$RET as $key=>$value)
+		foreach ( (array)$RET as $key => $value)
 		{
 			if ( $value['SUBJECT_ID']==$_REQUEST['subject_id'])
 				$RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 		}
 	}
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&include_child_mps='.$_REQUEST['include_child_mps'];
-	$link['TITLE']['variables'] = array('subject_id'=>'SUBJECT_ID');
+	$link['TITLE']['variables'] = array('subject_id' => 'SUBJECT_ID');
 	echo '<TD class="valign-top">';
 	$LO_options['responsive'] = false;
-	ListOutput($RET,array('TITLE'=>_('Subject')),'Subject','Subjects',$link,array(),$LO_options);
+	ListOutput($RET,array('TITLE' => _('Subject')),'Subject','Subjects',$link,array(),$LO_options);
 	echo '</TD>';
 }
 
@@ -68,15 +68,15 @@ if ( $_REQUEST['modfunc']=='courses')
 
 	if (count($RET) && $_REQUEST['course_id'])
 	{
-		foreach ( (array)$RET as $key=>$value)
+		foreach ( (array)$RET as $key => $value)
 		{
 			if ( $value['COURSE_ID']==$_REQUEST['course_id'])
 				$RET[$key]['row_color'] = Preferences('HIGHLIGHT');
 		}
 	}
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=students&subject_id='.$_REQUEST['subject_id'].'&include_child_mps='.$_REQUEST['include_child_mps'];
-	$link['TITLE']['variables'] = array('course_id'=>'COURSE_ID');
-	$columns = array('TITLE'=>_('Course'),'COUNT_REQUESTS'=>_('Requests'));
+	$link['TITLE']['variables'] = array('course_id' => 'COURSE_ID');
+	$columns = array('TITLE' => _('Course'),'COUNT_REQUESTS' => _('Requests'));
 	if ( $_REQUEST['include_child_mps'])
 	{
 		$OFT_string = mb_substr(_('Open'),0,1).'&#124;'.mb_substr(_('Filled'),0,1).'&#124;'.mb_substr(_('Total'),0,1);
@@ -88,7 +88,7 @@ if ( $_REQUEST['modfunc']=='courses')
 		}
 	}
 	else
-		$columns += array('OPEN_SEATS'=>_('Open'),'FILLED_SEATS'=>_('Filled'),'TOTAL_SEATS'=>_('Total'));
+		$columns += array('OPEN_SEATS' => _('Open'),'FILLED_SEATS' => _('Filled'),'TOTAL_SEATS' => _('Total'));
 	echo '<TD class="valign-top">';
 	$LO_options['responsive'] = true;
 	ListOutput($RET,$columns,'Course','Courses',$link,array(),$LO_options);
@@ -103,7 +103,7 @@ if ( $_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_pe
 	$QI = DBQuery("SELECT COURSE_PERIOD_ID,TITLE,MARKING_PERIOD_ID,MP,CALENDAR_ID,TOTAL_SEATS FROM COURSE_PERIODS cp WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SHORT_NAME,TITLE");
 	$RET = DBGet($QI);
 
-	foreach ( (array)$RET as $key=>$period)
+	foreach ( (array)$RET as $key => $period)
 	{
 		$value = array();
 		if ( $_REQUEST['include_child_mps'])
@@ -113,7 +113,7 @@ if ( $_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_pe
 		calcSeats1($period,$total_seats,$filled_seats);
 		if ( $_REQUEST['include_child_mps'])
 		{
-			foreach ( (array)$total_seats as $mp=>$total)
+			foreach ( (array)$total_seats as $mp => $total)
 			{
 				$value += array('OFT_'.$mp=>($total!==false?($filled_seats[$mp]!==false?$total-$filled_seats[$mp]:''):_('N/A')).'|'.($filled_seats[$mp]!==false?$filled_seats[$mp]:'').'|'.($total!==false?$total:_('N/A')));
 			}
@@ -125,7 +125,7 @@ if ( $_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_pe
 
 	if (count($RET) && $_REQUEST['course_period_id'])
 	{
-		foreach ( (array)$RET as $key=>$value)
+		foreach ( (array)$RET as $key => $value)
 		{
 			if ( $value['COURSE_PERIOD_ID']==$_REQUEST['course_period_id'])
 				$RET[$key]['row_color'] = Preferences('HIGHLIGHT');
@@ -133,9 +133,9 @@ if ( $_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_pe
 	}
 	$link = array();
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=students&students=course_periods&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&include_child_mps='.$_REQUEST['include_child_mps'];
-	$link['TITLE']['variables'] = array('course_period_id'=>'COURSE_PERIOD_ID');
-    $columns = array('TITLE'=>_('Course'),'COUNT_REQUESTS'=>_('Requests'));
-	$columns = array('TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'));
+	$link['TITLE']['variables'] = array('course_period_id' => 'COURSE_PERIOD_ID');
+    $columns = array('TITLE' => _('Course'),'COUNT_REQUESTS' => _('Requests'));
+	$columns = array('TITLE' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'));
 	if ( $_REQUEST['include_child_mps'])
 	{
 		foreach ( explode(',',GetAllMP()) as $mp)
@@ -145,7 +145,7 @@ if ( $_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_pe
 		}
 	}
 	else
-		$columns += array('OPEN_SEATS'=>_('Open'),'FILLED_SEATS'=>_('Filled'),'TOTAL_SEATS'=>_('Total'));
+		$columns += array('OPEN_SEATS' => _('Open'),'FILLED_SEATS' => _('Filled'),'TOTAL_SEATS' => _('Total'));
 	echo '<TD class="valign-top">';
 	ListOutput($RET,$columns,'Course Period','Course Periods',$link,array(),$LO_options);
 	echo '</TD>';
@@ -163,7 +163,7 @@ if ( $_REQUEST['modfunc']=='students')
 	if ( $custom_fields_RET['200000004'])
 	{
 		$sql_birthdate = ',s.CUSTOM_200000004';
-		$function_birthdate = array('CUSTOM_200000004'=>'ShortDate');
+		$function_birthdate = array('CUSTOM_200000004' => 'ShortDate');
 		$column_birthdate = array('CUSTOM_200000004'=>ParseMLField($custom_fields_RET['200000004'][1]['TITLE']));
 	}
 	
@@ -201,18 +201,18 @@ if ( $_REQUEST['modfunc']=='students')
 			$sql .= "AND ss.COURSE_ID='".$_REQUEST['course_id']."'";
 	}
 	$sql .= ' ORDER BY s.LAST_NAME,s.FIRST_NAME';
-	$RET = DBGet(DBQuery($sql),array('GRADE_ID'=>'GetGrade') + $function_birthdate);
+	$RET = DBGet(DBQuery($sql),array('GRADE_ID' => 'GetGrade') + $function_birthdate);
 
 	$link = array();
 	if (AllowUse('Scheduling/Schedule.php'))
 	{
 		$link['FULL_NAME']['link'] = "Modules.php?modname=Scheduling/Schedule.php";
-		$link['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
+		$link['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
 	}
     if ( $_REQUEST['unscheduled']=='true')
-	    ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level')) + $column_birthdate,'Unscheduled Student','Unscheduled Students',$link,array(),$LO_options);
+	    ListOutput($RET,array('FULL_NAME' => _('Student'),'GRADE_ID' => _('Grade Level')) + $column_birthdate,'Unscheduled Student','Unscheduled Students',$link,array(),$LO_options);
     else
-        ListOutput($RET,array('FULL_NAME'=>_('Student'),'GRADE_ID'=>_('Grade Level')) + $column_birthdate,'Student','Students',$link,array(),$LO_options);
+        ListOutput($RET,array('FULL_NAME' => _('Student'),'GRADE_ID' => _('Grade Level')) + $column_birthdate,'Student','Students',$link,array(),$LO_options);
 }
 
 function calcSeats1($period,&$total_seats,&$filled_seats)
@@ -272,12 +272,12 @@ function calcSeats1($period,&$total_seats,&$filled_seats)
 
 function calcSeats(&$_RET,$columns)
 {
-	$RET = array(0=>array());
+	$RET = array(0 => array());
 	foreach ( (array)$_RET as $periods)
 	{
 		$value = array();
 		foreach ( (array)$columns as $column)
-			$value += array($column=>$periods[key($periods)][$column]);
+			$value += array($column => $periods[key($periods)][$column]);
 		if ( $_REQUEST['include_child_mps'])
 			$total_seats = $filled_seats = array();
 		else
@@ -286,7 +286,7 @@ function calcSeats(&$_RET,$columns)
 			calcSeats1($period,$total_seats,$filled_seats);
 		if ( $_REQUEST['include_child_mps'])
 		{
-			foreach ( (array)$total_seats as $mp=>$total)
+			foreach ( (array)$total_seats as $mp => $total)
 			{
 				$filled = $filled_seats[$mp];
 				$value += array('OFT_'.$mp=>($total!==false?($filled!==false?$total-$filled:''):'n/a').'|'.($filled!==false?$filled:'').'|'.($total!==false?$total:'n/a'));

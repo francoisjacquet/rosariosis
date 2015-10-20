@@ -5,9 +5,9 @@ DrawHeader(ProgramTitle());
 
 if ( $_REQUEST['modfunc']=='update')
 {
-	foreach ( (array)$_REQUEST['year_values'] as $id=>$column)
+	foreach ( (array)$_REQUEST['year_values'] as $id => $column)
 	{
-		foreach ( (array)$column as $colname=>$colvalue)
+		foreach ( (array)$column as $colname => $colvalue)
 		{
 			if ( $_REQUEST['day_values'][$id][$colname] && $_REQUEST['month_values'][$id][$colname] && $_REQUEST['year_values'][$id][$colname])
 				$_REQUEST['values'][$id][$colname] = $_REQUEST['day_values'][$id][$colname].'-'.
@@ -16,13 +16,13 @@ if ( $_REQUEST['modfunc']=='update')
 		}
 	}
 
-	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id => $columns)
 	{
 		if ( $id!='new')
 		{
 			$sql = "UPDATE history_marking_periods SET ";
 
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 				$sql .= $column."='".$value."',";
 
 			if ( $_REQUEST['tab_id']!='new')
@@ -39,7 +39,7 @@ if ( $_REQUEST['modfunc']=='update')
 			$values = "NEXTVAL('MARKING_PERIOD_SEQ'), ".UserSchool().", ";
 
 			$go = false;
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 				if ( !empty($value) || $value=='0')
 				{
 					$fields .= $column.',';
@@ -76,19 +76,19 @@ if (empty($_REQUEST['modfunc']))
 
 	$sql = 'SELECT * FROM history_marking_periods WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY POST_END_DATE';
 
-	$functions = array( 'MP_TYPE'=>'makeSelectInput',
-			'NAME'=>'makeTextInput',
-			'SHORT_NAME'=>'makeTextInput',
-			'POST_END_DATE'=>'makeDateInput',
-			'SYEAR'=>'makeSchoolYearSelectInput'
+	$functions = array( 'MP_TYPE' => 'makeSelectInput',
+			'NAME' => 'makeTextInput',
+			'SHORT_NAME' => 'makeTextInput',
+			'POST_END_DATE' => 'makeDateInput',
+			'SYEAR' => 'makeSchoolYearSelectInput'
 			);
 
 	//FJ add translation
-	$LO_columns = array('MP_TYPE'=>_('Type'),
-			'NAME'=>_('Name'),
-			'SHORT_NAME'=>_('Short Name'),
-			'POST_END_DATE'=>_('Grade Post Date'),
-			'SYEAR'=>_('School Year')
+	$LO_columns = array('MP_TYPE' => _('Type'),
+			'NAME' => _('Name'),
+			'SHORT_NAME' => _('Short Name'),
+			'POST_END_DATE' => _('Grade Post Date'),
+			'SYEAR' => _('School Year')
 			);
 
 	$link['add']['html'] = array('MP_TYPE'=>makeSelectInput('','MP_TYPE'),
@@ -99,7 +99,7 @@ if (empty($_REQUEST['modfunc']))
 			);
 
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';//&mp_id=$mp_id";
-	$link['remove']['variables'] = array('id'=>'MARKING_PERIOD_ID');
+	$link['remove']['variables'] = array('id' => 'MARKING_PERIOD_ID');
 	$link['add']['html']['remove'] = button('add');
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
@@ -151,7 +151,7 @@ function makeSelectInput($value,$name)
     else
         $id = 'new';
 
-    $options = array('year'=>_('Year'), 'semester'=>_('Semester'), 'quarter'=>_('Quarter'));
+    $options = array('year' => _('Year'), 'semester' => _('Semester'), 'quarter' => _('Quarter'));
 
     return SelectInput(trim($value),"values[$id][$name]",'',$options,false);
 }

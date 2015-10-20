@@ -36,13 +36,13 @@ if ( empty( $end_date ) )
 
 if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['attendance'] as $student_id=>$values)
+	foreach ( (array)$_REQUEST['attendance'] as $student_id => $values)
 	{
-		foreach ( (array)$values as $school_date=>$columns)
+		foreach ( (array)$values as $school_date => $columns)
 		{
 			$sql = "UPDATE ATTENDANCE_PERIOD SET ADMIN='Y',";
 
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 				$sql .= $column."='".$value."',";
 
 			$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$school_date."' AND PERIOD_ID='".$_REQUEST['period_id']."' AND STUDENT_ID='".$student_id."'";
@@ -145,7 +145,7 @@ if ( $_REQUEST['student_id'] || User('PROFILE')=='parent')
 	else
 	{
 //FJ add translation 
-		$schedule_RET[1] = array('COURSE_PERIOD'=>_('Daily Attendance'),'PERIOD_ID'=>'0');
+		$schedule_RET[1] = array('COURSE_PERIOD' => _('Daily Attendance'),'PERIOD_ID' => '0');
 		$attendance_RET = DBGet(DBQuery("SELECT ad.SCHOOL_DATE,'0' AS PERIOD_ID,ad.STATE_VALUE AS STATE_CODE,".db_case(array('ad.STATE_VALUE',"'0.0'","'A'","'1.0'","'P'","'H'"))." AS SHORT_NAME FROM ATTENDANCE_DAY ad WHERE ad.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ad.STUDENT_ID='".UserStudentID()."'"),array(),array('SCHOOL_DATE','PERIOD_ID'));
 	}
 
@@ -166,7 +166,7 @@ if ( $_REQUEST['student_id'] || User('PROFILE')=='parent')
 		}
 	}
 
-	$columns = array('TITLE'=>_('Course'));
+	$columns = array('TITLE' => _('Course'));
 	if (isset($col_period) && $col_period)
 		$columns['PERIOD'] = _('Period');
 	if (count($cal_RET))
@@ -212,7 +212,7 @@ else
 		}
 	}
 	$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&period_id='.$_REQUEST['period_id'];
-	$extra['link']['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
+	$extra['link']['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
 
 	Widgets('course');
 	Widgets('absences');
@@ -226,7 +226,7 @@ function _makeColor($value,$column)
 {	global $THIS_RET,$att_RET,$att_sql,$attendance_codes;
 
 	//FJ add translation:
-	$attendance_codes_locale = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half Day'));
+	$attendance_codes_locale = array('P' => _('Present'),'A' => _('Absent'),'H' => _('Half Day'));
 		
 	if ( !$att_RET[$THIS_RET['STUDENT_ID']])
 		$att_RET[$THIS_RET['STUDENT_ID']] = DBGet(DBQuery($att_sql.$THIS_RET['STUDENT_ID']),array(),array('SHORT_DATE'));
@@ -264,7 +264,7 @@ function _makeColor($value,$column)
 function _makePeriodColor($name,$state_code,$default_code)
 {
 	//FJ add translation:
-	$attendance_codes_locale = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half Day'));
+	$attendance_codes_locale = array('P' => _('Present'),'A' => _('Absent'),'H' => _('Half Day'));
 
 	if ( $state_code=='A' || $state_code=='0.0')
 		$color = '#FF0000';
@@ -288,7 +288,7 @@ function makeCodePulldown($value,$student_id,$date)
 
 	if ( !$_ROSARIO['code_options'])
 	{
-		foreach ( (array)$attendance_codes as $id=>$code)
+		foreach ( (array)$attendance_codes as $id => $code)
 			$_ROSARIO['code_options'][$id] = $code[1]['SHORT_NAME'];
 	}
 

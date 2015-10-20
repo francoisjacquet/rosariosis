@@ -31,11 +31,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$no_students_backprompt = true;
 
-		foreach ( (array)$course_periods_RET as $teacher_id=>$course_period)
+		foreach ( (array)$course_periods_RET as $teacher_id => $course_period)
 		{
 			$_SESSION['UserCoursePeriod'] = $course_period['COURSE_PERIOD_ID'];
 
-			$extra = array('SELECT_ONLY'=>'1');
+			$extra = array('SELECT_ONLY' => '1');
 
 			//FJ prevent course period ID hacking
 			if (User('PROFILE')=='teacher')
@@ -222,7 +222,7 @@ function mySearch($extra)
 	$sql .= ' ORDER BY cp.SHORT_NAME,cp.TITLE';
 
 	$course_periods_RET = DBGet(DBQuery($sql));
-	$LO_columns = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');"><A>','TITLE'=>_('Course Period'));
+	$LO_columns = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');"><A>','TITLE' => _('Course Period'));
 
 	if ( !$_REQUEST['LO_save'] && !$extra['suppress_save'])
 	{

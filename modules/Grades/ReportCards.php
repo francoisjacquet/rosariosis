@@ -130,14 +130,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	if (count($RET))
 	{
-		$columns = array('COURSE_TITLE'=>_('Course'));
+		$columns = array('COURSE_TITLE' => _('Course'));
 
 		if ( $_REQUEST['elements']['teacher']=='Y')
-			$columns += array('TEACHER'=>_('Teacher'));
+			$columns += array('TEACHER' => _('Teacher'));
 
 		if ( $_REQUEST['elements']['period_absences']=='Y')
-			//$columns += array('ABSENCES'=>_('Abs<BR />YTD / MP'));
-			$columns += array('ABSENCES'=>_('Absences'));
+			//$columns += array('ABSENCES' => _('Abs<BR />YTD / MP'));
+			$columns += array('ABSENCES' => _('Absences'));
 
 		if (count($_REQUEST['mp_arr'])>2)
 			$mp_TITLE = 'SHORT_NAME';
@@ -157,14 +157,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$handle = PDFStart();
 		//echo '<!-- MEDIA SIZE 8.5x11in -->';
-		foreach ( (array)$RET as $student_id=>$course_periods)
+		foreach ( (array)$RET as $student_id => $course_periods)
 		{
 			$comments_arr = array();
 			$comments_arr_key = count($all_commentsA_RET)>0;
 			unset($grades_RET);
 			$i = 0;
 			
-			foreach ( (array)$course_periods as $course_period_id=>$mps)
+			foreach ( (array)$course_periods as $course_period_id => $mps)
 			{
 				$i++;
 				$grades_RET[$i]['COURSE_TITLE'] = $mps[key($mps)][1]['COURSE_TITLE'];
@@ -246,10 +246,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if ( $addresses_RET[$student_id] && count($addresses_RET[$student_id]))
 					$addresses = $addresses_RET[$student_id];
 				else
-					$addresses = array(0=>array(1=>array('STUDENT_ID'=>$student_id,'ADDRESS_ID'=>'0','MAILING_LABEL'=>'<BR /><BR />')));
+					$addresses = array(0 => array(1 => array('STUDENT_ID' => $student_id,'ADDRESS_ID' => '0','MAILING_LABEL' => '<BR /><BR />')));
 			}
 			else
-				$addresses = array(0=>array());
+				$addresses = array(0 => array());
 
 			foreach ( (array)$addresses as $address)
 			{
@@ -412,8 +412,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					$commentsA_txt = _('Course-specific Comments').'<BR /><ul>';
 
-					foreach ( (array)$comments_arr as $comment_course_title=>$comments)
-						foreach ($comments as $comment=>$sort_order)
+					foreach ( (array)$comments_arr as $comment_course_title => $comments)
+						foreach ($comments as $comment => $sort_order)
 						{
 							if ( $commentsA_RET[$comment])
 							{
@@ -533,7 +533,7 @@ if (empty($_REQUEST['modfunc']))
 		//FJ get the title instead of the short marking period name
 		$mps_RET = DBGet(DBQuery("SELECT PARENT_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('PARENT_ID'));
 		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Marking Periods').':</TD><TD><TABLE><TR><TD><TABLE>';
-		foreach ( (array)$mps_RET as $sem=>$quarters)
+		foreach ( (array)$mps_RET as $sem => $quarters)
 		{
 			$extra['extra_header_left'] .= '<TR class="st">';
 			foreach ( (array)$quarters as $qtr)
@@ -572,8 +572,8 @@ if (empty($_REQUEST['modfunc']))
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
 	$extra['options']['search'] = false;
 
 	Widgets('course');

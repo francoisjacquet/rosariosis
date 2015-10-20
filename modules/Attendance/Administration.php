@@ -100,7 +100,7 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 $current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID','PERIOD_ID'));
 if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['attendance'] as $student_id=>$values)
+	foreach ( (array)$_REQUEST['attendance'] as $student_id => $values)
 	{
 		if ( !$current_schedule_RET[$student_id])
 		{
@@ -109,13 +109,13 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 				$current_schedule_RET[$student_id] = true;
 		}
 
-		foreach ( (array)$values as $period_id=>$columns)
+		foreach ( (array)$values as $period_id => $columns)
 		{
 			if ( $current_RET[$student_id][$period_id])
 			{
 				$sql = "UPDATE $table SET ADMIN='Y',COURSE_PERIOD_ID='".$current_schedule_RET[$student_id][$period_id][1]['COURSE_PERIOD_ID']."',";
 
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 					$sql .= $column."='".$value."',";
 
 				$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".$period_id."' AND STUDENT_ID='".$student_id."'".$extra_sql;
@@ -134,7 +134,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 				}
 
 				$go = 0;
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{
@@ -160,7 +160,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 
 if (count($_REQUEST['attendance_day']))
 {
-	foreach ( (array)$_REQUEST['attendance_day'] as $student_id=>$comment)
+	foreach ( (array)$_REQUEST['attendance_day'] as $student_id => $comment)
 		UpdateAttendanceDaily($student_id,$date,$comment['COMMENT']);
 
 	unset($_REQUEST['attendance_day']);
@@ -195,7 +195,7 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 	if (UserStudentID() != $_REQUEST['student_id'])
 		SetUserStudentID($_REQUEST['student_id']);
 
-	$functions = array('ATTENDANCE_CODE'=>'_makeCodePulldown', 'ATTENDANCE_TEACHER_CODE'=>'_makeCode', 'ATTENDANCE_REASON'=>'_makeReasonInput', 'COMMENT'=>'_makeReason');
+	$functions = array('ATTENDANCE_CODE' => '_makeCodePulldown', 'ATTENDANCE_TEACHER_CODE' => '_makeCode', 'ATTENDANCE_REASON' => '_makeReasonInput', 'COMMENT' => '_makeReason');
 
 	//FJ days numbered
 	//FJ multiple school periods for a course period
@@ -235,7 +235,7 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 		ORDER BY p.SORT_ORDER"),$functions);	
 	}
 
-	$columns = array('PERIOD_TITLE'=>_('Period'), 'COURSE'=>_('Course'), 'ATTENDANCE_CODE'=>_('Attendance Code'), 'ATTENDANCE_TEACHER_CODE'=>_('Teacher\'s Entry'), 'ATTENDANCE_REASON'=>_('Office Comment'), 'COMMENT'=>_('Teacher Comment'));
+	$columns = array('PERIOD_TITLE' => _('Period'), 'COURSE' => _('Course'), 'ATTENDANCE_CODE' => _('Attendance Code'), 'ATTENDANCE_TEACHER_CODE' => _('Teacher\'s Entry'), 'ATTENDANCE_REASON' => _('Office Comment'), 'COMMENT' => _('Teacher Comment'));
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&student_id='.$_REQUEST['student_id'].'&table='.$_REQUEST['table'].'" method="POST">';
 
@@ -258,7 +258,7 @@ else
 	if (count($_REQUEST['codes']))
 	{
 		$REQ_codes = $_REQUEST['codes'];
-		foreach ( (array)$REQ_codes as $key=>$value)
+		foreach ( (array)$REQ_codes as $key => $value)
 		{
 			if ( !$value)
 				unset($REQ_codes[$key]);
@@ -325,7 +325,7 @@ else
 	}
 
 	$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&table='.$_REQUEST['table'];
-	$extra['link']['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
+	$extra['link']['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
 	$extra['BackPrompt'] = false;
 	$extra['Redirect'] = false;
 	$extra['new'] = true;

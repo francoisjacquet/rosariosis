@@ -7,7 +7,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 	$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
 
-	$extra['functions'] = array('GRADE_ID'=>'_grade_id');
+	$extra['functions'] = array('GRADE_ID' => '_grade_id');
 	if ( $_REQUEST['mailing_labels']=='Y')
 		Widgets('mailing_labels');
 
@@ -130,7 +130,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				include('modules/Students/includes/Comments.inc.php');
 				echo '<div style="page-break-after: always;"></div>';
 			}
-			foreach ( (array)$categories_RET as $id=>$category)
+			foreach ( (array)$categories_RET as $id => $category)
 			{
 				if ( $id!='1' && $id!='3' && $id!='2' && $id!='4' && $_REQUEST['category'][$id])
 				{
@@ -196,8 +196,8 @@ if (empty($_REQUEST['modfunc']))
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 
@@ -233,8 +233,8 @@ function _makeChooseCheckbox($value,$title)
 
 function explodeCustom(&$categories_RET, &$custom, $prefix)
 {
-	foreach ( (array)$categories_RET as $id=>$category)
-		foreach ( (array)$category as $i=>$field)
+	foreach ( (array)$categories_RET as $id => $category)
+		foreach ( (array)$category as $i => $field)
 		{
 			$custom .= ','.$prefix.'.CUSTOM_'.$field['ID'];
 			if ( $field['TYPE']=='select' || $field['TYPE']=='codeds')

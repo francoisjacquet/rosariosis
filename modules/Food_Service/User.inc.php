@@ -7,7 +7,7 @@ if ( $_REQUEST['modfunc']=='update')
 		if (count($_REQUEST['food_service']))
 		{
 			$sql = "UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ";
-			foreach ( (array)$_REQUEST['food_service'] as $column_name=>$value)
+			foreach ( (array)$_REQUEST['food_service'] as $column_name => $value)
 				$sql .= $column_name."='".trim($value)."',";
 			$sql = mb_substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
 			DBQuery($sql);
@@ -57,7 +57,7 @@ if ( !$_REQUEST['modfunc'] && UserStaffID())
 
 	echo '<TABLE class="width-100p">';
 	echo '<TR>';
-	$options = array('Inactive'=>_('Inactive'),'Disabled'=>_('Disabled'),'Closed'=>_('Closed'));
+	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
 	echo '<TD>'.($staff['ACCOUNT_ID']?SelectInput($staff['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')):NoInput('-',_('Status'))).'</TD>';
 	echo '<TD>'.($staff['ACCOUNT_ID']?TextInput($staff['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25'):NoInput('-',_('Barcode'))).'</TD>';
 	echo '</TR>';

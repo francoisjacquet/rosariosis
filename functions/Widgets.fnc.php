@@ -1113,7 +1113,7 @@ function Widgets( $item, &$myextra = null )
 						unset( $_REQUEST['discipline'][$key[$i]] );
 					}
 
-				/*foreach ( (array)$_REQUEST['discipline'] as $key=>$value)
+				/*foreach ( (array)$_REQUEST['discipline'] as $key => $value)
 				{
 					if(!$value)
 						unset($_REQUEST['discipline'][$key]);
@@ -1135,7 +1135,7 @@ function Widgets( $item, &$myextra = null )
 						unset( $_REQUEST['discipline_begin'][$key[$i]] );
 					}
 
-				/*foreach ( (array)$_REQUEST['discipline_begin'] as $key=>$value)
+				/*foreach ( (array)$_REQUEST['discipline_begin'] as $key => $value)
 				{
 					if(!$value)
 						unset($_REQUEST['discipline_begin'][$key]);
@@ -1156,7 +1156,7 @@ function Widgets( $item, &$myextra = null )
 						unset( $_REQUEST['discipline_end'][$key[$i]] );
 					}
 
-				/*foreach ( (array)$_REQUEST['discipline_end'] as $key=>$value)
+				/*foreach ( (array)$_REQUEST['discipline_end'] as $key => $value)
 				{
 					if(!$value)
 						unset($_REQUEST['discipline_end'][$key]);

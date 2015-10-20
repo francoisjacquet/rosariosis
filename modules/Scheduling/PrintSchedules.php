@@ -18,8 +18,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$date_extra = 'OR sr.END_DATE IS NULL';
 	}
 //FJ multiple school periods for a course period
-//	$columns = array('PERIOD_TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'MARKING_PERIOD_ID'=>_('Term'),'DAYS'=>_('Days'),'ROOM'=>_('Room'),'COURSE_TITLE'=>_('Course'));
-	$columns = array('PERIOD_TITLE'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'MARKING_PERIOD_ID'=>_('Term'),'ROOM'=>_('Room'),'COURSE_TITLE'=>_('Course'));
+//	$columns = array('PERIOD_TITLE' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'MARKING_PERIOD_ID' => _('Term'),'DAYS' => _('Days'),'ROOM' => _('Room'),'COURSE_TITLE' => _('Course'));
+	$columns = array('PERIOD_TITLE' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'MARKING_PERIOD_ID' => _('Term'),'ROOM' => _('Room'),'COURSE_TITLE' => _('Course'));
 
 /*	$extra['SELECT'] .= ',c.TITLE AS COURSE_TITLE,p_cp.TITLE AS PERIOD_TITLE,sr.MARKING_PERIOD_ID,p_cp.DAYS,p_cp.ROOM';
 	$extra['FROM'] .= ' LEFT OUTER JOIN SCHEDULE sr ON (sr.STUDENT_ID=ssm.STUDENT_ID),COURSES c,COURSE_PERIODS p_cp,SCHOOL_PERIODS sp ';
@@ -30,9 +30,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	if ( $_REQUEST['mp_id'])
 		$extra['WHERE'] .= ' AND sr.MARKING_PERIOD_ID IN ('.GetAllMP(GetMP($_REQUEST['mp_id'],'MP'),$_REQUEST['mp_id']).')';
 
-//	$extra['functions'] = array('MARKING_PERIOD_ID'=>'GetMP','DAYS'=>'_makeDays');
+//	$extra['functions'] = array('MARKING_PERIOD_ID' => 'GetMP','DAYS' => '_makeDays');
 //FJ add subject areas
-	$extra['functions'] = array('MARKING_PERIOD_ID'=>'GetMP');
+	$extra['functions'] = array('MARKING_PERIOD_ID' => 'GetMP');
 	$extra['group'] = array('STUDENT_ID');
 //	$extra['ORDER'] = ',sp.SORT_ORDER';
 	if ( $_REQUEST['mailing_labels']=='Y')
@@ -44,10 +44,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 //FJ add schedule table
 	$schedule_table_days = array('U'=>false,'M'=>false,'T'=>false,'W'=>false,'H'=>false,'F'=>false,'S'=>false);
 	//FJ days display to locale						
-	$days_convert = array('U'=>_('Sunday'),'M'=>_('Monday'),'T'=>_('Tuesday'),'W'=>_('Wednesday'),'H'=>_('Thursday'),'F'=>_('Friday'),'S'=>_('Saturday'));
+	$days_convert = array('U' => _('Sunday'),'M' => _('Monday'),'T' => _('Tuesday'),'W' => _('Wednesday'),'H' => _('Thursday'),'F' => _('Friday'),'S' => _('Saturday'));
 	//FJ days numbered
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
-		$days_convert = array('U'=>_('Day').' 7','M'=>_('Day').' 1','T'=>_('Day').' 2','W'=>_('Day').' 3','H'=>_('Day').' 4','F'=>_('Day').' 5','S'=>_('Day').' 6');
+		$days_convert = array('U' => _('Day').' 7','M' => _('Day').' 1','T' => _('Day').' 2','W' => _('Day').' 3','H' => _('Day').' 4','F' => _('Day').' 5','S' => _('Day').' 6');
 	
 	$schedule_table_RET = DBGet(DBQuery("SELECT cp.ROOM,cs.TITLE,sp.TITLE AS SCHOOL_PERIOD,cpsp.DAYS,stu.STUDENT_ID,sta.FIRST_NAME||' '||sta.LAST_NAME AS FULL_NAME 
 	FROM COURSE_PERIODS cp,COURSES c,SCHOOLS s,SCHOOL_PERIODS sp,COURSE_PERIOD_SCHOOL_PERIODS cpsp,STUDENTS stu,SCHEDULE sch,STAFF sta,COURSE_SUBJECTS cs 
@@ -65,11 +65,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	AND sch.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID 
 	AND sta.STAFF_ID=cp.TEACHER_ID 
 	AND sp.LENGTH <= ".(Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)." 
-	ORDER BY sp.SORT_ORDER"),array('DAYS'=>'_GetDays'),array('STUDENT_ID','SCHOOL_PERIOD'));
+	ORDER BY sp.SORT_ORDER"),array('DAYS' => '_GetDays'),array('STUDENT_ID','SCHOOL_PERIOD'));
 	//FJ note the "sp.LENGTH <= (Config('ATTENDANCE_FULL_DAY_MINUTES') / 2)" condition to remove Full Day and Half Day school periods from the schedule table!
 	
 	$columns_table = array('SCHOOL_PERIOD' => _('Periods'));
-	foreach ($schedule_table_days as $day=>$true)
+	foreach ($schedule_table_days as $day => $true)
 	{
 		if ( $true)
 			$columns_table[$day] = $days_convert[$day];
@@ -79,7 +79,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		$handle = PDFStart();
 		if ( $_REQUEST['schedule_table'] == 'No')	
-			foreach ( (array)$RET as $student_id=>$courses)
+			foreach ( (array)$RET as $student_id => $courses)
 			{
 				if ( $_REQUEST['mailing_labels']=='Y')
 				{
@@ -119,9 +119,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			
 	//FJ add schedule table
 		if ( $_REQUEST['schedule_table'] == 'Yes')	
-			foreach ( (array)$schedule_table_RET as $student_id=>$schedule_table)
+			foreach ( (array)$schedule_table_RET as $student_id => $schedule_table)
 			{
-				/*foreach ( (array)$schedule_table as $period=>$course_periods)
+				/*foreach ( (array)$schedule_table as $period => $course_periods)
 				{
 					$schedule_table_body .= '<TR><TD>'.$period.'</TD>';
 
@@ -233,8 +233,8 @@ if (empty($_REQUEST['modfunc']))
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 
@@ -262,7 +262,7 @@ function _GetDays($value, $column)
 	$days_array = str_split($value);
 	
 	
-	foreach ($days_array as $index=>$day)
+	foreach ($days_array as $index => $day)
 	{
 		$schedule_table_days[$day] = true;
 	}
@@ -273,7 +273,7 @@ function _schedule_table_RET($schedule_table_RET)
 {
 	$schedule_table_body = array();
 	$i = 1;
-	foreach ( (array)$schedule_table_RET as $period=>$course_periods)
+	foreach ( (array)$schedule_table_RET as $period => $course_periods)
 	{
 		$schedule_table_body[$i]['SCHOOL_PERIOD'] = $period;
 

@@ -14,13 +14,13 @@ if ( !$_REQUEST['print_statements'])
 
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id => $columns)
 	{
 		if ( $id!='new')
 		{
 			$sql = "UPDATE ACCOUNTING_PAYMENTS SET ";
 							
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -38,7 +38,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$values = "'".$id."','".UserStaffID()."','".UserSyear()."','".UserSchool()."','".DBDate()."',";
 			
 			$go = 0;
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				if ( !empty($value) || $value=='0')
 				{
@@ -75,7 +75,7 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 if (UserStaffID() && !$_REQUEST['modfunc'])
 {
 	$payments_total = 0;
-	$functions = array('REMOVE'=>'_makePaymentsRemove','AMOUNT'=>'_makePaymentsAmount','PAYMENT_DATE'=>'ProperDate','COMMENTS'=>'_makePaymentsTextInput');
+	$functions = array('REMOVE' => '_makePaymentsRemove','AMOUNT' => '_makePaymentsAmount','PAYMENT_DATE' => 'ProperDate','COMMENTS' => '_makePaymentsTextInput');
 	$payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE STAFF_ID='".UserStaffID()."' AND SYEAR='".UserSyear()."' ORDER BY ID"),$functions);
 	$i = 1;
 	$RET = array();
@@ -86,11 +86,11 @@ if (UserStaffID() && !$_REQUEST['modfunc'])
 	}
 
 	if (count($RET) && !$_REQUEST['print_statements'] && AllowEdit())
-		$columns = array('REMOVE'=>'');
+		$columns = array('REMOVE' => '');
 	else
 		$columns = array();
 	
-	$columns += array('AMOUNT'=>_('Amount'),'PAYMENT_DATE'=>_('Date'),'COMMENTS'=>_('Comment'));
+	$columns += array('AMOUNT' => _('Amount'),'PAYMENT_DATE' => _('Date'),'COMMENTS' => _('Comment'));
 	if ( !$_REQUEST['print_statements'] && AllowEdit())
 		$link['add']['html'] = array('REMOVE'=>button('add'),'AMOUNT'=>_makePaymentsTextInput('','AMOUNT'),'PAYMENT_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makePaymentsTextInput('','COMMENTS'));
 	if ( !$_REQUEST['print_statements'] && AllowEdit())

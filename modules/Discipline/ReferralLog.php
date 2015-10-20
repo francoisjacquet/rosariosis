@@ -11,7 +11,7 @@ $extra['second_col'] .= '<TR><TD><label><INPUT type="checkbox" name="elements[EN
 
 $extra['second_col'] .= '<TR><TD><label><INPUT type="checkbox" name="elements[STAFF_ID]" value="Y" checked />&nbsp;'._('Reporter').'</label></TD></TR>';
 
-foreach ( (array)$categories_RET as $id=>$category)
+foreach ( (array)$categories_RET as $id => $category)
 {
 	$extra['second_col'] .= '<TR><TD><label><INPUT type="checkbox" name="elements[CATEGORY_'.$id.']" value="Y"'.($category[1]['DATA_TYPE']=='textarea'?' checked':'').' />&nbsp;'.$category[1]['TITLE'].'</label></TD></TR>';
 	$i++;
@@ -48,7 +48,7 @@ else
 		echo '<BR /><BR />';
 	}
 	
-	foreach ( (array)$_REQUEST['elements'] as $column=>$Y)
+	foreach ( (array)$_REQUEST['elements'] as $column => $Y)
 	{
 		$extra['SELECT'] .= ',r.'.$column;
 	}
@@ -67,7 +67,7 @@ else
 	if (count($RET))
 	{
 		$handle = PDFStart();
-		foreach ( (array)$RET as $student_id=>$referrals)
+		foreach ( (array)$RET as $student_id => $referrals)
 		{
 			unset($_ROSARIO['DrawHeader']);
 			DrawHeader(_('Discipline Log'));
@@ -91,7 +91,7 @@ else
 				if ( $_REQUEST['elements']['STAFF_ID'])
 					DrawHeader('<b>'._('Reporter').': </b>'.GetTeacher($referral['STAFF_ID']));
 
-				foreach ( (array)$_REQUEST['elements'] as $column=>$Y)
+				foreach ( (array)$_REQUEST['elements'] as $column => $Y)
 				{
 					if ( $column=='ENTRY_DATE' || $column=='STAFF_ID')
 						continue;

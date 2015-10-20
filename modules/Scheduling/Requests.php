@@ -20,11 +20,11 @@ if ( $_REQUEST['modfunc']=='update')
 {
 	//FJ fix error Warning: Invalid argument supplied for foreach()
 	if (isset($_REQUEST['values']) && AllowEdit())
-		foreach ( (array)$_REQUEST['values'] as $request_id=>$columns)
+		foreach ( (array)$_REQUEST['values'] as $request_id => $columns)
 		{
 			$sql = "UPDATE SCHEDULE_REQUESTS SET ";
 
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -114,9 +114,9 @@ function processRequest()
 </script>
 <?php
 
-	$functions = array('COURSE'=>'_makeCourse','WITH_TEACHER_ID'=>'_makeTeacher','WITH_PERIOD_ID'=>'_makePeriod');
+	$functions = array('COURSE' => '_makeCourse','WITH_TEACHER_ID' => '_makeTeacher','WITH_PERIOD_ID' => '_makePeriod');
 	$requests_RET = DBGet(DBQuery("SELECT r.REQUEST_ID,c.TITLE as COURSE,r.COURSE_ID,r.MARKING_PERIOD_ID,r.WITH_TEACHER_ID,r.NOT_TEACHER_ID,r.WITH_PERIOD_ID,r.NOT_PERIOD_ID FROM SCHEDULE_REQUESTS r,COURSES c WHERE r.COURSE_ID=c.COURSE_ID AND r.SYEAR='".UserSyear()."' AND r.STUDENT_ID='".UserStudentID()."'"),$functions);
-	$columns = array('COURSE'=>_('Course'),'WITH_TEACHER_ID'=>_('Teacher'),'WITH_PERIOD_ID'=>_('Period'));
+	$columns = array('COURSE' => _('Course'),'WITH_TEACHER_ID' => _('Teacher'),'WITH_PERIOD_ID' => _('Period'));
 
 	//$link['add']['html'] = array('COURSE_ID'=>_makeCourse('','COURSE_ID'),'WITH_TEACHER_ID'=>_makeTeacher('','WITH_TEACHER_ID'),'WITH_PERIOD_ID'=>_makePeriod('','WITH_PERIOD_ID'),'MARKING_PERIOD_ID'=>_makeMP('','MARKING_PERIOD_ID'));
 	$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
@@ -125,7 +125,7 @@ function processRequest()
 	foreach ( (array)$subjects_RET as $subject)
 		$subjects .= '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
 	$subjects .= '</SELECT>';
-	$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove','variables'=>array('id'=>'REQUEST_ID'));
+	$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove','variables' => array('id' => 'REQUEST_ID'));
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 //FJ css WPadmin

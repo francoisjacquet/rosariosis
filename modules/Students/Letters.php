@@ -72,7 +72,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$student['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
 
 				$letter_text = $REQUEST_letter_text;
-				foreach ( (array)$student as $column=>$value)
+				foreach ( (array)$student as $column => $value)
 					$letter_text = str_replace('__'.$column.'__',$value,$letter_text);
 
 				echo '<BR />'.$letter_text;
@@ -181,8 +181,8 @@ if (empty($_REQUEST['modfunc']))
 
 	$extra['SELECT'] .= ",s.STUDENT_ID AS CHECKBOX";
 	$extra['link'] = array('FULL_NAME'=>false);
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 

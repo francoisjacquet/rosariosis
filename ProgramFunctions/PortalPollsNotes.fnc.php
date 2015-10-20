@@ -57,7 +57,7 @@ function PortalPollsSaveVotes($poll_questions_RET, $votes_array)
 	//add votes
 	$voted_array = array();
 
-	foreach ($poll_questions_RET as $key=>$question)
+	foreach ($poll_questions_RET as $key => $question)
 	{
 		if ( !empty($question['VOTES']))
 		{
@@ -115,7 +115,7 @@ function PortalPollsDisplay($value,$name)
 	$poll_questions_RET = DBGet(DBQuery("SELECT ID, QUESTION, OPTIONS, TYPE, VOTES
 		FROM PORTAL_POLL_QUESTIONS
 		WHERE PORTAL_POLL_ID='".$poll_id."'
-		ORDER BY ID"), array('OPTIONS'=>'Linkify'));
+		ORDER BY ID"), array('OPTIONS' => 'Linkify'));
 
 	if ( !$poll_RET || !$poll_questions_RET)
 		return ErrorMessage(array('Poll does not exist'));//should never be displayed, so do not translate
@@ -280,7 +280,7 @@ if (isset($_POST['votes']) && is_array($_POST['votes']))
 		include($function);
 	}
 	
-	foreach ($_POST['votes'] as $poll_id=>$votes_array)
+	foreach ($_POST['votes'] as $poll_id => $votes_array)
 	{
 		if ( !empty($votes_array))
 		{
@@ -316,9 +316,9 @@ function makePublishing($value,$name)
 
 		//add Profiles with Custom permissions to profiles list
 		$profiles = array_merge(array(
-		array('ID'=>'admin', 'TITLE'=>_('Administrator w/Custom')),
-		array('ID'=>'teacher', 'TITLE'=>_('Teacher w/Custom')),
-		array('ID'=>'parent', 'TITLE'=>_('Parent w/Custom'))
+		array('ID' => 'admin', 'TITLE' => _('Administrator w/Custom')),
+		array('ID' => 'teacher', 'TITLE' => _('Teacher w/Custom')),
+		array('ID' => 'parent', 'TITLE' => _('Parent w/Custom'))
 		), $profiles_RET);
 	}
 

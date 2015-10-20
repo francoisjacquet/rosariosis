@@ -19,7 +19,7 @@ if ( $_REQUEST['values'])
 
 	if ( $start<=$end)
 	{
-		foreach ( (array)$_REQUEST['values'] as $key=>$value)
+		foreach ( (array)$_REQUEST['values'] as $key => $value)
 		{
 			if ( isset( ${$key} ) )
 				DBQuery("UPDATE PROGRAM_CONFIG SET VALUE='".$value."' WHERE PROGRAM='eligibility' AND TITLE='".$key."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'");
@@ -56,7 +56,7 @@ for($i=0;$i<=9;$i++)
 for($i=10;$i<=59;$i++)
 	$minute_options[$i] = $i;
 
-$m_options = array('AM'=>'AM','PM'=>'PM');
+$m_options = array('AM' => 'AM','PM' => 'PM');
 
 if ( $START_HOUR>12)
 {

@@ -1,7 +1,7 @@
 <?php
 include_once('ProgramFunctions/StudentsUsersInfo.fnc.php');
 
-$functions = array('START_DATE'=>'_makeStartInput','END_DATE'=>'_makeEndInput','SCHOOL_ID'=>'_makeSchoolInput');
+$functions = array('START_DATE' => '_makeStartInput','END_DATE' => '_makeEndInput','SCHOOL_ID' => '_makeSchoolInput');
 unset($THIS_RET);
 $RET = DBGet(DBQuery("SELECT e.ID,e.ENROLLMENT_CODE,e.START_DATE,e.DROP_CODE,e.END_DATE,e.END_DATE AS END,e.SCHOOL_ID,e.NEXT_SCHOOL,e.CALENDAR_ID,e.GRADE_ID FROM STUDENT_ENROLLMENT e WHERE e.STUDENT_ID='".UserStudentID()."' AND e.SYEAR='".UserSyear()."' ORDER BY e.START_DATE"),$functions);
 
@@ -18,10 +18,10 @@ if (count($RET))
 if ( $add)
 	$link['add']['html'] = array('START_DATE'=>_makeStartInput('','START_DATE'),'SCHOOL_ID'=>_makeSchoolInput('','SCHOOL_ID'));
 
-$columns = array('START_DATE'=>_('Attendance Start Date this School Year'),'END_DATE'=>_('Dropped'),'SCHOOL_ID'=>_('School'));
+$columns = array('START_DATE' => _('Attendance Start Date this School Year'),'END_DATE' => _('Dropped'),'SCHOOL_ID' => _('School'));
 
 $schools_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOLS WHERE ID!='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-$next_school_options = array(UserSchool()=>_('Next grade at current school'),'0'=>_('Retain'),'-1'=>_('Do not enroll after this school year'));
+$next_school_options = array(UserSchool() => _('Next grade at current school'),'0' => _('Retain'),'-1' => _('Do not enroll after this school year'));
 if (count($schools_RET))
 {
 	foreach ( (array)$schools_RET as $school)

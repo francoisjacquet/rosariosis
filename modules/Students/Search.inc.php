@@ -91,10 +91,10 @@ if ( !$_REQUEST['search_modfunc'])
 				echo '</TD></TR>';
 				echo '</TBODY></TABLE>';
 
-				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'N')).'">'._('Basic Search').'</A>';
+				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</A>';
 			}
 			else
-				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'Y')).'">'._('Advanced Search').'</A>';
+				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</A>';
 
 			echo '</TD></TR></TABLE></FORM>';
 
@@ -157,19 +157,19 @@ else
 		$extra['group'] = $extra['LO_group'] = array('FAMILY_ID');
 	}
 
-	$extra['WHERE'] .= appendSQL('',array('NoSearchTerms'=>$extra['NoSearchTerms']));
-	$extra['WHERE'] .= CustomFields('where','student',array('NoSearchTerms'=>$extra['NoSearchTerms']));
+	$extra['WHERE'] .= appendSQL('',array('NoSearchTerms' => $extra['NoSearchTerms']));
+	$extra['WHERE'] .= CustomFields('where','student',array('NoSearchTerms' => $extra['NoSearchTerms']));
 	$students_RET = GetStuList($extra);
 
 	if ( $extra['array_function'] && function_exists($extra['array_function']))
 		if ( $_REQUEST['address_group'])
-			foreach ( (array)$students_RET as $id=>$student_RET)
+			foreach ( (array)$students_RET as $id => $student_RET)
 				$students_RET[$id] = $extra['array_function']($student_RET);
 		else
 			$students_RET = $extra['array_function']($students_RET);
 
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];
-	$name_link['FULL_NAME']['variables'] = array('student_id'=>'STUDENT_ID');
+	$name_link['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
 
 	if ( $_REQUEST['_search_all_schools'])
 		$name_link['FULL_NAME']['variables']['school_id'] = 'SCHOOL_ID';
@@ -182,7 +182,7 @@ else
 	if (isset($extra['columns']) && is_array($extra['columns']))
 		$columns = $extra['columns'];
 	else
-		$columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'));
+		$columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level'));
 
 	if (isset($extra['columns_before']) && is_array($extra['columns_before']))
 		$columns = $extra['columns_before'] + $columns;
@@ -195,14 +195,14 @@ else
 		if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		{
 			if ( $_REQUEST['expanded_view']!='true')
-				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view'=>'true')).'">'._('Expanded View').'</A>';
+				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'true')).'">'._('Expanded View').'</A>';
 			else
-				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view'=>'false')).'">'._('Original View').'</A>';
+				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'false')).'">'._('Original View').'</A>';
 
 			if ( !$_REQUEST['address_group'])
-				$header_left .= ' | <A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group'=>'Y')).'">'._('Group by Family').'</A>';
+				$header_left .= ' | <A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => 'Y')).'">'._('Group by Family').'</A>';
 			else
-				$header_left .= ' | <A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group'=>'')).'">'._('Ungroup by Family').'</A>';
+				$header_left .= ' | <A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => '')).'">'._('Ungroup by Family').'</A>';
 		}
 
 		DrawHeader($header_left,$extra['header_right']);
@@ -240,7 +240,7 @@ else
 	{
 		if (count($link['FULL_NAME']['variables']))
 		{
-			foreach ( (array)$link['FULL_NAME']['variables'] as $var=>$val)
+			foreach ( (array)$link['FULL_NAME']['variables'] as $var => $val)
 				$_REQUEST[$var] = $students_RET['1'][$val];
 		}
 

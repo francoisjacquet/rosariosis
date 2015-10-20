@@ -4,7 +4,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$date = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
 	if (count($_REQUEST['month_values']))
 	{
-		foreach ( (array)$_REQUEST['month_values'] as $field_name=>$month)
+		foreach ( (array)$_REQUEST['month_values'] as $field_name => $month)
 		{
 			$_REQUEST['values'][$field_name] = $_REQUEST['day_values'][$field_name].'-'.$month.'-'.$_REQUEST['year_values'][$field_name];
 			if ( !VerifyDate($_REQUEST['values'][$field_name]))
@@ -45,7 +45,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			unset($_REQUEST['values']['ENROLLMENT_CODE']);
 		}
 
-		foreach ( (array)$_REQUEST['values'] as $field=>$value)
+		foreach ( (array)$_REQUEST['values'] as $field => $value)
 		{
 			if (isset($value) && $value!='')
 			{
@@ -54,7 +54,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			}
 		}
 
-		foreach ( (array)$_REQUEST['student'] as $student_id=>$yes)
+		foreach ( (array)$_REQUEST['student'] as $student_id => $yes)
 		{
 			if ( $yes=='Y')
 			{
@@ -319,7 +319,7 @@ if (empty($_REQUEST['modfunc']))
 
 			echo '<TR><TD><b>'._('Rolling / Retention Options').'</b></TD><TD>';
 			$schools_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOLS WHERE ID!='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-			$options = array(UserSchool()=>_('Next grade at current school'),'0'=>_('Retain'),'-1'=>_('Do not enroll after this school year'));
+			$options = array(UserSchool() => _('Next grade at current school'),'0' => _('Retain'),'-1' => _('Do not enroll after this school year'));
 			if (count($schools_RET))
 			{
 				foreach ( (array)$schools_RET as $school)
@@ -372,8 +372,8 @@ if (empty($_REQUEST['modfunc']))
 	//Widgets('course');
 	//Widgets('absences');
 
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
 	$extra['new'] = true;
 
 	Search('student_id',$extra);

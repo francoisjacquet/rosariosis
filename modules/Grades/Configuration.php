@@ -3,14 +3,14 @@
 if ( $_REQUEST['values'])
 {
 	DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'");
-	foreach ( (array)$_REQUEST['values'] as $title=>$value)
+	foreach ( (array)$_REQUEST['values'] as $title => $value)
 		DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','Gradebook','".$title."','".str_replace('%','',$value)."')");
 }
 
 $config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 if (count($config_RET))
 {
-	foreach ( (array)$config_RET as $title=>$value)
+	foreach ( (array)$config_RET as $title => $value)
 		$programconfig[$title] = $value[1]['VALUE'];
 }
 
@@ -81,11 +81,11 @@ if ( $comment_codes_RET)
 	echo '<legend>'._('Final Grades').'</legend>';
 	echo '<TABLE class="col1-align-right">';
 
-	foreach ( (array)$comment_codes_RET as $id=>$comments)
+	foreach ( (array)$comment_codes_RET as $id => $comments)
 	{
 		echo '<TR><TD><SELECT name="values[COMMENT_'.$id.']><OPTION value="">'._('N/A').'';
 
-		foreach ( (array)$comments as $key=>$val)
+		foreach ( (array)$comments as $key => $val)
 			echo '<OPTION value="'.$val['CODE_TITLE'].'"'.($val['CODE_TITLE']==$programconfig['COMMENT_'.$id]?' selected':'').'>'.$val['CODE_TITLE'];
 
 		echo '</SELECT></TD><TD>'.sprintf(_('Default %s comment code'), $comments[1]['TITLE']).'</TD></TR>';
@@ -95,7 +95,7 @@ if ( $comment_codes_RET)
 	echo '</fieldset><BR />';
 }
 /*
-foreach ( (array)$grades as $course_period_id=>$cp_grades)
+foreach ( (array)$grades as $course_period_id => $cp_grades)
 {
 	$cp_grades_total = count($cp_grades);
 	for($i=1;$i<=$cp_grades_total;$i++)
@@ -109,7 +109,7 @@ if (count($grades))
 	echo '<fieldset>';
 	echo '<legend>'._('Score Breakoff Points').'</legend>';
 	echo '<TABLE><TR><TD>';
-	foreach ( (array)$grades as $course_period_id=>$cp_grades)
+	foreach ( (array)$grades as $course_period_id => $cp_grades)
 	{
 		$table = '<TABLE>';
 		$table .= '<TR><TD colspan="10">'.$cp_grades[1]['COURSE_TITLE'].' - '.mb_substr($cp_grades[1]['CP_TITLE'],0,mb_strrpos(str_replace(' - ',' ^ ',$cp_grades[1]['CP_TITLE']),'^')).'</TD></TR><TR class="st">';

@@ -13,14 +13,14 @@ if ( !$_REQUEST['search_modfunc'])
 else
 {
 //FJ add translation
-	$columns = array('COURSE_TITLE'=>_('Course'),'WITH_FULL_NAME'=>'');
+	$columns = array('COURSE_TITLE' => _('Course'),'WITH_FULL_NAME' => '');
 
 	$extra['SELECT'] .= ",c.TITLE AS COURSE_TITLE,srp.PRIORITY,srp.MARKING_PERIOD_ID,srp.WITH_TEACHER_ID,srp.NOT_TEACHER_ID,srp.WITH_PERIOD_ID,srp.NOT_PERIOD_ID,'' AS WITH_FULL_NAME";
 	$extra['FROM'] .= ',COURSES c,SCHEDULE_REQUESTS srp';
 	$extra['WHERE'] .= ' AND ssm.STUDENT_ID=srp.STUDENT_ID AND ssm.SYEAR=srp.SYEAR AND srp.COURSE_ID = c.COURSE_ID';
 	
 //FJ add subject areas
-	$extra['functions'] += array('WITH_FULL_NAME'=>'_makeExtra');
+	$extra['functions'] += array('WITH_FULL_NAME' => '_makeExtra');
 	$extra['group'] = array('STUDENT_ID');
 	//FJ add ORDER BY COURSE_TITLE
 	$extra['ORDER_BY'] = 'COURSE_TITLE';
@@ -38,7 +38,7 @@ else
 	{
 		$__DBINC_NO_SQLSHOW = true;
 		$handle = PDFStart();
-		foreach ( (array)$RET as $student_id=>$courses)
+		foreach ( (array)$RET as $student_id => $courses)
 		{
 			if ( $_REQUEST['mailing_labels']=='Y')
 			{

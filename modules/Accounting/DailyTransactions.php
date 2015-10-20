@@ -48,7 +48,7 @@ if ( !$_REQUEST['LO_sort'])
 	$_REQUEST['LO_sort'] = 'DATE';
 
 //Widgets('all');
-$extra['functions'] = array('DEBIT'=>'_makeCurrency','CREDIT'=>'_makeCurrency','DATE'=>'ProperDate');
+$extra['functions'] = array('DEBIT' => '_makeCurrency','CREDIT' => '_makeCurrency','DATE' => 'ProperDate');
 
 $RET = $debit_col = $credit_col = $name_col = array();
 
@@ -160,12 +160,12 @@ $credit_col = implode(' / ', $credit_col);
 $columns = array('FULL_NAME'=>(empty($name_col)? _('Total') : $name_col));
 if (isset($_REQUEST['staff_payroll']) && isset($_REQUEST['student_billing']))
 	$columns['STUDENT_NAME'] = _('Student');
-$columns = $columns + array('DEBIT'=>$debit_col,'CREDIT'=>$credit_col,'DATE'=>_('Date'),'EXPLANATION'=>_('Comment'));
+$columns = $columns + array('DEBIT' => $debit_col,'CREDIT' => $credit_col,'DATE' => _('Date'),'EXPLANATION' => _('Comment'));
 
 $link['add']['html'] = array('FULL_NAME'=>(empty($name_col)? '' : _('Total').': ').'<B>'.Currency($totals['CREDIT']-$totals['DEBIT']).'</B>');
 if (isset($_REQUEST['staff_payroll']) && isset($_REQUEST['student_billing']))
 	$link['add']['html']['STUDENT_NAME'] = '&nbsp;';
-$link['add']['html'] = $link['add']['html'] + array('DEBIT'=>'<b>'.Currency($totals['DEBIT']).'</b>','CREDIT'=>'<b>'.Currency($totals['CREDIT']).'</b>','DATE'=>'&nbsp;','EXPLANATION'=>'&nbsp;');
+$link['add']['html'] = $link['add']['html'] + array('DEBIT' => '<b>'.Currency($totals['DEBIT']).'</b>','CREDIT' => '<b>'.Currency($totals['CREDIT']).'</b>','DATE' => '&nbsp;','EXPLANATION' => '&nbsp;');
 
 ListOutput($RET,$columns,'Transaction','Transactions',$link);
 

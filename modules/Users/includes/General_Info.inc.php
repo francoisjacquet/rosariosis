@@ -30,8 +30,8 @@ if ( $_REQUEST['staff_id']!='new' && ($file = @fopen($picture_path=$UserPictures
 echo '</TD><TD>';
 
 //FJ add translation
-$titles_array = array('Mr'=>_('Mr'),'Mrs'=>_('Mrs'),'Ms'=>_('Ms'),'Miss'=>_('Miss'),'Dr'=>_('Dr'));
-$suffixes_array = array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V'));
+$titles_array = array('Mr' => _('Mr'),'Mrs' => _('Mrs'),'Ms' => _('Ms'),'Miss' => _('Miss'),'Dr' => _('Dr'));
+$suffixes_array = array('Jr' => _('Jr'),'Sr' => _('Sr'),'II' => _('II'),'III' => _('III'),'IV' => _('IV'),'V' => _('V'));
 
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 {
@@ -114,7 +114,7 @@ if (basename($_SERVER['PHP_SELF'])!='index.php')
 
 	echo '<TABLE><TR><TD>';
 	unset($options);
-	$options = array('admin'=>_('Administrator'),'teacher'=>_('Teacher'),'parent'=>_('Parent'),'none'=>_('No Access'));
+	$options = array('admin' => _('Administrator'),'teacher' => _('Teacher'),'parent' => _('Parent'),'none' => _('No Access'));
 	echo SelectInput($staff['PROFILE'],'staff[PROFILE]',(!$staff['PROFILE']?'<span class="legend-red">':'')._('User Profile').(!$staff['PROFILE']?'</span>':''),$options,false,'',($_REQUEST['moodle_create_user'] ?false:true));
 
 	echo '</TD></TR><TR><TD>';

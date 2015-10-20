@@ -35,7 +35,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			WHERE fst.SHORT_NAME='DEPOSIT' 
 			AND fst.STAFF_ID='".$staff['STAFF_ID']."' 
 			AND SYEAR='".UserSyear()."' 
-			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1"),array('DATE'=>'ProperDate'));
+			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1"),array('DATE' => 'ProperDate'));
 			$last_deposit = $last_deposit[1];
 
 			if ( $staff['BALANCE'] < $minimum)
@@ -63,8 +63,8 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STAFF_ID AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" checked name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" checked name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['new'] = true;
 	$extra['options']['search'] = false;
 
@@ -81,8 +81,8 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 		$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fsa';
 		$extra['WHERE'] .= ' AND fsa.STAFF_ID=s.STAFF_ID';
 	}
-	$extra['functions'] += array('BALANCE'=>'red','WARNING'=>'x','NEGATIVE'=>'x','MINIMUM'=>'x');
-	$extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'),'WARNING'=>_('Warning').'<BR />&lt; '.$warning,'NEGATIVE'=>_('Negative'),'MINIMUM'=>_('Minimum').'<BR />'.$minimum);
+	$extra['functions'] += array('BALANCE' => 'red','WARNING' => 'x','NEGATIVE' => 'x','MINIMUM' => 'x');
+	$extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'),'WARNING' => _('Warning').'<BR />&lt; '.$warning,'NEGATIVE' => _('Negative'),'MINIMUM' => _('Minimum').'<BR />'.$minimum);
 
 	Search('staff_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')

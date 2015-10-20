@@ -6,7 +6,7 @@ function GetStuList(&$extra=array())
 {	global $contacts_RET,$view_other_RET;
 
 	if ((empty($extra['SELECT_ONLY']) || mb_strpos($extra['SELECT_ONLY'],'GRADE_ID')!==false) && !isset($extra['functions']['GRADE_ID']))
-		$functions = array('GRADE_ID'=>'GetGrade');
+		$functions = array('GRADE_ID' => 'GetGrade');
 	else
 		$functions = array();
 
@@ -296,7 +296,7 @@ function GetStuList(&$extra=array())
 			return ErrorMessage($error, 'fatal');
 	}
 
-	//$sql = appendSQL($sql,array('NoSearchTerms'=>$extra['NoSearchTerms']));
+	//$sql = appendSQL($sql,array('NoSearchTerms' => $extra['NoSearchTerms']));
 
 	$sql .= ' '.$extra['WHERE'].' ';
 
@@ -491,7 +491,7 @@ function appendSQL($sql,$extra=array())
 			$_ROSARIO['SearchTerms'] .= '<b>'.ngettext('Grade','Grades',sizeof($_REQUEST['grades'])).': </b>'.($_REQUEST['grades_not']=='Y'?_('Excluded').' ':'');
 
 		$list = $sep = '';
-		foreach ( (array)$_REQUEST['grades'] as $id=>$y)
+		foreach ( (array)$_REQUEST['grades'] as $id => $y)
 		{
 			$list .= $sep."'".$id."'";
 

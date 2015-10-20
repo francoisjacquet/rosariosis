@@ -3,7 +3,7 @@
 function GetStaffList(& $extra)
 {	global $profiles_RET;
 
-	$functions = array('PROFILE'=>'makeProfile');
+	$functions = array('PROFILE' => 'makeProfile');
 	switch(User('PROFILE'))
 	{
 		case 'admin':
@@ -79,12 +79,12 @@ function GetStaffList(& $extra)
 					STAFF s ".$extra['FROM']."
 				WHERE
 					s.SYEAR='".UserSyear()."'";
-			//$sql = appendStaffSQL($sql,array('NoSearchTerms'=>$extra['NoSearchTerms']));
+			//$sql = appendStaffSQL($sql,array('NoSearchTerms' => $extra['NoSearchTerms']));
 			if ( $_REQUEST['_search_all_schools']!='Y')
 				$sql .= " AND (s.SCHOOLS LIKE '%,".UserSchool().",%' OR s.SCHOOLS IS NULL OR s.SCHOOLS='') ";
 
 			$sql .= $extra['WHERE'].' ';
-			//$sql .= CustomFields('where','staff',array('NoSearchTerms'=>$extra['NoSearchTerms']));
+			//$sql .= CustomFields('where','staff',array('NoSearchTerms' => $extra['NoSearchTerms']));
 			// it would be easier to sort on full_name but postgres sometimes yields strange results
 			$sql .= 'ORDER BY s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME';
 

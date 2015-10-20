@@ -30,7 +30,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			{
 				$_SESSION['UserCoursePeriod'] = $course_period_id;
 
-				$extra = array('SELECT_ONLY'=>'s.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME', 'ORDER_BY'=>'s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME', 'MP'=>$course_period['MARKING_PERIOD_ID'], 'MPTable'=>$course_period['MP']);
+				$extra = array('SELECT_ONLY' => 's.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME', 'ORDER_BY' => 's.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME', 'MP' => $course_period['MARKING_PERIOD_ID'], 'MPTable' => $course_period['MP']);
 
 				//FJ prevent course period ID hacking
 				if (User('PROFILE')=='student' || User('PROFILE')=='parent')
@@ -282,8 +282,8 @@ function mySearch($type,$extra='')
 		}
 		//$sql .= ' ORDER BY sp.PERIOD_ID';
 
-		$course_periods_RET = DBGet(DBQuery($sql),array('COURSE_PERIOD_ID'=>'_makeChooseCheckbox'));
-		$LO_columns = array('COURSE_PERIOD_ID'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');" checked /><A>','TITLE'=>_('Course Period'));
+		$course_periods_RET = DBGet(DBQuery($sql),array('COURSE_PERIOD_ID' => '_makeChooseCheckbox'));
+		$LO_columns = array('COURSE_PERIOD_ID' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');" checked /><A>','TITLE' => _('Course Period'));
 
 		if ( !$_REQUEST['LO_save'] && !$extra['suppress_save'])
 		{

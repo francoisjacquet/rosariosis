@@ -49,7 +49,7 @@ if ( $_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_se
 	AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'"),array(),array('SCHOOL_DATE'));
 	//echo '<pre>'; var_dump($events_RET); echo '</pre>';
 
-	foreach ( (array)$_REQUEST['food_service'] as $school_date=>$description)
+	foreach ( (array)$_REQUEST['food_service'] as $school_date => $description)
 	{
 		if ( $events_RET[$school_date])
 			if ( $description['text'] || $description['select'])
@@ -154,21 +154,21 @@ else
 	AND SYEAR='".UserSyear()."' 
 	AND SCHOOL_ID='".UserSchool()."' 
 	AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' 
-	ORDER BY SCHOOL_DATE"),array('DESCRIPTION'=>'makeDescriptionInput','SCHOOL_DATE'=>'ProperDate'));
+	ORDER BY SCHOOL_DATE"),array('DESCRIPTION' => 'makeDescriptionInput','SCHOOL_DATE' => 'ProperDate'));
 
 	$events_RET[0] = array(); // make sure indexing from 1
-	foreach ( (array)$calendar_RET as $school_date=>$value)
-		$events_RET[] = array('ID'=>'new','SCHOOL_DATE'=>ProperDate($school_date),'DESCRIPTION'=>TextInput('','food_service['.$school_date.'][text]','','size=20').($description_select ? '<SELECT name="food_service['.$school_date.'][select]">'.$description_select : ''));
+	foreach ( (array)$calendar_RET as $school_date => $value)
+		$events_RET[] = array('ID' => 'new','SCHOOL_DATE'=>ProperDate($school_date),'DESCRIPTION'=>TextInput('','food_service['.$school_date.'][text]','','size=20').($description_select ? '<SELECT name="food_service['.$school_date.'][select]">'.$description_select : ''));
 	unset($events_RET[0]);
-	$LO_columns = array('ID'=>_('ID'),'SCHOOL_DATE'=>_('Date'),'DESCRIPTION'=>_('Description'));
+	$LO_columns = array('ID' => _('ID'),'SCHOOL_DATE' => _('Date'),'DESCRIPTION' => _('Description'));
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" METHOD="POST">';
 	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)),SubmitButton(_('Save'),'submit[save]').SubmitButton(_('Generate Menu'),'submit[print]'));
 	echo '<BR />';
 
 	$tabs = array();
-	foreach ( (array)$menus_RET as $id=>$meal)
-		$tabs[] = array('title'=>$meal[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id=$id&month='.$_REQUEST['month'].'&year='.$_REQUEST['year']);
+	foreach ( (array)$menus_RET as $id => $meal)
+		$tabs[] = array('title' => $meal[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&menu_id=$id&month='.$_REQUEST['month'].'&year='.$_REQUEST['year']);
 
 	$extra = array('save'=>false,'search'=>false,
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year']));

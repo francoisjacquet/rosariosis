@@ -53,8 +53,8 @@ AND cp.COURSE_ID=c.COURSE_ID
 AND s.STUDENT_ID=se.STUDENT_ID 
 AND se.SCHOOL_ID='".UserSchool()."' 
 AND se.END_DATE BETWEEN '".$start_date."' AND '".$end_date."'
-ORDER BY DATE DESC"),array('START_DATE'=>'ProperDate','END_DATE'=>'ProperDate'));
+ORDER BY DATE DESC"),array('START_DATE' => 'ProperDate','END_DATE' => 'ProperDate'));
 
-$columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'COURSE_TITLE'=>_('Course'),'TITLE'=>_('Course Period'),'START_DATE'=>_('Enrolled'),'END_DATE'=>_('Dropped'));
+$columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'COURSE_TITLE' => _('Course'),'TITLE' => _('Course Period'),'START_DATE' => _('Enrolled'),'END_DATE' => _('Dropped'));
 ListOutput($enrollment_RET,$columns,'Schedule Record','Schedule Records');
 ?>

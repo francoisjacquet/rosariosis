@@ -38,7 +38,7 @@ if ( $_REQUEST['modfunc']=='update')
                 if ( !$RET || PromptX($title='Confirm',$question,$message))
                 {
                     $sql = 'UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ';
-                    foreach ( (array)$_REQUEST['food_service'] as $column_name=>$value)
+                    foreach ( (array)$_REQUEST['food_service'] as $column_name => $value)
                         $sql .= $column_name."='".trim($value)."',";
                     $sql = mb_substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
                     if ( $_REQUEST['food_service']['BARCODE'])
@@ -70,7 +70,7 @@ if ( $_REQUEST['modfunc']=='create')
         $values = "'".UserStaffID()."','0.00','0',";
         
         if (is_array($_REQUEST['food_service']))
-		 foreach ( (array)$_REQUEST['food_service'] as $column_name=>$value)
+		 foreach ( (array)$_REQUEST['food_service'] as $column_name => $value)
 		 {
 		     $fields .= $column_name.',';
 		     $values .= "'".trim($value)."',";
@@ -89,8 +89,8 @@ StaffWidgets('fsa_exists_Y');
 
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
 $extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
-$extra['functions'] += array('BALANCE'=>'red');
-$extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
+$extra['functions'] += array('BALANCE' => 'red');
+$extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'));
 
 Search('staff_id',$extra);
 
@@ -142,7 +142,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 
 	echo '<TABLE class="width-100p cellspacing-0 valign-top"><TR><TD>';
 
-	$options = array('Inactive'=>_('Inactive'),'Disabled'=>_('Disabled'),'Closed'=>_('Closed'));
+	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
 	echo ($staff['ACCOUNT_ID']?SelectInput($staff['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')):NoInput('-',_('Status')));
 	echo '</TD>';
 	echo '<TD>';

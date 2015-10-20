@@ -12,7 +12,7 @@ if (User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_i
 	exit;
 }
 
-$categories = array('1'=>'General_Info', '2'=>'Schedule', 'Other_Info'=>'Other_Info');
+$categories = array('1' => 'General_Info', '2' => 'Schedule', 'Other_Info' => 'Other_Info');
 
 if ( !isset($_REQUEST['category_id']))
 {
@@ -85,7 +85,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 		}
 
 		$schools = $current_schools;
-		foreach ( (array)$_REQUEST['staff']['SCHOOLS'] as $school_id=>$yes)
+		foreach ( (array)$_REQUEST['staff']['SCHOOLS'] as $school_id => $yes)
 		{
 			if ( $yes == 'Y' && mb_strpos($current_schools, ','.$school_id.',')===false)
 				$schools .= $school_id.',';
@@ -180,7 +180,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 				$sql = "UPDATE STAFF SET ";
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 				$go = false;
-				foreach ( (array)$_REQUEST['staff'] as $column_name=>$value)
+				foreach ( (array)$_REQUEST['staff'] as $column_name => $value)
 				{
 					if (1)//!empty($value) || $value=='0')
 					{
@@ -246,7 +246,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 				}
 
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
-				foreach ( (array)$_REQUEST['staff'] as $column=>$value)
+				foreach ( (array)$_REQUEST['staff'] as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{
@@ -415,8 +415,8 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 	if ( $_REQUEST['staff_id']!='new')
 	{
 		//FJ add translation
-		$titles_array = array('Mr'=>_('Mr'),'Mrs'=>_('Mrs'),'Ms'=>_('Ms'),'Miss'=>_('Miss'),'Dr'=>_('Dr'));
-		$suffixes_array = array('Jr'=>_('Jr'),'Sr'=>_('Sr'),'II'=>_('II'),'III'=>_('III'),'IV'=>_('IV'),'V'=>_('V'));
+		$titles_array = array('Mr' => _('Mr'),'Mrs' => _('Mrs'),'Ms' => _('Ms'),'Miss' => _('Miss'),'Dr' => _('Dr'));
+		$suffixes_array = array('Jr' => _('Jr'),'Sr' => _('Sr'),'II' => _('II'),'III' => _('III'),'IV' => _('IV'),'V' => _('V'));
 		
 		$name = $titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']].' - '.$staff['STAFF_ID'];
 	}
@@ -453,7 +453,7 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 			else
 				$include = 'Other_Info';*/
 
-			$tabs[] = array('title'=>$category['TITLE'],'link'=>($_REQUEST['staff_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category['ID'] : ''));
+			$tabs[] = array('title' => $category['TITLE'],'link'=>($_REQUEST['staff_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category['ID'] : ''));
 		}
 	}
 

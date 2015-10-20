@@ -80,7 +80,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1 
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
 
-		$columns = array('DESCRIPTION'=>_('Item'),'AMOUNT'=>_('Amount'));
+		$columns = array('DESCRIPTION' => _('Item'),'AMOUNT' => _('Amount'));
 		$singular = sprintf(_('Earlier %s Sale'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
 		$plural = sprintf(_('Earlier %s Sales'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
 
@@ -102,33 +102,33 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		AND fsi.ITEM_ID=fsmi.ITEM_ID 
 		AND fsmi.CATEGORY_ID IS NOT NULL 
 		AND fsi.SCHOOL_ID='".UserSchool()."' 
-		ORDER BY fsi.SORT_ORDER"),array('ICON'=>'makeIcon'),array('SHORT_NAME'));
+		ORDER BY fsi.SORT_ORDER"),array('ICON' => 'makeIcon'),array('SHORT_NAME'));
 		$items = array();
-		foreach ( (array)$items_RET as $sn=>$item)
-			$items += array($sn=>$item[1]['DESCRIPTION']);
+		foreach ( (array)$items_RET as $sn => $item)
+			$items += array($sn => $item[1]['DESCRIPTION']);
 
 		$LO_ret = array(array());
 		
 		if (isset($_SESSION['FSA_sale']))
-			foreach ( (array)$_SESSION['FSA_sale'] as $id=>$item_sn)
+			foreach ( (array)$_SESSION['FSA_sale'] as $id => $item_sn)
 			{
 
 				$price = $items_RET[$item_sn][1]['PRICE_STAFF'];
-				$LO_ret[] = array('SALE_ID'=>$id,'PRICE'=>$price,'DESCRIPTION'=>$items_RET[$item_sn][1]['DESCRIPTION'],'ICON'=>$items_RET[$item_sn][1]['ICON']);
+				$LO_ret[] = array('SALE_ID' => $id,'PRICE' => $price,'DESCRIPTION' => $items_RET[$item_sn][1]['DESCRIPTION'],'ICON' => $items_RET[$item_sn][1]['ICON']);
 			}
 			
 		unset($LO_ret[0]);
 
-		$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&menu_id='.$_REQUEST['menu_id'],
-					'variables'=>array('id'=>'SALE_ID'));
+		$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&menu_id='.$_REQUEST['menu_id'],
+					'variables' => array('id' => 'SALE_ID'));
 //FJ css WPadmin
-//		$link['add']['html'] = array('DESCRIPTION'=>'<TABLE class="cellspacing-0"><TR><TD>'.SelectInput('','item_sn','',$items).'</TD></TR></TABLE>','ICON'=>'<TABLE class="cellspacing-0"><TR><TD><INPUT type=submit value='._('Add').'></TD></TR></TABLE>','remove'=>button('add'));
-		$link['add']['html'] = array('DESCRIPTION'=>SelectInput('','item_sn','',$items),'ICON'=>SubmitButton(_('Add')),'PRICE'=>'&nbsp;','remove'=>button('add'));
-		$columns = array('DESCRIPTION'=>_('Item'),'ICON'=>_('Icon'),'PRICE'=>_('Price'));
+//		$link['add']['html'] = array('DESCRIPTION' => '<TABLE class="cellspacing-0"><TR><TD>'.SelectInput('','item_sn','',$items).'</TD></TR></TABLE>','ICON' => '<TABLE class="cellspacing-0"><TR><TD><INPUT type=submit value='._('Add').'></TD></TR></TABLE>','remove'=>button('add'));
+		$link['add']['html'] = array('DESCRIPTION'=>SelectInput('','item_sn','',$items),'ICON'=>SubmitButton(_('Add')),'PRICE' => '&nbsp;','remove'=>button('add'));
+		$columns = array('DESCRIPTION' => _('Item'),'ICON' => _('Icon'),'PRICE' => _('Price'));
 
 		$tabs = array();
-		foreach ( (array)$menus_RET as $id=>$menu)
-			$tabs[] = array('title'=>$menu[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
+		foreach ( (array)$menus_RET as $id => $menu)
+			$tabs[] = array('title' => $menu[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
 
 		$extra = array('save'=>false,'search'=>false,
 			'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']));

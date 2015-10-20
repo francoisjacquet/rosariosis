@@ -98,15 +98,15 @@ $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID','PERIOD_ID'));
 $i = 0;
 if (count($RET))
 {
-	foreach ( (array)$RET as $staff_id=>$periods)
+	foreach ( (array)$RET as $staff_id => $periods)
 	{
 		$i++;
 		$staff_RET[$i]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
-		foreach ( (array)$periods as $period_id=>$period)
+		foreach ( (array)$periods as $period_id => $period)
 			$staff_RET[$i][$period_id] = button('x');
 	}
 }
-$columns = array('FULL_NAME'=>_('Teacher'));
+$columns = array('FULL_NAME' => _('Teacher'));
 if ( !$_REQUEST['period'])
 {
 	foreach ( (array)$periods_RET as $period)

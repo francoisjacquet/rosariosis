@@ -11,7 +11,7 @@ $RET = DBGet(DBQuery($sql),array(),array('RELNAME'));
 
 $PDF = PDFStart();
 echo '<TABLE>';
-foreach ( (array)$RET as $table=>$columns)
+foreach ( (array)$RET as $table => $columns)
 {
 	if ( $i%2==0)
 		echo '<TR><TD class="valign-top">';

@@ -103,7 +103,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	AND em.STUDENT_ID='".UserStudentID()."' 
 	AND em.SYEAR=ea.SYEAR 
 	AND em.ACTIVITY_ID=ea.ID 
-	ORDER BY ea.START_DATE"),array('START_DATE'=>'ProperDate','END_DATE'=>'ProperDate'));
+	ORDER BY ea.START_DATE"),array('START_DATE' => 'ProperDate','END_DATE' => 'ProperDate'));
 
 	$activities_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	if (count($activities_RET))
@@ -113,14 +113,14 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	}
 
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&start_date='.$_REQUEST['start_date'];
-	$link['remove']['variables'] = array('activity_id'=>'ACTIVITY_ID');
+	$link['remove']['variables'] = array('activity_id' => 'ACTIVITY_ID');
 //FJ css WPadmin
 //	$link['add']['html']['TITLE'] = '<TABLE class="cellspacing-0"><TR><TD>'.SelectInput('','new_activity','',$activities).'</TD><TD><INPUT type=submit value="'._('Add').'"></TD></TR></TABLE>';
 //	$link['add']['html']['remove'] = button('add');
 	$link['add']['html'] = array('remove' => button('add'), 'TITLE' => SelectInput('','new_activity','',$activities).SubmitButton(_('Add')), 'START_DATE' => '&nbsp;', 'END_DATE' => '&nbsp;');
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&start_date='.$_REQUEST['start_date'].'" method="POST">';
-	$columns = array('TITLE'=>_('Activity'),'START_DATE'=>_('Starts'),'END_DATE'=>_('Ends'));
+	$columns = array('TITLE' => _('Activity'),'START_DATE' => _('Starts'),'END_DATE' => _('Ends'));
 	ListOutput($RET,$columns,'Activity','Activities',$link);
 	echo '</FORM>';
 
@@ -131,8 +131,8 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID 
 	AND cp.COURSE_ID=c.COURSE_ID 
 	AND e.SCHOOL_DATE BETWEEN '".$start_date."' 
-	AND '".$end_date."'"),array('ELIGIBILITY_CODE'=>'_makeLower'));
-	$columns = array('COURSE_TITLE'=>_('Course'),'ELIGIBILITY_CODE'=>_('Grade'));
+	AND '".$end_date."'"),array('ELIGIBILITY_CODE' => '_makeLower'));
+	$columns = array('COURSE_TITLE' => _('Course'),'ELIGIBILITY_CODE' => _('Grade'));
 	ListOutput($RET,$columns,'Course','Courses');
 }
 

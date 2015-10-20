@@ -78,12 +78,12 @@ if ( isset( $_POST['schedule'] )
 	&& count( $_POST['schedule'] )
 	&& AllowEdit() )
 {
-	foreach ( (array)$_REQUEST['schedule'] as $course_period_id=>$start_dates)
-	foreach ( (array)$start_dates as $start_date=>$columns)
+	foreach ( (array)$_REQUEST['schedule'] as $course_period_id => $start_dates)
+	foreach ( (array)$start_dates as $start_date => $columns)
 	{
 		$sql = "UPDATE SCHEDULE SET ";
 
-		foreach ( (array)$columns as $column=>$value)
+		foreach ( (array)$columns as $column => $value)
 		{
 			$sql .= $column."='".$value."',";
 		}
@@ -201,7 +201,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 	$sql .= " ORDER BY cp.SHORT_NAME,s.MARKING_PERIOD_ID";
 
 	$QI = DBQuery($sql);
-	$schedule_RET = DBGet($QI,array('PERIOD_PULLDOWN'=>'_makePeriodSelect','COURSE_MARKING_PERIOD_ID'=>'_makeMPSelect','SCHEDULER_LOCK'=>'_makeLock','START_DATE'=>'_makeDate','END_DATE'=>'_makeDate'));
+	$schedule_RET = DBGet($QI,array('PERIOD_PULLDOWN' => '_makePeriodSelect','COURSE_MARKING_PERIOD_ID' => '_makeMPSelect','SCHEDULER_LOCK' => '_makeLock','START_DATE' => '_makeDate','END_DATE' => '_makeDate'));
 
 	//FJ bugfix SQL bug $_SESSION['student_id'] is not set
 	//$link['add']['link'] = '#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course&student_id='.$_REQUEST['student_id'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'","","scrollbars=yes,resizable=yes,width=900,height=400");\' ';
@@ -209,7 +209,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 
 	$link['add']['title'] = _('Add a Course');
 
-	$columns = array('TITLE'=>_('Course'),'PERIOD_PULLDOWN'=>_('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'ROOM'=>_('Room'),'COURSE_MARKING_PERIOD_ID'=>_('Term'),'SCHEDULER_LOCK'=>'<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/locked.png"  class="button bigger">','START_DATE'=>_('Enrolled'),'END_DATE'=>_('Dropped'));
+	$columns = array('TITLE' => _('Course'),'PERIOD_PULLDOWN' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'ROOM' => _('Room'),'COURSE_MARKING_PERIOD_ID' => _('Term'),'SCHEDULER_LOCK' => '<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/locked.png"  class="button bigger">','START_DATE' => _('Enrolled'),'END_DATE' => _('Dropped'));
 	/*//FJ multiple school periods for a course period
 	//$days_RET = DBGet(DBQuery("SELECT DISTINCT DAYS FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 	$days_RET = DBGet(DBQuery("SELECT DISTINCT cpsp.DAYS FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'"));
@@ -217,10 +217,10 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 		unset($columns['DAYS']);
 
 	//FJ days display to locale						
-	$days_convert = array('U'=>_('Sunday'),'M'=>_('Monday'),'T'=>_('Tuesday'),'W'=>_('Wednesday'),'H'=>_('Thursday'),'F'=>_('Friday'),'S'=>_('Saturday'));
+	$days_convert = array('U' => _('Sunday'),'M' => _('Monday'),'T' => _('Tuesday'),'W' => _('Wednesday'),'H' => _('Thursday'),'F' => _('Friday'),'S' => _('Saturday'));
 	//FJ days numbered
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
-		$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
+		$days_convert = array('U' => '7','M' => '1','T' => '2','W' => '3','H' => '4','F' => '5','S' => '6');
 
 	for ($j = 1; $j <= count($schedule_RET); $j++) {
 		$columns_DAYS_locale = '';
@@ -259,18 +259,18 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 			$extra['SELECT'] .= ',\'None\' AS CUSTOM_200000000,c.TITLE AS COURSE,sr.SUBJECT_ID,sr.COURSE_ID,sr.WITH_TEACHER_ID,sr.NOT_TEACHER_ID,sr.WITH_PERIOD_ID,sr.NOT_PERIOD_ID,\'0\' AS AVAILABLE_SEATS,(SELECT count(*) AS SECTIONS FROM COURSE_PERIODS cp WHERE cp.COURSE_ID=sr.COURSE_ID AND (cp.GENDER_RESTRICTION=\'N\' OR cp.GENDER_RESTRICTION=substring(\'None\',1,1)) AND (sr.WITH_TEACHER_ID IS NULL OR sr.WITH_TEACHER_ID=cp.TEACHER_ID) AND (sr.NOT_TEACHER_ID IS NULL OR sr.NOT_TEACHER_ID!=cp.TEACHER_ID)) AS SECTIONS ';
 
 		$extra['WHERE'] .= ' AND sr.STUDENT_ID=ssm.STUDENT_ID AND sr.SYEAR=ssm.SYEAR AND sr.SCHOOL_ID=ssm.SCHOOL_ID AND sr.COURSE_ID=c.COURSE_ID AND NOT EXISTS (SELECT \'\' FROM SCHEDULE s WHERE s.STUDENT_ID=sr.STUDENT_ID AND s.COURSE_ID=sr.COURSE_ID)';
-		$extra['functions'] = array('WITH_TEACHER_ID'=>'_makeRequestTeacher','WITH_PERIOD_ID'=>'_makeRequestPeriod');
+		$extra['functions'] = array('WITH_TEACHER_ID' => '_makeRequestTeacher','WITH_PERIOD_ID' => '_makeRequestPeriod');
 
-		$columns = array('COURSE'=>_('Request'),'SECTIONS'=>_('Sections'),'WITH_TEACHER_ID'=>_('Teacher'),'WITH_PERIOD_ID'=>_('Period'));
+		$columns = array('COURSE' => _('Request'),'SECTIONS' => _('Sections'),'WITH_TEACHER_ID' => _('Teacher'),'WITH_PERIOD_ID' => _('Period'));
 
 		if ( $_REQUEST['include_seats'])
 		{
-			$columns += array('AVAILABLE_SEATS'=>_('Available Seats'));
-			$extra['functions'] += array('AVAILABLE_SEATS'=>'CalcSeats');
+			$columns += array('AVAILABLE_SEATS' => _('Available Seats'));
+			$extra['functions'] += array('AVAILABLE_SEATS' => 'CalcSeats');
 		}
 
 		$link['COURSE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course';
-		$link['COURSE']['variables'] = array('subject_id'=>'SUBJECT_ID','course_id'=>'COURSE_ID','student_id'=>'STUDENT_ID');
+		$link['COURSE']['variables'] = array('subject_id' => 'SUBJECT_ID','course_id' => 'COURSE_ID','student_id' => 'STUDENT_ID');
 		$link['COURSE']['js'] = true;
 
 		$options = array('search'=>false, 'save'=>false);
@@ -395,7 +395,7 @@ function _makeMPSelect($mp_id,$name)
 		$semesters_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,NULL AS PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 		$quarters_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 
-		$_ROSARIO['_makeMPSelect'][$fy_id][1] = array('MARKING_PERIOD_ID'=>$fy_id,'TITLE'=>_('Full Year'),'PARENT_ID'=>'');
+		$_ROSARIO['_makeMPSelect'][$fy_id][1] = array('MARKING_PERIOD_ID' => $fy_id,'TITLE' => _('Full Year'),'PARENT_ID' => '');
 		foreach ( (array)$semesters_RET as $sem)
 			$_ROSARIO['_makeMPSelect'][$fy_id][] = $sem;
 		foreach ( (array)$quarters_RET as $qtr)
@@ -477,7 +477,7 @@ function VerifySchedule(&$schedule)
 										break;
 									}
 
-	foreach ( (array)$conflicts as $i=>$true)
+	foreach ( (array)$conflicts as $i => $true)
 		$schedule[$i]['TITLE'] = '<span style="color:red">'.$schedule[$i]['TITLE'].'</span>';
 }
 

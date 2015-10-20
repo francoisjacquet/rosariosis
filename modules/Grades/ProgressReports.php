@@ -10,7 +10,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 	if (count($config_RET))
-		foreach ( (array)$config_RET as $title=>$value)
+		foreach ( (array)$config_RET as $title => $value)
 			$programconfig[User('STAFF_ID')][$title] = $value[1]['VALUE'];
 	else
 		$programconfig[User('STAFF_ID')] = true;
@@ -25,16 +25,16 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	if (count($RET))
 	{
-		$LO_columns = array('TITLE'=>_('Assignment'));
+		$LO_columns = array('TITLE' => _('Assignment'));
 
 		if ( $_REQUEST['assigned_date']=='Y')
-			$LO_columns += array('ASSIGNED_DATE'=>_('Assigned Date'));
+			$LO_columns += array('ASSIGNED_DATE' => _('Assigned Date'));
 
 		if ( $_REQUEST['due_date']=='Y')
-			$LO_columns += array('DUE_DATE'=>_('Due Date'));
+			$LO_columns += array('DUE_DATE' => _('Due Date'));
 
 		// modif Francois: display percent grade according to Configuration
-		$LO_columns += array('POINTS'=>_('Points'));
+		$LO_columns += array('POINTS' => _('Points'));
 
 		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
 			$LO_columns['PERCENT_GRADE'] = _('Percent');
@@ -43,8 +43,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
 			$LO_columns['LETTER_GRADE'] = _('Letter');
 
-		//$LO_columns += array('POINTS'=>_('Points'),'PERCENT_GRADE'=>_('Percent'),'LETTER_GRADE'=>_('Letter'),'COMMENT'=>_('Comment'));
-		$LO_columns += array('COMMENT'=>_('Comment'));
+		//$LO_columns += array('POINTS' => _('Points'),'PERCENT_GRADE' => _('Percent'),'LETTER_GRADE' => _('Letter'),'COMMENT' => _('Comment'));
+		$LO_columns += array('COMMENT' => _('Comment'));
 
 		$extra2['SELECT_ONLY'] = "ga.TITLE,ga.ASSIGNED_DATE,ga.DUE_DATE,gt.ASSIGNMENT_TYPE_ID,gg.POINTS,ga.POINTS AS TOTAL_POINTS,gt.FINAL_GRADE_PERCENT,gg.COMMENT,gg.POINTS AS PERCENT_GRADE,gg.POINTS AS LETTER_GRADE,CASE WHEN (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)) THEN 'Y' ELSE NULL END AS DUE,gt.TITLE AS CATEGORY_TITLE";
 		$extra2['FROM'] = " JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
@@ -63,7 +63,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			$LO_group = array();
 		}
-		$extra2['functions'] = array('ASSIGNED_DATE'=>'_removeSpaces','DUE_DATE'=>'_removeSpaces','TITLE'=>'_removeSpaces','POINTS'=>'_makeExtra','PERCENT_GRADE'=>'_makeExtra','LETTER_GRADE'=>'_makeExtra');
+		$extra2['functions'] = array('ASSIGNED_DATE' => '_removeSpaces','DUE_DATE' => '_removeSpaces','TITLE' => '_removeSpaces','POINTS' => '_makeExtra','PERCENT_GRADE' => '_makeExtra','LETTER_GRADE' => '_makeExtra');
 
 		$handle = PDFStart();
 		foreach ( (array)$RET as $student)
@@ -88,7 +88,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			$sum_student_points = $sum_total_points = 0;
 			$sum_points = $sum_percent = 0;
-			foreach ( (array)$percent_weights as $assignment_type_id=>$percent)
+			foreach ( (array)$percent_weights as $assignment_type_id => $percent)
 			{
 				$sum_student_points += $student_points[$assignment_type_id];
 				$sum_total_points += $total_points[$assignment_type_id];
@@ -101,18 +101,18 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$sum_points = 0;
 			if ( $_REQUEST['by_category']=='Y')
 			{
-				foreach ( (array)$grades_RET as $assignment_type_id=>$grades)
+				foreach ( (array)$grades_RET as $assignment_type_id => $grades)
 				{
 //FJ remove LO_field
 					$grades_RET[$assignment_type_id][] = array('TITLE'=>_removeSpaces('<B>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</B>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),_Percent($percent_weights[$assignment_type_id]/$sum_percent)).')':''),'TITLE'),
-						'ASSIGNED_DATE'=>'&nbsp;','DUE_DATE'=>'&nbsp;',
-						'POINTS'=>'<TABLE class="cellspacing-0"><TR><TD><span class="size-1"><b>'.$student_points[$assignment_type_id].'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$total_points[$assignment_type_id].'</b></span></TD></TR></TABLE>',
-						'PERCENT_GRADE'=>$total_points[$assignment_type_id]?'<B>'._Percent($student_points[$assignment_type_id]/$total_points[$assignment_type_id]).'</B>':'&nbsp;');
+						'ASSIGNED_DATE' => '&nbsp;','DUE_DATE' => '&nbsp;',
+						'POINTS' => '<TABLE class="cellspacing-0"><TR><TD><span class="size-1"><b>'.$student_points[$assignment_type_id].'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$total_points[$assignment_type_id].'</b></span></TD></TR></TABLE>',
+						'PERCENT_GRADE' => $total_points[$assignment_type_id]?'<B>'._Percent($student_points[$assignment_type_id]/$total_points[$assignment_type_id]).'</B>':'&nbsp;');
 				}
 			}
-			$link['add']['html'] = array('TITLE'=>'<B>Total</B>',
-						'POINTS'=>'<TABLE class="cellspacing-0"><TR><TD><span class="size-1"><b>'.$sum_student_points.'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$sum_total_points.'</b></span></TD></TR></TABLE>',
-						'PERCENT_GRADE'=>'<B>'._Percent($sum_points).'</B>','LETTER_GRADE'=>'<B>'._makeLetterGrade($sum_points).'</B>');
+			$link['add']['html'] = array('TITLE' => '<B>Total</B>',
+						'POINTS' => '<TABLE class="cellspacing-0"><TR><TD><span class="size-1"><b>'.$sum_student_points.'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$sum_total_points.'</b></span></TD></TR></TABLE>',
+						'PERCENT_GRADE' => '<B>'._Percent($sum_points).'</B>','LETTER_GRADE' => '<B>'._makeLetterGrade($sum_points).'</B>');
 			$link['add']['html']['ASSIGNED_DATE'] = $link['add']['html']['DUE_DATE'] = $link['add']['html']['COMMENT'] = ' &nbsp; ';
 
 //FJ add translation
@@ -160,8 +160,8 @@ if (empty($_REQUEST['modfunc']))
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 
 	Search('student_id',$extra);

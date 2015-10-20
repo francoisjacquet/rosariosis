@@ -6,13 +6,13 @@ if ( !$_REQUEST['print_statements'])
 
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id => $columns)
 	{
 		if ( $id!='new')
 		{
 			$sql = "UPDATE ACCOUNTING_INCOMES SET ";
 							
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -27,7 +27,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$values = db_seq_nextval('ACCOUNTING_INCOMES_SEQ').",'".UserSchool()."','".UserSyear()."','".DBDate()."',";
 			
 			$go = 0;
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				if ( !empty($value) || $value=='0')
 				{
@@ -59,7 +59,7 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 if ( !$_REQUEST['modfunc'])
 {
 	$incomes_total = 0;
-	$functions = array('REMOVE'=>'_makeIncomesRemove','ASSIGNED_DATE'=>'ProperDate','COMMENTS'=>'_makeIncomesTextInput','AMOUNT'=>'_makeIncomesAmount');
+	$functions = array('REMOVE' => '_makeIncomesRemove','ASSIGNED_DATE' => 'ProperDate','COMMENTS' => '_makeIncomesTextInput','AMOUNT' => '_makeIncomesAmount');
 	$incomes_RET = DBGet(DBQuery("SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.COMMENTS,f.AMOUNT FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='".UserSyear()."' ORDER BY f.ASSIGNED_DATE"),$functions);
 	$i = 1;
 	$RET = array();
@@ -70,11 +70,11 @@ if ( !$_REQUEST['modfunc'])
 	}
 	
 	if (count($RET) && !$_REQUEST['print_statements'] && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
-		$columns = array('REMOVE'=>'');
+		$columns = array('REMOVE' => '');
 	else
 		$columns = array();
 
-	$columns += array('TITLE'=>_('Income'),'AMOUNT'=>_('Amount'),'ASSIGNED_DATE'=>_('Assigned'),'COMMENTS'=>_('Comment'));
+	$columns += array('TITLE' => _('Income'),'AMOUNT' => _('Amount'),'ASSIGNED_DATE' => _('Assigned'),'COMMENTS' => _('Comment'));
 	if ( !$_REQUEST['print_statements'])
 		$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeIncomesTextInput('','TITLE'),'AMOUNT'=>_makeIncomesTextInput('','AMOUNT'),'ASSIGNED_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makeIncomesTextInput('','COMMENTS'));
 	if ( !$_REQUEST['print_statements'])

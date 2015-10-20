@@ -32,7 +32,7 @@ $QI = DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHO
 $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
 $period_select = "<SELECT name=period onChange='ajaxPostForm(this.form,true);'><OPTION value=''>"._('All')."</OPTION>";
-foreach ( (array)$periods_RET as $id=>$period)
+foreach ( (array)$periods_RET as $id => $period)
 	$period_select .= '<OPTION value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED':'').">".$period[1]['TITLE']."</OPTION>";
 $period_select .= "</SELECT>";
 
@@ -79,7 +79,7 @@ if ( !$_REQUEST['period'])
 {
 	$tiptitle = false;
 
-	foreach ( (array)$RET as $staff_id=>$periods)
+	foreach ( (array)$RET as $staff_id => $periods)
 	{
 		$i++;
 		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
@@ -104,8 +104,8 @@ if ( !$_REQUEST['period'])
 		}
 	}
 
-	$columns = array('FULL_NAME'=>_('Teacher'));
-	foreach ( (array)$periods_RET as $id=>$period)
+	$columns = array('FULL_NAME' => _('Teacher'));
+	foreach ( (array)$periods_RET as $id => $period)
 		$columns[$id] = $period[1]['TITLE'];
 
 	ListOutput($staff_RET,$columns,'Teacher who takes attendance','Teachers who take attendance');
@@ -117,9 +117,9 @@ else
 	$tiptitle = false;
 
 	//FJ display icon for completed column
-	foreach ( (array)$RET as $staff_id=>$periods)
+	foreach ( (array)$RET as $staff_id => $periods)
 	{
-		foreach ( (array)$periods as $id=>$period)
+		foreach ( (array)$periods as $id => $period)
 		{
 			if ( !isset($_REQUEST['_ROSARIO_PDF']))
 			{
@@ -139,5 +139,5 @@ else
 				$RET[$staff_id][$id]['COMPLETED'] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
 		}
 	}
-	ListOutput($RET,array('FULL_NAME'=>_('Teacher'),'COURSE_TITLE'=>_('Course'),'COMPLETED'=>_('Completed')),sprintf(_('Teacher who takes %s attendance'),$period_title),sprintf(_('Teachers who take %s attendance'),$period_title),false,array('STAFF_ID'));
+	ListOutput($RET,array('FULL_NAME' => _('Teacher'),'COURSE_TITLE' => _('Course'),'COMPLETED' => _('Completed')),sprintf(_('Teacher who takes %s attendance'),$period_title),sprintf(_('Teachers who take %s attendance'),$period_title),false,array('STAFF_ID'));
 }

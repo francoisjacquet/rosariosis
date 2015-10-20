@@ -4,7 +4,7 @@ include('ProgramFunctions/FileUpload.fnc.php');
 
 if ( $_REQUEST['day_values'] && $_POST['day_values'])
 {
-	foreach ( (array)$_REQUEST['day_values'] as $id=>$values)
+	foreach ( (array)$_REQUEST['day_values'] as $id => $values)
 	{
 		if ( $_REQUEST['day_values'][$id]['START_DATE'] && $_REQUEST['month_values'][$id]['START_DATE'] && $_REQUEST['year_values'][$id]['START_DATE'])
 			$_REQUEST['values'][$id]['START_DATE'] = $_REQUEST['day_values'][$id]['START_DATE'].'-'.$_REQUEST['month_values'][$id]['START_DATE'].'-'.$_REQUEST['year_values'][$id]['START_DATE'];
@@ -49,7 +49,7 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id => $columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -58,7 +58,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql = "UPDATE PORTAL_NOTES SET ";
 
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -145,7 +145,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				unset($columns['FILE_ATTACHED_EMBED'], $columns['FILE_OR_EMBED']);
 				
 				$go = 0;
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{
@@ -207,13 +207,13 @@ if ( $_REQUEST['modfunc']!='remove')
 	ORDER BY EXPIRED DESC,SORT_ORDER,PUBLISHED_DATE DESC";
 	
 	$QI = DBQuery($sql);
-	$notes_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','CONTENT'=>'_makeContentInput','SORT_ORDER'=>'_makeTextInput','FILE_ATTACHED'=>'makeFileAttached','START_DATE'=>'makePublishing'));
+	$notes_RET = DBGet($QI,array('TITLE' => '_makeTextInput','CONTENT' => '_makeContentInput','SORT_ORDER' => '_makeTextInput','FILE_ATTACHED' => 'makeFileAttached','START_DATE' => 'makePublishing'));
 
-	$columns = array('TITLE'=>_('Title'),'CONTENT'=>_('Note'),'SORT_ORDER'=>_('Sort Order'),'FILE_ATTACHED'=>_('File Attached'),'START_DATE'=>_('Publishing Options'));
-	//,'START_TIME'=>'Start Time','END_TIME'=>'End Time'
+	$columns = array('TITLE' => _('Title'),'CONTENT' => _('Note'),'SORT_ORDER' => _('Sort Order'),'FILE_ATTACHED' => _('File Attached'),'START_DATE' => _('Publishing Options'));
+	//,'START_TIME' => 'Start Time','END_TIME' => 'End Time'
 	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'CONTENT'=>_makeContentInput('','CONTENT'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'FILE_ATTACHED'=>makeFileAttached('','FILE_ATTACHED'),'START_DATE'=>makePublishing('','START_DATE'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-	$link['remove']['variables'] = array('id'=>'ID');
+	$link['remove']['variables'] = array('id' => 'ID');
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<span class=loading></span>\';">';
 

@@ -16,12 +16,12 @@
  * Furthermore, the third parameter can be used to change the array index to a column in the
  * result.  For instance, if you selected student_id from students, and chose to index by student_id,
  * you would get a result similar to this :
- * $array[1031806][1] = array('STUDENT_ID'=>'1031806');
+ * $array[1031806][1] = array('STUDENT_ID' => '1031806');
  * 
  * The third parameter should be an array -- ordered by the importance of the index.  So, if you select
  * COURSE_ID,COURSE_PERIOD_ID from COURSE_PERIODS, and choose to index by
  * array('COURSE_ID','COURSE_PERIOD_ID') then you will be returned an array formatted like this:
- * $array[10101][402345][1] = array('COURSE_ID'=>'10101','COURSE_PERIOD_ID'=>'402345')
+ * $array[10101][402345][1] = array('COURSE_ID' => '10101','COURSE_PERIOD_ID' => '402345')
  *
  * TODO: remove eval(), anyone?
  *

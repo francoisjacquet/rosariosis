@@ -72,10 +72,10 @@ if (UserStaffID())
 			$selected = '';
 
 		//FJ days display to locale						
-		$days_convert = array('U'=>_('Sunday'),'M'=>_('Monday'),'T'=>_('Tuesday'),'W'=>_('Wednesday'),'H'=>_('Thursday'),'F'=>_('Friday'),'S'=>_('Saturday'));
+		$days_convert = array('U' => _('Sunday'),'M' => _('Monday'),'T' => _('Tuesday'),'W' => _('Wednesday'),'H' => _('Thursday'),'F' => _('Friday'),'S' => _('Saturday'));
 		//FJ days numbered
 		if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
-			$days_convert = array('U'=>'7','M'=>'1','T'=>'2','W'=>'3','H'=>'4','F'=>'5','S'=>'6');
+			$days_convert = array('U' => '7','M' => '1','T' => '2','W' => '3','H' => '4','F' => '5','S' => '6');
 
 		$period_DAYS_locale = '';
 		$days_strlen = mb_strlen($period['DAYS']);

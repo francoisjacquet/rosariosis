@@ -113,7 +113,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 		$RET = GetStuList($extra);
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
 
-		foreach ( (array)$RET as $email=>$students)
+		foreach ( (array)$RET as $email => $students)
 		{
 			unset($id);
 			$student_id = $students[1]['STUDENT_ID'];
@@ -161,7 +161,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					else
 					{
 						$id = true;
-						$staff = array(1=>array('NAME'=>$user['FIRST_NAME'].' '.$user['LAST_NAME'],'USERNAME'=>$username,'PASSWORD'=>$password));
+						$staff = array(1 => array('NAME' => $user['FIRST_NAME'].' '.$user['LAST_NAME'],'USERNAME' => $username,'PASSWORD' => $password));
 					}
 
 					$account = 'new';
@@ -220,7 +220,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				$RET[$email][1]['RESULT'] = _('Fail');
 		}
 
-		$columns = array('FULL_NAME'=>_('Student'),'PARENT'=>_('Parent'),'USERNAME'=>_('Username'),'PASSWORD'=>_('Password'),'EMAIL'=>_('Email'),'RESULT'=>_('Result'));
+		$columns = array('FULL_NAME' => _('Student'),'PARENT' => _('Parent'),'USERNAME' => _('Username'),'PASSWORD' => _('Password'),'EMAIL' => _('Email'),'RESULT' => _('Result'));
 		ListOutput($RET,$columns,'Creation Result','Creation Results',false,array('EMAIL'));
 	}
 	else
@@ -274,9 +274,9 @@ if (empty($_REQUEST['modfunc']) && !empty($email_column))
 	$extra['WHERE'] .= " AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_USERS sju,STAFF st WHERE sju.STUDENT_ID=s.STUDENT_ID AND st.STAFF_ID=sju.STAFF_ID AND SYEAR='".UserSyear()."')";
 
 	$extra['link'] = array('FULL_NAME'=>false);
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox','CONTACT'=>'_makeContactSelect');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');" /><A>');
-	$extra['columns_after'] = array('EMAIL'=>_('Email'),'CONTACT'=>_('Contact'));
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox','CONTACT' => '_makeContactSelect');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');" /><A>');
+	$extra['columns_after'] = array('EMAIL' => _('Email'),'CONTACT' => _('Contact'));
 	$extra['LO_group'] = $extra['group'] = array('EMAIL');
 	$extra['addr'] = true;
 	$extra['SELECT'] .= ",a.ADDRESS_ID";

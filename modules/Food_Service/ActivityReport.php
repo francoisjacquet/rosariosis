@@ -64,12 +64,12 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-$transaction_items = array('CASH'=>array(1=>array('DESCRIPTION'=>_('Cash'),'COUNT'=>0,'AMOUNT'=>0)),
-			   'CHECK'=>array(1=>array('DESCRIPTION'=>_('Check'),'COUNT'=>0,'AMOUNT'=>0)),
-			   'CREDIT CARD'=>array(1=>array('DESCRIPTION'=>_('Credit Card'),'COUNT'=>0,'AMOUNT'=>0)),
-			   'DEBIT CARD'=>array(1=>array('DESCRIPTION'=>_('Debit Card'),'COUNT'=>0,'AMOUNT'=>0)),
-			   'TRANSFER'=>array(1=>array('DESCRIPTION'=>_('Transfer'),'COUNT'=>0,'AMOUNT'=>0)),
-			   ''=>array(1=>array('DESCRIPTION'=>'n/s','COUNT'=>0,'AMOUNT'=>0))
+$transaction_items = array('CASH' => array(1 => array('DESCRIPTION' => _('Cash'),'COUNT' => 0,'AMOUNT' => 0)),
+			   'CHECK' => array(1 => array('DESCRIPTION' => _('Check'),'COUNT' => 0,'AMOUNT' => 0)),
+			   'CREDIT CARD' => array(1 => array('DESCRIPTION' => _('Credit Card'),'COUNT' => 0,'AMOUNT' => 0)),
+			   'DEBIT CARD' => array(1 => array('DESCRIPTION' => _('Debit Card'),'COUNT' => 0,'AMOUNT' => 0)),
+			   'TRANSFER' => array(1 => array('DESCRIPTION' => _('Transfer'),'COUNT' => 0,'AMOUNT' => 0)),
+			   '' => array(1 => array('DESCRIPTION' => 'n/s','COUNT' => 0,'AMOUNT' => 0))
 			   );
 
 $menus_RET = DBGet(DBQuery('SELECT TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'));
@@ -77,13 +77,13 @@ $menus_RET = DBGet(DBQuery('SELECT TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID
 $items = DBGet(DBQuery('SELECT SHORT_NAME,DESCRIPTION,0 AS COUNT FROM FOOD_SERVICE_ITEMS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('SHORT_NAME'));
 //echo '<pre>'; var_dump($items); echo '</pre>';
 
-$types = array('DEPOSIT'=>array('DESCRIPTION'=>_('Deposit'),'COUNT'=>0,'AMOUNT'=>0,'ITEMS'=>$transaction_items),
-		'CREDIT'=>array('DESCRIPTION'=>_('Credit'),'COUNT'=>0,'AMOUNT'=>0,'ITEMS'=>$transaction_items),
-		'DEBIT'=>array('DESCRIPTION'=>_('Debit'),'COUNT'=>0,'AMOUNT'=>0,'ITEMS'=>$transaction_items)
+$types = array('DEPOSIT' => array('DESCRIPTION' => _('Deposit'),'COUNT' => 0,'AMOUNT' => 0,'ITEMS' => $transaction_items),
+		'CREDIT' => array('DESCRIPTION' => _('Credit'),'COUNT' => 0,'AMOUNT' => 0,'ITEMS' => $transaction_items),
+		'DEBIT' => array('DESCRIPTION' => _('Debit'),'COUNT' => 0,'AMOUNT' => 0,'ITEMS' => $transaction_items)
 		);
 
 foreach ( (array)$menus_RET as $menu)
-	$types += array($menu['TITLE']=>array('DESCRIPTION'=>$menu['TITLE'],'COUNT'=>0,'AMOUNT'=>0,'ITEMS'=>$items));
+	$types += array($menu['TITLE'] => array('DESCRIPTION' => $menu['TITLE'],'COUNT' => 0,'AMOUNT' => 0,'ITEMS' => $items));
 
 
 include('modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/ActivityReport.php');
@@ -98,7 +98,7 @@ include('modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Student
 
 //FJ add translation
 function types_locale($type) {
-	$types = array('Deposit'=>_('Deposit'),'Credit'=>_('Credit'),'Debit'=>_('Debit'));
+	$types = array('Deposit' => _('Deposit'),'Credit' => _('Credit'),'Debit' => _('Debit'));
 	if (array_key_exists($type, $types)) {
 		return $types[$type];
 	}
@@ -106,7 +106,7 @@ function types_locale($type) {
 }
 
 function options_locale($option) {
-	$options = array('Cash '=>_('Cash'),'Check'=>_('Check'),'Credit Card'=>_('Credit Card'),'Debit Card'=>_('Debit Card'),'Transfer'=>_('Transfer'));
+	$options = array('Cash ' => _('Cash'),'Check' => _('Check'),'Credit Card' => _('Credit Card'),'Debit Card' => _('Debit Card'),'Transfer' => _('Transfer'));
 	if (array_key_exists($option, $options)) {
 		return $options[$option];
 	}
@@ -127,7 +127,7 @@ function bump_count($value)
 		$types[$value]['COUNT']++;
 		$types[$value]['AMOUNT'] += $THIS_RET['AMOUNT'];
 	} else
-		$types += array($value=>array('DESCRIPTION'=>'<span style="color:red">'.$value.'</span>','COUNT'=>1,'ITEMS'=>array(),'AMOUNT'=>$THIS_RET['AMOUNT']));
+		$types += array($value => array('DESCRIPTION' => '<span style="color:red">'.$value.'</span>','COUNT'=>1,'ITEMS' => array(),'AMOUNT' => $THIS_RET['AMOUNT']));
 	return $value;
 }
 
@@ -140,6 +140,6 @@ function bump_items_count($value)
 		$types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'][$value][1]['AMOUNT'] += $THIS_RET['AMOUNT'];;
 	}
 	else
-		$types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'] += array($value=>array(1=>array('DESCRIPTION'=>'<span style="color:red">'.$value.'</span>','COUNT'=>1,'AMOUNT'=>$THIS_RET['AMOUNT'])));
+		$types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'] += array($value => array(1 => array('DESCRIPTION' => '<span style="color:red">'.$value.'</span>','COUNT'=>1,'AMOUNT' => $THIS_RET['AMOUNT'])));
 	return $value;
 }

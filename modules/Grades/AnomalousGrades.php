@@ -75,7 +75,7 @@ if ( $_REQUEST['include_all_courses']=='Y')
 	$extra['all_courses'] = 'Y';
 }
 
-$extra['functions'] = array('POINTS'=>'_makePoints');
+$extra['functions'] = array('POINTS' => '_makePoints');
 
 if ( !UserStudentID())
 	$extra['group'] = array('STUDENT_ID');
@@ -85,30 +85,30 @@ $students_RET = GetStuList($extra);
 
 if (UserStudentID())
 {
-	$columns = array('POINTS'=>_('Problem'));
+	$columns = array('POINTS' => _('Problem'));
 	$link = array();
 	$group = array();
 }
 else
 {
-	$columns = array('FULL_NAME'=>_('Name'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'POINTS'=>_('Problem'));
-	$link = array('FULL_NAME'=>array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&include_all_courses='.$_REQUEST['include_all_courses'].'&include_inactive='.$_REQUEST['include_inactive'].'&missing='.$_REQUEST['missing'].'&negative='.$_REQUEST['negative'].'&max_allowed='.$_REQUEST['max_allowed'],'variables'=>array('student_id'=>'STUDENT_ID')));
+	$columns = array('FULL_NAME' => _('Name'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'POINTS' => _('Problem'));
+	$link = array('FULL_NAME' => array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&include_all_courses='.$_REQUEST['include_all_courses'].'&include_inactive='.$_REQUEST['include_inactive'].'&missing='.$_REQUEST['missing'].'&negative='.$_REQUEST['negative'].'&max_allowed='.$_REQUEST['max_allowed'],'variables' => array('student_id' => 'STUDENT_ID')));
 	if ( $_REQUEST['include_all_courses']=='Y')
 		$link['FULL_NAME']['variables']['period'] = 'COURSE_PERIOD_ID';
 	$group = array('STUDENT_ID');
 }
 if ( $_REQUEST['include_all_courses']=='Y')
 {
-	$columns += array('COURSE_TITLE'=>_('Course'));
+	$columns += array('COURSE_TITLE' => _('Course'));
 }
-$columns += array('TYPE_TITLE'=>_('Category'),'TITLE'=>_('Assignment'),'COMMENT'=>_('Comment'));
+$columns += array('TYPE_TITLE' => _('Category'),'TITLE' => _('Assignment'),'COMMENT' => _('Comment'));
 if ( $_REQUEST['include_inactive'])
-	$columns += array('ACTIVE'=>_('School Status'),'ACTIVE_SCHEDULE'=>_('Course Status'));
+	$columns += array('ACTIVE' => _('School Status'),'ACTIVE_SCHEDULE' => _('Course Status'));
 
 $modname = str_replace('AnomalousGrades','Grades',$_REQUEST['modname']);
 if (AllowUse($modname))
 {
-	$link += array('TITLE'=>array('link'=>"Modules.php?modname=$modname&include_inactive=$_REQUEST[include_inactive]",'variables'=>array('type_id'=>'ASSIGNMENT_TYPE_ID','assignment_id'=>'ASSIGNMENT_ID','student_id'=>'STUDENT_ID')));
+	$link += array('TITLE' => array('link'=>"Modules.php?modname=$modname&include_inactive=$_REQUEST[include_inactive]",'variables' => array('type_id' => 'ASSIGNMENT_TYPE_ID','assignment_id' => 'ASSIGNMENT_ID','student_id' => 'STUDENT_ID')));
 	if ( $_REQUEST['include_all_courses']=='Y')
 		$link['TITLE']['variables']['period'] = 'COURSE_PERIOD_ID';
 }

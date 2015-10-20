@@ -5,7 +5,7 @@ DrawHeader(ProgramTitle());
 if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 {
 	$table = $_REQUEST['table'];
-	foreach ( (array)$_REQUEST['tables'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['tables'] as $id => $columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -20,7 +20,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 					$sql = "UPDATE $table SET ";
 
-					foreach ( (array)$columns as $column=>$value)
+					foreach ( (array)$columns as $column => $value)
 						$sql .= $column."='".$value."',";
 					$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 					$go = true;
@@ -59,7 +59,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 					$go = false;
 
-					foreach ( (array)$columns as $column=>$value)
+					foreach ( (array)$columns as $column => $value)
 					{
 						if ( !empty($value) || $value=='0')
 						{
@@ -167,13 +167,13 @@ if (empty($_REQUEST['modfunc']))
 				$AllowEdit = $_ROSARIO['AllowEdit'][$modname];
 				$_ROSARIO['allow_edit'] = false;
 				$_ROSARIO['AllowEdit'][$modname] = array();
-				$type_options = array('text'=>_('Text'),'numeric'=>_('Number'),'date'=>_('Date'),'textarea'=>_('Long Text'));
+				$type_options = array('text' => _('Text'),'numeric' => _('Number'),'date' => _('Date'),'textarea' => _('Long Text'));
 			}
 			else
-				$type_options = array('text'=>_('Text'));
+				$type_options = array('text' => _('Text'));
 		}
 		else
-			$type_options = array('text'=>_('Text'),'numeric'=>_('Number'),'date'=>_('Date'),'textarea'=>_('Long Text'));
+			$type_options = array('text' => _('Text'),'numeric' => _('Number'),'date' => _('Date'),'textarea' => _('Long Text'));
 
 		$header .= '<TD>' . SelectInput($RET['TYPE'],'tables['.$_REQUEST['id'].'][TYPE]',_('Data Type'),$type_options,false) . '</TD>';
 		if ( $_REQUEST['id']!='new' && $RET['TYPE']!='text')
@@ -209,7 +209,7 @@ if (empty($_REQUEST['modfunc']))
 	{
 		if ( $_REQUEST['category_id'])
 		{
-			foreach ( (array)$categories_RET as $key=>$value)
+			foreach ( (array)$categories_RET as $key => $value)
 			{
 				if ( $value['ID']==$_REQUEST['category_id'])
 					$categories_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
@@ -219,13 +219,13 @@ if (empty($_REQUEST['modfunc']))
 
 	// FIELDS
 	$sql = "SELECT ID,TITLE,TYPE,SORT_ORDER FROM SCHOOL_FIELDS ORDER BY SORT_ORDER,TITLE";
-	$fields_RET = DBGet(DBQuery($sql),array('TYPE'=>'_makeType'));
+	$fields_RET = DBGet(DBQuery($sql),array('TYPE' => '_makeType'));
 
 	if (count($fields_RET))
 	{
 		if ( $_REQUEST['id'] && $_REQUEST['id']!='new')
 		{
-			foreach ( (array)$fields_RET as $key=>$value)
+			foreach ( (array)$fields_RET as $key => $value)
 			{
 				if ( $value['ID']==$_REQUEST['id'])
 					$fields_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
@@ -234,10 +234,10 @@ if (empty($_REQUEST['modfunc']))
 	}
 
 	echo '<div class="st">';
-	$columns = array('TITLE'=>_('School Field'),'SORT_ORDER'=>_('Order'),'TYPE'=>_('Data Type'));
+	$columns = array('TITLE' => _('School Field'),'SORT_ORDER' => _('Order'),'TYPE' => _('Data Type'));
 	$link = array();
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'];
-	$link['TITLE']['variables'] = array('id'=>'ID');
+	$link['TITLE']['variables'] = array('id' => 'ID');
 	$link['add']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&id=new';
 
 	$fields_RET = ParseMLArray($fields_RET,'TITLE');
@@ -250,6 +250,6 @@ if (empty($_REQUEST['modfunc']))
 
 function _makeType($value,$name)
 {
-	$options = array('text'=>_('Text'),'date'=>_('Date'),'numeric'=>_('Number'),'textarea'=>_('Long Text'));
+	$options = array('text' => _('Text'),'date' => _('Date'),'numeric' => _('Number'),'textarea' => _('Long Text'));
 	return $options[$value];
 }

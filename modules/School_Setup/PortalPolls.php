@@ -4,7 +4,7 @@ include('ProgramFunctions/PortalPollsNotes.fnc.php');
 
 if ( $_REQUEST['day_values'] && $_POST['day_values'])
 {
-	foreach ( (array)$_REQUEST['day_values'] as $id=>$values)
+	foreach ( (array)$_REQUEST['day_values'] as $id => $values)
 	{
 		if ( $_REQUEST['day_values'][$id]['START_DATE'] && $_REQUEST['month_values'][$id]['START_DATE'] && $_REQUEST['year_values'][$id]['START_DATE'])
 			$_REQUEST['values'][$id]['START_DATE'] = $_REQUEST['day_values'][$id]['START_DATE'].'-'.$_REQUEST['month_values'][$id]['START_DATE'].'-'.$_REQUEST['year_values'][$id]['START_DATE'];
@@ -50,7 +50,7 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	
-	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id => $columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -62,13 +62,13 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 				$sql_questions = array();
 				$id_questions = array();
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 				{
 					if (is_array($value))
 					{
 						$id_questions[] = $column;
 						$sql_question_cols = '';
-						foreach ( (array)$value as $col=>$val)
+						foreach ( (array)$value as $col => $val)
 						{
 							$sql_question_cols .= $col."='".$val."',";
 						}
@@ -120,7 +120,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				
 				$go = 0;
 				$sql_questions = array();
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{
@@ -131,7 +131,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 							$portal_poll_question_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('PORTAL_POLL_QUESTIONS_SEQ').' AS PORTAL_POLL_QUESTION_ID '.FROM_DUAL));
 							$portal_poll_question_id = $portal_poll_question_RET[1]['PORTAL_POLL_QUESTION_ID'];
 							$values_question = $portal_poll_question_id.",".$portal_poll_id.",";
-							foreach ( (array)$value as $col=>$val)
+							foreach ( (array)$value as $col => $val)
 							{
 								if ( $val)
 								{
@@ -190,7 +190,7 @@ if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql_questions = "SELECT ppq.ID,ppq.PORTAL_POLL_ID,ppq.OPTIONS,ppq.VOTES,ppq.QUESTION,ppq.TYPE FROM PORTAL_POLL_QUESTIONS ppq, PORTAL_POLLS pp WHERE pp.SCHOOL_ID='".UserSchool()."' AND pp.SYEAR='".UserSyear()."' AND pp.ID=ppq.PORTAL_POLL_ID ORDER BY ppq.ID";
 	$QI_questions = DBQuery($sql_questions);
-	$questions_RET = DBGet($QI_questions,array('OPTIONS'=>'_makeOptionsInput'));	
+	$questions_RET = DBGet($QI_questions,array('OPTIONS' => '_makeOptionsInput'));	
 
 	$sql = "SELECT pp.ID,pp.SORT_ORDER,pp.TITLE,'See_PORTAL_POLL_QUESTIONS' AS OPTIONS,pp.VOTES_NUMBER,pp.START_DATE,pp.END_DATE,pp.PUBLISHED_PROFILES,pp.STUDENTS_TEACHER_ID,
 	CASE WHEN pp.END_DATE IS NOT NULL AND pp.END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED 
@@ -200,13 +200,13 @@ if ( $_REQUEST['modfunc']!='remove')
 	ORDER BY EXPIRED DESC,pp.SORT_ORDER,pp.PUBLISHED_DATE DESC";
 	
 	$QI = DBQuery($sql);
-	$polls_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','OPTIONS'=>'_makeOptionsInputs','VOTES_NUMBER'=>'_makePollVotes','SORT_ORDER'=>'_makeTextInput','START_DATE'=>'makePublishing'));
+	$polls_RET = DBGet($QI,array('TITLE' => '_makeTextInput','OPTIONS' => '_makeOptionsInputs','VOTES_NUMBER' => '_makePollVotes','SORT_ORDER' => '_makeTextInput','START_DATE' => 'makePublishing'));
 	
-	$columns = array('TITLE'=>_('Title'),'OPTIONS'=>_('Poll'),'VOTES_NUMBER'=>_('Results'),'SORT_ORDER'=>_('Sort Order'),'START_DATE'=>_('Publishing Options'));
-	//,'START_TIME'=>'Start Time','END_TIME'=>'End Time'
+	$columns = array('TITLE' => _('Title'),'OPTIONS' => _('Poll'),'VOTES_NUMBER' => _('Results'),'SORT_ORDER' => _('Sort Order'),'START_DATE' => _('Publishing Options'));
+	//,'START_TIME' => 'Start Time','END_TIME' => 'End Time'
 	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'OPTIONS'=>_makeOptionsInputs('','OPTIONS'),'VOTES_NUMBER'=>_makePollVotes('','VOTES_NUMBER'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'START_DATE'=>makePublishing('','START_DATE'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-	$link['remove']['variables'] = array('id'=>'ID');
+	$link['remove']['variables'] = array('id' => 'ID');
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
@@ -252,7 +252,7 @@ function _makeOptionsInput($value,$name)
 		$OptionNb++;
 	$old_portal_poll_id = $portal_poll_id;
 	
-	$type_options = array('multiple_radio'=>_('Select One from Options'),'multiple'=>_('Select Multiple from Options'));
+	$type_options = array('multiple_radio' => _('Select One from Options'),'multiple' => _('Select Multiple from Options'));
 	
 	return '<TR'.($portal_poll_id == 'new' ? ' id="newOption_0"' : '').'><TD>'.TextInput($THIS_RET['QUESTION'],"values[$portal_poll_id][$id][QUESTION]",'','maxlength=255 size=20').'</TD><TD>'.TextareaInput($value,"values[$portal_poll_id][$id][$name]",'','rows=3 cols=20').($portal_poll_id == 'new' ? '<BR />'._('* one per line') : '').'</TD><TD>'.SelectInput($THIS_RET['TYPE'],"values[$portal_poll_id][$id][TYPE]",'',$type_options,false).'</TD></TR>';
 }

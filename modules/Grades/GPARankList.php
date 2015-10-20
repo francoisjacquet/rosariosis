@@ -110,10 +110,10 @@ if (mb_strpos($extra['FROM'],'STUDENT_MP_STATS sms')===false)
 	$extra['FROM'] .= ',STUDENT_MP_STATS sms';
 	$extra['WHERE'] .= " AND sms.STUDENT_ID=ssm.STUDENT_ID AND sms.MARKING_PERIOD_ID='".$_REQUEST['mp']."'";
 }
-$extra['columns_after'] = array('CUM_UNWEIGHTED_FACTOR'=>_('Unweighted GPA'),'CUM_WEIGHTED_FACTOR'=>_('Weighted GPA'),'CUM_RANK'=>_('Class Rank'));
+$extra['columns_after'] = array('CUM_UNWEIGHTED_FACTOR' => _('Unweighted GPA'),'CUM_WEIGHTED_FACTOR' => _('Weighted GPA'),'CUM_RANK' => _('Class Rank'));
 $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;
-$extra['functions'] = array('CUM_UNWEIGHTED_FACTOR'=>'_roundGPA','CUM_WEIGHTED_FACTOR'=>'_roundGPA');
+$extra['functions'] = array('CUM_UNWEIGHTED_FACTOR' => '_roundGPA','CUM_WEIGHTED_FACTOR' => '_roundGPA');
 
 if (User('PROFILE')=='parent' || User('PROFILE')=='student')
 	$_REQUEST['search_modfunc'] = 'list';

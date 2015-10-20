@@ -12,7 +12,7 @@ function _makePercentGrade($grade_id,$course_period_id=0,$staff_id=0)
 	{
         $config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 		if (count($config_RET))
-			foreach ( (array)$config_RET as $title=>$value)
+			foreach ( (array)$config_RET as $title => $value)
 				$programconfig[$staff_id][$title] = $value[1]['VALUE'];
 		else
 			$programconfig[$staff_id] = true;

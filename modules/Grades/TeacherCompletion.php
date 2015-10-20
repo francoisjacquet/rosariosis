@@ -14,7 +14,7 @@ $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".Use
 $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
 $period_select = '<SELECT name="period" onChange="ajaxPostForm(this.form,true);"><OPTION value="">'._('All').'</OPTION>';
-foreach ( (array)$periods_RET as $id=>$period)
+foreach ( (array)$periods_RET as $id => $period)
 	$period_select .= '<OPTION value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED':'').">".$period[1]['TITLE']."</OPTION>";
 $period_select .= "</SELECT>";
 
@@ -63,7 +63,7 @@ if ( !$_REQUEST['period'])
 {
 	$tiptitle = false;
 
-	foreach ( (array)$RET as $staff_id=>$periods)
+	foreach ( (array)$RET as $staff_id => $periods)
 	{
 		$i++;
 		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
@@ -88,8 +88,8 @@ if ( !$_REQUEST['period'])
 		}
 	}
 
-	$columns = array('FULL_NAME'=>_('Teacher'));
-	foreach ( (array)$periods_RET as $id=>$period)
+	$columns = array('FULL_NAME' => _('Teacher'));
+	foreach ( (array)$periods_RET as $id => $period)
 		$columns[$id] = $period[1]['TITLE'];
 
 	ListOutput($staff_RET,$columns,'Teacher who enters grades','Teachers who enter grades');
@@ -98,9 +98,9 @@ else
 {
 	$period_title = $periods_RET[$_REQUEST['period']][1]['TITLE'];
 
-	foreach ( (array)$RET as $staff_id=>$periods)
+	foreach ( (array)$RET as $staff_id => $periods)
 	{
-		foreach ( (array)$periods as $period_id=>$period)
+		foreach ( (array)$periods as $period_id => $period)
 		{
 			if ( !isset($_REQUEST['_ROSARIO_PDF']))
 				$RET[$staff_id][$period_id]['COMPLETED'] = button($period['COMPLETED']=='Y'?'check':'x','','').' ';
@@ -109,5 +109,5 @@ else
 		}
 	}
 	
-	ListOutput($RET,array('FULL_NAME'=>_('Teacher'),'COURSE_TITLE'=>_('Course'),'COMPLETED'=>_('Completed')),sprintf(_('Teacher who enters grades for %s'), $period_title),sprintf(_('Teachers who enter grades for %s'), $period_title),false,array('STAFF_ID'));
+	ListOutput($RET,array('FULL_NAME' => _('Teacher'),'COURSE_TITLE' => _('Course'),'COMPLETED' => _('Completed')),sprintf(_('Teacher who enters grades for %s'), $period_title),sprintf(_('Teachers who enter grades for %s'), $period_title),false,array('STAFF_ID'));
 }

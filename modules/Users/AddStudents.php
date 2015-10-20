@@ -4,7 +4,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	if (isset($_REQUEST['student']) && is_array($_REQUEST['student']) && AllowEdit())
 	{
 		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'"),array(),array('STUDENT_ID'));
-		foreach ( (array)$_REQUEST['student'] as $student_id=>$yes)
+		foreach ( (array)$_REQUEST['student'] as $student_id => $yes)
 		{
 			if ( !$current_RET[$student_id])
 			{
@@ -63,7 +63,7 @@ if ( $_REQUEST['modfunc']!='delete')
 	AND ssm.SYEAR='".UserSyear()."'
 	AND ('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL)) AS ASSOCIATED";
 
-	$extra['columns_after'] = array('ASSOCIATED'=>'# '._('Associated'));
+	$extra['columns_after'] = array('ASSOCIATED' => '# '._('Associated'));
 
 	$extra['profile'] = 'parent';
 
@@ -82,16 +82,16 @@ if ( $_REQUEST['modfunc']!='delete')
 
 		$current_RET = DBGet(DBQuery("SELECT u.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME FROM STUDENTS_JOIN_USERS u,STUDENTS s WHERE s.STUDENT_ID=u.STUDENT_ID AND u.STAFF_ID='".UserStaffID()."'"));
 
-		$link['remove'] = array('link'=>'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete','variables'=>array('student_id_remove'=>'STUDENT_ID'));
+		$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete','variables' => array('student_id_remove' => 'STUDENT_ID'));
 
-		ListOutput($current_RET,array('FULL_NAME'=>_('Students')),'Student','Students',$link,array(),array('search'=>false));
+		ListOutput($current_RET,array('FULL_NAME' => _('Students')),'Student','Students',$link,array(),array('search'=>false));
 
 		echo '</TD></TR><TR><TD>';
 
 		$extra['link'] = array('FULL_NAME'=>false);
 		$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
-		$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-		$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
+		$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+		$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
 		$extra['new'] = true;
 		$extra['options']['search'] = false;
 

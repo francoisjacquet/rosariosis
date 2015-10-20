@@ -12,13 +12,13 @@ if ( !$_REQUEST['print_statements'])
 
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id => $columns)
 	{
 		if ( $id!='new')
 		{
 			$sql = "UPDATE BILLING_PAYMENTS SET ";
 							
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -36,7 +36,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$values = "'".$id."','".UserStudentID()."','".UserSyear()."','".UserSchool()."','".DBDate()."',";
 			
 			$go = 0;
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				if ( !empty($value) || $value=='0')
 				{
@@ -83,7 +83,7 @@ if ( $_REQUEST['modfunc']=='refund' && AllowEdit())
 if (UserStudentID() && !$_REQUEST['modfunc'])
 {
 	$payments_total = 0;
-	$functions = array('REMOVE'=>'_makePaymentsRemove','AMOUNT'=>'_makePaymentsAmount','PAYMENT_DATE'=>'ProperDate','COMMENTS'=>'_makePaymentsTextInput','LUNCH_PAYMENT'=>'_lunchInput');
+	$functions = array('REMOVE' => '_makePaymentsRemove','AMOUNT' => '_makePaymentsAmount','PAYMENT_DATE' => 'ProperDate','COMMENTS' => '_makePaymentsTextInput','LUNCH_PAYMENT' => '_lunchInput');
 	
 	$refunded_payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,REFUNDED_PAYMENT_ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM BILLING_PAYMENTS WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND (REFUNDED_PAYMENT_ID IS NOT NULL)"),$functions,array('REFUNDED_PAYMENT_ID'));
 	
@@ -97,17 +97,17 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 		if ( $refunded_payments_RET[$payment['ID']])
 		{
 			$i++;
-			$RET[$i] = ($refunded_payments_RET[$payment['ID']][1] + array('row_color'=>'FF0000'));
+			$RET[$i] = ($refunded_payments_RET[$payment['ID']][1] + array('row_color' => 'FF0000'));
 		}
 		$i++;
 	}
 
 	if (count($RET) && !$_REQUEST['print_statements'] && AllowEdit())
-		$columns = array('REMOVE'=>'');
+		$columns = array('REMOVE' => '');
 	else
 		$columns = array();
 	
-	$columns += array('AMOUNT'=>_('Amount'),'PAYMENT_DATE'=>_('Date'),'COMMENTS'=>_('Comment'),'LUNCH_PAYMENT'=>_('Lunch Payment'));
+	$columns += array('AMOUNT' => _('Amount'),'PAYMENT_DATE' => _('Date'),'COMMENTS' => _('Comment'),'LUNCH_PAYMENT' => _('Lunch Payment'));
 	if ( !$_REQUEST['print_statements'] && AllowEdit())
 		$link['add']['html'] = array('REMOVE'=>button('add'),'AMOUNT'=>_makePaymentsTextInput('','AMOUNT'),'PAYMENT_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makePaymentsTextInput('','COMMENTS'),'LUNCH_PAYMENT'=>_lunchInput('','LUNCH_PAYMENT'));
 	if ( !$_REQUEST['print_statements'])

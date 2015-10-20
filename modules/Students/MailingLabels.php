@@ -38,7 +38,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					next($RET);
 					if ( $_REQUEST['to_address']=='student')
 					{
-						foreach ( (array)$addresses as $key=>$address)
+						foreach ( (array)$addresses as $key => $address)
 						{
 							if ( $_REQUEST['student_name']=='given')
 								$name = $address['LAST_NAME'].', '.$address['FIRST_NAME'].' '.$address['MIDDLE_NAME'];
@@ -58,7 +58,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							$lasts[$address['LAST_NAME']][] = $address['FIRST_NAME'];
 
 						$students = '';
-						foreach ( (array)$lasts as $last=>$firsts)
+						foreach ( (array)$lasts as $last => $firsts)
 						{
 							$student = '';
 							$previous = '';
@@ -77,11 +77,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							$students .= $student.', ';
 						}
 
-						$addresses = array(1=>array('MAILING_LABEL'=>''.$to_family.'<BR />'.mb_substr($students,0,-2).'<BR />'.mb_substr($addresses[1]['MAILING_LABEL'],mb_strpos($addresses[1]['MAILING_LABEL'],'<!-- -->'))));
+						$addresses = array(1 => array('MAILING_LABEL' => ''.$to_family.'<BR />'.mb_substr($students,0,-2).'<BR />'.mb_substr($addresses[1]['MAILING_LABEL'],mb_strpos($addresses[1]['MAILING_LABEL'],'<!-- -->'))));
 					}
 				}
 				else
-					$addresses = array(1=>array('MAILING_LABEL'=>' '));
+					$addresses = array(1 => array('MAILING_LABEL' => ' '));
 
 				foreach ( (array)$addresses as $address)
 				{
@@ -196,8 +196,8 @@ if (empty($_REQUEST['modfunc']))
 
 	$extra['SELECT'] .= ",s.STUDENT_ID AS CHECKBOX";
 	$extra['link'] = array('FULL_NAME'=>false);
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 

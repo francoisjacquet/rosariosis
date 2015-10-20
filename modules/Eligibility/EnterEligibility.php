@@ -48,7 +48,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 {
 	$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 	if (count($config_RET))
-		foreach ( (array)$config_RET as $title=>$value)
+		foreach ( (array)$config_RET as $title => $value)
 			$programconfig[User('STAFF_ID')][$title] = $value[1]['VALUE'];
 	else
 		$programconfig[User('STAFF_ID')] = true;
@@ -84,7 +84,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 
 	if (count($points_RET))
 	{
-		foreach ( (array)$points_RET as $student_id=>$student)
+		foreach ( (array)$points_RET as $student_id => $student)
 		{
 			$total = $total_percent = 0;
 			foreach ( (array)$student as $partial_points)
@@ -117,7 +117,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 if ( $_REQUEST['values'] && $_POST['values'])
 {
 	$course_period_id = UserCoursePeriod();
-	foreach ( (array)$_REQUEST['values'] as $student_id=>$value)
+	foreach ( (array)$_REQUEST['values'] as $student_id => $value)
 	{
 		if ( $current_RET[$student_id])
 			$sql = "UPDATE ELIGIBILITY SET ELIGIBILITY_CODE='".$value."' WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";
@@ -133,8 +133,8 @@ if ( $_REQUEST['values'] && $_POST['values'])
 }
 
 $extra['SELECT'] .= ",'' AS PASSING,'' AS BORDERLINE,'' AS FAILING,'' AS INCOMPLETE";
-$extra['functions'] = array('PASSING'=>'makeRadio','BORDERLINE'=>'makeRadio','FAILING'=>'makeRadio','INCOMPLETE'=>'makeRadio');
-$columns = array('PASSING'=>_('Passing'),'BORDERLINE'=>_('Borderline'),'FAILING'=>_('Failing'),'INCOMPLETE'=>_('Incomplete'));
+$extra['functions'] = array('PASSING' => 'makeRadio','BORDERLINE' => 'makeRadio','FAILING' => 'makeRadio','INCOMPLETE' => 'makeRadio');
+$columns = array('PASSING' => _('Passing'),'BORDERLINE' => _('Borderline'),'FAILING' => _('Failing'),'INCOMPLETE' => _('Incomplete'));
 
 $stu_RET = GetStuList($extra);
 
@@ -149,7 +149,7 @@ else
 {
 	DrawHeader('<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=gradebook">'._('Use Gradebook Grades').'</A>','<INPUT type="submit" value="'._('Save').'" />');
 
-	$LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level')) + $columns;
+	$LO_columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level')) + $columns;
 	ListOutput($stu_RET,$LO_columns,'Student','Students');
 	echo '<div class="center"><INPUT type="submit" value="'._('Save').'" /></div>';
 }

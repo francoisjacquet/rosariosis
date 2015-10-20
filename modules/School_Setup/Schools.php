@@ -33,7 +33,7 @@ if ( $_REQUEST['modfunc']=='update')
 				
 					$go = 0;
 				
-					foreach ( (array)$_REQUEST['values'] as $column=>$value)
+					foreach ( (array)$_REQUEST['values'] as $column => $value)
 					{
 						if (1)//!empty($value) || $value=='0')
 						{
@@ -59,7 +59,7 @@ if ( $_REQUEST['modfunc']=='update')
 				{
 					$fields = $values = '';
 
-					foreach ( (array)$_REQUEST['values'] as $column=>$value)
+					foreach ( (array)$_REQUEST['values'] as $column => $value)
 						if ( $column!='ID' && $value)
 						{
 							$fields .= ','.$column;

@@ -457,7 +457,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			{
 				$sql = "UPDATE CALENDAR_EVENTS SET ";
 				
-				foreach ( (array)$_REQUEST['values'] as $column=>$value)
+				foreach ( (array)$_REQUEST['values'] as $column => $value)
 					$sql .= $column."='".$value."',";
 
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='" . $_REQUEST['event_id'] . "'";

@@ -85,11 +85,11 @@ if ( $_REQUEST['modfunc']=='search')
 		echo '<H3>'._('Student Fields').'</H3></TH></TR><TR><TD>';
 		Search('student_fields_all',is_array($extra['student_fields'])?$extra['student_fields']:array());
 		echo '</TD></TR>';
-//		echo '<TR><TD><BR /><A href='.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'N')).'>'._('Basic Search').'</A></TD></TR>';
-		echo '</TABLE><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'N')).'">'._('Basic Search').'</A>';
+//		echo '<TR><TD><BR /><A href='.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'>'._('Basic Search').'</A></TD></TR>';
+		echo '</TABLE><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</A>';
 	}
 	else
-		echo '<TR><TD><BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'Y')).'">'._('Advanced Search').'</A>';
+		echo '<TR><TD><BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</A>';
 	echo '</TD></TR></TABLE></TD>';
 	echo '</TR>';
 
@@ -148,9 +148,9 @@ if (empty($_REQUEST['modfunc']))
 		".$extra['WHERE']." 
 		GROUP BY ac.SCHOOL_DATE,ssm.GRADE_ID 
 		ORDER BY ac.SCHOOL_DATE"),
-		array('SCHOOL_DATE'=>'ProperDate','GRADE_ID'=>'GetGrade','STUDENTS'=>'_makeByDay','PRESENT'=>'_makeByDay','ABSENT'=>'_makeByDay','ADA'=>'_makeByDay','AVERAGE_ATTENDANCE'=>'_makeByDay','AVERAGE_ABSENT'=>'_makeByDay','DAYS_POSSIBLE'=>'_makeByDay'));
+		array('SCHOOL_DATE' => 'ProperDate','GRADE_ID' => 'GetGrade','STUDENTS' => '_makeByDay','PRESENT' => '_makeByDay','ABSENT' => '_makeByDay','ADA' => '_makeByDay','AVERAGE_ATTENDANCE' => '_makeByDay','AVERAGE_ABSENT' => '_makeByDay','DAYS_POSSIBLE' => '_makeByDay'));
 
-		$columns = array('SCHOOL_DATE'=>_('Date'),'GRADE_ID'=>_('Grade Level'),'STUDENTS'=>_('Students'),'DAYS_POSSIBLE'=>_('Days Possible'),'PRESENT'=>_('Present'),'ABSENT'=>_('Absent'),'ADA'=>_('ADA'),'AVERAGE_ATTENDANCE'=>_('Average Attendance'),'AVERAGE_ABSENT'=>_('Average Absent'));
+		$columns = array('SCHOOL_DATE' => _('Date'),'GRADE_ID' => _('Grade Level'),'STUDENTS' => _('Students'),'DAYS_POSSIBLE' => _('Days Possible'),'PRESENT' => _('Present'),'ABSENT' => _('Absent'),'ADA' => _('ADA'),'AVERAGE_ATTENDANCE' => _('Average Attendance'),'AVERAGE_ABSENT' => _('Average Absent'));
 
 		ListOutput($student_days_possible,$columns,'School Day','School Days',$link);
 	}
@@ -181,10 +181,10 @@ if (empty($_REQUEST['modfunc']))
 		AND ac.SCHOOL_DATE BETWEEN '".$start_date."' 
 		AND '".$end_date."' 
 		".$extra['WHERE']),
-		array('GRADE_ID'=>'_make','STUDENTS'=>'_make','PRESENT'=>'_make','ABSENT'=>'_make','ADA'=>'_make','AVERAGE_ATTENDANCE'=>'_make','AVERAGE_ABSENT'=>'_make','DAYS_POSSIBLE'=>'_make'));
+		array('GRADE_ID' => '_make','STUDENTS' => '_make','PRESENT' => '_make','ABSENT' => '_make','ADA' => '_make','AVERAGE_ATTENDANCE' => '_make','AVERAGE_ABSENT' => '_make','DAYS_POSSIBLE' => '_make'));
 
-		$columns = array('GRADE_ID'=>_('Grade Level'),'STUDENTS'=>_('Students'),'DAYS_POSSIBLE'=>_('Days Possible'),'PRESENT'=>_('Present'),'ABSENT'=>_('Absent'),'ADA'=>_('ADA'),'AVERAGE_ATTENDANCE'=>_('Average Attendance'),'AVERAGE_ABSENT'=>_('Average Absent'));
-		$link['add']['html'] = array('GRADE_ID'=>'<b>'._('Total').'</b>','STUDENTS'=>round($sum['STUDENTS'],1),'DAYS_POSSIBLE'=>$cal_days[key($cal_days)][1]['COUNT'],'PRESENT'=>$sum['PRESENT'],'ADA'=>_Percent((($sum['PRESENT']+$sum['ABSENT']) > 0 ? ($sum['PRESENT'])/($sum['PRESENT']+$sum['ABSENT']) : 0)),'ABSENT'=>$sum['ABSENT'],'AVERAGE_ATTENDANCE'=>round($sum['AVERAGE_ATTENDANCE'],1),'AVERAGE_ABSENT'=>round($sum['AVERAGE_ABSENT'],1));
+		$columns = array('GRADE_ID' => _('Grade Level'),'STUDENTS' => _('Students'),'DAYS_POSSIBLE' => _('Days Possible'),'PRESENT' => _('Present'),'ABSENT' => _('Absent'),'ADA' => _('ADA'),'AVERAGE_ATTENDANCE' => _('Average Attendance'),'AVERAGE_ABSENT' => _('Average Absent'));
+		$link['add']['html'] = array('GRADE_ID' => '<b>'._('Total').'</b>','STUDENTS'=>round($sum['STUDENTS'],1),'DAYS_POSSIBLE' => $cal_days[key($cal_days)][1]['COUNT'],'PRESENT' => $sum['PRESENT'],'ADA'=>_Percent((($sum['PRESENT']+$sum['ABSENT']) > 0 ? ($sum['PRESENT'])/($sum['PRESENT']+$sum['ABSENT']) : 0)),'ABSENT' => $sum['ABSENT'],'AVERAGE_ATTENDANCE'=>round($sum['AVERAGE_ATTENDANCE'],1),'AVERAGE_ABSENT'=>round($sum['AVERAGE_ABSENT'],1));
 
 		ListOutput($student_days_possible,$columns,'School Day','School Days',$link);
 	}

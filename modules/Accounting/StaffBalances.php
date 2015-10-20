@@ -3,11 +3,11 @@ DrawHeader(ProgramTitle());
 
 $extra['SELECT'] = ',(COALESCE((SELECT SUM(f.AMOUNT) FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID=s.STAFF_ID AND f.SYEAR=s.SYEAR),0)-COALESCE((SELECT SUM(p.AMOUNT) FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID=s.STAFF_ID AND p.SYEAR=s.SYEAR),0)) AS BALANCE';
 
-$extra['columns_after'] = array('BALANCE'=>_('Balance'));
+$extra['columns_after'] = array('BALANCE' => _('Balance'));
 
 $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;
-$extra['functions'] = array('BALANCE'=>'_makeCurrency');
+$extra['functions'] = array('BALANCE' => '_makeCurrency');
 
 //Widgets('all');
 

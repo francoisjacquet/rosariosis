@@ -72,7 +72,7 @@ $extra['SELECT'] = ",e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE";
 $extra['FROM'] = ",ELIGIBILITY e,COURSES c,COURSE_PERIODS cp";
 $extra['WHERE'] = "AND e.STUDENT_ID=ssm.STUDENT_ID AND e.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID AND cp.COURSE_ID=c.COURSE_ID AND e.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."'";
 
-$extra['functions'] = array('ELIGIBILITY_CODE'=>'_makeLower');
+$extra['functions'] = array('ELIGIBILITY_CODE' => '_makeLower');
 $extra['group']	= array('STUDENT_ID');
 
 Widgets('eligibility');
@@ -88,8 +88,8 @@ else
 {
 	$RET = GetStuList($extra);
 	
-	$columns = array('FULL_NAME'=>_('Student'),'COURSE_TITLE'=>_('Course'),'ELIGIBILITY_CODE'=>_('Grade'));
-	ListOutput($RET,$columns,'Student','Students',array(),array('STUDENT_ID'=>array('FULL_NAME','STUDENT_ID')));
+	$columns = array('FULL_NAME' => _('Student'),'COURSE_TITLE' => _('Course'),'ELIGIBILITY_CODE' => _('Grade'));
+	ListOutput($RET,$columns,'Student','Students',array(),array('STUDENT_ID' => array('FULL_NAME','STUDENT_ID')));
 }
 
 function _makeLower($word)

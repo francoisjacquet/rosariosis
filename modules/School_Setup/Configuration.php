@@ -45,7 +45,7 @@ else
 			{
 				$sql = '';
 				if (isset($_REQUEST['values']['CONFIG']) && is_array($_REQUEST['values']['CONFIG']))
-					foreach ( (array)$_REQUEST['values']['CONFIG'] as $column=>$value)
+					foreach ( (array)$_REQUEST['values']['CONFIG'] as $column => $value)
 					{
 						$sql .= "UPDATE CONFIG SET
 							CONFIG_VALUE='" . $value . "'
@@ -61,7 +61,7 @@ else
 					}
 
 				if (isset($_REQUEST['values']['PROGRAM_CONFIG']) && is_array($_REQUEST['values']['PROGRAM_CONFIG']))
-					foreach ( (array)$_REQUEST['values']['PROGRAM_CONFIG'] as $column=>$value)
+					foreach ( (array)$_REQUEST['values']['PROGRAM_CONFIG'] as $column => $value)
 					{
 						$sql .= "UPDATE PROGRAM_CONFIG SET 
 							VALUE='" . $value . "'

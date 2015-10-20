@@ -25,7 +25,7 @@ if ( isset( $_POST['values'] )
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
 	
-	foreach ( (array)$_REQUEST['values'] as $column_name=>$value)
+	foreach ( (array)$_REQUEST['values'] as $column_name => $value)
 	{
 		if (1)//!empty($value) || $value=='0')
 		{
@@ -88,8 +88,8 @@ if (mb_strpos($extra['FROM'],'DISCIPLINE_REFERRALS')===false)
 
 $extra['ORDER_BY'] = 'dr.ENTRY_DATE DESC,s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME';
 
-$extra['columns_after'] = array('STAFF_ID'=>_('Reporter'),'ENTRY_DATE'=>_('Incident Date'));
-$extra['functions'] = array('STAFF_ID'=>'GetTeacher','ENTRY_DATE'=>'ProperDate');
+$extra['columns_after'] = array('STAFF_ID' => _('Reporter'),'ENTRY_DATE' => _('Incident Date'));
+$extra['functions'] = array('STAFF_ID' => 'GetTeacher','ENTRY_DATE' => 'ProperDate');
 
 foreach ( (array)$categories_RET as $category)
 {
@@ -102,9 +102,9 @@ $extra['new'] = true;
 $extra['singular'] = _('Referral');
 $extra['plural'] = _('Referrals');
 $extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'];
-$extra['link']['FULL_NAME']['variables'] = array('referral_id'=>'ID');
+$extra['link']['FULL_NAME']['variables'] = array('referral_id' => 'ID');
 $extra['link']['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-$extra['link']['remove']['variables'] = array('id'=>'ID');
+$extra['link']['remove']['variables'] = array('id' => 'ID');
 
 if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 {

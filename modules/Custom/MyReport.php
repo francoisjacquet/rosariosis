@@ -21,48 +21,48 @@ if (empty($_REQUEST['modfunc']))
 		for($i=1; $i<=10; $i++)
 		{
 			$extra['SELECT'] .= ",NULL AS TITLE_$i,NULL AS VALUE_$i";
-			$extra['functions'] += array('TITLE_'.$i=>'_makeTV','VALUE_'.$i=>'_makeTV');
+			$extra['functions'] += array('TITLE_'.$i => '_makeTV','VALUE_'.$i => '_makeTV');
 		}
 		$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sja ON (sja.STUDENT_ID=ssm.STUDENT_ID AND sja.ADDRESS_ID!='0') LEFT OUTER JOIN ADDRESS a ON (a.ADDRESS_ID=sja.ADDRESS_ID)";
 		$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sja ON (sja.STUDENT_ID=ssm.STUDENT_ID) LEFT OUTER JOIN ADDRESS a ON (a.ADDRESS_ID=sja.ADDRESS_ID)";
 		$extra['FROM'] .= " LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sjp.STUDENT_ID=ssm.STUDENT_ID AND sjp.ADDRESS_ID=a.ADDRESS_ID) LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)";
 		//$extra['WHERE'] = " AND (a.ADDRESS_ID IS NULL OR a.ADDRESS_ID=sja.ADDRESS_ID)";
-		$extra['WHERE'] .= appendSQL('',array('NoSearchTerms'=>$extra['NoSearchTerms']));
-		$extra['WHERE'] .= CustomFields('where','student',array('NoSearchTerms'=>$extra['NoSearchTerms']));
+		$extra['WHERE'] .= appendSQL('',array('NoSearchTerms' => $extra['NoSearchTerms']));
+		$extra['WHERE'] .= CustomFields('where','student',array('NoSearchTerms' => $extra['NoSearchTerms']));
 		if ( $_REQUEST['address_group'])
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID=ssm.STUDENT_ID AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
 			$extra['group'] = $LO_group = array('FAMILY_ID','STUDENT_ID');
 			//$LO_group = array(array('FAMILY_ID','STUDENT_ID'));
-			$LO_columns = array('FAMILY_ID'=>_('Address ID'));
+			$LO_columns = array('FAMILY_ID' => _('Address ID'));
 			if ( !isset($_REQUEST['_ROSARIO_PDF']))
-				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group'=>'')).'">'._('Ungroup by Family').'</A>';
+				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => '')).'">'._('Ungroup by Family').'</A>';
 		}
 		else
 		{
 			$extra['group'] = $LO_group = array('STUDENT_ID');
 			$LO_columns = array();
 			if ( !isset($_REQUEST['_ROSARIO_PDF']))
-				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group'=>'Y')).'">'._('Group by Family').'</A>';
+				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => 'Y')).'">'._('Group by Family').'</A>';
 		}
 		$students_RET = GetStuList($extra);
-		$LO_columns += array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'));
+		$LO_columns += array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level'));
 		foreach ( (array)$custom_fields_RET as $field)
 			$LO_columns += array('CUSTOM_'.$field['ID']=>ParseMLField($field['TITLE']));
 		
 //FJ disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
-			$LO_columns += array('ADDRESS'=>_('Street'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode'),'PHONE'=>_('Phone'),'MAIL_ADDRESS'=>_('Mailing Street'),'MAIL_CITY'=>_('Mailing City'),'MAIL_STATE'=>_('Mailing State'),'MAIL_ZIPCODE'=>_('Mailing Zipcode'));
+			$LO_columns += array('ADDRESS' => _('Street'),'CITY' => _('City'),'STATE' => _('State'),'ZIPCODE' => _('Zipcode'),'PHONE' => _('Phone'),'MAIL_ADDRESS' => _('Mailing Street'),'MAIL_CITY' => _('Mailing City'),'MAIL_STATE' => _('Mailing State'),'MAIL_ZIPCODE' => _('Mailing Zipcode'));
 		else
-			$LO_columns += array('ADDRESS'=>_('Street'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode'),'PHONE'=>_('Phone'));
+			$LO_columns += array('ADDRESS' => _('Street'),'CITY' => _('City'),'STATE' => _('State'),'ZIPCODE' => _('Zipcode'),'PHONE' => _('Phone'));
 		foreach ( (array)$address_fields_RET as $field)
 //FJ add translation
 			$LO_columns += array('ADDRESS_'.$field['ID']=>ParseMLField($field['TITLE']));
-		$LO_columns += array('PERSON_NAME'=>_('Person Name'));
+		$LO_columns += array('PERSON_NAME' => _('Person Name'));
 		foreach ( (array)$people_fields_RET as $field)
 			$LO_columns += array('PEOPLE_'.$field['ID']=>ParseMLField($field['TITLE']));
 		for($i=1; $i<=$maxTV; $i++)
-                        $LO_columns += array('TITLE_'.$i=>_('Title').' '.$i,'VALUE_'.$i=>_('Value').' '.$i);
+                        $LO_columns += array('TITLE_'.$i => _('Title').' '.$i,'VALUE_'.$i => _('Value').' '.$i);
 		DrawHeader($header_left);
 		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 		if ( !$_REQUEST['LO_save'])

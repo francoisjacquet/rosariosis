@@ -3,13 +3,13 @@ if ( $_REQUEST['modfunc']=='update')
 {
 	if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{
-		foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+		foreach ( (array)$_REQUEST['values'] as $id => $columns)
 		{
 			if ( $id!='new')
 			{
 				$sql = "UPDATE RESOURCES SET ";
 							
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc']=='update')
 				$values = db_seq_nextval('RESOURCES_SEQ').",'".UserSchool()."',";
 
 				$go = 0;
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{
@@ -59,12 +59,12 @@ if (empty($_REQUEST['modfunc']))
 {
 	$sql = "SELECT ID,TITLE,LINK FROM RESOURCES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY ID";
 	$QI = DBQuery($sql);
-	$resources_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','LINK'=>'_makeLink'));
+	$resources_RET = DBGet($QI,array('TITLE' => '_makeTextInput','LINK' => '_makeLink'));
 
-	$columns = array('TITLE'=>_('Title'),'LINK'=>_('Link'));
+	$columns = array('TITLE' => _('Title'),'LINK' => _('Link'));
 	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'LINK'=>_makeLink('','LINK'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-	$link['remove']['variables'] = array('id'=>'ID');
+	$link['remove']['variables'] = array('id' => 'ID');
 	
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));

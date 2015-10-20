@@ -6,8 +6,8 @@ StaffWidgets('fsa_exists_Y');
 
 $extra['SELECT'] .= ",(SELECT coalesce(STATUS,'" . DBEscapeString( _( 'Active' ) ) . "') FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS STATUS";
 $extra['SELECT'] .= ",(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE";
-$extra['functions'] += array('BALANCE'=>'red');
-$extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
+$extra['functions'] += array('BALANCE' => 'red');
+$extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'));
 
 Search('staff_id',$extra);
 
@@ -25,9 +25,9 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($staff['BALANCE']),_('Balance')));
 
 	if ( $_REQUEST['detailed_view']!='true')
-		DrawHeader("<A HREF=".PreparePHP_SELF($_REQUEST,array(),array('detailed_view'=>'true')).">"._('Detailed View')."</A>");
+		DrawHeader("<A HREF=".PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'true')).">"._('Detailed View')."</A>");
 	else
-		DrawHeader("<A HREF=".PreparePHP_SELF($_REQUEST,array(),array('detailed_view'=>'false')).">"._('Original View')."</A>");
+		DrawHeader("<A HREF=".PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'false')).">"._('Original View')."</A>");
 
 	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
 	{
@@ -46,27 +46,27 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 			AND fst.TIMESTAMP BETWEEN '".$start_date."' 
 			AND date '".$end_date."' +1".
 			$where." 
-			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','BALANCE'=>'red'));
+			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','BALANCE' => 'red'));
 //FJ add translation
-			foreach ( (array)$RET as $RET_key=>$RET_val) {
+			foreach ( (array)$RET as $RET_key => $RET_val) {
 				$RET[$RET_key]=array_map('types_locale', $RET_val);
 			}	
 			
 			// get details of each transaction
-			foreach ( (array)$RET as $key=>$value)
+			foreach ( (array)$RET as $key => $value)
 			{
 				$tmpRET = DBGet(DBQuery('SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=\''.$value['TRANSACTION_ID'].'\''));
 //FJ add translation
-				foreach ( (array)$tmpRET as $RET_key=>$RET_val) {
+				foreach ( (array)$tmpRET as $RET_key => $RET_val) {
 					$tmpRET[$RET_key]=array_map('options_locale', $RET_val);
 				}	
 				// merge transaction and detail records
 				$RET[$key] = array($RET[$key]) + $tmpRET;
 			}
-			$columns = array('TRANSACTION_ID'=>_('ID'),'DATE'=>_('Date'),'TIME'=>_('Time'),'BALANCE'=>_('Balance'),'DESCRIPTION'=>_('Description'),'AMOUNT'=>_('Amount'),'SELLER'=>_('User'));
+			$columns = array('TRANSACTION_ID' => _('ID'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'),'SELLER' => _('User'));
 			$group = array(array('TRANSACTION_ID'));
-			$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array(),array('modfunc'=>'delete'));
-			$link['remove']['variables'] = array('transaction_id'=>'TRANS_ID','item_id'=>'ITEM_ID');
+			$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array(),array('modfunc' => 'delete'));
+			$link['remove']['variables'] = array('transaction_id' => 'TRANS_ID','item_id' => 'ITEM_ID');
 		}
 		else
 		{
@@ -78,10 +78,10 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 			AND SYEAR='".UserSyear()."' 
 			AND fst.TIMESTAMP BETWEEN '".$start_date."' AND date '".$end_date."' +1".
 			$where." 
-			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE'=>'ProperDate','BALANCE'=>'red'));
-			$columns = array('TRANSACTION_ID'=>_('ID'),'DATE'=>_('Date'),'TIME'=>_('Time'),'BALANCE'=>_('Balance'),'DESCRIPTION'=>_('Description'),'AMOUNT'=>_('Amount'));
+			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','BALANCE' => 'red'));
+			$columns = array('TRANSACTION_ID' => _('ID'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'));
 //FJ add translation
-			foreach ( (array)$RET as $RET_key=>$RET_val) {
+			foreach ( (array)$RET as $RET_key => $RET_val) {
 				$RET[$RET_key]=array_map('types_locale', $RET_val);
 			}	
 		}

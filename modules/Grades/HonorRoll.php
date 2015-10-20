@@ -286,8 +286,8 @@ if (empty($_REQUEST['modfunc']))
 	if ( !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-		$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-		$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+		$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+		$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	}
 
 	$extra['link'] = array('FULL_NAME'=>false);

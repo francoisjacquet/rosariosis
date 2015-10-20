@@ -6,7 +6,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 {
 	if ( $_REQUEST['values'] && $_POST['values'])
 	{
-		foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+		foreach ( (array)$_REQUEST['values'] as $id => $columns)
 		{
 			//FJ fix SQL bug invalid sort order
 			if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -21,7 +21,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 					else
 						$sql = "UPDATE ATTENDANCE_CODE_CATEGORIES SET ";
 
-					foreach ( (array)$columns as $column=>$value)
+					foreach ( (array)$columns as $column => $value)
 						$sql .= $column."='".$value."',";
 
 					$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
@@ -43,7 +43,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 					}
 
 					$go = false;
-					foreach ( (array)$columns as $column=>$value)
+					foreach ( (array)$columns as $column => $value)
 					{
 						if (isset($value) && $value!='')
 						{
@@ -100,19 +100,19 @@ if (empty($_REQUEST['modfunc']))
 	{
 		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='".$_REQUEST['table']."' ORDER BY SORT_ORDER,TITLE";
 		$QI = DBQuery($sql);
-		$attendance_codes_RET = DBGet($QI,array('TITLE'=>'_makeTextInput','SHORT_NAME'=>'_makeTextInput','SORT_ORDER'=>'_makeTextInput','TYPE'=>'_makeSelectInput','STATE_CODE'=>'_makeSelectInput','DEFAULT_CODE'=>'_makeCheckBoxInput'));
+		$attendance_codes_RET = DBGet($QI,array('TITLE' => '_makeTextInput','SHORT_NAME' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','TYPE' => '_makeSelectInput','STATE_CODE' => '_makeSelectInput','DEFAULT_CODE' => '_makeCheckBoxInput'));
 	}
 
-	$tabs = array(array('title'=>_('Attendance'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table=0'));
+	$tabs = array(array('title' => _('Attendance'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table=0'));
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	foreach ( (array)$categories_RET as $category)
-		$tabs[] = array('title'=>$category['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID']);
+		$tabs[] = array('title' => $category['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID']);
 
 	if ( $_REQUEST['table']!='new')
 	{
 		$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,STATE_CODE,SORT_ORDER FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='".$_REQUEST['table']."' ORDER BY SORT_ORDER,TITLE";
-		$functions = array('TITLE'=>'_makeTextInput','SHORT_NAME'=>'_makeTextInput','SORT_ORDER'=>'_makeTextInput','TYPE'=>'_makeSelectInput','DEFAULT_CODE'=>'_makeCheckBoxInput');
-		$LO_columns = array('TITLE'=>_('Title'),'SHORT_NAME'=>_('Short Name'),'SORT_ORDER'=>_('Sort Order'),'TYPE'=>_('Type'),'DEFAULT_CODE'=>_('Default for Teacher'));
+		$functions = array('TITLE' => '_makeTextInput','SHORT_NAME' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','TYPE' => '_makeSelectInput','DEFAULT_CODE' => '_makeCheckBoxInput');
+		$LO_columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'SORT_ORDER' => _('Sort Order'),'TYPE' => _('Type'),'DEFAULT_CODE' => _('Default for Teacher'));
 		if ( $_REQUEST['table']=='0')
 		{
 			$functions['STATE_CODE'] = '_makeSelectInput';
@@ -125,21 +125,21 @@ if (empty($_REQUEST['modfunc']))
 			$link['add']['html']['STATE_CODE'] = _makeSelectInput('','STATE_CODE');
 
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&table='.$_REQUEST['table'];
-		$link['remove']['variables'] = array('id'=>'ID');
+		$link['remove']['variables'] = array('id' => 'ID');
 
-		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
 	}
 	else
 	{
 		$sql = "SELECT ID,TITLE,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE";
-		$functions = array('TITLE'=>'_makeTextInput','SORT_ORDER'=>'_makeTextInput');
-		$LO_columns = array('TITLE'=>_('Title'),'SORT_ORDER'=>_('Sort Order'));
+		$functions = array('TITLE' => '_makeTextInput','SORT_ORDER' => '_makeTextInput');
+		$LO_columns = array('TITLE' => _('Title'),'SORT_ORDER' => _('Sort Order'));
 
 		$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&table=new';
-		$link['remove']['variables'] = array('id'=>'ID');
+		$link['remove']['variables'] = array('id' => 'ID');
 
-		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table=new');
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
@@ -185,9 +185,9 @@ function _makeSelectInput($value,$name)
 	}
 
 	if ( $name=='TYPE')
-		$options = array('teacher'=>_('Teacher & Office'),'official'=>_('Office Only'));
+		$options = array('teacher' => _('Teacher & Office'),'official' => _('Office Only'));
 	elseif ( $name='STATE_CODE')
-		$options = array('P'=>_('Present'),'A'=>_('Absent'),'H'=>_('Half Day'));
+		$options = array('P' => _('Present'),'A' => _('Absent'),'H' => _('Half Day'));
 
 	return SelectInput($value,'values['.$id.']['.$name.']','',$options,'N/A',$extra);
 }

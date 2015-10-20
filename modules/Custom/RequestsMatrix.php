@@ -37,7 +37,7 @@
 	echo '<TR><TD></TD>';
 	foreach ( (array)$periods_RET as $period)
 		echo '<TD><b>'.$period['SHORT_NAME'].'</b></TD>';
-	foreach ( (array)$requests_RET as $course=>$periods)
+	foreach ( (array)$requests_RET as $course => $periods)
 	{
 		echo '<TR><TD><b>'.$periods[key($periods)][1]['COURSE_TITLE'].'</b></TD>';
 		foreach ( (array)$periods_RET as $period)

@@ -1,7 +1,7 @@
 <?php
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id => $columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -10,7 +10,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql = "UPDATE STUDENT_ENROLLMENT_CODES SET ";
 
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -25,7 +25,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$values = db_seq_nextval('STUDENT_ENROLLMENT_CODES_SEQ').",'".UserSyear()."',";
 
 				$go = 0;
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{
@@ -64,12 +64,12 @@ if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT ID,TITLE,SHORT_NAME,TYPE,DEFAULT_CODE,SORT_ORDER FROM STUDENT_ENROLLMENT_CODES WHERE SYEAR='".UserSyear()."' ORDER BY SORT_ORDER,TITLE";
 	$QI = DBQuery($sql);
-	$codes_RET = DBGet($QI,array('TITLE'=>'makeTextInput','SHORT_NAME'=>'makeTextInput','TYPE'=>'makeSelectInput','DEFAULT_CODE'=>'makeCheckBoxInput','SORT_ORDER'=>'makeTextInput'));
+	$codes_RET = DBGet($QI,array('TITLE' => 'makeTextInput','SHORT_NAME' => 'makeTextInput','TYPE' => 'makeSelectInput','DEFAULT_CODE' => 'makeCheckBoxInput','SORT_ORDER' => 'makeTextInput'));
 
-	$columns = array('TITLE'=>_('Title'),'SHORT_NAME'=>_('Short Name'),'TYPE'=>_('Type'),'DEFAULT_CODE'=>_('Rollover Default'),'SORT_ORDER'=>_('Sort Order'));
+	$columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'TYPE' => _('Type'),'DEFAULT_CODE' => _('Rollover Default'),'SORT_ORDER' => _('Sort Order'));
 	$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'SHORT_NAME'=>makeTextInput('','SHORT_NAME'),'TYPE'=>makeSelectInput('','TYPE'),'DEFAULT_CODE'=>makeCheckBoxInput('','DEFAULT_CODE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-	$link['remove']['variables'] = array('id'=>_('ID'));
+	$link['remove']['variables'] = array('id' => _('ID'));
 
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
@@ -104,7 +104,7 @@ function makeSelectInput($value,$name)
 		$id = 'new';
 
 	if ( $name=='TYPE')
-		$options = array('Add'=>_('Add'),'Drop'=>_('Drop'));
+		$options = array('Add' => _('Add'),'Drop' => _('Drop'));
 
 	return SelectInput($value,'values['.$id.']['.$name.']','',$options);
 }

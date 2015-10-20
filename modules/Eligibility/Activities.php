@@ -19,13 +19,13 @@ if ( isset( $_POST['values'] )
 	&& count( $_POST['values'] )
 	&& AllowEdit() )
 {
-	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id => $columns)
 	{	
 		if ( $id!='new')
 		{
 			$sql = "UPDATE ELIGIBILITY_ACTIVITIES SET ";
 							
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -40,7 +40,7 @@ if ( isset( $_POST['values'] )
 			$values = db_seq_nextval('ELIGIBILITY_ACTIVITIES_SEQ').",'".UserSchool()."','".UserSyear()."',";
 
 			$go = 0;
-			foreach ( (array)$columns as $column=>$value)
+			foreach ( (array)$columns as $column => $value)
 			{
 				if ( !empty($value) || $value=='0')
 				{
@@ -72,12 +72,12 @@ if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT ID,TITLE,START_DATE,END_DATE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY TITLE";
 	$QI = DBQuery($sql);
-	$activities_RET = DBGet($QI,array('TITLE'=>'makeTextInput','START_DATE'=>'makeDateInput','END_DATE'=>'makeDateInput'));
+	$activities_RET = DBGet($QI,array('TITLE' => 'makeTextInput','START_DATE' => 'makeDateInput','END_DATE' => 'makeDateInput'));
 	
-	$columns = array('TITLE'=>_('Title'),'START_DATE'=>_('Begins'),'END_DATE'=>_('Ends'));
+	$columns = array('TITLE' => _('Title'),'START_DATE' => _('Begins'),'END_DATE' => _('Ends'));
 	$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'START_DATE'=>makeDateInput('','START_DATE'),'END_DATE'=>makeDateInput('','END_DATE'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-	$link['remove']['variables'] = array('id'=>'ID');
+	$link['remove']['variables'] = array('id' => 'ID');
 	
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));

@@ -7,7 +7,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 //FJ fix SQL bug invalid amount
 		if (is_numeric($_REQUEST['amount']))
 		{
-			foreach ( (array)$_REQUEST['student'] as $student_id=>$yes)
+			foreach ( (array)$_REQUEST['student'] as $student_id => $yes)
 			{
 				$sql = "INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,PAYMENT_DATE,AMOUNT,COMMENTS)
 							values(".db_seq_nextval('BILLING_PAYMENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$student_id."','".DBDate()."','".preg_replace('/[^0-9,.]+/','',$_REQUEST['amount'])."','".$_REQUEST['comments']."')";
@@ -64,8 +64,8 @@ if (empty($_REQUEST['modfunc']))
 {
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",NULL AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');" /><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');" /><A>');
 	$extra['new'] = true;
 
 	//Widgets('all');

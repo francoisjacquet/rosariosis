@@ -46,7 +46,7 @@ if ( UserStudentID() )
 
 		if (is_array($_REQUEST['values']))
 		{
-			foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+			foreach ( (array)$_REQUEST['values'] as $id => $columns)
 			{
 				//FJ fix SQL bug when text data entered, data verification
 				if ((empty($columns['GRADE_PERCENT']) || is_numeric($columns['GRADE_PERCENT'])) && (empty($columns['GP_SCALE']) || is_numeric($columns['GP_SCALE'])) && (empty($columns['UNWEIGHTED_GP']) || is_numeric($columns['UNWEIGHTED_GP'])) && (empty($columns['WEIGHTED_GP']) || is_numeric($columns['WEIGHTED_GP'])) && (empty($columns['CREDIT_EARNED']) || is_numeric($columns['CREDIT_EARNED'])) && (empty($columns['CREDIT_ATTEMPTED']) || is_numeric($columns['CREDIT_ATTEMPTED'])))
@@ -54,7 +54,7 @@ if ( UserStudentID() )
 					if ( $id!='new')
 					{
 						$sql = "UPDATE student_report_card_grades SET ";
-						foreach ( (array)$columns as $column=>$value)
+						foreach ( (array)$columns as $column => $value)
 							$sql .= $column."='".$value."',";
 
 						if ( $_REQUEST['tab_id']!='new')
@@ -96,7 +96,7 @@ if ( UserStudentID() )
 							$columns['CLASS_RANK']='Y';
 
 						$go = false;
-						foreach ( (array)$columns as $column=>$value)
+						foreach ( (array)$columns as $column => $value)
 							if ( !empty($value) || $value=='0')
 							{
 								$fields .= $column.',';
@@ -164,15 +164,15 @@ if ( UserStudentID() )
 					$mp_id = $rec['MP_ID'];
 
 				$gmp[$rec['MP_ID']] = array('schoolyear'=>formatSyear($rec['SYEAR'],Config('SCHOOL_SYEAR_OVER_2_YEARS')),
-								'mp_name'=>$rec['MP_NAME'],
-								'grade_level'=>$rec['GRADE_LEVEL'],
-								'weighted_cum'=>$rec['WEIGHTED_CUM'],
-								'unweighted_cum'=>$rec['UNWEIGHTED_CUM'],
-								'weighted_gpa'=>$rec['WEIGHTED_GPA'],
-								'unweighted_gpa'=>$rec['UNWEIGHTED_GPA'],
-								'cr_weighted'=>$rec['CR_WEIGHTED'],
-								'cr_unweighted'=>$rec['CR_UNWEIGHTED'],
-								'gpa'=>$rec['GPA']);
+								'mp_name' => $rec['MP_NAME'],
+								'grade_level' => $rec['GRADE_LEVEL'],
+								'weighted_cum' => $rec['WEIGHTED_CUM'],
+								'unweighted_cum' => $rec['UNWEIGHTED_CUM'],
+								'weighted_gpa' => $rec['WEIGHTED_GPA'],
+								'unweighted_gpa' => $rec['UNWEIGHTED_GPA'],
+								'cr_weighted' => $rec['CR_WEIGHTED'],
+								'cr_unweighted' => $rec['CR_UNWEIGHTED'],
+								'gpa' => $rec['GPA']);
 			}
 		}
 		else
@@ -181,7 +181,7 @@ if ( UserStudentID() )
 		$mpselect = '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 		$mpselect .= '<SELECT name="mp_id" onchange="ajaxPostForm(this.form,true);">';
 
-		foreach ($gmp as $id=>$mparray)
+		foreach ($gmp as $id => $mparray)
 		{
 			$mpselect .= '<OPTION value="'.$id.'"'.(($id==$mp_id)?' SELECTED':'').">".$mparray['schoolyear'].' '.$mparray['mp_name'].', '._('Grade Level').' '.$mparray['grade_level']."</OPTION>";
 		}
@@ -212,7 +212,7 @@ if ( UserStudentID() )
 			if ( $MPRET)
 			{
 				$mpoptions = array();
-				foreach ($MPRET as $id=>$mp)
+				foreach ($MPRET as $id => $mp)
 				{
 					$mpoptions[$mp['MARKING_PERIOD_ID']] = formatSyear($mp['SYEAR'],Config('SCHOOL_SYEAR_OVER_2_YEARS')).', '.$mp['TITLE'];
 				}

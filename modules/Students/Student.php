@@ -13,7 +13,7 @@ if (User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['student
 	exit;
 }
 
-$categories = array('1'=>'General_Info', '2'=>'Medical', '3'=>'Address', '4'=>'Comments', 'Other_Info'=>'Other_Info');
+$categories = array('1' => 'General_Info', '2' => 'Medical', '3' => 'Address', '4' => 'Comments', 'Other_Info' => 'Other_Info');
 
 if ( !isset($_REQUEST['category_id']))
 {
@@ -163,7 +163,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$sql = "UPDATE STUDENTS SET ";
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 				$go = false;
-				foreach ( (array)$_REQUEST['students'] as $column=>$value)
+				foreach ( (array)$_REQUEST['students'] as $column => $value)
 				{
 					if (1)//!empty($value) || $value=='0')
 					{
@@ -254,7 +254,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				$values = "'".$student_id."',";
 
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
-				foreach ( (array)$_REQUEST['students'] as $column=>$value)
+				foreach ( (array)$_REQUEST['students'] as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{
@@ -446,7 +446,7 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 				else
 					$include = 'Other_Info';*/
 
-				$tabs[] = array('title'=>$category['TITLE'],'link'=>($_REQUEST['student_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category['ID'] : ''));
+				$tabs[] = array('title' => $category['TITLE'],'link'=>($_REQUEST['student_id']!='new' ? 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category['ID'] : ''));
 			}
 		}
 

@@ -109,10 +109,10 @@ if (mb_strpos($extra['FROM'],'STUDENT_MP_STATS sms')===false)
 	$extra['WHERE'] .= " AND sms.STUDENT_ID=ssm.STUDENT_ID AND sms.MARKING_PERIOD_ID='".$_REQUEST['mp']."'";
 }
 //FJ add translation 
-$extra['columns_after'] = array('SUM_UNWEIGHTED_FACTOR'=>_('Unweighted GPA'),'SUM_WEIGHTED_FACTOR'=>_('Weighted GPA'));
+$extra['columns_after'] = array('SUM_UNWEIGHTED_FACTOR' => _('Unweighted GPA'),'SUM_WEIGHTED_FACTOR' => _('Weighted GPA'));
 $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;
-$extra['functions'] = array('SUM_UNWEIGHTED_FACTOR'=>'_roundGPA','SUM_WEIGHTED_FACTOR'=>'_roundGPA');
+$extra['functions'] = array('SUM_UNWEIGHTED_FACTOR' => '_roundGPA','SUM_WEIGHTED_FACTOR' => '_roundGPA');
 
 if (User('PROFILE')=='parent' || User('PROFILE')=='student')
 	$_REQUEST['search_modfunc'] = 'list';

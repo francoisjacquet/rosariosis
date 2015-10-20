@@ -33,16 +33,16 @@ if ( !$_REQUEST['search_modfunc'])
 			echo '<TR><TD><label for="username">'._('Username').'</label></TD><TD><INPUT type="text" name="username" id="username" size="30"></TD></TR>';
 
 			if (User('PROFILE')=='admin')
-				$options = array(''=>_('N/A'),'admin'=>_('Administrator'),'teacher'=>_('Teacher'),'parent'=>_('Parent'),'none'=>_('No Access'));
+				$options = array('' => _('N/A'),'admin' => _('Administrator'),'teacher' => _('Teacher'),'parent' => _('Parent'),'none' => _('No Access'));
 			else
-				$options = array(''=>_('N/A'),'teacher'=>_('Teacher'),'parent'=>_('Parent'));
+				$options = array('' => _('N/A'),'teacher' => _('Teacher'),'parent' => _('Parent'));
 
 			if ( $extra['profile'])
-				$options = array($extra['profile']=>$options[$extra['profile']]);
+				$options = array($extra['profile'] => $options[$extra['profile']]);
 
 			echo '<TR><TD><label for="profile">'._('Profile').'</label></TD><TD><SELECT name="profile" id="profile">';
 
-			foreach ( (array)$options as $key=>$val)
+			foreach ( (array)$options as $key => $val)
 				echo '<OPTION value="'.$key.'">'.$val.'</OPTION>';
 
 			echo '</SELECT></TD></TR>';
@@ -109,10 +109,10 @@ if ( !$_REQUEST['search_modfunc'])
 				echo '</TD></TR>';
 				echo '</TBODY></TABLE>';
 
-				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'N')).'">'._('Basic Search').'</A>';
+				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</A>';
 			}
 			else
-				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced'=>'Y')).'">'._('Advanced Search').'</A>';
+				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</A>';
 
 			echo '</TD></TR></TABLE></FORM>';
 
@@ -150,8 +150,8 @@ else
 			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><BR />';
 	}
 
-	$extra['WHERE'] .= appendStaffSQL('',array('NoSearchTerms'=>$extra['NoSearchTerms']));
-	$extra['WHERE'] .= CustomFields('where','staff',array('NoSearchTerms'=>$extra['NoSearchTerms']));
+	$extra['WHERE'] .= appendStaffSQL('',array('NoSearchTerms' => $extra['NoSearchTerms']));
+	$extra['WHERE'] .= CustomFields('where','staff',array('NoSearchTerms' => $extra['NoSearchTerms']));
 
 	if ( !isset($_ROSARIO['DrawHeader']))
 		DrawHeader(_('Choose A User'));
@@ -161,18 +161,18 @@ else
 	if ( $extra['profile'])
 	{
 		// DO NOT translate those strings since they will be passed to ListOutput ultimately
-		$options = array('admin'=>'Administrator','teacher'=>'Teacher','parent'=>'Parent','none'=>'No Access');
+		$options = array('admin' => 'Administrator','teacher' => 'Teacher','parent' => 'Parent','none' => 'No Access');
 		$singular = $options[$extra['profile']];
 		$plural = $singular.($options[$extra['profile']]=='none'?'':'s');
-		$columns = array('FULL_NAME'=>$singular,'STAFF_ID'=>sprintf(_('%s ID'),Config('NAME')));
+		$columns = array('FULL_NAME' => $singular,'STAFF_ID'=>sprintf(_('%s ID'),Config('NAME')));
 	}
 	else
 	{
-		$columns = array('FULL_NAME'=>_('User'),'PROFILE'=>_('Profile'),'STAFF_ID'=>sprintf(_('%s ID'),Config('NAME')));
+		$columns = array('FULL_NAME' => _('User'),'PROFILE' => _('Profile'),'STAFF_ID'=>sprintf(_('%s ID'),Config('NAME')));
 	}
 
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];
-	$name_link['FULL_NAME']['variables'] = array('staff_id'=>'STAFF_ID');
+	$name_link['FULL_NAME']['variables'] = array('staff_id' => 'STAFF_ID');
 
 	if (isset($extra['link']) && is_array($extra['link']))
 		$link = $extra['link'] + $name_link;
@@ -188,9 +188,9 @@ else
 	if (count($staff_RET)>1 || $link['add'] || !$link['FULL_NAME'] || $extra['columns_before'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($staff_RET)==0) || ($extra['Redirect']===false && count($staff_RET)==1))
 	{
 		if ( $_REQUEST['expanded_view']!='true')
-			DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view'=>'true')) . '">'._('Expanded View').'</A>',$extra['header_right']);
+			DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'true')) . '">'._('Expanded View').'</A>',$extra['header_right']);
 		else
-			DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view'=>'false')) . '">'._('Original View').'</A>',$extra['header_right']);
+			DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'false')) . '">'._('Original View').'</A>',$extra['header_right']);
 
 		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
 		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
@@ -217,7 +217,7 @@ else
 	{
 		if (count($link['FULL_NAME']['variables']))
 		{
-			foreach ( (array)$link['FULL_NAME']['variables'] as $var=>$val)
+			foreach ( (array)$link['FULL_NAME']['variables'] as $var => $val)
 				$_REQUEST[$var] = $staff_RET['1'][$val];
 		}
 

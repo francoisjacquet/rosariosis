@@ -4,7 +4,7 @@ DrawHeader(ProgramTitle());
 
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+	foreach ( (array)$_REQUEST['values'] as $id => $columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -13,7 +13,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql = "UPDATE DISCIPLINE_FIELD_USAGE SET ";
 
-				foreach ( (array)$columns as $column=>$value)
+				foreach ( (array)$columns as $column => $value)
 					$sql .= $column."='".$value."',";
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
 				$go = true;
@@ -31,7 +31,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$go = 0;
 				if ( $columns['TITLE'])
 				{
-					foreach ( (array)$columns as $column=>$value)
+					foreach ( (array)$columns as $column => $value)
 					{
 						if ( $value && $column!='SORT_ORDER' && $column!='SELECT_OPTIONS')
 						{
@@ -48,7 +48,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					$fields = "ID,DISCIPLINE_FIELD_ID,SYEAR,SCHOOL_ID,";
 					$values = db_seq_nextval('DISCIPLINE_FIELD_USAGE_SEQ').",'".$id."','".UserSyear()."','".UserSchool()."',";
 		
-					foreach ( (array)$columns as $column=>$value)
+					foreach ( (array)$columns as $column => $value)
 					{
 						if ( $value && $column!='DATA_TYPE')
 						{
@@ -146,20 +146,20 @@ if (empty($_REQUEST['modfunc']))
 	OUTER JOIN DISCIPLINE_FIELD_USAGE du ON (du.DISCIPLINE_FIELD_ID=df.ID AND du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."') 
 	ORDER BY du.ID,du.SORT_ORDER";
 	$QI = DBQuery($sql);
-	$referrals_RET = DBGet($QI,array('REMOVE'=>'_makeRemove','TITLE'=>'_makeTextInput','SORT_ORDER'=>'_makeTextInput','DATA_TYPE'=>'_makeType','SELECT_OPTIONS'=>'_makeTextAreaInput'));
+	$referrals_RET = DBGet($QI,array('REMOVE' => '_makeRemove','TITLE' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','DATA_TYPE' => '_makeType','SELECT_OPTIONS' => '_makeTextAreaInput'));
 	
-	foreach ( (array)$referrals_RET as $key=>$item)
+	foreach ( (array)$referrals_RET as $key => $item)
 	{
 		if ( !$item['USAGE_ID'])
 			$referrals_RET[$key]['row_color']='CCCCCC';
 	}
 
 	if (count($referrals_RET))
-		$columns = array('REMOVE'=>'');
+		$columns = array('REMOVE' => '');
 	else
 		$columns = array();
 
-	$columns += array('TITLE'=>_('Title'),'SORT_ORDER'=>_('Sort Order'),'DATA_TYPE'=>_('Data Type'),'SELECT_OPTIONS'=>_('Pull-Down').'/'._('Select Multiple from Options').'/'._('Select One from Options'));
+	$columns += array('TITLE' => _('Title'),'SORT_ORDER' => _('Sort Order'),'DATA_TYPE' => _('Data Type'),'SELECT_OPTIONS' => _('Pull-Down').'/'._('Select Multiple from Options').'/'._('Select One from Options'));
 	$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeTextInput('','TITLE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'SELECT_OPTIONS'=>_makeTextAreaInput('','SELECT_OPTIONS'),'DATA_TYPE'=>_makeType('','DATA_TYPE'));
 	
 	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
@@ -179,7 +179,7 @@ function _makeType($value,$name)
 	else
 		$id = 'new';
 
-	$new_options = array('checkbox'=>_('Checkbox'),'text'=>_('Text'),'multiple_checkbox'=>_('Select Multiple from Options'),'multiple_radio'=>_('Select One from Options'),'select'=>_('Pull-Down'),'date'=>_('Date'),'numeric'=>_('Number'),'textarea'=>_('Long Text'));
+	$new_options = array('checkbox' => _('Checkbox'),'text' => _('Text'),'multiple_checkbox' => _('Select Multiple from Options'),'multiple_radio' => _('Select One from Options'),'select' => _('Pull-Down'),'date' => _('Date'),'numeric' => _('Number'),'textarea' => _('Long Text'));
 	
 	if ( $THIS_RET['ID'])
 		return $new_options[$value];

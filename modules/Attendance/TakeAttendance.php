@@ -144,7 +144,7 @@ $current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID'));
 
 if ($_REQUEST['attendance'] && $_POST['attendance'])
 {
-	foreach ( (array)$_REQUEST['attendance'] as $student_id=>$value)
+	foreach ( (array)$_REQUEST['attendance'] as $student_id => $value)
 	{
 		if ($current_RET[$student_id])
 		{
@@ -202,18 +202,18 @@ else
 	$columns = array();
 
 $extra['SELECT'] .= ',s.STUDENT_ID AS COMMENT,s.STUDENT_ID AS ATTENDANCE_REASON';
-$columns += array('COMMENT'=>_('Teacher Comment'));
+$columns += array('COMMENT' => _('Teacher Comment'));
 
 if (!isset($extra['functions']) || !is_array($extra['functions']))
 	$extra['functions'] = array();
 
-$extra['functions'] += array('FULL_NAME'=>'_makeTipMessage','COMMENT'=>'makeCommentInput','ATTENDANCE_REASON'=>'makeAttendanceReason');
+$extra['functions'] += array('FULL_NAME' => '_makeTipMessage','COMMENT' => 'makeCommentInput','ATTENDANCE_REASON' => 'makeAttendanceReason');
 $extra['DATE'] = $date;
 
 $stu_RET = GetStuList($extra);
 
 if ($attendance_reason)
-	$columns += array('ATTENDANCE_REASON'=>_('Office Comment'));
+	$columns += array('ATTENDANCE_REASON' => _('Office Comment'));
 
 $date_note = $date!=DBDate() ? ' <span style="color:red" class="nobr">'._('The selected date is not today').'</span> |' : '';
 $date_note .= AllowEdit() ? ' <span style="color:green" class="nobr">'._('You can edit this attendance').'</span>':' <span style="color:red" class="nobr">'._('You cannot edit this attendance').'</span>';
@@ -232,10 +232,10 @@ DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note);
 if (isset($note))
 	echo ErrorMessage($note,'note');
 
-$LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level')) + $columns;
+$LO_columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level')) + $columns;
 
 foreach ( (array)$categories_RET as $category)
-	$tabs[] = array('title'=>ParseMLField($category['TITLE']),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date']);
+	$tabs[] = array('title'=>ParseMLField($category['TITLE']),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date']);
 
 echo '<BR />';
 if (count($categories_RET))
@@ -251,7 +251,7 @@ echo '</FORM>';
 function _makeRadio($value,$title)
 {	global $THIS_RET,$current_RET;
 
-	$colors = array('P'=>'#00FF00','A'=>'#FF0000','H'=>'#FFCC00','T'=>'#0000FF');
+	$colors = array('P' => '#00FF00','A' => '#FF0000','H' => '#FFCC00','T' => '#0000FF');
 	if ($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']==mb_substr($title,5))
 	{
 		if (isset($_REQUEST['LO_save']))
@@ -266,8 +266,8 @@ function _makeRadio($value,$title)
 function _makeRadioSelected($value,$title)
 {	global $THIS_RET,$current_RET;
 
-	$colors = array('P'=>'#00FF00','A'=>'#FF0000','H'=>'#FFCC00','T'=>'#0000FF');
-	$colors1 = array('P'=>'#DDFFDD','A'=>'#FFDDDD','H'=>'#FFEEDD','T'=>'#DDDDFF');
+	$colors = array('P' => '#00FF00','A' => '#FF0000','H' => '#FFCC00','T' => '#0000FF');
+	$colors1 = array('P' => '#DDFFDD','A' => '#FFDDDD','H' => '#FFEEDD','T' => '#DDDDFF');
 	if ($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']!='')
 		if ($current_RET[$THIS_RET['STUDENT_ID']][1]['ATTENDANCE_TEACHER_CODE']==mb_substr($title,5))
 		{

@@ -31,7 +31,7 @@ if ( $_REQUEST['modfunc']=='update')
                 if (is_numeric($_REQUEST['food_service']['ACCOUNT_ID']) && intval($_REQUEST['food_service']['ACCOUNT_ID'])>=0)
 				{
 					$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
-					foreach ( (array)$_REQUEST['food_service'] as $column_name=>$value)
+					foreach ( (array)$_REQUEST['food_service'] as $column_name => $value)
 					{
 						$sql .= $column_name."='".trim($value)."',";
 					}
@@ -71,8 +71,8 @@ if ( !mb_strpos($extra['FROM'],'fssa'))
 	$extra['FROM'] .= ",FOOD_SERVICE_STUDENT_ACCOUNTS fssa";
 	$extra['WHERE'] .= " AND fssa.STUDENT_ID=s.STUDENT_ID";
 }
-$extra['functions'] += array('BALANCE'=>'red');
-$extra['columns_after'] = array('BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
+$extra['functions'] += array('BALANCE' => 'red');
+$extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'));
 
 Search('student_id',$extra);
 
@@ -141,10 +141,10 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 	}
 
 	echo '</TD>';
-	$options = array('Inactive'=>_('Inactive'),'Disabled'=>_('Disabled'),'Closed'=>_('Closed'));
+	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
 	echo '<TD>'.SelectInput($student['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')).'</TD>';
 	echo '</TR><TR>';
-	$options = array('Reduced'=>_('Reduced'),'Free'=>_('Free'));
+	$options = array('Reduced' => _('Reduced'),'Free' => _('Free'));
 	echo '<TD>'.SelectInput($student['DISCOUNT'],'food_service[DISCOUNT]',_('Discount'),$options,_('Full')).'</TD>';
 	echo '<TD>'.TextInput($student['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25').'</TD>';
 	echo '</TR></TABLE>';

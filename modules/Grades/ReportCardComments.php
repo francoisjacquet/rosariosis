@@ -15,7 +15,7 @@ if ( $_REQUEST['modfunc']=='update')
 					$table = 'REPORT_CARD_COMMENT_CATEGORIES';
 				else
 					$table = 'REPORT_CARD_COMMENTS';
-				foreach ( (array)$_REQUEST['values'] as $id=>$columns)
+				foreach ( (array)$_REQUEST['values'] as $id => $columns)
 				{
 			//FJ fix SQL bug invalid sort order
 					if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc']=='update')
 						if ( $id!='new')
 						{
 							$sql = "UPDATE $table SET ";
-							foreach ( (array)$columns as $column=>$value)
+							foreach ( (array)$columns as $column => $value)
 								$sql .= $column."='".$value."',";
 
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
@@ -36,7 +36,7 @@ if ( $_REQUEST['modfunc']=='update')
 							$values = db_seq_nextval($table.'_SEQ').",'".UserSchool()."','".UserSyear()."',".($_REQUEST['tab_id']=='new'?"'".$_REQUEST['course_id']."'":($_REQUEST['tab_id']=='-1'?"NULL,NULL":($_REQUEST['tab_id']=='0'?"'0',NULL":"'".$_REQUEST['course_id']."','".$_REQUEST['tab_id']."'"))).",";
 
 							$go = false;
-							foreach ( (array)$columns as $column=>$value)
+							foreach ( (array)$columns as $column => $value)
 								if ( !empty($value) || $value=='0')
 								{
 									$fields .= $column.',';
@@ -110,7 +110,7 @@ if (empty($_REQUEST['modfunc']))
 		if (empty($subjects_RET))
 			$subject_select .= '<OPTION value="">'.sprintf(_('No %s were found.'),_('Courses')).'</OPTION>';
 		else
-			foreach ( (array)$subjects_RET as $id=>$subject)
+			foreach ( (array)$subjects_RET as $id => $subject)
 				$subject_select .= '<OPTION value="'.$id.'"'.($_REQUEST['subject_id']==$id?' SELECTED':'').'>'.$subject[1]['TITLE'].'</OPTION>';
 
 		$subject_select .= '</SELECT>';
@@ -125,7 +125,7 @@ if (empty($_REQUEST['modfunc']))
 		if (empty($courses_RET))
 			$course_select .= '<OPTION value="">'.sprintf(_('No %s were found.'),_('Courses')).'</OPTION>';
 		else
-			foreach ( (array)$courses_RET as $id=>$course)
+			foreach ( (array)$courses_RET as $id => $course)
 				$course_select .= '<OPTION value="'.$id.'"'.($_REQUEST['course_id']==$id?' SELECTED':'').'>'.$course[1]['TITLE'].'</OPTION>';
 
 
@@ -159,11 +159,11 @@ if (empty($_REQUEST['modfunc']))
 		$_REQUEST['tab_id'] = '-1'; //FJ default to -1 (General)
 
 	$tabs = array();
-	foreach ( (array)$categories_RET as $id=>$category)
+	foreach ( (array)$categories_RET as $id => $category)
 	{
 		if ( $category[1]['COUNT'] || AllowEdit())
 		{
-			$tabs[] = array('title'=>$category[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$id)+($category[1]['COLOR']?array('color'=>$category[1]['COLOR']):array());
+			$tabs[] = array('title' => $category[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$id)+($category[1]['COLOR']?array('color' => $category[1]['COLOR']):array());
 			if ( $id>0)
 				$category_select[$id] = $category[1]['TITLE'];
 		}
@@ -172,42 +172,42 @@ if (empty($_REQUEST['modfunc']))
 	if ( $_REQUEST['tab_id']=='new')
 	{
 		$sql = "SELECT * FROM REPORT_CARD_COMMENT_CATEGORIES WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER";
-		$functions = array('TITLE'=>'makeTextInput','SORT_ORDER'=>'makeTextInput','COLOR'=>'makeColorInput');
-		$LO_columns = array('TITLE'=>_('Comment Category'),'SORT_ORDER'=>_('Sort Order'),'COLOR'=>_('Color'));
+		$functions = array('TITLE' => 'makeTextInput','SORT_ORDER' => 'makeTextInput','COLOR' => 'makeColorInput');
+		$LO_columns = array('TITLE' => _('Comment Category'),'SORT_ORDER' => _('Sort Order'),'COLOR' => _('Color'));
 
 		$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'),'COLOR'=>makeColorInput('','COLOR'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&course_id='.$_REQUEST['course_id'].'&tab_id=new';
-		$link['remove']['variables'] = array('id'=>'ID');
+		$link['remove']['variables'] = array('id' => 'ID');
 		$link['add']['html']['remove'] = button('add');
 
-		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
+		$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
 	}
 	elseif ( $_REQUEST['tab_id']=='-1')
 	{
 		$sql = "SELECT * FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NULL ORDER BY SORT_ORDER";
-		$functions = array('TITLE'=>'makeTextInput','SORT_ORDER'=>'makeTextInput');
-		$LO_columns = array('TITLE'=>_('Comment'),'SORT_ORDER'=>_('Sort Order'));
+		$functions = array('TITLE' => 'makeTextInput','SORT_ORDER' => 'makeTextInput');
+		$LO_columns = array('TITLE' => _('Comment'),'SORT_ORDER' => _('Sort Order'));
 
 		$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=-1';
-		$link['remove']['variables'] = array('id'=>'ID');
+		$link['remove']['variables'] = array('id' => 'ID');
 		$link['add']['html']['remove'] = button('add');
 
 		if (User('PROFILE')=='admin')
-			$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
+			$tabs[] = array('title'=>button('add', '', '', 'smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
 	}
 	else
 	{
 		$codes_RET = DBGet(DBQuery("SELECT ID,TITLE FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE"));
 
-		$code_select = array(''=>_('N/A'));
+		$code_select = array('' => _('N/A'));
 
 		foreach ( (array)$codes_RET as $code)
 			$code_select[$code['ID']] = $code['TITLE'];
 
-		$functions = array('TITLE'=>'makeCommentsInput','SCALE_ID'=>'makeCommentsInput','SORT_ORDER'=>'makeCommentsInput');
+		$functions = array('TITLE' => 'makeCommentsInput','SCALE_ID' => 'makeCommentsInput','SORT_ORDER' => 'makeCommentsInput');
 
-		$LO_columns = array('TITLE'=>_('Comment'),'SCALE_ID'=>_('Code Scale'),'SORT_ORDER'=>_('Sort Order'));
+		$LO_columns = array('TITLE' => _('Comment'),'SCALE_ID' => _('Code Scale'),'SORT_ORDER' => _('Sort Order'));
 
 		if ( $_REQUEST['tab_id']=='0')
 		{
@@ -220,18 +220,18 @@ if (empty($_REQUEST['modfunc']))
 
 			if (User('PROFILE')=='admin' && AllowEdit())
 			{
-				$functions += array('CATEGORY_ID'=>'makeCommentsInput');
-				$LO_columns += array('CATEGORY_ID'=>_('Category'));
+				$functions += array('CATEGORY_ID' => 'makeCommentsInput');
+				$LO_columns += array('CATEGORY_ID' => _('Category'));
 			}
 		}
         
 		$link['add']['html'] = array('TITLE'=>makeCommentsInput('','TITLE'),'SCALE_ID'=>makeCommentsInput('','SCALE_ID'),'SORT_ORDER'=>makeCommentsInput('','SORT_ORDER'));
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'];
-		$link['remove']['variables'] = array('id'=>'ID');
+		$link['remove']['variables'] = array('id' => 'ID');
 		$link['add']['html']['remove'] = button('add');
 
 		if (User('PROFILE')=='admin')
-			$tabs[] = array('title'=>button('add','','','smaller'),'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
+			$tabs[] = array('title'=>button('add','','','smaller'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id=new');
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
@@ -241,7 +241,7 @@ if (empty($_REQUEST['modfunc']))
 //FJ fix SQL bug invalid sort order
 	if (isset($error)) echo ErrorMessage($error);
 
-	$LO_options = array('save'=>false,'search'=>false,'header_color'=>$categories_RET[$_REQUEST['tab_id']][1]['COLOR'],
+	$LO_options = array('save'=>false,'search'=>false,'header_color' => $categories_RET[$_REQUEST['tab_id']][1]['COLOR'],
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id']));
 
 	//ListOutput($LO_ret,$LO_columns,$singular,$plural,$link,array(),$LO_options);

@@ -131,10 +131,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		if (count($RET))
 		{
-			$columns = array('FULL_NAME'=>_('Student'),'COURSE_TITLE'=>_('Course'));
+			$columns = array('FULL_NAME' => _('Student'),'COURSE_TITLE' => _('Course'));
 
 			if ( $_REQUEST['elements']['teacher']=='Y')
-				$columns += array('TEACHER'=>_('Teacher'));
+				$columns += array('TEACHER' => _('Teacher'));
 
 			if ( $_REQUEST['elements']['period_absences']=='Y')
 				$columns['ABSENCES'] = _('Abs<BR />YTD / MP');
@@ -156,14 +156,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			}
 
 			$i = 0;
-			foreach ( (array)$RET as $student_id=>$course_periods)
+			foreach ( (array)$RET as $student_id => $course_periods)
 			{
 				$course_period_id = key($course_periods);
 				$grades_RET[$i+1]['FULL_NAME'] = $course_periods[$course_period_id][key($course_periods[$course_period_id])][1]['FULL_NAME'];
 
 				$grades_RET[$i+1]['bgcolor'] = 'FFFFFF';
 
-				foreach ( (array)$course_periods as $course_period_id=>$mps)
+				foreach ( (array)$course_periods as $course_period_id => $mps)
 				{
 					$i++;
 					$grades_RET[$i]['STUDENT_ID'] = $student_id;
@@ -233,10 +233,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			if (count($_REQUEST['mp_arr'])==1 && AllowEdit())
 			{
-				$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array(),array('modfunc'=>'delete'));
-				$link['remove']['variables'] = array('student_id'=>'STUDENT_ID',
-				'course_period_id'=>'COURSE_PERIOD_ID',
-				'marking_period_id'=>'MARKING_PERIOD_ID');
+				$link['remove']['link'] = PreparePHP_SELF($_REQUEST,array(),array('modfunc' => 'delete'));
+				$link['remove']['variables'] = array('student_id' => 'STUDENT_ID',
+				'course_period_id' => 'COURSE_PERIOD_ID',
+				'marking_period_id' => 'MARKING_PERIOD_ID');
 			}
 
 			//Display comment codes tooltips
@@ -420,7 +420,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Marking Periods').':</TD><TD><TABLE><TR><TD><TABLE>';
 
-		foreach ( (array)$mps_RET as $sem=>$quarters)
+		foreach ( (array)$mps_RET as $sem => $quarters)
 		{
 			$extra['extra_header_left'] .= '<TR class="st">';
 			foreach ( (array)$quarters as $qtr)
@@ -462,8 +462,8 @@ if (empty($_REQUEST['modfunc']))
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
-	$extra['functions'] = array('CHECKBOX'=>'_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX'=>'</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
+	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 
 	//Widgets('course');

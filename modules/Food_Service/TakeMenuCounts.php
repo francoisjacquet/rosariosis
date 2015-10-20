@@ -110,7 +110,7 @@ $current_RET = DBGet(DBQuery('SELECT ITEM_ID FROM FOOD_SERVICE_COMPLETED WHERE S
 if ( $_REQUEST['values'] && $_POST['values'])
 {
 	GetCurrentMP('QTR',$date);
-	foreach ( (array)$_REQUEST['values'] as $id=>$value)
+	foreach ( (array)$_REQUEST['values'] as $id => $value)
 	{
 		if ( $current_RET[$id])
 		{
@@ -153,16 +153,16 @@ if ( $meal_RET)
 	echo '</TD></TR></TABLE><HR>';
 }
 
-$items_RET = DBGet(DBQuery('SELECT fsi.ITEM_ID,fsi.DESCRIPTION,fsmi.DOES_COUNT,(SELECT COUNT FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND ITEM_ID=fsi.ITEM_ID AND MENU_ID=fsmi.MENU_ID) AS COUNT FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi WHERE fsmi.MENU_ID=\''.$_REQUEST['menu_id'].'\' AND fsi.ITEM_ID=fsmi.ITEM_ID AND fsmi.DOES_COUNT IS NOT NULL ORDER BY fsmi.SORT_ORDER'),array('COUNT'=>'makeTextInput'));
+$items_RET = DBGet(DBQuery('SELECT fsi.ITEM_ID,fsi.DESCRIPTION,fsmi.DOES_COUNT,(SELECT COUNT FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND ITEM_ID=fsi.ITEM_ID AND MENU_ID=fsmi.MENU_ID) AS COUNT FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi WHERE fsmi.MENU_ID=\''.$_REQUEST['menu_id'].'\' AND fsi.ITEM_ID=fsmi.ITEM_ID AND fsmi.DOES_COUNT IS NOT NULL ORDER BY fsmi.SORT_ORDER'),array('COUNT' => 'makeTextInput'));
 
 echo '<TABLE class="width-100p"><TR><TD style="width:50%;">';
-$LO_columns = array('DESCRIPTION'=>_('Item'),'COUNT'=>_('Count'));
+$LO_columns = array('DESCRIPTION' => _('Item'),'COUNT' => _('Count'));
 
 	if (count($menus_RET)>1)
 	{
 		$tabs = array();
-		foreach ( (array)$menus_RET as $id=>$meal)
-			$tabs[] = array('title'=>$meal[1]['TITLE'],'link'=>'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id.'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date']);
+		foreach ( (array)$menus_RET as $id => $meal)
+			$tabs[] = array('title' => $meal[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id.'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date']);
 
 		echo '<BR />';
 		echo '<div class="center">' . WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date']) . '</div>';
@@ -187,11 +187,11 @@ $extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.AC
 if ( !$extra['functions'])
 	$extra['functions'] = array();
 
-$extra['functions'] += array('BALANCE'=>'red');
+$extra['functions'] += array('BALANCE' => 'red');
 
 $stu_RET = GetStuList($extra);
 
-$LO_columns = array('FULL_NAME'=>_('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID'=>_('Grade Level'),'BALANCE'=>_('Balance'),'STATUS'=>_('Status'));
+$LO_columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level'),'BALANCE' => _('Balance'),'STATUS' => _('Status'));
 ListOutput($stu_RET,$LO_columns,'Ineligible Student','Ineligible Students',false,false,array('save'=>false,'search'=>false));
 echo '</TD></TR></TABLE>';
 echo '</FORM>';

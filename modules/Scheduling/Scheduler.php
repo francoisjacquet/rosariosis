@@ -120,14 +120,14 @@ if ( $ok )
 	$QI = DBQuery($sql);
 	$locked_RET = DBGet($QI,array(),array('STUDENT_ID','REQUEST_ID'));
 
-	foreach ( (array)$locked_RET as $student_id=>$courses)
+	foreach ( (array)$locked_RET as $student_id => $courses)
 	{
-		foreach ( (array)$courses as $request_id=>$course)
+		foreach ( (array)$courses as $request_id => $course)
 		{
 			$course = $course[1];
 			foreach ( (array)$cp_parent_RET[$course['PARENT_ID']] as $slice)
 			{
-				$schedule[$student_id][$slice['PERIOD_ID']][] = $slice + array('REQUEST_ID'=>$request_id);
+				$schedule[$student_id][$slice['PERIOD_ID']][] = $slice + array('REQUEST_ID' => $request_id);
 				$filled[$request_id] = true;
 			}
 		}
@@ -140,7 +140,7 @@ if ( $ok )
 	$requests_count = count($requests_RET);
 //FJ fix error Warning: Invalid argument supplied for foreach()
 	$unfilled = array();
-	foreach ( (array)$requests_RET as $request_id=>$request)
+	foreach ( (array)$requests_RET as $request_id => $request)
 	{
 		// EXISTING / LOCKED COURSE
 		if ( !empty($locked_RET[$request[1]['STUDENT_ID']][$request[1]['REQUEST_ID']]))
@@ -155,7 +155,7 @@ if ( $ok )
 		{
 			$not_request = array();
 			if ( !empty($locked_RET[$request[1]['STUDENT_ID']]))
-				foreach ( (array)$locked_RET[$request[1]['STUDENT_ID']] as $request_id=>$requests)
+				foreach ( (array)$locked_RET[$request[1]['STUDENT_ID']] as $request_id => $requests)
 					$not_request[] = $request_id;
 
 			$moved = _moveRequest($request[1],$not_request);
@@ -184,7 +184,7 @@ if ( $ok )
 	}
 
 	echo '<!-- unfilled '.count($unfilled).' -->';
-	foreach ( (array)$unfilled as $key=>$request)
+	foreach ( (array)$unfilled as $key => $request)
 	{
 		$scheduled = _scheduleRequest($request[1]);
 
@@ -192,7 +192,7 @@ if ( $ok )
 		{
 			$not_request = array();
 			if ( !empty($locked_RET[$request[1]['STUDENT_ID']]))
-				foreach ( (array)$locked_RET[$request[1]['STUDENT_ID']] as $request_id=>$requests)
+				foreach ( (array)$locked_RET[$request[1]['STUDENT_ID']] as $request_id => $requests)
 					$not_request[] = $request_id;
 
 			$moved = _moveRequest($request[1],$not_request);
@@ -221,12 +221,12 @@ if ( $ok )
 		$scount = 0;
 		$bad_locked = 0;
 		if (isset($schedule) && is_array($schedule))
-			foreach ( (array)$schedule as $student_id=>$periods)
+			foreach ( (array)$schedule as $student_id => $periods)
 			{
 				$course_periods_temp = array();
 				foreach ( (array)$periods as $course_periods)
 				{
-					foreach ( (array)$course_periods as $period_id=>$course_period)
+					foreach ( (array)$course_periods as $period_id => $course_period)
 					{
 						$scount++;
 						//FJ multiple school periods for a course period
@@ -249,7 +249,7 @@ if ( $ok )
 		echo '<!-- Bad Locked '.$scount.' -->';
 		echo '<!-- Schedule Count() '.$scount.'-->';
 		//echo 'Empty Courses:';
-		foreach ( (array)$cp_parent_RET as $parent_id=>$course_period)
+		foreach ( (array)$cp_parent_RET as $parent_id => $course_period)
 		{
 			$course_period = $course_period[1];
 			//if ( $course_period['AVAILABLE_SEATS']<='0')
@@ -331,9 +331,9 @@ function _scheduleRequest($request,$not_parent_id=false)
 		// IF THIS COURSE IS BEING SCHEDULED A SECOND TIME, DELETE THE ORIGINAL ONE
 		if ( $not_parent_id)
 		{
-			foreach ( (array)$cp_parent_RET[$not_parent_id] as $key=>$slice)
+			foreach ( (array)$cp_parent_RET[$not_parent_id] as $key => $slice)
 			{
-				foreach ( (array)$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']] as $key2=>$item)
+				foreach ( (array)$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']] as $key2 => $item)
 				{
 					if ( $item['COURSE_PERIOD_ID']==$slice['COURSE_PERIOD_ID'])
 					{
@@ -469,9 +469,9 @@ function _scheduleBest($request,$possible)
 				$best = $course_period;
 		}
 	}
-	foreach ( (array)$cp_parent_RET[$best['COURSE_PERIOD_ID']] as $key=>$slice)
+	foreach ( (array)$cp_parent_RET[$best['COURSE_PERIOD_ID']] as $key => $slice)
 	{
-		$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']][] = $slice + array('REQUEST_ID'=>$request['REQUEST_ID']);
+		$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']][] = $slice + array('REQUEST_ID' => $request['REQUEST_ID']);
 		$cp_parent_RET[$best['COURSE_PERIOD_ID']][$key]['AVAILABLE_SEATS']--;
 	}
 }
