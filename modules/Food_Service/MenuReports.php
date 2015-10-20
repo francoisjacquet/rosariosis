@@ -310,4 +310,3 @@ function bump_count($value,$column)
 	}
 	return $value;
 }
-?>

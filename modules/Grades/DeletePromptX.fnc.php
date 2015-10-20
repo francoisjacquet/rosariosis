@@ -31,4 +31,3 @@ function DeletePromptX($title,$action='Delete')
 	unset($_REQUEST['modfunc']);
 	return false;
 }
-?>

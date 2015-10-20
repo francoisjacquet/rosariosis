@@ -108,4 +108,3 @@ function makeDateInput($value,$name)
 	return DateInput($value,'values['.$id.']['.$name.']');
 }
 
-?>

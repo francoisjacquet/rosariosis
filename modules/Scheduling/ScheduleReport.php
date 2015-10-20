@@ -300,4 +300,3 @@ function calcSeats(&$_RET,$columns)
 
 	return $RET;
 }
-?>

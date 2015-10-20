@@ -57,4 +57,3 @@ ORDER BY DATE DESC"),array('START_DATE' => 'ProperDate','END_DATE' => 'ProperDat
 
 $columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'COURSE_TITLE' => _('Course'),'TITLE' => _('Course Period'),'START_DATE' => _('Enrolled'),'END_DATE' => _('Dropped'));
 ListOutput($enrollment_RET,$columns,'Schedule Record','Schedule Records');
-?>

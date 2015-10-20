@@ -57,4 +57,3 @@ if ( !$_REQUEST['modfunc'])
 	PopTable('footer');
 }
 
-?>

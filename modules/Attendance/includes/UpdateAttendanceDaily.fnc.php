@@ -76,4 +76,3 @@ function UpdateAttendanceDaily($student_id,$date='',$comment=false)
 		DBQuery("INSERT INTO ATTENDANCE_DAY (SYEAR,STUDENT_ID,SCHOOL_DATE,MINUTES_PRESENT,STATE_VALUE,MARKING_PERIOD_ID,COMMENT) values('".UserSyear()."','".$student_id."','".$date."','".$total."','".$length."','".GetCurrentMP('QTR',$date)."','".$comment."')");
 }
 
-?>

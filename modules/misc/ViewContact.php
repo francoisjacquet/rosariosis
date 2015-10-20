@@ -15,4 +15,3 @@ if (count($contacts_RET) || count($fields_RET))
 else
 	echo _('This person has no information in the system.');
 PopTable('footer');
-?>

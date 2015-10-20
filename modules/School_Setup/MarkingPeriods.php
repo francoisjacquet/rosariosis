@@ -694,4 +694,3 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	}
 }
 
-?>

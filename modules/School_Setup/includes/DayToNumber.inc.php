@@ -28,4 +28,3 @@ function dayToNumber($day_time)
 	return $school_days % SchoolInfo('NUMBER_DAYS_ROTATION');
 }
 
-?>

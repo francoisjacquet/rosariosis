@@ -105,4 +105,3 @@ function _makePaymentsAmount($value,$column)
 	return Currency($value);
 }
 
-?>

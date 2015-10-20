@@ -103,4 +103,3 @@ function _lunchInput($value,$column)
 	return CheckboxInput($value,'values['.$id.']['.$column.']','','',$new,_('Yes'),_('No'));
 }
 
-?>

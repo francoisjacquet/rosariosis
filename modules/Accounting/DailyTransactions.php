@@ -176,4 +176,3 @@ function _makeCurrency($value,$column)
 	if ( !empty($value) || $value=='0')
 		return Currency($value);
 }
-?>

@@ -124,4 +124,3 @@ function _roundGPA($gpa,$column)
 {   GLOBAL $SCHOOL_RET;
 	return round($gpa*$SCHOOL_RET[1]['REPORTING_GP_SCALE'],3);
 }
-?>

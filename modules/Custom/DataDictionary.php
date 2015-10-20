@@ -28,4 +28,3 @@ foreach ( (array)$RET as $table => $columns)
 }
 echo '</TABLE>';
 PDFStop($PDF);
-?>

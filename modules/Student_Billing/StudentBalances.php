@@ -21,4 +21,3 @@ function _makeCurrency($value,$column)
 	return Currency($value*-1);
 }
 
-?>

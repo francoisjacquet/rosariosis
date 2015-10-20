@@ -96,4 +96,3 @@ function _makeLower($word)
 {
 	return ucwords(mb_strtolower($word));
 }
-?>

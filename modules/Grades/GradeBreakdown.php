@@ -151,4 +151,3 @@ if (count($grouped_RET))
 	echo '<BR /><div class="center"><B>'.sprintf(_('No %s were found.'),_('Teacher')).'</div></B>';
 
 }
-?>
