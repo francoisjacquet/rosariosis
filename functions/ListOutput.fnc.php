@@ -168,7 +168,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				if (mb_substr($search_term,0,1)!='"' && mb_substr($search_term,-1,1)!='"')
 				{
 					$search_term = str_replace('"','',$search_term);
-					while($space_pos = mb_strpos($search_term,' '))
+					while ( $space_pos = mb_strpos($search_term,' '))
 					{
 						$terms[mb_substr($search_term,0,$space_pos)] = 1;
 						$search_term = mb_substr($search_term,($space_pos+1));

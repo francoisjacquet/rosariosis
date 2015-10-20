@@ -128,7 +128,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					$i = 1;
 
 					//if username already exists
-					while(DBGet(DBQuery("SELECT STAFF_ID FROM STAFF WHERE upper(USERNAME)=upper('".$username."') AND SYEAR='".UserSyear()."'")))
+					while (DBGet(DBQuery("SELECT STAFF_ID FROM STAFF WHERE upper(USERNAME)=upper('".$username."') AND SYEAR='".UserSyear()."'")))
 						$username = $tmp_username.$i++;
 
 					$user = DBGet(DBQuery("SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['contact'][$student_id]."'"));

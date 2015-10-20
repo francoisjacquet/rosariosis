@@ -3,12 +3,12 @@
 if ( !$_REQUEST['month'])
 	$_REQUEST['month'] = date("n");
 else
-	$_REQUEST['month'] = MonthNWSwitch($_REQUEST['month'],'tonum')+0;
+	$_REQUEST['month'] = MonthNWswitch ( $_REQUEST['month'],'tonum')+0;
 if ( !$_REQUEST['year'])
 	$_REQUEST['year'] = date("Y");
 
 $last = 31;
-while(!checkdate($_REQUEST['month'],$last,$_REQUEST['year']))
+while (!checkdate($_REQUEST['month'],$last,$_REQUEST['year']))
 	$last--;
 
 $time = mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']);

@@ -552,7 +552,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 				{
 					if ( !$new[$comment])
 					{
-						while($change[key($change)]['REPORT_CARD_COMMENT_ID'])
+						while ( $change[key($change)]['REPORT_CARD_COMMENT_ID'])
 							next($change);
 						$change[key($change)]['REPORT_CARD_COMMENT_ID'] = $comment;
 						$new[$comment] = key($change);

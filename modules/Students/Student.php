@@ -247,7 +247,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 						$student_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STUDENTS_SEQ').' AS STUDENT_ID '.FROM_DUAL));
 						$student_id = $student_id[1]['STUDENT_ID'];
 					}
-					while(count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))));
+					while (count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))));
 
 				$sql = "INSERT INTO STUDENTS ";
 				$fields = 'STUDENT_ID,';

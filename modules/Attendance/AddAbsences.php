@@ -147,7 +147,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$skip = date("w",$time);
 		$last = 31;
-		while(!checkdate($_REQUEST['month']*1, $last, mb_substr($_REQUEST['year'],2)))
+		while (!checkdate($_REQUEST['month']*1, $last, mb_substr($_REQUEST['year'],2)))
 			$last--;
 
 		echo '<TABLE><TR>';
