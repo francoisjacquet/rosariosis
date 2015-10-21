@@ -258,12 +258,12 @@ list of (
 
 	//Moodle contexts doc: http://docs.moodle.org/dev/Roles_and_modules#Context
 
-	if($_REQUEST['staff']['PROFILE']=='admin')
+	if ( $_REQUEST['staff']['PROFILE']=='admin')
 	{
 		$roleid = 1;
 		$contextlevel = 'system'; // System
 	}
-	elseif($_REQUEST['staff']['PROFILE']=='teacher')
+	elseif ( $_REQUEST['staff']['PROFILE']=='teacher')
 	{
 		$roleid = 3;
 		/* Course context, level 50
@@ -275,7 +275,7 @@ list of (
 		// => see function enrol_manual_enrol_users
 		return null;
 	}
-	elseif($_REQUEST['staff']['PROFILE']=='parent')
+	elseif ( $_REQUEST['staff']['PROFILE']=='parent')
 	{
 		$roleid = MOODLE_PARENT_ROLE_ID;
 		/* User context, level 30
@@ -345,7 +345,7 @@ list of (
 	}
 
 	//only unassign if profile not manager
-	if(!isset($_REQUEST['staff']['PROFILE']) || $_REQUEST['staff']['PROFILE'] == 'admin')
+	if ( !isset($_REQUEST['staff']['PROFILE']) || $_REQUEST['staff']['PROFILE'] == 'admin')
 	{
 		return null;
 	}
@@ -435,7 +435,7 @@ filecontent = base64_encode
 	$filename = $_POST['userId'].'.jpg';
 
 	function base64_encode_file ($file) {
-		if(!file_exists($file))
+		if ( !file_exists($file))
 			return false;
 		else
 			$filename = htmlentities($file);
@@ -449,7 +449,7 @@ filecontent = base64_encode
 	global $RosarioPath;
 	$filecontent = base64_encode_file ($RosarioPath.$_POST['photoPath'].$_POST['sYear'].'/'.$_POST['userId'].'.jpg');
 	
-	if(!$filecontent)
+	if ( !$filecontent)
 	{
 		global $error;
 

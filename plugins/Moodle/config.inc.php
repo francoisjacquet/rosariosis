@@ -5,16 +5,16 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 {
 	//note: no need to call ProgramTitle()
 
-	if($_REQUEST['save']=='true')
+	if ( $_REQUEST['save']=='true')
 	{
-		if($_REQUEST['values'] && $_POST['values'] && AllowEdit())
+		if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		{
 			//update the PROGRAM_CONFIG table
 			if ((empty($_REQUEST['values']['PROGRAM_CONFIG']['MOODLE_PARENT_ROLE_ID']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['MOODLE_PARENT_ROLE_ID'])) && (empty($_REQUEST['values']['PROGRAM_CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID']) || is_numeric($_REQUEST['values']['PROGRAM_CONFIG']['ROSARIO_STUDENTS_EMAIL_FIELD_ID'])))
 			{
 				$sql = '';
 				if (isset($_REQUEST['values']['PROGRAM_CONFIG']) && is_array($_REQUEST['values']['PROGRAM_CONFIG']))
-					foreach($_REQUEST['values']['PROGRAM_CONFIG'] as $column=>$value)
+					foreach ( (array)$_REQUEST['values']['PROGRAM_CONFIG'] as $column => $value )
 					{
 						$sql .= "UPDATE PROGRAM_CONFIG SET ";
 						$sql .= "VALUE='".$value."' WHERE TITLE='".$column."'";
@@ -39,7 +39,7 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 		unset($_SESSION['_REQUEST_vars']['save']);
 	}
 
-	if(empty($_REQUEST['save']))
+	if ( empty($_REQUEST['save']))
 	{
 		if ( !_validMoodleURLandToken() )
 			$error[] = _( 'The Moodle URL is not valid.' );

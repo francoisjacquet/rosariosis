@@ -88,7 +88,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 	list($modname, $action) = explode('|', $hook_tag);
 
-	switch($hook_tag)
+	switch ( $hook_tag )
 	{
 
 /***************STUDENTS**/
@@ -122,13 +122,13 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		break;
 
 		case 'Students/Student.php|create_student':
-			if($_REQUEST['moodle_create_student'])
+			if ( $_REQUEST['moodle_create_student'])
 				Moodle($modname, 'core_user_create_users');
 
 		break;
 
 		case 'Students/Student.php|update_student_checks':
-			if(!empty($_REQUEST['students']['PASSWORD']))
+			if ( !empty($_REQUEST['students']['PASSWORD']))
 			{
 				if (($_REQUEST['moodle_create_student'] || IsMoodleStudent(UserStudentID())) && !MoodlePasswordCheck($_REQUEST['students']['PASSWORD']))
 					$error[] = _('Please enter a valid password');
@@ -139,7 +139,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		break;
 
 		case 'Students/Student.php|update_student':
-			if($_REQUEST['moodle_create_student'])
+			if ( $_REQUEST['moodle_create_student'])
 			{
 				Moodle($modname, 'core_user_create_users');
 				//relate parent if exists
@@ -231,7 +231,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		break;
 			
 		case 'Users/User.php|update_user_checks':
-			if(!empty($_REQUEST['staff']['PASSWORD']))
+			if ( !empty($_REQUEST['staff']['PASSWORD']))
 			{
 				if (($_REQUEST['moodle_create_user'] || IsMoodleUser(UserStaffID())) && !MoodlePasswordCheck($_REQUEST['staff']['PASSWORD']))
 					$error[] = _('Please enter a valid password');
@@ -356,7 +356,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		break;
 
 		case 'Scheduling/Courses.php|create_course_period':
-			if($_REQUEST['moodle_create_course_period'])
+			if ( $_REQUEST['moodle_create_course_period'])
 			{
 				Moodle($modname, 'core_course_create_courses');
 				Moodle($modname, 'core_role_assign_roles');
@@ -372,7 +372,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 		case 'Scheduling/Courses.php|update_course_period':
 			//if Course Period is already in Moodle
-			if(IsMoodleCoursePeriod($_REQUEST['course_period_id']))
+			if ( IsMoodleCoursePeriod($_REQUEST['course_period_id']))
 			{
 				Moodle($modname, 'core_course_update_courses');
 
@@ -435,7 +435,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		/*School_Setup/Calendar.php*/
 		case 'School_Setup/Calendar.php|event_field':
 			//only if new event
-			if($_REQUEST['event_id']=='new')
+			if ( $_REQUEST['event_id']=='new')
 				echo '<TR><TD>'._('Publish Event in Moodle?').'</TD><TD><label><INPUT type="checkbox" name="MOODLE_PUBLISH_EVENT" value="Y" checked> '._('Yes').'</label></TD></TR>';
 
 		break;
@@ -537,7 +537,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 				//COURSE_PERIOD_ID
 				$course_periods_RET = DBGet(DBQuery("SELECT mxc.MOODLE_ID AS CP_MOODLE_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'"));
 
-				foreach($course_periods_RET as $reset_course_period)
+				foreach ( (array)$course_periods_RET as $reset_course_period)
 				{
 					$cp_moodle_id = $reset_course_period['CP_MOODLE_ID'];
 					$cp_teacher_id = $reset_course_period['TEACHER_ID'];
@@ -558,7 +558,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$staff_RET = DBGet(DBQuery("SELECT STAFF_ID,ROLLOVER_ID FROM STAFF WHERE SYEAR='".$next_syear."' AND ROLLOVER_ID IS NOT NULL"));
 
-			foreach($staff_RET as $value)
+			foreach ( (array)$staff_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['STAFF_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='staff_id'");
 
 		break;
@@ -568,7 +568,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$course_subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,ROLLOVER_ID FROM COURSE_SUBJECTS WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
 
-			foreach($course_subjects_RET as $value)
+			foreach ( (array)$course_subjects_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['SUBJECT_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='subject_id'");
 
 		break;
@@ -578,7 +578,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$courses_RET = DBGet(DBQuery("SELECT COURSE_ID,ROLLOVER_ID FROM COURSES WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
 
-			foreach($courses_RET as $value)
+			foreach ( (array)$courses_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['COURSE_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='course_id'");
 
 		break;
@@ -588,7 +588,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID, cp.COURSE_ID, cp.SHORT_NAME, cp.MARKING_PERIOD_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'"));
 
-			foreach($course_periods_RET as $rolled_course_period)
+			foreach ( (array)$course_periods_RET as $rolled_course_period)
 			{
 				Moodle($modname, 'core_course_create_courses');
 				Moodle($modname, 'core_role_assign_roles');
