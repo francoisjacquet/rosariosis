@@ -4,8 +4,12 @@
  * Widgets
  * Essentially used in the Find a Student form
  *
- * @param  string  $item     widget name or 'all' widgets
- * @param  array   &$myextra Search.inc.php extra (HTML, functions...)
+ * @global array   $_ROSARIO       Sets $_ROSARIO['Widgets']
+ * @global array   $RosarioModules
+ * @global array   $extra
+ *
+ * @param  string  $item           widget name or 'all' widgets
+ * @param  array   &$myextra       Search.inc.php extra (HTML, functions...)
  *
  * @return boolean true if Widget loaded, false if insufficient rights or already saved widget
  */

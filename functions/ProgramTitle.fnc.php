@@ -5,6 +5,8 @@
  *
  * @example ProgramTitle()
  *
+ * @global array   $_ROSARIO Sets $_ROSARIO['HeaderIcon']
+ *
  * @param  string $modname Specify program/modname (optional)
  *
  * @return string          Program title or 'RosarioSIS' if not found

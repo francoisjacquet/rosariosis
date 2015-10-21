@@ -5,9 +5,12 @@
  *
  * @example  Config( 'SYEAR' )
  *
- * @param  string $item Config title
+ * @global array  $_ROSARIO     Sets $_ROSARIO['Config']
+ * @global string $DefaultSyear
  *
- * @return string       Config value
+ * @param  string $item         Config title
+ *
+ * @return string Config value
  */
 function Config( $item )
 {
@@ -46,8 +49,10 @@ function Config( $item )
  *
  * @since 2.9
  *
- * @param  string       $program eligibility|grades|students|moodle|food_service|attendance... Program name
- * @param  string       $item    Program Config title (optional). Defaults to 'all'
+ * @global array        $_ROSARIO Sets $_ROSARIO['ProgramConfig']
+ *
+ * @param  string       $program  eligibility|grades|students|moodle|food_service|attendance... Program name
+ * @param  string       $item     Program Config title (optional). Defaults to 'all'
  *
  * @return string|array Program Configuration value, or Program values in array
  */

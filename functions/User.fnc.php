@@ -5,9 +5,11 @@
  *
  * @example User( 'PROFILE' )
  *
- * @param  string $item User info item; see STAFF table fields for Admin/Parent/Teacher; STUDENT & STUDENT_ENROLLMENT fields for Student
+ * @global array  $_ROSARIO Sets $_ROSARIO['User']
  *
- * @return string       User info value
+ * @param  string $item     User info item; see STAFF table fields for Admin/Parent/Teacher; STUDENT & STUDENT_ENROLLMENT fields for Student
+ *
+ * @return string User info value
  */
 function User( $item )
 {
@@ -73,8 +75,10 @@ function User( $item )
  *
  * @example  Preferences( 'THEME' )
  *
- * @param  string $item    Preference item
- * @param  string $program Preferences|Gradebook (optional)
+ * @global array  $_ROSARIO Sets $_ROSARIO['Preferences']
+ *
+ * @param  string $item     Preference item
+ * @param  string $program  Preferences|Gradebook (optional)
  *
  * @return string          Preference value
  */

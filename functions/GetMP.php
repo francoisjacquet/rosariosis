@@ -5,10 +5,10 @@
  *
  * Can be called through DBGet()'s functions parameter
  *
- * @uses   $_ROSARIO global var, sets $_ROSARIO['GetMP']
+ * @global array  $_ROSARIO Sets $_ROSARIO['GetMP']
  *
- * @param  string $mp_id  Marking Period ID
- * @param  string $column TITLE|POST_START_DATE|POST_END_DATE|POST_END_DATE|MP|SORT_ORDER|SHORT_NAME|START_DATE|END_DATE|DOES_GRADES|DOES_COMMENTS (optional). Defaults to 'TITLE'
+ * @param  string $mp_id    Marking Period ID
+ * @param  string $column   TITLE|POST_START_DATE|POST_END_DATE|POST_END_DATE|MP|SORT_ORDER|SHORT_NAME|START_DATE|END_DATE|DOES_GRADES|DOES_COMMENTS (optional). Defaults to 'TITLE'
  *
  * @return string Marking Period Column value
  */

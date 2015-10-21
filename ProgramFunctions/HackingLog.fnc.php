@@ -4,6 +4,8 @@
  * Log Hacking attempt
  * Send email to $RosarioNotifyAddress if set
  *
+ * @global string $RosarioNotifyAddress config.inc.php set email
+ *
  * @return string outputs error message and exit
  */
 function HackingLog()

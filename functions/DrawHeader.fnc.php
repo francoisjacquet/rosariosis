@@ -9,11 +9,13 @@
  *
  * @example DrawHeader( ProgramTitle() );
  *
- * @param  string $left   Left part of the Header
- * @param  string $right  Right part of the Header (optional)
- * @param  string $center Center part of the Header (optional)
+ * @global array  $_ROSARIO Sets $_ROSARIO['AllowUse']
  *
- * @return void           outputs Header HTML
+ * @param  string $left     Left part of the Header
+ * @param  string $right    Right part of the Header (optional)
+ * @param  string $center   Center part of the Header (optional)
+ *
+ * @return void   outputs Header HTML
  */
 function DrawHeader( $left, $right = '', $center = '' )
 {

@@ -25,9 +25,9 @@
  *
  * TODO: remove eval(), anyone?
  *
- * @uses $THIS_RET global variable, current row of the query result
- *
  * @example $column_RET = DBGet( DBQuery( "SELECT column FROM table;" ) );
+ *
+ * @global array    $THIS_RET  Current row of the query result
  *
  * @param  resource $QI        PostgreSQL result resource
  * @param  array    $functions Associative array( 'COLUMN' => 'FunctionName' ); Functions to apply (optional)

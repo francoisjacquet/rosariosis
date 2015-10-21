@@ -3,6 +3,8 @@
 /**
  * PopTable
  *
+ * @global array  $_ROSARIO  Uses $_ROSARIO['selected_tab']
+ *
  * @param  string $action    'header' or 'footer'
  * @param  string $title     PopTable Tab(s) title(s) (optional)
  * @param  string $table_att <table [attributes]> (optional)

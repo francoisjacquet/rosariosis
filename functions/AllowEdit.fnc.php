@@ -13,7 +13,9 @@
  * before displaying fields / options to edit data
  * AND before saving or updating data
  *
- * @param  string  $modname Specify program name (optional) defaults to current program
+ * @global array   $_ROSARIO Sets $_ROSARIO['allow_edit']
+ *
+ * @param  string  $modname  Specify program name (optional) defaults to current program
  *
  * @return boolean false if not allowed, true if allowed
  */
@@ -61,6 +63,8 @@ function AllowEdit( $modname = false )
 
 /**
  * Can Use program check
+ *
+ * @global array   $_ROSARIO Sets $_ROSARIO['AllowUse']
  *
  * @param  string  $modname Specify program name (optional) defaults to current program
  *

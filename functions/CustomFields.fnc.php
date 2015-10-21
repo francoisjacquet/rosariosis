@@ -8,6 +8,8 @@
  * @example Use in the where section of the query:
  *          $extra['WHERE'] .= CustomFields( 'where' );
  *
+ * @global array  $_ROSARIO Sets $_ROSARIO['SearchTerms']
+ *
  * @param  string $location part of the SQL statement (always 'where')
  * @param  string $type     student|staff (optional)
  * @param  array  $extra    disable search terms: array( 'NoSearchTerms' => true ) (optional)

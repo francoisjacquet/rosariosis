@@ -10,6 +10,9 @@
 /**
  * Make Text Input
  *
+ * @global array  $value
+ * @global array  $field
+ *
  * @param  string $column  Field column
  * @param  string $name    Field name
  * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
@@ -64,6 +67,9 @@ function _makeTextInput( $column, $name, $request )
 /**
  * Make Date Input
  *
+ * @global array  $value
+ * @global array  $field
+ *
  * @param  string $column  Field column
  * @param  string $name    Field name
  * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
@@ -112,6 +118,9 @@ function _makeDateInput( $column, $name, $request )
 
 /**
  * Make Select Input
+ *
+ * @global array  $value
+ * @global array  $field
  *
  * @param  string $column  Field column
  * @param  string $name    Field name
@@ -185,6 +194,9 @@ function _makeSelectInput( $column, $name, $request )
 
 /**
  * Make Auto Select Input
+ *
+ * @global array  $value
+ * @global array  $field
  *
  * @param  string $column  Field column
  * @param  string $name    Field name
@@ -334,6 +346,9 @@ function _makeAutoSelectInput( $column, $name, $request )
 /**
  * Make Checkbox Input
  *
+ * @global array  $value
+ * @global array  $field
+ *
  * @param  string $column  Field column
  * @param  string $name    Field name
  * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
@@ -367,6 +382,9 @@ function _makeCheckboxInput( $column, $name, $request )
 
 /**
  * Make Textarea Input
+ *
+ * @global array  $value
+ * @global array  $field
  *
  * @param  string $column  Field column
  * @param  string $name    Field name
@@ -403,6 +421,9 @@ function _makeTextareaInput( $column, $name, $request )
 
 /**
  * Make Multiple Input
+ *
+ * @global array  $value
+ * @global array  $field
  *
  * @param  string $column  Field column
  * @param  string $name    Field name
@@ -492,6 +513,8 @@ function _makeMultipleInput( $column, $name, $request )
  * Make Student Age
  * FJ display age next to birthdate
  *
+ * @global array  $value
+ *
  * @param  string $column  Field column
  * @param  string $name    Field name
  *
@@ -526,10 +549,12 @@ function _makeStudentAge( $column, $name )
 /**
  * Make Medical Immunization or Physical type Select Input
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
+ * @global array  $THIS_RET
  *
- * @return string          Medical Immunization or Physical type Select Input
+ * @param  string $column   Field column
+ * @param  string $name     Field name
+ *
+ * @return string Medical Immunization or Physical type Select Input
  */
 function _makeType( $value, $column )
 {
@@ -549,6 +574,9 @@ function _makeType( $value, $column )
 
 /**
  * Make Medical Date Input
+ *
+ * @global array  $THIS_RET
+ * @global string $table
  *
  * @param  string $column  Field column
  * @param  string $name    Field name
@@ -572,6 +600,9 @@ function _makeDate( $value, $column = 'MEDICAL_DATE' )
 
 /**
  * Make Medical Comments Input
+ *
+ * @global array  $THIS_RET
+ * @global string $table
  *
  * @param  string $column  Field column
  * @param  string $name    Field name
@@ -598,6 +629,8 @@ function _makeComments( $value, $column )
 /**
  * Make Enrollment Start Date & Code Inputs
  *
+ * @global array  $THIS_RET
+ *
  * @param  string $column  Field column
  * @param  string $name    Field name
  *
@@ -605,8 +638,9 @@ function _makeComments( $value, $column )
  */
 function _makeStartInput( $value, $column )
 {
-	global $THIS_RET,
-		$add_codes;
+	global $THIS_RET;
+		
+	static $add_codes = false;
 
 	if ( $THIS_RET['ID'] )
 	{
@@ -681,6 +715,8 @@ function _makeStartInput( $value, $column )
 /**
  * Make Enrollment End Date & Code Inputs
  *
+ * @global array  $THIS_RET
+ *
  * @param  string $column  Field column
  * @param  string $name    Field name
  *
@@ -688,8 +724,9 @@ function _makeStartInput( $value, $column )
  */
 function _makeEndInput( $value, $column )
 {
-	global $THIS_RET,
-		$drop_codes;
+	global $THIS_RET;
+		
+	static $drop_codes;
 
 	if ( $THIS_RET['ID'] )
 		$id = $THIS_RET['ID'];
@@ -729,6 +766,8 @@ function _makeEndInput( $value, $column )
 
 /**
  * Make Enrollment School Select Input
+ *
+ * @global array  $THIS_RET
  *
  * @param  string $column  Field column
  * @param  string $name    Field name

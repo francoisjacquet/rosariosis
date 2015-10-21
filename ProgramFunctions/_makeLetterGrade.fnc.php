@@ -14,6 +14,10 @@
  * Grades/ProgressReports.php
  * Grades/StudentGrades.php
  *
+ * TODO: remove global $programconfig!
+ *
+ * @global array   $_ROSARIO         Sets $_ROSARIO['_makeLetterGrade']
+ *
  * @param  string  $percent          precent grade
  * @param  integer $course_period_id course period ID (optional)
  * @param  integer $staff_id         staff ID (optional)

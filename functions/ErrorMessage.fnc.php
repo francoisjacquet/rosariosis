@@ -17,8 +17,10 @@
  * without them having to re-run the program each time finding new
  * problems.  Also, the error display will be standardized.
  *
- * @param  array  $errors Array of errors or notes
- * @param  string $code   error|fatal|note (optional). Defaults to 'error'
+ * @global string $print_data PDF print data
+ *
+ * @param  array  $errors     Array of errors or notes
+ * @param  string $code       error|fatal|note (optional). Defaults to 'error'
  *
  * @return string Error / Note Message, exits if 'fatal' code
  */

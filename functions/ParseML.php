@@ -10,8 +10,10 @@
  * @example "My vacation by the sea|fr_FR.utf8:Mes vacances à la mer|de_DE.utf8:Mein urlaub am rand des meeres"
  *          Will display the English text unless the current language is either fr_FR.utf8 or de_DE.utf8
  *
- * @param  string $field Multi Languages Field value
- * @param  string $loc   Locale (optional). Defaults to current locale
+ * @global string $locale
+ *
+ * @param  string $field  Multi Languages Field value
+ * @param  string $loc    Locale (optional). Defaults to current locale
  *
  * @return string Current language Field value
  */

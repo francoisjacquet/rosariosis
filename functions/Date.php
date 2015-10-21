@@ -117,6 +117,8 @@ function VerifyDate( $date )
  * For the default to be Not Specified,
  * send a date of 00-000-00 or send nothing
  * 
+ * @global array   $_ROSARIO Sets $_ROSARIO['PrepareDate']
+ *
  * @param  string  $date      Date to prepare
  * @param  string  $name_attr select inputs name attribute suffix (optional)
  * @param  boolean $allow_na  Allow N/A, defaults to true (optional)

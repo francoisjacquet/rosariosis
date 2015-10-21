@@ -343,10 +343,16 @@ function includejqPlotToColorBoxOnce()
  * Add Number to Chart X axis
  * Increment occurences of Number in Chart Y axis
  *
- * @param  string $number Number
- * @param  string $column TITLE
+ * @global array   $max_min_RET
+ * @global array   $chart
+ * @global integer $diff        Difference b/w min & max
+ * @global array   $mins
+ * @global boolean $chartline   Is line chart
  *
- * @return string         Number
+ * @param  string  $number      Number
+ * @param  string  $column      TITLE
+ *
+ * @return string  Number
  */
 function makeNumeric( $number, $column )
 {
@@ -376,7 +382,7 @@ function makeNumeric( $number, $column )
 		for ( $i = 1; $i <= 10; $i++ )
 		{
 			if ( ( $number >= $mins[$i]
-					&& $number < $mins[$i + 1])
+					&& $number < $mins[$i + 1] )
 				|| $i === 10 )
 			{
 				$chart['chart_data'][1][$i]++;

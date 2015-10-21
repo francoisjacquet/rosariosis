@@ -20,8 +20,10 @@
  *
  * @since  2.9
  *
- * @param  string $MD     MarkDown text
- * @param  string $column DBGet() COLUMN formatting compatibility (optional)
+ * @global object $Parsedown
+ *
+ * @param  string $MD        MarkDown text
+ * @param  string $column    DBGet() COLUMN formatting compatibility (optional)
  *
  * @return string HTML
  */
@@ -55,9 +57,11 @@ function MarkDownToHTML( $MD, $column = '' )
  *
  * @since   2.9
  *
- * @param   string $MD MarkDown text
+ * @global object $Security
  *
- * @return  string Input with HTML encoded single quotes or empty string if Sanitized MD != Input MD
+ * @param  string $MD       MarkDown text
+ *
+ * @return string Input with HTML encoded single quotes or empty string if Sanitized MD != Input MD
  */
 function SanitizeMarkDown( $MD )
 {

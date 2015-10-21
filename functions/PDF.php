@@ -35,7 +35,11 @@ function PDFStart( $css = true, $margins = array() )
 /**
  * Get buffer and generate PDF
  *
- * @param  array  $handle from PDFStart()
+ * @global string $wkhtmltopdfPath
+ * @global string $wkhtmltopdfAssetsPath
+ * @global string $RosarioPath
+ *
+ * @param  array  $handle                from PDFStart()
  *
  * @return string outputs HTML if not wkhtmltopdf or embed PDF
  */
