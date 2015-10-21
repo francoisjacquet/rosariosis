@@ -10,7 +10,7 @@ Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues
 
 4. Attach a **screenshot** of the problem. [Paste clipboard image (Chrome only)](https://github.com/tiimgreen/github-cheat-sheet#pasting-clipboard-image-to-comments).
 
-5. RosarioSIS errors, bugs (PHP, SQL, JS errors) & design or logic errors are welcome here.
+5. RosarioSIS errors, bugs (PHP, SQL, JS errors) & design or logic errors are welcome.
 
 6. **Installation problems**: RosarioSIS has been succesfully installed on various environment; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL#L10). For the same reasons, installation problems will likely not be solved here.
 
@@ -23,16 +23,18 @@ Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues
 
 Please head to the offical [Contribute page](http://www.rosariosis.org/contribute) to learn about how you can contribute to the project.
 
-## Pull requests
-
-Please follow these coding standards:
+## Coding standards
 
 1. [Wordpress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/)
 
 2. RosarioSIS coding standards?
 
-3. Comment your code: use [PHPDoc](https://duckduckgo.com/l/?kh=-1&uddg=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FPHPDoc)
+3. [Comment your code](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/): use PHPDoc
 
-4. Quality Assurance: use code linters & other [QA tools](http://phpqatools.org/)
+4. Quality Assurance: use code linters & others [QA tools](http://phpqatools.org/)
 
 5. Activate debug mode
+
+## Example Module
+
+Freely study and reuse the [Example module](https://github.com/francoisjacquet/rosariosis-module-example)
