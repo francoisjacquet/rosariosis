@@ -1,5 +1,5 @@
 <?php
-include_once( 'ProgramFunctions/StudentsUsersInfo.fnc.php' );
+require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
 $category_RET = DBGet( DBQuery( "SELECT COLUMNS
 	FROM STAFF_FIELD_CATEGORIES

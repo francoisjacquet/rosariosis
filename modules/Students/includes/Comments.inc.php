@@ -14,7 +14,7 @@ if ( AllowEdit()
 	&& isset( $_POST['values'] )
 	&& trim( $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] ) !== '' )
 {
-	include_once( 'ProgramFunctions/MarkDown.fnc.php' );
+	require_once 'ProgramFunctions/MarkDown.fnc.php';
 
 	// Sanitize MarkDown
 	$comment = SanitizeMarkDown( $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] );
@@ -138,5 +138,5 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	</TABLE>
 	<?php
 
-	include( 'modules/Students/includes/Other_Info.inc.php' );
+	require_once 'modules/Students/includes/Other_Info.inc.php';
 }

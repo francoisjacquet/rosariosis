@@ -3,7 +3,7 @@
 //FJ bugfix check accept cookies
 $default_session_name = session_name();
 
-include( 'Warehouse.php' );
+require_once 'Warehouse.php';
 
 // Logout
 if ( isset( $_REQUEST['modfunc'] )
@@ -197,11 +197,15 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 
 	if ( $_REQUEST['create_account'] == 'user'
 		&& Config( 'CREATE_USER_ACCOUNT' ) )
+	{
 		$include = 'Users/User.php';
+	}
 
 	elseif ( $_REQUEST['create_account'] == 'student'
 		&& Config( 'CREATE_STUDENT_ACCOUNT' ) )
+	{
 		$include = 'Students/Student.php';
+	}
 
 	if ( !$include )
 		unset( $_REQUEST['create_account'] );
@@ -212,7 +216,7 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 
 		$_ROSARIO['allow_edit'] = true;
 
-		include( 'modules/' . $include );
+		require_once 'modules/' . $include;
 
 		Warehouse( 'footer' );
 	}
@@ -402,7 +406,5 @@ elseif ( !isset( $_REQUEST['create_account'] ) )
 {
 	$_REQUEST['modname'] = 'misc/Portal.php';
 
-	include( 'Modules.php' );
+	require_once 'Modules.php';
 }
-
-?>

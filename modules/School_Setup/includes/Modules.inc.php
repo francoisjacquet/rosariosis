@@ -34,7 +34,7 @@ $directories_bypass = array(
 //hacking protections
 if (isset($_REQUEST['module']) && strpos($_REQUEST['module'], '..') !== false)
 {
-	include('ProgramFunctions/HackingLog.fnc.php');
+	require_once 'ProgramFunctions/HackingLog.fnc.php';
 	HackingLog();
 }
 

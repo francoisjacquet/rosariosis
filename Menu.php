@@ -18,7 +18,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 	foreach ( (array)$RosarioModules as $module => $active )
 	{
 		if ( $active )
-			include( 'modules/' . $module . '/Menu.php' );
+			include_once 'modules/' . $module . '/Menu.php';
 	}
 
 	$profile = User( 'PROFILE' );

@@ -10,7 +10,7 @@
 /**
  * jqPlot Chart generation
  *
- * @example include_once( 'ProgramFunctions/jqPlot.fnc.php' );
+ * @example require_once 'ProgramFunctions/jqPlot.fnc.php';
  *          echo jqPlotChart( 'pie', $chartData, $chartTitle );
  *
  * @param  string  $type       Chart type line|column|pie

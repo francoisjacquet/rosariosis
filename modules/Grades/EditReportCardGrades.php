@@ -1,5 +1,5 @@
 <?php
-include( 'modules/Grades/DeletePromptX.fnc.php' );
+require_once 'modules/Grades/DeletePromptX.fnc.php';
 
 DrawHeader( ProgramTitle() );
 

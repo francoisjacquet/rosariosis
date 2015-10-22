@@ -1,6 +1,6 @@
 <?php
-include('ProgramFunctions/PortalPollsNotes.fnc.php');
-include('ProgramFunctions/FileUpload.fnc.php');
+require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 
 if ( $_REQUEST['day_values'] && $_POST['day_values'])
 {

@@ -1,11 +1,11 @@
 <?php
 
-include('ProgramFunctions/FileUpload.fnc.php');
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 if (User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id'] && $_REQUEST['staff_id']!=User('STAFF_ID') && $_REQUEST['staff_id']!='new')
 {
 	if (User('USERNAME'))
 	{
-		include('ProgramFunctions/HackingLog.fnc.php');
+		require_once 'ProgramFunctions/HackingLog.fnc.php';
 		HackingLog();
 	}
 		
@@ -134,7 +134,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 			//check if trying to hack profile (would result in an SQL error)
 			if (isset($_REQUEST['staff']['PROFILE']))
 			{
-				include('ProgramFunctions/HackingLog.fnc.php');
+				require_once 'ProgramFunctions/HackingLog.fnc.php';
 				HackingLog();
 			}
 		}
@@ -283,7 +283,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 					&& filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 				{
 					//FJ add SendEmail function
-					include_once('ProgramFunctions/SendEmail.fnc.php');
+					require_once 'ProgramFunctions/SendEmail.fnc.php';
 
 					$to = $RosarioNotifyAddress;
 
@@ -316,11 +316,15 @@ Remote IP: %s', $admin_username, User('NAME'), $ip);
 
 	}
 
-	if ( !in_array($include, $categories))
-		if ( !mb_strpos($include,'/'))
-			include('modules/Users/includes/'.$include.'.inc.php');
+	if ( !in_array( $include, $categories ) )
+	{
+		if ( !mb_strpos( $include, '/' ) )
+		{
+			require 'modules/Users/includes/' . $include . '.inc.php';
+		}
 		else
-			include('modules/'.$include.'.inc.php');
+			require 'modules/' . $include . '.inc.php';
+	}
 
 	if ( $error && !UserStaffID())
 		$_REQUEST['staff_id'] = 'new';
@@ -465,13 +469,17 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 
 	if ( $can_use_RET['Users/User.php&category_id='.$category_id])
 	{
-		if ( !mb_strpos($include,'/'))
-			include('modules/Users/includes/'.$include.'.inc.php');
+		if ( !mb_strpos( $include, '/' ) )
+		{
+			require 'modules/Users/includes/' . $include . '.inc.php';
+		}
 		else
 		{
-			include('modules/'.$include.'.inc.php');
+			require 'modules/' . $include . '.inc.php';
+
 			$separator = '<HR>';
-			include('modules/Users/includes/Other_Info.inc.php');
+
+			require_once 'modules/Users/includes/Other_Info.inc.php';
 		}
 	}
 

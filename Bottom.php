@@ -1,6 +1,6 @@
 <?php
 
-include( 'Warehouse.php' );
+require_once 'Warehouse.php';
 
 // Print PDF
 if ( isset( $_REQUEST['modfunc'] ) &&
@@ -26,11 +26,11 @@ if ( isset( $_REQUEST['modfunc'] ) &&
 		|| mb_strpos( $modname, '..' ) !== false
 		|| !is_file( 'modules/' . $modname ) )
 	{
-		include('ProgramFunctions/HackingLog.fnc.php');
+		require_once 'ProgramFunctions/HackingLog.fnc.php';
 		HackingLog();
 	}
 	else
-		include( 'modules/' . $modname );
+		require_once 'modules/' . $modname;
 		
 	//FJ call PDFStop to generate Print PDF
 	PDFStop( $print_data );
@@ -44,10 +44,10 @@ elseif ( isset( $_REQUEST['modfunc'] ) &&
 	$help_english = 'Help_en.php';
 
 	if ( file_exists( $help_translated ) ) //FJ translated help
-		include( $help_translated );
+		require_once $help_translated;
 
 	else
-		include( $help_english );
+		require_once $help_english;
 
 	//FJ add help for non-core modules
 	$not_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
@@ -57,10 +57,10 @@ elseif ( isset( $_REQUEST['modfunc'] ) &&
 		$not_core_dir = 'modules/' . $not_core_module . '/';
 
 		if ( file_exists( $not_core_dir . $help_translated ) ) //FJ translated help
-			include( $not_core_dir . $help_translated );
+			require_once $not_core_dir . $help_translated;
 
 		elseif ( file_exists( $not_core_dir . $help_english ) )
-			include( $not_core_dir . $help_english );
+			require_once $not_core_dir . $help_english;
 	}
 
 	$help_text = '';
@@ -183,4 +183,3 @@ else
 
 <?php
 }
-?>

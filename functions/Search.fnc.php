@@ -53,7 +53,7 @@ function Search( $type, $extra = null )
 
 				$_REQUEST['next_modname'] = $_REQUEST['modname'];
 
-				include( 'modules/Students/Search.inc.php' );
+				require_once 'modules/Students/Search.inc.php';
 			}
 
 		break;
@@ -96,7 +96,7 @@ function Search( $type, $extra = null )
 					
 				$_REQUEST['next_modname'] = $_REQUEST['modname'];
 				
-				include( 'modules/Users/Search.inc.php' );
+				require_once 'modules/Users/Search.inc.php';
 			}
 
 		break;

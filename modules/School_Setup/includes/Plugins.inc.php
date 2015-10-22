@@ -14,7 +14,7 @@ $directories_bypass = array();
 //hacking protections
 if (isset($_REQUEST['plugin']) && strpos($_REQUEST['plugin'], '..') !== false)
 {
-	include('ProgramFunctions/HackingLog.fnc.php');
+	require_once 'ProgramFunctions/HackingLog.fnc.php';
 	HackingLog();
 }
 
@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc']=='config')
 {
 	//if the plugin is activated, show configuration (call the plugin's config.inc.php file)
 	if (in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)) && $RosarioPlugins[$_REQUEST['plugin']] == true && file_exists('plugins/'.$_REQUEST['plugin'].'/config.inc.php'))
-		include('plugins/'.$_REQUEST['plugin'].'/config.inc.php');
+		require_once 'plugins/'.$_REQUEST['plugin'].'/config.inc.php';
 	else
 	{
 		unset($_REQUEST['modfunc']);

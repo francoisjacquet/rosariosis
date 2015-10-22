@@ -1,8 +1,8 @@
 <?php
 
-include('modules/Scheduling/includes/calcSeats0.fnc.php');
+require_once 'modules/Scheduling/includes/calcSeats0.fnc.php';
 
-include_once('modules/Scheduling/functions.inc.php');
+require_once 'modules/Scheduling/functions.inc.php';
 
 if ( !$_REQUEST['modfunc'] && $_REQUEST['search_modfunc']!='list')
 	unset($_SESSION['MassSchedule.php']);

@@ -1,5 +1,5 @@
 <?php
-include( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
+require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 $course_period_id = UserCoursePeriod();
 $course_id = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));

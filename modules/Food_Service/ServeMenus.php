@@ -1,7 +1,7 @@
 <?php
 require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
 
-include_once('modules/Food_Service/includes/FS_Icons.inc.php');
+require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
 
 if ( $_REQUEST['modfunc']=='select')
 {
@@ -60,7 +60,7 @@ if ( $_REQUEST['modfunc']=='remove')
 	unset($_REQUEST['modfunc']);
 }
 
-include('modules/Food_Service/'.($_SESSION['FSA_type']=='staff'?'Users/':'Students/').'/ServeMenus.php');
+require_once 'modules/Food_Service/'.($_SESSION['FSA_type']=='staff'?'Users/':'Students/').'/ServeMenus.php';
 
 function red($value)
 {

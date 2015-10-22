@@ -1,5 +1,5 @@
 <?php
-include_once('ProgramFunctions/StudentsUsersInfo.fnc.php');
+require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
 if ( ( isset( $_POST['values'] )
 	|| isset( $_POST['month_values'] ) )
@@ -37,7 +37,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 
 if (empty($_REQUEST['modfunc']))
 {
-	include('modules/Students/includes/Other_Info.inc.php');
+	require_once 'modules/Students/includes/Other_Info.inc.php';
 	
 	if ( $PopTable_opened)
 		PopTable('footer');

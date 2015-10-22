@@ -50,7 +50,7 @@ if ( $_REQUEST['search_modfunc']=='list')
 	DrawHeader(PrepareDate($date,'_date').' : <INPUT type="submit" value="'._('Go').'" />');
 	echo '</FORM>';
 
-	include('modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/BalanceReport.php');
+	require_once 'modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/BalanceReport.php';
 }
 
 $extra['new'] = true;

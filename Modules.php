@@ -1,6 +1,6 @@
 <?php
 
-include( 'Warehouse.php' );
+require_once 'Warehouse.php';
 
 // If no modname found, go back to index
 if ( !isset( $_REQUEST['modname'] )
@@ -93,7 +93,7 @@ if ( in_array(
 // browse allowed programs and look for requested modname
 else
 {
-	include( 'Menu.php' );
+	require_once 'Menu.php';
 
 	foreach ( (array)$_ROSARIO['Menu'] as $modcat => $programs )
 	{
@@ -122,13 +122,13 @@ if ( $allowed )
 	if ( Preferences( 'SEARCH' ) !== 'Y' )
 		$_REQUEST['search_modfunc'] = 'list';
 
-	include( 'modules/' . $modname );
+	require_once 'modules/' . $modname;
 }
 
 // not allowed, hacking attempt?
 elseif ( User( 'USERNAME' ) )
 {
-	include( 'ProgramFunctions/HackingLog.fnc.php' );
+	require_once 'ProgramFunctions/HackingLog.fnc.php';
 
 	HackingLog();
 }
@@ -136,5 +136,3 @@ elseif ( User( 'USERNAME' ) )
 // output Footer HTML
 if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	Warehouse( 'footer' );
-
-?>

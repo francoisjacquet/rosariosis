@@ -1,6 +1,6 @@
 <?php
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
-require('modules/Attendance/includes/UpdateAttendanceDaily.fnc.php');
+require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 
 // set date
 if ( isset( $_REQUEST['month_date'] )

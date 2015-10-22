@@ -1,6 +1,6 @@
 <?php
 
-include_once('modules/Accounting/functions.inc.php');
+require_once 'modules/Accounting/functions.inc.php';
 if (User('PROFILE')=='teacher')//limit to teacher himself
 	$_REQUEST['staff_id'] = User('STAFF_ID');
 

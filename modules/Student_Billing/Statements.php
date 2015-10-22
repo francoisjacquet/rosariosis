@@ -45,8 +45,8 @@ else
 					
 					SetUserStudentID($address['STUDENT_ID']);
 
-					include('modules/Student_Billing/StudentFees.php');
-					include('modules/Student_Billing/StudentPayments.php');
+					require_once 'modules/Student_Billing/StudentFees.php';
+					require_once 'modules/Student_Billing/StudentPayments.php';
 					echo '<div style="page-break-after: always;"></div>';				
 				}
 			}
@@ -60,8 +60,8 @@ else
 				DrawHeader($student['GRADE_ID']);
 				DrawHeader(SchoolInfo('TITLE'));
 				DrawHeader(ProperDate(DBDate()));
-				include('modules/Student_Billing/StudentFees.php');
-				include('modules/Student_Billing/StudentPayments.php');
+				require_once 'modules/Student_Billing/StudentFees.php';
+				require_once 'modules/Student_Billing/StudentPayments.php';
 				echo '<div style="page-break-after: always;"></div>';
 			}
 		}

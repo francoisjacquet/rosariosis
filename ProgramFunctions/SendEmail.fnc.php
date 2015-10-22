@@ -11,7 +11,7 @@
 	if ( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 	{
 		//FJ add SendEmail function
-		include_once('ProgramFunctions/SendEmail.fnc.php');
+		require_once 'ProgramFunctions/SendEmail.fnc.php';
 		
 		$message = "System: ".ParseMLField(Config('TITLE'))." \n";
 		$message .= "Date: ".date("m/d/Y h:i:s")."\n";

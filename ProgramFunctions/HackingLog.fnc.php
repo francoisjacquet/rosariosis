@@ -21,7 +21,7 @@ function HackingLog()
 			$ip = $_SERVER['REMOTE_ADDR'];
 
 		//FJ add SendEmail function
-		include( 'ProgramFunctions/SendEmail.fnc.php' );
+		require_once 'ProgramFunctions/SendEmail.fnc.php';
 		
 		$message = "INSERT INTO HACKING_LOG
 			(

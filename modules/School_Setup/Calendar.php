@@ -4,7 +4,7 @@ DrawHeader( ProgramTitle() );
 
 //FJ days numbered
 if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) > 0 )
-	include( 'modules/School_Setup/includes/DayToNumber.inc.php' );
+	require_once 'modules/School_Setup/includes/DayToNumber.inc.php';
 
 // Set Month
 if ( !isset( $_REQUEST['month'] )

@@ -1,5 +1,5 @@
 <?php
-include_once( 'ProgramFunctions/StudentsUsersInfo.fnc.php' );
+require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
 $fields_RET = ParseMLArray( $fields_RET, 'TITLE' );
 

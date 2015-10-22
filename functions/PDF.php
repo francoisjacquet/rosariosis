@@ -108,7 +108,7 @@ function PDFStop( $handle )
 			
 		$html = str_replace( 'modules/', $RosarioPath . 'modules/', $html );
 		
-		require( 'classes/Wkhtmltopdf.php' );
+		require_once 'classes/Wkhtmltopdf.php';
 		
 		try {
 			//indicate to create PDF in the temporary files system directory

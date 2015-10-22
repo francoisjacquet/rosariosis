@@ -10,7 +10,7 @@ if ( $custom_fields_RET['200000004'])
 	MyWidgets('birthmonth');
 	MyWidgets('birthday');
 }
-include('modules/misc/Export.php');
+require_once 'modules/misc/Export.php';
 
 function MyWidgets($item)
 {	global $extra,$_ROSARIO;

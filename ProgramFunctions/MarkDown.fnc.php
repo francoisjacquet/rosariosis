@@ -14,7 +14,7 @@
  *
  * @uses Parsedown Markdown Parser class in PHP
  *
- * @example include_once( 'ProgramFunctions/MarkDown.fnc.php' );
+ * @example require_once 'ProgramFunctions/MarkDown.fnc.php';
  *          echo MarkDownToHTML( 'Hello _Parsedown_!' );
  *          will print: <p>Hello <em>Parsedown</em>!</p>
  *
@@ -52,7 +52,7 @@ function MarkDownToHTML( $MD, $column = '' )
  *
  * @uses    Security class
  *
- * @example include_once( 'ProgramFunctions/MarkDown.fnc.php' );
+ * @example require_once 'ProgramFunctions/MarkDown.fnc.php';
  *          $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_REQUEST['values']['textarea'] );
  *
  * @since   2.9

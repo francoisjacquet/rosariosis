@@ -200,7 +200,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				$msg = str_replace('__PASSWORD__',$password,$msg);
 				
 				//FJ add SendEmail function
-				include_once('ProgramFunctions/SendEmail.fnc.php');
+				require_once 'ProgramFunctions/SendEmail.fnc.php';
 				
 				$to = empty($test_email) ? $students[1]['EMAIL'] : $test_email;
 				

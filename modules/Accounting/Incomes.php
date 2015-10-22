@@ -1,6 +1,6 @@
 <?php
 
-include_once('modules/Accounting/functions.inc.php');
+require_once 'modules/Accounting/functions.inc.php';
 if ( !$_REQUEST['print_statements'])
 	DrawHeader(ProgramTitle());
 

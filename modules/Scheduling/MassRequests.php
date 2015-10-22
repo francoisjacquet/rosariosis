@@ -1,5 +1,5 @@
 <?php
-include_once('modules/Scheduling/functions.inc.php');
+require_once 'modules/Scheduling/functions.inc.php';
 if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if ( $_SESSION['MassRequests.php'])

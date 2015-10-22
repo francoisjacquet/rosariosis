@@ -1,6 +1,6 @@
 <?php
 
-include( 'Warehouse.php' );
+require_once 'Warehouse.php';
 
 $old_school = UserSchool();
 $old_syear = UserSyear();
@@ -654,7 +654,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		<ul class="adminmenu">
 
 		<?php // Generate Menu
-		include( 'Menu.php' );
+		require_once 'Menu.php';
 		
 		// modify loop: use for instead of foreach
 		$key = array_keys( $_ROSARIO['Menu'] );

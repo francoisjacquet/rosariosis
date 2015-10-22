@@ -120,7 +120,7 @@ function EmailReferral( $referral_id, $emails )
 
 	//var_dump($to, $subject,$message, $from);
 
-	include_once( 'ProgramFunctions/SendEmail.fnc.php' );
+	require_once 'ProgramFunctions/SendEmail.fnc.php';
 
 	return SendEmail( $to, $subject,$message, $from );
 }

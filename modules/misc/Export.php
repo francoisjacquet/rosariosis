@@ -1,5 +1,5 @@
 <?php
-include_once( 'ProgramFunctions/miscExport.fnc.php' );
+require_once 'ProgramFunctions/miscExport.fnc.php';
 
 //echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
 

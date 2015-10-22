@@ -1,6 +1,6 @@
 <?php
 //FJ Portal Polls inspired by Portal Notes
-include('ProgramFunctions/PortalPollsNotes.fnc.php');
+require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 
 if ( $_REQUEST['day_values'] && $_POST['day_values'])
 {

@@ -4,7 +4,7 @@ DrawHeader(ProgramTitle());
 //FJ bugfix no $menu when page refreshed
 unset($_ROSARIO['Menu']);
 
-include('Menu.php');
+require_once 'Menu.php';
 
 if ( $_REQUEST['profile_id']!='')
 {

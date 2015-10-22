@@ -37,7 +37,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-include('modules/Food_Service/'.($_REQUEST['type']=='staff'?'Users':'Students').'/Transactions.php');
+require_once 'modules/Food_Service/'.($_REQUEST['type']=='staff'?'Users':'Students').'/Transactions.php';
 
 function red($value)
 {

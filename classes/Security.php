@@ -8,7 +8,7 @@
  * @license 
  *
  * @example MarkDown input sanitize:
- *          include_once( 'ProgramFunctions/MarkDown.fnc.php' );
+ *          require_once 'ProgramFunctions/MarkDown.fnc.php';
  *          $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_REQUEST['values']['textarea'] );
  * 
  */

@@ -110,7 +110,7 @@ function PortalPollsDisplay($value,$name)
 	//get poll:
 	$poll_RET = DBGet(DBQuery("SELECT EXCLUDED_USERS, VOTES_NUMBER, DISPLAY_VOTES FROM PORTAL_POLLS WHERE ID='".$poll_id."'"));
 
-	include_once('ProgramFunctions/Linkify.fnc.php');
+	require_once 'ProgramFunctions/Linkify.fnc.php';
 
 	$poll_questions_RET = DBGet(DBQuery("SELECT ID, QUESTION, OPTIONS, TYPE, VOTES
 		FROM PORTAL_POLL_QUESTIONS
@@ -270,14 +270,14 @@ if (isset($_POST['votes']) && is_array($_POST['votes']))
 		
 	chdir('../');
 
-	require('config.inc.php');
-	require('database.inc.php');
+	require_once 'config.inc.php';
+	require_once 'database.inc.php';
 
 	// Load functions.
 	$functions = glob('functions/*.php');
 	foreach ($functions as $function)
 	{
-		include($function);
+		require_once $function;
 	}
 	
 	foreach ($_POST['votes'] as $poll_id => $votes_array)

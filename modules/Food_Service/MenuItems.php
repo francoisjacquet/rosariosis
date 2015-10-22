@@ -1,7 +1,7 @@
 <?php
 require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
 
-include_once('modules/Food_Service/includes/FS_Icons.inc.php');
+require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
 
 DrawHeader(ProgramTitle());
 

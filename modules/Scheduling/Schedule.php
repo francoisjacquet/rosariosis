@@ -1,6 +1,6 @@
 <?php
 
-include('modules/Scheduling/includes/calcSeats0.fnc.php');
+require_once 'modules/Scheduling/includes/calcSeats0.fnc.php';
 
 // TABBED FY,SEM,QTR
 // REPLACE DBDate() & date() WITH USER ENTERED VALUES
@@ -246,7 +246,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 		unset($columns);
 
 		//include calcSeats, _makeRequestTeacher & _makeRequestPeriod functions
-		include_once('modules/Scheduling/includes/unfilledRequests.inc.php');
+		require_once 'modules/Scheduling/includes/unfilledRequests.inc.php';
 
 		$extra['WHERE'] = " AND s.STUDENT_ID='".UserStudentID()."'";
 		$extra['FROM'] .= ',SCHEDULE_REQUESTS sr,COURSES c';

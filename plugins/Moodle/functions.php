@@ -1,6 +1,6 @@
 <?php
 
-include('plugins/Moodle/getconfig.inc.php');
+require_once 'plugins/Moodle/getconfig.inc.php';
 
 //FJ Moodle plugin
 

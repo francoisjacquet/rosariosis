@@ -75,7 +75,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$extra['WHERE'] .= $extraWHERE;
 				}
 
-				include('modules/misc/Export.php');
+				require_once 'modules/misc/Export.php';
 
 				echo '<div style="page-break-after: always;"></div>';
 			}
@@ -106,7 +106,7 @@ if (empty($_REQUEST['modfunc']))
 		$extra['extra_header_left'] = '<TABLE><TR><TD><label><INPUT type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></TD></TR></TABLE>';
 
 		$Search = 'mySearch';
-		include('modules/misc/Export.php');
+		require_once 'modules/misc/Export.php';
 	}
 	else
 	{

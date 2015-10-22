@@ -15,7 +15,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 
 	if (count($RET))
 	{
-		include_once('ProgramFunctions/StudentsUsersInfo.fnc.php');
+		require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 		$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"),array(),array('ID'));
 
 		// get the address and contacts custom fields, create the select lists and expand select and codeds options
@@ -51,7 +51,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 
 			if ( $_REQUEST['category']['1'])
 			{
-				include('modules/Students/includes/General_Info.inc.php');
+				require_once 'modules/Students/includes/General_Info.inc.php';
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
@@ -119,7 +119,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['2'][1]['TITLE']));
 				echo '<BR />';
-				include('modules/Students/includes/Medical.inc.php');
+				require_once 'modules/Students/includes/Medical.inc.php';
 				echo '<div style="page-break-after: always;"></div>';
 			}
 			if ( $_REQUEST['category']['4'])
@@ -127,7 +127,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['4'][1]['TITLE']));
 				echo '<BR />';
-				include('modules/Students/includes/Comments.inc.php');
+				require_once 'modules/Students/includes/Comments.inc.php';
 				echo '<div style="page-break-after: always;"></div>';
 			}
 			foreach ( (array)$categories_RET as $id => $category)
@@ -140,14 +140,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					echo '<BR />';
 					$separator = '';
 					if ( !$category[1]['INCLUDE'])
-						include('modules/Students/includes/Other_Info.inc.php');
+						require_once 'modules/Students/includes/Other_Info.inc.php';
 					elseif ( !mb_strpos($category[1]['INCLUDE'],'/'))
-						include('modules/Students/includes/'.$category[1]['INCLUDE'].'.inc.php');
+						require_once 'modules/Students/includes/'.$category[1]['INCLUDE'].'.inc.php';
 					else
 					{
-						include('modules/'.$category[1]['INCLUDE'].'.inc.php');
+						require_once 'modules/'.$category[1]['INCLUDE'].'.inc.php';
 						$separator = '<HR>';
-						include('modules/Students/includes/Other_Info.inc.php');
+						require_once 'modules/Students/includes/Other_Info.inc.php';
 					}
 					echo '<div style="page-break-after: always;"></div>';
 				}

@@ -1,6 +1,6 @@
 <?php
 
-include_once( 'ProgramFunctions/Charts.fnc.php' );
+require_once 'ProgramFunctions/Charts.fnc.php';
 
 DrawHeader( ProgramTitle() );
 

@@ -1,12 +1,12 @@
 <?php
 
-include('ProgramFunctions/FileUpload.fnc.php');
+require_once 'ProgramFunctions/FileUpload.fnc.php';
 
 if (User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['student_id'] && $_REQUEST['student_id']!=UserStudentID() && $_REQUEST['student_id']!='new')
 {
 	if (User('USERNAME'))
 	{
-		include('ProgramFunctions/HackingLog.fnc.php');
+		require_once 'ProgramFunctions/HackingLog.fnc.php';
 		HackingLog();
 	}
 
@@ -104,7 +104,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 		if ( $others_textarea_RET )
 		{
-			include_once( 'ProgramFunctions/MarkDown.fnc.php' );
+			require_once 'ProgramFunctions/MarkDown.fnc.php';
 
 			foreach ( (array)$others_textarea_RET as $other_textarea )
 			{
@@ -130,7 +130,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			//check if trying to hack enrollment
 			if (isset($_REQUEST['month_values']['STUDENT_ENROLLMENT']) || count($_REQUEST['values']['STUDENT_ENROLLMENT'])>1)
 			{
-				include('ProgramFunctions/HackingLog.fnc.php');
+				require_once 'ProgramFunctions/HackingLog.fnc.php';
 				HackingLog();
 			}
 		}
@@ -154,7 +154,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			// update enrollment
 			if (count($_REQUEST['values']) && !isset($error))
 			{
-				include('modules/Students/includes/SaveEnrollment.fnc.php');
+				require_once 'modules/Students/includes/SaveEnrollment.fnc.php';
 				SaveEnrollment();
 			}
 
@@ -302,7 +302,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				DBQuery($sql);
 
 				// create enrollment
-				include('modules/Students/includes/SaveEnrollment.fnc.php');
+				require_once 'modules/Students/includes/SaveEnrollment.fnc.php';
 				SaveEnrollment();
 
 				SetUserStudentID($_REQUEST['student_id'] = $student_id);
@@ -326,11 +326,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 	{
 		if ( !mb_strpos( $include, '/' ) )
 		{
-			include( 'modules/Students/includes/' . $include . '.inc.php' );
+			require 'modules/Students/includes/' . $include . '.inc.php';
 		}
 		else // ex.: Food Service
 		{
-			include( 'modules/' . $include . '.inc.php' );
+			require 'modules/' . $include . '.inc.php';
 		}
 	}
 
@@ -458,13 +458,17 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 
 		if ( $can_use_RET['Students/Student.php&category_id='.$category_id])
 		{
-			if ( !mb_strpos($include,'/'))
-				include('modules/Students/includes/'.$include.'.inc.php');
+			if ( !mb_strpos( $include, '/' ) )
+			{
+				require 'modules/Students/includes/' . $include . '.inc.php';
+			}
 			else
 			{
-				include('modules/'.$include.'.inc.php');
+				require 'modules/' . $include . '.inc.php';
+
 				$separator = '<HR>';
-				include('modules/Students/includes/Other_Info.inc.php');
+
+				require_once 'modules/Students/includes/Other_Info.inc.php';
 			}
 		}
 		echo PopTable('footer');
@@ -473,12 +477,18 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 		echo '</FORM>';
 	}
 	elseif ( $can_use_RET['Students/Student.php&category_id='.$category_id])
-		if ( !mb_strpos($include,'/'))
-			include('modules/Students/includes/'.$include.'.inc.php');
+	{
+		if ( !mb_strpos( $include, '/' ) )
+		{
+			require 'modules/Students/includes/' . $include . '.inc.php';
+		}
 		else
 		{
-			include('modules/'.$include.'.inc.php');
+			require 'modules/' . $include . '.inc.php';
+
 			$separator = '<HR>';
-			include('modules/Students/includes/Other_Info.inc.php');
+
+			require 'modules/Students/includes/Other_Info.inc.php';
 		}
+	}
 }

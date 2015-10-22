@@ -86,7 +86,7 @@ foreach ( (array)$menus_RET as $menu)
 	$types += array($menu['TITLE'] => array('DESCRIPTION' => $menu['TITLE'],'COUNT' => 0,'AMOUNT' => 0,'ITEMS' => $items));
 
 
-include('modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/ActivityReport.php');
+require_once 'modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/ActivityReport.php';
 //echo '<pre>'; var_dump($RET); echo '</pre>';
 
 //echo '<pre>'; var_dump($types); echo '</pre>';

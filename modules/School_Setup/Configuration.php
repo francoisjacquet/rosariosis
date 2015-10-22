@@ -14,15 +14,15 @@ if (AllowEdit())
 	DrawHeader($configuration_link.' | '.$modules_link.' | '.$plugins_link);
 
 if (isset($_REQUEST['tab']) && $_REQUEST['tab']=='modules')
-	include('modules/School_Setup/includes/Modules.inc.php');
+	require_once 'modules/School_Setup/includes/Modules.inc.php';
 
 elseif (isset($_REQUEST['tab']) && $_REQUEST['tab']=='plugins')
-	include('modules/School_Setup/includes/Plugins.inc.php');
+	require_once 'modules/School_Setup/includes/Plugins.inc.php';
 
 else
 {
 
-	include('ProgramFunctions/FileUpload.fnc.php');
+	require_once 'ProgramFunctions/FileUpload.fnc.php';
 
 	if ( $_REQUEST['modfunc']=='update')
 	{

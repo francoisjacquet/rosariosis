@@ -125,7 +125,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 
 		$_ROSARIO['_makeLetterGrade']['courses'][$course_period_id] = DBGet(DBQuery("SELECT DOES_BREAKOFF,GRADE_SCALE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$course_period_id."'"));
 
-		include( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
+		require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 		if (GetMP($_REQUEST['mp'],'MP')=='QTR' || GetMP($_REQUEST['mp'],'MP')=='PRO')
 		{
@@ -238,7 +238,7 @@ if ( $_REQUEST['modfunc']=='grades')
 {
 	if ( $_REQUEST['prev_mp'])
 	{
-		include( 'ProgramFunctions/_makePercentGrade.fnc.php' );
+		require_once 'ProgramFunctions/_makePercentGrade.fnc.php';
 
 		$import_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."' AND g.MARKING_PERIOD_ID='".$_REQUEST['prev_mp']."'"),array(),array('STUDENT_ID'));
 
@@ -309,8 +309,8 @@ if ( $_REQUEST['modfunc']=='clearall')
 
 if ( $_REQUEST['values'] && $_POST['values'])
 {
-	include( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
-	include( 'ProgramFunctions/_makePercentGrade.fnc.php' );
+	require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
+	require_once 'ProgramFunctions/_makePercentGrade.fnc.php';
 	$completed = true;
 	
 	//FJ add precision to year weighted GPA if not year course period

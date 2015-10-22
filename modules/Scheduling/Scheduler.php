@@ -1,6 +1,6 @@
 <?php
 
-include('modules/Scheduling/includes/calcSeats0.fnc.php');
+require_once 'modules/Scheduling/includes/calcSeats0.fnc.php';
 
 if ( $_REQUEST['modname']=='Scheduling/Scheduler.php' && !$_REQUEST['run'])
 {
@@ -281,7 +281,7 @@ if ( $ok )
 
 	//$_REQUEST['modname'] = 'Scheduling/UnfilledRequests.php';
 	$_REQUEST['search_modfunc']='list';
-	include('modules/Scheduling/UnfilledRequests.php');
+	require_once 'modules/Scheduling/UnfilledRequests.php';
 }
 
 

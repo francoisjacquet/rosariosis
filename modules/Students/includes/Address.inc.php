@@ -809,7 +809,7 @@ if (empty($_REQUEST['modfunc']))
 						{
 							echo '<TR><TD>';
 							echo '<FIELDSET><LEGEND>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</LEGEND>';
-							include('modules/Students/includes/Other_Fields.inc.php');
+							require_once 'modules/Students/includes/Other_Fields.inc.php';
 							echo '</FIELDSET>';
 							echo '</TD></TR>';
 						}
@@ -850,7 +850,7 @@ if (empty($_REQUEST['modfunc']))
 					{
 						echo '<TR><TD>';
 						echo '<FIELDSET><LEGEND>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</LEGEND>';
-						include('modules/Students/includes/Other_Fields.inc.php');
+						require_once 'modules/Students/includes/Other_Fields.inc.php';
 						echo '</FIELDSET>';
 						echo '</TD></TR>';
 					}
@@ -866,7 +866,7 @@ if (empty($_REQUEST['modfunc']))
 	echo '</TABLE>';
 	$separator = '<HR>';
 
-	include('modules/Students/includes/Other_Info.inc.php');
+	require_once 'modules/Students/includes/Other_Info.inc.php';
 }
 
 function _makePeopleInput($value,$column,$title='')

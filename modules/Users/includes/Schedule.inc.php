@@ -1,7 +1,7 @@
 <?php
 
 $_REQUEST['category_id'] = '2';
-include('modules/Users/includes/Other_Info.inc.php');
+require_once 'modules/Users/includes/Other_Info.inc.php';
 
 if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 {

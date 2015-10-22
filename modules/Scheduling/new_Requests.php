@@ -34,7 +34,7 @@ if ( $_REQUEST['modfunc']=='verify')
 	
 	$_SCHEDULER['student_id'] = UserStudentID();
 	$_SCHEDULER['dont_run'] = true;
-	include('modules/Scheduling/Scheduler.php');
+	require_once 'modules/Scheduling/Scheduler.php';
 	$_REQUEST['modfunc'] = 'choose';
 }
 

@@ -1,5 +1,5 @@
 <?php
-include_once('ProgramFunctions/StudentsUsersInfo.fnc.php');
+require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
 $functions = array('START_DATE' => '_makeStartInput','END_DATE' => '_makeEndInput','SCHOOL_ID' => '_makeSchoolInput');
 unset($THIS_RET);

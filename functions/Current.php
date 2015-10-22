@@ -155,7 +155,7 @@ function SetUserStaffID( $staff_id )
 	
 	if ( $isHack )
 	{
-		include( 'ProgramFunctions/HackingLog.fnc.php' );
+		require_once 'ProgramFunctions/HackingLog.fnc.php';
 
 		HackingLog();
 	}
@@ -258,7 +258,7 @@ function SetUserStudentID( $student_id )
 	
 	if ( $isHack )
 	{
-		include( 'ProgramFunctions/HackingLog.fnc.php' );
+		require_once 'ProgramFunctions/HackingLog.fnc.php';
 
 		HackingLog();
 	}

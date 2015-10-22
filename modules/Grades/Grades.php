@@ -6,7 +6,7 @@
 
 DrawHeader(_('Gradebook').' - '.ProgramTitle());
 
-include( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
+require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
 if ( !isset($_ROSARIO['allow_edit']))

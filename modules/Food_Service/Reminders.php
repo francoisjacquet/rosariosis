@@ -13,7 +13,7 @@ if ( $_REQUEST['modfunc']!='save')
 	DrawHeader(($_REQUEST['type']=='staff' ? _('User') : _('Student')).' &minus; '.ProgramTitle());
 	User('PROFILE')=='student'?'':DrawHeader($header);
 }
-include('modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/Reminders.php');
+require_once 'modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/Reminders.php';
 
 function _makeChooseCheckbox($value,$title)
 {

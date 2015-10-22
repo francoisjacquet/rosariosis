@@ -34,8 +34,8 @@ else
 				DrawHeader($staff['GRADE_ID']);
 				DrawHeader(SchoolInfo('TITLE'));
 				DrawHeader(ProperDate(DBDate()));
-				include('modules/Accounting/Salaries.php');
-				include('modules/Accounting/StaffPayments.php');
+				require_once 'modules/Accounting/Salaries.php';
+				require_once 'modules/Accounting/StaffPayments.php';
 				echo '<div style="page-break-after: always;"></div>';
 		}
 		$_SESSION['staff_id'] = $SESSION_staff_id_save;

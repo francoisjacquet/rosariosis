@@ -126,11 +126,11 @@ if (UserStaffID())
 	//FJ Bugfix $_REQUEST['include'] 2 times in links
 	if (mb_substr($REQUEST_include, -4, 4)!='.php' || mb_strpos($REQUEST_include, '..')!==false || !is_file('modules/'.$REQUEST_include))
 	{
-		include('ProgramFunctions/HackingLog.fnc.php');
+		require_once 'ProgramFunctions/HackingLog.fnc.php';
 		HackingLog();
 	}
 	else
-		include('modules/'.$REQUEST_include);
+		require_once 'modules/'.$REQUEST_include;
 
 	echo '</div>';
 }

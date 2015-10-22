@@ -97,7 +97,7 @@ if ( isset( $_POST['values'] )
 		// FJ email Discipline Referral feature
 		if ( isset( $_REQUEST['emails'] ) )
 		{
-			include_once( 'modules/Discipline/includes/EmailReferral.fnc.php' );
+			require_once 'modules/Discipline/includes/EmailReferral.fnc.php';
 
 			if ( EmailReferral( $referral_id, $_REQUEST['emails'] ) )
 			{

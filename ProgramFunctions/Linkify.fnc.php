@@ -1,7 +1,7 @@
 <?php
 
 /* usage example:
- * include_once('ProgramFunctions/Linkify.fnc.php');
+ * require_once 'ProgramFunctions/Linkify.fnc.php';
  * $text_linkified = Linkify($text);
  *
  * transforms the URLs present a in text to anchors tags

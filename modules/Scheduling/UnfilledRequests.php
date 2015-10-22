@@ -1,9 +1,9 @@
 <?php
 
-include_once('modules/Scheduling/includes/calcSeats0.fnc.php');
+require_once 'modules/Scheduling/includes/calcSeats0.fnc.php';
 
 //include calcSeats, _makeRequestTeacher & _makeRequestPeriod functions
-include_once('modules/Scheduling/includes/unfilledRequests.inc.php');
+require_once 'modules/Scheduling/includes/unfilledRequests.inc.php';
 
 if ( $_REQUEST['modname']=='Scheduling/UnfilledRequests.php')
 {

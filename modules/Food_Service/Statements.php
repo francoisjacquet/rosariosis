@@ -108,7 +108,7 @@ function options_locale($option) {
 	}
 	return $option;
 }
-include('modules/Food_Service/'.($_REQUEST['type']=='staff'?'Users':'Students').'/Statements.php');
+require_once 'modules/Food_Service/'.($_REQUEST['type']=='staff'?'Users':'Students').'/Statements.php';
 
 
 function red($value)

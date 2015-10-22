@@ -1,6 +1,6 @@
 <?php
 
-include_once('modules/Student_Billing/functions.inc.php');
+require_once 'modules/Student_Billing/functions.inc.php';
 
 if ( !$_REQUEST['print_statements'])
 {
