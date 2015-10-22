@@ -34,7 +34,7 @@ $menu['Food_Service']['teacher'] = array(
 	'default' => 'Food_Service/Accounts.php',
 	'Food_Service/Accounts.php' => _( 'Accounts' ),
 	'Food_Service/Statements.php' => _( 'Statements' ),
-	1 => _( 'Setup' ),
+	1 => _( 'Menu' ),
 	'Food_Service/DailyMenus.php' => _( 'Daily Menus' ),
 	'Food_Service/MenuItems.php' => _( 'Meal Items' )
 );
@@ -44,7 +44,7 @@ $menu['Food_Service']['parent'] = array(
 	'default' => 'Food_Service/Accounts.php',
 	'Food_Service/Accounts.php' => _( 'Accounts' ),
 	'Food_Service/Statements.php' => _( 'Statements' ),
-	1 => _( 'Setup' ),
+	1 => _( 'Menu' ),
 	'Food_Service/DailyMenus.php' => _( 'Daily Menus' ),
 	'Food_Service/MenuItems.php' => _( 'Meal Items' )
 );
