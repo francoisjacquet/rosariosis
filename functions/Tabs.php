@@ -58,9 +58,7 @@ function DrawTab( $title, $link = '', $selected = false )
 	}
 
 	// .title CSS class used in warehouse.js to determine document.title
-	// link if not printing PDF
-	if ( $link
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	if ( $link )
 	{
 		$block_table = '<h3' . ( $selected ? ' class="title h3selected"' : '' ) . '>
 			<a href="' . $link . '">'
