@@ -227,10 +227,10 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 				// convert MarkDown to HTML
 				$display_val = '<div class="markdown-to-html">' . $value . '</div>';
 			else
-				$display_val = nl2br( $value );
+				$display_val = nl2br( $value ) . '<br />';
 		}
 		else
-			$display_val = '-';
+			$display_val = '-' . '<br />';
 
 		return $display_val . $title;
 	}
@@ -488,9 +488,17 @@ function NoInput( $value, $title = '' )
 		$title = '<br /><label>' . $title . '</label>';
 	}
 
-	return '<span class="no-input-value">' .
-		( !empty( $value ) || $value == '0' ? $value : '-' ) .
-		'</span>' . $title;
+	$value = ( !empty( $value ) || $value == '0' ? $value : '-' );
+
+	if ( AllowEdit()
+		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		return '<span class="no-input-value">' .
+			$value .
+			'</span>' . $title;
+	}
+	else
+		return $value . $title;
 }
 
 function CheckBoxOnclick($name)
