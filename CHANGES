@@ -4,6 +4,7 @@ Changes in 2.8.24
 -----------------
 - Fix SQL error when saving Parent Course Period in Courses.php
 - Improve French translations
+- Fix 1 option sub-menu height when mouse over Module in stylesheet.css
 
 Changes in 2.8.23
 -----------------
