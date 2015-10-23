@@ -6,7 +6,7 @@
  *
  * @example SaveData( array( 'STUDENT_MEDICAL' => "ID='__ID__'", 'fields' => array( 'STUDENT_MEDICAL' => 'ID,STUDENT_ID,' ), 'values' => array( 'STUDENT_MEDICAL' => db_seq_nextval( 'STUDENT_MEDICAL_SEQ' ) . ",'" . UserStudentID() . "'," ) ) );
  * 
- * TODO use SaveData in EVERY module
+ * @todo use SaveData in EVERY module
  *
  * @param  array $iu_extra    WHERE part of UPDATE & Extra fields for INSERT. Associative array( 'table_name' => "ID='__ID__'", 'fields' => array( 'table_name' => "FIELD1,FIELD2," ), 'values' => array( 'table_name' => "'value1','value2'," ) )
  * @param  array $field_names Proper, translated field names used for errors. Associative array( 'table_name' => $columns ) (optional)

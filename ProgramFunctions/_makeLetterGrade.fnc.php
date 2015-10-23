@@ -14,7 +14,7 @@
  * Grades/ProgressReports.php
  * Grades/StudentGrades.php
  *
- * TODO: remove global $programconfig!
+ * @todo remove global $programconfig!
  *
  * @global array   $_ROSARIO         Sets $_ROSARIO['_makeLetterGrade']
  *

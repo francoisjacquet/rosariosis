@@ -23,7 +23,7 @@
  * array('COURSE_ID','COURSE_PERIOD_ID') then you will be returned an array formatted like this:
  * $array[10101][402345][1] = array('COURSE_ID' => '10101','COURSE_PERIOD_ID' => '402345')
  *
- * TODO: remove eval(), anyone?
+ * @todo remove eval(), anyone?
  *
  * @example $column_RET = DBGet( DBQuery( "SELECT column FROM table;" ) );
  *

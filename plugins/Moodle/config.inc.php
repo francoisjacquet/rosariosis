@@ -119,7 +119,7 @@ else
  * Forms a valid URL
  * And that Moodle server responds to webservice test request
  *
- * TODO test
+ * @todo test
  *
  * @return bool true if URL or Token not set or if URL and Token are OK, else false
  */
