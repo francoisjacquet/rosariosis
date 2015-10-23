@@ -51,7 +51,7 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 	To choose a period to work on, select the period from the pull-down menu on the left frame. The program will automatically refresh with the new period in the workspace. You can also change the school year and current marking period in a similar fashion.
 </p>
 <p>
-	As you use RosarioSIS, you will notice other items appear in your side menu. When you select a student to work on, the student's name will appear under the marking period pull-down menu preceded by two dots. As you move between programs, you will continue to work on this student. If you want to change the working student, click on the two dots by the student's name. You can also quickly access the student's General Information screen by clicking on the student's name.
+	As you use RosarioSIS, you will notice other items appear in your side menu. When you select a student to work on, the student's name will appear under the marking period pull-down menu preceded by a cross. As you move between programs, you will continue to work on this student. If you want to change the working student, click on the cross by the student's name. You can also quickly access the student's General Information screen by clicking on the student's name.
 </p>
 <p>
 	Also, when you click on any of the program icons in the top menu, you will see a list of programs available to you in that program category. Clicking on any program title will launch the program in the main frame, and it will update the help frame to display help for that program.
