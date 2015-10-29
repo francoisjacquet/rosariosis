@@ -6,6 +6,7 @@ Changes in 2.8.24
 - Improve French translations
 - Fix 1 option sub-menu height when mouse over Module in stylesheet.css
 - Correct English default Help text in Help_en.php
+- More explicit Assignment Type deletion Prompt message in Assignments.php
 
 Changes in 2.8.23
 -----------------

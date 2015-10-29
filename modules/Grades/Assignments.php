@@ -193,7 +193,7 @@ if($_REQUEST['modfunc']=='delete')
 	}
 	else
 	{
-		$table = _('Assignment Type');
+		$table = _('Assignment Type and its associated Assignments');
 		$sql = "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'";
 	}
 
