@@ -424,7 +424,7 @@ if (UserStudentID())
 else
 	ListOutput($stu_RET,$LO_columns,'Student','Students',$link,array(),$LO_options);
 
-echo $_REQUEST['assignment_id']?'<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>':'';
+echo $_REQUEST['assignment_id']?'<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>':'';
 echo '</FORM>';
 
 function _makeExtraAssnCols($assignment_id,$column)
