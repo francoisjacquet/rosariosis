@@ -188,20 +188,62 @@ if ( isset( $_POST['tables'] )
 	unset($_SESSION['_REQUEST_vars']['tables']);
 }
 
-if ( $_REQUEST['modfunc']=='delete')
+// DELETE
+if ( isset( $_REQUEST['modfunc'] )
+	&& $_REQUEST['modfunc'] === 'delete' )
 {
-	if ( $_REQUEST['assignment_id'])
+	// Assignment
+	if ( $_REQUEST['assignment_id'] )
 	{
-		$table = _('Assignment');
-		$sql = "DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'";
+		$prompt_title = _( 'Assignment' );
+
+		$sql = "DELETE
+			FROM GRADEBOOK_ASSIGNMENTS
+			WHERE ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'";
 	}
+	// Assignment Type
 	else
 	{
-		$table = _('Assignment Type');
-		$sql = "DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'";
+		$cp_qtr_mps_titles = '';
+
+		// Get MPs list associated to Course Period
+		$cp_mp_id = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+			FROM COURSE_PERIODS
+			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ) );
+
+		$cp_mp_id = $cp_mp_id[1]['MARKING_PERIOD_ID'];
+
+		$cp_mp = GetMP( $cp_mp_id, 'MP' );
+
+		if ( $cp_mp !== 'QTR'
+			&& $cp_mp !== 'PRO' )
+		{
+			$cp_qtr_mps_list = GetChildrenMP( $cp_mp, $cp_mp_id );
+
+			$cp_qtr_mps_array = explode( ",", $cp_qtr_mps_list );
+
+			foreach( (array)$cp_qtr_mps_array as $cp_qtr_mp )
+			{
+				if ( GetMP( trim( $cp_qtr_mp, "'" ), 'MP' ) === 'QTR' )
+				{
+					$cp_qtr_mps_titles .= GetMP( trim( $cp_qtr_mp, "'" ), 'TITLE' ) . ', ';
+				}
+			}
+
+			$cp_qtr_mps_titles = ' (' . mb_substr( $cp_qtr_mps_titles, 0, -2 ) . ')';
+		}
+
+		// FJ More explicit Assignment Type deletion Prompt message
+		$prompt_title = _( 'Assignment Type as well as its Assignments & associated Grades' ) .
+			$cp_qtr_mps_titles;
+
+		$sql = "DELETE
+			FROM GRADEBOOK_ASSIGNMENT_TYPES
+			WHERE ASSIGNMENT_TYPE_ID='" . $_REQUEST['assignment_type_id'] . "'";
 	}
 
-	if (DeletePrompt($table))
+	// Confirm Delete
+	if ( DeletePrompt( $prompt_title ) )
 	{
 		DBQuery($sql);
 		if ( !$_REQUEST['assignment_id'])
