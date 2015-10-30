@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 09:02-0500\n"
-"PO-Revision-Date: 2015-10-20 11:31-0500\n"
+"PO-Revision-Date: 2015-10-30 18:14-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -2305,7 +2305,7 @@ msgstr "Titre"
 #: modules/Students/EnrollmentCodes.php:69 modules/misc/Portal.php:175
 #: modules/misc/Portal.php:340
 msgid "Short Name"
-msgstr "Abbréviation"
+msgstr "Nom Abrégé"
 
 #: modules/Attendance/AttendanceCodes.php:115
 #: modules/Attendance/AttendanceCodes.php:136
@@ -5775,16 +5775,16 @@ msgstr "Il n'y a pas de calendriers définis."
 #: modules/misc/Portal.php:514
 msgid "Event"
 msgid_plural "Events"
-msgstr[0] "Evénement"
-msgstr[1] "Evénements"
+msgstr[0] "Évènement"
+msgstr[1] "Évènements"
 
 #: modules/School_Setup/Calendar.php:588 modules/School_Setup/Calendar.php:1176
 msgid "New Event"
-msgstr "Nouvel Evénement"
+msgstr "Nouvel Évènement"
 
 #: modules/School_Setup/Calendar.php:627
 msgid "Event Repeat"
-msgstr "Répéter l'Evènement"
+msgstr "Répéter l'Évènement"
 
 #: modules/School_Setup/Calendar.php:648 modules/misc/Portal.php:281
 #: modules/misc/Portal.php:430 modules/misc/Portal.php:530
@@ -5805,7 +5805,7 @@ msgstr "Effacer ce calendrier"
 
 #: modules/School_Setup/Calendar.php:950
 msgid "List Events"
-msgstr "Lister Evénements"
+msgstr "Lister Évènements"
 
 #: modules/School_Setup/Calendar.php:962
 msgid "This school has more than one default calendar!"
@@ -7506,8 +7506,8 @@ msgstr "Date de Parution"
 #: modules/misc/Portal.php:414 modules/misc/Portal.php:514
 msgid "Day With Upcoming Events"
 msgid_plural "Days With Upcoming Events"
-msgstr[0] "Jour avec des Evénements"
-msgstr[1] "Jours avec des Evénements"
+msgstr[0] "Jour avec des Évènements"
+msgstr[1] "Jours avec des Évènements"
 
 #: modules/misc/Portal.php:173
 msgid "Teachers have missing attendance data"
@@ -7644,7 +7644,7 @@ msgstr "Créer la Classe dans Moodle"
 
 #: plugins/Moodle/functions.php:439
 msgid "Publish Event in Moodle?"
-msgstr "Publier l'Evènement dans Moodle?"
+msgstr "Publier l'Évènement dans Moodle?"
 
 #: plugins/Moodle/functions.php:498
 msgid "Publish Note in Moodle?"
