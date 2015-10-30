@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-29 18:48-0500\n"
-"PO-Revision-Date: 2015-10-30 17:08-0500\n"
+"PO-Revision-Date: 2015-10-30 18:16-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -5776,16 +5776,16 @@ msgstr "Il n'y a pas de calendriers définis."
 #: modules/misc/Portal.php:413 modules/misc/Portal.php:513
 msgid "Event"
 msgid_plural "Events"
-msgstr[0] "Evénement"
-msgstr[1] "Evénements"
+msgstr[0] "Évènement"
+msgstr[1] "Évènements"
 
 #: modules/School_Setup/Calendar.php:300 modules/School_Setup/Calendar.php:622
 msgid "New Event"
-msgstr "Nouvel Evénement"
+msgstr "Nouvel Évènement"
 
 #: modules/School_Setup/Calendar.php:331
 msgid "Event Repeat"
-msgstr "Répéter l'Evènement"
+msgstr "Répéter l'Évènement"
 
 #: modules/School_Setup/Calendar.php:348 modules/misc/Portal.php:280
 #: modules/misc/Portal.php:429 modules/misc/Portal.php:529
@@ -5806,7 +5806,7 @@ msgstr "Effacer ce calendrier"
 
 #: modules/School_Setup/Calendar.php:502
 msgid "List Events"
-msgstr "Lister Evénements"
+msgstr "Lister Évènements"
 
 #: modules/School_Setup/Calendar.php:508
 msgid "This school has more than one default calendar!"
@@ -7510,7 +7510,7 @@ msgstr "Date de Parution"
 msgid "Day With Upcoming Events"
 msgid_plural "Days With Upcoming Events"
 msgstr[0] "Jour avec des Evénements"
-msgstr[1] "Jours avec des Evénements"
+msgstr[1] "Jours avec des Évènements"
 
 #: modules/misc/Portal.php:172
 msgid "Teachers have missing attendance data"
@@ -7643,7 +7643,7 @@ msgstr "Créer la Classe dans Moodle"
 
 #: plugins/Moodle/functions.php:439
 msgid "Publish Event in Moodle?"
-msgstr "Publier l'Evènement dans Moodle?"
+msgstr "Publier l'Évènement dans Moodle?"
 
 #: plugins/Moodle/functions.php:498
 msgid "Publish Note in Moodle?"
