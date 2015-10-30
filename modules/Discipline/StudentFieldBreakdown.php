@@ -58,7 +58,7 @@ $chartline = false;
 if ( isset( $_REQUEST['modfunc'] )
 	&& $_REQUEST['modfunc'] === 'search' )
 {
-	echo '<BR />';
+	echo '<br />';
 
 	$extra['new'] = true;
 
@@ -245,7 +245,7 @@ if ( isset( $_REQUEST['field_id'] )
 
 if ( empty( $_REQUEST['modfunc'] ) )
 {
-	echo '<FORM action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
+	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 	
 	$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID
 		FROM CUSTOM_FIELDS
@@ -255,13 +255,13 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE
 		FROM STUDENT_FIELD_CATEGORIES" ), array(), array( 'ID' ) );
 
-	$select = '<SELECT name=field_id onchange="ajaxPostForm(this.form,true);">';
+	$select = '<select name=field_id onchange="ajaxPostForm(this.form,true);">';
 
-	$select .= '<OPTION value="">' . _( 'Please choose a student field' ) . '</OPTION>';
+	$select .= '<option value="">' . _( 'Please choose a student field' ) . '</option>';
 	
 	foreach ( (array)$fields_RET as $field_id => $fields )
 	{
-		$select .= '<OPTGROUP label="' . ParseMLField( $categories_RET[$field_id][1]['TITLE'] ) . '">';
+		$select .= '<optgroup label="' . ParseMLField( $categories_RET[$field_id][1]['TITLE'] ) . '">';
 
 		foreach ( (array)$fields as $field )
 		{
@@ -273,24 +273,24 @@ if ( empty( $_REQUEST['modfunc'] ) )
 				$field_title = $field['TITLE'];
 			}
 
-			$select .= '<OPTION value="' . $field['ID'] . '"' . $selected . '>' . ParseMLField( $field['TITLE'] ) . '</OPTION>';
+			$select .= '<option value="' . $field['ID'] . '"' . $selected . '>' . ParseMLField( $field['TITLE'] ) . '</option>';
 		}
 
-		$select .= '</OPTGROUP>';
+		$select .= '</optgroup>';
 	}
 
-	$select .= '</SELECT>';
+	$select .= '</select>';
 
-	$advanced_link = ' <A HREF="' . PreparePHP_SELF( $_REQUEST, array( 'search_modfunc' ), array(
+	$advanced_link = ' <a href="' . PreparePHP_SELF( $_REQUEST, array( 'search_modfunc' ), array(
 		'modfunc' => 'search',
 		'include_top' => 'false',
-	) ) . '">' . _( 'Advanced' ) . '</A>';
+	) ) . '">' . _( 'Advanced' ) . '</a>';
 
 
 	DrawHeader( $select );
 
 	DrawHeader(
-		'<B>' . _( 'Report Timeframe' ) . ': </B>' .
+		'<b>' . _( 'Report Timeframe' ) . ': </b>' .
 			PrepareDate( $start_date, '_start' ) . ' - ' .
 			PrepareDate( $end_date, '_end' ) .
 			$advanced_link,
@@ -303,7 +303,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		DrawHeader( $_ROSARIO['SearchTerms'] );
 	}
 
-	echo '<BR />';
+	echo '<br />';
 
 	if ( isset( $_REQUEST['field_id'] )
 		&& !empty( $_REQUEST['field_id'] ) )
@@ -370,7 +370,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 			if ( isset( $_ROSARIO['SearchTerms'] )
 				&& !empty( $_ROSARIO['SearchTerms'] ) )
-				$SearchTerms = ' - ' . strip_tags( str_replace( '<BR />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ));
+				$SearchTerms = ' - ' . strip_tags( str_replace( '<br />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ));
 
 			$chartTitle = sprintf( _( '%s Breakdown' ), ParseMLField( $field_title ) ) . $SearchTerms;
 
@@ -415,5 +415,5 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		PopTable( 'footer' );
 	}
 
-	echo '</FORM>';
+	echo '</form>';
 }

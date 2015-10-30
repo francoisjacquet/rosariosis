@@ -10,13 +10,13 @@ if ( $_REQUEST['modname']=='Scheduling/Scheduler.php' && !$_REQUEST['run'])
 else
 	$function = '_returnTrue';
 
-$confirm_HTML = '<TABLE class="width-100p"><TR><TD>
-	<label><INPUT type="checkbox" name="test_mode" value="Y">&nbsp;' . _( 'Test Mode' ) . '</label>
-</TD></TR>
-<TR><TD>
-	<label><INPUT type="checkbox" name="delete" value="Y">&nbsp;' . _( 'Delete Current Schedules' ) . '</label>
-</TD></TR>
-</TABLE>';
+$confirm_HTML = '<table class="width-100p"><tr><td>
+	<label><input type="checkbox" name="test_mode" value="Y">&nbsp;' . _( 'Test Mode' ) . '</label>
+</td></tr>
+<tr><td>
+	<label><input type="checkbox" name="delete" value="Y">&nbsp;' . _( 'Delete Current Schedules' ) . '</label>
+</td></tr>
+</table>';
 
 $ok = $function(
 	_( 'Confirm Scheduler Run' ),
@@ -26,14 +26,14 @@ $ok = $function(
 
 if ( $ok )
 {
-	echo '<BR />';
+	echo '<br />';
 	PopTable('header',_('Scheduler Progress'));
-	echo '<TABLE class="cellspacing-0 center" style="border: solid 1px; height:19px"><TR>';
+	echo '<table class="cellspacing-0 center" style="border: solid 1px; height:19px"><tr>';
 
 	for ( $i=1;$i<=100;$i++)
-		echo '<TD id="cell'.$i.'" style="width:3px;"></TD>';
+		echo '<td id="cell'.$i.'" style="width:3px;"></td>';
 
-	echo '</TR></TABLE><BR /><DIV id="percentDIV"><span class="loading"></span> '._('Processing Requests ...').' </DIV>';
+	echo '</tr></table><br /><div id="percentDIV"><span class="loading"></span> '._('Processing Requests ...').' </div>';
 	PopTable('footer');
 	ob_flush();
 	flush();
@@ -253,7 +253,7 @@ if ( $ok )
 		{
 			$course_period = $course_period[1];
 			//if ( $course_period['AVAILABLE_SEATS']<='0')
-			//	echo $course_period['COURSE_ID'].': '.$course_period['COURSE_PERIOD_ID'].'<BR />';
+			//	echo $course_period['COURSE_ID'].': '.$course_period['COURSE_PERIOD_ID'].'<br />';
 			db_trans_query($connection,"UPDATE COURSE_PERIODS SET FILLED_SEATS=TOTAL_SEATS-'".$course_period['AVAILABLE_SEATS']."' WHERE PARENT_ID='".$parent_id."'");
 		}
 		db_trans_commit($connection);
@@ -274,10 +274,10 @@ if ( $ok )
 	if (isset($error))
 		$error_msg = ErrorMessage($error);
 
-	echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode($error_msg. button('check', '', '', 'bigger') .' <B>'._('Done.').'</B>').';</script>';
+	echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode($error_msg. button('check', '', '', 'bigger') .' <b>'._('Done.').'</b>').';</script>';
 	ob_end_flush();
 
-	echo '<BR /><BR />';
+	echo '<br /><br />';
 
 	//$_REQUEST['modname'] = 'Scheduling/UnfilledRequests.php';
 	$_REQUEST['search_modfunc']='list';

@@ -263,9 +263,9 @@ if (empty($_REQUEST['modfunc']))
 		$subject = 'Assignmemt Types';
 	}
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader('<label>'.CheckBoxOnclick('allow_edit').' '._('Edit').'</label>',SubmitButton(_('Save')));
-	echo '<BR />';
+	echo '<br />';
 
 	$LO_options = array('save'=>false,'search'=>false,'header_color' => $types_RET[$_REQUEST['tab_id']][1]['COLOR'],
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id'].'&allow_edit='.$_REQUEST['allow_edit']));
@@ -275,7 +275,7 @@ if (empty($_REQUEST['modfunc']))
         ListOutput($LO_ret,$LO_columns,'Assignment Type','Assignment Types',$link,array(),$LO_options);
 
 	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '</form>';
 }
 
 function _makeAssnInput($value,$name)
@@ -361,7 +361,7 @@ function _makeColorInput($value,$name)
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		foreach ( (array)$colors as $color)
 		{
-			$color_select[$color] = array('<TABLE class="cellspacing-0"><TR><TD style="width:100%; background-color:'.$color.'">&nbsp;</TD></TR></TABLE>','<TABLE class="cellspacing-0"><TR><TD style="background-color:'.$color.'; width:30px">&nbsp;</TD></TR></TABLE>');
+			$color_select[$color] = array('<table class="cellspacing-0"><tr><td style="width:100%; background-color:'.$color.'">&nbsp;</td></tr></table>','<table class="cellspacing-0"><tr><td style="background-color:'.$color.'; width:30px">&nbsp;</td></tr></table>');
 		}
 	}
 	return RadioInput($value,"values[$id][COLOR]",'',$color_select);

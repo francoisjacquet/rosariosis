@@ -19,7 +19,7 @@ function _makeChooseCheckbox($value,$title)
 {
 	global $THIS_RET;
 
-	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'"'.($THIS_RET['WARNING']||$THIS_RET['NEGATIVE']||$THIS_RET['MINIMUM']?' checked />':'');
+	return '<input type="checkbox" name="st_arr[]" value="'.$value.'"'.($THIS_RET['WARNING']||$THIS_RET['NEGATIVE']||$THIS_RET['MINIMUM']?' checked />':'');
 }
 
 function x($value)

@@ -44,7 +44,7 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 		if ( !_validMoodleURLandToken() )
 			$error[] = _( 'The Moodle URL is not valid.' );
 
-		echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=config&plugin=Moodle&save=true" METHOD="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=config&plugin=Moodle&save=true" method="POST">';
 	
 		DrawHeader('',SubmitButton(_('Save')));
 		
@@ -54,18 +54,18 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 		if (!empty($error))
 			echo ErrorMessage($error, 'error');
 
-		echo '<BR />';
+		echo '<br />';
 		PopTable('header',_('Moodle'));
 
-		echo '<FIELDSET><legend>'._('Moodle').'</legend><TABLE>';
+		echo '<fieldset><legend>'._('Moodle').'</legend><table>';
 
 		// URL
-		echo '<TR><TD>' . TextInput(
+		echo '<tr><td>' . TextInput(
 			ProgramConfig( 'moodle', 'MOODLE_URL' ),
 			'values[PROGRAM_CONFIG][MOODLE_URL]',
 			_( 'Moodle URL' ),
 			'size=29 placeholder=http://localhost/moodle'
-		) .	'</TD></TR>';
+		) .	'</td></tr>';
 
 		$token = ProgramConfig( 'moodle', 'MOODLE_TOKEN' );
 
@@ -76,35 +76,35 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 		}
 
 		// Token
-		echo '<TR><TD>' . TextInput(
+		echo '<tr><td>' . TextInput(
 			$token,
 			'values[PROGRAM_CONFIG][MOODLE_TOKEN]',
 			_( 'Moodle Token' ),
 			'maxlength=32 size=29 placeholder=d6c51ea6ffd9857578722831bcb070e1'
-		) . '</TD></TR>';
+		) . '</td></tr>';
 
 		// Parent Role ID
-		echo '<TR><TD>' . TextInput(
+		echo '<tr><td>' . TextInput(
 			ProgramConfig( 'moodle', 'MOODLE_PARENT_ROLE_ID' ),
 			'values[PROGRAM_CONFIG][MOODLE_PARENT_ROLE_ID]',
 			_( 'Moodle Parent Role ID' ),
 			'maxlength=2 size=2 min=0 placeholder=10'
-		) . '</TD></TR>';
+		) . '</td></tr>';
 
 		// Students email Field ID	
-		echo '<TR><TD>' . TextInput(
+		echo '<tr><td>' . TextInput(
 			ProgramConfig( 'moodle', 'ROSARIO_STUDENTS_EMAIL_FIELD_ID' ),
 			'values[PROGRAM_CONFIG][ROSARIO_STUDENTS_EMAIL_FIELD_ID]',
 			sprintf( _( '%s Student email field ID' ), Config( 'NAME' ) ),
 			'maxlength=2 size=2 min=0 placeholder=11'
-		) . '</TD></TR>';
+		) . '</td></tr>';
 	
-		echo '</TABLE></FIELDSET>';
+		echo '</table></fieldset>';
 
 		PopTable('footer');
 
-		echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-		echo '</FORM>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		echo '</form>';
 	}
 }
 else

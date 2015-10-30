@@ -292,7 +292,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$value = ParseMLField($value);
 					if ( $options['save_delimiter']=='comma' && !$options['save_quotes'])
 						$value = str_replace(',',';',$value);
-					$output .= ($options['save_quotes']?'"':'') . str_ireplace('&nbsp;',' ',str_ireplace('<BR />',' ',preg_replace('/<!--.*-->/','',$value))) . ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='comma'?',':"\t");
+					$output .= ($options['save_quotes']?'"':'') . str_ireplace('&nbsp;',' ',str_ireplace('<br />',' ',preg_replace('/<!--.*-->/','',$value))) . ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='comma'?',':"\t");
 				}
 				$output .= "\n";
 			}
@@ -303,9 +303,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$value = $item[$key];
 					if ( $options['save_delimiter']=='comma' && !$options['save_quotes'])
 						$value = str_replace(',',';',$value);
-					$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$value);
-					$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
-					$output .= ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='xml'?'<'.str_replace(' ','',$value).'>':'') . trim(str_replace('  ',' ',preg_replace('/<[^>]+>/',' ',preg_replace("/<div onclick='[^']+'>/",'',preg_replace('/ +/',' ',preg_replace('/&[^;]+;/','',str_replace("\r",'',str_replace("\n",'',str_ireplace('<BR />',' ',str_ireplace('<BR />&middot;',' : ',str_ireplace('&nbsp;',' ',$value))))))))))) . ($options['save_delimiter']=='xml'?'</'.str_replace(' ','',$value).'>'."\n":'') . ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='comma'?',':"\t");
+					$value = preg_replace('!<select.*SELECTED\>([^<]+)<.*</select\>!i','\\1',$value);
+					$value = preg_replace('!<select.*</select\>!i','',$value);
+					$output .= ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='xml'?'<'.str_replace(' ','',$value).'>':'') . trim(str_replace('  ',' ',preg_replace('/<[^>]+>/',' ',preg_replace("/<div onclick='[^']+'>/",'',preg_replace('/ +/',' ',preg_replace('/&[^;]+;/','',str_replace("\r",'',str_replace("\n",'',str_ireplace('<br />',' ',str_ireplace('<br />&middot;',' : ',str_ireplace('&nbsp;',' ',$value))))))))))) . ($options['save_delimiter']=='xml'?'</'.str_replace(' ','',$value).'>'."\n":'') . ($options['save_quotes']?'"':'') . ($options['save_delimiter']=='comma'?',':"\t");
 				}
 				$output .= "\n";
 			}
@@ -326,7 +326,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 
 		if (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
 		{
-			echo '<TABLE class="';
+			echo '<table class="';
 
 			if (isset($_REQUEST['_ROSARIO_PDF']))
 				echo ' width-100p';
@@ -334,7 +334,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 			if ( $options['center'])
 				echo ' center';
 
-			echo '"><TR><TD class="center">';
+			echo '"><tr><td class="center">';
 		}
 
 		if ( $options['count'] || $display_zero)
@@ -380,18 +380,18 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						for ( $i=1;$i<=$ceil;$i++)
 						{
 							if ( $i!=$_REQUEST['LO_page'])
-								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
+								$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
 							else
 								$LO_pages .= $i.', ';
 						}
-						$LO_pages = mb_substr($LO_pages,0,-2) . "<BR />";
+						$LO_pages = mb_substr($LO_pages,0,-2) . "<br />";
 					}
 					else
 					{
 						for ( $i=1;$i<=7;$i++)
 						{
 							if ( $i!=$_REQUEST['LO_page'])
-								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
+								$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
 							else
 								$LO_pages .= $i.', ';
 						}
@@ -400,15 +400,15 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						for ( $i=$ceil-2;$i<=$ceil;$i++)
 						{
 							if ( $i!=$_REQUEST['LO_page'])
-								$LO_pages .= '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</A>, ';
+								$LO_pages .= '<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page='.$i.'">'.$i.'</a>, ';
 							else
 								$LO_pages .= $i.', ';
 						}
-						$LO_pages = mb_substr($LO_pages,0,-2) . ' &nbsp;<A HREF="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page=' . ($_REQUEST['LO_page'] +1) . '">'._('Next LO_page').'</A><BR />';
+						$LO_pages = mb_substr($LO_pages,0,-2) . ' &nbsp;<a href="'.$PHP_tmp_SELF.'&amp;LO_sort='.$LO_sort.'&amp;LO_direction='.$_REQUEST['LO_direction'].'&amp;LO_search='.urlencode($_REQUEST['LO_search']).'&amp;LO_page=' . ($_REQUEST['LO_page'] +1) . '">'._('Next LO_page').'</a><br />';
 					}
 					echo sprintf(_('Go to LO_page %s'),$LO_pages);
-					echo '</TD></TR></TABLE>';
-					echo '<BR />';
+					echo '</td></tr></table>';
+					echo '<br />';
 				}*/
 			}
 			else
@@ -426,27 +426,27 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 //FJ bug PDF
 /*					$html = explode('<div style="page-break-after: always;"></div>',mb_strtolower(ob_get_contents()));
 					$html = $html[count($html)-1];
-					echo '</TD></TR></TABLE>';
-					$br = (mb_substr_count($html,'<BR />')) + (mb_substr_count($html,'</p>')) + (mb_substr_count($html,'</tr>')) + (mb_substr_count($html,'</h1>')) + (mb_substr_count($html,'</h2>')) + (mb_substr_count($html,'</h3>')) + (mb_substr_count($html,'</h4>')) + (mb_substr_count($html,'</h5>'));
+					echo '</td></tr></table>';
+					$br = (mb_substr_count($html,'<br />')) + (mb_substr_count($html,'</p>')) + (mb_substr_count($html,'</tr>')) + (mb_substr_count($html,'</h1>')) + (mb_substr_count($html,'</h2>')) + (mb_substr_count($html,'</h3>')) + (mb_substr_count($html,'</h4>')) + (mb_substr_count($html,'</h5>'));
 					if ( $br%2!=0)
 					{
 						$br++;
-						echo '<BR />';
+						echo '<br />';
 					}*/
 				}
 				else
-					echo '</TD></TR></TABLE>';
+					echo '</td></tr></table>';
 			}
 			// END MISC ---
 
 			// SEARCH BOX & MORE HEADERS
 			if ( !empty($options['header']))
-				echo '<TABLE class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
+				echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><tr><td class="center">'.$options['header'].'</td></tr></table><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
 				
 			if ( !empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
 			{
-				echo '<TABLE class="width-100p">';
-				echo '<TR class="st"><TD>';
+				echo '<table class="width-100p">';
+				echo '<tr class="st"><td>';
 				if (($singular!='.') && ($plural!='.') && $options['count'])
 				{
 					if ( $display_count>0)
@@ -463,34 +463,34 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						echo '<b>'.sprintf(ngettext('%d %s was found.','%d %s were found.', $display_count), $display_count, $plural_message).'</b>&nbsp;&nbsp;';
 					}
 					if ( !empty($where_message))
-						echo '<BR />'.$where_message;
+						echo '<br />'.$where_message;
 				}
 
 				if ( $options['save'] && !isset($_REQUEST['_ROSARIO_PDF']) && $result_count>0)
-					echo '<A HREF="'.$PHP_tmp_SELF.'&amp;'.$extra.'&amp;LO_save='.$options['save'].'&amp;_ROSARIO_PDF=true" target="_blank"><IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="alignImg" title="'._('Export list').'" /></A>';
+					echo '<a href="'.$PHP_tmp_SELF.'&amp;'.$extra.'&amp;LO_save='.$options['save'].'&amp;_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="alignImg" title="'._('Export list').'" /></a>';
 
-				echo '</TD>';
+				echo '</td>';
 				$colspan = 1;
 				if ( !isset($_REQUEST['_ROSARIO_PDF']) && $options['search'])
 				{
-					echo '<TD style="text-align:right">';
+					echo '<td style="text-align:right">';
 
 					$search_URL = PreparePHP_SELF( $_REQUEST, array( 'LO_search', 'LO_page' ) ) . '&LO_search=';
 
-					echo '<INPUT type="text" id="LO_search" name="LO_search" value="'.htmlspecialchars($_REQUEST['LO_search'],ENT_QUOTES).'" placeholder="'._('Search').'" onkeypress="LOSearch(event, this.value, \'' . $search_URL . '\');" /><INPUT type="button" value="'._('Go').'" onclick="LOSearch(false, document.getElementById(\'LO_search\').value, \'' . $search_URL . '\');" /></TD>';
+					echo '<input type="text" id="LO_search" name="LO_search" value="'.htmlspecialchars($_REQUEST['LO_search'],ENT_QUOTES).'" placeholder="'._('Search').'" onkeypress="LOSearch(event, this.value, \'' . $search_URL . '\');" /><input type="button" value="'._('Go').'" onclick="LOSearch(false, document.getElementById(\'LO_search\').value, \'' . $search_URL . '\');" /></td>';
 					$colspan++;
 				}
 
-				echo '</TR></TABLE>';
+				echo '</tr></table>';
 			}
 
-			echo '<div style="overflow-x:auto;"><TABLE class="list widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
-			echo '<THEAD><TR>';
+			echo '<div style="overflow-x:auto;"><table class="list widefat width-100p cellspacing-0 '.($options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']) ? 'rt' : '').'">';
+			echo '<thead><tr>';
 
 			$i = 1;
 			if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']) && $result_count!=0)
 			{
-				echo '<TH>&nbsp;</TH>';
+				echo '<th>&nbsp;</th>';
 				$i++;
 			}
 
@@ -505,49 +505,49 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 
 					if (isset($_REQUEST['_ROSARIO_PDF']))
 					{
-						echo '<TD style="background-color:'.$options['header_color'].'; color:#fff;"><b>';
+						echo '<td style="background-color:'.$options['header_color'].'; color:#fff;"><b>';
 						echo ParseMLField($value);
-						echo '</b></TD>';
+						echo '</b></td>';
 					}
 					else
 					{
-						echo '<TH>';
+						echo '<th>';
 
 						if ( $options['sort'] )
-							echo '<A HREF="'.$PHP_tmp_SELF.'&amp;LO_page='.$_REQUEST['LO_page'].'&amp;LO_sort='.$key.'&amp;LO_direction='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'') . '">' .
+							echo '<a href="'.$PHP_tmp_SELF.'&amp;LO_page='.$_REQUEST['LO_page'].'&amp;LO_sort='.$key.'&amp;LO_direction='.$direction.'&amp;LO_search='.urlencode(isset($_REQUEST['LO_search'])?$_REQUEST['LO_search']:'') . '">' .
 								ParseMLField( $value ) .
-							'</A>';
+							'</a>';
 						else
 							echo ParseMLField( $value );
 
-						echo '</TH>';
+						echo '</th>';
 					}
 					$i++;
 				}
 			}
 
-			echo '</TR></THEAD><TBODY>';
+			echo '</tr></thead><tbody>';
 
 			// mab - enable add link as first or last
 			if ( $result_count!=0 && isset($link['add']['first']) && ($stop-$start+1)>=$link['add']['first'])
 			{
 				if ( $link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'">'.button('add',$link['add']['title'],$link['add']['link']).'</TD></TR>';
+					echo '<tr><td colspan="'.($remove?$cols+1:$cols).'">'.button('add',$link['add']['title'],$link['add']['link']).'</td></tr>';
 				elseif ( $link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'">'.button('add').$link['add']['span'].'</TD></TR>';
+					echo '<tr><td colspan="'.($remove?$cols+1:$cols).'">'.button('add').$link['add']['span'].'</td></tr>';
 				elseif ( $link['add']['html'] && $cols)
 				{
-					echo '<TR>';
+					echo '<tr>';
 					if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']) && $link['add']['html']['remove'])
-						echo '<TD>'.$link['add']['html']['remove'].'</TD>';
+						echo '<td>'.$link['add']['html']['remove'].'</td>';
 					elseif ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
-						echo '<TD>'.button('add').'</TD>';
+						echo '<td>'.button('add').'</td>';
 
 					foreach ( (array)$column_names as $key => $value)
 					{
-						echo '<TD>'.$link['add']['html'][$key].'</TD>';
+						echo '<td>'.$link['add']['html'][$key].'</td>';
 					}
-					echo '</TR>';
+					echo '</tr>';
 					$count++;
 				}
 			}
@@ -562,15 +562,15 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 					$size = sizeOf($key);
 					for ($j=0; $j<$size; $j++)
 					{
-						$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$item[$key[$j]]);
-						$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
+						$value = preg_replace('!<select.*SELECTED\>([^<]+)<.*</select\>!i','\\1',$item[$key[$j]]);
+						$value = preg_replace('!<select.*</select\>!i','',$value);
 						$item[$key[$j]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
 					}
 					
 					/*foreach ( (array)$item as $key => $value)
 					{
-						$value = preg_replace('!<SELECT.*SELECTED\>([^<]+)<.*</SELECT\>!i','\\1',$value);
-						$value = preg_replace('!<SELECT.*</SELECT\>!i','',$value);
+						$value = preg_replace('!<select.*SELECTED\>([^<]+)<.*</select\>!i','\\1',$value);
+						$value = preg_replace('!<select.*</select\>!i','',$value);
 
 						$item[$key] = preg_replace("/<div onclick=[^']+'>/",'',$value);
 					}*/
@@ -581,7 +581,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				else
 					$color = '';
 
-				echo '<TR>';
+				echo '<tr>';
 				$count++;
 
 				if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
@@ -594,7 +594,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 							$button_link .= "&$var=" . urlencode($item[$val]);
 					}
 
-					echo '<TD>' . button('remove',$button_title,'"'.$button_link.'"') . '</TD>';
+					echo '<td>' . button('remove',$button_title,'"'.$button_link.'"') . '</td>';
 				}
 
 				if ( $cols)
@@ -604,12 +604,12 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 						if ( !empty($link[$key]) && $item[$key]!==false && !isset($_REQUEST['_ROSARIO_PDF']))
 						{
 							if ( $color==Preferences('HIGHLIGHT'))
-								echo '<TD class="highlight">';
+								echo '<td class="highlight">';
 							else
-								echo '<TD>';
+								echo '<td>';
 							if ( !empty($link[$key]['js']))
 							{
-								echo '<A HREF="#" onclick=\'window.open("'.$link[$key]['link'];
+								echo '<a href="#" onclick=\'window.open("'.$link[$key]['link'];
 								if (count($link[$key]['variables']))
 								{
 									foreach ( (array)$link[$key]['variables'] as $var => $val)
@@ -622,7 +622,7 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 							}
 							else
 							{
-								echo '<A HREF="'.$link[$key]['link'];
+								echo '<a href="'.$link[$key]['link'];
 								if (count($link[$key]['variables']))
 								{
 									foreach ( (array)$link[$key]['variables'] as $var => $val)
@@ -636,23 +636,23 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 							echo $item[$key];
 							if ( !$item[$key])
 								echo '***';
-							echo '</A>';
-							echo '</TD>';
+							echo '</a>';
+							echo '</td>';
 						}
 						else
 						{
 							if ( $color==Preferences('HIGHLIGHT'))
-								echo '<TD class="highlight">';
+								echo '<td class="highlight">';
 							else
-								echo '<TD>';
+								echo '<td>';
 							echo $item[$key];
 							if ( !$item[$key])
 								echo '&nbsp;';
-							echo '</TD>';
+							echo '</td>';
 						}
 					}
 				}
-				echo '</TR>';
+				echo '</tr>';
 			}
 
 			if ( $result_count!=0 && (!isset($link['add']['first']) || ($stop-$start+1)<$link['add']['first']))
@@ -660,27 +660,27 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				//if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
 				//	$cols++;
 				if (isset($link['add']['link']) && !isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'">'.button('add',$link['add']['title'],$link['add']['link']).'</TD></TR>';
+					echo '<tr><td colspan="'.($remove?$cols+1:$cols).'">'.button('add',$link['add']['title'],$link['add']['link']).'</td></tr>';
 				elseif (isset($link['add']['span']) && !isset($_REQUEST['_ROSARIO_PDF']))
-					echo '<TR><TD colspan="'.($remove?$cols+1:$cols).'">'.button('add').$link['add']['span'].'</TD></TR>';
+					echo '<tr><td colspan="'.($remove?$cols+1:$cols).'">'.button('add').$link['add']['span'].'</td></tr>';
 				elseif (isset($link['add']['html']) && $cols)
 				{
-					echo '<TR>';
+					echo '<tr>';
 					if ( $remove && !isset($_REQUEST['_ROSARIO_PDF']) && $link['add']['html']['remove'])
-						echo '<TD>'.$link['add']['html']['remove'].'</TD>';
+						echo '<td>'.$link['add']['html']['remove'].'</td>';
 					elseif ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
-						echo '<TD>'.button('add').'</TD>';
+						echo '<td>'.button('add').'</td>';
 
 					foreach ( (array)$column_names as $key => $value)
 					{
-						echo '<TD>'.$link['add']['html'][$key].'</TD>';
+						echo '<td>'.$link['add']['html'][$key].'</td>';
 					}
-					echo '</TR>';
+					echo '</tr>';
 				}
 			}
 			if ( $result_count!=0)
 			{
-				echo '</TBODY></TABLE></div><BR />';
+				echo '</tbody></table></div><br />';
 			}
 			if ( !empty($options['header']))
 				echo '</div>';
@@ -691,10 +691,10 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 		{
 			// mab - problem with table closing if not opened above - do same conditional?
 			if (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
-				echo '</TD></TR></TBODY></TABLE>';
+				echo '</td></tr></tbody></table>';
 				
 			if ( !empty($options['header']))
-				echo '<TABLE class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:0px;"><TR><TD class="center">'.$options['header'].'</TD></TR></TABLE><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
+				echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:0px;"><tr><td class="center">'.$options['header'].'</td></tr></table><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
 
 			if ( $link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
 				echo '<div class="center">' . button('add',$link['add']['title'],$link['add']['link']) . '</div>';
@@ -703,43 +703,43 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				// WIDTH=100%
 				if ( $link['add']['html'])
 				{
-					echo '<div style="overflow-x:auto;"><TABLE class="widefat width-100p cellspacing-0';			
+					echo '<div style="overflow-x:auto;"><table class="widefat width-100p cellspacing-0';			
 					if ( $options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']))
 						echo ' rt';
 
 					if ( $options['center'])
 						echo ' center';
 
-					echo '"><THEAD><TR><TH>&nbsp;</TH>';
+					echo '"><thead><tr><th>&nbsp;</th>';
 
 					foreach ( (array)$column_names as $key => $value)
 					{
-						echo '<TH>' . str_replace(' ','&nbsp;',$value) . '</TH>';
+						echo '<th>' . str_replace(' ','&nbsp;',$value) . '</th>';
 					}
-					echo '</TR></THEAD>';
+					echo '</tr></thead>';
 
-					echo '<TBODY><TR>';
+					echo '<tbody><tr>';
 
 					if ( $link['add']['html']['remove'])
-						echo '<TD>'.$link['add']['html']['remove'].'</TD>';
+						echo '<td>'.$link['add']['html']['remove'].'</td>';
 					else
-						echo '<TD>'.button('add').'</TD>';
+						echo '<td>'.button('add').'</td>';
 
 					foreach ( (array)$column_names as $key => $value)
 					{
-						echo '<TD>'.$link['add']['html'][$key].'</TD>';
+						echo '<td>'.$link['add']['html'][$key].'</td>';
 					}
-					echo '</TR></TBODY>';
-					echo '</TABLE></div><BR />';
+					echo '</tr></tbody>';
+					echo '</table></div><br />';
 				}
 				elseif ( $link['add']['span'] && !isset($_REQUEST['_ROSARIO_PDF']))
 				{
-					echo '<TABLE class="postbox';
+					echo '<table class="postbox';
 
 					if ( $options['center'])
 						echo ' center';
 
-					echo '"><TR><TD>'.button('add').$link['add']['span'].'</TD></TR></TABLE>';
+					echo '"><tr><td>'.button('add').$link['add']['span'].'</td></tr></table>';
 				}
 			}
 			if ( !empty($options['header']))

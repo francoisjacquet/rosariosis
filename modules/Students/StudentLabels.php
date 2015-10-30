@@ -65,12 +65,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				else
 					$name = $student['FULL_NAME'];
 
-				echo '<B>'.$name.'</B>';
+				echo '<b>'.$name.'</b>';
 
 				if ( $_REQUEST['teacher'])
-					echo '<BR />'._('Teacher').':&nbsp;'.$student['TEACHER'];
+					echo '<br />'._('Teacher').':&nbsp;'.$student['TEACHER'];
 				if ( $_REQUEST['room'])
-					echo '<BR />'._('Room').':&nbsp;'.$student['ROOM'];
+					echo '<br />'._('Room').':&nbsp;'.$student['ROOM'];
 				echo '</td>';
 
 				$cols++;
@@ -120,51 +120,51 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].(User('PROFILE')=='admin'?'&w_course_period_id_which='.$_REQUEST['w_course_period_id_which'].'&w_course_period_id='.$_REQUEST['w_course_period_id']:'').'&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Labels for Selected Students').'" />';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].(User('PROFILE')=='admin'?'&w_course_period_id_which='.$_REQUEST['w_course_period_id_which'].'&w_course_period_id='.$_REQUEST['w_course_period_id']:'').'&_ROSARIO_PDF=true" method="POST">';
+		$extra['header_right'] = '<input type="submit" value="'._('Create Labels for Selected Students').'" />';
 
-		$extra['extra_header_left'] = '<TABLE>';
+		$extra['extra_header_left'] = '<table>';
 
-		$extra['extra_header_left'] .= '<TR><TD colspan="4"><b>'._('Include On Labels').':</b></TD></TR>';
-		$extra['extra_header_left'] .= '<TR class="st">';
+		$extra['extra_header_left'] .= '<tr><td colspan="4"><b>'._('Include On Labels').':</b></td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st">';
 //FJ add <label> on radio
-		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="full_name" value="given" checked /> '._('Last, Given Middle').'</label></TD>';
-		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="full_name" value="given_natural"> '._('Given Last').'</label></TD>';
+		$extra['extra_header_left'] .= '<td><label><input type="radio" name="full_name" value="given" checked /> '._('Last, Given Middle').'</label></td>';
+		$extra['extra_header_left'] .= '<td><label><input type="radio" name="full_name" value="given_natural"> '._('Given Last').'</label></td>';
 		if (User('PROFILE')=='admin')
 		{
 			if ( $_REQUEST['w_course_period_id_which']=='course_period' && $_REQUEST['w_course_period_id'])
 			{
 				$course_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS TEACHER,cp.ROOM FROM STAFF s,COURSE_PERIODS cp WHERE s.STAFF_ID=cp.TEACHER_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_course_period_id']."'"));
 //FJ add <label> on checkbox
-				$extra['extra_header_left'] .= '<TR><TD colspan="4"><label><INPUT type="checkbox" name="teacher" value="Y"> '._('Teacher').' ('.$course_RET[1]['TEACHER'].')</label></TD></TR>';
-				$extra['extra_header_left'] .= '<TR><TD colspan="4"><label><INPUT type="checkbox" name="room" value="Y"> '._('Room').' ('.$course_RET[1]['ROOM'].')</label></TD></TR>';
+				$extra['extra_header_left'] .= '<tr><td colspan="4"><label><input type="checkbox" name="teacher" value="Y"> '._('Teacher').' ('.$course_RET[1]['TEACHER'].')</label></td></tr>';
+				$extra['extra_header_left'] .= '<tr><td colspan="4"><label><input type="checkbox" name="room" value="Y"> '._('Room').' ('.$course_RET[1]['ROOM'].')</label></td></tr>';
 			}
 			else
 			{
-				$extra['extra_header_left'] .= '<TR><TD colspan="4"><label><INPUT type="checkbox" name="teacher" value="Y"> '._('Attendance Teacher').'</label></TD></TR>';
-				$extra['extra_header_left'] .= '<TR><TD colspan="4"><label><INPUT type="checkbox" name="room" value="Y"> '._('Attendance Room').'</label></TD></TR>';
+				$extra['extra_header_left'] .= '<tr><td colspan="4"><label><input type="checkbox" name="teacher" value="Y"> '._('Attendance Teacher').'</label></td></tr>';
+				$extra['extra_header_left'] .= '<tr><td colspan="4"><label><input type="checkbox" name="room" value="Y"> '._('Attendance Room').'</label></td></tr>';
 			}
 		}
 		else
 		{
-			$extra['extra_header_left'] .= '<TR><TD colspan="4"><label><INPUT type="checkbox" name="teacher" value="Y"> '._('Teacher').'</label></TD></TR>';
-			$extra['extra_header_left'] .= '<TR><TD colspan="4"><label><INPUT type="checkbox" name="room" value="Y"> '._('Room').'</label></TD></TR>';
+			$extra['extra_header_left'] .= '<tr><td colspan="4"><label><input type="checkbox" name="teacher" value="Y"> '._('Teacher').'</label></td></tr>';
+			$extra['extra_header_left'] .= '<tr><td colspan="4"><label><input type="checkbox" name="room" value="Y"> '._('Room').'</label></td></tr>';
 		}
 
-		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] .= '</table>';
 
-		$extra['extra_header_right'] = '<TABLE class="col1-align-right">';
+		$extra['extra_header_right'] = '<table class="col1-align-right">';
 
-		$extra['extra_header_right'] .= '<TR class="st"><TD>'._('Starting row').'</TD><TD><SELECT name="start_row">';
+		$extra['extra_header_right'] .= '<tr class="st"><td>'._('Starting row').'</td><td><select name="start_row">';
 		for ( $row=1; $row<=$max_rows; $row++)
-			$extra['extra_header_right'] .=  '<OPTION value="'.$row.'">'.$row;
-		$extra['extra_header_right'] .=  '</SELECT></TD></TR>';
-		$extra['extra_header_right'] .= '<TR class="st"><TD>'._('Starting column').'</TD><TD><SELECT name="start_col">';
+			$extra['extra_header_right'] .=  '<option value="'.$row.'">'.$row;
+		$extra['extra_header_right'] .=  '</select></td></tr>';
+		$extra['extra_header_right'] .= '<tr class="st"><td>'._('Starting column').'</td><td><select name="start_col">';
 		for ( $col=1; $col<=$max_cols; $col++)
-			$extra['extra_header_right'] .=  '<OPTION value="'.$col.'">'.$col;
-		$extra['extra_header_right'] .= '</SELECT></TD></TR>';
+			$extra['extra_header_right'] .=  '<option value="'.$col.'">'.$col;
+		$extra['extra_header_right'] .= '</select></td></tr>';
 
-		$extra['extra_header_right'] .= '</TABLE>';
+		$extra['extra_header_right'] .= '</table>';
 	}
 
 	Widgets('course');
@@ -179,19 +179,19 @@ if (empty($_REQUEST['modfunc']))
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Labels for Selected Students').'" /></div>';
-		echo '</FORM>';
+		echo '<br /><div class="center"><input type="submit" value="'._('Create Labels for Selected Students').'" /></div>';
+		echo '</form>';
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }

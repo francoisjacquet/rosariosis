@@ -44,28 +44,28 @@ if (empty($_REQUEST['modfunc']))
 		
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Fee to Selected Students')));
 
-		echo '<BR />';
+		echo '<br />';
 
 		PopTable('header', _('Fee'));
 
-		echo '<TABLE class="col1-align-right">';
+		echo '<table class="col1-align-right">';
 
-		echo '<TR><TD>'._('Title').'</TD><TD><INPUT type="text" name="title" required /></TD></TR>';
+		echo '<tr><td>'._('Title').'</td><td><input type="text" name="title" required /></td></tr>';
 
-		echo '<TR><TD>'._('Amount').'</TD><TD><INPUT type="text" name="amount" size="5" maxlength="10" required /></TD></TR>';
+		echo '<tr><td>'._('Amount').'</td><td><input type="text" name="amount" size="5" maxlength="10" required /></td></tr>';
 
-		echo '<TR><TD>'._('Due Date').'</TD><TD>'.PrepareDate(DBDate(),'').'</TD></TR>';
+		echo '<tr><td>'._('Due Date').'</td><td>'.PrepareDate(DBDate(),'').'</td></tr>';
 
-		echo '<TR><TD>'._('Comment').'</TD><TD><INPUT type="text" name="comments" /></TD></TR>';
+		echo '<tr><td>'._('Comment').'</td><td><input type="text" name="comments" /></td></tr>';
 
-		echo '</TABLE>';
+		echo '</table>';
 
 		PopTable('footer');
 
-		echo '<BR />';
+		echo '<br />';
 	}
 }
 
@@ -74,7 +74,7 @@ if (empty($_REQUEST['modfunc']))
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",NULL AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
 	$extra['new'] = true;
 
 	//Widgets('all');
@@ -82,8 +82,8 @@ if (empty($_REQUEST['modfunc']))
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center">' . SubmitButton(_('Add Fee to Selected Students')) . '</div>';
-		echo '</FORM>';
+		echo '<br /><div class="center">' . SubmitButton(_('Add Fee to Selected Students')) . '</div>';
+		echo '</form>';
 	}
 
 }
@@ -91,5 +91,5 @@ if (empty($_REQUEST['modfunc']))
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y" />';
+	return '<input type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y" />';
 }

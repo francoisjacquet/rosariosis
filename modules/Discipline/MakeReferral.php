@@ -125,7 +125,7 @@ if (isset($note))
 
 
 if ( $_REQUEST['student_id'])
-	echo '<BR />';
+	echo '<br />';
 //Widgets('all');
 Search('student_id',$extra);
 
@@ -134,30 +134,30 @@ if (UserStudentID() && $_REQUEST['student_id'])
 	//FJ teachers need AllowEdit (to edit the input fields)
 	$_ROSARIO['allow_edit'] = true;
 	
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-	echo '<BR />';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+	echo '<br />';
 	PopTable('header',ProgramTitle());
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
 	
-	echo '<TABLE class="width-100p col1-align-right">';
+	echo '<table class="width-100p col1-align-right">';
 
-	echo '<TR class="st"><TD><span class="legend-gray">'._('Student').'</span></TD><TD>';
+	echo '<tr class="st"><td><span class="legend-gray">'._('Student').'</span></td><td>';
 	$name = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME,NAME_SUFFIX FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
 	echo $name[1]['FIRST_NAME'].'&nbsp;'.($name[1]['MIDDLE_NAME']?$name[1]['MIDDLE_NAME'].' ':'').$name[1]['LAST_NAME'].'&nbsp;'.$name[1]['NAME_SUFFIX'];
-	echo '</TD></TR>';
+	echo '</td></tr>';
 
-	echo '<TR class="st"><TD><span class="legend-gray">'._('Reporter').'</span></TD><TD>';
+	echo '<tr class="st"><td><span class="legend-gray">'._('Reporter').'</span></td><td>';
 	$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
-	echo '<SELECT name="values[STAFF_ID]">';
+	echo '<select name="values[STAFF_ID]">';
 	foreach ( (array)$users_RET as $user)
-		echo '<OPTION value="'.$user['STAFF_ID'].'"'.(User('STAFF_ID')==$user['STAFF_ID']?' SELECTED':'').'>'.$user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'].'</OPTION>';
-	echo '</SELECT>';
-	echo '</TD></TR>';
+		echo '<option value="'.$user['STAFF_ID'].'"'.(User('STAFF_ID')==$user['STAFF_ID']?' SELECTED':'').'>'.$user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'].'</option>';
+	echo '</select>';
+	echo '</td></tr>';
 
-	echo '<TR class="st"><TD><span class="legend-gray">'._('Incident Date').'</span></TD><TD>';
+	echo '<tr class="st"><td><span class="legend-gray">'._('Incident Date').'</span></td><td>';
 	echo PrepareDate(DBDate(),'_values[ENTRY_DATE]');
-	echo '</TD></TR>';
+	echo '</td></tr>';
 
 	// FJ email Discipline Referral feature
 	// email Referral to: Administrators and/or Teachers
@@ -177,48 +177,48 @@ if (UserStudentID() && $_REQUEST['student_id'])
 		}
 	}
 
-	echo '<TR class="st"><TD><span class="legend-gray">'._('Email Referral to').'</span></TD><TD>';
+	echo '<tr class="st"><td><span class="legend-gray">'._('Email Referral to').'</span></td><td>';
 
 	$value = $allow_na = $div = false;
 
 	// multiple select input
 	$extra = 'multiple title="' . _( 'Hold the CTRL key down to select multiple options' ) . '"';
 
-	echo '<TABLE><TR class="st"><TD>';
+	echo '<table><tr class="st"><td>';
 
 	echo SelectInput( $value, 'emails[]', _( 'Administrators' ), $emailadmin_options, $allow_na, $extra, $div );
 
-	echo '</TD><TD>';
+	echo '</td><td>';
 
 	echo SelectInput( $value, 'emails[]', _( 'Teachers' ), $emailteacher_options, $allow_na, $extra, $div );
 
-	echo '</TD></TR></TABLE>';
+	echo '</td></tr></table>';
 
-	echo '</TD></TR>';
+	echo '</td></tr>';
 
 	foreach ( (array)$categories_RET as $category)
 	{
-		echo '<TR class="st"><TD><span class="legend-gray">'.$category['TITLE'].'</span></TD><TD>';
+		echo '<tr class="st"><td><span class="legend-gray">'.$category['TITLE'].'</span></td><td>';
 		switch ( $category['DATA_TYPE'])
 		{
 			case 'text':
 				echo TextInput('','values[CATEGORY_'.$category['ID'].']','','maxlength=255');
-				//echo '<INPUT type="TEXT" name="values[CATEGORY_'.$category['ID'].']" maxlength="255" />';
+				//echo '<input type="TEXT" name="values[CATEGORY_'.$category['ID'].']" maxlength="255" />';
 			break;
 	
 			case 'numeric':
 				echo TextInput('','values[CATEGORY_'.$category['ID'].']','','size=9 maxlength=18');
-				//echo '<INPUT type="TEXT" name="values[CATEGORY_'.$category['ID'].']" size="4" maxlength="10" />';
+				//echo '<input type="TEXT" name="values[CATEGORY_'.$category['ID'].']" size="4" maxlength="10" />';
 			break;
 	
 			case 'textarea':
 				echo TextAreaInput('','values[CATEGORY_'.$category['ID'].']','','maxlength=5000 rows=4 cols=30');
-				//echo '<TEXTAREA name="values[CATEGORY_'.$category['ID'].']" rows="4" cols="30"></TEXTAREA>';
+				//echo '<textarea name="values[CATEGORY_'.$category['ID'].']" rows="4" cols="30"></textarea>';
 			break;
 	
 			case 'checkbox':
 				echo CheckboxInput('','values[CATEGORY_'.$category['ID'].']','','',true);
-				//echo '<INPUT type="CHECKBOX" name="values[CATEGORY_'.$category['ID'].']" value="Y" />';
+				//echo '<input type="CHECKBOX" name="values[CATEGORY_'.$category['ID'].']" value="Y" />';
 			break;
 			
 			case 'date':
@@ -230,32 +230,32 @@ if (UserStudentID() && $_REQUEST['student_id'])
 				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 				$options = explode("\r",$category['SELECT_OPTIONS']);
 				
-				echo '<TABLE class="cellpadding-5"><TR class="st">';
+				echo '<table class="cellpadding-5"><tr class="st">';
 				$i = 0;
 				foreach ( (array)$options as $option)
 				{
 					$i++;
 					if ( $i%3==0)
-						echo '</TR><TR class="st">';
-					echo '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',$option).'" />&nbsp;'.$option.'</label></TD>';
+						echo '</tr><tr class="st">';
+					echo '<td><label><input type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.str_replace('"','&quot;',$option).'" />&nbsp;'.$option.'</label></td>';
 				}
-				echo '</TR></TABLE>';
+				echo '</tr></table>';
 			break;
 			
 			case 'multiple_radio':
 				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 				$options = explode("\r",$category['SELECT_OPTIONS']);
 				
-				echo '<TABLE class="cellpadding-5"><TR class="st">';
+				echo '<table class="cellpadding-5"><tr class="st">';
 				$i = 0;
 				foreach ( (array)$options as $option)
 				{
 					$i++;
 					if ( $i%3==0)
-						echo '</TR><TR class="st">';
-					echo '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','&quot;',$option).'">&nbsp;'.$option.'</label></TD>';
+						echo '</tr><tr class="st">';
+					echo '<td><label><input type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.str_replace('"','&quot;',$option).'">&nbsp;'.$option.'</label></td>';
 				}
-				echo '</TR></TABLE>';
+				echo '</tr></table>';
 			break;
 
 			case 'select':
@@ -268,21 +268,21 @@ if (UserStudentID() && $_REQUEST['student_id'])
 					$options[$option] = $option;
 
 				echo SelectInput('','values[CATEGORY_'.$category['ID'].']','',$options,'N/A');
-				/*echo '<SELECT name="values[CATEGORY_'.$category['ID'].']"><OPTION value="">'._('N/A').'</OPTION>';
+				/*echo '<select name="values[CATEGORY_'.$category['ID'].']"><option value="">'._('N/A').'</option>';
 				foreach ( (array)$options as $option)
 				{
-					echo '<OPTION value="'.str_replace('"','&quot;',$option).'">'.$option.'</OPTION>';
+					echo '<option value="'.str_replace('"','&quot;',$option).'">'.$option.'</option>';
 				}
-				echo '</SELECT>';*/
+				echo '</select>';*/
 			break;
 		}
-		echo '</TD></TR>';
+		echo '</td></tr>';
 	}
-	echo '</TABLE>';
+	echo '</table>';
 
 	PopTable('footer');
 
-	echo '<BR /><div class="center">' . SubmitButton( _( 'Submit' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Submit' ) ) . '</div>';
 
-	echo '</FORM>';
+	echo '</form>';
 }

@@ -77,11 +77,11 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 										AND s.STUDENT_ID='".$_REQUEST['student_id']."' AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)
 									ORDER BY p.SORT_ORDER"),$functions);
 	$columns = array('PERIOD_TITLE' => _('Period'),'COURSE' => _('Course'),'ATTENDANCE_CODE' => _('Attendance Code'),'ATTENDANCE_TEACHER_CODE' => _('Teacher\'s Entry'),'ATTENDANCE_REASON' => _('Comments'));
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&student_id='.$_REQUEST['student_id'].'" method="POST">';
-	DrawHeader(ProgramTitle(),'<INPUT type="submit" value="'._('Update').'" />');
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&student_id='.$_REQUEST['student_id'].'" method="POST">';
+	DrawHeader(ProgramTitle(),'<input type="submit" value="'._('Update').'" />');
 	DrawHeader(PrepareDate($date,'_date'));
 	ListOutput($schedule_RET,$columns,_('Course'),_('Courses'));
-	echo '</FORM>';
+	echo '</form>';
 }
 else
 {
@@ -143,8 +143,8 @@ else
 		$extra['columns_after']['PERIOD_'.$period['PERIOD_ID']] = $period['SHORT_NAME'];
 	}
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-	DrawHeader(ProgramTitle(),'<INPUT type="submit" value="'._('Update').'" />');
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+	DrawHeader(ProgramTitle(),'<input type="submit" value="'._('Update').'" />');
 	
 	if ( $REQ_codes)
 	{
@@ -156,13 +156,13 @@ else
 	else
 		$code_pulldowns = _makeCodeSearch();
 	if (UserStudentID())
-		$current_student_link = '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&student_id='.UserStudentID().'">'._('Current Student').'</A></TD><TD>';
-	DrawHeader(PrepareDate($date,'_date'),'<TABLE><TR><TD>'.$current_student_link.button('add','',"# onclick='javascript:addHTML(\"".str_replace('"','\"',_makeCodeSearch())."\",\"code_pulldowns\"); return false;'").'</TD><TD><DIV id="code_pulldowns">'.$code_pulldowns.'</DIV></TD></TR></TABLE>');
+		$current_student_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&student_id='.UserStudentID().'">'._('Current Student').'</a></td><td>';
+	DrawHeader(PrepareDate($date,'_date'),'<table><tr><td>'.$current_student_link.button('add','',"# onclick='javascript:addHTML(\"".str_replace('"','\"',_makeCodeSearch())."\",\"code_pulldowns\"); return false;'").'</td><td><div id="code_pulldowns">'.$code_pulldowns.'</div></td></tr></table>');
 	
 	$_REQUEST['search_modfunc'] = 'list';
 	Search('student_id',$extra);
 
-	echo '</FORM>';
+	echo '</form>';
 }
 
 function _makeCodePulldown($value,$title)
@@ -228,18 +228,18 @@ function _makeReasonInput($value,$title)
 function _makeCodeSearch($value='')
 {	global $codes_RET,$code_search_selected;
 
-	$return = '<SELECT name=codes[]><OPTION value="">All</OPTION><OPTION value="A"'.(($value=='A')?' SELECTED':'').'>NP</OPTION>';
+	$return = '<select name=codes[]><option value="">All</option><option value="A"'.(($value=='A')?' SELECTED':'').'>NP</option>';
 	if (count($codes_RET))
 	{
 		foreach ( (array)$codes_RET as $code)
 		{
 			if ( $value==$code['ID'])
-				$return .= '<OPTION value="'.$code[ID].'" SELECTED>'.$code[SHORT_NAME].'</OPTION>';
+				$return .= '<option value="'.$code[ID].'" SELECTED>'.$code[SHORT_NAME].'</option>';
 			else
-				$return .= '<OPTION value="'.$code[ID].'">'.$code[SHORT_NAME].'</OPTION>';
+				$return .= '<option value="'.$code[ID].'">'.$code[SHORT_NAME].'</option>';
 		}
 	}
-	$return .= '</SELECT>';
+	$return .= '</select>';
 	
 	return $return;
 }

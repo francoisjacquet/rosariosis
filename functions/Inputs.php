@@ -28,7 +28,7 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
 		}
 		else
 		{
-			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
+			$return = '<div id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 
 			$options = $options + array( 'Y' => 1, 'M' => 1, 'D' => 1 );
 
@@ -36,7 +36,7 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
 
 			$return = '<script>var html' . $id.'='.json_encode($input).';</script>'.$return;
 			
-			$return .= ',"div' . $id . '",true)\'><span class="underline-dots">' . ( $value != '' ? ProperDate( $value ) : '-' ) . '</span>' . $title . '</div></DIV>';
+			$return .= ',"div' . $id . '",true)\'><span class="underline-dots">' . ( $value != '' ? ProperDate( $value ) : '-' ) . '</span>' . $title . '</div></div>';
 			return $return;
 		}
 	}
@@ -68,16 +68,16 @@ function TextInput($value,$name,$title='',$options='',$div=true)
 			$options .= ' size=10';
 
 		if (trim($value)=='' || $div==false)
-			return '<INPUT type="text" name="'.$name.'" id="' . $id . '" '.($value || $value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />' . $title;
+			return '<input type="text" name="'.$name.'" id="' . $id . '" '.($value || $value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />' . $title;
 		else
 		{
-			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
+			$return = '<div id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 			
-			$input = '<INPUT type="text" id="' . $id . '" name="' . $name . '" '.($value||$value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />' . $title;
+			$input = '<input type="text" id="' . $id . '" name="' . $name . '" '.($value||$value==='0'?'value="'.htmlspecialchars($value,ENT_QUOTES).'"':'').' '.$options.' />' . $title;
 
 			$return = '<script>var html' . $id.'='.json_encode($input).';</script>'.$return;
 			
-			$return .= ',"div' . $id . '",true); if (input = document.getElementById("'.$id.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>' . $title . '</div></DIV>';
+			$return .= ',"div' . $id . '",true); if (input = document.getElementById("'.$id.'")) input.focus();\'><span class="underline-dots">'.($value!=''?$value1:'-').'</span>' . $title . '</div></div>';
 
 			return $return;
 		}
@@ -129,16 +129,16 @@ function setMLvalue(id,loc,value){
 	document.getElementById(id).value = res.join("|");                                
 }
 </script>';
-		$ret .= '<DIV><INPUT type="hidden" id="' . $name . '" name="'.$name.'" value="'.$value.'" />';
+		$ret .= '<div><input type="hidden" id="' . $name . '" name="'.$name.'" value="'.$value.'" />';
 
 		foreach ($RosarioLocales as $id => $loc) {
-			$ret .= '<label><IMG src="assets/flags/'.$loc.'.png" class="button bigger" /> ';
+			$ret .= '<label><img src="assets/flags/'.$loc.'.png" class="button bigger" /> ';
 			//FJ only first translation string required
 			//$ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
 			$ret .= TextInput(ParseMLField($value, $loc),'ML_'.$name.'['.$loc.']','',$options.($id==0?' required':'')." onchange=\"javascript:setMLvalue('".$name."','".($id==0?'':$loc)."',this.value);\"",false);
-			$ret .= '</label><BR />';
+			$ret .= '</label><br />';
 		}
-		$ret .= '</DIV>';
+		$ret .= '</div>';
 	}
 	else
 		$ret .= ParseMLField($value);
@@ -187,8 +187,8 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 		if ( $value == ''
 			|| $div == false )
 		{
-			return ( $markdown ? MarkDownInputPreview( $id ) : '' ) . '<TEXTAREA name="' . $name . '" id="' . $id . '" ' . $options . '>' .
-				$value . '</TEXTAREA>' .
+			return ( $markdown ? MarkDownInputPreview( $id ) : '' ) . '<textarea name="' . $name . '" id="' . $id . '" ' . $options . '>' .
+				$value . '</textarea>' .
 				$title;
 		}
 		else
@@ -201,19 +201,19 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 
 			$htmlvar = 'html' . $id;
 
-			$return = '<DIV id="div' . $id . '">
+			$return = '<div id="div' . $id . '">
 				<div class="onclick" onclick=\'javascript:addHTML(' . $htmlvar;
 			
-			$textarea =  ( $markdown ? MarkDownInputPreview( $id ) : '' ) . '<TEXTAREA id="' . $id . '" name="' . $name . '" ' . $options . '>' .
-				$value . '</TEXTAREA>' . $title;
+			$textarea =  ( $markdown ? MarkDownInputPreview( $id ) : '' ) . '<textarea id="' . $id . '" name="' . $name . '" ' . $options . '>' .
+				$value . '</textarea>' . $title;
 
 			$return = '<script>var ' . $htmlvar . '=' . json_encode( $textarea ) . ';</script>' . $return;
 
 			$return .= ',"div' . $id . '",true);
 				document.getElementById("' . $id . '").value=unescape(document.getElementById("' . $id . '").value);\'>' .
-				//'<DIV style="width:' . ( $cols * 9 ) . 'px; " class="underline-dots textarea">' .
-				'<DIV class="underline-dots textarea">' . $display_val . '</DIV>' .
-				$title . '</div></DIV>';
+				//'<div style="width:' . ( $cols * 9 ) . 'px; " class="underline-dots textarea">' .
+				'<div class="underline-dots textarea">' . $display_val . '</div>' .
+				$title . '</div></div>';
 
 			return $return;
 		}
@@ -238,7 +238,7 @@ function TextAreaInput( $value, $name, $title = '', $options = '', $div = true, 
 
 
 /**
- * Adds MarkDown preview to <TEXTAREA> input fields
+ * Adds MarkDown preview to <textarea> input fields
  *
  * @uses   MarkDownInputPreview() Javascript function
  * @see    warehouse.js, and below for AJAX calls handling
@@ -287,21 +287,21 @@ function CheckboxInput($value,$name,$title='',$checked='',$new=false,$yes='Yes',
 		$id = GetInputID( $name );
 
 		if ( $new || $div==false)
-			return '<label class="checkbox-label"><INPUT type="checkbox" name="'.$name.'" value="Y" '.$checked.' '.$extra.' />&nbsp;'.$title.'</label>';
+			return '<label class="checkbox-label"><input type="checkbox" name="'.$name.'" value="Y" '.$checked.' '.$extra.' />&nbsp;'.$title.'</label>';
 		else
 		{
-			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
+			$return = '<div id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 			
-			$checkbox = '<INPUT type="hidden" name="'.$name.'" value="" /><label class="checkbox-label"><INPUT type="checkbox" name="'.$name.'" '.$checked.' value="Y" '.$extra.' />&nbsp;'.$title.'</label>';
+			$checkbox = '<input type="hidden" name="'.$name.'" value="" /><label class="checkbox-label"><input type="checkbox" name="'.$name.'" '.$checked.' value="Y" '.$extra.' />&nbsp;'.$title.'</label>';
 
 			$return = '<script>var html' . $id.'='.json_encode($checkbox).';</script>'.$return;
 			
-			$return .= ',"div' . $id . '",true)\'>'.'<span class="underline-dots">'.($value?($yes=='Yes'?_('Yes'):$yes):($no=='No'?_('No'):$no)).'</span>&nbsp;'.$title.'</div></DIV>';
+			$return .= ',"div' . $id . '",true)\'>'.'<span class="underline-dots">'.($value?($yes=='Yes'?_('Yes'):$yes):($no=='No'?_('No'):$no)).'</span>&nbsp;'.$title.'</div></div>';
 			return $return;
 		}
 	}
 	else
-//		return ($value?$yes:$no).($title!=''?'<BR />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+//		return ($value?$yes:$no).($title!=''?'<br />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 		return ($value?($yes=='Yes' || isset($_REQUEST['LO_save']) ?_('Yes'):$yes):($no=='No' || isset($_REQUEST['LO_save']) ?_('No'):$no)).($title!=''?' '.$title:'');
 }
 
@@ -328,24 +328,24 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		if ( $value!='' && $div)
-			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
+			$return = '<div id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 		
-		$select = '<SELECT name="'.$name.'" id="' . $id . '" '.$extra.'>';
+		$select = '<select name="'.$name.'" id="' . $id . '" '.$extra.'>';
 
 		if ( $allow_na!==false)
 		{
 //FJ add translation
-			$select .= '<OPTION value="">'.($allow_na=='N/A'?_('N/A'):$allow_na).'</OPTION>';
+			$select .= '<option value="">'.($allow_na=='N/A'?_('N/A'):$allow_na).'</option>';
 		}
 		if (count($options))
 		{
 			foreach ( (array)$options as $key => $val)
 			{
 				$key .= '';
-				$select .= '<OPTION value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED':'').'>'.(is_array($val)?$val[0]:$val).'</OPTION>';
+				$select .= '<option value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED':'').'>'.(is_array($val)?$val[0]:$val).'</option>';
 			}
 		}
-		$select .= '</SELECT>';
+		$select .= '</select>';
 		
 		$select .= $title;
 		
@@ -353,7 +353,7 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 		{
 			$return = '<script>var html' . $id.'='.json_encode($select).';</script>'.$return;
 
-			$return .= ',"div' . $id . '",true);\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>' . $title . '</div></DIV>';
+			$return .= ',"div' . $id . '",true);\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>' . $title . '</div></div>';
 		}
 		else
 			$return = $select;
@@ -389,23 +389,23 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
 	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		if ( $value!='' && $div)
-			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
+			$return = '<div id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 			
-		$select = '<SELECT name="'.$name.'" id="' . $id . '" '.$extra.'>';
+		$select = '<select name="'.$name.'" id="' . $id . '" '.$extra.'>';
 			
         if ( $allow_na!==false)
         {
-			$select .= '<OPTION value="">'.($allow_na=='N/A'?_('N/A'):$allow_na).'</OPTION>';
+			$select .= '<option value="">'.($allow_na=='N/A'?_('N/A'):$allow_na).'</option>';
         }
         if (count($options))
         {
             foreach ( (array)$options as $key => $val)
             {
                 $key .= '';
-                $select .= '<OPTION value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED':'').'>'.(is_array($val)?ParseMLField($val[0], $locale):ParseMLField($val, $locale)).'</OPTION>';
+                $select .= '<option value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED':'').'>'.(is_array($val)?ParseMLField($val[0], $locale):ParseMLField($val, $locale)).'</option>';
             }
         }
-        $select .= '</SELECT>';
+        $select .= '</select>';
 		
 		$select .= $title;
 			
@@ -413,7 +413,7 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
 		{
 			$return = '<script>var html' . $id.'='.json_encode($select).';</script>'.$return;
 
-            $return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'. $title . '</div></DIV>';
+            $return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.ParseMLField((is_array($options[$value])?$options[$value][1]:$options[$value]), $locale).'</span>'. $title . '</div></div>';
 		}
 		else
 			$return = $select;
@@ -442,24 +442,24 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 	if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		if ( $value!='' && $div)
-			$return = '<DIV id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
+			$return = '<div id="div' . $id . '"><div class="onclick" onclick=\'javascript:addHTML(html' . $id;
 		
-		$table = '<TABLE class="cellspacing-0 cellpadding-5" '.$extra.'><TR class="center">';
+		$table = '<table class="cellspacing-0 cellpadding-5" '.$extra.'><tr class="center">';
 			
 		if ( $allow_na!==false)
 		{
 			//FJ add <label> on radio
-			$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value=""'.($value==''?' checked':'').' /> '.($allow_na=='N/A'?_('N/A'):$allow_na).'</label></TD>';
+			$table .= '<td><label><input type="radio" name="'.$name.'" value=""'.($value==''?' checked':'').' /> '.($allow_na=='N/A'?_('N/A'):$allow_na).'</label></td>';
 		}
 		if (count($options))
 		{
 			foreach ( (array)$options as $key => $val)
 			{
 				$key .= '';
-				$table .= '<TD><label><INPUT type="radio" name="'.$name.'" value="'.htmlspecialchars($key,ENT_QUOTES).'" '.($value==$key && (!($value==false && $value!==$key) || ($value==='0' && $key===0))?'checked':'').' /> '.(is_array($val)?$val[0]:$val).'</label></TD>';
+				$table .= '<td><label><input type="radio" name="'.$name.'" value="'.htmlspecialchars($key,ENT_QUOTES).'" '.($value==$key && (!($value==false && $value!==$key) || ($value==='0' && $key===0))?'checked':'').' /> '.(is_array($val)?$val[0]:$val).'</label></td>';
 			}
 		}
-		$table .= '</TR></TABLE>';
+		$table .= '</tr></table>';
 		
 		$table .= $title;
 			
@@ -467,7 +467,7 @@ function RadioInput($value,$name,$title='',$options,$allow_na='N/A',$extra='',$d
 		{
 			$return = '<script>var html' . $id.'='.json_encode($table).';</script>'.$return;
 
-			$return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'. $title . '</div></DIV>';
+			$return .= ',"div' . $id . '",true)\'><span class="underline-dots">'.(is_array($options[$value])?$options[$value][1]:$options[$value]).'</span>'. $title . '</div></div>';
 		}
 		else
 			$return = $table;
@@ -509,7 +509,7 @@ function CheckBoxOnclick($name)
 		$_REQUEST[$name] == 'Y' ? array( $name => '' ) : array( $name => 'Y' )
 	) . "'";
 
-	return '<INPUT type="checkbox" name="' . $name . '" value="Y"' . ( $_REQUEST[$name] == 'Y' ? ' checked' : '' ) . ' onclick="ajaxLink(' . $onclick_URL . ');" />';
+	return '<input type="checkbox" name="' . $name . '" value="Y"' . ( $_REQUEST[$name] == 'Y' ? ' checked' : '' ) . ' onclick="ajaxLink(' . $onclick_URL . ');" />';
 }
 
 

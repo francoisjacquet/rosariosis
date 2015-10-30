@@ -47,7 +47,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							else
 								$name = $address['FULL_NAME'];
 
-							$addresses[$key]['MAILING_LABEL'] = $name.'<BR />'.mb_substr($address['MAILING_LABEL'],mb_strpos($address['MAILING_LABEL'],'<!-- -->'));
+							$addresses[$key]['MAILING_LABEL'] = $name.'<br />'.mb_substr($address['MAILING_LABEL'],mb_strpos($address['MAILING_LABEL'],'<!-- -->'));
 						}
 					}
 					elseif ( $_REQUEST['to_address']=='family')
@@ -77,7 +77,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							$students .= $student.', ';
 						}
 
-						$addresses = array(1 => array('MAILING_LABEL' => ''.$to_family.'<BR />'.mb_substr($students,0,-2).'<BR />'.mb_substr($addresses[1]['MAILING_LABEL'],mb_strpos($addresses[1]['MAILING_LABEL'],'<!-- -->'))));
+						$addresses = array(1 => array('MAILING_LABEL' => ''.$to_family.'<br />'.mb_substr($students,0,-2).'<br />'.mb_substr($addresses[1]['MAILING_LABEL'],mb_strpos($addresses[1]['MAILING_LABEL'],'<!-- -->'))));
 					}
 				}
 				else
@@ -143,46 +143,46 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Labels for Selected Students').'">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
+		$extra['header_right'] = '<input type="submit" value="'._('Create Labels for Selected Students').'">';
 
-		$extra['extra_header_left'] = '<TABLE>';
+		$extra['extra_header_left'] = '<table>';
 
 //FJ add translation
-		$extra['extra_header_left'] .= '<TR><TD colspan="5"><b>'._('Address Labels').':</b></TD></TR>';
+		$extra['extra_header_left'] .= '<tr><td colspan="5"><b>'._('Address Labels').':</b></td></tr>';
 //FJ add <label> on radio
-		$extra['extra_header_left'] .= '<TR class="st"><TD><label><INPUT type="radio" name="to_address" value="" checked /> '._('To Contacts').'</label></TD>';
+		$extra['extra_header_left'] .= '<tr class="st"><td><label><input type="radio" name="to_address" value="" checked /> '._('To Contacts').'</label></td>';
 //FJ disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
 		{
-			$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="residence" value="" checked /> '._('Mailing').'</label></TD>';
-			$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="residence" value="Y" /> '._('Residence').'</label></TD>';
+			$extra['extra_header_left'] .= '<td><label><input type="radio" name="residence" value="" checked /> '._('Mailing').'</label></td>';
+			$extra['extra_header_left'] .= '<td><label><input type="radio" name="residence" value="Y" /> '._('Residence').'</label></td>';
 		}
 		else
 		{
-			$extra['extra_header_left'] .= '<INPUT type="hidden" name="residence" value="Y" />';
+			$extra['extra_header_left'] .= '<input type="hidden" name="residence" value="Y" />';
 		}
-		$extra['extra_header_left'] .= '<TD colspan="2"></TD></TR>';
-		$extra['extra_header_left'] .= '<TR class="st"><TD><label><INPUT type="radio" name="to_address" value="student" /> '._('To Student').'</label></TD>';
-		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="student_name" value="given" checked /> '._('Last, Given Middle').'</label></TD>';
-		$extra['extra_header_left'] .= '<TD><label><INPUT type="radio" name="student_name" value="given_natural" /> '._('Given Last').'</label></TD>';
-		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="radio" name="to_address" value="family" /> '._('To the parents of').'</label></TD>';
+		$extra['extra_header_left'] .= '<td colspan="2"></td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td><label><input type="radio" name="to_address" value="student" /> '._('To Student').'</label></td>';
+		$extra['extra_header_left'] .= '<td><label><input type="radio" name="student_name" value="given" checked /> '._('Last, Given Middle').'</label></td>';
+		$extra['extra_header_left'] .= '<td><label><input type="radio" name="student_name" value="given_natural" /> '._('Given Last').'</label></td>';
+		$extra['extra_header_left'] .= '<tr><td><label><input type="radio" name="to_address" value="family" /> '._('To the parents of').'</label></td>';
 
-		$extra['extra_header_left'] .= '<TD colspan="2"></TD></TR>';
-		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] .= '<td colspan="2"></td></tr>';
+		$extra['extra_header_left'] .= '</table>';
 
-		$extra['extra_header_right'] = '<TABLE class="col1-align-right">';
+		$extra['extra_header_right'] = '<table class="col1-align-right">';
 
-		$extra['extra_header_right'] .= '<TR class="st"><TD>'._('Starting row').'</TD><TD><SELECT name="start_row">';
+		$extra['extra_header_right'] .= '<tr class="st"><td>'._('Starting row').'</td><td><select name="start_row">';
 		for ( $row=1; $row<=$max_rows; $row++)
-			$extra['extra_header_right'] .=  '<OPTION value="'.$row.'">'.$row;
-		$extra['extra_header_right'] .=  '</SELECT></TD></TR>';
-		$extra['extra_header_right'] .= '<TR class="st"><TD>'._('Starting column').'</TD><TD><SELECT name="start_col">';
+			$extra['extra_header_right'] .=  '<option value="'.$row.'">'.$row;
+		$extra['extra_header_right'] .=  '</select></td></tr>';
+		$extra['extra_header_right'] .= '<tr class="st"><td>'._('Starting column').'</td><td><select name="start_col">';
 		for ( $col=1; $col<=$max_cols; $col++)
-			$extra['extra_header_right'] .=  '<OPTION value="'.$col.'">'.$col;
-		$extra['extra_header_right'] .= '</SELECT></TD></TR>';
+			$extra['extra_header_right'] .=  '<option value="'.$col.'">'.$col;
+		$extra['extra_header_right'] .= '</select></td></tr>';
 
-		$extra['extra_header_right'] .= '</TABLE>';
+		$extra['extra_header_right'] .= '</table>';
 	}
 
 	//Widgets('course');
@@ -197,19 +197,19 @@ if (empty($_REQUEST['modfunc']))
 	$extra['SELECT'] .= ",s.STUDENT_ID AS CHECKBOX";
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center">' . SubmitButton(_('Create Labels for Selected Students')) . '</div>';
-		echo '</FORM>';
+		echo '<br /><div class="center">' . SubmitButton(_('Create Labels for Selected Students')) . '</div>';
+		echo '</form>';
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }

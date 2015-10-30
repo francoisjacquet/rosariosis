@@ -114,7 +114,7 @@ $types_totals = array('Student' => $items,
 
 $types_columns = $items_columns;
 
-$type_select = '<SELECT name="type_select" onchange="ajaxPostForm(this.form,true);"><OPTION value=participation'.($_REQUEST['type_select']=='sales' ? '' : ' selected').'>'._('Participation').'</OPTION><OPTION value="sales"'.($_REQUEST['type_select']=='sales' ? ' selected' : '').'>'._('Sales').'</OPTION></SELECT>';
+$type_select = '<select name="type_select" onchange="ajaxPostForm(this.form,true);"><option value=participation'.($_REQUEST['type_select']=='sales' ? '' : ' selected').'>'._('Participation').'</option><option value="sales"'.($_REQUEST['type_select']=='sales' ? ' selected' : '').'>'._('Sales').'</option></select>';
 
 //$calendars_RET = DBGet(DBQuery("SELECT acs.CALENDAR_ID,(SELECT count(1) FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID=acs.CALENDAR_ID AND SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS DAY_COUNT FROM ATTENDANCE_CALENDARS acs WHERE acs.SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
@@ -243,10 +243,10 @@ else
 }
 
 $PHP_tmp_SELF = PreparePHP_SELF();
-echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
-DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <INPUT type="submit" value="'._('Go').'" />');
+echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
+DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <input type="submit" value="'._('Go').'" />');
 DrawHeader($type_select);
-echo '<BR />';
+echo '<br />';
 
 $tabs = array();
 foreach ( (array)$menus_RET as $id => $menu)
@@ -256,7 +256,7 @@ $LO_options = array('count'=>false,'download'=>false,'search'=>false,
 	'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&day_start='.$_REQUEST['day_start'].'&month_start='.$_REQUEST['month_start'].'&year_start='.$_REQUEST['year_start'].'&day_end='.$_REQUEST['day_end'].'&month_end='.$_REQUEST['month_end'].'&year_end='.$_REQUEST['year_end'].'&type_select='.$_REQUEST['type_select']));
 
 ListOutput($LO_types,$LO_columns,'.','.',array(),array(array('')),$LO_options);
-echo '</FORM>';
+echo '</form>';
 
 function format($item)
 {

@@ -15,7 +15,7 @@
 
 // TODO: fix CSS (titles h2 ## + h3 ###)
 // and add Help (general)
-// and fully implement MarkDown to EVERY <TEXTAREA>
+// and fully implement MarkDown to EVERY <textarea>
 // https://jbt.github.io/markdown-editor/
 // replace TinyMCE with ^ Markdown editor?
 class Parsedown

@@ -304,7 +304,7 @@ function Warehouse( $mode )
 		// Footer HTML
 		case 'footer':
 ?>
-<BR />
+<br />
 <script>
 	var modname = "<?php echo isset( $_ROSARIO['ProgramLoaded'] ) ? $_ROSARIO['ProgramLoaded'] : ''; ?>";
 	if (typeof menuStudentID !== 'undefined'

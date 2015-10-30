@@ -65,15 +65,15 @@ else
 
 echo '<hr />';
 
-echo '<TABLE class="width-100p valign-top"><TR class="st">';
+echo '<table class="width-100p valign-top"><tr class="st">';
 
-echo '<TD>'.SelectInput($gradelevel_id,'values[STUDENT_ENROLLMENT]['.$id.'][GRADE_ID]',(!$gradelevel_id?'<span class="legend-red">':'')._('Grade Level').(!$gradelevel_id?'</span>':''),$gradelevel_options,false,'required',$div).'</TD>';
+echo '<td>'.SelectInput($gradelevel_id,'values[STUDENT_ENROLLMENT]['.$id.'][GRADE_ID]',(!$gradelevel_id?'<span class="legend-red">':'')._('Grade Level').(!$gradelevel_id?'</span>':''),$gradelevel_options,false,'required',$div).'</td>';
 
-echo '<TD>'.SelectInput($calendar,'values[STUDENT_ENROLLMENT]['.$id.'][CALENDAR_ID]',(!$calendar||!$div?'<span class="legend-red">':'')._('Calendar').(!$calendar||!$div?'</span>':''),$calendar_options,false,'',$div).'</TD>';
+echo '<td>'.SelectInput($calendar,'values[STUDENT_ENROLLMENT]['.$id.'][CALENDAR_ID]',(!$calendar||!$div?'<span class="legend-red">':'')._('Calendar').(!$calendar||!$div?'</span>':''),$calendar_options,false,'',$div).'</td>';
 
-echo '<TD>'.SelectInput($next_school,'values[STUDENT_ENROLLMENT]['.$id.'][NEXT_SCHOOL]',($next_school==''||!$div?'<span class="legend-red">':'')._('Rolling / Retention Options').(!$next_school||!$div?'</span>':''),$next_school_options,false,'',$div).'</TD>';
+echo '<td>'.SelectInput($next_school,'values[STUDENT_ENROLLMENT]['.$id.'][NEXT_SCHOOL]',($next_school==''||!$div?'<span class="legend-red">':'')._('Rolling / Retention Options').(!$next_school||!$div?'</span>':''),$next_school_options,false,'',$div).'</td>';
 
-echo '</TR></TABLE>';
+echo '</tr></table>';
 
 if ( $PopTable_opened)
 	PopTable('footer');
@@ -81,4 +81,4 @@ if ( $PopTable_opened)
 ListOutput($RET,$columns,'Enrollment Record','Enrollment Records',$link,array(),array('save'=>false,'search'=>false));
 
 if ( $PopTable_opened)
-	echo '<TABLE><TR><TD>';
+	echo '<table><tr><td>';

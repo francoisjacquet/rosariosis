@@ -32,9 +32,9 @@ if ( isset( $_REQUEST['day_end'] )
 if ( empty( $end_date ) )
 	$end_date = DBDate();
 
-echo '<FORM action="'.PreparePHP_SELF().'" method="POST">';
-DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <INPUT type=submit value="'._('Go').'">');
-echo '</FORM>';
+echo '<form action="'.PreparePHP_SELF().'" method="POST">';
+DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <input type=submit value="'._('Go').'">');
+echo '</form>';
 
 $enrollment_RET = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,se.START_DATE AS START_DATE,NULL AS END_DATE,se.START_DATE AS DATE,se.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME 
 FROM SCHEDULE se,STUDENTS s,COURSES c,COURSE_PERIODS cp 

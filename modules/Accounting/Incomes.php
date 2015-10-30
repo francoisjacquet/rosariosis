@@ -79,7 +79,7 @@ if ( !$_REQUEST['modfunc'])
 		$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeIncomesTextInput('','TITLE'),'AMOUNT'=>_makeIncomesTextInput('','AMOUNT'),'ASSIGNED_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makeIncomesTextInput('','COMMENTS'));
 	if ( !$_REQUEST['print_statements'])
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		if (AllowEdit())
 			DrawHeader('',SubmitButton(_('Save')));
 		$options = array();
@@ -89,33 +89,33 @@ if ( !$_REQUEST['modfunc'])
 	ListOutput($RET,$columns,'Income','Incomes',$link,array(),$options);
 	if ( !$_REQUEST['print_statements'] && AllowEdit())
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '<BR />';
+	echo '<br />';
 
 	$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NULL AND p.SYEAR='".UserSyear()."'"));
 
-	$table = '<TABLE class="align-right"><TR><TD>'._('Total from Incomes').': '.'</TD><TD>'.Currency($incomes_total).'</TD></TR>';
+	$table = '<table class="align-right"><tr><td>'._('Total from Incomes').': '.'</td><td>'.Currency($incomes_total).'</td></tr>';
 
-	$table .= '<TR><TD>'._('Less').': '._('Total from Expenses').': '.'</TD><TD>'.Currency($payments_total[1]['TOTAL']).'</TD></TR>';
+	$table .= '<tr><td>'._('Less').': '._('Total from Expenses').': '.'</td><td>'.Currency($payments_total[1]['TOTAL']).'</td></tr>';
 
-	$table .= '<TR><TD>'._('Balance').': <b>'.'</b></TD><TD><b id="update_balance">'.Currency(($incomes_total-$payments_total[1]['TOTAL'])).'</b></TD></TR>';
+	$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b id="update_balance">'.Currency(($incomes_total-$payments_total[1]['TOTAL'])).'</b></td></tr>';
 	
 	//add General Balance
-	$table .= '<TR><TD colspan="2"><hr /></TD></TR><TR><TD>'._('Total from Incomes').': '.'</TD><TD>'.Currency($incomes_total).'</TD></TR>';
+	$table .= '<tr><td colspan="2"><hr /></td></tr><tr><td>'._('Total from Incomes').': '.'</td><td>'.Currency($incomes_total).'</td></tr>';
 	
 	if ( $RosarioModules['Student_Billing'])
 	{
 		$student_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."'"));
-		$table .= '<TR><TD>& '._('Total from Student Payments').': '.'</TD><TD>'.Currency($student_payments_total[1]['TOTAL']).'</TD></TR>';
+		$table .= '<tr><td>& '._('Total from Student Payments').': '.'</td><td>'.Currency($student_payments_total[1]['TOTAL']).'</td></tr>';
 	}
 	else
 		$student_payments_total[1]['TOTAL'] = 0;
 		
-	$table .= '<TR><TD>'._('Less').': '._('Total from Expenses').': '.'</TD><TD>'.Currency($payments_total[1]['TOTAL']).'</TD></TR>';
+	$table .= '<tr><td>'._('Less').': '._('Total from Expenses').': '.'</td><td>'.Currency($payments_total[1]['TOTAL']).'</td></tr>';
 
 	$Staff_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."'"));
-	$table .= '<TR><TD>& '._('Total from Staff Payments').': '.'</TD><TD>'.Currency($Staff_payments_total[1]['TOTAL']).'</TD></TR>';
+	$table .= '<tr><td>& '._('Total from Staff Payments').': '.'</td><td>'.Currency($Staff_payments_total[1]['TOTAL']).'</td></tr>';
 
-	$table .= '<TR><TD>'._('General Balance').': <b>'.'</b></TD><TD><b id="update_balance">'.Currency(($incomes_total+$student_payments_total[1]['TOTAL']-$payments_total[1]['TOTAL']-$Staff_payments_total[1]['TOTAL'])).'</b></TD></TR></TABLE>';
+	$table .= '<tr><td>'._('General Balance').': <b>'.'</b></td><td><b id="update_balance">'.Currency(($incomes_total+$student_payments_total[1]['TOTAL']-$payments_total[1]['TOTAL']-$Staff_payments_total[1]['TOTAL'])).'</b></td></tr></table>';
 		
 	if ( !$_REQUEST['print_statements'])
 		DrawHeader('','',$table);
@@ -123,5 +123,5 @@ if ( !$_REQUEST['modfunc'])
 		DrawHeader($table,'','',null,null,true);
 	
 	if ( !$_REQUEST['print_statements'] && AllowEdit())
-		echo '</FORM>';
+		echo '</form>';
 }

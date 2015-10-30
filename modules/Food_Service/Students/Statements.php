@@ -36,23 +36,23 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 
 	if (count($xstudents))
 	{
-		$student_select = _('Student').' <SELECT name="student_select"><OPTION value="">'._('Not Specified').'</OPTION>';
-		$student_select .= '<OPTION value="'.$student['STUDENT_ID'].'"'.($_REQUEST['student_select']==$student['STUDENT_ID'] ? ' SELECTED' : '').'>'.$student['FULL_NAME'].'</OPTION>';
+		$student_select = _('Student').' <select name="student_select"><option value="">'._('Not Specified').'</option>';
+		$student_select .= '<option value="'.$student['STUDENT_ID'].'"'.($_REQUEST['student_select']==$student['STUDENT_ID'] ? ' SELECTED' : '').'>'.$student['FULL_NAME'].'</option>';
 		foreach ( (array)$xstudents as $xstudent)
-			$student_select .= '<OPTION value="'.$xstudent['STUDENT_ID'].'"'.($_REQUEST['student_select']==$xstudent['STUDENT_ID'] ? ' SELECTED' : '').'>'.$xstudent['FULL_NAME'].'</OPTION>';
-		$student_select .= '</SELECT>';
+			$student_select .= '<option value="'.$xstudent['STUDENT_ID'].'"'.($_REQUEST['student_select']==$xstudent['STUDENT_ID'] ? ' SELECTED' : '').'>'.$xstudent['FULL_NAME'].'</option>';
+		$student_select .= '</select>';
 	}
 
-	echo '<FORM action="'.PreparePHP_SELF().'" method="POST">';
-	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$type_select.($student_select?' : '.$student_select:'').' : <INPUT type="submit" value="'._('Go').'">');
-	echo '</FORM>';
+	echo '<form action="'.PreparePHP_SELF().'" method="POST">';
+	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$type_select.($student_select?' : '.$student_select:'').' : <input type="submit" value="'._('Go').'">');
+	echo '</form>';
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 
 	if ( $_REQUEST['detailed_view']!='true')
-		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'true')).'">'._('Detailed View').'</A>');
+		DrawHeader('<a href="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'true')).'">'._('Detailed View').'</a>');
 	else
-		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'false')).'">'._('Original View').'</A>');
+		DrawHeader('<a href="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'false')).'">'._('Original View').'</a>');
 
 	if ( $student['BALANCE'])
 	{

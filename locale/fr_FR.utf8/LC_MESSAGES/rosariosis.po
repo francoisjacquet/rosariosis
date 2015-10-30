@@ -3798,8 +3798,8 @@ msgstr "Etes-vous sur de vouloir assigner ce code barre?"
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Users/Accounts.php:34
 #, php-format
-msgid "That barcode is already assigned to Student <B>%s</B>."
-msgstr "Ce code barre est déjà assigné à l'Élève <B>%s</B>."
+msgid "That barcode is already assigned to Student <b>%s</b>."
+msgstr "Ce code barre est déjà assigné à l'Élève <b>%s</b>."
 
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Students/Accounts.php:25
@@ -3812,8 +3812,8 @@ msgstr ""
 #: modules/Food_Service/Students/Accounts.php:25
 #: modules/Food_Service/Users/Accounts.php:25
 #, php-format
-msgid "That barcode is already assigned to User <B>%s</B>."
-msgstr "Ce code barre est déjà assigné à l'Utilisateur <B>%s</B>."
+msgid "That barcode is already assigned to User <b>%s</b>."
+msgstr "Ce code barre est déjà assigné à l'Utilisateur <b>%s</b>."
 
 #: modules/Food_Service/Students/Accounts.php:98
 msgid "Include Inactive Students in Shared Account"
@@ -3885,10 +3885,10 @@ msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:19
 msgid ""
-"%N now has a <B>negative balance</B> in %h lunch account. Please send in the "
+"%N now has a <b>negative balance</b> in %h lunch account. Please send in the "
 "negative balance plus %T.  THANK YOU!"
 msgstr ""
-"%N a maintenant un <B>solde négatif</B> sur son compte de cantine. Merci "
+"%N a maintenant un <b>solde négatif</b> sur son compte de cantine. Merci "
 "d'envoyer le montant plus %T. Merci!"
 
 #: modules/Food_Service/Students/Reminders.php:21
@@ -3896,7 +3896,7 @@ msgid ""
 "%N now has a <b>negative balance</b> below the allowed minimum.  Please send "
 "in the negative balance plus %T.  THANK YOU!"
 msgstr ""
-"%N a maintenant un <B>solde négatif</B> en dessous du minimum autorisé. "
+"%N a maintenant un <b>solde négatif</b> en dessous du minimum autorisé. "
 "Merci d'envoyer le montant plus %T. Merci!"
 
 #: modules/Food_Service/Students/Reminders.php:22
@@ -4126,10 +4126,10 @@ msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:7
 msgid ""
-"You now have a <B>negative balance</B> in your lunch account. Please send in "
+"You now have a <b>negative balance</b> in your lunch account. Please send in "
 "the negative balance plus %T.  THANK YOU!"
 msgstr ""
-"Vous avez maintenant un <B>solde négatif</B> sur votre compte de cantine. "
+"Vous avez maintenant un <b>solde négatif</b> sur votre compte de cantine. "
 "Merci d'envoyer le montant plus %T. Merci!"
 
 #: modules/Food_Service/Users/Reminders.php:9
@@ -4137,7 +4137,7 @@ msgid ""
 "You now have a <b>negative balance</b> below the allowed minimum.  Please "
 "send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
-"Vous avez maintenant un <B>solde négatif</B> en dessous du minimum autorisé. "
+"Vous avez maintenant un <b>solde négatif</b> en dessous du minimum autorisé. "
 "Merci d'envoyer le montant plus %T. Merci!"
 
 #: modules/Food_Service/Users/Reminders.php:61
@@ -4593,8 +4593,8 @@ msgid "Final Grade"
 msgstr "Note Finale"
 
 #: modules/Grades/FinalGrades.php:140
-msgid "Abs<BR />YTD / MP"
-msgstr "Absences<BR />Année en cours / Période scolaire"
+msgid "Abs<br />YTD / MP"
+msgstr "Absences<br />Année en cours / Période scolaire"
 
 #: modules/Grades/FinalGrades.php:252 modules/Grades/InputFinalGrades.php:718
 #: modules/Grades/Menu.php:19 modules/Grades/Menu.php:49
@@ -6930,12 +6930,12 @@ msgid "Add an <b>Existing</b> Address"
 msgstr "Ajouter une Adresse <b>Existante</b>"
 
 #: modules/Students/includes/Address.inc.php:454
-msgid "Add a <b>New</b> Contact<BR />without an Address"
-msgstr "Ajouter un <b>Nouveau</b> Contact<BR /> sans Adresse"
+msgid "Add a <b>New</b> Contact<br />without an Address"
+msgstr "Ajouter un <b>Nouveau</b> Contact<br /> sans Adresse"
 
 #: modules/Students/includes/Address.inc.php:465
-msgid "Add an <b>Existing</b> Contact<BR />without an Address"
-msgstr "Ajouter un Contact <b>Existant</b><BR /> sans Adresse"
+msgid "Add an <b>Existing</b> Contact<br />without an Address"
+msgstr "Ajouter un Contact <b>Existant</b><br /> sans Adresse"
 
 #: modules/Students/includes/Address.inc.php:484
 msgid "Contacts without an Address"
@@ -8234,8 +8234,8 @@ msgstr "Publier la Note dans Moodle?"
 #~ msgid "We hereby recognize"
 #~ msgstr "Par la présente, nous reconnaissons"
 
-#~ msgid "Who has completed all the academic<BR />requirements for"
-#~ msgstr "Qui a atteint les prérequis<BR />académiques pour"
+#~ msgid "Who has completed all the academic<br />requirements for"
+#~ msgstr "Qui a atteint les prérequis<br />académiques pour"
 
 #~ msgid "Academic Excellence in"
 #~ msgstr "Excellence Académique en"

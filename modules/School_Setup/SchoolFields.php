@@ -127,7 +127,7 @@ if (empty($_REQUEST['modfunc']))
 		$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 			'&modfunc=delete&id=' . $_REQUEST['id'] . "'";
 
-		$delete_button = '<INPUT type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
 	}
 
 	// ADDING & EDITING FORM
@@ -143,7 +143,7 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['id'])
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'];
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'];
 
 		if ( $_REQUEST['id']!='new')
 			echo '&id='.$_REQUEST['id'];
@@ -152,10 +152,10 @@ if (empty($_REQUEST['modfunc']))
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
 
-		$header .= '<TABLE class="width-100p valign-top fixed-col"><TR class="st">';
+		$header .= '<table class="width-100p valign-top fixed-col"><tr class="st">';
 
 		//FJ field name required
-		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</TD>';
+		$header .= '<td>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</td>';
 
 		// You can't change a student field type after it has been created
 		// mab - allow changing between select and autos and edits and text and exports
@@ -175,23 +175,23 @@ if (empty($_REQUEST['modfunc']))
 		else
 			$type_options = array('text' => _('Text'),'numeric' => _('Number'),'date' => _('Date'),'textarea' => _('Long Text'));
 
-		$header .= '<TD>' . SelectInput($RET['TYPE'],'tables['.$_REQUEST['id'].'][TYPE]',_('Data Type'),$type_options,false) . '</TD>';
+		$header .= '<td>' . SelectInput($RET['TYPE'],'tables['.$_REQUEST['id'].'][TYPE]',_('Data Type'),$type_options,false) . '</td>';
 		if ( $_REQUEST['id']!='new' && $RET['TYPE']!='text')
 		{
 			$_ROSARIO['allow_edit'] = $allow_edit;
 			$_ROSARIO['AllowEdit'][$modname] = $AllowEdit;
 		}
 
-		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</TD>';
+		$header .= '<td>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</td>';
 
-		$header .= '</TR><TR class="st">';
+		$header .= '</tr><tr class="st">';
 		$colspan = 2;
-		$header .= '<TD style="vertical-align:bottom;" colspan="'.$colspan.'">'.TextInput($RET['DEFAULT_SELECTION'],'tables['.$_REQUEST['id'].'][DEFAULT_SELECTION]',_('Default')).'<BR />'._('* for dates: YYYY-MM-DD').'</TD>';
+		$header .= '<td style="vertical-align:bottom;" colspan="'.$colspan.'">'.TextInput($RET['DEFAULT_SELECTION'],'tables['.$_REQUEST['id'].'][DEFAULT_SELECTION]',_('Default')).'<br />'._('* for dates: YYYY-MM-DD').'</td>';
 
 		$new = ($_REQUEST['id']=='new');
-		$header .= '<TD>' . CheckboxInput($RET['REQUIRED'],'tables['.$_REQUEST['id'].'][REQUIRED]',_('Required'),'',$new) . '</TD>';
+		$header .= '<td>' . CheckboxInput($RET['REQUIRED'],'tables['.$_REQUEST['id'].'][REQUIRED]',_('Required'),'',$new) . '</td>';
 
-		$header .= '</TR></TABLE>';
+		$header .= '</tr></table>';
 	}
 	else
 		$header = false;
@@ -199,7 +199,7 @@ if (empty($_REQUEST['modfunc']))
 	if ( $header)
 	{
 		DrawHeader($header);
-		echo '</FORM>';
+		echo '</form>';
 	}
 
 	// DISPLAY THE MENU

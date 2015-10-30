@@ -2444,8 +2444,8 @@ msgstr "Sind Sie sicher, dass Sie diesen Barcode zuordnen wollen?"
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Users/Accounts.php:34
 #, php-format
-msgid "That barcode is already assigned to Student <B>%s</B>."
-msgstr "Der Barcode ist bereits dem Schüler <B>% s </ B> zugeordnet."
+msgid "That barcode is already assigned to Student <b>%s</b>."
+msgstr "Der Barcode ist bereits dem Schüler <b>% s </ B> zugeordnet."
 
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Students/Accounts.php:25
@@ -2455,8 +2455,8 @@ msgstr "Klicken Sie auf OK, um es an den aktuellen Schüler zuzzweisen oder Abbr
 #: modules/Food_Service/Students/Accounts.php:25
 #: modules/Food_Service/Users/Accounts.php:25
 #, php-format
-msgid "That barcode is already assigned to User <B>%s</B>."
-msgstr "Der Strichcode ist bereits auf Benutzer <B>% s </ B> zugeordnet."
+msgid "That barcode is already assigned to User <b>%s</b>."
+msgstr "Der Strichcode ist bereits auf Benutzer <b>% s </ B> zugeordnet."
 
 #: modules/Food_Service/Students/Accounts.php:98
 msgid "Include Inactive Students in Shared Account"
@@ -2525,8 +2525,8 @@ msgid "%N's lunch account is getting low.  Please send in at least %P with %h re
 msgstr "% N Mittagstisch Konto ist sehr niedrig. Bitte senden Sie spätestens % P% h Erinnerungs-Schreiben. DANKE!"
 
 #: modules/Food_Service/Students/Reminders.php:19
-msgid "%N now has a <B>negative balance</B> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
-msgstr "% N hat jetzt eine negative Bilanz <B> </ B> für das % h Mittagessen Konto. Bitte begleichen Sie die Schulden % T. DANKE!"
+msgid "%N now has a <b>negative balance</b> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgstr "% N hat jetzt eine negative Bilanz <b> </ B> für das % h Mittagessen Konto. Bitte begleichen Sie die Schulden % T. DANKE!"
 
 #: modules/Food_Service/Students/Reminders.php:21
 msgid "%N now has a <b>negative balance</b> below the allowed minimum.  Please send in the negative balance plus %T.  THANK YOU!"
@@ -2666,8 +2666,8 @@ msgid "Your lunch account is getting low.  Please send in at least %P with your 
 msgstr "Ihr Mittagessen Konto ist sehr niedrig. Bitte senden Sie mindestens% P mit einem  Erinnerungsschreiben. DANKE!"
 
 #: modules/Food_Service/Users/Reminders.php:7
-msgid "You now have a <B>negative balance</B> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
-msgstr "Sie haben nun einen negativen Saldo <B> </ B> im Mittagessen-Konto. Bitte senden Sie Guthaben% T. DANKE!"
+msgid "You now have a <b>negative balance</b> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgstr "Sie haben nun einen negativen Saldo <b> </ B> im Mittagessen-Konto. Bitte senden Sie Guthaben% T. DANKE!"
 
 #: modules/Food_Service/Users/Reminders.php:9
 msgid "You now have a <b>negative balance</b> below the allowed minimum.  Please send in the negative balance plus %T.  THANK YOU!"
@@ -3070,7 +3070,7 @@ msgid "Final Grade"
 msgstr "Gesamtnote"
 
 #: modules/Grades/FinalGrades.php:127
-msgid "Abs<BR />YTD / MP"
+msgid "Abs<br />YTD / MP"
 msgstr "Abs <br /> YTD / MP"
 
 #: modules/Grades/FinalGrades.php:212
@@ -5493,11 +5493,11 @@ msgid "Add an <b>Existing</b> Address"
 msgstr "Fügen Sie eine <b> Bestehende </ b> Adresse"
 
 #: modules/Students/includes/Address.inc.php:458
-msgid "Add a <b>New</b> Contact<BR />without an Address"
+msgid "Add a <b>New</b> Contact<br />without an Address"
 msgstr "Fügen Sie einen <b> neuen </ b> <br /> Kontakt ohne Adresse ein"
 
 #: modules/Students/includes/Address.inc.php:469
-msgid "Add an <b>Existing</b> Contact<BR />without an Address"
+msgid "Add an <b>Existing</b> Contact<br />without an Address"
 msgstr "Fügen Sie einen <b> bestehenden </ b> <br /> Kontakt ohne Adresse ein"
 
 #: modules/Students/includes/Address.inc.php:488
@@ -6701,7 +6701,7 @@ msgstr "Diese Person hat keine Informationen im System."
 #~ msgid "We hereby recognize"
 #~ msgstr "Wir erkennen an"
 
-#~ msgid "Who has completed all the academic<BR />requirements for"
+#~ msgid "Who has completed all the academic<br />requirements for"
 #~ msgstr "Wer hat alle akademischen Anforderungen <br /> abgeschlossen"
 
 #~ msgid "Academic Excellence in"

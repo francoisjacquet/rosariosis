@@ -103,17 +103,17 @@ function Search( $type, $extra = null )
 
 		case 'general_info':
 
-			echo '<TR><TD><label for="last">' . _( 'Last Name' ) . '</label></TD>
-				<TD><input type="text" name="last" id="last" size="30" maxlength="50" /></TD></TR>';
+			echo '<tr><td><label for="last">' . _( 'Last Name' ) . '</label></td>
+				<td><input type="text" name="last" id="last" size="30" maxlength="50" /></td></tr>';
 
-			echo '<TR><TD><label for="first">' . _( 'First Name' ) . '</label></TD>
-				<TD><input type="text" name="first" id="first" size="30" maxlength="50" /></TD></TR>';
+			echo '<tr><td><label for="first">' . _( 'First Name' ) . '</label></td>
+				<td><input type="text" name="first" id="first" size="30" maxlength="50" /></td></tr>';
 
-			echo '<TR><TD><label for="stuid">' . sprintf( _( '%s ID' ), Config( 'NAME' ) ) . '</label></TD>
-				<TD><input type="text" name="stuid" id="stuid" size="30" maxlength="50" /></TD></TR>';
+			echo '<tr><td><label for="stuid">' . sprintf( _( '%s ID' ), Config( 'NAME' ) ) . '</label></td>
+				<td><input type="text" name="stuid" id="stuid" size="30" maxlength="50" /></td></tr>';
 
-			echo '<TR><TD><label for="addr">' . _( 'Address' ) . '</label></TD>
-				<TD><input type="text" name="addr" id="addr" size="30" maxlength="255" /></TD></TR>';
+			echo '<tr><td><label for="addr">' . _( 'Address' ) . '</label></td>
+				<td><input type="text" name="addr" id="addr" size="30" maxlength="255" /></td></tr>';
 
 			$list = DBGet( DBQuery( "SELECT ID,TITLE,SHORT_NAME
 				FROM SCHOOL_GRADELEVELS
@@ -123,35 +123,35 @@ function Search( $type, $extra = null )
 			if ( $_REQUEST['advanced'] === 'Y'
 				|| is_array( $extra ) )
 			{
-				echo '<TR><TD>' . _( 'Grade Levels' ) . '</TD>
-				<TD><label class="nobr"><INPUT type="checkbox" name="grades_not" value="Y" />&nbsp;' . _( 'Not' ) . '</label>
-				<BR />
-				<label class="nobr"><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades[\');">&nbsp;' . _( 'Check All' ) . '</label>
-				</TD></TR>
-				<TR><TD colspan="2">';
+				echo '<tr><td>' . _( 'Grade Levels' ) . '</td>
+				<td><label class="nobr"><input type="checkbox" name="grades_not" value="Y" />&nbsp;' . _( 'Not' ) . '</label>
+				<br />
+				<label class="nobr"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades[\');">&nbsp;' . _( 'Check All' ) . '</label>
+				</td></tr>
+				<tr><td colspan="2">';
 
 				foreach ( (array)$list as $value )
 				{
 					$checked = ( is_array( $extra ) ? ( $extra[ $value['ID'] ] ? ' checked' : '' ) : ( $extra == $value['ID'] ? ' checked' : '' ) );
 
-					echo '<label class="nobr"><INPUT type="checkbox" name="grades[' . $value['ID'] . ']" value="Y"' . $checked . ' />&nbsp;' . $value['SHORT_NAME'] . '</label> ';
+					echo '<label class="nobr"><input type="checkbox" name="grades[' . $value['ID'] . ']" value="Y"' . $checked . ' />&nbsp;' . $value['SHORT_NAME'] . '</label> ';
 				}
 
-				echo '</TD></TR>';
+				echo '</td></tr>';
 			}
 			else
 			{
-				echo '<TR><TD><label for="grade">' . _( 'Grade Level' ) . '</label>
-				</TD><TD>
-				<SELECT name="grade" id="grade"><OPTION value="">' . _( 'Not Specified' ) . '</OPTION>';
+				echo '<tr><td><label for="grade">' . _( 'Grade Level' ) . '</label>
+				</td><td>
+				<select name="grade" id="grade"><option value="">' . _( 'Not Specified' ) . '</option>';
 
 				foreach ( (array)$list as $value )
 				{
-					echo '<OPTION value="' . $value['ID'] . '"' . ( $extra == $value['ID'] ? ' SELECTED' : '' ) . '>' .
-						$value['TITLE'] . '</OPTION>';
+					echo '<option value="' . $value['ID'] . '"' . ( $extra == $value['ID'] ? ' SELECTED' : '' ) . '>' .
+						$value['TITLE'] . '</option>';
 				}
 
-				echo '</SELECT></TD></TR>';
+				echo '</select></td></tr>';
 			}
 
 		break;
@@ -248,11 +248,11 @@ function Search( $type, $extra = null )
 				if ( $type === 'student_fields_all'
 					|| $type === 'staff_fields_all' )
 				{
-					echo '<TR><TD colspan="2">
-					<TABLE class="width-100p">
-					<TR><TD colspan="2">&nbsp;<A onclick="switchMenu(this); return false;" href="#" class="switchMenu"><B>' . $category[key($category)][1]['CATEGORY_TITLE'] . '</B></A>
-					<BR />
-					<TABLE class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					echo '<tr><td colspan="2">
+					<table class="width-100p">
+					<tr><td colspan="2">&nbsp;<a onclick="switchMenu(this); return false;" href="#" class="switchMenu"><b>' . $category[key($category)][1]['CATEGORY_TITLE'] . '</b></a>
+					<br />
+					<table class="widefat width-100p cellspacing-0 col1-align-right hide">';
 
 					$TR_classes .= 'st';
 				}
@@ -263,20 +263,20 @@ function Search( $type, $extra = null )
 
 					$id = GetInputID( $name );
 
-					echo '<TR class="' . $TR_classes . '"><TD>
+					echo '<tr class="' . $TR_classes . '"><td>
 					<label for="' . $id . '">' . $col['TITLE'] . '</label>
-					</TD><TD>
-					<INPUT type="text" name="' . $name . '" id="' . $id . '" size="30" maxlength="255" />
-					</TD></TR>';
+					</td><td>
+					<input type="text" name="' . $name . '" id="' . $id . '" size="30" maxlength="255" />
+					</td></tr>';
 				}
 
 				foreach ( (array)$category['numeric'] as $col )
 				{
-					echo '<TR class="' . $TR_classes . '"><TD>' . $col['TITLE'] . '</TD><TD>
-					<span class="sizep2">&ge;</span> <INPUT type="text" name="custb[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
-					<span class="sizep2">&le;</span> <INPUT type="text" name="custe[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
-					<label>' . _( 'No Value' ) . ' <INPUT type="checkbox" name="custn[' . $col['COLUMN_NAME'] . ']" /></label>&nbsp;
-					</TD></TR>';
+					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '</td><td>
+					<span class="sizep2">&ge;</span> <input type="text" name="custb[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
+					<span class="sizep2">&le;</span> <input type="text" name="custe[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
+					<label>' . _( 'No Value' ) . ' <input type="checkbox" name="custn[' . $col['COLUMN_NAME'] . ']" /></label>&nbsp;
+					</td></tr>';
 				}
 
 				// merge select, autos, edits, exports & codeds
@@ -307,11 +307,11 @@ function Search( $type, $extra = null )
 
 					$id = GetInputID( $name );
 
-					echo '<TR class="' . $TR_classes . '">
-					<TD><label for="' . $id . '">' . $col['TITLE'] . '</label></TD><TD>
-					<SELECT name="' . $name . '" id="' . $id . '">
-						<OPTION value="">' . _( 'N/A' ) . '</OPTION>
-						<OPTION value="!">' . _( 'No Value' ) . '</OPTION>';
+					echo '<tr class="' . $TR_classes . '">
+					<td><label for="' . $id . '">' . $col['TITLE'] . '</label></td><td>
+					<select name="' . $name . '" id="' . $id . '">
+						<option value="">' . _( 'N/A' ) . '</option>
+						<option value="!">' . _( 'No Value' ) . '</option>';
 
 					foreach ( (array)$options as $option )
 					{
@@ -332,12 +332,12 @@ function Search( $type, $extra = null )
 
 						if ( $value !== ''
 							&& $option !== '' )
-							echo '<OPTION value="' . $value . '">' . $option . '</OPTION>';
+							echo '<option value="' . $value . '">' . $option . '</option>';
 					}
 
 					// edits specificities
 					if ( $col['TYPE'] === 'edits' )
-						echo '<OPTION value="~">' . _( 'Other Value' ) . '</OPTION>';
+						echo '<option value="~">' . _( 'Other Value' ) . '</option>';
 
 					// Get autos / edits pull-down edited options
 					if ( $col['TYPE'] === 'autos'
@@ -365,27 +365,27 @@ function Search( $type, $extra = null )
 						$options_RET = DBGet( DBQuery( $sql_options ) );
 
 						// add the 'new' option, is also the separator
-						echo '<OPTION value="---">-' . _( 'Edit' ) . '-</OPTION>';
+						echo '<option value="---">-' . _( 'Edit' ) . '-</option>';
 
 						foreach ( (array)$options_RET as $option )
 							if ( !in_array( $option[$col_name], $options ) )
-								echo '<OPTION value="' . $option[$col_name] . '">' . $option[$col_name] . '</OPTION>';
+								echo '<option value="' . $option[$col_name] . '">' . $option[$col_name] . '</option>';
 					}
 
-					echo '</SELECT></TD></TR>';
+					echo '</select></td></tr>';
 				}
 
 				foreach ( (array)$category['date'] as $col )
 				{
-					echo '<TR class="' . $TR_classes . '"><TD>' . $col['TITLE'] . '<BR />
-					<label>' . _( 'No Value' ) . '&nbsp;<INPUT type="checkbox" name="custn[' . $col['COLUMN_NAME'] . ']" /></label>
-					</TD>
-					<TD><table class="cellspacing-0">
+					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '<br />
+					<label>' . _( 'No Value' ) . '&nbsp;<input type="checkbox" name="custn[' . $col['COLUMN_NAME'] . ']" /></label>
+					</td>
+					<td><table class="cellspacing-0">
 					<tr><td><span class="sizep2">&ge;</span>&nbsp;</td>
 					<td>' . PrepareDate( '', '_custb[' . $col['COLUMN_NAME'] . ']', true, array( 'short' => true ) ) . '</td></tr>
 					<tr><td><span class="sizep2">&le;</span>&nbsp;</td>
 					<td>' . PrepareDate( '', '_custe[' . $col['COLUMN_NAME'] . ']', true, array( 'short' => true ) ) . '</td></tr>
-					</table></TD></TR>';
+					</table></td></tr>';
 				}
 
 				foreach ( (array)$category['radio'] as $col )
@@ -394,8 +394,8 @@ function Search( $type, $extra = null )
 
 					$id = GetInputID( $name );
 
-					echo '<TR class="' . $TR_classes . '"><TD>' . $col['TITLE'] . '</TD>
-					<TD><TABLE class="cellspacing-0">
+					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '</td>
+					<td><table class="cellspacing-0">
 					<tr><td><label for="' . $id . '">' . _( 'All' ) . '</label></td>
 					<td><label for="' . $id . '_Y">' . _( 'Yes' ) . '</label></td>
 					<td><label for="' . $id . '_N">' . _( 'No' ) . '</label></td></tr>
@@ -405,12 +405,12 @@ function Search( $type, $extra = null )
 					<input name="' . $name . '" id="' . $id . '_Y" type="radio" value="Y" />
 					</td><td>
 					<input name="' . $name . '" id="' . $id . '_N" type="radio" value="N" />
-					</td></tr></table></TD></TR>';
+					</td></tr></table></td></tr>';
 				}
 
 				if ( $type === 'student_fields_all'
 					|| $type === 'staff_fields_all' )
-					echo '</TABLE></TD></TR></TABLE></TD></TR>';
+					echo '</table></td></tr></table></td></tr>';
 			}
 
 		break;

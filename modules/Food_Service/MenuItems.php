@@ -203,9 +203,9 @@ if (empty($_REQUEST['modfunc']))
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 	//echo '<pre>'; var_dump($LO_ret); echo '</pre>';
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
-	echo '<BR />';
+	echo '<br />';
 //FJ fix SQL bug invalid sort order
 	if (isset($error)) echo ErrorMessage($error);
 
@@ -218,8 +218,8 @@ if (empty($_REQUEST['modfunc']))
 //FJ add translation
 		ListOutput($LO_ret,$LO_columns,'Meal Item','Meal Items',$link,array(),$extra);
 
-	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }
 
 function makeTextInput($value,$name)
@@ -283,7 +283,7 @@ function get_icons_select($path)
 		//filter images
 		if ( in_array( mb_strtolower(mb_strrchr($icon, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
 		{
-			$files[$icon] = array($icon, '<IMG src="'.$path.$icon.'" height="30" />');
+			$files[$icon] = array($icon, '<img src="'.$path.$icon.'" height="30" />');
 		}
 	}
 

@@ -171,7 +171,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		);
 	}
 
-	$message .= implode( '</TD><TD>', $weekdays_inputs );
+	$message .= implode( '</td><td>', $weekdays_inputs );
 
 	$message .= '</td></tr></table>';
 
@@ -584,7 +584,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 				$RET[1]['SCHOOL_DATE'] = $_REQUEST['school_date'];
 			}
 
-			echo '<FORM action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&event_id=' . $_REQUEST['event_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" METHOD="POST">';
+			echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=detail&event_id=' . $_REQUEST['event_id'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" method="POST">';
 		}
 		// Assignment
 		elseif ( $_REQUEST['assignment_id'] )
@@ -603,23 +603,23 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			$RET[1]['STAFF_ID'] = GetTeacher( $RET[1]['STAFF_ID'] );
 		}
 
-		echo '<BR />';
+		echo '<br />';
 
 		PopTable( 'header', $title );
 
-		echo '<TABLE class="cellpadding-5 col1-align-right"><TR><TD>' . _( 'Date' ) . '</TD>' .
-			'<TD>' . DateInput( $RET[1]['SCHOOL_DATE'], 'values[SCHOOL_DATE]', '', false ) . '</TD></TR>';
+		echo '<table class="cellpadding-5 col1-align-right"><tr><td>' . _( 'Date' ) . '</td>' .
+			'<td>' . DateInput( $RET[1]['SCHOOL_DATE'], 'values[SCHOOL_DATE]', '', false ) . '</td></tr>';
 
 		//FJ add assigned date
 		if ( $RET[1]['ASSIGNED_DATE'] )
-			echo '<TR><TD>' . _( 'Assigned Date' ) . '</TD>' .
-				'<TD>' . DateInput( $RET[1]['ASSIGNED_DATE'], 'values[ASSIGNED_DATE]', '', false ) . '</TD></TR>';
+			echo '<tr><td>' . _( 'Assigned Date' ) . '</td>' .
+				'<td>' . DateInput( $RET[1]['ASSIGNED_DATE'], 'values[ASSIGNED_DATE]', '', false ) . '</td></tr>';
 
 		//FJ add event repeat
 		if ( $_REQUEST['event_id'] === 'new' )
 		{
-			echo '<TR><TD>' . _( 'Event Repeat' ) . '</TD>' .
-				'<TD><input name="REPEAT" value="0" maxlength="3" size="1" type="number" min="0" />&nbsp;' . _( 'Days' ) . '</TD></TR>';
+			echo '<tr><td>' . _( 'Event Repeat' ) . '</td>' .
+				'<td><input name="REPEAT" value="0" maxlength="3" size="1" type="number" min="0" />&nbsp;' . _( 'Days' ) . '</td></tr>';
 		}
 
 		//hook
@@ -627,37 +627,37 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 		
 		//FJ bugfix SQL bug value too long for type character varying(50)
-		echo '<TR><TD>' . _( 'Title' ) . '</TD>' .
-			'<TD>' . TextInput( $RET[1]['TITLE'], 'values[TITLE]', '', 'required maxlength="50"' ) . '</TD></TR>';
+		echo '<tr><td>' . _( 'Title' ) . '</td>' .
+			'<td>' . TextInput( $RET[1]['TITLE'], 'values[TITLE]', '', 'required maxlength="50"' ) . '</td></tr>';
 
 		//FJ add course
 		if ( $RET[1]['COURSE'] )
-			echo '<TR><TD>' . _( 'Course' ) . '</TD>' .
-				'<TD>' . $RET[1]['COURSE'] . '</TD></TR>';
+			echo '<tr><td>' . _( 'Course' ) . '</td>' .
+				'<td>' . $RET[1]['COURSE'] . '</td></tr>';
 
 		if ( $RET[1]['STAFF_ID'] )
-			echo '<TR><TD>' . _( 'Teacher' ) . '</TD>' .
-				'<TD>' . TextInput( $RET[1]['STAFF_ID'], 'values[STAFF_ID]' ) . '</TD></TR>';
+			echo '<tr><td>' . _( 'Teacher' ) . '</td>' .
+				'<td>' . TextInput( $RET[1]['STAFF_ID'], 'values[STAFF_ID]' ) . '</td></tr>';
 
-		echo '<TR><TD>' . _( 'Notes' ) . '</TD>' .
-			'<TD>' . TextAreaInput( $RET[1]['DESCRIPTION'], 'values[DESCRIPTION]' ) . '</TD></TR>';
+		echo '<tr><td>' . _( 'Notes' ) . '</td>' .
+			'<td>' . TextAreaInput( $RET[1]['DESCRIPTION'], 'values[DESCRIPTION]' ) . '</td></tr>';
 
 		if ( AllowEdit() )
 		{
-			echo '<TR><TD colspan="2" class="center">' . SubmitButton( _( 'Save' ), 'button' );
+			echo '<tr><td colspan="2" class="center">' . SubmitButton( _( 'Save' ), 'button' );
 
 			if ( $_REQUEST['event_id'] !== 'new' )
 				echo SubmitButton( _( 'Delete' ), 'button' );
 
-			echo '</TD></TR>';
+			echo '</td></tr>';
 		}
 
-		echo '</TABLE>';
+		echo '</table>';
 
 		PopTable( 'footer' );
 
 		if ( $_REQUEST['event_id'] )
-			echo '</FORM>';
+			echo '</form>';
 
 		unset( $_REQUEST['values'] );
 		unset( $_SESSION['_REQUEST_vars']['values'] );
@@ -715,9 +715,9 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 			$end_date = mb_strtoupper( date( 'd-M-Y' ) );
 	}
 
-	echo '<FORM action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" METHOD="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" method="POST">';
 
-	DrawHeader( '<A HREF="Modules.php?modname=' . $_REQUEST['modname'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" >' . _( 'Back to Calendar' ) . '</A>' );
+	DrawHeader( '<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" >' . _( 'Back to Calendar' ) . '</a>' );
 
 	DrawHeader(
 		_( 'Timeframe' ) . ': ' .
@@ -743,7 +743,7 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 
 	ListOutput( $events_RET, $column_names, 'Event', 'Events');
 
-	echo '</FORM>';
+	echo '</form>';
 }
 
 // Display Calendar View
@@ -891,7 +891,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	}
 
 
-	echo '<FORM action="Modules.php?modname=' . $_REQUEST['modname'] . '" METHOD="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 
 	// Admin Headers
 	if ( AllowEdit() )
@@ -921,24 +921,24 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			' onchange="ajaxLink(' . $calendar_onchange_URL . ' + document.getElementById(\'calendar_id\').value);" ',
 			false
 		) .
-		'<A HREF="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create" class="nobr">' .
+		'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create" class="nobr">' .
 			button( 'add' ) . _( 'Create new calendar' ) .
-		'</A> | ' .
-		'<A HREF="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] . '" class="nobr">' .
+		'</a> | ' .
+		'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=create&calendar_id=' . $_REQUEST['calendar_id'] . '" class="nobr">' .
 			_( 'Recreate this calendar' ) .
-		'</A>&nbsp; ' .
-		'<A HREF="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] . '" class="nobr">' .
+		'</a>&nbsp; ' .
+		'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=delete_calendar&calendar_id=' . $_REQUEST['calendar_id'] . '" class="nobr">' .
 			button( 'remove' ) . _( 'Delete this calendar' ) .
-		'</A>';
+		'</a>';
 	}
 
 	$list_events_URL = 'Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=list_events&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'];
 
 	DrawHeader(
 		PrepareDate( mb_strtoupper( $first_day_month ), '', false, array( 'M' => 1, 'Y' => 1, 'submit' => true ) ) .
-		' <A HREF="' . $list_events_URL . '">' .
+		' <a href="' . $list_events_URL . '">' .
 			_( 'List Events' ) .
-		'</A>',
+		'</a>',
 		SubmitButton( _( 'Save' ) )
 	);
 
@@ -955,7 +955,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		);
 	}
 
-	echo '<BR />';
+	echo '<br />';
 
 	// Get Events
 	$events_RET = DBGet( DBQuery( "SELECT ID,to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE,TITLE,DESCRIPTION
@@ -1006,17 +1006,17 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	// Calendar Header
 	echo '<table id="calendar" class="width-100p valign-top">
-		<THEAD><TR class="center">';
+		<thead><tr class="center">';
 
-	echo '<TH>' . _( 'Sunday' ) . '</TH>' .
-		'<TH>' . _( 'Monday' ) . '</TH>' .
-		'<TH>' . _( 'Tuesday' ) . '</TH>' .
-		'<TH>' . _( 'Wednesday' ) . '</TH>' .
-		'<TH>' . _( 'Thursday' ) . '</TH>' .
-		'<TH>' . _( 'Friday' ) . '</TH>' .
-		'<TH>' . _( 'Saturday' ) . '</TH>';
+	echo '<th>' . _( 'Sunday' ) . '</th>' .
+		'<th>' . _( 'Monday' ) . '</th>' .
+		'<th>' . _( 'Tuesday' ) . '</th>' .
+		'<th>' . _( 'Wednesday' ) . '</th>' .
+		'<th>' . _( 'Thursday' ) . '</th>' .
+		'<th>' . _( 'Friday' ) . '</th>' .
+		'<th>' . _( 'Saturday' ) . '</th>';
 
-	echo '</TR></THEAD><TBODY><TR>';
+	echo '</tr></thead><tbody><tr>';
 
 	// Get Blocks
 	$blocks_RET = DBGet( DBQuery( "SELECT DISTINCT BLOCK
@@ -1079,7 +1079,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			|| count( $assignments_RET[$date] ) )
 			$day_inner_classes .= ' hover';
 
-		echo '<TD class="calendar-day' . $day_classes . '">
+		echo '<td class="calendar-day' . $day_classes . '">
 			<table class="' . $day_inner_classes . '"><tr>';
 
 		$day_number_classes = '';
@@ -1117,10 +1117,10 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			}
 			else
 			{
-				echo '<INPUT type="checkbox" name="all_day[' . $date . ']" value="Y" title="' . _( 'All Day' ) . '" />&nbsp;';
+				echo '<input type="checkbox" name="all_day[' . $date . ']" value="Y" title="' . _( 'All Day' ) . '" />&nbsp;';
 
 				//FJ fix bug MINUTES not numeric
-				echo '<INPUT type="number" min="1" max="998" name="minutes[' . $date . ']" size="3" title="' . _( 'Minutes' ) . '" />';
+				echo '<input type="number" min="1" max="998" name="minutes[' . $date . ']" size="3" title="' . _( 'Minutes' ) . '" />';
 			}
 		}
 
@@ -1138,7 +1138,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		}
 
 		echo '</td></tr>
-		<tr><TD colspan="2" class="valign-top">';
+		<tr><td colspan="2" class="valign-top">';
 
 		// Events
 		foreach ( (array)$events_RET[$date] as $event )
@@ -1147,8 +1147,8 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 			echo '<div class="calendar-event">' .
 				( AllowEdit() || $event['DESCRIPTION'] ?
-					'<A HREF="#" onclick="CalEventPopup(popupURL + \'&event_id=' . $event['ID'] . '\'); return false;" title="' . htmlentities( $title ) . '">' .
-					$title . '</A>'
+					'<a href="#" onclick="CalEventPopup(popupURL + \'&event_id=' . $event['ID'] . '\'); return false;" title="' . htmlentities( $title ) . '">' .
+					$title . '</a>'
 					: '<span title="' . htmlentities( $title ) . '">' . $title . '</span>'
 				) .
 			'</div>';
@@ -1158,13 +1158,13 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		foreach ( (array)$assignments_RET[$date] as $assignment )
 		{
 			echo '<div class="calendar-event assignment' . ( $assignment['ASSIGNED'] == 'Y' ? ' assigned' : '' ) . '">' .
-				'<A HREF="#" onclick="CalEventPopup(popupURL + \'&assignment_id=' . $assignment['ID'] . '\'); return false;" title="' . htmlentities( $assignment['TITLE'] ) . '">' .
+				'<a href="#" onclick="CalEventPopup(popupURL + \'&assignment_id=' . $assignment['ID'] . '\'); return false;" title="' . htmlentities( $assignment['TITLE'] ) . '">' .
 					$assignment['TITLE'] .
-				'</A>
+				'</a>
 			</div>';
 		}
 
-		echo '</TD></TR>';
+		echo '</td></tr>';
 
 		if ( AllowEdit() )
 		{
@@ -1186,12 +1186,12 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			'</td>';
 		}
 
-		echo '</table></TD>';
+		echo '</table></td>';
 
 		$return_counter++;
 
 		if ( $return_counter % 7 === 0 )
-			echo '</TR><TR>';
+			echo '</tr><tr>';
 	}
 
 	// Skip from Last Day of Month until end of Calendar
@@ -1202,10 +1202,10 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		echo '<td colspan="' . $skip . '" class="calendar-skip">&nbsp;</td>';
 	}
 
-	echo '</TR></TBODY></TABLE>';
+	echo '</tr></tbody></table>';
 
-	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '<BR /><BR /></FORM>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><br /></form>';
 }
 
 

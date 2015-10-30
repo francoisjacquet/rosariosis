@@ -73,16 +73,16 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 	AND fsa.STUDENT_ID=s.STUDENT_ID"));
 	$student = $student[1];
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=submit&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=submit&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Cancel Sale'),'submit[cancel]').SubmitButton(_('Complete Sale'),'submit[save]'));
-	echo '</FORM>';
+	echo '</form>';
 
 	DrawHeader(NoInput($student['FULL_NAME'],'&nbsp;'.$student['STUDENT_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 
 	if ( $student['BALANCE']!='')
 	{
-		echo '<TABLE class="width-100p">';
-		echo '<TR class="st"><TD class="width-100p valign-top">';
+		echo '<table class="width-100p">';
+		echo '<tr class="st"><td class="width-100p valign-top">';
 
 		$RET = DBGet(DBQuery('SELECT fsti.DESCRIPTION,fsti.AMOUNT FROM FOOD_SERVICE_TRANSACTIONS fst,FOOD_SERVICE_TRANSACTION_ITEMS fsti WHERE fst.ACCOUNT_ID=\''.$student['ACCOUNT_ID'].'\' AND fst.STUDENT_ID=\''.UserStudentID().'\' AND fst.SYEAR=\''.UserSyear().'\' AND fst.SHORT_NAME=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\' AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND \'tomorrow\' AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID'));
 
@@ -94,10 +94,10 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		// IMAGE
 //FJ fix error Warning: fclose() expects parameter 1 to be resource, boolean given
 		if (file_exists($picture=$StudentPicturesPath.UserSyear().'/'.UserStudentID().'.jpg') || file_exists($picture=$StudentPicturesPath.(UserSyear()-1).'/'.UserStudentID().'.jpg'))
-			echo '</TD><TD rowspan="2"><IMG SRC="'.$picture.'" width="150" />';
+			echo '</td><td rowspan="2"><img src="'.$picture.'" width="150" />';
 
-		echo '</TD></TR>';
-		echo '<TR><TD class="width-100p valign-top">';
+		echo '</td></tr>';
+		echo '<tr><td class="width-100p valign-top">';
 
 		$items_RET = DBGet(DBQuery("SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE,fsi.PRICE_REDUCED,fsi.PRICE_FREE,fsi.ICON 
 		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi 
@@ -134,7 +134,7 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&menu_id='.$_REQUEST['menu_id'],
 					'variables' => array('id' => 'SALE_ID'));
 //FJ css WPadmin
-//		$link['add']['html'] = array('DESCRIPTION' => '<TABLE class="cellspacing-0"><TR><TD>'.SelectInput('','item_sn','',$items).'</TD></TR></TABLE>','ICON' => '<TABLE class="cellspacing-0"><TR><TD><INPUT type=submit value='._('Add').'></TD></TR></TABLE>','remove'=>button('add'));
+//		$link['add']['html'] = array('DESCRIPTION' => '<table class="cellspacing-0"><tr><td>'.SelectInput('','item_sn','',$items).'</td></tr></table>','ICON' => '<table class="cellspacing-0"><tr><td><input type=submit value='._('Add').'></td></tr></table>','remove'=>button('add'));
 		$link['add']['html'] = array('DESCRIPTION'=>SelectInput('','item_sn','',$items),'ICON'=>SubmitButton(_('Add')),'PRICE' => '&nbsp;','remove'=>button('add'));
 		$columns = array('DESCRIPTION' => _('Item'),'ICON' => _('Icon'),'PRICE' => _('Price'));
 
@@ -145,12 +145,12 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		$extra = array('save'=>false,'search'=>false,
 			'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']));
 
-		echo '<BR />';
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
+		echo '<br />';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
 		ListOutput($LO_ret,$columns,'Item','Items',$link,array(),$extra);
-		echo '</FORM>';
+		echo '</form>';
 
-		echo '</TD></TR></TABLE>';
+		echo '</td></tr></table>';
 	}
 	else
 		ErrorMessage(array(_('This student does not have a valid Meal Account.')),'fatal');

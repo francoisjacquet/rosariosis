@@ -39,6 +39,7 @@ Changes in 2.9
 - Add space after control structures keywords: if, for, foreach, while, switch
 - Add spaces before and after arrow: => (foreach & associative arrays)
 - Always use require_once in place of include & require, program wide
+- HTML tags to lowercase, program wide
 
 Changes in 2.8.11
 -----------------

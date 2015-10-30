@@ -32,9 +32,9 @@ if ( isset( $_REQUEST['day_end'] )
 if ( empty( $end_date ) )
 	$end_date = DBDate();
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-DrawHeader(' &nbsp; &nbsp; <B>'._('Report Timeframe').': </B>'.PrepareDate($start_date,'_start').' - '.PrepareDate($end_date,'_end'),SubmitButton(_('Go')));
-echo '</FORM>';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+DrawHeader(' &nbsp; &nbsp; <b>'._('Report Timeframe').': </b>'.PrepareDate($start_date,'_start').' - '.PrepareDate($end_date,'_end'),SubmitButton(_('Go')));
+echo '</form>';
 
 $billing_payments = DBGet(DBQuery("SELECT sum(AMOUNT) AS AMOUNT FROM BILLING_PAYMENTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND PAYMENT_DATE BETWEEN '".$start_date."' AND '".$end_date."'"));
 
@@ -42,12 +42,12 @@ $billing_fees = DBGet(DBQuery("SELECT sum(f.AMOUNT) AS AMOUNT FROM BILLING_FEES 
 
 PopTable('header',_('Totals'));
 
-echo '<TABLE class="cellspacing-0 align-right">';
-echo '<TR><TD>'._('Payments').': '.'</TD><TD>'.Currency($billing_payments[1]['AMOUNT']).'</TD></TR>';
+echo '<table class="cellspacing-0 align-right">';
+echo '<tr><td>'._('Payments').': '.'</td><td>'.Currency($billing_payments[1]['AMOUNT']).'</td></tr>';
 
-echo '<TR><TD>'._('Less').': '._('Fees').': '.'</TD><TD>'.Currency($billing_fees[1]['AMOUNT']).'</TD></TR>';
+echo '<tr><td>'._('Less').': '._('Fees').': '.'</td><td>'.Currency($billing_fees[1]['AMOUNT']).'</td></tr>';
 
-echo '<TR><TD><B>'._('Total').': '.'</B></TD><TD><B>'.Currency(($billing_payments[1]['AMOUNT']-$billing_fees[1]['AMOUNT'])).'</B></TD></TR>';
-echo '</TABLE>';
+echo '<tr><td><b>'._('Total').': '.'</b></td><td><b>'.Currency(($billing_payments[1]['AMOUNT']-$billing_fees[1]['AMOUNT'])).'</b></td></tr>';
+echo '</table>';
 
 PopTable('footer');

@@ -156,9 +156,9 @@ if (empty($_REQUEST['modfunc']))
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
-	echo '<BR />';
+	echo '<br />';
 
 	$extra = array('save'=>false,'search'=>false,
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
@@ -168,8 +168,8 @@ if (empty($_REQUEST['modfunc']))
 //FJ add translation
 		ListOutput($LO_ret,$LO_columns,'Meal','Meals',$link,array(),$extra);
 
-	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }
 
 function makeTextInput($value,$name)

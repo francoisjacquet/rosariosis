@@ -40,7 +40,7 @@ if ( $_REQUEST['values'])
 }
 
 DrawHeader(ProgramTitle());
-echo '<BR />';
+echo '<br />';
 
 $days = array(_('Sunday'),_('Monday'),_('Tuesday'),_('Wednesday'),_('Thursday'),_('Friday'),_('Saturday'));
 
@@ -77,13 +77,13 @@ else
 
 PopTable('header',_('Allow Eligibility Posting'));
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-echo '<TABLE>';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+echo '<table>';
 //FJ add translation 
-echo '<TR><TD><B>'._('From').'</B></TD><TD>'.SelectInput($START_DAY,'values[START_DAY]','',$day_options,false,'',false).'</TD><TD>'.SelectInput($START_HOUR,'values[START_HOUR]','',$hour_options,false,'',false).'</TD><TD><B>:</B></TD><TD>'.SelectInput($START_MINUTE,'values[START_MINUTE]','',$minute_options,false,'',false).'</TD><TD>'.SelectInput($START_M,'values[START_M]','',$m_options,false,'',false).'</TD></TR>';
-echo '<TR><TD><B>'._('To').'</B></TD><TD>'.SelectInput($END_DAY,'values[END_DAY]','',$day_options,false,'',false).'</TD><TD>'.SelectInput($END_HOUR,'values[END_HOUR]','',$hour_options,false,'',false).'</TD><TD><B>:</B></TD><TD>'.SelectInput($END_MINUTE,'values[END_MINUTE]','',$minute_options,false,'',false).'</TD><TD>'.SelectInput($END_M,'values[END_M]','',$m_options,false,'',false).'</TD></TR>';
-echo '<TR><TD colspan="4" class="center">'.SubmitButton(_('Save')).'</TD></TR>';
-echo '</TABLE>';
-echo '</FORM>';
+echo '<tr><td><b>'._('From').'</b></td><td>'.SelectInput($START_DAY,'values[START_DAY]','',$day_options,false,'',false).'</td><td>'.SelectInput($START_HOUR,'values[START_HOUR]','',$hour_options,false,'',false).'</td><td><b>:</b></td><td>'.SelectInput($START_MINUTE,'values[START_MINUTE]','',$minute_options,false,'',false).'</td><td>'.SelectInput($START_M,'values[START_M]','',$m_options,false,'',false).'</td></tr>';
+echo '<tr><td><b>'._('To').'</b></td><td>'.SelectInput($END_DAY,'values[END_DAY]','',$day_options,false,'',false).'</td><td>'.SelectInput($END_HOUR,'values[END_HOUR]','',$hour_options,false,'',false).'</td><td><b>:</b></td><td>'.SelectInput($END_MINUTE,'values[END_MINUTE]','',$minute_options,false,'',false).'</td><td>'.SelectInput($END_M,'values[END_M]','',$m_options,false,'',false).'</td></tr>';
+echo '<tr><td colspan="4" class="center">'.SubmitButton(_('Save')).'</td></tr>';
+echo '</table>';
+echo '</form>';
 
 PopTable('footer');

@@ -27,7 +27,7 @@ function DrawHeader( $left, $right = '', $center = '' )
 		$_ROSARIO['DrawHeader'] = '';
 	}
 
-	echo '<TABLE class="width-100p cellspacing-0"><TR class="st">';
+	echo '<table class="width-100p cellspacing-0"><tr class="st">';
 
 	if ( $left !== '' )
 	{
@@ -36,27 +36,27 @@ function DrawHeader( $left, $right = '', $center = '' )
 		{
 			if ( isset( $_ROSARIO['HeaderIcon'] )
 				&& $_ROSARIO['HeaderIcon'] !== false )
-				$left = '<IMG src="' . $_ROSARIO['HeaderIcon'] . '" class="headerIcon" /> ' . $left;
+				$left = '<img src="' . $_ROSARIO['HeaderIcon'] . '" class="headerIcon" /> ' . $left;
 
 			$left = '<h2>' . $left . '</h2>';
 		}
 
-		echo '<TD' . $_ROSARIO['DrawHeader'] . '>&nbsp;' .
+		echo '<td' . $_ROSARIO['DrawHeader'] . '>&nbsp;' .
 			$left .
-		'</TD>';
+		'</td>';
 	}
 
 	if ( $center !== '' )
-		echo '<TD' . $_ROSARIO['DrawHeader'] . ' style="text-align:center">' .
+		echo '<td' . $_ROSARIO['DrawHeader'] . ' style="text-align:center">' .
 			$center .
-		'</TD>';
+		'</td>';
 
 	if ( $right !== '' )
-		echo '<TD' . $_ROSARIO['DrawHeader'] . ' style="text-align:right">' .
+		echo '<td' . $_ROSARIO['DrawHeader'] . ' style="text-align:right">' .
 			$right .
-		'</TD>';
+		'</td>';
 
-	echo '</TR></TABLE>';
+	echo '</tr></table>';
 
 	// Secondary Headers
 	$_ROSARIO['DrawHeader'] = ' class="header2"';

@@ -1,6 +1,6 @@
 <?php
-echo '<TABLE class="width-100p valign-top fixed-col">';
-echo '<TR class="st"><TD rowspan="2">';
+echo '<table class="width-100p valign-top fixed-col">';
+echo '<tr class="st"><td rowspan="2">';
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
@@ -8,7 +8,7 @@ if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 	<div id="formUserPhoto" style="display:none;">
 		<br />
 		<input type="file" id="photo" name="photo" accept="image/*" /><span class="loading"></span>
-		<BR /><span class="legend-gray"><?php echo _('User Photo'); ?> (.jpg)</span>
+		<br /><span class="legend-gray"><?php echo _('User Photo'); ?> (.jpg)</span>
 	</div>
 	<script>
 	//toggle form & photo
@@ -23,11 +23,11 @@ if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 if ( $_REQUEST['staff_id']!='new' && ($file = @fopen($picture_path=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r')) || ($file = @fopen($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))):
 	fclose($file);
 ?>
-	<IMG SRC="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" id="userImg" />
+	<img src="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" id="userImg" />
 <?php endif;
 // END IMAGE
 
-echo '</TD><TD>';
+echo '</td><td>';
 
 //FJ add translation
 $titles_array = array('Mr' => _('Mr'),'Mrs' => _('Mrs'),'Ms' => _('Ms'),'Miss' => _('Miss'),'Dr' => _('Dr'));
@@ -37,53 +37,53 @@ if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 {
 	if ( $_REQUEST['staff_id']=='new' || $_REQUEST['moodle_create_user'])
 //FJ last & first name required
-		echo '<TABLE>
-		<TR class="st"><TD>
+		echo '<table>
+		<tr class="st"><td>
 		'.SelectInput($staff['TITLE'],'staff[TITLE]',_('Title'),$titles_array,'').'
-		</TD><TD>
+		</td><td>
 		'.TextInput($staff['FIRST_NAME'],'staff[FIRST_NAME]',($staff['FIRST_NAME']==''?'<span class="legend-red">':'')._('First Name').($staff['FIRST_NAME']==''?'</span>':''),'maxlength=50 required', ($_REQUEST['moodle_create_user'] ? false : true)).'
-		</TD><TD>
+		</td><td>
 		'.TextInput($staff['MIDDLE_NAME'],'staff[MIDDLE_NAME]',_('Middle Name'),'maxlength=50').'
-		</TD><TD>
+		</td><td>
 		'.TextInput($staff['LAST_NAME'],'staff[LAST_NAME]',($staff['LAST_NAME']==''?'<span class="legend-red">':'')._('Last Name').($staff['LAST_NAME']==''?'</span>':''),'maxlength=50 required', ($_REQUEST['moodle_create_user'] ? false : true)).'
-		</TD><TD>
+		</td><td>
 		'.SelectInput($staff['NAME_SUFFIX'],'staff[NAME_SUFFIX]',_('Suffix'),$suffixes_array,'').'
-		</TD></TR>
-		</TABLE>';
+		</td></tr>
+		</table>';
 	else
 	{
-		$user_name = '<TABLE>
-		<TR class="st"><TD>
+		$user_name = '<table>
+		<tr class="st"><td>
 		'.SelectInput($staff['TITLE'],'staff[TITLE]',_('Title'),$titles_array,'','',false).'
-		</TD><TD>
+		</td><td>
 		'.TextInput($staff['FIRST_NAME'],'staff[FIRST_NAME]',_('First Name'),'maxlength=50 required',false).'
-		</TD><TD>
-		'.TextInput($staff['MIDDLE_NAME'],'staff[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'</TD><TD>
+		</td><td>
+		'.TextInput($staff['MIDDLE_NAME'],'staff[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'</td><td>
 		'.TextInput($staff['LAST_NAME'],'staff[LAST_NAME]',_('Last Name'),'maxlength=50 required',false).'
-		</TD><TD>
+		</td><td>
 		'.SelectInput($staff['NAME_SUFFIX'],'staff[NAME_SUFFIX]',_('Suffix'),$suffixes_array,'','',false).'
-		</TD></TR>
-		</TABLE>';
+		</td></tr>
+		</table>';
 
 		echo '<script>var user_name='.json_encode($user_name).';</script>';
 
-		echo '<DIV id="user_name"><div class="onclick" onclick=\'addHTML(user_name';
+		echo '<div id="user_name"><div class="onclick" onclick=\'addHTML(user_name';
 		
-		echo ',"user_name",true);\'><span class="underline-dots">'.$titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']].'</span></div></DIV><span class="legend-gray">'._('Name').'</span>';
+		echo ',"user_name",true);\'><span class="underline-dots">'.$titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']].'</span></div></div><span class="legend-gray">'._('Name').'</span>';
 	}
 }
 else
-	echo ($staff['TITLE']!=''||$staff['FIRST_NAME']!=''||$staff['MIDDLE_NAME']!=''||$staff['LAST_NAME']!=''||$staff['NAME_SUFFIX']!=''?$titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']]:'-').'<BR /><span class="legend-gray">'._('Name').'</span>';
+	echo ($staff['TITLE']!=''||$staff['FIRST_NAME']!=''||$staff['MIDDLE_NAME']!=''||$staff['LAST_NAME']!=''||$staff['NAME_SUFFIX']!=''?$titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']]:'-').'<br /><span class="legend-gray">'._('Name').'</span>';
 
-echo '</TD><TD>';
+echo '</td><td>';
 
 echo NoInput($staff['STAFF_ID'],sprintf(_('%s ID'),Config('NAME')));
 
-echo '</TD><TD>';
+echo '</td><td>';
 
 echo NoInput($staff['ROLLOVER_ID'],sprintf(_('Last Year %s ID'),Config('NAME')));
 
-echo '</TD></TR><TR class="st"><TD>';
+echo '</td></tr><tr class="st"><td>';
 
 //FJ Moodle integrator
 //username, password required
@@ -93,31 +93,31 @@ $legend_red = $required && !$staff['USERNAME'];
 
 echo TextInput($staff['USERNAME'],'staff[USERNAME]',($legend_red ? '<span class="legend-red">':'')._('Username').(($_REQUEST['moodle_create_user'] || $old_user_in_moodle) && !$staff['USERNAME']?'</span>':''),'size=12 maxlength=100 '.($required ? 'required' : ''),($_REQUEST['moodle_create_user'] ?false:true));
 
-echo '</TD><TD>';
+echo '</td><td>';
 
 $required = $required;
 $legend_red = $required && !$staff['PASSWORD'];
 
-echo TextInput((!$staff['PASSWORD'] || $_REQUEST['moodle_create_user']?'':str_repeat('*',8)),'staff[PASSWORD]',($legend_red ? '<span class="legend-red">':'<span class="legend-gray">').($_REQUEST['moodle_create_user'] || $old_user_in_moodle?'<SPAN style="cursor:help" title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('Password').($_REQUEST['moodle_create_user'] || $old_user_in_moodle?'*</SPAN>':'').'</span>','size=12 maxlength=42 autocomplete=off'.($required ? ' required' : ''), ($_REQUEST['moodle_create_user'] ? false : true));
+echo TextInput((!$staff['PASSWORD'] || $_REQUEST['moodle_create_user']?'':str_repeat('*',8)),'staff[PASSWORD]',($legend_red ? '<span class="legend-red">':'<span class="legend-gray">').($_REQUEST['moodle_create_user'] || $old_user_in_moodle?'<span style="cursor:help" title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('Password').($_REQUEST['moodle_create_user'] || $old_user_in_moodle?'*</span>':'').'</span>','size=12 maxlength=42 autocomplete=off'.($required ? ' required' : ''), ($_REQUEST['moodle_create_user'] ? false : true));
 
-echo '</TD><TD>';
+echo '</td><td>';
 
 echo NoInput(makeLogin($staff['LAST_LOGIN']),_('Last Login'));
 
 
-echo '</TD></TR></TABLE><HR />';
+echo '</td></tr></table><hr />';
 
-echo '<TABLE class="width-100p valign-top">';
+echo '<table class="width-100p valign-top">';
 if (basename($_SERVER['PHP_SELF'])!='index.php')
 {
-	echo '<TR class="st"><TD>';
+	echo '<tr class="st"><td>';
 
-	echo '<TABLE><TR><TD>';
+	echo '<table><tr><td>';
 	unset($options);
 	$options = array('admin' => _('Administrator'),'teacher' => _('Teacher'),'parent' => _('Parent'),'none' => _('No Access'));
 	echo SelectInput($staff['PROFILE'],'staff[PROFILE]',(!$staff['PROFILE']?'<span class="legend-red">':'')._('User Profile').(!$staff['PROFILE']?'</span>':''),$options,false,'',($_REQUEST['moodle_create_user'] ?false:true));
 
-	echo '</TD></TR><TR><TD>';
+	echo '</td></tr><tr><td>';
 
 	unset($profiles);
 	if ( $_REQUEST['staff_id']!='new')
@@ -131,9 +131,9 @@ if (basename($_SERVER['PHP_SELF'])!='index.php')
 	else
 		$na = _('Default');
 	echo SelectInput($staff['PROFILE_ID'],'staff[PROFILE_ID]',_('Permissions'),$profiles,$na);
-	echo '</TD></TR></TABLE>';
+	echo '</td></tr></table>';
 
-	echo '</TD><TD>';
+	echo '</td><td>';
 
 	//FJ remove Schools for Parents
 	if ( $staff['PROFILE']!='parent')
@@ -145,23 +145,23 @@ if (basename($_SERVER['PHP_SELF'])!='index.php')
 		if (count($schools_RET))
 		{
 			$i = 0;
-			echo '<TABLE><TR class="st">';
+			echo '<table><tr class="st">';
 			foreach ( (array)$schools_RET as $value)
 			{
 				if ( $i%3==0)
-					echo '</TR><TR class="st">';
-				echo '<TD>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'], '', false, button('check'), button('x')).'</TD>';
+					echo '</tr><tr class="st">';
+				echo '<td>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'], '', false, button('check'), button('x')).'</td>';
 				$i++;
 			}
-			echo '</TR></TABLE>';
+			echo '</tr></table>';
 			echo '<span class="legend-gray">'._('Schools').'</span>';
 		}
 		//echo SelectInput($staff['SCHOOL_ID'],'staff[SCHOOL_ID]','School',$options,'All Schools');
 	}
-	echo '</TD></TR>';
+	echo '</td></tr>';
 }
 
-echo '<TR class="st"><TD>';
+echo '<tr class="st"><td>';
 //FJ Moodle integrator
 //email required
 //echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
@@ -170,11 +170,11 @@ if (AllowEdit())
 else
 	echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
 
-echo '</TD><TD>';
+echo '</td><td>';
 
 echo TextInput($staff['PHONE'],'staff[PHONE]',_('Phone Number'),'size=12 maxlength=100');
 
-echo '</TD></TR></TABLE>';
+echo '</td></tr></table>';
 
 $_REQUEST['category_id'] = '1';
 $separator = '<hr />';

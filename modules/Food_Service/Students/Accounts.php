@@ -13,7 +13,7 @@ if ( $_REQUEST['modfunc']=='update')
                 {
                     $student_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID=fssa.STUDENT_ID AND fssa.ACCOUNT_ID='".$RET[1]['ACCOUNT_ID']."'"));
                     $question = _("Are you sure you want to assign that barcode?");
-                    $message = sprintf(_("That barcode is already assigned to Student <B>%s</B>."),$student_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
+                    $message = sprintf(_("That barcode is already assigned to Student <b>%s</b>."),$student_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
                 }
                 else
                 {
@@ -22,7 +22,7 @@ if ( $_REQUEST['modfunc']=='update')
                     {
                         $staff_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".$RET[1]['STAFF_ID']."'"));
                         $question = _("Are you sure you want to assign that barcode?");
-                        $message = sprintf(_("That barcode is already assigned to User <B>%s</B>."),$staff_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
+                        $message = sprintf(_("That barcode is already assigned to User <b>%s</b>."),$staff_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current student or Cancel to cancel all changes.");
                     }
                 }
             }
@@ -93,24 +93,24 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 	AND s.STUDENT_ID!='".UserStudentID()."'".
 	($_REQUEST['include_inactive']?'':" AND exists(SELECT '' FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=s.STUDENT_ID AND SYEAR='".UserSyear()."' AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))")));
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 
 	DrawHeader('<label>'.CheckBoxOnclick('include_inactive').' '._('Include Inactive Students in Shared Account').'</label>',SubmitButton(_('Save')));
 
-	echo '<BR />';
+	echo '<br />';
 
 	PopTable('header',_('Account Information'),'width="100%"');
 
-	echo '<TABLE class="width-100p valign-top"><TR>';
+	echo '<table class="width-100p valign-top"><tr>';
 	echo '';
 
-	echo '<TD>'.NoInput($student['FULL_NAME'],'<b>'.$student['STUDENT_ID'].'</b>').'</TD>';
-	echo '<TD>'.NoInput(red($student['BALANCE']),_('Balance')).'</TD>';
+	echo '<td>'.NoInput($student['FULL_NAME'],'<b>'.$student['STUDENT_ID'].'</b>').'</td>';
+	echo '<td>'.NoInput(red($student['BALANCE']),_('Balance')).'</td>';
 
-	echo '</TR></TABLE>';
-	echo '<HR>';
+	echo '</tr></table>';
+	echo '<hr />';
 
-	echo '<TABLE class="width-100p cellspacing-0 valign-top"><TR><TD>';
+	echo '<table class="width-100p cellspacing-0 valign-top"><tr><td>';
 
 	// warn if account non-existent (balance query failed)
 	if ( $student['BALANCE']=='')
@@ -130,27 +130,27 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 	// warn if other students associated with the same account
 	if (count($xstudents))
 	{
-		$warning = _('Other students associated with the same account').':<BR />';
+		$warning = _('Other students associated with the same account').':<br />';
 
 		foreach ( (array)$xstudents as $xstudent)
-			$warning .= '&nbsp;'.$xstudent['FULL_NAME'].'<BR />';
+			$warning .= '&nbsp;'.$xstudent['FULL_NAME'].'<br />';
 
 		$tipJS = '<script>var tiptitle2='.json_encode(_('Warning')).'; var tipmsg2='.json_encode($warning).';</script>';
 
 		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2])" onMouseOut="htm()" onclick="return false;"');
 	}
 
-	echo '</TD>';
+	echo '</td>';
 	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
-	echo '<TD>'.SelectInput($student['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')).'</TD>';
-	echo '</TR><TR>';
+	echo '<td>'.SelectInput($student['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')).'</td>';
+	echo '</tr><tr>';
 	$options = array('Reduced' => _('Reduced'),'Free' => _('Free'));
-	echo '<TD>'.SelectInput($student['DISCOUNT'],'food_service[DISCOUNT]',_('Discount'),$options,_('Full')).'</TD>';
-	echo '<TD>'.TextInput($student['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25').'</TD>';
-	echo '</TR></TABLE>';
+	echo '<td>'.SelectInput($student['DISCOUNT'],'food_service[DISCOUNT]',_('Discount'),$options,_('Full')).'</td>';
+	echo '<td>'.TextInput($student['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25').'</td>';
+	echo '</tr></table>';
 
 	PopTable('footer');
 
-	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }

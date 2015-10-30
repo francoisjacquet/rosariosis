@@ -116,7 +116,7 @@ function appendStaffSQL($sql,$extra)
 			$sql .= " AND s.STAFF_ID IN (".$usrids.")";
 
 			if ( !$extra['NoSearchTerms'])
-				$_ROSARIO['SearchTerms'] .= '<b>'._('User ID').': </b>'.$usrids.'<BR />';
+				$_ROSARIO['SearchTerms'] .= '<b>'._('User ID').': </b>'.$usrids.'<br />';
 		}
 	}
 
@@ -125,7 +125,7 @@ function appendStaffSQL($sql,$extra)
 		$sql .= " AND UPPER(s.LAST_NAME) LIKE '".mb_strtoupper($_REQUEST['last'])."%'";
 
 		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Last Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Last Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['last']).'<br />';
 	}
 
 	if ( $_REQUEST['first'])
@@ -133,7 +133,7 @@ function appendStaffSQL($sql,$extra)
 		$sql .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 
 		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('First Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('First Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['first']).'<br />';
 	}
 
 	if ( $_REQUEST['profile'])
@@ -141,7 +141,7 @@ function appendStaffSQL($sql,$extra)
 		$sql .= " AND s.PROFILE='".$_REQUEST['profile']."'";
 
 		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Profile').': </b>'._(UCFirst($_REQUEST['profile'])).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Profile').': </b>'._(UCFirst($_REQUEST['profile'])).'<br />';
 	}
 
 	if ( $_REQUEST['username'])
@@ -149,7 +149,7 @@ function appendStaffSQL($sql,$extra)
 		$sql .= " AND UPPER(s.USERNAME) LIKE '".mb_strtoupper($_REQUEST['username'])."%'";
 
 		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('UserName starts with').': </b>'.str_replace("''", "'", $_REQUEST['username']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('UserName starts with').': </b>'.str_replace("''", "'", $_REQUEST['username']).'<br />';
 	}
 
 	return $sql;

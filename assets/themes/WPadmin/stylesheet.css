@@ -612,7 +612,7 @@ table.col1-align-right > tbody > tr > td:first-child{
 	vertical-align:middle
 }
 .center{
-	/*<CENTER> && <TD align="center">*/
+	/*<CENTER> && <td align="center">*/
 	text-align:center
 }
 table.center{

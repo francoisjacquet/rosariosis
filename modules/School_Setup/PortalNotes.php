@@ -215,14 +215,14 @@ if ( $_REQUEST['modfunc']!='remove')
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id' => 'ID');
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<span class=loading></span>\';">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST" enctype="multipart/form-data" onsubmit="if (document.getElementById(\'FILE_ATTACHED_FILE\').value) document.getElementById(\'loading\').innerHTML=\'<span class=loading></span>\';">';
 
 	DrawHeader('',SubmitButton(_('Save')));
 
 	ListOutput($notes_RET,$columns,'Note','Notes',$link);
 
-	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }
 
 function _makeTextInput($value,$name)
@@ -250,9 +250,9 @@ function _makeContentInput($value,$name)
 	else
 		$id = 'new';
 
-	$return .= '<DIV id="divNoteContent' . $id . '" class="rt2colorBox">' .
+	$return .= '<div id="divNoteContent' . $id . '" class="rt2colorBox">' .
 		TextareaInput( $value, "values[" . $id . "][" . $name . "]", '', 'rows=5' ) .
-	'</DIV>';
+	'</div>';
 	
 	return $return;
 }

@@ -10,21 +10,21 @@ $sql = "SELECT a.attnum,a.attname AS field,t.typname AS type,
 $RET = DBGet(DBQuery($sql),array(),array('RELNAME'));
 
 $PDF = PDFStart();
-echo '<TABLE>';
+echo '<table>';
 foreach ( (array)$RET as $table => $columns)
 {
 	if ( $i%2==0)
-		echo '<TR><TD class="valign-top">';
+		echo '<tr><td class="valign-top">';
 	echo '<b>'.$table.'</b>';
-	echo '<TABLE>';
+	echo '<table>';
 	foreach ( (array)$columns as $column)
-		echo '<TR><TD style="width:15px;">&nbsp; &nbsp; </TD><TD>'.$column['FIELD'].'</TD><TD>'.$column['TYPE'].'</TD></TR>';
-	echo '</TABLE>';
+		echo '<tr><td style="width:15px;">&nbsp; &nbsp; </td><td>'.$column['FIELD'].'</td><td>'.$column['TYPE'].'</td></tr>';
+	echo '</table>';
 	if ( $i%2==0)
-		echo '</TD><TD class="valign-top">';
+		echo '</td><td class="valign-top">';
 	else
-		echo '</TD></TR>';
+		echo '</td></tr>';
 	$i++;
 }
-echo '</TABLE>';
+echo '</table>';
 PDFStop($PDF);

@@ -37,40 +37,40 @@ if (isset($error))
 
 if ( $_REQUEST['search_modfunc']=='list')
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 	DrawHeader('',SubmitButton(_('Add Activity to Selected Students')));
-	echo '<BR />';
+	echo '<br />';
 
 //FJ css WPadmin
-	echo '<TABLE class="postbox center col1-align-right"><TR><TD>'._('Activity').'</TD>';
-	echo '<TD>';
+	echo '<table class="postbox center col1-align-right"><tr><td>'._('Activity').'</td>';
+	echo '<td>';
 	$activities_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
-	echo '<SELECT name="activity_id"><OPTION value="">'._('N/A').'</OPTION>';
+	echo '<select name="activity_id"><option value="">'._('N/A').'</option>';
 	if (count($activities_RET))
 	{
 		foreach ( (array)$activities_RET as $activity)
-			echo '<OPTION value="'.$activity['ID'].'">'.$activity['TITLE'].'</OPTION>';
+			echo '<option value="'.$activity['ID'].'">'.$activity['TITLE'].'</option>';
 	}
-	echo '</SELECT>';
-	echo '</TD>';
-	echo '</TR></TABLE><BR />';
+	echo '</select>';
+	echo '</td>';
+	echo '</tr></table><br />';
 
 }
 //FJ fix bug no Search when student already selected
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
 	$extra['new'] = true;
 	Widgets('activity');
 	Widgets('course');
 
 Search('student_id',$extra);
 if ( $_REQUEST['search_modfunc']=='list')
-	echo '<BR /><div class="center">' . SubmitButton(_('Add Activity to Selected Students')) . '</div></FORM>';
+	echo '<br /><div class="center">' . SubmitButton(_('Add Activity to Selected Students')) . '</div></form>';
 
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
+	return '<input type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
 }

@@ -5,13 +5,13 @@ $fields_RET = ParseMLArray( $fields_RET, 'TITLE' );
 
 //echo '<pre>'; var_dump($fields_RET); echo '</pre>';
 
-echo '<TABLE class="width-100p">';
+echo '<table class="width-100p">';
 
 foreach ( (array)$fields_RET as $field )
 {
 	//echo '<pre>'; var_dump($field); echo '</pre>';
 
-	echo '<TR><TD>';
+	echo '<tr><td>';
 
 	switch ( $field['TYPE'] )
 	{
@@ -62,7 +62,7 @@ foreach ( (array)$fields_RET as $field )
 		break;
 	}
 
-	echo '</TD></TR>';
+	echo '</td></tr>';
 }
 
-echo '</TABLE>';
+echo '</table>';

@@ -102,30 +102,30 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 {
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Notify Selected Parents'));
 		
-		$extra['extra_header_left'] = '<TABLE>';
+		$extra['extra_header_left'] = '<table>';
 
 		//FJ add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		
 		$template = $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE'];
 
-		$extra['extra_header_left'] .= '<TR class="st"><TD>&nbsp;</TD><TD>'.'<label><TEXTAREA name="inputnotifyparentstext" cols="97" rows="5">'.$template.'</TEXTAREA><BR /><span class="legend-gray">'._('New Parent Account').' - '._('Email Text').'</span></label></TD></TR>';
+		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>'.'<label><textarea name="inputnotifyparentstext" cols="97" rows="5">'.$template.'</textarea><br /><span class="legend-gray">'._('New Parent Account').' - '._('Email Text').'</span></label></td></tr>';
 		
-		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Substitutions').':</TD><TD><TABLE><TR class="st">';
-		$extra['extra_header_left'] .= '<TD>__PARENT_NAME__</TD><TD>= '._('Parent Name').'</TD><TD>&nbsp;</TD>';
-		$extra['extra_header_left'] .= '<TD>__ASSOCIATED_STUDENTS__</TD><TD>= '._('Associated Students').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR class="st">';
-		$extra['extra_header_left'] .= '<TD>__USERNAME__</TD><TD>= '._('Username').'</TD><TD>&nbsp;</TD>';
-		$extra['extra_header_left'] .= '<TD>__PASSWORD__</TD><TD>= '._('Password').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR class="st">';
-		$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD colspan="3">&nbsp;</TD>';
-		$extra['extra_header_left'] .= '</TR></TABLE></TD></TR>';
+		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
+		$extra['extra_header_left'] .= '<td>__PARENT_NAME__</td><td>= '._('Parent Name').'</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__ASSOCIATED_STUDENTS__</td><td>= '._('Associated Students').'</td>';
+		$extra['extra_header_left'] .= '</tr><tr class="st">';
+		$extra['extra_header_left'] .= '<td>__USERNAME__</td><td>= '._('Username').'</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__PASSWORD__</td><td>= '._('Password').'</td>';
+		$extra['extra_header_left'] .= '</tr><tr class="st">';
+		$extra['extra_header_left'] .= '<td>__SCHOOL_ID__</td><td>= '._('School').'</td><td colspan="3">&nbsp;</td>';
+		$extra['extra_header_left'] .= '</tr></table></td></tr>';
 		
-		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Test Mode').':'.'</TD><TD><label><input name="test_email" type="text" /><BR /><span class="legend-gray">'._('Email').'</span></label></TD></TR>';
-		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Test Mode').':'.'</td><td><label><input name="test_email" type="text" /><br /><span class="legend-gray">'._('Email').'</span></label></td></tr>';
+		$extra['extra_header_left'] .= '</table>';
 	}
 
 	$extra['SELECT'] = ",s.STAFF_ID AS CHECKBOX,s.USERNAME,s.EMAIL";
@@ -134,7 +134,7 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 
 	$extra['WHERE'] = " AND s.LAST_LOGIN IS NULL";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'staff\');" /><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'staff\');" /><A>');
 	$extra['columns_after'] = array('ASSOCIATED' => _('Associated Students'),'USERNAME' => _('Username'),'EMAIL' => _('Email'));
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['profile'] = 'parent';
@@ -144,8 +144,8 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center">' . SubmitButton(_('Notify Selected Parents')) . '</div>';
-		echo '</FORM>';
+		echo '<br /><div class="center">' . SubmitButton(_('Notify Selected Parents')) . '</div>';
+		echo '</form>';
 	}
 }
 
@@ -153,7 +153,7 @@ function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
 	if ( $THIS_RET['USERNAME'] && $THIS_RET['EMAIL'] && $THIS_RET['ASSOCIATED']>0)
-		return '<INPUT type="checkbox" name="staff['.$value.']" value="'.$value.'" />';
+		return '<input type="checkbox" name="staff['.$value.']" value="'.$value.'" />';
 	else
 		return '';
 }

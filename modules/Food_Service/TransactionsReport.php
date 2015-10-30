@@ -61,9 +61,9 @@ $types_rows = array('DEPOSIT' => _('Deposit'),'CREDIT' => _('Credit'),'DEBIT' =>
 $types_columns = array('CASH' => _('Cash'),'CHECK' => _('Check'),'CREDIT CARD' => _('Credit Card'),'DEBIT CARD' => _('Debit Card'),'TRANSFER' => _('Transfer'),'' => 'n/s');
 
 $PHP_tmp_SELF = PreparePHP_SELF();
-echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
-DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <INPUT type=submit value="'._('Go').'" />');
-echo '</FORM>';
+echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
+DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : <input type=submit value="'._('Go').'" />');
+echo '</form>';
 
 $RET = DBGet(DBQuery("SELECT 'Student' AS TYPE,fst.SHORT_NAME,fsti.SHORT_NAME AS ITEM_SHORT_NAME,sum(fsti.AMOUNT) AS AMOUNT 
 FROM FOOD_SERVICE_TRANSACTION_ITEMS fsti, FOOD_SERVICE_TRANSACTIONS fst 

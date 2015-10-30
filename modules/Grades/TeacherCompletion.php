@@ -13,29 +13,29 @@ if ( !$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$
 $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=school_periods.PERIOD_ID) ORDER BY SORT_ORDER");
 $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
-$period_select = '<SELECT name="period" onChange="ajaxPostForm(this.form,true);"><OPTION value="">'._('All').'</OPTION>';
+$period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);"><option value="">'._('All').'</option>';
 foreach ( (array)$periods_RET as $id => $period)
-	$period_select .= '<OPTION value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED':'').">".$period[1]['TITLE']."</OPTION>";
-$period_select .= "</SELECT>";
+	$period_select .= '<option value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED':'').">".$period[1]['TITLE']."</option>";
+$period_select .= "</select>";
 
-$mp_select = '<SELECT name="mp" onChange="ajaxPostForm(this.form,true);">';
+$mp_select = '<select name="mp" onChange="ajaxPostForm(this.form,true);">';
 if ( $pros!='')
 	foreach ( explode(',',str_replace("'",'',$pros)) as $pro)
 		if (GetMP($pro,'DOES_GRADES')=='Y')
-			$mp_select .= '<OPTION value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($pro)."</OPTION>";
+			$mp_select .= '<option value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($pro)."</option>";
 
-$mp_select .= '<OPTION value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' SELECTED':'').">".GetMP(UserMP())."</OPTION>";
+$mp_select .= '<option value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' SELECTED':'').">".GetMP(UserMP())."</option>";
 
 if (GetMP($sem,'DOES_GRADES')=='Y')
-	$mp_select .= '<OPTION value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($sem)."</OPTION>";
+	$mp_select .= '<option value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($sem)."</option>";
 
 if (GetMP($fy,'DOES_GRADES')=='Y')
-	$mp_select .= '<OPTION value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($fy)."</OPTION>";
-$mp_select .= '</SELECT>';
+	$mp_select .= '<option value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($fy)."</option>";
+$mp_select .= '</select>';
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader($mp_select.' - '.$period_select);
-echo '</FORM>';
+echo '</form>';
 
 //FJ multiple school periods for a course period
 /*$sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cp.PERIOD_ID,cp.TITLE AS COURSE_TITLE,

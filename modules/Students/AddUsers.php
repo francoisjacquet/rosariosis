@@ -57,11 +57,11 @@ if ( $_REQUEST['modfunc']!='delete')
 	{
 		if ( $_REQUEST['search_modfunc']=='list')
 		{
-			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+			echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 			DrawHeader('',SubmitButton(_('Add Selected Parents')));
 		}
 
-		echo '<TABLE class="center"><TR><TD>';
+		echo '<table class="center"><tr><td>';
 
 		$current_RET = DBGet(DBQuery("SELECT u.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,s.LAST_LOGIN FROM STUDENTS_JOIN_USERS u,STAFF s WHERE s.STAFF_ID=u.STAFF_ID AND u.STUDENT_ID='".UserStudentID()."' AND s.SYEAR='".UserSyear()."'"),array('LAST_LOGIN' => 'makeLogin'));
 
@@ -69,7 +69,7 @@ if ( $_REQUEST['modfunc']!='delete')
 
 		ListOutput($current_RET,array('FULL_NAME' => _('Parents'),'LAST_LOGIN' => _('Last Login')),'Associated Parent','Associated Parents',$link,array(),array('search'=>false));
 
-		echo '</TD></TR><TR><TD>';
+		echo '</td></tr><tr><td>';
 
 		if (AllowEdit())
 		{
@@ -77,7 +77,7 @@ if ( $_REQUEST['modfunc']!='delete')
 			$extra['link'] = array('FULL_NAME'=>false);
 			$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 			$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-			$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'staff\');" /><A>');
+			$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'staff\');" /><A>');
 			$extra['new'] = true;
 			$extra['options']['search'] = false;
 			$extra['profile'] = 'parent';
@@ -85,15 +85,15 @@ if ( $_REQUEST['modfunc']!='delete')
 			Search('staff_id',$extra);
 		}
 
-		echo '</TD></TR></TABLE>';
+		echo '</td></tr></table>';
 
 		if ( $_REQUEST['search_modfunc']=='list')
-			echo '<BR /><div class="center">' . SubmitButton(_('Add Selected Parents')) . '</div></FORM>';
+			echo '<br /><div class="center">' . SubmitButton(_('Add Selected Parents')) . '</div></form>';
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '<INPUT type="checkbox" name="staff['.$THIS_RET['STAFF_ID'].']" value="Y" />';
+	return '<input type="checkbox" name="staff['.$THIS_RET['STAFF_ID'].']" value="Y" />';
 }

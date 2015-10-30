@@ -46,14 +46,14 @@ if ( $_REQUEST['modfunc']=='backup' && isset($_REQUEST['_ROSARIO_PDF']))
 
 if ( !$_REQUEST['modfunc'])
 {
-	echo '<BR />';
+	echo '<br />';
 	PopTable('header',_('Database Backup'));
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=backup&_ROSARIO_PDF=true" method="POST">';
-	echo '<BR />';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=backup&_ROSARIO_PDF=true" method="POST">';
+	echo '<br />';
 	echo _('Download backup files periodically in case of system failure.');
-	echo '<BR /><BR />';
+	echo '<br /><br />';
 	echo '<div class="center">' . SubmitButton(_('Download Backup File')) . '</div>';
-	echo '</FORM>';
+	echo '</form>';
 	PopTable('footer');
 }
 

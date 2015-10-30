@@ -107,7 +107,7 @@ function processRequest()
 		{
 			id = courses[i].getElementsByTagName("id")[0].firstChild.data;
 			title = courses[i].getElementsByTagName("title")[0].firstChild.data;
-			document.getElementById("courses_div").innerHTML += "<A onclick=\"doOnClick(\'"+ id +"\'); return false;\" href=\"#\">" + title + "</A><br />";
+			document.getElementById("courses_div").innerHTML += "<a onclick=\"doOnClick(\'"+ id +"\'); return false;\" href=\"#\">" + title + "</a><br />";
 		}
 	}
 }
@@ -121,18 +121,18 @@ function processRequest()
 	//$link['add']['html'] = array('COURSE_ID'=>_makeCourse('','COURSE_ID'),'WITH_TEACHER_ID'=>_makeTeacher('','WITH_TEACHER_ID'),'WITH_PERIOD_ID'=>_makePeriod('','WITH_PERIOD_ID'),'MARKING_PERIOD_ID'=>_makeMP('','MARKING_PERIOD_ID'));
 	$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 //FJ add translation
-	$subjects = '<SELECT name="subject_id" onchange="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"><option value="">'._('All Subjects').'</option>';
+	$subjects = '<select name="subject_id" onchange="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"><option value="">'._('All Subjects').'</option>';
 	foreach ( (array)$subjects_RET as $subject)
-		$subjects .= '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
-	$subjects .= '</SELECT>';
+		$subjects .= '<option value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</option>';
+	$subjects .= '</select>';
 	$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove','variables' => array('id' => 'REQUEST_ID'));
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 //FJ css WPadmin
-	$link['add']['span'] = ''._('Add a Request').': &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <INPUT type="text" id="course_title" name="course_title" onkeypress="if (event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><DIV id="courses_div"></DIV>';
+	$link['add']['span'] = ''._('Add a Request').': &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <input type="text" id="course_title" name="course_title" onkeypress="if (event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><div id="courses_div"></div>';
 	ListOutput($requests_RET,$columns,'Request','Requests',$link);
 	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '</form>';
 }
 
 function _makeCourse($value,$column)

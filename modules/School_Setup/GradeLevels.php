@@ -71,12 +71,12 @@ if ( $_REQUEST['modfunc']!='remove')
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id' => 'ID');
 	
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 
 	ListOutput($grades_RET,$columns,'Grade Level','Grade Levels',$link);
 	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '</form>';
 }
 
 function makeTextInput($value,$name)

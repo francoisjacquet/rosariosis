@@ -71,7 +71,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			unset($_ROSARIO['DrawHeader']);
 
 			if ( $_REQUEST['mailing_labels']=='Y')
-				echo '<BR /><BR /><BR />';
+				echo '<br /><br /><br />';
 			DrawHeader(_('Progress Report'));
 			DrawHeader($student['FULL_NAME'],$student['STUDENT_ID']);
 			DrawHeader($student['GRADE_ID'],SchoolInfo('TITLE'));
@@ -79,7 +79,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			DrawHeader(ProperDate(DBDate()));
 
 			if ( $_REQUEST['mailing_labels']=='Y')
-				echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$student['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
+				echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$student['MAILING_LABEL'].'</td></tr></table><br />';
 
 			$extra = $extra2;
 			$extra['WHERE'] .= " AND s.STUDENT_ID='".$student['STUDENT_ID']."'";
@@ -104,15 +104,15 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				foreach ( (array)$grades_RET as $assignment_type_id => $grades)
 				{
 //FJ remove LO_field
-					$grades_RET[$assignment_type_id][] = array('TITLE'=>_removeSpaces('<B>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</B>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),_Percent($percent_weights[$assignment_type_id]/$sum_percent)).')':''),'TITLE'),
+					$grades_RET[$assignment_type_id][] = array('TITLE'=>_removeSpaces('<b>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</b>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),_Percent($percent_weights[$assignment_type_id]/$sum_percent)).')':''),'TITLE'),
 						'ASSIGNED_DATE' => '&nbsp;','DUE_DATE' => '&nbsp;',
-						'POINTS' => '<TABLE class="cellspacing-0"><TR><TD><span class="size-1"><b>'.$student_points[$assignment_type_id].'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$total_points[$assignment_type_id].'</b></span></TD></TR></TABLE>',
-						'PERCENT_GRADE' => $total_points[$assignment_type_id]?'<B>'._Percent($student_points[$assignment_type_id]/$total_points[$assignment_type_id]).'</B>':'&nbsp;');
+						'POINTS' => '<table class="cellspacing-0"><tr><td><span class="size-1"><b>'.$student_points[$assignment_type_id].'</b></span></td><td><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></td><td><span class="size-1"><b>'.$total_points[$assignment_type_id].'</b></span></td></tr></table>',
+						'PERCENT_GRADE' => $total_points[$assignment_type_id]?'<b>'._Percent($student_points[$assignment_type_id]/$total_points[$assignment_type_id]).'</b>':'&nbsp;');
 				}
 			}
-			$link['add']['html'] = array('TITLE' => '<B>Total</B>',
-						'POINTS' => '<TABLE class="cellspacing-0"><TR><TD><span class="size-1"><b>'.$sum_student_points.'</b></span></TD><TD><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></TD><TD><span class="size-1"><b>'.$sum_total_points.'</b></span></TD></TR></TABLE>',
-						'PERCENT_GRADE' => '<B>'._Percent($sum_points).'</B>','LETTER_GRADE' => '<B>'._makeLetterGrade($sum_points).'</B>');
+			$link['add']['html'] = array('TITLE' => '<b>Total</b>',
+						'POINTS' => '<table class="cellspacing-0"><tr><td><span class="size-1"><b>'.$sum_student_points.'</b></span></td><td><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></td><td><span class="size-1"><b>'.$sum_total_points.'</b></span></td></tr></table>',
+						'PERCENT_GRADE' => '<b>'._Percent($sum_points).'</b>','LETTER_GRADE' => '<b>'._makeLetterGrade($sum_points).'</b>');
 			$link['add']['html']['ASSIGNED_DATE'] = $link['add']['html']['DUE_DATE'] = $link['add']['html']['COMMENT'] = ' &nbsp; ';
 
 //FJ add translation
@@ -138,21 +138,21 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list') // || UserStudentID())
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Progress Reports for Selected Students').'" />';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
+		$extra['header_right'] = '<input type="submit" value="'._('Create Progress Reports for Selected Students').'" />';
 
-		$extra['extra_header_left'] = '<TABLE>';
+		$extra['extra_header_left'] = '<table>';
 //FJ add <label> on checkbox
-		$extra['extra_header_left'] .= '<TR class="st"><TD></TD><TD style="text-align:right;"><label>'._('Assigned Date').'&nbsp;<INPUT type="checkbox" value="Y" name="assigned_date"></label></TD>';
-		$extra['extra_header_left'] .= '<TD style="text-align:right"><label>'._('Exclude Ungraded E/C Assignments').'&nbsp;<INPUT type="checkbox" value="Y" name="exclude_ec" checked /></label></TD></TR>';
+		$extra['extra_header_left'] .= '<tr class="st"><td></td><td style="text-align:right;"><label>'._('Assigned Date').'&nbsp;<input type="checkbox" value="Y" name="assigned_date"></label></td>';
+		$extra['extra_header_left'] .= '<td style="text-align:right"><label>'._('Exclude Ungraded E/C Assignments').'&nbsp;<input type="checkbox" value="Y" name="exclude_ec" checked /></label></td></tr>';
 
-		$extra['extra_header_left'] .= '<TR class="st"><TD></TD><TD style="text-align:right;"><label>'._('Due Date').'&nbsp;<INPUT type="checkbox" value="Y" name="due_date" checked /></label></TD>';
-		$extra['extra_header_left'] .= '<TD style="text-align:right"><label>'._('Exclude Ungraded Assignments Not Due').'&nbsp;<INPUT type="checkbox" value="Y" name="exclude_notdue"></label></TD></TR>';
-		$extra['extra_header_left'] .= '<TR class="st"><TD></TD><TD style="text-align:right"><label>'._('Group by Assignment Category').'&nbsp;<INPUT type="checkbox" value="Y" name="by_category"></label></TD>';
+		$extra['extra_header_left'] .= '<tr class="st"><td></td><td style="text-align:right;"><label>'._('Due Date').'&nbsp;<input type="checkbox" value="Y" name="due_date" checked /></label></td>';
+		$extra['extra_header_left'] .= '<td style="text-align:right"><label>'._('Exclude Ungraded Assignments Not Due').'&nbsp;<input type="checkbox" value="Y" name="exclude_notdue"></label></td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td></td><td style="text-align:right"><label>'._('Group by Assignment Category').'&nbsp;<input type="checkbox" value="Y" name="by_category"></label></td>';
 		Widgets('mailing_labels');
-		$extra['extra_header_left'] .= str_ireplace('<TD','<TD colspan="2"',$extra['search']);
+		$extra['extra_header_left'] .= str_ireplace('<td','<td colspan="2"',$extra['search']);
 		$extra['search'] = '';
-		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] .= '</table>';
 		//$extra['old'] = true; // proceed to 'list' if UserStudentID()
 	}
 
@@ -161,15 +161,15 @@ if (empty($_REQUEST['modfunc']))
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 
 	Search('student_id',$extra);
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Progress Reports for Selected Students').'" /></div>';
-		echo '</FORM>';
+		echo '<br /><div class="center"><input type="submit" value="'._('Create Progress Reports for Selected Students').'" /></div>';
+		echo '</form>';
 	}
 }
 
@@ -187,14 +187,14 @@ function _makeExtra($value,$column)
 					$total_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] += $THIS_RET['TOTAL_POINTS'];
 					$percent_weights[$THIS_RET['ASSIGNMENT_TYPE_ID']] = $THIS_RET['FINAL_GRADE_PERCENT'];
 				}
-				return '<TABLE class="cellspacing-0"><TR><TD><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></TD><TD><span class="size-1">&nbsp;/&nbsp;</span></TD><TD><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></TD></TR></TABLE>';
+				return '<table class="cellspacing-0"><tr><td><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></td><td><span class="size-1">&nbsp;/&nbsp;</span></td><td><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></td></tr></table>';
 			}
 			else
-				return '<TABLE class="cellspacing-0"><TR><TD><span class="size-1">'._('Excluded').'</span></TD><TD></TD><TD></TD></TR></TABLE>';
+				return '<table class="cellspacing-0"><tr><td><span class="size-1">'._('Excluded').'</span></td><td></td><td></td></tr></table>';
 		else
 		{
 			$student_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] += $value;
-			return '<TABLE class="cellspacing-0"><TR><TD><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></TD><TD><span class="size-1">&nbsp;/&nbsp;</span></TD><TD><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></TD></TR></TABLE>';
+			return '<table class="cellspacing-0"><tr><td><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></td><td><span class="size-1">&nbsp;/&nbsp;</span></td><td><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></td></tr></table>';
 		}
 	}
 	elseif ( $column=='PERCENT_GRADE')
@@ -235,7 +235,7 @@ function _removeSpaces($value,$column)
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }
 
 function _Percent($num,$decimals=2)

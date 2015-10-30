@@ -68,11 +68,11 @@ if ( $_REQUEST['modfunc']=='remove')
 
 if (empty($_REQUEST['modfunc']))
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'&mp_id='.$mp_id.'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'&mp_id='.$mp_id.'" method="POST">';
 
 	DrawHeader('',SubmitButton(_('Save')));
 
-	echo '<BR />';
+	echo '<br />';
 
 	$sql = 'SELECT * FROM history_marking_periods WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY POST_END_DATE';
 
@@ -106,7 +106,7 @@ if (empty($_REQUEST['modfunc']))
 	ListOutput($LO_ret,$LO_columns,'History Marking Period','History Marking Periods',$link,array(),array('count'=>true,'download'=>false,'search'=>false));
 
 	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '</form>';
 }
 
 function makeTextInput($value,$name)

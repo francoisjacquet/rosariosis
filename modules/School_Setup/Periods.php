@@ -82,12 +82,12 @@ if ( $_REQUEST['modfunc']!='remove')
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id' => 'PERIOD_ID');
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 
 	ListOutput($periods_RET,$columns,'Period','Periods',$link);
 	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '</form>';
 }
 
 function _makeTextInput($value,$name)
@@ -140,14 +140,14 @@ function _makeTimeInput($value,$name)
 
     if ( $id!='new' && $value)
 	{
-		$return = '<DIV id='.$name.$id.'><div class="onclick" onclick=\'addHTML("';
+		$return = '<div id='.$name.$id.'><div class="onclick" onclick=\'addHTML("';
 		
-        $toEscape = '<TABLE><TR><TD>'.SelectInput($hour,'values['.$id.']['.$name.'_HOUR]','',$hour_options,_('N/A'),'',false).':</TD><TD>'.SelectInput($minute,'values['.$id.']['.$name.'_MINUTE]','',$minute_options,_('N/A'),'',false).'</TD><TD>'.SelectInput($m,'values['.$id.']['.$name.'_M]','',$m_options,_('N/A'),'',false).'</TD></TR></TABLE>';
+        $toEscape = '<table><tr><td>'.SelectInput($hour,'values['.$id.']['.$name.'_HOUR]','',$hour_options,_('N/A'),'',false).':</td><td>'.SelectInput($minute,'values['.$id.']['.$name.'_MINUTE]','',$minute_options,_('N/A'),'',false).'</td><td>'.SelectInput($m,'values['.$id.']['.$name.'_M]','',$m_options,_('N/A'),'',false).'</td></tr></table>';
 		$return .= str_replace('"','\"',$toEscape);
 		
-		$return .= '","'.$name.$id.'",true);\'>'.'<span class="underline-dots">'.$value.'</span></div></DIV>';
+		$return .= '","'.$name.$id.'",true);\'>'.'<span class="underline-dots">'.$value.'</span></div></div>';
 		return $return;
 	}
     else
-        return '<TABLE><TR><TD>'.SelectInput($hour,'values['.$id.']['.$name.'_HOUR]','',$hour_options,_('N/A'),'',false).':</TD><TD>'.SelectInput($minute,'values['.$id.']['.$name.'_MINUTE]','',$minute_options,_('N/A'),'',false).'</TD><TD>'.SelectInput($m,'values['.$id.']['.$name.'_M]','',$m_options,_('N/A'),'',false).'</TD></TR></TABLE>';
+        return '<table><tr><td>'.SelectInput($hour,'values['.$id.']['.$name.'_HOUR]','',$hour_options,_('N/A'),'',false).':</td><td>'.SelectInput($minute,'values['.$id.']['.$name.'_MINUTE]','',$minute_options,_('N/A'),'',false).'</td><td>'.SelectInput($m,'values['.$id.']['.$name.'_M]','',$m_options,_('N/A'),'',false).'</td></tr></table>';
 }

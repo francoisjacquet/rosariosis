@@ -16,18 +16,18 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE FROM STAFF s WHERE s.STAFF_ID='".UserStaffID()."'"));
 	$staff = $staff[1];
 
-	echo '<FORM action="'.PreparePHP_SELF().'" method="POST">';
-	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$type_select.' : <INPUT type="submit" value="'._('Go').'">');
-	echo '</FORM>';
+	echo '<form action="'.PreparePHP_SELF().'" method="POST">';
+	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$type_select.' : <input type="submit" value="'._('Go').'">');
+	echo '</form>';
 
 //FJ fix bug no balance
 //	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($student['BALANCE']),_('Balance')));
 	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($staff['BALANCE']),_('Balance')));
 
 	if ( $_REQUEST['detailed_view']!='true')
-		DrawHeader("<A HREF=".PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'true')).">"._('Detailed View')."</A>");
+		DrawHeader("<a href=".PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'true')).">"._('Detailed View')."</a>");
 	else
-		DrawHeader("<A HREF=".PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'false')).">"._('Original View')."</A>");
+		DrawHeader("<a href=".PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'false')).">"._('Original View')."</a>");
 
 	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
 	{

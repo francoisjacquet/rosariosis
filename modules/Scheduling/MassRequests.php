@@ -41,15 +41,15 @@ if ( $_REQUEST['modfunc']!='choose_course')
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 
 		DrawHeader('',SubmitButton(_('Add Request to Selected Students')));
 
-		echo '<BR />';
+		echo '<br />';
 
 		PopTable('header', _('Request to Add'));
 
-		echo '<TABLE><TR><TD>&nbsp;</TD><TD><DIV id="course_div">';
+		echo '<table><tr><td>&nbsp;</td><td><div id="course_div">';
 
 		if ( $_SESSION['MassRequests.php'])
 		{
@@ -59,45 +59,45 @@ if ( $_REQUEST['modfunc']!='choose_course')
 			echo $course_title;
 		}
 
-		echo '</DIV>'.'<A HREF="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose a Course').'</A></TD></TR>';
+		echo '</div>'.'<a href="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose a Course').'</a></td></tr>';
 
-		echo '<TR><TD>'._('With').'</TD><TD>';
+		echo '<tr><td>'._('With').'</td><td>';
 
-		echo '<TABLE><TR class="st"><TD>'._('Teacher').'</TD><TD><SELECT name="with_teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<table><tr class="st"><td>'._('Teacher').'</td><td><select name="with_teacher_id"><option value="">'._('N/A').'</option>';
 		//FJ fix bug teacher's schools is NULL
 		//$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE SCHOOLS LIKE '%,".UserSchool().",%' AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
 		$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS LIKE '%,".UserSchool().",%' OR SCHOOLS IS NULL) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
 
 		foreach ( (array)$teachers_RET as $teacher)
-			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'].'</OPTION>';
+			echo '<option value="'.$teacher['STAFF_ID'].'">'.$teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'].'</option>';
 
-		echo '</SELECT></TD></TR><TR class="st"><TD>'._('Period').'</TD><TD><SELECT name="with_period_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '</select></td></tr><tr class="st"><td>'._('Period').'</td><td><select name="with_period_id"><option value="">'._('N/A').'</option>';
 
 		$periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER"));
 
 		foreach ( (array)$periods_RET as $period)
-			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
+			echo '<option value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</option>';
 
-		echo '</SELECT></TD></TR></TABLE>';
+		echo '</select></td></tr></table>';
 
-		echo '</TD></TR><TR><TD>'._('Without').'</TD><TD>';
+		echo '</td></tr><tr><td>'._('Without').'</td><td>';
 
-		echo '<TABLE><TR class="st"><TD>'._('Teacher').'</TD><TD><SELECT name="without_teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<table><tr class="st"><td>'._('Teacher').'</td><td><select name="without_teacher_id"><option value="">'._('N/A').'</option>';
 
 		foreach ( (array)$teachers_RET as $teacher)
-			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'].'</OPTION>';
+			echo '<option value="'.$teacher['STAFF_ID'].'">'.$teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'].' '.$teacher['MIDDLE_NAME'].'</option>';
 
-		echo '</SELECT></TD></TR><TR class="st"><TD>'._('Period').'</TD><TD><SELECT name="without_period_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '</select></td></tr><tr class="st"><td>'._('Period').'</td><td><select name="without_period_id"><option value="">'._('N/A').'</option>';
 
 		foreach ( (array)$periods_RET as $period)
-			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
+			echo '<option value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</option>';
 
-		echo '</SELECT></TD></TR></TABLE>';
-		echo '</TD></TR></TABLE>';
+		echo '</select></td></tr></table>';
+		echo '</td></tr></table>';
 
 		PopTable('footer');
 
-		echo '<BR />';
+		echo '<br />';
 	}
 }
 
@@ -109,7 +109,7 @@ if (empty($_REQUEST['modfunc']))
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
 	$extra['new'] = true;
 
 	Widgets('request');
@@ -118,7 +118,7 @@ if (empty($_REQUEST['modfunc']))
 
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
-		echo '<BR /><div class="center">'.SubmitButton(_('Add Request to Selected Students'))."</div></FORM>";
+		echo '<br /><div class="center">'.SubmitButton(_('Add Request to Selected Students'))."</div></form>";
 }
 
 if ( $_REQUEST['modfunc']=='choose_course')
@@ -143,5 +143,5 @@ if ( $_REQUEST['modfunc']=='choose_course')
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
+	return '<input type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
 }

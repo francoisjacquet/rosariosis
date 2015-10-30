@@ -138,7 +138,7 @@ $columns = array('PASSING' => _('Passing'),'BORDERLINE' => _('Borderline'),'FAIL
 
 $stu_RET = GetStuList($extra);
 
-echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader(ProgramTitle());
 
 if ( $today>$END_DAY || $today<$START_DAY || ($today==$START_DAY && date('Gi')<($START_HOUR.$START_MINUTE)) || ($today==$END_DAY && date('Gi')>($END_HOUR.$END_MINUTE)))
@@ -147,19 +147,19 @@ if ( $today>$END_DAY || $today<$START_DAY || ($today==$START_DAY && date('Gi')<(
 }
 else
 {
-	DrawHeader('<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=gradebook">'._('Use Gradebook Grades').'</A>','<INPUT type="submit" value="'._('Save').'" />');
+	DrawHeader('<a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=gradebook">'._('Use Gradebook Grades').'</a>','<input type="submit" value="'._('Save').'" />');
 
 	$LO_columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level')) + $columns;
 	ListOutput($stu_RET,$LO_columns,'Student','Students');
-	echo '<div class="center"><INPUT type="submit" value="'._('Save').'" /></div>';
+	echo '<div class="center"><input type="submit" value="'._('Save').'" /></div>';
 }
-echo '</FORM>';
+echo '</form>';
 
 function makeRadio($value,$title)
 {	global $THIS_RET,$current_RET;
 
 	if ((isset($current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE']) && $current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE']==$title) || ($title=='PASSING' && !$current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE']))
-		return '<INPUT type="radio" name="values['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />';
+		return '<input type="radio" name="values['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />';
 	else
-		return '<INPUT type="radio" name="values['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'">';
+		return '<input type="radio" name="values['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'">';
 }

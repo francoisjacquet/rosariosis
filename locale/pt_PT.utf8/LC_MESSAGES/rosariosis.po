@@ -1872,7 +1872,7 @@ msgstr "Local de trabalho"
 #: modules/Custom/Registration.php:176
 #, fuzzy
 msgid "Information about your spouse or significant other residing with you"
-msgstr "Informações sobre o seu cônjuge ou outros significativos que residem com você: <BR> <small>Deixe em branco seção se são separados.</small>"
+msgstr "Informações sobre o seu cônjuge ou outros significativos que residem com você: <br> <small>Deixe em branco seção se são separados.</small>"
 
 #: modules/Custom/Registration.php:176
 msgid "Leave this section blank if you are separated."
@@ -2576,7 +2576,7 @@ msgstr "Tem certeza de que deseja executar o programador?"
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Users/Accounts.php:34
 #, php-format
-msgid "That barcode is already assigned to Student <B>%s</B>."
+msgid "That barcode is already assigned to Student <b>%s</b>."
 msgstr ""
 
 #: modules/Food_Service/Students/Accounts.php:16
@@ -2587,7 +2587,7 @@ msgstr ""
 #: modules/Food_Service/Students/Accounts.php:25
 #: modules/Food_Service/Users/Accounts.php:25
 #, php-format
-msgid "That barcode is already assigned to User <B>%s</B>."
+msgid "That barcode is already assigned to User <b>%s</b>."
 msgstr ""
 
 #: modules/Food_Service/Students/Accounts.php:98
@@ -2662,7 +2662,7 @@ msgid "%N's lunch account is getting low.  Please send in at least %P with %h re
 msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:19
-msgid "%N now has a <B>negative balance</B> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgid "%N now has a <b>negative balance</b> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:21
@@ -2809,7 +2809,7 @@ msgid "Your lunch account is getting low.  Please send in at least %P with your 
 msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:7
-msgid "You now have a <B>negative balance</B> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgid "You now have a <b>negative balance</b> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:9
@@ -3235,7 +3235,7 @@ msgid "Final Grade"
 msgstr "Notas finais"
 
 #: modules/Grades/FinalGrades.php:104
-msgid "Abs<BR />YTD / MP"
+msgid "Abs<br />YTD / MP"
 msgstr ""
 
 #: modules/Grades/FinalGrades.php:173
@@ -5817,11 +5817,11 @@ msgid "Add an <b>Existing</b> Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:460
-msgid "Add a <b>New</b> Contact<BR />without an Address"
+msgid "Add a <b>New</b> Contact<br />without an Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:471
-msgid "Add an <b>Existing</b> Contact<BR />without an Address"
+msgid "Add an <b>Existing</b> Contact<br />without an Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:490
@@ -10198,17 +10198,17 @@ msgstr "Esta pessoa não tem nenhuma informação no sistema."
 #~ msgid ""
 #~ "You <i>must</i> roll users, school periods, marking periods, calendars, "
 #~ "and report card<br>codes at the same time or before rolling "
-#~ "courses<BR><BR>* You <i>must</i> roll courses at the same time or before "
-#~ "rolling report card comments<BR><BR>Red items have already have data in "
-#~ "the next school year (They might have been rolled).<BR><BR>Rolling red "
+#~ "courses<br><br>* You <i>must</i> roll courses at the same time or before "
+#~ "rolling report card comments<br><br>Red items have already have data in "
+#~ "the next school year (They might have been rolled).<br><br>Rolling red "
 #~ "items will delete already existing data in the next school year."
 #~ msgstr ""
 #~ "Você <i>deve</i> rolar usuários, períodos escolares, períodos de "
 #~ "marcação, calendários, e um cartão de relatório <br> códigos ao mesmo "
-#~ "tempo ou antes de cursos rolando <BR><BR> * Você <i>deve</i> rolar cursos "
-#~ "ao mesmo tempo ou antes de rolar comentários boletim <BR><BR> Itens "
+#~ "tempo ou antes de cursos rolando <br><br> * Você <i>deve</i> rolar cursos "
+#~ "ao mesmo tempo ou antes de rolar comentários boletim <br><br> Itens "
 #~ "vermelhos já tem dados no próximo ano lectivo (Eles poderiam ter sido "
-#~ "enrolado). <BR><BR> Rolar itens vermelho irá apagar os dados já "
+#~ "enrolado). <br><br> Rolar itens vermelho irá apagar os dados já "
 #~ "existentes no ano lectivo seguinte."
 
 #~ msgid "Confirm Rollover"
@@ -10299,10 +10299,10 @@ msgstr "Esta pessoa não tem nenhuma informação no sistema."
 #~ msgstr "Registros de inscrição"
 
 #~ msgid ""
-#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Multiple Choices<BR>* one "
+#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Multiple Choices<br>* one "
 #~ "per line"
 #~ msgstr ""
-#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Escolhas Múltiplas <BR> * "
+#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Escolhas Múltiplas <br> * "
 #~ "Um por linha"
 
 #~ msgid "for dates: YYYY-MM-DD"

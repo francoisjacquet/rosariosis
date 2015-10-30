@@ -645,7 +645,7 @@ $time = strtotime(DBDate());
 $mps_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	'&include_inactive=' . $_REQUEST['include_inactive'] . "&mp='";
 
-$mps_select .= '<SELECT name="mp" onchange="ajaxLink(' . $mps_onchange_URL . ' + this.options[selectedIndex].value);">';
+$mps_select .= '<select name="mp" onchange="ajaxLink(' . $mps_onchange_URL . ' + this.options[selectedIndex].value);">';
 
 if ( $pros!='')
 	foreach ( explode(',',str_replace("'",'',$pros)) as $pro)
@@ -654,27 +654,27 @@ if ( $pros!='')
 			$allow_edit = true;
 
 		if (GetMP($pro,'DOES_GRADES')=='Y')
-			$mps_select .= '<OPTION value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($pro)."</OPTION>";
+			$mps_select .= '<option value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($pro)."</option>";
 	}
 
 if ( $_REQUEST['mp']==UserMP() && GetMP(UserMP(),'POST_START_DATE') && ($time>=strtotime(GetMP(UserMP(),'POST_START_DATE')) && $time<=strtotime(GetMP(UserMP(),'POST_END_DATE'))))
 	$allow_edit = true;
 
-$mps_select .= '<OPTION value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' SELECTED':'').">".GetMP(UserMP())."</OPTION>";
+$mps_select .= '<option value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' SELECTED':'').">".GetMP(UserMP())."</option>";
 
 if (($_REQUEST['mp']==$sem) && GetMP($sem,'POST_START_DATE') && ($time>=strtotime(GetMP($sem,'POST_START_DATE')) && $time<=strtotime(GetMP($sem,'POST_END_DATE'))))
 	$allow_edit = true;
 
 if (GetMP($sem,'DOES_GRADES')=='Y')
-	$mps_select .= '<OPTION value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($sem)."</OPTION>";
+	$mps_select .= '<option value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($sem)."</option>";
 
 if (($_REQUEST['mp']==$fy) && GetMP($fy,'POST_START_DATE') && ($time>=strtotime(GetMP($fy,'POST_START_DATE')) && $time<=strtotime(GetMP($fy,'POST_END_DATE'))))
 	$allow_edit = true;
 
 if (GetMP($fy,'DOES_GRADES')=='Y')
-	$mps_select .= '<OPTION value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($fy)."</OPTION>";
+	$mps_select .= '<option value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($fy)."</option>";
 
-$mps_select .= '</SELECT>';
+$mps_select .= '</select>';
 
 // modif Francois: add Grade posting dates (see Marking periods) limitation for teachers:
 $grade_posting_RET = DBGet(DBQuery("SELECT 1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND (POST_START_DATE IS NULL OR POST_START_DATE<=CURRENT_DATE) AND (POST_END_DATE IS NULL OR POST_END_DATE>=CURRENT_DATE)"));
@@ -722,14 +722,14 @@ $extra['DATE'] = GetMP($_REQUEST['mp'],'END_DATE');
 
 $stu_RET = GetStuList($extra);
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].(count($categories_RET)&&GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y'?'&tab_id='.$_REQUEST['tab_id']:'').'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].(count($categories_RET)&&GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y'?'&tab_id='.$_REQUEST['tab_id']:'').'" method="POST">';
 
 if ( !isset($_REQUEST['_ROSARIO_PDF']))
 {
 	if (count($commentsB_RET))
 	{
 		foreach ( (array)$commentsB_RET as $comment)
-			$tipmessage .= $comment[1]['SORT_ORDER'].' - '.$comment[1]['TITLE'].'<BR />';
+			$tipmessage .= $comment[1]['SORT_ORDER'].' - '.$comment[1]['TITLE'].'<br />';
 
 		$tipJS = '<script>var tiptitle='.json_encode(_('Report Card Comments')).'; var tipmsg='.json_encode($tipmessage).';</script>';
 
@@ -757,7 +757,7 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 
 			foreach ( (array)$comment_codes_RET[$scale_id] as $comment)
 			{
-				$tipmsg .= $comment['TITLE'].': '.$comment['COMMENT'].'<BR />';
+				$tipmsg .= $comment['TITLE'].': '.$comment['COMMENT'].'<br />';
 			}
 
 			foreach ( (array)$commentsAbis as $commentAbis)
@@ -788,7 +788,7 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 
 	if (AllowEdit())
 	{
-		$gb_header .= '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=gradebook&mp='.$_REQUEST['mp'].'">'._('Get Gradebook Grades.').'</A>';
+		$gb_header .= '<a href="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=gradebook&mp='.$_REQUEST['mp'].'">'._('Get Gradebook Grades.').'</a>';
 		$prev_mp = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,START_DATE FROM SCHOOL_MARKING_PERIODS WHERE MP='".GetMP($_REQUEST['mp'],'MP')."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND START_DATE<'".GetMP($_REQUEST['mp'],'START_DATE')."' ORDER BY START_DATE DESC LIMIT 1"));
 		$prev_mp = $prev_mp[1];
 
@@ -797,12 +797,12 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 
 		if ( $prev_mp && !$mp_is_quarter)
 		{
-			$gb_header .= ' | <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=grades&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Grades'),$prev_mp['TITLE']).'</A>';
-			$gb_header .= ' | <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=comments&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Comments'),$prev_mp['TITLE']).'</A>';
+			$gb_header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=grades&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Grades'),$prev_mp['TITLE']).'</a>';
+			$gb_header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=comments&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Comments'),$prev_mp['TITLE']).'</a>';
 		}
 
 		$gb_header .= ' | ';
-		$gb_header .= '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=clearall&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'">'._('Clear All').'</A>';
+		$gb_header .= '<a href="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=clearall&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'">'._('Clear All').'</a>';
 	}
 
 	DrawHeader($gb_header);
@@ -860,12 +860,12 @@ if (count($categories_RET) && GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 		$LO_options['header_color'] = $categories_RET[$_REQUEST['tab_id']][1]['COLOR'];
 }
 
-echo '<BR />';
+echo '<br />';
 
 ListOutput($stu_RET,$LO_columns,'Student','Students',false,array(),$LO_options);
 
-echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-echo '</FORM>';
+echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+echo '</form>';
 
 function _makeLetterPercent($student_id,$column)
 {	global $current_RET,$import_RET,$grades_select,$student_count,$tabindex;
@@ -900,12 +900,12 @@ function _makeLetterPercent($student_id,$column)
 		{
 			if (AllowEdit() && $div && $select_percent!='' && $select_grade)
 			{
-				$return = '<DIV id="'.$student_id.'"><div class="onclick" onclick=\'addHTML("';
+				$return = '<div id="'.$student_id.'"><div class="onclick" onclick=\'addHTML("';
 				
 				$select = '<span class="nobr">'.SelectInput($select_grade,'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',false).' '.TextInput($select_percent!=''?$select_percent.'%':'',"values[$student_id][percent]",'','size="5" tabindex="'.($tabindex+=100).'"',false).'</span>';
 				
 				$return .=  str_replace('"','\"',$select);
-				$return .= '","'.$student_id.'",true);\'><span class="underline-dots">'.'<span class="nobr">'.($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>').' '.$select_percent.'%'.'</span>'.'</span></div></DIV>';
+				$return .= '","'.$student_id.'",true);\'><span class="underline-dots">'.'<span class="nobr">'.($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>').' '.$select_percent.'%'.'</span>'.'</span></div></div>';
 			}
 			else
 				$return = '<span class="nobr">'.SelectInput($select_grade?$select_grade:($select_percent!=''?' ':''),'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',false).' '.TextInput($select_percent!=''?$select_percent.'%':($select_grade?'%':''),"values[$student_id][percent]",'','size="5" tabindex="'.($tabindex+=100).'"',false).'</span>';

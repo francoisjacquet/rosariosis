@@ -353,26 +353,26 @@ function db_show_error( $sql, $failnote, $additional = '' )
 {
 	global $RosarioNotifyAddress;
 
-    echo '<BR />';
+    echo '<br />';
 
 	PopTable( 'header', _('We have a problem, please contact technical support ...') );
 
 	// TRANSLATION: do NOT translate these since error messages need to stay in English for technical support
 	?>
-		<TABLE class="col1-align-right" style="border-collapse:separate; border-spacing:10px;">
-			<TR>
-				<TD><b>Date:</b></TD>
-				<TD><pre><?php echo date( 'm/d/Y h:i:s' ); ?></pre></TD>
-			</TR>
-			<TR>
-				<TD><b>Failure Notice:</b></TD>
-				<TD><pre><?php echo $failnote; ?></pre></TD>
-			</TR>
-			<TR>
-				<TD><b>Additional Information:</b></TD>
-				<TD><?php echo $additional; ?></TD>
-			</TR>
-		</TABLE>
+		<table class="col1-align-right" style="border-collapse:separate; border-spacing:10px;">
+			<tr>
+				<td><b>Date:</b></td>
+				<td><pre><?php echo date( 'm/d/Y h:i:s' ); ?></pre></td>
+			</tr>
+			<tr>
+				<td><b>Failure Notice:</b></td>
+				<td><pre><?php echo $failnote; ?></pre></td>
+			</tr>
+			<tr>
+				<td><b>Additional Information:</b></td>
+				<td><?php echo $additional; ?></td>
+			</tr>
+		</table>
 	<?php
 	// Something you have asked the system to do has thrown a database error.
 	// A system administrator has been notified, and the problem will be fixed as soon as possible.

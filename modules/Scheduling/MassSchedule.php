@@ -87,14 +87,14 @@ if (empty($_REQUEST['modfunc']))
 {
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		DrawHeader('',SubmitButton(_('Add Course to Selected Students')));
 
-		echo '<BR />';
+		echo '<br />';
 
 		PopTable('header', _('Course to Add'));
 
-		echo '<TABLE><TR><TD colspan="2"><DIV id=course_div>';
+		echo '<table><tr><td colspan="2"><div id=course_div>';
 
 		if ( $_SESSION['MassSchedule.php'])
 		{
@@ -103,22 +103,22 @@ if (empty($_REQUEST['modfunc']))
 			$period_title = DBGet(DBQuery("SELECT TITLE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."'"));
 			$period_title = $period_title[1]['TITLE'];
 
-			echo $course_title.'<BR />'.$period_title;
+			echo $course_title.'<br />'.$period_title;
 		}
-		echo '</DIV>'.'<A HREF="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose a Course').'</A></TD></TR>';
-		echo '<TR class="st"><TD>'._('Start Date').'</TD><TD>'.PrepareDate(DBDate(),'').'</TD></TR>';
+		echo '</div>'.'<a href="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose a Course').'</a></td></tr>';
+		echo '<tr class="st"><td>'._('Start Date').'</td><td>'.PrepareDate(DBDate(),'').'</td></tr>';
 
-		echo '<TR class="st"><TD>'._('Marking Period').'</TD>';
+		echo '<tr class="st"><td>'._('Marking Period').'</td>';
 		$mp_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,".db_case(array('MP',"'FY'","'0'","'SEM'","'1'","'QTR'","'2'"))." AS TBL FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TBL,SORT_ORDER"));
-		echo '<TD><SELECT name="marking_period_id">';
+		echo '<td><select name="marking_period_id">';
 		foreach ( (array)$mp_RET as $mp)
-			echo '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'">'.$mp['TITLE'].'</OPTION>';
-		echo '</SELECT>';
-		echo '</TD></TR></TABLE>';
+			echo '<option value="'.$mp['MARKING_PERIOD_ID'].'">'.$mp['TITLE'].'</option>';
+		echo '</select>';
+		echo '</td></tr></table>';
 
 		PopTable('footer');
 
-		echo '<BR />';
+		echo '<br />';
 	}
 
 	if ( $_REQUEST['search_modfunc']!='list')
@@ -127,7 +127,7 @@ if (empty($_REQUEST['modfunc']))
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
 	$extra['new'] = true;
 
 	Widgets('course');
@@ -139,8 +139,8 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center">' . SubmitButton(_('Add Course to Selected Students')) . '</div>';
-		echo '</FORM>';
+		echo '<br /><div class="center">' . SubmitButton(_('Add Course to Selected Students')) . '</div>';
+		echo '</form>';
 	}
 
 }
@@ -161,7 +161,7 @@ if ( $_REQUEST['modfunc']=='choose_course')
 		$period_title = DBGet(DBQuery("SELECT TITLE FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."'"));
 		$period_title = $period_title[1]['TITLE'];
 
-		echo '<script>opener.document.getElementById("course_div").innerHTML = '.json_encode($course_title.'<BR />'.$period_title).'; window.close();</script>';
+		echo '<script>opener.document.getElementById("course_div").innerHTML = '.json_encode($course_title.'<br />'.$period_title).'; window.close();</script>';
 		
 	}
 }
@@ -169,5 +169,5 @@ if ( $_REQUEST['modfunc']=='choose_course')
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y" />';
+	return '<input type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y" />';
 }

@@ -3,7 +3,7 @@ DrawHeader(ProgramTitle());
 
 Widgets('request');
 if ( !UserStudentID())
-	echo '<BR />';
+	echo '<br />';
 Search('student_id',$extra);
 
 if ( !$_REQUEST['modfunc'] && UserStudentID())
@@ -47,11 +47,11 @@ if ( $_REQUEST['modfunc']=='choose')
 	AND sr.STUDENT_ID='".UserStudentID()."' 
 	AND sr.COURSE_ID=c.COURSE_ID"),$functions);
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=verify" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=verify" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 
 	$columns = array('');
 	ListOutput($requests_RET,$columns,'Request','Requests');
 
-	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div></FORM>';
+	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div></form>';
 }

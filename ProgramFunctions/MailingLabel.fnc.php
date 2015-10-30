@@ -19,10 +19,10 @@ function MailingLabel($address_id)
 				$people_total = count($people);
 				for ( $i=1;$i<$people_total;$i++)
 					$return .= $people[$i]['FIRST_NAME'].' &amp; ';
-				$return .= $people[$i]['FIRST_NAME'].' '.$people[$i]['LAST_NAME'].'<BR />';
+				$return .= $people[$i]['FIRST_NAME'].' '.$people[$i]['LAST_NAME'].'<br />';
 			}
 			// mab - this is a bit of a kludge but insert an html comment so people and address can be split later
-			$return .= '<!-- -->'.$people[$i]['ADDRESS'].'<BR />'.$people[$i]['CITY'].($people[$i]['STATE'] ? ', '.$people[$i]['STATE'] : '').($people[$i]['ZIPCODE'] ? ' '.$people[$i]['ZIPCODE'] : '');
+			$return .= '<!-- -->'.$people[$i]['ADDRESS'].'<br />'.$people[$i]['CITY'].($people[$i]['STATE'] ? ', '.$people[$i]['STATE'] : '').($people[$i]['ZIPCODE'] ? ' '.$people[$i]['ZIPCODE'] : '');
 		}
 
 		$_ROSARIO['MailingLabel'][$address_id][$student_id] = $return;

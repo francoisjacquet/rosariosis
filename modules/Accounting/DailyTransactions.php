@@ -31,7 +31,7 @@ if ( isset( $_REQUEST['day_end'] )
 if ( empty( $end_date ) )
 	$end_date = DBDate();
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&accounting=" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&accounting=" method="POST">';
 
 $header_checkboxes = '<label><input type="checkbox" value="true" name="accounting" id="accounting" '.(!isset($_REQUEST['accounting']) || $_REQUEST['accounting']=='true' ? 'checked ' : '').'/> '._('Expense').' & '._('Income').'</label>&nbsp; ';	
 $header_checkboxes .= '<label><input type="checkbox" value="true" name="staff_payroll" id="staff_payroll" '.(!empty($_REQUEST['staff_payroll']) ? 'checked ' : '').'/> '._('Staff Payroll').'</label>&nbsp; ';
@@ -39,9 +39,9 @@ if ( $RosarioModules['Student_Billing'])
 	$header_checkboxes .= '<label><input type="checkbox" value="true" name="student_billing" id="student_billing" '.(!empty($_REQUEST['student_billing']) ? 'checked ' : '').'/> '._('Student Billing').'</label>';
 DrawHeader($header_checkboxes,'');
 
-DrawHeader('<B>'._('Report Timeframe').': </B>'.PrepareDate($start_date,'_start').' - '.PrepareDate($end_date,'_end').' <INPUT type="submit" value="'._('Go').'" />');
+DrawHeader('<b>'._('Report Timeframe').': </b>'.PrepareDate($start_date,'_start').' - '.PrepareDate($end_date,'_end').' <input type="submit" value="'._('Go').'" />');
 
-echo '</FORM>';
+echo '</form>';
 
 // sort by date since the list is two lists merged and not already properly sorted
 if ( !$_REQUEST['LO_sort'])
@@ -162,7 +162,7 @@ if (isset($_REQUEST['staff_payroll']) && isset($_REQUEST['student_billing']))
 	$columns['STUDENT_NAME'] = _('Student');
 $columns = $columns + array('DEBIT' => $debit_col,'CREDIT' => $credit_col,'DATE' => _('Date'),'EXPLANATION' => _('Comment'));
 
-$link['add']['html'] = array('FULL_NAME'=>(empty($name_col)? '' : _('Total').': ').'<B>'.Currency($totals['CREDIT']-$totals['DEBIT']).'</B>');
+$link['add']['html'] = array('FULL_NAME'=>(empty($name_col)? '' : _('Total').': ').'<b>'.Currency($totals['CREDIT']-$totals['DEBIT']).'</b>');
 if (isset($_REQUEST['staff_payroll']) && isset($_REQUEST['student_billing']))
 	$link['add']['html']['STUDENT_NAME'] = '&nbsp;';
 $link['add']['html'] = $link['add']['html'] + array('DEBIT' => '<b>'.Currency($totals['DEBIT']).'</b>','CREDIT' => '<b>'.Currency($totals['CREDIT']).'</b>','DATE' => '&nbsp;','EXPLANATION' => '&nbsp;');

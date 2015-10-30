@@ -33,7 +33,7 @@ else
 			{
 				foreach ( (array)$student as $address)
 				{
-					echo '<BR /><BR /><BR />';
+					echo '<br /><br /><br />';
 					unset($_ROSARIO['DrawHeader']);
 					DrawHeader(_('Statement'));
 					DrawHeader($address['FULL_NAME'],$address['STUDENT_ID']);
@@ -41,7 +41,7 @@ else
 					DrawHeader(SchoolInfo('TITLE'));
 					DrawHeader(ProperDate(DBDate()));
 		
-					echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$address['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
+					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$address['MAILING_LABEL'].'</td></tr></table><br />';
 					
 					SetUserStudentID($address['STUDENT_ID']);
 

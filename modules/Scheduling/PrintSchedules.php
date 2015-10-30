@@ -85,14 +85,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				{
 					foreach ( (array)$courses as $address)
 					{
-						echo '<BR /><BR /><BR />';
+						echo '<br /><br /><br />';
 						unset($_ROSARIO['DrawHeader']);
 						DrawHeader(_('Student Schedule'));
 						DrawHeader(SchoolInfo('TITLE'),ProperDate($date));
 						DrawHeader($address[1]['FULL_NAME'],$address[1]['STUDENT_ID']);
 						DrawHeader($address[1]['GRADE_ID'],$_REQUEST['mp_id']?GetMP($_REQUEST['mp_id']):'');
 
-						echo '<BR /><BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$address[1]['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
+						echo '<br /><br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$address[1]['MAILING_LABEL'].'</td></tr></table><br />';
 
 						ListOutput($address,$columns,'Course','Courses',array(),array(),array('center'=>false,'print'=>false));
 						echo '<div style="page-break-after: always;"></div>';
@@ -123,7 +123,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			{
 				/*foreach ( (array)$schedule_table as $period => $course_periods)
 				{
-					$schedule_table_body .= '<TR><TD>'.$period.'</TD>';
+					$schedule_table_body .= '<tr><td>'.$period.'</td>';
 
 					$schedule_table_TDs = $schedule_table_TDs_empty;
 					foreach ($course_periods as $course_period)
@@ -132,7 +132,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						{
 							if ( !is_array($schedule_table_TDs[$course_period_day]))
 								$schedule_table_TDs[$course_period_day] = array();
-							$schedule_table_TDs[$course_period_day][] = '<TD>'.$course_period['TITLE'].'<BR />'.$course_period['FULL_NAME'].(empty($course_period['ROOM'])?'':'<BR />'._('Room').': '.$course_period['ROOM']).'</TD>';
+							$schedule_table_TDs[$course_period_day][] = '<td>'.$course_period['TITLE'].'<br />'.$course_period['FULL_NAME'].(empty($course_period['ROOM'])?'':'<br />'._('Room').': '.$course_period['ROOM']).'</td>';
 						}
 					}
 					foreach ($schedule_table_TDs as $schedule_table_TD)
@@ -141,26 +141,26 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							if (count($schedule_table_TD) == 1)
 								$schedule_table_body .= $schedule_table_TD[0];
 							else
-								$schedule_table_body .= '<TD><TABLE><TR>'.implode($schedule_table_TD).'</TR></TABLE></TD>';
+								$schedule_table_body .= '<td><table><tr>'.implode($schedule_table_TD).'</tr></table></td>';
 						else
 							$schedule_table_body .= $schedule_table_TD;
 					}
-					$schedule_table_body .= '</TR>';
+					$schedule_table_body .= '</tr>';
 				}
-				$schedule_table_body .= '</TABLE>';*/
+				$schedule_table_body .= '</table>';*/
 
 				if ( $_REQUEST['mailing_labels']=='Y' && isset($RET[$student_id]))
 				{
 					foreach ( (array)$RET[$student_id] as $address)
 					{
-						echo '<BR /><BR /><BR />';
+						echo '<br /><br /><br />';
 						unset($_ROSARIO['DrawHeader']);
 						DrawHeader(_('Student Schedule'));
 						DrawHeader(SchoolInfo('TITLE'),ProperDate($date));
 						DrawHeader($address[1]['FULL_NAME'],$address[1]['STUDENT_ID']);
 						DrawHeader($address[1]['GRADE_ID'],$_REQUEST['mp_id']?GetMP($_REQUEST['mp_id']):'');
 
-						echo '<BR /><BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$address[1]['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
+						echo '<br /><br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$address[1]['MAILING_LABEL'].'</td></tr></table><br />';
 						
 						$schedule_table = _schedule_table_RET($schedule_table);
 						
@@ -208,33 +208,33 @@ if (empty($_REQUEST['modfunc']))
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		$mp_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,".db_case(array('MP',"'FY'","'0'","'SEM'","'1'","'QTR'","'2'"))." AS TBL FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TBL,SORT_ORDER"));
-		$mp_select = '<SELECT name="mp_id"><OPTION value="">'._('N/A');
+		$mp_select = '<select name="mp_id"><option value="">'._('N/A');
 		foreach ( (array)$mp_RET as $mp)
-			$mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'">'.$mp['TITLE'];
-		$mp_select .= '</SELECT>';
+			$mp_select .= '<option value="'.$mp['MARKING_PERIOD_ID'].'">'.$mp['TITLE'];
+		$mp_select .= '</select>';
 
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST" id="printSchedulesForm">';
-		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Schedules for Selected Students').'" />';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST" id="printSchedulesForm">';
+		$extra['header_right'] = '<input type="submit" value="'._('Create Schedules for Selected Students').'" />';
 
-		$extra['extra_header_left'] = '<TABLE>';
-		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Marking Period').'</TD><TD>'.$mp_select.'</TD></TR>';
-		$extra['extra_header_left'] .= '<TR class="st"><TD>'._('Include only courses active as of').'</TD><TD>'.PrepareDate('','_include_active_date').'</TD></TR>';
+		$extra['extra_header_left'] = '<table>';
+		$extra['extra_header_left'] .= '<tr class="st"><td>'._('Marking Period').'</td><td>'.$mp_select.'</td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td>'._('Include only courses active as of').'</td><td>'.PrepareDate('','_include_active_date').'</td></tr>';
 		
 		//FJ add Horizontal format option
-		$extra['extra_header_left'] .= '<TR><TD colspan="2">'.'<label><span class="nobr">'._('Horizontal Format').'&nbsp;<input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" /></span></label>'.'</TD></TR>';
+		$extra['extra_header_left'] .= '<tr><td colspan="2">'.'<label><span class="nobr">'._('Horizontal Format').'&nbsp;<input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" /></span></label>'.'</td></tr>';
 	//FJ add schedule table
-		$extra['extra_header_left'] .= '<TR><TD colspan="2">'.'<label><input name="schedule_table" type="radio" value="Yes" checked />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" type="radio" value="No" />&nbsp;'._('List').'</label>'.'</TD></TR>';
+		$extra['extra_header_left'] .= '<tr><td colspan="2">'.'<label><input name="schedule_table" type="radio" value="Yes" checked />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" type="radio" value="No" />&nbsp;'._('List').'</label>'.'</td></tr>';
 		
 		Widgets('mailing_labels');
 		$extra['extra_header_left'] .= $extra['search'];
 		$extra['search'] = '';
-		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] .= '</table>';
 	}
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 
@@ -245,14 +245,14 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Schedules for Selected Students').'" /></div>';
-		echo '</FORM>';
+		echo '<br /><div class="center"><input type="submit" value="'._('Create Schedules for Selected Students').'" /></div>';
+		echo '</form>';
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }
 
 //FJ add schedule table
@@ -283,7 +283,7 @@ function _schedule_table_RET($schedule_table_RET)
 			{
 				if ( !isset($schedule_table_body[$i][$course_period_day]) || !is_array($schedule_table_body[$i][$course_period_day]))
 					$schedule_table_body[$i][$course_period_day] = array();
-				$schedule_table_body[$i][$course_period_day][] = '<TD>'.$course_period['TITLE'].'<BR />'.$course_period['FULL_NAME'].(empty($course_period['ROOM'])?'':'<BR />'._('Room').': '.$course_period['ROOM']).'</TD>';
+				$schedule_table_body[$i][$course_period_day][] = '<td>'.$course_period['TITLE'].'<br />'.$course_period['FULL_NAME'].(empty($course_period['ROOM'])?'':'<br />'._('Room').': '.$course_period['ROOM']).'</td>';
 			}
 		}
 		$j = 0;
@@ -293,9 +293,9 @@ function _schedule_table_RET($schedule_table_RET)
 			if ( $j == 1) // skip SCHOOL_PERIOD column
 				continue;
 			if (count($schedule_table_day) == 1)
-				$schedule_table_body[$i][$day_key] = str_replace(array('<TD>', '</TD>'), '', $schedule_table_day[0]);
+				$schedule_table_body[$i][$day_key] = str_replace(array('<td>', '</td>'), '', $schedule_table_day[0]);
 			else
-				$schedule_table_body[$i][$day_key] = '<TABLE><TR>'.implode($schedule_table_day).'</TR></TABLE>';
+				$schedule_table_body[$i][$day_key] = '<table><tr>'.implode($schedule_table_day).'</tr></table>';
 		}
 		$i++;
 	}

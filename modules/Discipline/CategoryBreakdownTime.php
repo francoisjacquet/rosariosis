@@ -63,7 +63,7 @@ if ( !isset( $_REQUEST['timeframe'] )
 if ( isset( $_REQUEST['modfunc'] )
 	&& $_REQUEST['modfunc'] === 'search' )
 {
-	echo '<BR />';
+	echo '<br />';
 
 	$extra['new'] = true;
 
@@ -410,7 +410,7 @@ if ( isset( $_REQUEST['category_id'] )
 
 if ( empty( $_REQUEST['modfunc'] ) )
 {
-	echo '<FORM action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
+	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 
 	$categories_RET = DBGet( DBQuery( "SELECT df.ID,du.TITLE,du.SELECT_OPTIONS 
 		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du 
@@ -437,24 +437,24 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		false
 	);
 
-	$advanced_link = ' <A HREF="' . PreparePHP_SELF( $_REQUEST, array( 'search_modfunc' ), array(
+	$advanced_link = ' <a href="' . PreparePHP_SELF( $_REQUEST, array( 'search_modfunc' ), array(
 		'modfunc' => 'search',
 		'include_top' => 'false',
-	) ) . '">' . _( 'Advanced' ) . '</A>';
+	) ) . '">' . _( 'Advanced' ) . '</a>';
 
 	DrawHeader( $select );
 
 	$timeframe_radio = '<label>
-		<INPUT type="radio" name="timeframe" value="month"' . ( $_REQUEST['timeframe'] === 'month' ? ' checked' : '' ) . '>&nbsp;' . _( 'Month' ) .
+		<input type="radio" name="timeframe" value="month"' . ( $_REQUEST['timeframe'] === 'month' ? ' checked' : '' ) . '>&nbsp;' . _( 'Month' ) .
 	'</label> &nbsp;' .
 	'<label>
-		<INPUT type="radio" name="timeframe" value="SYEAR"' . ( $_REQUEST['timeframe'] === 'SYEAR' ? ' checked' : '' ) . '>&nbsp;' . _( 'School Year' ) .
+		<input type="radio" name="timeframe" value="SYEAR"' . ( $_REQUEST['timeframe'] === 'SYEAR' ? ' checked' : '' ) . '>&nbsp;' . _( 'School Year' ) .
 	'</label>';
 
-	DrawHeader( '<B>' . _( 'Timeframe' ) . ': </B> ' . $timeframe_radio);
+	DrawHeader( '<b>' . _( 'Timeframe' ) . ': </b> ' . $timeframe_radio);
 
 	DrawHeader(
-		'<B>' . _( 'Report Timeframe' ) . ': </B>' .
+		'<b>' . _( 'Report Timeframe' ) . ': </b>' .
 			PrepareDate( $start_date, '_start' ) . ' - ' .
 			PrepareDate( $end_date, '_end' ) .
 			$advanced_link,
@@ -467,7 +467,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		DrawHeader( $_ROSARIO['SearchTerms'] );
 	}
 
-	echo '<BR />';
+	echo '<br />';
 
 	if ( isset( $_REQUEST['category_id'] )
 		&& !empty( $_REQUEST['category_id'] ) )
@@ -528,7 +528,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		{
 			if ( isset( $_ROSARIO['SearchTerms'] )
 				&& !empty( $_ROSARIO['SearchTerms'] ) )
-				$SearchTerms = ' - ' . strip_tags( str_replace( '<BR />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ));
+				$SearchTerms = ' - ' . strip_tags( str_replace( '<br />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ));
 
 			$chartTitle = sprintf( _( '%s Breakdown' ), ParseMLField( $category_RET[1]['TITLE'] ) ) . $SearchTerms;
 
@@ -539,7 +539,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 		PopTable('footer');
 	}
-	echo '</FORM>';
+	echo '</form>';
 }
 
 

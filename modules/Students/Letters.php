@@ -60,7 +60,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				unset($_ROSARIO['DrawHeader']);
 
 				if ( $_REQUEST['mailing_labels']=='Y')
-					echo '<BR /><BR /><BR />';
+					echo '<br /><br /><br />';
 				//DrawHeader(ParseMLField(Config('TITLE')).' Letter');
 				DrawHeader('&nbsp;');
 				DrawHeader($student['FULL_NAME'],$student['STUDENT_ID']);
@@ -69,13 +69,13 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				DrawHeader(ProperDate(DBDate()));
 
 				if ( $_REQUEST['mailing_labels']=='Y')
-					echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$student['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
+					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$student['MAILING_LABEL'].'</td></tr></table><br />';
 
 				$letter_text = $REQUEST_letter_text;
 				foreach ( (array)$student as $column => $value)
 					$letter_text = str_replace('__'.$column.'__',$value,$letter_text);
 
-				echo '<BR />'.$letter_text;
+				echo '<br />'.$letter_text;
 				echo '<div style="page-break-after: always;"></div>';
 			}
 			PDFStop($handle);
@@ -138,10 +138,10 @@ if (empty($_REQUEST['modfunc']))
 <!-- /TinyMCE -->
 
 		<?php
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = '<INPUT type="submit" value="'._('Print Letters for Selected Students').'" />';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
+		$extra['header_right'] = '<input type="submit" value="'._('Print Letters for Selected Students').'" />';
 
-		$extra['extra_header_left'] = '<TABLE>';
+		$extra['extra_header_left'] = '<table>';
 
 		Widgets('mailing_labels');
 		$extra['extra_header_left'] .= $extra['search'];
@@ -149,52 +149,52 @@ if (empty($_REQUEST['modfunc']))
 		//FJ add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		//FJ add TinyMCE to the textarea
-		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Letter Text').'</TD><TD><TEXTAREA name="letter_text" class="tinymce">'.str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'])).'</TEXTAREA></TD></TR>';
+		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Letter Text').'</td><td><textarea name="letter_text" class="tinymce">'.str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'])).'</textarea></td></tr>';
 
-		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Substitutions').':</TD><TD><TABLE><TR class="st">';
-		$extra['extra_header_left'] .= '<TD>__FULL_NAME__</TD><TD>= '._('Last, First M').'</TD><TD>&nbsp;</TD>';
-		$extra['extra_header_left'] .= '</TR><TR class="st">';
-		$extra['extra_header_left'] .= '<TD>__FIRST_NAME__</TD><TD>= '._('First Name').'</TD><TD>&nbsp;</TD>';
-		$extra['extra_header_left'] .= '<TD>__LAST_NAME__</TD><TD>= '._('Last Name').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR class="st">';
-		$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__</TD><TD>= '._('Middle Name').'</TD><TD>&nbsp;</TD>';
-		$extra['extra_header_left'] .= '<TD>__STUDENT_ID__</TD><TD>= '.sprintf(_('%s ID'),Config('NAME')).'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR class="st">';
-		$extra['extra_header_left'] .= '<TD>__SCHOOL_TITLE__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
-		$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD>';
-		$extra['extra_header_left'] .= '</TR><TR class="st">';
+		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
+		$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._('Last, First M').'</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '</tr><tr class="st">';
+		$extra['extra_header_left'] .= '<td>__FIRST_NAME__</td><td>= '._('First Name').'</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__LAST_NAME__</td><td>= '._('Last Name').'</td>';
+		$extra['extra_header_left'] .= '</tr><tr class="st">';
+		$extra['extra_header_left'] .= '<td>__MIDDLE_NAME__</td><td>= '._('Middle Name').'</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__STUDENT_ID__</td><td>= '.sprintf(_('%s ID'),Config('NAME')).'</td>';
+		$extra['extra_header_left'] .= '</tr><tr class="st">';
+		$extra['extra_header_left'] .= '<td>__SCHOOL_TITLE__</td><td>= '._('School').'</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__GRADE_ID__</td><td>= '._('Grade Level').'</td>';
+		$extra['extra_header_left'] .= '</tr><tr class="st">';
 		if (User('PROFILE')=='admin')
 		{
-			$extra['extra_header_left'] .= '<TD>__TEACHER__</TD><TD>= '._('Attendance Teacher').'</TD><TD></TD>';
-			$extra['extra_header_left'] .= '<TD>__ROOM__</TD><TD>= '._('Attendance Room').'</TD>';
+			$extra['extra_header_left'] .= '<td>__TEACHER__</td><td>= '._('Attendance Teacher').'</td><td></td>';
+			$extra['extra_header_left'] .= '<td>__ROOM__</td><td>= '._('Attendance Room').'</td>';
 		}
 		else
 		{
-			$extra['extra_header_left'] .= '<TD>__TEACHER__</TD><TD>= '._('Your Name').'</TD><TD></TD>';
-			$extra['extra_header_left'] .= '<TD>__ROOM__</TD><TD>= '._('Your Room').'</TD>';
+			$extra['extra_header_left'] .= '<td>__TEACHER__</td><td>= '._('Your Name').'</td><td></td>';
+			$extra['extra_header_left'] .= '<td>__ROOM__</td><td>= '._('Your Room').'</td>';
 		}
-		$extra['extra_header_left'] .= '</TR></TABLE></TD></TR>';
+		$extra['extra_header_left'] .= '</tr></table></td></tr>';
 
-		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] .= '</table>';
 	}
 
 
 	$extra['SELECT'] .= ",s.STUDENT_ID AS CHECKBOX";
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Print Letters for Selected Students').'" /></div>';
-		echo '</FORM>';
+		echo '<br /><div class="center"><input type="submit" value="'._('Print Letters for Selected Students').'" /></div>';
+		echo '</form>';
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }

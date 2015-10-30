@@ -3804,8 +3804,8 @@ msgstr "¿Está seguro que quiere asignar este código de barras?"
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Users/Accounts.php:34
 #, php-format
-msgid "That barcode is already assigned to Student <B>%s</B>."
-msgstr "Ese código de barras ya está asignado al Estudiante <B>%s</B>."
+msgid "That barcode is already assigned to Student <b>%s</b>."
+msgstr "Ese código de barras ya está asignado al Estudiante <b>%s</b>."
 
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Students/Accounts.php:25
@@ -3818,8 +3818,8 @@ msgstr ""
 #: modules/Food_Service/Students/Accounts.php:25
 #: modules/Food_Service/Users/Accounts.php:25
 #, php-format
-msgid "That barcode is already assigned to User <B>%s</B>."
-msgstr "Este código de barras ya está asignado al Usuario <B>%s</B>."
+msgid "That barcode is already assigned to User <b>%s</b>."
+msgstr "Este código de barras ya está asignado al Usuario <b>%s</b>."
 
 #: modules/Food_Service/Students/Accounts.php:98
 msgid "Include Inactive Students in Shared Account"
@@ -3891,7 +3891,7 @@ msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:19
 msgid ""
-"%N now has a <B>negative balance</B> in %h lunch account. Please send in the "
+"%N now has a <b>negative balance</b> in %h lunch account. Please send in the "
 "negative balance plus %T.  THANK YOU!"
 msgstr ""
 "%N tiene ahora un <b>saldo negativo</b> en la cuenta de comida de %h. Por "
@@ -4132,7 +4132,7 @@ msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:7
 msgid ""
-"You now have a <B>negative balance</B> in your lunch account. Please send in "
+"You now have a <b>negative balance</b> in your lunch account. Please send in "
 "the negative balance plus %T.  THANK YOU!"
 msgstr ""
 "Usted tiene ahora un <b>saldo negativo</b> en su cuenta de comida. Por favor "
@@ -4603,8 +4603,8 @@ msgid "Final Grade"
 msgstr "Calificación Final"
 
 #: modules/Grades/FinalGrades.php:140
-msgid "Abs<BR />YTD / MP"
-msgstr "Aus<BR />Año a la fecha / Período Académico"
+msgid "Abs<br />YTD / MP"
+msgstr "Aus<br />Año a la fecha / Período Académico"
 
 #: modules/Grades/FinalGrades.php:252 modules/Grades/InputFinalGrades.php:718
 #: modules/Grades/Menu.php:19 modules/Grades/Menu.php:49
@@ -6987,12 +6987,12 @@ msgid "Add an <b>Existing</b> Address"
 msgstr "Agregar una Dirección <b>Existente</b>"
 
 #: modules/Students/includes/Address.inc.php:458
-msgid "Add a <b>New</b> Contact<BR />without an Address"
-msgstr "Agregar un <b>Nuevo</b> Contacto<BR />sin Dirección"
+msgid "Add a <b>New</b> Contact<br />without an Address"
+msgstr "Agregar un <b>Nuevo</b> Contacto<br />sin Dirección"
 
 #: modules/Students/includes/Address.inc.php:469
-msgid "Add an <b>Existing</b> Contact<BR />without an Address"
-msgstr "Agregar un Contacto <b>Existente</b><BR />sin Dirección"
+msgid "Add an <b>Existing</b> Contact<br />without an Address"
+msgstr "Agregar un Contacto <b>Existente</b><br />sin Dirección"
 
 #: modules/Students/includes/Address.inc.php:488
 msgid "Contacts without an Address"

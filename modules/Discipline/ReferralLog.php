@@ -5,18 +5,18 @@ FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u
 WHERE u.DISCIPLINE_FIELD_ID=f.ID
 ORDER BY ".db_case(array('DATA_TYPE',"'textarea'","'1'","'0'")).",SORT_ORDER"),array(),array('ID'));
 
-$extra['second_col'] .= '<TR><TD><fieldset><legend>'._('Include in Discipline Log').'</legend><TABLE class="width-100p">';
+$extra['second_col'] .= '<tr><td><fieldset><legend>'._('Include in Discipline Log').'</legend><table class="width-100p">';
 
-$extra['second_col'] .= '<TR><TD><label><INPUT type="checkbox" name="elements[ENTRY_DATE]" value="Y" checked />&nbsp;'._('Entry Date').'</label></TD></TR>';
+$extra['second_col'] .= '<tr><td><label><input type="checkbox" name="elements[ENTRY_DATE]" value="Y" checked />&nbsp;'._('Entry Date').'</label></td></tr>';
 
-$extra['second_col'] .= '<TR><TD><label><INPUT type="checkbox" name="elements[STAFF_ID]" value="Y" checked />&nbsp;'._('Reporter').'</label></TD></TR>';
+$extra['second_col'] .= '<tr><td><label><input type="checkbox" name="elements[STAFF_ID]" value="Y" checked />&nbsp;'._('Reporter').'</label></td></tr>';
 
 foreach ( (array)$categories_RET as $id => $category)
 {
-	$extra['second_col'] .= '<TR><TD><label><INPUT type="checkbox" name="elements[CATEGORY_'.$id.']" value="Y"'.($category[1]['DATA_TYPE']=='textarea'?' checked':'').' />&nbsp;'.$category[1]['TITLE'].'</label></TD></TR>';
+	$extra['second_col'] .= '<tr><td><label><input type="checkbox" name="elements[CATEGORY_'.$id.']" value="Y"'.($category[1]['DATA_TYPE']=='textarea'?' checked':'').' />&nbsp;'.$category[1]['TITLE'].'</label></td></tr>';
 	$i++;
 }
-$extra['second_col'] .= '</TABLE></fieldset></TD></TR>';
+$extra['second_col'] .= '</table></fieldset></td></tr>';
 
 //FJ no templates in Rosario
 
@@ -45,7 +45,7 @@ else
 	if ( !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		DrawHeader(ProgramTitle());
-		echo '<BR /><BR />';
+		echo '<br /><br />';
 	}
 	
 	foreach ( (array)$_REQUEST['elements'] as $column => $Y)
@@ -81,7 +81,7 @@ else
 				//DrawHeader(_('School Year').': '.UserSyear().'-'.(UserSyear()+1));
 				DrawHeader(_('School Year').': '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')));
 
-			echo '<BR />';
+			echo '<br />';
 
 			foreach ( (array)$referrals as $referral)
 			{
@@ -111,7 +111,7 @@ else
 						DrawHeader(nl2br($referral[$column]));
 				}
 
-				echo '<BR />';
+				echo '<br />';
 			}
 
 			echo '<div style="page-break-after: always;"></div>';

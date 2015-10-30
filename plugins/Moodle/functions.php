@@ -436,7 +436,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 		case 'School_Setup/Calendar.php|event_field':
 			//only if new event
 			if ( $_REQUEST['event_id']=='new')
-				echo '<TR><TD>'._('Publish Event in Moodle?').'</TD><TD><label><INPUT type="checkbox" name="MOODLE_PUBLISH_EVENT" value="Y" checked> '._('Yes').'</label></TD></TR>';
+				echo '<tr><td>'._('Publish Event in Moodle?').'</td><td><label><input type="checkbox" name="MOODLE_PUBLISH_EVENT" value="Y" checked> '._('Yes').'</label></td></tr>';
 
 		break;
 
@@ -495,7 +495,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			//only if new note
 			if ($id == 'new')
-				$return .= '<TR class="st"><TD colspan="2"><B>'._('Publish Note in Moodle?').'</B> <label><INPUT type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> '._('Yes').'</label></TD></TR>';
+				$return .= '<tr class="st"><td colspan="2"><b>'._('Publish Note in Moodle?').'</b> <label><input type="checkbox" name="MOODLE_PUBLISH_NOTE" value="Y" /> '._('Yes').'</label></td></tr>';
 
 		break;
 

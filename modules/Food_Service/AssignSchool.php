@@ -33,20 +33,20 @@ $staff_RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.STAFF_ID,fst.SYEAR,(SE
 //echo '<pre>'; var_dump($students_RET); echo '</pre>';
 //echo '<pre>'; var_dump($users_RET); echo '</pre>';
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 DrawHeader('',SubmitButton(_('Save')));
 $columns = array('TRANSACTION_ID' => _('ID'),'ACCOUNT_ID' => _('Account ID'),'SYEAR' => _('School Year'),'FULL_NAME' => _('Student'),'STUDENTS' => _('Students'),'SCHOOL_ID' => _('School'));
 ListOutput($students_RET,$columns,'Student Transaction w/o School','Student Transactions w/o School',false,array(),array('save'=>false,'search'=>false));
 $columns = array('TRANSACTION_ID' => _('ID'),'SYEAR' => _('School Year'),'FULL_NAME' => _('User'),'SCHOOL_ID' => _('School'));
 ListOutput($staff_RET,$columns,'User Transaction w/o School','User Transactions w/o School',false,array(),array('save'=>false,'search'=>false));
 echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-echo '</FORM>';
+echo '</form>';
 
 function _students($value,$column)
 {
 	$RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa WHERE s.STUDENT_ID=fsa.STUDENT_ID AND fsa.ACCOUNT_ID='".$value."'"));
 	foreach ( (array)$RET as $student)
-		$ret .= $student['FULL_NAME'].'<BR />';
+		$ret .= $student['FULL_NAME'].'<br />';
 	$ret = mb_substr($ret,0,-4);
 	return $ret;
 }

@@ -268,7 +268,7 @@ else
 
 			if ( !$_REQUEST['type_id'] )
 			{
-				$column_title = $types_RET[$assignment['ASSIGNMENT_TYPE_ID']][1]['TITLE'] . '<BR />' . $column_title;
+				$column_title = $types_RET[$assignment['ASSIGNMENT_TYPE_ID']][1]['TITLE'] . '<br />' . $column_title;
 			}
 
 			if ( !$_REQUEST['type_id']
@@ -345,20 +345,20 @@ $type_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) .
 	"&type_id='";
 
-$type_select = '<SELECT name="type_id" onchange="ajaxLink(' . $type_onchange_URL . ' + this.options[selectedIndex].value);">';
+$type_select = '<select name="type_id" onchange="ajaxLink(' . $type_onchange_URL . ' + this.options[selectedIndex].value);">';
 
-$type_select .= '<OPTION value=""' . ( !$_REQUEST['type_id'] ? ' SELECTED' : '' ) . '>' .
+$type_select .= '<option value=""' . ( !$_REQUEST['type_id'] ? ' SELECTED' : '' ) . '>' .
 	_( 'All' ) .
-'</OPTION>';
+'</option>';
 
 foreach ( (array)$types_RET as $id => $type )
 {
-	$type_select .= '<OPTION value="' . $id . '"' . ( $_REQUEST['type_id'] == $id? ' SELECTED' : '' ) . '>' .
+	$type_select .= '<option value="' . $id . '"' . ( $_REQUEST['type_id'] == $id? ' SELECTED' : '' ) . '>' .
 		$type[1]['TITLE'] .
-	'</OPTION>';
+	'</option>';
 }
 
-$type_select .= '</SELECT>';
+$type_select .= '</select>';
 
 $assignment_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	'&include_inactive=' . $_REQUEST['include_inactive'] .
@@ -366,22 +366,22 @@ $assignment_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	'&type_id=' . $_REQUEST['type_id'] .
 	"&assignment_id='";
 
-$assignment_select = '<SELECT name="assignment_id" onchange="ajaxLink(' . $assignment_onchange_URL . ' + this.options[selectedIndex].value);">';
+$assignment_select = '<select name="assignment_id" onchange="ajaxLink(' . $assignment_onchange_URL . ' + this.options[selectedIndex].value);">';
 
-$assignment_select .= '<OPTION value="">' . _( 'Totals' ) . '</OPTION>';
+$assignment_select .= '<option value="">' . _( 'Totals' ) . '</option>';
 
-$assignment_select .= '<OPTION value="all"' . ( ( $_REQUEST['assignment_id'] === 'all' && !UserStudentID() ) ? ' SELECTED' : '' ) . '>' .
+$assignment_select .= '<option value="all"' . ( ( $_REQUEST['assignment_id'] === 'all' && !UserStudentID() ) ? ' SELECTED' : '' ) . '>' .
 	_( 'All' ) .
-'</OPTION>';
+'</option>';
 
 if (UserStudentID() && $_REQUEST['assignment_id']=='all')
-	$assignment_select .= '<OPTION value="all" SELECTED>'.$stu_RET[1]['FULL_NAME'].'</OPTION>';
+	$assignment_select .= '<option value="all" SELECTED>'.$stu_RET[1]['FULL_NAME'].'</option>';
 
 foreach ( (array)$assignments_RET as $id => $assignment)
-	$assignment_select .= '<OPTION value="'.$id.'"'.($_REQUEST['assignment_id']==$id?' SELECTED':'').'>'.($_REQUEST['type_id']?'':$types_RET[$assignment[1]['ASSIGNMENT_TYPE_ID']][1]['TITLE'].' - ').$assignment[1]['TITLE'].'</OPTION>';
-$assignment_select .= '</SELECT>';
+	$assignment_select .= '<option value="'.$id.'"'.($_REQUEST['assignment_id']==$id?' SELECTED':'').'>'.($_REQUEST['type_id']?'':$types_RET[$assignment[1]['ASSIGNMENT_TYPE_ID']][1]['TITLE'].' - ').$assignment[1]['TITLE'].'</option>';
+$assignment_select .= '</select>';
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'" method="POST">';
 
 $tabs = array( array(
 	'title' => _( 'All' ),
@@ -417,7 +417,7 @@ if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all')
 
 $LO_options['header'] = WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&type_id='.($_REQUEST['type_id']?$_REQUEST['type_id']:($_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all'?$assignments_RET[$_REQUEST['assignment_id']][1]['ASSIGNMENT_TYPE_ID']:'')).($_REQUEST['assignment_id']=='all'?'&assignment_id=all':'').(UserStudentID()?'&student_id='.UserStudentID():'').'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all']);
 
-echo '<BR />';
+echo '<br />';
 
 if (UserStudentID())
 	ListOutput($stu_RET,$LO_columns,'Assignment','Assignments',$link,array(),$LO_options);
@@ -425,7 +425,7 @@ else
 	ListOutput($stu_RET,$LO_columns,'Student','Students',$link,array(),$LO_options);
 
 echo $_REQUEST['assignment_id']?'<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>':'';
-echo '</FORM>';
+echo '</form>';
 
 function _makeExtraAssnCols($assignment_id,$column)
 {	global $THIS_RET,$assignments_RET,$current_RET,$points_RET,$tabindex,$max_allowed,$total,$programconfig;
@@ -452,7 +452,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 					}
 				}
 
-//				return '<TABLE cellspacing=0 cellpadding=0><TR><TD>'.$total.'</TD><TD>&nbsp;/&nbsp;</TD><TD>'.$total_points.'</TD></TR></TABLE>';
+//				return '<table cellspacing=0 cellpadding=0><tr><td>'.$total.'</td><td>&nbsp;/&nbsp;</td><td>'.$total_points.'</td></tr></table>';
 				return $total.'&nbsp;/&nbsp;'.$total_points;
 			}
 			else
@@ -476,7 +476,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 					elseif (mb_strpos($points,'.'))
 						$points = rtrim(rtrim($points,'0'),'.');
 
-//					return '<TABLE cellspacing=0 cellpadding=1><TR><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'</TD><TD>&nbsp;/&nbsp;</TD><TD>'.$total_points.'</TD></TR></TABLE>';
+//					return '<table cellspacing=0 cellpadding=1><tr><td>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'</td><td>&nbsp;/&nbsp;</td><td>'.$total_points.'</td></tr></table>';
 					return '<span'.($div ? ' style="float:left"' : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span><span>&nbsp;/&nbsp;'.$total_points.'</span>';
 				}
 			}
@@ -528,7 +528,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 		case 'LETTER_GRADE':
 			if ( !$assignment_id)
 			{
-				return '<B>'._makeLetterGrade($total).'</B>';
+				return '<b>'._makeLetterGrade($total).'</b>';
 			}
 			else
 			{
@@ -544,7 +544,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 					if ( $total_points!=0)
 					{
 						if ( $points!='-1')
-							return ($assignments_RET[$assignment_id][1]['DUE']||$points!=''?'':'<span style="color:gray">').'<B>'._makeLetterGrade($points/$total_points).'</B>'.($assignments_RET[$assignment_id][1]['DUE']||$points!=''?'':'</span>');
+							return ($assignments_RET[$assignment_id][1]['DUE']||$points!=''?'':'<span style="color:gray">').'<b>'._makeLetterGrade($points/$total_points).'</b>'.($assignments_RET[$assignment_id][1]['DUE']||$points!=''?'':'</span>');
 						else
 							return _('N/A');
 					}
@@ -596,7 +596,7 @@ function _makeExtraStuCols($value,$column)
 			elseif (mb_strpos($value,'.'))
 				$value = rtrim(rtrim($value,'0'),'.');
 
-//			return '<TABLE cellspacing=0 cellpadding=1><TR><TD>'.TextInput($value,'values['.$THIS_RET['STUDENT_ID'].']['.$THIS_RET['ASSIGNMENT_ID'].'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'</TD><TD>&nbsp;/&nbsp;</TD><TD>'.$THIS_RET['TOTAL_POINTS'].'</TD></TR></TABLE>';
+//			return '<table cellspacing=0 cellpadding=1><tr><td>'.TextInput($value,'values['.$THIS_RET['STUDENT_ID'].']['.$THIS_RET['ASSIGNMENT_ID'].'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'</td><td>&nbsp;/&nbsp;</td><td>'.$THIS_RET['TOTAL_POINTS'].'</td></tr></table>';
 			return '<span'.($div ? ' style="float:left"' : '').'>'.TextInput($value,'values['.$THIS_RET['STUDENT_ID'].']['.$THIS_RET['ASSIGNMENT_ID'].'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span><span>&nbsp;/&nbsp;'.$THIS_RET['TOTAL_POINTS'].'</span>';
 		break;
 
@@ -616,7 +616,7 @@ function _makeExtraStuCols($value,$column)
 			if ( $THIS_RET['TOTAL_POINTS']!=0)
 			{
 				if ( $THIS_RET['POINTS']!='-1')
-					return ($THIS_RET['DUE']||$THIS_RET['POINTS']!=''?'':'<span style="color:gray">').'<B>'._makeLetterGrade($THIS_RET['POINTS']/$THIS_RET['TOTAL_POINTS']).'</B>'.($THIS_RET['DUE']||$THIS_RET['POINTS']!=''?'':'</span>');
+					return ($THIS_RET['DUE']||$THIS_RET['POINTS']!=''?'':'<span style="color:gray">').'<b>'._makeLetterGrade($THIS_RET['POINTS']/$THIS_RET['TOTAL_POINTS']).'</b>'.($THIS_RET['DUE']||$THIS_RET['POINTS']!=''?'':'</span>');
 				else
 					return _('N/A');
 			}
@@ -671,14 +671,14 @@ function _makeExtraCols($assignment_id,$column)
 				TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span>
 				<span>&nbsp;/&nbsp;'.$total_points.
 				( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 ? '&nbsp;&minus;&nbsp;'.($assignments_RET[$assignment_id][1]['DUE']||$points!=''?($points>$total_points*$max_allowed?'<span style="color:red">':'<span>'):'<span>')._Percent($points/$total_points,0).'</span>' : '').
-				( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 ? '&nbsp;&minus;&nbsp;<B>'._makeLetterGrade($points/$total_points).'</B>' : '').'</span>';
+				( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 ? '&nbsp;&minus;&nbsp;<b>'._makeLetterGrade($points/$total_points).'</b>' : '').'</span>';
 			else
-//				return '<TABLE cellspacing=0 cellpadding=1><TR align=center><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<HR>'.$total_points.'</TD><TD>&nbsp;'._('N/A').'<BR />&nbsp;'._('N/A').'</TD></TR></TABLE>';
+//				return '<table cellspacing=0 cellpadding=1><tr align=center><td>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<hr />'.$total_points.'</td><td>&nbsp;'._('N/A').'<br />&nbsp;'._('N/A').'</td></tr></table>';
 				return '<span'.($div ? ' style="float:left"' : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span>
 				<span>&nbsp;/&nbsp;'.$total_points.'&nbsp;&minus;&nbsp;'._('N/A').'</span>';
 		}
 		else
-			//return '<TABLE class="cellspacing-0"><TR class="center"><TD>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<HR>'.$total_points.'</TD><TD>&nbsp;E/C</TD></TR></TABLE>';
+			//return '<table class="cellspacing-0"><tr class="center"><td>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex).'<hr />'.$total_points.'</td><td>&nbsp;E/C</td></tr></table>';
 			return '<span'.($div ? ' style="float:left"' : '').'>'.TextInput($points,'values['.$THIS_RET['STUDENT_ID'].']['.$assignment_id.'][POINTS]','',' size=2 maxlength=7 tabindex='.$tabindex, $div).'</span>
 			<span>&nbsp;/&nbsp;'.$total_points.'&nbsp;&minus;&nbsp;'._('E/C').'</span>';
 	}

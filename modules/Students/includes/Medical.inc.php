@@ -27,7 +27,7 @@ if ( ( isset( $_POST['values'] )
 if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if ( !$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
-		echo '</FORM>';
+		echo '</form>';
 	if (DeletePrompt($_REQUEST['title']))
 	{
 		DBQuery("DELETE FROM ".$_REQUEST['table']." WHERE ID='".$_REQUEST['id']."'");
@@ -73,5 +73,5 @@ if (empty($_REQUEST['modfunc']))
 		ListOutput($med_RET,$columns,'Nurse Visit','Nurse Visits',$link,array(),array('search'=>false));
 	}
 	if ( $PopTable_opened)//FJ bugfix display in PrintStudentInfo.php
-		echo '<TABLE><TR><TD>';
+		echo '<table><tr><td>';
 }

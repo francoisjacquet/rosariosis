@@ -75,30 +75,30 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		}	
 	}
 	
-	$type_select = '<span class="nobr">'._('Type').' <SELECT name="type_select"><OPTION value="">'._('Not Specified').'</OPTION>';
+	$type_select = '<span class="nobr">'._('Type').' <select name="type_select"><option value="">'._('Not Specified').'</option>';
 	foreach ( (array)$types as $short_name => $type)
-		$type_select .= '<OPTION value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' SELECTED' : '').'>'.$type['DESCRIPTION'].'</OPTION>';
-	$type_select .= '</SELECT></span>';
+		$type_select .= '<option value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' SELECTED' : '').'>'.$type['DESCRIPTION'].'</option>';
+	$type_select .= '</select></span>';
 
 	$staff_RET = DBGet(DBquery('SELECT STAFF_ID,FIRST_NAME||\' \'||LAST_NAME AS FULL_NAME FROM STAFF WHERE SYEAR=\''.UserSyear().'\' AND SCHOOLS LIKE \'%,'.UserSchool().',%\' AND PROFILE=\'admin\' ORDER BY LAST_NAME'));
 
-	$staff_select = '<span class="nobr">'._('User').' <SELECT name=staff_select><OPTION value="">'._('Not Specified').'</OPTION>';
+	$staff_select = '<span class="nobr">'._('User').' <select name=staff_select><option value="">'._('Not Specified').'</option>';
 	foreach ( (array)$staff_RET as $staff)
-		$staff_select .= '<OPTION value="'.$staff['STAFF_ID'].'"'.($_REQUEST['staff_select']==$staff['STAFF_ID'] ? ' SELECTED' : '').'>'.$staff['FULL_NAME'].'</OPTION>';
-	$staff_select .= '</SELECT></span>';
+		$staff_select .= '<option value="'.$staff['STAFF_ID'].'"'.($_REQUEST['staff_select']==$staff['STAFF_ID'] ? ' SELECTED' : '').'>'.$staff['FULL_NAME'].'</option>';
+	$staff_select .= '</select></span>';
 
 	$PHP_tmp_SELF = PreparePHP_SELF();
-	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
+	echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
 	//FJ add label on checkbox
-	DrawHeader(PrepareDate($date,'_date').' : '.$type_select.' : '.$staff_select.' : <INPUT type="submit" value="'._('Go').'" />');
+	DrawHeader(PrepareDate($date,'_date').' : '.$type_select.' : '.$staff_select.' : <input type="submit" value="'._('Go').'" />');
 	DrawHeader('<label>'.CheckBoxOnclick('by_name').' '._('Sort by Name').'</label>');
-	echo '</FORM>';
+	echo '</form>';
 
 
 	if ( $_REQUEST['detailed_view']!='true')
-		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'true')).'">'._('Detailed View').'</A>');
+		DrawHeader('<a href="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'true')).'">'._('Detailed View').'</a>');
 	else
-		DrawHeader('<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'false')).'">'._('Original View').'</A>');
+		DrawHeader('<a href="'.PreparePHP_SELF($_REQUEST,array(),array('detailed_view' => 'false')).'">'._('Original View').'</a>');
 
 	if ( $_REQUEST['detailed_view']=='true')
 	{

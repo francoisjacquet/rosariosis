@@ -33,14 +33,14 @@ if ( empty( $end_date ) )
 
 if ( $_REQUEST['modfunc']=='search')
 {
-	echo '<BR />';
+	echo '<br />';
 //FJ add translation 
 	PopTable('header',_('Advanced'));
-	echo '<FORM name="percentform" action="Modules.php?modname='.$_REQUEST['modname'].'&list_by_day='.$_REQUEST['list_by_day'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&advanced='.$_REQUEST['advanced'].'" method="POST">';
-	echo '<TABLE>';
+	echo '<form name="percentform" action="Modules.php?modname='.$_REQUEST['modname'].'&list_by_day='.$_REQUEST['list_by_day'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&advanced='.$_REQUEST['advanced'].'" method="POST">';
+	echo '<table>';
 
-	echo '<TR class="valign-top"><TD>';
-	echo '<TABLE class="width-100p" id="general_table">';
+	echo '<tr class="valign-top"><td>';
+	echo '<table class="width-100p" id="general_table">';
 	Search('general_info',$extra['grades']);
 	if ( !isset($extra))
 		$extra = array();
@@ -48,53 +48,53 @@ if ( $_REQUEST['modfunc']=='search')
 	if ( $extra['search'])
 		echo $extra['search'];
 	Search('student_fields',is_array($extra['student_fields'])?$extra['student_fields']:array());
-	echo '</TABLE>';
-	echo '</TD><TD>';
-	echo '<TABLE class="width-100p"><TR><TD class="center"><BR />';
+	echo '</table>';
+	echo '</td><td>';
+	echo '<table class="width-100p"><tr><td class="center"><br />';
 	if ( $extra['search_second_col'])
 		echo $extra['search_second_col'];
 	if (User('PROFILE')=='admin')
 	{
 //FJ if only one school, no Search All Schools option
 		if (SchoolInfo('SCHOOLS_NB') > 1)
-			echo '<label><INPUT type="checkbox" name="_search_all_schools" value="Y"'.(Preferences('DEFAULT_ALL_SCHOOLS')=='Y'?' checked':'').'>&nbsp;'._('Search All Schools').'</label><BR />';
+			echo '<label><input type="checkbox" name="_search_all_schools" value="Y"'.(Preferences('DEFAULT_ALL_SCHOOLS')=='Y'?' checked':'').'>&nbsp;'._('Search All Schools').'</label><br />';
 	}
-	//echo '<INPUT type=checkbox name=include_inactive value=Y><span style="color:black>Include Inactive Students</span><BR />';
-	echo '<BR />';
+	//echo '<input type=checkbox name=include_inactive value=Y><span style="color:black>Include Inactive Students</span><br />';
+	echo '<br />';
 	echo Buttons(_('Submit'),_('Reset'));
-	echo '</TD></TR>';
-	echo '</TABLE>';
-	echo '</TD></TR>';
+	echo '</td></tr>';
+	echo '</table>';
+	echo '</td></tr>';
 
-	echo '<TR class="valign-top"><TD><TABLE class="width-100p cellspacing-0">';
+	echo '<tr class="valign-top"><td><table class="width-100p cellspacing-0">';
 	if ( $_REQUEST['advanced']=='Y')
 	{
 		$extra['search'] = '';
 		Widgets('all',$extra);
-		echo '<TR><TD>';
-		echo '<TABLE class="postbox cellspacing-0"><TR><TH>';
-//		echo '<span style="color:'.Preferences('HEADER').'><B>'._('Widgets').'</B></span><BR />';
-		echo '<H3>'._('Widgets').'</H3></TH></TR>';
+		echo '<tr><td>';
+		echo '<table class="postbox cellspacing-0"><tr><th>';
+//		echo '<span style="color:'.Preferences('HEADER').'><b>'._('Widgets').'</b></span><br />';
+		echo '<h3>'._('Widgets').'</h3></th></tr>';
 		echo $extra['search'];
-//		echo '</TD></TR>';
-		echo '</TABLE><br />';
+//		echo '</td></tr>';
+		echo '</table><br />';
 
-		echo '<TR><TD>';
-		echo '<TABLE class="postbox cellspacing-0"><TR><TH>';
-//		echo '<span style="color:'.Preferences('HEADER').'><B>'._('Student Fields').'</B></span><BR />';
-		echo '<H3>'._('Student Fields').'</H3></TH></TR><TR><TD>';
+		echo '<tr><td>';
+		echo '<table class="postbox cellspacing-0"><tr><th>';
+//		echo '<span style="color:'.Preferences('HEADER').'><b>'._('Student Fields').'</b></span><br />';
+		echo '<h3>'._('Student Fields').'</h3></th></tr><tr><td>';
 		Search('student_fields_all',is_array($extra['student_fields'])?$extra['student_fields']:array());
-		echo '</TD></TR>';
-//		echo '<TR><TD><BR /><A href='.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'>'._('Basic Search').'</A></TD></TR>';
-		echo '</TABLE><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</A>';
+		echo '</td></tr>';
+//		echo '<tr><td><br /><a href='.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'>'._('Basic Search').'</a></td></tr>';
+		echo '</table><a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</a>';
 	}
 	else
-		echo '<TR><TD><BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</A>';
-	echo '</TD></TR></TABLE></TD>';
-	echo '</TR>';
+		echo '<tr><td><br /><a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</a>';
+	echo '</td></tr></table></td>';
+	echo '</tr>';
 
-	echo '</TABLE>';
-	echo '</FORM>';
+	echo '</table>';
+	echo '</form>';
 	// set focus to last name text box
         echo '<script><!--
 		document.percentform.last.focus();
@@ -113,12 +113,12 @@ if (empty($_REQUEST['modfunc']))
 	$extra['WHERE'] .= appendSQL('');
 	$extra['WHERE'] .= CustomFields('where');
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&list_by_day='.$_REQUEST['list_by_day'].'" method="POST">';
-	$advanced_link = ' <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=search&list_by_day='.$_REQUEST['list_by_day'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST[month_start].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'">'._('Advanced').'</A>';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&list_by_day='.$_REQUEST['list_by_day'].'" method="POST">';
+	$advanced_link = ' <a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=search&list_by_day='.$_REQUEST['list_by_day'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST[month_start].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'">'._('Advanced').'</a>';
 	DrawHeader(_('Timeframe').':'.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').$advanced_link,SubmitButton(_('Go')));
-	echo '</FORM>';
+	echo '</form>';
 	if ( $_ROSARIO['SearchTerms'])
-		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
+		DrawHeader(str_replace('<br />','<br /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 
 	if ( $_REQUEST['list_by_day']=='true')
 	{

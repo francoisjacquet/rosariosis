@@ -95,7 +95,7 @@ if (UserStaffID() && !$_REQUEST['modfunc'])
 		$link['add']['html'] = array('REMOVE'=>button('add'),'AMOUNT'=>_makePaymentsTextInput('','AMOUNT'),'PAYMENT_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makePaymentsTextInput('','COMMENTS'));
 	if ( !$_REQUEST['print_statements'] && AllowEdit())
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		DrawHeader('',SubmitButton(_('Save')));
 		$options = array();
 	}
@@ -107,15 +107,15 @@ if (UserStaffID() && !$_REQUEST['modfunc'])
 	if ( !$_REQUEST['print_statements'] && AllowEdit())
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
-	echo '<BR />';
+	echo '<br />';
 
 	$salaries_total = DBGet(DBQuery("SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID='".UserStaffID()."' AND f.SYEAR='".UserSyear()."'"));
 
-	$table = '<TABLE class="align-right"><TR><TD>'._('Total from Salaries').': '.'</TD><TD>'.Currency($salaries_total[1]['TOTAL']).'</TD></TR>';
+	$table = '<table class="align-right"><tr><td>'._('Total from Salaries').': '.'</td><td>'.Currency($salaries_total[1]['TOTAL']).'</td></tr>';
 
-	$table .= '<TR><TD>'._('Less').': '._('Total from Staff Payments').': '.'</TD><TD>'.Currency($payments_total).'</TD></TR>';
+	$table .= '<tr><td>'._('Less').': '._('Total from Staff Payments').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
 
-	$table .= '<TR><TD>'._('Balance').': <b>'.'</b></TD><TD><b>'.Currency(($salaries_total[1]['TOTAL']-$payments_total),'CR').'</b></TD></TR></TABLE>';
+	$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b>'.Currency(($salaries_total[1]['TOTAL']-$payments_total),'CR').'</b></td></tr></table>';
 
 	if ( !$_REQUEST['print_statements'])
 		DrawHeader('','',$table);
@@ -123,5 +123,5 @@ if (UserStaffID() && !$_REQUEST['modfunc'])
 		DrawHeader($table,'','',null,null,true);
 	
 	if ( !$_REQUEST['print_statements'] && AllowEdit())
-		echo '</FORM>';
+		echo '</form>';
 }

@@ -35,7 +35,7 @@ if ( $_REQUEST['id'] && $_REQUEST['id']!='all' && !$courses_RET[$_REQUEST['id']]
 
 if ( !$_REQUEST['id'])
 {
-	DrawHeader(_('Totals'),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&id=all'.($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Expand All').'</A>');
+	DrawHeader(_('Totals'),'<a href="Modules.php?modname='.$_REQUEST['modname'].'&id=all'.($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Expand All').'</a>');
 	if ( $do_stats)
 //FJ add label on checkbox
 		DrawHeader('','<label>'.CheckBoxOnclick('do_stats').' '._('Include Anonymous Statistics').'</label>');
@@ -198,7 +198,7 @@ else
 	else
 	{
 		$courses_RET = array($_REQUEST['id'] => $courses_RET[$_REQUEST['id']]);
-		DrawHeader('<B>'.$courses_RET[$_REQUEST['id']][1]['COURSE_TITLE'].'</B> - '.mb_substr($courses_RET[$_REQUEST['id']][1]['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$courses_RET[$_REQUEST['id']][1]['TITLE']),'^')+2),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</A>');
+		DrawHeader('<b>'.$courses_RET[$_REQUEST['id']][1]['COURSE_TITLE'].'</b> - '.mb_substr($courses_RET[$_REQUEST['id']][1]['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$courses_RET[$_REQUEST['id']][1]['TITLE']),'^')+2),'<a href="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</a>');
 	}
 	if ( $do_stats)
 //FJ add label on checkbox
@@ -291,12 +291,12 @@ else
 						$bargraph2 = bargraph2(false);
 					}
 				}
-				$LO_ret[] = array('TITLE' => $assignment['TITLE'],'CATEGORY' => $assignment['CATEGORY'],'POINTS'=>($assignment['POINTS']=='-1'?'*':($assignment['POINTS']==''?'<span style="color:red">0</span>':rtrim(rtrim($assignment['POINTS'],'0'),'.'))).' / '.$assignment['POINTS_POSSIBLE'],'PERCENT'=>($assignment['POINTS_POSSIBLE']=='0'?_('E/C'):($assignment['POINTS']=='-1'?'*':number_format(100*$assignment['POINTS']/$assignment['POINTS_POSSIBLE'],1).'%')),'LETTER'=>($programconfig[$staff_id]['LETTER_GRADE_ALL']=='Y'?'':($assignment['POINTS_POSSIBLE']=='0'?_('N/A'):($assignment['POINTS']=='-1'?_('N/A'):($assignment['POINTS_POSSIBLE']>=$programconfig[$staff_id]['LETTER_GRADE_MIN']?'<b>'._makeLetterGrade($assignment['POINTS']/$assignment['POINTS_POSSIBLE'],$course['COURSE_PERIOD_ID'],$staff_id).'</b>':'')))),'COMMENT' => $assignment['COMMENT'].($assignment['POINTS']==''?($assignment['COMMENT']?'<BR />':'').'<span style="color:red">'._('No Grade').'</span>':''))+($do_stats&&$_REQUEST['do_stats']?array('BAR1' => $bargraph1,'BAR2' => $bargraph2):array());
+				$LO_ret[] = array('TITLE' => $assignment['TITLE'],'CATEGORY' => $assignment['CATEGORY'],'POINTS'=>($assignment['POINTS']=='-1'?'*':($assignment['POINTS']==''?'<span style="color:red">0</span>':rtrim(rtrim($assignment['POINTS'],'0'),'.'))).' / '.$assignment['POINTS_POSSIBLE'],'PERCENT'=>($assignment['POINTS_POSSIBLE']=='0'?_('E/C'):($assignment['POINTS']=='-1'?'*':number_format(100*$assignment['POINTS']/$assignment['POINTS_POSSIBLE'],1).'%')),'LETTER'=>($programconfig[$staff_id]['LETTER_GRADE_ALL']=='Y'?'':($assignment['POINTS_POSSIBLE']=='0'?_('N/A'):($assignment['POINTS']=='-1'?_('N/A'):($assignment['POINTS_POSSIBLE']>=$programconfig[$staff_id]['LETTER_GRADE_MIN']?'<b>'._makeLetterGrade($assignment['POINTS']/$assignment['POINTS_POSSIBLE'],$course['COURSE_PERIOD_ID'],$staff_id).'</b>':'')))),'COMMENT' => $assignment['COMMENT'].($assignment['POINTS']==''?($assignment['COMMENT']?'<br />':'').'<span style="color:red">'._('No Grade').'</span>':''))+($do_stats&&$_REQUEST['do_stats']?array('BAR1' => $bargraph1,'BAR2' => $bargraph2):array());
 			}
 			if ( $_REQUEST['id']=='all')
 			{
-				//echo '<BR />';
-				DrawHeader('<B>'.mb_substr($course['TITLE'],0,mb_strpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')).'</B> - '.mb_substr($course['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')+2),'<A HREF="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</A>');
+				//echo '<br />';
+				DrawHeader('<b>'.mb_substr($course['TITLE'],0,mb_strpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')).'</b> - '.mb_substr($course['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$course['TITLE']),'^')+2),'<a href="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</a>');
 			}
 			unset($LO_ret[0]);
 			ListOutput($LO_ret,$LO_columns,'Assignment','Assignments',array(),array(),array('center'=>false,'save' => $_REQUEST['id']!='all','search'=>false));
@@ -318,14 +318,14 @@ function _makeTipTitle($value,$column)
 		if ( $THIS_RET['DESCRIPTION'])
 		{
 			$tipmsg = $THIS_RET['DESCRIPTION'];
-			$tipmsg = _('Description').': '.str_replace("\r\n",'<BR />',$tipmsg);
+			$tipmsg = _('Description').': '.str_replace("\r\n",'<br />',$tipmsg);
 		}
 
 		if ( $THIS_RET['ASSIGNED_DATE'])
-			$tipmsg .= ($tipmsg?'<BR />':'')._('Assigned').': '.ProperDate($THIS_RET['ASSIGNED_DATE']);
+			$tipmsg .= ($tipmsg?'<br />':'')._('Assigned').': '.ProperDate($THIS_RET['ASSIGNED_DATE']);
 
 		if ( $THIS_RET['DUE_DATE'])
-			$tipmsg .= ($tipmsg?'<BR />':'')._('Due').': '.ProperDate($THIS_RET['DUE_DATE']);
+			$tipmsg .= ($tipmsg?'<br />':'')._('Due').': '.ProperDate($THIS_RET['DUE_DATE']);
 
 		$tipJS = '<script>';
 
@@ -338,7 +338,7 @@ function _makeTipTitle($value,$column)
 
 		$tipJS .= 'var tipmsg'.$THIS_RET['ASSIGNMENT_ID'].'='.json_encode($tipmsg).';</script>';
 
-		$tip_title = $tipJS.'<A HREF="#" onMouseOver="stm([tiptitle,tipmsg'.$THIS_RET['ASSIGNMENT_ID'].'])" onMouseOut="htm();" onclick="return false;">'.$value.'</A>';
+		$tip_title = $tipJS.'<a href="#" onMouseOver="stm([tiptitle,tipmsg'.$THIS_RET['ASSIGNMENT_ID'].'])" onMouseOut="htm();" onclick="return false;">'.$value.'</a>';
 	}
 	else
 		$tip_title = $value;

@@ -208,13 +208,13 @@ if ( $_REQUEST['modfunc']!='remove')
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id' => 'ID');
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 	
 	ListOutput($polls_RET,$columns,'Poll','Polls',$link);
 
 	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '</form>';
 }
 
 function _makeTextInput($value,$name)
@@ -254,7 +254,7 @@ function _makeOptionsInput($value,$name)
 	
 	$type_options = array('multiple_radio' => _('Select One from Options'),'multiple' => _('Select Multiple from Options'));
 	
-	return '<TR'.($portal_poll_id == 'new' ? ' id="newOption_0"' : '').'><TD>'.TextInput($THIS_RET['QUESTION'],"values[$portal_poll_id][$id][QUESTION]",'','maxlength=255 size=20').'</TD><TD>'.TextareaInput($value,"values[$portal_poll_id][$id][$name]",'','rows=3 cols=20').($portal_poll_id == 'new' ? '<BR />'._('* one per line') : '').'</TD><TD>'.SelectInput($THIS_RET['TYPE'],"values[$portal_poll_id][$id][TYPE]",'',$type_options,false).'</TD></TR>';
+	return '<tr'.($portal_poll_id == 'new' ? ' id="newOption_0"' : '').'><td>'.TextInput($THIS_RET['QUESTION'],"values[$portal_poll_id][$id][QUESTION]",'','maxlength=255 size=20').'</td><td>'.TextareaInput($value,"values[$portal_poll_id][$id][$name]",'','rows=3 cols=20').($portal_poll_id == 'new' ? '<br />'._('* one per line') : '').'</td><td>'.SelectInput($THIS_RET['TYPE'],"values[$portal_poll_id][$id][TYPE]",'',$type_options,false).'</td></tr>';
 }
 
 function _makeOptionsInputs($value,$name)
@@ -302,11 +302,11 @@ function _makeOptionsInputs($value,$name)
 				cell.innerHTML = cell.innerHTML.replace(reg, \'new\'+newId);
 			}
 		</script>';
-		$return .= '<TABLE class="cellspacing-0 widefat" id="newOptionsTable"><TR><TD><b>'._('Question').'</b></TD><TD><b>'._('Options').'</b></TD><TD><b>'._('Data Type').'</b></TD></TR>'.$value.'<TR><TD colspan="3" style="text-align:right;"><a href="#" onclick="newOption();return false;">'. button('add') .' '._('New Question').'</a></TR></TABLE>';
+		$return .= '<table class="cellspacing-0 widefat" id="newOptionsTable"><tr><td><b>'._('Question').'</b></td><td><b>'._('Options').'</b></td><td><b>'._('Data Type').'</b></td></tr>'.$value.'<tr><td colspan="3" style="text-align:right;"><a href="#" onclick="newOption();return false;">'. button('add') .' '._('New Question').'</a></tr></table>';
 	}
 	else
 	{
-		$return .= '<TABLE class="cellspacing-0 widefat"><TR><TD><b>'._('Question').'</b></TD><TD><b>'._('Options').'</b></TD><TD><b>'._('Data Type').'</b></TD></TR>'.$value.'</TABLE>';
+		$return .= '<table class="cellspacing-0 widefat"><tr><td><b>'._('Question').'</b></td><td><b>'._('Options').'</b></td><td><b>'._('Data Type').'</b></td></tr>'.$value.'</table>';
 	}
 
 	$return .= '</div>';

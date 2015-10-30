@@ -401,9 +401,9 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 	}
 
 	if (basename($_SERVER['PHP_SELF'])!='index.php')
-		echo '<FORM name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
+		echo '<form name="staff" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
 	else
-		echo '<FORM action="index.php?create_account=user&staff_id=new&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
+		echo '<form action="index.php?create_account=user&staff_id=new&modfunc=update" method="POST" enctype="multipart/form-data">';
 
 	if (basename($_SERVER['PHP_SELF'])!='index.php')
 	{
@@ -412,7 +412,7 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 			$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 				"&modfunc=delete'";
 
-			$delete_button = '<INPUT type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+			$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
 		}
 	}
 
@@ -463,7 +463,7 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 
 	$_ROSARIO['selected_tab'] = 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id;
 
-	echo '<BR />';
+	echo '<br />';
 	PopTable('header',$tabs,'width="100%"');
 	$PopTable_opened = true;
 
@@ -477,7 +477,7 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 		{
 			require 'modules/' . $include . '.inc.php';
 
-			$separator = '<HR>';
+			$separator = '<hr />';
 
 			require_once 'modules/Users/includes/Other_Info.inc.php';
 		}
@@ -485,6 +485,6 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 
 	PopTable('footer');
 
-	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }

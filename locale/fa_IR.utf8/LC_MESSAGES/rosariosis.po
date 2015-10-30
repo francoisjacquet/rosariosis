@@ -1865,7 +1865,7 @@ msgstr "محل کار"
 #: modules/Custom/Registration.php:176
 #, fuzzy
 msgid "Information about your spouse or significant other residing with you"
-msgstr "اطلاعات در مورد همسر خود و یا قابل توجهی ساکن دیگر با شما : <BR> <small>اینجا را خالی بگذارید بخش اگر شما از هم جدا هستند.</small>"
+msgstr "اطلاعات در مورد همسر خود و یا قابل توجهی ساکن دیگر با شما : <br> <small>اینجا را خالی بگذارید بخش اگر شما از هم جدا هستند.</small>"
 
 #: modules/Custom/Registration.php:176
 msgid "Leave this section blank if you are separated."
@@ -2560,7 +2560,7 @@ msgstr "آیا شما مطمئن هستید که می خواهید برای اج
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Users/Accounts.php:34
 #, php-format
-msgid "That barcode is already assigned to Student <B>%s</B>."
+msgid "That barcode is already assigned to Student <b>%s</b>."
 msgstr ""
 
 #: modules/Food_Service/Students/Accounts.php:16
@@ -2571,7 +2571,7 @@ msgstr ""
 #: modules/Food_Service/Students/Accounts.php:25
 #: modules/Food_Service/Users/Accounts.php:25
 #, php-format
-msgid "That barcode is already assigned to User <B>%s</B>."
+msgid "That barcode is already assigned to User <b>%s</b>."
 msgstr ""
 
 #: modules/Food_Service/Students/Accounts.php:98
@@ -2645,7 +2645,7 @@ msgid "%N's lunch account is getting low.  Please send in at least %P with %h re
 msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:19
-msgid "%N now has a <B>negative balance</B> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgid "%N now has a <b>negative balance</b> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:21
@@ -2791,7 +2791,7 @@ msgid "Your lunch account is getting low.  Please send in at least %P with your 
 msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:7
-msgid "You now have a <B>negative balance</B> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgid "You now have a <b>negative balance</b> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:9
@@ -3212,7 +3212,7 @@ msgid "Final Grade"
 msgstr "نمرات نهایی"
 
 #: modules/Grades/FinalGrades.php:104
-msgid "Abs<BR />YTD / MP"
+msgid "Abs<br />YTD / MP"
 msgstr ""
 
 #: modules/Grades/FinalGrades.php:173
@@ -5769,11 +5769,11 @@ msgid "Add an <b>Existing</b> Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:460
-msgid "Add a <b>New</b> Contact<BR />without an Address"
+msgid "Add a <b>New</b> Contact<br />without an Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:471
-msgid "Add an <b>Existing</b> Contact<BR />without an Address"
+msgid "Add an <b>Existing</b> Contact<br />without an Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:490
@@ -10061,16 +10061,16 @@ msgstr "این فرد به هیچ اطلاعاتی در این سیستم است
 #~ msgid ""
 #~ "You <i>must</i> roll users, school periods, marking periods, calendars, "
 #~ "and report card<br>codes at the same time or before rolling "
-#~ "courses<BR><BR>* You <i>must</i> roll courses at the same time or before "
-#~ "rolling report card comments<BR><BR>Red items have already have data in "
-#~ "the next school year (They might have been rolled).<BR><BR>Rolling red "
+#~ "courses<br><br>* You <i>must</i> roll courses at the same time or before "
+#~ "rolling report card comments<br><br>Red items have already have data in "
+#~ "the next school year (They might have been rolled).<br><br>Rolling red "
 #~ "items will delete already existing data in the next school year."
 #~ msgstr ""
 #~ "شما <i>باید</i> کاربران ، دوره مدرسه ، دوره های مارک ، تقویم ، کارت گزارش "
-#~ "و رول <br> کد را در همان زمان یا قبل از نورد دوره <BR><BR> * شما <i>باید</"
-#~ "i> رشته در همان زمان یا قبل از نورد نظرات کارت گزارش ، رول <BR><BR> آیتم "
+#~ "و رول <br> کد را در همان زمان یا قبل از نورد دوره <br><br> * شما <i>باید</"
+#~ "i> رشته در همان زمان یا قبل از نورد نظرات کارت گزارش ، رول <br><br> آیتم "
 #~ "های قرمز در حال حاضر داده ها در سال تحصیلی آینده (آنها ممکن است شده اند "
-#~ "نورد) داشته باشد. <BR><BR> نورد آیتم های قرمز ، اطلاعات در حال حاضر موجود "
+#~ "نورد) داشته باشد. <br><br> نورد آیتم های قرمز ، اطلاعات در حال حاضر موجود "
 #~ "در سال تحصیلی بعدی را حذف کنید."
 
 #~ msgid "Confirm Rollover"
@@ -10161,10 +10161,10 @@ msgstr "این فرد به هیچ اطلاعاتی در این سیستم است
 #~ msgstr "سوابق ثبت نام"
 
 #~ msgid ""
-#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Multiple Choices<BR>* one "
+#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Multiple Choices<br>* one "
 #~ "per line"
 #~ msgstr ""
-#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select چندگانه انتخاب <BR> * یکی "
+#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select چندگانه انتخاب <br> * یکی "
 #~ "در هر خط"
 
 #~ msgid "for dates: YYYY-MM-DD"

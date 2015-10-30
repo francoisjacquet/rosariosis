@@ -39,10 +39,10 @@ switch ( $day)
 $QI = DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE SYEAR=sp.SYEAR AND PERIOD_ID=sp.PERIOD_ID AND DOES_FS_COUNTS='Y') ORDER BY sp.SORT_ORDER");
 $periods_RET = DBGet($QI);
 
-$period_select =  '<SELECT name="period"<OPTION value="">'._('All').'</OPTION>';
+$period_select =  '<select name="period"<option value="">'._('All').'</option>';
 foreach ( (array)$periods_RET as $period)
-	$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED':'').">".$period['TITLE'].'</OPTION>';
-$period_select .= '</SELECT>';
+	$period_select .= '<option value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED':'').">".$period['TITLE'].'</option>';
+$period_select .= '</select>';
 
 //FJ multiple school periods for a course period
 $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD_ID,s.STAFF_ID
@@ -87,9 +87,9 @@ if (count($RET))
 			if ( $items_RET) {
 				$color = 'FFFFFF';
 
-				$staff_RET[$i][$period_id] = '<TABLE style="background-color:#'.$color.'"><TR>';
+				$staff_RET[$i][$period_id] = '<table style="background-color:#'.$color.'"><tr>';
 				foreach ( (array)$items_RET as $item) {
-					$staff_RET[$i][$period_id] .= '<TD style="background-color:#'.$color.'">'.($item['COUNT'] ? $item['COUNT'] : '0').'<BR />'.$item['DESCRIPTION'].'</TD>';
+					$staff_RET[$i][$period_id] .= '<td style="background-color:#'.$color.'">'.($item['COUNT'] ? $item['COUNT'] : '0').'<br />'.$item['DESCRIPTION'].'</td>';
 					if ( $color=='FFFFFF')
 						$color = 'F0F0F0';
 					else
@@ -99,7 +99,7 @@ if (count($RET))
 					else
 						$totals+= array($item['SHORT_NAME'] => array('DESCRIPTION' => $item['DESCRIPTION'],'COUNT' => $item['COUNT']));
 				}
-				$staff_RET[$i][$period_id] .= '</TR></TABLE>';
+				$staff_RET[$i][$period_id] .= '</tr></table>';
 			}
 			else
 				$staff_RET[$i][$period_id] = button('x');
@@ -114,31 +114,31 @@ if ( !$_REQUEST['period'])
 		$columns[$period['PERIOD_ID']] = $period['TITLE'];
 }
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-DrawHeader(PrepareDate($date,'_date').' : '.$period_select.' : <INPUT type=submit value='._('Go').'>');
-echo '</FORM>';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+DrawHeader(PrepareDate($date,'_date').' : '.$period_select.' : <input type=submit value='._('Go').'>');
+echo '</form>';
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
 if (count($menus_RET)>1)
 {
 	$tabs = array();
 	foreach ( (array)$menus_RET as $id => $menu)
 		$tabs[] = array('title' => $menu[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
 
-	echo '<BR />';
+	echo '<br />';
 	echo '<div class="center">' . WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']) . '</div>';
 }
 
-echo '<TABLE class="width-100p"><TR><TD>';
+echo '<table class="width-100p"><tr><td>';
 $singular = sprintf(_('Teacher who takes %s counts'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
 $plural = sprintf(_('Teachers who take %s counts'),$menus_RET[$_REQUEST['menu_id']][1]['TITLE']);
 ListOutput($staff_RET,$columns,$singular,$plural);
-echo '</TD></TR>';
+echo '</td></tr>';
 
 $totals = array_values($totals);
 unset($totals[0]);
-echo '<TR><TD>';
+echo '<tr><td>';
 ListOutput($totals,array('DESCRIPTION' => _('Item'),'COUNT' => _('Total Count')),'Item Total','Item Totals');
-echo '</TD></TR></TABLE>';
+echo '</td></tr></table>';
 
-echo '</FORM>';
+echo '</form>';

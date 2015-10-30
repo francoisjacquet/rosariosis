@@ -32,9 +32,9 @@ if ( isset( $_REQUEST['day_end'] )
 if ( empty( $end_date ) )
 	$end_date = DBDate();
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-DrawHeader('<B>'._('Report Timeframe').': </B>'.PrepareDate($start_date,'_start').' - '.PrepareDate($end_date,'_end').' <INPUT type="submit" value="'._('Go').'" />');
-echo '</FORM>';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+DrawHeader('<b>'._('Report Timeframe').': </b>'.PrepareDate($start_date,'_start').' - '.PrepareDate($end_date,'_end').' <input type="submit" value="'._('Go').'" />');
+echo '</form>';
 
 // sort by date since the list is two lists merged and not already properly sorted
 if ( !$_REQUEST['LO_sort'])
@@ -68,7 +68,7 @@ if ( !empty($payments_RET))
 }
 
 $columns = array('FULL_NAME' => _('Student'),'DEBIT' => _('Fee'),'CREDIT' => _('Payment'),'DATE' => _('Date'),'EXPLANATION' => _('Comment'));
-$link['add']['html'] = array('FULL_NAME' => '<B>'._('Total').'</B>','DEBIT' => '<b>'.Currency($totals['DEBIT']).'</b>','CREDIT' => '<b>'.Currency($totals['CREDIT']).'</b>','DATE' => '&nbsp;','EXPLANATION' => '&nbsp;');
+$link['add']['html'] = array('FULL_NAME' => '<b>'._('Total').'</b>','DEBIT' => '<b>'.Currency($totals['DEBIT']).'</b>','CREDIT' => '<b>'.Currency($totals['CREDIT']).'</b>','DATE' => '&nbsp;','EXPLANATION' => '&nbsp;');
 ListOutput($RET,$columns,'Transaction','Transactions',$link);
 //$payments_RET = DBGet(DBQuery("SELECT s.LAST_NAME||', '||s.FIRST_NAME||' '||COALESCE(s.MIDDLE_NAME,' ') AS FULL_NAME,'' AS DEBIT,p.AMOUNT AS CREDIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE FROM BILLING_PAYMENTS p,STUDENTS s WHERE p.STUDENT_ID=s.STUDENT_ID AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."' AND p.ASSIGNED_DATE BETWEEN '".$start_date."' AND '".$end_date."'"));
 

@@ -117,7 +117,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 		$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeFeesTextInput('','TITLE'),'AMOUNT'=>_makeFeesTextInput('','AMOUNT'),'ASSIGNED_DATE'=>ProperDate(DBDate()),'DUE_DATE'=>_makeFeesDateInput('','DUE_DATE'),'COMMENTS'=>_makeFeesTextInput('','COMMENTS'));
 	if ( !$_REQUEST['print_statements'])
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		//DrawStudentHeader();
 		if (AllowEdit())
 			DrawHeader('',SubmitButton(_('Save')));
@@ -131,19 +131,19 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	if ( !$_REQUEST['print_statements'] && AllowEdit())
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
-	echo '<BR />';
+	echo '<br />';
 	if ( !$_REQUEST['print_statements'])
 	{
 		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID='".UserStudentID()."' AND p.SYEAR='".UserSyear()."'"));
 
-		$table = '<TABLE class="align-right"><TR><TD>'._('Total from Fees').': '.'</TD><TD>'.Currency($fees_total).'</TD></TR>';
+		$table = '<table class="align-right"><tr><td>'._('Total from Fees').': '.'</td><td>'.Currency($fees_total).'</td></tr>';
 
-		$table .= '<TR><TD>'._('Less').': '._('Total from Payments').': '.'</TD><TD>'.Currency($payments_total[1]['TOTAL']).'</TD></TR>';
+		$table .= '<tr><td>'._('Less').': '._('Total from Payments').': '.'</td><td>'.Currency($payments_total[1]['TOTAL']).'</td></tr>';
 
-		$table .= '<TR><TD>'._('Balance').': <b>'.'</b></TD><TD><b>'.Currency(($fees_total-$payments_total[1]['TOTAL']),'CR').'</b></TD></TR></TABLE>';
+		$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b>'.Currency(($fees_total-$payments_total[1]['TOTAL']),'CR').'</b></td></tr></table>';
 
 		DrawHeader('','',$table);
 
-		echo '</FORM>';
+		echo '</form>';
 	}
 }

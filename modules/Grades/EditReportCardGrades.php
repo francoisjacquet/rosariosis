@@ -178,27 +178,27 @@ if ( UserStudentID() )
 		else
 			$mp_id = "0";
 
-		$mpselect = '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
-		$mpselect .= '<SELECT name="mp_id" onchange="ajaxPostForm(this.form,true);">';
+		$mpselect = '<form action="Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
+		$mpselect .= '<select name="mp_id" onchange="ajaxPostForm(this.form,true);">';
 
 		foreach ($gmp as $id => $mparray)
 		{
-			$mpselect .= '<OPTION value="'.$id.'"'.(($id==$mp_id)?' SELECTED':'').">".$mparray['schoolyear'].' '.$mparray['mp_name'].', '._('Grade Level').' '.$mparray['grade_level']."</OPTION>";
+			$mpselect .= '<option value="'.$id.'"'.(($id==$mp_id)?' SELECTED':'').">".$mparray['schoolyear'].' '.$mparray['mp_name'].', '._('Grade Level').' '.$mparray['grade_level']."</option>";
 		}
 
-		$mpselect .= '<OPTION value="0" '.(($mp_id=='0')?' SELECTED':'').">"._('Add another marking period')."</OPTION>";   
-		$mpselect .= '</SELECT></FORM>';
+		$mpselect .= '<option value="0" '.(($mp_id=='0')?' SELECTED':'').">"._('Add another marking period')."</option>";   
+		$mpselect .= '</select></form>';
 
 		DrawHeader($mpselect);
             
 		//FORM for updates/new records
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'&mp_id='.$mp_id.'" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'&mp_id='.$mp_id.'" method="POST">';
 
 		DrawHeader('',SubmitButton(_('Save')));
-		echo '<BR />';
+		echo '<br />';
 
 		echo '<table class="postbox cellspacing-0"><tr><td><h3>'.$displayname.'</h3></td></tr><tr><td><table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">'._('Marking Period Statistics').'</td></tr><tr><td>'._('GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['weighted_gpa']).'</td><td>'._('Unweighted').": ".sprintf('%0.3f',$gmp[$mp_id]['unweighted_gpa']).'</td></tr>';
-		echo '<tr><td>'._('Class Rank GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_weighted']).'</td><td>'._('Unweighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_unweighted']).'</td></tr></table></td></tr></table><BR />';
+		echo '<tr><td>'._('Class Rank GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_weighted']).'</td><td>'._('Unweighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_unweighted']).'</td></tr></table></td></tr></table><br />';
 
 		$sms_grade_level = TextInput($gmp[$mp_id]['grade_level'],"SMS_GRADE_LEVEL",_('Grade Level'),'size=3 maxlength=3');
 
@@ -217,11 +217,11 @@ if ( UserStudentID() )
 					$mpoptions[$mp['MARKING_PERIOD_ID']] = formatSyear($mp['SYEAR'],Config('SCHOOL_SYEAR_OVER_2_YEARS')).', '.$mp['TITLE'];
 				}
 
-				echo '<TABLE class="postbox cellpadding-5"><TR><TD>';
+				echo '<table class="postbox cellpadding-5"><tr><td>';
 				echo SelectInput(null,'new_sms',_('New Marking Period'),$mpoptions,false,null);
-				echo '</TD><TD>';
+				echo '</td><td>';
 				echo $sms_grade_level;
-				echo '</TD></TR></TABLE>';
+				echo '</td></tr></table>';
 			}
 		}
 		else
@@ -311,7 +311,7 @@ if ( UserStudentID() )
 		}
 
 		echo SubmitButton(_('Save')).'</div>';
-		echo '</FORM>';
+		echo '</form>';
 	}
 }
 

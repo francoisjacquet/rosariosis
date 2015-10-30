@@ -47,17 +47,17 @@ switch( User( 'PROFILE' ) )
 $handle = PDFStart();
 ?>
 
-<TABLE>
-	<TR>
-		<TD>
-			<IMG SRC="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" />
-		</TD>
-		<TD>
+<table>
+	<tr>
+		<td>
+			<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" />
+		</td>
+		<td>
 			<h1>&nbsp;<?php echo sprintf( _( '%s Handbook' ), $title ); ?></h1>
-		</TD>
-	</TR>
-</TABLE>
-<HR />
+		</td>
+	</tr>
+</table>
+<hr />
 
 <?php
 foreach ( (array)$help as $program => $value )
@@ -85,7 +85,7 @@ foreach ( (array)$help as $program => $value )
 
 			echo DrawHeader( _( $modcat_echo ) );
 ?>
-			<HR />
+			<hr />
 
 		<?php
 		endif;
@@ -101,7 +101,7 @@ foreach ( (array)$help as $program => $value )
 <?php
 	if ( $program == 'default' )
 		echo ParseMLField( Config( 'TITLE' ) )
-			. ' - ' . sprintf( _( '%s Handbook' ), $title ) . '<BR />'
+			. ' - ' . sprintf( _( '%s Handbook' ), $title ) . '<br />'
 			. sprintf( _( 'version %s' ), '1.1' );
 
 	else
@@ -109,9 +109,9 @@ foreach ( (array)$help as $program => $value )
 ?>
 
 	</h3>
-	<TABLE class="width-100p">
-		<TR>
-			<TD class="header2">
+	<table class="width-100p">
+		<tr>
+			<td class="header2">
 
 <?php
 	if ( User( 'PROFILE' ) == 'student' )
@@ -125,11 +125,11 @@ foreach ( (array)$help as $program => $value )
 	echo $value;
 ?>
 
-			</TD>
-		</TR>
-	</TABLE>
+			</td>
+		</tr>
+	</table>
 </div>
-<BR />
+<br />
 
 <?php
 } //end foreach

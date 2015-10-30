@@ -5,13 +5,13 @@ require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 DrawHeader(ProgramTitle());
 
 //FJ add translation 
-$message = '<TABLE><TR><TD colspan="7" class="center">'._('From').' '.PrepareDate(DBDate(),'_min').' '._('to').' '.PrepareDate(DBDate(),'_max').'</TD></TR></TABLE>';
+$message = '<table><tr><td colspan="7" class="center">'._('From').' '.PrepareDate(DBDate(),'_min').' '._('to').' '.PrepareDate(DBDate(),'_max').'</td></tr></table>';
 if (Prompt(_('Confirm'),_('When do you want to recalculate the daily attendance?'),$message))
 {
 	//FJ display notice while calculating daily attendance
-	echo '<BR />';
+	echo '<br />';
 	PopTable('header',_('Recalculate Daily Attendance'));
-	echo '<DIV id="messageDIV" class="center"><span class="loading"></span> '._('Calculating ...').' </DIV>';
+	echo '<div id="messageDIV" class="center"><span class="loading"></span> '._('Calculating ...').' </div>';
 	PopTable('footer');
 	ob_flush();
 	flush();

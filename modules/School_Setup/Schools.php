@@ -140,7 +140,7 @@ if (empty($_REQUEST['modfunc']))
 	else
 		$school_name = _('Add a School');
 
-	echo '<FORM ACTION="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&new_school='.$_REQUEST['new_school'].'" METHOD="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&new_school='.$_REQUEST['new_school'].'" method="POST">';
 	
 	//FJ delete school only if more than one school
 	$delete_button = false;
@@ -151,50 +151,50 @@ if (empty($_REQUEST['modfunc']))
 	if (User('PROFILE')=='admin' && AllowEdit())
 		DrawHeader('',SubmitButton(_('Save'), 'button').($delete_button?SubmitButton(_('Delete'), 'button'):''));
 
-	echo '<BR />';
+	echo '<br />';
 
 	PopTable('header',$school_name);
 
-	echo '<TABLE>';
+	echo '<table>';
 
 	if ( $_REQUEST['new_school']!='true')
-		echo '<TR><TD colspan="3">'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<img src="assets/school_logo_'.UserSchool().'.jpg" style="max-width:225px; max-height:225px;" /><br /><span class="legend-gray">'._('School logo').'</span>' : '').'</TD></TR>';
+		echo '<tr><td colspan="3">'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<img src="assets/school_logo_'.UserSchool().'.jpg" style="max-width:225px; max-height:225px;" /><br /><span class="legend-gray">'._('School logo').'</span>' : '').'</td></tr>';
 
 	//FJ school name field required
-	echo '<TR><TD colspan="3">'.TextInput($schooldata['TITLE'],'values[TITLE]',(!$schooldata['TITLE']?'<span class="legend-red">':'')._('School Name').(!$schooldata['TITLE']?'</span>':''),'required maxlength=100').'</TD></TR>';
+	echo '<tr><td colspan="3">'.TextInput($schooldata['TITLE'],'values[TITLE]',(!$schooldata['TITLE']?'<span class="legend-red">':'')._('School Name').(!$schooldata['TITLE']?'</span>':''),'required maxlength=100').'</td></tr>';
 
-	echo '<TR><TD colspan="3">'.TextInput($schooldata['ADDRESS'],'values[ADDRESS]',_('Address'),'maxlength=100').'</TD></TR>';
+	echo '<tr><td colspan="3">'.TextInput($schooldata['ADDRESS'],'values[ADDRESS]',_('Address'),'maxlength=100').'</td></tr>';
 
-	echo '<TR><TD>'.TextInput($schooldata['CITY'],'values[CITY]',_('City'),'maxlength=100').'</TD><TD>'.TextInput($schooldata['STATE'],'values[STATE]',_('State'),'maxlength=10').'</TD>';
+	echo '<tr><td>'.TextInput($schooldata['CITY'],'values[CITY]',_('City'),'maxlength=100').'</td><td>'.TextInput($schooldata['STATE'],'values[STATE]',_('State'),'maxlength=10').'</td>';
 
-	echo '<TD>'.TextInput($schooldata['ZIPCODE'],'values[ZIPCODE]',_('Zip'),'maxlength=10').'</TD></TR>';
+	echo '<td>'.TextInput($schooldata['ZIPCODE'],'values[ZIPCODE]',_('Zip'),'maxlength=10').'</td></tr>';
 
-	echo '<TR><TD colspan="3">'.TextInput($schooldata['PHONE'],'values[PHONE]',_('Phone'),'maxlength=30').'</TD></TR>';
+	echo '<tr><td colspan="3">'.TextInput($schooldata['PHONE'],'values[PHONE]',_('Phone'),'maxlength=30').'</td></tr>';
 
-	echo '<TR><TD colspan="3">'.TextInput($schooldata['PRINCIPAL'],'values[PRINCIPAL]',_('Principal of School'),'maxlength=100').'</TD></TR>';
+	echo '<tr><td colspan="3">'.TextInput($schooldata['PRINCIPAL'],'values[PRINCIPAL]',_('Principal of School'),'maxlength=100').'</td></tr>';
 
 	if (AllowEdit() || !$schooldata['WWW_ADDRESS'])
-		echo '<TR><TD colspan="3">'.TextInput($schooldata['WWW_ADDRESS'],'values[WWW_ADDRESS]',_('Website'),'maxlength=100').'</TD></TR>';
+		echo '<tr><td colspan="3">'.TextInput($schooldata['WWW_ADDRESS'],'values[WWW_ADDRESS]',_('Website'),'maxlength=100').'</td></tr>';
 	else
-		echo '<TR><TD colspan="3"><A HREF="http://'.$schooldata['WWW_ADDRESS'].'" target="_blank">'.$schooldata['WWW_ADDRESS'].'</A><BR /><span class="legend-gray">'._('Website').'</span></TD></TR>';
+		echo '<tr><td colspan="3"><a href="http://'.$schooldata['WWW_ADDRESS'].'" target="_blank">'.$schooldata['WWW_ADDRESS'].'</a><br /><span class="legend-gray">'._('Website').'</span></td></tr>';
 
-	echo '<TR><TD colspan="3">'.TextInput($schooldata['SHORT_NAME'],'values[SHORT_NAME]',_('Short Name'),'maxlength=25').'</TD></TR>';
+	echo '<tr><td colspan="3">'.TextInput($schooldata['SHORT_NAME'],'values[SHORT_NAME]',_('Short Name'),'maxlength=25').'</td></tr>';
 
-	echo '<TR><TD colspan="3">'.TextInput($schooldata['SCHOOL_NUMBER'],'values[SCHOOL_NUMBER]',_('School Number'),'maxlength=100').'</TD></TR>';
+	echo '<tr><td colspan="3">'.TextInput($schooldata['SCHOOL_NUMBER'],'values[SCHOOL_NUMBER]',_('School Number'),'maxlength=100').'</td></tr>';
 
-	echo '<TR><TD colspan="3">'.TextInput($schooldata['REPORTING_GP_SCALE'],'values[REPORTING_GP_SCALE]',(!$schooldata['REPORTING_GP_SCALE']?'<span class="legend-red">':'')._('Base Grading Scale').(!$schooldata['TITLE']?'</span>':''),'maxlength=10 required').'</TD></TR>';
+	echo '<tr><td colspan="3">'.TextInput($schooldata['REPORTING_GP_SCALE'],'values[REPORTING_GP_SCALE]',(!$schooldata['REPORTING_GP_SCALE']?'<span class="legend-red">':'')._('Base Grading Scale').(!$schooldata['TITLE']?'</span>':''),'maxlength=10 required').'</td></tr>';
 
 	if (AllowEdit())
-		echo '<TR><TD colspan="3">'.TextInput($schooldata['NUMBER_DAYS_ROTATION'],'values[NUMBER_DAYS_ROTATION]','<SPAN style="cursor:help" class="legend-gray" title="'._('Leave the field blank if the school does not use a Rotation of Numbered Days').'">'._('Number of Days for the Rotation').'*</SPAN>','maxlength=1 size=1 min=1').'</TD></TR>';
+		echo '<tr><td colspan="3">'.TextInput($schooldata['NUMBER_DAYS_ROTATION'],'values[NUMBER_DAYS_ROTATION]','<span style="cursor:help" class="legend-gray" title="'._('Leave the field blank if the school does not use a Rotation of Numbered Days').'">'._('Number of Days for the Rotation').'*</span>','maxlength=1 size=1 min=1').'</td></tr>';
 	elseif ( !empty($schooldata['NUMBER_DAYS_ROTATION'])) //do not show if no rotation set
-		echo '<TR><TD colspan="3">'.TextInput($schooldata['NUMBER_DAYS_ROTATION'],'values[NUMBER_DAYS_ROTATION]',_('Number of Days for the Rotation'),'maxlength=1 size=1 min=1').'</TD></TR>';
+		echo '<tr><td colspan="3">'.TextInput($schooldata['NUMBER_DAYS_ROTATION'],'values[NUMBER_DAYS_ROTATION]',_('Number of Days for the Rotation'),'maxlength=1 size=1 min=1').'</td></tr>';
 
 	//FJ add School Fields
 	$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,DEFAULT_SELECTION,REQUIRED FROM SCHOOL_FIELDS ORDER BY SORT_ORDER,TITLE"));
 	$fields_RET = ParseMLArray($fields_RET,'TITLE');
 	
 	if ( count( $fields_RET ) )
-		echo '<TR><TD colspan="3"><hr /></TD></TR>';
+		echo '<tr><td colspan="3"><hr /></td></tr>';
 		
 	foreach ( (array)$fields_RET as $field )
 	{
@@ -222,7 +222,7 @@ if (empty($_REQUEST['modfunc']))
 			'<span class="legend-red">' . $field['TITLE'] . '</span>' :
 			$field['TITLE'];
 		
-		echo '<TR><TD colspan="3">';
+		echo '<tr><td colspan="3">';
 
 		switch ( $field['TYPE'] )
 		{
@@ -272,16 +272,16 @@ if (empty($_REQUEST['modfunc']))
 				break;
 		}
 
-		echo '</TD></TR>';
+		echo '</td></tr>';
 	}
 	
-	echo '</TABLE>';
+	echo '</table>';
 
 	PopTable( 'footer' );
 
 	if ( User('PROFILE') === 'admin'
 		&& AllowEdit() )
-		echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ), 'button' ) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ), 'button' ) . '</div>';
 
-	echo '</FORM>';
+	echo '</form>';
 }

@@ -155,98 +155,98 @@ if ( $_REQUEST['values'])
 	
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
-echo '<H4>Welcome, '.User('NAME').', to the '.ParseMLField(Config('TITLE')).'</H4>';
+echo '<h4>Welcome, '.User('NAME').', to the '.ParseMLField(Config('TITLE')).'</h4>';
 
 $addresses = DBGet(DBQuery("SELECT COUNT(*) AS COUNT FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID='".UserStudentID()."'"));
 echo ''._('We would appreciate it if you would enter just a little bit of information about you and your child to help us out this school year. Thanks!').'';
 
 if ( $addresses[1]['COUNT']!=0)
-	echo '<BR /><BR />'. button('check', '', '', 'bigger') .'<b>'._('Your child has been registered.').'</b>';
+	echo '<br /><br />'. button('check', '', '', 'bigger') .'<b>'._('Your child has been registered.').'</b>';
 
-echo '<BR /><BR /><TABLE><TR><TD class="valign-top">';
-echo '<B>'._('Information about you').':</B><BR /><BR />';
-echo '<TABLE><TR><TD>';
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST" onsubmit=\'for(i=0;i<document.forms[0].elements.length;i++){if (document.forms[0].elements[i].style.color=="rgb(187, 187, 187)" || document.forms[0].elements[i].style.color=="#bbbbbb") document.forms[0].elements[i].value="";}\'>';
+echo '<br /><br /><table><tr><td class="valign-top">';
+echo '<b>'._('Information about you').':</b><br /><br />';
+echo '<table><tr><td>';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST" onsubmit=\'for(i=0;i<document.forms[0].elements.length;i++){if (document.forms[0].elements[i].style.color=="rgb(187, 187, 187)" || document.forms[0].elements[i].style.color=="#bbbbbb") document.forms[0].elements[i].value="";}\'>';
 echo _makeInput('values[PEOPLE][1][FIRST_NAME]',_('First Name'));
 echo _makeInput('values[PEOPLE][1][LAST_NAME]',_('Last Name'));
-echo '<BR />'._makeInput('values[PEOPLE][1][extra][Cell]',_('Cell Phone'),'','size=30');
-echo '<BR />'._makeInput('values[PEOPLE][1][extra][Workplace]',_('Workplace'),'','size=30');
-echo '</TD></TR></TABLE>';
-echo '</TD><TD>';
-echo '<B>'._('Information about your spouse or significant other residing with you').':</B><BR />'._('Leave this section blank if you are separated.').'';
-echo '<TABLE><TR><TD class="valign-top">';
+echo '<br />'._makeInput('values[PEOPLE][1][extra][Cell]',_('Cell Phone'),'','size=30');
+echo '<br />'._makeInput('values[PEOPLE][1][extra][Workplace]',_('Workplace'),'','size=30');
+echo '</td></tr></table>';
+echo '</td><td>';
+echo '<b>'._('Information about your spouse or significant other residing with you').':</b><br />'._('Leave this section blank if you are separated.').'';
+echo '<table><tr><td class="valign-top">';
 echo _makeInput('values[PEOPLE][2][FIRST_NAME]',_('First Name'));
 echo _makeInput('values[PEOPLE][2][LAST_NAME]',_('Last Name'));
-echo '<BR />'._makeInput('values[PEOPLE][2][extra][Cell]',_('Cell Phone'),'','size=30');
-echo '<BR />'._makeInput('values[PEOPLE][2][extra][Workplace]',_('Workplace'),'','size=30');
-echo '</TD></TR></TABLE>';
-echo '</TD></TR><TR><TD colspan="2">';
+echo '<br />'._makeInput('values[PEOPLE][2][extra][Cell]',_('Cell Phone'),'','size=30');
+echo '<br />'._makeInput('values[PEOPLE][2][extra][Workplace]',_('Workplace'),'','size=30');
+echo '</td></tr></table>';
+echo '</td></tr><tr><td colspan="2">';
 
-echo '<B>'._('Your Address').':</B>';
-echo '<TABLE><TR><TD>';
+echo '<b>'._('Your Address').':</b>';
+echo '<table><tr><td>';
 echo _makeInput('values[ADDRESS][1][ADDRESS]',_('Address'),'','size=40');
-echo '<BR />'._makeInput('values[ADDRESS][1][CITY]',_('City'),'','size=35');
+echo '<br />'._makeInput('values[ADDRESS][1][CITY]',_('City'),'','size=35');
 echo ' '._makeInput('values[ADDRESS][1][STATE]',_('State'),'','size=3 maxlength=2');
-echo '<BR />'._makeInput('values[ADDRESS][1][ZIPCODE]',_('Zip'),'','size=6');
-echo '<BR /><BR /> '._makeInput('values[ADDRESS][1][PHONE]',_('Phone'),'','size=9 maxlength=30');
-echo '<BR /><BR />';
-echo '</TD></TR>';
+echo '<br />'._makeInput('values[ADDRESS][1][ZIPCODE]',_('Zip'),'','size=6');
+echo '<br /><br /> '._makeInput('values[ADDRESS][1][PHONE]',_('Phone'),'','size=9 maxlength=30');
+echo '<br /><br />';
+echo '</td></tr>';
 
 for ( $i=3;$i<=6;$i++)
 {
 	if ( $i==3 || $i==5)
-		echo '<TR>';
-	echo '<TD class="valign-top">';
-	echo '<B>'._('Grandparent Information').':</B>';
-	echo '<BR />'._makeInput('values[PEOPLE]['.$i.'][FIRST_NAME]',_('First Name'));
+		echo '<tr>';
+	echo '<td class="valign-top">';
+	echo '<b>'._('Grandparent Information').':</b>';
+	echo '<br />'._makeInput('values[PEOPLE]['.$i.'][FIRST_NAME]',_('First Name'));
 	echo _makeInput('values[PEOPLE]['.$i.'][LAST_NAME]',_('Last Name'));
-	echo '<BR />';
+	echo '<br />';
 	echo _makeInput('values[PEOPLE]['.$i.'][extra][Cell]',_('Cell Phone'),'','size=30');
-	echo '<BR />';
+	echo '<br />';
 	echo _makeInput('values[ADDRESS]['.$i.'][ADDRESS]',_('Address'),'','size=40');
-	echo '<BR />'._makeInput('values[ADDRESS]['.$i.'][CITY]',_('City'),'','size=35');
+	echo '<br />'._makeInput('values[ADDRESS]['.$i.'][CITY]',_('City'),'','size=35');
 	echo ' '._makeInput('values[ADDRESS]['.$i.'][STATE]',_('State'),'','size=3 maxlength=2');
-	echo '<BR />'._makeInput('values[ADDRESS]['.$i.'][ZIPCODE]',_('Zip'),'','size=6 maxlength=10');
-	echo '<BR /><BR />'._makeInput('values[ADDRESS]['.$i.'][PHONE]',_('Phone'),'','size=9 maxlength=30');
+	echo '<br />'._makeInput('values[ADDRESS]['.$i.'][ZIPCODE]',_('Zip'),'','size=6 maxlength=10');
+	echo '<br /><br />'._makeInput('values[ADDRESS]['.$i.'][PHONE]',_('Phone'),'','size=9 maxlength=30');
 	if ( $i==4)
-		echo '<BR /><BR />';
-	echo '</TD>';
+		echo '<br /><br />';
+	echo '</td>';
 	if ( $i==4 || $i==6)
-		echo '</TR>';
+		echo '</tr>';
 }
 
-echo '<TR><TD colspan="2">';
-echo '<BR /><B>'._('Other Contacts').':</B><BR />';
+echo '<tr><td colspan="2">';
+echo '<br /><b>'._('Other Contacts').':</b><br />';
 
 echo _makeInput('values[PEOPLE][7][FIRST_NAME]',_('First Name'));
 echo _makeInput('values[PEOPLE][7][LAST_NAME]',_('Last Name'));
 echo _makeInput('values[PEOPLE][7][extra][Relation]',_('Relation to Student'),'','size=30');
 echo _makeInput('values[PEOPLE][7][extra][Cell]',_('Cell Phone'),'','size=30');
 
-echo '<BR />'._makeInput('values[PEOPLE][8][FIRST_NAME]',_('First Name'));
+echo '<br />'._makeInput('values[PEOPLE][8][FIRST_NAME]',_('First Name'));
 echo _makeInput('values[PEOPLE][8][LAST_NAME]',_('Last Name'));
 echo _makeInput('values[PEOPLE][8][extra][Relation]',_('Relation to Student'),'','size=30');
 echo _makeInput('values[PEOPLE][8][extra][Cell]',_('Cell Phone'),'','size=30');
 
-echo '</TD></TR></TABLE>';
-echo '</TD></TR></TABLE>';
-echo '<HR>';
+echo '</td></tr></table>';
+echo '</td></tr></table>';
+echo '<hr />';
 $custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS WHERE ID"),array(),array('ID'));
 $student = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
-echo '<B>'.sprintf(_('Information about %s %s'),$student[1]['FIRST_NAME'],$student[1]['LAST_NAME']).':</B>';
-echo '<TABLE>';
-echo '<TR>';
-echo '<TD>';
+echo '<b>'.sprintf(_('Information about %s %s'),$student[1]['FIRST_NAME'],$student[1]['LAST_NAME']).':</b>';
+echo '<table>';
+echo '<tr>';
+echo '<td>';
 if ( $custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
 	echo DateInput($student['CUSTOM_200000004'],'birth_date',ParseMLField($custom_fields_RET['200000004'][1]['TITLE']));
-echo '</TD>';
-echo '<TD>';
+echo '</td>';
+echo '<td>';
 if ( $custom_fields_RET['200000003'])
 	echo _makeInput('values[STUDENTS][CUSTOM_200000003]',ParseMLField($custom_fields_RET['200000003'][1]['TITLE']));
-echo '</TD>';
-echo '</TR>';
-echo '<TR>';
-echo '<TD>';
+echo '</td>';
+echo '</tr>';
+echo '<tr>';
+echo '<td>';
 if ( $custom_fields_RET['200000001'] && $custom_fields_RET['200000001'][1]['TYPE'] == 'select')
 {
 	$select_options = array();
@@ -255,8 +255,8 @@ if ( $custom_fields_RET['200000001'] && $custom_fields_RET['200000001'][1]['TYPE
 		$select_options[$select_option] = $select_option;
 	echo SelectInput($student['CUSTOM_200000001'],'values[STUDENTS][CUSTOM_200000001]',ParseMLField($custom_fields_RET['200000001'][1]['TITLE']),$select_options);
 }
-echo '</TD>';
-echo '<TD>';
+echo '</td>';
+echo '<td>';
 
 if ( $custom_fields_RET['200000005'] && $custom_fields_RET['200000005'][1]['TYPE'] == 'select')
 {
@@ -266,11 +266,11 @@ if ( $custom_fields_RET['200000005'] && $custom_fields_RET['200000005'][1]['TYPE
 		$select_options[$select_option] = $select_option;
 	echo SelectInput($student['CUSTOM_200000005'],'values[STUDENTS][CUSTOM_200000005]',ParseMLField($custom_fields_RET['200000005'][1]['TITLE']),$select_options,_('N/A'),'style="width:200"');
 }
-echo '</TD>';
-echo '</TR>';
+echo '</td>';
+echo '</tr>';
 
-echo '<TR>';
-echo '<TD>';
+echo '<tr>';
+echo '<td>';
 if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 {
 	$select_options = array();
@@ -279,27 +279,27 @@ if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE
 		$select_options[$select_option] = $select_option;
 	echo SelectInput($student['CUSTOM_200000000'],'values[STUDENTS][CUSTOM_200000000]',ParseMLField($custom_fields_RET['200000000'][1]['TITLE']),$select_options);
 }
-echo '</TD>';
-echo '</TR>';
-echo '<TR><TD colspan="2" class="center">';
+echo '</td>';
+echo '</tr>';
+echo '<tr><td colspan="2" class="center">';
 if ( $custom_fields_RET['200000006'])
-	echo '<BR />'._makeInput('values[STUDENTS][CUSTOM_200000006]',ParseMLField($custom_fields_RET['200000006'][1]['TITLE']),'','size=30');
+	echo '<br />'._makeInput('values[STUDENTS][CUSTOM_200000006]',ParseMLField($custom_fields_RET['200000006'][1]['TITLE']),'','size=30');
 if ( $custom_fields_RET['200000007'])
-	echo '<BR />'._makeInput('values[STUDENTS][CUSTOM_200000007]',ParseMLField($custom_fields_RET['200000007'][1]['TITLE']),'','size=30');
+	echo '<br />'._makeInput('values[STUDENTS][CUSTOM_200000007]',ParseMLField($custom_fields_RET['200000007'][1]['TITLE']),'','size=30');
 if ( $custom_fields_RET['200000008'])
-	echo '<BR />'._makeInput('values[STUDENTS][CUSTOM_200000008]',ParseMLField($custom_fields_RET['200000008'][1]['TITLE']),'','size=30');
+	echo '<br />'._makeInput('values[STUDENTS][CUSTOM_200000008]',ParseMLField($custom_fields_RET['200000008'][1]['TITLE']),'','size=30');
 if ( $custom_fields_RET['200000009'])
-	echo '<BR /><TEXTAREA name=values[STUDENTS][CUSTOM_200000009] cols=26 rows=5 style="color: BBBBBB;" onfocus=\'if (this.value=="Medical Comments") this.value=""; this.style.color="000000";\' onblur=\'if (this.value=="") {this.value="Medical Comments"; this.style.color="BBBBBB";}\'">'.ParseMLField($custom_fields_RET['200000009'][1]['TITLE']).'</TEXTAREA>';
-echo '</TD></TR>';
-echo '</TABLE>';
-echo '<BR />';
+	echo '<br /><textarea name=values[STUDENTS][CUSTOM_200000009] cols=26 rows=5 style="color: BBBBBB;" onfocus=\'if (this.value=="Medical Comments") this.value=""; this.style.color="000000";\' onblur=\'if (this.value=="") {this.value="Medical Comments"; this.style.color="BBBBBB";}\'">'.ParseMLField($custom_fields_RET['200000009'][1]['TITLE']).'</textarea>';
+echo '</td></tr>';
+echo '</table>';
+echo '<br />';
 $_ROSARIO['DrawHeader'] = 'E8E8E9';
 DrawHeader('','',SubmitButton(_('Save')));
 echo '</form>';
 
 function _makeInput($name,$title,$value='',$extra='')
 {
-	return '<INPUT type="text" name="'.$name.'" value="'.$title.'" style="color:
+	return '<input type="text" name="'.$name.'" value="'.$title.'" style="color:
 	BBBBBB" onfocus=\'if (this.value=="'.$title.'") this.value=""; this.style.color="000000"\' onsubmit=\'if (this.value=="'.$title.'") this.value=""; this.style.color="000000"\' onblur=\'if (this.value=="") {this.value="'.$title.'"; this.style.color="BBBBBB"}\' '.$extra.' />';
 }
 

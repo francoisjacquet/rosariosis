@@ -143,17 +143,17 @@ if (empty($_REQUEST['modfunc']))
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&table='.$_REQUEST['table'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
-	echo '<BR />';
+	echo '<br />';
 
 //FJ css WPadmin
 	$LO_options = array('count'=>false,'download'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table']));
 //	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),array('count'=>false,'download'=>false,'search'=>false));
 	ListOutput($LO_ret,$LO_columns,'.','.',$link,array(),$LO_options);
 
-	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }
 
 function _makeTextInput($value,$name)

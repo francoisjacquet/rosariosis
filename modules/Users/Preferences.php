@@ -117,9 +117,9 @@ if (empty($_REQUEST['modfunc']))
 		//$_REQUEST['tab'] = 'display_options';
 		$_REQUEST['tab'] = 'password';
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&amp;tab='.$_REQUEST['tab'].'" method="POST">';
-	DrawHeader('','<INPUT type="submit" value="'._('Save').'" />');
-	echo '<BR />';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&amp;tab='.$_REQUEST['tab'].'" method="POST">';
+	DrawHeader('','<input type="submit" value="'._('Save').'" />');
+	echo '<br />';
 
 	if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 	{
@@ -148,109 +148,109 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['tab']=='student_listing')
 	{
-		echo '<TABLE>';
+		echo '<table>';
 //FJ add <label> on radio
-		echo '<TR class="st"><TD style="vertical-align: top;"><span class="legend-gray">'._('Student Sorting').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][SORT]" value="Name"'.((Preferences('SORT')=='Name')?' checked':'').'> '._('Name').'</label><BR /><label><INPUT type="radio" name="values[Preferences][SORT]" value="Grade"'.((Preferences('SORT')=='Grade')?' checked':'').'> '._('Grade Level').', '.
-		_('Name').'</label></TD></TR>';
-		echo '<TR class="st"><TD style="vertical-align: top;"><span class="legend-gray">'._('File Export Type').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][DELIMITER]" value="Tab"'.((Preferences('DELIMITER')=='Tab')?' checked':'').'> '._('Tab-Delimited (Excel)').'</label><BR /><label><INPUT type="radio" name="values[Preferences][DELIMITER]" value="CSV"'.((Preferences('DELIMITER')=='CSV')?' checked':'').'> CSV (OpenOffice)</label></TD></TR>';
-		echo '<TR class="st"><TD style="vertical-align: top;"><span class="legend-gray">'._('Date Export Format').'</span></TD><TD><label><INPUT type="radio" name="values[Preferences][E_DATE]" value=""'.((Preferences('E_DATE')=='')?' checked':'').'> '._('Display Options Format').'</label><BR /><label><INPUT type="radio" name="values[Preferences][E_DATE]" value="MM/DD/YYYY"'.((Preferences('E_DATE')=='MM/DD/YYYY')?' checked':'').'> MM/DD/YYYY</label></TD></TR>';
+		echo '<tr class="st"><td style="vertical-align: top;"><span class="legend-gray">'._('Student Sorting').'</span></td><td><label><input type="radio" name="values[Preferences][SORT]" value="Name"'.((Preferences('SORT')=='Name')?' checked':'').'> '._('Name').'</label><br /><label><input type="radio" name="values[Preferences][SORT]" value="Grade"'.((Preferences('SORT')=='Grade')?' checked':'').'> '._('Grade Level').', '.
+		_('Name').'</label></td></tr>';
+		echo '<tr class="st"><td style="vertical-align: top;"><span class="legend-gray">'._('File Export Type').'</span></td><td><label><input type="radio" name="values[Preferences][DELIMITER]" value="Tab"'.((Preferences('DELIMITER')=='Tab')?' checked':'').'> '._('Tab-Delimited (Excel)').'</label><br /><label><input type="radio" name="values[Preferences][DELIMITER]" value="CSV"'.((Preferences('DELIMITER')=='CSV')?' checked':'').'> CSV (OpenOffice)</label></td></tr>';
+		echo '<tr class="st"><td style="vertical-align: top;"><span class="legend-gray">'._('Date Export Format').'</span></td><td><label><input type="radio" name="values[Preferences][E_DATE]" value=""'.((Preferences('E_DATE')=='')?' checked':'').'> '._('Display Options Format').'</label><br /><label><input type="radio" name="values[Preferences][E_DATE]" value="MM/DD/YYYY"'.((Preferences('E_DATE')=='MM/DD/YYYY')?' checked':'').'> MM/DD/YYYY</label></td></tr>';
 //FJ add <label> on checkbox
-		echo '<TR><TD><BR /></TD><TD><BR /></TD>';
-		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name=values[Preferences][SEARCH] value="Y"'.((Preferences('SEARCH')=='Y')?' checked':'').'> '._('Display student search screen').'</label></TD></TR>';
+		echo '<tr><td><br /></td><td><br /></td>';
+		echo '<tr class="st"><td></td><td><label><input type="checkbox" name=values[Preferences][SEARCH] value="Y"'.((Preferences('SEARCH')=='Y')?' checked':'').'> '._('Display student search screen').'</label></td></tr>';
 		if (User('PROFILE')=='admin')
 		{
-			echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][DEFAULT_FAMILIES]" value="Y"'.((Preferences('DEFAULT_FAMILIES')=='Y')?' checked':'').'> '._('Group by family by default').'</label></TD></TR>';
+			echo '<tr class="st"><td></td><td><label><input type="checkbox" name="values[Preferences][DEFAULT_FAMILIES]" value="Y"'.((Preferences('DEFAULT_FAMILIES')=='Y')?' checked':'').'> '._('Group by family by default').'</label></td></tr>';
 //FJ if only one school, no Search All Schools option
 			if (SchoolInfo('SCHOOLS_NB') > 1)
-				echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][DEFAULT_ALL_SCHOOLS]" value="Y"'.((Preferences('DEFAULT_ALL_SCHOOLS')=='Y')?' checked':'').'> '._('Search all schools by default').'</label></TD></TR>';
+				echo '<tr class="st"><td></td><td><label><input type="checkbox" name="values[Preferences][DEFAULT_ALL_SCHOOLS]" value="Y"'.((Preferences('DEFAULT_ALL_SCHOOLS')=='Y')?' checked':'').'> '._('Search all schools by default').'</label></td></tr>';
 		}
-		echo '</TABLE>';
+		echo '</table>';
 	}
 
 	if ( $_REQUEST['tab']=='display_options')
 	{
-		echo '<TABLE>';
-		echo '<TR class="st"><TD style="vertical-align: top;"><span class="legend-gray">'._('Theme').'</span></TD><TD><TABLE><TR>';
+		echo '<table>';
+		echo '<tr class="st"><td style="vertical-align: top;"><span class="legend-gray">'._('Theme').'</span></td><td><table><tr>';
 
 		$themes = glob('assets/themes/*', GLOB_ONLYDIR);
 		foreach ($themes as $theme)
 		{
 			$theme_name = str_replace('assets/themes/', '', $theme);
 
-			echo '<TD><label><INPUT type="radio" name="values[Preferences][THEME]" value="'.$theme_name.'"'.((Preferences('THEME')==$theme_name)?' checked':'').'> '.$theme_name.'</label></TD>';
+			echo '<td><label><input type="radio" name="values[Preferences][THEME]" value="'.$theme_name.'"'.((Preferences('THEME')==$theme_name)?' checked':'').'> '.$theme_name.'</label></td>';
 
 			if ( $count++%3==0)
-				echo '</TR><TR class="st">';
+				echo '</tr><tr class="st">';
 		}
-		echo '</TR></TABLE></TD></TR>';
+		echo '</tr></table></td></tr>';
 		
 //FJ css WPadmin
 //		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
-		echo '<TR class="st"><TD><span class="legend-gray">'._('Highlight Color').'</span></TD><TD><TABLE><TR>';
+		echo '<tr class="st"><td><span class="legend-gray">'._('Highlight Color').'</span></td><td><table><tr>';
 		foreach ( (array)$colors as $color)
-			echo '<TD style="background-color:'.$color.';"><INPUT type="radio" name="values[Preferences][HIGHLIGHT]" value="'.$color.'"'.((Preferences('HIGHLIGHT')==$color)?' checked':'').'></TD>';
-		echo '</TR></TABLE></TD></TR>';
+			echo '<td style="background-color:'.$color.';"><input type="radio" name="values[Preferences][HIGHLIGHT]" value="'.$color.'"'.((Preferences('HIGHLIGHT')==$color)?' checked':'').'></td>';
+		echo '</tr></table></td></tr>';
 
 //FJ css WPadmin
 
-		echo '<TR class="st"><TD><span class="legend-gray">'._('Date Format').'</span></TD><TD><SELECT name="values[Preferences][MONTH]">';
+		echo '<tr class="st"><td><span class="legend-gray">'._('Date Format').'</span></td><td><select name="values[Preferences][MONTH]">';
 		//FJ display locale with strftime()
 		$values = array('%B','%b','%m');
 
 		foreach ( (array)$values as $value)
-			echo '<OPTION value="'.$value.'"'.((Preferences('MONTH')==$value)?' SELECTED':'').'>'.mb_convert_case(iconv('','UTF-8',strftime($value)), MB_CASE_TITLE, "UTF-8").'</OPTION>';
+			echo '<option value="'.$value.'"'.((Preferences('MONTH')==$value)?' SELECTED':'').'>'.mb_convert_case(iconv('','UTF-8',strftime($value)), MB_CASE_TITLE, "UTF-8").'</option>';
 
-		echo '</SELECT>';
+		echo '</select>';
 
-		echo '<SELECT name="values[Preferences][DAY]">';
+		echo '<select name="values[Preferences][DAY]">';
 		$values = array('%d');
 
 		foreach ( (array)$values as $value)
-			echo '<OPTION value="'.$value.'"'.((Preferences('DAY')==$value)?' SELECTED':'').'>'.strftime($value).'</OPTION>';
+			echo '<option value="'.$value.'"'.((Preferences('DAY')==$value)?' SELECTED':'').'>'.strftime($value).'</option>';
 
-		echo '</SELECT>';
+		echo '</select>';
 
-		echo '<SELECT name=values[Preferences][YEAR]>';
+		echo '<select name=values[Preferences][YEAR]>';
 		$values = array('%Y','%y');
 
 		foreach ( (array)$values as $value)
-			echo '<OPTION value="'.$value.'"'.((Preferences('YEAR')==$value || (!Preferences('YEAR') && !$value))?' SELECTED':'').'>'.strftime($value).'</OPTION>';
+			echo '<option value="'.$value.'"'.((Preferences('YEAR')==$value || (!Preferences('YEAR') && !$value))?' SELECTED':'').'>'.strftime($value).'</option>';
 
-		echo '</SELECT>';
+		echo '</select>';
 
-		echo '</TD></TR>';
+		echo '</td></tr>';
 
-		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][HIDE_ALERTS]" value="Y"'.((Preferences('HIDE_ALERTS')=='Y')?' checked':'').'> '._('Disable login alerts').'</label></TD></TR>';
+		echo '<tr class="st"><td></td><td><label><input type="checkbox" name="values[Preferences][HIDE_ALERTS]" value="Y"'.((Preferences('HIDE_ALERTS')=='Y')?' checked':'').'> '._('Disable login alerts').'</label></td></tr>';
 
-		echo '<TR class="st"><TD></TD><TD><label><INPUT type="checkbox" name="values[Preferences][SCROLL_TOP]" value="Y"'.((Preferences('SCROLL_TOP')=='Y')?' checked':'').'> '._('Automatically scroll to the top of the page').'</label></TD></TR>';
+		echo '<tr class="st"><td></td><td><label><input type="checkbox" name="values[Preferences][SCROLL_TOP]" value="Y"'.((Preferences('SCROLL_TOP')=='Y')?' checked':'').'> '._('Automatically scroll to the top of the page').'</label></td></tr>';
 
-		echo '</TABLE>';
+		echo '</table>';
 	}
 	
 	if ( $_REQUEST['tab']=='print_options')
 	{
-		echo '<TABLE>';
+		echo '<table>';
 		$page_sizes = array('A4' => 'A4','LETTER' => _('US Letter'));
-		echo '<TR class="st"><TD><span class="legend-gray">'._('Page Size').'</span></TD><TD><TABLE><TR>';
+		echo '<tr class="st"><td><span class="legend-gray">'._('Page Size').'</span></td><td><table><tr>';
 		foreach ( (array)$page_sizes as $page_size => $title)
-			echo '<TD><label><INPUT type="radio" name="values[Preferences][PAGE_SIZE]" value="'.$page_size.'"'.((Preferences('PAGE_SIZE')==$page_size)?' checked':'').' /> '.$title.'</label></TD>';
-		echo '</TR></TABLE></TD></TR>';
+			echo '<td><label><input type="radio" name="values[Preferences][PAGE_SIZE]" value="'.$page_size.'"'.((Preferences('PAGE_SIZE')==$page_size)?' checked':'').' /> '.$title.'</label></td>';
+		echo '</tr></table></td></tr>';
 		
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
-		echo '<TR class="st"><TD><span class="legend-gray">'._('PDF List Header Color').'</span></TD><TD><TABLE><TR>';
+		echo '<tr class="st"><td><span class="legend-gray">'._('PDF List Header Color').'</span></td><td><table><tr>';
 		foreach ( (array)$colors as $color)
-			echo '<TD style="background-color:'.$color.';"><INPUT type="radio" name="values[Preferences][HEADER]" value="'.$color.'"'.((Preferences('HEADER')==$color)?' checked':'').'></TD>';
-		echo '</TR></TABLE></TD></TR>';
+			echo '<td style="background-color:'.$color.';"><input type="radio" name="values[Preferences][HEADER]" value="'.$color.'"'.((Preferences('HEADER')==$color)?' checked':'').'></td>';
+		echo '</tr></table></td></tr>';
 
-		echo '</TABLE>';
+		echo '</table>';
 	}
 
 	if ( $_REQUEST['tab']=='password')
 	{
 //FJ password fields are required
 //FJ Moodle integrator / password
-		echo '<TABLE><TR class="st"><TD><span class="legend-gray">'._('Current Password').'</span></TD><TD><INPUT type="password" name="values[current]" required></TD></TR><TR class="st"><TD><span class="legend-gray">'.($RosarioPlugins['Moodle']?'<SPAN title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'" style="cursor:help">':'')._('New Password').($RosarioPlugins['Moodle']?'*</SPAN>':'').'</span></TD><TD><INPUT type="password" name="values[verify]" required></TD></TR><TR class="st"><TD><span class="legend-gray">'._('Verify New Password').'</span></TD><TD><INPUT type="password" name="values[new]" required></TD></TR></TABLE>';
+		echo '<table><tr class="st"><td><span class="legend-gray">'._('Current Password').'</span></td><td><input type="password" name="values[current]" required></td></tr><tr class="st"><td><span class="legend-gray">'.($RosarioPlugins['Moodle']?'<span title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'" style="cursor:help">':'')._('New Password').($RosarioPlugins['Moodle']?'*</span>':'').'</span></td><td><input type="password" name="values[verify]" required></td></tr><tr class="st"><td><span class="legend-gray">'._('Verify New Password').'</span></td><td><input type="password" name="values[new]" required></td></tr></table>';
 	}
 
 	if ( $_REQUEST['tab']=='student_fields')
@@ -275,28 +275,28 @@ if (empty($_REQUEST['modfunc']))
 			}
 
 		$THIS_RET['ID'] = 'CONTACT_INFO';
-		$custom_fields_RET[-1][1] = array('CATEGORY' => '<B>'._('Contact Information').'</B>','ID' => 'CONTACT_INFO','TITLE'=> button('down_phone', '', '', 'bigger') .' '._('Contact Information'),'DISPLAY'=>_make('','DISPLAY'));
+		$custom_fields_RET[-1][1] = array('CATEGORY' => '<b>'._('Contact Information').'</b>','ID' => 'CONTACT_INFO','TITLE'=> button('down_phone', '', '', 'bigger') .' '._('Contact Information'),'DISPLAY'=>_make('','DISPLAY'));
 
 		$THIS_RET['ID'] = 'HOME_PHONE';
-		$custom_fields_RET[-1][] = array('CATEGORY' => '<B>'._('Contact Information').'</B>','ID' => 'HOME_PHONE','TITLE' => _('Home Phone Number'),'DISPLAY'=>_make('','DISPLAY'));
+		$custom_fields_RET[-1][] = array('CATEGORY' => '<b>'._('Contact Information').'</b>','ID' => 'HOME_PHONE','TITLE' => _('Home Phone Number'),'DISPLAY'=>_make('','DISPLAY'));
 
 		$THIS_RET['ID'] = 'GUARDIANS';
-		$custom_fields_RET[-1][] = array('CATEGORY' => '<B>'._('Contact Information').'</B>','ID' => 'GUARDIANS','TITLE' => _('Guardians'),'DISPLAY'=>_make('','DISPLAY'));
+		$custom_fields_RET[-1][] = array('CATEGORY' => '<b>'._('Contact Information').'</b>','ID' => 'GUARDIANS','TITLE' => _('Guardians'),'DISPLAY'=>_make('','DISPLAY'));
 
 		$THIS_RET['ID'] = 'ALL_CONTACTS';
-		$custom_fields_RET[-1][] = array('CATEGORY' => '<B>'._('Contact Information').'</B>','ID' => 'ALL_CONTACTS','TITLE' => _('All Contacts'),'DISPLAY'=>_make('','DISPLAY'));
+		$custom_fields_RET[-1][] = array('CATEGORY' => '<b>'._('Contact Information').'</b>','ID' => 'ALL_CONTACTS','TITLE' => _('All Contacts'),'DISPLAY'=>_make('','DISPLAY'));
 
-		$custom_fields_RET[0][1] = array('CATEGORY' => '<B>'._('Addresses').'</B>','ID' => 'ADDRESS','TITLE' => _('None'),'DISPLAY'=>_makeAddress(''));
+		$custom_fields_RET[0][1] = array('CATEGORY' => '<b>'._('Addresses').'</b>','ID' => 'ADDRESS','TITLE' => _('None'),'DISPLAY'=>_makeAddress(''));
 
-		$custom_fields_RET[0][] = array('CATEGORY' => '<B>'._('Addresses').'</B>','ID' => 'ADDRESS','TITLE'=> button('house', '', '', 'bigger') .' '._('Residence'),'DISPLAY'=>_makeAddress('RESIDENCE'));
+		$custom_fields_RET[0][] = array('CATEGORY' => '<b>'._('Addresses').'</b>','ID' => 'ADDRESS','TITLE'=> button('house', '', '', 'bigger') .' '._('Residence'),'DISPLAY'=>_makeAddress('RESIDENCE'));
 
 //FJ disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
-			$custom_fields_RET[0][] = array('CATEGORY' => '<B>'._('Addresses').'</B>','ID' => 'ADDRESS','TITLE'=> button('mailbox', '', '', 'bigger') .' '._('Mailing'),'DISPLAY'=>_makeAddress('MAILING'));
+			$custom_fields_RET[0][] = array('CATEGORY' => '<b>'._('Addresses').'</b>','ID' => 'ADDRESS','TITLE'=> button('mailbox', '', '', 'bigger') .' '._('Mailing'),'DISPLAY'=>_makeAddress('MAILING'));
 
-		$custom_fields_RET[0][] = array('CATEGORY' => '<B>'._('Addresses').'</B>','ID' => 'ADDRESS','TITLE'=> button('bus', '', '', 'bigger') .' '._('Bus Pickup'),'DISPLAY'=>_makeAddress('BUS_PICKUP'));
+		$custom_fields_RET[0][] = array('CATEGORY' => '<b>'._('Addresses').'</b>','ID' => 'ADDRESS','TITLE'=> button('bus', '', '', 'bigger') .' '._('Bus Pickup'),'DISPLAY'=>_makeAddress('BUS_PICKUP'));
 
-		$custom_fields_RET[0][] = array('CATEGORY' => '<B>'._('Addresses').'</B>','ID' => 'ADDRESS','TITLE'=> button('bus', '', '', 'bigger') .' '._('Bus Dropoff'),'DISPLAY'=>_makeAddress('BUS_DROPOFF'));
+		$custom_fields_RET[0][] = array('CATEGORY' => '<b>'._('Addresses').'</b>','ID' => 'ADDRESS','TITLE'=> button('bus', '', '', 'bigger') .' '._('Bus Dropoff'),'DISPLAY'=>_makeAddress('BUS_DROPOFF'));
 
 		if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
 			$columns = array('CATEGORY' => '','TITLE' => _('Field'),'SEARCH' => _('Search'),'DISPLAY' => _('Expanded View'));
@@ -334,7 +334,7 @@ if (empty($_REQUEST['modfunc']))
 		}
 		unset($widgets_RET[0]);
 
-		echo '<INPUT type="hidden" name="values[WidgetsSearch]" />';
+		echo '<input type="hidden" name="values[WidgetsSearch]" />';
 		$columns = array('TITLE' => _('Widget'),'WIDGET' => _('Search'));
 		//FJ no responsive table
 		$LO_options = array('responsive' => false);
@@ -361,7 +361,7 @@ if (empty($_REQUEST['modfunc']))
                 $field['CATEGORY'] = '<b>'.ParseMLField($field['CATEGORY']).'</b>';
                 $field['TITLE']    = ParseMLField($field['TITLE']); 
             }
-		echo '<INPUT type="hidden" name="values[StaffFieldsSearch]" /><INPUT type="hidden" name="values[StaffFieldsView]" />';
+		echo '<input type="hidden" name="values[StaffFieldsSearch]" /><input type="hidden" name="values[StaffFieldsView]" />';
 		$columns = array('CATEGORY' => '','TITLE' => _('Field'),'STAFF_SEARCH' => _('Search'),'STAFF_DISPLAY' => _('Expanded View'));
 		//FJ no responsive table
 		ListOutput($custom_fields_RET,$columns,'User Field','User Fields',array(),array(array('CATEGORY')),$LO_options);
@@ -383,7 +383,7 @@ if (empty($_REQUEST['modfunc']))
 		}
 		unset($widgets_RET[0]);
 
-		echo '<INPUT type="hidden" name="values[StaffWidgetsSearch]" />';
+		echo '<input type="hidden" name="values[StaffWidgetsSearch]" />';
 		$columns = array('TITLE' => _('Widget'),'STAFF_WIDGET' => _('Search'));
 		//FJ no responsive table
 		$LO_options = array('responsive' => false);
@@ -393,8 +393,8 @@ if (empty($_REQUEST['modfunc']))
 	if ( !in_array($_REQUEST['tab'], array('student_fields','staff_fields')))
 		PopTable('footer');
 
-	echo '<BR /><div class="center"><INPUT type="submit" value="'._('Save').'" /></div>';
-	echo '</FORM>';
+	echo '<br /><div class="center"><input type="submit" value="'._('Save').'" /></div>';
+	echo '</form>';
 }
 
 function _make($value,$name)
@@ -405,37 +405,37 @@ function _make($value,$name)
 		case 'SEARCH':
 			if ( $current_RET['StudentFieldsSearch'][$THIS_RET['ID']])
 				$checked = ' checked';
-			return '<INPUT type="checkbox" name="values[StudentFieldsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
+			return '<input type="checkbox" name="values[StudentFieldsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
 
 		case 'DISPLAY':
 			if ( $current_RET['StudentFieldsView'][$THIS_RET['ID']])
 				$checked = ' checked';
-			return '<INPUT type="checkbox" name="values[StudentFieldsView]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
+			return '<input type="checkbox" name="values[StudentFieldsView]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
 
 		case 'WIDGET':
 			if ( $current_RET['WidgetsSearch'][$THIS_RET['ID']])
 				$checked = ' checked';
-			return '<INPUT type="checkbox" name="values[WidgetsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
+			return '<input type="checkbox" name="values[WidgetsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
 
 		case 'STAFF_SEARCH':
 			if ( $current_RET['StaffFieldsSearch'][$THIS_RET['ID']])
 				$checked = ' checked';
-			return '<INPUT type="checkbox" name="values[StaffFieldsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
+			return '<input type="checkbox" name="values[StaffFieldsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
 
 		case 'STAFF_DISPLAY':
 			if ( $current_RET['StaffFieldsView'][$THIS_RET['ID']])
 				$checked = ' checked';
-			return '<INPUT type="checkbox" name="values[StaffFieldsView]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
+			return '<input type="checkbox" name="values[StaffFieldsView]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
 
 		case 'STAFF_WIDGET':
 			if ( $current_RET['StaffWidgetsSearch'][$THIS_RET['ID']])
 				$checked = ' checked';
-			return '<INPUT type="checkbox" name="values[StaffWidgetsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
+			return '<input type="checkbox" name="values[StaffWidgetsSearch]['.$THIS_RET['ID'].']" value="Y"'.$checked.' />';
 		break;
 	}
 }
@@ -445,5 +445,5 @@ function _makeAddress($value)
 
 	if ( $current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE']==$value || (!$current_RET['StudentFieldsView']['ADDRESS'][1]['VALUE'] && $value==''))
 		$checked = ' checked';
-	return '<INPUT type="radio" name="values[StudentFieldsView][ADDRESS]" value="'.$value.'"'.$checked.'>';
+	return '<input type="radio" name="values[StudentFieldsView][ADDRESS]" value="'.$value.'"'.$checked.'>';
 }

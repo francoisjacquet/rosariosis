@@ -284,7 +284,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		<a href="index.php" target="_top" class="center">
 			<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="logo" />
 		</a>
-		<FORM action="Side.php?sidefunc=update" method="POST" target="menu">
+		<form action="Side.php?sidefunc=update" method="POST" target="menu">
 			<span class="br-after">&nbsp;<b><?php echo User('NAME'); ?></b></span>
 			<?php
 				// localized today's date
@@ -294,7 +294,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 					"UTF-8"
 				);
 			?>
-			<BR />
+			<br />
 			<?php // School SELECT (Admins & Teachers only)
 			if ( User('PROFILE') === 'admin'
 				|| User( 'PROFILE' ) === 'teacher' ) :
@@ -317,13 +317,13 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				} ?>
 
 				<span class="br-after">
-					<SELECT name="school" onChange="ajaxPostForm(this.form,true);">
+					<select name="school" onChange="ajaxPostForm(this.form,true);">
 				<?php foreach ( (array)$RET as $school ) : ?>
-					<OPTION value="<?php echo $school['ID']; ?>"<?php echo ( ( UserSchool() == $school['ID'] ) ? ' SELECTED' : '' ); ?>><?php
+					<option value="<?php echo $school['ID']; ?>"<?php echo ( ( UserSchool() == $school['ID'] ) ? ' SELECTED' : '' ); ?>><?php
 						echo ( $school['SHORT_NAME'] ? $school['SHORT_NAME'] : $school['TITLE'] );
-					?></OPTION>
+					?></option>
 				<?php endforeach; ?>
-					</SELECT>
+					</select>
 				</span>
 
 			<?php endif;
@@ -348,17 +348,17 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				?>
 
 				<span class="br-after">
-					<SELECT name="student_id" onChange="ajaxPostForm(this.form,true);">
+					<select name="student_id" onChange="ajaxPostForm(this.form,true);">
 				<?php foreach ( (array)$RET as $student ) : ?>
-					<OPTION value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ( ( UserStudentID() == $student['STUDENT_ID'] ) ? ' SELECTED' : '' ); ?>><?php
+					<option value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ( ( UserStudentID() == $student['STUDENT_ID'] ) ? ' SELECTED' : '' ); ?>><?php
 						echo $student['FULL_NAME'];
-					?></OPTION>
+					?></option>
 					<?php // set current School
 					if ( UserStudentID() == $student['STUDENT_ID'] )
 						$_SESSION['UserSchool'] = $student['SCHOOL_ID'];
 
 				endforeach; ?>
-					</SELECT>
+					</select>
 				</span>
 
 				<?php
@@ -402,13 +402,13 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			$years_RET = DBGet( DBQuery( $sql ) ); ?>
 
 			<span class="br-after">
-				<SELECT name="syear" onChange="ajaxPostForm(this.form,true);">
+				<select name="syear" onChange="ajaxPostForm(this.form,true);">
 			<?php foreach ( (array)$years_RET as $year ) : ?>
-				<OPTION value="<?php echo $year['SYEAR']; ?>"<?php echo ( ( UserSyear() == $year['SYEAR'] ) ? ' SELECTED' : '' ); ?>><?php
+				<option value="<?php echo $year['SYEAR']; ?>"<?php echo ( ( UserSyear() == $year['SYEAR'] ) ? ' SELECTED' : '' ); ?>><?php
 					echo FormatSyear( $year['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
-				?></OPTION>
+				?></option>
 			<?php endforeach; ?>
-				</SELECT>
+				</select>
 			</span>
 
 			<?php // MarkingPeriod SELECT
@@ -421,15 +421,15 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			?>
 
 			<span class="br-after">
-				<SELECT name="mp" onChange="ajaxPostForm(this.form,true);">
+				<select name="mp" onChange="ajaxPostForm(this.form,true);">
 			<?php if ( count( $RET ) ) :
 			
 				$mp_array = array();
 
 				foreach ( $RET as $quarter ) : ?>
-					<OPTION value="<?php echo $quarter['MARKING_PERIOD_ID']; ?>"<?php echo ( UserMP() == $quarter['MARKING_PERIOD_ID'] ? ' SELECTED' : '' ); ?>><?php
+					<option value="<?php echo $quarter['MARKING_PERIOD_ID']; ?>"<?php echo ( UserMP() == $quarter['MARKING_PERIOD_ID'] ? ' SELECTED' : '' ); ?>><?php
 						echo $quarter['TITLE'];
-					?></OPTION>
+					?></option>
 				<?php $mp_array[] = $quarter['MARKING_PERIOD_ID'];
 
 				endforeach;
@@ -444,13 +444,13 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			// error if no quarters
 			else : ?>
 
-					<OPTION value=""><?php
+					<option value=""><?php
 						echo _( 'Error' ) . ': ' . _( 'No quarters found' );
-					?></OPTION>
+					?></option>
 
 			<?php endif; ?>
 
-				</SELECT>
+				</select>
 			</span>
 
 			<?php // CoursePeriod SELECT (Teachers only)
@@ -496,7 +496,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 					$_SESSION['UserCoursePeriodSchoolPeriod'] = $RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
 				} ?>
 
-				<SELECT name="period" onChange="ajaxPostForm(this.form,true);">
+				<select name="period" onChange="ajaxPostForm(this.form,true);">
 				<?php $optgroup = FALSE;
 
 				foreach ( $RET as $period )
@@ -575,12 +575,12 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 						$mp_text = GetMP( $period['MARKING_PERIOD_ID'], 'SHORT_NAME' ) . ' - ';
 					}
 					?>
-					<OPTION value="<?php echo $period['COURSE_PERIOD_ID']; ?>.<?php echo $period['COURSE_PERIOD_SCHOOL_PERIODS_ID']; ?>"<?php echo $selected; ?>><?php
+					<option value="<?php echo $period['COURSE_PERIOD_ID']; ?>.<?php echo $period['COURSE_PERIOD_SCHOOL_PERIODS_ID']; ?>"<?php echo $selected; ?>><?php
 						echo $period['TITLE'] . ' - ' .
 							$period_days_text .
 							$mp_text .
 							$period['CP_SHORT_NAME'];
-					?></OPTION>
+					?></option>
 
 					<?php
 				}
@@ -597,11 +597,11 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 					unset( $_SESSION['student_id'] );
 				} ?>
-				</SELECT>
+				</select>
 
 			<?php endif; ?>
 
-		</FORM>
+		</form>
 
 		<?php // display current Student (Admins & Teachers only)
 		if ( UserStudentID()
@@ -613,13 +613,13 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				WHERE STUDENT_ID='" . UserStudentID() . "'" ) ); ?>
 
 			<div class="current-person student">
-				<A HREF="Side.php?side_student_id=new" target="menu">
+				<a href="Side.php?side_student_id=new" target="menu">
 					<?php echo button( 'x', '', '', 'bigger' ); ?>
-				</A>
+				</a>
 				<?php if ( AllowUse( 'Students/Student.php' ) ) : ?>
-					<A HREF="Modules.php?modname=Students/Student.php&amp;student_id=<?php echo UserStudentID(); ?>">
+					<a href="Modules.php?modname=Students/Student.php&amp;student_id=<?php echo UserStudentID(); ?>">
 						<?php echo $RET[1]['FULL_NAME']; ?>
-					</A>
+					</a>
 				<?php else : ?>
 					<?php echo $RET[1]['FULL_NAME']; ?>
 				<?php endif; ?>
@@ -637,13 +637,13 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				WHERE STAFF_ID='" . UserStaffID() . "'" ) ); ?>
 
 			<div class="current-person <?php echo ( UserStaffID() == User( 'STAFF_ID' ) ? 'self' : 'staff' ); ?>">
-				<A HREF="Side.php?side_staff_id=new" target="menu">
+				<a href="Side.php?side_staff_id=new" target="menu">
 					<?php echo button( 'x', '', '', 'bigger' ); ?>
-				</A>
+				</a>
 				<?php if ( AllowUse( 'Users/User.php' ) ) : ?>
-					<A HREF="Modules.php?modname=Users/User.php&amp;staff_id=<?php echo UserStaffID(); ?>">
+					<a href="Modules.php?modname=Users/User.php&amp;staff_id=<?php echo UserStaffID(); ?>">
 						<?php echo $RET[1]['FULL_NAME']; ?>
-					</A>
+					</a>
 				<?php else : ?>
 					<?php echo $RET[1]['FULL_NAME']; ?>
 				<?php endif; ?>
@@ -667,9 +667,9 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			if ( count( $modcat_menu = $_ROSARIO['Menu'][$key[$i]] ) ) : 
 				$modcat_class = mb_strtolower( str_replace( '_', '-', $key[$i] ) ); ?>
 			<li class="menu-module <?php echo $modcat_class; ?>">
-				<A href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top">
-					<IMG SRC="modules/<?php echo $key[$i]; ?>/icon.png" />&nbsp;<?php echo $modcat_menu['title']; ?>
-				</A>
+				<a href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top">
+					<img src="modules/<?php echo $key[$i]; ?>/icon.png" />&nbsp;<?php echo $modcat_menu['title']; ?>
+				</a>
 				<ul id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
 				<?php
 				unset(
@@ -686,9 +686,9 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 					// if URL, not a program
 					if ( mb_stripos( $keys_modcat[$j], 'http://' ) !== false ) : ?>
-						<li><A HREF="<?php echo $keys_modcat[$j]; ?>" target="_blank"><?php
+						<li><a href="<?php echo $keys_modcat[$j]; ?>" target="_blank"><?php
 							echo $title;
-						?></A></li>
+						?></a></li>
 					<?php
 					elseif ( !is_numeric( $keys_modcat[$j] ) ) :
 
@@ -699,9 +699,9 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 						);
 					?>
 
-						<li><A HREF="Modules.php?modname=<?php echo $keys_modcat[$j]; ?>"<?php echo $target; ?>><?php
+						<li><a href="Modules.php?modname=<?php echo $keys_modcat[$j]; ?>"<?php echo $target; ?>><?php
 								echo $title;
-						?></A></li>
+						?></a></li>
 					<?php // if is a section
 					elseif ( $keys_modcat[$j+1]
 						&& !is_numeric( $keys_modcat[$j+1] ) ) : ?>

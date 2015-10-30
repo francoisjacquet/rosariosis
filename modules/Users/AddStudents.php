@@ -74,11 +74,11 @@ if ( $_REQUEST['modfunc']!='delete')
 	{
 		if ( $_REQUEST['search_modfunc']=='list')
 		{
-			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
+			echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 			DrawHeader('',SubmitButton(_('Add Selected Students')));
 		}
 
-		echo '<TABLE class="center"><TR><TD>';
+		echo '<table class="center"><tr><td>';
 
 		$current_RET = DBGet(DBQuery("SELECT u.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME FROM STUDENTS_JOIN_USERS u,STUDENTS s WHERE s.STUDENT_ID=u.STUDENT_ID AND u.STAFF_ID='".UserStaffID()."'"));
 
@@ -86,27 +86,27 @@ if ( $_REQUEST['modfunc']!='delete')
 
 		ListOutput($current_RET,array('FULL_NAME' => _('Students')),'Student','Students',$link,array(),array('search'=>false));
 
-		echo '</TD></TR><TR><TD>';
+		echo '</td></tr><tr><td>';
 
 		$extra['link'] = array('FULL_NAME'=>false);
 		$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 		$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-		$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
+		$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
 		$extra['new'] = true;
 		$extra['options']['search'] = false;
 
 		if (AllowEdit())
 			Search('student_id',$extra);
 
-		echo '</TD></TR></TABLE>';
+		echo '</td></tr></table>';
 
 		if ( $_REQUEST['search_modfunc']=='list')
-			echo '<BR /><div class="center">' . SubmitButton(_('Add Selected Students')) . '</div></FORM>';
+			echo '<br /><div class="center">' . SubmitButton(_('Add Selected Students')) . '</div></form>';
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {	global $THIS_RET;
 
-	return '<INPUT type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
+	return '<input type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
 }

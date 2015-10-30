@@ -406,39 +406,39 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	{
 		$delete_URL = "'" . $mp_href . "&modfunc=delete'";
 
-		$delete_button = '<INPUT type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
 	}
 
-	echo '<FORM action="' . $mp_href . '" method="POST">';
+	echo '<form action="' . $mp_href . '" method="POST">';
 
 	DrawHeader( $title, $delete_button . SubmitButton( _( 'Save' ) ) );
 
-	$header .= '<TABLE class="width-100p valign-top fixed-col"><TR class="st">';
+	$header .= '<table class="width-100p valign-top fixed-col"><tr class="st">';
 
-	$header .= '<TD>' . TextInput(
+	$header .= '<td>' . TextInput(
 		$RET['TITLE'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][TITLE]',
 		( !$RET['TITLE'] ? '<span class="legend-red">' : '' ) . _( 'Title' ) . ( !$RET['TITLE'] ? '</span>' : '' ),
 		'required'
-	) . '</TD>';
+	) . '</td>';
 
-	$header .= '<TD>' . TextInput(
+	$header .= '<td>' . TextInput(
 		$RET['SHORT_NAME'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][SHORT_NAME]',
 		( !$RET['SHORT_NAME'] ? '<span class="legend-red">' : '' ) . _( 'Short Name' ) . ( !$RET['SHORT_NAME'] ? '</span>' : '' ),
 		'required maxlength="10"'
-	) . '</TD>';
+	) . '</td>';
 
-	$header .= '<TD>' . TextInput(
+	$header .= '<td>' . TextInput(
 		$RET['SORT_ORDER'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][SORT_ORDER]',
 		_( 'Sort Order' ),
 		'size="3"'
-	) . '</TD>';
+	) . '</td>';
 
-	$header .= '<TD><TABLE class="width-100p"><TR>';
+	$header .= '<td><table class="width-100p"><tr>';
 
-	$header .= '<TD>' . CheckboxInput(
+	$header .= '<td>' . CheckboxInput(
 		$RET['DOES_GRADES'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][DOES_GRADES]',
 		_( 'Graded' ),
@@ -446,9 +446,9 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		$_REQUEST['marking_period_id'] === 'new',
 		button( 'check' ),
 		button( 'x' )
-	) . '</TD>';
+	) . '</td>';
 
-	$header .= '<TD>' . CheckboxInput(
+	$header .= '<td>' . CheckboxInput(
 		$RET['DOES_COMMENTS'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][DOES_COMMENTS]',
 		_( 'Comments' ),
@@ -456,57 +456,57 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		$_REQUEST['marking_period_id'] === 'new',
 		button( 'check' ),
 		button( 'x' )
-	) . '</TD>';
+	) . '</td>';
 
-	$header .= '</TR></TABLE></TD></TR><TR class="st">';
+	$header .= '</tr></table></td></tr><tr class="st">';
 
 	$required = $allow_na = $div = true;
 
-	$header .= '<TD>' . DateInput(
+	$header .= '<td>' . DateInput(
 		$RET['START_DATE'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][START_DATE]',
 		( !$RET['START_DATE'] ? '<span class="legend-red">' : '' ) . _( 'Begins' ) . ( !$RET['START_DATE'] ? '</span>' : '' ),
 		$div,
 		$allow_na,
 		$required
-	) . '</TD>';
+	) . '</td>';
 
-	$header .= '<TD>' . DateInput(
+	$header .= '<td>' . DateInput(
 		$RET['END_DATE'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][END_DATE]',
 		( !$RET['END_DATE'] ? '<span class="legend-red">' : '' ) . _( 'Ends' ) . ( !$RET['END_DATE'] ? '</span>' : '' ),
 		$div,
 		$allow_na,
 		$required
-	) . '</TD>';
+	) . '</td>';
 
 	$required = $RET['DOES_GRADES'];
 
 	$red = $RET['DOES_GRADES'] && !$RET['POST_END_DATE'];
 
-	$header .= '<TD>' . DateInput(
+	$header .= '<td>' . DateInput(
 		$RET['POST_START_DATE'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][POST_START_DATE]',
 		( $red ? '<span class="legend-red">' : '' ) . _( 'Grade Posting Begins' ) . ( $red ? '</span>' : '' ),
 		$div,
 		$allow_na,
 		$required
-	) . '</TD>';
+	) . '</td>';
 
-	$header .= '<TD>' . DateInput(
+	$header .= '<td>' . DateInput(
 		$RET['POST_END_DATE'],
 		'tables[' . $_REQUEST['marking_period_id'] . '][POST_END_DATE]',
 		( $red ? '<span class="legend-red">' : '' ) . _( 'Grade Posting Ends' ) . ( $red ? '</span>' : '' ),
 		$div,
 		$allow_na,
 		$required
-	) . '</TD>';
+	) . '</td>';
 
-	$header .= '</TR></TABLE>';
+	$header .= '</tr></table>';
 
 	DrawHeader( $header );
 
-	echo '</FORM>';
+	echo '</form>';
 
 	//unset($_SESSION['_REQUEST_vars']['marking_period_id']);
 	//unset($_SESSION['_REQUEST_vars']['mp_term']);

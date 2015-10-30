@@ -104,7 +104,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 	$endrow = $urlpage * $rows_per_page;
 	$startrow = $endrow - $rows_per_page;
 
-	//echo "Startrow: $startrow  Endrow: $endrow <BR />";
+	//echo "Startrow: $startrow  Endrow: $endrow <br />";
 	if (count($RET))
 	{
 
@@ -225,16 +225,16 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 		}
 
 
-		echo '<BR />';
+		echo '<br />';
 		//FJ css WPadmin
-		echo '<BR />&nbsp;<BR /><table class="widefat cellspacing-0 rt center">';
-		echo '<THEAD><TR><TH class="column_heading"><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'deletecheck\');" /> &nbsp</TH>';
+		echo '<br />&nbsp;<br /><table class="widefat cellspacing-0 rt center">';
+		echo '<thead><tr><th class="column_heading"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'deletecheck\');" /> &nbsp</th>';
 		//FJ add translation 
-		echo '<TH>'._('Student').' ('.sprintf(_('%s ID'),Config('NAME')).')</TH>';
-		echo '<TH>'._('Course').' ('._('Course Period ID').')</TH>';
-		echo '<TH>'._('Course Start Date').'</TH>';
-		echo '<TH>'._('Course End Date').'</TH>';
-		echo '<TH>'._('Attendance Date').'</TH></TR></THEAD><TBODY>';
+		echo '<th>'._('Student').' ('.sprintf(_('%s ID'),Config('NAME')).')</th>';
+		echo '<th>'._('Course').' ('._('Course Period ID').')</th>';
+		echo '<th>'._('Course Start Date').'</th>';
+		echo '<th>'._('Course End Date').'</th>';
+		echo '<th>'._('Attendance Date').'</th></tr></thead><tbody>';
 
 		$URIcount = 0;
 		$count = 0;
@@ -341,12 +341,12 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 
 		if ( $count == 0){
 			echo '<tr><td><b>'._('No Duplicates Found').'</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
-			echo '</TBODY></TABLE>';
+			echo '</tbody></table>';
 		}
 		else
 		{
-			echo '</TBODY></TABLE>';
-			echo '<BR /><div class="center"><input type="submit" name="submit" value="'._('Delete').'" /></div>';
+			echo '</tbody></table>';
+			echo '<br /><div class="center"><input type="submit" name="submit" value="'._('Delete').'" /></div>';
 		}
 
 		echo '</form>';

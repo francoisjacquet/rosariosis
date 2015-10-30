@@ -13,7 +13,7 @@ function MyWidgets($item)
 					$extra['WHERE'] .= " AND exists(SELECT '' FROM SCHEDULE WHERE STUDENT_ID=ssm.STUDENT_ID AND COURSE_ID='".$course[1]['COURSE_ID']."')";
 
 					if ( !$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'._('Last Year Course').': </b>'.$course[1]['COURSE_TITLE'].'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Last Year Course').': </b>'.$course[1]['COURSE_TITLE'].'<br />';
 				}
 				else
 				{
@@ -21,11 +21,11 @@ function MyWidgets($item)
 					$course = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_ID FROM COURSE_PERIODS cp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.COURSE_PERIOD_ID='".$_REQUEST['w_ly_course_period_id']."'"));
 
 					if ( !$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'._('Last Year Course Period').': </b>'.$course[1]['COURSE_TITLE'].' - '.$course[1]['TITLE'].'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Last Year Course Period').': </b>'.$course[1]['COURSE_TITLE'].' - '.$course[1]['TITLE'].'<br />';
 				}
 			}
 
-			$extra['search'] .= '<TR><TD>'._('Last Year Course').'</TD><TD><DIV id="ly_course_div"></DIV> <A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ChooseCourse.php&last_year=true","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</A></TD></TR>';
+			$extra['search'] .= '<tr><td>'._('Last Year Course').'</td><td><div id="ly_course_div"></div> <a href="#" onclick=\'window.open("Modules.php?modname=misc/ChooseCourse.php&last_year=true","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</a></td></tr>';
 		break;
 	}
 }

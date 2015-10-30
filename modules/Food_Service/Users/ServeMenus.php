@@ -61,16 +61,16 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 	WHERE s.STAFF_ID='".UserStaffID()."'"));
 	$staff = $staff[1];
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=submit&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=submit&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Cancel Sale'),'submit[cancel]').SubmitButton(_('Complete Sale'),'submit[save]'));
-	echo '</FORM>';
+	echo '</form>';
 
 	DrawHeader(NoInput($staff['FULL_NAME'],'&nbsp;'.$staff['STAFF_ID']),'', NoInput(red($staff['BALANCE']),_('Balance')));
 
 	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
 	{
-		echo '<TABLE class="width-100p">';
-		echo '<TR class="st"><TD class="width-100p valign-top">';
+		echo '<table class="width-100p">';
+		echo '<tr class="st"><td class="width-100p valign-top">';
 
 		$RET = DBGet(DBQuery("SELECT fsti.DESCRIPTION,fsti.AMOUNT 
 		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti 
@@ -90,11 +90,11 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		if ( $file = @fopen($picture=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r') || $file = @fopen($picture=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))
 		{
 			fclose($file);
-			echo '</TD><TD rowspan="2"><IMG SRC="'.$picture.'" width="150" />';
+			echo '</td><td rowspan="2"><img src="'.$picture.'" width="150" />';
 		}
 
-		echo '</TD></TR>';
-		echo '<TR><TD class="width-100p valign-top">';
+		echo '</td></tr>';
+		echo '<tr><td class="width-100p valign-top">';
 
 		$items_RET = DBGet(DBQuery("SELECT fsi.SHORT_NAME,fsi.DESCRIPTION,fsi.PRICE_STAFF,fsi.ICON 
 		FROM FOOD_SERVICE_ITEMS fsi,FOOD_SERVICE_MENU_ITEMS fsmi 
@@ -122,7 +122,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&menu_id='.$_REQUEST['menu_id'],
 					'variables' => array('id' => 'SALE_ID'));
 //FJ css WPadmin
-//		$link['add']['html'] = array('DESCRIPTION' => '<TABLE class="cellspacing-0"><TR><TD>'.SelectInput('','item_sn','',$items).'</TD></TR></TABLE>','ICON' => '<TABLE class="cellspacing-0"><TR><TD><INPUT type=submit value='._('Add').'></TD></TR></TABLE>','remove'=>button('add'));
+//		$link['add']['html'] = array('DESCRIPTION' => '<table class="cellspacing-0"><tr><td>'.SelectInput('','item_sn','',$items).'</td></tr></table>','ICON' => '<table class="cellspacing-0"><tr><td><input type=submit value='._('Add').'></td></tr></table>','remove'=>button('add'));
 		$link['add']['html'] = array('DESCRIPTION'=>SelectInput('','item_sn','',$items),'ICON'=>SubmitButton(_('Add')),'PRICE' => '&nbsp;','remove'=>button('add'));
 		$columns = array('DESCRIPTION' => _('Item'),'ICON' => _('Icon'),'PRICE' => _('Price'));
 
@@ -133,12 +133,12 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		$extra = array('save'=>false,'search'=>false,
 			'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']));
 
-		echo '<BR />';
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
+		echo '<br />';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
 		ListOutput($LO_ret,$columns,'Item','Items',$link,array(),$extra);
-		echo '</FORM>';
+		echo '</form>';
 
-		echo '</TD></TR></TABLE>';
+		echo '</td></tr></table>';
 	}
 	else
 		ErrorMessage(array(_('This user does not have a Food Service Account.')),'fatal');

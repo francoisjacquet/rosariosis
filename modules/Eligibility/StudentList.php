@@ -53,19 +53,19 @@ DrawHeader(ProgramTitle());
 if ( $_REQUEST['search_modfunc'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
 	$tmp_PHP_SELF = PreparePHP_SELF();
-	echo '<FORM action="'.$tmp_PHP_SELF.'" method="POST">';
+	echo '<form action="'.$tmp_PHP_SELF.'" method="POST">';
 
 	$begin_year = DBGet(DBQuery("SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 	$begin_year = $begin_year[1]['SCHOOL_DATE'];
 	if (is_null($begin_year))
 		ErrorMessage(array(_('There are no calendars yet setup.')), 'fatal');
 	
-	$date_select = '<OPTION value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</OPTION>';
+	$date_select = '<option value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</option>';
 	for ( $i=$start-(60*60*24*7);$i>=$begin_year;$i-=(60*60*24*7))
-		$date_select .= '<OPTION value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED':'').'>'.ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</OPTION>';
+		$date_select .= '<option value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED':'').'>'.ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</option>';
 	
-	DrawHeader('<SELECT name="start_date">'.$date_select.'</SELECT>'.$period_select.' '.SubmitButton(_('Go')));
-	echo '</FORM>';
+	DrawHeader('<select name="start_date">'.$date_select.'</select>'.$period_select.' '.SubmitButton(_('Go')));
+	echo '</form>';
 }
 
 $extra['SELECT'] = ",e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE";

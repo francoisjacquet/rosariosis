@@ -17,7 +17,7 @@ Search('staff_id',$extra);
 
 if (UserStaffID())
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 	//FJ multiple school periods for a course period
 	//$QI = DBQuery("SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cp.DAYS,c.TITLE AS COURSE_TITLE FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.TEACHER_ID='".UserStaffID()."' AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") ORDER BY sp.SORT_ORDER");
 	$QI = DBQuery("SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,c.TITLE AS COURSE_TITLE, cp.SHORT_NAME AS CP_SHORT_NAME 
@@ -48,7 +48,7 @@ if (UserStaffID())
 		$_SESSION['UserCoursePeriodSchoolPeriod'] = $RET[1]['COURSE_PERIOD_SCHOOL_PERIODS_ID'];
 	}
 
-	$period_select = '<SELECT name="period" onChange="ajaxPostForm(this.form,true);">';
+	$period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);">';
 	$optgroup = FALSE;
 	foreach ( (array)$RET as $period)
 	{
@@ -84,8 +84,8 @@ if (UserStaffID())
 		}
 		
 		//FJ add subject areas
-		//$period_select .= '<OPTION value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['SHORT_NAME'].(mb_strlen($period['DAYS'])<5?' ('.$period_DAYS_locale.')':'').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?' '.GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME'):'').' - '.$period['CP_SHORT_NAME'].'</OPTION>';
-		$period_select .= '<OPTION value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['TITLE'].(mb_strlen($period['DAYS'])<5?(mb_strlen($period['DAYS'])<2?' '._('Day').' '.$period_DAYS_locale.' - ':' '._('Days').' '.$period_DAYS_locale.' - '):' - ').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME').' - ':'').$period['CP_SHORT_NAME'].'</OPTION>';
+		//$period_select .= '<option value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['SHORT_NAME'].(mb_strlen($period['DAYS'])<5?' ('.$period_DAYS_locale.')':'').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?' '.GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME'):'').' - '.$period['CP_SHORT_NAME'].'</option>';
+		$period_select .= '<option value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['TITLE'].(mb_strlen($period['DAYS'])<5?(mb_strlen($period['DAYS'])<2?' '._('Day').' '.$period_DAYS_locale.' - ':' '._('Days').' '.$period_DAYS_locale.' - '):' - ').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME').' - ':'').$period['CP_SHORT_NAME'].'</option>';
 
 	}
 	if ( !$found)
@@ -96,14 +96,14 @@ if (UserStaffID())
 		{
 			$_SESSION['UserCoursePeriod'] = 0;
 			$_SESSION['UserCoursePeriodSchoolPeriod'] = 0;
-			$period_select .= '<OPTION value="">'. sprintf(_('No %s were found.'), _('Course Period')).'</OPTION>';
+			$period_select .= '<option value="">'. sprintf(_('No %s were found.'), _('Course Period')).'</option>';
 		}
 		$_SESSION['UserPeriod'] = $RET[1]['PERIOD_ID'];
 	}
-	$period_select .= '</SELECT>';
+	$period_select .= '</select>';
 
 	DrawHeader($period_select);
-	echo '</FORM><BR />';
+	echo '</form><br />';
 	unset($_ROSARIO['DrawHeader']);
 	$_ROSARIO['HeaderIcon'] = false;
 

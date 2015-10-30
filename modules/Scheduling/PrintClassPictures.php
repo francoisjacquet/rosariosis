@@ -63,29 +63,29 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				{
 					$no_students_backprompt = false;
 
-					echo '<TABLE class="width-100p">';
+					echo '<table class="width-100p">';
 					//FJ school year over one/two calendar years format
-					echo '<TR><TD colspan="5" class="center"><h3>'.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.$course_period['TITLE'].'</h3></TD></TR>';
+					echo '<tr><td colspan="5" class="center"><h3>'.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).' - '.$course_period['TITLE'].'</h3></td></tr>';
 
 					$i = 0;
 					if ( $_REQUEST['include_teacher']=='Y')
 					{
 						$teacher = $teachers_RET[$teacher_id][1];
 
-						echo '<TR><TD style="vertical-align:bottom;"><TABLE>';
+						echo '<tr><td style="vertical-align:bottom;"><table>';
 
 						if ( $UserPicturesPath && (($size=@getimagesize($picture_path=$UserPicturesPath.UserSyear().'/'.$teacher_id.'.JPG')) || $_REQUEST['last_year']=='Y' && $staff['ROLLOVER_ID'] && ($size=@getimagesize($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.$staff['ROLLOVER_ID'].'.JPG'))))
 						{
 							if ( $size[1]/$size[0] > 172/130)
-								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" height="172"></TD></TR>';
+								echo '<tr><td style="width:130px;"><img src="'.$picture_path.'" height="172"></td></tr>';
 							else
-								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" width="130"></TD></TR>';
+								echo '<tr><td style="width:130px;"><img src="'.$picture_path.'" width="130"></td></tr>';
 						}
 						else
-							echo '<TR><TD style="width:130px; height:172px;"></TD></TR>';
+							echo '<tr><td style="width:130px; height:172px;"></td></tr>';
 
-						echo '<TR><TD><span class="size-1"><B>'.$teacher['LAST_NAME'].'</B><BR />'.$teacher['FIRST_NAME'].'</span></TD></TR>';
-						echo '</TABLE></TD>';
+						echo '<tr><td><span class="size-1"><b>'.$teacher['LAST_NAME'].'</b><br />'.$teacher['FIRST_NAME'].'</span></td></tr>';
+						echo '</table></td>';
 						$i++;
 					}
 
@@ -94,31 +94,31 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						$student_id = $student['STUDENT_ID'];
 
 						if ( $i++%5==0)
-							echo '<TR>';
+							echo '<tr>';
 
-						echo '<TD style="vertical-align:bottom;"><TABLE>';
+						echo '<td style="vertical-align:bottom;"><table>';
 
 						if ( $StudentPicturesPath && (($size=@getimagesize($picture_path=$StudentPicturesPath.UserSyear().'/'.$student_id.'.jpg')) || $_REQUEST['last_year']=='Y' && ($size=@getimagesize($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.$student_id.'.jpg'))))
 						{
 							if ( $size[1]/$size[0] > 172/130)
-								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" height="172"></TD></TR>';
+								echo '<tr><td style="width:130px;"><img src="'.$picture_path.'" height="172"></td></tr>';
 							else
-								echo '<TR><TD style="width:130px;"><IMG SRC="'.$picture_path.'" width="130"></TD></TR>';
+								echo '<tr><td style="width:130px;"><img src="'.$picture_path.'" width="130"></td></tr>';
 						}
 						else
-							echo '<TR><TD style="width:130px; height:172px;"></TD></TR>';
+							echo '<tr><td style="width:130px; height:172px;"></td></tr>';
 
-						echo '<TR><TD><span class="size-1"><B>'.$student['LAST_NAME'].'</B><BR />'.$student['FIRST_NAME'].'</span></TD></TR>';
-						echo '</TABLE></TD>';
+						echo '<tr><td><span class="size-1"><b>'.$student['LAST_NAME'].'</b><br />'.$student['FIRST_NAME'].'</span></td></tr>';
+						echo '</table></td>';
 
 						if ( $i%5==0)
-							echo '</TR><!-- NEED 2in -->';
+							echo '</tr><!-- NEED 2in -->';
 					}
 
 					if ( $i%5!=0)
-						echo '</TR>';
+						echo '</tr>';
 
-					echo '</TABLE><div style="page-break-after: always;"></div>';
+					echo '</table><div style="page-break-after: always;"></div>';
 				}
 			}
 		}
@@ -142,26 +142,26 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" />';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
+		$extra['header_right'] = '<input type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" />';
 
-		$extra['extra_header_left'] = '<TABLE>';
+		$extra['extra_header_left'] = '<table>';
 
 		//FJ add <label> on checkbox
-		$extra['extra_header_left'] .= '<TR class="st"><TD><label><INPUT type="checkbox" name="include_teacher" value="Y" checked /> '._('Include Teacher').'</label></TD>';
-		$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="last_year" value="Y"> '._('Use Last Year\'s if Missing').'</label></TD></TR>';
+		$extra['extra_header_left'] .= '<tr class="st"><td><label><input type="checkbox" name="include_teacher" value="Y" checked /> '._('Include Teacher').'</label></td>';
+		$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="last_year" value="Y"> '._('Use Last Year\'s if Missing').'</label></td></tr>';
 
 		if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
-			$extra['extra_header_left'] .= '<TR><TD colspan="3"><label><INPUT type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></TD></TR>';
+			$extra['extra_header_left'] .= '<tr><td colspan="3"><label><input type="checkbox" name="include_inactive" value="Y"> '._('Include Inactive Students').'</label></td></tr>';
 
-		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] .= '</table>';
 	}
 
 	mySearch('course_period',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" /></div>';
-		echo '</FORM>';
+		echo '<br /><div class="center"><input type="submit" value="'._('Create Class Pictures for Selected Course Periods').'" /></div>';
+		echo '</form>';
 	}
 }
 
@@ -180,53 +180,53 @@ function mySearch($type,$extra='')
 
 		echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 
-		echo '<BR />';
+		echo '<br />';
 
 		PopTable('header',_('Find a Course'));
 
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'" method="POST">';
 
-		echo '<TABLE>';
+		echo '<table>';
 
 		$RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME||', '||FIRST_NAME AS FULL_NAME FROM STAFF WHERE PROFILE='teacher' AND (SCHOOLS IS NULL OR position(',".UserSchool().",' IN SCHOOLS)>0) AND SYEAR='".UserSyear()."' ORDER BY FULL_NAME"));
 
-		echo '<TR class="st"><TD>'._('Teacher').'</TD><TD>';
+		echo '<tr class="st"><td>'._('Teacher').'</td><td>';
 
-		echo '<SELECT name="teacher_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<select name="teacher_id"><option value="">'._('N/A').'</option>';
 
 		foreach ( (array)$RET as $teacher)
-			echo '<OPTION value="'.$teacher['STAFF_ID'].'">'.$teacher['FULL_NAME'].'</OPTION>';
+			echo '<option value="'.$teacher['STAFF_ID'].'">'.$teacher['FULL_NAME'].'</option>';
 
-		echo '</SELECT></TD></TR>';
+		echo '</select></td></tr>';
 
 		$RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TITLE"));
-		echo '<TR class="st"><TD>'._('Subject').'</TD><TD>';
+		echo '<tr class="st"><td>'._('Subject').'</td><td>';
 
-		echo '<SELECT name="subject_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<select name="subject_id"><option value="">'._('N/A').'</option>';
 
 		foreach ( (array)$RET as $subject)
-			echo '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
+			echo '<option value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</option>';
 
-		echo '</SELECT></TD></TR>';
+		echo '</select></td></tr>';
 
 		$RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-		echo '<TR class="st"><TD>'._('Period').'</TD><TD>';
+		echo '<tr class="st"><td>'._('Period').'</td><td>';
 
-		echo '<SELECT name="period_id"><OPTION value="">'._('N/A').'</OPTION>';
+		echo '<select name="period_id"><option value="">'._('N/A').'</option>';
 
 		foreach ( (array)$RET as $period)
-			echo '<OPTION value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</OPTION>';
+			echo '<option value="'.$period['PERIOD_ID'].'">'.$period['TITLE'].'</option>';
 
-		echo '</SELECT></TD></TR>';
+		echo '</select></td></tr>';
 
 		Widgets('course');
 		echo $extra['search'];
 
-		echo '<TR><TD colspan="2" class="center">';
-		echo '<BR />';
+		echo '<tr><td colspan="2" class="center">';
+		echo '<br />';
 		echo Buttons(_('Submit'),_('Reset'));
 
-		echo '</TD></TR></TABLE></FORM>';
+		echo '</td></tr></table></form>';
 
 		PopTable('footer');
 	}
@@ -283,7 +283,7 @@ function mySearch($type,$extra='')
 		//$sql .= ' ORDER BY sp.PERIOD_ID';
 
 		$course_periods_RET = DBGet(DBQuery($sql),array('COURSE_PERIOD_ID' => '_makeChooseCheckbox'));
-		$LO_columns = array('COURSE_PERIOD_ID' => '</A><INPUT type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');" checked /><A>','TITLE' => _('Course Period'));
+		$LO_columns = array('COURSE_PERIOD_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');" checked /><A>','TITLE' => _('Course Period'));
 
 		if ( !$_REQUEST['LO_save'] && !$extra['suppress_save'])
 		{
@@ -299,12 +299,12 @@ function mySearch($type,$extra='')
 				echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 		}
 
-		echo '<INPUT type="hidden" name="relation">';
+		echo '<input type="hidden" name="relation">';
 		ListOutput($course_periods_RET,$LO_columns,'Course Period','Course Periods');
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<INPUT type="checkbox" name="cp_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="cp_arr[]" value="'.$value.'" checked />';
 }

@@ -13,7 +13,7 @@ if ( $RosarioModules['Discipline'])
 //FJ discipline_field_usage rollover
 	$tables += array(/*'DISCIPLINE_CATEGORIES' => _('Referral Form'), */'DISCIPLINE_FIELD_USAGE' => _('Referral Form'));
 
-$table_list = '<TABLE style="float: left">';
+$table_list = '<table style="float: left">';
 
 foreach ( (array)$tables as $table => $name)
 {
@@ -24,17 +24,17 @@ foreach ( (array)$tables as $table => $name)
 
 	if ( $exists_RET[$table][1]['COUNT']>0)
 //FJ add <label> on checkbox
-		$table_list .= '<TR><TD><label><INPUT type="checkbox" value="Y" name="tables['.$table.']"><span style="color:grey">&nbsp;'.$name.' ('.$exists_RET[$table][1]['COUNT'].')</span></label></TD></TR>';
+		$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables['.$table.']"><span style="color:grey">&nbsp;'.$name.' ('.$exists_RET[$table][1]['COUNT'].')</span></label></td></tr>';
 	else
-		$table_list .= '<TR><TD><label><INPUT type="checkbox" value="Y" name="tables['.$table.']" checked />&nbsp;'.$name.'</label></TD></TR>';
+		$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables['.$table.']" checked />&nbsp;'.$name.'</label></td></tr>';
 }
 
-$table_list .= '</TABLE><BR />'
+$table_list .= '</table><br />'
 		.'* '._('You <i>must</i> roll users, school periods, marking periods, calendars, attendance codes, and report card codes at the same time or before rolling courses.')
-		.'<BR /><BR />* '._('You <i>must</i> roll enrollment codes at the same time or before rolling students.')
-		.'<BR /><BR />* '._('You <i>must</i> roll courses at the same time or before rolling report card comments.')
-		.'<BR /><BR />'._('Greyed items have already have data in the next school year (They might have been rolled).')
-		.'<BR /><BR />'._('Rolling greyed items will delete already existing data in the next school year.');
+		.'<br /><br />* '._('You <i>must</i> roll enrollment codes at the same time or before rolling students.')
+		.'<br /><br />* '._('You <i>must</i> roll courses at the same time or before rolling report card comments.')
+		.'<br /><br />'._('Greyed items have already have data in the next school year (They might have been rolled).')
+		.'<br /><br />'._('Rolling greyed items will delete already existing data in the next school year.');
 
 //hook
 do_action('School_Setup/Rollover.php|rollover_warnings');
@@ -67,14 +67,14 @@ if (Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to ro
 	else
 		$error[] = _('You <i>must</i> roll users, school periods, marking periods, calendars, and report card codes at the same time or before rolling courses.');
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 
 	if ( !isset($error))
 		echo ErrorMessage(array(button('check', '', '', 'bigger') .'&nbsp;'._('The data have been rolled.')), 'note');
 	else
 		echo ErrorMessage($error);
 		
-	echo '<div class="center"><INPUT type="submit" value="'._('OK').'" /></div></FORM>';
+	echo '<div class="center"><input type="submit" value="'._('OK').'" /></div></form>';
 	unset($_SESSION['_REQUEST_vars']['tables']);
 	unset($_SESSION['_REQUEST_vars']['delete_ok']);
 }

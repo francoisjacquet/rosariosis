@@ -83,65 +83,65 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			AND sp.ATTENDANCE='Y'"),array(),array('MON','DAY'));
 			//echo '<pre>'; var_dump($calendar_RET); echo '</pre>';
 
-			echo '<TABLE class="width-100p">
-			<TR><TD class="width-100p center">';
+			echo '<table class="width-100p">
+			<tr><td class="width-100p center">';
 
-			echo '<TABLE style="width:96%">
-			<TR><TD class="width-100p center">
-			<span class="sizep2"><B>'.$student['FULL_NAME'].'</B></span>
-			</TD><TR>
-			</TABLE>';
+			echo '<table style="width:96%">
+			<tr><td class="width-100p center">
+			<span class="sizep2"><b>'.$student['FULL_NAME'].'</b></span>
+			</td><tr>
+			</table>';
 
-			echo '<TABLE style="width:96%; border: solid 1px">
-			<TR class="center"><TD>
-			<B>'._('Student Name').'</B>
-			</TD><TD>
-			<B>'.sprintf(_('%s ID'),Config('NAME')).'</B></TD>
-			<TD>
-			<B>'._('School').' / '._('Year').'</B>
-			</TD></TR>';
+			echo '<table style="width:96%; border: solid 1px">
+			<tr class="center"><td>
+			<b>'._('Student Name').'</b>
+			</td><td>
+			<b>'.sprintf(_('%s ID'),Config('NAME')).'</b></td>
+			<td>
+			<b>'._('School').' / '._('Year').'</b>
+			</td></tr>';
 
 			//FJ school year over one/two calendar years format
-			echo '<TR><TD class="center">'.$student['FULL_NAME'].'</TD>
-			<TD class="center">'.$student['STUDENT_ID'].'</TD>
-			<TD class="center">'.$school_RET[1]['SCHOOL_NUMBER'].' / '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</TD></TR>';
+			echo '<tr><td class="center">'.$student['FULL_NAME'].'</td>
+			<td class="center">'.$student['STUDENT_ID'].'</td>
+			<td class="center">'.$school_RET[1]['SCHOOL_NUMBER'].' / '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</td></tr>';
 
-			echo '<TR><TD colspan="3">
-			<span class="sizep1"><B>'._('Demographics').'</B></span>
-			<TABLE style="width:98%;" class="cellspacing-0 center"><TR>';
+			echo '<tr><td colspan="3">
+			<span class="sizep1"><b>'._('Demographics').'</b></span>
+			<table style="width:98%;" class="cellspacing-0 center"><tr>';
 
 			foreach ( (array)$custom_RET as $id => $custom)
-				echo '<TD style="text-align:right">'.ParseMLField($custom_RET[$id][1]['TITLE']).':&nbsp;</TD>
-				<TD>'.$student['CUSTOM_'.$id].'</TD>';
+				echo '<td style="text-align:right">'.ParseMLField($custom_RET[$id][1]['TITLE']).':&nbsp;</td>
+				<td>'.$student['CUSTOM_'.$id].'</td>';
 
-			echo '</TR><TR>
-			<TD style="text-align:right">'._('Status').':&nbsp;</TD>
-			<TD>'.$student['STATUS'].'</TD>
-			<TD style="text-align:right">'._('Grade Level').':&nbsp;</TD>
-			<TD>'.$student['GRADE_ID'].'</TD>
-			</TR>
-			</TABLE>
-			</TD></TR>';
+			echo '</tr><tr>
+			<td style="text-align:right">'._('Status').':&nbsp;</td>
+			<td>'.$student['STATUS'].'</td>
+			<td style="text-align:right">'._('Grade Level').':&nbsp;</td>
+			<td>'.$student['GRADE_ID'].'</td>
+			</tr>
+			</table>
+			</td></tr>';
 
-			echo '<TR><TD colspan="3">
-			<span class="sizep1"><B>'._('Attendance').'</B></span>
-			<TABLE style="width:98%; border:solid 1px;" class="cellspacing-0 center">';
+			echo '<tr><td colspan="3">
+			<span class="sizep1"><b>'._('Attendance').'</b></span>
+			<table style="width:98%; border:solid 1px;" class="cellspacing-0 center">';
 
-			echo '<TR class="center
-			"><TD colspan="32"></TD>
-			<TD colspan="2"><B>'._('Month to Date').'</B></TD>
-			</TR>';
+			echo '<tr class="center
+			"><td colspan="32"></td>
+			<td colspan="2"><b>'._('Month to Date').'</b></td>
+			</tr>';
 
-			echo '<TR class="center"><TD>
-			<B>'._('Month').'</B>
-			</TD>';
+			echo '<tr class="center"><td>
+			<b>'._('Month').'</b>
+			</td>';
 
 			for ( $day=1; $day<=31; $day++)
-				echo '<TD><B>'.($day<10?'&nbsp;':'').$day.'</B></TD>';
+				echo '<td><b>'.($day<10?'&nbsp;':'').$day.'</b></td>';
 
-			echo '<TD><B>'._('Absences').'</B></TD>
-			<TD><B>'._('Possible').'</B></TD>
-			</TR>';
+			echo '<td><b>'._('Absences').'</b></td>
+			<td><b>'._('Possible').'</b></td>
+			</tr>';
 
 			$abs_tot = $pos_tot = 0;
 
@@ -167,7 +167,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			{
 				if ( $calendar_RET[$month] || $attendance_RET[$month])
 				{
-					echo '<TR><TD>'.$months[$month].'</TD>';
+					echo '<tr><td>'.$months[$month].'</td>';
 
 					$abs = $pos = 0;
 
@@ -181,13 +181,13 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							{
 								$attendance = $attendance_RET[$month][$day][1];
 
-								echo '<TD style="text-align:center;">'.$attendance['STATE_CODE'].'</TD>';
+								echo '<td style="text-align:center;">'.$attendance['STATE_CODE'].'</td>';
 
 								$abs += ($attendance['STATE_CODE']=='A'?$calendar['POS']:($attendance['STATE_CODE']=='H'?$calendar['POS']/2:0));
 							}
 							else
 								//green box
-								echo '<TD class="center" style="background-color:#DDFFDD;">&nbsp;</TD>';
+								echo '<td class="center" style="background-color:#DDFFDD;">&nbsp;</td>';
 
 							$pos += $calendar['POS'];
 						}
@@ -199,16 +199,16 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 								$attendance = $attendance_RET[$month][$day][1];
 
 								//red box
-								echo '<TD class="center" style="background-color:#e80000;">'.$attendance['STATE_CODE'].'</TD>';
+								echo '<td class="center" style="background-color:#e80000;">'.$attendance['STATE_CODE'].'</td>';
 							}
 							else
 								//pink box
-								echo '<TD class="center" style="background-color:#FFDDDD;">&nbsp;</TD>';
+								echo '<td class="center" style="background-color:#FFDDDD;">&nbsp;</td>';
 						}
 					}
 
-					echo '<TD style="text-align:right">'.number_format($abs,1).'</TD>
-					<TD style="text-align:right">'.number_format($pos,1).'</TD></TR>';
+					echo '<td style="text-align:right">'.number_format($abs,1).'</td>
+					<td style="text-align:right">'.number_format($pos,1).'</td></tr>';
 
 					$abs_tot += $abs;
 					$pos_tot += $pos;
@@ -222,16 +222,16 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 			}
 
-			echo '<TR><TD colspan="32" style="text-align: right;"><B>'._('Year to Date Totals').':</B></TD>';
+			echo '<tr><td colspan="32" style="text-align: right;"><b>'._('Year to Date Totals').':</b></td>';
 
-			echo '<TD style="text-align:right">'.number_format($abs_tot,1).'</TD>
-			<TD style="text-align:right">'.number_format($pos_tot,1).'</TD></TR>';
+			echo '<td style="text-align:right">'.number_format($abs_tot,1).'</td>
+			<td style="text-align:right">'.number_format($pos_tot,1).'</td></tr>';
 
-			echo '</TABLE>
-			</TD></TR>
-			</TABLE>
-			</TD><TR>
-			</TABLE>';
+			echo '</table>
+			</td></tr>
+			</table>
+			</td><tr>
+			</table>';
 
 			echo '<div style="page-break-after: always;"></div>';
 		}
@@ -252,16 +252,16 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
 
-		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Attendance Report for Selected Students').'" />';
+		$extra['header_right'] = '<input type="submit" value="'._('Create Attendance Report for Selected Students').'" />';
 
 	}
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 
@@ -274,12 +274,12 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center">' . SubmitButton(_('Create Attendance Report for Selected Students')) . '</div>';
-		echo '</FORM>';
+		echo '<br /><div class="center">' . SubmitButton(_('Create Attendance Report for Selected Students')) . '</div>';
+		echo '</form>';
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }

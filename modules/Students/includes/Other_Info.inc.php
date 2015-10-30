@@ -27,7 +27,7 @@ if ( count( $fields_RET ) )
 {
 	echo $separator;
 
-	echo '<TABLE class="width-100p valign-top fixed-col">';
+	echo '<table class="width-100p valign-top fixed-col">';
 }
 
 $i = 1;
@@ -45,9 +45,9 @@ foreach ( (array)$fields_RET as $field )
 	//echo '<pre>'; var_dump($field); echo '</pre>';
 
 	if ( ( $i - 1 )%$per_row === 0 )
-		echo '<TR class="st">';
+		echo '<tr class="st">';
 
-	echo '<TD>';
+	echo '<td>';
 
 	switch ( $field['TYPE'] )
 	{
@@ -79,14 +79,14 @@ foreach ( (array)$fields_RET as $field )
 
 		case 'age':
 
-			echo '</TD>';
+			echo '</td>';
 
 			$i++;
 
 			if ( ( $i - 1 )%$per_row === 0 )
-				echo '</TR><TR class="st">';
+				echo '</tr><tr class="st">';
 
-			echo '<TD>';
+			echo '<td>';
 
 			echo _makeStudentAge( 'CUSTOM_' . $field['ID'], _( 'Age' ) );
 
@@ -118,9 +118,9 @@ foreach ( (array)$fields_RET as $field )
 			if ( $per_row > 2 )
 			{
 				// New row
-				echo '</TD></TR><TR class="st">';
+				echo '</td></tr><tr class="st">';
 
-				echo '<TD colspan="' . round( $per_row / 2 ) . '">';
+				echo '<td colspan="' . round( $per_row / 2 ) . '">';
 
 				$i = round( $per_row / 2 );
 			}
@@ -130,10 +130,10 @@ foreach ( (array)$fields_RET as $field )
 		break;
 	}
 
-	echo '</TD>';
+	echo '</td>';
 
 	if ( $i%$per_row === 0 )
-		echo '</TR>';
+		echo '</tr>';
 
 	$i++;
 }
@@ -141,7 +141,7 @@ foreach ( (array)$fields_RET as $field )
 if ( $i > 1 )
 {
 	if ( ( $i - 1 )%$per_row !== 0 )
-		echo '</TR>';
+		echo '</tr>';
 
-	echo '</TABLE>';
+	echo '</table>';
 }

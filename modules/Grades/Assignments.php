@@ -295,7 +295,7 @@ if (empty($_REQUEST['modfunc']))
 			'&modfunc=delete&assignment_type_id=' . $_REQUEST['assignment_type_id'] .
 			'&assignment_id=' . $_REQUEST['assignment_id'] . "'";
 
-		$delete_button = '<INPUT type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
+		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_url . ');" />';
 	}
 
 	// ADDING & EDITING FORM
@@ -339,71 +339,71 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['assignment_id'])
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id='.$_REQUEST['assignment_type_id'];
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&assignment_type_id='.$_REQUEST['assignment_type_id'];
 		if ( $_REQUEST['assignment_id']!='new')
 			echo '&assignment_id='.$_REQUEST['assignment_id'];
 		echo '&table=GRADEBOOK_ASSIGNMENTS" method="POST">';
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p valign-top fixed-col">';
-		$header .= '<TR class="st">';
+		$header .= '<table class="width-100p valign-top fixed-col">';
+		$header .= '<tr class="st">';
 
 		//FJ title & points are required
-		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_id'].'][TITLE]',($RET['TITLE']?'':'<span class="legend-red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</TD>';
-		$header .= '<TD>' . TextInput($RET['POINTS'],'tables['.$_REQUEST['assignment_id'].'][POINTS]',($RET['POINTS']!=''?'':'<span class="legend-red">')._('Points').($RET['POINTS']?'':'</span>'),'required size=4 maxlength=4 min=0') . '</TD>';
+		$header .= '<td>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_id'].'][TITLE]',($RET['TITLE']?'':'<span class="legend-red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</td>';
+		$header .= '<td>' . TextInput($RET['POINTS'],'tables['.$_REQUEST['assignment_id'].'][POINTS]',($RET['POINTS']!=''?'':'<span class="legend-red">')._('Points').($RET['POINTS']?'':'</span>'),'required size=4 maxlength=4 min=0') . '</td>';
 
 		//FJ default points
 		if ( $RET['DEFAULT_POINTS']=='-1')
 			$RET['DEFAULT_POINTS'] = '*';
-		$header .= '<TD>' . TextInput($RET['DEFAULT_POINTS'],'tables['.$_REQUEST['assignment_id'].'][DEFAULT_POINTS]','<span class="legend-gray" title="'._('Enter an asterisk (*) to excuse student').'" style="cursor:help">'._('Default Points').'*</span>',' size=4 maxlength=4') . '</TD>';
+		$header .= '<td>' . TextInput($RET['DEFAULT_POINTS'],'tables['.$_REQUEST['assignment_id'].'][DEFAULT_POINTS]','<span class="legend-gray" title="'._('Enter an asterisk (*) to excuse student').'" style="cursor:help">'._('Default Points').'*</span>',' size=4 maxlength=4') . '</td>';
 
-		$header .= '</TR><TR class="st">';
+		$header .= '</tr><tr class="st">';
 
-		$header .= '<TD colspan="2">' . TextareaInput($RET['DESCRIPTION'],'tables['.$_REQUEST['assignment_id'].'][DESCRIPTION]',_('Description')) . '</TD>';
-		$header .= '<TD>' . CheckboxInput($RET['COURSE_ID'],'tables['.$_REQUEST['assignment_id'].'][COURSE_ID]',_('Apply to all Periods for this Course'),'',$_REQUEST['assignment_id']=='new') . '</TD>';
+		$header .= '<td colspan="2">' . TextareaInput($RET['DESCRIPTION'],'tables['.$_REQUEST['assignment_id'].'][DESCRIPTION]',_('Description')) . '</td>';
+		$header .= '<td>' . CheckboxInput($RET['COURSE_ID'],'tables['.$_REQUEST['assignment_id'].'][COURSE_ID]',_('Apply to all Periods for this Course'),'',$_REQUEST['assignment_id']=='new') . '</td>';
 
-		$header .= '</TR><TR class="st">';
+		$header .= '</tr><tr class="st">';
 
 		foreach ( (array)$types_RET as $type)
 			$assignment_type_options[$type['ASSIGNMENT_TYPE_ID']] = $type['TITLE'];
 
-		$header .= '<TD>' . SelectInput($RET['ASSIGNMENT_TYPE_ID']?$RET['ASSIGNMENT_TYPE_ID']:$_REQUEST['assignment_type_id'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNMENT_TYPE_ID]',_('Assignment Type'),$assignment_type_options,false) . '</TD>';
-		$header .= '<TD>' . DateInput($new && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$RET['ASSIGNED_DATE'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNED_DATE]',_('Assigned'),!$new) . '</TD>';
-		$header .= '<TD>' . DateInput($new && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$RET['DUE_DATE'],'tables['.$_REQUEST['assignment_id'].'][DUE_DATE]',_('Due'),!$new) . '</TD>';
-		$header .= '</TR>';
-		$errors = ($RET['DATE_ERROR']=='Y'?'<span style="color:red">'._('Due date is before assigned date!').'</span><BR />':'');
-		$errors .= ($RET['ASSIGNED_ERROR']=='Y'?'<span style="color:red">'._('Assigned date is after end of quarter!').'</span><BR />':'');
-		$errors .= ($RET['DUE_ERROR']=='Y'?'<span style="color:red">'._('Due date is after end of quarter!').'</span><BR />':'');
-		$header .= '<TR><TD class="valign-top" colspan="3">'.mb_substr($errors,0,-6).'</TD></TR>';
-		$header .= '</TABLE>';
+		$header .= '<td>' . SelectInput($RET['ASSIGNMENT_TYPE_ID']?$RET['ASSIGNMENT_TYPE_ID']:$_REQUEST['assignment_type_id'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNMENT_TYPE_ID]',_('Assignment Type'),$assignment_type_options,false) . '</td>';
+		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$RET['ASSIGNED_DATE'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNED_DATE]',_('Assigned'),!$new) . '</td>';
+		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$RET['DUE_DATE'],'tables['.$_REQUEST['assignment_id'].'][DUE_DATE]',_('Due'),!$new) . '</td>';
+		$header .= '</tr>';
+		$errors = ($RET['DATE_ERROR']=='Y'?'<span style="color:red">'._('Due date is before assigned date!').'</span><br />':'');
+		$errors .= ($RET['ASSIGNED_ERROR']=='Y'?'<span style="color:red">'._('Assigned date is after end of quarter!').'</span><br />':'');
+		$errors .= ($RET['DUE_ERROR']=='Y'?'<span style="color:red">'._('Due date is after end of quarter!').'</span><br />':'');
+		$header .= '<tr><td class="valign-top" colspan="3">'.mb_substr($errors,0,-6).'</td></tr>';
+		$header .= '</table>';
 	}
 	elseif ( $_REQUEST['assignment_type_id'])
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table=GRADEBOOK_ASSIGNMENT_TYPES';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table=GRADEBOOK_ASSIGNMENT_TYPES';
 		if ( $_REQUEST['assignment_type_id']!='new')
 			echo '&assignment_type_id='.$_REQUEST['assignment_type_id'];
 		echo '" method="POST">';
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<TABLE class="width-100p valign-top">';
-		$header .= '<TR class="st">';
+		$header .= '<table class="width-100p valign-top">';
+		$header .= '<tr class="st">';
 
 		//FJ title is required
-		$header .= '<TD>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_type_id'].'][TITLE]',($RET['TITLE']?'':'<span class="legend-red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</TD>';
+		$header .= '<td>' . TextInput($RET['TITLE'],'tables['.$_REQUEST['assignment_type_id'].'][TITLE]',($RET['TITLE']?'':'<span class="legend-red">')._('Title').($RET['TITLE']?'':'</span>'),'required') . '</td>';
 		if (Preferences('WEIGHT','Gradebook')=='Y')
 		{
-			$header .= '<TD>' . TextInput($RET['FINAL_GRADE_PERCENT'],'tables['.$_REQUEST['assignment_type_id'].'][FINAL_GRADE_PERCENT]',($RET['FINAL_GRADE_PERCENT']!=0?'':'<span class="legend-red">')._('Percent of Final Grade').($RET['FINAL_GRADE_PERCENT']!=0?'':'</span>')) . '</TD>';
-			$header .= '<TD>' . NoInput($RET['TOTAL_PERCENT']==1?'100%':'<span style="color:red">'.(100*$RET['TOTAL_PERCENT']).'%</span>',_('Percent Total')) . '</TD>';
+			$header .= '<td>' . TextInput($RET['FINAL_GRADE_PERCENT'],'tables['.$_REQUEST['assignment_type_id'].'][FINAL_GRADE_PERCENT]',($RET['FINAL_GRADE_PERCENT']!=0?'':'<span class="legend-red">')._('Percent of Final Grade').($RET['FINAL_GRADE_PERCENT']!=0?'':'</span>')) . '</td>';
+			$header .= '<td>' . NoInput($RET['TOTAL_PERCENT']==1?'100%':'<span style="color:red">'.(100*$RET['TOTAL_PERCENT']).'%</span>',_('Percent Total')) . '</td>';
 		}
-		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['assignment_type_id'].'][SORT_ORDER]',_('Sort Order')) . '</TD>';
+		$header .= '<td>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['assignment_type_id'].'][SORT_ORDER]',_('Sort Order')) . '</td>';
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		foreach ( (array)$colors as $color)
 		{
 			$color_select[$color] = array('<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
 		}
 //FJ add translation
-		$header .= '<TD>' .  RadioInput($RET['COLOR'],'tables['.$_REQUEST['assignment_type_id'].'][COLOR]',_('Color'),$color_select) . '</TD>';
+		$header .= '<td>' .  RadioInput($RET['COLOR'],'tables['.$_REQUEST['assignment_type_id'].'][COLOR]',_('Color'),$color_select) . '</td>';
 
-		$header .= '</TR></TABLE>';
+		$header .= '</tr></table>';
 	}
 	else
 		$header = false;
@@ -411,7 +411,7 @@ if (empty($_REQUEST['modfunc']))
 	if ( $header)
 	{
 		DrawHeader($header);
-		echo '</FORM>';
+		echo '</form>';
 	}
 
 	// DISPLAY THE MENU

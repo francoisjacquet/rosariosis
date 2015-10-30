@@ -46,9 +46,9 @@ User('PROFILE')=='student'?'':DrawHeader($header);
 if ( $_REQUEST['search_modfunc']=='list')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF();
-	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
-	DrawHeader(PrepareDate($date,'_date').' : <INPUT type="submit" value="'._('Go').'" />');
-	echo '</FORM>';
+	echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
+	DrawHeader(PrepareDate($date,'_date').' : <input type="submit" value="'._('Go').'" />');
+	echo '</form>';
 
 	require_once 'modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'Students').'/BalanceReport.php';
 }

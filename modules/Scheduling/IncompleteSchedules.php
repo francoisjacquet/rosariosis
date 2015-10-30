@@ -2,18 +2,18 @@
 $periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER"));
 
 /*
-$period_select =  "<SELECT name=period><OPTION value=''>All</OPTION>";
+$period_select =  "<select name=period><option value=''>All</option>";
 foreach ( (array)$periods_RET as $period)
-	$period_select .= "<OPTION value=$period[PERIOD_ID]".(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED':'').">".$period['TITLE']."</OPTION>";
-$period_select .= "</SELECT>";
+	$period_select .= "<option value=$period[PERIOD_ID]".(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED':'').">".$period['TITLE']."</option>";
+$period_select .= "</select>";
 */
 
 DrawHeader(ProgramTitle());
 if ( $period_select)
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 	DrawHeader($period_select);
-	echo '</FORM>';
+	echo '</form>';
 }
 
 if ( $_REQUEST['search_modfunc']=='list')

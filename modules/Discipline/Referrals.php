@@ -124,59 +124,59 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 	{
 		$RET = $RET[1];
 
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&referral_id='.$_REQUEST['referral_id'].'" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&referral_id='.$_REQUEST['referral_id'].'" method="POST">';
 
 		DrawHeader('',SubmitButton(_('Save')));
 
-		echo '<BR />';
+		echo '<br />';
 		PopTable('header',_('Referral'));
 
 		$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
 
-		echo '<TABLE class="width-100p col1-align-right">';
+		echo '<table class="width-100p col1-align-right">';
 
-		echo '<TR class="st"><TD><span class="legend-gray">'._('Student').'</span></TD><TD>';
+		echo '<tr class="st"><td><span class="legend-gray">'._('Student').'</span></td><td>';
 		$name = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME,NAME_SUFFIX FROM STUDENTS WHERE STUDENT_ID='".$RET['STUDENT_ID']."'"));
 		echo $name[1]['FIRST_NAME'].'&nbsp;'.($name[1]['MIDDLE_NAME']?$name[1]['MIDDLE_NAME'].' ':'').$name[1]['LAST_NAME'].'&nbsp;'.$name[1]['NAME_SUFFIX'];
-		echo '</TD></TR>';
+		echo '</td></tr>';
 
-		echo '<TR class="st"><TD><span class="legend-gray">'._('Reporter').'</span></TD><TD>';
+		echo '<tr class="st"><td><span class="legend-gray">'._('Reporter').'</span></td><td>';
 		$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
 
 		foreach ( (array)$users_RET as $user)
 			$options[$user['STAFF_ID']] = $user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'];
 
 		echo SelectInput($RET['STAFF_ID'],'values[STAFF_ID]','',$options);
-		echo '</TD></TR>';
+		echo '</td></tr>';
 
-		echo '<TR class="st"><TD><span class="legend-gray">'._('Incident Date').'</span></TD><TD>';
+		echo '<tr class="st"><td><span class="legend-gray">'._('Incident Date').'</span></td><td>';
 		echo DateInput($RET['ENTRY_DATE'],'values[ENTRY_DATE]');
-		echo '</TD></TR>';
+		echo '</td></tr>';
 
 		foreach ( (array)$categories_RET as $category)
 		{
-			echo '<TR class="st"><TD><span class="legend-gray">'.$category['TITLE'].'</span></TD><TD>';
+			echo '<tr class="st"><td><span class="legend-gray">'.$category['TITLE'].'</span></td><td>';
 
 			switch ( $category['DATA_TYPE'])
 			{
 				case 'text':
 					echo TextInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']');
-					//echo '<INPUT type=TEXT name=values[CATEGORY_'.$category['ID'].'] value="'.$RET['CATEGORY_'.$category['ID']].'" maxlength=255>';
+					//echo '<input type=TEXT name=values[CATEGORY_'.$category['ID'].'] value="'.$RET['CATEGORY_'.$category['ID']].'" maxlength=255>';
 				break;
 
 				case 'numeric':
 					echo TextInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','','size=9 maxlength=18');
-					//echo '<INPUT type=TEXT name=values[CATEGORY_'.$category['ID'].'] value="'.$RET['CATEGORY_'.$category['ID']].'" size=4 maxlength=10>';
+					//echo '<input type=TEXT name=values[CATEGORY_'.$category['ID'].'] value="'.$RET['CATEGORY_'.$category['ID']].'" size=4 maxlength=10>';
 				break;
 
 				case 'textarea':
 					echo TextAreaInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','','maxlength=5000 rows=4 cols=30');
-					//echo '<TEXTAREA name=values[CATEGORY_'.$category['ID'].'] rows=4 cols=30>'.$RET['CATEGORY_'.$category['ID']].'</TEXTAREA>';
+					//echo '<textarea name=values[CATEGORY_'.$category['ID'].'] rows=4 cols=30>'.$RET['CATEGORY_'.$category['ID']].'</textarea>';
 				break;
 
 				case 'checkbox':
 					echo CheckboxInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']');
-					//echo '<INPUT type=CHECKBOX name=values[CATEGORY_'.$category['ID'].'] value=Y'.($RET['CATEGORY_'.$category['ID']]=='Y'?' checked':'').'>';
+					//echo '<input type=CHECKBOX name=values[CATEGORY_'.$category['ID'].'] value=Y'.($RET['CATEGORY_'.$category['ID']]=='Y'?' checked':'').'>';
 				break;
 
 				case 'date':
@@ -187,25 +187,25 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 				case 'multiple_checkbox':
 					if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 					{
-						$return = '<DIV id="divvalues[CATEGORY_'.$category['ID'].']"><div onclick=\'javascript:addHTML(htmlCATEGORY_'.$category['ID'];
+						$return = '<div id="divvalues[CATEGORY_'.$category['ID'].']"><div onclick=\'javascript:addHTML(htmlCATEGORY_'.$category['ID'];
 						$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 						$options = explode("\r",$category['SELECT_OPTIONS']);
 
-						$toEscape = '<TABLE class="cellpadding-5"><TR class="st">';
+						$toEscape = '<table class="cellpadding-5"><tr class="st">';
 
 						$i = 0;
 						foreach ( (array)$options as $option)
 						{
 							$i++;
 							if ( $i%3==0)
-								$toEscape .= '</TR><TR class="st">';
-							$toEscape .= '<TD><label><INPUT type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],$option)!==false?' checked':'').' />&nbsp;'.$option.'</label></TD>';
+								$toEscape .= '</tr><tr class="st">';
+							$toEscape .= '<td><label><input type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],$option)!==false?' checked':'').' />&nbsp;'.$option.'</label></td>';
 						}
 
-						$toEscape .= '</TR></TABLE>';
+						$toEscape .= '</tr></table>';
 
 						echo '<script>var htmlCATEGORY_'.$category['ID'].'='.json_encode($toEscape).';</script>'.$return;
-						echo ',"divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?str_replace('||',', ',mb_substr($RET['CATEGORY_'.$category['ID']],2,-2)):'-').'</span>'.'</div></DIV>';
+						echo ',"divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?str_replace('||',', ',mb_substr($RET['CATEGORY_'.$category['ID']],2,-2)):'-').'</span>'.'</div></div>';
 					}
 					else
 						echo (($RET['CATEGORY_'.$category['ID']]!='')?str_replace('||',', ',mb_substr($RET['CATEGORY_'.$category['ID']],2,-2)):'-');
@@ -214,26 +214,26 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 				case 'multiple_radio':
 					if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 					{
-						$return = '<DIV id="divvalues[CATEGORY_'.$category['ID'].']"><div onclick=\'javascript:addHTML(htmlCATEGORY_'.$category['ID'];
+						$return = '<div id="divvalues[CATEGORY_'.$category['ID'].']"><div onclick=\'javascript:addHTML(htmlCATEGORY_'.$category['ID'];
 
 						$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 						$options = explode("\r",$category['SELECT_OPTIONS']);
 
-						$toEscape = '<TABLE class="cellpadding-5"><TR class="st">';
+						$toEscape = '<table class="cellpadding-5"><tr class="st">';
 
 						$i = 0;
 						foreach ( (array)$options as $option)
 						{
 							$i++;
 							if ( $i%3==0)
-								$toEscape .= '</TR><TR class="st">';
-							$toEscape .= '<TD><label><INPUT type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.$option.'</label></TD>';
+								$toEscape .= '</tr><tr class="st">';
+							$toEscape .= '<td><label><input type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.$option.'</label></td>';
 						}
 
-						$toEscape .= '</TR></TABLE>';
+						$toEscape .= '</tr></table>';
 
 						echo '<script>var htmlCATEGORY_'.$category['ID'].'='.json_encode($toEscape).';</script>'.$return;
-						echo ',"divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?$RET['CATEGORY_'.$category['ID']]:'-').'</span>'."</div></DIV>";
+						echo ',"divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?$RET['CATEGORY_'.$category['ID']]:'-').'</span>'."</div></div>";
 					}
 					else
 						echo (($RET['CATEGORY_'.$category['ID']]!='')?$RET['CATEGORY_'.$category['ID']]:'-');
@@ -249,24 +249,24 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 
 					echo SelectInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','',$options,'N/A');
 					/*
-					echo '<SELECT name=values[CATEGORY_'.$category['ID'].']><OPTION value="">N/A';
+					echo '<select name=values[CATEGORY_'.$category['ID'].']><option value="">N/A';
 					foreach ( (array)$options as $option)
 					{
-						echo '<OPTION value="'.str_replace('"','&quot;',$option).'"'.($RET['CATEGORY_'.$category['ID']]==str_replace('"','&quot;',$option)?' SELECTED':'').'>'.$option.'</OPTION>';
+						echo '<option value="'.str_replace('"','&quot;',$option).'"'.($RET['CATEGORY_'.$category['ID']]==str_replace('"','&quot;',$option)?' SELECTED':'').'>'.$option.'</option>';
 					}
 					*/
 				break;
 			}
-			echo '</TD></TR>';
+			echo '</td></tr>';
 		}
-		echo '</TABLE>';
+		echo '</table>';
 
 		echo PopTable('footer');
 
 		if (AllowEdit())
-			echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+			echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
-		echo '</FORM>';
+		echo '</form>';
 	}
 	else
 	{
@@ -290,5 +290,5 @@ function _make($value,$column)
 	elseif ( $value == 'Y')
 		$value = button('check');
 
-	return str_replace('||',',<BR />',trim($value,'|'));
+	return str_replace('||',',<br />',trim($value,'|'));
 }

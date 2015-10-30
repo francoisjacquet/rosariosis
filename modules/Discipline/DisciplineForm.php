@@ -162,13 +162,13 @@ if (empty($_REQUEST['modfunc']))
 	$columns += array('TITLE' => _('Title'),'SORT_ORDER' => _('Sort Order'),'DATA_TYPE' => _('Data Type'),'SELECT_OPTIONS' => _('Pull-Down').'/'._('Select Multiple from Options').'/'._('Select One from Options'));
 	$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeTextInput('','TITLE'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'SELECT_OPTIONS'=>_makeTextAreaInput('','SELECT_OPTIONS'),'DATA_TYPE'=>_makeType('','DATA_TYPE'));
 	
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 
 	DrawHeader('',SubmitButton(_('Save')));
 
 	ListOutput($referrals_RET,$columns,'Referral Form Category','Referral Form Categories',$link);
 	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '</form>';
 }
 
 function _makeType($value,$name)
@@ -233,9 +233,9 @@ function _makeTextAreaInput( $value, $name )
 		$return = TextAreaInput( $value, 'values[' . $id . '][' . $name . ']', '', '', $id !== 'new', $markdown );
 
 		//FJ responsive rt td too large
-		$return = '<DIV id="divTextAreaContent' . $id . '" class="rt2colorBox">' .
+		$return = '<div id="divTextAreaContent' . $id . '" class="rt2colorBox">' .
 			$return .
-		'</DIV>';
+		'</div>';
 
 		return $return;
 	}

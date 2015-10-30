@@ -1,21 +1,21 @@
 <?php
 DrawHeader(ProgramTitle());
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 if ( $_REQUEST['modfunc']!='students')
     DrawHeader('<label>'.CheckBoxOnclick('include_child_mps').' '._('Show Child Marking Period Details').'</label>');
 if ( $_REQUEST['subject_id'])
 {
 	$RET = DBGet(DBQuery("SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$_REQUEST['subject_id']."'"));
 //FJ add translation
-	$header .= '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('Top').'</A> &rsaquo; <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&subject_id='.$_REQUEST['subject_id'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'.$RET[1]['TITLE'].'</A>';
+	$header .= '<a href="Modules.php?modname='.$_REQUEST['modname'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('Top').'</a> &rsaquo; <a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&subject_id='.$_REQUEST['subject_id'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'.$RET[1]['TITLE'].'</a>';
 	if ( $_REQUEST['course_id'])
 	{
-		$header2 = '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'];
+		$header2 = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'];
 		$location = 'courses';
 		$RET = DBGet(DBQuery("SELECT TITLE FROM COURSES WHERE COURSE_ID='".$_REQUEST['course_id']."'"));
-		$header .= ' &rsaquo; <A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=students&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'.$RET[1]['TITLE'].'</A>';
+		$header .= ' &rsaquo; <a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=students&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&include_child_mps='.$_REQUEST['include_child_mps'].'">'.$RET[1]['TITLE'].'</a>';
 
-		$header2 .= '&students='.$location.'&modfunc=students&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('List Students').'</A> | '.$header2.'&unscheduled=true&students='.$location.'&modfunc=students&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('List Unscheduled Students').'</A>';
+		$header2 .= '&students='.$location.'&modfunc=students&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('List Students').'</a> | '.$header2.'&unscheduled=true&students='.$location.'&modfunc=students&include_child_mps='.$_REQUEST['include_child_mps'].'">'._('List Unscheduled Students').'</a>';
 
 		DrawHeader($header);
 		DrawHeader($header2);
@@ -23,11 +23,11 @@ if ( $_REQUEST['subject_id'])
 	else
 		DrawHeader($header);
 }
-echo '</FORM>';
+echo '</form>';
 
 $LO_options = array('save'=>false,'search'=>false,'print'=>false);
 
-echo '<TABLE><TR class="st">';
+echo '<table><tr class="st">';
 
 // SUBJECTS ----
 if ( !$_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['students']!='courses'))
@@ -44,10 +44,10 @@ if ( !$_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['stu
 	}
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&include_child_mps='.$_REQUEST['include_child_mps'];
 	$link['TITLE']['variables'] = array('subject_id' => 'SUBJECT_ID');
-	echo '<TD class="valign-top">';
+	echo '<td class="valign-top">';
 	$LO_options['responsive'] = false;
 	ListOutput($RET,array('TITLE' => _('Subject')),'Subject','Subjects',$link,array(),$LO_options);
-	echo '</TD>';
+	echo '</td>';
 }
 
 // COURSES ----
@@ -84,15 +84,15 @@ if ( $_REQUEST['modfunc']=='courses')
 		foreach ( explode(',',GetAllMP('')) as $mp)
 		{
 			$mp = trim($mp,"'");
-			$columns += array('OFT_'.$mp=>(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'<BR />'.$OFT_string);
+			$columns += array('OFT_'.$mp=>(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'<br />'.$OFT_string);
 		}
 	}
 	else
 		$columns += array('OPEN_SEATS' => _('Open'),'FILLED_SEATS' => _('Filled'),'TOTAL_SEATS' => _('Total'));
-	echo '<TD class="valign-top">';
+	echo '<td class="valign-top">';
 	$LO_options['responsive'] = true;
 	ListOutput($RET,$columns,'Course','Courses',$link,array(),$LO_options);
-	echo '</TD>';
+	echo '</td>';
 }
 
 // COURSE PERIODS ----
@@ -141,17 +141,17 @@ if ( $_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_pe
 		foreach ( explode(',',GetAllMP()) as $mp)
 		{
 			$mp = trim($mp,"'");
-			$columns += array('OFT_'.$mp=>(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'<BR />O|F|T');
+			$columns += array('OFT_'.$mp=>(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'<br />O|F|T');
 		}
 	}
 	else
 		$columns += array('OPEN_SEATS' => _('Open'),'FILLED_SEATS' => _('Filled'),'TOTAL_SEATS' => _('Total'));
-	echo '<TD class="valign-top">';
+	echo '<td class="valign-top">';
 	ListOutput($RET,$columns,'Course Period','Course Periods',$link,array(),$LO_options);
-	echo '</TD>';
+	echo '</td>';
 }
 
-echo '</TR></TABLE>';
+echo '</tr></table>';
 
 // LIST STUDENTS ----
 if ( $_REQUEST['modfunc']=='students')

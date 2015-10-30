@@ -146,9 +146,9 @@ if (empty($_REQUEST['modfunc']))
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
-	echo '<BR />';
+	echo '<br />';
 
 	$LO_options = array('save'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));
         
@@ -158,7 +158,7 @@ if (empty($_REQUEST['modfunc']))
         ListOutput($LO_ret,$LO_columns,'Comment Code Scale','Comment Code Scales',$link,array(),$LO_options);
         
 	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</TD></TR></TABLE></FORM>';
+	echo '</td></tr></table></form>';
 }
 
 function makeCommentsInput($value,$name)

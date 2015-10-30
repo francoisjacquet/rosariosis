@@ -129,7 +129,7 @@ if ( isset( $_POST['schedule'] )
 
 if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_deletion_pending))
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" METHOD="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" method="POST">';
 //FJ add label on checkbox
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)),SubmitButton(_('Save')));
 	DrawHeader('<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Courses').(AllowEdit()?'</label> &nbsp;<label>'.CheckBoxOnclick('include_seats').' '._('Show Available Seats').'</label>':''));
@@ -159,7 +159,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 		}
 	</script>
 	<?php
-	DrawHeader((AllowUse('Scheduling/PrintSchedules.php') ? '<A href="'.$printSchedulesLinkhref.'" target="_blank" id="printSchedulesLink">' : '')._('Print Schedule').(AllowUse('Scheduling/PrintSchedules.php') ? '</A>' : '') . (AllowUse('Scheduling/PrintSchedules.php') ? ' &nbsp;<label><input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" onchange="horizontalFormatSwitch();" /> '._('Horizontal Format').'</label>'.' <label><input name="schedule_table" type="radio" value="Yes" checked onchange="timeTableSwitch();" />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" id="schedule_table" type="radio" value="No" onchange="timeTableSwitch();" />&nbsp;'._('List').'</label>' : ''));
+	DrawHeader((AllowUse('Scheduling/PrintSchedules.php') ? '<a href="'.$printSchedulesLinkhref.'" target="_blank" id="printSchedulesLink">' : '')._('Print Schedule').(AllowUse('Scheduling/PrintSchedules.php') ? '</a>' : '') . (AllowUse('Scheduling/PrintSchedules.php') ? ' &nbsp;<label><input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" onchange="horizontalFormatSwitch();" /> '._('Horizontal Format').'</label>'.' <label><input name="schedule_table" type="radio" value="Yes" checked onchange="timeTableSwitch();" />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" id="schedule_table" type="radio" value="No" onchange="timeTableSwitch();" />&nbsp;'._('List').'</label>' : ''));
 	
 	// get the fy marking period id, there should be exactly one fy marking period
 	$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
@@ -209,7 +209,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 
 	$link['add']['title'] = _('Add a Course');
 
-	$columns = array('TITLE' => _('Course'),'PERIOD_PULLDOWN' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'ROOM' => _('Room'),'COURSE_MARKING_PERIOD_ID' => _('Term'),'SCHEDULER_LOCK' => '<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/locked.png"  class="button bigger">','START_DATE' => _('Enrolled'),'END_DATE' => _('Dropped'));
+	$columns = array('TITLE' => _('Course'),'PERIOD_PULLDOWN' => _('Period').' '._('Days').' - '._('Short Name').' - '._('Teacher'),'ROOM' => _('Room'),'COURSE_MARKING_PERIOD_ID' => _('Term'),'SCHEDULER_LOCK' => '<img src="assets/themes/'. Preferences('THEME') .'/btn/locked.png"  class="button bigger">','START_DATE' => _('Enrolled'),'END_DATE' => _('Dropped'));
 	/*//FJ multiple school periods for a course period
 	//$days_RET = DBGet(DBQuery("SELECT DISTINCT DAYS FROM COURSE_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 	$days_RET = DBGet(DBQuery("SELECT DISTINCT cpsp.DAYS FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."'"));
@@ -235,8 +235,8 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 
 	ListOutput( $schedule_RET, $columns, 'Course', 'Courses', $link );
 
-	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 
 	if (AllowEdit())
 	{
@@ -366,7 +366,7 @@ function _makeLock($value,$column)
 {	global $THIS_RET;
 
 //FJ icones
-	return '<IMG SRC="assets/themes/'. Preferences('THEME') .'/btn/'.($value=='Y'?'locked':'unlocked').'.png" class="button bigger"'.(AllowEdit()?' onclick="if (this.src.indexOf(\'unlocked\')==-1) {this.src= this.src.replace(\'locked\', \'unlocked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'\';} else {this.src= this.src.replace(\'unlocked\', \'locked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'Y\';}"':'').' /><INPUT type="hidden" name="schedule['.$THIS_RET['COURSE_PERIOD_ID'].']['.$THIS_RET['START_DATE'].'][SCHEDULER_LOCK]" id="lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'" value="'.$value.'" />';
+	return '<img src="assets/themes/'. Preferences('THEME') .'/btn/'.($value=='Y'?'locked':'unlocked').'.png" class="button bigger"'.(AllowEdit()?' onclick="if (this.src.indexOf(\'unlocked\')==-1) {this.src= this.src.replace(\'locked\', \'unlocked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'\';} else {this.src= this.src.replace(\'unlocked\', \'locked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'Y\';}"':'').' /><input type="hidden" name="schedule['.$THIS_RET['COURSE_PERIOD_ID'].']['.$THIS_RET['START_DATE'].'][SCHEDULER_LOCK]" id="lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'" value="'.$value.'" />';
 }
 
 function _makePeriodSelect($course_period_id,$column)
@@ -498,19 +498,19 @@ function _Prompt( $title='Confirm', $question = '', $message = '' )
 	if ( !$_REQUEST['delete_ok']
 		&& !$_REQUEST['delete_cancel'] )
 	{
-		echo '<BR />';
+		echo '<br />';
 
 		PopTable( 'header', ( $title == 'Confirm' ? _( 'Confirm' ) : $title ) );
 
 		echo '<h4 class="center">' . $question . '</h4>
-			<FORM action="' . $PHP_tmp_SELF . '&delete_ok=1" METHOD="POST">' .
+			<form action="' . $PHP_tmp_SELF . '&delete_ok=1" method="POST">' .
 			$message .
-			'<BR /><BR />
+			'<br /><br />
 			<div class="center">
-				<INPUT type="submit" value="' . _( 'OK' ) . '">
-				<INPUT type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="javascript:this.form.action=\'' . str_replace( '&course_period_id=' . $_REQUEST['course_period_id'], '', $PHP_tmp_SELF ) . '\'; ajaxPostForm(this.form,true);">
+				<input type="submit" value="' . _( 'OK' ) . '">
+				<input type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="javascript:this.form.action=\'' . str_replace( '&course_period_id=' . $_REQUEST['course_period_id'], '', $PHP_tmp_SELF ) . '\'; ajaxPostForm(this.form,true);">
 			</div>
-		</FORM>';
+		</form>';
 
 		PopTable( 'footer' );
 

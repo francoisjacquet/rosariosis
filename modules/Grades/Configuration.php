@@ -26,47 +26,47 @@ AND cp.GRADE_SCALE_ID IS NOT NULL
 AND DOES_BREAKOFF='Y' 
 ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER DESC"),array(),array('COURSE_PERIOD_ID'));
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader(_('Gradebook').' - '.ProgramTitle());
-DrawHeader('','<INPUT type="submit" value="'._('Save').'" />');
-echo '<BR />';
+DrawHeader('','<input type="submit" value="'._('Save').'" />');
+echo '<br />';
 PopTable('header',_('Configuration'));
 
 echo '<fieldset>';
 //FJ add translation
 //FJ css WPadmin
 echo '<legend>'._('Assignments').'</legend>';
-echo '<TABLE>';
+echo '<table>';
 if (count($grades))
 {
 	//if ( !$programconfig['ROUNDING'])
 	//	$programconfig['ROUNDING'] = 'NORMAL';
 //FJ add <label> on radio
-	echo '<TR><TD><TABLE><TR><TD colspan="4"><B>'._('Score Rounding').'</B></TD></TR><TR><TD><label><INPUT type="radio" name="values[ROUNDING]" value=UP'.(($programconfig['ROUNDING']=='UP')?' checked':'').'>&nbsp;'._('Up').'</label></TD><TD><label><INPUT type="radio" name="values[ROUNDING]" value=DOWN'.(($programconfig['ROUNDING']=='DOWN')?' checked':'').'>&nbsp;'._('Down').'</label></TD><TD><label><INPUT type="radio" name="values[ROUNDING]" value="NORMAL"'.(($programconfig['ROUNDING']=='NORMAL')?' checked':'').'>&nbsp;'._('Normal').'</label></TD><TD><label><INPUT type="radio" name="values[ROUNDING]" value="'.(($programconfig['ROUNDING']=='')?' checked':'').'">&nbsp;'._('None').'</label></TD></TR></TABLE></TD></TR>';
+	echo '<tr><td><table><tr><td colspan="4"><b>'._('Score Rounding').'</b></td></tr><tr><td><label><input type="radio" name="values[ROUNDING]" value=UP'.(($programconfig['ROUNDING']=='UP')?' checked':'').'>&nbsp;'._('Up').'</label></td><td><label><input type="radio" name="values[ROUNDING]" value=DOWN'.(($programconfig['ROUNDING']=='DOWN')?' checked':'').'>&nbsp;'._('Down').'</label></td><td><label><input type="radio" name="values[ROUNDING]" value="NORMAL"'.(($programconfig['ROUNDING']=='NORMAL')?' checked':'').'>&nbsp;'._('Normal').'</label></td><td><label><input type="radio" name="values[ROUNDING]" value="'.(($programconfig['ROUNDING']=='')?' checked':'').'">&nbsp;'._('None').'</label></td></tr></table></td></tr>';
 }
 if ( !$programconfig['ASSIGNMENT_SORTING'])
 	$programconfig['ASSIGNMENT_SORTING'] = 'ASSIGNMENT_ID';
-echo '<TR><TD><TABLE><TR><TD colspan="3"><B>'._('Assignment Sorting').'</B></TD></TR><TR class="st"><TD><label><INPUT type="radio" name="values[ASSIGNMENT_SORTING]" value="ASSIGNMENT_ID"'.(($programconfig['ASSIGNMENT_SORTING']=='ASSIGNMENT_ID')?' checked':'').'>&nbsp;'._('Newest First').'</label></TD><TD><label><INPUT type="radio" name="values[ASSIGNMENT_SORTING]" value="DUE_DATE"'.(($programconfig['ASSIGNMENT_SORTING']=='DUE_DATE')?' checked':'').'>&nbsp;'._('Due Date').'</label></TD><TD><label><INPUT type="radio" name="values[ASSIGNMENT_SORTING]" value=ASSIGNED_DATE'.(($programconfig['ASSIGNMENT_SORTING']=='ASSIGNED_DATE')?' checked':'').'>&nbsp;'._('Assigned Date').'</label></TD></TR></TABLE></TD></TR>';
+echo '<tr><td><table><tr><td colspan="3"><b>'._('Assignment Sorting').'</b></td></tr><tr class="st"><td><label><input type="radio" name="values[ASSIGNMENT_SORTING]" value="ASSIGNMENT_ID"'.(($programconfig['ASSIGNMENT_SORTING']=='ASSIGNMENT_ID')?' checked':'').'>&nbsp;'._('Newest First').'</label></td><td><label><input type="radio" name="values[ASSIGNMENT_SORTING]" value="DUE_DATE"'.(($programconfig['ASSIGNMENT_SORTING']=='DUE_DATE')?' checked':'').'>&nbsp;'._('Due Date').'</label></td><td><label><input type="radio" name="values[ASSIGNMENT_SORTING]" value=ASSIGNED_DATE'.(($programconfig['ASSIGNMENT_SORTING']=='ASSIGNED_DATE')?' checked':'').'>&nbsp;'._('Assigned Date').'</label></td></tr></table></td></tr>';
 
 //FJ add <label> on checkbox
-echo '<TR><TD><label><INPUT type="checkbox" name="values[WEIGHT]" value="Y"'.(($programconfig['WEIGHT']=='Y')?' checked':'').'> '._('Weight Grades').'</label></TD></TR>';
-echo '<TR><TD><label><INPUT type="checkbox" name="values[DEFAULT_ASSIGNED]" value="Y"'.(($programconfig['DEFAULT_ASSIGNED']=='Y')?' checked':'').'> '._('Assigned Date defaults to today').'</label></TD></TR>';
-echo '<TR><TD><label><INPUT type="checkbox" name="values[DEFAULT_DUE]" value="Y"'.(($programconfig['DEFAULT_DUE']=='Y')?' checked':'').'> '._('Due Date defaults to today').'</label></TD></TR>';
-echo '<TR><TD><label><INPUT type="checkbox" name="values[LETTER_GRADE_ALL]" value="Y"'.(($programconfig['LETTER_GRADE_ALL']=='Y')?' checked':'').'> '._('Hide letter grades for all gradebook assignments').'</label></TD></TR>';
-echo '<TR><TD><INPUT type="text" name="values[LETTER_GRADE_MIN]" value="'.$programconfig['LETTER_GRADE_MIN'].'" size="3" maxlength="3" /> '._('Minimum assignment points for letter grade').'</TD></TR>';
-echo '<TR><TD><INPUT type="text" name="values[ANOMALOUS_MAX]" value="'.($programconfig['ANOMALOUS_MAX']!=''?$programconfig['ANOMALOUS_MAX']:'100').'" size="3" maxlength="3" /> % '._('Allowed maximum percent in Anomalous grades').'</TD></TR>';
-echo '<TR><TD><INPUT type="text" name="values[LATENCY]" value="'.round($programconfig['LATENCY']).'" size="3" maxlength="3" /> '._('Days until ungraded assignment grade appears in Parent/Student gradebook views').'</TD></TR>';
-echo '</TABLE>';
-echo '</fieldset><BR />';
+echo '<tr><td><label><input type="checkbox" name="values[WEIGHT]" value="Y"'.(($programconfig['WEIGHT']=='Y')?' checked':'').'> '._('Weight Grades').'</label></td></tr>';
+echo '<tr><td><label><input type="checkbox" name="values[DEFAULT_ASSIGNED]" value="Y"'.(($programconfig['DEFAULT_ASSIGNED']=='Y')?' checked':'').'> '._('Assigned Date defaults to today').'</label></td></tr>';
+echo '<tr><td><label><input type="checkbox" name="values[DEFAULT_DUE]" value="Y"'.(($programconfig['DEFAULT_DUE']=='Y')?' checked':'').'> '._('Due Date defaults to today').'</label></td></tr>';
+echo '<tr><td><label><input type="checkbox" name="values[LETTER_GRADE_ALL]" value="Y"'.(($programconfig['LETTER_GRADE_ALL']=='Y')?' checked':'').'> '._('Hide letter grades for all gradebook assignments').'</label></td></tr>';
+echo '<tr><td><input type="text" name="values[LETTER_GRADE_MIN]" value="'.$programconfig['LETTER_GRADE_MIN'].'" size="3" maxlength="3" /> '._('Minimum assignment points for letter grade').'</td></tr>';
+echo '<tr><td><input type="text" name="values[ANOMALOUS_MAX]" value="'.($programconfig['ANOMALOUS_MAX']!=''?$programconfig['ANOMALOUS_MAX']:'100').'" size="3" maxlength="3" /> % '._('Allowed maximum percent in Anomalous grades').'</td></tr>';
+echo '<tr><td><input type="text" name="values[LATENCY]" value="'.round($programconfig['LATENCY']).'" size="3" maxlength="3" /> '._('Days until ungraded assignment grade appears in Parent/Student gradebook views').'</td></tr>';
+echo '</table>';
+echo '</fieldset><br />';
 
 if ( $RosarioModules['Eligibility'])
 {
 	echo '<fieldset>';
 	echo '<legend>'._('Eligibility').'</legend>';
-	echo '<TABLE>';
-	echo '<TR><TD><label><INPUT type="checkbox" name="values[ELIGIBILITY_CUMULITIVE]" value="Y"'.(($programconfig['ELIGIBILITY_CUMULITIVE']=='Y')?' checked':'').'>&nbsp;'._('Calculate Eligibility using Cumulative Semester Grades').'</label></TD></TR>';
-	echo '</TABLE>';
-	echo '</fieldset><BR />';
+	echo '<table>';
+	echo '<tr><td><label><input type="checkbox" name="values[ELIGIBILITY_CUMULITIVE]" value="Y"'.(($programconfig['ELIGIBILITY_CUMULITIVE']=='Y')?' checked':'').'>&nbsp;'._('Calculate Eligibility using Cumulative Semester Grades').'</label></td></tr>';
+	echo '</table>';
+	echo '</fieldset><br />';
 }
 
 $comment_codes_RET = DBGet(DBQuery("SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE 
@@ -79,20 +79,20 @@ if ( $comment_codes_RET)
 {
 	echo '<fieldset>';
 	echo '<legend>'._('Final Grades').'</legend>';
-	echo '<TABLE class="col1-align-right">';
+	echo '<table class="col1-align-right">';
 
 	foreach ( (array)$comment_codes_RET as $id => $comments)
 	{
-		echo '<TR><TD><SELECT name="values[COMMENT_'.$id.']><OPTION value="">'._('N/A').'';
+		echo '<tr><td><select name="values[COMMENT_'.$id.']><option value="">'._('N/A').'';
 
 		foreach ( (array)$comments as $key => $val)
-			echo '<OPTION value="'.$val['CODE_TITLE'].'"'.($val['CODE_TITLE']==$programconfig['COMMENT_'.$id]?' selected':'').'>'.$val['CODE_TITLE'];
+			echo '<option value="'.$val['CODE_TITLE'].'"'.($val['CODE_TITLE']==$programconfig['COMMENT_'.$id]?' selected':'').'>'.$val['CODE_TITLE'];
 
-		echo '</SELECT></TD><TD>'.sprintf(_('Default %s comment code'), $comments[1]['TITLE']).'</TD></TR>';
+		echo '</select></td><td>'.sprintf(_('Default %s comment code'), $comments[1]['TITLE']).'</td></tr>';
 	}
 
-	echo '</TABLE>';
-	echo '</fieldset><BR />';
+	echo '</table>';
+	echo '</fieldset><br />';
 }
 /*
 foreach ( (array)$grades as $course_period_id => $cp_grades)
@@ -108,27 +108,27 @@ if (count($grades))
 {
 	echo '<fieldset>';
 	echo '<legend>'._('Score Breakoff Points').'</legend>';
-	echo '<TABLE><TR><TD>';
+	echo '<table><tr><td>';
 	foreach ( (array)$grades as $course_period_id => $cp_grades)
 	{
-		$table = '<TABLE>';
-		$table .= '<TR><TD colspan="10">'.$cp_grades[1]['COURSE_TITLE'].' - '.mb_substr($cp_grades[1]['CP_TITLE'],0,mb_strrpos(str_replace(' - ',' ^ ',$cp_grades[1]['CP_TITLE']),'^')).'</TD></TR><TR class="st">';
+		$table = '<table>';
+		$table .= '<tr><td colspan="10">'.$cp_grades[1]['COURSE_TITLE'].' - '.mb_substr($cp_grades[1]['CP_TITLE'],0,mb_strrpos(str_replace(' - ',' ^ ',$cp_grades[1]['CP_TITLE']),'^')).'</td></tr><tr class="st">';
 		$i = 0;
 		foreach ( (array)$cp_grades as $grade)
 		{
 			$i++;
-			$table .= '<TD>&nbsp;<B>'.$grade['TITLE'].'</B><BR />';
-			$table .= '<INPUT type="text" name="values['.$course_period_id.'-'.$grade['ID'].']" value="'.$programconfig[$course_period_id.'-'.$grade['ID']].'" size="2" maxlength="5" /></TD>';
+			$table .= '<td>&nbsp;<b>'.$grade['TITLE'].'</b><br />';
+			$table .= '<input type="text" name="values['.$course_period_id.'-'.$grade['ID'].']" value="'.$programconfig[$course_period_id.'-'.$grade['ID']].'" size="2" maxlength="5" /></td>';
 			if ( $i % 10 == 0)
-				$table .= '</TR><TR class="st">';
+				$table .= '</tr><tr class="st">';
 		}
-		$table .= '</TR>';
-		$table .= '</TABLE>';
+		$table .= '</tr>';
+		$table .= '</table>';
 		echo $table;
-		echo '</TD></TR><TR><TD>';
+		echo '</td></tr><tr><td>';
 	}
-	echo '</TD></TR></TABLE>';
-	echo '</fieldset><BR />';
+	echo '</td></tr></table>';
+	echo '</fieldset><br />';
 }
 
 $year = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,DOES_GRADES FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
@@ -137,61 +137,61 @@ $quarters = DBGet(DBQuery("SELECT TITLE,MARKING_PERIOD_ID,PARENT_ID,DOES_GRADES 
 
 echo '<fieldset>';
 echo '<legend>'._('Final Grading Percentages').'</legend>';
-echo '<TABLE>';
+echo '<table>';
 foreach ( (array)$semesters as $sem)
 	if ( $sem['DOES_GRADES']=='Y')
 	{
-		$table = '<TABLE>';
-		$table .= '<TR class="st"><TD><span class="legend-gray">'.$sem['TITLE'].'</span>&nbsp;</TD>';
+		$table = '<table>';
+		$table .= '<tr class="st"><td><span class="legend-gray">'.$sem['TITLE'].'</span>&nbsp;</td>';
 		$total = 0;
 
 		foreach ( (array)$quarters[$sem['MARKING_PERIOD_ID']] as $qtr)
 		{
-			$table .= '<TD><span style="white-space:nowrap;">'.$qtr['TITLE'].'&nbsp;</span><BR />';
-			$table .= '<INPUT type="text" name="values[SEM-'.$qtr['MARKING_PERIOD_ID'].']" value="'.$programconfig['SEM-'.$qtr['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
+			$table .= '<td><span style="white-space:nowrap;">'.$qtr['TITLE'].'&nbsp;</span><br />';
+			$table .= '<input type="text" name="values[SEM-'.$qtr['MARKING_PERIOD_ID'].']" value="'.$programconfig['SEM-'.$qtr['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></td>';
 			$total += $programconfig['SEM-'.$qtr['MARKING_PERIOD_ID']];
 		}
 
 		if ( $total!=100)
-			$table .= '<TD><span class="legend-red">'._('Total').' &#8800; 100%!</span></TD>';
+			$table .= '<td><span class="legend-red">'._('Total').' &#8800; 100%!</span></td>';
 
-		$table .= '</TR></TABLE>';
-		echo '<TR><TD>'.$table.'</TD></TR>';
+		$table .= '</tr></table>';
+		echo '<tr><td>'.$table.'</td></tr>';
 	}
 
 if ( $year[1]['DOES_GRADES']=='Y')
 {
-	$table = '<TABLE>';
-	$table .= '<TR class="st"><TD><span class="legend-gray;">'.$year[1]['TITLE'].'</span>&nbsp;</TD>';
+	$table = '<table>';
+	$table .= '<tr class="st"><td><span class="legend-gray;">'.$year[1]['TITLE'].'</span>&nbsp;</td>';
 	$total = 0;
 
 	foreach ( (array)$semesters as $sem)
 	{
 		foreach ( (array)$quarters[$sem['MARKING_PERIOD_ID']] as $qtr)
 		{
-			$table .= '<TD><span style="white-space:nowrap;">'.$qtr['TITLE'].'&nbsp;</span><BR />';
-			$table .= '<INPUT type="text" name="values[FY-'.$qtr['MARKING_PERIOD_ID'].']" value="'.$programconfig['FY-'.$qtr['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
+			$table .= '<td><span style="white-space:nowrap;">'.$qtr['TITLE'].'&nbsp;</span><br />';
+			$table .= '<input type="text" name="values[FY-'.$qtr['MARKING_PERIOD_ID'].']" value="'.$programconfig['FY-'.$qtr['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></td>';
 			$total += $programconfig['FY-'.$qtr['MARKING_PERIOD_ID']];
 		}
 
 		if ( $sem['DOES_GRADES']=='Y')
 		{
-			$table .= '<TD><span style="white-space:nowrap;">'.$sem['TITLE'].'&nbsp;</span><BR />';
-			$table .= '<INPUT type="text" name="values[FY-'.$sem['MARKING_PERIOD_ID'].']" value="'.$programconfig['FY-'.$sem['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></TD>';
+			$table .= '<td><span style="white-space:nowrap;">'.$sem['TITLE'].'&nbsp;</span><br />';
+			$table .= '<input type="text" name="values[FY-'.$sem['MARKING_PERIOD_ID'].']" value="'.$programconfig['FY-'.$sem['MARKING_PERIOD_ID']].'" size="3" maxlength="6" /></td>';
 			$total += $programconfig['FY-'.$sem['MARKING_PERIOD_ID']];
 		}
 	}
 
 	if ( $total!=100)
-		$table .= '<TD><span class="legend-red">'._('Total').' &#8800; 100%!</span></TD>';
+		$table .= '<td><span class="legend-red">'._('Total').' &#8800; 100%!</span></td>';
 
-	$table .= '</TR></TABLE>';
-	echo '<TR><TD>'.$table.'</TD></TR>';
+	$table .= '</tr></table>';
+	echo '<tr><td>'.$table.'</td></tr>';
 }
-echo '</TABLE>';
+echo '</table>';
 echo '</fieldset>';
 
 PopTable('footer');
 
-echo '<BR /><div class="center"><INPUT type="submit" value="'._('Save').'" /></div>';
-echo '</FORM>';
+echo '<br /><div class="center"><input type="submit" value="'._('Save').'" /></div>';
+echo '</form>';

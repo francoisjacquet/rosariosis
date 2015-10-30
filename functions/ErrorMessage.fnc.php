@@ -59,13 +59,13 @@ function ErrorMessage( $errors, $code = 'error' )
 			
 			foreach ( (array)$errors as $error )
 			{
-				$return .= '<LI>' . $error . '</LI>';
+				$return .= '<li>' . $error . '</li>';
 			}
 			
 			$return .= '</ul>';
 		}
 
-		$return .= '</div><BR />';
+		$return .= '</div><br />';
 
 		// Fatal error, display error and exit
 		if ( $code === 'fatal' )

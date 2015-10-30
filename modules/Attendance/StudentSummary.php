@@ -54,23 +54,23 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 			".(User('PROFILE')=='teacher'?" AND cp.COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')":'').") 
 		ORDER BY sp.SORT_ORDER"));
 
-		$period_select = '<SELECT name="period_id" onchange="ajaxPostForm(this.form,true);"><OPTION value="">'._('Daily').'</OPTION>';
+		$period_select = '<select name="period_id" onchange="ajaxPostForm(this.form,true);"><option value="">'._('Daily').'</option>';
 		if (count($periods_RET))
 		{
 			//FJ All periods
 			if (count($periods_RET) > 1)
-				$period_select .= '<OPTION value="all"'.(($_REQUEST['period_id']=='all')?' SELECTED':'').'>'._('All Periods').'</OPTION>';
+				$period_select .= '<option value="all"'.(($_REQUEST['period_id']=='all')?' SELECTED':'').'>'._('All Periods').'</option>';
 
 			foreach ( (array)$periods_RET as $period)
-				$period_select .= '<OPTION value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period['TITLE'].'</OPTION>';
+				$period_select .= '<option value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period['TITLE'].'</option>';
 		}
-		$period_select .= '</SELECT>';
+		$period_select .= '</select>';
 	}
 
 	$PHP_tmp_SELF = PreparePHP_SELF();
-	echo '<FORM action="'.$PHP_tmp_SELF.'" method="POST">';
-	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$period_select.' : <INPUT type="submit" value="'._('Go').'" />');
-	echo '</FORM>';
+	echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
+	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$period_select.' : <input type="submit" value="'._('Go').'" />');
+	echo '</form>';
 }
 
 if ( $_REQUEST['period_id'])

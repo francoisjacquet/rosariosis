@@ -35,7 +35,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			unset($_ROSARIO['DrawHeader']);
 
 			if ( $_REQUEST['mailing_labels']=='Y')
-				echo '<BR /><BR /><BR />';
+				echo '<br /><br /><br />';
 			//School logo
 			$logo_pic =  'assets/school_logo_'.UserSchool().'.jpg';
 			if (file_exists($logo_pic))
@@ -47,7 +47,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			DrawHeader(ProperDate(DBDate()));
 
 			if ( $_REQUEST['mailing_labels']=='Y')
-				echo '<BR /><BR /><TABLE class="width-100p"><TR><TD style="width:50px;"> &nbsp; </TD><TD>'.$student['MAILING_LABEL'].'</TD></TR></TABLE><BR />';
+				echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$student['MAILING_LABEL'].'</td></tr></table><br />';
 
 			if ( $_REQUEST['category']['1'])
 			{
@@ -59,7 +59,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			{
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['3'][1]['TITLE']));
-				echo '<BR />';
+				echo '<br />';
 				$addresses_RET = DBGet(DBQuery("SELECT a.ADDRESS_ID,             sjp.STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,A.MAIL_ZIPCODE,  sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER".$address_custom." 
 				FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp 
 				WHERE a.ADDRESS_ID=sja.ADDRESS_ID 
@@ -80,34 +80,34 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					$address_current = $address['ADDRESS'];
 					if ( $address_current != $address_previous)
 					{
-						echo $address['ADDRESS'].'<BR />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'<BR />';
+						echo $address['ADDRESS'].'<br />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'<br />';
 						foreach ( (array)$address_categories_RET as $categories)
 						{
-							echo '<BR /><TABLE>';
+							echo '<br /><table>';
 							if ( !$categories[1]['RESIDENCE']&&!$categories[1]['MAILING']&&!$categories[1]['BUS'] || $categories[1]['RESIDENCE']=='Y'&&$address['RESIDENCE']=='Y' || $categories[1]['MAILING']=='Y'&&$address['MAILING']=='Y' || $categories[1]['BUS']=='Y'&&($address['BUS_PICKUP']=='Y'||$address['BUS_DROPOFF']=='Y'))
 								printCustom($categories,$address);
-							echo '</TABLE>';
+							echo '</table>';
 						}
 						$contacts_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION$people_custom FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp WHERE p.PERSON_ID=sjp.PERSON_ID AND sjp.STUDENT_ID='".UserStudentID()."' AND sjp.ADDRESS_ID='".$address['ADDRESS_ID']."'"));
 						foreach ( (array)$contacts_RET as $contact)
 						{
-							echo '<BR /><B>'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].($contact['STUDENT_RELATION']?': '.$contact['STUDENT_RELATION']:'').' &nbsp;</B><BR />';
+							echo '<br /><b>'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].($contact['STUDENT_RELATION']?': '.$contact['STUDENT_RELATION']:'').' &nbsp;</b><br />';
 							$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$contact['PERSON_ID']."'"));
-							echo '<TABLE>';
+							echo '<table>';
 							foreach ( (array)$info_RET as $info)
 							{
-								echo '<TR><TD>&nbsp;</TD>';
-								echo '<TD>'.$info['TITLE'].'</TD>';
-								echo '<TD>'.$info['VALUE'].'</TD>';
-								echo '</TR>';
+								echo '<tr><td>&nbsp;</td>';
+								echo '<td>'.$info['TITLE'].'</td>';
+								echo '<td>'.$info['VALUE'].'</td>';
+								echo '</tr>';
 							}
 
 							foreach ( (array)$people_categories_RET as $categories)
 								if ( !$categories[1]['CUSTODY']&&!$categories[1]['EMERGENCY'] || $categories[1]['CUSTODY']=='Y'&&$contact['CUSTODY']=='Y' || $categories[1]['EMERGENCY']=='Y'&&$contact['EMERGENCY']=='Y')
 									printCustom($categories,$contact);
-							echo '</TABLE>';
+							echo '</table>';
 						}
-						echo '<BR />&nbsp;<BR />';
+						echo '<br />&nbsp;<br />';
 					}
 					$address_previous = $address_current;
 				}
@@ -118,7 +118,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			{
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['2'][1]['TITLE']));
-				echo '<BR />';
+				echo '<br />';
 				require_once 'modules/Students/includes/Medical.inc.php';
 				echo '<div style="page-break-after: always;"></div>';
 			}
@@ -126,7 +126,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			{
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['4'][1]['TITLE']));
-				echo '<BR />';
+				echo '<br />';
 				require_once 'modules/Students/includes/Comments.inc.php';
 				echo '<div style="page-break-after: always;"></div>';
 			}
@@ -137,7 +137,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					$_REQUEST['category_id'] = $id;
 					$_ROSARIO['DrawHeader'] = '';
 					DrawHeader(ParseMLField($category[1]['TITLE']));
-					echo '<BR />';
+					echo '<br />';
 					$separator = '';
 					if ( !$category[1]['INCLUDE'])
 						require_once 'modules/Students/includes/Other_Info.inc.php';
@@ -146,7 +146,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					else
 					{
 						require_once 'modules/'.$category[1]['INCLUDE'].'.inc.php';
-						$separator = '<HR>';
+						$separator = '<hr />';
 						require_once 'modules/Students/includes/Other_Info.inc.php';
 					}
 					echo '<div style="page-break-after: always;"></div>';
@@ -171,33 +171,33 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Print Info for Selected Students'));
 
-		$extra['extra_header_left'] = '<TABLE>';
+		$extra['extra_header_left'] = '<table>';
 		Widgets('mailing_labels');
 		$extra['extra_header_left'] .= $extra['search'];
 		$extra['search'] = '';
-		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] .= '</table>';
 
 		if (User('PROFILE_ID'))
 			$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
 		else
 			$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
 		$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
-		$extra['extra_header_right'] = '<TABLE>';
+		$extra['extra_header_right'] = '<table>';
 		foreach ( (array)$categories_RET as $category)
 			if ( $can_use_RET['Students/Student.php&category_id='.$category['ID']])
 			{
-				$extra['extra_header_right'] .= '<TR><TD><label>'.ParseMLField($category['TITLE']).'&nbsp;<INPUT type="checkbox" name="category['.$category['ID'].']" value="Y" checked /></label></TD></TR>';
+				$extra['extra_header_right'] .= '<tr><td><label>'.ParseMLField($category['TITLE']).'&nbsp;<input type="checkbox" name="category['.$category['ID'].']" value="Y" checked /></label></td></tr>';
 			}
-		$extra['extra_header_right'] .= '</TABLE>';
+		$extra['extra_header_right'] .= '</table>';
 	}
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
 
@@ -213,8 +213,8 @@ if (empty($_REQUEST['modfunc']))
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center">' . SubmitButton(_('Print Info for Selected Students')) . '</div>';
-		echo '</FORM>';
+		echo '<br /><div class="center">' . SubmitButton(_('Print Info for Selected Students')) . '</div>';
+		echo '</form>';
 	}
 }
 
@@ -228,7 +228,7 @@ function _grade_id($value)
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }
 
 function explodeCustom(&$categories_RET, &$custom, $prefix)
@@ -260,17 +260,17 @@ function explodeCustom(&$categories_RET, &$custom, $prefix)
 
 function printCustom(&$categories, &$values)
 {
-	echo '<TR><TD colspan="3"><b>'.ParseMLField($categories[1]['CATEGORY_TITLE']).'<b></TD></TR>';
+	echo '<tr><td colspan="3"><b>'.ParseMLField($categories[1]['CATEGORY_TITLE']).'<b></td></tr>';
 	foreach ( (array)$categories as $field)
 	{
-		echo '<TR><TD>&nbsp;</TD>';
-		echo '<TD>'.($field['REQUIRED']&&$values['CUSTOM_'.$field['ID']]==''?'<span style="color:red">':'').ParseMLField($field['TITLE']).($field['REQUIRED']&&$values['CUSTOM_'.$field['ID']]==''?'</span>':'').'</TD>';
+		echo '<tr><td>&nbsp;</td>';
+		echo '<td>'.($field['REQUIRED']&&$values['CUSTOM_'.$field['ID']]==''?'<span style="color:red">':'').ParseMLField($field['TITLE']).($field['REQUIRED']&&$values['CUSTOM_'.$field['ID']]==''?'</span>':'').'</td>';
 		if ( $field['TYPE']=='select')
-			echo '<TD>'.($field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]!=''?'':'<span style="color:red">').$values['CUSTOM_'.$field['ID']].($field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]!=''?'':'</span>').'</TD>';
+			echo '<td>'.($field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]!=''?'':'<span style="color:red">').$values['CUSTOM_'.$field['ID']].($field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]!=''?'':'</span>').'</td>';
 		elseif ( $field['TYPE']=='codeds')
-			echo '<TD>'.($field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]!=''?$field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]:'<span style="color:red">'.$values['CUSTOM_'.$field['ID']].'</span>').'</TD>';
+			echo '<td>'.($field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]!=''?$field['SELECT_OPTIONS'][$values['CUSTOM_'.$field['ID']]]:'<span style="color:red">'.$values['CUSTOM_'.$field['ID']].'</span>').'</td>';
 		else
-			echo '<TD>'.$values['CUSTOM_'.$field['ID']].'</TD>';
-		echo '</TR>';
+			echo '<td>'.$values['CUSTOM_'.$field['ID']].'</td>';
+		echo '</tr>';
 	}
 }

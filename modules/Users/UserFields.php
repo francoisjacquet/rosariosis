@@ -173,7 +173,7 @@ if (empty($_REQUEST['modfunc']))
 			'&modfunc=delete&category_id=' . $_REQUEST['category_id'] .
 			'&id=' . $_REQUEST['id'] . "'";
 
-		$delete_button = '<INPUT type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
 	}
 
 	// ADDING & EDITING FORM
@@ -200,7 +200,7 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['id'])
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'];
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'];
 
 		if ( $_REQUEST['id']!='new')
 			echo '&id='.$_REQUEST['id'];
@@ -209,10 +209,10 @@ if (empty($_REQUEST['modfunc']))
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
 
-		$header .= '<TABLE class="width-100p valign-top fixed-col"><TR class="st">';
+		$header .= '<table class="width-100p valign-top fixed-col"><tr class="st">';
 
 		//FJ field name required
-		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</TD>';
+		$header .= '<td>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</td>';
 
 		// You can't change a user field type after it has been created
 		// mab - allow changing between select and autos and edits and text and exports
@@ -232,7 +232,7 @@ if (empty($_REQUEST['modfunc']))
 		else
 			$type_options = array('select' => _('Pull-Down'),'autos' => _('Auto Pull-Down'),'edits' => _('Edit Pull-Down'),'text' => _('Text'),'radio' => _('Checkbox'),'codeds' => _('Coded Pull-Down'),'exports' => _('Export Pull-Down'),'numeric' => _('Number'),'multiple' => _('Select Multiple from Options'),'date' => _('Date'),'textarea' => _('Long Text'));
 
-		$header .= '<TD>' . SelectInput($RET['TYPE'],'tables['.$_REQUEST['id'].'][TYPE]',_('Data Type'),$type_options,false) . '</TD>';
+		$header .= '<td>' . SelectInput($RET['TYPE'],'tables['.$_REQUEST['id'].'][TYPE]',_('Data Type'),$type_options,false) . '</td>';
 		if ( $_REQUEST['id']!='new' && $RET['TYPE']!='select' && $RET['TYPE']!='autos' && $RET['TYPE']!='edits' && $RET['TYPE']!='text' && $RET['TYPE']!='exports')
 		{
 			$_ROSARIO['allow_edit'] = $allow_edit;
@@ -241,27 +241,27 @@ if (empty($_REQUEST['modfunc']))
 		foreach ( (array)$categories_RET as $type)
 			$categories_options[$type['ID']] = $type['TITLE'];
 
-		$header .= '<TD>' . MLSelectInput($RET['CATEGORY_ID']?$RET['CATEGORY_ID']:$_REQUEST['category_id'],'tables['.$_REQUEST['id'].'][CATEGORY_ID]',_('User Field Category'),$categories_options,false) . '</TD>';
+		$header .= '<td>' . MLSelectInput($RET['CATEGORY_ID']?$RET['CATEGORY_ID']:$_REQUEST['category_id'],'tables['.$_REQUEST['id'].'][CATEGORY_ID]',_('User Field Category'),$categories_options,false) . '</td>';
 
-		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</TD>';
+		$header .= '<td>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</td>';
 
-		$header .= '</TR><TR class="st">';
+		$header .= '</tr><tr class="st">';
 		$colspan = 2;
 		if ( $RET['TYPE']=='autos' || $RET['TYPE']=='edits' || $RET['TYPE']=='select' || $RET['TYPE']=='codeds' || $RET['TYPE']=='multiple' || $RET['TYPE']=='exports' || $_REQUEST['id']=='new')
 		{
-			$header .= '<TD colspan="2">'.TextAreaInput($RET['SELECT_OPTIONS'],'tables['.$_REQUEST['id'].'][SELECT_OPTIONS]',_('Pull-Down').'/'._('Auto Pull-Down').'/'._('Coded Pull-Down').'/'._('Select Multiple from Options').'<BR />'._('* one per line'),'rows=7 cols=40') . '</TD>';
+			$header .= '<td colspan="2">'.TextAreaInput($RET['SELECT_OPTIONS'],'tables['.$_REQUEST['id'].'][SELECT_OPTIONS]',_('Pull-Down').'/'._('Auto Pull-Down').'/'._('Coded Pull-Down').'/'._('Select Multiple from Options').'<br />'._('* one per line'),'rows=7 cols=40') . '</td>';
 			$colspan = 1;
 		}
-		$header .= '<TD style="vertical-align:bottom;" colspan="'.$colspan.'">'.TextInput($RET['DEFAULT_SELECTION'],'tables['.$_REQUEST['id'].'][DEFAULT_SELECTION]',_('Default')).'<BR />'._('* for dates: YYYY-MM-DD').',<BR />&nbsp;'._('for checkboxes: Y').'</TD>';
+		$header .= '<td style="vertical-align:bottom;" colspan="'.$colspan.'">'.TextInput($RET['DEFAULT_SELECTION'],'tables['.$_REQUEST['id'].'][DEFAULT_SELECTION]',_('Default')).'<br />'._('* for dates: YYYY-MM-DD').',<br />&nbsp;'._('for checkboxes: Y').'</td>';
 
 		$new = ($_REQUEST['id']=='new');
-		$header .= '<TD>' . CheckboxInput($RET['REQUIRED'],'tables['.$_REQUEST['id'].'][REQUIRED]',_('Required'),'',$new) . '</TD>';
+		$header .= '<td>' . CheckboxInput($RET['REQUIRED'],'tables['.$_REQUEST['id'].'][REQUIRED]',_('Required'),'',$new) . '</td>';
 
-		$header .= '</TR></TABLE>';
+		$header .= '</tr></table>';
 	}
 	elseif ( $_REQUEST['category_id'])
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table=STAFF_FIELD_CATEGORIES';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table=STAFF_FIELD_CATEGORIES';
 
 		if ( $_REQUEST['category_id']!='new')
 			echo '&category_id='.$_REQUEST['category_id'];
@@ -270,39 +270,39 @@ if (empty($_REQUEST['modfunc']))
 
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
 
-		$header .= '<TABLE class="width-100p valign-top"><TR class="st">';
+		$header .= '<table class="width-100p valign-top"><tr class="st">';
 
 		//FJ title required
-		$header .= '<TD>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Title').(!$RET['TITLE']?'</span>':'')) . '</TD>';
+		$header .= '<td>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Title').(!$RET['TITLE']?'</span>':'')) . '</td>';
 
-		$header .= '<TD>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['category_id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</TD>';
+		$header .= '<td>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['category_id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</td>';
 
-		$header .= '<TD>' . TextInput($RET['COLUMNS'],'tables['.$_REQUEST['category_id'].'][COLUMNS]',_('Display Columns'),'size=5') . '</TD>';
+		$header .= '<td>' . TextInput($RET['COLUMNS'],'tables['.$_REQUEST['category_id'].'][COLUMNS]',_('Display Columns'),'size=5') . '</td>';
 
 		$new = ($_REQUEST['category_id']=='new');
 
-		$header .= '<TD><TABLE><TR>';
+		$header .= '<td><table><tr>';
 
-		$header .= '<TD>' . CheckboxInput($RET['ADMIN'], 'tables['.$_REQUEST['category_id'].'][ADMIN]', ($_REQUEST['category_id']=='1'&&!$RET['ADMIN']?'<span class="legend-red">':'')._('Administrator').($_REQUEST['category_id']=='1'&&!$RET['ADMIN']?'</span>':''), '', $new, button('check'), button('x')) . '</TD>';
+		$header .= '<td>' . CheckboxInput($RET['ADMIN'], 'tables['.$_REQUEST['category_id'].'][ADMIN]', ($_REQUEST['category_id']=='1'&&!$RET['ADMIN']?'<span class="legend-red">':'')._('Administrator').($_REQUEST['category_id']=='1'&&!$RET['ADMIN']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
 
-		$header .= '<TD>' . CheckboxInput($RET['TEACHER'], 'tables['.$_REQUEST['category_id'].'][TEACHER]', ($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'<span class="legend-red">':'')._('Teacher').($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'</span>':''), '', $new, button('check'), button('x')) . '</TD>';
+		$header .= '<td>' . CheckboxInput($RET['TEACHER'], 'tables['.$_REQUEST['category_id'].'][TEACHER]', ($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'<span class="legend-red">':'')._('Teacher').($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
 
-		$header .= '<TD>' . CheckboxInput($RET['PARENT'], 'tables['.$_REQUEST['category_id'].'][PARENT]', ($_REQUEST['category_id']=='1'&&!$RET['PARENT']?'<span class="legend-red">':'')._('Parent').($_REQUEST['category_id']=='1'&&!$RET['PARENT']?'</span>':''), '', $new, button('check'), button('x')) . '</TD>';
+		$header .= '<td>' . CheckboxInput($RET['PARENT'], 'tables['.$_REQUEST['category_id'].'][PARENT]', ($_REQUEST['category_id']=='1'&&!$RET['PARENT']?'<span class="legend-red">':'')._('Parent').($_REQUEST['category_id']=='1'&&!$RET['PARENT']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
 
-		$header .= '<TD>' . CheckboxInput($RET['NONE'], 'tables['.$_REQUEST['category_id'].'][NONE]', ($_REQUEST['category_id']=='1'&&!$RET['NONE']?'<span class="legend-red">':'')._('No Access').($_REQUEST['category_id']=='1'&&!$RET['NONE']?'</span>':''), '', $new, button('check'), button('x')) . '</TD>';
+		$header .= '<td>' . CheckboxInput($RET['NONE'], 'tables['.$_REQUEST['category_id'].'][NONE]', ($_REQUEST['category_id']=='1'&&!$RET['NONE']?'<span class="legend-red">':'')._('No Access').($_REQUEST['category_id']=='1'&&!$RET['NONE']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
 
-		$header .= '</TR>';
-		$header .= '<TR><TD colspan="4"><span class="legend-gray">'._('Profiles').'</span></TD></TR>';
-		$header .= '</TABLE></TD>';
+		$header .= '</tr>';
+		$header .= '<tr><td colspan="4"><span class="legend-gray">'._('Profiles').'</span></td></tr>';
+		$header .= '</table></td>';
 
 		if ( $_REQUEST['category_id']>2 || $new)
 		{
-			$header .= '</TR><TR>';
-			$header .= '<TD colspan="2"></TD>';
-			$header .= '<TD>' . TextInput($RET['INCLUDE'],'tables['.$_REQUEST['category_id'].'][INCLUDE]',_('Include (should be left blank for most categories)')) . '</TD>';
+			$header .= '</tr><tr>';
+			$header .= '<td colspan="2"></td>';
+			$header .= '<td>' . TextInput($RET['INCLUDE'],'tables['.$_REQUEST['category_id'].'][INCLUDE]',_('Include (should be left blank for most categories)')) . '</td>';
 		}
 
-		$header .= '</TR></TABLE>';
+		$header .= '</tr></table>';
 	}
 	else
 		$header = false;
@@ -310,7 +310,7 @@ if (empty($_REQUEST['modfunc']))
 	if ( $header)
 	{
 		DrawHeader($header);
-		echo '</FORM>';
+		echo '</form>';
 	}
 
 	// DISPLAY THE MENU

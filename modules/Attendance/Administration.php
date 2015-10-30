@@ -49,11 +49,11 @@ $current_mp = GetCurrentMP('QTR',$date,false);
 
 if ( !$current_mp)
 {
-	echo '<FORM action="'.PreparePHP_SELF($_REQUEST,array('day_date','month_date','year_date','codes')).'" method="POST">';
+	echo '<form action="'.PreparePHP_SELF($_REQUEST,array('day_date','month_date','year_date','codes')).'" method="POST">';
 
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
 
-	echo '</FORM>';
+	echo '</form>';
 
 	ErrorMessage(array(_('The selected date is not in a school quarter.')),'fatal');
 }
@@ -237,16 +237,16 @@ if (isset($_REQUEST['student_id']) && $_REQUEST['student_id']!='new')
 
 	$columns = array('PERIOD_TITLE' => _('Period'), 'COURSE' => _('Course'), 'ATTENDANCE_CODE' => _('Attendance Code'), 'ATTENDANCE_TEACHER_CODE' => _('Teacher\'s Entry'), 'ATTENDANCE_REASON' => _('Office Comment'), 'COMMENT' => _('Teacher Comment'));
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&student_id='.$_REQUEST['student_id'].'&table='.$_REQUEST['table'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&student_id='.$_REQUEST['student_id'].'&table='.$_REQUEST['table'].'" method="POST">';
 
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)),SubmitButton(_('Update')));
 
-	$headerr = '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&table='.$_REQUEST['table'].'">'._('Student List').'</A>';
+	$headerr = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&table='.$_REQUEST['table'].'">'._('Student List').'</a>';
 
 	DrawHeader($headerl, $headerr);
 
 	ListOutput($schedule_RET,$columns,'Course','Courses');
-	echo '</FORM>';
+	echo '</form>';
 }
 else
 {
@@ -347,21 +347,21 @@ else
 	else
 		$code_pulldowns = _makeCodeSearch();
 
-	echo '<FORM action="'.PreparePHP_SELF($_REQUEST,array('day_date','month_date','year_date','codes')).'" method="POST">';
+	echo '<form action="'.PreparePHP_SELF($_REQUEST,array('day_date','month_date','year_date','codes')).'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)),SubmitButton(_('Update')));
 
 	if (UserStudentID())
-		$current_student_link = '<A HREF="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&student_id='.UserStudentID().'&table='.$_REQUEST['table'].'">'._('Current Student').'</A></TD><TD>';
+		$current_student_link = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=student&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date'].'&student_id='.UserStudentID().'&table='.$_REQUEST['table'].'">'._('Current Student').'</a></td><td>';
 
-	$headerr = '<TABLE><TR><TD>'.$current_student_link.button('add','','"#" onclick=\'javascript:addHTML("'.str_replace('"','\"',_makeCodeSearch()).'","code_pulldowns"); return false;\'').'</TD><TD><DIV id=code_pulldowns>'.$code_pulldowns.'</DIV></TD></TR></TABLE>';
+	$headerr = '<table><tr><td>'.$current_student_link.button('add','','"#" onclick=\'javascript:addHTML("'.str_replace('"','\"',_makeCodeSearch()).'","code_pulldowns"); return false;\'').'</td><td><div id=code_pulldowns>'.$code_pulldowns.'</div></td></tr></table>';
 
 	DrawHeader($headerl, $headerr);
 
 	$_REQUEST['search_modfunc'] = 'list';
 	Search('student_id',$extra);
 
-	echo '<BR /><div class="center">' . SubmitButton(_('Update')) . '</div>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton(_('Update')) . '</div>';
+	echo '</form>';
 }
 
 function _makeCodePulldown($value,$title)
@@ -424,15 +424,15 @@ function _makeReason($value,$title)
 function _makeCodeSearch($value='')
 {	global $codes_RET,$code_search_selected;
 
-	$return = '<SELECT name=codes[]><OPTION value="">'._('All').'</OPTION>';
+	$return = '<select name=codes[]><option value="">'._('All').'</option>';
 	if ( $_REQUEST['table']=='0')
-		$return .= '<OPTION value="A"'.(($value=='A')?' SELECTED':'').'>'._('Not Present').'</OPTION>';
+		$return .= '<option value="A"'.(($value=='A')?' SELECTED':'').'>'._('Not Present').'</option>';
 	if (count($codes_RET))
 	{
 		foreach ( (array)$codes_RET as $code)
-			$return .= '<OPTION value="'.$code['ID'].'"'.($value==$code['ID']?' SELECTED':'').'>'.$code['TITLE'].'</OPTION>';
+			$return .= '<option value="'.$code['ID'].'"'.($value==$code['ID']?' SELECTED':'').'>'.$code['TITLE'].'</option>';
 	}
-	$return .= '</SELECT>';
+	$return .= '</select>';
 
 	return $return;
 }

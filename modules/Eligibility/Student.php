@@ -86,16 +86,16 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 		ErrorMessage(array(_('There are no calendars yet setup.')), 'fatal');
 	
 //FJ display locale with strftime()
-//	$date_select = "<OPTION value=$start>".date('M d, Y',$start).' - '.date('M d, Y',$end).'</OPTION>';
-	$date_select = '<OPTION value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</OPTION>';
+//	$date_select = "<option value=$start>".date('M d, Y',$start).' - '.date('M d, Y',$end).'</option>';
+	$date_select = '<option value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</option>';
 	//exit(var_dump($begin_year));
 	for ( $i=$start-(60*60*24*7);$i>=$begin_year;$i-=(60*60*24*7))
-//		$date_select .= "<OPTION value=$i".(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED':'').">".date('M d, Y',$i).' - '.date('M d, Y',($i+1+(($END_DAY-$START_DAY))*60*60*24)).'</OPTION>';
-		$date_select .= '<OPTION value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED':'').">".ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</OPTION>';
+//		$date_select .= "<option value=$i".(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED':'').">".date('M d, Y',$i).' - '.date('M d, Y',($i+1+(($END_DAY-$START_DAY))*60*60*24)).'</option>';
+		$date_select .= '<option value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED':'').">".ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</option>';
 	
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-	DrawHeader('<SELECT name="start_date">'.$date_select.'</SELECT> '.SubmitButton(_('Go')));
-	echo '</FORM>';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+	DrawHeader('<select name="start_date">'.$date_select.'</select> '.SubmitButton(_('Go')));
+	echo '</form>';
 
 	$RET = DBGet(DBQuery("SELECT em.STUDENT_ID,em.ACTIVITY_ID,ea.TITLE,ea.START_DATE,ea.END_DATE 
 	FROM ELIGIBILITY_ACTIVITIES ea,STUDENT_ELIGIBILITY_ACTIVITIES em 
@@ -115,14 +115,14 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&start_date='.$_REQUEST['start_date'];
 	$link['remove']['variables'] = array('activity_id' => 'ACTIVITY_ID');
 //FJ css WPadmin
-//	$link['add']['html']['TITLE'] = '<TABLE class="cellspacing-0"><TR><TD>'.SelectInput('','new_activity','',$activities).'</TD><TD><INPUT type=submit value="'._('Add').'"></TD></TR></TABLE>';
+//	$link['add']['html']['TITLE'] = '<table class="cellspacing-0"><tr><td>'.SelectInput('','new_activity','',$activities).'</td><td><input type=submit value="'._('Add').'"></td></tr></table>';
 //	$link['add']['html']['remove'] = button('add');
 	$link['add']['html'] = array('remove' => button('add'), 'TITLE' => SelectInput('','new_activity','',$activities).SubmitButton(_('Add')), 'START_DATE' => '&nbsp;', 'END_DATE' => '&nbsp;');
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&start_date='.$_REQUEST['start_date'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&start_date='.$_REQUEST['start_date'].'" method="POST">';
 	$columns = array('TITLE' => _('Activity'),'START_DATE' => _('Starts'),'END_DATE' => _('Ends'));
 	ListOutput($RET,$columns,'Activity','Activities',$link);
-	echo '</FORM>';
+	echo '</form>';
 
 	$RET = DBGet(DBQuery("SELECT e.ELIGIBILITY_CODE,c.TITLE as COURSE_TITLE 
 	FROM ELIGIBILITY e,COURSES c,COURSE_PERIODS cp 

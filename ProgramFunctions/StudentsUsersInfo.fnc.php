@@ -451,59 +451,59 @@ function _makeMultipleInput( $column, $name, $request )
 
 		if ( $value[$column] != '' )
 		{
-			$return = '<DIV id="div' . $request . '[' . $column . ']">
+			$return = '<div id="div' . $request . '[' . $column . ']">
 				<div class="onclick" onclick=\'javascript:addHTML(html' . $request . $column;
 		}
 		
-		$table = '<TABLE class="cellpadding-5">';
+		$table = '<table class="cellpadding-5">';
 
 		if ( count( $options ) > 12 )
 		{
-			$table .= '<TR><TD colspan="2">';
+			$table .= '<tr><td colspan="2">';
 			$table .= '<span class="legend-gray">' . $name . '</span>';
-			$table .= '<TABLE class="width-100p" style="height: 7px; border:1;border-style: solid solid none solid;"><TR><TD></TD></TR></TABLE>';
-			$table .= '</TD></TR>';
+			$table .= '<table class="width-100p" style="height: 7px; border:1;border-style: solid solid none solid;"><tr><td></td></tr></table>';
+			$table .= '</td></tr>';
 		}
 
-		$table .= '<TR>';
+		$table .= '<tr>';
 
 		$i = 0;
 
 		foreach ( (array)$options as $option )
 		{
 			if ( $i%2 === 0 )
-				$table .= '</TR><TR>';
+				$table .= '</tr><tr>';
 
 			//FJ add <label> on checkbox
-			$table .= '<TD><label>
-				<INPUT type="checkbox" name="' . $request . '[' . $column . '][]" value="' . htmlspecialchars( $option, ENT_QUOTES ) . '"' . ( mb_strpos( $value[$column], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
+			$table .= '<td><label>
+				<input type="checkbox" name="' . $request . '[' . $column . '][]" value="' . htmlspecialchars( $option, ENT_QUOTES ) . '"' . ( mb_strpos( $value[$column], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
 					$option .
-			'</label></TD>';
+			'</label></td>';
 
 			$i++;
 		}
 
-		$table .= '</TR><TR><TD colspan="2">';
+		$table .= '</tr><tr><td colspan="2">';
 
 		//FJ fix bug none selected not saved
-		$table .= '<INPUT type="hidden" name="' . $request . '[' . $column . '][none]" value="" />';
+		$table .= '<input type="hidden" name="' . $request . '[' . $column . '][none]" value="" />';
 
-		$table .= '<TABLE class="width-100p" style="height:7px; border:1; border-style:none solid solid solid;"><TR><TD></TD></TR></TABLE>';
+		$table .= '<table class="width-100p" style="height:7px; border:1; border-style:none solid solid solid;"><tr><td></td></tr></table>';
 
-		$table .= '</TD></TR></TABLE>';
+		$table .= '</td></tr></table>';
 
 		if ( $value[$column] != '' )
 		{
 			echo '<script>var html' . $request . $column . '=' . json_encode( $table ) . ';</script>' . $return;
 			echo ',"div' . $request . '[' . $column . ']",true);\' >';
 			echo '<span class="underline-dots">' . ($value[$column] != '' ? str_replace( '||', ', ', mb_substr( $value[$column], 2, -2 ) ) : '-' ) . '</span>';
-			echo '</div></DIV>';
+			echo '</div></div>';
 		}
 		else
 			echo $table;
 	}
 	else
-		echo ( $value[$column] != '' ? str_replace( '||', ', ', mb_substr( $value[$column], 2, -2 ) ) : '-' ) . '<BR />';
+		echo ( $value[$column] != '' ? str_replace( '||', ', ', mb_substr( $value[$column], 2, -2 ) ) : '-' ) . '<br />';
 
 	echo '<span class="legend-gray">' . $name . '</span>';
 }

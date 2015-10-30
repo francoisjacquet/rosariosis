@@ -1879,7 +1879,7 @@ msgstr "Рабочее место"
 #: modules/Custom/Registration.php:176
 #, fuzzy
 msgid "Information about your spouse or significant other residing with you"
-msgstr "Информация о вашей супруге или иных существенных проживающих с вами: <BR> <small>Оставьте этот раздел пустым, если вы разделены.</small>"
+msgstr "Информация о вашей супруге или иных существенных проживающих с вами: <br> <small>Оставьте этот раздел пустым, если вы разделены.</small>"
 
 #: modules/Custom/Registration.php:176
 msgid "Leave this section blank if you are separated."
@@ -2592,7 +2592,7 @@ msgstr "Вы действительно хотите запустить план
 #: modules/Food_Service/Students/Accounts.php:16
 #: modules/Food_Service/Users/Accounts.php:34
 #, php-format
-msgid "That barcode is already assigned to Student <B>%s</B>."
+msgid "That barcode is already assigned to Student <b>%s</b>."
 msgstr ""
 
 #: modules/Food_Service/Students/Accounts.php:16
@@ -2603,7 +2603,7 @@ msgstr ""
 #: modules/Food_Service/Students/Accounts.php:25
 #: modules/Food_Service/Users/Accounts.php:25
 #, php-format
-msgid "That barcode is already assigned to User <B>%s</B>."
+msgid "That barcode is already assigned to User <b>%s</b>."
 msgstr ""
 
 #: modules/Food_Service/Students/Accounts.php:98
@@ -2679,7 +2679,7 @@ msgid "%N's lunch account is getting low.  Please send in at least %P with %h re
 msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:19
-msgid "%N now has a <B>negative balance</B> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgid "%N now has a <b>negative balance</b> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 
 #: modules/Food_Service/Students/Reminders.php:21
@@ -2827,7 +2827,7 @@ msgid "Your lunch account is getting low.  Please send in at least %P with your 
 msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:7
-msgid "You now have a <B>negative balance</B> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
+msgid "You now have a <b>negative balance</b> in your lunch account. Please send in the negative balance plus %T.  THANK YOU!"
 msgstr ""
 
 #: modules/Food_Service/Users/Reminders.php:9
@@ -3258,7 +3258,7 @@ msgid "Final Grade"
 msgstr "Итоговые оценки"
 
 #: modules/Grades/FinalGrades.php:104
-msgid "Abs<BR />YTD / MP"
+msgid "Abs<br />YTD / MP"
 msgstr ""
 
 #: modules/Grades/FinalGrades.php:173
@@ -5867,11 +5867,11 @@ msgid "Add an <b>Existing</b> Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:460
-msgid "Add a <b>New</b> Contact<BR />without an Address"
+msgid "Add a <b>New</b> Contact<br />without an Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:471
-msgid "Add an <b>Existing</b> Contact<BR />without an Address"
+msgid "Add an <b>Existing</b> Contact<br />without an Address"
 msgstr ""
 
 #: modules/Students/includes/Address.inc.php:490
@@ -10205,16 +10205,16 @@ msgstr "Этот человек не имеет никакой информац�
 #~ msgid ""
 #~ "You <i>must</i> roll users, school periods, marking periods, calendars, "
 #~ "and report card<br>codes at the same time or before rolling "
-#~ "courses<BR><BR>* You <i>must</i> roll courses at the same time or before "
-#~ "rolling report card comments<BR><BR>Red items have already have data in "
-#~ "the next school year (They might have been rolled).<BR><BR>Rolling red "
+#~ "courses<br><br>* You <i>must</i> roll courses at the same time or before "
+#~ "rolling report card comments<br><br>Red items have already have data in "
+#~ "the next school year (They might have been rolled).<br><br>Rolling red "
 #~ "items will delete already existing data in the next school year."
 #~ msgstr ""
 #~ "Вы <i>должны бросить</i> пользователей, школы периоды, маркировка "
 #~ "периоды, календари и табель <br> Коды в то же время или перед прокаткой "
-#~ "курсы <BR><BR> * Вы <i>должны бросить</i> курсы в то же время или перед "
-#~ "прокаткой комментарии табель <BR><BR> Красный пункты уже есть данные в "
-#~ "следующем учебном году (Они могли быть проката). <BR><BR> Роллинг красные "
+#~ "курсы <br><br> * Вы <i>должны бросить</i> курсы в то же время или перед "
+#~ "прокаткой комментарии табель <br><br> Красный пункты уже есть данные в "
+#~ "следующем учебном году (Они могли быть проката). <br><br> Роллинг красные "
 #~ "элементы будут удалять уже существующие данные в следующем учебном году."
 
 #~ msgid "Confirm Rollover"
@@ -10305,11 +10305,11 @@ msgstr "Этот человек не имеет никакой информац�
 #~ msgstr "Регистрации Отчеты"
 
 #~ msgid ""
-#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Multiple Choices<BR>* one "
+#~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select Multiple Choices<br>* one "
 #~ "per line"
 #~ msgstr ""
 #~ "Pull-Down/Auto Pull-Down/Coded Pull-Down/Select с множественным выбором "
-#~ "<BR> * По одному в строке"
+#~ "<br> * По одному в строке"
 
 #~ msgid "for dates: YYYY-MM-DD"
 #~ msgstr "для даты: YYYY-MM-DD"

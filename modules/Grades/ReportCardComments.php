@@ -104,32 +104,32 @@ if (empty($_REQUEST['modfunc']))
 		$subject_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 			"&subject_id='";
 
-		$subject_select = '<SELECT name="subject_id" onchange="ajaxLink(' . $subject_onchange_URL . ' + this.options[selectedIndex].value);">';
+		$subject_select = '<select name="subject_id" onchange="ajaxLink(' . $subject_onchange_URL . ' + this.options[selectedIndex].value);">';
 
 		//FJ Add No Courses were found error
 		if (empty($subjects_RET))
-			$subject_select .= '<OPTION value="">'.sprintf(_('No %s were found.'),_('Courses')).'</OPTION>';
+			$subject_select .= '<option value="">'.sprintf(_('No %s were found.'),_('Courses')).'</option>';
 		else
 			foreach ( (array)$subjects_RET as $id => $subject)
-				$subject_select .= '<OPTION value="'.$id.'"'.($_REQUEST['subject_id']==$id?' SELECTED':'').'>'.$subject[1]['TITLE'].'</OPTION>';
+				$subject_select .= '<option value="'.$id.'"'.($_REQUEST['subject_id']==$id?' SELECTED':'').'>'.$subject[1]['TITLE'].'</option>';
 
-		$subject_select .= '</SELECT>';
+		$subject_select .= '</select>';
 
 		$course_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 			'&subject_id=' . $_REQUEST['subject_id'] .
 			"&course_id='";
 
-		$course_select .= '<SELECT name="course_id" onchange="ajaxLink(' . $course_onchange_URL . ' + this.options[selectedIndex].value);">';
+		$course_select .= '<select name="course_id" onchange="ajaxLink(' . $course_onchange_URL . ' + this.options[selectedIndex].value);">';
 
 		//FJ Add No Courses were found error
 		if (empty($courses_RET))
-			$course_select .= '<OPTION value="">'.sprintf(_('No %s were found.'),_('Courses')).'</OPTION>';
+			$course_select .= '<option value="">'.sprintf(_('No %s were found.'),_('Courses')).'</option>';
 		else
 			foreach ( (array)$courses_RET as $id => $course)
-				$course_select .= '<OPTION value="'.$id.'"'.($_REQUEST['course_id']==$id?' SELECTED':'').'>'.$course[1]['TITLE'].'</OPTION>';
+				$course_select .= '<option value="'.$id.'"'.($_REQUEST['course_id']==$id?' SELECTED':'').'>'.$course[1]['TITLE'].'</option>';
 
 
-		$course_select .= '</SELECT>';
+		$course_select .= '</select>';
 	}
 	else
 	{
@@ -235,7 +235,7 @@ if (empty($_REQUEST['modfunc']))
 	}
 	$LO_ret = DBGet(DBQuery($sql),$functions);
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader($subject_select.' : '.$course_select,SubmitButton(_('Save')));
 	echo '<br />';
 //FJ fix SQL bug invalid sort order
@@ -250,8 +250,8 @@ if (empty($_REQUEST['modfunc']))
 	else
 		ListOutput($LO_ret,$LO_columns,'Comment','Comments',$link,array(),$LO_options);
 
-	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }
 
 function makeTextInput($value,$name)

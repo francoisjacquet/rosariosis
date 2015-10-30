@@ -16,7 +16,7 @@ $warning = $food_service_config['FOOD_SERVICE_BALANCE_WARNING'][1]['VALUE'];
 // %P = payment amount
 // %T = balance target amount
 $warning_note = _('%N\'s lunch account is getting low.  Please send in at least %P with %h reminder slip.  THANK YOU!');
-$negative_note = _('%N now has a <B>negative balance</B> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!');
+$negative_note = _('%N now has a <b>negative balance</b> in %h lunch account. Please send in the negative balance plus %T.  THANK YOU!');
 $minimum = $food_service_config['FOOD_SERVICE_BALANCE_MINIMUM'][1]['VALUE'];
 $minimum_note = _('%N now has a <b>negative balance</b> below the allowed minimum.  Please send in the negative balance plus %T.  THANK YOU!');
 $year_end_note = _('%N\'s lunch account is getting low.  The requested payment anount is estimated so %h account will have a zero balance at the end of the school year.  Please send in the requested amount with %h reminder slip.  THANK YOU!');
@@ -109,18 +109,18 @@ if (empty($_REQUEST['modfunc']))
 {
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
 		//DrawHeader('',SubmitButton('Create Reminders for Selected Students'));
 //FJ add translation
 		$extra['header_right'] = SubmitButton(_('Create Reminders for Selected Students'));
 
-		$extra['extra_header_left'] .= '<label>'._('Estimate for year end').'&nbsp;<INPUT type="checkbox" name="year_end" value="Y" /></label>';
+		$extra['extra_header_left'] .= '<label>'._('Estimate for year end').'&nbsp;<input type="checkbox" name="year_end" value="Y" /></label>';
 	}
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" checked name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" checked name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	$extra['new'] = true;
 	$extra['options']['search'] = false;
 
@@ -142,13 +142,13 @@ if (empty($_REQUEST['modfunc']))
 		$extra['WHERE'] .= ' AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID';
 	}
 	$extra['functions'] += array('BALANCE' => 'red','WARNING' => 'x','NEGATIVE' => 'x','MINIMUM' => 'x');
-	$extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'),'WARNING' => _('Warning').'<BR />&lt; '.$warning,'NEGATIVE' => _('Negative'),'MINIMUM' => _('Minimum').'<BR />'.$minimum);
+	$extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'),'WARNING' => _('Warning').'<br />&lt; '.$warning,'NEGATIVE' => _('Negative'),'MINIMUM' => _('Minimum').'<br />'.$minimum);
 
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center">' . SubmitButton(_('Create Reminders for Selected Students')) . '</div>';
-		echo '</FORM>';
+		echo '<br /><div class="center">' . SubmitButton(_('Create Reminders for Selected Students')) . '</div>';
+		echo '</form>';
 	}
 }
 
@@ -161,49 +161,49 @@ function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 		return;
 	$payment = number_format($payment,2);
 
-	echo '<TABLE class="width-100p">';
-	echo '<TR><TD colspan="3" class="center"><span class="sizep1"><I><B>* * * '.($_REQUEST['year_end']=='Y'?_('Year End').' ':'')._('Lunch Payment Reminder').' * * *</B></I></span></TD></TR>';
-	echo '<TR><TD colspan="3" class="center"><B>'.$student['SCHOOL'].'</B></TD></TR>';
+	echo '<table class="width-100p">';
+	echo '<tr><td colspan="3" class="center"><span class="sizep1"><i><b>* * * '.($_REQUEST['year_end']=='Y'?_('Year End').' ':'')._('Lunch Payment Reminder').' * * *</b></i></span></td></tr>';
+	echo '<tr><td colspan="3" class="center"><b>'.$student['SCHOOL'].'</b></td></tr>';
 
-	echo '<TR><TD style="width:33%;">';
-	echo ($student['NICKNAME']?$student['NICKNAME']:$student['FIRST_NAME']).' '.$student['LAST_NAME'].'<BR />';
+	echo '<tr><td style="width:33%;">';
+	echo ($student['NICKNAME']?$student['NICKNAME']:$student['FIRST_NAME']).' '.$student['LAST_NAME'].'<br />';
 	echo ''.$student['STUDENT_ID'].'';
 	if (count($xstudents))
 	{
-		echo '<BR />'._('Other students on this account').':';
+		echo '<br />'._('Other students on this account').':';
 		foreach ( (array)$xstudents as $xstudent)
-			echo '<BR />&nbsp;&nbsp;'.($xstudent['NICKNAME']?$xstudent['NICKNAME']:$xstudent['FIRST_NAME']).' '.$xstudent['LAST_NAME'];
+			echo '<br />&nbsp;&nbsp;'.($xstudent['NICKNAME']?$xstudent['NICKNAME']:$xstudent['FIRST_NAME']).' '.$xstudent['LAST_NAME'];
 		echo '';
 	}
-	echo '</TD><TD style="width:33%;">';
-	echo $student['GRADE'].'<BR />';
+	echo '</td><td style="width:33%;">';
+	echo $student['GRADE'].'<br />';
 	echo 'Grade';
-	echo '</TD><TD style="width:33%;">';
-	echo $teacher['FULL_NAME'].'<BR />';
+	echo '</td><td style="width:33%;">';
+	echo $teacher['FULL_NAME'].'<br />';
 	echo ''.$teacher['TITLE'].' '._('Teacher').'';
-	echo '</TD></TR>';
+	echo '</td></tr>';
 
-	echo '<TR><TD style="width:33%;">';
-	echo ProperDate(DBDate()).'<BR />';
+	echo '<tr><td style="width:33%;">';
+	echo ProperDate(DBDate()).'<br />';
 	echo ''._('Today\'s Date').'';
-	echo '</TD><TD style="width:34%;">';
-	echo ($last_deposit ? $last_deposit['DATE'] : _('None')).'<BR />';
+	echo '</td><td style="width:34%;">';
+	echo ($last_deposit ? $last_deposit['DATE'] : _('None')).'<br />';
 	echo ''._('Date of Last Deposit').'';
-	echo '</TD><TD style="width:33%;">';
-	echo ($last_deposit ? $last_deposit['AMOUNT'] : _('None')).'<BR />';
+	echo '</td><td style="width:33%;">';
+	echo ($last_deposit ? $last_deposit['AMOUNT'] : _('None')).'<br />';
 	echo ''._('Amount of Last Deposit').'';
-	echo '</TD></TR>';
+	echo '</td></tr>';
 
-	echo '<TR><TD style="width:33%;">';
-	echo ($student['BALANCE']<0 ? '<B>'.Currency($student['BALANCE']).'</B>' : Currency($student['BALANCE'])).'<BR />';
+	echo '<tr><td style="width:33%;">';
+	echo ($student['BALANCE']<0 ? '<b>'.Currency($student['BALANCE']).'</b>' : Currency($student['BALANCE'])).'<br />';
 	echo ''._('Balance').'';
-	echo '</TD><TD style="width:34%;">';
-	echo '<B>'.Currency($payment).'</B><BR />';
-	echo '<B>'.($_REQUEST['year_end']=='Y'?_('Requested Payment'):_('Mimimum Payment')).' </B>';
-	echo '</TD><TD style="width:33%;">';
-	echo $student['ACCOUNT_ID'].'<BR />';
+	echo '</td><td style="width:34%;">';
+	echo '<b>'.Currency($payment).'</b><br />';
+	echo '<b>'.($_REQUEST['year_end']=='Y'?_('Requested Payment'):_('Mimimum Payment')).' </b>';
+	echo '</td><td style="width:33%;">';
+	echo $student['ACCOUNT_ID'].'<br />';
 	echo ''._('Account ID').'';
-	echo '</TD></TR>';
+	echo '</td></tr>';
 
 	$note = str_replace('%N',($student['NICKNAME'] ? $student['NICKNAME'] : $student['FIRST_NAME']),$note);
 	$note = str_replace('%F',$student['FIRST_NAME'],$note);
@@ -215,8 +215,8 @@ function reminder($student,$teacher,$xstudents,$target,$last_deposit,$note)
 	$note = str_replace('%P',Currency($payment),$note);
 	$note = str_replace('%T',$target,$note);
 
-	echo '<TR><TD colspan="3">';
-	echo '<BR />'.$note.'<BR />';
-	echo '</TD></TR>';
-	echo '<TR><TD colspan="3"><BR /><BR /><HR><BR /><BR /></TD></TR></TABLE>';
+	echo '<tr><td colspan="3">';
+	echo '<br />'.$note.'<br />';
+	echo '</td></tr>';
+	echo '<tr><td colspan="3"><br /><br /><hr /><br /><br /></td></tr></table>';
 }

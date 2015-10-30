@@ -22,7 +22,7 @@ if ( $_REQUEST['modfunc']=='update')
                     {
                         $staff_RET = DBGet(DBQuery("SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME FROM STAFF WHERE STAFF_ID='".$RET[1]['STAFF_ID']."'"));
                         $question = _("Are you sure you want to assign that barcode?");
-                        $message = sprintf(_("That barcode is already assigned to User <B>%s</B>."),$staff_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current user or Cancel to cancel all changes.");
+                        $message = sprintf(_("That barcode is already assigned to User <b>%s</b>."),$staff_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the current user or Cancel to cancel all changes.");
                     }
                     else
                     {
@@ -31,7 +31,7 @@ if ( $_REQUEST['modfunc']=='update')
                         {
                             $student_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID=fssa.STUDENT_ID AND fssa.ACCOUNT_ID='".$RET[1]['ACCOUNT_ID']."'"));
                             $question = _("Are you sure you want to assign that barcode?");
-                            $message = sprintf(_("That barcode is already assigned to Student <B>%s</B>."),$student_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the user student or Cancel to cancel all changes.");
+                            $message = sprintf(_("That barcode is already assigned to Student <b>%s</b>."),$student_RET[1]['FULL_NAME']).' '._("Hit OK to reassign it to the user student or Cancel to cancel all changes.");
                         }
                     }
                 }
@@ -107,21 +107,21 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 
 	if ( $staff['ACCOUNT_ID'])
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 		DrawHeader('',SubmitButton(_('Save'),'submit[save]').($staff['BALANCE'] == 0 ? SubmitButton(_('Delete Account'),'submit[delete]') : ''));
 	}
 	else
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=create" method="POST">';
 		DrawHeader('',SubmitButton(_('Create Account')));
 	}
 
-	echo '<BR />';
+	echo '<br />';
 	PopTable('header',_('Account Information'),'width="100%"');
 
-	echo '<TABLE class="width-100p valign-top"><TR>';
+	echo '<table class="width-100p valign-top"><tr>';
 
-	echo '<TD>'.NoInput($staff['FULL_NAME'],$staff['STAFF_ID']);
+	echo '<td>'.NoInput($staff['FULL_NAME'],$staff['STAFF_ID']);
 
 	// warn if other users associated with the same account
 	if ( !$staff['ACCOUNT_ID'])
@@ -130,28 +130,28 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 
 		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
 
-		echo '<BR />'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"');
+		echo '<br />'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"');
 	}
 
-	echo '</TD>';
+	echo '</td>';
 
-	echo '<TD>'.NoInput(red($staff['BALANCE']),_('Balance')).'</TD>';
+	echo '<td>'.NoInput(red($staff['BALANCE']),_('Balance')).'</td>';
 
-	echo '</TR></TABLE>';
-	echo '<HR>';
+	echo '</tr></table>';
+	echo '<hr />';
 
-	echo '<TABLE class="width-100p cellspacing-0 valign-top"><TR><TD>';
+	echo '<table class="width-100p cellspacing-0 valign-top"><tr><td>';
 
 	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
 	echo ($staff['ACCOUNT_ID']?SelectInput($staff['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')):NoInput('-',_('Status')));
-	echo '</TD>';
-	echo '<TD>';
+	echo '</td>';
+	echo '<td>';
 	echo ($staff['ACCOUNT_ID']?TextInput($staff['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25'):NoInput('-',_('Barcode')));
-	echo '</TD>';
-	echo '</TR></TABLE>';
+	echo '</td>';
+	echo '</tr></table>';
 
 	PopTable('footer');
 
-	echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '</form>';
 }

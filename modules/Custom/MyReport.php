@@ -36,14 +36,14 @@ if (empty($_REQUEST['modfunc']))
 			//$LO_group = array(array('FAMILY_ID','STUDENT_ID'));
 			$LO_columns = array('FAMILY_ID' => _('Address ID'));
 			if ( !isset($_REQUEST['_ROSARIO_PDF']))
-				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => '')).'">'._('Ungroup by Family').'</A>';
+				$header_left = '<a href="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => '')).'">'._('Ungroup by Family').'</a>';
 		}
 		else
 		{
 			$extra['group'] = $LO_group = array('STUDENT_ID');
 			$LO_columns = array();
 			if ( !isset($_REQUEST['_ROSARIO_PDF']))
-				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => 'Y')).'">'._('Group by Family').'</A>';
+				$header_left = '<a href="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => 'Y')).'">'._('Group by Family').'</a>';
 		}
 		$students_RET = GetStuList($extra);
 		$LO_columns += array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level'));
@@ -64,7 +64,7 @@ if (empty($_REQUEST['modfunc']))
 		for ( $i=1; $i<=$maxTV; $i++)
                         $LO_columns += array('TITLE_'.$i => _('Title').' '.$i,'VALUE_'.$i => _('Value').' '.$i);
 		DrawHeader($header_left);
-		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
+		DrawHeader(str_replace('<br />','<br /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 		if ( !$_REQUEST['LO_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));

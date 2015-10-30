@@ -65,11 +65,11 @@ $assignments_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 	AND MARKING_PERIOD_ID='" . UserMP() . "' 
 	ORDER BY " . Preferences( 'ASSIGNMENT_SORTING', 'Gradebook' ) . " DESC" ) );
 
-$assignment_select .= '<SELECT name="assignment_id" id="assignment_id" onchange="ajaxPostForm(this.form, true)">';
+$assignment_select .= '<select name="assignment_id" id="assignment_id" onchange="ajaxPostForm(this.form, true)">';
 
-$assignment_select .= '<OPTION value="totals"' . ( $_REQUEST['assignment_id'] === 'totals' ? ' SELECTED' : '' ) . '>' .
+$assignment_select .= '<option value="totals"' . ( $_REQUEST['assignment_id'] === 'totals' ? ' SELECTED' : '' ) . '>' .
 	_( 'Totals' ) .
-'</OPTION>';
+'</option>';
 
 // Assignment Types
 foreach ( (array)$types_RET as $type )
@@ -83,9 +83,9 @@ foreach ( (array)$types_RET as $type )
 		$selected = ' SELECTED';
 	}
 
-	$assignment_select .= '<OPTION value="totals' . $type['ASSIGNMENT_TYPE_ID'] . '"' . $selected . '>' .
+	$assignment_select .= '<option value="totals' . $type['ASSIGNMENT_TYPE_ID'] . '"' . $selected . '>' .
 		$type['TITLE'] .
-	'</OPTION>';
+	'</option>';
 
 }
 
@@ -101,12 +101,12 @@ foreach ( (array)$assignments_RET as $assignment )
 		$selected = ' SELECTED';
 	}
 
-	$assignment_select .= '<OPTION value="' . $assignment['ASSIGNMENT_ID'] . '"'. $selected . '>' .
+	$assignment_select .= '<option value="' . $assignment['ASSIGNMENT_ID'] . '"'. $selected . '>' .
 		$assignment['TITLE'] .
-	'</OPTION>';
+	'</option>';
 }
 
-$assignment_select .= '</SELECT>';
+$assignment_select .= '</select>';
 
 $extra['SELECT_ONLY'] .= "ssm.STUDENT_ID,'' AS LETTER_GRADE";
 
@@ -228,7 +228,7 @@ foreach ( (array)$grades as $option )
 
 if ( empty( $_REQUEST['modfunc'] ) )
 {
-	echo '<FORM action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
+	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 
 	$RET = GetStuList();
 
@@ -237,7 +237,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	DrawHeader( $assignment_select . $advanced_link, SubmitButton( _( 'Go' ) ) );
 
-	echo '<BR />';
+	echo '<br />';
 
 	if ( $_REQUEST['assignment_id'] )
 	{
@@ -319,7 +319,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		PopTable('footer');
 	}
 
-	echo '</FORM>';
+	echo '</form>';
 }
 
 

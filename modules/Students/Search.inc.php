@@ -18,15 +18,15 @@ if ( !$_REQUEST['search_modfunc'])
 				unset($_SESSION['List_PHP_SELF']);
 			}
 
-			echo '<BR />';
+			echo '<br />';
 
 			PopTable('header',$extra['search_title']?$extra['search_title']:_('Find a Student'));
 
-			echo '<FORM name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="GET">';
+			echo '<form name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="GET">';
 
-			echo '<TABLE><TR class="valign-top"><TD>';
+			echo '<table><tr class="valign-top"><td>';
 
-			echo '<TABLE class="width-100p col1-align-right" id="general_table">';
+			echo '<table class="width-100p col1-align-right" id="general_table">';
 
 			Search('general_info',$extra['grades']);
 
@@ -38,7 +38,7 @@ if ( !$_REQUEST['search_modfunc'])
 			Search('student_fields',is_array($extra['student_fields'])?$extra['student_fields']:array());
 
 
-			echo '</TABLE></TD><TR><TD class="center">';
+			echo '</table></td><tr><td class="center">';
 
 			if ( $extra['search_second_col'])
 				echo $extra['search_second_col'];
@@ -47,21 +47,21 @@ if ( !$_REQUEST['search_modfunc'])
 			{
 //FJ add <label> on checkbox
 //FJ css WPadmin
-				echo '<label><INPUT type="checkbox" name="address_group" value="Y"'.(Preferences('DEFAULT_FAMILIES')=='Y'?' checked':'').'>&nbsp;'._('Group by Family').'</label><BR />';
+				echo '<label><input type="checkbox" name="address_group" value="Y"'.(Preferences('DEFAULT_FAMILIES')=='Y'?' checked':'').'>&nbsp;'._('Group by Family').'</label><br />';
 //FJ if only one school, no Search All Schools option
 				if (SchoolInfo('SCHOOLS_NB') > 1)
-					echo '<label><INPUT type="checkbox" name="_search_all_schools" value="Y"'.(Preferences('DEFAULT_ALL_SCHOOLS')=='Y'?' checked':'').'>&nbsp;'._('Search All Schools').'</label><BR />';
+					echo '<label><input type="checkbox" name="_search_all_schools" value="Y"'.(Preferences('DEFAULT_ALL_SCHOOLS')=='Y'?' checked':'').'>&nbsp;'._('Search All Schools').'</label><br />';
 			}
 
-			echo '<label><INPUT type="checkbox" name="include_inactive" value="Y">&nbsp;'._('Include Inactive Students').'</label><BR /><BR />';
+			echo '<label><input type="checkbox" name="include_inactive" value="Y">&nbsp;'._('Include Inactive Students').'</label><br /><br />';
 
 			echo Buttons(_('Submit'),_('Reset'));
 
-			echo '</TD></TR>';
+			echo '</td></tr>';
 			
 			if ( $extra['search'] || $extra['extra_search'] || $extra['second_col'])
 			{
-				echo '<TR><TD><TABLE class="widefat width-100p cellspacing-0 col1-align-right">';
+				echo '<tr><td><table class="widefat width-100p cellspacing-0 col1-align-right">';
 
 				if ( $extra['search'])
 					echo $extra['search'];
@@ -70,33 +70,33 @@ if ( !$_REQUEST['search_modfunc'])
 				if ( $extra['second_col'])
 					echo $extra['second_col'];
 
-				echo '</TABLE></TD></TR>';
+				echo '</table></td></tr>';
 			}
 
-			echo '<TR class="valign-top"><TD>';
+			echo '<tr class="valign-top"><td>';
 
 			if ( $_REQUEST['advanced']=='Y')
 			{
 				$extra['search'] = '';
 				Widgets('all',$extra);
 
-				echo '<TABLE class="postbox cellspacing-0"><THEAD><TR><TH>';
-				echo '<H3>'._('Widgets').'</H3></TH></THEAD><TBODY></TR>';
+				echo '<table class="postbox cellspacing-0"><thead><tr><th>';
+				echo '<h3>'._('Widgets').'</h3></th></thead><tbody></tr>';
 				echo $extra['search'];
-				echo '</TBODY></TABLE><br />';
+				echo '</tbody></table><br />';
 
-				echo '<TABLE class="postbox cellspacing-0"><THEAD><TR><TH>';
-				echo '<H3>'._('Student Fields').'</H3></TH></TR></THEAD><TBODY><TR><TD>';
+				echo '<table class="postbox cellspacing-0"><thead><tr><th>';
+				echo '<h3>'._('Student Fields').'</h3></th></tr></thead><tbody><tr><td>';
 				Search('student_fields_all',is_array($extra['student_fields'])?$extra['student_fields']:array());
-				echo '</TD></TR>';
-				echo '</TBODY></TABLE>';
+				echo '</td></tr>';
+				echo '</tbody></table>';
 
-				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</A>';
+				echo '<br /><a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</a>';
 			}
 			else
-				echo '<BR /><A href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</A>';
+				echo '<br /><a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</a>';
 
-			echo '</TD></TR></TABLE></FORM>';
+			echo '</td></tr></table></form>';
 
 			// set focus to last name text box
 			// update Bottom.php
@@ -107,21 +107,21 @@ if ( !$_REQUEST['search_modfunc'])
 
 		case 'parent':
 		case 'student':
-			echo '<BR />';
+			echo '<br />';
 
 			PopTable('header',_('Search'));
 
-			echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].$extra['action'].'" method="POST">';
-			echo '<TABLE>';
+			echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].$extra['action'].'" method="POST">';
+			echo '<table>';
 
 			if ( $extra['search'])
 				echo $extra['search'];
 
-			echo '<TR><TD colspan="2" class="center"><BR />';
+			echo '<tr><td colspan="2" class="center"><br />';
 
 			echo Buttons(_('Submit'),_('Reset'));
 
-			echo '</TD></TR></TABLE></FORM>';
+			echo '</td></tr></table></form>';
 
 			PopTable('footer');
 		break;
@@ -145,10 +145,10 @@ else
 	if ( !$extra['NoSearchTerms'])
 	{
 		if ( $_REQUEST['_search_all_schools']=='Y')
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><br />';
 
 		if ( $_REQUEST['include_inactive']=='Y')
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Include Inactive Students').'</b><BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Include Inactive Students').'</b><br />';
 	}
 
 	if ( $_REQUEST['address_group'])
@@ -195,19 +195,19 @@ else
 		if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		{
 			if ( $_REQUEST['expanded_view']!='true')
-				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'true')).'">'._('Expanded View').'</A>';
+				$header_left = '<a href="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'true')).'">'._('Expanded View').'</a>';
 			else
-				$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'false')).'">'._('Original View').'</A>';
+				$header_left = '<a href="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'false')).'">'._('Original View').'</a>';
 
 			if ( !$_REQUEST['address_group'])
-				$header_left .= ' | <A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => 'Y')).'">'._('Group by Family').'</A>';
+				$header_left .= ' | <a href="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => 'Y')).'">'._('Group by Family').'</a>';
 			else
-				$header_left .= ' | <A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => '')).'">'._('Ungroup by Family').'</A>';
+				$header_left .= ' | <a href="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => '')).'">'._('Ungroup by Family').'</a>';
 		}
 
 		DrawHeader($header_left,$extra['header_right']);
 		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
-		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
+		DrawHeader(str_replace('<br />','<br /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 
 		if ( !$_REQUEST['LO_save'] && !$extra['suppress_save'])
 		{
@@ -281,7 +281,7 @@ else
 	{		
 		DrawHeader('',$extra['header_right']);
 		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
-		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
+		DrawHeader(str_replace('<br />','<br /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 
 		echo ErrorMessage(array(_('No Students were found.')));
 	}

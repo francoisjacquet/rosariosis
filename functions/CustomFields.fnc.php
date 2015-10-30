@@ -236,7 +236,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		}
 
 		if ( !$extra['NoSearchTerms'] )
-			$_ROSARIO['SearchTerms'] .= '<BR />';
+			$_ROSARIO['SearchTerms'] .= '<br />';
 	}
 
 	// Begin Dates / Number
@@ -263,7 +263,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 				else
 					$_ROSARIO['SearchTerms'] .= $value;
 
-				$_ROSARIO['SearchTerms'] .= '<BR />';
+				$_ROSARIO['SearchTerms'] .= '<br />';
 			}
 		}
 	}
@@ -292,7 +292,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 				else
 					$_ROSARIO['SearchTerms'] .= $value;
 
-				$_ROSARIO['SearchTerms'] .= '<BR />';
+				$_ROSARIO['SearchTerms'] .= '<br />';
 			}
 		}
 	}
@@ -308,7 +308,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 
 		if ( !$extra['NoSearchTerms'] )
 			$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>' .
-				_( 'No Value' ) . '<BR />';
+				_( 'No Value' ) . '<br />';
 	}
 
 	return $return;

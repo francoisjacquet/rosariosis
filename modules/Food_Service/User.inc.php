@@ -29,12 +29,12 @@ if ( !$_REQUEST['modfunc'] && UserStaffID())
 	WHERE s.STAFF_ID='".UserStaffID()."'"));
 	$staff = $staff[1];
 
-	echo '<TABLE class="width-100p">';
-	echo '<TR>';
-	echo '<TD class="valign-top">';
-	echo '<TABLE class="width-100p"><TR>';
+	echo '<table class="width-100p">';
+	echo '<tr>';
+	echo '<td class="valign-top">';
+	echo '<table class="width-100p"><tr>';
 
-	echo '<TD class="valign-top">'.NoInput(($staff['BALANCE']<0?'<span style="color:red">':'').$staff['BALANCE'].($staff['BALANCE']<0?'</span>':''),'Balance');
+	echo '<td class="valign-top">'.NoInput(($staff['BALANCE']<0?'<span style="color:red">':'').$staff['BALANCE'].($staff['BALANCE']<0?'</span>':''),'Balance');
 
 	// warn if account non-existent (balance query failed)
 	if ( !$staff['ACCOUNT_ID'])
@@ -43,26 +43,26 @@ if ( !$_REQUEST['modfunc'] && UserStaffID())
 
 		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
 
-		echo '<BR />'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"');
+		echo '<br />'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"');
 	}
 
-	echo '</TD>';
+	echo '</td>';
 
-	echo '</TR></TABLE>';
-	echo '</TD></TR></TABLE>';
-	echo '<HR>';
+	echo '</tr></table>';
+	echo '</td></tr></table>';
+	echo '<hr />';
 
-	echo '<TABLE class="width-100p cellspacing-0">';
-	echo '<TR><TD class="valign-top">';
+	echo '<table class="width-100p cellspacing-0">';
+	echo '<tr><td class="valign-top">';
 
-	echo '<TABLE class="width-100p">';
-	echo '<TR>';
+	echo '<table class="width-100p">';
+	echo '<tr>';
 	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
-	echo '<TD>'.($staff['ACCOUNT_ID']?SelectInput($staff['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')):NoInput('-',_('Status'))).'</TD>';
-	echo '<TD>'.($staff['ACCOUNT_ID']?TextInput($staff['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25'):NoInput('-',_('Barcode'))).'</TD>';
-	echo '</TR>';
-	echo '</TABLE>';
+	echo '<td>'.($staff['ACCOUNT_ID']?SelectInput($staff['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')):NoInput('-',_('Status'))).'</td>';
+	echo '<td>'.($staff['ACCOUNT_ID']?TextInput($staff['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25'):NoInput('-',_('Barcode'))).'</td>';
+	echo '</tr>';
+	echo '</table>';
 
-	echo '</TD></TR>';
-	echo '</TABLE>';
+	echo '</td></tr>';
+	echo '</table>';
 }

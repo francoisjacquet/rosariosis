@@ -70,8 +70,8 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	
 	?>
 
-	<TABLE>
-		<TR><TD>
+	<table>
+		<tr><td>
 			<?php echo TextAreaInput(
 				'',
 				'values[STUDENT_MP_COMMENTS][' . UserStudentID() . '][COMMENT]',
@@ -79,14 +79,14 @@ if ( empty( $_REQUEST['modfunc'] ) )
 				'rows="10"' . ( AllowEdit() ? '' : ' readonly' ),
 				false
 			); ?>
-		</TD></TR>
+		</td></tr>
 	<?php
-	//echo '<BR /><b>* '._('If more than one teacher will be adding comments for this student').':</b><BR />';
+	//echo '<br /><b>* '._('If more than one teacher will be adding comments for this student').':</b><br />';
 	//echo '<ul><li>'._('Type your name above the comments you enter.').'</li></ul>';
 	//echo '<li>'._('Leave space for other teachers to enter their comments.').'</li></ul>';
 	//FJ add time and user to comments "comment thread" like
 	?>
-		<TR><TD id="student-comments">
+		<tr><td id="student-comments">
 	<?php
 	if ( ( $comments = unserialize( $comments_RET[1]['COMMENT'] ) ) )
 	{
@@ -134,8 +134,8 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		echo implode( "\n", $comments_HTML );
 	}
 	?>
-		</TD></TR>
-	</TABLE>
+		</td></tr>
+	</table>
 	<?php
 
 	require_once 'modules/Students/includes/Other_Info.inc.php';

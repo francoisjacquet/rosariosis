@@ -13,7 +13,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		PreparePHP_SELF( $_REQUEST, array(), array( 'all_schools' => '' ) ) :
 		PreparePHP_SELF( $_REQUEST, array(), array( 'all_schools' => 'Y' ) ) ) . "'";
 
-	$input_all_schools = '<INPUT type="checkbox" name="all_schools" value="Y" onclick="ajaxLink(' . $all_schools_onclick_URL . ');"' . ( $_REQUEST['all_schools'] == 'Y' ? 'checked' : '' ) . ' />';
+	$input_all_schools = '<input type="checkbox" name="all_schools" value="Y" onclick="ajaxLink(' . $all_schools_onclick_URL . ');"' . ( $_REQUEST['all_schools'] == 'Y' ? 'checked' : '' ) . ' />';
 
 	DrawHeader('','','<label>'.$input_all_schools.' '._('List Courses For All Schools').'</label>');
 
@@ -53,7 +53,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 		$_SESSION['orientation'] = 'landscape';
 	}
 	else
-		echo '<HR>';
+		echo '<hr />';
 
 	$schedule_table_days = array('U'=>false,'M'=>false,'T'=>false,'W'=>false,'H'=>false,'F'=>false,'S'=>false);
 	//FJ days display to locale						
@@ -89,7 +89,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	ListOutput($schedule_table_RET,$columns,'Period','Periods',false,array(),array('save'=>false));
 
 	if ( $PopTable_opened)
-		echo '<TABLE><TR><TD>';
+		echo '<table><tr><td>';
 }
 
 //FJ add schedule table

@@ -10,9 +10,9 @@ if ( $_REQUEST['modname']=='Scheduling/UnfilledRequests.php')
 	DrawHeader(ProgramTitle());
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" METHOD="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" method="POST">';
 		DrawHeader('<label>'.CheckBoxOnclick('include_seats').' '._('Show Available Seats').'</label>');
-		echo '</FORM>';
+		echo '</form>';
 	}
 }
 else

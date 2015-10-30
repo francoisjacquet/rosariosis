@@ -415,10 +415,10 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 		}
 
 		if (basename($_SERVER['PHP_SELF'])!='index.php')
-			echo '<FORM name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
+			echo '<form name="student" action="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id.'&modfunc=update" method="POST" enctype="multipart/form-data">';
 		//FJ create account
 		else
-			echo '<FORM action="index.php?create_account=student&student_id=new&modfunc=update" METHOD="POST" enctype="multipart/form-data">';
+			echo '<form action="index.php?create_account=student&student_id=new&modfunc=update" method="POST" enctype="multipart/form-data">';
 
 		if ( $_REQUEST['student_id']!='new')
 			$name = $student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].' - '.$student['STUDENT_ID'];
@@ -452,7 +452,7 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 
 		$_ROSARIO['selected_tab'] = 'Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$category_id;
 
-		echo '<BR />';
+		echo '<br />';
 		echo PopTable('header',$tabs,'width="100%"');
 		$PopTable_opened = true;
 
@@ -466,15 +466,15 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 			{
 				require 'modules/' . $include . '.inc.php';
 
-				$separator = '<HR>';
+				$separator = '<hr />';
 
 				require_once 'modules/Students/includes/Other_Info.inc.php';
 			}
 		}
 		echo PopTable('footer');
 
-		echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-		echo '</FORM>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		echo '</form>';
 	}
 	elseif ( $can_use_RET['Students/Student.php&category_id='.$category_id])
 	{
@@ -486,7 +486,7 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 		{
 			require 'modules/' . $include . '.inc.php';
 
-			$separator = '<HR>';
+			$separator = '<hr />';
 
 			require 'modules/Students/includes/Other_Info.inc.php';
 		}

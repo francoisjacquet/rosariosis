@@ -131,7 +131,7 @@ function _ErrorMessage( $errors, $code = 'error' )
 {
 	if ( $errors )
 	{
-		$return .= '<TABLE cellpadding="10"><TR><TD style="text-align:left;"><p style="font-size:larger;">';
+		$return .= '<table cellpadding="10"><tr><td style="text-align:left;"><p style="font-size:larger;">';
 
 		if ( count( $errors ) == 1 )
 		{
@@ -156,12 +156,12 @@ function _ErrorMessage( $errors, $code = 'error' )
 			$return .= '<ul>';
 
 			foreach ( (array)$errors as $value )
-				$return .= '<LI>' . $value . '</LI>';
+				$return .= '<li>' . $value . '</li>';
 
 			$return .= '</ul>';
 		}
 
-		$return .= '</p></TD></TR></TABLE><BR />';
+		$return .= '</p></td></tr></table><br />';
 
 		if ( $code == 'fatal' )
 		{

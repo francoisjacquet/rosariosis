@@ -109,7 +109,7 @@ elseif ( isset( $_POST['USERNAME'] )
 		{
 			Warehouse( 'header' ); ?>
 
-	<form action="index.php" method="POST" target="_top"><BR />
+	<form action="index.php" method="POST" target="_top"><br />
 
 	<?php PopTable( 'header', _( 'Confirm Successful Installation' ) ); ?>
 
@@ -130,16 +130,16 @@ elseif ( isset( $_POST['USERNAME'] )
 				);
 			?>
 		</p>
-		<BR />
+		<br />
 		<input type="submit" value="<?php echo _( 'OK' ); ?>" />
 	</div>
 
 	<?php PopTable( 'footer' ); ?>
 
-	</FORM>
+	</form>
 
-</BODY>
-</HTML>
+</body>
+</html>
 <?php 
 			// set Config( 'LOGIN' ) to Yes
 			DBQuery( "UPDATE CONFIG
@@ -247,11 +247,11 @@ if ( empty( $_SESSION['STAFF_ID'] )
 	<noscript>
 		<meta http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&amp;reason=javascript" />
 	</noscript>
-	<link REL="SHORTCUT ICON" HREF="favicon.ico" />
+	<link REL="SHORTCUT ICON" href="favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Config( 'THEME' ); ?>/stylesheet.css" />
 </head>
 <body>
-<BR /><BR />
+<br /><br />
 <?php
 
 	PopTable(
@@ -381,20 +381,20 @@ if ( empty( $_SESSION['STAFF_ID'] )
 						);
 					?>
 				</span>
-				<BR /><BR />
+				<br /><br />
 			</td>
 		</tr>
 	</table>
 	<div class="center">
 		<?php echo sprintf( _( '%s version %s' ), 'RosarioSIS', ROSARIO_VERSION ); ?>
-		<BR />&copy; 2004-2009 <a href="http://www.miller-group.net" noreferrer>The Miller Group, Inc</a>
-		<BR />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
-		<BR />&copy; 2012-2015 <a href="http://www.rosariosis.org" noreferrer>François Jacquet</a>
+		<br />&copy; 2004-2009 <a href="http://www.miller-group.net" noreferrer>The Miller Group, Inc</a>
+		<br />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
+		<br />&copy; 2012-2015 <a href="http://www.rosariosis.org" noreferrer>François Jacquet</a>
 	</div>
 
 <?php PopTable( 'footer' ); ?>
 
-<BR />
+<br />
 </body>
 </html>
 <?php

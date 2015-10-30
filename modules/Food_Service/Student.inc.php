@@ -26,23 +26,23 @@ if ( !$_REQUEST['modfunc'] && UserStudentID())
 	// find other students associated with the same account
 	$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE fssa.ACCOUNT_ID='".$student['ACCOUNT_ID']."' AND s.STUDENT_ID=fssa.STUDENT_ID AND s.STUDENT_ID!='".UserStudentID()."'"));
 
-	echo '<TABLE class="width-100p">';
-	echo '<TR>';
-	echo '<TD class="valign-top">';
-	echo '<TABLE class="width-100p"><TR>';
+	echo '<table class="width-100p">';
+	echo '<tr>';
+	echo '<td class="valign-top">';
+	echo '<table class="width-100p"><tr>';
 
-	echo '<TD class="valign-top">'.NoInput(($student['BALANCE']<0?'<span style="color:red">':'').$student['BALANCE'].($student['BALANCE']<0?'</span>':''),_('Balance')).'</TD>';
+	echo '<td class="valign-top">'.NoInput(($student['BALANCE']<0?'<span style="color:red">':'').$student['BALANCE'].($student['BALANCE']<0?'</span>':''),_('Balance')).'</td>';
 
-	echo '</TR></TABLE>';
-	echo '</TD></TR></TABLE>';
-	echo '<HR>';
+	echo '</tr></table>';
+	echo '</td></tr></table>';
+	echo '<hr />';
 
-	echo '<TABLE class="width-100p cellspacing-0">';
-	echo '<TR><TD class="valign-top">';
+	echo '<table class="width-100p cellspacing-0">';
+	echo '<tr><td class="valign-top">';
 
-	echo '<TABLE class="width-100p">';
-	echo '<TR>';
-	echo '<TD>';
+	echo '<table class="width-100p">';
+	echo '<tr>';
+	echo '<td>';
 
 	// warn if account non-existent (balance query failed)
 	if ( $student['BALANCE']=='')
@@ -61,26 +61,26 @@ if ( !$_REQUEST['modfunc'] && UserStudentID())
 	// warn if other students associated with the same account
 	if (count($xstudents))
 	{
-		$warning = _('Other students associated with the same account').':<BR />';
+		$warning = _('Other students associated with the same account').':<br />';
 
 		foreach ( (array)$xstudents as $xstudent)
-			$warning .= '&nbsp;'.$xstudent['FULL_NAME'].'<BR />';
+			$warning .= '&nbsp;'.$xstudent['FULL_NAME'].'<br />';
 
 		$tipJS = '<script>var tiptitle2='.json_encode(_('Warning')).'; var tipmsg2='.json_encode($warning).';</script>';
 
 		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2])" onMouseOut="htm()" onclick="return false;"');
 	}
 
-	echo '</TD>';
+	echo '</td>';
 	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
-	echo '<TD>'.SelectInput($student['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')).'</TD>';
-	echo '</TR><TR>';
+	echo '<td>'.SelectInput($student['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')).'</td>';
+	echo '</tr><tr>';
 	$options = array('Reduced' => 'Reduced','Free' => 'Free');
-	echo '<TD>'.SelectInput($student['DISCOUNT'],'food_service[DISCOUNT]',_('Discount'),$options,_('Full')).'</TD>';
-	echo '<TD>'.TextInput($student['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25').'</TD>';
-	echo '</TR>';
-	echo '</TABLE>';
+	echo '<td>'.SelectInput($student['DISCOUNT'],'food_service[DISCOUNT]',_('Discount'),$options,_('Full')).'</td>';
+	echo '<td>'.TextInput($student['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25').'</td>';
+	echo '</tr>';
+	echo '</table>';
 
-	echo '</TD></TR>';
-	echo '</TABLE>';
+	echo '</td></tr>';
+	echo '</table>';
 }

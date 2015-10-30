@@ -325,8 +325,8 @@ if (empty($_REQUEST['modfunc']))
 	if (count($addresses_RET)==1 && $_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old' && $_REQUEST['address_id']!='0')
 		$_REQUEST['address_id'] = key($addresses_RET).'';
 
-	echo '<TABLE><TR class="address st"><TD class="valign-top">';
-	echo '<TABLE class="widefat cellspacing-0">';
+	echo '<table><tr class="address st"><td class="valign-top">';
+	echo '<table class="widefat cellspacing-0">';
 	if (count($addresses_RET) || $_REQUEST['address_id']=='new' || $_REQUEST['address_id']=='0')
 	{
 		$i = 1;
@@ -337,7 +337,7 @@ if (empty($_REQUEST['modfunc']))
 		{
 			foreach ( (array)$addresses_RET as $address_id => $addresses)
 			{
-				echo '<TR>';
+				echo '<tr>';
 
 				if ( $address_id!='0')
 				{
@@ -345,7 +345,7 @@ if (empty($_REQUEST['modfunc']))
 				$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja WHERE s.STUDENT_ID=sja.STUDENT_ID AND sja.ADDRESS_ID='".$address_id."' AND sja.STUDENT_ID!='".UserStudentID()."'"));
 				if (count($xstudents))
 				{
-					$warning = _('Other students associated with this address').':<BR />';
+					$warning = _('Other students associated with this address').':<br />';
 					foreach ( (array)$xstudents as $xstudent)
 					{
 						$ximages = '';
@@ -363,13 +363,13 @@ if (empty($_REQUEST['modfunc']))
 
 					$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
 
-					echo '<TH>'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"').'</TH>';
+					echo '<th>'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"').'</th>';
 				}
 				else
-					echo '<TH>&nbsp;</TH>';
+					echo '<th>&nbsp;</th>';
 				}
 				else
-					echo '<TH>&nbsp;</TH>';
+					echo '<th>&nbsp;</th>';
 
 				$relation_list = '';
 				foreach ( (array)$addresses as $address)
@@ -389,94 +389,94 @@ if (empty($_REQUEST['modfunc']))
 				if ( $address['MAILING']=='Y')
 					$images .= ' '. button('mailbox','','','bigger');
 
-				echo '<TH colspan="2">'.$images.'&nbsp;'.$relation_list.'</TH>';
+				echo '<th colspan="2">'.$images.'&nbsp;'.$relation_list.'</th>';
 
-				echo '</TR>';
+				echo '</tr>';
 
 				if ( $address_id==$_REQUEST['address_id'] && $_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='new')
 					$this_address = $address;
 
 				$i++;
-				//echo '<A style="cursor: pointer;">';
+				//echo '<a style="cursor: pointer;">';
 				if ( $_REQUEST['address_id']==$address['ADDRESS_ID'])
-					echo '<TR class="highlight"><TD>'.(($address['ADDRESS_ID']!='0' && AllowEdit()) ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</TD><TD style="color:white;">';
+					echo '<tr class="highlight"><td>'.(($address['ADDRESS_ID']!='0' && AllowEdit()) ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</td><td style="color:white;">';
 				else
-					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</TD><TD>';
+					echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</td><td>';
 
-				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<BR />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</A>';
+				echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<br />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</a>';
 
-				echo '</TD>';
-				echo '<TD'.$style.'><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'"><div class="arrow right"></div></A></TD>';
+				echo '</td>';
+				echo '<td'.$style.'><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'"><div class="arrow right"></div></a></td>';
 
-				echo '</TR>';
+				echo '</tr>';
 			}
-			echo '<TR><TD colspan="3" style="height:40px;"></TD></TR>';
+			echo '<tr><td colspan="3" style="height:40px;"></td></tr>';
 		}
 	}
 	else
-		echo '<TR><TD colspan="3">'._('This student doesn\'t have an address.').'</TD></TR>';
+		echo '<tr><td colspan="3">'._('This student doesn\'t have an address.').'</td></tr>';
 
 	// New Address
 	if (AllowEdit())
 	{
 		if ( $_REQUEST['address_id']=='new')
-			echo '<TR class="highlight"><TD>'.button('add').'</TD><TD>';
+			echo '<tr class="highlight"><td>'.button('add').'</td><td>';
 		else
-			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
+			echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
 
-		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new">'._('Add a <b>New</b> Address').' &nbsp; </A>';
-		echo '</TD>';
+		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new">'._('Add a <b>New</b> Address').' &nbsp; </a>';
+		echo '</td>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new"><div class="arrow right"></div></A></TD>';
-		echo '</TR>';
+		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new"><div class="arrow right"></div></a></td>';
+		echo '</tr>';
 
 		if ( $_REQUEST['address_id']=='old')
-			echo '<TR class="highlight"><TD>'.button('add').'</TD><TD>';
+			echo '<tr class="highlight"><td>'.button('add').'</td><td>';
 		else
-			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
+			echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
 
-		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old">'._('Add an <b>Existing</b> Address').' &nbsp; </A>';
-		echo '</TD>';
+		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old">'._('Add an <b>Existing</b> Address').' &nbsp; </a>';
+		echo '</td>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old"><div class="arrow right"></div></A></TD>';
-		echo '</TR>';
+		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old"><div class="arrow right"></div></a></td>';
+		echo '</tr>';
 
 		if ( $_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='new')
-			echo '<TR class="highlight"><TD>'.button('add').'</TD><TD '.$link.'>';
+			echo '<tr class="highlight"><td>'.button('add').'</td><td '.$link.'>';
 		else
-			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
+			echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
 
-		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new">'._('Add a <b>New</b> Contact<BR />without an Address').' &nbsp; </A>';
-		echo '</TD>';
+		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new">'._('Add a <b>New</b> Contact<br />without an Address').' &nbsp; </a>';
+		echo '</td>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new"><div class="arrow right"></div></A></TD>';
-		echo '</TR>';
+		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new"><div class="arrow right"></div></a></td>';
+		echo '</tr>';
 
 		if ( $_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='old')
-			echo '<TR class="highlight"><TD>'.button('add').'</TD><TD '.$link.'>';
+			echo '<tr class="highlight"><td>'.button('add').'</td><td '.$link.'>';
 		else
-			echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
+			echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
 
-		echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old">'._('Add an <b>Existing</b> Contact<BR />without an Address').' &nbsp; </A>';
-		echo '</TD>';
+		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old">'._('Add an <b>Existing</b> Contact<br />without an Address').' &nbsp; </a>';
+		echo '</td>';
 
-		echo '<TD><A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old"><div class="arrow right"></div></A></TD>';
-		echo '</TR>';
+		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old"><div class="arrow right"></div></a></td>';
+		echo '</tr>';
 	}
-	echo '</TABLE>';
-	echo '</TD>';
-	//echo '<TD style="width:10px; border:1;">&nbsp;</TD>';
+	echo '</table>';
+	echo '</td>';
+	//echo '<td style="width:10px; border:1;">&nbsp;</td>';
 
 	if (isset($_REQUEST['address_id']))
 	{
-		echo '<TD class="valign-top">';
-		echo '<INPUT type="hidden" name="address_id" value="'.$_REQUEST['address_id'].'">';
+		echo '<td class="valign-top">';
+		echo '<input type="hidden" name="address_id" value="'.$_REQUEST['address_id'].'">';
 
 		if ( $_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='old')
 		{
-			echo '<TABLE class="widefat width-100p cellspacing-0"><TR><TH colspan="3">';
+			echo '<table class="widefat width-100p cellspacing-0"><tr><th colspan="3">';
 
-			echo ($_REQUEST['address_id']=='0'?_('Contacts without an Address'):_('Contacts at this Address')).'</TH></TR>';
+			echo ($_REQUEST['address_id']=='0'?_('Contacts without an Address'):_('Contacts at this Address')).'</th></tr>';
 
 			$contacts_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp WHERE p.PERSON_ID=sjp.PERSON_ID AND sjp.STUDENT_ID='".UserStudentID()."' AND sjp.ADDRESS_ID='".$_REQUEST['address_id']."' ORDER BY sjp.STUDENT_RELATION"));
 
@@ -496,9 +496,9 @@ if (empty($_REQUEST['modfunc']))
 						$remove_button = '';
 
 					if ( $_REQUEST['person_id']==$contact['PERSON_ID'])
-						echo '<TR class="highlight"><TD>'.$remove_button.'</TD><TD>';
+						echo '<tr class="highlight"><td>'.$remove_button.'</td><td>';
 					else
-						echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.$remove_button.'</TD><TD>';
+						echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.$remove_button.'</td><td>';
 
 					$images = '';
 
@@ -507,7 +507,7 @@ if (empty($_REQUEST['modfunc']))
 
 					if (count($xstudents))
 					{
-						$warning = _('Other students associated with this person').':<BR />';
+						$warning = _('Other students associated with this person').':<br />';
 						foreach ( (array)$xstudents as $xstudent)
 						{
 							$ximages = '';
@@ -517,7 +517,7 @@ if (empty($_REQUEST['modfunc']))
 							if ( $xstudent['EMERGENCY']=='Y')
 								$ximages .= ' '. button('emergency','','','bigger');
 
-							$warning .= '<b>'.$xstudent['FULL_NAME'].'</b> ('.($xstudent['STUDENT_RELATION']?$xstudent['STUDENT_RELATION']:'---').')'.$ximages.'<BR />';
+							$warning .= '<b>'.$xstudent['FULL_NAME'].'</b> ('.($xstudent['STUDENT_RELATION']?$xstudent['STUDENT_RELATION']:'---').')'.$ximages.'<br />';
 						}
 
 						$tipJS = '<script>var tiptitle2='.json_encode(_('Warning')).'; var tipmsg2='.json_encode($warning).';</script>';
@@ -531,15 +531,15 @@ if (empty($_REQUEST['modfunc']))
 					if ( $contact['EMERGENCY']=='Y')
 						$images .= ' '. button('emergency','','','bigger');
 
-					echo '<A style="display: inline-block;" href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'">'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<BR /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></A>';
-					echo '<span style="float:right">'.$images.'</span></TD>';
+					echo '<a style="display: inline-block;" href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'">'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<br /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></a>';
+					echo '<span style="float:right">'.$images.'</span></td>';
 
-					echo '<TD> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><div class="arrow right"></div></a></TD>';
-					echo '</TR>';
+					echo '<td> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><div class="arrow right"></div></a></td>';
+					echo '</tr>';
 				}
 			}
 			else
-				echo '<TR><TD colspan="3">'.($_REQUEST['address_id']=='0'?_('There are no contacts without an address.'):_('There are no contacts at this address.')).'</TD></TR>';
+				echo '<tr><td colspan="3">'.($_REQUEST['address_id']=='0'?_('There are no contacts without an address.'):_('There are no contacts at this address.')).'</td></tr>';
 
 			// New Contact
 			if (AllowEdit())
@@ -547,29 +547,29 @@ if (empty($_REQUEST['modfunc']))
 //				$style = ' style="border-color: gray; border:1; border-style: solid none none none;"';
 				$style = '';
 				if ( $_REQUEST['person_id']=='new')
-					echo '<TR class="highlight"><TD>'.button('add').'</TD><TD>';
+					echo '<tr class="highlight"><td>'.button('add').'</td><td>';
 				else
-					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
+					echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
 
-				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=new">'._('Add a <b>New</b> Contact').'</A>';
-				echo '</TD>';
+				echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=new">'._('Add a <b>New</b> Contact').'</a>';
+				echo '</td>';
 
-				echo '<TD> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=new"><div class="arrow right"></div></A></TD>';
-				echo '</TR>';
+				echo '<td> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=new"><div class="arrow right"></div></a></td>';
+				echo '</tr>';
 
 				if ( $_REQUEST['person_id']=='old')
-					echo '<TR class="highlight"><TD>'.button('add').'</TD><TD>';
+					echo '<tr class="highlight"><td>'.button('add').'</td><td>';
 				else
-					echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><TD>'.button('add').'</TD><TD>';
+					echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
 
-				echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=old">'._('Add an <b>Existing</b> Contact').'</A>';
-				echo '</TD>';
+				echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=old">'._('Add an <b>Existing</b> Contact').'</a>';
+				echo '</td>';
 
-				echo '<TD> &nbsp; <A href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=old"><div class="arrow right"></div></A></TD>';
-				echo '</TR>';
+				echo '<td> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=old"><div class="arrow right"></div></a></td>';
+				echo '</tr>';
 			}
 
-			echo '</TABLE><BR />';
+			echo '</table><br />';
 		}
 
 		if ( $_REQUEST['address_id']!='0' && $_REQUEST['address_id']!='old')
@@ -584,22 +584,22 @@ if (empty($_REQUEST['modfunc']))
 			$zip_options = _makeAutoSelect('ZIPCODE','ADDRESS',array(array('ZIPCODE' => $this_address['ZIPCODE']),array('ZIPCODE' => $this_address['MAIL_ZIPCODE'])),array());
 
 			//FJ css WPadmin
-			echo '<TABLE class="widefat width-100p cellspacing-0"><TR><TH colspan="3">';
-			echo _('Address').'</TH></TR>';
-			echo '<TR><TD colspan="3">'.TextInput($this_address['ADDRESS'],'values[ADDRESS][ADDRESS]',_('Street'),$size?'required size=20':'required').'</TD>';
-			echo '</TR><TR><TD>'._makeAutoSelectInputX($this_address['CITY'],'CITY','ADDRESS',_('City'),$city_options).'</TD>';
-			echo '<TD>'._makeAutoSelectInputX($this_address['STATE'],'STATE','ADDRESS',_('State'),$state_options).'</TD>';
-			echo '<TD>'._makeAutoSelectInputX($this_address['ZIPCODE'],'ZIPCODE','ADDRESS',_('Zip'),$zip_options).'</TD></TR>';
-			echo '<TR><TD colspan="3">'.TextInput($this_address['PHONE'],'values[ADDRESS][PHONE]',_('Phone'),$size?'size=13':'').'</TD></TR>';
+			echo '<table class="widefat width-100p cellspacing-0"><tr><th colspan="3">';
+			echo _('Address').'</th></tr>';
+			echo '<tr><td colspan="3">'.TextInput($this_address['ADDRESS'],'values[ADDRESS][ADDRESS]',_('Street'),$size?'required size=20':'required').'</td>';
+			echo '</tr><tr><td>'._makeAutoSelectInputX($this_address['CITY'],'CITY','ADDRESS',_('City'),$city_options).'</td>';
+			echo '<td>'._makeAutoSelectInputX($this_address['STATE'],'STATE','ADDRESS',_('State'),$state_options).'</td>';
+			echo '<td>'._makeAutoSelectInputX($this_address['ZIPCODE'],'ZIPCODE','ADDRESS',_('Zip'),$zip_options).'</td></tr>';
+			echo '<tr><td colspan="3">'.TextInput($this_address['PHONE'],'values[ADDRESS][PHONE]',_('Phone'),$size?'size=13':'').'</td></tr>';
 			if ( $_REQUEST['address_id']!='new' && $_REQUEST['address_id']!='0')
 			{
 				$display_address = urlencode($this_address['ADDRESS'].', '.($this_address['CITY']?' '.$this_address['CITY'].', ':'').$this_address['STATE'].($this_address['ZIPCODE']?' '.$this_address['ZIPCODE']:''));
 
 				$link = 'http://google.com/maps?q='.$display_address;
 
-				echo '<TR><TD class="valign-top" colspan="3">'. button('compass_rose', _('Map It'), '# onclick=\'window.open("'.$link.'","","scrollbars=yes,resizable=yes,width=800,height=700"); return false;\'', 'bigger') .'</TD></TR>';
+				echo '<tr><td class="valign-top" colspan="3">'. button('compass_rose', _('Map It'), '# onclick=\'window.open("'.$link.'","","scrollbars=yes,resizable=yes,width=800,height=700"); return false;\'', 'bigger') .'</td></tr>';
 			}
-			echo '</TABLE>';
+			echo '</table>';
 
 			if ( $_REQUEST['address_id']=='new')
 			{
@@ -615,37 +615,37 @@ if (empty($_REQUEST['modfunc']))
 			}
 
 			//FJ css WPadmin
-			echo '<br /><TABLE class="widefat cellspacing-0"><TR><TD>'.CheckboxInput($this_address['RESIDENCE'], 'values[STUDENTS_JOIN_ADDRESS][RESIDENCE]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('house','','','bigger') .'</TD><TD>'._('Residence').'</TD></TR>';
+			echo '<br /><table class="widefat cellspacing-0"><tr><td>'.CheckboxInput($this_address['RESIDENCE'], 'values[STUDENTS_JOIN_ADDRESS][RESIDENCE]', '', 'CHECKED', $new, button('check'), button('x')).'</td><td>'. button('house','','','bigger') .'</td><td>'._('Residence').'</td></tr>';
 
-			echo '<TR><TD>'.CheckboxInput($this_address['BUS_PICKUP'], 'values[STUDENTS_JOIN_ADDRESS][BUS_PICKUP]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('bus','','','bigger') .'</TD><TD>'._('Bus Pickup').'</TD></TR>';
+			echo '<tr><td>'.CheckboxInput($this_address['BUS_PICKUP'], 'values[STUDENTS_JOIN_ADDRESS][BUS_PICKUP]', '', 'CHECKED', $new, button('check'), button('x')).'</td><td>'. button('bus','','','bigger') .'</td><td>'._('Bus Pickup').'</td></tr>';
 
-			echo '<TR><TD>'.CheckboxInput($this_address['BUS_DROPOFF'], 'values[STUDENTS_JOIN_ADDRESS][BUS_DROPOFF]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('bus','','','bigger') .'</TD><TD>'._('Bus Dropoff').'</TD></TR>';
+			echo '<tr><td>'.CheckboxInput($this_address['BUS_DROPOFF'], 'values[STUDENTS_JOIN_ADDRESS][BUS_DROPOFF]', '', 'CHECKED', $new, button('check'), button('x')).'</td><td>'. button('bus','','','bigger') .'</td><td>'._('Bus Dropoff').'</td></tr>';
 
 			if (Config('STUDENTS_USE_MAILING') || $this_address['MAIL_CITY'] || $this_address['MAIL_STATE'] || $this_address['MAIL_ZIPCODE'])
 			{
 				echo '<script> function show_mailing(checkbox){if (checkbox.checked==true) document.getElementById(\'mailing_address_div\').style.visibility=\'visible\'; else document.getElementById(\'mailing_address_div\').style.visibility=\'hidden\';}</script>';
 
-				echo '<TR><TD>'.CheckboxInput($this_address['MAILING'], 'values[STUDENTS_JOIN_ADDRESS][MAILING]', '', 'CHECKED', $new, button('check'), button('x'), true, 'onclick=show_mailing(this);').'</TD><TD>'. button('mailbox','','','bigger') .'</TD><TD>'._('Mailing Address').'</TD></TR></TABLE>';
+				echo '<tr><td>'.CheckboxInput($this_address['MAILING'], 'values[STUDENTS_JOIN_ADDRESS][MAILING]', '', 'CHECKED', $new, button('check'), button('x'), true, 'onclick=show_mailing(this);').'</td><td>'. button('mailbox','','','bigger') .'</td><td>'._('Mailing Address').'</td></tr></table>';
 
-				echo '<DIV id="mailing_address_div" style="visibility: '.(($this_address['MAILING']||$_REQUEST['address_id']=='new')?'visible':'hidden').';">';
+				echo '<div id="mailing_address_div" style="visibility: '.(($this_address['MAILING']||$_REQUEST['address_id']=='new')?'visible':'hidden').';">';
 
-				echo '<br /><TABLE class="widefat cellspacing-0"><TR><TH colspan="3">'._('Mailing Address').'&nbsp;('._('If different than above').')';
+				echo '<br /><table class="widefat cellspacing-0"><tr><th colspan="3">'._('Mailing Address').'&nbsp;('._('If different than above').')';
 
-				echo '</TH></TR>';
+				echo '</th></tr>';
 
-				echo '<TR><TD colspan="3">'.TextInput($this_address['MAIL_ADDRESS'],'values[ADDRESS][MAIL_ADDRESS]',_('Street'),!$this_address['MAIL_ADDRESS']?'size=20':'').'</TD></TR>';
+				echo '<tr><td colspan="3">'.TextInput($this_address['MAIL_ADDRESS'],'values[ADDRESS][MAIL_ADDRESS]',_('Street'),!$this_address['MAIL_ADDRESS']?'size=20':'').'</td></tr>';
 
-				echo '<TR><TD>'._makeAutoSelectInputX($this_address['MAIL_CITY'],'MAIL_CITY','ADDRESS',_('City'),array()).'</TD>';
+				echo '<tr><td>'._makeAutoSelectInputX($this_address['MAIL_CITY'],'MAIL_CITY','ADDRESS',_('City'),array()).'</td>';
 
-				echo '<TD>'._makeAutoSelectInputX($this_address['MAIL_STATE'],'MAIL_STATE','ADDRESS',_('State'),array()).'</TD>';
+				echo '<td>'._makeAutoSelectInputX($this_address['MAIL_STATE'],'MAIL_STATE','ADDRESS',_('State'),array()).'</td>';
 
-				echo '<TD>'._makeAutoSelectInputX($this_address['MAIL_ZIPCODE'],'MAIL_ZIPCODE','ADDRESS',_('Zip'),array()).'</TD></TR>';
+				echo '<td>'._makeAutoSelectInputX($this_address['MAIL_ZIPCODE'],'MAIL_ZIPCODE','ADDRESS',_('Zip'),array()).'</td></tr>';
 
-				echo '</TABLE>';
-				echo '</DIV>';
+				echo '</table>';
+				echo '</div>';
 			}
 			else
-				echo '<TR><TD>'.CheckboxInput($this_address['MAILING'], 'values[STUDENTS_JOIN_ADDRESS][MAILING]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('mailbox','','','bigger') .'</TD><TD>'._('Mailing Address').'</TD></TR></TABLE>';
+				echo '<tr><td>'.CheckboxInput($this_address['MAILING'], 'values[STUDENTS_JOIN_ADDRESS][MAILING]', '', 'CHECKED', $new, button('check'), button('x')).'</td><td>'. button('mailbox','','','bigger') .'</td><td>'._('Mailing Address').'</td></tr></table>';
 		}
 
 		if ( $_REQUEST['address_id']=='old')
@@ -656,35 +656,35 @@ if (empty($_REQUEST['modfunc']))
 			echo SelectInput('','values[EXISTING][address_id]',_('Select Address'),$address_select);
 		}
 
-		echo '</TD>';
+		echo '</td>';
 
 		if ( $_REQUEST['person_id'])
 		{
-			echo '<TD class="valign-top">';
-			echo '<INPUT type="hidden" name="person_id" value="'.$_REQUEST['person_id'].'" />';
+			echo '<td class="valign-top">';
+			echo '<input type="hidden" name="person_id" value="'.$_REQUEST['person_id'].'" />';
 
 			if ( $_REQUEST['person_id']!='old')
 			{
 				$relation_options = _makeAutoSelect('STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',$this_contact['STUDENT_RELATION'],array());
 
 				//FJ css WPadmin
-				echo '<TABLE class="widefat cellspacing-0"><TR><TH colspan="3">'._('Contact Information').'</TH></TR>';
+				echo '<table class="widefat cellspacing-0"><tr><th colspan="3">'._('Contact Information').'</th></tr>';
 
 				if ( $_REQUEST['person_id']!='new')
 				{
-					echo '<TR><TD id="person_'.$this_contact['PERSON_ID'].'" colspan="2">';
+					echo '<tr><td id="person_'.$this_contact['PERSON_ID'].'" colspan="2">';
 					
-					$toEscape = '<TABLE><TR><TD>'._makePeopleInput($this_contact['FIRST_NAME'],'FIRST_NAME',_('First Name')).'</TD><TD>'._makePeopleInput($this_contact['MIDDLE_NAME'],'MIDDLE_NAME',_('Middle Name')).'</TD><TD>'._makePeopleInput($this_contact['LAST_NAME'],'LAST_NAME',_('Last Name')).'</TD></TR></TABLE>';
+					$toEscape = '<table><tr><td>'._makePeopleInput($this_contact['FIRST_NAME'],'FIRST_NAME',_('First Name')).'</td><td>'._makePeopleInput($this_contact['MIDDLE_NAME'],'MIDDLE_NAME',_('Middle Name')).'</td><td>'._makePeopleInput($this_contact['LAST_NAME'],'LAST_NAME',_('Last Name')).'</td></tr></table>';
 
 					echo '<script> var person_'.$info['ID'].'='.json_encode($toEscape).';</script>';
 
-					echo '<div class="onclick" onclick=\'addHTML(person_'.$info['ID'].',"person_'.$this_contact['PERSON_ID'].'",true);\'><span class="underline-dots">'.$this_contact['FIRST_NAME'].' '.$this_contact['MIDDLE_NAME'].' '.$this_contact['LAST_NAME'].'</span><BR /><span class="legend-gray">'._('Name').'</span></div></TD></TR>';
+					echo '<div class="onclick" onclick=\'addHTML(person_'.$info['ID'].',"person_'.$this_contact['PERSON_ID'].'",true);\'><span class="underline-dots">'.$this_contact['FIRST_NAME'].' '.$this_contact['MIDDLE_NAME'].' '.$this_contact['LAST_NAME'].'</span><br /><span class="legend-gray">'._('Name').'</span></div></td></tr>';
 
-					echo '<TR><TD colspan="2">'._makeAutoSelectInputX($this_contact['STUDENT_RELATION'],'STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',_('Relation'),$relation_options).'</TD>';
+					echo '<tr><td colspan="2">'._makeAutoSelectInputX($this_contact['STUDENT_RELATION'],'STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',_('Relation'),$relation_options).'</td>';
 
-					echo '<TR><TD>'.CheckboxInput($this_contact['CUSTODY'], 'values[STUDENTS_JOIN_PEOPLE][CUSTODY]', '', 'CHECKED',$new, button('check'), button('x')).'</TD><TD>'. button('gavel','','','bigger') .' '._('Custody').'</TD></TR>';
+					echo '<tr><td>'.CheckboxInput($this_contact['CUSTODY'], 'values[STUDENTS_JOIN_PEOPLE][CUSTODY]', '', 'CHECKED',$new, button('check'), button('x')).'</td><td>'. button('gavel','','','bigger') .' '._('Custody').'</td></tr>';
 
-					echo '<TR><TD>'.CheckboxInput($this_contact['EMERGENCY'], 'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]', '', 'CHECKED', $new, button('check'), button('x')).'</TD><TD>'. button('emergency','','','bigger') .' '._('Emergency').'</TD></TR>';
+					echo '<tr><td>'.CheckboxInput($this_contact['EMERGENCY'], 'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]', '', 'CHECKED', $new, button('check'), button('x')).'</td><td>'. button('emergency','','','bigger') .' '._('Emergency').'</td></tr>';
 
 					$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
 
@@ -693,46 +693,46 @@ if (empty($_REQUEST['modfunc']))
 
 					if ( !$info_apd)
 					{
-						echo '<TR><TD>
-						</TD><TD>
+						echo '<tr><td>
+						</td><td>
 						<span class="legend-gray">'._('Description').'</span> &nbsp; 
-						</TD><TD>
+						</td><td>
 						<span class="legend-gray">'._('Value').'</span>
-						</TD></TR>';
+						</td></tr>';
 
 						if (count($info_RET))
 						{
 							foreach ( (array)$info_RET as $info)
 							{
-							echo '<TR>';
+							echo '<tr>';
 							if (AllowEdit())
-								echo '<TD>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</TD>';
+								echo '<td>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</td>';
 							else
-								echo '<TD></TD>';
+								echo '<td></td>';
 							if ( $info_apd)
-								echo '<TD>'._makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID']).'</TD>';
+								echo '<td>'._makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID']).'</td>';
 							else
-								echo '<TD>'.TextInput($info['TITLE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][TITLE]','','maxlength=100').'</TD>';
-							echo '<TD>'.TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','maxlength=100').'</TD>';
-							echo '</TR>';
+								echo '<td>'.TextInput($info['TITLE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][TITLE]','','maxlength=100').'</td>';
+							echo '<td>'.TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','maxlength=100').'</td>';
+							echo '</tr>';
 							}
 						}
 						if ( AllowEdit()
 							&& ProgramConfig( 'students', 'STUDENTS_USE_CONTACT' ) )
 						{
-							echo '<TR>';
-							echo '<TD>'.button('add').'</TD>';
+							echo '<tr>';
+							echo '<td>'.button('add').'</td>';
 							if ( $info_apd)
 							{
-								echo '<TD>'.(count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','',$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','','maxlength=100')).'</TD>';
-								echo '<TD>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]','','maxlength=100').'</TD>';
+								echo '<td>'.(count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','',$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]','','maxlength=100')).'</td>';
+								echo '<td>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]','','maxlength=100').'</td>';
 							}
 							else
 							{
-								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="'._('Example Phone').'" name="values[PEOPLE_JOIN_CONTACTS][new][TITLE]" maxlength=100 /></TD>';
-								echo '<TD><INPUT size="15" type="TEXT" value="" placeholder="(xxx) xxx-xxxx" name="values[PEOPLE_JOIN_CONTACTS][new][VALUE]" maxlength=100 /></TD>';
+								echo '<td><input size="15" type="TEXT" value="" placeholder="'._('Example Phone').'" name="values[PEOPLE_JOIN_CONTACTS][new][TITLE]" maxlength=100 /></td>';
+								echo '<td><input size="15" type="TEXT" value="" placeholder="(xxx) xxx-xxxx" name="values[PEOPLE_JOIN_CONTACTS][new][VALUE]" maxlength=100 /></td>';
 							}
-							echo '</TR>';
+							echo '</tr>';
 						}
 					}
 					else
@@ -741,58 +741,58 @@ if (empty($_REQUEST['modfunc']))
 						{
 							foreach ( (array)$info_RET as $info)
 							{
-								echo '<TR>';
+								echo '<tr>';
 								if (AllowEdit())
-									echo '<TD>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</TD>';
+									echo '<td>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</td>';
 								else
-									echo '<TD></TD>';
+									echo '<td></td>';
 
-								$toEscape = TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','',false).'<BR />'._makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID'],false);
+								$toEscape = TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','',false).'<br />'._makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID'],false);
 
 								echo '<script> var info_'.$info['ID'].'='.json_encode($toEscape).';</script>';
 
-								echo '<TD id="info_'.$info['ID'].'"><div class="onclick" onclick=\'addHTML(info_'.$info['ID'];
+								echo '<td id="info_'.$info['ID'].'"><div class="onclick" onclick=\'addHTML(info_'.$info['ID'];
 
-								echo ',"info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><BR /><span class="legend-gray">'.$info['TITLE'].'</span></div></TD>';
-								echo '</TR>';
+								echo ',"info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><br /><span class="legend-gray">'.$info['TITLE'].'</span></div></td>';
+								echo '</tr>';
 							}
 						}
 						if ( AllowEdit()
 							&& ProgramConfig( 'students', 'STUDENTS_USE_CONTACT' ) )
 						{
-							echo '<TR>';
-							echo '<TD>'.button('add').'</TD>';
-							echo '<TD>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]',_('Value'),'maxlength=100');
-							echo (count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),'maxlength=100')).'</TD>';
-							echo '</TR>';
+							echo '<tr>';
+							echo '<td>'.button('add').'</td>';
+							echo '<td>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]',_('Value'),'maxlength=100');
+							echo (count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),'maxlength=100')).'</td>';
+							echo '</tr>';
 						}
 					}
 				}
 				else
 				{
-					echo '<TR>
-					<TD>'._makePeopleInput('','FIRST_NAME','<span class="legend-red">'._('First Name').'</span>').'</TD>
-					<TD>'._makePeopleInput('','MIDDLE_NAME',_('Middle Name')).'</TD>
-					<TD>'._makePeopleInput('','LAST_NAME','<span class="legend-red">'._('Last Name').'</span>').'</TD>
-					</TR>';
+					echo '<tr>
+					<td>'._makePeopleInput('','FIRST_NAME','<span class="legend-red">'._('First Name').'</span>').'</td>
+					<td>'._makePeopleInput('','MIDDLE_NAME',_('Middle Name')).'</td>
+					<td>'._makePeopleInput('','LAST_NAME','<span class="legend-red">'._('Last Name').'</span>').'</td>
+					</tr>';
 
-					echo '<TR><TD colspan="3">'.SelectInput('','values[STUDENTS_JOIN_PEOPLE][STUDENT_RELATION]',_('Relation'),$relation_options,_('N/A')).'</TD></TR>';
+					echo '<tr><td colspan="3">'.SelectInput('','values[STUDENTS_JOIN_PEOPLE][STUDENT_RELATION]',_('Relation'),$relation_options,_('N/A')).'</td></tr>';
 
-					echo '<TR><TD>'. button('gavel', '', '', 'bigger').' ';
+					echo '<tr><td>'. button('gavel', '', '', 'bigger').' ';
 					
-					echo CheckboxInput('', 'values[STUDENTS_JOIN_PEOPLE][CUSTODY]', _('Custody'), '',true).'</TD>';
+					echo CheckboxInput('', 'values[STUDENTS_JOIN_PEOPLE][CUSTODY]', _('Custody'), '',true).'</td>';
 					
-					echo '<TD colspan="2">'. button('emergency', '', '', 'bigger') .' ';
+					echo '<td colspan="2">'. button('emergency', '', '', 'bigger') .' ';
 					
-					echo CheckboxInput('', 'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]', _('Emergency'), '',true).'</TD></TR>';
+					echo CheckboxInput('', 'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]', _('Emergency'), '',true).'</td></tr>';
 
 				}
-				echo '</TABLE>';
+				echo '</table>';
 
 				$categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
 				if ( $categories_RET)
 				{
-					echo '<TD class="valign-top">';
+					echo '<td class="valign-top">';
 					if ( $_REQUEST['person_id'] !== 'new' )
 					{
 						$value = DBGet(DBQuery("SELECT * FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['person_id']."'"));
@@ -802,20 +802,20 @@ if (empty($_REQUEST['modfunc']))
 						$value = array();
 
 					$request = 'values[PEOPLE]';
-					echo '<TABLE>';
+					echo '<table>';
 					foreach ( (array)$categories_RET as $fields_RET)
 					{
 						if ( !$fields_RET['CUSTODY']&&!$fields_RET['EMERGENCY'] || $fields_RET['CUSTODY']=='Y'&&$this_contact['CUSTODY']=='Y' || $fields_RET['EMERGENCY']=='Y'&&$this_contact['EMERGENCY']=='Y')
 						{
-							echo '<TR><TD>';
-							echo '<FIELDSET><LEGEND>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</LEGEND>';
+							echo '<tr><td>';
+							echo '<fieldset><legend>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</legend>';
 							require_once 'modules/Students/includes/Other_Fields.inc.php';
-							echo '</FIELDSET>';
-							echo '</TD></TR>';
+							echo '</fieldset>';
+							echo '</td></tr>';
 						}
 					}
-					echo '</TABLE>';
-					echo '</TD>';
+					echo '</table>';
+					echo '</td>';
 				}
 			}
 			elseif ( $_REQUEST['person_id']=='old')
@@ -832,8 +832,8 @@ if (empty($_REQUEST['modfunc']))
 
 			if ( $categories_RET)
 			{
-				//echo '<TD style="width:10px; border:1;">&nbsp;</TD>';
-				echo '<TD class="valign-top">';
+				//echo '<td style="width:10px; border:1;">&nbsp;</td>';
+				echo '<td class="valign-top">';
 				if ( $_REQUEST['address_id']!='new' )
 				{
 					$value = DBGet(DBQuery("SELECT * FROM ADDRESS WHERE ADDRESS_ID='".$_REQUEST['address_id']."'"));
@@ -843,28 +843,28 @@ if (empty($_REQUEST['modfunc']))
 					$value = array();
 
 				$request = 'values[ADDRESS]';
-				echo '<TABLE>';
+				echo '<table>';
 				foreach ( (array)$categories_RET as $fields_RET)
 				{
 					if ( !$fields_RET[1]['RESIDENCE']&&!$fields_RET[1]['MAILING']&&!$fields_RET[1]['BUS'] || $fields_RET[1]['RESIDENCE']=='Y'&&$this_address['RESIDENCE']=='Y' || $fields_RET[1]['MAILING']=='Y'&&$this_address['MAILING']=='Y' || $fields_RET[1]['BUS']=='Y'&&($this_address['BUS_PICKUP']=='Y'||$this_address['BUS_DROPOFF']=='Y'))
 					{
-						echo '<TR><TD>';
-						echo '<FIELDSET><LEGEND>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</LEGEND>';
+						echo '<tr><td>';
+						echo '<fieldset><legend>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</legend>';
 						require_once 'modules/Students/includes/Other_Fields.inc.php';
-						echo '</FIELDSET>';
-						echo '</TD></TR>';
+						echo '</fieldset>';
+						echo '</td></tr>';
 					}
 				}
-				echo '</TABLE>';
+				echo '</table>';
 			}
 		}
-		echo '</TD>';
+		echo '</td>';
 	}
 	/*else
-		echo '<TD></TD><TD></TD>';*/
-	echo '</TR>';
-	echo '</TABLE>';
-	$separator = '<HR>';
+		echo '<td></td><td></td>';*/
+	echo '</tr>';
+	echo '</table>';
+	$separator = '<hr />';
 
 	require_once 'modules/Students/includes/Other_Info.inc.php';
 }

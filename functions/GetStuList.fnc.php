@@ -331,19 +331,19 @@ function makeContactInfo($student_id,$column)
 		foreach ( (array)$contacts_RET[$student_id] as $person)
 		{
 			if ( $person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'])
-				$tipmessage .= $person[1]['STUDENT_RELATION'].': '.$person[1]['FIRST_NAME'].' '.$person[1]['LAST_NAME'].'<BR />';
+				$tipmessage .= $person[1]['STUDENT_RELATION'].': '.$person[1]['FIRST_NAME'].' '.$person[1]['LAST_NAME'].'<br />';
 
-			$tipmessage .= '<TABLE class="col1-align-right cellspacing-0">';
+			$tipmessage .= '<table class="col1-align-right cellspacing-0">';
 			if ( $person[1]['PHONE'])
-				$tipmessage .= '<TR><TD><span class="legend-gray">'._('Home Phone').'</span> </TD><TD>'.$person[1]['PHONE'].'</TD></TR>';
+				$tipmessage .= '<tr><td><span class="legend-gray">'._('Home Phone').'</span> </td><td>'.$person[1]['PHONE'].'</td></tr>';
 
 			foreach ( (array)$person as $info)
 			{
 				if ( $info['TITLE'] || $info['VALUE'])
-					$tipmessage .= '<TR><TD><span class="legend-gray">'.$info['TITLE'].'</span></TD><TD>'.$info['VALUE'].'</TD></TR>';
+					$tipmessage .= '<tr><td><span class="legend-gray">'.$info['TITLE'].'</span></td><td>'.$info['VALUE'].'</td></tr>';
 			}
 
-			$tipmessage .= '</TABLE>';
+			$tipmessage .= '</table>';
 		}
 	}
 	else
@@ -408,7 +408,7 @@ function makeParents($student_id,$column)
 
 		if (count($people_RET))
 		{
-			$THIS_RET['PARENTS'] .= '<TABLE class="cellspacing-0">';
+			$THIS_RET['PARENTS'] .= '<table class="cellspacing-0">';
 			foreach ( (array)$people_RET as $person)
 			{
 				//FJ PrintClassLists with all contacts
@@ -422,11 +422,11 @@ function makeParents($student_id,$column)
 				if ( $_REQUEST['_ROSARIO_PDF'])
 					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? button($img) .'&nbsp;' : '').$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</div>';
 				else
-					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? button($img) .'&nbsp;' : '').'<A HREF="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php&person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</A></div>';
+					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? button($img) .'&nbsp;' : '').'<a href="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php&person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</a></div>';
 			}
 			if ( $_REQUEST['_ROSARIO_PDF'])
 				$THIS_RET['PARENTS'] = mb_substr($THIS_RET['PARENTS'],0,-2);
-			$THIS_RET['PARENTS'] .= '</TABLE>';
+			$THIS_RET['PARENTS'] .= '</table>';
 		}
 		}
 	}
@@ -457,7 +457,7 @@ function appendSQL($sql,$extra=array())
 			$sql .= " AND ssm.STUDENT_ID IN (".$stuids.")";
 
 			if ( !$extra['NoSearchTerms'])
-				$_ROSARIO['SearchTerms'] .= '<b>'.sprintf(_('%s ID'),Config('NAME')).': </b>'.$stuids.'<BR />';
+				$_ROSARIO['SearchTerms'] .= '<b>'.sprintf(_('%s ID'),Config('NAME')).': </b>'.$stuids.'<br />';
 		}
 	}
 
@@ -466,7 +466,7 @@ function appendSQL($sql,$extra=array())
 		$sql .= " AND LOWER(s.LAST_NAME) LIKE '".mb_strtolower($_REQUEST['last'])."%'";
 
 		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Last Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['last']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Last Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['last']).'<br />';
 	}
 
 	if ( $_REQUEST['first'])
@@ -474,7 +474,7 @@ function appendSQL($sql,$extra=array())
 		$sql .= " AND LOWER(s.FIRST_NAME) LIKE '".mb_strtolower($_REQUEST['first'])."%'";
 
 		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('First Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['first']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('First Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['first']).'<br />';
 	}
 
 	if ( $_REQUEST['grade'])
@@ -482,7 +482,7 @@ function appendSQL($sql,$extra=array())
 		$sql .= " AND ssm.GRADE_ID = '".$_REQUEST['grade']."'";
 
 		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Grade Level').': </b>'.GetGrade($_REQUEST['grade']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Grade Level').': </b>'.GetGrade($_REQUEST['grade']).'<br />';
 	}
 
 	if (count($_REQUEST['grades']))
@@ -501,7 +501,7 @@ function appendSQL($sql,$extra=array())
 		}
 
 		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<BR />';
+			$_ROSARIO['SearchTerms'] .= '<br />';
 
 		$sql .= " AND ssm.GRADE_ID ".($_REQUEST['grades_not']=='Y'?'NOT ':'')." IN (".$list.")";
 	}
@@ -511,7 +511,7 @@ function appendSQL($sql,$extra=array())
 		$sql .= " AND (LOWER(a.ADDRESS) LIKE '%".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.CITY) LIKE '".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.STATE)='".mb_strtolower($_REQUEST['addr'])."' OR ZIPCODE LIKE '".$_REQUEST['addr']."%')";
 
 		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Address contains').': </b>'.str_replace("''", "'", $_REQUEST['addr']).'<BR />';
+			$_ROSARIO['SearchTerms'] .= '<b>'._('Address contains').': </b>'.str_replace("''", "'", $_REQUEST['addr']).'<br />';
 	}
 
 	return $sql;

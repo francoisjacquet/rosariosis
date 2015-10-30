@@ -43,9 +43,9 @@ $categories_RET = DBGet( DBQuery( "SELECT '0' AS ID,'" . DBEscapeString( _( 'Att
 
 if (count($categories_RET)==0)
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
-	echo '</FORM>';
+	echo '</form>';
 
 	ErrorMessage(array(_('You cannot take attendance for this course period.')),'fatal');
 }
@@ -100,9 +100,9 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 }
 if (count($course_RET)==0)
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
-	echo '</FORM>';
+	echo '</form>';
 
 	ErrorMessage(array(_('You cannot take attendance for this period on this day.')),'fatal');
 }
@@ -110,9 +110,9 @@ if (count($course_RET)==0)
 $qtr_id = GetCurrentMP('QTR',$date,false);
 if (!$qtr_id)
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
-	echo '</FORM>';
+	echo '</form>';
 
 	ErrorMessage(array(_('The selected date is not in a school quarter.')),'fatal');
 }
@@ -223,7 +223,7 @@ $completed_RET = DBGet(DBQuery("SELECT 'Y' as COMPLETED FROM ATTENDANCE_COMPLETE
 if (count($completed_RET))
 	$note[] = button('check') .'&nbsp;'._('You already have taken attendance today for this period.');
 
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 
 DrawHeader('',SubmitButton(_('Save')));
 DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note);
@@ -237,7 +237,7 @@ $LO_columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID')
 foreach ( (array)$categories_RET as $category)
 	$tabs[] = array('title'=>ParseMLField($category['TITLE']),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&table='.$category['ID'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date']);
 
-echo '<BR />';
+echo '<br />';
 if (count($categories_RET))
     $LO_options = array('download'=>false,'search'=>false,'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'].'&year_date='.$_REQUEST['year_date']));
 else
@@ -245,8 +245,8 @@ else
 
 ListOutput($stu_RET,$LO_columns,'Student','Students',false,array(),$LO_options);
 
-echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
-echo '</FORM>';
+echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+echo '</form>';
 
 function _makeRadio($value,$title)
 {	global $THIS_RET,$current_RET;
@@ -257,10 +257,10 @@ function _makeRadio($value,$title)
 		if (isset($_REQUEST['LO_save']))
 			return _('Yes');
 		else
-			return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[$value]?'background-color:'.$colors[$value].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
+			return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[$value]?'background-color:'.$colors[$value].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
 	}
 	else
-		return '<div style="float:left;">&nbsp;&nbsp;<INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'>&nbsp;&nbsp;</div>';
+		return '<div style="float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'>&nbsp;&nbsp;</div>';
 }
 
 function _makeRadioSelected($value,$title)
@@ -274,16 +274,16 @@ function _makeRadioSelected($value,$title)
 			if (isset($_REQUEST['LO_save']))
 				return _('Yes');
 			else
-				return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[$value]?'background-color:'.$colors[$value].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
+				return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[$value]?'background-color:'.$colors[$value].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
 		}
 		else
-			return '<div style="float:left;">&nbsp;&nbsp;<INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'>&nbsp;&nbsp;</div>';
+			return '<div style="float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'>&nbsp;&nbsp;</div>';
 	else
 	{
 		if (isset($_REQUEST['LO_save']))
 			return _('Yes');
 		else
-			return '<div style="'.($colors1[$value]?'background-color:'.$colors1[$value].';':'').'; float:left;">&nbsp;&nbsp;<INPUT type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
+			return '<div style="'.($colors1[$value]?'background-color:'.$colors1[$value].';':'').'; float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
 	}
 }
 
@@ -292,10 +292,10 @@ function _makeTipMessage($value,$title)
 
 	if ($StudentPicturesPath && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.$THIS_RET['STUDENT_ID'].'.jpg','r') || $file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.$THIS_RET['STUDENT_ID'].'.jpg','r')))
 	{
-		$return = '<script>var tiptitle'.$THIS_RET['STUDENT_ID'].'='.json_encode($THIS_RET['FULL_NAME']).'; var tipmsg'.$THIS_RET['STUDENT_ID'].'='.json_encode('<IMG SRC="'.$picture_path.'" width="150" />').';</script>';
+		$return = '<script>var tiptitle'.$THIS_RET['STUDENT_ID'].'='.json_encode($THIS_RET['FULL_NAME']).'; var tipmsg'.$THIS_RET['STUDENT_ID'].'='.json_encode('<img src="'.$picture_path.'" width="150" />').';</script>';
 
 
-		return $return.'<DIV onMouseOver="stm([tiptitle'.$THIS_RET['STUDENT_ID'].',tipmsg'.$THIS_RET['STUDENT_ID'].'])" onMouseOut="htm()" onclick="return false;">'.$value.'</DIV>';
+		return $return.'<div onMouseOver="stm([tiptitle'.$THIS_RET['STUDENT_ID'].',tipmsg'.$THIS_RET['STUDENT_ID'].'])" onMouseOut="htm()" onclick="return false;">'.$value.'</div>';
 	}
 	else
 		return $value;

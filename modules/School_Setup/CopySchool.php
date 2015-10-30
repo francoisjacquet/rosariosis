@@ -11,7 +11,7 @@ $tables = array(
 	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' )
 );
 
-$table_list = '<TABLE style="float: left">';
+$table_list = '<table style="float: left">';
 
 foreach ( (array)$tables as $table => $name )
 {
@@ -21,16 +21,16 @@ foreach ( (array)$tables as $table => $name )
 	if ( $table === 'CONFIG' )
 		$force_checked = true;
 
-	$table_list .= '<TR><TD>
+	$table_list .= '<tr><td>
 		<label>' . ( !$force_checked ?
-			'<INPUT type="checkbox" value="Y" name="tables[' . $table . ']" checked />&nbsp;' :
+			'<input type="checkbox" value="Y" name="tables[' . $table . ']" checked />&nbsp;' :
 			'<input type="hidden" value="Y" name="tables[' . $table . ']" />' ) .
 		$name . '</label>
-	</TD></TR>';
+	</td></tr>';
 }
 
 //FJ add translation
-$table_list .= '</TABLE><BR />' .
+$table_list .= '</table><br />' .
 	TextInput( _( 'New School' ), 'title', _( 'New School\'s Title' ), '', false );
 
 DrawHeader( ProgramTitle() );
@@ -63,7 +63,7 @@ if ( $go
 	}
 
 	// Print success message
-	echo '<FORM action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
+	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '" method="POST">';
 
 	$note[] = button( 'check' ) .'&nbsp;' .
 		sprintf( _( 'The data have been copied to a new school called "%s".' ), $_REQUEST['title'] ) .
@@ -71,7 +71,7 @@ if ( $go
 
 	echo ErrorMessage( $note, 'note' );
 
-	echo '</FORM>';
+	echo '</form>';
 
 	unset( $_SESSION['_REQUEST_vars']['tables'] );
 	unset( $_SESSION['_REQUEST_vars']['delete_ok'] );

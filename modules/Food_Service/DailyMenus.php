@@ -75,53 +75,53 @@ if ( $_REQUEST['submit']['print'])
 
 	$skip = date("w",$time);
 
-	echo '<!-- MEDIA TOP 1in --><P class="center">';
-	echo '<TABLE style="background-color: #fff;" class="width-100p">'."\n";
+	echo '<!-- MEDIA TOP 1in --><p class="center">';
+	echo '<table style="background-color: #fff;" class="width-100p">'."\n";
 	if ( $_REQUEST['_ROSARIO_PDF'])
 		if (is_file('assets/dailymenu'.UserSchool().'.jpg'))
 		{
-			echo '<TR class="center"><TD colspan="3"><img src="assets/dailymenu'.UserSchool().'.jpg" /></TD></TR>'."\n";
+			echo '<tr class="center"><td colspan="3"><img src="assets/dailymenu'.UserSchool().'.jpg" /></td></tr>'."\n";
 		}
 		else
-			echo '<TR class="center"><TD colspan="3"><span style="color:black" class="sizep2"><b>'.SchoolInfo('TITLE').'</b></span></TD></TR>'."\n";
+			echo '<tr class="center"><td colspan="3"><span style="color:black" class="sizep2"><b>'.SchoolInfo('TITLE').'</b></span></td></tr>'."\n";
 //FJ display locale with strftime()
-	echo '<TR class="center"><TD>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD><TD><span style="color:black" class="sizep2"><b>'.ProperDate(date('Y.m.d',mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']))).'</b></span></TD><TD>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</TD></TR></TABLE>'."\n";
-	echo '<TABLE style="border: solid 2px; background-color: #fff;" id="calendar"><THEAD><TR style="text-align:center; background-color:#808080; color:white;">'."\n";
-	echo '<TH>'.mb_substr(_('Sunday'),0,3).'<span>'.mb_substr(_('Sunday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Monday'),0,3).'<span>'.mb_substr(_('Monday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Tuesday'),0,3).'<span>'.mb_substr(_('Tuesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Wednesday'),0,3).'<span>'.mb_substr(_('Wednesday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Thursday'),0,3).'<span>'.mb_substr(_('Thursday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Friday'),0,3).'<span>'.mb_substr(_('Friday'),3).'</span>'.'</TH><TH>'.mb_substr(_('Saturday'),0,3).'<span>'.mb_substr(_('Saturday'),3).'</span>'.'</TH>'."\n";
-	echo '</TR></THEAD><TBODY>';
+	echo '<tr class="center"><td>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</td><td><span style="color:black" class="sizep2"><b>'.ProperDate(date('Y.m.d',mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']))).'</b></span></td><td>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</td></tr></table>'."\n";
+	echo '<table style="border: solid 2px; background-color: #fff;" id="calendar"><thead><tr style="text-align:center; background-color:#808080; color:white;">'."\n";
+	echo '<th>'.mb_substr(_('Sunday'),0,3).'<span>'.mb_substr(_('Sunday'),3).'</span>'.'</th><th>'.mb_substr(_('Monday'),0,3).'<span>'.mb_substr(_('Monday'),3).'</span>'.'</th><th>'.mb_substr(_('Tuesday'),0,3).'<span>'.mb_substr(_('Tuesday'),3).'</span>'.'</th><th>'.mb_substr(_('Wednesday'),0,3).'<span>'.mb_substr(_('Wednesday'),3).'</span>'.'</th><th>'.mb_substr(_('Thursday'),0,3).'<span>'.mb_substr(_('Thursday'),3).'</span>'.'</th><th>'.mb_substr(_('Friday'),0,3).'<span>'.mb_substr(_('Friday'),3).'</span>'.'</th><th>'.mb_substr(_('Saturday'),0,3).'<span>'.mb_substr(_('Saturday'),3).'</span>'.'</th>'."\n";
+	echo '</tr></thead><tbody>';
 
 	if ( $skip)
-		echo '<TR><TD style="background-color:#C0C0C0;" colspan="'.$skip.'">&nbsp;</TD>'."\n";
+		echo '<tr><td style="background-color:#C0C0C0;" colspan="'.$skip.'">&nbsp;</td>'."\n";
 
 	for ( $i = 1; $i <= $last; $i++)
 	{
 		if ( $skip%7==0)
-			echo '<TR>';
+			echo '<tr>';
 		$day_time = mktime(0,0,0,$_REQUEST['month'],$i,$_REQUEST['year']);
 		$date = mb_strtoupper(date('d-M-Y',$day_time));
 
-		echo '<TD class="valign-top" style="height:100%; '.(count($events_RET[$date]) ? 'background-color:#ffaaaa;' : '').'"><TABLE class="calendar-day'.(count($events_RET[$date]) ? ' hover"><TR><TD><b>'.$i.'</b>' : '"><TR><TD>'.$i);
+		echo '<td class="valign-top" style="height:100%; '.(count($events_RET[$date]) ? 'background-color:#ffaaaa;' : '').'"><table class="calendar-day'.(count($events_RET[$date]) ? ' hover"><tr><td><b>'.$i.'</b>' : '"><tr><td>'.$i);
 
 		if (count($events_RET[$date]))
 		{
 			foreach ( (array)$events_RET[$date] as $event)
 			{
 				if ( $event['TITLE']!=$menus_RET[$_REQUEST['menu_id']][1]['TITLE'])
-					echo '<BR /><i>'.$event['TITLE'].'</i>';
-				echo '<BR />'.htmlspecialchars($event['DESCRIPTION'],ENT_QUOTES);
+					echo '<br /><i>'.$event['TITLE'].'</i>';
+				echo '<br />'.htmlspecialchars($event['DESCRIPTION'],ENT_QUOTES);
 			}
 		}
-		echo '</TD></TR></TABLE></TD>';
+		echo '</td></tr></table></td>';
 
 		$skip++;
 
 		if ( $skip%7==0)
-			echo '</TR>';
+			echo '</tr>';
 	}
 	if ( $skip%7!=0)
-		echo '<TD style="background-color:#C0C0C0;" colspan="'.(7-$skip%7).'">&nbsp;</TD></TR>';
+		echo '<td style="background-color:#C0C0C0;" colspan="'.(7-$skip%7).'">&nbsp;</td></tr>';
 
-	echo '</TBODY></TABLE></P>';
+	echo '</tbody></table></p>';
 }
 else
 {
@@ -132,10 +132,10 @@ else
 		$description_RET = DBGet(DBQuery("SELECT DISTINCT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' AND DESCRIPTION IS NOT NULL ORDER BY DESCRIPTION"));
 		if (count($description_RET))
 		{
-			$description_select = '<OPTION value="">'._('or select previous meal').'</OPTION>';
+			$description_select = '<option value="">'._('or select previous meal').'</option>';
 			foreach ( (array)$description_RET as $description)
-				$description_select .= '<OPTION value="'.$description['DESCRIPTION'].'">'.$description['DESCRIPTION'].'</OPTION>';
-			$description_select .= '</SELECT>';
+				$description_select .= '<option value="'.$description['DESCRIPTION'].'">'.$description['DESCRIPTION'].'</option>';
+			$description_select .= '</select>';
 		}
 	}
 
@@ -158,13 +158,13 @@ else
 
 	$events_RET[0] = array(); // make sure indexing from 1
 	foreach ( (array)$calendar_RET as $school_date => $value)
-		$events_RET[] = array('ID' => 'new','SCHOOL_DATE'=>ProperDate($school_date),'DESCRIPTION'=>TextInput('','food_service['.$school_date.'][text]','','size=20').($description_select ? '<SELECT name="food_service['.$school_date.'][select]">'.$description_select : ''));
+		$events_RET[] = array('ID' => 'new','SCHOOL_DATE'=>ProperDate($school_date),'DESCRIPTION'=>TextInput('','food_service['.$school_date.'][text]','','size=20').($description_select ? '<select name="food_service['.$school_date.'][select]">'.$description_select : ''));
 	unset($events_RET[0]);
 	$LO_columns = array('ID' => _('ID'),'SCHOOL_DATE' => _('Date'),'DESCRIPTION' => _('Description'));
 
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" METHOD="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year'].'" method="POST">';
 	DrawHeader(PrepareDate(mb_strtoupper(date("d-M-y",$time)),'',false,array('M'=>1,'Y'=>1,'submit'=>true)),SubmitButton(_('Save'),'submit[save]').SubmitButton(_('Generate Menu'),'submit[print]'));
-	echo '<BR />';
+	echo '<br />';
 
 	$tabs = array();
 	foreach ( (array)$menus_RET as $id => $meal)
@@ -178,8 +178,8 @@ else
 //FJ add translation
 	ListOutput($events_RET,$LO_columns,$singular,$plural,array(),array(),$extra);
 
-	echo '<BR /><div class="center">' . SubmitButton(_('Save'),'submit[save]') . '</div>';
-	echo '</FORM>';
+	echo '<br /><div class="center">' . SubmitButton(_('Save'),'submit[save]') . '</div>';
+	echo '</form>';
 }
 
 function makeDescriptionInput($value,$name)

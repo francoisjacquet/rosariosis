@@ -23,18 +23,18 @@ function StaffWidgets($item,&$myextra=NULL)
 		switch ( $item)
 		{
 			case 'all':
-				$extra['search'] .= '<TR><TD><TABLE class="width-100p">';
+				$extra['search'] .= '<tr><td><table class="width-100p">';
 
 				//FJ regroup widgets wrap
 				$widget_wrap_header = function($title)
 				{
-					return '<TR><TD colspan="2">&nbsp;
-					<A onclick="switchMenu(this); return false;" href="#" class="switchMenu"><B>'.$title.'</B></A>
-					<BR />
-					<TABLE class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					return '<tr><td colspan="2">&nbsp;
+					<a onclick="switchMenu(this); return false;" href="#" class="switchMenu"><b>'.$title.'</b></a>
+					<br />
+					<table class="widefat width-100p cellspacing-0 col1-align-right hide">';
 				};
 
-				$widget_wrap_footer = '</TABLE></TD></TR>';
+				$widget_wrap_footer = '</table></td></tr>';
 
 				if ( $RosarioModules['Users'] && (!$_ROSARIO['StaffWidgets']['permissions']))
 				{
@@ -66,7 +66,7 @@ function StaffWidgets($item,&$myextra=NULL)
 					$extra['search'] .= $widget_wrap_footer;
 				}
 
-				$extra['search'] .= '</TABLE></TD></TR>';
+				$extra['search'] .= '</table></td></tr>';
 			break;
 
 			case 'user':
@@ -89,16 +89,16 @@ function StaffWidgets($item,&$myextra=NULL)
 					$extra['WHERE'] .= " AND s.PROFILE_ID IS ".($_REQUEST['permissions']=='Y'?'NOT':'')." NULL AND s.PROFILE!='none'";
 
 					if ( !$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'._('Permissions').': </b>'.($_REQUEST['permissions']=='Y'?_('Profile'):_('Custom')).'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Permissions').': </b>'.($_REQUEST['permissions']=='Y'?_('Profile'):_('Custom')).'<br />';
 				}
 
-				$extra['search'] .= '<TR class="st"><TD>
+				$extra['search'] .= '<tr class="st"><td>
 				'._('Permissions').'
-				</TD><TD>
-				<label><INPUT type="radio" name="permissions" value=""'.(!$value?' checked':'').'> '._('All').'</label> &nbsp;
-				<label><INPUT type="radio" name="permissions" value="Y"'.($value=='Y'?' checked':'').'> '._('Profile').'</label> &nbsp;
-				<label><INPUT type="radio" name="permissions" value="N"'.($value=='N'?' checked':'').'> '._('Custom').'</label>
-				</TD></TR>';
+				</td><td>
+				<label><input type="radio" name="permissions" value=""'.(!$value?' checked':'').'> '._('All').'</label> &nbsp;
+				<label><input type="radio" name="permissions" value="Y"'.($value=='Y'?' checked':'').'> '._('Profile').'</label> &nbsp;
+				<label><input type="radio" name="permissions" value="N"'.($value=='N'?' checked':'').'> '._('Custom').'</label>
+				</td></tr>';
 				}
 			break;
 
@@ -120,20 +120,20 @@ function StaffWidgets($item,&$myextra=NULL)
 					$extra['WHERE'] .= " AND fssa.BALANCE".($_REQUEST['fsa_bal_gt']=='Y'?'>=':'<')."'".round($_REQUEST['fsa_balance'],2)."'";
 
 					if ( !$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Balance').': </b><span class="sizep2">'.($_REQUEST['fsa_bal_ge']=='Y'?'&ge;':'&lt;').'</span>'.number_format($_REQUEST['fsa_balance'],2).'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Balance').': </b><span class="sizep2">'.($_REQUEST['fsa_bal_ge']=='Y'?'&ge;':'&lt;').'</span>'.number_format($_REQUEST['fsa_balance'],2).'<br />';
 				}
 
-				$extra['search'] .= '<TR class="st"><TD>
+				$extra['search'] .= '<tr class="st"><td>
 				'._('Balance').'
-				</TD><TD>
+				</td><td>
 				<table class="cellspacing-0"><tr><td>
-				<label><span class="sizep2">&lt;</span> <INPUT type="radio" name="fsa_bal_ge" value="" checked /></label>
+				<label><span class="sizep2">&lt;</span> <input type="radio" name="fsa_bal_ge" value="" checked /></label>
 				</td><td rowspan="2">
-				<INPUT type="text" name="fsa_balance" size="10"'.($value?' value="'.$value.'"':'').'>
+				<input type="text" name="fsa_balance" size="10"'.($value?' value="'.$value.'"':'').'>
 				</td></tr><tr><td>
-				<label><span class="sizep2">&ge;</span> <INPUT type="radio" name="fsa_bal_ge" value="Y"></label>
+				<label><span class="sizep2">&ge;</span> <input type="radio" name="fsa_bal_ge" value="Y"></label>
 				</td></tr></table>
-				</TD></TR>';
+				</td></tr>';
 				}
 			break;
 
@@ -158,20 +158,20 @@ function StaffWidgets($item,&$myextra=NULL)
 						$extra['WHERE'] .= ' AND fssa.STATUS=\''.$_REQUEST['fsa_status'].'\'';
 
 					if ( !$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Status').': </b>'.$_REQUEST['fsa_status'].'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Status').': </b>'.$_REQUEST['fsa_status'].'<br />';
 				}
 
-				$extra['search'] .= '<TR class="st"><TD>
+				$extra['search'] .= '<tr class="st"><td>
 				'._('Account Status').'
-				</TD><TD>
-				<SELECT name="fsa_status">
-				<OPTION value="">'._('Not Specified').'</OPTION>
-				<OPTION value="Active"'.($value=='active'?' SELECTED':'').'>'._('Active').'</OPTION>
-				<OPTION value="Inactive">'._('Inactive').'</OPTION>
-				<OPTION value="Disabled">'._('Disabled').'</OPTION>
-				<OPTION value="Closed">'._('Closed').'</OPTION>
-				</SELECT>
-				</TD></TR>';
+				</td><td>
+				<select name="fsa_status">
+				<option value="">'._('Not Specified').'</option>
+				<option value="Active"'.($value=='active'?' SELECTED':'').'>'._('Active').'</option>
+				<option value="Inactive">'._('Inactive').'</option>
+				<option value="Disabled">'._('Disabled').'</option>
+				<option value="Closed">'._('Closed').'</option>
+				</select>
+				</td></tr>';
 				}
 			break;
 
@@ -189,14 +189,14 @@ function StaffWidgets($item,&$myextra=NULL)
 					$extra['WHERE'] .= ' AND fssa.BARCODE=\''.$_REQUEST['fsa_barcode'].'\'';
 
 					if ( !$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Barcode').': </b>'.$_REQUEST['fsa_barcode'].'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Barcode').': </b>'.$_REQUEST['fsa_barcode'].'<br />';
 				}
 
-				$extra['search'] .= '<TR class="st"><TD>
+				$extra['search'] .= '<tr class="st"><td>
 				'._('Barcode').'
-				</TD><TD>
-				<INPUT type="text" name="fsa_barcode" size="15" />
-				</TD></TR>';
+				</td><td>
+				<input type="text" name="fsa_barcode" size="15" />
+				</td></tr>';
 				}
 			break;
 
@@ -213,15 +213,15 @@ function StaffWidgets($item,&$myextra=NULL)
 					$extra['WHERE'] .= ' AND '.($_REQUEST['fsa_exists']=='N'?'NOT ':'').'EXISTS (SELECT \'exists\' FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID)';
 
 					if ( !$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= _('Food Service Account Exists').': '.($_REQUEST['fsa_exists']=='Y'?_('Yes'):_('No')).'<BR />';
+						$_ROSARIO['SearchTerms'] .= _('Food Service Account Exists').': '.($_REQUEST['fsa_exists']=='Y'?_('Yes'):_('No')).'<br />';
 				}
 
-				$extra['search'] .= '<TR class="st"><TD>
+				$extra['search'] .= '<tr class="st"><td>
 				'._('Has Account').'
-				</TD><TD><label><INPUT type="radio" name="fsa_exists" value=""'.(!$value?' checked':'').'> '._('All').'</label> 
-				<label><INPUT type="radio" name="fsa_exists" value="Y"'.($value=='Y'?' checked':'').'> '._('Yes').'</label> 
-				<label><INPUT type="radio" name="fsa_exists" value="N"'.($value=='N'?' checked':'').'> '._('No').'</label>
-				</TD></TR>';
+				</td><td><label><input type="radio" name="fsa_exists" value=""'.(!$value?' checked':'').'> '._('All').'</label> 
+				<label><input type="radio" name="fsa_exists" value="Y"'.($value=='Y'?' checked':'').'> '._('Yes').'</label> 
+				<label><input type="radio" name="fsa_exists" value="N"'.($value=='N'?' checked':'').'> '._('No').'</label>
+				</td></tr>';
 				}
 			break;
 			
@@ -240,14 +240,14 @@ function StaffWidgets($item,&$myextra=NULL)
 					$extra['WHERE'] .= " AND (coalesce((SELECT sum(p.AMOUNT) FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID=s.STAFF_ID AND p.SYEAR=s.SYEAR),0)-coalesce((SELECT sum(f.AMOUNT) FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID=s.STAFF_ID AND f.SYEAR=s.SYEAR),0)) BETWEEN '".$_REQUEST['balance_low']."' AND '".$_REQUEST['balance_high']."' ";
 
 					if ( !$extra['NoSearchTerms'])
-						$_ROSARIO['SearchTerms'] .= '<b>'._('Staff Payroll Balance').': </b>'._('Between').' '.$_REQUEST['balance_low'].' &amp; '.$_REQUEST['balance_high'].'<BR />';
+						$_ROSARIO['SearchTerms'] .= '<b>'._('Staff Payroll Balance').': </b>'._('Between').' '.$_REQUEST['balance_low'].' &amp; '.$_REQUEST['balance_high'].'<br />';
 				}
 
-				$extra['search'] .= '<TR class="st"><TD>
+				$extra['search'] .= '<tr class="st"><td>
 				'._('Staff Payroll Balance').'
-				</TD><TD>
-				'._('Between').' <INPUT type="text" name="balance_low" size="5" maxlength="10"> &amp; <INPUT type="text" name="balance_high" size="5" maxlength="10">
-				</TD></TR>';
+				</td><td>
+				'._('Between').' <input type="text" name="balance_low" size="5" maxlength="10"> &amp; <input type="text" name="balance_high" size="5" maxlength="10">
+				</td></tr>';
 				}
 			break;
 		}

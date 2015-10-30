@@ -3,21 +3,21 @@ require_once 'ProgramFunctions/miscExport.fnc.php';
 
 //echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
 
-$extra['extra_search'] .= '<TR>
-		<TD></TD>
-		<TD><DIV id="fields_div"></DIV></TD>
-	</TR>';
+$extra['extra_search'] .= '<tr>
+		<td></td>
+		<td><div id="fields_div"></div></td>
+	</tr>';
 
-$extra['extra_search'] .= '<TR>
-		<TD></TD>
-		<TD>
-			<INPUT type="hidden" name="relation" />
-			<INPUT type="hidden" name="residence" />
-			<INPUT type="hidden" name="mailing" />
-			<INPUT type="hidden" name="bus_pickup" />
-			<INPUT type="hidden" name="bus_dropoff" />
-		</TD>
-	</TR>';
+$extra['extra_search'] .= '<tr>
+		<td></td>
+		<td>
+			<input type="hidden" name="relation" />
+			<input type="hidden" name="residence" />
+			<input type="hidden" name="mailing" />
+			<input type="hidden" name="bus_pickup" />
+			<input type="hidden" name="bus_dropoff" />
+		</td>
+	</tr>';
 
 $extra['extra_search'] .= '<script>
 		function exportSubmit() {
@@ -415,17 +415,17 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			if ( !$_REQUEST['address_group'] )
-				$header_left = '<A HREF="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => 'Y' ) ) . '">' .
-					_( 'Group by Family' ) . '</A>';
+				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => 'Y' ) ) . '">' .
+					_( 'Group by Family' ) . '</a>';
 
 			else
-				$header_left = '<A HREF="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => '' ) ) . '">'.
-					_( 'Ungroup by Family' ) . '</A>';
+				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => '' ) ) . '">'.
+					_( 'Ungroup by Family' ) . '</a>';
 		}
 
 		DrawHeader( $header_left );
 
-		DrawHeader( str_replace( '<BR />', '<BR /> &nbsp;', mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
+		DrawHeader( str_replace( '<br />', '<br /> &nbsp;', mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
 
 		if ( $_REQUEST['address_group'] )
 			ListOutput( $RET, $columns, 'Family', 'Families', array(), $extra['LO_group'], $extra['LO_options'] );
@@ -572,9 +572,9 @@ else
 				_( 'Room' );
 	}
 
-	DrawHeader( '<OL><SPAN id="names_div"></SPAN></OL>' );
+	DrawHeader( '<ol><span id="names_div"></span></ol>' );
 
-	echo '<TABLE><TR class="st"><TD class="valign-top"><BR />';
+	echo '<table><tr class="st"><td class="valign-top"><br />';
 
 	// Left side of the screen
 	PopTable( 'header', _( 'Fields' ) );
@@ -590,44 +590,44 @@ else
 		else
 			$category_title = ParseMLField( $category );
 
-		echo '<TABLE class="widefat cellspacing-0"><TR>
-				<TH colspan="2">' . $category_title . '</TH>
-			</TR><TR>';
+		echo '<table class="widefat cellspacing-0"><tr>
+				<th colspan="2">' . $category_title . '</th>
+			</tr><tr>';
 
 		if ( ParseMLField( $category, 'default' ) == 'Address' )
 		{
 			//FJ add <label> on checkbox
-			echo '<TD>
+			echo '<td>
 					<label>
-						<INPUT type="checkbox" id="residence" value="Y" />&nbsp;' . _( 'Residence' ) .
+						<input type="checkbox" id="residence" value="Y" />&nbsp;' . _( 'Residence' ) .
 					'</label>
-				</TD>';
+				</td>';
 
 			//FJ disable mailing address display
 			if ( Config( 'STUDENTS_USE_MAILING' ) )
-				echo '<TD>
+				echo '<td>
 						<label>
-							<INPUT type="checkbox" id="mailing" value="Y" />&nbsp;' . _( 'Mailing' ) .
+							<input type="checkbox" id="mailing" value="Y" />&nbsp;' . _( 'Mailing' ) .
 						'</label>
-					</TD>';
+					</td>';
 			else
-				echo '<TD>&nbsp;<INPUT type="hidden" id="mailing" value="" /></TD>';
+				echo '<td>&nbsp;<input type="hidden" id="mailing" value="" /></td>';
 				
-			echo '</TR><TR>';
+			echo '</tr><tr>';
 
-			echo '<TD>
+			echo '<td>
 					<label>
-						<INPUT type="checkbox" id="bus_pickup" value="Y" />&nbsp;' . _( 'Bus Pickup' ) .
+						<input type="checkbox" id="bus_pickup" value="Y" />&nbsp;' . _( 'Bus Pickup' ) .
 					'</label>
-				</TD>';
+				</td>';
 
-			echo '<TD>
+			echo '<td>
 					<label>
-						<INPUT type="checkbox" id="bus_dropoff" value="Y" />&nbsp;' . _( 'Bus Dropoff' ) .
+						<input type="checkbox" id="bus_dropoff" value="Y" />&nbsp;' . _( 'Bus Dropoff' ) .
 					'</label>
-				</TD>';
+				</td>';
 
-			echo '</TR><TR>';
+			echo '</tr><tr>';
 		}
 
 		// Draw fields
@@ -635,18 +635,18 @@ else
 		{
 			$i++;
 
-			echo '<TD>';
+			echo '<td>';
 
 			$addJS = '<script>
 					var field' . $field . '=' .
-						json_encode( '<LI>' . ParseMLField( $title ) . '</LI>' ) . ';
+						json_encode( '<li>' . ParseMLField( $title ) . '</li>' ) . ';
 					var fielddiv' . $field . '=' .
-						json_encode( '<INPUT type="hidden" name="fields[' . $field . ']" value="Y" />' ) . ';
+						json_encode( '<input type="hidden" name="fields[' . $field . ']" value="Y" />' ) . ';
 				</script>';
 
 			echo $addJS .
 				'<label>
-					<INPUT type="checkbox" onclick=\'addHTML(field' . $field . ',"names_div",false);
+					<input type="checkbox" onclick=\'addHTML(field' . $field . ',"names_div",false);
 						addHTML(fielddiv'.$field.',"fields_div",false);
 						this.disabled=true\' />&nbsp;' . ParseMLField( $title ) .
 				'</label>';
@@ -658,44 +658,44 @@ else
 					FROM STUDENTS_JOIN_PEOPLE
 					ORDER BY STUDENT_RELATION" ) );
 
-				$select = '<SELECT id="relation"><OPTION value="">' . _( 'N/A' );
+				$select = '<select id="relation"><option value="">' . _( 'N/A' );
 
 				foreach ( (array)$relations_RET as $relation )
 					if ( $relation['STUDENT_RELATION'] != '' )
-						$select .= '<OPTION value="' . $relation['STUDENT_RELATION'] . '">' . $relation['STUDENT_RELATION'];
+						$select .= '<option value="' . $relation['STUDENT_RELATION'] . '">' . $relation['STUDENT_RELATION'];
 					else
-						$select .= '<OPTION value="!">' . _( 'No Value' );
+						$select .= '<option value="!">' . _( 'No Value' );
 
-				$select .= '</SELECT>';
+				$select .= '</select>';
 
 				echo '&nbsp;-&nbsp;' . _( 'Relation' ) . ':&nbsp;' . $select;
 			}
 
-			echo '</TD>';
+			echo '</td>';
 
 			if ( $i%2 == 0 )
-				echo '</TR><TR>';
+				echo '</tr><tr>';
 		}
 
 		if ( $i%2 != 0 )
 		{
-			echo '<TD>&nbsp;</TD></TR><TR>';
+			echo '<td>&nbsp;</td></tr><tr>';
 
 			$i++;
 		}
 
-		echo '</TR></TABLE><br />';
+		echo '</tr></table><br />';
 	}
 
 	PopTable( 'footer' );
 
-	echo '</TD><TD class="valign-top">';
+	echo '</td><td class="valign-top">';
 
 	// Bottom of the screen: Course Periods list
 	if ( $Search
 		&& function_exists( $Search ) )
 	{
-		echo '</TD></TR></TABLE>';
+		echo '</td></tr></table>';
 
 		$Search( $extra );
 	}
@@ -704,7 +704,7 @@ else
 	{
 		Search( 'student_id', $extra );
 
-		echo '</TD></TR></TABLE>';
+		echo '</td></tr></table>';
 	}
 }
 

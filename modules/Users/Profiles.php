@@ -166,34 +166,34 @@ if ( $_REQUEST['new_profile_title'] && AllowEdit())
 
 if ( $_REQUEST['modfunc']!='delete')
 {
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&profile_id='.$_REQUEST['profile_id'].'" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&profile_id='.$_REQUEST['profile_id'].'" method="POST">';
 	DrawHeader(_('Select the programs that users of this profile can use and which programs those users can use to save information.'),SubmitButton(_('Save')));
-	echo '<BR />';
-	echo '<TABLE><TR class="st"><TD class="valign-top">';
+	echo '<br />';
+	echo '<table><tr class="st"><td class="valign-top">';
 //FJ css WPadmin
-	echo '<TABLE class="widefat cellspacing-0">';
+	echo '<table class="widefat cellspacing-0">';
 
 	//$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES"));
 	$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES ORDER BY ID"),array(),array('PROFILE','ID'));
-	echo '<TR><TH colspan="3">'._('Profiles').'</TH></TR>';
+	echo '<tr><th colspan="3">'._('Profiles').'</th></tr>';
 	foreach ( array('admin','teacher','parent','student') as $profiles)
 	{
 		foreach ( (array)$profiles_RET[$profiles] as $id => $profile)
 		{
 			if ( $_REQUEST['profile_id']!='' && $id==$_REQUEST['profile_id'])
-				echo '<TR id="selected_tr" class="highlight"><TD>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</TD><TD>';
+				echo '<tr id="selected_tr" class="highlight"><td>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</td><td>';
 			else
-				echo '<TR onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="background-color:transparent;";\'><TD>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</TD><TD>';
+				echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="background-color:transparent;";\'><td>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</td><td>';
 
-			echo '<A href="Modules.php?modname='.$_REQUEST['modname'].'&profile_id='.$id.'">'._($profile[1]['TITLE']).' &nbsp; </A>';
-			echo '</TD>';
+			echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&profile_id='.$id.'">'._($profile[1]['TITLE']).' &nbsp; </a>';
+			echo '</td>';
 
-			echo '<TD><div class="arrow right"></div></TD>';
-			echo '</TR>';
+			echo '<td><div class="arrow right"></div></td>';
+			echo '</tr>';
 		}
 	}
 	if ( $_REQUEST['profile_id']=='')
-		echo '<TR id="selected_tr"><TD colspan="3"></TD></TR>';
+		echo '<tr id="selected_tr"><td colspan="3"></td></tr>';
 
 	if (AllowEdit())
 	{
@@ -206,24 +206,24 @@ function changeHTML(show,hide){
 }
 </script>';
 
-		echo '<TR id="new_tr" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="background-color:transparent;";\' onclick=\'document.getElementById("selected_tr").onmouseover="this.style.backgroundColor=\"'.Preferences('HIGHLIGHT').'\";"; document.getElementById("selected_tr").onmouseout="this.style.cssText=\"background-color:transparent;\";"; document.getElementById("selected_tr").style.cssText="background-color:transparent;"; changeHTML({"new_id_div":"new_id_content"},["main_div"]);document.getElementById("new_tr").onmouseover="";document.getElementById("new_tr").onmouseout="";this.onclick="";\'><TD>'.button('add').'</TD><TD>';
+		echo '<tr id="new_tr" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="background-color:transparent;";\' onclick=\'document.getElementById("selected_tr").onmouseover="this.style.backgroundColor=\"'.Preferences('HIGHLIGHT').'\";"; document.getElementById("selected_tr").onmouseout="this.style.cssText=\"background-color:transparent;\";"; document.getElementById("selected_tr").style.cssText="background-color:transparent;"; changeHTML({"new_id_div":"new_id_content"},["main_div"]);document.getElementById("new_tr").onmouseover="";document.getElementById("new_tr").onmouseout="";this.onclick="";\'><td>'.button('add').'</td><td>';
 
-		echo '<A href="#" onclick="return false;">'._('Add a User Profile').'</A>&nbsp;<BR /><DIV id="new_id_div"></DIV>';
-		echo '</TD>';
+		echo '<a href="#" onclick="return false;">'._('Add a User Profile').'</a>&nbsp;<br /><div id="new_id_div"></div>';
+		echo '</td>';
 
-		echo '<TD><div class="arrow right"></div></TD>';
-		echo '</TR>';
+		echo '<td><div class="arrow right"></div></td>';
+		echo '</tr>';
 	}
 
-	echo '</TABLE>';
-	echo '</TD><TD></TD><TD>';
+	echo '</table>';
+	echo '</td><td></td><td>';
 
-	echo '<DIV id="main_div">';
+	echo '<div id="main_div">';
 	if ( $_REQUEST['profile_id']!='')
 	{
 		PopTable('header',_('Permissions'));
-//		echo '<TABLE cellspacing=0>';
-		echo '<TABLE class="widefat cellspacing-0">';
+//		echo '<table cellspacing=0>';
+		echo '<table class="widefat cellspacing-0">';
 		foreach ( (array)$menu as $modcat => $profiles)
 		{
 			$values = $profiles[$xprofile];
@@ -233,17 +233,17 @@ function changeHTML(show,hide){
 			else
 				$module_title = _(str_replace('_',' ',$modcat));
 
-			echo '<TR><TD colspan="3"><h4>'.$module_title.'</h4></TD></TR>';
+			echo '<tr><td colspan="3"><h4>'.$module_title.'</h4></td></tr>';
 
 //FJ add <label> on checkbox
-			echo '<TR><TH><label>'._('Can Use').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_use_'.$modcat.'" onclick="checkAll(this.form,this.form.can_use_'.$modcat.'.checked,\'can_use['.$modcat.'\');">':'').'</label></TH>';
+			echo '<tr><th><label>'._('Can Use').' '.(AllowEdit()?'<input type="checkbox" name="can_use_'.$modcat.'" onclick="checkAll(this.form,this.form.can_use_'.$modcat.'.checked,\'can_use['.$modcat.'\');">':'').'</label></th>';
 
 			if ( $xprofile=='admin' || $modcat=='Students' || $modcat=='Resources')
-				echo '<TH><label>'._('Can Edit').' '.(AllowEdit()?'<INPUT type="checkbox" name="can_edit_'.$modcat.'" onclick="checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,\'can_edit['.$modcat.'\');">':'').'</label></TH>';
+				echo '<th><label>'._('Can Edit').' '.(AllowEdit()?'<input type="checkbox" name="can_edit_'.$modcat.'" onclick="checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,\'can_edit['.$modcat.'\');">':'').'</label></th>';
 			else
-				echo '<TH>&nbsp;</TH>';
+				echo '<th>&nbsp;</th>';
 
-			echo '<TH>&nbsp;</TH></TR>';
+			echo '<th>&nbsp;</th></tr>';
 			if (count($values))
 			{
 				foreach ( (array)$values as $file => $title)
@@ -253,16 +253,16 @@ function changeHTML(show,hide){
 						$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 						$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
-						//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
+						//echo '<tr><td>&nbsp;</td><td>&nbsp;</td>';
 
-						echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+						echo '<tr><td style="text-align:right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 
 						if ( $xprofile=='admin' || $modcat=='Resources')
-								echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+								echo '<td style="text-align:right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></td>';
 						else
-							echo '<TD>&nbsp;</TD>';
+							echo '<td>&nbsp;</td>';
 
-						echo'<TD>'.$title.'</TD></TR>';
+						echo'<td>'.$title.'</td></tr>';
 
 						if ( $modcat=='Students' && $file=='Students/Student.php')
 						{
@@ -274,12 +274,12 @@ function changeHTML(show,hide){
 								$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 								$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
-								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
-								echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+								//echo '<tr><td>&nbsp;</td><td>&nbsp;</td>';
+								echo '<tr><td style="text-align:right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></td>';
 
-								echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+								echo '<td style="text-align:right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></td>';
 
-								echo '<TD>'.$title.'</TD></TR>';
+								echo '<td>'.$title.'</td></tr>';
 							}
 						}
 						elseif ( $modcat=='Users' && $file=='Users/User.php')
@@ -292,36 +292,36 @@ function changeHTML(show,hide){
 								$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 								$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
 
-								//echo '<TR><TD>&nbsp;</TD><TD>&nbsp;</TD>';
-								echo '<TR><TD style="text-align:right"><INPUT type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></TD>';
+								//echo '<tr><td>&nbsp;</td><td>&nbsp;</td>';
+								echo '<tr><td style="text-align:right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 
 								if ( $xprofile=='admin')
-									echo '<TD style="text-align:right"><INPUT type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></TD>';
+									echo '<td style="text-align:right"><input type="checkbox" name="can_edit['.str_replace('.','_',$file).']" value="true"'.($can_edit=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></td>';
 								else
-									echo '<TD>&nbsp;</TD>';
+									echo '<td>&nbsp;</td>';
 
-								echo '<TD>'.$title.'</TD></TR>';
+								echo '<td>'.$title.'</td></tr>';
 							}
 						}
 					}
 					elseif ( $file!='default')
-						echo '<TR><TD colspan="3" class="center">- '.$title.' -</TD></TR>';
+						echo '<tr><td colspan="3" class="center">- '.$title.' -</td></tr>';
 
 				}
 			}
-			//echo '<TR><TD colspan="3" style="text-align:center; height:20px;"></TD></TR>';
+			//echo '<tr><td colspan="3" style="text-align:center; height:20px;"></td></tr>';
 		}
-		echo '</TABLE>';
+		echo '</table>';
 
 		PopTable('footer');
 
-		echo '<BR /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	}
-	echo '</DIV>';
-	echo '</TD></TR></TABLE>';
-	echo '</FORM>';
+	echo '</div>';
+	echo '</td></tr></table>';
+	echo '</form>';
 
-	echo '<DIV id="new_id_content" style="position:absolute;visibility:hidden;">'._('Title').' <INPUT type="text" name="new_profile_title"><BR />';
+	echo '<div id="new_id_content" style="position:absolute;visibility:hidden;">'._('Title').' <input type="text" name="new_profile_title"><br />';
 
-	echo _('Type').' <SELECT name="new_profile_type"><OPTION value="admin">'._('Administrator').'<OPTION value="teacher">'._('Teacher').'<OPTION value="parent">'._('Parent').'</SELECT></DIV>';
+	echo _('Type').' <select name="new_profile_type"><option value="admin">'._('Administrator').'<option value="teacher">'._('Teacher').'<option value="parent">'._('Parent').'</select></div>';
 }

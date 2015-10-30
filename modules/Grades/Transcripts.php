@@ -261,7 +261,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				unset($listOutput_RET[0]);
 				//var_dump($listOutput_RET);exit;
 
-				echo '<BR />';
+				echo '<br />';
 				ListOutput($listOutput_RET,$columns,'.','.',false);
 			
 				//School Year
@@ -329,13 +329,13 @@ if (empty($_REQUEST['modfunc']))
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		//FJ include gentranscript.php in Transcripts.php
-		//echo '<FORM action="modules/Grades/gentranscript.php" method="POST">';
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = '<INPUT type="submit" value="'._('Create Transcripts for Selected Students').'" />';
+		//echo '<form action="modules/Grades/gentranscript.php" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&_ROSARIO_PDF=true" method="POST">';
+		$extra['header_right'] = '<input type="submit" value="'._('Create Transcripts for Selected Students').'" />';
 
-		$extra['extra_header_left'] = '<TABLE>';
+		$extra['extra_header_left'] = '<table>';
 
-		$extra['extra_header_left'] .= '<TR><TD colspan="2"><b>'._('Include on Transcript').':</b><INPUT type="hidden" name="SCHOOL_ID" value="'.UserSchool().'"><BR /></TD></TR>';
+		$extra['extra_header_left'] .= '<tr><td colspan="2"><b>'._('Include on Transcript').':</b><input type="hidden" name="SCHOOL_ID" value="'.UserSchool().'"><br /></td></tr>';
 
 		//FJ history grades in Transripts
 		if (User('PROFILE')=='admin')
@@ -345,7 +345,7 @@ if (empty($_REQUEST['modfunc']))
 			//if History School Years
 			if (count($syear_history_RET))
 			{
-				$extra['extra_header_left'] .= '<TR class="st"><TD>'._('School Year').':</TD><TD>';
+				$extra['extra_header_left'] .= '<tr class="st"><td>'._('School Year').':</td><td>';
 
 				$syoptions[UserSyear()] = FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS'));
 				foreach ( (array)$syear_history_RET as $syear_history)
@@ -354,41 +354,41 @@ if (empty($_REQUEST['modfunc']))
 				}
 
 				$extra['extra_header_left'] .= SelectInput(UserSyear(),'syear','',$syoptions,false,null,false);
-				$extra['extra_header_left'] .= '</SELECT></TD>';
+				$extra['extra_header_left'] .= '</select></td>';
 			}
 		}
 
 		$mp_types = DBGet(DBQuery("SELECT DISTINCT MP_TYPE FROM MARKING_PERIODS WHERE NOT MP_TYPE IS NULL AND SCHOOL_ID='".UserSchool()."'"),array(),array());
-		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align:top;">'._('Marking Periods').':</TD><TD><TABLE><TR class="st"><TD  style="vertical-align:top;"><TABLE>';
+		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align:top;">'._('Marking Periods').':</td><td><table><tr class="st"><td  style="vertical-align:top;"><table>';
 
 		//FJ add translation
 		$marking_periods_locale = array('Year' => _('Year'), 'Semester' => _('Semester'), 'Quarter' => _('Quarter'));
 
 		foreach ( (array)$mp_types as $mp_type)
 		{
-			$extra['extra_header_left'] .= '<TR>';
+			$extra['extra_header_left'] .= '<tr>';
 			//FJ add <label> on checkbox
-			$extra['extra_header_left'] .= '<TD><label><INPUT type="checkbox" name="mp_type_arr[]" value="'.$mp_type['MP_TYPE'].'"> '.$marking_periods_locale[ucwords($mp_type['MP_TYPE'])].'</label></TD>';              
-			$extra['extra_header_left'] .= '</TR>';
+			$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="mp_type_arr[]" value="'.$mp_type['MP_TYPE'].'"> '.$marking_periods_locale[ucwords($mp_type['MP_TYPE'])].'</label></td>';              
+			$extra['extra_header_left'] .= '</tr>';
 		}
 
-		$extra['extra_header_left'] .= '</TABLE></TD>';
-		$extra['extra_header_left'] .= '<TD style="vertical-align:top;">'._('Other Options').':</TD>';
-		$extra['extra_header_left'] .= '<TD><TABLE>';
+		$extra['extra_header_left'] .= '</table></td>';
+		$extra['extra_header_left'] .= '<td style="vertical-align:top;">'._('Other Options').':</td>';
+		$extra['extra_header_left'] .= '<td><table>';
 
 		//FJ add Show Grades option
-		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showgrades" value="1" checked /> '._('Grades').'</label></TD></TR>';
+		$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showgrades" value="1" checked /> '._('Grades').'</label></td></tr>';
 
-		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showstudentpic" value="1"> '._('Student Photo').'</label></TD></TR>';
+		$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showstudentpic" value="1"> '._('Student Photo').'</label></td></tr>';
 
 		//FJ add Show Comments option
-		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showmpcomments" value="1"> '._('Comments').'</label></TD></TR>';
+		$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showmpcomments" value="1"> '._('Comments').'</label></td></tr>';
 
 		//FJ add Show Credits option
-		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showcredits" value="1" checked /> '._('Credits').'</label></TD></TR>';
+		$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showcredits" value="1" checked /> '._('Credits').'</label></td></tr>';
 
 		//FJ add Show Credit Hours option
-		$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showcredithours" value="1"> '._('Credit Hours').'</label></TD></TR>';
+		$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showcredithours" value="1"> '._('Credit Hours').'</label></td></tr>';
 
 		//FJ limit Cetificate to admin
 		if (User('PROFILE')=='admin')
@@ -396,40 +396,40 @@ if (empty($_REQUEST['modfunc']))
 			//FJ add Show Studies Certificate option
 			$field_SSECURITY = ParseMLArray(DBGet(DBQuery("SELECT TITLE FROM CUSTOM_FIELDS WHERE ID = 200000003")),'TITLE');
 			
-			$extra['extra_header_left'] .= '<TR><TD><label><INPUT type="checkbox" name="showcertificate" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> '._('Studies Certificate').'</label></TD></TR>';
+			$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showcertificate" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> '._('Studies Certificate').'</label></td></tr>';
 			
 			//FJ add Template
 			$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		}
 
-		//$extra['extra_header_left'] .= '<TR><TD><INPUT type=checkbox name=showsat value=1>SAT Scores</TD></TR>';
-		$extra['extra_header_left'] .= '</TABLE>';
+		//$extra['extra_header_left'] .= '<tr><td><input type=checkbox name=showsat value=1>SAT Scores</td></tr>';
+		$extra['extra_header_left'] .= '</table>';
 
-		$extra['extra_header_left'] .= '</TD><TD></TD></TR></TABLE></TR>';
-		$extra['extra_header_left'] .= '</TABLE>';
+		$extra['extra_header_left'] .= '</td><td></td></tr></table></tr>';
+		$extra['extra_header_left'] .= '</table>';
 
 		//FJ limit Cetificate to admin
 		if (User('PROFILE')=='admin')
 		{
 			//FJ add Show Studies Certificate option
-			$extra['extra_header_left'] .= '<DIV id="divcertificatetext" style="display:none"><TEXTAREA id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">'.($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']).'</TEXTAREA><BR /><span class="legend-gray">'._('Certificate Studies Text').'</span>
-			<TABLE><TR><TD style="text-align:right; vertical-align: top;">'._('Substitutions').':</TD><TD><TABLE><TR>';
-			$extra['extra_header_left'] .= '<TD>__SSECURITY__</TD><TD>= '.$field_SSECURITY[1]['TITLE'].'</TD><TD colspan="3">&nbsp;</TD>';
-			$extra['extra_header_left'] .= '</TR><TR>';
-			$extra['extra_header_left'] .= '<TD>__FULL_NAME__</TD><TD>= '._('Last, First M').'</TD><TD>&nbsp;</TD>';
-			$extra['extra_header_left'] .= '<TD>__LAST_NAME__</TD><TD>= '._('Last Name').'</TD>';
-			$extra['extra_header_left'] .= '</TR><TR>';
-			$extra['extra_header_left'] .= '<TD>__FIRST_NAME__</TD><TD>= '._('First Name').'</TD><TD>&nbsp;</TD>';
-			$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__</TD><TD>= '._('Middle Name').'</TD>';
-			$extra['extra_header_left'] .= '</TR><TR>';
-			$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD><TD>&nbsp;</TD>';
-			$extra['extra_header_left'] .= '<TD>__NEXT_GRADE_ID__</TD><TD>= '._('Next Grade').'</TD>';
-			$extra['extra_header_left'] .= '</TR><TR>';
-			$extra['extra_header_left'] .= '<TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
-			$extra['extra_header_left'] .= '<TD>__YEAR__</TD><TD>= '._('School Year').'</TD>';
-			$extra['extra_header_left'] .= '</TR><TR>';
-			$extra['extra_header_left'] .= '<TD>__BLOCK2__</TD><TD>= '._('Text Block 2').'</TD><TD colspan="3">&nbsp;</TD>';
-			$extra['extra_header_left'] .= '</TR></TABLE></TD></TR></TABLE></DIV>';
+			$extra['extra_header_left'] .= '<div id="divcertificatetext" style="display:none"><textarea id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">'.($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']).'</textarea><br /><span class="legend-gray">'._('Certificate Studies Text').'</span>
+			<table><tr><td style="text-align:right; vertical-align: top;">'._('Substitutions').':</td><td><table><tr>';
+			$extra['extra_header_left'] .= '<td>__SSECURITY__</td><td>= '.$field_SSECURITY[1]['TITLE'].'</td><td colspan="3">&nbsp;</td>';
+			$extra['extra_header_left'] .= '</tr><tr>';
+			$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._('Last, First M').'</td><td>&nbsp;</td>';
+			$extra['extra_header_left'] .= '<td>__LAST_NAME__</td><td>= '._('Last Name').'</td>';
+			$extra['extra_header_left'] .= '</tr><tr>';
+			$extra['extra_header_left'] .= '<td>__FIRST_NAME__</td><td>= '._('First Name').'</td><td>&nbsp;</td>';
+			$extra['extra_header_left'] .= '<td>__MIDDLE_NAME__</td><td>= '._('Middle Name').'</td>';
+			$extra['extra_header_left'] .= '</tr><tr>';
+			$extra['extra_header_left'] .= '<td>__GRADE_ID__</td><td>= '._('Grade Level').'</td><td>&nbsp;</td>';
+			$extra['extra_header_left'] .= '<td>__NEXT_GRADE_ID__</td><td>= '._('Next Grade').'</td>';
+			$extra['extra_header_left'] .= '</tr><tr>';
+			$extra['extra_header_left'] .= '<td>__SCHOOL_ID__</td><td>= '._('School').'</td><td>&nbsp;</td>';
+			$extra['extra_header_left'] .= '<td>__YEAR__</td><td>= '._('School Year').'</td>';
+			$extra['extra_header_left'] .= '</tr><tr>';
+			$extra['extra_header_left'] .= '<td>__BLOCK2__</td><td>= '._('Text Block 2').'</td><td colspan="3">&nbsp;</td>';
+			$extra['extra_header_left'] .= '</tr></table></td></tr></table></div>';
 		}
 	}
 
@@ -438,7 +438,7 @@ if (empty($_REQUEST['modfunc']))
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');" /><A>');
 	$extra['options']['search'] = false;
 
 	Widgets('course');
@@ -450,12 +450,12 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center"><INPUT type="submit" value="'._('Create Transcripts for Selected Students').'" /></div>';
-		echo '</FORM>';
+		echo '<br /><div class="center"><input type="submit" value="'._('Create Transcripts for Selected Students').'" /></div>';
+		echo '</form>';
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }

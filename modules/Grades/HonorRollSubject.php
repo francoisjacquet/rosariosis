@@ -63,7 +63,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '<img src="assets/Frames/'.$_REQUEST['frame'].'" style="z-index:0; width:100%; height:100%; position:absolute;" />';
 			}
 			
-			echo '<TABLE style="margin:auto auto; height:77%;">';
+			echo '<table style="margin:auto auto; height:77%;">';
 			
 			//FJ Bugfix wkhtmltopdf ContentOperationNotPermittedError
 			$clipart_html = (!empty($_REQUEST['clipart']) ? '<img src="assets/ClipArts/'.$_REQUEST['clipart'].'" height="200" />' : '');
@@ -87,16 +87,16 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$school_info_RET[1]['TITLE'],
 			$_REQUEST['subject']),$honor_roll_text);
 				
-			echo '<TR><TD>'.$honor_roll_text.'</TD></TR></TABLE>';
+			echo '<tr><td>'.$honor_roll_text.'</td></tr></table>';
 
-			echo '<TABLE style="margin:auto auto; width:80%;">';
-			echo '<TR><TD><span style="font-size:x-large;">'.$student['TEACHER'].'</span><BR /><span style="font-size:medium;">'._('Teacher').'</span></TD>';
-			echo '<TD><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><BR /><span style="font-size:medium;">'._('Marking Period').'</span></TD></TR>';
+			echo '<table style="margin:auto auto; width:80%;">';
+			echo '<tr><td><span style="font-size:x-large;">'.$student['TEACHER'].'</span><br /><span style="font-size:medium;">'._('Teacher').'</span></td>';
+			echo '<td><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><br /><span style="font-size:medium;">'._('Marking Period').'</span></td></tr>';
 
-			echo '<TR><TD><span style="font-size:x-large;">'.$school_info_RET[1]['PRINCIPAL'].'</span><BR /><span style="font-size:medium;">'._('Principal').'</span></TD>';
-			echo '<TD><span style="font-size:x-large;">'.ProperDate(date('Y.m.d',strtotime($mp_RET[1]['END_DATE']))).'</span><BR /><span style="font-size:medium;">'._('Date').'</span></TD></TR>';
+			echo '<tr><td><span style="font-size:x-large;">'.$school_info_RET[1]['PRINCIPAL'].'</span><br /><span style="font-size:medium;">'._('Principal').'</span></td>';
+			echo '<td><span style="font-size:x-large;">'.ProperDate(date('Y.m.d',strtotime($mp_RET[1]['END_DATE']))).'</span><br /><span style="font-size:medium;">'._('Date').'</span></td></tr>';
 
-			echo '</TABLE></div>';
+			echo '</table></div>';
 			echo '<div style="page-break-after: always;"></div>';
 		}
 
@@ -155,35 +155,35 @@ if (empty($_REQUEST['modfunc']))
 </script>
 <!-- /TinyMCE -->
 <?php
-		echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
+		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Create Honor Roll by Subject for Selected Students'));
 
-		$extra['extra_header_left'] = '<TABLE>';
+		$extra['extra_header_left'] = '<table>';
 
 		//FJ add TinyMCE to the textarea
-		$extra['extra_header_left'] .= '<TR class="st">
-		<TD style="vertical-align: top;">'._('Text').'</TD>
-		<TD><TEXTAREA name="honor_roll_text" class="tinymce">';
+		$extra['extra_header_left'] .= '<tr class="st">
+		<td style="vertical-align: top;">'._('Text').'</td>
+		<td><textarea name="honor_roll_text" class="tinymce">';
 
 		//FJ add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 
 		$extra['extra_header_left'] .= str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']));
 
-		$extra['extra_header_left'] .= '</TEXTAREA></TD></TR>';
+		$extra['extra_header_left'] .= '</textarea></td></tr>';
 
-		$extra['extra_header_left'] .= '<TR class="st"><TD style="vertical-align: top;">'._('Substitutions').':</TD><TD><TABLE><TR class="st">';
-		$extra['extra_header_left'] .= '<TD>__FULL_NAME__</TD><TD>= '._('Last, First M').'</TD><TD>&nbsp;</TD>';
-		$extra['extra_header_left'] .= '<TD>__LAST_NAME__</TD><TD>= '._('Last Name').'</TD></TR>';
+		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
+		$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._('Last, First M').'</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__LAST_NAME__</td><td>= '._('Last Name').'</td></tr>';
 
-		$extra['extra_header_left'] .= '<TR class="st"><TD>__FIRST_NAME__</TD><TD>= '._('First Name').'</TD><TD>&nbsp;</TD>';
-		$extra['extra_header_left'] .= '<TD>__MIDDLE_NAME__</TD><TD>= '._('Middle Name').'</TD></TR>';
+		$extra['extra_header_left'] .= '<tr class="st"><td>__FIRST_NAME__</td><td>= '._('First Name').'</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__MIDDLE_NAME__</td><td>= '._('Middle Name').'</td></tr>';
 
-		$extra['extra_header_left'] .= '<TR class="st"><TD>__SCHOOL_ID__</TD><TD>= '._('School').'</TD><TD>&nbsp;</TD>';
-		$extra['extra_header_left'] .= '<TD>__GRADE_ID__</TD><TD>= '._('Grade Level').'</TD></TR>';
+		$extra['extra_header_left'] .= '<tr class="st"><td>__SCHOOL_ID__</td><td>= '._('School').'</td><td>&nbsp;</td>';
+		$extra['extra_header_left'] .= '<td>__GRADE_ID__</td><td>= '._('Grade Level').'</td></tr>';
 
-		$extra['extra_header_left'] .= '<TR class="st"><TD>__CLIPART__</TD><TD>= '._('ClipArt').'</TD><TD colspan="3">&nbsp;</TD>';
-		$extra['extra_header_left'] .= '</TR></TABLE></TD></TR>';
+		$extra['extra_header_left'] .= '<tr class="st"><td>__CLIPART__</td><td>= '._('ClipArt').'</td><td colspan="3">&nbsp;</td>';
+		$extra['extra_header_left'] .= '</tr></table></td></tr>';
 
 		//FJ add frames choice
 		$frames = array();
@@ -191,11 +191,11 @@ if (empty($_REQUEST['modfunc']))
 			$frames = scandir('assets/Frames/');
 
 		//no frame first and checked
-		$extra['extra_header_left'] .= '<TR class="st">
-		<TD style="vertical-align:top;">'._('Frame').'</TD>
-		<TD><DIV style="overflow-x:auto; height:160px;" id="framesList">
+		$extra['extra_header_left'] .= '<tr class="st">
+		<td style="vertical-align:top;">'._('Frame').'</td>
+		<td><div style="overflow-x:auto; height:160px;" id="framesList">
 			<table class="cellspacing-0"><tr>
-			<td class="image-radio-list" style="height: auto;"><label class="image-radio-list"><INPUT type="radio" name="frame" value="" checked /> '._('No frame').'</label></td>';
+			<td class="image-radio-list" style="height: auto;"><label class="image-radio-list"><input type="radio" name="frame" value="" checked /> '._('No frame').'</label></td>';
 
 		//create radio list with thumbnails
 		$i = 1;
@@ -204,12 +204,12 @@ if (empty($_REQUEST['modfunc']))
 			//filter images
 			if ( in_array( mb_strtolower(mb_strrchr($frame, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
 			{
-				$extra['extra_header_left'] .= '<td class="image-radio-list"><label class="image-radio-list"><INPUT type="radio" name="frame" value="'.$frame.'"> <img src="assets/Frames/'.$frame.'" class="image-radio-list" title="'.UCWords(str_replace(array('_', '.jpg', '.jpeg', '.png', '.gif'),array(' ', ''), $frame)).'" /></label></td>';
+				$extra['extra_header_left'] .= '<td class="image-radio-list"><label class="image-radio-list"><input type="radio" name="frame" value="'.$frame.'"> <img src="assets/Frames/'.$frame.'" class="image-radio-list" title="'.UCWords(str_replace(array('_', '.jpg', '.jpeg', '.png', '.gif'),array(' ', ''), $frame)).'" /></label></td>';
 				$i++;
 			}
 		}
 
-		$extra['extra_header_left'] .= '</tr></table></DIV></TD></TR><TR><TD colspan="2">&nbsp;</TD></TR>';
+		$extra['extra_header_left'] .= '</tr></table></div></td></tr><tr><td colspan="2">&nbsp;</td></tr>';
 		
 		//FJ add clipart choice
 		$cliparts = array();
@@ -217,11 +217,11 @@ if (empty($_REQUEST['modfunc']))
 			$cliparts = scandir('assets/ClipArts/');
 
 		//no clipart first and checked
-		$extra['extra_header_left'] .= '<TR class="st">
-		<TD style="vertical-align:top;">'._('ClipArt').'</TD>
-		<TD><div style="overflow-x:auto; height:160px;" id="clipartsList">
+		$extra['extra_header_left'] .= '<tr class="st">
+		<td style="vertical-align:top;">'._('ClipArt').'</td>
+		<td><div style="overflow-x:auto; height:160px;" id="clipartsList">
 			<table class="cellspacing-0"><tr>
-			<td class="image-radio-list" style="height: auto;"><label class="image-radio-list"><INPUT type="radio" name="clipart" value="" checked /> '._('No ClipArt').'</label></td>';
+			<td class="image-radio-list" style="height: auto;"><label class="image-radio-list"><input type="radio" name="clipart" value="" checked /> '._('No ClipArt').'</label></td>';
 
 		//create radio list with thumbnails
 		$i = 1;
@@ -230,12 +230,12 @@ if (empty($_REQUEST['modfunc']))
 			//filter images
 			if ( in_array( mb_strtolower(mb_strrchr($clipart, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
 			{
-				$extra['extra_header_left'] .= '<td class="image-radio-list"><label class="image-radio-list"><INPUT type="radio" name="clipart" value="'.$clipart.'"> <img src="assets/ClipArts/'.$clipart.'" class="image-radio-list" title="'.UCWords(str_replace(array('_', '.jpg', '.jpeg', '.png', '.gif'),array(' ', ''), $clipart)).'" /></label></td>';
+				$extra['extra_header_left'] .= '<td class="image-radio-list"><label class="image-radio-list"><input type="radio" name="clipart" value="'.$clipart.'"> <img src="assets/ClipArts/'.$clipart.'" class="image-radio-list" title="'.UCWords(str_replace(array('_', '.jpg', '.jpeg', '.png', '.gif'),array(' ', ''), $clipart)).'" /></label></td>';
 				$i++;
 			}
 		}
 
-		$extra['extra_header_left'] .= '</tr></table></div></TD></TR></TABLE>';
+		$extra['extra_header_left'] .= '</tr></table></div></td></tr></table>';
 
 		$extra['extra_header_left'] .= '<script>if (isTouchDevice()) {touchScroll(document.getElementById(\'framesList\')); touchScroll(document.getElementById(\'clipartsList\'));}</script>';
 	}
@@ -246,7 +246,7 @@ if (empty($_REQUEST['modfunc']))
 	{
 		$extra['SELECT'] = ",s.STUDENT_ID AS CHECKBOX";
 		$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-		$extra['columns_before'] = array('CHECKBOX' => '</A><INPUT type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+		$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
 	}
 
 	$extra['link'] = array('FULL_NAME'=>false);
@@ -261,14 +261,14 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<BR /><div class="center">' . SubmitButton(_('Create Honor Roll by Subject for Selected Students')) . '</div>';
-		echo '</FORM>';
+		echo '<br /><div class="center">' . SubmitButton(_('Create Honor Roll by Subject for Selected Students')) . '</div>';
+		echo '</form>';
 	}
 }
 
 function _makeChooseCheckbox($value,$title)
 {
-	return '<INPUT type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
+	return '<input type="checkbox" name="st_arr[]" value="'.$value.'" checked />';
 }
 
 function MyWidgets($item)
@@ -307,21 +307,21 @@ function MyWidgets($item)
 					$subject_RET = DBGet(DBQuery("SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$_REQUEST['subject_id']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
 					$_ROSARIO['SearchTerms'] .= '<b>'._('Subject').':</b> '.$subject_RET[1]['TITLE'];
-					$_ROSARIO['SearchTerms'] .= '<input type="hidden" id="subject" name="subject" value="'.str_replace('"','&quot;',$subject_RET[1]['TITLE']).'" /><BR />';
+					$_ROSARIO['SearchTerms'] .= '<input type="hidden" id="subject" name="subject" value="'.str_replace('"','&quot;',$subject_RET[1]['TITLE']).'" /><br />';
 				}
 			}
 
 			$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-			$select = '<SELECT name="subject_id">';
+			$select = '<select name="subject_id">';
 
 			if (count($subjects_RET))
 			{
 				foreach ( (array)$subjects_RET as $subject)
-					$select .= '<OPTION value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</OPTION>';
+					$select .= '<option value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</option>';
 			}
 
-			$select .= '</SELECT>';
-			$extra['search'] .= '<TR><TD>'._('Subject').'</TD><TD>'.$select.'</TD></TR>';
+			$select .= '</select>';
+			$extra['search'] .= '<tr><td>'._('Subject').'</td><td>'.$select.'</td></tr>';
 		break;
 	}
 }

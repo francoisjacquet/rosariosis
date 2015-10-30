@@ -54,7 +54,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 	$staff = $staff[1];
 
 	//$PHP_tmp_SELF = PreparePHP_SELF();
-	echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=" method="POST">';
+	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=" method="POST">';
 
 	DrawHeader('',ResetButton(_('Cancel')).SubmitButton(_('Save'),'save'));
 
@@ -90,7 +90,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 			$RET[$RET_key]=array_map('options_locale', $RET_temp[$RET_key]);
 		}	
 
-		echo '<TABLE class="width-100p"><TR><TD class="width-100p valign-top">';
+		echo '<table class="width-100p"><tr><td class="width-100p valign-top">';
 
 		if (AllowEdit())
 		{
@@ -109,9 +109,9 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		ListOutput($RET,$columns,'Earlier Transaction','Earlier Transactions',$link,false,array('save'=>false,'search'=>false));
 		echo '<div class="center">' . SubmitButton(_('Save'),'save') . '</div>';
 
-		echo '</TD></TR></TABLE>';
+		echo '</td></tr></table>';
 	}
 	else
 		echo ErrorMessage(array(_('This user does not have a Meal Account.')));
-	echo '</FORM>';
+	echo '</form>';
 }

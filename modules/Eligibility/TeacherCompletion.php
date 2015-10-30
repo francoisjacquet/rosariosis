@@ -51,13 +51,13 @@ else
 $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY SORT_ORDER ");
 $periods_RET = DBGet($QI);
 
-$period_select =  '<SELECT name="period"><OPTION value="">'._('All').'</OPTION>';
+$period_select =  '<select name="period"><option value="">'._('All').'</option>';
 foreach ( (array)$periods_RET as $period)
-	$period_select .= '<OPTION value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED':'').">".$period['TITLE'].'</OPTION>';
-$period_select .= '</SELECT>';
+	$period_select .= '<option value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED':'').">".$period['TITLE'].'</option>';
+$period_select .= '</select>';
 
 DrawHeader(ProgramTitle());
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 
 $begin_year = DBGet(DBQuery("SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 $begin_year = $begin_year[1]['SCHOOL_DATE'];
@@ -65,13 +65,13 @@ $begin_year = $begin_year[1]['SCHOOL_DATE'];
 if ( $start && $begin_year)
 {
 //modif: days display to locale
-	$date_select = '<OPTION value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</OPTION>';
+	$date_select = '<option value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</option>';
 	for ( $i=$start-(60*60*24*7);$i>=$begin_year;$i-=(60*60*24*7))
-		$date_select .= '<OPTION value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED':'').'>'.ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</OPTION>';
+		$date_select .= '<option value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' SELECTED':'').'>'.ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</option>';
 }
 
-DrawHeader(_('Timeframe').': <SELECT name="start_date">'.$date_select.'</SELECT> - '._('Period').': '.$period_select.' '.SubmitButton(_('Go')));
-echo '</FORM>';
+DrawHeader(_('Timeframe').': <select name="start_date">'.$date_select.'</select> - '._('Period').': '.$period_select.' '.SubmitButton(_('Go')));
+echo '</form>';
 
 //FJ multiple school periods for a course period
 /*$sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cp.PERIOD_ID,s.STAFF_ID 

@@ -59,7 +59,7 @@ WHERE MENU_ID='".$_REQUEST['menu_id']."'
 AND CATEGORY_ID='".$_REQUEST['cat_id']."' 
 ORDER BY (SELECT SORT_ORDER FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER"));
 
-echo '<BR />';
+echo '<br />';
 
 echo '<div class="center">' . WrapTabs($meals,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id']) . '</div>';
 
@@ -67,22 +67,22 @@ if (count($items_RET))
 {
 	$per_row = ceil(sqrt(count($items_RET)));
 //FJ css WPadmin
-	echo '<TABLE class="center cellpadding-5">';
+	echo '<table class="center cellpadding-5">';
 	foreach ( (array)$items_RET as $item)
 	{
 		if ( !$i)
 		{
-			echo '<TR>';
+			echo '<tr>';
 			$i = $per_row;
 		}
-		echo '<TD style="border: 1px solid">'.makeIcon($item['ICON'],'','128').'</TD>';
+		echo '<td style="border: 1px solid">'.makeIcon($item['ICON'],'','128').'</td>';
 		$i--;
 		if ( !$i)
-			echo '</TR>';
+			echo '</tr>';
 	}
 	if ( $i)
-		echo '</TR>';
-	echo '</TABLE>';
+		echo '</tr>';
+	echo '</table>';
 }
 //FJ remove WrapTabs params
 echo '<div class="center">' . WrapTabs($cats,'Modules.php?modname='.$_REQUEST['modname'].'&cat_id='.$_REQUEST['cat_id']) . '</div>';

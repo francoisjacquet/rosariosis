@@ -27,17 +27,17 @@ FROM SCHOOL_MARKING_PERIODS
 WHERE PARENT_ID='".UserMP()."' 
 AND MP='PRO' 
 ORDER BY 5,SORT_ORDER"));
-echo '<FORM action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-$mp_select = '<SELECT name="mp" onchange="ajaxPostForm(this.form,true);">';
+echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+$mp_select = '<select name="mp" onchange="ajaxPostForm(this.form,true);">';
 foreach ( (array)$mps_RET as $mp)
 {
     if ( $mp['DOES_GRADES']=='Y' || $mp['MARKING_PERIOD_ID']==UserMP())
-        $mp_select .= '<OPTION value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED':'').'>'.($UserMPTitle = $mp['TITLE']).'</OPTION>';
+        $mp_select .= '<option value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' SELECTED':'').'>'.($UserMPTitle = $mp['TITLE']).'</option>';
 }
-$mp_select .= '</SELECT>';
+$mp_select .= '</select>';
 
 DrawHeader($mp_select);
-echo '</FORM>';
+echo '</form>';
 
 $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME as FULL_NAME,s.STAFF_ID,g.REPORT_CARD_GRADE_ID 
 FROM STUDENT_REPORT_CARD_GRADES g,STAFF s,COURSE_PERIODS cp 
@@ -61,7 +61,7 @@ if (count($grouped_RET))
 	$tabs = array(array('title' => _('Line'),'link'=>str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type=column',$link)),array('title' => _('List'),'link'=>str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type=list',$link)));
 
 	$_ROSARIO['selected_tab'] = str_replace($_REQUEST['modname'],$_REQUEST['modname'].'&amp;chart_type='.str_replace(' ','+',$_REQUEST['chart_type']),$link);
-	echo '<BR />';
+	echo '<br />';
 
 	if ( $_REQUEST['chart_type']=='list')
 	{
@@ -148,6 +148,6 @@ if (count($grouped_RET))
 
 } else {
 
-	echo '<BR /><div class="center"><B>'.sprintf(_('No %s were found.'),_('Teacher')).'</div></B>';
+	echo '<br /><div class="center"><b>'.sprintf(_('No %s were found.'),_('Teacher')).'</div></b>';
 
 }

@@ -160,12 +160,12 @@ function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
 	<input type="hidden" name="user_id" value="'.$user_id.'" />
 	<input type="hidden" name="total_votes_string" value="'._('Total Participants').'" />
 	<input type="hidden" name="poll_completed_string" value="'._('Poll completed').'" />
-	<TABLE class="width-100p cellspacing-0 widefat">';
+	<table class="width-100p cellspacing-0 widefat">';
 
 	foreach ($poll_questions_RET as $question)
 	{
-		$PollForm .= '<TR><TD style="vertical-align:top;"><b>'.$question['QUESTION'].'</b></TD>
-		<TD><TABLE class="width-100p cellspacing-0">';
+		$PollForm .= '<tr><td style="vertical-align:top;"><b>'.$question['QUESTION'].'</b></td>
+		<td><table class="width-100p cellspacing-0">';
 
 		$options_array = explode('<br />', nl2br($question['OPTIONS']));
 
@@ -174,29 +174,29 @@ function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
 		{
 			if ( $question['TYPE'] == 'multiple_radio')
 			{
-				$PollForm .= '<TR><TD>
+				$PollForm .= '<tr><td>
 					<label>
 					<input type="radio" name="votes['.$poll_id.']['.$question['ID'].']" value="'.$option_nb.'" '.($checked?'checked':'').' /> '.$option_label.'
 					</label>
-					</TD></TR>'."\n";
+					</td></tr>'."\n";
 			}
 			else //multiple
 			{
-				$PollForm .= '<TR><TD>
+				$PollForm .= '<tr><td>
 					<label>
 					<input type="checkbox" name="votes['.$poll_id.']['.$question['ID'].'][]" value="'.$option_nb.'" /> '.$option_label.'
 					</label>
-					</TD></TR>'."\n";
+					</td></tr>'."\n";
 			}
 
 			$checked = false;
 		}
 
-		$PollForm .= '</TABLE></TD></TR>';
+		$PollForm .= '</table></td></tr>';
 	}
 
-	$PollForm .= '</TD></TR></TABLE>
-	<P><input type="submit" value="'._('Submit').'" id="pollSubmit'.$poll_id.'" /></P></form>';
+	$PollForm .= '</td></tr></table>
+	<p><input type="submit" value="'._('Submit').'" id="pollSubmit'.$poll_id.'" /></p></form>';
 
 	if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		$PollForm .= '</div>';
@@ -218,15 +218,15 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	//FJ responsive rt td too large
 	if ( !$js_included_is_voting)
 	{
-		$votes_display .= '<DIV id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">'."\n";
+		$votes_display .= '<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">'."\n";
 	}
 	
 	foreach ($poll_questions_RET as $question)
 	{
 		$total_votes = 0;
 		//question
-		$votes_display .= '<P><B>'.$question['QUESTION'].'</B></P>
-			<TABLE class="cellspacing-0 widefat col1-align-right">'."\n";
+		$votes_display .= '<p><b>'.$question['QUESTION'].'</b></p>
+			<table class="cellspacing-0 widefat col1-align-right">'."\n";
 		
 		//votes
 		$votes_array = explode('||', $question['VOTES']);
@@ -241,13 +241,13 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 		{
 			$percent = round(($votes_array[$i]/$total_votes)*100);
 
-			$votes_display .= '<TR>
-				<TD>'.$options_array[$i].'</TD>
-				<TD><div class="bar" style="width:'.$percent.'px;">&nbsp;</div></TD>
-				<TD><b> '.$percent.'%</b></TD>
-			</TR>'."\n";
+			$votes_display .= '<tr>
+				<td>'.$options_array[$i].'</td>
+				<td><div class="bar" style="width:'.$percent.'px;">&nbsp;</div></td>
+				<td><b> '.$percent.'%</b></td>
+			</tr>'."\n";
 		}
-		$votes_display .= '</TABLE>'."\n";
+		$votes_display .= '</table>'."\n";
 	}
 
 	$total_votes_str = isset($_POST['total_votes_string']) ? $_POST['total_votes_string'] : _('Total Participants');
@@ -255,7 +255,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	$votes_display .= '<p>'.$total_votes_str.': '.$votes_number.'</p>';
 
 	if ( !$js_included_is_voting)
-		$votes_display .= '</DIV>'; 
+		$votes_display .= '</div>'; 
 	
 	return $votes_display;
 }
@@ -301,14 +301,14 @@ function makePublishing($value,$name)
 		$id = 'new';
 
 	//FJ responsive rt td too large
-	$return = '<DIV id="divPublishing'.$id.'" class="rt2colorBox">'."\n";
+	$return = '<div id="divPublishing'.$id.'" class="rt2colorBox">'."\n";
 
 	//FJ remove LO_field
-	$return .= '<TABLE class="cellspacing-0 widefat"><TR><TD><b>'._('Visible Between').':</b><BR />';
+	$return .= '<table class="cellspacing-0 widefat"><tr><td><b>'._('Visible Between').':</b><br />';
 	$return .= DateInput($value,'values['.$id.']['.$name.']').' '._('to').' ';
-	$return .= DateInput($THIS_RET['END_DATE'],'values['.$id.'][END_DATE]').'</TD></TR>';
+	$return .= DateInput($THIS_RET['END_DATE'],'values['.$id.'][END_DATE]').'</td></tr>';
 
-	$return .= '<TR><TD style="padding:0;">';
+	$return .= '<tr><td style="padding:0;">';
 
 	if (is_null($profiles))
 	{
@@ -324,10 +324,10 @@ function makePublishing($value,$name)
 
 	$return .= makePublishingVisibleTo($profiles, $THIS_RET, $id);
 
-	$return .= '</TD></TR></TABLE>';
+	$return .= '</td></tr></table>';
 
 	if ( !isset($_REQUEST['_ROSARIO_PDF']))
-		$return .= '</DIV>';
+		$return .= '</div>';
 		
 	return $return;
 }
@@ -341,11 +341,11 @@ function makePublishing($value,$name)
  */
 function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 {
-	$visibleTo = '<TABLE class="width-100p cellspacing-0">
-	<TR>
-		<TD colspan="2"><b>'._('Visible To').':</b></TD>
-	</TR>
-	<TR class="st">';
+	$visibleTo = '<table class="width-100p cellspacing-0">
+	<tr>
+		<td colspan="2"><b>'._('Visible To').':</b></td>
+	</tr>
+	<tr class="st">';
 
 	//FJ Portal Polls add students teacher
 	$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME
@@ -369,7 +369,7 @@ function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 		$i++;
 		$checked = mb_strpos($THIS_RET['PUBLISHED_PROFILES'],','.$profile['ID'].',')!==false;
 
-		$visibleTo .= '<TD>'.CheckboxInput($checked, 'profiles['.$id.']['.$profile['ID'].']', _($profile['TITLE']), '', true);
+		$visibleTo .= '<td>'.CheckboxInput($checked, 'profiles['.$id.']['.$profile['ID'].']', _($profile['TITLE']), '', true);
 
 		//FJ Portal Polls add students teacher
 		if ( $profile['ID'] === '0' && $_REQUEST['modname']=='School_Setup/PortalPolls.php') //student & verify this is not a Portal Note!
@@ -384,16 +384,16 @@ function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 			);
 		}
 
-		$visibleTo .= '</TD>';
+		$visibleTo .= '</td>';
 			
 		if ( $i%2==0 && $i!=count($profiles))
-			$visibleTo .= '</TR><TR class="st">';
+			$visibleTo .= '</tr><tr class="st">';
 	}
 
 	for (;$i%2!=0;$i++)
-		$visibleTo .= '<TD>&nbsp;</TD>';
+		$visibleTo .= '<td>&nbsp;</td>';
 
-	$visibleTo .= '</TR>';
+	$visibleTo .= '</tr>';
 	
 	if ( $_REQUEST['modname']=='School_Setup/PortalNotes.php')
 	{
@@ -402,7 +402,7 @@ function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 		do_action('School_Setup/PortalNotes.php|portal_note_field',$args);
 	}
 		
-	$visibleTo .= '</TABLE>';
+	$visibleTo .= '</table>';
 	
 	return $visibleTo;
 }
@@ -444,7 +444,7 @@ function makeFileAttached($value,$name)
 	{
 		$id = 'new';
 		
-		$return .= '<DIV id="divFileAttached'.$id.'" class="rt2colorBox">';
+		$return .= '<div id="divFileAttached'.$id.'" class="rt2colorBox">';
 		$return .= '<div>
 			<label>
 				<input type="radio" name="values[new][FILE_OR_EMBED]" value="FILE">&nbsp;
@@ -457,7 +457,7 @@ function makeFileAttached($value,$name)
 				<input type="radio" name="values[new][FILE_OR_EMBED]" value="EMBED" onclick="javascript:document.getElementById(\'values[new]['.$name.'_EMBED]\').focus();" />&nbsp;'.
 				_('Embed Link').': <input type="text" id="values[new]['.$name.'_EMBED]" name="values[new]['.$name.'_EMBED]" size="14" placeholder="http://" />
 			</label>
-		</div></DIV>';
+		</div></div>';
 	}
 		
 	return $return;
