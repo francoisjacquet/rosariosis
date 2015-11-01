@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 09:02-0500\n"
-"PO-Revision-Date: 2015-10-30 18:14-0500\n"
+"PO-Revision-Date: 2015-11-01 14:16-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -6196,25 +6196,25 @@ msgid ""
 "attendance codes, and report card codes at the same time or before rolling "
 "courses."
 msgstr ""
-"Vous <i>devez</i> recréer les utilisateurs, tranches horaires, calendriers, "
+"Vous <i>devez</i> reporter les utilisateurs, tranches horaires, calendriers, "
 "codes d'absence et codes des bulletins de notes en même temps ou avant de "
-"recréer les matières."
+"reporter les matières."
 
 #: modules/School_Setup/Rollover.php:34
 msgid ""
 "You <i>must</i> roll enrollment codes at the same time or before rolling "
 "students."
 msgstr ""
-"Vous <i>devez</i> recréer les codes d'inscription en même temps ou avant de "
-"recréer les élèves."
+"Vous <i>devez</i> reporter les codes d'inscription en même temps ou avant de "
+"reporter les élèves."
 
 #: modules/School_Setup/Rollover.php:35 modules/School_Setup/Rollover.php:65
 msgid ""
 "You <i>must</i> roll courses at the same time or before rolling report card "
 "comments."
 msgstr ""
-"Vous <i>devez</i> recréer les matières en même temps ou avant de recréer les "
-"codes commentaires de bulletin de notes."
+"Vous <i>devez</i> reporter les matières en même temps ou avant de reporter "
+"les codes commentaires de bulletin de notes."
 
 #: modules/School_Setup/Rollover.php:36
 msgid ""
@@ -6222,29 +6222,30 @@ msgid ""
 "been rolled)."
 msgstr ""
 "Les éléments grisés ont déjà des données pour l'année suivante (ils ont peut-"
-"être été recrées)."
+"être été reportés)."
 
 #: modules/School_Setup/Rollover.php:37
 msgid ""
 "Rolling greyed items will delete already existing data in the next school "
 "year."
 msgstr ""
-"Recréer les éléments grisés va detruire les données existantes pour l'année "
+"Reporter les éléments grisés va detruire les données existantes de l'année "
 "suivante."
 
 #: modules/School_Setup/Rollover.php:46
 #, php-format
 msgid "Are you sure you want to roll the data for %s to the next school year?"
 msgstr ""
-"Etes-vous sur de vouloir recréer les données de %s pour l'année suivante?"
+"Etes-vous sur de vouloir reporter les données de %s à l'année scolaire "
+"suivante?"
 
 #: modules/School_Setup/Rollover.php:68
 msgid ""
 "You <i>must</i> roll users, school periods, marking periods, calendars, and "
 "report card codes at the same time or before rolling courses."
 msgstr ""
-"Vous <i>devez</i> recréer les utilisateurs, tranches horaires, calendriers "
-"et codes des bulletins de notes en même temps ou avant de recréer les "
+"Vous <i>devez</i> reporter les utilisateurs, tranches horaires, calendriers "
+"et codes des bulletins de notes en même temps ou avant de reporter les "
 "matières."
 
 #: modules/School_Setup/Rollover.php:73
