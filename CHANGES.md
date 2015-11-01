@@ -40,6 +40,7 @@ Changes in 2.9
 - Add spaces before and after arrow: => (foreach & associative arrays)
 - Always use require_once in place of include & require, program wide
 - HTML tags to lowercase, program wide
+- Move JSCalendar setup to warehouse.js
 
 Changes in 2.8.11
 -----------------

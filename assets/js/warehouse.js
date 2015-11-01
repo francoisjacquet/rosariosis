@@ -130,6 +130,22 @@ function MarkDownToHTML()
 	});
 }
 
+//JSCalendar
+function JSCalendarSetup()
+{
+	$('.button.cal').each(function(i, el){
+		Calendar.setup({
+			monthField: "monthSelect" + (++i),
+			dayField: "daySelect" + i,
+			yearField: "yearSelect" + i,
+			ifFormat: "%d-%b-%y",
+			button: el.id,
+			align: "Tl",
+			singleClick: true
+		});
+	});
+}
+
 function ajaxOptions(target, url, form) {
 	return {
 		beforeSend: function (data) {
@@ -247,6 +263,8 @@ function ajaxPrepare(target) {
 	MarkDownToHTML();
 
 	ColorBox();
+
+	JSCalendarSetup();
 
 	repeatListTHead( $('table.list') );
 

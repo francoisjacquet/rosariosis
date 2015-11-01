@@ -237,9 +237,11 @@ if ( ( $not_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCo
  *
  * @example  Warehouse( 'header' );
  *
- * @param string $mode 'header' or 'footer'
+ * @global $_ROSARIO Uses $_ROSARIO['is_popup'], $_ROSARIO['not_ajax'], $_ROSARIO['ProgramLoaded']
  *
- * @return  outputs HTML
+ * @param  string $mode 'header' or 'footer'
+ *
+ * @return void   outputs HTML
  */
 function Warehouse( $mode )
 {
@@ -317,22 +319,7 @@ function Warehouse( $mode )
 <?php 		if ( !empty( $_ROSARIO['ProgramLoaded'] ) ) : ?>
 	else
 		openMenu( modname );
-<?php		endif;
-
-			if ( isset( $_ROSARIO['PrepareDate'] ) ):
-				for( $i = 1; $i <= $_ROSARIO['PrepareDate']; $i++ ) : ?>
-	if (document.getElementById('trigger<?php echo $i; ?>'))
-		Calendar.setup({
-			monthField:"monthSelect<?php echo $i; ?>",
-			dayField:"daySelect<?php echo $i; ?>",
-			yearField:"yearSelect<?php echo $i; ?>",
-			ifFormat:"%d-%b-%y",
-			button:"trigger<?php echo $i; ?>",
-			align:"Tl",
-			singleClick:true
-		});
-<?php			endfor;
-			endif; ?>
+<?php		endif; ?>
 </script>
 <?php
 			// if popup window or if not AJAX request
