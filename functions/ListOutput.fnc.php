@@ -147,6 +147,9 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 	// PRINT HEADINGS, PREPARE PDF, AND SORT THE LIST ---
 	if ( $_LIST['output']!=false)
 	{
+		// Add spacing
+		echo '<br />';
+
 		if ( $result_count != 0)
 		{
 			$count = 0;
