@@ -41,7 +41,7 @@ function DrawHeader( $left, $right = '', $center = '' )
 			$left = '<h2>' . $left . '</h2>';
 		}
 
-		echo '<td' . $_ROSARIO['DrawHeader'] . '>&nbsp;' .
+		echo '<td' . $_ROSARIO['DrawHeader'] . '>' .
 			$left .
 		'</td>';
 	}
