@@ -235,7 +235,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	if ( !count( $RET ) )
 		echo ErrorMessage( array( _( 'No Students were found.' ) ), 'fatal' );
 
-	DrawHeader( $assignment_select . $advanced_link, SubmitButton( _( 'Go' ) ) );
+	DrawHeader( $assignment_select, SubmitButton( _( 'Go' ) ) );
 
 	echo '<br />';
 

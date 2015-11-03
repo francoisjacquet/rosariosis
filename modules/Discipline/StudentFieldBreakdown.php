@@ -80,6 +80,10 @@ if ( isset( $_REQUEST['modfunc'] )
 if ( isset( $_REQUEST['field_id'] )
 	&& !empty( $_REQUEST['field_id'] ) )
 {
+	//FJ fix Advanced Search
+	if ( $_REQUEST['advanced'] === 'Y' )
+		Widgets( 'all' );
+
 	$fields_RET = DBGet( DBQuery( "SELECT TITLE,SELECT_OPTIONS AS OPTIONS,TYPE
 		FROM CUSTOM_FIELDS WHERE ID='" . $_REQUEST['field_id'] . "'" ) );
 

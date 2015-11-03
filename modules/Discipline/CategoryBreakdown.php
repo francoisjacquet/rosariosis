@@ -80,6 +80,10 @@ if ( isset( $_REQUEST['modfunc'] )
 if ( isset( $_REQUEST['category_id'] )
 	&& !empty( $_REQUEST['category_id'] ) )
 {
+	//FJ fix Advanced Search
+	if ( $_REQUEST['advanced'] === 'Y' )
+		Widgets( 'all' );
+
 	$category_RET = DBGet( DBQuery( "SELECT du.TITLE,du.SELECT_OPTIONS,df.DATA_TYPE
 		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
 		WHERE df.ID='" . $_REQUEST['category_id'] . "'
