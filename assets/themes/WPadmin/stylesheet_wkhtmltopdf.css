@@ -147,15 +147,9 @@ h1{
 	font-size:2em;
 	margin:.67em 0
 }
-h2,.subtitle{
-	font-weight:normal;
-	margin:0;
-	text-shadow:#aaa 0 1px 1px
-}
 h2{
-	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
-	font-size:30px;
-	padding:14px 15px 14px 0;
+	font-size:1.58em;
+	margin:.83em 0
 }
 h3{
 	font-size:1.17em;
@@ -474,6 +468,14 @@ h3 span{
 .headerIcon{
 	height:32px;
 	vertical-align:bottom
+}
+.header1 h2{
+	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
+	font-size:30px;
+	font-weight:normal;
+	margin:0;
+	padding:14px 15px 14px 0;
+	text-shadow:#aaa 0 1px 1px
 }
 .header2{
 	padding:4px 8px

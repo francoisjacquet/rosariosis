@@ -24,7 +24,7 @@ function DrawHeader( $left, $right = '', $center = '' )
 	// Primary Header
 	if ( !isset( $_ROSARIO['DrawHeader'] ) )
 	{
-		$_ROSARIO['DrawHeader'] = '';
+		$_ROSARIO['DrawHeader'] = 'header1';
 	}
 
 	echo '<table class="width-100p cellspacing-0"><tr class="st">';
@@ -32,32 +32,34 @@ function DrawHeader( $left, $right = '', $center = '' )
 	if ( $left !== '' )
 	{
 		// Add H2 + Module icon to Primary Header
-		if ( $_ROSARIO['DrawHeader'] === '' )
+		if ( $_ROSARIO['DrawHeader'] === 'header1' )
 		{
 			if ( isset( $_ROSARIO['HeaderIcon'] )
 				&& $_ROSARIO['HeaderIcon'] !== false )
+			{
 				$left = '<img src="' . $_ROSARIO['HeaderIcon'] . '" class="headerIcon" /> ' . $left;
+			}
 
 			$left = '<h2>' . $left . '</h2>';
 		}
 
-		echo '<td' . $_ROSARIO['DrawHeader'] . '>' .
+		echo '<td class="' . $_ROSARIO['DrawHeader'] . '">' .
 			$left .
 		'</td>';
 	}
 
 	if ( $center !== '' )
-		echo '<td' . $_ROSARIO['DrawHeader'] . ' style="text-align:center">' .
+		echo '<td class="' . $_ROSARIO['DrawHeader'] . '" style="text-align:center">' .
 			$center .
 		'</td>';
 
 	if ( $right !== '' )
-		echo '<td' . $_ROSARIO['DrawHeader'] . ' style="text-align:right">' .
+		echo '<td class="' . $_ROSARIO['DrawHeader'] . '" style="text-align:right">' .
 			$right .
 		'</td>';
 
 	echo '</tr></table>';
 
 	// Secondary Headers
-	$_ROSARIO['DrawHeader'] = ' class="header2"';
+	$_ROSARIO['DrawHeader'] = 'header2';
 }
