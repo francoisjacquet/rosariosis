@@ -444,7 +444,8 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 
 			// SEARCH BOX & MORE HEADERS
 			if ( !empty($options['header']))
-				echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><tr><td class="center">'.$options['header'].'</td></tr></table><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
+				echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
+					<div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
 				
 			if ( !empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
 			{
@@ -697,7 +698,8 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 				echo '</td></tr></tbody></table>';
 				
 			if ( !empty($options['header']))
-				echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:0px;"><tr><td class="center">'.$options['header'].'</td></tr></table><div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
+				echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:0px;"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
+					<div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
 
 			if ( $link['add']['link'] && !isset($_REQUEST['_ROSARIO_PDF']))
 				echo '<div class="center">' . button('add',$link['add']['title'],$link['add']['link']) . '</div>';

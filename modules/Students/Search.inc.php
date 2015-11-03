@@ -75,23 +75,28 @@ if ( !$_REQUEST['search_modfunc'])
 
 			echo '<tr class="valign-top"><td>';
 
-			if ( $_REQUEST['advanced']=='Y')
+			if ( $_REQUEST['advanced'] === 'Y' )
 			{
 				$extra['search'] = '';
-				Widgets('all',$extra);
 
-				echo '<table class="postbox cellspacing-0"><thead><tr><th>';
-				echo '<h3>'._('Widgets').'</h3></th></thead><tbody></tr>';
+				Widgets( 'all', $extra );
+
+				echo PopTable( 'header', _( 'Widgets' ) );
+
 				echo $extra['search'];
-				echo '</tbody></table><br />';
 
-				echo '<table class="postbox cellspacing-0"><thead><tr><th>';
-				echo '<h3>'._('Student Fields').'</h3></th></tr></thead><tbody><tr><td>';
-				Search('student_fields_all',is_array($extra['student_fields'])?$extra['student_fields']:array());
-				echo '</td></tr>';
-				echo '</tbody></table>';
+				echo PopTable( 'footer' ) . '<br />';
 
-				echo '<br /><a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</a>';
+				echo PopTable( 'header', _( 'Student Fields' ) );
+
+				Search(
+					'student_fields_all',
+					is_array( $extra['student_fields'] ) ? $extra['student_fields'] : array()
+				);
+
+				echo PopTable( 'footer' ) . '<br />';
+
+				echo '<a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</a>';
 			}
 			else
 				echo '<br /><a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</a>';

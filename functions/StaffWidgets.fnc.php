@@ -23,18 +23,16 @@ function StaffWidgets($item,&$myextra=NULL)
 		switch ( $item)
 		{
 			case 'all':
-				$extra['search'] .= '<tr><td><table class="width-100p">';
 
 				//FJ regroup widgets wrap
 				$widget_wrap_header = function($title)
 				{
-					return '<tr><td colspan="2">&nbsp;
-					<a onclick="switchMenu(this); return false;" href="#" class="switchMenu"><b>'.$title.'</b></a>
+					return '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu"><b>'.$title.'</b></a>
 					<br />
 					<table class="widefat width-100p cellspacing-0 col1-align-right hide">';
 				};
 
-				$widget_wrap_footer = '</table></td></tr>';
+				$widget_wrap_footer = '</table>';
 
 				if ( $RosarioModules['Users'] && (!$_ROSARIO['StaffWidgets']['permissions']))
 				{
@@ -66,7 +64,6 @@ function StaffWidgets($item,&$myextra=NULL)
 					$extra['search'] .= $widget_wrap_footer;
 				}
 
-				$extra['search'] .= '</table></td></tr>';
 			break;
 
 			case 'user':

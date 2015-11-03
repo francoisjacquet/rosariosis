@@ -248,9 +248,7 @@ function Search( $type, $extra = null )
 				if ( $type === 'student_fields_all'
 					|| $type === 'staff_fields_all' )
 				{
-					echo '<tr><td colspan="2">
-					<table class="width-100p">
-					<tr><td colspan="2">&nbsp;<a onclick="switchMenu(this); return false;" href="#" class="switchMenu"><b>' . $category[key($category)][1]['CATEGORY_TITLE'] . '</b></a>
+					echo '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu"><b>' . $category[key($category)][1]['CATEGORY_TITLE'] . '</b></a>
 					<br />
 					<table class="widefat width-100p cellspacing-0 col1-align-right hide">';
 
@@ -410,7 +408,7 @@ function Search( $type, $extra = null )
 
 				if ( $type === 'student_fields_all'
 					|| $type === 'staff_fields_all' )
-					echo '</table></td></tr></table></td></tr>';
+					echo '</table>';
 			}
 
 		break;

@@ -43,21 +43,18 @@ function Widgets( $item, &$myextra = null )
 		// All Widgets (or almost)
 		case 'all':
 
-			$extra['search'] .= '<tr><td colspan="2"><table class="width-100p">';
-
 			// FJ regroup widgets wrap
 			$widget_wrap_header = 
 			function( $title )
 			{
-				return '<tr><td colspan="2">&nbsp;
-				<a onclick="switchMenu(this); return false;" href="#" class="switchMenu">
+				return '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu">
 					<b>' . $title . '</b>
 				</a>
 				<br />
 				<table class="widefat width-100p cellspacing-0 col1-align-right hide">';
 			};
 
-			$widget_wrap_footer = '</table></td></tr>';
+			$widget_wrap_footer = '</table>';
 
 			// Enrollment
 			if ( $RosarioModules['Students']

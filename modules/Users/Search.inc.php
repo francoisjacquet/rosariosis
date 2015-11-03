@@ -93,23 +93,28 @@ if ( !$_REQUEST['search_modfunc'])
 			if ( $_REQUEST['advanced']=='Y')
 			{
 				$extra['search'] = '';
-				StaffWidgets('all',$extra);
 
-				if ( $extra['search'])
+				StaffWidgets( 'all', $extra );
+
+				if ( $extra['search'] )
 				{
-					echo '<table class="postbox cellspacing-0"><thead><tr><th>';
-					echo '<h3>'._('Widgets').'</h3></th></tr></thead><tbody>';
+					echo PopTable( 'header', _( 'Widgets' ) );
+
 					echo $extra['search'];
-					echo '</tbody></table><br />';
+
+					echo PopTable( 'footer' ) . '<br />';
 				}
 
-				echo '<table class="postbox cellspacing-0"><thead><tr><th>';
-				echo '<h3>'._('User Fields').'</h3></th></tr></thead><tbody><tr><td>';
-				Search('staff_fields_all',is_array($extra['staff_fields'])?$extra['staff_fields']:array());
-				echo '</td></tr>';
-				echo '</tbody></table>';
+				echo PopTable( 'header', _( 'User Fields' ) );
 
-				echo '<br /><a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</a>';
+				Search(
+					'staff_fields_all',
+					is_array( $extra['staff_fields'] ) ? $extra['staff_fields'] : array()
+				);
+
+				echo PopTable( 'footer' ) . '<br />';
+
+				echo '<a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</a>';
 			}
 			else
 				echo '<br /><a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</a>';
