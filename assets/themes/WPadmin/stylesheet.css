@@ -157,7 +157,7 @@ h2,.subtitle{
 h2{
 	font-family:"HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",sans-serif;
 	font-size:30px;
-	padding:0 15px 14px 0;
+	padding:14px 15px 14px 0;
 }
 h3{
 	font-size:1.17em;
@@ -481,7 +481,8 @@ h3 span{
 	padding:4px 8px
 }
 .header2 table{
-	line-height:1
+	line-height:1;
+	margin-left:-3px
 }
 #courses_div{
 	position:absolute;
@@ -878,7 +879,7 @@ table.mceLayout,textarea.tinymce{
 	}
 	h2{
 		font-size:22px;
-		padding:0 8px 7px 0;
+		padding:7px 8px 7px 0;
 		line-height:24px
 	}
 	.BottomButton span{
