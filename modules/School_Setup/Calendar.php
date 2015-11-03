@@ -942,7 +942,8 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		SubmitButton( _( 'Save' ) )
 	);
 
-	DrawHeader( $links );
+	if ( $links )
+		DrawHeader( $links );
 
 	if ( AllowEdit()
 		&& $defaults != 1 )
