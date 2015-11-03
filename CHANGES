@@ -7,6 +7,7 @@ Changes in 2.8.24
 - Fix 1 option sub-menu height when mouse over Module in stylesheet.css
 - Correct English default Help text in Help_en.php
 - More explicit Assignment Type deletion Prompt message in Assignments.php
+- Fix _delTree() function name typo in Modules.inc.php & Plugins.inc.php
 
 Changes in 2.8.23
 -----------------

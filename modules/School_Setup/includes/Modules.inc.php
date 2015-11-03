@@ -296,7 +296,7 @@ function _delTree($dir) {
 	$files = array_diff(scandir($dir), array('.','..'));
 	foreach ($files as $file) {
 		if (is_dir("$dir/$file"))
-			delTree("$dir/$file");
+			_delTree("$dir/$file");
 		elseif (is_writable("$dir/$file"))
 			unlink("$dir/$file");
 		else
