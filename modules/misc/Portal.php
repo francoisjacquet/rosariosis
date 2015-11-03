@@ -19,7 +19,7 @@ else salute.innerHTML='.json_encode(sprintf(_('Good Evening, %s.'), User('NAME')
 $welcome = sprintf(_('Welcome to %s!'), ParseMLField(Config('TITLE')));
 
 if ( !empty($_SESSION['LAST_LOGIN']))
-	$welcome .= '<br />&nbsp;'.sprintf(_('Your last login was <b>%s</b>.'), ProperDate(mb_substr($_SESSION['LAST_LOGIN'],0,10)).mb_substr($_SESSION['LAST_LOGIN'],10));
+	$welcome .= '<br />'.sprintf(_('Your last login was <b>%s</b>.'), ProperDate(mb_substr($_SESSION['LAST_LOGIN'],0,10)).mb_substr($_SESSION['LAST_LOGIN'],10));
 
 if ( !empty( $failed_login ) )
 	$welcome .= '<br />'.ErrorMessage(array(sprintf(_('There have been <b>%d</b> failed login attempts since your last successful login.'),$failed_login)), 'warning');
@@ -27,7 +27,7 @@ if ( !empty( $failed_login ) )
 switch (User('PROFILE'))
 {
 	case 'admin':
-		DrawHeader($welcome.'<br />&nbsp;'._('You are an <b>Administrator</b> on the system.'));
+		DrawHeader($welcome.'<br />'._('You are an <b>Administrator</b> on the system.'));
 
 		$PHPCheck = PHPCheck();
 		if ( !empty($PHPCheck))
@@ -208,7 +208,7 @@ switch (User('PROFILE'))
 	break;
 
 	case 'teacher':
-		DrawHeader($welcome.'<br />&nbsp;'._('You are a <b>Teacher</b> on the system.'));
+		DrawHeader($welcome.'<br />'._('You are a <b>Teacher</b> on the system.'));
 
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 //FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
@@ -357,7 +357,7 @@ switch (User('PROFILE'))
 	break;
 
 	case 'parent':
-		DrawHeader($welcome.'<br />&nbsp;'._('You are a <b>Parent</b> on the system.'));
+		DrawHeader($welcome.'<br />'._('You are a <b>Parent</b> on the system.'));
 
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 //FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
@@ -463,7 +463,7 @@ switch (User('PROFILE'))
 	break;
 
 	case 'student':
-		DrawHeader($welcome.'<br />&nbsp;'._('You are a <b>Student</b> on the system.'));
+		DrawHeader($welcome.'<br />'._('You are a <b>Student</b> on the system.'));
 
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 //FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL

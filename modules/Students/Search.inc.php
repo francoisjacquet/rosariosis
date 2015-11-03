@@ -206,8 +206,14 @@ else
 		}
 
 		DrawHeader($header_left,$extra['header_right']);
-		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
-		DrawHeader(str_replace('<br />','<br /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
+
+		if ( $extra['extra_header_left']
+			|| $extra['extra_header_right'] )
+		{
+			DrawHeader( $extra['extra_header_left'], $extra['extra_header_right'] );
+		}
+
+		DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
 
 		if ( !$_REQUEST['LO_save'] && !$extra['suppress_save'])
 		{
@@ -280,8 +286,14 @@ else
 	else
 	{		
 		DrawHeader('',$extra['header_right']);
-		DrawHeader($extra['extra_header_left'],$extra['extra_header_right']);
-		DrawHeader(str_replace('<br />','<br /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
+
+		if ( $extra['extra_header_left']
+			|| $extra['extra_header_right'] )
+		{
+			DrawHeader( $extra['extra_header_left'], $extra['extra_header_right'] );
+		}
+
+		DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
 
 		echo ErrorMessage(array(_('No Students were found.')));
 	}
