@@ -36,28 +36,23 @@ body{
 	border-color:#dfdfdf;
 	background-color:#f9f9f9
 }
-.postbox h3,.widefat th,.widefat tfoot tr th, .postbox .h3multi{
+.postbox > thead th,.widefat th,.widefat tfoot tr th{
 	background-color:#f1f1f1;
 	background:-ms-linear-gradient(top,#f9f9f9,#ececec);
 	background:-webkit-linear-gradient(top,#f9f9f9,#ececec);
 	background:-moz-linear-gradient(top,#f9f9f9,#ececec);
 	background:linear-gradient(top,#f9f9f9,#ececec)
 }
-.postbox .h3multi h3{
-	background-color:transparent;
-	background-image:none
-}
-.postbox h3.h3selected{
+.postbox .h3selected{
 	background-color:#f9f9f9;
 	background:-ms-linear-gradient(top,#ececec,#f9f9f9);
 	background:-webkit-linear-gradient(top,#ececec,#f9f9f9);
 	background:-moz-linear-gradient(top,#ececec,#f9f9f9);
 	background:linear-gradient(top,#ececec,#f9f9f9)
 }
-.postbox h3, .postbox .h3multi{
+.postbox > thead th{
 	border-bottom-color:#dfdfdf;
-	text-shadow:#fff 0 1px 0;
-	box-shadow:0 1px 0 #fff
+	text-shadow:#fff 0 1px 0
 }
 .widefat tr:nth-child(odd), .alternate,.alt{
 	background-color:#fcfcfc
@@ -141,10 +136,10 @@ a,.adminmenu a{
 .postbox{
 	background-color:#f5f5f5;
 }
-.postbox h3{
+.postbox th{
 	color:#464646
 }
-.postbox h3:hover{
+.postbox th:hover{
 	color:#000
 }
 .adminmenu{

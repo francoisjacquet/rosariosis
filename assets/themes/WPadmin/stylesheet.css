@@ -246,7 +246,7 @@ div.updated{
 	padding:2px 9px;
 	margin:5px 0
 }
-.postbox h3,.widefat th{
+.postbox > thead th,.widefat th{
 	font-family:Georgia,"Times New Roman",Times,serif
 }
 select option{
@@ -383,34 +383,33 @@ label{
 	padding:0;
 	line-height:1
 }
-.postbox h3{
-	line-height:27px;
-	border:0
+.postbox > thead th{
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	padding:0
 }
-.postbox .h3multi h3{
-	display:inline-block
-}
-.postbox h3,.postbox .h3multi{
-	margin:0;
+.postbox th h3,
+.postbox .h3multi{
 	-webkit-user-select:none;
 	-moz-user-select:none;
 	-ms-user-select:none;
-	    user-select:none
+		user-select:none
 }
-.postbox h3,.postbox h3 a{
+.postbox th h3{
+	line-height:31px;
+	height:33px;
+	margin:0;
+	border:0
+}
+.postbox th h3,.postbox th h3 a{
+	display:inline-block;
 	font-size:15px;
 	font-weight:normal
 }
-.postbox h3 a{
-	display:inline-block;
+.postbox th h3 a{
 	padding:0 10px
 }
 .postbox .h3multi{
-	border-bottom-width:1px;
-	border-bottom-style:solid;
-	width:100%;
-	padding-left:0;
-	padding-right:0;
 	overflow-y:hidden
 }
 th a{
@@ -818,6 +817,10 @@ div.st{
 }
 .switchMenu.switched:before{
 	content: "\25bc\0000a0";
+}
+.switchMenu{
+	display:inline-block;
+	padding:3px
 }
 
 /*jqplot charts*/
