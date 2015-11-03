@@ -166,8 +166,6 @@ if ( $grouped_RET )
 				$chartData[1][] = count( $grades[$grade['ID']] );
 			}
 
-			echo '<div class="gradeBreakdownCol" style="float: left;">';
-
 			if ( $_REQUEST['chart_type'] === 'column' )
 			{
 				echo jqPlotChart( 'column', $chartData, $chartTitle );
@@ -175,7 +173,7 @@ if ( $grouped_RET )
 			else
 				echo jqPlotChart( 'line', $chartData, $chartTitle );
 
-			echo '</div>';
+			echo '<br />';
 		}
 	}
 
