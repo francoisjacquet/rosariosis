@@ -216,14 +216,21 @@ if (empty($_REQUEST['modfunc']))
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST" id="printSchedulesForm">';
 		$extra['header_right'] = '<input type="submit" value="'._('Create Schedules for Selected Students').'" />';
 
-		$extra['extra_header_left'] = '<table>';
+		$extra['extra_header_left'] = '<table class="cellpadding-5">';
 		$extra['extra_header_left'] .= '<tr class="st"><td>'._('Marking Period').'</td><td>'.$mp_select.'</td></tr>';
 		$extra['extra_header_left'] .= '<tr class="st"><td>'._('Include only courses active as of').'</td><td>'.PrepareDate('','_include_active_date').'</td></tr>';
 		
 		//FJ add Horizontal format option
-		$extra['extra_header_left'] .= '<tr><td colspan="2">'.'<label><span class="nobr">'._('Horizontal Format').'&nbsp;<input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" /></span></label>'.'</td></tr>';
-	//FJ add schedule table
-		$extra['extra_header_left'] .= '<tr><td colspan="2">'.'<label><input name="schedule_table" type="radio" value="Yes" checked />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" type="radio" value="No" />&nbsp;'._('List').'</label>'.'</td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td>' .
+			'<label for="horizontalFormat" class="nobr">' . _( 'Horizontal Format' ) . '</label></td>
+			<td><input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" />' .
+			'</td></tr>';
+
+		//FJ add schedule table
+		$extra['extra_header_left'] .= '<tr class="st"><td>' .
+			'<label><input name="schedule_table" type="radio" value="Yes" checked />&nbsp;' . _( 'Table' ) . '</label></td>
+			<td><label><input name="schedule_table" type="radio" value="No" />&nbsp;' . _( 'List' ) . '</label>' .
+			'</td></tr>';
 		
 		Widgets('mailing_labels');
 		$extra['extra_header_left'] .= $extra['search'];
