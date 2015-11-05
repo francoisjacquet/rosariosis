@@ -1,7 +1,11 @@
 <?php
 
 /**
- * @example  $handle = PDFStart(); // print HTML PDFStop( $handle );
+ * PDF functions
+ *
+ * @example $handle = PDFStart();
+ *          // echo HTML
+ *          PDFStop( $handle );
  */
 
 
@@ -10,38 +14,45 @@
  *
  * Note: for landscape format, set $_SESSION['orientation'] = 'landscape'
  *
- * @param  boolean $css     include theme CSS in HTML output (optional)
- * @param  array   $margins margins unit in millimeters (optional)
+ * Modes: 2, MODE_EMBEDDED (default) | 3, MODE_SAVE | 0, MODE_DOWNLOAD
  *
- * @return array   PDF options
+ * @example $pdf_options = array( 'css' => false, 'margins' => array( 'top' => 0, 'bottom' => 0, 'left' => 0, 'right' => 0) 'mode' => 3 );
+ *          PDFStart( $pdf_options );
+ *
+ * @param  array $options PDF options (optional). Defaults to array( 'css' => true, 'margins' => array(), 'mode' => 2 )
+ *
+ * @return array PDF options
  */
-function PDFStart( $css = true, $margins = array() )
+function PDFStart( $options = array() )
 {
-	$handle = array();
-
 	$_REQUEST['_ROSARIO_PDF'] = true;
 
-	$handle['css'] = $css;
+	$default_options = array(
+		'css' => true, // Include CSS
+		'margins' => array(), // Default margins
+		'mode' => 2, // MODE_EMBEDDED
+	);
 
-	$handle['margins'] = $margins;
+	$pdf_options = array_replace_recursive( $default_options, $options );
 
 	// start buffering
 	ob_start();
 
-	return $handle;
+	return $pdf_options;
 }
 
 
 /**
  * Get buffer and generate PDF
+ * Renders HTML if not wkhtmltopdf
  *
  * @global string $wkhtmltopdfPath
  * @global string $wkhtmltopdfAssetsPath
  * @global string $RosarioPath
  *
- * @param  array  $handle                from PDFStart()
+ * @param  array  $handle from PDFStart()
  *
- * @return string outputs HTML if not wkhtmltopdf or embed PDF
+ * @return string Full path to file if Save mode, else outputs HTML if not wkhtmltopdf or Embed / Download PDF
  */
 function PDFStop( $handle )
 {
@@ -67,21 +78,28 @@ function PDFStop( $handle )
 
 	if ( !empty( $handle['orientation'] )
 		&& $handle['orientation'] == 'landscape' )
+	{
 		$page_width = '1448';
+	}
 
 	// page title
 	$page_title = str_replace( _( 'Print' ) . ' ', '', ProgramTitle() );
 
 	//convert to HTML page with CSS
 	$html = '<!doctype html>
-		<html lang="' . $lang_2_chars . '" '.$dir_RTL.'>
+		<html lang="' . $lang_2_chars . '" ' . $dir_RTL . '>
 		<head>
 			<meta charset="UTF-8" />';
 
 	if ( $handle['css'] )
-		$html .= '<link rel="stylesheet" type="text/css" href="assets/themes/' . Preferences( 'THEME' ).'/stylesheet_wkhtmltopdf.css" />';
+	{
+		$html .= '<link rel="stylesheet" type="text/css" href="assets/themes/' . Preferences( 'THEME' ) . '/stylesheet_wkhtmltopdf.css" />';
+	}
 
+	// Include Markdown to HTML
 	$html .= '<script src="assets/js/showdown/showdown.min.js"></script>';
+
+	// Include wkhtmltopdf Warehouse JS functions
 	$html .= '<script src="assets/js/warehouse_wkhtmltopdf.js"></script>';
 
 	//FJ bugfix wkhtmltopdf screen resolution on linux
@@ -95,16 +113,30 @@ function PDFStop( $handle )
 		</body>
 		</html>';
 
+	// create PDF in the temporary files system directory
+	$path = sys_get_temp_dir();
+
+	// File name
+	$filename = utf8_decode( str_replace(
+		array( _( 'Print' ) . ' ', ' ' ),
+		array( '', '_' ),
+		ProgramTitle()
+	));
+
 	//FJ wkhtmltopdf
 	if ( !empty( $wkhtmltopdfPath ) )
 	{		
 		// You can override the Path definition in the config.inc.php file
 		if ( !isset( $wkhtmltopdfAssetsPath ) )
+		{
 			// way wkhtmltopdf accesses the assets/ directory, empty string means no translation
 			$wkhtmltopdfAssetsPath = $RosarioPath . 'assets/';
+		}
 
 		if ( !empty( $wkhtmltopdfAssetsPath ) )
+		{
 			$html = str_replace( 'assets/', $wkhtmltopdfAssetsPath, $html );
+		}
 			
 		$html = str_replace( 'modules/', $RosarioPath . 'modules/', $html );
 		
@@ -112,34 +144,33 @@ function PDFStop( $handle )
 		
 		try {
 			//indicate to create PDF in the temporary files system directory
-			$wkhtmltopdf = new Wkhtmltopdf( array( 'path' => sys_get_temp_dir() ) );
+			$wkhtmltopdf = new Wkhtmltopdf( array( 'path' => $path ) );
 			
 			$wkhtmltopdf->setBinPath( $wkhtmltopdfPath );
 			
 			if ( Preferences( 'PAGE_SIZE' ) != 'A4' )
+			{
 				$wkhtmltopdf->setPageSize( Preferences( 'PAGE_SIZE' ) );
+			}
 				
 			if ( !empty( $handle['orientation'] )
 				&& $handle['orientation'] == 'landscape' )
+			{
 				$wkhtmltopdf->setOrientation( Wkhtmltopdf::ORIENTATION_LANDSCAPE );
+			}
 			
 			if ( !empty( $handle['margins'] )
 				&& is_array( $handle['margins'] ) )
+			{
 				$wkhtmltopdf->setMargins( $handle['margins'] );
+			}
 			
 			$wkhtmltopdf->setTitle( utf8_decode( $page_title ) );
 			
 			//directly pass HTML code
 			$wkhtmltopdf->setHtml( $html );
-			
-			$file_name = str_replace(
-					array( _( 'Print' ) . ' ', ' ' ),
-					array( '', '_' ),
-					utf8_decode( ProgramTitle() )
-				) . '.pdf';
 
-			//MODE_EMBEDDED displays PDF in browser, MODE_DOWNLOAD forces PDF download
-			$wkhtmltopdf->output( Wkhtmltopdf::MODE_EMBEDDED, $file_name );
+			$wkhtmltopdf->output( $handle['mode'], $filename . '.pdf' );
 
 		} catch ( Exception $e ) {
 
@@ -148,5 +179,31 @@ function PDFStop( $handle )
 	}
 	// if no wkhtmltopdf, render in html
 	else
-		echo $html;
+	{
+		if ( $handle['mode'] === 3 ) // Save
+		{
+			$base_url = sprintf(
+				"%s://%s%s/",
+				isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+				$_SERVER['SERVER_NAME'],
+				dirname( $_SERVER['PHP_SELF'] )
+			);
+
+			// Set Absolute URLs to images, CSS...
+			$html = str_replace( 'assets/', $base_url . 'assets/', $html );
+
+			$html = str_replace( 'modules/', $base_url . 'modules/', $html);
+
+			file_put_contents( $path . DIRECTORY_SEPARATOR . $filename . '.html', $html );
+
+			$full_path = $path . DIRECTORY_SEPARATOR . $filename . '.html';
+		}
+		else
+			echo $html;
+	}
+
+	if ( $handle['mode'] === 3 ) // Save
+	{
+		return $full_path;
+	}
 }

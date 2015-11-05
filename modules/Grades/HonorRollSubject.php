@@ -40,9 +40,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$RET = GetStuList($extra);
 
-		$no_margins = array('top'=> 0, 'bottom'=> 0, 'left'=> 0, 'right'=> 0);
+		$no_margins = array( 'top' => 0, 'bottom' => 0, 'left' => 0, 'right' => 0 );
 
-		$handle = PDFStart(false, $no_margins);
+		$pdf_options = array(
+			'css' => false,
+			'margins' => $no_margins,
+		);
+
+		$handle = PDFStart( $pdf_options );
 
 		$_SESSION['orientation'] = 'landscape';
 
