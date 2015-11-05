@@ -893,9 +893,9 @@ function Widgets( $item, &$myextra = null )
 			}
 
 			$extra['search'] .= '<tr class="st"><td>' .
-				_( 'Mailing Labels' ) .
+				'<label for="mailing_labels">' . _( 'Mailing Labels' ) . '</label>' .
 				'</td><td>' .
-				'<input type="checkbox" name="mailing_labels" value="Y" />' .
+				'<input type="checkbox" id="mailing_labels" name="mailing_labels" value="Y" />' .
 				'</td>';
 
 		break;
