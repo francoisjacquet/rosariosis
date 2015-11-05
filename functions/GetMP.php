@@ -50,7 +50,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 {
 	static $all_mp = null;
 
-	if ( $marking_period_id == '0' )
+	if ( $marking_period_id == 0 )
 	{
 		// there should be exactly one fy marking period
 		$fy_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
