@@ -8,6 +8,7 @@ Changes in 2.8.24
 - Correct English default Help text in Help_en.php
 - More explicit Assignment Type deletion Prompt message in Assignments.php
 - Fix _delTree() function name typo in Modules.inc.php & Plugins.inc.php
+- Create ReferralLog functions for reuse in Discipline/includes/ReferralLog.fnc.php
 
 Changes in 2.8.23
 -----------------
