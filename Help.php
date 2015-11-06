@@ -54,6 +54,13 @@ $handle = PDFStart();
 <?php
 foreach($help as $program=>$value)
 {
+	// FJ zap programs which are not allowed
+	if ( $program !== 'default'
+		&& !AllowUse( $program ) )
+	{
+		continue;
+	}
+
 	$_REQUEST['modname'] = $program;
 	if(mb_strpos($program,'/'))
 	{

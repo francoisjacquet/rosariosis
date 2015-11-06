@@ -11,6 +11,7 @@ Changes in 2.8.24
 - Create ReferralLog functions for reuse in Discipline/includes/ReferralLog.fnc.php
 - Update PDFStart() & PDFStop() functions to enable Save PDF mode in PDF.php
 - Add PHPMailer 5.2.14 class (email creation & (SMTP) transport) in classes/PHPMailer/
+- Zap programs which are not allowed in Help.php
 
 Changes in 2.8.23
 -----------------
