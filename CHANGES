@@ -10,6 +10,7 @@ Changes in 2.8.24
 - Fix _delTree() function name typo in Modules.inc.php & Plugins.inc.php
 - Create ReferralLog functions for reuse in Discipline/includes/ReferralLog.fnc.php
 - Update PDFStart() & PDFStop() functions to enable Save PDF mode in PDF.php
+- Add PHPMailer 5.2.14 class (email creation & (SMTP) transport) in classes/PHPMailer/
 
 Changes in 2.8.23
 -----------------
