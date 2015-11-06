@@ -36,17 +36,26 @@ else
 
 	if ( count( $student_RET ) )
 	{
-		$handle = PDFStart();
+		$PDF = '';
 
 		foreach ( (array)$student_RET as $student_id => $student )
 		{
-			echo ReferralLogGenerate( $student_id, $extra );
+			$PDF .= ReferralLogGenerate( $student_id, $extra );
 
 			// New page
-			echo '<div style="page-break-after: always;"></div>';
+			$PDF .=  '<div style="page-break-after: always;"></div>';
 		}
 
-		PDFStop( $handle );
+		if ( !empty( $PDF ) )
+		{
+			$handle = PDFStart();
+
+			echo $PDF;
+
+			PDFStop( $handle );
+		}
+		else
+			BackPrompt( _( 'No Students were found.' ) );
 	}
 	else
 		BackPrompt( _( 'No Students were found.' ) );
