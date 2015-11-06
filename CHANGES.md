@@ -41,6 +41,7 @@ Changes in 2.9
 - HTML tags to lowercase, program wide
 - Move JSCalendar setup to warehouse.js
 - Move (Staff)Widgets(), append(Staff)SQL() & CustomFields() functions calls inside GetStaffList() & GetStuList()
+- Add popups JS functions to close all popups when Opener AJAX in warehouse.js
 
 Changes in 2.8.11
 -----------------

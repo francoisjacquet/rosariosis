@@ -613,13 +613,16 @@ function ListOutput($result,$column_names,$singular='.',$plural='.',$link=false,
 								echo '<td>';
 							if ( !empty($link[$key]['js']))
 							{
-								echo '<a href="#" onclick=\'window.open("'.$link[$key]['link'];
-								if (count($link[$key]['variables']))
+								echo '<a href="#" onclick=\'popups.open("' . $link[$key]['link'];
+
+								if ( count( $link[$key]['variables'] ) )
 								{
-									foreach ( (array)$link[$key]['variables'] as $var => $val)
+									foreach ( (array)$link[$key]['variables'] as $var => $val )
 										echo "&$var=".urlencode($item[$val]);
 								}
-								echo '","","scrollbars=yes,resizable=yes,width=800,height=400");\'';
+
+								echo '");\'';
+
 								if ( $link[$key]['extra'])
 									echo ' '.$link[$key]['extra'];
 								echo '>';

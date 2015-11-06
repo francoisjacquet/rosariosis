@@ -849,7 +849,13 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 					$parent = _('None');
 			}
 
-			$header .= '<td colspan="2"><div id=course_div>'.$parent.'</div> '.($parent!=_('N/A')?'<a href="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</a><br />':'').'<span class="legend-gray">'._('Parent Course Period').'</span></td>';
+			$header .= '<td colspan="2"><div id=course_div>' . $parent . '</div> ' .
+				( $parent != _( 'N/A' ) ?
+					'<a href="#" onclick=\'popups.open(
+						"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
+					);\'>' . _( 'Choose' ) . '</a><br />' :
+					'' ) .
+				'<span class="legend-gray">' . _( 'Parent Course Period' ) . '</span></td>';
 
 			$header .= '</tr>';
 			$header .= '</table>';

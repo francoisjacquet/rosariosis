@@ -28,6 +28,29 @@ for (; i < max; i++) {
 	document.createElement(tags[i]);
 }
 
+//popups
+var popups = new popups();
+
+function popups()
+{
+	this.childs = [];
+
+	this.open = function(url, params) {
+		if (!params)
+			params = 'scrollbars=yes,resizable=yes,width=800,height=400';
+
+		this.childs.push(window.open(url, '', params));
+	};
+
+	this.closeAll = function() {
+		for(var i=0, max=this.childs.length; i<max; i++)
+		{
+			if (!this.childs[i].closed)
+				this.childs[i].close();
+		}
+	};
+}
+
 //touchScroll, enables overflow:auto on mobile
 //https://gist.github.com/chrismbarr/4107472
 function touchScroll(el) {
@@ -259,6 +282,8 @@ function ajaxPrepare(target) {
 
 	var h3 = $('#body h3.title').text().trim();
 	document.title = $('#body h2').text() + (h3 ? ' | ' + h3 : '');
+
+	popups.closeAll();
 
 	MarkDownToHTML();
 

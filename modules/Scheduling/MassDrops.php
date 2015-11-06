@@ -113,7 +113,11 @@ if ( $_REQUEST['modfunc']!='choose_course')
 
 			echo $course_title.'<br />'.$period_title;
 		}
-		echo '</div>'.'<a href="#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose a Course').'</a></td></tr>';
+
+		echo '</div>' . '<a href="#" onclick=\'popups.open(
+				"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
+			);\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
+
 		echo '<tr class="st"><td>'._('Drop Date').'</td><td>'.PrepareDate(DBDate(),'').'</td></tr>';
 
 		echo '<tr class="st"><td>'._('Marking Period').'</td><td>';

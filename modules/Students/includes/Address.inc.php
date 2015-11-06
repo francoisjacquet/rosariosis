@@ -597,7 +597,16 @@ if (empty($_REQUEST['modfunc']))
 
 				$link = 'http://google.com/maps?q='.$display_address;
 
-				echo '<tr><td class="valign-top" colspan="3">'. button('compass_rose', _('Map It'), '# onclick=\'window.open("'.$link.'","","scrollbars=yes,resizable=yes,width=800,height=700"); return false;\'', 'bigger') .'</td></tr>';
+				echo '<tr><td class="valign-top" colspan="3">' .
+					button(
+						'compass_rose',
+						_( 'Map It' ),
+						'# onclick=\'popups.open(
+							"' . $link . '",
+							"scrollbars=yes,resizable=yes,width=800,height=700"
+						); return false;\'',
+						'bigger'
+					) . '</td></tr>';
 			}
 			echo '</table>';
 

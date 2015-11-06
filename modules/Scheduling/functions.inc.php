@@ -25,7 +25,11 @@ function MyWidgets($item)
 				}
 			}
 
-			$extra['search'] .= '<tr><td>'._('Last Year Course').'</td><td><div id="ly_course_div"></div> <a href="#" onclick=\'window.open("Modules.php?modname=misc/ChooseCourse.php&last_year=true","","scrollbars=yes,resizable=yes,width=800,height=400");\'>'._('Choose').'</a></td></tr>';
+			$extra['search'] .= '<tr><td>' . _( 'Last Year Course' ) . '</td>
+				<td><div id="ly_course_div"></div> 
+				<a href="#" onclick=\'popups.open(
+					"Modules.php?modname=misc/ChooseCourse.php&last_year=true"
+				);\'>' . _( 'Choose' ) . '</a></td></tr>';
 		break;
 	}
 }

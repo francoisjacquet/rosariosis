@@ -204,8 +204,14 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 	$schedule_RET = DBGet($QI,array('PERIOD_PULLDOWN' => '_makePeriodSelect','COURSE_MARKING_PERIOD_ID' => '_makeMPSelect','SCHEDULER_LOCK' => '_makeLock','START_DATE' => '_makeDate','END_DATE' => '_makeDate'));
 
 	//FJ bugfix SQL bug $_SESSION['student_id'] is not set
-	//$link['add']['link'] = '#" onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course&student_id='.$_REQUEST['student_id'].'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'","","scrollbars=yes,resizable=yes,width=900,height=400");\' ';
-	$link['add']['link'] = '# onclick=\'window.open("Modules.php?modname='.$_REQUEST['modname'].'&modfunc=choose_course&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date'].'","","scrollbars=yes,resizable=yes,width=900,height=400");\'';
+	$link['add']['link'] = '# onclick=\'popups.open(
+			"Modules.php?modname=' . $_REQUEST['modname'] .
+				'&modfunc=choose_course&day_date=' . $_REQUEST['day_date'] .
+				'&month_date=' . $_REQUEST['month_date'] .
+				'&year_date=' . $_REQUEST['year_date'] . '",
+			"",
+			"scrollbars=yes,resizable=yes,width=900,height=400"
+		);\'';
 
 	$link['add']['title'] = _('Add a Course');
 

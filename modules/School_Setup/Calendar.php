@@ -1000,7 +1000,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	var popupURL = <?php echo json_encode( $popup_URL ); ?>;
 
 	function CalEventPopup(url) {
-		window.open( url, "blank", "width=500,height=400" );
+		popups.open( url, "scrollbars=yes,resizable=yes,width=500,height=400" );
 	}
 </script>
 <?php

@@ -435,7 +435,13 @@ function makeParents($student_id,$column)
 				if ( $_REQUEST['_ROSARIO_PDF'])
 					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? button($img) .'&nbsp;' : '').$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</div>';
 				else
-					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? button($img) .'&nbsp;' : '').'<a href="#" onclick=\'window.open("Modules.php?modname=misc/ViewContact.php&person_id='.$person['PERSON_ID'].'&student_id='.$student_id.'","","scrollbars=yes,resizable=yes,width=400,height=200");\'>'.$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</a></div>';
+					$THIS_RET['PARENTS'] .= '<div>' . ( !empty( $img ) ? button( $img ) . '&nbsp;' : '' ) .
+						'<a href="#" onclick=\'popups.open(
+							"Modules.php?modname=misc/ViewContact.php&person_id=' . $person['PERSON_ID'] . '&student_id=' . $student_id . '",
+							"scrollbars=yes,resizable=yes,width=400,height=200"
+						);\'>' .
+							$person['FIRST_NAME'].' '.$person['LAST_NAME'] .
+						'</a></div>';
 			}
 			if ( $_REQUEST['_ROSARIO_PDF'])
 				$THIS_RET['PARENTS'] = mb_substr($THIS_RET['PARENTS'],0,-2);
