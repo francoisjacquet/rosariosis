@@ -30,9 +30,6 @@ if ( $_REQUEST['search_modfunc']=='list')
 	//	$extra['WHERE'] .= " AND s.STUDENT_ID='".UserStudentID()."' ";
 	$extra['group'] = array('STUDENT_ID','PERIOD_ID');
 
-//FJ fix error Warning: Missing argument 1 for appendSQL()
-	$extra['WHERE'] .= appendSQL('',$extra);
-	$extra['WHERE'] .= CustomFields('where');
 	$schedule_RET = GetStuList($extra);
 	unset($extra);
 	unset($_ROSARIO['Widgets']);
@@ -52,10 +49,7 @@ if ( !$_REQUEST['search_modfunc'])
 	Search('student_id',$extra);
 else
 {
-//FJ fix error Warning: Missing argument 1 for appendSQL()
-//	$extra['WHERE'] .= appendSQL();
-	$extra['WHERE'] .= appendSQL('',$extra);
-	$extra['WHERE'] .= CustomFields('where');
+
 	$students_RET = GetStuList($extra);
 	$bad_students[0] = array();
 	foreach ( (array)$students_RET as $student)

@@ -75,10 +75,11 @@ function ReferralLogIncludeForm()
  * @global $_ROSARIO Unsets $_ROSARIO['DrawHeader']
  *
  * @param  string $student_id Student ID
+ * @global array  $extra      Add DISCIPLINE_REFERRALS table & STUDENT_ID conditions to search
  *
  * @return string Empty if no Student ID or no Referrals, else Referral Log HTML
  */
-function ReferralLogGenerate( $student_id )
+function ReferralLogGenerate( $student_id, $extra )
 {
 	global $_ROSARIO;
 
@@ -129,24 +130,24 @@ function ReferralLogGenerate( $student_id )
 
 	foreach ( (array)$_REQUEST['log'] as $column => $Y )
 	{
-		$extra['SELECT'] .= ',r.' . $column;
+		$extra['SELECT'] .= ',dr.' . $column;
 	}
 
-	$extra['FROM'] .= ',DISCIPLINE_REFERRALS r ';
+	if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false  )
+	{
+		$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID
+			AND dr.SYEAR=ssm.SYEAR
+			AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
 
-	// Limit to Current Student ID
-	$extra['WHERE'] .= " AND ssm.STUDENT_ID='" . $student_id . "'";
-
-	$extra['WHERE'] .= " AND r.STUDENT_ID=ssm.STUDENT_ID AND r.SYEAR=ssm.SYEAR ";
-
-	if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS dr' ) !== false )
-		$extra['WHERE'] .= ' AND r.ID=dr.ID';
+		$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
+	}
 
 	$extra['group'] = array( 'STUDENT_ID' );
 
-	$extra['ORDER'] = ',r.ENTRY_DATE';
+	$extra['ORDER'] = ',dr.ENTRY_DATE';
 
-	$extra['WHERE'] .= appendSQL( '', $extra );
+	// Limit to Current Student ID
+	$extra['WHERE'] .= " AND ssm.STUDENT_ID='" . $student_id . "'";
 
 	// Get Referrals
 	$referrals_RET = GetStuList( $extra );

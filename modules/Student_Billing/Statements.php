@@ -1,6 +1,5 @@
 <?php
 
-//Widgets('all');
 Widgets('mailing_labels');
 //Widgets('document_template');
 
@@ -19,10 +18,8 @@ else
 	if ( $_REQUEST['mailing_labels']=='Y')
 		$extra['group'][] = 'ADDRESS_ID';	
 	
-//FJ fix Advanced Search
-	$extra['WHERE'] .= appendSQL('',$extra);
-	$extra['WHERE'] .= CustomFields('where');
 	$RET = GetStuList($extra);
+
 	if (count($RET))
 	{
 		$SESSION_student_id_save = UserStudentID();

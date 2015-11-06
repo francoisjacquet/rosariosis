@@ -15,11 +15,8 @@ else
 	if (User('PROFILE')=='teacher')//limit to teacher himself
 		$extra['WHERE'] .= " AND s.STAFF_ID = '".User('STAFF_ID')."'";
 		
-//FJ fix Advanced Search
-	StaffWidgets('all');
-	$extra['WHERE'] .= appendStaffSQL('',$extra);
-	$extra['WHERE'] .= CustomFields('where','staff');
 	$RET = GetStaffList($extra);
+
 	if (count($RET))
 	{
 		$SESSION_staff_id_save = UserStaffID();

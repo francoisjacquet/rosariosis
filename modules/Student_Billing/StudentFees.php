@@ -6,7 +6,6 @@ if ( !$_REQUEST['print_statements'])
 {
 	DrawHeader(ProgramTitle());
 
-	//Widgets('all');
 	Search('student_id',$extra);
 }
 

@@ -9,8 +9,6 @@ $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;
 $extra['functions'] = array('BALANCE' => '_makeCurrency');
 
-//Widgets('all');
-
 if (User('PROFILE')=='parent' || User('PROFILE')=='teacher')
 	$_REQUEST['search_modfunc'] = 'list';
 Search('staff_id',$extra);

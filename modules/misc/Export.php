@@ -385,12 +385,6 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 			$extra['group'] = $extra['LO_group'] = array( 'FAMILY_ID' );
 		}
 
-		Widgets( 'all', $extra );
-
-		$extra['WHERE'] .= appendSQL( '', array( 'NoSearchTerms' => $extra['NoSearchTerms'] ) );
-
-		$extra['WHERE'] .= CustomFields( 'where', 'student', array( 'NoSearchTerms' => $extra['NoSearchTerms'] ) );
-
 		$RET = GetStuList( $extra );
 
 		if ( $extra['array_function']

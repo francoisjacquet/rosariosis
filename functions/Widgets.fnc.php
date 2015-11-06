@@ -4,6 +4,8 @@
  * Widgets
  * Essentially used in the Find a Student form
  *
+ * @todo  Fill $extra['search'] only if required (see Search.inc.php, if !search_modfunc?)
+ *
  * @global array   $_ROSARIO       Sets $_ROSARIO['Widgets']
  * @global array   $RosarioModules
  * @global array   $extra
@@ -25,18 +27,24 @@ function Widgets( $item, &$myextra = null )
 	// save current widgets list inside $_ROSARIO['Widgets'] global var
 	if ( !isset( $_ROSARIO['Widgets'] )
 		|| !is_array( $_ROSARIO['Widgets'] ) )
+	{
 		$_ROSARIO['Widgets'] = array();
+	}
 
 	if ( !isset( $extra['functions'] )
 		|| !is_array( $extra['functions'] ) )
+	{
 		$extra['functions'] = array();
+	}
 
 	// if insufficient rights or already saved widget, exit
 	if ( ( User('PROFILE') !== 'admin'
 			&& User( 'PROFILE' ) !== 'teacher' )
 		|| ( isset( $_ROSARIO['Widgets'][$item] )
 			&& $_ROSARIO['Widgets'][$item] ) )
+	{
 		return false;
+	}
 
 	switch ( $item )
 	{
@@ -48,10 +56,9 @@ function Widgets( $item, &$myextra = null )
 			function( $title )
 			{
 				return '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu">
-					<b>' . $title . '</b>
-				</a>
-				<br />
-				<table class="widefat width-100p cellspacing-0 col1-align-right hide">';
+					<b>' . $title . '</b></a>
+					<br />
+					<table class="widefat width-100p cellspacing-0 col1-align-right hide">';
 			};
 
 			$widget_wrap_footer = '</table>';
@@ -987,11 +994,13 @@ function Widgets( $item, &$myextra = null )
 				<option value="">' . _( 'Not Specified' ) . '</option>';
 
 			foreach ( (array)$users_RET as $id => $user )
+			{
 				$extra['search'] .= '<option value="' . $id . '"">' .
 						$user[1]['LAST_NAME'] . ', ' .
 						$user[1]['FIRST_NAME'] . ' ' .
 						$user[1]['MIDDLE_NAME'] .
 					'</option>';
+			}
 
 			$extra['search'] .= '</select>';
 
@@ -1005,42 +1014,34 @@ function Widgets( $item, &$myextra = null )
 			if ( !$RosarioModules['Discipline'] )
 				break;
 
+			$discipline_entry_begin = $discipline_entry_end = '';
+
 			// Verify begin date
-			if ( $_REQUEST['month_discipline_entry_begin']
-				&& $_REQUEST['day_discipline_entry_begin']
-				&& $_REQUEST['year_discipline_entry_begin'] )
+			if ( isset( $_REQUEST['month_discipline_entry_begin'] )
+				&& isset( $_REQUEST['day_discipline_entry_begin'] )
+				&& isset( $_REQUEST['year_discipline_entry_begin'] ) )
 			{
-				$_REQUEST['discipline_entry_begin'] = $_REQUEST['day_discipline_entry_begin'] . '-' .
-					$_REQUEST['month_discipline_entry_begin'] . '-' .
-					$_REQUEST['year_discipline_entry_begin'];
-
-				if ( !VerifyDate( $_REQUEST['discipline_entry_begin'] ) )
-					unset($_REQUEST['discipline_entry_begin']);
-
-				unset( $_REQUEST['day_discipline_entry_begin'] );
-				unset( $_REQUEST['month_discipline_entry_begin'] );
-				unset( $_REQUEST['year_discipline_entry_begin'] );
+				$discipline_entry_begin = RequestedDate(
+					$_REQUEST['day_discipline_entry_begin'],
+					$_REQUEST['month_discipline_entry_begin'],
+					$_REQUEST['year_discipline_entry_begin']
+				);
 			}
 
 			// Verify end date
-			if ( $_REQUEST['month_discipline_entry_end']
-				&& $_REQUEST['day_discipline_entry_end']
-				&& $_REQUEST['year_discipline_entry_end'] )
+			if ( isset( $_REQUEST['month_discipline_entry_end'] )
+				&& isset( $_REQUEST['day_discipline_entry_end'] )
+				&& isset( $_REQUEST['year_discipline_entry_end'] ) )
 			{
-				$_REQUEST['discipline_entry_end'] = $_REQUEST['day_discipline_entry_end'] . '-' .
-					$_REQUEST['month_discipline_entry_end'] . '-' .
-					$_REQUEST['year_discipline_entry_end'];
-
-				if ( !VerifyDate( $_REQUEST['discipline_entry_end'] ) )
-					unset( $_REQUEST['discipline_entry_end'] );
-
-				unset( $_REQUEST['day_discipline_entry_end'] );
-				unset( $_REQUEST['month_discipline_entry_end'] );
-				unset( $_REQUEST['year_discipline_entry_end'] );
+				$discipline_entry_end = RequestedDate(
+					$_REQUEST['day_discipline_entry_end'],
+					$_REQUEST['month_discipline_entry_end'],
+					$_REQUEST['year_discipline_entry_end']
+				);
 			}
 
-			if ( ( $_REQUEST['discipline_entry_begin']
-					|| $_REQUEST['discipline_entry_end'] )
+			if ( ( $discipline_entry_begin
+					|| $discipline_entry_end )
 				&& mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false  )
 			{
 				$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID
@@ -1050,33 +1051,33 @@ function Widgets( $item, &$myextra = null )
 				$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
 			}
 
-			if ( $_REQUEST['discipline_entry_begin']
-				&& $_REQUEST['discipline_entry_end'] )
+			if ( $discipline_entry_begin
+				&& $discipline_entry_end )
 			{
 				$extra['WHERE'] .= " AND dr.ENTRY_DATE
-					BETWEEN '" . $_REQUEST['discipline_entry_begin'] .
-					"' AND '" . $_REQUEST['discipline_entry_end'] . "' ";
+					BETWEEN '" . $discipline_entry_begin .
+					"' AND '" . $discipline_entry_end . "' ";
 
 				if ( !$extra['NoSearchTerms'] )
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Incident Date' ) . ' ' . _( 'Between' ) . ': </b>' .
-						ProperDate( $_REQUEST['discipline_entry_begin'] ) . ' &amp; ' .
-						ProperDate( $_REQUEST['discipline_entry_end'] ) . '<br />';
+						ProperDate( $discipline_entry_begin ) . ' &amp; ' .
+						ProperDate( $discipline_entry_end ) . '<br />';
 			}
-			elseif ( $_REQUEST['discipline_entry_begin'] )
+			elseif ( $discipline_entry_begin )
 			{
-				$extra['WHERE'] .= " AND dr.ENTRY_DATE>='" . $_REQUEST['discipline_entry_begin'] . "' ";
+				$extra['WHERE'] .= " AND dr.ENTRY_DATE>='" . $discipline_entry_begin . "' ";
 
 				if ( !$extra['NoSearchTerms'] )
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Incident Date' ) . ' ' . _( 'On or After' ) . ' </b>' .
-						ProperDate( $_REQUEST['discipline_entry_begin'] ) . '<br />';
+						ProperDate( $discipline_entry_begin ) . '<br />';
 			}
-			elseif ( $_REQUEST['discipline_entry_end'] )
+			elseif ( $discipline_entry_end )
 			{
-				$extra['WHERE'] .= " AND dr.ENTRY_DATE<='" . $_REQUEST['discipline_entry_end'] . "' ";
+				$extra['WHERE'] .= " AND dr.ENTRY_DATE<='" . $discipline_entry_end . "' ";
 
 				if ( !$extra['NoSearchTerms'] )
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Incident Date' ) . ' ' . _( 'On or Before' ) . ' </b>' .
-						ProperDate( $_REQUEST['discipline_entry_end'] ) . '<br />';
+						ProperDate( $discipline_entry_end ) . '<br />';
 			}
 
 			$extra['search'] .= '<tr class="st"><td>

@@ -138,25 +138,14 @@ else
 	if ( !$_REQUEST['next_modname'])
 		$_REQUEST['next_modname'] = 'Users/User.php';
 
-	if (User('PROFILE')=='admin')
-	{
-		if ( !isset($extra))
-			$extra = array();
-
-		StaffWidgets('user',$extra);
-
-		if ( $_REQUEST['advanced']=='Y')
-			StaffWidgets('all',$extra);
-	}
+	if ( !isset($extra))
+		$extra = array();
 
 	if ( !$extra['NoSearchTerms'])
 	{
 		if ( $_REQUEST['_search_all_schools']=='Y')
 			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><br />';
 	}
-
-	$extra['WHERE'] .= appendStaffSQL('',array('NoSearchTerms' => $extra['NoSearchTerms']));
-	$extra['WHERE'] .= CustomFields('where','staff',array('NoSearchTerms' => $extra['NoSearchTerms']));
 
 	if ( !isset($_ROSARIO['DrawHeader']))
 		DrawHeader(_('Choose A User'));

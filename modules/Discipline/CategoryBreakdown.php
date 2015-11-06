@@ -80,10 +80,6 @@ if ( isset( $_REQUEST['modfunc'] )
 if ( isset( $_REQUEST['category_id'] )
 	&& !empty( $_REQUEST['category_id'] ) )
 {
-	//FJ fix Advanced Search
-	if ( $_REQUEST['advanced'] === 'Y' )
-		Widgets( 'all' );
-
 	$category_RET = DBGet( DBQuery( "SELECT du.TITLE,du.SELECT_OPTIONS,df.DATA_TYPE
 		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
 		WHERE df.ID='" . $_REQUEST['category_id'] . "'
@@ -111,11 +107,6 @@ if ( isset( $_REQUEST['category_id'] )
 
 		$extra['group'] = array( 'TITLE' );
 
-		//FJ fix Advanced Search
-		$extra['WHERE'] .= appendSQL( '', $extra );
-
-		$extra['WHERE'] .= CustomFields( 'where' );
-
 		$totals_RET = GetStuList( $extra );
 
 		foreach ( (array)$category_RET[1]['SELECT_OPTIONS'] as $option )
@@ -134,11 +125,6 @@ if ( isset( $_REQUEST['category_id'] )
 
 		$extra['group'] = array( 'TITLE' );
 
-		//FJ fix Advanced Search
-		$extra['WHERE'] .= appendSQL( '', $extra );
-
-		$extra['WHERE'] .= CustomFields( 'where' );
-
 		$totals_RET = GetStuList( $extra );
 
 		$chart['chart_data'][0][] = _( 'Yes' );
@@ -153,11 +139,6 @@ if ( isset( $_REQUEST['category_id'] )
 	elseif ( $category_RET[1]['DATA_TYPE'] === 'multiple_checkbox' )
 	{
 		$extra['SELECT_ONLY'] = "CATEGORY_" . intval( $_REQUEST['category_id'] ) . " AS TITLE ";
-
-		//FJ fix Advanced Search
-		$extra['WHERE'] .= appendSQL( '', $extra );
-
-		$extra['WHERE'] .= CustomFields( 'where' );
 
 		$referrals_RET = GetStuList( $extra );
 
@@ -184,11 +165,6 @@ if ( isset( $_REQUEST['category_id'] )
 
 		//FJ remove NULL entries
 		$extra['WHERE'] .= "AND CATEGORY_" . intval( $_REQUEST['category_id'] ) . " IS NOT NULL ";
-
-		//FJ fix Advanced Search
-		$extra['WHERE'] .= appendSQL( '', $extra );
-
-		$extra['WHERE'] .= CustomFields( 'where' );
 
 		$max_min_RET = GetStuList( $extra );
 

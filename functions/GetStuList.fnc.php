@@ -5,6 +5,19 @@
 function GetStuList(&$extra=array())
 {	global $contacts_RET,$view_other_RET;
 
+	//FJ fix Advanced Search
+	if ( User( 'PROFILE' ) === 'admin'
+		|| User( 'PROFILE' ) === 'teacher'
+		&& isset( $_REQUEST['advanced'] )
+		&& $_REQUEST['advanced'] === 'Y' )
+	{
+		Widgets( 'all', $extra );
+	}
+
+	$extra['WHERE'] .= appendSQL( '', $extra );
+
+	$extra['WHERE'] .= CustomFields( 'where', 'student', $extra );
+
 	if ((empty($extra['SELECT_ONLY']) || mb_strpos($extra['SELECT_ONLY'],'GRADE_ID')!==false) && !isset($extra['functions']['GRADE_ID']))
 		$functions = array('GRADE_ID' => 'GetGrade');
 	else

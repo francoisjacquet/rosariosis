@@ -28,10 +28,6 @@ else
 	if ( $_REQUEST['mailing_labels']=='Y')
 		$extra['group'][] = 'ADDRESS_ID';	
 	
-	//FJ fix advanced search
-	$extra['WHERE'] .= appendSQL('',$extra);
-
-	$extra['WHERE'] .= CustomFields('where');
 	$RET = GetStuList($extra);
 
 	if (count($RET))

@@ -8,7 +8,6 @@ if ( !$_REQUEST['print_statements'])
 {
 	DrawHeader(ProgramTitle());
 	
-	//Widgets('all');
 	Search('staff_id',$extra);
 }
 

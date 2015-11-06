@@ -143,8 +143,6 @@ else
 		if ( !isset($extra))
 			$extra = array();
 		Widgets('user',$extra);
-		if ( $_REQUEST['advanced']=='Y')
-			Widgets('all',$extra);
 	}
 
 	if ( !$extra['NoSearchTerms'])
@@ -162,8 +160,6 @@ else
 		$extra['group'] = $extra['LO_group'] = array('FAMILY_ID');
 	}
 
-	$extra['WHERE'] .= appendSQL('',array('NoSearchTerms' => $extra['NoSearchTerms']));
-	$extra['WHERE'] .= CustomFields('where','student',array('NoSearchTerms' => $extra['NoSearchTerms']));
 	$students_RET = GetStuList($extra);
 
 	if ( $extra['array_function'] && function_exists($extra['array_function']))

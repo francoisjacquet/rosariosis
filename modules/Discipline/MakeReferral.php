@@ -126,7 +126,7 @@ if (isset($note))
 
 if ( $_REQUEST['student_id'])
 	echo '<br />';
-//Widgets('all');
+
 Search('student_id',$extra);
 
 if (UserStudentID() && $_REQUEST['student_id'])

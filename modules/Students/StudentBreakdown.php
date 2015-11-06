@@ -33,10 +33,6 @@ if ( isset( $_REQUEST['modfunc'] )
 if ( isset( $_REQUEST['field_id'] )
 	&& !empty( $_REQUEST['field_id'] ) )
 {
-	//FJ fix Advanced Search
-	if ( $_REQUEST['advanced'] === 'Y' )
-		Widgets( 'all' );
-
 	$fields_RET = DBGet( DBQuery( "SELECT TITLE,SELECT_OPTIONS AS OPTIONS,TYPE
 		FROM CUSTOM_FIELDS WHERE ID='" . $_REQUEST['field_id'] . "'" ) );
 
@@ -74,11 +70,6 @@ if ( isset( $_REQUEST['field_id'] )
 
 		$extra['group'] = array('TITLE');
 
-		//FJ fix Advanced Search
-		$extra['WHERE'] = appendSQL( '' );
-
-		$extra['WHERE'] .= CustomFields( 'where' );
-
 		$totals_RET = GetStuList( $extra );
 
 		$chart['chart_data'][0][] = _( 'No Value' );
@@ -95,11 +86,6 @@ if ( isset( $_REQUEST['field_id'] )
 	elseif ( $fields_RET[1]['TYPE'] === 'multiple' )
 	{
 		$extra['SELECT_ONLY'] = "CUSTOM_" . intval( $_REQUEST['field_id'] ) . " AS TITLE ";
-
-		//FJ fix Advanced Search
-		$extra['WHERE'] .= appendSQL( '', $extra );
-
-		$extra['WHERE'] .= CustomFields( 'where' );
 
 		$student_RET = GetStuList( $extra );
 
@@ -126,11 +112,6 @@ if ( isset( $_REQUEST['field_id'] )
 
 		$extra['group'] = array( 'TITLE' );
 
-		//FJ fix Advanced Search
-		$extra['WHERE'] .= appendSQL( '', $extra );
-
-		$extra['WHERE'] .= CustomFields( 'where' );
-
 		$totals_RET = GetStuList( $extra );
 
 		$chart['chart_data'][0][0] = _( 'Yes' );
@@ -147,11 +128,6 @@ if ( isset( $_REQUEST['field_id'] )
 
 		//FJ remove NULL entries
 		$extra['WHERE'] = "AND CUSTOM_" . intval( $_REQUEST['field_id'] ) . " IS NOT NULL ";
-
-		//FJ fix Advanced Search
-		$extra['WHERE'] .= appendSQL( '', $extra );
-
-		$extra['WHERE'] .= CustomFields( 'where' );
 
 		$max_min_RET = GetStuList( $extra );
 

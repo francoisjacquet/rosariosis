@@ -10,10 +10,9 @@ $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;
 $extra['functions'] = array('BALANCE' => '_makeCurrency');
 
-//Widgets('all');
-
 if (User('PROFILE')=='parent' || User('PROFILE')=='student')
 	$_REQUEST['search_modfunc'] = 'list';
+
 Search('student_id',$extra);
 
 function _makeCurrency($value,$column)

@@ -77,9 +77,9 @@ if (empty($_REQUEST['modfunc']))
 	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
 	$extra['new'] = true;
 
-	//Widgets('all');
-	
+
 	Search('student_id',$extra);
+
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<br /><div class="center">' . SubmitButton(_('Add Fee to Selected Students')) . '</div>';

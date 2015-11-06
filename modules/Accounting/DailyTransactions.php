@@ -47,7 +47,6 @@ echo '</form>';
 if ( !$_REQUEST['LO_sort'])
 	$_REQUEST['LO_sort'] = 'DATE';
 
-//Widgets('all');
 $extra['functions'] = array('DEBIT' => '_makeCurrency','CREDIT' => '_makeCurrency','DATE' => 'ProperDate');
 
 $RET = $debit_col = $credit_col = $name_col = array();

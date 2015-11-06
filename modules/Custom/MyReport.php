@@ -27,8 +27,7 @@ if (empty($_REQUEST['modfunc']))
 		$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sja ON (sja.STUDENT_ID=ssm.STUDENT_ID) LEFT OUTER JOIN ADDRESS a ON (a.ADDRESS_ID=sja.ADDRESS_ID)";
 		$extra['FROM'] .= " LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sjp.STUDENT_ID=ssm.STUDENT_ID AND sjp.ADDRESS_ID=a.ADDRESS_ID) LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)";
 		//$extra['WHERE'] = " AND (a.ADDRESS_ID IS NULL OR a.ADDRESS_ID=sja.ADDRESS_ID)";
-		$extra['WHERE'] .= appendSQL('',array('NoSearchTerms' => $extra['NoSearchTerms']));
-		$extra['WHERE'] .= CustomFields('where','student',array('NoSearchTerms' => $extra['NoSearchTerms']));
+
 		if ( $_REQUEST['address_group'])
 		{
 			$extra['SELECT'] .= ",coalesce((SELECT ADDRESS_ID FROM STUDENTS_JOIN_ADDRESS WHERE STUDENT_ID=ssm.STUDENT_ID AND RESIDENCE='Y' LIMIT 1),-ssm.STUDENT_ID) AS FAMILY_ID";
