@@ -24,46 +24,23 @@ if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			|| $modname === 'misc/Portal.php'
 			|| $modname === 'misc/Registration.php'
 			|| $modname === 'misc/Export.php' ) )
+	{
 		$_SESSION['_REQUEST_vars'] = $_REQUEST;
-
-	$_ROSARIO['is_popup'] = $_ROSARIO['not_ajax'] = false;
+	}
 
 	// popup window detection
-	//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
-	if ( in_array(
-			$modname,
-			array(
-				'misc/ChooseRequest.php',
-				'misc/ChooseCourse.php',
-				'misc/ViewContact.php'
-			)
-		)
-		|| ( $modname === 'School_Setup/Calendar.php'
-			&& $_REQUEST['modfunc'] === 'detail' )
-		|| ( in_array(
-				$modname,
-				array(
-					'Scheduling/MassDrops.php',
-					'Scheduling/Schedule.php',
-					'Scheduling/MassSchedule.php',
-					'Scheduling/MassRequests.php',
-					'Scheduling/Courses.php'
-				)
-			)
-			&& $_REQUEST['modfunc'] === 'choose_course' ) )
-	{
-		$_ROSARIO['is_popup'] = true;
-	}
+	$_ROSARIO['is_popup'] = isPopup( $modname, $_REQUEST['modfunc'] );
+
 	// AJAX request detection
-	elseif ( empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
-		|| $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest' )
-	{
-		$_ROSARIO['not_ajax'] = true;
-	}
+	$_ROSARIO['not_ajax'] = empty( $_SERVER['HTTP_X_REQUESTED_WITH'] )
+		|| $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest';
 	
 	// output Header HTML
-	if ( $_ROSARIO['is_popup'] || $_ROSARIO['not_ajax'] )
+	if ( $_ROSARIO['is_popup']
+		|| $_ROSARIO['not_ajax'] )
+	{
 		Warehouse( 'header' );
+	}
 }
 // print PDF
 else
@@ -71,27 +48,22 @@ else
 	ob_start();
 
 
-$allowed = false;
-
 /**
  * FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
  * allow PHP scripts in misc/ one by one in place of the whole folder
  */
-if ( in_array(
-		$modname,
-		array(
-			'misc/ChooseRequest.php',
-			'misc/ChooseCourse.php',
-			'misc/Portal.php',
-			'misc/ViewContact.php'
-		)
-	) )
-{
-	$allowed = true;
-}
+$allowed = in_array(
+	$modname,
+	array(
+		'misc/ChooseRequest.php',
+		'misc/ChooseCourse.php',
+		'misc/Portal.php',
+		'misc/ViewContact.php'
+	)
+);
 
 // browse allowed programs and look for requested modname
-else
+if ( !$allowed )
 {
 	require_once 'Menu.php';
 
@@ -135,4 +107,6 @@ elseif ( User( 'USERNAME' ) )
 
 // output Footer HTML
 if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+{
 	Warehouse( 'footer' );
+}

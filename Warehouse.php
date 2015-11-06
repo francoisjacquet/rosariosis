@@ -342,3 +342,50 @@ function Warehouse( $mode )
 		break;
 	} // end switch
 } // end Warehouse()
+
+
+/**
+ * Popup window detection
+ *
+ * @link http://www.securiteam.com/securitynews/6S02U1P6BI.html
+ *
+ * @example $_ROSARIO['is_popup'] = isPopup( $modname, $_REQUEST['modfunc'] );
+ *
+ * @param  string  $modname Mod name
+ * @param  string  $modfunc Mod function
+ *
+ * @return boolean True if popup, else false
+ */
+function isPopup( $modname, $modfunc )
+{
+	$is_popup = false;
+
+	// popup window detection
+	//FJ security fix, cf http://www.securiteam.com/securitynews/6S02U1P6BI.html
+	if ( in_array(
+			$modname,
+			array(
+				'misc/ChooseRequest.php',
+				'misc/ChooseCourse.php',
+				'misc/ViewContact.php'
+			)
+		)
+		|| ( $modname === 'School_Setup/Calendar.php'
+			&& $modfunc === 'detail' )
+		|| ( in_array(
+				$modname,
+				array(
+					'Scheduling/MassDrops.php',
+					'Scheduling/Schedule.php',
+					'Scheduling/MassSchedule.php',
+					'Scheduling/MassRequests.php',
+					'Scheduling/Courses.php'
+				)
+			)
+			&& $modfunc === 'choose_course' ) )
+	{
+		$is_popup = true;
+	}
+
+	return $is_popup;
+}

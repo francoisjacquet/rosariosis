@@ -260,9 +260,22 @@ if ( $unset_staff )
 // update "#body" Module page
 if ( $update_body )
 {
-	$addJavascripts .= 'ajaxLink("' .
-		str_replace( '&amp;', '&', PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array('advanced') ) ) .
-	'");';
+	/**
+	 * If last mod is popup, redirect to Portal!
+	 *
+	 * Happens when Current Student / SYear... update while popup opened
+	 * Preserves integrity and prevents bugs
+	 */
+	if ( isPopup( $_SESSION['_REQUEST_vars']['modname'], $_SESSION['_REQUEST_vars']['modfunc'] ) )
+	{
+		$ajax_link = 'Modules.php?modname=misc/Portal.php';
+	}
+	else
+	{
+		$ajax_link = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array('advanced') );
+	}
+
+	$addJavascripts .= 'ajaxLink("' . $ajax_link .	'");';
 }
 
 /**

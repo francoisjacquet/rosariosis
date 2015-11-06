@@ -42,6 +42,7 @@ Changes in 2.9
 - Move JSCalendar setup to warehouse.js
 - Move (Staff)Widgets(), append(Staff)SQL() & CustomFields() functions calls inside GetStaffList() & GetStuList()
 - Add popups JS functions to close all popups when Opener AJAX in warehouse.js
+- Move Popup window detection to isPopup() for reuse in Warehouse.php
 
 Changes in 2.8.11
 -----------------
