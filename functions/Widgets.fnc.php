@@ -692,10 +692,6 @@ function Widgets($item,&$myextra=null)
 
 					if(!VerifyDate($_REQUEST['discipline_entry_begin']))
 						unset($_REQUEST['discipline_entry_begin']);
-
-					unset($_REQUEST['day_discipline_entry_begin']);
-					unset($_REQUEST['month_discipline_entry_begin']);
-					unset($_REQUEST['year_discipline_entry_begin']);
 				}
 
 				if($_REQUEST['month_discipline_entry_end'] && $_REQUEST['day_discipline_entry_end'] && $_REQUEST['year_discipline_entry_end'])
@@ -704,10 +700,6 @@ function Widgets($item,&$myextra=null)
 
 					if(!VerifyDate($_REQUEST['discipline_entry_end']))
 						unset($_REQUEST['discipline_entry_end']);
-
-					unset($_REQUEST['day_discipline_entry_end']);
-					unset($_REQUEST['month_discipline_entry_end']);
-					unset($_REQUEST['year_discipline_entry_end']);
 				}
 
 				if($_REQUEST['discipline_reporter'] || $_REQUEST['discipline_entry_begin'] || $_REQUEST['discipline_entry_end'] || count($_REQUEST['discipline']) || count($_REQUEST['discipline_begin']) || count($_REQUEST['discipline_end']))
