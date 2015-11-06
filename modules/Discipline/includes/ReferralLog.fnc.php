@@ -76,7 +76,7 @@ function ReferralLogIncludeForm()
  *
  * @return string Empty if no Student ID or no Referrals, else Referral Log HTML
  */
-function ReferralLogGenerate( $student_id )
+function ReferralLogGenerate( $student_id, $extra )
 {
 	global $_ROSARIO;
 
