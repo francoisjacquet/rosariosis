@@ -40,10 +40,13 @@ else
 
 		foreach ( (array)$student_RET as $student_id => $student )
 		{
-			$PDF .= ReferralLogGenerate( $student_id, $extra );
+			$referral_log = ReferralLogGenerate( $student_id, $extra );
 
-			// New page
-			$PDF .=  '<div style="page-break-after: always;"></div>';
+			if ( $referral_log )
+			{
+				// New page
+				$PDF .=  $referral_log . '<div style="page-break-after: always;"></div>';
+			}
 		}
 
 		if ( !empty( $PDF ) )
