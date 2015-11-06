@@ -1,18 +1,27 @@
 <?php
 
 //FJ wkhtmltopdf
-//@param $css = true
+//@param $options['css'] = true
 //include theme CSS in HTML output
-//@param $margins = array('top'=> 1, 'bottom'=> 1, 'left'=> 1, 'right'=> 1)
+//@param $options['margins'] = array( 'top' => 1, 'bottom' => 1, 'left' => 1, 'right' => 1 )
 //margins unit in millimeters
+//@mode $options['mode'] = 2 (MODE_EMBEDDED) | 3 (MODE_SAVE) | 0 (MODE_DOWNLOAD)
 //Note: for landscape format, set $_SESSION['orientation'] = 'landscape'
-function PDFStart($css = true, $margins = array())
+function PDFStart( $options = array() )
 {
 	$_REQUEST['_ROSARIO_PDF'] = true;
-	$pdfitems['css'] = $css;
-	$pdfitems['margins'] = $margins;
+
+	$default_options = array(
+		'css' => true,
+		'margins' => array(),
+		'mode' => 2, // MODE_EMBEDDED
+	);
+
+	$pdf_options = array_replace_recursive( $default_options, $options );
+
 	ob_start();
-	return $pdfitems;
+
+	return $pdf_options;
 }
 
 function PDFStop($handle)
@@ -27,11 +36,23 @@ function PDFStop($handle)
 	//convert to HTML page with CSS		
 	$RTL_languages = array('ar', 'he', 'dv', 'fa', 'ur');
 	$html = '<!DOCTYPE html><HTML lang="'.mb_substr($locale,0,2).'" '.(in_array(mb_substr($locale,0,2), $RTL_languages)?' dir="RTL"':'').'><HEAD><meta charset="UTF-8" />';
+
 	if ($handle['css'])
 		$html .= '<link rel="stylesheet" type="text/css" href="assets/themes/'.Preferences('THEME').'/stylesheet_wkhtmltopdf.css" />';
+
 	//FJ bugfix wkhtmltopdf screen resolution on linux
 	//see: https://code.google.com/p/wkhtmltopdf/issues/detail?id=118
 	$html .= '<TITLE>'.str_replace(_('Print').' ','',ProgramTitle()).'</TITLE></HEAD><BODY><div style="width:'.((!empty($handle['orientation']) && $handle['orientation'] == 'landscape') ? '1448' : '1024').'px" id="pdf">'.$html_content.'</div></BODY></HTML>';
+
+	// create PDF in the temporary files system directory
+	$path = sys_get_temp_dir();
+
+	// File name
+	$filename = utf8_decode( str_replace(
+		array( _( 'Print' ) . ' ', ' ' ),
+		array( '', '_' ),
+		ProgramTitle()
+	));
 
 	//FJ wkhtmltopdf
 	if (!empty($wkhtmltopdfPath))
@@ -42,14 +63,13 @@ function PDFStop($handle)
 
 		if(!empty($wkhtmltopdfAssetsPath))
 			$html = str_replace('assets/', $wkhtmltopdfAssetsPath, $html);
-			
+
 		$html = str_replace('modules/', $RosarioPath.'modules/', $html);
+
+		require_once('classes/Wkhtmltopdf.php');
 		
-		require('classes/Wkhtmltopdf.php');
-		
-		try {
-			//indicate to create PDF in the temporary files system directory
-			$wkhtmltopdf = new Wkhtmltopdf(array('path' => sys_get_temp_dir()));
+		try{
+			$wkhtmltopdf = new Wkhtmltopdf( array( 'path' => $path ) );
 			
 			$wkhtmltopdf->setBinPath($wkhtmltopdfPath);
 			
@@ -67,17 +87,40 @@ function PDFStop($handle)
 			//directly pass HTML code
 			$wkhtmltopdf->setHtml($html);
 			
-			//MODE_EMBEDDED displays PDF in browser, MODE_DOWNLOAD forces PDF download
-			//FJ force PDF DOWNLOAD for Android mobile & tablet
-			if (mb_stripos($_SERVER['HTTP_USER_AGENT'],'android') !== false)
-				$wkhtmltopdf->output(Wkhtmltopdf::MODE_DOWNLOAD, str_replace(array(_('Print').' ', ' '),array('', '_'),utf8_decode(ProgramTitle())).'.PDF');
-			else
-				$wkhtmltopdf->output(Wkhtmltopdf::MODE_EMBEDDED, str_replace(array(_('Print').' ', ' '),array('', '_'),utf8_decode(ProgramTitle())).'.pdf');
+			$wkhtmltopdf->output( $handle['mode'], $filename . '.pdf' );
+
+			$full_path = $path . DIRECTORY_SEPARATOR . $filename . '.pdf';
+
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
 	}
 	else
-		echo $html;
+	{
+		if ( $handle['mode'] === 3 ) // Save
+		{
+			$base_url = sprintf(
+				"%s://%s%s/",
+				isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+				$_SERVER['SERVER_NAME'],
+				dirname( $_SERVER['PHP_SELF'] )
+			);
+
+			// Set Absolute URLs to images, CSS...
+			$html = str_replace( 'assets/', $base_url . 'assets/', $html );
+
+			$html = str_replace( 'modules/', $base_url . 'modules/', $html);
+
+			file_put_contents( $path . DIRECTORY_SEPARATOR . $filename . '.html', $html );
+
+			$full_path = $path . DIRECTORY_SEPARATOR . $filename . '.html';
+		}
+		else
+			echo $html;
+	}
+
+	if ( $handle['mode'] === 3 ) // Save
+	{
+		return $full_path;
+	}
 }
-?>

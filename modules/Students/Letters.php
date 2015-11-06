@@ -52,8 +52,8 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			$REQUEST_letter_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_letter_text)));
 
-			$css = true;
-			$handle = PDFStart($css);
+			$handle = PDFStart();
+
 			foreach($RET as $student)
 			{
 				$student_points = $total_points = 0;
