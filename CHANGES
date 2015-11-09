@@ -12,6 +12,7 @@ Changes in 2.8.24
 - Update PDFStart() & PDFStop() functions to enable Save PDF mode in PDF.php
 - Add PHPMailer 5.2.14 class (email creation & (SMTP) transport) in classes/PHPMailer/
 - Zap programs which are not allowed in Help.php
+- Create ReportCards functions for reuse in Grades/includes/ReportCards.fnc.php
 
 Changes in 2.8.23
 -----------------
