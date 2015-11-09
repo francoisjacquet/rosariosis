@@ -1,6 +1,8 @@
 --
 -- PostgreSQL database dump
 --
+-- Note: Uncheck "Paginate results" when importing with phpPgAdmin
+--
 
 SET client_encoding = 'UTF8';
 SET check_function_bodies = false;
