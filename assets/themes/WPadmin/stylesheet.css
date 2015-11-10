@@ -734,12 +734,6 @@ form.login input[type=text],form.login input[type=password]{
 .bar{
 	height:12px
 }
-.bar.relevance{
-	background-color:gray
-}
-.divPortalPoll .bar{
-	background-color:#cc4400
-}
 
 /*stackable tables*/
 div.st{
@@ -850,12 +844,10 @@ table.mceLayout,textarea.tinymce{
 .tooltip{
 	position:relative;
 	display:inline-block;
-	color:#fff;
 	margin-left:5px;
 	cursor:help
 }
 .tooltip:before{
-	background:#27b4b4;
 	content:"i";
 	font-family:monospace;
 	font-size:0.8em;
@@ -871,7 +863,6 @@ table.mceLayout,textarea.tinymce{
 	left:-100px;
 	width:200px;
 	z-index:999999;
-	background:#444;
 	display:inline-block;
 	padding:3px 6px;
 	border-radius:3px;

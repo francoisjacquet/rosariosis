@@ -1,9 +1,9 @@
 html{
-	background-color:#fff
+	background:#fff
 }
 textarea,input[type="text"],input[type="password"],input[type="file"],input[type="button"],input[type="submit"],input[type="reset"],input[type="email"],input[type="number"],input[type="search"],input[type="tel"],input[type="url"],select{
 	border-color:#dfdfdf;
-	background-color:#fff
+	background:#fff
 }
 textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type="file"]:focus,input[type="button"]:focus,input[type="submit"]:focus,input[type="reset"]:focus,input[type="email"]:focus,input[type="number"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="url"]:focus,select:focus{
 	border-color:#bbb
@@ -12,13 +12,13 @@ code{
 	background:#eaeaea
 }
 input[readonly]{
-	background-color:#eee
+	background:#eee
 }
 body{
 	color:#333
 }
 #menuback,#menu{
-	background-color:#ececec;
+	background:#ececec;
 	border-color:#ccc
 }
 #menushadow, #menuback, .menu-top:hover, .menu-top:focus, #selectedModuleLink + .wp-submenu{
@@ -27,24 +27,24 @@ body{
 	background-repeat:repeat-y
 }
 #footer{
-	background-color:#ececec
+	background:#ececec
 }
 #footerhelp{
-	background-color:white
+	background:white
 }
 .widefat{
 	border-color:#dfdfdf;
-	background-color:#f9f9f9
+	background:#f9f9f9
 }
 .postbox > thead th,.widefat th,.widefat tfoot tr th{
-	background-color:#f1f1f1;
+	background:#f1f1f1;
 	background:-ms-linear-gradient(top,#f9f9f9,#ececec);
 	background:-webkit-linear-gradient(top,#f9f9f9,#ececec);
 	background:-moz-linear-gradient(top,#f9f9f9,#ececec);
 	background:linear-gradient(top,#f9f9f9,#ececec)
 }
 .postbox .h3selected{
-	background-color:#f9f9f9;
+	background:#f9f9f9;
 	background:-ms-linear-gradient(top,#ececec,#f9f9f9);
 	background:-webkit-linear-gradient(top,#ececec,#f9f9f9);
 	background:-moz-linear-gradient(top,#ececec,#f9f9f9);
@@ -55,13 +55,13 @@ body{
 	text-shadow:#fff 0 1px 0
 }
 .widefat tr:nth-child(odd), .alternate,.alt{
-	background-color:#fcfcfc
+	background:#fcfcfc
 }
 .widefat tr:nth-child(even){
-	background-color:#f9f9f9
+	background:#f9f9f9
 }
 .wp-submenu, .highlight, .widefat tr.highlight{
-	background-color:#fff;
+	background:#fff;
 }
 input[type=button],input[type=submit]{
 	border-color:#bbb;
@@ -100,14 +100,14 @@ a:hover,a:active,a:focus{
 	color:#d54e21
 }
 div.error{
-	background-color:#ffebe8;
+	background:#ffebe8;
 	border-color:#c00
 }
 div.error a{
 	color:#c00
 }
 div.updated{
-	background-color:#ffffe0;
+	background:#ffffe0;
 	border-color:#e6db55
 }
 .widefat td,.widefat th{
@@ -134,7 +134,7 @@ a,.adminmenu a{
 	box-shadow:inset 0 1px 0 #fff
 }
 .postbox{
-	background-color:#f5f5f5;
+	background:#f5f5f5;
 }
 .postbox th{
 	color:#464646
@@ -143,7 +143,7 @@ a,.adminmenu a{
 	color:#000
 }
 .adminmenu{
-	background-color:#ececec;
+	background:#ececec;
 	border-color:#ccc
 }
 .menu-top{
@@ -151,31 +151,31 @@ a,.adminmenu a{
 	border-bottom-color:#dfdfdf
 }
 .menu-top:hover, .menu-top:focus{
-	background-color:#e4e4e4;
+	background:#e4e4e4;
 	text-shadow:0 1px 0 rgba(255,255,255,.4)
 }
 .wp-submenu{
 	border-color:#dfdfdf #ccc
 }
 .wp-submenu a:hover,#selectedMenuLink{
-	background-color:#EAF2FA;
+	background:#EAF2FA;
 	color:#333
 }
 
 /*added*/
 .header2{
-	background-color:#f9f9f9;
+	background:#f9f9f9;
 	border-bottom: 1px solid #dfdfdf;
 	border-top: 1px solid #fff
 }
 #courses_div{
-	background-color:white
+	background:white
 }
 fieldset{
 	border-color:#dfdfdf
 }
 .bgcolor{
-	background-color:#ececec
+	background:#ececec
 }
 .legend-gray{
 	color: gray
@@ -193,7 +193,7 @@ fieldset{
 }
 .md-preview .tab:hover,
 .md-preview .tab.disabled{
-	background-color:#fff;
+	background:#fff;
 	border-color:#bbb
 }
 hr{
@@ -205,36 +205,36 @@ hr{
 	color:#fff
 }
 .current-person.student{
-	background-color:#333366
+	background:#333366
 }
 .current-person.staff{
-	background-color:#336633
+	background:#336633
 }
 .current-person.self{
-	background-color:#663333
+	background:#663333
 }
 
 /*student comments*/
 #student-comments div{
-	background-color:#fff
+	background:#fff
 }
 
 /*calendar*/
 #calendar{
-	background-color:#DFDFDF
+	background:#DFDFDF
 }
 #calendar th{
-	background-color:#000;
+	background:#000;
 	color:#fff
 }
 .calendar-day.full{
-	background-color:#EEFFEE
+	background:#EEFFEE
 }
 .calendar-day.minutes{
-	background-color:#EEEEFF
+	background:#EEEEFF
 }
 .calendar-day.no-school{
-	background-color:#FFEEEE
+	background:#FFEEEE
 }
 .calendar-event{
 	border-color:#000
@@ -257,9 +257,28 @@ hr{
 	color:#000
 }
 
+/*bars*/
+.bar.relevance{
+	background:gray
+}
+.divPortalPoll .bar{
+	background:#cc4400
+}
+
 /* colorBox */
 #cboxLoadedContent{
-	background-color:#fff !important
+	background:#fff !important
+}
+
+/* Tooltip */
+.tooltip{
+	color:#fff;
+}
+.tooltip:before{
+	background:#27b4b4;
+}
+.tooltip > i{
+	background:#444;
 }
 
 
@@ -271,7 +290,7 @@ hr{
 }
 @media only screen and (max-width:640px){
 	.wp-submenu a:hover{
-		background-color:transparent;
+		background:transparent;
 		color:#21759b
 	}
 }
