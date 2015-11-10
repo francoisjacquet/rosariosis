@@ -23,72 +23,102 @@ if ( !$_REQUEST['search_modfunc'])
 
 			echo '<form name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="GET">';
 
-			echo '<table><tr class="valign-top"><td>';
-
-//FJ css WPadmin
 			echo '<table class="width-100p col1-align-right" id="general_table">';
-			echo '<tr><td><label for="last">'._('Last Name').'</label></td><td><input type="text" name="last" id="last" size="30"></td></tr>';
-			echo '<tr><td><label for="first">'._('First Name').'</label></td><td><input type="text" name="first" id="first" size="30"></td></tr>';
-			echo '<tr><td><label for="usrid">'._('User ID').'</label></td><td><input type="text" name="usrid" id="usrid" size="30"></td></tr>';
-			echo '<tr><td><label for="username">'._('Username').'</label></td><td><input type="text" name="username" id="username" size="30"></td></tr>';
 
-			if (User('PROFILE')=='admin')
-				$options = array('' => _('N/A'),'admin' => _('Administrator'),'teacher' => _('Teacher'),'parent' => _('Parent'),'none' => _('No Access'));
+			echo '<tr><td><label for="last">' . _( 'Last Name' ) . '</label></td>
+				<td><input type="text" name="last" id="last" size="30" autofocus /></td></tr>';
+
+			echo '<tr><td><label for="first">' . _( 'First Name' ) . '</label></td>
+				<td><input type="text" name="first" id="first" size="30" /></td></tr>';
+
+			echo '<tr><td><label for="usrid">' . _( 'User ID' ) . '</label></td>
+				<td><input type="text" name="usrid" id="usrid" size="30" /></td></tr>';
+
+			echo '<tr><td><label for="username">' . _( 'Username' ) . '</label></td>
+				<td><input type="text" name="username" id="username" size="30" /></td></tr>';
+
+			if ( User( 'PROFILE' ) == 'admin' )
+			{
+				$options = array(
+					'' => _( 'N/A' ),
+					'admin' => _( 'Administrator' ),
+					'teacher' => _( 'Teacher' ),
+					'parent' => _( 'Parent' ),
+					'none' => _( 'No Access' )
+				);
+			}
 			else
-				$options = array('' => _('N/A'),'teacher' => _('Teacher'),'parent' => _('Parent'));
+			{
+				$options = array(
+					'' => _( 'N/A' ),
+					'teacher' => _( 'Teacher' ),
+					'parent' => _( 'Parent' )
+				);
+			}
 
-			if ( $extra['profile'])
+			if ( $extra['profile'] )
 				$options = array($extra['profile'] => $options[$extra['profile']]);
 
-			echo '<tr><td><label for="profile">'._('Profile').'</label></td><td><select name="profile" id="profile">';
+			echo '<tr><td><label for="profile">' . _( 'Profile' ) . '</label></td>
+				<td><select name="profile" id="profile">';
 
-			foreach ( (array)$options as $key => $val)
-				echo '<option value="'.$key.'">'.$val.'</option>';
+			foreach ( (array)$options as $key => $val )
+			{
+				echo '<option value="' . $key . '">' . $val . '</option>';
+			}
 
 			echo '</select></td></tr>';
 
-			if ( !isset($extra))
+			if ( !isset( $extra ) )
 				$extra = array();
 
-			StaffWidgets('user',$extra);
+			StaffWidgets( 'user', $extra );
 
-			Search('staff_fields',is_array($extra['staff_fields'])?$extra['staff_fields']:array());
+			Search(
+				'staff_fields',
+				is_array( $extra['staff_fields'] ) ? $extra['staff_fields'] : array()
+			);
 
+			echo '</table><div class="center">';
 
-			echo '</table></td><tr><td class="center">';
-
-			if ( $extra['search_second_col'])
+			if ( $extra['search_second_col'] )
 				echo $extra['search_second_col'];
 
-			if (User('PROFILE')=='admin')
+			if ( User('PROFILE') === 'admin' )
 			{
-//FJ add <label> on checkbox
-//FJ if only one school, no Search All Schools option
-				if (SchoolInfo('SCHOOLS_NB') > 1)
-					echo '<label><input type="checkbox" name="_search_all_schools" value="Y"'.(Preferences('DEFAULT_ALL_SCHOOLS')=='Y'?' checked':'').'>&nbsp;'._('Search All Schools').'</label><br />';
+				//FJ if only one school, no Search All Schools option
+				if ( SchoolInfo( 'SCHOOLS_NB' ) > 1 )
+				{
+					echo '<label><input type="checkbox" name="_search_all_schools" value="Y"' .
+						( Preferences( 'DEFAULT_ALL_SCHOOLS' ) == 'Y' ? ' checked' : '' ) . '>&nbsp;' .
+						_( 'Search All Schools' ) . '</label><br />';
+				}
 			}
 
-			echo '<label><input type="checkbox" name="include_inactive" value="Y"> '._('Include Parents of Inactive Students').'</label><br /><br />';
+			echo '<label><input type="checkbox" name="include_inactive" value="Y" /> ' .
+				_( 'Include Parents of Inactive Students' ) . '</label><br />';
 
-			echo Buttons(_('Submit'),_('Reset'));
+			echo '<br />' . Buttons( _( 'Submit' ), _( 'Reset' ) ) . '<br /><br /></div>';
 
-			echo '</td></tr>';
-
-			if ( $extra['search'] || $extra['extra_search'] || $extra['second_col'])
+			if ( $extra['search']
+				|| $extra['extra_search']
+				|| $extra['second_col'] )
 			{
-				echo '<tr><td><table class="widefat width-100p cellspacing-0 col1-align-right">';
+				echo '<table class="widefat width-100p cellspacing-0 col1-align-right">';
 
-				if ( $extra['search'])
+				if ( $extra['search'] )
 					echo $extra['search'];
-				if ( $extra['extra_search'])
+
+				if ( $extra['extra_search'] )
 					echo $extra['extra_search'];
-				if ( $extra['second_col'])
+
+				if ( $extra['second_col'] )
 					echo $extra['second_col'];
 
-				echo '</table></td></tr>';
+				echo '</table>';
 			}
 				
-			echo '<tr class="valign-top"><td>';
+			//echo '<table><tr class="valign-top"><td>';
 
 			if ( $_REQUEST['advanced']=='Y')
 			{
@@ -119,17 +149,18 @@ if ( !$_REQUEST['search_modfunc'])
 			else
 				echo '<br /><a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</a>';
 
-			echo '</td></tr></table></form>';
+			echo '</form>';
 
-			// set focus to last name text box
 			// update Bottom.php
 			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 
-			PopTable('footer');
+			PopTable( 'footer' );
+
 		break;
 
 		default:
-			echo User('PROFILE');
+
+			echo User( 'PROFILE' );
 	}
 }
 //if ( $_REQUEST['search_modfunc']=='list')

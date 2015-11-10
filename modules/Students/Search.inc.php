@@ -20,60 +20,72 @@ if ( !$_REQUEST['search_modfunc'])
 
 			echo '<br />';
 
-			PopTable('header',$extra['search_title']?$extra['search_title']:_('Find a Student'));
+			PopTable(
+				'header',
+				$extra['search_title'] ? $extra['search_title'] : _( 'Find a Student' )
+			);
 
 			echo '<form name="search" id="search" action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&search_modfunc=list&next_modname='.$_REQUEST['next_modname'].'&advanced='.$_REQUEST['advanced'].$extra['action'].'" method="GET">';
 
-			echo '<table><tr class="valign-top"><td>';
-
 			echo '<table class="width-100p col1-align-right" id="general_table">';
 
-			Search('general_info',$extra['grades']);
+			Search( 'general_info', $extra['grades'] );
 
-			if ( !isset($extra))
+			if ( !isset( $extra ) )
 				$extra = array();
 
-			Widgets('user',$extra);
+			Widgets( 'user', $extra );
 
-			Search('student_fields',is_array($extra['student_fields'])?$extra['student_fields']:array());
+			Search(
+				'student_fields',
+				is_array( $extra['student_fields'] ) ? $extra['student_fields'] : array()
+			);
 
 
-			echo '</table></td><tr><td class="center">';
+			echo '</table><div class="center">';
 
-			if ( $extra['search_second_col'])
-				echo $extra['search_second_col'];
-
-			if (User('PROFILE')=='admin')
+			if ( $extra['search_second_col'] )
 			{
-//FJ add <label> on checkbox
-//FJ css WPadmin
-				echo '<label><input type="checkbox" name="address_group" value="Y"'.(Preferences('DEFAULT_FAMILIES')=='Y'?' checked':'').'>&nbsp;'._('Group by Family').'</label><br />';
-//FJ if only one school, no Search All Schools option
-				if (SchoolInfo('SCHOOLS_NB') > 1)
-					echo '<label><input type="checkbox" name="_search_all_schools" value="Y"'.(Preferences('DEFAULT_ALL_SCHOOLS')=='Y'?' checked':'').'>&nbsp;'._('Search All Schools').'</label><br />';
+				echo $extra['search_second_col'];
 			}
 
-			echo '<label><input type="checkbox" name="include_inactive" value="Y">&nbsp;'._('Include Inactive Students').'</label><br /><br />';
-
-			echo Buttons(_('Submit'),_('Reset'));
-
-			echo '</td></tr>';
-			
-			if ( $extra['search'] || $extra['extra_search'] || $extra['second_col'])
+			if ( User( 'PROFILE' ) === 'admin' )
 			{
-				echo '<tr><td><table class="widefat width-100p cellspacing-0 col1-align-right">';
+				echo '<label><input type="checkbox" name="address_group" value="Y"' .
+					( Preferences( 'DEFAULT_FAMILIES' ) == 'Y' ? ' checked' : '' ) . '>&nbsp;' .
+					_( 'Group by Family' ) . '</label><br />';
 
-				if ( $extra['search'])
+				//FJ if only one school, no Search All Schools option
+				if ( SchoolInfo( 'SCHOOLS_NB' ) > 1 )
+				{
+					echo '<label><input type="checkbox" name="_search_all_schools" value="Y"' .
+						( Preferences( 'DEFAULT_ALL_SCHOOLS' ) == 'Y' ? ' checked' : '' ) . '>&nbsp;' .
+						_( 'Search All Schools' ) . '</label><br />';
+				}
+			}
+
+			echo '<label><input type="checkbox" name="include_inactive" value="Y">&nbsp;' .
+				_( 'Include Inactive Students' ) . '</label><br />';
+
+			echo '<br />' . Buttons( _( 'Submit' ), _( 'Reset' ) ) . '<br /><br /></div>';
+			
+			if ( $extra['search']
+				|| $extra['extra_search']
+				|| $extra['second_col'] )
+			{
+				echo '<table class="widefat width-100p cellspacing-0 col1-align-right">';
+
+				if ( $extra['search'] )
 					echo $extra['search'];
-				if ( $extra['extra_search'])
+
+				if ( $extra['extra_search'] )
 					echo $extra['extra_search'];
-				if ( $extra['second_col'])
+
+				if ( $extra['second_col'] )
 					echo $extra['second_col'];
 
-				echo '</table></td></tr>';
+				echo '</table>';
 			}
-
-			echo '<tr class="valign-top"><td>';
 
 			if ( $_REQUEST['advanced'] === 'Y' )
 			{
@@ -101,17 +113,18 @@ if ( !$_REQUEST['search_modfunc'])
 			else
 				echo '<br /><a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'Y')).'">'._('Advanced Search').'</a>';
 
-			echo '</td></tr></table></form>';
+			echo '</form>';
 
-			// set focus to last name text box
 			// update Bottom.php
 			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 
-			PopTable('footer');
+			PopTable( 'footer' );
+
 		break;
 
 		case 'parent':
 		case 'student':
+
 			echo '<br />';
 
 			PopTable('header',_('Search'));
@@ -128,7 +141,8 @@ if ( !$_REQUEST['search_modfunc'])
 
 			echo '</td></tr></table></form>';
 
-			PopTable('footer');
+			PopTable( 'footer' );
+
 		break;
 	}
 }

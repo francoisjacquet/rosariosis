@@ -104,7 +104,7 @@ function Search( $type, $extra = null )
 		case 'general_info':
 
 			echo '<tr><td><label for="last">' . _( 'Last Name' ) . '</label></td>
-				<td><input type="text" name="last" id="last" size="30" maxlength="50" /></td></tr>';
+				<td><input type="text" name="last" id="last" size="30" maxlength="50" autofocus /></td></tr>';
 
 			echo '<tr><td><label for="first">' . _( 'First Name' ) . '</label></td>
 				<td><input type="text" name="first" id="first" size="30" maxlength="50" /></td></tr>';
@@ -124,17 +124,28 @@ function Search( $type, $extra = null )
 				|| is_array( $extra ) )
 			{
 				echo '<tr><td>' . _( 'Grade Levels' ) . '</td>
-				<td><label class="nobr"><input type="checkbox" name="grades_not" value="Y" />&nbsp;' . _( 'Not' ) . '</label>
-				<br />
+				<td><label class="nobr"><input type="checkbox" name="grades_not" value="Y" />&nbsp;' .
+					_( 'Not' ) . '</label> &nbsp;
 				<label class="nobr"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades[\');">&nbsp;' . _( 'Check All' ) . '</label>
 				</td></tr>
-				<tr><td colspan="2">';
+				<tr><td></td><td>';
+
+				$i = 0;
 
 				foreach ( (array)$list as $value )
 				{
 					$checked = ( is_array( $extra ) ? ( $extra[ $value['ID'] ] ? ' checked' : '' ) : ( $extra == $value['ID'] ? ' checked' : '' ) );
 
-					echo '<label class="nobr"><input type="checkbox" name="grades[' . $value['ID'] . ']" value="Y"' . $checked . ' />&nbsp;' . $value['SHORT_NAME'] . '</label> ';
+					echo '<label class="nobr">
+					<input type="checkbox" name="grades[' . $value['ID'] . ']" value="Y"' . $checked . ' />&nbsp;' .
+						$value['SHORT_NAME'] . '</label> &nbsp;';
+
+					$i++;
+
+					if ( $i%4 === 0 )
+					{
+						echo '<br /><br />';
+					}
 				}
 
 				echo '</td></tr>';
@@ -143,7 +154,8 @@ function Search( $type, $extra = null )
 			{
 				echo '<tr><td><label for="grade">' . _( 'Grade Level' ) . '</label>
 				</td><td>
-				<select name="grade" id="grade"><option value="">' . _( 'Not Specified' ) . '</option>';
+				<select name="grade" id="grade">
+				<option value="">' . _( 'Not Specified' ) . '</option>';
 
 				foreach ( (array)$list as $value )
 				{
@@ -248,7 +260,8 @@ function Search( $type, $extra = null )
 				if ( $type === 'student_fields_all'
 					|| $type === 'staff_fields_all' )
 				{
-					echo '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu"><b>' . $category[key($category)][1]['CATEGORY_TITLE'] . '</b></a>
+					echo '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu">
+					<b>' . $category[key($category)][1]['CATEGORY_TITLE'] . '</b></a>
 					<br />
 					<table class="widefat width-100p cellspacing-0 col1-align-right hide">';
 
@@ -271,9 +284,12 @@ function Search( $type, $extra = null )
 				foreach ( (array)$category['numeric'] as $col )
 				{
 					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '</td><td>
-					<span class="sizep2">&ge;</span> <input type="text" name="custb[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
-					<span class="sizep2">&le;</span> <input type="text" name="custe[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
-					<label>' . _( 'No Value' ) . ' <input type="checkbox" name="custn[' . $col['COLUMN_NAME'] . ']" /></label>&nbsp;
+					<span class="sizep2">&ge;</span> 
+					<input type="text" name="custb[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
+					<span class="sizep2">&le;</span> 
+					<input type="text" name="custe[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
+					<label>' . _( 'No Value' ) .
+					' <input type="checkbox" name="custn[' . $col['COLUMN_NAME'] . ']" /></label>&nbsp;
 					</td></tr>';
 				}
 
