@@ -11,7 +11,7 @@
  * @global array   $extra
  *
  * @param  string  $item           Staff widget name or 'all' Staff widgets
- * @param  array   &$myextra       Search.inc.php extra (HTML, functions...)
+ * @param  array   &$myextra       Search.inc.php extra (HTML, functions...) (optional). Defaults to global $extra
  *
  * @return boolean true if Staff Widget loaded, false if insufficient rights or already saved widget
  */

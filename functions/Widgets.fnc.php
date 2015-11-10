@@ -11,7 +11,7 @@
  * @global array   $extra
  *
  * @param  string  $item           widget name or 'all' widgets
- * @param  array   &$myextra       Search.inc.php extra (HTML, functions...)
+ * @param  array   &$myextra       Search.inc.php extra (HTML, functions...) (optional). Defaults to global $extra
  *
  * @return boolean true if Widget loaded, false if insufficient rights or already saved widget
  */
