@@ -196,7 +196,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 			if ( $_REQUEST['field_id'] == $field['ID'] )
 			{
-				$selected = ' SELECTED';
+				$selected = ' selected';
 				$field_title = $field['TITLE'];
 			}
 

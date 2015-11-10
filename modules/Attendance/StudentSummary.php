@@ -59,10 +59,10 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 		{
 			//FJ All periods
 			if (count($periods_RET) > 1)
-				$period_select .= '<option value="all"'.(($_REQUEST['period_id']=='all')?' SELECTED':'').'>'._('All Periods').'</option>';
+				$period_select .= '<option value="all"'.(($_REQUEST['period_id']=='all')?' selected':'').'>'._('All Periods').'</option>';
 
 			foreach ( (array)$periods_RET as $period)
-				$period_select .= '<option value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period['TITLE'].'</option>';
+				$period_select .= '<option value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' selected':'').'>'.$period['TITLE'].'</option>';
 		}
 		$period_select .= '</select>';
 	}

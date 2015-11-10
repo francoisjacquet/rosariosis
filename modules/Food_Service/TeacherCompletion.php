@@ -41,7 +41,7 @@ $periods_RET = DBGet($QI);
 
 $period_select =  '<select name="period"<option value="">'._('All').'</option>';
 foreach ( (array)$periods_RET as $period)
-	$period_select .= '<option value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' SELECTED':'').">".$period['TITLE'].'</option>';
+	$period_select .= '<option value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' selected':'').">".$period['TITLE'].'</option>';
 $period_select .= '</select>';
 
 //FJ multiple school periods for a course period

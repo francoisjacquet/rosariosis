@@ -183,10 +183,10 @@ if ( UserStudentID() )
 
 		foreach ($gmp as $id => $mparray)
 		{
-			$mpselect .= '<option value="'.$id.'"'.(($id==$mp_id)?' SELECTED':'').">".$mparray['schoolyear'].' '.$mparray['mp_name'].', '._('Grade Level').' '.$mparray['grade_level']."</option>";
+			$mpselect .= '<option value="'.$id.'"'.(($id==$mp_id)?' selected':'').">".$mparray['schoolyear'].' '.$mparray['mp_name'].', '._('Grade Level').' '.$mparray['grade_level']."</option>";
 		}
 
-		$mpselect .= '<option value="0" '.(($mp_id=='0')?' SELECTED':'').">"._('Add another marking period')."</option>";   
+		$mpselect .= '<option value="0" '.(($mp_id=='0')?' selected':'').">"._('Add another marking period')."</option>";   
 		$mpselect .= '</select></form>';
 
 		DrawHeader($mpselect);

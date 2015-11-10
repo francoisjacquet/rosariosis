@@ -654,25 +654,25 @@ if ( $pros!='')
 			$allow_edit = true;
 
 		if (GetMP($pro,'DOES_GRADES')=='Y')
-			$mps_select .= '<option value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($pro)."</option>";
+			$mps_select .= '<option value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' selected':'').">".GetMP($pro)."</option>";
 	}
 
 if ( $_REQUEST['mp']==UserMP() && GetMP(UserMP(),'POST_START_DATE') && ($time>=strtotime(GetMP(UserMP(),'POST_START_DATE')) && $time<=strtotime(GetMP(UserMP(),'POST_END_DATE'))))
 	$allow_edit = true;
 
-$mps_select .= '<option value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' SELECTED':'').">".GetMP(UserMP())."</option>";
+$mps_select .= '<option value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' selected':'').">".GetMP(UserMP())."</option>";
 
 if (($_REQUEST['mp']==$sem) && GetMP($sem,'POST_START_DATE') && ($time>=strtotime(GetMP($sem,'POST_START_DATE')) && $time<=strtotime(GetMP($sem,'POST_END_DATE'))))
 	$allow_edit = true;
 
 if (GetMP($sem,'DOES_GRADES')=='Y')
-	$mps_select .= '<option value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($sem)."</option>";
+	$mps_select .= '<option value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' selected':'').">".GetMP($sem)."</option>";
 
 if (($_REQUEST['mp']==$fy) && GetMP($fy,'POST_START_DATE') && ($time>=strtotime(GetMP($fy,'POST_START_DATE')) && $time<=strtotime(GetMP($fy,'POST_END_DATE'))))
 	$allow_edit = true;
 
 if (GetMP($fy,'DOES_GRADES')=='Y')
-	$mps_select .= '<option value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($fy)."</option>";
+	$mps_select .= '<option value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' selected':'').">".GetMP($fy)."</option>";
 
 $mps_select .= '</select>';
 

@@ -15,22 +15,22 @@ $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
 $period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);"><option value="">'._('All').'</option>';
 foreach ( (array)$periods_RET as $id => $period)
-	$period_select .= '<option value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED':'').">".$period[1]['TITLE']."</option>";
+	$period_select .= '<option value="'.$id.'"'.(($_REQUEST['period']==$id)?' selected':'').">".$period[1]['TITLE']."</option>";
 $period_select .= "</select>";
 
 $mp_select = '<select name="mp" onChange="ajaxPostForm(this.form,true);">';
 if ( $pros!='')
 	foreach ( explode(',',str_replace("'",'',$pros)) as $pro)
 		if (GetMP($pro,'DOES_GRADES')=='Y')
-			$mp_select .= '<option value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($pro)."</option>";
+			$mp_select .= '<option value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' selected':'').">".GetMP($pro)."</option>";
 
-$mp_select .= '<option value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' SELECTED':'').">".GetMP(UserMP())."</option>";
+$mp_select .= '<option value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' selected':'').">".GetMP(UserMP())."</option>";
 
 if (GetMP($sem,'DOES_GRADES')=='Y')
-	$mp_select .= '<option value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($sem)."</option>";
+	$mp_select .= '<option value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' selected':'').">".GetMP($sem)."</option>";
 
 if (GetMP($fy,'DOES_GRADES')=='Y')
-	$mp_select .= '<option value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' SELECTED':'').">".GetMP($fy)."</option>";
+	$mp_select .= '<option value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' selected':'').">".GetMP($fy)."</option>";
 $mp_select .= '</select>';
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';

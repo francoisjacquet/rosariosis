@@ -228,13 +228,13 @@ function _makeReasonInput($value,$title)
 function _makeCodeSearch($value='')
 {	global $codes_RET,$code_search_selected;
 
-	$return = '<select name=codes[]><option value="">All</option><option value="A"'.(($value=='A')?' SELECTED':'').'>NP</option>';
+	$return = '<select name=codes[]><option value="">All</option><option value="A"'.(($value=='A')?' selected':'').'>NP</option>';
 	if (count($codes_RET))
 	{
 		foreach ( (array)$codes_RET as $code)
 		{
 			if ( $value==$code['ID'])
-				$return .= '<option value="'.$code[ID].'" SELECTED>'.$code[SHORT_NAME].'</option>';
+				$return .= '<option value="'.$code[ID].'" selected>'.$code[SHORT_NAME].'</option>';
 			else
 				$return .= '<option value="'.$code[ID].'">'.$code[SHORT_NAME].'</option>';
 		}

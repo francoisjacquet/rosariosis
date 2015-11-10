@@ -1648,7 +1648,7 @@ function Widgets( $item, &$myextra = null )
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Account Status' ) . '</td><td>
 			<select name="fsa_status">
 			<option value="">' . _( 'Not Specified' ) . '</option>
-			<option value="Active"' . ( $value == 'active' ? ' SELECTED' : '' ) . '>' . _( 'Active' ) . '</option>
+			<option value="Active"' . ( $value == 'active' ? ' selected' : '' ) . '>' . _( 'Active' ) . '</option>
 			<option value="Inactive">' . _( 'Inactive' ) . '</option>
 			<option value="Disabled">' . _( 'Disabled' ) . '</option>
 			<option value="Closed">' . _( 'Closed' ) . '</option>

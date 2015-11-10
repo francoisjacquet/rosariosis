@@ -67,7 +67,7 @@ $assignments_RET = DBGet( DBQuery( "SELECT ASSIGNMENT_ID,TITLE,POINTS
 
 $assignment_select .= '<select name="assignment_id" id="assignment_id" onchange="ajaxPostForm(this.form, true)">';
 
-$assignment_select .= '<option value="totals"' . ( $_REQUEST['assignment_id'] === 'totals' ? ' SELECTED' : '' ) . '>' .
+$assignment_select .= '<option value="totals"' . ( $_REQUEST['assignment_id'] === 'totals' ? ' selected' : '' ) . '>' .
 	_( 'Totals' ) .
 '</option>';
 
@@ -80,7 +80,7 @@ foreach ( (array)$types_RET as $type )
 	{
 		$title = $type['TITLE'];
 
-		$selected = ' SELECTED';
+		$selected = ' selected';
 	}
 
 	$assignment_select .= '<option value="totals' . $type['ASSIGNMENT_TYPE_ID'] . '"' . $selected . '>' .
@@ -98,7 +98,7 @@ foreach ( (array)$assignments_RET as $assignment )
 	{
 		$title = $assignment['TITLE'];
 
-		$selected = ' SELECTED';
+		$selected = ' selected';
 	}
 
 	$assignment_select .= '<option value="' . $assignment['ASSIGNMENT_ID'] . '"'. $selected . '>' .

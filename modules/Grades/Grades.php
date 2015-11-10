@@ -347,13 +347,13 @@ $type_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 
 $type_select = '<select name="type_id" onchange="ajaxLink(' . $type_onchange_URL . ' + this.options[selectedIndex].value);">';
 
-$type_select .= '<option value=""' . ( !$_REQUEST['type_id'] ? ' SELECTED' : '' ) . '>' .
+$type_select .= '<option value=""' . ( !$_REQUEST['type_id'] ? ' selected' : '' ) . '>' .
 	_( 'All' ) .
 '</option>';
 
 foreach ( (array)$types_RET as $id => $type )
 {
-	$type_select .= '<option value="' . $id . '"' . ( $_REQUEST['type_id'] == $id? ' SELECTED' : '' ) . '>' .
+	$type_select .= '<option value="' . $id . '"' . ( $_REQUEST['type_id'] == $id? ' selected' : '' ) . '>' .
 		$type[1]['TITLE'] .
 	'</option>';
 }
@@ -370,15 +370,15 @@ $assignment_select = '<select name="assignment_id" onchange="ajaxLink(' . $assig
 
 $assignment_select .= '<option value="">' . _( 'Totals' ) . '</option>';
 
-$assignment_select .= '<option value="all"' . ( ( $_REQUEST['assignment_id'] === 'all' && !UserStudentID() ) ? ' SELECTED' : '' ) . '>' .
+$assignment_select .= '<option value="all"' . ( ( $_REQUEST['assignment_id'] === 'all' && !UserStudentID() ) ? ' selected' : '' ) . '>' .
 	_( 'All' ) .
 '</option>';
 
 if (UserStudentID() && $_REQUEST['assignment_id']=='all')
-	$assignment_select .= '<option value="all" SELECTED>'.$stu_RET[1]['FULL_NAME'].'</option>';
+	$assignment_select .= '<option value="all" selected>'.$stu_RET[1]['FULL_NAME'].'</option>';
 
 foreach ( (array)$assignments_RET as $id => $assignment)
-	$assignment_select .= '<option value="'.$id.'"'.($_REQUEST['assignment_id']==$id?' SELECTED':'').'>'.($_REQUEST['type_id']?'':$types_RET[$assignment[1]['ASSIGNMENT_TYPE_ID']][1]['TITLE'].' - ').$assignment[1]['TITLE'].'</option>';
+	$assignment_select .= '<option value="'.$id.'"'.($_REQUEST['assignment_id']==$id?' selected':'').'>'.($_REQUEST['type_id']?'':$types_RET[$assignment[1]['ASSIGNMENT_TYPE_ID']][1]['TITLE'].' - ').$assignment[1]['TITLE'].'</option>';
 $assignment_select .= '</select>';
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&student_id='.UserStudentID().'" method="POST">';

@@ -59,7 +59,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF();
-	$period_select = '<select name="period_id" onchange="ajaxPostForm(this.form,true);"><option value=""'.(empty($_REQUEST['period_id'])?' SELECTED':'').'>'._('Daily').'</option>';
+	$period_select = '<select name="period_id" onchange="ajaxPostForm(this.form,true);"><option value=""'.(empty($_REQUEST['period_id'])?' selected':'').'>'._('Daily').'</option>';
 	if ( !UserStudentID() && !$_REQUEST['student_id'])
 	{
 		if (User('PROFILE')=='admin')
@@ -73,7 +73,7 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 			AND (SELECT count(1) FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND cpsp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR=sp.SYEAR AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0 
 			ORDER BY sp.SORT_ORDER"));
 			foreach ( (array)$periods_RET as $period)
-				$period_select .= '<option value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' SELECTED':'').'>'.$period['TITLE'].'</option>';
+				$period_select .= '<option value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' selected':'').'>'.$period['TITLE'].'</option>';
 		}
 		else
 		{
@@ -87,15 +87,15 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'"));
 			if ( $periods_RET)
 			{
-				//$period_select .= '<option value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'] || !isset($_REQUEST['period_id']))?' SELECTED':'').">".$periods_RET[1]['TITLE'].'</option>';
-				$period_select .= '<option value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'])?' SELECTED':'').">".$periods_RET[1]['TITLE'].'</option>';
+				//$period_select .= '<option value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'] || !isset($_REQUEST['period_id']))?' selected':'').">".$periods_RET[1]['TITLE'].'</option>';
+				$period_select .= '<option value="'.$periods_RET[1]['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$periods_RET[1]['PERIOD_ID'])?' selected':'').">".$periods_RET[1]['TITLE'].'</option>';
 				if ( !isset($_REQUEST['period_id']))
 					$_REQUEST['period_id'] = $periods_RET['PERIOD_ID'];
 			}
 		}
 	}
 	else
-		$period_select .= '<option value="PERIOD"'.($_REQUEST['period_id']?' SELECTED':'').'>'._('By Period').'</option>';
+		$period_select .= '<option value="PERIOD"'.($_REQUEST['period_id']?' selected':'').'>'._('By Period').'</option>';
 	$period_select .= '</select>';
 	echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
 	DrawHeader(_('Timeframe').': '.PrepareDate($start_date,'_start').' '._('to').' '.PrepareDate($end_date,'_end').' : '.$period_select.' : <input type="submit" value="'._('Go').'" />');

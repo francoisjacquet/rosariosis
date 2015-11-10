@@ -23,9 +23,9 @@ DrawHeader(ProgramTitle());
 $categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,TITLE"));
 if ( $_REQUEST['table']=='')
 	$_REQUEST['table'] = '0';
-$category_select = "<select name=table onChange='ajaxPostForm(this.form,true);'><option value='0'".($_REQUEST['table']=='0'?' SELECTED':'').">"._('Attendance')."</option>";
+$category_select = "<select name=table onChange='ajaxPostForm(this.form,true);'><option value='0'".($_REQUEST['table']=='0'?' selected':'').">"._('Attendance')."</option>";
 foreach ( (array)$categories_RET as $category)
-	$category_select .= '<option value="'.$category[ID].'"'.(($_REQUEST['table']==$category['ID'])?' SELECTED':'').">".$category['TITLE']."</option>";
+	$category_select .= '<option value="'.$category[ID].'"'.(($_REQUEST['table']==$category['ID'])?' selected':'').">".$category['TITLE']."</option>";
 $category_select .= "</select>";
 
 $QI = DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE SYEAR=sp.SYEAR AND PERIOD_ID=sp.PERIOD_ID AND position(',$_REQUEST[table],' IN DOES_ATTENDANCE)>0) ORDER BY sp.SORT_ORDER");
@@ -33,7 +33,7 @@ $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
 $period_select = "<select name=period onChange='ajaxPostForm(this.form,true);'><option value=''>"._('All')."</option>";
 foreach ( (array)$periods_RET as $id => $period)
-	$period_select .= '<option value="'.$id.'"'.(($_REQUEST['period']==$id)?' SELECTED':'').">".$period[1]['TITLE']."</option>";
+	$period_select .= '<option value="'.$id.'"'.(($_REQUEST['period']==$id)?' selected':'').">".$period[1]['TITLE']."</option>";
 $period_select .= "</select>";
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';

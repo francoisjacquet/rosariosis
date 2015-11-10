@@ -71,14 +71,14 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 	
 	$type_select = '<span class="nobr">'._('Type').' <select name="type_select"><option value="">'._('Not Specified').'</option>';
 	foreach ( (array)$types as $short_name => $type)
-		$type_select .= '<option value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' SELECTED' : '').'>'.$type['DESCRIPTION'].'</option>';
+		$type_select .= '<option value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' selected' : '').'>'.$type['DESCRIPTION'].'</option>';
 	$type_select .= '</select></span>';
 
 	$staff_RET = DBGet(DBquery('SELECT STAFF_ID,FIRST_NAME||\' \'||LAST_NAME AS FULL_NAME FROM STAFF WHERE SYEAR=\''.UserSyear().'\' AND SCHOOLS LIKE \'%,'.UserSchool().',%\' AND PROFILE=\'admin\' ORDER BY LAST_NAME'));
 
 	$staff_select = '<span class="nobr">'._('User').' <select name=staff_select><option value="">'._('Not Specified').'</option>';
 	foreach ( (array)$staff_RET as $staff)
-		$staff_select .= '<option value="'.$staff['STAFF_ID'].'"'.($_REQUEST['staff_select']==$staff['STAFF_ID'] ? ' SELECTED' : '').'>'.$staff['FULL_NAME'].'</option>';
+		$staff_select .= '<option value="'.$staff['STAFF_ID'].'"'.($_REQUEST['staff_select']==$staff['STAFF_ID'] ? ' selected' : '').'>'.$staff['FULL_NAME'].'</option>';
 	$staff_select .= '</select></span>';
 
 	$PHP_tmp_SELF = PreparePHP_SELF();

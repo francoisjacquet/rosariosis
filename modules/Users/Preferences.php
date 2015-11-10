@@ -199,7 +199,7 @@ if (empty($_REQUEST['modfunc']))
 		$values = array('%B','%b','%m');
 
 		foreach ( (array)$values as $value)
-			echo '<option value="'.$value.'"'.((Preferences('MONTH')==$value)?' SELECTED':'').'>'.mb_convert_case(iconv('','UTF-8',strftime($value)), MB_CASE_TITLE, "UTF-8").'</option>';
+			echo '<option value="'.$value.'"'.((Preferences('MONTH')==$value)?' selected':'').'>'.mb_convert_case(iconv('','UTF-8',strftime($value)), MB_CASE_TITLE, "UTF-8").'</option>';
 
 		echo '</select>';
 
@@ -207,7 +207,7 @@ if (empty($_REQUEST['modfunc']))
 		$values = array('%d');
 
 		foreach ( (array)$values as $value)
-			echo '<option value="'.$value.'"'.((Preferences('DAY')==$value)?' SELECTED':'').'>'.strftime($value).'</option>';
+			echo '<option value="'.$value.'"'.((Preferences('DAY')==$value)?' selected':'').'>'.strftime($value).'</option>';
 
 		echo '</select>';
 
@@ -215,7 +215,7 @@ if (empty($_REQUEST['modfunc']))
 		$values = array('%Y','%y');
 
 		foreach ( (array)$values as $value)
-			echo '<option value="'.$value.'"'.((Preferences('YEAR')==$value || (!Preferences('YEAR') && !$value))?' SELECTED':'').'>'.strftime($value).'</option>';
+			echo '<option value="'.$value.'"'.((Preferences('YEAR')==$value || (!Preferences('YEAR') && !$value))?' selected':'').'>'.strftime($value).'</option>';
 
 		echo '</select>';
 

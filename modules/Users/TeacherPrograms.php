@@ -64,7 +64,7 @@ if (UserStaffID())
 			//if (UserCoursePeriod()==$period['COURSE_PERIOD_ID'])
 		if (UserCoursePeriodSchoolPeriod()==$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'])
 		{
-			$selected = ' SELECTED';
+			$selected = ' selected';
 			$_SESSION['UserPeriod'] = $period['PERIOD_ID'];
 			$found = true;
 		}

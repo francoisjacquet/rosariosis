@@ -252,7 +252,7 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 					echo '<select name=values[CATEGORY_'.$category['ID'].']><option value="">N/A';
 					foreach ( (array)$options as $option)
 					{
-						echo '<option value="'.str_replace('"','&quot;',$option).'"'.($RET['CATEGORY_'.$category['ID']]==str_replace('"','&quot;',$option)?' SELECTED':'').'>'.$option.'</option>';
+						echo '<option value="'.str_replace('"','&quot;',$option).'"'.($RET['CATEGORY_'.$category['ID']]==str_replace('"','&quot;',$option)?' selected':'').'>'.$option.'</option>';
 					}
 					*/
 				break;

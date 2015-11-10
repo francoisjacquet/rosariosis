@@ -55,7 +55,7 @@ foreach ( (array)$mps_RET as $mp )
     	|| $mp['MARKING_PERIOD_ID'] === UserMP() )
     {
         $mp_select .= '<option value="' . $mp['MARKING_PERIOD_ID'] . '"' .
-        	( $mp['MARKING_PERIOD_ID'] === $_REQUEST['mp'] ? ' SELECTED' : '' ) . '>' .
+        	( $mp['MARKING_PERIOD_ID'] === $_REQUEST['mp'] ? ' selected' : '' ) . '>' .
         	( $UserMPTitle = $mp['TITLE'] ) . '</option>';
 	}
 }

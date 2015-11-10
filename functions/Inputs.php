@@ -342,7 +342,7 @@ function SelectInput($value,$name,$title='',$options=array(),$allow_na='N/A',$ex
 			foreach ( (array)$options as $key => $val)
 			{
 				$key .= '';
-				$select .= '<option value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED':'').'>'.(is_array($val)?$val[0]:$val).'</option>';
+				$select .= '<option value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' selected':'').'>'.(is_array($val)?$val[0]:$val).'</option>';
 			}
 		}
 		$select .= '</select>';
@@ -402,7 +402,7 @@ function MLSelectInput($value,$name,$title='',$options,$allow_na='N/A',$extra=''
             foreach ( (array)$options as $key => $val)
             {
                 $key .= '';
-                $select .= '<option value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' SELECTED':'').'>'.(is_array($val)?ParseMLField($val[0], $locale):ParseMLField($val, $locale)).'</option>';
+                $select .= '<option value="'.htmlspecialchars($key,ENT_QUOTES).'"'.($value==$key && (!($value==false && $value!==$key) || ($value===0 && $key==='0'))?' selected':'').'>'.(is_array($val)?ParseMLField($val[0], $locale):ParseMLField($val, $locale)).'</option>';
             }
         }
         $select .= '</select>';

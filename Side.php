@@ -332,7 +332,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				<span class="br-after">
 					<select name="school" onChange="ajaxPostForm(this.form,true);">
 				<?php foreach ( (array)$RET as $school ) : ?>
-					<option value="<?php echo $school['ID']; ?>"<?php echo ( ( UserSchool() == $school['ID'] ) ? ' SELECTED' : '' ); ?>><?php
+					<option value="<?php echo $school['ID']; ?>"<?php echo ( ( UserSchool() == $school['ID'] ) ? ' selected' : '' ); ?>><?php
 						echo ( $school['SHORT_NAME'] ? $school['SHORT_NAME'] : $school['TITLE'] );
 					?></option>
 				<?php endforeach; ?>
@@ -363,7 +363,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				<span class="br-after">
 					<select name="student_id" onChange="ajaxPostForm(this.form,true);">
 				<?php foreach ( (array)$RET as $student ) : ?>
-					<option value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ( ( UserStudentID() == $student['STUDENT_ID'] ) ? ' SELECTED' : '' ); ?>><?php
+					<option value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ( ( UserStudentID() == $student['STUDENT_ID'] ) ? ' selected' : '' ); ?>><?php
 						echo $student['FULL_NAME'];
 					?></option>
 					<?php // set current School
@@ -417,7 +417,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			<span class="br-after">
 				<select name="syear" onChange="ajaxPostForm(this.form,true);">
 			<?php foreach ( (array)$years_RET as $year ) : ?>
-				<option value="<?php echo $year['SYEAR']; ?>"<?php echo ( ( UserSyear() == $year['SYEAR'] ) ? ' SELECTED' : '' ); ?>><?php
+				<option value="<?php echo $year['SYEAR']; ?>"<?php echo ( ( UserSyear() == $year['SYEAR'] ) ? ' selected' : '' ); ?>><?php
 					echo FormatSyear( $year['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 				?></option>
 			<?php endforeach; ?>
@@ -440,7 +440,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				$mp_array = array();
 
 				foreach ( $RET as $quarter ) : ?>
-					<option value="<?php echo $quarter['MARKING_PERIOD_ID']; ?>"<?php echo ( UserMP() == $quarter['MARKING_PERIOD_ID'] ? ' SELECTED' : '' ); ?>><?php
+					<option value="<?php echo $quarter['MARKING_PERIOD_ID']; ?>"<?php echo ( UserMP() == $quarter['MARKING_PERIOD_ID'] ? ' selected' : '' ); ?>><?php
 						echo $quarter['TITLE'];
 					?></option>
 				<?php $mp_array[] = $quarter['MARKING_PERIOD_ID'];
@@ -531,7 +531,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 					
 					if ( UserCoursePeriodSchoolPeriod() == $period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] )
 					{
-						$selected = ' SELECTED';
+						$selected = ' selected';
 
 						$_SESSION['UserPeriod'] = $period['PERIOD_ID'];
 

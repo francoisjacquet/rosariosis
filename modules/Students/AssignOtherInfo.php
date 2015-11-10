@@ -151,7 +151,7 @@ if (empty($_REQUEST['modfunc']))
 		echo '<option value="">' . _( 'All Categories' ) . '</option>';
 
 		foreach ( (array)$categories_RET as $category)
-			echo '<option value="'.$category['ID'].'"'.($_REQUEST['category_id']==$category['ID']?' SELECTED':'').'>'.ParseMLField($category['TITLE']).'</option>';
+			echo '<option value="'.$category['ID'].'"'.($_REQUEST['category_id']==$category['ID']?' selected':'').'>'.ParseMLField($category['TITLE']).'</option>';
 		echo '</select>';
 
 		echo '</div><table class="widefat cellspacing-0 center col1-align-right">';
