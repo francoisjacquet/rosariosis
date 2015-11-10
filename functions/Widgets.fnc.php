@@ -178,8 +178,6 @@ function Widgets( $item, &$myextra = null )
 				$extra['search'] .= $widget_wrap_footer;
 			}
 
-			$extra['search'] .= '</table></td></tr>';
-
 		break;
 
 		// User Widgets (configured in My Preferences)
@@ -197,12 +195,15 @@ function Widgets( $item, &$myextra = null )
 				) );
 
 			foreach ( (array)$widgets_RET as $widget )
+			{
 				Widgets( $widget['TITLE'], $extra );
+			}
 
 		break;
 
 		// Course Widget
 		case 'course':
+
 			if ( !$RosarioModules['Scheduling']
 				|| User( 'PROFILE' ) !== 'admin' )
 				break;
@@ -229,8 +230,10 @@ function Widgets( $item, &$myextra = null )
 							OR w_ss.END_DATE IS NULL)";
 
 					if ( !$extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Course' ) . ': </b>'.
 							$course[1]['COURSE_TITLE'] . '<br />';
+					}
 				}
 				// Course Period
 				else
@@ -252,14 +255,14 @@ function Widgets( $item, &$myextra = null )
 						AND cp.COURSE_PERIOD_ID='" . $_REQUEST['w_course_period_id'] . "'" ) );
 
 					if ( !$extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Course Period' ) . ': </b>' .
 							$course[1]['COURSE_TITLE'] . ': ' . $course[1]['TITLE'] . '<br />';
+					}
 				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Course' ) . '
-			</td><td>
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Course' ) . '</td><td>
 			<div id="course_div"></div> 
 			<a href="#" onclick=\'popups.open(
 					"Modules.php?modname=misc/ChooseCourse.php"
@@ -294,8 +297,10 @@ function Widgets( $item, &$myextra = null )
 						AND sr.COURSE_ID='" . $_REQUEST['request_course_id'] . "' ";
 
 					if ( !$extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Request' ) . ': </b>' .
 							$course[1]['TITLE'] . '<br />';
+					}
 				}
 				// Missing Request
 				else
@@ -308,8 +313,10 @@ function Widgets( $item, &$myextra = null )
 							AND sr.COURSE_ID='" . $_REQUEST['request_course_id'] . "' ) ";
 
 					if ( !$extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Missing Request' ) . ': </b>' .
 							$course[1]['TITLE'] . '<br />';
+					}
 				}
 			}
 
@@ -378,27 +385,27 @@ function Widgets( $item, &$myextra = null )
 				}
 
 				if ( !$extra['NoSearchTerms'] )
+				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Days Absent' ) . ' ' . $term . ' ' . _( 'Between' ) . ': </b>' .
 						$_REQUEST['absences_low'] . ' &amp; ' . $_REQUEST['absences_high'] . '<br />';
+				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' .
-			_( 'Days Absent' ) .
+			$extra['search'] .= '<tr class="st"><td>' .	_( 'Days Absent' ) .
 			'<br />
 			<label>
 				<input type="radio" name="absences_term" value="FY" checked />&nbsp;' .
 				_( 'YTD' ) .
-			'</label>&nbsp; 
+			'</label> &nbsp; 
 			<label>
 				<input type="radio" name="absences_term" value="SEM" />&nbsp;' .
 				GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) .
-			'</label>&nbsp; 
+			'</label> &nbsp; 
 			<label>
 				<input type="radio" name="absences_term" value="QTR" />&nbsp;' .
 				GetMP( UserMP(), 'SHORT_NAME' ) .
 			'</label>
-			</td><td>' .
-			_( 'Between' ) .
+			</td><td>' . _( 'Between' ) .
 			' <input type="text" name="absences_low" size="3" maxlength="5" /> &amp; ' .
 			'<input type="text" name="absences_high" size="3" maxlength="5" />
 			</td></tr>';
@@ -472,12 +479,15 @@ function Widgets( $item, &$myextra = null )
 				}
 
 				if ( !$extra['NoSearchTerms'] )
-					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Course Period Absences' ) . ' ' . $term . ' ' . _( 'Between' ) . ': </b>' .
-						$_REQUEST['cp_absences_low'] . ' &amp; ' . $_REQUEST['cp_absences_high'] . '<br />';
+				{
+					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Course Period Absences' ) . ' ' .
+						$term . ' ' . _( 'Between' ) . ': </b>' .
+						$_REQUEST['cp_absences_low'] . ' &amp; ' .
+						$_REQUEST['cp_absences_high'] . '<br />';
+				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>' .
-			_( 'Course Period Absences' ) .
+			$extra['search'] .= '<tr class="st"><td>' .	_( 'Course Period Absences' ) .
 			'<div class="tooltip"><i>' .
 				_( 'Use the Choose link of the Course widget (under Scheduling) to select a Course Period.' ) .
 			'</i></div>' .
@@ -485,17 +495,16 @@ function Widgets( $item, &$myextra = null )
 			<label>
 				<input type="radio" name="cp_absences_term" value="FY" checked />&nbsp;' .
 				_( 'YTD' ) .
-			'</label>&nbsp; 
+			'</label> &nbsp; 
 			<label>
 				<input type="radio" name="cp_absences_term" value="SEM" />&nbsp;' .
 				GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) .
-			'</label>&nbsp; 
+			'</label> &nbsp; 
 			<label>
 				<input type="radio" name="cp_absences_term" value="QTR" />&nbsp;' .
 				GetMP( UserMP(), 'SHORT_NAME' ) .
 			'</label>
-			</td><td>' .
-			_( 'Between' ) .
+			</td><td>' . _( 'Between' ) .
 			' <input type="text" name="cp_absences_low" size="3" maxlength="5" /> &amp;' .
 			' <input type="text" name="cp_absences_high" size="3" maxlength="5" />
 			</td></tr>';
@@ -542,20 +551,19 @@ function Widgets( $item, &$myextra = null )
 					BETWEEN '" . $_REQUEST['gpa_low'] . "' AND '" . $_REQUEST['gpa_high'] . "'";
 
 				if ( !$extra['NoSearchTerms'] )
+				{
 					$_ROSARIO['SearchTerms'] .= '<b>' .
 						( ( $_REQUEST['gpa_weighted'] == 'Y' ) ?
 							_( 'Weighted GPA' ) :
 							_( 'Unweighted GPA' ) ) .
 						' ' . _( 'Between' ) . ': </b>' .
 						$_REQUEST['gpa_low'] . ' &amp; ' . $_REQUEST['gpa_high'] . '<br />';
+				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'GPA' ) . '
-			<br />
+			$extra['search'] .= '<tr class="st"><td>' . _( 'GPA' ) . '<br />
 			<label>
-				<input type="checkbox" name="weighted" value="Y">&nbsp;' .
-				_( 'Weighted' ) .
+				<input type="checkbox" name="weighted" value="Y">&nbsp;' . _( 'Weighted' ) .
 			'</label>
 			<br />';
 
@@ -572,13 +580,14 @@ function Widgets( $item, &$myextra = null )
 					'</label> &nbsp;';
 
 			if ( GetMP( $MPtrim = UserMP(), 'DOES_GRADES' ) == 'Y' )
+			{
 				$extra['search'] .= '<label>
 						<input type="radio" name="gpa_term" value="' . $MPtrim . '" checked />&nbsp;' .
 						GetMP( $MPtrim, 'SHORT_NAME' ) .
 					'</label>';
+			}
 
-			$extra['search'] .= '</td><td>
-			' . _( 'Between' ) .
+			$extra['search'] .= '</td><td>' . _( 'Between' ) .
 			' <input type="text" name="gpa_low" size="3" maxlength="5" /> &amp;' .
 			' <input type="text" name="gpa_high" size="3" maxlength="5" />
 			</td></tr>';
@@ -614,41 +623,49 @@ function Widgets( $item, &$myextra = null )
 					AND '" . $_REQUEST['class_rank_high'] . "'";
 
 				if ( !$extra['NoSearchTerms'] )
+				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Class Rank' ) . ' ' . _( 'Between' ) . ': </b>' .
 						$_REQUEST['class_rank_low'] . ' &amp; ' . $_REQUEST['class_rank_high'] . '<br />';
+				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Class Rank' ) . '
-			<br />';
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Class Rank' ) . '<br />';
 
 			if ( GetMP( $MPfy = GetParentMP( 'FY', GetParentMP( 'SEM', UserMP() ) ), 'DOES_GRADES' ) == 'Y' )
+			{
 				$extra['search'] .= '<label>
 						<input type="radio" name="class_rank_term" value="' . $MPfy . '">&nbsp;' .
 						GetMP( $MPfy, 'SHORT_NAME' ) .
 					'</label>&nbsp; ';
+			}
 
 			if ( GetMP( $MPsem = GetParentMP( 'SEM', UserMP() ), 'DOES_GRADES' ) == 'Y' )
+			{
 				$extra['search'] .= '<label>
 						<input type="radio" name="class_rank_term" value="' . $MPsem . '">&nbsp;' .
 						GetMP( $MPsem, 'SHORT_NAME' ) .
 					'</label> &nbsp; ';
+			}
 
 			if ( GetMP( $MPtrim = UserMP(), 'DOES_GRADES' ) == 'Y' )
+			{
 				$extra['search'] .= '<label>
 						<input type="radio" name="class_rank_term" value="' . $MPtrim . '" checked />&nbsp;' .
 						GetMP( $MPtrim, 'SHORT_NAME' ) .
 					'</label>';
+			}
 
 			if ( mb_strlen( $pros = GetChildrenMP( 'PRO', UserMP() ) ) )
 			{
 				$pros = explode( ',', str_replace( "'", '', $pros ) );
 
 				foreach ( (array)$pros as $pro )
+				{
 					$extra['search'] .= '<label>
 							<input type="radio" name="class_rank_term" value="' . $pro . '">&nbsp;' .
 							GetMP( $pro, 'SHORT_NAME' ) .
 						'</label> &nbsp;';
+				}
 			}
 
 			$extra['search'] .= '</td><td>
@@ -698,17 +715,15 @@ function Widgets( $item, &$myextra = null )
 						AND sg3.MARKING_PERIOD_ID='" . $_REQUEST['letter_grade_term'] . "' )";
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Grade' ) . '
-			<br />
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Grade' ) . '<br />
 			<label>
-				<input type="checkbox" name="letter_grade_exclude" value="Y">&nbsp;' . _( 'Did not receive' ) .
+				<input type="checkbox" name="letter_grade_exclude" value="Y" />&nbsp;' . _( 'Did not receive' ) .
 			'</label>
 			<br />
 			<label class="nobr">
 				<input type="radio" name="letter_grade_term" value="' . GetParentMP( 'SEM', UserMP() ) . '" />&nbsp;' .
 				GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) .
-			'</label>&nbsp;
+			'</label> &nbsp;
 			<label class="nobr">
 				<input type="radio" name="letter_grade_term" value="' . UserMP() . '" />&nbsp;' .
 				GetMP( UserMP(), 'SHORT_NAME' ) .
@@ -719,10 +734,12 @@ function Widgets( $item, &$myextra = null )
 				$pros = explode( ',', str_replace( "'", '', $pros ) );
 
 				foreach ( (array)$pros as $pro )
+				{
 					$extra['search'] .= '<label class="nobr">
 							<input type="radio" name="letter_grade_term" value="' . $pro . '" />&nbsp;' .
 							GetMP( $pro, 'SHORT_NAME' ) .
-						'</label>&nbsp;';
+						'</label> &nbsp;';
+				}
 			}
 
 			$extra['search'] .= '</td><td>';
@@ -751,11 +768,16 @@ function Widgets( $item, &$myextra = null )
 					foreach ( (array)$grades as $grade )
 					{
 						$extra['search'] .= '<label>
-								<input type="checkbox" value="Y" name="letter_grade[' . $grade['ID'] . ']" />' .
+								<input type="checkbox" value="Y" name="letter_grade[' . $grade['ID'] . ']" />&nbsp;' .
 								$grade['TITLE'] .
-							'</label>&nbsp; ';
+							'</label> &nbsp; ';
 
 						$i++;
+
+						if ( $i%6 === 0 )
+						{
+							$extra['search'] .= '<br /><br />';
+						}
 					}
 				}
 			}
@@ -819,15 +841,16 @@ function Widgets( $item, &$myextra = null )
 					AND e.ELIGIBILITY_CODE='FAILING') > '0'";
 
 				if ( !$extra['NoSearchTerms'] )
+				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Eligibility' ) . ': </b>' .
 						_( 'Ineligible' ) . '<br />';
+				}
 			}
 
 			$extra['search'] .= '<tr class="st"><td>
 			</td><td>
 			<label>
-				<input type="checkbox" name="ineligible" value="Y" />&nbsp;' .
-				_( 'Ineligible' ) .
+				<input type="checkbox" name="ineligible" value="Y" />&nbsp;' . _( 'Ineligible' ) .
 			'</label>
 			</td></tr>';
 
@@ -857,16 +880,20 @@ function Widgets( $item, &$myextra = null )
 			}
 
 			if ( !$_REQUEST['search_modfunc'] )
+			{
 				$activities_RET = DBGet( DBQuery( "SELECT ID,TITLE
 					FROM ELIGIBILITY_ACTIVITIES
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'" ) );
+			}
 
 			$select = '<select name="activity_id">
 				<option value="">' . _( 'Not Specified' ) . '</option>';
 
 			foreach ( (array)$activities_RET as $activity )
+			{
 				$select .= '<option value="' . $activity['ID'] . '">' . $activity['TITLE'] . '</option>';
+			}
 
 			$select .= '</select>';
 
@@ -934,14 +961,14 @@ function Widgets( $item, &$myextra = null )
 					AND '" . $_REQUEST['balance_high'] . "' ";
 
 				if ( !$extra['NoSearchTerms'] )
+				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Student Billing Balance' ) . ' ' . _( 'Between' ) .': </b>' .
 						$_REQUEST['balance_low'] . ' &amp; ' .
 						$_REQUEST['balance_high'] . '<br />';
+				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Balance' ) . '
-			</td><td>
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Balance' ) . '</td><td>
 			' . _( 'Between' ) .
 			' <input type="text" name="balance_low" size="5" maxlength="10" /> &amp;' .
 			' <input type="text" name="balance_high" size="5" maxlength="10" />
@@ -992,7 +1019,7 @@ function Widgets( $item, &$myextra = null )
 
 			foreach ( (array)$users_RET as $id => $user )
 			{
-				$extra['search'] .= '<option value="' . $id . '"">' .
+				$extra['search'] .= '<option value="' . $id . '">' .
 						$user[1]['LAST_NAME'] . ', ' .
 						$user[1]['FIRST_NAME'] . ' ' .
 						$user[1]['MIDDLE_NAME'] .
@@ -1056,30 +1083,34 @@ function Widgets( $item, &$myextra = null )
 					"' AND '" . $discipline_entry_end . "' ";
 
 				if ( !$extra['NoSearchTerms'] )
+				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Incident Date' ) . ' ' . _( 'Between' ) . ': </b>' .
 						ProperDate( $discipline_entry_begin ) . ' &amp; ' .
 						ProperDate( $discipline_entry_end ) . '<br />';
+				}
 			}
 			elseif ( $discipline_entry_begin )
 			{
 				$extra['WHERE'] .= " AND dr.ENTRY_DATE>='" . $discipline_entry_begin . "' ";
 
 				if ( !$extra['NoSearchTerms'] )
+				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Incident Date' ) . ' ' . _( 'On or After' ) . ' </b>' .
 						ProperDate( $discipline_entry_begin ) . '<br />';
+				}
 			}
 			elseif ( $discipline_entry_end )
 			{
 				$extra['WHERE'] .= " AND dr.ENTRY_DATE<='" . $discipline_entry_end . "' ";
 
 				if ( !$extra['NoSearchTerms'] )
+				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Incident Date' ) . ' ' . _( 'On or Before' ) . ' </b>' .
 						ProperDate( $discipline_entry_end ) . '<br />';
+				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Incident Date' ) . '
-			</td><td>
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Incident Date' ) . '</td><td>
 			<table class="cellspacing-0"><tr><td>
 			<span class="sizep2">&ge;</span>&nbsp;
 			</td><td>
@@ -1107,10 +1138,12 @@ function Widgets( $item, &$myextra = null )
 				$size = sizeOf( $key );
 
 				for ( $i = 0; $i < $size; $i++ )
+				{
 					if ( !( $_REQUEST['discipline'][$key[$i]] ) )
 					{
 						unset( $_REQUEST['discipline'][$key[$i]] );
 					}
+				}
 
 				/*foreach ( (array)$_REQUEST['discipline'] as $key => $value)
 				{
@@ -1198,8 +1231,10 @@ function Widgets( $item, &$myextra = null )
 								" LIKE '" . $_REQUEST['discipline'][$category['ID']] . "%' ";
 
 							if ( !$extra['NoSearchTerms'] )
+							{
 								$_ROSARIO['SearchTerms'] .= '<b>' . $category['TITLE'] . ': </b> ' .
 									$_REQUEST['discipline'][$category['ID']] . '<br />';
+							}
 						}
 
 					break;
@@ -1213,7 +1248,9 @@ function Widgets( $item, &$myextra = null )
 							$extra['WHERE'] .= " AND dr.CATEGORY_" . $category['ID'] . " = 'Y' ";
 
 							if ( !$extra['NoSearchTerms'] )
+							{
 								$_ROSARIO['SearchTerms'] .= '<b>' . $category['TITLE'] . '</b><br />';
+							}
 
 						}
 
@@ -1232,9 +1269,11 @@ function Widgets( $item, &$myextra = null )
 								"' AND '" . $_REQUEST['discipline_end'][$category['ID']] . "' ";
 
 							if ( !$extra['NoSearchTerms'] )
+							{
 								$_ROSARIO['SearchTerms'] .= '<b>' . $category['TITLE'] . ' ' . _('Between') . ': </b>' .
 									$_REQUEST['discipline_begin'][$category['ID']] . ' &amp; ' .
 									$_REQUEST['discipline_end'][$category['ID']].'<br />';
+							}
 						}
 
 					break;
@@ -1249,7 +1288,9 @@ function Widgets( $item, &$myextra = null )
 							<option value="">' . _( 'N/A' ) . '</option>';
 
 						foreach ( (array)$category['SELECT_OPTIONS'] as $option )
+						{
 							$extra['search'] .= '<option value="' . $option . '">' . $option . '</option>';
+						}
 
 						$extra['search'] .= '</select>';
 
@@ -1267,9 +1308,11 @@ function Widgets( $item, &$myextra = null )
 									" LIKE '%||" . $_REQUEST['discipline'][$category['ID']] . "||%' ";
 							}
 
-							if( !$extra['NoSearchTerms'] )
+							if ( !$extra['NoSearchTerms'] )
+							{
 								$_ROSARIO['SearchTerms'] .= '<b>' . $category['TITLE'] . ': </b>' .
 									$_REQUEST['discipline'][$category['ID']] . '<br />';
+							}
 						}
 
 					break;
@@ -1314,17 +1357,19 @@ function Widgets( $item, &$myextra = null )
 				}
 
 				if ( !$extra['NoSearchTerms'] )
+				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Next Year' ) . ': </b>' .
 						$next_year_options[$_REQUEST['next_year']] . '<br />';
+				}
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			'._('Next Year').'
-			</td><td>
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Next Year' ) . '</td><td>
 			<select name="next_year">';
 
 			foreach ( (array)$next_year_options as $id => $option )
-				$extra['search'] .= '<option value="' . $id . '"">' . $option . '</option>';
+			{
+				$extra['search'] .= '<option value="' . $id . '">' . $option . '</option>';
+			}
 
 			$extra['search'] .= '</select></td></tr>';
 
@@ -1367,9 +1412,7 @@ function Widgets( $item, &$myextra = null )
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Calendar' ) . ': </b>' . $text_not . '<br />';
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Calendar' ) . '
-			</td><td>
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Calendar' ) . '</td><td>
 			<label>
 				<input type="checkbox" name="calendar_not" value="Y" /> ' . _( 'Not' ) .
 			'</label>
@@ -1445,9 +1488,7 @@ function Widgets( $item, &$myextra = null )
 						ProperDate( $_REQUEST['enrolled_end'] ) . '<br />';
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Attendance Start' ) . '
-			</td><td>
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Attendance Start' ) . '</td><td>
 			<table class="cellspacing-0"><tr><td class="sizep2">
 			&ge;
 			</td><td>
@@ -1480,15 +1521,13 @@ function Widgets( $item, &$myextra = null )
 						( $_REQUEST['rolled'] == 'Y' ? _( 'Yes' ) : _( 'No' ) ) . '<br />';
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Previously Enrolled' ) . '
-			</td><td>
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Previously Enrolled' ) . '</td><td>
 			<label>
 				<input type="radio" value="" name="rolled" checked />&nbsp;' . _( 'N/A' ) .
-			'</label>&nbsp; 
+			'</label> &nbsp; 
 			<label>
 				<input type="radio" value="Y" name="rolled" />&nbsp;' . _( 'Yes' ) .
-			'</label>&nbsp; 
+			'</label> &nbsp; 
 			<label>
 				<input type="radio" value="N" name="rolled" />&nbsp;' . _( 'No' ) .
 			'</label>
@@ -1527,9 +1566,7 @@ function Widgets( $item, &$myextra = null )
 						number_format( $_REQUEST['fsa_balance'], 2 ) . '<br />';
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Balance' ) . '
-			</td><td>
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Balance' ) . '</td><td>
 			<table class="cellspacing-0"><tr><td>
 			<label class="sizep2">&lt; <input type="radio" name="fsa_bal_ge" value="" checked /></label>
 			</td><td rowspan="2">
@@ -1566,9 +1603,7 @@ function Widgets( $item, &$myextra = null )
 						_( $_REQUEST['fsa_discount'] ) . '<br />';
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Discount' ) . '
-			</td><td>
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Discount' ) . '</td><td>
 			<select name="fsa_discount">
 			<option value="">' . _( 'Not Specified' ) . '</option>
 			<option value="Full">' . _( 'Full' ) . '</option>
@@ -1610,9 +1645,7 @@ function Widgets( $item, &$myextra = null )
 						_( $_REQUEST['fsa_status'] ) . '<br />';
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Account Status' ) . '
-			</td><td>
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Account Status' ) . '</td><td>
 			<select name="fsa_status">
 			<option value="">' . _( 'Not Specified' ) . '</option>
 			<option value="Active"' . ( $value == 'active' ? ' SELECTED' : '' ) . '>' . _( 'Active' ) . '</option>
@@ -1676,9 +1709,7 @@ function Widgets( $item, &$myextra = null )
 						( $_REQUEST['fsa_account_id'] + 0 ) . '<br />';
 			}
 
-			$extra['search'] .= '<tr class="st"><td>
-			' . _( 'Account ID' ) . '
-			</td><td>
+			$extra['search'] .= '<tr class="st"><td>' . _( 'Account ID' ) . '</td><td>
 			<input type="text" name="fsa_account_id" size="3" maxlength="10" />
 			</td></tr>';
 
