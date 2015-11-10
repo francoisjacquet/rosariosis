@@ -477,9 +477,10 @@ function Widgets( $item, &$myextra = null )
 			}
 
 			$extra['search'] .= '<tr class="st"><td>' .
-			'<span style="cursor: help;" title="' .
-			_( 'Use the Choose link of the Course widget (under Scheduling) to select a Course Period.' ) .
-			'">' . _( 'Course Period Absences' ) . '*</span>' .
+			_( 'Course Period Absences' ) .
+			'<div class="tooltip"><i>' .
+				_( 'Use the Choose link of the Course widget (under Scheduling) to select a Course Period.' ) .
+			'</i></div>' .
 			'<br />
 			<label>
 				<input type="radio" name="cp_absences_term" value="FY" checked />&nbsp;' .

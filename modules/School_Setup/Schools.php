@@ -184,10 +184,27 @@ if (empty($_REQUEST['modfunc']))
 
 	echo '<tr><td colspan="3">'.TextInput($schooldata['REPORTING_GP_SCALE'],'values[REPORTING_GP_SCALE]',(!$schooldata['REPORTING_GP_SCALE']?'<span class="legend-red">':'')._('Base Grading Scale').(!$schooldata['TITLE']?'</span>':''),'maxlength=10 required').'</td></tr>';
 
-	if (AllowEdit())
-		echo '<tr><td colspan="3">'.TextInput($schooldata['NUMBER_DAYS_ROTATION'],'values[NUMBER_DAYS_ROTATION]','<span style="cursor:help" class="legend-gray" title="'._('Leave the field blank if the school does not use a Rotation of Numbered Days').'">'._('Number of Days for the Rotation').'*</span>','maxlength=1 size=1 min=1').'</td></tr>';
-	elseif ( !empty($schooldata['NUMBER_DAYS_ROTATION'])) //do not show if no rotation set
-		echo '<tr><td colspan="3">'.TextInput($schooldata['NUMBER_DAYS_ROTATION'],'values[NUMBER_DAYS_ROTATION]',_('Number of Days for the Rotation'),'maxlength=1 size=1 min=1').'</td></tr>';
+	if ( AllowEdit() )
+	{
+		echo '<tr><td colspan="3">' . TextInput(
+			$schooldata['NUMBER_DAYS_ROTATION'],
+			'values[NUMBER_DAYS_ROTATION]',
+			_('Number of Days for the Rotation' ) .
+				'<div class="tooltip"><i>' .
+				_( 'Leave the field blank if the school does not use a Rotation of Numbered Days' ) .
+				'</i></div>',
+			'maxlength=1 size=1 min=1'
+		) . '</td></tr>';
+	}
+	elseif ( !empty( $schooldata['NUMBER_DAYS_ROTATION'] ) ) //do not show if no rotation set
+	{
+		echo '<tr><td colspan="3">' . TextInput(
+			$schooldata['NUMBER_DAYS_ROTATION'],
+			'values[NUMBER_DAYS_ROTATION]',
+			_( 'Number of Days for the Rotation' ),
+			'maxlength=1 size=1 min=1'
+		) . '</td></tr>';
+	}
 
 	//FJ add School Fields
 	$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,DEFAULT_SELECTION,REQUIRED FROM SCHOOL_FIELDS ORDER BY SORT_ORDER,TITLE"));

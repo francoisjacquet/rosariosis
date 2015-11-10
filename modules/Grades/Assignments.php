@@ -355,7 +355,16 @@ if (empty($_REQUEST['modfunc']))
 		//FJ default points
 		if ( $RET['DEFAULT_POINTS']=='-1')
 			$RET['DEFAULT_POINTS'] = '*';
-		$header .= '<td>' . TextInput($RET['DEFAULT_POINTS'],'tables['.$_REQUEST['assignment_id'].'][DEFAULT_POINTS]','<span class="legend-gray" title="'._('Enter an asterisk (*) to excuse student').'" style="cursor:help">'._('Default Points').'*</span>',' size=4 maxlength=4') . '</td>';
+
+		$header .= '<td>' . TextInput(
+			$RET['DEFAULT_POINTS'],
+			'tables[' . $_REQUEST['assignment_id'] . '][DEFAULT_POINTS]',
+			_( 'Default Points' ) .
+				'<div class="tooltip"><i>' .
+					_( 'Enter an asterisk (*) to excuse student' ) .
+				'</i></div>',
+			' size=4 maxlength=4'
+		) . '</td>';
 
 		$header .= '</tr><tr class="st">';
 

@@ -216,7 +216,16 @@ if (empty($_REQUEST['modfunc']))
 			$functions['ASSIGNMENT_TYPE_ID'] = '_makeAssnInput';
 		$LO_ret = DBGet(DBQuery($sql),$functions);
 
-		$LO_columns = array('TITLE' => _('Title'),'POINTS' => _('Points'),'DEFAULT_POINTS' => '<span title="'._('Enter an asterisk (*) to excuse student').'" style="cursor:help">'._('Default Points').'*</span>','ASSIGNED_DATE' => _('Assigned Date'),'DUE_DATE' => _('Due Date'),'COURSE_ID' => _('All'),'DESCRIPTION' => _('Description'));
+		$LO_columns = array(
+			'TITLE' => _( 'Title' ),
+			'POINTS' => _( 'Points' ),
+			'DEFAULT_POINTS' => _( 'Default Points' ) .
+				'<div class="tooltip"><i>' . _( 'Enter an asterisk (*) to excuse student' ) . '</i></div>',
+			'ASSIGNED_DATE' => _( 'Assigned Date' ),
+			'DUE_DATE' => _( 'Due Date' ),
+			'COURSE_ID' => _( 'All' ),
+			'DESCRIPTION' => _( 'Description' )
+		);
 
 		if ( $_REQUEST['allow_edit']=='Y' || !$_REQUEST['tab_id'])
 			$LO_columns += array('ASSIGNMENT_TYPE_ID' => _('Type'));

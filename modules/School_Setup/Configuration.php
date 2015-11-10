@@ -133,9 +133,31 @@ else
 		//FJ add Registration to Configuration
 		echo '<tr><td><fieldset><legend>'._('Registration').'</legend><table>';
 
-		echo '<tr><td>'.CheckboxInput(Config('CREATE_USER_ACCOUNT'), 'values[CONFIG][CREATE_USER_ACCOUNT]', '<span style="cursor:help" title="'._('New users will be added with the No Access profile').'">'._('Create User Account').'*</span>', '', false, button('check'), button('x')).'</td></tr>';
+		echo '<tr><td>' . CheckboxInput(
+			Config('CREATE_USER_ACCOUNT'),
+			'values[CONFIG][CREATE_USER_ACCOUNT]',
+			_( 'Create User Account' ) .
+				'<div class="tooltip"><i>' .
+					_('New users will be added with the No Access profile' ) .
+				'</i></div>',
+			'',
+			false,
+			button( 'check' ),
+			button( 'x' )
+		) . '</td></tr>';
 
-		echo '<tr><td>'.CheckboxInput(Config('CREATE_STUDENT_ACCOUNT'), 'values[CONFIG][CREATE_STUDENT_ACCOUNT]', '<span style="cursor:help" title="'._('New students will be added as Inactive students').'">'._('Create Student Account').'*</span>', '', false, button('check'), button('x')).'</td></tr>';
+		echo '<tr><td>' . CheckboxInput(
+			Config( 'CREATE_STUDENT_ACCOUNT' ),
+			'values[CONFIG][CREATE_STUDENT_ACCOUNT]',
+			_( 'Create Student Account' ) .
+				'<div class="tooltip"><i>' .
+					_( 'New students will be added as Inactive students' ) .
+				'</i></div>',
+			'',
+			false,
+			button( 'check' ),
+			button( 'x' )
+		) . '</td></tr>';
 
 		echo '</td></tr></table></fieldset>';
 
@@ -255,19 +277,23 @@ else
 
 			echo '<tr><td>'.TextInput(Config('ATTENDANCE_FULL_DAY_MINUTES'),'values[CONFIG][ATTENDANCE_FULL_DAY_MINUTES]',_('Minutes in a Full School Day'),'maxlength=3 size=3 min=0').'</td></tr>';
 
-			echo '<tr><td>'.TextInput(
+			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' ),
 				'values[PROGRAM_CONFIG][ATTENDANCE_EDIT_DAYS_BEFORE]',
-				'<span style="cursor:help" class="legend-gray" title="' . _( 'Leave the field blank to always allow' ) . '">' .
-					_( 'Number of days before the school date teachers can edit attendance' ) . '*</span>',
+				_( 'Number of days before the school date teachers can edit attendance' ) .
+					'<div class="tooltip"><i>' .
+						_( 'Leave the field blank to always allow' ) .
+					'</i></div>',
 				'maxlength=2 size=2 min=0'
 			) . '</td></tr>';
 
-			echo '<tr><td>'.TextInput(
+			echo '<tr><td>' . TextInput(
 				ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER' ),
 				'values[PROGRAM_CONFIG][ATTENDANCE_EDIT_DAYS_AFTER]',
-				'<span style="cursor:help" class="legend-gray" title="' . _( 'Leave the field blank to always allow' ) . '">' .
-					_( 'Number of days after the school date teachers can edit attendance' ) . '*</span>',
+				_( 'Number of days after the school date teachers can edit attendance' ) .
+					'<div class="tooltip"><i>' .
+						_( 'Leave the field blank to always allow' ) .
+					'</i></div>',
 				'maxlength=2 size=2 min=0'
 			) . '</td></tr>';
 

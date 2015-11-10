@@ -367,7 +367,7 @@ label{
 	margin-top:5px;
 	font-weight:bold;
 }
-.widefat th,.widefat td{
+.widefat th/*,.widefat td*/{
 	overflow:hidden
 }
 .widefat th{
@@ -830,6 +830,45 @@ table.mceLayout,textarea.tinymce{
 	z-index:1000;
 	top:-100px;
 	max-width:300px
+}
+
+/* Tooltip */
+.tooltip{
+	position:relative;
+	display:inline-block;
+	color:#fff;
+	margin-left:5px;
+	cursor:help
+}
+.tooltip:before{
+	background:#27b4b4;
+	content:"i";
+	font-family:monospace;
+	font-size:0.8em;
+	font-weight:bold;
+	padding:2px 5px;
+	border-radius:50%;
+}
+.tooltip > i{
+	visibility:hidden;
+	opacity:0;
+	position:absolute;
+	bottom:150%;
+	left:-100px;
+	width:200px;
+	z-index:999999;
+	background:#444;
+	display:inline-block;
+	padding:3px 6px;
+	border-radius:3px;
+	transition:all .3s ease-in-out;
+	text-align:left;
+	font-size:0.9em;
+	line-height:1.5
+}
+.tooltip:hover > i{
+	visibility:visible;
+	opacity:1
 }
 
 /*wkhtmltopdf code*/

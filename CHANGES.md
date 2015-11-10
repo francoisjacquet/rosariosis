@@ -43,6 +43,7 @@ Changes in 2.9
 - Move (Staff)Widgets(), append(Staff)SQL() & CustomFields() functions calls inside GetStaffList() & GetStuList()
 - Add popups JS functions to close all popups when Opener AJAX in warehouse.js
 - Move Popup window detection to isPopup() for reuse in Warehouse.php
+- Add .tooltip CSS class for Tooltips display in stylesheet.css
 
 Changes in 2.8.11
 -----------------

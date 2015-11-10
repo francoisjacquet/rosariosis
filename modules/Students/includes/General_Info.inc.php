@@ -27,7 +27,7 @@ if ( $_REQUEST['student_id']!='new' && ($file = @fopen($picture_path=$StudentPic
 <?php endif;
 // END IMAGE
 
-echo '</td><td>';
+echo '</td><td colspan="2">';
 
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 //FJ Moodle integrator
@@ -66,7 +66,7 @@ if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 else
 	echo ($student['FIRST_NAME']!=''||$student['MIDDLE_NAME']!=''||$student['LAST_NAME']!=''||$student['NAME_SUFFIX']!=''?$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX']:'-').'<br /><span class="legend-gray">'._('Name').'</span>';
 
-echo '</td><td colspan="2">';
+echo '</td><td>';
 
 if ( $_REQUEST['student_id']=='new')
 	echo TextInput('','assign_student_id',sprintf(_('%s ID'),Config('NAME')),'maxlength=10 size=10');
@@ -89,7 +89,22 @@ echo '</td><td>';
 $required = $required;
 $legend_red = $required && !$student['PASSWORD'];
 
-echo TextInput((!$student['PASSWORD'] || $_REQUEST['moodle_create_student'] ?'':str_repeat('*',8)),'students[PASSWORD]',($legend_red ? '<span class="legend-red">':'<span class="legend-gray">').($_REQUEST['moodle_create_student'] || $old_student_in_moodle?'<span style="cursor:help" title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'">':'')._('Password').($_REQUEST['moodle_create_student'] || $old_student_in_moodle?'*</span>':'').'</span>','autocomplete=off'.($required ? ' required' : ''), ($_REQUEST['moodle_create_student'] ? false : true));
+echo TextInput(
+	( !$student['PASSWORD']
+		|| $_REQUEST['moodle_create_student'] ? '' : str_repeat( '*', 8 ) ),
+	'students[PASSWORD]',
+	( $legend_red ? '<span class="legend-red">' : '<span class="legend-gray">' ) .
+		_( 'Password' ) .
+		( $_REQUEST['moodle_create_student']
+			|| $old_student_in_moodle ?
+		'<div class="tooltip"><i>' .
+			_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
+		'</i></div>' :
+		'' ) .
+		'</span>',
+	'autocomplete=off' . ( $required ? ' required' : '' ),
+	( $_REQUEST['moodle_create_student'] ? false : true )
+);
 
 echo '</td><td>';
 

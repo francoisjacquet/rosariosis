@@ -250,7 +250,18 @@ if (empty($_REQUEST['modfunc']))
 	{
 //FJ password fields are required
 //FJ Moodle integrator / password
-		echo '<table><tr class="st"><td><span class="legend-gray">'._('Current Password').'</span></td><td><input type="password" name="values[current]" required></td></tr><tr class="st"><td><span class="legend-gray">'.($RosarioPlugins['Moodle']?'<span title="'._('The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character').'" style="cursor:help">':'')._('New Password').($RosarioPlugins['Moodle']?'*</span>':'').'</span></td><td><input type="password" name="values[verify]" required></td></tr><tr class="st"><td><span class="legend-gray">'._('Verify New Password').'</span></td><td><input type="password" name="values[new]" required></td></tr></table>';
+		echo '<table><tr class="st"><td><span class="legend-gray">' . _( 'Current Password' ) . '</span></td>
+			<td><input type="password" name="values[current]" required /></td></tr>
+			<tr class="st"><td><span class="legend-gray">' . _( 'New Password' ) .
+				( $RosarioPlugins['Moodle'] ?
+				'<div class="tooltip"><i>' .
+					_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
+				'</i></div>' :
+				''
+				) .	'</span></td>
+			<td><input type="password" name="values[verify]" required /></td></tr>
+			<tr class="st"><td><span class="legend-gray">' . _( 'Verify New Password' ) . '</span></td>
+			<td><input type="password" name="values[new]" required /></td></tr></table>';
 	}
 
 	if ( $_REQUEST['tab']=='student_fields')

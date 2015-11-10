@@ -186,7 +186,8 @@ if ( $_REQUEST['modfunc'] === 'create'
 	$message .= TextInput(
 		( $_REQUEST['calendar_id'] ? $title_RET[$default_id]['MINUTES'] : '' ),
 		'minutes',
-		'<span class="legend-gray" title="' . $minutes_tip_text . '" style="cursor:help">' . _( 'Minutes' ) . '*</span>',
+		_( 'Minutes' ) .
+			'<div class="tooltip"><i>' . $minutes_tip_text . '</i></div>',
 		'size="3" maxlength="3"',
 		$div
 	);
