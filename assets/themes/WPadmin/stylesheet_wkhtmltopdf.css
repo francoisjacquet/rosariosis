@@ -449,7 +449,7 @@ h3 span{
 .hide{
 	display:none
 }
-#studentImg, #userImg{
+.user-photo{
 	max-width:150px;
 	max-height:150px
 }

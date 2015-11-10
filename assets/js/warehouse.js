@@ -20,6 +20,12 @@ function switchMenu(el) {
 	$(el).toggleClass('switched');
 }
 
+// Toggle user photo & upload form
+function switchUserPhoto() {
+	$('.user-photo-form,.user-photo').toggle();
+	return false;
+}
+
 //IE8 HTML5 tags fix
 var tags = 'article|aside|footer|header|hgroup|nav|section'.split('|'),
 	i = 0,

@@ -451,7 +451,7 @@ h3 span{
 .hide{
 	display:none
 }
-#studentImg, #userImg{
+.user-photo{
 	max-width:150px;
 	max-height:150px
 }
@@ -934,9 +934,6 @@ table.mceLayout,textarea.tinymce{
 	}
 	#modulesBody textarea{
 		width:100% !important
-	}
-	td.popTable{
-		padding:2px
 	}
 	tr.address > td{
 		border-style:none none dotted none;

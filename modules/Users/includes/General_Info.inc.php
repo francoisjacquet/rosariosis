@@ -4,26 +4,18 @@ echo '<tr class="st"><td rowspan="2">';
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
-	<a href="#" id="aFormUserPhoto"><?php echo button('add', '', '', 'smaller'); ?>&nbsp;<?php echo _('User Photo'); ?></a><br />
-	<div id="formUserPhoto" style="display:none;">
+	<a href="#" onclick="switchUserPhoto(); return false;"><?php echo button('add', '', '', 'smaller'); ?>&nbsp;<?php echo _('User Photo'); ?></a><br />
+	<div class="user-photo-form" style="display:none;">
 		<br />
 		<input type="file" id="photo" name="photo" accept="image/*" /><span class="loading"></span>
 		<br /><span class="legend-gray"><?php echo _('User Photo'); ?> (.jpg)</span>
 	</div>
-	<script>
-	//toggle form & photo
-	$('#aFormUserPhoto').click(function () {
-		$('#formUserPhoto').toggle();
-		$('#userImg').toggle();
-		return false;
-	});
-	</script>
 <?php endif;
 
 if ( $_REQUEST['staff_id']!='new' && ($file = @fopen($picture_path=$UserPicturesPath.UserSyear().'/'.UserStaffID().'.jpg','r')) || ($file = @fopen($picture_path=$UserPicturesPath.(UserSyear()-1).'/'.UserStaffID().'.jpg','r'))):
 	fclose($file);
 ?>
-	<img src="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" id="userImg" />
+	<img src="<?php echo $picture_path.(!empty($new_photo_file)? '?cacheKiller='.rand():''); ?>" class="user-photo" />
 <?php endif;
 // END IMAGE
 
