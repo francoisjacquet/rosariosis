@@ -1,9 +1,24 @@
 <?php
 
+/**
+ * Search Students or Staff
+ *
+ * @example Search( 'student_id' ); // Display Find a Student form or Search students if submitted
+ *
+ * @example Search( 'staff_id' ); // Display Find a User form or Search users if submitted
+ *
+ * @see Users & Students modules Search.inc.php files
+ *
+ * @global $_ROSARIO Used in Search.inc.php
+ *
+ * @param  string $type  student_id|staff_id|general_info|staff_fields|staff_fields_all|student_fields|student_fields_all
+ * @param  array  $extra Search.inc.php extra (HTML, functions...) (optional). Defaults to null
+ *
+ * @return void
+ */
 function Search( $type, $extra = null )
 {
-	global $_ROSARIO,
-		$modname;
+	global $_ROSARIO;
 
 	switch ( $type )
 	{
@@ -62,7 +77,9 @@ function Search( $type, $extra = null )
 
 			// convert profile string to array for legacy compatibility
 			if ( !is_array( $extra ) )
+			{
 				$extra = array( 'profile' => $extra );
+			}
 
 			if ( ( isset( $_REQUEST['bottom_back'] )
 					&& $_REQUEST['bottom_back'] == true )
@@ -103,17 +120,22 @@ function Search( $type, $extra = null )
 
 		case 'general_info':
 
-			echo '<tr><td><label for="last">' . _( 'Last Name' ) . '</label></td>
-				<td><input type="text" name="last" id="last" size="30" maxlength="50" autofocus /></td></tr>';
+			echo '<tr><td><label for="last">' . _( 'Last Name' ) . '</label></td><td>
+				<input type="text" name="last" id="last" size="30" maxlength="50" autofocus />
+				</td></tr>';
 
-			echo '<tr><td><label for="first">' . _( 'First Name' ) . '</label></td>
-				<td><input type="text" name="first" id="first" size="30" maxlength="50" /></td></tr>';
+			echo '<tr><td><label for="first">' . _( 'First Name' ) . '</label></td><td>
+				<input type="text" name="first" id="first" size="30" maxlength="50" />
+				</td></tr>';
 
-			echo '<tr><td><label for="stuid">' . sprintf( _( '%s ID' ), Config( 'NAME' ) ) . '</label></td>
-				<td><input type="text" name="stuid" id="stuid" size="30" maxlength="50" /></td></tr>';
+			echo '<tr><td><label for="stuid">' . sprintf( _( '%s ID' ), Config( 'NAME' ) ) .
+				'</label></td><td>
+				<input type="text" name="stuid" id="stuid" size="30" maxlength="50" />
+				</td></tr>';
 
-			echo '<tr><td><label for="addr">' . _( 'Address' ) . '</label></td>
-				<td><input type="text" name="addr" id="addr" size="30" maxlength="255" /></td></tr>';
+			echo '<tr><td><label for="addr">' . _( 'Address' ) . '</label></td><td>
+				<input type="text" name="addr" id="addr" size="30" maxlength="255" />
+				</td></tr>';
 
 			$list = DBGet( DBQuery( "SELECT ID,TITLE,SHORT_NAME
 				FROM SCHOOL_GRADELEVELS
@@ -126,7 +148,8 @@ function Search( $type, $extra = null )
 				echo '<tr><td>' . _( 'Grade Levels' ) . '</td>
 				<td><label class="nobr"><input type="checkbox" name="grades_not" value="Y" />&nbsp;' .
 					_( 'Not' ) . '</label> &nbsp;
-				<label class="nobr"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades[\');">&nbsp;' . _( 'Check All' ) . '</label>
+				<label class="nobr"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades\');">&nbsp;' .
+					_( 'Check All' ) . '</label>
 				</td></tr>
 				<tr><td></td><td>';
 
@@ -134,7 +157,10 @@ function Search( $type, $extra = null )
 
 				foreach ( (array)$list as $value )
 				{
-					$checked = ( is_array( $extra ) ? ( $extra[ $value['ID'] ] ? ' checked' : '' ) : ( $extra == $value['ID'] ? ' checked' : '' ) );
+					$checked = ( is_array( $extra ) ?
+						( $extra[ $value['ID'] ] ? ' checked' : '' ) :
+						( $extra == $value['ID'] ? ' checked' : '' )
+					);
 
 					echo '<label class="nobr">
 					<input type="checkbox" name="grades[' . $value['ID'] . ']" value="Y"' . $checked . ' />&nbsp;' .
@@ -159,7 +185,7 @@ function Search( $type, $extra = null )
 
 				foreach ( (array)$list as $value )
 				{
-					echo '<option value="' . $value['ID'] . '"' . ( $extra == $value['ID'] ? ' SELECTED' : '' ) . '>' .
+					echo '<option value="' . $value['ID'] . '"' . ( $extra == $value['ID'] ? ' selected' : '' ) . '>' .
 						$value['TITLE'] . '</option>';
 				}
 
@@ -346,7 +372,9 @@ function Search( $type, $extra = null )
 
 						if ( $value !== ''
 							&& $option !== '' )
+						{
 							echo '<option value="' . $value . '">' . $option . '</option>';
+						}
 					}
 
 					// edits specificities
@@ -382,8 +410,12 @@ function Search( $type, $extra = null )
 						echo '<option value="---">-' . _( 'Edit' ) . '-</option>';
 
 						foreach ( (array)$options_RET as $option )
+						{
 							if ( !in_array( $option[$col_name], $options ) )
+							{
 								echo '<option value="' . $option[$col_name] . '">' . $option[$col_name] . '</option>';
+							}
+						}
 					}
 
 					echo '</select></td></tr>';
@@ -392,13 +424,24 @@ function Search( $type, $extra = null )
 				foreach ( (array)$category['date'] as $col )
 				{
 					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '<br />
-					<label>' . _( 'No Value' ) . '&nbsp;<input type="checkbox" name="custn[' . $col['COLUMN_NAME'] . ']" /></label>
+					<label>' . _( 'No Value' ) .
+					'&nbsp;<input type="checkbox" name="custn[' . $col['COLUMN_NAME'] . ']" /></label>
 					</td>
 					<td><table class="cellspacing-0">
 					<tr><td><span class="sizep2">&ge;</span>&nbsp;</td>
-					<td>' . PrepareDate( '', '_custb[' . $col['COLUMN_NAME'] . ']', true, array( 'short' => true ) ) . '</td></tr>
+					<td>' . PrepareDate(
+						'',
+						'_custb[' . $col['COLUMN_NAME'] . ']',
+						true,
+						array( 'short' => true )
+					) . '</td></tr>
 					<tr><td><span class="sizep2">&le;</span>&nbsp;</td>
-					<td>' . PrepareDate( '', '_custe[' . $col['COLUMN_NAME'] . ']', true, array( 'short' => true ) ) . '</td></tr>
+					<td>' . PrepareDate(
+						'',
+						'_custe[' . $col['COLUMN_NAME'] . ']',
+						true,
+						array( 'short' => true )
+					) . '</td></tr>
 					</table></td></tr>';
 				}
 
@@ -424,7 +467,9 @@ function Search( $type, $extra = null )
 
 				if ( $type === 'student_fields_all'
 					|| $type === 'staff_fields_all' )
+				{
 					echo '</table>';
+				}
 			}
 
 		break;
