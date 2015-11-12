@@ -1,6 +1,15 @@
 # WHATS_NEW
 ## RosarioSIS Student Information System
 
+New in 2.9
+----------
+Users
+
+- My Preferences
+	- Export Listings in XML format
+
+MarkDown support for Large text fields
+
 New in 2.8
 -----------
 School Setup

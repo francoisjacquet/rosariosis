@@ -148,19 +148,42 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['tab']=='student_listing')
 	{
-		echo '<table>';
-//FJ add <label> on radio
-		echo '<tr class="st"><td style="vertical-align: top;"><span class="legend-gray">'._('Student Sorting').'</span></td><td><label><input type="radio" name="values[Preferences][SORT]" value="Name"'.((Preferences('SORT')=='Name')?' checked':'').'> '._('Name').'</label><br /><label><input type="radio" name="values[Preferences][SORT]" value="Grade"'.((Preferences('SORT')=='Grade')?' checked':'').'> '._('Grade Level').', '.
-		_('Name').'</label></td></tr>';
-		echo '<tr class="st"><td style="vertical-align: top;"><span class="legend-gray">'._('File Export Type').'</span></td><td><label><input type="radio" name="values[Preferences][DELIMITER]" value="Tab"'.((Preferences('DELIMITER')=='Tab')?' checked':'').'> '._('Tab-Delimited (Excel)').'</label><br /><label><input type="radio" name="values[Preferences][DELIMITER]" value="CSV"'.((Preferences('DELIMITER')=='CSV')?' checked':'').'> CSV (OpenOffice)</label></td></tr>';
-		echo '<tr class="st"><td style="vertical-align: top;"><span class="legend-gray">'._('Date Export Format').'</span></td><td><label><input type="radio" name="values[Preferences][E_DATE]" value=""'.((Preferences('E_DATE')=='')?' checked':'').'> '._('Display Options Format').'</label><br /><label><input type="radio" name="values[Preferences][E_DATE]" value="MM/DD/YYYY"'.((Preferences('E_DATE')=='MM/DD/YYYY')?' checked':'').'> MM/DD/YYYY</label></td></tr>';
-//FJ add <label> on checkbox
+		echo '<table class="cellpadding-5 col1-align-right">';
+
+		echo '<tr class="st">
+			<td><span class="legend-gray">' . _( 'Student Sorting' ) . '</span></td>
+			<td><label><input type="radio" name="values[Preferences][SORT]" value="Name"' .
+				( ( Preferences( 'SORT' ) == 'Name' ) ? ' checked' : '' ) . '> ' . _( 'Name' ) . '</label><br />
+			<label><input type="radio" name="values[Preferences][SORT]" value="Grade"' .
+				( ( Preferences( 'SORT' ) == 'Grade' ) ? ' checked' : '' ) . '> ' .
+				_( 'Grade Level' ) . ', ' .	_( 'Name' ) . '</label></td></tr>';
+
+		echo '<tr class="st"><td><span class="legend-gray">' . _( 'File Export Type' ) . '</span></td>
+			<td><label><input type="radio" name="values[Preferences][DELIMITER]" value="Tab"' .
+				( ( Preferences( 'DELIMITER' ) == 'Tab' ) ? ' checked' : '' ) . '> ' .
+				_( 'Tab-Delimited (Excel)' ) . '</label><br />
+			<label><input type="radio" name="values[Preferences][DELIMITER]" value="CSV"' .
+				( ( Preferences( 'DELIMITER' ) == 'CSV' ) ? ' checked' : '' ) . '> ' .
+				'CSV (OpenOffice)</label><br />
+			<label><input type="radio" name="values[Preferences][DELIMITER]" value="XML"' .
+				( ( Preferences( 'DELIMITER' ) == 'XML' ) ? ' checked' : '' ) . '> ' .
+				'XML</label></td></tr>';
+
+		echo '<tr class="st"><td><span class="legend-gray">' . _( 'Date Export Format' ) . '</span></td>
+			<td><label><input type="radio" name="values[Preferences][E_DATE]" value=""' .
+				( ( Preferences( 'E_DATE' ) == '' ) ? ' checked' : '' ) . '> ' .
+				_( 'Display Options Format' ) . '</label><br />
+			<label><input type="radio" name="values[Preferences][E_DATE]" value="MM/DD/YYYY"' .
+				( ( Preferences( 'E_DATE' ) == 'MM/DD/YYYY' ) ? ' checked' : '' ) . '> ' .
+				'MM/DD/YYYY</label></td></tr>';
+
 		echo '<tr><td><br /></td><td><br /></td>';
 		echo '<tr class="st"><td></td><td><label><input type="checkbox" name=values[Preferences][SEARCH] value="Y"'.((Preferences('SEARCH')=='Y')?' checked':'').'> '._('Display student search screen').'</label></td></tr>';
 		if (User('PROFILE')=='admin')
 		{
 			echo '<tr class="st"><td></td><td><label><input type="checkbox" name="values[Preferences][DEFAULT_FAMILIES]" value="Y"'.((Preferences('DEFAULT_FAMILIES')=='Y')?' checked':'').'> '._('Group by family by default').'</label></td></tr>';
-//FJ if only one school, no Search All Schools option
+
+			//FJ if only one school, no Search All Schools option
 			if (SchoolInfo('SCHOOLS_NB') > 1)
 				echo '<tr class="st"><td></td><td><label><input type="checkbox" name="values[Preferences][DEFAULT_ALL_SCHOOLS]" value="Y"'.((Preferences('DEFAULT_ALL_SCHOOLS')=='Y')?' checked':'').'> '._('Search all schools by default').'</label></td></tr>';
 		}
@@ -169,8 +192,8 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['tab']=='display_options')
 	{
-		echo '<table>';
-		echo '<tr class="st"><td style="vertical-align: top;"><span class="legend-gray">'._('Theme').'</span></td><td><table><tr>';
+		echo '<table class="cellpadding-5 col1-align-right">';
+		echo '<tr class="st"><td class="valign-top"><span class="legend-gray">'._('Theme').'</span></td><td><table><tr>';
 
 		$themes = glob('assets/themes/*', GLOB_ONLYDIR);
 		foreach ($themes as $theme)
@@ -230,12 +253,20 @@ if (empty($_REQUEST['modfunc']))
 	
 	if ( $_REQUEST['tab']=='print_options')
 	{
-		echo '<table>';
-		$page_sizes = array('A4' => 'A4','LETTER' => _('US Letter'));
-		echo '<tr class="st"><td><span class="legend-gray">'._('Page Size').'</span></td><td><table><tr>';
-		foreach ( (array)$page_sizes as $page_size => $title)
-			echo '<td><label><input type="radio" name="values[Preferences][PAGE_SIZE]" value="'.$page_size.'"'.((Preferences('PAGE_SIZE')==$page_size)?' checked':'').' /> '.$title.'</label></td>';
-		echo '</tr></table></td></tr>';
+		echo '<table class="cellpadding-5 col1-align-right">';
+
+		$page_sizes = array( 'A4' => 'A4', 'LETTER' => _( 'US Letter' ) );
+
+		echo '<tr class="st"><td><span class="legend-gray">' . _( 'Page Size' ) . '</span></td><td>';
+
+		foreach ( (array)$page_sizes as $page_size => $title )
+		{
+			echo '<label><input type="radio" name="values[Preferences][PAGE_SIZE]" value="' . $page_size . '"' .
+				( ( Preferences( 'PAGE_SIZE' ) == $page_size ) ? ' checked' : '' ) . ' /> ' .
+				$title . '</label><br />';
+		}
+
+		echo '</td></tr>';
 		
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		echo '<tr class="st"><td><span class="legend-gray">'._('PDF List Header Color').'</span></td><td><table><tr>';
@@ -250,7 +281,7 @@ if (empty($_REQUEST['modfunc']))
 	{
 //FJ password fields are required
 //FJ Moodle integrator / password
-		echo '<table><tr class="st"><td><span class="legend-gray">' . _( 'Current Password' ) . '</span></td>
+		echo '<table class="cellpadding-5 col1-align-right"><tr class="st"><td><span class="legend-gray">' . _( 'Current Password' ) . '</span></td>
 			<td><input type="password" name="values[current]" required /></td></tr>
 			<tr class="st"><td><span class="legend-gray">' . _( 'New Password' ) .
 				( $RosarioPlugins['Moodle'] ?
