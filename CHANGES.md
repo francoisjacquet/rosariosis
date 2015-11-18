@@ -46,6 +46,7 @@ Changes in 2.9
 - Add .tooltip CSS class for Tooltips display in stylesheet.css
 - Add XML File Export Type option in ListOutput.fnc.php & Preferences.php
 - Add GetInputID(), FormatInputTitle() & InputDivOnclick() functions in Inputs.php
+- Add jQuery MiniColors plugin & ColorInput() function in assets/js/jquery-minicolors/ & Inputs.php
 
 Changes in 2.8.11
 -----------------

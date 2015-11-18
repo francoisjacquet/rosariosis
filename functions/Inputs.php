@@ -792,6 +792,55 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 
 
 /**
+ * Color Picker Input
+ *
+ * @todo Add $div param
+ *
+ * @since 2.9
+ *
+ * @uses jQuery MiniColors plugin
+ *
+ * @see assets/js/jquery-minicolors/ for plugin files
+ *
+ * @link https://github.com/claviska/jquery-minicolors/
+ *
+ * @param  string $value Color value
+ * @param  string $name  Input name attribute
+ * @param  string $title Input title (label)
+ * @param  string $type  hidden|text Input type attribute (optional). Defaults to 'hidden'
+ *
+ * @return string Color Picker Input HTML
+ */
+function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '' )
+{
+	static $included = false;
+
+	$id = GetInputID( $name );
+
+	$required = $value === '' && mb_strpos( $extra, 'required' ) !== false;
+
+	$ftitle = FormatInputTitle( $title, $id, $required );
+
+	if ( !$included )
+	{
+		?>
+		<!-- MiniColors -->
+		<link rel="stylesheet" href="assets/js/jquery-minicolors/jquery.minicolors.css" />
+		<script src="assets/js/jquery-minicolors/jquery.minicolors.js"></script>
+		<script>$(document).ready(function(){ $('.minicolors').minicolors(); });</script>
+		<?php
+	}
+
+	?>
+	<input type="<?php echo $type; ?>" name="<?php echo $name; ?>" id="<?php echo $id; ?>"
+		class="minicolors" value="<?php echo $value; ?>" <?php echo $extra; ?> />
+	<?php
+
+	return ob_get_clean() . $ftitle;
+}
+
+
+/**
  * No Input
  * Simulate Input formatting for a non-editable Input / Value
  *
