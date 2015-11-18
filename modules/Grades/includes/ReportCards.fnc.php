@@ -175,7 +175,11 @@ function ReportCardsIncludeForm()
 /**
  * Report Cards generation
  *
+ * @todo Divide in smaller functions: ReportCardComments...
+ *
  * @example $report_cards = ReportCardsGenerate( $_REQUEST['st_arr'], $_REQUEST['mp_arr'] );
+ *
+ * @uses _makeTeacher() see below
  *
  * @param  array         $student_array Students IDs
  * @param  array         $mp_array      Marking Periods IDs
@@ -943,6 +947,17 @@ function ReportCardsGenerate( $student_array, $mp_array )
 	return $report_cards;
 }
 
+
+/**
+ * Make Teacher
+ * DBGet callback
+ * Local function
+ *
+ * @param  string $teacher Teacher
+ * @param  string $column  'TEACHER'
+ *
+ * @return string          Formatted Teacher
+ */
 function _makeTeacher( $teacher, $column )
 {
 	return mb_substr( $teacher, mb_strrpos( str_replace( ' - ', ' ^ ', $teacher ), '^' ) + 2 );
