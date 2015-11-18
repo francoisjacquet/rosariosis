@@ -83,9 +83,12 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
-	//FJ add label on checkbox
-	DrawHeader(PrepareDate($date,'_date').' : '.$type_select.' : '.$staff_select.' : <input type="submit" value="'._('Go').'" />');
-	DrawHeader('<label>'.CheckBoxOnclick('by_name').' '._('Sort by Name').'</label>');
+
+	DrawHeader( PrepareDate( $date, '_date' ) . ' : ' . $type_select . ' : ' .
+		$staff_select . ' : ' . Buttons( _( 'Go' ) ) );
+
+	DrawHeader( CheckBoxOnclick( 'by_name', _( 'Sort by Name' ) ) );
+
 	echo '</form>';
 
 	if ( $_REQUEST['type_select'])

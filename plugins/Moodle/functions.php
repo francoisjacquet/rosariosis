@@ -105,8 +105,14 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 				if (UserStudentID())
 					$old_student_in_moodle = IsMoodleStudent(UserStudentID());
 			
-				if ($_REQUEST['student_id']=='new' || !$old_student_in_moodle)
-					DrawHeader('<label>'.CheckBoxOnclick('moodle_create_student').'&nbsp;'._('Create Student in Moodle').'</label>');
+				if ( $_REQUEST['student_id'] === 'new'
+					|| !$old_student_in_moodle )
+				{
+					DrawHeader( CheckBoxOnclick(
+						'moodle_create_student',
+						_( 'Create Student in Moodle' )
+					) );
+				}
 			}
 
 		break;
@@ -203,8 +209,15 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 				if (count(DBGet(DBQuery("SELECT 'ROLLED' FROM STAFF WHERE SYEAR='".(UserSyear()+1)."'"))))
 					$users_rolled = true;
 
-				if (($_REQUEST['staff_id']=='new' || !$old_user_in_moodle) && !$users_rolled)
-					DrawHeader('<label>'.CheckBoxOnclick('moodle_create_user').'&nbsp;'._('Create User in Moodle').'</label>');
+				if ( ( $_REQUEST['staff_id'] === 'new'
+						|| !$old_user_in_moodle )
+					&& !$users_rolled )
+				{
+					DrawHeader( CheckBoxOnclick(
+						'moodle_create_user',
+						_( 'Create User in Moodle' )
+					) );
+				}
 			}
 
 		break;
@@ -345,8 +358,15 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 				if ($_REQUEST['course_id'] != 'new')
 					$course_in_moodle = IsMoodleCourse($_REQUEST['course_id']);
 				
-				if ($course_in_moodle && ($_REQUEST['course_period_id']=='new' || !$old_course_period_in_moodle))
-					DrawHeader('<label>'.CheckBoxOnclick('moodle_create_course_period').'&nbsp;'._('Create Course Period in Moodle').'</label>');
+				if ( $course_in_moodle
+					&& ( $_REQUEST['course_period_id'] === 'new'
+						|| !$old_course_period_in_moodle ) )
+				{
+					DrawHeader( CheckBoxOnclick(
+						'moodle_create_course_period',
+						_( 'Create Course Period in Moodle' )
+					) );
+				}
 			}
 			
 		case 'Scheduling/Courses.php|create_course_subject':

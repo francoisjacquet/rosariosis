@@ -412,8 +412,17 @@ if (empty($_REQUEST['modfunc']))
 		if (User('PROFILE')=='admin')
 		{
 			//FJ add Show Studies Certificate option
-			$extra['extra_header_left'] .= '<div id="divcertificatetext" style="display:none"><textarea id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">'.($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']).'</textarea><br /><span class="legend-gray">'._('Certificate Studies Text').'</span>
-			<table><tr><td style="text-align:right; vertical-align: top;">'._('Substitutions').':</td><td><table><tr>';
+			$extra['extra_header_left'] .= '<div id="divcertificatetext" style="display:none">
+				<textarea id="inputcertificatetext" name="inputcertificatetext" cols="100" rows="5">' .
+				( $templates[User( 'STAFF_ID' )] ? $templates[User( 'STAFF_ID' )][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'] ) .
+				'</textarea>' .
+				FormatInputTitle(
+					_( 'Certificate Studies Text' ),
+					'inputcertificatetext'
+				);
+
+			$extra['extra_header_left'] .= '<table><tr><td style="text-align:right; vertical-align: top;">'._('Substitutions').':</td><td><table><tr>';
+
 			$extra['extra_header_left'] .= '<td>__SSECURITY__</td><td>= '.$field_SSECURITY[1]['TITLE'].'</td><td colspan="3">&nbsp;</td>';
 			$extra['extra_header_left'] .= '</tr><tr>';
 			$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._('Last, First M').'</td><td>&nbsp;</td>';

@@ -273,7 +273,9 @@ if (empty($_REQUEST['modfunc']))
 	}
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
-	DrawHeader('<label>'.CheckBoxOnclick('allow_edit').' '._('Edit').'</label>',SubmitButton(_('Save')));
+
+	DrawHeader( CheckBoxOnclick( 'allow_edit', _( 'Edit' ) ), SubmitButton( _( 'Save' ) ) );
+
 	echo '<br />';
 
 	$LO_options = array('save'=>false,'search'=>false,'header_color' => $types_RET[$_REQUEST['tab_id']][1]['COLOR'],

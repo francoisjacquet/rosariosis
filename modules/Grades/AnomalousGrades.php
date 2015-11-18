@@ -5,7 +5,19 @@ DrawHeader(_('Gradebook').' - '.ProgramTitle());
 $max_allowed = Preferences('ANOMALOUS_MAX','Gradebook')/100;
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-DrawHeader('<label>'.CheckBoxOnclick('include_all_courses').' '._('Include All Courses').'</label>','','&nbsp;<label>'.CheckBoxOnclick('include_inactive').' '._('Include Inactive Students').'</label>');
+
+DrawHeader(
+	CheckBoxOnclick(
+		'include_all_courses',
+		_( 'Include All Courses' )
+	),
+	'',
+	'&nbsp;' . CheckBoxOnclick(
+		'include_inactive',
+		_( 'Include Inactive Students' )
+	)
+);
+
 if ( !$_REQUEST['missing'] && !$_REQUEST['negative'] && !$_REQUEST['max_allowed'])
 	$_REQUEST['missing'] = $_REQUEST['negative'] = $_REQUEST['max_allowed'] = 'Y';
 DrawHeader(_('Include').': <label>'.CheckBoxOnclick('missing').' '._('Missing Grades').'</label> &nbsp;<label>'.CheckBoxOnclick('negative').' '._('Excused and Negative Grades').'</label> &nbsp;<label>'.CheckBoxOnclick('max_allowed').' '.sprintf(_('Exceed %d%% and Extra Credit Grades'),($max_allowed*100)).'</label>');

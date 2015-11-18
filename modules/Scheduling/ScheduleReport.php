@@ -1,9 +1,17 @@
 <?php
 DrawHeader(ProgramTitle());
+
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-if ( $_REQUEST['modfunc']!='students')
-    DrawHeader('<label>'.CheckBoxOnclick('include_child_mps').' '._('Show Child Marking Period Details').'</label>');
-if ( $_REQUEST['subject_id'])
+
+if ( $_REQUEST['modfunc'] !== 'students' )
+{
+    DrawHeader( CheckBoxOnclick(
+		'include_child_mps',
+		_( 'Show Child Marking Period Details' )
+    ) );
+}
+
+if ( $_REQUEST['subject_id'] )
 {
 	$RET = DBGet(DBQuery("SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$_REQUEST['subject_id']."'"));
 //FJ add translation

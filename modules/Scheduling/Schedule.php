@@ -130,9 +130,15 @@ if ( isset( $_POST['schedule'] )
 if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_deletion_pending))
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" method="POST">';
-//FJ add label on checkbox
+
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)),SubmitButton(_('Save')));
-	DrawHeader('<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Courses').(AllowEdit()?'</label> &nbsp;<label>'.CheckBoxOnclick('include_seats').' '._('Show Available Seats').'</label>':''));
+
+	DrawHeader(
+		CheckBoxOnclick( 'include_inactive', _( 'Include Inactive Courses' ) ) .
+		( AllowEdit() ?
+			' &nbsp;' . CheckBoxOnclick( 'include_seats', _( 'Show Available Seats' ) ) :
+			'' )
+	);
 	
 	//FJ add Horizontal format option
 	$printSchedulesLinkhref = 'Modules.php?modname=Scheduling/PrintSchedules.php&modfunc=save&st_arr[]='.UserStudentID().'&_ROSARIO_PDF=true&schedule_table=Yes';

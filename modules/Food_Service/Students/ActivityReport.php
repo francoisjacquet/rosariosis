@@ -91,7 +91,9 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 	echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
 	//FJ add label on checkbox
 	DrawHeader(PrepareDate($date,'_date').' : '.$type_select.' : '.$staff_select.' : <input type="submit" value="'._('Go').'" />');
-	DrawHeader('<label>'.CheckBoxOnclick('by_name').' '._('Sort by Name').'</label>');
+
+	DrawHeader( CheckBoxOnclick( 'by_name', _( 'Sort by Name' ) ) );
+
 	echo '</form>';
 
 

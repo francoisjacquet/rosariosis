@@ -75,10 +75,10 @@ if ( $_REQUEST['modfunc']!='remove')
 {
 	$sql = "SELECT PERIOD_ID,TITLE,SHORT_NAME,SORT_ORDER,LENGTH,START_TIME,END_TIME,BLOCK,ATTENDANCE FROM SCHOOL_PERIODS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER";
 	$QI = DBQuery($sql);
-	$periods_RET = DBGet($QI,array('TITLE' => '_makeTextInput','SHORT_NAME' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','BLOCK' => '_makeTextInput','LENGTH' => '_makeTextInput','START_TIME' => '_makeTimeInput','END_TIME' => '_makeTimeInput','ATTENDANCE' => '_makeCheckboxInput'));
+	$periods_RET = DBGet($QI,array('TITLE' => '_makeTextInput','SHORT_NAME' => '_makeTextInput','SORT_ORDER' => '_makeTextInput','BLOCK' => '_makeTextInput','LENGTH' => '_makeTextInput','ATTENDANCE' => '_makeCheckboxInput')); //,'START_TIME' => '_makeTimeInput','END_TIME' => '_makeTimeInput'
 
 	$columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'SORT_ORDER' => _('Sort Order'),'LENGTH' => _('Length (minutes)'),'BLOCK' => _('Block'),'ATTENDANCE' => _('Used for Attendance')); //,'START_TIME' => _('Start Time'),'END_TIME' => _('End Time'));
-	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'LENGTH'=>_makeTextInput('','LENGTH'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'BLOCK'=>_makeTextInput('','BLOCK'),'START_TIME'=>_makeTimeInput('','START_TIME'),'END_TIME'=>_makeTimeInput('','END_TIME'),'ATTENDANCE'=>_makeCheckboxInput('','ATTENDANCE'));
+	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'LENGTH'=>_makeTextInput('','LENGTH'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'BLOCK'=>_makeTextInput('','BLOCK'),'ATTENDANCE'=>_makeCheckboxInput('','ATTENDANCE')); //,'START_TIME'=>_makeTimeInput('','START_TIME'),'END_TIME'=>_makeTimeInput('','END_TIME')
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id' => 'PERIOD_ID');
 
@@ -138,16 +138,42 @@ function _makeTimeInput($value,$name)
 
 	$m_options = array('AM' => 'AM','PM' => 'PM');
 
-    if ( $id!='new' && $value)
+	$time_html = '<table><tr><td>' . SelectInput(
+		$hour,
+		'values[' . $id . '][' . $name . '_HOUR]',
+		'',
+		$hour_options,
+		'N/A',
+		'',
+		false
+	) . ':</td><td>' . SelectInput(
+		$minute,
+		'values[' . $id . '][' . $name . '_MINUTE]',
+		'',
+		$minute_options,
+		'N/A',
+		'',
+		false
+	) . '</td><td>' . SelectInput(
+		$m,
+		'values[' . $id . '][' . $name . '_M]',
+		'',
+		$m_options,
+		'N/A',
+		'',
+		false
+	) . '</td></tr></table>';
+
+	if ( $id != 'new'
+    	&& $value )
 	{
-		$return = '<div id='.$name.$id.'><div class="onclick" onclick=\'addHTML("';
-		
-        $toEscape = '<table><tr><td>'.SelectInput($hour,'values['.$id.']['.$name.'_HOUR]','',$hour_options,_('N/A'),'',false).':</td><td>'.SelectInput($minute,'values['.$id.']['.$name.'_MINUTE]','',$minute_options,_('N/A'),'',false).'</td><td>'.SelectInput($m,'values['.$id.']['.$name.'_M]','',$m_options,_('N/A'),'',false).'</td></tr></table>';
-		$return .= str_replace('"','\"',$toEscape);
-		
-		$return .= '","'.$name.$id.'",true);\'>'.'<span class="underline-dots">'.$value.'</span></div></div>';
-		return $return;
+		return InputDivOnclick(
+			$name . $id,
+			$time_html,
+			$value,
+			''
+		);
 	}
-    else
-        return '<table><tr><td>'.SelectInput($hour,'values['.$id.']['.$name.'_HOUR]','',$hour_options,_('N/A'),'',false).':</td><td>'.SelectInput($minute,'values['.$id.']['.$name.'_MINUTE]','',$minute_options,_('N/A'),'',false).'</td><td>'.SelectInput($m,'values['.$id.']['.$name.'_M]','',$m_options,_('N/A'),'',false).'</td></tr></table>';
+	else
+		return $time_html;
 }

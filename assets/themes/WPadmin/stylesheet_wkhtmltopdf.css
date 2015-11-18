@@ -509,6 +509,13 @@ h3 span{
 	border-bottom-style:dotted;
 	border-bottom-width:1px
 }
+/* Textarea MarkDown */
+div.underline-dots{
+	display:inline-block;
+	max-height:240px;
+	overflow:auto;
+	line-height:inherit;
+}
 .underline-dots, .checkbox-label, .no-input-value{
 	line-height:27px;
 	margin:5px 0
@@ -516,11 +523,6 @@ h3 span{
 textarea{
 	width:100%;
 	min-width:280px
-}
-.textarea.underline-dots{
-	line-height:inherit;
-	overflow:auto;
-	max-height: 240px
 }
 
 /* MarkDown */

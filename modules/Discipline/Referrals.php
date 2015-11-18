@@ -214,26 +214,30 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 				case 'multiple_radio':
 					if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 					{
-						$return = '<div id="divvalues[CATEGORY_'.$category['ID'].']"><div onclick=\'javascript:addHTML(htmlCATEGORY_'.$category['ID'];
-
 						$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 						$options = explode("\r",$category['SELECT_OPTIONS']);
 
-						$toEscape = '<table class="cellpadding-5"><tr class="st">';
+						$multiple_html = '<table class="cellpadding-5"><tr class="st">';
 
 						$i = 0;
 						foreach ( (array)$options as $option)
 						{
 							$i++;
 							if ( $i%3==0)
-								$toEscape .= '</tr><tr class="st">';
-							$toEscape .= '<td><label><input type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.$option.'</label></td>';
+								$multiple_html .= '</tr><tr class="st">';
+							$multiple_html .= '<td><label><input type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.$option.'</label></td>';
 						}
 
-						$toEscape .= '</tr></table>';
+						$multiple_html .= '</tr></table>';
 
-						echo '<script>var htmlCATEGORY_'.$category['ID'].'='.json_encode($toEscape).';</script>'.$return;
-						echo ',"divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?$RET['CATEGORY_'.$category['ID']]:'-').'</span>'."</div></div>";
+						$id = 'values[CATEGORY_' . $category['ID'] . ']';
+
+						echo InputDivOnclick(
+							$id,
+							$multiple_html,
+							$RET['CATEGORY_' . $category['ID']],
+							''
+						);
 					}
 					else
 						echo (($RET['CATEGORY_'.$category['ID']]!='')?$RET['CATEGORY_'.$category['ID']]:'-');

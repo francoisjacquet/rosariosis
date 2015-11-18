@@ -250,9 +250,21 @@ if (empty($_REQUEST['modfunc']) && !empty($email_column))
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		list($template_new, $template_old) = explode('__BLOCK2__', $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE']);
 		
-		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>'.'<label><textarea name="inputcreateparentstext_new" cols="100" rows="5">'.$template_new.'</textarea><br /><span class="legend-gray">'._('New Parent Account').' - '._('Email Text').'</span></label></td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
+			'<textarea name="inputcreateparentstext_new" cols="100" rows="5">' .
+			$template_new . '</textarea>' .
+			FormatInputTitle(
+				_( 'New Parent Account' ) . ' - ' . _( 'Email Text' ),
+				'inputcreateparentstext_new'
+			) . '</td></tr>';
 		
-		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>'.'<label><textarea name="inputcreateparentstext_old" cols="100" rows="5">'.$template_old.'</textarea><br /><span class="legend-gray">'._('Updated Parent Account').' - '._('Email Text').'</span></label></td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
+			'<textarea name="inputcreateparentstext_old" cols="100" rows="5">' .
+			$template_old . '</textarea>' .
+			FormatInputTitle(
+				_( 'Updated Parent Account' ) . ' - ' . _( 'Email Text' ),
+				'inputcreateparentstext_old'
+			) . '</td></tr>';
 		
 		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__PARENT_NAME__</td><td>= '._('Parent Name').'</td><td>&nbsp;</td>';
@@ -264,7 +276,16 @@ if (empty($_REQUEST['modfunc']) && !empty($email_column))
 		$extra['extra_header_left'] .= '<td>__SCHOOL_ID__</td><td>= '._('School').'</td><td colspan="3">&nbsp;</td>';
 		$extra['extra_header_left'] .= '</tr></table></td></tr>';
 		
-		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Test Mode').':'.'</td><td><label><input name="test_email" type="text" /><br /><span class="legend-gray">'._('Email').'</span></label></td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">' .
+			_( 'Test Mode' ) . ':' . '</td><td>' .
+			TextInput(
+				'',
+				'test_email',
+				_( 'Email' ),
+				'',
+				false
+			) . '</td></tr>';
+
 		$extra['extra_header_left'] .= '</table>';
 	}
 

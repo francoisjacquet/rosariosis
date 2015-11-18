@@ -112,7 +112,13 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 		
 		$template = $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE'];
 
-		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>'.'<label><textarea name="inputnotifyparentstext" cols="97" rows="5">'.$template.'</textarea><br /><span class="legend-gray">'._('New Parent Account').' - '._('Email Text').'</span></label></td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
+			'<textarea name="inputnotifyparentstext" cols="97" rows="5">'
+			. $template . '</textarea>' .
+			FormatInputTitle(
+				_( 'New Parent Account' ) . ' - ' . _( 'Email Text' ),
+				'inputnotifyparentstext'
+			) . '</td></tr>';
 		
 		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__PARENT_NAME__</td><td>= '._('Parent Name').'</td><td>&nbsp;</td>';
@@ -124,7 +130,16 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 		$extra['extra_header_left'] .= '<td>__SCHOOL_ID__</td><td>= '._('School').'</td><td colspan="3">&nbsp;</td>';
 		$extra['extra_header_left'] .= '</tr></table></td></tr>';
 		
-		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Test Mode').':'.'</td><td><label><input name="test_email" type="text" /><br /><span class="legend-gray">'._('Email').'</span></label></td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">' .
+			_( 'Test Mode' ) . ':' . '</td><td>' .
+			TextInput(
+				'',
+				'test_email',
+				_( 'Email' ),
+				'',
+				false
+			) . '</td></tr>';
+
 		$extra['extra_header_left'] .= '</table>';
 	}
 

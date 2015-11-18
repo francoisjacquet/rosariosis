@@ -19,7 +19,7 @@ if ( $_REQUEST['staff_id']!='new' && ($file = @fopen($picture_path=$UserPictures
 <?php endif;
 // END IMAGE
 
-echo '</td><td>';
+echo '</td><td colspan="2">';
 
 //FJ add translation
 $titles_array = array('Mr' => _('Mr'),'Mrs' => _('Mrs'),'Ms' => _('Ms'),'Miss' => _('Miss'),'Dr' => _('Dr'));
@@ -27,45 +27,75 @@ $suffixes_array = array('Jr' => _('Jr'),'Sr' => _('Sr'),'II' => _('II'),'III' =>
 
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 {
-	if ( $_REQUEST['staff_id']=='new' || $_REQUEST['moodle_create_user'])
-//FJ last & first name required
-		echo '<table>
-		<tr class="st"><td>
-		'.SelectInput($staff['TITLE'],'staff[TITLE]',_('Title'),$titles_array,'').'
-		</td><td>
-		'.TextInput($staff['FIRST_NAME'],'staff[FIRST_NAME]',($staff['FIRST_NAME']==''?'<span class="legend-red">':'')._('First Name').($staff['FIRST_NAME']==''?'</span>':''),'maxlength=50 required', ($_REQUEST['moodle_create_user'] ? false : true)).'
-		</td><td>
-		'.TextInput($staff['MIDDLE_NAME'],'staff[MIDDLE_NAME]',_('Middle Name'),'maxlength=50').'
-		</td><td>
-		'.TextInput($staff['LAST_NAME'],'staff[LAST_NAME]',($staff['LAST_NAME']==''?'<span class="legend-red">':'')._('Last Name').($staff['LAST_NAME']==''?'</span>':''),'maxlength=50 required', ($_REQUEST['moodle_create_user'] ? false : true)).'
-		</td><td>
-		'.SelectInput($staff['NAME_SUFFIX'],'staff[NAME_SUFFIX]',_('Suffix'),$suffixes_array,'').'
-		</td></tr>
-		</table>';
+	$div = false;
+
+	$user_name_html = '<table><tr class="st"><td>' .
+	SelectInput(
+		$staff['TITLE'],
+		'staff[TITLE]',
+		_( 'Title' ),
+		$titles_array,
+		'',
+		'',
+		$div
+	) . '</td><td>' .
+	TextInput(
+		$staff['FIRST_NAME'],
+		'staff[FIRST_NAME]',
+		_( 'First Name' ),
+		'maxlength=50 required',
+		$div
+	) . '</td><td>' .
+	TextInput(
+		$staff['MIDDLE_NAME'],
+		'staff[MIDDLE_NAME]',
+		_( 'Middle Name' ),
+		'maxlength=50',
+		$div
+	) . '</td><td>' .
+	TextInput(
+		$staff['LAST_NAME'],
+		'staff[LAST_NAME]',
+		_( 'Last Name' ),
+		'maxlength=50 required',
+		$div
+	) . '</td><td>' .
+	SelectInput(
+		$staff['NAME_SUFFIX'],
+		'staff[NAME_SUFFIX]',
+		_( 'Suffix' ),
+		$suffixes_array,
+		'',
+		'',
+		$div
+	) . '</td></tr></table>';
+
+	if ( $_REQUEST['staff_id'] === 'new'
+		|| $_REQUEST['moodle_create_user'] )
+	{
+		echo $user_name_html;
+	}
 	else
 	{
-		$user_name = '<table>
-		<tr class="st"><td>
-		'.SelectInput($staff['TITLE'],'staff[TITLE]',_('Title'),$titles_array,'','',false).'
-		</td><td>
-		'.TextInput($staff['FIRST_NAME'],'staff[FIRST_NAME]',_('First Name'),'maxlength=50 required',false).'
-		</td><td>
-		'.TextInput($staff['MIDDLE_NAME'],'staff[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'</td><td>
-		'.TextInput($staff['LAST_NAME'],'staff[LAST_NAME]',_('Last Name'),'maxlength=50 required',false).'
-		</td><td>
-		'.SelectInput($staff['NAME_SUFFIX'],'staff[NAME_SUFFIX]',_('Suffix'),$suffixes_array,'','',false).'
-		</td></tr>
-		</table>';
+		$id = 'user_name';
 
-		echo '<script>var user_name='.json_encode($user_name).';</script>';
-
-		echo '<div id="user_name"><div class="onclick" onclick=\'addHTML(user_name';
-		
-		echo ',"user_name",true);\'><span class="underline-dots">'.$titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']].'</span></div></div><span class="legend-gray">'._('Name').'</span>';
+		echo InputDivOnclick(
+			$id,
+			$user_name_html,
+			$titles_array[$staff['TITLE']] . ' ' . $staff['FIRST_NAME'] . ' ' .
+			$staff['MIDDLE_NAME'] . ' ' . $staff['LAST_NAME'] . ' ' . $staff['NAME_SUFFIX'],
+			FormatInputTitle( _( 'Name' ), $id )
+		);
 	}
 }
 else
-	echo ($staff['TITLE']!=''||$staff['FIRST_NAME']!=''||$staff['MIDDLE_NAME']!=''||$staff['LAST_NAME']!=''||$staff['NAME_SUFFIX']!=''?$titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']]:'-').'<br /><span class="legend-gray">'._('Name').'</span>';
+{
+	echo NoInput(
+		trim( $titles_array[$staff['TITLE']] . ' ' . $staff['FIRST_NAME'] . ' ' .
+			$staff['MIDDLE_NAME'] . ' ' . $staff['LAST_NAME'] . ' ' . $staff['NAME_SUFFIX'] ),
+		_( 'Name' )
+	);
+}
 
 echo '</td><td>';
 
@@ -107,7 +137,7 @@ echo TextInput(
 	( $_REQUEST['moodle_create_user'] ? false : true )
 );
 
-echo '</td><td>';
+echo '</td><td colspan="2">';
 
 echo NoInput(makeLogin($staff['LAST_LOGIN']),_('Last Login'));
 

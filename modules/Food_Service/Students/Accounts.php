@@ -95,7 +95,13 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 
-	DrawHeader('<label>'.CheckBoxOnclick('include_inactive').' '._('Include Inactive Students in Shared Account').'</label>',SubmitButton(_('Save')));
+	DrawHeader(
+		CheckBoxOnclick(
+			'include_inactive',
+			_( 'Include Inactive Students in Shared Account' )
+		),
+		SubmitButton( _( 'Save' ) )
+	);
 
 	echo '<br />';
 

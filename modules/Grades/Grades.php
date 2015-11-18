@@ -401,10 +401,18 @@ foreach ( (array)$types_RET as $id => $type )
 	);
 }
 
-//FJ add label on checkbox
 DrawHeader($type_select.$assignment_select,$_REQUEST['assignment_id']?SubmitButton(_('Save')):'');
 
-DrawHeader('<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Students').'</label> &nbsp;<label>'.CheckBoxOnclick('include_all').'&nbsp;'._('Include Inactive Assignments').'</label>');
+DrawHeader(
+	CheckBoxOnclick(
+		'include_inactive',
+		_( 'Include Inactive Students' )
+	) . ' &nbsp;' .
+	CheckBoxOnclick(
+		'include_all',
+		_( 'Include Inactive Assignments' )
+	)
+);
 
 if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='all')
 {

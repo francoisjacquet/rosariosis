@@ -773,8 +773,11 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		}
 	}
 
-	//FJ add label on checkbox
-	DrawHeader($mps_select,SubmitButton(_('Save')),'<label>'.CheckBoxOnclick('include_inactive').'&nbsp;'._('Include Inactive Students').'</label>');
+	DrawHeader(
+		$mps_select,
+		SubmitButton( _( 'Save' ) ),
+		CheckBoxOnclick( 'include_inactive', _( 'Include Inactive Students' ) )
+	);
 	
 	//FJ add grade posting dates
 	$grade_posting_dates = DBGet(DBQuery("SELECT POST_START_DATE,POST_END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' LIMIT 1"));
@@ -900,12 +903,33 @@ function _makeLetterPercent($student_id,$column)
 		{
 			if (AllowEdit() && $div && $select_percent!='' && $select_grade)
 			{
-				$return = '<div id="'.$student_id.'"><div class="onclick" onclick=\'addHTML("';
+				$id = $student_id;
+
+				$select_html = '<span class="nobr">' . SelectInput(
+					$select_grade,
+					'values[' . $student_id . '][grade]',
+					'',
+					$grades_select,
+					false,
+					'tabindex="' . $tabindex . '"',
+					false
+				) . ' ' . TextInput(
+					$select_percent != '' ? $select_percent . '%' : '',
+					'values[' . $student_id . '][percent]',
+					'',
+					'size="5" tabindex="' . ( $tabindex += 100 ) . '"',
+					false
+				) . '</span>';
 				
-				$select = '<span class="nobr">'.SelectInput($select_grade,'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',false).' '.TextInput($select_percent!=''?$select_percent.'%':'',"values[$student_id][percent]",'','size="5" tabindex="'.($tabindex+=100).'"',false).'</span>';
-				
-				$return .=  str_replace('"','\"',$select);
-				$return .= '","'.$student_id.'",true);\'><span class="underline-dots">'.'<span class="nobr">'.($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>').' '.$select_percent.'%'.'</span>'.'</span></div></div>';
+				$return = InputDivOnclick(
+					$id,
+					$select_html,
+					'<span class="nobr">' . ( $grades_select[$select_grade] ?
+						$grades_select[$select_grade][1] :
+						'<span style="color:red">' . $select_grade . '</span>' ) .
+					' ' . $select_percent . '%</span>',
+					''
+				);
 			}
 			else
 				$return = '<span class="nobr">'.SelectInput($select_grade?$select_grade:($select_percent!=''?' ':''),'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',false).' '.TextInput($select_percent!=''?$select_percent.'%':($select_grade?'%':''),"values[$student_id][percent]",'','size="5" tabindex="'.($tabindex+=100).'"',false).'</span>';

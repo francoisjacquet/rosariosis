@@ -36,9 +36,14 @@ if ( $_REQUEST['id'] && $_REQUEST['id']!='all' && !$courses_RET[$_REQUEST['id']]
 if ( !$_REQUEST['id'])
 {
 	DrawHeader(_('Totals'),'<a href="Modules.php?modname='.$_REQUEST['modname'].'&id=all'.($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Expand All').'</a>');
-	if ( $do_stats)
-//FJ add label on checkbox
-		DrawHeader('','<label>'.CheckBoxOnclick('do_stats').' '._('Include Anonymous Statistics').'</label>');
+
+	if ( $do_stats )
+	{
+		DrawHeader(
+			'',
+			CheckBoxOnclick( 'do_stats', _( 'Include Anonymous Statistics' ) )
+		);
+	}
 		
 	$LO_columns = array('TITLE' => _('Course Title'),'TEACHER' => _('Teacher'),'UNGRADED' => _('Ungraded'));
 
@@ -197,12 +202,29 @@ else
 	}
 	else
 	{
-		$courses_RET = array($_REQUEST['id'] => $courses_RET[$_REQUEST['id']]);
-		DrawHeader('<b>'.$courses_RET[$_REQUEST['id']][1]['COURSE_TITLE'].'</b> - '.mb_substr($courses_RET[$_REQUEST['id']][1]['TITLE'],mb_strrpos(str_replace(' - ',' ^ ',$courses_RET[$_REQUEST['id']][1]['TITLE']),'^')+2),'<a href="Modules.php?modname='.$_REQUEST['modname'].($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Back to Totals').'</a>');
+		$courses_RET = array( $_REQUEST['id'] => $courses_RET[$_REQUEST['id']] );
+
+		$req_course_title = $courses_RET[$_REQUEST['id']][1]['COURSE_TITLE'];
+
+		DrawHeader(
+			'<b>' . $req_course_title . '</b> - ' .
+			mb_substr(
+				$req_course_title,
+				mb_strrpos( str_replace( ' - ', ' ^ ', $req_course_title), '^' ) + 2
+			),
+			'<a href="Modules.php?modname=' . $_REQUEST['modname'] .
+				( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) . '">' .
+				_( 'Back to Totals' ) . '</a>'
+		);
 	}
-	if ( $do_stats)
-//FJ add label on checkbox
-		DrawHeader('','<label>'.CheckBoxOnclick('do_stats').' '._('Include Anonymous Statistics').'</label>');
+
+	if ( $do_stats )
+	{
+		DrawHeader(
+			'',
+			CheckBoxOnclick( 'do_stats', _( 'Include Anonymous Statistics' ) )
+		);
+	}
 	//echo '<pre>'; var_dump($courses_RET); echo '</pre>';
 
     foreach ( (array)$courses_RET as $course_period_id => $course)

@@ -8,10 +8,13 @@ require_once 'modules/Scheduling/includes/unfilledRequests.inc.php';
 if ( $_REQUEST['modname']=='Scheduling/UnfilledRequests.php')
 {
 	DrawHeader(ProgramTitle());
-	if ( $_REQUEST['search_modfunc']=='list')
+
+	if ( $_REQUEST['search_modfunc'] === 'list' )
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=modify" method="POST">';
-		DrawHeader('<label>'.CheckBoxOnclick('include_seats').' '._('Show Available Seats').'</label>');
+
+		DrawHeader( CheckBoxOnclick( 'include_seats', _( 'Show Available Seats' ) ) );
+
 		echo '</form>';
 	}
 }

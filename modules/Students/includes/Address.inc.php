@@ -682,12 +682,32 @@ if (empty($_REQUEST['modfunc']))
 				if ( $_REQUEST['person_id']!='new')
 				{
 					echo '<tr><td id="person_'.$this_contact['PERSON_ID'].'" colspan="2">';
-					
-					$toEscape = '<table><tr><td>'._makePeopleInput($this_contact['FIRST_NAME'],'FIRST_NAME',_('First Name')).'</td><td>'._makePeopleInput($this_contact['MIDDLE_NAME'],'MIDDLE_NAME',_('Middle Name')).'</td><td>'._makePeopleInput($this_contact['LAST_NAME'],'LAST_NAME',_('Last Name')).'</td></tr></table>';
 
-					echo '<script> var person_'.$info['ID'].'='.json_encode($toEscape).';</script>';
+					$id = 'person_' . $info['ID'];
 
-					echo '<div class="onclick" onclick=\'addHTML(person_'.$info['ID'].',"person_'.$this_contact['PERSON_ID'].'",true);\'><span class="underline-dots">'.$this_contact['FIRST_NAME'].' '.$this_contact['MIDDLE_NAME'].' '.$this_contact['LAST_NAME'].'</span><br /><span class="legend-gray">'._('Name').'</span></div></td></tr>';
+					$person_html = _makePeopleInput(
+						$this_contact['FIRST_NAME'],
+						'FIRST_NAME',
+						_( 'First Name' )
+					) . '<br />' .
+					_makePeopleInput(
+						$this_contact['MIDDLE_NAME'],
+						'MIDDLE_NAME',
+						_( 'Middle Name' )
+					) . '<br />' .
+					_makePeopleInput(
+						$this_contact['LAST_NAME'],
+						'LAST_NAME',
+						_( 'Last Name' )
+					);
+
+					echo InputDivOnclick(
+						$id,
+						$person_html,
+						$this_contact['FIRST_NAME'] . ' ' . $this_contact['MIDDLE_NAME'] . ' ' .
+						$this_contact['LAST_NAME'],
+						FormatInputTitle( _( 'Name' ), $id )
+					);
 
 					echo '<tr><td colspan="2">'._makeAutoSelectInputX($this_contact['STUDENT_RELATION'],'STUDENT_RELATION','STUDENTS_JOIN_PEOPLE',_('Relation'),$relation_options).'</td>';
 
@@ -746,34 +766,64 @@ if (empty($_REQUEST['modfunc']))
 					}
 					else
 					{
-						if (count($info_RET))
+						foreach ( (array)$info_RET as $info)
 						{
-							foreach ( (array)$info_RET as $info)
-							{
-								echo '<tr>';
-								if (AllowEdit())
-									echo '<td>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</td>';
-								else
-									echo '<td></td>';
+							echo '<tr>';
+							if (AllowEdit())
+								echo '<td>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</td>';
+							else
+								echo '<td></td>';
 
-								$toEscape = TextInput($info['VALUE'],'values[PEOPLE_JOIN_CONTACTS]['.$info['ID'].'][VALUE]','','',false).'<br />'._makeAutoSelectInputX($info['TITLE'],'TITLE','PEOPLE_JOIN_CONTACTS','',$info_options,$info['ID'],false);
+							$id = 'info_' . $info['ID'];
 
-								echo '<script> var info_'.$info['ID'].'='.json_encode($toEscape).';</script>';
+							$info_html = TextInput(
+								$info['VALUE'],
+								'values[PEOPLE_JOIN_CONTACTS][' . $info['ID'] . '][VALUE]',
+								'',
+								'',
+								false
+							) . '<br />' .
+							_makeAutoSelectInputX(
+								$info['TITLE'],
+								'TITLE',
+								'PEOPLE_JOIN_CONTACTS',
+								'',
+								$info_options,
+								$info['ID'],
+								false
+							);
 
-								echo '<td id="info_'.$info['ID'].'"><div class="onclick" onclick=\'addHTML(info_'.$info['ID'];
-
-								echo ',"info_'.$info['ID'].'",true);\'><span class="underline-dots">'.$info['VALUE'].'</span><br /><span class="legend-gray">'.$info['TITLE'].'</span></div></td>';
-								echo '</tr>';
-							}
+							echo InputDivOnclick(
+								$id,
+								$info_html,
+								$info['VALUE'],
+								FormatInputTitle( $info['TITLE'], $id )
+							);
 						}
+
 						if ( AllowEdit()
 							&& ProgramConfig( 'students', 'STUDENTS_USE_CONTACT' ) )
 						{
-							echo '<tr>';
-							echo '<td>'.button('add').'</td>';
-							echo '<td>'.TextInput('','values[PEOPLE_JOIN_CONTACTS][new][VALUE]',_('Value'),'maxlength=100');
-							echo (count($info_options)>1?SelectInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),$info_options,_('N/A')):TextInput('','values[PEOPLE_JOIN_CONTACTS][new][TITLE]',_('Description'),'maxlength=100')).'</td>';
-							echo '</tr>';
+							echo '<tr><td>' . button( 'add' ) . '</td><td>' .
+							TextInput(
+								'',
+								'values[PEOPLE_JOIN_CONTACTS][new][VALUE]',
+								_('Value'),
+								'maxlength=100'
+							) . '<br />' . ( count( $info_options ) > 1 ?
+								SelectInput(
+									'',
+									'values[PEOPLE_JOIN_CONTACTS][new][TITLE]',
+									_( 'Description' ),
+									$info_options,
+									_( 'N/A' )
+								) :
+								TextInput(
+									'',
+									'values[PEOPLE_JOIN_CONTACTS][new][TITLE]',
+									_( 'Description' ),
+									'maxlength=100'
+								) ) . '</td></tr>';
 						}
 					}
 				}
@@ -932,7 +982,7 @@ function _makeAutoSelectInputX($value,$column,$table,$title,$select,$id='',$div=
 	if ( $column=='STATE' || $column=='MAIL_STATE')
 		$options = 'size=3 maxlength=10';
 	elseif ( $column=='ZIPCODE' || $column=='MAIL_ZIPCODE')
-		$options = 'maxlength=10';
+		$options = 'size=5 maxlength=10';
 	else
 		$options = 'maxlength=100';
 

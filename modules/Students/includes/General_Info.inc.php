@@ -22,41 +22,75 @@ if ( $_REQUEST['student_id']!='new' && ($file = @fopen($picture_path=$StudentPic
 echo '</td><td colspan="2">';
 
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
-//FJ Moodle integrator
-	if ( $_REQUEST['student_id']=='new' || $_REQUEST['moodle_create_student'])
-		echo '<table>
-		<tr class="st"><td>
-		'.TextInput($student['FIRST_NAME'],'students[FIRST_NAME]',($student['FIRST_NAME']==''?'<span class="legend-red">':'')._('First Name').($student['FIRST_NAME']==''?'</span>':''),'size=12 maxlength=50 required', ($_REQUEST['moodle_create_student'] ? false : true)).'
-		</td><td>
-		'.TextInput($student['MIDDLE_NAME'],'students[MIDDLE_NAME]',_('Middle Name'),'maxlength=50').'
-		</td><td>
-		'.TextInput($student['LAST_NAME'],'students[LAST_NAME]',($student['LAST_NAME']==''?'<span class="legend-red">':'')._('Last Name').($student['LAST_NAME']==''?'</span>':''),'size=12 maxlength=50 required', ($_REQUEST['moodle_create_student'] ? false : true)).'
-		</td><td>
-		'.SelectInput($student['NAME_SUFFIX'],'students[NAME_SUFFIX]',_('Suffix'),array('Jr' => _('Jr'),'Sr' => _('Sr'),'II' => _('II'),'III' => _('III'),'IV' => _('IV'),'V' => _('V')),'').'
-		</td></tr>
-		</table>';
+{
+	$div = false;
+
+	$student_name_html = '<table><tr class="st"><td>' .
+	TextInput(
+		$student['FIRST_NAME'],
+		'students[FIRST_NAME]',
+		_('First Name'),
+		'size=12 maxlength=50 required',
+		$div
+	) . '</td><td>' .
+	TextInput(
+		$student['MIDDLE_NAME'],
+		'students[MIDDLE_NAME]',
+		_( 'Middle Name' ),
+		'maxlength=50',
+		$div
+	) . '</td><td>' .
+	TextInput(
+		$student['LAST_NAME'],
+		'students[LAST_NAME]',
+		_( 'Last Name' ),
+		'size=12 maxlength=50 required',
+		$div
+	) . '</td><td>' .
+	SelectInput(
+		$student['NAME_SUFFIX'],
+		'students[NAME_SUFFIX]',
+		_( 'Suffix' ),
+		array(
+			'Jr' => _('Jr'),
+			'Sr' => _('Sr'),
+			'II' => _('II'),
+			'III' => _('III'),
+			'IV' => _('IV'),
+			'V' => _('V')
+		),
+		'',
+		'',
+		$div
+	) . '</td></tr></table>';
+
+	//FJ Moodle integrator
+	if ( $_REQUEST['student_id'] === 'new'
+		|| $_REQUEST['moodle_create_student'] )
+	{
+		echo $student_name_html;
+	}
 	else
 	{
-		$student_name = '<table>
-		<tr class="st"><td>
-		'.TextInput($student['FIRST_NAME'],'students[FIRST_NAME]',_('First Name'),'size=12 maxlength=50 required',false).'
-		</td><td>
-		'.TextInput($student['MIDDLE_NAME'],'students[MIDDLE_NAME]',_('Middle Name'),'maxlength=50',false).'
-		</td><td>
-		'.TextInput($student['LAST_NAME'],'students[LAST_NAME]',_('Last Name'),'size=12 maxlength=50 required',false).'
-		</td><td>
-		'.SelectInput($student['NAME_SUFFIX'],'students[NAME_SUFFIX]',_('Suffix'),array('Jr' => _('Jr'),'Sr' => _('Sr'),'II' => _('II'),'III' => _('III'),'IV' => _('IV'),'V' => _('V')),'','',false).'
-		</td></tr>
-		</table>';
+		$id = 'student_name';
 
-		echo '<script>var student_name='.json_encode($student_name).';</script>';
-		
-		echo '<div id="student_name"><div class="onclick" onclick=\'addHTML(student_name';
-		
-		echo ',"student_name",true);\'><span class="underline-dots">'.$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX'].'</span></div></div><span class="legend-gray">'._('Name').'</span>';
+		echo InputDivOnclick(
+			$id,
+			$student_name_html,
+			$student['FIRST_NAME'] . ' ' . $student['MIDDLE_NAME'] . ' ' .
+			$student['LAST_NAME'] . ' ' . $student['NAME_SUFFIX'],
+			FormatInputTitle( _( 'Name' ), $id )
+		);
 	}
+}
 else
-	echo ($student['FIRST_NAME']!=''||$student['MIDDLE_NAME']!=''||$student['LAST_NAME']!=''||$student['NAME_SUFFIX']!=''?$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'].' '.$student['LAST_NAME'].' '.$student['NAME_SUFFIX']:'-').'<br /><span class="legend-gray">'._('Name').'</span>';
+{
+	echo NoInput(
+		trim( $student['FIRST_NAME'] . ' ' . $student['MIDDLE_NAME'] . ' ' .
+			$student['LAST_NAME'] . ' ' . $student['NAME_SUFFIX'] ),
+		_( 'Name' )
+	);
+}
 
 echo '</td><td>';
 

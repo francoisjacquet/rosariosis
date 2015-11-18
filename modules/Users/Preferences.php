@@ -92,6 +92,8 @@ if ( $_REQUEST['values'] && $_POST['values'])
 			}
 		}
 
+		$note[] = button( 'check' ) . '&nbsp;' . _( 'Your preferences were saved.' );
+
 		// So Preferences() will get the new values
 		unset($_ROSARIO['Preferences']);
 	}
@@ -118,7 +120,7 @@ if (empty($_REQUEST['modfunc']))
 		$_REQUEST['tab'] = 'password';
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&amp;tab='.$_REQUEST['tab'].'" method="POST">';
-	DrawHeader('','<input type="submit" value="'._('Save').'" />');
+	DrawHeader( '', Buttons( _( 'Save' ) ) );
 	echo '<br />';
 
 	if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
@@ -146,156 +148,282 @@ if (empty($_REQUEST['modfunc']))
 	else //FJ Responsive student/staff fields preferences
 		$LO_options['header'] = WrapTabs($tabs,$_ROSARIO['selected_tab']);
 
-	if ( $_REQUEST['tab']=='student_listing')
+	// Inputs param defaults
+	$allow_na = $div = false;
+
+	$new = true;
+
+	$extra = '';
+
+	// Student Listing tab
+	if ( $_REQUEST['tab'] === 'student_listing' )
 	{
-		echo '<table class="cellpadding-5 col1-align-right">';
+		echo '<table class="cellpadding-5"><tr><td>';
 
-		echo '<tr class="st">
-			<td><span class="legend-gray">' . _( 'Student Sorting' ) . '</span></td>
-			<td><label><input type="radio" name="values[Preferences][SORT]" value="Name"' .
-				( ( Preferences( 'SORT' ) == 'Name' ) ? ' checked' : '' ) . '> ' . _( 'Name' ) . '</label><br />
-			<label><input type="radio" name="values[Preferences][SORT]" value="Grade"' .
-				( ( Preferences( 'SORT' ) == 'Grade' ) ? ' checked' : '' ) . '> ' .
-				_( 'Grade Level' ) . ', ' .	_( 'Name' ) . '</label></td></tr>';
+		// Student Sorting
+		echo SelectInput(
+			Preferences( 'SORT' ),
+			'values[Preferences][SORT]',
+			_( 'Student Sorting' ),
+			array( 'Name' => _( 'Name' ), 'Grade' => _( 'Grade Level' ) . ', ' . _( 'Name' ) ),
+			$allow_na,
+			$extra,
+			$div
+		);
 
-		echo '<tr class="st"><td><span class="legend-gray">' . _( 'File Export Type' ) . '</span></td>
-			<td><label><input type="radio" name="values[Preferences][DELIMITER]" value="Tab"' .
-				( ( Preferences( 'DELIMITER' ) == 'Tab' ) ? ' checked' : '' ) . '> ' .
-				_( 'Tab-Delimited (Excel)' ) . '</label><br />
-			<label><input type="radio" name="values[Preferences][DELIMITER]" value="CSV"' .
-				( ( Preferences( 'DELIMITER' ) == 'CSV' ) ? ' checked' : '' ) . '> ' .
-				'CSV (OpenOffice)</label><br />
-			<label><input type="radio" name="values[Preferences][DELIMITER]" value="XML"' .
-				( ( Preferences( 'DELIMITER' ) == 'XML' ) ? ' checked' : '' ) . '> ' .
-				'XML</label></td></tr>';
+		echo '</td></tr><tr><td>';
 
-		echo '<tr class="st"><td><span class="legend-gray">' . _( 'Date Export Format' ) . '</span></td>
-			<td><label><input type="radio" name="values[Preferences][E_DATE]" value=""' .
-				( ( Preferences( 'E_DATE' ) == '' ) ? ' checked' : '' ) . '> ' .
-				_( 'Display Options Format' ) . '</label><br />
-			<label><input type="radio" name="values[Preferences][E_DATE]" value="MM/DD/YYYY"' .
-				( ( Preferences( 'E_DATE' ) == 'MM/DD/YYYY' ) ? ' checked' : '' ) . '> ' .
-				'MM/DD/YYYY</label></td></tr>';
+		// File Export Type
+		echo SelectInput(
+			Preferences( 'DELIMITER' ),
+			'values[Preferences][DELIMITER]',
+			_( 'File Export Type' ),
+			array(
+				'Tab' => _( 'Tab-Delimited (Excel)' ),
+				'CSV' => 'CSV (OpenOffice / LibreOffice)', // Do not Translate
+				'XML' => 'XML' // Do not Translate
+			),
+			$allow_na,
+			$extra,
+			$div
+		);
 
-		echo '<tr><td><br /></td><td><br /></td>';
-		echo '<tr class="st"><td></td><td><label><input type="checkbox" name=values[Preferences][SEARCH] value="Y"'.((Preferences('SEARCH')=='Y')?' checked':'').'> '._('Display student search screen').'</label></td></tr>';
-		if (User('PROFILE')=='admin')
+		echo '</td></tr><tr><td>';
+
+		// Date Export Format
+		echo SelectInput(
+			Preferences( 'E_DATE' ),
+			'values[Preferences][E_DATE]',
+			_( 'Date Export Format' ),
+			array(
+				'' => _( 'Display Options Format' ),
+				'MM/DD/YYYY' => 'MM/DD/YYYY', // Do not Translate
+			),
+			$allow_na,
+			$extra,
+			$div
+		);
+
+		echo '</td></tr>';
+
+		if ( User( 'PROFILE' ) === 'admin'
+			|| User( 'PROFILE' ) === 'teacher' )
 		{
-			echo '<tr class="st"><td></td><td><label><input type="checkbox" name="values[Preferences][DEFAULT_FAMILIES]" value="Y"'.((Preferences('DEFAULT_FAMILIES')=='Y')?' checked':'').'> '._('Group by family by default').'</label></td></tr>';
+			// Display student search screen
+			echo '<tr><td>' . CheckboxInput(
+				Preferences( 'SEARCH' ),
+				'values[Preferences][SEARCH]',
+				_( 'Display student search screen' ),
+				'',
+				$new
+			) . '</td></tr>';
+		}
+
+		if ( User( 'PROFILE' ) === 'admin' )
+		{
+			// Group by family by default
+			echo '<tr><td>' . CheckboxInput(
+				Preferences( 'DEFAULT_FAMILIES' ),
+				'values[Preferences][DEFAULT_FAMILIES]',
+				_( 'Group by family by default' ),
+				'',
+				$new
+			) . '</td></tr>';
 
 			//FJ if only one school, no Search All Schools option
-			if (SchoolInfo('SCHOOLS_NB') > 1)
-				echo '<tr class="st"><td></td><td><label><input type="checkbox" name="values[Preferences][DEFAULT_ALL_SCHOOLS]" value="Y"'.((Preferences('DEFAULT_ALL_SCHOOLS')=='Y')?' checked':'').'> '._('Search all schools by default').'</label></td></tr>';
+			if ( SchoolInfo( 'SCHOOLS_NB' ) > 1 )
+			{
+				// Search all schools by default
+				echo '<tr><td>' . CheckboxInput(
+					Preferences( 'DEFAULT_ALL_SCHOOLS' ),
+					'values[Preferences][DEFAULT_ALL_SCHOOLS]',
+					_( 'Search all schools by default' ),
+					'',
+					$new
+				) . '</td></tr>';
+			}
 		}
+
 		echo '</table>';
 	}
 
-	if ( $_REQUEST['tab']=='display_options')
+	// Display Options tab
+	if ( $_REQUEST['tab'] === 'display_options' )
 	{
-		echo '<table class="cellpadding-5 col1-align-right">';
-		echo '<tr class="st"><td class="valign-top"><span class="legend-gray">'._('Theme').'</span></td><td><table><tr>';
+		echo '<table class="cellpadding-5"><tr><td>';
 
-		$themes = glob('assets/themes/*', GLOB_ONLYDIR);
-		foreach ($themes as $theme)
+		$theme_options = array();
+
+		$themes = glob( 'assets/themes/*', GLOB_ONLYDIR );
+
+		foreach ( (array)$themes as $theme )
 		{
-			$theme_name = str_replace('assets/themes/', '', $theme);
+			$theme_name = str_replace( 'assets/themes/', '', $theme );
 
-			echo '<td><label><input type="radio" name="values[Preferences][THEME]" value="'.$theme_name.'"'.((Preferences('THEME')==$theme_name)?' checked':'').'> '.$theme_name.'</label></td>';
-
-			if ( $count++%3==0)
-				echo '</tr><tr class="st">';
+			$theme_options[$theme_name] = $theme_name;
 		}
-		echo '</tr></table></td></tr>';
-		
-//FJ css WPadmin
-//		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
-		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666', '#FFFFFF');
-		echo '<tr class="st"><td><span class="legend-gray">'._('Highlight Color').'</span></td><td><table><tr>';
-		foreach ( (array)$colors as $color)
-			echo '<td style="background-color:'.$color.';"><input type="radio" name="values[Preferences][HIGHLIGHT]" value="'.$color.'"'.((Preferences('HIGHLIGHT')==$color)?' checked':'').'></td>';
-		echo '</tr></table></td></tr>';
 
-//FJ css WPadmin
+		// Theme
+		echo SelectInput(
+			Preferences( 'THEME' ),
+			'values[Preferences][THEME]',
+			_( 'Theme' ),
+			$theme_options,
+			$allow_na,
+			$extra,
+			$div
+		);
 
-		echo '<tr class="st"><td><span class="legend-gray">'._('Date Format').'</span></td><td><select name="values[Preferences][MONTH]">';
+		echo '</td></tr><tr><td>';
+
+		echo ColorInput(
+			Preferences( 'HIGHLIGHT' ),
+			'values[Preferences][HIGHLIGHT]',
+			_( 'Highlight Color' )
+		);
+
+		echo '</td></tr><tr><td>';
+
 		//FJ display locale with strftime()
-		$values = array('%B','%b','%m');
+		$month_keys = array( '%B', '%b', '%m' );
 
-		foreach ( (array)$values as $value)
-			echo '<option value="'.$value.'"'.((Preferences('MONTH')==$value)?' selected':'').'>'.mb_convert_case(iconv('','UTF-8',strftime($value)), MB_CASE_TITLE, "UTF-8").'</option>';
+		$month_options = array();
 
-		echo '</select>';
-
-		echo '<select name="values[Preferences][DAY]">';
-		$values = array('%d');
-
-		foreach ( (array)$values as $value)
-			echo '<option value="'.$value.'"'.((Preferences('DAY')==$value)?' selected':'').'>'.strftime($value).'</option>';
-
-		echo '</select>';
-
-		echo '<select name=values[Preferences][YEAR]>';
-		$values = array('%Y','%y');
-
-		foreach ( (array)$values as $value)
-			echo '<option value="'.$value.'"'.((Preferences('YEAR')==$value || (!Preferences('YEAR') && !$value))?' selected':'').'>'.strftime($value).'</option>';
-
-		echo '</select>';
-
-		echo '</td></tr>';
-
-		echo '<tr class="st"><td></td><td><label><input type="checkbox" name="values[Preferences][HIDE_ALERTS]" value="Y"'.((Preferences('HIDE_ALERTS')=='Y')?' checked':'').'> '._('Disable login alerts').'</label></td></tr>';
-
-		echo '<tr class="st"><td></td><td><label><input type="checkbox" name="values[Preferences][SCROLL_TOP]" value="Y"'.((Preferences('SCROLL_TOP')=='Y')?' checked':'').'> '._('Automatically scroll to the top of the page').'</label></td></tr>';
-
-		echo '</table>';
-	}
-	
-	if ( $_REQUEST['tab']=='print_options')
-	{
-		echo '<table class="cellpadding-5 col1-align-right">';
-
-		$page_sizes = array( 'A4' => 'A4', 'LETTER' => _( 'US Letter' ) );
-
-		echo '<tr class="st"><td><span class="legend-gray">' . _( 'Page Size' ) . '</span></td><td>';
-
-		foreach ( (array)$page_sizes as $page_size => $title )
+		foreach ( (array)$month_keys as $month_key )
 		{
-			echo '<label><input type="radio" name="values[Preferences][PAGE_SIZE]" value="' . $page_size . '"' .
-				( ( Preferences( 'PAGE_SIZE' ) == $page_size ) ? ' checked' : '' ) . ' /> ' .
-				$title . '</label><br />';
+			$month_options[$month_key] = mb_convert_case(
+				iconv( '', 'UTF-8', strftime( $month_key ) ),
+				MB_CASE_TITLE,
+				"UTF-8"
+			);
 		}
 
-		echo '</td></tr>';
-		
-		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
-		echo '<tr class="st"><td><span class="legend-gray">'._('PDF List Header Color').'</span></td><td><table><tr>';
-		foreach ( (array)$colors as $color)
-			echo '<td style="background-color:'.$color.';"><input type="radio" name="values[Preferences][HEADER]" value="'.$color.'"'.((Preferences('HEADER')==$color)?' checked':'').'></td>';
-		echo '</tr></table></td></tr>';
+		// Month
+		echo SelectInput(
+			Preferences( 'MONTH' ),
+			'values[Preferences][MONTH]',
+			'',
+			$month_options,
+			$allow_na,
+			$extra,
+			$div
+		);
 
-		echo '</table>';
+		// Day
+		echo SelectInput(
+			Preferences( 'DAY' ),
+			'values[Preferences][DAY]',
+			'',
+			array( '%d' => strftime( '%d' ) ),
+			$allow_na,
+			$extra,
+			$div
+		);
+
+		// Year
+		echo SelectInput(
+			Preferences( 'YEAR' ),
+			'values[Preferences][YEAR]',
+			'',
+			array( '%Y' => strftime( '%Y' ), '%y' => strftime( '%y' ) ),
+			$allow_na,
+			$extra,
+			$div
+		);
+
+		echo FormatInputTitle( _( 'Date Format' ) ) . '</td></tr><tr><td>';
+
+		// Disable login alerts
+		echo CheckboxInput(
+			Preferences( 'HIDE_ALERTS' ),
+			'values[Preferences][HIDE_ALERTS]',
+			_( 'Disable login alerts' ),
+			'',
+			$new
+		);
+
+		echo '</td></tr><tr><td>';
+
+		// Automatically scroll to top of the page
+		echo CheckboxInput(
+			Preferences( 'SCROLL_TOP' ),
+			'values[Preferences][SCROLL_TOP]',
+			_( 'Automatically scroll to top of the page' ),
+			'',
+			$new
+		);
+
+		echo '</td></tr></table>';
 	}
 
-	if ( $_REQUEST['tab']=='password')
+	// Pint Options tab
+	if ( $_REQUEST['tab'] === 'print_options' )
 	{
-//FJ password fields are required
-//FJ Moodle integrator / password
-		echo '<table class="cellpadding-5 col1-align-right"><tr class="st"><td><span class="legend-gray">' . _( 'Current Password' ) . '</span></td>
-			<td><input type="password" name="values[current]" required /></td></tr>
-			<tr class="st"><td><span class="legend-gray">' . _( 'New Password' ) .
-				( $RosarioPlugins['Moodle'] ?
-				'<div class="tooltip"><i>' .
-					_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
-				'</i></div>' :
-				''
-				) .	'</span></td>
-			<td><input type="password" name="values[verify]" required /></td></tr>
-			<tr class="st"><td><span class="legend-gray">' . _( 'Verify New Password' ) . '</span></td>
-			<td><input type="password" name="values[new]" required /></td></tr></table>';
+		echo '<table class="cellpadding-5"><tr><td>';
+
+		// Page Size
+		echo SelectInput(
+			Preferences( 'PAGE_SIZE' ),
+			'values[Preferences][PAGE_SIZE]',
+			_( 'Page Size' ),
+			array( 'A4' => 'A4', 'LETTER' => _( 'US Letter' ) ),
+			$allow_na,
+			$extra,
+			$div
+		);
+
+		echo '</td></tr><tr><td>';
+
+		echo ColorInput(
+			Preferences( 'HEADER' ),
+			'values[Preferences][HEADER]',
+			_( 'PDF List Header Color' )
+		);
+
+		echo '</td></tr><tr><td></table>';
 	}
 
-	if ( $_REQUEST['tab']=='student_fields')
+	if ( $_REQUEST['tab'] === 'password' )
+	{
+		//FJ password fields are required
+		//FJ Moodle integrator / password
+		echo '<table class="cellpadding-5"><tr><td>';
+
+		$id = GetInputID( 'values[current]' );
+
+		// Current Password
+		echo '<input type="password" name="values[current]" id="' . $id . '" required />' .
+			FormatInputTitle( _( 'Current Password' ), $id );
+
+		echo '</td></tr><tr><td>';
+
+		$id = GetInputID( 'values[new]' );
+
+		// New Password
+		echo '<input type="password" name="values[new]" id="' . $id . '" required />' .
+			FormatInputTitle(
+				_( 'New Password' ) .
+				( $RosarioPlugins['Moodle'] ?
+					'<div class="tooltip"><i>' .
+						_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
+					'</i></div>' :
+					'' ),
+				$id
+			);
+
+		echo '</td></tr><tr><td>';
+
+		$id = GetInputID( 'values[verify]' );
+
+		// Verify New Password
+		echo '<input type="password" name="values[verify]" id="' . $id . '" required />' .
+			FormatInputTitle( _( 'Verify New Password' ), $id );
+
+		echo '</td></tr></table>';
+	}
+
+	// Student Fields tab
+	if ( $_REQUEST['tab'] === 'student_fields' )
 	{
 		if (User('PROFILE_ID'))
 			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS SEARCH,'' AS DISPLAY 
@@ -332,7 +460,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$custom_fields_RET[0][] = array('CATEGORY' => '<b>'._('Addresses').'</b>','ID' => 'ADDRESS','TITLE'=> button('house', '', '', 'bigger') .' '._('Residence'),'DISPLAY'=>_makeAddress('RESIDENCE'));
 
-//FJ disable mailing address display
+		//FJ disable mailing address display
 		if (Config('STUDENTS_USE_MAILING'))
 			$custom_fields_RET[0][] = array('CATEGORY' => '<b>'._('Addresses').'</b>','ID' => 'ADDRESS','TITLE'=> button('mailbox', '', '', 'bigger') .' '._('Mailing'),'DISPLAY'=>_makeAddress('MAILING'));
 
@@ -348,7 +476,8 @@ if (empty($_REQUEST['modfunc']))
 		ListOutput($custom_fields_RET,$columns,'.','.',array(),array(array('CATEGORY')),$LO_options);
 	}
 
-	if ( $_REQUEST['tab']=='widgets')
+	// Widgets tab
+	if ( $_REQUEST['tab'] === 'widgets' )
 	{
 		$widgets = array();
 		if ( $RosarioModules['Students'])
@@ -383,7 +512,9 @@ if (empty($_REQUEST['modfunc']))
 		ListOutput($widgets_RET,$columns,'.','.',array(),array(),$LO_options);
 	}
 
-	if ( $_REQUEST['tab']=='staff_fields' && User('PROFILE')=='admin')
+	// Staff Fields tab
+	if ( $_REQUEST['tab'] === 'staff_fields'
+		&& User( 'PROFILE' ) === 'admin' )
 	{
 		if (User('PROFILE_ID'))
 			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY 
@@ -409,7 +540,9 @@ if (empty($_REQUEST['modfunc']))
 		ListOutput($custom_fields_RET,$columns,'User Field','User Fields',array(),array(array('CATEGORY')),$LO_options);
 	}
 
-	if ( $_REQUEST['tab']=='staff_widgets' && User('PROFILE')=='admin')
+	// Staff Widgets tab
+	if ( $_REQUEST['tab'] === 'staff_widgets'
+		&& User('PROFILE') === 'admin' )
 	{
 		$widgets = array();
 		if ( $RosarioModules['Users'])
@@ -432,10 +565,12 @@ if (empty($_REQUEST['modfunc']))
 		ListOutput($widgets_RET,$columns,'.','.',array(),array(),$LO_options);
 	}
 
-	if ( !in_array($_REQUEST['tab'], array('student_fields','staff_fields')))
-		PopTable('footer');
+	if ( !in_array( $_REQUEST['tab'], array( 'student_fields', 'staff_fields' ) ) )
+	{
+		PopTable( 'footer' );
+	}
 
-	echo '<br /><div class="center"><input type="submit" value="'._('Save').'" /></div>';
+	echo '<br /><div class="center">' . Buttons( _( 'Save' ) ) . '</div>';
 	echo '</form>';
 }
 

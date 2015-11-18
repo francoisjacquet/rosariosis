@@ -346,14 +346,22 @@ function makeContactInfo($student_id,$column)
 			if ( $person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'])
 				$tipmessage .= $person[1]['STUDENT_RELATION'].': '.$person[1]['FIRST_NAME'].' '.$person[1]['LAST_NAME'].'<br />';
 
-			$tipmessage .= '<table class="col1-align-right cellspacing-0">';
-			if ( $person[1]['PHONE'])
-				$tipmessage .= '<tr><td><span class="legend-gray">'._('Home Phone').'</span> </td><td>'.$person[1]['PHONE'].'</td></tr>';
+			$tipmessage .= '<table class="cellpadding-5">';
+
+			if ( $person[1]['PHONE'] )
+			{
+				$tipmessage .= '<tr><td>' . NoInput( $person[1]['PHONE'], _( 'Home Phone' ) ) .
+					'</td></tr>';
+			}
 
 			foreach ( (array)$person as $info)
 			{
-				if ( $info['TITLE'] || $info['VALUE'])
-					$tipmessage .= '<tr><td><span class="legend-gray">'.$info['TITLE'].'</span></td><td>'.$info['VALUE'].'</td></tr>';
+				if ( $info['TITLE']
+					|| $info['VALUE'] )
+				{
+					$tipmessage .= '<tr><td>' . NoInput( $info['VALUE'], $info['TITLE'] ) .
+						'</td></tr>';
+				}
 			}
 
 			$tipmessage .= '</table>';

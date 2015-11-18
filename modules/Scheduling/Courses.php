@@ -603,7 +603,13 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			$header .= '<tr class="st">';
 
 			//FJ Moodle integrator
-			$header .= '<td>' . TextInput($RET['SHORT_NAME'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][SHORT_NAME]',($RET['SHORT_NAME']?'':'<span class="legend-red">')._('Short Name').($RET['SHORT_NAME']?'':'</span>'),'required', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</td>';
+			$header .= '<td>' . TextInput(
+				$RET['SHORT_NAME'],
+				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][SHORT_NAME]',
+				_( 'Short Name' ),
+				'required',
+				( $_REQUEST['moodle_create_course_period'] ? false : true )
+			) . '</td>';
 
 			$teachers_RET = DBGet(DBQuery("SELECT STAFF_ID,LAST_NAME,FIRST_NAME,MIDDLE_NAME FROM STAFF WHERE (SCHOOLS IS NULL OR STRPOS(SCHOOLS,',".UserSchool().",')>0) AND SYEAR='".UserSyear()."' AND PROFILE='teacher' ORDER BY LAST_NAME,FIRST_NAME"));
 
@@ -637,7 +643,16 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			}
 
 			//FJ Moodle integrator
-			$header .= '<td>' . SelectInput($RET['MARKING_PERIOD_ID'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][MARKING_PERIOD_ID]',($RET['MARKING_PERIOD_ID']?'':'<span class="legend-red">')._('Marking Period').($RET['MARKING_PERIOD_ID']?'':'</span>'),$options,false, '', ($_REQUEST['moodle_create_course_period'] ? false : true)) . '</td>';
+			$header .= '<td>' . SelectInput(
+				$RET['MARKING_PERIOD_ID'],
+				'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][MARKING_PERIOD_ID]',
+				_( 'Marking Period' ),
+				$options,
+				false,
+				'required',
+				( $_REQUEST['moodle_create_course_period'] ? false : true )
+			) . '</td>';
+
 			$header .= '<td colspan="2">' . TextInput($RET['TOTAL_SEATS'],'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][TOTAL_SEATS]',_('Seats'),'size=4') . '</td>';
 
 			$header .= '</tr>';
@@ -670,10 +685,22 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 				$header .= '<tr id="schoolPeriod'.$i.'" class="st">';
 
 				//FJ existing school period not modifiable
-				if ( !$new)
-					$header .= '<td>' . $periods[$school_period['PERIOD_ID']] . '<br /><span class="legend-gray">' ._('Period'). '</span></td>';
+				if ( !$new )
+				{
+					$header .= '<td>' . NoInput(
+						$periods[$school_period['PERIOD_ID']],
+						_( 'Period' )
+					) . '</td>';
+				}
 				else
-					$header .= '<td>' . SelectInput($school_period['PERIOD_ID'],'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][PERIOD_ID]',($school_period['PERIOD_ID']?'':'<span class="legend-red">')._('Period').($school_period['PERIOD_ID']?'':'</span>'),$periods) . '</td>';
+				{
+					$header .= '<td>' . SelectInput(
+						$school_period['PERIOD_ID'],
+						'tables[COURSE_PERIOD_SCHOOL_PERIODS][' . $school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] . '][PERIOD_ID]',
+						_( 'Period' ),
+						$periods
+					) . '</td>';
+				}
 
 				$header .= '<td colspan="6">';
 
@@ -862,7 +889,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			DrawHeader($header);
 			//echo '</form>';
 		}
-		elseif ( $_REQUEST['course_id'])
+		elseif ( $_REQUEST['course_id'] )
 		{
 			if ( $_REQUEST['course_id']!='new')
 			{
@@ -950,10 +977,15 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 	{
 		if ( $_REQUEST['modname']=='Scheduling/Schedule.php')
 		{
-//FJ add translation
 			echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
+
 			DrawHeader(_('Choose a').' '.($_REQUEST['subject_id']?($_REQUEST['course_id']?($_REQUEST['last_year']=='true'?_('Last Year Course Period'):_('Course Period')):($_REQUEST['last_year']=='true'?_('Last Year Course'):_('Course'))):($_REQUEST['last_year']=='true'?_('Last Year Subject'):_('Subject'))),_('Enrollment Date').' '.PrepareDate($date,'_date',false,array('submit'=>true)),'');
-			DrawHeader('<label>'.CheckBoxOnclick('include_child_mps').' '._('Offer Enrollment in Child Marking Periods').'</label>');
+
+			DrawHeader( CheckBoxOnclick(
+				'include_child_mps',
+				_( 'Offer Enrollment in Child Marking Periods' )
+			) );
+
 			echo '</form>';
 		}
 		else
