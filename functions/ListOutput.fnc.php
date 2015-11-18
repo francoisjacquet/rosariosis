@@ -826,6 +826,23 @@ function _ReindexResults( $array )
 	return $new;
 }
 
+class Rosario_List implements Countable {
+
+	/*****************************************************************/
+	/*                    Countable Implementation                   */
+	/*****************************************************************/
+
+	/**
+	 * Get the count of elements in the container array.
+	 *
+	 * @link http://php.net/manual/en/countable.count.php
+	 *
+	 * @return int
+	 */
+	public function count() {
+		return count( $this->container );
+	}
+}
 
 /**
  * Save / Export List to CSV (OpenOffice), Tab (Excel) or XML
@@ -838,11 +855,13 @@ function _ReindexResults( $array )
  *
  * @param  array  $result       ListOutput $result
  * @param  array  $column_names ListOutput $column_names
+ * @param  string $singular     ListOutput $singular
+ * @param  string $plural       ListOutput $plural
  * @param  string $delimiter    CSV|Tab|XML
  *
  * @return void   Outputs file and exits
  */
-function _listSave( $result, $column_names, $delimiter )
+function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 {
 	$format_value =
 	function( $value )
@@ -900,11 +919,14 @@ function _listSave( $result, $column_names, $delimiter )
 	// Format Columns
 	foreach ( (array)$column_names as $column )
 	{
-		$column = ParseMLField( $column );
+		if ( $column !== '' )
+		{
+			$column = ParseMLField( $column );
 
-		$column = $format_value( $column );
+			$column = $format_value( $column );
 
-		$column = str_replace( '[br]', ' ', $column );
+			$column = str_replace( '[br]', ' ', $column );
+		}
 
 		if ( $extension === 'csv' )
 		{
@@ -925,15 +947,18 @@ function _listSave( $result, $column_names, $delimiter )
 		{
 			$value = $item[$key];
 
-			$value = preg_replace( '!<select.*selected\>([^<]+)<.*</select\>!i', '\\1', $value );
+			if ( $value !== '' )
+			{
+				$value = preg_replace( '!<select.*selected\>([^<]+)<.*</select\>!i', '\\1', $value );
 
-			$value = preg_replace( '!<select.*</select\>!i', '', $value );
+				$value = preg_replace( '!<select.*</select\>!i', '', $value );
 
-			$value = $format_value( $value );
+				$value = $format_value( $value );
 
-			$replace_br = $extension === 'xml' ? '<br />' : ' ';
+				$replace_br = $extension === 'xml' ? '[br]' : ' ';
 
-			$value = str_replace( '[br]', $replace_br, $value );
+				$value = str_replace( '[br]', $replace_br, $value );
+			}
 
 			if ( $extension === 'csv' )
 			{
@@ -972,21 +997,18 @@ function _listSave( $result, $column_names, $delimiter )
 	// XML
 	else
 	{
-		$elements = mb_strtolower(str_replace(
-			'.php',
-			'',
-			mb_substr(
-				$_REQUEST['modname'],
-				mb_strpos( $_REQUEST['modname'], '/' ) + 1
-			)
-		));
-
-		if ( mb_substr( $elements, -1 ) === 's' )
+		if ( $plural !== '.' )
 		{
-			$element = mb_substr( $elements, 0, -1 );
+			$elements = mb_strtolower( str_replace( ' ', '_', $plural ) );
+
+			$element = mb_strtolower( str_replace( ' ', '_', $singular ) );
 		}
 		else
-			$element = $elements . '_set';
+		{
+			$elements = 'items_set';
+
+			$element = 'item';
+		}
 
 		$output = '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<' . $elements . '>' . "\n";
 
@@ -996,8 +1018,15 @@ function _listSave( $result, $column_names, $delimiter )
 
 			foreach ( $result_line as $key => $value )
 			{
+				if ( $formatted_columns[$key] === '' )
+				{
+					$column = 'column_' . ( $key + 1 );
+				}
+				else
+					$column = mb_strtolower( str_replace( ' ', '_', $formatted_columns[$key] ) );
 
-				$column = mb_strtolower( str_replace( ' ', '_', $formatted_columns[$key] ) );
+				// http://stackoverflow.com/questions/1091945/what-characters-do-i-need-to-escape-in-xml-documents
+				$value = str_replace( '[br]', '<br />', htmlentities( $value ) );
 
 				$output .= "\t\t" . '<' . $column . '>' . $value .
 					'</' . $column . '>' . "\n";
