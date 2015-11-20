@@ -1,6 +1,6 @@
 <?php
-echo '<table class="width-100p valign-top fixed-col">';
-echo '<tr class="st"><td rowspan="2">';
+echo '<table class="width-100p valign-top fixed-col"><tr class="st"><td rowspan="4">';
+
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
@@ -97,7 +97,7 @@ else
 	);
 }
 
-echo '</td><td>';
+echo '</td></tr><tr class="st"><td>';
 
 echo NoInput($staff['STAFF_ID'],sprintf(_('%s ID'),Config('NAME')));
 
@@ -137,61 +137,118 @@ echo TextInput(
 	( $_REQUEST['moodle_create_user'] ? false : true )
 );
 
-echo '</td><td colspan="2">';
+echo '</td></tr><tr class="st"><td colspan="2">';
 
 echo NoInput(makeLogin($staff['LAST_LOGIN']),_('Last Login'));
 
 
 echo '</td></tr></table><hr />';
 
-echo '<table class="width-100p valign-top">';
-if (basename($_SERVER['PHP_SELF'])!='index.php')
+echo '<table class="width-100p valign-top fixed-col">';
+
+if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 {
 	echo '<tr class="st"><td>';
 
-	echo '<table><tr><td>';
-	unset($options);
-	$options = array('admin' => _('Administrator'),'teacher' => _('Teacher'),'parent' => _('Parent'),'none' => _('No Access'));
-	echo SelectInput($staff['PROFILE'],'staff[PROFILE]',(!$staff['PROFILE']?'<span class="legend-red">':'')._('User Profile').(!$staff['PROFILE']?'</span>':''),$options,false,'',($_REQUEST['moodle_create_user'] ?false:true));
+	$profile_options = array(
+		'admin' => _( 'Administrator' ),
+		'teacher' => _( 'Teacher' ),
+		'parent' => _( 'Parent' ),
+		'none' => _( 'No Access' )
+	);
 
-	echo '</td></tr><tr><td>';
+	echo SelectInput(
+		$staff['PROFILE'],
+		'staff[PROFILE]',
+		_( 'User Profile' ),
+		$profile_options,
+		false,
+		'required',
+		$_REQUEST['moodle_create_user'] ? false : true
+	);
 
-	unset($profiles);
-	if ( $_REQUEST['staff_id']!='new')
+	echo '</td><td>';
+
+	$permissions_options = array();
+
+	if ( $_REQUEST['staff_id'] != 'new' )
 	{
-		$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES WHERE PROFILE='".$staff['PROFILE']."' ORDER BY ID"));
-		foreach ( (array)$profiles_RET as $profile)
-//FJ add translation
-			$profiles[$profile['ID']] = _($profile['TITLE']);
-		$na = _('Custom');
+		$permissions_RET = DBGet( DBQuery( "SELECT ID,TITLE
+			FROM USER_PROFILES
+			WHERE PROFILE='" . $staff['PROFILE'] . "'
+			ORDER BY ID" ) );
+
+		foreach ( (array)$permissions_RET as $permission )
+		{
+			$permissions_options[$permission['ID']] = _( $permission['TITLE'] );
+		}
+
+		$na = _( 'Custom' );
 	}
 	else
-		$na = _('Default');
-	echo SelectInput($staff['PROFILE_ID'],'staff[PROFILE_ID]',_('Permissions'),$profiles,$na);
-	echo '</td></tr></table>';
+		$na = _( 'Default' );
+
+	echo SelectInput(
+		$staff['PROFILE_ID'],
+		'staff[PROFILE_ID]',
+		_( 'Permissions' ),
+		$permissions_options,
+		$na
+	);
 
 	echo '</td><td>';
 
 	//FJ remove Schools for Parents
-	if ( $staff['PROFILE']!='parent')
+	if ( $staff['PROFILE'] !== 'parent' )
 	{
-		$sql = "SELECT ID,TITLE FROM SCHOOLS WHERE SYEAR='".UserSyear()."'";
-		$QI = DBQuery($sql);
-		$schools_RET = DBGet($QI);
-		unset($options);
-		if (count($schools_RET))
+		$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE
+			FROM SCHOOLS
+			WHERE SYEAR='" . UserSyear() . "'" ) );
+
+		unset( $options );
+
+		if ( $schools_RET )
 		{
-			$i = 0;
-			echo '<table><tr class="st">';
-			foreach ( (array)$schools_RET as $value)
+			$i = 1;
+
+			$schools_html = '<table><tr class="st">';
+
+			$school_titles = array();
+
+			foreach ( (array)$schools_RET as $school )
 			{
-				if ( $i%3==0)
-					echo '</tr><tr class="st">';
-				echo '<td>'.CheckboxInput(((mb_strpos($staff['SCHOOLS'],','.$value['ID'].',')!==false)?'Y':''),'staff[SCHOOLS]['.$value['ID'].']',$value['TITLE'], '', false, button('check'), button('x')).'</td>';
+				if ( $i%3 == 0 )
+				{
+					$schools_html .= '</tr><tr class="st">';
+				}
+
+				$value = mb_strpos( $staff['SCHOOLS'], ',' . $school['ID'] . ',' ) !== false ? 'Y' : '';
+
+				$schools_html .= '<td>' . CheckboxInput(
+					$value,
+					'staff[SCHOOLS][' . $school['ID'] . ']',
+					$school['TITLE'],
+					'',
+					false,
+					button( 'check' ),
+					button( 'x' )
+				) . '</td>';
+
+				$school_titles[] = $school['TITLE'];
+
 				$i++;
 			}
-			echo '</tr></table>';
-			echo '<span class="legend-gray">'._('Schools').'</span>';
+
+			$schools_html .= '</tr></table>';
+
+			$id = 'schools';
+
+			echo InputDivOnclick(
+				$id,
+				$schools_html,
+				implode( ', ', $school_titles ),
+				FormatInputTitle( _( 'Schools' ), $id )
+			);
 		}
 		//echo SelectInput($staff['SCHOOL_ID'],'staff[SCHOOL_ID]','School',$options,'All Schools');
 	}
@@ -207,7 +264,7 @@ if (AllowEdit())
 else
 	echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
 
-echo '</td><td>';
+echo '</td><td colspan="2">';
 
 echo TextInput($staff['PHONE'],'staff[PHONE]',_('Phone Number'),'size=12 maxlength=100');
 

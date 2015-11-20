@@ -1,7 +1,7 @@
 <?php
 require_once 'ProgramFunctions/StudentsUsersInfo.fnc.php';
 
-$category_RET = DBGet( DBQuery( "SELECT COLUMNS
+$columns_RET = DBGet( DBQuery( "SELECT COLUMNS
 	FROM STUDENT_FIELD_CATEGORIES
 	WHERE ID='" . $_REQUEST['category_id'] . "'" ) );
 
@@ -38,7 +38,7 @@ $i = 1;
  *
  * @var int
  */
-$per_row = $category_RET[1]['COLUMNS'] ? (int)$category_RET[1]['COLUMNS'] : 3;
+$per_row = $columns_RET[1]['COLUMNS'] ? (int)$columns_RET[1]['COLUMNS'] : 3;
 
 foreach ( (array)$fields_RET as $field )
 {
@@ -56,7 +56,7 @@ foreach ( (array)$fields_RET as $field )
 			
 			//FJ Moodle integrator / email field
 			if ( $_REQUEST['moodle_create_student'] && ROSARIO_STUDENTS_EMAIL_FIELD_ID == $field['ID'])
-				echo TextInput($value['CUSTOM_'.$field['ID']],'students[CUSTOM_'.$field['ID'].']',($value['CUSTOM_'.$field['ID']]=='' ? '<span class="legend-red">'.$field['TITLE'].'</span>' : $field['TITLE']),' required',false);
+				echo TextInput($value['CUSTOM_'.$field['ID']],'students[CUSTOM_'.$field['ID'].']',$field['TITLE'],'required',false);
 			else
 				echo _makeTextInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'students' );
 

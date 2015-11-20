@@ -1,6 +1,6 @@
 <?php
-echo '<table class="width-100p valign-top fixed-col">';
-echo '<tr class="st"><td rowspan="2">';
+echo '<table class="width-100p valign-top fixed-col"><tr class="st"><td rowspan="3">';
+
 // IMAGE
 if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF'])):
 ?>
@@ -92,15 +92,14 @@ else
 	);
 }
 
-echo '</td><td>';
+echo '</td></tr><tr class="st"><td>';
 
 if ( $_REQUEST['student_id']=='new')
 	echo TextInput('','assign_student_id',sprintf(_('%s ID'),Config('NAME')),'maxlength=10 size=10');
 else
 	echo NoInput(UserStudentID(),sprintf(_('%s ID'),Config('NAME')));
-echo '</td>';
 
-echo '</tr><tr class="st"><td>';
+echo '</td><td>';
 
 //FJ Moodle integrator
 //username, password required
@@ -110,7 +109,7 @@ $legend_red = $required && !$student['USERNAME'];
 
 echo TextInput($student['USERNAME'],'students[USERNAME]',($legend_red ? '<span class="legend-red">':'')._('Username').(($_REQUEST['moodle_create_student'] || $old_student_in_moodle) && !$student['USERNAME']?'</span>':''),($required ? 'required' : ''), ($_REQUEST['moodle_create_student'] ? false : true));
 
-echo '</td><td>';
+echo '</td></tr><tr class="st"><td>';
 
 $required = $required;
 $legend_red = $required && !$student['PASSWORD'];

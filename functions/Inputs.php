@@ -411,7 +411,7 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 		$id = GetInputID( $name );
 
 		$checkbox = '<label class="checkbox-label">
-			<input type="checkbox" name="' . $name . '" value="Y"' . $checked . ' ' . $extra . ' />&nbsp;' .
+			<input type="checkbox" name="' . $name . '" id="' . $id . '" value="Y"' . $checked . ' ' . $extra . ' />&nbsp;' .
 			$title . '</label>';
 
 		if ( $new
@@ -427,7 +427,7 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 				( $value ?
 					( $yes === 'Yes' ? _( 'Yes' ) : $yes ) :
 					( $no === 'No' ? _( 'No' ) : $no ) ),
-				$title
+				'&nbsp;' . $title
 			);
 		}
 	}
@@ -972,6 +972,8 @@ function FormatInputTitle( $title, $id = '', $required = false )
  * Input <div> onclick
  * Wraps the Input HTML inside a <div> with Value & Input Formatted Title below
  * The <div> makes the Input HTML appear and editable when clicked
+ *
+ * @todo Fix JS error var is not defined when InputDivOnclick() called twice (ex: see Users > User Info > Schools field)
  *
  * @since 2.9
  *

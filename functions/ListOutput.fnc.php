@@ -11,7 +11,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		'sort' => empty( $group ),
 		'header_color' => Preferences( 'HEADER' ),
 		'responsive' => true,
-		'add' => false,
+		'add' => true,
 	);
 
 	if ( !empty( $options ) )
@@ -364,7 +364,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	if ( $options['save']
 		&& $_REQUEST['LO_save'] == $options['save'] )
 	{
-		_listSave( $result, $column_names, Preferences( 'DELIMITER' ) );
+		_listSave( $result, $column_names, $singular, $plural, Preferences( 'DELIMITER' ) );
 	}
 	// END SAVING THE LIST ---
 
