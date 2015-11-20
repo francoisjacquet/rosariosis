@@ -145,7 +145,7 @@ console.log(md_last_val);
 
 	// toggle MD preview & Input
 	md_prev.toggle();
-	input.toggleClass('hidden');
+	input.toggle();
 	// disable Write / Preview tab
 	md_prev.siblings('.tab').toggleClass('disabled');
 }

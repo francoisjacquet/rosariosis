@@ -105,7 +105,8 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 		// Input size / length based on value number of chars
 		if ( mb_strpos( $extra, 'size' ) === false )
 		{
-			$extra .= $value != '' ? ' size="' . mb_strlen( $value ) . '"' : ' size="10"';
+			// Max size is 32 (more or less 300px)
+			$extra .= $value != '' ? ' size="' . min( mb_strlen( $value ), 32 ) . '"' : ' size="10"';
 		}
 
 		$input = '<input type="text" id="' . $id . '" name="' . $name . '" ' .
@@ -213,7 +214,7 @@ function setMLvalue(id, loc, value){
 </script>
 <?php 	$return = ob_get_clean();
 
-		$return .= '<div><input type="hidden" id="' . $id . '" name="' . $name . '" value="' . $value . '" />';
+		$return .= '<div class="ml-text-input"><input type="hidden" id="' . $id . '" name="' . $name . '" value="' . $value . '" />';
 
 		foreach ( (array)$RosarioLocales as $key => $loc )
 		{
@@ -239,7 +240,7 @@ function setMLvalue(id, loc, value){
 
 	$ftitle = FormatInputTitle( $title );
 
-	$return .= $ftitle;
+	$return .= str_replace( '<br />', '', $ftitle );
 
 	return $return;
 }
@@ -309,7 +310,8 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $m
 
 		$textarea =  ( $markdown ? MarkDownInputPreview( $id ) : '' ) .
 			'<textarea id="' . $id . '" name="' . $name . '" ' . $extra . '>' .
-			$value . '</textarea>' . $ftitle;
+			$value . '</textarea>' . 
+			( $markdown ? str_replace( '<br />', '', $ftitle ) : $ftitle );
 
 		if ( $value == ''
 			|| !$div )

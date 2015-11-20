@@ -553,6 +553,7 @@ textarea{
 	border-width:1px;
 	border-style:solid;
 	padding:2px 7px;
+	margin-bottom:2px;
 	box-sizing:border-box;
 	overflow-y:auto;
 }
@@ -561,11 +562,6 @@ textarea{
 	border-top-right-radius: 0;
 	margin-top:0;
 	resize: vertical;
-}
-.md-preview + .hidden{
-	height: 0!important;
-	padding: 0;
-	border: 0;
 }
 .markdown{
 	word-wrap: break-word;
@@ -595,7 +591,8 @@ textarea{
 	width:100%
 }
 .fixed-col{
-	table-layout:fixed
+	table-layout:fixed;
+	word-wrap:break-word; /* Fix cell content overflow */
 }
 .cellpadding-5 td{
 	padding-right:5px;
