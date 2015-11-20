@@ -5,14 +5,14 @@
  * Incremental updates
  *
  * Update() function called if ROSARIO_VERSION != version in DB
- *
- * @since 2.9
  */
 
 /**
  * Update manager function
  *
  * Call the specific versions functions
+ *
+ * @since 2.9
  *
  * @return boolean false if wrong version or update failed, else true
  */
@@ -23,8 +23,7 @@ function Update()
 	$to_version = ROSARIO_VERSION;
 
 	// Check if version in DB >= ROSARIO_VERSION
-	// TODO 2.9-beta < 2.9? No, freeze in beta!
-	if ( $from_version >= $to_version )
+	if ( version_compare( $from_version, $to_version, '>=' ) )
 	{
 		return false;
 	}
@@ -33,27 +32,34 @@ function Update()
 
 	switch ( true )
 	{
-		case $from_version < 2.9:
+		case version_compare( $from_version, '2.9-alpha', '<' ):
 
-			if ( function_exists( '_update29' ) )
-				$return = _update29();
+			if ( function_exists( '_update29alpha' ) )
+				$return = _update29alpha();
 	}
+
+	// Update version in DB CONFIG table
+	DBGet( DBQuery( "UPDATE CONFIG
+		SET CONFIG_VALUE='" . ROSARIO_VERSION . "'
+		WHERE TITLE='VERSION'" ) );
 
 	return $return;
 }
 
 
 /**
- * Update to version 2.9
+ * Update to version 2.9-alpha
  *
  * 1. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
  * 3. Update STUDENT_MP_COMMENTS table
  *
  * Local function
  *
+ * @since 2.9
+ *
  * @return boolean false if update failed or if not called by Update(), else true
  */
-function _update29()
+function _update29alpha()
 {
 	$callers = debug_backtrace();
 
@@ -62,6 +68,13 @@ function _update29()
 		return false;
 
 	$return = true;
+
+
+	/**
+	 * 0. Add VERSION to CONFIG table
+	 */
+	DBGet( DBQuery( "INSERT INTO config VALUES (0, 'VERSION', '2.9-alpha');" ) );
+
 
 	/**
 	 * 1. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
@@ -73,11 +86,12 @@ function _update29()
 	if ( !$SQL_dups_RET )
 		$return = false;
 		$SQL_add_ID = "ALTER TABLE ONLY course_period_school_periods
-				DROP CONSTRAINT course_period_school_periods_pkey;
-			ALTER TABLE ONLY course_period_school_periods
-				ADD CONSTRAINT course_period_school_periods_pkey PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id);";
+			DROP CONSTRAINT course_period_school_periods_pkey;
+		ALTER TABLE ONLY course_period_school_periods
+			ADD CONSTRAINT course_period_school_periods_pkey
+				PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id);";
 
-	DBGet( DBQuery( $sql_updt_coms ) );
+	DBGet( DBQuery( $SQL_add_ID ) );
 
 
 	/**

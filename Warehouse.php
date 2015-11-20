@@ -1,11 +1,11 @@
 <?php
 
-define( 'ROSARIO_VERSION', '2.9a' );
+define( 'ROSARIO_VERSION', '2.9-alpha' );
 
-if ( !file_exists( 'config.inc.php' ) )
-	die ( 'config.inc.php not found. Please read the installation directions.' );
-
-require_once 'config.inc.php';
+// Include config.inc.php file
+// do NOT change for require_once, include_once allows the error message to be displayed
+if ( ! include_once 'config.inc.php' )
+	die ( 'config.inc.php file not found. Please read the installation directions.' );
 
 require_once 'database.inc.php';
 
@@ -25,7 +25,7 @@ else
 
 // Server Paths
 if ( !isset( $RosarioPath ) )
-	$RosarioPath = dirname( __FILE__ ) . '/';
+	$RosarioPath = __DIR__ . '/';
 
 if ( !isset( $StudentPicturesPath ) )
 	$StudentPicturesPath = 'assets/StudentPhotos/';
@@ -104,7 +104,7 @@ function array_rwalk( &$array, $function )
 
 /**
  * Sanitize $_REQUEST array
- * $_POST + $_GET
+ * ($_POST + $_GET)
  */
 // Escape strings for DB queries
 array_rwalk( $_REQUEST, 'DBEscapeString' );
@@ -194,6 +194,8 @@ foreach ( (array)$RosarioPlugins as $plugin => $activated )
 /**
  * Load not core modules & plugins locales
  *
+ * Local function
+ *
  * @param  string $domain text domain
  * @param  string $folder plugin or module folder
  *
@@ -229,6 +231,25 @@ if ( ( $not_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCo
 		//if plugin activated
 		if ( $RosarioPlugins[$not_core_plugin] )
 			_LoadAddonLocale( $not_core_plugin, 'plugins/' );
+}
+
+
+/**
+ * Update RosarioSIS
+ * Automatically runs after manual files update
+ * To apply eventual incremental DB updates
+ *
+ * @since 2.9
+ *
+ * @see ProgramFunctions/Update.fnc.php
+ */
+// Check if version in DB < ROSARIO_VERSION
+if ( version_compare( Config( 'VERSION' ), ROSARIO_VERSION,	'<' ) )
+{
+	require_once 'ProgramFunctions/Update.fnc.php';
+
+	// Run Update() to apply updates if any
+	Update();
 }
 
 
