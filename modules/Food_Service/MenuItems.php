@@ -71,6 +71,13 @@ if($_REQUEST['modfunc']=='update')
 							}
 						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
+						//FJ fix SQL bug MENU_ITEM not null
+						if ( $_REQUEST['tab_id'] !== 'new'
+							&& empty( $columns['ITEM_ID'] ) )
+						{
+							$go = false;
+						}
+
 						if($go)
 							//FJ fix SQL bug PRICE_STAFF & PRICE not null
 							//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
