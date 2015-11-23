@@ -188,6 +188,8 @@ function ReportCardsIncludeForm()
  */
 function ReportCardsGenerate( $student_array, $mp_array )
 {
+	global $_ROSARIO;
+
 	if ( empty( $student_array )
 		|| empty( $mp_array ) )
 	{
