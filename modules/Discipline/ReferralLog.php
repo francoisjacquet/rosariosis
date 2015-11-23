@@ -32,34 +32,25 @@ else
 
 	$extra['WHERE'] .= appendSQL( '', $extra );
 
-	$student_RET = GetStuList( $extra );
+	$PDF = '';
 
-	if ( count( $student_RET ) )
+	// Generate and get Discipline Logs
+	$referral_logs = ReferralLogsGenerate( $extra );
+
+	if ( empty( $referral_logs ) )
 	{
-		$PDF = '';
-
-		foreach ( (array)$student_RET as $student_id => $student )
-		{
-			$referral_log = ReferralLogGenerate( $student_id, $extra );
-
-			if ( $referral_log )
-			{
-				// New page
-				$PDF .=  $referral_log . '<div style="page-break-after: always;"></div>';
-			}
-		}
-
-		if ( !empty( $PDF ) )
-		{
-			$handle = PDFStart();
-
-			echo $PDF;
-
-			PDFStop( $handle );
-		}
-		else
-			BackPrompt( _( 'No Students were found.' ) );
-	}
-	else
 		BackPrompt( _( 'No Students were found.' ) );
+	}
+
+	// New page
+	$PDF =  implode( '<div style="page-break-after: always;"></div>', $referral_logs );
+
+	if ( !empty( $PDF ) )
+	{
+		$handle = PDFStart();
+
+		echo $PDF;
+
+		PDFStop( $handle );
+	}
 }

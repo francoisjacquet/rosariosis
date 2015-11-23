@@ -65,22 +65,24 @@ function ReferralLogIncludeForm()
 
 
 /**
- * Referral Log Generation
+ * Referral Logs Generation
  * HTML Ready for PDF
  *
  * Uses Include in Discipline Log form, see ReferralLogIncludeForm()
  *
- * @example echo ReferralLogGenerate( $student_id );
+ * @example $referral_logs = ReferralLogsGenerate( $extra );
  *
- * @param  string $student_id Student ID
+ * @param  array  $extra GetStuList() extra
  *
- * @return string Empty if no Student ID or no Referrals, else Referral Log HTML
+ * @return array  Empty if no Students or no Referrals, else Referral Logs HTML array (key = student ID)
  */
-function ReferralLogGenerate( $student_id, $extra )
+function ReferralLogsGenerate( $extra )
 {
 	global $_ROSARIO;
 
 	static $fields_RET = null;
+
+	$referral_logs = array();
 
 	// Get custom Discipline fields
 	if ( is_null( $fields_RET ) )
@@ -93,11 +95,6 @@ function ReferralLogGenerate( $student_id, $extra )
 			array(),
 			array( 'ID' )
 		);
-	}
-
-	if ( empty( $student_id ) )
-	{
-		return '';
 	}
 
 	// Get eventual Incident Date timeframe
@@ -127,9 +124,6 @@ function ReferralLogGenerate( $student_id, $extra )
 
 	$extra['FROM'] .= ',DISCIPLINE_REFERRALS r ';
 
-	// Limit to Current Student ID
-	$extra['WHERE'] .= " AND ssm.STUDENT_ID='" . $student_id . "'";
-
 	$extra['WHERE'] .= " AND r.STUDENT_ID=ssm.STUDENT_ID AND r.SYEAR=ssm.SYEAR ";
 
 	if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS dr' ) !== false )
@@ -144,97 +138,100 @@ function ReferralLogGenerate( $student_id, $extra )
 	// Get Referrals
 	$referrals_RET = GetStuList( $extra );
 
-	$referrals = $referrals_RET[$student_id];
-
-	if ( empty( $referrals ) )
+	if ( empty( $referrals_RET ) )
 	{
-		return '';
+		return array();
 	}
 
-	// Begin output buffer
-	ob_start();
-
-	unset( $_ROSARIO['DrawHeader'] );
-
-	DrawHeader( _( 'Discipline Log' ) );
-
-	// Student Info
-	DrawHeader( $referrals[1]['FULL_NAME'], $referrals[1]['STUDENT_ID'] );
-
-	// School Info
-	DrawHeader( SchoolInfo( 'TITLE' ) );
-
-	// Incident Date timeframe
-	if ( isset( $start_date )
-		&& isset( $end_date ) )
+	foreach ( (array)$referrals_RET as $student_id => $referrals )
 	{
-		DrawHeader( ProperDate( $start_date) . ' - ' . ProperDate( $end_date ) );
-	}
-	else
-	{
-		//FJ school year over one/two calendar years format
-		DrawHeader( _( 'School Year' ) . ': ' .
-			FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) );
-	}
+		// Begin output buffer
+		ob_start();
 
-	echo '<BR />';
+		unset( $_ROSARIO['DrawHeader'] );
 
-	foreach ( (array)$referrals as $referral )
-	{
-		// Entry Date
-		if ( isset( $_REQUEST['elements']['ENTRY_DATE'] ) )
+		DrawHeader( _( 'Discipline Log' ) );
+
+		// Student Info
+		DrawHeader( $referrals[1]['FULL_NAME'], $referrals[1]['STUDENT_ID'] );
+
+		// School Info
+		DrawHeader( SchoolInfo( 'TITLE' ) );
+
+		// Incident Date timeframe
+		if ( isset( $start_date )
+			&& isset( $end_date ) )
 		{
-			DrawHeader( '<b>' . _( 'Date' ) . ': </b>' . ProperDate( $referral['ENTRY_DATE'] ) );
+			DrawHeader( ProperDate( $start_date) . ' - ' . ProperDate( $end_date ) );
 		}
-
-		// Reporter
-		if ( isset( $_REQUEST['elements']['STAFF_ID'] ) )
+		else
 		{
-			DrawHeader( '<b>' . _( 'Reporter' ) .': </b>' . GetTeacher( $referral['STAFF_ID'] ) );
-		}
-
-		// Custom Discipline fields
-		foreach ( (array)$_REQUEST['elements'] as $column => $Y )
-		{
-			// Zap Entry Date & Reporter
-			if ( $column === 'ENTRY_DATE'
-				|| $column === 'STAFF_ID' )
-			{
-				continue;
-			}
-
-			$field_type = $fields_RET[mb_substr( $column, 9 )][1]['DATA_TYPE'];
-
-			if ( $field_type !== 'textarea' )
-			{
-				$title_txt = '<b>' . $fields_RET[mb_substr( $column, 9 )][1]['TITLE'] . ': </b> ';
-
-				// CHECKBOX fields
-				if ( $field_type === 'checkbox' )
-				{
-					DrawHeader( $title_txt .
-						( $referral[$column] === 'Y' ?
-							button( 'check', '', '', 'bigger' ) :
-							button( 'x', '', '', 'bigger' ) ) );
-				}
-				// Multiple checkbox fields
-				elseif ( $field_type === 'multiple_checkbox' )
-				{
-					DrawHeader( $title_txt .
-						str_replace( '||', ', ', mb_substr( $referral[$column], 2, -2 ) ) );
-				}
-				// Others
-				else
-					DrawHeader( $title_txt . $referral[$column] );
-			}
-			// TEXTEAREA fields
-			else
-				DrawHeader( nl2br( $referral[$column] ) );
+			//FJ school year over one/two calendar years format
+			DrawHeader( _( 'School Year' ) . ': ' .
+				FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) );
 		}
 
 		echo '<BR />';
+
+		foreach ( (array)$referrals as $referral )
+		{
+			// Entry Date
+			if ( isset( $_REQUEST['elements']['ENTRY_DATE'] ) )
+			{
+				DrawHeader( '<b>' . _( 'Date' ) . ': </b>' . ProperDate( $referral['ENTRY_DATE'] ) );
+			}
+
+			// Reporter
+			if ( isset( $_REQUEST['elements']['STAFF_ID'] ) )
+			{
+				DrawHeader( '<b>' . _( 'Reporter' ) .': </b>' . GetTeacher( $referral['STAFF_ID'] ) );
+			}
+
+			// Custom Discipline fields
+			foreach ( (array)$_REQUEST['elements'] as $column => $Y )
+			{
+				// Zap Entry Date & Reporter
+				if ( $column === 'ENTRY_DATE'
+					|| $column === 'STAFF_ID' )
+				{
+					continue;
+				}
+
+				$field_type = $fields_RET[mb_substr( $column, 9 )][1]['DATA_TYPE'];
+
+				if ( $field_type !== 'textarea' )
+				{
+					$title_txt = '<b>' . $fields_RET[mb_substr( $column, 9 )][1]['TITLE'] . ': </b> ';
+
+					// CHECKBOX fields
+					if ( $field_type === 'checkbox' )
+					{
+						DrawHeader( $title_txt .
+							( $referral[$column] === 'Y' ?
+								button( 'check', '', '', 'bigger' ) :
+								button( 'x', '', '', 'bigger' ) ) );
+					}
+					// Multiple checkbox fields
+					elseif ( $field_type === 'multiple_checkbox' )
+					{
+						DrawHeader( $title_txt .
+							str_replace( '||', ', ', mb_substr( $referral[$column], 2, -2 ) ) );
+					}
+					// Others
+					else
+						DrawHeader( $title_txt . $referral[$column] );
+				}
+				// TEXTEAREA fields
+				else
+					DrawHeader( nl2br( $referral[$column] ) );
+			}
+
+			echo '<BR />';
+		}
+
+		// Get output buffer
+		$referral_logs[$student_id] = ob_get_clean();
 	}
 
-	// Return output buffer
-	return ob_get_clean();
+	return $referral_logs;
 }
