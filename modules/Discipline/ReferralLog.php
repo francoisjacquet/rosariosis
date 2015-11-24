@@ -23,35 +23,34 @@ else
 
 		echo '<BR /><BR />';
 	}
-	
-	$student_RET = GetStuList( $extra );
 
-	if ( count( $student_RET ) )
+	if ( isset( $_REQUEST['advanced'] )
+		&& $_REQUEST['advanced'] === 'Y' )
 	{
-		$PDF = '';
-
-		foreach ( (array)$student_RET as $student_id => $student )
-		{
-			$referral_log = ReferralLogGenerate( $student_id, $extra );
-
-			if ( $referral_log )
-			{
-				// New page
-				$PDF .=  $referral_log . '<div style="page-break-after: always;"></div>';
-			}
-		}
-
-		if ( !empty( $PDF ) )
-		{
-			$handle = PDFStart();
-
-			echo $PDF;
-
-			PDFStop( $handle );
-		}
-		else
-			BackPrompt( _( 'No Students were found.' ) );
+		Widgets( 'all' );
 	}
-	else
+
+	$extra['WHERE'] .= appendSQL( '', $extra );
+
+	$PDF = '';
+
+	// Generate and get Discipline Logs
+	$referral_logs = ReferralLogsGenerate( $extra );
+
+	if ( empty( $referral_logs ) )
+	{
 		BackPrompt( _( 'No Students were found.' ) );
+	}
+
+	// New page
+	$PDF =  implode( '<div style="page-break-after: always;"></div>', $referral_logs );
+
+	if ( !empty( $PDF ) )
+	{
+		$handle = PDFStart();
+
+		echo $PDF;
+
+		PDFStop( $handle );
+	}
 }
