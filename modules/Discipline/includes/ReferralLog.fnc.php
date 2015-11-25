@@ -98,40 +98,48 @@ function ReferralLogsGenerate( $extra )
 	}
 
 	// Get eventual Incident Date timeframe
-	if ( $_REQUEST['month_discipline_entry_begin']
-		&& $_REQUEST['day_discipline_entry_begin']
-		&& $_REQUEST['year_discipline_entry_begin'] )
+	$start_date = $end_date = '';
+
+	// Get eventual Incident Date timeframe
+	if ( isset( $_REQUEST['month_discipline_entry_begin'] )
+		&& isset( $_REQUEST['day_discipline_entry_begin'] )
+		&& isset( $_REQUEST['year_discipline_entry_begin'] ) )
 	{
-		$start_date = $_REQUEST['day_discipline_entry_begin'] . '-' .
-			$_REQUEST['month_discipline_entry_begin'] . '-' .
-			$_REQUEST['year_discipline_entry_begin'];
+		$start_date = RequestedDate(
+			$_REQUEST['day_discipline_entry_begin'],
+			$_REQUEST['month_discipline_entry_begin'],
+			$_REQUEST['year_discipline_entry_begin']
+		);
 
-		if ( !VerifyDate( $start_date ) )
-			unset( $start_date );
-
-		$end_date = $_REQUEST['day_discipline_entry_end'] . '-' .
-			$_REQUEST['month_discipline_entry_end'] . '-' .
-			$_REQUEST['year_discipline_entry_end'];
-
-		if ( !VerifyDate( $end_date ) )
-			unset( $end_date );
-	}
+		if ( isset( $_REQUEST['month_discipline_entry_end'] )
+			&& isset( $_REQUEST['day_discipline_entry_end'] )
+			&& isset( $_REQUEST['year_discipline_entry_end'] ) )
+		{
+			$end_date = RequestedDate(
+				$_REQUEST['day_discipline_entry_end'],
+				$_REQUEST['month_discipline_entry_end'],
+				$_REQUEST['year_discipline_entry_end']
+			);
+		}
+ 	}
 
 	foreach ( (array)$_REQUEST['elements'] as $column => $Y )
 	{
-		$extra['SELECT'] .= ',r.' . $column;
+		$extra['SELECT'] .= ',dr.' . $column;
 	}
 
-	$extra['FROM'] .= ',DISCIPLINE_REFERRALS r ';
+	if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS' ) === false  )
+	{
+		$extra['WHERE'] .= ' AND dr.STUDENT_ID=ssm.STUDENT_ID
+			AND dr.SYEAR=ssm.SYEAR
+			AND dr.SCHOOL_ID=ssm.SCHOOL_ID ';
 
-	$extra['WHERE'] .= " AND r.STUDENT_ID=ssm.STUDENT_ID AND r.SYEAR=ssm.SYEAR ";
-
-	if ( mb_strpos( $extra['FROM'], 'DISCIPLINE_REFERRALS dr' ) !== false )
-		$extra['WHERE'] .= ' AND r.ID=dr.ID';
+		$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
+	}
 
 	$extra['group'] = array( 'STUDENT_ID' );
 
-	$extra['ORDER'] = ',r.ENTRY_DATE';
+	$extra['ORDER'] = ',dr.ENTRY_DATE';
 
 	$extra['WHERE'] .= appendSQL( '', $extra );
 
@@ -159,10 +167,19 @@ function ReferralLogsGenerate( $extra )
 		DrawHeader( SchoolInfo( 'TITLE' ) );
 
 		// Incident Date timeframe
-		if ( isset( $start_date )
-			&& isset( $end_date ) )
+		if ( $start_date
+			|| $end_date )
 		{
-			DrawHeader( ProperDate( $start_date) . ' - ' . ProperDate( $end_date ) );
+			if ( !$end_date )
+			{
+				$end_date = DBDate();
+			}
+			elseif ( !$start_date )
+			{
+				$start_date = GetMP( GetCurrentMP( 'FY', DBDate() ), 'START_DATE' );
+			}
+
+			DrawHeader( ProperDate( $start_date ) . ' - ' . ProperDate( $end_date ) );
 		}
 		else
 		{
