@@ -332,6 +332,8 @@ else
 				$LO_columns['LETTER_GRADE'] = _('Letter');
 		}
 	}
+
+	$extra['functions'] += array( 'FULL_NAME' => '_makeTipMessage' );
 }
 
 $stu_RET = GetStuList($extra);
@@ -434,6 +436,34 @@ else
 
 echo $_REQUEST['assignment_id']?'<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>':'';
 echo '</form>';
+
+
+/**
+ * Make Tip Message containing Student Photo
+ * Local function
+ *
+ * Callback for DBGet() column formatting
+ *
+ * @uses MakeStudentPhotoTipMessage()
+ *
+ * @see ProgramFunctions/TipMessage.fnc.php
+ * 
+ * @global $THIS_RET, see DBGet()
+ *
+ * @param  string $full_name Student Full Name
+ * @param  string $column    'FULL_NAME'
+ *
+ * @return string Student Full Name + Tip Message containing Student Photo
+ */
+function _makeTipMessage( $full_name, $column )
+{
+	global $THIS_RET;
+
+	require_once 'ProgramFunctions/TipMessage.fnc.php';
+
+	return MakeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $full_name );
+}
+
 
 function _makeExtraAssnCols($assignment_id,$column)
 {	global $THIS_RET,$assignments_RET,$current_RET,$points_RET,$tabindex,$max_allowed,$total,$programconfig;

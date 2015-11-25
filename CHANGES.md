@@ -48,6 +48,7 @@ Changes in 2.9
 - Add GetInputID(), FormatInputTitle() & InputDivOnclick() functions in Inputs.php
 - Add jQuery MiniColors plugin & ColorInput() function in assets/js/jquery-minicolors/ & Inputs.php
 - Add MakeTipMessage() & MakeStudentPhotoTipMessage() functions in ProgramFunctions/TipMessage.fnc.php
+- Add Photo on mouse over Student Name in InputFinalGrades.php & Grades.php
 
 Changes in 2.8.11
 -----------------

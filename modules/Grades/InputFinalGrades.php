@@ -688,7 +688,11 @@ if ( !isset( $_ROSARIO['allow_edit'] ) )
 }
 
 $extra['SELECT'] = ",ssm.STUDENT_ID AS REPORT_CARD_GRADE";
-$extra['functions'] = array('REPORT_CARD_GRADE' => '_makeLetterPercent');
+
+$extra['functions'] = array(
+	'FULL_NAME' => '_makeTipMessage',
+	'REPORT_CARD_GRADE' => '_makeLetterPercent'
+);
 
 if (GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 {
@@ -869,6 +873,34 @@ ListOutput($stu_RET,$LO_columns,'Student','Students',false,array(),$LO_options);
 
 echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 echo '</form>';
+
+
+/**
+ * Make Tip Message containing Student Photo
+ * Local function
+ *
+ * Callback for DBGet() column formatting
+ *
+ * @uses MakeStudentPhotoTipMessage()
+ *
+ * @see ProgramFunctions/TipMessage.fnc.php
+ * 
+ * @global $THIS_RET, see DBGet()
+ *
+ * @param  string $full_name Student Full Name
+ * @param  string $column    'FULL_NAME'
+ *
+ * @return string Student Full Name + Tip Message containing Student Photo
+ */
+function _makeTipMessage( $full_name, $column )
+{
+	global $THIS_RET;
+
+	require_once 'ProgramFunctions/TipMessage.fnc.php';
+
+	return MakeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $full_name );
+}
+
 
 function _makeLetterPercent($student_id,$column)
 {	global $current_RET,$import_RET,$grades_select,$student_count,$tabindex;
