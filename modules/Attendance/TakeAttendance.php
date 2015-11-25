@@ -287,18 +287,31 @@ function _makeRadioSelected($value,$title)
 	}
 }
 
-function _makeTipMessage($value,$title)
-{	global $THIS_RET,$StudentPicturesPath;
 
-	if ($StudentPicturesPath && ($file = @fopen($picture_path=$StudentPicturesPath.UserSyear().'/'.$THIS_RET['STUDENT_ID'].'.jpg','r') || $file = @fopen($picture_path=$StudentPicturesPath.(UserSyear()-1).'/'.$THIS_RET['STUDENT_ID'].'.jpg','r')))
-	{
-		$return = '<script>var tiptitle'.$THIS_RET['STUDENT_ID'].'='.json_encode($THIS_RET['FULL_NAME']).'; var tipmsg'.$THIS_RET['STUDENT_ID'].'='.json_encode('<img src="'.$picture_path.'" width="150" />').';</script>';
+/**
+ * Make Tip Message containing Student Photo
+ * Local function
+ *
+ * Callback for DBGet() column formatting
+ *
+ * @uses MakeStudentPhotoTipMessage()
+ *
+ * @see ProgramFunctions/TipMessage.fnc.php
+ * 
+ * @global $THIS_RET, see DBGet()
+ *
+ * @param  string $full_name Student Full Name
+ * @param  string $column    'FULL_NAME'
+ *
+ * @return string Student Full Name + Tip Message containing Student Photo
+ */
+function _makeTipMessage( $full_name, $column )
+{
+	global $THIS_RET;
 
+	require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-		return $return.'<div onMouseOver="stm([tiptitle'.$THIS_RET['STUDENT_ID'].',tipmsg'.$THIS_RET['STUDENT_ID'].'])" onMouseOut="htm()" onclick="return false;">'.$value.'</div>';
-	}
-	else
-		return $value;
+	return MakeStudentPhotoTipMessage( $THIS_RET['STUDENT_ID'], $full_name );
 }
 
 function makeCommentInput($student_id,$column)

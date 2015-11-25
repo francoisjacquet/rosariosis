@@ -47,6 +47,7 @@ Changes in 2.9
 - Add XML File Export Type option in ListOutput.fnc.php & Preferences.php
 - Add GetInputID(), FormatInputTitle() & InputDivOnclick() functions in Inputs.php
 - Add jQuery MiniColors plugin & ColorInput() function in assets/js/jquery-minicolors/ & Inputs.php
+- Add MakeTipMessage() & MakeStudentPhotoTipMessage() functions in ProgramFunctions/TipMessage.fnc.php
 
 Changes in 2.8.11
 -----------------
