@@ -101,6 +101,13 @@ if ( empty( $_ROSARIO['Menu'] ) )
 		}
 		
 		if ( $no_programs_in_module )
+		{
 			unset( $_ROSARIO['Menu'][$modcat] );
+		}
+		// Compat with Modules < 2.9: no title entry for Menu
+		elseif ( !isset( $_ROSARIO['Menu'][$modcat]['title'] ) )
+		{
+			$_ROSARIO['Menu'][$modcat]['title'] = _( str_replace( '_', ' ', $modcat ) );
+		}
 	}
 }

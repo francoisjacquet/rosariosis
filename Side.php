@@ -670,54 +670,55 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		require_once 'Menu.php';
 		
 		// modify loop: use for instead of foreach
-		$key = array_keys( $_ROSARIO['Menu'] );
-		$size = sizeOf( $key );
+		$menu_key = array_keys( $_ROSARIO['Menu'] );
+		$size = sizeOf( $menu_key );
 
 		global $RosarioCoreModules;
 
 		for ( $i = 0; $i < $size; $i++ ) :
 
-			if ( count( $modcat_menu = $_ROSARIO['Menu'][$key[$i]] ) ) : 
-				$modcat_class = mb_strtolower( str_replace( '_', '-', $key[$i] ) ); ?>
+			if ( count( $modcat_menu = $_ROSARIO['Menu'][$menu_key[$i]] ) ) :
+
+				$modcat_class = mb_strtolower( str_replace( '_', '-', $menu_key[$i] ) ); ?>
 			<li class="menu-module <?php echo $modcat_class; ?>">
 				<a href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top">
-					<img src="modules/<?php echo $key[$i]; ?>/icon.png" />&nbsp;<?php echo $modcat_menu['title']; ?>
+					<img src="modules/<?php echo $menu_key[$i]; ?>/icon.png" />&nbsp;<?php echo $modcat_menu['title']; ?>
 				</a>
-				<ul id="menu_<?php echo $key[$i]; ?>" class="wp-submenu">
+				<ul id="menu_<?php echo $menu_key[$i]; ?>" class="wp-submenu">
 				<?php
 				unset(
 					$modcat_menu['default'],
 					$modcat_menu['title']
 				);
 				
-				$keys_modcat = array_keys( $modcat_menu );
-				$size_modcat = sizeOf( $keys_modcat );
+				$modcat_key = array_keys( $modcat_menu );
+				$size_modcat = sizeOf( $modcat_key );
 
 				for ( $j = 0; $j < $size_modcat; $j++ )
 				{
-					$title = $_ROSARIO['Menu'][$key[$i]][$keys_modcat[$j]];
+					$title = $_ROSARIO['Menu'][$menu_key[$i]][$modcat_key[$j]];
 
 					// if URL, not a program
-					if ( mb_stripos( $keys_modcat[$j], 'http://' ) !== false ) : ?>
-						<li><a href="<?php echo $keys_modcat[$j]; ?>" target="_blank"><?php
+					if ( mb_stripos( $modcat_key[$j], 'http' ) !== false ) : ?>
+						<li><a href="<?php echo $modcat_key[$j]; ?>" target="_blank"><?php
 							echo $title;
 						?></a></li>
 					<?php
-					elseif ( !is_numeric( $keys_modcat[$j] ) ) :
+					elseif ( !is_numeric( $modcat_key[$j] ) ) :
 
 						// if PDF, open in new tab
-						$target = ( mb_stripos( $keys_modcat[$j], '_ROSARIO_PDF' ) !== false ?
+						$target = ( mb_stripos( $modcat_key[$j], '_ROSARIO_PDF' ) !== false ?
 							' target="_blank"' :
 							''
 						);
 					?>
 
-						<li><a href="Modules.php?modname=<?php echo $keys_modcat[$j]; ?>"<?php echo $target; ?>><?php
+						<li><a href="Modules.php?modname=<?php echo $modcat_key[$j]; ?>"<?php echo $target; ?>><?php
 								echo $title;
 						?></a></li>
 					<?php // if is a section
-					elseif ( $keys_modcat[$j+1]
-						&& !is_numeric( $keys_modcat[$j+1] ) ) : ?>
+					elseif ( isset( $modcat_key[$j + 1] )
+						&& !is_numeric( $modcat_key[$j + 1] ) ) : ?>
 
 						<li class="menu-inter"><?php
 							echo $title;
