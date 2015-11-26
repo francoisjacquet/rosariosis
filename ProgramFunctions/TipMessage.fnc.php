@@ -27,12 +27,11 @@ function MakeTipMessage( $message, $title, $label )
 {
 	static $tip_msg_ID = 1;
 
-	$tip_msg = '<script>var tiptitle' . $tip_msg_ID . '=' .
-		json_encode( $title ) . ';
-		var tip_msg' . $tip_msg_ID . '=' .
-		json_encode( $message ) . ';</script>';
+	$tip_msg = '<script>var tipmsg' . $tip_msg_ID . '=[' .
+		json_encode( $title ) . ',' .
+		json_encode( $message ) . '];</script>';
 
-	$tip_msg .= '<div onMouseOver="stm([tiptitle' . $tip_msg_ID . ',tip_msg' . $tip_msg_ID . '])" onMouseOut="htm();" onclick="return false;">' .
+	$tip_msg .= '<div onMouseOver="stm(tipmsg' . $tip_msg_ID . ');" onMouseOut="htm();" onclick="return false;">' .
 		$label . '</div>';
 
 	$tip_msg_ID++;
