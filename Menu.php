@@ -18,7 +18,14 @@ if ( empty( $_ROSARIO['Menu'] ) )
 	foreach ( (array)$RosarioModules as $module => $active )
 	{
 		if ( $active )
-			include_once 'modules/' . $module . '/Menu.php';
+		{
+			if ( ROSARIO_DEBUG )
+			{
+				include_once 'modules/' . $module . '/Menu.php';
+			}
+			else
+				@include_once 'modules/' . $module . '/Menu.php';
+		}
 	}
 
 	$profile = User( 'PROFILE' );
