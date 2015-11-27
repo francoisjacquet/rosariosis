@@ -59,6 +59,8 @@ function PDFStop( $handle )
 	global $wkhtmltopdfPath,
 		$wkhtmltopdfAssetsPath,
 		$RosarioPath;
+
+	static $file_number = 1;
 	
 	$handle['orientation'] = $_SESSION['orientation'];
 	unset( $_SESSION['orientation'] );
@@ -121,7 +123,7 @@ function PDFStop( $handle )
 		array( _( 'Print' ) . ' ', ' ' ),
 		array( '', '_' ),
 		ProgramTitle()
-	));
+	)) . ( $file_number++ );
 
 	//FJ wkhtmltopdf
 	if ( !empty( $wkhtmltopdfPath ) )
@@ -171,6 +173,8 @@ function PDFStop( $handle )
 			$wkhtmltopdf->setHtml( $html );
 
 			$wkhtmltopdf->output( $handle['mode'], $filename . '.pdf' );
+
+			$full_path = $path . DIRECTORY_SEPARATOR . $filename . '.pdf';
 
 		} catch ( Exception $e ) {
 
