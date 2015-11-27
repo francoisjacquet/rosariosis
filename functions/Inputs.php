@@ -796,8 +796,6 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 /**
  * Color Picker Input
  *
- * @todo Add $div param
- *
  * @since 2.9
  *
  * @uses jQuery MiniColors plugin
@@ -806,14 +804,15 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
  *
  * @link https://github.com/claviska/jquery-minicolors/
  *
- * @param  string $value Color value
- * @param  string $name  Input name attribute
- * @param  string $title Input title (label)
- * @param  string $type  hidden|text Input type attribute (optional). Defaults to 'hidden'
+ * @param  string  $value Color value
+ * @param  string  $name  Input name attribute
+ * @param  string  $title Input title (label)
+ * @param  string  $type  hidden|text Input type attribute (optional). Defaults to 'hidden'
+ * @param  boolean $div   Is input wrapped into <div onclick>? (optional). Defaults to true
  *
- * @return string Color Picker Input HTML
+ * @return string  Color Picker Input HTML
  */
-function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '' )
+function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', $div = true )
 {
 	static $included = false;
 
@@ -823,22 +822,51 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '' )
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
-	if ( !$included )
+	$color_square = '<div style="background-color:' . $value . ';width:20px;height:20px;"></div>';
+
+	if ( AllowEdit()
+		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
+		$js = '';
+
+		if ( !$included )
+		{
+			ob_start();
+			?>
+			<!-- MiniColors -->
+			<link rel="stylesheet" href="assets/js/jquery-minicolors/jquery.minicolors.css" />
+			<script src="assets/js/jquery-minicolors/jquery.minicolors.js"></script>
+			<script>$(document).ready(function(){ $('.minicolors').minicolors(); });</script>
+			<?php
+			$js = ob_get_clean();
+		}
+
+		ob_start();
 		?>
-		<!-- MiniColors -->
-		<link rel="stylesheet" href="assets/js/jquery-minicolors/jquery.minicolors.css" />
-		<script src="assets/js/jquery-minicolors/jquery.minicolors.js"></script>
-		<script>$(document).ready(function(){ $('.minicolors').minicolors(); });</script>
+		<input type="<?php echo $type; ?>" name="<?php echo $name; ?>" id="<?php echo $id; ?>"
+			class="minicolors" value="<?php echo $value; ?>" <?php echo $extra; ?> />
 		<?php
+
+		$color = ob_get_clean();
+
+		if ( $value != ''
+			&& $div )
+		{
+			$return = $js . InputDivOnclick(
+				$id,
+				$color . $ftitle .
+				"<script>$('#" . $id . "').minicolors();alert('ici');</script>",
+				$color_square,
+				$ftitle
+			);
+		}
+		else
+			$return = $js . $color . $ftitle;
 	}
+	else
+		$return = $color_square;
 
-	?>
-	<input type="<?php echo $type; ?>" name="<?php echo $name; ?>" id="<?php echo $id; ?>"
-		class="minicolors" value="<?php echo $value; ?>" <?php echo $extra; ?> />
-	<?php
-
-	return ob_get_clean() . $ftitle;
+	return $return;
 }
 
 
