@@ -28,6 +28,8 @@ function PDFStop($handle)
 {
 	global $wkhtmltopdfPath,$wkhtmltopdfAssetsPath,$RosarioPath,$locale;
 	
+	static $file_number;
+
 	$handle['orientation'] = $_SESSION['orientation'];
 	unset($_SESSION['orientation']);
 
@@ -52,7 +54,7 @@ function PDFStop($handle)
 		array( _( 'Print' ) . ' ', ' ' ),
 		array( '', '_' ),
 		ProgramTitle()
-	));
+	)) . ( $file_number++ );
 
 	//FJ wkhtmltopdf
 	if (!empty($wkhtmltopdfPath))
