@@ -257,8 +257,16 @@ if (empty($_REQUEST['modfunc']))
 		if (Preferences('WEIGHT','Gradebook')=='Y')
 			$LO_columns += array('FINAL_GRADE_PERCENT' => _('Percent'));
 
-		$LO_columns += array('SORT_ORDER' => _('Sort Order'),'COLOR' => _('Color'));
-		$link['add']['html'] = array('TITLE'=>_makeTypeInput('','TITLE'),'SORT_ORDER'=>_makeTypeInput('','SORT_ORDER'),'COLOR'=>_makeColorInput('','COLOR'));
+		$LO_columns += array(
+			'SORT_ORDER' => _( 'Sort Order' ),
+			'COLOR' => _( 'Color' )
+		);
+
+		$link['add']['html'] = array(
+			'TITLE' => _makeTypeInput( '', 'TITLE' ),
+			'SORT_ORDER' => _makeTypeInput( '', 'SORT_ORDER' ),
+			'COLOR' => _makeColorInput( '', 'COLOR' )
+		);
 
 		if (Preferences('WEIGHT','Gradebook')=='Y')
 			$link['add']['html']['FINAL_GRADE_PERCENT'] = _makeTypeInput('','FINAL_GRADE_PERCENT');
@@ -359,15 +367,33 @@ function _makeTypeInput($value,$name)
 	return TextInput($value,"values[$id][$name]",$title,$extra);
 }
 
-function _makeColorInput($value,$name)
-{	global $THIS_RET,$color_select;
 
-	if ( $THIS_RET['ASSIGNMENT_TYPE_ID'])
+/**
+ * Make Color Input
+ * Local function
+ * DBGet callback
+ *
+ * @uses ColorInput()
+ *
+ * @global $THIS_RET
+ *
+ * @param  string $value  Value
+ * @param  string $column 'COLOR'
+ *
+ * @return string Color Input
+ */
+function _makeColorInput( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( $THIS_RET['ASSIGNMENT_TYPE_ID'] )
+	{
 		$id = $THIS_RET['ASSIGNMENT_TYPE_ID'];
+	}
 	else
 		$id = 'new';
 
-	if ( !$color_select)
+	/*if ( !$color_select )
 	{
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		foreach ( (array)$colors as $color)
@@ -375,5 +401,12 @@ function _makeColorInput($value,$name)
 			$color_select[$color] = array('<table class="cellspacing-0"><tr><td style="width:100%; background-color:'.$color.'">&nbsp;</td></tr></table>','<table class="cellspacing-0"><tr><td style="background-color:'.$color.'; width:30px">&nbsp;</td></tr></table>');
 		}
 	}
-	return RadioInput($value,"values[$id][COLOR]",'',$color_select);
+	return RadioInput($value,"values[$id][COLOR]",'',$color_select);*/
+
+	return ColorInput(
+		$value,
+		'values[' . $id . '][' . $column . ']',
+		'',
+		'hidden'
+	);
 }

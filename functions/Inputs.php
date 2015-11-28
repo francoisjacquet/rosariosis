@@ -796,6 +796,10 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 /**
  * Color Picker Input
  *
+ * @example ColorInput( $value, "values[$id][$column]", '', 'hidden', 'data-position="bottom right"' );
+ *
+ * @todo Display bug when inside LO (popping out of overflow hidden / auto)
+ *
  * @since 2.9
  *
  * @uses jQuery MiniColors plugin
@@ -822,7 +826,7 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
-	$color_square = '<div style="background-color:' . $value . ';width:20px;height:20px;"></div>';
+	$color_rect = '<div style="background-color:' . $value . '; width:30px; height:20px;"></div>';
 
 	if ( AllowEdit()
 		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
@@ -836,9 +840,17 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
 			<!-- MiniColors -->
 			<link rel="stylesheet" href="assets/js/jquery-minicolors/jquery.minicolors.css" />
 			<script src="assets/js/jquery-minicolors/jquery.minicolors.js"></script>
-			<script>$(document).ready(function(){ $('.minicolors').minicolors(); });</script>
+			<script>$(document).ready(function(){
+				$('.minicolors').each(function(){
+					$(this).minicolors({
+						position: $(this).attr('data-position') || 'bottom left'
+					});
+				});
+			});</script>
 			<?php
 			$js = ob_get_clean();
+
+			$included = true;
 		}
 
 		ob_start();
@@ -847,24 +859,28 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
 			class="minicolors" value="<?php echo $value; ?>" <?php echo $extra; ?> />
 		<?php
 
-		$color = ob_get_clean();
+		$color = ob_get_clean() . $ftitle;
 
 		if ( $value != ''
 			&& $div )
 		{
 			$return = $js . InputDivOnclick(
 				$id,
-				$color . $ftitle .
-				"<script>$('#" . $id . "').minicolors();alert('ici');</script>",
-				$color_square,
-				$ftitle
+				$color,
+				$color_rect,
+				$ftitle .
+				'<script>$("#div' . $id . '").on("click", function(){
+					$("#' . $id . '").minicolors({
+						position: $("#' . $id . '").attr("data-position") || "bottom left"
+					});
+				});</script>'
 			);
 		}
 		else
-			$return = $js . $color . $ftitle;
+			$return = $js . $color;
 	}
 	else
-		$return = $color_square;
+		$return = $color_rect;
 
 	return $return;
 }

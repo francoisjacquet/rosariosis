@@ -17,7 +17,7 @@ if ( $_REQUEST['modfunc']=='update')
 					$table = 'REPORT_CARD_COMMENTS';
 				foreach ( (array)$_REQUEST['values'] as $id => $columns)
 				{
-			//FJ fix SQL bug invalid sort order
+					//FJ fix SQL bug invalid sort order
 					if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 					{
 						if ( $id!='new')
@@ -32,21 +32,36 @@ if ( $_REQUEST['modfunc']=='update')
 						else
 						{
 							$sql = "INSERT INTO $table ";
+
 							$fields = "ID,SCHOOL_ID,SYEAR,COURSE_ID,".($_REQUEST['tab_id']=='new'?'':"CATEGORY_ID,");
+
 							$values = db_seq_nextval($table.'_SEQ').",'".UserSchool()."','".UserSyear()."',".($_REQUEST['tab_id']=='new'?"'".$_REQUEST['course_id']."'":($_REQUEST['tab_id']=='-1'?"NULL,NULL":($_REQUEST['tab_id']=='0'?"'0',NULL":"'".$_REQUEST['course_id']."','".$_REQUEST['tab_id']."'"))).",";
 
 							$go = false;
-							foreach ( (array)$columns as $column => $value)
+
+							foreach ( (array)$columns as $column => $value )
+							{
 								if ( !empty($value) || $value=='0')
 								{
 									$fields .= $column.',';
 									$values .= "'".$value."',";
 									$go = true;
+
+									$columns_to_insert++;
 								}
+							}
+
+							// Do not INSERT if only SORT_ORDER set
+							if ( !empty( $columns['SORT_ORDER'] )
+								&& $columns_to_insert === 1 )
+							{
+								$go = false;
+							}
+
 							$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
-							if ( $go)
-								DBQuery($sql);
+							if ( $go )
+								DBQuery( $sql );
 						}
 					}
 					else
@@ -172,10 +187,25 @@ if (empty($_REQUEST['modfunc']))
 	if ( $_REQUEST['tab_id']=='new')
 	{
 		$sql = "SELECT * FROM REPORT_CARD_COMMENT_CATEGORIES WHERE COURSE_ID='".$_REQUEST['course_id']."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER";
-		$functions = array('TITLE' => 'makeTextInput','SORT_ORDER' => 'makeTextInput','COLOR' => 'makeColorInput');
-		$LO_columns = array('TITLE' => _('Comment Category'),'SORT_ORDER' => _('Sort Order'),'COLOR' => _('Color'));
 
-		$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'),'COLOR'=>makeColorInput('','COLOR'));
+		$functions = array(
+			'TITLE' => 'makeTextInput',
+			'SORT_ORDER' => 'makeTextInput',
+			'COLOR' => '_makeColorInput'
+		);
+
+		$LO_columns = array(
+			'TITLE' => _( 'Comment Category' ),
+			'SORT_ORDER' => _( 'Sort Order' ),
+			'COLOR' => _( 'Color' )
+		);
+
+		$link['add']['html'] = array(
+			'TITLE' => makeTextInput( '', 'TITLE' ),
+			'SORT_ORDER' => makeTextInput( '', 'SORT_ORDER' ),
+			'COLOR' => _makeColorInput( '', 'COLOR' )
+		);
+
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&course_id='.$_REQUEST['course_id'].'&tab_id=new';
 		$link['remove']['variables'] = array('id' => 'ID');
 		$link['add']['html']['remove'] = button('add');
@@ -283,18 +313,44 @@ function makeCommentsInput($value,$name)
 	return TextInput($value,"values[$id][$name]",'',$extra);
 }
 
-function makeColorInput($value,$name)
-{	global $THIS_RET;
 
-	if ( $THIS_RET['ID'])
+/**
+ * Make Color Input
+ * Local function
+ * DBGet callback
+ *
+ * @uses ColorInput()
+ *
+ * @global $THIS_RET
+ *
+ * @param  string $value  Value
+ * @param  string $column 'COLOR'
+ *
+ * @return string Color Input
+ */
+function _makeColorInput( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
 		$id = 'new';
 
-	$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
+	/*$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 	foreach ( (array)$colors as $color)
 	{
 		$color_select[$color] = array('<span style="background-color:'.$color.'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
 	}
-	return RadioInput($value,"values[$id][$name]",'',$color_select);
+	return RadioInput($value,"values[$id][$name]",'',$color_select);*/
+
+	return ColorInput(
+		$value,
+		'values[' . $id . '][' . $column . ']',
+		'',
+		'hidden',
+		'data-position="bottom right"'
+	);
 }

@@ -404,7 +404,7 @@ if (empty($_REQUEST['modfunc']))
 			echo '&assignment_type_id='.$_REQUEST['assignment_type_id'];
 		echo '" method="POST">';
 		DrawHeader($title,$delete_button.SubmitButton(_('Save')));
-		$header .= '<table class="width-100p valign-top">';
+		$header .= '<table class="width-100p valign-top fixed-col">';
 		$header .= '<tr class="st">';
 
 		//FJ title is required
@@ -426,14 +426,26 @@ if (empty($_REQUEST['modfunc']))
 
 			$header .= '<td>' . NoInput($RET['TOTAL_PERCENT']==1?'100%':'<span style="color:red">'.(100*$RET['TOTAL_PERCENT']).'%</span>',_('Percent Total')) . '</td>';
 		}
-		$header .= '<td>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['assignment_type_id'].'][SORT_ORDER]',_('Sort Order')) . '</td>';
-		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
+
+		$header .= '<td>' . TextInput(
+			$RET['SORT_ORDER'],
+			'tables[' . $_REQUEST['assignment_type_id'] . '][SORT_ORDER]',
+			_( 'Sort Order' ) ) . '</td>';
+
+		/*$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		foreach ( (array)$colors as $color)
 		{
 			$color_select[$color] = array('<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
 		}
-//FJ add translation
-		$header .= '<td>' .  RadioInput($RET['COLOR'],'tables['.$_REQUEST['assignment_type_id'].'][COLOR]',_('Color'),$color_select) . '</td>';
+
+		$header .= '<td>' .  RadioInput($RET['COLOR'],'tables['.$_REQUEST['assignment_type_id'].'][COLOR]',_('Color'),$color_select) . '</td>';*/
+
+		$header .= '<td>' . ColorInput(
+			$RET['COLOR'],
+			'tables[' . $_REQUEST['assignment_type_id'] . '][COLOR]',
+			_( 'Color' ),
+			'hidden'
+		) . '</td>';
 
 		$header .= '</tr></table>';
 	}

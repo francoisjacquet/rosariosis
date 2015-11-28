@@ -279,7 +279,10 @@ if (empty($_REQUEST['modfunc']))
 		echo ColorInput(
 			Preferences( 'HIGHLIGHT' ),
 			'values[Preferences][HIGHLIGHT]',
-			_( 'Highlight Color' )
+			_( 'Highlight Color' ),
+			'hidden',
+			$extra,
+			$div
 		);
 
 		echo '</td></tr><tr><td>';
@@ -377,7 +380,10 @@ if (empty($_REQUEST['modfunc']))
 		echo ColorInput(
 			Preferences( 'HEADER' ),
 			'values[Preferences][HEADER]',
-			_( 'PDF List Header Color' )
+			_( 'PDF List Header Color' ),
+			'hidden',
+			$extra,
+			$div
 		);
 
 		echo '</td></tr><tr><td></table>';

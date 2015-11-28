@@ -864,6 +864,11 @@ table.mceLayout,textarea.tinymce{
 	opacity:1
 }
 
+/* MiniColors */
+.minicolors{
+	margin:2px 2px 2px 0;
+}
+
 /*wkhtmltopdf code*/
 *{
     font-size:inherit;
