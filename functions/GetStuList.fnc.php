@@ -335,52 +335,65 @@ function GetStuList(&$extra=array())
 	return DBGet(DBQuery($sql),$functions,$extra['group']);
 }
 
-function makeContactInfo($student_id,$column)
-{	global $contacts_RET;
-	static $tiptitle = false;
 
-	if (count($contacts_RET[$student_id]))
+/**
+ * Make Contact Info
+ * DBGet() callback
+ *
+ * @uses MakeTipMessage()
+ *
+ * @param  string $student_id Student ID
+ * @param  string $column     'CONTACT_INFO'
+ *
+ * @return string Contact Info tooltip
+ */
+function makeContactInfo( $student_id, $column )
+{
+	global $contacts_RET;
+
+	if ( !function_exists( 'MakeTipMessage' ) )
 	{
-		foreach ( (array)$contacts_RET[$student_id] as $person)
-		{
-			if ( $person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'])
-				$tipmessage .= $person[1]['STUDENT_RELATION'].': '.$person[1]['FIRST_NAME'].' '.$person[1]['LAST_NAME'].'<br />';
+		require_once 'ProgramFunctions/TipMessage.fnc.php';
+	}
 
-			$tipmessage .= '<table class="cellpadding-5">';
+	if ( isset( $contacts_RET[$student_id] ) )
+	{
+		$tipmsg = '';
+
+		foreach ( (array)$contacts_RET[$student_id] as $person )
+		{
+			if ( $person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'] )
+			{
+				$tipmsg .= $person[1]['STUDENT_RELATION'] . ': ' .
+					$person[1]['FIRST_NAME'] . ' ' . $person[1]['LAST_NAME'] . '<br />';
+			}
+
+			$tipmsg .= '<table class="width-100p cellspacing-0">';
 
 			if ( $person[1]['PHONE'] )
 			{
-				$tipmessage .= '<tr><td>' . NoInput( $person[1]['PHONE'], _( 'Home Phone' ) ) .
-					'</td></tr>';
+				$tipmsg .= '<tr><td><span class="legend-gray">' . _( 'Home Phone' ) .
+				'</span></td><td>' . NoInput( $person[1]['PHONE'] ) . '</td></tr>';
 			}
 
-			foreach ( (array)$person as $info)
+			foreach ( (array)$person as $info )
 			{
 				if ( $info['TITLE']
 					|| $info['VALUE'] )
 				{
-					$tipmessage .= '<tr><td>' . NoInput( $info['VALUE'], $info['TITLE'] ) .
-						'</td></tr>';
+					$tipmsg .= '<tr><td><span class="legend-gray">' . $info['TITLE'] .
+					'</span></td><td>' . NoInput( $info['VALUE'] ) . '</td></tr>';
 				}
 			}
 
-			$tipmessage .= '</table>';
+			$tipmsg .= '</table>';
 		}
 	}
 	else
-		$tipmessage = _('This student has no contact information.');
+		$tipmsg = _( 'This student has no contact information.' );
 
-	$return = '<script>';
 
-	if ( !$tiptitle)
-	{
-		$return .= 'var tiptitle='.json_encode(_('Contact Information')).';';
-		$tiptitle = true;
-	}
-
-	$return .= 'var tipmsg'.$student_id.'='.json_encode($tipmessage).';</script>';
-
-	return $return.button('phone','','"#" onMouseOver="stm([tiptitle,tipmsg'.$student_id.'])" onMouseOut="htm()" onclick="return false;"');
+	return MakeTipMessage( $tipmsg, _( 'Contact Information' ), button( 'phone' ) );
 }
 
 function removeDot00($value,$column)
