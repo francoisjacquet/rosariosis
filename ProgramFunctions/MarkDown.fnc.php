@@ -38,7 +38,7 @@ function MarkDownToHTML( $MD, $column = '' )
 	// Create $Parsedown object once
 	if ( ! ( $Parsedown instanceof Parsedown ) )
 	{
-		require_once( 'classes/Parsedown.php' );
+		require_once 'classes/Parsedown.php';
 
 		$Parsedown = new Parsedown();
 	}
@@ -92,7 +92,7 @@ function SanitizeMarkDown( $MD )
 	// Create $Security object once
 	if ( ! ( $Security instanceof Security ) )
 	{
-		require_once( 'classes/Security.php' );
+		require_once 'classes/Security.php';
 
 		$Security = new Security();
 	}

@@ -629,8 +629,9 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 //The function moodle_xmlrpc_call() sends the object to Moodle via XML-RPC
 function Moodle($modname, $moodle_functionname)
 {
-	require_once('plugins/Moodle/'.$modname);
-	require_once('plugins/Moodle/client.php');
+	require_once 'plugins/Moodle/' . $modname;
+
+	require_once 'plugins/Moodle/client.php';
 
 	//first, get the right object corresponding to the web service
 	$object = call_user_func($moodle_functionname.'_object');

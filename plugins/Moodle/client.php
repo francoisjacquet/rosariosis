@@ -6,7 +6,7 @@
  */
 
 // Load cURL class
-require_once( 'classes/curl.php' );
+require_once 'classes/curl.php';
 
 
 /**

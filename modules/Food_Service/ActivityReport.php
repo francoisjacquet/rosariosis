@@ -35,13 +35,13 @@ User('PROFILE')=='student'?'':DrawHeader($header);
 
 if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
+	require_once 'modules/Food_Service/includes/DeletePromptX.fnc.php';
 	if ( $_REQUEST['item_id']!='')
 	{
 //FJ add translation
 		if (DeletePromptX(_('Transaction Item')))
 		{
-			require_once('modules/Food_Service/includes/DeleteTransactionItem.fnc.php');
+			require_once 'modules/Food_Service/includes/DeleteTransactionItem.fnc.php';
 			DeleteTransactionItem($_REQUEST['transaction_id'],$_REQUEST['item_id'],$_REQUEST['type']);
 			DBQuery('BEGIN; '.$sql1.'; '.$sql2.'; '.$sql3.'; COMMIT');
 			unset($_REQUEST['modfunc']);
@@ -54,7 +54,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 	{
 		if (DeletePromptX(_('Transaction')))
 		{
-			require_once('modules/Food_Service/includes/DeleteTransaction.fnc.php');
+			require_once 'modules/Food_Service/includes/DeleteTransaction.fnc.php';
 			DeleteTransaction($_REQUEST['transaction_id'],$_REQUEST['type']);
 			unset($_REQUEST['modfunc']);
 			unset($_REQUEST['delete_ok']);

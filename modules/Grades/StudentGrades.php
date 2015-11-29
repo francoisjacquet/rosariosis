@@ -5,7 +5,7 @@ $do_stats = ProgramConfig( 'grades', 'GRADES_DO_STATS_STUDENTS_PARENTS' ) == 'Y'
 			|| User( 'PROFILE' ) === 'admin' )
 		&& ProgramConfig( 'grades', 'GRADES_DO_STATS_ADMIN_TEACHERS' ) == 'Y' );
 
-require_once( 'ProgramFunctions/_makeLetterGrade.fnc.php' );
+require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 $_ROSARIO['allow_edit'] = false;
 

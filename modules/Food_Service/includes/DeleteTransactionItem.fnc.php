@@ -21,7 +21,7 @@ function DeleteTransactionItem($transaction_id,$item_id,$type='student')
 	
 	if (empty($trans_items_RET))
 	{
-		require_once('modules/Food_Service/includes/DeleteTransaction.fnc.php');
+		require_once 'modules/Food_Service/includes/DeleteTransaction.fnc.php';
 		DeleteTransaction($transaction_id,$type);
 	}
 }

@@ -910,7 +910,7 @@ function Widgets( $item, &$myextra = null )
 
 			if ( $_REQUEST['mailing_labels'] == 'Y' )
 			{
-				require_once( 'ProgramFunctions/MailingLabel.fnc.php' );
+				require_once 'ProgramFunctions/MailingLabel.fnc.php';
 
 				$extra['SELECT'] .= ',coalesce(sam.ADDRESS_ID,-ssm.STUDENT_ID) AS ADDRESS_ID,
 					sam.ADDRESS_ID AS MAILING_LABEL';
