@@ -766,13 +766,20 @@ if (empty($_REQUEST['modfunc']))
 					}
 					else
 					{
-						foreach ( (array)$info_RET as $info)
+						foreach ( (array)$info_RET as $info )
 						{
 							echo '<tr>';
-							if (AllowEdit())
-								echo '<td>'.button('remove','','"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&modfunc=delete&address_id='.$_REQUEST['address_id'].'&person_id='.$_REQUEST['person_id'].'&contact_id='.$info['ID'].'"').'</td>';
+
+							if ( AllowEdit() )
+							{
+								echo '<td>' . button(
+									'remove',
+									'',
+									'"Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&modfunc=delete&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $_REQUEST['person_id'] . '&contact_id=' . $info['ID'] . '"'
+								) . '</td><td>';
+							}
 							else
-								echo '<td></td>';
+								echo '<td></td><td>';
 
 							$id = 'info_' . $info['ID'];
 
@@ -797,8 +804,15 @@ if (empty($_REQUEST['modfunc']))
 								$id,
 								$info_html,
 								$info['VALUE'],
-								FormatInputTitle( $info['TITLE'], $id )
+								FormatInputTitle(
+									$info['TITLE'] === '---' ?
+										'<span class="legend-red">-' . _( 'Edit' ) . '-</span>' :
+										$info['TITLE'],
+									$id
+								)
 							);
+
+							echo '</td></tr>';
 						}
 
 						if ( AllowEdit()
