@@ -1,5 +1,5 @@
 <?php
-require_once('modules/Food_Service/includes/DeletePromptX.fnc.php');
+require_once 'modules/Food_Service/includes/DeletePromptX.fnc.php';
 
 if ( !$_SESSION['FSA_type'])
 	$_SESSION['FSA_type'] = 'student';
@@ -12,12 +12,12 @@ else
 //FJ add translation
 //FJ remove DrawTab params
 $header = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&type=student"><b>'._('Students').'</b></a>';
-$header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&type=staff"><b>'._('Users').'</b></a>';
+$header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'].'&type=staff"><b>'._('Users').'</b></a>';
 
 DrawHeader(($_REQUEST['type']=='staff'?_('User'):_('Student')).' &minus; '.ProgramTitle());
 User('PROFILE')=='student'?'':DrawHeader($header);
 
-require_once 'modules/Food_Service/'.($_REQUEST['type']=='staff'?'Users':'Students').'/Accounts.php';
+require_once 'modules/Food_Service/' . ( $_REQUEST['type'] == 'staff' ? 'Users' : 'Students' ) . '/Accounts.php';
 
 function red($value)
 {

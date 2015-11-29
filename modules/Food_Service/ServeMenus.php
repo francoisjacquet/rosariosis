@@ -26,7 +26,7 @@ else
 }*/
 //FJ remove DrawTab params
 $header = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=select&menu_id='.$_REQUEST['menu_id'].'&fsa_type=student"><b>'._('Students').'</b></a>';
-$header .= ' - <a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=select&menu_id='.$_REQUEST['menu_id'].'&fsa_type=staff"><b>'._('Users').'</b></a>';
+$header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=select&menu_id='.$_REQUEST['menu_id'].'&fsa_type=staff"><b>'._('Users').'</b></a>';
 
 DrawHeader(($_SESSION['FSA_type']=='staff' ? _('User') : _('Student')).' &minus; '.ProgramTitle());
 User('PROFILE')=='student'?'':DrawHeader($header);
