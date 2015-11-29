@@ -1,4 +1,7 @@
 <?php
+
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
 DrawHeader(ProgramTitle());
 
 $sem = GetParentMP('SEM',UserMP());
@@ -730,14 +733,20 @@ echo '<form action="Modules.php?modname='.$_REQUEST['modname'].(count($categorie
 
 if ( !isset($_REQUEST['_ROSARIO_PDF']))
 {
-	if (count($commentsB_RET))
+	if ( $commentsB_RET )
 	{
-		foreach ( (array)$commentsB_RET as $comment)
-			$tipmessage .= $comment[1]['SORT_ORDER'].' - '.$comment[1]['TITLE'].'<br />';
+		$tipmsg = '';
 
-		$tipJS = '<script>var tiptitle='.json_encode(_('Report Card Comments')).'; var tipmsg='.json_encode($tipmessage).';</script>';
+		foreach ( (array)$commentsB_RET as $comment )
+		{
+			$tipmsg .= $comment[1]['SORT_ORDER'] . ' - ' . $comment[1]['TITLE'] . '<br />';
+		}
 
-		$tipmessage = $tipJS.button('comment', _('Comment Codes'), '"#" onmouseover="stm([tiptitle,tipmsg])" onmouseout="htm()" onclick="return false;"', 'bigger');
+		$tipmessage = makeTipMessage(
+			$tipmsg,
+			_( 'Report Card Comments' ),
+			button( 'comment', _( 'Comment Codes' ) )
+		);
 	}
 
 	//FJ add All Courses & Course-specific comments scales tipmessage
@@ -746,34 +755,42 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		$tipmessage = '';
 
 		//All Courses
-		if ( $_REQUEST['tab_id'] == '0')
-			$where = " AND COURSE_ID='".$_REQUEST['tab_id']."'";
+		if ( $_REQUEST['tab_id'] == '0' )
+		{
+			$where = " AND COURSE_ID='" . $_REQUEST['tab_id'] . "'";
+		}
 		//Course-specific
 		else
-			$where = " AND CATEGORY_ID='".$_REQUEST['tab_id']."'";
+			$where = " AND CATEGORY_ID='" . $_REQUEST['tab_id'] . "'";
 
-		$commentsAbis_RET = DBGet(DBQuery("SELECT ID,TITLE,SCALE_ID FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'".$where." ORDER BY SORT_ORDER"), array(), array('SCALE_ID'));
+		$commentsAbis_RET = DBGet( DBQuery( "SELECT ID,TITLE,SCALE_ID
+			FROM REPORT_CARD_COMMENTS
+			WHERE SCHOOL_ID='" . UserSchool() . "'
+			AND SYEAR='" . UserSyear() . "'" .
+			$where . "
+			ORDER BY SORT_ORDER" ), array(), array( 'SCALE_ID' ) );
 
-		foreach ( (array)$commentsAbis_RET as $scale_id => $commentsAbis)
+		foreach ( (array)$commentsAbis_RET as $scale_id => $commentsAbis )
 		{
 			$tipmsg = '';
+
 			$tiplabel = array();
 
-			foreach ( (array)$comment_codes_RET[$scale_id] as $comment)
+			foreach ( (array)$comment_codes_RET[$scale_id] as $comment )
 			{
-				$tipmsg .= $comment['TITLE'].': '.$comment['COMMENT'].'<br />';
+				$tipmsg .= $comment['TITLE'] . ': ' . $comment['COMMENT'] . '<br />';
 			}
 
-			foreach ( (array)$commentsAbis as $commentAbis)
+			foreach ( (array)$commentsAbis as $commentAbis )
 			{
 				$tiplabel[] = $commentAbis['TITLE'];
 			}
 
-			$tipJS = '<script>var tiptitle'.$scale_id.'='.json_encode(_('Comment Codes')).'; var tipmsg'.$scale_id.'='.json_encode($tipmsg).';</script>';
-
-			$tiplabel = implode($tiplabel, ' / ');
-
-			$tipmessage .= $tipJS.button('comment', $tiplabel, '"#" onmouseover="stm([tiptitle'.$scale_id.',tipmsg'.$scale_id.'])" onmouseout="htm()" onclick="return false;"', 'bigger').' ';
+			$tipmessage .= makeTipMessage(
+				$tipmsg,
+				_( 'Comment Codes' ),
+				button( 'comment', implode( $tiplabel, ' / ' ) )
+			);
 		}
 	}
 

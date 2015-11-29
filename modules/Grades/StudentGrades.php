@@ -251,7 +251,7 @@ else
 		AND at.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID 
 		AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($programconfig[$staff_id]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) OR gg.POINTS IS NOT NULL) 
 		AND (ga.POINTS!='0' OR gg.POINTS IS NOT NULL AND gg.POINTS!='-1') 
-		ORDER BY ga.ASSIGNMENT_ID DESC"),array('TITLE' => '_makeTipTitle'));
+		ORDER BY ga.ASSIGNMENT_ID DESC"), array( 'TITLE' => '_makeTipAssignment' ) );
 		//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 		if (count($assignments_RET))
 		{
@@ -330,37 +330,56 @@ else
 }
 }
 
-function _makeTipTitle($value,$column)
-{	global $THIS_RET;
 
-	static $tiptitle = false;
+/**
+ * Make Assignment Tip Message
+ *
+ * @param  string $value  Assignment Title
+ * @param  string $column 'TITLE'
+ *
+ * @return string Assignment Tip Message
+ */
+function _makeTipAssignment( $value, $column )
+{
+	global $THIS_RET;
 
-	if (($THIS_RET['DESCRIPTION'] || $THIS_RET['ASSIGNED_DATE'] || $THIS_RET['DUE_DATE']) && !isset($_REQUEST['_ROSARIO_PDF']))
+	if ( !function_exists( 'makeTipMessage' ) )
 	{
-		if ( $THIS_RET['DESCRIPTION'])
+		require_once 'ProgramFunctions/TipMessage.fnc.php';
+	}
+
+	if ( ( $THIS_RET['DESCRIPTION']
+			|| $THIS_RET['ASSIGNED_DATE']
+			|| $THIS_RET['DUE_DATE'] )
+		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		$tipmsg = '<table class="width-100p cellspacing-0"><tr>';
+
+		if ( $THIS_RET['DESCRIPTION'] )
 		{
-			$tipmsg = $THIS_RET['DESCRIPTION'];
-			$tipmsg = _('Description').': '.str_replace("\r\n",'<br />',$tipmsg);
+			$tipmsg .= '<tr><td>' . _( 'Description' ) . '</td><td>' .
+				nl2br( $THIS_RET['DESCRIPTION'] ) . '</td></tr>';
 		}
 
-		if ( $THIS_RET['ASSIGNED_DATE'])
-			$tipmsg .= ($tipmsg?'<br />':'')._('Assigned').': '.ProperDate($THIS_RET['ASSIGNED_DATE']);
-
-		if ( $THIS_RET['DUE_DATE'])
-			$tipmsg .= ($tipmsg?'<br />':'')._('Due').': '.ProperDate($THIS_RET['DUE_DATE']);
-
-		$tipJS = '<script>';
-
-		if ( !$tiptitle)
+		if ( $THIS_RET['ASSIGNED_DATE'] )
 		{
-			$tipJS .= 'var tiptitle='.json_encode(_('Details')).';';
-
-			$tiptitle = true;
+			$tipmsg .= '<tr><td>' . _( 'Assigned' ) . '</td><td>' .
+				ProperDate( $THIS_RET['ASSIGNED_DATE'] ) . '</td></tr>';
 		}
 
-		$tipJS .= 'var tipmsg'.$THIS_RET['ASSIGNMENT_ID'].'='.json_encode($tipmsg).';</script>';
+		if ( $THIS_RET['DUE_DATE'] )
+		{
+			$tipmsg .= '<tr><td>' . _( 'Due' ) . '</td><td>' .
+				ProperDate( $THIS_RET['DUE_DATE'] ) . '</td></tr>';
+		}
 
-		$tip_title = $tipJS.'<a href="#" onMouseOver="stm([tiptitle,tipmsg'.$THIS_RET['ASSIGNMENT_ID'].'])" onMouseOut="htm();" onclick="return false;">'.$value.'</a>';
+		$tipmsg .= '</table>';
+
+		$tip_title = makeTipMessage(
+			$tipmsg,
+			_( 'Details' ),
+			$value
+		);
 	}
 	else
 		$tip_title = $value;

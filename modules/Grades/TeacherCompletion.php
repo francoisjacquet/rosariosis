@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
 DrawHeader(ProgramTitle());
 
 $sem = GetParentMP('SEM',UserMP());
@@ -59,32 +61,28 @@ $sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,
 		ORDER BY FULL_NAME";
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
-if ( !$_REQUEST['period'])
+if ( !$_REQUEST['period'] )
 {
-	$tiptitle = false;
-
-	foreach ( (array)$RET as $staff_id => $periods)
+	foreach ( (array)$RET as $staff_id => $periods )
 	{
 		$i++;
+
 		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
-		foreach ( (array)$periods as $period)
+
+		foreach ( (array)$periods as $period )
 		{
-			if ( !isset($_REQUEST['_ROSARIO_PDF']))
+			if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$tipJS = '<script>';
-
-				if ( !$tiptitle)
-				{
-					$tipJS .= 'var tiptitle='.json_encode(_('Course Title')).';';
-					$tiptitle = true;
-				}
-
-				$tipJS .= 'var tipmsg'.$i.$period['PERIOD_ID'].'='.json_encode($period['COURSE_TITLE']).';</script>';
-
-				$staff_RET[$i][$period['PERIOD_ID']] .= $tipJS.button($period['COMPLETED']=='Y'?'check':'x','','"#" onMouseOver="stm([tiptitle,tipmsg'.$i.$period['PERIOD_ID'].'])" onMouseOut="htm()" onclick="return false;"').' ';
+				$staff_RET[$i][$period['PERIOD_ID']] .= makeTipMessage(
+					$period['COURSE_TITLE'],
+					_( 'Course Title' ),
+					button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' )
+				);
 			}
 			else
-				$staff_RET[$i][$period['PERIOD_ID']] = $period['COMPLETED']=='Y'?_('Yes').' ':_('No').' ';
+				$staff_RET[$i][$period['PERIOD_ID']] = $period['COMPLETED'] === 'Y' ?
+					_( 'Yes' ) . ' ' :
+					_( 'No' ) . ' ';
 		}
 	}
 

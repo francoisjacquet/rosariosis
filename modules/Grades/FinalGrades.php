@@ -1,5 +1,8 @@
 <?php
-require_once('modules/Grades/DeletePromptX.fnc.php');
+
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
+require_once 'modules/Grades/DeletePromptX.fnc.php';
 
 DrawHeader(ProgramTitle());
 
@@ -244,16 +247,24 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			{
 				$commentsB_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NULL ORDER BY SORT_ORDER"),array(),array('ID'));
 
-				if (count($commentsB_RET))
+				if ( $commentsB_RET )
 				{
-					foreach ( (array)$commentsB_RET as $comment)
-						$tipmessage .= $comment[1]['SORT_ORDER'].' - '.$comment[1]['TITLE'].'<br />';
+					$tipmessage = '';
 
-					$tipJS = '<script>var tiptitle='.json_encode(_('Report Card Comments')).'; var tipmsg='.json_encode($tipmessage).';</script>';
+					foreach ( (array)$commentsB_RET as $comment )
+					{
+						$tipmessage .= $comment[1]['SORT_ORDER'] . ' - ' .
+							$comment[1]['TITLE'] . '<br />';
+					}
 
-					$tipmessage = $tipJS.button('comment', _('Comment Codes'), '"#" onmouseover="stm([tiptitle,tipmsg])" onmouseout="htm()" onclick="return false;"', 'bigger');
-
-					DrawHeader(_('General Comments'),$tipmessage);
+					DrawHeader(
+						_( 'General Comments' ),
+						makeTipMessage(
+							$tipmessage,
+							_( 'Comment Codes' ),
+							button( 'comment', _('Comment Codes') )
+						)
+					);
 				}
 
 				$cp_list = array();
@@ -286,24 +297,27 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					ORDER BY cs.SORT_ORDER"),array(),array('SCALE_ID'));
 				}
 
-				if (count($comment_codes_RET))
+				if ( $comment_codes_RET )
 				{
 					$tipmessage = '';
 
-					foreach ( (array)$comment_codes_RET as $scale_id => $codes)
+					foreach ( (array)$comment_codes_RET as $scale_id => $codes )
 					{
 						$tipmsg = '';
-						foreach ( (array)$codes as $code)
+
+						foreach ( (array)$codes as $code )
 						{
-							$tipmsg .= $code['TITLE'].': '.$code['COMMENT'].'<br />';
+							$tipmsg .= $code['TITLE'] . ': ' . $code['COMMENT'] . '<br />';
 						}
 
-						$tipJS = '<script>var tiptitles'.$scale_id.'='.json_encode(_('Comment Codes')).'; var tipmsgs'.$scale_id.'='.json_encode($tipmsg).';</script>';
-
-						$tipmessage .= $tipJS.button('comment', $codes[1]['SCALE_TITLE'], '"#" onmouseover="stm([tiptitles'.$scale_id.',tipmsgs'.$scale_id.'])" onmouseout="htm()" onclick="return false;"', 'bigger').' ';
+						$tipmessage .= makeTipMessage(
+							$tipmsg,
+							_( 'Comment Codes' ),
+							button( 'comment', $codes[1]['SCALE_TITLE'] )
+						);
 					}
 
-					DrawHeader(_('Comment Scales'),$tipmessage);
+					DrawHeader( _( 'Comment Scales' ), $tipmessage );
 				}
 
 				//FJ add Course-specific comments tipmessage
@@ -317,33 +331,41 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				AND c.SCALE_ID=cs.ID
 				ORDER BY c.SORT_ORDER"), array(), array('COURSE_ID'));
 
-				if (count($commentsA_RET))
+				if ( $commentsA_RET )
 				{
 					$tipmessage = '';
 
-					foreach ( (array)$commentsA_RET as $course_id => $commentsA)
+					foreach ( (array)$commentsA_RET as $course_id => $commentsA )
 					{
 						$tipmsg = '';
-						foreach ( (array)$commentsA as $commentA)
+
+						foreach ( (array)$commentsA as $commentA )
 						{
 							$color = $commentA['COLOR'];
 
-							if ( $color)
-								$color_html = '<span style="color:'.$color.'">';
+							if ( $color )
+							{
+								$color_html = '<span style="color:' . $color . '">';
+							}
 							else
 								$color_html = '';
 
-							$comment_scale_txt = '&nbsp;&nbsp;&nbsp;&nbsp;('._('Comment Scale').': '.$commentA['SCALE_TITLE'].')';
+							$comment_scale_txt = '&nbsp;&nbsp;&nbsp;&nbsp;(' . _( 'Comment Scale' ) . ': ' .
+								$commentA['SCALE_TITLE'] . ')';
 
-							$tipmsg .= $color_html.$commentA['SORT_ORDER'].': '.$commentA['TITLE'].($color_html ? '</span>' : '').'<br />'.$comment_scale_txt.'<br />';
+							$tipmsg .= $color_html . $commentA['SORT_ORDER'] . ': ' .
+								$commentA['TITLE'] . ( $color_html ? '</span>' : '' ) . '<br />' .
+								$comment_scale_txt . '<br />';
 						}
 
-						$tipJS = '<script>var tiptitlec'.$course_id.'='.json_encode(_('Comments')).'; var tipmsgc'.$course_id.'='.json_encode($tipmsg).';</script>';
-
-						$tipmessage .= $tipJS.button('comment', $commentsA[1]['COURSE_TITLE'], '"#" onmouseover="stm([tiptitlec'.$course_id.',tipmsgc'.$course_id.'])" onmouseout="htm()" onclick="return false;"', 'bigger').' ';
+						$tipmessage .= makeTipMessage(
+							$tipmsg,
+							_( 'Comments' ),
+							button( 'comment', $commentsA[1]['COURSE_TITLE'] )
+						);
 					}
 
-					DrawHeader(_('Course-specific Comments'),$tipmessage);
+					DrawHeader( _( 'Course-specific Comments' ), $tipmessage );
 				}
 			}
 

@@ -372,8 +372,8 @@ function makeContactInfo( $student_id, $column )
 
 			if ( $person[1]['PHONE'] )
 			{
-				$tipmsg .= '<tr><td><span class="legend-gray">' . _( 'Home Phone' ) .
-				'</span></td><td>' . NoInput( $person[1]['PHONE'] ) . '</td></tr>';
+				$tipmsg .= '<tr><td>' . _( 'Home Phone' ) .
+				'</span></td><td>' . $person[1]['PHONE'] . '</td></tr>';
 			}
 
 			foreach ( (array)$person as $info )
@@ -381,8 +381,8 @@ function makeContactInfo( $student_id, $column )
 				if ( $info['TITLE']
 					|| $info['VALUE'] )
 				{
-					$tipmsg .= '<tr><td><span class="legend-gray">' . $info['TITLE'] .
-					'</span></td><td>' . NoInput( $info['VALUE'] ) . '</td></tr>';
+					$tipmsg .= '<tr><td>' . $info['TITLE'] .
+					'</td><td>' . $info['VALUE'] . '</td></tr>';
 				}
 			}
 

@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
 // set this to false to disable auto-pull-downs for the contact info Description field
 $info_apd = true;
 
@@ -341,29 +343,47 @@ if (empty($_REQUEST['modfunc']))
 
 				if ( $address_id!='0')
 				{
+
 				// find other students associated with this address
-				$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja WHERE s.STUDENT_ID=sja.STUDENT_ID AND sja.ADDRESS_ID='".$address_id."' AND sja.STUDENT_ID!='".UserStudentID()."'"));
-				if (count($xstudents))
+				$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
+					RESIDENCE,BUS_PICKUP,BUS_DROPOFF,MAILING
+					FROM STUDENTS s,STUDENTS_JOIN_ADDRESS sja
+					WHERE s.STUDENT_ID=sja.STUDENT_ID
+					AND sja.ADDRESS_ID='" . $address_id . "'
+					AND sja.STUDENT_ID!='" . UserStudentID() . "'" ) );
+
+				if ( $xstudents )
 				{
-					$warning = _('Other students associated with this address').':<br />';
-					foreach ( (array)$xstudents as $xstudent)
+					$warning = array();
+
+					foreach ( (array)$xstudents as $xstudent )
 					{
 						$ximages = '';
-						if ( $xstudent['RESIDENCE']=='Y')
-							$ximages .= ' '. button('house','','','bigger');
 
-						if ( $xstudent['BUS_PICKUP']=='Y' || $xstudent['BUS_DROPOFF']=='Y')
-							$ximages .= ' '. button('bus','','','bigger');
+						if ( $xstudent['RESIDENCE'] === 'Y' )
+						{
+							$ximages .= ' ' . button( 'house', '', '', 'bigger' );
+						}
 
-						if ( $xstudent['MAILING']=='Y')
-							$ximages .= ' '. button('mailbox','','','bigger');
+						if ( $xstudent['BUS_PICKUP'] === 'Y'
+							|| $xstudent['BUS_DROPOFF'] === 'Y' )
+						{
+							$ximages .= ' ' . button( 'bus', '', '', 'bigger' );
+						}
 
-						$warning .= '<b>'.$xstudent['FULL_NAME'].'</b>'.$ximages.'';
+						if ( $xstudent['MAILING'] === 'Y' )
+						{
+							$ximages .= ' ' . button( 'mailbox', '', '', 'bigger' );
+						}
+
+						$warning[] = '<b>' . $xstudent['FULL_NAME'] . '</b>' . $ximages;
 					}
 
-					$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
-
-					echo '<th>'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"').'</th>';
+					echo '<th>' . makeTipMessage(
+						implode( '<br />', $warning ),
+						_( 'Other students associated with this address' ),
+						button( 'warning' )
+					) . '</th>';
 				}
 				else
 					echo '<th>&nbsp;</th>';
@@ -503,26 +523,41 @@ if (empty($_REQUEST['modfunc']))
 					$images = '';
 
 					// find other students associated with this person
-					$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,STUDENT_RELATION,CUSTODY,EMERGENCY FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp WHERE s.STUDENT_ID=sjp.STUDENT_ID AND sjp.PERSON_ID='".$contact['PERSON_ID']."' AND sjp.STUDENT_ID!='".UserStudentID()."'"));
+					$xstudents = DBGet( DBQuery( "SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
+						STUDENT_RELATION,CUSTODY,EMERGENCY
+						FROM STUDENTS s,STUDENTS_JOIN_PEOPLE sjp
+						WHERE s.STUDENT_ID=sjp.STUDENT_ID
+						AND sjp.PERSON_ID='" . $contact['PERSON_ID'] . "'
+						AND sjp.STUDENT_ID!='" . UserStudentID() . "'" ) );
 
-					if (count($xstudents))
+					if ( $xstudents )
 					{
-						$warning = _('Other students associated with this person').':<br />';
-						foreach ( (array)$xstudents as $xstudent)
+						$warning = array();
+
+						foreach ( (array)$xstudents as $xstudent )
 						{
 							$ximages = '';
-							if ( $xstudent['CUSTODY']=='Y')
-								$ximages .= ' '. button('gavel','','','bigger');
 
-							if ( $xstudent['EMERGENCY']=='Y')
-								$ximages .= ' '. button('emergency','','','bigger');
+							if ( $xstudent['CUSTODY'] === 'Y' )
+							{
+								$ximages .= ' ' . button( 'gavel', '', '', 'bigger' );
+							}
 
-							$warning .= '<b>'.$xstudent['FULL_NAME'].'</b> ('.($xstudent['STUDENT_RELATION']?$xstudent['STUDENT_RELATION']:'---').')'.$ximages.'<br />';
+							if ( $xstudent['EMERGENCY'] === 'Y' )
+							{
+								$ximages .= ' ' . button( 'emergency', '', '', 'bigger' );
+							}
+
+							$warning[] = '<b>' . $xstudent['FULL_NAME'] . '</b> ' .
+								( $xstudent['STUDENT_RELATION'] ? '(' . $xstudent['STUDENT_RELATION'] . ') ' : '' ) .
+								$ximages;
 						}
 
-						$tipJS = '<script>var tiptitle2='.json_encode(_('Warning')).'; var tipmsg2='.json_encode($warning).';</script>';
-
-						$images .= ' '.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2])" onMouseOut="htm()" onclick="return false;"');
+						$images .= ' '. makeTipMessage(
+							implode( '<br />', $warning ),
+							_( 'Other students associated with this person' ),
+							button( 'warning' )
+						);
 					}
 
 					if ( $contact['CUSTODY']=='Y')
