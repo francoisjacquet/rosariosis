@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
 if ( $_REQUEST['modfunc']=='update')
 {
     if (UserStaffID() && AllowEdit())
@@ -119,28 +121,28 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 	echo '<br />';
 	PopTable('header',_('Account Information'),'width="100%"');
 
-	echo '<table class="width-100p valign-top"><tr>';
+	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
-	echo '<td>'.NoInput($staff['FULL_NAME'],$staff['STAFF_ID']);
+	echo NoInput( $staff['FULL_NAME'], $staff['STAFF_ID'] );
 
 	// warn if other users associated with the same account
-	if ( !$staff['ACCOUNT_ID'])
+	if ( !$staff['ACCOUNT_ID'] )
 	{
-		$warning = _('This user does not have a Meal Account.');
-
-		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
-
-		echo '<br />'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"');
+		echo '<br />' . MakeTipMessage(
+			_( 'This user does not have a Meal Account.' ),
+			_( 'Warning' ),
+			button( 'warning' )
+		);
 	}
 
-	echo '</td>';
+	echo '</td><td>';
 
-	echo '<td>'.NoInput(red($staff['BALANCE']),_('Balance')).'</td>';
+	echo NoInput( red( $staff['BALANCE'] ), _( 'Balance' ) );
 
-	echo '</tr></table>';
+	echo '</td></tr></table>';
 	echo '<hr />';
 
-	echo '<table class="width-100p cellspacing-0 valign-top"><tr><td>';
+	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
 	$options = array('Inactive' => _('Inactive'),'Disabled' => _('Disabled'),'Closed' => _('Closed'));
 	echo ($staff['ACCOUNT_ID']?SelectInput($staff['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')):NoInput('-',_('Status')));

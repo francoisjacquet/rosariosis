@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
 if ( $_REQUEST['modfunc']=='update')
 {
     if (UserStudentID() && AllowEdit())
@@ -107,43 +109,51 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 
 	PopTable('header',_('Account Information'),'width="100%"');
 
-	echo '<table class="width-100p valign-top"><tr>';
-	echo '';
+	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
-	echo '<td>'.NoInput($student['FULL_NAME'],'<b>'.$student['STUDENT_ID'].'</b>').'</td>';
-	echo '<td>'.NoInput(red($student['BALANCE']),_('Balance')).'</td>';
+	echo NoInput( $student['FULL_NAME'], '<b>' . $student['STUDENT_ID'] . '</b>' );
 
-	echo '</tr></table>';
+	echo '</td><td>';
+
+	echo NoInput( red( $student['BALANCE'] ), _( 'Balance' ) );
+
+	echo '</td></tr></table>';
 	echo '<hr />';
 
-	echo '<table class="width-100p cellspacing-0 valign-top"><tr><td>';
+	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
+
+	echo TextInput(
+		$student['ACCOUNT_ID'],
+		'food_service[ACCOUNT_ID]',
+		_( 'Account ID' ),
+		'required size=12 maxlength=10'
+	);
 
 	// warn if account non-existent (balance query failed)
-	if ( $student['BALANCE']=='')
+	if ( $student['BALANCE'] == '' )
 	{
-		//var_dump($student['ACCOUNT_ID']);
-		echo TextInput(array($student['ACCOUNT_ID'],'<span style="color:red">'.$student['ACCOUNT_ID'].'</span>'),'food_service[ACCOUNT_ID]',_('Account ID'),'size=12 maxlength=10');
-
-		$warning = _('Non-existent account!');
-
-		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
-
-		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"');
+		echo MakeTipMessage(
+			_( 'Non-existent account!' ),
+			_( 'Warning' ),
+			button( 'warning' )
+		);
 	}
-	else
-	 	echo TextInput($student['ACCOUNT_ID'],'food_service[ACCOUNT_ID]',_('Account ID'),'size=12 maxlength=10');
 
 	// warn if other students associated with the same account
-	if (count($xstudents))
+	if ( count( $xstudents ) )
 	{
-		$warning = _('Other students associated with the same account').':<br />';
+		$warning = _( 'Other students associated with the same account' ) . ':<br />';
 
-		foreach ( (array)$xstudents as $xstudent)
-			$warning .= '&nbsp;'.$xstudent['FULL_NAME'].'<br />';
+		foreach ( (array)$xstudents as $xstudent )
+		{
+			$warning .= '&nbsp;' . $xstudent['FULL_NAME'] . '<br />';
+		}
 
-		$tipJS = '<script>var tiptitle2='.json_encode(_('Warning')).'; var tipmsg2='.json_encode($warning).';</script>';
-
-		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2])" onMouseOut="htm()" onclick="return false;"');
+		echo MakeTipMessage(
+			$warning,
+			_( 'Warning' ),
+			button( 'warning' )
+		);
 	}
 
 	echo '</td>';

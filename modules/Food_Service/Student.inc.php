@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
 if ( $_REQUEST['modfunc']=='update')
 {
 	if (UserStudentID() && AllowEdit())
@@ -26,49 +28,47 @@ if ( !$_REQUEST['modfunc'] && UserStudentID())
 	// find other students associated with the same account
 	$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE fssa.ACCOUNT_ID='".$student['ACCOUNT_ID']."' AND s.STUDENT_ID=fssa.STUDENT_ID AND s.STUDENT_ID!='".UserStudentID()."'"));
 
-	echo '<table class="width-100p">';
-	echo '<tr>';
-	echo '<td class="valign-top">';
-	echo '<table class="width-100p"><tr>';
+	echo '<table class="width-100p valign-top fixed-col"><tr><td>';
 
-	echo '<td class="valign-top">'.NoInput(($student['BALANCE']<0?'<span style="color:red">':'').$student['BALANCE'].($student['BALANCE']<0?'</span>':''),_('Balance')).'</td>';
+	echo NoInput(($student['BALANCE']<0?'<span style="color:red">':'').$student['BALANCE'].($student['BALANCE']<0?'</span>':''),_('Balance'));
 
-	echo '</tr></table>';
 	echo '</td></tr></table>';
 	echo '<hr />';
 
-	echo '<table class="width-100p cellspacing-0">';
-	echo '<tr><td class="valign-top">';
+	echo '<table class="width-100 valign-top fixed-col"><tr><td>';
 
-	echo '<table class="width-100p">';
-	echo '<tr>';
-	echo '<td>';
+	echo TextInput(
+		$student['ACCOUNT_ID'],
+		'food_service[ACCOUNT_ID]',
+		_( 'Account ID' ),
+		'required size=12 maxlength=10'
+	);
 
 	// warn if account non-existent (balance query failed)
-	if ( $student['BALANCE']=='')
+	if ( $student['BALANCE'] == '' )
 	{
-		echo TextInput(array($student['ACCOUNT_ID'],'<span style="color:red">'.$student['ACCOUNT_ID'].'</span>'),'food_service[ACCOUNT_ID]',_('Account ID'),'size=12 maxlength=10');
-
-		$warning = _('Non-existent account!');
-
-		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
-
-		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"');
+		echo MakeTipMessage(
+			_( 'Non-existent account!' ),
+			_( 'Warning' ),
+			button( 'warning' )
+		);
 	}
-	else
-	 	echo TextInput($student['ACCOUNT_ID'],'food_service[ACCOUNT_ID]','Account ID','size=12 maxlength=10');
 
 	// warn if other students associated with the same account
-	if (count($xstudents))
+	if ( count( $xstudents ) )
 	{
-		$warning = _('Other students associated with the same account').':<br />';
+		$warning = _( 'Other students associated with the same account' ) . ':<br />';
 
-		foreach ( (array)$xstudents as $xstudent)
-			$warning .= '&nbsp;'.$xstudent['FULL_NAME'].'<br />';
+		foreach ( (array)$xstudents as $xstudent )
+		{
+			$warning .= '&nbsp;' . $xstudent['FULL_NAME'] . '<br />';
+		}
 
-		$tipJS = '<script>var tiptitle2='.json_encode(_('Warning')).'; var tipmsg2='.json_encode($warning).';</script>';
-
-		echo $tipJS.button('warning','','"#" onMouseOver="stm([tiptitle2,tipmsg2])" onMouseOut="htm()" onclick="return false;"');
+		echo MakeTipMessage(
+			$warning,
+			_( 'Warning' ),
+			button( 'warning' )
+		);
 	}
 
 	echo '</td>';
@@ -79,8 +79,5 @@ if ( !$_REQUEST['modfunc'] && UserStudentID())
 	echo '<td>'.SelectInput($student['DISCOUNT'],'food_service[DISCOUNT]',_('Discount'),$options,_('Full')).'</td>';
 	echo '<td>'.TextInput($student['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25').'</td>';
 	echo '</tr>';
-	echo '</table>';
-
-	echo '</td></tr>';
 	echo '</table>';
 }

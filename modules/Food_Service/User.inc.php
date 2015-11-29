@@ -37,13 +37,13 @@ if ( !$_REQUEST['modfunc'] && UserStaffID())
 	echo '<td class="valign-top">'.NoInput(($staff['BALANCE']<0?'<span style="color:red">':'').$staff['BALANCE'].($staff['BALANCE']<0?'</span>':''),'Balance');
 
 	// warn if account non-existent (balance query failed)
-	if ( !$staff['ACCOUNT_ID'])
+	if ( !$staff['ACCOUNT_ID'] )
 	{
-		$warning = _('This user does not have a Meal Account.');
-
-		$tipJS = '<script>var tiptitle1='.json_encode(_('Warning')).'; var tipmsg1='.json_encode($warning).';</script>';
-
-		echo '<br />'.$tipJS.button('warning','','"#" onMouseOver="stm([tiptitle1,tipmsg1])" onMouseOut="htm()" onclick="return false;"');
+		echo '<br />' . MakeTipMessage(
+			_( 'This user does not have a Meal Account.' ),
+			_( 'Warning' ),
+			button( 'warning' )
+		);
 	}
 
 	echo '</td>';
@@ -52,7 +52,7 @@ if ( !$_REQUEST['modfunc'] && UserStaffID())
 	echo '</td></tr></table>';
 	echo '<hr />';
 
-	echo '<table class="width-100p cellspacing-0">';
+	echo '<table class="width-100p fixed-col">';
 	echo '<tr><td class="valign-top">';
 
 	echo '<table class="width-100p">';
