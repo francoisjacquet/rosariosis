@@ -2,8 +2,10 @@
 
 //FJ fix error Warning: Missing argument 1 for GetStuList()
 //function GetStuList(&$extra)
-function GetStuList(&$extra=array())
-{	global $contacts_RET,$view_other_RET;
+function GetStuList( &$extra = array() )
+{
+	global $contacts_RET,
+		$view_other_RET;
 
 	//FJ fix Advanced Search
 	if ( User( 'PROFILE' ) === 'admin'
@@ -18,211 +20,444 @@ function GetStuList(&$extra=array())
 
 	$extra['WHERE'] .= CustomFields( 'where', 'student', $extra );
 
-	if ((empty($extra['SELECT_ONLY']) || mb_strpos($extra['SELECT_ONLY'],'GRADE_ID')!==false) && !isset($extra['functions']['GRADE_ID']))
-		$functions = array('GRADE_ID' => 'GetGrade');
+	if ( ( !isset( $extra['SELECT_ONLY'] )
+			|| mb_strpos( $extra['SELECT_ONLY'], 'GRADE_ID' ) !== false )
+		&& !isset( $extra['functions']['GRADE_ID'] ) )
+	{
+		$functions = array( 'GRADE_ID' => 'GetGrade' );
+	}
 	else
 		$functions = array();
 
-	if (isset($extra['functions']))
+	if ( isset( $extra['functions'] ) )
+	{
 		$functions += $extra['functions'];
+	}
 
-	if ( !isset($extra['MP']) && !isset($extra['DATE']))
+	if ( !isset( $extra['MP'] )
+		&& !isset( $extra['DATE'] ) )
 	{
 		$extra['MP'] = UserMP();
+
 		$extra['DATE'] = DBDate();
 	}
-	elseif ( !$extra['MP'])
-		$extra['MP'] = GetCurrentMP('QTR',$extra['DATE'],false);
-	elseif ( !$extra['DATE'])
-		$extra['DATE'] = DBDate();
-
-	if (isset($_REQUEST['expanded_view']) && $_REQUEST['expanded_view']=='true')
+	elseif ( !$extra['MP'] )
 	{
-		if ( !$extra['columns_after'])
-			$extra['columns_after'] = array();
+		$extra['MP'] = GetCurrentMP( 'QTR', $extra['DATE'], false );
+	}
+	elseif ( !$extra['DATE'] )
+	{
+		$extra['DATE'] = DBDate();
+	}
 
-		$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE 
-		FROM CUSTOM_FIELDS cf 
-		WHERE ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StudentFieldsView' AND USER_ID='".User('STAFF_ID')."')='Y'".($extra['student_fields']['view']?" OR cf.ID IN (".$extra['student_fields']['view'].")":'').") 
-		ORDER BY cf.SORT_ORDER,cf.TITLE"));
-		$view_address_RET = DBGet(DBQuery("SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE PROGRAM='StudentFieldsView' AND TITLE='ADDRESS' AND USER_ID='".User('STAFF_ID')."'"));
-		$view_address_RET = $view_address_RET[1]['VALUE'];
-		$view_other_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE PROGRAM='StudentFieldsView' AND TITLE IN ('CONTACT_INFO','HOME_PHONE','GUARDIANS','ALL_CONTACTS') AND USER_ID='".User('STAFF_ID')."'"),array(),array('TITLE'));
-
-		if ( !count($view_fields_RET) && !isset($view_address_RET) && !isset($view_other_RET['CONTACT_INFO']))
+	// Expanded View
+	if ( isset( $_REQUEST['expanded_view'] )
+		&& $_REQUEST['expanded_view'] == 'true' )
+	{
+		if ( !$extra['columns_after'] )
 		{
-//FJ add translation 
-			$extra['columns_after'] = array('ADDRESS'=>_('Mailing Address'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode')) + $extra['columns_after'];
-			$custom_fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE FROM CUSTOM_FIELDS WHERE ID IN (200000000, 200000001)"));
+			$extra['columns_after'] = array();
+		}
+
+		$view_fields_RET = DBGet( DBQuery( "SELECT cf.ID,cf.TYPE,cf.TITLE 
+			FROM CUSTOM_FIELDS cf 
+			WHERE ((SELECT VALUE
+				FROM PROGRAM_USER_CONFIG
+				WHERE TITLE=cast(cf.ID AS TEXT)
+				AND PROGRAM='StudentFieldsView'
+				AND USER_ID='" . User( 'STAFF_ID' ) . "')='Y'" .
+				( $extra['student_fields']['view'] ?
+					" OR cf.ID IN (" . $extra['student_fields']['view'] . ")" :
+					'' ) . ") 
+			ORDER BY cf.SORT_ORDER,cf.TITLE" ) );
+
+		$view_address_RET = DBGet( DBQuery( "SELECT VALUE
+			FROM PROGRAM_USER_CONFIG
+			WHERE PROGRAM='StudentFieldsView'
+			AND TITLE='ADDRESS'
+			AND USER_ID='" . User( 'STAFF_ID' ) . "'" ) );
+
+		$view_address_RET = $view_address_RET[1]['VALUE'];
+
+		$view_other_RET = DBGet( DBQuery( "SELECT TITLE,VALUE
+			FROM PROGRAM_USER_CONFIG
+			WHERE PROGRAM='StudentFieldsView'
+			AND TITLE IN ('CONTACT_INFO','HOME_PHONE','GUARDIANS','ALL_CONTACTS')
+			AND USER_ID='" . User( 'STAFF_ID' ) . "'"), array(), array( 'TITLE' ) );
+
+		if ( !$view_fields_RET
+			&& !$view_address_RET
+			&& !isset( $view_other_RET['CONTACT_INFO'] ) )
+		{
+			$extra['columns_after'] = array(
+				'ADDRESS' => _( 'Mailing Address' ),
+				'CITY' => _( 'City' ),
+				'STATE' => _( 'State' ),
+				'ZIPCODE' => _( 'Zipcode' ) )
+				+ $extra['columns_after'];
+
+			// Add Gender + Ethnicity fields if exist
+			$custom_fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE
+				FROM CUSTOM_FIELDS
+				WHERE ID IN (200000000, 200000001)" ) );
+
 			$select = '';
+
 			foreach ( (array)$custom_fields_RET as $field)
 			{
-				$extra['columns_after'] = array('CUSTOM_'.$field['ID']=>ParseMLField($field['TITLE'])) + $extra['columns_after'];
+				$extra['columns_after'] = array(
+					'CUSTOM_' . $field['ID'] => ParseMLField( $field['TITLE'] ) )
+					+ $extra['columns_after'];
+
 				// if gender and ethnicity are converted to codeds or exports type
-				if ( $field['TYPE']=='codeds' || $field['TYPE']=='exports')
-					$functions['CUSTOM_'.$field['ID']] = 'DeCodeds';
-				$select .= ',s.CUSTOM_'.$field['ID'];
+				if ( $field['TYPE'] == 'codeds'
+					|| $field['TYPE'] == 'exports' )
+				{
+					$functions['CUSTOM_' . $field['ID']] = 'DeCodeds';
+				}
+
+				$select .= ',s.CUSTOM_' . $field['ID'];
 			}
-			$extra['columns_after'] = array('CONTACT_INFO'=> button('down_phone')) + $extra['columns_after'];
+
+			$extra['columns_after'] = array(
+				'CONTACT_INFO' => button( 'down_phone' ) )
+				+ $extra['columns_after'];
 			
-			$select .= ',ssm.STUDENT_ID AS CONTACT_INFO,coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE ';
-			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam.RESIDENCE='Y') LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) ".$extra['FROM'];
+			$select .= ',ssm.STUDENT_ID AS CONTACT_INFO,coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,
+				coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,
+				coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE ';
+
+			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam.RESIDENCE='Y')
+				LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
+
 			$functions['CONTACT_INFO'] = 'makeContactInfo';
+
 			$extra['singular'] = 'Student Address';
+
 			$extra['plural'] = 'Student Addresses';
 
 			$extra2['NoSearchTerms'] = true;
-			$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
-			$extra2['FROM'] .= ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID) LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID) LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
-			$extra2['WHERE'] .= ' AND a.ADDRESS_ID=sja.ADDRESS_ID AND sja.STUDENT_ID=ssm.STUDENT_ID AND (sjp.CUSTODY=\'Y\' OR sjp.EMERGENCY=\'Y\') ';
+
+			$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,
+				sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
+
+			$extra2['FROM'] .= ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
+				LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
+				LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
+
+			$extra2['WHERE'] .= ' AND a.ADDRESS_ID=sja.ADDRESS_ID
+				AND sja.STUDENT_ID=ssm.STUDENT_ID
+				AND (sjp.CUSTODY=\'Y\' OR sjp.EMERGENCY=\'Y\') ';
+
 			$extra2['ORDER_BY'] .= 'sjp.CUSTODY';
-			$extra2['group'] = array('STUDENT_ID','PERSON_ID');
+
+			$extra2['group'] = array( 'STUDENT_ID', 'PERSON_ID' );
 
 			// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF
-			if ( !isset($_REQUEST['_ROSARIO_PDF']))
+			if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
 				$expanded_view = $_REQUEST['expanded_view'];
+
 				$_REQUEST['expanded_view'] = false;
+
 				$addr = $_REQUEST['addr'];
-				unset($_REQUEST['addr']);
-				$contacts_RET = GetStuList($extra2);
+
+				unset( $_REQUEST['addr'] );
+
+				$contacts_RET = GetStuList( $extra2 );
+
 				$_REQUEST['expanded_view'] = $expanded_view;
+
 				$_REQUEST['addr'] = $addr;
 			}
 			else
-				unset($extra['columns_after']['CONTACT_INFO']);
+				unset( $extra['columns_after']['CONTACT_INFO'] );
 		}
 		else
 		{
-			if ( $view_other_RET['CONTACT_INFO'][1]['VALUE']=='Y' && !isset($_REQUEST['_ROSARIO_PDF']))
+			if ( $view_other_RET['CONTACT_INFO'][1]['VALUE'] == 'Y'
+				&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
 				$select .= ',ssm.STUDENT_ID AS CONTACT_INFO ';
-				$extra['columns_after']['CONTACT_INFO'] = button('down_phone');
+
+				$extra['columns_after']['CONTACT_INFO'] = button( 'down_phone' );
+
 				$functions['CONTACT_INFO'] = 'makeContactInfo';
 
 				$extra2 = $extra;
+
 				$extra2['NoSearchTerms'] = true;
+
 				$extra2['SELECT'] = '';
-				$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
-				$extra2['FROM'] .= ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID) LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID) LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
-				$extra2['WHERE'] .= ' AND a.ADDRESS_ID=sja.ADDRESS_ID AND sja.STUDENT_ID=ssm.STUDENT_ID AND (sjp.CUSTODY=\'Y\' OR sjp.EMERGENCY=\'Y\') ';
+
+				$extra2['SELECT_ONLY'] = 'ssm.STUDENT_ID,p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,
+					sjp.STUDENT_RELATION,pjc.TITLE,pjc.VALUE,a.PHONE,sjp.ADDRESS_ID ';
+
+				$extra2['FROM'] .= ',ADDRESS a,STUDENTS_JOIN_ADDRESS sja
+					LEFT OUTER JOIN STUDENTS_JOIN_PEOPLE sjp ON (sja.STUDENT_ID=sjp.STUDENT_ID AND sja.ADDRESS_ID=sjp.ADDRESS_ID)
+					LEFT OUTER JOIN PEOPLE p ON (p.PERSON_ID=sjp.PERSON_ID)
+					LEFT OUTER JOIN PEOPLE_JOIN_CONTACTS pjc ON (pjc.PERSON_ID=p.PERSON_ID) ';
+
+				$extra2['WHERE'] .= ' AND a.ADDRESS_ID=sja.ADDRESS_ID
+					AND sja.STUDENT_ID=ssm.STUDENT_ID
+					AND (sjp.CUSTODY=\'Y\' OR sjp.EMERGENCY=\'Y\') ';
+
 				$extra2['ORDER_BY'] .= 'sjp.CUSTODY';
-				$extra2['group'] = array('STUDENT_ID','PERSON_ID');
+
+				$extra2['group'] = array( 'STUDENT_ID', 'PERSON_ID' );
+
 				$extra2['functions'] = array();
+
 				$extra2['link'] = array();
 
 				// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF
 				$expanded_view = $_REQUEST['expanded_view'];
+
 				$_REQUEST['expanded_view'] = false;
+
 				$addr = $_REQUEST['addr'];
-				unset($_REQUEST['addr']);
-				$contacts_RET = GetStuList($extra2);
+
+				unset( $_REQUEST['addr'] );
+
+				$contacts_RET = GetStuList( $extra2 );
+
 				$_REQUEST['expanded_view'] = $expanded_view;
+
 				$_REQUEST['addr'] = $addr;
 			}
-			foreach ( (array)$view_fields_RET as $field)
+
+			foreach ( (array)$view_fields_RET as $field )
 			{
-				$extra['columns_after']['CUSTOM_'.$field['ID']] = $field['TITLE'];
-				if ( $field['TYPE']=='date')
-					$functions['CUSTOM_'.$field['ID']] = 'ProperDate';
-				elseif ( $field['TYPE']=='numeric')
-					$functions['CUSTOM_'.$field['ID']] = 'removeDot00';
-				elseif ( $field['TYPE']=='codeds')
-					$functions['CUSTOM_'.$field['ID']] = 'DeCodeds';
-				elseif ( $field['TYPE']=='exports')
-					$functions['CUSTOM_'.$field['ID']] = 'DeCodeds';
-				$select .= ',s.CUSTOM_'.$field['ID'];
+				$field_key = 'CUSTOM_' . $field['ID'];
+				$extra['columns_after'][$field_key] = $field['TITLE'];
+
+				if ( $field['TYPE'] === 'date' )
+				{
+					$functions[$field_key] = 'ProperDate';
+				}
+				elseif ( $field['TYPE'] === 'numeric' )
+				{
+					$functions[$field_key] = 'removeDot00';
+				}
+				elseif ( $field['TYPE'] === 'codeds' )
+				{
+					$functions[$field_key] = 'DeCodeds';
+				}
+				elseif ( $field['TYPE'] === 'exports' )
+				{
+					$functions[$field_key] = 'DeCodeds';
+				}
+
+				$select .= ',s.' . $field_key;
 			}
-			if ( $view_address_RET)
+
+			if ( $view_address_RET )
 			{
-				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam.".$view_address_RET."='Y') LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) ".$extra['FROM'];
-				$extra['columns_after'] += array('ADDRESS'=>_(ucwords(mb_strtolower(str_replace('_',' ',$view_address_RET)))).' '._('Address'),'CITY'=>_('City'),'STATE'=>_('State'),'ZIPCODE'=>_('Zipcode'));
-				if ( $view_address_RET!='MAILING')
-					$select .= ",a.ADDRESS_ID,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,ssm.STUDENT_ID AS PARENTS";
+
+				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID AND sam." . $view_address_RET . "='Y')
+					LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
+
+				$extra['columns_after'] += array(
+					'ADDRESS' => _( ucwords( mb_strtolower( str_replace( '_', ' ', $view_address_RET ) ) ) ) . ' ' . _( 'Address' ),
+					'CITY' => _( 'City' ),
+					'STATE' => _( 'State' ),
+					'ZIPCODE' => _( 'Zipcode' ) );
+		
+				if ( $view_address_RET != 'MAILING' )
+				{
+					$select .= ",a.ADDRESS_ID,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,
+						ssm.STUDENT_ID AS PARENTS";
+				}
 				else
-					$select .= ",a.ADDRESS_ID,coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE,a.PHONE,ssm.STUDENT_ID AS PARENTS ";
+				{
+					$select .= ",a.ADDRESS_ID,coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,
+						coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,
+						coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE,a.PHONE,
+						ssm.STUDENT_ID AS PARENTS ";
+				}
+
 				$extra['singular'] = 'Student Address';
+
 				$extra['plural'] = 'Student Addresses';
 
-				if ( $view_other_RET['HOME_PHONE'][1]['VALUE']=='Y')
+				if ( $view_other_RET['HOME_PHONE'][1]['VALUE'] === 'Y' )
 				{
 					$functions['PHONE'] = 'makePhone';
-					$extra['columns_after']['PHONE'] = _('Home Phone');
+
+					$extra['columns_after']['PHONE'] = _( 'Home Phone' );
 				}
-				if ( $view_other_RET['GUARDIANS'][1]['VALUE']=='Y' || $view_other_RET['ALL_CONTACTS'][1]['VALUE']=='Y')
+
+				if ( $view_other_RET['GUARDIANS'][1]['VALUE'] === 'Y'
+					|| $view_other_RET['ALL_CONTACTS'][1]['VALUE'] === 'Y' )
 				{
 					$functions['PARENTS'] = 'makeParents';
-					if ( $view_other_RET['ALL_CONTACTS'][1]['VALUE']=='Y')
-						$extra['columns_after']['PARENTS'] = _('Contacts');
+
+					if ( $view_other_RET['ALL_CONTACTS'][1]['VALUE'] === 'Y' )
+					{
+						$extra['columns_after']['PARENTS'] = _( 'Contacts' );
+					}
 					else
-						$extra['columns_after']['PARENTS'] = _('Guardians');
+						$extra['columns_after']['PARENTS'] = _( 'Guardians' );
 				}
 			}
-			elseif ( $_REQUEST['addr'] || $extra['addr'])
+			elseif ( $_REQUEST['addr']
+				|| $extra['addr'] )
 			{
-				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID ".$extra['STUDENTS_JOIN_ADDRESS'].") LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) ".$extra['FROM'];
+				$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . $extra['STUDENTS_JOIN_ADDRESS'] . ")
+					LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
+
 				$distinct = 'DISTINCT ';
 			}
 		}
+
 		$extra['SELECT'] .= $select;
 	}
+	// Original View
 	else
 	{
-		if (isset($extra['student_fields']['view']))
+		if ( isset( $extra['student_fields']['view'] ) )
 		{
-			if ( !$extra['columns_after'])
-				$extra['columns_after'] = array();
-
-			$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE FROM CUSTOM_FIELDS cf WHERE cf.ID IN (".$extra['student_fields']['view'].") ORDER BY cf.SORT_ORDER,cf.TITLE"));
-			foreach ( (array)$view_fields_RET as $field)
+			if ( !isset( $extra['columns_after'] ) )
 			{
-				$extra['columns_after']['CUSTOM_'.$field['ID']] = $field['TITLE'];
-				if ( $field['TYPE']=='date')
-					$functions['CUSTOM_'.$field['ID']] = 'ProperDate';
-				elseif ( $field['TYPE']=='numeric')
-					$functions['CUSTOM_'.$field['ID']] = 'removeDot00';
-				elseif ( $field['TYPE']=='codeds')
-					$functions['CUSTOM_'.$field['ID']] = 'DeCodeds';
-				elseif ( $field['TYPE']=='exports')
-					$functions['CUSTOM_'.$field['ID']] = 'DeCodeds';
-				$select .= ',s.CUSTOM_'.$field['ID'];
+				$extra['columns_after'] = array();
 			}
+
+			$view_fields_RET = DBGet( DBQuery( "SELECT cf.ID,cf.TYPE,cf.TITLE
+				FROM CUSTOM_FIELDS cf
+				WHERE cf.ID IN (" . $extra['student_fields']['view'] . ")
+				ORDER BY cf.SORT_ORDER,cf.TITLE" ) );
+
+			foreach ( (array)$view_fields_RET as $field )
+			{
+				$field_key = 'CUSTOM_' . $field['ID'];
+
+				$extra['columns_after'][$field_key] = $field['TITLE'];
+
+				if ( $field['TYPE'] === 'date' )
+				{
+					$functions[$field_key] = 'ProperDate';
+				}
+				elseif ( $field['TYPE'] === 'numeric' )
+				{
+					$functions[$field_key] = 'removeDot00';
+				}
+				elseif ( $field['TYPE'] === 'codeds' )
+				{
+					$functions[$field_key] = 'DeCodeds';
+				}
+				elseif ( $field['TYPE'] === 'exports' )
+				{
+					$functions[$field_key] = 'DeCodeds';
+				}
+
+				$select .= ',s.' . $field_key;
+			}
+
 			$extra['SELECT'] .= $select;
 		}
-		if ( !empty($_REQUEST['addr']) || !empty($extra['addr']))
+
+		if ( !empty( $_REQUEST['addr'] )
+			|| !empty( $extra['addr'] ) )
 		{
-			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID ".$extra['STUDENTS_JOIN_ADDRESS'].") LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) ".$extra['FROM'];
+			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . $extra['STUDENTS_JOIN_ADDRESS'] . ")
+			LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
+
 			$distinct = 'DISTINCT ';
 		}
 	}
 
-	switch (User('PROFILE'))
+	// Get options:
+	// SELECT only
+	$is_select_only = false;
+
+	if ( isset( $extra['SELECT_ONLY'] )
+		&& !empty( $extra['SELECT_ONLY'] ) )
+	{
+		$is_select_only = true;
+	}
+
+	$is_include_inactive = false;
+
+	if ( isset( $_REQUEST['include_inactive'] )
+		&& $_REQUEST['include_inactive'] === 'Y' )
+	{
+		$is_include_inactive = true;
+	}
+
+
+	// Build SELECT
+	$sql = 'SELECT ';
+
+	// SELECT only
+	if ( $is_select_only )
+	{
+		$sql .= $extra['SELECT_ONLY'];
+	}
+	// Normal SELECT
+	else
+	{
+		// Student Full Name
+		$sql .= "s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS FULL_NAME,";
+
+		// Student Details
+		$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID ' . $extra['SELECT'];
+	}
+
+	switch ( User( 'PROFILE' ) )
 	{
 		case 'admin':
-			$sql = 'SELECT ';
 
-			if (isset($extra['SELECT_ONLY']))
-				$sql .= $extra['SELECT_ONLY'];
-			else
+			// Get Search All Schools option
+			$is_search_all_schools = false;
+			
+			if ( isset( $_REQUEST['_search_all_schools'] )
+				&& $_REQUEST['_search_all_schools'] == 'Y' )
 			{
-				$sql .= "s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS FULL_NAME,";
-				$sql .= "(SELECT sch.TITLE FROM SCHOOLS sch WHERE ssm.SCHOOL_ID=sch.ID AND sch.SYEAR='".UserSyear()."') AS SCHOOL_TITLE,";
-				$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID '.$extra['SELECT'];
+				$is_search_all_schools = true;
+			}
 
-				if (isset($_REQUEST['include_inactive']) && $_REQUEST['include_inactive']=='Y')
+			// Normal SELECT
+			if ( !$is_select_only )
+			{
+
+				// Search All Schools
+				if ( $is_search_all_schools )
 				{
-					$active = "'".DBEscapeString('<span style="color:green">'._('Active').'</span>')."'";
-					$inactive = "'".DBEscapeString('<span style="color:red">'._('Inactive').'</span>')."'";
+					// School Title
+					$sql .= "(SELECT sch.TITLE FROM SCHOOLS sch
+						WHERE ssm.SCHOOL_ID=sch.ID
+						AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE,";
+				}
 
-					$sql .= ','.db_case(array("(ssm.SYEAR='".UserSyear()."' AND ('".$extra['DATE']."'>=ssm.START_DATE AND ('".$extra['DATE']."'<=ssm.END_DATE OR ssm.END_DATE IS NULL)))", 'TRUE', $active, $inactive)).' AS ACTIVE';
+				// Include Inactive Students
+				if ( $is_include_inactive )
+				{
+					$active = "'" . DBEscapeString( '<span style="color:green">' . _( 'Active' ) . '</span>' ) . "'";
+
+					$inactive = "'" . DBEscapeString( '<span style="color:red">' . _( 'Inactive' ) . '</span>' ) . "'";
+
+					$sql .= ',' . db_case(
+						array(
+							"(ssm.SYEAR='" . UserSyear() . "'
+								AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
+									AND ('" . $extra['DATE'] . "'<=ssm.END_DATE
+										OR ssm.END_DATE IS NULL ) ) )",
+							'TRUE',
+							$active,
+							$inactive
+						) ) . ' AS ACTIVE';
+
+					$extra['columns_after']['ACTIVE'] = _( 'Status' );
 				}
 
 			}
 
+			// FROM
 			$sql .= " FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID";
 
-			if ( isset( $_REQUEST['include_inactive'] )
-				&& $_REQUEST['include_inactive'] === 'Y' )
+			// Include Inactive Students: enrollment
+			if ( $is_include_inactive )
+			{
 				//$sql .= " AND ssm.ID=(SELECT max(ID) FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR<='".UserSyear()."')";
 				$sql .= " AND ssm.ID=( SELECT ID
 					FROM STUDENT_ENROLLMENT
@@ -230,109 +465,196 @@ function GetStuList(&$extra=array())
 					AND SYEAR='" . UserSyear() . "'
 					ORDER BY SYEAR DESC,START_DATE DESC
 					LIMIT 1 )";
+			}
+			// Active / Enrolled students
 			else
+			{
 				$sql .= " AND ssm.SYEAR='" . UserSyear() . "'
 					AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
 						AND (ssm.END_DATE IS NULL
 							OR '" . $extra['DATE'] . "'<=ssm.END_DATE ) )";
-
-			if (UserSchool() && $_REQUEST['_search_all_schools']!='Y')
-				$sql .= " AND ssm.SCHOOL_ID='".UserSchool()."'";
-			else
-			{
-				if (User('SCHOOLS'))
-					$sql .= " AND ssm.SCHOOL_ID IN (".mb_substr(str_replace(',',"','",User('SCHOOLS')),2,-2).") ";
-				$extra['columns_after']['SCHOOL_TITLE'] = _('School');
 			}
 
-			$sql .= ")".$extra['FROM']." WHERE TRUE";
+			if ( UserSchool()
+				&& !$is_search_all_schools )
+			{
+				$sql .= " AND ssm.SCHOOL_ID='" . UserSchool() . "'";
+			}
+			// Search All Schools
+			else
+			{
+				if ( User( 'SCHOOLS' ) )
+				{
+					$sql .= " AND ssm.SCHOOL_ID IN (" . mb_substr( str_replace( ',', "','", User( 'SCHOOLS' ) ), 2, -2 ) . ") ";
+				}
 
-			if (empty($extra['SELECT_ONLY']) && isset($_REQUEST['include_inactive']) && $_REQUEST['include_inactive']=='Y')
-				$extra['columns_after']['ACTIVE'] = _('Status');
+				$extra['columns_after']['SCHOOL_TITLE'] = _( 'School' );
+			}
+
 		break;
 
 		case 'teacher':
-			$sql = 'SELECT ';
+
 			//$sql = 'SELECT '.$distinct;
-			if ( $extra['SELECT_ONLY'])
-				$sql .= $extra['SELECT_ONLY'];
-			else
+
+			// Normal SELECT
+			if ( !$is_select_only )
 			{
-				$sql .= "s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS FULL_NAME,";
-				$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID '.$extra['SELECT'];
-				if ( $_REQUEST['include_inactive']=='Y')
+				// Include Inactive Students
+				if ( $is_include_inactive )
 				{
-					$sql .= ','.db_case(array("('".$extra['DATE']."'>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR '".$extra['DATE']."'<=ssm.END_DATE))",'TRUE','\'<span style="color:green">'._('Active').'</span>\'','\'<span style="color:red">'._('Inactive').'</span>\'')).' AS ACTIVE';
-					$sql .= ','.db_case(array("('".$extra['DATE']."'>=ss.START_DATE AND (ss.END_DATE IS NULL OR '".$extra['DATE']."'<=ss.END_DATE)) AND ss.MARKING_PERIOD_ID IN (".GetAllMP($extra['MPTable'],$extra['MP']).")",'TRUE','\'<span style="color:green">'._('Active').'</span>\'','\'<span style="color:red">'._('Inactive').'</span>\'')).' AS ACTIVE_SCHEDULE';
+					$active = "'" . DBEscapeString( '<span style="color:green">' . _( 'Active' ) . '</span>' ) . "'";
+
+					$inactive = "'" . DBEscapeString( '<span style="color:red">' . _( 'Inactive' ) . '</span>' ) . "'";
+
+					$sql .= ',' . db_case(
+						array(
+							"(ssm.SYEAR='" . UserSyear() . "'
+								AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
+									AND ('" . $extra['DATE'] . "'<=ssm.END_DATE
+										OR ssm.END_DATE IS NULL ) ) )",
+							'TRUE',
+							$active,
+							$inactive
+						) ) . ' AS ACTIVE';
+
+					$sql .= ',' . db_case(
+						array(
+							"('" . $extra['DATE'] . "'>=ss.START_DATE
+								AND (ss.END_DATE IS NULL
+									OR '" . $extra['DATE'] . "'<=ss.END_DATE))
+							AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( $extra['MPTable'], $extra['MP'] ) . ")",
+							'TRUE',
+							$active,
+							$inactive
+						) ) . ' AS ACTIVE_SCHEDULE';
+
+					$extra['columns_after']['ACTIVE'] = _( 'School Status' );
+					$extra['columns_after']['ACTIVE_SCHEDULE'] = _( 'Course Status' );
 				}
 			}
 
-			$sql .= " FROM STUDENTS s JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='".UserSyear()."'";
-			if ( $_REQUEST['include_inactive']=='Y')
-				$sql .= " AND ss.START_DATE=(SELECT START_DATE FROM SCHEDULE WHERE STUDENT_ID=s.STUDENT_ID AND SYEAR=ss.SYEAR AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID ORDER BY START_DATE DESC LIMIT 1)";
-			else
-				$sql .= " AND ss.MARKING_PERIOD_ID IN (".GetAllMP($extra['MPTable'],$extra['MP']).") AND ('".$extra['DATE']."'>=ss.START_DATE AND ('".$extra['DATE']."'<=ss.END_DATE OR ss.END_DATE IS NULL))";
+			// FROM
+			$sql .= " FROM STUDENTS s JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "'";
 
-			$sql .= ") JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ".($extra['all_courses']=='Y'?"cp.TEACHER_ID='".User('STAFF_ID')."'":"cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'").")
-				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID AND ssm.SYEAR=ss.SYEAR AND ssm.SCHOOL_ID='".UserSchool()."'";
-
-			if ( $_REQUEST['include_inactive']=='Y')
-				$sql .= " AND ssm.ID=(SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR=ssm.SYEAR ORDER BY START_DATE DESC LIMIT 1)";
-			else
-				$sql .= " AND ('".$extra['DATE']."'>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR '".$extra['DATE']."'<=ssm.END_DATE))";
-			$sql .= ")".$extra['FROM']." WHERE TRUE";
-
-			if ( !$extra['SELECT_ONLY'] && $_REQUEST['include_inactive']=='Y')
+			// Include Inactive Students: scheduled
+			if ( $is_include_inactive )
 			{
-				$extra['columns_after']['ACTIVE'] = _('School Status');
-				$extra['columns_after']['ACTIVE_SCHEDULE'] = _('Course Status');
+				$sql .= " AND ss.START_DATE=(SELECT START_DATE
+					FROM SCHEDULE WHERE STUDENT_ID=s.STUDENT_ID
+					AND SYEAR=ss.SYEAR
+					AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
+					ORDER BY START_DATE DESC LIMIT 1)";
 			}
+			// Active / Scheduled Students
+			else
+			{
+				$sql .= " AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( $extra['MPTable'], $extra['MP'] ) . ")
+					AND ('" . $extra['DATE'] . "'>=ss.START_DATE
+						AND ('" . $extra['DATE'] . "'<=ss.END_DATE
+							OR ss.END_DATE IS NULL))";
+			}
+
+			$sql .= ") JOIN COURSE_PERIODS cp ON (cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND " .
+				( $extra['all_courses'] == 'Y' ?
+					"cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "'" :
+					"cp.COURSE_PERIOD_ID='" . UserCoursePeriod() . "'" ) . ")
+				JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
+					AND ssm.SYEAR=ss.SYEAR
+					AND ssm.SCHOOL_ID='" . UserSchool() . "'";
+
+			// Include Inactive Students: enrollment
+			if ( $is_include_inactive )
+			{
+				$sql .= " AND ssm.ID=(SELECT ID FROM STUDENT_ENROLLMENT
+					WHERE STUDENT_ID=ssm.STUDENT_ID
+					AND SYEAR=ssm.SYEAR
+					ORDER BY START_DATE DESC LIMIT 1)";
+			}
+			// Active / Enrolled Students
+			else
+			{
+				$sql .= " AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
+					AND (ssm.END_DATE IS NULL OR '" . $extra['DATE'] . "'<=ssm.END_DATE))";
+			}
+
 		break;
 
 		case 'parent':
 		case 'student':
-			$sql = 'SELECT ';
-			if ( $extra['SELECT_ONLY'])
-				$sql .= $extra['SELECT_ONLY'];
-			else
-			{
-				$sql .= "s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS FULL_NAME,";
-				$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID '.$extra['SELECT'];
-			}
-			$sql .= " FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID AND ssm.SYEAR='".UserSyear()."' AND ssm.SCHOOL_ID='".UserSchool()."'
-					AND ('".$extra['DATE']."'>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR '".$extra['DATE']."'<=ssm.END_DATE)) AND s.STUDENT_ID".($extra['ASSOCIATED']?" IN (SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".$extra['ASSOCIATED']."')":"='".UserStudentID()."'");
-			$sql .= ")".$extra['FROM']." WHERE TRUE";
-		break;
-		default:
-			$error[] = 'Invalid user profile';//should never be displayed, so do not translate
 
-			return ErrorMessage($error, 'fatal');
+			// Normal SELECT
+			if ( !$is_select_only )
+			{
+				// Student Full Name
+				$sql .= "s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS FULL_NAME,";
+
+				// Student Details
+				$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID ' . $extra['SELECT'];
+			}
+
+			// FROM
+			$sql .= " FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
+				AND ssm.SYEAR='".UserSyear()."'
+				AND ssm.SCHOOL_ID='".UserSchool()."'
+				AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
+					AND (ssm.END_DATE IS NULL OR '" . $extra['DATE'] . "'<=ssm.END_DATE))
+				AND s.STUDENT_ID" . ( $extra['ASSOCIATED'] ?
+					" IN (SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='" . $extra['ASSOCIATED'] . "')" :
+					"='" . UserStudentID() . "'" );
+
+		break;
+
+		default:
+
+			$error[] = 'Invalid user profile'; //should never be displayed, so do not translate
+
+			return ErrorMessage( $error, 'fatal' );
 	}
+
+	// Extra FROM
+	$sql .= ")" . $extra['FROM'] . " WHERE TRUE";
 
 	//$sql = appendSQL($sql,array('NoSearchTerms' => $extra['NoSearchTerms']));
 
-	$sql .= ' '.$extra['WHERE'].' ';
+	// WHERE
+	$sql .= ' ' . $extra['WHERE'] . ' ';
 
-	if (isset($extra['GROUP']))
-		$sql .= ' GROUP BY '.$extra['GROUP'];
+	// GROUP BY
+	if ( isset( $extra['GROUP'] ) )
+	{
+		$sql .= ' GROUP BY ' . $extra['GROUP'];
+	}
 
-	if ( !isset($extra['ORDER_BY']) && !isset($extra['SELECT_ONLY']))
+	// ORDER BY
+	if ( !isset( $extra['ORDER_BY'] )
+		&& !isset( $extra['SELECT_ONLY'] ) )
 	{
 		$sql .= ' ORDER BY ';
-		if (Preferences('SORT')=='Grade')
+
+		if ( Preferences( 'SORT' ) === 'Grade' )
+		{
 			$sql .= '(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID),';
+		}
+
 		// it would be easier to sort on full_name but postgres sometimes yields strange results
 		$sql .= 's.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME';
+
 		$sql .= $extra['ORDER'];
 	}
-	elseif (isset($extra['ORDER_BY']))
-		$sql .= ' ORDER BY '.$extra['ORDER_BY'];
+	elseif ( isset( $extra['ORDER_BY'] ) )
+	{
+		$sql .= ' ORDER BY ' . $extra['ORDER_BY'];
+	}
 
 	//FJ bugfix if PDF, dont echo SQL
-	if ( !isset($_REQUEST['_ROSARIO_PDF']) && 0) //activate only for debug purpose
-		echo '<!--'.$sql.'-->';
+	if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) && 0 ) //activate only for debug purpose
+	{
+		echo '<!--' . $sql . '-->';
+	}
 
-	return DBGet(DBQuery($sql),$functions,$extra['group']);
+	// Execute Query & return
+	return DBGet( DBQuery( $sql ), $functions, $extra['group'] );
 }
 
 
