@@ -45,7 +45,7 @@ if ( $_REQUEST['modfunc']=='add' && AllowEdit())
 	unset($_REQUEST['modfunc']);
 }
 
-if ( $_REQUEST['modfunc']=='XMLHttpRequest')
+if ( $_REQUEST['modfunc'] == 'XMLHttpRequest' )
 {
 	header("Content-Type: text/xml\n\n");
     $courses_RET = DBGet(DBQuery("SELECT c.COURSE_ID,c.TITLE FROM COURSES c WHERE ".($_REQUEST['subject_id']?"c.SUBJECT_ID='".$_REQUEST['subject_id']."' AND ":'')."UPPER(c.TITLE) LIKE '".mb_strtoupper($_REQUEST['course_title'])."%' AND c.SYEAR='".UserSyear()."' AND c.SCHOOL_ID='".UserSchool()."'"));
@@ -71,20 +71,6 @@ function SendXMLRequest(subject_id,course)
 	connection.onreadystatechange = processRequest;
 	connection.open("GET","Modules.php?modname=<?php echo $_REQUEST['modname']; ?>&_ROSARIO_PDF=true&modfunc=XMLHttpRequest&subject_id="+subject_id+"&course_title="+course,true);
 	connection.send(null);
-}
-
-function changeStyle(tag,over)
-{
-	if (over)
-	{
-		tag.style.backgroundColor="#<?php echo Preferences('HIGHLIGHT'); ?>";
-		tag.style.color="#000";
-	}
-	else
-	{
-		tag.style.backgroundColor="#333";
-		tag.style.color="#000";
-	}
 }
 
 function doOnClick(course)
@@ -128,9 +114,15 @@ function processRequest()
 	$link['remove'] = array('link' => 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove','variables' => array('id' => 'REQUEST_ID'));
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
-//FJ css WPadmin
+
 	$link['add']['span'] = ''._('Add a Request').': &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <input type="text" id="course_title" name="course_title" onkeypress="if (event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><div id="courses_div"></div>';
+
+	echo '<div style="position:relative;">';
+
 	ListOutput($requests_RET,$columns,'Request','Requests',$link);
+
+	echo '</div>';
+
 	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '</form>';
 }

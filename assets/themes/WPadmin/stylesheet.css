@@ -491,10 +491,11 @@ h3 span{
 	border-width:1px;
 	padding:4px;
 	right:0;
+	left:0;
 	display:none;
 	max-height:80px;
 	overflow:auto;
-	width:98%
+	width:auto
 }
 .size-3{
 	font-size:11px
@@ -805,12 +806,14 @@ div.st{
 }
 
 /*arrows*/
+.arrow.right:before,
 .switchMenu:before{
 	content: "\25b6\0000a0";
 }
 .switchMenu.switched:before{
 	content: "\25bc\0000a0";
 }
+.arrow,
 .switchMenu{
 	display:inline-block;
 	padding:3px
