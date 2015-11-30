@@ -421,12 +421,12 @@ if (empty($_REQUEST['modfunc']))
 				if ( $_REQUEST['address_id']==$address['ADDRESS_ID'])
 					echo '<tr class="highlight"><td>'.(($address['ADDRESS_ID']!='0' && AllowEdit()) ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</td><td style="color:white;">';
 				else
-					echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</td><td>';
+					echo '<tr class="highlight-hover"><td>'.(($address['ADDRESS_ID']!='0' && AllowEdit())?button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'&modfunc=delete"'):'').'</td><td>';
 
 				echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'">'.$address['ADDRESS'].'<br />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'</a>';
 
 				echo '</td>';
-				echo '<td'.$style.'><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'"><div class="arrow right"></div></a></td>';
+				echo '<td'.$style.'><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$address['ADDRESS_ID'].'" class="arrow right"></a></td>';
 
 				echo '</tr>';
 			}
@@ -442,45 +442,45 @@ if (empty($_REQUEST['modfunc']))
 		if ( $_REQUEST['address_id']=='new')
 			echo '<tr class="highlight"><td>'.button('add').'</td><td>';
 		else
-			echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
+			echo '<tr class="highlight-hover"><td>'.button('add').'</td><td>';
 
 		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new">'._('Add a <b>New</b> Address').' &nbsp; </a>';
 		echo '</td>';
 
-		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new"><div class="arrow right"></div></a></td>';
+		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=new" class="arrow right"></a></td>';
 		echo '</tr>';
 
 		if ( $_REQUEST['address_id']=='old')
 			echo '<tr class="highlight"><td>'.button('add').'</td><td>';
 		else
-			echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
+			echo '<tr class="highlight-hover"><td>'.button('add').'</td><td>';
 
 		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old">'._('Add an <b>Existing</b> Address').' &nbsp; </a>';
 		echo '</td>';
 
-		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old"><div class="arrow right"></div></a></td>';
+		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=old" class="arrow right"></a></td>';
 		echo '</tr>';
 
 		if ( $_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='new')
 			echo '<tr class="highlight"><td>'.button('add').'</td><td '.$link.'>';
 		else
-			echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
+			echo '<tr class="highlight-hover"><td>'.button('add').'</td><td>';
 
 		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new">'._('Add a <b>New</b> Contact<br />without an Address').' &nbsp; </a>';
 		echo '</td>';
 
-		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new"><div class="arrow right"></div></a></td>';
+		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=new" class="arrow right"></a></td>';
 		echo '</tr>';
 
 		if ( $_REQUEST['address_id']=='0' && $_REQUEST['person_id']=='old')
 			echo '<tr class="highlight"><td>'.button('add').'</td><td '.$link.'>';
 		else
-			echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
+			echo '<tr class="highlight-hover"><td>'.button('add').'</td><td>';
 
 		echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old">'._('Add an <b>Existing</b> Contact<br />without an Address').' &nbsp; </a>';
 		echo '</td>';
 
-		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old"><div class="arrow right"></div></a></td>';
+		echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id=0&person_id=old" class="arrow right"></a></td>';
 		echo '</tr>';
 	}
 	echo '</table>';
@@ -518,7 +518,7 @@ if (empty($_REQUEST['modfunc']))
 					if ( $_REQUEST['person_id']==$contact['PERSON_ID'])
 						echo '<tr class="highlight"><td>'.$remove_button.'</td><td>';
 					else
-						echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.$remove_button.'</td><td>';
+						echo '<tr class="highlight-hover"><td>'.$remove_button.'</td><td>';
 
 					$images = '';
 
@@ -560,16 +560,25 @@ if (empty($_REQUEST['modfunc']))
 						);
 					}
 
-					if ( $contact['CUSTODY']=='Y')
-						$images .= ' '. button('gavel','','','bigger');
+					if ( $contact['CUSTODY'] === 'Y' )
+					{
+						$images .= ' ' . button( 'gavel', '', '', 'bigger' );
+					}
 
-					if ( $contact['EMERGENCY']=='Y')
-						$images .= ' '. button('emergency','','','bigger');
+					if ( $contact['EMERGENCY'] === 'Y' )
+					{
+						$images .= ' ' . button( 'emergency', '', '', 'bigger' );
+					}
 
-					echo '<a style="display: inline-block;" href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'">'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].'<br /><span class="legend-gray">'.($contact['STUDENT_RELATION']?$contact['STUDENT_RELATION']:'---').'</span></a>';
-					echo '<span style="float:right">'.$images.'</span></td>';
+					echo NoInput(
+						'<a href="Modules.php?modname=' . $_REQUEST['modname'] . '&category_id=' . $_REQUEST['category_id'] . '&address_id=' . $_REQUEST['address_id'] . '&person_id=' . $contact['PERSON_ID'] . '">' .
+							$contact['FIRST_NAME'] . ' ' . ($contact['MIDDLE_NAME'] ? $contact['MIDDLE_NAME'] . ' ' : '' ) . $contact['LAST_NAME'],
+						$contact['STUDENT_RELATION'] ? $contact['STUDENT_RELATION'] : '---'
+					);
 
-					echo '<td> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'"><div class="arrow right"></div></a></td>';
+					echo '<span style="float:right">' . $images . '</span></td>';
+
+					echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id='.$contact['PERSON_ID'].'" class="arrow right"></a></td>';
 					echo '</tr>';
 				}
 			}
@@ -584,23 +593,23 @@ if (empty($_REQUEST['modfunc']))
 				if ( $_REQUEST['person_id']=='new')
 					echo '<tr class="highlight"><td>'.button('add').'</td><td>';
 				else
-					echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
+					echo '<tr class="highlight-hover"><td>'.button('add').'</td><td>';
 
 				echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=new">'._('Add a <b>New</b> Contact').'</a>';
 				echo '</td>';
 
-				echo '<td> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=new"><div class="arrow right"></div></a></td>';
+				echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=new" class="arrow right"></a></td>';
 				echo '</tr>';
 
 				if ( $_REQUEST['person_id']=='old')
 					echo '<tr class="highlight"><td>'.button('add').'</td><td>';
 				else
-					echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="backgroud-color:transparent;";\'><td>'.button('add').'</td><td>';
+					echo '<tr class="highlight-hover"><td>'.button('add').'</td><td>';
 
 				echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=old">'._('Add an <b>Existing</b> Contact').'</a>';
 				echo '</td>';
 
-				echo '<td> &nbsp; <a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=old"><div class="arrow right"></div></a></td>';
+				echo '<td><a href="Modules.php?modname='.$_REQUEST['modname'].'&category_id='.$_REQUEST['category_id'].'&address_id='.$_REQUEST['address_id'].'&person_id=old" class="arrow right"></a></td>';
 				echo '</tr>';
 			}
 

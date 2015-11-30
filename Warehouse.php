@@ -291,6 +291,7 @@ function Warehouse( $mode )
 	</noscript>
 	<link rel="SHORTCUT ICON" href="favicon.ico" />
 	<link rel="stylesheet" href="assets/themes/<?php echo Preferences( 'THEME' ); ?>/stylesheet.css?v=<?php echo ROSARIO_VERSION; ?>" />
+	<style>.highlight,.highlight-hover:hover{background-color:<?php echo Preferences( 'HIGHLIGHT' ); ?> !important;}</style>
 	<script src="assets/js/jquery.js"></script>
 	<script src="assets/js/plugins.min.js"></script>
 	<script src="assets/js/warehouse.js?v=<?php echo ROSARIO_VERSION; ?>"></script>

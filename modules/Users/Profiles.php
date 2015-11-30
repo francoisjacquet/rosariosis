@@ -1,11 +1,6 @@
 <?php
 DrawHeader(ProgramTitle());
 
-//FJ bugfix no $menu when page refreshed
-unset($_ROSARIO['Menu']);
-
-require_once 'Menu.php';
-
 if ( $_REQUEST['profile_id']!='')
 {
 	$exceptions_RET = DBGet(DBQuery("SELECT PROFILE_ID,MODNAME,CAN_USE,CAN_EDIT FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".$_REQUEST['profile_id']."'"),array(),array('MODNAME'));
@@ -14,9 +9,9 @@ if ( $_REQUEST['profile_id']!='')
 	if ( $xprofile=='student')
 	{
 		$xprofile = 'parent';
-//FJ enable password change for students
+		//FJ enable password change for students
 		//unset($menu['Users']);
-		unset($menu['Users']['parent']['Users/User.php']);
+		unset( $menu['Users']['parent']['Users/User.php'] );
 	}
 }
 
@@ -80,6 +75,7 @@ if ( $_REQUEST['modfunc'] === 'delete'
 if ( $_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdit())
 {
 	$tmp_menu = $menu;
+
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
 
 	foreach ( (array)$categories_RET as $category)
@@ -170,7 +166,7 @@ if ( $_REQUEST['modfunc']!='delete')
 	DrawHeader(_('Select the programs that users of this profile can use and which programs those users can use to save information.'),SubmitButton(_('Save')));
 	echo '<br />';
 	echo '<table><tr class="st"><td class="valign-top">';
-//FJ css WPadmin
+
 	echo '<table class="widefat cellspacing-0">';
 
 	//$profiles_RET = DBGet(DBQuery("SELECT ID,TITLE,PROFILE FROM USER_PROFILES"));
@@ -183,7 +179,7 @@ if ( $_REQUEST['modfunc']!='delete')
 			if ( $_REQUEST['profile_id']!='' && $id==$_REQUEST['profile_id'])
 				echo '<tr id="selected_tr" class="highlight"><td>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</td><td>';
 			else
-				echo '<tr onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'";\' onmouseout=\'this.style.cssText="background-color:transparent;";\'><td>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</td><td>';
+				echo '<tr class="highlight-hover"><td>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</td><td>';
 
 			echo '<a href="Modules.php?modname='.$_REQUEST['modname'].'&profile_id='.$id.'">'._($profile[1]['TITLE']).' &nbsp; </a>';
 			echo '</td>';
@@ -192,27 +188,22 @@ if ( $_REQUEST['modfunc']!='delete')
 			echo '</tr>';
 		}
 	}
-	if ( $_REQUEST['profile_id']=='')
-		echo '<tr id="selected_tr"><td colspan="3"></td></tr>';
 
-	if (AllowEdit())
+	if ( AllowEdit() )
 	{
-		echo '<script>
-function changeHTML(show,hide){
-	for(key in show)
-		document.getElementById(key).innerHTML = document.getElementById(show[key]).innerHTML;
-	for(i=0;i<hide.length;i++)
-		document.getElementById(hide[i]).innerHTML = "";
-}
-</script>';
+		$new_profile_form = _( 'Title' ) . ' <input type="text" name="new_profile_title" size="15" /><br />' .
+			_( 'Type' ) . ' <select name="new_profile_type">
+			<option value="admin">' . _( 'Administrator' ) . '</option>' .
+			'<option value="teacher">' . _( 'Teacher' ) . '</option>' .
+			'<option value="parent">' . _( 'Parent' ) . '</select></div>';
 
-		echo '<tr id="new_tr" onmouseover=\'this.style.backgroundColor="'.Preferences('HIGHLIGHT').'"; this.style.cursor="pointer";\' onmouseout=\'this.style.cssText="background-color:transparent;";\' onclick=\'document.getElementById("selected_tr").onmouseover="this.style.backgroundColor=\"'.Preferences('HIGHLIGHT').'\";"; document.getElementById("selected_tr").onmouseout="this.style.cssText=\"background-color:transparent;\";"; document.getElementById("selected_tr").style.cssText="background-color:transparent;"; changeHTML({"new_id_div":"new_id_content"},["main_div"]);document.getElementById("new_tr").onmouseover="";document.getElementById("new_tr").onmouseout="";this.onclick="";\'><td>'.button('add').'</td><td>';
+		echo '<script>new_profile_html = ' . json_encode( $new_profile_form ) . '</script>';
 
-		echo '<a href="#" onclick="return false;">'._('Add a User Profile').'</a>&nbsp;<br /><div id="new_id_div"></div>';
-		echo '</td>';
+		echo '<tr class="highlight-hover"><td>' .
+			button( 'add' ) . '</td><td colspan="2">';
 
-		echo '<td><div class="arrow right"></div></td>';
-		echo '</tr>';
+		echo '<a href="#" onclick="addHTML(new_profile_html, \'new_profile_div\', true); return false;">' .
+			_( 'Add a User Profile' ) . '</a><br /><div id="new_profile_div"></div></td></tr>';
 	}
 
 	echo '</table>';
@@ -222,9 +213,9 @@ function changeHTML(show,hide){
 	if ( $_REQUEST['profile_id']!='')
 	{
 		PopTable('header',_('Permissions'));
-//		echo '<table cellspacing=0>';
+
 		echo '<table class="widefat cellspacing-0">';
-		foreach ( (array)$menu as $modcat => $profiles)
+		foreach ( (array)$menu as $modcat => $profiles )
 		{
 			$values = $profiles[$xprofile];
 
@@ -235,7 +226,6 @@ function changeHTML(show,hide){
 
 			echo '<tr><td colspan="3"><h4>'.$module_title.'</h4></td></tr>';
 
-//FJ add <label> on checkbox
 			echo '<tr><th><label>'._('Can Use').' '.(AllowEdit()?'<input type="checkbox" name="can_use_'.$modcat.'" onclick="checkAll(this.form,this.form.can_use_'.$modcat.'.checked,\'can_use['.$modcat.'\');">':'').'</label></th>';
 
 			if ( $xprofile=='admin' || $modcat=='Students' || $modcat=='Resources')
@@ -321,7 +311,4 @@ function changeHTML(show,hide){
 	echo '</td></tr></table>';
 	echo '</form>';
 
-	echo '<div id="new_id_content" style="position:absolute;visibility:hidden;">'._('Title').' <input type="text" name="new_profile_title"><br />';
-
-	echo _('Type').' <select name="new_profile_type"><option value="admin">'._('Administrator').'<option value="teacher">'._('Teacher').'<option value="parent">'._('Parent').'</select></div>';
 }
