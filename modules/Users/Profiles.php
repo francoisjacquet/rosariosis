@@ -1,5 +1,24 @@
 <?php
-DrawHeader(ProgramTitle());
+
+DrawHeader( ProgramTitle() );
+
+// bugfix recreate $menu on page reload
+if ( !isset( $menu ) )
+{
+	// include Menu.php for each active module
+	foreach ( (array)$RosarioModules as $module => $active )
+	{
+		if ( $active )
+		{
+			if ( ROSARIO_DEBUG )
+			{
+				include 'modules/' . $module . '/Menu.php';
+			}
+			else
+				@include 'modules/' . $module . '/Menu.php';
+		}
+	}
+}
 
 if ( $_REQUEST['profile_id']!='')
 {

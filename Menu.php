@@ -21,10 +21,10 @@ if ( empty( $_ROSARIO['Menu'] ) )
 		{
 			if ( ROSARIO_DEBUG )
 			{
-				include_once 'modules/' . $module . '/Menu.php';
+				include 'modules/' . $module . '/Menu.php';
 			}
 			else
-				@include_once 'modules/' . $module . '/Menu.php';
+				@include 'modules/' . $module . '/Menu.php';
 		}
 	}
 
