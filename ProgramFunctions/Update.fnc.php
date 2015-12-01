@@ -152,8 +152,9 @@ function _update29alpha()
 		}
 
 		if ( $SQL_updt_coms !== '' )
-			var_dump($SQL_updt_coms);
-			//DBGet( DBQuery( $sql_updt_coms ) );
+		{
+			DBGet( DBQuery( $sql_updt_coms ) );
+		}
 	}
 	else
 		$return = false;
