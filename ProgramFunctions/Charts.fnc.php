@@ -274,7 +274,7 @@ function includejqPlotColumnOnce()
 	static $included = false;
 
 	if ( $included )
-		return false;
+		return '';
 
 	$included = true;
 
