@@ -31,9 +31,9 @@ Please head to the offical [Contribute page](http://www.rosariosis.org/contribut
 
 3. [Comment your code](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/): use PHPDoc
 
-4. Quality Assurance: use code linters & others [QA tools](http://phpqatools.org/)
+4. Quality Assurance: please use code linters & other [QA tools](http://phpqatools.org/)
 
-5. Activate debug mode
+5. Testing: Activate debug mode; for emails, please use [MailCatcher](http://mailcatcher.me/)
 
 ## Example Module
 
