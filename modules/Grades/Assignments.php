@@ -222,7 +222,7 @@ if ( isset( $_REQUEST['modfunc'] )
 
 			$cp_qtr_mps_array = explode( ",", $cp_qtr_mps_list );
 
-			foreach( (array)$cp_qtr_mps_array as $cp_qtr_mp )
+			foreach ( (array)$cp_qtr_mps_array as $cp_qtr_mp )
 			{
 				if ( GetMP( trim( $cp_qtr_mp, "'" ), 'MP' ) === 'QTR' )
 				{

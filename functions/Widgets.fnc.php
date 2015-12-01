@@ -1215,7 +1215,7 @@ function Widgets( $item, &$myextra = null )
 				AND f.DATA_TYPE!='textarea'
 				AND f.DATA_TYPE!='date'" ) );
 
-			foreach( (array)$categories_RET as $category )
+			foreach ( (array)$categories_RET as $category )
 			{
 				$extra['search'] .= '<tr class="st"><td>' . $category['TITLE'] . '</td><td>';
 
@@ -1420,7 +1420,7 @@ function Widgets( $item, &$myextra = null )
 				<option value="">' . _( 'N/A' ) . '</option>
 				<option value="!">' . _( 'No Value' ) . '</option>';
 
-			foreach( (array)$calendars_RET as $id => $calendar )
+			foreach ( (array)$calendars_RET as $id => $calendar )
 				$extra['search'] .= '<option value="' . $id . '">' . $calendar[1]['TITLE'] . '</option>';
 
 			$extra['search'] .= '</select></td></tr>';
