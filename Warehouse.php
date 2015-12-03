@@ -25,7 +25,7 @@ else
 
 // Server Paths
 if ( !isset( $RosarioPath ) )
-	$RosarioPath = __DIR__ . '/';
+	$RosarioPath = dirname( __FILE__ ) . '/'; // PHP 5.3 compatible equivalent to __DIR__
 
 if ( !isset( $StudentPicturesPath ) )
 	$StudentPicturesPath = 'assets/StudentPhotos/';
