@@ -29,7 +29,7 @@ function MyWidgets($item)
 				<td><div id="ly_course_div"></div> 
 				<a href="#" onclick=\'popups.open(
 					"Modules.php?modname=misc/ChooseCourse.php&last_year=true"
-				);\'>' . _( 'Choose' ) . '</a></td></tr>';
+				); return false;\'>' . _( 'Choose' ) . '</a></td></tr>';
 		break;
 	}
 }

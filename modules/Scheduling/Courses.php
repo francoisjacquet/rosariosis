@@ -880,7 +880,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 				( $parent != _( 'N/A' ) ?
 					'<a href="#" onclick=\'popups.open(
 						"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
-					);\'>' . _( 'Choose' ) . '</a><br />' :
+					); return false;\'>' . _( 'Choose' ) . '</a><br />' :
 					'' ) .
 				'<span class="legend-gray">' . _( 'Parent Course Period' ) . '</span></td>';
 

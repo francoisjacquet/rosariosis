@@ -108,7 +108,7 @@ if (empty($_REQUEST['modfunc']))
 
 		echo '</div>' . '<a href="#" onclick=\'popups.open(
 				"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
-			);\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
+			); return false;\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
 
 		echo '<tr class="st"><td>'._('Start Date').'</td><td>'.PrepareDate(DBDate(),'').'</td></tr>';
 

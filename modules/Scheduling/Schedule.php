@@ -217,7 +217,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 				'&year_date=' . $_REQUEST['year_date'] . '",
 			"",
 			"scrollbars=yes,resizable=yes,width=900,height=400"
-		);\'';
+		); return false;\'';
 
 	$link['add']['title'] = _('Add a Course');
 
