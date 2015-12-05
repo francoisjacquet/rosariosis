@@ -289,17 +289,19 @@ function ajaxPrepare(target) {
 	var h3 = $('#body h3.title').text().trim();
 	document.title = $('#body h2').text() + (h3 ? ' | ' + h3 : '');
 
-	popups.closeAll();
-
-	MarkDownToHTML();
-
-	ColorBox();
-
-	JSCalendarSetup();
-
-	repeatListTHead( $('table.list') );
-
 	submenuOffset();
+
+	if ( target == '#body' ) {
+		popups.closeAll();
+
+		MarkDownToHTML();
+
+		ColorBox();
+
+		JSCalendarSetup();
+
+		repeatListTHead( $('table.list') );
+	}
 }
 
 //disable links while AJAX
@@ -312,7 +314,7 @@ $(document).ajaxStop(function () {
 
 //onload
 window.onload = function () {
-	ajaxPrepare('');
+	ajaxPrepare('#body');
 
 	//load body after browser history
 	if (history.pushState) window.setTimeout(function () {
