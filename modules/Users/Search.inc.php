@@ -135,14 +135,23 @@ if ( !$_REQUEST['search_modfunc'])
 					echo PopTable( 'footer' ) . '<br />';
 				}
 
-				echo PopTable( 'header', _( 'User Fields' ) );
+				ob_start();
 
 				Search(
 					'staff_fields_all',
 					is_array( $extra['staff_fields'] ) ? $extra['staff_fields'] : array()
 				);
 
-				echo PopTable( 'footer' ) . '<br />';
+				$staff_fields_all = ob_get_clean();
+
+				if ( $staff_fields_all )
+				{
+					echo PopTable( 'header', _( 'User Fields' ) );
+
+					echo $staff_fields_all;
+
+					echo PopTable( 'footer' ) . '<br />';
+				}
 
 				echo '<a href="'.PreparePHP_SELF($_REQUEST,array(),array('advanced' => 'N')).'">'._('Basic Search').'</a>';
 			}
