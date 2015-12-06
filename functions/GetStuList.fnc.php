@@ -1,15 +1,41 @@
 <?php
+/**
+ * Get Student List function(s)
+ */
 
-//FJ fix error Warning: Missing argument 1 for GetStuList()
-//function GetStuList(&$extra)
+/**
+ * Get Student List
+ * Builds SQL request based on:
+ * - User profile
+ * - Extra parameters
+ *
+ * @example $fees_RET = GetStuList( $fees_extra );
+ *
+ * @see Search()
+ *
+ * @uses Widgets()         add Widgets SQL to $extra
+ * @uses appendSQL()       add Search Student basic fields SQL to $extra['WHERE']
+ * @uses CustomFields()    add Custom Fields SQL to $extra['WHERE']
+ * @uses DBGet()           return Students
+ * @uses makeParents()     generate Parents info popup
+ * @uses makePhone()       format Phone number
+ * @uses makeContactInfo() generate Contact Info tooltip
+ *
+ * @global $contacts_RET   Student Contacts array
+ * @global $view_other_RET Used by makeParents() (see below)
+ *
+ * @param  array &$extra Extra for SQL request ('SELECT_ONLY', 'FROM', 'WHERE', 'ORDER_BY', 'functions', 'columns_after', 'DATE',...)
+ *
+ * @return array DBGet return of the built SQL query
+ */
 function GetStuList( &$extra = array() )
 {
 	global $contacts_RET,
 		$view_other_RET;
 
 	//FJ fix Advanced Search
-	if ( User( 'PROFILE' ) === 'admin'
-		|| User( 'PROFILE' ) === 'teacher'
+	if ( ( User( 'PROFILE' ) === 'admin'
+			|| User( 'PROFILE' ) === 'teacher' )
 		&& isset( $_REQUEST['advanced'] )
 		&& $_REQUEST['advanced'] === 'Y' )
 	{
@@ -368,22 +394,9 @@ function GetStuList( &$extra = array() )
 
 	// Get options:
 	// SELECT only
-	$is_select_only = false;
+	$is_select_only = isset( $extra['SELECT_ONLY'] ) && !empty( $extra['SELECT_ONLY'] );
 
-	if ( isset( $extra['SELECT_ONLY'] )
-		&& !empty( $extra['SELECT_ONLY'] ) )
-	{
-		$is_select_only = true;
-	}
-
-	$is_include_inactive = false;
-
-	if ( isset( $_REQUEST['include_inactive'] )
-		&& $_REQUEST['include_inactive'] === 'Y' )
-	{
-		$is_include_inactive = true;
-	}
-
+	$is_include_inactive = isset( $_REQUEST['include_inactive'] ) && $_REQUEST['include_inactive'] === 'Y';
 
 	// Build SELECT
 	$sql = 'SELECT ';
@@ -408,14 +421,9 @@ function GetStuList( &$extra = array() )
 		case 'admin':
 
 			// Get Search All Schools option
-			$is_search_all_schools = false;
+			$is_search_all_schools = isset( $_REQUEST['_search_all_schools'] )
+				&& $_REQUEST['_search_all_schools'] == 'Y';
 			
-			if ( isset( $_REQUEST['_search_all_schools'] )
-				&& $_REQUEST['_search_all_schools'] == 'Y' )
-			{
-				$is_search_all_schools = true;
-			}
-
 			// Normal SELECT
 			if ( !$is_select_only )
 			{
@@ -718,162 +726,290 @@ function makeContactInfo( $student_id, $column )
 	return MakeTipMessage( $tipmsg, _( 'Contact Information' ), button( 'phone' ) );
 }
 
-function removeDot00($value,$column)
+
+/**
+ * Remove .00 to float string
+ *
+ * @example if ( $field['TYPE'] === 'numeric' )	$functions[$field_key] = 'removeDot00';
+ *
+ * @see DBGet() callback
+ *
+ * @param  string $value  Value
+ * @param  string $column Column (optional). Defaults to ''
+ *
+ * @return string Value without .00
+ */
+function removeDot00( $value, $column = '' )
 {
-	return str_replace('.00','',$value);
+	return str_replace( '.00', '', $value );
 }
 
-function makePhone($phone,$column='')
+
+/**
+ * Make / Format Phone number
+ *
+ * @example if ( $view_other_RET['HOME_PHONE'][1]['VALUE'] === 'Y' ) $functions['PHONE'] = 'makePhone';
+ *
+ * @see DBGet() callback
+ *
+ * @param  string $phone  Phone number
+ * @param  string $column Column (optional). Defaults to ''
+ *
+ * @return string Formatted phone number
+ */
+function makePhone( $phone, $column = '' )
 {
-	if (mb_strlen($phone)==10)
-		$return .= '('.mb_substr($phone,0,3).')'.mb_substr($phone,3,7).'-'.mb_substr($phone,7);
-	if (mb_strlen($phone)=='7')
-		$return .= mb_substr($phone,0,3).'-'.mb_substr($phone,3);
+	if ( $phone === '' )
+	{
+		return '';
+	}
+	elseif ( mb_strlen( $phone ) === 10 )
+	{
+		return '(' . mb_substr( $phone, 0, 3 ) . ')' .
+			mb_substr( $phone, 3, 7 ) . '-' . mb_substr( $phone, 7 );
+	}
+	elseif ( mb_strlen( $phone ) === 7 )
+	{
+		return mb_substr( $phone, 0, 3 ) . '-' . mb_substr( $phone, 3 );
+	}
 	else
-		$return .= $phone;
-
-	return $return;
+		return $phone;
 }
 
-function makeParents($student_id,$column)
-{	global $THIS_RET,$view_other_RET,$_ROSARIO;
 
-	if ( $THIS_RET['PARENTS']==$student_id)
+/**
+ * Make Parents information popup
+ *
+ * @see DBGet() callback
+ *
+ * @global $THIS_RET       current return row
+ * @global $view_other_RET checks $view_other_RET['ALL_CONTACTS'][1]['VALUE']
+ * @global $_ROSARIO       checks $_ROSARIO['makeParents']
+ * 
+ * @param  string $student_id Student ID
+ * @param  string $column     'PARENTS'
+ *
+ * @return string Parents link to information popup or empty string if no Parents found
+ */
+function makeParents( $student_id, $column )
+{
+	global $THIS_RET,
+		$view_other_RET,
+		$_ROSARIO;
+
+	if ( $THIS_RET['PARENTS'] != $student_id )
 	{
-		//if ( $THIS_RET['ADDRESS_ID']=='')
-		//	$THIS_RET['ADDRESS_ID'] = '0';
+		return $THIS_RET['PARENTS'];
+	}
 
-		$THIS_RET['PARENTS'] = '';
+	if ( $THIS_RET['ADDRESS_ID'] == '' )
+	{
+		return '';
+	}
 
-		if ( $THIS_RET['ADDRESS_ID']!='')
+	if ( $_ROSARIO['makeParents'] )
+	{
+		if ( $_ROSARIO['makeParents'] != '!' )
 		{
-		if ( $_ROSARIO['makeParents'])
-			if ( $_ROSARIO['makeParents']!='!')
-				$constraint = " AND (lower(sjp.STUDENT_RELATION) LIKE '".mb_strtolower($_ROSARIO['makeParents'])."%')";
-			else
-				$constraint = " AND sjp.STUDENT_RELATION IS NULL";
-		if ( $view_other_RET['ALL_CONTACTS'][1]['VALUE']=='Y')
-			$constraint .= '';
+			$constraint = " AND (lower(sjp.STUDENT_RELATION) LIKE '" .
+				mb_strtolower( $_ROSARIO['makeParents'] ) . "%')";
+		}
 		else
-			$constraint .= " AND sjp.CUSTODY='Y'";
+			$constraint = " AND sjp.STUDENT_RELATION IS NULL";
+	}
 
-		$people_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY 
+	if ( $view_other_RET['ALL_CONTACTS'][1]['VALUE'] != 'Y' )
+	{
+		$constraint .= " AND sjp.CUSTODY='Y'";
+	}
+
+	$people_RET = DBGet( DBQuery( "SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY 
 		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p 
-		WHERE sjp.PERSON_ID=p.PERSON_ID AND sjp.STUDENT_ID='".$student_id."' AND sjp.ADDRESS_ID='".$THIS_RET['ADDRESS_ID']."'$constraint 
-		ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME"));
+		WHERE sjp.PERSON_ID=p.PERSON_ID
+		AND sjp.STUDENT_ID='" . $student_id . "'
+		AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'" . $constraint . 
+		" ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME" ) );
 
-		if (count($people_RET))
+	if ( !$people_RET )
+	{
+		return '';
+	}
+
+	foreach ( (array)$people_RET as $person )
+	{
+		//FJ PrintClassLists with all contacts
+		if ( $person['CUSTODY'] == 'Y' )
 		{
-			$THIS_RET['PARENTS'] .= '<table class="cellspacing-0">';
-			foreach ( (array)$people_RET as $person)
-			{
-				//FJ PrintClassLists with all contacts
-				if ( $person['CUSTODY']=='Y')
-					$img = 'gavel';
-				elseif ( $person['EMERGENCY']=='Y')
-					$img = 'emergency';
-				else
-					$img = '';
-
-				if ( $_REQUEST['_ROSARIO_PDF'])
-					$THIS_RET['PARENTS'] .= '<div>'.(!empty($img) ? button($img) .'&nbsp;' : '').$person['FIRST_NAME'].' '.$person['LAST_NAME'].'</div>';
-				else
-					$THIS_RET['PARENTS'] .= '<div>' . ( !empty( $img ) ? button( $img ) . '&nbsp;' : '' ) .
-						'<a href="#" onclick=\'popups.open(
-							"Modules.php?modname=misc/ViewContact.php&person_id=' . $person['PERSON_ID'] . '&student_id=' . $student_id . '",
-							"scrollbars=yes,resizable=yes,width=400,height=200"
-						);\'>' .
-							$person['FIRST_NAME'].' '.$person['LAST_NAME'] .
-						'</a></div>';
-			}
-			if ( $_REQUEST['_ROSARIO_PDF'])
-				$THIS_RET['PARENTS'] = mb_substr($THIS_RET['PARENTS'],0,-2);
-			$THIS_RET['PARENTS'] .= '</table>';
+			$img = 'gavel';
 		}
+		elseif ( $person['EMERGENCY'] == 'Y' )
+		{
+			$img = 'emergency';
+		}
+		else
+			$img = '';
+
+		$parents .= '<div>' . ( !empty( $img ) ? button( $img ) .'&nbsp;' : '' );
+
+		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		{
+			$parents .= $person['FIRST_NAME'] . ' ' . $person['LAST_NAME'] . '</div>';
+		}
+		else
+		{
+			$parents .= '<a href="#" onclick=\'popups.open(
+					"Modules.php?modname=misc/ViewContact.php&person_id=' .
+					$person['PERSON_ID'] . '&student_id=' . $student_id . '",
+					"scrollbars=yes,resizable=yes,width=400,height=300"
+				); return false;\'>' .
+					$person['FIRST_NAME'] . ' ' . $person['LAST_NAME'] .
+				'</a></div>';
 		}
 	}
-	return $THIS_RET['PARENTS'];
+
+	return $parents;
 }
 
-//FJ fix error Warning: Missing argument 2 for appendSQL()
-//function appendSQL($sql,$extra)
-function appendSQL($sql,$extra=array())
-{	global $_ROSARIO;
 
-	if ( $_REQUEST['stuid'])
+/**
+ * Append:
+ * - RosarioSIS ID(s)
+ * - Last Name
+ * - First Name
+ * - Grade Level
+ * - (Not) Grade Levels
+ * - Address (City, State, Zip code)
+ * Search terms to Students SQL WHERE part
+ *
+ * @example $extra['WHERE'] .= appendSQL( '', $extra );
+ *
+ * @global $_ROSARIO sets $_ROSARIO['SearchTerms']
+ *
+ * @param  string $sql   Students SQL query
+ * @param  array  $extra Extra for SQL request (optional). Defaults to empty array
+ *
+ * @return string Appended SQL WHERE part
+ */
+function appendSQL( $sql, $extra = array() )
+{
+	global $_ROSARIO;
+
+	$no_search_terms = isset( $extra['NoSearchTerms'] ) && $extra['NoSearchTerms'];
+
+	// RosarioSIS ID(s)
+	if ( isset( $_REQUEST['stuid'] )
+		&& !empty( $_REQUEST['stuid'] ) )
 	{
-//FJ allow comma separated list of student IDs
-		$stuid_array = explode(',', $_REQUEST['stuid']);
+		//FJ allow comma separated list of student IDs
+		$stuid_array = explode( ',', $_REQUEST['stuid'] );
 
-		$stuids = array();
-		foreach ($stuid_array as $stuid)
-		{
-			if (is_numeric($stuid))
-				$stuids[] = $stuid;
-		}
+		$stuids = array_filter( $stuid_array, function( $stuid ){
+			return (string)(int)$stuid == $stuid && $stuid > 0;
+		});
 
-		if ( !empty($stuids))
+		if ( $stuids )
 		{
-			$stuids = implode(',', $stuids);
+			$stuids = implode( ',', $stuids );
+
 			//$sql .= " AND ssm.STUDENT_ID IN '".$_REQUEST['stuid']."'";
-			$sql .= " AND ssm.STUDENT_ID IN (".$stuids.")";
+			$sql .= " AND ssm.STUDENT_ID IN (" . $stuids . ")";
 
-			if ( !$extra['NoSearchTerms'])
-				$_ROSARIO['SearchTerms'] .= '<b>'.sprintf(_('%s ID'),Config('NAME')).': </b>'.$stuids.'<br />';
+			if ( !$no_search_terms )
+			{
+				$_ROSARIO['SearchTerms'] .= '<b>' . sprintf( _( '%s ID' ), Config( 'NAME' ) ) .
+					': </b>' . $stuids . '<br />';
+			}
 		}
 	}
 
-	if ( $_REQUEST['last'])
+	// Last Name (starts with, case insensitive)
+	if ( isset( $_REQUEST['last'] )
+		&& $_REQUEST['last'] !== '' )
 	{
-		$sql .= " AND LOWER(s.LAST_NAME) LIKE '".mb_strtolower($_REQUEST['last'])."%'";
+		$sql .= " AND LOWER(s.LAST_NAME) LIKE '" . mb_strtolower( $_REQUEST['last'] ) . "%'";
 
-		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Last Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['last']).'<br />';
-	}
-
-	if ( $_REQUEST['first'])
-	{
-		$sql .= " AND LOWER(s.FIRST_NAME) LIKE '".mb_strtolower($_REQUEST['first'])."%'";
-
-		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('First Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['first']).'<br />';
-	}
-
-	if ( $_REQUEST['grade'])
-	{
-		$sql .= " AND ssm.GRADE_ID = '".$_REQUEST['grade']."'";
-
-		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Grade Level').': </b>'.GetGrade($_REQUEST['grade']).'<br />';
-	}
-
-	if (count($_REQUEST['grades']))
-	{
-		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'.ngettext('Grade','Grades',sizeof($_REQUEST['grades'])).': </b>'.($_REQUEST['grades_not']=='Y'?_('Excluded').' ':'');
-
-		$list = $sep = '';
-		foreach ( (array)$_REQUEST['grades'] as $id => $y)
+		if ( !$no_search_terms )
 		{
-			$list .= $sep."'".$id."'";
+			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Last Name starts with' ) . ': </b>' .
+				str_replace( "''", "'", $_REQUEST['last'] ) . '<br />';
+		}
+	}
 
-			if ( !$extra['NoSearchTerms'])
-				$_ROSARIO['SearchTerms'] .= $sep.GetGrade($id);
+	// First Name (starts with, case insensitive)
+	if ( isset( $_REQUEST['first'] )
+		&& $_REQUEST['first'] !== '' )
+	{
+		$sql .= " AND LOWER(s.FIRST_NAME) LIKE '" . mb_strtolower( $_REQUEST['first'] ) . "%'";
+
+		if ( !$no_search_terms )
+		{
+			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'First Name starts with' ) . ': </b>' .
+			str_replace( "''", "'", $_REQUEST['first'] ).'<br />';
+		}
+	}
+
+	// Grade Level
+	if ( isset( $_REQUEST['grade'] )
+		&& $_REQUEST['grade'] !== ''
+		&& (string)(int)$_REQUEST['grade'] == $_REQUEST['grade']
+		&& $_REQUEST['grade'] > 0 )
+	{
+		$sql .= " AND ssm.GRADE_ID = '" . $_REQUEST['grade'] . "'";
+
+		if ( !$no_search_terms )
+		{
+			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Grade Level' ) . ': </b>' .
+				GetGrade( $_REQUEST['grade'] ) . '<br />';
+		}
+	}
+
+	// (Not) Grade Levels
+	if ( isset( $_REQUEST['grades'] )
+		&& count( $_REQUEST['grades'] ) )
+	{
+		$is_grades_not = isset( $_REQUEST['grades_not'] ) && $_REQUEST['grades_not'] === 'Y';
+
+		if ( !$no_search_terms )
+		{
+			$_ROSARIO['SearchTerms'] .= '<b>' . ngettext( 'Grade', 'Grades', sizeof( $_REQUEST['grades'] ) ) .
+				': </b>' . ( $is_grades_not ? _( 'Excluded' ) . ' ' : '' );
+		}
+
+		$grade_list = $sep = '';
+
+		foreach ( (array)$_REQUEST['grades'] as $grade_id => $y )
+		{
+			$grade_list .= $sep . "'" . $grade_id . "'";
+
+			if ( !$no_search_terms )
+			{
+				$_ROSARIO['SearchTerms'] .= $sep . GetGrade( $grade_id );
+			}
+
 			$sep = ',';
 		}
 
-		if ( !$extra['NoSearchTerms'])
+		if ( !$no_search_terms )
+		{
 			$_ROSARIO['SearchTerms'] .= '<br />';
+		}
 
-		$sql .= " AND ssm.GRADE_ID ".($_REQUEST['grades_not']=='Y'?'NOT ':'')." IN (".$list.")";
+		$sql .= " AND ssm.GRADE_ID " . ( $is_grades_not ? 'NOT ' : '' ) . " IN (" . $grade_list . ")";
 	}
 
+	// Address (City, State, Zip code) (contains, case insensitive)
 	if ( $_REQUEST['addr'])
 	{
-		$sql .= " AND (LOWER(a.ADDRESS) LIKE '%".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.CITY) LIKE '".mb_strtolower($_REQUEST['addr'])."%' OR LOWER(a.STATE)='".mb_strtolower($_REQUEST['addr'])."' OR ZIPCODE LIKE '".$_REQUEST['addr']."%')";
+		$sql .= " AND (LOWER(a.ADDRESS) LIKE '%" . mb_strtolower( $_REQUEST['addr'] ) .
+			"%' OR LOWER(a.CITY) LIKE '" . mb_strtolower( $_REQUEST['addr'] ) .
+			"%' OR LOWER(a.STATE)='" . mb_strtolower( $_REQUEST['addr'] ) .
+			"' OR ZIPCODE LIKE '" . $_REQUEST['addr'] . "%')";
 
-		if ( !$extra['NoSearchTerms'])
-			$_ROSARIO['SearchTerms'] .= '<b>'._('Address contains').': </b>'.str_replace("''", "'", $_REQUEST['addr']).'<br />';
+		if ( !$no_search_terms )
+		{
+			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Address contains' ) . ': </b>' .
+				str_replace( "''", "'", $_REQUEST['addr'] ) . '<br />';
+		}
 	}
 
 	return $sql;
