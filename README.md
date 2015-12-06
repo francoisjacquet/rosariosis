@@ -15,7 +15,7 @@ You MUST read and agree to the terms of this license prior to installing Rosario
 Documentation
 -------------
 
-For installation directions, please refer to the [INSTALL](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL) file part of this distribution.
+For installation directions, please refer to the [INSTALL.md](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md) file part of this distribution.
 
 [Quick Setup Guide](https://github.com/francoisjacquet/rosariosis/wiki/Quick-Setup-Guide)
 

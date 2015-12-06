@@ -12,7 +12,7 @@ Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues
 
 5. RosarioSIS errors, bugs (PHP, SQL, JS errors) & design or logic errors are welcome.
 
-6. **Installation problems**: RosarioSIS has been succesfully installed on various environment; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL#L10). For the same reasons, installation problems will likely not be solved here.
+6. **Installation problems**: RosarioSIS has been succesfully installed on various environment; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#L10). For the same reasons, installation problems will likely not be solved here.
 
 7. **RosarioSIS use**: the Handbooks, the inline Help & the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki) contain useful resources to help you get the most out of RosarioSIS.
 
