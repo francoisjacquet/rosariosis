@@ -1,4 +1,11 @@
 <?php
+/**
+ * Side
+ *
+ * Side menu
+ *
+ * @package RosarioSIS
+ */
 
 require_once 'Warehouse.php';
 
@@ -11,7 +18,7 @@ $unset_student = $unset_staff = $update_body = false;
 $addJavascripts = '';
 
 /**
- * change current
+ * Change current
  * School / SchoolYear / MarkingPeriod / CoursePeriod / Student
  * from menu
  */
@@ -34,43 +41,43 @@ if ( isset( $_REQUEST['sidefunc'] )
 			SET CURRENT_SCHOOL_ID='" . UserSchool() . "'
 			WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'" );
 
-		// reset current MarkingPeriod
+		// Reset current MarkingPeriod.
 		$_SESSION['UserMP'] = GetCurrentMP( 'QTR', DBDate(), false );
 	}
 
-	// update current SchoolYear
+	// Update current SchoolYear.
 	elseif ( isset( $_POST['syear'] )
 		&& $_POST['syear'] != $old_syear )
 	{
 		$_SESSION['UserSyear'] = $_POST['syear'];
 
-		//reset current MarkingPeriod
+		// Reset current MarkingPeriod.
 		$_SESSION['UserMP'] = GetCurrentMP( 'QTR', DBDate(), false );
 
 		/**
-		 * if current User
+		 * If current User
 		 * update user ID according to new SchoolYear
-		 * OR remove if does not exist
+		 * OR remove if does not exist.
 		 */
 		if ( ( User( 'PROFILE' ) === 'admin'
 				|| User( 'PROFILE' ) === 'teacher' )
 			&& UserStaffID() )
 		{
-			// search User in next SchoolYear
+			// Search User in next SchoolYear.
 			if ( $old_syear == UserSyear() - 1 )
 			{
 				$new_staff_id_RET = DBGet( DBQuery( "SELECT STAFF_ID
 					FROM STAFF
 					WHERE ROLLOVER_ID='" . UserStaffID() . "'" ) );
 			}
-			// search User in previous SchoolYear
+			// Search User in previous SchoolYear.
 			elseif ( $old_syear == UserSyear() + 1 )
 			{
 				$new_staff_id_RET = DBGet( DBQuery( "SELECT ROLLOVER_ID AS STAFF_ID
 					FROM STAFF WHERE
 					STAFF_ID='" . UserStaffID() . "'" ) );
 			}
-			// more than 1 year difference, search User by USERNAME... (could have changed)
+			// More than 1 year difference, search User by USERNAME... (could have changed).
 			else
 			{
 				$new_staff_id_RET = DBGet( DBQuery( "SELECT STAFF_ID
@@ -86,14 +93,14 @@ if ( isset( $_REQUEST['sidefunc'] )
 			{
 				SetUserStaffID( $new_staff_id_RET[1]['STAFF_ID'] );
 
-				//remove staff_id from URL
+				// Remove staff_id from URL.
 				unset( $_SESSION['_REQUEST_vars']['staff_id'] );
 			}
 			else
 				$unset_staff = true;
 		}
 
-		// if current Student not enrolled in new SchoolYear, remove
+		// If current Student not enrolled in new SchoolYear, remove.
 		if ( in_array( User( 'PROFILE' ), array( 'admin', 'teacher', 'parent' ) )
 			&& UserStudentID() )
 		{
@@ -104,24 +111,26 @@ if ( isset( $_REQUEST['sidefunc'] )
 				AND STUDENT_ID='" . UserStudentID() . "'";
 
 			/**
-			 * remove Student if Teacher:
+			 * Remove Student if Teacher:
 			 * the student should not be currently scheduled in a course in new SchoolYear
-			 * OR remove Student if not enrolled in new SchoolYear
+			 * OR remove Student if not enrolled in new SchoolYear.
 			 */
 			if ( User( 'PROFILE' ) === 'teacher'
-				|| !count( DBGet( DBQuery( $is_student_enrolled_sql ) ) ) )
+				|| ! count( DBGet( DBQuery( $is_student_enrolled_sql ) ) ) )
+			{
 				$unset_student = true;
+			}
 		}
 	}
 
-	// update current MarkingPeriod
+	// Update current MarkingPeriod.
 	elseif ( isset( $_POST['mp'] )
 		&& $_POST['mp'] != $_SESSION['UserMP'] )
 	{
 		$_SESSION['UserMP'] = $_POST['mp'];
 	}
 
-	// update Teacher's current CoursePeriod
+	// Update Teacher's current CoursePeriod.
 	elseif ( User( 'PROFILE' ) === 'teacher'
 		&& isset( $_POST['period'] )
 		&& $_POST['period'] != $old_period )
@@ -130,7 +139,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 			$_SESSION['UserCoursePeriod'],
 			$_SESSION['UserCoursePeriodSchoolPeriod'] ) = explode( '.', $_POST['period'] );
 
-		// if current student
+		// If current student.
 		if ( UserStudentID() )
 		{
 			$is_student_scheduled = DBGet( DBQuery( "SELECT 'SCHEDULED'
@@ -140,13 +149,15 @@ if ( isset( $_REQUEST['sidefunc'] )
 				AND '" . DBDate() . "'>=START_DATE
 				AND ('" . DBDate() . "'<=END_DATE OR END_DATE IS NULL)" ) );
 
-			// if student not scheduled in new CoursePeriod, remove
-			if ( !count( $is_student_scheduled ) )
+			// If student not scheduled in new CoursePeriod, remove.
+			if ( ! count( $is_student_scheduled ) )
+			{
 				$unset_student = true;
+			}
 		}
 	}
 
-	// update Parent's current Student
+	// Update Parent's current Student.
 	elseif ( User( 'PROFILE' ) === 'parent'
 		&& isset( $_POST['student_id'] )
 		&& UserStudentID() != $_POST['student_id'] )
@@ -156,7 +167,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 
 
 	/**
-	 * if current School OR SchoolYear changed from menu,
+	 * If current School OR SchoolYear changed from menu,
 	 * reset Admin & Teacher's CoursePeriod
 	 */
 	if ( ( UserSchool() != $old_school
@@ -168,57 +179,64 @@ if ( isset( $_REQUEST['sidefunc'] )
 		unset( $_SESSION['UserCoursePeriod'] );
 	}
 
-	// update "#body" Module page
+	// Update "#body" Module page.
 	$update_body = true;
 }
 
 /**
- * set current
+ * Set current
  * SchoolYear / Student / User / School / MarkingPeriod
  * after login
  */
 else
 {
 
-	// set current SchoolYear
-	if ( !UserSyear() )
+	// Set current SchoolYear.
+	if ( ! UserSyear() )
+	{
 		$_SESSION['UserSyear'] = Config( 'SYEAR' );
+	}
 
-	// set current Student (if user is student)
-	if ( !UserStudentID()
+	// Set current Student (if user is student).
+	if ( ! UserStudentID()
 		&& User( 'PROFILE' ) === 'student' )
+	{
 		SetUserStudentID( $_SESSION['STUDENT_ID'] );
+	}
 
-	// set current User (if user is parent)
+	// Set current User (if user is parent).
 	if ( !UserStaffID()
 		&& User( 'PROFILE' ) === 'parent' )
-		SetUserStaffID( $_SESSION['STAFF_ID'] );
-
-	// set current School
-	if ( !UserSchool() )
 	{
-		// if user is admin or teacher
+		SetUserStaffID( $_SESSION['STAFF_ID'] );
+	}
+
+	// Set current School.
+	if ( ! UserSchool() )
+	{
+		// If user is admin or teacher.
 		if ( ( User( 'PROFILE' ) === 'admin'
 				|| User( 'PROFILE' ) === 'teacher' )
-			&& ( !User( 'SCHOOLS' )
+			&& ( ! User( 'SCHOOLS' )
 				|| mb_strpos( User( 'SCHOOLS' ), ',' . User( 'CURRENT_SCHOOL_ID' ) . ',' ) !== false ) )
 		{
-			$_SESSION['UserSchool'] = User('CURRENT_SCHOOL_ID');
+			$_SESSION['UserSchool'] = User( 'CURRENT_SCHOOL_ID' );
 		}
-		// if user is student
+		// If user is student.
 		elseif ( User( 'PROFILE' ) === 'student' )
 		{
 			$_SESSION['UserSchool'] = trim( User( 'SCHOOLS' ), ',' );
 		}
-		// do not set here if user is parent (set later on depending on current Student)
+		// Do not set here if user is parent (set later on depending on current Student).
 	}
 
-	// set current MarkingPeriod (Quarter)
-	if ( !UserMP() )
+	// Set current MarkingPeriod (Quarter).
+	if ( ! UserMP() )
+	{
 		$_SESSION['UserMP'] = GetCurrentMP( 'QTR', DBDate(), false );
+	}
 
-	// remove current Student/User from menu
-	// if user clicked on red cross
+	// Remove current Student/User from menu if user clicked on red cross.
 	if ( ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' )
 		&& ( ( $new_student = isset( $_REQUEST['side_student_id'] )
@@ -227,37 +245,40 @@ else
 				&& $_REQUEST['side_staff_id'] === 'new' ) ) )
 	{
 		if ( $new_student )
+		{
 			$unset_student = true;
-
+		}
 		elseif ( $new_staff )
+		{
 			$unset_staff = true;
+		}
 
 		unset( $_SESSION['_REQUEST_vars']['search_modfunc'] );
 
-		// update "#body" Module page
+		// Update "#body" Module page.
 		$update_body = true;
 	}
 }
 
-// unset current Student
+// Unset current Student.
 if ( $unset_student )
 {
 	unset( $_SESSION['student_id'] );
 
-	// remove student_id from URL
+	// Remove student_id from URL.
 	unset( $_SESSION['_REQUEST_vars']['student_id'] );
 }
 
-// unset current User
+// Unset current User.
 if ( $unset_staff )
 {
 	unset( $_SESSION['staff_id'] );
 
-	// remove staff_id from URL
+	// Remove staff_id from URL.
 	unset( $_SESSION['_REQUEST_vars']['staff_id'] );
 }
 
-// update "#body" Module page
+// Update "#body" Module page.
 if ( $update_body )
 {
 	/**
@@ -272,7 +293,7 @@ if ( $update_body )
 	}
 	else
 	{
-		$ajax_link = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array('advanced') );
+		$ajax_link = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'advanced' ) );
 	}
 
 	$addJavascripts .= 'ajaxLink("' . $ajax_link .	'");';
@@ -292,35 +313,35 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		<script><?php echo $addJavascripts; ?></script>
 		<div id="menushadow"></div>
 
-		<?php // User Information ?>
+		<?php // User Information. ?>
 
 		<a href="index.php" target="_top" class="center">
 			<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="logo" />
 		</a>
 		<form action="Side.php?sidefunc=update" method="POST" target="menu">
-			<span class="br-after">&nbsp;<b><?php echo User('NAME'); ?></b></span>
+			<span class="br-after">&nbsp;<b><?php echo User( 'NAME' ); ?></b></span>
 			<?php
-				// localized today's date
+				// Localized today's date.
 				echo '&nbsp;' . mb_convert_case(
 					iconv( '', 'UTF-8', strftime( '%A %B %d, %Y' ) ),
 					MB_CASE_TITLE,
-					"UTF-8"
+					'UTF-8'
 				);
 			?>
 			<br />
-			<?php // School SELECT (Admins & Teachers only)
-			if ( User('PROFILE') === 'admin'
+			<?php // School SELECT (Admins & Teachers only).
+			if ( User( 'PROFILE' ) === 'admin'
 				|| User( 'PROFILE' ) === 'teacher' ) :
-			
-				$schools = mb_substr( str_replace( ",", "','", User( 'SCHOOLS' ) ), 2, -2 );
+
+				$schools = mb_substr( str_replace( ',', "','", User( 'SCHOOLS' ) ), 2, -2 );
 
 				$RET = DBGet( DBQuery( "SELECT ID,TITLE,SHORT_NAME
 					FROM SCHOOLS
 					WHERE SYEAR='" . UserSyear() . "'" .
-					($schools? " AND ID IN (" . $schools . ")" : '' ) ) );
+					( $schools ? " AND ID IN (" . $schools . ")" : '' ) ) );
 
-				// set current School
-				if ( !UserSchool() )
+				// Set current School.
+				if ( ! UserSchool() )
 				{
 					$_SESSION['UserSchool'] = $RET[1]['ID'];
 
@@ -331,7 +352,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 				<span class="br-after">
 					<select name="school" onChange="ajaxPostForm(this.form,true);">
-				<?php foreach ( (array)$RET as $school ) : ?>
+				<?php foreach ( (array) $RET as $school ) : ?>
 					<option value="<?php echo $school['ID']; ?>"<?php echo ( ( UserSchool() == $school['ID'] ) ? ' selected' : '' ); ?>><?php
 						echo ( $school['SHORT_NAME'] ? $school['SHORT_NAME'] : $school['TITLE'] );
 					?></option>
@@ -341,9 +362,9 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 			<?php endif;
 
-			// Student SELECT (Parents only)
+			// Student SELECT (Parents only).
 			if ( User( 'PROFILE' ) === 'parent' ) :
-			
+
 				$RET = DBGet( DBQuery( "SELECT sju.STUDENT_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,se.SCHOOL_ID 
 					FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se 
 					WHERE s.STUDENT_ID=sju.STUDENT_ID 
@@ -354,30 +375,34 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 						AND ('" . DBDate() . "'<=se.END_DATE
 							OR se.END_DATE IS NULL ) )" ) );
 
-				// set current Student
-				if ( !UserStudentID() )
-					// note: do not use SetUserStudentID() here as this is safe
+				// Set current Student.
+				if ( ! UserStudentID() )
+				{
+					// Note: do not use SetUserStudentID() here as this is safe.
 					$_SESSION['student_id'] = $RET[1]['STUDENT_ID'];
+				}
 				?>
 
 				<span class="br-after">
 					<select name="student_id" onChange="ajaxPostForm(this.form,true);">
-				<?php foreach ( (array)$RET as $student ) : ?>
+				<?php foreach ( (array) $RET as $student ) : ?>
 					<option value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ( ( UserStudentID() == $student['STUDENT_ID'] ) ? ' selected' : '' ); ?>><?php
 						echo $student['FULL_NAME'];
 					?></option>
-					<?php // set current School
+					<?php // Set current School.
 					if ( UserStudentID() == $student['STUDENT_ID'] )
+					{
 						$_SESSION['UserSchool'] = $student['SCHOOL_ID'];
+					}
 
 				endforeach; ?>
 					</select>
 				</span>
 
 				<?php
-				// no student associated to parent
-				// set current School
-				if ( !UserSchool() )
+				// No student associated to parent.
+				// Set current School.
+				if ( ! UserSchool() )
 				{
 					$schools_RET = DBGet( DBQuery("SELECT ID,TITLE
 						FROM SCHOOLS
@@ -388,7 +413,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 			endif;
 
-			// SchoolYear SELECT
+			// SchoolYear SELECT.
 			if ( User( 'PROFILE' ) !== 'student' )
 			{
 				$sql = "SELECT sy.SYEAR
@@ -402,7 +427,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			}
 			else
 			{
-				//FJ limit school years to the years the student was enrolled
+				// FJ limit school years to the years the student was enrolled.
 				//$sql = "SELECT DISTINCT sy.SYEAR FROM SCHOOLS sy,STUDENT_ENROLLMENT s WHERE s.SYEAR=sy.SYEAR";
 				$sql = "SELECT DISTINCT sy.SYEAR
 					FROM SCHOOLS sy,STUDENT_ENROLLMENT s
@@ -416,7 +441,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 			<span class="br-after">
 				<select name="syear" onChange="ajaxPostForm(this.form,true);">
-			<?php foreach ( (array)$years_RET as $year ) : ?>
+			<?php foreach ( (array) $years_RET as $year ) : ?>
 				<option value="<?php echo $year['SYEAR']; ?>"<?php echo ( ( UserSyear() == $year['SYEAR'] ) ? ' selected' : '' ); ?>><?php
 					echo FormatSyear( $year['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 				?></option>
@@ -424,7 +449,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				</select>
 			</span>
 
-			<?php // MarkingPeriod SELECT
+			<?php // MarkingPeriod SELECT.
 			$RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID,TITLE
 				FROM SCHOOL_MARKING_PERIODS
 				WHERE MP='QTR'
@@ -436,7 +461,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			<span class="br-after">
 				<select name="mp" onChange="ajaxPostForm(this.form,true);">
 			<?php if ( count( $RET ) ) :
-			
+
 				$mp_array = array();
 
 				foreach ( $RET as $quarter ) : ?>
@@ -446,15 +471,15 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				<?php $mp_array[] = $quarter['MARKING_PERIOD_ID'];
 
 				endforeach;
-				
-				// reset UserMP if invalid
-				if ( !UserMP()
-					|| !in_array( UserMP(), $mp_array ) ) :
+
+				// Reset UserMP if invalid.
+				if ( ! UserMP()
+					|| ! in_array( UserMP(), $mp_array ) ) :
 
 					$_SESSION['UserMP'] = $RET[1]['MARKING_PERIOD_ID'];
 				endif;
 
-			// error if no quarters
+			// Error if no quarters.
 			else : ?>
 
 					<option value=""><?php
@@ -466,17 +491,19 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				</select>
 			</span>
 
-			<?php // CoursePeriod SELECT (Teachers only)
+			<?php // CoursePeriod SELECT (Teachers only).
 			if ( User( 'PROFILE' ) == 'teacher' ) : ?>
 
 
-			<?php // error if no quarters
-				if ( !count( $RET ) )
+			<?php // Error if no quarters.
+				if ( ! count( $RET ) )
+				{
 					$all_MP = '0';
+				}
 				else
 					$all_MP = GetAllMP( 'QTR', UserMP() );
 
-				//FJ multiple school periods for a course period
+				// FJ multiple school periods for a course period.
 				//$QI = DBQuery("SELECT cp.PERIOD_ID,cp.COURSE_PERIOD_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cp.DAYS,c.TITLE AS COURSE_TITLE FROM COURSE_PERIODS cp, SCHOOL_PERIODS sp,COURSES c WHERE c.COURSE_ID=cp.COURSE_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR='".UserSyear()."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.TEACHER_ID='".User('STAFF_ID')."' AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") ORDER BY sp.SORT_ORDER");
 				$QI = DBQuery( "SELECT cpsp.PERIOD_ID,cp.COURSE_PERIOD_ID,cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID,sp.TITLE,sp.SHORT_NAME,cp.MARKING_PERIOD_ID,cpsp.DAYS,c.TITLE AS COURSE_TITLE, cp.SHORT_NAME AS CP_SHORT_NAME 
 					FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,COURSES c,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
@@ -488,12 +515,12 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 					AND cp.TEACHER_ID='" . User( 'STAFF_ID' ) . "' 
 					AND cp.MARKING_PERIOD_ID IN (" . $all_MP . ")
 					ORDER BY cp.SHORT_NAME, sp.SORT_ORDER" );
-				
+
 				$RET = DBGet( $QI );
-				
+
 				/**
-				 * get the Full Year marking period id
-				 * there should be exactly one fy marking period per school
+				 * Get the Full Year marking period id
+				 * there should be exactly one fy marking period per school.
 				 */
 				$fy_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
 					FROM SCHOOL_MARKING_PERIODS
@@ -501,8 +528,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 					AND SYEAR='" . UserSyear() . "'
 					AND SCHOOL_ID='" . UserSchool() . "'" ) );
 
-				// set current CoursePeriod after login
-				if ( !UserCoursePeriod()
+				// Set current CoursePeriod after login.
+				if ( ! UserCoursePeriod()
 					&& isset( $RET[1] ) )
 				{
 					$_SESSION['UserCoursePeriod'] = $RET[1]['COURSE_PERIOD_ID'];
@@ -514,21 +541,21 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 				foreach ( $RET as $period )
 				{
-					//FJ add optroup to group periods by course periods
-					if ( !empty( $period['COURSE_TITLE'] )
-						&& $optgroup != $period['COURSE_TITLE'] ) : //new optgroup ?>
+					// FJ add optroup to group periods by course periods.
+					if ( ! empty( $period['COURSE_TITLE'] )
+						&& $optgroup != $period['COURSE_TITLE'] ) : // New optgroup. ?>
 
 						<optgroup label="<?php echo htmlspecialchars( $optgroup = $period['COURSE_TITLE'] ); ?>">
 
 					<?php endif;
-					
+
 					if ( $optgroup !== FALSE
-						&& $optgroup != $period['COURSE_TITLE'] ) : //close optgroup ?>
+						&& $optgroup != $period['COURSE_TITLE'] ) : // Close optgroup. ?>
 
 						</optgroup>
 
 					<?php endif;
-					
+
 					if ( UserCoursePeriodSchoolPeriod() == $period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] )
 					{
 						$selected = ' selected';
@@ -540,7 +567,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 					else
 						$selected = '';
 
-					//FJ days display to locale
+					// FJ days display to locale.
 					$days_convert = array(
 						'U' => _( 'Sunday' ),
 						'M' => _( 'Monday' ),
@@ -548,11 +575,12 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 						'W' => _( 'Wednesday' ),
 						'H' => _( 'Thursday' ),
 						'F' => _( 'Friday' ),
-						'S' => _( 'Saturday' )
+						'S' => _( 'Saturday' ),
 					);
 
-					//FJ days numbered
+					// FJ days numbered.
 					if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) !== null )
+					{
 						$days_convert = array(
 							'U' => '7',
 							'M' => '1',
@@ -560,16 +588,17 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 							'W' => '3',
 							'H' => '4',
 							'F' => '5',
-							'S' => '6'
+							'S' => '6',
 						);
-					
+					}
+
 					$period_days = '';
 
 					$days_strlen = mb_strlen( $period['DAYS'] );
 
 					for ( $i = 0; $i < $days_strlen; $i++ )
 					{
-						$period_days .= mb_substr( $days_convert[$period['DAYS'][$i]], 0, 3 ) . '.';
+						$period_days .= mb_substr( $days_convert[ $period['DAYS'][ $i ] ], 0, 3 ) . '.';
 					}
 
 					$period_days_text = '';
@@ -603,7 +632,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				 * reset current CoursePeriod
 				 * and unset current Student
 				 */
-				if ( !$found )
+				if ( ! $found )
 				{
 					$_SESSION['UserCoursePeriod'] = $RET[1]['COURSE_PERIOD_ID'];
 					$_SESSION['UserPeriod'] = $RET[1]['PERIOD_ID'];
@@ -616,7 +645,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 		</form>
 
-		<?php // display current Student (Admins & Teachers only)
+		<?php // Display current Student (Admins & Teachers only).
 		if ( UserStudentID()
 			&& ( User( 'PROFILE' ) === 'admin'
 				|| User( 'PROFILE' ) === 'teacher' ) ) :
@@ -639,8 +668,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			</div>
 
 		<?php endif;
-		
-		// display current User (Admins & Teachers only)
+
+		// Display current User (Admins & Teachers only).
 		if ( UserStaffID()
 			&& ( User( 'PROFILE' ) === 'admin'
 				|| User( 'PROFILE' ) === 'teacher' ) ) :
@@ -666,59 +695,59 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 
 		<ul class="adminmenu">
 
-		<?php // Generate Menu
+		<?php // Generate Menu.
 		require_once 'Menu.php';
-		
-		// modify loop: use for instead of foreach
+
+		// Modify loop: use for instead of foreach.
 		$menu_key = array_keys( $_ROSARIO['Menu'] );
-		$size = sizeOf( $menu_key );
+		$size = count( $menu_key );
 
 		global $RosarioCoreModules;
 
 		for ( $i = 0; $i < $size; $i++ ) :
 
-			if ( count( $modcat_menu = $_ROSARIO['Menu'][$menu_key[$i]] ) ) :
+			if ( count( $modcat_menu = $_ROSARIO['Menu'][ $menu_key[ $i ] ] ) ) :
 
-				$modcat_class = mb_strtolower( str_replace( '_', '-', $menu_key[$i] ) ); ?>
+				$modcat_class = mb_strtolower( str_replace( '_', '-', $menu_key[ $i ] ) ); ?>
 			<li class="menu-module <?php echo $modcat_class; ?>">
 				<a href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top">
-					<img src="modules/<?php echo $menu_key[$i]; ?>/icon.png" />&nbsp;<?php echo $modcat_menu['title']; ?>
+					<img src="modules/<?php echo $menu_key[ $i ]; ?>/icon.png" />&nbsp;<?php echo $modcat_menu['title']; ?>
 				</a>
-				<ul id="menu_<?php echo $menu_key[$i]; ?>" class="wp-submenu">
+				<ul id="menu_<?php echo $menu_key[ $i ]; ?>" class="wp-submenu">
 				<?php
 				unset(
 					$modcat_menu['default'],
 					$modcat_menu['title']
 				);
-				
+
 				$modcat_key = array_keys( $modcat_menu );
-				$size_modcat = sizeOf( $modcat_key );
+				$size_modcat = count( $modcat_key );
 
 				for ( $j = 0; $j < $size_modcat; $j++ )
 				{
-					$title = $_ROSARIO['Menu'][$menu_key[$i]][$modcat_key[$j]];
+					$title = $_ROSARIO['Menu'][ $menu_key[ $i ] ][ $modcat_key[ $j ] ];
 
-					// if URL, not a program
-					if ( mb_stripos( $modcat_key[$j], 'http' ) !== false ) : ?>
-						<li><a href="<?php echo $modcat_key[$j]; ?>" target="_blank"><?php
+					// If URL, not a program.
+					if ( mb_stripos( $modcat_key[ $j ], 'http' ) !== false ) : ?>
+						<li><a href="<?php echo $modcat_key[ $j ]; ?>" target="_blank"><?php
 							echo $title;
 						?></a></li>
 					<?php
-					elseif ( !is_numeric( $modcat_key[$j] ) ) :
+					elseif ( ! is_numeric( $modcat_key[ $j ] ) ) :
 
-						// if PDF, open in new tab
-						$target = ( mb_stripos( $modcat_key[$j], '_ROSARIO_PDF' ) !== false ?
+						// If PDF, open in new tab.
+						$target = ( mb_stripos( $modcat_key[ $j ], '_ROSARIO_PDF' ) !== false ?
 							' target="_blank"' :
 							''
 						);
 					?>
 
-						<li><a href="Modules.php?modname=<?php echo $modcat_key[$j]; ?>"<?php echo $target; ?>><?php
+						<li><a href="Modules.php?modname=<?php echo $modcat_key[ $j ]; ?>"<?php echo $target; ?>><?php
 								echo $title;
 						?></a></li>
-					<?php // if is a section
-					elseif ( isset( $modcat_key[$j + 1] )
-						&& !is_numeric( $modcat_key[$j + 1] ) ) : ?>
+					<?php // If is a section.
+					elseif ( isset( $modcat_key[ $j + 1 ] )
+						&& ! is_numeric( $modcat_key[ $j + 1 ] ) ) : ?>
 
 						<li class="menu-inter"><?php
 							echo $title;

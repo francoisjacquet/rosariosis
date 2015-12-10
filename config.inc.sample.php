@@ -3,6 +3,8 @@
  * The base configurations of RosarioSIS
  *
  * You can find more information in the INSTALL.md file
+ *
+ * @package RosarioSIS
  */
 
 /**
@@ -11,19 +13,19 @@
  * You can get this info from your web host
  */
 
-// Database server hostname: use localhost if on same server
+// Database server hostname: use localhost if on same server.
 $DatabaseServer = 'localhost';
 
-// Database username
+// Database username.
 $DatabaseUsername = '';
 
-// Database password
+// Database password.
 $DatabasePassword = '';
 
-// Database name
+// Database name.
 $DatabaseName = '';
 
-// Database port: default is 5432
+// Database port: default is 5432.
 $DatabasePort = '5432';
 
 
@@ -78,6 +80,7 @@ $RosarioNotifyAddress = '';
  * Add other languages you want to support here
  *
  * For American, French and Spanish:
- * @example array('en_US.utf8', 'fr_FR.utf8', 'es_ES.utf8');
+ *
+ * @example array( 'en_US.utf8', 'fr_FR.utf8', 'es_ES.utf8' );
  */
-$RosarioLocales = array('en_US.utf8');
+$RosarioLocales = array( 'en_US.utf8' );

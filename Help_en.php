@@ -11,13 +11,17 @@
  * Help_[two letters language code].php
  *
  * @author François Jacquet
- * 
+ *
  * @uses Heredoc syntax
  * @see  http://php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc
+ *
+ * @package RosarioSIS
+ * @subpackage Help
  */
 
-// DEFAULT
-if ( User( 'PROFILE' ) === 'admin' )
+// DEFAULT.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['default'] = <<<HTML
 <p>
 	As an administrator, you can setup the schools in this system, modify students and users, and access essential student reports.
@@ -42,7 +46,8 @@ if ( User( 'PROFILE' ) === 'admin' )
 </p>
 HTML;
 
-elseif ( User( 'PROFILE' ) === 'teacher' )
+elseif ( User( 'PROFILE' ) === 'teacher' ) :
+
 	$help['default'] = <<<HTML
 <p>
 	As a teacher, you can view student information and schedules for students who you teach and input attendance, grades, and eligibility for these students. You also have a gradebook program to keep track of students' grades. The Gradebook is integrated into the Input Grades program as well as the Eligibility program. From the Gradebook, not only can you keep track of grades, but you can print progress reports for any of your students.
@@ -64,7 +69,8 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 </p>
 HTML;
 
-elseif ( User( 'PROFILE' ) === 'parent' )
+elseif ( User( 'PROFILE' ) === 'parent' ) :
+
 	$help['default'] = <<<HTML
 <p>
 	As a parent, you can view your children's information, schedules, grades, eligibility, and attendance.
@@ -80,7 +86,8 @@ elseif ( User( 'PROFILE' ) === 'parent' )
 </p>
 HTML;
 
-elseif ( User( 'PROFILE' ) === 'student' )
+elseif ( User( 'PROFILE' ) === 'student' ) :
+
 	$help['default'] = <<<HTML
 <p>
 	As a student, you can view your demographic information, schedule, grades, eligibility, and attendance.
@@ -96,10 +103,12 @@ elseif ( User( 'PROFILE' ) === 'student' )
 </p>
 HTML;
 
+endif;
 
-// SCHOOL SETUP ---
-if ( User( 'PROFILE' ) === 'admin' )
-{
+
+// SCHOOL SETUP ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['School_Setup/Schools.php'] = <<<HTML
 <p>
 	<i>School Information</i> allows you to change the name, address, and principal of the current school. Click on any of the school's information to change it. After you have made the necessary modifications to your school, click "Save" to save your changes.
@@ -301,9 +310,10 @@ HTML;
 	<b>Plugins</b> tab: manage RosarioSIS plugins. Activate, deactivate and configure plugins. Click on the plugin title to get more information.
 </p>
 HTML;
-}
-else
-{
+
+	// Teacher & Parent & Student.
+else :
+
 	$help['School_Setup/Schools.php'] = <<<HTML
 <p>
 	<i>School Information</i> displays the name, address, and principal of the current school.
@@ -321,12 +331,13 @@ HTML;
 	For days that school is in attendance all day, a green checkmark appears in the upper right-hand corner of the date. On partial days, the number of minutes that school is in session is displayed here instead. If the school is not in attendance at all on any given day, nothing will appear in the upper right-hand corner of the date.
 </p>
 HTML;
-}
+
+endif;
 
 
-// STUDENTS ---
-if ( User( 'PROFILE' ) === 'admin' )
-{
+// STUDENTS ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Students/Student.php&include=General_Info&student_id=new'] = <<<HTML
 <p>
 	<i>Add a Student</i> allows you to add a student to the system and enroll it.
@@ -610,9 +621,10 @@ HTML;
 	To delete an enrollment code, click the delete icon (-) next to the enrollment code you want to delete. You will be asked to confirm the deletion.
 </p>
 HTML;
-}
-else
-{
+
+	// Teacher & Parent & Student.
+else :
+
 	$help['Students/General Information'] = <<<HTML
 <p>
 	<i>General Information</i> is a display of a student's fundamental information. This includes birth date, social security number, ethnicity, gender, birthplace, and grade.
@@ -633,12 +645,13 @@ HTML;
 	<i>Enrollment</i> is a display of the student's enrollment history.
 </p>
 HTML;
-}
+
+endif;
 
 
-// USERS
-if ( User( 'PROFILE' ) === 'admin' )
-{
+// USERS ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Users/User.php'] = <<<HTML
 <p>
 	<i>General Information</i> is a display of a user's fundamental information. This includes his name, username, password, profile, school, email address, and phone number. If you are an administrator, you can change any of this information by clicking on the value you want to change, changing the value, and clicking the "Save" button at the top of the page. You can delete a user by clicking the "Delete" button at the top of the screen and confirming your action. Notice, you should never delete teachers after they have taught even one class, since the user record must remain for the teacher's name to appear correctly on student transcripts.
@@ -869,12 +882,13 @@ HTML;
 	You must enter eligibility each week during the timeframe specified by your school's administration.
 </p>
 HTML;
-}
+
+endif;
 
 
-// SCHEDULING
-if ( User( 'PROFILE' ) === 'admin' )
-{
+// SCHEDULING ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Scheduling/Schedule.php'] = <<<HTML
 <p>
 	<i>Schedule</i> allows you to modify a student's course schedule.
@@ -1088,9 +1102,9 @@ HTML;
 	Once the scheduler has run, which could take several minutes, it will notify you of any conflicts. The Scheduler output will also tell you if any course requested has zero available seats. If a request could not be met, you can change the requests accordingly to ensure complete scheduling. If you ran the Scheduler in "Test Mode," you will be given the option to run the scheduler saving the schedules. Once the schedules have been saved, you will be given the option to view the Schedule Report.
 </p>
 HTML;
-}
-elseif ( User( 'PROFILE' ) === 'teacher' )
-{
+
+elseif ( User( 'PROFILE' ) === 'teacher' ) :
+
 	$help['Scheduling/Schedule.php'] = <<<HTML
 <p>
 	<i>Schedule</i> is a display of the student's course schedule.
@@ -1099,18 +1113,22 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 	You must first select a student by using the "Find a Student" search screen.
 </p>
 HTML;
-}
-else
+
+	// Parent & Student.
+else :
+
 	$help['Scheduling/Schedule.php'] = <<<HTML
 <p>
 	<i>Schedule</i> is a display of your child's course schedule.
 </p>
 HTML;
 
+endif;
 
-// GRADES
-if ( User( 'PROFILE' ) === 'admin' )
-{
+
+// GRADES ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Grades/ReportCards.php'] = <<<HTML
 <p>
 	<i>Report Cards</i> is a utility that allows you to print report cards for any number of students.
@@ -1308,9 +1326,9 @@ HTML;
 	RosarioSIS needs credits to calculate the GPA. Please check the "Credits" tab and adjust the credits for each course as needed.
 </p>
 HTML;
-}
-elseif ( User( 'PROFILE' ) === 'teacher' )
-{
+
+elseif ( User( 'PROFILE' ) === 'teacher' ) :
+
 	$help['Grades/InputFinalGrades.php'] = <<<HTML
 <p>
 	<i>Input Final Grades</i> allows you to enter quarter, semester grades for all your students in the current period. By default, this program will list the students in your first period class for the current quarter. You can alter the quarter by changing the marking period pull-down menu on the left frame. Also, you can select the current semester or semester final by changing the marking period pull-down menu at the top of the screen to the desired marking period.
@@ -1382,9 +1400,10 @@ HTML;
 	The progress reports will be automatically downloaded to your computer in the printable PDF format when you click the "Submit" button.
 </p>
 HTML;
-}
-else
-{
+
+	// Parent & Student.
+else :
+
 	$help['Grades/ReportCards.php'] = <<<HTML
 <p>
 	<i>Report Cards</i> is a utility that allows you to print report cards for your child.
@@ -1423,12 +1442,13 @@ HTML;
 	<i>GPA / Class Rank</i> is a report that shows the unweighted GPA, weighted GPA, and class rank of your child.
 </p>
 HTML;
-}
+
+endif;
 
 
-// ATTENDANCE
-if ( User( 'PROFILE' ) === 'admin' )
-{
+// ATTENDANCE ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Attendance/Administration.php'] = <<<HTML
 <p>
 	<i>Administration</i> allows you to view and change the student attendance records for any given day.
@@ -1554,9 +1574,9 @@ HTML;
 	From the search result, you can select any number of students. You can select all the students in the list by checking the checkbox in the column headings above the list. After you have selected each desired student from this list, click "Create Attendance Report for Select Students" to generate the report in a PDF format.
 </p>
 HTML;
-}
-elseif ( User( 'PROFILE' ) === 'teacher' )
-{
+
+elseif ( User( 'PROFILE' ) === 'teacher' ) :
+
 	$help['Attendance/TakeAttendance.php'] = <<<HTML
 <p>
 	<i>Take Attendance</i> allows you to enter period attendance for all your students in the current period. By default, this program will list the students in your first period class. You can alter the current period by changing the period pull-down menu in the left frame to the desired period.
@@ -1565,8 +1585,10 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 	Once you are in the correct period, you can enter attendance by selecting the attendance code corresponding to each student. Once you have entered attendance for all your students, click the "Save" button at the top of the screen.
 </p>
 HTML;
-}
-else
+
+	// Parent & Student.
+else :
+
 	$help['Attendance/DailySummary.php'] = <<<HTML
 <p>
 	<i>Daily Summary</i> is a report that shows the daily attendance status of your child during any timeframe.
@@ -1576,10 +1598,12 @@ else
 </p>
 HTML;
 
+endif;
 
-// ELIGIBILITY
-if ( User( 'PROFILE' ) === 'admin' )
-{
+
+// ELIGIBILITY ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Eligibility/Student.php'] = <<<HTML
 <p>
 	<i>Student Screen</i> is a display of the student's activities and the current timeframe's eligibility grades. The program also allows you to add and delete activities to the student.
@@ -1651,9 +1675,9 @@ HTML;
 	You can select the current date range from the pull-down menu at the top of the screen. You can also show only one period by choosing that period from the period pull-down menu at the top of the screen. After choosing a date range or period, click the "Go" button to refresh the list with the new parameters.
 </p>
 HTML;
-}
-elseif ( User( 'PROFILE' ) === 'teacher' )
-{
+
+elseif ( User( 'PROFILE' ) === 'teacher' ) :
+
 	$help['Eligibility/EnterEligibility.php'] = <<<HTML
 <p>
 	<i>Enter Eligibility</i> allows you to enter eligibility grades for all your students in the current period. By default, this program will list the students in your first period class. You can alter the current period by changing the period pull-down menu in the left frame to the desired period.
@@ -1668,9 +1692,10 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 	You must enter eligibility each week during the timeframe specified by your school's administration.
 </p>
 HTML;
-}
-else
-{
+
+	// Parent & Student.
+else :
+
 	$help['Eligibility/Student.php'] = <<<HTML
 <p>
 	<i>Student Screen</i> is a display of your child's activities and the current timeframe's eligibility grades.
@@ -1688,4 +1713,5 @@ HTML;
 	You can specify the eligibility timeframe you want to view by choosing the timeframe from the pull-down menu at the top of the screen and clicking the "Go" button. Eligibility is entered once per week.
 </p>
 HTML;
-}
+
+endif;

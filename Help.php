@@ -1,51 +1,67 @@
 <?php
+/**
+ * Help
+ *
+ * Generate the Help / Handbook PDF
+ * Translated if Help_[2_letters_locale].php file exists
+ * Based on user profile
+ *
+ * @package RosarioSIS
+ */
 
 require_once 'Warehouse.php';
 
 $help_translated = 'Help_' . mb_substr( $locale, 0, 2 ) . '.php';
 $help_english = 'Help_en.php';
 
-if ( file_exists( $help_translated ) ) //FJ translated help
+if ( file_exists( $help_translated ) ) // FJ translated help.
+{
 	require_once $help_translated;
-
+}
 else
 	require_once $help_english;
 
-//FJ add help for non-core modules
+// FJ add help for non-core modules.
 $not_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
 
-foreach ( (array)$not_core_modules as $not_core_module )
+foreach ( (array) $not_core_modules as $not_core_module )
 {
 	$not_core_dir = 'modules/' . $not_core_module . '/';
 
-	if ( file_exists( $not_core_dir . $help_translated ) ) //FJ translated help
+	if ( file_exists( $not_core_dir . $help_translated ) ) // FJ translated help.
+	{
 		require_once $not_core_dir . $help_translated;
-
+	}
 	elseif ( file_exists( $not_core_dir . $help_english ) )
+	{
 		require_once $not_core_dir . $help_english;
+	}
 }
 
-switch( User( 'PROFILE' ) )
+switch ( User( 'PROFILE' ) )
 {
 	case 'admin':
+
 		$title = _( 'Administrator' );
 	break;
 
 	case 'teacher':
+
 		$title = _( 'Teacher' );
 	break;
 
 	case 'parent':
+
 		$title = _( 'Parent' );
 	break;
-	
+
 	case 'student':
+
 		$title = _( 'Student' );
 	break;
 }
 
-$handle = PDFStart();
-?>
+$handle = PDFStart(); ?>
 
 <table>
 	<tr>
@@ -60,11 +76,11 @@ $handle = PDFStart();
 <hr />
 
 <?php
-foreach ( (array)$help as $program => $value )
-{
-	// FJ zap programs which are not allowed
+foreach ( (array) $help as $program => $value ) :
+
+	// FJ zap programs which are not allowed.
 	if ( $program !== 'default'
-		&& !AllowUse( $program ) )
+		&& ! AllowUse( $program ) )
 	{
 		continue;
 	}
@@ -75,30 +91,34 @@ foreach ( (array)$help as $program => $value )
 	{
 		$modcat = mb_substr( $program, 0, mb_strpos( $program, '/' ) );
 
-		if ( !$RosarioModules[$modcat] ) //module not activated
+		if ( ! $RosarioModules[ $modcat ] ) // Module not activated.
+		{
 			break;
-	
+		}
+
 		if ( $modcat != $old_modcat
 			&& $modcat != 'Custom' ) : ?>
 
 			<div style="page-break-after: always;"></div>
 
-<?php
-			unset( $_ROSARIO['DrawHeader'] );
+			<?php
+				unset( $_ROSARIO['DrawHeader'] );
 
-			$_ROSARIO['HeaderIcon'] = 'modules/' . $modcat . '/icon.png';
+				$_ROSARIO['HeaderIcon'] = 'modules/' . $modcat . '/icon.png';
 
-			$modcat_echo = str_replace( '_', ' ',  $modcat );
+				$modcat_echo = str_replace( '_', ' ',  $modcat );
 
-			echo DrawHeader( _( $modcat_echo ) );
-?>
+				echo DrawHeader( _( $modcat_echo ) );
+			?>
 			<hr />
 
 		<?php
 		endif;
 
 		if ( $modcat != 'Custom' )
+		{
 			$old_modcat = $modcat;
+		}
 	}
 ?>
 
@@ -107,10 +127,11 @@ foreach ( (array)$help as $program => $value )
 
 <?php
 	if ( $program == 'default' )
+	{
 		echo ParseMLField( Config( 'TITLE' ) )
 			. ' - ' . sprintf( _( '%s Handbook' ), $title ) . '<br />'
 			. sprintf( _( 'version %s' ), '1.1' );
-
+	}
 	else
 		echo ( ProgramTitle() == 'RosarioSIS' ? $program : ProgramTitle() );
 ?>
@@ -122,10 +143,13 @@ foreach ( (array)$help as $program => $value )
 
 <?php
 	if ( User( 'PROFILE' ) == 'student' )
+	{
 		$value = str_replace(
 			'your child',
 			'yourself',
-			str_replace( 'your child\'s', 'your', $value ) );
+			str_replace( 'your child\'s', 'your', $value )
+		);
+	}
 
 	$value = str_replace( 'RosarioSIS', Config( 'NAME' ), $value );
 
@@ -138,12 +162,10 @@ foreach ( (array)$help as $program => $value )
 </div>
 <br />
 
-<?php
-} //end foreach
-?>
+<?php endforeach; ?>
 
-<div style="text-align: center; font-weight: bold;">
-	<a href="http://www.rosariosis.org/">http://www.rosariosis.org/</a>
+<div class="center">
+	<b><a href="http://www.rosariosis.org/">http://www.rosariosis.org/</a></b>
 </div>
 
 <?php

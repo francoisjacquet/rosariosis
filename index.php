@@ -38,7 +38,7 @@ elseif ( isset( $_POST['USERNAME'] )
 {
 	// FJ check accept cookies.
 	if ( ! isset( $_COOKIE['RosarioSIS'] )
-		&& ! isset( $_COOKIE[$default_session_name] ) )
+		&& ! isset( $_COOKIE[ $default_session_name ] ) )
 	{
 		header( 'Location: index.php?modfunc=logout&reason=cookie' );
 

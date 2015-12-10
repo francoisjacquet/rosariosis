@@ -7,13 +7,17 @@
  * - Profile
  *
  * @author François Jacquet
- * 
+ *
  * @uses Heredoc syntax
  * @see  http://php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc
+ *
+ * @package RosarioSIS
+ * @subpackage Help
  */
 
-// DEFAULT
-if ( User( 'PROFILE' ) === 'admin' )
+// DEFAULT ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['default'] = <<<HTML
 <p>
 	Como administrador, usted puede crear las instituciones en el sistema, modificar estudiantes y usuarios, y acceder a los reportes esenciales sobre los estudiantes.
@@ -35,7 +39,8 @@ if ( User( 'PROFILE' ) === 'admin' )
 </p>
 HTML;
 
-elseif ( User( 'PROFILE' ) === 'teacher' )
+elseif ( User( 'PROFILE' ) === 'teacher' ) :
+
 	$help['default'] = <<<HTML
 <p>
 	Como docente, usted puede ver datos de los estudiantes y horarios de los estudiantes que tiene, y con los cuales usted trabaja asistencia, calificaciones y elegibilidad. Usted tiene también un servicio de libro de calificaciones para hacer seguimiento de las calificaciones. El Libro de Calificaciones está integrado en el servicio Entrar Calificaciones Finales como también en el servicio Elegibilidad. Desde el Libro de Calificaciones, Usted también puede imprimir reportes de progreso par cualquier de sus estudiantes.
@@ -57,7 +62,8 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 </p>
 HTML;
 
-elseif ( User( 'PROFILE' ) === 'parent' )
+elseif ( User( 'PROFILE' ) === 'parent' ) :
+
 	$help['default'] = <<<HTML
 <p>
 	Como padre, usted puede ver los datos de sus estudiantes, los horarios, la elegibilidad, y la asistencia.
@@ -73,7 +79,8 @@ elseif ( User( 'PROFILE' ) === 'parent' )
 </p>
 HTML;
 
-elseif ( User( 'PROFILE' ) === 'student' )
+elseif ( User( 'PROFILE' ) === 'student' ) :
+
 	$help['default'] = <<<HTML
 <p>
 	Como estudiante, usted puede ver sus datos, horario, calificaciones, elegibilidad, y asistencia.
@@ -89,10 +96,12 @@ elseif ( User( 'PROFILE' ) === 'student' )
 </p>
 HTML;
 
+endif;
 
-// SCHOOL SETUP ---
-if ( User( 'PROFILE' ) === 'admin' )
-{
+
+// SCHOOL SETUP ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['School_Setup/Schools.php'] = <<<HTML
 <p>
 	<i>Información de la Institución</i> le permite cambiar el nombre, la dirección y el director de la institución. Haga clic sobre cualquier dato para cambiarlo. Después de haber hecho los cambios necesarios para su institución, presione el botón «Guardar» para guardar sus cambios.
@@ -297,9 +306,10 @@ HTML;
 	Pestaña <b>Plugins</b>: gestionar los plugins de RosarioSIS. Activar, desactivar y configurar los plugins. Haga clic sobre el título del plugin para obtener más información.
 </p>
 HTML;
-}
-else
-{
+
+	// Teacher & Parent & Student.
+else :
+
 	$help['School_Setup/Schools.php'] = <<<HTML
 <p>
 	<i>Información de la Institución</i> muestra el nombre, la dirección, y el director de la institución.
@@ -320,12 +330,13 @@ HTML;
 	Si la institución usa una rotación de días enumerados, el número del día aparece en la caja de los días de institución.
 </p>
 HTML;
-}
+
+endif;
 
 
-// STUDENTS ---
-if ( User( 'PROFILE' ) === 'admin' )
-{
+// STUDENTS ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Students/Student.php&include=General_Info&student_id=new'] = <<<HTML
 <p>
 	<i>Agregar un Estudiante</i> le permite agregar un estudiante y matricularlo.
@@ -618,9 +629,10 @@ HTML;
 	Para eliminar un código de matrícula, haga clic sobre el icono «-» al lado del código de matrícula que quiere eliminar. Se le preguntará si desea confirmar la eliminación.
 </p>
 HTML;
-}
-else
-{
+
+	// Teacher & Parent & Student.
+else :
+
 	$help['Students/Datos Personales'] = <<<HTML
 <p>
 	<i>Datos Personales</i> muestra los datos fundamentales del estudiante.
@@ -641,12 +653,13 @@ HTML;
 	<i>Matrícula</i> muestra el historial de matrícula del estudiante.
 </p>
 HTML;
-}
+
+endif;
 
 
-// USERS
-if ( User( 'PROFILE' ) === 'admin' )
-{
+// USERS ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Users/User.php'] = <<<HTML
 <p>
 	<i>Datos Personales</i> muestra los datos fundamentales de un usuario. Si usted es administrador, usted puede cambiar cualquier dato haciendo clic sobre el dato que quiere cambiar, cambiando el dato, y presionando el botón «Guardar» en la parte superior de la pantalla. Usted puede eliminar un usuario presionando el botón «Eliminar» en la parte superior de la pantalla. Note que usted nunca debería eliminar un docente después que el ha dado una clase, porque el usuario debe quedar para que el nombre del docente pueda aparecer en los expedientes académicos.
@@ -880,12 +893,13 @@ HTML;
 	Usted debe entrar la elegibilidad cada semana durante el transcurso especificado por el administrador de su institución.
 </p>
 HTML;
-}
+
+endif;
 
 
-// SCHEDULING
-if ( User( 'PROFILE' ) === 'admin' )
-{
+// SCHEDULING ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Scheduling/Schedule.php'] = <<<HTML
 <p>
 	<i>Horario Estudiante</i> le permite cambiar el horario de un estudiante.
@@ -1110,9 +1124,9 @@ HTML;
 	Una vez que el programador ha corrido, lo que puede tomar algunos minutos, le mostrara las Solicitudes Incompletas.
 </p>
 HTML;
-}
-elseif ( User( 'PROFILE' ) === 'teacher' )
-{
+
+elseif ( User( 'PROFILE' ) === 'teacher' ) :
+
 	$help['Scheduling/Schedule.php'] = <<<HTML
 <p>
 	<i>Horario Estudiante</i> muestra el horario de los estudiantes.
@@ -1121,18 +1135,22 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 	Usted debe primero seleccionar un estudiante usando la pantalla de búsqueda «Encontrar un Estudiante».
 </p>
 HTML;
-}
-else
+
+	// Parent & Student.
+else :
+
 	$help['Scheduling/Schedule.php'] = <<<HTML
 <p>
 	<i>Horario Estudiante</i> muestra el horario de sus estudiantes.
 </p>
 HTML;
 
+endif;
 
-// GRADES
-if ( User( 'PROFILE' ) === 'admin' )
-{
+
+// GRADES ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Grades/ReportCards.php'] = <<<HTML
 <p>
 	<i>Boletines de Calificaciones</i> le permite imprimir boletines de calificaciones para cualquier número de estudiantes.
@@ -1324,9 +1342,9 @@ HTML;
 	RosarioSIS necesita créditos para calcular el promedio. Por favor consulte la pestaña "Créditos" y ajuste los créditos de cada curso como debe ser.
 </p>
 HTML;
-}
-elseif ( User( 'PROFILE' ) === 'teacher' )
-{
+
+elseif ( User( 'PROFILE' ) === 'teacher' ) :
+
 	$help['Grades/InputFinalGrades.php'] = <<<HTML
 <p>
 	<i>Entrar Calificaciones Finales</i> le permite entrar las calificaciones del bimestre, semestre para todos sus estudiantes en la clase actual. Por defecto, el servicio lista los estudiantes en su primera clase para el bimestre actual. Usted puede cambiar el bimestre en el menú desplegable en el marco izquierdo. Usted también puede seleccionar el semestre actual en el menú desplegable en la parte superior de la pantalla.
@@ -1395,9 +1413,10 @@ HTML;
 	Los reportes serán automáticamente creados en el formato imprimible PDF cuando usted presione el botón «Crear Reportes de Progreso para los Estudiantes Seleccionados».
 </p>
 HTML;
-}
-else
-{
+
+	// Parent & Student.
+else :
+
 	$help['Grades/ReportCards.php'] = <<<HTML
 <p>
 	<i>Boletines de Calificaciones</i> le permite imprimir boletines de calificaciones para su estudiante.
@@ -1436,12 +1455,13 @@ HTML;
 	<i>Promedio / Puesto en la Clase</i> es un reporte que muestra el promedio ponderado y no ponderado, y el puesto en la clase de su estudiante.
 </p>
 HTML;
-}
+
+endif;
 
 
-// ATTENDANCE
-if ( User( 'PROFILE' ) === 'admin' )
-{
+// ATTENDANCE ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Attendance/Administration.php'] = <<<HTML
 <p>
 	<i>Administración</i> le permite ver y cambiar los registros de asistencia de cualquier día.
@@ -1540,7 +1560,7 @@ HTML;
 	En el caso de que un estudiante este retirado de manera retroactiva de un curso, pero la asistencia ya ha sido tomada por docentes o administradores para fechas posteriores a la fecha de retiro.
 </p>
 HTML;
-	
+
 	$help['Attendance/AttendanceCodes.php'] = <<<HTML
 <p>
 	<i>Códigos de Asistencia</i> le permite configurar los códigos de asistencia de su institución. Los códigos de asistencia son usados en el servicio «Tomar Asistencia» del docente (también como en la mayoría de los reportes de Asistencia) y especifican si el estudiante estaba presente o no durante la hora y si no, la razón.
@@ -1567,9 +1587,9 @@ HTML;
 	Desde el resultado de la búsqueda, usted puede seleccionar cualquier número de estudiantes. Usted puede seleccionar todos los estudiantes de la lista haciendo clic sobre la casilla en el encabezado de la lista. Después de seleccionar los estudiantes, presione "Crear Reporte de Asistencia para los Estudiantes Seleccionados" para generar el reporte en formato PDF.
 </p>
 HTML;
-}
-elseif ( User( 'PROFILE' ) === 'teacher' )
-{
+
+elseif ( User( 'PROFILE' ) === 'teacher' ) :
+
 	$help['Attendance/TakeAttendance.php'] = <<<HTML
 <p>
 	<i>Tomar Asistencia</i> le permite entrar la asistencia para todos los estudiantes de la clase actual. Por defecto, el servicio lista los estudiantes de su primera clase. Usted puede cambiar la clase actual en el menú desplegable en el marco izquierdo.
@@ -1578,8 +1598,10 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 	Una vez que está en la clase correcta, usted puede tomar la asistencia seleccionando el código de asistencia para cada estudiante. Una vez que usted ha tomado la asistencia para todos sus estudiantes, presione el botón «Guardar» en la parte superior de la pantalla.
 </p>
 HTML;
-}
-else
+
+	// Parent & Student.
+else :
+
 	$help['Attendance/DailySummary.php'] = <<<HTML
 <p>
 	<i>Resumen Diario</i> es un reporte que muestra la asistencia diaria de su estudiante durante un transcurso.
@@ -1589,10 +1611,12 @@ else
 </p>
 HTML;
 
+endif;
 
-// ELIGIBILITY
-if ( User( 'PROFILE' ) === 'admin' )
-{
+
+// ELIGIBILITY ---.
+if ( User( 'PROFILE' ) === 'admin' ) :
+
 	$help['Eligibility/Student.php'] = <<<HTML
 <p>
 	<i>Pantalla Estudiante</i> muestra las actividades del estudiante y las calificaciones de elegibilidad del transcurso actual. El servicio le permite también de agregar y eliminar actividades del estudiante.
@@ -1661,9 +1685,9 @@ HTML;
 	Usted puede seleccionar el periodo actual en el menú desplegable en la parte superior de la pantalla. Usted también puede mostrar solamente una hora escogiendola desde el menú desplegable en la parte superior de la pantalla. Después de seleccionar un transcurso o una hora, presione el botón «Ir» para refrescar la lista.
 </p>
 HTML;
-}
-elseif ( User( 'PROFILE' ) === 'teacher' )
-{
+
+elseif ( User( 'PROFILE' ) === 'teacher' ) :
+
 	$help['Eligibility/EnterEligibility.php'] = <<<HTML
 <p>
 	<i>Entrar Elegibilidad</i> le permite entrar las calificaciones de elegibilidad para todos sus estudiantes en la clase actual. Por defecto, el servicio lista los estudiantes de su primera clase. Usted puede cambiar la clase actual en el menú desplegable del marco izquierdo.
@@ -1678,9 +1702,10 @@ elseif ( User( 'PROFILE' ) === 'teacher' )
 	Usted debe entrar la elegibilidad cada semena durante el transcurso especificado por la administración de su institución.
 </p>
 HTML;
-}
-else
-{
+
+	// Parent & Student.
+else :
+
 	$help['Eligibility/Student.php'] = <<<HTML
 <p>
 	<i>Pantalla Estudiante</i> muestra las actividades de su estudiante y las calificaciones de elegibilidad del transcurso actual.
@@ -1698,4 +1723,5 @@ HTML;
 	Usted puede especificar el transcurso de elegibilidad que quiere ver escogiendo las fechas en el menú desplegable en la parte superior de la pantalla y presionando el botón «Ir». La elegibilidad está entrada cada semana.
 </p>
 HTML;
-}
+
+endif;

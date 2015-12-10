@@ -1,14 +1,22 @@
 <?php
-// TRANSLATION: do NOT translate these error messages since they need to stay in English for technical support
+/**
+ * Diagnostic
+ *
+ * Check for missing PHP extensions, files or misconfigurations
+ *
+ * TRANSLATION: do NOT translate these error messages since they need to stay in English for technical support.
+ *
+ * @package RosarioSIS
+ */
 
 session_start();
 
 $error = array();
 
-//FJ check PHP version
+// FJ check PHP version.
 if ( version_compare( PHP_VERSION, '5.3.2' ) == -1 )
 {
-    $error[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
+	$error[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
 }
 
 if ( !isset( $_SESSION['STAFF_ID'] ) )
@@ -18,7 +26,7 @@ if ( !isset( $_SESSION['STAFF_ID'] ) )
 	$_SESSION['STAFF_ID'] = '-1';
 }
 
-//FJ verify PHP extensions and php.ini
+// FJ verify PHP extensions and php.ini.
 $inipath = php_ini_loaded_file();
 
 if ( $inipath )
@@ -28,21 +36,21 @@ if ( $inipath )
 else
 	$inipath = ' Note: No php.ini file is loaded!';
 
-//pgsql
-if ( !extension_loaded( 'pgsql' ) )
+// Check for pgsql extension.
+if ( ! extension_loaded( 'pgsql' ) )
 {
 	$error[] = 'PHP extensions: RosarioSIS relies on the pgsql (PostgreSQL) extension. See the php.ini file to activate it.' . $inipath;
 }
 
-//gettext
-if ( !extension_loaded( 'gettext' )
-	|| !function_exists( 'bindtextdomain' ) )
+// Check for gettext extension.
+if ( ! extension_loaded( 'gettext' )
+	|| ! function_exists( 'bindtextdomain' ) )
 {
 	$error[] = 'PHP extensions: RosarioSIS relies on the gettext extension. See the php.ini file to activate it.' . $inipath;
 }
 
-//mbstring
-if ( !extension_loaded( 'mbstring' ) )
+// Check for mbstring extension.
+if ( ! extension_loaded( 'mbstring' ) )
 {
 	$error[] = 'PHP extensions: RosarioSIS relies on the mbstring extension. See the php.ini file to activate it.' . $inipath;
 }
@@ -53,7 +61,7 @@ if ( count( $error ) )
 }
 
 
-if ( !file_exists( './Warehouse.php' ) )
+if ( ! file_exists( './Warehouse.php' ) )
 {
 	$error[] = 'The diagnostic.php file needs to be in the RosarioSIS directory to be able to run. Please move it there, and run it again.';
 }
@@ -61,23 +69,23 @@ else
 {
 	require_once './Warehouse.php';
 
-	if ( !@opendir( $RosarioPath . '/functions' ) )
+	if ( ! @opendir( $RosarioPath . '/functions' ) )
 	{
 		$error[] = 'The value for $RosarioPath in config.inc.php is not correct or else the functions directory does not have the correct permissions to be read by the webserver. Make sure $RosarioPath points to the RosarioSIS installation directory and that it is readable by all users.';
 	}
 
-	if ( !function_exists( 'pg_connect' ) )
+	if ( ! function_exists( 'pg_connect' ) )
 	{
 		$error[] = 'The pgsql extension (see the php.ini file) is not activated OR PHP was not compiled with PostgreSQL support. You may need to recompile PHP using the --with-pgsql option for RosarioSIS to work.';
 	}
 	else
 	{
-		if ( $DatabaseServer != 'localhost' )
+		if ( $DatabaseServer !== 'localhost' )
 		{
 			$connectstring = 'host=' . $DatabaseServer . ' ';
 		}
 
-		if ( $DatabasePort != '5432' )
+		if ( $DatabasePort !== '5432' )
 		{
 			$connectstring .= 'port=' . $DatabasePort .' ';
 		}
@@ -91,7 +99,7 @@ else
 
 		$connection = pg_connect( $connectstring );
 
-		if ( !$connection )
+		if ( ! $connection )
 		{
 			$error[] = 'RosarioSIS cannot connect to the PostgreSQL database. Either Postgres is not running, it was not started with the -i option, or connections from this host are not allowed in the pg_hba.conf file. Last Postgres Error: ' . pg_last_error();
 		}
@@ -117,15 +125,14 @@ else
 				}
 			}
 
-			
 			$result = @pg_exec( $connection, "SELECT * FROM STAFF WHERE SYEAR='" . $DefaultSyear . "'" );
 
-			if ( !pg_fetch_all( $result ) )
+			if ( ! pg_fetch_all( $result ) )
 			{
 				$error[] = 'The value for $DefaultSyear in config.inc.php is not correct.';
 			}
 
-			if ( !is_array( $RosarioLocales )
+			if ( ! is_array( $RosarioLocales )
 				|| empty( $RosarioLocales ) )
 			{
 				$error[] = 'The value for $RosarioLocales in config.inc.php is not correct.';
@@ -133,17 +140,17 @@ else
 		}
 	}
 
-	//FJ check wkhtmltopdf binary exists
-	if ( !empty( $wkhtmltopdfPath )
-		&& ( !file_exists( $wkhtmltopdfPath )
+	// FJ check wkhtmltopdf binary exists.
+	if ( ! empty( $wkhtmltopdfPath )
+		&& ( ! file_exists( $wkhtmltopdfPath )
 			|| strpos( basename( $wkhtmltopdfPath ), 'wkhtmltopdf' ) !== 0 ) )
 	{
 		$error[] = 'The value for $wkhtmltopdfPath in config.inc.php is not correct.';
 	}
 
-	//FJ check pg_dump binary exists
-	if ( !empty( $pg_dumpPath )
-		&& ( !file_exists( $pg_dumpPath )
+	// FJ check pg_dump binary exists.
+	if ( ! empty( $pg_dumpPath )
+		&& ( ! file_exists( $pg_dumpPath )
 			|| strpos( basename( $pg_dumpPath ), 'pg_dump' ) !== 0 ) )
 	{
 		$error[] = 'The value for $pg_dumpPath in config.inc.php is not correct.';
@@ -151,14 +158,14 @@ else
 
 }
 
-//xmlrpc
-if ( !extension_loaded( 'xmlrpc' ) )
+// Check for xmlrpc extension.
+if ( ! extension_loaded( 'xmlrpc' ) )
 {
 	$error[] = 'PHP extensions: RosarioSIS relies on the xmlrpc extension (only used to connect to Moodle). See the php.ini file to activate it.' . $inipath;
 }
 
-//session.auto_start
-if ( (bool)ini_get( 'session.auto_start' ) )
+// Check session.auto_start.
+if ( (bool) ini_get( 'session.auto_start' ) )
 {
 	$error[] = 'session.auto_start is set to On in your PHP configuration. See the php.ini file to deactivate it.' . $inipath;
 }
@@ -166,7 +173,7 @@ if ( (bool)ini_get( 'session.auto_start' ) )
 
 echo _ErrorMessage( $error, 'error' );
 
-if ( !count( $error ) )
+if ( ! count( $error ) )
 {
 	echo '<h3>Your RosarioSIS installation is properly configured.</h3>';
 }
@@ -177,28 +184,39 @@ if ( $unset_username )
 	unset( $_SESSION['STAFF_ID'] );
 }
 
-function _ErrorMessage( $errors, $code = 'error' )
-{
-	if ( $errors )
-	{
-		$return .= '<table cellpadding="10"><tr><td style="text-align:left;"><p style="font-size:larger;">';
 
-		if ( count( $errors ) == 1 )
+/**
+ * Error Message
+ *
+ * Local function
+ *
+ * @param  array  $error Errors.
+ * @param  string $code  error|fatal.
+ *
+ * @return string Errors HTML, exits if fatal error
+ */
+function _ErrorMessage( $error, $code = 'error' )
+{
+	if ( $error )
+	{
+		$return = '<table cellpadding="10"><tr><td style="text-align:left;"><p style="font-size:larger;">';
+
+		if ( count( $error ) == 1 )
 		{
-			if ( $code == 'error'
-				|| $code == 'fatal' )
+			if ( $code === 'error'
+				|| $code === 'fatal' )
 			{
 				$return .= '<b><span style="color:#CC0000">Error:</span></b> ';
 			}
 			else
 				$return .= '<b><span style="color:#00CC00">Note:</span></b> ';
 
-			$return .= ( ($errors[0]) ? $errors[0] : $errors[1] );
+			$return .= ( ($error[0]) ? $error[0] : $error[1] );
 		}
 		else
 		{
-			if ( $code == 'error'
-				|| $code == 'fatal' )
+			if ( $code === 'error'
+				|| $code === 'fatal' )
 			{
 				$return .= '<b><span style="color:#CC0000">Errors:</span></b>';
 			}
@@ -207,7 +225,7 @@ function _ErrorMessage( $errors, $code = 'error' )
 
 			$return .= '<ul>';
 
-			foreach ( (array)$errors as $value )
+			foreach ( (array) $error as $value )
 			{
 				$return .= '<li>' . $value . '</li>';
 			}
@@ -217,11 +235,11 @@ function _ErrorMessage( $errors, $code = 'error' )
 
 		$return .= '</p></td></tr></table><br />';
 
-		if ( $code == 'fatal' )
+		if ( $code === 'fatal' )
 		{
 			echo $return;
 
-			if ( !isset( $_REQUEST['_ROSARIO_PDF'] )
+			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
 				&& function_exists( 'Warehouse' ) )
 			{
 				Warehouse( 'footer' );
