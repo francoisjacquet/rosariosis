@@ -5,9 +5,9 @@ DrawHeader(ProgramTitle());
 
 if ( $_REQUEST['modfunc']=='update')
 {
-	foreach ( (array)$_REQUEST['year_values'] as $id => $column)
+	foreach ( (array) $_REQUEST['year_values'] as $id => $column)
 	{
-		foreach ( (array)$column as $colname => $colvalue)
+		foreach ( (array) $column as $colname => $colvalue)
 		{
 			if ( $_REQUEST['day_values'][$id][$colname] && $_REQUEST['month_values'][$id][$colname] && $_REQUEST['year_values'][$id][$colname])
 				$_REQUEST['values'][$id][$colname] = $_REQUEST['day_values'][$id][$colname].'-'.
@@ -16,13 +16,13 @@ if ( $_REQUEST['modfunc']=='update')
 		}
 	}
 
-	foreach ( (array)$_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
 		if ( $id!='new')
 		{
 			$sql = "UPDATE history_marking_periods SET ";
 
-			foreach ( (array)$columns as $column => $value)
+			foreach ( (array) $columns as $column => $value)
 				$sql .= $column."='".$value."',";
 
 			if ( $_REQUEST['tab_id']!='new')
@@ -39,7 +39,7 @@ if ( $_REQUEST['modfunc']=='update')
 			$values = "NEXTVAL('MARKING_PERIOD_SEQ'), ".UserSchool().", ";
 
 			$go = false;
-			foreach ( (array)$columns as $column => $value)
+			foreach ( (array) $columns as $column => $value)
 				if ( !empty($value) || $value=='0')
 				{
 					$fields .= $column.',';
@@ -169,7 +169,7 @@ function makeSchoolYearSelectInput( $value, $name )
 
 	$years = range( UserSyear() - 5, UserSyear() );
 
-	foreach ( (array)$years as $year )
+	foreach ( (array) $years as $year )
 		//FJ school year over one/two calendar years format
 		$options[$year] = FormatSyear( $year, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 

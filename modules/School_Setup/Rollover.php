@@ -15,7 +15,7 @@ if ( $RosarioModules['Discipline'])
 
 $table_list = '<table style="float: left">';
 
-foreach ( (array)$tables as $table => $name)
+foreach ( (array) $tables as $table => $name)
 {
 	if ( $table!='FOOD_SERVICE_STAFF_ACCOUNTS')
 		$exists_RET[$table] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM $table WHERE SYEAR='".$next_syear."'".(!$no_school_tables[$table]?" AND SCHOOL_ID='".UserSchool()."'":'')));
@@ -51,7 +51,7 @@ if (Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to ro
 		{
 			if (count($_REQUEST['tables']))
 			{
-				foreach ( (array)$_REQUEST['tables'] as $table => $value)
+				foreach ( (array) $_REQUEST['tables'] as $table => $value)
 				{
 					//hook
 					do_action('School_Setup/Rollover.php|rollover_checks');
@@ -88,7 +88,7 @@ function Rollover($table)
 			//FJ add School Fields
 			$school_custom='';
 			$fields_RET = DBGet(DBQuery("SELECT ID FROM SCHOOL_FIELDS"));
-			foreach ( (array)$fields_RET as $field)
+			foreach ( (array) $fields_RET as $field)
 				$school_custom .= ',CUSTOM_'.$field['ID'];
 			DBQuery("DELETE FROM SCHOOLS WHERE SYEAR='".$next_syear."'");
             DBQuery("INSERT INTO SCHOOLS (SYEAR,ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,PRINCIPAL,WWW_ADDRESS,SCHOOL_NUMBER,SHORT_NAME,REPORTING_GP_SCALE,NUMBER_DAYS_ROTATION".$school_custom.") SELECT SYEAR+1,ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,PRINCIPAL,WWW_ADDRESS,SCHOOL_NUMBER,SHORT_NAME,REPORTING_GP_SCALE,NUMBER_DAYS_ROTATION".$school_custom." FROM SCHOOLS WHERE SYEAR='".UserSyear()."'");
@@ -97,7 +97,7 @@ function Rollover($table)
 		case 'STAFF':
 			$user_custom='';
 			$fields_RET = DBGet(DBQuery("SELECT ID FROM STAFF_FIELDS"));
-			foreach ( (array)$fields_RET as $field)
+			foreach ( (array) $fields_RET as $field)
 				$user_custom .= ',CUSTOM_'.$field['ID'];
 			if ( $RosarioModules['Food_Service'])
 			{
@@ -148,7 +148,7 @@ function Rollover($table)
 			$db_case_array = array('puc.TITLE');
 			
 			$mp_next = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,ROLLOVER_ID,MP FROM SCHOOL_MARKING_PERIODS WHERE (MP='QTR' OR MP='SEM') AND SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
-			foreach ( (array)$mp_next as $mp)
+			foreach ( (array) $mp_next as $mp)
 			{
 				$db_case_array[] = "'FY-".$mp['ROLLOVER_ID']."'";
 				$db_case_array[] = "'FY-".$mp['MARKING_PERIOD_ID']."'";
@@ -184,7 +184,7 @@ function Rollover($table)
 			DBQuery("INSERT INTO COURSE_PERIODS (SYEAR,SCHOOL_ID,COURSE_PERIOD_ID,COURSE_ID,TITLE,SHORT_NAME,MP,MARKING_PERIOD_ID,TEACHER_ID,ROOM,TOTAL_SEATS,FILLED_SEATS,DOES_ATTENDANCE,GRADE_SCALE_ID,DOES_HONOR_ROLL,DOES_CLASS_RANK,DOES_BREAKOFF,GENDER_RESTRICTION,HOUSE_RESTRICTION,CREDITS,AVAILABILITY,HALF_DAY,PARENT_ID,CALENDAR_ID,ROLLOVER_ID) SELECT SYEAR+1,SCHOOL_ID,".db_seq_nextval('COURSE_PERIODS_SEQ').",(SELECT COURSE_ID FROM COURSES c WHERE c.SCHOOL_ID=p.SCHOOL_ID AND c.ROLLOVER_ID=p.COURSE_ID),TITLE,SHORT_NAME,MP,(SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS n WHERE n.MP=p.MP AND n.SCHOOL_ID=p.SCHOOL_ID AND n.ROLLOVER_ID=p.MARKING_PERIOD_ID),(SELECT STAFF_ID FROM STAFF n WHERE n.ROLLOVER_ID=p.TEACHER_ID),ROOM,TOTAL_SEATS,0 AS FILLED_SEATS,DOES_ATTENDANCE,(SELECT ID FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID=p.SCHOOL_ID AND ROLLOVER_ID=p.GRADE_SCALE_ID),DOES_HONOR_ROLL,DOES_CLASS_RANK,DOES_BREAKOFF,GENDER_RESTRICTION,HOUSE_RESTRICTION,CREDITS,AVAILABILITY,HALF_DAY,PARENT_ID,(SELECT CALENDAR_ID FROM ATTENDANCE_CALENDARS WHERE SCHOOL_ID=p.SCHOOL_ID AND ROLLOVER_ID=p.CALENDAR_ID),COURSE_PERIOD_ID FROM COURSE_PERIODS p WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'");
 			DBQuery("UPDATE COURSE_PERIODS SET PARENT_ID=(SELECT cp.COURSE_PERIOD_ID FROM COURSE_PERIODS cp WHERE cp.ROLLOVER_ID=course_periods.PARENT_ID) WHERE PARENT_ID IS NOT NULL AND SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."'");
 			$categories_RET = DBGet(DBQuery("SELECT ID,ROLLOVER_ID FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
-			foreach ( (array)$categories_RET as $value)
+			foreach ( (array) $categories_RET as $value)
 				DBQuery("UPDATE COURSE_PERIODS SET DOES_ATTENDANCE=replace(DOES_ATTENDANCE,',$value[ROLLOVER_ID],',',$value[ID],') WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."'");
 				
 			//hook
@@ -231,7 +231,7 @@ function Rollover($table)
 			DBQuery("DELETE FROM $table WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."'");
 			$table_properties = db_properties($table);
 			$columns = '';
-			foreach ( (array)$table_properties as $column => $values)
+			foreach ( (array) $table_properties as $column => $values)
 			{
 				if ( $column!='ID' && $column!='SYEAR')
 					$columns .= ','.$column;
@@ -244,7 +244,7 @@ function Rollover($table)
 			DBQuery("DELETE FROM $table WHERE SYEAR='".$next_syear."'");
 			$table_properties = db_properties($table);
 			$columns = '';
-			foreach ( (array)$table_properties as $column => $values)
+			foreach ( (array) $table_properties as $column => $values)
 			{
 				if ( $column!='ID' && $column!='SYEAR')
 					$columns .= ','.$column;

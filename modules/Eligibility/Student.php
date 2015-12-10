@@ -34,7 +34,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	// GET ALL THE CONFIG ITEMS FOR ELIGIBILITY
 	$eligibility_config = ProgramConfig( 'eligibility' );
 
-	foreach ( (array)$eligibility_config as $value )
+	foreach ( (array) $eligibility_config as $value )
 	{
 		${$value[1]['TITLE']} = $value[1]['VALUE'];
 	}
@@ -108,7 +108,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	$activities_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	if (count($activities_RET))
 	{
-		foreach ( (array)$activities_RET as $value)
+		foreach ( (array) $activities_RET as $value)
 			$activities[$value['ID']] = $value['TITLE'];
 	}
 

@@ -1,67 +1,77 @@
 <?php
+/**
+ * Index
+ *
+ * Login screen
+ *
+ * @package RosarioSIS
+ */
 
-//FJ bugfix check accept cookies
+// FJ bugfix check accept cookies.
 $default_session_name = session_name();
 
 require_once 'Warehouse.php';
 
-// Logout
+// Logout.
 if ( isset( $_REQUEST['modfunc'] )
 	&& $_REQUEST['modfunc'] === 'logout' )
 {
-	//FJ set logout page to old session locale
+	// FJ set logout page to old session locale.
 	$old_session_locale = $_SESSION['locale'];
 
 	session_unset();
 
 	session_destroy();
 
-	// redirect to index.php with same locale as old session & eventual reason
-	header( 'Location: index.php?locale=' . $old_session_locale
-		. ( isset( $_REQUEST['reason'] ) ? '&reason=' . $_REQUEST['reason'] : '' ) );
+	// Redirect to index.php with same locale as old session & eventual reason.
+	header( 'Location: index.php?locale=' . $old_session_locale .
+		( isset( $_REQUEST['reason'] ) ? '&reason=' . $_REQUEST['reason'] : '' ) );
 
 	exit;
 }
 
-// Login
+// Login.
 elseif ( isset( $_POST['USERNAME'] )
 	&& $_REQUEST['USERNAME'] !== ''
 	&& isset( $_POST['PASSWORD'] )
 	&& $_REQUEST['PASSWORD'] !== '' )
 {
-	//FJ check accept cookies
-	if ( !isset( $_COOKIE['RosarioSIS'] )
-		&& !isset( $_COOKIE[$default_session_name] ) )
+	// FJ check accept cookies.
+	if ( ! isset( $_COOKIE['RosarioSIS'] )
+		&& ! isset( $_COOKIE[$default_session_name] ) )
 	{
 		header( 'Location: index.php?modfunc=logout&reason=cookie' );
 
 		exit;
 	}
 
-	//only regenerate session ID if session.auto_start == 0
+	// Only regenerate session ID if session.auto_start == 0.
 	elseif ( isset( $_COOKIE['RosarioSIS'] ) )
-		session_regenerate_id( true ); //and invalidate old session
+	{
+		session_regenerate_id( true ); // And invalidate old session.
+	}
 
 	$username = $_REQUEST['USERNAME'];
 
 	unset( $_REQUEST['USERNAME'], $_POST['USERNAME'] );
 
-	// lookup for user $username in DB
+	// Lookup for user $username in DB.
 	$login_RET = DBGet( DBQuery( "SELECT USERNAME,PROFILE,STAFF_ID,LAST_LOGIN,FAILED_LOGIN,PASSWORD
 	FROM STAFF
 	WHERE SYEAR='" . Config( 'SYEAR' ) . "'
 	AND UPPER(USERNAME)=UPPER('" . $username . "')" ) );
-	
+
 	if ( $login_RET
 		&& match_password( $login_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'] ) )
+	{
 		unset( $_REQUEST['PASSWORD'], $_POST['PASSWORD'] );
-
+	}
 	else
 		$login_RET = false;
-	
-	if ( !$login_RET )
+
+	if ( ! $login_RET )
 	{
-		// lookup for student $username in DB
+		// Lookup for student $username in DB.
 		$student_RET = DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,s.FAILED_LOGIN,s.PASSWORD
 			FROM STUDENTS s,STUDENT_ENROLLMENT se
 			WHERE se.STUDENT_ID=s.STUDENT_ID
@@ -69,12 +79,14 @@ elseif ( isset( $_POST['USERNAME'] )
 			AND CURRENT_DATE>=se.START_DATE
 			AND (CURRENT_DATE<=se.END_DATE OR se.END_DATE IS NULL)
 			AND UPPER(s.USERNAME)=UPPER('" . $username . "')" ) );
-		
+
 		if ( $student_RET
 			&& match_password( $student_RET[1]['PASSWORD'], $_REQUEST['PASSWORD'] ) )
+		{
 			unset( $_REQUEST['PASSWORD'], $_POST['PASSWORD'] );
+		}
 
-		//student account not verified (enrollment school + start date + last login are NULL)
+		// Student account not verified (enrollment school + start date + last login are NULL).
 		elseif ( DBGet( DBQuery( "SELECT s.USERNAME,s.STUDENT_ID,s.LAST_LOGIN,s.FAILED_LOGIN,se.START_DATE
 			FROM STUDENTS s,STUDENT_ENROLLMENT se
 			WHERE se.STUDENT_ID=s.STUDENT_ID
@@ -82,13 +94,14 @@ elseif ( isset( $_POST['USERNAME'] )
 			AND se.START_DATE IS NULL
 			AND s.LAST_LOGIN IS NULL
 			AND UPPER(s.USERNAME)=UPPER('" . $username . "')")))
+		{
 			$student_RET = 0;
-
+		}
 		else
 			$student_RET = false;
 	}
-	
-	// Admin, teacher or parent: initiate session
+
+	// Admin, teacher or parent: initiate session.
 	if ( $login_RET
 		&& ( $login_RET[1]['PROFILE'] === 'admin'
 			|| $login_RET[1]['PROFILE'] === 'teacher'
@@ -104,9 +117,9 @@ elseif ( isset( $_POST['USERNAME'] )
 			SET LAST_LOGIN=CURRENT_TIMESTAMP,FAILED_LOGIN=NULL
 			WHERE STAFF_ID='" . $login_RET[1]['STAFF_ID'] . "'" );
 
-		// if 1st login, Confirm Successful Installation screen
-		if ( Config( 'LOGIN' ) === 'No' )
-		{
+		// If 1st login, Confirm Successful Installation screen.
+		if ( Config( 'LOGIN' ) === 'No' ) :
+
 			Warehouse( 'header' ); ?>
 
 	<form action="index.php" method="POST" target="_top"><br />
@@ -117,7 +130,7 @@ elseif ( isset( $_POST['USERNAME'] )
 		<h4>
 			<?php
 				echo sprintf(
-					_('You have successfully installed %s.'),
+					_( 'You have successfully installed %s.' ),
 					ParseMLField( Config( 'TITLE' ) )
 				);
 			?>
@@ -141,16 +154,17 @@ elseif ( isset( $_POST['USERNAME'] )
 </body>
 </html>
 <?php 
-			// set Config( 'LOGIN' ) to Yes
+			// Set Config( 'LOGIN' ) to Yes.
 			DBQuery( "UPDATE CONFIG
 				SET CONFIG_VALUE='Yes'
 				WHERE TITLE='LOGIN'" );
 
 			exit;
-		}
+
+		endif;
 	}
 
-	// User with No access profile
+	// User with No access profile.
 	elseif ( ( $login_RET
 			&& $login_RET[1]['PROFILE'] == 'none' )
 		|| $student_RET === 0 )
@@ -159,7 +173,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			. _( 'You will be notified when it has been verified by a school administrator.' );
 	}
 
-	// Student: initiate session
+	// Student: initiate session.
 	elseif ( $student_RET )
 	{
 		$_SESSION['STUDENT_ID'] = $student_RET[1]['STUDENT_ID'];
@@ -173,11 +187,11 @@ elseif ( isset( $_POST['USERNAME'] )
 			WHERE STUDENT_ID='" . $student_RET[1]['STUDENT_ID'] . "'" );
 	}
 
-	// Failed login
+	// Failed login.
 	else
 	{
 		DBQuery( "UPDATE STAFF
-			SET FAILED_LOGIN=" . db_case( array( 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1') ) . "
+			SET FAILED_LOGIN=" . db_case( array( 'FAILED_LOGIN', "''", '1', 'FAILED_LOGIN+1' ) ) . "
 			WHERE UPPER(USERNAME)=UPPER('".$username."')
 			AND SYEAR='" . Config( 'SYEAR' ) . "'" );
 
@@ -190,7 +204,7 @@ elseif ( isset( $_POST['USERNAME'] )
 	}
 }
 
-//FJ create account
+// FJ create account.
 elseif ( isset( $_REQUEST['create_account'] ) )
 {
 	$include = false;
@@ -207,9 +221,10 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 		$include = 'Students/Student.php';
 	}
 
-	if ( !$include )
+	if ( ! $include )
+	{
 		unset( $_REQUEST['create_account'] );
-
+	}
 	else
 	{
 		Warehouse( 'header' );
@@ -223,14 +238,14 @@ elseif ( isset( $_REQUEST['create_account'] ) )
 }
 
 
-// Login screen
+// Login screen.
 if ( empty( $_SESSION['STAFF_ID'] )
 	&& empty( $_SESSION['STUDENT_ID'] )
-	&& !isset( $_REQUEST['create_account'] ) )
+	&& ! isset( $_REQUEST['create_account'] ) )
 {
 	$lang_2_chars = mb_substr( $locale, 0, 2 );
 
-	// Right to left direction
+	// Right to left direction.
 	$RTL_languages = array( 'ar', 'he', 'dv', 'fa', 'ur' );
 
 	$dir_RTL = in_array( $lang_2_chars, $RTL_languages ) ? ' dir="RTL"' : '';
@@ -259,34 +274,44 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		sprintf( _( '%s Login' ), Config( 'NAME' ) ),
 		'style="max-width: 550px;"'
 	);
-	
+
 	if ( isset( $_REQUEST['reason'] ) )
 	{
 		if ( $_REQUEST['reason'] == 'javascript' )
+		{
 			$note[] = sprintf(
 				_( 'You must have javascript enabled to use %s.' ),
 				Config( 'NAME' )
 			);
+		}
 
-		//FJ check accept cookies
+		// FJ check accept cookies.
 		elseif ( $_REQUEST['reason'] == 'cookie' )
+		{
 			$note[] = sprintf(
 				_( 'You must accept cookies to use %s.' ),
 				Config( 'NAME' )
 			);
+		}
 
-		//FJ create account
+		// FJ create account.
 		elseif ( $_REQUEST['reason'] == 'account_created' )
+		{
 			$note[] = _( 'Your account has been created.' ) . ' '
 				. _( 'You will be notified when it has been verified by a school administrator.' ) . ' '
 				. _( 'You will then be able to log in.' );
+		}
 	}
 
 	if ( isset( $error ) )
+	{
 		echo ErrorMessage( $error );
+	}
 
 	if ( isset( $note ) )
+	{
 		echo ErrorMessage( $note, 'note' );
+	}
 
 ?>
 
@@ -300,8 +325,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 			<h4><?php echo ParseMLField( Config( 'TITLE' ) ); ?></h4>
 			<table class="cellspacing-0 col1-align-right">
 
-			<?php // ng - choose language
-			if ( sizeof( $RosarioLocales ) > 1 ) : ?>
+			<?php // Choose language.
+			if ( count( $RosarioLocales ) > 1 ) : ?>
 
 				<tr>
 					<td>
@@ -370,7 +395,6 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		</td>
 		</tr>
 		<?php // System disclaimer. ?>
-
 		<tr>
 			<td colspan="2">
 				<span class="size-3">
@@ -401,8 +425,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 
 }
 
-// successfully logged in, display Portal
-elseif ( !isset( $_REQUEST['create_account'] ) )
+// Successfully logged in, display Portal.
+elseif ( ! isset( $_REQUEST['create_account'] ) )
 {
 	$_REQUEST['modname'] = 'misc/Portal.php';
 

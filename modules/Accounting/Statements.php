@@ -21,7 +21,7 @@ else
 	{
 		$SESSION_staff_id_save = UserStaffID();
 		$handle = PDFStart();
-		foreach ( (array)$RET as $staff)
+		foreach ( (array) $RET as $staff)
 		{
 				SetUserStaffID($staff['STAFF_ID']);
 

@@ -9,7 +9,7 @@ if ( $_REQUEST['modfunc']=='update')
 		if (count($_REQUEST['food_service']))
 		{
 			$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
-			foreach ( (array)$_REQUEST['food_service'] as $column_name => $value)
+			foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
 				$sql .= $column_name."='".trim($value)."',";
 			$sql = mb_substr($sql,0,-1)." WHERE STUDENT_ID='".UserStudentID()."'";
 			DBQuery($sql);
@@ -59,7 +59,7 @@ if ( !$_REQUEST['modfunc'] && UserStudentID())
 	{
 		$warning = _( 'Other students associated with the same account' ) . ':<br />';
 
-		foreach ( (array)$xstudents as $xstudent )
+		foreach ( (array) $xstudents as $xstudent )
 		{
 			$warning .= '&nbsp;' . $xstudent['FULL_NAME'] . '<br />';
 		}

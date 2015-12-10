@@ -15,7 +15,7 @@ if ( $_REQUEST['modfunc']=='update')
 					$table = 'REPORT_CARD_COMMENT_CATEGORIES';
 				else
 					$table = 'REPORT_CARD_COMMENTS';
-				foreach ( (array)$_REQUEST['values'] as $id => $columns)
+				foreach ( (array) $_REQUEST['values'] as $id => $columns)
 				{
 					//FJ fix SQL bug invalid sort order
 					if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -23,7 +23,7 @@ if ( $_REQUEST['modfunc']=='update')
 						if ( $id!='new')
 						{
 							$sql = "UPDATE $table SET ";
-							foreach ( (array)$columns as $column => $value)
+							foreach ( (array) $columns as $column => $value)
 								$sql .= $column."='".$value."',";
 
 							$sql = mb_substr($sql,0,-1) . " WHERE ID='".$id."'";
@@ -39,7 +39,7 @@ if ( $_REQUEST['modfunc']=='update')
 
 							$go = false;
 
-							foreach ( (array)$columns as $column => $value )
+							foreach ( (array) $columns as $column => $value )
 							{
 								if ( !empty($value) || $value=='0')
 								{
@@ -125,7 +125,7 @@ if (empty($_REQUEST['modfunc']))
 		if (empty($subjects_RET))
 			$subject_select .= '<option value="">'.sprintf(_('No %s were found.'),_('Courses')).'</option>';
 		else
-			foreach ( (array)$subjects_RET as $id => $subject)
+			foreach ( (array) $subjects_RET as $id => $subject)
 				$subject_select .= '<option value="'.$id.'"'.($_REQUEST['subject_id']==$id?' selected':'').'>'.$subject[1]['TITLE'].'</option>';
 
 		$subject_select .= '</select>';
@@ -140,7 +140,7 @@ if (empty($_REQUEST['modfunc']))
 		if (empty($courses_RET))
 			$course_select .= '<option value="">'.sprintf(_('No %s were found.'),_('Courses')).'</option>';
 		else
-			foreach ( (array)$courses_RET as $id => $course)
+			foreach ( (array) $courses_RET as $id => $course)
 				$course_select .= '<option value="'.$id.'"'.($_REQUEST['course_id']==$id?' selected':'').'>'.$course[1]['TITLE'].'</option>';
 
 
@@ -174,7 +174,7 @@ if (empty($_REQUEST['modfunc']))
 		$_REQUEST['tab_id'] = '-1'; //FJ default to -1 (General)
 
 	$tabs = array();
-	foreach ( (array)$categories_RET as $id => $category)
+	foreach ( (array) $categories_RET as $id => $category)
 	{
 		if ( $category[1]['COUNT'] || AllowEdit())
 		{
@@ -232,7 +232,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$code_select = array('' => _('N/A'));
 
-		foreach ( (array)$codes_RET as $code)
+		foreach ( (array) $codes_RET as $code)
 			$code_select[$code['ID']] = $code['TITLE'];
 
 		$functions = array('TITLE' => 'makeCommentsInput','SCALE_ID' => 'makeCommentsInput','SORT_ORDER' => 'makeCommentsInput');
@@ -340,7 +340,7 @@ function _makeColorInput( $value, $column )
 		$id = 'new';
 
 	/*$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
-	foreach ( (array)$colors as $color)
+	foreach ( (array) $colors as $color)
 	{
 		$color_select[$color] = array('<span style="background-color:'.$color.'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
 	}

@@ -3,13 +3,13 @@ if ( $_REQUEST['modfunc']=='update')
 {
 	if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 	{
-		foreach ( (array)$_REQUEST['values'] as $id => $columns)
+		foreach ( (array) $_REQUEST['values'] as $id => $columns)
 		{
 			if ( $id!='new')
 			{
 				$sql = "UPDATE RESOURCES SET ";
 							
-				foreach ( (array)$columns as $column => $value)
+				foreach ( (array) $columns as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -24,7 +24,7 @@ if ( $_REQUEST['modfunc']=='update')
 				$values = db_seq_nextval('RESOURCES_SEQ').",'".UserSchool()."',";
 
 				$go = 0;
-				foreach ( (array)$columns as $column => $value)
+				foreach ( (array) $columns as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{

@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc']=='update')
                 if ( !$RET || PromptX($title='Confirm',$question,$message))
                 {
                     $sql = 'UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ';
-                    foreach ( (array)$_REQUEST['food_service'] as $column_name => $value)
+                    foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
                         $sql .= $column_name."='".trim($value)."',";
                     $sql = mb_substr($sql,0,-1)." WHERE STAFF_ID='".UserStaffID()."'";
                     if ( $_REQUEST['food_service']['BARCODE'])
@@ -72,7 +72,7 @@ if ( $_REQUEST['modfunc']=='create')
         $values = "'".UserStaffID()."','0.00','0',";
         
         if (is_array($_REQUEST['food_service']))
-		 foreach ( (array)$_REQUEST['food_service'] as $column_name => $value)
+		 foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
 		 {
 		     $fields .= $column_name.',';
 		     $values .= "'".trim($value)."',";

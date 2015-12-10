@@ -79,11 +79,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		$result[0] = '';
 
-		foreach ( (array)$group_result as $item1 )
+		foreach ( (array) $group_result as $item1 )
 		{
 			$i = 0;
 
-			foreach ( (array)$item1 as $item2 )
+			foreach ( (array) $item1 as $item2 )
 			{
 				if ( $group_count == 1 )
 				{
@@ -93,7 +93,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 						&& $i != 1 )
 					{
 						//FJ fix error Warning: Invalid argument supplied for foreach()
-						//foreach ( (array)$group[0] as $column)
+						//foreach ( (array) $group[0] as $column)
 
 						$group[0] = $column;
 
@@ -107,7 +107,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				}
 				else
 				{
-					foreach ( (array)$item2 as $item3 )
+					foreach ( (array) $item2 as $item3 )
 					{
 						if ( $group_count == 2 )
 						{
@@ -117,7 +117,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 								&& $i != 1 )
 							{
 								//FJ fix error Warning: Invalid argument supplied for foreach()
-								//foreach ( (array)$group[0] as $column)
+								//foreach ( (array) $group[0] as $column)
 
 								$group[0] = $column;
 								
@@ -128,7 +128,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 								&& $i != 1 )
 							{
 								//FJ fix error Warning: Invalid argument supplied for foreach()
-								//foreach ( (array)$group[1] as $column)
+								//foreach ( (array) $group[1] as $column)
 
 								$group[1] = $column;
 								
@@ -140,7 +140,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 						}
 						else
 						{
-							foreach ( (array)$item3 as $item4 )
+							foreach ( (array) $item3 as $item4 )
 							{
 								if ( $group_count == 3 )
 								{
@@ -150,7 +150,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 										&& $i != 1 )
 									{
 										//FJ fix error Warning: Invalid argument supplied for foreach()
-										//foreach ( (array)$group[2] as $column)
+										//foreach ( (array) $group[2] as $column)
 
 										$group[2] = $column;
 										
@@ -235,11 +235,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				unset( $terms[trim( $word )] );
 			}
 
-			foreach ( (array)$result as $key => $value )
+			foreach ( (array) $result as $key => $value )
 			{
 				$values[$key] = 0;
 
-				foreach ( (array)$value as $val )
+				foreach ( (array) $value as $val )
 				{
 					//FJ better list searching by isolating the values
 					//$val = preg_replace('/[^a-zA-Z0-9 _]+/','',mb_strtolower($val));
@@ -252,7 +252,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					}
 
 					// +3 for each Term found
-					foreach ( (array)$terms as $term => $one )
+					foreach ( (array) $terms as $term => $one )
 					{
 						if ( mb_strpos( $val, $term ) !== FALSE )
 						{
@@ -309,7 +309,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		if ( !empty( $LO_sort ) )
 		{
-			foreach ( (array)$result as $sort )
+			foreach ( (array) $result as $sort )
 			{
 				if ( mb_substr( $sort[$LO_sort], 0, 4 ) != '<!--' )
 				{
@@ -541,7 +541,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		if ( $result_count!=0 && $cols)
 		{
-			foreach ( (array)$column_names as $key => $value)
+			foreach ( (array) $column_names as $key => $value)
 			{
 				if (isset($LO_sort) && $LO_sort==$key)
 					$direction = -1 * $_REQUEST['LO_direction'];
@@ -588,7 +588,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				elseif ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
 					echo '<td>'.button('add').'</td>';
 
-				foreach ( (array)$column_names as $key => $value)
+				foreach ( (array) $column_names as $key => $value)
 				{
 					echo '<td>'.$link['add']['html'][$key].'</td>';
 				}
@@ -604,7 +604,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			{
 				//modify loop: use for instead of foreach
 				$key = array_keys($item);
-				$size = sizeOf($key);
+				$size = count($key);
 				for ($j=0; $j<$size; $j++)
 				{
 					$value = preg_replace('!<select.*selected\>([^<]+)<.*</select\>!i','\\1',$item[$key[$j]]);
@@ -612,7 +612,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					$item[$key[$j]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
 				}
 				
-				/*foreach ( (array)$item as $key => $value)
+				/*foreach ( (array) $item as $key => $value)
 				{
 					$value = preg_replace('!<select.*selected\>([^<]+)<.*</select\>!i','\\1',$value);
 					$value = preg_replace('!<select.*</select\>!i','',$value);
@@ -635,7 +635,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				$button_link = $link['remove']['link'];
 				if (count($link['remove']['variables']))
 				{
-					foreach ( (array)$link['remove']['variables'] as $var => $val)
+					foreach ( (array) $link['remove']['variables'] as $var => $val)
 						$button_link .= "&$var=" . urlencode($item[$val]);
 				}
 
@@ -644,7 +644,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 			if ( $cols)
 			{
-				foreach ( (array)$column_names as $key => $value)
+				foreach ( (array) $column_names as $key => $value)
 				{
 					if ( !empty($link[$key]) && $item[$key]!==false && !isset($_REQUEST['_ROSARIO_PDF']))
 					{
@@ -658,11 +658,11 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 							if ( count( $link[$key]['variables'] ) )
 							{
-								foreach ( (array)$link[$key]['variables'] as $var => $val )
+								foreach ( (array) $link[$key]['variables'] as $var => $val )
 									echo "&$var=".urlencode($item[$val]);
 							}
 
-							echo '");\'';
+							echo '"); return false;\'';
 
 							if ( $link[$key]['extra'])
 								echo ' '.$link[$key]['extra'];
@@ -673,7 +673,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 							echo '<a href="'.$link[$key]['link'];
 							if (count($link[$key]['variables']))
 							{
-								foreach ( (array)$link[$key]['variables'] as $var => $val)
+								foreach ( (array) $link[$key]['variables'] as $var => $val)
 									echo '&'.$var.'='.urlencode($item[$val]);
 							}
 							echo '"';
@@ -719,7 +719,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				elseif ( $remove && !isset($_REQUEST['_ROSARIO_PDF']))
 					echo '<td>'.button('add').'</td>';
 
-				foreach ( (array)$column_names as $key => $value)
+				foreach ( (array) $column_names as $key => $value)
 				{
 					echo '<td>'.$link['add']['html'][$key].'</td>';
 				}
@@ -761,7 +761,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				echo '"><thead><tr><th>&nbsp;</th>';
 
-				foreach ( (array)$column_names as $key => $value)
+				foreach ( (array) $column_names as $key => $value)
 				{
 					echo '<th>' . str_replace(' ','&nbsp;',$value) . '</th>';
 				}
@@ -774,7 +774,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				else
 					echo '<td>'.button('add').'</td>';
 
-				foreach ( (array)$column_names as $key => $value)
+				foreach ( (array) $column_names as $key => $value)
 				{
 					echo '<td>'.$link['add']['html'][$key].'</td>';
 				}
@@ -816,7 +816,7 @@ function _ReindexResults( $array )
 
  	$i = 1;
 
-	foreach ( (array)$array as $value )
+	foreach ( (array) $array as $value )
 	{
 		$new[$i] = $value;
 
@@ -917,7 +917,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 	$formatted_columns = $formatted_result = array();
 
 	// Format Columns
-	foreach ( (array)$column_names as $column )
+	foreach ( (array) $column_names as $column )
 	{
 		if ( $column !== '' )
 		{
@@ -939,11 +939,11 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 	$i = 0;
 
 	// Format Results
-	foreach ( (array)$result as $item )
+	foreach ( (array) $result as $item )
 	{
 		$formatted_result[$i] = array();
 
-		foreach ( (array)$column_names as $key => $value )
+		foreach ( (array) $column_names as $key => $value )
 		{
 			$value = $item[$key];
 

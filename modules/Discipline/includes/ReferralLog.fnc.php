@@ -47,7 +47,7 @@ function ReferralLogIncludeForm()
 	$fields[] = CheckboxInput( $value, 'elements[STAFF_ID]', _( 'Reporter' ), '', $new );
 
 	// Custom Discipline fields
-	foreach ( (array)$fields_RET as $id => $field )
+	foreach ( (array) $fields_RET as $id => $field )
 	{
 		// TEXTAREA fields are checked
 		$value = ( $field[1]['DATA_TYPE'] === 'textarea' ? 'Y' : 'N' );
@@ -123,7 +123,7 @@ function ReferralLogsGenerate( $extra )
 		}
  	}
 
-	foreach ( (array)$_REQUEST['elements'] as $column => $Y )
+	foreach ( (array) $_REQUEST['elements'] as $column => $Y )
 	{
 		$extra['SELECT'] .= ',dr.' . $column;
 	}
@@ -151,7 +151,7 @@ function ReferralLogsGenerate( $extra )
 		return array();
 	}
 
-	foreach ( (array)$referrals_RET as $student_id => $referrals )
+	foreach ( (array) $referrals_RET as $student_id => $referrals )
 	{
 		// Begin output buffer
 		ob_start();
@@ -190,7 +190,7 @@ function ReferralLogsGenerate( $extra )
 
 		echo '<BR />';
 
-		foreach ( (array)$referrals as $referral )
+		foreach ( (array) $referrals as $referral )
 		{
 			// Entry Date
 			if ( isset( $_REQUEST['elements']['ENTRY_DATE'] ) )
@@ -205,7 +205,7 @@ function ReferralLogsGenerate( $extra )
 			}
 
 			// Custom Discipline fields
-			foreach ( (array)$_REQUEST['elements'] as $column => $Y )
+			foreach ( (array) $_REQUEST['elements'] as $column => $Y )
 			{
 				// Zap Entry Date & Reporter
 				if ( $column === 'ENTRY_DATE'

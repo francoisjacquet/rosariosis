@@ -10,7 +10,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 	if (count($config_RET))
-		foreach ( (array)$config_RET as $title => $value)
+		foreach ( (array) $config_RET as $title => $value)
 			$programconfig[User('STAFF_ID')][$title] = $value[1]['VALUE'];
 	else
 		$programconfig[User('STAFF_ID')] = true;
@@ -66,7 +66,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$extra2['functions'] = array('ASSIGNED_DATE' => '_removeSpaces','DUE_DATE' => '_removeSpaces','TITLE' => '_removeSpaces','POINTS' => '_makeExtra','PERCENT_GRADE' => '_makeExtra','LETTER_GRADE' => '_makeExtra');
 
 		$handle = PDFStart();
-		foreach ( (array)$RET as $student)
+		foreach ( (array) $RET as $student)
 		{
 			unset($_ROSARIO['DrawHeader']);
 
@@ -88,7 +88,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			$sum_student_points = $sum_total_points = 0;
 			$sum_points = $sum_percent = 0;
-			foreach ( (array)$percent_weights as $assignment_type_id => $percent)
+			foreach ( (array) $percent_weights as $assignment_type_id => $percent)
 			{
 				$sum_student_points += $student_points[$assignment_type_id];
 				$sum_total_points += $total_points[$assignment_type_id];
@@ -101,7 +101,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$sum_points = 0;
 			if ( $_REQUEST['by_category']=='Y')
 			{
-				foreach ( (array)$grades_RET as $assignment_type_id => $grades)
+				foreach ( (array) $grades_RET as $assignment_type_id => $grades)
 				{
 //FJ remove LO_field
 					$grades_RET[$assignment_type_id][] = array('TITLE'=>_removeSpaces('<b>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</b>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),_Percent($percent_weights[$assignment_type_id]/$sum_percent)).')':''),'TITLE'),

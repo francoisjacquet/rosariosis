@@ -33,7 +33,7 @@ if ( $_REQUEST['modfunc']=='update')
                 if (is_numeric($_REQUEST['food_service']['ACCOUNT_ID']) && intval($_REQUEST['food_service']['ACCOUNT_ID'])>=0)
 				{
 					$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
-					foreach ( (array)$_REQUEST['food_service'] as $column_name => $value)
+					foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
 					{
 						$sql .= $column_name."='".trim($value)."',";
 					}
@@ -144,7 +144,7 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 	{
 		$warning = _( 'Other students associated with the same account' ) . ':<br />';
 
-		foreach ( (array)$xstudents as $xstudent )
+		foreach ( (array) $xstudents as $xstudent )
 		{
 			$warning .= '&nbsp;' . $xstudent['FULL_NAME'] . '<br />';
 		}

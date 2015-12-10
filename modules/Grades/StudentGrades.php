@@ -60,7 +60,7 @@ if ( !$_REQUEST['id'])
 	{
 		$LO_ret = array(0 => array());
 
-		foreach ( (array)$courses_RET as $course_period_id => $course)
+		foreach ( (array) $courses_RET as $course_period_id => $course)
 		{
 			$course = $course[1];
 			$staff_id = $course['STAFF_ID'];
@@ -74,7 +74,7 @@ if ( !$_REQUEST['id'])
 			{
                 $config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 				if (count($config_RET))
-					foreach ( (array)$config_RET as $title => $value)
+					foreach ( (array) $config_RET as $title => $value)
 						$programconfig[$staff_id][$title] = $value[1]['VALUE'];
 				else
 					$programconfig[$staff_id] = true;
@@ -114,7 +114,7 @@ if ( !$_REQUEST['id'])
 			{
 				$total = $total_percent = 0;
 				$ungraded = 0;
-				foreach ( (array)$points_RET as $partial_points)
+				foreach ( (array) $points_RET as $partial_points)
 				{
                     if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[$staff_id]['WEIGHT']!='Y')
 					{
@@ -133,10 +133,10 @@ if ( !$_REQUEST['id'])
 					$min_percent = $max_percent = $percent;
 					$avg_percent = 0;
 					$lower = $higher = 0;
-					foreach ( (array)$all_RET as $xstudent_id => $student)
+					foreach ( (array) $all_RET as $xstudent_id => $student)
 					{
 						$total = $total_percent = 0;
-						foreach ( (array)$student as $partial_points)
+						foreach ( (array) $student as $partial_points)
                             if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[$staff_id]['WEIGHT']!='Y')
 							{
 								$total += $partial_points['PARTIAL_POINTS'] * ($programconfig[$staff_id]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
@@ -227,7 +227,7 @@ else
 	}
 	//echo '<pre>'; var_dump($courses_RET); echo '</pre>';
 
-    foreach ( (array)$courses_RET as $course_period_id => $course)
+    foreach ( (array) $courses_RET as $course_period_id => $course)
 	{
 		$course = $course[1];
 		$staff_id = $course['STAFF_ID'];
@@ -235,7 +235,7 @@ else
 		{
 			$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 			if (count($config_RET))
-				foreach ( (array)$config_RET as $title => $value)
+				foreach ( (array) $config_RET as $title => $value)
 					$programconfig[$staff_id][$title] = $value[1]['VALUE'];
 			else
 				$programconfig[$staff_id] = true;
@@ -288,7 +288,7 @@ else
 
 			$LO_ret = array(0 => array());
 
-			foreach ( (array)$assignments_RET as $assignment)
+			foreach ( (array) $assignments_RET as $assignment)
 			{
 				if ( $do_stats && $_REQUEST['do_stats'])
 				{

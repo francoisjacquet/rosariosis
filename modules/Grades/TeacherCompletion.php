@@ -16,7 +16,7 @@ $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".Use
 $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
 $period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);"><option value="">'._('All').'</option>';
-foreach ( (array)$periods_RET as $id => $period)
+foreach ( (array) $periods_RET as $id => $period)
 	$period_select .= '<option value="'.$id.'"'.(($_REQUEST['period']==$id)?' selected':'').">".$period[1]['TITLE']."</option>";
 $period_select .= "</select>";
 
@@ -63,13 +63,13 @@ $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
 if ( !$_REQUEST['period'] )
 {
-	foreach ( (array)$RET as $staff_id => $periods )
+	foreach ( (array) $RET as $staff_id => $periods )
 	{
 		$i++;
 
 		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
 
-		foreach ( (array)$periods as $period )
+		foreach ( (array) $periods as $period )
 		{
 			if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
@@ -87,7 +87,7 @@ if ( !$_REQUEST['period'] )
 	}
 
 	$columns = array('FULL_NAME' => _('Teacher'));
-	foreach ( (array)$periods_RET as $id => $period)
+	foreach ( (array) $periods_RET as $id => $period)
 		$columns[$id] = $period[1]['TITLE'];
 
 	ListOutput($staff_RET,$columns,'Teacher who enters grades','Teachers who enter grades');
@@ -96,9 +96,9 @@ else
 {
 	$period_title = $periods_RET[$_REQUEST['period']][1]['TITLE'];
 
-	foreach ( (array)$RET as $staff_id => $periods)
+	foreach ( (array) $RET as $staff_id => $periods)
 	{
-		foreach ( (array)$periods as $period_id => $period)
+		foreach ( (array) $periods as $period_id => $period)
 		{
 			if ( !isset($_REQUEST['_ROSARIO_PDF']))
 				$RET[$staff_id][$period_id]['COMPLETED'] = button($period['COMPLETED']=='Y'?'check':'x','','').' ';

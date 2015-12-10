@@ -26,7 +26,7 @@ $categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ATTENDANCE_CODE_CATEGORIES
 if ( $_REQUEST['table']=='')
 	$_REQUEST['table'] = '0';
 $category_select = "<select name=table onChange='ajaxPostForm(this.form,true);'><option value='0'".($_REQUEST['table']=='0'?' selected':'').">"._('Attendance')."</option>";
-foreach ( (array)$categories_RET as $category)
+foreach ( (array) $categories_RET as $category)
 	$category_select .= '<option value="'.$category[ID].'"'.(($_REQUEST['table']==$category['ID'])?' selected':'').">".$category['TITLE']."</option>";
 $category_select .= "</select>";
 
@@ -34,7 +34,7 @@ $QI = DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHO
 $periods_RET = DBGet($QI,array(),array('PERIOD_ID'));
 
 $period_select = "<select name=period onChange='ajaxPostForm(this.form,true);'><option value=''>"._('All')."</option>";
-foreach ( (array)$periods_RET as $id => $period)
+foreach ( (array) $periods_RET as $id => $period)
 	$period_select .= '<option value="'.$id.'"'.(($_REQUEST['period']==$id)?' selected':'').">".$period[1]['TITLE']."</option>";
 $period_select .= "</select>";
 
@@ -79,13 +79,13 @@ $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
 if ( !$_REQUEST['period'])
 {
-	foreach ( (array)$RET as $staff_id => $periods )
+	foreach ( (array) $RET as $staff_id => $periods )
 	{
 		$i++;
 
 		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
 
-		foreach ( (array)$periods as $period )
+		foreach ( (array) $periods as $period )
 		{
 			if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
@@ -102,7 +102,7 @@ if ( !$_REQUEST['period'])
 
 	$columns = array( 'FULL_NAME' => _( 'Teacher' ) );
 
-	foreach ( (array)$periods_RET as $id => $period )
+	foreach ( (array) $periods_RET as $id => $period )
 	{
 		$columns[$id] = $period[1]['TITLE'];
 	}
@@ -116,9 +116,9 @@ else
 	$tiptitle = false;
 
 	//FJ display icon for completed column
-	foreach ( (array)$RET as $staff_id => $periods)
+	foreach ( (array) $RET as $staff_id => $periods)
 	{
-		foreach ( (array)$periods as $id => $period)
+		foreach ( (array) $periods as $id => $period)
 		{
 			if ( !isset($_REQUEST['_ROSARIO_PDF']))
 			{

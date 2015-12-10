@@ -27,7 +27,7 @@ if ( $_REQUEST['modfunc']=='submit')
 			$id = $id[1]['SEQ_ID'];
 
 			$item_id = 0;
-			foreach ( (array)$_SESSION['FSA_sale'] as $item_sn)
+			foreach ( (array) $_SESSION['FSA_sale'] as $item_sn)
 			{
 
 				$price = $items_RET[$item_sn][1]['PRICE_STAFF'];
@@ -104,13 +104,13 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		AND fsi.SCHOOL_ID='".UserSchool()."' 
 		ORDER BY fsi.SORT_ORDER"),array('ICON' => 'makeIcon'),array('SHORT_NAME'));
 		$items = array();
-		foreach ( (array)$items_RET as $sn => $item)
+		foreach ( (array) $items_RET as $sn => $item)
 			$items += array($sn => $item[1]['DESCRIPTION']);
 
 		$LO_ret = array(array());
 		
 		if (isset($_SESSION['FSA_sale']))
-			foreach ( (array)$_SESSION['FSA_sale'] as $id => $item_sn)
+			foreach ( (array) $_SESSION['FSA_sale'] as $id => $item_sn)
 			{
 
 				$price = $items_RET[$item_sn][1]['PRICE_STAFF'];
@@ -127,7 +127,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		$columns = array('DESCRIPTION' => _('Item'),'ICON' => _('Icon'),'PRICE' => _('Price'));
 
 		$tabs = array();
-		foreach ( (array)$menus_RET as $id => $menu)
+		foreach ( (array) $menus_RET as $id => $menu)
 			$tabs[] = array('title' => $menu[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
 
 		$extra = array('save'=>false,'search'=>false,

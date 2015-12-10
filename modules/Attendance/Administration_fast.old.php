@@ -10,15 +10,15 @@ else
 $current_RET = DBGet(DBQuery("SELECT ATTENDANCE_TEACHER_CODE,ATTENDANCE_CODE,ATTENDANCE_REASON,STUDENT_ID,ADMIN,COURSE_PERIOD_ID FROM ATTENDANCE_PERIOD WHERE SCHOOL_DATE='".$date."'"),array(),array('STUDENT_ID','COURSE_PERIOD_ID'));
 if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['attendance'] as $student_id => $values)
+	foreach ( (array) $_REQUEST['attendance'] as $student_id => $values)
 	{
-		foreach ( (array)$values as $period => $columns)
+		foreach ( (array) $values as $period => $columns)
 		{
 			if ( $current_RET[$student_id][$period])
 			{
 				$sql = "UPDATE ATTENDANCE_PERIOD SET ADMIN='Y',";
 				
-				foreach ( (array)$columns as $column => $value)
+				foreach ( (array) $columns as $column => $value)
 					$sql .= $column."='".$value."',";
 
 				$sql = mb_substr($sql,0,-1) . " WHERE SCHOOL_DATE='".$date."' AND COURSE_PERIOD_ID='".$period."' AND STUDENT_ID='".$student_id."'";
@@ -35,7 +35,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 				$values = "'".$student_id."','".$date."','".$period_id."','".GetCurrentMP('QTR',$date)."','".$period."','Y',";
 	
 				$go = 0;
-				foreach ( (array)$columns as $column => $value)
+				foreach ( (array) $columns as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{
@@ -89,7 +89,7 @@ else
 	if (count($_REQUEST['codes']))
 	{
 		$REQ_codes = $_REQUEST['codes'];
-		foreach ( (array)$REQ_codes as $key => $value)
+		foreach ( (array) $REQ_codes as $key => $value)
 		{
 			if ( !$value)
 				unset($REQ_codes[$key]);
@@ -102,7 +102,7 @@ else
 	if (count($REQ_codes) && !$abs)
 	{
 		$extra['WHERE'] .= "AND ac.ID IN (";
-		foreach ( (array)$REQ_codes as $code)
+		foreach ( (array) $REQ_codes as $code)
 			$extra['WHERE'] .= "'".$code."',";
 		$extra2['WHERE'] = $extra['WHERE'] = mb_substr($extra['WHERE'],0,-1) . ')';
 	}
@@ -112,7 +112,7 @@ else
 		if (count($RET))
 		{
 			$extra['WHERE'] .= "AND ac.ID IN (";
-			foreach ( (array)$RET as $code)
+			foreach ( (array) $RET as $code)
 				$extra['WHERE'] .= "'".$code['ID']."',";
 		
 			$extra2['WHERE'] = $extra['WHERE'] = mb_substr($extra['WHERE'],0,-1) . ')';	
@@ -136,7 +136,7 @@ else
 	$extra['BackPrompt'] = false;
 	$extra['Redirect'] = false;
 	$extra['new'] = true;
-	foreach ( (array)$periods_RET as $period)
+	foreach ( (array) $periods_RET as $period)
 	{
 		$extra['SELECT'] .= ",'' AS PERIOD_".$period['PERIOD_ID'];
 		$extra['functions']['PERIOD_'.$period['PERIOD_ID']] = '_makeCodePulldown';
@@ -148,7 +148,7 @@ else
 	
 	if ( $REQ_codes)
 	{
-		foreach ( (array)$REQ_codes as $code)
+		foreach ( (array) $REQ_codes as $code)
 			$code_pulldowns .= _makeCodeSearch($code);
 	}
 	elseif ( $abs)
@@ -187,7 +187,7 @@ function _makeCodePulldown($value,$title)
 		$period = $THIS_RET['COURSE_PERIOD_ID'];
 		$period_id = $THIS_RET['PERIOD_ID'];
 		
-		foreach ( (array)$codes_RET as $code)
+		foreach ( (array) $codes_RET as $code)
 			$options[$code['ID']] = $code['TITLE'];
 	}
 	else
@@ -195,7 +195,7 @@ function _makeCodePulldown($value,$title)
 		$period_id = mb_substr($title,7);
 		$period = $current_schedule_RET[$THIS_RET['STUDENT_ID']][$period_id][1]['COURSE_PERIOD_ID'];
 		
-		foreach ( (array)$codes_RET as $code)
+		foreach ( (array) $codes_RET as $code)
 			$options[$code['ID']] = $code['SHORT_NAME'];	
 	}
 	
@@ -210,7 +210,7 @@ function _makeCodePulldown($value,$title)
 function _makeCode($value,$title)
 {	global $THIS_RET,$codes_RET,$current_RET;
 
-	foreach ( (array)$codes_RET as $code)
+	foreach ( (array) $codes_RET as $code)
 	{
 		if ( $current_RET[$THIS_RET['STUDENT_ID']][$THIS_RET['COURSE_PERIOD_ID']][1]['ATTENDANCE_TEACHER_CODE']==$code['ID'])
 			return $code['TITLE'];
@@ -231,7 +231,7 @@ function _makeCodeSearch($value='')
 	$return = '<select name=codes[]><option value="">All</option><option value="A"'.(($value=='A')?' selected':'').'>NP</option>';
 	if (count($codes_RET))
 	{
-		foreach ( (array)$codes_RET as $code)
+		foreach ( (array) $codes_RET as $code)
 		{
 			if ( $value==$code['ID'])
 				$return .= '<option value="'.$code[ID].'" selected>'.$code[SHORT_NAME].'</option>';

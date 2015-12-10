@@ -66,10 +66,10 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		{
 			DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM".($_REQUEST['tab']=='student_fields'?" IN ('StudentFieldsSearch','StudentFieldsView')":($_REQUEST['tab']=='widgets'?"='WidgetsSearch'":($_REQUEST['tab']=='staff_fields'?" IN ('StaffFieldsSearch','StaffFieldsView')":"='StaffWidgetsSearch'"))));
 
-			foreach ( (array)$_REQUEST['values'] as $program => $values)
+			foreach ( (array) $_REQUEST['values'] as $program => $values)
 			{
 				if (is_array($values))
-					foreach ( (array)$values as $name => $value)
+					foreach ( (array) $values as $name => $value)
 					{
 						if (isset($value))
 							DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','".$program."','".$name."','".$value."')");
@@ -78,9 +78,9 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		}
 		else
 		{
-			foreach ( (array)$_REQUEST['values'] as $program => $values)
+			foreach ( (array) $_REQUEST['values'] as $program => $values)
 			{
-				foreach ( (array)$values as $name => $value)
+				foreach ( (array) $values as $name => $value)
 				{
 					if ( !$current_RET[$program][$name] && $value!='')
 						DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','".$program."','".$name."','".$value."')");
@@ -256,7 +256,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$themes = glob( 'assets/themes/*', GLOB_ONLYDIR );
 
-		foreach ( (array)$themes as $theme )
+		foreach ( (array) $themes as $theme )
 		{
 			$theme_name = str_replace( 'assets/themes/', '', $theme );
 
@@ -292,7 +292,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$month_options = array();
 
-		foreach ( (array)$month_keys as $month_key )
+		foreach ( (array) $month_keys as $month_key )
 		{
 			$month_options[$month_key] = mb_convert_case(
 				iconv( '', 'UTF-8', strftime( $month_key ) ),
@@ -504,7 +504,7 @@ if (empty($_REQUEST['modfunc']))
 			$widgets += array('balance' => _('Student Billing Balance'));
 
 		$widgets_RET[0] = array();
-		foreach ( (array)$widgets as $widget => $title)
+		foreach ( (array) $widgets as $widget => $title)
 		{
 			$THIS_RET['ID'] = $widget;
 			$widgets_RET[] = array('ID' => $widget,'TITLE' => $title,'WIDGET'=>_make('','WIDGET'));
@@ -557,7 +557,7 @@ if (empty($_REQUEST['modfunc']))
 			$widgets += array('fsa_balance' => _('Food Service Balance'),'fsa_status' => _('Food Service Status'),'fsa_barcode' => _('Food Service Barcode'));
 
 		$widgets_RET[0] = array();
-		foreach ( (array)$widgets as $widget => $title)
+		foreach ( (array) $widgets as $widget => $title)
 		{
 			$THIS_RET['ID'] = $widget;
 			$widgets_RET[] = array('ID' => $widget,'TITLE' => $title,'STAFF_WIDGET'=>_make('','STAFF_WIDGET'));

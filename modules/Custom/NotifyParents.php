@@ -41,7 +41,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$RESULT = array(0 => array());
 		$i = 0;
-		foreach ( (array)$RET as $staff)
+		foreach ( (array) $RET as $staff)
 		{
 			$staff_id = $staff['STAFF_ID'];
 
@@ -61,7 +61,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			//echo '<pre>'; var_dump($students_RET); echo '</pre>';
 
 			$student_list = '';
-			foreach ( (array)$students_RET as $student)
+			foreach ( (array) $students_RET as $student)
 				$student_list .= str_replace('&nbsp;',' ',$student['FULL_NAME'])."\r";
 
 			$msg = str_replace('__ASSOCIATED_STUDENTS__',$student_list,$message);

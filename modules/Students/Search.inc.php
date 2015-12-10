@@ -178,7 +178,7 @@ else
 
 	if ( $extra['array_function'] && function_exists($extra['array_function']))
 		if ( $_REQUEST['address_group'])
-			foreach ( (array)$students_RET as $id => $student_RET)
+			foreach ( (array) $students_RET as $id => $student_RET)
 				$students_RET[$id] = $extra['array_function']($student_RET);
 		else
 			$students_RET = $extra['array_function']($students_RET);
@@ -261,7 +261,7 @@ else
 	{
 		if (count($link['FULL_NAME']['variables']))
 		{
-			foreach ( (array)$link['FULL_NAME']['variables'] as $var => $val)
+			foreach ( (array) $link['FULL_NAME']['variables'] as $var => $val)
 				$_REQUEST[$var] = $students_RET['1'][$val];
 		}
 

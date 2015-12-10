@@ -27,7 +27,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	$extra['SELECT'] = ",ssm.CALENDAR_ID,ssm.START_DATE,ssm.END_DATE";
 
-	foreach ( (array)$custom_RET as $id => $custom)
+	foreach ( (array) $custom_RET as $id => $custom)
 		$extra['SELECT'] .= ",CUSTOM_".$id;
 
 	// ACTIVE logic taken from GetStuList()
@@ -52,7 +52,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$handle = PDFStart();
 
-		foreach ( (array)$RET as $student)
+		foreach ( (array) $RET as $student)
 		{
 			$calendar_RET = DBGet(DBquery("SELECT ".db_case(array(
 				"MINUTES>=".Config('ATTENDANCE_FULL_DAY_MINUTES'),
@@ -110,7 +110,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			<span class="sizep1"><b>'._('Demographics').'</b></span>
 			<table style="width:98%;" class="cellspacing-0 center"><tr>';
 
-			foreach ( (array)$custom_RET as $id => $custom)
+			foreach ( (array) $custom_RET as $id => $custom)
 				echo '<td style="text-align:right">'.ParseMLField($custom_RET[$id][1]['TITLE']).':&nbsp;</td>
 				<td>'.$student['CUSTOM_'.$id].'</td>';
 

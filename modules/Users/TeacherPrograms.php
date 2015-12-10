@@ -50,7 +50,7 @@ if (UserStaffID())
 
 	$period_select = '<select name="period" onChange="ajaxPostForm(this.form,true);">';
 	$optgroup = FALSE;
-	foreach ( (array)$RET as $period)
+	foreach ( (array) $RET as $period)
 	{
 		//FJ add optroup to group periods by course periods
 		if ( !empty($period['COURSE_TITLE']) && $optgroup!=$period['COURSE_TITLE']) //new optgroup

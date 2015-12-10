@@ -4,7 +4,7 @@ require_once 'ProgramFunctions/FileUpload.fnc.php';
 
 if ( $_REQUEST['day_values'] && $_POST['day_values'])
 {
-	foreach ( (array)$_REQUEST['day_values'] as $id => $values)
+	foreach ( (array) $_REQUEST['day_values'] as $id => $values)
 	{
 		if ( $_REQUEST['day_values'][$id]['START_DATE'] && $_REQUEST['month_values'][$id]['START_DATE'] && $_REQUEST['year_values'][$id]['START_DATE'])
 			$_REQUEST['values'][$id]['START_DATE'] = $_REQUEST['day_values'][$id]['START_DATE'].'-'.$_REQUEST['month_values'][$id]['START_DATE'].'-'.$_REQUEST['year_values'][$id]['START_DATE'];
@@ -25,7 +25,7 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 {
 	$notes_RET = DBGet(DBQuery("SELECT ID FROM PORTAL_NOTES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 
-	foreach ( (array)$notes_RET as $note_id)
+	foreach ( (array) $notes_RET as $note_id)
 	{
 		$note_id = $note_id['ID'];
 		$_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'] = '';
@@ -34,7 +34,7 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 				$_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'] .= ','.$profile_id;
 		if (count($_REQUEST['profiles'][$note_id]))
 		{
-			foreach ( (array)$profiles_RET as $profile)
+			foreach ( (array) $profiles_RET as $profile)
 			{
 				$profile_id = $profile['ID'];
 
@@ -49,7 +49,7 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -58,7 +58,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql = "UPDATE PORTAL_NOTES SET ";
 
-				foreach ( (array)$columns as $column => $value)
+				foreach ( (array) $columns as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -79,7 +79,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
 						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
 					}
-					foreach ( (array)$profiles_RET as $profile)
+					foreach ( (array) $profiles_RET as $profile)
 					{
 						$profile_id = $profile['ID'];
 
@@ -145,7 +145,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				unset($columns['FILE_ATTACHED_EMBED'], $columns['FILE_OR_EMBED']);
 				
 				$go = 0;
-				foreach ( (array)$columns as $column => $value)
+				foreach ( (array) $columns as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{

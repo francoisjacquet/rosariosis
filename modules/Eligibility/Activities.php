@@ -19,13 +19,13 @@ if ( isset( $_POST['values'] )
 	&& count( $_POST['values'] )
 	&& AllowEdit() )
 {
-	foreach ( (array)$_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{	
 		if ( $id!='new')
 		{
 			$sql = "UPDATE ELIGIBILITY_ACTIVITIES SET ";
 							
-			foreach ( (array)$columns as $column => $value)
+			foreach ( (array) $columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -40,7 +40,7 @@ if ( isset( $_POST['values'] )
 			$values = db_seq_nextval('ELIGIBILITY_ACTIVITIES_SEQ').",'".UserSchool()."','".UserSyear()."',";
 
 			$go = 0;
-			foreach ( (array)$columns as $column => $value)
+			foreach ( (array) $columns as $column => $value)
 			{
 				if ( !empty($value) || $value=='0')
 				{

@@ -51,7 +51,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$_SESSION['orientation'] = 'landscape';
 
-		foreach ( (array)$RET as $student)
+		foreach ( (array) $RET as $student)
 		{
 			//note Francois: bug: small white border at the bottom of page
 			//adapt height if US Letter paper
@@ -321,7 +321,7 @@ function MyWidgets($item)
 
 			if (count($subjects_RET))
 			{
-				foreach ( (array)$subjects_RET as $subject)
+				foreach ( (array) $subjects_RET as $subject)
 					$select .= '<option value="'.$subject['SUBJECT_ID'].'">'.$subject['TITLE'].'</option>';
 			}
 

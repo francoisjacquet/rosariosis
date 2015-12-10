@@ -109,7 +109,7 @@ if ( isset( $_REQUEST['category_id'] )
 
 		$totals_RET = GetStuList( $extra );
 
-		foreach ( (array)$category_RET[1]['SELECT_OPTIONS'] as $option )
+		foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 		{
 			$chart['chart_data'][0][] = $option;
 
@@ -142,15 +142,15 @@ if ( isset( $_REQUEST['category_id'] )
 
 		$referrals_RET = GetStuList( $extra );
 
-		foreach ( (array)$referrals_RET as $referral )
+		foreach ( (array) $referrals_RET as $referral )
 		{
 			$referral['TITLE'] = explode( "||", trim( $referral['TITLE'], '|' ) );
 
-			foreach ( (array)$referral['TITLE'] as $option )
+			foreach ( (array) $referral['TITLE'] as $option )
 				$options_count[$option]++;
 		}
 
-		foreach ( (array)$category_RET[1]['SELECT_OPTIONS'] as $option )
+		foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 		{
 			$chart['chart_data'][0][] = $option;
 
@@ -224,7 +224,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	$select_options = array();
 
-	foreach ( (array)$categories_RET as $category )
+	foreach ( (array) $categories_RET as $category )
 	{
 		$select_options[$category['ID']] = $category['TITLE'];
 	}
@@ -308,7 +308,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		{
 			$chart_data = array( '0' => '' );
 
-			foreach ( (array)$chart['chart_data'][1] as $key => $value )
+			foreach ( (array) $chart['chart_data'][1] as $key => $value )
 				$chart_data[] = array( 'TITLE' => $chart['chart_data'][0][$key], 'VALUE' => $value );
 
 			unset( $chart_data[0] );
@@ -334,7 +334,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			// Line Chart
 			if ( $chartline )
 			{
-				foreach ( (array)$chart['chart_data'][1] as $index => $y )
+				foreach ( (array) $chart['chart_data'][1] as $index => $y )
 				{
 					if ( is_numeric( $chart['chart_data'][0][$index] ) )
 					{
@@ -353,7 +353,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			// Pie Chart
 			else
 			{
-				foreach ( (array)$chart['chart_data'][1] as $index => $y )
+				foreach ( (array) $chart['chart_data'][1] as $index => $y )
 				{
 					if ( is_numeric( $chart['chart_data'][1][$index] ) )
 					{

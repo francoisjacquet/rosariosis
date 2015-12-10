@@ -359,12 +359,12 @@ function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 
 	if (count($teachers_RET))
 	{
-		foreach ( (array)$teachers_RET as $teacher)
+		foreach ( (array) $teachers_RET as $teacher)
 			$teachers[$teacher['STAFF_ID']] = $teacher['LAST_NAME'].', '.$teacher['FIRST_NAME'];
 	}
 
 	$i=0;
-	foreach ( (array)$profiles as $profile)
+	foreach ( (array) $profiles as $profile)
 	{
 		$i++;
 		$checked = mb_strpos($THIS_RET['PUBLISHED_PROFILES'],','.$profile['ID'].',')!==false;

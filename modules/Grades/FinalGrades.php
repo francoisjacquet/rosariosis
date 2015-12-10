@@ -142,7 +142,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			if ( $_REQUEST['elements']['period_absences']=='Y')
 				$columns['ABSENCES'] = _('Abs<br />YTD / MP');
 
-			foreach ( (array)$_REQUEST['mp_arr'] as $mp)
+			foreach ( (array) $_REQUEST['mp_arr'] as $mp)
 			{
 				if ( $_REQUEST['elements']['percents']=='Y')
 					$columns[$mp.'%'] = '%';
@@ -152,21 +152,21 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			if ( $_REQUEST['elements']['comments']=='Y')
 			{
 				//FJ add columns for All Courses comments
-				foreach ( (array)$all_commentsA_RET as $comment)
+				foreach ( (array) $all_commentsA_RET as $comment)
 					$columns['C'.$comment[1]['ID']] = $comment[1]['TITLE'];
 
 				$columns['COMMENT'] = _('Comments');
 			}
 
 			$i = 0;
-			foreach ( (array)$RET as $student_id => $course_periods)
+			foreach ( (array) $RET as $student_id => $course_periods)
 			{
 				$course_period_id = key($course_periods);
 				$grades_RET[$i+1]['FULL_NAME'] = $course_periods[$course_period_id][key($course_periods[$course_period_id])][1]['FULL_NAME'];
 
 				$grades_RET[$i+1]['bgcolor'] = 'FFFFFF';
 
-				foreach ( (array)$course_periods as $course_period_id => $mps)
+				foreach ( (array) $course_periods as $course_period_id => $mps)
 				{
 					$i++;
 					$grades_RET[$i]['STUDENT_ID'] = $student_id;
@@ -176,7 +176,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$grades_RET[$i]['COURSE_TITLE'] = $mps[key($mps)][1]['COURSE_TITLE'];
 					$grades_RET[$i]['TEACHER'] = $mps[$last_mp][1]['TEACHER'];
 
-					foreach ( (array)$_REQUEST['mp_arr'] as $mp)
+					foreach ( (array) $_REQUEST['mp_arr'] as $mp)
 					{
 						if ( $mps[$mp])
 						{
@@ -200,12 +200,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						//FJ add comments for each MP
 						$sep = '; ';
 						$sep_mp = ' | ';
-						foreach ( (array)$mps as $mp)
+						foreach ( (array) $mps as $mp)
 						{
 							if ( !empty($grades_RET[$i]['COMMENT']))
 								$grades_RET[$i]['COMMENT'] = $grades_RET[$i]['COMMENT'].$sep_mp;
 
-							foreach ( (array)$mp[1]['COMMENTS_RET'] as $comment)
+							foreach ( (array) $mp[1]['COMMENTS_RET'] as $comment)
 							{
 								if ( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']])
 									$grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT']!=' ' ? (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).$comment['COMMENT'] : (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).'&middot;';
@@ -251,7 +251,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				{
 					$tipmessage = '';
 
-					foreach ( (array)$commentsB_RET as $comment )
+					foreach ( (array) $commentsB_RET as $comment )
 					{
 						$tipmessage .= $comment[1]['SORT_ORDER'] . ' - ' .
 							$comment[1]['TITLE'] . '<br />';
@@ -268,7 +268,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 
 				$cp_list = array();
-				foreach ( (array)$grades_RET as $grade)
+				foreach ( (array) $grades_RET as $grade)
 				{
 					$cp_list[] = $grade['COURSE_PERIOD_ID'];
 				}
@@ -301,11 +301,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				{
 					$tipmessage = '';
 
-					foreach ( (array)$comment_codes_RET as $scale_id => $codes )
+					foreach ( (array) $comment_codes_RET as $scale_id => $codes )
 					{
 						$tipmsg = '';
 
-						foreach ( (array)$codes as $code )
+						foreach ( (array) $codes as $code )
 						{
 							$tipmsg .= $code['TITLE'] . ': ' . $code['COMMENT'] . '<br />';
 						}
@@ -335,11 +335,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				{
 					$tipmessage = '';
 
-					foreach ( (array)$commentsA_RET as $course_id => $commentsA )
+					foreach ( (array) $commentsA_RET as $course_id => $commentsA )
 					{
 						$tipmsg = '';
 
-						foreach ( (array)$commentsA as $commentA )
+						foreach ( (array) $commentsA as $commentA )
 						{
 							$color = $commentA['COLOR'];
 
@@ -421,13 +421,13 @@ if (empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="elements[ytd_tardies]" value="Y"> '._('Other Attendance Year-to-date').':</label> <select name="ytd_tardies_code">';
 
-		foreach ( (array)$attendance_codes as $code)
+		foreach ( (array) $attendance_codes as $code)
 			$extra['extra_header_left'] .= '<option value="'.$code['ID'].'">'.$code['TITLE'].'</option>';
 
 		$extra['extra_header_left'] .= '</select></td>';
 		$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="elements[mp_tardies]" value="Y"> '._('Other Attendance Year-to-date').':</label> <select name="mp_tardies_code">';
 
-		foreach ( (array)$attendance_codes as $code)
+		foreach ( (array) $attendance_codes as $code)
 			$extra['extra_header_left'] .= '<option value="'.$code['ID'].'">'.$code['TITLE'].'</option>';
 
 		$extra['extra_header_left'] .= '</select></td></tr>';
@@ -442,16 +442,16 @@ if (empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>'._('Marking Periods').':</td><td><table><tr><td><table>';
 
-		foreach ( (array)$mps_RET as $sem => $quarters)
+		foreach ( (array) $mps_RET as $sem => $quarters)
 		{
 			$extra['extra_header_left'] .= '<tr class="st">';
-			foreach ( (array)$quarters as $qtr)
+			foreach ( (array) $quarters as $qtr)
 			{
 				$pro = GetChildrenMP('PRO',$qtr['MARKING_PERIOD_ID']);
 				if ( $pro)
 				{
 					$pros = explode(',',str_replace("'",'',$pro));
-					foreach ( (array)$pros as $pro)
+					foreach ( (array) $pros as $pro)
 						if (GetMP($pro,'DOES_GRADES')=='Y')
 							$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="mp_arr[]" value="'.$pro.'"> '.GetMP($pro,'TITLE').'</label></td>';
 				}

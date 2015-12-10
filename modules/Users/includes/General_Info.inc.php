@@ -178,7 +178,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 			WHERE PROFILE='" . $staff['PROFILE'] . "'
 			ORDER BY ID" ) );
 
-		foreach ( (array)$permissions_RET as $permission )
+		foreach ( (array) $permissions_RET as $permission )
 		{
 			$permissions_options[$permission['ID']] = _( $permission['TITLE'] );
 		}
@@ -215,7 +215,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 			$school_titles = array();
 
-			foreach ( (array)$schools_RET as $school )
+			foreach ( (array) $schools_RET as $school )
 			{
 				if ( $i%3 == 0 )
 				{

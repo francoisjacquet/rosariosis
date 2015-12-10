@@ -30,7 +30,7 @@ if ( isset( $_POST['tables'] )
 	&& count( $_POST['tables'] ) )
 {
 	$table = $_REQUEST['table'];
-	foreach ( (array)$_REQUEST['tables'] as $id => $columns)
+	foreach ( (array) $_REQUEST['tables'] as $id => $columns)
 	{
 		//FJ added SQL constraint TITLE & POINTS are not null
 		if ( ( !isset( $columns['TITLE'] )
@@ -63,7 +63,7 @@ if ( isset( $_POST['tables'] )
 						//if ( !$columns['COURSE_ID'] && $table=='GRADEBOOK_ASSIGNMENTS')
 						//	$columns['COURSE_ID'] = 'N';
 
-						foreach ( (array)$columns as $column => $value)
+						foreach ( (array) $columns as $column => $value)
 						{
 							if ( ( $column === 'DUE_DATE'
 								|| $column === 'ASSIGNED_DATE' )
@@ -126,7 +126,7 @@ if ( isset( $_POST['tables'] )
 						if ( !$columns['COURSE_ID'] && $_REQUEST['table']=='GRADEBOOK_ASSIGNMENTS')
 							$columns['COURSE_ID'] = 'N';
 
-						foreach ( (array)$columns as $column => $value)
+						foreach ( (array) $columns as $column => $value)
 						{
 							if ( ( $column === 'DUE_DATE'
 								|| $column === 'ASSIGNED_DATE' )
@@ -222,7 +222,7 @@ if ( isset( $_REQUEST['modfunc'] )
 
 			$cp_qtr_mps_array = explode( ",", $cp_qtr_mps_list );
 
-			foreach ( (array)$cp_qtr_mps_array as $cp_qtr_mp )
+			foreach ( (array) $cp_qtr_mps_array as $cp_qtr_mp )
 			{
 				if ( GetMP( trim( $cp_qtr_mp, "'" ), 'MP' ) === 'QTR' )
 				{
@@ -251,7 +251,7 @@ if ( isset( $_REQUEST['modfunc'] )
 			$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'"));
 			if (count($assignments_RET))
 			{
-				foreach ( (array)$assignments_RET as $assignment_id)
+				foreach ( (array) $assignments_RET as $assignment_id)
 				{
 					DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$assignment_id['ASSIGNMENT_ID']."'");
 
@@ -384,7 +384,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$header .= '</tr><tr class="st">';
 
-		foreach ( (array)$types_RET as $type)
+		foreach ( (array) $types_RET as $type)
 			$assignment_type_options[$type['ASSIGNMENT_TYPE_ID']] = $type['TITLE'];
 
 		$header .= '<td>' . SelectInput($RET['ASSIGNMENT_TYPE_ID']?$RET['ASSIGNMENT_TYPE_ID']:$_REQUEST['assignment_type_id'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNMENT_TYPE_ID]',_('Assignment Type'),$assignment_type_options,false) . '</td>';
@@ -433,7 +433,7 @@ if (empty($_REQUEST['modfunc']))
 			_( 'Sort Order' ) ) . '</td>';
 
 		/*$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
-		foreach ( (array)$colors as $color)
+		foreach ( (array) $colors as $color)
 		{
 			$color_select[$color] = array('<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
 		}
@@ -465,7 +465,7 @@ if (empty($_REQUEST['modfunc']))
 	{
 		if ( $_REQUEST['assignment_type_id'])
 		{
-			foreach ( (array)$types_RET as $key => $value)
+			foreach ( (array) $types_RET as $key => $value)
 			{
 				if ( $value['ASSIGNMENT_TYPE_ID']==$_REQUEST['assignment_type_id'])
 					$types_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
@@ -502,7 +502,7 @@ if (empty($_REQUEST['modfunc']))
 		{
 			if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='new')
 			{
-				foreach ( (array)$assn_RET as $key => $value)
+				foreach ( (array) $assn_RET as $key => $value)
 				{
 					if ( $value['ASSIGNMENT_ID']==$_REQUEST['assignment_id'])
 						$assn_RET[$key]['row_color'] = Preferences('HIGHLIGHT');

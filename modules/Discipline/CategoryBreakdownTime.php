@@ -135,7 +135,7 @@ if ( isset( $_REQUEST['category_id'] )
 
 		$chart['chart_data'][0][0] = '';
 
-		foreach ( (array)$category_RET[1]['SELECT_OPTIONS'] as $option )
+		foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 		{
 			$chart['chart_data'][0][] = $option;
 		}
@@ -162,7 +162,7 @@ if ( isset( $_REQUEST['category_id'] )
 				$chart['chart_data'][$index][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 			}
 			
-			foreach ( (array)$category_RET[1]['SELECT_OPTIONS'] as $option )
+			foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 			{
 				$chart['chart_data'][$index][] = (int)$totals_RET[$option][$tf][1]['COUNT'];
 			}
@@ -218,16 +218,16 @@ if ( isset( $_REQUEST['category_id'] )
 
 		$chart['chart_data'][0][0] = '';
 
-		foreach ( (array)$category_RET[1]['SELECT_OPTIONS'] as $option )
+		foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 		{
 			$chart['chart_data'][0][] = $option;
 		}
 
-		foreach ( (array)$referrals_RET as $referral )
+		foreach ( (array) $referrals_RET as $referral )
 		{
 			$referral['TITLE'] = explode( "||", trim( $referral['TITLE'], '|' ) );
 
-			foreach ( (array)$referral['TITLE'] as $option )
+			foreach ( (array) $referral['TITLE'] as $option )
 				$options_count[$referral['TIMEFRAME']][$option]++;
 		}
 
@@ -253,7 +253,7 @@ if ( isset( $_REQUEST['category_id'] )
 				$chart['chart_data'][$index][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 			}
 
-			foreach ( (array)$category_RET[1]['SELECT_OPTIONS'] as $option )
+			foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 			{
 				$chart['chart_data'][$index][] = (int)$options_count[$tf][$option];
 			}
@@ -345,7 +345,7 @@ if ( isset( $_REQUEST['category_id'] )
 		$datacolumns = 0;
 		$ticks = array();
 
-		foreach ( (array)$chart['chart_data'] as $chart_data )
+		foreach ( (array) $chart['chart_data'] as $chart_data )
 		{
 			// Ticks
 			if ( $datacolumns == 0 )
@@ -364,7 +364,7 @@ if ( isset( $_REQUEST['category_id'] )
 			{
 				$series = true;
 
-				foreach ( (array)$chart_data as $i => $data )
+				foreach ( (array) $chart_data as $i => $data )
 				{
 					if ( $series )
 					{
@@ -402,7 +402,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	$select_options = array();
 
-	foreach ( (array)$categories_RET as $category )
+	foreach ( (array) $categories_RET as $category )
 	{
 		$select_options[$category['ID']] = $category['TITLE'];
 	}
@@ -473,7 +473,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			// IGNORE THE 'Series' RECORD
 			$LO_columns = array( 'TITLE' => _( 'Option' ) );
 
-			foreach ( (array)$chart['chart_data'] as $timeframe => $values )
+			foreach ( (array) $chart['chart_data'] as $timeframe => $values )
 			{	
 				if ( $timeframe != 0 )
 				{
@@ -481,7 +481,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 					unset( $values[0] );
 
-					foreach ( (array)$values as $key => $value )
+					foreach ( (array) $values as $key => $value )
 					{
 						$chart_data[$key][$timeframe] = $value;
 					}
@@ -490,7 +490,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 				{
 					unset( $values[0] );
 
-					foreach ( (array)$values as $key => $value )
+					foreach ( (array) $values as $key => $value )
 					{
 						$chart_data[$key]['TITLE'] = $value;
 					}

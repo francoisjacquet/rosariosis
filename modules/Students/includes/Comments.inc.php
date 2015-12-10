@@ -92,7 +92,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	{
 		$comments_HTML = $staff_name = array();
 
-		foreach ( (array)$comments as $comment )
+		foreach ( (array) $comments as $comment )
 		{
 			$id = $comment['staff_id'];
 

@@ -114,7 +114,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			$_SESSION['orientation'] = 'landscape';
 
-			foreach ( (array)$RET as $student)
+			foreach ( (array) $RET as $student)
 			{
 				//note Francois: bug: small white border at the bottom of page
 				//adapt height if US Letter paper

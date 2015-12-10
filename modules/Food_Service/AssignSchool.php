@@ -5,13 +5,13 @@ if ( $_REQUEST['modfunc']=='update')
 {
 	if ( $_REQUEST['student'] && $_POST['student'])
 	{
-		foreach ( (array)$_REQUEST['student'] as $transaction_id => $school_id)
+		foreach ( (array) $_REQUEST['student'] as $transaction_id => $school_id)
 			if ( $school_id)
 				DBQuery("UPDATE FOOD_SERVICE_TRANSACTIONS SET SCHOOL_ID='".$school_id."' WHERE TRANSACTION_ID='".$transaction_id."'");
 	}
 	if ( $_REQUEST['staff'] && $_POST['staff'])
 	{
-		foreach ( (array)$_REQUEST['staff'] as $transaction_id => $school_id)
+		foreach ( (array) $_REQUEST['staff'] as $transaction_id => $school_id)
 			if ( $school_id)
 				DBQuery("UPDATE FOOD_SERVICE_STAFF_TRANSACTIONS SET SCHOOL_ID='".$school_id."' WHERE TRANSACTION_ID='".$transaction_id."'");
 	}
@@ -22,8 +22,8 @@ if ( $_REQUEST['modfunc']=='update')
 
 $schools_RET = DBGet(DBQuery("SELECT ID,SYEAR,TITLE FROM SCHOOLS"),array(),array('SYEAR'));
 //echo '<pre>'; var_dump($schools_RET); echo '</pre>';
-foreach ( (array)$schools_RET as $syear => $schools)
-	foreach ( (array)$schools as $school)
+foreach ( (array) $schools_RET as $syear => $schools)
+	foreach ( (array) $schools as $school)
 		$schools_select[$syear][$school['ID']] = $school['TITLE'];
 //echo '<pre>'; var_dump($schools_select); echo '</pre>';
 
@@ -45,7 +45,7 @@ echo '</form>';
 function _students($value,$column)
 {
 	$RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fsa WHERE s.STUDENT_ID=fsa.STUDENT_ID AND fsa.ACCOUNT_ID='".$value."'"));
-	foreach ( (array)$RET as $student)
+	foreach ( (array) $RET as $student)
 		$ret .= $student['FULL_NAME'].'<br />';
 	$ret = mb_substr($ret,0,-4);
 	return $ret;

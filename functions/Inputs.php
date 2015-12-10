@@ -29,7 +29,7 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
 {
 	$id = GetInputID( $name );
 
-	$ftitle = FormatInputTitle( $title, '', $value === '' && $required );
+	$ftitle = FormatInputTitle( $title, '', $value == '' && $required );
 
 	if ( AllowEdit()
 		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
@@ -90,7 +90,7 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 {
 	$id = GetInputID( $name );
 
-	$required = $value === '' && mb_strpos( $extra, 'required' ) !== false;
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
@@ -159,7 +159,7 @@ function MLTextInput( $value, $name, $title = '', $extra = '', $div = true )
 {
 	global $RosarioLocales;
 
-	if ( sizeof( $RosarioLocales ) < 2 )
+	if ( count( $RosarioLocales ) < 2 )
 	{
 		return TextInput( $value, $name, $title, $extra, $div );
 	}
@@ -216,7 +216,7 @@ function setMLvalue(id, loc, value){
 
 		$return .= '<div class="ml-text-input"><input type="hidden" id="' . $id . '" name="' . $name . '" value="' . $value . '" />';
 
-		foreach ( (array)$RosarioLocales as $key => $loc )
+		foreach ( (array) $RosarioLocales as $key => $loc )
 		{
 			$return .= '<label><img src="assets/flags/' . $loc . '.png" class="button bigger" /> ';
 
@@ -273,7 +273,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $m
 {
 	$id = GetInputID( $name );
 
-	$required = $value === '' && mb_strpos( $extra, 'required' ) !== false;
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
@@ -470,7 +470,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 {
 	$id = GetInputID( $name );
 
-	$required = $value === '' && mb_strpos( $extra, 'required' ) !== false;
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
@@ -498,7 +498,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 			$select .= '<option value="">' . ( $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na ) . '</option>';
 		}
 
-		foreach ( (array)$options as $key => $val )
+		foreach ( (array) $options as $key => $val )
 		{
 			$selected = '';
 
@@ -590,14 +590,14 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 	global $RosarioLocales,
 		$locale;
 
-	if ( sizeof( $RosarioLocales ) < 2 )
+	if ( count( $RosarioLocales ) < 2 )
 	{
 		return SelectInput( $value, $name, $title, $options, $div );
 	}
 
 	$id = GetInputID( $name );
 
-	$required = $value === '' && mb_strpos( $extra, 'required' ) !== false;
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
@@ -625,7 +625,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 			$select .= '<option value="">' . ( $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na ) . '</option>';
 		}
 
-		foreach ( (array)$options as $key => $val )
+		foreach ( (array) $options as $key => $val )
 		{
 			$selected = '';
 
@@ -712,7 +712,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 {
 	$id = GetInputID( $name );
 
-	$required = $value === '' && mb_strpos( $extra, 'required' ) !== false;
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
@@ -736,7 +736,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 				( $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na ) . '</label></td>';
 		}
 
-		foreach ( (array)$options as $key => $val )
+		foreach ( (array) $options as $key => $val )
 		{
 			$checked = '';
 
@@ -822,7 +822,7 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
 
 	$id = GetInputID( $name );
 
-	$required = $value === '' && mb_strpos( $extra, 'required' ) !== false;
+	$required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
@@ -977,7 +977,7 @@ function GetInputID( $name )
  * @since 2.9
  *
  * @example $id = GetInputID( $name );
- *          $required = $value === '' && mb_strpos( $extra, 'required' ) !== false;
+ *          $required = $value == '' && mb_strpos( $extra, 'required' ) !== false;
  *          $ftitle = FormatInputTitle( $title, $id, $required );
  *
  * @uses Use it if your *Field type (ie. password) is not supported to get a standardized Title

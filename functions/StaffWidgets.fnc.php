@@ -115,7 +115,7 @@ function StaffWidgets( $item, &$myextra = null )
 					''
 				) ) );
 
-			foreach ( (array)$widgets_RET as $widget )
+			foreach ( (array) $widgets_RET as $widget )
 			{
 				StaffWidgets( $widget['TITLE'], $extra );
 			}

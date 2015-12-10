@@ -15,7 +15,7 @@ if ( !isset($_ROSARIO['allow_edit']))
 $config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 
 if (count($config_RET))
-	foreach ( (array)$config_RET as $title => $value)
+	foreach ( (array) $config_RET as $title => $value)
 		$programconfig[User('STAFF_ID')][$title] = $value[1]['VALUE'];
 else
 	$programconfig[User('STAFF_ID')] = true;
@@ -128,9 +128,9 @@ if ( $_REQUEST['values'] && $_POST['values'] && $_SESSION['type_id']==$_REQUEST[
 	else
 		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
 
-	foreach ( (array)$_REQUEST['values'] as $student_id => $assignments)
+	foreach ( (array) $_REQUEST['values'] as $student_id => $assignments)
 	{
-		foreach ( (array)$assignments as $assignment_id => $columns)
+		foreach ( (array) $assignments as $assignment_id => $columns)
 		{
 			if ( $columns['POINTS'])
 			{
@@ -156,7 +156,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && $_SESSION['type_id']==$_REQUEST[
 			{
 				$sql = "UPDATE GRADEBOOK_GRADES SET ";
 
-				foreach ( (array)$columns as $column => $value)
+				foreach ( (array) $columns as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -256,7 +256,7 @@ else
 		$extra['SELECT'] = ",extract(EPOCH FROM ".db_greatest('ssm.START_DATE','ss.START_DATE').") AS START_EPOCH,extract(EPOCH FROM ".db_least('ssm.END_DATE','ss.END_DATE').") AS END_EPOCH";
 		$extra['functions'] = array();
 
-		foreach ( (array)$assignments_RET as $id => $assignment )
+		foreach ( (array) $assignments_RET as $id => $assignment )
 		{
 			$assignment = $assignment[1];
 
@@ -353,7 +353,7 @@ $type_select .= '<option value=""' . ( !$_REQUEST['type_id'] ? ' selected' : '' 
 	_( 'All' ) .
 '</option>';
 
-foreach ( (array)$types_RET as $id => $type )
+foreach ( (array) $types_RET as $id => $type )
 {
 	$type_select .= '<option value="' . $id . '"' . ( $_REQUEST['type_id'] == $id? ' selected' : '' ) . '>' .
 		$type[1]['TITLE'] .
@@ -379,7 +379,7 @@ $assignment_select .= '<option value="all"' . ( ( $_REQUEST['assignment_id'] ===
 if (UserStudentID() && $_REQUEST['assignment_id']=='all')
 	$assignment_select .= '<option value="all" selected>'.$stu_RET[1]['FULL_NAME'].'</option>';
 
-foreach ( (array)$assignments_RET as $id => $assignment)
+foreach ( (array) $assignments_RET as $id => $assignment)
 	$assignment_select .= '<option value="'.$id.'"'.($_REQUEST['assignment_id']==$id?' selected':'').'>'.($_REQUEST['type_id']?'':$types_RET[$assignment[1]['ASSIGNMENT_TYPE_ID']][1]['TITLE'].' - ').$assignment[1]['TITLE'].'</option>';
 $assignment_select .= '</select>';
 
@@ -390,7 +390,7 @@ $tabs = array( array(
 	'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&type_id=' . ( $_REQUEST['assignment_id'] == 'all' ? '&assignment_id=all' : '' ) . ( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) . '&include_inactive=' . $_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all']
 ));
 
-foreach ( (array)$types_RET as $id => $type )
+foreach ( (array) $types_RET as $id => $type )
 {
 	$color = '';
 
@@ -480,7 +480,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 
 				if (count($points_RET[$THIS_RET['STUDENT_ID']]))
 				{
-					foreach ( (array)$points_RET[$THIS_RET['STUDENT_ID']] as $partial_points)
+					foreach ( (array) $points_RET[$THIS_RET['STUDENT_ID']] as $partial_points)
 					{
 						if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[User('STAFF_ID')]['WEIGHT']!='Y')
 						{
@@ -526,7 +526,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 				$total = $total_percent = 0;
 				if (count($points_RET[$THIS_RET['STUDENT_ID']]))
 				{
-					foreach ( (array)$points_RET[$THIS_RET['STUDENT_ID']] as $partial_points)
+					foreach ( (array) $points_RET[$THIS_RET['STUDENT_ID']] as $partial_points)
 						if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[User('STAFF_ID')]['WEIGHT']!='Y')
 						{
 							$total += $partial_points['PARTIAL_POINTS']*($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);

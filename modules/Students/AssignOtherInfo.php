@@ -4,7 +4,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$date = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
 	if (count($_REQUEST['month_values']))
 	{
-		foreach ( (array)$_REQUEST['month_values'] as $field_name => $month)
+		foreach ( (array) $_REQUEST['month_values'] as $field_name => $month)
 		{
 			$_REQUEST['values'][$field_name] = $_REQUEST['day_values'][$field_name].'-'.$month.'-'.$_REQUEST['year_values'][$field_name];
 			if ( !VerifyDate($_REQUEST['values'][$field_name]))
@@ -45,7 +45,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			unset($_REQUEST['values']['ENROLLMENT_CODE']);
 		}
 
-		foreach ( (array)$_REQUEST['values'] as $field => $value)
+		foreach ( (array) $_REQUEST['values'] as $field => $value)
 		{
 			if (isset($value) && $value!='')
 			{
@@ -54,7 +54,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			}
 		}
 
-		foreach ( (array)$_REQUEST['student'] as $student_id => $yes)
+		foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 		{
 			if ( $yes=='Y')
 			{
@@ -150,7 +150,7 @@ if (empty($_REQUEST['modfunc']))
 
 		echo '<option value="">' . _( 'All Categories' ) . '</option>';
 
-		foreach ( (array)$categories_RET as $category)
+		foreach ( (array) $categories_RET as $category)
 			echo '<option value="'.$category['ID'].'"'.($_REQUEST['category_id']==$category['ID']?' selected':'').'>'.ParseMLField($category['TITLE']).'</option>';
 		echo '</select>';
 
@@ -158,32 +158,32 @@ if (empty($_REQUEST['modfunc']))
 
 		if (count($fields_RET['text']))
 		{
-			foreach ( (array)$fields_RET['text'] as $field)
+			foreach ( (array) $fields_RET['text'] as $field)
 				echo '<tr><td><b>'.ParseMLField($field['TITLE']).'</b></td><td>'._makeTextInput('CUSTOM_'.$field['ID']).'</td></tr>';
 		}
 
 		if (count($fields_RET['numeric']))
 		{
-			foreach ( (array)$fields_RET['numeric'] as $field)
+			foreach ( (array) $fields_RET['numeric'] as $field)
 				echo '<tr><td><b>'.ParseMLField($field['TITLE']).'</b></td><td>'._makeTextInput('CUSTOM_'.$field['ID'],true).'</td></tr>';
 		}
 
 		if (count($fields_RET['date']))
 		{
-			foreach ( (array)$fields_RET['date'] as $field)
+			foreach ( (array) $fields_RET['date'] as $field)
 				echo '<tr><td><b>'.ParseMLField($field['TITLE']).'</b></td><td>'._makeDateInput('CUSTOM_'.$field['ID']).'</td></tr>';
 		}
 
 		if (count($fields_RET['select']))
 		{
-			foreach ( (array)$fields_RET['select'] as $field)
+			foreach ( (array) $fields_RET['select'] as $field)
 			{
 				$select_options = array();
 				$field['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
 				$options = explode("\r",$field['SELECT_OPTIONS']);
 				if (count($options))
 				{
-					foreach ( (array)$options as $option)
+					foreach ( (array) $options as $option)
 						if ( $option!='')
 							$select_options[$option] = $option;
 				}
@@ -194,14 +194,14 @@ if (empty($_REQUEST['modfunc']))
 
 		if (count($fields_RET['codeds']))
 		{
-			foreach ( (array)$fields_RET['codeds'] as $field)
+			foreach ( (array) $fields_RET['codeds'] as $field)
 			{
 				$select_options = array();
 				$field['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
 				$options = explode("\r",$field['SELECT_OPTIONS']);
 				if (count($options))
 				{
-					foreach ( (array)$options as $option)
+					foreach ( (array) $options as $option)
 					{
 						$option = explode('|',$option);
 						if ( $option[0]!='' && $option[1]!='')
@@ -215,7 +215,7 @@ if (empty($_REQUEST['modfunc']))
 		// TODO: (see Search.fnc.php)
 		// merge select, autos, edits, exports & codeds
 		// (same or similar SELECT output)
-		foreach ( (array)$fields_RET['autos'] as $field )	
+		foreach ( (array) $fields_RET['autos'] as $field )	
 		{
 			$select_options = array();
 
@@ -224,7 +224,7 @@ if (empty($_REQUEST['modfunc']))
 				nl2br( $field['SELECT_OPTIONS'] )
 			);
 
-			foreach ( (array)$options as $option )
+			foreach ( (array) $options as $option )
 				if ( $option != '' )
 					$select_options[$option] = $option;
 
@@ -242,7 +242,7 @@ if (empty($_REQUEST['modfunc']))
 				AND s." . $field_name . " != ''
 				ORDER BY KEY" ) );
 			
-			foreach ( (array)$options_RET as $option )
+			foreach ( (array) $options_RET as $option )
 				if ( !in_array( $option[$field_name], $options ) )
 					$select_options[$option[$field_name]] = array(
 						$option[$field_name],
@@ -254,14 +254,14 @@ if (empty($_REQUEST['modfunc']))
 
 		if (count($fields_RET['edits']))
 			{
-			foreach ( (array)$fields_RET['edits'] as $field)
+			foreach ( (array) $fields_RET['edits'] as $field)
 			{
 				$select_options = array();
 				$field['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
 				$options = explode("\r",$field['SELECT_OPTIONS']);
 				if (count($options))
 				{
-					foreach ( (array)$options as $option)
+					foreach ( (array) $options as $option)
 						if ( $option!='')
 							$select_options[$option] = $option;
 				}
@@ -276,14 +276,14 @@ if (empty($_REQUEST['modfunc']))
 
 		if (count($fields_RET['exports']))
 		{
-			foreach ( (array)$fields_RET['exports'] as $field)
+			foreach ( (array) $fields_RET['exports'] as $field)
 			{
 				$select_options = array();
 				$field['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
 				$options = explode("\r",$field['SELECT_OPTIONS']);
 				if (count($options))
 				{
-					foreach ( (array)$options as $option)
+					foreach ( (array) $options as $option)
 					{
 						$option = explode('|',$option);
 						if ( $option[0]!='')
@@ -296,7 +296,7 @@ if (empty($_REQUEST['modfunc']))
 
 		if (count($fields_RET['textarea']))
 		{
-			foreach ( (array)$fields_RET['textarea'] as $field)
+			foreach ( (array) $fields_RET['textarea'] as $field)
 			{
 				echo '<tr><td><b>'.ParseMLField($field['TITLE']).'</b></td><td>';
 				echo _makeTextareaInput('CUSTOM_'.$field['ID']);
@@ -311,7 +311,7 @@ if (empty($_REQUEST['modfunc']))
 			$options = array();
 			if (count($gradelevels_RET))
 			{
-				foreach ( (array)$gradelevels_RET as $gradelevel)
+				foreach ( (array) $gradelevels_RET as $gradelevel)
 					$options[$gradelevel['ID']] = $gradelevel['TITLE'];
 			}
 			echo _makeSelectInput('GRADE_ID',$options);
@@ -322,7 +322,7 @@ if (empty($_REQUEST['modfunc']))
 			$options = array(UserSchool() => _('Next grade at current school'),'0' => _('Retain'),'-1' => _('Do not enroll after this school year'));
 			if (count($schools_RET))
 			{
-				foreach ( (array)$schools_RET as $school)
+				foreach ( (array) $schools_RET as $school)
 					$options[$school['ID']] = $school['TITLE'];
 			}
 			echo _makeSelectInput('NEXT_SCHOOL',$options);
@@ -333,7 +333,7 @@ if (empty($_REQUEST['modfunc']))
 			$options = array();
 			if (count($calendars_RET))
 			{
-				foreach ( (array)$calendars_RET as $calendar)
+				foreach ( (array) $calendars_RET as $calendar)
 					$options[$calendar['CALENDAR_ID']] = $calendar['TITLE'];
 			}
 			echo _makeSelectInput('CALENDAR_ID',$options);
@@ -343,7 +343,7 @@ if (empty($_REQUEST['modfunc']))
 			$options_RET = DBGet(DBQuery("SELECT ID,TITLE AS TITLE FROM STUDENT_ENROLLMENT_CODES WHERE SYEAR='".UserSyear()."' AND TYPE='Add' ORDER BY SORT_ORDER"));
 			if ( $options_RET)
 			{
-				foreach ( (array)$options_RET as $option)
+				foreach ( (array) $options_RET as $option)
 					$add_codes[$option['ID']] = $option['TITLE'];
 			}
 			echo '<div class="nobr">'._makeDateInput('START_DATE').' - '._makeSelectInput('ENROLLMENT_CODE',$add_codes).'</div>';

@@ -79,11 +79,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		$handle = PDFStart();
 		if ( $_REQUEST['schedule_table'] == 'No')	
-			foreach ( (array)$RET as $student_id => $courses)
+			foreach ( (array) $RET as $student_id => $courses)
 			{
 				if ( $_REQUEST['mailing_labels']=='Y')
 				{
-					foreach ( (array)$courses as $address)
+					foreach ( (array) $courses as $address)
 					{
 						echo '<br /><br /><br />';
 						unset($_ROSARIO['DrawHeader']);
@@ -119,9 +119,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			
 	//FJ add schedule table
 		if ( $_REQUEST['schedule_table'] == 'Yes')	
-			foreach ( (array)$schedule_table_RET as $student_id => $schedule_table)
+			foreach ( (array) $schedule_table_RET as $student_id => $schedule_table)
 			{
-				/*foreach ( (array)$schedule_table as $period => $course_periods)
+				/*foreach ( (array) $schedule_table as $period => $course_periods)
 				{
 					$schedule_table_body .= '<tr><td>'.$period.'</td>';
 
@@ -151,7 +151,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				if ( $_REQUEST['mailing_labels']=='Y' && isset($RET[$student_id]))
 				{
-					foreach ( (array)$RET[$student_id] as $address)
+					foreach ( (array) $RET[$student_id] as $address)
 					{
 						echo '<br /><br /><br />';
 						unset($_ROSARIO['DrawHeader']);
@@ -209,7 +209,7 @@ if (empty($_REQUEST['modfunc']))
 	{
 		$mp_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,".db_case(array('MP',"'FY'","'0'","'SEM'","'1'","'QTR'","'2'"))." AS TBL FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TBL,SORT_ORDER"));
 		$mp_select = '<select name="mp_id"><option value="">'._('N/A');
-		foreach ( (array)$mp_RET as $mp)
+		foreach ( (array) $mp_RET as $mp)
 			$mp_select .= '<option value="'.$mp['MARKING_PERIOD_ID'].'">'.$mp['TITLE'];
 		$mp_select .= '</select>';
 
@@ -280,7 +280,7 @@ function _schedule_table_RET($schedule_table_RET)
 {
 	$schedule_table_body = array();
 	$i = 1;
-	foreach ( (array)$schedule_table_RET as $period => $course_periods)
+	foreach ( (array) $schedule_table_RET as $period => $course_periods)
 	{
 		$schedule_table_body[$i]['SCHOOL_PERIOD'] = $period;
 

@@ -115,7 +115,7 @@ switch (User('PROFILE'))
 		{
 		// warn if missing attendances
 		$categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION SELECT ID,TITLE,1,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY 3,SORT_ORDER"));
-		foreach ( (array)$categories_RET as $category)
+		foreach ( (array) $categories_RET as $category)
 		{
 		//FJ days numbered
 		//FJ multiple school periods for a course period
@@ -287,7 +287,7 @@ switch (User('PROFILE'))
 		{
 			// warn if missing attendances
 			$categories_RET = DBGet(DBQuery("SELECT '0' AS ID,'Attendance' AS TITLE,0,NULL AS SORT_ORDER UNION SELECT ID,TITLE,1,SORT_ORDER FROM ATTENDANCE_CODE_CATEGORIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY 3,SORT_ORDER"));
-			foreach ( (array)$categories_RET as $category)
+			foreach ( (array) $categories_RET as $category)
 			{
 			//FJ days numbered
 			//FJ multiple school periods for a course period

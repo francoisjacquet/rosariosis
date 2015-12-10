@@ -9,7 +9,7 @@ if ( $_REQUEST['modfunc']=='update')
 	{
 		if ( $_REQUEST['tab_id'])
 		{
-			foreach ( (array)$_REQUEST['values'] as $id => $columns)
+			foreach ( (array) $_REQUEST['values'] as $id => $columns)
 			{
 		//FJ fix SQL bug invalid sort order
 				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -21,7 +21,7 @@ if ( $_REQUEST['modfunc']=='update')
 						else
 							$sql = "UPDATE REPORT_CARD_COMMENT_CODE_SCALES SET ";
 
-						foreach ( (array)$columns as $column => $value)
+						foreach ( (array) $columns as $column => $value)
 							$sql .= $column."='".$value."',";
 
 						if ( $_REQUEST['tab_id']!='new')
@@ -46,7 +46,7 @@ if ( $_REQUEST['modfunc']=='update')
 						}
 
 						$go = false;
-						foreach ( (array)$columns as $column => $value)
+						foreach ( (array) $columns as $column => $value)
 							if ( !empty($value) || $value=='0')
 							{
 								$fields .= $column.',';
@@ -101,7 +101,7 @@ if (empty($_REQUEST['modfunc']))
 
 	$tabs = array();
 	$comment_scale_select = array();
-	foreach ( (array)$comment_scales_RET as $id => $comment_scale)
+	foreach ( (array) $comment_scales_RET as $id => $comment_scale)
 	{
 		$tabs[] = array('title' => $comment_scale[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
 		$comment_scale_select[$id] = $comment_scale[1]['TITLE'];

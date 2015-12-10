@@ -110,7 +110,7 @@ $current_RET = DBGet(DBQuery('SELECT ITEM_ID FROM FOOD_SERVICE_COMPLETED WHERE S
 if ( $_REQUEST['values'] && $_POST['values'])
 {
 	GetCurrentMP('QTR',$date);
-	foreach ( (array)$_REQUEST['values'] as $id => $value)
+	foreach ( (array) $_REQUEST['values'] as $id => $value)
 	{
 		if ( $current_RET[$id])
 		{
@@ -161,7 +161,7 @@ $LO_columns = array('DESCRIPTION' => _('Item'),'COUNT' => _('Count'));
 	if (count($menus_RET)>1)
 	{
 		$tabs = array();
-		foreach ( (array)$menus_RET as $id => $meal)
+		foreach ( (array) $menus_RET as $id => $meal)
 			$tabs[] = array('title' => $meal[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id.'&day_date='.$_REQUEST['day_date'].'&month_date='.$_REQUEST['month_date'].'&year_date='.$_REQUEST['year_date']);
 
 		echo '<br />';

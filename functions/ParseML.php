@@ -71,7 +71,7 @@ function ParseMLArray( $array, $keys )
 	//modify loop: use for instead of foreach
 	$k = array_keys( $array );
 
-	$size = sizeOf( $k );
+	$size = count( $k );
 
 	for ( $i = 0; $i < $size; $i++ )
 	{
@@ -84,7 +84,7 @@ function ParseMLArray( $array, $keys )
 			if ( !is_array( $keys ) )
 				$keys = array( $keys );
 
-			foreach ( (array)$keys as $key )
+			foreach ( (array) $keys as $key )
 				if ( $k[$i] == $key ) $array[$k[$i]] = ParseMLField( $array[$k[$i]] );
 		}
 	}

@@ -15,9 +15,9 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	if (count($_REQUEST['month_']))
 	{
-		foreach ( (array)$_REQUEST['month_'] as $id => $columns)
+		foreach ( (array) $_REQUEST['month_'] as $id => $columns)
 		{
-			foreach ( (array)$columns as $column => $value)
+			foreach ( (array) $columns as $column => $value)
 			{
 				if ( $_REQUEST['day_'][$id][$column] && $_REQUEST['month_'][$id][$column] && $_REQUEST['year_'][$id][$column])
 					$_REQUEST['values'][$id][$column] = $_REQUEST['day_'][$id][$column].'-'.$_REQUEST['month_'][$id][$column].'-'.$_REQUEST['year_'][$id][$column];
@@ -25,13 +25,13 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		}
 	}
 
-	foreach ( (array)$_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
 		if ( $id!='new')
 		{
 			$sql = "UPDATE ACCOUNTING_SALARIES SET ";
 							
-			foreach ( (array)$columns as $column => $value)
+			foreach ( (array) $columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -46,7 +46,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$values = db_seq_nextval('ACCOUNTING_SALARIES_SEQ').",'".UserStaffID()."','".UserSchool()."','".UserSyear()."','".DBDate()."',";
 			
 			$go = 0;
-			foreach ( (array)$columns as $column => $value)
+			foreach ( (array) $columns as $column => $value)
 			{
 				if ( !empty($value) || $value=='0')
 				{
@@ -82,7 +82,7 @@ if (UserStaffID() && !$_REQUEST['modfunc'])
 	$salaries_RET = DBGet(DBQuery("SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,f.AMOUNT FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID='".UserStaffID()."' AND f.SYEAR='".UserSyear()."' ORDER BY f.ASSIGNED_DATE"),$functions);
 	$i = 1;
 	$RET = array();
-	foreach ( (array)$salaries_RET as $salary)
+	foreach ( (array) $salaries_RET as $salary)
 	{
 		$RET[$i] = $salary;
 		$i++;

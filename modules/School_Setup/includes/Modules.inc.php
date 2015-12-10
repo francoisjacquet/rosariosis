@@ -157,7 +157,7 @@ if (empty($_REQUEST['modfunc']))
 		echo ErrorMessage($error);
 
 	$modules_RET = array('');
-	foreach ( (array)$RosarioModules as $module_title => $activated)
+	foreach ( (array) $RosarioModules as $module_title => $activated)
 	{
 		$THIS_RET = array();
 		$THIS_RET['DELETE'] = _makeDelete($module_title,$activated);

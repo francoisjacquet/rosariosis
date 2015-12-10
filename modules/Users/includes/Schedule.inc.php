@@ -110,7 +110,7 @@ function _schedule_table_RET($schedule_table_RET)
 {
 	$schedule_table_body = array();
 	$i = 1;
-	foreach ( (array)$schedule_table_RET as $period => $course_periods)
+	foreach ( (array) $schedule_table_RET as $period => $course_periods)
 	{
 		$schedule_table_body[$i]['SCHOOL_PERIOD'] = $period;
 

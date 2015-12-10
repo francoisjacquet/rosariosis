@@ -7,7 +7,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 //FJ fix SQL bug invalid amount
 		if (is_numeric($_REQUEST['amount']))
 		{
-			foreach ( (array)$_REQUEST['student'] as $student_id => $yes)
+			foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 			{
 				$sql = "INSERT INTO BILLING_PAYMENTS (ID,SYEAR,SCHOOL_ID,STUDENT_ID,PAYMENT_DATE,AMOUNT,COMMENTS)
 							values(".db_seq_nextval('BILLING_PAYMENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$student_id."','".DBDate()."','".preg_replace('/[^0-9,.]+/','',$_REQUEST['amount'])."','".$_REQUEST['comments']."')";

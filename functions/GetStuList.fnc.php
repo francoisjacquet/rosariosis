@@ -129,7 +129,7 @@ function GetStuList( &$extra = array() )
 
 			$select = '';
 
-			foreach ( (array)$custom_fields_RET as $field)
+			foreach ( (array) $custom_fields_RET as $field)
 			{
 				$extra['columns_after'] = array(
 					'CUSTOM_' . $field['ID'] => ParseMLField( $field['TITLE'] ) )
@@ -252,7 +252,7 @@ function GetStuList( &$extra = array() )
 				$_REQUEST['addr'] = $addr;
 			}
 
-			foreach ( (array)$view_fields_RET as $field )
+			foreach ( (array) $view_fields_RET as $field )
 			{
 				$field_key = 'CUSTOM_' . $field['ID'];
 				$extra['columns_after'][$field_key] = $field['TITLE'];
@@ -353,7 +353,7 @@ function GetStuList( &$extra = array() )
 				WHERE cf.ID IN (" . $extra['student_fields']['view'] . ")
 				ORDER BY cf.SORT_ORDER,cf.TITLE" ) );
 
-			foreach ( (array)$view_fields_RET as $field )
+			foreach ( (array) $view_fields_RET as $field )
 			{
 				$field_key = 'CUSTOM_' . $field['ID'];
 
@@ -690,7 +690,7 @@ function makeContactInfo( $student_id, $column )
 	{
 		$tipmsg = '';
 
-		foreach ( (array)$contacts_RET[$student_id] as $person )
+		foreach ( (array) $contacts_RET[$student_id] as $person )
 		{
 			if ( $person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'] )
 			{
@@ -706,7 +706,7 @@ function makeContactInfo( $student_id, $column )
 				'</span></td><td>' . $person[1]['PHONE'] . '</td></tr>';
 			}
 
-			foreach ( (array)$person as $info )
+			foreach ( (array) $person as $info )
 			{
 				if ( $info['TITLE']
 					|| $info['VALUE'] )
@@ -835,7 +835,7 @@ function makeParents( $student_id, $column )
 		return '';
 	}
 
-	foreach ( (array)$people_RET as $person )
+	foreach ( (array) $people_RET as $person )
 	{
 		//FJ PrintClassLists with all contacts
 		if ( $person['CUSTODY'] == 'Y' )
@@ -971,13 +971,13 @@ function appendSQL( $sql, $extra = array() )
 
 		if ( !$no_search_terms )
 		{
-			$_ROSARIO['SearchTerms'] .= '<b>' . ngettext( 'Grade', 'Grades', sizeof( $_REQUEST['grades'] ) ) .
+			$_ROSARIO['SearchTerms'] .= '<b>' . ngettext( 'Grade', 'Grades', count( $_REQUEST['grades'] ) ) .
 				': </b>' . ( $is_grades_not ? _( 'Excluded' ) . ' ' : '' );
 		}
 
 		$grade_list = $sep = '';
 
-		foreach ( (array)$_REQUEST['grades'] as $grade_id => $y )
+		foreach ( (array) $_REQUEST['grades'] as $grade_id => $y )
 		{
 			$grade_list .= $sep . "'" . $grade_id . "'";
 

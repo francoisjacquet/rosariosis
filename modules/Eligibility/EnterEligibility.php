@@ -2,7 +2,7 @@
 // GET ALL THE CONFIG ITEMS FOR ELIGIBILITY
 $eligibility_config = ProgramConfig( 'eligibility' );
 
-foreach ( (array)$eligibility_config as $value )
+foreach ( (array) $eligibility_config as $value )
 {
 	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
@@ -48,7 +48,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 {
 	$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 	if (count($config_RET))
-		foreach ( (array)$config_RET as $title => $value)
+		foreach ( (array) $config_RET as $title => $value)
 			$programconfig[User('STAFF_ID')][$title] = $value[1]['VALUE'];
 	else
 		$programconfig[User('STAFF_ID')] = true;
@@ -84,10 +84,10 @@ if ( $_REQUEST['modfunc']=='gradebook')
 
 	if (count($points_RET))
 	{
-		foreach ( (array)$points_RET as $student_id => $student)
+		foreach ( (array) $points_RET as $student_id => $student)
 		{
 			$total = $total_percent = 0;
-			foreach ( (array)$student as $partial_points)
+			foreach ( (array) $student as $partial_points)
 				if ( $partial_points['PARTIAL_TOTAL']!=0)
 				{
 					$total += $partial_points['PARTIAL_POINTS'] * $partial_points['FINAL_GRADE_PERCENT'] / $partial_points['PARTIAL_TOTAL'];
@@ -117,7 +117,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 if ( $_REQUEST['values'] && $_POST['values'])
 {
 	$course_period_id = UserCoursePeriod();
-	foreach ( (array)$_REQUEST['values'] as $student_id => $value)
+	foreach ( (array) $_REQUEST['values'] as $student_id => $value)
 	{
 		if ( $current_RET[$student_id])
 			$sql = "UPDATE ELIGIBILITY SET ELIGIBILITY_CODE='".$value."' WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";

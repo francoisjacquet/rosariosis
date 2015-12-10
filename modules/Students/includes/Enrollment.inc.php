@@ -8,7 +8,7 @@ $RET = DBGet(DBQuery("SELECT e.ID,e.ENROLLMENT_CODE,e.START_DATE,e.DROP_CODE,e.E
 $add = true;
 if (count($RET))
 {
-	foreach ( (array)$RET as $value)
+	foreach ( (array) $RET as $value)
 	{
 		if (($value['DROP_CODE']=='' || !$value['DROP_CODE']) && ($value['END']=='' || !$value['END']))
 			$add = false;
@@ -24,21 +24,21 @@ $schools_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOLS WHERE ID!='".UserScho
 $next_school_options = array(UserSchool() => _('Next grade at current school'),'0' => _('Retain'),'-1' => _('Do not enroll after this school year'));
 if (count($schools_RET))
 {
-	foreach ( (array)$schools_RET as $school)
+	foreach ( (array) $schools_RET as $school)
 		$next_school_options[$school['ID']] = $school['TITLE'];
 }
 
 $calendars_RET = DBGet(DBQuery("SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY DEFAULT_CALENDAR ASC"));
 if (count($calendars_RET))
 {
-	foreach ( (array)$calendars_RET as $calendar)
+	foreach ( (array) $calendars_RET as $calendar)
 		$calendar_options[$calendar['CALENDAR_ID']] = $calendar['TITLE'];
 }
 
 $gradelevels_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 if (count($gradelevels_RET))
 {
-	foreach ( (array)$gradelevels_RET as $gradelevel)
+	foreach ( (array) $gradelevels_RET as $gradelevel)
 		$gradelevel_options[$gradelevel['ID']] = $gradelevel['TITLE'];
 }
 

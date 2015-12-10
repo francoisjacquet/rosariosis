@@ -14,7 +14,7 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 			{
 				$sql = '';
 				if (isset($_REQUEST['values']['PROGRAM_CONFIG']) && is_array($_REQUEST['values']['PROGRAM_CONFIG']))
-					foreach ( (array)$_REQUEST['values']['PROGRAM_CONFIG'] as $column => $value )
+					foreach ( (array) $_REQUEST['values']['PROGRAM_CONFIG'] as $column => $value )
 					{
 						$sql .= "UPDATE PROGRAM_CONFIG SET ";
 						$sql .= "VALUE='".$value."' WHERE TITLE='".$column."'";

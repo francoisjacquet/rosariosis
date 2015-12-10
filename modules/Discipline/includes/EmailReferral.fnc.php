@@ -54,7 +54,7 @@ function EmailReferral( $referral_id, $emails )
 
 		$referral_fields = array();
 
-		foreach ( (array)$referral as $column => $Y )
+		foreach ( (array) $referral as $column => $Y )
 		{
 			$category_id = mb_substr( $column, 9 );
 
@@ -89,7 +89,7 @@ function EmailReferral( $referral_id, $emails )
 	// verify emails array and build TO
 	$to_emails = array();
 
-	foreach ( (array)$emails as $email )
+	foreach ( (array) $emails as $email )
 	{
 		if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) )
 			$to_emails[] = $email;

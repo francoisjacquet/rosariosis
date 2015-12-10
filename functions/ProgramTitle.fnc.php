@@ -23,7 +23,7 @@ function ProgramTitle( $modname = '' )
 		require_once 'Menu.php';
 
 	// loop modules
-	foreach ( (array)$_ROSARIO['Menu'] as $modcat => $programs )
+	foreach ( (array) $_ROSARIO['Menu'] as $modcat => $programs )
 	{
 		// Modname not in current Module, continue
 		if ( !isset( $programs[$modname] ) )

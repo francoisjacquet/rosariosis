@@ -1,7 +1,7 @@
 <?php
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	foreach ( (array)$_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
 //FJ fix SQL bug invalid sort order
 		if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
@@ -10,7 +10,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			{
 				$sql = "UPDATE STUDENT_ENROLLMENT_CODES SET ";
 
-				foreach ( (array)$columns as $column => $value)
+				foreach ( (array) $columns as $column => $value)
 				{
 					$sql .= $column."='".$value."',";
 				}
@@ -25,7 +25,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$values = db_seq_nextval('STUDENT_ENROLLMENT_CODES_SEQ').",'".UserSyear()."',";
 
 				$go = 0;
-				foreach ( (array)$columns as $column => $value)
+				foreach ( (array) $columns as $column => $value)
 				{
 					if ( !empty($value) || $value=='0')
 					{

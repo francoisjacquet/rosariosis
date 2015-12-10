@@ -2,7 +2,7 @@
 
 if (count($_REQUEST['mp_arr']))
 {
-        foreach ( (array)$_REQUEST['mp_arr'] as $mp)
+        foreach ( (array) $_REQUEST['mp_arr'] as $mp)
                 $mp_list .= ",'".$mp."'";
         $mp_list = mb_substr($mp_list,1);
         $last_mp = $mp;
@@ -31,25 +31,25 @@ if ( $_REQUEST['delete']=='true')
 			$pid = $_REQUEST['periodidx'];
 			$sdt = $_REQUEST['schooldatex'];
 
-			foreach ( (array)$cnt as $a => $val_dchck)
+			foreach ( (array) $cnt as $a => $val_dchck)
 			{
 				$val1 = $val_dchck;
 				if ( $val1 >= 0)
 				{
 					//echo "$val1 |";
-					foreach ( (array)$sid as $b => $val_sid)
+					foreach ( (array) $sid as $b => $val_sid)
 					{
 						$val2 = $val_sid;
 						if ( $val1 == $i)
 						{
 							//echo "$val2 - $i||| ";
-							foreach ( (array)$pid as $c => $val_pid)
+							foreach ( (array) $pid as $c => $val_pid)
 							{
 								$val3 = $val_pid;
 								if ( $val1 == $ii)
 								{
 									//echo "$val1 - $val2 - $val3 ||| ";
-									foreach ( (array)$sdt as $d => $val_sdt)
+									foreach ( (array) $sdt as $d => $val_sdt)
 									{
 										$val4 = $val_sdt;
 										if ( $val1 == $iii)
@@ -71,7 +71,7 @@ if ( $_REQUEST['delete']=='true')
 				}
 			}
 
-			//foreach ( (array)$sid as $b => $val_sid){
+			//foreach ( (array) $sid as $b => $val_sid){
 			//        $val2 = $val_sid;
 			//        echo "$val2| ";
 			//}
@@ -123,7 +123,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 		$pageresult1 = GetStuList($extra);
 
 		$totalrows = 0;
-		foreach ( (array)$pageresult1 as $rr)
+		foreach ( (array) $pageresult1 as $rr)
 		{
 			$afterr = "N";
 
@@ -240,7 +240,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 		$yellow = 1;
 		$after = "N";
 
-		foreach ( (array)$result1 as $r)
+		foreach ( (array) $result1 as $r)
 		{
 			$after = "N";
 

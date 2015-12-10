@@ -30,13 +30,13 @@ function SaveData( $iu_extra, $field_names = array() )
 	}
 
 	// For each DB table
-	foreach ( (array)$_REQUEST['values'] as $table => $values )
+	foreach ( (array) $_REQUEST['values'] as $table => $values )
 	{
 		// Get DB table columns properties
 		$table_properties = db_properties( $table );
 
 		// For each table entry
-		foreach ( (array)$values as $id => $columns )
+		foreach ( (array) $values as $id => $columns )
 		{
 			// Reset vars
 			$error = $sql = $ins_fields = $ins_values = array();
@@ -44,7 +44,7 @@ function SaveData( $iu_extra, $field_names = array() )
 			$go = false;
 
 			// For each column
-			foreach ( (array)$columns as $column => $value )
+			foreach ( (array) $columns as $column => $value )
 			{
 				if ( isset( $field_names[$table][$column] ) )
 				{

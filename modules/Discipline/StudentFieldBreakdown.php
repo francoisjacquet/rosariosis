@@ -109,7 +109,7 @@ if ( isset( $_REQUEST['field_id'] )
 				AND s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . " != ''
 				ORDER BY KEY" ) );
 
-			foreach ( (array)$options_RET as $option )
+			foreach ( (array) $options_RET as $option )
 			{
 				if ( !$fields_RET[1]['OPTIONS']
 					|| !in_array( $option['CUSTOM_' . intval( $_REQUEST['field_id'] )], $fields_RET[1]['OPTIONS'] ) )
@@ -129,7 +129,7 @@ if ( isset( $_REQUEST['field_id'] )
 
 		$chart['chart_data'][1][] = (int)$totals_RET['*BLANK*'][1]['COUNT'];
 
-		foreach ( (array)$fields_RET[1]['OPTIONS'] as $option )
+		foreach ( (array) $fields_RET[1]['OPTIONS'] as $option )
 		{
 			$chart['chart_data'][0][] = $option;
 
@@ -142,15 +142,15 @@ if ( isset( $_REQUEST['field_id'] )
 
 		$referrals_RET = GetStuList( $extra );
 
-		foreach ( (array)$referrals_RET as $referral )
+		foreach ( (array) $referrals_RET as $referral )
 		{
 			$referral['TITLE'] = explode( "||", trim( $referral['TITLE'], '|' ) );
 
-			foreach ( (array)$referral['TITLE'] as $option )
+			foreach ( (array) $referral['TITLE'] as $option )
 				$options_count[$option]++;
 		}
 
-		foreach ( (array)$fields_RET[1]['OPTIONS'] as $option )
+		foreach ( (array) $fields_RET[1]['OPTIONS'] as $option )
 		{
 			$chart['chart_data'][0][] = $option;
 
@@ -239,11 +239,11 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	$select .= '<option value="">' . _( 'Please choose a student field' ) . '</option>';
 	
-	foreach ( (array)$fields_RET as $field_id => $fields )
+	foreach ( (array) $fields_RET as $field_id => $fields )
 	{
 		$select .= '<optgroup label="' . ParseMLField( $categories_RET[$field_id][1]['TITLE'] ) . '">';
 
-		foreach ( (array)$fields as $field )
+		foreach ( (array) $fields as $field )
 		{
 			$selected = '';
 
@@ -331,7 +331,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		{
 			$chart_data = array( '0' => '' );
 
-			foreach ( (array)$chart['chart_data'][1] as $key => $value )
+			foreach ( (array) $chart['chart_data'][1] as $key => $value )
 				$chart_data[] = array( 'TITLE' => $chart['chart_data'][0][$key], 'VALUE' => $value );
 
 			unset( $chart_data[0] );
@@ -357,7 +357,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			// Line Chart
 			if ( $chartline )
 			{
-				foreach ( (array)$chart['chart_data'][1] as $index => $y )
+				foreach ( (array) $chart['chart_data'][1] as $index => $y )
 				{
 					if ( is_numeric( $chart['chart_data'][0][$index] ) )
 					{
@@ -376,7 +376,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			// Pie Chart
 			else
 			{
-				foreach ( (array)$chart['chart_data'][1] as $index => $y )
+				foreach ( (array) $chart['chart_data'][1] as $index => $y )
 				{
 					if ( is_numeric( $chart['chart_data'][1][$index] ) )
 					{

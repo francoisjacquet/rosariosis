@@ -57,7 +57,7 @@ function ErrorMessage( $errors, $code = 'error' )
 		{
 			$return .= '</p><ul>';
 			
-			foreach ( (array)$errors as $error )
+			foreach ( (array) $errors as $error )
 			{
 				$return .= '<li>' . $error . '</li>';
 			}

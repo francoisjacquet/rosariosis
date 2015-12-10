@@ -6,7 +6,7 @@ DrawHeader( ProgramTitle() );
 if ( !isset( $menu ) )
 {
 	// include Menu.php for each active module
-	foreach ( (array)$RosarioModules as $module => $active )
+	foreach ( (array) $RosarioModules as $module => $active )
 	{
 		if ( $active )
 		{
@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 	$tmp_menu = $menu;
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
 
-	foreach ( (array)$categories_RET as $category)
+	foreach ( (array) $categories_RET as $category)
 	{
 		$file = 'Students/Student.php&category_id='.$category['ID'];
 		$tmp_menu['Students'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
@@ -48,24 +48,24 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES"));
 
-	foreach ( (array)$categories_RET as $category)
+	foreach ( (array) $categories_RET as $category)
 	{
 		$file = 'Users/User.php&category_id='.$category['ID'];
 		$tmp_menu['Users'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
 
 	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
-	foreach ( (array)$tmp_menu['Users'] as $profile => $modname_array)
+	foreach ( (array) $tmp_menu['Users'] as $profile => $modname_array)
 	{
 		foreach ($modname_array as $modname => $title)
 			if (mb_strpos($modname, 'TeacherPrograms') !== false)
 				unset ($tmp_menu['Users'][$profile][$modname]);
 	}
 	
-	foreach ( (array)$tmp_menu as $modcat => $profiles)
+	foreach ( (array) $tmp_menu as $modcat => $profiles)
 	{
 		$values = $profiles[$xprofile];
-		foreach ( (array)$values as $modname => $title)
+		foreach ( (array) $values as $modname => $title)
 		{
 			if ( !is_numeric($modname))
 			{
@@ -119,7 +119,7 @@ if ( !$staff_RET[1]['PROFILE_ID'])
 	PopTable('header',_('Permissions'));
 //	echo '<table cellspacing=0>';
 	echo '<table class="widefat cellspacing-0">';
-	foreach ( (array)$menu as $modcat => $profiles)
+	foreach ( (array) $menu as $modcat => $profiles)
 	{
 		$values = $profiles[$staff_RET[1]['PROFILE']];
 
@@ -133,7 +133,7 @@ if ( !$staff_RET[1]['PROFILE_ID'])
 		echo '<tr><th><label>'._('Can Use').' '.(AllowEdit()?'<input type="checkbox" name="can_use_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_use_'.$modcat.'.checked,"can_use['.$modcat.'");\' />':'').'</span></label></th><th><label>'._('Can Edit').' '.(AllowEdit()?'<input type="checkbox" name="can_edit_'.$modcat.'" onclick=\'checkAll(this.form,this.form.can_edit_'.$modcat.'.checked,"can_edit['.$modcat.'");\' />':'').'</span></label></th><th>&nbsp;</th></tr>';
 		if (count($values))
 		{
-			foreach ( (array)$values as $file => $title)
+			foreach ( (array) $values as $file => $title)
 			{
 				if ( !is_numeric($file))
 				{
@@ -154,7 +154,7 @@ if ( !$staff_RET[1]['PROFILE_ID'])
 					if ( $modcat=='Students' && $file=='Students/Student.php')
 					{
 						$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
-						foreach ( (array)$categories_RET as $category)
+						foreach ( (array) $categories_RET as $category)
 						{
 							$file = 'Students/Student.php&category_id='.$category['ID'];
 							$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
@@ -171,7 +171,7 @@ if ( !$staff_RET[1]['PROFILE_ID'])
 					elseif ( $modcat=='Users' && $file=='Users/User.php')
 					{
 						$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
-						foreach ( (array)$categories_RET as $category)
+						foreach ( (array) $categories_RET as $category)
 						{
 							$file = 'Users/User.php&category_id='.$category['ID'];
 							$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);

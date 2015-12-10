@@ -28,7 +28,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 
 		unset($_REQUEST['modfunc']);
 		$handle = PDFStart();
-		foreach ( (array)$RET as $student)
+		foreach ( (array) $RET as $student)
 		{
 			SetUserStudentID($student['STUDENT_ID']);
 
@@ -75,13 +75,13 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION"));
 				
 				$address_previous = "x";
-				foreach ( (array)$addresses_RET as $address)
+				foreach ( (array) $addresses_RET as $address)
 				{
 					$address_current = $address['ADDRESS'];
 					if ( $address_current != $address_previous)
 					{
 						echo $address['ADDRESS'].'<br />'.($address['CITY']?$address['CITY'].', ':'').$address['STATE'].($address['ZIPCODE']?' '.$address['ZIPCODE']:'').'<br />';
-						foreach ( (array)$address_categories_RET as $categories)
+						foreach ( (array) $address_categories_RET as $categories)
 						{
 							echo '<br /><table>';
 							if ( !$categories[1]['RESIDENCE']&&!$categories[1]['MAILING']&&!$categories[1]['BUS'] || $categories[1]['RESIDENCE']=='Y'&&$address['RESIDENCE']=='Y' || $categories[1]['MAILING']=='Y'&&$address['MAILING']=='Y' || $categories[1]['BUS']=='Y'&&($address['BUS_PICKUP']=='Y'||$address['BUS_DROPOFF']=='Y'))
@@ -89,12 +89,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 							echo '</table>';
 						}
 						$contacts_RET = DBGet(DBQuery("SELECT p.PERSON_ID,p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY,sjp.STUDENT_RELATION$people_custom FROM PEOPLE p,STUDENTS_JOIN_PEOPLE sjp WHERE p.PERSON_ID=sjp.PERSON_ID AND sjp.STUDENT_ID='".UserStudentID()."' AND sjp.ADDRESS_ID='".$address['ADDRESS_ID']."'"));
-						foreach ( (array)$contacts_RET as $contact)
+						foreach ( (array) $contacts_RET as $contact)
 						{
 							echo '<br /><b>'.$contact['FIRST_NAME'].' '.($contact['MIDDLE_NAME']?$contact['MIDDLE_NAME'].' ':'').$contact['LAST_NAME'].($contact['STUDENT_RELATION']?': '.$contact['STUDENT_RELATION']:'').' &nbsp;</b><br />';
 							$info_RET = DBGet(DBQuery("SELECT ID,TITLE,VALUE FROM PEOPLE_JOIN_CONTACTS WHERE PERSON_ID='".$contact['PERSON_ID']."'"));
 							echo '<table>';
-							foreach ( (array)$info_RET as $info)
+							foreach ( (array) $info_RET as $info)
 							{
 								echo '<tr><td>&nbsp;</td>';
 								echo '<td>'.$info['TITLE'].'</td>';
@@ -102,7 +102,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 								echo '</tr>';
 							}
 
-							foreach ( (array)$people_categories_RET as $categories)
+							foreach ( (array) $people_categories_RET as $categories)
 								if ( !$categories[1]['CUSTODY']&&!$categories[1]['EMERGENCY'] || $categories[1]['CUSTODY']=='Y'&&$contact['CUSTODY']=='Y' || $categories[1]['EMERGENCY']=='Y'&&$contact['EMERGENCY']=='Y')
 									printCustom($categories,$contact);
 							echo '</table>';
@@ -130,7 +130,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				require_once 'modules/Students/includes/Comments.inc.php';
 				echo '<div style="page-break-after: always;"></div>';
 			}
-			foreach ( (array)$categories_RET as $id => $category)
+			foreach ( (array) $categories_RET as $id => $category)
 			{
 				if ( $id!='1' && $id!='3' && $id!='2' && $id!='4' && $_REQUEST['category'][$id])
 				{
@@ -186,7 +186,7 @@ if (empty($_REQUEST['modfunc']))
 			$can_use_RET = DBGet(DBQuery("SELECT MODNAME FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND CAN_USE='Y'"),array(),array('MODNAME'));
 		$categories_RET = DBGet(DBQuery("SELECT ID,TITLE,INCLUDE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 		$extra['extra_header_right'] = '<table>';
-		foreach ( (array)$categories_RET as $category)
+		foreach ( (array) $categories_RET as $category)
 			if ( $can_use_RET['Students/Student.php&category_id='.$category['ID']])
 			{
 				$extra['extra_header_right'] .= '<tr><td><label>'.ParseMLField($category['TITLE']).'&nbsp;<input type="checkbox" name="category['.$category['ID'].']" value="Y" checked /></label></td></tr>';
@@ -233,8 +233,8 @@ function _makeChooseCheckbox($value,$title)
 
 function explodeCustom(&$categories_RET, &$custom, $prefix)
 {
-	foreach ( (array)$categories_RET as $id => $category)
-		foreach ( (array)$category as $i => $field)
+	foreach ( (array) $categories_RET as $id => $category)
+		foreach ( (array) $category as $i => $field)
 		{
 			$custom .= ','.$prefix.'.CUSTOM_'.$field['ID'];
 			if ( $field['TYPE']=='select' || $field['TYPE']=='codeds')
@@ -242,7 +242,7 @@ function explodeCustom(&$categories_RET, &$custom, $prefix)
 				$select_options = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
 				$select_options = explode("\r",$select_options);
 				$options = array();
-				foreach ( (array)$select_options as $option)
+				foreach ( (array) $select_options as $option)
 				{
 					if ( $field['TYPE']=='codeds')
 					{
@@ -261,7 +261,7 @@ function explodeCustom(&$categories_RET, &$custom, $prefix)
 function printCustom(&$categories, &$values)
 {
 	echo '<tr><td colspan="3"><b>'.ParseMLField($categories[1]['CATEGORY_TITLE']).'<b></td></tr>';
-	foreach ( (array)$categories as $field)
+	foreach ( (array) $categories as $field)
 	{
 		echo '<tr><td>&nbsp;</td>';
 		echo '<td>'.($field['REQUIRED']&&$values['CUSTOM_'.$field['ID']]==''?'<span style="color:red">':'').ParseMLField($field['TITLE']).($field['REQUIRED']&&$values['CUSTOM_'.$field['ID']]==''?'</span>':'').'</td>';

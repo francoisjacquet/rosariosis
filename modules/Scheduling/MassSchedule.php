@@ -44,7 +44,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 						$mp_table = GetMP($_REQUEST['marking_period_id'],'MP');
 
 						$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."' AND SYEAR='".UserSyear()."' AND (('".$start_date."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL) AND '".$start_date."'>=START_DATE)"),array(),array('STUDENT_ID'));
-						foreach ( (array)$_REQUEST['student'] as $student_id => $yes)
+						foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 						{
 							if ( !$current_RET[$student_id])
 							{
@@ -115,7 +115,7 @@ if (empty($_REQUEST['modfunc']))
 		echo '<tr class="st"><td>'._('Marking Period').'</td>';
 		$mp_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,".db_case(array('MP',"'FY'","'0'","'SEM'","'1'","'QTR'","'2'"))." AS TBL FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TBL,SORT_ORDER"));
 		echo '<td><select name="marking_period_id">';
-		foreach ( (array)$mp_RET as $mp)
+		foreach ( (array) $mp_RET as $mp)
 			echo '<option value="'.$mp['MARKING_PERIOD_ID'].'">'.$mp['TITLE'].'</option>';
 		echo '</select>';
 		echo '</td></tr></table>';

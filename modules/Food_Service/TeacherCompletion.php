@@ -40,7 +40,7 @@ $QI = DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SCHO
 $periods_RET = DBGet($QI);
 
 $period_select =  '<select name="period"<option value="">'._('All').'</option>';
-foreach ( (array)$periods_RET as $period)
+foreach ( (array) $periods_RET as $period)
 	$period_select .= '<option value="'.$period[PERIOD_ID].'"'.(($_REQUEST['period']==$period['PERIOD_ID'])?' selected':'').">".$period['TITLE'].'</option>';
 $period_select .= '</select>';
 
@@ -75,11 +75,11 @@ else
 $totals = array(array());
 if (count($RET))
 {
-	foreach ( (array)$RET as $staff_id => $periods)
+	foreach ( (array) $RET as $staff_id => $periods)
 	{
 		$i++;
 		$staff_RET[$i]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
-		foreach ( (array)$periods as $period_id => $period)
+		foreach ( (array) $periods as $period_id => $period)
 		{
 			//$sql = 'SELECT (SELECT DESCRIPTION FROM FOOD_SERVICE_LUNCH_ITEMS WHERE ITEM_ID=ac.ITEM_ID) AS DESCRIPTION,(SELECT SORT_ORDER FROM FOOD_SERVICE_MENU_ITEMS WHERE ITEM_ID=ac.ITEM_ID AND MENU_ID=\''.$_REQUEST['menu_id'].'\') AS SORT_ORDER,ac.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac WHERE ac.STAFF_ID=\''.$staff_id.'\' AND ac.SCHOOL_DATE=\''.$date.'\' AND ac.PERIOD_ID=\''.$period_id.'\' ORDER BY SORT_ORDER';
 			$sql = 'SELECT fsi.DESCRIPTION,fsi.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac,FOOD_SERVICE_ITEMS fsi WHERE ac.STAFF_ID=\''.$staff_id.'\' AND ac.SCHOOL_DATE=\''.$date.'\' AND ac.PERIOD_ID=\''.$period_id.'\' AND ac.MENU_ID=\''.$_REQUEST['menu_id'].'\' AND fsi.ITEM_ID=ac.ITEM_ID ORDER BY fsi.SORT_ORDER';
@@ -88,7 +88,7 @@ if (count($RET))
 				$color = 'FFFFFF';
 
 				$staff_RET[$i][$period_id] = '<table style="background-color:#'.$color.'"><tr>';
-				foreach ( (array)$items_RET as $item) {
+				foreach ( (array) $items_RET as $item) {
 					$staff_RET[$i][$period_id] .= '<td style="background-color:#'.$color.'">'.($item['COUNT'] ? $item['COUNT'] : '0').'<br />'.$item['DESCRIPTION'].'</td>';
 					if ( $color=='FFFFFF')
 						$color = 'F0F0F0';
@@ -110,7 +110,7 @@ if (count($RET))
 $columns = array('FULL_NAME' => 'Teacher');
 if ( !$_REQUEST['period'])
 {
-	foreach ( (array)$periods_RET as $period)
+	foreach ( (array) $periods_RET as $period)
 		$columns[$period['PERIOD_ID']] = $period['TITLE'];
 }
 
@@ -122,7 +122,7 @@ echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=add&men
 if (count($menus_RET)>1)
 {
 	$tabs = array();
-	foreach ( (array)$menus_RET as $id => $menu)
+	foreach ( (array) $menus_RET as $id => $menu)
 		$tabs[] = array('title' => $menu[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$id);
 
 	echo '<br />';

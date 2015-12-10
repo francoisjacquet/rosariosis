@@ -557,7 +557,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 				//COURSE_PERIOD_ID
 				$course_periods_RET = DBGet(DBQuery("SELECT mxc.MOODLE_ID AS CP_MOODLE_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'"));
 
-				foreach ( (array)$course_periods_RET as $reset_course_period)
+				foreach ( (array) $course_periods_RET as $reset_course_period)
 				{
 					$cp_moodle_id = $reset_course_period['CP_MOODLE_ID'];
 					$cp_teacher_id = $reset_course_period['TEACHER_ID'];
@@ -578,7 +578,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$staff_RET = DBGet(DBQuery("SELECT STAFF_ID,ROLLOVER_ID FROM STAFF WHERE SYEAR='".$next_syear."' AND ROLLOVER_ID IS NOT NULL"));
 
-			foreach ( (array)$staff_RET as $value)
+			foreach ( (array) $staff_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['STAFF_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='staff_id'");
 
 		break;
@@ -588,7 +588,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$course_subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,ROLLOVER_ID FROM COURSE_SUBJECTS WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
 
-			foreach ( (array)$course_subjects_RET as $value)
+			foreach ( (array) $course_subjects_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['SUBJECT_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='subject_id'");
 
 		break;
@@ -598,7 +598,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$courses_RET = DBGet(DBQuery("SELECT COURSE_ID,ROLLOVER_ID FROM COURSES WHERE SYEAR='".$next_syear."' AND SCHOOL_ID='".UserSchool()."' AND ROLLOVER_ID IS NOT NULL"));
 
-			foreach ( (array)$courses_RET as $value)
+			foreach ( (array) $courses_RET as $value)
 				DBQuery("UPDATE MOODLEXROSARIO SET ROSARIO_ID='".$value['COURSE_ID']."' WHERE ROSARIO_ID='".$value['ROLLOVER_ID']."' AND \"column\"='course_id'");
 
 		break;
@@ -608,7 +608,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 
 			$course_periods_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID, cp.COURSE_ID, cp.SHORT_NAME, cp.MARKING_PERIOD_ID, cp.TEACHER_ID FROM COURSE_PERIODS cp, MOODLEXROSARIO mxc WHERE cp.SYEAR='".$next_syear."' AND cp.SCHOOL_ID='".UserSchool()."' AND cp.ROLLOVER_ID IS NOT NULL AND cp.ROLLOVER_ID=mxc.ROSARIO_ID AND mxc.\"column\"='course_period_id'"));
 
-			foreach ( (array)$course_periods_RET as $rolled_course_period)
+			foreach ( (array) $course_periods_RET as $rolled_course_period)
 			{
 				Moodle($modname, 'core_course_create_courses');
 				Moodle($modname, 'core_role_assign_roles');

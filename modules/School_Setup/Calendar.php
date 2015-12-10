@@ -56,7 +56,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 	// prepare table for Copy Calendar & add ' (Default)' mention
 	$copy_calendar_options = array();
 
-	foreach ( (array)$title_RET as $id => $title )
+	foreach ( (array) $title_RET as $id => $title )
 	{
 		$copy_calendar_options[$id] = $title['TITLE'];
 
@@ -152,7 +152,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	$weekdays_inputs = array();
 
-	foreach ( (array)$weekdays as $id => $weekday )
+	foreach ( (array) $weekdays as $id => $weekday )
 	{
 		$value = 'Y';
 
@@ -458,7 +458,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			{
 				$sql = "UPDATE CALENDAR_EVENTS SET ";
 				
-				foreach ( (array)$_REQUEST['values'] as $column => $value)
+				foreach ( (array) $_REQUEST['values'] as $column => $value)
 					$sql .= $column."='".$value."',";
 
 				$sql = mb_substr($sql,0,-1) . " WHERE ID='" . $_REQUEST['event_id'] . "'";
@@ -497,7 +497,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 					$go = false;
 
-					foreach ( (array)$_REQUEST['values'] as $column => $value )
+					foreach ( (array) $_REQUEST['values'] as $column => $value )
 					{
 						if ( !empty( $value )
 							|| $value == '0' )
@@ -781,7 +781,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	// Update School Day minutes
 	if ( isset( $_REQUEST['minutes'] ) )
 	{
-		foreach ( (array)$_REQUEST['minutes'] as $date => $minutes )
+		foreach ( (array) $_REQUEST['minutes'] as $date => $minutes )
 		{
 			if ( $calendar_RET[$date] )
 			{
@@ -826,7 +826,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	// Update All day school
 	if ( isset( $_REQUEST['all_day'] ) )
 	{
-		foreach ( (array)$_REQUEST['all_day'] as $date => $yes )
+		foreach ( (array) $_REQUEST['all_day'] as $date => $yes )
 		{
 			if ( $yes === 'Y' )
 			{
@@ -866,7 +866,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	// Update Blocks
 	if ( isset( $_REQUEST['blocks'] ) )
 	{
-		foreach ( (array)$_REQUEST['blocks'] as $date => $block )
+		foreach ( (array) $_REQUEST['blocks'] as $date => $block )
 		{
 			if ( $calendar_RET[$date] )
 			{
@@ -902,7 +902,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			AND SYEAR='" . UserSyear() . "'
 			ORDER BY DEFAULT_CALENDAR ASC,TITLE" ) );
 
-		foreach ( (array)$title_RET as $title )
+		foreach ( (array) $title_RET as $title )
 		{
 			$options[$title['CALENDAR_ID']] = $title['TITLE'] . ( $title['DEFAULT_CALENDAR']=='Y' ? ' (' . _( 'Default' ) . ')' : '' );
 
@@ -1030,7 +1030,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	$block_options = array();
 
-	foreach ( (array)$blocks_RET as $block)
+	foreach ( (array) $blocks_RET as $block)
 	{
 		$block_options[$block['BLOCK']] = $block['BLOCK'];
 	}
@@ -1143,7 +1143,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		<tr><td colspan="2" class="valign-top">';
 
 		// Events
-		foreach ( (array)$events_RET[$date] as $event )
+		foreach ( (array) $events_RET[$date] as $event )
 		{
 			$title = ( $event['TITLE'] ? $event['TITLE'] : '***' );
 
@@ -1157,7 +1157,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		}
 
 		// Assignments
-		foreach ( (array)$assignments_RET[$date] as $assignment )
+		foreach ( (array) $assignments_RET[$date] as $assignment )
 		{
 			echo '<div class="calendar-event assignment' . ( $assignment['ASSIGNED'] == 'Y' ? ' assigned' : '' ) . '">' .
 				'<a href="#" onclick="CalEventPopup(popupURL + \'&assignment_id=' . $assignment['ID'] . '\'); return false;" title="' . htmlentities( $assignment['TITLE'] ) . '">' .

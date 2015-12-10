@@ -6,7 +6,7 @@ DrawHeader( ProgramTitle() );
 if ( !isset( $menu ) )
 {
 	// include Menu.php for each active module
-	foreach ( (array)$RosarioModules as $module => $active )
+	foreach ( (array) $RosarioModules as $module => $active )
 	{
 		if ( $active )
 		{
@@ -97,7 +97,7 @@ if ( $_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowE
 
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
 
-	foreach ( (array)$categories_RET as $category)
+	foreach ( (array) $categories_RET as $category)
 	{
 		$file = 'Students/Student.php&category_id='.$category['ID'];
 		$tmp_menu['Students'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
@@ -105,14 +105,14 @@ if ( $_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowE
 
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES"));
 
-	foreach ( (array)$categories_RET as $category)
+	foreach ( (array) $categories_RET as $category)
 	{
 		$file = 'Users/User.php&category_id='.$category['ID'];
 		$tmp_menu['Users'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
 		
 	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
-	foreach ( (array)$tmp_menu['Users'] as $profile => $modname_array)
+	foreach ( (array) $tmp_menu['Users'] as $profile => $modname_array)
 	{
 		foreach ($modname_array as $modname => $title)
 			if (mb_strpos($modname, 'TeacherPrograms') !== false)
@@ -120,10 +120,10 @@ if ( $_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowE
 	}
 
 	if ( isset( $_POST['can_use'] ) )
-	foreach ( (array)$tmp_menu as $modcat => $profiles)
+	foreach ( (array) $tmp_menu as $modcat => $profiles)
 	{
 		$values = $profiles[$xprofile];
-		foreach ( (array)$values as $modname => $title)
+		foreach ( (array) $values as $modname => $title)
 		{
 			if ( !is_numeric($modname) && $modname!='default')
 			{
@@ -193,7 +193,7 @@ if ( $_REQUEST['modfunc']!='delete')
 	echo '<tr><th colspan="3">'._('Profiles').'</th></tr>';
 	foreach ( array('admin','teacher','parent','student') as $profiles)
 	{
-		foreach ( (array)$profiles_RET[$profiles] as $id => $profile)
+		foreach ( (array) $profiles_RET[$profiles] as $id => $profile)
 		{
 			if ( $_REQUEST['profile_id']!='' && $id==$_REQUEST['profile_id'])
 				echo '<tr id="selected_tr" class="highlight"><td>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</td><td>';
@@ -234,7 +234,7 @@ if ( $_REQUEST['modfunc']!='delete')
 		PopTable('header',_('Permissions'));
 
 		echo '<table class="widefat cellspacing-0">';
-		foreach ( (array)$menu as $modcat => $profiles )
+		foreach ( (array) $menu as $modcat => $profiles )
 		{
 			$values = $profiles[$xprofile];
 
@@ -255,7 +255,7 @@ if ( $_REQUEST['modfunc']!='delete')
 			echo '<th>&nbsp;</th></tr>';
 			if (count($values))
 			{
-				foreach ( (array)$values as $file => $title)
+				foreach ( (array) $values as $file => $title)
 				{
 					if ( !is_numeric($file) && $file!='default')
 					{
@@ -276,7 +276,7 @@ if ( $_REQUEST['modfunc']!='delete')
 						if ( $modcat=='Students' && $file=='Students/Student.php')
 						{
 							$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
-							foreach ( (array)$categories_RET as $category)
+							foreach ( (array) $categories_RET as $category)
 							{
 								$file = 'Students/Student.php&category_id='.$category['ID'];
 								$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
@@ -294,7 +294,7 @@ if ( $_REQUEST['modfunc']!='delete')
 						elseif ( $modcat=='Users' && $file=='Users/User.php')
 						{
 							$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
-							foreach ( (array)$categories_RET as $category)
+							foreach ( (array) $categories_RET as $category)
 							{
 								$file = 'Users/User.php&category_id='.$category['ID'];
 								$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);

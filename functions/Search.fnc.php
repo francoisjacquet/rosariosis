@@ -155,7 +155,7 @@ function Search( $type, $extra = null )
 
 				$i = 0;
 
-				foreach ( (array)$list as $value )
+				foreach ( (array) $list as $value )
 				{
 					$checked = ( is_array( $extra ) ?
 						( $extra[ $value['ID'] ] ? ' checked' : '' ) :
@@ -183,7 +183,7 @@ function Search( $type, $extra = null )
 				<select name="grade" id="grade">
 				<option value="">' . _( 'Not Specified' ) . '</option>';
 
-				foreach ( (array)$list as $value )
+				foreach ( (array) $list as $value )
 				{
 					echo '<option value="' . $value['ID'] . '"' . ( $extra == $value['ID'] ? ' selected' : '' ) . '>' .
 						$value['TITLE'] . '</option>';
@@ -279,7 +279,7 @@ function Search( $type, $extra = null )
 				array( 'CATEGORY_TITLE', 'TITLE' )
 			);
 
-			foreach ( (array)$categories_RET as $category )
+			foreach ( (array) $categories_RET as $category )
 			{
 				$TR_classes = '';
 
@@ -294,7 +294,7 @@ function Search( $type, $extra = null )
 					$TR_classes .= 'st';
 				}
 
-				foreach ( (array)$category['text'] as $col )
+				foreach ( (array) $category['text'] as $col )
 				{
 					$name = 'cust[' . $col['COLUMN_NAME'] . ']';
 
@@ -307,7 +307,7 @@ function Search( $type, $extra = null )
 					</td></tr>';
 				}
 
-				foreach ( (array)$category['numeric'] as $col )
+				foreach ( (array) $category['numeric'] as $col )
 				{
 					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '</td><td>
 					<span class="sizep2">&ge;</span> 
@@ -322,14 +322,14 @@ function Search( $type, $extra = null )
 				// merge select, autos, edits, exports & codeds
 				// (same or similar SELECT output)
 				$category['select_autos_edits_exports_codeds'] = array_merge(
-					(array)$category['select'],
-					(array)$category['autos'],
-					(array)$category['edits'],
-					(array)$category['exports'],
-					(array)$category['codeds']
+					(array) $category['select'],
+					(array) $category['autos'],
+					(array) $category['edits'],
+					(array) $category['exports'],
+					(array) $category['codeds']
 				);
 
-				foreach ( (array)$category['select_autos_edits_exports_codeds'] as $col )
+				foreach ( (array) $category['select_autos_edits_exports_codeds'] as $col )
 				{
 					$options = array();
 
@@ -353,7 +353,7 @@ function Search( $type, $extra = null )
 						<option value="">' . _( 'N/A' ) . '</option>
 						<option value="!">' . _( 'No Value' ) . '</option>';
 
-					foreach ( (array)$options as $option )
+					foreach ( (array) $options as $option )
 					{
 						$value = $option;
 
@@ -409,7 +409,7 @@ function Search( $type, $extra = null )
 						// add the 'new' option, is also the separator
 						echo '<option value="---">-' . _( 'Edit' ) . '-</option>';
 
-						foreach ( (array)$options_RET as $option )
+						foreach ( (array) $options_RET as $option )
 						{
 							if ( !in_array( $option[$col_name], $options ) )
 							{
@@ -421,7 +421,7 @@ function Search( $type, $extra = null )
 					echo '</select></td></tr>';
 				}
 
-				foreach ( (array)$category['date'] as $col )
+				foreach ( (array) $category['date'] as $col )
 				{
 					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '<br />
 					<label>' . _( 'No Value' ) .
@@ -445,7 +445,7 @@ function Search( $type, $extra = null )
 					</table></td></tr>';
 				}
 
-				foreach ( (array)$category['radio'] as $col )
+				foreach ( (array) $category['radio'] as $col )
 				{
 					$name = 'cust[' . $col['COLUMN_NAME'] . ']';
 

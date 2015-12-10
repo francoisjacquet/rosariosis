@@ -87,9 +87,9 @@ $types = array('DEPOSIT' => _('Deposit'),'CREDIT' => _('Credit'),'DEBIT' => _('D
 $menus_RET = DBGet(DBQuery('SELECT TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'));
 
 $type_select = _('Type').': <select name=type_select><option value=\'\'>'._('Not Specified').'</option>';
-foreach ( (array)$types as $short_name => $type)
+foreach ( (array) $types as $short_name => $type)
 	$type_select .= '<option value="'.$short_name.'"'.($_REQUEST['type_select']==$short_name ? ' selected' : '').'>'.$type.'</option>';
-foreach ( (array)$menus_RET as $menu)
+foreach ( (array) $menus_RET as $menu)
 	$type_select .= '<option value="'.$menu['TITLE'].'"'.($_REQUEST['type_select']==$menu['TITLE'] ? ' selected' : '').'>'.$menu['TITLE'].'</option>';
 $type_select .= '</select>';
 

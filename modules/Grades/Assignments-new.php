@@ -26,7 +26,7 @@ if ( $_REQUEST['modfunc']=='update')
 	if ( isset( $_POST['values'] )
 		&& count( $_POST['values'] ) )
 	{
-		foreach ( (array)$_REQUEST['values'] as $id => $columns)
+		foreach ( (array) $_REQUEST['values'] as $id => $columns)
 		{
 			//FJ added SQL constraint TITLE & POINTS are not null
 			if ((!isset($columns['TITLE']) || !empty($columns['TITLE'])) && (!isset($columns['POINTS']) || !empty($columns['POINTS'])))
@@ -46,7 +46,7 @@ if ( $_REQUEST['modfunc']=='update')
 						else
 							$sql = "UPDATE GRADEBOOK_ASSIGNMENT_TYPES SET ";
 
-						foreach ( (array)$columns as $column => $value)
+						foreach ( (array) $columns as $column => $value)
 						{
 							if ( $column=='POINTS')
 								$value += 0;
@@ -101,7 +101,7 @@ if ( $_REQUEST['modfunc']=='update')
 						}
 
 						$go = false;
-						foreach ( (array)$columns as $column => $value)
+						foreach ( (array) $columns as $column => $value)
 						{
 							if ( $column=='POINTS' && $value!='')
 								$value = ($value+0).'';
@@ -166,7 +166,7 @@ if ( $_REQUEST['modfunc']=='remove')
 			$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['id']."'"));
 			if (count($assignments_RET))
 			{
-				foreach ( (array)$assignments_RET as $assignment_id)
+				foreach ( (array) $assignments_RET as $assignment_id)
 					DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$assignment_id['ASSIGNMENT_ID']."'");
 			}
 			DBQuery("DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['id']."'");
@@ -195,7 +195,7 @@ if (empty($_REQUEST['modfunc']))
 
 	if (count($types_RET))
 		$tabs = array(array('title' => _('All'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id=&allow_edit='.$_REQUEST['allow_edit']));
-	foreach ( (array)$types_RET as $id => $type)
+	foreach ( (array) $types_RET as $id => $type)
 	{
 		$tabs[] = array('title' => $type[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id.'&allow_edit='.$_REQUEST['allow_edit'],'color' => $type[1]['COLOR']);
 		$type_options[$id] = !$_REQUEST['tab_id']&&$type[1]['COLOR']?array($type[1]['TITLE'],'<span style="color:'.$type[1]['COLOR'].'">'.$type[1]['TITLE'].'</span>'):$type[1]['TITLE'];
@@ -396,7 +396,7 @@ function _makeColorInput( $value, $column )
 	/*if ( !$color_select )
 	{
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
-		foreach ( (array)$colors as $color)
+		foreach ( (array) $colors as $color)
 		{
 			$color_select[$color] = array('<table class="cellspacing-0"><tr><td style="width:100%; background-color:'.$color.'">&nbsp;</td></tr></table>','<table class="cellspacing-0"><tr><td style="background-color:'.$color.'; width:30px">&nbsp;</td></tr></table>');
 		}

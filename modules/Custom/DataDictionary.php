@@ -11,13 +11,13 @@ $RET = DBGet(DBQuery($sql),array(),array('RELNAME'));
 
 $PDF = PDFStart();
 echo '<table>';
-foreach ( (array)$RET as $table => $columns)
+foreach ( (array) $RET as $table => $columns)
 {
 	if ( $i%2==0)
 		echo '<tr><td class="valign-top">';
 	echo '<b>'.$table.'</b>';
 	echo '<table>';
-	foreach ( (array)$columns as $column)
+	foreach ( (array) $columns as $column)
 		echo '<tr><td style="width:15px;">&nbsp; &nbsp; </td><td>'.$column['FIELD'].'</td><td>'.$column['TYPE'].'</td></tr>';
 	echo '</table>';
 	if ( $i%2==0)

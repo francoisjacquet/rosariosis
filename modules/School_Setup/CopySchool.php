@@ -13,7 +13,7 @@ $tables = array(
 
 $table_list = '<table style="float: left">';
 
-foreach ( (array)$tables as $table => $name )
+foreach ( (array) $tables as $table => $name )
 {
 	//FJ force School Configuration copy
 	$force_checked = false;
@@ -57,7 +57,7 @@ if ( $go
 		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND SCHOOLS IS NOT NULL" );
 
-	foreach ( (array)$_REQUEST['tables'] as $table => $value )
+	foreach ( (array) $_REQUEST['tables'] as $table => $value )
 	{
 		_rollover( $table );
 	}
@@ -131,7 +131,7 @@ function _rollover( $table )
 
 			$columns = '';
 
-			foreach ( (array)$table_properties as $column => $values )
+			foreach ( (array) $table_properties as $column => $values )
 			{
 				if ( $column !== 'ID'
 					&& $column !== 'SCHOOL_ID'
@@ -216,7 +216,7 @@ function _rollover( $table )
 
 			$columns = '';
 
-			foreach ( (array)$table_properties as $column => $values )
+			foreach ( (array) $table_properties as $column => $values )
 			{
 				if ( $column !== 'ID'
 					&& $column !== 'SYEAR'

@@ -65,7 +65,7 @@ function ReportCardsIncludeForm()
 	$return .= '<TD><label><INPUT type="checkbox" name="elements[ytd_tardies]" value="Y" /> ' .
 		_( 'Other Attendance Year-to-date' ) . ':</label> <SELECT name="ytd_tardies_code">';
 
-	foreach ( (array)$attendance_codes as $code )
+	foreach ( (array) $attendance_codes as $code )
 	{
 		$return .= '<OPTION value="' . $code['ID'] . '">'.  $code['TITLE'] . '</OPTION>';
 	}
@@ -76,7 +76,7 @@ function ReportCardsIncludeForm()
 	$return .= '<TD><label><INPUT type="checkbox" name="elements[mp_tardies]" value="Y" /> ' .
 		_( 'Other Attendance this quarter' ) . ':</label> <SELECT name="mp_tardies_code">';
 
-	foreach ( (array)$attendance_codes as $code )
+	foreach ( (array) $attendance_codes as $code )
 	{
 		$return .= '<OPTION value="' . $code['ID'] . '">' . $code['TITLE'] . '</OPTION>';
 	}
@@ -101,11 +101,11 @@ function ReportCardsIncludeForm()
 	$return .= '<TR class="st"><TD>' . _( 'Marking Periods' ) . ':</TD><TD>
 		<TABLE><TR><TD><TABLE>';
 
-	foreach ( (array)$mps_RET as $sem => $quarters )
+	foreach ( (array) $mps_RET as $sem => $quarters )
 	{
 		$return .= '<TR class="st">';
 
-		foreach ( (array)$quarters as $qtr )
+		foreach ( (array) $quarters as $qtr )
 		{
 			$pro = GetChildrenMP( 'PRO', $qtr['MARKING_PERIOD_ID'] );
 
@@ -113,7 +113,7 @@ function ReportCardsIncludeForm()
 			{
 				$pros = explode( ',', str_replace( "'", '', $pro ) );
 
-				foreach ( (array)$pros as $pro )
+				foreach ( (array) $pros as $pro )
 				{
 					if ( GetMP( $pro, 'DOES_GRADES' ) === 'Y' )
 					{
@@ -437,14 +437,14 @@ function ReportCardsGenerate( $student_array, $mp_array )
 	else
 		$mp_TITLE = 'TITLE';
 
-	foreach ( (array)$mp_array as $mp )
+	foreach ( (array) $mp_array as $mp )
 	{
 		$LO_columns[$mp] = GetMP( $mp, $mp_TITLE );
 	}
 
 	if ( $_REQUEST['elements']['comments'] === 'Y' )
 	{
-		foreach ( (array)$all_commentsA_RET as $comment )
+		foreach ( (array) $all_commentsA_RET as $comment )
 		{
 			$LO_columns['C' . $comment[1]['ID']] = $comment[1]['TITLE'];
 		}
@@ -455,7 +455,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 	// Report Cards array
 	$report_cards = array();
 
-	foreach ( (array)$student_RET as $student_id => $course_periods )
+	foreach ( (array) $student_RET as $student_id => $course_periods )
 	{
 		// Start buffer
 		ob_start();
@@ -469,7 +469,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 		$i = 0;
 
 		// Course Periods
-		foreach ( (array)$course_periods as $course_period_id => $mps )
+		foreach ( (array) $course_periods as $course_period_id => $mps )
 		{
 			$i++;
 
@@ -477,7 +477,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 			$grades_RET[$i]['TEACHER'] = $mps[key( $mps )][1]['TEACHER'];
 
-			foreach ( (array)$mp_array as $mp )
+			foreach ( (array) $mp_array as $mp )
 			{
 				if ( !isset( $mps[$mp] ) )
 				{
@@ -504,7 +504,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 					$temp_grades_COMMENTS = $grades_RET[$i]['COMMENT'];
 
 					//FJ fix error Invalid argument supplied for foreach()
-					foreach ( (array)$comments_RET[$student_id][$course_period_id][$mp] as $comment)
+					foreach ( (array) $comments_RET[$student_id][$course_period_id][$mp] as $comment)
 					{
 						if ( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] )
 						{
@@ -613,7 +613,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 		else
 			$addresses = array( 0 => array() );
 
-		foreach ( (array)$addresses as $address )
+		foreach ( (array) $addresses as $address )
 		{
 			unset( $_ROSARIO['DrawHeader'] );
 
@@ -654,7 +654,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			{
 				$count = 0;
 
-				foreach ( (array)$attendance_day_RET[$student_id][$last_mp] as $abs )
+				foreach ( (array) $attendance_day_RET[$student_id][$last_mp] as $abs )
 				{
 					$count += 1 - $abs['STATE_VALUE'];
 				}
@@ -668,9 +668,9 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			{
 				$count = 0;
 
-				foreach ( (array)$attendance_day_RET[$student_id] as $mp_abs )
+				foreach ( (array) $attendance_day_RET[$student_id] as $mp_abs )
 				{
-					foreach ( (array)$mp_abs as $abs )
+					foreach ( (array) $mp_abs as $abs )
 					{
 						$count += 1 - $abs['STATE_VALUE'];
 					}
@@ -692,7 +692,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			{
 				$count = 0;
 
-				foreach ( (array)$attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] as $abs )
+				foreach ( (array) $attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] as $abs )
 				{
 					$count++;
 				}
@@ -706,9 +706,9 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			{
 				$count = 0;
 
-				foreach ( (array)$attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] as $mp_abs )
+				foreach ( (array) $attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] as $mp_abs )
 				{
-					foreach ( (array)$mp_abs as $abs )
+					foreach ( (array) $mp_abs as $abs )
 					{
 						$count++;
 					}
@@ -795,7 +795,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 				$scale_title = '';
 
 				if ( $comments_arr_key )
-				foreach ( (array)$comment_codes_RET as $comment )
+				foreach ( (array) $comment_codes_RET as $comment )
 				{
 					//FJ limit comment scales to the ones used in student's courses
 					if ( in_array( $comment['SCALE_ID'], $student_comment_scales ) )
@@ -844,9 +844,9 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 				$commentsA_txt = _( 'Course-specific Comments' ) . '<BR /><ul>';
 
-				foreach ( (array)$comments_arr as $comment_course_title => $comments )
+				foreach ( (array) $comments_arr as $comment_course_title => $comments )
 				{
-					foreach ( (array)$comments as $comment=>$sort_order)
+					foreach ( (array) $comments as $comment=>$sort_order)
 					{
 						if ( $commentsA_RET[$comment] )
 						{

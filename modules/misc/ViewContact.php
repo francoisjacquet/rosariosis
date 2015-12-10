@@ -30,12 +30,12 @@ if ( count( $contacts_RET )
 {
 	echo '<table class="widefat width-100p cellspacing-0">';
 
-	foreach ( (array)$contacts_RET as $info )
+	foreach ( (array) $contacts_RET as $info )
 	{
 		echo '<tr><td><b>' . $info['TITLE'] . '</b></td><td>' . $info['VALUE'] . '</td></tr>';
 	}
 
-	foreach ( (array)$fields_RET as $info )
+	foreach ( (array) $fields_RET as $info )
 	{
 		echo '<tr><td><b>' . $info['TITLE'] . '</b></td><td>' .
 			$person_RET[1]['CUSTOM_'.$info['ID']] . '</td></tr>';

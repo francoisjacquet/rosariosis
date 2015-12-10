@@ -2,7 +2,7 @@
 // GET ALL THE CONFIG ITEMS FOR ELIGIBILITY
 $eligibility_config = ProgramConfig( 'eligibility' );
 
-foreach ( (array)$eligibility_config as $value )
+foreach ( (array) $eligibility_config as $value )
 {
 	${$value[1]['TITLE']} = $value[1]['VALUE'];
 }
@@ -19,7 +19,7 @@ if ( $_REQUEST['values'])
 
 	if ( $start<=$end)
 	{
-		foreach ( (array)$_REQUEST['values'] as $key => $value)
+		foreach ( (array) $_REQUEST['values'] as $key => $value)
 		{
 			if ( isset( ${$key} ) )
 				DBQuery("UPDATE PROGRAM_CONFIG SET VALUE='".$value."' WHERE PROGRAM='eligibility' AND TITLE='".$key."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'");
@@ -33,7 +33,7 @@ if ( $_REQUEST['values'])
 	// UPDATE ALL THE CONFIG ITEMS FOR ELIGIBILITY
 	$eligibility_config = ProgramConfig( 'eligibility' );
 
-	foreach ( (array)$eligibility_config as $value )
+	foreach ( (array) $eligibility_config as $value )
 	{
 		${$value[1]['TITLE']} = $value[1]['VALUE'];
 	}

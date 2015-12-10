@@ -156,7 +156,7 @@ function _makeSelectInput( $column, $name, $request )
 	if ( $field['SELECT_OPTIONS'] )
 		$select_options = explode( '<br />', nl2br( $field['SELECT_OPTIONS'] ) );
 
-	foreach ( (array)$select_options as $option )
+	foreach ( (array) $select_options as $option )
 	{
 		if ( $field['TYPE'] === 'codeds' )
 		{
@@ -234,7 +234,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 	if ( $field['SELECT_OPTIONS'] )
 		$select_options = explode( '<br />', nl2br( $field['SELECT_OPTIONS'] ) );
 
-	foreach ( (array)$select_options as $option )
+	foreach ( (array) $select_options as $option )
 	{
 		if ( $option != '' )
 			$options[$option] = $option;
@@ -290,7 +290,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 
 		$options_RET = DBGet( DBQuery( $options_SQL ) );
 
-		foreach ( (array)$options_RET as $option )
+		foreach ( (array) $options_RET as $option )
 		{
 			if ( $option['CUSTOM_' . $field['ID']] != ''
 				&& !$options[$option['CUSTOM_' . $field['ID']]] )
@@ -444,7 +444,7 @@ function _makeMultipleInput( $column, $name, $request )
 		if ( $field['SELECT_OPTIONS'] )
 			$select_options = explode( '<br />', nl2br( $field['SELECT_OPTIONS'] ) );
 
-		foreach ( (array)$select_options as $option )
+		foreach ( (array) $select_options as $option )
 		{
 			$options[$option] = $option;
 		}
@@ -469,7 +469,7 @@ function _makeMultipleInput( $column, $name, $request )
 
 		$i = 0;
 
-		foreach ( (array)$options as $option )
+		foreach ( (array) $options as $option )
 		{
 			if ( $i%2 === 0 )
 				$table .= '</tr><tr>';
@@ -680,7 +680,7 @@ function _makeStartInput( $value, $column )
 			AND TYPE='Add'
 			ORDER BY SORT_ORDER" ) );
 
-		foreach ( (array)$options_RET as $option )
+		foreach ( (array) $options_RET as $option )
 		{
 			$add_codes[$option['ID']] = $option['TITLE'];
 		}
@@ -741,7 +741,7 @@ function _makeEndInput( $value, $column )
 			AND TYPE='Drop'
 			ORDER BY SORT_ORDER" ) );
 
-		foreach ( (array)$options_RET as $option )
+		foreach ( (array) $options_RET as $option )
 		{
 			$drop_codes[$option['ID']] = $option['TITLE'];
 		}
@@ -793,7 +793,7 @@ function _makeSchoolInput( $value, $column )
 			WHERE SYEAR='" . UserSyear() . "'" ), array(), array( 'ID' ) );
 	}
 
-	foreach ( (array)$schools as $sid => $school )
+	foreach ( (array) $schools as $sid => $school )
 	{
 		$options[$sid] = $school[1]['TITLE'];
 	}

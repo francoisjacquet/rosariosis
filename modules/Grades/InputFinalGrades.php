@@ -55,8 +55,8 @@ $comment_codes_RET = DBGet(DBQuery("SELECT SCALE_ID,TITLE,SHORT_NAME,COMMENT FRO
 
 $commentsA_select = array();
 
-foreach ( (array)$comment_codes_RET as $scale_id => $codes)
-	foreach ( (array)$codes as $code)
+foreach ( (array) $comment_codes_RET as $scale_id => $codes)
+	foreach ( (array) $codes as $code)
 		$commentsA_select[$scale_id][$code['TITLE']] = $code['SHORT_NAME'] ? array($code['TITLE'],$code['SHORT_NAME']) : $code['TITLE'];
 
 if ( $_REQUEST['tab_id']=='-1')
@@ -71,7 +71,7 @@ if ( $_REQUEST['tab_id']=='-1')
 	AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)"),array(),array('STUDENT_ID'));
 	$max_current_commentsB = 0;
 
-	foreach ( (array)$current_commentsB_RET as $comments)
+	foreach ( (array) $current_commentsB_RET as $comments)
 		if (count($comments)>$max_current_commentsB)
 			$max_current_commentsB = count($comments);
 }
@@ -99,7 +99,7 @@ elseif ( $_REQUEST['tab_id'])
 }
 
 $grades_select = array('' => '');
-foreach ( (array)$grades_RET as $key => $grade)
+foreach ( (array) $grades_RET as $key => $grade)
 {
 	$grade = $grade[1];
 	$grades_select += array($grade['ID'] => array($grade['TITLE'],'<b>'.$grade['TITLE'].'</b>'));
@@ -107,11 +107,11 @@ foreach ( (array)$grades_RET as $key => $grade)
 $commentsB_select = array();
 
 if (0)
-	foreach ( (array)$commentsB_RET as $id => $comment)
+	foreach ( (array) $commentsB_RET as $id => $comment)
 		$commentsB_select += array($id => array($comment[1]['SORT_ORDER'],$comment[1]['TITLE']));
 		
 elseif (is_array($commentsB_RET))
-	foreach ( (array)$commentsB_RET as $id => $comment)
+	foreach ( (array) $commentsB_RET as $id => $comment)
 		$commentsB_select += array($id => array($comment[1]['SORT_ORDER'].' - '.(mb_strlen($comment[1]['TITLE']) > 99+3?mb_substr($comment[1]['TITLE'],0,99).'...':$comment[1]['TITLE']),$comment[1]['TITLE']));
 
 if ( $_REQUEST['modfunc']=='gradebook')
@@ -121,7 +121,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 		$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 
 		if (count($config_RET))
-			foreach ( (array)$config_RET as $title => $value)
+			foreach ( (array) $config_RET as $title => $value)
 				$programconfig[User('STAFF_ID')][$title] = $value[1]['VALUE'];
 		else
 			$programconfig[User('STAFF_ID')] = true;
@@ -148,11 +148,11 @@ if ( $_REQUEST['modfunc']=='gradebook')
 
 			if (count($points_RET))
 			{
-				foreach ( (array)$points_RET as $student_id => $student)
+				foreach ( (array) $points_RET as $student_id => $student)
 				{
 					$total = $total_percent = 0;
 
-					foreach ( (array)$student as $partial_points)
+					foreach ( (array) $student as $partial_points)
 						if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[User('STAFF_ID')]['WEIGHT']!='Y')
 						{
 							$total += $partial_points['PARTIAL_POINTS']*($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
@@ -201,7 +201,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 				AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'"));
 				$prefix = 'FY-';
 			}
-			foreach ( (array)$RET as $mp)
+			foreach ( (array) $RET as $mp)
 			{
 				if ( $mp['DOES_GRADES']=='Y')
 					$mps .= "'".$mp['MARKING_PERIOD_ID']."',";
@@ -210,11 +210,11 @@ if ( $_REQUEST['modfunc']=='gradebook')
 
 			$percents_RET = DBGet(DBQuery("SELECT STUDENT_ID,GRADE_PERCENT,MARKING_PERIOD_ID FROM STUDENT_REPORT_CARD_GRADES WHERE COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID IN ($mps)"),array(),array('STUDENT_ID'));
 
-			foreach ( (array)$percents_RET as $student_id => $percents)
+			foreach ( (array) $percents_RET as $student_id => $percents)
 			{
 				$total = $total_percent = 0;
 
-				foreach ( (array)$percents as $percent)
+				foreach ( (array) $percents as $percent)
 				{
 					$total += $percent['GRADE_PERCENT'] * $programconfig[User('STAFF_ID')][$prefix.$percent['MARKING_PERIOD_ID']];
 					$total_percent += $programconfig[User('STAFF_ID')][$prefix.$percent['MARKING_PERIOD_ID']];
@@ -245,7 +245,7 @@ if ( $_REQUEST['modfunc']=='grades')
 
 		$import_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.GRADE_PERCENT FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."' AND g.MARKING_PERIOD_ID='".$_REQUEST['prev_mp']."'"),array(),array('STUDENT_ID'));
 
-		foreach ( (array)$import_RET as $student_id => $grade)
+		foreach ( (array) $import_RET as $student_id => $grade)
 		{
 			$import_RET[$student_id][1]['GRADE_PERCENT'] = _makePercentGrade($grade[1]['REPORT_CARD_GRADE_ID'],$course_period_id);
 			$import_RET[$student_id][1]['REPORT_CARD_GRADE_ID'] = $grade[1]['REPORT_CARD_GRADE_ID'];
@@ -278,7 +278,7 @@ if ( $_REQUEST['modfunc']=='comments')
 		AND g.MARKING_PERIOD_ID='".$_REQUEST['prev_mp']."'
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)"),array(),array('STUDENT_ID'));
 
-		foreach ( (array)$import_commentsB_RET as $comments)
+		foreach ( (array) $import_commentsB_RET as $comments)
 			if (count($comments)>$max_current_commentsB)
 				$max_current_commentsB = count($comments);
 
@@ -289,7 +289,7 @@ if ( $_REQUEST['modfunc']=='comments')
 
 if ( $_REQUEST['modfunc']=='clearall')
 {
-	foreach ( (array)$current_RET as $student_id => $prev)
+	foreach ( (array) $current_RET as $student_id => $prev)
 	{
 		$current_RET[$student_id][1]['REPORT_CARD_GRADE_ID'] = '';
 		$current_RET[$student_id][1]['GRADE_PERCENT'] = '';
@@ -297,14 +297,14 @@ if ( $_REQUEST['modfunc']=='clearall')
 	}
 	if (isset($current_commentsA_RET) && is_array($current_commentsA_RET))
 	{
-		foreach ( (array)$current_commentsA_RET as $student_id => $comments)
-			foreach ( (array)$comments as $id => $comment)
+		foreach ( (array) $current_commentsA_RET as $student_id => $comments)
+			foreach ( (array) $comments as $id => $comment)
 				$current_commentsA_RET[$student_id][$id][1]['COMMENT'] = '';
 	}
 	if (isset($current_commentsB_RET) && is_array($current_commentsB_RET))
 	{
-		foreach ( (array)$current_commentsB_RET as $student_id => $comment)
-			foreach ( (array)$comment as $i => $comment)
+		foreach ( (array) $current_commentsB_RET as $student_id => $comment)
+			foreach ( (array) $comment as $i => $comment)
 				$current_commentsB_RET[$student_id][$i] = '';
 	}
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
@@ -320,7 +320,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 	$course_period_mp = DBGet(DBQuery("SELECT MP FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$course_period_id."'"));
 	$course_period_mp = $course_period_mp[1]['MP'];
 	
-	foreach ( (array)$_REQUEST['values'] as $student_id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $student_id => $columns)
 	{
 		$sql = $sep = '';
 		if ( $current_RET[$student_id])
@@ -494,7 +494,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 			$completed = false;*/
 
 		if (isset($columns['commentsA']) && is_array($columns['commentsA']))
-			foreach ( (array)$columns['commentsA'] as $id => $comment)
+			foreach ( (array) $columns['commentsA'] as $id => $comment)
 				if ( $current_commentsA_RET[$student_id][$id])
 				{
 					if ( $comment)
@@ -510,18 +510,18 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		// create mapping for current
 		$old = array();
 		if (isset($current_commentsB_RET[$student_id]) && is_array($current_commentsB_RET[$student_id]))
-			foreach ( (array)$current_commentsB_RET[$student_id] as $i => $comment)
+			foreach ( (array) $current_commentsB_RET[$student_id] as $i => $comment)
 				$old[$comment['REPORT_CARD_COMMENT_ID']] = $i;
 
 		// create change list
 		$change = array();
 		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
-			foreach ( (array)$columns['commentsB'] as $i => $comment)
+			foreach ( (array) $columns['commentsB'] as $i => $comment)
 				$change[$i] = array('REPORT_CARD_COMMENT_ID' => 0);
 
 		// prune changes already in current set and reserve if in change list
 		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
-			foreach ( (array)$columns['commentsB'] as $i => $comment)
+			foreach ( (array) $columns['commentsB'] as $i => $comment)
 				if ( $comment)
 					if ( $old[$comment])
 					{
@@ -533,7 +533,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		// assign changes at their index if possible
 		$new = array();
 		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
-			foreach ( (array)$columns['commentsB'] as $i => $comment)
+			foreach ( (array) $columns['commentsB'] as $i => $comment)
 				if ( $comment)
 					if ( !$new[$comment])
 					{
@@ -550,7 +550,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		// assign remaining changes to first available
 		reset($change);
 		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
-			foreach ( (array)$columns['commentsB'] as $i => $comment)
+			foreach ( (array) $columns['commentsB'] as $i => $comment)
 				if ( $comment)
 				{
 					if ( !$new[$comment])
@@ -564,7 +564,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 				}
 
 		// update the db
-		foreach ( (array)$change as $i => $comment)
+		foreach ( (array) $change as $i => $comment)
 			if ( $current_commentsB_RET[$student_id][$i])
 				if ( $comment['REPORT_CARD_COMMENT_ID'])
 				{
@@ -610,7 +610,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)"),array(),array('STUDENT_ID'));
 		$max_current_commentsB = 0;
 
-		foreach ( (array)$current_commentsB_RET as $comments)
+		foreach ( (array) $current_commentsB_RET as $comments)
 			if (count($comments)>$max_current_commentsB)
 				$max_current_commentsB = count($comments);
 	}
@@ -702,7 +702,7 @@ if (GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 	//FJ fix error Warning: Invalid argument supplied for foreach()
 	if (isset($commentsA_RET))
 	{
-		foreach ( (array)$commentsA_RET as $value)
+		foreach ( (array) $commentsA_RET as $value)
 		{
 			$extra['SELECT'] .= ',\''.$value['ID'].'\' AS CA'.$value['ID'].',\''.$value['SCALE_ID'].'\' AS CAC'.$value['ID'];
 			$extra['functions'] += array('CA'.$value['ID'] => '_makeCommentsA');
@@ -737,7 +737,7 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 	{
 		$tipmsg = '';
 
-		foreach ( (array)$commentsB_RET as $comment )
+		foreach ( (array) $commentsB_RET as $comment )
 		{
 			$tipmsg .= $comment[1]['SORT_ORDER'] . ' - ' . $comment[1]['TITLE'] . '<br />';
 		}
@@ -770,18 +770,18 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 			$where . "
 			ORDER BY SORT_ORDER" ), array(), array( 'SCALE_ID' ) );
 
-		foreach ( (array)$commentsAbis_RET as $scale_id => $commentsAbis )
+		foreach ( (array) $commentsAbis_RET as $scale_id => $commentsAbis )
 		{
 			$tipmsg = '';
 
 			$tiplabel = array();
 
-			foreach ( (array)$comment_codes_RET[$scale_id] as $comment )
+			foreach ( (array) $comment_codes_RET[$scale_id] as $comment )
 			{
 				$tipmsg .= $comment['TITLE'] . ': ' . $comment['COMMENT'] . '<br />';
 			}
 
-			foreach ( (array)$commentsAbis as $commentAbis )
+			foreach ( (array) $commentsAbis as $commentAbis )
 			{
 				$tiplabel[] = $commentAbis['TITLE'];
 			}
@@ -854,7 +854,7 @@ if (GetMP($_REQUEST['mp'],'DOES_COMMENTS')=='Y')
 	//FJ fix error Warning: Invalid argument supplied for foreach()
 	if (isset($commentsA_RET))
 	{
-		foreach ( (array)$commentsA_RET as $value)
+		foreach ( (array) $commentsA_RET as $value)
 			$LO_columns += array('CA'.$value['ID'] => $value['TITLE']);
 	}
 
@@ -871,7 +871,7 @@ if ( !ProgramConfig( 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT' )
 	$LO_columns += array( 'COMMENT' => _( 'Comment' ) );
 }
 
-foreach ( (array)$categories_RET as $id => $category)
+foreach ( (array) $categories_RET as $id => $category)
 	$tabs[] = array('title' => $category[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&mp='.$_REQUEST['mp'].'&tab_id='.$id)+($category[1]['COLOR']?array('color' => $category[1]['COLOR']):array());
 
 $LO_options = array('save'=>false,'search'=>false);

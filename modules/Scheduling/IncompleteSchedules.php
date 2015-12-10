@@ -3,7 +3,7 @@ $periods_RET = DBGet(DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE S
 
 /*
 $period_select =  "<select name=period><option value=''>All</option>";
-foreach ( (array)$periods_RET as $period)
+foreach ( (array) $periods_RET as $period)
 	$period_select .= "<option value=$period[PERIOD_ID]".(($_REQUEST['period']==$period['PERIOD_ID'])?' selected':'').">".$period['TITLE']."</option>";
 $period_select .= "</select>";
 */
@@ -39,7 +39,7 @@ $extra['new'] = true;
 Widgets('course');
 Widgets('request');
 
-foreach ( (array)$periods_RET as $period)
+foreach ( (array) $periods_RET as $period)
 {
 	$extra['SELECT'] .= ',NULL AS PERIOD_'.$period['PERIOD_ID'];
 	$extra['columns_after']['PERIOD_'.$period['PERIOD_ID']] = $period['TITLE'];
@@ -52,7 +52,7 @@ else
 
 	$students_RET = GetStuList($extra);
 	$bad_students[0] = array();
-	foreach ( (array)$students_RET as $student)
+	foreach ( (array) $students_RET as $student)
 	{
 		if (count($schedule_RET[$student['STUDENT_ID']])!=count($periods_RET))
 			$bad_students[] = $student;

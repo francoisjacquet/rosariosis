@@ -13,9 +13,9 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
 	if (count($_REQUEST['month_']))
 	{
-		foreach ( (array)$_REQUEST['month_'] as $id => $columns)
+		foreach ( (array) $_REQUEST['month_'] as $id => $columns)
 		{
-			foreach ( (array)$columns as $column => $value)
+			foreach ( (array) $columns as $column => $value)
 			{
 				if ( $_REQUEST['day_'][$id][$column] && $_REQUEST['month_'][$id][$column] && $_REQUEST['year_'][$id][$column])
 					$_REQUEST['values'][$id][$column] = $_REQUEST['day_'][$id][$column].'-'.$_REQUEST['month_'][$id][$column].'-'.$_REQUEST['year_'][$id][$column];
@@ -23,13 +23,13 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		}
 	}
 
-	foreach ( (array)$_REQUEST['values'] as $id => $columns)
+	foreach ( (array) $_REQUEST['values'] as $id => $columns)
 	{
 		if ( $id!='new')
 		{
 			$sql = "UPDATE BILLING_FEES SET ";
 							
-			foreach ( (array)$columns as $column => $value)
+			foreach ( (array) $columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
 			}
@@ -44,7 +44,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			$values = db_seq_nextval('BILLING_FEES_SEQ').",'".UserStudentID()."','".UserSchool()."','".UserSyear()."','".DBDate()."',";
 			
 			$go = 0;
-			foreach ( (array)$columns as $column => $value)
+			foreach ( (array) $columns as $column => $value)
 			{
 				if ( !empty($value) || $value=='0')
 				{
@@ -95,7 +95,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	
 	$i = 1;
 	$RET = array();
-	foreach ( (array)$fees_RET as $fee)
+	foreach ( (array) $fees_RET as $fee)
 	{
 		$RET[$i] = $fee;
 		if ( $waived_fees_RET[$fee['ID']])
