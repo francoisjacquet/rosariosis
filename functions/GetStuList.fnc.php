@@ -255,23 +255,23 @@ function GetStuList( &$extra = array() )
 			foreach ( (array) $view_fields_RET as $field )
 			{
 				$field_key = 'CUSTOM_' . $field['ID'];
-				$extra['columns_after'][$field_key] = $field['TITLE'];
+				$extra['columns_after'][ $field_key ] = $field['TITLE'];
 
 				if ( $field['TYPE'] === 'date' )
 				{
-					$functions[$field_key] = 'ProperDate';
+					$functions[ $field_key ] = 'ProperDate';
 				}
 				elseif ( $field['TYPE'] === 'numeric' )
 				{
-					$functions[$field_key] = 'removeDot00';
+					$functions[ $field_key ] = 'removeDot00';
 				}
 				elseif ( $field['TYPE'] === 'codeds' )
 				{
-					$functions[$field_key] = 'DeCodeds';
+					$functions[ $field_key ] = 'DeCodeds';
 				}
 				elseif ( $field['TYPE'] === 'exports' )
 				{
-					$functions[$field_key] = 'DeCodeds';
+					$functions[ $field_key ] = 'DeCodeds';
 				}
 
 				$select .= ',s.' . $field_key;
@@ -357,23 +357,23 @@ function GetStuList( &$extra = array() )
 			{
 				$field_key = 'CUSTOM_' . $field['ID'];
 
-				$extra['columns_after'][$field_key] = $field['TITLE'];
+				$extra['columns_after'][ $field_key ] = $field['TITLE'];
 
 				if ( $field['TYPE'] === 'date' )
 				{
-					$functions[$field_key] = 'ProperDate';
+					$functions[ $field_key ] = 'ProperDate';
 				}
 				elseif ( $field['TYPE'] === 'numeric' )
 				{
-					$functions[$field_key] = 'removeDot00';
+					$functions[ $field_key ] = 'removeDot00';
 				}
 				elseif ( $field['TYPE'] === 'codeds' )
 				{
-					$functions[$field_key] = 'DeCodeds';
+					$functions[ $field_key ] = 'DeCodeds';
 				}
 				elseif ( $field['TYPE'] === 'exports' )
 				{
-					$functions[$field_key] = 'DeCodeds';
+					$functions[ $field_key ] = 'DeCodeds';
 				}
 
 				$select .= ',s.' . $field_key;
@@ -686,11 +686,11 @@ function makeContactInfo( $student_id, $column )
 		require_once 'ProgramFunctions/TipMessage.fnc.php';
 	}
 
-	if ( isset( $contacts_RET[$student_id] ) )
+	if ( isset( $contacts_RET[ $student_id ] ) )
 	{
 		$tipmsg = '';
 
-		foreach ( (array) $contacts_RET[$student_id] as $person )
+		foreach ( (array) $contacts_RET[ $student_id ] as $person )
 		{
 			if ( $person[1]['FIRST_NAME'] || $person[1]['LAST_NAME'] )
 			{
@@ -730,7 +730,7 @@ function makeContactInfo( $student_id, $column )
 /**
  * Remove .00 to float string
  *
- * @example if ( $field['TYPE'] === 'numeric' )	$functions[$field_key] = 'removeDot00';
+ * @example if ( $field['TYPE'] === 'numeric' )	$functions[ $field_key ] = 'removeDot00';
  *
  * @see DBGet() callback
  *

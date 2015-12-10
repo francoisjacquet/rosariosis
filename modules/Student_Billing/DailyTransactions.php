@@ -74,7 +74,7 @@ ListOutput($RET,$columns,'Transaction','Transactions',$link);
 function _makeCurrency($value,$column)
 {	global $totals;
 
-	$totals[$column] += $value;
+	$totals[ $column ] += $value;
 	if ( !empty($value) || $value=='0')
 		return Currency($value);
 }

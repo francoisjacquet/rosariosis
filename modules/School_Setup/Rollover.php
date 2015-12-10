@@ -18,13 +18,13 @@ $table_list = '<table style="float: left">';
 foreach ( (array) $tables as $table => $name)
 {
 	if ( $table!='FOOD_SERVICE_STAFF_ACCOUNTS')
-		$exists_RET[$table] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM $table WHERE SYEAR='".$next_syear."'".(!$no_school_tables[$table]?" AND SCHOOL_ID='".UserSchool()."'":'')));
+		$exists_RET[ $table ] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM $table WHERE SYEAR='".$next_syear."'".(!$no_school_tables[ $table ]?" AND SCHOOL_ID='".UserSchool()."'":'')));
 	else
 		$exists_RET['FOOD_SERVICE_STAFF_ACCOUNTS'] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM STAFF WHERE SYEAR='".$next_syear."' AND exists(SELECT * FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=STAFF.STAFF_ID)"));
 
-	if ( $exists_RET[$table][1]['COUNT']>0)
+	if ( $exists_RET[ $table ][1]['COUNT']>0)
 //FJ add <label> on checkbox
-		$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables['.$table.']"><span style="color:grey">&nbsp;'.$name.' ('.$exists_RET[$table][1]['COUNT'].')</span></label></td></tr>';
+		$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables['.$table.']"><span style="color:grey">&nbsp;'.$name.' ('.$exists_RET[ $table ][1]['COUNT'].')</span></label></td></tr>';
 	else
 		$table_list .= '<tr><td><label><input type="checkbox" value="Y" name="tables['.$table.']" checked />&nbsp;'.$name.'</label></td></tr>';
 }

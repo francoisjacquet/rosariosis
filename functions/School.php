@@ -51,7 +51,7 @@ function SchoolInfo( $field = null )
 		
 	if ( !is_null( $field ) )
 	{
-		return $_SESSION['SchoolData'][$field];
+		return $_SESSION['SchoolData'][ $field ];
 	}
 	else
 		return $_SESSION['SchoolData'];

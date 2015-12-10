@@ -75,9 +75,9 @@ function ParseMLArray( $array, $keys )
 
 	for ( $i = 0; $i < $size; $i++ )
 	{
-		if ( is_array( $array[$k[$i]] ) )
+		if ( is_array( $array[$k[ $i ]] ) )
 		{
-			$array[$k[$i]] = ParseMLArray( $array[$k[$i]], $keys );
+			$array[$k[ $i ]] = ParseMLArray( $array[$k[ $i ]], $keys );
 		}
 		else
 		{
@@ -85,18 +85,18 @@ function ParseMLArray( $array, $keys )
 				$keys = array( $keys );
 
 			foreach ( (array) $keys as $key )
-				if ( $k[$i] == $key ) $array[$k[$i]] = ParseMLField( $array[$k[$i]] );
+				if ( $k[ $i ] == $key ) $array[$k[ $i ]] = ParseMLField( $array[$k[ $i ]] );
 		}
 	}
 
 	/*foreach ($array as $k => $v) {
 		if (is_array($v))
-			$array[$k] = ParseMLArray($v, $keys);
+			$array[ $k ] = ParseMLArray($v, $keys);
 		else {
 			if ( !is_array($keys)) $keys = array($keys);
 
 			foreach ($keys as $key)
-				if ( $k == $key) $array[$k] = ParseMLField($v);
+				if ( $k == $key) $array[ $k ] = ParseMLField($v);
 		}
 	}*/
 	return $array;

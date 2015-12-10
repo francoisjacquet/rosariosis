@@ -224,7 +224,7 @@ function ReferralLogsGenerate( $extra )
 					if ( $field_type === 'checkbox' )
 					{
 						DrawHeader( $title_txt .
-							( $referral[$column] === 'Y' ?
+							( $referral[ $column ] === 'Y' ?
 								button( 'check', '', '', 'bigger' ) :
 								button( 'x', '', '', 'bigger' ) ) );
 					}
@@ -232,22 +232,22 @@ function ReferralLogsGenerate( $extra )
 					elseif ( $field_type === 'multiple_checkbox' )
 					{
 						DrawHeader( $title_txt .
-							str_replace( '||', ', ', mb_substr( $referral[$column], 2, -2 ) ) );
+							str_replace( '||', ', ', mb_substr( $referral[ $column ], 2, -2 ) ) );
 					}
 					// Others
 					else
-						DrawHeader( $title_txt . $referral[$column] );
+						DrawHeader( $title_txt . $referral[ $column ] );
 				}
 				// TEXTEAREA fields
 				else
-					DrawHeader( nl2br( $referral[$column] ) );
+					DrawHeader( nl2br( $referral[ $column ] ) );
 			}
 
 			echo '<BR />';
 		}
 
 		// Get output buffer
-		$referral_logs[$student_id] = ob_get_clean();
+		$referral_logs[ $student_id ] = ob_get_clean();
 	}
 
 	return $referral_logs;

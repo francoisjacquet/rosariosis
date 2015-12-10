@@ -111,7 +111,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			<table style="width:98%;" class="cellspacing-0 center"><tr>';
 
 			foreach ( (array) $custom_RET as $id => $custom)
-				echo '<td style="text-align:right">'.ParseMLField($custom_RET[$id][1]['TITLE']).':&nbsp;</td>
+				echo '<td style="text-align:right">'.ParseMLField($custom_RET[ $id ][1]['TITLE']).':&nbsp;</td>
 				<td>'.$student['CUSTOM_'.$id].'</td>';
 
 			echo '</tr><tr>
@@ -165,21 +165,21 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			for ($month=$first_month; $month<=$last_month_tmp; $month++)
 			{
-				if ( $calendar_RET[$month] || $attendance_RET[$month])
+				if ( $calendar_RET[ $month ] || $attendance_RET[ $month ])
 				{
-					echo '<tr><td>'.$months[$month].'</td>';
+					echo '<tr><td>'.$months[ $month ].'</td>';
 
 					$abs = $pos = 0;
 
 					for ( $day=1; $day<=31; $day++)
 					{
-						if ( $calendar_RET[$month][$day])
+						if ( $calendar_RET[ $month ][ $day ])
 						{
-							$calendar = $calendar_RET[$month][$day][1];
+							$calendar = $calendar_RET[ $month ][ $day ][1];
 
-							if ( $attendance_RET[$month][$day])
+							if ( $attendance_RET[ $month ][ $day ])
 							{
-								$attendance = $attendance_RET[$month][$day][1];
+								$attendance = $attendance_RET[ $month ][ $day ][1];
 
 								echo '<td style="text-align:center;">'.$attendance['STATE_CODE'].'</td>';
 
@@ -194,9 +194,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						else
 						{
 							//attendance record before attendance start date!
-							if ( $attendance_RET[$month][$day])
+							if ( $attendance_RET[ $month ][ $day ])
 							{
-								$attendance = $attendance_RET[$month][$day][1];
+								$attendance = $attendance_RET[ $month ][ $day ][1];
 
 								//red box
 								echo '<td class="center" style="background-color:#e80000;">'.$attendance['STATE_CODE'].'</td>';

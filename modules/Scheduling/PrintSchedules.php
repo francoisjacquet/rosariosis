@@ -72,7 +72,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	foreach ($schedule_table_days as $day => $true)
 	{
 		if ( $true)
-			$columns_table[$day] = $days_convert[$day];
+			$columns_table[ $day ] = $days_convert[ $day ];
 	}
 	
 	if (count($RET))
@@ -130,9 +130,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					{
 						foreach ($course_period['DAYS'] as $course_period_day)
 						{
-							if ( !is_array($schedule_table_TDs[$course_period_day]))
-								$schedule_table_TDs[$course_period_day] = array();
-							$schedule_table_TDs[$course_period_day][] = '<td>'.$course_period['TITLE'].'<br />'.$course_period['FULL_NAME'].(empty($course_period['ROOM'])?'':'<br />'._('Room').': '.$course_period['ROOM']).'</td>';
+							if ( !is_array($schedule_table_TDs[ $course_period_day ]))
+								$schedule_table_TDs[ $course_period_day ] = array();
+							$schedule_table_TDs[ $course_period_day ][] = '<td>'.$course_period['TITLE'].'<br />'.$course_period['FULL_NAME'].(empty($course_period['ROOM'])?'':'<br />'._('Room').': '.$course_period['ROOM']).'</td>';
 						}
 					}
 					foreach ($schedule_table_TDs as $schedule_table_TD)
@@ -149,9 +149,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 				$schedule_table_body .= '</table>';*/
 
-				if ( $_REQUEST['mailing_labels']=='Y' && isset($RET[$student_id]))
+				if ( $_REQUEST['mailing_labels']=='Y' && isset($RET[ $student_id ]))
 				{
-					foreach ( (array) $RET[$student_id] as $address)
+					foreach ( (array) $RET[ $student_id ] as $address)
 					{
 						echo '<br /><br /><br />';
 						unset($_ROSARIO['DrawHeader']);
@@ -179,8 +179,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					unset($_ROSARIO['DrawHeader']);
 					DrawHeader(_('Student Schedule'));
 					DrawHeader(SchoolInfo('TITLE'),ProperDate($date));
-					DrawHeader($RET[$student_id][1]['FULL_NAME'],$RET[$student_id][1]['STUDENT_ID']);
-					DrawHeader($RET[$student_id][1]['GRADE_ID'],$_REQUEST['mp_id']?GetMP($_REQUEST['mp_id']):'');
+					DrawHeader($RET[ $student_id ][1]['FULL_NAME'],$RET[ $student_id ][1]['STUDENT_ID']);
+					DrawHeader($RET[ $student_id ][1]['GRADE_ID'],$_REQUEST['mp_id']?GetMP($_REQUEST['mp_id']):'');
 					
 					$schedule_table = _schedule_table_RET($schedule_table);
 					
@@ -271,7 +271,7 @@ function _GetDays($value, $column)
 	
 	foreach ($days_array as $index => $day)
 	{
-		$schedule_table_days[$day] = true;
+		$schedule_table_days[ $day ] = true;
 	}
 	return $days_array;
 }
@@ -282,27 +282,27 @@ function _schedule_table_RET($schedule_table_RET)
 	$i = 1;
 	foreach ( (array) $schedule_table_RET as $period => $course_periods)
 	{
-		$schedule_table_body[$i]['SCHOOL_PERIOD'] = $period;
+		$schedule_table_body[ $i ]['SCHOOL_PERIOD'] = $period;
 
 		foreach ($course_periods as $course_period)
 		{
 			foreach ($course_period['DAYS'] as $course_period_day)
 			{
-				if ( !isset($schedule_table_body[$i][$course_period_day]) || !is_array($schedule_table_body[$i][$course_period_day]))
-					$schedule_table_body[$i][$course_period_day] = array();
-				$schedule_table_body[$i][$course_period_day][] = '<td>'.$course_period['TITLE'].'<br />'.$course_period['FULL_NAME'].(empty($course_period['ROOM'])?'':'<br />'._('Room').': '.$course_period['ROOM']).'</td>';
+				if ( !isset($schedule_table_body[ $i ][ $course_period_day ]) || !is_array($schedule_table_body[ $i ][ $course_period_day ]))
+					$schedule_table_body[ $i ][ $course_period_day ] = array();
+				$schedule_table_body[ $i ][ $course_period_day ][] = '<td>'.$course_period['TITLE'].'<br />'.$course_period['FULL_NAME'].(empty($course_period['ROOM'])?'':'<br />'._('Room').': '.$course_period['ROOM']).'</td>';
 			}
 		}
 		$j = 0;
-		foreach ($schedule_table_body[$i] as $day_key => $schedule_table_day)
+		foreach ($schedule_table_body[ $i ] as $day_key => $schedule_table_day)
 		{
 			$j++;
 			if ( $j == 1) // skip SCHOOL_PERIOD column
 				continue;
 			if (count($schedule_table_day) == 1)
-				$schedule_table_body[$i][$day_key] = str_replace(array('<td>', '</td>'), '', $schedule_table_day[0]);
+				$schedule_table_body[ $i ][ $day_key ] = str_replace(array('<td>', '</td>'), '', $schedule_table_day[0]);
 			else
-				$schedule_table_body[$i][$day_key] = '<table><tr>'.implode($schedule_table_day).'</tr></table>';
+				$schedule_table_body[ $i ][ $day_key ] = '<table><tr>'.implode($schedule_table_day).'</tr></table>';
 		}
 		$i++;
 	}

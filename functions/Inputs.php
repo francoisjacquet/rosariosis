@@ -378,7 +378,7 @@ function MarkDownInputPreview( $input_id )
 /**
  * Checkbox Input
  *
- * @example CheckboxInput( $value, "values[$id][$name]", '', $value, $id == 'new', button( 'check' ), button( 'x' ) );
+ * @example CheckboxInput( $value, "values[ $id ][ $name ]", '', $value, $id == 'new', button( 'check' ), button( 'x' ) );
  *
  * @uses GetInputID() to generate ID from name
  * @uses InputDivOnclick()
@@ -485,7 +485,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 		&& ( !is_array( $options )
 			|| !array_key_exists( $value, $options ) ) )
 	{
-		$options[$value] = array( $value, '<span style="color:red">' . $value . '</span>' );
+		$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
 	}
 
 	if ( AllowEdit()
@@ -525,7 +525,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 			$return = InputDivOnclick(
 				$id,
 				$select,
-				( is_array( $options[$value] ) ? $options[$value][1] : $options[$value] ),
+				( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ),
 				$ftitle
 			);
 		}
@@ -534,7 +534,7 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 	}
 	else
 	{
-		$display_val = is_array( $options[$value] ) ? $options[$value][1] : $options[$value];
+		$display_val = is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ];
 
 		if ( $display_val == '' )
 		{
@@ -612,7 +612,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 		&& ( !is_array( $options )
 			|| !array_key_exists( $value, $options ) ) )
 	{
-		$options[$value] = array( $value, '<span style="color:red">' . $value . '</span>' );
+		$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
 	}
 
 	if ( AllowEdit()
@@ -655,7 +655,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 				$id,
 				$select,
 				ParseMLField(
-					( is_array( $options[$value] ) ? $options[$value][1] : $options[$value] ),
+					( is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ] ),
 					$locale
 				),
 				$ftitle
@@ -666,7 +666,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 	}
 	else
 	{
-		$display_val = is_array( $options[$value] ) ? $options[$value][1] : $options[$value];
+		$display_val = is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ];
 
 		if ( $display_val == '' )
 		{
@@ -721,7 +721,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 		&& ( !is_array( $options )
 			|| !array_key_exists( $value, $options ) ) )
 	{
-		$options[$value] = array( $value, '<span style="color:red">' . $value . '</span>' );
+		$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
 	}
 
 	if ( AllowEdit()
@@ -764,7 +764,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 			$return = InputDivOnclick(
 				$id,
 				$table,
-				is_array( $options[$value] ) ? $options[$value][1] : $options[$value],
+				is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ],
 				$ftitle
 			);
 		}
@@ -773,7 +773,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 	}
 	else
 	{
-		$display_val = is_array( $options[$value] ) ? $options[$value][1] : $options[$value];
+		$display_val = is_array( $options[ $value ] ) ? $options[ $value ][1] : $options[ $value ];
 
 		if ( $display_val == '' )
 		{
@@ -796,7 +796,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 /**
  * Color Picker Input
  *
- * @example ColorInput( $value, "values[$id][$column]", '', 'hidden', 'data-position="bottom right"' );
+ * @example ColorInput( $value, "values[ $id ][ $column ]", '', 'hidden', 'data-position="bottom right"' );
  *
  * @todo Display bug when inside LO (popping out of overflow hidden / auto)
  *
@@ -933,11 +933,11 @@ function CheckBoxOnclick( $name, $title = '' )
 	$onclick_URL = "'" . PreparePHP_SELF(
 		$_REQUEST,
 		array(),
-		$_REQUEST[$name] == 'Y' ? array( $name => '' ) : array( $name => 'Y' )
+		$_REQUEST[ $name ] == 'Y' ? array( $name => '' ) : array( $name => 'Y' )
 	) . "'";
 
 	$input = '<input type="checkbox" name="' . $name . '" value="Y"' .
-		( $_REQUEST[$name] == 'Y' ? ' checked' : '' ) .
+		( $_REQUEST[ $name ] == 'Y' ? ' checked' : '' ) .
 		' onclick="ajaxLink(' . $onclick_URL . ');" />';
 
 	if ( $title != '' )

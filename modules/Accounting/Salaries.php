@@ -19,8 +19,8 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		{
 			foreach ( (array) $columns as $column => $value)
 			{
-				if ( $_REQUEST['day_'][$id][$column] && $_REQUEST['month_'][$id][$column] && $_REQUEST['year_'][$id][$column])
-					$_REQUEST['values'][$id][$column] = $_REQUEST['day_'][$id][$column].'-'.$_REQUEST['month_'][$id][$column].'-'.$_REQUEST['year_'][$id][$column];
+				if ( $_REQUEST['day_'][ $id ][ $column ] && $_REQUEST['month_'][ $id ][ $column ] && $_REQUEST['year_'][ $id ][ $column ])
+					$_REQUEST['values'][ $id ][ $column ] = $_REQUEST['day_'][ $id ][ $column ].'-'.$_REQUEST['month_'][ $id ][ $column ].'-'.$_REQUEST['year_'][ $id ][ $column ];
 			}
 		}
 	}
@@ -84,7 +84,7 @@ if (UserStaffID() && !$_REQUEST['modfunc'])
 	$RET = array();
 	foreach ( (array) $salaries_RET as $salary)
 	{
-		$RET[$i] = $salary;
+		$RET[ $i ] = $salary;
 		$i++;
 	}
 	

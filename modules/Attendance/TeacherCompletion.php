@@ -83,20 +83,20 @@ if ( !$_REQUEST['period'])
 	{
 		$i++;
 
-		$staff_RET[$i]['FULL_NAME'] = $periods[1]['FULL_NAME'];
+		$staff_RET[ $i ]['FULL_NAME'] = $periods[1]['FULL_NAME'];
 
 		foreach ( (array) $periods as $period )
 		{
 			if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
-				$staff_RET[$i][$period['PERIOD_ID']] = MakeTipMessage(
+				$staff_RET[ $i ][$period['PERIOD_ID']] = MakeTipMessage(
 					$period['COURSE_TITLE'],
 					_( 'Course Title' ),
 					button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' )
 				);
 			}
 			else
-				$staff_RET[$i][$period['PERIOD_ID']] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
+				$staff_RET[ $i ][$period['PERIOD_ID']] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
 		}
 	}
 
@@ -104,7 +104,7 @@ if ( !$_REQUEST['period'])
 
 	foreach ( (array) $periods_RET as $id => $period )
 	{
-		$columns[$id] = $period[1]['TITLE'];
+		$columns[ $id ] = $period[1]['TITLE'];
 	}
 
 	ListOutput( $staff_RET, $columns, 'Teacher who takes attendance', 'Teachers who take attendance' );
@@ -122,14 +122,14 @@ else
 		{
 			if ( !isset($_REQUEST['_ROSARIO_PDF']))
 			{
-				$RET[$staff_id][$id]['COMPLETED'] = MakeTipMessage(
+				$RET[ $staff_id ][ $id ]['COMPLETED'] = MakeTipMessage(
 					$period['COURSE_TITLE'],
 					_( 'Course Title' ),
 					button( $period['COMPLETED'] === 'Y' ? 'check' : 'x' )
 				);
 			}
 			else
-				$RET[$staff_id][$id]['COMPLETED'] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
+				$RET[ $staff_id ][ $id ]['COMPLETED'] = ($period['COMPLETED']=='Y'?_('Yes'):_('No'))." ";
 		}
 	}
 

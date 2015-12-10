@@ -164,9 +164,9 @@ if (empty($_REQUEST['modfunc']))
 			if ( $RET['TYPE']!='text')
 			{
 				$allow_edit = $_ROSARIO['allow_edit'];
-				$AllowEdit = $_ROSARIO['AllowEdit'][$modname];
+				$AllowEdit = $_ROSARIO['AllowEdit'][ $modname ];
 				$_ROSARIO['allow_edit'] = false;
-				$_ROSARIO['AllowEdit'][$modname] = array();
+				$_ROSARIO['AllowEdit'][ $modname ] = array();
 				$type_options = array('text' => _('Text'),'numeric' => _('Number'),'date' => _('Date'),'textarea' => _('Long Text'));
 			}
 			else
@@ -179,7 +179,7 @@ if (empty($_REQUEST['modfunc']))
 		if ( $_REQUEST['id']!='new' && $RET['TYPE']!='text')
 		{
 			$_ROSARIO['allow_edit'] = $allow_edit;
-			$_ROSARIO['AllowEdit'][$modname] = $AllowEdit;
+			$_ROSARIO['AllowEdit'][ $modname ] = $AllowEdit;
 		}
 
 		$header .= '<td>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</td>';
@@ -212,7 +212,7 @@ if (empty($_REQUEST['modfunc']))
 			foreach ( (array) $categories_RET as $key => $value)
 			{
 				if ( $value['ID']==$_REQUEST['category_id'])
-					$categories_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+					$categories_RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 			}
 		}
 	}
@@ -228,7 +228,7 @@ if (empty($_REQUEST['modfunc']))
 			foreach ( (array) $fields_RET as $key => $value)
 			{
 				if ( $value['ID']==$_REQUEST['id'])
-					$fields_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+					$fields_RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 			}
 		}
 	}
@@ -251,5 +251,5 @@ if (empty($_REQUEST['modfunc']))
 function _makeType($value,$name)
 {
 	$options = array('text' => _('Text'),'date' => _('Date'),'numeric' => _('Number'),'textarea' => _('Long Text'));
-	return $options[$value];
+	return $options[ $value ];
 }

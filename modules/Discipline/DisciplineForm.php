@@ -151,7 +151,7 @@ if (empty($_REQUEST['modfunc']))
 	foreach ( (array) $referrals_RET as $key => $item)
 	{
 		if ( !$item['USAGE_ID'])
-			$referrals_RET[$key]['row_color']='CCCCCC';
+			$referrals_RET[ $key ]['row_color']='CCCCCC';
 	}
 
 	if (count($referrals_RET))
@@ -182,7 +182,7 @@ function _makeType($value,$name)
 	$new_options = array('checkbox' => _('Checkbox'),'text' => _('Text'),'multiple_checkbox' => _('Select Multiple from Options'),'multiple_radio' => _('Select One from Options'),'select' => _('Pull-Down'),'date' => _('Date'),'numeric' => _('Number'),'textarea' => _('Long Text'));
 	
 	if ( $THIS_RET['ID'])
-		return $new_options[$value];
+		return $new_options[ $value ];
 	else
 		return SelectInput($value,'values[new]['.$name.']','',$new_options,false);
 }

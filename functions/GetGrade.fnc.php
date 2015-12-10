@@ -28,7 +28,7 @@ function GetGrade( $grade, $column = 'TITLE' )
 	}
 
 	if ( $column === 'TITLE' )
-		$extra = '<!-- ' . $grades[$grade][1]['SORT_ORDER'] . ' -->';
+		$extra = '<!-- ' . $grades[ $grade ][1]['SORT_ORDER'] . ' -->';
 
-	return $extra . $grades[$grade][1][$column];
+	return $extra . $grades[ $grade ][1][ $column ];
 }

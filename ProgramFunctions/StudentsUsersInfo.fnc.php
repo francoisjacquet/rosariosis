@@ -27,7 +27,7 @@ function _makeTextInput( $column, $name, $request )
 	if ( $field['DEFAULT_SELECTION']
 		&& _isNew( $request ) )
 	{
-		$value[$column] = $field['DEFAULT_SELECTION'];
+		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
 
@@ -37,14 +37,14 @@ function _makeTextInput( $column, $name, $request )
 	{
 		$div = true;
 
-		$req = $field['REQUIRED'] === 'Y' && !$value[$column] ?
+		$req = $field['REQUIRED'] === 'Y' && !$value[ $column ] ?
 			array( '<span class="legend-red">', '</span>' ) :
 			array( '', '' );
 	}
 
 	if ( $field['TYPE'] === 'numeric' )
 	{
-		$value[$column] = str_replace( '.00', '', $value[$column] );
+		$value[ $column ] = str_replace( '.00', '', $value[ $column ] );
 
 		$options = 'size=9 maxlength=18';
 	}
@@ -55,7 +55,7 @@ function _makeTextInput( $column, $name, $request )
 	$options .= $field['REQUIRED'] === 'Y' ? ' required' : '';
 
 	return TextInput(
-		$value[$column],
+		$value[ $column ],
 		$request . '[' . $column . ']',
 		$req[0] . $name . $req[1],
 		$options,
@@ -84,7 +84,7 @@ function _makeDateInput( $column, $name, $request )
 	if ( $field['DEFAULT_SELECTION']
 		&& _isNew( $request ) )
 	{
-		$value[$column] = $field['DEFAULT_SELECTION'];
+		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
 
@@ -94,7 +94,7 @@ function _makeDateInput( $column, $name, $request )
 	{
 		$div = true;
 
-		$req = $field['REQUIRED'] === 'Y' && !$value[$column] ?
+		$req = $field['REQUIRED'] === 'Y' && !$value[ $column ] ?
 			array( '<span class="legend-red">', '</span>' ) :
 			array( '', '' );
 	}
@@ -106,7 +106,7 @@ function _makeDateInput( $column, $name, $request )
 		$required = true;
 
 	return DateInput(
-		$value[$column],
+		$value[ $column ],
 		$request . '[' . $column . ']',
 		$req[0] . $name . $req[1],
 		$div,
@@ -136,7 +136,7 @@ function _makeSelectInput( $column, $name, $request )
 	if ( $field['DEFAULT_SELECTION']
 		&& _isNew( $request ) )
 	{
-		$value[$column] = $field['DEFAULT_SELECTION'];
+		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
 
@@ -146,7 +146,7 @@ function _makeSelectInput( $column, $name, $request )
 	{
 		$div = true;
 
-		$req = $field['REQUIRED'] === 'Y' && !$value[$column] ?
+		$req = $field['REQUIRED'] === 'Y' && !$value[ $column ] ?
 			array( '<span class="legend-red">', '</span>' ) :
 			array( '', '' );
 	}
@@ -174,14 +174,14 @@ function _makeSelectInput( $column, $name, $request )
 				$options[$option[0]] = $option[0];
 		}
 		else
-			$options[$option] = $option;
+			$options[ $option ] = $option;
 	}
 
 	//FJ select field is required
 	$extra = 'style="max-width:250px;"' . ( $field['REQUIRED'] === 'Y' ? ' required': '' );
 
 	return SelectInput(
-		$value[$column],
+		$value[ $column ],
 		$request . '[' . $column . ']',
 		$req[0] . $name . $req[1],
 		$options,
@@ -212,7 +212,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 	if ( $field['DEFAULT_SELECTION']
 		&& _isNew( $request ) )
 	{
-		$value[$column] = $field['DEFAULT_SELECTION'];
+		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
 
@@ -222,7 +222,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 	{
 		$div = true;
 
-		$req = $field['REQUIRED'] === 'Y' && ( !$value[$column] || $value[$column] === '---' ) ?
+		$req = $field['REQUIRED'] === 'Y' && ( !$value[ $column ] || $value[ $column ] === '---' ) ?
 			array( '<span class="legend-red">', '</span>' ) :
 			array( '', '' );
 	}
@@ -237,7 +237,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 	foreach ( (array) $select_options as $option )
 	{
 		if ( $option != '' )
-			$options[$option] = $option;
+			$options[ $option ] = $option;
 	}
 
 	// add the 'new' option, is also the separator
@@ -304,23 +304,23 @@ function _makeAutoSelectInput( $column, $name, $request )
 	}
 
 	// make sure the current value is in the list
-	if ( !$value[$column]
-		&& !isset( $options[$value[$column]] ) )
+	if ( !$value[ $column ]
+		&& !isset( $options[$value[ $column ]] ) )
 	{
-		$options[$value[$column]] = array(
-			$value[$column],
-			'<span style="color:' . ( $field['TYPE'] === 'autos' ? 'blue' : 'green' ) . '">' . $value[$column] . '</span>'
+		$options[$value[ $column ]] = array(
+			$value[ $column ],
+			'<span style="color:' . ( $field['TYPE'] === 'autos' ? 'blue' : 'green' ) . '">' . $value[ $column ] . '</span>'
 		);
 	}
 
-	if ( $value[$column] != '---'
+	if ( $value[ $column ] != '---'
 		&& count( $options ) > 1 )
 	{
 		//FJ select field is required
 		$extra = 'style="max-width:250px;"' . ( $field['REQUIRED'] === 'Y' ? ' required' : '' );
 
 		return SelectInput(
-			$value[$column],
+			$value[ $column ],
 			$request . '[' . $column . ']',
 			$req[0] . $name . $req[1],
 			$options,
@@ -333,7 +333,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 	{
 		//FJ new option
 		return TextInput(
-			$value[$column] === '---' ? array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) : $value[$column],
+			$value[ $column ] === '---' ? array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) : $value[ $column ],
 			$request . '[' . $column . ']',
 			$req[0] . $name . $req[1],
 			'',
@@ -363,7 +363,7 @@ function _makeCheckboxInput( $column, $name, $request )
 	if ( $field['DEFAULT_SELECTION'] === 'Y'
 		&& _isNew( $request ) )
 	{
-		$value[$column] = $field['DEFAULT_SELECTION'];
+		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$new = true;
 	}
@@ -371,7 +371,7 @@ function _makeCheckboxInput( $column, $name, $request )
 		$new = false;
 
 	return CheckboxInput(
-		$value[$column],
+		$value[ $column ],
 		$request . '[' . $column . ']',
 		$name,
 		'',
@@ -400,7 +400,7 @@ function _makeTextareaInput( $column, $name, $request )
 	if ( $field['DEFAULT_SELECTION']
 		&& _isNew( $request ) )
 	{
-		$value[$column] = $field['DEFAULT_SELECTION'];
+		$value[ $column ] = $field['DEFAULT_SELECTION'];
 
 		$div = false;
 	}
@@ -410,7 +410,7 @@ function _makeTextareaInput( $column, $name, $request )
 	//FJ text area is required
 	//FJ textarea field maxlength=5000
 	return TextAreaInput(
-		$value[$column],
+		$value[ $column ],
 		$request . '[' . $column . ']',
 		$name,
 		'maxlength=5000' . ( $field['REQUIRED'] == 'Y' ? ' required': '' ),
@@ -446,10 +446,10 @@ function _makeMultipleInput( $column, $name, $request )
 
 		foreach ( (array) $select_options as $option )
 		{
-			$options[$option] = $option;
+			$options[ $option ] = $option;
 		}
 
-		if ( $value[$column] != '' )
+		if ( $value[ $column ] != '' )
 		{
 			$return = '<div id="div' . $request . '[' . $column . ']">
 				<div class="onclick" onclick=\'javascript:addHTML(html' . $request . $column;
@@ -476,7 +476,7 @@ function _makeMultipleInput( $column, $name, $request )
 
 			//FJ add <label> on checkbox
 			$table .= '<td><label>
-				<input type="checkbox" name="' . $request . '[' . $column . '][]" value="' . htmlspecialchars( $option, ENT_QUOTES ) . '"' . ( mb_strpos( $value[$column], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
+				<input type="checkbox" name="' . $request . '[' . $column . '][]" value="' . htmlspecialchars( $option, ENT_QUOTES ) . '"' . ( mb_strpos( $value[ $column ], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
 					$option .
 			'</label></td>';
 
@@ -492,18 +492,18 @@ function _makeMultipleInput( $column, $name, $request )
 
 		$table .= '</td></tr></table>';
 
-		if ( $value[$column] != '' )
+		if ( $value[ $column ] != '' )
 		{
 			echo '<script>var html' . $request . $column . '=' . json_encode( $table ) . ';</script>' . $return;
 			echo ',"div' . $request . '[' . $column . ']",true);\' >';
-			echo '<span class="underline-dots">' . ($value[$column] != '' ? str_replace( '||', ', ', mb_substr( $value[$column], 2, -2 ) ) : '-' ) . '</span>';
+			echo '<span class="underline-dots">' . ($value[ $column ] != '' ? str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) : '-' ) . '</span>';
 			echo '</div></div>';
 		}
 		else
 			echo $table;
 	}
 	else
-		echo ( $value[$column] != '' ? str_replace( '||', ', ', mb_substr( $value[$column], 2, -2 ) ) : '-' ) . '<br />';
+		echo ( $value[ $column ] != '' ? str_replace( '||', ', ', mb_substr( $value[ $column ], 2, -2 ) ) : '-' ) . '<br />';
 
 	echo '<span class="legend-gray">' . $name . '</span>';
 }
@@ -525,9 +525,9 @@ function _makeStudentAge( $column, $name )
 	global $value;
 
 	if ( $_REQUEST['student_id'] !== 'new'
-		&& date_create( $value[$column] ) )
+		&& date_create( $value[ $column ] ) )
 	{
-		$datetime1 = date_create( $value[$column] );
+		$datetime1 = date_create( $value[ $column ] );
 
 		$datetime2 = date_create( 'now' );
 
@@ -795,7 +795,7 @@ function _makeSchoolInput( $value, $column )
 
 	foreach ( (array) $schools as $sid => $school )
 	{
-		$options[$sid] = $school[1]['TITLE'];
+		$options[ $sid ] = $school[1]['TITLE'];
 	}
 
 	// mab - allow school to be edited if illegal value
@@ -803,9 +803,9 @@ function _makeSchoolInput( $value, $column )
 	{
 		if ( $id != 'new' )
 		{
-			if ( is_array( $schools[$value] ) )
+			if ( is_array( $schools[ $value ] ) )
 			{
-				return $schools[$value][1]['TITLE'];
+				return $schools[ $value ][1]['TITLE'];
 			}
 			else
 			{
@@ -877,8 +877,8 @@ function _isNew( $request )
 			return false;
 	}
 
-	if ( isset( $_REQUEST[$request_key] )
-			&& $_REQUEST[$request_key] === 'new' )
+	if ( isset( $_REQUEST[ $request_key ] )
+			&& $_REQUEST[ $request_key ] === 'new' )
 	{
 		return true;
 	}

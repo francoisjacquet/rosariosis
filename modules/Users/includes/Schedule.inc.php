@@ -81,7 +81,7 @@ if ( GetTeacher( UserStaffID(), 'PROFILE', false ) === 'teacher' )
 	foreach ($schedule_table_days as $day => $true)
 	{
 		if ( $true)
-			$columns[$day] = $days_convert[$day];
+			$columns[ $day ] = $days_convert[ $day ];
 	}
 	
 	$schedule_table_RET = _schedule_table_RET($schedule_table_RET);
@@ -101,7 +101,7 @@ function _GetDays($value, $column)
 	
 	foreach ($days_array as $index => $day)
 	{
-		$schedule_table_days[$day] = true;
+		$schedule_table_days[ $day ] = true;
 	}
 	return $days_array;
 }
@@ -112,27 +112,27 @@ function _schedule_table_RET($schedule_table_RET)
 	$i = 1;
 	foreach ( (array) $schedule_table_RET as $period => $course_periods)
 	{
-		$schedule_table_body[$i]['SCHOOL_PERIOD'] = $period;
+		$schedule_table_body[ $i ]['SCHOOL_PERIOD'] = $period;
 
 		foreach ($course_periods as $course_period)
 		{
 			foreach ($course_period['DAYS'] as $course_period_day)
 			{
-				if ( !is_array($schedule_table_body[$i][$course_period_day]))
-					$schedule_table_body[$i][$course_period_day] = array();
-				$schedule_table_body[$i][$course_period_day][] = '<div style="display:table-cell;">'.$course_period['TITLE'].' '.(empty($course_period['SHORT_NAME'])?'':'<span style="font-size:smaller;">('.$course_period['SHORT_NAME']).')'.(empty($course_period['ROOM'])?'':' '._('Room').': '.$course_period['ROOM'].'</span>').'&nbsp;</div>';
+				if ( !is_array($schedule_table_body[ $i ][ $course_period_day ]))
+					$schedule_table_body[ $i ][ $course_period_day ] = array();
+				$schedule_table_body[ $i ][ $course_period_day ][] = '<div style="display:table-cell;">'.$course_period['TITLE'].' '.(empty($course_period['SHORT_NAME'])?'':'<span style="font-size:smaller;">('.$course_period['SHORT_NAME']).')'.(empty($course_period['ROOM'])?'':' '._('Room').': '.$course_period['ROOM'].'</span>').'&nbsp;</div>';
 			}
 		}
 		$j = 0;
-		foreach ($schedule_table_body[$i] as $day_key => $schedule_table_day)
+		foreach ($schedule_table_body[ $i ] as $day_key => $schedule_table_day)
 		{
 			$j++;
 			if ( $j == 1) // skip SCHOOL_PERIOD column
 				continue;
 			if (count($schedule_table_day) == 1)
-				$schedule_table_body[$i][$day_key] = str_replace(array('<div style="display:table-cell;">', '</div>'), '', $schedule_table_day[0]);
+				$schedule_table_body[ $i ][ $day_key ] = str_replace(array('<div style="display:table-cell;">', '</div>'), '', $schedule_table_day[0]);
 			else
-				$schedule_table_body[$i][$day_key] = implode($schedule_table_day);
+				$schedule_table_body[ $i ][ $day_key ] = implode($schedule_table_day);
 		}
 		$i++;
 	}

@@ -34,7 +34,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	foreach ( (array) $_REQUEST['cust'] as $key => $value )
 	{
 		if ( $value !== '' )
-			$cust[$key] = $_REQUEST['cust'][$key];
+			$cust[ $key ] = $_REQUEST['cust'][ $key ];
 	}
 
 
@@ -86,12 +86,12 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	{
 		$field_id = mb_substr( $field_name, 7 );
 
-		$field_title = $fields[$field_id][1]['TITLE'];
+		$field_title = $fields[ $field_id ][1]['TITLE'];
 
 		if ( !$extra['NoSearchTerms'] )
 			$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>';
 
-		switch ( $fields[$field_id][1]['TYPE'] )
+		switch ( $fields[ $field_id ][1]['TYPE'] )
 		{
 			// Checkbox
 			case 'radio':
@@ -134,13 +134,13 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 
 					if ( !$extra['NoSearchTerms'] )
 					{
-						$select_options = explode( '<br />', nl2br( $fields[$field_id][1]['SELECT_OPTIONS'] ) );
+						$select_options = explode( '<br />', nl2br( $fields[ $field_id ][1]['SELECT_OPTIONS'] ) );
 
 						foreach ( (array) $select_options as $option )
 						{
 							$option = explode( '|', $option );
 
-							if ( $fields[$field_id][1]['TYPE'] == 'exports'
+							if ( $fields[ $field_id ][1]['TYPE'] == 'exports'
 								&& $option[0] !== ''
 								&& $value == $option[0] )
 							{
@@ -179,7 +179,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 						$_ROSARIO['SearchTerms'] .= _( 'No Value' );
 				}
 				// Other Value (Edit Pull-Down only)
-				elseif ( $fields[$field_id][1]['TYPE'] == 'edits'
+				elseif ( $fields[ $field_id ][1]['TYPE'] == 'edits'
 					&& $value === '~' )
 				{
 					$return .= " AND position('\r'||s." . $field_name . "||'\r'
@@ -244,9 +244,9 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	{
 		$field_id = mb_substr( $field_name, 7 );
 
-		$field_title = $fields[$field_id][1]['TITLE'];
+		$field_title = $fields[ $field_id ][1]['TITLE'];
 
-		if ( $fields[$field_id][1]['TYPE'] == 'numeric' )
+		if ( $fields[ $field_id ][1]['TYPE'] == 'numeric' )
 			$value = preg_replace( '/[^0-9.-]+/', '', $value );
 
 		if ( $value !== '' )
@@ -258,7 +258,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 				$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>' .
 					'<span class="sizep2">&ge;</span> ';
 
-				if ( $fields[$field_id][1]['TYPE'] == 'date' )
+				if ( $fields[ $field_id ][1]['TYPE'] == 'date' )
 					$_ROSARIO['SearchTerms'] .= ProperDate( $value );
 				else
 					$_ROSARIO['SearchTerms'] .= $value;
@@ -273,9 +273,9 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	{
 		$field_id = mb_substr( $field_name, 7 );
 
-		$field_title = $fields[$field_id][1]['TITLE'];
+		$field_title = $fields[ $field_id ][1]['TITLE'];
 
-		if ( $fields[$field_id][1]['TYPE'] == 'numeric' )
+		if ( $fields[ $field_id ][1]['TYPE'] == 'numeric' )
 			$value = preg_replace( '/[^0-9.-]+/', '', $value );
 
 		if ( $value !== '' )
@@ -287,7 +287,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 				$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>' .
 					'<span class="sizep2">&le;</span> ';
 
-				if ( $fields[$field_id][1]['TYPE'] == 'date' )
+				if ( $fields[ $field_id ][1]['TYPE'] == 'date' )
 					$_ROSARIO['SearchTerms'] .= ProperDate( $value );
 				else
 					$_ROSARIO['SearchTerms'] .= $value;
@@ -302,7 +302,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	{
 		$field_id = mb_substr( $field_name, 7 );
 
-		$field_title = $fields[$field_id][1]['TITLE'];
+		$field_title = $fields[ $field_id ][1]['TITLE'];
 
 		$return .= " AND s." . $field_name . " IS NULL ";
 

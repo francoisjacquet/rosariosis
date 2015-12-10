@@ -113,7 +113,7 @@ if ( isset( $_REQUEST['category_id'] )
 		{
 			$chart['chart_data'][0][] = $option;
 
-			$chart['chart_data'][1][] = ( empty( $totals_RET[$option][1]['COUNT'] ) ? 0 : $totals_RET[$option][1]['COUNT'] );
+			$chart['chart_data'][1][] = ( empty( $totals_RET[ $option ][1]['COUNT'] ) ? 0 : $totals_RET[ $option ][1]['COUNT'] );
 		}
 	}
 	// Checkboxes
@@ -147,14 +147,14 @@ if ( isset( $_REQUEST['category_id'] )
 			$referral['TITLE'] = explode( "||", trim( $referral['TITLE'], '|' ) );
 
 			foreach ( (array) $referral['TITLE'] as $option )
-				$options_count[$option]++;
+				$options_count[ $option ]++;
 		}
 
 		foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 		{
 			$chart['chart_data'][0][] = $option;
 
-			$chart['chart_data'][1][] = (int)$options_count[$option];
+			$chart['chart_data'][1][] = (int)$options_count[ $option ];
 		}
 	}
 	// Numeric
@@ -176,19 +176,19 @@ if ( isset( $_REQUEST['category_id'] )
 			//FJ correct numeric chart
 			for ( $i = 1; $i <= 10; $i++ )
 			{
-				/*$chart['chart_data'][0][$i] = (ceil($diff/5)*($i-1)).' - '.((ceil($diff/5)*$i)-1);
-				$mins[$i] = (ceil($diff/5)*($i-1));
-				$chart['chart_data'][1][$i] = 0;*/
+				/*$chart['chart_data'][0][ $i ] = (ceil($diff/5)*($i-1)).' - '.((ceil($diff/5)*$i)-1);
+				$mins[ $i ] = (ceil($diff/5)*($i-1));
+				$chart['chart_data'][1][ $i ] = 0;*/
 
-				$chart['chart_data'][0][$i] = ( $max_min_RET[1]['MIN'] + ( ceil( $diff / 10 ) * ( $i - 1 ) ) ) . ' - ' .
+				$chart['chart_data'][0][ $i ] = ( $max_min_RET[1]['MIN'] + ( ceil( $diff / 10 ) * ( $i - 1 ) ) ) . ' - ' .
 					( $max_min_RET[1]['MIN'] + ( ( ceil( $diff / 10 ) * $i ) - 1 ) );
 
-				$mins[$i] = ( $max_min_RET[1]['MIN'] + ( ceil( $diff / 10 ) * ( $i - 1 ) ) );
+				$mins[ $i ] = ( $max_min_RET[1]['MIN'] + ( ceil( $diff / 10 ) * ( $i - 1 ) ) );
 
-				$chart['chart_data'][1][$i] = 0;
+				$chart['chart_data'][1][ $i ] = 0;
 			}
 			//$chart['chart_data'][0][$i-1] = ($max_min_RET[1]['MIN'] + (ceil($diff/5)*($i-2))).'+';
-			$mins[$i] = ( ceil( $diff / 10 ) * ( $i - 1 ) );
+			$mins[ $i ] = ( ceil( $diff / 10 ) * ( $i - 1 ) );
 		} 
 		else //FJ transform column chart in line chart
 		{ 
@@ -309,7 +309,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			$chart_data = array( '0' => '' );
 
 			foreach ( (array) $chart['chart_data'][1] as $key => $value )
-				$chart_data[] = array( 'TITLE' => $chart['chart_data'][0][$key], 'VALUE' => $value );
+				$chart_data[] = array( 'TITLE' => $chart['chart_data'][0][ $key ], 'VALUE' => $value );
 
 			unset( $chart_data[0] );
 
@@ -336,9 +336,9 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			{
 				foreach ( (array) $chart['chart_data'][1] as $index => $y )
 				{
-					if ( is_numeric( $chart['chart_data'][0][$index] ) )
+					if ( is_numeric( $chart['chart_data'][0][ $index ] ) )
 					{
-						$chartData[0][] = $chart['chart_data'][0][$index];
+						$chartData[0][] = $chart['chart_data'][0][ $index ];
 						$chartData[1][] = $y;
 					}
 				}
@@ -355,10 +355,10 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			{
 				foreach ( (array) $chart['chart_data'][1] as $index => $y )
 				{
-					if ( is_numeric( $chart['chart_data'][1][$index] ) )
+					if ( is_numeric( $chart['chart_data'][1][ $index ] ) )
 					{
 						//limit label to 30 char max.
-						$chartData[0][] = mb_substr( $chart['chart_data'][0][$index], 0, 30 );
+						$chartData[0][] = mb_substr( $chart['chart_data'][0][ $index ], 0, 30 );
 						$chartData[1][] = $y;
 					}
 				}

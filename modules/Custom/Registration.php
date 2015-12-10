@@ -32,13 +32,13 @@ if ( $_REQUEST['values'])
 			if ( $columns['ADDRESS'] && !$inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))])
 			{
 				$address_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('ADDRESS_SEQ').' AS ADDRESS_ID '.FROM_DUAL));
-				$address_id[$key] = $address_RET[1]['ADDRESS_ID'];
+				$address_id[ $key ] = $address_RET[1]['ADDRESS_ID'];
 				if ( $key==1)
 					$address_id[2] = $address_RET[1]['ADDRESS_ID'];
 				$sql = "INSERT INTO ADDRESS ";
 
 				$fields = 'ADDRESS_ID,';
-				$values = $address_id[$key].',';
+				$values = $address_id[ $key ].',';
 
 				if ( $columns['ADDRESS'])
 					$columns += PrepareAddress($columns['ADDRESS']);
@@ -60,12 +60,12 @@ if ( $_REQUEST['values'])
 				if ( $go)
 				{
 					DBQuery($sql);
-					DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID) values(".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'".UserStudentID()."','".$address_id[$key]."')");
+					DBQuery("INSERT INTO STUDENTS_JOIN_ADDRESS (ID,STUDENT_ID,ADDRESS_ID) values(".db_seq_nextval('STUDENTS_JOIN_ADDRESS_SEQ').",'".UserStudentID()."','".$address_id[ $key ]."')");
 				}
-				$inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))] = $address_id[$key];
+				$inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))] = $address_id[ $key ];
 			}
 			else
-				$address_id[$key] = $inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))];
+				$address_id[ $key ] = $inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))];
 		}
 	}
 
@@ -117,9 +117,9 @@ if ( $_REQUEST['values'])
 				{
 					DBQuery($sql);
 					if ( $key==1 || $key==2)
-						DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY) values(".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."','".$person_id."','".$address_id[$key]."','Y')");
-					elseif ( $address_id[$key])
-						DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID) values(".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."','".$person_id."','".$address_id[$key]."')");
+						DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,CUSTODY) values(".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."','".$person_id."','".$address_id[ $key ]."','Y')");
+					elseif ( $address_id[ $key ])
+						DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID) values(".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."','".$person_id."','".$address_id[ $key ]."')");
 					else
 						DBQuery("INSERT INTO STUDENTS_JOIN_PEOPLE (ID,STUDENT_ID,PERSON_ID,ADDRESS_ID,EMERGENCY) values(".db_seq_nextval('STUDENTS_JOIN_PEOPLE_SEQ').",'".UserStudentID()."','".$person_id."','".$address_id[1]."','Y')");
 				}
@@ -252,7 +252,7 @@ if ( $custom_fields_RET['200000001'] && $custom_fields_RET['200000001'][1]['TYPE
 	$select_options = array();
 	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000001'][1]['SELECT_OPTIONS']));
 	foreach ($select_options_array as $select_option)
-		$select_options[$select_option] = $select_option;
+		$select_options[ $select_option ] = $select_option;
 	echo SelectInput($student['CUSTOM_200000001'],'values[STUDENTS][CUSTOM_200000001]',ParseMLField($custom_fields_RET['200000001'][1]['TITLE']),$select_options);
 }
 echo '</td>';
@@ -263,7 +263,7 @@ if ( $custom_fields_RET['200000005'] && $custom_fields_RET['200000005'][1]['TYPE
 	$select_options = array();
 	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000005'][1]['SELECT_OPTIONS']));
 	foreach ($select_options_array as $select_option)
-		$select_options[$select_option] = $select_option;
+		$select_options[ $select_option ] = $select_option;
 	echo SelectInput($student['CUSTOM_200000005'],'values[STUDENTS][CUSTOM_200000005]',ParseMLField($custom_fields_RET['200000005'][1]['TITLE']),$select_options,_('N/A'),'style="width:200"');
 }
 echo '</td>';
@@ -276,7 +276,7 @@ if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE
 	$select_options = array();
 	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000000'][1]['SELECT_OPTIONS']));
 	foreach ($select_options_array as $select_option)
-		$select_options[$select_option] = $select_option;
+		$select_options[ $select_option ] = $select_option;
 	echo SelectInput($student['CUSTOM_200000000'],'values[STUDENTS][CUSTOM_200000000]',ParseMLField($custom_fields_RET['200000000'][1]['TITLE']),$select_options);
 }
 echo '</td>';

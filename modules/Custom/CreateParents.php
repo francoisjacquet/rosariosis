@@ -120,7 +120,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 
 			if ( !$students[1]['STAFF_ID'])
 			{
-				if ( $_REQUEST['contact'][$student_id])
+				if ( $_REQUEST['contact'][ $student_id ])
 				{
 					//username = user part of the email
 					$tmp_username = $username = trim(mb_strpos($students[1]['EMAIL'],'@')!==false?mb_substr($students[1]['EMAIL'],0,mb_strpos($students[1]['EMAIL'],'@')):$students[1]['EMAIL']);
@@ -131,7 +131,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					while (DBGet(DBQuery("SELECT STAFF_ID FROM STAFF WHERE upper(USERNAME)=upper('".$username."') AND SYEAR='".UserSyear()."'")))
 						$username = $tmp_username.$i++;
 
-					$user = DBGet(DBQuery("SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['contact'][$student_id]."'"));
+					$user = DBGet(DBQuery("SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['contact'][ $student_id ]."'"));
 					$user = $user[1];
 
 					//FJ change parent password generation
@@ -193,7 +193,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					$student_list .= str_replace('&nbsp;',' ',$student['FULL_NAME'])."\r";
 				}
 
-				$msg = str_replace('__ASSOCIATED_STUDENTS__',$student_list,$message[$account]);
+				$msg = str_replace('__ASSOCIATED_STUDENTS__',$student_list,$message[ $account ]);
 				$msg = str_replace('__SCHOOL_ID__',SchoolInfo('TITLE'),$msg);
 				$msg = str_replace('__PARENT_NAME__',$staff['NAME'],$msg);
 				$msg = str_replace('__USERNAME__',$staff['USERNAME'],$msg);
@@ -205,19 +205,19 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				$to = empty($test_email) ? $students[1]['EMAIL'] : $test_email;
 				
 				//FJ send email from rosariosis@[domain]
-				$result = SendEmail($to, $subject[$account], $msg, null, $cc);
+				$result = SendEmail($to, $subject[ $account ], $msg, null, $cc);
 
-				$RET[$email][1]['PARENT'] = $staff['NAME'];
-				$RET[$email][1]['USERNAME'] = $staff['USERNAME'];
-				$RET[$email][1]['PASSWORD'] = (empty($password)?'':$password);
+				$RET[ $email ][1]['PARENT'] = $staff['NAME'];
+				$RET[ $email ][1]['USERNAME'] = $staff['USERNAME'];
+				$RET[ $email ][1]['PASSWORD'] = (empty($password)?'':$password);
 
 				if ( $result)
-					$RET[$email][1]['RESULT'] = _('Success');
+					$RET[ $email ][1]['RESULT'] = _('Success');
 				else
-					$RET[$email][1]['RESULT'] = _('Fail');
+					$RET[ $email ][1]['RESULT'] = _('Fail');
 			}
 			else
-				$RET[$email][1]['RESULT'] = _('Fail');
+				$RET[ $email ][1]['RESULT'] = _('Fail');
 		}
 
 		$columns = array('FULL_NAME' => _('Student'),'PARENT' => _('Parent'),'USERNAME' => _('Username'),'PASSWORD' => _('Password'),'EMAIL' => _('Email'),'RESULT' => _('Result'));

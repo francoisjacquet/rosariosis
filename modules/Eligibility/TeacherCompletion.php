@@ -101,9 +101,9 @@ if (count($RET))
 	foreach ( (array) $RET as $staff_id => $periods)
 	{
 		$i++;
-		$staff_RET[$i]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
+		$staff_RET[ $i ]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
 		foreach ( (array) $periods as $period_id => $period)
-			$staff_RET[$i][$period_id] = button('x');
+			$staff_RET[ $i ][ $period_id ] = button('x');
 	}
 }
 $columns = array('FULL_NAME' => _('Teacher'));

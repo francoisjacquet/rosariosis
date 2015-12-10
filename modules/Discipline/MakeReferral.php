@@ -265,7 +265,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 				$select_options = explode("\r",$category['SELECT_OPTIONS']);
 
 				foreach ( (array) $select_options as $option)
-					$options[$option] = $option;
+					$options[ $option ] = $option;
 
 				echo SelectInput('','values[CATEGORY_'.$category['ID'].']','',$options,'N/A');
 				/*echo '<select name="values[CATEGORY_'.$category['ID'].']"><option value="">'._('N/A').'</option>';

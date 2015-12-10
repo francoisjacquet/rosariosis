@@ -51,7 +51,7 @@ function AllowEdit( $modname = false )
 					WHERE USER_ID='" . User( 'STAFF_ID' ) . "' AND CAN_EDIT='Y'"), array(), array( 'MODNAME' ) );
 		}
 
-		if ( isset( $_ROSARIO['AllowEdit'][$modname] ) )
+		if ( isset( $_ROSARIO['AllowEdit'][ $modname ] ) )
 			return true;
 		else
 			return false;
@@ -96,7 +96,7 @@ function AllowUse( $modname = false )
 				WHERE USER_ID='" . User( 'STAFF_ID' ) . "' AND CAN_USE='Y'" ), array(), array( 'MODNAME' ) );
 	}
 
-	if ( isset( $_ROSARIO['AllowUse'][$modname] ) )
+	if ( isset( $_ROSARIO['AllowUse'][ $modname ] ) )
 		return true;
 	else
 		return false;

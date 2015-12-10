@@ -30,21 +30,21 @@ if ( $_REQUEST['modfunc']=='submit')
 			foreach ( (array) $_SESSION['FSA_sale'] as $item_sn)
 			{
 				// determine price based on discount
-				$price = $items_RET[$item_sn][1]['PRICE'];
+				$price = $items_RET[ $item_sn ][1]['PRICE'];
 				$discount = $student['DISCOUNT'];
 				if ( $student['DISCOUNT']=='Reduced')
-					if ( $items_RET[$item_sn][1]['PRICE_REDUCED']!='')
-						$price = $items_RET[$item_sn][1]['PRICE_REDUCED'];
+					if ( $items_RET[ $item_sn ][1]['PRICE_REDUCED']!='')
+						$price = $items_RET[ $item_sn ][1]['PRICE_REDUCED'];
 					else
 						$discount = '';
 				elseif ( $student['DISCOUNT']=='Free')
-					if ( $items_RET[$item_sn][1]['PRICE_FREE']!='')
-						$price = $items_RET[$item_sn][1]['PRICE_FREE'];
+					if ( $items_RET[ $item_sn ][1]['PRICE_FREE']!='')
+						$price = $items_RET[ $item_sn ][1]['PRICE_FREE'];
 					else
 						$discount = '';
 
 				$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,DISCOUNT,SHORT_NAME,DESCRIPTION';
-				$values = "'".$item_id++."','".$id."','-".$price."','".$discount."','".$items_RET[$item_sn][1]['SHORT_NAME']."','".$items_RET[$item_sn][1]['DESCRIPTION']."'";
+				$values = "'".$item_id++."','".$id."','-".$price."','".$discount."','".$items_RET[ $item_sn ][1]['SHORT_NAME']."','".$items_RET[ $item_sn ][1]['DESCRIPTION']."'";
 				$sql = "INSERT INTO FOOD_SERVICE_TRANSACTION_ITEMS (".$fields.") values (".$values.")";
 				DBQuery($sql);
 			}
@@ -117,16 +117,16 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 			foreach ( (array) $_SESSION['FSA_sale'] as $id => $item_sn)
 			{
 				// determine price based on discount
-				$price = $items_RET[$item_sn][1]['PRICE'];
+				$price = $items_RET[ $item_sn ][1]['PRICE'];
 				if ( $student['DISCOUNT']=='Reduced')
 				{
-					if ( $items_RET[$item_sn][1]['PRICE_REDUCED']!='')
-						$price = $items_RET[$item_sn][1]['PRICE_REDUCED'];
+					if ( $items_RET[ $item_sn ][1]['PRICE_REDUCED']!='')
+						$price = $items_RET[ $item_sn ][1]['PRICE_REDUCED'];
 				}
 				elseif ( $student['DISCOUNT']=='Free')
-					if ( $items_RET[$item_sn][1]['PRICE_FREE']!='')
-						$price = $items_RET[$item_sn][1]['PRICE_FREE'];
-				$LO_ret[] = array('SALE_ID' => $id,'PRICE' => $price,'DESCRIPTION' => $items_RET[$item_sn][1]['DESCRIPTION'],'ICON' => $items_RET[$item_sn][1]['ICON']);
+					if ( $items_RET[ $item_sn ][1]['PRICE_FREE']!='')
+						$price = $items_RET[ $item_sn ][1]['PRICE_FREE'];
+				$LO_ret[] = array('SALE_ID' => $id,'PRICE' => $price,'DESCRIPTION' => $items_RET[ $item_sn ][1]['DESCRIPTION'],'ICON' => $items_RET[ $item_sn ][1]['ICON']);
 			}
 		}
 		unset($LO_ret[0]);

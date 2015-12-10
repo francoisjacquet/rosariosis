@@ -72,10 +72,10 @@ if ( $_REQUEST['search_modfunc']=='list')
 
 function _total($value)
 {	global $THIS_RET,$account_id,$total;
-	if ( !$account_id[$value])
+	if ( !$account_id[ $value ])
 	{
 		$total += $THIS_RET['BALANCE'];
-		$account_id[$value] = true;
+		$account_id[ $value ] = true;
 	}
 	return $value;
 }

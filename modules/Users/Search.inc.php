@@ -257,7 +257,7 @@ else
 		if (count($link['FULL_NAME']['variables']))
 		{
 			foreach ( (array) $link['FULL_NAME']['variables'] as $var => $val)
-				$_REQUEST[$var] = $staff_RET['1'][$val];
+				$_REQUEST[ $var ] = $staff_RET['1'][ $val ];
 		}
 
 		if ( !is_array($staff_RET[1]['STAFF_ID']))

@@ -146,7 +146,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			{
 				if ( $_REQUEST['elements']['percents']=='Y')
 					$columns[$mp.'%'] = '%';
-				$columns[$mp] = GetMP($mp);
+				$columns[ $mp ] = GetMP($mp);
 			}
 
 			if ( $_REQUEST['elements']['comments']=='Y')
@@ -162,38 +162,38 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			foreach ( (array) $RET as $student_id => $course_periods)
 			{
 				$course_period_id = key($course_periods);
-				$grades_RET[$i+1]['FULL_NAME'] = $course_periods[$course_period_id][key($course_periods[$course_period_id])][1]['FULL_NAME'];
+				$grades_RET[$i+1]['FULL_NAME'] = $course_periods[ $course_period_id ][key($course_periods[ $course_period_id ])][1]['FULL_NAME'];
 
 				$grades_RET[$i+1]['bgcolor'] = 'FFFFFF';
 
 				foreach ( (array) $course_periods as $course_period_id => $mps)
 				{
 					$i++;
-					$grades_RET[$i]['STUDENT_ID'] = $student_id;
-					$grades_RET[$i]['COURSE_PERIOD_ID'] = $course_period_id;
-					$grades_RET[$i]['MARKING_PERIOD_ID'] = key($mps);
+					$grades_RET[ $i ]['STUDENT_ID'] = $student_id;
+					$grades_RET[ $i ]['COURSE_PERIOD_ID'] = $course_period_id;
+					$grades_RET[ $i ]['MARKING_PERIOD_ID'] = key($mps);
 
-					$grades_RET[$i]['COURSE_TITLE'] = $mps[key($mps)][1]['COURSE_TITLE'];
-					$grades_RET[$i]['TEACHER'] = $mps[$last_mp][1]['TEACHER'];
+					$grades_RET[ $i ]['COURSE_TITLE'] = $mps[key($mps)][1]['COURSE_TITLE'];
+					$grades_RET[ $i ]['TEACHER'] = $mps[ $last_mp ][1]['TEACHER'];
 
 					foreach ( (array) $_REQUEST['mp_arr'] as $mp)
 					{
-						if ( $mps[$mp])
+						if ( $mps[ $mp ])
 						{
-							$grades_RET[$i][$mp] = $mps[$mp][1]['GRADE_TITLE'];
+							$grades_RET[ $i ][ $mp ] = $mps[ $mp ][1]['GRADE_TITLE'];
 
-							if ( $_REQUEST['elements']['percents']=='Y' && $mps[$mp][1]['GRADE_PERCENT']>0)
-								$grades_RET[$i][$mp.'%'] = $mps[$mp][1]['GRADE_PERCENT'].'%';
+							if ( $_REQUEST['elements']['percents']=='Y' && $mps[ $mp ][1]['GRADE_PERCENT']>0)
+								$grades_RET[ $i ][$mp.'%'] = $mps[ $mp ][1]['GRADE_PERCENT'].'%';
 
 							$last_mp = $mp;
 						}
 					}
 
 					if ( $_REQUEST['elements']['period_absences']=='Y')
-						if (mb_strpos($mps[$last_mp][1]['DOES_ATTENDANCE'],',0,')!==false)
-							$grades_RET[$i]['ABSENCES'] = $mps[$last_mp][1]['YTD_ABSENCES'].' / '.$mps[$last_mp][1]['MP_ABSENCES'];
+						if (mb_strpos($mps[ $last_mp ][1]['DOES_ATTENDANCE'],',0,')!==false)
+							$grades_RET[ $i ]['ABSENCES'] = $mps[ $last_mp ][1]['YTD_ABSENCES'].' / '.$mps[ $last_mp ][1]['MP_ABSENCES'];
 						else
-							$grades_RET[$i]['ABSENCES'] = _('N/A');
+							$grades_RET[ $i ]['ABSENCES'] = _('N/A');
 
 					if ( $_REQUEST['elements']['comments']=='Y')
 					{
@@ -202,16 +202,16 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						$sep_mp = ' | ';
 						foreach ( (array) $mps as $mp)
 						{
-							if ( !empty($grades_RET[$i]['COMMENT']))
-								$grades_RET[$i]['COMMENT'] = $grades_RET[$i]['COMMENT'].$sep_mp;
+							if ( !empty($grades_RET[ $i ]['COMMENT']))
+								$grades_RET[ $i ]['COMMENT'] = $grades_RET[ $i ]['COMMENT'].$sep_mp;
 
 							foreach ( (array) $mp[1]['COMMENTS_RET'] as $comment)
 							{
 								if ( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']])
-									$grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT']!=' ' ? (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).$comment['COMMENT'] : (empty($grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).'&middot;';
+									$grades_RET[ $i ]['C'.$comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT']!=' ' ? (empty($grades_RET[ $i ]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).$comment['COMMENT'] : (empty($grades_RET[ $i ]['C'.$comment['REPORT_CARD_COMMENT_ID']])?'':$sep_mp).'&middot;';
 								else
 								{
-									$sep_tmp = empty($grades_RET[$i]['COMMENT']) || mb_substr($grades_RET[$i]['COMMENT'],-3)==$sep_mp ? '' : $sep;
+									$sep_tmp = empty($grades_RET[ $i ]['COMMENT']) || mb_substr($grades_RET[ $i ]['COMMENT'],-3)==$sep_mp ? '' : $sep;
 
 									$color = $comments_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['COLOR'];
 
@@ -220,15 +220,15 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 									else
 										$color_html = '';
 
-									$grades_RET[$i]['COMMENT'] .= $sep_tmp.$color_html.$comments_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
+									$grades_RET[ $i ]['COMMENT'] .= $sep_tmp.$color_html.$comments_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
 
 									if ( $comment['COMMENT'])
-										$grades_RET[$i]['COMMENT'] .= '('.($comment['COMMENT']!=' '?$comment['COMMENT']:'&middot;').')'.($color_html ? '</span>':'');
+										$grades_RET[ $i ]['COMMENT'] .= '('.($comment['COMMENT']!=' '?$comment['COMMENT']:'&middot;').')'.($color_html ? '</span>':'');
 								}
 							}
 
 							if ( $mp[1]['COMMENT_TITLE'])
-								$grades_RET[$i]['COMMENT'] .= (empty($grades_RET[$i]['COMMENT']) || mb_substr($grades_RET[$i]['COMMENT'],-3)==$sep_mp ? '' : $sep).$mp[1]['COMMENT_TITLE'];
+								$grades_RET[ $i ]['COMMENT'] .= (empty($grades_RET[ $i ]['COMMENT']) || mb_substr($grades_RET[ $i ]['COMMENT'],-3)==$sep_mp ? '' : $sep).$mp[1]['COMMENT_TITLE'];
 						}
 					}
 				}

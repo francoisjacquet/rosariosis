@@ -100,7 +100,7 @@ if ( $_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowE
 	foreach ( (array) $categories_RET as $category)
 	{
 		$file = 'Students/Student.php&category_id='.$category['ID'];
-		$tmp_menu['Students'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
+		$tmp_menu['Students'][ $xprofile ][ $file ] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
 
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES"));
@@ -108,7 +108,7 @@ if ( $_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowE
 	foreach ( (array) $categories_RET as $category)
 	{
 		$file = 'Users/User.php&category_id='.$category['ID'];
-		$tmp_menu['Users'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
+		$tmp_menu['Users'][ $xprofile ][ $file ] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
 		
 	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
@@ -116,20 +116,20 @@ if ( $_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowE
 	{
 		foreach ($modname_array as $modname => $title)
 			if (mb_strpos($modname, 'TeacherPrograms') !== false)
-				unset ($tmp_menu['Users'][$profile][$modname]);
+				unset ($tmp_menu['Users'][ $profile ][ $modname ]);
 	}
 
 	if ( isset( $_POST['can_use'] ) )
 	foreach ( (array) $tmp_menu as $modcat => $profiles)
 	{
-		$values = $profiles[$xprofile];
+		$values = $profiles[ $xprofile ];
 		foreach ( (array) $values as $modname => $title)
 		{
 			if ( !is_numeric($modname) && $modname!='default')
 			{
-				if ( !count($exceptions_RET[$modname]) && ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)]))
+				if ( !count($exceptions_RET[ $modname ]) && ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)]))
 					DBQuery("INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME) values('".$_REQUEST['profile_id']."','".$modname."')");
-				elseif (count($exceptions_RET[$modname]) && !$_REQUEST['can_edit'][str_replace('.','_',$modname)] && !$_REQUEST['can_use'][str_replace('.','_',$modname)])
+				elseif (count($exceptions_RET[ $modname ]) && !$_REQUEST['can_edit'][str_replace('.','_',$modname)] && !$_REQUEST['can_use'][str_replace('.','_',$modname)])
 					DBQuery("DELETE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".$_REQUEST['profile_id']."' AND MODNAME='".$modname."'");
 
 				if ( $_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)])
@@ -193,7 +193,7 @@ if ( $_REQUEST['modfunc']!='delete')
 	echo '<tr><th colspan="3">'._('Profiles').'</th></tr>';
 	foreach ( array('admin','teacher','parent','student') as $profiles)
 	{
-		foreach ( (array) $profiles_RET[$profiles] as $id => $profile)
+		foreach ( (array) $profiles_RET[ $profiles ] as $id => $profile)
 		{
 			if ( $_REQUEST['profile_id']!='' && $id==$_REQUEST['profile_id'])
 				echo '<tr id="selected_tr" class="highlight"><td>'.(AllowEdit() && $id > 3 ? button('remove', '', '"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=delete&profile_id='.$id.'"') : '&nbsp;').'</td><td>';
@@ -236,7 +236,7 @@ if ( $_REQUEST['modfunc']!='delete')
 		echo '<table class="widefat cellspacing-0">';
 		foreach ( (array) $menu as $modcat => $profiles )
 		{
-			$values = $profiles[$xprofile];
+			$values = $profiles[ $xprofile ];
 
 			if ( !in_array($modcat, $RosarioCoreModules))
 				$module_title = dgettext($modcat, str_replace('_',' ',$modcat));
@@ -259,8 +259,8 @@ if ( $_REQUEST['modfunc']!='delete')
 				{
 					if ( !is_numeric($file) && $file!='default')
 					{
-						$can_use = $exceptions_RET[$file][1]['CAN_USE'];
-						$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
+						$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
+						$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
 
 						//echo '<tr><td>&nbsp;</td><td>&nbsp;</td>';
 
@@ -280,8 +280,8 @@ if ( $_REQUEST['modfunc']!='delete')
 							{
 								$file = 'Students/Student.php&category_id='.$category['ID'];
 								$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
-								$can_use = $exceptions_RET[$file][1]['CAN_USE'];
-								$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
+								$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
+								$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
 
 								//echo '<tr><td>&nbsp;</td><td>&nbsp;</td>';
 								echo '<tr><td style="text-align:right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').' /></td>';
@@ -298,8 +298,8 @@ if ( $_REQUEST['modfunc']!='delete')
 							{
 								$file = 'Users/User.php&category_id='.$category['ID'];
 								$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
-								$can_use = $exceptions_RET[$file][1]['CAN_USE'];
-								$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
+								$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
+								$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
 
 								//echo '<tr><td>&nbsp;</td><td>&nbsp;</td>';
 								echo '<tr><td style="text-align:right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';

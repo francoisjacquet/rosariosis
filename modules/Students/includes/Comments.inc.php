@@ -96,11 +96,11 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		{
 			$id = $comment['staff_id'];
 
-			if ( !isset( $staff_name[$id] ) )
+			if ( !isset( $staff_name[ $id ] ) )
 			{
 				if ( User('STAFF_ID') === $id )
 				{
-					$staff_name[$id] = User( 'NAME' );
+					$staff_name[ $id ] = User( 'NAME' );
 				}
 				else
 				{
@@ -114,7 +114,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 							AND STAFF_ID='" . $id . "'
 						)" ) );
 
-					$staff_name[$id] = $staff_name_RET[1]['NAME'];
+					$staff_name[ $id ] = $staff_name_RET[1]['NAME'];
 				}
 			}
 
@@ -122,7 +122,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			$comment_meta = '<span>' .
 				ProperDate( mb_substr( $comment['date'], 0, 10 ) ) .
 				mb_substr( $comment['date'], 10 ) . ', ' .
-				$staff_name[$id] .
+				$staff_name[ $id ] .
 				':</span>';
 
 			// convert MarkDown to HTML

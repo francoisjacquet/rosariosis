@@ -70,7 +70,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$i = 0;
 					if ( $_REQUEST['include_teacher']=='Y')
 					{
-						$teacher = $teachers_RET[$teacher_id][1];
+						$teacher = $teachers_RET[ $teacher_id ][1];
 
 						echo '<tr><td style="vertical-align:bottom;"><table>';
 

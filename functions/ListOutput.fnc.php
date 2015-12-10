@@ -97,10 +97,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 						$group[0] = $column;
 
-						$item2[$column] = str_replace(
+						$item2[ $column ] = str_replace(
 							'<!-- <!--',
 							'<!--',
-							'<!-- ' . str_replace( '-->', '--><!--', $item2[$column] )
+							'<!-- ' . str_replace( '-->', '--><!--', $item2[ $column ] )
 						) . ' -->&nbsp;';
 					}
 					$result[] = $item2;
@@ -121,7 +121,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 								$group[0] = $column;
 								
-								$item3[$column] = '<!-- ' . $item3[$column] . ' -->';
+								$item3[ $column ] = '<!-- ' . $item3[ $column ] . ' -->';
 							}
 
 							if ( count( $group[1] )
@@ -132,7 +132,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 								$group[1] = $column;
 								
-								$item3[$column] = '<!-- ' . $item3[$column] . ' -->';
+								$item3[ $column ] = '<!-- ' . $item3[ $column ] . ' -->';
 							}
 
 							//$item3['row_color'] = $color;
@@ -154,7 +154,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 										$group[2] = $column;
 										
-										unset( $item4[$column] );
+										unset( $item4[ $column ] );
 									}
 
 									//$item4['row_color'] = $color;
@@ -224,7 +224,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			{
 				$search_term = str_replace( '"', '', $search_term );
 
-				$terms[$search_term] = 1;
+				$terms[ $search_term ] = 1;
 			}
 
 			/* TRANSLATORS: List of words ignored during search operations */
@@ -237,7 +237,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 			foreach ( (array) $result as $key => $value )
 			{
-				$values[$key] = 0;
+				$values[ $key ] = 0;
 
 				foreach ( (array) $value as $val )
 				{
@@ -248,7 +248,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					// +25 if Exact match
 					if ( $search_term == $val )
 					{
-						$values[$key] += 25;
+						$values[ $key ] += 25;
 					}
 
 					// +3 for each Term found
@@ -256,16 +256,16 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					{
 						if ( mb_strpos( $val, $term ) !== FALSE )
 						{
-							$values[$key] += 3;
+							$values[ $key ] += 3;
 						}
 					}
 				}
 
-				if ( $values[$key] == 0 )
+				if ( $values[ $key ] == 0 )
 				{
-					unset( $values[$key] );
+					unset( $values[ $key ] );
 
-					unset( $result[$key] );
+					unset( $result[ $key ] );
 
 					$result_count--;
 
@@ -284,13 +284,13 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				$last_value = 1;
 
-				$scale = ( 100 / $values[$last_value] );
+				$scale = ( 100 / $values[ $last_value ] );
 
 				for ( $i = $last_value; $i <= $result_count; $i++ )
 				{
-					$score = (int)( $values[$i] * $scale );
+					$score = (int)( $values[ $i ] * $scale );
 
-					$result[$i]['RELEVANCE'] = '<!--' . $score . '-->
+					$result[ $i ]['RELEVANCE'] = '<!--' . $score . '-->
 						<div class="bar relevance" style="width:' . $score . 'px;">&nbsp;</div>';
 				}
 			}
@@ -311,23 +311,23 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		{
 			foreach ( (array) $result as $sort )
 			{
-				if ( mb_substr( $sort[$LO_sort], 0, 4 ) != '<!--' )
+				if ( mb_substr( $sort[ $LO_sort ], 0, 4 ) != '<!--' )
 				{
 					//FJ better list sorting by isolating the values
-					//$sort_array[] = $sort[$LO_sort];
+					//$sort_array[] = $sort[ $LO_sort ];
 					$sort_array[] = strip_tags( preg_replace(
 						'/<script\b[^>]*>(.*?)<\/script>/is',
 						"",
-						$sort[$LO_sort]
+						$sort[ $LO_sort ]
 					) );
 				}
 				// Use value inside comment to sort!
 				else
 				{
 					$sort_array[] = mb_substr(
-						$sort[$LO_sort],
+						$sort[ $LO_sort ],
 						4,
-						mb_strpos( $sort[$LO_sort], '-->' ) - 5
+						mb_strpos( $sort[ $LO_sort ], '-->' ) - 5
 					);
 				}
 			}
@@ -352,7 +352,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				for ( $i = $result_count - 1; $i >= 0; $i-- )
 				{
-					$result[$i + 1] = $result[$i];
+					$result[$i + 1] = $result[ $i ];
 				}
 
 				unset( $result[0] );
@@ -590,7 +590,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				foreach ( (array) $column_names as $key => $value)
 				{
-					echo '<td>'.$link['add']['html'][$key].'</td>';
+					echo '<td>'.$link['add']['html'][ $key ].'</td>';
 				}
 				echo '</tr>';
 				$count++;
@@ -599,7 +599,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 		for ( $i=$start;$i<=$stop;$i++)
 		{
-			$item = $result[$i];
+			$item = $result[ $i ];
 			if (isset($_REQUEST['_ROSARIO_PDF']) && $options['print'] && count($item))
 			{
 				//modify loop: use for instead of foreach
@@ -607,9 +607,9 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				$size = count($key);
 				for ($j=0; $j<$size; $j++)
 				{
-					$value = preg_replace('!<select.*selected\>([^<]+)<.*</select\>!i','\\1',$item[$key[$j]]);
+					$value = preg_replace('!<select.*selected\>([^<]+)<.*</select\>!i','\\1',$item[$key[ $j ]]);
 					$value = preg_replace('!<select.*</select\>!i','',$value);
-					$item[$key[$j]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
+					$item[$key[ $j ]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
 				}
 				
 				/*foreach ( (array) $item as $key => $value)
@@ -617,7 +617,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					$value = preg_replace('!<select.*selected\>([^<]+)<.*</select\>!i','\\1',$value);
 					$value = preg_replace('!<select.*</select\>!i','',$value);
 
-					$item[$key] = preg_replace("/<div onclick=[^']+'>/",'',$value);
+					$item[ $key ] = preg_replace("/<div onclick=[^']+'>/",'',$value);
 				}*/
 			}
 
@@ -636,7 +636,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				if (count($link['remove']['variables']))
 				{
 					foreach ( (array) $link['remove']['variables'] as $var => $val)
-						$button_link .= "&$var=" . urlencode($item[$val]);
+						$button_link .= "&$var=" . urlencode($item[ $val ]);
 				}
 
 				echo '<td>' . button('remove',$button_title,'"'.$button_link.'"') . '</td>';
@@ -646,43 +646,43 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			{
 				foreach ( (array) $column_names as $key => $value)
 				{
-					if ( !empty($link[$key]) && $item[$key]!==false && !isset($_REQUEST['_ROSARIO_PDF']))
+					if ( !empty($link[ $key ]) && $item[ $key ]!==false && !isset($_REQUEST['_ROSARIO_PDF']))
 					{
 						if ( $color==Preferences('HIGHLIGHT'))
 							echo '<td class="highlight">';
 						else
 							echo '<td>';
-						if ( !empty($link[$key]['js']))
+						if ( !empty($link[ $key ]['js']))
 						{
-							echo '<a href="#" onclick=\'popups.open("' . $link[$key]['link'];
+							echo '<a href="#" onclick=\'popups.open("' . $link[ $key ]['link'];
 
-							if ( count( $link[$key]['variables'] ) )
+							if ( count( $link[ $key ]['variables'] ) )
 							{
-								foreach ( (array) $link[$key]['variables'] as $var => $val )
-									echo "&$var=".urlencode($item[$val]);
+								foreach ( (array) $link[ $key ]['variables'] as $var => $val )
+									echo "&$var=".urlencode($item[ $val ]);
 							}
 
 							echo '"); return false;\'';
 
-							if ( $link[$key]['extra'])
-								echo ' '.$link[$key]['extra'];
+							if ( $link[ $key ]['extra'])
+								echo ' '.$link[ $key ]['extra'];
 							echo '>';
 						}
 						else
 						{
-							echo '<a href="'.$link[$key]['link'];
-							if (count($link[$key]['variables']))
+							echo '<a href="'.$link[ $key ]['link'];
+							if (count($link[ $key ]['variables']))
 							{
-								foreach ( (array) $link[$key]['variables'] as $var => $val)
-									echo '&'.$var.'='.urlencode($item[$val]);
+								foreach ( (array) $link[ $key ]['variables'] as $var => $val)
+									echo '&'.$var.'='.urlencode($item[ $val ]);
 							}
 							echo '"';
-							if ( !empty($link[$key]['extra']))
-								echo ' '.$link[$key]['extra'];
+							if ( !empty($link[ $key ]['extra']))
+								echo ' '.$link[ $key ]['extra'];
 							echo '>';
 						}
-						echo $item[$key];
-						if ( !$item[$key])
+						echo $item[ $key ];
+						if ( !$item[ $key ])
 							echo '***';
 						echo '</a>';
 						echo '</td>';
@@ -693,8 +693,8 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 							echo '<td class="highlight">';
 						else
 							echo '<td>';
-						echo $item[$key];
-						if ( !$item[$key])
+						echo $item[ $key ];
+						if ( !$item[ $key ])
 							echo '&nbsp;';
 						echo '</td>';
 					}
@@ -721,7 +721,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				foreach ( (array) $column_names as $key => $value)
 				{
-					echo '<td>'.$link['add']['html'][$key].'</td>';
+					echo '<td>'.$link['add']['html'][ $key ].'</td>';
 				}
 				echo '</tr>';
 			}
@@ -776,7 +776,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 
 				foreach ( (array) $column_names as $key => $value)
 				{
-					echo '<td>'.$link['add']['html'][$key].'</td>';
+					echo '<td>'.$link['add']['html'][ $key ].'</td>';
 				}
 				echo '</tr></tbody>';
 				echo '</table></div><br />';
@@ -818,7 +818,7 @@ function _ReindexResults( $array )
 
 	foreach ( (array) $array as $value )
 	{
-		$new[$i] = $value;
+		$new[ $i ] = $value;
 
 		$i++;
 	}
@@ -941,11 +941,11 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 	// Format Results
 	foreach ( (array) $result as $item )
 	{
-		$formatted_result[$i] = array();
+		$formatted_result[ $i ] = array();
 
 		foreach ( (array) $column_names as $key => $value )
 		{
-			$value = $item[$key];
+			$value = $item[ $key ];
 
 			if ( $value !== '' )
 			{
@@ -965,7 +965,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 				$value = '"' . str_replace( '"', '""', $value ) . '"';
 			}
 
-			$formatted_result[$i][] = $value;
+			$formatted_result[ $i ][] = $value;
 		}
 
 		$i++;
@@ -1018,12 +1018,12 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 			foreach ( $result_line as $key => $value )
 			{
-				if ( $formatted_columns[$key] === '' )
+				if ( $formatted_columns[ $key ] === '' )
 				{
 					$column = 'column_' . ( $key + 1 );
 				}
 				else
-					$column = mb_strtolower( str_replace( ' ', '_', $formatted_columns[$key] ) );
+					$column = mb_strtolower( str_replace( ' ', '_', $formatted_columns[ $key ] ) );
 
 				// http://stackoverflow.com/questions/1091945/what-characters-do-i-need-to-escape-in-xml-documents
 				$value = str_replace( '[br]', '<br />', htmlentities( $value ) );

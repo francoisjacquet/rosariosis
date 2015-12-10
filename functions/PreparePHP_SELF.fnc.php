@@ -24,13 +24,13 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 	// Remove Cookie vars
 	foreach ( (array) $_COOKIE as $key => $value )
 	{
-		unset( $tmp_REQUEST[$key] );
+		unset( $tmp_REQUEST[ $key ] );
 	}
 
 	// Remove vars in $remove
 	foreach ( (array) $remove as $key )
 	{
-		unset( $tmp_REQUEST[$key] );
+		unset( $tmp_REQUEST[ $key ] );
 	}
 
 	// Unescape DB strings
@@ -45,7 +45,7 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 	// Add vars in $add
 	foreach ( (array) $add as $key => $value )
 	{
-		$tmp_REQUEST[$key] = $value;
+		$tmp_REQUEST[ $key ] = $value;
 	}
 
 

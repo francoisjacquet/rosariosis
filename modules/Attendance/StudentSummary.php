@@ -146,14 +146,14 @@ if (UserStudentID())
 	foreach ( (array) $absences_RET as $school_date => $absences)
 	{
 		$i++;
-		$days_RET[$i]['SCHOOL_DATE'] = ProperDate($school_date);
-		$days_RET[$i]['DAILY'] = _makeStateValue($absences[key($absences)][1]['STATE_VALUE']);
-		$days_RET[$i]['OFFICE_COMMENT'] = $absences[key($absences)][1]['OFFICE_COMMENT'];
+		$days_RET[ $i ]['SCHOOL_DATE'] = ProperDate($school_date);
+		$days_RET[ $i ]['DAILY'] = _makeStateValue($absences[key($absences)][1]['STATE_VALUE']);
+		$days_RET[ $i ]['OFFICE_COMMENT'] = $absences[key($absences)][1]['OFFICE_COMMENT'];
 		foreach ( (array) $absences as $period_id => $absence)
 		{
-			//$days_RET[$i][$period_id] =            $absence[1]['SHORT_NAME'];
-			$days_RET[$i][$period_id] = _makeColor($absence[1]['SHORT_NAME'],$absence[1]['STATE_CODE']);
-			$days_RET[$i]['COMMENT_'.$period_id] = $absence[1]['TEACHER_COMMENT'];
+			//$days_RET[ $i ][ $period_id ] =            $absence[1]['SHORT_NAME'];
+			$days_RET[ $i ][ $period_id ] = _makeColor($absence[1]['SHORT_NAME'],$absence[1]['STATE_CODE']);
+			$days_RET[ $i ]['COMMENT_'.$period_id] = $absence[1]['TEACHER_COMMENT'];
 		}
 	}
 
@@ -193,5 +193,5 @@ function _makeStateValue($value)
 function _makeColor($value,$state_code)
 {
 	$colors = array('P' => '#FFCC00','A' => '#FF0000','H' => '#FFCC00','T' => '#6666FF');
-	return '<div style="float:left;'.($colors[$state_code]?' background-color:'.$colors[$state_code].';':'').' padding:0 8px;">'.$value.'</div>';
+	return '<div style="float:left;'.($colors[ $state_code ]?' background-color:'.$colors[ $state_code ].';':'').' padding:0 8px;">'.$value.'</div>';
 }

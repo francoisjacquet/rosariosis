@@ -411,9 +411,9 @@ function Search( $type, $extra = null )
 
 						foreach ( (array) $options_RET as $option )
 						{
-							if ( !in_array( $option[$col_name], $options ) )
+							if ( !in_array( $option[ $col_name ], $options ) )
 							{
-								echo '<option value="' . $option[$col_name] . '">' . $option[$col_name] . '</option>';
+								echo '<option value="' . $option[ $col_name ] . '">' . $option[ $col_name ] . '</option>';
 							}
 						}
 					}

@@ -24,7 +24,7 @@ function _makeCalendar($value,$column)
 	if ( !$calendars_RET)
 		$calendars_RET = DBGet(DBQuery("SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."'"),array(),array('CALENDAR_ID'));
 
-	return $calendars_RET[$value][1]['TITLE'];
+	return $calendars_RET[ $value ][1]['TITLE'];
 }
 
 function _makeTeachers($value,$column)

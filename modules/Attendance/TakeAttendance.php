@@ -146,20 +146,20 @@ if ($_REQUEST['attendance'] && $_POST['attendance'])
 {
 	foreach ( (array) $_REQUEST['attendance'] as $student_id => $value)
 	{
-		if ($current_RET[$student_id])
+		if ($current_RET[ $student_id ])
 		{
 			$sql = "UPDATE $table SET ATTENDANCE_TEACHER_CODE='".mb_substr($value,5)."',COURSE_PERIOD_ID='".UserCoursePeriod()."'";
 
-			if ($current_RET[$student_id][1]['ADMIN']!='Y')
+			if ($current_RET[ $student_id ][1]['ADMIN']!='Y')
 				$sql .= ",ATTENDANCE_CODE='".mb_substr($value,5)."'";
 
-			if ($_REQUEST['comment'][$student_id])
-				$sql .= ",COMMENT='".trim($_REQUEST['comment'][$student_id])."'";
+			if ($_REQUEST['comment'][ $student_id ])
+				$sql .= ",COMMENT='".trim($_REQUEST['comment'][ $student_id ])."'";
 	
 			$sql .= " WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";
 		}
 		else
-			$sql = "INSERT INTO ".$table." (STUDENT_ID,SCHOOL_DATE,MARKING_PERIOD_ID,PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_TEACHER_CODE,COMMENT".($table=='LUNCH_PERIOD'?',TABLE_NAME':'').") values('".$student_id."','".$date."','".$qtr_id."','".UserPeriod()."','".UserCoursePeriod()."','".mb_substr($value,5)."','".mb_substr($value,5)."','".$_REQUEST['comment'][$student_id]."'".($table=='LUNCH_PERIOD'?",'".$_REQUEST['table']."'":'').")";
+			$sql = "INSERT INTO ".$table." (STUDENT_ID,SCHOOL_DATE,MARKING_PERIOD_ID,PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_TEACHER_CODE,COMMENT".($table=='LUNCH_PERIOD'?',TABLE_NAME':'').") values('".$student_id."','".$date."','".$qtr_id."','".UserPeriod()."','".UserCoursePeriod()."','".mb_substr($value,5)."','".mb_substr($value,5)."','".$_REQUEST['comment'][ $student_id ]."'".($table=='LUNCH_PERIOD'?",'".$_REQUEST['table']."'":'').")";
 
 		DBQuery($sql);
 
@@ -257,7 +257,7 @@ function _makeRadio($value,$title)
 		if (isset($_REQUEST['LO_save']))
 			return _('Yes');
 		else
-			return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[$value]?'background-color:'.$colors[$value].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
+			return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[ $value ]?'background-color:'.$colors[ $value ].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
 	}
 	else
 		return '<div style="float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'>&nbsp;&nbsp;</div>';
@@ -274,7 +274,7 @@ function _makeRadioSelected($value,$title)
 			if (isset($_REQUEST['LO_save']))
 				return _('Yes');
 			else
-				return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[$value]?'background-color:'.$colors[$value].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
+				return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[ $value ]?'background-color:'.$colors[ $value ].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
 		}
 		else
 			return '<div style="float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'>&nbsp;&nbsp;</div>';
@@ -283,7 +283,7 @@ function _makeRadioSelected($value,$title)
 		if (isset($_REQUEST['LO_save']))
 			return _('Yes');
 		else
-			return '<div style="'.($colors1[$value]?'background-color:'.$colors1[$value].';':'').'; float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
+			return '<div style="'.($colors1[ $value ]?'background-color:'.$colors1[ $value ].';':'').'; float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
 	}
 }
 
@@ -317,15 +317,15 @@ function _makeTipMessage( $full_name, $column )
 function makeCommentInput($student_id,$column)
 {	global $current_RET;
 
-	return TextInput($current_RET[$student_id][1]['COMMENT'],'comment['.$student_id.']','','maxlength="100" size="20"',true,true);
+	return TextInput($current_RET[ $student_id ][1]['COMMENT'],'comment['.$student_id.']','','maxlength="100" size="20"',true,true);
 }
 
 function makeAttendanceReason($student_id,$column)
 {	global $current_RET,$attendance_reason;
 
-	if ($current_RET[$student_id][1]['ATTENDANCE_REASON'])
+	if ($current_RET[ $student_id ][1]['ATTENDANCE_REASON'])
 	{
 		$attendance_reason = true;
-		return $current_RET[$student_id][1]['ATTENDANCE_REASON'];
+		return $current_RET[ $student_id ][1]['ATTENDANCE_REASON'];
 	}
 }

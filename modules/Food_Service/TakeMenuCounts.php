@@ -112,7 +112,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 	GetCurrentMP('QTR',$date);
 	foreach ( (array) $_REQUEST['values'] as $id => $value)
 	{
-		if ( $current_RET[$id])
+		if ( $current_RET[ $id ])
 		{
 			$sql = 'UPDATE FOOD_SERVICE_COMPLETED SET ';
 			$sql .= 'COUNT=\''.$value['COUNT'].'\' ';

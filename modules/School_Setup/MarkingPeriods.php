@@ -531,7 +531,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			foreach ( (array) $fy_RET as $key => $value )
 			{
 				if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['year_id'] )
-					$fy_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
+					$fy_RET[ $key ]['row_color'] = Preferences( 'HIGHLIGHT' );
 			}
 		}
 	}
@@ -578,7 +578,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 				foreach ( (array) $sem_RET as $key => $value )
 				{
 					if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['semester_id'] )
-						$sem_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
+						$sem_RET[ $key ]['row_color'] = Preferences( 'HIGHLIGHT' );
 				}
 			}
 		}
@@ -625,7 +625,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 					foreach ( (array) $qtr_RET as $key => $value )
 					{
 						if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['quarter_id'] )
-							$qtr_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
+							$qtr_RET[ $key ]['row_color'] = Preferences( 'HIGHLIGHT' );
 					}
 				}
 			}
@@ -669,7 +669,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 						foreach ( (array) $pro_RET as $key => $value )
 						{
 							if ( $value['MARKING_PERIOD_ID'] === $_REQUEST['marking_period_id'] )
-								$pro_RET[$key]['row_color'] = Preferences( 'HIGHLIGHT' );
+								$pro_RET[ $key ]['row_color'] = Preferences( 'HIGHLIGHT' );
 						}
 					}
 				}

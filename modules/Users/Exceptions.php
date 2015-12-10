@@ -43,7 +43,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 	foreach ( (array) $categories_RET as $category)
 	{
 		$file = 'Students/Student.php&category_id='.$category['ID'];
-		$tmp_menu['Students'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
+		$tmp_menu['Students'][ $xprofile ][ $file ] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
 
 	$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STAFF_FIELD_CATEGORIES"));
@@ -51,7 +51,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 	foreach ( (array) $categories_RET as $category)
 	{
 		$file = 'Users/User.php&category_id='.$category['ID'];
-		$tmp_menu['Users'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
+		$tmp_menu['Users'][ $xprofile ][ $file ] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
 
 	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
@@ -59,19 +59,19 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 	{
 		foreach ($modname_array as $modname => $title)
 			if (mb_strpos($modname, 'TeacherPrograms') !== false)
-				unset ($tmp_menu['Users'][$profile][$modname]);
+				unset ($tmp_menu['Users'][ $profile ][ $modname ]);
 	}
 	
 	foreach ( (array) $tmp_menu as $modcat => $profiles)
 	{
-		$values = $profiles[$xprofile];
+		$values = $profiles[ $xprofile ];
 		foreach ( (array) $values as $modname => $title)
 		{
 			if ( !is_numeric($modname))
 			{
-				if ( !count($exceptions_RET[$modname]) && ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)]))
+				if ( !count($exceptions_RET[ $modname ]) && ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)]))
 					DBQuery("INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME) values('".$user_id."','".$modname."')");
-				elseif (count($exceptions_RET[$modname]) && !$_REQUEST['can_edit'][str_replace('.','_',$modname)] && !$_REQUEST['can_use'][str_replace('.','_',$modname)])
+				elseif (count($exceptions_RET[ $modname ]) && !$_REQUEST['can_edit'][str_replace('.','_',$modname)] && !$_REQUEST['can_use'][str_replace('.','_',$modname)])
 					DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".$user_id."' AND MODNAME='".$modname."'");
 
 				if ( $_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)])
@@ -137,8 +137,8 @@ if ( !$staff_RET[1]['PROFILE_ID'])
 			{
 				if ( !is_numeric($file))
 				{
-					$can_use = $exceptions_RET[$file][1]['CAN_USE'];
-					$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
+					$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
+					$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
 
 					//echo '<tr><td></td><td></td>';
 
@@ -158,8 +158,8 @@ if ( !$staff_RET[1]['PROFILE_ID'])
 						{
 							$file = 'Students/Student.php&category_id='.$category['ID'];
 							$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
-							$can_use = $exceptions_RET[$file][1]['CAN_USE'];
-							$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
+							$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
+							$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
 
 							echo '<tr><td style="text-align:right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 
@@ -175,8 +175,8 @@ if ( !$staff_RET[1]['PROFILE_ID'])
 						{
 							$file = 'Users/User.php&category_id='.$category['ID'];
 							$title = '&nbsp;&nbsp;&rsaquo; '.ParseMLField($category['TITLE']);
-							$can_use = $exceptions_RET[$file][1]['CAN_USE'];
-							$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
+							$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
+							$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
 
 							echo '<tr><td style="text-align:right"><input type="checkbox" name="can_use['.str_replace('.','_',$file).']" value="true"'.($can_use=='Y'?' checked':'').(AllowEdit()?'':' DISABLED').'></td>';
 

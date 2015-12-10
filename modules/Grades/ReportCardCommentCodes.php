@@ -104,7 +104,7 @@ if (empty($_REQUEST['modfunc']))
 	foreach ( (array) $comment_scales_RET as $id => $comment_scale)
 	{
 		$tabs[] = array('title' => $comment_scale[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
-		$comment_scale_select[$id] = $comment_scale[1]['TITLE'];
+		$comment_scale_select[ $id ] = $comment_scale[1]['TITLE'];
 	}
 
 	if ( $_REQUEST['tab_id']!='new')
@@ -170,7 +170,7 @@ function makeCommentsInput($value,$name)
 		$id = 'new';
 
 	if ( $name=='SCALE_ID')
-		return SelectInput($value,"values[$id][$name]",'',$comment_scale_select,false);
+		return SelectInput($value,"values[ $id ][ $name ]",'',$comment_scale_select,false);
 	elseif ( $name=='COMMENT')
 		$extra = 'size=15 maxlength=100';
 	elseif ( $name=='SHORT_NAME')
@@ -180,7 +180,7 @@ function makeCommentsInput($value,$name)
 	else
 		$extra = 'size=5 maxlength=5';
 
-	return TextInput($value,"values[$id][$name]",'',$extra);
+	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
 }
 
 function makeTextInput($value,$name)
@@ -198,5 +198,5 @@ function makeTextInput($value,$name)
 	else
 		$extra = 'size=5 maxlength=5';
 
-	return TextInput($value,"values[$id][$name]",'',$extra);
+	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
 }

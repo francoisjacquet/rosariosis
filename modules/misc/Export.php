@@ -335,42 +335,42 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 	{
 		foreach ( (array) $_REQUEST['fields'] as $field => $on )
 		{
-			$columns[$field] = ParseMLField( $fields_list[$field] );
+			$columns[ $field ] = ParseMLField( $fields_list[ $field ] );
 
 			if ( mb_substr( $field, 0, 7) == 'CUSTOM_' )
 			{
 				if ( $custom_RET[ mb_substr( $field, 7 ) ][1]['TYPE'] == 'date'
-					&& !$extra['functions'][$field] )
+					&& !$extra['functions'][ $field ] )
 				{
-					$extra['functions'][$field] = 'ProperDate';
+					$extra['functions'][ $field ] = 'ProperDate';
 				}
 				elseif ( $custom_RET[ mb_substr( $field, 7 )][1]['TYPE'] == 'codeds'
-					&& !$extra['functions'][$field] )
+					&& !$extra['functions'][ $field ] )
 				{
-					$extra['functions'][$field] = 'DeCodeds';
+					$extra['functions'][ $field ] = 'DeCodeds';
 				}
 				elseif ( $custom_RET[ mb_substr( $field, 7 )][1]['TYPE'] == 'exports'
-					&& !$extra['functions'][$field] )
+					&& !$extra['functions'][ $field ] )
 				{
-					$extra['functions'][$field] = 'DeCodeds';
+					$extra['functions'][ $field ] = 'DeCodeds';
 				}
 			}
 			elseif ( mb_substr( $field, 0, 8 ) == 'ADDRESS_' )
 			{
 				if ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'date'
-					&& !$extra['functions'][$field] )
+					&& !$extra['functions'][ $field ] )
 				{
-					$extra['functions'][$field] = 'ProperDate';
+					$extra['functions'][ $field ] = 'ProperDate';
 				}
 				elseif ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'codeds'
-					&& !$extra['functions'][$field] )
+					&& !$extra['functions'][ $field ] )
 				{
-					$extra['functions'][$field] = 'DeCodeds';
+					$extra['functions'][ $field ] = 'DeCodeds';
 				}
 				elseif ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'exports'
-					&& !$extra['functions'][$field] )
+					&& !$extra['functions'][ $field ] )
 				{
-					$extra['functions'][$field] = 'DeCodeds';
+					$extra['functions'][ $field ] = 'DeCodeds';
 				}
 			}
 		}

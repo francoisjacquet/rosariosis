@@ -47,7 +47,7 @@ if ( !$_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['stu
 		foreach ( (array) $RET as $key => $value)
 		{
 			if ( $value['SUBJECT_ID']==$_REQUEST['subject_id'])
-				$RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+				$RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 		}
 	}
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=courses&include_child_mps='.$_REQUEST['include_child_mps'];
@@ -79,7 +79,7 @@ if ( $_REQUEST['modfunc']=='courses')
 		foreach ( (array) $RET as $key => $value)
 		{
 			if ( $value['COURSE_ID']==$_REQUEST['course_id'])
-				$RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+				$RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 		}
 	}
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=students&subject_id='.$_REQUEST['subject_id'].'&include_child_mps='.$_REQUEST['include_child_mps'];
@@ -123,12 +123,12 @@ if ( $_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_pe
 		{
 			foreach ( (array) $total_seats as $mp => $total)
 			{
-				$value += array('OFT_'.$mp=>($total!==false?($filled_seats[$mp]!==false?$total-$filled_seats[$mp]:''):_('N/A')).'|'.($filled_seats[$mp]!==false?$filled_seats[$mp]:'').'|'.($total!==false?$total:_('N/A')));
+				$value += array('OFT_'.$mp=>($total!==false?($filled_seats[ $mp ]!==false?$total-$filled_seats[ $mp ]:''):_('N/A')).'|'.($filled_seats[ $mp ]!==false?$filled_seats[ $mp ]:'').'|'.($total!==false?$total:_('N/A')));
 			}
 		}
 		else
 			$value += array('OPEN_SEATS'=>($total_seats!==false?($filled_seats!==false?$total_seats-$filled_seats:''):_('N/A')),'FILLED_SEATS'=>($filled_seats!==false?$filled_seats:''),'TOTAL_SEATS'=>($total_seats!==false?$total_seats:_('N/A')));
-		$RET[$key] += $value;
+		$RET[ $key ] += $value;
 	}
 
 	if (count($RET) && $_REQUEST['course_period_id'])
@@ -136,7 +136,7 @@ if ( $_REQUEST['modfunc']=='course_periods' || $_REQUEST['students']=='course_pe
 		foreach ( (array) $RET as $key => $value)
 		{
 			if ( $value['COURSE_PERIOD_ID']==$_REQUEST['course_period_id'])
-				$RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+				$RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 		}
 	}
 	$link = array();
@@ -251,16 +251,16 @@ function calcSeats1($period,&$total_seats,&$filled_seats)
 		
 		if ( $_REQUEST['include_child_mps'])
 		{
-			if ( $total_seats[$mp]!==false)
+			if ( $total_seats[ $mp ]!==false)
 				if ( $period['TOTAL_SEATS'])
-					$total_seats[$mp] += $period['TOTAL_SEATS'];
+					$total_seats[ $mp ] += $period['TOTAL_SEATS'];
 				else
-					$total_seats[$mp] = false;
+					$total_seats[ $mp ] = false;
 			if ( $filled_seats!==false)
 				if ( $seats[1]['FILLED_SEATS']!='')
-					$filled_seats[$mp] += $seats[1]['FILLED_SEATS'];
+					$filled_seats[ $mp ] += $seats[1]['FILLED_SEATS'];
 				else
-					$filled_seats[$mp] = false;
+					$filled_seats[ $mp ] = false;
 		}
 		else
 		{
@@ -285,7 +285,7 @@ function calcSeats(&$_RET,$columns)
 	{
 		$value = array();
 		foreach ( (array) $columns as $column)
-			$value += array($column => $periods[key($periods)][$column]);
+			$value += array($column => $periods[key($periods)][ $column ]);
 		if ( $_REQUEST['include_child_mps'])
 			$total_seats = $filled_seats = array();
 		else
@@ -296,7 +296,7 @@ function calcSeats(&$_RET,$columns)
 		{
 			foreach ( (array) $total_seats as $mp => $total)
 			{
-				$filled = $filled_seats[$mp];
+				$filled = $filled_seats[ $mp ];
 				$value += array('OFT_'.$mp=>($total!==false?($filled!==false?$total-$filled:''):'n/a').'|'.($filled!==false?$filled:'').'|'.($total!==false?$total:'n/a'));
 			}
 		}

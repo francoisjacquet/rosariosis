@@ -45,16 +45,16 @@ echo '<br />';
 $days = array(_('Sunday'),_('Monday'),_('Tuesday'),_('Wednesday'),_('Thursday'),_('Friday'),_('Saturday'));
 
 for ( $i=0;$i<7;$i++)
-	$day_options[$i] = $days[$i];
+	$day_options[ $i ] = $days[ $i ];
 
 for ( $i=1;$i<=11;$i++)
-	$hour_options[$i] = $i;
+	$hour_options[ $i ] = $i;
 $hour_options['0'] = '12';
 
 for ( $i=0;$i<=9;$i++)
-	$minute_options[$i] = '0'.$i;
+	$minute_options[ $i ] = '0'.$i;
 for ( $i=10;$i<=59;$i++)
-	$minute_options[$i] = $i;
+	$minute_options[ $i ] = $i;
 
 $m_options = array('AM' => 'AM','PM' => 'PM');
 

@@ -6,15 +6,15 @@ if ( $_REQUEST['day_values'] && $_POST['day_values'])
 {
 	foreach ( (array) $_REQUEST['day_values'] as $id => $values)
 	{
-		if ( $_REQUEST['day_values'][$id]['START_DATE'] && $_REQUEST['month_values'][$id]['START_DATE'] && $_REQUEST['year_values'][$id]['START_DATE'])
-			$_REQUEST['values'][$id]['START_DATE'] = $_REQUEST['day_values'][$id]['START_DATE'].'-'.$_REQUEST['month_values'][$id]['START_DATE'].'-'.$_REQUEST['year_values'][$id]['START_DATE'];
-		elseif (isset($_REQUEST['day_values'][$id]['START_DATE']) && isset($_REQUEST['month_values'][$id]['START_DATE']) && isset($_REQUEST['year_values'][$id]['START_DATE']))
-			$_REQUEST['values'][$id]['START_DATE'] = '';
+		if ( $_REQUEST['day_values'][ $id ]['START_DATE'] && $_REQUEST['month_values'][ $id ]['START_DATE'] && $_REQUEST['year_values'][ $id ]['START_DATE'])
+			$_REQUEST['values'][ $id ]['START_DATE'] = $_REQUEST['day_values'][ $id ]['START_DATE'].'-'.$_REQUEST['month_values'][ $id ]['START_DATE'].'-'.$_REQUEST['year_values'][ $id ]['START_DATE'];
+		elseif (isset($_REQUEST['day_values'][ $id ]['START_DATE']) && isset($_REQUEST['month_values'][ $id ]['START_DATE']) && isset($_REQUEST['year_values'][ $id ]['START_DATE']))
+			$_REQUEST['values'][ $id ]['START_DATE'] = '';
 
-		if ( $_REQUEST['day_values'][$id]['END_DATE'] && $_REQUEST['month_values'][$id]['END_DATE'] && $_REQUEST['year_values'][$id]['END_DATE'])
-			$_REQUEST['values'][$id]['END_DATE'] = $_REQUEST['day_values'][$id]['END_DATE'].'-'.$_REQUEST['month_values'][$id]['END_DATE'].'-'.$_REQUEST['year_values'][$id]['END_DATE'];
-		elseif (isset($_REQUEST['day_values'][$id]['END_DATE']) && isset($_REQUEST['month_values'][$id]['END_DATE']) && isset($_REQUEST['year_values'][$id]['END_DATE']))
-			$_REQUEST['values'][$id]['END_DATE'] = '';
+		if ( $_REQUEST['day_values'][ $id ]['END_DATE'] && $_REQUEST['month_values'][ $id ]['END_DATE'] && $_REQUEST['year_values'][ $id ]['END_DATE'])
+			$_REQUEST['values'][ $id ]['END_DATE'] = $_REQUEST['day_values'][ $id ]['END_DATE'].'-'.$_REQUEST['month_values'][ $id ]['END_DATE'].'-'.$_REQUEST['year_values'][ $id ]['END_DATE'];
+		elseif (isset($_REQUEST['day_values'][ $id ]['END_DATE']) && isset($_REQUEST['month_values'][ $id ]['END_DATE']) && isset($_REQUEST['year_values'][ $id ]['END_DATE']))
+			$_REQUEST['values'][ $id ]['END_DATE'] = '';
 	}
 	if ( !$_POST['values'])
 		$_POST['values'] = $_REQUEST['values'];
@@ -28,22 +28,22 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 	foreach ( (array) $polls_RET as $poll_id)
 	{
 		$poll_id = $poll_id['ID'];
-		$_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'] = '';
+		$_REQUEST['values'][ $poll_id ]['PUBLISHED_PROFILES'] = '';
 		foreach ( array('admin','teacher','parent') as $profile_id)
-			if ( $_REQUEST['profiles'][$poll_id][$profile_id])
-				$_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'] .= ','.$profile_id;
-		if (count($_REQUEST['profiles'][$poll_id]))
+			if ( $_REQUEST['profiles'][ $poll_id ][ $profile_id ])
+				$_REQUEST['values'][ $poll_id ]['PUBLISHED_PROFILES'] .= ','.$profile_id;
+		if (count($_REQUEST['profiles'][ $poll_id ]))
 		{
 			foreach ( (array) $profiles_RET as $profile)
 			{
 				$profile_id = $profile['ID'];
 
-				if ( $_REQUEST['profiles'][$poll_id][$profile_id])
-					$_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'] .= ','.$profile_id;
+				if ( $_REQUEST['profiles'][ $poll_id ][ $profile_id ])
+					$_REQUEST['values'][ $poll_id ]['PUBLISHED_PROFILES'] .= ','.$profile_id;
 			}
 		}
-		if ( $_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'])
-			$_REQUEST['values'][$poll_id]['PUBLISHED_PROFILES'] .= ',';
+		if ( $_REQUEST['values'][ $poll_id ]['PUBLISHED_PROFILES'])
+			$_REQUEST['values'][ $poll_id ]['PUBLISHED_PROFILES'] .= ',';
 	}
 }
 
@@ -83,7 +83,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				$q = 0;
 				foreach ( (array) $sql_questions as $sql_question)
 				{
-					$sql_question = mb_substr($sql_question,0,-1) . " WHERE ID='".$id_questions[$q]."'";
+					$sql_question = mb_substr($sql_question,0,-1) . " WHERE ID='".$id_questions[ $q ]."'";
 					DBQuery($sql_question);
 					$q++;
 				}
@@ -94,7 +94,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					foreach ( array('admin','teacher','parent') as $profile_id)
 					{
-						if ( $_REQUEST['profiles']['new'][$profile_id])
+						if ( $_REQUEST['profiles']['new'][ $profile_id ])
 							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
 						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
 					}
@@ -102,7 +102,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					{
 						$profile_id = $profile['ID'];
 
-						if ( $_REQUEST['profiles']['new'][$profile_id])
+						if ( $_REQUEST['profiles']['new'][ $profile_id ])
 							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
 						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
 					}
@@ -231,7 +231,7 @@ function _makeTextInput($value,$name)
 	if ( $name=='TITLE' && $id != 'new')
 		$extra = 'required';
 
-	return TextInput($name=='TITLE' && $THIS_RET['EXPIRED']?array($value,'<span style="color:red">'.$value.'</span>'):$value,"values[$id][$name]",'',$extra);
+	return TextInput($name=='TITLE' && $THIS_RET['EXPIRED']?array($value,'<span style="color:red">'.$value.'</span>'):$value,"values[ $id ][ $name ]",'',$extra);
 }
 
 function _makeOptionsInput($value,$name)
@@ -254,7 +254,7 @@ function _makeOptionsInput($value,$name)
 	
 	$type_options = array('multiple_radio' => _('Select One from Options'),'multiple' => _('Select Multiple from Options'));
 	
-	return '<tr'.($portal_poll_id == 'new' ? ' id="newOption_0"' : '').'><td>'.TextInput($THIS_RET['QUESTION'],"values[$portal_poll_id][$id][QUESTION]",'','maxlength=255 size=20').'</td><td>'.TextareaInput($value,"values[$portal_poll_id][$id][$name]",'','rows=3 cols=20').($portal_poll_id == 'new' ? '<br />'._('* one per line') : '').'</td><td>'.SelectInput($THIS_RET['TYPE'],"values[$portal_poll_id][$id][TYPE]",'',$type_options,false).'</td></tr>';
+	return '<tr'.($portal_poll_id == 'new' ? ' id="newOption_0"' : '').'><td>'.TextInput($THIS_RET['QUESTION'],"values[ $portal_poll_id ][ $id ][QUESTION]",'','maxlength=255 size=20').'</td><td>'.TextareaInput($value,"values[ $portal_poll_id ][ $id ][ $name ]",'','rows=3 cols=20').($portal_poll_id == 'new' ? '<br />'._('* one per line') : '').'</td><td>'.SelectInput($THIS_RET['TYPE'],"values[ $portal_poll_id ][ $id ][TYPE]",'',$type_options,false).'</td></tr>';
 }
 
 function _makeOptionsInputs($value,$name)

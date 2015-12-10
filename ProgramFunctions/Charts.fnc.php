@@ -54,7 +54,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 
 			for ( $i = 0; $i < $chartData_count; $i++ )
 			{
-				$chartData[] = '[' . $data[0][$i] . ', ' . $data[1][$i] . ']';
+				$chartData[] = '[' . $data[0][ $i ] . ', ' . $data[1][ $i ] . ']';
 			}
 
 			$chartData = '[' . implode( ',', $chartData ) . ']';
@@ -86,7 +86,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 
 				foreach ( (array) $seriesLabels as $key => $seriesLabel )
 				{
-					$seriesLabels[$key] = "{label:" . json_encode( $seriesLabel ) . "}";
+					$seriesLabels[ $key ] = "{label:" . json_encode( $seriesLabel ) . "}";
 				}
 
 				$series = '[' . implode( ',', $seriesLabels ) . ']';
@@ -106,9 +106,9 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 
 				for ( $i = 0; $i < $chartData_count; $i++ )
 				{
-					$ticks[] = json_encode( trim( $data[0][$i] ) );
+					$ticks[] = json_encode( trim( $data[0][ $i ] ) );
 
-					$seriesData[] = $data[1][$i];
+					$seriesData[] = $data[1][ $i ];
 				}
 
 				$chartData[] = '[' . implode( ',', $seriesData ) . ']';
@@ -157,7 +157,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 
 			for ( $i = 0; $i < $chartData_count; $i++ )
 			{
-				$chartData[] = '[' . json_encode( $data[0][$i] ) . ', ' .	$data[1][$i] . ']';
+				$chartData[] = '[' . json_encode( $data[0][ $i ] ) . ', ' .	$data[1][ $i ] . ']';
 			}
 
 			$chartData = '[' . implode( ',', $chartData ) . ']';
@@ -381,11 +381,11 @@ function makeNumeric( $number, $column )
 	{
 		for ( $i = 1; $i <= 10; $i++ )
 		{
-			if ( ( $number >= $mins[$i]
+			if ( ( $number >= $mins[ $i ]
 					&& $number < $mins[$i + 1] )
 				|| $i === 10 )
 			{
-				$chart['chart_data'][1][$i]++;
+				$chart['chart_data'][1][ $i ]++;
 
 				break;
 			}

@@ -46,15 +46,15 @@ function SaveData( $iu_extra, $field_names = array() )
 			// For each column
 			foreach ( (array) $columns as $column => $value )
 			{
-				if ( isset( $field_names[$table][$column] ) )
+				if ( isset( $field_names[ $table ][ $column ] ) )
 				{
-					$name = sprintf( _( 'The value for %s' ), $field_names[$table][$column] );
+					$name = sprintf( _( 'The value for %s' ), $field_names[ $table ][ $column ] );
 				}
 				else
 					$name = sprintf( _( 'The value for %s' ), ucwords( mb_strtolower( str_replace( '_', ' ', $column ) ) ) );
 
 				// COLUMN DOESN'T EXIST
-				if ( !isset( $table_properties[$column] ) )
+				if ( !isset( $table_properties[ $column ] ) )
 				{
 					$error[] = sprintf( _( 'There is no column for %s. This value was not saved.' ), $name );
 
@@ -62,16 +62,16 @@ function SaveData( $iu_extra, $field_names = array() )
 				}
 
 				// VALUE IS TOO LONG
-				elseif ( $table_properties[$column]['TYPE'] === 'VARCHAR'
-					&& mb_strlen( $value ) > $table_properties[$column]['SIZE'] )
+				elseif ( $table_properties[ $column ]['TYPE'] === 'VARCHAR'
+					&& mb_strlen( $value ) > $table_properties[ $column ]['SIZE'] )
 				{
-					$value = mb_substr( $value, 0, $table_properties[$column]['SIZE'] );
+					$value = mb_substr( $value, 0, $table_properties[ $column ]['SIZE'] );
 
 					$error[] = sprintf( _( '%s was too long. It was truncated to fit in the field.' ), $name );
 				}
 
 				// FIELD IS NUMERIC, VALUE CONTAINS NON-NUMERICAL CHARACTERS
-				elseif ( $table_properties[$column]['TYPE'] === 'NUMERIC'
+				elseif ( $table_properties[ $column ]['TYPE'] === 'NUMERIC'
 					&& preg_match( '/[^0-9-]/', $value ) )
 				{
 					$value = preg_replace( '/[^0-9]/', '', $value );
@@ -80,7 +80,7 @@ function SaveData( $iu_extra, $field_names = array() )
 				}
 
 				// FIELD IS DATE, DATE IS WRONG
-				elseif ( $table_properties[$column]['TYPE'] === 'DATE'
+				elseif ( $table_properties[ $column ]['TYPE'] === 'DATE'
 					&& $value
 					&& !VerifyDate( $value ) )
 				{
@@ -94,16 +94,16 @@ function SaveData( $iu_extra, $field_names = array() )
 					if ( !empty( $value )
 						|| $value == '0' )
 					{
-						$ins_fields[$table] .= $column . ',';
+						$ins_fields[ $table ] .= $column . ',';
 
-						$ins_values[$table] .= "'" . $value . "',";
+						$ins_values[ $table ] .= "'" . $value . "',";
 
 						$go = true;
 					}
 				}
 				else
 				{
-					$sql[$table] .= $column . "='" . $value . "',";
+					$sql[ $table ] .= $column . "='" . $value . "',";
 
 					$go = true;					
 				}
@@ -113,16 +113,16 @@ function SaveData( $iu_extra, $field_names = array() )
 			if ( $id === 'new'
 				&& $go )
 			{
-				$sql[$table] = 'INSERT INTO ' . $table . ' (' . $iu_extra['fields'][$table] . mb_substr( $ins_fields[$table], 0, -1 ) . ')
-					VALUES (' . $iu_extra['values'][$table] . mb_substr( $ins_values[$table], 0, -1 ) . ')';
+				$sql[ $table ] = 'INSERT INTO ' . $table . ' (' . $iu_extra['fields'][ $table ] . mb_substr( $ins_fields[ $table ], 0, -1 ) . ')
+					VALUES (' . $iu_extra['values'][ $table ] . mb_substr( $ins_values[ $table ], 0, -1 ) . ')';
 			}
 
 			// UPDATE data
 			elseif ( $go )
 			{
-				$sql[$table] = 'UPDATE ' . $table .
-					' SET ' . mb_substr( $sql[$table], 0, -1 ) . 
-					' WHERE ' . str_replace( '__ID__', $id, $iu_extra[$table] );
+				$sql[ $table ] = 'UPDATE ' . $table .
+					' SET ' . mb_substr( $sql[ $table ], 0, -1 ) . 
+					' WHERE ' . str_replace( '__ID__', $id, $iu_extra[ $table ] );
 			}
 
 			// Display errors if any
@@ -131,7 +131,7 @@ function SaveData( $iu_extra, $field_names = array() )
 
 			if ( $go )
 			{
-				DBQuery( $sql[$table] );
+				DBQuery( $sql[ $table ] );
 			}
 		}
 	}

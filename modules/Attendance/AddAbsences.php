@@ -68,10 +68,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				//echo '<pre>'; var_dump($course_periods_RET); echo '</pre>';
 				foreach ( (array) $_REQUEST['period'] as $period_id => $yes)
 				{
-					$course_period_id = $course_periods_RET[$period_id][1]['COURSE_PERIOD_ID'];
-					if ( $course_period_id && !($course_periods_RET[$period_id][1]['COURSE_PERIOD_ID']=='Y' && $state_code=='H'))
+					$course_period_id = $course_periods_RET[ $period_id ][1]['COURSE_PERIOD_ID'];
+					if ( $course_period_id && !($course_periods_RET[ $period_id ][1]['COURSE_PERIOD_ID']=='Y' && $state_code=='H'))
 					{
-						if ( !$current_RET[$student_id][$date][$period_id])
+						if ( !$current_RET[ $student_id ][ $date ][ $period_id ])
 						{
 							$sql = "INSERT INTO ATTENDANCE_PERIOD (STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID,ATTENDANCE_CODE,ATTENDANCE_REASON,ADMIN)
 										values('".$student_id."','".$date."','".$period_id."','".$current_mp."','".$course_period_id."','".$_REQUEST['absence_code']."','".$_REQUEST['absence_reason']."','Y')";
@@ -160,7 +160,7 @@ if (empty($_REQUEST['modfunc']))
 		for ( $i=1;$i<=$last;$i++)
 		{
 			$this_date = $_REQUEST['year'].'-'.$_REQUEST['month'].'-'.($i<10?'0'.$i:$i);
-			if ( !$calendar_RET[$this_date])
+			if ( !$calendar_RET[ $this_date ])
 				$disabled = ' DISABLED';
 			elseif (date('Y-m-d')==$this_date)
 				$disabled = ' checked';

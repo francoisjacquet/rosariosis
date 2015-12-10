@@ -236,11 +236,11 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 
 	for ($j = 1; $j <= count($schedule_RET); $j++) {
 		$columns_DAYS_locale = '';
-		$days_strlen = mb_strlen($schedule_RET[$j]['DAYS']);
+		$days_strlen = mb_strlen($schedule_RET[ $j ]['DAYS']);
 		for ($i = 0; $i < $days_strlen; $i++) {
-			$columns_DAYS_locale .= mb_substr($days_convert[mb_substr($schedule_RET[$j]['DAYS'], $i, 1)],0,3) . '.&nbsp;';
+			$columns_DAYS_locale .= mb_substr($days_convert[mb_substr($schedule_RET[ $j ]['DAYS'], $i, 1)],0,3) . '.&nbsp;';
 		}
-		$schedule_RET[$j]['DAYS'] = $columns_DAYS_locale;
+		$schedule_RET[ $j ]['DAYS'] = $columns_DAYS_locale;
 	}*/
 
 	VerifySchedule($schedule_RET);
@@ -407,11 +407,11 @@ function _makeMPSelect($mp_id,$name)
 		$semesters_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,NULL AS PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 		$quarters_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 
-		$_ROSARIO['_makeMPSelect'][$fy_id][1] = array('MARKING_PERIOD_ID' => $fy_id,'TITLE' => _('Full Year'),'PARENT_ID' => '');
+		$_ROSARIO['_makeMPSelect'][ $fy_id ][1] = array('MARKING_PERIOD_ID' => $fy_id,'TITLE' => _('Full Year'),'PARENT_ID' => '');
 		foreach ( (array) $semesters_RET as $sem)
-			$_ROSARIO['_makeMPSelect'][$fy_id][] = $sem;
+			$_ROSARIO['_makeMPSelect'][ $fy_id ][] = $sem;
 		foreach ( (array) $quarters_RET as $qtr)
-			$_ROSARIO['_makeMPSelect'][$fy_id][] = $qtr;
+			$_ROSARIO['_makeMPSelect'][ $fy_id ][] = $qtr;
 
 		$quarters_QI = DBQuery("SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER");
 		$quarters_indexed_RET = DBGet($quarters_QI,array(),array('PARENT_ID'));
@@ -429,9 +429,9 @@ function _makeMPSelect($mp_id,$name)
 			$_ROSARIO['_makeMPSelect'][$qtr['MARKING_PERIOD_ID']][] = $qtr;
 	}
 
-	if (is_array($_ROSARIO['_makeMPSelect'][$mp_id]))
+	if (is_array($_ROSARIO['_makeMPSelect'][ $mp_id ]))
 	{
-		foreach ( (array) $_ROSARIO['_makeMPSelect'][$mp_id] as $value)
+		foreach ( (array) $_ROSARIO['_makeMPSelect'][ $mp_id ] as $value)
 		{
 			if ( $value['MARKING_PERIOD_ID']!=$THIS_RET['MARKING_PERIOD_ID'] && $THIS_RET['TOTAL_SEATS'] && $_REQUEST['include_seats'])
 				$seats = calcSeats0($THIS_RET);
@@ -454,7 +454,7 @@ function _makeDate($value,$column)
 	else
 		$allow_na = true;
 
-	return DateInput($value,"schedule[$THIS_RET[COURSE_PERIOD_ID]][$THIS_RET[START_DATE]][$column]",'',true,$allow_na);
+	return DateInput($value,"schedule[$THIS_RET[COURSE_PERIOD_ID]][$THIS_RET[START_DATE]][ $column ]",'',true,$allow_na);
 }
 
 function VerifySchedule(&$schedule)
@@ -464,33 +464,33 @@ function VerifySchedule(&$schedule)
 	$ij = count($schedule);
 	for ( $i=1; $i<$ij; $i++)
 		for ( $j=$i+1; $j<=$ij; $j++)
-			if ( !$conflicts[$i] || !$conflicts[$j])
+			if ( !$conflicts[ $i ] || !$conflicts[ $j ])
 				// the following two if's are equivalent, the second matches the 'Add a Course' logic, the first is the demorgan equivalent and easier to follow
 				// if -not- marking periods don't overlap -or- dates don't overlap (i ends and j starts after i -or- j ends and i starts after j) then check further
-				//if ( ! (mb_strpos(GetAllMP(GetMP($schedule[$i]['MARKING_PERIOD_ID'],'MP'),$schedule[$i]['MARKING_PERIOD_ID']),"'".$schedule[$j]['MARKING_PERIOD_ID']."'")===false
-				//|| $schedule[$i]['END_EPOCH'] && $schedule[$j]['START_EPOCH']>$schedule[$i]['END_EPOCH'] || $schedule[$j]['END_EPOCH'] && $schedule[$i]['START_EPOCH']>$schedule[$j]['END_EPOCH']))
+				//if ( ! (mb_strpos(GetAllMP(GetMP($schedule[ $i ]['MARKING_PERIOD_ID'],'MP'),$schedule[ $i ]['MARKING_PERIOD_ID']),"'".$schedule[ $j ]['MARKING_PERIOD_ID']."'")===false
+				//|| $schedule[ $i ]['END_EPOCH'] && $schedule[ $j ]['START_EPOCH']>$schedule[ $i ]['END_EPOCH'] || $schedule[ $j ]['END_EPOCH'] && $schedule[ $i ]['START_EPOCH']>$schedule[ $j ]['END_EPOCH']))
 				// if marking periods overlap -and- dates overlap (i doesn't end or j starts before i ends -and- j doesn't end or i starts before j ends) check further
-				if (mb_strpos(GetAllMP(GetMP($schedule[$i]['MARKING_PERIOD_ID'],'MP'),$schedule[$i]['MARKING_PERIOD_ID']),"'".$schedule[$j]['MARKING_PERIOD_ID']."'")!==false
-				&& (!$schedule[$i]['END_EPOCH'] || $schedule[$j]['START_EPOCH']<=$schedule[$i]['END_EPOCH']) && (!$schedule[$j]['END_EPOCH'] || $schedule[$i]['START_EPOCH']<=$schedule[$j]['END_EPOCH']))
+				if (mb_strpos(GetAllMP(GetMP($schedule[ $i ]['MARKING_PERIOD_ID'],'MP'),$schedule[ $i ]['MARKING_PERIOD_ID']),"'".$schedule[ $j ]['MARKING_PERIOD_ID']."'")!==false
+				&& (!$schedule[ $i ]['END_EPOCH'] || $schedule[ $j ]['START_EPOCH']<=$schedule[ $i ]['END_EPOCH']) && (!$schedule[ $j ]['END_EPOCH'] || $schedule[ $i ]['START_EPOCH']<=$schedule[ $j ]['END_EPOCH']))
 					// should not be enrolled in the same course with overlapping marking periods and dates
-					if ( $schedule[$i]['COURSE_ID']==$schedule[$j]['COURSE_ID'])
-						$conflicts[$i] = $conflicts[$j] = true;
+					if ( $schedule[ $i ]['COURSE_ID']==$schedule[ $j ]['COURSE_ID'])
+						$conflicts[ $i ] = $conflicts[ $j ] = true;
 					else
 						// if different periods then okay
-						if ( $schedule[$i]['PERIOD_ID']==$schedule[$j]['PERIOD_ID'])
+						if ( $schedule[ $i ]['PERIOD_ID']==$schedule[ $j ]['PERIOD_ID'])
 							// should not be enrolled in the same period on the same day
-							if (mb_strlen($schedule[$i]['DAYS'])+mb_strlen($schedule[$j]['DAYS'])>7)
-								$conflicts[$i] = $conflicts[$j] = true;
+							if (mb_strlen($schedule[ $i ]['DAYS'])+mb_strlen($schedule[ $j ]['DAYS'])>7)
+								$conflicts[ $i ] = $conflicts[ $j ] = true;
 							else
-								foreach(_str_split($schedule[$i]['DAYS']) as $k)
-									if (mb_strpos($schedule[$j]['DAYS'],$k)!==false)
+								foreach(_str_split($schedule[ $i ]['DAYS']) as $k)
+									if (mb_strpos($schedule[ $j ]['DAYS'],$k)!==false)
 									{
-										$conflicts[$i] = $conflicts[$j] = true;
+										$conflicts[ $i ] = $conflicts[ $j ] = true;
 										break;
 									}
 
 	foreach ( (array) $conflicts as $i => $true)
-		$schedule[$i]['TITLE'] = '<span style="color:red">'.$schedule[$i]['TITLE'].'</span>';
+		$schedule[ $i ]['TITLE'] = '<span style="color:red">'.$schedule[ $i ]['TITLE'].'</span>';
 }
 
 function _str_split($str)

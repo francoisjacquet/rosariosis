@@ -212,9 +212,9 @@ if (empty($_REQUEST['modfunc']))
 			if ( $RET['TYPE']!='select' && $RET['TYPE']!='autos' && $RET['TYPE']!='edits' && $RET['TYPE']!='text' && $RET['TYPE']!='exports')
 			{
 				$allow_edit = $_ROSARIO['allow_edit'];
-				$AllowEdit = $_ROSARIO['AllowEdit'][$modname];
+				$AllowEdit = $_ROSARIO['AllowEdit'][ $modname ];
 				$_ROSARIO['allow_edit'] = false;
-				$_ROSARIO['AllowEdit'][$modname] = array();
+				$_ROSARIO['AllowEdit'][ $modname ] = array();
 				$type_options = array('select' => _('Pull-Down'),'autos' => _('Auto Pull-Down'),'edits' => _('Edit Pull-Down'),'text' => _('Text'),'radio' => _('Checkbox'),'codeds' => _('Coded Pull-Down'),'exports' => _('Export Pull-Down'),'numeric' => _('Number'),'multiple' => _('Select Multiple from Options'),'date' => _('Date'),'textarea' => _('Long Text'));
 			}
 			else
@@ -227,7 +227,7 @@ if (empty($_REQUEST['modfunc']))
 		if ( $_REQUEST['id']!='new' && $RET['TYPE']!='select' && $RET['TYPE']!='autos' && $RET['TYPE']!='edits' && $RET['TYPE']!='text' && $RET['TYPE']!='exports')
 		{
 			$_ROSARIO['allow_edit'] = $allow_edit;
-			$_ROSARIO['AllowEdit'][$modname] = $AllowEdit;
+			$_ROSARIO['AllowEdit'][ $modname ] = $AllowEdit;
 		}
 		foreach ( (array) $categories_RET as $type)
 			$categories_options[$type['ID']] = $type['TITLE'];
@@ -303,7 +303,7 @@ if (empty($_REQUEST['modfunc']))
 			foreach ( (array) $categories_RET as $key => $value)
 			{
 				if ( $value['ID']==$_REQUEST['category_id'])
-					$categories_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+					$categories_RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 			}
 		}
 	}
@@ -334,7 +334,7 @@ if (empty($_REQUEST['modfunc']))
 				foreach ( (array) $fields_RET as $key => $value)
 				{
 					if ( $value['ID']==$_REQUEST['id'])
-						$fields_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+						$fields_RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 				}
 			}
 		}
@@ -356,5 +356,5 @@ if (empty($_REQUEST['modfunc']))
 function _makeType($value,$name)
 {
 	$options = array('radio' => _('Checkbox'),'text' => _('Text'),'autos' => _('Auto Pull-Down'),'edits' => _('Edit Pull-Down'),'select' => _('Pull-Down'),'codeds' => _('Coded Pull-Down'),'exports' => _('Export Pull-Down'),'date' => _('Date'),'numeric' => _('Number'),'textarea' => _('Long Text'),'multiple' => _('Select Multiple'));
-	return $options[$value];
+	return $options[ $value ];
 }

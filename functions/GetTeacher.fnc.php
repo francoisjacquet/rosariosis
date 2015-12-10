@@ -35,5 +35,5 @@ function GetTeacher( $teacher_id, $column = 'FULL_NAME', $schools = true )
 		);
 	}
 
-	return $teachers[$teacher_id][1][$column];
+	return $teachers[ $teacher_id ][1][ $column ];
 }

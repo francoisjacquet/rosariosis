@@ -435,7 +435,7 @@ if (empty($_REQUEST['modfunc']))
 		/*$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		foreach ( (array) $colors as $color)
 		{
-			$color_select[$color] = array('<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
+			$color_select[ $color ] = array('<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
 		}
 
 		$header .= '<td>' .  RadioInput($RET['COLOR'],'tables['.$_REQUEST['assignment_type_id'].'][COLOR]',_('Color'),$color_select) . '</td>';*/
@@ -468,7 +468,7 @@ if (empty($_REQUEST['modfunc']))
 			foreach ( (array) $types_RET as $key => $value)
 			{
 				if ( $value['ASSIGNMENT_TYPE_ID']==$_REQUEST['assignment_type_id'])
-					$types_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+					$types_RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 			}
 		}
 	}
@@ -505,7 +505,7 @@ if (empty($_REQUEST['modfunc']))
 				foreach ( (array) $assn_RET as $key => $value)
 				{
 					if ( $value['ASSIGNMENT_ID']==$_REQUEST['assignment_id'])
-						$assn_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+						$assn_RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 				}
 			}
 		}

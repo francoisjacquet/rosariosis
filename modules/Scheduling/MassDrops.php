@@ -26,7 +26,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 					{
-						if ( $current_RET[$student_id])
+						if ( $current_RET[ $student_id ])
 						{
 							DBQuery("UPDATE SCHEDULE SET END_DATE='".$END_DATE."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
 

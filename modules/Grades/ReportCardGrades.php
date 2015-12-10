@@ -119,7 +119,7 @@ if (empty($_REQUEST['modfunc']))
 	foreach ( (array) $grade_scales_RET as $id => $grade_scale)
 	{
 		$tabs[] = array('title' => $grade_scale[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id);
-		$grade_scale_select[$id] = $grade_scale[1]['TITLE'];
+		$grade_scale_select[ $id ] = $grade_scale[1]['TITLE'];
 	}
 
 	if ( $_REQUEST['tab_id']!='new')
@@ -195,7 +195,7 @@ function makeGradesInput($value,$name)
 		$id = 'new';
 
 	if ( $name=='GRADE_SCALE_ID')
-		return SelectInput($value,"values[$id][$name]",'',$grade_scale_select,false);
+		return SelectInput($value,"values[ $id ][ $name ]",'',$grade_scale_select,false);
 	elseif ( $name=='COMMENT')
 		$extra = 'size=15 maxlength=100';
 //FJ Honor Roll by Subject
@@ -208,7 +208,7 @@ function makeGradesInput($value,$name)
 	else
 		$extra = 'size=5 maxlength=5';
 
-	return TextInput($value,"values[$id][$name]",'',$extra);
+	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
 }
 
 function makeTextInput($value,$name)
@@ -228,5 +228,5 @@ function makeTextInput($value,$name)
 	else
 		$extra = 'size=5 maxlength=5';
 
-	return TextInput($value,"values[$id][$name]",'',$extra);
+	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
 }

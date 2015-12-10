@@ -71,7 +71,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			foreach ( array('Y','') AS $high)
 			{
-				if ( $n = count($RET[$high]))
+				if ( $n = count($RET[ $high ]))
 				{
 					$n = (int) (($n+1)/2);
 					echo '<tr class="center"><td colspan="6" style="background-color:#C0C0C0;"><b>'.($high=='Y'?_('High Honor Roll'):_('Honor Roll')).'</b></td></tr>';
@@ -79,10 +79,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					for ( $i=1; $i<=$n; $i++)
 					{
 						echo '<tr><td>&nbsp;</td>';
-						$student = $RET[$high][$i];
+						$student = $RET[ $high ][ $i ];
 						echo '<td>'.$student['NICK_NAME'].' '.$student['LAST_NAME'].'</td><td>'.$student['ROOM'].'</td>';
 						echo '<td>&nbsp;</td>';
-						$student = $RET[$high][$i+$n];
+						$student = $RET[ $high ][$i+$n];
 						echo '<td>'.$student['NICK_NAME'].' '.$student['LAST_NAME'].'</td><td>'.$student['ROOM'].'</td></tr>';
 					}
 

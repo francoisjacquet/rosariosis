@@ -39,8 +39,8 @@ function StaffWidgets( $item, &$myextra = null )
 	// if insufficient rights or already saved widget, exit
 	if ( ( User('PROFILE') !== 'admin'
 			&& User( 'PROFILE' ) !== 'teacher' )
-		|| ( isset( $_ROSARIO['StaffWidgets'][$item] )
-			&& $_ROSARIO['StaffWidgets'][$item] ) )
+		|| ( isset( $_ROSARIO['StaffWidgets'][ $item ] )
+			&& $_ROSARIO['StaffWidgets'][ $item ] ) )
 	{
 		return false;
 	}
@@ -366,7 +366,7 @@ function StaffWidgets( $item, &$myextra = null )
 		break;
 	}
 
-	$_ROSARIO['StaffWidgets'][$item] = true;
+	$_ROSARIO['StaffWidgets'][ $item ] = true;
 
 	return true;
 }

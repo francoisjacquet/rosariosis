@@ -80,20 +80,20 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		function types_locale($type) {
 			$types = array('Deposit' => _('Deposit'),'Credit' => _('Credit'),'Debit' => _('Debit'));
 			if (array_key_exists($type, $types)) {
-				return $types[$type];
+				return $types[ $type ];
 			}
 			return $type;
 		}
 		function options_locale($option) {
 			$options = array('Cash ' => _('Cash'),'Check' => _('Check'),'Credit Card' => _('Credit Card'),'Debit Card' => _('Debit Card'),'Transfer' => _('Transfer'));
 			if (array_key_exists($option, $options)) {
-				return $options[$option];
+				return $options[ $option ];
 			}
 			return $option;
 		}
 		foreach ( (array) $RET as $RET_key => $RET_val) {
-			$RET_temp[$RET_key]=array_map('types_locale', $RET_val);
-			$RET[$RET_key]=array_map('options_locale', $RET_temp[$RET_key]);
+			$RET_temp[ $RET_key ]=array_map('types_locale', $RET_val);
+			$RET[ $RET_key ]=array_map('options_locale', $RET_temp[ $RET_key ]);
 		}	
 
 		echo '<table class="width-100p"><tr><td class="width-100p valign-top">';

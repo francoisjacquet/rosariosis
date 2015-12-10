@@ -14,7 +14,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 	{
 		foreach ( (array) $values as $period => $columns)
 		{
-			if ( $current_RET[$student_id][$period])
+			if ( $current_RET[ $student_id ][ $period ])
 			{
 				$sql = "UPDATE ATTENDANCE_PERIOD SET ADMIN='Y',";
 				
@@ -92,7 +92,7 @@ else
 		foreach ( (array) $REQ_codes as $key => $value)
 		{
 			if ( !$value)
-				unset($REQ_codes[$key]);
+				unset($REQ_codes[ $key ]);
 			elseif ( $value=='A')
 				$abs = true;
 		}
@@ -193,15 +193,15 @@ function _makeCodePulldown($value,$title)
 	else
 	{
 		$period_id = mb_substr($title,7);
-		$period = $current_schedule_RET[$THIS_RET['STUDENT_ID']][$period_id][1]['COURSE_PERIOD_ID'];
+		$period = $current_schedule_RET[$THIS_RET['STUDENT_ID']][ $period_id ][1]['COURSE_PERIOD_ID'];
 		
 		foreach ( (array) $codes_RET as $code)
 			$options[$code['ID']] = $code['SHORT_NAME'];	
 	}
 	
-	$val = $current_RET[$THIS_RET['STUDENT_ID']][$period][1]['ATTENDANCE_CODE'];
+	$val = $current_RET[$THIS_RET['STUDENT_ID']][ $period ][1]['ATTENDANCE_CODE'];
 
-	if ( $current_schedule_RET[$THIS_RET['STUDENT_ID']][$period_id])
+	if ( $current_schedule_RET[$THIS_RET['STUDENT_ID']][ $period_id ])
 		return SelectInput($val,'attendance['.$THIS_RET['STUDENT_ID'].']['.$period.'][ATTENDANCE_CODE]','',$options);
 	else
 		return false;

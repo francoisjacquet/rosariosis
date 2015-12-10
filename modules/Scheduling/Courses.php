@@ -121,10 +121,10 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 		{
 			if ( $table_name == 'COURSE_PERIOD_SCHOOL_PERIODS')
 			{
-				unset($_REQUEST['tables'][$table_name]);
+				unset($_REQUEST['tables'][ $table_name ]);
 
 				//push COURSE_PERIOD_SCHOOL_PERIODS after COURSE_PERIODS
-				$_REQUEST['tables'][$table_name] = $tables;
+				$_REQUEST['tables'][ $table_name ] = $tables;
 
 				break;
 			}
@@ -179,8 +179,8 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 						if ( $table_name=='COURSE_PERIODS')
 						{
-							//$current = DBGet(DBQuery("SELECT TEACHER_ID,PERIOD_ID,MARKING_PERIOD_ID,DAYS,SHORT_NAME FROM COURSE_PERIODS WHERE ".$where[$table_name]."='".$id."'"));
-							$current = DBGet(DBQuery("SELECT TEACHER_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM COURSE_PERIODS WHERE ".$where[$table_name]."='".$id."'"));
+							//$current = DBGet(DBQuery("SELECT TEACHER_ID,PERIOD_ID,MARKING_PERIOD_ID,DAYS,SHORT_NAME FROM COURSE_PERIODS WHERE ".$where[ $table_name ]."='".$id."'"));
+							$current = DBGet(DBQuery("SELECT TEACHER_ID,MARKING_PERIOD_ID,SHORT_NAME,TITLE FROM COURSE_PERIODS WHERE ".$where[ $table_name ]."='".$id."'"));
 
 							if (isset($columns['TEACHER_ID']))
 								$staff_id = $columns['TEACHER_ID'];
@@ -230,7 +230,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						//FJ multiple school period for a course period
 						if ( $table_name=='COURSE_PERIOD_SCHOOL_PERIODS')
 						{
-							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."' AND ".$where[$table_name]."<>'".$id."'"));
+							$other_school_p = DBGet(DBQuery("SELECT PERIOD_ID,DAYS FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE ".$where['COURSE_PERIODS']."='".$_REQUEST['course_period_id']."' AND ".$where[ $table_name ]."<>'".$id."'"));
 
 							if (in_array($columns['PERIOD_ID'], $temp_PERIOD_ID)) //prevent repeat periods
 								continue;
@@ -292,7 +292,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						foreach ( (array) $columns as $column => $value)
 							$sql .= $column."='".$value."',";
 
-						$sql = mb_substr($sql,0,-1) . " WHERE ".$where[$table_name]."='".$id."'";
+						$sql = mb_substr($sql,0,-1) . " WHERE ".$where[ $table_name ]."='".$id."'";
 						DBQuery($sql);
 						
 						if ( $table_name=='COURSE_SUBJECTS')
@@ -520,7 +520,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 			do_action('Scheduling/Courses.php|delete_course');
 		}
 		
-        	unset($_REQUEST[$unset]);
+        	unset($_REQUEST[ $unset ]);
 		unset($_REQUEST['modfunc']);
 	}
 }
@@ -678,7 +678,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 				}
 
 				if ( !$new)
-					$school_period = $RET2[$i];
+					$school_period = $RET2[ $i ];
 				else
 					$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] = 'new' . $i;
 
@@ -720,7 +720,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 						$value = '';
 
 	//				$header .= '<td>'.str_replace('"','\"',CheckboxInput($value,'tables[COURSE_PERIODS]['.$_REQUEST['course_period_id'].'][DAYS]['.$day.']',($day=='U'?'S':$day),$checked,false,'','',false)).'</td>';
-					$header_temp = '<td>'.CheckboxInput($value,'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]['.$day.']',mb_substr($days_convert[$day],0,3),$checked,$new,'','',false).'</td>';
+					$header_temp = '<td>'.CheckboxInput($value,'tables[COURSE_PERIOD_SCHOOL_PERIODS]['.$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'][DAYS]['.$day.']',mb_substr($days_convert[ $day ],0,3),$checked,$new,'','',false).'</td>';
 
 					if ( $new==false)
 						$header .= str_replace('"','\"',$header_temp);
@@ -1002,7 +1002,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			foreach ( (array) $subjects_RET as $key => $value)
 			{
 				if ( $value['SUBJECT_ID']==$_REQUEST['subject_id'])
-					$subjects_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+					$subjects_RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 			}
 		}
 	}
@@ -1033,7 +1033,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 				foreach ( (array) $courses_RET as $key => $value)
 				{
 					if ( $value['COURSE_ID']==$_REQUEST['course_id'])
-						$courses_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+						$courses_RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 				}
 			}
 		}
@@ -1075,7 +1075,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 					foreach ( (array) $periods_RET as $key => $value)
 					{
 						if ( $value['COURSE_PERIOD_ID']==$_REQUEST['course_period_id'])
-							$periods_RET[$key]['row_color'] = Preferences('HIGHLIGHT');
+							$periods_RET[ $key ]['row_color'] = Preferences('HIGHLIGHT');
 					}
 				}
 			}
@@ -1128,7 +1128,7 @@ function calcSeats1(&$periods,$date)
 		}
 		else
 			$mps = "'".$period['MARKING_PERIOD_ID']."'";
-		$periods[$key]['AVAILABLE_SEATS'] = '';
+		$periods[ $key ]['AVAILABLE_SEATS'] = '';
 		foreach ( explode(',',$mps) as $mp)
 		{
 			$mp = trim($mp,"'");
@@ -1154,18 +1154,18 @@ function calcSeats1(&$periods,$date)
 					AND '".GetMP($mp,'END_DATE')."'"));
 					if ( $seats[1]['FILLED_SEATS']!='')
 						if ( $_REQUEST['include_child_mps'])
-							$periods[$key]['AVAILABLE_SEATS'] .= '<a href='.$link.'>'.(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'('.($period['AVAILABLE_SEATS']-$seats[1]['FILLED_SEATS']).')</a> | ';
+							$periods[ $key ]['AVAILABLE_SEATS'] .= '<a href='.$link.'>'.(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'('.($period['AVAILABLE_SEATS']-$seats[1]['FILLED_SEATS']).')</a> | ';
 						else
-							$periods[$key]['AVAILABLE_SEATS'] = $period['AVAILABLE_SEATS']-$seats[1]['FILLED_SEATS'];
+							$periods[ $key ]['AVAILABLE_SEATS'] = $period['AVAILABLE_SEATS']-$seats[1]['FILLED_SEATS'];
 				}
 				else
 					if ( $_REQUEST['include_child_mps'])
-						$periods[$key]['AVAILABLE_SEATS'] .= '<a href='.$link.'>'.(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'</a> | ';
+						$periods[ $key ]['AVAILABLE_SEATS'] .= '<a href='.$link.'>'.(GetMP($mp,'SHORT_NAME')?GetMP($mp,'SHORT_NAME'):GetMP($mp)).'</a> | ';
 					else
-						$periods[$key]['AVAILABLE_SEATS'] = _('N/A');
+						$periods[ $key ]['AVAILABLE_SEATS'] = _('N/A');
 			}
 		}
 		if ( $_REQUEST['include_child_mps'])
-			$periods[$key]['AVAILABLE_SEATS'] = mb_substr($periods[$key]['AVAILABLE_SEATS'],0,-3);
+			$periods[ $key ]['AVAILABLE_SEATS'] = mb_substr($periods[ $key ]['AVAILABLE_SEATS'],0,-3);
 	}
 }

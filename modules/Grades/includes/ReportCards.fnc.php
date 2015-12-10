@@ -439,7 +439,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 	foreach ( (array) $mp_array as $mp )
 	{
-		$LO_columns[$mp] = GetMP( $mp, $mp_TITLE );
+		$LO_columns[ $mp ] = GetMP( $mp, $mp_TITLE );
 	}
 
 	if ( $_REQUEST['elements']['comments'] === 'Y' )
@@ -473,23 +473,23 @@ function ReportCardsGenerate( $student_array, $mp_array )
 		{
 			$i++;
 
-			$grades_RET[$i]['COURSE_TITLE'] = $mps[key( $mps )][1]['COURSE_TITLE'];
+			$grades_RET[ $i ]['COURSE_TITLE'] = $mps[key( $mps )][1]['COURSE_TITLE'];
 
-			$grades_RET[$i]['TEACHER'] = $mps[key( $mps )][1]['TEACHER'];
+			$grades_RET[ $i ]['TEACHER'] = $mps[key( $mps )][1]['TEACHER'];
 
 			foreach ( (array) $mp_array as $mp )
 			{
-				if ( !isset( $mps[$mp] ) )
+				if ( !isset( $mps[ $mp ] ) )
 				{
 					continue;
 				}
 
-				$grades_RET[$i][$mp] = '<B>' . $mps[$mp][1]['GRADE_TITLE'] . '</B>';
+				$grades_RET[ $i ][ $mp ] = '<B>' . $mps[ $mp ][1]['GRADE_TITLE'] . '</B>';
 
 				if ( $_REQUEST['elements']['percents'] === 'Y'
-					&& $mps[$mp][1]['GRADE_PERCENT'] > 0 )
+					&& $mps[ $mp ][1]['GRADE_PERCENT'] > 0 )
 				{
-					$grades_RET[$i][$mp] .= '&nbsp;' . $mps[$mp][1]['GRADE_PERCENT'] . '%';
+					$grades_RET[ $i ][ $mp ] .= '&nbsp;' . $mps[ $mp ][1]['GRADE_PERCENT'] . '%';
 				}
 
 				// Comments
@@ -499,29 +499,29 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 					$sep_mp = ' | ';
 
-					$grades_RET[$i]['COMMENT'] .= ( empty( $grades_RET[$i]['COMMENT'] ) ? '' : $sep_mp );
+					$grades_RET[ $i ]['COMMENT'] .= ( empty( $grades_RET[ $i ]['COMMENT'] ) ? '' : $sep_mp );
 
-					$temp_grades_COMMENTS = $grades_RET[$i]['COMMENT'];
+					$temp_grades_COMMENTS = $grades_RET[ $i ]['COMMENT'];
 
 					//FJ fix error Invalid argument supplied for foreach()
-					foreach ( (array) $comments_RET[$student_id][$course_period_id][$mp] as $comment)
+					foreach ( (array) $comments_RET[ $student_id ][ $course_period_id ][ $mp ] as $comment)
 					{
 						if ( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] )
 						{
-							$grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT'] != ' ' ?
-								( empty( $grades_RET[$i]['C'.$comment['REPORT_CARD_COMMENT_ID']] ) ?
+							$grades_RET[ $i ]['C' . $comment['REPORT_CARD_COMMENT_ID']] .= $comment['COMMENT'] != ' ' ?
+								( empty( $grades_RET[ $i ]['C'.$comment['REPORT_CARD_COMMENT_ID']] ) ?
 									'' :
 									$sep_mp ) .
 								$comment['COMMENT'] :
-								( empty( $grades_RET[$i]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) ?
+								( empty( $grades_RET[ $i ]['C' . $comment['REPORT_CARD_COMMENT_ID']] ) ?
 									'' :
 									$sep_mp ) .
 								'&middot;';
 						}
 						else
 						{
-							$sep_tmp = empty( $grades_RET[$i]['COMMENT'] )
-								|| mb_substr( $grades_RET[$i]['COMMENT'], -3 ) == $sep_mp ?
+							$sep_tmp = empty( $grades_RET[ $i ]['COMMENT'] )
+								|| mb_substr( $grades_RET[ $i ]['COMMENT'], -3 ) == $sep_mp ?
 								'' :
 								$sep;
 
@@ -536,10 +536,10 @@ function ReportCardsGenerate( $student_array, $mp_array )
 								else
 									$color_html = '';
 
-								$grades_RET[$i]['COMMENT'] .= $sep_tmp . $color_html .
+								$grades_RET[ $i ]['COMMENT'] .= $sep_tmp . $color_html .
 									$commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
 
-								$grades_RET[$i]['COMMENT'] .= '(' . ( $comment['COMMENT'] != ' ' ?
+								$grades_RET[ $i ]['COMMENT'] .= '(' . ( $comment['COMMENT'] != ' ' ?
 									$comment['COMMENT'] :
 									'&middot;' ) .
 									')' . ( $color_html ? '</span>' : '' );
@@ -548,27 +548,27 @@ function ReportCardsGenerate( $student_array, $mp_array )
 							}
 							else
 							{
-								$grades_RET[$i]['COMMENT'] .= $sep_tmp .
+								$grades_RET[ $i ]['COMMENT'] .= $sep_tmp .
 									$commentsB_RET[$comment['REPORT_CARD_COMMENT_ID']][1]['SORT_ORDER'];
 							}
 
-							$comments_arr[$grades_RET[$i]['COURSE_TITLE']][$comment['REPORT_CARD_COMMENT_ID']] = $comment['SORT_ORDER'];
+							$comments_arr[$grades_RET[ $i ]['COURSE_TITLE']][$comment['REPORT_CARD_COMMENT_ID']] = $comment['SORT_ORDER'];
 						}
 					}
 
-					if ( $mps[$mp][1]['COMMENT_TITLE'] )
+					if ( $mps[ $mp ][1]['COMMENT_TITLE'] )
 					{
-						$grades_RET[$i]['COMMENT'] .= ( empty( $grades_RET[$i]['COMMENT'] )
-							|| mb_substr( $grades_RET[$i]['COMMENT'], -3 ) == $sep_mp ?
+						$grades_RET[ $i ]['COMMENT'] .= ( empty( $grades_RET[ $i ]['COMMENT'] )
+							|| mb_substr( $grades_RET[ $i ]['COMMENT'], -3 ) == $sep_mp ?
 								'' :
 								$sep ) .
-							$mps[$mp][1]['COMMENT_TITLE'];
+							$mps[ $mp ][1]['COMMENT_TITLE'];
 					}
 
-					if ( $grades_RET[$i]['COMMENT'] == $temp_grades_COMMENTS )
+					if ( $grades_RET[ $i ]['COMMENT'] == $temp_grades_COMMENTS )
 					{
-						$grades_RET[$i]['COMMENT'] .= ( empty( $grades_RET[$i]['COMMENT'] )
-							|| mb_substr( $grades_RET[$i]['COMMENT'], -3 ) == $sep_mp ?
+						$grades_RET[ $i ]['COMMENT'] .= ( empty( $grades_RET[ $i ]['COMMENT'] )
+							|| mb_substr( $grades_RET[ $i ]['COMMENT'], -3 ) == $sep_mp ?
 								'' :
 								$sep ) .
 							_( 'None' );
@@ -581,13 +581,13 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			// Period-by-period absences
 			if ( $_REQUEST['elements']['period_absences'] === 'Y' )
 			{
-				if ( $mps[$last_mp][1]['DOES_ATTENDANCE'] )
+				if ( $mps[ $last_mp ][1]['DOES_ATTENDANCE'] )
 				{
-					$grades_RET[$i]['ABSENCES'] = $mps[$last_mp][1]['YTD_ABSENCES'] . ' / ' .
-						$mps[$last_mp][1]['MP_ABSENCES'];
+					$grades_RET[ $i ]['ABSENCES'] = $mps[ $last_mp ][1]['YTD_ABSENCES'] . ' / ' .
+						$mps[ $last_mp ][1]['MP_ABSENCES'];
 				}
 				else
-					$grades_RET[$i]['ABSENCES'] = _( 'N/A' );
+					$grades_RET[ $i ]['ABSENCES'] = _( 'N/A' );
 			}
 		}
 
@@ -596,10 +596,10 @@ function ReportCardsGenerate( $student_array, $mp_array )
 		// Mailing Labels
 		if ( $_REQUEST['mailing_labels'] === 'Y' )
 		{
-			if ( isset( $addresses_RET[$student_id] )
-				&& count( $addresses_RET[$student_id] ) )
+			if ( isset( $addresses_RET[ $student_id ] )
+				&& count( $addresses_RET[ $student_id ] ) )
 			{
-				$addresses = $addresses_RET[$student_id];
+				$addresses = $addresses_RET[ $student_id ];
 			}
 			else
 			{
@@ -654,7 +654,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			{
 				$count = 0;
 
-				foreach ( (array) $attendance_day_RET[$student_id][$last_mp] as $abs )
+				foreach ( (array) $attendance_day_RET[ $student_id ][ $last_mp ] as $abs )
 				{
 					$count += 1 - $abs['STATE_VALUE'];
 				}
@@ -668,7 +668,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			{
 				$count = 0;
 
-				foreach ( (array) $attendance_day_RET[$student_id] as $mp_abs )
+				foreach ( (array) $attendance_day_RET[ $student_id ] as $mp_abs )
 				{
 					foreach ( (array) $mp_abs as $abs )
 					{
@@ -692,7 +692,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			{
 				$count = 0;
 
-				foreach ( (array) $attendance_RET[$student_id][$_REQUEST['mp_tardies_code']][$last_mp] as $abs )
+				foreach ( (array) $attendance_RET[ $student_id ][$_REQUEST['mp_tardies_code']][ $last_mp ] as $abs )
 				{
 					$count++;
 				}
@@ -706,7 +706,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			{
 				$count = 0;
 
-				foreach ( (array) $attendance_RET[$student_id][$_REQUEST['ytd_tardies_code']] as $mp_abs )
+				foreach ( (array) $attendance_RET[ $student_id ][$_REQUEST['ytd_tardies_code']] as $mp_abs )
 				{
 					foreach ( (array) $mp_abs as $abs )
 					{
@@ -848,7 +848,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 				{
 					foreach ( (array) $comments as $comment=>$sort_order)
 					{
-						if ( $commentsA_RET[$comment] )
+						if ( $commentsA_RET[ $comment ] )
 						{
 							if ( $i++ % 2 == 0
 								|| $course_title != $comment_course_title )
@@ -869,7 +869,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 									$commentsA_txt .= '</TR><TR>';
 							}
 
-							$color = $commentsA_RET[$comment][1]['COLOR'];
+							$color = $commentsA_RET[ $comment ][1]['COLOR'];
 
 							if ( $color )
 							{
@@ -879,23 +879,23 @@ function ReportCardsGenerate( $student_array, $mp_array )
 								$color_html = '';
 
 							$commentsA_txt .= '<TD style="width:50%;">' . $color_html .
-								$commentsA_RET[$comment][1]['SORT_ORDER'] . ': ' .
+								$commentsA_RET[ $comment ][1]['SORT_ORDER'] . ': ' .
 								str_replace(
 									array_keys( $personalizations ),
 									$personalizations,
-									$commentsA_RET[$comment][1]['TITLE']
+									$commentsA_RET[ $comment ][1]['TITLE']
 								) .
 								( $color_html ? '</span>' : '' ) .
 								' (' . _( 'Comment Scale' ) . ': ' .
-								$commentsA_RET[$comment][1]['SCALE_TITLE'] . ')' . '</TD>';
+								$commentsA_RET[ $comment ][1]['SCALE_TITLE'] . ')' . '</TD>';
 
 							$commentsA_display = true;
 
 							$course_title = $comment_course_title;
 						}
 
-						if ( $commentsB_RET[$comment]
-							&& !in_array( $commentsB_RET[$comment][1]['SORT_ORDER'], $commentsB_displayed ) )
+						if ( $commentsB_RET[ $comment ]
+							&& !in_array( $commentsB_RET[ $comment ][1]['SORT_ORDER'], $commentsB_displayed ) )
 						{
 							if ( $j++ % 2 == 0 )
 							{
@@ -903,16 +903,16 @@ function ReportCardsGenerate( $student_array, $mp_array )
 							}
 
 							$commentsB_txt .= '<TD style="width:50%;">' .
-								$commentsB_RET[$comment][1]['SORT_ORDER'] . ': ' .
+								$commentsB_RET[ $comment ][1]['SORT_ORDER'] . ': ' .
 								str_replace(
 									array_keys( $personalizations ),
 									$personalizations,
-									$commentsB_RET[$comment][1]['TITLE']
+									$commentsB_RET[ $comment ][1]['TITLE']
 								) . '</TD>';
 
 							$commentsB_display = true;
 
-							$commentsB_displayed[] = $commentsB_RET[$comment][1]['SORT_ORDER'];
+							$commentsB_displayed[] = $commentsB_RET[ $comment ][1]['SORT_ORDER'];
 						}
 					}
 				}
@@ -943,7 +943,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 		}
 
 		// Add buffer to Report Cards array
-		$report_cards[$student_id] = ob_get_clean();
+		$report_cards[ $student_id ] = ob_get_clean();
 	}
 
 	return $report_cards;

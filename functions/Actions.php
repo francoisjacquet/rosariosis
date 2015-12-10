@@ -103,7 +103,7 @@ function add_action( $tag, $function_to_add, $accepted_args = 1, $priority = 10 
 	if ( function_exists( (string) $function_to_add ) )
 		//check if tag exists
 		if ( array_key_exists( (string) $tag, $RosarioActions ) )
-			$RosarioActions[$tag][$priority][$function_to_add] = (int) $accepted_args;
+			$RosarioActions[ $tag ][ $priority ][ $function_to_add ] = (int) $accepted_args;
 
 	return true;
 }
@@ -130,9 +130,9 @@ function remove_action( $tag, $function_to_remove )
 	//check if tag exists
 	if ( array_key_exists( (string) $tag, $RosarioActions ) )
 		//check if function previously added
-		if ( array_key_exists( (string) $function_to_remove, $RosarioActions[$tag] ) )
+		if ( array_key_exists( (string) $function_to_remove, $RosarioActions[ $tag ] ) )
 		{
-			unset( $RosarioActions[$tag][$function_to_remove] );
+			unset( $RosarioActions[ $tag ][ $function_to_remove ] );
 
 			return true;
 		}
@@ -173,7 +173,7 @@ function do_action( $tag, $arg = '' )
 	//check if tag exists
 	if ( array_key_exists( (string) $tag, $RosarioActions ) )
 	{
-		foreach ( (array) $RosarioActions[$tag] as $functions )
+		foreach ( (array) $RosarioActions[ $tag ] as $functions )
 			foreach ( (array) $functions as $function => $accepted_args )
 				if ( !is_null( $function ) )
 					call_user_func_array( $function, array_slice( $args, 0, (int) $accepted_args ) );

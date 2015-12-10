@@ -180,7 +180,7 @@ if (empty($_REQUEST['modfunc']))
 		{
 			$tabs[] = array('title' => $category[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$id)+($category[1]['COLOR']?array('color' => $category[1]['COLOR']):array());
 			if ( $id>0)
-				$category_select[$id] = $category[1]['TITLE'];
+				$category_select[ $id ] = $category[1]['TITLE'];
 		}
 	}
 
@@ -292,7 +292,7 @@ function makeTextInput($value,$name)
 	else
 		$id = 'new';
 
-	return TextInput($value,"values[$id][$name]",'',$extra);
+	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
 }
 
 function makeCommentsInput($value,$name)
@@ -304,13 +304,13 @@ function makeCommentsInput($value,$name)
 		$id = 'new';
 
 	if ( $name=='CATEGORY_ID')
-		return SelectInput($value,"values[$id][$name]",'',$category_select,false);
+		return SelectInput($value,"values[ $id ][ $name ]",'',$category_select,false);
     elseif ( $name=='SCALE_ID')
-        return SelectInput($value,"values[$id][$name]",'',$code_select,false);
+        return SelectInput($value,"values[ $id ][ $name ]",'',$code_select,false);
 	elseif ( $name=='SORT_ORDER')
 		$extra = 'size=5 maxlength=5';
 
-	return TextInput($value,"values[$id][$name]",'',$extra);
+	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
 }
 
 
@@ -342,9 +342,9 @@ function _makeColorInput( $value, $column )
 	/*$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 	foreach ( (array) $colors as $color)
 	{
-		$color_select[$color] = array('<span style="background-color:'.$color.'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
+		$color_select[ $color ] = array('<span style="background-color:'.$color.'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
 	}
-	return RadioInput($value,"values[$id][$name]",'',$color_select);*/
+	return RadioInput($value,"values[ $id ][ $name ]",'',$color_select);*/
 
 	return ColorInput(
 		$value,

@@ -10,7 +10,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENT_ELIGIBILITY_ACTIVITIES WHERE ACTIVITY_ID='".$_REQUEST['activity_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
 			foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 			{
-				if ( !$current_RET[$student_id])
+				if ( !$current_RET[ $student_id ])
 				{
 					$sql = "INSERT INTO STUDENT_ELIGIBILITY_ACTIVITIES (SYEAR,STUDENT_ID,ACTIVITY_ID)
 								values('".UserSyear()."','".$student_id."','".$_REQUEST['activity_id']."')";

@@ -260,11 +260,11 @@ function makeSelectInput($value,$name)
 		$id = 'new';
 
 	if ( $name=='ITEM_ID')
-		return SelectInput($value,"values[$id][$name]",'',$items_select,$id=='new'?'':false);
+		return SelectInput($value,"values[ $id ][ $name ]",'',$items_select,$id=='new'?'':false);
 	elseif ( $name=='CATEGORY_ID')
-		return SelectInput($value,"values[$id][$name]",'',$categories_select);
+		return SelectInput($value,"values[ $id ][ $name ]",'',$categories_select);
 	else
-		return SelectInput($value,"values[$id][$name]",'',$icons_select);
+		return SelectInput($value,"values[ $id ][ $name ]",'',$icons_select);
 }
 
 function makeCheckboxInput($value,$name)
@@ -275,7 +275,7 @@ function makeCheckboxInput($value,$name)
 	else
 		$id = 'new';
 
-	return CheckboxInput($value, "values[$id][$name]", '', $value, $id=='new', button('check'), button('x'));
+	return CheckboxInput($value, "values[ $id ][ $name ]", '', $value, $id=='new', button('check'), button('x'));
 }
 
 function get_icons_select($path)
@@ -290,7 +290,7 @@ function get_icons_select($path)
 		//filter images
 		if ( in_array( mb_strtolower(mb_strrchr($icon, '.')), array('.jpg', '.jpeg', '.png', '.gif') ) )
 		{
-			$files[$icon] = array($icon, '<img src="'.$path.$icon.'" height="30" />');
+			$files[ $icon ] = array($icon, '<img src="'.$path.$icon.'" height="30" />');
 		}
 	}
 

@@ -92,11 +92,11 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	$RET = array();
 	foreach ( (array) $payments_RET as $payment)
 	{
-		$RET[$i] = $payment;
+		$RET[ $i ] = $payment;
 		if ( $refunded_payments_RET[$payment['ID']])
 		{
 			$i++;
-			$RET[$i] = ($refunded_payments_RET[$payment['ID']][1] + array('row_color' => 'FF0000'));
+			$RET[ $i ] = ($refunded_payments_RET[$payment['ID']][1] + array('row_color' => 'FF0000'));
 		}
 		$i++;
 	}

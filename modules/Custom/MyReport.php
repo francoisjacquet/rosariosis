@@ -98,5 +98,5 @@ function _makeTV($value,$column)
 
 	$tv = mb_substr($column,0,5);
 	$i = mb_substr($column,6);
-	return $person_RET[$i][$tv];
+	return $person_RET[ $i ][ $tv ];
 }

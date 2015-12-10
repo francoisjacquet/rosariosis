@@ -55,7 +55,7 @@ function DBGet( $QI, $functions = array(), $index = array() )
 
 			foreach ( (array) $index as $col )
 			{
-				$ind .= "['" . str_replace( "'", "\'", $THIS_RET[$col] ) . "']";
+				$ind .= "['" . str_replace( "'", "\'", $THIS_RET[ $col ] ) . "']";
 			}
 
 			//eval('$s'.$ind.'++;$this_ind=$s'.$ind.';');
@@ -75,19 +75,19 @@ function DBGet( $QI, $functions = array(), $index = array() )
 		foreach ( (array) $RET as $key => $value )
 		{
 			if ( array_key_exists( $key, $functions )
-				&& function_exists( $functions[$key] ) )
+				&& function_exists( $functions[ $key ] ) )
 			{
 				if ( $index_count )
-					eval( '$results' . $ind . '[$this_ind][$key] = $functions[$key]($value,$key);' );
+					eval( '$results' . $ind . '[ $this_ind ][ $key ] = $functions[ $key ]($value,$key);' );
 				else
-					$results[$s][$key] = $functions[$key]( $value, $key );
+					$results[ $s ][ $key ] = $functions[ $key ]( $value, $key );
 			}
 			else
 			{
 				if ( $index_count )
-					eval( '$results' . $ind . '[$this_ind][$key] = $value;' );
+					eval( '$results' . $ind . '[ $this_ind ][ $key ] = $value;' );
 				else
-					$results[$s][$key] = $value;
+					$results[ $s ][ $key ] = $value;
 			}
 		}
 	}

@@ -4,7 +4,7 @@ function MailingLabel($address_id)
 {	global $THIS_RET,$_ROSARIO;
 
 	$student_id = $THIS_RET['STUDENT_ID'];
-	if ( $address_id && !$_ROSARIO['MailingLabel'][$address_id][$student_id])
+	if ( $address_id && !$_ROSARIO['MailingLabel'][ $address_id ][ $student_id ])
 	{
 		$people_RET = DBGet(DBQuery("SELECT p.FIRST_NAME,p.MIDDLE_NAME,p.LAST_NAME,
 			coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE
@@ -18,15 +18,15 @@ function MailingLabel($address_id)
 			{
 				$people_total = count($people);
 				for ( $i=1;$i<$people_total;$i++)
-					$return .= $people[$i]['FIRST_NAME'].' &amp; ';
-				$return .= $people[$i]['FIRST_NAME'].' '.$people[$i]['LAST_NAME'].'<br />';
+					$return .= $people[ $i ]['FIRST_NAME'].' &amp; ';
+				$return .= $people[ $i ]['FIRST_NAME'].' '.$people[ $i ]['LAST_NAME'].'<br />';
 			}
 			// mab - this is a bit of a kludge but insert an html comment so people and address can be split later
-			$return .= '<!-- -->'.$people[$i]['ADDRESS'].'<br />'.$people[$i]['CITY'].($people[$i]['STATE'] ? ', '.$people[$i]['STATE'] : '').($people[$i]['ZIPCODE'] ? ' '.$people[$i]['ZIPCODE'] : '');
+			$return .= '<!-- -->'.$people[ $i ]['ADDRESS'].'<br />'.$people[ $i ]['CITY'].($people[ $i ]['STATE'] ? ', '.$people[ $i ]['STATE'] : '').($people[ $i ]['ZIPCODE'] ? ' '.$people[ $i ]['ZIPCODE'] : '');
 		}
 
-		$_ROSARIO['MailingLabel'][$address_id][$student_id] = $return;
+		$_ROSARIO['MailingLabel'][ $address_id ][ $student_id ] = $return;
 	}
 
-	return $_ROSARIO['MailingLabel'][$address_id][$student_id];
+	return $_ROSARIO['MailingLabel'][ $address_id ][ $student_id ];
 }

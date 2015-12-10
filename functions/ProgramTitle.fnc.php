@@ -26,7 +26,7 @@ function ProgramTitle( $modname = '' )
 	foreach ( (array) $_ROSARIO['Menu'] as $modcat => $programs )
 	{
 		// Modname not in current Module, continue
-		if ( !isset( $programs[$modname] ) )
+		if ( !isset( $programs[ $modname ] ) )
 			continue;
 
 		// set Header Icon
@@ -44,7 +44,7 @@ function ProgramTitle( $modname = '' )
 				$_ROSARIO['HeaderIcon'] = 'modules/' . $modcat . '/icon.png';
 		}
 
-		return $programs[$modname];
+		return $programs[ $modname ];
 	}
 	// Program not found!
 

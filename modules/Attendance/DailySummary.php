@@ -155,14 +155,14 @@ if ( $_REQUEST['student_id'] || User('PROFILE')=='parent')
 		foreach ( (array) $schedule_RET as $course)
 		{
 			$i++;
-			$student_RET[$i]['TITLE'] = $course['COURSE_PERIOD'];
+			$student_RET[ $i ]['TITLE'] = $course['COURSE_PERIOD'];
 			if ( !empty($course['PERIOD']))
 			{
-				$student_RET[$i]['PERIOD'] = $course['PERIOD'];
+				$student_RET[ $i ]['PERIOD'] = $course['PERIOD'];
 				$col_period = true;
 			}
 			foreach ( (array) $cal_RET as $value)
-				$student_RET[$i][$value['SHORT_DATE']] = _makePeriodColor($attendance_RET[$value['SCHOOL_DATE']][$course['PERIOD_ID']][1]['SHORT_NAME'],$attendance_RET[$value['SCHOOL_DATE']][$course['PERIOD_ID']][1]['STATE_CODE'],$attendance_RET[$value['SCHOOL_DATE']][$course['PERIOD_ID']][1]['DEFAULT_CODE']);
+				$student_RET[ $i ][$value['SHORT_DATE']] = _makePeriodColor($attendance_RET[$value['SCHOOL_DATE']][$course['PERIOD_ID']][1]['SHORT_NAME'],$attendance_RET[$value['SCHOOL_DATE']][$course['PERIOD_ID']][1]['STATE_CODE'],$attendance_RET[$value['SCHOOL_DATE']][$course['PERIOD_ID']][1]['DEFAULT_CODE']);
 		}
 	}
 
@@ -236,22 +236,22 @@ function _makeColor($value,$column)
 		if ( !$attendance_codes)
 			$attendance_codes = DBGet(DBQuery("SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0'"),array(),array('ID'));
 
-		$ac = $att_RET[$THIS_RET['STUDENT_ID']][$column][1]['ATTENDANCE_CODE'];
-		if ( $attendance_codes[$ac][1]['DEFAULT_CODE']=='Y')
+		$ac = $att_RET[$THIS_RET['STUDENT_ID']][ $column ][1]['ATTENDANCE_CODE'];
+		if ( $attendance_codes[ $ac ][1]['DEFAULT_CODE']=='Y')
 //FJ remove LO_field
 			return '<div style="float:left; background-color:#00FF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
-		elseif ( $attendance_codes[$ac][1]['STATE_CODE']=='P')
+		elseif ( $attendance_codes[ $ac ][1]['STATE_CODE']=='P')
 			return '<div style="float:left; background-color:#6666FF; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
-		elseif ( $attendance_codes[$ac][1]['STATE_CODE']=='A')
+		elseif ( $attendance_codes[ $ac ][1]['STATE_CODE']=='A')
 			return '<div style="float:left; background-color:#FF0000; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
-		elseif ( $attendance_codes[$ac][1]['STATE_CODE']=='H')
+		elseif ( $attendance_codes[ $ac ][1]['STATE_CODE']=='H')
 			return '<div style="float:left; background-color:#FFCC00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 		elseif ( $ac)
 			return '<div style="float:left; background-color:#FFFF00; padding:0 8px;">'.makeCodePulldown($ac,$THIS_RET['STUDENT_ID'],$column).'</div>';
 	}
 	else
 	{
-		$ac = $att_RET[$THIS_RET['STUDENT_ID']][$column][1]['STATE_VALUE'];
+		$ac = $att_RET[$THIS_RET['STUDENT_ID']][ $column ][1]['STATE_VALUE'];
 		if ( $ac=='0.0')
 			return '<div style="float:left; background-color:#FF0000; padding:0 8px;" title="'.$attendance_codes_locale['A'].'">'.mb_substr($attendance_codes_locale['A'],0,3).'</div>';
 		elseif ( $ac > 0 && $ac < 1)
@@ -276,7 +276,7 @@ function _makePeriodColor($name,$state_code,$default_code)
 		$color = '#6666FF';
 
 	if ( $color) // && $state_code!='1.0')
-		return '<div style="float:left; background-color:'.$color.'; padding:0 8px;" title="'.$attendance_codes_locale[$name].'">'.(empty($attendance_codes_locale[$name])?$name:mb_substr($attendance_codes_locale[$name],0,3)).'</div>';
+		return '<div style="float:left; background-color:'.$color.'; padding:0 8px;" title="'.$attendance_codes_locale[ $name ].'">'.(empty($attendance_codes_locale[ $name ])?$name:mb_substr($attendance_codes_locale[ $name ],0,3)).'</div>';
 	else
 		return false;
 }
@@ -289,7 +289,7 @@ function makeCodePulldown($value,$student_id,$date)
 	if ( !$_ROSARIO['code_options'])
 	{
 		foreach ( (array) $attendance_codes as $id => $code)
-			$_ROSARIO['code_options'][$id] = $code[1]['SHORT_NAME'];
+			$_ROSARIO['code_options'][ $id ] = $code[1]['SHORT_NAME'];
 	}
 
 	return SelectInput($value,'attendance['.$student_id.']['.$date.'][ATTENDANCE_CODE]','',$_ROSARIO['code_options']);

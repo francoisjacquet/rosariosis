@@ -78,7 +78,7 @@ if (count($RET))
 	foreach ( (array) $RET as $staff_id => $periods)
 	{
 		$i++;
-		$staff_RET[$i]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
+		$staff_RET[ $i ]['FULL_NAME'] = $periods[key($periods)][1]['FULL_NAME'];
 		foreach ( (array) $periods as $period_id => $period)
 		{
 			//$sql = 'SELECT (SELECT DESCRIPTION FROM FOOD_SERVICE_LUNCH_ITEMS WHERE ITEM_ID=ac.ITEM_ID) AS DESCRIPTION,(SELECT SORT_ORDER FROM FOOD_SERVICE_MENU_ITEMS WHERE ITEM_ID=ac.ITEM_ID AND MENU_ID=\''.$_REQUEST['menu_id'].'\') AS SORT_ORDER,ac.SHORT_NAME,ac.COUNT FROM FOOD_SERVICE_COMPLETED ac WHERE ac.STAFF_ID=\''.$staff_id.'\' AND ac.SCHOOL_DATE=\''.$date.'\' AND ac.PERIOD_ID=\''.$period_id.'\' ORDER BY SORT_ORDER';
@@ -87,9 +87,9 @@ if (count($RET))
 			if ( $items_RET) {
 				$color = 'FFFFFF';
 
-				$staff_RET[$i][$period_id] = '<table style="background-color:#'.$color.'"><tr>';
+				$staff_RET[ $i ][ $period_id ] = '<table style="background-color:#'.$color.'"><tr>';
 				foreach ( (array) $items_RET as $item) {
-					$staff_RET[$i][$period_id] .= '<td style="background-color:#'.$color.'">'.($item['COUNT'] ? $item['COUNT'] : '0').'<br />'.$item['DESCRIPTION'].'</td>';
+					$staff_RET[ $i ][ $period_id ] .= '<td style="background-color:#'.$color.'">'.($item['COUNT'] ? $item['COUNT'] : '0').'<br />'.$item['DESCRIPTION'].'</td>';
 					if ( $color=='FFFFFF')
 						$color = 'F0F0F0';
 					else
@@ -99,10 +99,10 @@ if (count($RET))
 					else
 						$totals+= array($item['SHORT_NAME'] => array('DESCRIPTION' => $item['DESCRIPTION'],'COUNT' => $item['COUNT']));
 				}
-				$staff_RET[$i][$period_id] .= '</tr></table>';
+				$staff_RET[ $i ][ $period_id ] .= '</tr></table>';
 			}
 			else
-				$staff_RET[$i][$period_id] = button('x');
+				$staff_RET[ $i ][ $period_id ] = button('x');
 		}
 	}
 }

@@ -65,7 +65,7 @@ if ( !$_REQUEST['modfunc'])
 	$RET = array();
 	foreach ( (array) $incomes_RET as $income)
 	{
-		$RET[$i] = $income;
+		$RET[ $i ] = $income;
 		$i++;
 	}
 	

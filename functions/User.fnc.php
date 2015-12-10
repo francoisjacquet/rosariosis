@@ -66,7 +66,7 @@ function User( $item )
 		}
 	}
 
-	return $_ROSARIO['User'][1][$item];
+	return $_ROSARIO['User'][1][ $item ];
 }
 
 
@@ -88,9 +88,9 @@ function Preferences( $item, $program = 'Preferences' )
 
 	// get User Preferences
 	if ( $_SESSION['STAFF_ID']
-		&& !isset( $_ROSARIO['Preferences'][$program] ) )
+		&& !isset( $_ROSARIO['Preferences'][ $program ] ) )
 	{
-		$_ROSARIO['Preferences'][$program] = DBGet( DBQuery( "SELECT TITLE,VALUE
+		$_ROSARIO['Preferences'][ $program ] = DBGet( DBQuery( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG
 			WHERE USER_ID='" . $_SESSION['STAFF_ID'] . "'
 			AND PROGRAM='" . $program . "'" ), array(), array( 'TITLE' ) );
@@ -118,9 +118,9 @@ function Preferences( $item, $program = 'Preferences' )
 		'DEFAULT_FAMILIES' => 'N',
 	);
 
-	if ( !isset( $_ROSARIO['Preferences'][$program][$item][1]['VALUE'] ) )
+	if ( !isset( $_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'] ) )
 	{
-		$_ROSARIO['Preferences'][$program][$item][1]['VALUE'] = $defaults[$item];
+		$_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'] = $defaults[ $item ];
 	}
 
 	/**
@@ -131,8 +131,8 @@ function Preferences( $item, $program = 'Preferences' )
 		&& User( 'PROFILE' ) === 'parent'
 		|| !empty( $_SESSION['STUDENT_ID'] ) )
 	{
-		$_ROSARIO['Preferences'][$program]['SEARCH'][1]['VALUE'] = 'N';
+		$_ROSARIO['Preferences'][ $program ]['SEARCH'][1]['VALUE'] = 'N';
 	}
 
-	return $_ROSARIO['Preferences'][$program][$item][1]['VALUE'];
+	return $_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'];
 }

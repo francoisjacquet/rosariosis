@@ -127,8 +127,8 @@ if ( $ok )
 			$course = $course[1];
 			foreach ( (array) $cp_parent_RET[$course['PARENT_ID']] as $slice)
 			{
-				$schedule[$student_id][$slice['PERIOD_ID']][] = $slice + array('REQUEST_ID' => $request_id);
-				$filled[$request_id] = true;
+				$schedule[ $student_id ][$slice['PERIOD_ID']][] = $slice + array('REQUEST_ID' => $request_id);
+				$filled[ $request_id ] = true;
 			}
 		}
 	}
@@ -198,10 +198,10 @@ if ( $ok )
 			$moved = _moveRequest($request[1],$not_request);
 
 			if ( $moved)
-				unset($unfilled[$key]);
+				unset($unfilled[ $key ]);
 		}
 		else
-			unset($unfilled[$key]);
+			unset($unfilled[ $key ]);
 	}
 	echo '<!-- unfilled '.count($unfilled).' -->';
 
@@ -230,7 +230,7 @@ if ( $ok )
 					{
 						$scount++;
 						//FJ multiple school periods for a course period
-						if (empty($locked_RET[$student_id][$course_period['REQUEST_ID']]) && !(in_array($course_period['COURSE_PERIOD_ID'],$course_periods_temp)))
+						if (empty($locked_RET[ $student_id ][$course_period['REQUEST_ID']]) && !(in_array($course_period['COURSE_PERIOD_ID'],$course_periods_temp)))
 						{
 							db_trans_query($connection,"INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".$student_id."','".$date."','".$course_period['COURSE_ID']."','".$course_period['COURSE_PERIOD_ID']."','".$course_period['MP']."','".$course_period['MARKING_PERIOD_ID']."');");
 							
@@ -331,15 +331,15 @@ function _scheduleRequest($request,$not_parent_id=false)
 		// IF THIS COURSE IS BEING SCHEDULED A SECOND TIME, DELETE THE ORIGINAL ONE
 		if ( $not_parent_id)
 		{
-			foreach ( (array) $cp_parent_RET[$not_parent_id] as $key => $slice)
+			foreach ( (array) $cp_parent_RET[ $not_parent_id ] as $key => $slice)
 			{
 				foreach ( (array) $schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']] as $key2 => $item)
 				{
 					if ( $item['COURSE_PERIOD_ID']==$slice['COURSE_PERIOD_ID'])
 					{
-						$filled[$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']][$key2]['REQUEST_ID']] = false;
-						unset($schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']][$key2]);
-						$cp_parent_RET[$not_parent_id][$key]['AVAILABLE_SEATS']++;
+						$filled[$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']][ $key2 ]['REQUEST_ID']] = false;
+						unset($schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']][ $key2 ]);
+						$cp_parent_RET[ $not_parent_id ][ $key ]['AVAILABLE_SEATS']++;
 					}
 				}
 			}
@@ -472,7 +472,7 @@ function _scheduleBest($request,$possible)
 	foreach ( (array) $cp_parent_RET[$best['COURSE_PERIOD_ID']] as $key => $slice)
 	{
 		$schedule[$request['STUDENT_ID']][$slice['PERIOD_ID']][] = $slice + array('REQUEST_ID' => $request['REQUEST_ID']);
-		$cp_parent_RET[$best['COURSE_PERIOD_ID']][$key]['AVAILABLE_SEATS']--;
+		$cp_parent_RET[$best['COURSE_PERIOD_ID']][ $key ]['AVAILABLE_SEATS']--;
 	}
 }
 

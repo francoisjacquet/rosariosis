@@ -70,17 +70,17 @@ function EmailReferral( $referral_id, $emails )
 
 				if ( $data_type === 'checkbox' )
 				{
-					$referral_fields[] = $title_txt . ( $referral[$column] == 'Y' ? _( 'Yes' ) : _( 'No' ) );
+					$referral_fields[] = $title_txt . ( $referral[ $column ] == 'Y' ? _( 'Yes' ) : _( 'No' ) );
 				}
 				elseif ( $data_type === 'multiple_checkbox' )
 				{
-					$referral_fields[] = $title_txt . str_replace( '||', ', ', mb_substr( $referral[$column], 2, -2 ) );
+					$referral_fields[] = $title_txt . str_replace( '||', ', ', mb_substr( $referral[ $column ], 2, -2 ) );
 				}
 				else
-					$referral_fields[] = $title_txt . $referral[$column];
+					$referral_fields[] = $title_txt . $referral[ $column ];
 			}
 			else
-				$referral_fields[] = $title_txt . "\n" . $referral[$column];
+				$referral_fields[] = $title_txt . "\n" . $referral[ $column ];
 		}
 	}
 	else

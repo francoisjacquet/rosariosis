@@ -49,7 +49,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 			ORDER BY fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','BALANCE' => 'red'));
 //FJ add translation
 			foreach ( (array) $RET as $RET_key => $RET_val) {
-				$RET[$RET_key]=array_map('types_locale', $RET_val);
+				$RET[ $RET_key ]=array_map('types_locale', $RET_val);
 			}	
 			
 			// get details of each transaction
@@ -58,10 +58,10 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 				$tmpRET = DBGet(DBQuery('SELECT TRANSACTION_ID AS TRANS_ID,* FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=\''.$value['TRANSACTION_ID'].'\''));
 //FJ add translation
 				foreach ( (array) $tmpRET as $RET_key => $RET_val) {
-					$tmpRET[$RET_key]=array_map('options_locale', $RET_val);
+					$tmpRET[ $RET_key ]=array_map('options_locale', $RET_val);
 				}	
 				// merge transaction and detail records
-				$RET[$key] = array($RET[$key]) + $tmpRET;
+				$RET[ $key ] = array($RET[ $key ]) + $tmpRET;
 			}
 			$columns = array('TRANSACTION_ID' => _('ID'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'),'SELLER' => _('User'));
 			$group = array(array('TRANSACTION_ID'));
@@ -82,7 +82,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 			$columns = array('TRANSACTION_ID' => _('ID'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'));
 //FJ add translation
 			foreach ( (array) $RET as $RET_key => $RET_val) {
-				$RET[$RET_key]=array_map('types_locale', $RET_val);
+				$RET[ $RET_key ]=array_map('types_locale', $RET_val);
 			}	
 		}
 

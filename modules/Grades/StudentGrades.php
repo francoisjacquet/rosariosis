@@ -70,14 +70,14 @@ if ( !$_REQUEST['id'])
             $assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,TITLE,POINTS FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".$staff_id."' AND (COURSE_ID='".$course_id."' OR COURSE_PERIOD_ID='".$course_period_id."') AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY DUE_DATE DESC,ASSIGNMENT_ID"));
 			//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
-			if ( !$programconfig[$staff_id])
+			if ( !$programconfig[ $staff_id ])
 			{
                 $config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 				if (count($config_RET))
 					foreach ( (array) $config_RET as $title => $value)
-						$programconfig[$staff_id][$title] = $value[1]['VALUE'];
+						$programconfig[ $staff_id ][ $title ] = $value[1]['VALUE'];
 				else
-					$programconfig[$staff_id] = true;
+					$programconfig[ $staff_id ] = true;
 			}
 
 			$sql = "SELECT s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL,gt.FINAL_GRADE_PERCENT,sum(".db_case(array('gg.POINTS',"''","1","0")).") AS UNGRADED 
@@ -96,7 +96,7 @@ if ( !$_REQUEST['id'])
             else
                 $sql .= " AND (CURRENT_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR CURRENT_DATE<=ssm.END_DATE))";
             $sql .= ") JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID OR ga.COURSE_ID=cp.COURSE_ID AND ga.STAFF_ID=cp.TEACHER_ID) AND ga.MARKING_PERIOD_ID='".UserMP()."') LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID),GRADEBOOK_ASSIGNMENT_TYPES gt";
-            $sql .= " WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($programconfig[$staff_id]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
+            $sql .= " WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID AND gt.COURSE_ID=cp.COURSE_ID AND (gg.POINTS IS NOT NULL OR (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($programconfig[ $staff_id ]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID))";
             $sql .= " AND (gg.POINTS IS NOT NULL OR ga.DUE_DATE IS NULL OR ((ga.DUE_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR ga.DUE_DATE<=ss.END_DATE)) AND (ga.DUE_DATE>=ssm.START_DATE AND (ssm.END_DATE IS NULL OR ga.DUE_DATE<=ssm.END_DATE))))".($do_stats&&$_REQUEST['do_stats']?'':" AND s.STUDENT_ID='".UserStudentID()."'");
             $sql .= " GROUP BY gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT,s.STUDENT_ID";
             if ( $do_stats && $_REQUEST['do_stats'])
@@ -116,10 +116,10 @@ if ( !$_REQUEST['id'])
 				$ungraded = 0;
 				foreach ( (array) $points_RET as $partial_points)
 				{
-                    if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[$staff_id]['WEIGHT']!='Y')
+                    if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[ $staff_id ]['WEIGHT']!='Y')
 					{
-						$total += $partial_points['PARTIAL_POINTS']*($programconfig[$staff_id]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
-						$total_percent += ($programconfig[$staff_id]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
+						$total += $partial_points['PARTIAL_POINTS']*($programconfig[ $staff_id ]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
+						$total_percent += ($programconfig[ $staff_id ]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
 					}
 					$ungraded += $partial_points['UNGRADED'];
 				}
@@ -137,10 +137,10 @@ if ( !$_REQUEST['id'])
 					{
 						$total = $total_percent = 0;
 						foreach ( (array) $student as $partial_points)
-                            if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[$staff_id]['WEIGHT']!='Y')
+                            if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[ $staff_id ]['WEIGHT']!='Y')
 							{
-								$total += $partial_points['PARTIAL_POINTS'] * ($programconfig[$staff_id]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
-								$total_percent += ($programconfig[$staff_id]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
+								$total += $partial_points['PARTIAL_POINTS'] * ($programconfig[ $staff_id ]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
+								$total_percent += ($programconfig[ $staff_id ]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
 							}
 						if ( $total_percent!=0)
 						{
@@ -231,14 +231,14 @@ else
 	{
 		$course = $course[1];
 		$staff_id = $course['STAFF_ID'];
-		if ( !$programconfig[$staff_id])
+		if ( !$programconfig[ $staff_id ])
 		{
 			$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 			if (count($config_RET))
 				foreach ( (array) $config_RET as $title => $value)
-					$programconfig[$staff_id][$title] = $value[1]['VALUE'];
+					$programconfig[ $staff_id ][ $title ] = $value[1]['VALUE'];
 			else
-				$programconfig[$staff_id] = true;
+				$programconfig[ $staff_id ] = true;
 		}
 
 		//FJ assigments appear after assigned date and not due date
@@ -249,7 +249,7 @@ else
 		WHERE (ga.COURSE_PERIOD_ID='".$course['COURSE_PERIOD_ID']."' OR ga.COURSE_ID='".$course['COURSE_ID']."' AND ga.STAFF_ID='".$staff_id."') 
 		AND ga.MARKING_PERIOD_ID='".UserMP()."' 
 		AND at.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID 
-		AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($programconfig[$staff_id]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) OR gg.POINTS IS NOT NULL) 
+		AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($programconfig[ $staff_id ]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) OR gg.POINTS IS NOT NULL) 
 		AND (ga.POINTS!='0' OR gg.POINTS IS NOT NULL AND gg.POINTS!='-1') 
 		ORDER BY ga.ASSIGNMENT_ID DESC"), array( 'TITLE' => '_makeTipAssignment' ) );
 		//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
@@ -270,7 +270,7 @@ else
 				AND ga.MARKING_PERIOD_ID='".UserMP()."' 
 				AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID 
 				AND at.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID 
-				AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($programconfig[$staff_id]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) OR g.POINTS IS NOT NULL) 
+				AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE+".round($programconfig[ $staff_id ]['LATENCY']).") OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) OR g.POINTS IS NOT NULL) 
 				AND ga.POINTS!='0' 
 				GROUP BY ga.ASSIGNMENT_ID"),array(),array('ASSIGNMENT_ID'));
 			//echo '<pre>'; var_dump($all_RET); echo '</pre>';
@@ -279,7 +279,7 @@ else
 			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
 				$LO_columns['PERCENT'] = _('Percent');
 			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
-				if ( $programconfig[$staff_id]['LETTER_GRADE_ALL']!='Y')
+				if ( $programconfig[ $staff_id ]['LETTER_GRADE_ALL']!='Y')
 					$LO_columns['LETTER'] = _('Letter');
 				
 			$LO_columns += array('COMMENT' => _('Comment'));
@@ -313,7 +313,7 @@ else
 						$bargraph2 = bargraph2(false);
 					}
 				}
-				$LO_ret[] = array('TITLE' => $assignment['TITLE'],'CATEGORY' => $assignment['CATEGORY'],'POINTS'=>($assignment['POINTS']=='-1'?'*':($assignment['POINTS']==''?'<span style="color:red">0</span>':rtrim(rtrim($assignment['POINTS'],'0'),'.'))).' / '.$assignment['POINTS_POSSIBLE'],'PERCENT'=>($assignment['POINTS_POSSIBLE']=='0'?_('E/C'):($assignment['POINTS']=='-1'?'*':number_format(100*$assignment['POINTS']/$assignment['POINTS_POSSIBLE'],1).'%')),'LETTER'=>($programconfig[$staff_id]['LETTER_GRADE_ALL']=='Y'?'':($assignment['POINTS_POSSIBLE']=='0'?_('N/A'):($assignment['POINTS']=='-1'?_('N/A'):($assignment['POINTS_POSSIBLE']>=$programconfig[$staff_id]['LETTER_GRADE_MIN']?'<b>'._makeLetterGrade($assignment['POINTS']/$assignment['POINTS_POSSIBLE'],$course['COURSE_PERIOD_ID'],$staff_id).'</b>':'')))),'COMMENT' => $assignment['COMMENT'].($assignment['POINTS']==''?($assignment['COMMENT']?'<br />':'').'<span style="color:red">'._('No Grade').'</span>':''))+($do_stats&&$_REQUEST['do_stats']?array('BAR1' => $bargraph1,'BAR2' => $bargraph2):array());
+				$LO_ret[] = array('TITLE' => $assignment['TITLE'],'CATEGORY' => $assignment['CATEGORY'],'POINTS'=>($assignment['POINTS']=='-1'?'*':($assignment['POINTS']==''?'<span style="color:red">0</span>':rtrim(rtrim($assignment['POINTS'],'0'),'.'))).' / '.$assignment['POINTS_POSSIBLE'],'PERCENT'=>($assignment['POINTS_POSSIBLE']=='0'?_('E/C'):($assignment['POINTS']=='-1'?'*':number_format(100*$assignment['POINTS']/$assignment['POINTS_POSSIBLE'],1).'%')),'LETTER'=>($programconfig[ $staff_id ]['LETTER_GRADE_ALL']=='Y'?'':($assignment['POINTS_POSSIBLE']=='0'?_('N/A'):($assignment['POINTS']=='-1'?_('N/A'):($assignment['POINTS_POSSIBLE']>=$programconfig[ $staff_id ]['LETTER_GRADE_MIN']?'<b>'._makeLetterGrade($assignment['POINTS']/$assignment['POINTS_POSSIBLE'],$course['COURSE_PERIOD_ID'],$staff_id).'</b>':'')))),'COMMENT' => $assignment['COMMENT'].($assignment['POINTS']==''?($assignment['COMMENT']?'<br />':'').'<span style="color:red">'._('No Grade').'</span>':''))+($do_stats&&$_REQUEST['do_stats']?array('BAR1' => $bargraph1,'BAR2' => $bargraph2):array());
 			}
 			if ( $_REQUEST['id']=='all')
 			{

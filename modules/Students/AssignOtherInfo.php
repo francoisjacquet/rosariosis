@@ -6,13 +6,13 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		foreach ( (array) $_REQUEST['month_values'] as $field_name => $month)
 		{
-			$_REQUEST['values'][$field_name] = $_REQUEST['day_values'][$field_name].'-'.$month.'-'.$_REQUEST['year_values'][$field_name];
-			if ( !VerifyDate($_REQUEST['values'][$field_name]))
+			$_REQUEST['values'][ $field_name ] = $_REQUEST['day_values'][ $field_name ].'-'.$month.'-'.$_REQUEST['year_values'][ $field_name ];
+			if ( !VerifyDate($_REQUEST['values'][ $field_name ]))
 			{
-				if ( $_REQUEST['values'][$field_name]!='--')
+				if ( $_REQUEST['values'][ $field_name ]!='--')
 					$warning[] = _('The date you specified is not valid, so was not used. The other data was saved.');
 
-				unset($_REQUEST['values'][$field_name]);
+				unset($_REQUEST['values'][ $field_name ]);
 			}
 		}
 	}
@@ -185,7 +185,7 @@ if (empty($_REQUEST['modfunc']))
 				{
 					foreach ( (array) $options as $option)
 						if ( $option!='')
-							$select_options[$option] = $option;
+							$select_options[ $option ] = $option;
 				}
 
 				echo '<tr><td><b>'.ParseMLField($field[TITLE]).'</b></td><td>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</td></tr>';
@@ -226,7 +226,7 @@ if (empty($_REQUEST['modfunc']))
 
 			foreach ( (array) $options as $option )
 				if ( $option != '' )
-					$select_options[$option] = $option;
+					$select_options[ $option ] = $option;
 
 			// add the 'new' option, is also the separator
 			$select_options['---'] = '-' . _( 'Edit' ) . '-';
@@ -243,10 +243,10 @@ if (empty($_REQUEST['modfunc']))
 				ORDER BY KEY" ) );
 			
 			foreach ( (array) $options_RET as $option )
-				if ( !in_array( $option[$field_name], $options ) )
-					$select_options[$option[$field_name]] = array(
-						$option[$field_name],
-						'<span style="color:blue">' . $option[$field_name] . '</span>'
+				if ( !in_array( $option[ $field_name ], $options ) )
+					$select_options[$option[ $field_name ]] = array(
+						$option[ $field_name ],
+						'<span style="color:blue">' . $option[ $field_name ] . '</span>'
 					);
 
 			echo '<tr><td><b>'.ParseMLField($field['TITLE']).'</b></td><td>'._makeSelectInput($field_name,$select_options).'</td></tr>';
@@ -263,7 +263,7 @@ if (empty($_REQUEST['modfunc']))
 				{
 					foreach ( (array) $options as $option)
 						if ( $option!='')
-							$select_options[$option] = $option;
+							$select_options[ $option ] = $option;
 				}
 				// add the 'new' option
 //FJ new option
@@ -358,7 +358,7 @@ if (empty($_REQUEST['modfunc']))
 			echo '<table class="widefat cellspacing-0 cellpadding-5 center"><tr>';
 			for ( $i=1;$i<=$radio_count;$i++)
 			{
-				echo '<td>'._makeCheckboxInput('CUSTOM_'.$fields_RET['radio'][$i]['ID'],'<b>'.ParseMLField($fields_RET['radio'][$i]['TITLE']).'</b>').'</td>';
+				echo '<td>'._makeCheckboxInput('CUSTOM_'.$fields_RET['radio'][ $i ]['ID'],'<b>'.ParseMLField($fields_RET['radio'][ $i ]['TITLE']).'</b>').'</td>';
 				if ( $i%5==0 && $i!=$radio_count)
 					echo '</tr><tr>';
 			}

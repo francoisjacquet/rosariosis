@@ -152,19 +152,19 @@ if ( isset( $_REQUEST['category_id'] )
 				$tf = str_pad( ( $i%12 == 0 ? 12 : $i%12 ), 2, '0', STR_PAD_LEFT );
 
 				//FJ add translation
-				$chart['chart_data'][$index][0] = _( ucwords( mb_strtolower( MonthNWSwitch( str_pad( $i%12, 2, '0', STR_PAD_LEFT ), 'tochar' ) ) ) );
+				$chart['chart_data'][ $index ][0] = _( ucwords( mb_strtolower( MonthNWSwitch( str_pad( $i%12, 2, '0', STR_PAD_LEFT ), 'tochar' ) ) ) );
 			}
 			else // SYEAR
 			{
 				//$tf = $i-$start+1;
 				$tf = $i;
 
-				$chart['chart_data'][$index][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
+				$chart['chart_data'][ $index ][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 			}
 			
 			foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 			{
-				$chart['chart_data'][$index][] = (int)$totals_RET[$option][$tf][1]['COUNT'];
+				$chart['chart_data'][ $index ][] = (int)$totals_RET[ $option ][ $tf ][1]['COUNT'];
 			}
 		}
 	}
@@ -195,19 +195,19 @@ if ( isset( $_REQUEST['category_id'] )
 				$tf = str_pad( ( $i%12 == 0 ? 12 : $i%12 ), 2, '0', STR_PAD_LEFT );
 
 				//FJ add translation
-				$chart['chart_data'][$index][0] = _( ucwords( mb_strtolower( MonthNWSwitch( str_pad( $i%12, 2, '0', STR_PAD_LEFT ), 'tochar' ) ) ) );
+				$chart['chart_data'][ $index ][0] = _( ucwords( mb_strtolower( MonthNWSwitch( str_pad( $i%12, 2, '0', STR_PAD_LEFT ), 'tochar' ) ) ) );
 			}
 			else // SYEAR
 			{
 				//$tf = $i-$start+1;
 				$tf = $i;
 
-				$chart['chart_data'][$index][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
+				$chart['chart_data'][ $index ][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 			}
 			
-			$chart['chart_data'][$index][] = (int)$totals_RET['Y'][$tf][1]['COUNT'];
+			$chart['chart_data'][ $index ][] = (int)$totals_RET['Y'][ $tf ][1]['COUNT'];
 
-			$chart['chart_data'][$index][] = (int)$totals_RET['N'][$tf][1]['COUNT'];
+			$chart['chart_data'][ $index ][] = (int)$totals_RET['N'][ $tf ][1]['COUNT'];
 		}
 	}
 	elseif ( $category_RET[1]['DATA_TYPE'] === 'multiple_checkbox' )
@@ -228,7 +228,7 @@ if ( isset( $_REQUEST['category_id'] )
 			$referral['TITLE'] = explode( "||", trim( $referral['TITLE'], '|' ) );
 
 			foreach ( (array) $referral['TITLE'] as $option )
-				$options_count[$referral['TIMEFRAME']][$option]++;
+				$options_count[$referral['TIMEFRAME']][ $option ]++;
 		}
 
 		$index = 0;
@@ -243,19 +243,19 @@ if ( isset( $_REQUEST['category_id'] )
 				$tf = str_pad( ( $i%12 == 0 ? 12 : $i%12 ), 2, '0', STR_PAD_LEFT );
 
 				//FJ add translation
-				$chart['chart_data'][$index][0] = _( ucwords( mb_strtolower( MonthNWSwitch( str_pad( $i%12, 2, '0', STR_PAD_LEFT ), 'tochar' ) ) ) );
+				$chart['chart_data'][ $index ][0] = _( ucwords( mb_strtolower( MonthNWSwitch( str_pad( $i%12, 2, '0', STR_PAD_LEFT ), 'tochar' ) ) ) );
 			}
 			else // SYEAR
 			{
 				//$tf = $i-$start+1;
 				$tf = $i;
 
-				$chart['chart_data'][$index][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
+				$chart['chart_data'][ $index ][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 			}
 
 			foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 			{
-				$chart['chart_data'][$index][] = (int)$options_count[$tf][$option];
+				$chart['chart_data'][ $index ][] = (int)$options_count[ $tf ][ $option ];
 			}
 		}
 	}
@@ -282,14 +282,14 @@ if ( isset( $_REQUEST['category_id'] )
 				$tf = str_pad( ( $i%12 == 0 ? 12 : $i%12 ), 2, '0', STR_PAD_LEFT );
 
 				//FJ add translation
-				$chart['chart_data'][$index][0] = _( ucwords( mb_strtolower( MonthNWSwitch( str_pad( $i%12, 2, '0', STR_PAD_LEFT ), 'tochar' ) ) ) );
+				$chart['chart_data'][ $index ][0] = _( ucwords( mb_strtolower( MonthNWSwitch( str_pad( $i%12, 2, '0', STR_PAD_LEFT ), 'tochar' ) ) ) );
 			}
 			else // SYEAR
 			{
 				//$tf = $i-$start+1;
 				$tf = $i;
 
-				$chart['chart_data'][$index][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
+				$chart['chart_data'][ $index ][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 			}
 		}
 
@@ -310,9 +310,9 @@ if ( isset( $_REQUEST['category_id'] )
 
 			$range_max = ( ceil( $diff / $diff_max ) * $o ) - 1;
 
-			$chart['chart_data'][0][$o] = ( $range_min == $range_max ) ? (string)$range_min + 1 : $range_min . ' - ' . $range_max;
+			$chart['chart_data'][0][ $o ] = ( $range_min == $range_max ) ? (string)$range_min + 1 : $range_min . ' - ' . $range_max;
 
-			$mins[$o] = ( ceil( $diff / $diff_max ) * ( $o - 1 ) );
+			$mins[ $o ] = ( ceil( $diff / $diff_max ) * ( $o - 1 ) );
 
 			$index = 0;
 
@@ -320,7 +320,7 @@ if ( isset( $_REQUEST['category_id'] )
 			{
 				$index++;
 
-				$chart['chart_data'][$index][$o] = 0;
+				$chart['chart_data'][ $index ][ $o ] = 0;
 			}
 		}
 
@@ -328,7 +328,7 @@ if ( isset( $_REQUEST['category_id'] )
 			( ceil( $diff / $diff_max ) * ( $o - 1 ) ) :
 			( ceil( $diff / $diff_max ) * ( $o - 2 ) ) . '+' );
 
-		$mins[$o] = ( ceil( $diff / $diff_max ) * ( $o - 1 ) );
+		$mins[ $o ] = ( ceil( $diff / $diff_max ) * ( $o - 1 ) );
 		
 		$extra['SELECT_ONLY'] = "CATEGORY_" . intval( $_REQUEST['category_id'] ) . " AS TITLE," . $timeframe . " AS TIMEFRAME";
 
@@ -373,11 +373,11 @@ if ( isset( $_REQUEST['category_id'] )
 						$series_label = $data;
 
 						// Set series label + ticks
-						$chartData[$series_label][0] = $ticks;
+						$chartData[ $series_label ][0] = $ticks;
 					}
 					else
 					{
-						$chartData[$series_label][1][] = $data;
+						$chartData[ $series_label ][1][] = $data;
 					}
 				}
 			}
@@ -477,13 +477,13 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			{	
 				if ( $timeframe != 0 )
 				{
-					$LO_columns[$timeframe] = $values[0];
+					$LO_columns[ $timeframe ] = $values[0];
 
 					unset( $values[0] );
 
 					foreach ( (array) $values as $key => $value )
 					{
-						$chart_data[$key][$timeframe] = $value;
+						$chart_data[ $key ][ $timeframe ] = $value;
 					}
 				}
 				else
@@ -492,7 +492,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 					foreach ( (array) $values as $key => $value )
 					{
-						$chart_data[$key]['TITLE'] = $value;
+						$chart_data[ $key ]['TITLE'] = $value;
 					}
 				}
 			}
@@ -572,22 +572,22 @@ function _makeNumericTime( $number, $column )
 	{
 		$chart['chart_data'][0][1] = (int)$number;
 
-		$chart['chart_data'][$index][1]++;
+		$chart['chart_data'][ $index ][1]++;
 	}
 	elseif ( $diff < $diff_max )
 	{
 		//$chart['chart_data'][0][((int) $number - (int) $max_min_RET[1]['MIN']+1)] = (int) $number;
-		$chart['chart_data'][$index][( (int)$number - (int)$max_min_RET[1]['MIN'] + 1 )]++;
+		$chart['chart_data'][ $index ][( (int)$number - (int)$max_min_RET[1]['MIN'] + 1 )]++;
 	}
 	else
 	{
 		for ( $i = 1; $i <= $diff_max; $i++ )
 		{
-			if ( ( $number >= $mins[$i]
+			if ( ( $number >= $mins[ $i ]
 					&& $number < $mins[$i + 1] )
 				|| $i === $diff_max )
 			{
-				$chart['chart_data'][$index][$i]++;
+				$chart['chart_data'][ $index ][ $i ]++;
 
 				break;
 			}

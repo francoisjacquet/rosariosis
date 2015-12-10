@@ -125,18 +125,18 @@ if ( $grouped_RET )
 		{
 			$i++;
 
-			$teachers_RET[$i]['GRADES'] = $grade['TITLE'];
+			$teachers_RET[ $i ]['GRADES'] = $grade['TITLE'];
 		}
 			
 		foreach ( (array) $grouped_RET as $staff_id => $grades )
 		{
-			$LO_columns[$staff_id] = $grades[key( $grades )][1]['FULL_NAME'];
+			$LO_columns[ $staff_id ] = $grades[key( $grades )][1]['FULL_NAME'];
 
 			foreach ( (array) $grades_RET as $grade )
 			{
 				$j++;
 
-				$teachers_RET[$j][$staff_id] = count( $grades[$grade['ID']] );
+				$teachers_RET[ $j ][ $staff_id ] = count( $grades[$grade['ID']] );
 			}
 		}
 

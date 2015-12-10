@@ -97,14 +97,14 @@ $type_select .= '</select>';
 function types_locale($type) {
 	$types = array('Deposit' => _('Deposit'),'Credit' => _('Credit'),'Debit' => _('Debit'));
 	if (array_key_exists($type, $types)) {
-		return $types[$type];
+		return $types[ $type ];
 	}
 	return $type;
 }
 function options_locale($option) {
 	$options = array('Cash ' => _('Cash'),'Check' => _('Check'),'Credit Card' => _('Credit Card'),'Debit Card' => _('Debit Card'),'Transfer' => _('Transfer'));
 	if (array_key_exists($option, $options)) {
-		return $options[$option];
+		return $options[ $option ];
 	}
 	return $option;
 }

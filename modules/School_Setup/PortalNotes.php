@@ -6,15 +6,15 @@ if ( $_REQUEST['day_values'] && $_POST['day_values'])
 {
 	foreach ( (array) $_REQUEST['day_values'] as $id => $values)
 	{
-		if ( $_REQUEST['day_values'][$id]['START_DATE'] && $_REQUEST['month_values'][$id]['START_DATE'] && $_REQUEST['year_values'][$id]['START_DATE'])
-			$_REQUEST['values'][$id]['START_DATE'] = $_REQUEST['day_values'][$id]['START_DATE'].'-'.$_REQUEST['month_values'][$id]['START_DATE'].'-'.$_REQUEST['year_values'][$id]['START_DATE'];
-		elseif (isset($_REQUEST['day_values'][$id]['START_DATE']) && isset($_REQUEST['month_values'][$id]['START_DATE']) && isset($_REQUEST['year_values'][$id]['START_DATE']))
-			$_REQUEST['values'][$id]['START_DATE'] = '';
+		if ( $_REQUEST['day_values'][ $id ]['START_DATE'] && $_REQUEST['month_values'][ $id ]['START_DATE'] && $_REQUEST['year_values'][ $id ]['START_DATE'])
+			$_REQUEST['values'][ $id ]['START_DATE'] = $_REQUEST['day_values'][ $id ]['START_DATE'].'-'.$_REQUEST['month_values'][ $id ]['START_DATE'].'-'.$_REQUEST['year_values'][ $id ]['START_DATE'];
+		elseif (isset($_REQUEST['day_values'][ $id ]['START_DATE']) && isset($_REQUEST['month_values'][ $id ]['START_DATE']) && isset($_REQUEST['year_values'][ $id ]['START_DATE']))
+			$_REQUEST['values'][ $id ]['START_DATE'] = '';
 
-		if ( $_REQUEST['day_values'][$id]['END_DATE'] && $_REQUEST['month_values'][$id]['END_DATE'] && $_REQUEST['year_values'][$id]['END_DATE'])
-			$_REQUEST['values'][$id]['END_DATE'] = $_REQUEST['day_values'][$id]['END_DATE'].'-'.$_REQUEST['month_values'][$id]['END_DATE'].'-'.$_REQUEST['year_values'][$id]['END_DATE'];
-		elseif (isset($_REQUEST['day_values'][$id]['END_DATE']) && isset($_REQUEST['month_values'][$id]['END_DATE']) && isset($_REQUEST['year_values'][$id]['END_DATE']))
-			$_REQUEST['values'][$id]['END_DATE'] = '';
+		if ( $_REQUEST['day_values'][ $id ]['END_DATE'] && $_REQUEST['month_values'][ $id ]['END_DATE'] && $_REQUEST['year_values'][ $id ]['END_DATE'])
+			$_REQUEST['values'][ $id ]['END_DATE'] = $_REQUEST['day_values'][ $id ]['END_DATE'].'-'.$_REQUEST['month_values'][ $id ]['END_DATE'].'-'.$_REQUEST['year_values'][ $id ]['END_DATE'];
+		elseif (isset($_REQUEST['day_values'][ $id ]['END_DATE']) && isset($_REQUEST['month_values'][ $id ]['END_DATE']) && isset($_REQUEST['year_values'][ $id ]['END_DATE']))
+			$_REQUEST['values'][ $id ]['END_DATE'] = '';
 	}
 	if ( !$_POST['values'])
 		$_POST['values'] = $_REQUEST['values'];
@@ -28,22 +28,22 @@ if ((($_REQUEST['profiles'] && $_POST['profiles']) || ($_REQUEST['values'] && $_
 	foreach ( (array) $notes_RET as $note_id)
 	{
 		$note_id = $note_id['ID'];
-		$_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'] = '';
+		$_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'] = '';
 		foreach ( array('admin','teacher','parent') as $profile_id)
-			if ( $_REQUEST['profiles'][$note_id][$profile_id])
-				$_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'] .= ','.$profile_id;
-		if (count($_REQUEST['profiles'][$note_id]))
+			if ( $_REQUEST['profiles'][ $note_id ][ $profile_id ])
+				$_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'] .= ','.$profile_id;
+		if (count($_REQUEST['profiles'][ $note_id ]))
 		{
 			foreach ( (array) $profiles_RET as $profile)
 			{
 				$profile_id = $profile['ID'];
 
-				if ( $_REQUEST['profiles'][$note_id][$profile_id])
-					$_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'] .= ','.$profile_id;
+				if ( $_REQUEST['profiles'][ $note_id ][ $profile_id ])
+					$_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'] .= ','.$profile_id;
 			}
 		}
-		if ( $_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'])
-			$_REQUEST['values'][$note_id]['PUBLISHED_PROFILES'] .= ',';
+		if ( $_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'])
+			$_REQUEST['values'][ $note_id ]['PUBLISHED_PROFILES'] .= ',';
 	}
 }
 
@@ -75,7 +75,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				{
 					foreach ( array('admin','teacher','parent') as $profile_id)
 					{
-						if ( $_REQUEST['profiles']['new'][$profile_id])
+						if ( $_REQUEST['profiles']['new'][ $profile_id ])
 							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
 						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
 					}
@@ -83,7 +83,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					{
 						$profile_id = $profile['ID'];
 
-						if ( $_REQUEST['profiles']['new'][$profile_id])
+						if ( $_REQUEST['profiles']['new'][ $profile_id ])
 							$_REQUEST['values']['new']['PUBLISHED_PROFILES'] .= $profile_id.',';
 						$columns['PUBLISHED_PROFILES'] = ','.$_REQUEST['values']['new']['PUBLISHED_PROFILES'];
 					}
@@ -239,7 +239,7 @@ function _makeTextInput($value,$name)
 	if ( $name=='TITLE' && $id != 'new')
 		$extra = 'required';
 
-	return TextInput($name=='TITLE' && $THIS_RET['EXPIRED']?array($value,'<span style="color:red">'.$value.'</span>'):$value,"values[$id][$name]",'',$extra);
+	return TextInput($name=='TITLE' && $THIS_RET['EXPIRED']?array($value,'<span style="color:red">'.$value.'</span>'):$value,"values[ $id ][ $name ]",'',$extra);
 }
 
 function _makeContentInput($value,$name)

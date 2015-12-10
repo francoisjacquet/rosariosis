@@ -132,12 +132,12 @@ function _update29alpha()
 				if ( is_array( list( $date, $staff_id ) = explode( '|', $com ) ) 
 					&& (int)$staff_id > 0 )
 				{
-					$ser_coms[$i]['date'] = $date;
-					$ser_coms[$i]['staff_id'] = $staff_id;
+					$ser_coms[ $i ]['date'] = $date;
+					$ser_coms[ $i ]['staff_id'] = $staff_id;
 				}
 				else
 				{
-					$ser_coms[$i]['comment'] = $com;
+					$ser_coms[ $i ]['comment'] = $com;
 					$i++;
 				}
 			}

@@ -49,7 +49,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 	$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 	if (count($config_RET))
 		foreach ( (array) $config_RET as $title => $value)
-			$programconfig[User('STAFF_ID')][$title] = $value[1]['VALUE'];
+			$programconfig[User('STAFF_ID')][ $title ] = $value[1]['VALUE'];
 	else
 		$programconfig[User('STAFF_ID')] = true;
 	include 'ProgramFunctions/_makeLetterGrade.fnc.php';
@@ -104,7 +104,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 			else
 				$code = 'PASSING';
 
-			if ( $current_RET[$student_id])
+			if ( $current_RET[ $student_id ])
 				$sql = "UPDATE ELIGIBILITY SET ELIGIBILITY_CODE='".$code."' WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."' AND STUDENT_ID='".$student_id."'";
 			else
 				$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('".$student_id."','".DBDate()."','".UserSyear()."','".UserPeriod()."','".$course_period_id."','".$code."')";
@@ -119,7 +119,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 	$course_period_id = UserCoursePeriod();
 	foreach ( (array) $_REQUEST['values'] as $student_id => $value)
 	{
-		if ( $current_RET[$student_id])
+		if ( $current_RET[ $student_id ])
 			$sql = "UPDATE ELIGIBILITY SET ELIGIBILITY_CODE='".$value."' WHERE SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";
 		else
 			$sql = "INSERT INTO ELIGIBILITY (STUDENT_ID,SCHOOL_DATE,SYEAR,PERIOD_ID,COURSE_PERIOD_ID,ELIGIBILITY_CODE) values('".$student_id."','".DBDate()."','".UserSyear()."','".UserPeriod()."','".$course_period_id."','".$value."')";
@@ -143,7 +143,7 @@ DrawHeader(ProgramTitle());
 
 if ( $today>$END_DAY || $today<$START_DAY || ($today==$START_DAY && date('Gi')<($START_HOUR.$START_MINUTE)) || ($today==$END_DAY && date('Gi')>($END_HOUR.$END_MINUTE)))
 {
-	echo ErrorMessage(array(sprintf(_('You can only enter eligibility from %s %s to %s %s.'),$days[$START_DAY],$START_HOUR.':'.$START_MINUTE,$days[$END_DAY],$END_HOUR.':'.$END_MINUTE)),'error');
+	echo ErrorMessage(array(sprintf(_('You can only enter eligibility from %s %s to %s %s.'),$days[ $START_DAY ],$START_HOUR.':'.$START_MINUTE,$days[ $END_DAY ],$END_HOUR.':'.$END_MINUTE)),'error');
 }
 else
 {

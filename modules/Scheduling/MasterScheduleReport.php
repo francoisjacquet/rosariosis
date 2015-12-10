@@ -32,5 +32,5 @@ function _getPeriod($period_id,$title='')
 		$periods_RET = DBGet(DBQuery($sql),array(),array('PERIOD_ID'));
 	}
 
-	return $periods_RET[$period_id][1]['TITLE'];
+	return $periods_RET[ $period_id ][1]['TITLE'];
 }

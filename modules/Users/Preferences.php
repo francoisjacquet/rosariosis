@@ -82,7 +82,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 			{
 				foreach ( (array) $values as $name => $value)
 				{
-					if ( !$current_RET[$program][$name] && $value!='')
+					if ( !$current_RET[ $program ][ $name ] && $value!='')
 						DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','".$program."','".$name."','".$value."')");
 					elseif ( $value!='')
 						DBQuery("UPDATE PROGRAM_USER_CONFIG SET VALUE='".$value."' WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='".$program."' AND TITLE='".$name."'");
@@ -260,7 +260,7 @@ if (empty($_REQUEST['modfunc']))
 		{
 			$theme_name = str_replace( 'assets/themes/', '', $theme );
 
-			$theme_options[$theme_name] = $theme_name;
+			$theme_options[ $theme_name ] = $theme_name;
 		}
 
 		// Theme
@@ -294,7 +294,7 @@ if (empty($_REQUEST['modfunc']))
 
 		foreach ( (array) $month_keys as $month_key )
 		{
-			$month_options[$month_key] = mb_convert_case(
+			$month_options[ $month_key ] = mb_convert_case(
 				iconv( '', 'UTF-8', strftime( $month_key ) ),
 				MB_CASE_TITLE,
 				"UTF-8"

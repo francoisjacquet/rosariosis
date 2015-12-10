@@ -132,7 +132,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			}
 			foreach ( (array) $categories_RET as $id => $category)
 			{
-				if ( $id!='1' && $id!='3' && $id!='2' && $id!='4' && $_REQUEST['category'][$id])
+				if ( $id!='1' && $id!='3' && $id!='2' && $id!='4' && $_REQUEST['category'][ $id ])
 				{
 					$_REQUEST['category_id'] = $id;
 					$_ROSARIO['DrawHeader'] = '';
@@ -251,9 +251,9 @@ function explodeCustom(&$categories_RET, &$custom, $prefix)
 							$options[$option[0]] = $option[1];
 					}
 					else
-						$options[$option] = $option;
+						$options[ $option ] = $option;
 				}
-				$categories_RET[$id][$i]['SELECT_OPTIONS'] = $options;
+				$categories_RET[ $id ][ $i ]['SELECT_OPTIONS'] = $options;
 			}
 		}
 }

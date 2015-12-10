@@ -37,7 +37,7 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		ORDER BY ".($_REQUEST['by_name']?"FULL_NAME,":'')."fst.TRANSACTION_ID DESC"),array('DATE' => 'ProperDate','SHORT_NAME' => 'bump_count'));
 	//FJ add translation
 		foreach ( (array) $RET as $RET_key => $RET_val) {
-			$RET[$RET_key]=array_map('types_locale', $RET_val);
+			$RET[ $RET_key ]=array_map('types_locale', $RET_val);
 		}	
 
 		foreach ( (array) $RET as $key => $value)
@@ -47,10 +47,10 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 
 	//FJ add translation
 			foreach ( (array) $tmpRET as $RET_key => $RET_val) {
-				$tmpRET[$RET_key]=array_map('options_locale', $RET_val);
+				$tmpRET[ $RET_key ]=array_map('options_locale', $RET_val);
 			}	
 			// merge transaction and detail records
-			$RET[$key] = array($value) + $tmpRET;
+			$RET[ $key ] = array($value) + $tmpRET;
 		}
 		//echo '<pre>'; var_dump($RET); echo '</pre>';
 		$columns = array('TRANSACTION_ID' => _('ID'),'ACCOUNT_ID' => _('Account ID'),'FULL_NAME' => _('Student'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DISCOUNT' => _('Discount'),'DESCRIPTION' => _('Description'),'DISCOUNT' => _('Discount'),'AMOUNT' => _('Amount'),'SELLER' => _('User'));
@@ -71,7 +71,7 @@ if (UserStudentID() && empty($_REQUEST['modfunc']))
 		$columns = array('TRANSACTION_ID' => _('ID'),'ACCOUNT_ID' => _('Account ID'),'FULL_NAME' => _('Student'),'DATE' => _('Date'),'TIME' => _('Time'),'BALANCE' => _('Balance'),'DISCOUNT' => _('Discount'),'DESCRIPTION' => _('Description'),'AMOUNT' => _('Amount'));
 	//FJ add translation
 		foreach ( (array) $RET as $RET_key => $RET_val) {
-			$RET[$RET_key]=array_map('types_locale', $RET_val);
+			$RET[ $RET_key ]=array_map('types_locale', $RET_val);
 		}	
 	}
 	

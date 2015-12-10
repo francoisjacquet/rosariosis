@@ -72,7 +72,7 @@ if ( !$_REQUEST['modfunc'])
 	$RET = array();
 	foreach ( (array) $payments_RET as $payment)
 	{
-		$RET[$i] = $payment;
+		$RET[ $i ] = $payment;
 		$i++;
 	}
 

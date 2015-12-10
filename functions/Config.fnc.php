@@ -18,7 +18,7 @@ function Config( $item )
 		$DefaultSyear;
 
 	// Get General & School Config
-	if ( !isset( $_ROSARIO['Config'][$item] ) )
+	if ( !isset( $_ROSARIO['Config'][ $item ] ) )
 	{
 		// General (for every school) Config is stored with SCHOOL_ID=0
 		$school_where = "SCHOOL_ID='0'";
@@ -34,7 +34,7 @@ function Config( $item )
 		$_ROSARIO['Config']['SYEAR'][1]['CONFIG_VALUE'] = $DefaultSyear;
 	}
 
-	return $_ROSARIO['Config'][$item][1]['CONFIG_VALUE'];
+	return $_ROSARIO['Config'][ $item ][1]['CONFIG_VALUE'];
 }
 
 
@@ -70,8 +70,8 @@ function ProgramConfig( $program, $item = 'all'  )
 
 	if ( $item === 'all' )
 	{
-		return $_ROSARIO['ProgramConfig'][$program];
+		return $_ROSARIO['ProgramConfig'][ $program ];
 	}
 	else
-		return $_ROSARIO['ProgramConfig'][$program][$item][1]['VALUE'];
+		return $_ROSARIO['ProgramConfig'][ $program ][ $item ][1]['VALUE'];
 }

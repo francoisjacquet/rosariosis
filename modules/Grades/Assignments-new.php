@@ -198,7 +198,7 @@ if (empty($_REQUEST['modfunc']))
 	foreach ( (array) $types_RET as $id => $type)
 	{
 		$tabs[] = array('title' => $type[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id.'&allow_edit='.$_REQUEST['allow_edit'],'color' => $type[1]['COLOR']);
-		$type_options[$id] = !$_REQUEST['tab_id']&&$type[1]['COLOR']?array($type[1]['TITLE'],'<span style="color:'.$type[1]['COLOR'].'">'.$type[1]['TITLE'].'</span>'):$type[1]['TITLE'];
+		$type_options[ $id ] = !$_REQUEST['tab_id']&&$type[1]['COLOR']?array($type[1]['TITLE'],'<span style="color:'.$type[1]['COLOR'].'">'.$type[1]['TITLE'].'</span>'):$type[1]['TITLE'];
 	}
 
 	if ( $_REQUEST['tab_id']!='new')
@@ -325,17 +325,17 @@ function _makeAssnInput($value,$name)
 		$extra = 'size=5 maxlength=5';
 	}
 	elseif ( $name=='ASSIGNED_DATE')
-		return DateInput($id=='new' && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$value,"values[$id][ASSIGNED_DATE]",($THIS_RET['ASSIGNED_ERROR']=='Y'?'<span class="legend-red">'._('Assigned date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span class="legend-red">'._('Assigned date is after due date!').'</span>':'')),$id!='new');
+		return DateInput($id=='new' && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$value,"values[ $id ][ASSIGNED_DATE]",($THIS_RET['ASSIGNED_ERROR']=='Y'?'<span class="legend-red">'._('Assigned date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span class="legend-red">'._('Assigned date is after due date!').'</span>':'')),$id!='new');
 	elseif ( $name=='DUE_DATE')
-		return DateInput($id=='new' && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$value,"values[$id][DUE_DATE]",($THIS_RET['DUE_ERROR']=='Y'?'<span class="legend-red">'._('Due date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span class="legend-red">'._('Due date is before assigned date!').'</span>':'')),$id!='new');
+		return DateInput($id=='new' && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$value,"values[ $id ][DUE_DATE]",($THIS_RET['DUE_ERROR']=='Y'?'<span class="legend-red">'._('Due date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span class="legend-red">'._('Due date is before assigned date!').'</span>':'')),$id!='new');
 	elseif ( $name=='COURSE_ID')
-		return CheckboxInput($value,"values[$id][COURSE_ID]",'','',$id=='new');
+		return CheckboxInput($value,"values[ $id ][COURSE_ID]",'','',$id=='new');
 	elseif ( $name=='DESCRIPTION')
 		$extra = 'size=20 maxlength=1000';
 	elseif ( $name=='ASSIGNMENT_TYPE_ID')
-		return SelectInput($value,"values[$id][ASSIGNMENT_TYPE_ID]",'',$type_options,false);
+		return SelectInput($value,"values[ $id ][ASSIGNMENT_TYPE_ID]",'',$type_options,false);
 
-	return TextInput($value,"values[$id][$name]",$title,$extra);
+	return TextInput($value,"values[ $id ][ $name ]",$title,$extra);
 }
 
 function _makeTypeInput($value,$name)
@@ -364,7 +364,7 @@ function _makeTypeInput($value,$name)
 	elseif ( $name=='SORT_ORDER')
 		$extra = 'size=5 maxlength=10';
 
-	return TextInput($value,"values[$id][$name]",$title,$extra);
+	return TextInput($value,"values[ $id ][ $name ]",$title,$extra);
 }
 
 
@@ -398,10 +398,10 @@ function _makeColorInput( $value, $column )
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		foreach ( (array) $colors as $color)
 		{
-			$color_select[$color] = array('<table class="cellspacing-0"><tr><td style="width:100%; background-color:'.$color.'">&nbsp;</td></tr></table>','<table class="cellspacing-0"><tr><td style="background-color:'.$color.'; width:30px">&nbsp;</td></tr></table>');
+			$color_select[ $color ] = array('<table class="cellspacing-0"><tr><td style="width:100%; background-color:'.$color.'">&nbsp;</td></tr></table>','<table class="cellspacing-0"><tr><td style="background-color:'.$color.'; width:30px">&nbsp;</td></tr></table>');
 		}
 	}
-	return RadioInput($value,"values[$id][COLOR]",'',$color_select);*/
+	return RadioInput($value,"values[ $id ][COLOR]",'',$color_select);*/
 
 	return ColorInput(
 		$value,

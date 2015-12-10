@@ -57,7 +57,7 @@ $commentsA_select = array();
 
 foreach ( (array) $comment_codes_RET as $scale_id => $codes)
 	foreach ( (array) $codes as $code)
-		$commentsA_select[$scale_id][$code['TITLE']] = $code['SHORT_NAME'] ? array($code['TITLE'],$code['SHORT_NAME']) : $code['TITLE'];
+		$commentsA_select[ $scale_id ][$code['TITLE']] = $code['SHORT_NAME'] ? array($code['TITLE'],$code['SHORT_NAME']) : $code['TITLE'];
 
 if ( $_REQUEST['tab_id']=='-1')
 {
@@ -122,11 +122,11 @@ if ( $_REQUEST['modfunc']=='gradebook')
 
 		if (count($config_RET))
 			foreach ( (array) $config_RET as $title => $value)
-				$programconfig[User('STAFF_ID')][$title] = $value[1]['VALUE'];
+				$programconfig[User('STAFF_ID')][ $title ] = $value[1]['VALUE'];
 		else
 			$programconfig[User('STAFF_ID')] = true;
 
-		$_ROSARIO['_makeLetterGrade']['courses'][$course_period_id] = DBGet(DBQuery("SELECT DOES_BREAKOFF,GRADE_SCALE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$course_period_id."'"));
+		$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] = DBGet(DBQuery("SELECT DOES_BREAKOFF,GRADE_SCALE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$course_period_id."'"));
 
 		require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
@@ -162,7 +162,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 					if ( $total_percent!=0)
 						$total /= $total_percent;
 
-					$import_RET[$student_id] = array(1 => array('REPORT_CARD_GRADE_ID'=>_makeLetterGrade($total,$course_period_id,0,'ID'),'GRADE_PERCENT'=>round(100*$total,1)));
+					$import_RET[ $student_id ] = array(1 => array('REPORT_CARD_GRADE_ID'=>_makeLetterGrade($total,$course_period_id,0,'ID'),'GRADE_PERCENT'=>round(100*$total,1)));
 				}
 			}
 		}
@@ -221,14 +221,14 @@ if ( $_REQUEST['modfunc']=='gradebook')
 				}
 				$total /= $total_percent;
 
-				$import_RET[$student_id] = array(1 => array('REPORT_CARD_GRADE_ID'=>_makeLetterGrade($total/100,$course_period_id,0,'ID'),'GRADE_PERCENT'=>round($total,1)));
+				$import_RET[ $student_id ] = array(1 => array('REPORT_CARD_GRADE_ID'=>_makeLetterGrade($total/100,$course_period_id,0,'ID'),'GRADE_PERCENT'=>round($total,1)));
 
 				//FJ automatic comment on yearly grades
 				if (GetMP($_REQUEST['mp'],'MP')=='FY')
 				{
 					//FJ use Report Card Grades comments
 					$comment = _makeLetterGrade($total/100,$course_period_id,0,'COMMENT');
-					$import_comments_RET[$student_id][1]['COMMENT'] = $comment;
+					$import_comments_RET[ $student_id ][1]['COMMENT'] = $comment;
 				}
 			}
 
@@ -247,8 +247,8 @@ if ( $_REQUEST['modfunc']=='grades')
 
 		foreach ( (array) $import_RET as $student_id => $grade)
 		{
-			$import_RET[$student_id][1]['GRADE_PERCENT'] = _makePercentGrade($grade[1]['REPORT_CARD_GRADE_ID'],$course_period_id);
-			$import_RET[$student_id][1]['REPORT_CARD_GRADE_ID'] = $grade[1]['REPORT_CARD_GRADE_ID'];
+			$import_RET[ $student_id ][1]['GRADE_PERCENT'] = _makePercentGrade($grade[1]['REPORT_CARD_GRADE_ID'],$course_period_id);
+			$import_RET[ $student_id ][1]['REPORT_CARD_GRADE_ID'] = $grade[1]['REPORT_CARD_GRADE_ID'];
 		}
 
 		unset($_SESSION['_REQUEST_vars']['prev_mp']);
@@ -291,21 +291,21 @@ if ( $_REQUEST['modfunc']=='clearall')
 {
 	foreach ( (array) $current_RET as $student_id => $prev)
 	{
-		$current_RET[$student_id][1]['REPORT_CARD_GRADE_ID'] = '';
-		$current_RET[$student_id][1]['GRADE_PERCENT'] = '';
-		$current_RET[$student_id][1]['COMMENT'] = '';
+		$current_RET[ $student_id ][1]['REPORT_CARD_GRADE_ID'] = '';
+		$current_RET[ $student_id ][1]['GRADE_PERCENT'] = '';
+		$current_RET[ $student_id ][1]['COMMENT'] = '';
 	}
 	if (isset($current_commentsA_RET) && is_array($current_commentsA_RET))
 	{
 		foreach ( (array) $current_commentsA_RET as $student_id => $comments)
 			foreach ( (array) $comments as $id => $comment)
-				$current_commentsA_RET[$student_id][$id][1]['COMMENT'] = '';
+				$current_commentsA_RET[ $student_id ][ $id ][1]['COMMENT'] = '';
 	}
 	if (isset($current_commentsB_RET) && is_array($current_commentsB_RET))
 	{
 		foreach ( (array) $current_commentsB_RET as $student_id => $comment)
 			foreach ( (array) $comment as $i => $comment)
-				$current_commentsB_RET[$student_id][$i] = '';
+				$current_commentsB_RET[ $student_id ][ $i ] = '';
 	}
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 }
@@ -323,7 +323,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 	foreach ( (array) $_REQUEST['values'] as $student_id => $columns)
 	{
 		$sql = $sep = '';
-		if ( $current_RET[$student_id])
+		if ( $current_RET[ $student_id ])
 		{
 			if ( $columns['percent']!='')
 			{
@@ -342,16 +342,16 @@ if ( $_REQUEST['values'] && $_POST['values'])
 				if ( $columns['grade'] || $percent!='')
 				{
 					$grade = ($columns['grade']?$columns['grade']:_makeLetterGrade($percent/100,$course_period_id,0,'ID'));
-					$letter = $grades_RET[$grade][1]['TITLE'];
-					$weighted = $grades_RET[$grade][1]['WEIGHTED_GP'];
-					$unweighted = $grades_RET[$grade][1]['UNWEIGHTED_GP'];
+					$letter = $grades_RET[ $grade ][1]['TITLE'];
+					$weighted = $grades_RET[ $grade ][1]['WEIGHTED_GP'];
+					$unweighted = $grades_RET[ $grade ][1]['UNWEIGHTED_GP'];
 					
 					//FJ add precision to year weighted GPA if not year course period
 					if (GetMP($_REQUEST['mp'],'MP')=='FY' && $course_period_mp!='FY')
 					{
-						$weighted = $percent/100*$grades_RET[$grade][1]['GP_SCALE'];
+						$weighted = $percent/100*$grades_RET[ $grade ][1]['GP_SCALE'];
 					}
-					$scale = $grades_RET[$grade][1]['GP_SCALE'];
+					$scale = $grades_RET[ $grade ][1]['GP_SCALE'];
 				}
 				else
 					$grade = $letter = $weighted = $unweighted = $scale = '';
@@ -368,17 +368,17 @@ if ( $_REQUEST['values'] && $_POST['values'])
 			{
 				$percent = _makePercentGrade($columns['grade'],$course_period_id);
 				$grade = $columns['grade'];
-				$letter = $grades_RET[$grade][1]['TITLE'];
-				$weighted = $grades_RET[$grade][1]['WEIGHTED_GP'];
+				$letter = $grades_RET[ $grade ][1]['TITLE'];
+				$weighted = $grades_RET[ $grade ][1]['WEIGHTED_GP'];
 
 				//FJ add precision to year weighted GPA if not year course period
 				if (GetMP($_REQUEST['mp'],'MP')=='FY' && $course_period_mp!='FY')
 				{
-					$weighted = $percent/100*$grades_RET[$grade][1]['GP_SCALE'];
+					$weighted = $percent/100*$grades_RET[ $grade ][1]['GP_SCALE'];
 				}
 
-				$unweighted = $grades_RET[$grade][1]['UNWEIGHTED_GP'];
-				$scale = $grades_RET[$grade][1]['GP_SCALE'];
+				$unweighted = $grades_RET[ $grade ][1]['UNWEIGHTED_GP'];
+				$scale = $grades_RET[ $grade ][1]['GP_SCALE'];
 				$sql .= "GRADE_PERCENT='".$percent."'";
 				$sql .= ",REPORT_CARD_GRADE_ID='".$grade."',GRADE_LETTER='".$letter."',WEIGHTED_GP='".$weighted."',UNWEIGHTED_GP='".$unweighted."',GP_SCALE='".$scale."'";
 				$sql .= ",COURSE_TITLE='".$course_RET[1]['COURSE_NAME']."'";
@@ -400,8 +400,8 @@ if ( $_REQUEST['values'] && $_POST['values'])
 			}
 			else
 			{
-				$percent = $current_RET[$student_id][1]['GRADE_PERCENT'];
-				$grade = $current_RET[$student_id][1]['REPORT_CARD_GRADE_ID'];
+				$percent = $current_RET[ $student_id ][1]['GRADE_PERCENT'];
+				$grade = $current_RET[ $student_id ][1]['REPORT_CARD_GRADE_ID'];
 			}
 
 			if (isset($columns['comment']))
@@ -429,17 +429,17 @@ if ( $_REQUEST['values'] && $_POST['values'])
 				if ( $columns['grade'] || $percent!='')
 				{
 					$grade = ($columns['grade']?$columns['grade']:_makeLetterGrade($percent/100,$course_period_id,0,'ID'));
-					$letter = $grades_RET[$grade][1]['TITLE'];
-					$weighted = $grades_RET[$grade][1]['WEIGHTED_GP'];
-					$unweighted = $grades_RET[$grade][1]['UNWEIGHTED_GP'];
+					$letter = $grades_RET[ $grade ][1]['TITLE'];
+					$weighted = $grades_RET[ $grade ][1]['WEIGHTED_GP'];
+					$unweighted = $grades_RET[ $grade ][1]['UNWEIGHTED_GP'];
 					
 					//FJ add precision to year weighted GPA if not year course period
 					if (GetMP($_REQUEST['mp'],'MP')=='FY' && $course_period_mp!='FY')
 					{
-						$weighted = $percent/100*$grades_RET[$grade][1]['GP_SCALE'];
+						$weighted = $percent/100*$grades_RET[ $grade ][1]['GP_SCALE'];
 					}
 
-					$scale = $grades_RET[$grade][1]['GP_SCALE'];
+					$scale = $grades_RET[ $grade ][1]['GP_SCALE'];
 				}
 				else
 					$grade = $letter = $weighted = $unweighted = $scale = '';
@@ -448,17 +448,17 @@ if ( $_REQUEST['values'] && $_POST['values'])
 			{
 					$percent = _makePercentGrade($columns['grade'],$course_period_id);
 					$grade = $columns['grade'];
-					$letter = $grades_RET[$grade][1]['TITLE'];
-					$weighted = $grades_RET[$grade][1]['WEIGHTED_GP'];
+					$letter = $grades_RET[ $grade ][1]['TITLE'];
+					$weighted = $grades_RET[ $grade ][1]['WEIGHTED_GP'];
 
 					//FJ add precision to year weighted GPA if not year course period
 					if (GetMP($_REQUEST['mp'],'MP')=='FY' && $course_period_mp!='FY')
 					{
-						$weighted = $percent/100*$grades_RET[$grade][1]['GP_SCALE'];
+						$weighted = $percent/100*$grades_RET[ $grade ][1]['GP_SCALE'];
 					}
 
-					$unweighted = $grades_RET[$grade][1]['UNWEIGHTED_GP'];
-					$scale = $grades_RET[$grade][1]['GP_SCALE'];
+					$unweighted = $grades_RET[ $grade ][1]['UNWEIGHTED_GP'];
+					$scale = $grades_RET[ $grade ][1]['GP_SCALE'];
 			}
 			else
 				$percent = $grade = $letter = $weighted = $unweighted = $scale = '';
@@ -467,7 +467,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 //FJ add Credit Hours
 			$sql = "INSERT INTO STUDENT_REPORT_CARD_GRADES
 			(ID, SYEAR, SCHOOL_ID, STUDENT_ID, COURSE_PERIOD_ID, MARKING_PERIOD_ID, REPORT_CARD_GRADE_ID, GRADE_PERCENT, COMMENT, GRADE_LETTER, WEIGHTED_GP, UNWEIGHTED_GP, GP_SCALE, COURSE_TITLE, CREDIT_ATTEMPTED, CREDIT_EARNED, CLASS_RANK, CREDIT_HOURS)
-			values(".db_seq_nextval('student_report_card_grades_seq').",'".UserSyear()."','".UserSchool()."','".$student_id."','".$course_period_id."','".$_REQUEST['mp']."','".$grade."','".$percent."','".$columns['comment']."','".$grades_RET[$grade][1]['TITLE']."','".$weighted."','".$unweighted."','".$scale."','".DBEscapeString($course_RET[1]['COURSE_NAME'])."','".$course_RET[1]['CREDITS']."','".($weighted&&$weighted>0?$course_RET[1]['CREDITS']:'0')."','".$course_RET[1]['CLASS_RANK']."',".(is_null($course_RET[1]['CREDIT_HOURS']) ? 'NULL' : $course_RET[1]['CREDIT_HOURS']).")";
+			values(".db_seq_nextval('student_report_card_grades_seq').",'".UserSyear()."','".UserSchool()."','".$student_id."','".$course_period_id."','".$_REQUEST['mp']."','".$grade."','".$percent."','".$columns['comment']."','".$grades_RET[ $grade ][1]['TITLE']."','".$weighted."','".$unweighted."','".$scale."','".DBEscapeString($course_RET[1]['COURSE_NAME'])."','".$course_RET[1]['CREDITS']."','".($weighted&&$weighted>0?$course_RET[1]['CREDITS']:'0')."','".$course_RET[1]['CLASS_RANK']."',".(is_null($course_RET[1]['CREDIT_HOURS']) ? 'NULL' : $course_RET[1]['CREDIT_HOURS']).")";
 		}
 		else
 			$percent = $grade = '';
@@ -495,7 +495,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 
 		if (isset($columns['commentsA']) && is_array($columns['commentsA']))
 			foreach ( (array) $columns['commentsA'] as $id => $comment)
-				if ( $current_commentsA_RET[$student_id][$id])
+				if ( $current_commentsA_RET[ $student_id ][ $id ])
 				{
 					if ( $comment)
 						DBQuery("UPDATE STUDENT_REPORT_CARD_COMMENTS SET COMMENT='".$comment."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$course_period_id."' AND MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND REPORT_CARD_COMMENT_ID='".$id."'");
@@ -509,25 +509,25 @@ if ( $_REQUEST['values'] && $_POST['values'])
 
 		// create mapping for current
 		$old = array();
-		if (isset($current_commentsB_RET[$student_id]) && is_array($current_commentsB_RET[$student_id]))
-			foreach ( (array) $current_commentsB_RET[$student_id] as $i => $comment)
+		if (isset($current_commentsB_RET[ $student_id ]) && is_array($current_commentsB_RET[ $student_id ]))
+			foreach ( (array) $current_commentsB_RET[ $student_id ] as $i => $comment)
 				$old[$comment['REPORT_CARD_COMMENT_ID']] = $i;
 
 		// create change list
 		$change = array();
 		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
 			foreach ( (array) $columns['commentsB'] as $i => $comment)
-				$change[$i] = array('REPORT_CARD_COMMENT_ID' => 0);
+				$change[ $i ] = array('REPORT_CARD_COMMENT_ID' => 0);
 
 		// prune changes already in current set and reserve if in change list
 		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
 			foreach ( (array) $columns['commentsB'] as $i => $comment)
 				if ( $comment)
-					if ( $old[$comment])
+					if ( $old[ $comment ])
 					{
-						if ( $change[$old[$comment]])
-							$change[$old[$comment]]['REPORT_CARD_COMMENT_ID'] = $comment;
-						$columns['commentsB'][$i] = false;
+						if ( $change[$old[ $comment ]])
+							$change[$old[ $comment ]]['REPORT_CARD_COMMENT_ID'] = $comment;
+						$columns['commentsB'][ $i ] = false;
 					}
 
 		// assign changes at their index if possible
@@ -535,17 +535,17 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
 			foreach ( (array) $columns['commentsB'] as $i => $comment)
 				if ( $comment)
-					if ( !$new[$comment])
+					if ( !$new[ $comment ])
 					{
-						if ( !$change[$i]['REPORT_CARD_COMMENT_ID'])
+						if ( !$change[ $i ]['REPORT_CARD_COMMENT_ID'])
 						{
-							$change[$i]['REPORT_CARD_COMMENT_ID'] = $comment;
-							$new[$comment] = $i;
-							$columns['commentsB'][$i] = false;
+							$change[ $i ]['REPORT_CARD_COMMENT_ID'] = $comment;
+							$new[ $comment ] = $i;
+							$columns['commentsB'][ $i ] = false;
 						}
 					}
 					else
-						$columns['commentsB'][$i] = false;
+						$columns['commentsB'][ $i ] = false;
 
 		// assign remaining changes to first available
 		reset($change);
@@ -553,35 +553,35 @@ if ( $_REQUEST['values'] && $_POST['values'])
 			foreach ( (array) $columns['commentsB'] as $i => $comment)
 				if ( $comment)
 				{
-					if ( !$new[$comment])
+					if ( !$new[ $comment ])
 					{
 						while ( $change[key($change)]['REPORT_CARD_COMMENT_ID'])
 							next($change);
 						$change[key($change)]['REPORT_CARD_COMMENT_ID'] = $comment;
-						$new[$comment] = key($change);
+						$new[ $comment ] = key($change);
 					}
-					$columns['commentsB'][$i] = false;
+					$columns['commentsB'][ $i ] = false;
 				}
 
 		// update the db
 		foreach ( (array) $change as $i => $comment)
-			if ( $current_commentsB_RET[$student_id][$i])
+			if ( $current_commentsB_RET[ $student_id ][ $i ])
 				if ( $comment['REPORT_CARD_COMMENT_ID'])
 				{
-					if ( $comment['REPORT_CARD_COMMENT_ID']!=$current_commentsB_RET[$student_id][$i]['REPORT_CARD_COMMENT_ID'])
+					if ( $comment['REPORT_CARD_COMMENT_ID']!=$current_commentsB_RET[ $student_id ][ $i ]['REPORT_CARD_COMMENT_ID'])
 						DBQuery("UPDATE STUDENT_REPORT_CARD_COMMENTS
 						SET REPORT_CARD_COMMENT_ID='".$comment['REPORT_CARD_COMMENT_ID']."'
 						WHERE STUDENT_ID='".$student_id."'
 						AND COURSE_PERIOD_ID='".$course_period_id."'
 						AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'
-						AND REPORT_CARD_COMMENT_ID='".$current_commentsB_RET[$student_id][$i]['REPORT_CARD_COMMENT_ID']."'");
+						AND REPORT_CARD_COMMENT_ID='".$current_commentsB_RET[ $student_id ][ $i ]['REPORT_CARD_COMMENT_ID']."'");
 				}
 				else
 					DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS
 					WHERE STUDENT_ID='".$student_id."'
 					AND COURSE_PERIOD_ID='".$course_period_id."'
 					AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'
-					AND REPORT_CARD_COMMENT_ID='".$current_commentsB_RET[$student_id][$i]['REPORT_CARD_COMMENT_ID']."'");
+					AND REPORT_CARD_COMMENT_ID='".$current_commentsB_RET[ $student_id ][ $i ]['REPORT_CARD_COMMENT_ID']."'");
 			else
 				if ( $comment['REPORT_CARD_COMMENT_ID'])
 					DBQuery("INSERT INTO STUDENT_REPORT_CARD_COMMENTS
@@ -776,7 +776,7 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 
 			$tiplabel = array();
 
-			foreach ( (array) $comment_codes_RET[$scale_id] as $comment )
+			foreach ( (array) $comment_codes_RET[ $scale_id ] as $comment )
 			{
 				$tipmsg .= $comment['TITLE'] . ': ' . $comment['COMMENT'] . '<br />';
 			}
@@ -922,16 +922,16 @@ function _makeTipMessage( $full_name, $column )
 function _makeLetterPercent($student_id,$column)
 {	global $current_RET,$import_RET,$grades_select,$student_count,$tabindex;
 
-	if ( $import_RET[$student_id])
+	if ( $import_RET[ $student_id ])
 	{
-		$select_percent = $import_RET[$student_id][1]['GRADE_PERCENT'];
-		$select_grade = $import_RET[$student_id][1]['REPORT_CARD_GRADE_ID'];
+		$select_percent = $import_RET[ $student_id ][1]['GRADE_PERCENT'];
+		$select_grade = $import_RET[ $student_id ][1]['REPORT_CARD_GRADE_ID'];
 		$div = false;
 	}
 	else
 	{
-		$select_percent = $current_RET[$student_id][1]['GRADE_PERCENT'];
-		$select_grade = $current_RET[$student_id][1]['REPORT_CARD_GRADE_ID'];
+		$select_percent = $current_RET[ $student_id ][1]['GRADE_PERCENT'];
+		$select_grade = $current_RET[ $student_id ][1]['REPORT_CARD_GRADE_ID'];
 		$div = true;
 	}
 
@@ -946,7 +946,7 @@ function _makeLetterPercent($student_id,$column)
 		}
 		elseif ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
 		{
-			$return = TextInput($select_percent==''?'':$select_percent.'%',"values[$student_id][percent]",'','size=5 tabindex='.$tabindex,$div);
+			$return = TextInput($select_percent==''?'':$select_percent.'%',"values[ $student_id ][percent]",'','size=5 tabindex='.$tabindex,$div);
 		}
 		else
 		{
@@ -973,29 +973,29 @@ function _makeLetterPercent($student_id,$column)
 				$return = InputDivOnclick(
 					$id,
 					$select_html,
-					'<span class="nobr">' . ( $grades_select[$select_grade] ?
-						$grades_select[$select_grade][1] :
+					'<span class="nobr">' . ( $grades_select[ $select_grade ] ?
+						$grades_select[ $select_grade ][1] :
 						'<span style="color:red">' . $select_grade . '</span>' ) .
 					' ' . $select_percent . '%</span>',
 					''
 				);
 			}
 			else
-				$return = '<span class="nobr">'.SelectInput($select_grade?$select_grade:($select_percent!=''?' ':''),'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',false).' '.TextInput($select_percent!=''?$select_percent.'%':($select_grade?'%':''),"values[$student_id][percent]",'','size="5" tabindex="'.($tabindex+=100).'"',false).'</span>';
+				$return = '<span class="nobr">'.SelectInput($select_grade?$select_grade:($select_percent!=''?' ':''),'values['.$student_id.'][grade]','',$grades_select,false,'tabindex="'.$tabindex.'"',false).' '.TextInput($select_percent!=''?$select_percent.'%':($select_grade?'%':''),"values[ $student_id ][percent]",'','size="5" tabindex="'.($tabindex+=100).'"',false).'</span>';
 		}
 	}
 	else
 	{
 		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
 		{
-			$return = ($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>');
+			$return = ($grades_select[ $select_grade ]?$grades_select[ $select_grade ][1]:'<span style="color:red">'.$select_grade.'</span>');
 		}
 		elseif ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
 		{
 			$return = $select_percent.'%';
 		}
 		else
-			$return = '<span class="nobr">'.($grades_select[$select_grade]?$grades_select[$select_grade][1]:'<span style="color:red">'.$select_grade.'</span>').' '.$select_percent.'%'.'</span>';
+			$return = '<span class="nobr">'.($grades_select[ $select_grade ]?$grades_select[ $select_grade ][1]:'<span style="color:red">'.$select_grade.'</span>').' '.$select_percent.'%'.'</span>';
 	}
 
 	return $return;
@@ -1026,21 +1026,21 @@ function _makeComment($value,$column)
 function _makeCommentsA($value,$column)
 {	global $THIS_RET,$current_commentsA_RET,$import_commentsA_RET,$commentsA_select,$tabindex;
 
-	if ( $import_commentsA_RET[$THIS_RET['STUDENT_ID']][$value])
+	if ( $import_commentsA_RET[$THIS_RET['STUDENT_ID']][ $value ])
 	{
-		$select = $import_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT'];
+		$select = $import_commentsA_RET[$THIS_RET['STUDENT_ID']][ $value ][1]['COMMENT'];
 		$div = false;
 	}
 	else
 	{
-		if ( !$current_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT'] && !$import_commentsA_RET && AllowEdit())
+		if ( !$current_commentsA_RET[$THIS_RET['STUDENT_ID']][ $value ][1]['COMMENT'] && !$import_commentsA_RET && AllowEdit())
 		{
 			$select = Preferences('COMMENT_'.$THIS_RET['CAC'.$value],'Gradebook');
 			$div = false;
 		}
 		else
 		{
-			$select = $current_commentsA_RET[$THIS_RET['STUDENT_ID']][$value][1]['COMMENT'];
+			$select = $current_commentsA_RET[$THIS_RET['STUDENT_ID']][ $value ][1]['COMMENT'];
 			$div = true;
 		}
 	}
@@ -1058,14 +1058,14 @@ function _makeCommentsA($value,$column)
 function _makeCommentsB($value,$column)
 {	global $THIS_RET,$current_commentsB_RET,$import_commentsB_RET,$commentsB_RET,$max_current_commentsB,$commentsB_select,$tabindex;
 
-	if ( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value])
+	if ( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][ $value ])
 	{
-		$select = $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value]['REPORT_CARD_COMMENT_ID'];
+		$select = $import_commentsB_RET[$THIS_RET['STUDENT_ID']][ $value ]['REPORT_CARD_COMMENT_ID'];
 		$div = false;
 	}
 	else
 	{
-		$select = $current_commentsB_RET[$THIS_RET['STUDENT_ID']][$value]['REPORT_CARD_COMMENT_ID'];
+		$select = $current_commentsB_RET[$THIS_RET['STUDENT_ID']][ $value ]['REPORT_CARD_COMMENT_ID'];
 		$div = true;
 	}
 
@@ -1075,7 +1075,7 @@ function _makeCommentsB($value,$column)
 		{
 			$return = SelectInput('','values['.$THIS_RET['STUDENT_ID'].'][commentsB]['.$value.']','',$commentsB_select,_('N/A'),'tabindex='.($tabindex+=100));
 		}
-		elseif ( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][$value] || isset($current_commentsB_RET[$THIS_RET['STUDENT_ID']][$value]))
+		elseif ( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][ $value ] || isset($current_commentsB_RET[$THIS_RET['STUDENT_ID']][ $value ]))
 		{
 			$return = SelectInput($select,'values['.$THIS_RET['STUDENT_ID'].'][commentsB]['.$value.']','',$commentsB_select,_('N/A'),'tabindex='.($tabindex+=100),$div);
 		}
@@ -1083,7 +1083,7 @@ function _makeCommentsB($value,$column)
 			$return = '';
 	}
 	else
-		$return = ''.$commentsB_RET[$select][1]['TITLE'].'';
+		$return = ''.$commentsB_RET[ $select ][1]['TITLE'].'';
 
 	return $return;
 }

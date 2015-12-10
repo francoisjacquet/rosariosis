@@ -100,7 +100,7 @@ require_once 'modules/Food_Service/'.($_REQUEST['type']=='staff' ? 'Users' : 'St
 function types_locale($type) {
 	$types = array('Deposit' => _('Deposit'),'Credit' => _('Credit'),'Debit' => _('Debit'));
 	if (array_key_exists($type, $types)) {
-		return $types[$type];
+		return $types[ $type ];
 	}
 	return $type;
 }
@@ -108,7 +108,7 @@ function types_locale($type) {
 function options_locale($option) {
 	$options = array('Cash ' => _('Cash'),'Check' => _('Check'),'Credit Card' => _('Credit Card'),'Debit Card' => _('Debit Card'),'Transfer' => _('Transfer'));
 	if (array_key_exists($option, $options)) {
-		return $options[$option];
+		return $options[ $option ];
 	}
 	return $option;
 }
@@ -122,10 +122,10 @@ function last(&$array)
 function bump_count($value)
 {	global $THIS_RET,$types;
 
-	if ( $types[$value])
+	if ( $types[ $value ])
 	{
-		$types[$value]['COUNT']++;
-		$types[$value]['AMOUNT'] += $THIS_RET['AMOUNT'];
+		$types[ $value ]['COUNT']++;
+		$types[ $value ]['AMOUNT'] += $THIS_RET['AMOUNT'];
 	} else
 		$types += array($value => array('DESCRIPTION' => '<span style="color:red">'.$value.'</span>','COUNT'=>1,'ITEMS' => array(),'AMOUNT' => $THIS_RET['AMOUNT']));
 	return $value;
@@ -134,10 +134,10 @@ function bump_count($value)
 function bump_items_count($value)
 {	global $THIS_RET,$types;
 
-	if ( $types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'][$value])
+	if ( $types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'][ $value ])
 	{
-		$types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'][$value][1]['COUNT']++;
-		$types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'][$value][1]['AMOUNT'] += $THIS_RET['AMOUNT'];;
+		$types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'][ $value ][1]['COUNT']++;
+		$types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'][ $value ][1]['AMOUNT'] += $THIS_RET['AMOUNT'];;
 	}
 	else
 		$types[$THIS_RET['TRANSACTION_SHORT_NAME']]['ITEMS'] += array($value => array(1 => array('DESCRIPTION' => '<span style="color:red">'.$value.'</span>','COUNT'=>1,'AMOUNT' => $THIS_RET['AMOUNT'])));

@@ -11,7 +11,7 @@ $config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE U
 if (count($config_RET))
 {
 	foreach ( (array) $config_RET as $title => $value)
-		$programconfig[$title] = $value[1]['VALUE'];
+		$programconfig[ $title ] = $value[1]['VALUE'];
 }
 
 $grades = DBGet(DBQuery("SELECT cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,cp.COURSE_PERIOD_ID,rcg.TITLE,rcg.ID 
@@ -99,7 +99,7 @@ foreach ( (array) $grades as $course_period_id => $cp_grades)
 {
 	$cp_grades_total = count($cp_grades);
 	for ( $i=1;$i<=$cp_grades_total;$i++)
-		$grades[$course_period_id][$i] = $grades[$course_period_id][$i]['TITLE'];
+		$grades[ $course_period_id ][ $i ] = $grades[ $course_period_id ][ $i ]['TITLE'];
 }
 */
 

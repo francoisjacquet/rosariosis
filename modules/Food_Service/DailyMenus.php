@@ -51,11 +51,11 @@ if ( $_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_se
 
 	foreach ( (array) $_REQUEST['food_service'] as $school_date => $description)
 	{
-		if ( $events_RET[$school_date])
+		if ( $events_RET[ $school_date ])
 			if ( $description['text'] || $description['select'])
-				DBQuery("UPDATE CALENDAR_EVENTS SET DESCRIPTION='".$description['text'].$description['select']."' WHERE ID='".$events_RET[$school_date][1]['ID']."'");
+				DBQuery("UPDATE CALENDAR_EVENTS SET DESCRIPTION='".$description['text'].$description['select']."' WHERE ID='".$events_RET[ $school_date ][1]['ID']."'");
 			else
-				DBQuery("DELETE FROM CALENDAR_EVENTS WHERE ID='".$events_RET[$school_date][1]['ID']."'");
+				DBQuery("DELETE FROM CALENDAR_EVENTS WHERE ID='".$events_RET[ $school_date ][1]['ID']."'");
 		else
 			if ( $description['text'] || $description['select'])
 				DBQuery("INSERT INTO CALENDAR_EVENTS (ID,SYEAR,SCHOOL_ID,SCHOOL_DATE,TITLE,DESCRIPTION) values(".db_seq_nextval('CALENDAR_EVENTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$school_date."','".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."','".$description['text'].$description['select']."')");
@@ -100,11 +100,11 @@ if ( $_REQUEST['submit']['print'])
 		$day_time = mktime(0,0,0,$_REQUEST['month'],$i,$_REQUEST['year']);
 		$date = mb_strtoupper(date('d-M-Y',$day_time));
 
-		echo '<td class="valign-top" style="height:100%; '.(count($events_RET[$date]) ? 'background-color:#ffaaaa;' : '').'"><table class="calendar-day'.(count($events_RET[$date]) ? ' hover"><tr><td><b>'.$i.'</b>' : '"><tr><td>'.$i);
+		echo '<td class="valign-top" style="height:100%; '.(count($events_RET[ $date ]) ? 'background-color:#ffaaaa;' : '').'"><table class="calendar-day'.(count($events_RET[ $date ]) ? ' hover"><tr><td><b>'.$i.'</b>' : '"><tr><td>'.$i);
 
-		if (count($events_RET[$date]))
+		if (count($events_RET[ $date ]))
 		{
-			foreach ( (array) $events_RET[$date] as $event)
+			foreach ( (array) $events_RET[ $date ] as $event)
 			{
 				if ( $event['TITLE']!=$menus_RET[$_REQUEST['menu_id']][1]['TITLE'])
 					echo '<br /><i>'.$event['TITLE'].'</i>';

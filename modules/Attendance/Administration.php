@@ -102,18 +102,18 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 {
 	foreach ( (array) $_REQUEST['attendance'] as $student_id => $values)
 	{
-		if ( !$current_schedule_RET[$student_id])
+		if ( !$current_schedule_RET[ $student_id ])
 		{
-			$current_schedule_RET[$student_id] = DBGet(DBQuery(str_replace('__student_id__',$student_id,$current_schedule_Q)),array(),array('PERIOD_ID'));
-			if ( !$current_schedule_RET[$student_id])
-				$current_schedule_RET[$student_id] = true;
+			$current_schedule_RET[ $student_id ] = DBGet(DBQuery(str_replace('__student_id__',$student_id,$current_schedule_Q)),array(),array('PERIOD_ID'));
+			if ( !$current_schedule_RET[ $student_id ])
+				$current_schedule_RET[ $student_id ] = true;
 		}
 
 		foreach ( (array) $values as $period_id => $columns)
 		{
-			if ( $current_RET[$student_id][$period_id])
+			if ( $current_RET[ $student_id ][ $period_id ])
 			{
-				$sql = "UPDATE $table SET ADMIN='Y',COURSE_PERIOD_ID='".$current_schedule_RET[$student_id][$period_id][1]['COURSE_PERIOD_ID']."',";
+				$sql = "UPDATE $table SET ADMIN='Y',COURSE_PERIOD_ID='".$current_schedule_RET[ $student_id ][ $period_id ][1]['COURSE_PERIOD_ID']."',";
 
 				foreach ( (array) $columns as $column => $value)
 					$sql .= $column."='".$value."',";
@@ -126,7 +126,7 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 				$sql = "INSERT INTO $table ";
 
 				$fields = 'STUDENT_ID,SCHOOL_DATE,PERIOD_ID,MARKING_PERIOD_ID,ADMIN,COURSE_PERIOD_ID,';
-				$values = "'".$student_id."','".$date."','".$period_id."','".$current_mp."','Y','".$current_schedule_RET[$student_id][$period_id][1]['COURSE_PERIOD_ID']."',";
+				$values = "'".$student_id."','".$date."','".$period_id."','".$current_mp."','Y','".$current_schedule_RET[ $student_id ][ $period_id ][1]['COURSE_PERIOD_ID']."',";
 				if ( $table=='LUNCH_PERIOD')
 				{
 					$fields .= 'TABLE_NAME,';
@@ -149,8 +149,8 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 					DBQuery($sql);
 			}
 		}
-		UpdateAttendanceDaily($student_id,$date,($_REQUEST['attendance_day'][$student_id]['COMMENT']?$_REQUEST['attendance_day'][$student_id]['COMMENT']:false));
-		unset($_REQUEST['attendance_day'][$student_id]);
+		UpdateAttendanceDaily($student_id,$date,($_REQUEST['attendance_day'][ $student_id ]['COMMENT']?$_REQUEST['attendance_day'][ $student_id ]['COMMENT']:false));
+		unset($_REQUEST['attendance_day'][ $student_id ]);
 	}
 	$current_RET = DBGet(DBQuery($current_Q),array(),array('STUDENT_ID','PERIOD_ID'));
 	unset($_REQUEST['attendance']);
@@ -261,7 +261,7 @@ else
 		foreach ( (array) $REQ_codes as $key => $value)
 		{
 			if ( !$value)
-				unset($REQ_codes[$key]);
+				unset($REQ_codes[ $key ]);
 			elseif ( $value=='A')
 				$abs = true;
 		}
@@ -367,11 +367,11 @@ else
 function _makeCodePulldown($value,$title)
 {	global $THIS_RET,$codes_RET,$current_RET,$current_schedule_RET,$current_schedule_Q;
 
-	if ( !$current_schedule_RET[$value])
+	if ( !$current_schedule_RET[ $value ])
 	{
-		$current_schedule_RET[$value] = DBGet(DBQuery(str_replace('__student_id__',$value,$current_schedule_Q)),array(),array('PERIOD_ID'));
-		if ( !$current_schedule_RET[$value])
-			$current_schedule_RET[$value] = true;
+		$current_schedule_RET[ $value ] = DBGet(DBQuery(str_replace('__student_id__',$value,$current_schedule_Q)),array(),array('PERIOD_ID'));
+		if ( !$current_schedule_RET[ $value ])
+			$current_schedule_RET[ $value ] = true;
 	}
 	if ( $THIS_RET['COURSE'])
 	{
@@ -384,13 +384,13 @@ function _makeCodePulldown($value,$title)
 		$code_title = 'SHORT_NAME';
 	}
 
-	if ( $current_schedule_RET[$value][$period_id])
+	if ( $current_schedule_RET[ $value ][ $period_id ])
 	{
 		foreach ( (array) $codes_RET as $code)
-			if ( $current_schedule_RET[$value][$period_id][1]['HALF_DAY']!='Y' || $code['STATE_CODE']!='H') // prune half day codes for half day courses
-				$options[$code['ID']] = $code[$code_title];
+			if ( $current_schedule_RET[ $value ][ $period_id ][1]['HALF_DAY']!='Y' || $code['STATE_CODE']!='H') // prune half day codes for half day courses
+				$options[$code['ID']] = $code[ $code_title ];
 
-		$val = $current_RET[$value][$period_id][1]['ATTENDANCE_CODE'];
+		$val = $current_RET[ $value ][ $period_id ][1]['ATTENDANCE_CODE'];
 
 		return SelectInput($val,'attendance['.$value.']['.$period_id.'][ATTENDANCE_CODE]','',$options);
 	}
@@ -403,7 +403,7 @@ function _makeCode($value,$title)
 
 	foreach ( (array) $codes_RET as $code)
 	{
-		if ( $current_RET[$value][$THIS_RET['PERIOD_ID']][1]['ATTENDANCE_TEACHER_CODE']==$code['ID'])
+		if ( $current_RET[ $value ][$THIS_RET['PERIOD_ID']][1]['ATTENDANCE_TEACHER_CODE']==$code['ID'])
 			return $code['TITLE'];
 	}
 }
@@ -411,14 +411,14 @@ function _makeCode($value,$title)
 function _makeReasonInput($value,$title)
 {	global $THIS_RET,$codes_RET,$current_RET;
 
-	$val = $current_RET[$value][$THIS_RET['PERIOD_ID']][1]['ATTENDANCE_REASON'];
+	$val = $current_RET[ $value ][$THIS_RET['PERIOD_ID']][1]['ATTENDANCE_REASON'];
 
 	return TextInput($val,'attendance['.$value.']['.$THIS_RET['PERIOD_ID'].'][ATTENDANCE_REASON]','',$options);
 }
 
 function _makeReason($value,$title)
 {	global $THIS_RET,$current_RET;
-	return $current_RET[$value][$THIS_RET['PERIOD_ID']][1]['COMMENT'];
+	return $current_RET[ $value ][$THIS_RET['PERIOD_ID']][1]['COMMENT'];
 }
 
 function _makeCodeSearch($value='')

@@ -9,10 +9,10 @@ if ( $_REQUEST['modfunc']=='update')
 	{
 		foreach ( (array) $column as $colname => $colvalue)
 		{
-			if ( $_REQUEST['day_values'][$id][$colname] && $_REQUEST['month_values'][$id][$colname] && $_REQUEST['year_values'][$id][$colname])
-				$_REQUEST['values'][$id][$colname] = $_REQUEST['day_values'][$id][$colname].'-'.
-					   $_REQUEST['month_values'][$id][$colname].'-'.
-					   $_REQUEST['year_values'][$id][$colname];
+			if ( $_REQUEST['day_values'][ $id ][ $colname ] && $_REQUEST['month_values'][ $id ][ $colname ] && $_REQUEST['year_values'][ $id ][ $colname ])
+				$_REQUEST['values'][ $id ][ $colname ] = $_REQUEST['day_values'][ $id ][ $colname ].'-'.
+					   $_REQUEST['month_values'][ $id ][ $colname ].'-'.
+					   $_REQUEST['year_values'][ $id ][ $colname ];
 		}
 	}
 
@@ -130,7 +130,7 @@ function makeTextInput($value,$name)
     else
     	$extra = 'size=10 maxlength=10';
 
-    return TextInput($value,"values[$id][$name]",'',$extra);
+    return TextInput($value,"values[ $id ][ $name ]",'',$extra);
 }
 
 function makeDateInput($value,$name)
@@ -140,7 +140,7 @@ function makeDateInput($value,$name)
         $id = $THIS_RET['MARKING_PERIOD_ID'];
     else
         $id = 'new';
-    return DateInput($value,"values[$id][$name]",'');
+    return DateInput($value,"values[ $id ][ $name ]",'');
 }
 
 function makeSelectInput($value,$name)
@@ -153,7 +153,7 @@ function makeSelectInput($value,$name)
 
     $options = array('year' => _('Year'), 'semester' => _('Semester'), 'quarter' => _('Quarter'));
 
-    return SelectInput(trim($value),"values[$id][$name]",'',$options,false);
+    return SelectInput(trim($value),"values[ $id ][ $name ]",'',$options,false);
 }
 
 function makeSchoolYearSelectInput( $value, $name )
@@ -171,7 +171,7 @@ function makeSchoolYearSelectInput( $value, $name )
 
 	foreach ( (array) $years as $year )
 		//FJ school year over one/two calendar years format
-		$options[$year] = FormatSyear( $year, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
+		$options[ $year ] = FormatSyear( $year, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 
 	return SelectInput( trim( $value ), "values[" . $id . "][" . $name . "]", '', $options, false );
 }

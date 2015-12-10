@@ -30,9 +30,9 @@ if ( $_REQUEST['modfunc']=='submit')
 			foreach ( (array) $_SESSION['FSA_sale'] as $item_sn)
 			{
 
-				$price = $items_RET[$item_sn][1]['PRICE_STAFF'];
+				$price = $items_RET[ $item_sn ][1]['PRICE_STAFF'];
 				$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,SHORT_NAME,DESCRIPTION';
-				$values = "'".$item_id++."','".$id."','-".$price."','".$items_RET[$item_sn][1]['SHORT_NAME']."','".$items_RET[$item_sn][1]['DESCRIPTION']."'";
+				$values = "'".$item_id++."','".$id."','-".$price."','".$items_RET[ $item_sn ][1]['SHORT_NAME']."','".$items_RET[ $item_sn ][1]['DESCRIPTION']."'";
 				$sql = "INSERT INTO FOOD_SERVICE_STAFF_TRANSACTION_ITEMS (".$fields.") values (".$values.")";
 				DBQuery($sql);
 			}
@@ -113,8 +113,8 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 			foreach ( (array) $_SESSION['FSA_sale'] as $id => $item_sn)
 			{
 
-				$price = $items_RET[$item_sn][1]['PRICE_STAFF'];
-				$LO_ret[] = array('SALE_ID' => $id,'PRICE' => $price,'DESCRIPTION' => $items_RET[$item_sn][1]['DESCRIPTION'],'ICON' => $items_RET[$item_sn][1]['ICON']);
+				$price = $items_RET[ $item_sn ][1]['PRICE_STAFF'];
+				$LO_ret[] = array('SALE_ID' => $id,'PRICE' => $price,'DESCRIPTION' => $items_RET[ $item_sn ][1]['DESCRIPTION'],'ICON' => $items_RET[ $item_sn ][1]['ICON']);
 			}
 			
 		unset($LO_ret[0]);

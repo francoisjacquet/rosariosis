@@ -40,8 +40,8 @@ function Widgets( $item, &$myextra = null )
 	// if insufficient rights or already saved widget, exit
 	if ( ( User('PROFILE') !== 'admin'
 			&& User( 'PROFILE' ) !== 'teacher' )
-		|| ( isset( $_ROSARIO['Widgets'][$item] )
-			&& $_ROSARIO['Widgets'][$item] ) )
+		|| ( isset( $_ROSARIO['Widgets'][ $item ] )
+			&& $_ROSARIO['Widgets'][ $item ] ) )
 	{
 		return false;
 	}
@@ -698,7 +698,7 @@ function Widgets( $item, &$myextra = null )
 				{
 					$letter_grades .= ",'" . $grade . "'";
 
-					$LetterGradeSearchTerms .= $letter_grades_RET[$grade][1]['TITLE'].', ';
+					$LetterGradeSearchTerms .= $letter_grades_RET[ $grade ][1]['TITLE'].', ';
 				}
 
 				$LetterGradeSearchTerms = mb_substr( $LetterGradeSearchTerms, 0, -2 ) . '<br />';
@@ -1139,16 +1139,16 @@ function Widgets( $item, &$myextra = null )
 
 				for ( $i = 0; $i < $size; $i++ )
 				{
-					if ( !( $_REQUEST['discipline'][$key[$i]] ) )
+					if ( !( $_REQUEST['discipline'][$key[ $i ]] ) )
 					{
-						unset( $_REQUEST['discipline'][$key[$i]] );
+						unset( $_REQUEST['discipline'][$key[ $i ]] );
 					}
 				}
 
 				/*foreach ( (array) $_REQUEST['discipline'] as $key => $value)
 				{
 					if(!$value)
-						unset($_REQUEST['discipline'][$key]);
+						unset($_REQUEST['discipline'][ $key ]);
 				}*/
 			}
 
@@ -1161,16 +1161,16 @@ function Widgets( $item, &$myextra = null )
 				$size = count( $key );
 
 				for ( $i = 0; $i < $size; $i++ )
-					if ( !( $_REQUEST['discipline_begin'][$key[$i]] )
-						|| !is_numeric( $_REQUEST['discipline_begin'][$key[$i]] ) )
+					if ( !( $_REQUEST['discipline_begin'][$key[ $i ]] )
+						|| !is_numeric( $_REQUEST['discipline_begin'][$key[ $i ]] ) )
 					{
-						unset( $_REQUEST['discipline_begin'][$key[$i]] );
+						unset( $_REQUEST['discipline_begin'][$key[ $i ]] );
 					}
 
 				/*foreach ( (array) $_REQUEST['discipline_begin'] as $key => $value)
 				{
 					if(!$value)
-						unset($_REQUEST['discipline_begin'][$key]);
+						unset($_REQUEST['discipline_begin'][ $key ]);
 				}*/
 			}
 
@@ -1182,16 +1182,16 @@ function Widgets( $item, &$myextra = null )
 				$size = count( $key );
 
 				for ( $i = 0; $i < $size; $i++ )
-					if ( !( $_REQUEST['discipline_end'][$key[$i]] )
-						|| !is_numeric( $_REQUEST['discipline_end'][$key[$i]] ) )
+					if ( !( $_REQUEST['discipline_end'][$key[ $i ]] )
+						|| !is_numeric( $_REQUEST['discipline_end'][$key[ $i ]] ) )
 					{
-						unset( $_REQUEST['discipline_end'][$key[$i]] );
+						unset( $_REQUEST['discipline_end'][$key[ $i ]] );
 					}
 
 				/*foreach ( (array) $_REQUEST['discipline_end'] as $key => $value)
 				{
 					if(!$value)
-						unset($_REQUEST['discipline_end'][$key]);
+						unset($_REQUEST['discipline_end'][ $key ]);
 				}*/
 			}
 
@@ -1343,7 +1343,7 @@ function Widgets( $item, &$myextra = null )
 			);
 
 			foreach ( (array) $schools_RET as $id => $school )
-				$next_year_options[$id] = $school[1]['TITLE'];
+				$next_year_options[ $id ] = $school[1]['TITLE'];
 
 			if ( $_REQUEST['next_year'] )
 			{
@@ -1716,7 +1716,7 @@ function Widgets( $item, &$myextra = null )
 		break;
 	}
 
-	$_ROSARIO['Widgets'][$item] = true;
+	$_ROSARIO['Widgets'][ $item ] = true;
 
 	return true;
 }

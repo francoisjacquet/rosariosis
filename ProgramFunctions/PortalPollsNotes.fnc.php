@@ -66,7 +66,7 @@ function PortalPollsSaveVotes($poll_questions_RET, $votes_array)
 			if (is_array($votes_array[$question['ID']])) //multiple
 			{
 				foreach ($votes_array[$question['ID']] as $checked_box)
-					$voted_array[$question['ID']][$checked_box]++;
+					$voted_array[$question['ID']][ $checked_box ]++;
 			}
 			else //multiple_radio
 				$voted_array[$question['ID']][$votes_array[$question['ID']]]++;
@@ -79,14 +79,14 @@ function PortalPollsSaveVotes($poll_questions_RET, $votes_array)
 			if (is_array($votes_array[$question['ID']])) //multiple
 			{
 				foreach ($options_array as $option_nb => $option_label)
-					$voted_array[$question['ID']][$option_nb] = 0;
+					$voted_array[$question['ID']][ $option_nb ] = 0;
 
 				foreach ($votes_array[$question['ID']] as $checked_box)
-					$voted_array[$question['ID']][$checked_box]++;
+					$voted_array[$question['ID']][ $checked_box ]++;
 			}
 			else //multiple_radio
 				foreach ($options_array as $option_nb => $option_label)
-					$voted_array[$question['ID']][$option_nb] = ($votes_array[$question['ID']] == $option_nb ? 1 : 0);
+					$voted_array[$question['ID']][ $option_nb ] = ($votes_array[$question['ID']] == $option_nb ? 1 : 0);
 		}
 
 		$voted_array[$question['ID']] = implode('||', $voted_array[$question['ID']]);
@@ -95,7 +95,7 @@ function PortalPollsSaveVotes($poll_questions_RET, $votes_array)
 		DBQuery("UPDATE PORTAL_POLL_QUESTIONS SET VOTES='".$voted_array[$question['ID']]."' WHERE ID='".$question['ID']."'");
 
 		//update the $poll_questions_RET array with Votes
-		$poll_questions_RET[$key]['VOTES'] = $voted_array[$question['ID']];
+		$poll_questions_RET[ $key ]['VOTES'] = $voted_array[$question['ID']];
 	}
 	
 	return $poll_questions_RET;
@@ -239,10 +239,10 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 
 		for ($i=0; $i < $options_array_count; $i++)
 		{
-			$percent = round(($votes_array[$i]/$total_votes)*100);
+			$percent = round(($votes_array[ $i ]/$total_votes)*100);
 
 			$votes_display .= '<tr>
-				<td>'.$options_array[$i].'</td>
+				<td>'.$options_array[ $i ].'</td>
 				<td><div class="bar" style="width:'.$percent.'px;">&nbsp;</div></td>
 				<td><b> '.$percent.'%</b></td>
 			</tr>'."\n";

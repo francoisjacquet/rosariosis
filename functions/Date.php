@@ -450,20 +450,20 @@ function RequestedDates( $day_array, $month_array, $year_array )
 		if ( !is_array( $month ) )
 		{
 			$date = RequestedDate(
-				$day_array[$field_name],
+				$day_array[ $field_name ],
 				$month,
-				$year_array[$field_name]
+				$year_array[ $field_name ]
 			);
 
 			if ( !empty( $date ) )
-				$return[$field_name] = $date;
+				$return[ $field_name ] = $date;
 		}
 		else
 		{
-			$dates = RequestedDates( $day_array[$field_name], $month, $year_array[$field_name] );
+			$dates = RequestedDates( $day_array[ $field_name ], $month, $year_array[ $field_name ] );
 
 			if ( !empty( $dates ) )
-				$return[$field_name] = $dates;
+				$return[ $field_name ] = $dates;
 		}
 	}
 
@@ -538,7 +538,7 @@ function __mnwswitch_num2char( $month )
 		$month = '0' . $month;
 
 	if ( array_key_exists( $month, $months_number ) )
-		return $months_number[$month];
+		return $months_number[ $month ];
 
 	else 
 		return $month;
@@ -573,7 +573,7 @@ function __mnwswitch_char2num( $month )
 	$month = mb_strtoupper( $month );
 
 	if ( array_key_exists( $month, $months_number ) )
-		return $months_number[$month];
+		return $months_number[ $month ];
 
 	else 
 		return $month;

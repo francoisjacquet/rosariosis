@@ -269,8 +269,8 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 			foreach ( (array) $chart['chart_data'][1] as $key => $y )
 				$chart_data[] = array(
-					'TITLE' => $chart['chart_data'][2][$key],
-					'GPA' => $chart['chart_data'][0][$key],
+					'TITLE' => $chart['chart_data'][2][ $key ],
+					'GPA' => $chart['chart_data'][0][ $key ],
 					'VALUE' => $y
 				);
 
@@ -302,11 +302,11 @@ if ( empty( $_REQUEST['modfunc'] ) )
 				foreach ( (array) $chart['chart_data'][0] as $i => $x )
 				{
 					//remove empty slices not to overload the legends
-					if ( $chart['chart_data'][1][$i] > 0 )
+					if ( $chart['chart_data'][1][ $i ] > 0 )
 					{
-						$chartData[0][] = $chart['chart_data'][2][$i] . ', ' . $x;
+						$chartData[0][] = $chart['chart_data'][2][ $i ] . ', ' . $x;
 
-						$chartData[1][] = $chart['chart_data'][1][$i];
+						$chartData[1][] = $chart['chart_data'][1][ $i ];
 					}
 				}
 

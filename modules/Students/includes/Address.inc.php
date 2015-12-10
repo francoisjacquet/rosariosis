@@ -1000,7 +1000,7 @@ function _makePeopleInput($value,$column,$title='')
 	else
 		$table = 'PEOPLE';
 
-	return TextInput($value,"values[$table][$column]",$title,$options,false);
+	return TextInput($value,"values[ $table ][ $column ]",$title,$options,false);
 }
 
 function _makeAutoSelect($column,$table,$values='',$options=array())
@@ -1016,19 +1016,19 @@ function _makeAutoSelect($column,$table,$values='',$options=array())
 		$options_RET = DBGet(DBQuery("SELECT DISTINCT $column,upper($column) AS SORT_KEY FROM $table ORDER BY SORT_KEY"));
 		if (count($options_RET))
 			foreach ( (array) $options_RET as $option)
-				if ( $option[$column]!='' && !$options[$option[$column]])
-					$options[$option[$column]] = array($option[$column],$option[$column]);
+				if ( $option[ $column ]!='' && !$options[$option[ $column ]])
+					$options[$option[ $column ]] = array($option[ $column ],$option[ $column ]);
 	}
 	// make sure values are in the list
 	if (isset($values) && is_array($values))
 	{
 		foreach ( (array) $values as $value)
-			if ( $value[$column]!='' && !$options[$value[$column]])
-				$options[$value[$column]] = array($value[$column],$value[$column]);
+			if ( $value[ $column ]!='' && !$options[$value[ $column ]])
+				$options[$value[ $column ]] = array($value[ $column ],$value[ $column ]);
 	}
 	else
-		if ( $values!='' && !$options[$values])
-			$options[$values] = array($values,$values);
+		if ( $values!='' && !$options[ $values ])
+			$options[ $values ] = array($values,$values);
 
 	return $options;
 }
@@ -1045,9 +1045,9 @@ function _makeAutoSelectInputX($value,$column,$table,$title,$select,$id='',$div=
 		$options = 'maxlength=100';
 
 	if ( $value!='---' && count($select)>1)
-		return SelectInput($value,"values[$table]".($id?"[$id]":'')."[$column]",$title,$select,_('N/A'),'',$div);
+		return SelectInput($value,"values[ $table ]".($id?"[ $id ]":'')."[ $column ]",$title,$select,_('N/A'),'',$div);
 	else
 //FJ new option
-//		return TextInput($value=='---'?array('---','<span style="color:red">---</span>'):$value,"values[$table]".($id?"[$id]":'')."[$column]",$title,$options,$div);
-		return TextInput($value=='---'?array('---','<span style="color:red">-'. _('Edit') .'-</span>'):$value,"values[$table]".($id?"[$id]":'')."[$column]",$title,$options,$div);
+//		return TextInput($value=='---'?array('---','<span style="color:red">---</span>'):$value,"values[ $table ]".($id?"[ $id ]":'')."[ $column ]",$title,$options,$div);
+		return TextInput($value=='---'?array('---','<span style="color:red">-'. _('Edit') .'-</span>'):$value,"values[ $table ]".($id?"[ $id ]":'')."[ $column ]",$title,$options,$div);
 }

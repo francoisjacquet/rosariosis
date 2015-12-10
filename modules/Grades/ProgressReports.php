@@ -11,7 +11,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 	if (count($config_RET))
 		foreach ( (array) $config_RET as $title => $value)
-			$programconfig[User('STAFF_ID')][$title] = $value[1]['VALUE'];
+			$programconfig[User('STAFF_ID')][ $title ] = $value[1]['VALUE'];
 	else
 		$programconfig[User('STAFF_ID')] = true;
 
@@ -90,10 +90,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$sum_points = $sum_percent = 0;
 			foreach ( (array) $percent_weights as $assignment_type_id => $percent)
 			{
-				$sum_student_points += $student_points[$assignment_type_id];
-				$sum_total_points += $total_points[$assignment_type_id];
-				$sum_points += $student_points[$assignment_type_id]*($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$percent/$total_points[$assignment_type_id]:1);
-				$sum_percent += ($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$percent:$total_points[$assignment_type_id]);
+				$sum_student_points += $student_points[ $assignment_type_id ];
+				$sum_total_points += $total_points[ $assignment_type_id ];
+				$sum_points += $student_points[ $assignment_type_id ]*($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$percent/$total_points[ $assignment_type_id ]:1);
+				$sum_percent += ($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$percent:$total_points[ $assignment_type_id ]);
 			}
 			if ( $sum_percent>0)
 				$sum_points /= $sum_percent;
@@ -104,10 +104,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				foreach ( (array) $grades_RET as $assignment_type_id => $grades)
 				{
 //FJ remove LO_field
-					$grades_RET[$assignment_type_id][] = array('TITLE'=>_removeSpaces('<b>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</b>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),_Percent($percent_weights[$assignment_type_id]/$sum_percent)).')':''),'TITLE'),
+					$grades_RET[ $assignment_type_id ][] = array('TITLE'=>_removeSpaces('<b>'.$grades[1]['CATEGORY_TITLE'].' '._('Total').'</b>'.($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'&&$sum_percent>0?' ('.sprintf(_('%s of grade'),_Percent($percent_weights[ $assignment_type_id ]/$sum_percent)).')':''),'TITLE'),
 						'ASSIGNED_DATE' => '&nbsp;','DUE_DATE' => '&nbsp;',
-						'POINTS' => '<table class="cellspacing-0"><tr><td><span class="size-1"><b>'.$student_points[$assignment_type_id].'</b></span></td><td><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></td><td><span class="size-1"><b>'.$total_points[$assignment_type_id].'</b></span></td></tr></table>',
-						'PERCENT_GRADE' => $total_points[$assignment_type_id]?'<b>'._Percent($student_points[$assignment_type_id]/$total_points[$assignment_type_id]).'</b>':'&nbsp;');
+						'POINTS' => '<table class="cellspacing-0"><tr><td><span class="size-1"><b>'.$student_points[ $assignment_type_id ].'</b></span></td><td><span class="size-1">&nbsp;<b>/</b>&nbsp;</span></td><td><span class="size-1"><b>'.$total_points[ $assignment_type_id ].'</b></span></td></tr></table>',
+						'PERCENT_GRADE' => $total_points[ $assignment_type_id ]?'<b>'._Percent($student_points[ $assignment_type_id ]/$total_points[ $assignment_type_id ]).'</b>':'&nbsp;');
 				}
 			}
 			$link['add']['html'] = array('TITLE' => '<b>Total</b>',

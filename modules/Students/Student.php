@@ -26,7 +26,7 @@ else
 
 	if (in_array($_REQUEST['category_id'], array_keys($categories)))
 	{
-		$include = $categories[$category_id];
+		$include = $categories[ $category_id ];
 	}
 	else
 	{

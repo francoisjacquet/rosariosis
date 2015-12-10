@@ -47,7 +47,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							else
 								$name = $address['FULL_NAME'];
 
-							$addresses[$key]['MAILING_LABEL'] = $name.'<br />'.mb_substr($address['MAILING_LABEL'],mb_strpos($address['MAILING_LABEL'],'<!-- -->'));
+							$addresses[ $key ]['MAILING_LABEL'] = $name.'<br />'.mb_substr($address['MAILING_LABEL'],mb_strpos($address['MAILING_LABEL'],'<!-- -->'));
 						}
 					}
 					elseif ( $_REQUEST['to_address']=='family')

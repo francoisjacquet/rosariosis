@@ -99,7 +99,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					
 			foreach ( (array) $t_grades as $student_id => $mps)
 			{
-				$student_data = $students_data[$student_id][1];
+				$student_data = $students_data[ $student_id ][1];
 
 				echo '<table class="width-100p"><tr class="valign-top"><td>';
 				//Student Photo
@@ -204,30 +204,30 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				foreach ( (array) $mps as $mp_id => $grades)
 				{
-					$columns[$mp_id] = $grades[1]['SHORT_NAME'];
+					$columns[ $mp_id ] = $grades[1]['SHORT_NAME'];
 					//$i = 1;
 
 					foreach ( (array) $grades as $grade)
 					{
 						$i = $grade['COURSE_TITLE'];
 
-						$listOutput_RET[$i]['COURSE_TITLE'] = $grade['COURSE_TITLE'];
+						$listOutput_RET[ $i ]['COURSE_TITLE'] = $grade['COURSE_TITLE'];
 						
 						if ( $showGrades)
 						{
 							if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
-								$listOutput_RET[$i][$mp_id] = $grade['GRADE_PERCENT'].'%';
+								$listOutput_RET[ $i ][ $mp_id ] = $grade['GRADE_PERCENT'].'%';
 							elseif ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
-								$listOutput_RET[$i][$mp_id] = $grade['GRADE_LETTER'];
+								$listOutput_RET[ $i ][ $mp_id ] = $grade['GRADE_LETTER'];
 							else
-								$listOutput_RET[$i][$mp_id] = $grade['GRADE_LETTER'].'&nbsp;&nbsp;'.$grade['GRADE_PERCENT'].'%';
+								$listOutput_RET[ $i ][ $mp_id ] = $grade['GRADE_LETTER'].'&nbsp;&nbsp;'.$grade['GRADE_PERCENT'].'%';
 						}
 
 						if ( $showCredits)
 						{
 							if ((strpos($mp_type_list, 'year')!==false && $grade['MP_TYPE']!='quarter' && $grade['MP_TYPE']!='semester') || (strpos($mp_type_list, 'semester')!==false && $grade['MP_TYPE']!='quarter') || (strpos($mp_type_list, 'year')===false && strpos($mp_type_list, 'semester')===false && $grade['MP_TYPE']=='quarter'))
 							{
-								$listOutput_RET[$i]['CREDIT_EARNED'] += sprintf('%01.2f', $grade['CREDIT_EARNED']);
+								$listOutput_RET[ $i ]['CREDIT_EARNED'] += sprintf('%01.2f', $grade['CREDIT_EARNED']);
 								$total_credit_earned += $grade['CREDIT_EARNED'];
 								$total_credit_attempted += $grade['CREDIT_ATTEMPTED'];
 							}
@@ -235,14 +235,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 						if ( $showCreditHours)
 						{
-							if ( !isset($listOutput_RET[$i]['CREDIT_HOURS']))
+							if ( !isset($listOutput_RET[ $i ]['CREDIT_HOURS']))
 							{
-								$listOutput_RET[$i]['CREDIT_HOURS'] = ((int)$grade['CREDIT_HOURS'] == $grade['CREDIT_HOURS'] ? (int)$grade['CREDIT_HOURS'] : $grade['CREDIT_HOURS']);
+								$listOutput_RET[ $i ]['CREDIT_HOURS'] = ((int)$grade['CREDIT_HOURS'] == $grade['CREDIT_HOURS'] ? (int)$grade['CREDIT_HOURS'] : $grade['CREDIT_HOURS']);
 							}
 						}
 
 						if ( $showMPcomments)
-							$listOutput_RET[$i]['COMMENT'] = $grade['COMMENT'];
+							$listOutput_RET[ $i ]['COMMENT'] = $grade['COMMENT'];
 						//$i++;
 					}
 				}

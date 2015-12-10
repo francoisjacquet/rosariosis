@@ -30,7 +30,7 @@ function GetMP( $mp_id, $column = 'TITLE' )
 			AND SCHOOL_ID='" . UserSchool() . "'" ), array(), array( 'MARKING_PERIOD_ID' ) );
 	}
 
-	return $_ROSARIO['GetMP'][$mp_id][1][$column];
+	return $_ROSARIO['GetMP'][ $mp_id ][1][ $column ];
 }
 
 
@@ -69,7 +69,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 	}
 
 	if ( is_null( $all_mp )
-		|| !isset( $all_mp[$mp] ) )
+		|| !isset( $all_mp[ $mp ] ) )
 	{
 		$error_no_qtr = array( _( 'No quarters found' ) );
 
@@ -118,12 +118,12 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 				{
 					$qtr_id = $qtr['MARKING_PERIOD_ID'];
 
-					$all_mp[$mp][$qtr_id] = "'" . $fy . "','" . $value['PARENT_ID'] . "','" . $qtr_id . "'";
+					$all_mp[ $mp ][ $qtr_id ] = "'" . $fy . "','" . $value['PARENT_ID'] . "','" . $qtr_id . "'";
 
-					$all_mp[$mp][$qtr_id] .= ',' . GetChildrenMP( $mp, $qtr_id );
+					$all_mp[ $mp ][ $qtr_id ] .= ',' . GetChildrenMP( $mp, $qtr_id );
 
-					/*if ( mb_substr( $all_mp[$mp][$value['MARKING_PERIOD_ID']], -1 ) === ',' )
-						$all_mp[$mp][$value['MARKING_PERIOD_ID']] = mb_substr( $all_mp[$mp][$qtr_id], 0, -1 );*/
+					/*if ( mb_substr( $all_mp[ $mp ][$value['MARKING_PERIOD_ID']], -1 ) === ',' )
+						$all_mp[ $mp ][$value['MARKING_PERIOD_ID']] = mb_substr( $all_mp[ $mp ][ $qtr_id ], 0, -1 );*/
 				}
 
 			break;
@@ -134,7 +134,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 				{
 					$qtr_id = $qtr['MARKING_PERIOD_ID'];
 
-					$all_mp[$mp][$qtr_id] = "'" . $fy . "','" . $qtr['PARENT_ID'] . "','" . $qtr_id . "'";
+					$all_mp[ $mp ][ $qtr_id ] = "'" . $fy . "','" . $qtr['PARENT_ID'] . "','" . $qtr_id . "'";
 				}
 
 			break;
@@ -143,11 +143,11 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 				foreach ( (array) $qtr_RET as $sem => $qtrs )
 				{
-					$all_mp[$mp][$sem] = "'" . $fy . "','" . $sem . "'";
+					$all_mp[ $mp ][ $sem ] = "'" . $fy . "','" . $sem . "'";
 
 					foreach ( (array) $qtrs as $qtr )
 					{
-						$all_mp[$mp][$sem] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
+						$all_mp[ $mp ][ $sem ] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
 					}
 				}
 
@@ -157,7 +157,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 				{
 					$sem_id = $sem['MARKING_PERIOD_ID'];
 
-					$all_mp[$mp][$sem_id] = "'" . $fy . "','" . $sem_id . "'";
+					$all_mp[ $mp ][ $sem_id ] = "'" . $fy . "','" . $sem_id . "'";
 				}
 
 			break;
@@ -165,15 +165,15 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 			case 'FY':
 
 				// there should be exactly one fy marking period which better be $marking_period_id
-				$all_mp[$mp][$marking_period_id] = "'" . $marking_period_id . "'";
+				$all_mp[ $mp ][ $marking_period_id ] = "'" . $marking_period_id . "'";
 			
 				foreach ( (array) $qtr_RET as $sem => $qtrs )
 				{
-					$all_mp[$mp][$marking_period_id] .= ",'" . $sem . "'";
+					$all_mp[ $mp ][ $marking_period_id ] .= ",'" . $sem . "'";
 
 					foreach ( (array) $qtrs as $qtr )
 					{
-						$all_mp[$mp][$marking_period_id] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
+						$all_mp[ $mp ][ $marking_period_id ] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
 					}
 				}
 
@@ -181,14 +181,14 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 				foreach ( (array) $sem_RET as $sem )
 				{
-					$all_mp[$mp][$marking_period_id] .= ",'" . $sem['MARKING_PERIOD_ID'] . "'";
+					$all_mp[ $mp ][ $marking_period_id ] .= ",'" . $sem['MARKING_PERIOD_ID'] . "'";
 				}
 
 			break;
 		}
 	}
 
-	return $all_mp[$mp][$marking_period_id];
+	return $all_mp[ $mp ][ $marking_period_id ];
 }
 
 
@@ -207,7 +207,7 @@ function GetParentMP( $mp, $marking_period_id )
 	static $parent_mp = null;
 
 	if ( is_null( $parent_mp )
-		|| !isset( $parent_mp[$mp] ) )
+		|| !isset( $parent_mp[ $mp ] ) )
 	{
 		switch ( $mp )
 		{
@@ -236,10 +236,10 @@ function GetParentMP( $mp, $marking_period_id )
 				return false;
 		}
 
-		$parent_mp[$mp] = DBGet( DBQuery( $parent_SQL ), array(), array( 'MARKING_PERIOD_ID' ) );
+		$parent_mp[ $mp ] = DBGet( DBQuery( $parent_SQL ), array(), array( 'MARKING_PERIOD_ID' ) );
 	}
 
-	return $parent_mp[$mp][$marking_period_id][1]['PARENT_ID'];
+	return $parent_mp[ $mp ][ $marking_period_id ][1]['PARENT_ID'];
 }
 
 
@@ -269,7 +269,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 	}
 
 	if ( is_null( $children_mp )
-		|| !isset( $children_mp[$mp] ) )
+		|| !isset( $children_mp[ $mp ] ) )
 	{
 		$qtr_SQL = "SELECT MARKING_PERIOD_ID,PARENT_ID
 			FROM SCHOOL_MARKING_PERIODS
@@ -285,17 +285,17 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 
 				foreach ( (array) $qtr_RET as $sem => $qtrs )
 				{
-					$children_mp[$mp]['0'] .= ",'" . $sem . "'";
+					$children_mp[ $mp ]['0'] .= ",'" . $sem . "'";
 
 					foreach ( (array) $qtrs as $qtr )
 					{
-						$children_mp[$mp]['0'] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
+						$children_mp[ $mp ]['0'] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
 					}
 				}
 
-				$children_mp[$mp]['0'] = mb_substr( $children_mp[$mp][0], 1 );
+				$children_mp[ $mp ]['0'] = mb_substr( $children_mp[ $mp ][0], 1 );
 
-				return $children_mp[$mp]['0'];
+				return $children_mp[ $mp ]['0'];
 
 			break;
 
@@ -307,17 +307,17 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 				{
 					foreach ( (array) $qtrs as $qtr )
 					{
-						$children_mp[$mp][$sem] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
+						$children_mp[ $mp ][ $sem ] .= ",'" . $qtr['MARKING_PERIOD_ID'] . "'";
 					}
 
-					$children_mp[$mp][$sem] = mb_substr( $children_mp[$mp][$sem], 1 );
+					$children_mp[ $mp ][ $sem ] = mb_substr( $children_mp[ $mp ][ $sem ], 1 );
 				}
 
 			break;
 
 			case 'QTR':
 
-				$children_mp[$mp][$marking_period_id] = "'" . $marking_period_id . "'";
+				$children_mp[ $mp ][ $marking_period_id ] = "'" . $marking_period_id . "'";
 
 			break;
 
@@ -333,17 +333,17 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 				{
 					foreach ( (array) $pros as $pro )
 					{
-						$children_mp[$mp][$qtr] .= ",'" . $pro['MARKING_PERIOD_ID'] . "'";
+						$children_mp[ $mp ][ $qtr ] .= ",'" . $pro['MARKING_PERIOD_ID'] . "'";
 					}
 
-					$children_mp[$mp][$qtr] = mb_substr( $children_mp[$mp][$qtr], 1 );
+					$children_mp[ $mp ][ $qtr ] = mb_substr( $children_mp[ $mp ][ $qtr ], 1 );
 				}
 
 			break;
 		}
 	}
 
-	return $children_mp[$mp][$marking_period_id];
+	return $children_mp[ $mp ][ $marking_period_id ];
 }
 
 
@@ -365,9 +365,9 @@ function GetCurrentMP( $mp, $date, $error = true )
 	static $current_mp = null;
 
 	if ( is_null( $current_mp )
-		|| !isset( $current_mp[$date][$mp] ) )
+		|| !isset( $current_mp[ $date ][ $mp ] ) )
 	{
-		$current_mp[$date][$mp] = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+		$current_mp[ $date ][ $mp ] = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='" . $mp . "'
 			AND '" . $date . "' BETWEEN START_DATE AND END_DATE
@@ -375,9 +375,9 @@ function GetCurrentMP( $mp, $date, $error = true )
 			AND SCHOOL_ID='" . UserSchool() . "'" ) );
 	}
 
-	if ( isset( $current_mp[$date][$mp][1]['MARKING_PERIOD_ID'] ) )
+	if ( isset( $current_mp[ $date ][ $mp ][1]['MARKING_PERIOD_ID'] ) )
 	{
-		return $current_mp[$date][$mp][1]['MARKING_PERIOD_ID'];
+		return $current_mp[ $date ][ $mp ][1]['MARKING_PERIOD_ID'];
 	}
 	elseif ( $error )
 	{

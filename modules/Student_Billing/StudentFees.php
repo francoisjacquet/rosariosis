@@ -17,8 +17,8 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		{
 			foreach ( (array) $columns as $column => $value)
 			{
-				if ( $_REQUEST['day_'][$id][$column] && $_REQUEST['month_'][$id][$column] && $_REQUEST['year_'][$id][$column])
-					$_REQUEST['values'][$id][$column] = $_REQUEST['day_'][$id][$column].'-'.$_REQUEST['month_'][$id][$column].'-'.$_REQUEST['year_'][$id][$column];
+				if ( $_REQUEST['day_'][ $id ][ $column ] && $_REQUEST['month_'][ $id ][ $column ] && $_REQUEST['year_'][ $id ][ $column ])
+					$_REQUEST['values'][ $id ][ $column ] = $_REQUEST['day_'][ $id ][ $column ].'-'.$_REQUEST['month_'][ $id ][ $column ].'-'.$_REQUEST['year_'][ $id ][ $column ];
 			}
 		}
 	}
@@ -97,11 +97,11 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	$RET = array();
 	foreach ( (array) $fees_RET as $fee)
 	{
-		$RET[$i] = $fee;
+		$RET[ $i ] = $fee;
 		if ( $waived_fees_RET[$fee['ID']])
 		{
 			$i++;
-			$RET[$i] = ($waived_fees_RET[$fee['ID']][1] + array('row_color' => '00FF66'));
+			$RET[ $i ] = ($waived_fees_RET[$fee['ID']][1] + array('row_color' => '00FF66'));
 		}
 		$i++;
 	}

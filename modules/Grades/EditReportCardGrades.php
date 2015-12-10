@@ -199,12 +199,12 @@ if ( UserStudentID() )
 
 		echo PopTable( 'header', $displayname );
 
-		echo '<table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">'._('Marking Period Statistics').'</td></tr><tr><td>'._('GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['weighted_gpa']).'</td><td>'._('Unweighted').": ".sprintf('%0.3f',$gmp[$mp_id]['unweighted_gpa']).'</td></tr>';
-		echo '<tr><td>'._('Class Rank GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_weighted']).'</td><td>'._('Unweighted').': '.sprintf('%0.3f',$gmp[$mp_id]['cr_unweighted']).'</td></tr></table>';
+		echo '<table style="border-collapse:separate; border-spacing:6px;"><tr><td colspan="3" class="center">'._('Marking Period Statistics').'</td></tr><tr><td>'._('GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[ $mp_id ]['weighted_gpa']).'</td><td>'._('Unweighted').": ".sprintf('%0.3f',$gmp[ $mp_id ]['unweighted_gpa']).'</td></tr>';
+		echo '<tr><td>'._('Class Rank GPA').'</td><td>'._('Weighted').': '.sprintf('%0.3f',$gmp[ $mp_id ]['cr_weighted']).'</td><td>'._('Unweighted').': '.sprintf('%0.3f',$gmp[ $mp_id ]['cr_unweighted']).'</td></tr></table>';
 
 		echo PopTable( 'footer' ) . '<br />';
 
-		$sms_grade_level = TextInput($gmp[$mp_id]['grade_level'],"SMS_GRADE_LEVEL",_('Grade Level'),'size=3 maxlength=3');
+		$sms_grade_level = TextInput($gmp[ $mp_id ]['grade_level'],"SMS_GRADE_LEVEL",_('Grade Level'),'size=3 maxlength=3');
 
 		if ( $mp_id=="0")
 		{
