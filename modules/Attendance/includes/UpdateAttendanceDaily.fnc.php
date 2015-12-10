@@ -2,7 +2,7 @@
 
 function UpdateAttendanceDaily($student_id,$date='',$comment=false)
 {
-	if ( !$date)
+	if ( ! $date)
 		$date = DBDate();
 
 	//FJ days numbered

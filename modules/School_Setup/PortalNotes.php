@@ -16,7 +16,7 @@ if ( $_REQUEST['day_values'] && $_POST['day_values'])
 		elseif (isset($_REQUEST['day_values'][ $id ]['END_DATE']) && isset($_REQUEST['month_values'][ $id ]['END_DATE']) && isset($_REQUEST['year_values'][ $id ]['END_DATE']))
 			$_REQUEST['values'][ $id ]['END_DATE'] = '';
 	}
-	if ( !$_POST['values'])
+	if ( ! $_POST['values'])
 		$_POST['values'] = $_REQUEST['values'];
 }
 

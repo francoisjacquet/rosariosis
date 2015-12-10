@@ -18,7 +18,7 @@ DrawHeader(
 	)
 );
 
-if ( !$_REQUEST['missing'] && !$_REQUEST['negative'] && !$_REQUEST['max_allowed'])
+if ( ! $_REQUEST['missing'] && ! $_REQUEST['negative'] && ! $_REQUEST['max_allowed'])
 	$_REQUEST['missing'] = $_REQUEST['negative'] = $_REQUEST['max_allowed'] = 'Y';
 DrawHeader(_('Include').': <label>'.CheckBoxOnclick('missing').' '._('Missing Grades').'</label> &nbsp;<label>'.CheckBoxOnclick('negative').' '._('Excused and Negative Grades').'</label> &nbsp;<label>'.CheckBoxOnclick('max_allowed').' '.sprintf(_('Exceed %d%% and Extra Credit Grades'),($max_allowed*100)).'</label>');
 echo '</form>';

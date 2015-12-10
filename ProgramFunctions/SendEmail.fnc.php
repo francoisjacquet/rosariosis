@@ -44,7 +44,7 @@ function SendEmail($to, $subject, $message, $from = null, $cc = null)
 			FILTER_SANITIZE_EMAIL
 		));
 
-		if ( !$programname )
+		if ( ! $programname )
 			$programname = 'rosariosis';
 
 		$from = $programname . '@' . $sitename;

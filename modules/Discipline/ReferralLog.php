@@ -7,7 +7,7 @@ $extra['new'] = true;
 
 $extra['action'] .= '&_ROSARIO_PDF=true';
 
-if ( !$_REQUEST['search_modfunc'] )
+if ( ! $_REQUEST['search_modfunc'] )
 {
 	DrawHeader( ProgramTitle() );
 	

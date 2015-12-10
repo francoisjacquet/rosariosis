@@ -23,7 +23,7 @@ if ( UserStudentID() )
 		unset($mp_id);
 	}
     
-	if ( $_REQUEST['modfunc']=='update' && !$_REQUEST['removemp'])
+	if ( $_REQUEST['modfunc']=='update' && ! $_REQUEST['removemp'])
 	{
 
 		if ( $_REQUEST['new_sms'])
@@ -78,13 +78,13 @@ if ( UserStudentID() )
 						//$values = db_seq_nextval('student_report_card_grades_seq').','.UserSchool().", $student_id, $mp_id, ";
 						$values = db_seq_nextval('student_report_card_grades_seq').",'".UserSchool()."', '".$student_id."', '".$mp_id."', '".$syear."', ";
 
-						if ( !$columns['GP_SCALE'])
+						if ( ! $columns['GP_SCALE'])
 							$columns['GP_SCALE'] = SchoolInfo('REPORTING_GP_SCALE');
 
-						if ( !$columns['CREDIT_ATTEMPTED'])
+						if ( ! $columns['CREDIT_ATTEMPTED'])
 							$columns['CREDIT_ATTEMPTED'] = 1;
 
-						if ( !$columns['CREDIT_EARNED'])
+						if ( ! $columns['CREDIT_EARNED'])
 						{
 							if ( $columns['UNWEIGHTED_GP'] > 0 || $columns['WEIGHTED_GP'] > 0) 
 								$columns['CREDIT_EARNED'] = 1;
@@ -92,7 +92,7 @@ if ( UserStudentID() )
 								$columns['CREDIT_EARNED'] = 0;
 						}
 
-						if ( !$columns['CLASS_RANK'])
+						if ( ! $columns['CLASS_RANK'])
 							$columns['CLASS_RANK']='Y';
 
 						$go = false;

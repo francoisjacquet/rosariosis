@@ -27,7 +27,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		$LO_sort = $_REQUEST['LO_sort'];
 	}
 
-	if ( !$options['add']
+	if ( ! $options['add']
 		|| !AllowEdit()
 		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
@@ -682,7 +682,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 							echo '>';
 						}
 						echo $item[ $key ];
-						if ( !$item[ $key ])
+						if ( ! $item[ $key ])
 							echo '***';
 						echo '</a>';
 						echo '</td>';
@@ -694,7 +694,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 						else
 							echo '<td>';
 						echo $item[ $key ];
-						if ( !$item[ $key ])
+						if ( ! $item[ $key ])
 							echo '&nbsp;';
 						echo '</td>';
 					}

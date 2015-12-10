@@ -3,10 +3,10 @@
 function _makeFeesRemove($value,$column)
 {	global $THIS_RET,$waived_fees_RET;
 	
-	if ( !$waived_fees_RET)
+	if ( ! $waived_fees_RET)
 		$waived_fees_RET = DBGet(DBQuery("SELECT f.WAIVED_FEE_ID FROM BILLING_FEES f WHERE f.STUDENT_ID='".UserStudentID()."' AND f.WAIVED_FEE_ID IS NOT NULL AND f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."'"),array(),array('WAIVED_FEE_ID'));
 
-	if ( !$THIS_RET['WAIVED_FEE_ID'] && !$waived_fees_RET[$THIS_RET['ID']])
+	if ( ! $THIS_RET['WAIVED_FEE_ID'] && ! $waived_fees_RET[$THIS_RET['ID']])
 		$return = button('remove',_('Waive'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=waive&id='.$THIS_RET['ID'].'"');
 	elseif ( $waived_fees_RET[$THIS_RET['ID']])
 		$return = '<span style="color:#00A642; text-align:center">'._('Waived').'</span>';
@@ -16,10 +16,10 @@ function _makeFeesRemove($value,$column)
 function _makePaymentsRemove($value,$column)
 {	global $THIS_RET,$refunded_payments_RET;
 	
-	if ( !$refunded_payments_RET)
+	if ( ! $refunded_payments_RET)
 		$refunded_payments_RET = DBGet(DBQuery("SELECT p.REFUNDED_PAYMENT_ID FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID='".UserStudentID()."' AND (p.REFUNDED_PAYMENT_ID IS NOT NULL AND p.REFUNDED_PAYMENT_ID!='') AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"),array(),array('REFUNDED_PAYMENT_ID'));
 
-	if ( !$THIS_RET['REFUNDED_PAYMENT_ID'] && !$refunded_payments_RET[$THIS_RET['ID']])
+	if ( ! $THIS_RET['REFUNDED_PAYMENT_ID'] && ! $refunded_payments_RET[$THIS_RET['ID']])
 		$return = button('remove',_('Refund'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=refund&id='.$THIS_RET['ID'].'"');
 	elseif ( $refunded_payments_RET[$THIS_RET['ID']])
 		$return = '<span style="color:#00A642; text-align:center">'._('Refunded').'</span>';

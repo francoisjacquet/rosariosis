@@ -60,7 +60,7 @@ if ( isset( $_POST['tables'] )
 
 						$sql = "UPDATE $table SET ";
 
-						//if ( !$columns['COURSE_ID'] && $table=='GRADEBOOK_ASSIGNMENTS')
+						//if ( ! $columns['COURSE_ID'] && $table=='GRADEBOOK_ASSIGNMENTS')
 						//	$columns['COURSE_ID'] = 'N';
 
 						foreach ( (array) $columns as $column => $value)
@@ -123,7 +123,7 @@ if ( isset( $_POST['tables'] )
 
 						$go = false;
 
-						if ( !$columns['COURSE_ID'] && $_REQUEST['table']=='GRADEBOOK_ASSIGNMENTS')
+						if ( ! $columns['COURSE_ID'] && $_REQUEST['table']=='GRADEBOOK_ASSIGNMENTS')
 							$columns['COURSE_ID'] = 'N';
 
 						foreach ( (array) $columns as $column => $value)
@@ -246,7 +246,7 @@ if ( isset( $_REQUEST['modfunc'] )
 	if ( DeletePrompt( $prompt_title ) )
 	{
 		DBQuery($sql);
-		if ( !$_REQUEST['assignment_id'])
+		if ( ! $_REQUEST['assignment_id'])
 		{
 			$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'"));
 			if (count($assignments_RET))
@@ -388,8 +388,8 @@ if (empty($_REQUEST['modfunc']))
 			$assignment_type_options[$type['ASSIGNMENT_TYPE_ID']] = $type['TITLE'];
 
 		$header .= '<td>' . SelectInput($RET['ASSIGNMENT_TYPE_ID']?$RET['ASSIGNMENT_TYPE_ID']:$_REQUEST['assignment_type_id'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNMENT_TYPE_ID]',_('Assignment Type'),$assignment_type_options,false) . '</td>';
-		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$RET['ASSIGNED_DATE'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNED_DATE]',_('Assigned'),!$new) . '</td>';
-		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$RET['DUE_DATE'],'tables['.$_REQUEST['assignment_id'].'][DUE_DATE]',_('Due'),!$new) . '</td>';
+		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$RET['ASSIGNED_DATE'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNED_DATE]',_('Assigned'),! $new) . '</td>';
+		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$RET['DUE_DATE'],'tables['.$_REQUEST['assignment_id'].'][DUE_DATE]',_('Due'),! $new) . '</td>';
 		$header .= '</tr>';
 		$errors = ($RET['DATE_ERROR']=='Y'?'<span style="color:red">'._('Due date is before assigned date!').'</span><br />':'');
 		$errors .= ($RET['ASSIGNED_ERROR']=='Y'?'<span style="color:red">'._('Assigned date is after end of quarter!').'</span><br />':'');

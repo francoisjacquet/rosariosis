@@ -32,9 +32,9 @@ DrawHeader(($_SESSION['FSA_type']=='staff' ? _('User') : _('Student')).' &minus;
 User('PROFILE')=='student'?'':DrawHeader($header);
 
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-if ( !$_REQUEST['menu_id'])
+if ( ! $_REQUEST['menu_id'])
 {
-	if ( !$_SESSION['FSA_menu_id'])
+	if ( ! $_SESSION['FSA_menu_id'])
 		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else

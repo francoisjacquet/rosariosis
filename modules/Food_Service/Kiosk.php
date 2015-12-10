@@ -37,8 +37,8 @@ else
 
 $categories_RET = DBGet(DBQuery("SELECT MENU_ID,CATEGORY_ID,TITLE FROM FOOD_SERVICE_CATEGORIES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"),array(),array('MENU_ID','CATEGORY_ID'));
 //FJ fix error Warning: key() expects parameter 1 to be array, null given
-//if ( !$_REQUEST['cat_id'] || !$categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']])
-if ((!$_REQUEST['cat_id'] || !$categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']]) && isset($categories_RET[$_REQUEST['menu_id']]))
+//if ( ! $_REQUEST['cat_id'] || ! $categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']])
+if ((! $_REQUEST['cat_id'] || ! $categories_RET[$_REQUEST['menu_id']][$_REQUEST['cat_id']]) && isset($categories_RET[$_REQUEST['menu_id']]))
 	$_REQUEST['cat_id'] = key($categories_RET[$_REQUEST['menu_id']]);
 
 $meals = array();
@@ -70,14 +70,14 @@ if (count($items_RET))
 	echo '<table class="center cellpadding-5">';
 	foreach ( (array) $items_RET as $item)
 	{
-		if ( !$i)
+		if ( ! $i)
 		{
 			echo '<tr>';
 			$i = $per_row;
 		}
 		echo '<td style="border: 1px solid">'.makeIcon($item['ICON'],'','128').'</td>';
 		$i--;
-		if ( !$i)
+		if ( ! $i)
 			echo '</tr>';
 	}
 	if ( $i)

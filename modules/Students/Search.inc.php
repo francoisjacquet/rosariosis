@@ -1,6 +1,6 @@
 <?php
 
-if ( !$_REQUEST['search_modfunc'])
+if ( ! $_REQUEST['search_modfunc'])
 {
 	//if (UserStudentID() && User('PROFILE')!='parent' && User('PROFILE')!='student' && ($_REQUEST['modname']!='Students/Search.php' || $_REQUEST['student_id']=='new'))
 	switch (User('PROFILE'))
@@ -149,7 +149,7 @@ if ( !$_REQUEST['search_modfunc'])
 //if ( $_REQUEST['search_modfunc']=='list')
 else
 {
-	if ( !$_REQUEST['next_modname'])
+	if ( ! $_REQUEST['next_modname'])
 		$_REQUEST['next_modname'] = 'Students/Student.php';
 
 	if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
@@ -159,7 +159,7 @@ else
 		Widgets('user',$extra);
 	}
 
-	if ( !$extra['NoSearchTerms'])
+	if ( ! $extra['NoSearchTerms'])
 	{
 		if ( $_REQUEST['_search_all_schools']=='Y')
 			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><br />';
@@ -205,7 +205,7 @@ else
 	if (isset($extra['columns_after']) && is_array($extra['columns_after']))
 		$columns += $extra['columns_after'];
 
-	if (count($students_RET)>1 || $link['add'] || !$link['FULL_NAME'] || $extra['columns_before'] || $extra['columns'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($students_RET)==0) || (($extra['Redirect']===false || $_REQUEST['address_group']) && count($students_RET)==1))
+	if (count($students_RET)>1 || $link['add'] || ! $link['FULL_NAME'] || $extra['columns_before'] || $extra['columns'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($students_RET)==0) || (($extra['Redirect']===false || $_REQUEST['address_group']) && count($students_RET)==1))
 	{
 		if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		{
@@ -214,7 +214,7 @@ else
 			else
 				$header_left = '<a href="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'false')).'">'._('Original View').'</a>';
 
-			if ( !$_REQUEST['address_group'])
+			if ( ! $_REQUEST['address_group'])
 				$header_left .= ' | <a href="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => 'Y')).'">'._('Group by Family').'</a>';
 			else
 				$header_left .= ' | <a href="'.PreparePHP_SELF($_REQUEST,array(),array('address_group' => '')).'">'._('Ungroup by Family').'</a>';
@@ -230,7 +230,7 @@ else
 
 		DrawHeader( mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) );
 
-		if ( !$_REQUEST['LO_save'] && !$extra['suppress_save'])
+		if ( ! $_REQUEST['LO_save'] && ! $extra['suppress_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 

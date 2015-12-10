@@ -131,7 +131,7 @@ if (empty($_REQUEST['modfunc']))
 	if ( !empty($error))
 		echo ErrorMessage($error, 'error');
 
-	if ( !$_REQUEST['new_school'])
+	if ( ! $_REQUEST['new_school'])
 	{
 		$schooldata = DBGet(DBQuery("SELECT ID,TITLE,ADDRESS,CITY,STATE,ZIPCODE,PHONE,PRINCIPAL,WWW_ADDRESS,SCHOOL_NUMBER,REPORTING_GP_SCALE,SHORT_NAME,NUMBER_DAYS_ROTATION FROM SCHOOLS WHERE ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 		$schooldata = $schooldata[1];
@@ -161,7 +161,7 @@ if (empty($_REQUEST['modfunc']))
 		echo '<tr><td colspan="3">'.(file_exists('assets/school_logo_'.UserSchool().'.jpg') ? '<img src="assets/school_logo_'.UserSchool().'.jpg" style="max-width:225px; max-height:225px;" /><br /><span class="legend-gray">'._('School logo').'</span>' : '').'</td></tr>';
 
 	//FJ school name field required
-	echo '<tr><td colspan="3">'.TextInput($schooldata['TITLE'],'values[TITLE]',(!$schooldata['TITLE']?'<span class="legend-red">':'')._('School Name').(!$schooldata['TITLE']?'</span>':''),'required maxlength=100').'</td></tr>';
+	echo '<tr><td colspan="3">'.TextInput($schooldata['TITLE'],'values[TITLE]',(! $schooldata['TITLE']?'<span class="legend-red">':'')._('School Name').(! $schooldata['TITLE']?'</span>':''),'required maxlength=100').'</td></tr>';
 
 	echo '<tr><td colspan="3">'.TextInput($schooldata['ADDRESS'],'values[ADDRESS]',_('Address'),'maxlength=100').'</td></tr>';
 
@@ -173,7 +173,7 @@ if (empty($_REQUEST['modfunc']))
 
 	echo '<tr><td colspan="3">'.TextInput($schooldata['PRINCIPAL'],'values[PRINCIPAL]',_('Principal of School'),'maxlength=100').'</td></tr>';
 
-	if (AllowEdit() || !$schooldata['WWW_ADDRESS'])
+	if (AllowEdit() || ! $schooldata['WWW_ADDRESS'])
 		echo '<tr><td colspan="3">'.TextInput($schooldata['WWW_ADDRESS'],'values[WWW_ADDRESS]',_('Website'),'maxlength=100').'</td></tr>';
 	else
 		echo '<tr><td colspan="3"><a href="http://'.$schooldata['WWW_ADDRESS'].'" target="_blank">'.$schooldata['WWW_ADDRESS'].'</a><br /><span class="legend-gray">'._('Website').'</span></td></tr>';
@@ -182,7 +182,7 @@ if (empty($_REQUEST['modfunc']))
 
 	echo '<tr><td colspan="3">'.TextInput($schooldata['SCHOOL_NUMBER'],'values[SCHOOL_NUMBER]',_('School Number'),'maxlength=100').'</td></tr>';
 
-	echo '<tr><td colspan="3">'.TextInput($schooldata['REPORTING_GP_SCALE'],'values[REPORTING_GP_SCALE]',(!$schooldata['REPORTING_GP_SCALE']?'<span class="legend-red">':'')._('Base Grading Scale').(!$schooldata['TITLE']?'</span>':''),'maxlength=10 required').'</td></tr>';
+	echo '<tr><td colspan="3">'.TextInput($schooldata['REPORTING_GP_SCALE'],'values[REPORTING_GP_SCALE]',(! $schooldata['REPORTING_GP_SCALE']?'<span class="legend-red">':'')._('Base Grading Scale').(! $schooldata['TITLE']?'</span>':''),'maxlength=10 required').'</td></tr>';
 
 	if ( AllowEdit() )
 	{
@@ -235,7 +235,7 @@ if (empty($_REQUEST['modfunc']))
 			$div = false;
 		}
 		
-		$title_custom = AllowEdit() && !$value_custom && $field['REQUIRED'] ?
+		$title_custom = AllowEdit() && ! $value_custom && $field['REQUIRED'] ?
 			'<span class="legend-red">' . $field['TITLE'] . '</span>' :
 			$field['TITLE'];
 		

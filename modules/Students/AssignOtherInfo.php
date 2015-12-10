@@ -96,7 +96,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			DBQuery('UPDATE STUDENTS SET '.mb_substr($update,1).' WHERE STUDENT_ID IN ('.mb_substr($students,1).')');
 		elseif (isset($warning))
 			$warning[0] = mb_substr($warning,0,mb_strpos($warning,'. '));
-		elseif ( $grade_id=='' && $next_school=='' && !$calendar && $start_date=='' && $enrollment_code=='')
+		elseif ( $grade_id=='' && $next_school=='' && ! $calendar && $start_date=='' && $enrollment_code=='')
 			$warning[] = _('No data was entered.');
 
 		if ( !isset($warning))
@@ -304,7 +304,7 @@ if (empty($_REQUEST['modfunc']))
 			}
 		}
 
-		if ( !$_REQUEST['category_id'] || $_REQUEST['category_id']=='1')
+		if ( ! $_REQUEST['category_id'] || $_REQUEST['category_id']=='1')
 		{
 			echo '<tr><td><b>'._('Grade Level').'</b></td><td>';
 			$gradelevels_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));

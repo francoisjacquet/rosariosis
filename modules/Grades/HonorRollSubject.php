@@ -12,7 +12,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		//FJ add Template
 		$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
 
-		if ( !$template_update)
+		if ( ! $template_update)
 			DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_honor_roll_text."')");
 		else
 			DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_honor_roll_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
@@ -307,7 +307,7 @@ function MyWidgets($item)
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
 				AND rg.GPA_VALUE<(SELECT HRS_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
 
-				if ( !$extra['NoSearchTerms'])
+				if ( ! $extra['NoSearchTerms'])
 				{
 					$subject_RET = DBGet(DBQuery("SELECT TITLE FROM COURSE_SUBJECTS WHERE SUBJECT_ID='".$_REQUEST['subject_id']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
 

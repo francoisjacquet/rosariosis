@@ -1,6 +1,6 @@
 <?php
 
-if ( !$_REQUEST['search_modfunc'])
+if ( ! $_REQUEST['search_modfunc'])
 {
 	switch (User('PROFILE'))
 	{
@@ -175,13 +175,13 @@ if ( !$_REQUEST['search_modfunc'])
 //if ( $_REQUEST['search_modfunc']=='list')
 else
 {
-	if ( !$_REQUEST['next_modname'])
+	if ( ! $_REQUEST['next_modname'])
 		$_REQUEST['next_modname'] = 'Users/User.php';
 
 	if ( !isset($extra))
 		$extra = array();
 
-	if ( !$extra['NoSearchTerms'])
+	if ( ! $extra['NoSearchTerms'])
 	{
 		if ( $_REQUEST['_search_all_schools']=='Y')
 			$_ROSARIO['SearchTerms'] .= '<b>'._('Search All Schools').'</b><br />';
@@ -219,7 +219,7 @@ else
 	if (isset($extra['columns_after']) && is_array($extra['columns_after']))
 		$columns += $extra['columns_after'];
 
-	if (count($staff_RET)>1 || $link['add'] || !$link['FULL_NAME'] || $extra['columns_before'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($staff_RET)==0) || ($extra['Redirect']===false && count($staff_RET)==1))
+	if (count($staff_RET)>1 || $link['add'] || ! $link['FULL_NAME'] || $extra['columns_before'] || $extra['columns_after'] || ($extra['BackPrompt']==false && count($staff_RET)==0) || ($extra['Redirect']===false && count($staff_RET)==1))
 	{
 		if ( $_REQUEST['expanded_view']!='true')
 			DrawHeader('<a href="'.PreparePHP_SELF($_REQUEST,array(),array('expanded_view' => 'true')) . '">'._('Expanded View').'</a>',$extra['header_right']);
@@ -234,7 +234,7 @@ else
 
 		DrawHeader( mb_substr($_ROSARIO['SearchTerms'], 0, -6 ) );
 
-		if ( !$_REQUEST['LO_save'] && !$extra['suppress_save'])
+		if ( ! $_REQUEST['LO_save'] && ! $extra['suppress_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 

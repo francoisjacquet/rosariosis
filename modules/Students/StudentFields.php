@@ -211,7 +211,7 @@ if (empty($_REQUEST['modfunc']))
 		$header .= '<table class="width-100p valign-top fixed-col"><tr class="st">';
  
 		//FJ field name required
-		$header .= '<td>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</td>';
+		$header .= '<td>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(! $RET['TITLE']?'<span class="legend-red">':'')._('Field Name').(! $RET['TITLE']?'</span>':'')) . '</td>';
 
 		// You can't change a student field type after it has been created
 		// mab - allow changing between select and autos and edits and text and exports
@@ -272,7 +272,7 @@ if (empty($_REQUEST['modfunc']))
 		$header .= '<table class="width-100p valign-top"><tr class="st">';
 
 		//FJ title required
-		$header .= '<td>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Title').(!$RET['TITLE']?'</span>':'')) . '</td>';
+		$header .= '<td>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(! $RET['TITLE']?'<span class="legend-red">':'')._('Title').(! $RET['TITLE']?'</span>':'')) . '</td>';
 		$header .= '<td>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['category_id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</td>';
 		$header .= '<td>' . TextInput($RET['COLUMNS'],'tables['.$_REQUEST['category_id'].'][COLUMNS]',_('Display Columns'),'size=5') . '</td>';
 

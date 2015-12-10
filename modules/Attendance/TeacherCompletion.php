@@ -77,7 +77,7 @@ if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 }
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
-if ( !$_REQUEST['period'])
+if ( ! $_REQUEST['period'])
 {
 	foreach ( (array) $RET as $staff_id => $periods )
 	{

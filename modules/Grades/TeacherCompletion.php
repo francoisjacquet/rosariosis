@@ -9,7 +9,7 @@ $fy = GetParentMP('FY',$sem);
 $pros = GetChildrenMP('PRO',UserMP());
 
 // if the UserMP has been changed, the REQUESTed MP may not work
-if ( !$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
+if ( ! $_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
 	$_REQUEST['mp'] = UserMP();
 
 $QI = DBQuery("SELECT PERIOD_ID,TITLE FROM SCHOOL_PERIODS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND EXISTS (SELECT '' FROM COURSE_PERIODS WHERE PERIOD_ID=school_periods.PERIOD_ID) ORDER BY SORT_ORDER");
@@ -61,7 +61,7 @@ $sql = "SELECT s.STAFF_ID,s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,
 		ORDER BY FULL_NAME";
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID'));
 
-if ( !$_REQUEST['period'] )
+if ( ! $_REQUEST['period'] )
 {
 	foreach ( (array) $RET as $staff_id => $periods )
 	{

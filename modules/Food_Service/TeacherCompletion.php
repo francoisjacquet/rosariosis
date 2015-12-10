@@ -58,9 +58,9 @@ $sql = "SELECT s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME,sp.TITLE,cpsp.PERIOD
 $RET = DBGet(DBQuery($sql),array(),array('STAFF_ID','PERIOD_ID'));
 
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
-if ( !$_REQUEST['menu_id'])
+if ( ! $_REQUEST['menu_id'])
 {
-	if ( !$_SESSION['FSA_menu_id'])
+	if ( ! $_SESSION['FSA_menu_id'])
 		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
@@ -108,7 +108,7 @@ if (count($RET))
 }
 
 $columns = array('FULL_NAME' => 'Teacher');
-if ( !$_REQUEST['period'])
+if ( ! $_REQUEST['period'])
 {
 	foreach ( (array) $periods_RET as $period)
 		$columns[$period['PERIOD_ID']] = $period['TITLE'];

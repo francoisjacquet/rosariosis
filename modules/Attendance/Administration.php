@@ -47,7 +47,7 @@ else
 $_SESSION['Administration.php']['date'] = $date;
 $current_mp = GetCurrentMP('QTR',$date,false);
 
-if ( !$current_mp)
+if ( ! $current_mp)
 {
 	echo '<form action="'.PreparePHP_SELF($_REQUEST,array('day_date','month_date','year_date','codes')).'" method="POST">';
 
@@ -102,10 +102,10 @@ if ( $_REQUEST['attendance'] && $_POST['attendance'] && AllowEdit())
 {
 	foreach ( (array) $_REQUEST['attendance'] as $student_id => $values)
 	{
-		if ( !$current_schedule_RET[ $student_id ])
+		if ( ! $current_schedule_RET[ $student_id ])
 		{
 			$current_schedule_RET[ $student_id ] = DBGet(DBQuery(str_replace('__student_id__',$student_id,$current_schedule_Q)),array(),array('PERIOD_ID'));
-			if ( !$current_schedule_RET[ $student_id ])
+			if ( ! $current_schedule_RET[ $student_id ])
 				$current_schedule_RET[ $student_id ] = true;
 		}
 
@@ -260,7 +260,7 @@ else
 		$REQ_codes = $_REQUEST['codes'];
 		foreach ( (array) $REQ_codes as $key => $value)
 		{
-			if ( !$value)
+			if ( ! $value)
 				unset($REQ_codes[ $key ]);
 			elseif ( $value=='A')
 				$abs = true;
@@ -268,7 +268,7 @@ else
 	}
 	else
 		$abs = ($_REQUEST['table']=='0'); //true;
-	if (count($REQ_codes) && !$abs)
+	if (count($REQ_codes) && ! $abs)
 	{
 		$extra['WHERE'] .= "AND ac.ID IN (";
 		foreach ( (array) $REQ_codes as $code)
@@ -367,10 +367,10 @@ else
 function _makeCodePulldown($value,$title)
 {	global $THIS_RET,$codes_RET,$current_RET,$current_schedule_RET,$current_schedule_Q;
 
-	if ( !$current_schedule_RET[ $value ])
+	if ( ! $current_schedule_RET[ $value ])
 	{
 		$current_schedule_RET[ $value ] = DBGet(DBQuery(str_replace('__student_id__',$value,$current_schedule_Q)),array(),array('PERIOD_ID'));
-		if ( !$current_schedule_RET[ $value ])
+		if ( ! $current_schedule_RET[ $value ])
 			$current_schedule_RET[ $value ] = true;
 	}
 	if ( $THIS_RET['COURSE'])

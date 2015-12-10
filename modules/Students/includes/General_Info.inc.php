@@ -105,17 +105,17 @@ echo '</td><td>';
 //username, password required
 
 $required = $_REQUEST['moodle_create_student'] || $old_student_in_moodle || basename($_SERVER['PHP_SELF'])=='index.php';
-$legend_red = $required && !$student['USERNAME'];
+$legend_red = $required && ! $student['USERNAME'];
 
-echo TextInput($student['USERNAME'],'students[USERNAME]',($legend_red ? '<span class="legend-red">':'')._('Username').(($_REQUEST['moodle_create_student'] || $old_student_in_moodle) && !$student['USERNAME']?'</span>':''),($required ? 'required' : ''), ($_REQUEST['moodle_create_student'] ? false : true));
+echo TextInput($student['USERNAME'],'students[USERNAME]',($legend_red ? '<span class="legend-red">':'')._('Username').(($_REQUEST['moodle_create_student'] || $old_student_in_moodle) && ! $student['USERNAME']?'</span>':''),($required ? 'required' : ''), ($_REQUEST['moodle_create_student'] ? false : true));
 
 echo '</td></tr><tr class="st"><td>';
 
 $required = $required;
-$legend_red = $required && !$student['PASSWORD'];
+$legend_red = $required && ! $student['PASSWORD'];
 
 echo TextInput(
-	( !$student['PASSWORD']
+	( ! $student['PASSWORD']
 		|| $_REQUEST['moodle_create_student'] ? '' : str_repeat( '*', 8 ) ),
 	'students[PASSWORD]',
 	( $legend_red ? '<span class="legend-red">' : '<span class="legend-gray">' ) .

@@ -12,7 +12,7 @@ $_ROSARIO['allow_edit'] = false;
 DrawHeader(ProgramTitle());
 Search('student_id');
 
-if (UserStudentID() && !$_REQUEST['modfunc'])
+if (UserStudentID() && ! $_REQUEST['modfunc'])
 {
 //FJ multiple school periods for a course period
 /*$courses_RET = DBGet(DBQuery("SELECT c.TITLE AS COURSE_TITLE,cp.TITLE,cp.COURSE_PERIOD_ID,cp.COURSE_ID,cp.TEACHER_ID AS STAFF_ID FROM SCHEDULE s,COURSE_PERIODS cp,COURSES c WHERE s.SYEAR='".UserSyear()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).") AND ('".DBDate()."'>=s.START_DATE AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)) AND s.STUDENT_ID='".UserStudentID()."' AND cp.GRADE_SCALE_ID IS NOT NULL".(User('PROFILE')=='teacher'?' AND cp.TEACHER_ID=\''.User('STAFF_ID').'\'':'')." AND c.COURSE_ID=cp.COURSE_ID ORDER BY (SELECT SORT_ORDER FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID)"),array(),array('COURSE_PERIOD_ID'));*/
@@ -30,10 +30,10 @@ AND c.COURSE_ID=cp.COURSE_ID
 ORDER BY cp.SHORT_NAME, cp.TITLE"),array(),array('COURSE_PERIOD_ID'));
 //echo '<pre>'; var_dump($courses_RET); echo '</pre>';
 
-if ( $_REQUEST['id'] && $_REQUEST['id']!='all' && !$courses_RET[$_REQUEST['id']])
+if ( $_REQUEST['id'] && $_REQUEST['id']!='all' && ! $courses_RET[$_REQUEST['id']])
 	unset($_REQUEST['id']);
 
-if ( !$_REQUEST['id'])
+if ( ! $_REQUEST['id'])
 {
 	DrawHeader(_('Totals'),'<a href="Modules.php?modname='.$_REQUEST['modname'].'&id=all'.($do_stats?'&do_stats='.$_REQUEST['do_stats']:'').'">'._('Expand All').'</a>');
 
@@ -70,7 +70,7 @@ if ( !$_REQUEST['id'])
             $assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID,TITLE,POINTS FROM GRADEBOOK_ASSIGNMENTS WHERE STAFF_ID='".$staff_id."' AND (COURSE_ID='".$course_id."' OR COURSE_PERIOD_ID='".$course_period_id."') AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY DUE_DATE DESC,ASSIGNMENT_ID"));
 			//echo '<pre>'; var_dump($assignments_RET); echo '</pre>';
 
-			if ( !$programconfig[ $staff_id ])
+			if ( ! $programconfig[ $staff_id ])
 			{
                 $config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 				if (count($config_RET))
@@ -231,7 +231,7 @@ else
 	{
 		$course = $course[1];
 		$staff_id = $course['STAFF_ID'];
-		if ( !$programconfig[ $staff_id ])
+		if ( ! $programconfig[ $staff_id ])
 		{
 			$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$staff_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
 			if (count($config_RET))

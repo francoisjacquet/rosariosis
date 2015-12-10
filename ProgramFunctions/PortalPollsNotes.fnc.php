@@ -16,7 +16,7 @@ function PortalPollsVote($poll_id, $votes_array)
 		WHERE PORTAL_POLL_ID='".$poll_id."'
 		ORDER BY ID"));
 
-	if ( !$poll_RET || !$poll_questions_RET)
+	if ( ! $poll_RET || ! $poll_questions_RET)
 		return ErrorMessage(array('Poll does not exist'));//should never be displayed, so do not translate
 		
 	//add user to excluded users list (format = '|[profile_id]:[user_id]')
@@ -117,7 +117,7 @@ function PortalPollsDisplay($value,$name)
 		WHERE PORTAL_POLL_ID='".$poll_id."'
 		ORDER BY ID"), array('OPTIONS' => 'Linkify'));
 
-	if ( !$poll_RET || !$poll_questions_RET)
+	if ( ! $poll_RET || ! $poll_questions_RET)
 		return ErrorMessage(array('Poll does not exist'));//should never be displayed, so do not translate
 	
 	//verify if user is in excluded users list (format = '|[profile_id]:[user_id]')
@@ -208,7 +208,7 @@ function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
 function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, $votes_number, $js_included_is_voting = false)
 {
 	
-	if ( !$display_votes)
+	if ( ! $display_votes)
 	{
 		$poll_completed_str = isset($_POST['poll_completed_string']) ? $_POST['poll_completed_string'] : _('Poll completed');
 
@@ -216,7 +216,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	}
 	
 	//FJ responsive rt td too large
-	if ( !$js_included_is_voting)
+	if ( ! $js_included_is_voting)
 	{
 		$votes_display .= '<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">'."\n";
 	}
@@ -254,7 +254,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 
 	$votes_display .= '<p>'.$total_votes_str.': '.$votes_number.'</p>';
 
-	if ( !$js_included_is_voting)
+	if ( ! $js_included_is_voting)
 		$votes_display .= '</div>'; 
 	
 	return $votes_display;

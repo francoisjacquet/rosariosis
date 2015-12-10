@@ -142,7 +142,7 @@ function bump_amount($value,$column)
 		$types[$THIS_RET['TYPE']] += array($THIS_RET['SHORT_NAME'] => array($value => $THIS_RET['AMOUNT']));
 		$types_rows[$THIS_RET['SHORT_NAME']] = $THIS_RET['SHORT_NAME'];
 	}
-	if ( !$types_columns[ $value ])
+	if ( ! $types_columns[ $value ])
 	{
 		$types_columns += array($value => $value);
 		$types_totals['Student'][ $value ] = 0;

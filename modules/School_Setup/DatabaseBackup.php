@@ -44,7 +44,7 @@ if ( $_REQUEST['modfunc']=='backup' && isset($_REQUEST['_ROSARIO_PDF']))
 	exit;
 }
 
-if ( !$_REQUEST['modfunc'])
+if ( ! $_REQUEST['modfunc'])
 {
 	echo '<br />';
 	PopTable('header',_('Database Backup'));

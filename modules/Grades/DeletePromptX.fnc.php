@@ -12,7 +12,7 @@ function DeletePromptX($title,$action='Delete')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok','delete_cancel'));
 
-	if ( !$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	if ( ! $_REQUEST['delete_ok'] && ! $_REQUEST['delete_cancel'])
 	{
 		echo '<br />';
 //FJ add translation

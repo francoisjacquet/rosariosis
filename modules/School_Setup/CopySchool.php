@@ -22,7 +22,7 @@ foreach ( (array) $tables as $table => $name )
 		$force_checked = true;
 
 	$table_list .= '<tr><td>
-		<label>' . ( !$force_checked ?
+		<label>' . ( ! $force_checked ?
 			'<input type="checkbox" value="Y" name="tables[' . $table . ']" checked />&nbsp;' :
 			'<input type="hidden" value="Y" name="tables[' . $table . ']" />' ) .
 		$name . '</label>

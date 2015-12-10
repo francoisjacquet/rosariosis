@@ -1,5 +1,5 @@
 <?php
-if ( !isset($_REQUEST['_ROSARIO_PDF']) && !$_REQUEST['search_modfunc'])
+if ( !isset($_REQUEST['_ROSARIO_PDF']) && ! $_REQUEST['search_modfunc'])
 {
 	DrawHeader(ProgramTitle());
 

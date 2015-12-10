@@ -9,7 +9,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM SCHEDULE_REQUESTS WHERE COURSE_ID='".$_REQUEST['MassRequests.php']['course_id']."' AND SYEAR='".UserSyear()."'"),array(),array('STUDENT_ID'));
 			foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 			{
-				if ( !$current_RET[ $student_id ])
+				if ( ! $current_RET[ $student_id ])
 				{
 					$sql = "INSERT INTO SCHEDULE_REQUESTS (REQUEST_ID,SYEAR,SCHOOL_ID,STUDENT_ID,SUBJECT_ID,COURSE_ID,MARKING_PERIOD_ID,WITH_TEACHER_ID,NOT_TEACHER_ID,WITH_PERIOD_ID,NOT_PERIOD_ID)
 								values(".db_seq_nextval('SCHEDULE_REQUESTS_SEQ').",'".UserSyear()."','".UserSchool()."','".$student_id."','".$_SESSION['MassRequests.php']['subject_id']."','".$_SESSION['MassRequests.php']['course_id']."',NULL,'".$_REQUEST['with_teacher_id']."','".$_REQUEST['without_teacher_id']."','".$_REQUEST['with_period_id']."','".$_REQUEST['without_period_id']."')";
@@ -125,7 +125,7 @@ if ( $_REQUEST['modfunc']=='choose_course')
 {
 
 //FJ fix bug window closed
-	if ( !$_REQUEST['course_id'])
+	if ( ! $_REQUEST['course_id'])
 		include 'modules/Scheduling/Courses.php';
 	else
 	{

@@ -60,7 +60,7 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 {
 	$PHP_tmp_SELF = PreparePHP_SELF();
 	$period_select = '<select name="period_id" onchange="ajaxPostForm(this.form,true);"><option value=""'.(empty($_REQUEST['period_id'])?' selected':'').'>'._('Daily').'</option>';
-	if ( !UserStudentID() && !$_REQUEST['student_id'])
+	if ( !UserStudentID() && ! $_REQUEST['student_id'])
 	{
 		if (User('PROFILE')=='admin')
 		{
@@ -181,7 +181,7 @@ else
 {
 	// in pre-2.11 versions the attendance data would be queried for all students here but data for #students*#days can be a lot
 	// in 2.11 this was switched to incremental query in the _makeColor function
-	if ( !$_REQUEST['period_id'])
+	if ( ! $_REQUEST['period_id'])
 	{
 		$att_sql = "SELECT ad.STATE_VALUE,SCHOOL_DATE,'_'||to_char(ad.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE 
 		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm 
@@ -228,12 +228,12 @@ function _makeColor($value,$column)
 	//FJ add translation:
 	$attendance_codes_locale = array('P' => _('Present'),'A' => _('Absent'),'H' => _('Half Day'));
 		
-	if ( !$att_RET[$THIS_RET['STUDENT_ID']])
+	if ( ! $att_RET[$THIS_RET['STUDENT_ID']])
 		$att_RET[$THIS_RET['STUDENT_ID']] = DBGet(DBQuery($att_sql.$THIS_RET['STUDENT_ID']),array(),array('SHORT_DATE'));
 
 	if ( $_REQUEST['period_id'])
 	{
-		if ( !$attendance_codes)
+		if ( ! $attendance_codes)
 			$attendance_codes = DBGet(DBQuery("SELECT ID,DEFAULT_CODE,STATE_CODE,SHORT_NAME FROM ATTENDANCE_CODES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND TABLE_NAME='0'"),array(),array('ID'));
 
 		$ac = $att_RET[$THIS_RET['STUDENT_ID']][ $column ][1]['ATTENDANCE_CODE'];
@@ -286,7 +286,7 @@ function makeCodePulldown($value,$student_id,$date)
 
 	$date = mb_substr($date,1,4).'-'.mb_substr($date,5,2).'-'.mb_substr($date,7);
 
-	if ( !$_ROSARIO['code_options'])
+	if ( ! $_ROSARIO['code_options'])
 	{
 		foreach ( (array) $attendance_codes as $id => $code)
 			$_ROSARIO['code_options'][ $id ] = $code[1]['SHORT_NAME'];

@@ -84,7 +84,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 						foreach ( (array) $address_categories_RET as $categories)
 						{
 							echo '<br /><table>';
-							if ( !$categories[1]['RESIDENCE']&&!$categories[1]['MAILING']&&!$categories[1]['BUS'] || $categories[1]['RESIDENCE']=='Y'&&$address['RESIDENCE']=='Y' || $categories[1]['MAILING']=='Y'&&$address['MAILING']=='Y' || $categories[1]['BUS']=='Y'&&($address['BUS_PICKUP']=='Y'||$address['BUS_DROPOFF']=='Y'))
+							if ( ! $categories[1]['RESIDENCE']&&! $categories[1]['MAILING']&&! $categories[1]['BUS'] || $categories[1]['RESIDENCE']=='Y'&&$address['RESIDENCE']=='Y' || $categories[1]['MAILING']=='Y'&&$address['MAILING']=='Y' || $categories[1]['BUS']=='Y'&&($address['BUS_PICKUP']=='Y'||$address['BUS_DROPOFF']=='Y'))
 								printCustom($categories,$address);
 							echo '</table>';
 						}
@@ -103,7 +103,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 							}
 
 							foreach ( (array) $people_categories_RET as $categories)
-								if ( !$categories[1]['CUSTODY']&&!$categories[1]['EMERGENCY'] || $categories[1]['CUSTODY']=='Y'&&$contact['CUSTODY']=='Y' || $categories[1]['EMERGENCY']=='Y'&&$contact['EMERGENCY']=='Y')
+								if ( ! $categories[1]['CUSTODY']&&! $categories[1]['EMERGENCY'] || $categories[1]['CUSTODY']=='Y'&&$contact['CUSTODY']=='Y' || $categories[1]['EMERGENCY']=='Y'&&$contact['EMERGENCY']=='Y')
 									printCustom($categories,$contact);
 							echo '</table>';
 						}
@@ -139,7 +139,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					DrawHeader(ParseMLField($category[1]['TITLE']));
 					echo '<br />';
 					$separator = '';
-					if ( !$category[1]['INCLUDE'])
+					if ( ! $category[1]['INCLUDE'])
 						require_once 'modules/Students/includes/Other_Info.inc.php';
 					elseif ( !mb_strpos($category[1]['INCLUDE'],'/'))
 						require_once 'modules/Students/includes/'.$category[1]['INCLUDE'].'.inc.php';

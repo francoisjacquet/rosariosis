@@ -45,7 +45,7 @@ foreach ( (array) $periods_RET as $period)
 	$extra['columns_after']['PERIOD_'.$period['PERIOD_ID']] = $period['TITLE'];
 	$extra['functions']['PERIOD_'.$period['PERIOD_ID']] = '_preparePeriods';
 }
-if ( !$_REQUEST['search_modfunc'])
+if ( ! $_REQUEST['search_modfunc'])
 	Search('student_id',$extra);
 else
 {
@@ -74,7 +74,7 @@ function _preparePeriods($value,$name)
 {	global $THIS_RET,$schedule_RET;
 
 	$period_id = mb_substr($name,7);
-	if ( !$schedule_RET[$THIS_RET['STUDENT_ID']][ $period_id ])
+	if ( ! $schedule_RET[$THIS_RET['STUDENT_ID']][ $period_id ])
 	{
 		if (isset($_REQUEST['LO_save']))
 			$return = _('No');

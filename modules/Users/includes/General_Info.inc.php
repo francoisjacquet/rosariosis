@@ -111,17 +111,17 @@ echo '</td></tr><tr class="st"><td>';
 //username, password required
 
 $required = $_REQUEST['moodle_create_user'] || $old_user_in_moodle || basename($_SERVER['PHP_SELF'])=='index.php';
-$legend_red = $required && !$staff['USERNAME'];
+$legend_red = $required && ! $staff['USERNAME'];
 
-echo TextInput($staff['USERNAME'],'staff[USERNAME]',($legend_red ? '<span class="legend-red">':'')._('Username').(($_REQUEST['moodle_create_user'] || $old_user_in_moodle) && !$staff['USERNAME']?'</span>':''),'size=12 maxlength=100 '.($required ? 'required' : ''),($_REQUEST['moodle_create_user'] ?false:true));
+echo TextInput($staff['USERNAME'],'staff[USERNAME]',($legend_red ? '<span class="legend-red">':'')._('Username').(($_REQUEST['moodle_create_user'] || $old_user_in_moodle) && ! $staff['USERNAME']?'</span>':''),'size=12 maxlength=100 '.($required ? 'required' : ''),($_REQUEST['moodle_create_user'] ?false:true));
 
 echo '</td><td>';
 
 $required = $required;
-$legend_red = $required && !$staff['PASSWORD'];
+$legend_red = $required && ! $staff['PASSWORD'];
 
 echo TextInput(
-	( !$staff['PASSWORD']
+	( ! $staff['PASSWORD']
 		|| $_REQUEST['moodle_create_user'] ? '' : str_repeat( '*', 8 ) ),
 	'staff[PASSWORD]',
 	( $legend_red ? '<span class="legend-red">' : '<span class="legend-gray">' ) .
@@ -260,7 +260,7 @@ echo '<tr class="st"><td>';
 //email required
 //echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
 if (AllowEdit())
-	echo TextInput($staff['EMAIL'],'staff[EMAIL]',(($_REQUEST['moodle_create_user'] || $old_user_in_moodle) && !$staff['EMAIL']?'<span class="legend-red">':'')._('Email Address').(($_REQUEST['moodle_create_user'] || $old_user_in_moodle) && !$staff['EMAIL']?'</span>':''),'size=12 maxlength=100'.($_REQUEST['moodle_create_user'] || $old_user_in_moodle ?' required':''),($_REQUEST['moodle_create_user'] ?false:true));
+	echo TextInput($staff['EMAIL'],'staff[EMAIL]',(($_REQUEST['moodle_create_user'] || $old_user_in_moodle) && ! $staff['EMAIL']?'<span class="legend-red">':'')._('Email Address').(($_REQUEST['moodle_create_user'] || $old_user_in_moodle) && ! $staff['EMAIL']?'</span>':''),'size=12 maxlength=100'.($_REQUEST['moodle_create_user'] || $old_user_in_moodle ?' required':''),($_REQUEST['moodle_create_user'] ?false:true));
 else
 	echo TextInput($staff['EMAIL'],'staff[EMAIL]',_('Email Address'),'size=12 maxlength=100');
 

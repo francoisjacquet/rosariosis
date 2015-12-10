@@ -37,7 +37,7 @@ if ( empty( $end_date ) )
 //FJ bugfix bug when Back to Student Search
 if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')=='parent' || User('PROFILE')=='student')
 {
-	if ( !UserStudentID() && !$_REQUEST['student_id'])
+	if ( !UserStudentID() && ! $_REQUEST['student_id'])
 	{
 		//FJ multiple school periods for a course period
 		//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND EXISTS(SELECT '' FROM COURSE_PERIODS cp WHERE cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0".(User('PROFILE')=='teacher'?" AND cp.PERIOD_ID='".UserPeriod()."'":'').") ORDER BY sp.SORT_ORDER"));

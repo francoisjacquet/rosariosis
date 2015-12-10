@@ -43,7 +43,7 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
 		}
 
 		if ( $value == ''
-			|| !$div )
+			|| ! $div )
 		{
 			$return = PrepareDate( $value, '_' . $name, $allow_na, $options ) . $ftitle;
 		}
@@ -114,7 +114,7 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 			' ' . $extra . ' />' . $ftitle;
 
 		if ( trim( $value ) == ''
-			|| !$div )
+			|| ! $div )
 		{
 			$return = $input;
 		}
@@ -314,7 +314,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $m
 			( $markdown ? str_replace( '<br />', '', $ftitle ) : $ftitle );
 
 		if ( $value == ''
-			|| !$div )
+			|| ! $div )
 		{
 			$return = $textarea;
 		}
@@ -382,7 +382,7 @@ function MarkDownInputPreview( $input_id )
  *
  * @uses GetInputID() to generate ID from name
  * @uses InputDivOnclick()
- *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && !$new && $div )
+ *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && ! $new && $div )
  *
  * @param  string  $value   Input value
  * @param  string  $name    Input name
@@ -417,7 +417,7 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 			$title . '</label>';
 
 		if ( $new
-			|| !$div )
+			|| ! $div )
 		{
 			$return = $checkbox;
 		}
@@ -696,7 +696,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
  * @uses GetInputID() to generate ID from name
  * @uses FormatInputTitle() to format title
  * @uses InputDivOnclick()
- *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && !$new && $div )
+ *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && ! $new && $div )
  *
  * @param  string         $value    Input value
  * @param  string         $name     Input name
@@ -833,7 +833,7 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
 	{
 		$js = '';
 
-		if ( !$included )
+		if ( ! $included )
 		{
 			ob_start();
 			?>

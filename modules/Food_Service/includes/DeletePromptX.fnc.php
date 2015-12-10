@@ -11,7 +11,7 @@ function DeletePromptX($title,$action='Delete')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok','delete_cancel'));
 
-	if ( !$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	if ( ! $_REQUEST['delete_ok'] && ! $_REQUEST['delete_cancel'])
 	{
 		echo '<br />';
 //FJ add translation
@@ -29,7 +29,7 @@ function PromptX($title='Confirm',$question='',$message='',$pdf='')
 {
 	$PHP_tmp_SELF = PreparePHP_SELF($_REQUEST,array('delete_ok'),$pdf==true?array('_ROSARIO_PDF'=>true):array());
 
-	if ( !$_REQUEST['delete_ok'] &&!$_REQUEST['delete_cancel'])
+	if ( ! $_REQUEST['delete_ok'] &&! $_REQUEST['delete_cancel'])
 	{
 		echo '<br />';
 		PopTable('header',$title);

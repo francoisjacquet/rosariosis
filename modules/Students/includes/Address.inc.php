@@ -686,7 +686,7 @@ if (empty($_REQUEST['modfunc']))
 
 				echo '</th></tr>';
 
-				echo '<tr><td colspan="3">'.TextInput($this_address['MAIL_ADDRESS'],'values[ADDRESS][MAIL_ADDRESS]',_('Street'),!$this_address['MAIL_ADDRESS']?'size=20':'').'</td></tr>';
+				echo '<tr><td colspan="3">'.TextInput($this_address['MAIL_ADDRESS'],'values[ADDRESS][MAIL_ADDRESS]',_('Street'),! $this_address['MAIL_ADDRESS']?'size=20':'').'</td></tr>';
 
 				echo '<tr><td>'._makeAutoSelectInputX($this_address['MAIL_CITY'],'MAIL_CITY','ADDRESS',_('City'),array()).'</td>';
 
@@ -764,7 +764,7 @@ if (empty($_REQUEST['modfunc']))
 					if ( $info_apd)
 						$info_options = _makeAutoSelect('TITLE','PEOPLE_JOIN_CONTACTS',$info_RET,array());
 
-					if ( !$info_apd)
+					if ( ! $info_apd)
 					{
 						echo '<tr><td>
 						</td><td>
@@ -922,7 +922,7 @@ if (empty($_REQUEST['modfunc']))
 					echo '<table>';
 					foreach ( (array) $categories_RET as $fields_RET)
 					{
-						if ( !$fields_RET['CUSTODY']&&!$fields_RET['EMERGENCY'] || $fields_RET['CUSTODY']=='Y'&&$this_contact['CUSTODY']=='Y' || $fields_RET['EMERGENCY']=='Y'&&$this_contact['EMERGENCY']=='Y')
+						if ( ! $fields_RET['CUSTODY']&&! $fields_RET['EMERGENCY'] || $fields_RET['CUSTODY']=='Y'&&$this_contact['CUSTODY']=='Y' || $fields_RET['EMERGENCY']=='Y'&&$this_contact['EMERGENCY']=='Y')
 						{
 							echo '<tr><td>';
 							echo '<fieldset><legend>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</legend>';
@@ -963,7 +963,7 @@ if (empty($_REQUEST['modfunc']))
 				echo '<table>';
 				foreach ( (array) $categories_RET as $fields_RET)
 				{
-					if ( !$fields_RET[1]['RESIDENCE']&&!$fields_RET[1]['MAILING']&&!$fields_RET[1]['BUS'] || $fields_RET[1]['RESIDENCE']=='Y'&&$this_address['RESIDENCE']=='Y' || $fields_RET[1]['MAILING']=='Y'&&$this_address['MAILING']=='Y' || $fields_RET[1]['BUS']=='Y'&&($this_address['BUS_PICKUP']=='Y'||$this_address['BUS_DROPOFF']=='Y'))
+					if ( ! $fields_RET[1]['RESIDENCE']&&! $fields_RET[1]['MAILING']&&! $fields_RET[1]['BUS'] || $fields_RET[1]['RESIDENCE']=='Y'&&$this_address['RESIDENCE']=='Y' || $fields_RET[1]['MAILING']=='Y'&&$this_address['MAILING']=='Y' || $fields_RET[1]['BUS']=='Y'&&($this_address['BUS_PICKUP']=='Y'||$this_address['BUS_DROPOFF']=='Y'))
 					{
 						echo '<tr><td>';
 						echo '<fieldset><legend>'.ParseMLField($fields_RET[1]['CATEGORY_TITLE']).'</legend>';
@@ -1016,18 +1016,18 @@ function _makeAutoSelect($column,$table,$values='',$options=array())
 		$options_RET = DBGet(DBQuery("SELECT DISTINCT $column,upper($column) AS SORT_KEY FROM $table ORDER BY SORT_KEY"));
 		if (count($options_RET))
 			foreach ( (array) $options_RET as $option)
-				if ( $option[ $column ]!='' && !$options[$option[ $column ]])
+				if ( $option[ $column ]!='' && ! $options[$option[ $column ]])
 					$options[$option[ $column ]] = array($option[ $column ],$option[ $column ]);
 	}
 	// make sure values are in the list
 	if (isset($values) && is_array($values))
 	{
 		foreach ( (array) $values as $value)
-			if ( $value[ $column ]!='' && !$options[$value[ $column ]])
+			if ( $value[ $column ]!='' && ! $options[$value[ $column ]])
 				$options[$value[ $column ]] = array($value[ $column ],$value[ $column ]);
 	}
 	else
-		if ( $values!='' && !$options[ $values ])
+		if ( $values!='' && ! $options[ $values ])
 			$options[ $values ] = array($values,$values);
 
 	return $options;

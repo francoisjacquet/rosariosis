@@ -88,7 +88,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 
 		$field_title = $fields[ $field_id ][1]['TITLE'];
 
-		if ( !$extra['NoSearchTerms'] )
+		if ( ! $extra['NoSearchTerms'] )
 			$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>';
 
 		switch ( $fields[ $field_id ][1]['TYPE'] )
@@ -101,7 +101,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 				{
 					$return .= " AND s." . $field_name . "='" . $value . "' ";
 
-					if ( !$extra['NoSearchTerms'] )
+					if ( ! $extra['NoSearchTerms'] )
 						$_ROSARIO['SearchTerms'] .= _( 'Yes' );
 				}
 				// No
@@ -109,7 +109,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 				{
 					$return .= " AND (s." . $field_name . "!='Y' OR s." . $field_name . " IS NULL) ";
 
-					if ( !$extra['NoSearchTerms'] )
+					if ( ! $extra['NoSearchTerms'] )
 						$_ROSARIO['SearchTerms'] .= _( 'No' );
 				}
 
@@ -125,14 +125,14 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 				{
 					$return .= " AND (s." . $field_name . "='' OR s." . $field_name . " IS NULL) ";
 
-					if ( !$extra['NoSearchTerms'] )
+					if ( ! $extra['NoSearchTerms'] )
 						$_ROSARIO['SearchTerms'] .= _( 'No Value' );
 				}
 				else
 				{
 					$return .= " AND s." . $field_name . "='" . $value . "' ";
 
-					if ( !$extra['NoSearchTerms'] )
+					if ( ! $extra['NoSearchTerms'] )
 					{
 						$select_options = explode( '<br />', nl2br( $fields[ $field_id ][1]['SELECT_OPTIONS'] ) );
 
@@ -175,7 +175,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 				{
 					$return .= " AND (s." . $field_name . "='' OR s." . $field_name . " IS NULL) ";
 
-					if ( !$extra['NoSearchTerms'] )
+					if ( ! $extra['NoSearchTerms'] )
 						$_ROSARIO['SearchTerms'] .= _( 'No Value' );
 				}
 				// Other Value (Edit Pull-Down only)
@@ -187,14 +187,14 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 							FROM " . ( $type == 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS
 							WHERE ID='" . $field_id . "')||'\r')=0 ";
 
-					if ( !$extra['NoSearchTerms'] )
+					if ( ! $extra['NoSearchTerms'] )
 						$_ROSARIO['SearchTerms'] .= _( 'Other Value' );
 				}
 				else
 				{
 					$return .= " AND s." . $field_name . "='" . $value . "' ";
 
-					if ( !$extra['NoSearchTerms'] )
+					if ( ! $extra['NoSearchTerms'] )
 						$_ROSARIO['SearchTerms'] .= $value;
 				}
 
@@ -210,7 +210,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 				{
 					$return .= " AND (s." . $field_name . "='' OR s." . $field_name . " IS NULL) ";
 
-					if ( !$extra['NoSearchTerms'] )
+					if ( ! $extra['NoSearchTerms'] )
 						$_ROSARIO['SearchTerms'] .= _( 'No Value' );
 				}
 				// matches "searched expression"
@@ -219,7 +219,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 				{
 					$return .= " AND s." . $field_name . "='" . mb_substr( $value, 1, -1 ) . "' ";
 
-					if ( !$extra['NoSearchTerms'] )
+					if ( ! $extra['NoSearchTerms'] )
 						$_ROSARIO['SearchTerms'] .= mb_substr( $value, 1, -1 );
 				}
 				// starts with
@@ -227,7 +227,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 				{
 					$return .= " AND LOWER(s." . $field_name . ") LIKE '" . mb_strtolower( $value ) . "%' ";
 
-					if ( !$extra['NoSearchTerms'] )
+					if ( ! $extra['NoSearchTerms'] )
 						$_ROSARIO['SearchTerms'] .= _('starts with') . ' ' .
 							str_replace( "''", "'", $value );
 				}
@@ -235,7 +235,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 			break;
 		}
 
-		if ( !$extra['NoSearchTerms'] )
+		if ( ! $extra['NoSearchTerms'] )
 			$_ROSARIO['SearchTerms'] .= '<br />';
 	}
 
@@ -253,7 +253,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		{
 			$return .= " AND s." . $field_name . " >= '" . $value . "' ";
 
-			if ( !$extra['NoSearchTerms'] )
+			if ( ! $extra['NoSearchTerms'] )
 			{
 				$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>' .
 					'<span class="sizep2">&ge;</span> ';
@@ -282,7 +282,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		{
 			$return .= " AND s." . $field_name . " <= '" . $value . "' ";
 
-			if ( !$extra['NoSearchTerms'] )
+			if ( ! $extra['NoSearchTerms'] )
 			{
 				$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>' .
 					'<span class="sizep2">&le;</span> ';
@@ -306,7 +306,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 
 		$return .= " AND s." . $field_name . " IS NULL ";
 
-		if ( !$extra['NoSearchTerms'] )
+		if ( ! $extra['NoSearchTerms'] )
 			$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>' .
 				_( 'No Value' ) . '<br />';
 	}

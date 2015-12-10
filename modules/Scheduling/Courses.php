@@ -8,7 +8,7 @@ if ( $_REQUEST['modfunc']!='choose_course')
 //unset($_SESSION['_REQUEST_vars']['course_period_id']);
 
 // if only one subject, select it automatically -- works for Course Setup and Choose a Course
-if ( $_REQUEST['modfunc']!='delete' && !$_REQUEST['subject_id'])
+if ( $_REQUEST['modfunc']!='delete' && ! $_REQUEST['subject_id'])
 {
 	$subjects_RET = DBGet(DBQuery("SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."'"));
 	if (count($subjects_RET)==1)
@@ -73,7 +73,7 @@ if ( $_REQUEST['course_modfunc']=='search')
 		$columns = array('TITLE' => _('Course Period'));
 		$link = array();
 
-		if ( $_REQUEST['modname']!='Scheduling/Schedule.php' || ($_REQUEST['modname']=='Scheduling/Schedule.php' && !$_REQUEST['include_child_mps']))
+		if ( $_REQUEST['modname']!='Scheduling/Schedule.php' || ($_REQUEST['modname']=='Scheduling/Schedule.php' && ! $_REQUEST['include_child_mps']))
 		{
 			$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&last_year='.$_REQUEST['last_year'];
 			$link['TITLE']['variables'] = array('subject_id' => 'SUBJECT_ID','course_id' => 'COURSE_ID','course_period_id' => 'COURSE_PERIOD_ID');
@@ -525,7 +525,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUEST['course_modfunc'])
+if ((! $_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && ! $_REQUEST['course_modfunc'])
 {
 //FJ fix SQL bug invalid sort order
 	if (isset($error))
@@ -670,14 +670,14 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			{
 				$i++;
 				//FJ add new school period to existing course period
-				if ( !$new && $i > count($RET2))
+				if ( ! $new && $i > count($RET2))
 				{
 					$new = true;
 					$not_really_new = true;
 					unset($school_period);
 				}
 
-				if ( !$new)
+				if ( ! $new)
 					$school_period = $RET2[ $i ];
 				else
 					$school_period['COURSE_PERIOD_SCHOOL_PERIODS_ID'] = 'new' . $i;
@@ -685,7 +685,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 				$header .= '<tr id="schoolPeriod'.$i.'" class="st">';
 
 				//FJ existing school period not modifiable
-				if ( !$new )
+				if ( ! $new )
 				{
 					$header .= '<td>' . NoInput(
 						$periods[$school_period['PERIOD_ID']],
@@ -755,7 +755,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			} while ( $i <= count($RET2) );
 			
 			$header .= '<tr class="st"><td colspan="7"><a href="#" onclick="'.($new ? 'newSchoolPeriod();' : 'document.getElementById(\'schoolPeriod\'+'.$i.').style.display=\'table-row\';').' return false;">'. button('add') .' '._('New Period').'</a></td></tr>';
-			if ( !$new)
+			if ( ! $new)
 				$header .= '<script>document.getElementById(\'schoolPeriod\'+'.$i.').style.display = "none";</script>';
 			?>
 			<script>
@@ -921,7 +921,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			$header .= '<tr class="st">';
 
 			//FJ title required
-			$header .= '<td>' . TextInput($RET['TITLE'],'tables[COURSES]['.$_REQUEST['course_id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</td>';
+			$header .= '<td>' . TextInput($RET['TITLE'],'tables[COURSES]['.$_REQUEST['course_id'].'][TITLE]',(! $RET['TITLE']?'<span class="legend-red">':'')._('Title').(! $RET['TITLE']?'</span>':''), 'required') . '</td>';
 			$header .= '<td>' . TextInput($RET['SHORT_NAME'],'tables[COURSES]['.$_REQUEST['course_id'].'][SHORT_NAME]',_('Short Name')) . '</td>';
 			//FJ add Credit Hours to Courses
 			$header .= '<td>' . TextInput($RET['CREDIT_HOURS'],'tables[COURSES]['.$_REQUEST['course_id'].'][CREDIT_HOURS]',_('Credit Hours')) . '</td>';
@@ -962,7 +962,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 			$header .= '<tr class="st">';
 
 			//FJ title required
-			$header .= '<td>' . TextInput($RET['TITLE'],'tables[COURSE_SUBJECTS]['.$_REQUEST['subject_id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Title').(!$RET['TITLE']?'</span>':''), 'required') . '</td>';
+			$header .= '<td>' . TextInput($RET['TITLE'],'tables[COURSE_SUBJECTS]['.$_REQUEST['subject_id'].'][TITLE]',(! $RET['TITLE']?'<span class="legend-red">':'')._('Title').(! $RET['TITLE']?'</span>':''), 'required') . '</td>';
 			$header .= '<td>' . TextInput($RET['SORT_ORDER'],'tables[COURSE_SUBJECTS]['.$_REQUEST['subject_id'].'][SORT_ORDER]',_('Sort Order')) . '</td>';
 
 			$header .= '</tr>';
@@ -991,7 +991,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 		else
 			DrawHeader(_('Choose a').' '.($_REQUEST['subject_id']?($_REQUEST['course_id']?($_REQUEST['last_year']=='true'?_('Last Year Course Period'):_('Course Period')):($_REQUEST['last_year']=='true'?_('Last Year Course'):_('Course'))):($_REQUEST['last_year']=='true'?_('Last Year Subject'):_('Subject'))));
 	}
-	elseif ( !$_REQUEST['subject_id'])
+	elseif ( ! $_REQUEST['subject_id'])
 		DrawHeader(_('Courses'));
 	DrawHeader('','<a href="Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&course_modfunc=search&last_year='.$_REQUEST['last_year'].($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['modname']=='Scheduling/Schedule.php'?'&include_child_mps='.$_REQUEST['include_child_mps'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date']:'').'">'._('Search').'</a>&nbsp;');
 
@@ -1084,7 +1084,7 @@ if ((!$_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && !$_REQUE
 
 			$link = array();
 
-			if ( $_REQUEST['modname']!='Scheduling/Schedule.php' || ($_REQUEST['modname']=='Scheduling/Schedule.php' && !$_REQUEST['include_child_mps']))
+			if ( $_REQUEST['modname']!='Scheduling/Schedule.php' || ($_REQUEST['modname']=='Scheduling/Schedule.php' && ! $_REQUEST['include_child_mps']))
 			{
 				$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'];
 

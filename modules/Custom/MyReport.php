@@ -64,7 +64,7 @@ if (empty($_REQUEST['modfunc']))
                         $LO_columns += array('TITLE_'.$i => _('Title').' '.$i,'VALUE_'.$i => _('Value').' '.$i);
 		DrawHeader($header_left);
 		DrawHeader(str_replace('<br />','<br /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
-		if ( !$_REQUEST['LO_save'])
+		if ( ! $_REQUEST['LO_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 			if ( $_SESSION['Back_PHP_SELF']!='student')

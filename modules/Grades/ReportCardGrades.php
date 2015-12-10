@@ -94,7 +94,7 @@ if (empty($_REQUEST['modfunc']))
 	if (User('PROFILE')=='admin')
 	{
 		$grade_scales_RET = DBGet(DBQuery('SELECT ID,TITLE FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID=\''.UserSchool().'\' AND SYEAR=\''.UserSyear().'\' ORDER BY SORT_ORDER'),array(),array('ID'));
-		if ( $_REQUEST['tab_id']=='' || $_REQUEST['tab_id']!='new' && !$grade_scales_RET[$_REQUEST['tab_id']])
+		if ( $_REQUEST['tab_id']=='' || $_REQUEST['tab_id']!='new' && ! $grade_scales_RET[$_REQUEST['tab_id']])
 			if (count($grade_scales_RET))
 				$_REQUEST['tab_id'] = key($grade_scales_RET).'';
 			else
@@ -103,7 +103,7 @@ if (empty($_REQUEST['modfunc']))
 	else
 	{
 		$course_period_RET = DBGet(DBQuery('SELECT GRADE_SCALE_ID,DOES_BREAKOFF,TEACHER_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\''.UserCoursePeriod().'\''));
-		if ( !$course_period_RET[1]['GRADE_SCALE_ID'])
+		if ( ! $course_period_RET[1]['GRADE_SCALE_ID'])
 			ErrorMessage(array(_('This course is not graded.')),'fatal');
 		$grade_scales_RET = DBGet(DBQuery('SELECT ID,TITLE FROM REPORT_CARD_GRADE_SCALES WHERE ID=\''.$course_period_RET[1]['GRADE_SCALE_ID'].'\''),array(),array('ID'));
 		if ( $course_period_RET[1]['DOES_BREAKOFF']=='Y')

@@ -25,11 +25,11 @@ function AllowEdit( $modname = false )
 
 	if ( User( 'PROFILE' ) === 'admin' )
 	{
-		if ( !$modname
+		if ( ! $modname
 			&& isset( $_ROSARIO['allow_edit'] ) )
 			return $_ROSARIO['allow_edit'];
 
-		if ( !$modname )
+		if ( ! $modname )
 			$modname = $_REQUEST['modname'];
 
 		// Student / User Info tabs
@@ -74,7 +74,7 @@ function AllowUse( $modname = false )
 {
 	global $_ROSARIO;
 
-	if ( !$modname )
+	if ( ! $modname )
 		$modname = $_REQUEST['modname'];
 
 	// Student / User Info tabs

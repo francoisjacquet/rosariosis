@@ -106,7 +106,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 					$old_student_in_moodle = IsMoodleStudent(UserStudentID());
 			
 				if ( $_REQUEST['student_id'] === 'new'
-					|| !$old_student_in_moodle )
+					|| ! $old_student_in_moodle )
 				{
 					DrawHeader( CheckBoxOnclick(
 						'moodle_create_student',
@@ -210,8 +210,8 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 					$users_rolled = true;
 
 				if ( ( $_REQUEST['staff_id'] === 'new'
-						|| !$old_user_in_moodle )
-					&& !$users_rolled )
+						|| ! $old_user_in_moodle )
+					&& ! $users_rolled )
 				{
 					DrawHeader( CheckBoxOnclick(
 						'moodle_create_user',
@@ -360,7 +360,7 @@ function MoodleTriggered($hook_tag, $arg1 = '')
 				
 				if ( $course_in_moodle
 					&& ( $_REQUEST['course_period_id'] === 'new'
-						|| !$old_course_period_in_moodle ) )
+						|| ! $old_course_period_in_moodle ) )
 				{
 					DrawHeader( CheckBoxOnclick(
 						'moodle_create_course_period',

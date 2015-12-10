@@ -150,7 +150,7 @@ if (empty($_REQUEST['modfunc']))
 	
 	foreach ( (array) $referrals_RET as $key => $item)
 	{
-		if ( !$item['USAGE_ID'])
+		if ( ! $item['USAGE_ID'])
 			$referrals_RET[ $key ]['row_color']='CCCCCC';
 	}
 

@@ -282,7 +282,7 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 if (isset($error))
 	echo ErrorMessage($error);
 
-if ( !$_REQUEST['referral_id'] && !$_REQUEST['modfunc'])
+if ( ! $_REQUEST['referral_id'] && ! $_REQUEST['modfunc'])
 	Search('student_id',$extra);
 
 function _make($value,$column)

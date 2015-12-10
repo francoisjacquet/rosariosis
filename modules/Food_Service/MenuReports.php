@@ -280,7 +280,7 @@ function bump_dep($value,$column)
 	if ( $column=='ELLIGIBLE')
 		$value = $THIS_RET['DAYS']/$value;
 
-	if ( !$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']])
+	if ( ! $users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']])
 		$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']] = array('DAYS' => 0,'ELLIGIBLE' => 0,'PARTICIPATED' => 0);
 	$users[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']][ $column ] += $value;
 	$users_totals[$THIS_RET['TYPE']][ $column ] += $value;
@@ -295,7 +295,7 @@ function bump_count($value,$column)
 		$types[$THIS_RET['TYPE']][$THIS_RET['DISCOUNT']][ $value ] += $THIS_RET['COUNT'];
 	else
 		$types[$THIS_RET['TYPE']] += array($THIS_RET['DISCOUNT'] => array($value => $THIS_RET['COUNT']));
-	if ( !$types_columns[ $value ])
+	if ( ! $types_columns[ $value ])
 	{
 		$types_columns += array($value => '<span style="color:red">'.$value.'</span>');
 		$types_totals['Student'][ $value ] = 0;

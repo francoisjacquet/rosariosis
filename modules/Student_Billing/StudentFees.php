@@ -2,7 +2,7 @@
 
 require_once 'modules/Student_Billing/functions.inc.php';
 
-if ( !$_REQUEST['print_statements'])
+if ( ! $_REQUEST['print_statements'])
 {
 	DrawHeader(ProgramTitle());
 
@@ -84,7 +84,7 @@ if ( $_REQUEST['modfunc']=='waive' && AllowEdit())
 	}
 }
 
-if (UserStudentID() && !$_REQUEST['modfunc'])
+if (UserStudentID() && ! $_REQUEST['modfunc'])
 {
 	$fees_total = 0;
 	$functions = array('REMOVE' => '_makeFeesRemove','ASSIGNED_DATE' => 'ProperDate','DUE_DATE' => '_makeFeesDateInput','COMMENTS' => '_makeFeesTextInput','AMOUNT' => '_makeFeesAmount');
@@ -106,15 +106,15 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 		$i++;
 	}
 	
-	if (count($RET) && !$_REQUEST['print_statements'] && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (count($RET) && ! $_REQUEST['print_statements'] && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 		$columns = array('REMOVE' => '');
 	else
 		$columns = array();
 
 	$columns += array('TITLE' => _('Fee'),'AMOUNT' => _('Amount'),'ASSIGNED_DATE' => _('Assigned'),'DUE_DATE' => _('Due'),'COMMENTS' => _('Comment'));
-	if ( !$_REQUEST['print_statements'])
+	if ( ! $_REQUEST['print_statements'])
 		$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeFeesTextInput('','TITLE'),'AMOUNT'=>_makeFeesTextInput('','AMOUNT'),'ASSIGNED_DATE'=>ProperDate(DBDate()),'DUE_DATE'=>_makeFeesDateInput('','DUE_DATE'),'COMMENTS'=>_makeFeesTextInput('','COMMENTS'));
-	if ( !$_REQUEST['print_statements'])
+	if ( ! $_REQUEST['print_statements'])
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		//DrawStudentHeader();
@@ -127,11 +127,11 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 
 	ListOutput($RET,$columns,'Fee','Fees',$link,array(),$options);
 
-	if ( !$_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
 	echo '<br />';
-	if ( !$_REQUEST['print_statements'])
+	if ( ! $_REQUEST['print_statements'])
 	{
 		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID='".UserStudentID()."' AND p.SYEAR='".UserSyear()."'"));
 

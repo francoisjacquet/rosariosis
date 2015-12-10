@@ -33,8 +33,8 @@ if ( !trim($course_RET[1]['DOES_FS_COUNTS'],','))
 // use all meal_id's for now
 $menus_RET = DBGet(DBQuery('SELECT MENU_ID,TITLE FROM FOOD_SERVICE_MENUS WHERE SCHOOL_ID=\''.UserSchool().'\' ORDER BY SORT_ORDER'),array(),array('MENU_ID'));
 //echo '<pre>'; var_dump($menus_RET); echo '</pre>';
-if ( !$_REQUEST['menu_id'])
-	if ( !$_SESSION['FSA_menu_id'] || !$menus_RET[$_SESSION['FSA_menu_id']])
+if ( ! $_REQUEST['menu_id'])
+	if ( ! $_SESSION['FSA_menu_id'] || ! $menus_RET[$_SESSION['FSA_menu_id']])
 		if (count($menus_RET))
 			$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'] = key($menus_RET);
 		else
@@ -55,7 +55,7 @@ else
 $calendar_RET = DBGet(DBQuery("SELECT MINUTES FROM ATTENDANCE_CALENDAR WHERE CALENDAR_ID='".$calendar_id."' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' AND SCHOOL_DATE='".$date."'"));
 //echo '<pre>'; var_dump($calendar_RET); echo '</pre>';
 
-if ( !$calendar_RET[1]['MINUTES'])
+if ( ! $calendar_RET[1]['MINUTES'])
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));
@@ -184,7 +184,7 @@ $extra['SELECT'] .= ',fsa.BALANCE,fssa.STATUS';
 $extra['FROM'] .= ',FOOD_SERVICE_ACCOUNTS fsa,FOOD_SERVICE_STUDENT_ACCOUNTS fssa';
 $extra['WHERE'] .= ' AND fssa.STUDENT_ID=s.STUDENT_ID AND fsa.ACCOUNT_ID=fssa.ACCOUNT_ID AND fssa.STATUS IS NOT NULL';
 
-if ( !$extra['functions'])
+if ( ! $extra['functions'])
 	$extra['functions'] = array();
 
 $extra['functions'] += array('BALANCE' => 'red');

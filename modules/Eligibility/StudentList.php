@@ -35,7 +35,7 @@ switch (date('D'))
 $start = time() - ($today-$START_DAY)*60*60*24;
 $end = time();
 
-if ( !$_REQUEST['start_date'])
+if ( ! $_REQUEST['start_date'])
 {
 	$start_time = $start;
 	$start_date = mb_strtoupper(date('d-M-Y',$start_time));
@@ -79,7 +79,7 @@ Widgets('eligibility');
 Widgets('activity');
 Widgets('course');
 
-if ( !$_REQUEST['search_modfunc'] && User('PROFILE')!='parent' && User('PROFILE')!='student')
+if ( ! $_REQUEST['search_modfunc'] && User('PROFILE')!='parent' && User('PROFILE')!='student')
 {
 	$extra['new'] = true;
 	Search('student_id',$extra);

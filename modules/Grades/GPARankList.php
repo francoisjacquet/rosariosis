@@ -1,18 +1,18 @@
 <?php
 DrawHeader(ProgramTitle());
-if ( !$_REQUEST['LO_sort']) {
+if ( ! $_REQUEST['LO_sort']) {
     $_REQUEST['LO_sort']="CUM_RANK";
     $_REQUEST['LO_direction']=1;
 }
 if ( $_REQUEST['search_modfunc'] == 'list')
 {
 //FJ changed MP list to GradeBreakdown.php style
-	/*if ( !$_REQUEST['mp'] && GetMP(UserMP(),'POST_START_DATE'))
+	/*if ( ! $_REQUEST['mp'] && GetMP(UserMP(),'POST_START_DATE'))
 		$_REQUEST['mp'] = UserMP();
 	elseif (mb_strpos(GetAllMP('QTR',UserMP()),$_REQUEST['mp'])===false && mb_strpos(GetChildrenMP('PRO',UserMP()),"'".$_REQUEST['mp']."'")===false && GetMP(UserMP(),'POST_START_DATE'))
 		$_REQUEST['mp'] = UserMP();
 
-	if ( !$_REQUEST['mp'] && GetMP(GetParentMP('SEM',UserMP()),'POST_START_DATE'))
+	if ( ! $_REQUEST['mp'] && GetMP(GetParentMP('SEM',UserMP()),'POST_START_DATE'))
 		$_REQUEST['mp'] = GetParentMP('SEM',UserMP());
 
 	$sem = GetParentMP('SEM',UserMP());
@@ -27,7 +27,7 @@ if ( $_REQUEST['search_modfunc'] == 'list')
 	{
 		if (GetMP($pro,'DOES_GRADES')=='Y')
 		{
-			if ( !$_REQUEST['mp'])
+			if ( ! $_REQUEST['mp'])
 			{
 				$_REQUEST['mp'] = $pro;
 				$current_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_GRADE_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT FROM STUDENT_REPORT_CARD_GRADES g,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."' AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'"),array(),array('STUDENT_ID'));
@@ -58,7 +58,7 @@ if ( $_REQUEST['search_modfunc'] == 'list')
 
 	$mps_select .= '</select>';*/
 	
-	if ( !$_REQUEST['mp'])
+	if ( ! $_REQUEST['mp'])
 		$_REQUEST['mp'] = UserMP();
 
 	// Get all the mp's associated with the current mp

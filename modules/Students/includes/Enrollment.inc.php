@@ -10,7 +10,7 @@ if (count($RET))
 {
 	foreach ( (array) $RET as $value)
 	{
-		if (($value['DROP_CODE']=='' || !$value['DROP_CODE']) && ($value['END']=='' || !$value['END']))
+		if (($value['DROP_CODE']=='' || ! $value['DROP_CODE']) && ($value['END']=='' || ! $value['END']))
 			$add = false;
 	}
 }

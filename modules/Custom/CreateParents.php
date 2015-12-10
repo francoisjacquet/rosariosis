@@ -91,7 +91,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	//FJ add Template
 	$createparentstext = $_REQUEST['inputcreateparentstext_new'].'__BLOCK2__'.$_REQUEST['inputcreateparentstext_old'];
 	$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Custom/CreateParents.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
-	if ( !$template_update)
+	if ( ! $template_update)
 		DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('Custom/CreateParents.php', '".User('STAFF_ID')."', '".$createparentstext."')");
 	else
 		DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$createparentstext."' WHERE MODNAME = 'Custom/CreateParents.php' AND STAFF_ID = '".User('STAFF_ID')."'");
@@ -118,7 +118,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			unset($id);
 			$student_id = $students[1]['STUDENT_ID'];
 
-			if ( !$students[1]['STAFF_ID'])
+			if ( ! $students[1]['STAFF_ID'])
 			{
 				if ( $_REQUEST['contact'][ $student_id ])
 				{
@@ -141,7 +141,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					//FJ Moodle integrator / password
 					$password = UCFirst($password). '*';
 
-					if ( !$test_email)
+					if ( ! $test_email)
 					{
 						// get staff id
 						$id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS SEQ_ID '.FROM_DUAL));
@@ -182,7 +182,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				foreach ( (array) $students as $student)
 				{
 					//join users to students
-					if ( !$test_email)
+					if ( ! $test_email)
 					{
 						$sql = "INSERT INTO STUDENTS_JOIN_USERS (STAFF_ID,STUDENT_ID) values ('".$id."','".$student['STUDENT_ID']."')";
 						DBQuery($sql);
@@ -337,7 +337,7 @@ function _makeChooseCheckbox($value,$title)
 function _makeContactSelect($value,$column)
 {	global $THIS_RET;
 
-	if ( !$THIS_RET['STAFF_ID'])
+	if ( ! $THIS_RET['STAFF_ID'])
 		$RET = DBGet(DBQuery("SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,p.FIRST_NAME||' '||p.LAST_NAME AS CONTACT 
 		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p 
 		WHERE p.PERSON_ID=sjp.PERSON_ID 

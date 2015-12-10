@@ -22,7 +22,7 @@ function WrapTabs( $tabs, $selected = '' )
 		$selected_tab = false;
 
 		if ( $tab['link'] === $selected
-			|| ( !$selected
+			|| ( ! $selected
 				&& $tab['link'] == $self_link ) )
 		{
 			$selected_tab = true;

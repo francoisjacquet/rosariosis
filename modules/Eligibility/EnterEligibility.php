@@ -97,7 +97,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 				$total /= $total_percent;
 
 			$grade = $grades_RET[_makeLetterGrade($total,0,0,'ID')][1];
-			if ( $grade['GPA_VALUE']=='0' || !$grade['GPA_VALUE'])
+			if ( $grade['GPA_VALUE']=='0' || ! $grade['GPA_VALUE'])
 				$code = 'FAILING';
 			elseif (mb_strpos($grade['TITLE'],'D')!==false || $grade['GPA_VALUE']<2)
 				$code = 'BORDERLINE';
@@ -158,7 +158,7 @@ echo '</form>';
 function makeRadio($value,$title)
 {	global $THIS_RET,$current_RET;
 
-	if ((isset($current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE']) && $current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE']==$title) || ($title=='PASSING' && !$current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE']))
+	if ((isset($current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE']) && $current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE']==$title) || ($title=='PASSING' && ! $current_RET[$THIS_RET['STUDENT_ID']][1]['ELIGIBILITY_CODE']))
 		return '<input type="radio" name="values['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />';
 	else
 		return '<input type="radio" name="values['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'">';

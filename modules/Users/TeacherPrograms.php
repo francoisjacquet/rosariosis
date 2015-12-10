@@ -88,7 +88,7 @@ if (UserStaffID())
 		$period_select .= '<option value="'.$period['COURSE_PERIOD_ID'].'.'.$period['COURSE_PERIOD_SCHOOL_PERIODS_ID'].'"'.$selected.'>'.$period['TITLE'].(mb_strlen($period['DAYS'])<5?(mb_strlen($period['DAYS'])<2?' '._('Day').' '.$period_DAYS_locale.' - ':' '._('Days').' '.$period_DAYS_locale.' - '):' - ').($period['MARKING_PERIOD_ID']!=$fy_RET[1]['MARKING_PERIOD_ID']?GetMP($period['MARKING_PERIOD_ID'],'SHORT_NAME').' - ':'').$period['CP_SHORT_NAME'].'</option>';
 
 	}
-	if ( !$found)
+	if ( ! $found)
 	{
 		$_SESSION['UserCoursePeriod'] = $RET[1]['COURSE_PERIOD_ID'];
 //FJ fix bug SQL no course period in the user period

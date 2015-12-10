@@ -63,7 +63,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 		$mp = 'FY';
 	}
-	elseif ( !$mp )
+	elseif ( ! $mp )
 	{
 		$mp = GetMP( $marking_period_id, 'MP' );
 	}
@@ -107,7 +107,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 			$qtr_RET = DBGet( DBQuery( $qtr_SQL ), array(), array( 'PARENT_ID' ) );
 
 		//FJ error if no quarters
-		if ( !$qtr_RET )
+		if ( ! $qtr_RET )
 			return ErrorMessage( $error_no_qtr, 'fatal' );
 
 		switch ( $mp )

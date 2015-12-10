@@ -1,7 +1,7 @@
 <?php
 
 require_once 'modules/Accounting/functions.inc.php';
-if ( !$_REQUEST['print_statements'])
+if ( ! $_REQUEST['print_statements'])
 	DrawHeader(ProgramTitle());
 
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
@@ -56,7 +56,7 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if ( !$_REQUEST['modfunc'])
+if ( ! $_REQUEST['modfunc'])
 {
 	$incomes_total = 0;
 	$functions = array('REMOVE' => '_makeIncomesRemove','ASSIGNED_DATE' => 'ProperDate','COMMENTS' => '_makeIncomesTextInput','AMOUNT' => '_makeIncomesAmount');
@@ -69,15 +69,15 @@ if ( !$_REQUEST['modfunc'])
 		$i++;
 	}
 	
-	if (count($RET) && !$_REQUEST['print_statements'] && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+	if (count($RET) && ! $_REQUEST['print_statements'] && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 		$columns = array('REMOVE' => '');
 	else
 		$columns = array();
 
 	$columns += array('TITLE' => _('Income'),'AMOUNT' => _('Amount'),'ASSIGNED_DATE' => _('Assigned'),'COMMENTS' => _('Comment'));
-	if ( !$_REQUEST['print_statements'])
+	if ( ! $_REQUEST['print_statements'])
 		$link['add']['html'] = array('REMOVE'=>button('add'),'TITLE'=>_makeIncomesTextInput('','TITLE'),'AMOUNT'=>_makeIncomesTextInput('','AMOUNT'),'ASSIGNED_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makeIncomesTextInput('','COMMENTS'));
-	if ( !$_REQUEST['print_statements'])
+	if ( ! $_REQUEST['print_statements'])
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		if (AllowEdit())
@@ -87,7 +87,7 @@ if ( !$_REQUEST['modfunc'])
 	else
 		$options = array('center'=>false);
 	ListOutput($RET,$columns,'Income','Incomes',$link,array(),$options);
-	if ( !$_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '<br />';
 
@@ -117,11 +117,11 @@ if ( !$_REQUEST['modfunc'])
 
 	$table .= '<tr><td>'._('General Balance').': <b>'.'</b></td><td><b id="update_balance">'.Currency(($incomes_total+$student_payments_total[1]['TOTAL']-$payments_total[1]['TOTAL']-$Staff_payments_total[1]['TOTAL'])).'</b></td></tr></table>';
 		
-	if ( !$_REQUEST['print_statements'])
+	if ( ! $_REQUEST['print_statements'])
 		DrawHeader('','',$table);
 	else
 		DrawHeader($table,'','',null,null,true);
 	
-	if ( !$_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 		echo '</form>';
 }

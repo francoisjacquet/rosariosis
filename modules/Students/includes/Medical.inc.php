@@ -26,7 +26,7 @@ if ( ( isset( $_POST['values'] )
 
 if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if ( !$_REQUEST['delete_ok'] && !$_REQUEST['delete_cancel'])
+	if ( ! $_REQUEST['delete_ok'] && ! $_REQUEST['delete_cancel'])
 		echo '</form>';
 	if (DeletePrompt($_REQUEST['title']))
 	{

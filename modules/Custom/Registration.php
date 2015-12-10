@@ -29,7 +29,7 @@ if ( $_REQUEST['values'])
 	{
 		foreach ( (array) $_REQUEST['values']['ADDRESS'] as $key => $columns)
 		{
-			if ( $columns['ADDRESS'] && !$inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))])
+			if ( $columns['ADDRESS'] && ! $inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))])
 			{
 				$address_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('ADDRESS_SEQ').' AS ADDRESS_ID '.FROM_DUAL));
 				$address_id[ $key ] = $address_RET[1]['ADDRESS_ID'];

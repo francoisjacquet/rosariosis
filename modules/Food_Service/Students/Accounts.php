@@ -28,7 +28,7 @@ if ( $_REQUEST['modfunc']=='update')
                     }
                 }
             }
-            if ( !$RET || PromptX($title='Confirm',$question,$message))
+            if ( ! $RET || PromptX($title='Confirm',$question,$message))
             {
                 if (is_numeric($_REQUEST['food_service']['ACCOUNT_ID']) && intval($_REQUEST['food_service']['ACCOUNT_ID'])>=0)
 				{

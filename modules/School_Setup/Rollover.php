@@ -18,7 +18,7 @@ $table_list = '<table style="float: left">';
 foreach ( (array) $tables as $table => $name)
 {
 	if ( $table!='FOOD_SERVICE_STAFF_ACCOUNTS')
-		$exists_RET[ $table ] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM $table WHERE SYEAR='".$next_syear."'".(!$no_school_tables[ $table ]?" AND SCHOOL_ID='".UserSchool()."'":'')));
+		$exists_RET[ $table ] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM $table WHERE SYEAR='".$next_syear."'".(! $no_school_tables[ $table ]?" AND SCHOOL_ID='".UserSchool()."'":'')));
 	else
 		$exists_RET['FOOD_SERVICE_STAFF_ACCOUNTS'] = DBGet(DBQuery("SELECT count(*) AS COUNT FROM STAFF WHERE SYEAR='".$next_syear."' AND exists(SELECT * FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=STAFF.STAFF_ID)"));
 
@@ -45,9 +45,9 @@ DrawHeader(ProgramTitle());
 //FJ school year over one/two calendar years format
 if (Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to roll the data for %s to the next school year?'),FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS'))),$table_list))
 {
-	if ( !($_REQUEST['tables']['COURSES'] && ((!$_REQUEST['tables']['STAFF'] && $exists_RET['STAFF'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_PERIODS'] && $exists_RET['SCHOOL_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT']<1) || (!$_REQUEST['tables']['ATTENDANCE_CALENDARS'] && $exists_RET['ATTENDANCE_CALENDARS'][1]['COUNT']<1) || (!$_REQUEST['tables']['REPORT_CARD_GRADES'] && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT']<1))))
+	if ( !($_REQUEST['tables']['COURSES'] && ((! $_REQUEST['tables']['STAFF'] && $exists_RET['STAFF'][1]['COUNT']<1) || (! $_REQUEST['tables']['SCHOOL_PERIODS'] && $exists_RET['SCHOOL_PERIODS'][1]['COUNT']<1) || (! $_REQUEST['tables']['SCHOOL_MARKING_PERIODS'] && $exists_RET['SCHOOL_MARKING_PERIODS'][1]['COUNT']<1) || (! $_REQUEST['tables']['ATTENDANCE_CALENDARS'] && $exists_RET['ATTENDANCE_CALENDARS'][1]['COUNT']<1) || (! $_REQUEST['tables']['REPORT_CARD_GRADES'] && $exists_RET['REPORT_CARD_GRADES'][1]['COUNT']<1))))
 	{
-		if ( !($_REQUEST['tables']['REPORT_CARD_COMMENTS'] && ((!$_REQUEST['tables']['COURSES'] && $exists_RET['COURSES'][1]['COUNT']<1))))
+		if ( !($_REQUEST['tables']['REPORT_CARD_COMMENTS'] && ((! $_REQUEST['tables']['COURSES'] && $exists_RET['COURSES'][1]['COUNT']<1))))
 		{
 			if (count($_REQUEST['tables']))
 			{

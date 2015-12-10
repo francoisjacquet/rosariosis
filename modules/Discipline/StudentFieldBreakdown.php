@@ -111,7 +111,7 @@ if ( isset( $_REQUEST['field_id'] )
 
 			foreach ( (array) $options_RET as $option )
 			{
-				if ( !$fields_RET[1]['OPTIONS']
+				if ( ! $fields_RET[1]['OPTIONS']
 					|| !in_array( $option['CUSTOM_' . intval( $_REQUEST['field_id'] )], $fields_RET[1]['OPTIONS'] ) )
 					$fields_RET[1]['OPTIONS'][] = $option['CUSTOM_' . intval( $_REQUEST['field_id'] )];
 			}
@@ -218,7 +218,7 @@ if ( isset( $_REQUEST['field_id'] )
 
 		$referrals_RET = GetStuList( $extra );
 
-		if ( !$referrals_RET ) //FJ bugfix no results for numeric fields chart 
+		if ( ! $referrals_RET ) //FJ bugfix no results for numeric fields chart 
 			$chart['chart_data'][0][0] = $chart['chart_data'][1][0] = 0;
 	}
 }

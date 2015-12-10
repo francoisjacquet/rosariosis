@@ -71,7 +71,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 			{
 				if ( !count($exceptions_RET[ $modname ]) && ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)]))
 					DBQuery("INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME) values('".$user_id."','".$modname."')");
-				elseif (count($exceptions_RET[ $modname ]) && !$_REQUEST['can_edit'][str_replace('.','_',$modname)] && !$_REQUEST['can_use'][str_replace('.','_',$modname)])
+				elseif (count($exceptions_RET[ $modname ]) && ! $_REQUEST['can_edit'][str_replace('.','_',$modname)] && ! $_REQUEST['can_use'][str_replace('.','_',$modname)])
 					DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE USER_ID='".$user_id."' AND MODNAME='".$modname."'");
 
 				if ( $_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)])
@@ -111,7 +111,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 {
 $staff_RET = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,PROFILE,PROFILE_ID FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
 
-if ( !$staff_RET[1]['PROFILE_ID'])
+if ( ! $staff_RET[1]['PROFILE_ID'])
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader(_('Select the programs with which this user can use and save information.'),SubmitButton(_('Save')));

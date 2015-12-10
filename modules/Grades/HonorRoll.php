@@ -98,7 +98,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			//FJ add Template
 			$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
 
-			if ( !$template_update)
+			if ( ! $template_update)
 				DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_honor_roll_text."')");
 			else
 				DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_honor_roll_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
@@ -364,7 +364,7 @@ function MyWidgets($item)
 
 				$extra['columns_after']['HIGH_HONOR'] = _('High Honor');
 
-				if ( !$extra['NoSearchTerms'])
+				if ( ! $extra['NoSearchTerms'])
 					//FJ add translation
 					$_ROSARIO['SearchTerms'] .= '<b>'._('Honor Roll').' & '._('High Honor Roll').'</b><br />';
 			}
@@ -403,7 +403,7 @@ function MyWidgets($item)
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
 				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
 
-				if ( !$extra['NoSearchTerms'])
+				if ( ! $extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<b>'._('Honor Roll').'</b><br />';
 			}
 			elseif ( $_REQUEST['high_honor_roll']=='Y')
@@ -428,7 +428,7 @@ function MyWidgets($item)
 				AND sg.REPORT_CARD_GRADE_ID=rg.ID
 				AND rg.GPA_VALUE<(SELECT HHR_GPA_VALUE FROM REPORT_CARD_GRADE_SCALES WHERE ID=rg.GRADE_SCALE_ID))";
 
-				if ( !$extra['NoSearchTerms'])
+				if ( ! $extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<b>'._('High Honor Roll').'</b><br />';
 			}
 

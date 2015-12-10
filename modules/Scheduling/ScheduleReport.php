@@ -38,7 +38,7 @@ $LO_options = array('save'=>false,'search'=>false,'print'=>false);
 echo '<table><tr class="st">';
 
 // SUBJECTS ----
-if ( !$_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['students']!='courses'))
+if ( ! $_REQUEST['modfunc'] || ($_REQUEST['modfunc']=='courses' && $_REQUEST['students']!='courses'))
 {
 	$QI = DBQuery("SELECT s.SUBJECT_ID,s.TITLE FROM COURSE_SUBJECTS s WHERE s.SYEAR='".UserSyear()."' AND s.SCHOOL_ID='".UserSchool()."' ORDER BY s.SORT_ORDER,s.TITLE");
 	$RET = DBGet($QI);

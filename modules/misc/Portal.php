@@ -542,7 +542,7 @@ function _formatContent($value,$column)
 
 	$id = $THIS_RET['ID'];
 
-	if ( !$value )
+	if ( ! $value )
 		return '';
 
 	//FJ responsive rt td too large

@@ -45,7 +45,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			//FJ add Template
 			$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
-			if ( !$template_update)
+			if ( ! $template_update)
 				DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_letter_text."')");
 			else
 				DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_letter_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");

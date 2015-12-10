@@ -9,7 +9,7 @@ $fy = GetParentMP('FY',$sem);
 $pros = GetChildrenMP('PRO',UserMP());
 
 // if the UserMP has been changed, the REQUESTed MP may not work
-if ( !$_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
+if ( ! $_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".$pros,"'".$_REQUEST['mp']."'")===false)
 	$_REQUEST['mp'] = UserMP();
 
 $course_period_id = UserCoursePeriod();
@@ -23,7 +23,7 @@ if (empty($course_period_id))
 //$course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit($course_period_id, '".$_REQUEST['mp']."') AS CREDITS, (SELECT ATTENDANCE FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID) AS ATTENDANCE FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
 $course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit(CAST(".$course_period_id." AS integer), CAST('".$_REQUEST['mp']."' AS character varying)) AS CREDITS, DOES_CLASS_RANK AS CLASS_RANK, c.CREDIT_HOURS FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
 
-if ( !$course_RET[1]['GRADE_SCALE_ID'])                                  
+if ( ! $course_RET[1]['GRADE_SCALE_ID'])                                  
 	ErrorMessage(array(_('You cannot enter grades for this course period.')),'fatal');
 
 $course_title = $course_RET[1]['TITLE'];
@@ -48,7 +48,7 @@ SELECT -1,'"._('General')."',NULL,3,NULL
 WHERE (SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID IS NULL AND SYEAR='".UserSyear()."')>0
 ORDER BY 4,SORT_ORDER"),array(),array('ID'));
 
-if ( $_REQUEST['tab_id']=='' || !$categories_RET[$_REQUEST['tab_id']])
+if ( $_REQUEST['tab_id']=='' || ! $categories_RET[$_REQUEST['tab_id']])
 	$_REQUEST['tab_id'] = key($categories_RET).'';
 
 $comment_codes_RET = DBGet(DBQuery("SELECT SCALE_ID,TITLE,SHORT_NAME,COMMENT FROM REPORT_CARD_COMMENT_CODES WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER,ID"),array(),array('SCALE_ID'));
@@ -535,9 +535,9 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		if (isset($columns['commentsB']) && is_array($columns['commentsB']))
 			foreach ( (array) $columns['commentsB'] as $i => $comment)
 				if ( $comment)
-					if ( !$new[ $comment ])
+					if ( ! $new[ $comment ])
 					{
-						if ( !$change[ $i ]['REPORT_CARD_COMMENT_ID'])
+						if ( ! $change[ $i ]['REPORT_CARD_COMMENT_ID'])
 						{
 							$change[ $i ]['REPORT_CARD_COMMENT_ID'] = $comment;
 							$new[ $comment ] = $i;
@@ -553,7 +553,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 			foreach ( (array) $columns['commentsB'] as $i => $comment)
 				if ( $comment)
 				{
-					if ( !$new[ $comment ])
+					if ( ! $new[ $comment ])
 					{
 						while ( $change[key($change)]['REPORT_CARD_COMMENT_ID'])
 							next($change);
@@ -591,7 +591,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 
 	if ( $completed)
 	{
-		if ( !$current_completed)
+		if ( ! $current_completed)
 			DBQuery("INSERT INTO GRADES_COMPLETED (STAFF_ID,MARKING_PERIOD_ID,COURSE_PERIOD_ID) values('".User('STAFF_ID')."','".$_REQUEST['mp']."','".$course_period_id."')");
 	}
 	else
@@ -819,7 +819,7 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		//FJ remove Get previous MP Grades & Comments if course period's marking period is a quarter
 		$mp_is_quarter = DBGet(DBQuery("SELECT '' FROM COURSE_PERIODS WHERE MP='QTR' AND COURSE_PERIOD_ID='".$course_period_id."'"));
 
-		if ( $prev_mp && !$mp_is_quarter)
+		if ( $prev_mp && ! $mp_is_quarter)
 		{
 			$gb_header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=grades&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Grades'),$prev_mp['TITLE']).'</a>';
 			$gb_header .= ' | <a href="Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&modfunc=comments&tab_id='.$_REQUEST['tab_id'].'&mp='.$_REQUEST['mp'].'&prev_mp='.$prev_mp['MARKING_PERIOD_ID'].'">'.sprintf(_('Get %s Comments'),$prev_mp['TITLE']).'</a>';
@@ -1033,7 +1033,7 @@ function _makeCommentsA($value,$column)
 	}
 	else
 	{
-		if ( !$current_commentsA_RET[$THIS_RET['STUDENT_ID']][ $value ][1]['COMMENT'] && !$import_commentsA_RET && AllowEdit())
+		if ( ! $current_commentsA_RET[$THIS_RET['STUDENT_ID']][ $value ][1]['COMMENT'] && ! $import_commentsA_RET && AllowEdit())
 		{
 			$select = Preferences('COMMENT_'.$THIS_RET['CAC'.$value],'Gradebook');
 			$div = false;

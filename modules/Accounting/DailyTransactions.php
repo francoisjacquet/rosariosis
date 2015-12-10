@@ -44,7 +44,7 @@ DrawHeader('<b>'._('Report Timeframe').': </b>'.PrepareDate($start_date,'_start'
 echo '</form>';
 
 // sort by date since the list is two lists merged and not already properly sorted
-if ( !$_REQUEST['LO_sort'])
+if ( ! $_REQUEST['LO_sort'])
 	$_REQUEST['LO_sort'] = 'DATE';
 
 $extra['functions'] = array('DEBIT' => '_makeCurrency','CREDIT' => '_makeCurrency','DATE' => 'ProperDate');

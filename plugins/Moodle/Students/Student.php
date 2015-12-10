@@ -335,7 +335,7 @@ filecontent = base64_encode
 	global $RosarioPath;
 	$filecontent = base64_encode_file ($RosarioPath.$_POST['photoPath'].$_POST['sYear'].'/'.$_POST['userId'].'.jpg');
 	
-	if ( !$filecontent)
+	if ( ! $filecontent)
 	{
 		global $error;
 

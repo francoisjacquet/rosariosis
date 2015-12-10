@@ -53,7 +53,7 @@ function GetStaffList(& $extra)
 			}
 			else
 			{
-				if ( !$extra['columns_after'])
+				if ( ! $extra['columns_after'])
 					$extra['columns_after'] = array();
 
 				if ( $extra['staff_fields']['view'])
@@ -127,7 +127,7 @@ function appendStaffSQL($sql,$extra)
 			//$sql .= " AND s.STAFF_ID='".$_REQUEST['usrid']."'";
 			$sql .= " AND s.STAFF_ID IN (".$usrids.")";
 
-			if ( !$extra['NoSearchTerms'])
+			if ( ! $extra['NoSearchTerms'])
 				$_ROSARIO['SearchTerms'] .= '<b>'._('User ID').': </b>'.$usrids.'<br />';
 		}
 	}
@@ -136,7 +136,7 @@ function appendStaffSQL($sql,$extra)
 	{
 		$sql .= " AND UPPER(s.LAST_NAME) LIKE '".mb_strtoupper($_REQUEST['last'])."%'";
 
-		if ( !$extra['NoSearchTerms'])
+		if ( ! $extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<b>'._('Last Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['last']).'<br />';
 	}
 
@@ -144,7 +144,7 @@ function appendStaffSQL($sql,$extra)
 	{
 		$sql .= " AND UPPER(s.FIRST_NAME) LIKE '".mb_strtoupper($_REQUEST['first'])."%'";
 
-		if ( !$extra['NoSearchTerms'])
+		if ( ! $extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<b>'._('First Name starts with').': </b>'.str_replace("''", "'", $_REQUEST['first']).'<br />';
 	}
 
@@ -152,7 +152,7 @@ function appendStaffSQL($sql,$extra)
 	{
 		$sql .= " AND s.PROFILE='".$_REQUEST['profile']."'";
 
-		if ( !$extra['NoSearchTerms'])
+		if ( ! $extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<b>'._('Profile').': </b>'._(UCFirst($_REQUEST['profile'])).'<br />';
 	}
 
@@ -160,7 +160,7 @@ function appendStaffSQL($sql,$extra)
 	{
 		$sql .= " AND UPPER(s.USERNAME) LIKE '".mb_strtoupper($_REQUEST['username'])."%'";
 
-		if ( !$extra['NoSearchTerms'])
+		if ( ! $extra['NoSearchTerms'])
 			$_ROSARIO['SearchTerms'] .= '<b>'._('UserName starts with').': </b>'.str_replace("''", "'", $_REQUEST['username']).'<br />';
 	}
 

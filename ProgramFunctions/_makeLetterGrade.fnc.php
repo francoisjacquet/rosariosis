@@ -30,13 +30,13 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 	global $programconfig,
 		$_ROSARIO;
 
-	if ( !$course_period_id )
+	if ( ! $course_period_id )
 		$course_period_id = UserCoursePeriod();
 
-	if ( !$staff_id )
+	if ( ! $staff_id )
 		$staff_id = User( 'STAFF_ID' );
 
-	if ( !$programconfig[ $staff_id ] )
+	if ( ! $programconfig[ $staff_id ] )
 	{
 		$config_RET = DBGet( DBQuery( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG
@@ -51,7 +51,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 	}
 
 	// Save courses in $_ROSARIO['_makeLetterGrade']['courses'] global var
-	if ( !$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ])
+	if ( ! $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ])
 		$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] = DBGet( DBQuery( "SELECT DOES_BREAKOFF,GRADE_SCALE_ID
 			FROM COURSE_PERIODS
 			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" ) );
@@ -82,7 +82,7 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 		return $percent;
 
 	// Save grades in $_ROSARIO['_makeLetterGrade']['grades'] global var
-	if ( !$_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] )
+	if ( ! $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] )
 		$_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] = DBGet( DBQuery( "SELECT TITLE,ID,BREAK_OFF,COMMENT
 			FROM REPORT_CARD_GRADES
 			WHERE SYEAR='" . UserSyear() . "'

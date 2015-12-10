@@ -212,7 +212,7 @@ if (empty($_REQUEST['modfunc']))
 		$header .= '<table class="width-100p valign-top fixed-col"><tr class="st">';
 
 		//FJ field name required
-		$header .= '<td>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Field Name').(!$RET['TITLE']?'</span>':'')) . '</td>';
+		$header .= '<td>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['id'].'][TITLE]',(! $RET['TITLE']?'<span class="legend-red">':'')._('Field Name').(! $RET['TITLE']?'</span>':'')) . '</td>';
 
 		// You can't change a user field type after it has been created
 		// mab - allow changing between select and autos and edits and text and exports
@@ -273,7 +273,7 @@ if (empty($_REQUEST['modfunc']))
 		$header .= '<table class="width-100p valign-top"><tr class="st">';
 
 		//FJ title required
-		$header .= '<td>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(!$RET['TITLE']?'<span class="legend-red">':'')._('Title').(!$RET['TITLE']?'</span>':'')) . '</td>';
+		$header .= '<td>' . MLTextInput($RET['TITLE'],'tables['.$_REQUEST['category_id'].'][TITLE]',(! $RET['TITLE']?'<span class="legend-red">':'')._('Title').(! $RET['TITLE']?'</span>':'')) . '</td>';
 
 		$header .= '<td>' . TextInput($RET['SORT_ORDER'],'tables['.$_REQUEST['category_id'].'][SORT_ORDER]',_('Sort Order'),'size=5') . '</td>';
 
@@ -283,13 +283,13 @@ if (empty($_REQUEST['modfunc']))
 
 		$header .= '<td><table><tr>';
 
-		$header .= '<td>' . CheckboxInput($RET['ADMIN'], 'tables['.$_REQUEST['category_id'].'][ADMIN]', ($_REQUEST['category_id']=='1'&&!$RET['ADMIN']?'<span class="legend-red">':'')._('Administrator').($_REQUEST['category_id']=='1'&&!$RET['ADMIN']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
+		$header .= '<td>' . CheckboxInput($RET['ADMIN'], 'tables['.$_REQUEST['category_id'].'][ADMIN]', ($_REQUEST['category_id']=='1'&&! $RET['ADMIN']?'<span class="legend-red">':'')._('Administrator').($_REQUEST['category_id']=='1'&&! $RET['ADMIN']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
 
-		$header .= '<td>' . CheckboxInput($RET['TEACHER'], 'tables['.$_REQUEST['category_id'].'][TEACHER]', ($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'<span class="legend-red">':'')._('Teacher').($_REQUEST['category_id']=='1'&&!$RET['TEACHER']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
+		$header .= '<td>' . CheckboxInput($RET['TEACHER'], 'tables['.$_REQUEST['category_id'].'][TEACHER]', ($_REQUEST['category_id']=='1'&&! $RET['TEACHER']?'<span class="legend-red">':'')._('Teacher').($_REQUEST['category_id']=='1'&&! $RET['TEACHER']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
 
-		$header .= '<td>' . CheckboxInput($RET['PARENT'], 'tables['.$_REQUEST['category_id'].'][PARENT]', ($_REQUEST['category_id']=='1'&&!$RET['PARENT']?'<span class="legend-red">':'')._('Parent').($_REQUEST['category_id']=='1'&&!$RET['PARENT']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
+		$header .= '<td>' . CheckboxInput($RET['PARENT'], 'tables['.$_REQUEST['category_id'].'][PARENT]', ($_REQUEST['category_id']=='1'&&! $RET['PARENT']?'<span class="legend-red">':'')._('Parent').($_REQUEST['category_id']=='1'&&! $RET['PARENT']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
 
-		$header .= '<td>' . CheckboxInput($RET['NONE'], 'tables['.$_REQUEST['category_id'].'][NONE]', ($_REQUEST['category_id']=='1'&&!$RET['NONE']?'<span class="legend-red">':'')._('No Access').($_REQUEST['category_id']=='1'&&!$RET['NONE']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
+		$header .= '<td>' . CheckboxInput($RET['NONE'], 'tables['.$_REQUEST['category_id'].'][NONE]', ($_REQUEST['category_id']=='1'&&! $RET['NONE']?'<span class="legend-red">':'')._('No Access').($_REQUEST['category_id']=='1'&&! $RET['NONE']?'</span>':''), '', $new, button('check'), button('x')) . '</td>';
 
 		$header .= '</tr>';
 		$header .= '<tr><td colspan="4"><span class="legend-gray">'._('Profiles').'</span></td></tr>';

@@ -10,7 +10,7 @@
  * Pass in an array with error messages and this will display them
  * in a standard fashion.
  * In a program you may have:
- * @example if ( !$sch ) $error[] = _( 'School not provided.' );
+ * @example if ( ! $sch ) $error[] = _( 'School not provided.' );
  * @example if ( $count === 0 ) $error[] = _( 'Number of students is zero.' ); ErrorMessage( $error );
  *
  * Why use this? It will tell the user if they have multiple errors

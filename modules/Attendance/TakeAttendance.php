@@ -108,7 +108,7 @@ if (count($course_RET)==0)
 }
 
 $qtr_id = GetCurrentMP('QTR',$date,false);
-if (!$qtr_id)
+if (! $qtr_id)
 {
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&table='.$_REQUEST['table'].'" method="POST">';
 	DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)));

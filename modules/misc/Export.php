@@ -106,7 +106,7 @@ if ( $_REQUEST['fields']['GIVEN_NAME'] )
 if ( $_REQUEST['fields']['COMMON_NAME'] )
 	$extra['SELECT'] .= ",s.LAST_NAME||', '||s.FIRST_NAME AS COMMON_NAME";
 
-if ( !$extra['functions'] )
+if ( ! $extra['functions'] )
 	$extra['functions'] = array(
 		'NEXT_SCHOOL' => '_makeNextSchool',
 		'CALENDAR_ID' => '_makeCalendar',
@@ -123,7 +123,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		else
 			echo ErrorMessage( array( _( 'You must choose at least one field' ) ), 'fatal' );
 
-	if ( !$fields_list )
+	if ( ! $fields_list )
 	{
 		$fields_list = array(
 			'FULL_NAME' => _( 'Last, First M' ),
@@ -185,7 +185,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 
 	foreach ( (array) $custom_RET as $id => $field )
 	{
-		if ( !$fields_list['CUSTOM_' . $id] )
+		if ( ! $fields_list['CUSTOM_' . $id] )
 			$fields_list['CUSTOM_' . $id] = $field[1]['TITLE'];
 	}
 
@@ -195,7 +195,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 
 	foreach ( (array) $address_RET as $id => $field )
 	{
-		if ( !$fields_list['ADDRESS_' . $id ] )
+		if ( ! $fields_list['ADDRESS_' . $id ] )
 		{
 			$fields_list['ADDRESS_' . $id] = $field[1]['TITLE'];
 
@@ -340,17 +340,17 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 			if ( mb_substr( $field, 0, 7) == 'CUSTOM_' )
 			{
 				if ( $custom_RET[ mb_substr( $field, 7 ) ][1]['TYPE'] == 'date'
-					&& !$extra['functions'][ $field ] )
+					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'ProperDate';
 				}
 				elseif ( $custom_RET[ mb_substr( $field, 7 )][1]['TYPE'] == 'codeds'
-					&& !$extra['functions'][ $field ] )
+					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
 				}
 				elseif ( $custom_RET[ mb_substr( $field, 7 )][1]['TYPE'] == 'exports'
-					&& !$extra['functions'][ $field ] )
+					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
 				}
@@ -358,17 +358,17 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 			elseif ( mb_substr( $field, 0, 8 ) == 'ADDRESS_' )
 			{
 				if ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'date'
-					&& !$extra['functions'][ $field ] )
+					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'ProperDate';
 				}
 				elseif ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'codeds'
-					&& !$extra['functions'][ $field ] )
+					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
 				}
 				elseif ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'exports'
-					&& !$extra['functions'][ $field ] )
+					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
 				}
@@ -391,8 +391,8 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 			&& function_exists( $extra['array_function'] ) )
 			$extra['array_function']( $RET );
 
-		if ( !$_REQUEST['LO_save']
-			&& !$extra['suppress_save'] )
+		if ( ! $_REQUEST['LO_save']
+			&& ! $extra['suppress_save'] )
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF( $_SESSION['_REQUEST_vars'], array( 'bottom_back' ) );
 
@@ -408,7 +408,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 
 		if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
-			if ( !$_REQUEST['address_group'] )
+			if ( ! $_REQUEST['address_group'] )
 				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => 'Y' ) ) . '">' .
 					_( 'Group by Family' ) . '</a>';
 
@@ -430,7 +430,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 // Advanced Report form
 else
 {
-	if ( !$fields_list )
+	if ( ! $fields_list )
 	{
 		// General Info
 		if ( AllowUse( 'Students/Student.php&category_id=1' ) )

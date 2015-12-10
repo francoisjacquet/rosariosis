@@ -22,7 +22,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 	//FJ add Template
 	$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = 'Custom/NotifyParents.php' AND STAFF_ID = '".User('STAFF_ID')."'"));
-	if ( !$template_update)
+	if ( ! $template_update)
 		DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('Custom/NotifyParents.php', '".User('STAFF_ID')."', '".$_REQUEST['inputnotifyparentstext']."')");
 	else
 		DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$_REQUEST['inputnotifyparentstext']."' WHERE MODNAME = 'Custom/NotifyParents.php' AND STAFF_ID = '".User('STAFF_ID')."'");
@@ -80,7 +80,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			//FJ send email from rosariosis@[domain]
 			$result = SendEmail($to, $subject, $msg, null, $cc);
 
-			$RESULT[] = array('PARENT' => $staff['FULL_NAME'],'USERNAME' => $staff['USERNAME'],'EMAIL'=>!$test_email?$staff['EMAIL']:$test_email,'RESULT' => $result?_('Success'):_('Fail'));
+			$RESULT[] = array('PARENT' => $staff['FULL_NAME'],'USERNAME' => $staff['USERNAME'],'EMAIL'=>! $test_email?$staff['EMAIL']:$test_email,'RESULT' => $result?_('Success'):_('Fail'));
 			$i++;
 		}
 		unset($RESULT[0]);

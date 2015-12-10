@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc']=='update')
 						if ( $_REQUEST['tab_id']!='new')
 						{
 							$sql = "UPDATE GRADEBOOK_ASSIGNMENTS SET ";
-							//if ( !$columns['COURSE_ID'])
+							//if ( ! $columns['COURSE_ID'])
 							//	$columns['COURSE_ID'] = 'N';
 						}
 						else
@@ -90,7 +90,7 @@ if ( $_REQUEST['modfunc']=='update')
 								$fields .= "ASSIGNMENT_TYPE_ID,";
 								$values .= "'".$_REQUEST['tab_id']."',";
 							}
-							if ( !$columns['COURSE_ID'])
+							if ( ! $columns['COURSE_ID'])
 								$columns['COURSE_ID'] = 'N';
 						}
 						else
@@ -183,7 +183,7 @@ if (empty($_REQUEST['modfunc']))
 	$types_RET = DBGet(DBQuery("SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='".User('STAFF_ID')."' AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') ORDER BY SORT_ORDER,TITLE"),array(),array('ASSIGNMENT_TYPE_ID'));
 	if ( $_REQUEST['tab_id'])
 	{
-		if ( $_REQUEST['tab_id']!='new' && !$types_RET[$_REQUEST['tab_id']])
+		if ( $_REQUEST['tab_id']!='new' && ! $types_RET[$_REQUEST['tab_id']])
 			if (count($types_RET))
 				$_REQUEST['tab_id'] = key($types_RET).'';
 			else
@@ -198,7 +198,7 @@ if (empty($_REQUEST['modfunc']))
 	foreach ( (array) $types_RET as $id => $type)
 	{
 		$tabs[] = array('title' => $type[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$id.'&allow_edit='.$_REQUEST['allow_edit'],'color' => $type[1]['COLOR']);
-		$type_options[ $id ] = !$_REQUEST['tab_id']&&$type[1]['COLOR']?array($type[1]['TITLE'],'<span style="color:'.$type[1]['COLOR'].'">'.$type[1]['TITLE'].'</span>'):$type[1]['TITLE'];
+		$type_options[ $id ] = ! $_REQUEST['tab_id']&&$type[1]['COLOR']?array($type[1]['TITLE'],'<span style="color:'.$type[1]['COLOR'].'">'.$type[1]['TITLE'].'</span>'):$type[1]['TITLE'];
 	}
 
 	if ( $_REQUEST['tab_id']!='new')
@@ -212,7 +212,7 @@ if (empty($_REQUEST['modfunc']))
 			"WHERE STAFF_ID='".User('STAFF_ID')."' AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."')".($_REQUEST['tab_id']?" AND ASSIGNMENT_TYPE_ID='".$_REQUEST['tab_id']."'":'').
 			" AND MARKING_PERIOD_ID='".UserMP()."' ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC,ASSIGNMENT_ID DESC,TITLE";
 		$functions = array('TITLE' => '_makeAssnInput','POINTS' => '_makeAssnInput','ASSIGNED_DATE' => '_makeAssnInput','DUE_DATE' => '_makeAssnInput','COURSE_ID' => '_makeAssnInput','DESCRIPTION' => '_makeAssnInput','DEFAULT_POINTS' => '_makeAssnInput');
-		if ( $_REQUEST['allow_edit']=='Y' || !$_REQUEST['tab_id'])
+		if ( $_REQUEST['allow_edit']=='Y' || ! $_REQUEST['tab_id'])
 			$functions['ASSIGNMENT_TYPE_ID'] = '_makeAssnInput';
 		$LO_ret = DBGet(DBQuery($sql),$functions);
 
@@ -227,12 +227,12 @@ if (empty($_REQUEST['modfunc']))
 			'DESCRIPTION' => _( 'Description' )
 		);
 
-		if ( $_REQUEST['allow_edit']=='Y' || !$_REQUEST['tab_id'])
+		if ( $_REQUEST['allow_edit']=='Y' || ! $_REQUEST['tab_id'])
 			$LO_columns += array('ASSIGNMENT_TYPE_ID' => _('Type'));
 
 		$link['add']['html'] = array('TITLE'=>_makeAssnInput('','TITLE'),'POINTS'=>_makeAssnInput('','POINTS'),'DEFAULT_POINTS'=>_makeAssnInput('','DEFAULT_POINTS'),'ASSIGNED_DATE'=>_makeAssnInput('','ASSIGNED_DATE'),'DUE_DATE'=>_makeAssnInput('','DUE_DATE'),'COURSE_ID'=>_makeAssnInput('','COURSE_ID'),'DESCRIPTION'=>_makeAssnInput('','DESCRIPTION'));
 
-		if ( !$_REQUEST['tab_id'])
+		if ( ! $_REQUEST['tab_id'])
 			$link['add']['html'] += array('ASSIGNMENT_TYPE_ID'=>_makeAssnInput('','ASSIGNMENT_TYPE_ID'));
 
 		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&tab_id='.$_REQUEST['tab_id'].'&allow_edit='.$_REQUEST['allow_edit'];
@@ -307,7 +307,7 @@ function _makeAssnInput($value,$name)
 
 	if ( $name=='TITLE')
 	{
-		/*if ( $id!='new' && !$value)
+		/*if ( $id!='new' && ! $value)
 			$title = '<span style="color:red">'._('Title').'</span>';*/
 		$extra = 'size=20 maxlength=100';
 	}
@@ -393,7 +393,7 @@ function _makeColorInput( $value, $column )
 	else
 		$id = 'new';
 
-	/*if ( !$color_select )
+	/*if ( ! $color_select )
 	{
 		$colors = array('#330099','#3366FF','#003333','#FF3300','#660000','#666666','#333366','#336633','purple','teal','firebrick','tan');
 		foreach ( (array) $colors as $color)

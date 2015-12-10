@@ -20,7 +20,7 @@ if ( $_REQUEST['modfunc']=='update')
 	unset($_SESSION['_REQUEST_vars']['food_service']);
 }
 
-if ( !$_REQUEST['modfunc'] && UserStudentID())
+if ( ! $_REQUEST['modfunc'] && UserStudentID())
 {
 	$student = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,fssa.ACCOUNT_ID,fssa.STATUS,fssa.DISCOUNT,fssa.BARCODE,(SELECT BALANCE FROM FOOD_SERVICE_ACCOUNTS WHERE ACCOUNT_ID=fssa.ACCOUNT_ID) AS BALANCE FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID='".UserStudentID()."' AND fssa.STUDENT_ID=s.STUDENT_ID"));
 	$student = $student[1];

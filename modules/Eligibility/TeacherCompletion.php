@@ -35,7 +35,7 @@ switch (date('D'))
 $start = time() - ($today-$START_DAY)*60*60*24;
 $end = time();
 
-if ( !$_REQUEST['start_date'])
+if ( ! $_REQUEST['start_date'])
 {
 	$start_time = $start;
 	$start_date = mb_strtoupper(date('d-M-Y',$start_time));
@@ -107,7 +107,7 @@ if (count($RET))
 	}
 }
 $columns = array('FULL_NAME' => _('Teacher'));
-if ( !$_REQUEST['period'])
+if ( ! $_REQUEST['period'])
 {
 	foreach ( (array) $periods_RET as $period)
 		$columns[$period['PERIOD_ID']] = $period['TITLE'];

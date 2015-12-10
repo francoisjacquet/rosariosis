@@ -2,7 +2,7 @@
 
 require_once 'modules/Student_Billing/functions.inc.php';
 
-if ( !$_REQUEST['print_statements'])
+if ( ! $_REQUEST['print_statements'])
 {
 	DrawHeader(ProgramTitle());
 
@@ -79,7 +79,7 @@ if ( $_REQUEST['modfunc']=='refund' && AllowEdit())
 	}
 }
 
-if (UserStudentID() && !$_REQUEST['modfunc'])
+if (UserStudentID() && ! $_REQUEST['modfunc'])
 {
 	$payments_total = 0;
 	$functions = array('REMOVE' => '_makePaymentsRemove','AMOUNT' => '_makePaymentsAmount','PAYMENT_DATE' => 'ProperDate','COMMENTS' => '_makePaymentsTextInput','LUNCH_PAYMENT' => '_lunchInput');
@@ -101,15 +101,15 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 		$i++;
 	}
 
-	if (count($RET) && !$_REQUEST['print_statements'] && AllowEdit())
+	if (count($RET) && ! $_REQUEST['print_statements'] && AllowEdit())
 		$columns = array('REMOVE' => '');
 	else
 		$columns = array();
 	
 	$columns += array('AMOUNT' => _('Amount'),'PAYMENT_DATE' => _('Date'),'COMMENTS' => _('Comment'),'LUNCH_PAYMENT' => _('Lunch Payment'));
-	if ( !$_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 		$link['add']['html'] = array('REMOVE'=>button('add'),'AMOUNT'=>_makePaymentsTextInput('','AMOUNT'),'PAYMENT_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makePaymentsTextInput('','COMMENTS'),'LUNCH_PAYMENT'=>_lunchInput('','LUNCH_PAYMENT'));
-	if ( !$_REQUEST['print_statements'])
+	if ( ! $_REQUEST['print_statements'])
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 		//DrawStudentHeader();
@@ -122,7 +122,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 
 	ListOutput($RET,$columns,'Payment','Payments',$link,array(),$options);
 
-	if ( !$_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 		echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
 	echo '<br />';
@@ -135,11 +135,11 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 
 	$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b>'.Currency(($fees_total[1]['TOTAL']-$payments_total),'CR').'</b></td></tr></table>';
 
-	if ( !$_REQUEST['print_statements'])
+	if ( ! $_REQUEST['print_statements'])
 		DrawHeader('','',$table);
 	else
 		DrawHeader($table,'','',null,null,true);
 	
-	if ( !$_REQUEST['print_statements'] && AllowEdit())
+	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 		echo '</form>';
 }

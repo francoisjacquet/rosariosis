@@ -37,7 +37,7 @@ if ( $_REQUEST['modfunc']=='update')
                         }
                     }
                 }
-                if ( !$RET || PromptX($title='Confirm',$question,$message))
+                if ( ! $RET || PromptX($title='Confirm',$question,$message))
                 {
                     $sql = 'UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ';
                     foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
@@ -126,7 +126,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 	echo NoInput( $staff['FULL_NAME'], $staff['STAFF_ID'] );
 
 	// warn if other users associated with the same account
-	if ( !$staff['ACCOUNT_ID'] )
+	if ( ! $staff['ACCOUNT_ID'] )
 	{
 		echo '<br />' . MakeTipMessage(
 			_( 'This user does not have a Meal Account.' ),

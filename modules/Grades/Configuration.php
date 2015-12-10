@@ -39,12 +39,12 @@ echo '<legend>'._('Assignments').'</legend>';
 echo '<table>';
 if (count($grades))
 {
-	//if ( !$programconfig['ROUNDING'])
+	//if ( ! $programconfig['ROUNDING'])
 	//	$programconfig['ROUNDING'] = 'NORMAL';
 //FJ add <label> on radio
 	echo '<tr><td><table><tr><td colspan="4"><b>'._('Score Rounding').'</b></td></tr><tr><td><label><input type="radio" name="values[ROUNDING]" value=UP'.(($programconfig['ROUNDING']=='UP')?' checked':'').'>&nbsp;'._('Up').'</label></td><td><label><input type="radio" name="values[ROUNDING]" value=DOWN'.(($programconfig['ROUNDING']=='DOWN')?' checked':'').'>&nbsp;'._('Down').'</label></td><td><label><input type="radio" name="values[ROUNDING]" value="NORMAL"'.(($programconfig['ROUNDING']=='NORMAL')?' checked':'').'>&nbsp;'._('Normal').'</label></td><td><label><input type="radio" name="values[ROUNDING]" value="'.(($programconfig['ROUNDING']=='')?' checked':'').'">&nbsp;'._('None').'</label></td></tr></table></td></tr>';
 }
-if ( !$programconfig['ASSIGNMENT_SORTING'])
+if ( ! $programconfig['ASSIGNMENT_SORTING'])
 	$programconfig['ASSIGNMENT_SORTING'] = 'ASSIGNMENT_ID';
 echo '<tr><td><table><tr><td colspan="3"><b>'._('Assignment Sorting').'</b></td></tr><tr class="st"><td><label><input type="radio" name="values[ASSIGNMENT_SORTING]" value="ASSIGNMENT_ID"'.(($programconfig['ASSIGNMENT_SORTING']=='ASSIGNMENT_ID')?' checked':'').'>&nbsp;'._('Newest First').'</label></td><td><label><input type="radio" name="values[ASSIGNMENT_SORTING]" value="DUE_DATE"'.(($programconfig['ASSIGNMENT_SORTING']=='DUE_DATE')?' checked':'').'>&nbsp;'._('Due Date').'</label></td><td><label><input type="radio" name="values[ASSIGNMENT_SORTING]" value=ASSIGNED_DATE'.(($programconfig['ASSIGNMENT_SORTING']=='ASSIGNED_DATE')?' checked':'').'>&nbsp;'._('Assigned Date').'</label></td></tr></table></td></tr>';
 

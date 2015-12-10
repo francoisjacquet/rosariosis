@@ -8,7 +8,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$extra['DATE'] = DBGet(DBQuery("SELECT min(SCHOOL_DATE) AS START_DATE FROM ATTENDANCE_CALENDAR WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 		$extra['DATE'] = $extra['DATE'][1]['START_DATE'];
 
-		if ( !$extra['DATE']
+		if ( ! $extra['DATE']
 			|| strtotime( DBDate() ) > strtotime( $extra['DATE'] ) )
 			$extra['DATE'] = DBDate();
 
@@ -224,7 +224,7 @@ function mySearch($extra)
 	$course_periods_RET = DBGet(DBQuery($sql));
 	$LO_columns = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');"><A>','TITLE' => _('Course Period'));
 
-	if ( !$_REQUEST['LO_save'] && !$extra['suppress_save'])
+	if ( ! $_REQUEST['LO_save'] && ! $extra['suppress_save'])
 	{
 		$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 

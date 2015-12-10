@@ -2,7 +2,7 @@
 
 require_once 'modules/Scheduling/includes/calcSeats0.fnc.php';
 
-if ( $_REQUEST['modname']=='Scheduling/Scheduler.php' && !$_REQUEST['run'])
+if ( $_REQUEST['modname']=='Scheduling/Scheduler.php' && ! $_REQUEST['run'])
 {
 	$function = 'Prompt';
 	DrawHeader(ProgramTitle());
@@ -151,7 +151,7 @@ if ( $ok )
 
 		$scheduled = _scheduleRequest($request[1]);
 
-		if ( !$scheduled)
+		if ( ! $scheduled)
 		{
 			$not_request = array();
 			if ( !empty($locked_RET[$request[1]['STUDENT_ID']]))
@@ -160,7 +160,7 @@ if ( $ok )
 
 			$moved = _moveRequest($request[1],$not_request);
 
-			if ( !$moved)
+			if ( ! $moved)
 				$unfilled[] = $request;
 			else
 				$filled[$request[1]['REQUEST_ID']] = true;
@@ -188,7 +188,7 @@ if ( $ok )
 	{
 		$scheduled = _scheduleRequest($request[1]);
 
-		if ( !$scheduled)
+		if ( ! $scheduled)
 		{
 			$not_request = array();
 			if ( !empty($locked_RET[$request[1]['STUDENT_ID']]))
@@ -357,7 +357,7 @@ function _moveRequest($request,$not_request=false,$not_parent_id=false)
 //{	global $requests_RET,$cp_parent_RET,$cp_course_RET,$mps_RET,$schedule,$filled,$unfilled;
 {	global $requests_RET,$cp_parent_RET,$cp_course_RET,$schedule;
 
-	if ( !$not_request || !is_array($not_request))
+	if ( ! $not_request || !is_array($not_request))
 		$not_request = array();
 
 	if (count($cp_course_RET[$request['COURSE_ID']]))
@@ -391,9 +391,9 @@ function _moveRequest($request,$not_request=false,$not_parent_id=false)
 						{
 							$not_request_temp = $not_request;
 							$not_request_temp[] = $existing_slice['REQUEST_ID'];
-							if ( !$scheduled = _scheduleRequest($requests_RET[$existing_slice['REQUEST_ID']][1],$existing_slice['PARENT_ID']))
+							if ( ! $scheduled = _scheduleRequest($requests_RET[$existing_slice['REQUEST_ID']][1],$existing_slice['PARENT_ID']))
 							{
-								if ( !$moved = _moveRequest($requests_RET[$existing_slice['REQUEST_ID']][1],$not_request_temp,$existing_slice['PARENT_ID']))
+								if ( ! $moved = _moveRequest($requests_RET[$existing_slice['REQUEST_ID']][1],$not_request_temp,$existing_slice['PARENT_ID']))
 									continue 3;
 							}
 						}
@@ -420,7 +420,7 @@ function _isConflict($existing_slice,$slice)
 	// LOOK FOR CONFLICT IN SCHEDULED SLICE -- CONFLICT == SEATS,MP,DAYS,PERIOD TIMES
 
 	// MARKING PERIOD CONFLICTS
-	if ( $existing_slice['MARKING_PERIOD_ID']=="$fy_id" || ($slice['MARKING_PERIOD_ID']=="$fy_id" && (!$request['MARKING_PERIOD_ID'] || $request['MARKING_PERIOD_ID']==$slice['MARKING_PERIOD_ID'])))
+	if ( $existing_slice['MARKING_PERIOD_ID']=="$fy_id" || ($slice['MARKING_PERIOD_ID']=="$fy_id" && (! $request['MARKING_PERIOD_ID'] || $request['MARKING_PERIOD_ID']==$slice['MARKING_PERIOD_ID'])))
 		$mp_conflict = true; // if either course is full year
 	elseif ( $existing_slice['MARKING_PERIOD_ID']==$slice['MARKING_PERIOD_ID'])
 		$mp_conflict = true; // if both fall in the same QTR or SEM

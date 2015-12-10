@@ -91,7 +91,7 @@ else
 		$REQ_codes = $_REQUEST['codes'];
 		foreach ( (array) $REQ_codes as $key => $value)
 		{
-			if ( !$value)
+			if ( ! $value)
 				unset($REQ_codes[ $key ]);
 			elseif ( $value=='A')
 				$abs = true;
@@ -99,7 +99,7 @@ else
 	}
 	else
 		$abs = true;
-	if (count($REQ_codes) && !$abs)
+	if (count($REQ_codes) && ! $abs)
 	{
 		$extra['WHERE'] .= "AND ac.ID IN (";
 		foreach ( (array) $REQ_codes as $code)
@@ -179,7 +179,7 @@ function _makeCodePulldown($value,$title)
 		AND cp.DOES_ATTENDANCE='Y' 
 		AND s.MARKING_PERIOD_ID IN (".GetAllMP('QTR',GetCurrentMP('QTR',$date)).") 
 		AND ('".$date."' BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)"),array(),array('PERIOD_ID'));
-		if ( !$current_schedule_RET[$THIS_RET['STUDENT_ID']])
+		if ( ! $current_schedule_RET[$THIS_RET['STUDENT_ID']])
 			$current_schedule_RET[$THIS_RET['STUDENT_ID']] = array();
 	}
 	if ( $THIS_RET['COURSE'])

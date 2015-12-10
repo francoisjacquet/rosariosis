@@ -120,7 +120,7 @@ if (isset($error))
 if (isset($note))
 	echo ErrorMessage($note,'note');
 
-//if ( !$_REQUEST['student_id'])
+//if ( ! $_REQUEST['student_id'])
 	$extra['new'] = true;
 
 

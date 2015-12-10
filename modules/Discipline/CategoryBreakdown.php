@@ -201,7 +201,7 @@ if ( isset( $_REQUEST['category_id'] )
 
 		$referrals_RET = GetStuList( $extra );
 
-		if ( !$referrals_RET ) //FJ bugfix no results for numeric fields chart 
+		if ( ! $referrals_RET ) //FJ bugfix no results for numeric fields chart 
 			$chart['chart_data'][0][0] = $chart['chart_data'][1][0] = 0;
 
 		ksort( $chart['chart_data'][0] );

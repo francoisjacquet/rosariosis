@@ -58,7 +58,7 @@ if ( $_REQUEST['modfunc'] == 'XMLHttpRequest' )
 	echo '</courses>';
 }
 
-if ( !$_REQUEST['modfunc'] && UserStudentID())
+if ( ! $_REQUEST['modfunc'] && UserStudentID())
 {
 ?>
 <script>

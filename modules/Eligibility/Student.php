@@ -29,7 +29,7 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-if (UserStudentID() && !$_REQUEST['modfunc'])
+if (UserStudentID() && ! $_REQUEST['modfunc'])
 {
 	// GET ALL THE CONFIG ITEMS FOR ELIGIBILITY
 	$eligibility_config = ProgramConfig( 'eligibility' );
@@ -67,7 +67,7 @@ if (UserStudentID() && !$_REQUEST['modfunc'])
 	$start = time() - ($today-$START_DAY)*60*60*24;
 	$end = time();
 	
-	if ( !$_REQUEST['start_date'])
+	if ( ! $_REQUEST['start_date'])
 	{
 		$start_time = $start;
 		$start_date = mb_strtoupper(date('d-M-Y',$start_time));

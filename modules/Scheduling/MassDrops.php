@@ -2,7 +2,7 @@
 
 DrawHeader(ProgramTitle());
 
-if ( !$_REQUEST['modfunc'] && $_REQUEST['search_modfunc']!='list')
+if ( ! $_REQUEST['modfunc'] && $_REQUEST['search_modfunc']!='list')
 	unset($_SESSION['MassDrops.php']);
 
 if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
@@ -160,7 +160,7 @@ if (empty($_REQUEST['modfunc']))
 if ( $_REQUEST['modfunc']=='choose_course')
 {
 
-	if ( !$_REQUEST['course_period_id'])
+	if ( ! $_REQUEST['course_period_id'])
 		include 'modules/Scheduling/Courses.php';
 	else
 	{

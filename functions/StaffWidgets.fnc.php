@@ -64,7 +64,7 @@ function StaffWidgets( $item, &$myextra = null )
 
 			// Users
 			if ( $RosarioModules['Users']
-				&& ( !$_ROSARIO['StaffWidgets']['permissions'] ) )
+				&& ( ! $_ROSARIO['StaffWidgets']['permissions'] ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Users' ) );
 
@@ -75,9 +75,9 @@ function StaffWidgets( $item, &$myextra = null )
 
 			// Food Service
 			if ( $RosarioModules['Food_Service']
-				&& ( !$_ROSARIO['StaffWidgets']['fsa_balance']
-					|| !$_ROSARIO['StaffWidgets']['fsa_status']
-					|| !$_ROSARIO['StaffWidgets']['fsa_barcode'] ) )
+				&& ( ! $_ROSARIO['StaffWidgets']['fsa_balance']
+					|| ! $_ROSARIO['StaffWidgets']['fsa_status']
+					|| ! $_ROSARIO['StaffWidgets']['fsa_barcode'] ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Food Service' ) );
 
@@ -91,7 +91,7 @@ function StaffWidgets( $item, &$myextra = null )
 
 			// Accounting
 			if ( $RosarioModules['Accounting']
-				&& ( !$_ROSARIO['Widgets']['staff_balance'] )
+				&& ( ! $_ROSARIO['Widgets']['staff_balance'] )
 				&& AllowUse( 'Accounting/StaffBalances.php' ) )
 			{
 				$extra['search'] .= $widget_wrap_header( _( 'Accounting' ) );
@@ -132,7 +132,7 @@ function StaffWidgets( $item, &$myextra = null )
 		// Permissions Widget
 		case 'permissions':
 
-			if ( !$RosarioModules['Users'] )
+			if ( ! $RosarioModules['Users'] )
 				break;
 
 			if ( $_REQUEST['permissions'] )
@@ -140,7 +140,7 @@ function StaffWidgets( $item, &$myextra = null )
 				$extra['WHERE'] .= " AND s.PROFILE_ID IS " . ( $_REQUEST['permissions'] == 'Y' ? 'NOT' : '' ) . " NULL
 					AND s.PROFILE!='none'";
 
-				if ( !$extra['NoSearchTerms'] )
+				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Permissions' ) . ': </b>' .
 						( $_REQUEST['permissions'] == 'Y' ? _( 'Profile' ) : _( 'Custom' ) ) . '<br />';
@@ -148,7 +148,7 @@ function StaffWidgets( $item, &$myextra = null )
 			}
 
 			$extra['search'] .= '<tr class="st"><td>' .	_( 'Permissions' ) . '</td><td>
-			<label><input type="radio" name="permissions" value=""' . ( !$value ? ' checked' : '' ) . '> ' .
+			<label><input type="radio" name="permissions" value=""' . ( ! $value ? ' checked' : '' ) . '> ' .
 				_( 'All' ) . '</label> &nbsp;
 			<label><input type="radio" name="permissions" value="Y"' . ( $value == 'Y' ? ' checked' : '' ) . '> ' .
 				_( 'Profile' ) . '</label> &nbsp;
@@ -167,7 +167,7 @@ function StaffWidgets( $item, &$myextra = null )
 		// Food Service Balance Widget
 		case 'fsa_balance':
 
-			if ( !$RosarioModules['Food_Service'] )
+			if ( ! $RosarioModules['Food_Service'] )
 				break;
 
 			if ( $_REQUEST['fsa_balance'] != '' )
@@ -182,7 +182,7 @@ function StaffWidgets( $item, &$myextra = null )
 				$extra['WHERE'] .= " AND fssa.BALANCE" . ( $_REQUEST['fsa_bal_gt'] == 'Y' ? '>=' : '<' ) .
 					"'" . round( $_REQUEST['fsa_balance'], 2 ) . "'";
 
-				if ( !$extra['NoSearchTerms'] )
+				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Food Service Balance' ) . ': </b>
 						<span class="sizep2">' . ( $_REQUEST['fsa_bal_ge'] == 'Y' ? '&ge;' : '&lt;' ) . '</span>' .
@@ -213,7 +213,7 @@ function StaffWidgets( $item, &$myextra = null )
 		// Food Service Status Widget
 		case 'fsa_status':
 
-			if ( !$RosarioModules['Food_Service'] )
+			if ( ! $RosarioModules['Food_Service'] )
 				break;
 
 			if ( $_REQUEST['fsa_status'] )
@@ -232,7 +232,7 @@ function StaffWidgets( $item, &$myextra = null )
 				else
 					$extra['WHERE'] .= " AND fssa.STATUS='" . $_REQUEST['fsa_status'] . "'";
 
-				if ( !$extra['NoSearchTerms'] )
+				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Food Service Status' ) . ': </b>' .
 						$_REQUEST['fsa_status'] . '<br />';
@@ -254,7 +254,7 @@ function StaffWidgets( $item, &$myextra = null )
 		// Food Service Barcode Widget
 		case 'fsa_barcode':
 
-			if ( !$RosarioModules['Food_Service'] )
+			if ( ! $RosarioModules['Food_Service'] )
 				break;
 
 			if ( $_REQUEST['fsa_barcode'] )
@@ -268,7 +268,7 @@ function StaffWidgets( $item, &$myextra = null )
 
 				$extra['WHERE'] .= " AND fssa.BARCODE='" . $_REQUEST['fsa_barcode'] . "'";
 
-				if ( !$extra['NoSearchTerms'] )
+				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Food Service Barcode' ) . ': </b>' .
 						$_REQUEST['fsa_barcode'] . '<br />';
@@ -291,7 +291,7 @@ function StaffWidgets( $item, &$myextra = null )
 		// Food Service Account Exists Widget
 		case 'fsa_exists':
 
-			if ( !$RosarioModules['Food_Service'] )
+			if ( ! $RosarioModules['Food_Service'] )
 				break;
 
 			if ( $_REQUEST['fsa_exists'] )
@@ -301,7 +301,7 @@ function StaffWidgets( $item, &$myextra = null )
 						FROM FOOD_SERVICE_STAFF_ACCOUNTS
 						WHERE STAFF_ID=s.STAFF_ID)";
 
-				if ( !$extra['NoSearchTerms'] )
+				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Food Service Account Exists' ) . ': </b>' .
 						( $_REQUEST['fsa_exists'] == 'Y' ? _( 'Yes' ) : _( 'No' ) ) . '<br />';
@@ -309,7 +309,7 @@ function StaffWidgets( $item, &$myextra = null )
 			}
 
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Has Account' ) . '</td><td>
-			<label><input type="radio" name="fsa_exists" value=""' . ( !$value ? ' checked' : '' ) . ' /> ' .
+			<label><input type="radio" name="fsa_exists" value=""' . ( ! $value ? ' checked' : '' ) . ' /> ' .
 				_( 'All') . '</label> &nbsp;
 			<label><input type="radio" name="fsa_exists" value="Y"' . ( $value == 'Y' ? ' checked' : '' ).' /> '.
 				_( 'Yes' ) . '</label> &nbsp;
@@ -322,7 +322,7 @@ function StaffWidgets( $item, &$myextra = null )
 		// Staff Payroll Balance Widget
 		case 'staff_balance':
 
-			if ( !$RosarioModules['Accounting']
+			if ( ! $RosarioModules['Accounting']
 				|| !AllowUse( 'Accounting/StaffBalances.php' ) )
 				break;
 
@@ -349,7 +349,7 @@ function StaffWidgets( $item, &$myextra = null )
 					BETWEEN '" . $_REQUEST['balance_low'] . "'
 					AND '" . $_REQUEST['balance_high'] . "' ";
 
-				if ( !$extra['NoSearchTerms'] )
+				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Staff Payroll Balance' ) . ': </b>' .
 						_( 'Between' ) . ' ' . $_REQUEST['balance_low'] .

@@ -37,7 +37,7 @@ function _makeTextInput( $column, $name, $request )
 	{
 		$div = true;
 
-		$req = $field['REQUIRED'] === 'Y' && !$value[ $column ] ?
+		$req = $field['REQUIRED'] === 'Y' && ! $value[ $column ] ?
 			array( '<span class="legend-red">', '</span>' ) :
 			array( '', '' );
 	}
@@ -94,7 +94,7 @@ function _makeDateInput( $column, $name, $request )
 	{
 		$div = true;
 
-		$req = $field['REQUIRED'] === 'Y' && !$value[ $column ] ?
+		$req = $field['REQUIRED'] === 'Y' && ! $value[ $column ] ?
 			array( '<span class="legend-red">', '</span>' ) :
 			array( '', '' );
 	}
@@ -146,7 +146,7 @@ function _makeSelectInput( $column, $name, $request )
 	{
 		$div = true;
 
-		$req = $field['REQUIRED'] === 'Y' && !$value[ $column ] ?
+		$req = $field['REQUIRED'] === 'Y' && ! $value[ $column ] ?
 			array( '<span class="legend-red">', '</span>' ) :
 			array( '', '' );
 	}
@@ -222,7 +222,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 	{
 		$div = true;
 
-		$req = $field['REQUIRED'] === 'Y' && ( !$value[ $column ] || $value[ $column ] === '---' ) ?
+		$req = $field['REQUIRED'] === 'Y' && ( ! $value[ $column ] || $value[ $column ] === '---' ) ?
 			array( '<span class="legend-red">', '</span>' ) :
 			array( '', '' );
 	}
@@ -293,7 +293,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 		foreach ( (array) $options_RET as $option )
 		{
 			if ( $option['CUSTOM_' . $field['ID']] != ''
-				&& !$options[$option['CUSTOM_' . $field['ID']]] )
+				&& ! $options[$option['CUSTOM_' . $field['ID']]] )
 			{
 				$options[$option['CUSTOM_' . $field['ID']]] = array(
 					$option['CUSTOM_' . $field['ID']],
@@ -304,7 +304,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 	}
 
 	// make sure the current value is in the list
-	if ( !$value[ $column ]
+	if ( ! $value[ $column ]
 		&& !isset( $options[$value[ $column ]] ) )
 	{
 		$options[$value[ $column ]] = array(
@@ -560,7 +560,7 @@ function _makeType( $value, $column )
 {
 	global $THIS_RET;
 
-	if ( !$THIS_RET['ID'] )
+	if ( ! $THIS_RET['ID'] )
 		$THIS_RET['ID'] = 'new';
 
 	return SelectInput(
@@ -588,7 +588,7 @@ function _makeDate( $value, $column = 'MEDICAL_DATE' )
 	global $THIS_RET,
 		$table;
 
-	if ( !$THIS_RET['ID'] )
+	if ( ! $THIS_RET['ID'] )
 		$THIS_RET['ID'] = 'new';
 
 	return DateInput(
@@ -614,7 +614,7 @@ function _makeComments( $value, $column )
 	global $THIS_RET,
 		$table;
 
-	if ( !$THIS_RET['ID'] )
+	if ( ! $THIS_RET['ID'] )
 		$THIS_RET['ID'] = 'new';
 
 	return TextInput(
@@ -657,7 +657,7 @@ function _makeStartInput( $value, $column )
 
 		$default = $default[1]['START_DATE'];
 
-		if ( !$default ||
+		if ( ! $default ||
 			strtotime( DBDate() ) > strtotime( $default ) )
 		{
 			$default = DBDate();
@@ -672,7 +672,7 @@ function _makeStartInput( $value, $column )
 		$id = 'new';
 	}
 
-	if ( !$add_codes )
+	if ( ! $add_codes )
 	{
 		$options_RET = DBGet( DBQuery( "SELECT ID,TITLE AS TITLE
 			FROM STUDENT_ENROLLMENT_CODES
@@ -733,7 +733,7 @@ function _makeEndInput( $value, $column )
 	else
 		$id = 'new';
 
-	if ( !$drop_codes )
+	if ( ! $drop_codes )
 	{
 		$options_RET = DBGet( DBQuery( "SELECT ID,TITLE AS TITLE
 			FROM STUDENT_ENROLLMENT_CODES

@@ -342,7 +342,7 @@ function _makeGrade( $value, $column )
 
 	// Totals or Assignment Type
 	if ( !is_numeric( $_REQUEST['assignment_id'] )
-		&& !$_REQUEST['student_id'] )
+		&& ! $_REQUEST['student_id'] )
 	{
 		if ( Preferences( 'WEIGHT', 'Gradebook' ) === 'Y'
 			&& count( $percent_RET[$THIS_RET['STUDENT_ID']] ) )

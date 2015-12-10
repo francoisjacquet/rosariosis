@@ -296,7 +296,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 if ( $_REQUEST['modfunc']=='choose_course')
 {
 
-	if ( !$_REQUEST['course_period_id'])
+	if ( ! $_REQUEST['course_period_id'])
 		include "modules/Scheduling/Courses.php";
 	else
 	{
@@ -402,7 +402,7 @@ function _makePeriodSelect($course_period_id,$column)
 function _makeMPSelect($mp_id,$name)
 {	global $_ROSARIO,$THIS_RET,$fy_id;
 
-	if ( !$_ROSARIO['_makeMPSelect'])
+	if ( ! $_ROSARIO['_makeMPSelect'])
 	{
 		$semesters_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,NULL AS PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='SEM' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
 		$quarters_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='QTR' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
@@ -464,14 +464,14 @@ function VerifySchedule(&$schedule)
 	$ij = count($schedule);
 	for ( $i=1; $i<$ij; $i++)
 		for ( $j=$i+1; $j<=$ij; $j++)
-			if ( !$conflicts[ $i ] || !$conflicts[ $j ])
+			if ( ! $conflicts[ $i ] || ! $conflicts[ $j ])
 				// the following two if's are equivalent, the second matches the 'Add a Course' logic, the first is the demorgan equivalent and easier to follow
 				// if -not- marking periods don't overlap -or- dates don't overlap (i ends and j starts after i -or- j ends and i starts after j) then check further
 				//if ( ! (mb_strpos(GetAllMP(GetMP($schedule[ $i ]['MARKING_PERIOD_ID'],'MP'),$schedule[ $i ]['MARKING_PERIOD_ID']),"'".$schedule[ $j ]['MARKING_PERIOD_ID']."'")===false
 				//|| $schedule[ $i ]['END_EPOCH'] && $schedule[ $j ]['START_EPOCH']>$schedule[ $i ]['END_EPOCH'] || $schedule[ $j ]['END_EPOCH'] && $schedule[ $i ]['START_EPOCH']>$schedule[ $j ]['END_EPOCH']))
 				// if marking periods overlap -and- dates overlap (i doesn't end or j starts before i ends -and- j doesn't end or i starts before j ends) check further
 				if (mb_strpos(GetAllMP(GetMP($schedule[ $i ]['MARKING_PERIOD_ID'],'MP'),$schedule[ $i ]['MARKING_PERIOD_ID']),"'".$schedule[ $j ]['MARKING_PERIOD_ID']."'")!==false
-				&& (!$schedule[ $i ]['END_EPOCH'] || $schedule[ $j ]['START_EPOCH']<=$schedule[ $i ]['END_EPOCH']) && (!$schedule[ $j ]['END_EPOCH'] || $schedule[ $i ]['START_EPOCH']<=$schedule[ $j ]['END_EPOCH']))
+				&& (! $schedule[ $i ]['END_EPOCH'] || $schedule[ $j ]['START_EPOCH']<=$schedule[ $i ]['END_EPOCH']) && (! $schedule[ $j ]['END_EPOCH'] || $schedule[ $i ]['START_EPOCH']<=$schedule[ $j ]['END_EPOCH']))
 					// should not be enrolled in the same course with overlapping marking periods and dates
 					if ( $schedule[ $i ]['COURSE_ID']==$schedule[ $j ]['COURSE_ID'])
 						$conflicts[ $i ] = $conflicts[ $j ] = true;
@@ -507,8 +507,8 @@ function _Prompt( $title='Confirm', $question = '', $message = '' )
 {
 	$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST, array( 'delete_ok' ), array() );
 
-	if ( !$_REQUEST['delete_ok']
-		&& !$_REQUEST['delete_cancel'] )
+	if ( ! $_REQUEST['delete_ok']
+		&& ! $_REQUEST['delete_cancel'] )
 	{
 		echo '<br />';
 

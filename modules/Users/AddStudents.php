@@ -6,7 +6,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS_JOIN_USERS WHERE STAFF_ID='".UserStaffID()."'"),array(),array('STUDENT_ID'));
 		foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 		{
-			if ( !$current_RET[ $student_id ])
+			if ( ! $current_RET[ $student_id ])
 			{
 				$sql = "INSERT INTO STUDENTS_JOIN_USERS (STUDENT_ID,STAFF_ID) values('".$student_id."','".UserStaffID()."')";
 

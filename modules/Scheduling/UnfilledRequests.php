@@ -48,7 +48,7 @@ $extra['columns_after'] += array('SECTIONS' => _('Sections'),'WITH_TEACHER_ID' =
 $extra['singular'] = _('Unfilled Request');
 $extra['plural'] = _('Unfilled Requests');
 
-if ( !$extra['link']['FULL_NAME'])
+if ( ! $extra['link']['FULL_NAME'])
 {
 	$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname=Scheduling/Requests.php';
 	$extra['link']['FULL_NAME']['variables']['student_id'] = 'STUDENT_ID';

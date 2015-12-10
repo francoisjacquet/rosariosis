@@ -85,7 +85,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				foreach ( (array) $addresses as $address)
 				{
-					if ( !$address['MAILING_LABEL'])
+					if ( ! $address['MAILING_LABEL'])
 						continue;
 
 					if ( $cols<1)

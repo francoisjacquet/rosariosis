@@ -26,7 +26,7 @@ function MyWidgets($item)
 				$extra['WHERE'] .= " AND extract(month from s.CUSTOM_200000004)='".$_REQUEST['birthmonth']."'";
 				$extra['columns_after']['BIRTHMONTH'] = _('Birth Month');
 
-				if ( !$extra['NoSearchTerms'])
+				if ( ! $extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<b>'._('Birth Month').': </b>'.$options[$_REQUEST['birthmonth']].'<br />';
 			}
 
@@ -47,7 +47,7 @@ function MyWidgets($item)
 				$extra['WHERE'] .= " AND extract(day from s.CUSTOM_200000004)='".$_REQUEST['birthday']."'";
 				$extra['columns_after']['BIRTHDAY'] = _('Birth Day');
 
-				if ( !$extra['NoSearchTerms'])
+				if ( ! $extra['NoSearchTerms'])
 					$_ROSARIO['SearchTerms'] .= '<b>'._('Birth Day').': </b>'.$options[$_REQUEST['birthday']].'<br />';
 			}
 

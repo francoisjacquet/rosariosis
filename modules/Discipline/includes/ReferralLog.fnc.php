@@ -170,11 +170,11 @@ function ReferralLogsGenerate( $extra )
 		if ( $start_date
 			|| $end_date )
 		{
-			if ( !$end_date )
+			if ( ! $end_date )
 			{
 				$end_date = DBDate();
 			}
-			elseif ( !$start_date )
+			elseif ( ! $start_date )
 			{
 				$start_date = GetMP( GetCurrentMP( 'FY', DBDate() ), 'START_DATE' );
 			}

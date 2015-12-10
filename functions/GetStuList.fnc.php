@@ -67,11 +67,11 @@ function GetStuList( &$extra = array() )
 
 		$extra['DATE'] = DBDate();
 	}
-	elseif ( !$extra['MP'] )
+	elseif ( ! $extra['MP'] )
 	{
 		$extra['MP'] = GetCurrentMP( 'QTR', $extra['DATE'], false );
 	}
-	elseif ( !$extra['DATE'] )
+	elseif ( ! $extra['DATE'] )
 	{
 		$extra['DATE'] = DBDate();
 	}
@@ -80,7 +80,7 @@ function GetStuList( &$extra = array() )
 	if ( isset( $_REQUEST['expanded_view'] )
 		&& $_REQUEST['expanded_view'] == 'true' )
 	{
-		if ( !$extra['columns_after'] )
+		if ( ! $extra['columns_after'] )
 		{
 			$extra['columns_after'] = array();
 		}
@@ -111,8 +111,8 @@ function GetStuList( &$extra = array() )
 			AND TITLE IN ('CONTACT_INFO','HOME_PHONE','GUARDIANS','ALL_CONTACTS')
 			AND USER_ID='" . User( 'STAFF_ID' ) . "'"), array(), array( 'TITLE' ) );
 
-		if ( !$view_fields_RET
-			&& !$view_address_RET
+		if ( ! $view_fields_RET
+			&& ! $view_address_RET
 			&& !isset( $view_other_RET['CONTACT_INFO'] ) )
 		{
 			$extra['columns_after'] = array(
@@ -425,7 +425,7 @@ function GetStuList( &$extra = array() )
 				&& $_REQUEST['_search_all_schools'] == 'Y';
 			
 			// Normal SELECT
-			if ( !$is_select_only )
+			if ( ! $is_select_only )
 			{
 
 				// Search All Schools
@@ -484,7 +484,7 @@ function GetStuList( &$extra = array() )
 			}
 
 			if ( UserSchool()
-				&& !$is_search_all_schools )
+				&& ! $is_search_all_schools )
 			{
 				$sql .= " AND ssm.SCHOOL_ID='" . UserSchool() . "'";
 			}
@@ -506,7 +506,7 @@ function GetStuList( &$extra = array() )
 			//$sql = 'SELECT '.$distinct;
 
 			// Normal SELECT
-			if ( !$is_select_only )
+			if ( ! $is_select_only )
 			{
 				// Include Inactive Students
 				if ( $is_include_inactive )
@@ -592,7 +592,7 @@ function GetStuList( &$extra = array() )
 		case 'student':
 
 			// Normal SELECT
-			if ( !$is_select_only )
+			if ( ! $is_select_only )
 			{
 				// Student Full Name
 				$sql .= "s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS FULL_NAME,";
@@ -830,7 +830,7 @@ function makeParents( $student_id, $column )
 		AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'" . $constraint . 
 		" ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME" ) );
 
-	if ( !$people_RET )
+	if ( ! $people_RET )
 	{
 		return '';
 	}
@@ -914,7 +914,7 @@ function appendSQL( $sql, $extra = array() )
 			//$sql .= " AND ssm.STUDENT_ID IN '".$_REQUEST['stuid']."'";
 			$sql .= " AND ssm.STUDENT_ID IN (" . $stuids . ")";
 
-			if ( !$no_search_terms )
+			if ( ! $no_search_terms )
 			{
 				$_ROSARIO['SearchTerms'] .= '<b>' . sprintf( _( '%s ID' ), Config( 'NAME' ) ) .
 					': </b>' . $stuids . '<br />';
@@ -928,7 +928,7 @@ function appendSQL( $sql, $extra = array() )
 	{
 		$sql .= " AND LOWER(s.LAST_NAME) LIKE '" . mb_strtolower( $_REQUEST['last'] ) . "%'";
 
-		if ( !$no_search_terms )
+		if ( ! $no_search_terms )
 		{
 			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Last Name starts with' ) . ': </b>' .
 				str_replace( "''", "'", $_REQUEST['last'] ) . '<br />';
@@ -941,7 +941,7 @@ function appendSQL( $sql, $extra = array() )
 	{
 		$sql .= " AND LOWER(s.FIRST_NAME) LIKE '" . mb_strtolower( $_REQUEST['first'] ) . "%'";
 
-		if ( !$no_search_terms )
+		if ( ! $no_search_terms )
 		{
 			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'First Name starts with' ) . ': </b>' .
 			str_replace( "''", "'", $_REQUEST['first'] ).'<br />';
@@ -956,7 +956,7 @@ function appendSQL( $sql, $extra = array() )
 	{
 		$sql .= " AND ssm.GRADE_ID = '" . $_REQUEST['grade'] . "'";
 
-		if ( !$no_search_terms )
+		if ( ! $no_search_terms )
 		{
 			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Grade Level' ) . ': </b>' .
 				GetGrade( $_REQUEST['grade'] ) . '<br />';
@@ -969,7 +969,7 @@ function appendSQL( $sql, $extra = array() )
 	{
 		$is_grades_not = isset( $_REQUEST['grades_not'] ) && $_REQUEST['grades_not'] === 'Y';
 
-		if ( !$no_search_terms )
+		if ( ! $no_search_terms )
 		{
 			$_ROSARIO['SearchTerms'] .= '<b>' . ngettext( 'Grade', 'Grades', count( $_REQUEST['grades'] ) ) .
 				': </b>' . ( $is_grades_not ? _( 'Excluded' ) . ' ' : '' );
@@ -981,7 +981,7 @@ function appendSQL( $sql, $extra = array() )
 		{
 			$grade_list .= $sep . "'" . $grade_id . "'";
 
-			if ( !$no_search_terms )
+			if ( ! $no_search_terms )
 			{
 				$_ROSARIO['SearchTerms'] .= $sep . GetGrade( $grade_id );
 			}
@@ -989,7 +989,7 @@ function appendSQL( $sql, $extra = array() )
 			$sep = ',';
 		}
 
-		if ( !$no_search_terms )
+		if ( ! $no_search_terms )
 		{
 			$_ROSARIO['SearchTerms'] .= '<br />';
 		}
@@ -1005,7 +1005,7 @@ function appendSQL( $sql, $extra = array() )
 			"%' OR LOWER(a.STATE)='" . mb_strtolower( $_REQUEST['addr'] ) .
 			"' OR ZIPCODE LIKE '" . $_REQUEST['addr'] . "%')";
 
-		if ( !$no_search_terms )
+		if ( ! $no_search_terms )
 		{
 			$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Address contains' ) . ': </b>' .
 				str_replace( "''", "'", $_REQUEST['addr'] ) . '<br />';

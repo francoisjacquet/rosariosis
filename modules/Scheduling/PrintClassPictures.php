@@ -168,7 +168,7 @@ if (empty($_REQUEST['modfunc']))
 function mySearch($type,$extra='')
 {	global $extra;
 
-	if ( !$_REQUEST['search_modfunc'])
+	if ( ! $_REQUEST['search_modfunc'])
 	{
 		$_SESSION['Search_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 
@@ -285,7 +285,7 @@ function mySearch($type,$extra='')
 		$course_periods_RET = DBGet(DBQuery($sql),array('COURSE_PERIOD_ID' => '_makeChooseCheckbox'));
 		$LO_columns = array('COURSE_PERIOD_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');" checked /><A>','TITLE' => _('Course Period'));
 
-		if ( !$_REQUEST['LO_save'] && !$extra['suppress_save'])
+		if ( ! $_REQUEST['LO_save'] && ! $extra['suppress_save'])
 		{
 			$_SESSION['List_PHP_SELF'] = PreparePHP_SELF($_SESSION['_REQUEST_vars'],array('bottom_back'));
 

@@ -83,7 +83,7 @@ function _update29alpha()
 	 * And ADD it again with course_period_school_periods_id
 	 */
 	$SQL_dups = "";
-	if ( !$SQL_dups_RET )
+	if ( ! $SQL_dups_RET )
 		$return = false;
 		$SQL_add_ID = "ALTER TABLE ONLY course_period_school_periods
 			DROP CONSTRAINT course_period_school_periods_pkey;
