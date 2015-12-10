@@ -17,7 +17,7 @@ function PDFStart( $options = array() )
 		'mode' => 2, // MODE_EMBEDDED
 	);
 
-	$pdf_options = array_replace_recursive( $default_options, $options );
+	$pdf_options = array_replace_recursive( $default_options, (array) $options );
 
 	ob_start();
 
