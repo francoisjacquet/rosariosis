@@ -1,4 +1,10 @@
 <?php
+/**
+ * RosarioSIS & Program Configuration functions
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
  * Get Configuration value
@@ -8,7 +14,7 @@
  * @global array  $_ROSARIO     Sets $_ROSARIO['Config']
  * @global string $DefaultSyear
  *
- * @param  string $item         Config title
+ * @param  string $item         Config title.
  *
  * @return string Config value
  */
@@ -17,15 +23,22 @@ function Config( $item )
 	global $_ROSARIO,
 		$DefaultSyear;
 
-	// Get General & School Config
-	if ( !isset( $_ROSARIO['Config'][ $item ] ) )
+	if ( ! $item )
 	{
-		// General (for every school) Config is stored with SCHOOL_ID=0
+		return '';
+	}
+
+	// Get General & School Config.
+	if ( !isset( $_ROSARIO['Config'][ (string) $item ] ) )
+	{
+		// General (for every school) Config is stored with SCHOOL_ID=0.
 		$school_where = "SCHOOL_ID='0'";
 
-		// If user logged in
+		// If user logged in.
 		if ( UserSchool() > 0 )
+		{
 			$school_where = "SCHOOL_ID='" . UserSchool() . "' OR " . $school_where;
+		}
 
 		$_ROSARIO['Config'] = DBGet( DBQuery( "SELECT TITLE, CONFIG_VALUE
 			FROM CONFIG
@@ -34,7 +47,7 @@ function Config( $item )
 		$_ROSARIO['Config']['SYEAR'][1]['CONFIG_VALUE'] = $DefaultSyear;
 	}
 
-	return $_ROSARIO['Config'][ $item ][1]['CONFIG_VALUE'];
+	return $_ROSARIO['Config'][ (string) $item ][1]['CONFIG_VALUE'];
 }
 
 
@@ -51,8 +64,8 @@ function Config( $item )
  *
  * @global array        $_ROSARIO Sets $_ROSARIO['ProgramConfig']
  *
- * @param  string       $program  eligibility|grades|students|moodle|food_service|attendance... Program name
- * @param  string       $item     Program Config title (optional). Defaults to 'all'
+ * @param  string $program eligibility|grades|students|moodle|food_service|attendance... Program name.
+ * @param  string $item    Program Config title (optional). Defaults to 'all'.
  *
  * @return string|array Program Configuration value, or Program values in array
  */
@@ -60,7 +73,13 @@ function ProgramConfig( $program, $item = 'all'  )
 {
 	global $_ROSARIO;
 
-	if ( !isset( $_ROSARIO['ProgramConfig'] ) )
+	if ( ! $program
+		|| ! $item )
+	{
+		return '';
+	}
+
+	if ( ! isset( $_ROSARIO['ProgramConfig'] ) )
 	{
 		$_ROSARIO['ProgramConfig'] = DBGet( DBQuery( "SELECT PROGRAM,TITLE,VALUE
 			FROM PROGRAM_CONFIG
@@ -70,8 +89,8 @@ function ProgramConfig( $program, $item = 'all'  )
 
 	if ( $item === 'all' )
 	{
-		return $_ROSARIO['ProgramConfig'][ $program ];
+		return $_ROSARIO['ProgramConfig'][ (string) $program ];
 	}
 	else
-		return $_ROSARIO['ProgramConfig'][ $program ][ $item ][1]['VALUE'];
+		return $_ROSARIO['ProgramConfig'][ (string) $program ][ (string) $item ][1]['VALUE'];
 }

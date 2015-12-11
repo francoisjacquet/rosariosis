@@ -1,7 +1,17 @@
 <?php
+/**
+ * Current $_SESSION variables getters & setters functions
+ *
+ * See RosarioSIS Side menu to modify them
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
- * @return int Current User School ID
+ * User School
+ *
+ * @return int Current User School ID or null
  */
 function UserSchool()
 {
@@ -10,7 +20,9 @@ function UserSchool()
 
 
 /**
- * @return int Current User School Year ID
+ * User School Year
+ *
+ * @return int Current User School Year ID or null
  */
 function UserSyear()
 {
@@ -19,7 +31,9 @@ function UserSyear()
 
 
 /**
- * @return int Current User Marking Period ID
+ * User Marking Period
+ *
+ * @return int Current User Marking Period ID or null
  */
 function UserMP()
 {
@@ -28,9 +42,11 @@ function UserMP()
 
 
 /**
+ * User Period
+ *
  * @deprecated
- * 
- * @return int Current User Period ID
+ *
+ * @return int Current User Period ID or null
  */
 function UserPeriod()
 {
@@ -39,7 +55,10 @@ function UserPeriod()
 
 
 /**
- * @return int Current User Course Period ID
+ * User Course Period
+ * (Teachers & Admins using Teacher Programs only)
+ *
+ * @return int Current User Course Period ID or null
  */
 function UserCoursePeriod()
 {
@@ -48,9 +67,12 @@ function UserCoursePeriod()
 
 
 /**
+ * User Course Period School Period
+ * (Teachers & Admins using Teacher Programs only)
+ *
  * FJ multiple school periods for a course period
- * 
- * @return int Current User Course Period School Period ID
+ *
+ * @return int Current User Course Period School Period ID or null
  */
 function UserCoursePeriodSchoolPeriod()
 {
@@ -59,7 +81,10 @@ function UserCoursePeriodSchoolPeriod()
 
 
 /**
- * @return int Current User Student ID
+ * User Student
+ * (Admins, Teachers & Parents only)
+ *
+ * @return int Current User Student ID or null
  */
 function UserStudentID()
 {
@@ -68,7 +93,10 @@ function UserStudentID()
 
 
 /**
- * @return int Current User Staff ID
+ * User Staff
+ * (Admins & Teachers only)
+ *
+ * @return int Current User Staff ID or null
  */
 function UserStaffID()
 {
@@ -90,26 +118,30 @@ function UserStaffID()
  * Check $staff_id is in current Year
  * Student:
  * Forbid
- * 
- * @param  int  $staff_id Staff ID
+ *
+ * @param  int  $staff_id Staff ID.
  *
  * @return void exit to HackingLog if not permitted
  */
 function SetUserStaffID( $staff_id )
 {
 	$isHack = false;
-	
+
 	switch ( User( 'PROFILE' ) )
 	{
 		case 'parent':
-			if ( $staff_id !== User( 'STAFF_ID' ) )
-				$isHack = true;
-		break;
-		
-		case 'teacher':
+
 			if ( $staff_id !== User( 'STAFF_ID' ) )
 			{
-				//get teacher's related parents, include parents of inactive students
+				$isHack = true;
+			}
+		break;
+
+		case 'teacher':
+
+			if ( $staff_id !== User( 'STAFF_ID' ) )
+			{
+				// Get teacher's related parents, include parents of inactive students.
 				$is_related_parent = DBGet( DBQuery( "SELECT 1
 					FROM STAFF s
 					WHERE s.SYEAR='" . UserSyear() . "' 
@@ -125,41 +157,49 @@ function SetUserStaffID( $staff_id )
 					))
 					AND s.STAFF_ID='" . $staff_id . "'" ), array(), array( 'STAFF_ID' ) );
 
-				if ( !count( $is_related_parent ) )
+				if ( ! $is_related_parent )
+				{
 					$isHack = true;
+				}
 			}
 
 		break;
 
 		case 'admin':
-			//Check $staff_id is in current Year
+
+			// Check $staff_id is in current Year.
 			$is_admin_staff = DBGet( DBQuery( "SELECT 1
 				FROM STAFF
 				WHERE STAFF_ID='" . $staff_id . "'
 				AND SYEAR='" . UserSyear() . "'" ) );
 
-			if ( !count( $is_admin_staff ) )
+			if ( ! $is_admin_staff )
+			{
 				$isHack = true;
+			}
 
 		break;
 
 		case 'student':
 		default:
-			//FJ create account
+
+			// FJ create account.
 			if ( User( 'PROFILE' )
-				|| basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
+				|| basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
+			{
 				$isHack = true;
+			}
 
 		break;
 	}
-	
+
 	if ( $isHack )
 	{
 		require_once 'ProgramFunctions/HackingLog.fnc.php';
 
 		HackingLog();
 	}
-	
+
 	$_SESSION['staff_id'] = $staff_id;
 }
 
@@ -177,24 +217,28 @@ function SetUserStaffID( $staff_id )
  * Check $student_id is an ID of its related students
  * Admin:
  * Check $student_id is in current Year & School
- * 
- * @param  int  $student_id Student ID
+ *
+ * @param  int  $student_id Student ID.
  *
  * @return void exit to HackingLog if not permitted
  */
 function SetUserStudentID( $student_id )
 {
 	$isHack = false;
-	
+
 	switch ( User( 'PROFILE' ) )
 	{
 		case 'student':
+
 			if ( $student_id !== $_SESSION['STUDENT_ID'] )
+			{
 				$isHack = true;
+			}
 		break;
-		
+
 		case 'parent':
-			//get parent's related students
+
+			// Get parent's related students.
 			$is_related_student = DBGet( DBQuery( "SELECT 1
 				FROM STUDENTS s,STUDENTS_JOIN_USERS sju,STUDENT_ENROLLMENT se 
 				WHERE s.STUDENT_ID=sju.STUDENT_ID 
@@ -204,12 +248,15 @@ function SetUserStudentID( $student_id )
 				AND ('" . DBDate() . "'>=se.START_DATE AND ('" . DBDate() . "'<=se.END_DATE OR se.END_DATE IS NULL))
 				AND sju.STUDENT_ID='" . $student_id . "'"), array(), array( 'STUDENT_ID' ) );
 
-			if ( !count( $is_related_student ) )
+			if ( ! $is_related_student )
+			{
 				$isHack = true;
+			}
 		break;
-		
+
 		case 'teacher':
-			//get teacher's related students, include inactive students
+
+			// Get teacher's related students, include inactive students.
 			$is_related_student = DBGet( DBQuery( "SELECT 1
 				FROM STUDENTS s 
 				JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "' AND ss.START_DATE=
@@ -231,37 +278,44 @@ function SetUserStudentID( $student_id )
 				)
 				AND s.STUDENT_ID='" . $student_id . "'"), array(), array( 'STUDENT_ID' ) );
 
-			if ( !count( $is_related_student ) )
+			if ( ! $is_related_student )
+			{
 				$isHack = true;
+			}
 		break;
 
 		case 'admin':
-			//Check $student_id is in current Year & School
+
+			// Check $student_id is in current Year & School.
 			$is_admin_student = DBGet( DBQuery( "SELECT 1
 				FROM STUDENT_ENROLLMENT
 				WHERE STUDENT_ID='" . $student_id . "'
 				AND SCHOOL_ID=" . UserSchool() . "
 				AND SYEAR='" . UserSyear() . "'") );
 
-			if ( !count( $is_admin_student ) )
+			if ( ! $is_admin_student )
+			{
 				$isHack = true;
+			}
 		break;
 
 		default:
-			//FJ create account
+			// FJ create account.
 			if ( User( 'PROFILE' )
-				|| basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
+				|| basename( $_SERVER['PHP_SELF'] ) !== 'index.php' )
+			{
 				$isHack = true;
+			}
 
 		break;
 	}
-	
+
 	if ( $isHack )
 	{
 		require_once 'ProgramFunctions/HackingLog.fnc.php';
 
 		HackingLog();
 	}
-	
+
 	$_SESSION['student_id'] = $student_id;
 }
