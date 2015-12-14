@@ -31,25 +31,32 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 		'pie',
 	);
 
-	if ( !in_array( $type, $types ) )
+	if ( ! in_array( $type, $types ) )
+	{
 		return '';
+	}
 
-	if ( !is_array( $data )
+	if ( ! is_array( $data )
 		|| empty( $data ) )
+	{
 		return '';
+	}
 
 	$chart = includejqPlotOnce();
 
-	// include Chart type specific JS
+	// Include Chart type specific JS.
 	if ( function_exists( 'includejqPlot' . ucfirst( $type ) . 'Once' ) )
+	{
 		$chart .= call_user_func( 'includejqPlot' . ucfirst( $type ) . 'Once' );
+	}
 
 	$chartData = array();
 
-	// Chart Data & Options
+	// Chart Data & Options.
 	switch ( $type )
 	{
 		case 'line':
+
 			$chartData_count = count( $data[0] );
 
 			for ( $i = 0; $i < $chartData_count; $i++ )
@@ -71,9 +78,10 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 		break;
 
 		case 'column':
+
 			$isStackSeries = false;
 
-			// Detect Stack series (various columns): key is string (series label)
+			// Detect Stack series (various columns): key is string (series label).
 			reset( $data );
 
 			$first_key = key( $data );
@@ -153,6 +161,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 		break;
 
 		case 'pie':
+
 			$chartData_count = count( $data[0] );
 
 			for ( $i = 0; $i < $chartData_count; $i++ )
@@ -176,33 +185,35 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 	ob_start(); ?>
 
 	<script>
-		$(document).ready(function(){
-			var plot<?php echo $chartID; ?>data = <?php echo $chartData; ?>;
+		$(function(){
+			window.setTimeout(function () {
+				var plot<?php echo $chartID; ?>data = <?php echo $chartData; ?>;
 
-			<?php if ( isset( $ticks ) ) : ?>
-			var plot<?php echo $chartID; ?>ticks = <?php echo $ticks; ?>;
-			<?php endif; ?>
+				<?php if ( isset( $ticks ) ) : ?>
+				var plot<?php echo $chartID; ?>ticks = <?php echo $ticks; ?>;
+				<?php endif; ?>
 
-			/*FJ responsive labels: limit label to 15 char max.*/
-			if (screen.width < 648)
-			{
-				/* Pie Chart labels */
-				if ( $.jqplot.PieRenderer )
-					for ( var i=0; i < plot<?php echo $chartID; ?>data.length; i++ )
-						plot<?php echo $chartID; ?>data[i][0] = plot<?php echo $chartID; ?>data[i][0].substr(0, 15);
+				/*FJ responsive labels: limit label to 15 char max.*/
+				if (screen.width < 648)
+				{
+					/* Pie Chart labels */
+					if ( $.jqplot.PieRenderer )
+						for ( var i=0; i < plot<?php echo $chartID; ?>data.length; i++ )
+							plot<?php echo $chartID; ?>data[i][0] = plot<?php echo $chartID; ?>data[i][0].substr(0, 15);
 
-				/* Column Chart ticks */
-				if ( $.jqplot.CanvasAxisTickRenderer )
-					for ( var i=0; i < plot<?php echo $chartID; ?>ticks.length; i++ )
-						plot<?php echo $chartID; ?>ticks[i] = plot<?php echo $chartID; ?>ticks[i].substr(0, 20);
-			}
+					/* Column Chart ticks */
+					if ( $.jqplot.CanvasAxisTickRenderer )
+						for ( var i=0; i < plot<?php echo $chartID; ?>ticks.length; i++ )
+							plot<?php echo $chartID; ?>ticks[i] = plot<?php echo $chartID; ?>ticks[i].substr(0, 20);
+				}
 
-			var plot<?php echo $chartID; ?> = $.jqplot(
-				<?php echo json_encode( 'chart' . $chartID ); ?>,
-				[plot<?php echo $chartID; ?>data],
-				{<?php echo $chartOptions; ?>
-				title: <?php echo json_encode( $title ); ?>
-			});
+				var plot<?php echo $chartID; ?> = $.jqplot(
+					<?php echo json_encode( 'chart' . $chartID ); ?>,
+					[plot<?php echo $chartID; ?>data],
+					{<?php echo $chartOptions; ?>
+					title: <?php echo json_encode( $title ); ?>
+				});
+			}, 500);
 		});
 	</script>
 	<div id="chart<?php echo $chartID; ?>" class="chart"></div>
@@ -210,7 +221,9 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 <?php $chart .= ob_get_clean();
 
 	if ( $save_image )
+	{
 		$chart .= includejqPlotToColorBoxOnce();
+	}
 
 	$chartID++;
 
@@ -228,7 +241,9 @@ function includejqPlotOnce()
 	static $included = false;
 
 	if ( $included )
+	{
 		return '';
+	}
 
 	$included = true;
 
@@ -252,7 +267,9 @@ function includejqPlotLineOnce()
 	static $included = false;
 
 	if ( $included )
+	{
 		return '';
+	}
 
 	$included = true;
 
@@ -274,7 +291,9 @@ function includejqPlotColumnOnce()
 	static $included = false;
 
 	if ( $included )
+	{
 		return '';
+	}
 
 	$included = true;
 
@@ -300,7 +319,9 @@ function includejqPlotPieOnce()
 	static $included = false;
 
 	if ( $included )
+	{
 		return '';
+	}
 
 	$included = true;
 
@@ -322,7 +343,9 @@ function includejqPlotToColorBoxOnce()
 	static $included = false;
 
 	if ( $included )
+	{
 		return '';
+	}
 
 	$included = true;
 
@@ -331,7 +354,9 @@ function includejqPlotToColorBoxOnce()
 	<script src="assets/js/jquery.jqplottocolorbox.js"></script>
 	<script>
 		$(function(){
-			jqplotToColorBox( <?php echo json_encode( _( 'Right Click to Save Image As...' ) ); ?> );
+			window.setTimeout(function () {
+				jqplotToColorBox( <?php echo json_encode( _( 'Right Click to Save Image As...' ) ); ?> );
+			}, 500);
 		});
 	</script>
 
@@ -349,8 +374,8 @@ function includejqPlotToColorBoxOnce()
  * @global array   $mins
  * @global boolean $chartline   Is line chart
  *
- * @param  string  $number      Number
- * @param  string  $column      TITLE
+ * @param  string  $number      Number.
+ * @param  string  $column      TITLE.
  *
  * @return string  Number
  */
@@ -363,11 +388,13 @@ function makeNumeric( $number, $column )
 		$chartline;
 
 	if ( is_null( $number ) )
+	{
 		return;
+	}
 
 	if ( $diff == 0 )
 	{
-		$chart['chart_data'][0][1] = (int)$number;
+		$chart['chart_data'][0][1] = (int) $number;
 		$chart['chart_data'][1][1]++;
 	}
 	elseif ( $diff < 10
