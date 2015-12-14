@@ -125,7 +125,9 @@ if ( $_REQUEST['modfunc']=='update' && ! $_REQUEST['new_profile_title'] && Allow
 		$values = $profiles[ $xprofile ];
 		foreach ( (array) $values as $modname => $title)
 		{
-			if ( !is_numeric($modname) && $modname!='default')
+			if ( ! is_numeric( $modname )
+				&& $modname !== 'default'
+				&& $modname !== 'title' )
 			{
 				if ( !count($exceptions_RET[ $modname ]) && ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)]))
 					DBQuery("INSERT INTO PROFILE_EXCEPTIONS (PROFILE_ID,MODNAME) values('".$_REQUEST['profile_id']."','".$modname."')");
@@ -257,7 +259,9 @@ if ( $_REQUEST['modfunc']!='delete')
 			{
 				foreach ( (array) $values as $file => $title)
 				{
-					if ( !is_numeric($file) && $file!='default')
+					if ( !is_numeric( $file )
+						&& $file !== 'default'
+						&& $file !== 'title' )
 					{
 						$can_use = $exceptions_RET[ $file ][1]['CAN_USE'];
 						$can_edit = $exceptions_RET[ $file ][1]['CAN_EDIT'];
@@ -313,8 +317,11 @@ if ( $_REQUEST['modfunc']!='delete')
 							}
 						}
 					}
-					elseif ( $file!='default')
+					elseif ( $file !== 'default'
+						&& $file !== 'title' )
+					{
 						echo '<tr><td colspan="3" class="center">- '.$title.' -</td></tr>';
+					}
 
 				}
 			}
