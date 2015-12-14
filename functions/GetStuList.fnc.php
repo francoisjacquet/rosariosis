@@ -591,16 +591,6 @@ function GetStuList( &$extra = array() )
 		case 'parent':
 		case 'student':
 
-			// Normal SELECT
-			if ( ! $is_select_only )
-			{
-				// Student Full Name
-				$sql .= "s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS FULL_NAME,";
-
-				// Student Details
-				$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID ' . $extra['SELECT'];
-			}
-
 			// FROM
 			$sql .= " FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
 				AND ssm.SYEAR='".UserSyear()."'
