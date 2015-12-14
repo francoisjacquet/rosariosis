@@ -100,6 +100,7 @@ if(count($grouped_RET))
 		<script>
 			var saveImgText = <?php echo json_encode(_('Right Click to Save Image As...')); ?>;
 			$(document).ready(function(){
+				window.setTimeout(function () {
 <?php
 		foreach($grouped_RET as $staff_id=>$grades)
 		{
@@ -114,21 +115,22 @@ if(count($grouped_RET))
 			$chartData .= "];\n";
 			echo $chartData;
 	?>
-				var plot<?php echo $i; ?> = $.jqplot('chart<?php echo $i; ?>',[jsData<?php echo $i; ?>], {
-					axesDefaults: {
-						pad: 0 //start axes at 0
-					},
-					highlighter: {
-						show: true,
-						tooltipAxes: 'both',
-						formatString:'<span style="font-size:larger;font-weight:bold;">%s; %s</span>',
-					},
-					title: chartTitle<?php echo $i; ?>
-				});
+					var plot<?php echo $i; ?> = $.jqplot('chart<?php echo $i; ?>',[jsData<?php echo $i; ?>], {
+						axesDefaults: {
+							pad: 0 //start axes at 0
+						},
+						highlighter: {
+							show: true,
+							tooltipAxes: 'both',
+							formatString:'<span style="font-size:larger;font-weight:bold;">%s; %s</span>',
+						},
+						title: chartTitle<?php echo $i; ?>
+					});
 				
 <?php
 		}
 ?>
+				}, 500);
 			});
 		</script>
 <?php

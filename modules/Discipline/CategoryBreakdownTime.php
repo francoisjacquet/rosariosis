@@ -434,40 +434,42 @@ if(empty($_REQUEST['modfunc']))
 			<script src="assets/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
 			<script>
 				$(document).ready(function(){
-					var plotcolumn = $.jqplot('chart', [<?php
-					for ($i = 1; $i<$datacolumns; $i++)
-						echo 'datacolumn'.$i.($i<($datacolumns-1) ? ', ' : '');
-					?>], {
-						stackSeries: true,
-						series:[<?php
-						foreach ($series_labels as $serie_label)
-							echo '{label:\''.$serie_label.'\'},';
-						?>],
-						seriesDefaults:{
-							renderer:$.jqplot.BarRenderer,
-							rendererOptions: { 
-								varyBarColor: true
+					window.setTimeout(function () {
+						var plotcolumn = $.jqplot('chart', [<?php
+						for ($i = 1; $i<$datacolumns; $i++)
+							echo 'datacolumn'.$i.($i<($datacolumns-1) ? ', ' : '');
+						?>], {
+							stackSeries: true,
+							series:[<?php
+							foreach ($series_labels as $serie_label)
+								echo '{label:\''.$serie_label.'\'},';
+							?>],
+							seriesDefaults:{
+								renderer:$.jqplot.BarRenderer,
+								rendererOptions: { 
+									varyBarColor: true
+								},
+								pointLabels: { show: true }
 							},
-							pointLabels: { show: true }
-						},
-						axes: {
-							// yaxis: { autoscale: true },
-							xaxis: {
-								renderer: $.jqplot.CategoryAxisRenderer,
-								ticks: ticks,
-								tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-								tickOptions:{
-									angle:-20
-								}
+							axes: {
+								// yaxis: { autoscale: true },
+								xaxis: {
+									renderer: $.jqplot.CategoryAxisRenderer,
+									ticks: ticks,
+									tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+									tickOptions:{
+										angle:-20
+									}
+								},
 							},
-						},
-						legend: {
-							show: true,
-							location: 'e',
-							placement: 'outside'
-						},     
-						title: chartTitle
-					});
+							legend: {
+								show: true,
+								location: 'e',
+								placement: 'outside'
+							},     
+							title: chartTitle
+						});
+					}, 500);
 				});		
 			</script>
 			<div id="chart"></div>

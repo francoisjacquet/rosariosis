@@ -255,6 +255,7 @@ if(empty($_REQUEST['modfunc']))
 				<script src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 				<script>
 					$(document).ready(function(){
+						window.setTimeout(function () {
 							var plotcolumn = $.jqplot('chart', [datacolumn], {
 								axesDefaults: {
 									pad: 0 //start axes at 0
@@ -266,7 +267,8 @@ if(empty($_REQUEST['modfunc']))
 								},
 								title: chartTitle
 							});
-						});		
+						}, 500);
+					});
 				</script>
 <?php
 			} else { //pie chart
@@ -274,17 +276,19 @@ if(empty($_REQUEST['modfunc']))
 				<script src="assets/js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
 				<script>
 					$(document).ready(function(){ 
-						var plotpie = $.jqplot('chart', [datapie], {
-							seriesDefaults:{
-								renderer:$.jqplot.PieRenderer,
-								rendererOptions: {
-									showDataLabels: true,
+						window.setTimeout(function () {
+							var plotpie = $.jqplot('chart', [datapie], {
+								seriesDefaults:{
+									renderer:$.jqplot.PieRenderer,
+									rendererOptions: {
+										showDataLabels: true,
+									},
 								},
-							},
-							legend:{show:true},
-							title: chartTitle
-						});
-					});	
+								legend:{show:true},
+								title: chartTitle
+							});
+						}, 500);
+					});
 				</script>
 <?php
 			}

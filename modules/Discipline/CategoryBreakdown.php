@@ -297,14 +297,16 @@ if(empty($_REQUEST['modfunc']))
 				<script src="assets/js/jqplot/plugins/jqplot.highlighter.min.js"></script>
 				<script>
 					$(document).ready(function(){
-						var plotline = $.jqplot('chart',[dataline], {
-							highlighter: {
-								show: true,
-								tooltipAxes: 'both',
-								formatString:'<span style="font-size:larger;font-weight:bold;">%s; %s</span>',
-							},
-							title: chartTitle
-						});
+						window.setTimeout(function () {
+							var plotline = $.jqplot('chart',[dataline], {
+								highlighter: {
+									show: true,
+									tooltipAxes: 'both',
+									formatString:'<span style="font-size:larger;font-weight:bold;">%s; %s</span>',
+								},
+								title: chartTitle
+							});
+						}, 500);
 					});		
 				</script>
 <?php
@@ -319,28 +321,30 @@ if(empty($_REQUEST['modfunc']))
 				<script src="assets/js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
 				<script>
 					$(document).ready(function(){
-						var plotcolumn = $.jqplot('chart', [datacolumn], {
-							seriesDefaults:{
-								renderer:$.jqplot.BarRenderer,
-								rendererOptions: { 
-									fillToZero: true,
-									varyBarColor: true
+						window.setTimeout(function () {
+							var plotcolumn = $.jqplot('chart', [datacolumn], {
+								seriesDefaults:{
+									renderer:$.jqplot.BarRenderer,
+									rendererOptions: { 
+										fillToZero: true,
+										varyBarColor: true
+									},
+									pointLabels: { show: true }
 								},
-								pointLabels: { show: true }
-							},
-							axes: {
-								// yaxis: { autoscale: true },
-								xaxis: {
-									renderer: $.jqplot.CategoryAxisRenderer,
-									ticks: ticks,
-									tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-									tickOptions:{
-										angle:-20
-									}
+								axes: {
+									// yaxis: { autoscale: true },
+									xaxis: {
+										renderer: $.jqplot.CategoryAxisRenderer,
+										ticks: ticks,
+										tickRenderer: $.jqplot.CanvasAxisTickRenderer,
+										tickOptions:{
+											angle:-20
+										}
+									},
 								},
-							},
-							title: chartTitle
-						});
+								title: chartTitle
+							});
+						}, 500);
 					});		
 				</script>
 <?php
@@ -351,16 +355,18 @@ if(empty($_REQUEST['modfunc']))
 				<script src="assets/js/jqplot/plugins/jqplot.pieRenderer.min.js"></script>
 				<script>
 					$(document).ready(function(){
-						var plotpie = $.jqplot('chart', [datapie], {
-							seriesDefaults:{
-								renderer:$.jqplot.PieRenderer,
-								rendererOptions: {
-									showDataLabels: true,
+						window.setTimeout(function () {
+							var plotpie = $.jqplot('chart', [datapie], {
+								seriesDefaults:{
+									renderer:$.jqplot.PieRenderer,
+									rendererOptions: {
+										showDataLabels: true,
+									},
 								},
-							},
-							legend:{show:true},
-							title: chartTitle
-						});
+								legend:{show:true},
+								title: chartTitle
+							});
+						}, 500);
 					});	
 				</script>
 <?php
