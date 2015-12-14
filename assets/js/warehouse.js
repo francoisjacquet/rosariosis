@@ -125,8 +125,6 @@ function MarkDownInputPreview( input_id )
 		html = input.val(),
 		md_prev = $('#divMDPreview' + input_id);
 
-console.log(md_last_val);
-
 	// send AJAX request only if input modified
 	if ( !md_prev.is(":visible") && html !== '' && md_last_val[input_id] !== html )
 	{
@@ -243,8 +241,8 @@ function ajaxLink(link) {
 }
 
 function ajaxPostForm(form, submit) {
-	var target = form.target;
-	if (!target) target = 'body';
+	var target = form.target || 'body';
+
 	if (form.action.indexOf('_ROSARIO_PDF') != -1) //print PDF
 	{
 		form.target = '_blank';
