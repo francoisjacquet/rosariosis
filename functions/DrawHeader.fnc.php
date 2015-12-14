@@ -11,9 +11,9 @@
  *
  * @global array  $_ROSARIO Sets $_ROSARIO['AllowUse']
  *
- * @param  string $left     Left part of the Header
- * @param  string $right    Right part of the Header (optional)
- * @param  string $center   Center part of the Header (optional)
+ * @param  string $left     Left part of the Header.
+ * @param  string $right    Right part of the Header (optional).
+ * @param  string $center   Center part of the Header (optional).
  *
  * @return void   outputs Header HTML
  */
@@ -21,8 +21,8 @@ function DrawHeader( $left, $right = '', $center = '' )
 {
 	global $_ROSARIO;
 
-	// Primary Header
-	if ( !isset( $_ROSARIO['DrawHeader'] ) )
+	// Primary Header.
+	if ( ! isset( $_ROSARIO['DrawHeader'] ) )
 	{
 		$_ROSARIO['DrawHeader'] = 'header1';
 	}
@@ -31,35 +31,39 @@ function DrawHeader( $left, $right = '', $center = '' )
 
 	if ( $left !== '' )
 	{
-		// Add H2 + Module icon to Primary Header
+		// Add H2 + Module icon to Primary Header.
 		if ( $_ROSARIO['DrawHeader'] === 'header1' )
 		{
 			if ( isset( $_ROSARIO['HeaderIcon'] )
 				&& $_ROSARIO['HeaderIcon'] !== false )
 			{
-				$left = '<img src="' . $_ROSARIO['HeaderIcon'] . '" class="headerIcon" /> ' . $left;
+				$left = '<img src="' . $_ROSARIO['HeaderIcon'] . '" class="headerIcon" /> ' . (string) $left;
 			}
 
 			$left = '<h2>' . $left . '</h2>';
 		}
 
 		echo '<td class="' . $_ROSARIO['DrawHeader'] . '">' .
-			$left .
+			(string) $left .
 		'</td>';
 	}
 
 	if ( $center !== '' )
-		echo '<td class="' . $_ROSARIO['DrawHeader'] . '" style="text-align:center">' .
-			$center .
+	{
+		echo '<td class="' . $_ROSARIO['DrawHeader'] . ' center">' .
+			(string) $center .
 		'</td>';
+	}
 
 	if ( $right !== '' )
-		echo '<td class="' . $_ROSARIO['DrawHeader'] . '" style="text-align:right">' .
-			$right .
+	{
+		echo '<td class="' . $_ROSARIO['DrawHeader'] . ' align-right">' .
+			(string) $right .
 		'</td>';
+	}
 
 	echo '</tr></table>';
 
-	// Secondary Headers
+	// Secondary Headers.
 	$_ROSARIO['DrawHeader'] = 'header2';
 }
