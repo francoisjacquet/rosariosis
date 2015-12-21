@@ -103,6 +103,14 @@ else
 			<?php endif; ?>
 
 			<a href="Bottom.php?modfunc=print" target="_blank" title="<?php echo _('Print'); ?>" class="BottomButton"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/print.png" />&nbsp;<span><?php echo _('Print'); ?></span></a>
+			<?php if ( $RosarioModules['State_Reports']
+				&& User( 'PROFILE' ) === 'admin'
+				&& AllowEdit( 'State_Reports/SavedReports.php' ) ) : // Save Report. ?>
+				<a href="Modules.php?modname=State_Reports/SavedReports.php&amp;modfunc=new" class="BottomButton">
+					<img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/download.png" />&nbsp;
+					<span><?php echo _( 'Save Report' ); ?></span>
+				</a>
+			<?php endif; ?>
 			<a href="#" onclick="toggleHelp();return false;" title="<?php echo _('Help'); ?>" class="BottomButton"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/help.png" />&nbsp;<span><?php echo _('Help'); ?></span></a>
 			<a href="index.php?modfunc=logout" target="_top" title="<?php echo _('Logout'); ?>" class="BottomButton"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/logout.png" />&nbsp;<span><?php echo _('Logout'); ?></span></a>
 			<img id="BottomSpinner" class="BottomButton" src="assets/themes/<?php echo Preferences('THEME'); ?>/spinning.gif" alt="Loading" />

@@ -8,8 +8,15 @@ if(isset($_REQUEST['modname']))
 	
 	if(!isset($_REQUEST['_ROSARIO_PDF']))
 	{
-		if(empty($_REQUEST['LO_save']) && (mb_strpos($modname,'misc/')===false || $modname=='misc/Registration.php' || $modname=='misc/Export.php' || $modname=='misc/Portal.php'))
+		if ( empty( $_REQUEST['LO_save'] )
+			&& ( mb_strpos( $modname, 'misc/' ) === false
+				|| $modname == 'misc/Registration.php'
+				|| $modname == 'misc/Export.php'
+				|| $modname == 'misc/Portal.php' )
+			&& $modname !== 'State_Reports/SavedReports.php' )
+		{
 			$_SESSION['_REQUEST_vars'] = $_REQUEST;
+		}
 
 		$_ROSARIO['is_popup'] = $_ROSARIO['not_ajax'] = false;
 
