@@ -32,7 +32,8 @@ if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		&& ( mb_strpos( $modname, 'misc/' ) === false
 			|| $modname === 'misc/Portal.php'
 			|| $modname === 'misc/Registration.php'
-			|| $modname === 'misc/Export.php' ) )
+			|| $modname === 'misc/Export.php' )
+		&& $modname !== 'State_Reports/SavedReports.php' )
 	{
 		$_SESSION['_REQUEST_vars'] = $_REQUEST;
 	}
