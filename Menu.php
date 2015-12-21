@@ -38,7 +38,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 	{
 		if ( User( 'PROFILE_ID' ) )
 		{
-			$AllowUse_SQL = "SELECT MODNAME
+			$allow_use_sql = "SELECT MODNAME
 				FROM PROFILE_EXCEPTIONS
 				WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
 				AND CAN_USE='Y'";
@@ -46,7 +46,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 		// If user has custom exceptions.
 		else
 		{
-			$AllowUse_SQL = "SELECT MODNAME
+			$allow_use_sql = "SELECT MODNAME
 				FROM STAFF_EXCEPTIONS
 				WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 				AND CAN_USE='Y'";
@@ -54,7 +54,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 	}
 	else
 	{
-		$AllowUse_SQL = "SELECT MODNAME
+		$allow_use_sql = "SELECT MODNAME
 			FROM PROFILE_EXCEPTIONS
 			WHERE PROFILE_ID='0'
 			AND CAN_USE='Y'";
@@ -63,7 +63,7 @@ if ( empty( $_ROSARIO['Menu'] ) )
 		$profile = 'parent';
 	}
 
-	$_ROSARIO['AllowUse'] = DBGet( DBQuery( $AllowUse_SQL ), array(), array( 'MODNAME' ) );
+	$_ROSARIO['AllowUse'] = DBGet( DBQuery( $allow_use_sql ), array(), array( 'MODNAME' ) );
 
 	// Loop menu entries for each module & profile.
 	// Save menu entries in $_ROSARIO['Menu'] global var.
