@@ -311,11 +311,11 @@ function Search( $type, $extra = null )
 				{
 					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '</td><td>
 					<span class="sizep2">&ge;</span> 
-					<input type="text" name="custb[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
+					<input type="text" name="cust_begin[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
 					<span class="sizep2">&le;</span> 
-					<input type="text" name="custe[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
+					<input type="text" name="cust_end[' . $col['COLUMN_NAME'] . ']" size="3" maxlength="11" /> 
 					<label>' . _( 'No Value' ) .
-					' <input type="checkbox" name="custn[' . $col['COLUMN_NAME'] . ']" /></label>&nbsp;
+					' <input type="checkbox" name="cust_null[' . $col['COLUMN_NAME'] . ']" /></label>&nbsp;
 					</td></tr>';
 				}
 
@@ -425,20 +425,20 @@ function Search( $type, $extra = null )
 				{
 					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '<br />
 					<label>' . _( 'No Value' ) .
-					'&nbsp;<input type="checkbox" name="custn[' . $col['COLUMN_NAME'] . ']" /></label>
+					'&nbsp;<input type="checkbox" name="cust_null[' . $col['COLUMN_NAME'] . ']" /></label>
 					</td>
 					<td><table class="cellspacing-0">
 					<tr><td><span class="sizep2">&ge;</span>&nbsp;</td>
 					<td>' . PrepareDate(
 						'',
-						'_custb[' . $col['COLUMN_NAME'] . ']',
+						'_cust_begin[' . $col['COLUMN_NAME'] . ']',
 						true,
 						array( 'short' => true )
 					) . '</td></tr>
 					<tr><td><span class="sizep2">&le;</span>&nbsp;</td>
 					<td>' . PrepareDate(
 						'',
-						'_custe[' . $col['COLUMN_NAME'] . ']',
+						'_cust_end[' . $col['COLUMN_NAME'] . ']',
 						true,
 						array( 'short' => true )
 					) . '</td></tr>

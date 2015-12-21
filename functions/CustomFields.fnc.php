@@ -31,56 +31,70 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	// unset empty values
 	$cust = array();
 
-	foreach ( (array) $_REQUEST['cust'] as $key => $value )
+	if ( isset( $_REQUEST['cust'] ) )
 	{
-		if ( $value !== '' )
-			$cust[ $key ] = $_REQUEST['cust'][ $key ];
+		foreach ( (array) $_REQUEST['cust'] as $key => $value )
+		{
+			if ( $value !== '' )
+			{
+				$cust[ $key ] = $_REQUEST['cust'][ $key ];
+			}
+		}
 	}
 
 
 	// Format & Verify begin dates
 	$cust_begin = array();
 
-	if ( isset( $_REQUEST['day_custb'] )
-		&& isset( $_REQUEST['month_custb'] )
-		&& isset( $_REQUEST['year_custb'] ) )
+	if ( isset( $_REQUEST['day_cust_begin'] )
+		&& isset( $_REQUEST['month_cust_begin'] )
+		&& isset( $_REQUEST['year_cust_begin'] ) )
 	{
 		$cust_begin = RequestedDates(
-			$_REQUEST['day_custb'],
-			$_REQUEST['month_custb'],
-			$_REQUEST['year_custb']
+			$_REQUEST['day_cust_begin'],
+			$_REQUEST['month_cust_begin'],
+			$_REQUEST['year_cust_begin']
 		);
 	}
 
-	// Add begin Number
-	$cust_begin += (array) $_REQUEST['custb'];
+	if ( isset( $_REQUEST['cust_begin'] ) )
+	{
+		// Add begin Number
+		$cust_begin += (array) $_REQUEST['cust_begin'];
+	}
 
 
 	// Format & Verify end dates
 	$cust_end = array();
 
-	if ( isset( $_REQUEST['day_custe'] )
-		&& isset( $_REQUEST['month_custe'] )
-		&& isset( $_REQUEST['year_custe'] ) )
+	if ( isset( $_REQUEST['day_cust_end'] )
+		&& isset( $_REQUEST['month_cust_end'] )
+		&& isset( $_REQUEST['year_cust_end'] ) )
 	{
 		$cust_end = RequestedDates(
-			$_REQUEST['day_custe'],
-			$_REQUEST['month_custe'],
-			$_REQUEST['year_custe']
+			$_REQUEST['day_cust_end'],
+			$_REQUEST['month_cust_end'],
+			$_REQUEST['year_cust_end']
 		);
 	}
 
-	// Add end Number
-	$cust_end += (array) $_REQUEST['custe'];
+	if ( isset( $_REQUEST['cust_end'] ) )
+	{
+		// Add end Number
+		$cust_end += (array) $_REQUEST['cust_end'];
+	}
 
 
 	// Get custom (staff) fields
 	if ( count( $cust )
 		|| count( $cust_begin )
 		|| count( $cust_end )
-		|| count( (array) $_REQUEST['custn'] ) )
+		|| ( isset( $_REQUEST['cust_null'] )
+			&& count( (array) $_REQUEST['cust_null'] ) ) )
+	{
 		$fields = ParseMLArray( DBGet( DBQuery( "SELECT TITLE,ID,TYPE,SELECT_OPTIONS
 			FROM " . ( $type === 'staff' ? 'STAFF' : 'CUSTOM' ) . "_FIELDS" ), array(), array( 'ID' ) ), 'TITLE' );
+	}
 
 	foreach ( (array) $cust as $field_name => $value )
 	{
@@ -89,7 +103,9 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		$field_title = $fields[ $field_id ][1]['TITLE'];
 
 		if ( ! $extra['NoSearchTerms'] )
+		{
 			$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>';
+		}
 
 		switch ( $fields[ $field_id ][1]['TYPE'] )
 		{
@@ -102,7 +118,9 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 					$return .= " AND s." . $field_name . "='" . $value . "' ";
 
 					if ( ! $extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= _( 'Yes' );
+					}
 				}
 				// No
 				elseif ( $value == 'N' )
@@ -110,7 +128,9 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 					$return .= " AND (s." . $field_name . "!='Y' OR s." . $field_name . " IS NULL) ";
 
 					if ( ! $extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= _( 'No' );
+					}
 				}
 
 			break;
@@ -126,7 +146,9 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 					$return .= " AND (s." . $field_name . "='' OR s." . $field_name . " IS NULL) ";
 
 					if ( ! $extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= _( 'No Value' );
+					}
 				}
 				else
 				{
@@ -176,7 +198,9 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 					$return .= " AND (s." . $field_name . "='' OR s." . $field_name . " IS NULL) ";
 
 					if ( ! $extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= _( 'No Value' );
+					}
 				}
 				// Other Value (Edit Pull-Down only)
 				elseif ( $fields[ $field_id ][1]['TYPE'] == 'edits'
@@ -188,14 +212,18 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 							WHERE ID='" . $field_id . "')||'\r')=0 ";
 
 					if ( ! $extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= _( 'Other Value' );
+					}
 				}
 				else
 				{
 					$return .= " AND s." . $field_name . "='" . $value . "' ";
 
 					if ( ! $extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= $value;
+					}
 				}
 
 			break;
@@ -211,7 +239,9 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 					$return .= " AND (s." . $field_name . "='' OR s." . $field_name . " IS NULL) ";
 
 					if ( ! $extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= _( 'No Value' );
+					}
 				}
 				// matches "searched expression"
 				elseif ( mb_substr( $value, 0, 1 ) === '"'
@@ -220,7 +250,9 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 					$return .= " AND s." . $field_name . "='" . mb_substr( $value, 1, -1 ) . "' ";
 
 					if ( ! $extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= mb_substr( $value, 1, -1 );
+					}
 				}
 				// starts with
 				else
@@ -228,15 +260,19 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 					$return .= " AND LOWER(s." . $field_name . ") LIKE '" . mb_strtolower( $value ) . "%' ";
 
 					if ( ! $extra['NoSearchTerms'] )
+					{
 						$_ROSARIO['SearchTerms'] .= _('starts with') . ' ' .
 							str_replace( "''", "'", $value );
+					}
 				}
 
 			break;
 		}
 
 		if ( ! $extra['NoSearchTerms'] )
+		{
 			$_ROSARIO['SearchTerms'] .= '<br />';
+		}
 	}
 
 	// Begin Dates / Number
@@ -288,7 +324,9 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 					'<span class="sizep2">&le;</span> ';
 
 				if ( $fields[ $field_id ][1]['TYPE'] == 'date' )
+				{
 					$_ROSARIO['SearchTerms'] .= ProperDate( $value );
+				}
 				else
 					$_ROSARIO['SearchTerms'] .= $value;
 
@@ -297,18 +335,23 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		}
 	}
 
-	// No Value for Dates & Number
-	foreach ( (array) $_REQUEST['custn'] as $field_name => $y )
+	if ( isset( $_REQUEST['cust_null'] ) )
 	{
-		$field_id = mb_substr( $field_name, 7 );
+		// No Value for Dates & Number
+		foreach ( (array) $_REQUEST['cust_null'] as $field_name => $y )
+		{
+			$field_id = mb_substr( $field_name, 7 );
 
-		$field_title = $fields[ $field_id ][1]['TITLE'];
+			$field_title = $fields[ $field_id ][1]['TITLE'];
 
-		$return .= " AND s." . $field_name . " IS NULL ";
+			$return .= " AND s." . $field_name . " IS NULL ";
 
-		if ( ! $extra['NoSearchTerms'] )
-			$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>' .
-				_( 'No Value' ) . '<br />';
+			if ( ! $extra['NoSearchTerms'] )
+			{
+				$_ROSARIO['SearchTerms'] .= '<b>' . $field_title . ': </b>' .
+					_( 'No Value' ) . '<br />';
+			}
+		}
 	}
 
 	return $return;
