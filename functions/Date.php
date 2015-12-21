@@ -35,7 +35,9 @@ function ProperDate( $date, $length = 'long' )
 	if ( empty( $date )
 		|| mb_strlen( $date ) > 11
 		|| mb_strlen( $date ) < 9 )
+	{
 		return '';
+	}
 
 	$date_exploded = ExplodeDate( $date );
 
@@ -154,13 +156,13 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 	);
 
 	/**
-	 * If none of the Y|M|D|C options are set
+	 * If none of the Y|M|D|C options are true
 	 * set them all to true.
 	 */
-	if ( ! isset( $options['Y'] )
-		&& ! isset( $options['M'] )
-		&& ! isset( $options['D'] )
-		&& ! isset( $options['C'] ) )
+	if ( ! $options['Y']
+		&& ! $options['M']
+		&& ! $options['D']
+		&& ! $options['C'] )
 	{
 		$defaults = array_merge(
 			$defaults,
@@ -173,7 +175,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		);
 	}
 
-	$options = array_merge( $defaults, $options );
+	$options = array_replace_recursive( $defaults, (array) $options );
 
 	// Short month select input.
 	if ( $options['short'] )
