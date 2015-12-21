@@ -25,8 +25,8 @@ function DBDate()
  *
  * @see Preferences & http://php.net/manual/en/function.strftime.php
  *
- * @param  string $date   Date
- * @param  string $length long|short Month name length (optional)
+ * @param  string $date   Date.
+ * @param  string $length long|short Month name length (optional).
  *
  * @return string Formatted & localized date or empty string if invalid format
  */
@@ -41,27 +41,32 @@ function ProperDate( $date, $length = 'long' )
 
 	$comment = '<!-- ' . implode( '', $date_exploded ) . ' -->';
 
-	// Export (Excel) date to MM/DD/YYYY format
+	// Export (Excel) date to MM/DD/YYYY format.
 	if ( isset( $_REQUEST['LO_save'] )
 		&& Preferences( 'E_DATE' ) === 'MM/DD/YYYY' )
+	{
 		return $comment .
 			$date_exploded['month'] . '/' .
 			$date_exploded['day'] . '/' .
 			$date_exploded['year'];
+	}
 
-	// FJ display locale with strftime()
+	// FJ display locale with strftime().
 	if ( ( Preferences( 'MONTH' ) === '%m'
 			|| Preferences( 'MONTH' ) === '%b' )
 		&& Preferences( 'DAY' ) === '%d'
 		&& Preferences( 'YEAR' ) )
+	{
 		$sep = '/';
+	}
 	else
 		$sep = ' ';
 
-	// Short month name, eg.: Sep
+	// Short month name, eg.: Sep.
 	if ( $length === 'short' )
+	{
 		$pref_month = '%b';
-
+	}
 	else
 		$pref_month = Preferences( 'MONTH' );
 
@@ -76,8 +81,8 @@ function ProperDate( $date, $length = 'long' )
 		$date_exploded['year'] + 0
 	);
 
-	//FJ display locale with strftime()
-	//FJ NOBR on date
+	// FJ display locale with strftime()
+	// FJ NOBR on date.
 	return $comment .
 		'<span style="white-space:nowrap">' .
 			mb_convert_case( iconv( '', 'UTF-8', strftime( $pref_date, $time ) ), MB_CASE_TITLE ) .
@@ -90,7 +95,7 @@ function ProperDate( $date, $length = 'long' )
  *
  * Accepts 3 dates formats (Oracle & Postgres)
  * 
- * @param  string  $date date to verify
+ * @param  string  $date date to verify.
  *
  * @return boolean true if valid date, else false
  */
@@ -99,9 +104,9 @@ function VerifyDate( $date )
 	$date_exploded = ExplodeDate( $date );
 
 	return checkdate(
-		(int)$date_exploded['month'],
-		(int)$date_exploded['day'],
-		(int)$date_exploded['year']
+		(int) $date_exploded['month'],
+		(int) $date_exploded['day'],
+		(int) $date_exploded['year']
 	);
 }
 
@@ -120,9 +125,9 @@ function VerifyDate( $date )
  * @global array   $_ROSARIO Sets $_ROSARIO['PrepareDate']
  *
  * @param  string  $date      Date to prepare
- * @param  string  $name_attr select inputs name attribute suffix (optional)
- * @param  boolean $allow_na  Allow N/A, defaults to true (optional)
- * @param  array   $options   Keys: Y|M|D|C|short|submit|required (optional)
+ * @param  string  $name_attr select inputs name attribute suffix (optional).
+ * @param  boolean $allow_na  Allow N/A, defaults to true (optional).
+ * @param  array   $options   Keys: Y|M|D|C|short|submit|required (optional).
  *
  * @return string  ProperDate (PDF) or date selection series of pull-down menus with an optional JS calendar
  */
@@ -130,30 +135,33 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 {
 	global $_ROSARIO;
 
-	// PDF printing, display text date
+	// PDF printing, display text date.
 	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
 		return ProperDate( $date );
+	}
 
 	$return = $extraY = $extraM = $extraD = '';
 
 	$defaults = array(
-		'Y' => false, // Year
-		'M' => false, // Month
-		'D' => false, // Day
-		'C' => false, // JS Calendar
-		'short' => false, // Short month
-		'submit' => false, // Submit onchange
-		'required' => false, // Required fields
+		'Y' => false, // Year.
+		'M' => false, // Month.
+		'D' => false, // Day.
+		'C' => false, // JS Calendar.
+		'short' => false, // Short month.
+		'submit' => false, // Submit onchange.
+		'required' => false, // Required fields.
 	);
 
 	/**
 	 * If none of the Y|M|D|C options are set
-	 * set them all to true
+	 * set them all to true.
 	 */
-	if ( !isset( $options['Y'] )
-		&& !isset( $options['M'] )
-		&& !isset( $options['D'] )
-		&& !isset( $options['C'] ) )
+	if ( ! isset( $options['Y'] )
+		&& ! isset( $options['M'] )
+		&& ! isset( $options['D'] )
+		&& ! isset( $options['C'] ) )
+	{
 		$defaults = array_merge(
 			$defaults,
 			array(
@@ -163,14 +171,17 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 				'C' => true
 			)
 		);
+	}
 
 	$options = array_merge( $defaults, $options );
 
-	// Short month select input
+	// Short month select input.
 	if ( $options['short'] )
+	{
 		$extraM = ' style="max-width: 65px;"';
+	}
 
-	// Submit on date change
+	// Submit on date change.
 	if ( $options['submit'] )
 	{
 		$URL_args = array( 'month' . $name_attr, 'day' . $name_attr, 'year' . $name_attr );
@@ -181,7 +192,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		);
 
 		// Create date onchange link
-		// Add year / month / day parameters to href
+		// Add year / month / day parameters to href.
 		$add_args_js = array();
 
 		foreach ( (array) $URL_args as $URL_arg )
@@ -199,26 +210,29 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 	}
 
 	if ( $options['C'] )
+	{
 		$_ROSARIO['PrepareDate']++;
-
-	elseif ( !isset( $_ROSARIO['PrepareDate'] ) )
+	}
+	elseif ( ! isset( $_ROSARIO['PrepareDate'] ) )
+	{
 		$_ROSARIO['PrepareDate'] = null;
+	}
 
-	// Required fields
+	// Required fields.
 	if ( $options['required'] )
 	{
-		$extraM .= " required";
+		$extraM .= ' required';
 
-		$extraD .= " required";
+		$extraD .= ' required';
 
-		$extraY .= " required";
+		$extraY .= ' required';
 	}
 
 	$date_exploded = ExplodeDate( $date );
 
 	$return .= '<!-- ' . implode( '', $date_exploded ) . ' -->';
 
-	// MONTH  ---------------
+	// MONTH  ---------------.
 	if ( $options['M'] )
 	{
 		$return .= '<select name="month' . $name_attr . '" id="monthSelect' . $_ROSARIO['PrepareDate'] . '"' . $extraM . '>';
@@ -250,12 +264,14 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		$month_char = MonthNWSwitch( $date_exploded['month'], 'tochar' );
 
 		foreach ( (array) $months_locale as $key => $name )
+		{
 			$return .= '<option value="' . $key . '"' . ( $month_char == $key ? ' selected' : '' ) . '>' . $name;
+		}
 
 		$return .= '</select>';
 	}
 
-	// DAY  ---------------
+	// DAY  ---------------.
 	if ( $options['D'] )
 	{
 		$return .= '<select name="day' . $name_attr . '" id="daySelect' . $_ROSARIO['PrepareDate'] . '"' . $extraD . '>';
@@ -282,19 +298,19 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		$return .= '</select>';
 	}
 
-	// YEAR  ---------------
+	// YEAR  ---------------.
 	if ( $options['Y'] )
 	{
 		if ( $date_exploded['year'] === ''
 			|| $date_exploded['year'] === '0000' )
 		{
-			//FJ show 80 previous years instead of 20
+			// FJ show 80 previous years instead of 20.
 			$begin = date( 'Y' ) - 80;
 			$end = date( 'Y' ) + 5;
 		}
 		else
 		{
-			//FJ show 20 previous years instead of 5
+			// FJ show 20 previous years instead of 5.
 			$begin = $date_exploded['year'] - 20;
 			$end = $date_exploded['year'] + 5;
 		}
@@ -311,16 +327,20 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		}
 
 		for ( $i = $begin; $i <= $end; $i++ )
+		{
 			$return .= '<option value="' . $i . '"' . ( $date_exploded['year'] == $i ?' selected' : '' ) . '>' . $i;
+		}
 
 		$return .= '</select>';
 	}
 
-	// CALENDAR  ---------------
+	// CALENDAR  ---------------.
 	if ( $options['C'] )
+	{
 		$return .= '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/calendar.png" class="button cal" id="trigger' . $_ROSARIO['PrepareDate'] . '" />';
+	}
 
-	//FJ NOBR on date input
+	// FJ NOBR on date input.
 	$return = '<span style="white-space: nowrap;">' . $return . '</span>';
 	
 	return $return;
@@ -330,7 +350,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 /**
  * Explode a Postgres or Oracle date
  *
- * @param  string $date Postgres or Oracle date
+ * @param  string $date Postgres or Oracle date.
  *
  * @return array  array( 'year' => '4_digits_year', 'month' => 'numeric_month', 'day' => 'day' ) 
  */
