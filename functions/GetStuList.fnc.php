@@ -888,7 +888,7 @@ function appendSQL( $sql, $extra = array() )
 
 	// RosarioSIS ID(s)
 	if ( isset( $_REQUEST['stuid'] )
-		&& !empty( $_REQUEST['stuid'] ) )
+		&& ! empty( $_REQUEST['stuid'] ) )
 	{
 		//FJ allow comma separated list of student IDs
 		$stuid_array = explode( ',', $_REQUEST['stuid'] );
@@ -988,7 +988,8 @@ function appendSQL( $sql, $extra = array() )
 	}
 
 	// Address (City, State, Zip code) (contains, case insensitive)
-	if ( $_REQUEST['addr'])
+	if ( isset( $_REQUEST['addr'] )
+		&& $_REQUEST['addr'] !== '' )
 	{
 		$sql .= " AND (LOWER(a.ADDRESS) LIKE '%" . mb_strtolower( $_REQUEST['addr'] ) .
 			"%' OR LOWER(a.CITY) LIKE '" . mb_strtolower( $_REQUEST['addr'] ) .
