@@ -4,6 +4,7 @@ Changes in 2.8.25
 -----------------
 - Fix JS error related to jqPlot loading: wrap JS code inside 500ms timeout in *Breakdown.php
 - Prepare for State Reports module: Save Report bottom button & modname exception
+- Remove State_Reports.zip orginal module archive
 
 Changes in 2.8.24
 -----------------

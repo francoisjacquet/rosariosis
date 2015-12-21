@@ -107,8 +107,7 @@ else
 				&& User( 'PROFILE' ) === 'admin'
 				&& AllowEdit( 'State_Reports/SavedReports.php' ) ) : // Save Report. ?>
 				<a href="Modules.php?modname=State_Reports/SavedReports.php&amp;modfunc=new" class="BottomButton">
-					<img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/download.png" />&nbsp;
-					<span><?php echo _( 'Save Report' ); ?></span>
+					<img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/download.png" />&nbsp;<span><?php echo _( 'Save Report' ); ?></span>
 				</a>
 			<?php endif; ?>
 			<a href="#" onclick="toggleHelp();return false;" title="<?php echo _('Help'); ?>" class="BottomButton"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/help.png" />&nbsp;<span><?php echo _('Help'); ?></span></a>
