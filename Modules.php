@@ -13,7 +13,7 @@ if(isset($_REQUEST['modname']))
 				|| $modname == 'misc/Registration.php'
 				|| $modname == 'misc/Export.php'
 				|| $modname == 'misc/Portal.php' )
-			&& $modname !== 'State_Reports/SavedReports.php' )
+			&& $modname !== 'Reports/SavedReports.php' )
 		{
 			$_SESSION['_REQUEST_vars'] = $_REQUEST;
 		}
