@@ -214,7 +214,6 @@ $RosarioCoreModules = array(
 	'Accounting',
 	'Student_Billing',
 	'Food_Service',
-	'State_Reports',
 	'Resources',
 	'Custom',
 );

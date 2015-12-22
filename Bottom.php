@@ -198,8 +198,8 @@ else : ?>
 		</a>
 		<?php if ( $RosarioModules['State_Reports']
 			&& User( 'PROFILE' ) === 'admin'
-			&& AllowEdit( 'State_Reports/SavedReports.php' ) ) : // Save Report. ?>
-			<a href="Modules.php?modname=State_Reports/SavedReports.php&amp;modfunc=new" class="BottomButton">
+			&& AllowEdit( 'Reports/SavedReports.php' ) ) : // Save Report. ?>
+			<a href="Modules.php?modname=Reports/SavedReports.php&amp;modfunc=new" class="BottomButton">
 				<img src="<?php echo $btn_path; ?>download.png" />&nbsp;
 				<span><?php echo _( 'Save Report' ); ?></span>
 			</a>
