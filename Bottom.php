@@ -103,7 +103,7 @@ else
 			<?php endif; ?>
 
 			<a href="Bottom.php?modfunc=print" target="_blank" title="<?php echo _('Print'); ?>" class="BottomButton"><img src="assets/themes/<?php echo Preferences('THEME'); ?>/btn/print.png" />&nbsp;<span><?php echo _('Print'); ?></span></a>
-			<?php if ( $RosarioModules['State_Reports']
+			<?php if ( $RosarioModules['Reports']
 				&& User( 'PROFILE' ) === 'admin'
 				&& AllowEdit( 'Reports/SavedReports.php' ) ) : // Save Report. ?>
 				<a href="Modules.php?modname=Reports/SavedReports.php&amp;modfunc=new" class="BottomButton">
