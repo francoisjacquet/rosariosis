@@ -1,6 +1,6 @@
 # Custom Module
 
-This module is part of [RosarioSIS](http://www.rosariosis.org)
+This module is part of [RosarioSIS](https://www.rosariosis.org)
 
 Author François Jacquet
 

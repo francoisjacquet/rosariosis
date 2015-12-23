@@ -165,7 +165,7 @@ foreach ( (array) $help as $program => $value ) :
 <?php endforeach; ?>
 
 <div class="center">
-	<b><a href="http://www.rosariosis.org/">http://www.rosariosis.org/</a></b>
+	<b><a href="https://www.rosariosis.org/">https://www.rosariosis.org/</a></b>
 </div>
 
 <?php

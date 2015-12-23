@@ -1,6 +1,6 @@
 # Moodle Integrator Plugin
 
-This plugin is part of [RosarioSIS](http://www.rosariosis.org)
+This plugin is part of [RosarioSIS](https://www.rosariosis.org)
 
 Author François Jacquet
 

@@ -16,12 +16,12 @@ Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues
 
 7. **RosarioSIS use**: the Handbooks, the inline Help & the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki) contain useful resources to help you get the most out of RosarioSIS.
 
-8. **Email support**: to get professional help about installation problems, or RosarioSIS use, please head to http://www.rosariosis.org/services/
+8. **Email support**: to get professional help about installation problems, or RosarioSIS use, please head to https://www.rosariosis.org/services/
 
 
 # Contributing to RosarioSIS
 
-Please head to the offical [Contribute page](http://www.rosariosis.org/contribute) to learn about how you can contribute to the project.
+Please head to the offical [Contribute page](https://www.rosariosis.org/contribute) to learn about how you can contribute to the project.
 
 ## Coding standards
 

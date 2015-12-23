@@ -413,7 +413,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		<?php echo sprintf( _( '%s version %s' ), 'RosarioSIS', ROSARIO_VERSION ); ?>
 		<br />&copy; 2004-2009 <a href="http://www.miller-group.net" noreferrer>The Miller Group, Inc</a>
 		<br />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
-		<br />&copy; 2012-2015 <a href="http://www.rosariosis.org" noreferrer>François Jacquet</a>
+		<br />&copy; 2012-2015 <a href="https://www.rosariosis.org" noreferrer>François Jacquet</a>
 	</div>
 
 <?php PopTable( 'footer' ); ?>
