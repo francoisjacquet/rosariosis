@@ -109,7 +109,7 @@ foreach($help as $program=>$value)
 <?php
 }
 ?>
-<div style="text-align:center;font-weight:bold;"><a href="http://www.rosariosis.org/">http://www.rosariosis.org/</a></div>
+<div style="text-align:center;font-weight:bold;"><a href="https://www.rosariosis.org/">https://www.rosariosis.org/</a></div>
 <?php
 $_REQUEST['modname'] = '';
 PDFStop($handle);

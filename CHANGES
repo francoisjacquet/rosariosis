@@ -6,6 +6,7 @@ Changes in 2.8.25
 - Prepare for State Reports module: Save Report bottom button & modname exception
 - Remove State_Reports.zip orginal module archive
 - Remove State_Reports from core modules & rename to "Reports"
+- Update official site URLs: HTTPS on rosariosis.org
 
 Changes in 2.8.24
 -----------------
