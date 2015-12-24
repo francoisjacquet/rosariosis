@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-29 18:48-0500\n"
-"PO-Revision-Date: 2015-11-02 15:07-0500\n"
+"PO-Revision-Date: 2015-12-24 12:00-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -1986,7 +1986,7 @@ msgstr "Montant"
 #: modules/Users/UserFields.php:268 plugins/Moodle/config.inc.php:51
 #: plugins/Moodle/config.inc.php:72
 msgid "Save"
-msgstr "Sauver"
+msgstr "Enregister"
 
 #: modules/Accounting/Expenses.php:105 modules/Accounting/Expenses.php:112
 #: modules/Accounting/Incomes.php:96 modules/Accounting/Incomes.php:103
@@ -6639,7 +6639,7 @@ msgid ""
 "saved."
 msgstr ""
 "La date spécifiée n'est pas valide, donc inutilisée. Les autres données ont "
-"été sauvées."
+"été sauvegardées."
 
 #: modules/Students/AssignOtherInfo.php:81
 #: modules/Students/includes/SaveEnrollment.fnc.php:39
@@ -7175,7 +7175,7 @@ msgstr "Le mot de passe courant est incorrect."
 
 #: modules/Users/Preferences.php:39
 msgid "Your new password was saved."
-msgstr "Votre nouveau mot de passe est sauvé."
+msgstr "Votre nouveau mot de passe est enregistré."
 
 #: modules/Users/Preferences.php:126 modules/Users/Preferences.php:135
 msgid "Display Options"
@@ -7595,7 +7595,7 @@ msgstr "Cette personne n'a pas d'informations dans le système."
 
 #: plugins/Moodle/Users/Preferences.php:58
 msgid "Your new password was saved in Moodle too."
-msgstr "Votre nouveau mot de passe est aussi sauvé dans Moodle."
+msgstr "Votre nouveau mot de passe est aussi enregistré dans Moodle."
 
 #: plugins/Moodle/config.inc.php:26
 msgid "The plugin configuration has been modified."
