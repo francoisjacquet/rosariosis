@@ -87,31 +87,13 @@ if($_REQUEST['modfunc']=='delete' && AllowEdit())
 {
 	if($_REQUEST['id'])
 	{
-		if(DeletePrompt(_('Student Field')))
+		if(DeletePrompt(_('School Field')))
 		{
 			$id = $_REQUEST['id'];
-			DBQuery("DELETE FROM CUSTOM_FIELDS WHERE ID='".$id."'");
-			DBQuery("ALTER TABLE STUDENTS DROP COLUMN CUSTOM_$id");
+			DBQuery("DELETE FROM SCHOOL_FIELDS WHERE ID='".$id."'");
+			DBQuery("ALTER TABLE SCHOOLS DROP COLUMN CUSTOM_$id");
 			$_REQUEST['modfunc'] = '';
 			unset($_REQUEST['id']);
-		}
-	}
-	elseif($_REQUEST['category_id'])
-	{
-		if(DeletePrompt(_('Student Field Category').' '._('and all fields in the category')))
-		{
-			$fields = DBGet(DBQuery("SELECT ID FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."'"));
-			foreach($fields as $field)
-			{
-				DBQuery("DELETE FROM CUSTOM_FIELDS WHERE ID='".$field['ID']."'");
-				DBQuery("ALTER TABLE STUDENTS DROP COLUMN CUSTOM_$field[ID]");
-			}
-			DBQuery("DELETE FROM STUDENT_FIELD_CATEGORIES WHERE ID='".$_REQUEST['category_id']."'");
-			// remove from profiles and permissions
-			DBQuery("DELETE FROM PROFILE_EXCEPTIONS WHERE MODNAME='Students/Student.php&category_id=$_REQUEST[category_id]'");
-			DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE MODNAME='Students/Student.php&category_id=$_REQUEST[category_id]'");
-			$_REQUEST['modfunc'] = '';
-			unset($_REQUEST['category_id']);
 		}
 	}
 }
