@@ -83,35 +83,18 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 	unset($_REQUEST['tables']);
 }
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete'
+	&& AllowEdit() )
 {
-	if ( $_REQUEST['id'])
+	if ( isset( $_REQUEST['id'] )
+		&& intval( $_REQUEST['id'] ) > 0 )
 	{
-		if (DeletePrompt(_('Student Field')))
+		if ( DeletePrompt( _( 'School Field' ) ) )
 		{
-			$id = $_REQUEST['id'];
-			DBQuery("DELETE FROM CUSTOM_FIELDS WHERE ID='".$id."'");
-			DBQuery("ALTER TABLE STUDENTS DROP COLUMN CUSTOM_$id");
-			$_REQUEST['modfunc'] = '';
-			unset($_REQUEST['id']);
-		}
-	}
-	elseif ( $_REQUEST['category_id'])
-	{
-		if (DeletePrompt(_('Student Field Category').' '._('and all fields in the category')))
-		{
-			$fields = DBGet(DBQuery("SELECT ID FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."'"));
-			foreach ( (array) $fields as $field)
-			{
-				DBQuery("DELETE FROM CUSTOM_FIELDS WHERE ID='".$field['ID']."'");
-				DBQuery("ALTER TABLE STUDENTS DROP COLUMN CUSTOM_$field[ID]");
-			}
-			DBQuery("DELETE FROM STUDENT_FIELD_CATEGORIES WHERE ID='".$_REQUEST['category_id']."'");
-			// remove from profiles and permissions
-			DBQuery("DELETE FROM PROFILE_EXCEPTIONS WHERE MODNAME='Students/Student.php&category_id=$_REQUEST[category_id]'");
-			DBQuery("DELETE FROM STAFF_EXCEPTIONS WHERE MODNAME='Students/Student.php&category_id=$_REQUEST[category_id]'");
-			$_REQUEST['modfunc'] = '';
-			unset($_REQUEST['category_id']);
+			DeleteDBField( 'STUDENTS', $_REQUEST['id'] );
+			$_REQUEST['modfunc'] = false;
+
+			unset( $_REQUEST['id'] );
 		}
 	}
 }
@@ -122,13 +105,13 @@ if (isset($error))
 
 if (empty($_REQUEST['modfunc']))
 {
-	if (AllowEdit() && $_REQUEST['id']!='new' && $_REQUEST['id'])
+	/*if (AllowEdit() && $_REQUEST['id']!='new' && $_REQUEST['id'])
 	{
 		$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 			'&modfunc=delete&id=' . $_REQUEST['id'] . "'";
 
 		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
-	}
+	}*/
 
 	// ADDING & EDITING FORM
 	if ( $_REQUEST['id'] && $_REQUEST['id']!='new')
@@ -141,7 +124,7 @@ if (empty($_REQUEST['modfunc']))
 	elseif ( $_REQUEST['id']=='new')
 		$title = _('New School Field');
 
-	if ( $_REQUEST['id'])
+	/*if ( $_REQUEST['id'])
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'];
 
@@ -200,7 +183,19 @@ if (empty($_REQUEST['modfunc']))
 	{
 		DrawHeader($header);
 		echo '</form>';
-	}
+	}*/
+
+	require_once 'ProgramFunctions/Fields.fnc.php';
+
+	echo GetFieldsForm(
+		'SCHOOL',
+		$title,
+		$RET,
+		$_REQUEST['id'],
+		null,
+		null,
+		array('text' => _('Text'),'numeric' => _('Number'),'date' => _('Date'),'textarea' => _('Long Text'))
+	);
 
 	// DISPLAY THE MENU
 	$LO_options = array('save'=>false,'search'=>false); //,'add'=>true);
