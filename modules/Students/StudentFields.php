@@ -65,7 +65,9 @@ if ( isset( $_POST['tables'] )
 							unset( $columns['CATEGORY_ID'] );
 						}
 
-						$_REQUEST['id'] = AddDBField( 'STUDENTS', $columns['TYPE'] );
+						$_REQUEST['id'] = AddDBField( 'STUDENTS', 'custom_seq', $columns['TYPE'] );
+
+						$fields = 'ID,CATEGORY_ID,';
 
 						$values = $_REQUEST['id'] . ",'" . $_REQUEST['category_id'] . "',";
 					}
@@ -149,7 +151,6 @@ if ( $_REQUEST['modfunc'] == 'delete'
 		if ( DeletePrompt( _( 'Student Field Category' ) . ' ' .
 				_( 'and all fields in the category' ) ) )
 		{
-
 			DeleteDBFieldCategory( 'STUDENTS', $_REQUEST['category_id'] );
 
 			// Remove from profiles and permissions.
@@ -173,15 +174,12 @@ if ( ! $_REQUEST['modfunc'] )
 		echo ErrorMessage( $error );
 	}
 	
-	// CATEGORIES.
-	$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE,SORT_ORDER
-		FROM STUDENT_FIELD_CATEGORIES
-		ORDER BY SORT_ORDER,TITLE" ) );
-
 	// ADDING & EDITING FORM.
-	if ( $_REQUEST['id'] && $_REQUEST['id'] !== 'new' )
+	if ( $_REQUEST['id']
+		&& $_REQUEST['id'] !== 'new' )
 	{
-		$RET = DBGet( DBQuery( "SELECT CATEGORY_ID,TITLE,TYPE,SELECT_OPTIONS,DEFAULT_SELECTION,SORT_ORDER,REQUIRED,REQUIRED,
+		$RET = DBGet( DBQuery( "SELECT ID,CATEGORY_ID,TITLE,TYPE,SELECT_OPTIONS,
+			DEFAULT_SELECTION,SORT_ORDER,REQUIRED,
 			(SELECT TITLE
 				FROM STUDENT_FIELD_CATEGORIES
 				WHERE ID=CATEGORY_ID) AS CATEGORY_TITLE
@@ -196,7 +194,7 @@ if ( ! $_REQUEST['modfunc'] )
 		&& $_REQUEST['category_id'] !== 'new'
 		&& $_REQUEST['id'] !== 'new' )
 	{
-		$RET = DBGet( DBQuery( "SELECT TITLE,SORT_ORDER,INCLUDE,COLUMNS
+		$RET = DBGet( DBQuery( "SELECT ID AS CATEGORY_ID,TITLE,SORT_ORDER,INCLUDE,COLUMNS
 			FROM STUDENT_FIELD_CATEGORIES
 			WHERE ID='" . $_REQUEST['category_id'] . "'" ) );
 
@@ -207,20 +205,50 @@ if ( ! $_REQUEST['modfunc'] )
 	elseif ( $_REQUEST['id'] === 'new' )
 	{
 		$title = _( 'New Student Field' );
+
+		$RET['ID'] = 'new';
+
+		$RET['CATEGORY_ID'] = $_REQUEST['category_id'];
 	}
 	elseif ( $_REQUEST['category_id'] === 'new' )
 	{
 		$title = _( 'New Student Field Category' );
+
+		$RET['CATEGORY_ID'] = 'new';
+	}
+
+	if ( $_REQUEST['category_id']
+		&& ! $_REQUEST['id'] )
+	{
+		$extra_fields = array( TextInput(
+			$RET['COLUMNS'],
+			'tables[' . $category_id . '][COLUMNS]',
+			_( 'Display Columns' ),
+			'size=5'
+		) );
+
+		if ( $_REQUEST['category_id'] > 4
+			|| $_REQUEST['category_id'] === 'new' )
+		{
+			$extra_fields[] = TextInput(
+				$RET['INCLUDE'],
+				'tables[' . $category_id . '][INCLUDE]',
+				_( 'Include (should be left blank for most categories)' )
+			);
+		}
 	}
 
 	echo GetFieldsForm(
-		'STUDENTS',
+		'STUDENT',
 		$title,
 		$RET,
-		$_REQUEST['id'],
-		$_REQUEST['category_id'],
-		$categories_RET
+		isset( $extra_fields ) ? $extra_fields : array()
 	);
+
+	// CATEGORIES.
+	$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE,SORT_ORDER
+		FROM STUDENT_FIELD_CATEGORIES
+		ORDER BY SORT_ORDER,TITLE" ) );
 
 	// DISPLAY THE MENU.
 	echo '<div class="st">';
