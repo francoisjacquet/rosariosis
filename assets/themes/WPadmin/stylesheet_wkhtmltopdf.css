@@ -65,6 +65,9 @@
 	display:table;
 	clear:both
 }
+input,select{
+	max-width:100%
+}
 input[type=text],input[type=password],textarea{
 	-ms-box-sizing:border-box;
 	box-sizing:border-box;

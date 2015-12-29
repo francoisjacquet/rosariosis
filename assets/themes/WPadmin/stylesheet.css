@@ -67,6 +67,9 @@
 	display:table;
 	clear:both
 }
+input,select{
+	max-width:100%
+}
 input[type=text],input[type=password],textarea{
 	-ms-box-sizing:border-box;
 	box-sizing:border-box;
@@ -110,9 +113,6 @@ select[multiple]{
 a,input,select:focus{
 	outline:0;
 	text-decoration:none
-}
-#menu select{
-	max-width:100%
 }
 blockquote,q{
 	quotes:none
@@ -883,7 +883,6 @@ table.mceLayout,textarea.tinymce{
 	margin:2px 2px 2px 0;
 }
 
-
 /*mobile*/
 @media only screen and (max-width:640px){
 	/*quick smartphone reset*/
@@ -945,10 +944,6 @@ table.mceLayout,textarea.tinymce{
 	}
 	input[type=submit],input[type=reset],input[type=button]{
 		margin:0 4px;
-		max-width:100%
-	}
-	input[id^=ML_]{
-		width:100%
 	}
 
 	/*stackable tables*/
