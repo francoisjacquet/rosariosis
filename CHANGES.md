@@ -50,6 +50,7 @@ Changes in 2.9
 - Add MakeTipMessage() & MakeStudentPhotoTipMessage() functions in ProgramFunctions/TipMessage.fnc.php
 - Add Photo on mouse over Student Name in InputFinalGrades.php & Grades.php
 - Highlight color: add CSS to HTML head in Warehouse.php
+- Create school_fields_seq Sequence in rosariosis.sql & Update.fnc.php
 
 Changes in 2.8.11
 -----------------

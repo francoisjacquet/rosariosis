@@ -2556,6 +2556,27 @@ CREATE TABLE school_fields (
 
 
 --
+-- Name: school_fields_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
+--
+
+CREATE SEQUENCE school_fields_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+
+
+--
+-- Name: school_fields_seq; Type: SEQUENCE SET; Schema: public; Owner: rosariosis
+--
+
+SELECT pg_catalog.setval('school_fields_seq', 1, true);
+
+
+--
 -- Name: school_seq; Type: SEQUENCE; Schema: public; Owner: rosariosis
 --
 

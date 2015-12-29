@@ -50,8 +50,10 @@ function Update()
 /**
  * Update to version 2.9-alpha
  *
- * 1. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
+ * 1. Add VERSION to CONFIG table
+ * 2. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
  * 3. Update STUDENT_MP_COMMENTS table
+ * 4. Create school_fields_seq Sequence
  *
  * Local function
  *
@@ -65,33 +67,37 @@ function _update29alpha()
 
 	if ( !isset( $callers[1]['function'] )
 		|| $callers[1]['function'] !== 'Update' )
+	{
 		return false;
+	}
 
 	$return = true;
 
 
 	/**
-	 * 0. Add VERSION to CONFIG table
+	 * 1. Add VERSION to CONFIG table.
 	 */
-	DBGet( DBQuery( "INSERT INTO config VALUES (0, 'VERSION', '2.9-alpha');" ) );
+	$version_added = DBGet( DBQuery( "SELECT FROM CONFIG WHERE = 'VERSION'" ) );
+
+	if ( ! $version_added )
+	{
+		DBQuery( "INSERT INTO config VALUES (0, 'VERSION', '2.9-alpha');" );
+	}
 
 
 	/**
-	 * 1. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
+	 * 2. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
 	 *
 	 * DROP PRIMARY KEY
 	 * And ADD it again with course_period_school_periods_id
 	 */
-	$SQL_dups = "";
-	if ( ! $SQL_dups_RET )
-		$return = false;
-		$SQL_add_ID = "ALTER TABLE ONLY course_period_school_periods
-			DROP CONSTRAINT course_period_school_periods_pkey;
-		ALTER TABLE ONLY course_period_school_periods
-			ADD CONSTRAINT course_period_school_periods_pkey
-				PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id);";
+	$SQL_add_ID = "ALTER TABLE ONLY course_period_school_periods
+		DROP CONSTRAINT course_period_school_periods_pkey;
+	ALTER TABLE ONLY course_period_school_periods
+		ADD CONSTRAINT course_period_school_periods_pkey
+			PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id);";
 
-	DBGet( DBQuery( $SQL_add_ID ) );
+	DBQuery( $SQL_add_ID );
 
 
 	/**
@@ -115,7 +121,7 @@ function _update29alpha()
 		AND COMMENT!=''" ) );
 
 	if ( is_array( $comments_RET )
-		&& !unserialize( $comments_RET[0]['COMMENT'] ) )
+		&& ! unserialize( $comments_RET[0]['COMMENT'] ) )
 	{
 		$ser_comments = array();
 
@@ -158,6 +164,22 @@ function _update29alpha()
 	}
 	else
 		$return = false;
+
+
+	// 4. Create school_fields_seq Sequence.
+	$sequence_exists = DBGet( DBQuery( "SELECT 1 FROM pg_class where relname = 'school_fields_seq'" ) );
+
+	if ( ! $sequence_exists )
+	{
+		DBQuery( "CREATE SEQUENCE school_fields_seq
+		START WITH 1
+		INCREMENT BY 1
+		NO MINVALUE
+		NO MAXVALUE
+		CACHE 1;
+
+		SELECT pg_catalog.setval('school_fields_seq', 99, true);" );
+	}
 
 	return $return;
 }
