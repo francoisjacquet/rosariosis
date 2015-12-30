@@ -8,7 +8,7 @@ Changes in 2.8.25
 - Remove State_Reports from core modules & rename to "Reports"
 - Update official site URLs: HTTPS on rosariosis.org
 - Fix Delete School Field in SchoolFields.php
-- Improve French translations
+- Improve French & update French & Spanish translations
 
 Changes in 2.8.24
 -----------------
