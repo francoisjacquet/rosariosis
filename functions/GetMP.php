@@ -1,4 +1,10 @@
 <?php
+/**
+ * Get Marking Period functions
+ *
+ * @package RosarioSIS
+ * @package functions
+ */
 
 /**
  * Get Marking Period Info
@@ -7,8 +13,8 @@
  *
  * @global array  $_ROSARIO Sets $_ROSARIO['GetMP']
  *
- * @param  string $mp_id    Marking Period ID
- * @param  string $column   TITLE|POST_START_DATE|POST_END_DATE|POST_END_DATE|MP|SORT_ORDER|SHORT_NAME|START_DATE|END_DATE|DOES_GRADES|DOES_COMMENTS (optional). Defaults to 'TITLE'
+ * @param  string $mp_id    Marking Period ID.
+ * @param  string $column   TITLE|POST_START_DATE|POST_END_DATE|POST_END_DATE|MP|SORT_ORDER|SHORT_NAME|START_DATE|END_DATE|DOES_GRADES|DOES_COMMENTS (optional). Defaults to 'TITLE'.
  *
  * @return string Marking Period Column value
  */
@@ -16,12 +22,15 @@ function GetMP( $mp_id, $column = 'TITLE' )
 {
 	global $_ROSARIO;
 
-	// mab - need to translate marking_period_id to title to be useful as a function call from dbget
-	// also, it doesn't make sense to ask for same thing you give
-	if ( $column === 'MARKING_PERIOD_ID' )
+	// Mab - need to translate marking_period_id to title to be useful as a function call from dbget
+	// also, it doesn't make sense to ask for same thing you give.
+	if ( $column === 'MARKING_PERIOD_ID'
+		|| ! in_array( $column, array( 'TITLE', 'POST_START_DATE', 'POST_END_DATE', 'POST_END_DATE', 'MP', 'SORT_ORDER', 'SHORT_NAME', 'START_DATE', 'END_DATE', 'DOES_GRADES', 'DOES_COMMENTS' ) ) )
+	{
 		$column = 'TITLE';
+	}
 
-	if ( !isset( $_ROSARIO['GetMP'] ) )
+	if ( ! isset( $_ROSARIO['GetMP'] ) )
 	{
 		$_ROSARIO['GetMP'] = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,
 			POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS 
@@ -41,8 +50,8 @@ function GetMP( $mp_id, $column = 'TITLE' )
  *
  * @example GetAllMP( 'QTR', UserMP() );
  *
- * @param  string $mp                PRO|QTR|SEM|FY Marking Period
- * @param  string $marking_period_id Marking Period ID (optional). Defaults to '0' (FY)
+ * @param  string $mp                PRO|QTR|SEM|FY Marking Period.
+ * @param  string $marking_period_id Marking Period ID (optional). Defaults to '0' (FY).
  *
  * @return string Marking Period IDs list (separated by commas)
  */
@@ -52,7 +61,7 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 	if ( $marking_period_id == 0 )
 	{
-		// there should be exactly one fy marking period
+		// There should be exactly one FY marking period.
 		$fy_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='FY'
@@ -69,11 +78,11 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 	}
 
 	if ( is_null( $all_mp )
-		|| !isset( $all_mp[ $mp ] ) )
+		|| ! isset( $all_mp[ $mp ] ) )
 	{
 		$error_no_qtr = array( _( 'No quarters found' ) );
 
-		// there should be exactly one fy marking period
+		// There should be exactly one FY marking period.
 		$fy_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS
 			WHERE MP='FY'
@@ -106,9 +115,11 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 		else
 			$qtr_RET = DBGet( DBQuery( $qtr_SQL ), array(), array( 'PARENT_ID' ) );
 
-		//FJ error if no quarters
+		// FJ Fatal error if no quarters.
 		if ( ! $qtr_RET )
+		{
 			return ErrorMessage( $error_no_qtr, 'fatal' );
+		}
 
 		switch ( $mp )
 		{
@@ -164,9 +175,9 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 			case 'FY':
 
-				// there should be exactly one fy marking period which better be $marking_period_id
+				// There should be exactly one FY marking period which better be $marking_period_id.
 				$all_mp[ $mp ][ $marking_period_id ] = "'" . $marking_period_id . "'";
-			
+
 				foreach ( (array) $qtr_RET as $sem => $qtrs )
 				{
 					$all_mp[ $mp ][ $marking_period_id ] .= ",'" . $sem . "'";
@@ -197,8 +208,8 @@ function GetAllMP( $mp, $marking_period_id = '0' )
  *
  * @example GetParentMP( 'SEM', UserMP() );
  *
- * @param string $mp                SEM|FY Marking Period
- * @param string $marking_period_id Children Marking Period ID
+ * @param string $mp                SEM|FY Marking Period.
+ * @param string $marking_period_id Children Marking Period ID.
  *
  * @return string Parent Marking Period ID
  */
@@ -207,7 +218,7 @@ function GetParentMP( $mp, $marking_period_id )
 	static $parent_mp = null;
 
 	if ( is_null( $parent_mp )
-		|| !isset( $parent_mp[ $mp ] ) )
+		|| ! isset( $parent_mp[ $mp ] ) )
 	{
 		switch ( $mp )
 		{
@@ -248,8 +259,8 @@ function GetParentMP( $mp, $marking_period_id )
  *
  * @example GetChildrenMP( 'PRO', UserMP() );
  *
- * @param string $mp                PRO|QTR|SEM|FY Child Marking Period
- * @param string $marking_period_id Parent Marking Period ID (optional). Defaults to '0' (FY)
+ * @param string $mp                PRO|QTR|SEM|FY Child Marking Period.
+ * @param string $marking_period_id Parent Marking Period ID (optional). Defaults to '0' (FY).
  *
  * @return string Children Marking Period IDs list (separated by commas)
  */
@@ -269,7 +280,7 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
 	}
 
 	if ( is_null( $children_mp )
-		|| !isset( $children_mp[ $mp ] ) )
+		|| ! isset( $children_mp[ $mp ] ) )
 	{
 		$qtr_SQL = "SELECT MARKING_PERIOD_ID,PARENT_ID
 			FROM SCHOOL_MARKING_PERIODS
@@ -354,9 +365,9 @@ function GetChildrenMP( $mp, $marking_period_id = '0' )
  *
  * @example GetCurrentMP( 'QTR', $date, false );
  *
- * @param  string  $mp    PRO|QTR|SEM|FY Marking Period
- * @param  string  $date  Database Date
- * @param  boolean $error Fatal error (optional). Defaults to true
+ * @param  string  $mp    PRO|QTR|SEM|FY Marking Period.
+ * @param  string  $date  Database Date.
+ * @param  boolean $error Fatal error (optional). Defaults to true.
  *
  * @return string Current Marking Period ID
  */
@@ -365,7 +376,7 @@ function GetCurrentMP( $mp, $date, $error = true )
 	static $current_mp = null;
 
 	if ( is_null( $current_mp )
-		|| !isset( $current_mp[ $date ][ $mp ] ) )
+		|| ! isset( $current_mp[ $date ][ $mp ] ) )
 	{
 		$current_mp[ $date ][ $mp ] = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
 			FROM SCHOOL_MARKING_PERIODS

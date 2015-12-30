@@ -1,4 +1,10 @@
 <?php
+/**
+ * Error Message function
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
  * Error Message
@@ -10,6 +16,7 @@
  * Pass in an array with error messages and this will display them
  * in a standard fashion.
  * In a program you may have:
+ *
  * @example if ( ! $sch ) $error[] = _( 'School not provided.' );
  * @example if ( $count === 0 ) $error[] = _( 'Number of students is zero.' ); ErrorMessage( $error );
  *
@@ -19,8 +26,8 @@
  *
  * @global string $print_data PDF print data
  *
- * @param  array  $errors     Array of errors or notes
- * @param  string $code       error|fatal|note (optional). Defaults to 'error'
+ * @param  array  $errors     Array of errors or notes.
+ * @param  string $code       error|fatal|note (optional). Defaults to 'error'.
  *
  * @return string Error / Note Message, exits if 'fatal' code
  */
@@ -31,18 +38,18 @@ function ErrorMessage( $errors, $code = 'error' )
 	if ( is_array( $errors )
 		&& count( $errors ) )
 	{
-		// Error
+		// Error.
 		if ( $code === 'error'
 			|| $code === 'fatal' )
 		{
 			$return .= '<div class="error"><p>' . button( 'x' ) .'&nbsp;<b>' . _( 'Error' ) . ':</b> ';
 		}
-		// Warning
+		// Warning.
 		elseif ( $code === 'warning' )
 		{
 			$return .= '<div class="error"><p>' . button( 'warning' ) . '&nbsp;<b>' . _( 'Warning' ) . ':</b> ';
 		}
-		// Note / Update
+		// Note / Update.
 		else
 		{
 			$return .= '<div class="updated"><p><b>' . _( 'Note' ) . ':</b> ';
@@ -52,22 +59,22 @@ function ErrorMessage( $errors, $code = 'error' )
 		{
 			$return .= ( isset( $errors[0] ) ? $errors[0] : $errors[1] ) . '</p>';
 		}
-		// More than one error: list
+		// More than one error: list.
 		else
 		{
 			$return .= '</p><ul>';
-			
+
 			foreach ( (array) $errors as $error )
 			{
 				$return .= '<li>' . $error . '</li>';
 			}
-			
+
 			$return .= '</ul>';
 		}
 
 		$return .= '</div><br />';
 
-		// Fatal error, display error and exit
+		// Fatal error, display error and exit.
 		if ( $code === 'fatal' )
 		{
 			echo $return;
@@ -75,7 +82,7 @@ function ErrorMessage( $errors, $code = 'error' )
 			if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 				Warehouse( 'footer' );
 
-			//FJ force PDF on fatal error
+			// FJ force PDF on fatal error.
 			else
 			{
 				global $print_data;

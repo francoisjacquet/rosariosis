@@ -1,4 +1,10 @@
 <?php
+/**
+ * Draw Header function
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
  * Draw Header
@@ -9,7 +15,7 @@
  *
  * @example DrawHeader( ProgramTitle() );
  *
- * @global array  $_ROSARIO Sets $_ROSARIO['AllowUse']
+ * @global array  $_ROSARIO Sets $_ROSARIO['DrawHeader']
  *
  * @param  string $left     Left part of the Header.
  * @param  string $right    Right part of the Header (optional).
@@ -37,28 +43,28 @@ function DrawHeader( $left, $right = '', $center = '' )
 			if ( isset( $_ROSARIO['HeaderIcon'] )
 				&& $_ROSARIO['HeaderIcon'] !== false )
 			{
-				$left = '<img src="' . $_ROSARIO['HeaderIcon'] . '" class="headerIcon" /> ' . (string) $left;
+				$left = '<img src="' . $_ROSARIO['HeaderIcon'] . '" class="headerIcon" /> ' . $left;
 			}
 
 			$left = '<h2>' . $left . '</h2>';
 		}
 
 		echo '<td class="' . $_ROSARIO['DrawHeader'] . '">' .
-			(string) $left .
+			$left .
 		'</td>';
 	}
 
 	if ( $center !== '' )
 	{
 		echo '<td class="' . $_ROSARIO['DrawHeader'] . ' center">' .
-			(string) $center .
+			$center .
 		'</td>';
 	}
 
 	if ( $right !== '' )
 	{
 		echo '<td class="' . $_ROSARIO['DrawHeader'] . ' align-right">' .
-			(string) $right .
+			$right .
 		'</td>';
 	}
 

@@ -1,8 +1,10 @@
 <?php
 /**
  * Input functions
+ *
+ * @package RosarioSIS
+ * @subpackage functions
  */
-
 
 /**
  * Date Input
@@ -16,12 +18,12 @@
  * @uses InputDivOnclick()
  *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && $value != '' && $div )
  *
- * @param  string         $value    Input value
- * @param  string         $name     Input name
- * @param  string         $title    Input title (optional). Defaults to ''
- * @param  boolean        $div      Is input wrapped into <div onclick>? (optional). Defaults to true
- * @param  boolean        $allow_na Allow N/A (empty value) (optional). Defaults to true
- * @param  boolean        $required Required date fields (optional). Defaults to false
+ * @param  string         $value    Input value.
+ * @param  string         $name     Input name.
+ * @param  string         $title    Input title (optional). Defaults to ''.
+ * @param  boolean        $div      Is input wrapped into <div onclick>? (optional). Defaults to true.
+ * @param  boolean        $allow_na Allow N/A (empty value) (optional). Defaults to true.
+ * @param  boolean        $required Required date fields (optional). Defaults to false.
  *
  * @return string         Input HTML
  */
@@ -32,7 +34,7 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
 	$ftitle = FormatInputTitle( $title, '', $value == '' && $required );
 
 	if ( AllowEdit()
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$options = array();
 
@@ -78,11 +80,11 @@ function DateInput( $value, $name, $title = '', $div = true, $allow_na = true, $
  * @uses InputDivOnclick()
  *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && $value != '' && $div )
  *
- * @param  string  $value Input value
- * @param  string  $name  Input name
- * @param  string  $title Input title (optional). Defaults to ''
- * @param  string  $extra Extra HTML attributes added to the input
- * @param  boolean $div   Is input wrapped into <div onclick>? (optional). Defaults to true
+ * @param  string  $value Input value.
+ * @param  string  $name  Input name.
+ * @param  string  $title Input title (optional). Defaults to ''.
+ * @param  string  $extra Extra HTML attributes added to the input.
+ * @param  boolean $div   Is input wrapped into <div onclick>? (optional). Defaults to true.
  *
  * @return string  Input HTML
  */
@@ -100,7 +102,7 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
 	$value = is_array( $value ) ? $value[0] : $value;
 
 	if ( AllowEdit()
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		// Input size / length based on value number of chars
 		if ( mb_strpos( $extra, 'size' ) === false )
@@ -146,35 +148,37 @@ function TextInput( $value, $name, $title = '', $extra = '', $div = true )
  * @uses ParseMLField() to get localized options
  *
  * @global $RosarioLocales Returns simple TextInput() if only 1 locale set
+ * @global $locale         Get current locale
  *
- * @param  string  $value Input value
- * @param  string  $name  Input name
- * @param  string  $title Input title (optional). Defaults to ''
- * @param  string  $extra Extra HTML attributes added to the input
- * @param  boolean $div   Is input wrapped into <div onclick>? (optional). Defaults to true
+ * @param  string  $value Input value.
+ * @param  string  $name  Input name.
+ * @param  string  $title Input title (optional). Defaults to ''.
+ * @param  string  $extra Extra HTML attributes added to the input.
+ * @param  boolean $div   Is input wrapped into <div onclick>? (optional). Defaults to true.
  *
  * @return string  Input HTML
  */
 function MLTextInput( $value, $name, $title = '', $extra = '', $div = true )
 {
-	global $RosarioLocales;
+	global $RosarioLocales,
+		$locale;
+
+	$value = is_array( $value ) ? $value[0] : $value;
 
 	if ( count( $RosarioLocales ) < 2 )
 	{
-		return TextInput( $value, $name, $title, $extra, $div );
+		return TextInput( ParseMLField( $value, $locale ), $name, $title, $extra, $div );
 	}
 
 	$id = GetInputID( $name );
 
-	// mab - support array style $option values
+	// Mab - support array style $option values.
 	$display_val = is_array( $value ) ? $value[1] : $value;
 
-	$value = is_array( $value ) ? $value[0] : $value;
-
 	if ( AllowEdit()
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		// Input size / length based on value number of chars
+		// Input size / length based on value number of chars.
 		if ( mb_strpos( $extra, 'size' ) === false
 			&& $value != '' )
 		{
@@ -185,7 +189,7 @@ function MLTextInput( $value, $name, $title = '', $extra = '', $div = true )
 					/ $nb_loc . '"';
 		}
 
-		// ng - foreach possible language
+		// Ng - foreach possible language.
 		ob_start(); ?>
 <script>
 function setMLvalue(id, loc, value){
@@ -260,12 +264,12 @@ function setMLvalue(id, loc, value){
  *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && $markdown )
  * @uses ShowDown jQuery plugin for MarkDown rendering called using the .markdown-to-html CSS class
  *
- * @param  string  $value    Input value
- * @param  string  $name     Input name
- * @param  string  $title    Input title (optional). Defaults to ''
- * @param  string  $extra    Extra HTML attributes added to the input
- * @param  boolean $div      Is input wrapped into <div onclick>? (optional). Defaults to true
- * @param  boolean $markdown Is MarkDown formatted text? (optional). Defaults to true
+ * @param  string  $value    Input value.
+ * @param  string  $name     Input name.
+ * @param  string  $title    Input title (optional). Defaults to ''.
+ * @param  string  $extra    Extra HTML attributes added to the input.
+ * @param  boolean $div      Is input wrapped into <div onclick>? (optional). Defaults to true.
+ * @param  boolean $markdown Is MarkDown formatted text? (optional). Defaults to true.
  *
  * @return string  Input HTML
  */
@@ -281,7 +285,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $m
 	{
 		if ( $markdown )
 		{
-			// convert MarkDown to HTML
+			// Convert MarkDown to HTML.
 			$display_val = '<div class="markdown-to-html">' . $value . '</div>';
 		}
 		else
@@ -291,9 +295,9 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $m
 		$display_val = '-';
 
 	if ( AllowEdit()
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		// columns
+		// Columns.
 		/*if ( mb_strpos( $extra, 'cols' ) === false )
 		{
 			$extra .= ' cols=30';
@@ -302,7 +306,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $m
 		else
 			$cols = mb_substr( $extra, mb_strpos( $extra, 'cols' ) + 5, 2 ) *1;*/
 
-		// rows
+		// Rows.
 		if ( mb_strpos( $extra, 'rows' ) === false )
 		{
 			$extra .= ' rows=5';
@@ -345,14 +349,16 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $m
  * @see    warehouse.js, and below for AJAX calls handling
  * @since  2.9
  *
- * @param  string $input_id input ID attribute value
+ * @param  string $input_id input ID attribute value.
  *
  * @return HTML   preview link & preview DIV
  */
 function MarkDownInputPreview( $input_id )
 {
-	if ( !is_string( $input_id ) )
+	if ( ! $input_id )
+	{
 		return false;
+	}
 
 	ob_start();
 
@@ -384,15 +390,15 @@ function MarkDownInputPreview( $input_id )
  * @uses InputDivOnclick()
  *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && ! $new && $div )
  *
- * @param  string  $value   Input value
- * @param  string  $name    Input name
- * @param  string  $title   Input title (optional). Defaults to ''
- * @param  string  $checked Deprecated
- * @param  boolean $new     New input (optional). Defaults to false
- * @param  string  $yes     Checked value text (optional). Defaults to 'Yes'
- * @param  string  $yes     Not checked value text (optional). Defaults to 'No'
- * @param  string  $extra   Extra HTML attributes added to the input
- * @param  boolean $div     Is input wrapped into <div onclick>? (optional). Defaults to true
+ * @param  string  $value   Input value.
+ * @param  string  $name    Input name.
+ * @param  string  $title   Input title (optional). Defaults to ''.
+ * @param  string  $checked Deprecated.
+ * @param  boolean $new     New input (optional). Defaults to false.
+ * @param  string  $yes     Checked value text (optional). Defaults to 'Yes'.
+ * @param  string  $yes     Not checked value text (optional). Defaults to 'No'.
+ * @param  string  $extra   Extra HTML attributes added to the input.
+ * @param  boolean $div     Is input wrapped into <div onclick>? (optional). Defaults to true.
  *
  * @return string  Input HTML
  */
@@ -400,7 +406,7 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 {
 	$checked = '';
 
-	// $checked has been deprecated -- it remains only as a placeholder
+	// $checked has been deprecated -- it remains only as a placeholder.
 	if ( $value
 		&& $value !== 'N' )
 	{
@@ -408,7 +414,7 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 	}
 
 	if ( AllowEdit()
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$id = GetInputID( $name );
 
@@ -435,7 +441,7 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 	}
 	else
 	{
-		//return ($value?$yes:$no).($title!=''?'<br />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
+		// return ($value?$yes:$no).($title!=''?'<br />'.(mb_stripos( $title,'<span ')===false?'<span class="legend-gray">':'').$title.(mb_stripos( $title,'<span ')===false?'</span>':'').'':'');
 		$return = ( $value ?
 			( $yes === 'Yes' || isset( $_REQUEST['LO_save'] ) ? _( 'Yes' ) : $yes ) :
 			( $no === 'No' || isset( $_REQUEST['LO_save'] ) ? _( 'No' ) : $no ) ) .
@@ -456,13 +462,13 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
  * @uses InputDivOnclick()
  *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && $value != '' && $div )
  *
- * @param  string         $value    Input value
- * @param  string         $name     Input name
- * @param  string         $title    Input title (optional). Defaults to ''
- * @param  array          $options  Input options: array( option_value => option_text )
- * @param  string|boolean $allow_na Allow N/A (empty value); set to false to disallow (optional). Defaults to N/A
- * @param  string         $extra    Extra HTML attributes added to the input
- * @param  boolean        $div      Is input wrapped into <div onclick>? (optional). Defaults to true
+ * @param  string         $value    Input value.
+ * @param  string         $name     Input name.
+ * @param  string         $title    Input title (optional). Defaults to ''.
+ * @param  array          $options  Input options: array( option_value => option_text ).
+ * @param  string|boolean $allow_na Allow N/A (empty value); set to false to disallow (optional). Defaults to N/A.
+ * @param  string         $extra    Extra HTML attributes added to the input.
+ * @param  boolean        $div      Is input wrapped into <div onclick>? (optional). Defaults to true.
  *
  * @return string         Input HTML
  */
@@ -474,22 +480,19 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
-	// mab - support array style $option values
-	if ( is_array( $value ) )
-	{
-		$value = $value[0];
-	}
+	// Mab - support array style $option values.
+	$value = is_array( $value ) ? $value[0] : $value;
 
-	// mab - append current val to select list if not in list
+	// Mab - append current val to select list if not in list.
 	if ( $value != ''
-		&& ( !is_array( $options )
+		&& ( ! is_array( $options )
 			|| !array_key_exists( $value, $options ) ) )
 	{
 		$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
 	}
 
 	if ( AllowEdit()
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$select = '<select name="'.$name.'" id="' . $id . '" '.$extra.'>';
 
@@ -516,9 +519,9 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
 		}
 
 		$select .= '</select>';
-		
+
 		$select .= $ftitle;
-		
+
 		if ( $value != ''
 			&& $div )
 		{
@@ -575,13 +578,13 @@ function SelectInput( $value, $name, $title = '', $options = array(), $allow_na 
  * @global $RosarioLocales Returns simple SelectInput() if only 1 locale set
  * @global $locale         Get current locale
  *
- * @param  string         $value    Input value
- * @param  string         $name     Input name
- * @param  string         $title    Input title (optional). Defaults to ''
- * @param  array          $options  Input options: array( option_value => option_text )
- * @param  string|boolean $allow_na Allow N/A (empty value); set to false to disallow (optional). Defaults to N/A
- * @param  string         $extra    Extra HTML attributes added to the input
- * @param  boolean        $div      Is input wrapped into <div onclick>? (optional). Defaults to true
+ * @param  string         $value    Input value.
+ * @param  string         $name     Input name.
+ * @param  string         $title    Input title (optional). Defaults to ''.
+ * @param  array          $options  Input options: array( option_value => option_text ).
+ * @param  string|boolean $allow_na Allow N/A (empty value); set to false to disallow (optional). Defaults to N/A.
+ * @param  string         $extra    Extra HTML attributes added to the input.
+ * @param  boolean        $div      Is input wrapped into <div onclick>? (optional). Defaults to true.
  *
  * @return string         Input HTML
  */
@@ -590,9 +593,12 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 	global $RosarioLocales,
 		$locale;
 
+	// Mab - support array style $option values.
+	$value = is_array( $value ) ? $value[0] : $value;
+
 	if ( count( $RosarioLocales ) < 2 )
 	{
-		return SelectInput( $value, $name, $title, $options, $div );
+		return SelectInput( ParseMLField( $value, $locale ), $name, $title, $options, $div );
 	}
 
 	$id = GetInputID( $name );
@@ -601,22 +607,16 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 
 	$ftitle = FormatInputTitle( $title, $id, $required );
 
-	// mab - support array style $option values
-	if ( is_array( $value ) )
-	{
-		$value = $value[0];
-	}
-
-	// mab - append current val to select list if not in list
+	// Mab - append current val to select list if not in list.
 	if ( $value != ''
-		&& ( !is_array( $options )
+		&& ( ! is_array( $options )
 			|| !array_key_exists( $value, $options ) ) )
 	{
 		$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
 	}
 
 	if ( AllowEdit()
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$select = '<select name="'.$name.'" id="' . $id . '" '.$extra.'>';
 
@@ -632,7 +632,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 			$key .= '';
 
 			if ( $value == $key
-				&& ( !( $value == false && $value !== $key )
+				&& ( ! ( $value == false && $value !== $key )
 					|| ( $value === '0' && $key === 0 ) ) )
 			{
 				$selected = ' selected';
@@ -645,9 +645,9 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 		}
 
 		$select .= '</select>';
-		
+
 		$select .= $ftitle;
-			
+
 		if ( $value != ''
 			&& $div )
 		{

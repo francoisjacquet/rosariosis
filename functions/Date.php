@@ -1,4 +1,10 @@
 <?php
+/**
+ * Date functions
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
  * Get the Date of the day
@@ -14,7 +20,7 @@
  */
 function DBDate()
 {
-	// Oracle, eg. 10-JUL-2015
+	// Oracle, eg. 10-JUL-2015.
 	return mb_strtoupper( date( 'd-M-Y' ) );
 }
 
@@ -39,7 +45,7 @@ function ProperDate( $date, $length = 'long' )
 		return '';
 	}
 
-	$date_exploded = ExplodeDate( $date );
+	$date_exploded = ExplodeDate( (string) $date );
 
 	$comment = '<!-- ' . implode( '', $date_exploded ) . ' -->';
 
@@ -64,7 +70,7 @@ function ProperDate( $date, $length = 'long' )
 	else
 		$sep = ' ';
 
-	// Short month name, eg.: Sep.
+	// Short month name, eg.: "Sep".
 	if ( $length === 'short' )
 	{
 		$pref_month = '%b';
@@ -96,14 +102,14 @@ function ProperDate( $date, $length = 'long' )
  * Verify date
  *
  * Accepts 3 dates formats (Oracle & Postgres)
- * 
- * @param  string  $date date to verify.
+ *
+ * @param  string $date date to verify.
  *
  * @return boolean true if valid date, else false
  */
 function VerifyDate( $date )
 {
-	$date_exploded = ExplodeDate( $date );
+	$date_exploded = ExplodeDate( (string) $date );
 
 	return checkdate(
 		(int) $date_exploded['month'],
@@ -120,13 +126,13 @@ function VerifyDate( $date )
  * to have returned a date selection series of pull-down menus
  *
  * 3 date formats are accepted (Oracle & Postgres)
- * 
+ *
  * For the default to be Not Specified,
  * send a date of 00-000-00 or send nothing
- * 
+ *
  * @global array   $_ROSARIO Sets $_ROSARIO['PrepareDate']
  *
- * @param  string  $date      Date to prepare
+ * @param  string  $date      Date to prepare.
  * @param  string  $name_attr select inputs name attribute suffix (optional).
  * @param  boolean $allow_na  Allow N/A, defaults to true (optional).
  * @param  array   $options   Keys: Y|M|D|C|short|submit|required (optional).
@@ -140,7 +146,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 	// PDF printing, display text date.
 	if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		return ProperDate( $date );
+		return ProperDate( (string) $date );
 	}
 
 	$return = $extraY = $extraM = $extraD = '';
@@ -170,7 +176,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 				'Y' => true,
 				'M' => true,
 				'D' => true,
-				'C' => true
+				'C' => true,
 			)
 		);
 	}
@@ -243,7 +249,9 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		{
 			if ( $date_exploded['month'] === ''
 				|| $date_exploded['month'] === '000' )
+			{
 				$return .= '<option value="" selected>' . _( 'N/A' );
+			}
 			else
 				$return .= '<option value="">' . _( 'N/A' );
 		}
@@ -282,7 +290,9 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		{
 			if ( $date_exploded['day'] === ''
 				|| $date_exploded['day'] === '00' )
+			{
 				$return .= '<option value="" selected>' . _( 'N/A' );
+			}
 			else
 				$return .= '<option value="">' . _( 'N/A' );
 		}
@@ -323,7 +333,9 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		{
 			if ( $date_exploded['year'] === ''
 				|| $date_exploded['year'] === '0000' )
+			{
 				$return .= '<option value="" selected>' . _( 'N/A' );
+			}
 			else
 				$return .= '<option value="">' . _( 'N/A' );
 		}
@@ -344,7 +356,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 	// FJ NOBR on date input.
 	$return = '<span style="white-space: nowrap;">' . $return . '</span>';
-	
+
 	return $return;
 }
 
@@ -354,14 +366,14 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
  *
  * @param  string $date Postgres or Oracle date.
  *
- * @return array  array( 'year' => '4_digits_year', 'month' => 'numeric_month', 'day' => 'day' ) 
+ * @return array  array( 'year' => '4_digits_year', 'month' => 'numeric_month', 'day' => 'day' )
  */
 function ExplodeDate( $date )
 {
-	// Invalid format
+	// Invalid format.
 	$year = $month = $day = '';
 
-	// Oracle format DD-MMM-YY
+	// Oracle format DD-MMM-YY.
 	if ( mb_strlen( $date ) === 9 )
 	{
 		$year = mb_substr( $date, 7, 2 );
@@ -372,7 +384,7 @@ function ExplodeDate( $date )
 
 		$day = mb_substr( $date, 0, 2 );
 	}
-	// Postgres format YYYY-MM-DD
+	// Postgres format YYYY-MM-DD.
 	elseif ( mb_strlen( $date ) === 10 )
 	{
 		$year = mb_substr( $date, 0, 4 );
@@ -382,7 +394,7 @@ function ExplodeDate( $date )
 		$day = mb_substr( $date, 8, 2 );
 
 	}
-	// Oracle with 4-digits year DD-MMM-YYYY
+	// Oracle with 4-digits year DD-MMM-YYYY.
 	elseif ( mb_strlen( $date ) === 11 )
 	{
 		$year = mb_substr( $date, 7, 4 );
@@ -406,9 +418,9 @@ function ExplodeDate( $date )
  *
  * @example RequestedDate( $day, $month, $year );
  *
- * @param  string $day   Requested day
- * @param  string $month Requested month
- * @param  string $year  Requested year
+ * @param  string $day   Requested day.
+ * @param  string $month Requested month.
+ * @param  string $year  Requested year.
  *
  * @return string Empty string if malformed/incomplete date or date
  */
@@ -424,22 +436,22 @@ function RequestedDate( $day, $month, $year )
 	 * Year between 1 and 9999
 	 */
 	if ( mb_strlen( $date ) !== 11
-		|| (int)$day < 1
-		|| (int)$day > 31
+		|| (int) $day < 1
+		|| (int) $day > 31
 		|| __mnwswitch_char2num( $month ) === $month
-		|| (int)$year < 1
-		|| (int)$year > 9999 )
+		|| (int) $year < 1
+		|| (int) $year > 9999 )
 	{
 		$date = '';
 	}
 	else
 	{
-		// correct date if day does not exist in month
-		while( !VerifyDate( $date ) )
+		// Correct date if day does not exist in month.
+		while( ! VerifyDate( $date ) )
 		{
 			$day--;
 
-			$date = $day. '-' . $month . '-' . $year;
+			$date = $day . '-' . $month . '-' . $year;
 		}
 	}
 
@@ -457,9 +469,9 @@ function RequestedDate( $day, $month, $year )
  *
  * @example RequestedDates( $_REQUEST['day_tables'], $_REQUEST['month_tables'], $_REQUEST['year_tables'] );
  *
- * @param  array $day_array   Requested days
- * @param  array $month_array Requested months
- * @param  array $year_array  Requested years
+ * @param  array $day_array   Requested days.
+ * @param  array $month_array Requested months.
+ * @param  array $year_array  Requested years.
  *
  * @return array Requested dates, or empty if no dates found or malformed/incomplete dates
  */
@@ -469,7 +481,7 @@ function RequestedDates( $day_array, $month_array, $year_array )
 
 	foreach ( (array) $month_array as $field_name => $month )
 	{
-		if ( !is_array( $month ) )
+		if ( ! is_array( $month ) )
 		{
 			$date = RequestedDate(
 				$day_array[ $field_name ],
@@ -477,15 +489,19 @@ function RequestedDates( $day_array, $month_array, $year_array )
 				$year_array[ $field_name ]
 			);
 
-			if ( !empty( $date ) )
+			if ( ! empty( $date ) )
+			{
 				$return[ $field_name ] = $date;
+			}
 		}
 		else
 		{
 			$dates = RequestedDates( $day_array[ $field_name ], $month, $year_array[ $field_name ] );
 
-			if ( !empty( $dates ) )
+			if ( ! empty( $dates ) )
+			{
 				$return[ $field_name ] = $dates;
+			}
 		}
 	}
 
@@ -496,30 +512,34 @@ function RequestedDates( $day_array, $month_array, $year_array )
 /**
  * Switch Month to Number or Characters
  *
- * @param  string $month     number or characters month
- * @param  string $direction tonum|tochar|both (optional)
+ * @param  string $month     number or characters month.
+ * @param  string $direction tonum|tochar|both (optional). Default to 'both'.
  *
  * @return string            Switched month
  */
 function MonthNWSwitch( $month, $direction = 'both' )
 {
-	// To number
+	// To number.
 	if ( $direction === 'tonum' )
 	{
-		if ( mb_strlen( $month ) < 3 ) // assume already num.
+		if ( mb_strlen( $month ) < 3 ) // Assume already num.
+		{
 			return $month;
+		}
 		else
 			return __mnwswitch_char2num( $month );
 	}
-	// To characters
+	// To characters.
 	elseif ( $direction === 'tochar' )
 	{
-		if ( mb_strlen( $month === 3 ) ) // assume already char.
+		if ( mb_strlen( $month === 3 ) ) // Assume already char.
+		{
 			return $month;
+		}
 		else
 			return __mnwswitch_num2char( $month );
 	}
-	// Both
+	// Both.
 	else
 	{
 		$month = __mnwswitch_num2char( $month );
@@ -534,7 +554,7 @@ function MonthNWSwitch( $month, $direction = 'both' )
  * Switch number month to characters
  * Local function
  *
- * @param  string $month number month
+ * @param  string $month number month.
  *
  * @return string        characters month
  */
@@ -553,15 +573,18 @@ function __mnwswitch_num2char( $month )
 		'10' => 'OCT',
 		'11' => 'NOV',
 		'12' => 'DEC',
-		'00' => 'DEC'
+		'00' => 'DEC',
 	);
 
 	if ( mb_strlen( $month ) === 1 )
+	{
 		$month = '0' . $month;
+	}
 
 	if ( array_key_exists( $month, $months_number ) )
+	{
 		return $months_number[ $month ];
-
+	}
 	else 
 		return $month;
 }
@@ -571,7 +594,7 @@ function __mnwswitch_num2char( $month )
  * Switch characters month to number
  * Local function
  *
- * @param  string $month characters month
+ * @param  string $month characters month.
  *
  * @return string        number month
  */
@@ -589,14 +612,15 @@ function __mnwswitch_char2num( $month )
 		'SEP' => '09',
 		'OCT' => '10',
 		'NOV' => '11',
-		'DEC' => '12'
+		'DEC' => '12',
 	);
 
 	$month = mb_strtoupper( $month );
 
 	if ( array_key_exists( $month, $months_number ) )
+	{
 		return $months_number[ $month ];
-
+	}
 	else 
 		return $month;
 }
