@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-29 18:48-0500\n"
-"PO-Revision-Date: 2015-12-24 12:00-0500\n"
+"PO-Revision-Date: 2015-12-30 10:09-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -4335,7 +4335,7 @@ msgstr "Appliquer à toutes les Classes de ce Cours"
 
 #: modules/Grades/Assignments.php:371
 msgid "Percent of Final Grade"
-msgstr "Pourcentage de la Note Finale"
+msgstr "Pourcentage de la Note Définitive"
 
 #: modules/Grades/Assignments.php:372
 msgid "Percent Total"
@@ -4464,7 +4464,7 @@ msgstr "Calculer l'Eligibilité avec les Notes cumulées du Semestre"
 #: modules/Grades/Configuration.php:83 modules/Grades/Menu.php:14
 #: modules/Grades/Menu.php:44 modules/Grades/Menu.php:56
 msgid "Final Grades"
-msgstr "Notes Finales"
+msgstr "Notes Définitives"
 
 #: modules/Grades/Configuration.php:93
 #, php-format
@@ -4477,7 +4477,7 @@ msgstr "Points Limites du Résultat"
 
 #: modules/Grades/Configuration.php:141
 msgid "Final Grading Percentages"
-msgstr "Pourcentages de la Note Finale"
+msgstr "Pourcentages des Notes Définitives"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:62
 #: modules/Grades/EditHistoryMarkingPeriods.php:106
@@ -4586,7 +4586,7 @@ msgstr "Effacer la Période Scolaire"
 
 #: modules/Grades/FinalGrades.php:9
 msgid "Final Grade"
-msgstr "Note Finale"
+msgstr "Note Définitive"
 
 #: modules/Grades/FinalGrades.php:140
 msgid "Abs<BR />YTD / MP"
@@ -4901,7 +4901,7 @@ msgstr "Notation des Élèves"
 #: modules/Grades/Menu.php:25 modules/Grades/Menu.php:32
 #: modules/Grades/Menu.php:64
 msgid "Input Final Grades"
-msgstr "Notation Finale"
+msgstr "Saisie des Notes"
 
 #: modules/Grades/Menu.php:26 modules/Grades/Menu.php:55
 #: modules/Grades/Menu.php:65
