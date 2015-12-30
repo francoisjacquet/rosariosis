@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-05 09:02-0500\n"
-"PO-Revision-Date: 2015-12-30 10:05-0500\n"
+"PO-Revision-Date: 2015-12-30 10:10-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -4481,7 +4481,7 @@ msgstr "Points Limites du Résultat"
 
 #: modules/Grades/Configuration.php:141
 msgid "Final Grading Percentages"
-msgstr "Pourcentages de la Note Finale"
+msgstr "Pourcentages des Notes Définitives"
 
 #: modules/Grades/EditHistoryMarkingPeriods.php:62
 #: modules/Grades/EditHistoryMarkingPeriods.php:106
