@@ -1,6 +1,4 @@
 <?php
-require_once 'modules/Food_Service/includes/DeletePromptX.fnc.php';
-
 require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
 
 DrawHeader(ProgramTitle());
@@ -99,16 +97,28 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if ( $_REQUEST['tab_id']!='new')
 	{
-//FJ add translation
-		if (DeletePromptX(_('Meal Item')))
-			DBQuery("DELETE FROM FOOD_SERVICE_MENU_ITEMS WHERE MENU_ID='".$_REQUEST['tab_id']."' AND MENU_ITEM_ID='".$_REQUEST['menu_item_id']."'");
+		if ( DeletePrompt( _( 'Meal Item' ) ) )
+		{
+			DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
+				WHERE MENU_ID='" . $_REQUEST['tab_id'] . "'
+				AND MENU_ITEM_ID='" . $_REQUEST['menu_item_id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
+		}
 	}
 	else
-		if (DeletePromptX(_('Item')))
+	{
+		if ( DeletePrompt( _( 'Item' ) ) )
 		{
-			DBQuery("DELETE FROM FOOD_SERVICE_MENU_ITEMS WHERE ITEM_ID='".$_REQUEST['item_id']."'");
-			DBQuery("DELETE FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID='".$_REQUEST['item_id']."'");
+			DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
+				WHERE ITEM_ID='" . $_REQUEST['item_id'] . "'" );
+
+			DBQuery( "DELETE FROM FOOD_SERVICE_ITEMS
+				WHERE ITEM_ID='" . $_REQUEST['item_id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
+	}
 }
 
 if (empty($_REQUEST['modfunc']))
@@ -260,11 +270,33 @@ function makeSelectInput($value,$name)
 		$id = 'new';
 
 	if ( $name=='ITEM_ID')
-		return SelectInput($value,"values[ $id ][ $name ]",'',$items_select,$id=='new'?'':false);
+	{
+		return SelectInput(
+			$value,
+			'values[' . $id . '][' . $name . ']',
+			'',
+			$items_select,
+			$id == 'new' ? '' : false
+		);
+	}
 	elseif ( $name=='CATEGORY_ID')
-		return SelectInput($value,"values[ $id ][ $name ]",'',$categories_select);
+	{
+		return SelectInput(
+			$value,
+			'values[' . $id . '][' . $name . ']',
+			'',
+			$categories_select
+		);
+	}
 	else
-		return SelectInput($value,"values[ $id ][ $name ]",'',$icons_select);
+	{
+		return SelectInput(
+			$value,
+			'values[' . $id . '][' . $name . ']',
+			'',
+			$icons_select
+		);
+	}
 }
 
 function makeCheckboxInput($value,$name)
@@ -275,7 +307,15 @@ function makeCheckboxInput($value,$name)
 	else
 		$id = 'new';
 
-	return CheckboxInput($value, "values[ $id ][ $name ]", '', $value, $id=='new', button('check'), button('x'));
+	return CheckboxInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$value,
+		$id == 'new',
+		button( 'check' ),
+		button( 'x' )
+	);
 }
 
 function get_icons_select($path)

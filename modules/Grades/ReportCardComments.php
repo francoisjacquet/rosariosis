@@ -1,5 +1,4 @@
 <?php
-include 'modules/Grades/DeletePromptX.fnc.php';
 
 DrawHeader(ProgramTitle());
 
@@ -79,25 +78,35 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if ( $_REQUEST['tab_id']=='new')
 	{
-//FJ add translation
-		if (DeletePromptX(_('Report Card Comment Category')))
+		if ( DeletePrompt( _( 'Report Card Comment Category' ) ) )
 		{
-			DBQuery("DELETE FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='".$_REQUEST['id']."'");
-			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CATEGORIES WHERE ID='".$_REQUEST['id']."'");
+			DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
+				WHERE CATEGORY_ID='" . $_REQUEST['id'] . "'" );
+
+			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CATEGORIES
+				WHERE ID='" . $_REQUEST['id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
 	}
 	elseif ( $_REQUEST['tab_id']=='-1')
 	{
-		if (DeletePromptX(_('Report Card Comment')))
+		if ( DeletePrompt( _( 'Report Card Comment' ) ) )
 		{
-			DBQuery("DELETE FROM REPORT_CARD_COMMENTS WHERE ID='".$_REQUEST['id']."'");
+			DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
+				WHERE ID='" . $_REQUEST['id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
 	}
 	else
 	{
-		if (DeletePromptX(_('Report Card Comment')))
+		if ( DeletePrompt( _( 'Report Card Comment' ) ) )
 		{
-			DBQuery("DELETE FROM REPORT_CARD_COMMENTS WHERE ID='".$_REQUEST['id']."'");
+			DBQuery( "DELETE FROM REPORT_CARD_COMMENTS
+				WHERE ID='" . $_REQUEST['id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
 	}
 }
@@ -292,7 +301,12 @@ function makeTextInput($value,$name)
 	else
 		$id = 'new';
 
-	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
+	return TextInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$extra
+	);
 }
 
 function makeCommentsInput($value,$name)
@@ -304,13 +318,36 @@ function makeCommentsInput($value,$name)
 		$id = 'new';
 
 	if ( $name=='CATEGORY_ID')
-		return SelectInput($value,"values[ $id ][ $name ]",'',$category_select,false);
+	{
+		return SelectInput(
+			$value,
+			'values[' . $id . '][' . $name . ']',
+			'',
+			$category_select,
+			false
+		);
+	}
     elseif ( $name=='SCALE_ID')
-        return SelectInput($value,"values[ $id ][ $name ]",'',$code_select,false);
+    {
+		return SelectInput(
+			$value,
+			'values[' . $id . '][' . $name . ']',
+			'',
+			$code_select,
+			false
+		);
+	}
 	elseif ( $name=='SORT_ORDER')
+	{
 		$extra = 'size=5 maxlength=5';
+	}
 
-	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
+	return TextInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$extra
+	);
 }
 
 
@@ -344,7 +381,7 @@ function _makeColorInput( $value, $column )
 	{
 		$color_select[ $color ] = array('<span style="background-color:'.$color.'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>','<span style="background-color:'.$color.';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
 	}
-	return RadioInput($value,"values[ $id ][ $name ]",'',$color_select);*/
+	return RadioInput($value,'values[' . $id . '][' . $name . ']','',$color_select);*/
 
 	return ColorInput(
 		$value,

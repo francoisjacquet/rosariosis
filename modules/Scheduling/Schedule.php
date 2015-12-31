@@ -101,7 +101,7 @@ if ( isset( $_POST['schedule'] )
 				if (DeletePrompt(_('Student\'s Absences and Grades'), 'Delete', false))
 				{
 					//if user clicked OK
-					if ( $_REQUEST['delete_ok'])
+					if ( ! isset( $_REQUEST['delete_cancel'] ) )
 					{
 						DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
 						DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."'");
@@ -296,8 +296,10 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 if ( $_REQUEST['modfunc']=='choose_course')
 {
 
-	if ( ! $_REQUEST['course_period_id'])
-		include "modules/Scheduling/Courses.php";
+	if ( ! $_REQUEST['course_period_id'] )
+	{
+		require_once 'modules/Scheduling/Courses.php';
+	}
 	else
 	{
 		//FJ multiple school periods for a course period
@@ -357,7 +359,7 @@ if ( $_REQUEST['modfunc']=='choose_course')
 		if ( $days_conflict)
 			$warnings[] = _('There is already a course scheduled in that period.');
 
-		if (empty($warnings) || _Prompt('Confirm',_('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
+		if (empty($warnings) || Prompt('Confirm',_('There is a conflict.').' '._('Are you sure you want to add this section?'),ErrorMessage($warnings,'note')))
 		{
 			DBQuery("INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,START_DATE,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID) values('".UserSyear()."','".UserSchool()."','".UserStudentID()."','".$date."','".$_REQUEST['course_id']."','".$_REQUEST['course_period_id']."','".$mp_RET[1]['MP']."','".$mp_RET[1]['MARKING_PERIOD_ID']."')");
 
@@ -396,7 +398,13 @@ function _makePeriodSelect($course_period_id,$column)
 		$periods[$value['COURSE_PERIOD_ID']] = $value['TITLE'] . (($value['MARKING_PERIOD_ID']!=$fy_id && $value['COURSE_PERIOD_ID']!=$course_period_id)?' ('.GetMP($value['MARKING_PERIOD_ID']).')':'').(($value['TOTAL_SEATS'] && $_REQUEST['include_seats'] && $seats!='')?' '.sprintf(_('(%d seats)'),($value['TOTAL_SEATS']-$seats)):'').(($value['COURSE_PERIOD_ID']!=$course_period_id && $value['COURSE_PERIOD_ID']!=$value['PARENT_ID'] && $value['PARENT'])?' -> '.$value['PARENT']:'');
 	}
 
-	return SelectInput($course_period_id,"schedule[$THIS_RET[COURSE_PERIOD_ID]][$THIS_RET[START_DATE]][COURSE_PERIOD_ID]",'',$periods,false);
+	return SelectInput(
+		$course_period_id,
+		'schedule[' . $THIS_RET['COURSE_PERIOD_ID'] . '][' . $THIS_RET['START_DATE'] . '][COURSE_PERIOD_ID]',
+		'',
+		$periods,
+		false
+	);
 }
 
 function _makeMPSelect($mp_id,$name)
@@ -442,7 +450,13 @@ function _makeMPSelect($mp_id,$name)
 	else
 		$mps = array();
 
-	return SelectInput($THIS_RET['MARKING_PERIOD_ID'],"schedule[$THIS_RET[COURSE_PERIOD_ID]][$THIS_RET[START_DATE]][MARKING_PERIOD_ID]",'',$mps,false);
+	return SelectInput(
+		$THIS_RET['MARKING_PERIOD_ID'],
+		'schedule[' . $THIS_RET['COURSE_PERIOD_ID'] . '][' . $THIS_RET['START_DATE'] . '][MARKING_PERIOD_ID]',
+		'',
+		$mps,
+		false
+	);
 }
 
 
@@ -454,7 +468,13 @@ function _makeDate($value,$column)
 	else
 		$allow_na = true;
 
-	return DateInput($value,"schedule[$THIS_RET[COURSE_PERIOD_ID]][$THIS_RET[START_DATE]][ $column ]",'',true,$allow_na);
+	return DateInput(
+		$value,
+		'schedule[' . $THIS_RET['COURSE_PERIOD_ID'] . '][' . $THIS_RET['START_DATE'] . '][' . $column . ']',
+		'',
+		true,
+		$allow_na
+	);
 }
 
 function VerifySchedule(&$schedule)
@@ -500,34 +520,4 @@ function _str_split($str)
 	for ( $i=0;$i<$len;$i++)
 		$ret [] = mb_substr($str,$i,1);
 	return $ret;
-}
-
-//custom Prompt function: we need modfunc to be kept here
-function _Prompt( $title='Confirm', $question = '', $message = '' )
-{
-	$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST, array( 'delete_ok' ), array() );
-
-	if ( ! $_REQUEST['delete_ok']
-		&& ! $_REQUEST['delete_cancel'] )
-	{
-		echo '<br />';
-
-		PopTable( 'header', ( $title == 'Confirm' ? _( 'Confirm' ) : $title ) );
-
-		echo '<h4 class="center">' . $question . '</h4>
-			<form action="' . $PHP_tmp_SELF . '&delete_ok=1" method="POST">' .
-			$message .
-			'<br /><br />
-			<div class="center">
-				<input type="submit" value="' . _( 'OK' ) . '">
-				<input type="button" name="delete_cancel" value="' . _( 'Cancel' ) . '" onclick="javascript:this.form.action=\'' . str_replace( '&course_period_id=' . $_REQUEST['course_period_id'], '', $PHP_tmp_SELF ) . '\'; ajaxPostForm(this.form,true);">
-			</div>
-		</form>';
-
-		PopTable( 'footer' );
-
-		return false;
-	}
-	else
-		return true;
 }

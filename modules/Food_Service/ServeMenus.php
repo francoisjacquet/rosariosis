@@ -1,5 +1,4 @@
 <?php
-require_once 'modules/Food_Service/includes/DeletePromptX.fnc.php';
 
 require_once 'modules/Food_Service/includes/FS_Icons.inc.php';
 

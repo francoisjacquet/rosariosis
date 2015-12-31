@@ -1,7 +1,5 @@
 <?php
 
-require_once 'modules/Grades/DeletePromptX.fnc.php';
-
 DrawHeader( ProgramTitle() );
 
 $_ROSARIO['allow_edit'] = ( $_REQUEST['allow_edit'] === 'Y' );
@@ -154,9 +152,9 @@ if ( $_REQUEST['modfunc']=='update')
 
 if ( $_REQUEST['modfunc']=='remove')
 {
-	if (DeletePromptX($_REQUEST['tab_id']!='new'?'assignment':'assignment type'))
-        {
-		if ( $_REQUEST['tab_id']!='new')
+	if ( DeletePrompt( $_REQUEST['tab_id'] != 'new' ? _( 'Assignment' ) : _( 'Assignment Type' ) ) )
+	{
+		if ( $_REQUEST['tab_id'] != 'new' )
 		{
 			DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$_REQUEST['id']."'");
 			DBQuery("DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_ID='".$_REQUEST['id']."'");
@@ -164,6 +162,7 @@ if ( $_REQUEST['modfunc']=='remove')
 		else
 		{
 			$assignments_RET = DBGet(DBQuery("SELECT ASSIGNMENT_ID FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['id']."'"));
+
 			if (count($assignments_RET))
 			{
 				foreach ( (array) $assignments_RET as $assignment_id)
@@ -172,13 +171,14 @@ if ( $_REQUEST['modfunc']=='remove')
 			DBQuery("DELETE FROM GRADEBOOK_ASSIGNMENTS WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['id']."'");
 			DBQuery("DELETE FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE ASSIGNMENT_TYPE_ID='".$_REQUEST['id']."'");
 		}
-		unset($_REQUEST['id']);
-		unset($_REQUEST['modfunc']);
+
+		unset( $_REQUEST['id'] );
+
+		$_REQUEST['modfunc'] = false;
 	}
 }
 
 if (empty($_REQUEST['modfunc']))
-
 {
 	$types_RET = DBGet(DBQuery("SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER,COLOR FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='".User('STAFF_ID')."' AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') ORDER BY SORT_ORDER,TITLE"),array(),array('ASSIGNMENT_TYPE_ID'));
 	if ( $_REQUEST['tab_id'])
@@ -325,17 +325,60 @@ function _makeAssnInput($value,$name)
 		$extra = 'size=5 maxlength=5';
 	}
 	elseif ( $name=='ASSIGNED_DATE')
-		return DateInput($id=='new' && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$value,"values[ $id ][ASSIGNED_DATE]",($THIS_RET['ASSIGNED_ERROR']=='Y'?'<span class="legend-red">'._('Assigned date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span class="legend-red">'._('Assigned date is after due date!').'</span>':'')),$id!='new');
+	{
+		return DateInput(
+			$id == 'new' && Preferences( 'DEFAULT_ASSIGNED', 'Gradebook' ) == 'Y' ? DBDate() : $value,
+			'values[' . $id . '][ASSIGNED_DATE]',
+			( $THIS_RET['ASSIGNED_ERROR'] == 'Y' ?
+				'<span class="legend-red">' . _( 'Assigned date is after end of quarter!' ) . '</span>' :
+				( $THIS_RET['DATE_ERROR'] == 'Y' ? '<span class="legend-red">' . _( 'Assigned date is after due date!' ) . '</span>' : '' )
+			),
+			$id != 'new'
+		);
+	}
 	elseif ( $name=='DUE_DATE')
-		return DateInput($id=='new' && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$value,"values[ $id ][DUE_DATE]",($THIS_RET['DUE_ERROR']=='Y'?'<span class="legend-red">'._('Due date is after end of quarter!').'</span>':($THIS_RET['DATE_ERROR']=='Y'?'<span class="legend-red">'._('Due date is before assigned date!').'</span>':'')),$id!='new');
+	{
+		return DateInput(
+			$id == 'new' && Preferences( 'DEFAULT_DUE', 'Gradebook' ) == 'Y' ? DBDate() : $value,
+			'values[' . $id . '][DUE_DATE]',
+			( $THIS_RET['DUE_ERROR'] == 'Y' ?
+				'<span class="legend-red">' . _( 'Due date is after end of quarter!' ) . '</span>' :
+				( $THIS_RET['DATE_ERROR'] == 'Y' ? '<span class="legend-red">' . _( 'Due date is before assigned date!' ) . '</span>' : '' )
+			),
+			$id != 'new'
+		);
+	}
 	elseif ( $name=='COURSE_ID')
-		return CheckboxInput($value,"values[ $id ][COURSE_ID]",'','',$id=='new');
+	{
+		return CheckboxInput(
+			$value,
+			'values[' . $id . '][COURSE_ID]',
+			'',
+			'',
+			$id == 'new'
+		);
+	}
 	elseif ( $name=='DESCRIPTION')
+	{
 		$extra = 'size=20 maxlength=1000';
+	}
 	elseif ( $name=='ASSIGNMENT_TYPE_ID')
-		return SelectInput($value,"values[ $id ][ASSIGNMENT_TYPE_ID]",'',$type_options,false);
+	{
+		return SelectInput(
+			$value,
+			'values[' . $id . '][ASSIGNMENT_TYPE_ID]',
+			'',
+			$type_options,
+			false
+		);
+	}
 
-	return TextInput($value,"values[ $id ][ $name ]",$title,$extra);
+	return TextInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		$title,
+		$extra
+	);
 }
 
 function _makeTypeInput($value,$name)
@@ -364,7 +407,12 @@ function _makeTypeInput($value,$name)
 	elseif ( $name=='SORT_ORDER')
 		$extra = 'size=5 maxlength=10';
 
-	return TextInput($value,"values[ $id ][ $name ]",$title,$extra);
+	return TextInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		$title,
+		$extra
+	);
 }
 
 

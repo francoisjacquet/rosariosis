@@ -2,21 +2,26 @@
 
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-require_once 'modules/Grades/DeletePromptX.fnc.php';
-
 DrawHeader(ProgramTitle());
 
 if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-//FJ add translation
-	if (($dp=DeletePromptX(_('Final Grade'))))
+	if ( DeletePrompt( _( 'Final Grade' ) ) )
 	{
-		DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE SYEAR='".UserSyear()."' AND STUDENT_ID='".$_REQUEST['student_id']."' AND COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."' AND MARKING_PERIOD_ID='".$_REQUEST['marking_period_id']."'");
-		DBQuery("DELETE FROM STUDENT_REPORT_CARD_COMMENTS WHERE SYEAR='".UserSyear()."' AND STUDENT_ID='".$_REQUEST['student_id']."' AND COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."' AND MARKING_PERIOD_ID='".$_REQUEST['marking_period_id']."'");
-		$_REQUEST['modfunc'] = 'save';
+		DBQuery( "DELETE FROM STUDENT_REPORT_CARD_GRADES
+			WHERE SYEAR='" . UserSyear() . "'
+			AND STUDENT_ID='" . $_REQUEST['student_id'] . "'
+			AND COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'
+			AND MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'" );
+
+		DBQuery( "DELETE FROM STUDENT_REPORT_CARD_COMMENTS
+			WHERE SYEAR='" . UserSyear() . "'
+			AND STUDENT_ID='" . $_REQUEST['student_id'] . "'
+			AND COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'
+			AND MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'" );
 	}
-	elseif ( $dp===false)
-		$_REQUEST['modfunc'] = 'save';
+
+	$_REQUEST['modfunc'] = 'save';
 }
 
 if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')

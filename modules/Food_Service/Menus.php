@@ -1,5 +1,4 @@
 <?php
-require_once 'modules/Food_Service/includes/DeletePromptX.fnc.php';
 
 DrawHeader(ProgramTitle());
 
@@ -71,20 +70,34 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if ( $_REQUEST['tab_id']!='new')
 	{
-//FJ add translation
-		if (DeletePromptX(_('Category')))
+		if ( DeletePrompt( _( 'Category' ) ) )
 		{
-			DBQuery("UPDATE FOOD_SERVICE_MENU_ITEMS SET CATEGORY_ID=NULL WHERE CATEGORY_ID='".$_REQUEST['category_id']."'");
-			DBQuery("DELETE FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID='".$_REQUEST['category_id']."'");
+			DBQuery( "UPDATE FOOD_SERVICE_MENU_ITEMS
+				SET CATEGORY_ID=NULL
+				WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'" );
+
+			DBQuery( "DELETE FROM FOOD_SERVICE_CATEGORIES
+				WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
 	}
 	else
-		if (DeletePromptX(_('Meal')))
+	{
+		if ( DeletePrompt( _( 'Meal' ) ) )
 		{
-			DBQuery("DELETE FROM FOOD_SERVICE_MENU_ITEMS WHERE MENU_ID='".$_REQUEST['menu_id']."'");
-			DBQuery("DELETE FROM FOOD_SERVICE_CATEGORIES WHERE MENU_ID='".$_REQUEST['menu_id']."'");
-			DBQuery("DELETE FROM FOOD_SERVICE_MENUS WHERE MENU_ID='".$_REQUEST['menu_id']."'");
+			DBQuery( "DELETE FROM FOOD_SERVICE_MENU_ITEMS
+				WHERE MENU_ID='" . $_REQUEST['menu_id'] . "'" );
+
+			DBQuery( "DELETE FROM FOOD_SERVICE_CATEGORIES
+				WHERE MENU_ID='" . $_REQUEST['menu_id'] . "'" );
+
+			DBQuery( "DELETE FROM FOOD_SERVICE_MENUS
+				WHERE MENU_ID='" . $_REQUEST['menu_id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
+	}
 }
 
 //FJ fix SQL bug invalid sort order

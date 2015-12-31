@@ -1,6 +1,7 @@
 <?php
-include 'modules/Grades/DeletePromptX.fnc.php';
+
 //echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
+
 DrawHeader(ProgramTitle());
 
 if ( $_REQUEST['modfunc']=='update')
@@ -71,19 +72,31 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if ( $_REQUEST['tab_id']!='new')
 	{
-//FJ add translation
-		if (DeletePromptX(_('Report Card Comment')))
+		if ( DeletePrompt( _( 'Report Card Comment' ) ) )
 		{
-			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CODES WHERE ID='".$_REQUEST['id']."'");
+			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODES
+				WHERE ID='" . $_REQUEST['id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
 	}
 	else
-		if (DeletePromptX(_('Report Card Grading Scale')))
+	{
+		if ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
 		{
-			DBQuery("UPDATE REPORT_CARD_COMMENTS SET SCALE_ID=NULL WHERE SCALE_ID='".$_REQUEST['id']."'");
-			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CODES WHERE SCALE_ID='".$_REQUEST['id']."'");
-			DBQuery("DELETE FROM REPORT_CARD_COMMENT_CODE_SCALES WHERE ID='".$_REQUEST['id']."'");
+			DBQuery( "UPDATE REPORT_CARD_COMMENTS
+				SET SCALE_ID=NULL
+				WHERE SCALE_ID='" . $_REQUEST['id'] . "'" );
+
+			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODES
+				WHERE SCALE_ID='" . $_REQUEST['id'] . "'" );
+
+			DBQuery( "DELETE FROM REPORT_CARD_COMMENT_CODE_SCALES
+				WHERE ID='" . $_REQUEST['id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
+	}
 }
 
 //FJ fix SQL bug invalid sort order
@@ -170,7 +183,15 @@ function makeCommentsInput($value,$name)
 		$id = 'new';
 
 	if ( $name=='SCALE_ID')
-		return SelectInput($value,"values[ $id ][ $name ]",'',$comment_scale_select,false);
+	{
+		return SelectInput(
+			$value,
+			'values[' . $id . '][' . $name . ']',
+			'',
+			$comment_scale_select,
+			false
+		);
+	}
 	elseif ( $name=='COMMENT')
 		$extra = 'size=15 maxlength=100';
 	elseif ( $name=='SHORT_NAME')
@@ -180,7 +201,12 @@ function makeCommentsInput($value,$name)
 	else
 		$extra = 'size=5 maxlength=5';
 
-	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
+	return TextInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$extra
+	);
 }
 
 function makeTextInput($value,$name)
@@ -198,5 +224,10 @@ function makeTextInput($value,$name)
 	else
 		$extra = 'size=5 maxlength=5';
 
-	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
+	return TextInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$extra
+	);
 }

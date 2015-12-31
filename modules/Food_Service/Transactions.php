@@ -24,16 +24,12 @@ User('PROFILE')=='student'?'':DrawHeader($header);
 
 if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	require_once 'modules/Food_Service/includes/DeletePromptX.fnc.php';
-//FJ add translation
-	if (DeletePromptX(_('Transaction')))
+	if ( DeletePrompt( _( 'Transaction' ) ) )
 	{
 		require_once 'modules/Food_Service/includes/DeleteTransaction.fnc.php';
 		DeleteTransaction($_REQUEST['id'],$_REQUEST['type']);
 		unset($_REQUEST['modfunc']);
-		unset($_REQUEST['delete_ok']);
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
-		unset($_SESSION['_REQUEST_vars']['delete_ok']);
 	}
 }
 

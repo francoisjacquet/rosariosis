@@ -1,5 +1,4 @@
 <?php
-require_once 'modules/Grades/DeletePromptX.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
@@ -13,14 +12,20 @@ if ( UserStudentID() )
 
 	$tab_id = ($_REQUEST['tab_id']?$_REQUEST['tab_id']:'grades');
 
-	//FJ add translation
-	//FJ fix bug no delete MP
-	//if ( $_REQUEST['modfunc']=='update' && $_REQUEST['removemp'] && $mp_id && DeletePromptX(_('Marking Period'))){
-	if ( $_REQUEST['modfunc']=='update' && $_REQUEST['removemp'] && $_REQUEST['new_sms'] && DeletePromptX(_('Marking Period')))
+	// FJ fix bug no delete MP.
+	if ( $_REQUEST['modfunc'] == 'update'
+		&& $_REQUEST['removemp']
+		&& $_REQUEST['new_sms']
+		&& DeletePrompt( _( 'Marking Period' ) ) )
 	{
 		//DBQuery("DELETE FROM STUDENT_MP_STATS WHERE student_id = $student_id and marking_period_id = $mp_id");
-		DBQuery("DELETE FROM STUDENT_MP_STATS WHERE student_id = $student_id and marking_period_id = ".$_REQUEST['new_sms']);
-		unset($mp_id);
+		DBQuery( "DELETE FROM STUDENT_MP_STATS
+			WHERE student_id='" . $student_id . "
+			AND marking_period_id=" . $_REQUEST['new_sms'] );
+
+		unset( $mp_id );
+
+		$_REQUEST['modfunc'] = false;
 	}
     
 	if ( $_REQUEST['modfunc']=='update' && ! $_REQUEST['removemp'])
@@ -115,14 +120,18 @@ if ( UserStudentID() )
 			}
 
 		}
+
 		unset($_REQUEST['modfunc']); 
 	}
 
 	if ( $_REQUEST['modfunc']=='remove')
 	{
-		if (DeletePromptX(_('Student Grade')))
+		if ( DeletePrompt( _( 'Student Grade' ) ) )
 		{
-			DBQuery("DELETE FROM student_report_card_grades WHERE ID='".$_REQUEST['id']."'");
+			DBQuery( "DELETE FROM student_report_card_grades
+				WHERE ID='" . $_REQUEST['id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
 	}
 

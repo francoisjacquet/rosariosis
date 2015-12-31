@@ -1,6 +1,6 @@
 <?php
-include 'modules/Grades/DeletePromptX.fnc.php';
 //echo '<pre>'; var_dump($_REQUEST); echo '</pre>';
+
 DrawHeader(ProgramTitle());
 
 if ( $_REQUEST['modfunc']=='update')
@@ -71,18 +71,27 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
 	if ( $_REQUEST['tab_id']!='new')
 	{
-//FJ add translation
-		if (DeletePromptX(_('Report Card Grade')))
+		if ( DeletePrompt( _( 'Report Card Grade' ) ) )
 		{
-			DBQuery("DELETE FROM REPORT_CARD_GRADES WHERE ID='".$_REQUEST['id']."'");
+			DBQuery( "DELETE FROM REPORT_CARD_GRADES
+				WHERE ID='" . $_REQUEST['id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
 	}
 	else
-		if (DeletePromptX(_('Report Card Grading Scale')))
+	{
+		if ( DeletePrompt( _( 'Report Card Grading Scale' ) ) )
 		{
-			DBQuery("DELETE FROM REPORT_CARD_GRADES WHERE GRADE_SCALE_ID='".$_REQUEST['id']."'");
-			DBQuery("DELETE FROM REPORT_CARD_GRADE_SCALES WHERE ID='".$_REQUEST['id']."'");
+			DBQuery( "DELETE FROM REPORT_CARD_GRADES
+				WHERE GRADE_SCALE_ID='" . $_REQUEST['id'] . "'" );
+
+			DBQuery( "DELETE FROM REPORT_CARD_GRADE_SCALES
+				WHERE ID='" . $_REQUEST['id'] . "'" );
+
+			$_REQUEST['modfunc'] = false;
 		}
+	}
 }
 
 //FJ fix SQL bug invalid numeric data
@@ -195,7 +204,15 @@ function makeGradesInput($value,$name)
 		$id = 'new';
 
 	if ( $name=='GRADE_SCALE_ID')
-		return SelectInput($value,"values[ $id ][ $name ]",'',$grade_scale_select,false);
+	{
+		return SelectInput(
+			$value,
+			'values[' . $id . '][' . $name . ']',
+			'',
+			$grade_scale_select,
+			false
+		);
+	}
 	elseif ( $name=='COMMENT')
 		$extra = 'size=15 maxlength=100';
 //FJ Honor Roll by Subject
@@ -208,7 +225,12 @@ function makeGradesInput($value,$name)
 	else
 		$extra = 'size=5 maxlength=5';
 
-	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
+	return TextInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$extra
+	);
 }
 
 function makeTextInput($value,$name)
@@ -228,5 +250,10 @@ function makeTextInput($value,$name)
 	else
 		$extra = 'size=5 maxlength=5';
 
-	return TextInput($value,"values[ $id ][ $name ]",'',$extra);
+	return TextInput(
+		$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$extra
+	);
 }

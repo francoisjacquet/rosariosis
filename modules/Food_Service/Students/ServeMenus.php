@@ -9,9 +9,12 @@ if ( $_REQUEST['modfunc']=='submit')
 {
 	if ( $_REQUEST['submit']['cancel'])
 	{
-//FJ add translation
-		if (DeletePromptX(_('Sale'),_('Cancel')))
-			unset($_SESSION['FSA_sale']);
+		if ( DeletePrompt( _( 'Sale' ), _( 'Cancel' ) ) )
+		{
+			unset( $_SESSION['FSA_sale'] );
+
+			$_REQUEST['modfunc'] = false;
+		}
 	}
 	elseif ( $_REQUEST['submit']['save'])
 	{

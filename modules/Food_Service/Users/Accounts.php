@@ -8,9 +8,13 @@ if ( $_REQUEST['modfunc']=='update')
     {
         if ( $_REQUEST['submit']['delete'])
         {
-//FJ add translation
-            if (DeletePromptX(_('User Account')))
-                DBQuery('DELETE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID='.UserStaffID());
+			if ( DeletePrompt( _( 'User Account' ) ) )
+			{
+				DBQuery( "DELETE FROM FOOD_SERVICE_STAFF_ACCOUNTS
+					WHERE STAFF_ID='" . UserStaffID() . "'" );
+
+				$_REQUEST['modfunc'] = false;
+			}
             //unset($_REQUEST['submit']);
         }
         else
@@ -28,7 +32,7 @@ if ( $_REQUEST['modfunc']=='update')
                     }
                     else
                     {
-                        $RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE']))."'");
+                        $RET = DBGet(DBQuery("SELECT ACCOUNT_ID FROM FOOD_SERVICE_STUDENT_ACCOUNTS WHERE BARCODE='".trim($_REQUEST['food_service']['BARCODE'])."'"));
                         if ( $RET)
                         {
                             $student_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa WHERE s.STUDENT_ID=fssa.STUDENT_ID AND fssa.ACCOUNT_ID='".$RET[1]['ACCOUNT_ID']."'"));
@@ -37,7 +41,9 @@ if ( $_REQUEST['modfunc']=='update')
                         }
                     }
                 }
-                if ( ! $RET || PromptX($title='Confirm',$question,$message))
+ 
+                if ( ! $RET
+                    || Prompt( 'Confirm', $question, $message ) )
                 {
                     $sql = 'UPDATE FOOD_SERVICE_STAFF_ACCOUNTS SET ';
                     foreach ( (array) $_REQUEST['food_service'] as $column_name => $value)
@@ -66,7 +72,11 @@ if ( $_REQUEST['modfunc']=='update')
 
 if ( $_REQUEST['modfunc']=='create')
 {
-	if (UserStaffID() && AllowEdit())
+	if ( UserStaffID()
+		&& AllowEdit()
+		&& ! DBGet( DBQuery( "SELECT 1
+			FROM FOOD_SERVICE_STAFF_ACCOUNTS
+			WHERE STAFF_ID='" . UserStaffID() . "'" ) ) )
 	{
         $fields = 'STAFF_ID,BALANCE,TRANSACTION_ID,';
         $values = "'".UserStaffID()."','0.00','0',";
