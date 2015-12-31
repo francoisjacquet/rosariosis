@@ -40,7 +40,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 								if (DeletePrompt(_('Students\' Absences and Grades'), 'Delete', false))
 								{
 									//if user clicked OK
-									if ( $_REQUEST['delete_ok'])
+									if ( ! isset( $_REQUEST['delete_cancel'] ) )
 									{
 										DBQuery("DELETE FROM GRADEBOOK_GRADES WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
 										DBQuery("DELETE FROM STUDENT_REPORT_CARD_GRADES WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");

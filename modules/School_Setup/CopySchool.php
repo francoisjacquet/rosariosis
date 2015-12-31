@@ -74,7 +74,6 @@ if ( $go
 	echo '</form>';
 
 	unset( $_SESSION['_REQUEST_vars']['tables'] );
-	unset( $_SESSION['_REQUEST_vars']['delete_ok'] );
 
 	//set new current school
 	$_SESSION['UserSchool'] = $id;

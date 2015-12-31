@@ -26,8 +26,12 @@ if ( ( isset( $_POST['values'] )
 
 if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 {
-	if ( ! $_REQUEST['delete_ok'] && ! $_REQUEST['delete_cancel'])
+	if ( ! isset( $_REQUEST['delete_ok'] )
+		&& ! isset( $_REQUEST['delete_cancel'] ) )
+	{
 		echo '</form>';
+	}
+
 	if (DeletePrompt($_REQUEST['title']))
 	{
 		DBQuery("DELETE FROM ".$_REQUEST['table']." WHERE ID='".$_REQUEST['id']."'");

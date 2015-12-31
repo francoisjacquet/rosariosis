@@ -46,7 +46,6 @@ if ( $go)
     DBQuery("SELECT set_class_rank_mp('".$_REQUEST['marking_period_id']."')");
 //FJ remove STUDENT_GPA_CALCULATED table
 	//DBQuery("UPDATE STUDENT_GPA_CALCULATED SET CLASS_RANK='".$rank."' WHERE STUDENT_ID='".$student['STUDENT_ID']."' AND MARKING_PERIOD_ID='".$_REQUEST['marking_period_id']."'");
-	unset($_REQUEST['delete_ok']);
 
 	//FJ ending message
 	echo '<script>document.getElementById("statusDIV").innerHTML='.json_encode(button('check', '', '', 'bigger') . ' '.sprintf(_('GPA and class rank for %s has been calculated.'),GetMP($_REQUEST['marking_period_id']))).';';

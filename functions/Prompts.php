@@ -7,30 +7,34 @@
  *
  * @example if ( DeletePrompt( _( 'Title' ) ) ) DBQuery( "DELETE FROM BOK WHERE id='" . $_REQUEST['benchmark_id'] . "'" );
  *
- * @param  string  $title                    Prompt title
- * @param  string  $action                   Prompt action (optional)
- * @param  boolean $remove_modfunc_on_cancel Remove &modufnc=XXX part of the cancel button URL (optional)
+ * @param  string  $title                    Prompt title.
+ * @param  string  $action                   Prompt action (optional). Defaults to 'Delete'.
+ * @param  boolean $remove_modfunc_on_cancel Remove &modufnc=XXX part of the cancel button URL (optional).
  *
  * @return boolean true if user clicks OK or Cancel + modfunc, else false
  */
-function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel=true )
+function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = true )
 {
-	// display prompt
-	if ( ( !isset( $_REQUEST['delete_ok'] )
+	// Display prompt.
+	if ( ( ! isset( $_REQUEST['delete_ok'] )
 			|| empty( $_REQUEST['delete_ok'] ) )
-		&&  ( !isset( $_REQUEST['delete_cancel'] )
+		&&  ( ! isset( $_REQUEST['delete_cancel'] )
 			|| empty( $_REQUEST['delete_cancel'] ) ) )
 	{
-		// set default action text
+		// Set default action text.
 		if ( $action === 'Delete' )
+		{
 			$action = _( 'Delete' );
+		}
 
 		echo '<br />';
 
 		$PHP_tmp_SELF = PreparePHP_SELF( $_REQUEST );
 
 		if ( $remove_modfunc_on_cancel )
+		{
 			$remove = array( 'modfunc' );
+		}
 		else
 			$remove = array();
 
@@ -49,9 +53,18 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel=tru
 
 		return false;
 	}
-	// if user clicked OK or Cancel + modfunc
+	// If user clicked OK or Cancel + modfunc.
 	else
+	{
+		if ( isset( $_REQUEST['delete_ok'] ) )
+		{
+			$_REQUEST['delete_ok'] = false;
+
+			$_SESSION['_REQUEST_vars']['delete_ok'] = false;
+		}
+
 		return true;
+	}
 }
 
 /**
@@ -62,21 +75,23 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel=tru
  *
  * @example if ( Prompt( _( 'Confirm' ), _( 'Do you want to dance?' ), $message ) )
  *
- * @param  string  $title    Prompt title (optional)
- * @param  string  $question Prompt question (optional)
- * @param  string  $message  Prompt message (optional)
+ * @param  string  $title    Prompt title (optional). Defaults to 'Confirm'.
+ * @param  string  $question Prompt question (optional). Defaults to ''.
+ * @param  string  $message  Prompt message (optional). Defaults to ''.
  *
  * @return boolean true if user clicks OK, else false
  */
 function Prompt( $title = 'Confirm', $question = '', $message = '' )
 {
-	// display prompt
-	if ( !isset( $_REQUEST['delete_ok'] )
+	// Display prompt.
+	if ( ! isset( $_REQUEST['delete_ok'] )
 		|| empty( $_REQUEST['delete_ok'] ) )
 	{
-		// set default title
+		// Set default title.
 		if ( $title === 'Confirm' )
+		{
 			$title = _( 'Confirm' );
+		}
 
 		echo '<br />';
 
@@ -97,9 +112,15 @@ function Prompt( $title = 'Confirm', $question = '', $message = '' )
 
 		return false;
 	}
-	// if user clicked OK
+	// If user clicked OK.
 	else
+	{
+		$_REQUEST['delete_ok'] = false;
+
+		$_SESSION['_REQUEST_vars']['delete_ok'] = false;
+
 		return true;
+	}
 }
 
 
@@ -110,7 +131,7 @@ function Prompt( $title = 'Confirm', $question = '', $message = '' )
  * in a script opened in a new window (ie. PDF printing)
  * BackPrompt will alert the message and close the window
  *
- * @param  string $message Alert box message
+ * @param  string $message Alert box message.
  *
  * @return string JS Alert box & close window, then exits
  */
