@@ -108,7 +108,8 @@ if ( $_REQUEST['period_id'])
 						AND ap.PERIOD_ID IN (".$period_ids_list.") 
 						AND ap.STUDENT_ID=ssm.STUDENT_ID
 						AND ap.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS ABS_".$code['ID'];
-			$extra['columns_after']["ABS_$code[ID]"] = $code['TITLE'];
+
+			$extra['columns_after'][ 'ABS_' . $code['ID'] ] = $code['TITLE'];
 		}
 	}
 }

@@ -231,7 +231,14 @@ function _makeTextInput($value,$name)
 	if ( $name=='TITLE' && $id != 'new')
 		$extra = 'required';
 
-	return TextInput($name=='TITLE' && $THIS_RET['EXPIRED']?array($value,'<span style="color:red">'.$value.'</span>'):$value,"values[ $id ][ $name ]",'',$extra);
+	return TextInput(
+		$name == 'TITLE' && $THIS_RET['EXPIRED'] ?
+			array( $value, '<span style="color:red">' . $value . '</span>' ) :
+			$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$extra
+	);
 }
 
 function _makeOptionsInput($value,$name)
@@ -254,7 +261,26 @@ function _makeOptionsInput($value,$name)
 	
 	$type_options = array('multiple_radio' => _('Select One from Options'),'multiple' => _('Select Multiple from Options'));
 	
-	return '<tr'.($portal_poll_id == 'new' ? ' id="newOption_0"' : '').'><td>'.TextInput($THIS_RET['QUESTION'],"values[ $portal_poll_id ][ $id ][QUESTION]",'','maxlength=255 size=20').'</td><td>'.TextareaInput($value,"values[ $portal_poll_id ][ $id ][ $name ]",'','rows=3 cols=20').($portal_poll_id == 'new' ? '<br />'._('* one per line') : '').'</td><td>'.SelectInput($THIS_RET['TYPE'],"values[ $portal_poll_id ][ $id ][TYPE]",'',$type_options,false).'</td></tr>';
+	return '<tr'.($portal_poll_id == 'new' ? ' id="newOption_0"' : '').'><td>' .
+		TextInput(
+			$THIS_RET['QUESTION'],
+			'values[' . $portal_poll_id . '][' . $id . '][QUESTION]',
+			'',
+			'maxlength=255 size=20'
+		) . '</td><td>' .
+		TextareaInput(
+			$value,
+			'values[' . $portal_poll_id . '][' . $id . '][' . $name . ']',
+			'',
+			'rows=3 cols=20'
+		) . ( $portal_poll_id == 'new' ? '<br />' . _( '* one per line' ) : '') . '</td><td>' .
+		SelectInput(
+			$THIS_RET['TYPE'],
+			'values[' . $portal_poll_id . '][' . $id . '][TYPE]',
+			'',
+			$type_options,
+			false
+		) . '</td></tr>';
 }
 
 function _makeOptionsInputs($value,$name)

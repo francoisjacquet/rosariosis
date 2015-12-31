@@ -239,7 +239,14 @@ function _makeTextInput($value,$name)
 	if ( $name=='TITLE' && $id != 'new')
 		$extra = 'required';
 
-	return TextInput($name=='TITLE' && $THIS_RET['EXPIRED']?array($value,'<span style="color:red">'.$value.'</span>'):$value,"values[ $id ][ $name ]",'',$extra);
+	return TextInput(
+		$name == 'TITLE' && $THIS_RET['EXPIRED'] ?
+			array( $value, '<span style="color:red">' . $value . '</span>' ) :
+			$value,
+		'values[' . $id . '][' . $name . ']',
+		'',
+		$extra
+	);
 }
 
 function _makeContentInput($value,$name)

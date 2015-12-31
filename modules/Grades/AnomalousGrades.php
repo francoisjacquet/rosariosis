@@ -120,7 +120,18 @@ if ( $_REQUEST['include_inactive'])
 $modname = str_replace('AnomalousGrades','Grades',$_REQUEST['modname']);
 if (AllowUse($modname))
 {
-	$link += array('TITLE' => array('link'=>"Modules.php?modname=$modname&include_inactive=$_REQUEST[include_inactive]",'variables' => array('type_id' => 'ASSIGNMENT_TYPE_ID','assignment_id' => 'ASSIGNMENT_ID','student_id' => 'STUDENT_ID')));
+	$link += array(
+		'TITLE' => array(
+			'link' => 'Modules.php?modname=' . $modname .
+				'&include_inactive=' . $_REQUEST['include_inactive'],
+			'variables' => array(
+				'type_id' => 'ASSIGNMENT_TYPE_ID',
+				'assignment_id' => 'ASSIGNMENT_ID',
+				'student_id' => 'STUDENT_ID',
+			),
+		),
+	);
+
 	if ( $_REQUEST['include_all_courses']=='Y')
 		$link['TITLE']['variables']['period'] = 'COURSE_PERIOD_ID';
 }

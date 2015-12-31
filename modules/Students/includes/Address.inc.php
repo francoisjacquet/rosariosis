@@ -989,18 +989,31 @@ if (empty($_REQUEST['modfunc']))
 function _makePeopleInput($value,$column,$title='')
 {
 	if ( $column=='LAST_NAME' || $column=='FIRST_NAME')
+	{
 		$options = 'required';
+	}
+
 	if ( $_REQUEST['person_id']=='new')
+	{
 		$div = false;
+	}
 	else
 		$div = true;
 
 	if ( $column=='STUDENT_RELATION')
+	{
 		$table = 'STUDENTS_JOIN_PEOPLE';
+	}
 	else
 		$table = 'PEOPLE';
 
-	return TextInput($value,"values[ $table ][ $column ]",$title,$options,false);
+	return TextInput(
+		$value,
+		'values[' . $table . '][' . $column . ']',
+		$title,
+		$options,
+		false
+	);
 }
 
 function _makeAutoSelect($column,$table,$values='',$options=array())
@@ -1045,9 +1058,26 @@ function _makeAutoSelectInputX($value,$column,$table,$title,$select,$id='',$div=
 		$options = 'maxlength=100';
 
 	if ( $value!='---' && count($select)>1)
-		return SelectInput($value,"values[ $table ]".($id?"[ $id ]":'')."[ $column ]",$title,$select,_('N/A'),'',$div);
+	{
+		return SelectInput(
+			$value,
+			'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']',
+			$title,
+			$select,
+			'N/A',
+			'',
+			$div
+		);
+	}
 	else
-//FJ new option
-//		return TextInput($value=='---'?array('---','<span style="color:red">---</span>'):$value,"values[ $table ]".($id?"[ $id ]":'')."[ $column ]",$title,$options,$div);
-		return TextInput($value=='---'?array('---','<span style="color:red">-'. _('Edit') .'-</span>'):$value,"values[ $table ]".($id?"[ $id ]":'')."[ $column ]",$title,$options,$div);
+	{
+		// FJ new option.
+		return TextInput(
+			$value == '---' ? array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) : $value,
+			'values[' . $table . ']' . ( $id ? '[' . $id . ']' : '' ) . '[' . $column . ']',
+			$title,
+			$options,
+			$div
+		);
+	}
 }

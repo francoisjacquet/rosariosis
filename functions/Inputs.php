@@ -163,6 +163,9 @@ function MLTextInput( $value, $name, $title = '', $extra = '', $div = true )
 	global $RosarioLocales,
 		$locale;
 
+	// Mab - support array style $option values.
+	$display_val = is_array( $value ) ? $value[1] : $value;
+
 	$value = is_array( $value ) ? $value[0] : $value;
 
 	if ( count( $RosarioLocales ) < 2 )
@@ -171,9 +174,6 @@ function MLTextInput( $value, $name, $title = '', $extra = '', $div = true )
 	}
 
 	$id = GetInputID( $name );
-
-	// Mab - support array style $option values.
-	$display_val = is_array( $value ) ? $value[1] : $value;
 
 	if ( AllowEdit()
 		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
@@ -384,7 +384,7 @@ function MarkDownInputPreview( $input_id )
 /**
  * Checkbox Input
  *
- * @example CheckboxInput( $value, "values[ $id ][ $name ]", '', $value, $id == 'new', button( 'check' ), button( 'x' ) );
+ * @example CheckboxInput( $value, 'values[' . $id . '][' . $name . ']', '', $value, $id == 'new', button( 'check' ), button( 'x' ) );
  *
  * @uses GetInputID() to generate ID from name
  * @uses InputDivOnclick()
@@ -691,7 +691,7 @@ function MLSelectInput( $value, $name, $title = '', $options, $allow_na = 'N/A',
 /**
  * Radio Input
  *
- * @example RadioInput( $value, "values[" . $id . "][COLOR]", '', $color_options );
+ * @example RadioInput( $value, 'values[' . $id . '][COLOR]', '', $color_options );
  *
  * @uses GetInputID() to generate ID from name
  * @uses FormatInputTitle() to format title
@@ -718,7 +718,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 
 	// mab - append current val to select list if not in list
 	if ( $value != ''
-		&& ( !is_array( $options )
+		&& ( ! is_array( $options )
 			|| !array_key_exists( $value, $options ) ) )
 	{
 		$options[ $value ] = array( $value, '<span style="color:red">' . $value . '</span>' );
@@ -796,7 +796,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 /**
  * Color Picker Input
  *
- * @example ColorInput( $value, "values[ $id ][ $column ]", '', 'hidden', 'data-position="bottom right"' );
+ * @example ColorInput( $value, 'values[' . $id . '][' . $column . ']', '', 'hidden', 'data-position="bottom right"' );
  *
  * @todo Display bug when inside LO (popping out of overflow hidden / auto)
  *
@@ -964,9 +964,11 @@ function CheckBoxOnclick( $name, $title = '' )
 function GetInputID( $name )
 {
 	if ( empty( $name ) )
+	{
 		return $name;
+	}
 
-	return str_replace( array( '[', ']', '-' ), '', $name );
+	return str_replace( array( '[', ']', '-', ' ' ), '', $name );
 }
 
 
