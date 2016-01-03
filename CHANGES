@@ -1,5 +1,10 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.26
+-----------------
+- Fix SQL errors when Creating User Food Service account / barcode
+- Add Danish & Malaysian locale & flags files
+
 Changes in 2.8.25
 -----------------
 - Fix JS error related to jqPlot loading: wrap JS code inside 500ms timeout in *Breakdown.php
