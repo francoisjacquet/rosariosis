@@ -186,14 +186,12 @@ function DeleteDBFieldCategory( $table, $id )
 /**
  * Get Field or Field Category Form
  *
- * @example echo GetFieldsForm( 'STUDENT', $title, $RET, $categories_RET );
+ * @example echo GetFieldsForm( 'STUDENT', $title, $RET, $extra_fields );
  *
  * @example echo GetFieldsForm(
  *              'SCHOOL',
  *              $title,
  *              $RET,
- *              $_REQUEST['id'],
- *              null,
  *              null,
  *              array( 'text' => _( 'Text' ), 'numeric' => _( 'Number' ), 'date' => _( 'Date' ), 'textarea' => _( 'Long Text' ) )
  *          );
@@ -256,7 +254,9 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 		&& ( $id
 			|| ( $category_id
 				&& ( $table !== 'STUDENT'
-					|| $category_id > 4 ) ) ) ) // Don't Delete first 4 Student Fields Categories.
+					|| $category_id > 4 ) // Don't Delete first 4 Student Fields Categories.
+				&& ( $table !== 'STAFF'
+					|| $category_id > 2 ) ) ) ) // Don't Delete first 2 User Fields Categories.
 	{
 		$delete_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 			'&modfunc=delete&category_id=' . $category_id .
@@ -322,6 +322,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 			}
 		}
 
+		// Data Type field.
 		if ( ! $type_options )
 		{
 			$header .= '<td>' . NoInput(
@@ -364,6 +365,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 
 		$header .= '</tr><tr class="st">';
 
+		// Select Options TextArea field.
 		if ( in_array( $RET['TYPE'], array( 'autos', 'edits', 'select', 'codeds', 'multiple', 'exports' ) )
 			|| ( $new
 				&& array_intersect(
@@ -384,6 +386,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 			$header .= '</tr><tr class="st">';
 		}
 
+		// Default Selection field.
 		$header .= '<td>' . TextInput(
 			$RET['DEFAULT_SELECTION'],
 			'tables[' . $id . '][DEFAULT_SELECTION]',
@@ -392,6 +395,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 			_( 'for checkboxes: Y' ) . '</i></div>'
 		) . '</td>';
 
+		// Required field.
 		$header .= '<td>' . CheckboxInput(
 			$RET['REQUIRED'],
 			'tables[' . $id . '][REQUIRED]',
@@ -400,6 +404,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 			$new
 		) . '</td>';
 
+		// Sort Order field.
 		$header .= '<td>' . TextInput(
 			$RET['SORT_ORDER'],
 			'tables[' . $id . '][SORT_ORDER]',
@@ -412,13 +417,14 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
 	// Fields Category Form.
 	else
 	{
-		// FJ title required.
+		// Title field.
 		$header .= '<td>' . MLTextInput(
 			$RET['TITLE'],
 			'tables[' . $category_id . '][TITLE]',
 			( ! $RET['TITLE'] ? '<span class="legend-red">' : '') . _( 'Title' ) . ( ! $RET['TITLE'] ? '</span>' : '' )
 		) . '</td>';
 
+		// Sort Order field.
 		$header .= '<td>' . TextInput(
 			$RET['SORT_ORDER'],
 			'tables[' . $category_id . '][SORT_ORDER]',
@@ -481,6 +487,12 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
  */
 function FieldsMenuOutput( $RET, $id, $category_id = '0' )
 {
+	if ( ! $RET
+		|| empty( $id ) )
+	{
+		return;
+	}
+
 	if ( $RET
 		&& $id
 		&& $id !== 'new' )
