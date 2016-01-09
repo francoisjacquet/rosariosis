@@ -4,6 +4,7 @@ Changes in 2.8.26
 -----------------
 - Fix SQL errors when Creating User Food Service account / barcode
 - Add Danish & Malaysian locale & flags files
+- Allow negative amounts in Student Billing & Accounting modules
 
 Changes in 2.8.25
 -----------------
