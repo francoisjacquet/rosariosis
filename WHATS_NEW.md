@@ -1,4 +1,5 @@
-# WHATS_NEW
+# WHAT'S NEW
+
 ## RosarioSIS Student Information System
 
 New in 2.9

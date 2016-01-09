@@ -1,8 +1,9 @@
 # INSTALLATION DIRECTIONS
+
 ## RosarioSIS Student Information System
 
-Version 2.8.11
---------------
+Version 2.9-alpha
+-----------------
 
 NOTE: Before Installing RosarioSIS, you must read and agree to the included
 license.

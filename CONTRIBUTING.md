@@ -1,4 +1,6 @@
-# To read before creating a new Issue
+# CONTRIBUTING
+
+## New Issue
 
 Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues/) related to RosarioSIS, please observe the following recommandations:
 
@@ -8,22 +10,22 @@ Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues
 
 3. Provide **steps to reproduce** the problem.
 
-4. Attach a **screenshot** of the problem. [Paste clipboard image (Chrome only)](https://github.com/tiimgreen/github-cheat-sheet#pasting-clipboard-image-to-comments).
+4. Attach a **screenshot**.
 
 5. RosarioSIS errors, bugs (PHP, SQL, JS errors) & design or logic errors are welcome.
 
-6. **Installation problems**: RosarioSIS has been succesfully installed on various environment; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#L10). For the same reasons, installation problems will likely not be solved here.
+6. **Installation problems**: RosarioSIS has been succesfully installed on various environments; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#L10). For the same reasons, installation problems will likely not be solved here.
 
 7. **RosarioSIS use**: the Handbooks, the inline Help & the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki) contain useful resources to help you get the most out of RosarioSIS.
 
 8. **Email support**: to get professional help about installation problems, or RosarioSIS use, please head to https://www.rosariosis.org/services/
 
 
-# Contributing to RosarioSIS
+## Contributing to RosarioSIS
 
 Please head to the offical [Contribute page](https://www.rosariosis.org/contribute) to learn about how you can contribute to the project.
 
-## Coding standards
+### Coding standards
 
 1. [Wordpress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/)
 
@@ -33,8 +35,8 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 
 4. Quality Assurance: please use code linters & other [QA tools](http://phpqatools.org/)
 
-5. Testing: Activate debug mode; for emails, please use [MailCatcher](http://mailcatcher.me/)
+5. Testing: Activate [debug mode](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#L56); for emails, you can use [MailCatcher](http://mailcatcher.me/)
 
-## Example Module
+### Example Module
 
 Freely study and reuse the [Example module](https://github.com/francoisjacquet/rosariosis-module-example)
