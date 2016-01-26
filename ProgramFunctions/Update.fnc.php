@@ -77,7 +77,7 @@ function _update29alpha()
 	/**
 	 * 1. Add VERSION to CONFIG table.
 	 */
-	$version_added = DBGet( DBQuery( "SELECT FROM CONFIG WHERE = 'VERSION'" ) );
+	$version_added = DBGet( DBQuery( "SELECT FROM CONFIG WHERE TITLE='VERSION'" ) );
 
 	if ( ! $version_added )
 	{
