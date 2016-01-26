@@ -1,4 +1,10 @@
 <?php
+/**
+ * Prompt functions
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 // TODO Bug Print after Delete OR Delete OK
 /**
@@ -66,6 +72,7 @@ function DeletePrompt( $title, $action = 'Delete', $remove_modfunc_on_cancel = t
 		return true;
 	}
 }
+
 
 /**
  * Prompt question to user
@@ -139,7 +146,7 @@ function BackPrompt( $message )
 {
 	?>
 	<script>
-		alert(<?php echo json_encode( $message ); ?>);
+		alert(<?php echo json_encode( (string) $message ); ?>);
 		window.close();
 	</script>
 

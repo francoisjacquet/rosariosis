@@ -1,4 +1,10 @@
 <?php
+/**
+ * Tabs functions
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
  * Wrap Tabs

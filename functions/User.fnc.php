@@ -1,4 +1,10 @@
 <?php
+/**
+ * User & Preferences functions
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
  * Get (logged) User info
@@ -7,7 +13,7 @@
  *
  * @global array  $_ROSARIO Sets $_ROSARIO['User']
  *
- * @param  string $item     User info item; see STAFF table fields for Admin/Parent/Teacher; STUDENT & STUDENT_ENROLLMENT fields for Student
+ * @param  string $item     User info item; see STAFF table fields for Admin/Parent/Teacher; STUDENT & STUDENT_ENROLLMENT fields for Student.
  *
  * @return string User info value
  */
@@ -15,16 +21,23 @@ function User( $item )
 {
 	global $_ROSARIO;
 
-	// Set Current School Year if needed
-	if ( !UserSyear() )
-		$_SESSION['UserSyear'] = Config( 'SYEAR' );
+	if ( ! $item )
+	{
+		return '';
+	}
 
-	// Get User Info or Update it if Syear changed
-	if ( !isset( $_ROSARIO['User'] )
+	// Set Current School Year if needed.
+	if ( ! UserSyear() )
+	{
+		$_SESSION['UserSyear'] = Config( 'SYEAR' );
+	}
+
+	// Get User Info or Update it if Syear changed.
+	if ( ! isset( $_ROSARIO['User'] )
 		|| UserSyear() !== $_ROSARIO['User'][1]['SYEAR'] )
 	{
-		// Get User Info
-		if ( !empty( $_SESSION['STAFF_ID'] ) )
+		// Get User Info.
+		if ( ! empty( $_SESSION['STAFF_ID'] ) )
 		{
 			$sql = "SELECT STAFF_ID,USERNAME,FIRST_NAME||' '||LAST_NAME AS NAME,
 				PROFILE,PROFILE_ID,SCHOOLS,CURRENT_SCHOOL_ID,EMAIL,SYEAR,LAST_LOGIN
@@ -37,8 +50,8 @@ function User( $item )
 
 			$_ROSARIO['User'] = DBGet( DBQuery( $sql ) );
 		}
-		// Get Student Info
-		elseif ( !empty( $_SESSION['STUDENT_ID'] ) )
+		// Get Student Info.
+		elseif ( ! empty( $_SESSION['STUDENT_ID'] ) )
 		{
 			$sql = "SELECT '0' AS STAFF_ID,s.USERNAME,s.FIRST_NAME||' '||s.LAST_NAME AS NAME,
 				'student' AS PROFILE,'0' AS PROFILE_ID,','||se.SCHOOL_ID||',' AS SCHOOLS,se.SYEAR,se.SCHOOL_ID
@@ -51,16 +64,20 @@ function User( $item )
 			$_ROSARIO['User'] = DBGet( DBQuery( $sql ) );
 
 			if ( $_ROSARIO['User'][1]['SCHOOL_ID'] !== UserSchool() )
+			{
 				$_SESSION['UserSchool'] = $_ROSARIO['User'][1]['SCHOOL_ID'];
+			}
 		}
-		//FJ create account
+		// FJ create account.
 		elseif ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
+		{
 			return false;
+		}
 
-		// Fatal error
+		// Fatal error.
 		else
 		{
-			$error[] = 'User not logged in!'; //should never be displayed, so do not translate
+			$error[] = 'User not logged in!'; // Should never be displayed, so do not translate.
 
 			return ErrorMessage( $error, 'fatal' );
 		}
@@ -77,8 +94,8 @@ function User( $item )
  *
  * @global array  $_ROSARIO Sets $_ROSARIO['Preferences']
  *
- * @param  string $item     Preference item
- * @param  string $program  Preferences|Gradebook (optional)
+ * @param  string $item     Preference item.
+ * @param  string $program  Preferences|Gradebook (optional).
  *
  * @return string          Preference value
  */
@@ -86,7 +103,13 @@ function Preferences( $item, $program = 'Preferences' )
 {
 	global $_ROSARIO;
 
-	// get User Preferences
+	if ( ! $item
+		|| ! $program )
+	{
+		return '';
+	}
+
+	// Get User Preferences.
 	if ( $_SESSION['STAFF_ID']
 		&& !isset( $_ROSARIO['Preferences'][ $program ] ) )
 	{
@@ -96,7 +119,7 @@ function Preferences( $item, $program = 'Preferences' )
 			AND PROGRAM='" . $program . "'" ), array(), array( 'TITLE' ) );
 	}
 
-	//FJ add Default Theme to Configuration
+	// FJ add Default Theme to Configuration.
 	$default_theme = Config( 'THEME' );
 
 	$defaults = array(
@@ -118,18 +141,18 @@ function Preferences( $item, $program = 'Preferences' )
 		'DEFAULT_FAMILIES' => 'N',
 	);
 
-	if ( !isset( $_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'] ) )
+	if ( ! isset( $_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'] ) )
 	{
 		$_ROSARIO['Preferences'][ $program ][ $item ][1]['VALUE'] = $defaults[ $item ];
 	}
 
 	/**
 	 * Force Display student search screen to No
-	 * for Parents & Students
+	 * for Parents & Students.
 	 */
-	if ( !empty( $_SESSION['STAFF_ID'] )
+	if ( ! empty( $_SESSION['STAFF_ID'] )
 		&& User( 'PROFILE' ) === 'parent'
-		|| !empty( $_SESSION['STUDENT_ID'] ) )
+		|| ! empty( $_SESSION['STUDENT_ID'] ) )
 	{
 		$_ROSARIO['Preferences'][ $program ]['SEARCH'][1]['VALUE'] = 'N';
 	}

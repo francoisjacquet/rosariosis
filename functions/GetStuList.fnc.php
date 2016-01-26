@@ -1,6 +1,9 @@
 <?php
 /**
- * Get Student List function(s)
+ * Get Student List functions
+ *
+ * @package RosarioSIS
+ * @subpackage functions
  */
 
 /**
@@ -24,7 +27,7 @@
  * @global $contacts_RET   Student Contacts array
  * @global $view_other_RET Used by makeParents() (see below)
  *
- * @param  array &$extra Extra for SQL request ('SELECT_ONLY', 'FROM', 'WHERE', 'ORDER_BY', 'functions', 'columns_after', 'DATE',...)
+ * @param  array &$extra Extra for SQL request ('SELECT_ONLY', 'FROM', 'WHERE', 'ORDER_BY', 'functions', 'columns_after', 'DATE',...).
  *
  * @return array DBGet return of the built SQL query
  */
@@ -33,7 +36,7 @@ function GetStuList( &$extra = array() )
 	global $contacts_RET,
 		$view_other_RET;
 
-	//FJ fix Advanced Search
+	// FJ fix Advanced Search.
 	if ( ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' )
 		&& isset( $_REQUEST['advanced'] )
@@ -46,9 +49,9 @@ function GetStuList( &$extra = array() )
 
 	$extra['WHERE'] .= CustomFields( 'where', 'student', $extra );
 
-	if ( ( !isset( $extra['SELECT_ONLY'] )
+	if ( ( ! isset( $extra['SELECT_ONLY'] )
 			|| mb_strpos( $extra['SELECT_ONLY'], 'GRADE_ID' ) !== false )
-		&& !isset( $extra['functions']['GRADE_ID'] ) )
+		&& ! isset( $extra['functions']['GRADE_ID'] ) )
 	{
 		$functions = array( 'GRADE_ID' => 'GetGrade' );
 	}
@@ -60,8 +63,8 @@ function GetStuList( &$extra = array() )
 		$functions += $extra['functions'];
 	}
 
-	if ( !isset( $extra['MP'] )
-		&& !isset( $extra['DATE'] ) )
+	if ( ! isset( $extra['MP'] )
+		&& ! isset( $extra['DATE'] ) )
 	{
 		$extra['MP'] = UserMP();
 
@@ -76,7 +79,7 @@ function GetStuList( &$extra = array() )
 		$extra['DATE'] = DBDate();
 	}
 
-	// Expanded View
+	// Expanded View.
 	if ( isset( $_REQUEST['expanded_view'] )
 		&& $_REQUEST['expanded_view'] == 'true' )
 	{
@@ -122,7 +125,7 @@ function GetStuList( &$extra = array() )
 				'ZIPCODE' => _( 'Zipcode' ) )
 				+ $extra['columns_after'];
 
-			// Add Gender + Ethnicity fields if exist
+			// Add Gender + Ethnicity fields if exist.
 			$custom_fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE
 				FROM CUSTOM_FIELDS
 				WHERE ID IN (200000000, 200000001)" ) );
@@ -135,7 +138,7 @@ function GetStuList( &$extra = array() )
 					'CUSTOM_' . $field['ID'] => ParseMLField( $field['TITLE'] ) )
 					+ $extra['columns_after'];
 
-				// if gender and ethnicity are converted to codeds or exports type
+				// If gender and ethnicity are converted to codeds or exports type.
 				if ( $field['TYPE'] == 'codeds'
 					|| $field['TYPE'] == 'exports' )
 				{
@@ -179,8 +182,8 @@ function GetStuList( &$extra = array() )
 
 			$extra2['group'] = array( 'STUDENT_ID', 'PERSON_ID' );
 
-			// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF
-			if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+			// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF.
+			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 			{
 				$expanded_view = $_REQUEST['expanded_view'];
 
@@ -236,7 +239,7 @@ function GetStuList( &$extra = array() )
 
 				$extra2['link'] = array();
 
-				// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF
+				// EXPANDED VIEW AND ADDR BREAKS THIS QUERY ... SO, TURN 'EM OFF.
 				$expanded_view = $_REQUEST['expanded_view'];
 
 				$_REQUEST['expanded_view'] = false;
@@ -338,12 +341,12 @@ function GetStuList( &$extra = array() )
 
 		$extra['SELECT'] .= $select;
 	}
-	// Original View
+	// Original View.
 	else
 	{
 		if ( isset( $extra['student_fields']['view'] ) )
 		{
-			if ( !isset( $extra['columns_after'] ) )
+			if ( ! isset( $extra['columns_after'] ) )
 			{
 				$extra['columns_after'] = array();
 			}
@@ -382,8 +385,8 @@ function GetStuList( &$extra = array() )
 			$extra['SELECT'] .= $select;
 		}
 
-		if ( !empty( $_REQUEST['addr'] )
-			|| !empty( $extra['addr'] ) )
+		if ( ! empty( $_REQUEST['addr'] )
+			|| ! empty( $extra['addr'] ) )
 		{
 			$extra['FROM'] = " LEFT OUTER JOIN STUDENTS_JOIN_ADDRESS sam ON (ssm.STUDENT_ID=sam.STUDENT_ID " . $extra['STUDENTS_JOIN_ADDRESS'] . ")
 			LEFT OUTER JOIN ADDRESS a ON (sam.ADDRESS_ID=a.ADDRESS_ID) " . $extra['FROM'];
@@ -393,26 +396,26 @@ function GetStuList( &$extra = array() )
 	}
 
 	// Get options:
-	// SELECT only
+	// SELECT only.
 	$is_select_only = isset( $extra['SELECT_ONLY'] ) && !empty( $extra['SELECT_ONLY'] );
 
 	$is_include_inactive = isset( $_REQUEST['include_inactive'] ) && $_REQUEST['include_inactive'] === 'Y';
 
-	// Build SELECT
+	// Build SELECT.
 	$sql = 'SELECT ';
 
-	// SELECT only
+	// SELECT only.
 	if ( $is_select_only )
 	{
 		$sql .= $extra['SELECT_ONLY'];
 	}
-	// Normal SELECT
+	// Normal SELECT.
 	else
 	{
-		// Student Full Name
+		// Student Full Name.
 		$sql .= "s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS FULL_NAME,";
 
-		// Student Details
+		// Student Details.
 		$sql .='s.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME,s.STUDENT_ID,ssm.SCHOOL_ID,ssm.GRADE_ID ' . $extra['SELECT'];
 	}
 
@@ -420,24 +423,24 @@ function GetStuList( &$extra = array() )
 	{
 		case 'admin':
 
-			// Get Search All Schools option
+			// Get Search All Schools option.
 			$is_search_all_schools = isset( $_REQUEST['_search_all_schools'] )
 				&& $_REQUEST['_search_all_schools'] == 'Y';
 			
-			// Normal SELECT
+			// Normal SELECT.
 			if ( ! $is_select_only )
 			{
 
-				// Search All Schools
+				// Search All Schools.
 				if ( $is_search_all_schools )
 				{
-					// School Title
-					$sql .= "(SELECT sch.TITLE FROM SCHOOLS sch
+					// School Title.
+					$sql .= ",(SELECT sch.TITLE FROM SCHOOLS sch
 						WHERE ssm.SCHOOL_ID=sch.ID
-						AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE,";
+						AND sch.SYEAR='" . UserSyear() . "') AS SCHOOL_TITLE";
 				}
 
-				// Include Inactive Students
+				// Include Inactive Students.
 				if ( $is_include_inactive )
 				{
 					$active = "'" . DBEscapeString( '<span style="color:green">' . _( 'Active' ) . '</span>' ) . "'";
@@ -460,10 +463,10 @@ function GetStuList( &$extra = array() )
 
 			}
 
-			// FROM
+			// FROM.
 			$sql .= " FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID";
 
-			// Include Inactive Students: enrollment
+			// Include Inactive Students: enrollment.
 			if ( $is_include_inactive )
 			{
 				//$sql .= " AND ssm.ID=(SELECT max(ID) FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=ssm.STUDENT_ID AND SYEAR<='".UserSyear()."')";
@@ -474,7 +477,7 @@ function GetStuList( &$extra = array() )
 					ORDER BY SYEAR DESC,START_DATE DESC
 					LIMIT 1 )";
 			}
-			// Active / Enrolled students
+			// Active / Enrolled students.
 			else
 			{
 				$sql .= " AND ssm.SYEAR='" . UserSyear() . "'
@@ -488,7 +491,7 @@ function GetStuList( &$extra = array() )
 			{
 				$sql .= " AND ssm.SCHOOL_ID='" . UserSchool() . "'";
 			}
-			// Search All Schools
+			// Search All Schools.
 			else
 			{
 				if ( User( 'SCHOOLS' ) )
@@ -505,10 +508,10 @@ function GetStuList( &$extra = array() )
 
 			//$sql = 'SELECT '.$distinct;
 
-			// Normal SELECT
+			// Normal SELECT.
 			if ( ! $is_select_only )
 			{
-				// Include Inactive Students
+				// Include Inactive Students.
 				if ( $is_include_inactive )
 				{
 					$active = "'" . DBEscapeString( '<span style="color:green">' . _( 'Active' ) . '</span>' ) . "'";
@@ -542,10 +545,10 @@ function GetStuList( &$extra = array() )
 				}
 			}
 
-			// FROM
+			// FROM.
 			$sql .= " FROM STUDENTS s JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.SYEAR='" . UserSyear() . "'";
 
-			// Include Inactive Students: scheduled
+			// Include Inactive Students: scheduled.
 			if ( $is_include_inactive )
 			{
 				$sql .= " AND ss.START_DATE=(SELECT START_DATE
@@ -554,7 +557,7 @@ function GetStuList( &$extra = array() )
 					AND COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID
 					ORDER BY START_DATE DESC LIMIT 1)";
 			}
-			// Active / Scheduled Students
+			// Active / Scheduled Students.
 			else
 			{
 				$sql .= " AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( $extra['MPTable'], $extra['MP'] ) . ")
@@ -571,7 +574,7 @@ function GetStuList( &$extra = array() )
 					AND ssm.SYEAR=ss.SYEAR
 					AND ssm.SCHOOL_ID='" . UserSchool() . "'";
 
-			// Include Inactive Students: enrollment
+			// Include Inactive Students: enrollment.
 			if ( $is_include_inactive )
 			{
 				$sql .= " AND ssm.ID=(SELECT ID FROM STUDENT_ENROLLMENT
@@ -579,7 +582,7 @@ function GetStuList( &$extra = array() )
 					AND SYEAR=ssm.SYEAR
 					ORDER BY START_DATE DESC LIMIT 1)";
 			}
-			// Active / Enrolled Students
+			// Active / Enrolled Students.
 			else
 			{
 				$sql .= " AND ('" . $extra['DATE'] . "'>=ssm.START_DATE
@@ -591,7 +594,7 @@ function GetStuList( &$extra = array() )
 		case 'parent':
 		case 'student':
 
-			// FROM
+			// FROM.
 			$sql .= " FROM STUDENTS s JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
 				AND ssm.SYEAR='".UserSyear()."'
 				AND ssm.SCHOOL_ID='".UserSchool()."'
@@ -605,28 +608,28 @@ function GetStuList( &$extra = array() )
 
 		default:
 
-			$error[] = 'Invalid user profile'; //should never be displayed, so do not translate
+			$error[] = 'Invalid user profile'; // Should never be displayed, so do not translate.
 
 			return ErrorMessage( $error, 'fatal' );
 	}
 
-	// Extra FROM
+	// Extra FROM.
 	$sql .= ")" . $extra['FROM'] . " WHERE TRUE";
 
 	//$sql = appendSQL($sql,array('NoSearchTerms' => $extra['NoSearchTerms']));
 
-	// WHERE
+	// WHERE.
 	$sql .= ' ' . $extra['WHERE'] . ' ';
 
-	// GROUP BY
+	// GROUP BY.
 	if ( isset( $extra['GROUP'] ) )
 	{
 		$sql .= ' GROUP BY ' . $extra['GROUP'];
 	}
 
-	// ORDER BY
-	if ( !isset( $extra['ORDER_BY'] )
-		&& !isset( $extra['SELECT_ONLY'] ) )
+	// ORDER BY.
+	if ( ! isset( $extra['ORDER_BY'] )
+		&& ! isset( $extra['SELECT_ONLY'] ) )
 	{
 		$sql .= ' ORDER BY ';
 
@@ -635,7 +638,7 @@ function GetStuList( &$extra = array() )
 			$sql .= '(SELECT SORT_ORDER FROM SCHOOL_GRADELEVELS WHERE ID=ssm.GRADE_ID),';
 		}
 
-		// it would be easier to sort on full_name but postgres sometimes yields strange results
+		// It would be easier to sort on full_name but postgres sometimes yields strange results.
 		$sql .= 's.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME';
 
 		$sql .= $extra['ORDER'];
@@ -645,25 +648,26 @@ function GetStuList( &$extra = array() )
 		$sql .= ' ORDER BY ' . $extra['ORDER_BY'];
 	}
 
-	//FJ bugfix if PDF, dont echo SQL
-	if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) && 0 ) //activate only for debug purpose
+	// FJ bugfix if PDF, dont echo SQL.
+	if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
+		&& ROSARIO_DEBUG ) // Activate only for debug purpose.
 	{
 		echo '<!--' . $sql . '-->';
 	}
 
-	// Execute Query & return
+	// Execute Query & return.
 	return DBGet( DBQuery( $sql ), $functions, $extra['group'] );
 }
 
 
 /**
  * Make Contact Info
- * DBGet() callback
+ * `DBGet()` callback
  *
  * @uses MakeTipMessage()
  *
- * @param  string $student_id Student ID
- * @param  string $column     'CONTACT_INFO'
+ * @param  string $student_id Student ID.
+ * @param  string $column     'CONTACT_INFO'.
  *
  * @return string Contact Info tooltip
  */
@@ -671,7 +675,7 @@ function makeContactInfo( $student_id, $column )
 {
 	global $contacts_RET;
 
-	if ( !function_exists( 'MakeTipMessage' ) )
+	if ( ! function_exists( 'MakeTipMessage' ) )
 	{
 		require_once 'ProgramFunctions/TipMessage.fnc.php';
 	}
@@ -724,8 +728,8 @@ function makeContactInfo( $student_id, $column )
  *
  * @see DBGet() callback
  *
- * @param  string $value  Value
- * @param  string $column Column (optional). Defaults to ''
+ * @param  string $value  Value.
+ * @param  string $column Column (optional). Defaults to ''.
  *
  * @return string Value without .00
  */
@@ -742,8 +746,8 @@ function removeDot00( $value, $column = '' )
  *
  * @see DBGet() callback
  *
- * @param  string $phone  Phone number
- * @param  string $column Column (optional). Defaults to ''
+ * @param  string $phone  Phone number.
+ * @param  string $column Column (optional). Defaults to ''.
  *
  * @return string Formatted phone number
  */
@@ -776,8 +780,8 @@ function makePhone( $phone, $column = '' )
  * @global $view_other_RET checks $view_other_RET['ALL_CONTACTS'][1]['VALUE']
  * @global $_ROSARIO       checks $_ROSARIO['makeParents']
  * 
- * @param  string $student_id Student ID
- * @param  string $column     'PARENTS'
+ * @param  string $student_id Student ID.
+ * @param  string $column     'PARENTS'.
  *
  * @return string Parents link to information popup or empty string if no Parents found
  */
@@ -827,7 +831,7 @@ function makeParents( $student_id, $column )
 
 	foreach ( (array) $people_RET as $person )
 	{
-		//FJ PrintClassLists with all contacts
+		// FJ PrintClassLists with all contacts.
 		if ( $person['CUSTODY'] == 'Y' )
 		{
 			$img = 'gavel';
@@ -875,8 +879,8 @@ function makeParents( $student_id, $column )
  *
  * @global $_ROSARIO sets $_ROSARIO['SearchTerms']
  *
- * @param  string $sql   Students SQL query
- * @param  array  $extra Extra for SQL request (optional). Defaults to empty array
+ * @param  string $sql   Students SQL query.
+ * @param  array  $extra Extra for SQL request (optional). Defaults to empty array.
  *
  * @return string Appended SQL WHERE part
  */
@@ -886,11 +890,11 @@ function appendSQL( $sql, $extra = array() )
 
 	$no_search_terms = isset( $extra['NoSearchTerms'] ) && $extra['NoSearchTerms'];
 
-	// RosarioSIS ID(s)
+	// RosarioSIS ID(s).
 	if ( isset( $_REQUEST['stuid'] )
 		&& ! empty( $_REQUEST['stuid'] ) )
 	{
-		//FJ allow comma separated list of student IDs
+		// FJ allow comma separated list of student IDs.
 		$stuid_array = explode( ',', $_REQUEST['stuid'] );
 
 		$stuids = array_filter( $stuid_array, function( $stuid ){
@@ -912,7 +916,7 @@ function appendSQL( $sql, $extra = array() )
 		}
 	}
 
-	// Last Name (starts with, case insensitive)
+	// Last Name (starts with, case insensitive).
 	if ( isset( $_REQUEST['last'] )
 		&& $_REQUEST['last'] !== '' )
 	{
@@ -925,7 +929,7 @@ function appendSQL( $sql, $extra = array() )
 		}
 	}
 
-	// First Name (starts with, case insensitive)
+	// First Name (starts with, case insensitive).
 	if ( isset( $_REQUEST['first'] )
 		&& $_REQUEST['first'] !== '' )
 	{
@@ -938,7 +942,7 @@ function appendSQL( $sql, $extra = array() )
 		}
 	}
 
-	// Grade Level
+	// Grade Level.
 	if ( isset( $_REQUEST['grade'] )
 		&& $_REQUEST['grade'] !== ''
 		&& (string)(int)$_REQUEST['grade'] == $_REQUEST['grade']
@@ -953,7 +957,7 @@ function appendSQL( $sql, $extra = array() )
 		}
 	}
 
-	// (Not) Grade Levels
+	// (Not) Grade Levels.
 	if ( isset( $_REQUEST['grades'] )
 		&& count( $_REQUEST['grades'] ) )
 	{
@@ -987,7 +991,7 @@ function appendSQL( $sql, $extra = array() )
 		$sql .= " AND ssm.GRADE_ID " . ( $is_grades_not ? 'NOT ' : '' ) . " IN (" . $grade_list . ")";
 	}
 
-	// Address (City, State, Zip code) (contains, case insensitive)
+	// Address (City, State, Zip code) (contains, case insensitive).
 	if ( isset( $_REQUEST['addr'] )
 		&& $_REQUEST['addr'] !== '' )
 	{

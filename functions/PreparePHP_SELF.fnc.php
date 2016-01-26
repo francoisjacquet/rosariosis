@@ -1,16 +1,22 @@
 <?php
+/**
+ * Prepare PHP SELF function
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
  * Prepare PHP SELF
- * Generates Modules.php SELF URL with GET parameters
+ * Generates `Modules.php` SELF URL with GET parameters
  *
  * @example PreparePHP_SELF( $_REQUEST, array(), array( 'modfunc' => 'delete' ) );
  *
  * @uses _myURLEncode()
  *
- * @param  array  $tmp_REQUEST REQUEST vars (optional). Defaults to $_REQUEST array
- * @param  array  $remove      Remove indexes from $tmp_REQUEST (optional)
- * @param  array  $add         Add values $tmp_REQUEST (associative array) (optional)
+ * @param  array  $tmp_REQUEST REQUEST vars (optional). Defaults to $_REQUEST array.
+ * @param  array  $remove      Remove indexes from $tmp_REQUEST (optional).
+ * @param  array  $add         Add values $tmp_REQUEST (associative array) (optional).
  *
  * @return string Modules.php SELF URL
  */
@@ -21,19 +27,19 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 		$tmp_REQUEST = $_REQUEST;
 	}
 
-	// Remove Cookie vars
+	// Remove Cookie vars.
 	foreach ( (array) $_COOKIE as $key => $value )
 	{
 		unset( $tmp_REQUEST[ $key ] );
 	}
 
-	// Remove vars in $remove
+	// Remove vars in $remove.
 	foreach ( (array) $remove as $key )
 	{
 		unset( $tmp_REQUEST[ $key ] );
 	}
 
-	// Unescape DB strings
+	// Unescape DB strings.
 	array_rwalk(
 		$tmp_REQUEST,
 		function ( $input )
@@ -42,19 +48,19 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 		}
 	);
 
-	// Add vars in $add
+	// Add vars in $add.
 	foreach ( (array) $add as $key => $value )
 	{
 		$tmp_REQUEST[ $key ] = $value;
 	}
 
 
-	// Add modname param
+	// Add modname param.
 	$PHP_tmp_SELF = 'Modules.php?modname=' . $tmp_REQUEST['modname'];
-	
+
 	unset( $tmp_REQUEST['modname'] );
 
-	// Remove empty values
+	// Remove empty values.
 	$tmp_REQUEST = array_filter(
 		$tmp_REQUEST,
 		function( $value )
@@ -63,7 +69,7 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 		}
 	);
 
-	// Add other params
+	// Add other params.
 	foreach ( (array) $tmp_REQUEST as $key => $value )
 	{
 		if ( is_array( $value ) )
@@ -83,13 +89,17 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 							}
 						}
 						else
+						{
 							$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . '][' . $key2 . ']=' .
 								_myURLEncode( $value2 );
+						}
 					}
 				}
 				else
+				{
 					$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . ']=' .
 						_myURLEncode( $value1 );
+				}
 			}
 		}
 		else
@@ -111,7 +121,7 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
  *
  * @see http://php.net/manual/en/function.urlencode.php#97969
  *
- * @param  string $string String to encode
+ * @param  string $string String to encode.
  *
  * @return string Encoded string
  */
@@ -136,34 +146,34 @@ function _myURLEncode( $string )
 		'%25',
 		'%23',
 		'%5B',
-		'%5D'
+		'%5D',
 	);
 
 	$replacements = array(
 		'!',
 		'*',
 		"'",
-		"(",
-		")",
-		";",
-		":",
-		"@",
-		"&",
-		"=",
-		"+",
-		"$",
-		",",
-		"/",
-		"?",
-		"%",
-		"#",
-		"[",
-		"]"
+		'(',
+		')',
+		';',
+		':',
+		'@',
+		'&',
+		'=',
+		'+',
+		'$',
+		',',
+		'/',
+		'?',
+		'%',
+		'#',
+		'[',
+		']',
 	);
 
 	return str_replace(
 		$entities,
 		$replacements,
-		urlencode( $string )
+		urlencode( (string) $string )
 	);
 }

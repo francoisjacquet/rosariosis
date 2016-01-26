@@ -1,4 +1,10 @@
 <?php
+/**
+ * Staff Widgets function
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
  * Staff Widgets
@@ -10,8 +16,8 @@
  * @global array   $RosarioModules
  * @global array   $extra
  *
- * @param  string  $item           Staff widget name or 'all' Staff widgets
- * @param  array   &$myextra       Search.inc.php extra (HTML, functions...) (optional). Defaults to global $extra
+ * @param  string  $item           Staff widget name or 'all' Staff widgets.
+ * @param  array   $myextra       Search.inc.php extra (HTML, functions...) (optional). Defaults to global $extra.
  *
  * @return boolean true if Staff Widget loaded, false if insufficient rights or already saved widget
  */
@@ -22,21 +28,23 @@ function StaffWidgets( $item, &$myextra = null )
 		$RosarioModules;
 
 	if ( isset( $myextra ) )
+	{
 		$extra =& $myextra;
+	}
 
-	if ( !isset( $_ROSARIO['StaffWidgets'] )
-		|| !is_array( $_ROSARIO['StaffWidgets'] ) )
+	if ( ! isset( $_ROSARIO['StaffWidgets'] )
+		|| ! is_array( $_ROSARIO['StaffWidgets'] ) )
 	{
 		$_ROSARIO['StaffWidgets'] = array();
 	}
 
-	if ( !isset( $extra['functions'] )
-		|| !is_array( $extra['functions'] ) )
+	if ( ! isset( $extra['functions'] )
+		|| ! is_array( $extra['functions'] ) )
 	{
 		$extra['functions'] = array();
 	}
 
-	// if insufficient rights or already saved widget, exit
+	// If insufficient rights or already saved widget, exit.
 	if ( ( User('PROFILE') !== 'admin'
 			&& User( 'PROFILE' ) !== 'teacher' )
 		|| ( isset( $_ROSARIO['StaffWidgets'][ $item ] )
@@ -45,12 +53,12 @@ function StaffWidgets( $item, &$myextra = null )
 		return false;
 	}
 
-	switch ( $item )
+	switch ( (string) $item )
 	{
-		// All Widgets (or almost)
+		// All Widgets (or almost).
 		case 'all':
 
-			//FJ regroup widgets wrap
+			// FJ regroup widgets wrap.
 			$widget_wrap_header = 
 			function( $title )
 			{
@@ -62,7 +70,7 @@ function StaffWidgets( $item, &$myextra = null )
 
 			$widget_wrap_footer = '</table>';
 
-			// Users
+			// Users.
 			if ( $RosarioModules['Users']
 				&& ( ! $_ROSARIO['StaffWidgets']['permissions'] ) )
 			{
@@ -73,7 +81,7 @@ function StaffWidgets( $item, &$myextra = null )
 				$extra['search'] .= $widget_wrap_footer;
 			}
 
-			// Food Service
+			// Food Service.
 			if ( $RosarioModules['Food_Service']
 				&& ( ! $_ROSARIO['StaffWidgets']['fsa_balance']
 					|| ! $_ROSARIO['StaffWidgets']['fsa_status']
@@ -89,7 +97,7 @@ function StaffWidgets( $item, &$myextra = null )
 				$extra['search'] .= $widget_wrap_footer;
 			}
 
-			// Accounting
+			// Accounting.
 			if ( $RosarioModules['Accounting']
 				&& ( ! $_ROSARIO['Widgets']['staff_balance'] )
 				&& AllowUse( 'Accounting/StaffBalances.php' ) )
@@ -103,7 +111,7 @@ function StaffWidgets( $item, &$myextra = null )
 
 		break;
 
-		// User Widgets (configured in My Preferences)
+		// User Widgets (configured in My Preferences).
 		case 'user':
 
 			$widgets_RET = DBGet( DBQuery( "SELECT TITLE
@@ -129,11 +137,13 @@ function StaffWidgets( $item, &$myextra = null )
 
 			$item = 'permissions';
 
-		// Permissions Widget
+		// Permissions Widget.
 		case 'permissions':
 
 			if ( ! $RosarioModules['Users'] )
+			{
 				break;
+			}
 
 			if ( $_REQUEST['permissions'] )
 			{
@@ -164,15 +174,17 @@ function StaffWidgets( $item, &$myextra = null )
 
 			$item = 'fsa_balance';
 
-		// Food Service Balance Widget
+		// Food Service Balance Widget.
 		case 'fsa_balance':
 
 			if ( ! $RosarioModules['Food_Service'] )
+			{
 				break;
+			}
 
 			if ( $_REQUEST['fsa_balance'] != '' )
 			{
-				if ( !mb_strpos( $extra['FROM'], 'fssa' ) )
+				if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 				{
 					$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fssa';
 
@@ -210,11 +222,13 @@ function StaffWidgets( $item, &$myextra = null )
 
 			$item = 'fsa_status';
 
-		// Food Service Status Widget
+		// Food Service Status Widget.
 		case 'fsa_status':
 
 			if ( ! $RosarioModules['Food_Service'] )
+			{
 				break;
+			}
 
 			if ( $_REQUEST['fsa_status'] )
 			{
@@ -255,11 +269,13 @@ function StaffWidgets( $item, &$myextra = null )
 		case 'fsa_barcode':
 
 			if ( ! $RosarioModules['Food_Service'] )
+			{
 				break;
+			}
 
 			if ( $_REQUEST['fsa_barcode'] )
 			{
-				if ( !mb_strpos( $extra['FROM'], 'fssa' ) )
+				if ( ! mb_strpos( $extra['FROM'], 'fssa' ) )
 				{
 					$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fssa';
 
@@ -288,11 +304,13 @@ function StaffWidgets( $item, &$myextra = null )
 
 			$item = 'fsa_exists';
 
-		// Food Service Account Exists Widget
+		// Food Service Account Exists Widget.
 		case 'fsa_exists':
 
 			if ( ! $RosarioModules['Food_Service'] )
+			{
 				break;
+			}
 
 			if ( $_REQUEST['fsa_exists'] )
 			{
@@ -319,12 +337,14 @@ function StaffWidgets( $item, &$myextra = null )
 
 		break;
 
-		// Staff Payroll Balance Widget
+		// Staff Payroll Balance Widget.
 		case 'staff_balance':
 
 			if ( ! $RosarioModules['Accounting']
-				|| !AllowUse( 'Accounting/StaffBalances.php' ) )
+				|| ! AllowUse( 'Accounting/StaffBalances.php' ) )
+			{
 				break;
+			}
 
 			if ( is_numeric( $_REQUEST['balance_low'] )
 				&& is_numeric( $_REQUEST['balance_high'] ) )

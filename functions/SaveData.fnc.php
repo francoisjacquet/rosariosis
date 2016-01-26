@@ -1,21 +1,27 @@
 <?php
+/**
+ * Save Data function
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
  * Save Data
  * INSERT or UPDATE data in Database
  *
  * @example SaveData( array( 'STUDENT_MEDICAL' => "ID='__ID__'", 'fields' => array( 'STUDENT_MEDICAL' => 'ID,STUDENT_ID,' ), 'values' => array( 'STUDENT_MEDICAL' => db_seq_nextval( 'STUDENT_MEDICAL_SEQ' ) . ",'" . UserStudentID() . "'," ) ) );
- * 
+ *
  * @todo use SaveData in EVERY module
  *
- * @param  array $iu_extra    WHERE part of UPDATE & Extra fields for INSERT. Associative array( 'table_name' => "ID='__ID__'", 'fields' => array( 'table_name' => "FIELD1,FIELD2," ), 'values' => array( 'table_name' => "'value1','value2'," ) )
- * @param  array $field_names Proper, translated field names used for errors. Associative array( 'table_name' => $columns ) (optional)
+ * @param  array $iu_extra    WHERE part of UPDATE & Extra fields for INSERT. Associative array( 'table_name' => "ID='__ID__'", 'fields' => array( 'table_name' => "FIELD1,FIELD2," ), 'values' => array( 'table_name' => "'value1','value2'," ) ).
+ * @param  array $field_names Proper, translated field names used for errors. Associative array( 'table_name' => $columns ) (optional).
  *
  * @return void  INSERT or UPDATE data
  */
 function SaveData( $iu_extra, $field_names = array() )
 {
-	// Add eventual Dates to $_REQUEST['values']
+	// Add eventual Dates to $_REQUEST['values'].
 	if ( isset( $_REQUEST['day_values'] )
 		&& isset( $_REQUEST['month_values'] )
 		&& isset( $_REQUEST['year_values'] ) )
@@ -26,24 +32,24 @@ function SaveData( $iu_extra, $field_names = array() )
 			$_REQUEST['year_values']
 		);
 
-		$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );
+		$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], (array) $requested_dates );
 	}
 
-	// For each DB table
+	// For each DB table.
 	foreach ( (array) $_REQUEST['values'] as $table => $values )
 	{
-		// Get DB table columns properties
+		// Get DB table columns properties.
 		$table_properties = db_properties( $table );
 
-		// For each table entry
+		// For each table entry.
 		foreach ( (array) $values as $id => $columns )
 		{
-			// Reset vars
+			// Reset vars.
 			$error = $sql = $ins_fields = $ins_values = array();
 
 			$go = false;
 
-			// For each column
+			// For each column.
 			foreach ( (array) $columns as $column => $value )
 			{
 				if ( isset( $field_names[ $table ][ $column ] ) )
@@ -53,15 +59,15 @@ function SaveData( $iu_extra, $field_names = array() )
 				else
 					$name = sprintf( _( 'The value for %s' ), ucwords( mb_strtolower( str_replace( '_', ' ', $column ) ) ) );
 
-				// COLUMN DOESN'T EXIST
-				if ( !isset( $table_properties[ $column ] ) )
+				// COLUMN DOESN'T EXIST.
+				if ( ! isset( $table_properties[ $column ] ) )
 				{
 					$error[] = sprintf( _( 'There is no column for %s. This value was not saved.' ), $name );
 
 					continue;
 				}
 
-				// VALUE IS TOO LONG
+				// VALUE IS TOO LONG.
 				elseif ( $table_properties[ $column ]['TYPE'] === 'VARCHAR'
 					&& mb_strlen( $value ) > $table_properties[ $column ]['SIZE'] )
 				{
@@ -70,19 +76,19 @@ function SaveData( $iu_extra, $field_names = array() )
 					$error[] = sprintf( _( '%s was too long. It was truncated to fit in the field.' ), $name );
 				}
 
-				// FIELD IS NUMERIC, VALUE CONTAINS NON-NUMERICAL CHARACTERS
+				// FIELD IS NUMERIC, VALUE CONTAINS NON-NUMERICAL CHARACTERS.
 				elseif ( $table_properties[ $column ]['TYPE'] === 'NUMERIC'
-					&& preg_match( '/[^0-9-]/', $value ) )
+					&& preg_match( '/[^0-9-.]/', $value ) )
 				{
-					$value = preg_replace( '/[^0-9]/', '', $value );
+					$value = preg_replace( '/[^0-9-.]/', '', $value );
 
 					$error[] = sprintf( _( '%s, a numerical field, contained non-numerical characters. These characters were removed.' ), $name );
 				}
 
-				// FIELD IS DATE, DATE IS WRONG
+				// FIELD IS DATE, DATE IS WRONG.
 				elseif ( $table_properties[ $column ]['TYPE'] === 'DATE'
 					&& $value
-					&& !VerifyDate( $value ) )
+					&& ! VerifyDate( $value ) )
 				{
 					$error[] = sprintf( _('%s, a date field, was not a valid date. This value could not be saved.' ), $name );
 
@@ -105,11 +111,11 @@ function SaveData( $iu_extra, $field_names = array() )
 				{
 					$sql[ $table ] .= $column . "='" . $value . "',";
 
-					$go = true;					
+					$go = true;
 				}
 			}
 
-			// INSERT new data
+			// INSERT new data.
 			if ( $id === 'new'
 				&& $go )
 			{
@@ -117,17 +123,19 @@ function SaveData( $iu_extra, $field_names = array() )
 					VALUES (' . $iu_extra['values'][ $table ] . mb_substr( $ins_values[ $table ], 0, -1 ) . ')';
 			}
 
-			// UPDATE data
+			// UPDATE data.
 			elseif ( $go )
 			{
 				$sql[ $table ] = 'UPDATE ' . $table .
-					' SET ' . mb_substr( $sql[ $table ], 0, -1 ) . 
+					' SET ' . mb_substr( $sql[ $table ], 0, -1 ) .
 					' WHERE ' . str_replace( '__ID__', $id, $iu_extra[ $table ] );
 			}
 
-			// Display errors if any
+			// Display errors if any.
 			if ( $error )
+			{
 				echo ErrorMessage( $error );
+			}
 
 			if ( $go )
 			{

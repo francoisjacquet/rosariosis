@@ -1,4 +1,10 @@
 <?php
+/**
+ * Search Students or Staff function
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
  * Search Students or Staff
@@ -11,8 +17,8 @@
  *
  * @global $_ROSARIO Used in Search.inc.php
  *
- * @param  string $type  student_id|staff_id|general_info|staff_fields|staff_fields_all|student_fields|student_fields_all
- * @param  array  $extra Search.inc.php extra (HTML, functions...) (optional). Defaults to null
+ * @param  string $type  student_id|staff_id|general_info|staff_fields|staff_fields_all|student_fields|student_fields_all.
+ * @param  array  $extra Search.inc.php extra (HTML, functions...) (optional). Defaults to null.
  *
  * @return void
  */
@@ -20,7 +26,7 @@ function Search( $type, $extra = null )
 {
 	global $_ROSARIO;
 
-	switch ( $type )
+	switch ( (string) $type )
 	{
 		case 'student_id':
 
@@ -34,12 +40,12 @@ function Search( $type, $extra = null )
 			}
 
 			if ( isset( $_REQUEST['student_id'] )
-				&& !empty( $_REQUEST['student_id'] ) )
+				&& ! empty( $_REQUEST['student_id'] ) )
 			{
 				if ( $_REQUEST['student_id'] !== 'new'
 					&& $_REQUEST['student_id'] != UserStudentID() )
 				{
-					if ( !empty( $_REQUEST['school_id'] )
+					if ( ! empty( $_REQUEST['school_id'] )
 						&& $_REQUEST['school_id'] != UserSchool() )
 					{
 						$_SESSION['UserSchool'] = $_REQUEST['school_id'];
@@ -53,13 +59,13 @@ function Search( $type, $extra = null )
 					unset( $_SESSION['student_id'] );
 				}
 			}
-			elseif ( !UserStudentID()
+			elseif ( ! UserStudentID()
 				|| $extra['new'] == true )
 			{
 				if ( UserStudentID() )
 				{
-					//FJ fix bug no student found when student/parent logged in
-					if ( User('PROFILE') !== 'student'
+					// FJ fix bug no student found when student/parent logged in.
+					if ( User( 'PROFILE' ) !== 'student'
 						&& User( 'PROFILE' ) !== 'parent' )
 					{
 						unset( $_SESSION['student_id'] );
@@ -75,8 +81,8 @@ function Search( $type, $extra = null )
 
 		case 'staff_id':
 
-			// convert profile string to array for legacy compatibility
-			if ( !is_array( $extra ) )
+			// Convert profile string to array for legacy compatibility.
+			if ( ! is_array( $extra ) )
 			{
 				$extra = array( 'profile' => $extra );
 			}
@@ -90,7 +96,7 @@ function Search( $type, $extra = null )
 			}
 
 			if ( isset( $_REQUEST['staff_id'] )
-				&& !empty( $_REQUEST['staff_id'] ) )
+				&& ! empty( $_REQUEST['staff_id'] ) )
 			{
 				if ( $_REQUEST['staff_id'] !== 'new'
 					&& $_REQUEST['staff_id'] != UserStaffID() )
@@ -103,16 +109,16 @@ function Search( $type, $extra = null )
 					unset( $_SESSION['staff_id'] );
 				}
 			}
-			elseif ( !UserStaffID()
+			elseif ( ! UserStaffID()
 				|| $extra['new'] == true )
 			{
 				if ( UserStaffID() )
 				{
 					unset( $_SESSION['staff_id'] );
 				}
-					
+
 				$_REQUEST['next_modname'] = $_REQUEST['modname'];
-				
+
 				require_once 'modules/Users/Search.inc.php';
 			}
 
@@ -294,6 +300,7 @@ function Search( $type, $extra = null )
 					$TR_classes .= 'st';
 				}
 
+				// Text.
 				foreach ( (array) $category['text'] as $col )
 				{
 					$name = 'cust[' . $col['COLUMN_NAME'] . ']';
@@ -307,6 +314,7 @@ function Search( $type, $extra = null )
 					</td></tr>';
 				}
 
+				// Numeric.
 				foreach ( (array) $category['numeric'] as $col )
 				{
 					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '</td><td>
@@ -319,8 +327,8 @@ function Search( $type, $extra = null )
 					</td></tr>';
 				}
 
-				// merge select, autos, edits, exports & codeds
-				// (same or similar SELECT output)
+				// Merge select, autos, edits, exports & codeds
+				// (same or similar SELECT output).
 				$category['select_autos_edits_exports_codeds'] = array_merge(
 					(array) $category['select'],
 					(array) $category['autos'],
@@ -329,6 +337,7 @@ function Search( $type, $extra = null )
 					(array) $category['codeds']
 				);
 
+				// Select.
 				foreach ( (array) $category['select_autos_edits_exports_codeds'] as $col )
 				{
 					$options = array();
@@ -357,14 +366,14 @@ function Search( $type, $extra = null )
 					{
 						$value = $option;
 
-						// exports specificities
+						// Exports specificities.
 						if ( $col['TYPE'] === 'exports' )
 						{
 							$option = explode( '|', $option );
 
 							$option = $value = $option[0];
 						}
-						// codeds specificities
+						// Codeds specificities.
 						elseif ( $col['TYPE'] === 'codeds' )
 						{
 							list( $value, $option ) = explode( '|', $option );
@@ -377,11 +386,11 @@ function Search( $type, $extra = null )
 						}
 					}
 
-					// edits specificities
+					// Edits specificities.
 					if ( $col['TYPE'] === 'edits' )
 						echo '<option value="~">' . _( 'Other Value' ) . '</option>';
 
-					// Get autos / edits pull-down edited options
+					// Get autos / edits pull-down edited options.
 					if ( $col['TYPE'] === 'autos'
 						|| $col['TYPE'] === 'edits' )
 					{
@@ -395,7 +404,7 @@ function Search( $type, $extra = null )
 								AND s." . $col_name . " != ''
 								ORDER BY SORT_KEY";
 						}
-						else // staff
+						else // Staff.
 						{
 							$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS KEY
 								FROM STAFF s WHERE s.SYEAR='" . UserSyear() . "'
@@ -406,14 +415,15 @@ function Search( $type, $extra = null )
 
 						$options_RET = DBGet( DBQuery( $sql_options ) );
 
-						// add the 'new' option, is also the separator
+						// Add the 'new' option, is also the separator.
 						echo '<option value="---">-' . _( 'Edit' ) . '-</option>';
 
 						foreach ( (array) $options_RET as $option )
 						{
-							if ( !in_array( $option[ $col_name ], $options ) )
+							if ( ! in_array( $option[ $col_name ], $options ) )
 							{
-								echo '<option value="' . $option[ $col_name ] . '">' . $option[ $col_name ] . '</option>';
+								echo '<option value="' . $option[ $col_name ] . '">' .
+									$option[ $col_name ] . '</option>';
 							}
 						}
 					}
@@ -421,6 +431,7 @@ function Search( $type, $extra = null )
 					echo '</select></td></tr>';
 				}
 
+				// Date.
 				foreach ( (array) $category['date'] as $col )
 				{
 					echo '<tr class="' . $TR_classes . '"><td>' . $col['TITLE'] . '<br />
@@ -445,6 +456,7 @@ function Search( $type, $extra = null )
 					</table></td></tr>';
 				}
 
+				// Radio.
 				foreach ( (array) $category['radio'] as $col )
 				{
 					$name = 'cust[' . $col['COLUMN_NAME'] . ']';
