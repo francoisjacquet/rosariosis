@@ -1,4 +1,10 @@
 <?php 
+/**
+ * Parse Multi Language data
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 /**
  * Parse Multi Languages Field value
@@ -12,8 +18,8 @@
  *
  * @global string $locale
  *
- * @param  string $field  Multi Languages Field value
- * @param  string $loc    Locale (optional). Defaults to current locale
+ * @param  string $field  Multi Languages Field value.
+ * @param  string $loc    Locale (optional). Defaults to current locale.
  *
  * @return string Current language Field value
  */
@@ -21,36 +27,53 @@ function ParseMLField( $field, $loc = '' )
 {
 	global $locale;
 
+	if ( ! $field )
+	{
+		return '';
+	}
+
 	if ( empty( $loc ) )
+	{
 		$loc = $locale;
+	}
 
-	// If no separator found, return untouched input
-	$endpos = mb_strpos( $field, "|" );
+	$field = (string) $field;
 
-	if ( $endpos === FALSE )
+	// If no separator found, return untouched input.
+	$endpos = mb_strpos( $field, '|' );
+
+	if ( $endpos === false )
+	{
 		return $field;
+	}
 
-	// If no locale defined, return default string
+	// If no locale defined, return default string.
 	if ( empty( $loc ) )
+	{
 		return mb_substr( $field, 0, $endpos );
+	}
 
-	// If no current language tag, return default string
-	$begpos = mb_strpos( $field, "|" . $loc . ":" );
+	// If no current language tag, return default string.
+	$begpos = mb_strpos( $field, '|' . $loc . ':' );
 
-	if ( $begpos === FALSE )
+	if ( $begpos === false )
+	{
 		return mb_substr( $field, 0, $endpos );
+	}
 
 	// We've found a translation ...
-	// skip language tag in itself
-	$begpos = mb_strpos( $field, ":", $begpos ) + 1;
+	// skip language tag in itself.
+	$begpos = mb_strpos( $field, ':', $begpos ) + 1;
 
-	// go to end of translated string (ie. next tag or end of field)
-	$endpos = mb_strpos( $field, "|", $begpos );
+	// Go to end of translated string (ie. next tag or end of field).
+	$endpos = mb_strpos( $field, '|', $begpos );
 
-	if ( $endpos === FALSE )
+	if ( $endpos === false )
+	{
 		$endpos = mb_strlen( $field );
+	}
 
-	return mb_substr($field, $begpos, $endpos - $begpos );
+	return mb_substr( $field, $begpos, $endpos - $begpos );
 }
 
 
@@ -59,33 +82,41 @@ function ParseMLField( $field, $loc = '' )
  *
  * Parse an array of any depth for keys that contain ML strings and replaces those with localized strings
  * Recursive function
- * Calls ParseMLField()
+ * Calls `ParseMLField()`
  *
- * @param  array        $array Multi Languages Array
- * @param  array|string $keys  Keys of the array containing Multi Languages strings
+ * @param  array        $array Multi Languages Array.
+ * @param  array|string $keys  Keys of the array containing Multi Languages strings.
  *
  * @return array        Array with localized strings
  */
 function ParseMLArray( $array, $keys )
 {
-	//modify loop: use for instead of foreach
-	$k = array_keys( $array );
+	if ( ! $array
+		|| ! $keys )
+	{
+		return array();
+	}
+
+	// Modify loop: use for instead of foreach.
+	$k = array_keys( (array) $array );
 
 	$size = count( $k );
 
 	for ( $i = 0; $i < $size; $i++ )
 	{
-		if ( is_array( $array[$k[ $i ]] ) )
+		if ( is_array( $array[ $k[ $i ] ] ) )
 		{
-			$array[$k[ $i ]] = ParseMLArray( $array[$k[ $i ]], $keys );
+			$array[ $k[ $i ] ] = ParseMLArray( $array[ $k[ $i ] ], $keys );
 		}
 		else
 		{
-			if ( !is_array( $keys ) )
-				$keys = array( $keys );
-
 			foreach ( (array) $keys as $key )
-				if ( $k[ $i ] == $key ) $array[$k[ $i ]] = ParseMLField( $array[$k[ $i ]] );
+			{
+				if ( $k[ $i ] == $key )
+				{
+					$array[ $k[ $i ] ] = ParseMLField( $array[ $k[ $i ] ] );
+				}
+			}
 		}
 	}
 
@@ -99,5 +130,6 @@ function ParseMLArray( $array, $keys )
 				if ( $k == $key) $array[ $k ] = ParseMLField($v);
 		}
 	}*/
+
 	return $array;
 }

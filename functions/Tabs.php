@@ -2,22 +2,27 @@
 
 /**
  * Wrap Tabs
- * used by PopTable() or ListOutput() header
+ * used by `PopTable()` or `ListOutput()` header
  *
  * @example WrapTabs( $cats, 'Modules.php?modname=' . $_REQUEST['modname'] . '&cat_id=' . $_REQUEST['cat_id'] )
  *
- * @param  array  $tabs     Tabs, titles + links
- * @param  string $selected Selected Tab link (optional)
+ * @param  array  $tabs     Tabs, titles + links.
+ * @param  string $selected Selected Tab link (optional).
  *
  * @return string Tabs HTML
  */
 function WrapTabs( $tabs, $selected = '' )
 {
+	if ( ! $tabs )
+	{
+		return '';
+	}
+
 	$tabs_html = '<div class="h3multi">';
 
 	$self_link = PreparePHP_SELF();
 
-	foreach ( (array) $tabs as $key => $tab )
+	foreach ( (array) $tabs as $tab )
 	{
 		$selected_tab = false;
 
@@ -39,25 +44,25 @@ function WrapTabs( $tabs, $selected = '' )
 
 /**
  * Draw Tab
- * used by PopTable() & WrapTabs()
+ * used by `PopTable()` & `WrapTabs()`
  *
- * @param  string  $title    Tab title
- * @param  string  $link     Tab link (optional)
- * @param  boolean $selected Selected Tab (optional)
+ * @param  string  $title    Tab title.
+ * @param  string  $link     Tab link (optional).
+ * @param  boolean $selected Selected Tab (optional).
  *
  * @return string  Tab HTML
  */
 function DrawTab( $title, $link = '', $selected = false )
 {
-	$title = ParseMLField( $title );
+	$title = ParseMLField( (string) $title );
 
-	// non breaking spaces in title
-	if ( mb_substr( $title, 0, 1) !== '<' )
+	// Non breaking spaces in title.
+	if ( mb_substr( $title, 0, 1 ) !== '<' )
 	{
 		$title = str_replace( ' ', '&nbsp;', $title );
 	}
 
-	// .title CSS class used in warehouse.js to determine document.title
+	// .title CSS class used in warehouse.js to determine document.title.
 	if ( $link )
 	{
 		$block_table = '<h3' . ( $selected ? ' class="title h3selected"' : '' ) . '>
@@ -68,6 +73,6 @@ function DrawTab( $title, $link = '', $selected = false )
 	}
 	else
 		$block_table = '<h3 class="title' . ( $selected ? ' h3selected' : '' ) . '">' . $title . '</h3>';
-		
+
 	return $block_table;
 }

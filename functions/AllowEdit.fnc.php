@@ -12,7 +12,7 @@
 /**
  * Can Edit program check
  *
- * Always perform AllowEdit() check:
+ * Always perform `AllowEdit()` check:
  * before displaying fields / options to edit data
  * AND before saving or updating data
  *

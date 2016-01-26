@@ -1,4 +1,10 @@
 <?php
+/**
+ * Lists / Listings
+ *
+ * @package RosarioSIS
+ * @subpackage functions
+ */
 
 function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $link = array(), $group = array(), $options = array() )
 {
