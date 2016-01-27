@@ -5,6 +5,9 @@
  * @uses $menu global var
  *
  * @see  Menu.php in root folder
+ * 
+ * @package RosarioSIS
+ * @subpackage modules
  */
 
 $menu['Scheduling']['admin'] = array(
