@@ -53,6 +53,7 @@ Changes in 2.9
 - Create school_fields_seq Sequence in rosariosis.sql & Update.fnc.php
 - Add Fields (and Field Categories) functions in ProgramFunctions/Fields.fnc.php
 - Use DeletePrompt() & Prompt() instead of DeletePromptX() & PromptX() program wide
+- Add Daily Totals program to Accounting & Student Billing modules
 
 Changes in 2.8.11
 -----------------

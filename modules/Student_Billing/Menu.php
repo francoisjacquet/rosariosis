@@ -5,6 +5,9 @@
  * @uses $menu global var
  *
  * @see  Menu.php in root folder
+ * 
+ * @package RosarioSIS
+ * @subpackage modules
  */
 
 $menu['Student_Billing']['admin'] = array(
@@ -17,10 +20,11 @@ $menu['Student_Billing']['admin'] = array(
 	1 => _( 'Reports' ),
 	'Student_Billing/StudentBalances.php' => _( 'Student Balances' ),
 	'Student_Billing/DailyTransactions.php' => _( 'Daily Transactions' ),
-	'Student_Billing/Statements.php' => _( 'Print Statements' )
+	'Student_Billing/DailyTotals.php' => _( 'Daily Totals' ),
+	'Student_Billing/Statements.php' => _( 'Print Statements' ),
 );
 
-//FJ fix error Warning: Invalid argument supplied for foreach()
+// FJ fix error Warning: Invalid argument supplied for foreach().
 $menu['Student_Billing']['teacher'] = array(
 );
 
@@ -31,8 +35,8 @@ $menu['Student_Billing']['parent'] = array(
 	'Student_Billing/StudentPayments.php' => _( 'Payments' ),
 	1 => _( 'Reports' ),
 	'Student_Billing/DailyTransactions.php' => _( 'Daily Transactions' ),
-	//FJ fix bug PDF
-	'Student_Billing/Statements.php&_ROSARIO_PDF' => _( 'Print Statements' )
+	// FJ fix bug PDF.
+	'Student_Billing/Statements.php&_ROSARIO_PDF' => _( 'Print Statements' ),
 );
 
 $exceptions['Student_Billing'] = array(

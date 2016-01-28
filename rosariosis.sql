@@ -3907,6 +3907,7 @@ INSERT INTO profile_exceptions VALUES (1, 'Food_Service/MenuItems.php', 'Y', 'Y'
 INSERT INTO profile_exceptions VALUES (1, 'Food_Service/Menus.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Food_Service/Kiosk.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Resources/Resources.php', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'Accounting/DailyTotals.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Accounting/DailyTransactions.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Accounting/Expenses.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Accounting/Incomes.php', 'Y', 'Y');
@@ -4036,6 +4037,7 @@ INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/MassAssignFees.php', 
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/MassAssignPayments.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/StudentBalances.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/DailyTransactions.php', 'Y', 'Y');
+INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/DailyTotals.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/Statements.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (1, 'Student_Billing/Fees.php', 'Y', 'Y');
 INSERT INTO profile_exceptions VALUES (0, 'Student_Billing/StudentFees.php', 'Y', NULL);
