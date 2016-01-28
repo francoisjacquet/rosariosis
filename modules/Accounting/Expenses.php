@@ -67,7 +67,7 @@ if ( ! $_REQUEST['modfunc'])
 {
 	$payments_total = 0;
 	$functions = array('REMOVE' => '_makePaymentsRemove','AMOUNT' => '_makePaymentsAmount','PAYMENT_DATE' => 'ProperDate','COMMENTS' => '_makePaymentsTextInput');
-	$payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE SYEAR='".UserSyear()."' AND STAFF_ID IS NULL ORDER BY ID"),$functions);
+	$payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE SYEAR='".UserSyear()."' AND STAFF_ID IS NULL AND SCHOOL_ID='".UserSchool()."' ORDER BY ID"),$functions);
 	$i = 1;
 	$RET = array();
 	foreach ( (array) $payments_RET as $payment)
@@ -122,7 +122,7 @@ if ( ! $_REQUEST['modfunc'])
 		
 	$table .= '<tr><td>'._('Less').': '._('Total from Expenses').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
 
-	$Staff_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."'"));
+	$Staff_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
 
 	$table .= '<tr><td>& '._('Total from Staff Payments').': '.'</td><td>'.Currency($Staff_payments_total[1]['TOTAL']).'</td></tr>';
 

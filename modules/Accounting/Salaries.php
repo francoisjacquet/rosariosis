@@ -79,7 +79,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 {
 	$salaries_total = 0;
 	$functions = array('REMOVE' => '_makeSalariesRemove','ASSIGNED_DATE' => 'ProperDate','DUE_DATE' => '_makeSalariesDateInput','COMMENTS' => '_makeSalariesTextInput','AMOUNT' => '_makeSalariesAmount');
-	$salaries_RET = DBGet(DBQuery("SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,f.AMOUNT FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID='".UserStaffID()."' AND f.SYEAR='".UserSyear()."' ORDER BY f.ASSIGNED_DATE"),$functions);
+	$salaries_RET = DBGet(DBQuery("SELECT '' AS REMOVE,f.ID,f.TITLE,f.ASSIGNED_DATE,f.DUE_DATE,f.COMMENTS,f.AMOUNT FROM ACCOUNTING_SALARIES f WHERE f.STAFF_ID='".UserStaffID()."' AND f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."' ORDER BY f.ASSIGNED_DATE"),$functions);
 	$i = 1;
 	$RET = array();
 	foreach ( (array) $salaries_RET as $salary)
@@ -114,7 +114,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 
 	if ( ! $_REQUEST['print_statements'])
 	{
-		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID='".UserStaffID()."' AND p.SYEAR='".UserSyear()."'"));
+		$payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID='".UserStaffID()."' AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
 
 		$table = '<table class="align-right"><tr><td>'._('Total from Salaries').': '.'</td><td>'.Currency($salaries_total).'</td></tr>';
 
