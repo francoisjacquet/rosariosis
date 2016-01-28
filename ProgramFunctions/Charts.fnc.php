@@ -4,6 +4,9 @@
  *
  * @uses jqPlot jQuery plugin
  * @see  assets/js/jqplot/
+ *
+ * @package RosarioSIS
+ * @subpackage ProgramFunctions
  */
 
 
@@ -13,11 +16,11 @@
  * @example require_once 'ProgramFunctions/jqPlot.fnc.php';
  *          echo jqPlotChart( 'pie', $chartData, $chartTitle );
  *
- * @param  string  $type       Chart type line|column|pie
+ * @param  string  $type       Chart type line|column|pie.
  * @param  array   $data       associative array containing X axis|ticks|labels [0] & Y axis|values [1]
- *                             Stack series (columns): array( 'series1_label' => $data1, 'series2_label' => $data2, )
- * @param  string  $title      Chart title
- * @param  boolean $save_image Export Chart to image inside ColorBox (to save Chart) (optional). Defaults to true
+ *                             Stack series (columns): array( 'series1_label' => $data1, 'series2_label' => $data2, ).
+ * @param  string  $title      Chart title.
+ * @param  boolean $save_image Export Chart to image inside ColorBox (to save Chart) (optional). Defaults to true.
  *
  * @return string              JS, CSS files & jqPlot Chart JS or empty string if error
  */
@@ -193,7 +196,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 				var plot<?php echo $chartID; ?>ticks = <?php echo $ticks; ?>;
 				<?php endif; ?>
 
-				/*FJ responsive labels: limit label to 15 char max.*/
+				/* FJ responsive labels: limit label to 15 char max. */
 				if (screen.width < 648)
 				{
 					/* Pie Chart labels */
@@ -400,9 +403,9 @@ function makeNumeric( $number, $column )
 	elseif ( $diff < 10
 		|| $chartline )
 	{
-		$chart['chart_data'][0][( (int)$number - (int)$max_min_RET[1]['MIN'] + 1 )] = (int)$number;
+		$chart['chart_data'][0][( (int) $number - (int) $max_min_RET[1]['MIN'] + 1 )] = (int) $number;
 
-		$chart['chart_data'][1][( (int)$number - (int)$max_min_RET[1]['MIN'] + 1 )]++;
+		$chart['chart_data'][1][( (int) $number - (int) $max_min_RET[1]['MIN'] + 1 )]++;
 	}
 	else
 	{

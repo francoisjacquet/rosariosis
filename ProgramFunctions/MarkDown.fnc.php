@@ -2,15 +2,16 @@
 /**
  * MarkDown functions
  *
+ * @package RosarioSIS
+ * @subpackage ProgramFunctions
  */
 
 /**
  * Convert MarkDown text to HTML
  *
  * Note:
- * Prefer showdown.js plugin
- * Hooked by adding the "markdown-to-html" class
- * to your containing DIV
+ * Prefer `showdown.js` plugin, hooked by adding
+ * the `markdown-to-html` CSS class to your containing DIV
  *
  * @uses Parsedown Markdown Parser class in PHP
  *
@@ -22,20 +23,22 @@
  *
  * @global object $Parsedown
  *
- * @param  string $MD        MarkDown text
- * @param  string $column    DBGet() COLUMN formatting compatibility (optional)
+ * @param  string $MD     MarkDown text.
+ * @param  string $column DBGet() COLUMN formatting compatibility (optional).
  *
  * @return string HTML
  */
 function MarkDownToHTML( $MD, $column = '' )
 {
-	if ( !is_string( $MD )
+	if ( ! is_string( $MD )
 		|| empty( $MD ) )
+	{
 		return $MD;
+	}
 
 	global $Parsedown;
 
-	// Create $Parsedown object once
+	// Create $Parsedown object once.
 	if ( ! ( $Parsedown instanceof Parsedown ) )
 	{
 		require_once 'classes/Parsedown.php';
@@ -57,39 +60,44 @@ function MarkDownToHTML( $MD, $column = '' )
  *
  * @since   2.9
  *
+ * @todo Anyone has an idea to get sanitized MD back? See last line of function.
+ *
  * @global object $Security
  *
- * @param  string $MD       MarkDown text
+ * @param  string $MD MarkDown text.
  *
  * @return string Input with HTML encoded single quotes or empty string if Sanitized MD != Input MD
  */
 function SanitizeMarkDown( $MD )
 {
-	if ( !is_string( $MD )
+	if ( ! is_string( $MD )
 		|| empty( $MD ) )
+	{
 		return $MD;
+	}
 
 	/**
-	 * undo DBEscapeString()
+	 * Undo DBEscapeString()
 	 * $MD is supposed to be USER input
 	 */
 	$MD = str_replace( "''", "'",	$MD );
 
 	/**
-	 * convert single quotes to HTML entities
+	 * Convert single quotes to HTML entities
 	 *
 	 * Fixes bug related to:
 	 * replace empty strings ('') with NULL values
+	 *
 	 * @see DBQuery()
 	 */
 	$MD_quotes = str_replace( "'", '&#039;', $MD );
 
-	// convert MarkDown to HTML
+	// Convert MarkDown to HTML.
 	$HTML = MarkDownToHTML( $MD_quotes );
 
 	global $Security;
 
-	// Create $Security object once
+	// Create $Security object once.
 	if ( ! ( $Security instanceof Security ) )
 	{
 		require_once 'classes/Security.php';
@@ -100,12 +108,16 @@ function SanitizeMarkDown( $MD )
 	$sanitizedHTML = $Security->xss_clean( $HTML );
 
 	if ( $sanitizedHTML === $HTML )
+	{
 		return $MD_quotes;
+	}
 	else
 	{
 		if ( ROSARIO_DEBUG )
+		{
 			var_dump( $HTML, $sanitizedHTML );
+		}
 
-		return ''; // anyone has an idea to get sanitized MD back?
+		return ''; // Anyone has an idea to get sanitized MD back?
 	}
 }

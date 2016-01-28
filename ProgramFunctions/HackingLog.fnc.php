@@ -1,28 +1,36 @@
 <?php
+/**
+ * Log Hacking attempt function
+ *
+ * @package RosarioSIS
+ * @subpackage ProgramFunctions
+ */
 
 /**
  * Log Hacking attempt
- * Send email to $RosarioNotifyAddress if set
+ * Send email to `$RosarioNotifyAddress` if set
  *
- * @global string $RosarioNotifyAddress config.inc.php set email
+ * @global string $RosarioNotifyAddress email set in config.inc.php file
  *
  * @return string outputs error message and exit
  */
 function HackingLog()
 {
 	global $RosarioNotifyAddress;
-	
-	// Send email to $RosarioNotifyAddress if set
+
+	// Send email to $RosarioNotifyAddress if set {@see config.inc.php}.
 	if ( filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 	{
 		if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
+		{
 			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		}
 		else
 			$ip = $_SERVER['REMOTE_ADDR'];
 
-		//FJ add SendEmail function
+		// FJ add SendEmail function.
 		require_once 'ProgramFunctions/SendEmail.fnc.php';
-		
+
 		$message = "INSERT INTO HACKING_LOG
 			(
 				HOST_NAME,
@@ -48,13 +56,13 @@ function HackingLog()
 				'" . $_SERVER['QUERY_STRING'] . "',
 				'" . User( 'USERNAME' ) . "'
 			)";
-		
+
 		SendEmail( $RosarioNotifyAddress, 'HACKING ATTEMPT', $message );
 	}
 
 	$error[] = _( 'You\'re not allowed to use this program!' ) . ' ' .
 		_( 'This attempted violation has been logged and your IP address was captured.' );
 
-	// display error message and exit
+	// Display fatal error message.
 	return ErrorMessage( $error, 'fatal' );
 }

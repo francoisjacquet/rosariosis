@@ -5,8 +5,10 @@
  * @uses DHTML tip message JS plugin
  *
  * @see assets/js/tipmessage/
+ *
+ * @package RosarioSIS
+ * @subpackage ProgramFunctions
  */
-
 
 /**
  * Make Tip Message
@@ -17,9 +19,9 @@
  *
  * @see assets/js/tipmessage/
  *
- * @param  string $message Tip message
- * @param  string $title   Tip title
- * @param  string $label   Tip label
+ * @param  string $message Tip message.
+ * @param  string $title   Tip title.
+ * @param  string $label   Tip label.
  *
  * @return string Tip Message
  */
@@ -28,8 +30,8 @@ function MakeTipMessage( $message, $title, $label )
 	static $tip_msg_ID = 1;
 
 	$tip_msg = '<script>var tipmsg' . $tip_msg_ID . '=[' .
-		json_encode( $title ) . ',' .
-		json_encode( $message ) . '];</script>';
+		json_encode( (string) $title ) . ',' .
+		json_encode( (string) $message ) . '];</script>';
 
 	$tip_msg .= '<div onMouseOver="stm(tipmsg' . $tip_msg_ID . ');" onMouseOut="htm();" onclick="return false;" style="display:inline-block;">' .
 		$label . '</div>';
@@ -54,8 +56,8 @@ function MakeTipMessage( $message, $title, $label )
  *
  * @global $StudentPicturesPath Student Pictures Path
  *
- * @param  string $student_id Student ID
- * @param  string $title      Tip title & label
+ * @param  string $student_id Student ID.
+ * @param  string $title      Tip title & label.
  *
  * @return string Student Photo Tip Message or $title if no Photo found
  */

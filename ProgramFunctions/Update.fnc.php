@@ -5,6 +5,9 @@
  * Incremental updates
  *
  * Update() function called if ROSARIO_VERSION != version in DB
+ *
+ * @package RosarioSIS
+ * @subpackage ProgramFunctions
  */
 
 /**
@@ -22,7 +25,7 @@ function Update()
 
 	$to_version = ROSARIO_VERSION;
 
-	// Check if version in DB >= ROSARIO_VERSION
+	// Check if version in DB >= ROSARIO_VERSION.
 	if ( version_compare( $from_version, $to_version, '>=' ) )
 	{
 		return false;
@@ -35,10 +38,12 @@ function Update()
 		case version_compare( $from_version, '2.9-alpha', '<' ):
 
 			if ( function_exists( '_update29alpha' ) )
+			{
 				$return = _update29alpha();
+			}
 	}
 
-	// Update version in DB CONFIG table
+	// Update version in DB CONFIG table.
 	DBGet( DBQuery( "UPDATE CONFIG
 		SET CONFIG_VALUE='" . ROSARIO_VERSION . "'
 		WHERE TITLE='VERSION'" ) );
@@ -65,7 +70,7 @@ function _update29alpha()
 {
 	$callers = debug_backtrace();
 
-	if ( !isset( $callers[1]['function'] )
+	if ( ! isset( $callers[1]['function'] )
 		|| $callers[1]['function'] !== 'Update' )
 	{
 		return false;
@@ -91,11 +96,11 @@ function _update29alpha()
 	 * DROP PRIMARY KEY
 	 * And ADD it again with course_period_school_periods_id
 	 */
-	$SQL_add_ID = "ALTER TABLE ONLY course_period_school_periods
+	$SQL_add_ID = 'ALTER TABLE ONLY course_period_school_periods
 		DROP CONSTRAINT course_period_school_periods_pkey;
 	ALTER TABLE ONLY course_period_school_periods
 		ADD CONSTRAINT course_period_school_periods_pkey
-			PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id);";
+			PRIMARY KEY (course_period_school_periods_id, course_period_id, period_id);';
 
 	DBQuery( $SQL_add_ID );
 
@@ -104,10 +109,10 @@ function _update29alpha()
 	 * 3. Update STUDENT_MP_COMMENTS table
 	 *
 	 * WARNING: no Downgrade possible!
-	 * 
+	 *
 	 * Serialize comments from:
 	 * [date1]|[staff_id1]||[comment1]||[date1]|[staff_id1]||[comment1]
-	 * 
+	 *
 	 * to array of comments:
 	 * array(
 	 * 		'date' => 'date1',
@@ -136,7 +141,7 @@ function _update29alpha()
 			foreach ( (array) $coms as $com )
 			{
 				if ( is_array( list( $date, $staff_id ) = explode( '|', $com ) ) 
-					&& (int)$staff_id > 0 )
+					&& (int) $staff_id > 0 )
 				{
 					$ser_coms[ $i ]['date'] = $date;
 					$ser_coms[ $i ]['staff_id'] = $staff_id;
@@ -147,7 +152,7 @@ function _update29alpha()
 					$i++;
 				}
 			}
-			
+
 			$ser_coms = DBEscapeString( serialize( array_reverse( $ser_coms ) ) );
 
 			$SQL_updt_coms .= "UPDATE STUDENT_MP_COMMENTS

@@ -3,19 +3,21 @@
  * Student / User / Address / People / Medical / Enrollment fields
  * Make functions
  * Wrappers for Inputs functions
+ *
+ * @package RosarioSIS
+ * @subpackage ProgramFunctions
  */
 
-// OTHER INFO
-
+// OTHER INFO.
 /**
  * Make Text Input
  *
  * @global array  $value
  * @global array  $field
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
+ * @param  string $column  Field column.
+ * @param  string $name    Field name.
+ * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
  *
  * @return string          Text Input
  */
@@ -51,7 +53,7 @@ function _makeTextInput( $column, $name, $request )
 	else
 		$options = 'maxlength=255';
 
-	//FJ text field is required
+	// FJ text field is required.
 	$options .= $field['REQUIRED'] === 'Y' ? ' required' : '';
 
 	return TextInput(
@@ -70,9 +72,9 @@ function _makeTextInput( $column, $name, $request )
  * @global array  $value
  * @global array  $field
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
+ * @param  string $column  Field column.
+ * @param  string $name    Field name.
+ * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
  *
  * @return string          Date Input
  */
@@ -99,11 +101,13 @@ function _makeDateInput( $column, $name, $request )
 			array( '', '' );
 	}
 
-	//FJ date field is required
+	// FJ date field is required.
 	$required = false;
 
 	if ( $field['REQUIRED'] === 'Y' )
+	{
 		$required = true;
+	}
 
 	return DateInput(
 		$value[ $column ],
@@ -122,9 +126,9 @@ function _makeDateInput( $column, $name, $request )
  * @global array  $value
  * @global array  $field
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
+ * @param  string $column  Field column.
+ * @param  string $name    Field name.
+ * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
  *
  * @return string          Select Input
  */
@@ -154,7 +158,9 @@ function _makeSelectInput( $column, $name, $request )
 	$select_options = array();
 
 	if ( $field['SELECT_OPTIONS'] )
+	{
 		$select_options = explode( '<br />', nl2br( $field['SELECT_OPTIONS'] ) );
+	}
 
 	foreach ( (array) $select_options as $option )
 	{
@@ -177,7 +183,7 @@ function _makeSelectInput( $column, $name, $request )
 			$options[ $option ] = $option;
 	}
 
-	//FJ select field is required
+	// FJ select field is required.
 	$extra = 'style="max-width:250px;"' . ( $field['REQUIRED'] === 'Y' ? ' required': '' );
 
 	return SelectInput(
@@ -198,9 +204,9 @@ function _makeSelectInput( $column, $name, $request )
  * @global array  $value
  * @global array  $field
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
+ * @param  string $column  Field column.
+ * @param  string $name    Field name.
+ * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
  *
  * @return string          Auto Select Input
  */
@@ -227,27 +233,31 @@ function _makeAutoSelectInput( $column, $name, $request )
 			array( '', '' );
 	}
 
-	// build the select list...
-	// get the standard selects
+	// Build the select list...
+	// Get the standard selects.
 	$select_options = array();
 
 	if ( $field['SELECT_OPTIONS'] )
+	{
 		$select_options = explode( '<br />', nl2br( $field['SELECT_OPTIONS'] ) );
+	}
 
 	foreach ( (array) $select_options as $option )
 	{
 		if ( $option != '' )
+		{
 			$options[ $option ] = $option;
+		}
 	}
 
-	// add the 'new' option, is also the separator
-	$options['---'] = '-'. _('Edit') .'-';
+	// Add the 'new' option, is also the separator.
+	$options['---'] = '-' . _( 'Edit' ) . '-';
 
 	if ( ( $field['TYPE'] === 'autos'
 			|| $field['TYPE'] === 'edits' )
-		&& AllowEdit() ) // we don't really need the select list if we can't edit anyway
+		&& AllowEdit() ) // We don't really need the select list if we can't edit anyway.
 	{
-		// add values found in current and previous year
+		// Add values found in current and previous year.
 		if ( $request === 'values[ADDRESS]' )
 		{
 			$options_SQL = "SELECT DISTINCT a.CUSTOM_" . $field['ID'] . ",upper(a.CUSTOM_" . $field['ID'] . ") AS SORT_KEY 
@@ -292,22 +302,24 @@ function _makeAutoSelectInput( $column, $name, $request )
 
 		foreach ( (array) $options_RET as $option )
 		{
-			if ( $option['CUSTOM_' . $field['ID']] != ''
-				&& ! $options[$option['CUSTOM_' . $field['ID']]] )
+			$option_value = $option[ 'CUSTOM_' . $field['ID'] ];
+
+			if ( $option_value != ''
+				&& ! $options[ $option_value ] )
 			{
-				$options[$option['CUSTOM_' . $field['ID']]] = array(
-					$option['CUSTOM_' . $field['ID']],
-					'<span style="color:blue">' . $option['CUSTOM_' . $field['ID']] . '</span>'
+				$options[ $option_value ] = array(
+					$option_value,
+					'<span style="color:blue">' . $option_value . '</span>'
 				);
 			}
 		}
 	}
 
-	// make sure the current value is in the list
+	// Make sure the current value is in the list.
 	if ( ! $value[ $column ]
-		&& !isset( $options[$value[ $column ]] ) )
+		&& ! isset( $options[ $value[ $column ] ] ) )
 	{
-		$options[$value[ $column ]] = array(
+		$options[ $value[ $column ] ] = array(
 			$value[ $column ],
 			'<span style="color:' . ( $field['TYPE'] === 'autos' ? 'blue' : 'green' ) . '">' . $value[ $column ] . '</span>'
 		);
@@ -316,7 +328,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 	if ( $value[ $column ] != '---'
 		&& count( $options ) > 1 )
 	{
-		//FJ select field is required
+		// FJ select field is required.
 		$extra = 'style="max-width:250px;"' . ( $field['REQUIRED'] === 'Y' ? ' required' : '' );
 
 		return SelectInput(
@@ -331,9 +343,11 @@ function _makeAutoSelectInput( $column, $name, $request )
 	}
 	else
 	{
-		//FJ new option
+		// FJ new option.
 		return TextInput(
-			$value[ $column ] === '---' ? array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) : $value[ $column ],
+			$value[ $column ] === '---' ?
+				array( '---', '<span style="color:red">-' . _( 'Edit' ) . '-</span>' ) :
+				$value[ $column ],
 			$request . '[' . $column . ']',
 			$req[0] . $name . $req[1],
 			'',
@@ -349,9 +363,9 @@ function _makeAutoSelectInput( $column, $name, $request )
  * @global array  $value
  * @global array  $field
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
+ * @param  string $column  Field column.
+ * @param  string $name    Field name.
+ * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
  *
  * @return string          Checkbox Input
  */
@@ -386,9 +400,9 @@ function _makeCheckboxInput( $column, $name, $request )
  * @global array  $value
  * @global array  $field
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
+ * @param  string $column  Field column.
+ * @param  string $name    Field name.
+ * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
  *
  * @return string          Textarea Input
  */
@@ -407,8 +421,8 @@ function _makeTextareaInput( $column, $name, $request )
 	else
 		$div = true;
 
-	//FJ text area is required
-	//FJ textarea field maxlength=5000
+	// FJ text area is required.
+	// FJ textarea field maxlength=5000.
 	return TextAreaInput(
 		$value[ $column ],
 		$request . '[' . $column . ']',
@@ -425,11 +439,11 @@ function _makeTextareaInput( $column, $name, $request )
  * @global array  $value
  * @global array  $field
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
+ * @param  string $column  Field column.
+ * @param  string $name    Field name.
+ * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
  *
- * @return string          Multiple Input
+ * @return string Multiple Input
  */
 function _makeMultipleInput( $column, $name, $request )
 {
@@ -442,7 +456,9 @@ function _makeMultipleInput( $column, $name, $request )
 		$select_options = array();
 
 		if ( $field['SELECT_OPTIONS'] )
+		{
 			$select_options = explode( '<br />', nl2br( $field['SELECT_OPTIONS'] ) );
+		}
 
 		foreach ( (array) $select_options as $option )
 		{
@@ -454,7 +470,7 @@ function _makeMultipleInput( $column, $name, $request )
 			$return = '<div id="div' . $request . '[' . $column . ']">
 				<div class="onclick" onclick=\'javascript:addHTML(html' . $request . $column;
 		}
-		
+
 		$table = '<table class="cellpadding-5">';
 
 		if ( count( $options ) > 12 )
@@ -471,12 +487,16 @@ function _makeMultipleInput( $column, $name, $request )
 
 		foreach ( (array) $options as $option )
 		{
-			if ( $i%2 === 0 )
+			if ( $i % 2 === 0 )
+			{
 				$table .= '</tr><tr>';
+			}
 
-			//FJ add <label> on checkbox
+			// FJ add <label> on checkbox.
 			$table .= '<td><label>
-				<input type="checkbox" name="' . $request . '[' . $column . '][]" value="' . htmlspecialchars( $option, ENT_QUOTES ) . '"' . ( mb_strpos( $value[ $column ], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
+				<input type="checkbox" name="' . $request . '[' . $column . '][]" value="' .
+					htmlspecialchars( $option, ENT_QUOTES ) . '"' .
+					( mb_strpos( $value[ $column ], '||' . $option . '||' ) !== false ? ' checked' : '' ) . ' /> ' .
 					$option .
 			'</label></td>';
 
@@ -485,7 +505,7 @@ function _makeMultipleInput( $column, $name, $request )
 
 		$table .= '</tr><tr><td colspan="2">';
 
-		//FJ fix bug none selected not saved
+		// FJ fix bug none selected not saved.
 		$table .= '<input type="hidden" name="' . $request . '[' . $column . '][none]" value="" />';
 
 		$table .= '<table class="width-100p" style="height:7px; border:1; border-style:none solid solid solid;"><tr><td></td></tr></table>';
@@ -515,8 +535,8 @@ function _makeMultipleInput( $column, $name, $request )
  *
  * @global array  $value
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
+ * @param  string $column  Field column.
+ * @param  string $name    Field name.
  *
  * @return string          Student Age
  */
@@ -544,15 +564,14 @@ function _makeStudentAge( $column, $name )
 }
 
 
-// MEDICAL
-
+// MEDICAL.
 /**
  * Make Medical Immunization or Physical type Select Input
  *
  * @global array  $THIS_RET
  *
- * @param  string $column   Field column
- * @param  string $name     Field name
+ * @param  string $value    Field value.
+ * @param  string $column   Field column.
  *
  * @return string Medical Immunization or Physical type Select Input
  */
@@ -561,7 +580,9 @@ function _makeType( $value, $column )
 	global $THIS_RET;
 
 	if ( ! $THIS_RET['ID'] )
+	{
 		$THIS_RET['ID'] = 'new';
+	}
 
 	return SelectInput(
 		$value,
@@ -578,8 +599,8 @@ function _makeType( $value, $column )
  * @global array  $THIS_RET
  * @global string $table
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
+ * @param  string $value   Field value.
+ * @param  string $column  Field column.
  *
  * @return string          Medical Date Input
  */
@@ -589,7 +610,9 @@ function _makeDate( $value, $column = 'MEDICAL_DATE' )
 		$table;
 
 	if ( ! $THIS_RET['ID'] )
+	{
 		$THIS_RET['ID'] = 'new';
+	}
 
 	return DateInput(
 		$value,
@@ -604,8 +627,8 @@ function _makeDate( $value, $column = 'MEDICAL_DATE' )
  * @global array  $THIS_RET
  * @global string $table
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
+ * @param  string $value   Field value.
+ * @param  string $column  Field column.
  *
  * @return string          Medical Comments Input
  */
@@ -615,7 +638,9 @@ function _makeComments( $value, $column )
 		$table;
 
 	if ( ! $THIS_RET['ID'] )
+	{
 		$THIS_RET['ID'] = 'new';
+	}
 
 	return TextInput(
 		$value,
@@ -624,15 +649,14 @@ function _makeComments( $value, $column )
 }
 
 
-// ENROLLMENT
-
+// ENROLLMENT.
 /**
  * Make Enrollment Start Date & Code Inputs
  *
  * @global array  $THIS_RET
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
+ * @param  string $value   Field value.
+ * @param  string $column  Field column.
  *
  * @return string          Enrollment Start Date & Code Inputs
  */
@@ -657,8 +681,8 @@ function _makeStartInput( $value, $column )
 
 		$default = $default[1]['START_DATE'];
 
-		if ( ! $default ||
-			strtotime( DBDate() ) > strtotime( $default ) )
+		if ( ! $default
+			|| strtotime( DBDate() ) > strtotime( $default ) )
 		{
 			$default = DBDate();
 		}
@@ -687,11 +711,13 @@ function _makeStartInput( $value, $column )
 	}
 
 	if ( $_REQUEST['student_id'] === 'new' )
+	{
 		$div = false;
+	}
 	else
 		$div = true;
 
-	//FJ remove LO_field
+	// FJ remove LO_field.
 	return '<div class="nobr">' . $add .
 		DateInput(
 			$value,
@@ -717,19 +743,21 @@ function _makeStartInput( $value, $column )
  *
  * @global array  $THIS_RET
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
+ * @param  string $value   Field value.
+ * @param  string $column  Field column.
  *
  * @return string          Enrollment End Date & Code Inputs
  */
 function _makeEndInput( $value, $column )
 {
 	global $THIS_RET;
-		
+
 	static $drop_codes;
 
 	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
 		$id = 'new';
 
@@ -769,8 +797,8 @@ function _makeEndInput( $value, $column )
  *
  * @global array  $THIS_RET
  *
- * @param  string $column  Field column
- * @param  string $name    Field name
+ * @param  string $value   Field value.
+ * @param  string $column  Field column.
  *
  * @return string          Enrollment School Select Input
  */
@@ -781,12 +809,14 @@ function _makeSchoolInput( $value, $column )
 	static $schools;
 
 	if ( $THIS_RET['ID'] )
+	{
 		$id = $THIS_RET['ID'];
+	}
 	else
 		$id = 'new';
 
-	if ( !isset( $schools )
-		|| !is_array( $schools ) )
+	if ( ! isset( $schools )
+		|| ! is_array( $schools ) )
 	{
 		$schools = DBGet( DBQuery( "SELECT ID,TITLE
 			FROM SCHOOLS
@@ -798,7 +828,7 @@ function _makeSchoolInput( $value, $column )
 		$options[ $sid ] = $school[1]['TITLE'];
 	}
 
-	// mab - allow school to be edited if illegal value
+	// Mab - allow school to be edited if illegal value.
 	if ( $_REQUEST['student_id'] != 'new' )
 	{
 		if ( $id != 'new' )
@@ -831,17 +861,19 @@ function _makeSchoolInput( $value, $column )
 		}
 	}
 	else
-		//FJ save new Student's Enrollment in Enrollment.inc.php
+	{
+		// FJ save new Student's Enrollment in Enrollment.inc.php.
 		return '<input type="hidden" name="values[STUDENT_ENROLLMENT][new][SCHOOL_ID]" value="' . UserSchool() . '" />' .
-			$schools[UserSchool()][1]['TITLE'];
+			$schools[ UserSchool() ][1]['TITLE'];
+	}
 }
 
 
 /**
  * Is New Student / User / People / Address?
  * Local function
- * 
- * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS]
+ *
+ * @param  string $request students|staff|values[PEOPLE]|values[ADDRESS].
  *
  * @return boolean true if new, else false
  */
@@ -874,14 +906,9 @@ function _isNew( $request )
 		break;
 
 		default:
+
 			return false;
 	}
 
-	if ( isset( $_REQUEST[ $request_key ] )
-			&& $_REQUEST[ $request_key ] === 'new' )
-	{
-		return true;
-	}
-	else
-		return false;
+	return isset( $_REQUEST[ $request_key ] ) && $_REQUEST[ $request_key ] === 'new';
 }
