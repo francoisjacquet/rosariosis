@@ -80,7 +80,7 @@ if(!empty($_REQUEST['staff_payroll']))
 		$name_col_sql = ",'' AS STUDENT_NAME";
 	$salaries_extra['SELECT'] .= $name_col_sql.",'' AS DEBIT,f.AMOUNT AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 	$salaries_extra['FROM'] .= ',ACCOUNTING_SALARIES f';
-	$salaries_extra['WHERE'] .= " AND f.STAFF_ID=s.STAFF_ID AND f.SYEAR=s.SYEAR AND f.ASSIGNED_DATE BETWEEN '".$start_date."' AND '".$end_date."'";
+	$salaries_extra['WHERE'] .= " AND f.STAFF_ID=s.STAFF_ID AND f.SYEAR=s.SYEAR AND f.SCHOOL_ID='" . UserSchool() . "' AND f.ASSIGNED_DATE BETWEEN '".$start_date."' AND '".$end_date."'";
 
 	$salaries_RET = GetStaffList($salaries_extra);
 	
@@ -92,7 +92,7 @@ if(!empty($_REQUEST['staff_payroll']))
 	$staff_payments_extra = $extra;
 	$staff_payments_extra['SELECT'] .= ",'' AS CREDIT,p.AMOUNT AS DEBIT,COALESCE(p.COMMENTS,' ') AS EXPLANATION,p.PAYMENT_DATE AS DATE,p.ID AS ID";
 	$staff_payments_extra['FROM'] .= ',ACCOUNTING_PAYMENTS p';
-	$staff_payments_extra['WHERE'] .= " AND p.STAFF_ID=s.STAFF_ID AND p.SYEAR=s.SYEAR AND p.PAYMENT_DATE BETWEEN '".$start_date."' AND '".$end_date."'";
+	$staff_payments_extra['WHERE'] .= " AND p.STAFF_ID=s.STAFF_ID AND p.SYEAR=s.SYEAR AND p.SCHOOL_ID='" . UserSchool() . "' AND p.PAYMENT_DATE BETWEEN '".$start_date."' AND '".$end_date."'";
 
 	$staff_payments_RET = GetStaffList($staff_payments_extra);
 	

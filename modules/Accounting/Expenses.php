@@ -67,7 +67,7 @@ if(!$_REQUEST['modfunc'])
 {
 	$payments_total = 0;
 	$functions = array('REMOVE'=>'_makePaymentsRemove','AMOUNT'=>'_makePaymentsAmount','PAYMENT_DATE'=>'ProperDate','COMMENTS'=>'_makePaymentsTextInput');
-	$payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE SYEAR='".UserSyear()."' AND STAFF_ID IS NULL ORDER BY ID"),$functions);
+	$payments_RET = DBGet(DBQuery("SELECT '' AS REMOVE,ID,AMOUNT,PAYMENT_DATE,COMMENTS FROM ACCOUNTING_PAYMENTS WHERE SYEAR='".UserSyear()."' AND STAFF_ID IS NULL AND SCHOOL_ID='".UserSchool()."' ORDER BY ID"),$functions);
 	$i = 1;
 	$RET = array();
 	foreach($payments_RET as $payment)
@@ -100,7 +100,7 @@ if(!$_REQUEST['modfunc'])
 
 	echo '<BR />';
 
-	$incomes_total = DBGet(DBQuery("SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='".UserSyear()."'"));
+	$incomes_total = DBGet(DBQuery("SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."'"));
 
 	$table = '<TABLE class="align-right"><TR><TD>'._('Total from Incomes').': '.'</TD><TD>'.Currency($incomes_total[1]['TOTAL']).'</TD></TR>';
 
@@ -113,7 +113,7 @@ if(!$_REQUEST['modfunc'])
 	
 	if($RosarioModules['Student_Billing'])
 	{
-		$student_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."'"));
+		$student_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
 
 		$table .= '<TR><TD>& '._('Total from Student Payments').': '.'</TD><TD>'.Currency($student_payments_total[1]['TOTAL']).'</TD></TR>';
 	}
@@ -122,7 +122,7 @@ if(!$_REQUEST['modfunc'])
 		
 	$table .= '<TR><TD>'._('Less').': '._('Total from Expenses').': '.'</TD><TD>'.Currency($payments_total).'</TD></TR>';
 
-	$Staff_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."'"));
+	$Staff_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
 
 	$table .= '<TR><TD>& '._('Total from Staff Payments').': '.'</TD><TD>'.Currency($Staff_payments_total[1]['TOTAL']).'</TD></TR>';
 
