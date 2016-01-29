@@ -104,7 +104,7 @@ if ( ! $_REQUEST['modfunc'])
 	
 	if ( $RosarioModules['Student_Billing'])
 	{
-		$student_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."'"));
+		$student_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
 		$table .= '<tr><td>& '._('Total from Student Payments').': '.'</td><td>'.Currency($student_payments_total[1]['TOTAL']).'</td></tr>';
 	}
 	else
@@ -112,7 +112,7 @@ if ( ! $_REQUEST['modfunc'])
 		
 	$table .= '<tr><td>'._('Less').': '._('Total from Expenses').': '.'</td><td>'.Currency($payments_total[1]['TOTAL']).'</td></tr>';
 
-	$Staff_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."'"));
+	$Staff_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
 	$table .= '<tr><td>& '._('Total from Staff Payments').': '.'</td><td>'.Currency($Staff_payments_total[1]['TOTAL']).'</td></tr>';
 
 	$table .= '<tr><td>'._('General Balance').': <b>'.'</b></td><td><b id="update_balance">'.Currency(($incomes_total+$student_payments_total[1]['TOTAL']-$payments_total[1]['TOTAL']-$Staff_payments_total[1]['TOTAL'])).'</b></td></tr></table>';

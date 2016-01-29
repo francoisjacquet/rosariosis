@@ -100,7 +100,7 @@ if ( ! $_REQUEST['modfunc'])
 
 	echo '<br />';
 
-	$incomes_total = DBGet(DBQuery("SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='".UserSyear()."'"));
+	$incomes_total = DBGet(DBQuery("SELECT SUM(f.AMOUNT) AS TOTAL FROM ACCOUNTING_INCOMES f WHERE f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."'"));
 
 	$table = '<table class="align-right"><tr><td>'._('Total from Incomes').': '.'</td><td>'.Currency($incomes_total[1]['TOTAL']).'</td></tr>';
 
@@ -113,7 +113,7 @@ if ( ! $_REQUEST['modfunc'])
 	
 	if ( $RosarioModules['Student_Billing'])
 	{
-		$student_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."'"));
+		$student_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
 
 		$table .= '<tr><td>& '._('Total from Student Payments').': '.'</td><td>'.Currency($student_payments_total[1]['TOTAL']).'</td></tr>';
 	}
