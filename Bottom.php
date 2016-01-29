@@ -119,7 +119,7 @@ else : ?>
 
 	<div id="footerwrap">
 		<a id="BottomButtonMenu" href="#" onclick="expandMenu(); return false;" title="<?php echo _( 'Menu' ); ?>" class="BottomButton">
-			&nbsp;<span><?php echo _( 'Menu' ); ?></span>
+			<span><?php echo _( 'Menu' ); ?></span>
 		</a>
 
 		<?php // FJ icons.
@@ -153,7 +153,7 @@ else : ?>
 			} ?>
 
 			<a href="<?php echo $_SESSION['List_PHP_SELF']; ?>&amp;bottom_back=true" title="<?php echo $back_text; ?>" class="BottomButton">
-				<img src="<?php echo $btn_path; ?>back.png" />&nbsp;
+				<img src="<?php echo $btn_path; ?>back.png" />
 				<span><?php echo $back_text; ?></span>
 			</a>
 
@@ -186,30 +186,30 @@ else : ?>
 			} ?>
 
 			<a href="<?php echo $_SESSION['Search_PHP_SELF']; ?>&amp;bottom_back=true" title="<?php echo $back_text; ?>" class="BottomButton">
-				<img src="<?php echo $btn_path; ?>back.png" />&nbsp;
+				<img src="<?php echo $btn_path; ?>back.png" />
 				<span><?php echo $back_text; ?></span>
 			</a>
 
 		<?php endif; ?>
 
 		<a href="Bottom.php?modfunc=print" target="_blank" title="<?php echo _( 'Print' ); ?>" class="BottomButton">
-			<img src="<?php echo $btn_path; ?>print.png" />&nbsp;
+			<img src="<?php echo $btn_path; ?>print.png" />
 			<span><?php echo _( 'Print' ); ?></span>
 		</a>
-		<?php if ( $RosarioModules['State_Reports']
+		<?php if ( $RosarioModules['Reports']
 			&& User( 'PROFILE' ) === 'admin'
 			&& AllowEdit( 'Reports/SavedReports.php' ) ) : // Save Report. ?>
 			<a href="Modules.php?modname=Reports/SavedReports.php&amp;modfunc=new" class="BottomButton">
-				<img src="<?php echo $btn_path; ?>download.png" />&nbsp;
+				<img src="<?php echo $btn_path; ?>download.png" />
 				<span><?php echo _( 'Save Report' ); ?></span>
 			</a>
 		<?php endif; ?>
 		<a href="#" onclick="toggleHelp();return false;" title="<?php echo _( 'Help' ); ?>" class="BottomButton">
-			<img src="<?php echo $btn_path; ?>help.png" />&nbsp;
+			<img src="<?php echo $btn_path; ?>help.png" />
 			<span><?php echo _( 'Help' ); ?></span>
 		</a>
 		<a href="index.php?modfunc=logout" target="_top" title="<?php echo _( 'Logout' ); ?>" class="BottomButton">
-			<img src="<?php echo $btn_path; ?>logout.png" />&nbsp;
+			<img src="<?php echo $btn_path; ?>logout.png" />
 			<span><?php echo _( 'Logout' ); ?></span>
 		</a>
 		<span class="loading BottomButton"></span>
