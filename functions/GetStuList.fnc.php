@@ -945,7 +945,7 @@ function appendSQL( $sql, $extra = array() )
 	// Grade Level.
 	if ( isset( $_REQUEST['grade'] )
 		&& $_REQUEST['grade'] !== ''
-		&& (string)(int)$_REQUEST['grade'] == $_REQUEST['grade']
+		&& (string) (int) $_REQUEST['grade'] == $_REQUEST['grade']
 		&& $_REQUEST['grade'] > 0 )
 	{
 		$sql .= " AND ssm.GRADE_ID = '" . $_REQUEST['grade'] . "'";

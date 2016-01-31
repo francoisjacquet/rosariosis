@@ -45,7 +45,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 		{
 			if ( $value !== '' )
 			{
-				$cust[ $key ] = $_REQUEST['cust'][ $key ];
+				$cust[ $key ] = $value;
 			}
 		}
 	}
