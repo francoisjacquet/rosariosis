@@ -487,8 +487,7 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
  */
 function FieldsMenuOutput( $RET, $id, $category_id = '0' )
 {
-	if ( ! $RET
-		|| empty( $id ) )
+	if ( ! $RET )
 	{
 		return;
 	}
