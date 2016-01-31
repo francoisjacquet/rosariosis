@@ -110,12 +110,12 @@ function Preferences( $item, $program = 'Preferences' )
 	}
 
 	// Get User Preferences.
-	if ( $_SESSION['STAFF_ID']
-		&& !isset( $_ROSARIO['Preferences'][ $program ] ) )
+	if ( User( 'STAFF_ID' )
+		&& ! isset( $_ROSARIO['Preferences'][ $program ] ) )
 	{
 		$_ROSARIO['Preferences'][ $program ] = DBGet( DBQuery( "SELECT TITLE,VALUE
 			FROM PROGRAM_USER_CONFIG
-			WHERE USER_ID='" . $_SESSION['STAFF_ID'] . "'
+			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 			AND PROGRAM='" . $program . "'" ), array(), array( 'TITLE' ) );
 	}
 

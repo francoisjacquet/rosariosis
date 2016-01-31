@@ -54,6 +54,7 @@ Changes in 2.9
 - Add Fields (and Field Categories) functions in ProgramFunctions/Fields.fnc.php
 - Use DeletePrompt() & Prompt() instead of DeletePromptX() & PromptX() program wide
 - Add Daily Totals program to Accounting & Student Billing modules
+- Add ProgramUserConfig() function in Config.fnc.php
 
 Changes in 2.8.11
 -----------------

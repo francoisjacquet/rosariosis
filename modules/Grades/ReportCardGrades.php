@@ -118,7 +118,8 @@ if (empty($_REQUEST['modfunc']))
 		if ( $course_period_RET[1]['DOES_BREAKOFF']=='Y')
 		{
 			$teacher_id = $course_period_RET[1]['TEACHER_ID'];
-			$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".$teacher_id."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
+
+			$gradebook_config = ProgramUserConfig( 'Gradebook', $teacher_id );
 		}
 		$_REQUEST['tab_id'] = key($grade_scales_RET).'';
 	}
@@ -196,7 +197,7 @@ if (empty($_REQUEST['modfunc']))
 }
 
 function makeGradesInput($value,$name)
-{	global $THIS_RET,$grade_scale_select,$teacher_id,$config_RET;
+{	global $THIS_RET,$grade_scale_select,$teacher_id,$gradebook_config;
 
 	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
@@ -220,8 +221,8 @@ function makeGradesInput($value,$name)
 		$extra = 'size=5 maxlength=5';
 	elseif ( $name=='SORT_ORDER')
 		$extra = 'size=5 maxlength=5';
-	elseif ( $name=='BREAK_OFF' && $teacher_id && $config_RET[UserCoursePeriod().'-'.$THIS_RET['ID']][1]['VALUE']!='')
-		return '<span style="color:blue">'.$config_RET[UserCoursePeriod().'-'.$THIS_RET['ID']][1]['VALUE'].'</span>';
+	elseif ( $name=='BREAK_OFF' && $teacher_id && $gradebook_config[UserCoursePeriod().'-'.$THIS_RET['ID']][1]['VALUE']!='')
+		return '<span style="color:blue">'.$gradebook_config[UserCoursePeriod().'-'.$THIS_RET['ID']][1]['VALUE'].'</span>';
 	else
 		$extra = 'size=5 maxlength=5';
 

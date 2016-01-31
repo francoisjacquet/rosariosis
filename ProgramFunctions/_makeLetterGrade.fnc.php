@@ -1,4 +1,10 @@
 <?php
+/**
+ * Make Letter Grade function
+ *
+ * @package RosarioSIS
+ * @subpackage ProgramFunctions
+ */
 
 /**
  * Calculate letter grade from percent
@@ -6,7 +12,7 @@
  * percent >= breakoff
  * Take in account Teacher grade scale if any (DOES_BREAKOFF)
  *
- * used in:
+ * Used in:
  * Eligibility/EnterEligibility.php
  * Grades/GradebookBreakdown.php
  * Grades/Grades.php
@@ -14,47 +20,36 @@
  * Grades/ProgressReports.php
  * Grades/StudentGrades.php
  *
- * @todo remove global $programconfig!
+ * @example _makeLetterGrade( $percent, $course_period_id, $staff_id )
+ *
+ * @uses ProgramUserConfig()
  *
  * @global array   $_ROSARIO         Sets $_ROSARIO['_makeLetterGrade']
  *
- * @param  string  $percent          precent grade
- * @param  integer $course_period_id course period ID (optional)
- * @param  integer $staff_id         staff ID (optional)
- * @param  string  $ret              returned column (optional). Defaults to 'TITLE'
+ * @param  string  $percent          Percent grade.
+ * @param  integer $course_period_id Course period ID (optional). Defaults to UserCoursePeriod().
+ * @param  integer $staff_id         Staff ID (optional). Defaults to User( 'STAFF_ID' ).
+ * @param  string  $ret              Returned column (optional). Defaults to 'TITLE'.
  *
  * @return string                    report card letter grade
  */
 function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret = 'TITLE' )
 {
-	global $programconfig,
-		$_ROSARIO;
+	global $_ROSARIO;
 
-	if ( ! $course_period_id )
-		$course_period_id = UserCoursePeriod();
+	$course_period_id = $course_period_id ? $course_period_id : UserCoursePeriod();
 
-	if ( ! $staff_id )
-		$staff_id = User( 'STAFF_ID' );
+	$staff_id = $staff_id ? $staff_id : User( 'STAFF_ID' );
 
-	if ( ! $programconfig[ $staff_id ] )
+	$gradebook_config = ProgramUserConfig( 'Gradebook', $staff_id );
+
+	// Save courses in $_ROSARIO['_makeLetterGrade']['courses'] global var.
+	if ( ! isset( $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] ) )
 	{
-		$config_RET = DBGet( DBQuery( "SELECT TITLE,VALUE
-			FROM PROGRAM_USER_CONFIG
-			WHERE USER_ID='" . $staff_id . "'
-			AND PROGRAM='Gradebook'" ), array(), array( 'TITLE' ) );
-
-		if ( count( $config_RET ) )
-			foreach ( (array) $config_RET as $title => $value )
-				$programconfig[ $staff_id ][ $title ] = $value[1]['VALUE'];
-		else
-			$programconfig[ $staff_id ] = true;
-	}
-
-	// Save courses in $_ROSARIO['_makeLetterGrade']['courses'] global var
-	if ( ! $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ])
 		$_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ] = DBGet( DBQuery( "SELECT DOES_BREAKOFF,GRADE_SCALE_ID
 			FROM COURSE_PERIODS
 			WHERE COURSE_PERIOD_ID='" . $course_period_id . "'" ) );
+	}
 
 	$does_breakoff = $_ROSARIO['_makeLetterGrade']['courses'][ $course_period_id ][1]['DOES_BREAKOFF'];
 
@@ -62,54 +57,66 @@ function _makeLetterGrade( $percent, $course_period_id = 0, $staff_id = 0, $ret 
 
 	$percent *= 100;
 
-	// If Teacher Grade Scale
-	if ( $does_breakoff == 'Y'
-		&& is_array( $programconfig[ $staff_id ] ) )
+	// If Teacher Grade Scale.
+	if ( $does_breakoff === 'Y'
+		&& is_array( $gradebook_config ) )
 	{
-		if ( $programconfig[ $staff_id ]['ROUNDING'] == 'UP' )
+		if ( $gradebook_config['ROUNDING'] === 'UP' )
+		{
 			$percent = ceil( $percent );
-
-		elseif ( $programconfig[ $staff_id ]['ROUNDING'] == 'DOWN' )
+		}
+		elseif ( $gradebook_config['ROUNDING'] === 'DOWN' )
+		{
 			$percent = floor( $percent );
-
-		elseif ( $programconfig[ $staff_id ]['ROUNDING'] == 'NORMAL' )
+		}
+		elseif ( $gradebook_config['ROUNDING'] === 'NORMAL' )
+		{
 			$percent = round( $percent );
+		}
 	}
 	else
-		$percent = round( $percent ); // school default
+		$percent = round( $percent ); // School default.
 
-	if ( $ret == '%' )
+	if ( $ret === '%' )
+	{
 		return $percent;
+	}
 
-	// Save grades in $_ROSARIO['_makeLetterGrade']['grades'] global var
-	if ( ! $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] )
+	// Save grades in $_ROSARIO['_makeLetterGrade']['grades'] global var.
+	if ( ! isset( $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] ) )
+	{
 		$_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] = DBGet( DBQuery( "SELECT TITLE,ID,BREAK_OFF,COMMENT
 			FROM REPORT_CARD_GRADES
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'
 			AND GRADE_SCALE_ID='" . $grade_scale_id . "'
 			ORDER BY BREAK_OFF IS NOT NULL DESC,BREAK_OFF DESC,SORT_ORDER" ) );
+	}
 
 	// Fix error invalid input syntax for type numeric
-	// If Teacher Grade Scale
-	if ( $does_breakoff == 'Y'
-		&& is_array( $programconfig[ $staff_id ] ) )
+	// If Teacher Grade Scale.
+	if ( $does_breakoff === 'Y'
+		&& is_array( $gradebook_config ) )
 	{
 		foreach ( (array) $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] as $grade )
 		{
-			if ( is_numeric($programconfig[ $staff_id ][$course_period_id.'-'.$grade['ID']])
-				&& $percent >= $programconfig[ $staff_id ][$course_period_id . '-' . $grade['ID']] )
-				//FJ use Report Card Grades comments
-				//return $ret=='ID' ? $grade['ID'] : $grade['TITLE'];
+			if ( is_numeric( $gradebook_config[ $course_period_id . '-' . $grade['ID'] ] )
+				&& $percent >= $gradebook_config[ $course_period_id . '-' . $grade['ID'] ] )
+			{
+				// FJ use Report Card Grades comments.
+				// return $ret=='ID' ? $grade['ID'] : $grade['TITLE'];
 				return $grade[ $ret ];
+			}
 		}
 	}
 
 	foreach ( (array) $_ROSARIO['_makeLetterGrade']['grades'][ $grade_scale_id ] as $grade )
 	{
 		if ( $percent >= $grade['BREAK_OFF'] )
-			//FJ use Report Card Grades comments
-			//return $ret=='ID' ? $grade['ID'] : $grade['TITLE'];
+		{
+			// FJ use Report Card Grades comments.
+			// return $ret=='ID' ? $grade['ID'] : $grade['TITLE'];
 			return $grade[ $ret ];
+		}
 	}
 }

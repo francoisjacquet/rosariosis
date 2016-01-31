@@ -46,13 +46,9 @@ $current_RET = DBGet(DBQuery("SELECT ELIGIBILITY_CODE,STUDENT_ID FROM ELIGIBILIT
 
 if ( $_REQUEST['modfunc']=='gradebook')
 {
-	$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
-	if (count($config_RET))
-		foreach ( (array) $config_RET as $title => $value)
-			$programconfig[User('STAFF_ID')][ $title ] = $value[1]['VALUE'];
-	else
-		$programconfig[User('STAFF_ID')] = true;
-	include 'ProgramFunctions/_makeLetterGrade.fnc.php';
+	$gradebook_config = ProgramUserConfig( 'Gradebook' );
+
+	require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 
 	$course_period_id = UserCoursePeriod();
 	$course_id = DBGet(DBQuery("SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
@@ -60,11 +56,11 @@ if ( $_REQUEST['modfunc']=='gradebook')
 
 	$grades_RET = DBGet(DBQuery("SELECT ID,TITLE,GPA_VALUE FROM REPORT_CARD_GRADES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('ID'));
 
-	if ( $programconfig[User('STAFF_ID')]['WEIGHT']=='Y')
+	if ( $gradebook_config['WEIGHT']=='Y')
 		$points_RET = DBGet(DBQuery("SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT 
 		FROM STUDENTS s 
 		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='".$course_period_id."') 
-		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='".$course_id."' AND ga.STAFF_ID='".User('STAFF_ID')."') AND ga.MARKING_PERIOD_ID".($programconfig[User('STAFF_ID')]['ELIGIBILITY_CUMULITIVE']=='Y'?" IN (".GetChildrenMP('SEM',UserMP()).")":"='".UserMP()."'").") 
+		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='".$course_id."' AND ga.STAFF_ID='".User('STAFF_ID')."') AND ga.MARKING_PERIOD_ID".($gradebook_config['ELIGIBILITY_CUMULITIVE']=='Y'?" IN (".GetChildrenMP('SEM',UserMP()).")":"='".UserMP()."'").") 
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID),
 		GRADEBOOK_ASSIGNMENT_TYPES gt 
 		WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID 
@@ -76,7 +72,7 @@ if ( $_REQUEST['modfunc']=='gradebook')
 		$points_RET = DBGet(DBQuery("SELECT DISTINCT ON (s.STUDENT_ID) s.STUDENT_ID,'-1' AS ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL,'1' AS FINAL_GRADE_PERCENT 
 		FROM STUDENTS s 
 		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='".$course_period_id."') 
-		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='".$course_id."' AND ga.STAFF_ID='".User('STAFF_ID')."') AND ga.MARKING_PERIOD_ID".($programconfig[User('STAFF_ID')]['ELIGIBILITY_CUMULITIVE']=='Y'?" IN (".GetChildrenMP('SEM',UserMP()).")":"='".UserMP()."'").") 
+		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='".$course_id."' AND ga.STAFF_ID='".User('STAFF_ID')."') AND ga.MARKING_PERIOD_ID".($gradebook_config['ELIGIBILITY_CUMULITIVE']=='Y'?" IN (".GetChildrenMP('SEM',UserMP()).")":"='".UserMP()."'").") 
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID)
 		WHERE ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) 
 		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL) 

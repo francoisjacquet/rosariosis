@@ -12,16 +12,10 @@ require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 if ( !isset($_ROSARIO['allow_edit']))
 	$_ROSARIO['allow_edit'] = true;
 
-$config_RET = DBGet(DBQuery("SELECT TITLE,VALUE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'"),array(),array('TITLE'));
-
-if (count($config_RET))
-	foreach ( (array) $config_RET as $title => $value)
-		$programconfig[User('STAFF_ID')][ $title ] = $value[1]['VALUE'];
-else
-	$programconfig[User('STAFF_ID')] = true;
+$gradebook_config = ProgramUserConfig( 'Gradebook' );
 
 //$max_allowed = Preferences('ANOMALOUS_MAX','Gradebook')/100;
-$max_allowed = ($programconfig[User('STAFF_ID')]['ANOMALOUS_MAX']?$programconfig[User('STAFF_ID')]['ANOMALOUS_MAX']/100:1);
+$max_allowed = ( $gradebook_config['ANOMALOUS_MAX'] ? $gradebook_config['ANOMALOUS_MAX'] / 100 : 1 );
 
 if ( $_REQUEST['student_id'])
 {
@@ -398,7 +392,7 @@ foreach ( (array) $types_RET as $id => $type )
 		$color = '<span style="background-color: ' . $type[1]['COLOR'] . ';">&nbsp;</span>&nbsp;';
 
 	$tabs[] = array(
-		'title' => $color . $type[1]['TITLE'] . ( $programconfig[User( 'STAFF_ID' )]['WEIGHT'] == 'Y' ? '|' . number_format( 100 * $type[1]['FINAL_GRADE_PERCENT'], 0 ) . '%' : '' ),
+		'title' => $color . $type[1]['TITLE'] . ( $gradebook_config['WEIGHT'] == 'Y' ? '|' . number_format( 100 * $type[1]['FINAL_GRADE_PERCENT'], 0 ) . '%' : '' ),
 		'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&type_id=' . $id . ( $_REQUEST['assignment_id'] == 'all' ? '&assignment_id=all' : '' ) . ( UserStudentID() ? '&student_id=' . UserStudentID() : '' ) . '&include_inactive=' .$_REQUEST['include_inactive'] . '&include_all=' . $_REQUEST['include_all']
 	);
 }
@@ -466,7 +460,7 @@ function _makeTipMessage( $full_name, $column )
 
 
 function _makeExtraAssnCols($assignment_id,$column)
-{	global $THIS_RET,$assignments_RET,$current_RET,$points_RET,$tabindex,$max_allowed,$total,$programconfig;
+{	global $THIS_RET,$assignments_RET,$current_RET,$points_RET,$tabindex,$max_allowed,$total,$gradebook_config;
 
 	switch ( $column)
 	{
@@ -482,7 +476,7 @@ function _makeExtraAssnCols($assignment_id,$column)
 				{
 					foreach ( (array) $points_RET[$THIS_RET['STUDENT_ID']] as $partial_points)
 					{
-						if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[User('STAFF_ID')]['WEIGHT']!='Y')
+						if ( $partial_points['PARTIAL_TOTAL']!=0 || $gradebook_config['WEIGHT']!='Y')
 						{
 							$total += $partial_points['PARTIAL_POINTS'];
 							$total_points += $partial_points['PARTIAL_TOTAL'];
@@ -527,10 +521,10 @@ function _makeExtraAssnCols($assignment_id,$column)
 				if (count($points_RET[$THIS_RET['STUDENT_ID']]))
 				{
 					foreach ( (array) $points_RET[$THIS_RET['STUDENT_ID']] as $partial_points)
-						if ( $partial_points['PARTIAL_TOTAL']!=0 || $programconfig[User('STAFF_ID')]['WEIGHT']!='Y')
+						if ( $partial_points['PARTIAL_TOTAL']!=0 || $gradebook_config['WEIGHT']!='Y')
 						{
-							$total += $partial_points['PARTIAL_POINTS']*($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
-							$total_percent += ($programconfig[User('STAFF_ID')]['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
+							$total += $partial_points['PARTIAL_POINTS']*($gradebook_config['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']/$partial_points['PARTIAL_TOTAL']:1);
+							$total_percent += ($gradebook_config['WEIGHT']=='Y'?$partial_points['FINAL_GRADE_PERCENT']:$partial_points['PARTIAL_TOTAL']);
 						}
 
 					if ( $total_percent!=0)

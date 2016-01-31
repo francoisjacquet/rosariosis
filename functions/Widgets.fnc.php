@@ -191,7 +191,7 @@ function Widgets( $item, &$myextra = null )
 		// User Widgets (configured in My Preferences).
 		case 'user':
 
-			$widgets_RET = DBGet( DBQuery( "SELECT TITLE
+			/*$widgets_RET = DBGet( DBQuery( "SELECT TITLE
 				FROM PROGRAM_USER_CONFIG
 				WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
 				AND PROGRAM='WidgetsSearch'" .
@@ -200,11 +200,18 @@ function Widgets( $item, &$myextra = null )
 						implode( "','", array_keys( $_ROSARIO['Widgets'] ) ) .
 					"')" :
 					'' )
-				) );
+				) );*/
 
-			foreach ( (array) $widgets_RET as $widget )
+			$user_widgets = ProgramUserConfig( 'WidgetsSearch' );
+
+			$saved_widget_titles = array_keys( $_ROSARIO['Widgets'] );
+
+			foreach ( (array) $user_widgets as $user_widget_title => $value )
 			{
-				Widgets( $widget['TITLE'], $extra );
+				if ( ! in_array( $user_widget_title, $saved_widget_titles ) )
+				{
+					Widgets( $user_widget_title, $extra );
+				}
 			}
 
 		break;
