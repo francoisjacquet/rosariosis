@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 10:27-0500\n"
-"PO-Revision-Date: 2015-12-30 10:28-0500\n"
+"PO-Revision-Date: 2016-02-01 10:20-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -390,7 +390,7 @@ msgstr "Erreur"
 #: Side.php:299 functions/GetMP.php:51 functions/GetMP.php:71
 #: functions/GetMP.php:86 functions/GetMP.php:106
 msgid "No quarters found"
-msgstr "Aucune période scolaire trouvée"
+msgstr "Aucun bimestre trouvé"
 
 #: Side.php:368 modules/Attendance/AddAbsences.php:155
 #: modules/Eligibility/EnterEligibility.php:34
@@ -4315,7 +4315,7 @@ msgstr "La date de début est après la date d'échéance !"
 
 #: modules/Grades/Assignments-new.php:313 modules/Grades/Assignments.php:354
 msgid "Due date is after end of quarter!"
-msgstr "La date d'échéance est après la fin du bimestre !"
+msgstr "La date d'échéance est après la fin du trimestre !"
 
 #: modules/Grades/Assignments-new.php:313 modules/Grades/Assignments.php:352
 msgid "Due date is before assigned date!"
@@ -4516,7 +4516,7 @@ msgstr "Semestre"
 #: modules/School_Setup/MarkingPeriods.php:399
 #: modules/School_Setup/MarkingPeriods.php:405
 msgid "Quarter"
-msgstr "Bimestre"
+msgstr "Trimestre"
 
 #: modules/Grades/EditReportCardGrades.php:15 modules/Grades/HonorRoll.php:159
 #: modules/Grades/HonorRollSubject.php:99 modules/Scheduling/Courses.php:646
@@ -5172,7 +5172,7 @@ msgstr "Inclure sur le Bulletin de Notes"
 
 #: modules/Grades/includes/ReportCards.fnc.php:77
 msgid "Other Attendance this quarter"
-msgstr "Autres Absences ce bimestre"
+msgstr "Autres Absences ce trimestre"
 
 #: modules/Grades/includes/ReportCards.fnc.php:640
 msgid "Report Card"
@@ -5903,7 +5903,7 @@ msgstr "Activer les Anciennes Coordonnées du Contact"
 #: modules/School_Setup/Configuration.php:163
 msgid "Use Semester Comments instead of Quarter Comments"
 msgstr ""
-"Utiliser des Commentaires Semestriels au lieu de Commentaires Bimestriels"
+"Utiliser des Commentaires Semestriels au lieu de Commentaires Trimestriels"
 
 #: modules/School_Setup/Configuration.php:171
 msgid "Use letter grades only"
