@@ -23,19 +23,22 @@ Replace the modules icons in CSS (example for School Setup & Student icons):
 
 /* [place this snippet before media queries] */
 /* Hide default Module icons */
-.menu-top img{
+.menu-top img,
+#body h2 img {
 	width:32px;
 	padding:32px 0 0 0;
 	height:0;
 	overflow:hidden;
-	background-size:100%
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 /* Replace Module icons */
-.menu-module.school-setup img{
+img[src="modules/Food_Service/icon.png"]{
 	background-image:url("btn/back.png")
 }
-.menu-module.students img{
+img[src="modules/School_Setup/icon.png"]{
 	background-image:url("btn/bus_button.png")
 }
 
