@@ -316,7 +316,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 		<?php // User Information. ?>
 
 		<a href="index.php" target="_top" class="center">
-			<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="logo" />
+			<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="logo" alt="Logo" />
 		</a>
 		<form action="Side.php?sidefunc=update" method="POST" target="menu">
 			<span class="br-after">&nbsp;<b><?php echo User( 'NAME' ); ?></b></span>
@@ -351,7 +351,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				} ?>
 
 				<span class="br-after">
-					<select name="school" onChange="ajaxPostForm(this.form,true);">
+					<label for="school" class="a11y-hidden"><?php echo _( 'School' ); ?></label>
+					<select name="school" id="school" onChange="ajaxPostForm(this.form,true);">
 				<?php foreach ( (array) $RET as $school ) : ?>
 					<option value="<?php echo $school['ID']; ?>"<?php echo ( ( UserSchool() == $school['ID'] ) ? ' selected' : '' ); ?>><?php
 						echo ( $school['SHORT_NAME'] ? $school['SHORT_NAME'] : $school['TITLE'] );
@@ -384,7 +385,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				?>
 
 				<span class="br-after">
-					<select name="student_id" onChange="ajaxPostForm(this.form,true);">
+					<label for="student" class="a11y-hidden"><?php echo _( 'Student' ); ?></label>
+					<select name="student_id" id="student" onChange="ajaxPostForm(this.form,true);">
 				<?php foreach ( (array) $RET as $student ) : ?>
 					<option value="<?php echo $student['STUDENT_ID']; ?>"<?php echo ( ( UserStudentID() == $student['STUDENT_ID'] ) ? ' selected' : '' ); ?>><?php
 						echo $student['FULL_NAME'];
@@ -440,7 +442,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			$years_RET = DBGet( DBQuery( $sql ) ); ?>
 
 			<span class="br-after">
-				<select name="syear" onChange="ajaxPostForm(this.form,true);">
+				<label for="syear" class="a11y-hidden"><?php echo _( 'School Year' ); ?></label>
+				<select name="syear" id="syear" onChange="ajaxPostForm(this.form,true);">
 			<?php foreach ( (array) $years_RET as $year ) : ?>
 				<option value="<?php echo $year['SYEAR']; ?>"<?php echo ( ( UserSyear() == $year['SYEAR'] ) ? ' selected' : '' ); ?>><?php
 					echo FormatSyear( $year['SYEAR'], Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
@@ -459,7 +462,8 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			?>
 
 			<span class="br-after">
-				<select name="mp" onChange="ajaxPostForm(this.form,true);">
+				<label for="mp" class="a11y-hidden"><?php echo _( 'Marking Period' ); ?></label>
+				<select name="mp" id="mp" onChange="ajaxPostForm(this.form,true);">
 			<?php if ( count( $RET ) ) :
 
 				$mp_array = array();
@@ -650,20 +654,20 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			&& ( User( 'PROFILE' ) === 'admin'
 				|| User( 'PROFILE' ) === 'teacher' ) ) :
 
-			$RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME
+			$current_student_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME
 				FROM STUDENTS
 				WHERE STUDENT_ID='" . UserStudentID() . "'" ) ); ?>
 
 			<div class="current-person student">
-				<a href="Side.php?side_student_id=new" target="menu">
+				<a href="Side.php?side_student_id=new" target="menu" title="<?php echo _( 'Clear working student' ); ?>">
 					<?php echo button( 'x', '', '', 'bigger' ); ?>
 				</a>
 				<?php if ( AllowUse( 'Students/Student.php' ) ) : ?>
-					<a href="Modules.php?modname=Students/Student.php&amp;student_id=<?php echo UserStudentID(); ?>">
-						<?php echo $RET[1]['FULL_NAME']; ?>
+					<a href="Modules.php?modname=Students/Student.php&amp;student_id=<?php echo UserStudentID(); ?>" title="<?php echo _( 'Student Info' ); ?>">
+						<?php echo $current_student_RET[1]['FULL_NAME']; ?>
 					</a>
 				<?php else : ?>
-					<?php echo $RET[1]['FULL_NAME']; ?>
+					<?php echo $current_student_RET[1]['FULL_NAME']; ?>
 				<?php endif; ?>
 			</div>
 
@@ -674,20 +678,20 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			&& ( User( 'PROFILE' ) === 'admin'
 				|| User( 'PROFILE' ) === 'teacher' ) ) :
 
-			$RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME
+			$current_user_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME
 				FROM STAFF
 				WHERE STAFF_ID='" . UserStaffID() . "'" ) ); ?>
 
 			<div class="current-person <?php echo ( UserStaffID() == User( 'STAFF_ID' ) ? 'self' : 'staff' ); ?>">
-				<a href="Side.php?side_staff_id=new" target="menu">
+				<a href="Side.php?side_staff_id=new" target="menu" title="<?php echo _( 'Clear working user' ); ?>">
 					<?php echo button( 'x', '', '', 'bigger' ); ?>
 				</a>
 				<?php if ( AllowUse( 'Users/User.php' ) ) : ?>
-					<a href="Modules.php?modname=Users/User.php&amp;staff_id=<?php echo UserStaffID(); ?>">
-						<?php echo $RET[1]['FULL_NAME']; ?>
+					<a href="Modules.php?modname=Users/User.php&amp;staff_id=<?php echo UserStaffID(); ?>" title="<?php echo _( 'User Info' ); ?>">
+						<?php echo $current_user_RET[1]['FULL_NAME']; ?>
 					</a>
 				<?php else : ?>
-					<?php echo $RET[1]['FULL_NAME']; ?>
+					<?php echo $current_user_RET[1]['FULL_NAME']; ?>
 				<?php endif; ?>
 			</div>
 
@@ -711,7 +715,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 				$modcat_class = mb_strtolower( str_replace( '_', '-', $menu_key[ $i ] ) ); ?>
 			<li class="menu-module <?php echo $modcat_class; ?>">
 				<a href="Modules.php?modname=<?php echo $modcat_menu['default']; ?>" class="menu-top">
-					<img src="modules/<?php echo $menu_key[ $i ]; ?>/icon.png" />&nbsp;<?php echo $modcat_menu['title']; ?>
+					<img src="modules/<?php echo $menu_key[ $i ]; ?>/icon.png" alt="<?php echo $modcat_menu['title']; ?>" />&nbsp;<?php echo $modcat_menu['title']; ?>
 				</a>
 				<ul id="menu_<?php echo $menu_key[ $i ]; ?>" class="wp-submenu">
 				<?php

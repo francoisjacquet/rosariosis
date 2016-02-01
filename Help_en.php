@@ -36,7 +36,7 @@ if ( User( 'PROFILE' ) === 'admin' ) :
 	If you select a user to work on, the user's name will also appear in the side menu. This will behave identically to the student's name.
 </p>
 <p>
-	Also, when you click on any of the program icons in the top menu, you will see a list of programs available to you in that program category. Clicking on any program title will launch the program in the main frame, and it will update the help frame to display help for that program.
+	Also, when you click on any of the program icons in the side menu, you will see a list of programs available to you in that program category. Clicking on any program title will launch the program in the main frame, and it will update the help frame to display help for that program.
 </p>
 <p>
 	In many places in RosarioSIS, you will see lists of data that are modifiable. Oftentimes, you will have to first click the value you want to change to have access to an input field. Then, when you change the value and save, the value will return to its previous state.

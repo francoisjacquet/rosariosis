@@ -877,6 +877,11 @@ table.mceLayout,textarea.tinymce{
 	margin:2px 2px 2px 0;
 }
 
+/* Accessibility (a11y) */
+.a11y-hidden {
+	display: none;
+}
+
 /*mobile*/
 @media only screen and (max-width:640px){
 	/*quick smartphone reset*/

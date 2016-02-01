@@ -318,7 +318,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 	<table>
 		<tr class="st">
 		<td class="center">
-			<img src="assets/themes/<?php echo Config( 'THEME' ); ?>/logo.png" class="logo" />
+			<img src="assets/themes/<?php echo Config( 'THEME' ); ?>/logo.png" class="logo" alt="Logo" />
 		</td>
 		<td>
 			<form name="loginform" method="post" action="index.php" class="login">
@@ -335,7 +335,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 					<td>
 					<?php foreach ( $RosarioLocales as $loc ) : ?>
 
-						<a href="index.php?locale=<?php echo $loc; ?>">
+						<a href="index.php?locale=<?php echo $loc; ?>" title="<?php echo str_replace( '.utf8', '', $loc ); ?>">
 							<img src="assets/flags/<?php echo $loc; ?>.png" height="32" />
 						</a>&nbsp;
 

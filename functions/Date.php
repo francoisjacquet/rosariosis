@@ -351,7 +351,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 	// CALENDAR  ---------------.
 	if ( $options['C'] )
 	{
-		$return .= '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/calendar.png" class="button cal" id="trigger' . $_ROSARIO['PrepareDate'] . '" />';
+		$return .= '<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/calendar.png" title="' . _( 'Open calendar' ) . '" class="button cal" id="trigger' . $_ROSARIO['PrepareDate'] . '" />';
 	}
 
 	// FJ NOBR on date input.

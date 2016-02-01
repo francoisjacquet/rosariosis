@@ -55,6 +55,7 @@ Changes in 2.9
 - Use DeletePrompt() & Prompt() instead of DeletePromptX() & PromptX() program wide
 - Add Daily Totals program to Accounting & Student Billing modules
 - Add ProgramUserConfig() function in Config.fnc.php
+- Improved accessibility (a11y) in Side.php, index.php & Buttons.php
 
 Changes in 2.8.11
 -----------------

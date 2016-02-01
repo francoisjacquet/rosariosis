@@ -56,16 +56,16 @@ function button( $type, $text = '', $link = '', $class = '' )
 		}
 
 		// Dont put "" around the link href to allow Javascript code insert.
-		$button .= '<a href=' . (string) $link . $title . '>';
+		$button .= '<a href=' . $link . $title . '>';
 	}
 
-	$button_file = 'assets/themes/' . Preferences( 'THEME' ) . '/btn/' . (string) $type . '_button.png';
+	$button_file = 'assets/themes/' . Preferences( 'THEME' ) . '/btn/' . $type . '_button.png';
 
-	$button .= '<img src="' . $button_file . '" class="button ' . (string) $class . '" />';
+	$button .= '<img src="' . $button_file . '" class="button ' . $class . '" alt="' . ucfirst( str_replace( '_', ' ', $type ) ) . '" />';
 
 	if ( $text !== '' )
 	{
-		$button .= '&nbsp;<b>' . (string) $text . '</b>';
+		$button .= '&nbsp;<b>' . $text . '</b>';
 	}
 
 	if ( $link !== '' )
@@ -96,10 +96,10 @@ function SubmitButton( $value, $name = '', $options = '' )
 
 		if ( $name !== '' )
 		{
-			$name_attr = ' name="' . (string) $name . '" ';
+			$name_attr = ' name="' . $name . '" ';
 		}
 
-		return '<input type="submit" value="' . (string) $value . '"' . $name_attr . (string) $options . ' />';
+		return '<input type="submit" value="' . $value . '"' . $name_attr . $options . ' />';
 	}
 	else
 		return '';
@@ -120,7 +120,7 @@ function ResetButton( $value, $options = '' )
 {
 	if ( AllowEdit() )
 	{
-		return '<input type="reset" value="' . (string) $value . '" ' . (string) $options . ' />';
+		return '<input type="reset" value="' . $value . '" ' . $options . ' />';
 	}
 	else
 		return '';

@@ -875,6 +875,11 @@ table.mceLayout,textarea.tinymce{
 	margin:2px 2px 2px 0;
 }
 
+/* Accessibility (a11y) */
+.a11y-hidden {
+	display: none;
+}
+
 /*wkhtmltopdf code*/
 *{
     font-size:inherit;

@@ -43,7 +43,7 @@ function DrawHeader( $left, $right = '', $center = '' )
 			if ( isset( $_ROSARIO['HeaderIcon'] )
 				&& $_ROSARIO['HeaderIcon'] !== false )
 			{
-				$left = '<img src="' . $_ROSARIO['HeaderIcon'] . '" class="headerIcon" /> ' . $left;
+				$left = '<img src="' . $_ROSARIO['HeaderIcon'] . '" class="headerIcon" alt="Module icon" /> ' . $left;
 			}
 
 			$left = '<h2>' . $left . '</h2>';
