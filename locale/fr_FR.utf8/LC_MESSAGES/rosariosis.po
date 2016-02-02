@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-01 10:21-0500\n"
-"PO-Revision-Date: 2016-02-01 10:23-0500\n"
+"POT-Creation-Date: 2016-02-02 14:20-0500\n"
+"PO-Revision-Date: 2016-02-02 14:27-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -66,7 +66,7 @@ msgstr "Imprimer"
 
 #: Bottom.php:204
 msgid "Save Report"
-msgstr ""
+msgstr "Enregistrer Rapport"
 
 #: Bottom.php:207 Bottom.php:209
 msgid "Help"
@@ -128,7 +128,7 @@ msgid "Parent"
 msgstr "Parent"
 
 # 'user_profiles' table
-#: Help.php:60 modules/Accounting/DailyTransactions.php:183
+#: Help.php:60 Side.php:388 modules/Accounting/DailyTransactions.php:183
 #: modules/Attendance/DuplicateAttendance.php:232
 #: modules/Attendance/TakeAttendance.php:235
 #: modules/Attendance/TakeAttendance.php:246
@@ -249,14 +249,12 @@ msgstr "Effacer"
 #: modules/Grades/ReportCardComments.php:278
 #: modules/Grades/ReportCardComments.php:292
 #: modules/Grades/ReportCardGrades.php:187
-#: modules/Grades/ReportCardGrades.php:195 modules/Reports/Calculations.php:386
-#: modules/Reports/Calculations.php:432 modules/Reports/Calculations.php:456
-#: modules/Reports/SavedReports.php:189 modules/Reports/SavedReports.php:193
-#: modules/Resources/Resources.php:70 modules/Resources/Resources.php:73
-#: modules/Scheduling/Courses.php:597 modules/Scheduling/Courses.php:919
-#: modules/Scheduling/Courses.php:960 modules/Scheduling/Requests.php:116
-#: modules/Scheduling/Requests.php:126 modules/Scheduling/Schedule.php:134
-#: modules/Scheduling/Schedule.php:250 modules/Scheduling/new_Requests.php:51
+#: modules/Grades/ReportCardGrades.php:195 modules/Resources/Resources.php:70
+#: modules/Resources/Resources.php:73 modules/Scheduling/Courses.php:597
+#: modules/Scheduling/Courses.php:919 modules/Scheduling/Courses.php:960
+#: modules/Scheduling/Requests.php:116 modules/Scheduling/Requests.php:126
+#: modules/Scheduling/Schedule.php:134 modules/Scheduling/Schedule.php:250
+#: modules/Scheduling/new_Requests.php:51
 #: modules/Scheduling/new_Requests.php:56 modules/School_Setup/Calendar.php:451
 #: modules/School_Setup/Calendar.php:648 modules/School_Setup/Calendar.php:943
 #: modules/School_Setup/Calendar.php:1209
@@ -393,12 +391,12 @@ msgstr "Type du Champ"
 #: ProgramFunctions/Fields.fnc.php:359 ProgramFunctions/Fields.fnc.php:544
 msgid "Field Category"
 msgid_plural "Field Categories"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Catégorie de Champ Utilisateur"
+msgstr[1] "Catégories de Champ Utilisateur"
 
 #: ProgramFunctions/Fields.fnc.php:380
 msgid "One per line"
-msgstr ""
+msgstr "Un par ligne"
 
 #: ProgramFunctions/Fields.fnc.php:393 modules/School_Setup/Calendar.php:68
 #: modules/School_Setup/Calendar.php:907
@@ -408,7 +406,7 @@ msgstr "Par Défaut"
 
 #: ProgramFunctions/Fields.fnc.php:394
 msgid "For dates: YYYY-MM-DD"
-msgstr ""
+msgstr "Pour les dates : AAAA-MM-JJ"
 
 #: ProgramFunctions/Fields.fnc.php:395
 msgid "for checkboxes: Y"
@@ -451,11 +449,9 @@ msgstr "Ordre de Tri"
 #: modules/Grades/ReportCardCommentCodes.php:127
 #: modules/Grades/ReportCardGrades.php:144 modules/Grades/StudentGrades.php:266
 #: modules/Grades/Transcripts.php:302 modules/Grades/Transcripts.php:309
-#: modules/Reports/Calculations.php:427 modules/Reports/Calculations.php:448
-#: modules/Reports/CalculationsReports.php:216
-#: modules/Reports/SavedReports.php:177 modules/Resources/Resources.php:64
-#: modules/Scheduling/Courses.php:924 modules/Scheduling/Courses.php:965
-#: modules/School_Setup/Calendar.php:80 modules/School_Setup/Calendar.php:631
+#: modules/Resources/Resources.php:64 modules/Scheduling/Courses.php:924
+#: modules/Scheduling/Courses.php:965 modules/School_Setup/Calendar.php:80
+#: modules/School_Setup/Calendar.php:631
 #: modules/School_Setup/GradeLevels.php:69
 #: modules/School_Setup/MarkingPeriods.php:421
 #: modules/School_Setup/Periods.php:80 modules/School_Setup/PortalNotes.php:212
@@ -596,7 +592,6 @@ msgid "Download"
 msgstr "Télécharger"
 
 #: ProgramFunctions/PortalPollsNotes.fnc.php:451
-#: modules/Student_Import_Microtec/StudentImportMicrotec.php:95
 #, php-format
 msgid "Maximum file size: %01.0fMb"
 msgstr "Taille maximum du fichier %01.2fMo"
@@ -696,16 +691,60 @@ msgstr "Ne pas inscrire après cette année"
 msgid "Next Grade at "
 msgstr "Classe supérieure dans "
 
-#: Side.php:486 functions/ErrorMessage.fnc.php:45
+#: Side.php:354 functions/GetStuList.fnc.php:502
+#: modules/Custom/AttendanceSummary.php:101
+#: modules/Custom/CreateParents.php:276 modules/Custom/NotifyParents.php:130
+#: modules/Food_Service/AssignSchool.php:38
+#: modules/Food_Service/AssignSchool.php:40 modules/Grades/HonorRoll.php:253
+#: modules/Grades/HonorRollSubject.php:187 modules/Grades/Transcripts.php:437
+#: modules/School_Setup/Configuration.php:166 modules/School_Setup/Menu.php:26
+#: modules/School_Setup/Menu.php:37 modules/School_Setup/Menu.php:47
+#: modules/School_Setup/Schools.php:101 modules/Students/AddDrop.php:52
+#: modules/Students/Letters.php:163
+#: modules/Students/includes/Enrollment.inc.php:21
+#: modules/Students/includes/General_Info.inc.php:164
+#: modules/Users/includes/Schedule.inc.php:28 modules/misc/Export.php:137
+#: modules/misc/Export.php:447 modules/misc/Portal.php:75
+#: modules/misc/Portal.php:92 modules/misc/Portal.php:109
+#: modules/misc/Portal.php:175 modules/misc/Portal.php:231
+#: modules/misc/Portal.php:250 modules/misc/Portal.php:266
+#: modules/misc/Portal.php:380 modules/misc/Portal.php:399
+#: modules/misc/Portal.php:414 modules/misc/Portal.php:503
+msgid "School"
+msgstr "École"
+
+#: Side.php:445 modules/Discipline/CategoryBreakdownTime.php:431
+#: modules/Discipline/includes/ReferralLog.fnc.php:187
+#: modules/Food_Service/AssignSchool.php:38
+#: modules/Food_Service/AssignSchool.php:40
+#: modules/Grades/EditHistoryMarkingPeriods.php:94
+#: modules/Grades/Transcripts.php:269 modules/Grades/Transcripts.php:348
+#: modules/Grades/Transcripts.php:438
+#: modules/Grades/includes/ReportCards.fnc.php:647
+msgid "School Year"
+msgstr "Année Scolaire"
+
+#: Side.php:465 modules/Grades/EditReportCardGrades.php:19
+#: modules/Grades/HonorRoll.php:159 modules/Grades/HonorRollSubject.php:99
+#: modules/Scheduling/Courses.php:649 modules/Scheduling/MassDrops.php:123
+#: modules/Scheduling/MassSchedule.php:115
+#: modules/Scheduling/MasterScheduleReport.php:14
+#: modules/Scheduling/PrintRequests.php:92
+#: modules/Scheduling/PrintSchedules.php:220
+#: modules/Users/includes/Schedule.inc.php:25
+msgid "Marking Period"
+msgstr "Période Scolaire"
+
+#: Side.php:490 functions/ErrorMessage.fnc.php:45
 #: modules/Scheduling/new_Requests.php:33
 msgid "Error"
 msgstr "Erreur"
 
-#: Side.php:486 functions/GetMP.php:83
+#: Side.php:490 functions/GetMP.php:83
 msgid "No quarters found"
 msgstr "Aucun trimestre trouvé"
 
-#: Side.php:572 modules/Attendance/AddAbsences.php:155
+#: Side.php:576 modules/Attendance/AddAbsences.php:155
 #: modules/Eligibility/EnterEligibility.php:35
 #: modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:90
 #: modules/Scheduling/Courses.php:95 modules/Scheduling/PrintSchedules.php:47
@@ -715,7 +754,7 @@ msgstr "Aucun trimestre trouvé"
 msgid "Sunday"
 msgstr "Dimanche"
 
-#: Side.php:573 modules/Attendance/AddAbsences.php:155
+#: Side.php:577 modules/Attendance/AddAbsences.php:155
 #: modules/Eligibility/EnterEligibility.php:35
 #: modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:90
 #: modules/Scheduling/Courses.php:95 modules/Scheduling/PrintSchedules.php:47
@@ -725,7 +764,7 @@ msgstr "Dimanche"
 msgid "Monday"
 msgstr "Lundi"
 
-#: Side.php:574 modules/Attendance/AddAbsences.php:155
+#: Side.php:578 modules/Attendance/AddAbsences.php:155
 #: modules/Eligibility/EnterEligibility.php:35
 #: modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:90
 #: modules/Scheduling/Courses.php:95 modules/Scheduling/PrintSchedules.php:47
@@ -735,7 +774,7 @@ msgstr "Lundi"
 msgid "Tuesday"
 msgstr "Mardi"
 
-#: Side.php:575 modules/Attendance/AddAbsences.php:155
+#: Side.php:579 modules/Attendance/AddAbsences.php:155
 #: modules/Eligibility/EnterEligibility.php:35
 #: modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:90
 #: modules/Scheduling/Courses.php:95 modules/Scheduling/PrintSchedules.php:47
@@ -745,7 +784,7 @@ msgstr "Mardi"
 msgid "Wednesday"
 msgstr "Mercredi"
 
-#: Side.php:576 modules/Attendance/AddAbsences.php:155
+#: Side.php:580 modules/Attendance/AddAbsences.php:155
 #: modules/Eligibility/EnterEligibility.php:35
 #: modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:90
 #: modules/Scheduling/Courses.php:95 modules/Scheduling/PrintSchedules.php:47
@@ -755,7 +794,7 @@ msgstr "Mercredi"
 msgid "Thursday"
 msgstr "Jeudi"
 
-#: Side.php:577 modules/Attendance/AddAbsences.php:155
+#: Side.php:581 modules/Attendance/AddAbsences.php:155
 #: modules/Eligibility/EnterEligibility.php:35
 #: modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:90
 #: modules/Scheduling/Courses.php:95 modules/Scheduling/PrintSchedules.php:47
@@ -765,7 +804,7 @@ msgstr "Jeudi"
 msgid "Friday"
 msgstr "Vendredi"
 
-#: Side.php:578 modules/Attendance/AddAbsences.php:155
+#: Side.php:582 modules/Attendance/AddAbsences.php:155
 #: modules/Eligibility/EnterEligibility.php:35
 #: modules/Eligibility/EntryTimes.php:45 modules/Food_Service/DailyMenus.php:90
 #: modules/Scheduling/Courses.php:95 modules/Scheduling/PrintSchedules.php:47
@@ -775,7 +814,7 @@ msgstr "Vendredi"
 msgid "Saturday"
 msgstr "Samedi"
 
-#: Side.php:609 modules/Attendance/StudentSummary.php:181
+#: Side.php:613 modules/Attendance/StudentSummary.php:181
 #: modules/Scheduling/Courses.php:245 modules/Scheduling/Courses.php:266
 #: modules/Scheduling/Courses.php:388 modules/Scheduling/PrintSchedules.php:50
 #: modules/School_Setup/Calendar.php:1187 modules/Users/TeacherPrograms.php:88
@@ -786,7 +825,7 @@ msgstr "Samedi"
 msgid "Day"
 msgstr "Jour"
 
-#: Side.php:609 modules/Scheduling/Courses.php:245
+#: Side.php:613 modules/Scheduling/Courses.php:245
 #: modules/Scheduling/Courses.php:266 modules/Scheduling/Courses.php:388
 #: modules/Scheduling/PrintSchedules.php:22 modules/Scheduling/Schedule.php:224
 #: modules/Scheduling/ScheduleReport.php:146
@@ -794,6 +833,25 @@ msgstr "Jour"
 #: modules/misc/Portal.php:175 modules/misc/Portal.php:340
 msgid "Days"
 msgstr "Jours"
+
+#: Side.php:662
+msgid "Clear working student"
+msgstr "Enlever l'élève courant"
+
+#: Side.php:666 modules/Students/Menu.php:16 modules/Students/Menu.php:39
+#: modules/Students/Menu.php:50 modules/Students/PrintStudentInfo.php:42
+#: modules/Students/PrintStudentInfo.php:44
+msgid "Student Info"
+msgstr "Informations Élève"
+
+#: Side.php:686
+msgid "Clear working user"
+msgstr "Enlever l'utilisateur courant"
+
+#: Side.php:690 modules/Users/Menu.php:16 modules/Users/Menu.php:30
+#: modules/Users/Menu.php:37
+msgid "User Info"
+msgstr "Informations Utilisateur"
 
 #: database.inc.php:385
 msgid "We have a problem, please contact technical support ..."
@@ -815,7 +873,6 @@ msgstr "Il y a un problème. Merci de contacter le support technique ..."
 #: modules/Discipline/includes/EmailReferral.fnc.php:73
 #: modules/Grades/TeacherCompletion.php:84
 #: modules/Grades/TeacherCompletion.php:106
-#: modules/Reports/includes/ReportsCalculations.fnc.php:566
 #: modules/Scheduling/IncompleteSchedules.php:87
 #: modules/School_Setup/includes/Modules.inc.php:203
 #: modules/School_Setup/includes/Plugins.inc.php:192
@@ -839,7 +896,6 @@ msgstr "Oui"
 #: modules/Discipline/includes/EmailReferral.fnc.php:73
 #: modules/Grades/TeacherCompletion.php:85
 #: modules/Grades/TeacherCompletion.php:106
-#: modules/Reports/includes/ReportsCalculations.fnc.php:566
 #: modules/Scheduling/IncompleteSchedules.php:80
 #: modules/School_Setup/includes/Modules.inc.php:205
 #: modules/School_Setup/includes/Plugins.inc.php:194
@@ -855,8 +911,6 @@ msgstr "Non"
 #: functions/Search.fnc.php:438 functions/Widgets.fnc.php:1415
 #: functions/Widgets.fnc.php:1478 functions/Widgets.fnc.php:1503
 #: modules/Discipline/StudentFieldBreakdown.php:128
-#: modules/Reports/includes/ReportsCalculations.fnc.php:260
-#: modules/Reports/includes/ReportsCalculations.fnc.php:527
 #: modules/Students/StudentBreakdown.php:75 modules/misc/Export.php:661
 msgid "No Value"
 msgstr "Sans Valeur"
@@ -929,6 +983,10 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Décembre"
 
+#: functions/Date.php:354
+msgid "Open calendar"
+msgstr "Ouvrir le calendrier"
+
 #: functions/ErrorMessage.fnc.php:50 modules/Food_Service/Student.inc.php:52
 #: modules/Food_Service/Student.inc.php:69
 #: modules/Food_Service/Students/Accounts.php:139
@@ -994,7 +1052,7 @@ msgstr "Sans Accès"
 
 #: functions/GetStaffList.fnc.php:186
 msgid " w/Custom"
-msgstr ""
+msgstr " avec Custom"
 
 #: functions/GetStuList.fnc.php:122
 #: modules/Students/includes/Address.inc.php:681
@@ -1099,30 +1157,6 @@ msgstr "Inactif"
 msgid "Status"
 msgstr "Statut"
 
-#: functions/GetStuList.fnc.php:502 modules/Custom/AttendanceSummary.php:101
-#: modules/Custom/CreateParents.php:276 modules/Custom/NotifyParents.php:130
-#: modules/Food_Service/AssignSchool.php:38
-#: modules/Food_Service/AssignSchool.php:40 modules/Grades/HonorRoll.php:253
-#: modules/Grades/HonorRollSubject.php:187 modules/Grades/Transcripts.php:437
-#: modules/Reports/Calculations.php:351
-#: modules/Reports/CalculationsReports.php:249
-#: modules/Reports/includes/ReportsCalculations.fnc.php:392
-#: modules/School_Setup/Configuration.php:166 modules/School_Setup/Menu.php:26
-#: modules/School_Setup/Menu.php:37 modules/School_Setup/Menu.php:47
-#: modules/School_Setup/Schools.php:101 modules/Students/AddDrop.php:52
-#: modules/Students/Letters.php:163
-#: modules/Students/includes/Enrollment.inc.php:21
-#: modules/Students/includes/General_Info.inc.php:164
-#: modules/Users/includes/Schedule.inc.php:28 modules/misc/Export.php:137
-#: modules/misc/Export.php:447 modules/misc/Portal.php:75
-#: modules/misc/Portal.php:92 modules/misc/Portal.php:109
-#: modules/misc/Portal.php:175 modules/misc/Portal.php:231
-#: modules/misc/Portal.php:250 modules/misc/Portal.php:266
-#: modules/misc/Portal.php:380 modules/misc/Portal.php:399
-#: modules/misc/Portal.php:414 modules/misc/Portal.php:503
-msgid "School"
-msgstr "École"
-
 #: functions/GetStuList.fnc.php:543 modules/Grades/AnomalousGrades.php:118
 #: modules/Grades/Grades.php:238 modules/Grades/InputFinalGrades.php:838
 msgid "School Status"
@@ -1152,10 +1186,7 @@ msgstr "Coordonnées du Contact"
 #: modules/Eligibility/EnterEligibility.php:148
 #: modules/Food_Service/TakeMenuCounts.php:194
 #: modules/Grades/AnomalousGrades.php:106 modules/Grades/Grades.php:235
-#: modules/Grades/InputFinalGrades.php:835
-#: modules/Reports/CalculationsReports.php:251
-#: modules/Reports/includes/ReportsCalculations.fnc.php:400
-#: modules/Scheduling/AddDrop.php:58
+#: modules/Grades/InputFinalGrades.php:835 modules/Scheduling/AddDrop.php:58
 #: modules/Scheduling/IncompleteSchedules.php:70
 #: modules/Students/AddDrop.php:52 modules/Students/Letters.php:161
 #: modules/Students/Search.inc.php:200
@@ -1197,12 +1228,7 @@ msgstr "Niveau Scolaire"
 #: modules/Grades/EditReportCardGrades.php:269
 #: modules/Grades/GradeBreakdown.php:145
 #: modules/Grades/GradebookBreakdown.php:118
-#: modules/Grades/GradebookBreakdown.php:287
-#: modules/Reports/Calculations.php:352 modules/Reports/Calculations.php:510
-#: modules/Reports/Calculations.php:517
-#: modules/Reports/CalculationsReports.php:250
-#: modules/Reports/includes/ReportsCalculations.fnc.php:396
-#: modules/Users/Preferences.php:496
+#: modules/Grades/GradebookBreakdown.php:287 modules/Users/Preferences.php:496
 msgid "Grade"
 msgid_plural "Grades"
 msgstr[0] "Note"
@@ -1237,7 +1263,6 @@ msgstr "Aperçu vide."
 #: modules/Grades/EditReportCardGrades.php:316
 #: modules/Grades/FinalGrades.php:377 modules/Grades/Transcripts.php:265
 #: modules/Grades/includes/ReportCards.fnc.php:756
-#: modules/Reports/includes/ReportsCalculations.fnc.php:424
 #: modules/Users/Preferences.php:482 modules/Users/Preferences.php:518
 #: modules/Users/Preferences.php:571
 msgid "."
@@ -1297,10 +1322,8 @@ msgstr "Recherche"
 #: modules/Food_Service/TransactionsReport.php:65
 #: modules/Food_Service/Users/ActivityReport.php:88
 #: modules/Food_Service/Users/Statements.php:20
-#: modules/Grades/GradebookBreakdown.php:238
-#: modules/Reports/CalculationsReports.php:14
-#: modules/Reports/CalculationsReports.php:278
-#: modules/Scheduling/AddDrop.php:36 modules/School_Setup/Calendar.php:727
+#: modules/Grades/GradebookBreakdown.php:238 modules/Scheduling/AddDrop.php:36
+#: modules/School_Setup/Calendar.php:727
 #: modules/Student_Billing/DailyTotals.php:49
 #: modules/Student_Billing/DailyTransactions.php:36
 #: modules/Students/AddDrop.php:36 modules/Students/StudentBreakdown.php:218
@@ -1366,8 +1389,7 @@ msgstr ""
 #: modules/Custom/Registration.php:179 modules/Custom/Registration.php:202
 #: modules/Custom/Registration.php:222 modules/Custom/Registration.php:227
 #: modules/Grades/HonorRoll.php:248 modules/Grades/HonorRollSubject.php:182
-#: modules/Grades/Transcripts.php:429 modules/Reports/Calculations.php:488
-#: modules/Students/Letters.php:158
+#: modules/Grades/Transcripts.php:429 modules/Students/Letters.php:158
 #: modules/Students/includes/Address.inc.php:745
 #: modules/Students/includes/Address.inc.php:893
 #: modules/Students/includes/General_Info.inc.php:46
@@ -1381,8 +1403,7 @@ msgstr "Nom"
 #: modules/Custom/Registration.php:178 modules/Custom/Registration.php:201
 #: modules/Custom/Registration.php:221 modules/Custom/Registration.php:226
 #: modules/Grades/HonorRoll.php:250 modules/Grades/HonorRollSubject.php:184
-#: modules/Grades/Transcripts.php:431 modules/Reports/Calculations.php:482
-#: modules/Students/Letters.php:157
+#: modules/Grades/Transcripts.php:431 modules/Students/Letters.php:157
 #: modules/Students/includes/Address.inc.php:735
 #: modules/Students/includes/Address.inc.php:891
 #: modules/Students/includes/General_Info.inc.php:32
@@ -1577,11 +1598,6 @@ msgstr "Solde Paies du Personnel"
 #: functions/Widgets.fnc.php:1028 functions/Widgets.fnc.php:1035
 #: functions/Widgets.fnc.php:1154 functions/Widgets.fnc.php:1334
 #: functions/Widgets.fnc.php:1347 functions/Widgets.fnc.php:1561
-#: modules/Reports/Calculations.php:526
-#: modules/Reports/includes/ReportsCalculations.fnc.php:480
-#: modules/Reports/includes/ReportsCalculations.fnc.php:537
-#: modules/Reports/includes/ReportsCalculations.fnc.php:623
-#: modules/Reports/includes/ReportsCalculations.fnc.php:1169
 msgid "Between"
 msgstr "Entre"
 
@@ -1855,10 +1871,8 @@ msgid "Calendar"
 msgstr "Calendrier"
 
 #: functions/Widgets.fnc.php:1561 functions/Widgets.fnc.php:1572
-#: functions/Widgets.fnc.php:1582 modules/Reports/Calculations.php:158
-#: modules/Reports/includes/ReportsCalculations.fnc.php:26
-#: modules/Scheduling/AddDrop.php:58 modules/Scheduling/Schedule.php:224
-#: modules/Students/AddDrop.php:52
+#: functions/Widgets.fnc.php:1582 modules/Scheduling/AddDrop.php:58
+#: modules/Scheduling/Schedule.php:224 modules/Students/AddDrop.php:52
 msgid "Enrolled"
 msgstr "Inscrit"
 
@@ -2111,7 +2125,7 @@ msgstr "Paiements du Personnel"
 
 #: modules/Accounting/DailyTotals.php:172
 msgid "Student Payments"
-msgstr ""
+msgstr "Paiements Élèves"
 
 #: modules/Accounting/DailyTotals.php:175
 #: modules/Student_Billing/DailyTotals.php:76
@@ -2280,7 +2294,7 @@ msgstr "Attribué"
 #: modules/Student_Billing/Menu.php:20 modules/Student_Billing/Menu.php:36
 #: modules/Students/Menu.php:20 modules/Students/Menu.php:41
 msgid "Reports"
-msgstr "Etats"
+msgstr "Rapports"
 
 #: modules/Accounting/Menu.php:22 modules/Student_Billing/Menu.php:22
 #: modules/Student_Billing/Menu.php:37
@@ -2289,7 +2303,7 @@ msgstr "Transactions Journalières"
 
 #: modules/Accounting/Menu.php:23 modules/Student_Billing/Menu.php:23
 msgid "Daily Totals"
-msgstr ""
+msgstr "Totaux Journaliers"
 
 #: modules/Accounting/Menu.php:24
 msgid "Staff Balances"
@@ -2408,8 +2422,6 @@ msgstr "Mettre à Jour"
 #: modules/Attendance/DailySummary.php:229
 #: modules/Attendance/DailySummary.php:267 modules/Attendance/Percent.php:97
 #: modules/Attendance/Percent.php:130 modules/Attendance/StudentSummary.php:174
-#: modules/Reports/Calculations.php:156
-#: modules/Reports/includes/ReportsCalculations.fnc.php:22
 msgid "Present"
 msgstr "Présent"
 
@@ -2539,8 +2551,7 @@ msgstr "Administratif Seulement"
 #: modules/Attendance/AttendanceCodes.php:190
 #: modules/Attendance/DailySummary.php:229
 #: modules/Attendance/DailySummary.php:267 modules/Attendance/Percent.php:97
-#: modules/Attendance/Percent.php:130 modules/Reports/Calculations.php:157
-#: modules/Reports/includes/ReportsCalculations.fnc.php:24
+#: modules/Attendance/Percent.php:130
 msgid "Absent"
 msgstr "Absent"
 
@@ -2702,8 +2713,8 @@ msgstr "Effacer les Absences Redondantes"
 #: modules/Attendance/Menu.php:27 modules/Discipline/Menu.php:23
 #: modules/Eligibility/Menu.php:21 modules/Food_Service/Menu.php:26
 #: modules/Grades/Menu.php:29 modules/Grades/Menu.php:59
-#: modules/Reports/Menu.php:14 modules/Scheduling/Menu.php:33
-#: modules/Students/Menu.php:29 modules/Users/Menu.php:20
+#: modules/Scheduling/Menu.php:33 modules/Students/Menu.php:29
+#: modules/Users/Menu.php:20
 msgid "Setup"
 msgstr "Mise en Place"
 
@@ -3148,7 +3159,7 @@ msgstr "Ligne"
 #: modules/Students/StudentBreakdown.php:243
 #: modules/Students/StudentBreakdown.php:260
 msgid "List"
-msgstr "Lister"
+msgstr "Liste"
 
 #: modules/Discipline/CategoryBreakdown.php:289
 #: modules/Discipline/CategoryBreakdownTime.php:457
@@ -3192,17 +3203,6 @@ msgstr "Nombre d'Incidents"
 #, php-format
 msgid "%s Breakdown"
 msgstr "Répartition de %s"
-
-#: modules/Discipline/CategoryBreakdownTime.php:431
-#: modules/Discipline/includes/ReferralLog.fnc.php:187
-#: modules/Food_Service/AssignSchool.php:38
-#: modules/Food_Service/AssignSchool.php:40
-#: modules/Grades/EditHistoryMarkingPeriods.php:94
-#: modules/Grades/Transcripts.php:269 modules/Grades/Transcripts.php:348
-#: modules/Grades/Transcripts.php:438
-#: modules/Grades/includes/ReportCards.fnc.php:647
-msgid "School Year"
-msgstr "Année Scolaire"
 
 #: modules/Discipline/DisciplineForm.php:121
 #: modules/Discipline/DisciplineForm.php:253
@@ -4343,7 +4343,7 @@ msgstr "Toutes les dates ne sont pas saisies correctement."
 
 #: modules/Grades/Assignments.php:237
 msgid "Assignment Type as well as its Assignments & associated Grades"
-msgstr ""
+msgstr "Type de Devoir ainsi que ses Devoirs & les Notes associées"
 
 #: modules/Grades/Assignments.php:328
 msgid "New Assignment"
@@ -4526,16 +4526,6 @@ msgstr "Semestre"
 #: modules/School_Setup/MarkingPeriods.php:645
 msgid "Quarter"
 msgstr "Trimestre"
-
-#: modules/Grades/EditReportCardGrades.php:19 modules/Grades/HonorRoll.php:159
-#: modules/Grades/HonorRollSubject.php:99 modules/Scheduling/Courses.php:649
-#: modules/Scheduling/MassDrops.php:123 modules/Scheduling/MassSchedule.php:115
-#: modules/Scheduling/MasterScheduleReport.php:14
-#: modules/Scheduling/PrintRequests.php:92
-#: modules/Scheduling/PrintSchedules.php:220
-#: modules/Users/includes/Schedule.inc.php:25
-msgid "Marking Period"
-msgstr "Période Scolaire"
 
 #: modules/Grades/EditReportCardGrades.php:129
 msgid "Student Grade"
@@ -5215,169 +5205,6 @@ msgstr "sa"
 msgid "Explanation of Comment Codes"
 msgstr "Explication des Codes Commentaires"
 
-#: modules/Reports/Calculations.php:90 modules/Reports/Calculations.php:454
-msgid "Saved Equation"
-msgid_plural "Saved Equations"
-msgstr[0] ""
-msgstr[1] ""
-
-#: modules/Reports/Calculations.php:134
-msgid "Time Values"
-msgstr ""
-
-#: modules/Reports/Calculations.php:135 modules/Reports/Calculations.php:332
-#: modules/misc/Export.php:574
-msgid "Fields"
-msgstr "Champs"
-
-#: modules/Reports/Calculations.php:137 modules/Reports/Calculations.php:271
-msgid "Constants"
-msgstr ""
-
-#: modules/Reports/Calculations.php:160 modules/Reports/Calculations.php:353
-#: modules/Reports/Calculations.php:494
-#: modules/Reports/includes/ReportsCalculations.fnc.php:28
-msgid "Student ID"
-msgstr ""
-
-#: modules/Reports/Calculations.php:214 modules/Reports/Calculations.php:246
-msgid "Functions"
-msgstr ""
-
-#: modules/Reports/Calculations.php:227 modules/Reports/Calculations.php:246
-msgid "Operators"
-msgstr ""
-
-#: modules/Reports/Calculations.php:359
-#: modules/Reports/CalculationsReports.php:257
-#: modules/Students/includes/Other_Info.inc.php:91
-msgid "Age"
-msgstr "Age"
-
-#: modules/Reports/Calculations.php:372
-#: modules/Reports/CalculationsReports.php:270
-msgid "Breakdown"
-msgstr ""
-
-#: modules/Reports/Calculations.php:375 modules/Reports/Calculations.php:448
-msgid "Equation"
-msgstr ""
-
-#: modules/Reports/Calculations.php:380
-msgid "Back"
-msgstr ""
-
-#: modules/Reports/Calculations.php:383 modules/Reports/SavedReports.php:235
-msgid "Run"
-msgstr ""
-
-#: modules/Reports/Calculations.php:500 modules/School_Setup/Rollover.php:3
-#: modules/Users/includes/General_Info.inc.php:250
-msgid "Schools"
-msgstr "Écoles"
-
-#: modules/Reports/Calculations.php:562
-msgid "Please choose a field."
-msgstr ""
-
-#: modules/Reports/Calculations.php:565
-msgid "A function cannot be placed here; choose a field instead."
-msgstr ""
-
-#: modules/Reports/Calculations.php:568
-msgid "A function cannot be placed here; choose an operator instead."
-msgstr ""
-
-#: modules/Reports/Calculations.php:571
-msgid "Please choose an operator or another constant."
-msgstr ""
-
-#: modules/Reports/Calculations.php:574
-msgid "Please choose an operator."
-msgstr ""
-
-#: modules/Reports/Calculations.php:577
-msgid "A field cannot be placed here; choose a function instead."
-msgstr ""
-
-#: modules/Reports/Calculations.php:580
-msgid "A field cannot be placed here; choose an operator instead."
-msgstr ""
-
-#: modules/Reports/Calculations.php:583 modules/Reports/Calculations.php:595
-msgid "An operator cannot be placed here; choose a field instead."
-msgstr ""
-
-#: modules/Reports/Calculations.php:586
-msgid "An operator cannot be placed here; choose a function instead."
-msgstr ""
-
-#: modules/Reports/Calculations.php:589
-msgid "Please choose a function."
-msgstr ""
-
-#: modules/Reports/Calculations.php:592
-msgid "Please choose an operator or press save to finish."
-msgstr ""
-
-#: modules/Reports/CalculationsReports.php:234
-msgid "Calculation"
-msgstr ""
-
-#: modules/Reports/CalculationsReports.php:274
-msgid "Graph Results"
-msgstr ""
-
-#: modules/Reports/CalculationsReports.php:283
-msgid "Add Column"
-msgstr ""
-
-#: modules/Reports/CalculationsReports.php:286
-msgid "Add Row"
-msgstr ""
-
-#: modules/Reports/Menu.php:12
-msgid "Calculations"
-msgstr ""
-
-#: modules/Reports/Menu.php:13
-msgid "Calculations Reports"
-msgstr ""
-
-#: modules/Reports/Menu.php:15
-msgid "Saved Reports"
-msgstr ""
-
-#: modules/Reports/SavedReports.php:27 modules/Reports/SavedReports.php:222
-msgid "Untitled"
-msgstr ""
-
-#: modules/Reports/SavedReports.php:143 modules/Reports/SavedReports.php:191
-msgid "Saved Report"
-msgid_plural "Saved Reports"
-msgstr[0] ""
-msgstr[1] ""
-
-#: modules/Reports/SavedReports.php:178
-msgid "Program"
-msgstr ""
-
-#: modules/Reports/SavedReports.php:302 modules/Users/Exceptions.php:220
-#: modules/Users/Profiles.php:195 modules/Users/UserFields.php:272
-msgid "Profiles"
-msgstr "Profils Utilisateur"
-
-#: modules/Reports/includes/ReportsCalculations.fnc.php:237
-#, php-format
-msgid "%s years"
-msgstr ""
-
-#: modules/Reports/includes/ReportsCalculations.fnc.php:610
-#: modules/Students/Search.inc.php:63 modules/Students/Search.inc.php:165
-#: modules/Users/Search.inc.php:94 modules/Users/Search.inc.php:187
-msgid "Search All Schools"
-msgstr "Chercher Toutes les Écoles"
-
 #: modules/Resources/Menu.php:14 modules/Resources/Menu.php:16
 #: modules/Resources/Menu.php:20 modules/Resources/Menu.php:22
 msgid "Resources"
@@ -5837,12 +5664,20 @@ msgstr "Cet élève est déjà inscrit à ce cours"
 msgid "There is already a course scheduled in that period."
 msgstr "Il y a déjà un cours pour cette période."
 
-#: modules/Scheduling/Schedule.php:398 modules/Scheduling/Schedule.php:447
+#: modules/Scheduling/Schedule.php:394 modules/Scheduling/Schedule.php:412
+msgid "Unlocked"
+msgstr "Déverrouillé"
+
+#: modules/Scheduling/Schedule.php:398 modules/Scheduling/Schedule.php:412
+msgid "Locked"
+msgstr "Vérrouillé"
+
+#: modules/Scheduling/Schedule.php:430 modules/Scheduling/Schedule.php:479
 #, php-format
 msgid "(%d seats)"
 msgstr "(%d places)"
 
-#: modules/Scheduling/Schedule.php:418
+#: modules/Scheduling/Schedule.php:450
 msgid "Full Year"
 msgstr "Année Scolaire"
 
@@ -6366,6 +6201,11 @@ msgid "Results Display"
 msgstr "Afficher les Résultats"
 
 #: modules/School_Setup/Rollover.php:3
+#: modules/Users/includes/General_Info.inc.php:250
+msgid "Schools"
+msgstr "Écoles"
+
+#: modules/School_Setup/Rollover.php:3
 msgid "Student Enrollment Codes"
 msgstr "Codes d'Inscription pour les Eleves"
 
@@ -6607,49 +6447,6 @@ msgstr "Frais de Scolarité Exemptés"
 msgid "Refunded"
 msgstr "Remboursé"
 
-#: modules/Student_Import_Microtec/Menu.php:13
-msgid "Student Import for Microtec"
-msgstr ""
-
-#: modules/Student_Import_Microtec/Menu.php:19
-msgid "Student Import"
-msgstr ""
-
-#: modules/Student_Import_Microtec/StudentImportMicrotec.php:41
-msgid "CSV file imported."
-msgstr ""
-
-#: modules/Student_Import_Microtec/StudentImportMicrotec.php:47
-msgid "Cannot open CSV file."
-msgstr ""
-
-#: modules/Student_Import_Microtec/StudentImportMicrotec.php:75
-msgid "CSV columns reference: see \"CSV_COLUMNS_REFERENCE\" file."
-msgstr ""
-
-#: modules/Student_Import_Microtec/StudentImportMicrotec.php:81
-#, php-format
-msgid "Set Username as %s"
-msgstr ""
-
-#: modules/Student_Import_Microtec/StudentImportMicrotec.php:89
-#, php-format
-msgid "Set Password as %s"
-msgstr ""
-
-#: modules/Student_Import_Microtec/StudentImportMicrotec.php:97
-msgid "Select CSV file"
-msgstr ""
-
-#: modules/Student_Import_Microtec/StudentImportMicrotec.php:99
-msgid "Import CSV file"
-msgstr ""
-
-#: modules/Student_Import_Microtec/includes/MicrotecCSV.fnc.php:49
-#, php-format
-msgid "The following required columns were not found in the CSV file: %s"
-msgstr ""
-
 #: modules/Students/AddDrop.php:53
 #: modules/Students/includes/Enrollment.inc.php:111
 msgid "Enrollment Record"
@@ -6872,12 +6669,6 @@ msgstr "Ligne de Départ"
 msgid "Starting column"
 msgstr "Colonne de Départ"
 
-#: modules/Students/Menu.php:16 modules/Students/Menu.php:39
-#: modules/Students/Menu.php:50 modules/Students/PrintStudentInfo.php:42
-#: modules/Students/PrintStudentInfo.php:44
-msgid "Student Info"
-msgstr "Informations Élève"
-
 #: modules/Students/Menu.php:17 modules/Students/Student.php:359
 msgid "Add a Student"
 msgstr "Ajouter un Élève"
@@ -6966,6 +6757,11 @@ msgstr "Imprimer les Informations pour le Élèves Sélectionnés"
 #: modules/Students/Search.inc.php:25
 msgid "Find a Student"
 msgstr "Trouver un Élève"
+
+#: modules/Students/Search.inc.php:63 modules/Students/Search.inc.php:165
+#: modules/Users/Search.inc.php:94 modules/Users/Search.inc.php:187
+msgid "Search All Schools"
+msgstr "Chercher Toutes les Écoles"
 
 #: modules/Students/Search.inc.php:96 modules/Users/Preferences.php:128
 #: modules/Users/Search.inc.php:131
@@ -7206,6 +7002,10 @@ msgid_plural "Nurse Visits"
 msgstr[0] "Visite Médicale"
 msgstr[1] "Visites Médicales"
 
+#: modules/Students/includes/Other_Info.inc.php:91
+msgid "Age"
+msgstr "Age"
+
 #: modules/Users/AddStudents.php:78 modules/Users/AddStudents.php:104
 msgid "Add Selected Students"
 msgstr "Ajouter les Élèves Sélectionnés"
@@ -7240,14 +7040,14 @@ msgstr ""
 "permissions de ce profil en utilisant la configuration de %s  ou modifier "
 "cet utilisateur avec des permissions personnalisées en utilisant %s."
 
+#: modules/Users/Exceptions.php:220 modules/Users/Profiles.php:195
+#: modules/Users/UserFields.php:272
+msgid "Profiles"
+msgstr "Profils Utilisateur"
+
 #: modules/Users/Exceptions.php:220
 msgid "General Info"
 msgstr "Informations Générales"
-
-#: modules/Users/Menu.php:16 modules/Users/Menu.php:30
-#: modules/Users/Menu.php:37
-msgid "User Info"
-msgstr "Informations Utilisateur"
 
 #: modules/Users/Menu.php:17 modules/Users/User.php:346
 msgid "Add a User"
@@ -7289,7 +7089,7 @@ msgstr "Votre nouveau mot de passe est enregistré."
 
 #: modules/Users/Preferences.php:95
 msgid "Your preferences were saved."
-msgstr ""
+msgstr "Vos préférences ont été enregistrées."
 
 #: modules/Users/Preferences.php:128 modules/Users/Preferences.php:137
 msgid "Display Options"
@@ -7357,7 +7157,7 @@ msgstr "Désactiver les alertes de connexion"
 
 #: modules/Users/Preferences.php:354
 msgid "Automatically scroll to top of the page"
-msgstr ""
+msgstr "Remonter automatiquement en haut de page"
 
 #: modules/Users/Preferences.php:371
 msgid "Page Size"
@@ -7549,6 +7349,10 @@ msgstr "Code Postal"
 #: modules/misc/Export.php:555
 msgid "Attendance Period Teacher"
 msgstr "Enseignant Notant les Absences"
+
+#: modules/misc/Export.php:574
+msgid "Fields"
+msgstr "Champs"
 
 #: modules/misc/Portal.php:15
 #, php-format
