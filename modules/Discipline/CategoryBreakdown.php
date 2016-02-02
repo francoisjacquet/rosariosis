@@ -87,7 +87,7 @@ if ( isset( $_REQUEST['category_id'] )
 		AND du.SYEAR='" . UserSyear() . "'
 		AND du.SCHOOL_ID='" . UserSchool() . "'" ) );
 
-	$category_RET[1]['SELECT_OPTIONS'] = explode( '<br />', nl2br( $category_RET[1]['SELECT_OPTIONS'] ) );
+	$category_RET[1]['SELECT_OPTIONS'] = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category_RET[1]['SELECT_OPTIONS'] ) );
 
 	$extra = array();
 

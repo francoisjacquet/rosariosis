@@ -74,7 +74,7 @@ function PortalPollsSaveVotes($poll_questions_RET, $votes_array)
 		else //first vote
 		{
 			$voted_array[$question['ID']] = array();
-			$options_array = explode('<br />', nl2br($question['OPTIONS']));
+			$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r",$question['OPTIONS']));
 
 			if (is_array($votes_array[$question['ID']])) //multiple
 			{
@@ -167,7 +167,7 @@ function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
 		$PollForm .= '<tr><td style="vertical-align:top;"><b>'.$question['QUESTION'].'</b></td>
 		<td><table class="width-100p cellspacing-0">';
 
-		$options_array = explode('<br />', nl2br($question['OPTIONS']));
+		$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r",$question['OPTIONS']));
 
 		$checked = true;
 		foreach ($options_array as $option_nb => $option_label)
@@ -234,7 +234,7 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 			$total_votes += $votes;
 
 		//options
-		$options_array = explode('<br />', nl2br($question['OPTIONS']));
+		$options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r",$question['OPTIONS']));
 		$options_array_count = count($options_array);
 
 		for ($i=0; $i < $options_array_count; $i++)

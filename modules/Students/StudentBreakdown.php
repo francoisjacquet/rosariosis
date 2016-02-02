@@ -37,7 +37,7 @@ if ( isset( $_REQUEST['field_id'] )
 		FROM CUSTOM_FIELDS WHERE ID='" . $_REQUEST['field_id'] . "'" ) );
 
 	if ( $fields_RET[1]['OPTIONS'] ) // Fixes array( 0 => '' ) when no options
-		$fields_RET[1]['OPTIONS'] = explode( '<br />', nl2br( $fields_RET[1]['OPTIONS'] ) );
+		$fields_RET[1]['OPTIONS'] = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $fields_RET[1]['OPTIONS'] ) );
 
 
 	$extra = array();

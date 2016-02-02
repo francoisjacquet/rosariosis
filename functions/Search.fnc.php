@@ -347,8 +347,8 @@ function Search( $type, $extra = null )
 					if ( $col['SELECT_OPTIONS'] )
 					{
 						$options = explode(
-							'<br />',
-							nl2br( $col['SELECT_OPTIONS'] )
+							"\r",
+							str_replace( array( "\r\n", "\n" ), "\r", $col['SELECT_OPTIONS'] )
 						);
 					}
 

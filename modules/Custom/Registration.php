@@ -250,7 +250,7 @@ echo '<td>';
 if ( $custom_fields_RET['200000001'] && $custom_fields_RET['200000001'][1]['TYPE'] == 'select')
 {
 	$select_options = array();
-	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000001'][1]['SELECT_OPTIONS']));
+	$select_options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r",$custom_fields_RET['200000001'][1]['SELECT_OPTIONS']));
 	foreach ($select_options_array as $select_option)
 		$select_options[ $select_option ] = $select_option;
 	echo SelectInput($student['CUSTOM_200000001'],'values[STUDENTS][CUSTOM_200000001]',ParseMLField($custom_fields_RET['200000001'][1]['TITLE']),$select_options);
@@ -261,7 +261,7 @@ echo '<td>';
 if ( $custom_fields_RET['200000005'] && $custom_fields_RET['200000005'][1]['TYPE'] == 'select')
 {
 	$select_options = array();
-	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000005'][1]['SELECT_OPTIONS']));
+	$select_options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r",$custom_fields_RET['200000005'][1]['SELECT_OPTIONS']));
 	foreach ($select_options_array as $select_option)
 		$select_options[ $select_option ] = $select_option;
 	echo SelectInput($student['CUSTOM_200000005'],'values[STUDENTS][CUSTOM_200000005]',ParseMLField($custom_fields_RET['200000005'][1]['TITLE']),$select_options,_('N/A'),'style="width:200"');
@@ -274,7 +274,7 @@ echo '<td>';
 if ( $custom_fields_RET['200000000'] && $custom_fields_RET['200000000'][1]['TYPE'] == 'select')
 {
 	$select_options = array();
-	$select_options_array = explode('<br />', nl2br($custom_fields_RET['200000000'][1]['SELECT_OPTIONS']));
+	$select_options_array = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r",$custom_fields_RET['200000000'][1]['SELECT_OPTIONS']));
 	foreach ($select_options_array as $select_option)
 		$select_options[ $select_option ] = $select_option;
 	echo SelectInput($student['CUSTOM_200000000'],'values[STUDENTS][CUSTOM_200000000]',ParseMLField($custom_fields_RET['200000000'][1]['TITLE']),$select_options);

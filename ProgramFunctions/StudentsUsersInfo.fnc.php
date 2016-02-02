@@ -159,7 +159,7 @@ function _makeSelectInput( $column, $name, $request )
 
 	if ( $field['SELECT_OPTIONS'] )
 	{
-		$select_options = explode( '<br />', nl2br( $field['SELECT_OPTIONS'] ) );
+		$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
 	}
 
 	foreach ( (array) $select_options as $option )
@@ -239,7 +239,7 @@ function _makeAutoSelectInput( $column, $name, $request )
 
 	if ( $field['SELECT_OPTIONS'] )
 	{
-		$select_options = explode( '<br />', nl2br( $field['SELECT_OPTIONS'] ) );
+		$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
 	}
 
 	foreach ( (array) $select_options as $option )
@@ -457,7 +457,7 @@ function _makeMultipleInput( $column, $name, $request )
 
 		if ( $field['SELECT_OPTIONS'] )
 		{
-			$select_options = explode( '<br />', nl2br( $field['SELECT_OPTIONS'] ) );
+			$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] ) );
 		}
 
 		foreach ( (array) $select_options as $option )

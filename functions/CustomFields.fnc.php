@@ -164,7 +164,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 
 					if ( ! $extra['NoSearchTerms'] )
 					{
-						$select_options = explode( '<br />', nl2br( $fields[ $field_id ][1]['SELECT_OPTIONS'] ) );
+						$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $fields[ $field_id ][1]['SELECT_OPTIONS'] ) );
 
 						foreach ( (array) $select_options as $option )
 						{

@@ -220,8 +220,8 @@ if (empty($_REQUEST['modfunc']))
 			$select_options = array();
 
 			$options = explode(
-				'<br />',
-				nl2br( $field['SELECT_OPTIONS'] )
+				"\r",
+				str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] )
 			);
 
 			foreach ( (array) $options as $option )

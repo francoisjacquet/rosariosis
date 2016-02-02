@@ -1356,7 +1356,7 @@ function Widgets( $item, &$myextra = null )
 					case 'multiple_radio':
 					case 'select':
 
-						$category['SELECT_OPTIONS'] = explode( '<br />', nl2br( $category['SELECT_OPTIONS'] ) );
+						$category['SELECT_OPTIONS'] = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
 
 						$extra['search'] .= '<select name="discipline[' . $category['ID'] . ']">
 							<option value="">' . _( 'N/A' ) . '</option>';
