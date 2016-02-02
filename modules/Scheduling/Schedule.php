@@ -376,11 +376,43 @@ if ( $_REQUEST['modfunc']=='choose_course')
 	}
 }
 
-function _makeLock($value,$column)
-{	global $THIS_RET;
+function _makeLock( $value, $column )
+{
+	global $THIS_RET;
 
-//FJ icones
-	return '<img src="assets/themes/'. Preferences('THEME') .'/btn/'.($value=='Y'?'locked':'unlocked').'.png" class="button bigger"'.(AllowEdit()?' onclick="if (this.src.indexOf(\'unlocked\')==-1) {this.src= this.src.replace(\'locked\', \'unlocked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'\';} else {this.src= this.src.replace(\'unlocked\', \'locked\'); document.getElementById(\'lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'\').value=\'Y\';}"':'').' /><input type="hidden" name="schedule['.$THIS_RET['COURSE_PERIOD_ID'].']['.$THIS_RET['START_DATE'].'][SCHEDULER_LOCK]" id="lock'.$THIS_RET['COURSE_PERIOD_ID'].'-'.$THIS_RET['START_DATE'].'" value="'.$value.'" />';
+	static $js_included = false;
+
+	$return = '';
+
+	if ( ! $js_included )
+	{
+		if ( AllowEdit() )
+		{
+			$return = "<script>function switchLock(el,lockid){
+				if (el.src.indexOf('unlocked')==-1) {
+					el.src = el.src.replace('locked', 'unlocked');
+					el.title = " . json_encode( _( 'Unlocked' ) ). "
+					document.getElementById(lockid).value='';
+				} else {
+					el.src = el.src.replace('unlocked', 'locked');
+					el.title = " . json_encode( _( 'Locked' ) ). "
+					document.getElementById(lockid).value='Y';
+				}
+			}</script>";
+		}
+
+		$js_included = true;
+	}
+
+	$lock_id = 'lock' . $THIS_RET['COURSE_PERIOD_ID'] . '-' . $THIS_RET['START_DATE'];
+
+	//FJ icons
+	return $return . '<img src="assets/themes/' .
+		Preferences( 'THEME' ) . '/btn/' . ( $value == 'Y' ? 'locked' : 'unlocked' ) .
+		'.png" title="' . ( $value == 'Y' ? _( 'Locked' ) : _( 'Unlocked' ) )  . '"class="button bigger" style="cursor: pointer;"' .
+		( AllowEdit() ? ' onclick="switchLock(this, \'' . $lock_id . '\');" />
+			<input type="hidden" name="schedule[' . $THIS_RET['COURSE_PERIOD_ID'] . '][' . $THIS_RET['START_DATE'] . '][SCHEDULER_LOCK]" id="' . $lock_id . '" value="' . $value . '" />' :
+			' />' );
 }
 
 function _makePeriodSelect($course_period_id,$column)
