@@ -69,9 +69,9 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 			$_REQUEST['year_staff']
 		);
 
-		$_REQUEST['staff'] = array_merge_recursive( $_REQUEST['staff'], $requested_dates );
+		$_REQUEST['staff'] = array_replace_recursive( $_REQUEST['staff'], $requested_dates );
 
-		$_POST['staff'] = array_merge_recursive( $_POST['staff'], $requested_dates );
+		$_POST['staff'] = array_replace_recursive( $_POST['staff'], $requested_dates );
 	}
 
 	if ( $_REQUEST['staff']['SCHOOLS'])

@@ -74,9 +74,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 			$_REQUEST['year_students']
 		);
 
-		$_REQUEST['students'] = array_merge_recursive( $_REQUEST['students'], $requested_dates );
+		$_REQUEST['students'] = array_replace_recursive( $_REQUEST['students'], $requested_dates );
 
-		$_POST['students'] = array_merge_recursive( $_POST['students'], $requested_dates );
+		$_POST['students'] = array_replace_recursive( $_POST['students'], $requested_dates );
 	}
 
 	if ( ( isset( $_POST['students'] )

@@ -21,9 +21,9 @@ if ( isset( $_POST['day_tables'] )
 		$_REQUEST['year_tables']
 	);
 
-	$_REQUEST['tables'] = array_merge_recursive( $_REQUEST['tables'], $requested_dates );
+	$_REQUEST['tables'] = array_replace_recursive( $_REQUEST['tables'], $requested_dates );
 
-	$_POST['tables'] = array_merge_recursive( $_POST['tables'], $requested_dates );
+	$_POST['tables'] = array_replace_recursive( $_POST['tables'], $requested_dates );
 }
 
 if ( isset( $_POST['tables'] )

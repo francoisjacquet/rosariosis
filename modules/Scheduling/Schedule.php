@@ -62,9 +62,9 @@ if ( isset( $_POST['day_schedule'] )
 		$_REQUEST['year_schedule']
 	);
 
-	$_REQUEST['schedule'] = array_merge_recursive( $_REQUEST['schedule'], $requested_dates );
+	$_REQUEST['schedule'] = array_replace_recursive( $_REQUEST['schedule'], $requested_dates );
 
-	$_POST['schedule'] = array_merge_recursive( $_POST['schedule'], $requested_dates );
+	$_POST['schedule'] = array_replace_recursive( $_POST['schedule'], $requested_dates );
 
 	unset($_REQUEST['month_schedule']);
 	unset($_REQUEST['day_schedule']);

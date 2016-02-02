@@ -483,16 +483,11 @@ function RequestedDates( $day_array, $month_array, $year_array )
 	{
 		if ( ! is_array( $month ) )
 		{
-			$date = RequestedDate(
+			$return[ $field_name ] = RequestedDate(
 				$day_array[ $field_name ],
 				$month,
 				$year_array[ $field_name ]
 			);
-
-			if ( ! empty( $date ) )
-			{
-				$return[ $field_name ] = $date;
-			}
 		}
 		else
 		{
