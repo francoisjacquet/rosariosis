@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-30 10:27-0500\n"
-"PO-Revision-Date: 2016-02-01 10:20-0500\n"
+"PO-Revision-Date: 2016-02-02 14:18-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -3027,7 +3027,7 @@ msgstr "Graphique"
 #: modules/Scheduling/Schedule.php:153
 #: modules/Students/StudentBreakdown.php:247
 msgid "List"
-msgstr "Lister"
+msgstr "Liste"
 
 #: modules/Discipline/CategoryBreakdown.php:279
 #: modules/Discipline/CategoryBreakdownTime.php:397
