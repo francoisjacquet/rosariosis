@@ -21,18 +21,20 @@ $menu['Discipline']['admin'] = array(
 	'Discipline/StudentFieldBreakdown.php' => _( 'Breakdown by Student Field' ),
 	'Discipline/ReferralLog.php' => _( 'Discipline Log' ),
 	2 => _( 'Setup' ),
-	'Discipline/DisciplineForm.php' => _( 'Referral Form' )
+	'Discipline/DisciplineForm.php' => _( 'Referral Form' ),
 );
 
 $menu['Discipline']['teacher'] = array(
 	'title' => _( 'Discipline' ),
 	'default' => 'Discipline/Referrals.php',
 	'Discipline/MakeReferral.php' => _( 'Add Referral' ),
-	'Discipline/Referrals.php' => _( 'Referrals' )
+	'Discipline/Referrals.php' => _( 'Referrals' ),
 );
 
-//FJ fix error Warning: Invalid argument supplied for foreach()
 $menu['Discipline']['parent'] = array(
+	'title' => _( 'Discipline' ),
+	'default' => 'Discipline/Referrals.php',
+	'Discipline/Referrals.php' => _( 'Referrals' ),
 );
 
 $exceptions['Discipline'] = array(
