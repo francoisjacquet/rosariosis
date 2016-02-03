@@ -56,6 +56,7 @@ Changes in 2.9
 - Add Daily Totals program to Accounting & Student Billing modules
 - Add ProgramUserConfig() function in Config.fnc.php
 - Improved accessibility (a11y) in Side.php, index.php & Buttons.php
+- SendEmail() program function now uses PHPMailer and accepts attachments
 
 Changes in 2.8.11
 -----------------
