@@ -6,6 +6,8 @@ Changes in 2.8.26
 - Add Danish & Malaysian locale & flags files
 - Allow negative amounts in Student Billing & Accounting modules
 - Fix: Limit Accounting Expenses, Incomes, Salaries & Staff Payments to User School
+- Give Parents & Students access to the Discipline Referrals #77
+- Improve French translation
 
 Changes in 2.8.25
 -----------------

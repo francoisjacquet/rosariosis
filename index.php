@@ -231,7 +231,7 @@ if(!$_SESSION['STAFF_ID'] && !$_SESSION['STUDENT_ID'] && !isset($_REQUEST['creat
 	<span class="center"><?php echo sprintf(_('%s version %s'),'RosarioSIS', $RosarioVersion); ?>
 	<BR />&copy; 2004-2009 <A HREF="http://www.miller-group.net" noreferrer>The Miller Group, Inc</A>
 	<BR />&copy; 2009 <a href="http://www.centresis.org" noreferrer>Learners Circle, LLC</a>
-	<BR />&copy; 2012-2015 <a href="https://www.rosariosis.org" noreferrer>François Jacquet</a>
+	<BR />&copy; 2012-2016 <a href="https://www.rosariosis.org" noreferrer>François Jacquet</a>
 	</span>
 
 <?php PopTable("footer"); ?>
