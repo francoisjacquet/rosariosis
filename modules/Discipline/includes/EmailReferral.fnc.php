@@ -5,8 +5,8 @@
  *
  * Email is from User if has his email set
  *
- * @param  int   $referral_id Referral ID
- * @param  array $emails      array of emails
+ * @param  int   $referral_id Referral ID.
+ * @param  array $emails      array of emails.
  *
  * @return bool  true on success, false on failure
  */
@@ -35,6 +35,8 @@ function EmailReferral( $referral_id, $emails )
 	$categories_RET = DBGet( DBQuery( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER 
 		FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u 
 		WHERE u.DISCIPLINE_FIELD_ID=f.ID
+		AND u.SCHOOL_ID='" . UserSchool() . "'
+		AND u.SYEAR='" . UserSyear() . "'
 		ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER"), array(), array( 'ID' ) );
 
 	if ( count( $referral_RET ) )
@@ -58,8 +60,10 @@ function EmailReferral( $referral_id, $emails )
 		{
 			$category_id = mb_substr( $column, 9 );
 
-			if ( !isset( $categories_RET[ $category_id ] ) )
+			if ( ! isset( $categories_RET[ $category_id ] ) )
+			{
 				continue;
+			}
 
 			$data_type = $categories_RET[ $category_id ][1]['DATA_TYPE'];
 

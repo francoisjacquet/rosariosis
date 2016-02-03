@@ -52,8 +52,12 @@ if ( isset( $_POST['values'] )
 {
 	$sql = "INSERT INTO DISCIPLINE_REFERRALS ";
 	
+	$referral_id_RET = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'DISCIPLINE_REFERRALS_SEQ' ) . " AS ID;" ) );
+
+	$referral_id = $referral_id_RET[1]['ID'];
+
 	$fields = "ID,SYEAR,SCHOOL_ID,STUDENT_ID,";
-	$values = db_seq_nextval('DISCIPLINE_REFERRALS_SEQ').",'".UserSyear()."','".UserSchool()."','".UserStudentID()."',";
+	$values = $referral_id . ",'" . UserSyear() . "','" . UserSchool() . "','" . UserStudentID() . "',";
 
 	$go = 0;
 
@@ -102,7 +106,7 @@ if ( isset( $_POST['values'] )
 			if ( EmailReferral( $referral_id, $_REQUEST['emails'] ) )
 			{
 				$note[] = _( 'That discipline incident has been emailed.' );
-			}
+			} else var_dump($referral_id);
 		}
 
 		$note[] = _('That discipline incident has been referred to an administrator.');
@@ -148,7 +152,7 @@ if (UserStudentID() && $_REQUEST['student_id'])
 	echo '</td></tr>';
 
 	echo '<tr class="st"><td><span class="legend-gray">'._('Reporter').'</span></td><td>';
-	$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
+	$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME,EMAIL,PROFILE FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
 	echo '<select name="values[STAFF_ID]">';
 	foreach ( (array) $users_RET as $user)
 		echo '<option value="'.$user['STAFF_ID'].'"'.(User('STAFF_ID')==$user['STAFF_ID']?' selected':'').'>'.$user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'].'</option>';
@@ -227,12 +231,11 @@ if (UserStudentID() && $_REQUEST['student_id'])
 			break;
 			
 			case 'multiple_checkbox':
-				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
-				$options = explode("\r",$category['SELECT_OPTIONS']);
+				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS']) );
 				
 				echo '<table class="cellpadding-5"><tr class="st">';
 				$i = 0;
-				foreach ( (array) $options as $option)
+				foreach ( (array) $options as $option )
 				{
 					$i++;
 					if ( $i%3==0)
