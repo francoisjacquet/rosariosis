@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.27
+-----------------
+- Correctly get Discipline Fields based on user school & year in EmailReferral.fnc.php
+
 Changes in 2.8.26
 -----------------
 - Fix SQL errors when Creating User Food Service account / barcode

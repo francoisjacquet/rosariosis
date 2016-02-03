@@ -35,6 +35,8 @@ function EmailReferral( $referral_id, $emails )
 	$categories_RET = DBGet( DBQuery( "SELECT f.ID,u.TITLE,u.SELECT_OPTIONS,f.DATA_TYPE,u.SORT_ORDER 
 		FROM DISCIPLINE_FIELDS f,DISCIPLINE_FIELD_USAGE u 
 		WHERE u.DISCIPLINE_FIELD_ID=f.ID
+		AND u.SCHOOL_ID='" . UserSchool() . "'
+		AND u.SYEAR='" . UserSyear() . "'
 		ORDER BY " . db_case( array( 'DATA_TYPE', "'textarea'", "'1'", "'0'" ) ) . ",SORT_ORDER"), array(), array( 'ID' ) );
 
 	if ( count( $referral_RET ) )
