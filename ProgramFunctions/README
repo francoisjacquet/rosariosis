@@ -1,3 +1,5 @@
 Place here the functions that are used by programs across various modules
-but that does not need to be loaded automatically (like the ones in the functions/ folder).
-Include the functions file where needed.
+but that do not need to be loaded automatically (like the ones in the functions/ folder).
+Include the functions file where needed, for example:
+
+require_once 'ProgramFunctions/Charts.fnc.php';

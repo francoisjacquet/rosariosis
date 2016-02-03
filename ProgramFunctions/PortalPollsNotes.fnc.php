@@ -1,4 +1,13 @@
 <?php
+/**
+ * Portal Polls and Portal Notes functions.
+ *
+ * @todo Format code!
+ *
+ * @package RosarioSIS
+ * @subpackage ProgramFunctions
+ */
+
 // Portal Notes attached files Path
 // You can override the Path definition in the config.inc.php file
 if ( !isset($PortalNotesFilesPath))
