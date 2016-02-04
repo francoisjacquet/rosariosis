@@ -305,7 +305,7 @@ if ( ! $_REQUEST['modfunc'] )
 
 	// FIELDS.
 	if ( $_REQUEST['category_id']
-		&& $_REQUEST['category_id'] !=='new'
+		&& $_REQUEST['category_id'] !== 'new'
 		&& $categories_RET )
 	{
 		$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SORT_ORDER

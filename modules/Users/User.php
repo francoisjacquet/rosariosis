@@ -1,6 +1,8 @@
 <?php
 
 require_once 'ProgramFunctions/FileUpload.fnc.php';
+require_once 'ProgramFunctions/Fields.fnc.php';
+
 if (User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_id'] && $_REQUEST['staff_id']!=User('STAFF_ID') && $_REQUEST['staff_id']!='new')
 {
 	if (User('USERNAME'))
@@ -117,12 +119,11 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 		if ((isset($_REQUEST['staff']['FIRST_NAME']) && empty($_REQUEST['staff']['FIRST_NAME'])) || (isset($_REQUEST['staff']['LAST_NAME']) && empty($_REQUEST['staff']['LAST_NAME'])))
 			$required_error = true;
 
-		//FJ other fields required
-		$others_required_RET = DBGet(DBQuery("SELECT ID FROM STAFF_FIELDS WHERE CATEGORY_ID='".$category_id."' AND REQUIRED='Y'"));
-		if (count($others_required_RET))
-			foreach ( (array) $others_required_RET as $other_required)
-				if (isset($_REQUEST['staff']['CUSTOM_'.$other_required['ID']]) && empty($_REQUEST['staff']['CUSTOM_'.$other_required['ID']]))
-					$required_error = true;
+		// FJ other fields required.
+		$required_error = $required_error || CheckRequiredCustomFields( 'STAFF_FIELDS', $_REQUEST['staff'] );
+
+		// FJ textarea fields MarkDown sanitize.
+		$_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'STAFF_FIELDS', $_REQUEST['staff'] );
 
 		//FJ create account
 		if (basename($_SERVER['PHP_SELF'])=='index.php')

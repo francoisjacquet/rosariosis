@@ -51,6 +51,12 @@ if ( isset( $_POST['values'] )
 
 	if ( $_REQUEST['values']['ADDRESS'])
 	{		
+		// FJ other fields required.
+		$required_error = CheckRequiredCustomFields( 'ADDRESS_FIELDS', $_REQUEST['values']['ADDRESS'] );
+
+		// FJ textarea fields MarkDown sanitize.
+		$_REQUEST['values']['ADDRESS'] = FilterCustomFieldsMarkdown( 'ADDRESS_FIELDS', $_REQUEST['values']['ADDRESS'] );
+
 		if ( $_REQUEST['address_id']!='new')
 		{
 			$sql = "UPDATE ADDRESS SET ";
@@ -129,6 +135,12 @@ if ( isset( $_POST['values'] )
 
 	if ( $_REQUEST['values']['PEOPLE'])
 	{
+		// FJ other fields required.
+		$required_error = CheckRequiredCustomFields( 'PEOPLE_FIELDS', $_REQUEST['values']['PEOPLE'] );
+
+		// FJ textarea fields MarkDown sanitize.
+		$_REQUEST['values']['PEOPLE'] = FilterCustomFieldsMarkdown( 'PEOPLE_FIELDS', $_REQUEST['values']['PEOPLE'] );
+
 		if ( $_REQUEST['person_id']!='new')
 		{
 			$sql = "UPDATE PEOPLE SET ";

@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Fields (and Field Categories) functions
@@ -20,9 +21,19 @@
  */
 function AddDBField( $table, $sequence, $type )
 {
+	// Please add your TABLE here.
+	$allowed_tables = array(
+		'STUDENTS',
+		'ADDRESS',
+		'PEOPLE',
+		'STAFF',
+		'SCHOOLS',
+	);
+
 	if ( ! AllowEdit()
 		|| empty( $table )
-		|| empty( $type ) )
+		|| empty( $type )
+		|| ! in_array( $table, $allowed_tables ) )
 	{
 		return '';
 	}
@@ -87,14 +98,14 @@ function AddDBField( $table, $sequence, $type )
 		break;
 	}
 
-	DBQuery( 'ALTER TABLE ' . $table . ' ADD CUSTOM_' . $id . ' ' . $sql_type );
+	DBQuery( 'ALTER TABLE ' . $table . ' ADD CUSTOM_' . (int) $id . ' ' . $sql_type );
 
 	if ( $create_index )
 	{
 		$index_name = $table === 'STUDENTS' ? 'CUSTOM_IND' : $table . '_IND';
 
-		DBQuery( 'CREATE INDEX ' . $index_name . $id .
-			' ON ' . $table . ' (CUSTOM_' . $id . ')' );
+		DBQuery( 'CREATE INDEX ' . $index_name . (int) $id .
+			' ON ' . $table . ' (CUSTOM_' . (int) $id . ')' );
 	}
 
 	return $id;
@@ -113,9 +124,20 @@ function AddDBField( $table, $sequence, $type )
  */
 function DeleteDBField( $table, $id )
 {
+	// Please add your TABLE here.
+	$allowed_tables = array(
+		'STUDENTS',
+		'ADDRESS',
+		'PEOPLE',
+		'STAFF',
+		'SCHOOLS',
+	);
+
 	if ( ! AllowEdit()
 		|| empty( $table )
-		|| empty( $id ) )
+		|| empty( $id )
+		|| (string) (int) $id !== $id
+		|| ! in_array( $table, $allowed_tables ) )
 	{
 		return false;
 	}
@@ -128,10 +150,10 @@ function DeleteDBField( $table, $id )
 		$fields_table;
 
 	DBQuery( "DELETE FROM " . $fields_table . "_FIELDS
-		WHERE ID='" . $id . "'" );
+		WHERE ID='" . (int) $id . "'" );
 
 	DBQuery( 'ALTER TABLE ' . $table . '
-		DROP COLUMN CUSTOM_' . $id );
+		DROP COLUMN CUSTOM_' . (int) $id );
 
 	return true;
 }
@@ -152,9 +174,19 @@ function DeleteDBField( $table, $id )
  */
 function DeleteDBFieldCategory( $table, $id )
 {
+	// Please add your TABLE here.
+	$allowed_tables = array(
+		'STUDENTS',
+		'ADDRESS',
+		'PEOPLE',
+		'STAFF',
+	);
+
 	if ( ! AllowEdit()
 		|| empty( $table )
-		|| empty( $id ) )
+		|| empty( $id )
+		|| (string) (int) $id !== $id
+		|| ! in_array( $table, $allowed_tables ) )
 	{
 		return false;
 	}
@@ -164,7 +196,7 @@ function DeleteDBFieldCategory( $table, $id )
 	// Delete all fields in Category.
 	$fields = DBGet( DBQuery( "SELECT ID
 		FROM " . $fields_table . "_FIELDS
-		WHERE CATEGORY_ID='" . $id . "'" ) );
+		WHERE CATEGORY_ID='" . (int) $id . "'" ) );
 
 	foreach ( (array) $fields as $field )
 	{
@@ -177,7 +209,7 @@ function DeleteDBFieldCategory( $table, $id )
 		$table;
 
 	DBQuery( "DELETE FROM " . $field_categories_table . "_FIELD_CATEGORIES
-		WHERE ID='" . $id . "'" );
+		WHERE ID='" . (int) $id . "'" );
 
 	return true;
 }
@@ -209,13 +241,23 @@ function DeleteDBFieldCategory( $table, $id )
  */
 function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), $type_options = null )
 {
+	// Please add your TABLE here.
+	$allowed_tables = array(
+		'STUDENT',
+		'ADDRESS',
+		'PEOPLE',
+		'STAFF',
+		'SCHOOL',
+	);
+
 	$id = $RET['ID'];
 
 	$category_id = $RET['CATEGORY_ID'];
 
 	if ( empty( $table )
 		|| ( empty( $id )
-			&& empty( $category_id ) ) )
+			&& empty( $category_id ) )
+		|| ! in_array( $table, $allowed_tables ) )
 	{
 		return '';
 	}
@@ -487,11 +529,6 @@ function GetFieldsForm( $table, $title, $RET, $extra_category_fields = array(), 
  */
 function FieldsMenuOutput( $RET, $id, $category_id = '0' )
 {
-	if ( ! $RET )
-	{
-		return;
-	}
-
 	if ( $RET
 		&& $id
 		&& $id !== 'new' )
@@ -592,4 +629,109 @@ function MakeFieldType( $value, $column = '' )
 	);
 
 	return isset( $type_options[ $value ] ) ? $type_options[ $value ] : $value;
+}
+
+
+/**
+ * Filter Custom (Textarea / Long text) fields' MarkDown
+ * Use before inserting/updating Fields.
+ *
+ * @example $_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'STAFF_FIELDS', $_REQUEST['staff'] );
+ *
+ * @uses SanitizeMarkDown()
+ *
+ * @param string $table          Custom fields TABLE name.
+ * @param string $request_values $_REQUEST var array of fields values.
+ *
+ * @return array $request_values with MarkDown filtered.
+ */
+function FilterCustomFieldsMarkdown( $table, $request_values )
+{
+	// Please add your TABLE here.
+	$allowed_tables = array(
+		'CUSTOM_FIELDS',
+		'ADDRESS_FIELDS',
+		'PEOPLE_FIELDS',
+		'STAFF_FIELDS',
+		'SCHOOL_FIELDS',
+	);
+
+	if ( empty( $table )
+		|| ! in_array( $table, $allowed_tables ) )
+	{
+		return $request_values;
+	}
+
+	// FJ textarea fields MarkDown sanitize.
+	$textarea_RET = DBGet( DBQuery( "SELECT ID
+		FROM " . $table . "
+		WHERE TYPE='textarea'") );
+
+	if ( ! $textarea_RET )
+	{
+		return $request_values;
+	}
+
+	require_once 'ProgramFunctions/MarkDown.fnc.php';
+
+	foreach ( (array) $textarea_RET as $textarea )
+	{
+		if ( isset( $request_values[ 'CUSTOM_' . $textarea['ID'] ] )
+			&& ! empty( $request_values[ 'CUSTOM_' . $textarea['ID'] ] ) )
+		{
+			$request_values[ 'CUSTOM_' . $textarea['ID'] ] = DBEscapeString(
+				SanitizeMarkDown(
+					$request_values[ 'CUSTOM_' . $textarea['ID'] ]
+				)
+			);
+		}
+	}
+
+	return $request_values;
+}
+
+
+/**
+ * Check Required Custom Fields for empty values.
+ * Use before inserting/updating Fields.
+ *
+ * @example $required_error = $required_error || CheckRequiredCustomFields( 'CUSTOM_FIELDS', $_REQUEST['students'] );
+ *
+ * @param string $table          Custom fields TABLE name.
+ * @param string $request_values $_REQUEST var array of fields values.
+ *
+ * @return boolean true if one Required Custom field is empty, else false.
+ */
+function CheckRequiredCustomFields( $table, $request_values )
+{
+	// Please add your TABLE here.
+	$allowed_tables = array(
+		'CUSTOM_FIELDS',
+		'ADDRESS_FIELDS',
+		'PEOPLE_FIELDS',
+		'STAFF_FIELDS',
+		'SCHOOL_FIELDS',
+	);
+
+	if ( empty( $table )
+		|| ! in_array( $table, $allowed_tables ) )
+	{
+		return false;
+	}
+
+	$required_RET = DBGet( DBQuery( "SELECT ID FROM " . $table . "
+		WHERE CATEGORY_ID='" . $category_id . "'
+		AND REQUIRED='Y'" ) );
+
+	foreach ( (array) $required_RET as $required )
+	{
+		if ( isset( $request_values['CUSTOM_' . $required['ID'] ] )
+			&& empty( $request_values[ 'CUSTOM_' . $required['ID'] ] )
+			&& $request_values[ 'CUSTOM_' . $required['ID'] ] !== '0' )
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

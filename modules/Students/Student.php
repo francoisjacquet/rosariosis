@@ -1,6 +1,7 @@
 <?php
 
 require_once 'ProgramFunctions/FileUpload.fnc.php';
+require_once 'ProgramFunctions/Fields.fnc.php';
 
 if (User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['student_id'] && $_REQUEST['student_id']!=UserStudentID() && $_REQUEST['student_id']!='new')
 {
@@ -90,35 +91,11 @@ if ( $_REQUEST['modfunc'] === 'update'
 		if ((isset($_REQUEST['students']['FIRST_NAME']) && empty($_REQUEST['students']['FIRST_NAME'])) || (isset($_REQUEST['students']['LAST_NAME']) && empty($_REQUEST['students']['LAST_NAME'])))
 			$required_error = true;
 
-		//FJ other fields required
-		$others_required_RET = DBGet(DBQuery("SELECT ID FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$category_id."' AND REQUIRED='Y'"));
-		if (count($others_required_RET))
-			foreach ( (array) $others_required_RET as $other_required)
-				if (isset($_REQUEST['students']['CUSTOM_'.$other_required['ID']]) && empty($_REQUEST['students']['CUSTOM_'.$other_required['ID']]))
-					$required_error = true;
+		// FJ other fields required.
+		$required_error = $required_error || CheckRequiredCustomFields( 'CUSTOM_FIELDS', $_REQUEST['students'] );
 
-		//FJ textarea fields MarkDown sanitize
-		$others_textarea_RET = DBGet( DBQuery( "SELECT ID
-			FROM CUSTOM_FIELDS
-			WHERE TYPE='textarea'") );
-
-		if ( $others_textarea_RET )
-		{
-			require_once 'ProgramFunctions/MarkDown.fnc.php';
-
-			foreach ( (array) $others_textarea_RET as $other_textarea )
-			{
-				if ( isset( $_REQUEST['students']['CUSTOM_' . $other_textarea['ID']] )
-					&& !empty( $_REQUEST['students']['CUSTOM_' . $other_textarea['ID']] ) )
-				{
-					$_REQUEST['students']['CUSTOM_' . $other_textarea['ID']] = DBEscapeString(
-						SanitizeMarkDown(
-							$_REQUEST['students']['CUSTOM_' . $other_textarea['ID']]
-						)
-					);
-				}
-			}
-		}
+		// FJ textarea fields MarkDown sanitize.
+		$_REQUEST['students'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', $_REQUEST['students'] );
 
 		//FJ create account
 		if (basename($_SERVER['PHP_SELF'])=='index.php')

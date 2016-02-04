@@ -11,7 +11,7 @@
  *
  * Note:
  * Prefer `showdown.js` plugin, hooked by adding
- * the `markdown-to-html` CSS class to your containing DIV
+ * the `class="markdown-to-html"` containing DIV
  *
  * @uses Parsedown Markdown Parser class in PHP
  *

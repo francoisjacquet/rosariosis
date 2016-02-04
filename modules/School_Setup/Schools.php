@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/Fields.fnc.php';
+
 DrawHeader( ProgramTitle() );
 
 if ( isset( $_POST['day_values'] )
@@ -23,14 +25,33 @@ if ( $_REQUEST['modfunc']=='update')
 	{
 		if ( $_REQUEST['values'] && $_POST['values'])
 		{
-			if ((empty($_REQUEST['values']['NUMBER_DAYS_ROTATION']) || is_numeric($_REQUEST['values']['NUMBER_DAYS_ROTATION'])) && (empty($_REQUEST['values']['REPORTING_GP_SCALE']) || is_numeric($_REQUEST['values']['REPORTING_GP_SCALE'])))
+			// FJ other fields required.
+			$required_error = CheckRequiredCustomFields( 'PEOPLE_FIELDS', $_REQUEST['values']['PEOPLE'] );
+
+			if ( $required_error )
+			{
+				$error[] = _( 'Please fill in the required fields' );
+			}
+
+			// FJ textarea fields MarkDown sanitize.
+			$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'SCHOOL_FIELDS', $_REQUEST['values'] );
+
+			if ( ( empty( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] )
+					|| is_numeric( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] ) )
+				&& ( empty( $_REQUEST['values']['REPORTING_GP_SCALE'] )
+					|| is_numeric( $_REQUEST['values']['REPORTING_GP_SCALE'] ) ) )
+			{
+				$error[] = _( 'Please enter valid Numeric data.' );
+			}
+
+			if ( ! $error )
 			{
 				if ( $_REQUEST['new_school']!='true')
 				{
 					$sql = "UPDATE SCHOOLS SET ";
 
 					$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM SCHOOL_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
-				
+
 					$go = 0;
 				
 					foreach ( (array) $_REQUEST['values'] as $column => $value)
@@ -88,8 +109,6 @@ if ( $_REQUEST['modfunc']=='update')
 				}
 				UpdateSchoolArray(UserSchool());
 			}
-			else
-				$error[] = _('Please enter valid Numeric data.');
 		}
 		
 		unset($_REQUEST['modfunc']);
