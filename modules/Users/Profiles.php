@@ -169,7 +169,7 @@ if ( $_REQUEST['modfunc']=='update' && ! $_REQUEST['new_profile_title'] && Allow
 
 if ( $_REQUEST['new_profile_title'] && AllowEdit())
 {
-	$id = DBGet(DBQuery("SELECT ".db_seq_nextval('USER_PROFILES_SEQ')." AS ID".FROM_DUAL));
+	$id = DBGet(DBQuery("SELECT ".db_seq_nextval('USER_PROFILES_SEQ')." AS ID"));
 	$id = $id[1]['ID'];
 	$exceptions_RET = array();
 	DBQuery("INSERT INTO USER_PROFILES (ID,TITLE,PROFILE) values('".$id."','".$_REQUEST['new_profile_title']."','".$_REQUEST['new_profile_type']."')");

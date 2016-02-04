@@ -154,7 +154,7 @@ if ( isset( $_POST['tables'] )
 		// INSERT
 		else
 		{
-			$id_RET = DBGet( DBQuery( 'SELECT ' . db_seq_nextval( 'MARKING_PERIOD_SEQ' ).' AS ID' . FROM_DUAL ) );
+			$id_RET = DBGet( DBQuery( 'SELECT ' . db_seq_nextval( 'MARKING_PERIOD_SEQ' ).' AS ID' ) );
 
 			$sql = "INSERT INTO SCHOOL_MARKING_PERIODS ";
 

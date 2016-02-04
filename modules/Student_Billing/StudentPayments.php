@@ -26,7 +26,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		}
 		else
 		{
-			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('BILLING_PAYMENTS_SEQ').' AS ID'.FROM_DUAL));
+			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('BILLING_PAYMENTS_SEQ').' AS ID'));
 			$id = $id[1]['ID'];
 
 			$sql = "INSERT INTO BILLING_PAYMENTS ";

@@ -233,7 +233,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 
 			if ( !isset($error))
 			{
-				$staff_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID'.FROM_DUAL));
+				$staff_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID'));
 				$staff_id = $staff_id[1]['STAFF_ID'];
 
 				$sql = "INSERT INTO STAFF ";

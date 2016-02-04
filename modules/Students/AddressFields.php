@@ -74,7 +74,7 @@ if ( isset( $_POST['tables'] )
 					// New Category.
 					elseif ( $table === 'ADDRESS_FIELD_CATEGORIES' )
 					{
-						$id = DBGet( DBQuery( 'SELECT ' . db_seq_nextval( 'ADDRESS_FIELD_CATEGORIES_SEQ' ) . ' AS ID ' . FROM_DUAL ) );
+						$id = DBGet( DBQuery( 'SELECT ' . db_seq_nextval( 'ADDRESS_FIELD_CATEGORIES_SEQ' ) . ' AS ID ' ) );
 
 						$id = $id[1]['ID'];
 

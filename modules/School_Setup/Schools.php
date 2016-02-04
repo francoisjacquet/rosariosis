@@ -89,7 +89,7 @@ if ( $_REQUEST['modfunc']=='update')
 
 					if ( $fields && $values)
 					{
-						$id = DBGet(DBQuery("SELECT ".db_seq_nextval('SCHOOLS_SEQ')." AS ID".FROM_DUAL));
+						$id = DBGet(DBQuery("SELECT ".db_seq_nextval('SCHOOLS_SEQ')." AS ID"));
 						$id = $id[1]['ID'];
 						$sql = "INSERT INTO SCHOOLS (ID,SYEAR$fields) values('".$id."','".UserSyear()."'$values)";
 						DBQuery($sql);

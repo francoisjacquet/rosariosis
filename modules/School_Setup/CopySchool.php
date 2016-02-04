@@ -45,7 +45,7 @@ if ( $go
 	&& isset( $_REQUEST['tables'] )
 	&& count( $_REQUEST['tables'] ) )
 {
-	$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'SCHOOLS_SEQ' ) . " AS ID" . FROM_DUAL ) );
+	$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'SCHOOLS_SEQ' ) . " AS ID" ) );
 
 	$id = $id[1]['ID'];
 
