@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/TipMessage.fnc.php';
+
 if ( $_REQUEST['modfunc']=='update')
 {
 	if (UserStaffID() && AllowEdit())
