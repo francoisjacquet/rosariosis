@@ -148,7 +148,7 @@ function db_fetch_row( $result )
  */
 function db_seq_nextval( $seqname )
 {
-	return "nextval('" . $seqname . "')";
+	return "nextval('" . DBEscapeString( $seqname ) . "')";
 }
 
 
@@ -217,10 +217,6 @@ function db_trans_commit( $connection )
 {
 	pg_query( $connection, 'COMMIT' );
 }
-
-
-// Keyword mapping.
-define( 'FROM_DUAL', ' ' );
 
 
 /**
@@ -295,7 +291,7 @@ function db_case( $array )
  */
 function db_greatest( $a, $b )
 {
-	return 'GREATEST(' . $a . ', ' . $b . ')';
+	return "GREATEST('" . DBEscapeString( $a ) . "', '" . DBEscapeString( $b ) . "')";
 }
 
 
@@ -309,7 +305,7 @@ function db_greatest( $a, $b )
  */
 function db_least( $a, $b )
 {
-	return 'LEAST(' . $a . ', ' . $b . ')';
+	return "LEAST('" . DBEscapeString( $a ) . "', '" . DBEscapeString( $b ) . "')";
 }
 
 
@@ -327,7 +323,7 @@ function db_properties( $table )
 			a.attlen AS length,a.atttypmod AS lengthvar,
 			a.attnotnull AS notnull
 		FROM pg_class c, pg_attribute a, pg_type t
-		WHERE c.relname = '" . mb_strtolower( $table ) . "'
+		WHERE c.relname = '" . mb_strtolower( DBEscapeString( $table ) ) . "'
 			and a.attnum > 0 and a.attrelid = c.oid
 			and a.atttypid = t.oid ORDER BY a.attnum";
 

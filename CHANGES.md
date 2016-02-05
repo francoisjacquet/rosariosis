@@ -57,6 +57,7 @@ Changes in 2.9
 - Add ProgramUserConfig() function in Config.fnc.php
 - Improved accessibility (a11y) in Side.php, index.php & Buttons.php
 - SendEmail() program function now uses PHPMailer and accepts attachments
+- Remove FROM_DUAL constant (not used by PostgreSQL) program wide
 
 Changes in 2.8.11
 -----------------

@@ -221,7 +221,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				if ( !isset($student_id))
 					do
 					{
-						$student_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STUDENTS_SEQ').' AS STUDENT_ID '.FROM_DUAL));
+						$student_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STUDENTS_SEQ').' AS STUDENT_ID'));
 						$student_id = $student_id[1]['STUDENT_ID'];
 					}
 					while (count(DBGet(DBQuery("SELECT STUDENT_ID FROM STUDENTS WHERE STUDENT_ID='".$student_id."'"))));

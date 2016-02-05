@@ -106,7 +106,7 @@ if ( isset( $_POST['tables'] )
 								$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
 								unset($columns['ASSIGNMENT_TYPE_ID']);
 							}
-							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('GRADEBOOK_ASSIGNMENTS_SEQ').' AS ID '.FROM_DUAL));
+							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('GRADEBOOK_ASSIGNMENTS_SEQ').' AS ID'));
 							$id = $id[1]['ID'];
 							$fields = "ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,STAFF_ID,MARKING_PERIOD_ID,";
 							$values = $id.",'".$_REQUEST['assignment_type_id']."','".User('STAFF_ID')."','".UserMP()."',";
@@ -114,7 +114,7 @@ if ( isset( $_POST['tables'] )
 						}
 						elseif ( $table=='GRADEBOOK_ASSIGNMENT_TYPES')
 						{
-							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('GRADEBOOK_ASSIGNMENT_TYPES_SEQ').' AS ID '.FROM_DUAL));
+							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('GRADEBOOK_ASSIGNMENT_TYPES_SEQ').' AS ID'));
 							$id = $id[1]['ID'];
 							$fields = "ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,";
 							$values = $id.",'".User('STAFF_ID')."','".$course_id."',";

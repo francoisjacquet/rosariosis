@@ -31,7 +31,7 @@ if ( $_REQUEST['values'])
 		{
 			if ( $columns['ADDRESS'] && ! $inserted_addresses[preg_replace('/[^0-9A-Za-z]+/','',mb_strtolower($columns['ADDRESS']))])
 			{
-				$address_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('ADDRESS_SEQ').' AS ADDRESS_ID '.FROM_DUAL));
+				$address_RET = DBGet(DBQuery("SELECT ".db_seq_nextval('ADDRESS_SEQ').' AS ADDRESS_ID'));
 				$address_id[ $key ] = $address_RET[1]['ADDRESS_ID'];
 				if ( $key==1)
 					$address_id[2] = $address_RET[1]['ADDRESS_ID'];
@@ -75,7 +75,7 @@ if ( $_REQUEST['values'])
 		{
 			if ( $person['FIRST_NAME'] && $person['LAST_NAME'])
 			{
-				$person_id = DBGet(DBQuery("SELECT ".db_seq_nextval('PEOPLE_SEQ').' AS PERSON_ID '.FROM_DUAL));
+				$person_id = DBGet(DBQuery("SELECT ".db_seq_nextval('PEOPLE_SEQ').' AS PERSON_ID'));
 				$person_id = $person_id[1]['PERSON_ID'];
 
 				if ( $key==1 || $key==2)

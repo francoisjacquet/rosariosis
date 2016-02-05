@@ -318,14 +318,14 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 
 						if ( $table_name=='COURSE_SUBJECTS')
 						{
-							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_SUBJECTS_SEQ').' AS ID'.FROM_DUAL));
+							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_SUBJECTS_SEQ').' AS ID'));
 							$fields = 'SUBJECT_ID,SCHOOL_ID,SYEAR,';
 							$values = "'".$id[1]['ID']."','".UserSchool()."','".UserSyear()."',";
 							$_REQUEST['subject_id'] = $id[1]['ID'];
 						}
 						elseif ( $table_name=='COURSES')
 						{
-							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSES_SEQ').' AS ID'.FROM_DUAL));
+							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSES_SEQ').' AS ID'));
 							$fields = 'COURSE_ID,SUBJECT_ID,SCHOOL_ID,SYEAR,';
 							$values = "'".$id[1]['ID']."','".$_REQUEST['subject_id']."','".UserSchool()."','".UserSyear()."',";
 		/*					$fields = 'COURSE_ID,SCHOOL_ID,SYEAR,';
@@ -334,7 +334,7 @@ if ( $_REQUEST['tables'] && $_POST['tables'] && AllowEdit())
 						}
 						elseif ( $table_name=='COURSE_PERIODS')
 						{
-							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_PERIODS_SEQ').' AS ID'.FROM_DUAL));
+							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('COURSE_PERIODS_SEQ').' AS ID'));
 							$fields = 'SYEAR,SCHOOL_ID,COURSE_PERIOD_ID,COURSE_ID,TITLE,FILLED_SEATS,';
 							$teacher = DBGet(DBQuery("SELECT FIRST_NAME,LAST_NAME,MIDDLE_NAME FROM STAFF WHERE SYEAR='".UserSyear()."' AND STAFF_ID='".$columns['TEACHER_ID']."'"));
 
