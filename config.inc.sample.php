@@ -79,6 +79,8 @@ $RosarioNotifyAddress = '';
  *
  * Add other languages you want to support here
  *
+ * @see locale/ folder
+ *
  * For American, French and Spanish:
  *
  * @example array( 'en_US.utf8', 'fr_FR.utf8', 'es_ES.utf8' );

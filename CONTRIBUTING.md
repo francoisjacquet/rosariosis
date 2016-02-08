@@ -2,11 +2,11 @@
 
 ## New Issue
 
-Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues/) related to RosarioSIS, please observe the following recommandations:
+Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues/) related to RosarioSIS, please observe the following recommendations:
 
-1. Search the [closed issues](https://github.com/francoisjacquet/rosariosis/issues?q=is%3Aissue+is%3Aclosed) or the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki), your problem may already have been answered. Do not create **duplicates**!
+1. Search the [closed issues](https://github.com/francoisjacquet/rosariosis/issues?q=is%3Aissue+is%3Aclosed) or the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki), your problem may already have been answered. Please do not create **duplicates**.
 
-2. Specify your RosarioSIS, PHP & PostgreSQL **versions**, the server & browser used.
+2. Specify your RosarioSIS, PHP & PostgreSQL **versions**, along with the server & browser used.
 
 3. Provide **steps to reproduce** the problem.
 
@@ -27,15 +27,13 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 
 ### Coding standards
 
-1. [Wordpress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/)
+1. We roughly follow [Wordpress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/).
 
-2. RosarioSIS coding standards?
+2. [Comment your code](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/): we use PHPDoc.
 
-3. [Comment your code](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/): use PHPDoc
+3. Quality Assurance: we use code linters & other [QA tools](http://phpqatools.org/)
 
-4. Quality Assurance: please use code linters & other [QA tools](http://phpqatools.org/)
-
-5. Testing: Activate [debug mode](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#L56); for emails, you can use [MailCatcher](http://mailcatcher.me/)
+4. Testing: Activate [debug mode](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#L56); for emails, we use [MailCatcher](http://mailcatcher.me/)
 
 ### Example Module
 

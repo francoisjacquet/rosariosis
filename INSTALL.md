@@ -5,18 +5,18 @@
 Version 2.9-alpha
 -----------------
 
-NOTE: Before Installing RosarioSIS, you must read and agree to the included
-license.
+NOTE: Before Installing RosarioSIS, you must read and agree to the included license.
 
-RosarioSIS is a web based application which relies on other facilities such as a web server, PHP server-side scripting, and postgres database server.
+RosarioSIS is a web based application which relies on other facilities such as a web server, PHP server-side scripting, and PostgreSQL database server.
 
-For RosarioSIS to work you must first have your web server working, PHP working, postgres working. username/password authentication working.  Setting these up varies a lot with platform, operating system, and distribution so it is well beyond to scope of this brief install document.
+For RosarioSIS to work you must first have your web server working, PHP working, PostgreSQL working. Setting these up varies a lot with platform, operating system, and distribution so it is well beyond to scope of this brief install document.
 
 RosarioSIS was tested on:
 
 - Windows 7 x64 with Apache 2.2.21, Postgres 9.1, and PHP 5.3.9
 - Windows 10 x86 with Apache 2.4.16, Postgres 9.3.6, and PHP 5.4.45
-- Ubuntu Server 12.04 with Apache 2.2.22, Postgres 9.1, and PHP 5.3.10
+- Ubuntu 12.04 with Apache 2.2.22, Postgres 9.1, and PHP 5.3.10
+- Ubuntu 14.04 with Apache 2.4.18, Postgres 9.3.10, and PHP 5.5.9
 - Debian Jessie with Apache 2.4.16, Postgres 9.4, and PHP 5.6.13
 - through Mozilla Firefox
 - through BrowserStack for cross-browser compatibility
@@ -41,7 +41,7 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 - `$wkhtmltopdfPath` full path to wkhtmltopdf for pdf 'printing'
   
 - `$DefaultSyear` default school year, should be present in the database to be able to login
-- `$RosarioNotifyAddress` is email address to send error and new administrator notifications
+- `$RosarioNotifyAddress` is the email address to send error and new administrator notifications
 - `$RosarioLocales` is a comma separated list of the locale names of the translations (see `locale/` folder for available locales)
 
   [Optional variables]
@@ -87,8 +87,7 @@ To help you spot problems, point your browser to: `http://yourdomain.com/INSTALL
 Installing [wkhtmltopdf](http://wkhtmltopdf.org/)
 -------------------------------------------------
 
-
-Install instructions for Ubuntu 12.04.5 64bits server:
+Install instructions for Ubuntu 12.04 64bits:
 
 1. Download the latest executable (0.12.2.1 as of 2015.02.03): `server$ wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-precise-amd64.deb`
 
@@ -96,7 +95,7 @@ Install instructions for Ubuntu 12.04.5 64bits server:
 
 3. Install the missing dependencies: `server$ sudo apt-get -f install`
 
-4. Test: `server$ wkhtmltopdf http://google.com google.pdf`
+4. Test: `server$ wkhtmltopdf --margin-top 0 --margin-bottom 0 --margin-left 0 --margin-right 0 https://www.rosariosis.org/quick-setup-guide/ RosarioSIS_Quick_Setup_Guide.pdf`
 
 5. Set `$wkhtmltopdfPath` in RosarioSIS `config.inc.php` file: `$wkhtmltopdfPath = '/usr/local/bin/wkhtmltopdf';`
 
@@ -104,15 +103,11 @@ Install instructions for Ubuntu 12.04.5 64bits server:
 Activate PHP mail() function
 ----------------------------
 
-Install instructions for Ubuntu 12.04.4 64bits server:
+Install instructions for Ubuntu 12.04 64bits:
 	`server$ sudo apt-get install sendmail`
 
 
 Additional Configuration
 ------------------------
-
-RosarioSIS comes with an empty calendar, so the first thing you should do is create a calendar or recreate the Main calendar with school days (in green).
-
-See the _School Setup > School Configuration_ program for optional modules configuration.
 
 [Quick Setup Guide](https://github.com/francoisjacquet/rosariosis/wiki/Quick-Setup-Guide)
