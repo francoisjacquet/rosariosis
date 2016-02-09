@@ -60,13 +60,21 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 Now, you're ready to setup the RosarioSIS database. If you have access to the command prompt for your server, follow these instructions. If you're using phpPGAdmin or a similar tool, import the `rosariosis.sql` file included in this package.
 
 1. Open a command prompt window.
-2. Login as the postgres user: `server$ su -i -u postgres`
-3. Get a PostgreSQL prompt: `server$ psql`
-4. Create the rosariosis database: `postgres=# CREATE DATABASE rosariosis WITH ENCODING 'UTF8';`
-5. Create the rosariosis user: `postgres=# CREATE USER rosariosis WITH PASSWORD 'rosariosis_password';`
-6. Grant the user access to the database: `postgres=# GRANT ALL PRIVILEGES ON DATABASE rosariosis to rosariosis;`
-7. Logout of PostgreSQL: `postgres=# \q` and `server$ exit`
-8. Run the RosarioSIS SQL file: `server$ psql -f YOUR_ROSARIO_INSTALL_DIRECTORY/rosariosis.sql rosariosis rosariosis`
+2. Login as the postgres user:
+	`server$ su -i -u postgres`
+3. Get a PostgreSQL prompt:
+	`server$ psql`
+4. Create the rosariosis database:
+	`postgres=# CREATE DATABASE rosariosis WITH ENCODING 'UTF8';`
+5. Create the rosariosis user:
+	`postgres=# CREATE USER rosariosis WITH PASSWORD 'rosariosis_password';`
+6. Grant the user access to the database:
+	`postgres=# GRANT ALL PRIVILEGES ON DATABASE rosariosis to rosariosis;`
+7. Logout of PostgreSQL:
+	`postgres=# \q`
+	`server$ exit`
+8. Run the RosarioSIS SQL file:
+	`server$ psql -f YOUR_ROSARIO_INSTALL_DIRECTORY/rosariosis.sql rosariosis rosariosis`
 
 Also, the `pg_hba.conf` file may have to be altered to specify the server's TCP/IP address.
 
