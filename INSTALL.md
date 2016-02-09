@@ -71,10 +71,10 @@ Now, you're ready to setup the RosarioSIS database. If you have access to the co
 6. Grant the user access to the database:
 	`postgres=# GRANT ALL PRIVILEGES ON DATABASE rosariosis to rosariosis;`
 7. Logout of PostgreSQL:
-	`postgres=# \q`
+	`postgres=# \q` & 
 	`server$ exit`
 8. Run the RosarioSIS SQL file:
-	`server$ psql -f YOUR_ROSARIO_INSTALL_DIRECTORY/rosariosis.sql rosariosis rosariosis`
+	`server$ psql -f INSTALL_DIRECTORY/rosariosis.sql rosariosis rosariosis`
 
 Also, the `pg_hba.conf` file may have to be altered to specify the server's TCP/IP address.
 
