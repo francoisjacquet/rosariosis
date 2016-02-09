@@ -31,17 +31,17 @@ Installing the Package
 
 Unzip the RosarioSIS distribution to a directory that is accessible to your web browser. Edit the `config.inc.sample.php` file to set the configuration variables as appropriate for your installation. Rename the file to `config.inc.php`.
 
-- `$DatabaseServer` is the host name or ip for the database server
+- `$DatabaseServer` is the host name or IP for the database server
 - `$DatabaseUsername` is the username used for authenticating the database
 - `$DatabasePassword` is the password used for authenticating the database
 - `$DatabaseName` is the database name
 - `$DatabasePort` is the socket port number for accessing the database server
 
-- `$pg_dumpPath` is full path to the postgres database dump utility pg_dump
-- `$wkhtmltopdfPath` full path to wkhtmltopdf for pdf 'printing'
+- `$pg_dumpPath` is full path to the postgres database dump utility (pg_dump)
+- `$wkhtmltopdfPath` full path to wkhtmltopdf for PDF 'printing'
   
 - `$DefaultSyear` default school year, should be present in the database to be able to login
-- `$RosarioNotifyAddress` is the email address to send error and new administrator notifications
+- `$RosarioNotifyAddress` is the email address to send error and new administrator notifications to
 - `$RosarioLocales` is a comma separated list of the locale names of the translations (see `locale/` folder for available locales)
 
   [Optional variables]

@@ -684,33 +684,26 @@ form.login input[type=text],form.login input[type=password]{
 
 /*bottom*/
 .BottomButton{
-	padding-top:10px;
-}
-.BottomButton{
+	line-height: 32px;
 	margin-right:8px;
+}
+.BottomButton span{
+	vertical-align:top
 }
 .BottomButton img{
 	height:32px
 }
-.BottomButton span{
-	vertical-align:super
-}
-#BottomButtonMenu span{
-	vertical-align:baseline
-}
 #BottomButtonMenu{
 	float:left;
-	padding:6px 0 6px 6px
 }
 #BottomButtonMenu:before{
 	content:"\2261";
 	font-size:3rem;
 	font-weight:bold;
-	vertical-align:top
 }
 .BottomButton.loading{
 	float:right;
-	padding-bottom:10px
+	padding-bottom:13px;
 }
 
 /* Loading spinner */
