@@ -60,22 +60,19 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 Now, you're ready to setup the RosarioSIS database. If you have access to the command prompt for your server, follow these instructions. If you're using phpPGAdmin or a similar tool, import the `rosariosis.sql` file included in this package.
 
 1. Open a command prompt window.
-2. Login as the postgres user: `server$ su - postgres`
-3. Login to the postgres database server using the template1 database: `server$ psql template1`
-4. Create the rosariosis database: `template1=# CREATE DATABASE rosariosis;`
-5. Skip to step 6 if used in an American / English-speaking environment. If your data will include non-standard English characters (like characters with accent marks), you'll have to create your database with a different character encoding (the default is unicode). `createdb rosariosis -E UTF8` UTF8 is Unicode, 8-bit -- useful for all languages. See [there](http://www.postgresql.org/docs/9.1/interactive/multibyte.html) for more information.
-6. Logout of the database server: `template1=# \q`
-7. Run the RosarioSIS sql file: `server$ psql rosariosis < YOUR_ROSARIO_INSTALL_DIRECTORY/rosariosis.sql > rosariosis.log`
+2. Login as the postgres user: `server$ su -i -u postgres`
+3. Get a PostgreSQL prompt: `server$ psql`
+4. Create the rosariosis database: `postgres=# CREATE DATABASE rosariosis WITH ENCODING 'UTF8';`
+5. Create the rosariosis user: `postgres=# CREATE USER rosariosis WITH PASSWORD 'rosariosis_password';`
+6. Grant the user access to the database: `postgres=# GRANT ALL PRIVILEGES ON DATABASE rosariosis to rosariosis;`
+7. Logout of PostgreSQL: `postgres=# \q` and `server$ exit`
+8. Run the RosarioSIS SQL file: `server$ psql -f YOUR_ROSARIO_INSTALL_DIRECTORY/rosariosis.sql rosariosis rosariosis`
 
-Notice, you will see several lines beginning "NOTICE:  ALTER TABLE / ADD PRIMARY KEY will create implicit index " after completing direction 6.  Disregard these messages.
-
-If you run into permissions problems involving `rosariosis.log`, simply remove the ` > rosariosis.log` from the command
-
-You will have to start postgres with the -i option, telling postmaster to accept TCP/IP connections. Also, the `pg_hba.conf` file may have to be altered to specify the server's TCP/IP address.
+Also, the `pg_hba.conf` file may have to be altered to specify the server's TCP/IP address.
 
 That's it!... now, point your browser to: `http://yourdomain.com/INSTALL_LOCATION/index.php`
 
-and login as 'admin' password 'admin'.  With this login, you can create new users, and change and delete the three template users.  Since students can not be deleted the template student should be changed to a proper student.
+and login as 'admin' password 'admin'.  With this login, you can create new users, and change and delete the three template users. Since students cannot be deleted the template student should be changed to a proper student.
 
 
 Installation problems
