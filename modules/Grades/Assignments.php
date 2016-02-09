@@ -1,8 +1,13 @@
 <?php
-DrawHeader(_('Gradebook').' - '.ProgramTitle());
 
-if ( !UserCoursePeriod())
-	echo ErrorMessage(array(_('No courses assigned to teacher.')),'fatal');
+require_once 'ProgramFunctions/MarkDown.fnc.php';
+
+DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() );
+
+if ( ! UserCoursePeriod() )
+{
+	echo ErrorMessage( array( _( 'No courses assigned to teacher.' ) ), 'fatal' );
+}
 	
 $course_id = DBGet(DBQuery("SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
 $course_id = $course_id[1]['COURSE_ID'];
@@ -30,142 +35,196 @@ if ( isset( $_POST['tables'] )
 	&& count( $_POST['tables'] ) )
 {
 	$table = $_REQUEST['table'];
+
 	foreach ( (array) $_REQUEST['tables'] as $id => $columns)
 	{
-		//FJ added SQL constraint TITLE & POINTS are not null
-		if ( ( !isset( $columns['TITLE'] )
-				|| !empty( $columns['TITLE'] ) )
-			&& ( !isset( $columns['POINTS'] )
-				|| $columns['POINTS'] !== '') )
+		// FJ textarea fields MarkDown sanitize.
+		if ( isset( $columns['DESCRIPTION'] ) )
 		{
-			//FJ fix SQL bug invalid numeric data
-			//FJ default points
-			if ( ( !isset( $columns['POINTS'] )
+			$columns['DESCRIPTION'] = SanitizeMarkDown( $columns['DESCRIPTION'] );
+		}
+
+		// FJ added SQL constraint TITLE & POINTS are not null.
+		if ( ( ! isset( $columns['TITLE'] )
+				|| ! empty( $columns['TITLE'] ) )
+			&& ( ! isset( $columns['POINTS'] )
+				|| $columns['POINTS'] !== '' ) )
+		{
+			// FJ fix SQL bug invalid numeric data.
+			// FJ default points.
+			if ( ( ! isset( $columns['POINTS'] )
 					|| ( is_numeric( $columns['POINTS'] )
 						&& intval( $columns['POINTS'] ) >= 0 ) )
-				&& ( !isset( $columns['DEFAULT_POINTS'] )
+				&& ( ! isset( $columns['DEFAULT_POINTS'] )
 					|| $columns['DEFAULT_POINTS'] === ''
 					|| $columns['DEFAULT_POINTS'] === '*'
 					|| ( is_numeric( $columns['DEFAULT_POINTS'] )
 						&& intval( $columns['DEFAULT_POINTS'] ) >= 0 ) ) )
 			{
-				
-				//FJ fix SQL bug invalid sort order
-				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
+				// FJ fix SQL bug invalid sort order.
+				if ( empty( $columns['SORT_ORDER'] )
+					|| is_numeric( $columns['SORT_ORDER'] ) )
 				{
-					if ( $id!='new')
+					if ( $id != 'new')
 					{
-						if ( $columns['ASSIGNMENT_TYPE_ID'] && $columns['ASSIGNMENT_TYPE_ID']!=$_REQUEST['assignment_type_id'])
+						if ( $columns['ASSIGNMENT_TYPE_ID']
+							&& $columns['ASSIGNMENT_TYPE_ID'] != $_REQUEST['assignment_type_id'] )
+						{
 							$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
+						}
 
 						$sql = "UPDATE $table SET ";
 
 						//if ( ! $columns['COURSE_ID'] && $table=='GRADEBOOK_ASSIGNMENTS')
 						//	$columns['COURSE_ID'] = 'N';
 
-						foreach ( (array) $columns as $column => $value)
+						foreach ( (array) $columns as $column => $value )
 						{
 							if ( ( $column === 'DUE_DATE'
 								|| $column === 'ASSIGNED_DATE' )
 								&& $value !== '' )
 							{
-								if ( !VerifyDate( $value ) )
+								if ( ! VerifyDate( $value ) )
+								{
 									$error[] = _( 'Some dates were not entered correctly.' );
+								}
 							}
-							elseif ( $column=='COURSE_ID' && $value=='Y' && $table=='GRADEBOOK_ASSIGNMENTS')
+							elseif ( $column == 'COURSE_ID'
+								&& $value == 'Y'
+								&& $table == 'GRADEBOOK_ASSIGNMENTS')
 							{
 								$value = $course_id;
 								$sql .= 'COURSE_PERIOD_ID=NULL,';
 							}
-							elseif ( $column=='COURSE_ID' && $table=='GRADEBOOK_ASSIGNMENTS')
+							elseif ( $column == 'COURSE_ID'
+								&& $table == 'GRADEBOOK_ASSIGNMENTS')
 							{
 								$column = 'COURSE_PERIOD_ID';
 								$value = UserCoursePeriod();
 								$sql .= 'COURSE_ID=NULL,';
 							}
-							elseif ( $column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
-								$value = preg_replace('/[^0-9.]/','',$value) / 100;
-							//FJ default points
-							elseif ( $column=='DEFAULT_POINTS' && $value=='*' && $table=='GRADEBOOK_ASSIGNMENTS')
+							elseif ( $column == 'FINAL_GRADE_PERCENT'
+								&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES')
+							{
+								$value = preg_replace( '/[^0-9.]/', '', $value ) / 100;
+							}
+							// FJ default points.
+							elseif ( $column == 'DEFAULT_POINTS'
+								&& $value == '*'
+								&& $table == 'GRADEBOOK_ASSIGNMENTS' )
+							{
 								$value = '-1';
+							}
 
-							$sql .= $column."='".$value."',";
+							$sql .= $column . "='". $value . "',";
 						}
-						$sql = mb_substr($sql,0,-1) . " WHERE ".mb_substr($table,10,-1)."_ID='".$id."'";
+
+						$sql = mb_substr( $sql, 0, -1 ) . " WHERE " . mb_substr( $table, 10, -1 ) . "_ID='" . $id . "'";
+
 						$go = true;
+
 						$gradebook_assignment_update = true;
 					}
 					else
 					{
 						$sql = "INSERT INTO $table ";
 
-						if ( $table=='GRADEBOOK_ASSIGNMENTS')
+						if ( $table == 'GRADEBOOK_ASSIGNMENTS')
 						{
-							if ( $columns['ASSIGNMENT_TYPE_ID'])
+							if ( $columns['ASSIGNMENT_TYPE_ID'] )
 							{
 								$_REQUEST['assignment_type_id'] = $columns['ASSIGNMENT_TYPE_ID'];
-								unset($columns['ASSIGNMENT_TYPE_ID']);
+
+								unset( $columns['ASSIGNMENT_TYPE_ID'] );
 							}
-							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('GRADEBOOK_ASSIGNMENTS_SEQ').' AS ID'));
+
+							$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'GRADEBOOK_ASSIGNMENTS_SEQ' ) . ' AS ID' ) );
+
 							$id = $id[1]['ID'];
+
 							$fields = "ASSIGNMENT_ID,ASSIGNMENT_TYPE_ID,STAFF_ID,MARKING_PERIOD_ID,";
-							$values = $id.",'".$_REQUEST['assignment_type_id']."','".User('STAFF_ID')."','".UserMP()."',";
+
+							$values = $id . ",'" . $_REQUEST['assignment_type_id'] . "','" .
+								User( 'STAFF_ID' ) . "','" . UserMP() . "',";
+
 							$_REQUEST['assignment_id'] = $id;
 						}
-						elseif ( $table=='GRADEBOOK_ASSIGNMENT_TYPES')
+						elseif ( $table == 'GRADEBOOK_ASSIGNMENT_TYPES')
 						{
-							$id = DBGet(DBQuery("SELECT ".db_seq_nextval('GRADEBOOK_ASSIGNMENT_TYPES_SEQ').' AS ID'));
+							$id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'GRADEBOOK_ASSIGNMENT_TYPES_SEQ' ) . ' AS ID' ) );
+
 							$id = $id[1]['ID'];
+
 							$fields = "ASSIGNMENT_TYPE_ID,STAFF_ID,COURSE_ID,";
-							$values = $id.",'".User('STAFF_ID')."','".$course_id."',";
+
+							$values = $id . ",'" . User( 'STAFF_ID' ) . "','" . $course_id . "',";
+
 							$_REQUEST['assignment_type_id'] = $id;
 						}
 
 						$go = false;
 
-						if ( ! $columns['COURSE_ID'] && $_REQUEST['table']=='GRADEBOOK_ASSIGNMENTS')
+						if ( ! $columns['COURSE_ID']
+							&& $_REQUEST['table'] == 'GRADEBOOK_ASSIGNMENTS' )
+						{
 							$columns['COURSE_ID'] = 'N';
+						}
 
-						foreach ( (array) $columns as $column => $value)
+						foreach ( (array) $columns as $column => $value )
 						{
 							if ( ( $column === 'DUE_DATE'
 								|| $column === 'ASSIGNED_DATE' )
 								&& $value !== '' )
 							{
-								if ( !VerifyDate( $value ) )
+								if ( ! VerifyDate( $value ) )
+								{
 									$error[] = _( 'Some dates were not entered correctly.' );
+								}
 							}
-							elseif ( $column=='COURSE_ID' && $value=='Y')
+							elseif ( $column == 'COURSE_ID'
+								&& $value == 'Y' )
+							{
 								$value = $course_id;
-							elseif ( $column=='COURSE_ID')
+							}
+							elseif ( $column == 'COURSE_ID')
 							{
 								$column = 'COURSE_PERIOD_ID';
+
 								$value = UserCoursePeriod();
 							}
-							elseif ( $column=='FINAL_GRADE_PERCENT' && $table=='GRADEBOOK_ASSIGNMENT_TYPES')
-								$value = preg_replace('/[^0-9.]/','',$value) / 100;
-							//FJ default points
-							elseif ( $column=='DEFAULT_POINTS' && $value=='*' && $table=='GRADEBOOK_ASSIGNMENTS')
-								$value = '-1';
-
-							if ( $value!='')
+							elseif ( $column == 'FINAL_GRADE_PERCENT'
+								&& $table == 'GRADEBOOK_ASSIGNMENT_TYPES' )
 							{
-								$fields .= $column.',';
-								$values .= "'".$value."',";
+								$value = preg_replace('/[^0-9.]/','',$value) / 100;
+							}
+							//FJ default points
+							elseif ( $column == 'DEFAULT_POINTS'
+								&& $value == '*'
+								&& $table == 'GRADEBOOK_ASSIGNMENTS' )
+							{
+								$value = '-1';
+							}
+
+							if ( $value != '' )
+							{
+								$fields .= $column . ',';
+
+								$values .= "'" . $value . "',";
+
 								$go = true;
 							}
 						}
-						$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
+						$sql .= '(' . mb_substr( $fields, 0, -1 ) . ') values(' . mb_substr( $values, 0, -1 ) . ')';
 					}
 				}
 				else
-					$error[] = _('Please enter a valid Sort Order.');
+					$error[] = _( 'Please enter a valid Sort Order.' );
 			}
 			else
-				$error[] = _('Please enter valid Numeric data.');
+				$error[] = _( 'Please enter valid Numeric data.' );
 		}
 		else
-			$error[] = _('Please fill in the required fields');
+			$error[] = _( 'Please fill in the required fields' );
 
 		if ( !isset($error) && $go)
 		{
@@ -391,10 +450,23 @@ if (empty($_REQUEST['modfunc']))
 		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$RET['ASSIGNED_DATE'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNED_DATE]',_('Assigned'),! $new) . '</td>';
 		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$RET['DUE_DATE'],'tables['.$_REQUEST['assignment_id'].'][DUE_DATE]',_('Due'),! $new) . '</td>';
 		$header .= '</tr>';
-		$errors = ($RET['DATE_ERROR']=='Y'?'<span style="color:red">'._('Due date is before assigned date!').'</span><br />':'');
-		$errors .= ($RET['ASSIGNED_ERROR']=='Y'?'<span style="color:red">'._('Assigned date is after end of quarter!').'</span><br />':'');
-		$errors .= ($RET['DUE_ERROR']=='Y'?'<span style="color:red">'._('Due date is after end of quarter!').'</span><br />':'');
-		$header .= '<tr><td class="valign-top" colspan="3">'.mb_substr($errors,0,-6).'</td></tr>';
+
+		if ( $RET['DATE_ERROR'] == 'Y' )
+		{
+			$error[] = _( 'Due date is before assigned date!' );
+		}
+
+		if ( $RET['ASSIGNED_ERROR'] == 'Y' )
+		{
+			$error[] = _( 'Assigned date is after end of quarter!' );
+		}
+
+		if ( $RET['DUE_ERROR'] == 'Y' )
+		{
+			$error[] = _( 'Due date is after end of quarter!' );
+		}
+
+		$header .= '<tr><td class="valign-top" colspan="3">' . ErrorMessage( $error ) . '</td></tr>';
 		$header .= '</table>';
 	}
 	elseif ( $_REQUEST['assignment_type_id'])

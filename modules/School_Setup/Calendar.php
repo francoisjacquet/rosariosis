@@ -1,29 +1,33 @@
 <?php
 
+require_once 'ProgramFunctions/MarkDown.fnc.php';
+
 DrawHeader( ProgramTitle() );
 
-//FJ days numbered
+// FJ days numbered.
 if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) > 0 )
+{
 	require_once 'modules/School_Setup/includes/DayToNumber.inc.php';
+}
 
-// Set Month
-if ( !isset( $_REQUEST['month'] )
+// Set Month.
+if ( ! isset( $_REQUEST['month'] )
 	|| mb_strlen( $_REQUEST['month'] ) !== 3 )
 {
 	$_REQUEST['month'] = mb_strtoupper( date( 'M' ) );
 }
 
-// Set Year
-if ( !isset( $_REQUEST['year'] )
+// Set Year.
+if ( ! isset( $_REQUEST['year'] )
 	|| mb_strlen( $_REQUEST['year'] ) !== 4 )
 {
 	$_REQUEST['year'] = date( 'Y' );
 }
 
-// Set Time = First Day of Month
+// Set Time = First Day of Month.
 $time = mktime( 0, 0, 0, MonthNWSwitch( $_REQUEST['month'], 'tonum' ), 1, $_REQUEST['year'] );
 
-// Create / Recreate Calendar
+// Create / Recreate Calendar.
 if ( $_REQUEST['modfunc'] === 'create'
 	&& AllowEdit() )
 {
@@ -35,7 +39,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	$fy = $fy_RET[1];
 
-	// Get Calendars Info
+	// Get Calendars Info.
     $title_RET = DBGet( DBQuery( "SELECT ac.CALENDAR_ID,ac.TITLE,ac.DEFAULT_CALENDAR,ac.SCHOOL_ID,
 		(SELECT coalesce(SHORT_NAME,TITLE)
 			FROM SCHOOLS
@@ -53,7 +57,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 		AND (s.SCHOOLS IS NULL OR position(','||ac.SCHOOL_ID||',' IN s.SCHOOLS)>0) 
 		ORDER BY " . db_case( array( 'ac.SCHOOL_ID', "'" . UserSchool() . "'", 0, 'ac.SCHOOL_ID' ) ) . ",ac.DEFAULT_CALENDAR ASC,ac.TITLE" ) );
 
-	// prepare table for Copy Calendar & add ' (Default)' mention
+	// Prepare table for Copy Calendar & add ' (Default)' mention.
 	$copy_calendar_options = array();
 
 	foreach ( (array) $title_RET as $id => $title )
@@ -73,7 +77,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	$message = '<table class="width-100p valign-top"><tr class="st"><td>';
 
-	// title
+	// Title.
 	$message .= TextInput(
 		( $_REQUEST['calendar_id'] ? $title_RET[ $default_id ]['TITLE'] : '' ),
 		'title',
@@ -453,25 +457,33 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 	{
 		if ( $_REQUEST['values'] )
 		{
-			// Update Event
+			// FJ textarea fields MarkDown sanitize.
+			if ( $_REQUEST['values']['DESCRIPTION'] )
+			{
+				$_REQUEST['values']['DESCRIPTION'] = SanitizeMarkDown( $_REQUEST['values']['DESCRIPTION'] );
+			}
+
+			// Update Event.
 			if ( $_REQUEST['event_id'] !== 'new' )
 			{
 				$sql = "UPDATE CALENDAR_EVENTS SET ";
 				
-				foreach ( (array) $_REQUEST['values'] as $column => $value)
-					$sql .= $column."='".$value."',";
+				foreach ( (array) $_REQUEST['values'] as $column => $value )
+				{
+					$sql .= $column . "='" . $value . "',";
+				}
 
-				$sql = mb_substr($sql,0,-1) . " WHERE ID='" . $_REQUEST['event_id'] . "'";
+				$sql = mb_substr( $sql, 0, -1 ) . " WHERE ID='" . $_REQUEST['event_id'] . "'";
 
 				DBQuery( $sql );
 
-				//hook
+				// Hook.
 				do_action('School_Setup/Calendar.php|update_calendar_event');
 			}
-			// Create Event
+			// Create Event.
 			else
 			{
-				//FJ add event repeat
+				// FJ add event repeat.
 				$i = 0;
 
 				do {
@@ -499,7 +511,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 					foreach ( (array) $_REQUEST['values'] as $column => $value )
 					{
-						if ( !empty( $value )
+						if ( ! empty( $value )
 							|| $value == '0' )
 						{
 							$fields .= $column . ',';
@@ -514,7 +526,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 					{
 						DBQuery( $sql );
 
-						//hook
+						// Hook.
 						do_action( 'School_Setup/Calendar.php|create_calendar_event' );
 					}
 
@@ -627,28 +639,34 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		do_action( 'School_Setup/Calendar.php|event_field' );
 
 		
-		//FJ bugfix SQL bug value too long for type character varying(50)
+		// FJ bugfix SQL bug value too long for type character varying(50).
 		echo '<tr><td>' . _( 'Title' ) . '</td>' .
 			'<td>' . TextInput( $RET[1]['TITLE'], 'values[TITLE]', '', 'required maxlength="50"' ) . '</td></tr>';
 
-		//FJ add course
+		// FJ add course.
 		if ( $RET[1]['COURSE'] )
+		{
 			echo '<tr><td>' . _( 'Course' ) . '</td>' .
 				'<td>' . $RET[1]['COURSE'] . '</td></tr>';
+		}
 
 		if ( $RET[1]['STAFF_ID'] )
+		{
 			echo '<tr><td>' . _( 'Teacher' ) . '</td>' .
 				'<td>' . TextInput( $RET[1]['STAFF_ID'], 'values[STAFF_ID]' ) . '</td></tr>';
+		}
 
 		echo '<tr><td>' . _( 'Notes' ) . '</td>' .
 			'<td>' . TextAreaInput( $RET[1]['DESCRIPTION'], 'values[DESCRIPTION]' ) . '</td></tr>';
 
 		if ( AllowEdit() )
 		{
-			echo '<tr><td colspan="2" class="center">' . SubmitButton( _( 'Save' ), 'button' );
+			echo '<tr><td colspan="2">' . SubmitButton( _( 'Save' ), 'button' );
 
 			if ( $_REQUEST['event_id'] !== 'new' )
+			{
 				echo SubmitButton( _( 'Delete' ), 'button' );
+			}
 
 			echo '</td></tr>';
 		}
@@ -1142,7 +1160,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		echo '</td></tr>
 		<tr><td colspan="2" class="valign-top">';
 
-		// Events
+		// Events.
 		foreach ( (array) $events_RET[ $date ] as $event )
 		{
 			$title = ( $event['TITLE'] ? $event['TITLE'] : '***' );
@@ -1156,7 +1174,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			'</div>';
 		}
 
-		// Assignments
+		// Assignments.
 		foreach ( (array) $assignments_RET[ $date ] as $assignment )
 		{
 			echo '<div class="calendar-event assignment' . ( $assignment['ASSIGNED'] == 'Y' ? ' assigned' : '' ) . '">' .
