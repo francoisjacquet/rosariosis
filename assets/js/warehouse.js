@@ -312,7 +312,7 @@ $(document).ajaxStop(function () {
 
 //onload
 window.onload = function () {
-	ajaxPrepare('#body');
+	ajaxPrepare('body');
 
 	//load body after browser history
 	if (history.pushState) window.setTimeout(function () {
