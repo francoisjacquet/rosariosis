@@ -58,6 +58,7 @@ Changes in 2.9
 - Improved accessibility (a11y) in Side.php, index.php & Buttons.php
 - SendEmail() program function now uses PHPMailer and accepts attachments
 - Remove FROM_DUAL constant (not used by PostgreSQL) program wide
+- Add jQuery Pin Menu plugin in assets/js/jquery-pinmenu/
 
 Changes in 2.8.11
 -----------------
