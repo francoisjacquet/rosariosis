@@ -51,8 +51,15 @@ else
 							CONFIG_VALUE='" . $value . "'
 							WHERE TITLE='" . $column . "'";
 					
-						//Program Title, Program Name, Default Theme, Create User Account, Create Student Account
-						$school_independant_values = array('TITLE','NAME','THEME', 'CREATE_USER_ACCOUNT', 'CREATE_STUDENT_ACCOUNT');
+						// Program Title, Program Name, Default Theme, Create User Account, Create Student Account, Student email field.
+						$school_independant_values = array(
+							'TITLE',
+							'NAME',
+							'THEME',
+							'CREATE_USER_ACCOUNT',
+							'CREATE_STUDENT_ACCOUNT',
+							'STUDENTS_EMAIL_FIELD',
+						);
 
 						if (in_array($column,$school_independant_values))
 							$sql .= " AND SCHOOL_ID='0';";
@@ -159,6 +166,26 @@ else
 			button( 'x' )
 		) . '</td></tr>';
 
+		$students_email_field_RET = DBGet( DBQuery( "SELECT ID, TITLE
+			FROM CUSTOM_FIELDS
+			WHERE TYPE='text'
+			AND CATEGORY_ID=1" ) );
+
+		$students_email_field_options = array( 'USERNAME' => _( 'Username' ) );
+
+		foreach ( (array) $students_email_field_RET as $field )
+		{
+			$students_email_field_options[ str_replace( 'custom_', '', $field['ID'] ) ] = ParseMLField( $field['TITLE'] );
+		}
+
+		echo '<tr><td>' . SelectInput(
+			Config( 'STUDENTS_EMAIL_FIELD' ),
+			'values[CONFIG][STUDENTS_EMAIL_FIELD]',
+			sprintf( _( 'Student email field' ), Config( 'NAME' ) ),
+			$students_email_field_options,
+			'N/A'
+		) . '</td></tr>';
+
 		echo '</td></tr></table></fieldset>';
 
 		echo '</table></fieldset>';
@@ -202,7 +229,7 @@ else
 				button( 'x' )
 			) . '</td></tr>';
 
-			echo '<tr><td>'.CheckboxInput(
+			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ),
 				'values[PROGRAM_CONFIG][STUDENTS_SEMESTER_COMMENTS]',
 				_( 'Use Semester Comments instead of Quarter Comments' ),
@@ -215,20 +242,25 @@ else
 			echo '</table></fieldset>';
 		}
 	
-		if ( $RosarioModules['Grades'])
+		if ( $RosarioModules['Grades'] )
 		{
-			echo '<br /><fieldset><legend>'._('Grades').'</legend><table>';
-			$options = array('-1' => _('Use letter grades only'), '0' => _('Use letter and percent grades'), '1' => _('Use percent grades only'));
+			echo '<br /><fieldset><legend>' . _( 'Grades' ) . '</legend><table>';
 
-			echo '<tr><td>'.SelectInput(
+			$grades_options = array(
+				'-1' => _( 'Use letter grades only' ),
+				'0' => _( 'Use letter and percent grades' ),
+				'1' => _( 'Use percent grades only' ),
+			);
+
+			echo '<tr><td>' . SelectInput(
 				ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ),
 				'values[PROGRAM_CONFIG][GRADES_DOES_LETTER_PERCENT]',
 				_( 'Grades' ),
-				$options,
+				$grades_options,
 				false
 			) . '</td></tr>';
 
-			echo '<tr><td>'.CheckboxInput(
+			echo '<tr><td>' . CheckboxInput(
 				ProgramConfig( 'grades', 'GRADES_HIDE_NON_ATTENDANCE_COMMENT' ),
 				'values[PROGRAM_CONFIG][GRADES_HIDE_NON_ATTENDANCE_COMMENT]',
 				_( 'Hide grade comment except for attendance period courses' ),

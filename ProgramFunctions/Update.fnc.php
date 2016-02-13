@@ -56,9 +56,10 @@ function Update()
  * Update to version 2.9-alpha
  *
  * 1. Add VERSION to CONFIG table
- * 2. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
- * 3. Update STUDENT_MP_COMMENTS table
- * 4. Create school_fields_seq Sequence
+ * 2. Add STUDENTS_EMAIL_FIELD to CONFIG table.
+ * 3. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
+ * 4. Update STUDENT_MP_COMMENTS table
+ * 5. Create school_fields_seq Sequence
  *
  * Local function
  *
@@ -91,7 +92,18 @@ function _update29alpha()
 
 
 	/**
-	 * 2. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
+	 * 2. Add STUDENTS_EMAIL_FIELD to CONFIG table.
+	 */
+	$students_email_field_added = DBGet( DBQuery( "SELECT FROM CONFIG WHERE TITLE='STUDENTS_EMAIL_FIELD'" ) );
+
+	if ( ! $students_email_field_added )
+	{
+		DBQuery( "INSERT INTO config VALUES (0, 'STUDENTS_EMAIL_FIELD', NULL);" );
+	}
+
+
+	/**
+	 * 3. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
 	 *
 	 * DROP PRIMARY KEY
 	 * And ADD it again with course_period_school_periods_id
@@ -106,7 +118,7 @@ function _update29alpha()
 
 
 	/**
-	 * 3. Update STUDENT_MP_COMMENTS table
+	 * 4. Update STUDENT_MP_COMMENTS table
 	 *
 	 * WARNING: no Downgrade possible!
 	 *
@@ -171,7 +183,7 @@ function _update29alpha()
 		$return = false;
 
 
-	// 4. Create school_fields_seq Sequence.
+	// 5. Create school_fields_seq Sequence.
 	$sequence_exists = DBGet( DBQuery( "SELECT 1 FROM pg_class where relname = 'school_fields_seq'" ) );
 
 	if ( ! $sequence_exists )

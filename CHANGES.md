@@ -59,6 +59,7 @@ Changes in 2.9
 - SendEmail() program function now uses PHPMailer and accepts attachments
 - Remove FROM_DUAL constant (not used by PostgreSQL) program wide
 - Add jQuery Pin Menu plugin in assets/js/jquery-pinmenu/
+- Add STUDENTS_EMAIL_FIELD to CONFIG table in rosariosis.sql & Configuration.php
 
 Changes in 2.8.11
 -----------------

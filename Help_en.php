@@ -232,6 +232,9 @@ HTML;
 			<li>
 				<i>Create User Account</i> &amp; <i>Create Student Account</i>: activate online registration. "Create User / Student Account" links will be displayed on the login page.
 			</li>
+			<li>
+				<i>Student email field</i>: choose the field which you will use to store your students emails. This can be the Username field or any other text field from the General Info tab. Setting this field will enable new features for or related to students within RosarioSIS such as "Password Reset".
+			</li>
 		</ul>
 	</li>
 	<li>The School:
