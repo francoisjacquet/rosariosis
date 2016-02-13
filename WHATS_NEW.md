@@ -9,6 +9,8 @@ Users
 - My Preferences
 	- Export Listings in XML format
 
+Password Reset feature
+
 MarkDown support for Large text fields
 
 New in 2.8
