@@ -38,6 +38,13 @@
 #body,#menu{
 	margin-bottom:38px;
 }
+#body{
+	margin-left: 206px;
+}
+/* Hidden menu */
+#menu.hide + #body{
+	margin-left: 0;
+}
 #footer{
 	clear:both;
 	position:fixed;
@@ -465,7 +472,6 @@ h3 span{
 }
 #body{
 	padding:0 15px 38px;
-	margin-left: 206px;
 }
 .headerIcon{
 	height:32px;

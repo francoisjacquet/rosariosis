@@ -428,5 +428,5 @@ function hideHelp() {
 }
 
 function expandMenu() {
-	$('#menu,#menuback').toggle();
+	$('#menu,#menuback').toggleClass('hide');
 }
