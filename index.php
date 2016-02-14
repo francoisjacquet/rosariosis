@@ -144,7 +144,7 @@ elseif ( isset( $_POST['USERNAME'] )
 			?>
 		</p>
 		<br />
-		<input type="submit" value="<?php echo _( 'OK' ); ?>" />
+		<?php Buttons( _( 'OK' ) ); ?>
 	</div>
 
 	<?php PopTable( 'footer' ); ?>
@@ -301,6 +301,12 @@ if ( empty( $_SESSION['STAFF_ID'] )
 				. _( 'You will be notified when it has been verified by a school administrator.' ) . ' '
 				. _( 'You will then be able to log in.' );
 		}
+
+		// Password recovery.
+		elseif ( $_REQUEST['reason'] == 'password_reset' )
+		{
+			$note[] = _( 'Please check your email for the password reset instructions.' );
+		}
 	}
 
 	if ( isset( $error ) )
@@ -353,7 +359,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 						</label>
 					</td>
 					<td>
-						<input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="42" tabindex="1" required autofocus />
+						<input type="text" name="USERNAME" id="USERNAME" size="25" maxlength="100" tabindex="1" required autofocus />
 					</td>
 				</tr>
 				<tr>
@@ -366,6 +372,10 @@ if ( empty( $_SESSION['STAFF_ID'] )
 						<input type="password" name="PASSWORD" id="PASSWORD" size="25" maxlength="42" tabindex="2" required />
 					</td>
 				</tr>
+				<tr>
+					<td colspan="2">
+						<a href="PasswordReset.php"><?php echo _( 'Password help' ); ?></a>
+					</td>
 			</table>
 			<p class="center">
 				<input type="submit" value="<?php echo _( 'Login' ); ?>" class="button-primary" />
