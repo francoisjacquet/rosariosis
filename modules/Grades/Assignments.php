@@ -438,7 +438,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$header .= '</tr><tr class="st">';
 
-		$header .= '<td colspan="2">' . TextareaInput($RET['DESCRIPTION'],'tables['.$_REQUEST['assignment_id'].'][DESCRIPTION]',_('Description')) . '</td>';
+		$header .= '<td colspan="2">' . TextAreaInput($RET['DESCRIPTION'],'tables['.$_REQUEST['assignment_id'].'][DESCRIPTION]',_('Description')) . '</td>';
 		$header .= '<td>' . CheckboxInput($RET['COURSE_ID'],'tables['.$_REQUEST['assignment_id'].'][COURSE_ID]',_('Apply to all Periods for this Course'),'',$_REQUEST['assignment_id']=='new') . '</td>';
 
 		$header .= '</tr><tr class="st">';

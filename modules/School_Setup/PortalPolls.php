@@ -268,7 +268,7 @@ function _makeOptionsInput($value,$name)
 			'',
 			'maxlength=255 size=20'
 		) . '</td><td>' .
-		TextareaInput(
+		TextAreaInput(
 			$value,
 			'values[' . $portal_poll_id . '][' . $id . '][' . $name . ']',
 			'',

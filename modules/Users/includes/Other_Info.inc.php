@@ -109,7 +109,7 @@ foreach ( (array) $fields_RET as $field )
 				$i = round( $per_row / 2 );
 			}
 
-			echo _makeTextareaInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
+			echo _makeTextAreaInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], 'staff' );
 
 		break;
 	}

@@ -299,7 +299,7 @@ if (empty($_REQUEST['modfunc']))
 			foreach ( (array) $fields_RET['textarea'] as $field)
 			{
 				echo '<tr><td><b>'.ParseMLField($field['TITLE']).'</b></td><td>';
-				echo _makeTextareaInput('CUSTOM_'.$field['ID']);
+				echo _makeTextAreaInput('CUSTOM_'.$field['ID']);
 				echo '</td></tr>';
 			}
 		}
@@ -397,7 +397,7 @@ function _makeTextInput($column,$numeric=false)
 	return TextInput('','values['.$column.']','',$options);
 }
 
-function _makeTextareaInput($column,$numeric=false)
+function _makeTextAreaInput($column,$numeric=false)
 {
 	return TextAreaInput('','values['.$column.']');
 }

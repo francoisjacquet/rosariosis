@@ -258,7 +258,7 @@ function _makeContentInput($value,$name)
 		$id = 'new';
 
 	$return .= '<div id="divNoteContent' . $id . '" class="rt2colorBox">' .
-		TextareaInput( $value, "values[" . $id . "][" . $name . "]", '', 'rows=5' ) .
+		TextAreaInput( $value, "values[" . $id . "][" . $name . "]", '', 'rows=5' ) .
 	'</div>';
 	
 	return $return;

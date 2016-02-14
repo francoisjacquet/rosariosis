@@ -406,7 +406,7 @@ function _makeCheckboxInput( $column, $name, $request )
  *
  * @return string          Textarea Input
  */
-function _makeTextareaInput( $column, $name, $request )
+function _makeTextAreaInput( $column, $name, $request )
 {
 	global $value,
 		$field;

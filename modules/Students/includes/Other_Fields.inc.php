@@ -57,7 +57,7 @@ foreach ( (array) $fields_RET as $field )
 
 		case 'textarea':
 
-			echo _makeTextareaInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );
+			echo _makeTextAreaInput( 'CUSTOM_' . $field['ID'], $field['TITLE'], $request );
 
 		break;
 	}
