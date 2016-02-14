@@ -54,9 +54,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	// Format & Verify begin dates.
 	$cust_begin = array();
 
-	if ( isset( $_REQUEST['day_cust_begin'] )
-		&& isset( $_REQUEST['month_cust_begin'] )
-		&& isset( $_REQUEST['year_cust_begin'] ) )
+	if ( isset( $_REQUEST['day_cust_begin'], $_REQUEST['month_cust_begin'], $_REQUEST['year_cust_begin'] ) )
 	{
 		$cust_begin = RequestedDates(
 			$_REQUEST['day_cust_begin'],
@@ -75,9 +73,7 @@ function CustomFields( $location, $type = 'student', $extra = array() )
 	// Format & Verify end dates.
 	$cust_end = array();
 
-	if ( isset( $_REQUEST['day_cust_end'] )
-		&& isset( $_REQUEST['month_cust_end'] )
-		&& isset( $_REQUEST['year_cust_end'] ) )
+	if ( isset( $_REQUEST['day_cust_end'], $_REQUEST['month_cust_end'], $_REQUEST['year_cust_end'] ) )
 	{
 		$cust_end = RequestedDates(
 			$_REQUEST['day_cust_end'],

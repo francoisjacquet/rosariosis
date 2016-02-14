@@ -65,9 +65,7 @@ if (User('PROFILE')!='admin')
 if ( $_REQUEST['modfunc'] === 'update'
 	&& AllowEdit() )
 {
-	if ( isset( $_POST['day_students'] )
-		&& isset( $_POST['month_students'] )
-		&& isset( $_POST['year_students'] ) )
+	if ( isset( $_POST['day_students'], $_POST['month_students'], $_POST['year_students'] ) )
 	{
 		$requested_dates = RequestedDates(
 			$_REQUEST['day_students'],

@@ -5,9 +5,7 @@ require_once 'ProgramFunctions/TipMessage.fnc.php';
 // set this to false to disable auto-pull-downs for the contact info Description field
 $info_apd = true;
 
-if ( isset( $_POST['day_values'] )
-	&& isset( $_POST['month_values'] )
-	&& isset( $_POST['year_values'] ) )
+if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
 	$requested_dates = RequestedDates(
 		$_REQUEST['day_values'],

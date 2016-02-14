@@ -1,49 +1,56 @@
 <?php
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
-{
-	$date = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
-	if (count($_REQUEST['month_values']))
-	{
-		foreach ( (array) $_REQUEST['month_values'] as $field_name => $month)
-		{
-			$_REQUEST['values'][ $field_name ] = $_REQUEST['day_values'][ $field_name ].'-'.$month.'-'.$_REQUEST['year_values'][ $field_name ];
-			if ( !VerifyDate($_REQUEST['values'][ $field_name ]))
-			{
-				if ( $_REQUEST['values'][ $field_name ]!='--')
-					$warning[] = _('The date you specified is not valid, so was not used. The other data was saved.');
 
-				unset($_REQUEST['values'][ $field_name ]);
-			}
-		}
+require_once 'ProgramFunctions/Fields.fnc.php';
+
+if ( $_REQUEST['modfunc'] === 'save' )
+{
+	// Add eventual Dates to $_REQUEST['values'].
+	if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
+	{
+		$requested_dates = RequestedDates(
+			$_REQUEST['day_values'],
+			$_REQUEST['month_values'],
+			$_REQUEST['year_values']
+		);
+
+		$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );
 	}
 
-	if (count($_REQUEST['values']) && count($_REQUEST['student']))
+	if ( count( $_POST['values'] )
+		&& count( $_POST['student'] ) )
 	{
 		if ( $_REQUEST['values']['GRADE_ID']!='')
 		{
 			$grade_id = $_REQUEST['values']['GRADE_ID'];
 			unset($_REQUEST['values']['GRADE_ID']);
 		}
+
 		if ( $_REQUEST['values']['NEXT_SCHOOL']!='')
 		{
 			$next_school = $_REQUEST['values']['NEXT_SCHOOL'];
 			unset($_REQUEST['values']['NEXT_SCHOOL']);
 		}
+
 		if ( $_REQUEST['values']['CALENDAR_ID'])
 		{
 			$calendar = $_REQUEST['values']['CALENDAR_ID'];
 			unset($_REQUEST['values']['CALENDAR_ID']);
 		}
+
 		if ( $_REQUEST['values']['START_DATE']!='')
 		{
 			$start_date = $_REQUEST['values']['START_DATE'];
 			unset($_REQUEST['values']['START_DATE']);
 		}
+
 		if ( $_REQUEST['values']['ENROLLMENT_CODE']!='')
 		{
 			$enrollment_code = $_REQUEST['values']['ENROLLMENT_CODE'];
 			unset($_REQUEST['values']['ENROLLMENT_CODE']);
 		}
+
+		// FJ textarea fields MarkDown sanitize.
+		$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', $_REQUEST['values'] );
 
 		foreach ( (array) $_REQUEST['values'] as $field => $value)
 		{

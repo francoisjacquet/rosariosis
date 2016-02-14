@@ -22,9 +22,7 @@
 function SaveData( $iu_extra, $field_names = array() )
 {
 	// Add eventual Dates to $_REQUEST['values'].
-	if ( isset( $_REQUEST['day_values'] )
-		&& isset( $_REQUEST['month_values'] )
-		&& isset( $_REQUEST['year_values'] ) )
+	if ( isset( $_REQUEST['day_values'], $_REQUEST['month_values'], $_REQUEST['year_values'] ) )
 	{
 		$requested_dates = RequestedDates(
 			$_REQUEST['day_values'],

@@ -52,9 +52,7 @@ Widgets('request');
 
 Search('student_id',$extra);
 
-if ( isset( $_POST['day_schedule'] )
-	&& isset( $_POST['month_schedule'] )
-	&& isset( $_POST['year_schedule'] ) )
+if ( isset( $_POST['day_schedule'], $_POST['month_schedule'], $_POST['year_schedule'] ) )
 {
 	$requested_dates = RequestedDates(
 		$_REQUEST['day_schedule'],

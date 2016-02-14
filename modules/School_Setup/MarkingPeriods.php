@@ -50,9 +50,7 @@ if ( $_REQUEST['marking_period_id'] === 'new' )
 }
 
 // UPDATING
-if ( isset( $_POST['day_tables'] )
-	&& isset( $_POST['month_tables'] )
-	&& isset( $_POST['year_tables'] ) )
+if ( isset( $_POST['day_tables'], $_POST['month_tables'], $_POST['year_tables'] ) )
 {
 	$requested_dates = RequestedDates(
 		$_REQUEST['day_tables'],

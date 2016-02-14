@@ -4,9 +4,7 @@ require_once 'ProgramFunctions/Fields.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-if ( isset( $_POST['day_values'] )
-	&& isset( $_POST['month_values'] )
-	&& isset( $_POST['year_values'] ) )
+if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
 	$requested_dates = RequestedDates(
 		$_REQUEST['day_values'],

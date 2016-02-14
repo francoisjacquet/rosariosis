@@ -61,9 +61,7 @@ if (User('PROFILE')!='admin')
 
 if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 {
-	if ( isset( $_POST['day_staff'] )
-		&& isset( $_POST['month_staff'] )
-		&& isset( $_POST['year_staff'] ) )
+	if ( isset( $_POST['day_staff'], $_POST['month_staff'], $_POST['year_staff'] ) )
 	{
 		$requested_dates = RequestedDates(
 			$_REQUEST['day_staff'],
@@ -279,7 +277,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 				//hook
 				do_action('Users/User.php|create_user');
 
-				//Notify the network admin that a new admin has been created
+				// Notify the network admin that a new admin has been created.
 				if ( $_REQUEST['staff']['PROFILE_ID'] == 1
 					&& filter_var( $RosarioNotifyAddress, FILTER_VALIDATE_EMAIL ) )
 				{

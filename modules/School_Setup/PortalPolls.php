@@ -2,22 +2,18 @@
 //FJ Portal Polls inspired by Portal Notes
 require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 
-if ( $_REQUEST['day_values'] && $_POST['day_values'])
+// Add eventual Dates to $_REQUEST['values'].
+if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
-	foreach ( (array) $_REQUEST['day_values'] as $id => $values)
-	{
-		if ( $_REQUEST['day_values'][ $id ]['START_DATE'] && $_REQUEST['month_values'][ $id ]['START_DATE'] && $_REQUEST['year_values'][ $id ]['START_DATE'])
-			$_REQUEST['values'][ $id ]['START_DATE'] = $_REQUEST['day_values'][ $id ]['START_DATE'].'-'.$_REQUEST['month_values'][ $id ]['START_DATE'].'-'.$_REQUEST['year_values'][ $id ]['START_DATE'];
-		elseif (isset($_REQUEST['day_values'][ $id ]['START_DATE']) && isset($_REQUEST['month_values'][ $id ]['START_DATE']) && isset($_REQUEST['year_values'][ $id ]['START_DATE']))
-			$_REQUEST['values'][ $id ]['START_DATE'] = '';
+	$requested_dates = RequestedDates(
+		$_REQUEST['day_values'],
+		$_REQUEST['month_values'],
+		$_REQUEST['year_values']
+	);
 
-		if ( $_REQUEST['day_values'][ $id ]['END_DATE'] && $_REQUEST['month_values'][ $id ]['END_DATE'] && $_REQUEST['year_values'][ $id ]['END_DATE'])
-			$_REQUEST['values'][ $id ]['END_DATE'] = $_REQUEST['day_values'][ $id ]['END_DATE'].'-'.$_REQUEST['month_values'][ $id ]['END_DATE'].'-'.$_REQUEST['year_values'][ $id ]['END_DATE'];
-		elseif (isset($_REQUEST['day_values'][ $id ]['END_DATE']) && isset($_REQUEST['month_values'][ $id ]['END_DATE']) && isset($_REQUEST['year_values'][ $id ]['END_DATE']))
-			$_REQUEST['values'][ $id ]['END_DATE'] = '';
-	}
-	if ( ! $_POST['values'])
-		$_POST['values'] = $_REQUEST['values'];
+	$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );
+
+	$_POST['values'] = array_replace_recursive( $_POST['values'], $requested_dates );
 }
 
 $profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID"));
@@ -272,7 +268,9 @@ function _makeOptionsInput($value,$name)
 			$value,
 			'values[' . $portal_poll_id . '][' . $id . '][' . $name . ']',
 			'',
-			'rows=3 cols=20'
+			'rows=3 cols=20',
+			true,
+			false // No MarkDown.
 		) . ( $portal_poll_id == 'new' ? '<br />' . _( '* one per line' ) : '') . '</td><td>' .
 		SelectInput(
 			$THIS_RET['TYPE'],
