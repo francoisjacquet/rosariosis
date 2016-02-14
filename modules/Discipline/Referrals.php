@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/MarkDown.fnc.php';
+
 if ( isset( $_POST['day_values'] )
 	&& isset( $_POST['month_values'] )
 	&& isset( $_POST['year_values'] ) )
@@ -29,11 +31,20 @@ if ( isset( $_POST['values'] )
 	{
 		if (1)//!empty($value) || $value=='0')
 		{
+			$column_data_type = $categories_RET[ str_replace( 'CATEGORY_', '', $column_name ) ][1]['DATA_TYPE'];
+
 			//FJ check numeric fields
-			if ( $categories_RET[str_replace('CATEGORY_','',$column_name)][1]['DATA_TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
+			if ( $column_data_type === 'numeric'
+				&& ! is_numeric( $value ) )
 			{
 				$error[] = _('Please enter valid Numeric data.');
 				continue;
+			}
+
+			// FJ textarea fields MarkDown sanitize.
+			if ( $column_data_type === 'textarea' )
+			{
+				$value = SanitizeMarkDown( $value );
 			}
 
 			if ( !is_array($value))

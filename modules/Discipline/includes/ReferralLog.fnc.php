@@ -78,6 +78,8 @@ function ReferralLogIncludeForm()
  */
 function ReferralLogsGenerate( $extra )
 {
+	require_once 'ProgramFunctions/MarkDown.fnc.php';
+
 	global $_ROSARIO;
 
 	static $fields_RET = null;
@@ -240,7 +242,7 @@ function ReferralLogsGenerate( $extra )
 				}
 				// TEXTEAREA fields
 				else
-					DrawHeader( nl2br( $referral[ $column ] ) );
+					DrawHeader( MarkDownToHTML( $referral[ $column ] ) );
 			}
 
 			echo '<BR />';

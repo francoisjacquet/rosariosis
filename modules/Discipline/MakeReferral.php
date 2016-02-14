@@ -1,5 +1,7 @@
 <?php
 
+require_once 'ProgramFunctions/MarkDown.fnc.php';
+
 DrawHeader( ProgramTitle() );
 
 // set start date
@@ -67,12 +69,21 @@ if ( isset( $_POST['values'] )
 	{
 		if ( !empty($value) || $value=='0')
 		{
+			$column_data_type = $categories_RET[ str_replace( 'CATEGORY_', '', $column ) ][1]['DATA_TYPE'];
+
 			//FJ check numeric fields
-			if ( $categories_RET[str_replace('CATEGORY_','',$column)][1]['DATA_TYPE'] == 'numeric' && $value!='' && !is_numeric($value))
+			if ( $column_data_type === 'numeric'
+				&& ! is_numeric( $value ) )
 			{
 				$error[] = _('Please enter valid Numeric data.');
 				$go = 0;
 				break;
+			}
+
+			// FJ textarea fields MarkDown sanitize.
+			if ( $column_data_type === 'textarea' )
+			{
+				$value = SanitizeMarkDown( $value );
 			}
 
 			$fields .= $column.',';
@@ -98,7 +109,7 @@ if ( isset( $_POST['values'] )
 	{
 		DBQuery($sql);
 
-		// FJ email Discipline Referral feature
+		// FJ email Discipline Referral feature.
 		if ( isset( $_REQUEST['emails'] ) )
 		{
 			require_once 'modules/Discipline/includes/EmailReferral.fnc.php';
@@ -106,7 +117,11 @@ if ( isset( $_POST['values'] )
 			if ( EmailReferral( $referral_id, $_REQUEST['emails'] ) )
 			{
 				$note[] = _( 'That discipline incident has been emailed.' );
-			} else var_dump($referral_id);
+			}
+			elseif ( ROSARIO_DEBUG )
+			{
+				echo 'Referral not emailed: ' . var_dump( $referral_id );
+			}
 		}
 
 		$note[] = _('That discipline incident has been referred to an administrator.');

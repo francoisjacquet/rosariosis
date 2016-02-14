@@ -12,6 +12,8 @@
  */
 function EmailReferral( $referral_id, $emails )
 {
+	require_once 'ProgramFunctions/MarkDown.fnc.php';
+
 	// get Referral
 	//FJ prevent referral ID hacking
 	if ( User( 'PROFILE' ) === 'teacher' )
@@ -84,7 +86,7 @@ function EmailReferral( $referral_id, $emails )
 					$referral_fields[] = $title_txt . $referral[ $column ];
 			}
 			else
-				$referral_fields[] = $title_txt . "\n" . $referral[ $column ];
+				$referral_fields[] = $title_txt . "\n" . MarkDownToHTML( $referral[ $column ] );
 		}
 	}
 	else
