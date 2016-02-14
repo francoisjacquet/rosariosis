@@ -63,19 +63,19 @@ elseif ( isset( $_REQUEST['modfunc'] ) &&
 		require_once $help_english;
 
 	// FJ add help for non-core modules.
-	$not_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
+	$non_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
 
-	foreach ( (array) $not_core_modules as $not_core_module )
+	foreach ( (array) $non_core_modules as $non_core_module )
 	{
-		$not_core_dir = 'modules/' . $not_core_module . '/';
+		$non_core_dir = 'modules/' . $non_core_module . '/';
 
-		if ( file_exists( $not_core_dir . $help_translated ) ) // FJ translated help.
+		if ( file_exists( $non_core_dir . $help_translated ) ) // FJ translated help.
 		{
-			require_once $not_core_dir . $help_translated;
+			require_once $non_core_dir . $help_translated;
 		}
-		elseif ( file_exists( $not_core_dir . $help_english ) )
+		elseif ( file_exists( $non_core_dir . $help_english ) )
 		{
-			require_once $not_core_dir . $help_english;
+			require_once $non_core_dir . $help_english;
 		}
 	}
 

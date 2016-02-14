@@ -139,7 +139,7 @@ function array_rwalk( &$array, $function )
 			array_rwalk( $array[ $key[ $i ] ], $function );
 		}
 		else
-			$array[$key[ $i ]] = $function( $array[ $key[ $i ] ] );
+			$array[ $key[ $i ] ] = $function( $array[ $key[ $i ] ] );
 	}
 }
 
@@ -237,7 +237,9 @@ $RosarioPlugins = unserialize( Config( 'PLUGINS' ) );
 foreach ( (array) $RosarioPlugins as $plugin => $activated )
 {
 	if ( $activated )
+	{
 		require_once 'plugins/' . $plugin . '/functions.php';
+	}
 }
 
 
@@ -266,31 +268,27 @@ function _LoadAddonLocale( $domain, $folder )
 	}
 }
 
-$not_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
-$not_core_plugins = array_diff( array_keys( $RosarioPlugins ), $RosarioCorePlugins );
+$non_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
+$non_core_plugins = array_diff( array_keys( $RosarioPlugins ), $RosarioCorePlugins );
 
-// If not core modules or plugins, load locale.
-if ( $not_core_modules
-	|| $not_core_plugins )
+// If any non core modules or plugins, load locale.
+// Load module locale.
+foreach ( (array) $non_core_modules as $non_core_module )
 {
-	// Load module locale.
-	foreach ( (array) $not_core_modules as $not_core_module )
+	// If module activated.
+	if ( $RosarioModules[ $non_core_module ] )
 	{
-		// If module activated.
-		if ( $RosarioModules[ $not_core_module ] )
-		{
-			_LoadAddonLocale( $not_core_module, 'modules/' );
-		}
+		_LoadAddonLocale( $non_core_module, 'modules/' );
 	}
+}
 
-	// Load plugin locale.
-	foreach ( (array) $not_core_plugins as $not_core_plugin )
+// Load plugin locale.
+foreach ( (array) $non_core_plugins as $non_core_plugin )
+{
+	// If plugin activated.
+	if ( $RosarioPlugins[ $non_core_plugin ] )
 	{
-		// If plugin activated.
-		if ( $RosarioPlugins[ $not_core_plugin ] )
-		{
-			_LoadAddonLocale( $not_core_plugin, 'plugins/' );
-		}
+		_LoadAddonLocale( $non_core_plugin, 'plugins/' );
 	}
 }
 
