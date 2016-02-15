@@ -1,5 +1,13 @@
 <?php
 /**
+ * Wkhtmltopdf class
+ * wkhtmltopdf wrapper
+ *
+ * @package RosarioSIS
+ * @subpackage classes
+ */
+
+/**
  * @author aur1mas <aur1mas@devnet.lt>
  * @author Charles SANQUER <charles.sanquer@spyrit.net>
  * @author Clement Herreman <clement.herreman@pictime.com>

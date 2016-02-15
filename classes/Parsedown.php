@@ -1,23 +1,27 @@
 <?php
+/**
+ * Parsedown class
+ * Parse MarkDown
+ *
+ * @package RosarioSIS
+ * @subpackage classes
+ */
 
-#
-#
-# Parsedown
-# http://parsedown.org
-#
-# (c) Emanuil Rusev
-# http://erusev.com
-#
-# For the full license information, view the LICENSE file that
-# is available at https://github.com/erusev/parsedown/blob/master/LICENSE.txt
-#
-#
-
-// TODO: fix CSS (titles h2 ## + h3 ###)
-// and add Help (general)
-// and fully implement MarkDown to EVERY <textarea>
-// https://jbt.github.io/markdown-editor/
-// replace TinyMCE with ^ Markdown editor?
+/**
+ * ParseDown class
+ *
+ * @todo fix CSS (titles h2 ## + h3 ###)
+ * @todo add Help (general)
+ * @todo replace TinyMCE with ^ Markdown editor? https://jbt.github.io/markdown-editor/
+ *
+ * @link http://parsedown.org
+ *
+ * @copyright (c) Emanuil Rusev http://erusev.com
+ *
+ * @license MIT https://github.com/erusev/parsedown/blob/master/LICENSE.txt
+ *
+ * @since 2.9
+ */
 class Parsedown
 {
     # ~

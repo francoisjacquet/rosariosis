@@ -2,6 +2,13 @@
 /**
  * cURL class
  *
+ * @package RosarioSIS
+ * @subpackage classes
+ */
+
+/**
+ * cURL class
+ *
  * This is a wrapper class for curl, it is quite easy to use:
  * <code>
  * $c = new curl;
@@ -23,7 +30,6 @@
  * @author     Dongsheng Cai <dongsheng@moodle.com> - https://github.com/dongsheng/cURL
  * @license    http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
-
 class curl {
     /** @var bool */
     public  $cache    = false;

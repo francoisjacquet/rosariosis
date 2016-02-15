@@ -1,16 +1,26 @@
 <?php
+/**
+ * Security class
+ *
+ * @package RosarioSIS
+ * @subpackage classes
+ */
 
 /**
  * Security class
  *
+ * @todo Get sanitized MarkDown back, and not an empty string...
+ *
  * @link https://github.com/FrozenNode/XssInput
  *
- * @license 
+ * @author Jan Hartigan
  *
- * @example MarkDown input sanitize:
- *          require_once 'ProgramFunctions/MarkDown.fnc.php';
- *          $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_POST['values']['textarea'] );
- * 
+ * @license MIT http://administrator.frozennode.com/docs/license
+ *
+ * MarkDown input sanitize:
+ * @example $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_POST['values']['textarea'] );
+ *
+ * @since 2.9
  */
 class Security {
 
