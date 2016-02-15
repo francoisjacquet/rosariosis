@@ -226,19 +226,26 @@ code{
 .widefat td,.widefat th{
 	text-align:left;
 	border-width:1px 0;
-	border-style:solid
+	border-style:solid;
+	padding:3px 7px;
+	vertical-align:top
 }
 .widefat tfoot th{
 	border-bottom:none
 }
-.widefat td{
-	padding:3px 7px;
-	vertical-align:top
-}
 .widefat th{
-	padding:6px 7px;
-	line-height:1.3em;
+	overflow:hidden;
+	font-weight:normal;
+	line-height:1.6em
 }
+.widefat th,
+.widefat th a{
+	font-size:16px;
+}
+.widefat td p{
+	margin:2px 0 .8em
+}
+
 div.error{
 	padding:0 .6em;
 	margin:5px 0
@@ -369,15 +376,6 @@ label{
 	padding:1px;
 	margin-top:5px;
 	font-weight:bold;
-}
-.widefat th/*,.widefat td*/{
-	overflow:hidden
-}
-.widefat th{
-	font-weight:normal
-}
-.widefat td p{
-	margin:2px 0 .8em
 }
 .postbox{
 	margin-bottom:20px;
