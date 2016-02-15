@@ -50,7 +50,7 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		}
 
 		// FJ textarea fields MarkDown sanitize.
-		$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', $_REQUEST['values'] );
+		$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', 'values' );
 
 		foreach ( (array) $_REQUEST['values'] as $field => $value)
 		{

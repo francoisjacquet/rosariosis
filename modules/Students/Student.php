@@ -93,7 +93,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 		$required_error = $required_error || CheckRequiredCustomFields( 'CUSTOM_FIELDS', $_REQUEST['students'] );
 
 		// FJ textarea fields MarkDown sanitize.
-		$_REQUEST['students'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', $_REQUEST['students'] );
+		$_REQUEST['students'] = FilterCustomFieldsMarkdown( 'CUSTOM_FIELDS', 'students' );
 
 		//FJ create account
 		if (basename($_SERVER['PHP_SELF'])=='index.php')

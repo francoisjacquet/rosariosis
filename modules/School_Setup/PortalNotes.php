@@ -55,7 +55,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 			// FJ textarea fields MarkDown sanitize.
 			if ( isset( $columns['CONTENT'] ) )
 			{
-				$columns['CONTENT'] = SanitizeMarkDown( $columns['CONTENT'] );
+				$columns['CONTENT'] = SanitizeMarkDown( $_POST['values'][ $id ]['CONTENT'] );
 			}
 
 			if ( $id!='new')

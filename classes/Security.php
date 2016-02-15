@@ -9,7 +9,7 @@
  *
  * @example MarkDown input sanitize:
  *          require_once 'ProgramFunctions/MarkDown.fnc.php';
- *          $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_REQUEST['values']['textarea'] );
+ *          $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_POST['values']['textarea'] );
  * 
  */
 class Security {

@@ -53,7 +53,7 @@ if ( isset( $_POST['values'] )
 		$required_error = CheckRequiredCustomFields( 'ADDRESS_FIELDS', $_REQUEST['values']['ADDRESS'] );
 
 		// FJ textarea fields MarkDown sanitize.
-		$_REQUEST['values']['ADDRESS'] = FilterCustomFieldsMarkdown( 'ADDRESS_FIELDS', $_REQUEST['values']['ADDRESS'] );
+		$_REQUEST['values']['ADDRESS'] = FilterCustomFieldsMarkdown( 'ADDRESS_FIELDS', 'values', 'ADDRESS' );
 
 		if ( $_REQUEST['address_id']!='new')
 		{
@@ -137,7 +137,7 @@ if ( isset( $_POST['values'] )
 		$required_error = CheckRequiredCustomFields( 'PEOPLE_FIELDS', $_REQUEST['values']['PEOPLE'] );
 
 		// FJ textarea fields MarkDown sanitize.
-		$_REQUEST['values']['PEOPLE'] = FilterCustomFieldsMarkdown( 'PEOPLE_FIELDS', $_REQUEST['values']['PEOPLE'] );
+		$_REQUEST['values']['PEOPLE'] = FilterCustomFieldsMarkdown( 'PEOPLE_FIELDS', 'values', 'PEOPLE' );
 
 		if ( $_REQUEST['person_id']!='new')
 		{

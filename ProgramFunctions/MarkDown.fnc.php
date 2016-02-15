@@ -56,7 +56,7 @@ function MarkDownToHTML( $MD, $column = '' )
  * @uses    Security class
  *
  * @example require_once 'ProgramFunctions/MarkDown.fnc.php';
- *          $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_REQUEST['values']['textarea'] );
+ *          $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_POST['values']['textarea'] );
  *
  * @since   2.9
  *
@@ -75,12 +75,6 @@ function SanitizeMarkDown( $MD )
 	{
 		return $MD;
 	}
-
-	/**
-	 * Undo DBEscapeString()
-	 * $MD is supposed to be USER input
-	 */
-	$MD = str_replace( "''", "'",	$MD );
 
 	/**
 	 * Convert single quotes to HTML entities

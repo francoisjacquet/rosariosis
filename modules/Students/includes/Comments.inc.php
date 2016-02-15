@@ -12,12 +12,12 @@ if ( ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ) )
 
 if ( AllowEdit()
 	&& isset( $_POST['values'] )
-	&& trim( $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] ) !== '' )
+	&& trim( $_REQUEST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] ) !== '' )
 {
 	require_once 'ProgramFunctions/MarkDown.fnc.php';
 
 	// Sanitize MarkDown
-	$comment = SanitizeMarkDown( $_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] );
+	$comment = SanitizeMarkDown( $_POST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] );
 
 	if ( $comment )
 	{

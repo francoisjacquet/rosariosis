@@ -636,16 +636,17 @@ function MakeFieldType( $value, $column = '' )
  * Filter Custom (Textarea / Long text) fields' MarkDown
  * Use before inserting/updating Fields.
  *
- * @example $_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'STAFF_FIELDS', $_REQUEST['staff'] );
+ * @example $_REQUEST['staff'] = FilterCustomFieldsMarkdown( 'STAFF_FIELDS', 'staff' );
  *
  * @uses SanitizeMarkDown()
  *
- * @param string $table          Custom fields TABLE name.
- * @param string $request_values $_REQUEST var array of fields values.
+ * @param string $table           Custom fields TABLE name.
+ * @param string $request_index   $_REQUEST var array values index.
+ * @param string $request_index_2 $_REQUEST var array values index #2.
  *
  * @return array $request_values with MarkDown filtered.
  */
-function FilterCustomFieldsMarkdown( $table, $request_values )
+function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = '' )
 {
 	// Please add your TABLE here.
 	$allowed_tables = array(
@@ -656,8 +657,21 @@ function FilterCustomFieldsMarkdown( $table, $request_values )
 		'SCHOOL_FIELDS',
 	);
 
-	if ( empty( $table )
-		|| ! in_array( $table, $allowed_tables ) )
+	if ( ! $request_index_2 )
+	{
+		$request_values = $_REQUEST[ $request_index ];
+
+		$post_values = $_POST[ $request_index ];
+	}
+	else
+	{
+		$request_values = $_REQUEST[ $request_index ][ $request_index_2 ];
+
+		$post_values = $_POST[ $request_index ][ $request_index_2 ];
+	}
+
+	if ( ! $table
+		|| ! in_array( (string) $table, $allowed_tables ) )
 	{
 		return $request_values;
 	}
@@ -676,13 +690,13 @@ function FilterCustomFieldsMarkdown( $table, $request_values )
 
 	foreach ( (array) $textarea_RET as $textarea )
 	{
-		if ( isset( $request_values[ 'CUSTOM_' . $textarea['ID'] ] )
-			&& ! empty( $request_values[ 'CUSTOM_' . $textarea['ID'] ] ) )
+		$custom_index = 'CUSTOM_' . $textarea['ID'];
+
+		if ( isset( $request_values[ $custom_index ] )
+			&& ! empty( $request_values[ $custom_index ] ) )
 		{
-			$request_values[ 'CUSTOM_' . $textarea['ID'] ] = DBEscapeString(
-				SanitizeMarkDown(
-					$request_values[ 'CUSTOM_' . $textarea['ID'] ]
-				)
+			$request_values[ $custom_index ] = SanitizeMarkDown(
+				$post_values[ $custom_index ]
 			);
 		}
 	}

@@ -42,7 +42,7 @@ if ( isset( $_POST['values'] )
 			// FJ textarea fields MarkDown sanitize.
 			if ( $column_data_type === 'textarea' )
 			{
-				$value = SanitizeMarkDown( $value );
+				$value = SanitizeMarkDown( $_POST['values'][ $column ] );
 			}
 
 			if ( !is_array($value))

@@ -39,7 +39,7 @@ if ( isset( $_POST['tables'] )
 		// FJ textarea fields MarkDown sanitize.
 		if ( isset( $columns['DESCRIPTION'] ) )
 		{
-			$columns['DESCRIPTION'] = SanitizeMarkDown( $columns['DESCRIPTION'] );
+			$columns['DESCRIPTION'] = SanitizeMarkDown( $_POST['tables'][ $id ]['DESCRIPTION'] );
 		}
 
 		// FJ added SQL constraint TITLE & POINTS are not null.

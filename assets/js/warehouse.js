@@ -110,14 +110,8 @@ function ColorBox() {
 }
 
 // MarkDown
-var md_last_val,
-	sdc = new showdown.Converter({
-	tables: true,
-	simplifiedAutoLink: true,
-	parseImgDimensions: true,
-	tasklists: true,
-	literalMidWordUnderscores: true,
-});
+var md_last_val = {},
+	sdc;
 
 function MarkDownInputPreview( input_id )
 {
@@ -130,6 +124,17 @@ function MarkDownInputPreview( input_id )
 	{
 		md_last_val[input_id] = html;
 
+		if ( typeof( sdc ) !== 'object' )
+		{
+			sdc = new showdown.Converter({
+				tables: true,
+				simplifiedAutoLink: true,
+				parseImgDimensions: true,
+				tasklists: true,
+				literalMidWordUnderscores: true,
+			});
+		}
+
 		// Convert MarkDown to HTML
 		md_prev.html( sdc.makeHtml( html ) );
 	}
@@ -137,8 +142,8 @@ function MarkDownInputPreview( input_id )
 	// MD preview = Input size
 	if ( !md_prev.is(":visible") ) {
 
-		md_prev.css('height', input.css('height'));
-		md_prev.parent('.md-preview').css({'max-width': input.css('width')});
+		md_prev.css({'height': input.css('height'), 'width': input.css('width')});
+		//md_prev.parent('.md-preview').css({'max-width': input.css('width')});
 	}
 
 	// toggle MD preview & Input
@@ -150,9 +155,19 @@ function MarkDownInputPreview( input_id )
 
 function MarkDownToHTML()
 {
-	md_last_val = {};
-
 	$('.markdown-to-html').html(function(i, html){
+
+		if ( typeof( sdc ) !== 'object' )
+		{
+			sdc = new showdown.Converter({
+				tables: true,
+				simplifiedAutoLink: true,
+				parseImgDimensions: true,
+				tasklists: true,
+				literalMidWordUnderscores: true,
+			});
+		}
+
 		return sdc.makeHtml( html );
 	});
 }

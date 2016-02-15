@@ -32,7 +32,7 @@ if ( $_REQUEST['modfunc']=='update')
 			}
 
 			// FJ textarea fields MarkDown sanitize.
-			$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'SCHOOL_FIELDS', $_REQUEST['values'] );
+			$_REQUEST['values'] = FilterCustomFieldsMarkdown( 'SCHOOL_FIELDS', 'values' );
 
 			if ( ( empty( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] )
 					|| is_numeric( $_REQUEST['values']['NUMBER_DAYS_ROTATION'] ) )
