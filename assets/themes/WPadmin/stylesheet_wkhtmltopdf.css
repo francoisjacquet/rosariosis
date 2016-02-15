@@ -404,7 +404,7 @@ label{
 }
 .postbox th h3,.postbox th h3 a{
 	display:inline-block;
-	font-size:15px;
+	font-size:16px;
 	font-weight:normal
 }
 .postbox th h3 a{
@@ -501,7 +501,8 @@ h3 span{
 .size-3{
 	font-size:11px
 }
-.size-1{
+.size-1,
+.size-1 *{
 	font-size:13px
 }
 .sizep1{

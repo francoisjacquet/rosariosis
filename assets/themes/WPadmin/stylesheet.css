@@ -410,7 +410,7 @@ label{
 }
 .postbox th h3,.postbox th h3 a{
 	display:inline-block;
-	font-size:15px;
+	font-size:16px;
 	font-weight:normal
 }
 .postbox th h3 a{
@@ -507,7 +507,8 @@ h3 span{
 .size-3{
 	font-size:11px
 }
-.size-1{
+.size-1,
+.size-1 *{
 	font-size:13px
 }
 .sizep1{
@@ -932,7 +933,7 @@ table.mceLayout,textarea.tinymce{
 	.BottomButton span{
 		display:none
 	}
-	#search input,#search select,input[id=USERNAME],input[id=PASSWORD],#LO_search{
+	#search input,#search select,#LO_search{
 		max-width:150px
 	}
 	#modulesBody textarea{

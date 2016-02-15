@@ -305,7 +305,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		// Password recovery.
 		elseif ( $_REQUEST['reason'] == 'password_reset' )
 		{
-			$note[] = _( 'Please check your email for the password reset instructions.' );
+			$note[] = _( 'If you supplied a correct email address then please check your email for the password reset instructions.' );
 		}
 	}
 
@@ -328,8 +328,8 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		</td>
 		<td>
 			<form name="loginform" method="post" action="index.php" class="login">
-			<h4><?php echo ParseMLField( Config( 'TITLE' ) ); ?></h4>
-			<table class="cellspacing-0 col1-align-right">
+			<h4 class="center"><?php echo ParseMLField( Config( 'TITLE' ) ); ?></h4>
+			<table class="cellspacing-0 col1-align-right width-100p">
 
 			<?php // Choose language.
 			if ( count( $RosarioLocales ) > 1 ) : ?>
@@ -376,6 +376,7 @@ if ( empty( $_SESSION['STAFF_ID'] )
 					<td colspan="2">
 						<a href="PasswordReset.php"><?php echo _( 'Password help' ); ?></a>
 					</td>
+				</tr>
 			</table>
 			<p class="center">
 				<input type="submit" value="<?php echo _( 'Login' ); ?>" class="button-primary" />
@@ -404,26 +405,23 @@ if ( empty( $_SESSION['STAFF_ID'] )
 			</form>
 		</td>
 		</tr>
-		<?php // System disclaimer. ?>
-		<tr>
-			<td colspan="2">
-				<span class="size-3">
-					<?php
-						echo sprintf(
-							_( 'This is a restricted network. Use of this network, its equipment, and resources is monitored at all times and requires explicit permission from the network administrator and %s. If you do not have this permission in writing, you are violating the regulations of this network and can and will be prosecuted to the full extent of the law. By continuing into this system, you are acknowledging that you are aware of and agree to these terms.'),
-							ParseMLField( Config( 'TITLE' ) )
-						);
-					?>
-				</span>
-				<br /><br />
-			</td>
-		</tr>
 	</table>
-	<div class="center">
+	<?php // System disclaimer. ?>
+	<p class="size-3">
+		<?php
+			echo sprintf(
+				_( 'This is a restricted network. Use of this network, its equipment, and resources is monitored at all times and requires explicit permission from the network administrator and %s. If you do not have this permission in writing, you are violating the regulations of this network and can and will be prosecuted to the full extent of the law. By continuing into this system, you are acknowledging that you are aware of and agree to these terms.'),
+				ParseMLField( Config( 'TITLE' ) )
+			);
+		?>
+	</p>
+	<p class="center">
 		<?php echo sprintf( _( '%s version %s' ), 'RosarioSIS', ROSARIO_VERSION ); ?>
-		<br />&copy; 2004-2009 <a href="http://www.centresis.org" noreferrer>The Miller Group &amp; Learners Circle</a>
+	</p>
+	<p class="center size-1">
+		&copy; 2004-2009 <a href="http://www.centresis.org" noreferrer>The Miller Group &amp; Learners Circle</a>
 		<br />&copy; 2012-2016 <a href="https://www.rosariosis.org" noreferrer>François Jacquet</a>
-	</div>
+	</p>
 
 <?php PopTable( 'footer' ); ?>
 
