@@ -1,7 +1,7 @@
 RosarioSIS Student Information System
 =====================================
 
-[![RosarioSIS logo](https://www.rosariosis.org/wp-content/uploads/2013/02/rosariosis_logo2half.png)](https://www.rosariosis.org)
+[![RosarioSIS logo](http://www.rosariosis.org/wp-content/uploads/2013/02/rosariosis_logo2half.png)](https://www.rosariosis.org)
 
 License
 -------
