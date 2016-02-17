@@ -26,6 +26,7 @@ function GetRawPOSTvar( $key )
 	if ( $pos == 1 )
 	{
 		return urldecode( $regs[1] );
+	}
 	else
 	{
 		return null;

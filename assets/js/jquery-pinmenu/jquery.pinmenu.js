@@ -176,7 +176,9 @@ $( document ).ready( function() {
 		}
 	}
 
-	if ( ! isIOS ) { // IOS
+	if ( ! isIOS &&
+		( screen.width > 640 ||
+		screen.height > 640 ) ) { // Not on iOS or mobiles.
 		$( window ).on( "resize scroll", setPinMenu );
 	}
 

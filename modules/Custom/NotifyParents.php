@@ -149,7 +149,7 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 
 	$extra['WHERE'] = " AND s.LAST_LOGIN IS NULL";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'staff\');" /><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'staff\');" /><A>');
 	$extra['columns_after'] = array('ASSOCIATED' => _('Associated Students'),'USERNAME' => _('Username'),'EMAIL' => _('Email'));
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['profile'] = 'parent';

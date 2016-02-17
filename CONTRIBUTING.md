@@ -2,7 +2,7 @@
 
 ## New Issue
 
-Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues/) related to RosarioSIS, please observe the following recommendations:
+Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues/) related to RosarioSIS, please consider the following recommendations:
 
 1. Search the [closed issues](https://github.com/francoisjacquet/rosariosis/issues?q=is%3Aissue+is%3Aclosed) or the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki), your problem may already have been answered. Please do not create **duplicates**.
 
@@ -14,7 +14,7 @@ Before reporting an [issue](https://github.com/francoisjacquet/rosariosis/issues
 
 5. RosarioSIS errors, bugs (PHP, SQL, JS errors) & design or logic errors are welcome.
 
-6. **Installation problems**: RosarioSIS has been succesfully installed on various environments; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#L10). For the same reasons, installation problems will likely not be solved here.
+6. **Installation problems**: RosarioSIS has been succesfully installed on various environments; nevertheless, you may encounter errors [specific to your OS, PHP or PostgreSQL version or configuration](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#rosariosis-student-information-system). For the same reasons, installation problems will likely not be solved here.
 
 7. **RosarioSIS use**: the Handbooks, the inline Help & the [Wiki](https://github.com/francoisjacquet/rosariosis/wiki) contain useful resources to help you get the most out of RosarioSIS.
 
@@ -33,7 +33,7 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 
 3. Quality Assurance: we use code linters & other [QA tools](http://phpqatools.org/)
 
-4. Testing: Activate [debug mode](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#L56); for emails, we use [MailCatcher](http://mailcatcher.me/)
+4. Testing: Activate [debug mode](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md#installing-the-package); for emails, we use [MailCatcher](http://mailcatcher.me/)
 
 ### Example Module
 

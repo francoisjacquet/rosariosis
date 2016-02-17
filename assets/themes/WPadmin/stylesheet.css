@@ -1040,6 +1040,11 @@ table.mceLayout,textarea.tinymce{
 		margin:0
 	}
 
+	/*no THEAD repeat*/
+	.rt .thead-repeat{
+		display: none;
+	}
+
 	.divPortalPoll{
 		max-height:none;
 		overflow-y:visible

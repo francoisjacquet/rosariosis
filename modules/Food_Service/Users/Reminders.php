@@ -64,7 +64,7 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['SELECT'] = ",s.STAFF_ID AS CHECKBOX";
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" checked name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'st_arr\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" checked name="controller" onclick="checkAll(this.form,this.checked,\'st_arr\');"><A>');
 	$extra['new'] = true;
 	$extra['options']['search'] = false;
 

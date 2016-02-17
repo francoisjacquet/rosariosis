@@ -283,7 +283,7 @@ function mySearch($type,$extra='')
 		//$sql .= ' ORDER BY sp.PERIOD_ID';
 
 		$course_periods_RET = DBGet(DBQuery($sql),array('COURSE_PERIOD_ID' => '_makeChooseCheckbox'));
-		$LO_columns = array('COURSE_PERIOD_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'cp_arr\');" checked /><A>','TITLE' => _('Course Period'));
+		$LO_columns = array('COURSE_PERIOD_ID' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'cp_arr\');" checked /><A>','TITLE' => _('Course Period'));
 
 		if ( ! $_REQUEST['LO_save'] && ! $extra['suppress_save'])
 		{

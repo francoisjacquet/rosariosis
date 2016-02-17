@@ -154,7 +154,7 @@ function Search( $type, $extra = null )
 				echo '<tr><td>' . _( 'Grade Levels' ) . '</td>
 				<td><label class="nobr"><input type="checkbox" name="grades_not" value="Y" />&nbsp;' .
 					_( 'Not' ) . '</label> &nbsp;
-				<label class="nobr"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'grades\');">&nbsp;' .
+				<label class="nobr"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'grades\');">&nbsp;' .
 					_( 'Check All' ) . '</label>
 				</td></tr>
 				<tr><td></td><td>';

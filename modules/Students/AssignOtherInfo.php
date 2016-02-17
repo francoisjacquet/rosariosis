@@ -380,7 +380,7 @@ if (empty($_REQUEST['modfunc']))
 	//Widgets('absences');
 
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');"><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'student\');"><A>');
 	$extra['new'] = true;
 
 	Search('student_id',$extra);

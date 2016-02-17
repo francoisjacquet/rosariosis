@@ -184,7 +184,15 @@ function SendEmail( $to, $subject, $message, $from = null, $cc = null, $attachme
 	$phpmailer->IsMail();
 
 	// Set Content-Type and charset.
-	$phpmailer->ContentType = 'text/plain'; // TODO detect if HTML.
+	// Detect if HTML message.
+	if ( mb_strlen( $message ) !== mb_strlen( strip_tags( $message ) ) )
+	{
+		$phpmailer->ContentType = 'text/html';
+	}
+	else
+	{
+		$phpmailer->ContentType = 'text/plain';
+	}
 
 	$phpmailer->CharSet = 'UTF-8';
 

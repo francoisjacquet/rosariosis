@@ -9,6 +9,8 @@
  * @package RosarioSIS
  */
 
+session_name( 'RosarioSIS' );
+
 session_start();
 
 $error = array();
@@ -19,7 +21,7 @@ if ( version_compare( PHP_VERSION, '5.3.2' ) == -1 )
 	$error[] = 'RosarioSIS requires PHP 5.3.2 to run, your version is : ' . PHP_VERSION;
 }
 
-if ( !isset( $_SESSION['STAFF_ID'] ) )
+if ( ! isset( $_SESSION['STAFF_ID'] ) )
 {
 	$unset_username = true;
 	$_SESSION['USERNAME'] = 'diagnostic';
@@ -71,7 +73,7 @@ else
 
 	if ( ! @opendir( $RosarioPath . '/functions' ) )
 	{
-		$error[] = 'The value for $RosarioPath in config.inc.php is not correct or else the functions directory does not have the correct permissions to be read by the webserver. Make sure $RosarioPath points to the RosarioSIS installation directory and that it is readable by all users.';
+		$error[] = 'The value for $RosarioPath in the config.inc.php file is not correct or else the functions directory does not have the correct permissions to be read by the webserver. Make sure $RosarioPath points to the RosarioSIS installation directory and that it is readable by all users.';
 	}
 
 	if ( ! function_exists( 'pg_connect' ) )
@@ -117,7 +119,7 @@ else
 				}
 				elseif ( mb_strpos( $errstring, 'elation "config" does not exist' ) !== false )
 				{
-					$error[] = 'At least one of the tables does not exist. Make sure you ran the rosariosis.sql file as described in the INSTALL file.';
+					$error[] = 'At least one of the tables does not exist. Make sure you ran the rosariosis.sql file as described in the INSTALL.md file.';
 				}
 				elseif ( $errstring )
 				{
@@ -129,13 +131,13 @@ else
 
 			if ( ! pg_fetch_all( $result ) )
 			{
-				$error[] = 'The value for $DefaultSyear in config.inc.php is not correct.';
+				$error[] = 'The value for $DefaultSyear in the config.inc.php file is incorrect.';
 			}
 
 			if ( ! is_array( $RosarioLocales )
 				|| empty( $RosarioLocales ) )
 			{
-				$error[] = 'The value for $RosarioLocales in config.inc.php is not correct.';
+				$error[] = 'The value for $RosarioLocales in the config.inc.php file is not correct.';
 			}
 		}
 	}
@@ -145,7 +147,7 @@ else
 		&& ( ! file_exists( $wkhtmltopdfPath )
 			|| strpos( basename( $wkhtmltopdfPath ), 'wkhtmltopdf' ) !== 0 ) )
 	{
-		$error[] = 'The value for $wkhtmltopdfPath in config.inc.php is not correct.';
+		$error[] = 'The value for $wkhtmltopdfPath in the config.inc.php file is not correct.';
 	}
 
 	// FJ check pg_dump binary exists.
@@ -153,7 +155,7 @@ else
 		&& ( ! file_exists( $pg_dumpPath )
 			|| strpos( basename( $pg_dumpPath ), 'pg_dump' ) !== 0 ) )
 	{
-		$error[] = 'The value for $pg_dumpPath in config.inc.php is not correct.';
+		$error[] = 'The value for $pg_dumpPath in the config.inc.php file is not correct.';
 	}
 
 }

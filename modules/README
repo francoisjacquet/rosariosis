@@ -3,7 +3,7 @@ Place here the Modules you want to add to RosarioSIS.
 Activate them via:
 School Setup > School Configuration > Modules
 
-Every plugin must have a Menu.php file.
+Every module must have a Menu.php file.
 
 Note:
 To create a custom module, or add a program to an existing module, please refer to https://github.com/francoisjacquet/rosariosis-module-example

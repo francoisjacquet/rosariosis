@@ -300,7 +300,7 @@ if ( isset( $_REQUEST['h'] )
 // notify that no student can use the password reset.
 if ( ! Config( 'STUDENTS_EMAIL_FIELD' ) )
 {
-	$note[] = _( 'Students cannot reset their password.' );
+	$note[] = _( 'Password reset is not activated for students.' );
 }
 
 // Forgot your password? form.
@@ -524,7 +524,8 @@ function _printPageHead( $title )
 		<noscript>
 			<meta http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&amp;reason=javascript" />
 		</noscript>
-		<link REL="SHORTCUT ICON" href="favicon.ico" />
+		<link rel="icon" href="favicon.ico" sizes="32x32" />
+		<link rel="icon" href="apple-touch-icon.png" sizes="128x128" />
 		<link rel="stylesheet" type="text/css" href="assets/themes/<?php echo Config( 'THEME' ); ?>/stylesheet.css" />
 	</head>
 	<body>

@@ -343,10 +343,12 @@ function Warehouse( $mode )
 	<title><?php echo ParseMLField( Config( 'TITLE' ) ); ?></title>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<noscript>
 		<meta http-equiv="REFRESH" content="0;url=index.php?modfunc=logout&amp;reason=javascript" />
 	</noscript>
-	<link rel="SHORTCUT ICON" href="favicon.ico" />
+	<link rel="icon" href="favicon.ico" sizes="32x32" />
+	<link rel="icon" href="apple-touch-icon.png" sizes="128x128" />
 	<link rel="stylesheet" href="assets/themes/<?php echo Preferences( 'THEME' ); ?>/stylesheet.css?v=<?php echo ROSARIO_VERSION; ?>" />
 	<style>.highlight,.highlight-hover:hover{background-color:<?php echo Preferences( 'HIGHLIGHT' ); ?> !important;}</style>
 	<script src="assets/js/jquery.js"></script>

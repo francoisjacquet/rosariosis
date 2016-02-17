@@ -227,7 +227,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 		echo '<br />';
 		//FJ css WPadmin
 		echo '<br />&nbsp;<br /><table class="widefat cellspacing-0 rt center">';
-		echo '<thead><tr><th class="column_heading"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'deletecheck\');" /> &nbsp</th>';
+		echo '<thead><tr><th class="column_heading"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'deletecheck\');" /> &nbsp</th>';
 		//FJ add translation 
 		echo '<th>'._('Student').' ('.sprintf(_('%s ID'),Config('NAME')).')</th>';
 		echo '<th>'._('Course').' ('._('Course Period ID').')</th>';

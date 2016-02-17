@@ -296,7 +296,7 @@ if (empty($_REQUEST['modfunc']) && !empty($email_column))
 
 	$extra['link'] = array('FULL_NAME'=>false);
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox','CONTACT' => '_makeContactSelect');
-	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'student\');" /><A>');
+	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'student\');" /><A>');
 	$extra['columns_after'] = array('EMAIL' => _('Email'),'CONTACT' => _('Contact'));
 	$extra['LO_group'] = $extra['group'] = array('EMAIL');
 	$extra['addr'] = true;

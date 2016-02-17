@@ -104,7 +104,7 @@ if ( ! empty( $_REQUEST['staff_payroll'] ) )
 {
 	$salaries_extra = $extra;
 	$name_col_sql = '';
-	if (isset($_REQUEST['staff_payroll']) && isset($_REQUEST['student_billing']))
+	if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
 		$name_col_sql = ",'' AS STUDENT_NAME";
 	$salaries_extra['SELECT'] .= $name_col_sql.",'' AS DEBIT,f.AMOUNT AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 	$salaries_extra['FROM'] .= ',ACCOUNTING_SALARIES f';
@@ -146,7 +146,7 @@ if ( ! empty( $_REQUEST['student_billing'] )
 {
 	$fees_extra = $extra;
 	$name_col_sql = '';
-	if (isset($_REQUEST['staff_payroll']) && isset($_REQUEST['student_billing']))
+	if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
 		$name_col_sql = ",s.LAST_NAME||', '||s.FIRST_NAME||' '||coalesce(s.MIDDLE_NAME,' ') AS STUDENT_NAME, '' AS FULL_NAME";
 	$fees_extra['SELECT'] .= $name_col_sql.",f.AMOUNT AS DEBIT,'' AS CREDIT,f.TITLE||' '||COALESCE(f.COMMENTS,' ') AS EXPLANATION,f.ASSIGNED_DATE AS DATE,f.ID AS ID";
 	$fees_extra['FROM'] .= ',BILLING_FEES f';
@@ -179,12 +179,12 @@ $debit_col = implode(' / ', $debit_col);
 $credit_col = implode(' / ', $credit_col);
 
 $columns = array('FULL_NAME'=>(empty($name_col)? _('Total') : $name_col));
-if (isset($_REQUEST['staff_payroll']) && isset($_REQUEST['student_billing']))
+if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
 	$columns['STUDENT_NAME'] = _('Student');
 $columns = $columns + array('DEBIT' => $debit_col,'CREDIT' => $credit_col,'DATE' => _('Date'),'EXPLANATION' => _('Comment'));
 
 $link['add']['html'] = array('FULL_NAME'=>(empty($name_col)? '' : _('Total').': ').'<b>'.Currency($totals['CREDIT']-$totals['DEBIT']).'</b>');
-if (isset($_REQUEST['staff_payroll']) && isset($_REQUEST['student_billing']))
+if ( isset( $_REQUEST['staff_payroll'], $_REQUEST['student_billing'] ) )
 	$link['add']['html']['STUDENT_NAME'] = '&nbsp;';
 $link['add']['html'] = $link['add']['html'] + array('DEBIT' => '<b>'.Currency($totals['DEBIT']).'</b>','CREDIT' => '<b>'.Currency($totals['CREDIT']).'</b>','DATE' => '&nbsp;','EXPLANATION' => '&nbsp;');
 

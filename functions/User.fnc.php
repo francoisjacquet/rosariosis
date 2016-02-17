@@ -37,7 +37,8 @@ function User( $item )
 		|| UserSyear() !== $_ROSARIO['User'][1]['SYEAR'] )
 	{
 		// Get User Info.
-		if ( ! empty( $_SESSION['STAFF_ID'] ) )
+		if ( ! empty( $_SESSION['STAFF_ID'] )
+			&& $_SESSION['STAFF_ID'] !== '-1' )
 		{
 			$sql = "SELECT STAFF_ID,USERNAME,FIRST_NAME||' '||LAST_NAME AS NAME,
 				PROFILE,PROFILE_ID,SCHOOLS,CURRENT_SCHOOL_ID,EMAIL,SYEAR,LAST_LOGIN
@@ -68,8 +69,9 @@ function User( $item )
 				$_SESSION['UserSchool'] = $_ROSARIO['User'][1]['SCHOOL_ID'];
 			}
 		}
-		// FJ create account.
-		elseif ( basename( $_SERVER['PHP_SELF'] ) === 'index.php' )
+		// FJ create account, diagnostic, PasswordReset.
+		elseif ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
+			|| $_SESSION['STAFF_ID'] === '-1' )
 		{
 			return false;
 		}

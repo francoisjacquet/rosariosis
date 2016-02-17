@@ -304,7 +304,7 @@ function ajaxPrepare(target) {
 
 	submenuOffset();
 
-	if ( target == '#body' ) {
+	if ( target == '#body' || target == 'body' ) {
 		popups.closeAll();
 
 		MarkDownToHTML();
@@ -349,8 +349,6 @@ function LOSearch( event, val, url ) {
 }
 
 //Repeat long list table header
-//TODO: check lists with checkbox
-//TODO: responsive display none .thead-repeat
 function repeatListTHead( $lists )
 {
 	if ( !$lists.length )

@@ -9,7 +9,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		$new_password = str_replace("''","'",$_REQUEST['values']['new']);
 		$verify_password = str_replace("''","'",$_REQUEST['values']['verify']);
 		
-		if (mb_strtolower($new_password)!=mb_strtolower($verify_password))
+		if ( $new_password != $verify_password )
 			$error[] = _('Your new passwords did not match.');
 
 		//hook

@@ -77,7 +77,7 @@ if ( $_REQUEST['modfunc']!='delete')
 			$extra['link'] = array('FULL_NAME'=>false);
 			$extra['SELECT'] = ",CAST (NULL AS CHAR(1)) AS CHECKBOX";
 			$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-			$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.form.controller.checked,\'staff\');" /><A>');
+			$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'staff\');" /><A>');
 			$extra['new'] = true;
 			$extra['options']['search'] = false;
 			$extra['profile'] = 'parent';
