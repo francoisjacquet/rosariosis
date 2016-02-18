@@ -23,17 +23,17 @@
  *
  * @global object $Parsedown
  *
- * @param  string $MD     MarkDown text.
+ * @param  string $md     MarkDown text.
  * @param  string $column DBGet() COLUMN formatting compatibility (optional).
  *
  * @return string HTML
  */
-function MarkDownToHTML( $MD, $column = '' )
+function MarkDownToHTML( $md, $column = '' )
 {
-	if ( ! is_string( $MD )
-		|| empty( $MD ) )
+	if ( ! is_string( $md )
+		|| empty( $md ) )
 	{
-		return $MD;
+		return $md;
 	}
 
 	global $Parsedown;
@@ -46,7 +46,7 @@ function MarkDownToHTML( $MD, $column = '' )
 		$Parsedown = new Parsedown();
 	}
 
-	return $Parsedown->setBreaksEnabled( true )->text( $MD );
+	return $Parsedown->text( $md );
 }
 
 
@@ -54,26 +54,26 @@ function MarkDownToHTML( $MD, $column = '' )
  * Sanitize MarkDown user input
  *
  * @uses    Security class
+ * @uses    Markdownify class
  *
  * @example require_once 'ProgramFunctions/MarkDown.fnc.php';
  *          $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_POST['values']['textarea'] );
  *
  * @since   2.9
  *
- * @todo Anyone has an idea to get sanitized MD back? See last line of function.
+ * @global object $security
+ * @global object $markdownify
  *
- * @global object $Security
- *
- * @param  string $MD MarkDown text.
+ * @param  string $md MarkDown text.
  *
  * @return string Input with HTML encoded single quotes or empty string if Sanitized MD != Input MD
  */
-function SanitizeMarkDown( $MD )
+function SanitizeMarkDown( $md )
 {
-	if ( ! is_string( $MD )
-		|| empty( $MD ) )
+	if ( ! is_string( $md )
+		|| empty( $md ) )
 	{
-		return $MD;
+		return $md;
 	}
 
 	/**
@@ -84,34 +84,61 @@ function SanitizeMarkDown( $MD )
 	 *
 	 * @see DBQuery()
 	 */
-	$MD_quotes = str_replace( "'", '&#039;', $MD );
+	$md_quotes = str_replace( "'", '&#039;', $md );
 
 	// Convert MarkDown to HTML.
-	$HTML = MarkDownToHTML( $MD_quotes );
+	$html = MarkDownToHTML( $md_quotes );
 
-	global $Security;
+	global $security;
 
-	// Create $Security object once.
-	if ( ! ( $Security instanceof Security ) )
+	// Create $security object once.
+	if ( ! ( $security instanceof Security ) )
 	{
 		require_once 'classes/Security.php';
 
-		$Security = new Security();
+		$security = new Security();
 	}
 
-	$sanitizedHTML = $Security->xss_clean( $HTML );
+	$sanitized_html = $security->xss_clean( $html );
 
-	if ( $sanitizedHTML === $HTML )
+	if ( $sanitized_html === $html )
 	{
-		return $MD_quotes;
+		return $md_quotes;
 	}
 	else
 	{
 		if ( ROSARIO_DEBUG )
 		{
-			var_dump( $HTML, $sanitizedHTML );
+			echo 'Sanitized HTML:<br />';
+			var_dump( $sanitized_html );
 		}
 
-		return ''; // Anyone has an idea to get sanitized MD back?
+		global $markdownify;
+
+		// Create $markdownify object once.
+		if ( ! ( $markdownify instanceof Markdownify\ConverterExtra ) )
+		{
+			require_once 'classes/Markdownify/Converter.php';
+			require_once 'classes/Markdownify/ConverterExtra.php'; // Handles HTML tables.
+			require_once 'classes/Markdownify/Parser.php';
+
+			$markdownify = new Markdownify\ConverterExtra;
+		}
+
+		// Fix empty table cell bug.
+		$sanitized_html = str_replace( '<td></td>', '<td> </td>', $sanitized_html );
+
+		// HTML to Markdown.
+		$sanitized_md = $markdownify->parseString( $sanitized_html );
+
+		/**
+		 * Convert single quotes to HTML entities
+		 *
+		 * Fixes bug related to:
+		 * replace empty strings ('') with NULL values
+		 *
+		 * @see DBQuery()
+		 */
+		return str_replace( "'", '&#039;', $sanitized_md );
 	}
 }
