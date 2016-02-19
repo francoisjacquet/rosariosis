@@ -327,7 +327,7 @@ else
 		}
 	}
 
-	$extra['functions'] += array( 'FULL_NAME' => '_makeTipMessage' );
+	$extra['functions']['FULL_NAME'] = '_makeTipMessage';
 }
 
 $stu_RET = GetStuList($extra);
