@@ -368,7 +368,7 @@ function MarkDownInputPreview( $input_id )
 
 		<a href="#" onclick="MarkDownInputPreview('<?php echo $input_id; ?>'); return false;" class="tab"><?php echo _( 'Preview' ); ?></a>
 
-		<a href="https://guides.github.com/features/mastering-markdown/" title="<?php echo _( 'Mastering MarkDown' ); ?>" target="_blank" class="md-link">
+		<a href="https://github.com/francoisjacquet/rosariosis/wiki/Markdown-Cheatsheet" title="<?php echo _( 'Mastering MarkDown' ); ?>" target="_blank" class="md-link">
 			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" />
 		</a>
 		<div class="markdown" id="divMDPreview<?php echo $input_id; ?>">
