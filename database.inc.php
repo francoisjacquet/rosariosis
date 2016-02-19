@@ -291,7 +291,7 @@ function db_case( $array )
  */
 function db_greatest( $a, $b )
 {
-	return "GREATEST('" . DBEscapeString( $a ) . "', '" . DBEscapeString( $b ) . "')";
+	return "GREATEST(" . $a . ", " . $b . ")";
 }
 
 
@@ -305,7 +305,7 @@ function db_greatest( $a, $b )
  */
 function db_least( $a, $b )
 {
-	return "LEAST('" . DBEscapeString( $a ) . "', '" . DBEscapeString( $b ) . "')";
+	return "LEAST(" . $a . ", " . $b . ")";
 }
 
 
