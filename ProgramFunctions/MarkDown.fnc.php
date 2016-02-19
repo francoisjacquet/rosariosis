@@ -125,9 +125,6 @@ function SanitizeMarkDown( $md )
 			$markdownify = new Markdownify\ConverterExtra;
 		}
 
-		// Fix empty table cell bug.
-		$sanitized_html = str_replace( '<td></td>', '<td> </td>', $sanitized_html );
-
 		// HTML to Markdown.
 		$sanitized_md = $markdownify->parseString( $sanitized_html );
 

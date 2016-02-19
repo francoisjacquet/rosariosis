@@ -13,7 +13,7 @@ Changes in 2.9
 - Add MarkDown button image in assets/themes/WPadmin/btn/md_button.png
 - Add Security class in classes/Security.php
 - Add SanitizeMarkdown() function in ProgramFunctions/MarkDown.fnc.php
-- Add Markdownify 2.1.10 class (convert HTML back to MarkDwon) in classes/Markdownify/
+- Add Markdownify 2.1.11 class (convert HTML back to MarkDwon) in classes/Markdownify/
 - Add RequestedDate() & RequestedDates() functions in Date.php
 - Add .logo CSS class & bigger logo.png definition
 - Remove closing PHP tags ?> at end of files program wide
