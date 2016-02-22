@@ -827,7 +827,7 @@ div.st{
 }
 
 /*tinymce*/
-table.mceLayout,textarea.tinymce{
+.tinymce{
 	/*cols="97" rows="27"*/
 	width:708px;
 	height:475px

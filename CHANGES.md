@@ -6,13 +6,13 @@ Changes in 2.9
 - Add Debug mode as optional config.inc.php option in Warehouse.php + INSTALL
 - Bugfix Postgres datestyle = 'iso, ymd', programwide
 - Add Parsedown 1.5.3 class (MarkDown parser) in classes/Parsedown.php
-- Add MarkDownToHTML() function to parse MarkDown text in ProgramFunctions/MarkDown.fnc.php
+- Add MarkDownToHTML() function to parse MarkDown text in ProgramFunctions/MarkDownHTML.fnc.php
 - Add showdown.js 1.3.0 (MarkDown to HTML) in assets/js/showdown/
 - Add MarkDownInputPreview() functions to preview <TEXTAREA> fields in functions/Inputs.php & warehouse.js
 - Add MarkDownToHTML() functions to parse MarkDown text in warehouse.js & warehouse_wkhtmltopdf.js
 - Add MarkDown button image in assets/themes/WPadmin/btn/md_button.png
 - Add Security class in classes/Security.php
-- Add SanitizeMarkdown() function in ProgramFunctions/MarkDown.fnc.php
+- Add SanitizeMarkdown() function in ProgramFunctions/MarkDownHTML.fnc.php
 - Add Markdownify 2.1.11 class (convert HTML back to MarkDwon) in classes/Markdownify/
 - Add RequestedDate() & RequestedDates() functions in Date.php
 - Add .logo CSS class & bigger logo.png definition
@@ -62,6 +62,7 @@ Changes in 2.9
 - Add jQuery Pin Menu plugin in assets/js/jquery-pinmenu/
 - Add STUDENTS_EMAIL_FIELD to CONFIG table in rosariosis.sql & Configuration.php
 - Add Password Reset feature in PasswordReset.php
+- Update TinyMCE to version 4.3.4 in assets/js/tinymce/
 
 Changes in 2.8.11
 -----------------

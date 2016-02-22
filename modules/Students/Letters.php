@@ -1,13 +1,11 @@
 <?php
 
-require_once 'ProgramFunctions/getRawPOSTvar.fnc.php';
-
 if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if (count($_REQUEST['st_arr']))
 	{
 		//FJ bypass strip_tags on the $_REQUEST vars
-		$REQUEST_letter_text = GetRawPOSTvar('letter_text');
+		$REQUEST_letter_text = $_POST['letter_text'];
 		
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
@@ -95,47 +93,27 @@ if (empty($_REQUEST['modfunc']))
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		//FJ add TinyMCE to the textarea
+		$tinymce_language = '';
+
+		if ( $locale !== 'en_US.utf8' )
+		{
+			if ( file_exists( 'assets/js/tinymce/langs/' . mb_substr( $locale, 0, 2 ) . '.js' ) )
+			{
+				$tinymce_language = mb_substr( $locale, 0, 2 );
+			}
+			elseif ( file_exists( 'assets/js/tinymce/langs/' . mb_substr( $locale, 0, 5 ) . '.js' ) )
+			{
+				$tinymce_language = mb_substr( $locale, 0, 5 );
+			}
+		} 
 		?>
-<!-- Load TinyMCE -->
-<script src="assets/js/tiny_mce_3.5.8_jquery/jquery.tinymce.js"></script>
-<script>
-	// Rosario customed version of TinyMCE jQuery
-	$().ready(function() {
-		var resize_tinymce = (screen.width<768 ? true : false);
-		$('textarea.tinymce').tinymce({
-			// Location of TinyMCE script
-			script_url : 'assets/js/tiny_mce_3.5.8_jquery/tiny_mce.js',
-
-			// General options
-			theme : "advanced",
-			plugins : "contextmenu,inlinepopups,pagebreak,paste,table",
-			
-			// Plugins options
-			pagebreak_separator : '<div style="page-break-after: always;"></div>',
-
-			// Language
-			language : "<?php echo file_exists('assets/js/tiny_mce_3.5.8_jquery/langs/'.mb_substr($locale, 0, 2).'.js') ? mb_substr($locale, 0, 2) : 'en'; ?>",
-			
-			// Theme options
-			theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,undo,redo,|,image,code,cleanup,help",
-			theme_advanced_buttons2 : "formatselect,fontsizeselect,|,bold,italic,underline,strikethrough",
-			theme_advanced_buttons3 : "justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,forecolor",
-			theme_advanced_buttons4 : "pagebreak,|,sub,sup,charmap,blockquote,|,hr,removeformat,visualaid",
-			theme_advanced_buttons5 : "tablecontrols",
-			theme_advanced_toolbar_location : "top",
-			theme_advanced_toolbar_align : "left",
-			theme_advanced_statusbar_location : "bottom",
-			theme_advanced_resizing : resize_tinymce, //textarea size fits a PDF page!
-			
-			// Produce BR elements on enter/return instead of P elements
-			forced_root_block : false,
-
-			// Example content CSS (should be your site CSS)
-			//content_css : "assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css",
-		});
-	});
-</script>
-<!-- /TinyMCE -->
+<script src="assets/js/tinymce/tinymce.min.js"></script>
+<script>tinymce.init({
+	selector:'.tinymce',
+	plugins : 'link image pagebreak paste table',
+	pagebreak_separator : '<div style="page-break-after: always;"></div>',
+	language : <?php echo json_encode( $tinymce_language ); ?>
+});</script><!-- /TinyMCE -->
 
 		<?php
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
@@ -148,8 +126,12 @@ if (empty($_REQUEST['modfunc']))
 		$extra['search'] = '';
 		//FJ add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
+
 		//FJ add TinyMCE to the textarea
-		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Letter Text').'</td><td><textarea name="letter_text" class="tinymce">'.str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'])).'</textarea></td></tr>';
+		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Letter Text').'</td>
+			<td><textarea name="letter_text" class="tinymce">' .
+			( isset( $templates[ User( 'STAFF_ID' ) ] ) ? $templates[ User( 'STAFF_ID' ) ][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'] ) .
+			'</textarea></td></tr>';
 
 		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._('Last, First M').'</td><td>&nbsp;</td>';
