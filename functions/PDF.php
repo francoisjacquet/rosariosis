@@ -86,12 +86,12 @@ function PDFStop( $handle )
 	$dir_RTL = in_array( $lang_2_chars, $RTL_languages ) ? ' dir="RTL"' : '';
 
 	// Page width.
-	$page_width = '1024';
+	$page_width = '994'; // Originally 1024px.
 
 	if ( ! empty( $handle['orientation'] )
 		&& $handle['orientation'] === 'landscape' )
 	{
-		$page_width = '1448';
+		$page_width = '1405'; // Originally 1448px.
 	}
 
 	// Page title.
