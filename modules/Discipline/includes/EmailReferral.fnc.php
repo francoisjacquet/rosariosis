@@ -12,7 +12,7 @@
  */
 function EmailReferral( $referral_id, $emails )
 {
-	require_once 'ProgramFunctions/MarkDown.fnc.php';
+	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 	// get Referral
 	//FJ prevent referral ID hacking

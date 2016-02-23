@@ -1,6 +1,6 @@
 <?php
 /**
- * MarkDown functions
+ * MarkDown & HTML functions
  *
  * @package RosarioSIS
  * @subpackage ProgramFunctions
@@ -15,7 +15,7 @@
  *
  * @uses Parsedown Markdown Parser class in PHP
  *
- * @example require_once 'ProgramFunctions/MarkDown.fnc.php';
+ * @example require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
  *          echo MarkDownToHTML( 'Hello _Parsedown_!' );
  *          will print: <p>Hello <em>Parsedown</em>!</p>
  *
@@ -56,7 +56,7 @@ function MarkDownToHTML( $md, $column = '' )
  * @uses    Security class
  * @uses    Markdownify class
  *
- * @example require_once 'ProgramFunctions/MarkDown.fnc.php';
+ * @example require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
  *          $_REQUEST['values']['textarea'] = SanitizeMarkDown( $_POST['values']['textarea'] );
  *
  * @since   2.9
@@ -66,7 +66,7 @@ function MarkDownToHTML( $md, $column = '' )
  *
  * @param  string $md MarkDown text.
  *
- * @return string Input with HTML encoded single quotes or empty string if Sanitized MD != Input MD
+ * @return string Sanitized input with HTML encoded single quotes
  */
 function SanitizeMarkDown( $md )
 {
@@ -75,16 +75,6 @@ function SanitizeMarkDown( $md )
 	{
 		return $md;
 	}
-
-	/**
-	 * Convert single quotes to HTML entities
-	 *
-	 * Fixes bug related to:
-	 * replace empty strings ('') with NULL values
-	 *
-	 * @see DBQuery()
-	 */
-	$md_quotes = str_replace( "'", '&#039;', $md );
 
 	// Convert MarkDown to HTML.
 	$html = MarkDownToHTML( $md_quotes );
@@ -101,11 +91,7 @@ function SanitizeMarkDown( $md )
 
 	$sanitized_html = $security->xss_clean( $html );
 
-	if ( $sanitized_html === $html )
-	{
-		return $md_quotes;
-	}
-	else
+	if ( $sanitized_html !== $html )
 	{
 		if ( ROSARIO_DEBUG )
 		{
@@ -126,16 +112,73 @@ function SanitizeMarkDown( $md )
 		}
 
 		// HTML to Markdown.
-		$sanitized_md = $markdownify->parseString( $sanitized_html );
-
-		/**
-		 * Convert single quotes to HTML entities
-		 *
-		 * Fixes bug related to:
-		 * replace empty strings ('') with NULL values
-		 *
-		 * @see DBQuery()
-		 */
-		return str_replace( "'", '&#039;', $sanitized_md );
+		$return = $markdownify->parseString( $sanitized_html );
 	}
+	else
+	{
+		$return = $md;
+	}
+
+	/**
+	 * Convert single quotes to HTML entities
+	 *
+	 * Fixes bug related to:
+	 * replace empty strings ('') with NULL values
+	 *
+	 * @see DBQuery()
+	 */
+	return str_replace( "'", '&#039;', $return );
+}
+
+
+
+/**
+ * Sanitize HTML user input
+ * Use for example to sanitize TinyMCE input
+ *
+ * @see     assets/js/tinymce/
+ * @uses    Security class
+ *
+ * @example require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+ *          $_REQUEST['values']['textarea'] = SanitizeHTML( $_POST['values']['textarea'] );
+ *
+ * @since   2.9
+ *
+ * @global object $security
+ *
+ * @param  string $html HTML text.
+ *
+ * @return string Sanitized input with HTML encoded single quotes
+ */
+function SanitizeHTML( $html )
+{
+	if ( ! is_string( $html )
+		|| empty( $html ) )
+	{
+		return $html;
+	}
+
+	global $security;
+
+	// Create $security object once.
+	if ( ! ( $security instanceof Security ) )
+	{
+		require_once 'classes/Security.php';
+
+		$security = new Security();
+	}
+
+	$sanitized_html = $security->xss_clean( $html );
+
+	/**
+	 * Convert single quotes to HTML entities
+	 *
+	 * Fixes bug related to:
+	 * replace empty strings ('') with NULL values
+	 *
+	 * @see DBQuery()
+	 */
+	$sanitized_html_quotes = str_replace( "'", '&#039;', $sanitized_html );
+
+	return $sanitized_html_quotes;
 }

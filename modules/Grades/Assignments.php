@@ -1,6 +1,6 @@
 <?php
 
-require_once 'ProgramFunctions/MarkDown.fnc.php';
+require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() );
 

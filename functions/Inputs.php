@@ -258,10 +258,9 @@ function setMLvalue(id, loc, value){
  * @uses GetInputID() to generate ID from name
  * @uses FormatInputTitle() to format title
  * @uses InputDivOnclick()
- *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && $value != '' && $div )
  *
  * @uses MarkDownInputPreview()
- *       if ( AllowEdit() && !isset( $_REQUEST['_ROSARIO_PDF'] ) && $markdown )
+ *
  * @uses ShowDown jQuery plugin for MarkDown rendering called using the .markdown-to-html CSS class
  *
  * @param  string  $value    Input value.
@@ -269,11 +268,11 @@ function setMLvalue(id, loc, value){
  * @param  string  $title    Input title (optional). Defaults to ''.
  * @param  string  $extra    Extra HTML attributes added to the input.
  * @param  boolean $div      Is input wrapped into <div onclick>? (optional). Defaults to true.
- * @param  boolean $markdown Is MarkDown formatted text? (optional). Defaults to true.
+ * @param  boolean $markdown markdown|tinymce|text Text Type (optional). Defaults to 'markdown'.
  *
  * @return string  Input HTML
  */
-function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $markdown = true )
+function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $type = 'markdown' )
 {
 	$id = GetInputID( $name );
 
@@ -283,10 +282,14 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $m
 
 	if ( $value !== '' )
 	{
-		if ( $markdown )
+		if ( $type === 'markdown' )
 		{
 			// Convert MarkDown to HTML.
 			$display_val = '<div class="markdown-to-html">' . $value . '</div>';
+		}
+		elseif ( $type === 'tinymce' )
+		{
+			$display_val = $value;
 		}
 		else
 			$display_val = nl2br( $value );
@@ -307,15 +310,16 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $m
 			$cols = mb_substr( $extra, mb_strpos( $extra, 'cols' ) + 5, 2 ) *1;*/
 
 		// Rows.
-		if ( mb_strpos( $extra, 'rows' ) === false )
+		if ( $type === 'text'
+			&& mb_strpos( $extra, 'rows' ) === false )
 		{
 			$extra .= ' rows=5';
 		}
 
-		$textarea =  ( $markdown ? MarkDownInputPreview( $id ) : '' ) .
+		$textarea =  ( $type === 'markdown' ? MarkDownInputPreview( $id ) : '' ) .
 			'<textarea id="' . $id . '" name="' . $name . '" ' . $extra . '>' .
 			$value . '</textarea>' . 
-			( $markdown ? str_replace( '<br />', '', $ftitle ) : $ftitle );
+			( $type !== 'text' ? str_replace( '<br />', '', $ftitle ) : $ftitle );
 
 		if ( $value == ''
 			|| ! $div )
@@ -338,6 +342,111 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $m
 	}
 
 	return $return;
+}
+
+
+
+/**
+ * TinyMCE Input (HTML editor)
+ *
+ * Note: if you will pass additional CSS classes in the `$extra` paramenter
+ * Do not forget the `tinymce` class required to trigger TinyMCE. 
+ *
+ * @todo Fix <label>, see http://stackoverflow.com/questions/4258701/tinymce-accessibility-label-for
+ * @todo Allow passing options to TinyMCE (plugins, ...)
+ *
+ * @example TinyMCEInput( $RET[1]['TEMPLATE'], 'tinymce_textarea' )
+ *
+ * @uses TextAreaInput()
+ *
+ * @see TinyMCE Javascript plugin for HTML edition in assets/js/tinymce/
+ *
+ * @global $locale Locale to translate TinyMCE interface.
+ *
+ * @param  string  $value    Input value.
+ * @param  string  $name     Input name.
+ * @param  string  $title    Input title (optional). Defaults to ''.
+ * @param  string  $extra    Extra HTML attributes added to the input (optional). Defaults to ''.
+ *
+ * @return string  Input HTML
+ */
+function TinyMCEInput( $value, $name, $title = '', $extra = '' )
+{
+	global $locale;
+
+	static $js_included = false;
+
+	$div = false;
+
+	$type = 'tinymce';
+
+	if ( mb_strpos( (string) $extra, 'class=' ) === false )
+	{
+		$extra = 'class="tinymce" ' . $extra;
+	}
+
+	$textarea = TextAreaInput( $value, $name, $title, $extra , $div, $type );
+
+	$tinymce_js = '';
+
+	if ( ! $js_included
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
+	{
+		$tinymce_language = '';
+
+		$tinymce_directionality = 'ltr';
+
+		if ( $locale !== 'en_US.utf8' )
+		{
+			if ( file_exists( 'assets/js/tinymce/langs/' . mb_substr( $locale, 0, 2 ) . '.js' ) )
+			{
+				// For example: es (Spanish).
+				$tinymce_language = mb_substr( $locale, 0, 2 );
+			}
+			elseif ( file_exists( 'assets/js/tinymce/langs/' . mb_substr( $locale, 0, 5 ) . '.js' ) )
+			{
+				// For example: fr_FR (French).
+				$tinymce_language = mb_substr( $locale, 0, 5 );
+			}
+
+			if ( $tinymce_language )
+			{
+				$lang_2_chars = mb_substr( $locale, 0, 2 );
+
+				// Right to left direction.
+				$RTL_languages = array( 'ar', 'he', 'dv', 'fa', 'ur' );
+
+				$tinymce_directionality = in_array( $lang_2_chars, $RTL_languages ) ? 'rtl' : 'ltr';
+			}
+		}
+
+		// Include main TinyMCE javascript
+		// and its configuration (plugin, language...).
+		ob_start(); ?>
+
+<script src="assets/js/tinymce/tinymce.min.js"></script>
+<script>
+	tinymce.init({
+		selector:'.tinymce',
+		plugins : 'link image pagebreak paste table textcolor code fullscreen hr media lists',
+		toolbar: "bold italic underline bullist numlist alignleft aligncenter alignright alignjustify link image forecolor backcolor code fullscreen",
+		menu: {
+			// file: {title: 'File', items: 'newdocument'},
+			edit: {title: 'Edit', items: 'undo redo | cut copy paste pastetext'},
+			insert: {title: 'Insert', items: 'media | hr pagebreak | inserttable cell row column'},
+			// view: {title: 'View', items: 'visualaid'},
+			format: {title: 'Format', items: 'formats | removeformat'}
+		},
+		pagebreak_separator : '<div style="page-break-after: always;"></div>',
+		language : <?php echo json_encode( $tinymce_language ); ?>,
+		directionality : <?php echo json_encode( $tinymce_directionality ); ?>
+	});
+</script><!-- /TinyMCE -->
+
+		<?php $tinymce_js = ob_get_clean();
+	}
+
+	return $tinymce_js . $textarea;
 }
 
 

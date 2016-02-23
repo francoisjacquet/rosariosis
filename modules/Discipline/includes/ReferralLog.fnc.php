@@ -78,7 +78,7 @@ function ReferralLogIncludeForm()
  */
 function ReferralLogsGenerate( $extra )
 {
-	require_once 'ProgramFunctions/MarkDown.fnc.php';
+	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 	global $_ROSARIO;
 

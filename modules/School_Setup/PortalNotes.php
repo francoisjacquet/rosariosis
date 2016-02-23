@@ -1,7 +1,7 @@
 <?php
 require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 require_once 'ProgramFunctions/FileUpload.fnc.php';
-require_once 'ProgramFunctions/MarkDown.fnc.php';
+require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 // Add eventual Dates to $_REQUEST['values'].
 if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )

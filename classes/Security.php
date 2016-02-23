@@ -388,7 +388,9 @@ class Security {
 	protected static function remove_evil_attributes($str, $is_image)
 	{
 		// All javascript event handlers (e.g. onload, onclick, onmouseover), style, and xmlns
-		$evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction');
+		// FJ allow style attribute for TinyMCE.
+		// $evil_attributes = array('on\w*', 'style', 'xmlns', 'formaction');
+		$evil_attributes = array('on\w*', 'xmlns', 'formaction');
 		if ($is_image === TRUE)
 		{
 			/*

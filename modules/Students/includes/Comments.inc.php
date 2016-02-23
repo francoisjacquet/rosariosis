@@ -14,7 +14,7 @@ if ( AllowEdit()
 	&& isset( $_POST['values'] )
 	&& trim( $_REQUEST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] ) !== '' )
 {
-	require_once 'ProgramFunctions/MarkDown.fnc.php';
+	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 	// Sanitize MarkDown
 	$comment = SanitizeMarkDown( $_POST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] );

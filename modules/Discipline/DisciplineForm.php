@@ -227,10 +227,7 @@ function _makeTextAreaInput( $value, $name )
 		|| $THIS_RET['DATA_TYPE'] === 'multiple_radio'
 		|| $THIS_RET['DATA_TYPE'] === 'select' )
 	{
-		// No MarkDown
-		$markdown = false;
-
-		$return = TextAreaInput( $value, 'values[' . $id . '][' . $name . ']', '', '', $id !== 'new', $markdown );
+		$return = TextAreaInput( $value, 'values[' . $id . '][' . $name . ']', '', '', $id !== 'new', 'text' );
 
 		//FJ responsive rt td too large
 		$return = '<div id="divTextAreaContent' . $id . '" class="rt2colorBox">' .

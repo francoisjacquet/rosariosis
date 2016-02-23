@@ -270,7 +270,7 @@ function _makeOptionsInput($value,$name)
 			'',
 			'rows=3 cols=20',
 			true,
-			false // No MarkDown.
+			'text'
 		) . ( $portal_poll_id == 'new' ? '<br />' . _( '* one per line' ) : '') . '</td><td>' .
 		SelectInput(
 			$THIS_RET['TYPE'],

@@ -686,14 +686,14 @@ function FilterCustomFieldsMarkdown( $table, $request_index, $request_index_2 = 
 		return $request_values;
 	}
 
-	require_once 'ProgramFunctions/MarkDown.fnc.php';
+	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 	foreach ( (array) $textarea_RET as $textarea )
 	{
 		$custom_index = 'CUSTOM_' . $textarea['ID'];
 
-		if ( isset( $request_values[ $custom_index ] )
-			&& ! empty( $request_values[ $custom_index ] ) )
+		if ( isset( $post_values[ $custom_index ] )
+			&& ! empty( $post_values[ $custom_index ] ) )
 		{
 			$request_values[ $custom_index ] = SanitizeMarkDown(
 				$post_values[ $custom_index ]

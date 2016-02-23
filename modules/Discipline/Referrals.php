@@ -1,6 +1,6 @@
 <?php
 
-require_once 'ProgramFunctions/MarkDown.fnc.php';
+require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
