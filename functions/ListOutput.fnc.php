@@ -20,7 +20,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		'add' => true,
 	);
 
-	if ( !empty( $options ) )
+	if ( ! empty( $options ) )
 	{
 		$options = array_replace_recursive( $default_options, $options );
 	}
@@ -34,10 +34,10 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 	}
 
 	if ( ! $options['add']
-		|| !AllowEdit()
+		|| ! AllowEdit()
 		|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
-		if ( !empty( $link ) )
+		if ( ! empty( $link ) )
 		{
 			unset( $link['add'] );
 			unset( $link['remove'] );

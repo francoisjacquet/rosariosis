@@ -162,7 +162,7 @@ if ( isset( $_REQUEST['sidefunc'] )
 		&& isset( $_POST['student_id'] )
 		&& UserStudentID() != $_POST['student_id'] )
 	{
-		SetUserStudentID($_POST['student_id']);
+		SetUserStudentID( $_POST['student_id'] );
 	}
 
 
@@ -205,7 +205,7 @@ else
 	}
 
 	// Set current User (if user is parent).
-	if ( !UserStaffID()
+	if ( ! UserStaffID()
 		&& User( 'PROFILE' ) === 'parent' )
 	{
 		SetUserStaffID( $_SESSION['STAFF_ID'] );
@@ -654,7 +654,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			&& ( User( 'PROFILE' ) === 'admin'
 				|| User( 'PROFILE' ) === 'teacher' ) ) :
 
-			$current_student_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME||' '||coalesce(NAME_SUFFIX,' ') AS FULL_NAME
+			$current_student_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,'') AS FULL_NAME
 				FROM STUDENTS
 				WHERE STUDENT_ID='" . UserStudentID() . "'" ) ); ?>
 
