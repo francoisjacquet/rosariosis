@@ -291,15 +291,55 @@ function _reloadMenu()
 	return true;
 }
 
-function _delTree($dir) {
-	$files = array_diff(scandir($dir), array('.','..'));
-	foreach ($files as $file) {
-		if (is_dir("$dir/$file"))
-			_delTree("$dir/$file");
-		elseif (is_writable("$dir/$file"))
-			unlink("$dir/$file");
-		else
+
+/**
+ * Delete Tree
+ * Recursively delete a directory and its files.
+ *
+ * If one of the files cannot be deleted,
+ * no files are deleted & `false` is returned.
+ * Dry run is always performed first.
+ *
+ * @param  string $dir  Directory to delete.
+ * @param  string $mode delete|dryrun Mode (optional). Defaults to 'delete'.
+ *
+ * @return boolean      true on success, else false.
+ */
+function _delTree( $dir, $mode = 'delete' )
+{
+	$return = true;
+
+	if ( $mode === 'delete' )
+	{
+		// Run dry run mode first.
+		$can_delete = _delTree( $dir, 'dryrun' );
+
+		if ( ! $can_delete )
+		{
 			return false;
+		}
 	}
-	return rmdir($dir);
+
+	$files = array_diff( scandir( $dir ), array( '.', '..' ) );
+
+	foreach ( (array) $files as $file )
+	{
+		if ( is_dir( $dir . '/' . $file ) )
+		{
+			$return = _delTree( $dir . '/' . $file, $mode );
+		}
+		elseif ( is_writable( $dir . '/' . $file ) )
+		{
+			if ( $mode !== 'dryrun' )
+			{
+				unlink( $dir . '/' . $file );
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	return $mode === 'dryrun' ? $return && is_writable( $dir ) : rmdir( $dir );
 }
