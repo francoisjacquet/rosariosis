@@ -46,7 +46,7 @@ function MarkDownToHTML( $md, $column = '' )
 		$Parsedown = new Parsedown();
 	}
 
-	return $Parsedown->text( $md );
+	return $Parsedown->setBreaksEnabled( true )->text( $md );
 }
 
 
@@ -77,7 +77,7 @@ function SanitizeMarkDown( $md )
 	}
 
 	// Convert MarkDown to HTML.
-	$html = MarkDownToHTML( $md_quotes );
+	$html = MarkDownToHTML( $md );
 
 	global $security;
 

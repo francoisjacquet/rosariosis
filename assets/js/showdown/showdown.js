@@ -2199,7 +2199,10 @@ showdown.subParser('spanGamut', function (text, options, globals) {
   text = showdown.subParser('strikethrough')(text, options, globals);
 
   // Do hard breaks:
-  text = text.replace(/  +\n/g, ' <br />\n');
+  // text = text.replace(/  +\n/g, ' <br />\n');
+  // FJ: Github Flavored MarkDown breaks:
+  // @link https://github.com/showdownjs/showdown/issues/206
+  text = text.replace(/[ ]*\n/g, '<br />\n');
 
   text = globals.converter._dispatch('spanGamut.after', text, options);
   return text;
