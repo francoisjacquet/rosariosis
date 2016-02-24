@@ -16,7 +16,6 @@
 	top:0;
 	bottom:0;
 	left:0;
-	z-index:-1
 }
 #menuback,#menu{
 	border-width:0 1px 0 0;
@@ -26,6 +25,8 @@
 	position:relative;
 	float:left;
 	overflow: visible;
+	left:0;
+	z-index:1;
 }
 #menushadow{
 	position:absolute;
@@ -38,7 +39,7 @@
 #body,#menu{
 	margin-bottom:38px;
 }
-#body{
+#menu + #body{
 	margin-left: 206px;
 }
 /* Hidden menu */
@@ -100,7 +101,8 @@ textarea{
 	line-height:1.4em
 }
 *{
-	font-size:14px
+	font-size:14px;
+	word-wrap: break-word;
 }
 a{
 	-webkit-transition:color 0.2s ease-out 0s;
@@ -323,7 +325,7 @@ label{
 .menu-module{
 	position: relative;
 }
-.no-touch .menu-module:hover .menu-top:after{
+html[dir="LTR"] .no-touch .menu-module:hover .menu-top:after{
 	content: "\276F";
 	padding-top: 6px;
 	position: absolute;
@@ -709,6 +711,7 @@ form.login input[type=text],form.login input[type=password]{
 	height:32px
 }
 #BottomButtonMenu{
+	height: 32px;
 	float:left;
 }
 #BottomButtonMenu:before{
@@ -824,13 +827,6 @@ div.st{
 	margin:20px 10px;
 	width:700px;
 	height:560px
-}
-
-/*tinymce*/
-.tinymce{
-	/*cols="97" rows="27"*/
-	width:708px;
-	height:475px
 }
 
 /*tipmessage (DO NOT EDIT)*/
@@ -1053,7 +1049,9 @@ div.st{
 
 	/*calendar*/
 	#calendar > thead > tr > th{
-		overflow:hidden;
+		overflow: hidden;
+		word-wrap: normal;
+		padding: 4px;
 	}
 	.calendar-day{
 		min-width:32px;
