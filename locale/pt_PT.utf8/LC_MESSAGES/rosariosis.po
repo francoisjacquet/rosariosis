@@ -146,16 +146,16 @@ msgstr "Dias"
 
 #: database.inc.php:216
 msgid "We have a problem, please contact technical support ..."
-msgstr ""
+msgstr "Estamos passando pro problemas. Por favor, entre em contato com o suporte..."
 
 #: index.php:68
 msgid "Confirm Successful Installation"
-msgstr ""
+msgstr "Instalação confirmada com sucesso"
 
 #: index.php:71
 #, php-format
 msgid "You have successfully installed %s."
-msgstr ""
+msgstr "Você instalou com sucesso"
 
 #: index.php:72
 msgid "OK"
@@ -163,13 +163,13 @@ msgstr "OK"
 
 #: index.php:86
 msgid "Your account has not yet been activated."
-msgstr ""
+msgstr "Sua conta ainda não foi ativada."
 
 #: index.php:86
 #: index.php:151
 #, fuzzy
 msgid "You will be notified when it has been verified by a school administrator."
-msgstr "Sua conta foi criada. Você será notificado por e-mail quando é verificada pela administração da escola e você pode log in"
+msgstr "Sua conta foi criada. Você será notificado por e-mail e quando for verificado pela administração da escola você pode efetuar o login"
 
 #: index.php:98
 #, fuzzy
@@ -179,7 +179,7 @@ msgstr "Nome de usuário ou senha incorretos. Por favor, tente novamente."
 #: index.php:98
 #, fuzzy
 msgid "Please try logging in again."
-msgstr "Por favor login novamente"
+msgstr "Por favor, faça o login novamente"
 
 #: index.php:143
 #, fuzzy, php-format
@@ -194,11 +194,11 @@ msgstr "Você deve ter disponível JavaScript para usar RosarioSIS."
 #: index.php:151
 #, fuzzy
 msgid "Your account has been created."
-msgstr "foi recalculado."
+msgstr "Sua conta foi criada."
 
 #: index.php:151
 msgid "You will then be able to log in."
-msgstr ""
+msgstr "Após isso, você irá conseguir efetuar o login"
 
 #: index.php:173
 #, fuzzy
@@ -220,7 +220,7 @@ msgstr "Último Login"
 
 #: index.php:196
 msgid "Create User Account"
-msgstr ""
+msgstr "Criar conta de usuário"
 
 #: index.php:201
 #, fuzzy
@@ -230,7 +230,7 @@ msgstr "Atualização de Fotografias dos Alunos"
 #: index.php:210
 #, php-format
 msgid "This is a restricted network. Use of this network, its equipment, and resources is monitored at all times and requires explicit permission from the network administrator and %s. If you do not have this permission in writing, you are violating the regulations of this network and can and will be prosecuted to the full extent of the law. By continuing into this system, you are acknowledging that you are aware of and agree to these terms."
-msgstr ""
+msgstr "Esta é uma rede restrita. O Uso desta rede, seus equipamentos e recursos são monitorados em todos os momentos e requerem permissões explícitas do administrador de rede e %s. Se você não tem essa permissão, por escrito, você está violando os regulamentos desta rede e pode e será processado em toda a extensão da lei. Ao continuar a este sistema, você está reconhecendo que você está ciente e concorda com estes termos"
 
 #: index.php:214
 #, fuzzy, php-format
@@ -240,36 +240,36 @@ msgstr "Permissões de Usuário"
 #: ProgramFunctions/FileUpload.fnc.php:23
 #, fuzzy
 msgid "File not uploaded"
-msgstr "Tipo de Exportação de arquivo"
+msgstr "Arquivo não carregado"
 
 #: ProgramFunctions/FileUpload.fnc.php:26
 #, php-format
 msgid "Wrong file type: %s (%s required)"
-msgstr ""
+msgstr "Tipos de arquivos errados"
 
 #: ProgramFunctions/FileUpload.fnc.php:29
 #, php-format
 msgid "File size > %01.2fMb: %01.2fMb"
-msgstr ""
+msgstr "Tamanho do Arquivo "
 
 #: ProgramFunctions/FileUpload.fnc.php:33
 #, php-format
 msgid "Folder not created"
-msgstr ""
+msgstr "Pasta não criada"
 
 #: ProgramFunctions/FileUpload.fnc.php:36
 #, php-format
 msgid "Folder not writable"
-msgstr ""
+msgstr "Pasta sem permissões de escrita"
 
 #: ProgramFunctions/FileUpload.fnc.php:40
 #, php-format
 msgid "File invalid or not moveable"
-msgstr ""
+msgstr "Arquivo inválido ou sem permissões de copia"
 
 #: ProgramFunctions/StudentsUsersInfo.fnc.php:61
 msgid "%Y Years %m Months %d Days"
-msgstr ""
+msgstr "%Y Anos %m Meses %d Dias"
 
 #: ProgramFunctions/StudentsUsersInfo.fnc.php:109
 #: ProgramFunctions/StudentsUsersInfo.fnc.php:196
@@ -299,7 +299,7 @@ msgstr "Reter"
 
 #: ProgramFunctions/miscExport.fnc.php:8
 msgid "Do not enroll after this school year"
-msgstr "Não se matricular após este ano lectivo"
+msgstr "Não se matricular após este ano letivo"
 
 #: ProgramFunctions/miscExport.fnc.php:15
 #, fuzzy
@@ -309,7 +309,7 @@ msgstr "Grade na próxima"
 #: ProgramFunctions/HackingLog.fnc.php:7
 #: plugins/Moodle/config.inc.php:78
 msgid "You're not allowed to use this program!"
-msgstr ""
+msgstr "Você não tem permissão pra usar este programa"
 
 #: ProgramFunctions/HackingLog.fnc.php:7
 #, fuzzy
@@ -339,12 +339,12 @@ msgstr "Entre visível:"
 
 #: ProgramFunctions/PortalPollsNotes.fnc.php:241
 msgid "to"
-msgstr ""
+msgstr "para"
 
 #: ProgramFunctions/PortalPollsNotes.fnc.php:249
 #, fuzzy
 msgid "Visible To"
-msgstr "Para visível:"
+msgstr "Visível para:"
 
 #: ProgramFunctions/PortalPollsNotes.fnc.php:251
 msgid "Administrator w/Custom"
@@ -361,23 +361,23 @@ msgstr "Pai w / Custom"
 #: ProgramFunctions/PortalPollsNotes.fnc.php:281
 #, fuzzy
 msgid "Limit to Teacher"
-msgstr "Com Professor"
+msgstr "Limite para Professor"
 
 #: ProgramFunctions/PortalPollsNotes.fnc.php:328
 msgid "View Online"
-msgstr ""
+msgstr "Ver on-line"
 
 #: ProgramFunctions/PortalPollsNotes.fnc.php:330
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: ProgramFunctions/PortalPollsNotes.fnc.php:350
 msgid "Embed Link"
-msgstr ""
+msgstr "Incorporar Link"
 
 #: plugins/Moodle/config.inc.php:26
 msgid "The plugin configuration has been modified."
-msgstr ""
+msgstr "As configurações do plugin foram alteradas"
 
 #: plugins/Moodle/config.inc.php:33
 #, fuzzy
@@ -392,15 +392,15 @@ msgstr "Salvar"
 #: plugins/Moodle/config.inc.php:54
 #: plugins/Moodle/config.inc.php:59
 msgid "Moodle"
-msgstr ""
+msgstr "Moodle"
 
 #: plugins/Moodle/config.inc.php:60
 msgid "Moodle URL"
-msgstr ""
+msgstr "URL Moodle"
 
 #: plugins/Moodle/config.inc.php:65
 msgid "Moodle Token"
-msgstr ""
+msgstr "Token Moodle"
 
 #: plugins/Moodle/config.inc.php:66
 #, fuzzy
@@ -431,11 +431,11 @@ msgstr "Por favor, Confirme a Senha"
 #: plugins/Moodle/functions.php:118
 #: plugins/Moodle/functions.php:215
 msgid "Please fill in the required fields"
-msgstr ""
+msgstr "Por favor, preencha os campos obrigatórios"
 
 #: plugins/Moodle/functions.php:203
 msgid "Create User in Moodle"
-msgstr ""
+msgstr "Criar usuário no Moodle"
 
 #: plugins/Moodle/functions.php:345
 #, fuzzy
@@ -444,16 +444,16 @@ msgstr "Período do Curso pai"
 
 #: plugins/Moodle/functions.php:435
 msgid "Publish Event in Moodle?"
-msgstr ""
+msgstr "Publicar evento no Moodle?"
 
 #: plugins/Moodle/functions.php:435
 #: plugins/Moodle/functions.php:494
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: plugins/Moodle/functions.php:494
 msgid "Publish Note in Moodle?"
-msgstr ""
+msgstr "Publicar nota no Moodle?"
 
 #: plugins/Moodle/Grades/Assignments.php:36
 msgid "Assigned Date"
@@ -681,7 +681,7 @@ msgstr[1] "Grau"
 
 #: functions/GetStuList.fnc.php:472
 msgid "Excluded"
-msgstr ""
+msgstr "Excluído"
 
 #: functions/GetStuList.fnc.php:495
 msgid "Address contains"
@@ -724,7 +724,7 @@ msgstr[1] "foi encontrado."
 
 #: functions/ListOutput.fnc.php:472
 msgid "Export list"
-msgstr ""
+msgstr "Exportar Lista"
 
 #: functions/ListOutput.fnc.php:480
 msgid "Search"
@@ -763,7 +763,7 @@ msgstr ""
 #: functions/SaveData.fnc.php:59
 #, php-format
 msgid "%s was too long. It was truncated to fit in the field."
-msgstr ""
+msgstr " era muito grande. Seu tamanho foi diminuido para caber no campo"
 
 #: functions/SaveData.fnc.php:66
 #, php-format
@@ -5590,7 +5590,7 @@ msgstr "Sala"
 #: modules/Students/MailingLabels.php:5
 #: modules/Students/MailingLabels.php:169
 msgid "To the parents of"
-msgstr ""
+msgstr "Para os pais de"
 
 #: modules/Students/MailingLabels.php:147
 #: modules/Students/MailingLabels.php:208
@@ -5735,7 +5735,7 @@ msgstr "Custódia"
 #: modules/Students/includes/Address.inc.php:697
 #: modules/Students/includes/Address.inc.php:825
 msgid "Emergency"
-msgstr ""
+msgstr "Emergência"
 
 #: modules/Students/PeopleFields.php:278
 #, fuzzy
@@ -5801,11 +5801,11 @@ msgstr "Contactos"
 
 #: modules/Students/includes/Address.inc.php:359
 msgid "Other students associated with this address"
-msgstr ""
+msgstr "Outros estudantes associados a este endereço"
 
 #: modules/Students/includes/Address.inc.php:428
 msgid "This student doesn't have an address."
-msgstr ""
+msgstr "Este aluno não tem um endereço"
 
 #: modules/Students/includes/Address.inc.php:438
 #, fuzzy
@@ -5814,35 +5814,35 @@ msgstr "Adicionar novo endereço"
 
 #: modules/Students/includes/Address.inc.php:449
 msgid "Add an <b>Existing</b> Address"
-msgstr ""
+msgstr "Adicionar um <b> Endereço </b> existente"
 
 #: modules/Students/includes/Address.inc.php:460
 msgid "Add a <b>New</b> Contact<BR />without an Address"
-msgstr ""
+msgstr "Adicionar o <b> Novo </b> contato <br> Sem um endereço"
 
 #: modules/Students/includes/Address.inc.php:471
 msgid "Add an <b>Existing</b> Contact<BR />without an Address"
-msgstr ""
+msgstr "Adicionar um <b> Novo </b> contato <br> Sem um endereço"
 
 #: modules/Students/includes/Address.inc.php:490
 msgid "Contacts without an Address"
-msgstr ""
+msgstr "Contatos sem um endereço"
 
 #: modules/Students/includes/Address.inc.php:490
 msgid "Contacts at this Address"
-msgstr ""
+msgstr "Contatos neste endereço"
 
 #: modules/Students/includes/Address.inc.php:521
 msgid "Other students associated with this person"
-msgstr ""
+msgstr "Outros estudantes associados com essa pessoa"
 
 #: modules/Students/includes/Address.inc.php:553
 msgid "There are no contacts without an address."
-msgstr ""
+msgstr "Não há contatos sem um endereço."
 
 #: modules/Students/includes/Address.inc.php:553
 msgid "There are no contacts at this address."
-msgstr ""
+msgstr "Não existem contactos a este endereço."
 
 #: modules/Students/includes/Address.inc.php:565
 #, fuzzy
@@ -5852,7 +5852,7 @@ msgstr "Adicionar novo contato"
 #: modules/Students/includes/Address.inc.php:576
 #, fuzzy
 msgid "Add an <b>Existing</b> Contact"
-msgstr "Fale adicionais"
+msgstr "Adicionar um <b>Contato</b> existente"
 
 #: modules/Students/includes/Address.inc.php:611
 msgid "Map It"
@@ -5868,12 +5868,12 @@ msgstr "Bus Dropoff"
 
 #: modules/Students/includes/Address.inc.php:642
 msgid "If different than above"
-msgstr ""
+msgstr "Se for diferente do item acima"
 
 #: modules/Students/includes/Address.inc.php:666
 #, fuzzy
 msgid "Select Address"
-msgstr "Endereço estudante"
+msgstr "Endereço do Estudante"
 
 #: modules/Students/includes/Address.inc.php:693
 #: modules/Students/includes/Address.inc.php:816
@@ -5888,7 +5888,7 @@ msgstr "Telefone Residencial"
 #: modules/Students/includes/Address.inc.php:838
 #, fuzzy
 msgid "Select Person"
-msgstr "Selecione Term"
+msgstr "Selecione a Pessoa"
 
 #: modules/Students/includes/General_Info.inc.php:47
 #: modules/Students/includes/General_Info.inc.php:60
@@ -5927,7 +5927,7 @@ msgstr "Em"
 
 #: modules/Students/includes/General_Info.inc.php:96
 msgid "The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character"
-msgstr ""
+msgstr "A senha deve ter pelo menos 8 caracteres, pelo menos 1 dígito, pelo menos 1 letra minúscula, pelo menos 1 letra maiúscula, pelo menos 1 caractere não alfanumérico"
 
 #: modules/Students/includes/Medical.inc.php:35
 #: modules/Students/includes/Medical.inc.php:38
@@ -5968,7 +5968,7 @@ msgstr[1] "Visite enfermeira"
 
 #: modules/Students/includes/Other_Info.inc.php:93
 msgid "Age"
-msgstr ""
+msgstr "Idade"
 
 #: modules/Users/AddStudents.php:66
 #: modules/Users/AddStudents.php:92
@@ -6115,7 +6115,7 @@ msgstr "Busca por padrão todas as escolas"
 
 #: modules/Users/Preferences.php:173
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: modules/Users/Preferences.php:190
 msgid "Highlight Color"
@@ -6141,11 +6141,11 @@ msgstr "Carta"
 
 #: modules/Users/Preferences.php:235
 msgid "Page Size"
-msgstr ""
+msgstr "Tamanho da Página"
 
 #: modules/Users/Preferences.php:241
 msgid "PDF List Header Color"
-msgstr ""
+msgstr "Lista PDF"
 
 #: modules/Users/Preferences.php:253
 msgid "Current Password"
@@ -6189,7 +6189,7 @@ msgstr "Ano letivo"
 #: modules/Users/Preferences.php:338
 #: modules/Users/Preferences.php:387
 msgid "Widget"
-msgstr ""
+msgstr "Ferramentas"
 
 #: modules/Users/Preferences.php:367
 #: modules/Users/UserFields.php:129
@@ -6372,36 +6372,36 @@ msgstr "Campo"
 #: modules/misc/Portal.php:16
 #, php-format
 msgid "Good Morning, %s."
-msgstr ""
+msgstr "Bom dia, %s"
 
 #: modules/misc/Portal.php:17
 #, php-format
 msgid "Good Afternoon, %s."
-msgstr ""
+msgstr "Boa tarde, %s"
 
 #: modules/misc/Portal.php:18
 #, php-format
 msgid "Good Evening, %s."
-msgstr ""
+msgstr "Boa noite, %s"
 
 #: modules/misc/Portal.php:20
 #, php-format
 msgid "Welcome to %s!"
-msgstr ""
+msgstr "Bem vindo ao %s!"
 
 #: modules/misc/Portal.php:23
 #, php-format
 msgid "Your last login was <b>%s</b>."
-msgstr ""
+msgstr "O seu último login foi <b>%s</b>."
 
 #: modules/misc/Portal.php:26
 #, php-format
 msgid "There have been <b>%d</b> failed login attempts since your last successful login."
-msgstr ""
+msgstr "Houveram <b>%d</b> tentativas de login desde o seu último login bem-sucedido."
 
 #: modules/misc/Portal.php:31
 msgid "You are an <b>Administrator</b> on the system."
-msgstr ""
+msgstr "Você é um <b>Administrador</b> no sistema."
 
 #: modules/misc/Portal.php:50
 #, php-format
@@ -6462,7 +6462,7 @@ msgstr "Administração"
 
 #: modules/misc/Portal.php:210
 msgid "You are a <b>Teacher</b> on the system."
-msgstr ""
+msgstr "Você é um <b>Professor</b> no sistema."
 
 #: modules/misc/Portal.php:280
 #: modules/misc/Portal.php:429
@@ -6480,11 +6480,11 @@ msgstr "Os professores têm falta de dados atendimento"
 
 #: modules/misc/Portal.php:355
 msgid "Happy teaching..."
-msgstr ""
+msgstr "Ensino feliz..."
 
 #: modules/misc/Portal.php:359
 msgid "You are a <b>Parent</b> on the system."
-msgstr ""
+msgstr "Você é um <b> Pai </b> no sistema."
 
 #: modules/misc/Portal.php:448
 #, php-format
@@ -6493,19 +6493,19 @@ msgstr ""
 
 #: modules/misc/Portal.php:450
 msgid "Minimum Deposit"
-msgstr ""
+msgstr "Depósito Mínimo"
 
 #: modules/misc/Portal.php:461
 msgid "Happy parenting..."
-msgstr ""
+msgstr "Pai feliz..."
 
 #: modules/misc/Portal.php:465
 msgid "You are a <b>Student</b> on the system."
-msgstr ""
+msgstr "Você é um <b> Estudante </b> no sistema."
 
 #: modules/misc/Portal.php:534
 msgid "Happy learning..."
-msgstr ""
+msgstr "Leitura feliz..."
 
 #: modules/misc/ViewContact.php:16
 msgid "This person has no information in the system."
