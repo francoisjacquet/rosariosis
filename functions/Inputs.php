@@ -361,6 +361,8 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
  *
  * @see TinyMCE Javascript plugin for HTML edition in assets/js/tinymce/
  *
+ * @since 2.9
+ *
  * @global $locale Locale to translate TinyMCE interface.
  *
  * @param  string  $value    Input value.
@@ -480,7 +482,7 @@ function MarkDownInputPreview( $input_id )
 		<a href="https://github.com/francoisjacquet/rosariosis/wiki/Markdown-Cheatsheet" title="<?php echo _( 'Mastering MarkDown' ); ?>" target="_blank" class="md-link">
 			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" />
 		</a>
-		<div class="markdown" id="divMDPreview<?php echo $input_id; ?>">
+		<div class="markdown-to-html" id="divMDPreview<?php echo $input_id; ?>">
 			<p><?php echo _( 'Nothing to preview.' ); ?></p>
 		</div>
 	</div>
@@ -841,7 +843,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 		if ( $allow_na !== false )
 		{
 			$table .= '<td><label><input type="radio" name="' . $name . '" value=""' .
-				( $value == '' ? ' checked' : '' ) . ' /> ' .
+				( $value == '' ? ' checked' : '' ) . ' ' . $extra . ' /> ' .
 				( $allow_na === 'N/A' ? _( 'N/A' ) : $allow_na ) . '</label></td>';
 		}
 
@@ -859,7 +861,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 			}
 
 			$table .= '<td><label><input type="radio" name="' . $name . '" value="' .
-				htmlspecialchars( $key, ENT_QUOTES ) . '"' . $checked . ' /> ' .
+				htmlspecialchars( $key, ENT_QUOTES ) . '"' . $checked . ' ' . $extra . ' /> ' .
 				( is_array( $val ) ? $val[0] : $val ) . '</label></td>';
 		}
 
@@ -1130,7 +1132,7 @@ function FormatInputTitle( $title, $id = '', $required = false )
  * Wraps the Input HTML inside a <div> with Value & Input Formatted Title below
  * The <div> makes the Input HTML appear and editable when clicked
  *
- * @todo Fix JS error var is not defined when InputDivOnclick() called twice (ex: see Users > User Info > Schools field)
+ * @todo Fix JS error var is not defined when InputDivOnclick() called twice!
  *
  * @since 2.9
  *
