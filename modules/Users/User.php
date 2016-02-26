@@ -74,37 +74,24 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 		$_POST['staff'] = array_replace_recursive( $_POST['staff'], $requested_dates );
 	}
 
-	if ( $_REQUEST['staff']['SCHOOLS'])
+	if ( isset( $_REQUEST['staff']['SCHOOLS'] ) )
 	{
-		$current_schools = ',';
-		if ( $_REQUEST['staff_id']!='new')
-		{
-			$current_schools_RET = DBGet(DBQuery("SELECT SCHOOLS FROM STAFF WHERE STAFF_ID='".UserStaffID()."'"));
-			if ( !empty($current_schools_RET[1]['SCHOOLS']))
-				$current_schools = $current_schools_RET[1]['SCHOOLS'];
-		}
+		// Build schools format: ,1,2,
+		$_REQUEST['staff']['SCHOOLS'] = ',' . implode( ',', array_keys( $_REQUEST['staff']['SCHOOLS'] ) ) . ',';
 
-		$schools = $current_schools;
-		foreach ( (array) $_REQUEST['staff']['SCHOOLS'] as $school_id => $yes)
+		// FJ remove Schools for Parents.
+		if ( isset ( $_REQUEST['staff']['PROFILE'] )
+			&& $_REQUEST['staff']['PROFILE'] == 'parent' )
 		{
-			if ( $yes == 'Y' && mb_strpos($current_schools, ','.$school_id.',')===false)
-				$schools .= $school_id.',';
-			elseif ( $yes != 'Y' && mb_strpos($current_schools, ','.$school_id.',')!==false)
-				$schools = str_replace($school_id.',', '', $schools);
-		}
-
-		//FJ remove Schools for Parents
-		if (isset($_REQUEST['staff']['PROFILE']) && $_REQUEST['staff']['PROFILE']=='parent')
 			$_REQUEST['staff']['SCHOOLS'] = '';
-		else
-			$_REQUEST['staff']['SCHOOLS'] = ($schools == ',' ? '' : $schools);
+		}
 
-		//FJ reset current school if updating self schools
-		if (User('STAFF_ID') == UserStaffID())
-			unset($_SESSION['UserSchool']);
+		// FJ reset current school if updating self schools.
+		if ( User( 'STAFF_ID' ) == UserStaffID() )
+		{
+			unset( $_SESSION['UserSchool'] );
+		}
 	}
-/*	else
-		$_REQUEST['staff']['SCHOOLS'] = $_POST['staff'] = '';*/
 
 	if ( isset( $_POST['staff'] )
 		&& count( $_POST['staff'] )

@@ -209,7 +209,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 		if ( $schools_RET )
 		{
-			$i = 1;
+			$i = 0;
 
 			$schools_html = '<table><tr class="st">';
 
@@ -217,7 +217,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 			foreach ( (array) $schools_RET as $school )
 			{
-				if ( $i%3 == 0 )
+				if ( $i % 2 === 0 )
 				{
 					$schools_html .= '</tr><tr class="st">';
 				}
@@ -229,12 +229,15 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 					'staff[SCHOOLS][' . $school['ID'] . ']',
 					$school['TITLE'],
 					'',
-					false,
+					true,
 					button( 'check' ),
 					button( 'x' )
 				) . '</td>';
 
-				$school_titles[] = $school['TITLE'];
+				if ( $value )
+				{
+					$school_titles[] = $school['TITLE'];
+				}
 
 				$i++;
 			}
@@ -243,11 +246,13 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 			$id = 'schools';
 
+			$title = FormatInputTitle( _( 'Schools' ), $id );
+
 			echo InputDivOnclick(
 				$id,
-				$schools_html,
+				$schools_html . str_replace( '<br />', '', $title ),
 				implode( ', ', $school_titles ),
-				FormatInputTitle( _( 'Schools' ), $id )
+				$title
 			);
 		}
 		//echo SelectInput($staff['SCHOOL_ID'],'staff[SCHOOL_ID]','School',$options,'All Schools');
