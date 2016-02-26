@@ -573,8 +573,15 @@ textarea{
 	margin-top:0;
 	resize: vertical;
 }
-.markdown{
-	word-wrap: break-word;
+/*MarkDown to HTML table styling*/
+.markdown-to-html table{
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.markdown-to-html th,
+.markdown-to-html td{
+	border: 1px solid #bbb;
+	padding: 5px;
 }
 
 .legend-gray, .legend-red{
