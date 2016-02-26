@@ -9,24 +9,23 @@ if ( ProgramConfig( 'students', 'STUDENTS_SEMESTER_COMMENTS' ) )
 	$comments_MP = GetParentMP( 'SEM', UserMP() );
 }
 
-
 if ( AllowEdit()
 	&& isset( $_POST['values'] )
-	&& trim( $_REQUEST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] ) !== '' )
+	&& trim( $_POST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] ) !== '' )
 {
 	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
-	// Sanitize MarkDown
+	// Sanitize MarkDown.
 	$comment = SanitizeMarkDown( $_POST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] );
 
 	if ( $comment )
 	{
-		//FJ add time and user to comments "comment thread" like
-		$comment = array(array(
+		// FJ add time and user to comments "comment thread" like.
+		$comment = array( array(
 			'date' => date( 'Y-m-d G:i:s' ),
 			'staff_id' => User( 'STAFF_ID' ),
 			'comment' => $comment,
-		));
+		) );
 
 		$existing_RET = DBGet( DBQuery( "SELECT STUDENT_ID, COMMENT
 			FROM STUDENT_MP_COMMENTS
@@ -35,13 +34,23 @@ if ( AllowEdit()
 			AND MARKING_PERIOD_ID='" . $comments_MP . "'"
 		) );
 
-		// Add Comment to Existing ones
 		if ( isset( $existing_RET[1]['COMMENT'] ) )
 		{
-			$comment = array_merge( $comment, (array)unserialize( $existing_RET[1]['COMMENT'] ) );
+			// Add Comment to Existing ones.
+			$comment = array_merge( $comment, (array) unserialize( $existing_RET[1]['COMMENT'] ) );
+		}
+		else
+		{
+			// Insert empty comment (SaveData wont INSERT unless $id == 'new').
+			DBQuery( "INSERT INTO STUDENT_MP_COMMENTS
+				(STUDENT_ID, SYEAR, MARKING_PERIOD_ID, COMMENT)
+				VALUES ('" . UserStudentID() . "',
+				'" . UserSyear() . "',
+				'" . $comments_MP . "',
+				'')" );
 		}
 
-		$_REQUEST['values']['STUDENT_MP_COMMENTS'][UserStudentID()]['COMMENT'] = DBEscapeString( serialize( $comment ) );
+		$_REQUEST['values']['STUDENT_MP_COMMENTS'][ UserStudentID() ]['COMMENT'] = DBEscapeString( serialize( $comment ) );
 
 		SaveData(
 			array(
