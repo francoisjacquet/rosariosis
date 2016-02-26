@@ -9,8 +9,6 @@
 /**
  * Security class
  *
- * @todo Get sanitized MarkDown back, and not an empty string...
- *
  * @link https://github.com/FrozenNode/XssInput
  *
  * @author Jan Hartigan

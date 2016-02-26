@@ -10,9 +10,7 @@
 /**
  * ParseDown class
  *
- * @todo fix CSS (titles h2 ## + h3 ###)
- * @todo add Help (general)
- * @todo replace TinyMCE with ^ Markdown editor? https://jbt.github.io/markdown-editor/
+ * @todo add Markdown editor (fuul screen!)? https://jbt.github.io/markdown-editor/
  *
  * @link http://parsedown.org
  *
