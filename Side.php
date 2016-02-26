@@ -322,11 +322,11 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			<span class="br-after">&nbsp;<b><?php echo User( 'NAME' ); ?></b></span>
 			<?php
 				// Localized today's date.
-				echo '&nbsp;' . mb_convert_case(
+				echo '<span class="size-1">&nbsp;' . mb_convert_case(
 					iconv( '', 'UTF-8', strftime( '%A %B %d, %Y' ) ),
 					MB_CASE_TITLE,
 					'UTF-8'
-				);
+				) . '</span>';
 			?>
 			<br />
 			<?php // School SELECT (Admins & Teachers only).
