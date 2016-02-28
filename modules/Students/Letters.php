@@ -1,12 +1,14 @@
 <?php
 
+require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
+
 if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
 	if (count($_REQUEST['st_arr']))
 	{
 		//FJ bypass strip_tags on the $_REQUEST vars
-		$REQUEST_letter_text = $_POST['letter_text'];
-		
+		$REQUEST_letter_text = SanitizeHTML( $_POST['letter_text'] );
+
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
 
@@ -48,7 +50,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			else
 				DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_letter_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
 
-			$REQUEST_letter_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_letter_text)));
+			// $REQUEST_letter_text = nl2br(str_replace("''","'",str_replace('  ',' &nbsp;',$REQUEST_letter_text)));
 
 			$handle = PDFStart();
 
@@ -92,48 +94,27 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		//FJ add TinyMCE to the textarea
-		$tinymce_language = '';
-
-		if ( $locale !== 'en_US.utf8' )
-		{
-			if ( file_exists( 'assets/js/tinymce/langs/' . mb_substr( $locale, 0, 2 ) . '.js' ) )
-			{
-				$tinymce_language = mb_substr( $locale, 0, 2 );
-			}
-			elseif ( file_exists( 'assets/js/tinymce/langs/' . mb_substr( $locale, 0, 5 ) . '.js' ) )
-			{
-				$tinymce_language = mb_substr( $locale, 0, 5 );
-			}
-		} 
-		?>
-<script src="assets/js/tinymce/tinymce.min.js"></script>
-<script>tinymce.init({
-	selector:'.tinymce',
-	plugins : 'link image pagebreak paste table',
-	pagebreak_separator : '<div style="page-break-after: always;"></div>',
-	language : <?php echo json_encode( $tinymce_language ); ?>
-});</script><!-- /TinyMCE -->
-
-		<?php
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
 		$extra['header_right'] = '<input type="submit" value="'._('Print Letters for Selected Students').'" />';
 
-		$extra['extra_header_left'] = '<table>';
-
 		Widgets('mailing_labels');
-		$extra['extra_header_left'] .= $extra['search'];
+		$extra['extra_header_left'] = '<table>' . $extra['search'] . '</table>';
 		$extra['search'] = '';
 		//FJ add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 
 		//FJ add TinyMCE to the textarea
-		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Letter Text').'</td>
-			<td><textarea name="letter_text" class="tinymce">' .
-			( isset( $templates[ User( 'STAFF_ID' ) ] ) ? $templates[ User( 'STAFF_ID' ) ][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE'] ) .
+		$extra['extra_header_left'] .= '<table class="width-100p"><tr><td>' .
+			TinyMCEInput(
+				( isset( $templates[ User( 'STAFF_ID' ) ] ) ?
+					$templates[ User( 'STAFF_ID' ) ][1]['TEMPLATE'] :
+					$templates[0][1]['TEMPLATE'] ),
+				'letter_text',
+				_( 'Letter Text' )
+			) .
 			'</textarea></td></tr>';
 
-		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
+		$extra['extra_header_left'] .= '<tr><td>' . _( 'Substitutions' ) . '<br /><table><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._('Last, First M').'</td><td>&nbsp;</td>';
 		$extra['extra_header_left'] .= '</tr><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__FIRST_NAME__</td><td>= '._('First Name').'</td><td>&nbsp;</td>';
@@ -155,9 +136,7 @@ if (empty($_REQUEST['modfunc']))
 			$extra['extra_header_left'] .= '<td>__TEACHER__</td><td>= '._('Your Name').'</td><td></td>';
 			$extra['extra_header_left'] .= '<td>__ROOM__</td><td>= '._('Your Room').'</td>';
 		}
-		$extra['extra_header_left'] .= '</tr></table></td></tr>';
-
-		$extra['extra_header_left'] .= '</table>';
+		$extra['extra_header_left'] .= '</tr></table></td></tr></table>';
 	}
 
 
