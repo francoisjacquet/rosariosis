@@ -654,7 +654,7 @@ $addJavascripts .= 'var menuStudentID = "' . UserStudentID() . '",
 			&& ( User( 'PROFILE' ) === 'admin'
 				|| User( 'PROFILE' ) === 'teacher' ) ) :
 
-			$current_student_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,'') AS FULL_NAME
+			$current_student_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME||coalesce(' '||NAME_SUFFIX,' ') AS FULL_NAME
 				FROM STUDENTS
 				WHERE STUDENT_ID='" . UserStudentID() . "'" ) ); ?>
 
