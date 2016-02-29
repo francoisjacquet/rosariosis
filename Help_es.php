@@ -617,7 +617,7 @@ HTML;
 
 	$help['Students/EnrollmentCodes.php'] = <<<HTML
 <p>
-	<i>Códigos de Matrícula</i> le permite configurar los códigos de matrícula de su institución. Los códigos de matrícula son usados en la pantalla de Matrícula del estudiante, y especifica la razón de matrícula o retiro de un estudiante de una institución. Estos códigos aplican para todas las instituciones del sistema.
+	<i>Códigos de Matrícula</i> le permite configurar los códigos de matrícula de su institución. Los códigos de matrícula son usados en la pantalla de <i>Información del estudiante</i>, y especifican la razón de matrícula o retiro de un estudiante de una institución. Estos códigos aplican para todas las instituciones del sistema.
 </p>
 <p>
 	Para agregar un código de matrícula, llene el titulo del código, su nombre corto, y tipo en los campos vacíos al fin de la lista de códigos de matrícula. Presione el botón «Guardar».
