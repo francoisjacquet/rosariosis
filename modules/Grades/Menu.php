@@ -67,6 +67,7 @@ $menu['Grades']['parent'] = array(
 	'title' => _( 'Grades' ),
 	'default' => 'Grades/StudentGrades.php',
 	'Grades/StudentGrades.php' => _( 'Gradebook Grades' ),
+	'Grades/StudentAssignments.php' => _( 'Assignments' ),
 	'Grades/FinalGrades.php' => _( 'Final Grades' ),
 	'Grades/ReportCards.php' => _( 'Report Cards' ),
 	'Grades/Transcripts.php' => _( 'Transcripts' ),
