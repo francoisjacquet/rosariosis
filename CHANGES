@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.27
 -----------------
 - Correctly get Discipline Fields based on user school & year in EmailReferral.fnc.php
+- Update Portuguese translation in locale/pt_PT.utf8/
 
 Changes in 2.8.26
 -----------------
