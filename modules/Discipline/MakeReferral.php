@@ -131,11 +131,9 @@ if ( isset( $_POST['values'] )
 	unset($_SESSION['student_id']);
 }
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
-if (isset($note))
-	echo ErrorMessage($note,'note');
+echo ErrorMessage( $note, 'note' );
 
 //if ( ! $_REQUEST['student_id'])
 	$extra['new'] = true;

@@ -95,8 +95,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	}
 }
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
 if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 {

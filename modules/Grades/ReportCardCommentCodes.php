@@ -99,9 +99,8 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-//FJ fix SQL bug invalid sort order
-if (isset($error))
-	echo ErrorMessage($error);
+// FJ fix SQL bug invalid sort order
+echo ErrorMessage( $error );
 
 if (empty($_REQUEST['modfunc']))
 {

@@ -223,8 +223,9 @@ if (empty($_REQUEST['modfunc']))
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 	echo '<br />';
-//FJ fix SQL bug invalid sort order
-	if (isset($error)) echo ErrorMessage($error);
+
+	// FJ fix SQL bug invalid sort order
+	echo ErrorMessage( $error );
 
 	$extra = array('save'=>false,'search'=>false,
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&tab_id='.$_REQUEST['tab_id']));

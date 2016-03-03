@@ -30,10 +30,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 DrawHeader(ProgramTitle());
 
-if (isset($note))
-	echo ErrorMessage($note, 'note');
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $note, 'note' );
+
+echo ErrorMessage( $error );
 
 if ( $_REQUEST['search_modfunc']=='list')
 {

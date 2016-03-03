@@ -277,8 +277,9 @@ if (empty($_REQUEST['modfunc']))
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id'].'" method="POST">';
 	DrawHeader($subject_select.' : '.$course_select,SubmitButton(_('Save')));
 	echo '<br />';
-//FJ fix SQL bug invalid sort order
-	if (isset($error)) echo ErrorMessage($error);
+
+	//FJ fix SQL bug invalid sort order
+	echo ErrorMessage( $error );
 
 	$LO_options = array('save'=>false,'search'=>false,'header_color' => $categories_RET[$_REQUEST['tab_id']][1]['COLOR'],
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&subject_id='.$_REQUEST['subject_id'].'&course_id='.$_REQUEST['course_id'].'&tab_id='.$_REQUEST['tab_id']));

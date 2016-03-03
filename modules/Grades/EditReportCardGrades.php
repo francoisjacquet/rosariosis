@@ -135,9 +135,8 @@ if ( UserStudentID() )
 		}
 	}
 
-	//FJ fix SQL bug when text data entered, data verification
-	if (isset($error))
-		echo ErrorMessage($error);
+	// FJ fix SQL bug when text data entered, data verification
+	echo ErrorMessage( $error );
 
 	if (empty($_REQUEST['modfunc']))
 	{  

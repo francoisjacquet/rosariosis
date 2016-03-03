@@ -48,8 +48,7 @@ $extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'
 
 Search('student_id',$extra);
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
 if (UserStudentID() && empty($_REQUEST['modfunc']))
 {

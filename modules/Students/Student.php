@@ -352,8 +352,7 @@ else
 }
 
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
 Search('student_id');
 

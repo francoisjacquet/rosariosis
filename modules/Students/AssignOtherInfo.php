@@ -120,14 +120,11 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 DrawHeader(ProgramTitle());
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
-if (isset($note))
-	echo ErrorMessage($note, 'note');
+echo ErrorMessage( $note, 'note' );
 
-if (isset($warning))
-	echo ErrorMessage($warning, 'warning');
+echo ErrorMessage( $warning, 'warning' );
 
 
 if (empty($_REQUEST['modfunc']))

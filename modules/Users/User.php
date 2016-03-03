@@ -351,8 +351,7 @@ else
 }
 
 	
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
 if ( $_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
 {

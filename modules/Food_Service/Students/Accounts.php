@@ -80,9 +80,8 @@ $extra['columns_after'] = array('BALANCE' => _('Balance'),'STATUS' => _('Status'
 
 Search('student_id',$extra);
 
-//FJ fix SQL bug invalid numeric data
-if (isset($error))
-	echo ErrorMessage($error);
+// FJ fix SQL bug invalid numeric data
+echo ErrorMessage( $error );
 
 if (UserStudentID() && empty($_REQUEST['modfunc']))
 {

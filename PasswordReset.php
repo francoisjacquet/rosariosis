@@ -534,15 +534,9 @@ function _printPageHead( $title )
 
 	echo '<div style="max-width: 500px; margin: 0 auto;">';
 
-	if ( $error )
-	{
-		echo ErrorMessage( $error );
-	}
+	echo ErrorMessage( $error );
 
-	if ( $note )
-	{
-		echo ErrorMessage( $note, 'note' );
-	}
+	echo ErrorMessage( $note, 'note' );
 
 	echo '</div>';
 }

@@ -314,8 +314,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
 if (empty($_REQUEST['modfunc']))
 {

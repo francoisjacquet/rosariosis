@@ -39,11 +39,9 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 	}
 }
 
-if (isset($note))
-	echo ErrorMessage($note,'note');
+echo ErrorMessage( $note,'note' );
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
 if ( $_REQUEST['modfunc']!='delete')
 {

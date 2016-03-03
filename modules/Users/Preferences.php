@@ -104,11 +104,9 @@ if ( $_REQUEST['values'] && $_POST['values'])
 unset($_REQUEST['search_modfunc']);
 unset($_SESSION['_REQUEST_vars']['search_modfunc']);
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
-if (isset($note))
-	echo ErrorMessage($note,'note');
+echo ErrorMessage( $note,'note' );
 
 if (empty($_REQUEST['modfunc']))
 {

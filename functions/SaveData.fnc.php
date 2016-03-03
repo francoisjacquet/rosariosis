@@ -129,11 +129,7 @@ function SaveData( $iu_extra, $field_names = array() )
 					' WHERE ' . str_replace( '__ID__', $id, $iu_extra[ $table ] );
 			}
 
-			// Display errors if any.
-			if ( $error )
-			{
-				echo ErrorMessage( $error );
-			}
+			echo ErrorMessage( $error );
 
 			if ( $go )
 			{

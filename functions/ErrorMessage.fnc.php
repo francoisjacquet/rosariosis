@@ -6,6 +6,10 @@
  * @subpackage functions
  */
 
+// Declare Error & Note & Warning global arrays.
+$note = $error = $warning = array();
+
+
 /**
  * Error Message
  *
@@ -33,65 +37,68 @@
  */
 function ErrorMessage( $errors, $code = 'error' )
 {
+	if ( ! $errors
+		|| ! is_array( $errors ) )
+	{
+		return '';
+	}
+
 	$return = '';
 
-	if ( is_array( $errors )
-		&& count( $errors ) )
+	// Error.
+	if ( $code === 'error'
+		|| $code === 'fatal' )
 	{
-		// Error.
-		if ( $code === 'error'
-			|| $code === 'fatal' )
+		$return .= '<div class="error"><p>' . button( 'x' ) .'&nbsp;<b>' . _( 'Error' ) . ':</b> ';
+	}
+	// Warning.
+	elseif ( $code === 'warning' )
+	{
+		$return .= '<div class="error"><p>' . button( 'warning' ) . '&nbsp;<b>' . _( 'Warning' ) . ':</b> ';
+	}
+	// Note / Update.
+	else
+	{
+		$return .= '<div class="updated"><p><b>' . _( 'Note' ) . ':</b> ';
+	}
+
+	if ( count( $errors ) === 1 )
+	{
+		$return .= ( isset( $errors[0] ) ? $errors[0] : $errors[1] ) . '</p>';
+	}
+	// More than one error: list.
+	else
+	{
+		$return .= '</p><ul>';
+
+		foreach ( (array) $errors as $error )
 		{
-			$return .= '<div class="error"><p>' . button( 'x' ) .'&nbsp;<b>' . _( 'Error' ) . ':</b> ';
+			$return .= '<li>' . $error . '</li>';
 		}
-		// Warning.
-		elseif ( $code === 'warning' )
+
+		$return .= '</ul>';
+	}
+
+	$return .= '</div><br />';
+
+	// Fatal error, display error and exit.
+	if ( $code === 'fatal' )
+	{
+		echo $return;
+
+		if ( ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
-			$return .= '<div class="error"><p>' . button( 'warning' ) . '&nbsp;<b>' . _( 'Warning' ) . ':</b> ';
+			Warehouse( 'footer' );
 		}
-		// Note / Update.
 		else
 		{
-			$return .= '<div class="updated"><p><b>' . _( 'Note' ) . ':</b> ';
-		}
-
-		if ( count( $errors ) === 1 )
-		{
-			$return .= ( isset( $errors[0] ) ? $errors[0] : $errors[1] ) . '</p>';
-		}
-		// More than one error: list.
-		else
-		{
-			$return .= '</p><ul>';
-
-			foreach ( (array) $errors as $error )
-			{
-				$return .= '<li>' . $error . '</li>';
-			}
-
-			$return .= '</ul>';
-		}
-
-		$return .= '</div><br />';
-
-		// Fatal error, display error and exit.
-		if ( $code === 'fatal' )
-		{
-			echo $return;
-
-			if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
-				Warehouse( 'footer' );
-
 			// FJ force PDF on fatal error.
-			else
-			{
-				global $print_data;
+			global $print_data;
 
-				PDFStop( $print_data );
-			}
-
-			exit;
+			PDFStop( $print_data );
 		}
+
+		exit;
 	}
 
 	return $return;

@@ -336,8 +336,7 @@ if ( isset( $_REQUEST['modfunc'] )
 	}
 }
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
 if (empty($_REQUEST['modfunc']))
 {

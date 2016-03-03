@@ -234,8 +234,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	unset($_SESSION['email_column'], $email_column);
 }
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
 if (empty($_REQUEST['modfunc']) && !empty($email_column))
 {

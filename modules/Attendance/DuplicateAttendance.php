@@ -184,11 +184,9 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 
 		DrawHeader(ProgramTitle());
 	   
-		if (isset($error))
-			echo ErrorMessage($error);
+		echo ErrorMessage( $error );
 
-		if (isset($note))
-			echo ErrorMessage($note, 'note');
+		echo ErrorMessage( $note, 'note' );
 
 		echo '<form action="Modules.php?modname=Attendance/DuplicateAttendance.php&modfunc=&search_modfunc=list&next_modname=Attendance/DuplicateAttendance.php&delete=true" method="POST">';
 
@@ -361,8 +359,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 
 if ( !isset($_REQUEST['search_modfunc']) && $_REQUEST['delete']!='true')
 {
-	if (isset($error))
-		echo ErrorMessage($error);
+	echo ErrorMessage( $error );
 			
 	DrawHeader(ProgramTitle());
 

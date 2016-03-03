@@ -35,7 +35,7 @@ if ( isset( $_POST['values'] )
 			if ( $column_data_type === 'numeric'
 				&& ! is_numeric( $value ) )
 			{
-				$error[] = _('Please enter valid Numeric data.');
+				$error[] = _( 'Please enter valid Numeric data.' );
 				continue;
 			}
 
@@ -70,8 +70,7 @@ if ( isset( $_POST['values'] )
 
 DrawHeader(ProgramTitle());
 
-if ( $error)
-	echo ErrorMessage(array(_('Please enter valid Numeric data.')));
+echo ErrorMessage( $error );
 
 if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
@@ -283,13 +282,13 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 	}
 	else
 	{
-		$error[] = _('No Students were found.');
+		$error[] = _( 'No Students were found.' );
+
 		$_REQUEST['referral_id'] = false;
 	}
 }
 
-if (isset($error))
-	echo ErrorMessage($error);
+echo ErrorMessage( $error );
 
 if ( ! $_REQUEST['referral_id'] && ! $_REQUEST['modfunc'])
 	Search('student_id',$extra);

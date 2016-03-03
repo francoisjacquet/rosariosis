@@ -62,8 +62,9 @@ Changes in 2.9
 - Add jQuery Pin Menu plugin in assets/js/jquery-pinmenu/
 - Add STUDENTS_EMAIL_FIELD to CONFIG table in rosariosis.sql & Configuration.php
 - Add Password Reset feature in PasswordReset.php
-- Update TinyMCE to version 4.3.4 in assets/js/tinymce/
+- Update TinyMCE to version 4.3.6 in assets/js/tinymce/
 - Add TinyMCEInput() & SanitizeHTML() functions in Inputs.php & MarkDownHTML.fnc.php
+- Declare $error, $note, $warning globals in ErrorMessage.fnc.php & program wide
 
 Changes in 2.8.11
 -----------------
