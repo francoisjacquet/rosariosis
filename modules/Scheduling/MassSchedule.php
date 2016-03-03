@@ -78,10 +78,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	unset($_SESSION['MassSchedule.php']);
 }
 
-if (isset($error))
-	echo ErrorMessage($error);
-if (isset($note))
-	echo ErrorMessage($note, 'note');
+echo ErrorMessage( $error );
+
+echo ErrorMessage( $note, 'note' );
 		
 if (empty($_REQUEST['modfunc']))
 {

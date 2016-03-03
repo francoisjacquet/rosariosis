@@ -67,9 +67,8 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 	}
 }
 
-//FJ fix SQL bug invalid numeric data
-if (isset($error))
-	echo ErrorMessage($error);
+// FJ fix SQL bug invalid numeric data
+echo ErrorMessage( $error );
 
 if ( $_REQUEST['modfunc']!='remove')
 {

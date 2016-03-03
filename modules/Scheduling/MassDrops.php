@@ -86,10 +86,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 }
 
 
-if (isset($error))
-	echo ErrorMessage($error);
-if (isset($note))
-	echo ErrorMessage($note, 'note');
+echo ErrorMessage( $error );
+
+echo ErrorMessage( $note, 'note' );
 
 if ( $_REQUEST['modfunc']!='choose_course')
 {

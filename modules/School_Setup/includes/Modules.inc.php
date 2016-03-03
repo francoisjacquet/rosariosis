@@ -152,8 +152,7 @@ if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 if (empty($_REQUEST['modfunc']))
 {
 	
-	if ( $error)
-		echo ErrorMessage($error);
+	echo ErrorMessage( $error );
 
 	$modules_RET = array('');
 	foreach ( (array) $RosarioModules as $module_title => $activated)

@@ -527,9 +527,8 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 
 if ((! $_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && ! $_REQUEST['course_modfunc'])
 {
-//FJ fix SQL bug invalid sort order
-	if (isset($error))
-		echo ErrorMessage($error);
+	// FJ fix SQL bug invalid sort order
+	echo ErrorMessage( $error );
 	
 	$sql = "SELECT SUBJECT_ID,TITLE FROM COURSE_SUBJECTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".($_REQUEST['modfunc']=='choose_course'&&$_REQUEST['last_year']=='true'?UserSyear()-1:UserSyear())."' ORDER BY SORT_ORDER,TITLE";
 	$QI = DBQuery($sql);

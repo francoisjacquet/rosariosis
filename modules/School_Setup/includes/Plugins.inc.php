@@ -139,8 +139,7 @@ if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 if (empty($_REQUEST['modfunc']))
 {
 	
-	if ( $error)
-		echo ErrorMessage($error);
+	echo ErrorMessage( $error );
 
 	$plugins_RET = array('');
 	foreach ( (array) $RosarioPlugins as $plugin_title => $activated)

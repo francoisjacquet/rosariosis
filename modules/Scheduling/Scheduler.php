@@ -270,9 +270,7 @@ if ( $ok )
 		DBQuery("ANALYZE");
 	}
 
-	$error_msg = '';
-	if (isset($error))
-		$error_msg = ErrorMessage($error);
+	$error_msg = ErrorMessage( $error );
 
 	echo '<script>document.getElementById("percentDIV").innerHTML = '.json_encode($error_msg. button('check', '', '', 'bigger') .' <b>'._('Done.').'</b>').';</script>';
 	ob_end_flush();

@@ -34,10 +34,9 @@ if ( $_REQUEST['modfunc']!='choose_course')
 {
 	DrawHeader(ProgramTitle());
 	
-	if (isset($error))
-		echo ErrorMessage($error);
-	if (isset($note))
-		echo ErrorMessage($note, 'note');
+	echo ErrorMessage( $error );
+
+	echo ErrorMessage( $note, 'note' );
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{

@@ -57,4 +57,7 @@ if ( ! $extra['link']['FULL_NAME'])
 $extra['new'] = true;
 $extra['Redirect'] = false;
 
+// Deactivate List saving.
+$extra['options']['save'] = false;
+
 Search('student_id',$extra);
