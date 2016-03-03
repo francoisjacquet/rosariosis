@@ -482,9 +482,7 @@ function MarkDownInputPreview( $input_id )
 		<a href="https://github.com/francoisjacquet/rosariosis/wiki/Markdown-Cheatsheet" title="<?php echo _( 'Mastering MarkDown' ); ?>" target="_blank" class="md-link">
 			<img class="button" src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/btn/md_button.png" />
 		</a>
-		<div class="markdown-to-html" id="divMDPreview<?php echo $input_id; ?>">
-			<p><?php echo _( 'Nothing to preview.' ); ?></p>
-		</div>
+		<div class="markdown-to-html" id="divMDPreview<?php echo $input_id; ?>"><?php echo _( 'Nothing to preview.' ); ?></div>
 	</div>
 	<?php
 
