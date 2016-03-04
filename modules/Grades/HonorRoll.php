@@ -1,6 +1,6 @@
 <?php
 
-require_once 'ProgramFunctions/getRawPOSTvar.fnc.php';
+require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 {
@@ -8,8 +8,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		if (empty($_REQUEST['list']))//certificate
 		{
-			//FJ bypass strip_tags on the $_REQUEST vars
-			$REQUEST_honor_roll_text = GetRawPOSTvar('honor_roll_text');
+			$REQUEST_honor_roll_text = SanitizeHTML( $_POST['honor_roll_text'] );
 		}
 
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
@@ -116,24 +115,25 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			foreach ( (array) $RET as $student)
 			{
-				//note Francois: bug: small white border at the bottom of page
-				//adapt height if US Letter paper
-				$height = '270mm';
+				echo '<style type="text/css">
+					body {
+						margin:0;
+						padding:0;
+						width:100%;
+						height:100%;';
 
-				if (Preferences('PAGE_SIZE') == 'LETTER')
-					$height = '296mm';
-
-				echo '<style type="text/css"> body {margin:0; padding:0;} div#background {background: width:100%; height:'.$height.'; position:relative;} div#background * {z-index:1; position:relative;}</style>';
-				echo '<div id="background">';
-
-				if ( !empty($_REQUEST['frame']))
+				if ( isset( $_REQUEST['frame'] ) )
 				{
-					echo '<img src="assets/Frames/'.$_REQUEST['frame'].'" style="z-index:0; width:100%; height:100%; position:absolute;" />';
+					echo 'background:url(assets/Frames/' . $_REQUEST['frame'] . ') no-repeat;
+						background-size:100% 100%;';
 				}
 
-				echo '<table style="margin:auto auto; height:77%;">';
+				echo '}</style>';
+
+				echo '<table style="margin:auto auto;">';
 				
-				$honor_roll_text = nl2br(str_replace('  ',' &nbsp;',$REQUEST_honor_roll_text));
+				$honor_roll_text = $REQUEST_honor_roll_text;
+
 				$honor_roll_text = str_replace(array('__FULL_NAME__',
 				'__FIRST_NAME__',
 				'__LAST_NAME__',
@@ -153,7 +153,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				
 				echo '<tr><td>'.$honor_roll_text.'</td></tr></table>';
 				
-				echo '<table style="margin:auto auto; width:80%;">';
+				echo '<br /><table style="margin:auto auto; width:80%;">';
 
 				echo '<tr><td><span style="font-size:x-large;">'.$student['TEACHER'].'</span><br /><span style="font-size:medium;">'._('Teacher').'</span></td>';
 				echo '<td><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><br /><span style="font-size:medium;">'._('Marking Period').'</span></td></tr>';
@@ -182,49 +182,6 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		//FJ add TinyMCE to the textarea
-		?>
-<!-- Load TinyMCE -->
-<script src="assets/js/tiny_mce_3.5.8_jquery/jquery.tinymce.js"></script>
-<script>
-	// Rosario customed version of TinyMCE jQuery
-	$().ready(function() {
-		var resize_tinymce = (screen.width<768 ? true : false);
-		$('textarea.tinymce').tinymce({
-			// Location of TinyMCE script
-			script_url : 'assets/js/tiny_mce_3.5.8_jquery/tiny_mce.js',
-
-			// General options
-			theme : "advanced",
-			plugins : "contextmenu,inlinepopups,paste,table",
-			
-			// Plugins options
-			pagebreak_separator : '<div style="page-break-after: always;"></div>',
-
-			// Language
-			language : "<?php echo file_exists('assets/js/tiny_mce_3.5.8_jquery/langs/'.mb_substr($locale, 0, 2).'.js') ? mb_substr($locale, 0, 2) : 'en'; ?>",
-			
-			// Theme options
-			theme_advanced_buttons1 : "cut,copy,paste,pastetext,pasteword,|,undo,redo,|,image,code,cleanup,help",
-			theme_advanced_buttons2 : "formatselect,fontsizeselect,|,bold,italic,underline,strikethrough",
-			theme_advanced_buttons3 : "justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,forecolor",
-			theme_advanced_buttons4 : "pagebreak,|,sub,sup,charmap,blockquote,|,hr,removeformat,visualaid",
-			theme_advanced_buttons5 : "tablecontrols",
-			theme_advanced_toolbar_location : "top",
-			theme_advanced_toolbar_align : "left",
-			theme_advanced_statusbar_location : "bottom",
-			theme_advanced_resizing : resize_tinymce, //textarea size fits a PDF page!
-			
-			// Produce BR elements on enter/return instead of P elements
-			forced_root_block : false,
-
-			// Example content CSS (should be your site CSS)
-			//content_css : "assets/themes/<?php echo Preferences('THEME'); ?>/stylesheet.css",
-		});
-	});
-</script>
-<!-- /TinyMCE -->
-<?php
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Create Honor Roll for Selected Students'));
 
@@ -235,16 +192,21 @@ if (empty($_REQUEST['modfunc']))
 
 		$extra['extra_header_left'] .= '<tr><td><label><input type="radio" name="list" value="" checked /> '._('Certificates').':</label></td></tr>';
 
+		//FJ add Template
+		$templates = DBGet( DBQuery( "SELECT TEMPLATE, STAFF_ID
+			FROM TEMPLATES WHERE MODNAME = '" . $_REQUEST['modname'] . "'
+			AND STAFF_ID IN (0,'" . User( 'STAFF_ID' ) . "')" ), array(), array( 'STAFF_ID' ) );
+
 		//FJ add TinyMCE to the textarea
 		$extra['extra_header_left'] .= '<tr><td>&nbsp;</td></tr>
 		<tr class="st"><td style="vertical-align: top;">'._('Text').'</td>
-		<td colspan="4"><textarea name="honor_roll_text" class="tinymce">';
-
-		//FJ add Template
-		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
-		$extra['extra_header_left'] .= str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'),($templates[User('STAFF_ID')] ? $templates[User('STAFF_ID')][1]['TEMPLATE'] : $templates[0][1]['TEMPLATE']));
-
-		$extra['extra_header_left'] .= '</textarea></td></tr>';
+		<td>' .
+		TinyMCEInput(
+			( isset( $templates[ User( 'STAFF_ID' ) ] ) ?
+				$templates[ User( 'STAFF_ID' ) ][1]['TEMPLATE'] :
+				$templates[0][1]['TEMPLATE'] ),
+			'honor_roll_text'
+		) . '</td></tr>';
 
 		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__FULL_NAME__</td><td>= '._('Last, First M').'</td><td>&nbsp;</td>';
