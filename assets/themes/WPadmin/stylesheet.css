@@ -891,6 +891,14 @@ div.st{
 	display: none;
 }
 
+/*320 & 360px mobile*/
+@media only screen and (max-width:479px){
+	/*Stackable tables: columns always align left*/
+	.st > .align-right{
+		text-align: left;
+	}
+}
+
 /*mobile*/
 @media only screen and (max-width:640px){
 	/*quick smartphone reset*/
@@ -963,6 +971,10 @@ div.st{
 	table.col1-align-right > tbody > tr.st > td:first-child{
 		text-align:left
 	}
+	.fixed-col{
+		table-layout:auto; /*no fixed layout for stackable tables*/
+	}
+
 	.divPortalPoll{
 		min-width: 0
 	}
