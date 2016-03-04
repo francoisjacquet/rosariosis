@@ -1309,6 +1309,19 @@ CREATE TABLE school_gradelevels (
 
 
 --
+-- Name: student_assignments; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
+--
+
+CREATE TABLE student_assignments (
+    assignment_id numeric NOT NULL,
+    student_id numeric NOT NULL,
+    data text
+);
+
+
+
+
+--
 -- Name: student_enrollment; Type: TABLE; Schema: public; Owner: rosariosis; Tablespace: 
 --
 
@@ -1707,7 +1720,8 @@ CREATE TABLE gradebook_assignments (
     due_date date,
     points numeric NOT NULL,
     description character varying(1000),
-    default_points numeric
+    default_points numeric,
+    submission character varying(1)
 );
 
 
@@ -3976,6 +3990,7 @@ INSERT INTO profile_exceptions VALUES (3, 'Scheduling/PrintSchedules.php', 'Y', 
 INSERT INTO profile_exceptions VALUES (3, 'Scheduling/PrintClassPictures.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Scheduling/Requests.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/StudentGrades.php', 'Y', NULL);
+INSERT INTO profile_exceptions VALUES (3, 'Grades/StudentAssignments.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/FinalGrades.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/ReportCards.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (3, 'Grades/Transcripts.php', 'Y', NULL);
@@ -3999,6 +4014,7 @@ INSERT INTO profile_exceptions VALUES (0, 'Scheduling/PrintSchedules.php', 'Y', 
 INSERT INTO profile_exceptions VALUES (0, 'Scheduling/PrintClassPictures.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Scheduling/Requests.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/StudentGrades.php', 'Y', NULL);
+INSERT INTO profile_exceptions VALUES (0, 'Grades/StudentAssignments.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/FinalGrades.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/ReportCards.php', 'Y', NULL);
 INSERT INTO profile_exceptions VALUES (0, 'Grades/Transcripts.php', 'Y', NULL);
@@ -4865,6 +4881,14 @@ ALTER TABLE ONLY staff_fields
 
 ALTER TABLE ONLY staff
     ADD CONSTRAINT staff_pkey PRIMARY KEY (staff_id);
+
+
+--
+-- Name: student_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: rosariosis; Tablespace: 
+--
+
+ALTER TABLE ONLY student_assignments
+    ADD CONSTRAINT student_assignments_pkey PRIMARY KEY (assignment_id, student_id);
 
 
 --

@@ -65,6 +65,7 @@ Changes in 2.9
 - Update TinyMCE to version 4.3.6 in assets/js/tinymce/
 - Add TinyMCEInput() & SanitizeHTML() functions in Inputs.php & MarkDownHTML.fnc.php
 - Declare $error, $note, $warning globals in ErrorMessage.fnc.php & program wide
+- Add Student Assignments program + related SQL + assets/AssignmentsFiles/ folder
 
 Changes in 2.8.11
 -----------------

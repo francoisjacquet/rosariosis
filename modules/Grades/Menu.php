@@ -50,7 +50,7 @@ $menu['Grades']['teacher'] = array(
 	//'Grades/Assignments-new.php' => _( 'Assignments' ),
 	'Grades/AnomalousGrades.php' => _( 'Anomalous Grades' ),
 	'Grades/ProgressReports.php' => _( 'Progress Reports' ),
-	//FJ add Grade Breakdown
+	// FJ add Grade Breakdown.
 	'Grades/GradebookBreakdown.php' => _( 'Grade Breakdown' ),
 	2 => _( 'Reports' ),
 	'Grades/StudentGrades.php' => _( 'Student Grades' ),
@@ -60,7 +60,7 @@ $menu['Grades']['teacher'] = array(
 	'Grades/Configuration.php' => _( 'Configuration' ),
 	'Grades/ReportCardGrades.php' => _( 'Grading Scales' ),
 	'Grades/ReportCardComments.php' => _( 'Report Card Comments' ),
-	'Grades/ReportCardCommentCodes.php' => _( 'Comment Codes' )
+	'Grades/ReportCardCommentCodes.php' => _( 'Comment Codes' ),
 );
 
 $menu['Grades']['parent'] = array(
@@ -71,7 +71,7 @@ $menu['Grades']['parent'] = array(
 	'Grades/FinalGrades.php' => _( 'Final Grades' ),
 	'Grades/ReportCards.php' => _( 'Report Cards' ),
 	'Grades/Transcripts.php' => _( 'Transcripts' ),
-	'Grades/GPARankList.php' => _( 'GPA / Class Rank' )
+	'Grades/GPARankList.php' => _( 'GPA / Class Rank' ),
 );
 
 if ( $RosarioModules['Users'] )
@@ -79,10 +79,10 @@ if ( $RosarioModules['Users'] )
 	$menu['Users']['admin'] += array(
 		'Users/TeacherPrograms.php&include=Grades/InputFinalGrades.php' => _( 'Input Final Grades' ),
 		'Users/TeacherPrograms.php&include=Grades/Grades.php' => _( 'Gradebook Grades' ),
-		'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php' => _( 'Anomalous Grades' )
+		'Users/TeacherPrograms.php&include=Grades/AnomalousGrades.php' => _( 'Anomalous Grades' ),
 	);
 }
 
 $exceptions['Grades'] = array(
-	'Grades/CalcGPA.php' => true
+	'Grades/CalcGPA.php' => true,
 );

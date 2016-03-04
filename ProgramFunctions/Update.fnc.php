@@ -60,6 +60,7 @@ function Update()
  * 3. Add course_period_school_periods_id column to course_period_school_periods table PRIMARY KEY
  * 4. Update STUDENT_MP_COMMENTS table
  * 5. Create school_fields_seq Sequence
+ * 6. Add STUDENT_ASSIGNMENTS table & SUBMISSION column to GRADEBOOK_ASSIGNMENTS table
  *
  * Local function
  *
@@ -184,7 +185,8 @@ function _update29alpha()
 
 
 	// 5. Create school_fields_seq Sequence.
-	$sequence_exists = DBGet( DBQuery( "SELECT 1 FROM pg_class where relname = 'school_fields_seq'" ) );
+	$sequence_exists = DBGet( DBQuery( "SELECT 1 FROM pg_class
+		WHERE relname = 'school_fields_seq'" ) );
 
 	if ( ! $sequence_exists )
 	{
@@ -196,6 +198,38 @@ function _update29alpha()
 		CACHE 1;
 
 		SELECT pg_catalog.setval('school_fields_seq', 99, true);" );
+	}
+
+
+	/**
+	 * 6. Add STUDENT_ASSIGNMENTS table (& its composite primary key)
+	 * & add SUBMISSION column to GRADEBOOK_ASSIGNMENTS table.
+	 */
+	DBQuery( "CREATE TABLE IF NOT EXISTS student_assignments (
+		assignment_id numeric NOT NULL,
+		student_id numeric NOT NULL,
+		data text
+	);");
+
+	$sa_constraint_exists = DBGet( DBQuery( "SELECT 1
+		FROM information_schema.constraint_column_usage
+		WHERE table_name = 'student_assignments'
+		AND constraint_name = 'student_assignments_pkey'" ) );
+
+	if ( ! $sa_constraint_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY student_assignments
+			ADD CONSTRAINT student_assignments_pkey PRIMARY KEY (assignment_id, student_id);" );
+	}
+
+	$submission_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute 
+		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'gradebook_assignments') 
+		AND attname = 'submission';" ) );
+
+	if ( ! $submission_column_exists )
+	{
+		DBQuery( "ALTER TABLE ONLY gradebook_assignments
+			ADD COLUMN submission character varying(1);" );
 	}
 
 	return $return;
