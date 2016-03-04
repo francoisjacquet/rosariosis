@@ -540,7 +540,8 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 		{
 			$return = InputDivOnclick(
 				$id,
-				$checkbox,
+				$checkbox .
+					'<input type="hidden" name="' . $name . '" value="" />', // Save unchecked value!
 				( $value ?
 					( $yes === 'Yes' ? _( 'Yes' ) : $yes ) :
 					( $no === 'No' ? _( 'No' ) : $no ) ),
