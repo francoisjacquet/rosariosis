@@ -769,8 +769,7 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 if ( empty( $_REQUEST['modfunc'] ) )
 {
 
-	if ( isset( $error ) )
-		echo ErrorMessage( $error );
+	echo ErrorMessage( $error );
 
 	$last = 31;
 

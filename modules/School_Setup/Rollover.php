@@ -56,7 +56,7 @@ if (Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to ro
 					//hook
 					do_action('School_Setup/Rollover.php|rollover_checks');
 
-					if ( !isset($error))
+					if ( ! $error )
 						Rollover($table);
 				}
 			}
@@ -69,7 +69,7 @@ if (Prompt(_('Confirm').' '._('Rollover'),sprintf(_('Are you sure you want to ro
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 
-	if ( !isset($error))
+	if ( ! $error )
 		echo ErrorMessage(array(button('check', '', '', 'bigger') .'&nbsp;'._('The data have been rolled.')), 'note');
 	else
 		echo ErrorMessage($error);

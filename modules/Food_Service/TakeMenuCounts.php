@@ -140,8 +140,7 @@ if ( $completed[1]['COMPLETED'])
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note,SubmitButton(_('Save')));
 
-if (isset($note))
-	echo ErrorMessage($note, 'note');
+echo ErrorMessage( $note, 'note' );
 
 $meal_RET = DBGet(DBQuery('SELECT DESCRIPTION FROM CALENDAR_EVENTS WHERE SYEAR='.UserSyear().' AND SCHOOL_ID='.UserSchool().' AND SCHOOL_DATE=\''.$date.'\' AND TITLE=\''.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'\''));
 

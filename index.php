@@ -310,15 +310,9 @@ if ( empty( $_SESSION['STAFF_ID'] )
 		}
 	}
 
-	if ( isset( $error ) )
-	{
-		echo ErrorMessage( $error );
-	}
+	echo ErrorMessage( $error );
 
-	if ( isset( $note ) )
-	{
-		echo ErrorMessage( $note, 'note' );
-	}
+	echo ErrorMessage( $note, 'note' );
 
 ?>
 

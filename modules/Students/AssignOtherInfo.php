@@ -101,12 +101,12 @@ if ( $_REQUEST['modfunc'] === 'save' )
 
 		if ( $values_count && $students_count)
 			DBQuery('UPDATE STUDENTS SET '.mb_substr($update,1).' WHERE STUDENT_ID IN ('.mb_substr($students,1).')');
-		elseif (isset($warning))
+		elseif ( $warning )
 			$warning[0] = mb_substr($warning,0,mb_strpos($warning,'. '));
 		elseif ( $grade_id=='' && $next_school=='' && ! $calendar && $start_date=='' && $enrollment_code=='')
 			$warning[] = _('No data was entered.');
 
-		if ( !isset($warning))
+		if ( ! $warning )
 			$note[] = button('check') .'&nbsp;'._('The specified information was applied to the selected students.');
 	}
 	else

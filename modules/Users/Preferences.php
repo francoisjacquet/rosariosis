@@ -15,7 +15,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		//hook
 		do_action('Users/Preferences.php|update_password_checks');
 
-		if ( !isset($error))
+		if ( ! $error )
 		{
 			//FJ enable password change for students
 			if (User('PROFILE')=='student')

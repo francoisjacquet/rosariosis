@@ -135,7 +135,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 			$error[] = _('A user with that username already exists. Choose a different username and try again.');
 		}
 
-		if (UserStaffID() && !isset($error))
+		if (UserStaffID() && ! $error )
 		{
 
 			//hook
@@ -161,7 +161,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 				DBQuery("INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME,CAN_USE,CAN_EDIT) SELECT s.STAFF_ID,e.MODNAME,e.CAN_USE,e.CAN_EDIT FROM STAFF s,PROFILE_EXCEPTIONS e WHERE s.STAFF_ID='".UserStaffID()."' AND s.PROFILE_ID=e.PROFILE_ID");
 			}
 
-			if ( !isset($error))
+			if ( ! $error )
 			{
 				$sql = "UPDATE STAFF SET ";
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM STAFF_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
@@ -203,7 +203,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 			}
 		
 		}
-		elseif ( !isset($error)) //new user
+		elseif ( ! $error ) //new user
 		{
 
 			//hook
@@ -216,7 +216,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 			elseif ( $_REQUEST['staff']['PROFILE']=='parent')
 				$_REQUEST['staff']['PROFILE_ID'] = '3';
 
-			if ( !isset($error))
+			if ( ! $error )
 			{
 				$staff_id = DBGet(DBQuery('SELECT '.db_seq_nextval('STAFF_SEQ').' AS STAFF_ID'));
 				$staff_id = $staff_id[1]['STAFF_ID'];

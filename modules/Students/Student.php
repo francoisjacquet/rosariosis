@@ -120,20 +120,20 @@ if ( $_REQUEST['modfunc'] === 'update'
 			$error[] = _('A user with that username already exists. Choose a different username and try again.');
 		}
 
-		if (UserStudentID() && !isset($error))
+		if (UserStudentID() && ! $error )
 		{
 
 			//hook
 			do_action('Students/Student.php|update_student_checks');
 
 			// update enrollment
-			if (count($_REQUEST['values']) && !isset($error))
+			if (count($_REQUEST['values']) && ! $error )
 			{
 				require_once 'modules/Students/includes/SaveEnrollment.fnc.php';
 				SaveEnrollment();
 			}
 
-			if (count($_REQUEST['students']) && !isset($error))
+			if (count($_REQUEST['students']) && ! $error )
 			{
 				$sql = "UPDATE STUDENTS SET ";
 				$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM CUSTOM_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
@@ -193,7 +193,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			}
 
 		}
-		elseif ( !isset($error)) //new student
+		elseif ( ! $error ) //new student
 		{
 			if ( isset( $_REQUEST['assign_student_id'] )
 				&& $_REQUEST['assign_student_id'] !== '' )
@@ -214,7 +214,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 			//hook
 			do_action('Students/Student.php|create_student_checks');
 
-			if ( !isset($error))
+			if ( ! $error )
 			{
 				if ( !isset($student_id))
 					do

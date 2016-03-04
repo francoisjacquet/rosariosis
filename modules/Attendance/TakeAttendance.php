@@ -229,8 +229,7 @@ DrawHeader('',SubmitButton(_('Save')));
 DrawHeader(PrepareDate($date,'_date',false,array('submit'=>true)).$date_note);
 //DrawHeader($note);
 
-if (isset($note))
-	echo ErrorMessage($note,'note');
+echo ErrorMessage( $note, 'note' );
 
 $LO_columns = array('FULL_NAME' => _('Student'),'STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')),'GRADE_ID' => _('Grade Level')) + $columns;
 

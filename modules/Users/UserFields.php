@@ -169,10 +169,7 @@ if ( $_REQUEST['modfunc'] == 'delete'
 
 if ( ! $_REQUEST['modfunc'] )
 {
-	if ( isset( $error ) ) 
-	{
-		echo ErrorMessage( $error );
-	}
+	echo ErrorMessage( $error );
 	
 	// ADDING & EDITING FORM.
 	if ( $_REQUEST['id']

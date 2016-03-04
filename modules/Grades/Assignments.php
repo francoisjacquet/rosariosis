@@ -224,7 +224,7 @@ if ( isset( $_POST['tables'] )
 		else
 			$error[] = _( 'Please fill in the required fields' );
 
-		if ( !isset($error) && $go)
+		if ( ! $error && $go)
 		{
 			DBQuery($sql);
 			
