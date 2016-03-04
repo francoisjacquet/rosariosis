@@ -1,0 +1,14 @@
+TinyMCE 4.3.6 custom build
+==========================
+
+https://www.tinymce.com/download/custom-builds/
+
+- Skin: lightgrey
+
+- Theme: modern
+
+- All addons excepted:
+   - bbcode
+   - spellchecker (requires server activation)
+
+- All JS files combined.
