@@ -408,7 +408,8 @@ function Warehouse( $mode )
 ?>
 	</div><!-- #body -->
 <?php
-				if ( $_ROSARIO['not_ajax'] ) :
+				if ( $_ROSARIO['not_ajax']
+					&& ! $_ROSARIO['is_popup'] ) :
 ?>
 	<div style="clear:both;"></div>
 </div><!-- #wrap -->
