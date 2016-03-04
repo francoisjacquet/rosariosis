@@ -99,7 +99,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			echo '<td><span style="font-size:x-large;">'.$mp_RET[1]['TITLE'].'</span><br /><span style="font-size:medium;">'._('Marking Period').'</span></td></tr>';
 
 			echo '<tr><td><span style="font-size:x-large;">'.$school_info_RET[1]['PRINCIPAL'].'</span><br /><span style="font-size:medium;">'._('Principal').'</span></td>';
-			echo '<td><span style="font-size:x-large;">'.ProperDate(date('Y.m.d',strtotime($mp_RET[1]['END_DATE']))).'</span><br /><span style="font-size:medium;">'._('Date').'</span></td></tr>';
+			echo '<td><span style="font-size:x-large;">' .
+				ProperDate( $mp_RET[1]['END_DATE'] ) .
+				'</span><br />
+				<span style="font-size:medium;">' . _( 'Date' ) . '</span></td></tr>';
 
 			echo '</table></div>';
 			echo '<div style="page-break-after: always;"></div>';

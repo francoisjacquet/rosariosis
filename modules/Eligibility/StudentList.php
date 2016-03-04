@@ -33,19 +33,22 @@ switch (date('D'))
 }
 
 $start = time() - ($today-$START_DAY)*60*60*24;
-$end = time();
 
-if ( ! $_REQUEST['start_date'])
+if ( ! $_REQUEST['start_date'] )
 {
 	$start_time = $start;
-	$start_date = mb_strtoupper(date('d-M-Y',$start_time));
-	$end_date = mb_strtoupper(date('d-M-Y',$end));
+
+	$start_date =  date( 'Y-m-d', $start_time );
+
+	$end_date =  date( 'Y-m-d', DBDate() );
 }
 else
 {
 	$start_time = $_REQUEST['start_date'];
-	$start_date = mb_strtoupper(date('d-M-Y',$start_time));
-	$end_date = mb_strtoupper(date('d-M-Y',$start_time+60*60*24*7));
+
+	$start_date =  date( 'Y-m-d', $start_time );
+
+	$end_date =  date( 'Y-m-d', $start_time + 60 * 60 * 24 * 7 );
 }
 
 
@@ -60,9 +63,9 @@ if ( $_REQUEST['search_modfunc'] || User('PROFILE')=='parent' || User('PROFILE')
 	if (is_null($begin_year))
 		ErrorMessage(array(_('There are no calendars yet setup.')), 'fatal');
 	
-	$date_select = '<option value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</option>';
+	$date_select = '<option value="'.$start.'">'.ProperDate( date( 'Y-m-d', $start)).' - '.ProperDate( DBDate() ).'</option>';
 	for ( $i=$start-(60*60*24*7);$i>=$begin_year;$i-=(60*60*24*7))
-		$date_select .= '<option value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' selected':'').'>'.ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</option>';
+		$date_select .= '<option value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' selected':'').'>'.ProperDate( date( 'Y-m-d', $i)).' - '.ProperDate( date( 'Y-m-d', ($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</option>';
 	
 	DrawHeader('<select name="start_date">'.$date_select.'</select>'.$period_select.' '.SubmitButton(_('Go')));
 	echo '</form>';

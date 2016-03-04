@@ -637,8 +637,6 @@ if ( $_REQUEST['values'] && $_POST['values'] && $_REQUEST['submit']['cancel'])
 	unset($_SESSION['_REQUEST_vars']['values']);
 }
 
-$time = strtotime(DBDate());
-
 $mps_onchange_URL = "'Modules.php?modname=" . $_REQUEST['modname'] .
 	'&include_inactive=' . $_REQUEST['include_inactive'] . "&mp='";
 
@@ -647,26 +645,46 @@ $mps_select .= '<select name="mp" onchange="ajaxLink(' . $mps_onchange_URL . ' +
 if ( $pros!='')
 	foreach ( explode(',',str_replace("'",'',$pros)) as $pro)
 	{
-		if ( $_REQUEST['mp']==$pro && GetMP($pro,'POST_START_DATE') && ($time>=strtotime(GetMP($pro,'POST_START_DATE')) && $time<=strtotime(GetMP($pro,'POST_END_DATE'))))
+		if ( $_REQUEST['mp'] == $pro
+			&& GetMP( $pro, 'POST_START_DATE' )
+			&& DBDate() >= GetMP( $pro, 'POST_START_DATE' )
+			&& DBDate() <= GetMP( $pro, 'POST_END_DATE' ) )
+		{
 			$allow_edit = true;
+		}
 
 		if (GetMP($pro,'DOES_GRADES')=='Y')
 			$mps_select .= '<option value="'.$pro.'"'.(($pro==$_REQUEST['mp'])?' selected':'').">".GetMP($pro)."</option>";
 	}
 
-if ( $_REQUEST['mp']==UserMP() && GetMP(UserMP(),'POST_START_DATE') && ($time>=strtotime(GetMP(UserMP(),'POST_START_DATE')) && $time<=strtotime(GetMP(UserMP(),'POST_END_DATE'))))
+if ( $_REQUEST['mp'] == UserMP()
+	&& GetMP( UserMP(), 'POST_START_DATE' )
+	&& DBDate() >= GetMP( UserMP(), 'POST_START_DATE' )
+	&& DBDate() <= GetMP( UserMP(), 'POST_END_DATE' ) )
+{
 	$allow_edit = true;
+}
 
 $mps_select .= '<option value="'.UserMP().'"'.((UserMP()==$_REQUEST['mp'])?' selected':'').">".GetMP(UserMP())."</option>";
 
-if (($_REQUEST['mp']==$sem) && GetMP($sem,'POST_START_DATE') && ($time>=strtotime(GetMP($sem,'POST_START_DATE')) && $time<=strtotime(GetMP($sem,'POST_END_DATE'))))
+if ( $_REQUEST['mp'] == $sem
+	&& GetMP( $sem, 'POST_START_DATE' )
+	&& DBDate() >= GetMP( $sem, 'POST_START_DATE' )
+	&& DBDate() <= GetMP( $sem, 'POST_END_DATE' ) )
+{
 	$allow_edit = true;
+}
 
 if (GetMP($sem,'DOES_GRADES')=='Y')
 	$mps_select .= '<option value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' selected':'').">".GetMP($sem)."</option>";
 
-if (($_REQUEST['mp']==$fy) && GetMP($fy,'POST_START_DATE') && ($time>=strtotime(GetMP($fy,'POST_START_DATE')) && $time<=strtotime(GetMP($fy,'POST_END_DATE'))))
+if ( $_REQUEST['mp'] == $fy 
+	&& GetMP( $fy, 'POST_START_DATE' )
+	&& DBDate() >= GetMP( $fy, 'POST_START_DATE' )
+	&& DBDate() <= GetMP( $fy, 'POST_END_DATE' ) )
+{
 	$allow_edit = true;
+}
 
 if (GetMP($fy,'DOES_GRADES')=='Y')
 	$mps_select .= '<option value="'.$fy.'"'.(($fy==$_REQUEST['mp'])?' selected':'').">".GetMP($fy)."</option>";

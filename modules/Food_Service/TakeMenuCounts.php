@@ -15,7 +15,7 @@ if ( isset( $_REQUEST['month_date'] )
 if ( empty( $date ) )
 {
 	$_REQUEST['day_date'] = date('d');
-	$_REQUEST['month_date'] = mb_strtoupper(date('M'));
+	$_REQUEST['month_date'] = date('m');
 	$_REQUEST['year_date'] = date('Y');
 	$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
 }
@@ -101,8 +101,11 @@ if ( !isset($_ROSARIO['allow_edit']))
 {
 	$time = strtotime( DBDate() );
 
-	if (GetMP($qtr_id,'POST_START_DATE') && ($time<=strtotime(GetMP($qtr_id,'POST_END_DATE'))))
+	if ( GetMP( $qtr_id, 'POST_START_DATE' )
+		&& ( DBDate() <= GetMP( $qtr_id, 'POST_END_DATE' ) ) )
+	{
 		$_ROSARIO['allow_edit'] = true;
+	}
 }
 
 $current_RET = DBGet(DBQuery('SELECT ITEM_ID FROM FOOD_SERVICE_COMPLETED WHERE STAFF_ID=\''.User('STAFF_ID').'\' AND SCHOOL_DATE=\''.$date.'\' AND PERIOD_ID=\''.UserPeriod().'\' AND MENU_ID=\''.$_REQUEST['menu_id'].'\''),array(),array('ITEM_ID'));

@@ -2,12 +2,15 @@
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
 require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 
-if ( ! $_REQUEST['month'])
-	$_REQUEST['month'] = date("m");
-else
-	$_REQUEST['month'] = MonthNWSwitch($_REQUEST['month'],'tonum');
-if ( ! $_REQUEST['year'])
-	$_REQUEST['year'] = date("Y");
+if ( ! $_REQUEST['month'] )
+{
+	$_REQUEST['month'] = date( 'm' );
+}
+
+if ( ! $_REQUEST['year'] )
+{
+	$_REQUEST['year'] = date( 'Y' );
+}
 else
 	$_REQUEST['year'] = ($_REQUEST['year']<1900?'20'.$_REQUEST['year']:$_REQUEST['year']);
 

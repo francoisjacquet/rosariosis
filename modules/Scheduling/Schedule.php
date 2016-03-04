@@ -29,18 +29,18 @@ else
 
 	// if today < first attendance day
 	if ( count( $min_date )
-		&& strtotime( DBDate() ) < strtotime( $min_date[1]['MIN_DATE'] ) )
+		&& DBDate() < $min_date[1]['MIN_DATE'] )
 	{
 		$date = $min_date[1]['MIN_DATE'];
 		$_REQUEST['day_date'] = date( 'd', strtotime( $date ) );
-		$_REQUEST['month_date'] = mb_strtoupper( date( 'M', strtotime( $date ) ) );
+		$_REQUEST['month_date'] = date( 'm', strtotime( $date ) );
 		$_REQUEST['year_date'] = date( 'Y', strtotime( $date ) );
 	}
 	// today
 	else
 	{
 		$_REQUEST['day_date'] = date( 'd' );
-		$_REQUEST['month_date'] = mb_strtoupper( date( 'M' ) );
+		$_REQUEST['month_date'] = date( 'm' );
 		$_REQUEST['year_date'] = date( 'Y' );
 		$date = $_REQUEST['day_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['year_date'];
 	}

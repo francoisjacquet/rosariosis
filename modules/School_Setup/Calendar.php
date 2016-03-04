@@ -12,9 +12,9 @@ if ( SchoolInfo( 'NUMBER_DAYS_ROTATION' ) > 0 )
 
 // Set Month.
 if ( ! isset( $_REQUEST['month'] )
-	|| mb_strlen( $_REQUEST['month'] ) !== 3 )
+	|| mb_strlen( $_REQUEST['month'] ) !== 2 )
 {
-	$_REQUEST['month'] = mb_strtoupper( date( 'M' ) );
+	$_REQUEST['month'] = date( 'm' );
 }
 
 // Set Year.
@@ -25,7 +25,7 @@ if ( ! isset( $_REQUEST['year'] )
 }
 
 // Set Time = First Day of Month.
-$time = mktime( 0, 0, 0, MonthNWSwitch( $_REQUEST['month'], 'tonum' ), 1, $_REQUEST['year'] );
+$time = mktime( 0, 0, 0, $_REQUEST['month'], 1, $_REQUEST['year'] );
 
 // Create / Recreate Calendar.
 if ( $_REQUEST['modfunc'] === 'create'
@@ -326,9 +326,9 @@ if ( $_REQUEST['modfunc'] === 'create'
 		// Create Calendar
 		else
 		{
-			$begin = mktime(0,0,0,MonthNWSwitch($_REQUEST['month_min'],'to_num'),$_REQUEST['day_min']*1,$_REQUEST['year_min']) + 43200;
+			$begin = mktime(0,0,0,$_REQUEST['month_min'],$_REQUEST['day_min']*1,$_REQUEST['year_min']) + 43200;
 
-			$end = mktime(0,0,0,MonthNWSwitch($_REQUEST['month_max'],'to_num'),$_REQUEST['day_max']*1,$_REQUEST['year_max']) + 43200;
+			$end = mktime(0,0,0,$_REQUEST['month_max'],$_REQUEST['day_max']*1,$_REQUEST['year_max']) + 43200;
 
 			$weekday = date('w',$begin);
 
@@ -345,7 +345,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 				{
 					DBQuery( "INSERT INTO ATTENDANCE_CALENDAR
 						(SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID)
-						values('" . UserSyear() . "','" . UserSchool() . "','" . date( 'd-M-Y', $i ) . "'," . $minutes . ",'" . $calendar_id . "')" );
+						values('" . UserSyear() . "','" . UserSchool() . "','" . date( 'Y-m-d', $i ) . "'," . $minutes . ",'" . $calendar_id . "')" );
 				}
 
 				$weekday++;
@@ -409,7 +409,7 @@ if ( User( 'PROFILE' ) !== 'admin' )
 }
 
 // Set Current Calendar
-if ( !isset( $_REQUEST['calendar_id'] )
+if ( ! isset( $_REQUEST['calendar_id'] )
 	|| intval( $_REQUEST['calendar_id'] ) < 1 )
 {
 	$default_RET = DBGet( DBQuery( "SELECT CALENDAR_ID
@@ -418,7 +418,7 @@ if ( !isset( $_REQUEST['calendar_id'] )
 		AND SCHOOL_ID='" . UserSchool() . "'
 		AND DEFAULT_CALENDAR='Y'" ) );
 
-	if ( count( $default_RET ) )
+	if ( $default_RET )
 	{
 		$_REQUEST['calendar_id'] = $default_RET[1]['CALENDAR_ID'];
 	}
@@ -429,8 +429,10 @@ if ( !isset( $_REQUEST['calendar_id'] )
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'" ) );
 
-		if ( count( $calendars_RET ) )
+		if ( $calendars_RET )
+		{
 			$_REQUEST['calendar_id'] = $calendars_RET[1]['CALENDAR_ID'];
+		}
 		else
 			$error[] = _( 'There are no calendars setup yet.' );
 	}
@@ -487,14 +489,16 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 				$i = 0;
 
 				do {
-					if ( $i > 0 ) //school date + 1 day
+					if ( $i > 0 ) // School date + 1 day.
 					{
 						$_REQUEST['values']['SCHOOL_DATE'] = date(
 							'd-M-Y',
-							mktime( 0, 0, 0, MonthNWSwitch( $_REQUEST['month_values']['SCHOOL_DATE'], 'tonum' ),
-							$_REQUEST['day_values']['SCHOOL_DATE'] + $i,
-							$_REQUEST['year_values']['SCHOOL_DATE'] )
-						);
+							mktime( 0, 0, 0,
+								$_REQUEST['month_values']['SCHOOL_DATE'],
+ 								$_REQUEST['day_values']['SCHOOL_DATE'] + $i,
+								$_REQUEST['year_values']['SCHOOL_DATE']
+							)
+ 						);
 					}
 
 					$sql = "INSERT INTO CALENDAR_EVENTS ";
@@ -583,7 +587,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		{
 			if ( $_REQUEST['event_id'] !== 'new' )
 			{
-				$RET = DBGet( DBQuery( "SELECT TITLE,DESCRIPTION,to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE
+				$RET = DBGet( DBQuery( "SELECT TITLE,DESCRIPTION,SCHOOL_DATE
 					FROM CALENDAR_EVENTS
 					WHERE ID='" . $_REQUEST['event_id'] . "'"), array() );
 
@@ -603,7 +607,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		elseif ( $_REQUEST['assignment_id'] )
 		{
 			//FJ add assigned date
-			$RET = DBGet( DBQuery( "SELECT a.TITLE,a.STAFF_ID,to_char(a.DUE_DATE,'dd-MON-YYYY') AS SCHOOL_DATE,a.DESCRIPTION,a.ASSIGNED_DATE,c.TITLE AS COURSE
+			$RET = DBGet( DBQuery( "SELECT a.TITLE,a.STAFF_ID,a.DUE_DATE AS SCHOOL_DATE,a.DESCRIPTION,a.ASSIGNED_DATE,c.TITLE AS COURSE
 				FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
 				WHERE (a.COURSE_ID=c.COURSE_ID
 					OR c.COURSE_ID=(SELECT cp.COURSE_ID
@@ -729,9 +733,11 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 			AND SCHOOL_ID='" . UserSchool() . "'" ) );
 
 		if ( isset( $max_date[1]['MAX_DATE'] ) )
+		{
 			$end_date = $max_date[1]['MAX_DATE'];
+		}
 		else
-			$end_date = mb_strtoupper( date( 'd-M-Y' ) );
+			$end_date = DBDate();
 	}
 
 	echo '<form action="Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=' . $_REQUEST['modfunc'] . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'] . '" method="POST">';
@@ -773,17 +779,17 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	$last = 31;
 
-	while( !checkdate( MonthNWSwitch( $_REQUEST['month'], 'tonum' ), $last, $_REQUEST['year'] ) )
+	while( !checkdate( $_REQUEST['month'], $last, $_REQUEST['year'] ) )
 		$last--;
 
-	$first_day_month = date( 'd-M-Y', $time );
+	$first_day_month = date( 'Y-m-d', $time );
 
 	$last_day_month = date(
-		'd-M-Y',
-		mktime( 0, 0, 0, MonthNWSwitch( $_REQUEST['month'], 'tonum' ), $last, $_REQUEST['year'] )
+		'Y-m-d',
+		mktime( 0, 0, 0, $_REQUEST['month'], $last, $_REQUEST['year'] )
 	);
 
-	$calendar_SQL = "SELECT to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE,MINUTES,BLOCK
+	$calendar_SQL = "SELECT SCHOOL_DATE,MINUTES,BLOCK
 		FROM ATTENDANCE_CALENDAR
 		WHERE SCHOOL_DATE BETWEEN '" . $first_day_month . "'
 		AND '" . $last_day_month . "'
@@ -977,7 +983,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	echo '<br />';
 
 	// Get Events
-	$events_RET = DBGet( DBQuery( "SELECT ID,to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE,TITLE,DESCRIPTION
+	$events_RET = DBGet( DBQuery( "SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION
 		FROM CALENDAR_EVENTS
 		WHERE SCHOOL_DATE BETWEEN '" . $first_day_month . "'
 		AND '" . $last_day_month . "'
@@ -991,7 +997,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		|| User( 'PROFILE' ) === 'student' )
 	{
 		
-		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,to_char(a.DUE_DATE,'dd-MON-YYYY') AS SCHOOL_DATE,a.TITLE,'Y' AS ASSIGNED 
+		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,'Y' AS ASSIGNED 
 			FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s 
 			WHERE (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID) 
 			AND s.STUDENT_ID='" . UserStudentID() . "' 
@@ -1001,7 +1007,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	}		
 	elseif ( User( 'PROFILE' ) === 'teacher' )
 	{
-		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,to_char(a.DUE_DATE,'dd-MON-YYYY') AS SCHOOL_DATE,a.TITLE,CASE WHEN a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL THEN 'Y' ELSE NULL END AS ASSIGNED 
+		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,CASE WHEN a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL THEN 'Y' ELSE NULL END AS ASSIGNED 
 			FROM GRADEBOOK_ASSIGNMENTS a 
 			WHERE a.STAFF_ID='" . User( 'STAFF_ID' ) . "' 
 			AND a.DUE_DATE BETWEEN '".$first_day_month."' AND '" . $last_day_month . "'";
@@ -1047,9 +1053,9 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	$block_options = array();
 
-	foreach ( (array) $blocks_RET as $block)
+	foreach ( (array) $blocks_RET as $block )
 	{
-		$block_options[$block['BLOCK']] = $block['BLOCK'];
+		$block_options[ $block['BLOCK'] ] = $block['BLOCK'];
 	}
 
 	// Skip until first Day of Month
@@ -1065,9 +1071,9 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	// Days
 	for ( $i = 1; $i <= $last; $i++ )
 	{
-		$day_time = mktime( 0, 0, 0, MonthNWSwitch( $_REQUEST['month'], 'tonum' ), $i, $_REQUEST['year'] );
+		$day_time = mktime( 0, 0, 0, $_REQUEST['month'], $i, $_REQUEST['year'] );
 
-		$date = mb_strtoupper( date( 'd-M-Y', $day_time ) );
+		$date = date( 'Y-m-d', $day_time );
 
 		$day_classes = '';
 

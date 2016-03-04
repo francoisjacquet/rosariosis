@@ -23,10 +23,10 @@ if ( isset( $_REQUEST['month_date'] )
 }
 else
 {
-	//$date = DBDate();
-	$date = mb_strtoupper(date('d-M-Y'));
+	$date = DBDate();
+
 	$_REQUEST['day_date'] = date('d');
-	$_REQUEST['month_date'] = mb_strtoupper(date('M'));
+	$_REQUEST['month_date'] = date('m');
 	$_REQUEST['year_date'] = date('Y');
 }
 

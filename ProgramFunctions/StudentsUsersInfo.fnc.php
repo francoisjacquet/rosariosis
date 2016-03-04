@@ -682,7 +682,7 @@ function _makeStartInput( $value, $column )
 		$default = $default[1]['START_DATE'];
 
 		if ( ! $default
-			|| strtotime( DBDate() ) > strtotime( $default ) )
+			|| DBDate() > $default )
 		{
 			$default = DBDate();
 		}

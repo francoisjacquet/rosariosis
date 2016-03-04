@@ -65,19 +65,22 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 	}
 	
 	$start = time() - ($today-$START_DAY)*60*60*24;
-	$end = time();
 	
-	if ( ! $_REQUEST['start_date'])
+	if ( ! $_REQUEST['start_date'] )
 	{
 		$start_time = $start;
-		$start_date = mb_strtoupper(date('d-M-Y',$start_time));
-		$end_date = mb_strtoupper(date('d-M-Y',$end));
+
+		$start_date =  date( 'Y-m-d', $start_time );
+
+		$end_date =  DBDate();
 	}
 	else
 	{
 		$start_time = $_REQUEST['start_date'];
-		$start_date = mb_strtoupper(date('d-M-Y',$start_time));
-		$end_date = mb_strtoupper(date('d-M-Y',$start_time+60*60*24*6));
+
+		$start_date =  date( 'Y-m-d', $start_time );
+
+		$end_date =  date( 'Y-m-d', $start_time + 60 * 60 * 24 * 6 );
 	}
 
 	$begin_year = DBGet(DBQuery("SELECT min(date_part('epoch',SCHOOL_DATE)) as SCHOOL_DATE FROM ATTENDANCE_CALENDAR WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
@@ -87,11 +90,11 @@ if (UserStudentID() && ! $_REQUEST['modfunc'])
 	
 //FJ display locale with strftime()
 //	$date_select = "<option value=$start>".date('M d, Y',$start).' - '.date('M d, Y',$end).'</option>';
-	$date_select = '<option value="'.$start.'">'.ProperDate(date('Y.m.d',$start)).' - '.ProperDate(date('Y.m.d',$end)).'</option>';
+	$date_select = '<option value="'.$start.'">'.ProperDate( date( 'Y-m-d', $start)).' - '.ProperDate( DBDate() ).'</option>';
 	//exit(var_dump($begin_year));
 	for ( $i=$start-(60*60*24*7);$i>=$begin_year;$i-=(60*60*24*7))
 //		$date_select .= "<option value=$i".(($i+86400>=$start_time && $i-86400<=$start_time)?' selected':'').">".date('M d, Y',$i).' - '.date('M d, Y',($i+1+(($END_DAY-$START_DAY))*60*60*24)).'</option>';
-		$date_select .= '<option value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' selected':'').">".ProperDate(date('Y.m.d',$i)).' - '.ProperDate(date('Y.m.d',($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</option>';
+		$date_select .= '<option value="'.$i.'"'.(($i+86400>=$start_time && $i-86400<=$start_time)?' selected':'').">".ProperDate( date( 'Y-m-d', $i)).' - '.ProperDate( date( 'Y-m-d', ($i+1+(($END_DAY-$START_DAY))*60*60*24))).'</option>';
 	
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 	DrawHeader('<select name="start_date">'.$date_select.'</select> '.SubmitButton(_('Go')));

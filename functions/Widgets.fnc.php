@@ -882,12 +882,12 @@ function Widgets( $item, &$myextra = null )
 					break;
 				}
 
-				$start_date = mb_strtoupper( date(
-					'd-M-y',
+				$start_date = date(
+					'Y-m-d',
 					time() - ( $today - ProgramConfig( 'eligibility', 'START_DAY' ) ) * 60 * 60 * 24
-				) );
+				);
 
-				$end_date = mb_strtoupper( date( 'd-M-y', time() ) );
+				$end_date = DBDate();
 
 				$extra['WHERE'] .= " AND (SELECT count(*)
 					FROM ELIGIBILITY e

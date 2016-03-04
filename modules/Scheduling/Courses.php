@@ -1116,7 +1116,6 @@ if ( $_REQUEST['modname']=='Scheduling/Courses.php' && $_REQUEST['modfunc']=='ch
 
 function calcSeats1(&$periods,$date)
 {
-	$date_time = strtotime($date);
 	foreach ( (array) $periods as $key => $period)
 	{
 		if ( $_REQUEST['include_child_mps'])
@@ -1131,7 +1130,7 @@ function calcSeats1(&$periods,$date)
 		foreach ( explode(',',$mps) as $mp)
 		{
 			$mp = trim($mp,"'");
-			if (strtotime(GetMP($mp,'END_DATE'))>=$date_time)
+			if ( GetMP( $mp, 'END_DATE' ) >= $date )
 			{
 				$link = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc='.$_REQUEST['modfunc'].'&subject_id='.$period['SUBJECT_ID'].'&course_id='.$period['COURSE_ID'];
 				$link .= '&last_year='.$_REQUEST['last_year'].'&year_date='.$_REQUEST['year_date'].'&month_date='.$_REQUEST['month_date'].'&day_date='.$_REQUEST['day_date'];

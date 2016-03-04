@@ -1,11 +1,14 @@
 <?php
 
-if ( ! $_REQUEST['month'])
-	$_REQUEST['month'] = date("n");
-else
-	$_REQUEST['month'] = MonthNWswitch ( $_REQUEST['month'],'tonum')+0;
-if ( ! $_REQUEST['year'])
-	$_REQUEST['year'] = date("Y");
+if ( ! $_REQUEST['month'] )
+{
+	$_REQUEST['month'] = date( 'm' );
+}
+
+if ( ! $_REQUEST['year'] )
+{
+	$_REQUEST['year'] = date( 'Y' );
+}
 
 $last = 31;
 while (!checkdate($_REQUEST['month'],$last,$_REQUEST['year']))
@@ -41,9 +44,9 @@ else
 
 if ( $_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_service'] && AllowEdit())
 {
-	$events_RET = DBGet(DBQuery("SELECT ID,to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE 
+	$events_RET = DBGet(DBQuery("SELECT ID,SCHOOL_DATE
 	FROM CALENDAR_EVENTS 
-	WHERE SCHOOL_DATE BETWEEN '".date('d-M-Y',$time)."' AND '".date('d-M-Y',$time_last)."' 
+	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "' 
 	AND SYEAR='".UserSyear()."' 
 	AND SCHOOL_ID='".UserSchool()."' 
 	AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."'"),array(),array('SCHOOL_DATE'));
@@ -66,9 +69,9 @@ if ( $_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_se
 
 if ( $_REQUEST['submit']['print'])
 {
-	$events_RET = DBGet(DBQuery("SELECT TITLE,DESCRIPTION,to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE 
+	$events_RET = DBGet(DBQuery("SELECT TITLE,DESCRIPTION,SCHOOL_DATE 
 	FROM CALENDAR_EVENTS 
-	WHERE SCHOOL_DATE BETWEEN '".date('d-M-Y',$time)."' AND '".date('d-M-Y',$time_last)."' 
+	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "' 
 	AND SYEAR='".UserSyear()."' 
 	AND SCHOOL_ID='".UserSchool()."' 
 	AND (TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' OR TITLE='No School')"),array(),array('SCHOOL_DATE'));
@@ -85,7 +88,7 @@ if ( $_REQUEST['submit']['print'])
 		else
 			echo '<tr class="center"><td colspan="3"><span style="color:black" class="sizep2"><b>'.SchoolInfo('TITLE').'</b></span></td></tr>'."\n";
 //FJ display locale with strftime()
-	echo '<tr class="center"><td>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</td><td><span style="color:black" class="sizep2"><b>'.ProperDate(date('Y.m.d',mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']))).'</b></span></td><td>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</td></tr></table>'."\n";
+	echo '<tr class="center"><td>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</td><td><span style="color:black" class="sizep2"><b>'.ProperDate( date( 'Y-m-d', mktime(0,0,0,$_REQUEST['month'],1,$_REQUEST['year']))).'</b></span></td><td>'.$menus_RET[$_REQUEST['menu_id']][1]['TITLE'].'</td></tr></table>'."\n";
 	echo '<table style="border: solid 2px; background-color: #fff;" id="calendar"><thead><tr style="text-align:center; background-color:#808080; color:white;">'."\n";
 	echo '<th>'.mb_substr(_('Sunday'),0,3).'<span>'.mb_substr(_('Sunday'),3).'</span>'.'</th><th>'.mb_substr(_('Monday'),0,3).'<span>'.mb_substr(_('Monday'),3).'</span>'.'</th><th>'.mb_substr(_('Tuesday'),0,3).'<span>'.mb_substr(_('Tuesday'),3).'</span>'.'</th><th>'.mb_substr(_('Wednesday'),0,3).'<span>'.mb_substr(_('Wednesday'),3).'</span>'.'</th><th>'.mb_substr(_('Thursday'),0,3).'<span>'.mb_substr(_('Thursday'),3).'</span>'.'</th><th>'.mb_substr(_('Friday'),0,3).'<span>'.mb_substr(_('Friday'),3).'</span>'.'</th><th>'.mb_substr(_('Saturday'),0,3).'<span>'.mb_substr(_('Saturday'),3).'</span>'.'</th>'."\n";
 	echo '</tr></thead><tbody>';
@@ -97,8 +100,10 @@ if ( $_REQUEST['submit']['print'])
 	{
 		if ( $skip%7==0)
 			echo '<tr>';
+
 		$day_time = mktime(0,0,0,$_REQUEST['month'],$i,$_REQUEST['year']);
-		$date = mb_strtoupper(date('d-M-Y',$day_time));
+
+		$date =  date( 'Y-m-d', $day_time );
 
 		echo '<td class="valign-top" style="height:100%; '.(count($events_RET[ $date ]) ? 'background-color:#ffaaaa;' : '').'"><table class="calendar-day'.(count($events_RET[ $date ]) ? ' hover"><tr><td><b>'.$i.'</b>' : '"><tr><td>'.$i);
 
@@ -139,18 +144,18 @@ else
 		}
 	}
 
-	$calendar_RET = DBGet(DBQuery("SELECT to_char(SCHOOL_DATE,'dd-MON-YYYY') as SCHOOL_DATE 
+	$calendar_RET = DBGet(DBQuery("SELECT SCHOOL_DATE 
 	FROM ATTENDANCE_CALENDAR 
-	WHERE SCHOOL_DATE BETWEEN '".date('d-M-Y',$time)."' AND '".date('d-M-Y',$time_last)."' 
+	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "' 
 	AND SYEAR='".UserSyear()."' 
 	AND SCHOOL_ID='".UserSchool()."' 
 	AND CALENDAR_ID='".$calendar_id."' 
 	AND MINUTES>0 
 	ORDER BY SCHOOL_DATE"),array(),array('SCHOOL_DATE'));
 
-	$events_RET = DBGet(DBQuery("SELECT ID,TITLE,DESCRIPTION,to_char(SCHOOL_DATE,'dd-MON-YYYY') AS SCHOOL_DATE 
+	$events_RET = DBGet(DBQuery("SELECT ID,TITLE,DESCRIPTION,SCHOOL_DATE 
 	FROM CALENDAR_EVENTS 
-	WHERE SCHOOL_DATE BETWEEN '".date('d-M-Y',$time)."' AND '".date('d-M-Y',$time_last)."' 
+	WHERE SCHOOL_DATE BETWEEN '" . date( 'Y-m-d', $time )."' AND '" . date( 'Y-m-d', $time_last ) . "' 
 	AND SYEAR='".UserSyear()."' 
 	AND SCHOOL_ID='".UserSchool()."' 
 	AND TITLE='".$menus_RET[$_REQUEST['menu_id']][1]['TITLE']."' 

@@ -9,8 +9,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$extra['DATE'] = $extra['DATE'][1]['START_DATE'];
 
 		if ( ! $extra['DATE']
-			|| strtotime( DBDate() ) > strtotime( $extra['DATE'] ) )
+			|| DBDate() > $extra['DATE'] )
+		{
 			$extra['DATE'] = DBDate();
+		}
 
 		// get the fy marking period id, there should be exactly one fy marking period
 		$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));

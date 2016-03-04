@@ -99,10 +99,10 @@ if ( isset( $_REQUEST['category_id'] )
 	{
 		$timeframe = "to_char(dr.ENTRY_DATE,'mm')";
 
-		$start = ( MonthNWSwitch( $_REQUEST['month_start'], 'tonum' ) * 1 );
+		$start = $_REQUEST['month_start'] * 1;
 
-		$end = ( ( MonthNWSwitch( $_REQUEST['month_end'], 'tonum' ) * 1 ) + 12 *
-			( $_REQUEST['year_end'] - $_REQUEST['year_start'] ) );
+		$end = ( $_REQUEST['month_end'] * 1 ) + 12 *
+			( $_REQUEST['year_end'] - $_REQUEST['year_start'] );
 	}
 	else // SYEAR
 	{
@@ -545,7 +545,7 @@ function _makeNumericTime( $number, $column )
 	if ( $_REQUEST['timeframe'] === 'month' )
 	{
 		$index = ( ( $THIS_RET['TIMEFRAME'] * 1 ) -
-			( MonthNWSwitch( $_REQUEST['month_start'], 'tonum' ) * 1 ) + 1 +
+			( $_REQUEST['month_start'] * 1 ) + 1 +
 			12 * ( $_REQUEST['year_end'] - $_REQUEST['year_start'] ) );
 	}
 	elseif ( $_REQUEST['timeframe'] === 'SYEAR' )

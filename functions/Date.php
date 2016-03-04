@@ -6,22 +6,26 @@
  * @subpackage functions
  */
 
+// Set Postgres Session Date Format / Datestyle to ISO.
+DBQuery( "SET DATESTYLE='ISO'" );
+
+
 /**
  * Get the Date of the day
- * Database (Oracle) format, ready for SQL
+ * Database ISO format, ready for SQL
  *
  * @example "SELECT SCHOOL_DATE
  *               FROM ATTENDANCE_CALENDAR
  *               WHERE SCHOOL_DATE<'" . DBDate() . "'";
  *
- * @example strtotime( DBDate() ) > strtotime( $res['DATE'] )
+ * @example DBDate() > $res['DATE']
  *
  * @return string Date of the day
  */
 function DBDate()
 {
-	// Oracle, eg. 10-JUL-2015.
-	return mb_strtoupper( date( 'd-M-Y' ) );
+	// ISO, eg. 2015-07-10.
+	return date( 'Y-m-d' );
 }
 
 
@@ -257,25 +261,23 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		}
 
 		$months_locale = array(
-			'JAN' => _( 'January' ),
-			'FEB' => _( 'February' ),
-			'MAR' => _( 'March' ),
-			'APR' => _( 'April' ),
-			'MAY' => _( 'May' ),
-			'JUN' => _( 'June' ),
-			'JUL' => _( 'July' ),
-			'AUG' => _( 'August' ),
-			'SEP' => _( 'September' ),
-			'OCT' => _( 'October' ),
-			'NOV' => _( 'November' ),
-			'DEC' => _( 'December' )
+			'01' => _( 'January' ),
+			'02' => _( 'February' ),
+			'03' => _( 'March' ),
+			'04' => _( 'April' ),
+			'05' => _( 'May' ),
+			'06' => _( 'June' ),
+			'07' => _( 'July' ),
+			'08' => _( 'August' ),
+			'09' => _( 'September' ),
+			'10' => _( 'October' ),
+			'11' => _( 'November' ),
+			'12' => _( 'December' ),
 		);
-
-		$month_char = MonthNWSwitch( $date_exploded['month'], 'tochar' );
 
 		foreach ( (array) $months_locale as $key => $name )
 		{
-			$return .= '<option value="' . $key . '"' . ( $month_char == $key ? ' selected' : '' ) . '>' . $name;
+			$return .= '<option value="' . $key . '"' . ( $date_exploded['month'] == $key ? ' selected' : '' ) . '>' . $name;
 		}
 
 		$return .= '</select>';
@@ -362,7 +364,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 
 
 /**
- * Explode a Postgres or Oracle date
+ * Explode a ISO or Oracle date
  *
  * @param  string $date Postgres or Oracle date.
  *
@@ -384,7 +386,7 @@ function ExplodeDate( $date )
 
 		$day = mb_substr( $date, 0, 2 );
 	}
-	// Postgres format YYYY-MM-DD.
+	// ISO format YYYY-MM-DD.
 	elseif ( mb_strlen( $date ) === 10 )
 	{
 		$year = mb_substr( $date, 0, 4 );
@@ -412,7 +414,7 @@ function ExplodeDate( $date )
  * Returns an empty string if date is malformed / incomplete
  * Returns a corrected date
  * if day does not exist in month,
- * for example, 31-FEB-2015 will return 28-FEB-2015
+ * for example, 2015-02-31 will return 2015-02-28
  *
  * @since 2.9
  *
@@ -426,20 +428,21 @@ function ExplodeDate( $date )
  */
 function RequestedDate( $day, $month, $year )
 {
-	$date = $day . '-' . $month . '-' . $year;
+	$date = $year . '-' . $month . '-' . $day;
 
 	/**
 	 * Verify first this is a well-formed / complete date:
-	 * DD-MMM-YYYY
+	 * YYYY-MM-DD
 	 * Day between 1 and 31
-	 * Month: valid 3 letters abbreviation
-	 * Year between 1 and 9999
+	 * Month between 1 and 12
+	 * Year between 1000 and 9999
 	 */
-	if ( mb_strlen( $date ) !== 11
+	if ( mb_strlen( $date ) !== 10
 		|| (int) $day < 1
 		|| (int) $day > 31
-		|| __mnwswitch_char2num( $month ) === $month
-		|| (int) $year < 1
+		|| (int) $month > 12
+		|| (int) $month < 1
+		|| (int) $year < 1000
 		|| (int) $year > 9999 )
 	{
 		$date = '';
@@ -447,7 +450,8 @@ function RequestedDate( $day, $month, $year )
 	else
 	{
 		// Correct date if day does not exist in month.
-		while( ! VerifyDate( $date ) )
+		while ( ! VerifyDate( $date )
+			&& $day > 0 )
 		{
 			$day--;
 
@@ -507,6 +511,8 @@ function RequestedDates( $day_array, $month_array, $year_array )
 /**
  * Switch Month to Number or Characters
  *
+ * @deprecated since 2.9 use ISO format.
+ *
  * @param  string $month     number or characters month.
  * @param  string $direction tonum|tochar|both (optional). Default to 'both'.
  *
@@ -549,6 +555,8 @@ function MonthNWSwitch( $month, $direction = 'both' )
  * Switch number month to characters
  * Local function
  *
+ * @deprecated since 2.9 use ISO format.
+ *
  * @param  string $month number month.
  *
  * @return string        characters month
@@ -588,6 +596,8 @@ function __mnwswitch_num2char( $month )
 /**
  * Switch characters month to number
  * Local function
+ *
+ * @deprecated since 2.9 use ISO format.
  *
  * @param  string $month characters month.
  *

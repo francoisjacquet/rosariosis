@@ -16,7 +16,7 @@ if ( isset( $_REQUEST['month_date'] )
 else
 {
 	$_REQUEST['day_date'] = date('d');
-	$_REQUEST['month_date'] = mb_strtoupper(date('M'));
+	$_REQUEST['month_date'] = date('m');
 	$_REQUEST['year_date'] = date('Y');
 	$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
 }

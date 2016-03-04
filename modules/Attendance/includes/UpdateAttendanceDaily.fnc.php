@@ -1,9 +1,11 @@
 <?php
 
-function UpdateAttendanceDaily($student_id,$date='',$comment=false)
+function UpdateAttendanceDaily( $student_id, $date = '', $comment = false )
 {
-	if ( ! $date)
+	if ( ! $date )
+	{
 		$date = DBDate();
+	}
 
 	//FJ days numbered
 	//FJ multiple school periods for a course period

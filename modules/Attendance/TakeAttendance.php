@@ -16,7 +16,7 @@ if ( isset( $_REQUEST['month_date'] )
 else
 {
 	$_REQUEST['day_date'] = date('d');
-	$_REQUEST['month_date'] = mb_strtoupper(date('M'));
+	$_REQUEST['month_date'] = date('m');
 	$_REQUEST['year_date'] = date('Y');
 	$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
 }
@@ -123,12 +123,12 @@ if (!isset($_ROSARIO['allow_edit']))
 	// allow teacher edit if selected date is in the current quarter or in the corresponding grade posting period
 	$current_qtr_id = GetCurrentMP('QTR',DBDate(),false);
 
-	$time = strtotime(DBDate());
+	$time = strtotime( DBDate() );
 
 	if ( ($current_qtr_id
 			&& $qtr_id == $current_qtr_id
 			|| GetMP( $qtr_id, 'POST_START_DATE' )
-			&& $time <= strtotime( GetMP( $qtr_id, 'POST_END_DATE' ) ) )
+			&& DBDate() <= GetMP( $qtr_id, 'POST_END_DATE' ) )
 		&& ( !ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' )
 			|| strtotime( $date ) <= $time + ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_BEFORE' ) * 86400 )
 		&& ( !ProgramConfig( 'attendance', 'ATTENDANCE_EDIT_DAYS_AFTER' )

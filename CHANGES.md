@@ -66,6 +66,7 @@ Changes in 2.9
 - Add TinyMCEInput() & SanitizeHTML() functions in Inputs.php & MarkDownHTML.fnc.php
 - Declare $error, $note, $warning globals in ErrorMessage.fnc.php & program wide
 - Add Student Assignments program + related SQL + assets/AssignmentsFiles/ folder
+- Use ISO date format (YYYY-MM-DD), always in Date.php & program wide
 
 Changes in 2.8.11
 -----------------
