@@ -69,6 +69,7 @@ Changes in 2.9
 - Add Assignment Submissions & Help in Grades/Assignments.php & Grades/Grades.php
 - Use ISO date format (YYYY-MM-DD), always in Date.php & program wide
 - Add ProperDateTime() function in Date.php
+- Add HumanFilesize() function in ProgramFunctions/FileUpload.fnc.php
 
 Changes in 2.8.11
 -----------------

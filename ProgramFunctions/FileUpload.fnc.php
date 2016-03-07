@@ -27,8 +27,12 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 {
 	$file_name = $full_path = false;
 
-	if ( $final_ext
-		&& $file_name_no_ext )
+	if ( ! $final_ext )
+	{
+		$final_ext = mb_strtolower( mb_strrchr( $_FILES[ $input ]['name'], '.' ) );
+	}
+
+	if ( $file_name_no_ext )
 	{
 		$file_name = $file_name_no_ext . $final_ext;
 	}
@@ -60,7 +64,7 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 
 	// If folder doesnt exist, create it!
 	elseif ( ! is_dir( $path )
-		&& ! mkdir( $path ) )
+		&& ! mkdir( $path, 0774, true ) )
 	{
 		$error[] = sprintf( _( 'Folder not created' ) . ': %s', $path );
 	}
@@ -76,14 +80,11 @@ function FileUpload( $input, $path, $ext_white_list, $size_limit, &$error, $fina
 		$_FILES[ $input ]['tmp_name'],
 		$full_path = ( $path . ( $file_name ?
 			$file_name :
-			( ! $final_ext ?
-				no_accents( $_FILES[ $input ]['name'] ) :
-				no_accents( mb_substr(
-					$_FILES[ $input ]['name'],
-					0,
-					mb_strrpos( $_FILES[ $input ]['name'], '.' )
-				) ) . $final_ext
-			)
+			no_accents( mb_substr(
+				$_FILES[ $input ]['name'],
+				0,
+				mb_strrpos( $_FILES[ $input ]['name'], '.' )
+			) ) . $final_ext
 		) ) 
 	) )
 	{
@@ -170,4 +171,29 @@ function ReturnMegabytes( $val ) {
 	}
 
 	return $val;
+}
+
+
+/**
+ * Human filesize
+ * Converts bytes into human readable file size.
+ *
+ * @example $file_size = HumanFilesize( filesize( $file_name ) );
+ *
+ * @link http://php.net/manual/en/function.filesize.php#106569
+ *
+ * @since  2.9
+ *
+ * @param  integer $bytes    File size in Bytes.
+ * @param  integer $decimals Decimals (optional). Defaults to 1.
+ *
+ * @return string            Human readable file size.
+ */
+function HumanFilesize( $bytes, $decimals = 1 )
+{
+	$sz = 'BKMGTP';
+
+	$factor = floor( ( strlen( $bytes ) - 1 ) / 3 );
+
+	return sprintf( "%.{$decimals}f", $bytes / pow( 1024, $factor ) ) . @$sz[ $factor ];
 }
