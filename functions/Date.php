@@ -6,7 +6,11 @@
  * @subpackage functions
  */
 
-// Set Postgres Session Date Format / Datestyle to ISO.
+/**
+ * Set Postgres Session Date Format / Datestyle to ISO.
+ *
+ * @since 2.9
+ */
 DBQuery( "SET DATESTYLE='ISO'" );
 
 
@@ -51,7 +55,7 @@ function ProperDate( $date, $length = 'long' )
 
 	$date_exploded = ExplodeDate( (string) $date );
 
-	$comment = '<!-- ' . implode( '', $date_exploded ) . ' -->';
+	$comment = '<!-- ' . $date . ' -->';
 
 	// Export (Excel) date to MM/DD/YYYY format.
 	if ( isset( $_REQUEST['LO_save'] )
@@ -99,6 +103,46 @@ function ProperDate( $date, $length = 'long' )
 		'<span style="white-space:nowrap">' .
 			mb_convert_case( iconv( '', 'UTF-8', strftime( $pref_date, $time ) ), MB_CASE_TITLE ) .
 		'</span>';
+}
+
+
+/**
+ * Localized & preferred Date & Time
+ * "2015-09-21 16:35:42" => "September 21 2015 04:35:42 PM"
+ *
+ * If 'short' length & day = today, only time is returned.
+ *
+ * @since 2.9
+ *
+ * @example ProperDateTime( $value, 'short' );
+ *
+ * @uses ProperDate()
+ *
+ * @param string $datetime Datetime / Timestamp.
+ * @param string $length   long|short (optional). Defaults to 'long'.
+ */
+function ProperDateTime( $datetime, $length = 'long' )
+{
+	$time = mb_substr( $datetime, 11, 8 );
+
+	$time = mktime(
+		mb_substr( $time, 0, 2 ) + 0,
+		mb_substr( $time, 3, 2 ) + 0,
+		mb_substr( $time, 6, 2 ) + 0
+	);
+
+	$locale_time = strftime( '%X', $time );
+
+	if ( $length === 'short'
+		&& DBDate() === $date )
+	{
+		// Today: only time!
+		return $locale_time;
+	}
+
+	$date = mb_substr( $datetime, 0, 10 );
+
+	return ProperDate( $date, $length ) . ' ' . $locale_time;
 }
 
 

@@ -129,8 +129,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 			// Comment meta data: "Date hour, User name:"
 			$comment_meta = '<span>' .
-				ProperDate( mb_substr( $comment['date'], 0, 10 ) ) .
-				mb_substr( $comment['date'], 10 ) . ', ' .
+				ProperDateTime( $comment['date'] ) . ', ' .
 				$staff_name[ $id ] .
 				':</span>';
 
