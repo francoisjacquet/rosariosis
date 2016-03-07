@@ -1113,9 +1113,9 @@ function Widgets( $item, &$myextra = null )
 				&& isset( $_REQUEST['year_discipline_entry_begin'] ) )
 			{
 				$discipline_entry_begin = RequestedDate(
-					$_REQUEST['day_discipline_entry_begin'],
+					$_REQUEST['year_discipline_entry_begin'],
 					$_REQUEST['month_discipline_entry_begin'],
-					$_REQUEST['year_discipline_entry_begin']
+					$_REQUEST['day_discipline_entry_begin']
 				);
 			}
 
@@ -1125,9 +1125,9 @@ function Widgets( $item, &$myextra = null )
 				&& isset( $_REQUEST['year_discipline_entry_end'] ) )
 			{
 				$discipline_entry_end = RequestedDate(
-					$_REQUEST['day_discipline_entry_end'],
+					$_REQUEST['year_discipline_entry_end'],
 					$_REQUEST['month_discipline_entry_end'],
-					$_REQUEST['year_discipline_entry_end']
+					$_REQUEST['day_discipline_entry_end']
 				);
 			}
 

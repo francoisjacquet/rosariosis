@@ -64,9 +64,9 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 	if ( isset( $_POST['day_staff'], $_POST['month_staff'], $_POST['year_staff'] ) )
 	{
 		$requested_dates = RequestedDates(
-			$_REQUEST['day_staff'],
+			$_REQUEST['year_staff'],
 			$_REQUEST['month_staff'],
-			$_REQUEST['year_staff']
+			$_REQUEST['day_staff']
 		);
 
 		$_REQUEST['staff'] = array_replace_recursive( $_REQUEST['staff'], $requested_dates );

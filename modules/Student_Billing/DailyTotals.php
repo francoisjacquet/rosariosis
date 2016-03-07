@@ -14,15 +14,15 @@ if ( isset( $_REQUEST['day_start'] )
 	&& isset( $_REQUEST['year_start'] ) )
 {
 	$start_date = RequestedDate(
-		$_REQUEST['day_start'],
+		$_REQUEST['year_start'],
 		$_REQUEST['month_start'],
-		$_REQUEST['year_start']
+		$_REQUEST['day_start']
 	);
 }
 
 if ( empty( $start_date ) )
 {
-	$start_date = '01-' . mb_strtoupper( date( 'M-Y' ) );
+	$start_date = date( 'Y-m' ) . '-01';
 }
 
 // Set end date.
@@ -31,9 +31,9 @@ if ( isset( $_REQUEST['day_end'] )
 	&& isset( $_REQUEST['year_end'] ) )
 {
 	$end_date = RequestedDate(
-		$_REQUEST['day_end'],
+		$_REQUEST['year_end'],
 		$_REQUEST['month_end'],
-		$_REQUEST['year_end']
+		$_REQUEST['day_end']
 	);
 }
 

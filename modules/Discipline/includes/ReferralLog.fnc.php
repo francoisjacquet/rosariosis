@@ -108,9 +108,9 @@ function ReferralLogsGenerate( $extra )
 		&& isset( $_REQUEST['year_discipline_entry_begin'] ) )
 	{
 		$start_date = RequestedDate(
-			$_REQUEST['day_discipline_entry_begin'],
+			$_REQUEST['year_discipline_entry_begin'],
 			$_REQUEST['month_discipline_entry_begin'],
-			$_REQUEST['year_discipline_entry_begin']
+			$_REQUEST['day_discipline_entry_begin']
 		);
 
 		if ( isset( $_REQUEST['month_discipline_entry_end'] )
@@ -118,9 +118,9 @@ function ReferralLogsGenerate( $extra )
 			&& isset( $_REQUEST['year_discipline_entry_end'] ) )
 		{
 			$end_date = RequestedDate(
-				$_REQUEST['day_discipline_entry_end'],
+				$_REQUEST['year_discipline_entry_end'],
 				$_REQUEST['month_discipline_entry_end'],
-				$_REQUEST['year_discipline_entry_end']
+				$_REQUEST['day_discipline_entry_end']
 			);
 		}
  	}

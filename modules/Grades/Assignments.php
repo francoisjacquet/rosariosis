@@ -19,9 +19,9 @@ $_ROSARIO['allow_edit'] = true;
 if ( isset( $_POST['day_tables'], $_POST['month_tables'], $_POST['year_tables'] ) )
 {
 	$requested_dates = RequestedDates(
-		$_REQUEST['day_tables'],
+		$_REQUEST['year_tables'],
 		$_REQUEST['month_tables'],
-		$_REQUEST['year_tables']
+		$_REQUEST['day_tables']
 	);
 
 	$_REQUEST['tables'] = array_replace_recursive( $_REQUEST['tables'], $requested_dates );

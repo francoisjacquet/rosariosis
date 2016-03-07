@@ -10,9 +10,9 @@ if ( isset( $_REQUEST['month_date'] )
 	&& isset( $_REQUEST['year_date'] ) )
 {
 	$date = RequestedDate(
-		$_REQUEST['day_date'],
+		$_REQUEST['year_date'],
 		$_REQUEST['month_date'],
-		$_REQUEST['year_date']
+		$_REQUEST['day_date']
 	);
 
 	if ( $_SESSION['Administration.php']['date'] && $_SESSION['Administration.php']['date']!=$date)

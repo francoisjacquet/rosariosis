@@ -462,15 +462,15 @@ function ExplodeDate( $date )
  *
  * @since 2.9
  *
- * @example RequestedDate( $day, $month, $year );
+ * @example RequestedDate( $year, $month, $day );
  *
- * @param  string $day   Requested day.
- * @param  string $month Requested month.
  * @param  string $year  Requested year.
+ * @param  string $month Requested month.
+ * @param  string $day   Requested day.
  *
  * @return string Empty string if malformed/incomplete date or date
  */
-function RequestedDate( $day, $month, $year )
+function RequestedDate( $year, $month, $day )
 {
 	$date = $year . '-' . $month . '-' . $day;
 
@@ -515,15 +515,15 @@ function RequestedDate( $day, $month, $year )
  *
  * @since 2.9
  *
- * @example RequestedDates( $_REQUEST['day_tables'], $_REQUEST['month_tables'], $_REQUEST['year_tables'] );
+ * @example RequestedDates( $_REQUEST['year_tables'], $_REQUEST['month_tables'], $_REQUEST['day_tables'] );
  *
- * @param  array $day_array   Requested days.
- * @param  array $month_array Requested months.
  * @param  array $year_array  Requested years.
+ * @param  array $month_array Requested months.
+ * @param  array $day_array   Requested days.
  *
  * @return array Requested dates, or empty if no dates found or malformed/incomplete dates
  */
-function RequestedDates( $day_array, $month_array, $year_array )
+function RequestedDates( $year_array, $month_array, $day_array )
 {
 	$return = array();
 
@@ -532,14 +532,14 @@ function RequestedDates( $day_array, $month_array, $year_array )
 		if ( ! is_array( $month ) )
 		{
 			$return[ $field_name ] = RequestedDate(
-				$day_array[ $field_name ],
+				$year_array[ $field_name ],
 				$month,
-				$year_array[ $field_name ]
+				$day_array[ $field_name ]
 			);
 		}
 		else
 		{
-			$dates = RequestedDates( $day_array[ $field_name ], $month, $year_array[ $field_name ] );
+			$dates = RequestedDates( $year_array[ $field_name ], $month, $day_array[ $field_name ] );
 
 			if ( ! empty( $dates ) )
 			{

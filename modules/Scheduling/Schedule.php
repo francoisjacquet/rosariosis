@@ -14,9 +14,9 @@ if ( isset( $_REQUEST['month_date'] )
 	&& isset( $_REQUEST['year_date'] ) )
 {
 	$date = RequestedDate(
-		$_REQUEST['day_date'],
+		$_REQUEST['year_date'],
 		$_REQUEST['month_date'],
-		$_REQUEST['year_date']
+		$_REQUEST['day_date']
 	);
 }
 // default date
@@ -32,6 +32,7 @@ else
 		&& DBDate() < $min_date[1]['MIN_DATE'] )
 	{
 		$date = $min_date[1]['MIN_DATE'];
+
 		$_REQUEST['day_date'] = date( 'd', strtotime( $date ) );
 		$_REQUEST['month_date'] = date( 'm', strtotime( $date ) );
 		$_REQUEST['year_date'] = date( 'Y', strtotime( $date ) );
@@ -42,7 +43,8 @@ else
 		$_REQUEST['day_date'] = date( 'd' );
 		$_REQUEST['month_date'] = date( 'm' );
 		$_REQUEST['year_date'] = date( 'Y' );
-		$date = $_REQUEST['day_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['year_date'];
+
+		$date = $_REQUEST['year_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['day_date'];
 	}
 }
 unset($_SESSION['_REQUEST_vars']['modfunc']);
@@ -55,9 +57,9 @@ Search('student_id',$extra);
 if ( isset( $_POST['day_schedule'], $_POST['month_schedule'], $_POST['year_schedule'] ) )
 {
 	$requested_dates = RequestedDates(
-		$_REQUEST['day_schedule'],
+		$_REQUEST['year_schedule'],
 		$_REQUEST['month_schedule'],
-		$_REQUEST['year_schedule']
+		$_REQUEST['day_schedule']
 	);
 
 	$_REQUEST['schedule'] = array_replace_recursive( $_REQUEST['schedule'], $requested_dates );

@@ -2,8 +2,10 @@
 //FJ move Attendance.php from functions/ to modules/Attendance/includes
 require_once 'modules/Attendance/includes/UpdateAttendanceDaily.fnc.php';
 
-if ( $_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'])
-	$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
+if ( $_REQUEST['month_date'] && $_REQUEST['day_date'] && $_REQUEST['year_date'] )
+{
+	$date = $_REQUEST['year_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['day_date'];
+}
 else
 	$date = DBDate();
 

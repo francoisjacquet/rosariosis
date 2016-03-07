@@ -7,9 +7,9 @@ $_ROSARIO['allow_edit'] = ( $_REQUEST['allow_edit'] === 'Y' );
 if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 {
 	$requested_dates = RequestedDates(
-		$_REQUEST['day_values'],
+		$_REQUEST['year_values'],
 		$_REQUEST['month_values'],
-		$_REQUEST['year_values']
+		$_REQUEST['day_values']
 	);
 
 	$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );

@@ -25,9 +25,9 @@ function SaveData( $iu_extra, $field_names = array() )
 	if ( isset( $_REQUEST['day_values'], $_REQUEST['month_values'], $_REQUEST['year_values'] ) )
 	{
 		$requested_dates = RequestedDates(
-			$_REQUEST['day_values'],
+			$_REQUEST['year_values'],
 			$_REQUEST['month_values'],
-			$_REQUEST['year_values']
+			$_REQUEST['day_values']
 		);
 
 		$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], (array) $requested_dates );

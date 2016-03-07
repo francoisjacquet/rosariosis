@@ -6,9 +6,9 @@ if ( isset( $_REQUEST['month_date'] )
 	&& isset( $_REQUEST['year_date'] ) )
 {
 	$date = RequestedDate(
-		$_REQUEST['day_date'],
+		$_REQUEST['year_date'],
 		$_REQUEST['month_date'],
-		$_REQUEST['year_date']
+		$_REQUEST['day_date']
 	);
 }
 
@@ -17,7 +17,8 @@ if ( empty( $date ) )
 	$_REQUEST['day_date'] = date('d');
 	$_REQUEST['month_date'] = date('m');
 	$_REQUEST['year_date'] = date('Y');
-	$date = $_REQUEST['day_date'].'-'.$_REQUEST['month_date'].'-'.$_REQUEST['year_date'];
+
+	$date = $_REQUEST['year_date'] . '-' . $_REQUEST['month_date'] . '-' . $_REQUEST['day_date'];
 }
 
 if ( $_REQUEST['type'])

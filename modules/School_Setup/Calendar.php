@@ -298,15 +298,15 @@ if ( $_REQUEST['modfunc'] === 'create'
 					&& isset( $_REQUEST['year_max'] ) )
 				{
 					$_REQUEST['date_min'] = RequestedDate(
-						$_REQUEST['day_min'],
+						$_REQUEST['year_min'],
 						$_REQUEST['month_min'],
-						$_REQUEST['year_min']
+						$_REQUEST['day_min']
 					);
 
 					$_REQUEST['date_max'] = RequestedDate(
-						$_REQUEST['day_max'],
+						$_REQUEST['year_max'],
 						$_REQUEST['month_max'],
-						$_REQUEST['year_max']
+						$_REQUEST['day_max']
 					);
 
 					if ( !empty( $_REQUEST['date_min'] )
@@ -448,9 +448,9 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		&& isset( $_REQUEST['year_values']['SCHOOL_DATE'] ) )
 	{
 		$_REQUEST['values']['SCHOOL_DATE'] = RequestedDate(
-			$_REQUEST['day_values']['SCHOOL_DATE'],
+			$_REQUEST['year_values']['SCHOOL_DATE'],
 			$_REQUEST['month_values']['SCHOOL_DATE'],
-			$_REQUEST['year_values']['SCHOOL_DATE']
+			$_REQUEST['day_values']['SCHOOL_DATE']
 		);
 	}
 
@@ -697,9 +697,9 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 		&& $_REQUEST['year_start'] )
 	{
 		$start_date = RequestedDate(
-			$_REQUEST['day_start'],
+			$_REQUEST['year_start'],
 			$_REQUEST['month_start'],
-			$_REQUEST['year_start']
+			$_REQUEST['day_start']
 		);
 	}
 	else
@@ -710,9 +710,11 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 			AND SCHOOL_ID='" . UserSchool() . "'" ) );
 
 		if ( isset( $min_date[1]['MIN_DATE'] ) )
+		{
 			$start_date = $min_date[1]['MIN_DATE'];
+		}
 		else
-			$start_date = '01-' . mb_strtoupper( date( 'M-y' ) );
+			$start_date = date( 'Y-m' ) . '-01';
 	}
 
 	if ( $_REQUEST['day_end']
@@ -720,9 +722,9 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 		&& $_REQUEST['year_end'] )
 	{
 		$end_date = RequestedDate(
-			$_REQUEST['day_end'],
+			$_REQUEST['year_end'],
 			$_REQUEST['month_end'],
-			$_REQUEST['year_end']
+			$_REQUEST['day_end']
 		);
 	}
 	else
@@ -1079,40 +1081,48 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 		if ( $calendar_RET[ $date ][1]['MINUTES'] )
 		{
-			// Full School Day
+			// Full School Day.
 			if ( $calendar_RET[ $date ][1]['MINUTES'] === '999' )
+			{
 				$day_classes .= ' full';
-			// Minutes School Day
+			}
+			// Minutes School Day.
 			else
 				$day_classes .= ' minutes';
 		}
-		// No School Day
+		// No School Day.
 		else
 			$day_classes .= ' no-school';
 
-		// Fridays, Saturdays
+		// Thursdays, Fridays, Saturdays.
 		if ( ($return_counter + 1) % 7 === 0
-			|| ($return_counter + 1) % 7 === 6 )
-			$day_classes .= ' fri-sat';
+			|| ($return_counter + 1) % 7 > 4 )
+		{
+			$day_classes .= ' thu-fri-sat';
+		}
 
 		$day_inner_classes = '';
 
-		// Hover CSS class
+		// Hover CSS class.
 		if ( AllowEdit()
 			|| $calendar_RET[ $date ][1]['MINUTES']
 			|| count( $events_RET[ $date ] )
 			|| count( $assignments_RET[ $date ] ) )
+		{
 			$day_inner_classes .= ' hover';
+		}
 
 		echo '<td class="calendar-day' . $day_classes . '">
 			<table class="' . $day_inner_classes . '"><tr>';
 
-		$day_number_classes = '';
+		$day_number_classes = 'number';
 
 		// Bold class
 		if ( count( $events_RET[ $date ] )
 			|| count( $assignments_RET[ $date ] ) )
+		{
 			$day_number_classes .= ' bold';
+		}
 
 		// Calendar Day number
 		echo '<td class="' . $day_number_classes . '">' . $i . '</td>
@@ -1163,14 +1173,14 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		}
 
 		echo '</td></tr>
-		<tr><td colspan="2" class="valign-top">';
+		<tr><td colspan="2" class="calendar-event valign-top">';
 
 		// Events.
 		foreach ( (array) $events_RET[ $date ] as $event )
 		{
 			$title = ( $event['TITLE'] ? $event['TITLE'] : '***' );
 
-			echo '<div class="calendar-event">' .
+			echo '<div>' .
 				( AllowEdit() || $event['DESCRIPTION'] ?
 					'<a href="#" onclick="CalEventPopup(popupURL + \'&event_id=' . $event['ID'] . '\'); return false;" title="' . htmlentities( $title ) . '">' .
 					$title . '</a>'
