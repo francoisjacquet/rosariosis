@@ -1380,7 +1380,10 @@ HTML;
 	Para agregar un tipo de tarea o una tarea, haga clic sobre el icono «+» en la columna deseada. Luego, llene los datos en los campos arriba de las listas y presione el botón «Guardar».
 </p>
 <p>
-	Si usted marca la casilla «Aplicar a todas las Clases para este Curso», la tarea será asignada a cada clase del curso que usted tiene, de la misma manera que están agregados los tipos de tarea.
+	Si marca la casilla «Aplicar a todas las Clases para este Curso», la tarea será asignada a cada clase del curso que usted tiene, de la misma manera que están agregados los tipos de tarea.
+</p>
+<p>
+	Si marca la casilla «Permitir Entrega de Tarea», los Estudiantes (o Padres) pueden entregar la tarea (subir un archivo o/y dejar un mensaje). Las entregas están abiertas desde la fecha de asignación hasta la fecha de plazo. Si ninguna fecha de plazo ha sido definida, las entregas están abiertas hasta el fin del bimestre. Luego, podrá consultar las entregas en el programa "Calificaciones".
 </p>
 <p>
 	Para cambiar un tipo o una tarea, haga clic sobre el tipo o la tarea usted quiere cambiar y luego haga clic sobre el dato que usted quiere cambiar en la parte superior de las listas de tareas y tipos. Luego, cambie el dato y presione el botón «Guardar».
@@ -1438,6 +1441,21 @@ HTML;
 </p>
 <p>
 	Los expedientes académicos serán automáticamente creados en el formato imprimible PDF cuando usted presione el botón «Crear Expedientes Académicos para los Estudiantes Seleccionados».
+</p>
+HTML;
+
+	$help['Grades/StudentAssignments.php'] = <<<HTML
+<p>
+	<i>Tareas</i> le permite consultar las tareas de su estudiante.
+</p>
+<p>
+	En la vista detallada de una tarea, podrá entregar una tarea si el docente lo permite. A tal efecto, encontrará la posibilidad de subir un archivo y/o de dejar un mensaje.
+</p>
+<p>
+	La entrega de una tarea se puede realizar hasta la fecha de plazo. Si ninguna fecha de plazo ha sido definida, las entregas están abiertas hasta el fin del bimestre.
+</p>
+<p>
+	Se puede cambiar el periodo a calificar en el menú desplegable del marco izquierdo.
 </p>
 HTML;
 

@@ -340,10 +340,16 @@ echo ErrorMessage( $error );
 
 if (empty($_REQUEST['modfunc']))
 {
-	// ASSIGNMENT TYPES
-	$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE STAFF_ID='".User('STAFF_ID')."' AND COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') ORDER BY SORT_ORDER,TITLE";
-	$QI = DBQuery($sql);
-	$types_RET = DBGet($QI);
+	// ASSIGNMENT TYPES.
+	$assignment_types_sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,SORT_ORDER
+		FROM GRADEBOOK_ASSIGNMENT_TYPES
+		WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "'
+		AND COURSE_ID=(SELECT COURSE_ID
+			FROM COURSE_PERIODS
+			WHERE COURSE_PERIOD_ID='" . UserCoursePeriod() . "')
+	ORDER BY SORT_ORDER,TITLE";
+
+	$types_RET = DBGet( DBQuery( $assignment_types_sql ) );
 
 	if ( $_REQUEST['assignment_id']!='new' && $_REQUEST['assignment_type_id']!='new')
 	{
@@ -357,15 +363,17 @@ if (empty($_REQUEST['modfunc']))
 	// ADDING & EDITING FORM
 	if ( $_REQUEST['assignment_id'] && $_REQUEST['assignment_id']!='new')
 	{
-		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,DESCRIPTION,DEFAULT_POINTS,
+		$sql = "SELECT ASSIGNMENT_TYPE_ID,TITLE,ASSIGNED_DATE,DUE_DATE,POINTS,COURSE_ID,DESCRIPTION,DEFAULT_POINTS,SUBMISSION,
 				CASE WHEN DUE_DATE<ASSIGNED_DATE THEN 'Y' ELSE NULL END AS DATE_ERROR,
 				CASE WHEN ASSIGNED_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."') THEN 'Y' ELSE NULL END AS ASSIGNED_ERROR,
 				CASE WHEN DUE_DATE>(SELECT END_DATE+1 FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."') THEN 'Y' ELSE NULL END AS DUE_ERROR
 				FROM GRADEBOOK_ASSIGNMENTS
 				WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."'";
-		$QI = DBQuery($sql);
-		$RET = DBGet($QI);
+
+		$RET = DBGet( DBQuery( $sql ) );
+
 		$RET = $RET[1];
+
 		$title = $RET['TITLE'];
 	}
 	elseif ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id']!='new' && $_REQUEST['assignment_id']!='new')
@@ -374,9 +382,11 @@ if (empty($_REQUEST['modfunc']))
 				(SELECT sum(FINAL_GRADE_PERCENT) FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') AND STAFF_ID='".User('STAFF_ID')."') AS TOTAL_PERCENT
 				FROM GRADEBOOK_ASSIGNMENT_TYPES at
 				WHERE at.ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'";
-		$QI = DBQuery($sql);
-		$RET = DBGet($QI,array('FINAL_GRADE_PERCENT' => '_makePercent'));
+
+		$RET = DBGet( DBQuery( $sql ),array('FINAL_GRADE_PERCENT' => '_makePercent'));
+
 		$RET = $RET[1];
+
 		$title = $RET['TITLE'];
 	}
 	elseif ( $_REQUEST['assignment_id']=='new')
@@ -387,9 +397,11 @@ if (empty($_REQUEST['modfunc']))
 	elseif ( $_REQUEST['assignment_type_id']=='new')
 	{
 		$sql = "SELECT sum(FINAL_GRADE_PERCENT) AS TOTAL_PERCENT FROM GRADEBOOK_ASSIGNMENT_TYPES WHERE COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') AND STAFF_ID='".User('STAFF_ID')."'";
-		$QI = DBQuery($sql);
-		$RET = DBGet($QI,array('FINAL_GRADE_PERCENT' => '_makePercent'));
+
+		$RET = DBGet( DBQuery( $sql ),array('FINAL_GRADE_PERCENT' => '_makePercent'));
+
 		$RET = $RET[1];
+
 		$title = _('New Assignment Type');
 	}
 
@@ -412,6 +424,21 @@ if (empty($_REQUEST['modfunc']))
 			'required'
 		) . '</td>';
 
+		foreach ( (array) $types_RET as $type )
+		{
+			$assignment_type_options[ $type['ASSIGNMENT_TYPE_ID'] ] = $type['TITLE'];
+		}
+
+		$header .= '<td>' . SelectInput(
+			$RET['ASSIGNMENT_TYPE_ID'] ? $RET['ASSIGNMENT_TYPE_ID'] : $_REQUEST['assignment_type_id'],
+			'tables[' . $_REQUEST['assignment_id'] . '][ASSIGNMENT_TYPE_ID]',
+			_( 'Assignment Type' ),
+			$assignment_type_options,
+			false
+		) . '</td>';
+
+		$header .= '</tr><tr class="st">';
+
 		$header .= '<td>' . TextInput(
 			$RET['POINTS'],
 			'tables[' . $_REQUEST['assignment_id'] . '][POINTS]',
@@ -419,9 +446,11 @@ if (empty($_REQUEST['modfunc']))
 			'required size=4 maxlength=4 min=0'
 		) . '</td>';
 
-		//FJ default points
-		if ( $RET['DEFAULT_POINTS']=='-1')
+		// FJ default points.
+		if ( $RET['DEFAULT_POINTS'] == '-1' )
+		{
 			$RET['DEFAULT_POINTS'] = '*';
+		}
 
 		$header .= '<td>' . TextInput(
 			$RET['DEFAULT_POINTS'],
@@ -436,16 +465,25 @@ if (empty($_REQUEST['modfunc']))
 		$header .= '</tr><tr class="st">';
 
 		$header .= '<td colspan="2">' . TextAreaInput($RET['DESCRIPTION'],'tables['.$_REQUEST['assignment_id'].'][DESCRIPTION]',_('Description')) . '</td>';
-		$header .= '<td>' . CheckboxInput($RET['COURSE_ID'],'tables['.$_REQUEST['assignment_id'].'][COURSE_ID]',_('Apply to all Periods for this Course'),'',$_REQUEST['assignment_id']=='new') . '</td>';
 
 		$header .= '</tr><tr class="st">';
 
-		foreach ( (array) $types_RET as $type)
-			$assignment_type_options[$type['ASSIGNMENT_TYPE_ID']] = $type['TITLE'];
+		$header .= '<td>' . CheckboxInput($RET['COURSE_ID'],'tables['.$_REQUEST['assignment_id'].'][COURSE_ID]',_('Apply to all Periods for this Course'),'',$_REQUEST['assignment_id']=='new') . '</td>';
 
-		$header .= '<td>' . SelectInput($RET['ASSIGNMENT_TYPE_ID']?$RET['ASSIGNMENT_TYPE_ID']:$_REQUEST['assignment_type_id'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNMENT_TYPE_ID]',_('Assignment Type'),$assignment_type_options,false) . '</td>';
+		$header .= '<td>' . CheckboxInput(
+			$RET['SUBMISSION'],
+			'tables[' . $_REQUEST['assignment_id'] . '][SUBMISSION]',
+			_( 'Enable Assignment Submission' ),
+			'',
+			$_REQUEST['assignment_id'] == 'new'
+		) . '</td>';
+
+		$header .= '</tr><tr class="st">';
+
 		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_ASSIGNED','Gradebook')=='Y'?DBDate():$RET['ASSIGNED_DATE'],'tables['.$_REQUEST['assignment_id'].'][ASSIGNED_DATE]',_('Assigned'),! $new) . '</td>';
+
 		$header .= '<td>' . DateInput($new && Preferences('DEFAULT_DUE','Gradebook')=='Y'?DBDate():$RET['DUE_DATE'],'tables['.$_REQUEST['assignment_id'].'][DUE_DATE]',_('Due'),! $new) . '</td>';
+
 		$header .= '</tr>';
 
 		if ( $RET['DATE_ERROR'] == 'Y' )
@@ -463,7 +501,7 @@ if (empty($_REQUEST['modfunc']))
 			$error[] = _( 'Due date is after end of quarter!' );
 		}
 
-		$header .= '<tr><td class="valign-top" colspan="3">' . ErrorMessage( $error ) . '</td></tr>';
+		$header .= '<tr><td class="valign-top" colspan="2">' . ErrorMessage( $error ) . '</td></tr>';
 		$header .= '</table>';
 	}
 	elseif ( $_REQUEST['assignment_type_id'])

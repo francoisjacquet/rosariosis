@@ -6,6 +6,15 @@
  * @subpackage modules/Grades
  */
 
+require_once 'ProgramFunctions/FileUpload.fnc.php';
+
+// Assignments Files upload path global.
+if ( ! isset( $AssignmentsFilesPath ) )
+{
+	$AssignmentsFilesPath = 'assets/AssignmentsFiles/';
+}
+
+
 /**
  * Submit Student Assignment
  * Save eventual uploaded file
@@ -27,8 +36,6 @@
  */
 function StudentAssignmentSubmit( $assignment_id, &$error )
 {
-	require_once 'ProgramFunctions/FileUpload.fnc.php';
-
 	require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
 	$assignment = GetAssignment( $assignment_id );
@@ -42,10 +49,13 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	if ( ! $assignment['SUBMISSION'] )
 	{
-		$error[] = _( 'Assignment submission is not permitted.' );
+		$error[] = _( 'Assignment submission is not enabled.' );
 
 		return false;
 	}
+
+	// Old submission.
+	$old_submission = GetAssignmentSubmission( $assignment_id, UserStudentID() );
 
 	// TODO: check if Student not dropped?
 
@@ -89,8 +99,15 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 			'.csv',
 		);
 
-		// Filename = [assignment_ID]_[student_ID]_[timestamp].ext.
-		$file_name_no_ext = $assignment_id . '_' . UserStudentID() . '_' . $timestamp;
+		$student_name_RET = DBGet( DBQuery( "SELECT FIRST_NAME||' '||LAST_NAME AS NAME
+			FROM STUDENTS
+			WHERE STUDENT_ID='" . UserStudentID() . "'" ) );
+
+		$student_name = $student_name_RET[1]['NAME'];
+
+		// Filename = [course_title]_[assignment_ID]_[student_name]_[timestamp].ext.
+		$file_name_no_ext = no_accents( $assignment['COURSE_TITLE'] . '_' . $assignment_id . '_' .
+			$student_name ) . '_' . $timestamp;
 
 		$assignments_path = GetAssignmentsFilesPath( $assignment['STAFF_ID'] );
 
@@ -109,13 +126,17 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 		{
 			$files[] = $file;
 
-			// Delete old file if any.
-			$old_files = glob( $assignments_path . '/' .
-				$assignment_id . '_' . UserStudentID() . '_*.*' );
-
-			foreach ( (array) $old_files as $old_file )
+			if ( $old_submission )
 			{
-				unlink( $old_file );
+				$old_data = unserialize( $old_submission['DATA'] );
+
+				$old_file = isset( $old_data['files'][0] ) ? $old_data['files'][0] : '';
+
+				if ( file_exists( $old_file ) )
+				{
+					// Delete old file if any.
+					unlink( $old_file );
+				}
 			}
 		}
 	}
@@ -130,12 +151,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	// Save assignment submission.
 	// Update or insert?
-	$update_assignment = DBGet( DBQuery( "SELECT 1
-		FROM STUDENT_ASSIGNMENTS
-		WHERE STUDENT_ID='" . UserStudentID() . "'
-		AND ASSIGNMENT_ID='" . $assignment_id . "'" ) );
-
-	if ( $update_assignment )
+	if ( $old_submission )
 	{
 		// Update.
 		$assignment_submission_sql = "UPDATE STUDENT_ASSIGNMENTS
@@ -179,6 +195,8 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
  */
 function StudentAssignmentSubmissionOutput( $assignment_id )
 {
+	require_once 'ProgramFunctions/FileUpload.fnc.php';
+
 	$assignment = GetAssignment( $assignment_id );
 
 	if ( ! $assignment )
@@ -233,15 +251,11 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 		return false;
 	}
 
-	// Check if Assignment can be submitted (TODAY <= DUE_DATE).
-	if ( $assignment['DUE_DATE']
-		&& DBDate() <= $assignment['DUE_DATE'] )
-	{
-		return false;
-	}
-
 	// Get assignment submission if any.
-	$submission = GetAssignmentSubmission( $assignment_id, UserStudentID() );
+	$submission = GetAssignmentSubmission(
+		$assignment_id,
+		UserStudentID()
+	);
 
 	$old_file = $old_message = '';
 
@@ -251,7 +265,38 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 
 		$old_file = isset( $data['files'][0] ) ? $data['files'][0] : '';
 
+		$old_file = GetAssignmentFileLink( $old_file );
+
 		$old_message = $data['message'];
+
+		$old_date = ProperDateTime( $data['date'], 'short' );
+	}
+
+	// Check if Assignment can be submitted (TODAY <= DUE_DATE) or (!DUE_DATE && TODAY > User MP END_DATE).
+	if ( ( $assignment['DUE_DATE']
+			&& DBDate() <= $assignment['DUE_DATE'] )
+		|| ( ! $assignment['DUE_DATE']
+			&& DBDate() > GetMP( UserMP(), 'END_DATE' ) ) )
+	{
+		if ( $old_file )
+		{
+			// Display assignment file.
+			DrawHeader(
+				NoInput( $old_file, _( 'File' ) ),
+				NoInput( $old_date, _( 'Submission date' ) )
+			);
+		}
+
+		if ( $old_message )
+		{
+			// Display assignment message.
+			DrawHeader( $old_message . $message .
+				str_replace( '<br />', '', FormatInputTitle( _( 'Message' ) ) ) );
+		}
+
+		echo ErrorMessage( array( _( 'Submissions for this assignment are closed.' ) ), 'note' );
+
+		return false;
 	}
 
 	// File upload.
@@ -261,19 +306,19 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 
 	$file_html = '<input type="file" id="' . $file_id . '" name="' . $file_id . '" size="14" title="' .
 		sprintf( _( 'Maximum file size: %01.0fMb' ), FileUploadMaxSize() ) . '" />
-		<span id="loading"></span>' . $file_ftitle;
+		<span class="loading"></span>' . $file_ftitle;
 
 	// Input div onclick only if old file.
-	echo $old_file ? InputDivOnclick( $file_id, $file_html, $file, $file_ftitle ) : $file_html;
-
-	// HTML message (TinyMCE).
-	echo TinyMCEInput(
-		$old_message,
-		'message',
-		_( 'Message' )
+	DrawHeader( $old_file ?
+			$old_file . $file_html :
+			$file_html,
+		$old_file ? NoInput( $old_date, _( 'Submission date' ) ) : ''
 	);
 
-	echo '<br />' . SubmitButton( _( 'Submit Assignment' ) );
+	// HTML message (TinyMCE).
+	DrawHeader( TinyMCEInput( $old_message, 'message', _( 'Message' ) ) );
+
+	echo '<br /><div class="center">' . SubmitButton( _( 'Submit Assignment' ), 'submit_assignment' ) . '</div>';
 
 	return true;
 }
@@ -308,14 +353,12 @@ function GetAssignment( $assignment_id )
 		return false;
 	}
 
-	$student_id = UserStudentID() ? UserStudentID() : $_SESSION['STUDENT_ID'];
-
 	$assignment_sql = "SELECT ga.ASSIGNMENT_ID, ga.STAFF_ID, ga.COURSE_PERIOD_ID, ga.COURSE_ID,
 		ga.TITLE, ga.ASSIGNED_DATE, ga.DUE_DATE, ga.POINTS,
 		ga.DESCRIPTION, ga.SUBMISSION, c.TITLE AS COURSE_TITLE,
 		gat.TITLE AS ASSIGNMENT_TYPE_TITLE, gat.COLOR AS ASSIGNMENT_TYPE_COLOR
 		FROM GRADEBOOK_ASSIGNMENTS ga, SCHEDULE ss, COURSES c, GRADEBOOK_ASSIGNMENT_TYPES gat
-		WHERE ss.STUDENT_ID='" . $student_id . "'
+		WHERE ss.STUDENT_ID='" . UserStudentID() . "'
 		AND ss.SYEAR='" . UserSyear() . "'
 		AND ss.SCHOOL_ID='" . UserSchool() . "'
 		AND ss.MARKING_PERIOD_ID IN (" . GetAllMP( 'QTR', UserMP() ) . ")
@@ -335,6 +378,39 @@ function GetAssignment( $assignment_id )
 		$assignment_RET[ $assignment_id ][1] : false;
 
 	return $assignment[ $assignment_id ];
+}
+
+
+function GetAssignmentSubmission( $assignment_id, $student_id )
+{
+	// Check Assignment ID is int > 0.
+	if ( ! $assignment_id
+		|| (string) (int) $assignment_id !== $assignment_id
+		|| $assignment_id < 1 )
+	{
+		return false;
+	}
+
+	if ( ! $student_id )
+	{
+		return false;
+	}
+
+	$submission_sql = "SELECT DATA
+		FROM STUDENT_ASSIGNMENTS
+		WHERE ASSIGNMENT_ID='" . $assignment_id . "'
+		AND STUDENT_ID='" . $student_id . "'";
+
+	$submission_RET = DBGet( DBQuery( $submission_sql ) );
+
+	if ( isset( $submission_RET[1] ) )
+	{
+		return $submission_RET[1];
+	}
+	else
+	{
+		return false;
+	}
 }
 
 
@@ -361,15 +437,13 @@ function GetAssignmentsFilesPath( $teacher_id )
 	}
 
 	// File path = AssignmentsFiles/[School_Year]/Quarter[1,2,3,4...]/Teacher[teacher_ID]/.
-	return $AssignmentsFilesPath . '/' . UserSyear() . '/Quarter' . UserMP() . '/Teacher' . $teacher_id . '/';
+	return $AssignmentsFilesPath . UserSyear() . '/Quarter' . UserMP() . '/Teacher' . $teacher_id . '/';
 }
 
 
 
 function StudentAssignmentsListOutput()
 {
-	$student_id = UserStudentID() ? UserStudentID() : $_SESSION['STUDENT_ID'];
-
 	// TODO: get Assignment type color!
 	$assignments_sql = "SELECT ga.ASSIGNMENT_ID, ga.STAFF_ID, ga.COURSE_PERIOD_ID, ga.COURSE_ID,
 		ga.ASSIGNMENT_TYPE_ID, ga.TITLE, ga.ASSIGNED_DATE, ga.DUE_DATE, ga.POINTS, ga.SUBMISSION,
@@ -379,7 +453,7 @@ function StudentAssignmentsListOutput()
 			WHERE ga.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
 			AND sa.STUDENT_ID=ss.STUDENT_ID) AS SUBMITTED
 		FROM GRADEBOOK_ASSIGNMENTS ga, SCHEDULE ss, COURSES c
-		WHERE ss.STUDENT_ID='" . $student_id . "'
+		WHERE ss.STUDENT_ID='" . UserStudentID() . "'
 		AND ss.SYEAR='" . UserSyear() . "'
 		AND ss.SCHOOL_ID='" . UserSchool() . "'
 		AND ga.MARKING_PERIOD_ID='" . UserMP() . "'
@@ -396,11 +470,11 @@ function StudentAssignmentsListOutput()
 	$assignments_RET = DBGet(
 		DBQuery( $assignments_sql ),
 		array(
-			'TITLE' => '_makeAssignmentTitle',
+			'TITLE' => 'MakeAssignmentTitle',
 			'STAFF_ID' => 'GetTeacher',
 			'DUE_DATE' => '_makeAssignmentDueDate',
 			'ASSIGNED_DATE' => 'ProperDate',
-			'SUBMITTED' => '_makeAssignmentSubmitted',
+			'SUBMITTED' => 'MakeAssignmentSubmitted',
 		)
 	);
 
@@ -419,7 +493,7 @@ function StudentAssignmentsListOutput()
 }
 
 
-function _makeAssignmentTitle( $value, $column )
+function MakeAssignmentTitle( $value, $column )
 {
 	global $THIS_RET;
 
@@ -428,11 +502,8 @@ function _makeAssignmentTitle( $value, $column )
 		$value :
 		'<span title="' . $value . '">' . mb_substr( $value, 0, 33 ) . '...</span>';
 
-	$view_assignment_link = PreparePHP_SELF(
-		$_REQUEST,
-		array( 'search_modfunc' ),
-		array( 'assignment_id' => $THIS_RET['ASSIGNMENT_ID'] )
-	);
+	$view_assignment_link = 'Modules.php?modname=Grades/StudentAssignments.php&assignment_id=' .
+		$THIS_RET['ASSIGNMENT_ID'];
 
 	return '<a href="' . $view_assignment_link . '">' . $title . '</a>';
 }
@@ -443,7 +514,7 @@ function _makeAssignmentDueDate( $value, $column = 'DUE_DATE' )
 	$due_date = ProperDate( $value );
 
 	if ( $value
-		&& $value >= DBDate() )
+		&& $value <= DBDate() )
 	{
 		// Past due, in red.
 		$due_date = '<span style="color:red;">' . $due_date . '</span>';
@@ -453,7 +524,7 @@ function _makeAssignmentDueDate( $value, $column = 'DUE_DATE' )
 }
 
 
-function _makeAssignmentSubmitted( $value, $column )
+function MakeAssignmentSubmitted( $value, $column )
 {
 	global $THIS_RET;
 
@@ -463,4 +534,65 @@ function _makeAssignmentSubmitted( $value, $column )
 	}
 
 	return $value ? button( 'check' ) : button( 'x' );
+}
+
+
+function MakeStudentAssignmentSubmissionView( $value, $column )
+{
+	global $THIS_RET;
+
+	if ( $value !== 'Y' )
+	{
+		return '';
+	}
+
+	$student_id = UserStudentID() ? UserStudentID() : $THIS_RET['STUDENT_ID'];
+
+	$submission = GetAssignmentSubmission( $THIS_RET['ASSIGNMENT_ID'], $student_id );
+
+	if ( $submission )
+	{
+		$data = unserialize( $submission['DATA'] );
+
+		$file = isset( $data['files'][0] ) ? $data['files'][0] : '';
+
+		$message = $data['message'];
+
+		$date = ProperDateTime( $data['date'], 'short' );
+
+		$html = '<a class="colorboxinline" href="#submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . UserStudentID() . '">
+		<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button bigger" /> ' .
+		_( 'View Online' ) . '</a>';
+
+		$html .= '<div class="hide">
+			<div id="submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . UserStudentID(). '">' .
+			NoInput( $date, _( 'Submission date' ) ) . '<br />' .
+			NoInput( GetAssignmentFileLink( $file ), _( 'File' ) ) .
+			$message . str_replace( '<br />', '', FormatInputTitle( _( 'Message' ) ) ) .
+			'</div></div>';
+
+		return $html;
+	}
+
+	return button( 'x' );
+}
+
+
+function GetAssignmentFileLink( $file_path )
+{
+	if ( ! file_exists( $file_path ) )
+	{
+		return '';
+	}
+
+	$file_name = mb_substr( mb_strrchr( $file_path, '/' ), 1 );
+
+	$file_size = HumanFilesize( filesize( $file_path ) );
+
+	return button(
+		'download',
+		_( 'Download' ),
+		'"' . $file_path . '" target="_blank" title="' . $file_name . ' (' . $file_size . ')"',
+		'bigger'
+	);
 }

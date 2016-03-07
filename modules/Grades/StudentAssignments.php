@@ -18,17 +18,17 @@ DrawHeader( ProgramTitle() );
 if ( isset( $_REQUEST['assignment_id'] )
 	&& $_REQUEST['assignment_id'] )
 {
-	if ( $_REQUEST['modfunc'] === 'submit' )
+	if ( isset( $_POST['submit_assignment'] ) )
 	{
 		$submitted = StudentAssignmentSubmit( $_REQUEST['assignment_id'], $error );
 
 		if ( $submitted )
 		{
-			$note[] = _( 'Assignment submitted.' );
+			$note[] = button( 'check', '', '', 'bigger' ) . '&nbsp;' . _( 'Assignment submitted.' );
 
 			echo ErrorMessage( $note, 'note' );
 		}
-		
+
 		echo ErrorMessage( $error );
 	}
 

@@ -65,7 +65,8 @@ Changes in 2.9
 - Update TinyMCE to version 4.3.6 in assets/js/tinymce/
 - Add TinyMCEInput() & SanitizeHTML() functions in Inputs.php & MarkDownHTML.fnc.php
 - Declare $error, $note, $warning globals in ErrorMessage.fnc.php & program wide
-- Add Student Assignments program + related SQL + assets/AssignmentsFiles/ folder
+- Add Student Assignments program + related SQL & Help + assets/AssignmentsFiles/ folder
+- Add Assignment Submissions & Help in Grades/Assignments.php & Grades/Grades.php
 - Use ISO date format (YYYY-MM-DD), always in Date.php & program wide
 - Add ProperDateTime() function in Date.php
 

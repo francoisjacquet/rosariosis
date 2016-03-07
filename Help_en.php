@@ -1364,13 +1364,16 @@ HTML;
 	<i>Assignments</i> allows you to setup your assignments. There are two tiers involved with assignments: assignment types and assignments.
 </p>
 <p>
-	You will probably have assignment types called "Homework," "Tests," and perhaps "Quizzes." Assignment types are set for every period on which you teach any given course. So, if you teach Algebra on 1st and 3rd period, you will have to add assignment types to only one of these periods.
+	You will probably have assignment types called "Homework", "Tests", and perhaps "Quizzes". Assignment types are set for every period on which you teach any given course. So, if you teach Algebra on 1st and 3rd period, you will have to add assignment types to only one of these periods.
 </p>
 <p>
 	To add an assignment type or an assignment, click on the Add icon (+) in the column corresponding to what you want to add. Then, fill in the information in the fields above the list of assignments / types and click the "Save" button.
 </p>
 <p>
-	If you check "Apply to all Periods for this Course," the assignment will be added for each period for which you teach a specific course, in the same way assignment types are added.
+	If you check "Apply to all Periods for this Course", the assignment will be added for each period for which you teach a specific course, in the same way assignment types are added.
+</p>
+<p>
+	If you check "Enable Assignment Submission", Students (or Parents) can submit the assignment (upload a file and/or leave a message). Submissions are opened from the assigned date and until the due date. If no due date has been set, submissions are open until the end of the quarter. You can later consult the submissions in the "Grades" program.
 </p>
 <p>
 	To change an assignment or type, click on the assignment or type you want to modify and click on the value you want to change in the grey area above the assignments / types lists. Then, change the value and click the "Save" button.
@@ -1431,12 +1434,27 @@ HTML;
 </p>
 HTML;
 
-	$help['Grades/StudentGrades'] = <<<HTML
+	$help['Grades/StudentAssignments.php'] = <<<HTML
+<p>
+	<i>Assignments</i> allows you to view your child's assignments.
+</p>
+<p>
+	In the detailed view of an assignment, you will be able to submit an assignment if allowed by the teacher. To this effect, you will be given the possibility to upload a file and/or leave a message.
+</p>
+<p>
+	Assignment submissions are opened until the due date. If no due date has been set, submissions are open until the end of the quarter.
+</p>
+<p>
+	You can change the marking period using the dropdown list available in the left frame.
+</p>
+HTML;
+
+	$help['Grades/StudentGrades.php'] = <<<HTML
 <p>
 	<i>Gradebook Grades</i> allows you to view the grades earned by your child.
 </p>
 <p>
-	Before searching, you must select which marking periods to display by checking desired marking period checkboxes.
+	You can change the marking period using the dropdown list available in the left frame.
 </p>
 HTML;
 

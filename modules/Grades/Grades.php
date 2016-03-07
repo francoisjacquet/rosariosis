@@ -4,9 +4,11 @@
 // determination.  It would be possible to include all enrollment timespans but only the current is used for simplicity.  This is not a bug
 // but an accepted limitaion.
 
-DrawHeader(_('Gradebook').' - '.ProgramTitle());
-
 require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
+
+require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
+
+DrawHeader(_('Gradebook').' - '.ProgramTitle());
 
 // if running as a teacher program then rosario[allow_edit] will already be set according to admin permissions
 if ( !isset($_ROSARIO['allow_edit']))
@@ -177,24 +179,32 @@ $LO_options = array('search'=>false);
 
 if (UserStudentID())
 {
-	$extra['WHERE'] = " AND s.STUDENT_ID='".UserStudentID()."'";
+	$extra['WHERE'] = " AND s.STUDENT_ID='" . UserStudentID() . "'";
 
-	if ( ! $_REQUEST['type_id'])
-		$LO_columns = array('TYPE_TITLE' => _('Category'));
+	if ( ! $_REQUEST['type_id'] )
+	{
+		$LO_columns = array( 'TYPE_TITLE' => _( 'Category' ) );
+	}
 	else
 		$LO_columns = array();
 
-	$LO_columns += array('TITLE' => _('Assignment'),'POINTS' => _('Points'),'COMMENT' => _('Comment'));
+	$LO_columns += array(
+		'TITLE' => _( 'Assignment' ),
+		'POINTS' => _( 'Points' ),
+		'COMMENT' => _( 'Comment' ),
+		'SUBMISSION' => _( 'Submission' ),
+	);
 
-	// modif Francois: display percent grade according to Configuration
+	// modif Francois: display percent grade according to Configuration.
 	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
+	{
 		$LO_columns['PERCENT_GRADE'] = _('Percent');
-
-	// modif Francois: display letter grade according to Configuration
+	}
+	// modif Francois: display letter grade according to Configuration.
 	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
+	{
 		$LO_columns['LETTER_GRADE'] = _('Letter');
-
-	$LO_columns += array('TITLE' => _('Assignment'),'POINTS' => _('Points'),/*'PERCENT_GRADE' => _('Percent'),'LETTER_GRADE' => _('Letter'),*/'COMMENT' => _('Comment'));
+	}
 
 	$link['TITLE']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'];
 	$link['TITLE']['variables'] = array('type_id' => 'ASSIGNMENT_TYPE_ID','assignment_id' => 'ASSIGNMENT_ID');
@@ -209,7 +219,13 @@ if (UserStudentID())
 
 	$count_assignments = count($assignments_RET);
 
-	$extra['SELECT'] = ",ga.ASSIGNMENT_TYPE_ID,ga.ASSIGNMENT_ID,ga.TITLE,ga.POINTS AS TOTAL_POINTS,'' AS PERCENT_GRADE,'' AS LETTER_GRADE,CASE WHEN (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID) THEN 'Y' ELSE NULL END AS DUE";
+	$extra['SELECT'] = ",ga.ASSIGNMENT_TYPE_ID,ga.ASSIGNMENT_ID,ga.TITLE,ga.POINTS AS TOTAL_POINTS,
+		ga.SUBMISSION,'' AS PERCENT_GRADE,'' AS LETTER_GRADE,
+		CASE WHEN (ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
+			AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE)
+			OR CURRENT_DATE>(SELECT END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=ga.MARKING_PERIOD_ID)
+			THEN 'Y' ELSE NULL END AS DUE";
+
 	$extra['SELECT'] .= ',gg.POINTS,gg.COMMENT';
 
 	if ( ! $_REQUEST['type_id'])
@@ -225,17 +241,31 @@ if (UserStudentID())
 		$extra['WHERE'] .= " AND (gg.POINTS IS NOT NULL OR (ga.DUE_DATE IS NULL OR (".db_greatest('ssm.START_DATE','ss.START_DATE')."<=ga.DUE_DATE) AND (".db_least('ssm.END_DATE','ss.END_DATE')." IS NULL OR ".db_least('ssm.END_DATE','ss.END_DATE').">=ga.DUE_DATE)))".($_REQUEST['type_id']?" AND ga.ASSIGNMENT_TYPE_ID='".$_REQUEST['type_id']."'":'');
 
 	$extra['ORDER_BY'] = Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC";
-	$extra['functions'] = array('POINTS' => '_makeExtraStuCols','PERCENT_GRADE' => '_makeExtraStuCols','LETTER_GRADE' => '_makeExtraStuCols','COMMENT' => '_makeExtraStuCols');
+
+	$extra['functions'] = array(
+		'POINTS' => '_makeExtraStuCols',
+		'PERCENT_GRADE' => '_makeExtraStuCols',
+		'LETTER_GRADE' => '_makeExtraStuCols',
+		'COMMENT' => '_makeExtraStuCols',
+		'SUBMISSION' => 'MakeStudentAssignmentSubmissionView',
+	);
 }
 else
 {
-	$LO_columns = array('FULL_NAME' => _('Student'));
+	$LO_columns = array( 'FULL_NAME' => _( 'Student' ) );
 
-	if ( $_REQUEST['assignment_id']!='all')
-		$LO_columns += array('STUDENT_ID'=>sprintf(_('%s ID'),Config('NAME')));
+	// Gain 1 column: replace it with "Submission".
+	/*if ( $_REQUEST['assignment_id'] != 'all' )
+	{
+		$LO_columns += array( 'STUDENT_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ) );
+	}*/
 
-	if ( $_REQUEST['include_inactive']=='Y')
-		$LO_columns += array('ACTIVE' => _('School Status'),'ACTIVE_SCHEDULE' => _('Course Status'));
+	if ( $_REQUEST['include_inactive'] == 'Y' )
+	{
+		$LO_columns += array(
+			'ACTIVE' => _( 'School Status' ),
+			'ACTIVE_SCHEDULE' => _( 'Course Status' ) );
+	}
 
 	$link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&include_inactive='.$_REQUEST['include_inactive'].'&include_all='.$_REQUEST['include_all'].'&type_id='.$_REQUEST['type_id'].'&assignment_id=all';
 	$link['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
@@ -275,21 +305,32 @@ else
 			$LO_columns['G' . $id] = $column_title;
 		}
 	}
-	elseif ( $_REQUEST['assignment_id'])
+	elseif ( $_REQUEST['assignment_id'] )
 	{
-		$extra['SELECT'] .= ",'".$_REQUEST['assignment_id']."' AS POINTS,'".$_REQUEST['assignment_id']."' AS PERCENT_GRADE,'".$_REQUEST['assignment_id']."' AS LETTER_GRADE,'".$_REQUEST['assignment_id']."' AS COMMENT";
+		$extra['SELECT'] .= ",'" . $_REQUEST['assignment_id'] . "' AS POINTS,
+			'" . $_REQUEST['assignment_id'] . "' AS PERCENT_GRADE,
+			'" . $_REQUEST['assignment_id'] . "' AS LETTER_GRADE,
+			'" . $_REQUEST['assignment_id'] . "' AS COMMENT,
+			(SELECT 'Y' FROM GRADEBOOK_ASSIGNMENTS ga
+				WHERE ga.ASSIGNMENT_ID='" . $_REQUEST['assignment_id'] . "'
+				AND ga.SUBMISSION='Y') AS SUBMISSION,
+			'" . $_REQUEST['assignment_id'] . "' AS ASSIGNMENT_ID";
+
 		$extra['SELECT'] .= ",extract(EPOCH FROM ".db_greatest('ssm.START_DATE','ss.START_DATE').") AS START_EPOCH,extract(EPOCH FROM ".db_least('ssm.END_DATE','ss.END_DATE').") AS END_EPOCH";
-		$extra['functions'] = array('POINTS' => '_makeExtraAssnCols', 'PERCENT_GRADE' => '_makeExtraAssnCols', 'LETTER_GRADE' => '_makeExtraAssnCols', 'COMMENT' => '_makeExtraAssnCols');
 
-		$LO_columns += array('POINTS' => _('Points'),'COMMENT' => _('Comment'));
+		$extra['functions'] = array(
+			'POINTS' => '_makeExtraAssnCols',
+			'PERCENT_GRADE' => '_makeExtraAssnCols',
+			'LETTER_GRADE' => '_makeExtraAssnCols',
+			'COMMENT' => '_makeExtraAssnCols',
+			'SUBMISSION' => 'MakeStudentAssignmentSubmissionView',
+		);
 
-		// modif Francois: display percent grade according to Configuration
-		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
-			$LO_columns['PERCENT_GRADE'] = _('Percent');
-
-		// modif Francois: display letter grade according to Configuration
-		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
-			$LO_columns['LETTER_GRADE'] = _('Letter');
+		$LO_columns += array(
+			'POINTS' => _( 'Points' ),
+			'COMMENT' => _( 'Comment' ),
+			'SUBMISSION' => _( 'Submission' ),
+		);
 
 		$current_RET = DBGet(DBQuery("SELECT STUDENT_ID,POINTS,COMMENT,ASSIGNMENT_ID FROM GRADEBOOK_GRADES WHERE ASSIGNMENT_ID='".$_REQUEST['assignment_id']."' AND COURSE_PERIOD_ID='".UserCoursePeriod()."'"),array(),array('STUDENT_ID','ASSIGNMENT_ID'));
 	}
@@ -316,14 +357,21 @@ else
 			$extra['functions'] = array('POINTS' => '_makeExtraAssnCols', 'PERCENT_GRADE' => '_makeExtraAssnCols', 'LETTER_GRADE' => '_makeExtraAssnCols');
 
 			$LO_columns['POINTS'] = _('Points');
+		}
+	}
 
-			// modif Francois: display percent grade according to Configuration
-			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
-				$LO_columns['PERCENT_GRADE'] = _('Percent');
+	if ( $_REQUEST['assignment_id'] != 'all' )
+	{
+		// modif Francois: display percent grade according to Configuration.
+		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
+		{
+			$LO_columns['PERCENT_GRADE'] = _( 'Percent' );
+		}
 
-			// modif Francois: display letter grade according to Configuration
-			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
-				$LO_columns['LETTER_GRADE'] = _('Letter');
+		// modif Francois: display letter grade according to Configuration.
+		if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
+		{
+			$LO_columns['LETTER_GRADE'] = _( 'Letter' );
 		}
 	}
 
@@ -609,7 +657,7 @@ function _makeExtraStuCols($value,$column)
 	if (is_null($THIS_RET['POINTS']))
 		$THIS_RET['POINTS'] = $assignments_RET[$THIS_RET['ASSIGNMENT_ID']][1]['DEFAULT_POINTS'];
 	
-	switch ( $column)
+	switch ( $column )
 	{
 		case 'POINTS':
 			$assignment_count++;
