@@ -787,7 +787,7 @@ div.st{
 .calendar-day .bold{
 	font-weight:bold
 }
-.calendar-event{
+.calendar-event div{
 	border-left-width:3px;
 	border-left-style:solid;
 	margin:1px 0
@@ -891,14 +891,6 @@ div.st{
 	display: none;
 }
 
-/*320 & 360px mobile*/
-@media only screen and (max-width:479px){
-	/*Stackable tables: columns always align left*/
-	.st > .align-right{
-		text-align: left;
-	}
-}
-
 /*mobile*/
 @media only screen and (max-width:640px){
 	/*quick smartphone reset*/
@@ -917,14 +909,17 @@ div.st{
 		max-height:130px;
 		float:right
 	}
-	#menu,#body{
+	#menu{
 		margin-bottom:0
 	}
 	.adminmenu a{
-		padding:3px 5px
+		padding:2px 5px
+	}
+	.wp-submenu a{
+		padding:5px
 	}
 	.menu-top img{
-		height:24px
+		height:30px
 	}
 	.no-touch .menu-module:hover .menu-top:after{
 		content: "";
@@ -937,7 +932,6 @@ div.st{
 	}
 	.header1 h2{
 		font-size:22px;
-		padding:7px 8px 7px 0;
 		line-height:24px
 	}
 	.BottomButton span{
@@ -1073,40 +1067,62 @@ div.st{
 		padding: 4px;
 	}
 	.calendar-day{
-		min-width:32px;
 		position:relative;
-		height:32px
+		height:48px
 	}
 	.calendar-day > table{
 		display:block;
 		width:inherit;
-		overflow:hidden;
 		z-index:1
 	}
+	.calendar-day td{
+		display:none;
+	}
+	.calendar-day .hover:hover td,
+	.calendar-day .number{
+		display: table-cell;
+	}
+	/*.calendar-day .hover:hover .calendar-event{
+		display:inherit;
+	}*/
 	.calendar-day .hover:hover{
 		height:auto;
-		min-width:132px;
-		min-height:70px;
-		z-index:100;
+		min-width:202px;
+		min-height:102px;
+		z-index:2;
 		position:absolute;
 		top:0;
 		left:0;
-		background-color:inherit
+		background-color:inherit;
+		box-shadow: 2px 2px 2px 1px #9f9f9f
 	}
 	/*fridays, saturdays*/
-	.calendar-day.fri-sat .hover:hover{
+	.calendar-day.thu-fri-sat .hover:hover{
 		right:0;
-		left:auto
-	}
-	.calendar-skip{
-		height:32px;
+		left:auto;
+		box-shadow: -2px 2px 2px 1px #9f9f9f
 	}
 
 	/*jscalendar+colorbox*/
 	.calendar{
 		z-index:10000
 	}
-	table.mceLayout{
-		width:90% !important
-	}
 }
+
+/*320 & 360px mobile*/
+@media only screen and (max-width:479px){
+	/*Stackable tables: columns always align left*/
+	.st > .align-right{
+		text-align: left;
+	}
+	/*calendar*/
+	.calendar-day{
+		height:36px
+	}
+	.calendar-day .hover:hover{
+		min-width:177px;
+		min-height:78px
+	}
+
+}
+

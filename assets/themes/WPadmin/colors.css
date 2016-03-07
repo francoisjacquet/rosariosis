@@ -195,6 +195,7 @@ hr{
 }
 
 /*Side current person*/
+.current-person,
 .current-person a{
 	color:#fff
 }
@@ -218,7 +219,7 @@ hr{
 	background:#DFDFDF
 }
 #calendar th{
-	background:#000;
+	background:#333;
 	color:#fff
 }
 .calendar-day.full{

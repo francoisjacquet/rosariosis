@@ -779,7 +779,7 @@ div.st{
 .calendar-day .bold{
 	font-weight:bold
 }
-.calendar-event{
+.calendar-event div{
 	border-left-width:3px;
 	border-left-style:solid;
 	margin:1px 0
