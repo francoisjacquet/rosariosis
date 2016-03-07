@@ -1701,7 +1701,7 @@ Date.prototype.print = function (str) {
 };
 
 Date.prototype.printMonth = function () {
-	return this.print('%b');
+	return this.print('%m');
 };
 
 Date.prototype.printDay = function () {
