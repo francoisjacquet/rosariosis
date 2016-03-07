@@ -47,11 +47,12 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
   [Optional variables]
 - `$RosarioPath` is full path to RosarioSIS installation, you can define it statically for your installation or the runtime value derived from the `__FILE__` magic constant should work
 - `$wkhtmltopdfAssetsPath` is path where wkhtmltopdf will access the `assets/` directory, possibly different than how the user's web browser finds it, empty string means no translation
-- `$StudentPicturesPath` relative path to student pictures
-- `$UserPicturesPath` relative path to user pictures
-- `$PortalNotesFilesPath` relative path to portal notes attached files
-- `$FS_IconsPath` relative path to food service icons
-- `$LocalePath` relative path were the language packs are stored. You need to restart Apache at each change in this directory.
+- `$StudentPicturesPath` path to student pictures
+- `$UserPicturesPath` path to user pictures
+- `$PortalNotesFilesPath` path to portal notes attached files
+- `$AssignmentsFilesPath` path to student assignments files
+- `$FS_IconsPath` path to food service icons
+- `$LocalePath` path were the language packs are stored. You need to restart Apache at each change in this directory.
 - `$Timezone` sets the default time zone used by all date/time functions. See [List of Supported Timezones](http://php.net/manual/en/timezones.php).
 
   [Debug mode: add the following line to activate]
