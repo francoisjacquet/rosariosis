@@ -83,6 +83,13 @@ $RosarioActions = array(
 	'School_Setup/Rollover.php|rollover_course_subjects' => array(),
 	'School_Setup/Rollover.php|rollover_courses' => array(),
 	'School_Setup/Rollover.php|rollover_course_periods' => array(),
+
+	/**
+	 * Portal Alerts.
+	 *
+	 * @since 2.9
+	 */
+	'misc/Portal.php|portal_alerts' => array(),
 );
 
 

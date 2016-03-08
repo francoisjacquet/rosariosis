@@ -70,6 +70,8 @@ Changes in 2.9
 - Use ISO date format (YYYY-MM-DD), always in Date.php & program wide
 - Add ProperDateTime() function in Date.php
 - Add HumanFilesize() function in ProgramFunctions/FileUpload.fnc.php
+- Add misc/Portal.php|portal_alerts hook in Actions.php & Portal.php
+- Add optional functions.php file for modules in Warehouse.php & Discipline/functions.php
 
 Changes in 2.8.11
 -----------------

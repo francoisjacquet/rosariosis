@@ -1,59 +1,94 @@
 <?php
- 
-if ( !UserSyear())
+
+if ( ! UserSyear() )
 {
-	$_SESSION['UserSyear'] = Config('SYEAR');
+	$_SESSION['UserSyear'] = Config( 'SYEAR' );
 }
 
 $_ROSARIO['HeaderIcon'] = 'modules/misc/icon.png';
-DrawHeader(ParseMLField(Config('TITLE')));
 
-DrawHeader('<span id="salute"></span><script>
-var currentTime = new Date();
-var hours = currentTime.getHours();
-var salute = document.getElementById("salute");
-if (hours < 12) salute.innerHTML='.json_encode(sprintf(_('Good Morning, %s.'), User('NAME'))).';
-else if (hours < 18) salute.innerHTML='.json_encode(sprintf(_('Good Afternoon, %s.'), User('NAME'))).';
-else salute.innerHTML='.json_encode(sprintf(_('Good Evening, %s.'), User('NAME'))).';</script>');
+DrawHeader( ParseMLField( Config( 'TITLE' ) ) );
 
-$welcome = sprintf(_('Welcome to %s!'), ParseMLField(Config('TITLE')));
+DrawHeader( '<span id="salute"></span>' );
 
-if ( !empty($_SESSION['LAST_LOGIN']))
-	$welcome .= '<br />'.sprintf(_('Your last login was <b>%s</b>.'), ProperDate(mb_substr($_SESSION['LAST_LOGIN'],0,10)).mb_substr($_SESSION['LAST_LOGIN'],10));
+?>
+<script>
+var currentTime = new Date(),
+	hours = currentTime.getHours(),
+	salute = document.getElementById("salute");
+	if (hours < 12)
+		salute.innerHTML=<?php echo json_encode( sprintf( _( 'Good Morning, %s.' ), User( 'NAME' ) ) ); ?>;
+	else if (hours < 18)
+		salute.innerHTML=<?php echo json_encode( sprintf( _( 'Good Afternoon, %s.' ), User( 'NAME' ) ) ); ?>;
+	else
+		salute.innerHTML=<?php echo json_encode( sprintf( _( 'Good Evening, %s.' ), User( 'NAME' ) ) ); ?>;
+</script>
+<?php
 
-if ( !empty( $failed_login ) )
-	$welcome .= '<br />'.ErrorMessage(array(sprintf(_('There have been <b>%d</b> failed login attempts since your last successful login.'),$failed_login)), 'warning');
+$welcome = sprintf( _( 'Welcome to %s!' ), ParseMLField( Config( 'TITLE' ) ) );
 
-switch (User('PROFILE'))
+if ( ! empty( $_SESSION['LAST_LOGIN'] ) )
+{
+	$welcome .= '<br />' . sprintf(
+		_( 'Your last login was <b>%s</b>.' ),
+		ProperDateTime( $_SESSION['LAST_LOGIN'] )
+	);
+}
+
+if ( ! empty( $failed_login ) )
+{
+	$welcome .= ErrorMessage(
+		array( sprintf(
+			_( 'There have been <b>%d</b> failed login attempts since your last successful login.' ),
+			$failed_login
+		) ),
+		'warning'
+	);
+}
+
+switch ( User( 'PROFILE' ) )
 {
 	case 'admin':
-		DrawHeader($welcome.'<br />'._('You are an <b>Administrator</b> on the system.'));
+
+		$welcome .= '<br />' . _( 'You are an <b>Administrator</b> on the system.' );
+
+	break;
+
+	case 'teacher':
+
+		$welcome .= '<br />' . _( 'You are an <b>Teacher</b> on the system.' );
+
+	break;
+
+	case 'parent':
+
+		$welcome .= '<br />' . _( 'You are an <b>Parent</b> on the system.' );
+
+	break;
+
+	default:
+
+		$welcome .= '<br />' . _( 'You are an <b>Student</b> on the system.' );
+}
+
+DrawHeader( $welcome );
+
+// Do portal_alerts hook.
+do_action( 'misc/Portal.php|portal_alerts' );
+
+echo ErrorMessage( $note, 'note' );
+
+switch ( User( 'PROFILE' ) )
+{
+	case 'admin':
 
 		$PHPCheck = PHPCheck();
-		if ( !empty($PHPCheck))
-			echo ErrorMessage($PHPCheck, 'warning');
 
-		//FJ Discipline new referrals alert
-		if ( $RosarioModules['Discipline'] && AllowUse('Discipline/Referrals.php') && $_SESSION['LAST_LOGIN'])
+		if ( ! empty( $PHPCheck ) )
 		{
-			$last_login_date = mb_substr( $_SESSION['LAST_LOGIN'], 0, 10 );
-
-			$extra = array();
-			$extra['SELECT_ONLY'] = 'count(*) AS COUNT';
-			$extra['FROM'] = ',DISCIPLINE_REFERRALS dr ';
-			$extra['WHERE'] = ' AND dr.STUDENT_ID=ssm.STUDENT_ID AND dr.SYEAR=ssm.SYEAR AND dr.SCHOOL_ID=ssm.SCHOOL_ID AND dr.ENTRY_DATE BETWEEN '."'".$last_login_date."' AND '".DBDate()."'";
-			
-			$disc_RET = GetStuList($extra);
-
-			if ( $disc_RET[1]['COUNT']>0)
-			{
-				$message = '<a href="Modules.php?modname=Discipline/Referrals.php&search_modfunc=list&discipline_entry_begin='.$last_login_date.'&discipline_entry_end='.DBDate().'"><img src="modules/Discipline/icon.png" class="button bigger" /> ';
-				$message .= sprintf(ngettext('%d new referral', '%d new referrals', $disc_RET[1]['COUNT']), $disc_RET[1]['COUNT']);
-				$message .= '</a>';	
-				echo ErrorMessage(array($message), 'note');
-			}
+			echo ErrorMessage( $PHPCheck, 'warning' );
 		}
-		
+
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 //FJ file attached to portal notes
 //FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
@@ -208,7 +243,6 @@ switch (User('PROFILE'))
 	break;
 
 	case 'teacher':
-		DrawHeader($welcome.'<br />'._('You are a <b>Teacher</b> on the system.'));
 
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 //FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
@@ -266,19 +300,42 @@ switch (User('PROFILE'))
 			ListOutput($events_RET,array('DAY' => _('Day'),'SCHOOL_DATE' => _('Date'),'TITLE' => _('Event'),'DESCRIPTION' => _('Description'),'SCHOOL' => _('School')),'Day With Upcoming Events','Days With Upcoming Events',array(),array('SCHOOL_DATE'),array('save'=>false,'search'=>false));
 		}
 
-		//FJ Portal Assignments
-		$assignments_RET = DBGet(DBQuery("SELECT a.ASSIGNMENT_ID AS ID,a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
+		// FJ Portal Assignments.
+		$assignments_RET = DBGet( DBQuery( "SELECT a.ASSIGNMENT_ID AS ID,a.TITLE AS ASSIGNMENT_TITLE,
+			a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
+			c.TITLE AS COURSE
 		FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
 		WHERE (a.COURSE_ID=c.COURSE_ID
 		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
-		AND a.DUE_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
-		AND a.STAFF_ID='".User('STAFF_ID')."' 
+		AND a.STAFF_ID='" . User( 'STAFF_ID' ) . "' 
 		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
-		ORDER BY a.DUE_DATE,a.TITLE"),array('DUE_DATE' => 'ProperDate', 'DAY' => '_eventDay', 'ASSIGNED_DATE' => 'ProperDate', 'DESCRIPTION' => '_formatContent'));
+		AND a.DUE_DATE>=CURRENT_DATE
+		ORDER BY a.DUE_DATE,a.TITLE" ),
+		array(
+			'DUE_DATE' => 'ProperDate',
+			/*'DAY' => '_eventDay',*/
+			'ASSIGNED_DATE' => 'ProperDate',
+			/*'DESCRIPTION' => '_formatContent',*/
+		) );
 
-		if (count($assignments_RET))
+		if ( count( $assignments_RET ) )
 		{
-			ListOutput($assignments_RET,array('DAY' => _('Day'),'DUE_DATE' => _('Date'),'ASSIGNED_DATE' => _('Assigned Date'),'TITLE' => _('Assignment'),'DESCRIPTION' => _('Notes'),'COURSE' => _('Course')),'Upcoming Assignment','Upcoming Assignments',array(),array(),array('save'=>false,'search'=>false));
+			ListOutput(
+				$assignments_RET,
+				array(
+					/*'DAY' => _( 'Day' ),*/
+					'DUE_DATE' => _( 'Due Date' ),
+					'ASSIGNED_DATE' => _( 'Assigned Date' ),
+					'ASSIGNMENT_TITLE' => _( 'Assignment' ),
+					/*'DESCRIPTION' => _( 'Notes' ),*/
+					'COURSE' => _( 'Course' ),
+				),
+				'Upcoming Assignment',
+				'Upcoming Assignments',
+				array(),
+				array(),
+				array( 'save' => false, 'search' => false )
+			);
 		}
 
         //RSSOutput(USER('PROFILE'));
@@ -357,7 +414,6 @@ switch (User('PROFILE'))
 	break;
 
 	case 'parent':
-		DrawHeader($welcome.'<br />'._('You are a <b>Parent</b> on the system.'));
 
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 //FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
@@ -414,20 +470,52 @@ switch (User('PROFILE'))
 			ListOutput($events_RET,array('DAY' => _('Day'),'SCHOOL_DATE' => _('Date'),'TITLE' => _('Event'),'DESCRIPTION' => _('Description'),'SCHOOL' => _('School')),'Day With Upcoming Events','Days With Upcoming Events',array(),array('SCHOOL_DATE'),array('save'=>false,'search'=>false));
 		}
 
-		//FJ Portal Assignments
-		$assignments_RET = DBGet(DBQuery("SELECT a.ASSIGNMENT_ID AS ID,a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
+		// FJ Portal Assignments.
+		require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
+
+		$assignments_RET = DBGet( DBQuery( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
+			a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
+			c.TITLE AS COURSE,a.SUBMISSION,
+			(SELECT 1
+			FROM STUDENT_ASSIGNMENTS sa
+			WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
+			AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
 		FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
 		WHERE (a.COURSE_ID=c.COURSE_ID
 		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
 		AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
-		AND a.DUE_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
-		AND s.STUDENT_ID='".UserStudentID()."' 
+		AND s.STUDENT_ID='" . UserStudentID() . "' 
 		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
-		ORDER BY a.DUE_DATE,a.TITLE"),array('DUE_DATE' => 'ProperDate', 'DAY' => '_eventDay', 'ASSIGNED_DATE' => 'ProperDate', 'DESCRIPTION' => '_formatContent', 'STAFF_ID' => 'GetTeacher'));
+		AND a.DUE_DATE>=CURRENT_DATE
+		ORDER BY a.DUE_DATE,a.TITLE" ),
+		array(
+			'DUE_DATE' => 'MakeAssignmentDueDate',
+			/*'DAY' => '_eventDay',*/
+			/*'DESCRIPTION' => '_formatContent',*/
+			'STAFF_ID' => 'GetTeacher',
+			'SUBMITTED' => 'MakeAssignmentSubmitted',
+			'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
+		) );
 
-		if (count($assignments_RET))
+		if ( count( $assignments_RET ) )
 		{
-			ListOutput($assignments_RET,array('DAY' => _('Day'),'DUE_DATE' => _('Date'),'ASSIGNED_DATE' => _('Assigned Date'),'TITLE' => _('Assignment'),'DESCRIPTION' => _('Notes'),'COURSE' => _('Course'),'STAFF_ID' => _('Teacher')),'Upcoming Assignment','Upcoming Assignments',array(),array(),array('save'=>false,'search'=>false));
+			ListOutput(
+				$assignments_RET,
+				array(
+					/*'DAY' => _( 'Day' ),*/
+					'DUE_DATE' => _( 'Due Date' ),
+					'ASSIGNMENT_TITLE' => _( 'Assignment' ),
+					/*'DESCRIPTION' => _( 'Notes' ),*/
+					'COURSE' => _( 'Course' ),
+					'STAFF_ID' => _( 'Teacher' ),
+					'SUBMITTED' => _( 'Submitted' ),
+				),
+				'Upcoming Assignment',
+				'Upcoming Assignments',
+				array(),
+				array(),
+				array( 'save' => false, 'search' => false )
+			);
 		}
 
         //RSSOutput(USER('PROFILE'));
@@ -463,7 +551,6 @@ switch (User('PROFILE'))
 	break;
 
 	case 'student':
-		DrawHeader($welcome.'<br />'._('You are a <b>Student</b> on the system.'));
 
 		require_once 'ProgramFunctions/PortalPollsNotes.fnc.php';
 //FJ fix bug Portal Notes not displayed when pn.START_DATE IS NULL
@@ -514,20 +601,52 @@ switch (User('PROFILE'))
 			ListOutput($events_RET,array('DAY' => _('Day'),'SCHOOL_DATE' => _('Date'),'TITLE' => _('Event'),'DESCRIPTION' => _('Description')),'Day With Upcoming Events','Days With Upcoming Events',array(),array('SCHOOL_DATE'),array('save'=>false,'search'=>false));
 		}
 
-		//FJ Portal Assignments
-		$assignments_RET = DBGet(DBQuery("SELECT a.ASSIGNMENT_ID AS ID,a.TITLE,a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,c.TITLE AS COURSE
+		// FJ Portal Assignments.
+		require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
+
+		$assignments_RET = DBGet( DBQuery( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
+			a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
+			c.TITLE AS COURSE,a.SUBMISSION,
+			(SELECT 1
+			FROM STUDENT_ASSIGNMENTS sa
+			WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
+			AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
 		FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
 		WHERE (a.COURSE_ID=c.COURSE_ID
 		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
 		AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
-		AND a.DUE_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
-		AND s.STUDENT_ID='".UserStudentID()."' 
+		AND s.STUDENT_ID='" . UserStudentID() . "' 
 		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
-		ORDER BY a.DUE_DATE,a.TITLE"),array('DUE_DATE' => 'ProperDate', 'DAY' => '_eventDay', 'ASSIGNED_DATE' => 'ProperDate', 'DESCRIPTION' => '_formatContent', 'STAFF_ID' => 'GetTeacher'));
+		AND a.DUE_DATE>=CURRENT_DATE
+		ORDER BY a.DUE_DATE,a.TITLE" ),
+		array(
+			'DUE_DATE' => 'MakeAssignmentDueDate',
+			/*'DAY' => '_eventDay',*/
+			/*'DESCRIPTION' => '_formatContent',*/
+			'STAFF_ID' => 'GetTeacher',
+			'SUBMITTED' => 'MakeAssignmentSubmitted',
+			'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
+		) );
 
-		if (count($assignments_RET))
+		if ( count( $assignments_RET ) )
 		{
-			ListOutput($assignments_RET,array('DAY' => _('Day'),'DUE_DATE' => _('Date'),'ASSIGNED_DATE' => _('Assigned Date'),'TITLE' => _('Assignment'),'DESCRIPTION' => _('Notes'),'COURSE' => _('Course'),'STAFF_ID' => _('Teacher')),'Upcoming Assignment','Upcoming Assignments',array(),array(),array('save'=>false,'search'=>false));
+			ListOutput(
+				$assignments_RET,
+				array(
+					/*'DAY' => _( 'Day' ),*/
+					'DUE_DATE' => _( 'Due Date' ),
+					'ASSIGNMENT_TITLE' => _( 'Assignment' ),
+					/*'DESCRIPTION' => _( 'Notes' ),*/
+					'COURSE' => _( 'Course' ),
+					'STAFF_ID' => _( 'Teacher' ),
+					'SUBMITTED' => _( 'Submitted' ),
+				),
+				'Upcoming Assignment',
+				'Upcoming Assignments',
+				array(),
+				array(),
+				array( 'save' => false, 'search' => false )
+			);
 		}
 
         //RSSOutput(USER('PROFILE'));

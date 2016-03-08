@@ -221,6 +221,23 @@ $RosarioCoreModules = array(
 $RosarioModules = unserialize( Config( 'MODULES' ) );
 
 
+// Load modules functions (optional).
+foreach ( (array) $RosarioModules as $module => $activated )
+{
+	if ( ! $activated )
+	{
+		continue;
+	}
+
+	$module_functions = 'modules/' . $module . '/functions.php';
+
+	if ( file_exists( $module_functions ) )
+	{
+		require_once $module_functions;
+	}
+}
+
+
 /**
  * Plugins
  *
