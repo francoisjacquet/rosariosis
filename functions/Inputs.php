@@ -540,8 +540,8 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 		{
 			$return = InputDivOnclick(
 				$id,
-				$checkbox .
-					'<input type="hidden" name="' . $name . '" value="" />', // Save unchecked value!
+				'<input type="hidden" name="' . $name . '" value="" />' . // Save unchecked value!
+				$checkbox, 
 				( $value ?
 					( $yes === 'Yes' ? _( 'Yes' ) : $yes ) :
 					( $no === 'No' ? _( 'No' ) : $no ) ),
@@ -1013,10 +1013,10 @@ function NoInput( $value, $title = '' )
 {
 	$ftitle = FormatInputTitle( $title );
 
-	$value = ( !empty( $value ) || $value == '0' ? $value : '-' );
+	$value = ( ! empty( $value ) || $value == '0' ? $value : '-' );
 
 	if ( AllowEdit()
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		return '<span class="no-input-value">' .
 			$value .
