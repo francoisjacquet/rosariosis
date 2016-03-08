@@ -17,13 +17,13 @@
 $DatabaseServer = 'localhost';
 
 // Database username.
-$DatabaseUsername = '';
+$DatabaseUsername = 'username_here';
 
 // Database password.
-$DatabasePassword = '';
+$DatabasePassword = 'password_here';
 
 // Database name.
-$DatabaseName = '';
+$DatabaseName = 'database_name_here';
 
 // Database port: default is 5432.
 $DatabasePort = '5432';
