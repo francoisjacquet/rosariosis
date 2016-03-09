@@ -313,7 +313,7 @@ _printPageHead( _( 'Forgot your password?' ) );
 
 		<label><input type="text" name="email" id="email" size="25" maxlength="100" tabindex="1" required autofocus />
 		<br />
-		<?php echo _( 'email' ); ?></label>
+		<?php echo _( 'Email' ); ?></label>
 		<br />
 		<br />
 		<?php echo Buttons( _( 'Send password reset instructions' ) ); ?>

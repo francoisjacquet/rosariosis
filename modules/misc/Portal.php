@@ -56,19 +56,19 @@ switch ( User( 'PROFILE' ) )
 
 	case 'teacher':
 
-		$welcome .= '<br />' . _( 'You are an <b>Teacher</b> on the system.' );
+		$welcome .= '<br />' . _( 'You are a <b>Teacher</b> on the system.' );
 
 	break;
 
 	case 'parent':
 
-		$welcome .= '<br />' . _( 'You are an <b>Parent</b> on the system.' );
+		$welcome .= '<br />' . _( 'You are a <b>Parent</b> on the system.' );
 
 	break;
 
 	default:
 
-		$welcome .= '<br />' . _( 'You are an <b>Student</b> on the system.' );
+		$welcome .= '<br />' . _( 'You are a <b>Student</b> on the system.' );
 }
 
 DrawHeader( $welcome );

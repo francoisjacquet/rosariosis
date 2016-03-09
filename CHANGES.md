@@ -72,6 +72,7 @@ Changes in 2.9
 - Add HumanFilesize() function in ProgramFunctions/FileUpload.fnc.php
 - Add misc/Portal.php|portal_alerts hook in Actions.php & Portal.php
 - Add optional functions.php file for modules in Warehouse.php & Discipline/functions.php
+- Update French & Spanish translations
 
 Changes in 2.8.11
 -----------------
