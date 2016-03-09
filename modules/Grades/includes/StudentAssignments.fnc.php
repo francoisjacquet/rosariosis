@@ -207,7 +207,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 	}
 
 	// Past due, in red.
-	$due_date = _makeAssignmentDueDate( $assignment['DUE_DATE'] );
+	$due_date = MakeAssignmentDueDate( $assignment['DUE_DATE'] );
 
 	// Display Assignment details.
 	// Due date - Assigned date.
@@ -274,7 +274,7 @@ function StudentAssignmentSubmissionOutput( $assignment_id )
 
 	// Check if Assignment can be submitted (TODAY <= DUE_DATE) or (!DUE_DATE && TODAY > User MP END_DATE).
 	if ( ( $assignment['DUE_DATE']
-			&& DBDate() <= $assignment['DUE_DATE'] )
+			&& DBDate() > $assignment['DUE_DATE'] )
 		|| ( ! $assignment['DUE_DATE']
 			&& DBDate() > GetMP( UserMP(), 'END_DATE' ) ) )
 	{
@@ -472,7 +472,7 @@ function StudentAssignmentsListOutput()
 		array(
 			'TITLE' => 'MakeAssignmentTitle',
 			'STAFF_ID' => 'GetTeacher',
-			'DUE_DATE' => '_makeAssignmentDueDate',
+			'DUE_DATE' => 'MakeAssignmentDueDate',
 			'ASSIGNED_DATE' => 'ProperDate',
 			'SUBMITTED' => 'MakeAssignmentSubmitted',
 		)
@@ -509,7 +509,7 @@ function MakeAssignmentTitle( $value, $column )
 }
 
 
-function _makeAssignmentDueDate( $value, $column = 'DUE_DATE' )
+function MakeAssignmentDueDate( $value, $column = 'DUE_DATE' )
 {
 	$due_date = ProperDate( $value );
 
