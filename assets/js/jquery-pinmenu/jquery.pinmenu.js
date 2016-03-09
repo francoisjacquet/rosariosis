@@ -29,7 +29,7 @@ $( document ).ready( function() {
 			return;
 		}
 
-		if ( height.menu < height.window ) {
+		if ( height.menu < height.window) {
 			unpinMenu();
 			return;
 		}
@@ -67,6 +67,8 @@ $( document ).ready( function() {
 			}
 
 			if ( windowPos > lastScrollPosition ) {
+				var menuBottom = height.footer - parseInt( $menu.css('margin-bottom') );
+
 				// Scrolling down
 				if ( pinnedMenuTop ) {
 					// let it scroll
@@ -89,7 +91,12 @@ $( document ).ready( function() {
 					$menu.css({
 						position: 'fixed',
 						top: '',
-						bottom: 0
+						bottom: menuBottom
+					});
+				} else if ( pinnedMenuBottom && parseInt( $menu.css('bottom') ) !== menuBottom ) {
+					// repin bottom as footer height has changed
+					$menu.css({
+						bottom: menuBottom
 					});
 				}
 			} else if ( windowPos < lastScrollPosition ) {
@@ -123,13 +130,7 @@ $( document ).ready( function() {
 				pinnedMenuTop = pinnedMenuBottom = false;
 				menuTop = windowPos + height.window - height.menu + height.footer*2;
 
-				if ( menuTop > 0 ) {
-					$menu.css({
-						position: 'absolute',
-						top: menuTop,
-						bottom: ''
-					});
-				} else {
+				if ( menuTop <= 0 ) {
 					unpinMenu();
 				}
 			}
@@ -181,7 +182,4 @@ $( document ).ready( function() {
 		screen.height > 640 ) ) { // Not on iOS or mobiles.
 		$( window ).on( "resize scroll", setPinMenu );
 	}
-
-	setPinMenu();
-
 });
