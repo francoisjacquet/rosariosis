@@ -220,22 +220,9 @@ $RosarioCoreModules = array(
 
 $RosarioModules = unserialize( Config( 'MODULES' ) );
 
+$non_core_modules = array_diff_key( $RosarioModules, array_flip( $RosarioCoreModules ) );
 
-// Load modules functions (optional).
-foreach ( (array) $RosarioModules as $module => $activated )
-{
-	if ( ! $activated )
-	{
-		continue;
-	}
-
-	$module_functions = 'modules/' . $module . '/functions.php';
-
-	if ( file_exists( $module_functions ) )
-	{
-		require_once $module_functions;
-	}
-}
+_LoadAddons( $non_core_modules, 'modules/' );
 
 
 /**
@@ -250,62 +237,81 @@ $RosarioCorePlugins = array(
 
 $RosarioPlugins = unserialize( Config( 'PLUGINS' ) );
 
-// Load plugins functions.
-foreach ( (array) $RosarioPlugins as $plugin => $activated )
-{
-	if ( $activated )
-	{
-		require_once 'plugins/' . $plugin . '/functions.php';
-	}
+$non_core_plugins = array_diff_key( $RosarioPlugins, array_flip( $RosarioCorePlugins ) );
+
+// Load Moodle plugin functions.
+if ( $RosarioPlugins['Moodle'] ) {
+	require_once 'plugins/Moodle/functions.php';
 }
+
+_LoadAddons( $non_core_plugins, 'plugins/' );
 
 
 /**
- * Load not core modules & plugins locales
+ * Load not core modules & plugins
+ * (functions & locale)
+ * Deactivate if does not exist
  *
  * Local function
  *
- * @param  string $domain Text domain.
+ * @param  array  $addons Non core addons (Plugins or Modules).
  * @param  string $folder Plugin or Module folder.
  *
  * @return void
  */
-function _LoadAddonLocale( $domain, $folder )
+function _LoadAddons( $addons, $folder )
 {
-	$LocalePath = $folder . $domain . '/locale';
+	global $RosarioModules,
+		$RosarioPlugins;
 
-	// Check if locale folder exists.
-	if ( is_dir( $LocalePath ) )
+	/**
+	 * Check if non core activated modules exist.
+	 * Load locale.
+	 * Load functions (optional).
+	 */
+	foreach ( (array) $addons as $addon => $activated )
 	{
+		if ( ! $activated )
+		{
+			continue;
+		}
+
+		if ( $folder === 'modules/'
+			&& ! file_exists( $folder . $addon . '/Menu.php' ) )
+		{
+			// If module does not exist, deactivate it.
+			$RosarioModules[ $addon ] = false;
+
+			continue;
+		}
+
+		$addon_functions = $folder . $addon . '/functions.php';
+
+		if ( file_exists( $addon_functions ) )
+		{
+			require_once $addon_functions;
+		}
+		elseif ( $folder === 'plugins/' )
+		{
+			// If plugin does not exist, deactivate it.
+			$RosarioPlugins[ $addon ] = false;
+
+			continue;
+		}
+
+		// Load addon locale.
+		$locale_path = $folder . $addon . '/locale';
+
+		if ( ! is_dir( $locale_path ) )
+		{
+			continue;
+		}
+
 		// Binds the messages domain to the locale folder.
-		bindtextdomain( $domain, $LocalePath );
+		bindtextdomain( $addon, $locale_path );
 
 		// Ensures text returned is utf-8, quite often this is iso-8859-1 by default.
-		bind_textdomain_codeset( $domain, 'UTF-8' );
-	}
-}
-
-$non_core_modules = array_diff( array_keys( $RosarioModules ), $RosarioCoreModules );
-$non_core_plugins = array_diff( array_keys( $RosarioPlugins ), $RosarioCorePlugins );
-
-// If any non core modules or plugins, load locale.
-// Load module locale.
-foreach ( (array) $non_core_modules as $non_core_module )
-{
-	// If module activated.
-	if ( $RosarioModules[ $non_core_module ] )
-	{
-		_LoadAddonLocale( $non_core_module, 'modules/' );
-	}
-}
-
-// Load plugin locale.
-foreach ( (array) $non_core_plugins as $non_core_plugin )
-{
-	// If plugin activated.
-	if ( $RosarioPlugins[ $non_core_plugin ] )
-	{
-		_LoadAddonLocale( $non_core_plugin, 'plugins/' );
+		bind_textdomain_codeset( $addon, 'UTF-8' );
 	}
 }
 
@@ -387,7 +393,7 @@ function Warehouse( $mode )
 <div id="wrap">
 	<footer id="footer" class="mod">
 		<?php require_once 'Bottom.php'; // Include Bottom menu. ?>
-	</footer>	
+	</footer>
 	<div id="menuback" class="mod"></div>
 	<aside id="menu" class="mod">
 		<?php require_once 'Side.php'; // Include Side menu. ?>
@@ -410,7 +416,7 @@ function Warehouse( $mode )
 		&& (menuStudentID != "<?php echo UserStudentID(); ?>"
 			|| menuStaffID != "<?php echo UserStaffID(); ?>"
 			|| menuSchool != "<?php echo UserSchool(); ?>"
-			|| menuCoursePeriod != "<?php echo UserCoursePeriod(); ?>")) { 
+			|| menuCoursePeriod != "<?php echo UserCoursePeriod(); ?>")) {
 		ajaxLink( 'Side.php' );
 	}
 <?php 		if ( ! empty( $_ROSARIO['ProgramLoaded'] ) ) : ?>

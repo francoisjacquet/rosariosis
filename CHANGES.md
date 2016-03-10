@@ -71,7 +71,7 @@ Changes in 2.9
 - Add ProperDateTime() function in Date.php
 - Add HumanFilesize() function in ProgramFunctions/FileUpload.fnc.php
 - Add misc/Portal.php|portal_alerts hook in Actions.php & Portal.php
-- Add optional functions.php file for modules in Warehouse.php & Discipline/functions.php
+- Add optional functions.php file for non core modules in Warehouse.php
 - Update French & Spanish translations
 
 Changes in 2.8.11
@@ -362,7 +362,7 @@ Changes in 2.6.5
 - Bugfix No balance in Food_Service/Users/ServeMenus.php
 - Bugfix if no more transaction items, delete transaction in DeleteTransationItem.fnc.php
 - Bugfix User Statements access in Statements.php
-- Bugfix Activity Report: 
+- Bugfix Activity Report:
 	- Enable Student / User links and selection
 	- Adapt code for Staff
 	- Fix $where (Type & User filters)
@@ -839,7 +839,7 @@ Changes in 1.4.3
 
 Changes in 1.4.2
 ----------------
-- Security fixes: delete & save not accessible to non admins in 
+- Security fixes: delete & save not accessible to non admins in
 	- AddressFields.php, PeopleFields.php, StudentFields.php, UserFields.php, Transactions.php, ActivityReport.php, ReferralForm.php, DisciplineForm.php, FinalGrades.php
 - SQL bugs: COURSE_PERIOD_SCHOOL_PERIODS, SCHOOLS, DISCIPLINE_CATEGORIES, PROGRAM_CONFIG & COURSE_PERIODS Rollover
 - Bugfix UserCoursePeriod not set correctly in Grades.php
@@ -927,7 +927,7 @@ Changes in 1.3.1
 - bugfix: comma escape in SelecInput function
 - added limit visibility to the students of a determined teacher in Portal Polls
 - functions folder sweep, regroup functions & removed 6 files
-- removed BackPrompt & replace with ErrorMessage in AddAbsences.php, CreateParents.php, NotifyParents.php, AddActivity.php, FinalGrades.php, MassDrops.php, MassRequests.php, MassSchedule.php, AddressFields.php, AssignOtherInfo.php, Address.inc.php, PeopleFields.php, StudentFields.php, MassAssignFees.php, MassAssignPayments.php, UserFields.php, 
+- removed BackPrompt & replace with ErrorMessage in AddAbsences.php, CreateParents.php, NotifyParents.php, AddActivity.php, FinalGrades.php, MassDrops.php, MassRequests.php, MassSchedule.php, AddressFields.php, AssignOtherInfo.php, Address.inc.php, PeopleFields.php, StudentFields.php, MassAssignFees.php, MassAssignPayments.php, UserFields.php,
 - delete FDFReportCards.php
 - bugfix: SQL bug duplicate entry in profile_exceptions
 - bugfix: $_REQUEST['include'] 2 times in links
@@ -971,7 +971,7 @@ Changes in 1.3
 - removed $DatabaseANSI & $DatabaseType config value
 - removed oracle and mysql cases in database.inc.php
 - updated spanish and french translations
-	
+
 
 Changes in 1.2.2
 ----------------
@@ -1062,7 +1062,7 @@ Changes in 1.0
 - added School Year over two calendar years option
 - added School Configuration
 - changed short names to full names (School Periods & Attendance Codes) in Grades/ReportCards.php & Grades/FinalGrades.php
-- fixed errors Deprecated: Functions ereg_replace(), eregi_replace(), ereg(), 
+- fixed errors Deprecated: Functions ereg_replace(), eregi_replace(), ereg(),
 - fixed errors various PHP Warnings and Notices
 - bugfix: text encoding passed to HTMLDOC
 - bugfix: Eligibility add the same activity more than once

@@ -58,7 +58,7 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 					$error[] = _('Files not eraseable.');
 			}
 		}
-		
+
 		unset($_REQUEST['modfunc']);
 		unset($_REQUEST['plugin']);
 	}
@@ -73,11 +73,11 @@ if ( $_REQUEST['modfunc']=='deactivate' && AllowEdit())
 		{
 			//update $RosarioPlugins
 			$RosarioPlugins[$_REQUEST['plugin']] = false;
-			
+
 			//save $RosarioPlugins
 			_saveRosarioPlugins();
 		}
-		
+
 		//verify plugin dir exists
 		if ( !is_dir('plugins/'.$_REQUEST['plugin']) || !file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
 		{
@@ -92,12 +92,12 @@ if ( $_REQUEST['modfunc']=='deactivate' && AllowEdit())
 if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 {
 	$update_RosarioPlugins = false;
-	
+
 	//verify not already in $RosarioPlugins
 	if ( !in_array($_REQUEST['plugin'], array_keys($RosarioPlugins)))
 	{
 		//verify directory exists
-		if (is_dir('plugins/'.$_REQUEST['plugin']) && file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
+		if ( file_exists( 'plugins/' . $_REQUEST['plugin'] . '/functions.php' ) )
 		{
 			//install plugin: execute install.sql script
 			if (file_exists('plugins/'.$_REQUEST['plugin'].'/install.sql'))
@@ -105,7 +105,7 @@ if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 				$install_sql = file_get_contents('plugins/'.$_REQUEST['plugin'].'/install.sql');
 				DBQuery($install_sql);
 			}
-			
+
 			$update_RosarioPlugins = true;
 		}
 		else
@@ -117,7 +117,7 @@ if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 		$update_RosarioPlugins = true;
 	}
 	//no plugin dir
-	elseif ( !is_dir('plugins/'.$_REQUEST['plugin']) || !file_exists('plugins/'.$_REQUEST['plugin'].'/functions.php'))
+	elseif ( ! file_exists( 'plugins/' . $_REQUEST['plugin'] . '/functions.php' ) )
 	{
 		$error[] = _('Incomplete or inexistant plugin.');
 	}
@@ -126,11 +126,11 @@ if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 	{
 		//update $RosarioPlugins
 		$RosarioPlugins[$_REQUEST['plugin']] = true;
-		
+
 		//save $RosarioPlugins
 		_saveRosarioPlugins();
 	}
-	
+
 	unset($_REQUEST['modfunc']);
 	unset($_REQUEST['plugin']);
 }
@@ -138,7 +138,7 @@ if ( $_REQUEST['modfunc']=='activate' && AllowEdit())
 
 if (empty($_REQUEST['modfunc']))
 {
-	
+
 	echo ErrorMessage( $error );
 
 	$plugins_RET = array('');
@@ -149,15 +149,15 @@ if (empty($_REQUEST['modfunc']))
 		$THIS_RET['TITLE'] = _makeReadMe($plugin_title,$activated);
 		$THIS_RET['ACTIVATED'] = _makeActivated($activated);
 		$THIS_RET['CONFIGURATION'] = _makeConfiguration($plugin_title,$activated);
-		
+
 		$plugins_RET[] = $THIS_RET;
 
 		$directories_bypass[] = 'plugins/'.$plugin_title;
-	}		
-	
+	}
+
 	// scan plugins/ folder for uninstalled plugins
 	$plugins = array_diff(glob('plugins/*', GLOB_ONLYDIR), $directories_bypass);
-	
+
 	foreach ($plugins as $plugin)
 	{
 		$plugin_title = str_replace('plugins/', '', $plugin);
@@ -167,14 +167,14 @@ if (empty($_REQUEST['modfunc']))
 		$THIS_RET['TITLE'] = _makeReadMe($plugin_title);
 		$THIS_RET['ACTIVATED'] = _makeActivated(false);
 		$THIS_RET['CONFIGURATION'] = _makeConfiguration($plugin_title, false);
-	
+
 		$plugins_RET[] = $THIS_RET;
 	}
 
 	$columns = array('DELETE' => '','TITLE' => _('Title'),'ACTIVATED' => _('Activated'),'CONFIGURATION' => _('Configuration'));
-	
+
 	unset($plugins_RET[0]);
-	
+
 	ListOutput($plugins_RET,$columns,'Plugin','Plugins');
 }
 
@@ -197,7 +197,7 @@ function _makeActivated($activated)
 }
 
 function _makeConfiguration($plugin_title,$activated)
-{	
+{
 	//verify plugin is activated & config.inc.php file exists
 	if ( $activated && file_exists('plugins/'.$plugin_title.'/config.inc.php'))
 		$return = '<a href="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=config&plugin='.$plugin_title.'">'._('Configuration').'</a>';
@@ -208,28 +208,49 @@ function _makeConfiguration($plugin_title,$activated)
 }
 
 function _makeDelete($plugin_title,$activated=null)
-{	
+{
 	global $RosarioPlugins, $RosarioCorePlugins;
-	
+
 	$return = '';
-	if (AllowEdit())
+
+	if ( ! AllowEdit() )
 	{
-		if ( $activated)
+		return $return;
+	}
+
+	if ( $activated)
+	{
+		$return = button('remove',_('Deactivate'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=deactivate&plugin='.$plugin_title.'"');
+	}
+	else
+	{
+		if ( file_exists( 'plugins/' . $plugin_title . '/functions.php' ) )
 		{
-			$return = button('remove',_('Deactivate'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=deactivate&plugin='.$plugin_title.'"');
+			$return = button(
+				'add',
+				_( 'Activate' ),
+				'"Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins&modfunc=activate&plugin=' . $plugin_title . '"'
+			);
+
+			// If not core plugin & already installed, delete link.
+			if ( ! in_array( $plugin_title, $RosarioCorePlugins )
+				&& in_array( $plugin_title, array_keys( $RosarioPlugins ) ) )
+			{
+				$return .= '&nbsp;' .
+				button(
+					'remove',
+					_( 'Delete' ),
+					'"Modules.php?modname=' . $_REQUEST['modname'] . '&tab=plugins&modfunc=delete&plugin=' . $plugin_title . '"'
+				);
+			}
 		}
 		else
 		{
-			if (file_exists('plugins/'.$plugin_title.'/functions.php'))
-				$return = button('add',_('Activate'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=activate&plugin='.$plugin_title.'"');
-			else
-				$return = '<span style="color:red">'.sprintf(_('%s file missing or wrong permissions.'),'functions.php').'</span>';
-
-			//if not core plugin & already installed, delete link
-			if ( !in_array($plugin_title, $RosarioCorePlugins) && in_array($plugin_title, array_keys($RosarioPlugins)))
-				$return .= '&nbsp;'.button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=delete&plugin='.$plugin_title.'"');
+			$return = '<span style="color:red">' .
+				sprintf( _( '%s file missing or wrong permissions.' ), 'functions.php' ) . '</span>';
 		}
 	}
+
 	return $return;
 }
 
@@ -253,7 +274,7 @@ function _makeReadMe($plugin_title,$activated=null)
 	{
 		//get README.md content
 		$readme_content = file_get_contents( $readme_path );
-		
+
 		// convert MarkDown text to HTML
 		$readme_content = '<div class="markdown-to-html">' . $readme_content . '</div>';
 
@@ -273,9 +294,9 @@ function _saveRosarioPlugins()
 	global $RosarioPlugins;
 
 	$PLUGINS = DBEscapeString(serialize($RosarioPlugins));
-	
+
 	DBQuery("UPDATE config SET config_value='".$PLUGINS."' WHERE title='PLUGINS'");
-	
+
 	return true;
 }
 
@@ -331,4 +352,3 @@ function _delTree( $dir, $mode = 'delete' )
 
 	return $mode === 'dryrun' ? $return && is_writable( $dir ) : rmdir( $dir );
 }
-

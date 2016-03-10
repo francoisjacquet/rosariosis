@@ -1,6 +1,6 @@
 <?php
 /**
- * Discipline module functions
+ * Discipline module Portal Alerts
  *
  * @package RosarioSIS
  * @subpackage modules/Discipline
@@ -11,6 +11,7 @@
  * Discipline new referrals note.
  *
  * @since 2.9
+ *
  * @uses misc/Portal.php|portal_alerts hook
  *
  * @return true if new referrals note, else false.
@@ -19,7 +20,8 @@ function DisciplinePortalAlerts()
 {
 	global $note;
 
-	if ( ! AllowUse( 'Discipline/Referrals.php' ) 
+	if ( User( 'PROFILE' ) !== 'admin'
+		|| ! AllowUse( 'Discipline/Referrals.php' )
 		|| ! $_SESSION['LAST_LOGIN'] )
 	{
 		return false;
@@ -51,7 +53,7 @@ function DisciplinePortalAlerts()
 			$disc_RET[1]['COUNT']
 		);
 
-		$message .= '</a>';	
+		$message .= '</a>';
 
 		$note[] = $message;
 
