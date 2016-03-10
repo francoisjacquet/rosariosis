@@ -24,7 +24,7 @@ if ( isset( $_POST['values'] )
 	$go = 0;
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
-	
+
 	foreach ( (array) $_REQUEST['values'] as $column_name => $value)
 	{
 		if (1)//!empty($value) || $value=='0')
@@ -42,7 +42,7 @@ if ( isset( $_POST['values'] )
 			// FJ textarea fields MarkDown sanitize.
 			if ( $column_data_type === 'textarea' )
 			{
-				$value = SanitizeMarkDown( $_POST['values'][ $column ] );
+				$value = SanitizeMarkDown( $_POST['values'][ $column_name ] );
 			}
 
 			if ( !is_array($value))
@@ -193,80 +193,101 @@ if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
 				break;
 
 				case 'multiple_checkbox':
-					if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+
+					$multiple_value = ( $RET[ 'CATEGORY_' . $category['ID'] ] != '' ) ?
+						str_replace( '||', ', ', mb_substr( $RET[ 'CATEGORY_' . $category['ID'] ], 2, -2 ) ) :
+						'-';
+
+					if ( ! AllowEdit()
+					 	|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 					{
-						$return = '<div id="divvalues[CATEGORY_'.$category['ID'].']"><div onclick=\'javascript:addHTML(htmlCATEGORY_'.$category['ID'];
-						$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
-						$options = explode("\r",$category['SELECT_OPTIONS']);
+						echo $multiple_value;
 
-						$toEscape = '<table class="cellpadding-5"><tr class="st">';
-
-						$i = 0;
-						foreach ( (array) $options as $option)
-						{
-							$i++;
-							if ( $i%3==0)
-								$toEscape .= '</tr><tr class="st">';
-							$toEscape .= '<td><label><input type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],$option)!==false?' checked':'').' />&nbsp;'.$option.'</label></td>';
-						}
-
-						$toEscape .= '</tr></table>';
-
-						echo '<script>var htmlCATEGORY_'.$category['ID'].'='.json_encode($toEscape).';</script>'.$return;
-						echo ',"divvalues[CATEGORY_'.$category['ID'].']'.'",true);\' >'.'<span class="underline-dots">'.(($RET['CATEGORY_'.$category['ID']]!='')?str_replace('||',', ',mb_substr($RET['CATEGORY_'.$category['ID']],2,-2)):'-').'</span>'.'</div></div>';
+						break;
 					}
-					else
-						echo (($RET['CATEGORY_'.$category['ID']]!='')?str_replace('||',', ',mb_substr($RET['CATEGORY_'.$category['ID']],2,-2)):'-');
+
+					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
+
+					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
+
+					$i = 0;
+					foreach ( (array) $options as $option)
+					{
+						$i++;
+						if ( $i%3==0)
+							$multiple_html .= '</tr><tr class="st">';
+						$multiple_html .= '<td><label><input type="checkbox" name="values[CATEGORY_'.$category['ID'].'][]" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(mb_strpos($RET['CATEGORY_'.$category['ID']],$option)!==false?' checked':'').' />&nbsp;'.$option.'</label></td>';
+					}
+
+					$multiple_html .= '</tr></table>';
+
+					$id = GetInputID( 'values[CATEGORY_' . $category['ID'] . ']' );
+
+					echo InputDivOnclick(
+						$id,
+						$multiple_html,
+						$multiple_value,
+						''
+					);
+
 				break;
 
 				case 'multiple_radio':
-					if (AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
+
+					$multiple_value = ( $RET[ 'CATEGORY_' . $category['ID'] ] != '' ) ?
+						$RET[ 'CATEGORY_' . $category['ID'] ] :
+						'-';
+
+					if ( ! AllowEdit()
+					 	|| isset( $_REQUEST['_ROSARIO_PDF'] ) )
 					{
-						$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
-						$options = explode("\r",$category['SELECT_OPTIONS']);
+						echo $multiple_value;
 
-						$multiple_html = '<table class="cellpadding-5"><tr class="st">';
-
-						$i = 0;
-						foreach ( (array) $options as $option)
-						{
-							$i++;
-							if ( $i%3==0)
-								$multiple_html .= '</tr><tr class="st">';
-							$multiple_html .= '<td><label><input type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.$option.'</label></td>';
-						}
-
-						$multiple_html .= '</tr></table>';
-
-						$id = 'values[CATEGORY_' . $category['ID'] . ']';
-
-						echo InputDivOnclick(
-							$id,
-							$multiple_html,
-							$RET['CATEGORY_' . $category['ID']],
-							''
-						);
+						break;
 					}
-					else
-						echo (($RET['CATEGORY_'.$category['ID']]!='')?$RET['CATEGORY_'.$category['ID']]:'-');
+
+					$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
+
+					$multiple_html = '<table class="cellpadding-5"><tr class="st">';
+
+					$i = 0;
+					foreach ( (array) $options as $option)
+					{
+						$i++;
+						if ( $i%3==0)
+							$multiple_html .= '</tr><tr class="st">';
+						$multiple_html .= '<td><label><input type="radio" name="values[CATEGORY_'.$category['ID'].']" value="'.htmlspecialchars($option,ENT_QUOTES).'"'.(($RET['CATEGORY_'.$category['ID']]==$option)?' checked':'').'>&nbsp;'.$option.'</label></td>';
+					}
+
+					$multiple_html .= '</tr></table>';
+
+					$id = GetInputID( 'values[CATEGORY_' . $category['ID'] . ']' );
+
+					echo InputDivOnclick(
+						$id,
+						$multiple_html,
+						$multiple_value,
+						''
+					);
+
 				break;
 
 				case 'select':
 					$options = array();
-					$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
-					$select_options = explode("\r",$category['SELECT_OPTIONS']);
+
+					$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS'] ) );
 
 					foreach ( (array) $select_options as $option)
 						$options[ $option ] = $option;
 
-					echo SelectInput($RET['CATEGORY_'.$category['ID']],'values[CATEGORY_'.$category['ID'].']','',$options,'N/A');
-					/*
-					echo '<select name=values[CATEGORY_'.$category['ID'].']><option value="">N/A';
-					foreach ( (array) $options as $option)
-					{
-						echo '<option value="'.str_replace('"','&quot;',$option).'"'.($RET['CATEGORY_'.$category['ID']]==str_replace('"','&quot;',$option)?' selected':'').'>'.$option.'</option>';
-					}
-					*/
+					echo SelectInput(
+						$RET[ 'CATEGORY_' . $category['ID'] ],
+						'values[CATEGORY_' . $category['ID'] . ']',
+						'',
+						$options,
+						'N/A'
+					);
+
 				break;
 			}
 			echo '</td></tr>';

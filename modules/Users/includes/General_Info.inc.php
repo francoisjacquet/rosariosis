@@ -211,7 +211,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 		{
 			$i = 0;
 
-			$schools_html = '<table><tr class="st">';
+			$schools_html = '<table class="cellspacing-0 width-100p"><tr class="st">';
 
 			$school_titles = array();
 
@@ -232,7 +232,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 					true,
 					button( 'check' ),
 					button( 'x' )
-				) . '</td>';
+				) . '&nbsp;</td>';
 
 				if ( $value )
 				{
@@ -248,12 +248,19 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 
 			$title = FormatInputTitle( _( 'Schools' ), $id );
 
-			echo InputDivOnclick(
-				$id,
-				$schools_html . str_replace( '<br />', '', $title ),
-				implode( ', ', $school_titles ),
-				$title
-			);
+			if ( $_REQUEST['staff_id'] != 'new' )
+			{
+				echo InputDivOnclick(
+					$id,
+					$schools_html . str_replace( '<br />', '', $title ),
+					implode( ', ', $school_titles ),
+					$title
+				);
+			}
+            else
+            {
+                echo $schools_html . str_replace( '<br />', '', $title );
+            }
 		}
 		//echo SelectInput($staff['SCHOOL_ID'],'staff[SCHOOL_ID]','School',$options,'All Schools');
 	}
