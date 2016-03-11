@@ -1,11 +1,10 @@
 <?php
 
-Widgets('mailing_labels');
-//Widgets('document_template');
+Widgets( 'mailing_labels' );
 
-if ( ! $_REQUEST['search_modfunc'])
+if ( ! $_REQUEST['search_modfunc'] )
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
 	$extra['new'] = true;
 	$extra['action'] .= "&_ROSARIO_PDF=true";
@@ -13,11 +12,12 @@ if ( ! $_REQUEST['search_modfunc'])
 }
 else
 {
-	// For the Student Fees / Student Payments programs
+	// For the Student Fees / Student Payments programs.
 	$_REQUEST['print_statements'] = true;
+
 	if ( $_REQUEST['mailing_labels']=='Y')
-		$extra['group'][] = 'ADDRESS_ID';	
-	
+		$extra['group'][] = 'ADDRESS_ID';
+
 	$RET = GetStuList($extra);
 
 	if (count($RET))
@@ -37,14 +37,15 @@ else
 					DrawHeader($address['GRADE_ID']);
 					DrawHeader(SchoolInfo('TITLE'));
 					DrawHeader(ProperDate(DBDate()));
-		
+
 					echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$address['MAILING_LABEL'].'</td></tr></table><br />';
-					
+
 					SetUserStudentID($address['STUDENT_ID']);
 
-					require_once 'modules/Student_Billing/StudentFees.php';
-					require_once 'modules/Student_Billing/StudentPayments.php';
-					echo '<div style="page-break-after: always;"></div>';				
+					require 'modules/Student_Billing/StudentFees.php';
+					require 'modules/Student_Billing/StudentPayments.php';
+
+					echo '<div style="page-break-after: always;"></div>';
 				}
 			}
 			else
@@ -57,8 +58,10 @@ else
 				DrawHeader($student['GRADE_ID']);
 				DrawHeader(SchoolInfo('TITLE'));
 				DrawHeader(ProperDate(DBDate()));
-				require_once 'modules/Student_Billing/StudentFees.php';
-				require_once 'modules/Student_Billing/StudentPayments.php';
+
+				require 'modules/Student_Billing/StudentFees.php';
+				require 'modules/Student_Billing/StudentPayments.php';
+
 				echo '<div style="page-break-after: always;"></div>';
 			}
 		}

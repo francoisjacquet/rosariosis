@@ -1,7 +1,7 @@
 <?php
 if ( !isset($_REQUEST['_ROSARIO_PDF']) && ! $_REQUEST['search_modfunc'])
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
 	$extra['new'] = true;
 	$extra['action'] .= "&_ROSARIO_PDF=true";
@@ -14,7 +14,7 @@ else
 
 	if (User('PROFILE')=='teacher')//limit to teacher himself
 		$extra['WHERE'] .= " AND s.STAFF_ID = '".User('STAFF_ID')."'";
-		
+
 	$RET = GetStaffList($extra);
 
 	if (count($RET))
@@ -31,8 +31,10 @@ else
 				DrawHeader($staff['GRADE_ID']);
 				DrawHeader(SchoolInfo('TITLE'));
 				DrawHeader(ProperDate(DBDate()));
-				require_once 'modules/Accounting/Salaries.php';
-				require_once 'modules/Accounting/StaffPayments.php';
+
+				require 'modules/Accounting/Salaries.php';
+				require 'modules/Accounting/StaffPayments.php';
+
 				echo '<div style="page-break-after: always;"></div>';
 		}
 		$_SESSION['staff_id'] = $SESSION_staff_id_save;
