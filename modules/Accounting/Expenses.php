@@ -10,7 +10,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		if ( $id!='new')
 		{
 			$sql = "UPDATE ACCOUNTING_PAYMENTS SET ";
-							
+
 			foreach ( (array) $columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
@@ -27,7 +27,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 			$fields = 'ID,SYEAR,SCHOOL_ID,PAYMENT_DATE,';
 			$values = "'".$id."','".UserSyear()."','".UserSchool()."','".DBDate()."',";
-			
+
 			$go = 0;
 			foreach ( (array) $columns as $column => $value)
 			{
@@ -46,7 +46,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				}
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			
+
 			if ( $go)
 				DBQuery($sql);
 		}
@@ -56,7 +56,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 {
-	if (DeletePrompt(_('Payment')))
+	if (DeletePrompt(_('Expense')))
 	{
 		DBQuery("DELETE FROM ACCOUNTING_PAYMENTS WHERE ID='".$_REQUEST['id']."'");
 		unset($_REQUEST['modfunc']);
@@ -80,7 +80,7 @@ if ( ! $_REQUEST['modfunc'])
 		$columns = array('REMOVE' => '');
 	else
 		$columns = array();
-	
+
 	$columns += array('AMOUNT' => _('Amount'),'PAYMENT_DATE' => _('Date'),'COMMENTS' => _('Comment'));
 	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 		$link['add']['html'] = array('REMOVE'=>button('add'),'AMOUNT'=>_makePaymentsTextInput('','AMOUNT'),'PAYMENT_DATE'=>ProperDate(DBDate()),'COMMENTS'=>_makePaymentsTextInput('','COMMENTS'));
@@ -107,10 +107,10 @@ if ( ! $_REQUEST['modfunc'])
 	$table .= '<tr><td>'._('Less').': '._('Total from Expenses').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
 
 	$table .= '<tr><td>'._('Balance').': <b>'.'</b></td><td><b id="update_balance">'.Currency(($incomes_total[1]['TOTAL']-$payments_total)).'</b></td></tr>';
-	
+
 	//add General Balance
 	$table .= '<tr><td colspan="2"><hr /></td></tr><tr><td>'._('Total from Incomes').': '.'</td><td>'.Currency($incomes_total[1]['TOTAL']).'</td></tr>';
-	
+
 	if ( $RosarioModules['Student_Billing'])
 	{
 		$student_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM BILLING_PAYMENTS p WHERE p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
@@ -119,7 +119,7 @@ if ( ! $_REQUEST['modfunc'])
 	}
 	else
 		$student_payments_total[1]['TOTAL'] = 0;
-		
+
 	$table .= '<tr><td>'._('Less').': '._('Total from Expenses').': '.'</td><td>'.Currency($payments_total).'</td></tr>';
 
 	$Staff_payments_total = DBGet(DBQuery("SELECT SUM(p.AMOUNT) AS TOTAL FROM ACCOUNTING_PAYMENTS p WHERE p.STAFF_ID IS NOT NULL AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"));
@@ -132,7 +132,7 @@ if ( ! $_REQUEST['modfunc'])
 		DrawHeader('','',$table);
 	else
 		DrawHeader($table,'','',null,null,true);
-	
+
 	if ( ! $_REQUEST['print_statements'] && AllowEdit())
 		echo '</form>';
 }
