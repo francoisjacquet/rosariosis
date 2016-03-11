@@ -189,7 +189,7 @@ else
 {
 	if ( $_REQUEST['id']=='all')
 	{
-//FJ add translation
+		//FJ add translation
 		DrawHeader(_('All Courses'),'');
 	}
 	else
@@ -202,7 +202,7 @@ else
 			'<b>' . $req_course_title . '</b> - ' .
 			mb_substr(
 				$req_course_title,
-				mb_strrpos( str_replace( ' - ', ' ^ ', $req_course_title), '^' ) + 2
+				mb_strrpos( str_replace( ' - ', ' ^ ', $req_course_title), ' ^' )
 			),
 			'<a href="Modules.php?modname=' . $_REQUEST['modname'] .
 				( $do_stats ? '&do_stats=' . $_REQUEST['do_stats'] : '' ) . '">' .
