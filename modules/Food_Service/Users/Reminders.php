@@ -28,13 +28,13 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$handle = PDFStart();
 		foreach ( (array) $staffs as $staff)
 		{
-			$last_deposit = DBGet(DBQuery("SELECT 
+			$last_deposit = DBGet(DBQuery("SELECT
 			(SELECT sum(AMOUNT) FROM FOOD_SERVICE_STAFF_TRANSACTION_ITEMS WHERE TRANSACTION_ID=fst.TRANSACTION_ID) AS AMOUNT,
-			to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE 
-			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst 
-			WHERE fst.SHORT_NAME='DEPOSIT' 
-			AND fst.STAFF_ID='".$staff['STAFF_ID']."' 
-			AND SYEAR='".UserSyear()."' 
+			to_char(fst.TIMESTAMP,'YYYY-MM-DD') AS DATE
+			FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst
+			WHERE fst.SHORT_NAME='DEPOSIT'
+			AND fst.STAFF_ID='".$staff['STAFF_ID']."'
+			AND SYEAR='".UserSyear()."'
 			ORDER BY fst.TRANSACTION_ID DESC LIMIT 1"),array('DATE' => 'ProperDate'));
 			$last_deposit = $last_deposit[1];
 
@@ -72,10 +72,13 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 	StaffWidgets('fsa_status');
 	StaffWidgets('fsa_exists_Y');
 
-	$extra['SELECT'] .= ',coalesce(fsa.STATUS,\'Active\') AS STATUS,fsa.BALANCE';
-	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$warning.'\' AND fsa.BALANCE >= 0) AS WARNING';
-	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= \''.$minimum.'\') AS NEGATIVE';
-	$extra['SELECT'] .= ',(SELECT \'Y\' WHERE fsa.BALANCE < \''.$minimum.'\') AS MINIMUM';
+	$status = DBEscapeString( _( 'Active' ) );
+
+	$extra['SELECT'] .= ",coalesce(fsa.STATUS,'" . $status . "') AS STATUS,fsa.BALANCE";
+	$extra['SELECT'] .= ",(SELECT 'Y' WHERE fsa.BALANCE < '" . $warning . "' AND fsa.BALANCE >= 0) AS WARNING";
+	$extra['SELECT'] .= ",(SELECT 'Y' WHERE fsa.BALANCE < 0 AND fsa.BALANCE >= '" . $minimum . "') AS NEGATIVE";
+	$extra['SELECT'] .= ",(SELECT 'Y' WHERE fsa.BALANCE < '" . $minimum . "') AS MINIMUM";
+
 	if ( !mb_strpos($extra['FROM'],'fsa'))
 	{
 		$extra['FROM'] .= ',FOOD_SERVICE_STAFF_ACCOUNTS fsa';
