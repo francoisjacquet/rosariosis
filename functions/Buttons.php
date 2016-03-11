@@ -20,7 +20,7 @@ function Buttons( $submit_value, $reset_value = '' )
 {
 	$buttons = '<input type="submit" value="' . $submit_value . '" />';
 
-	if ( $reset_value !== '' )
+	if ( $reset_value )
 	{
 		$buttons .= ' <input type="reset" value="' . $reset_value . '" />';
 	}
@@ -45,12 +45,12 @@ function button( $type, $text = '', $link = '', $class = '' )
 {
 	$button = '';
 
-	if ( $link !== '' )
+	if ( $link )
 	{
 		$title = '';
 
 		if ( $type === 'remove'
-			&& $text === '' )
+			&& ! $text )
 		{
 			$title = ' title="' . _( 'Delete' ) . '"';
 		}
@@ -63,12 +63,12 @@ function button( $type, $text = '', $link = '', $class = '' )
 
 	$button .= '<img src="' . $button_file . '" class="button ' . $class . '" alt="' . ucfirst( str_replace( '_', ' ', $type ) ) . '" />';
 
-	if ( $text !== '' )
+	if ( $text )
 	{
 		$button .= '&nbsp;<b>' . $text . '</b>';
 	}
 
-	if ( $link !== '' )
+	if ( $link )
 	{
 		$button .= '</a>';
 	}
@@ -92,17 +92,12 @@ function SubmitButton( $value, $name = '', $options = '' )
 {
 	if ( AllowEdit() )
 	{
-		$name_attr = '';
-
-		if ( $name !== '' )
-		{
-			$name_attr = ' name="' . $name . '" ';
-		}
+		$name_attr = $name ? ' name="' . $name . '" ' : '';
 
 		return '<input type="submit" value="' . $value . '"' . $name_attr . $options . ' />';
 	}
-	else
-		return '';
+
+	return '';
 }
 
 
@@ -122,6 +117,6 @@ function ResetButton( $value, $options = '' )
 	{
 		return '<input type="reset" value="' . $value . '" ' . $options . ' />';
 	}
-	else
-		return '';
+
+	return '';
 }
