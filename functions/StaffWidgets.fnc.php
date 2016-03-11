@@ -113,7 +113,7 @@ function StaffWidgets($item,&$myextra=NULL)
 						$extra['WHERE'] .= ' AND fssa.STAFF_ID=s.STAFF_ID';
 					}
 
-					$extra['WHERE'] .= " AND fssa.BALANCE".($_REQUEST['fsa_bal_gt']=='Y'?'>=':'<')."'".round($_REQUEST['fsa_balance'],2)."'";
+					$extra['WHERE'] .= " AND fssa.BALANCE".($_REQUEST['fsa_bal_ge']=='Y'?'>=':'<')."'".round($_REQUEST['fsa_balance'],2)."'";
 
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'._('Food Service Balance').': </b><span class="sizep2">'.($_REQUEST['fsa_bal_ge']=='Y'?'&ge;':'&lt;').'</span>'.number_format($_REQUEST['fsa_balance'],2).'<BR />';
@@ -214,13 +214,13 @@ function StaffWidgets($item,&$myextra=NULL)
 
 				$extra['search'] .= '<TR class="st"><TD>
 				'._('Has Account').'
-				</TD><TD><label><INPUT type="radio" name="fsa_exists" value=""'.(!$value?' checked':'').'> '._('All').'</label> 
-				<label><INPUT type="radio" name="fsa_exists" value="Y"'.($value=='Y'?' checked':'').'> '._('Yes').'</label> 
+				</TD><TD><label><INPUT type="radio" name="fsa_exists" value=""'.(!$value?' checked':'').'> '._('All').'</label>
+				<label><INPUT type="radio" name="fsa_exists" value="Y"'.($value=='Y'?' checked':'').'> '._('Yes').'</label>
 				<label><INPUT type="radio" name="fsa_exists" value="N"'.($value=='N'?' checked':'').'> '._('No').'</label>
 				</TD></TR>';
 				}
 			break;
-			
+
 			case 'staff_balance':
 				if($RosarioModules['Accounting'] && AllowUse('Accounting/StaffBalances.php'))
 				{
