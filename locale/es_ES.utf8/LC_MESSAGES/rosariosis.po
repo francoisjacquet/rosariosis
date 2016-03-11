@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-08 18:58-0500\n"
-"PO-Revision-Date: 2016-03-08 19:09-0500\n"
+"PO-Revision-Date: 2016-03-11 10:30-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -28,7 +28,7 @@ msgstr "Menú"
 #: Bottom.php:137 modules/Attendance/Administration.php:244
 #: modules/Eligibility/Menu.php:19 modules/Eligibility/Menu.php:36
 msgid "Student List"
-msgstr "Lista de Estudiante"
+msgstr "Lista de Estudiantes"
 
 #: Bottom.php:142
 msgid "User List"
@@ -1557,7 +1557,7 @@ msgstr "Permisos"
 #: functions/StaffWidgets.fnc.php:163 functions/StaffWidgets.fnc.php:173
 #: modules/Users/includes/General_Info.inc.php:186
 msgid "Custom"
-msgstr "Configurado"
+msgstr "Custom"
 
 #: functions/StaffWidgets.fnc.php:206 functions/Widgets.fnc.php:1668
 #: modules/Users/Preferences.php:498 modules/Users/Preferences.php:555
