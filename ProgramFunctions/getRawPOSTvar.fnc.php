@@ -11,6 +11,8 @@
  * Bypass `strip_tags` on the `$_REQUEST` vars,
  * prefer `$_GET` or `$_POST` but use them with care!
  *
+ * @deprecated 2.9 Use `$_POST` + MD / HTML Sanitize functions.
+ *
  * @see used to get TinyMCE textarea content
  *
  * @param string $key $_POST array key.
