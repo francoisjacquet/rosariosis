@@ -891,6 +891,13 @@ div.st{
 	display: none;
 }
 
+/*tablet vertical*/
+@media only screen and (max-width:800px){
+	.BottomButton span{
+		display:none
+	}
+}
+
 /*mobile*/
 @media only screen and (max-width:640px){
 	/*quick smartphone reset*/
@@ -933,9 +940,6 @@ div.st{
 	.header1 h2{
 		font-size:22px;
 		line-height:24px
-	}
-	.BottomButton span{
-		display:none
 	}
 	#search input,#search select,#LO_search{
 		max-width:150px
@@ -1125,4 +1129,3 @@ div.st{
 	}
 
 }
-
