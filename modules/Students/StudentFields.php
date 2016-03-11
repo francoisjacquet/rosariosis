@@ -170,7 +170,7 @@ if ( $_REQUEST['modfunc'] == 'delete'
 if ( ! $_REQUEST['modfunc'] )
 {
 	echo ErrorMessage( $error );
-	
+
 	// ADDING & EDITING FORM.
 	if ( $_REQUEST['id']
 		&& $_REQUEST['id'] !== 'new' )
@@ -219,7 +219,7 @@ if ( ! $_REQUEST['modfunc'] )
 	{
 		$extra_fields = array( TextInput(
 			$RET['COLUMNS'],
-			'tables[' . $category_id . '][COLUMNS]',
+			'tables[' . $_REQUEST['category_id'] . '][COLUMNS]',
 			_( 'Display Columns' ),
 			'size=5'
 		) );
@@ -227,9 +227,10 @@ if ( ! $_REQUEST['modfunc'] )
 		if ( $_REQUEST['category_id'] > 4
 			|| $_REQUEST['category_id'] === 'new' )
 		{
+			// TODO: check if INCLUDE file (+ ".inc.php") exsits.
 			$extra_fields[] = TextInput(
 				$RET['INCLUDE'],
-				'tables[' . $category_id . '][INCLUDE]',
+				'tables[' . $_REQUEST['category_id'] . '][INCLUDE]',
 				_( 'Include (should be left blank for most categories)' )
 			);
 		}
