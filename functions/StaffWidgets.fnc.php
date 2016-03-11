@@ -59,7 +59,7 @@ function StaffWidgets( $item, &$myextra = null )
 		case 'all':
 
 			// FJ regroup widgets wrap.
-			$widget_wrap_header = 
+			$widget_wrap_header =
 			function( $title )
 			{
 				return '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu">
@@ -198,7 +198,7 @@ function StaffWidgets( $item, &$myextra = null )
 					$extra['WHERE'] .= ' AND fssa.STAFF_ID=s.STAFF_ID';
 				}
 
-				$extra['WHERE'] .= " AND fssa.BALANCE" . ( $_REQUEST['fsa_bal_gt'] == 'Y' ? '>=' : '<' ) .
+				$extra['WHERE'] .= " AND fssa.BALANCE" . ( $_REQUEST['fsa_bal_ge'] == 'Y' ? '>=' : '<' ) .
 					"'" . round( $_REQUEST['fsa_balance'], 2 ) . "'";
 
 				if ( ! $extra['NoSearchTerms'] )
@@ -211,12 +211,12 @@ function StaffWidgets( $item, &$myextra = null )
 
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Balance' ) . '</td><td>
 			<table class="cellspacing-0"><tr><td>
-			<label><span class="sizep2">&lt;</span> 
+			<label><span class="sizep2">&lt;</span>
 				<input type="radio" name="fsa_bal_ge" value="" checked /></label>
 			</td><td rowspan="2">
 			<input type="text" name="fsa_balance" size="10"' . ( $value ? ' value="' . $value . '"' : '') . ' />
 			</td></tr><tr><td>
-			<label><span class="sizep2">&ge;</span> 
+			<label><span class="sizep2">&ge;</span>
 				<input type="radio" name="fsa_bal_ge" value="Y" /></label>
 			</td></tr></table>
 			</td></tr>';
@@ -386,7 +386,7 @@ function StaffWidgets( $item, &$myextra = null )
 
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Staff Payroll Balance' ) . '</td><td>' .
 			_( 'Between' ) .
-			' <input type="text" name="balance_low" size="5" maxlength="10" /> &amp; 
+			' <input type="text" name="balance_low" size="5" maxlength="10" /> &amp;
 			<input type="text" name="balance_high" size="5" maxlength="10" />
 			</td></tr>';
 
