@@ -11,7 +11,7 @@ if ( $_REQUEST['modfunc']=='update')
 		{
 			foreach ( (array) $_REQUEST['values'] as $id => $columns)
 			{
-		//FJ fix SQL bug invalid sort order
+				// FJ fix SQL bug invalid sort order.
 				if (empty($columns['SORT_ORDER']) || is_numeric($columns['SORT_ORDER']))
 				{
 					if ( $id!='new')
@@ -20,24 +20,25 @@ if ( $_REQUEST['modfunc']=='update')
 						//FJ fix SQL bug PRICE_FREE & PRICE_REDUCED numeric
 						if ( $_REQUEST['tab_id']!='new' || ((empty($columns['PRICE_FREE']) || is_numeric($columns['PRICE_FREE'])) && (empty($columns['PRICE_REDUCED']) || is_numeric($columns['PRICE_REDUCED'])) && (empty($columns['PRICE_STAFF']) || is_numeric($columns['PRICE_STAFF'])) && (empty($columns['PRICE']) || is_numeric($columns['PRICE']))))
 						{
+
 							if ( $_REQUEST['tab_id']!='new')
 								$sql = "UPDATE FOOD_SERVICE_MENU_ITEMS SET ";
 							else
 								$sql = "UPDATE FOOD_SERVICE_ITEMS SET ";
 
 							$go = false;
-							foreach ( (array) $columns as $column => $value)
-								if ( !empty($value) || $value=='0')
-								{
-									$sql .= $column."='".$value."',";
-									$go = true;
-								}
+
+							foreach ( (array) $columns as $column => $value )
+							{
+								$sql .= $column . "='" . $value . "',";
+								$go = true;
+							}
 
 							if ( $_REQUEST['tab_id']!='new')
 								$sql = mb_substr($sql,0,-1) . " WHERE MENU_ITEM_ID='".$id."'";
 							else
 								$sql = mb_substr($sql,0,-1) . " WHERE ITEM_ID='".$id."'";
-								
+
 							if ( $go)
 								DBQuery($sql);
 						}
@@ -169,7 +170,7 @@ if (empty($_REQUEST['modfunc']))
 
 		$sql = 'SELECT *,(SELECT ICON FROM FOOD_SERVICE_ITEMS WHERE ITEM_ID=fsmi.ITEM_ID) AS ICON FROM FOOD_SERVICE_MENU_ITEMS fsmi WHERE MENU_ID=\''.$_REQUEST['tab_id'].'\' ORDER BY (SELECT SORT_ORDER FROM FOOD_SERVICE_CATEGORIES WHERE CATEGORY_ID=fsmi.CATEGORY_ID),SORT_ORDER';
 		$functions = array('ITEM_ID' => 'makeSelectInput','ICON' => 'makeIcon','CATEGORY_ID' => 'makeSelectInput','DOES_COUNT' => 'makeCheckboxInput','SORT_ORDER' => 'makeTextInput');
-                                                                
+
 		$LO_columns = array('ITEM_ID' => _('Menu Item'),'ICON' => _('Icon'),'CATEGORY_ID' => _('Category'),'DOES_COUNT' => _('Include in Counts'),'SORT_ORDER' => _('Sort Order'));
 
 		$link['add']['html'] = array('ITEM_ID'=>makeSelectInput('','ITEM_ID'),'CATEGORY_ID'=>makeSelectInput('','CATEGORY_ID'),'DOES_COUNT'=>makeCheckboxInput('','DOES_COUNT'),'SORT_ORDER'=>makeTextInput('','SORT_ORDER'));
