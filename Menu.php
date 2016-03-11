@@ -34,31 +34,24 @@ if ( empty( $_ROSARIO['Menu'] ) )
 
 	$profile = User( 'PROFILE' );
 
-	if ( $profile !== 'student' )
-	{
-		if ( User( 'PROFILE_ID' ) )
-		{
-			$allow_use_sql = "SELECT MODNAME
-				FROM PROFILE_EXCEPTIONS
-				WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
-				AND CAN_USE='Y'";
-		}
-		// If user has custom exceptions.
-		else
-		{
-			$allow_use_sql = "SELECT MODNAME
-				FROM STAFF_EXCEPTIONS
-				WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
-				AND CAN_USE='Y'";
-		}
-	}
-	else
+	if ( User( 'PROFILE_ID' ) != '' )
 	{
 		$allow_use_sql = "SELECT MODNAME
 			FROM PROFILE_EXCEPTIONS
-			WHERE PROFILE_ID='0'
+			WHERE PROFILE_ID='" . User( 'PROFILE_ID' ) . "'
 			AND CAN_USE='Y'";
+	}
+	// If user has custom exceptions.
+	else
+	{
+		$allow_use_sql = "SELECT MODNAME
+			FROM STAFF_EXCEPTIONS
+			WHERE USER_ID='" . User( 'STAFF_ID' ) . "'
+			AND CAN_USE='Y'";
+	}
 
+	if ( $profile == 'student' )
+	{
 		// Force student profile to parent (same rights in Menu.php files).
 		$profile = 'parent';
 	}
