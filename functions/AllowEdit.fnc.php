@@ -105,7 +105,7 @@ function AllowUse( $modname = false )
 	// Get CAN_USE programs from database.
 	if ( ! isset( $_ROSARIO['AllowUse'] ) )
 	{
-		if ( User( 'PROFILE_ID' ) )
+		if ( User( 'PROFILE_ID' ) != '' ) // Beware, '0' is student!
 		{
 			$_ROSARIO['AllowUse'] = DBGet( DBQuery( "SELECT MODNAME
 				FROM PROFILE_EXCEPTIONS
