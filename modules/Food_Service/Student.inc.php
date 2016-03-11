@@ -75,7 +75,7 @@ if(!$_REQUEST['modfunc'] && UserStudentID())
 	$options = array('Inactive'=>_('Inactive'),'Disabled'=>_('Disabled'),'Closed'=>_('Closed'));
 	echo '<TD>'.SelectInput($student['STATUS'],'food_service[STATUS]',_('Status'),$options,_('Active')).'</TD>';
 	echo '</TR><TR>';
-	$options = array('Reduced'=>'Reduced','Free'=>'Free');
+	$options = array('Reduced'=>_('Reduced'),'Free'=>_('Free'));
 	echo '<TD>'.SelectInput($student['DISCOUNT'],'food_service[DISCOUNT]',_('Discount'),$options,_('Full')).'</TD>';
 	echo '<TD>'.TextInput($student['BARCODE'],'food_service[BARCODE]',_('Barcode'),'size=12 maxlength=25').'</TD>';
 	echo '</TR>';

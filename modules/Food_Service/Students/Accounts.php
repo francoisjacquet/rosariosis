@@ -28,7 +28,9 @@ if($_REQUEST['modfunc']=='update')
             }
             if(!$RET || PromptX($title='Confirm',$question,$message))
             {
-                if (is_numeric($_REQUEST['food_service']['ACCOUNT_ID']) && intval($_REQUEST['food_service']['ACCOUNT_ID'])>=0)
+                if ( ! isset( $_REQUEST['food_service']['ACCOUNT_ID'] )
+					|| ( (string) (int) $_REQUEST['food_service']['ACCOUNT_ID'] === $_REQUEST['food_service']['ACCOUNT_ID']
+						&& $_REQUEST['food_service']['ACCOUNT_ID'] > 0 ) )
 				{
 					$sql = "UPDATE FOOD_SERVICE_STUDENT_ACCOUNTS SET ";
 					foreach($_REQUEST['food_service'] as $column_name=>$value)
@@ -86,10 +88,10 @@ if(UserStudentID() && empty($_REQUEST['modfunc']))
 	$student = $student[1];
 
 	// find other students associated with the same account
-	$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME 
-	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa 
-	WHERE fssa.ACCOUNT_ID='".$student['ACCOUNT_ID']."' 
-	AND s.STUDENT_ID=fssa.STUDENT_ID 
+	$xstudents = DBGet(DBQuery("SELECT s.STUDENT_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME
+	FROM STUDENTS s,FOOD_SERVICE_STUDENT_ACCOUNTS fssa
+	WHERE fssa.ACCOUNT_ID='".$student['ACCOUNT_ID']."'
+	AND s.STUDENT_ID=fssa.STUDENT_ID
 	AND s.STUDENT_ID!='".UserStudentID()."'".
 	($_REQUEST['include_inactive']?'':" AND exists(SELECT '' FROM STUDENT_ENROLLMENT WHERE STUDENT_ID=s.STUDENT_ID AND SYEAR='".UserSyear()."' AND (START_DATE<=CURRENT_DATE AND (END_DATE IS NULL OR CURRENT_DATE<=END_DATE)))")));
 
