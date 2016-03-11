@@ -67,7 +67,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 				$chartData[] = '[' . $data[0][ $i ] . ', ' . $data[1][ $i ] . ']';
 			}
 
-			$chartData = '[' . implode( ',', $chartData ) . ']';
+			$chartData = '[[' . implode( ',', $chartData ) . ']]';
 
 			$chartOptions = 'axesDefaults: {
 				pad: 0 //start axes at 0
@@ -127,11 +127,11 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 				$ticks = '[' . implode( ',', $ticks ) . ']';
 			}
 
-			$chartData = implode( ',', $chartData );
+			$chartData = '[' . implode( ',', $chartData ) . ']';
 
 			$chartOptions = 'seriesDefaults:{
 				renderer:$.jqplot.BarRenderer,
-				rendererOptions: { 
+				rendererOptions: {
 					fillToZero: true,
 					varyBarColor: true
 				},
@@ -172,7 +172,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 				$chartData[] = '[' . json_encode( $data[0][ $i ] ) . ', ' .	$data[1][ $i ] . ']';
 			}
 
-			$chartData = '[' . implode( ',', $chartData ) . ']';
+			$chartData = '[[' . implode( ',', $chartData ) . ']]';
 
 			$chartOptions = 'seriesDefaults:{
 				renderer:$.jqplot.PieRenderer,
@@ -212,7 +212,7 @@ function jqPlotChart( $type, $data, $title, $save_image = true )
 
 				var plot<?php echo $chartID; ?> = $.jqplot(
 					<?php echo json_encode( 'chart' . $chartID ); ?>,
-					[plot<?php echo $chartID; ?>data],
+					plot<?php echo $chartID; ?>data,
 					{<?php echo $chartOptions; ?>
 					title: <?php echo json_encode( $title ); ?>
 				});

@@ -4,7 +4,7 @@ require_once 'ProgramFunctions/Charts.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-// set start date
+// Set start date.
 if ( isset( $_REQUEST['day_start'] )
 	&& isset( $_REQUEST['month_start'] )
 	&& isset( $_REQUEST['year_start'] ) )
@@ -32,7 +32,7 @@ if ( empty( $start_date ) )
 
 }
 
-// set end date
+// Set end date.
 if ( isset( $_REQUEST['day_end'] )
 	&& isset( $_REQUEST['month_end'] )
 	&& isset( $_REQUEST['year_end'] ) )
@@ -51,10 +51,12 @@ if ( empty( $end_date ) )
 
 $chart_types = array( 'column', 'pie', 'list' );
 
-// set Chart Type
-if ( !isset( $_REQUEST['chart_type'] )
-	|| !in_array( $_REQUEST['chart_type'], $chart_types ) )
+// Set Chart Type.
+if ( ! isset( $_REQUEST['chart_type'] )
+	|| ! in_array( $_REQUEST['chart_type'], $chart_types ) )
+{
 	$_REQUEST['chart_type'] = 'column';
+}
 
 $chartline = false;
 
@@ -193,19 +195,19 @@ if ( isset( $_REQUEST['category_id'] )
 			}
 			//$chart['chart_data'][0][$i-1] = ($max_min_RET[1]['MIN'] + (ceil($diff/5)*($i-2))).'+';
 			$mins[ $i ] = ( ceil( $diff / 10 ) * ( $i - 1 ) );
-		} 
+		}
 		else //FJ transform column chart in line chart
-		{ 
+		{
 			$chartline = true;
 		}
-		
+
 		$extra['SELECT_ONLY'] = "CATEGORY_" . intval( $_REQUEST['category_id'] ) . " AS TITLE";
 
 		$extra['functions'] = array( 'TITLE' => 'makeNumeric' );
 
 		$referrals_RET = GetStuList( $extra );
 
-		if ( ! $referrals_RET ) //FJ bugfix no results for numeric fields chart 
+		if ( ! $referrals_RET ) //FJ bugfix no results for numeric fields chart
 			$chart['chart_data'][0][0] = $chart['chart_data'][1][0] = 0;
 
 		ksort( $chart['chart_data'][0] );
@@ -217,13 +219,13 @@ if ( isset( $_REQUEST['category_id'] )
 if ( empty( $_REQUEST['modfunc'] ) )
 {
 	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
-	
-	$categories_RET = DBGet( DBQuery( "SELECT df.ID,du.TITLE,du.SELECT_OPTIONS 
-		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du 
-		WHERE df.DATA_TYPE NOT IN ('textarea','text','date') 
-		AND du.SYEAR='" . UserSyear() . "' 
-		AND du.SCHOOL_ID='" . UserSchool() . "' 
-		AND du.DISCIPLINE_FIELD_ID=df.ID 
+
+	$categories_RET = DBGet( DBQuery( "SELECT df.ID,du.TITLE,du.SELECT_OPTIONS
+		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
+		WHERE df.DATA_TYPE NOT IN ('textarea','text','date')
+		AND du.SYEAR='" . UserSyear() . "'
+		AND du.SCHOOL_ID='" . UserSchool() . "'
+		AND du.DISCIPLINE_FIELD_ID=df.ID
 		ORDER BY du.SORT_ORDER" ) );
 
 	$select_options = array();

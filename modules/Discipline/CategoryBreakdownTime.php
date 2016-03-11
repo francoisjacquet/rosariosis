@@ -4,7 +4,7 @@ require_once 'ProgramFunctions/Charts.fnc.php';
 
 DrawHeader( ProgramTitle() );
 
-// set start date
+// Set start date.
 if ( isset( $_REQUEST['day_start'] )
 	&& isset( $_REQUEST['month_start'] )
 	&& isset( $_REQUEST['year_start'] ) )
@@ -32,7 +32,7 @@ if ( empty( $start_date ) )
 
 }
 
-// set end date
+// Set end date.
 if ( isset( $_REQUEST['day_end'] )
 	&& isset( $_REQUEST['month_end'] )
 	&& isset( $_REQUEST['year_end'] ) )
@@ -51,19 +51,23 @@ if ( empty( $end_date ) )
 
 $chart_types = array( 'column', 'list' );
 
-// set Chart Type
-if ( !isset( $_REQUEST['chart_type'] )
-	|| !in_array( $_REQUEST['chart_type'], $chart_types ) )
+// Set Chart Type.
+if ( ! isset( $_REQUEST['chart_type'] )
+	|| ! in_array( $_REQUEST['chart_type'], $chart_types ) )
+{
 	$_REQUEST['chart_type'] = 'column';
+}
 
 $timeframes = array( 'month', 'SYEAR' );
 
-// set Timeframe
-if ( !isset( $_REQUEST['timeframe'] )
-	|| !in_array( $_REQUEST['timeframe'], $timeframes ) )
+// Set Timeframe.
+if ( ! isset( $_REQUEST['timeframe'] )
+	|| ! in_array( $_REQUEST['timeframe'], $timeframes ) )
+{
 	$_REQUEST['timeframe'] = 'month';
+}
 
-// Advanced Search
+// Advanced Search.
 if ( isset( $_REQUEST['modfunc'] )
 	&& $_REQUEST['modfunc'] === 'search' )
 {
@@ -88,7 +92,7 @@ if ( isset( $_REQUEST['modfunc'] )
 }
 
 if ( isset( $_REQUEST['category_id'] )
-	&& !empty( $_REQUEST['category_id'] ) )
+	&& ! empty( $_REQUEST['category_id'] ) )
 {
 	$category_RET = DBGet( DBQuery( "SELECT du.TITLE,du.SELECT_OPTIONS,df.DATA_TYPE
 		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
@@ -165,7 +169,7 @@ if ( isset( $_REQUEST['category_id'] )
 
 				$chart['chart_data'][ $index ][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 			}
-			
+
 			foreach ( (array) $category_RET[1]['SELECT_OPTIONS'] as $option )
 			{
 				$chart['chart_data'][ $index ][] = (int)$totals_RET[ $option ][ $tf ][1]['COUNT'];
@@ -186,7 +190,7 @@ if ( isset( $_REQUEST['category_id'] )
 
 		$chart['chart_data'][0][] = _( 'Yes' );
 		$chart['chart_data'][0][] = _( 'No' );
-	
+
 		$index = 0;
 
 		for ( $i = $start; $i <= $end; $i++ )
@@ -208,7 +212,7 @@ if ( isset( $_REQUEST['category_id'] )
 
 				$chart['chart_data'][ $index ][0] = FormatSyear( $i, Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) );
 			}
-			
+
 			$chart['chart_data'][ $index ][] = (int)$totals_RET['Y'][ $tf ][1]['COUNT'];
 
 			$chart['chart_data'][ $index ][] = (int)$totals_RET['N'][ $tf ][1]['COUNT'];
@@ -298,7 +302,7 @@ if ( isset( $_REQUEST['category_id'] )
 		}
 
 		$chart['chart_data'][0][0] = '';
-		
+
 		$diff_max = 10;
 
 		if ( $diff_max > $diff )
@@ -333,7 +337,7 @@ if ( isset( $_REQUEST['category_id'] )
 			( ceil( $diff / $diff_max ) * ( $o - 2 ) ) . '+' );
 
 		$mins[ $o ] = ( ceil( $diff / $diff_max ) * ( $o - 1 ) );
-		
+
 		$extra['SELECT_ONLY'] = "CATEGORY_" . intval( $_REQUEST['category_id'] ) . " AS TITLE," . $timeframe . " AS TIMEFRAME";
 
 		$extra['functions'] = array( 'TITLE' => '_makeNumericTime' );
@@ -396,12 +400,12 @@ if ( empty( $_REQUEST['modfunc'] ) )
 {
 	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
 
-	$categories_RET = DBGet( DBQuery( "SELECT df.ID,du.TITLE,du.SELECT_OPTIONS 
-		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du 
-		WHERE df.DATA_TYPE NOT IN ('textarea','text','date') 
-		AND du.SYEAR='" . UserSyear() . "' 
-		AND du.SCHOOL_ID='" . UserSchool() . "' 
-		AND du.DISCIPLINE_FIELD_ID=df.ID 
+	$categories_RET = DBGet( DBQuery( "SELECT df.ID,du.TITLE,du.SELECT_OPTIONS
+		FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du
+		WHERE df.DATA_TYPE NOT IN ('textarea','text','date')
+		AND du.SYEAR='" . UserSyear() . "'
+		AND du.SCHOOL_ID='" . UserSchool() . "'
+		AND du.DISCIPLINE_FIELD_ID=df.ID
 		ORDER BY du.SORT_ORDER" ) );
 
 	$select_options = array();
@@ -446,7 +450,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	);
 
 	if ( isset( $_ROSARIO['SearchTerms'] )
-		&& !empty( $_ROSARIO['SearchTerms'] ) )
+		&& ! empty( $_ROSARIO['SearchTerms'] ) )
 	{
 		DrawHeader( $_ROSARIO['SearchTerms'] );
 	}
@@ -454,7 +458,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	echo '<br />';
 
 	if ( isset( $_REQUEST['category_id'] )
-		&& !empty( $_REQUEST['category_id'] ) )
+		&& ! empty( $_REQUEST['category_id'] ) )
 	{
 		$tabs = array(
 			array(
@@ -478,7 +482,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 			$LO_columns = array( 'TITLE' => _( 'Option' ) );
 
 			foreach ( (array) $chart['chart_data'] as $timeframe => $values )
-			{	
+			{
 				if ( $timeframe != 0 )
 				{
 					$LO_columns[ $timeframe ] = $values[0];
@@ -511,14 +515,16 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		else
 		{
 			if ( isset( $_ROSARIO['SearchTerms'] )
-				&& !empty( $_ROSARIO['SearchTerms'] ) )
-				$SearchTerms = ' - ' . strip_tags( str_replace( '<br />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ));
+				&& ! empty( $_ROSARIO['SearchTerms'] ) )
+			{
+				$SearchTerms = ' - ' . strip_tags( str_replace( '<br />', " - ", mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
+			}
 
 			$chartTitle = sprintf( _( '%s Breakdown' ), ParseMLField( $category_RET[1]['TITLE'] ) ) . $SearchTerms;
 
 			echo jqPlotChart( 'column', $chartData, $chartTitle );
 
-			unset($_REQUEST['_ROSARIO_PDF']);
+			unset( $_REQUEST['_ROSARIO_PDF'] );
 		}
 
 		PopTable('footer');
@@ -545,7 +551,7 @@ function _makeNumericTime( $number, $column )
 		$THIS_RET,
 		$start_date,
 		$end_date;
-	
+
 	if ( $_REQUEST['timeframe'] === 'month' )
 	{
 		$index = ( ( $THIS_RET['TIMEFRAME'] * 1 ) -
@@ -557,7 +563,7 @@ function _makeNumericTime( $number, $column )
 		$start = GetSyear( $start_date );
 
 		$end = GetSyear( $end_date );
-		
+
 		$index = 0;
 
 		for ( $i = $start; $i <= $end; $i++ )
@@ -597,6 +603,6 @@ function _makeNumericTime( $number, $column )
 			}
 		}
 	}
-	
+
 	return $number;
 }
