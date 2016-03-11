@@ -13,8 +13,10 @@ if ( $_REQUEST['values'] && $_POST['values'] && $_REQUEST['save'])
 			$id = DBGet(DBQuery("SELECT ".db_seq_nextval('FOOD_SERVICE_STAFF_TRANSACTIONS_SEQ')." AS SEQ_ID "));
 			$id = $id[1]['SEQ_ID'];
 
+			$full_description = DBEscapeString( _( $_REQUEST['values']['OPTION'] ) ) . ' ' . $_REQUEST['values']['DESCRIPTION'];
+
 			$fields = 'ITEM_ID,TRANSACTION_ID,AMOUNT,SHORT_NAME,DESCRIPTION';
-			$values = "'0','".$id."','".($_REQUEST['values']['TYPE']=='Debit' ? -$amount : $amount)."','".mb_strtoupper($_REQUEST['values']['OPTION'])."','".$_REQUEST['values']['OPTION'].' '.$_REQUEST['values']['DESCRIPTION']."'";
+			$values = "'0','".$id."','".($_REQUEST['values']['TYPE']=='Debit' ? -$amount : $amount)."','".mb_strtoupper($_REQUEST['values']['OPTION'])."','" . $full_description . "'";
 			$sql = "INSERT INTO FOOD_SERVICE_STAFF_TRANSACTION_ITEMS (".$fields.") values (".$values.")";
 			DBQuery($sql);
 
@@ -47,8 +49,8 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 {
 	$staff = DBGet(DBQuery("SELECT s.STAFF_ID,s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME,
 	(SELECT STAFF_ID FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS ACCOUNT_ID,
-	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE 
-	FROM STAFF s 
+	(SELECT BALANCE FROM FOOD_SERVICE_STAFF_ACCOUNTS WHERE STAFF_ID=s.STAFF_ID) AS BALANCE
+	FROM STAFF s
 	WHERE s.STAFF_ID='".UserStaffID()."'"));
 	$staff = $staff[1];
 
@@ -63,11 +65,11 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 
 	if ( $staff['ACCOUNT_ID'] && $staff['BALANCE']!='')
 	{
-		$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT 
-		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti 
-		WHERE fst.SYEAR='".UserSyear()."' 
-		AND fst.STAFF_ID='".UserStaffID()."' 
-		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1 
+		$RET = DBGet(DBQuery("SELECT fst.TRANSACTION_ID,fst.DESCRIPTION AS TYPE,fsti.DESCRIPTION,fsti.AMOUNT
+		FROM FOOD_SERVICE_STAFF_TRANSACTIONS fst,FOOD_SERVICE_STAFF_TRANSACTION_ITEMS fsti
+		WHERE fst.SYEAR='".UserSyear()."'
+		AND fst.STAFF_ID='".UserStaffID()."'
+		AND fst.TIMESTAMP BETWEEN CURRENT_DATE AND CURRENT_DATE+1
 		AND fsti.TRANSACTION_ID=fst.TRANSACTION_ID"));
 //FJ add translation
 		function types_locale($type) {
@@ -87,7 +89,7 @@ if (UserStaffID() && empty($_REQUEST['modfunc']))
 		foreach ( (array) $RET as $RET_key => $RET_val) {
 			$RET_temp[ $RET_key ]=array_map('types_locale', $RET_val);
 			$RET[ $RET_key ]=array_map('options_locale', $RET_temp[ $RET_key ]);
-		}	
+		}
 
 		echo '<table class="width-100p"><tr><td class="width-100p valign-top">';
 
