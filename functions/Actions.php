@@ -90,6 +90,13 @@ $RosarioActions = array(
 	 * @since 2.9
 	 */
 	'misc/Portal.php|portal_alerts' => array(),
+
+	/**
+	 * Bottom Buttons.
+	 *
+	 * @since 2.9
+	 */
+	'Bottom.php|bottom_buttons' => array(),
 );
 
 

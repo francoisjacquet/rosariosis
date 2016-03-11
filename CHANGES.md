@@ -71,6 +71,7 @@ Changes in 2.9
 - Add ProperDateTime() function in Date.php
 - Add HumanFilesize() function in ProgramFunctions/FileUpload.fnc.php
 - Add misc/Portal.php|portal_alerts hook in Actions.php & Portal.php
+- Add Bottom.php|bottom_buttons hook in Actions.php & Bottom.php
 - Add optional functions.php file for non core modules in Warehouse.php
 - Update French & Spanish translations
 

@@ -127,8 +127,8 @@ else : ?>
 		$btn_path = 'assets/themes/' . Preferences( 'THEME' ) . '/btn/';
 
 		if ( isset( $_SESSION['List_PHP_SELF'] )
-			&& ( User( 'PROFILE' ) == 'admin'
-				|| User('PROFILE') == 'teacher') ) :
+			&& ( User( 'PROFILE' ) === 'admin'
+				|| User( 'PROFILE' ) === 'teacher') ) :
 
 			switch ( $_SESSION['Back_PHP_SELF'] )
 			{
@@ -190,20 +190,15 @@ else : ?>
 				<span><?php echo $back_text; ?></span>
 			</a>
 
-		<?php endif; ?>
+		<?php endif;
+
+		// Do bottom_buttons hook.
+		do_action( 'Bottom.php|bottom_buttons' ); ?>
 
 		<a href="Bottom.php?modfunc=print" target="_blank" title="<?php echo _( 'Print' ); ?>" class="BottomButton">
 			<img src="<?php echo $btn_path; ?>print.png" />
 			<span><?php echo _( 'Print' ); ?></span>
 		</a>
-		<?php if ( $RosarioModules['Reports']
-			&& User( 'PROFILE' ) === 'admin'
-			&& AllowEdit( 'Reports/SavedReports.php' ) ) : // Save Report. ?>
-			<a href="Modules.php?modname=Reports/SavedReports.php&amp;modfunc=new" class="BottomButton">
-				<img src="<?php echo $btn_path; ?>download.png" />
-				<span><?php echo _( 'Save Report' ); ?></span>
-			</a>
-		<?php endif; ?>
 		<a href="#" onclick="toggleHelp();return false;" title="<?php echo _( 'Help' ); ?>" class="BottomButton">
 			<img src="<?php echo $btn_path; ?>help.png" />
 			<span><?php echo _( 'Help' ); ?></span>
