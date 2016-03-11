@@ -18,8 +18,13 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	{
 		if ( !empty($_REQUEST['student']))
 		{
-			$start_date = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
-			if (VerifyDate($start_date))
+			$start_date = RequestedDate(
+				$_REQUEST['year_start'],
+				$_REQUEST['month_start'],
+				$_REQUEST['day_start']
+			);
+
+			if ( $start_date )
 			{
 				$course_period_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID, TOTAL_SEATS, COURSE_PERIOD_ID, CALENDAR_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_SESSION['MassSchedule.php']['course_period_id']."'"));
 
@@ -51,7 +56,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 								$sql = "INSERT INTO SCHEDULE (SYEAR,SCHOOL_ID,STUDENT_ID,COURSE_ID,COURSE_PERIOD_ID,MP,MARKING_PERIOD_ID,START_DATE)
 											values('".UserSyear()."','".UserSchool()."','".$student_id."','".$_SESSION['MassSchedule.php']['course_id']."','".$_SESSION['MassSchedule.php']['course_period_id']."','".$mp_table."','".$_REQUEST['marking_period_id']."','".$start_date."')";
 								DBQuery($sql);
-						
+
 								//hook
 								do_action('Scheduling/MassSchedule.php|schedule_student');
 							}
@@ -72,7 +77,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	}
 	else
 		$error[] = _('You must choose a course.');
-		
+
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 	unset($_REQUEST['modfunc']);
 	unset($_SESSION['MassSchedule.php']);
@@ -81,7 +86,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 echo ErrorMessage( $error );
 
 echo ErrorMessage( $note, 'note' );
-		
+
 if (empty($_REQUEST['modfunc']))
 {
 	if ( $_REQUEST['search_modfunc']=='list')
@@ -109,7 +114,8 @@ if (empty($_REQUEST['modfunc']))
 				"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
 			); return false;\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
 
-		echo '<tr class="st"><td>'._('Start Date').'</td><td>'.PrepareDate(DBDate(),'').'</td></tr>';
+		echo '<tr class="st"><td>' . _( 'Start Date' ) . '</td>
+			<td>' . DateInput( DBDate(), 'start', '', false, false ) . '</td></tr>';
 
 		echo '<tr class="st"><td>'._('Marking Period').'</td>';
 		$mp_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,".db_case(array('MP',"'FY'","'0'","'SEM'","'1'","'QTR'","'2'"))." AS TBL FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' ORDER BY TBL,SORT_ORDER"));
@@ -165,7 +171,7 @@ if ( $_REQUEST['modfunc']=='choose_course')
 		$period_title = $period_title[1]['TITLE'];
 
 		echo '<script>opener.document.getElementById("course_div").innerHTML = '.json_encode($course_title.'<br />'.$period_title).'; window.close();</script>';
-		
+
 	}
 }
 

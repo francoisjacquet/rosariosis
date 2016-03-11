@@ -7,22 +7,23 @@ if (User('PROFILE')=='teacher')//limit to teacher himself
 if ( ! $_REQUEST['print_statements'])
 {
 	DrawHeader(ProgramTitle());
-	
+
 	Search('staff_id',$extra);
 }
 
 if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 {
-	if (count($_REQUEST['month_']))
+	if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] ) )
 	{
-		foreach ( (array) $_REQUEST['month_'] as $id => $columns)
-		{
-			foreach ( (array) $columns as $column => $value)
-			{
-				if ( $_REQUEST['day_'][ $id ][ $column ] && $_REQUEST['month_'][ $id ][ $column ] && $_REQUEST['year_'][ $id ][ $column ])
-					$_REQUEST['values'][ $id ][ $column ] = $_REQUEST['day_'][ $id ][ $column ].'-'.$_REQUEST['month_'][ $id ][ $column ].'-'.$_REQUEST['year_'][ $id ][ $column ];
-			}
-		}
+		$requested_dates = RequestedDates(
+			$_REQUEST['year_values'],
+			$_REQUEST['month_values'],
+			$_REQUEST['day_values']
+		);
+
+		$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );
+
+		$_POST['values'] = array_replace_recursive( $_POST['values'], $requested_dates );
 	}
 
 	foreach ( (array) $_REQUEST['values'] as $id => $columns)
@@ -30,7 +31,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 		if ( $id!='new')
 		{
 			$sql = "UPDATE ACCOUNTING_SALARIES SET ";
-							
+
 			foreach ( (array) $columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
@@ -44,7 +45,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 
 			$fields = 'ID,STAFF_ID,SCHOOL_ID,SYEAR,ASSIGNED_DATE,';
 			$values = db_seq_nextval('ACCOUNTING_SALARIES_SEQ').",'".UserStaffID()."','".UserSchool()."','".UserSyear()."','".DBDate()."',";
-			
+
 			$go = 0;
 			foreach ( (array) $columns as $column => $value)
 			{
@@ -58,7 +59,7 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 				}
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			
+
 			if ( $go)
 				DBQuery($sql);
 		}
@@ -87,7 +88,7 @@ if (UserStaffID() && ! $_REQUEST['modfunc'])
 		$RET[ $i ] = $salary;
 		$i++;
 	}
-	
+
 	if (count($RET) && ! $_REQUEST['print_statements'] && AllowEdit() && !isset($_REQUEST['_ROSARIO_PDF']))
 		$columns = array('REMOVE' => '');
 	else

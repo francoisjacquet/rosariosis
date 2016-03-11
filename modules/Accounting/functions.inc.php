@@ -1,19 +1,19 @@
 <?php
 function _makeIncomesRemove($value,$column)
 {	global $THIS_RET;
-	
+
 	return button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&id='.$THIS_RET['ID'].'"');
 }
 
 function _makeSalariesRemove($value,$column)
 {	global $THIS_RET;
-	
+
 	return button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&id='.$THIS_RET['ID'].'"');
 }
 
 function _makePaymentsRemove($value,$column)
 {	global $THIS_RET;
-	
+
 	return button('remove',_('Delete'),'"Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove&id='.$THIS_RET['ID'].'"');
 }
 
@@ -30,10 +30,10 @@ function _makeIncomesTextInput($value,$name)
 		$id = 'new';
 		$div = false;
 	}
-	
+
 	if ( $name=='AMOUNT')
 		$extra = 'size=5 maxlength=10';
-	
+
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra,$div);
 }
 
@@ -50,10 +50,10 @@ function _makeSalariesTextInput($value,$name)
 		$id = 'new';
 		$div = false;
 	}
-	
+
 	if ( $name=='AMOUNT')
 		$extra = 'size=5 maxlength=10';
-	
+
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra,$div);
 }
 
@@ -64,23 +64,23 @@ function _makeSalariesDateInput($value='',$name)
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
-	
-	$name = '['.$id.']['.$name.']';
+
+	$name = 'values['.$id.']['.$name.']';
 
 	return DateInput($value,$name);
 }
 
 function _makePaymentsTextInput($value,$name)
 {	global $THIS_RET;
-	
+
 	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
-	
+
 	if ( $name=='AMOUNT')
 		$extra = 'size=5 maxlength=10';
-	
+
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
 }
 
@@ -104,4 +104,3 @@ function _makePaymentsAmount($value,$column)
 	$payments_total += $value;
 	return Currency($value);
 }
-

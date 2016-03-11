@@ -2,7 +2,7 @@
 
 function _makeFeesRemove($value,$column)
 {	global $THIS_RET,$waived_fees_RET;
-	
+
 	if ( ! $waived_fees_RET)
 		$waived_fees_RET = DBGet(DBQuery("SELECT f.WAIVED_FEE_ID FROM BILLING_FEES f WHERE f.STUDENT_ID='".UserStudentID()."' AND f.WAIVED_FEE_ID IS NOT NULL AND f.SYEAR='".UserSyear()."' AND f.SCHOOL_ID='".UserSchool()."'"),array(),array('WAIVED_FEE_ID'));
 
@@ -15,7 +15,7 @@ function _makeFeesRemove($value,$column)
 
 function _makePaymentsRemove($value,$column)
 {	global $THIS_RET,$refunded_payments_RET;
-	
+
 	if ( ! $refunded_payments_RET)
 		$refunded_payments_RET = DBGet(DBQuery("SELECT p.REFUNDED_PAYMENT_ID FROM BILLING_PAYMENTS p WHERE p.STUDENT_ID='".UserStudentID()."' AND (p.REFUNDED_PAYMENT_ID IS NOT NULL AND p.REFUNDED_PAYMENT_ID!='') AND p.SYEAR='".UserSyear()."' AND p.SCHOOL_ID='".UserSchool()."'"),array(),array('REFUNDED_PAYMENT_ID'));
 
@@ -41,10 +41,10 @@ function _makeFeesTextInput($value,$name)
 		$id = 'new';
 		$div = false;
 	}
-	
+
 	if ( $name=='AMOUNT')
 		$extra = 'size=5 maxlength=10';
-	
+
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra,$div);
 }
 
@@ -55,8 +55,8 @@ function _makeFeesDateInput($value='',$name)
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
-	
-	$name = '['.$id.']['.$name.']';
+
+	$name = 'values['.$id.']['.$name.']';
 
 	return DateInput($value,$name);
 }
@@ -70,15 +70,15 @@ function _makeFeesAmount($value,$column)
 
 function _makePaymentsTextInput($value,$name)
 {	global $THIS_RET;
-	
+
 	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
-	
+
 	if ( $name=='AMOUNT')
 		$extra = 'size=5 maxlength=10';
-	
+
 	return TextInput($value,'values['.$id.']['.$name.']','',$extra);
 }
 
@@ -99,7 +99,6 @@ function _lunchInput($value,$column)
 		$id = 'new';
 		$new = true;
 	}
-	
+
 	return CheckboxInput($value,'values['.$id.']['.$column.']','','',$new,_('Yes'),_('No'));
 }
-

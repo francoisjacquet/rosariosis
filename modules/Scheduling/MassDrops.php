@@ -11,8 +11,13 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		if (isset($_REQUEST['student']) && is_array($_REQUEST['student']))
 		{
-			$END_DATE = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
-			if (VerifyDate($END_DATE))
+			$drop_date = RequestedDate(
+				$_REQUEST['year_drop'],
+				$_REQUEST['month_drop'],
+				$_REQUEST['day_drop']
+			);
+
+			if ( $drop_date )
 			{
 				$course_mp = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'"));
 				$course_mp = $course_mp[1]['MARKING_PERIOD_ID'];
@@ -28,11 +33,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					{
 						if ( $current_RET[ $student_id ])
 						{
-							DBQuery("UPDATE SCHEDULE SET END_DATE='".$END_DATE."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
+							DBQuery("UPDATE SCHEDULE SET END_DATE='".$drop_date."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
 
 							//$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND END_DATE<START_DATE"));
 							$start_end_RET = DBGet(DBQuery("SELECT START_DATE,END_DATE FROM SCHEDULE WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND END_DATE<START_DATE"));
-							
+
 							//User is asked if he wants absences and grades to be deleted
 							if (count($start_end_RET))
 							{
@@ -58,7 +63,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 									$schedule_deletion_pending = true;
 							}
 							else
-								DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SCHOOL_DATE>'".$END_DATE."'");
+								DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."' AND SCHOOL_DATE>'".$drop_date."'");
 						}
 					}
 
@@ -117,7 +122,8 @@ if ( $_REQUEST['modfunc']!='choose_course')
 				"Modules.php?modname=' . $_REQUEST['modname'] . '&modfunc=choose_course"
 			); return false;\'>' . _( 'Choose a Course' ) . '</a></td></tr>';
 
-		echo '<tr class="st"><td>'._('Drop Date').'</td><td>'.PrepareDate(DBDate(),'').'</td></tr>';
+		echo '<tr class="st"><td>' . _( 'Drop Date' ) . '</td>
+			<td>' . DateInput( DBDate(), 'drop', '', false, false ) . '</td></tr>';
 
 		echo '<tr class="st"><td>'._('Marking Period').'</td><td>';
 		echo '<select name=marking_period_id>';

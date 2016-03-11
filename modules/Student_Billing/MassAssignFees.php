@@ -7,8 +7,13 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		//FJ fix SQL bug invalid amount
 		if (is_numeric($_REQUEST['amount']))
 		{
-			$due_date = $_REQUEST['day'].'-'.$_REQUEST['month'].'-'.$_REQUEST['year'];
-			if (VerifyDate($due_date))
+			$due_date = RequestedDate(
+				$_REQUEST['year_due'],
+				$_REQUEST['month_due'],
+				$_REQUEST['day_due']
+			);
+
+			if ( $due_date )
 			{
 				foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 				{
@@ -26,7 +31,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	}
 	else
 		$error[] = _('You must choose at least one student.');
-		
+
 	unset($_SESSION['_REQUEST_vars']['modfunc']);
 	unset($_REQUEST['modfunc']);
 }
@@ -36,11 +41,11 @@ if (empty($_REQUEST['modfunc']))
 
 {
 	DrawHeader(ProgramTitle());
-	
+
 	echo ErrorMessage( $error );
 
 	echo ErrorMessage( $note, 'note' );
-		
+
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
@@ -56,7 +61,8 @@ if (empty($_REQUEST['modfunc']))
 
 		echo '<tr><td>'._('Amount').'</td><td><input type="text" name="amount" size="5" maxlength="10" required /></td></tr>';
 
-		echo '<tr><td>'._('Due Date').'</td><td>'.PrepareDate(DBDate(),'').'</td></tr>';
+		echo '<tr><td>' . _( 'Due Date' ) . '</td>
+			<td>' . DateInput( DBDate(), 'due', '', false, false ) . '</td></tr>';
 
 		echo '<tr><td>'._('Comment').'</td><td><input type="text" name="comments" /></td></tr>';
 
