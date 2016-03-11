@@ -796,6 +796,10 @@ div.st{
 	padding:4px 2px;
 	display:inline-block
 }
+td.calendar-menu{
+	white-space:normal;
+	max-width:none
+}
 
 /* colorBox */
 #cboxLoadedContent{

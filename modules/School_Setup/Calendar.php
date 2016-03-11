@@ -50,11 +50,11 @@ if ( $_REQUEST['modfunc'] === 'create'
 			WHERE CALENDAR_ID=ac.CALENDAR_ID) AS START_DATE,
 		(SELECT max(SCHOOL_DATE)
 			FROM ATTENDANCE_CALENDAR
-			WHERE CALENDAR_ID=ac.CALENDAR_ID) AS END_DATE 
-		FROM ATTENDANCE_CALENDARS ac,STAFF s 
-		WHERE ac.SYEAR='" . UserSyear() . "' 
-		AND s.STAFF_ID='" . User( 'STAFF_ID' ) . "' 
-		AND (s.SCHOOLS IS NULL OR position(','||ac.SCHOOL_ID||',' IN s.SCHOOLS)>0) 
+			WHERE CALENDAR_ID=ac.CALENDAR_ID) AS END_DATE
+		FROM ATTENDANCE_CALENDARS ac,STAFF s
+		WHERE ac.SYEAR='" . UserSyear() . "'
+		AND s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
+		AND (s.SCHOOLS IS NULL OR position(','||ac.SCHOOL_ID||',' IN s.SCHOOLS)>0)
 		ORDER BY " . db_case( array( 'ac.SCHOOL_ID', "'" . UserSchool() . "'", 0, 'ac.SCHOOL_ID' ) ) . ",ac.DEFAULT_CALENDAR ASC,ac.TITLE" ) );
 
 	// Prepare table for Copy Calendar & add ' (Default)' mention.
@@ -469,7 +469,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 			if ( $_REQUEST['event_id'] !== 'new' )
 			{
 				$sql = "UPDATE CALENDAR_EVENTS SET ";
-				
+
 				foreach ( (array) $_REQUEST['values'] as $column => $value )
 				{
 					$sql .= $column . "='" . $value . "',";
@@ -642,7 +642,7 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		//hook
 		do_action( 'School_Setup/Calendar.php|event_field' );
 
-		
+
 		// FJ bugfix SQL bug value too long for type character varying(50).
 		echo '<tr><td>' . _( 'Title' ) . '</td>' .
 			'<td>' . TextInput( $RET[1]['TITLE'], 'values[TITLE]', '', 'required maxlength="50"' ) . '</td></tr>';
@@ -998,22 +998,22 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	if ( User( 'PROFILE' ) === 'parent'
 		|| User( 'PROFILE' ) === 'student' )
 	{
-		
-		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,'Y' AS ASSIGNED 
-			FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s 
-			WHERE (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID) 
-			AND s.STUDENT_ID='" . UserStudentID() . "' 
-			AND (a.DUE_DATE BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL) 
-			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL) 
+
+		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,'Y' AS ASSIGNED
+			FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s
+			WHERE (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
+			AND s.STUDENT_ID='" . UserStudentID() . "'
+			AND (a.DUE_DATE BETWEEN s.START_DATE AND s.END_DATE OR s.END_DATE IS NULL)
+			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
 			AND a.DUE_DATE BETWEEN '" . $first_day_month . "' AND '" . $last_day_month . "'";
-	}		
+	}
 	elseif ( User( 'PROFILE' ) === 'teacher' )
 	{
-		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,CASE WHEN a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL THEN 'Y' ELSE NULL END AS ASSIGNED 
-			FROM GRADEBOOK_ASSIGNMENTS a 
-			WHERE a.STAFF_ID='" . User( 'STAFF_ID' ) . "' 
+		$assignments_SQL = "SELECT ASSIGNMENT_ID AS ID,a.DUE_DATE AS SCHOOL_DATE,a.TITLE,CASE WHEN a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL THEN 'Y' ELSE NULL END AS ASSIGNED
+			FROM GRADEBOOK_ASSIGNMENTS a
+			WHERE a.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 			AND a.DUE_DATE BETWEEN '".$first_day_month."' AND '" . $last_day_month . "'";
-			
+
 	}
 
 	if ( isset( $assignments_SQL ) )
@@ -1030,6 +1030,12 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	}
 </script>
 <?php
+
+	if ( $_REQUEST['_ROSARIO_PDF'] )
+	{
+		// Landscape PDF.
+		$_SESSION['orientation'] = 'landscape';
+	}
 
 	// Calendar Header
 	echo '<table id="calendar" class="width-100p valign-top">
