@@ -63,10 +63,11 @@ switch ( User( 'PROFILE' ) )
 
 $handle = PDFStart(); ?>
 
+<style>.header2{ font-size: larger; }</style>
 <table>
 	<tr>
 		<td>
-			<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" />
+			<img src="assets/themes/<?php echo Preferences( 'THEME' ); ?>/logo.png" class="logo" />
 		</td>
 		<td>
 			<h1>&nbsp;<?php echo sprintf( _( '%s Handbook' ), $title ); ?></h1>
