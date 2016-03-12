@@ -106,7 +106,7 @@ function ColorBox() {
 	$('.colorbox').colorbox();
 	$('.colorboxiframe').colorbox({iframe:true, innerWidth:cWidth, innerHeight:cHeight});
 	$('.colorboxinline').colorbox({inline:true, maxWidth:'95%', maxHeight:'85%', scrolling:true});
-	
+
 }
 
 // MarkDown
@@ -176,10 +176,12 @@ function MarkDownToHTML()
 function JSCalendarSetup()
 {
 	$('.button.cal').each(function(i, el){
+		var j = el.id.replace( 'trigger', '' );
+
 		Calendar.setup({
-			monthField: "monthSelect" + (++i),
-			dayField: "daySelect" + i,
-			yearField: "yearSelect" + i,
+			monthField: "monthSelect" + j,
+			dayField: "daySelect" + j,
+			yearField: "yearSelect" + j,
 			ifFormat: "%d-%b-%y",
 			button: el.id,
 			align: "Tl",
