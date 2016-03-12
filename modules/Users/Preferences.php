@@ -8,7 +8,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 		$current_password = str_replace("''","'",$_REQUEST['values']['current']);
 		$new_password = str_replace("''","'",$_REQUEST['values']['new']);
 		$verify_password = str_replace("''","'",$_REQUEST['values']['verify']);
-		
+
 		if ( $new_password != $verify_password )
 			$error[] = _('Your new passwords did not match.');
 
@@ -22,7 +22,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 				$password_RET = DBGet(DBQuery("SELECT PASSWORD FROM STUDENTS WHERE STUDENT_ID='".UserStudentID()."'"));
 			else
 				$password_RET = DBGet(DBQuery("SELECT PASSWORD FROM STAFF WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'"));
-			
+
 			//FJ add password encryption
 			//if (mb_strtolower($password_RET[1]['PASSWORD'])!=mb_strtolower($current_password))
 			if ( !match_password($password_RET[1]['PASSWORD'],$current_password))
@@ -37,7 +37,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 					DBQuery("UPDATE STAFF SET PASSWORD='".encrypt_password($new_password)."' WHERE STAFF_ID='".User('STAFF_ID')."' AND SYEAR='".UserSyear()."'");
 
 				$note[] = _('Your new password was saved.');
-				
+
 				//hook
 				do_action('Users/Preferences.php|update_password');
 			}
@@ -178,7 +178,7 @@ if (empty($_REQUEST['modfunc']))
 			_( 'File Export Type' ),
 			array(
 				'Tab' => _( 'Tab-Delimited (Excel)' ),
-				'CSV' => 'CSV (OpenOffice / LibreOffice)', // Do not Translate
+				'CSV' => 'CSV (OpenOffice / LibreOffice) (UTF-8)', // Do not Translate
 				'XML' => 'XML' // Do not Translate
 			),
 			$allow_na,
@@ -430,22 +430,22 @@ if (empty($_REQUEST['modfunc']))
 	if ( $_REQUEST['tab'] === 'student_fields' )
 	{
 		if (User('PROFILE_ID'))
-			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS SEARCH,'' AS DISPLAY 
-			FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc 
-			WHERE sfc.ID=cf.CATEGORY_ID 
-			AND (SELECT CAN_USE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y' 
+			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS SEARCH,'' AS DISPLAY
+			FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc
+			WHERE sfc.ID=cf.CATEGORY_ID
+			AND (SELECT CAN_USE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('SEARCH' => '_make','DISPLAY' => '_make'),array('CATEGORY'));
 		else
-			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS SEARCH,'' AS DISPLAY 
-			FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc 
-			WHERE sfc.ID=cf.CATEGORY_ID 
-			AND (SELECT CAN_USE FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y' 
+			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS SEARCH,'' AS DISPLAY
+			FROM CUSTOM_FIELDS cf,STUDENT_FIELD_CATEGORIES sfc
+			WHERE sfc.ID=cf.CATEGORY_ID
+			AND (SELECT CAN_USE FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Students/Student.php&category_id='||cf.CATEGORY_ID)='Y'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('SEARCH' => '_make','DISPLAY' => '_make'),array('CATEGORY'));
-			
+
 		foreach ($custom_fields_RET as &$category_RET)
 			foreach ($category_RET as &$field) {
 				$field['CATEGORY'] = '<b>'.ParseMLField($field['CATEGORY']).'</b>';
-				$field['TITLE']    = ParseMLField($field['TITLE']); 
+				$field['TITLE']    = ParseMLField($field['TITLE']);
 			}
 
 		$THIS_RET['ID'] = 'CONTACT_INFO';
@@ -521,22 +521,22 @@ if (empty($_REQUEST['modfunc']))
 		&& User( 'PROFILE' ) === 'admin' )
 	{
 		if (User('PROFILE_ID'))
-			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY 
-			FROM STAFF_FIELDS cf,STAFF_FIELD_CATEGORIES sfc 
-			WHERE sfc.ID=cf.CATEGORY_ID 
-			AND (SELECT CAN_USE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y' 
+			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY
+			FROM STAFF_FIELDS cf,STAFF_FIELD_CATEGORIES sfc
+			WHERE sfc.ID=cf.CATEGORY_ID
+			AND (SELECT CAN_USE FROM PROFILE_EXCEPTIONS WHERE PROFILE_ID='".User('PROFILE_ID')."' AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('STAFF_SEARCH' => '_make','STAFF_DISPLAY' => '_make'),array('CATEGORY'));
 		else
-			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY 
-			FROM STAFF_FIELDS cf,STAFF_FIELD_CATEGORIES sfc 
-			WHERE sfc.ID=cf.CATEGORY_ID 
-			AND (SELECT CAN_USE FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y' 
+			$custom_fields_RET = DBGet(DBQuery("SELECT sfc.TITLE AS CATEGORY,cf.ID,cf.TITLE,'' AS STAFF_SEARCH,'' AS STAFF_DISPLAY
+			FROM STAFF_FIELDS cf,STAFF_FIELD_CATEGORIES sfc
+			WHERE sfc.ID=cf.CATEGORY_ID
+			AND (SELECT CAN_USE FROM STAFF_EXCEPTIONS WHERE USER_ID='".User('STAFF_ID')."' AND MODNAME='Users/User.php&category_id='||cf.CATEGORY_ID)='Y'
 			ORDER BY sfc.SORT_ORDER,sfc.TITLE,cf.SORT_ORDER,cf.TITLE"),array('STAFF_SEARCH' => '_make','STAFF_DISPLAY' => '_make'),array('CATEGORY'));
 
         foreach ($custom_fields_RET as &$category_RET)
             foreach ($category_RET as &$field) {
                 $field['CATEGORY'] = '<b>'.ParseMLField($field['CATEGORY']).'</b>';
-                $field['TITLE']    = ParseMLField($field['TITLE']); 
+                $field['TITLE']    = ParseMLField($field['TITLE']);
             }
 		echo '<input type="hidden" name="values[StaffFieldsSearch]" /><input type="hidden" name="values[StaffFieldsView]" />';
 		$columns = array('CATEGORY' => '','TITLE' => _('Field'),'STAFF_SEARCH' => _('Search'),'STAFF_DISPLAY' => _('Expanded View'));
