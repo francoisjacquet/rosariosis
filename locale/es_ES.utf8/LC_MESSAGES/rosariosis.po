@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-08 18:58-0500\n"
-"PO-Revision-Date: 2016-03-11 10:30-0500\n"
+"PO-Revision-Date: 2016-03-11 16:39-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -6550,7 +6550,7 @@ msgstr "Pagos"
 
 #: modules/Student_Billing/MassAssignFees.php:19
 msgid "That fee has been added to the selected students."
-msgstr "Este cobro fue agregada a los estudiantes seleccionados"
+msgstr "Este cobro ha sido asignado a los estudiantes seleccionados"
 
 #: modules/Student_Billing/MassAssignFees.php:25
 #: modules/Student_Billing/MassAssignPayments.php:19
@@ -6564,7 +6564,7 @@ msgstr "Agregar Cobro a los Estudiantes Seleccionados"
 
 #: modules/Student_Billing/MassAssignPayments.php:16
 msgid "That payment has been added to the selected students."
-msgstr "Ese pago fue agregado a los estudiantes seleccionados"
+msgstr "Ese pago ha sido asignado a los estudiantes seleccionados"
 
 #: modules/Student_Billing/MassAssignPayments.php:41
 #: modules/Student_Billing/MassAssignPayments.php:74
