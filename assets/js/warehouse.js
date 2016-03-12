@@ -98,9 +98,13 @@ function ColorBox() {
 		cWidth = 300; cHeight = 183;
 	}
 
-	$('.rt2colorBox').before(function(i,el){
+	$('.rt2colorBox').before(function(i){
 		if ( this.id ) {
-			return '<div class="link2colorBox"><a class="colorboxinline" href="#' + this.id + '"></a></div>';
+			var $el = $(this);
+			// only if content > 1 line & text <= 36 chars.
+			if ( $el.text().length > 36 || $el.children().height() > $el.parent().height() ) {
+				return '<div class="link2colorBox"><a class="colorboxinline" href="#' + this.id + '"></a></div>';
+			}
 		}
 	});
 	$('.colorbox').colorbox();

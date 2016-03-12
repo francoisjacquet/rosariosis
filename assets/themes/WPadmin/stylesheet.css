@@ -1050,11 +1050,15 @@ td.calendar-menu{
 		height:24px;
 		display:block
 	}
-	.rt .link2colorBox + .rt2colorBox{
-		display:none
-	}
 	.rt2colorBox{
 		overflow:auto
+	}
+	/*if content on 1 line & text <= 36 chars*/
+	.widefat td .rt2colorBox p {
+		margin-top:0
+	}
+	.rt .link2colorBox + .rt2colorBox{
+		display:none
 	}
 	.rt div.error, .rt div.updated{
 		padding:0;
