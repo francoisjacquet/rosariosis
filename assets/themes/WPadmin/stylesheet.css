@@ -325,11 +325,14 @@ label{
 .menu-module{
 	position: relative;
 }
-html[dir="LTR"] .no-touch .menu-module:hover .menu-top:after{
+.no-touch .menu-module:hover .menu-top:after{
 	content: "\276F";
 	padding-top: 6px;
 	position: absolute;
 	right: 5px;
+}
+html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
+	content: "";
 }
 #selectedModuleLink:after{
 	content: "";
