@@ -525,7 +525,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			$colspan = 1;
 			if ( !isset($_REQUEST['_ROSARIO_PDF']) && $options['search'])
 			{
-				echo '<td style="text-align:right">';
+				echo '<td class="align-right">';
 
 				$search_URL = PreparePHP_SELF( $_REQUEST, array( 'LO_search', 'LO_page' ) ) . '&LO_search=';
 
