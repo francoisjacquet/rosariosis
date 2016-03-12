@@ -126,7 +126,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 								//foreach ( (array) $group[0] as $column)
 
 								$group[0] = $column;
-								
+
 								$item3[ $column ] = '<!-- ' . $item3[ $column ] . ' -->';
 							}
 
@@ -137,7 +137,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 								//foreach ( (array) $group[1] as $column)
 
 								$group[1] = $column;
-								
+
 								$item3[ $column ] = '<!-- ' . $item3[ $column ] . ' -->';
 							}
 
@@ -159,7 +159,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 										//foreach ( (array) $group[2] as $column)
 
 										$group[2] = $column;
-										
+
 										unset( $item4[ $column ] );
 									}
 
@@ -210,7 +210,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			//$_REQUEST['LO_search'] = $search_term = str_replace('\\\"','"',$_REQUEST['LO_search']);
 			//$_REQUEST['LO_search'] = $search_term = preg_replace('/[^a-zA-Z0-9 _"]*/','',mb_strtolower($search_term));
 			$search_term = trim( mb_strtolower( str_replace( "''", "'", $_REQUEST['LO_search'] ) ) );
-			
+
 			if ( mb_substr( $search_term, 0, 1 ) != '"'
 				&& mb_substr( $search_term, -1, 1 ) != '"' )
 			{
@@ -426,7 +426,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			{
 				$where_message = "".sprintf(_('Displaying %d through %d'),$start,$stop)."";
 				if (ceil($result_count/$num_displayed) <= 10)
-				{	
+				{
 					$ceil = ceil($result_count/$num_displayed);
 					for ( $i=1;$i<=$ceil;$i++)
 					{
@@ -494,7 +494,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		if ( !empty($options['header']))
 			echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:solid 1px #f1f1f1;"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
 				<div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
-			
+
 		if ( !empty($where_message) || (($singular!='.') && ($plural!='.')) || (!isset($_REQUEST['_ROSARIO_PDF']) && $options['search']))
 		{
 			echo '<table class="width-100p">';
@@ -509,7 +509,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					if (($plural_message == $plural || ($plural_message == _($singular) && $display_count!=1)) && _($plural)!=$plural)
 					{
 						$plural_message = _($plural);
-						if ( $display_count==1) 
+						if ( $display_count==1)
 							$plural_message = _($singular);
 					}
 					echo '<b>'.sprintf(ngettext('%d %s was found.','%d %s were found.', $display_count), $display_count, $plural_message).'</b>&nbsp;&nbsp;';
@@ -618,7 +618,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 					$value = preg_replace('!<select.*</select\>!i','',$value);
 					$item[$key[ $j ]] = preg_replace("/<div onclick=[^']+'>/",'',$value);
 				}
-				
+
 				/*foreach ( (array) $item as $key => $value)
 				{
 					$value = preg_replace('!<select.*selected\>([^<]+)<.*</select\>!i','\\1',$value);
@@ -747,7 +747,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 		// mab - problem with table closing if not opened above - do same conditional?
 		if (($options['count'] || $display_zero) && ((($result_count==0 || $display_count==0) && $plural) || ($result_count==0 || $display_count==0)))
 			echo '</td></tr></tbody></table>';
-			
+
 		if ( !empty($options['header']))
 			echo '<table class="postbox width-100p cellspacing-0" style="margin-bottom:0px; border-bottom:0px;"><thead><tr><th class="center">' . $options['header'] . '</th></tr></thead></table>
 				<div class="postbox" style="padding:5px; border-top:none; border-top-left-radius:0px; border-top-right-radius:0px; box-shadow: none;">';
@@ -759,7 +759,7 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 			// WIDTH=100%
 			if ( $link['add']['html'])
 			{
-				echo '<div style="overflow-x:auto;"><table class="widefat width-100p cellspacing-0';			
+				echo '<div style="overflow-x:auto;"><table class="widefat width-100p cellspacing-0';
 				if ( $options['responsive'] && !isset($_REQUEST['_ROSARIO_PDF']))
 					echo ' rt';
 
@@ -987,7 +987,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 		$output .= "\n";
 
 		// Then values
-		foreach ( $formatted_result as $result_line )
+		foreach ( (array) $formatted_result as $result_line )
 		{
 			$output .= implode( $delimiter, $result_line );
 
@@ -1019,11 +1019,11 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 
 		$output = '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<' . $elements . '>' . "\n";
 
-		foreach( $formatted_result as $line_number => $result_line )
+		foreach ( (array) $formatted_result as $line_number => $result_line )
 		{
 			$output .= "\t" . '<' . $element . '>' . "\n";
 
-			foreach ( $result_line as $key => $value )
+			foreach ( (array) $result_line as $key => $value )
 			{
 				if ( $formatted_columns[ $key ] === '' )
 				{
@@ -1033,7 +1033,7 @@ function _listSave( $result, $column_names, $singular, $plural, $delimiter )
 					$column = mb_strtolower( str_replace( ' ', '_', $formatted_columns[ $key ] ) );
 
 				// http://stackoverflow.com/questions/1091945/what-characters-do-i-need-to-escape-in-xml-documents
-				$value = str_replace( '[br]', '<br />', htmlentities( $value ) );
+				$value = str_replace( '[br]', '<br />', htmlspecialchars( $value, ENT_QUOTES ) );
 
 				$output .= "\t\t" . '<' . $column . '>' . $value .
 					'</' . $column . '>' . "\n";
