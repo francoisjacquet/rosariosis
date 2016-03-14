@@ -7,6 +7,7 @@ Changes in 2.8.27
 - Fix Food Service Students Accounts Account ID check + Translate Food Service Discount options
 - Fix Food Service User balance widget in StaffWidgets.fnc.php
 - Enable empty value when updating Food Service menu item in MenuItems.php
+- Order Report Cards by Course title in ReportCards.fnc.php
 
 Changes in 2.8.26
 -----------------

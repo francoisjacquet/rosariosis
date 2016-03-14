@@ -35,7 +35,7 @@ function ReportCardsIncludeForm()
 	$return .= '<TR class="st"><TD></TD><TD><TABLE><TR>';
 
 	// Teacher
-	$return .= '<TD><label><INPUT type="checkbox" name="elements[teacher]" value="Y" checked /> ' . 
+	$return .= '<TD><label><INPUT type="checkbox" name="elements[teacher]" value="Y" checked /> ' .
 		_('Teacher' ) . '</label></TD>';
 
 	$return .= '<TD></TD></TR><TR>';
@@ -255,10 +255,10 @@ function ReportCardsGenerate( $student_array, $mp_array )
 	$extra['WHERE'] .= " AND sg1.MARKING_PERIOD_ID IN (" . $mp_list . ")
 					AND rc_cp.COURSE_PERIOD_ID=sg1.COURSE_PERIOD_ID
 					AND sg1.STUDENT_ID=ssm.STUDENT_ID
-					AND sp.PERIOD_ID=cpsp.PERIOD_ID 
+					AND sp.PERIOD_ID=cpsp.PERIOD_ID
 					AND rc_cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID";
 
-	$extra['ORDER'] .= ",sp.SORT_ORDER,ac.TITLE";
+	$extra['ORDER'] .= ",sg1.COURSE_TITLE,sp.SORT_ORDER,ac.TITLE";
 
 	$extra['functions']['TEACHER'] = '_makeTeacher';
 
@@ -574,7 +574,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 							_( 'None' );
 					}
 				}
-				
+
 				$last_mp = $mp;
 			}
 
