@@ -63,39 +63,39 @@ else
 //FJ multiple school periods for a course period
 if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
 {
-	$course_RET = DBGET(DBQuery("SELECT cp.HALF_DAY 
-	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-	AND acc.SYEAR='".UserSyear()."' 
-	AND cp.SCHOOL_ID=acc.SCHOOL_ID 
-	AND cp.SYEAR=acc.SYEAR 
-	AND acc.SCHOOL_DATE='".$date."' 
-	AND cp.CALENDAR_ID=acc.CALENDAR_ID 
+	$course_RET = DBGET(DBQuery("SELECT cp.HALF_DAY
+	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+	AND acc.SYEAR='".UserSyear()."'
+	AND cp.SCHOOL_ID=acc.SCHOOL_ID
+	AND cp.SYEAR=acc.SYEAR
+	AND acc.SCHOOL_DATE='".$date."'
+	AND cp.CALENDAR_ID=acc.CALENDAR_ID
 	AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'
-	AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') 
-	AND SCHOOL_ID=acc.SCHOOL_ID 
+	AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR')
+	AND SCHOOL_ID=acc.SCHOOL_ID
 	AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
-	AND sp.PERIOD_ID=cpsp.PERIOD_ID 
+	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND (sp.BLOCK IS NULL AND position(substring('MTWHFSU' FROM cast(
-		(SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number 
-		FROM attendance_calendar 
-		WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=acc.SCHOOL_DATE AND end_date>=acc.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=acc.SCHOOL_ID) 
-		AND school_date<=acc.SCHOOL_DATE 
-		AND SCHOOL_ID=acc.SCHOOL_ID) 
+		(SELECT CASE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." WHEN 0 THEN ".SchoolInfo('NUMBER_DAYS_ROTATION')." ELSE COUNT(school_date)% ".SchoolInfo('NUMBER_DAYS_ROTATION')." END AS day_number
+		FROM attendance_calendar
+		WHERE school_date>=(SELECT start_date FROM school_marking_periods WHERE start_date<=acc.SCHOOL_DATE AND end_date>=acc.SCHOOL_DATE AND mp='QTR' AND SCHOOL_ID=acc.SCHOOL_ID)
+		AND school_date<=acc.SCHOOL_DATE
+		AND SCHOOL_ID=acc.SCHOOL_ID)
 	AS INT) FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
 	AND position(',".$_REQUEST['table'].",' IN cp.DOES_ATTENDANCE)>0"));
 } else {
-	$course_RET = DBGET(DBQuery("SELECT cp.HALF_DAY 
-	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-	AND acc.SYEAR='".UserSyear()."' 
-	AND cp.SCHOOL_ID=acc.SCHOOL_ID 
-	AND cp.SYEAR=acc.SYEAR 
-	AND acc.SCHOOL_DATE='".$date."' 
-	AND cp.CALENDAR_ID=acc.CALENDAR_ID 
+	$course_RET = DBGET(DBQuery("SELECT cp.HALF_DAY
+	FROM ATTENDANCE_CALENDAR acc,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+	AND acc.SYEAR='".UserSyear()."'
+	AND cp.SCHOOL_ID=acc.SCHOOL_ID
+	AND cp.SYEAR=acc.SYEAR
+	AND acc.SCHOOL_DATE='".$date."'
+	AND cp.CALENDAR_ID=acc.CALENDAR_ID
 	AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'
 	AND cp.MARKING_PERIOD_ID IN (SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE (MP='FY' OR MP='SEM' OR MP='QTR') AND SCHOOL_ID=acc.SCHOOL_ID AND acc.SCHOOL_DATE BETWEEN START_DATE AND END_DATE)
-	AND sp.PERIOD_ID=cpsp.PERIOD_ID 
+	AND sp.PERIOD_ID=cpsp.PERIOD_ID
 	AND (sp.BLOCK IS NULL AND position(substring('UMTWHFS' FROM cast(extract(DOW FROM acc.SCHOOL_DATE) AS INT)+1 FOR 1) IN cpsp.DAYS)>0 OR sp.BLOCK IS NOT NULL AND acc.BLOCK IS NOT NULL AND sp.BLOCK=acc.BLOCK)
 	AND position(',".$_REQUEST['table'].",' IN cp.DOES_ATTENDANCE)>0"));
 }
@@ -156,7 +156,7 @@ if ($_REQUEST['attendance'] && $_POST['attendance'])
 
 			if ($_REQUEST['comment'][ $student_id ])
 				$sql .= ",COMMENT='".trim($_REQUEST['comment'][ $student_id ])."'";
-	
+
 			$sql .= " WHERE SCHOOL_DATE='".$date."' AND PERIOD_ID='".UserPeriod()."' AND STUDENT_ID='".$student_id."'";
 		}
 		else
@@ -176,13 +176,13 @@ if ($_REQUEST['attendance'] && $_POST['attendance'])
 	unset($_SESSION['_REQUEST_vars']['attendance']);
 }
 
-$codes_RET = DBGet(DBQuery("SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE 
-FROM ATTENDANCE_CODES 
-WHERE SCHOOL_ID='".UserSchool()."' 
-AND SYEAR='".UserSyear()."' 
-AND TYPE = 'teacher' 
+$codes_RET = DBGet(DBQuery("SELECT ID,TITLE,DEFAULT_CODE,STATE_CODE
+FROM ATTENDANCE_CODES
+WHERE SCHOOL_ID='".UserSchool()."'
+AND SYEAR='".UserSyear()."'
+AND TYPE = 'teacher'
 AND TABLE_NAME='".$_REQUEST['table']."'".
-($_REQUEST['table']=='0' && $course_RET[1]['HALF_DAY'] ? " AND STATE_CODE!='H'" : '')." 
+($_REQUEST['table']=='0' && $course_RET[1]['HALF_DAY'] ? " AND STATE_CODE!='H'" : '')."
 ORDER BY SORT_ORDER"));
 
 if (count($codes_RET))
@@ -257,10 +257,10 @@ function _makeRadio($value,$title)
 		if (isset($_REQUEST['LO_save']))
 			return _('Yes');
 		else
-			return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[ $value ]?'background-color:'.$colors[ $value ].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
+			return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[ $value ]?'background-color:'.$colors[ $value ].';':''):'background-color:#000;').' float:left; padding: 2px 8px;"><input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked /></div>';
 	}
 	else
-		return '<div style="float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'>&nbsp;&nbsp;</div>';
+		return '<div style="float:left; padding: 2px 8px;"><input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'></div>';
 }
 
 function _makeRadioSelected($value,$title)
@@ -274,10 +274,10 @@ function _makeRadioSelected($value,$title)
 			if (isset($_REQUEST['LO_save']))
 				return _('Yes');
 			else
-				return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[ $value ]?'background-color:'.$colors[ $value ].';':''):'background-color:#000000;').' float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked />&nbsp;&nbsp;</div>';
+				return '<div style="'.($current_RET[$THIS_RET['STUDENT_ID']][1]['COURSE_PERIOD_ID']==UserCoursePeriod()?($colors[ $value ]?'background-color:'.$colors[ $value ].';':''):'background-color:#000;').' float:left; padding: 2px 8px;"><input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'" checked /></div>';
 		}
 		else
-			return '<div style="float:left;">&nbsp;&nbsp;<input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'>&nbsp;&nbsp;</div>';
+			return '<div style="float:left; padding: 2px 8px;"><input type="radio" name="attendance['.$THIS_RET['STUDENT_ID'].']" value="'.$title.'"'.(AllowEdit()?'':' disabled').'></div>';
 	else
 	{
 		if (isset($_REQUEST['LO_save']))
@@ -297,7 +297,7 @@ function _makeRadioSelected($value,$title)
  * @uses MakeStudentPhotoTipMessage()
  *
  * @see ProgramFunctions/TipMessage.fnc.php
- * 
+ *
  * @global $THIS_RET, see DBGet()
  *
  * @param  string $full_name Student Full Name
