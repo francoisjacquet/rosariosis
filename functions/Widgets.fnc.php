@@ -60,7 +60,7 @@ function Widgets( $item, &$myextra = null )
 		case 'all':
 
 			// FJ regroup widgets wrap.
-			$widget_wrap_header = 
+			$widget_wrap_header =
 			function( $title )
 			{
 				return '<a onclick="switchMenu(this); return false;" href="#" class="switchMenu">
@@ -280,7 +280,7 @@ function Widgets( $item, &$myextra = null )
 			}
 
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Course' ) . '</td><td>
-			<div id="course_div"></div> 
+			<div id="course_div"></div>
 			<a href="#" onclick=\'popups.open(
 					"Modules.php?modname=misc/ChooseCourse.php"
 				); return false;\'>' .
@@ -342,7 +342,7 @@ function Widgets( $item, &$myextra = null )
 			$extra['search'] .= '<tr class="st"><td>
 			'. _( 'Request' ) . '
 			</td><td>
-			<div id="request_div"></div> 
+			<div id="request_div"></div>
 			<a href="#" onclick=\'popups.open(
 					"Modules.php?modname=misc/ChooseRequest.php"
 				); return false;\'>' .
@@ -407,7 +407,8 @@ function Widgets( $item, &$myextra = null )
 
 				if ( ! $extra['NoSearchTerms'] )
 				{
-					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Days Absent' ) . ' ' . $term . ' ' . _( 'Between' ) . ': </b>' .
+					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Days Absent' ) . ' ' . $term . ': </b>' .
+						_( 'Between' ) . ' ' .
 						$_REQUEST['absences_low'] . ' &amp; ' . $_REQUEST['absences_high'] . '<br />';
 				}
 			}
@@ -417,18 +418,18 @@ function Widgets( $item, &$myextra = null )
 			<label>
 				<input type="radio" name="absences_term" value="FY" checked />&nbsp;' .
 				_( 'YTD' ) .
-			'</label> &nbsp; 
+			'</label> &nbsp;
 			<label>
 				<input type="radio" name="absences_term" value="SEM" />&nbsp;' .
 				GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) .
-			'</label> &nbsp; 
+			'</label> &nbsp;
 			<label>
 				<input type="radio" name="absences_term" value="QTR" />&nbsp;' .
 				GetMP( UserMP(), 'SHORT_NAME' ) .
 			'</label>
 			</td><td>' . _( 'Between' ) .
-			' <input type="text" name="absences_low" size="3" maxlength="5" /> &amp; ' .
-			'<input type="text" name="absences_high" size="3" maxlength="5" />
+			' <input type="text" name="absences_low" size="3" maxlength="3" /> &amp; ' .
+			'<input type="text" name="absences_high" size="3" maxlength="3" />
 			</td></tr>';
 
 		break;
@@ -510,7 +511,7 @@ function Widgets( $item, &$myextra = null )
 				if ( ! $extra['NoSearchTerms'] )
 				{
 					$_ROSARIO['SearchTerms'] .= '<b>' . _( 'Course Period Absences' ) . ' ' .
-						$term . ' ' . _( 'Between' ) . ': </b>' .
+						$term . ': </b>' . _( 'Between' ) . ' ' .
 						$_REQUEST['cp_absences_low'] . ' &amp; ' .
 						$_REQUEST['cp_absences_high'] . '<br />';
 				}
@@ -524,18 +525,18 @@ function Widgets( $item, &$myextra = null )
 			<label>
 				<input type="radio" name="cp_absences_term" value="FY" checked />&nbsp;' .
 				_( 'YTD' ) .
-			'</label> &nbsp; 
+			'</label> &nbsp;
 			<label>
 				<input type="radio" name="cp_absences_term" value="SEM" />&nbsp;' .
 				GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) .
-			'</label> &nbsp; 
+			'</label> &nbsp;
 			<label>
 				<input type="radio" name="cp_absences_term" value="QTR" />&nbsp;' .
 				GetMP( UserMP(), 'SHORT_NAME' ) .
 			'</label>
 			</td><td>' . _( 'Between' ) .
-			' <input type="text" name="cp_absences_low" size="3" maxlength="5" /> &amp;' .
-			' <input type="text" name="cp_absences_high" size="3" maxlength="5" />
+			' <input type="text" name="cp_absences_low" size="3" maxlength="3" /> &amp;' .
+			' <input type="text" name="cp_absences_high" size="3" maxlength="3" />
 			</td></tr>';
 
 		break;
@@ -788,10 +789,10 @@ function Widgets( $item, &$myextra = null )
 			// FJ fix error Invalid argument supplied for foreach().
 			if ( ! $_REQUEST['search_modfunc'] )
 			{
-				$letter_grades_RET = DBGet( DBQuery( "SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID 
-					FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs 
-					WHERE rg.SCHOOL_ID='" . UserSchool() . "' 
-					AND rg.SYEAR='" . UserSyear() . "' 
+				$letter_grades_RET = DBGet( DBQuery( "SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID
+					FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs
+					WHERE rg.SCHOOL_ID='" . UserSchool() . "'
+					AND rg.SYEAR='" . UserSyear() . "'
 					AND rs.ID=rg.GRADE_SCALE_ID" .
 					( User( 'PROFILE' ) == 'teacher' ?
 					" AND rg.GRADE_SCALE_ID=
@@ -1047,11 +1048,11 @@ function Widgets( $item, &$myextra = null )
 				break;
 			}
 
-			$users_RET = DBGet( DBQuery( "SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME 
-				FROM STAFF 
-				WHERE SYEAR='".UserSyear()."' 
-				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%') 
-				AND (PROFILE='admin' OR PROFILE='teacher') 
+			$users_RET = DBGet( DBQuery( "SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME
+				FROM STAFF
+				WHERE SYEAR='".UserSyear()."'
+				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%," . UserSchool() . ",%')
+				AND (PROFILE='admin' OR PROFILE='teacher')
 				ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"), array(), array( 'STAFF_ID' ) );
 
 			if ( $_REQUEST['discipline_reporter'] )
@@ -1624,10 +1625,10 @@ function Widgets( $item, &$myextra = null )
 			$extra['search'] .= '<tr class="st"><td>' . _( 'Previously Enrolled' ) . '</td><td>
 			<label>
 				<input type="radio" value="" name="rolled" checked />&nbsp;' . _( 'N/A' ) .
-			'</label> &nbsp; 
+			'</label> &nbsp;
 			<label>
 				<input type="radio" value="Y" name="rolled" />&nbsp;' . _( 'Yes' ) .
-			'</label> &nbsp; 
+			'</label> &nbsp;
 			<label>
 				<input type="radio" value="N" name="rolled" />&nbsp;' . _( 'No' ) .
 			'</label>
