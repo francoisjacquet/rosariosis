@@ -70,11 +70,11 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 		{
 			//FJ multiple school periods for a course period
 			//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND (SELECT count(1) FROM COURSE_PERIODS WHERE position(',0,' IN DOES_ATTENDANCE)>0 AND PERIOD_ID=sp.PERIOD_ID AND SYEAR=sp.SYEAR AND SCHOOL_ID=sp.SCHOOL_ID)>0 ORDER BY sp.SORT_ORDER"));
-			$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE 
-			FROM SCHOOL_PERIODS sp 
-			WHERE sp.SYEAR='".UserSyear()."' 
-			AND sp.SCHOOL_ID='".UserSchool()."' 
-			AND (SELECT count(1) FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND cpsp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR=sp.SYEAR AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0 
+			$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE
+			FROM SCHOOL_PERIODS sp
+			WHERE sp.SYEAR='".UserSyear()."'
+			AND sp.SCHOOL_ID='".UserSchool()."'
+			AND (SELECT count(1) FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 AND cpsp.PERIOD_ID=sp.PERIOD_ID AND cp.SYEAR=sp.SYEAR AND cp.SCHOOL_ID=sp.SCHOOL_ID)>0
 			ORDER BY sp.SORT_ORDER"));
 			foreach ( (array) $periods_RET as $period)
 				$period_select .= '<option value="'.$period['PERIOD_ID'].'"'.(($_REQUEST['period_id']==$period['PERIOD_ID'])?' selected':'').'>'.$period['TITLE'].'</option>';
@@ -83,11 +83,11 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 		{
 			//FJ multiple school periods for a course period
 			//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp WHERE position(',0,' IN cp.DOES_ATTENDANCE)>0 AND sp.PERIOD_ID=cp.PERIOD_ID AND cp.COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
-			$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE 
-			FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-			AND position(',0,' IN cp.DOES_ATTENDANCE)>0 
-			AND sp.PERIOD_ID=cpsp.PERIOD_ID 
+			$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE
+			FROM SCHOOL_PERIODS sp,COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
+			AND sp.PERIOD_ID=cpsp.PERIOD_ID
 			AND cpsp.COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."'"));
 			if ( $periods_RET)
 			{
@@ -120,7 +120,7 @@ if ( $_REQUEST['student_id'] || User('PROFILE')=='parent')
 				cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cp.PERIOD_ID
 			FROM
 				SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS sp
-			WHERE 
+			WHERE
 				s.COURSE_ID = c.COURSE_ID AND s.COURSE_ID = cp.COURSE_ID
 				AND s.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND cp.PERIOD_ID = sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 				AND s.SYEAR = c.SYEAR AND cp.MARKING_PERIOD_ID IN (".GetAllMP('QTR',UserMP()).")
@@ -131,8 +131,8 @@ if ( $_REQUEST['student_id'] || User('PROFILE')=='parent')
 		$sql = "SELECT
 				cp.TITLE as COURSE_PERIOD,sp.TITLE as PERIOD,cpsp.PERIOD_ID
 			FROM
-				SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-			WHERE 
+				SCHEDULE s,COURSES c,COURSE_PERIODS cp,SCHOOL_PERIODS sp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			WHERE
 				cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID AND
 				s.COURSE_ID = c.COURSE_ID AND s.COURSE_ID = cp.COURSE_ID
 				AND s.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID AND cpsp.PERIOD_ID = sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0
@@ -148,7 +148,7 @@ if ( $_REQUEST['student_id'] || User('PROFILE')=='parent')
 	}
 	else
 	{
-//FJ add translation 
+//FJ add translation
 		$schedule_RET[1] = array('COURSE_PERIOD' => _('Daily Attendance'),'PERIOD_ID' => '0');
 		$attendance_RET = DBGet(DBQuery("SELECT ad.SCHOOL_DATE,'0' AS PERIOD_ID,ad.STATE_VALUE AS STATE_CODE,".db_case(array('ad.STATE_VALUE',"'0.0'","'A'","'1.0'","'P'","'H'"))." AS SHORT_NAME FROM ATTENDANCE_DAY ad WHERE ad.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ad.STUDENT_ID='".UserStudentID()."'"),array(),array('SCHOOL_DATE','PERIOD_ID'));
 	}
@@ -187,34 +187,43 @@ else
 	// in 2.11 this was switched to incremental query in the _makeColor function
 	if ( ! $_REQUEST['period_id'])
 	{
-		$att_sql = "SELECT ad.STATE_VALUE,SCHOOL_DATE,'_'||to_char(ad.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE 
-		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm 
-		WHERE ad.STUDENT_ID=ssm.STUDENT_ID 
-		AND (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) AND '".DBDate()."'>=ssm.START_DATE) 
-		AND ssm.SCHOOL_ID='".UserSchool()."' 
-		AND ad.SCHOOL_DATE BETWEEN '".$start_date."' 
-		AND '".$end_date."' 
+		$att_sql = "SELECT ad.STATE_VALUE,SCHOOL_DATE,'_'||to_char(ad.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE
+		FROM ATTENDANCE_DAY ad,STUDENT_ENROLLMENT ssm
+		WHERE ad.STUDENT_ID=ssm.STUDENT_ID
+		AND (('".DBDate()."' BETWEEN ssm.START_DATE AND ssm.END_DATE OR ssm.END_DATE IS NULL) AND '".DBDate()."'>=ssm.START_DATE)
+		AND ssm.SCHOOL_ID='".UserSchool()."'
+		AND ad.SCHOOL_DATE BETWEEN '".$start_date."'
+		AND '".$end_date."'
 		AND ad.STUDENT_ID=";
 	}
 	else
 	{
-		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||to_char(ap.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE 
-		FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm 
-		WHERE ap.STUDENT_ID=ssm.STUDENT_ID 
-		AND ap.SCHOOL_DATE BETWEEN '".$start_date."' 
-		AND '".$end_date."' 
+		$att_sql = "SELECT ap.ATTENDANCE_CODE,ap.SCHOOL_DATE,'_'||to_char(ap.SCHOOL_DATE,'yyyymmdd') AS SHORT_DATE
+		FROM ATTENDANCE_PERIOD ap,STUDENT_ENROLLMENT ssm
+		WHERE ap.STUDENT_ID=ssm.STUDENT_ID
+		AND ap.SCHOOL_DATE BETWEEN '".$start_date."'
+		AND '".$end_date."'
 		AND ap.STUDENT_ID=";
 	}
 
-	if (count($cal_RET))
+	foreach ( (array) $cal_RET as $value )
 	{
-		foreach ( (array) $cal_RET as $value)
-		{
-			$extra['SELECT'] .= ",'' as _".str_replace('-','',$value['SCHOOL_DATE']);
-			$extra['columns_after']['_'.str_replace('-','',$value['SCHOOL_DATE'])] = (isset($_REQUEST['LO_save']) ? strip_tags(ProperDate($value['SCHOOL_DATE'],'short')) : ProperDate($value['SCHOOL_DATE'],'short'));
-			$extra['functions']['_'.str_replace('-','',$value['SCHOOL_DATE'])] = '_makeColor';
-		}
+		$school_date_col = '_' . str_replace( '-', '', $value['SCHOOL_DATE'] );
+
+		$extra['SELECT'] .= ",'' as " . $school_date_col;
+
+		$proper_date = ProperDate( $value['SCHOOL_DATE'], 'short' );
+
+		// Remove year to gain space.
+		$proper_date = str_replace( date( 'Y' ), '', $proper_date );
+
+		$extra['columns_after'][ $school_date_col ] = isset($_REQUEST['LO_save'] ) ?
+			strip_tags( $proper_date ) :
+			$proper_date;
+
+		$extra['functions'][ $school_date_col ] = '_makeColor';
 	}
+
 	$extra['link']['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&day_start='.$_REQUEST['day_start'].'&day_end='.$_REQUEST['day_end'].'&month_start='.$_REQUEST['month_start'].'&month_end='.$_REQUEST['month_end'].'&year_start='.$_REQUEST['year_start'].'&year_end='.$_REQUEST['year_end'].'&period_id='.$_REQUEST['period_id'];
 	$extra['link']['FULL_NAME']['variables'] = array('student_id' => 'STUDENT_ID');
 
@@ -231,7 +240,7 @@ function _makeColor($value,$column)
 
 	//FJ add translation:
 	$attendance_codes_locale = array('P' => _('Present'),'A' => _('Absent'),'H' => _('Half Day'));
-		
+
 	if ( ! $att_RET[$THIS_RET['STUDENT_ID']])
 		$att_RET[$THIS_RET['STUDENT_ID']] = DBGet(DBQuery($att_sql.$THIS_RET['STUDENT_ID']),array(),array('SHORT_DATE'));
 
