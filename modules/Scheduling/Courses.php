@@ -835,9 +835,7 @@ if ((! $_REQUEST['modfunc'] || $_REQUEST['modfunc']=='choose_course') && ! $_REQ
 					'tables[COURSE_PERIODS][' . $_REQUEST['course_period_id'] . '][DOES_ATTENDANCE][' . $category['ID'] . ']',
 					$category['TITLE'],
 					'',
-					$new,
-					button( 'check' ),
-					button( 'x' )
+					true
 				) . '&nbsp;</td>';
 
 				$i++;
