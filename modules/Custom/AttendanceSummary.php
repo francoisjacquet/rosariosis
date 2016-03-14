@@ -105,22 +105,24 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			</td></tr>';
 
 			//FJ school year over one/two calendar years format
-			echo '<tr><td class="center">'.$student['FULL_NAME'].'</td>
-			<td class="center">'.$student['STUDENT_ID'].'</td>
-			<td class="center">'.$school_RET[1]['SCHOOL_NUMBER'].' / '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</td></tr>';
+			echo '<tr class="center"><td>'.$student['FULL_NAME'].'</td>
+			<td>'.$student['STUDENT_ID'].'</td>
+			<td>'.$school_RET[1]['SCHOOL_NUMBER'].' / '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</td></tr>';
 
 			echo '<tr><td colspan="3">
 			<h3>'._('Demographics').'</h3>
 			<table class="width-100p cellspacing-0 center"><tr>';
 
-			foreach ( (array) $custom_RET as $id => $custom)
-				echo '<td style="text-align:right">'.ParseMLField($custom_RET[ $id ][1]['TITLE']).':&nbsp;</td>
+			foreach ( (array) $custom_RET as $id => $custom )
+			{
+				echo '<td class="align-right">'.ParseMLField($custom_RET[ $id ][1]['TITLE']).':&nbsp;</td>
 				<td>'.$student['CUSTOM_'.$id].'</td>';
+			}
 
 			echo '</tr><tr>
-			<td style="text-align:right">'._('Status').':&nbsp;</td>
+			<td class="align-right">'._('Status').':&nbsp;</td>
 			<td>'.$student['STATUS'].'</td>
-			<td style="text-align:right">'._('Grade Level').':&nbsp;</td>
+			<td class="align-right">'._('Grade Level').':&nbsp;</td>
 			<td>'.$student['GRADE_ID'].'</td>
 			</tr>
 			</table>
