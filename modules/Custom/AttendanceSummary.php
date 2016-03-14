@@ -52,6 +52,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$handle = PDFStart();
 
+		?>
+		<style>
+			body {
+				font-size: larger;
+			}
+		</style>
+		<?php
+
 		foreach ( (array) $RET as $student)
 		{
 			$calendar_RET = DBGet(DBquery("SELECT ".db_case(array(
@@ -61,38 +69,33 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				"'0.5'")
 			)." AS POS,
 			trim(leading '0' from to_char(SCHOOL_DATE,'MM')) AS MON,
-			trim(leading '0' from to_char(SCHOOL_DATE,'DD')) AS DAY 
-			FROM ATTENDANCE_CALENDAR 
-			WHERE CALENDAR_ID='".$student['CALENDAR_ID']."' 
+			trim(leading '0' from to_char(SCHOOL_DATE,'DD')) AS DAY
+			FROM ATTENDANCE_CALENDAR
+			WHERE CALENDAR_ID='".$student['CALENDAR_ID']."'
 			AND SCHOOL_DATE>='".$student['START_DATE']."'".
 			($student['END_DATE']?" AND SCHOOL_DATE<='".$student['END_DATE']."'":'')),
 			array(),
 			array('MON','DAY'));
-			
+
 			$attendance_RET = DBGet(DBQuery("SELECT
 			trim(leading '0' from to_char(ap.SCHOOL_DATE,'MM')) AS MON,
 			trim(leading '0' from to_char(ap.SCHOOL_DATE,'DD')) AS DAY,
 			ac.STATE_CODE,
-			ac.SHORT_NAME 
-			FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac,SCHOOL_PERIODS sp 
-			WHERE ap.STUDENT_ID='".$student['STUDENT_ID']."' 
-			AND ap.PERIOD_ID=sp.PERIOD_ID 
-			AND sp.SCHOOL_ID='".UserSchool()."' 
-			AND sp.SYEAR='".UserSyear()."' 
-			AND ac.ID=ap.ATTENDANCE_CODE 
+			ac.SHORT_NAME
+			FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac,SCHOOL_PERIODS sp
+			WHERE ap.STUDENT_ID='".$student['STUDENT_ID']."'
+			AND ap.PERIOD_ID=sp.PERIOD_ID
+			AND sp.SCHOOL_ID='".UserSchool()."'
+			AND sp.SYEAR='".UserSyear()."'
+			AND ac.ID=ap.ATTENDANCE_CODE
 			AND sp.ATTENDANCE='Y'"),array(),array('MON','DAY'));
 			//echo '<pre>'; var_dump($calendar_RET); echo '</pre>';
 
-			echo '<table class="width-100p">
-			<tr><td class="width-100p center">';
+			echo '<table class="width-100p"><tr><td class="center">
+			<h2>' . $student['FULL_NAME'] . '</h2>
+			</td></tr>';
 
-			echo '<table style="width:96%">
-			<tr><td class="width-100p center">
-			<span class="sizep2"><b>'.$student['FULL_NAME'].'</b></span>
-			</td><tr>
-			</table>';
-
-			echo '<table style="width:96%; border: solid 1px">
+			echo '<tr><td style="border: solid 1px"><table class="width-100p">
 			<tr class="center"><td>
 			<b>'._('Student Name').'</b>
 			</td><td>
@@ -107,8 +110,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			<td class="center">'.$school_RET[1]['SCHOOL_NUMBER'].' / '.FormatSyear(UserSyear(),Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</td></tr>';
 
 			echo '<tr><td colspan="3">
-			<span class="sizep1"><b>'._('Demographics').'</b></span>
-			<table style="width:98%;" class="cellspacing-0 center"><tr>';
+			<h3>'._('Demographics').'</h3>
+			<table class="width-100p cellspacing-0 center"><tr>';
 
 			foreach ( (array) $custom_RET as $id => $custom)
 				echo '<td style="text-align:right">'.ParseMLField($custom_RET[ $id ][1]['TITLE']).':&nbsp;</td>
@@ -124,8 +127,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			</td></tr>';
 
 			echo '<tr><td colspan="3">
-			<span class="sizep1"><b>'._('Attendance').'</b></span>
-			<table style="width:98%; border:solid 1px;" class="cellspacing-0 center">';
+			<h3>'._('Attendance').'</h3>
+			<table style="border:solid 1px;" class="width-100p cellspacing-0 center">';
 
 			echo '<tr class="center
 			"><td colspan="32"></td>
@@ -136,8 +139,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			<b>'._('Month').'</b>
 			</td>';
 
-			for ( $day=1; $day<=31; $day++)
-				echo '<td><b>'.($day<10?'&nbsp;':'').$day.'</b></td>';
+			for ( $day = 1; $day <= 31; $day++ )
+			{
+				echo '<td><b>' . ( $day < 10 ? '&nbsp;' : '' ) . $day . '</b></td>';
+			}
 
 			echo '<td><b>'._('Absences').'</b></td>
 			<td><b>'._('Possible').'</b></td>
@@ -151,27 +156,29 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				AND SYEAR='".UserSyear()."'
 				AND SCHOOL_ID='".UserSchool()."'"));
 
-			$first_month = explode('-', $FY_dates[1]['START_DATE']);
-			$first_month = (int)$first_month[1];
+			$first_month = explode( '-', $FY_dates[1]['START_DATE'] );
+			$first_month = (int) $first_month[1];
 
-			$last_month = explode('-', $FY_dates[1]['END_DATE']);
-			$last_month = (int)$last_month[1];
+			$last_month = explode( '-', $FY_dates[1]['END_DATE'] );
+			$last_month = (int) $last_month[1];
 
 			//foreach ( array(7,8,9,10,11,12,1,2,3,4,5,6) as $month)
-			if ( $last_month > $first_month)
+			if ( $last_month > $first_month )
+			{
 				$last_month_tmp = $last_month;
+			}
 			else
 				$last_month_tmp = 12;
 
-			for ($month=$first_month; $month<=$last_month_tmp; $month++)
+			for ( $month = $first_month; $month <= $last_month_tmp; $month++ )
 			{
 				if ( $calendar_RET[ $month ] || $attendance_RET[ $month ])
 				{
-					echo '<tr><td>'.$months[ $month ].'</td>';
+					echo '<tr><td>' . $months[ $month ] . '</td>';
 
 					$abs = $pos = 0;
 
-					for ( $day=1; $day<=31; $day++)
+					for ( $day = 1; $day <= 31; $day++ )
 					{
 						if ( $calendar_RET[ $month ][ $day ])
 						{
@@ -207,8 +214,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						}
 					}
 
-					echo '<td style="text-align:right">'.number_format($abs,1).'</td>
-					<td style="text-align:right">'.number_format($pos,1).'</td></tr>';
+					echo '<td class="center">'.number_format($abs,1).'</td>
+					<td class="center">'.number_format($pos,1).'</td></tr>';
 
 					$abs_tot += $abs;
 					$pos_tot += $pos;
@@ -222,10 +229,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 			}
 
-			echo '<tr><td colspan="32" style="text-align: right;"><b>'._('Year to Date Totals').':</b></td>';
+			echo '<tr><td colspan="32" class="align-right"><b>'._('Year to Date Totals').':</b></td>';
 
-			echo '<td style="text-align:right">'.number_format($abs_tot,1).'</td>
-			<td style="text-align:right">'.number_format($pos_tot,1).'</td></tr>';
+			echo '<td class="center">'.number_format($abs_tot,1).'</td>
+			<td class="center">'.number_format($pos_tot,1).'</td></tr>';
 
 			echo '</table>
 			</td></tr>
