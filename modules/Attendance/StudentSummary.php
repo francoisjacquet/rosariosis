@@ -45,17 +45,17 @@ if ( $_REQUEST['search_modfunc'] || $_REQUEST['student_id'] || User('PROFILE')==
 	{
 		//FJ multiple school periods for a course period
 		//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE FROM SCHOOL_PERIODS sp WHERE sp.SYEAR='".UserSyear()."' AND sp.SCHOOL_ID='".UserSchool()."' AND EXISTS(SELECT '' FROM COURSE_PERIODS cp WHERE cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0".(User('PROFILE')=='teacher'?" AND cp.PERIOD_ID='".UserPeriod()."'":'').") ORDER BY sp.SORT_ORDER"));
-		$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE 
-		FROM SCHOOL_PERIODS sp 
-		WHERE sp.SYEAR='".UserSyear()."' 
-		AND sp.SCHOOL_ID='".UserSchool()."' 
+		$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.TITLE
+		FROM SCHOOL_PERIODS sp
+		WHERE sp.SYEAR='".UserSyear()."'
+		AND sp.SCHOOL_ID='".UserSchool()."'
 		AND EXISTS
-			(SELECT '' 
-			FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-			WHERE  cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-			AND cpsp.PERIOD_ID=sp.PERIOD_ID 
+			(SELECT ''
+			FROM COURSE_PERIODS cp, COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			WHERE  cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+			AND cpsp.PERIOD_ID=sp.PERIOD_ID
 			AND position(',0,' IN cp.DOES_ATTENDANCE)>0
-			".(User('PROFILE')=='teacher'?" AND cp.COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')":'').") 
+			".(User('PROFILE')=='teacher'?" AND cp.COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')":'').")
 		ORDER BY sp.SORT_ORDER"));
 
 		$period_select = '<select name="period_id" onchange="ajaxPostForm(this.form,true);"><option value="">'._('Daily').'</option>';
@@ -83,12 +83,12 @@ if ( $_REQUEST['period_id'])
 	if ( $_REQUEST['period_id'] == 'all')
 	{
 		$period_ids_RET = DBGet(DBQuery("SELECT PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_ID IN (SELECT COURSE_PERIOD_ID FROM COURSE_PERIOD_SCHOOL_PERIODS WHERE COURSE_PERIOD_SCHOOL_PERIODS_ID='".UserCoursePeriodSchoolPeriod()."')"));
-		
+
 		$period_ids_list = array();
 
 		foreach ( (array) $period_ids_RET as $period_id)
 			$period_ids_list[] = $period_id['PERIOD_ID'];
-		
+
 		$period_ids_list = implode(',',$period_ids_list);
 	}
 	else
@@ -107,9 +107,9 @@ if ( $_REQUEST['period_id'])
 		foreach ( (array) $codes_RET as $code)
 		{
 			$extra['SELECT'] .= ",(SELECT count(*) FROM ATTENDANCE_PERIOD ap,ATTENDANCE_CODES ac
-						WHERE ac.ID=ap.ATTENDANCE_CODE 
-						AND ac.ID='".$code['ID']."' 
-						AND ap.PERIOD_ID IN (".$period_ids_list.") 
+						WHERE ac.ID=ap.ATTENDANCE_CODE
+						AND ac.ID='".$code['ID']."'
+						AND ap.PERIOD_ID IN (".$period_ids_list.")
 						AND ap.STUDENT_ID=ssm.STUDENT_ID
 						AND ap.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."') AS ABS_".$code['ID'];
 
@@ -122,7 +122,7 @@ else
 	$extra['SELECT'] .= ",(SELECT COALESCE((sum(STATE_VALUE-1)*-1),0.0) FROM ATTENDANCE_DAY ad
 						WHERE ad.STUDENT_ID=ssm.STUDENT_ID
 						AND ad.SCHOOL_DATE BETWEEN '".$start_date."' AND '".$end_date."' AND ad.SYEAR=ssm.SYEAR) AS STATE_ABS";
-//FJ add translation 
+//FJ add translation
 	$extra['columns_after']['STATE_ABS'] = _('Days Absent');
 }
 
@@ -137,16 +137,17 @@ if (UserStudentID())
 	DrawHeader($name_RET[1]['FULL_NAME']);
 	$PHP_tmp_SELF = PreparePHP_SELF();
 
-	$absences_RET = DBGet(DBQuery("SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT 
-	FROM ATTENDANCE_PERIOD ap,ATTENDANCE_DAY ad,ATTENDANCE_CODES ac 
-	WHERE ap.STUDENT_ID=ad.STUDENT_ID 
-	AND ap.SCHOOL_DATE=ad.SCHOOL_DATE 
-	AND ap.ATTENDANCE_CODE=ac.ID 
-	AND (ac.DEFAULT_CODE!='Y' OR ac.DEFAULT_CODE IS NULL) 
-	AND ap.STUDENT_ID='".UserStudentID()."' 
-	AND ap.SCHOOL_DATE BETWEEN '".$start_date."' 
-	AND '".$end_date."' 
-	AND ad.SYEAR='".UserSyear()."' 
+	$absences_RET = DBGet(DBQuery("SELECT ap.STUDENT_ID,ap.PERIOD_ID,ap.SCHOOL_DATE,ac.SHORT_NAME,
+		ac.TITLE,ac.STATE_CODE,ad.STATE_VALUE,ad.COMMENT AS OFFICE_COMMENT,ap.COMMENT AS TEACHER_COMMENT
+	FROM ATTENDANCE_PERIOD ap,ATTENDANCE_DAY ad,ATTENDANCE_CODES ac
+	WHERE ap.STUDENT_ID=ad.STUDENT_ID
+	AND ap.SCHOOL_DATE=ad.SCHOOL_DATE
+	AND ap.ATTENDANCE_CODE=ac.ID
+	AND (ac.DEFAULT_CODE!='Y' OR ac.DEFAULT_CODE IS NULL)
+	AND ap.STUDENT_ID='".UserStudentID()."'
+	AND ap.SCHOOL_DATE BETWEEN '".$start_date."'
+	AND '".$end_date."'
+	AND ad.SYEAR='".UserSyear()."'
 	ORDER BY ap.SCHOOL_DATE"),array(),array('SCHOOL_DATE','PERIOD_ID'));
 	foreach ( (array) $absences_RET as $school_date => $absences)
 	{
@@ -157,22 +158,22 @@ if (UserStudentID())
 		foreach ( (array) $absences as $period_id => $absence)
 		{
 			//$days_RET[ $i ][ $period_id ] =            $absence[1]['SHORT_NAME'];
-			$days_RET[ $i ][ $period_id ] = _makeColor($absence[1]['SHORT_NAME'],$absence[1]['STATE_CODE']);
+			$days_RET[ $i ][ $period_id ] = _makeColor($absence[1]['SHORT_NAME'],$absence[1]['TITLE'],$absence[1]['STATE_CODE']);
 			$days_RET[ $i ]['COMMENT_'.$period_id] = $absence[1]['TEACHER_COMMENT'];
 		}
 	}
 
 	//FJ multiple school periods for a course period
 	//$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.SHORT_NAME FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp WHERE sp.SCHOOL_ID='".UserSchool()."' AND sp.SYEAR='".UserSyear()."' AND s.STUDENT_ID='".UserStudentID()."' AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND cp.PERIOD_ID=sp.PERIOD_ID AND position(',0,' IN cp.DOES_ATTENDANCE)>0 ORDER BY sp.SORT_ORDER"));
-	$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.SHORT_NAME 
-	FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
-	AND sp.SCHOOL_ID='".UserSchool()."' 
-	AND sp.SYEAR='".UserSyear()."' 
-	AND s.STUDENT_ID='".UserStudentID()."' 
-	AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID 
-	AND cpsp.PERIOD_ID=sp.PERIOD_ID 
-	AND position(',0,' IN cp.DOES_ATTENDANCE)>0 
+	$periods_RET = DBGet(DBQuery("SELECT sp.PERIOD_ID,sp.SHORT_NAME
+	FROM SCHOOL_PERIODS sp,SCHEDULE s,COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+	WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
+	AND sp.SCHOOL_ID='".UserSchool()."'
+	AND sp.SYEAR='".UserSyear()."'
+	AND s.STUDENT_ID='".UserStudentID()."'
+	AND cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
+	AND cpsp.PERIOD_ID=sp.PERIOD_ID
+	AND position(',0,' IN cp.DOES_ATTENDANCE)>0
 	ORDER BY sp.SORT_ORDER"));
 	$columns['SCHOOL_DATE'] = _('Date');
 	$columns['DAILY'] = _('Present');
@@ -195,8 +196,11 @@ function _makeStateValue($value)
 		return _('Full Day');
 }
 
-function _makeColor($value,$state_code)
+function _makeColor( $value, $title, $state_code )
 {
-	$colors = array('P' => '#FFCC00','A' => '#FF0000','H' => '#FFCC00','T' => '#6666FF');
-	return '<div style="float:left;'.($colors[ $state_code ]?' background-color:'.$colors[ $state_code ].';':'').' padding:0 8px;">'.$value.'</div>';
+	$colors = array( 'P' => '#FFCC00','A' => '#FF0000','H' => '#FFCC00','T' => '#6666FF' );
+
+	return '<span style="float:left; padding:0 8px;' .
+		( isset( $colors[ $state_code ] ) ? ' background-color:' . $colors[ $state_code ] . ';' : '' ) .
+		'" title="' . $title . '">' . $value . '</div>';
 }
