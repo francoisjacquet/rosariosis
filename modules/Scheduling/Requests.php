@@ -115,7 +115,11 @@ function processRequest()
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 
-	$link['add']['span'] = ''._('Add a Request').': &nbsp; <span class="nobr">'._('Subject').' '.$subjects.'</span> &nbsp; <span class="nobr">'._('Course Title').' <input type="text" id="course_title" name="course_title" onkeypress="if (event.keyCode==13)return false;" onblur="document.getElementById(\'courses_div\').style.display=\'none\';" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span><div id="courses_div"></div>';
+	$link['add']['span'] = _( 'Add a Request' ) .
+		': &nbsp; <span class="nobr">' . _( 'Subject' ) . ' ' . $subjects . '</span> &nbsp; <span class="nobr">' .
+		_( 'Course Title' ) .
+		' <input type="text" id="course_title" name="course_title" onkeypress="if (event.keyCode==13)return false;" onkeyup="document.getElementById(\'courses_div\').innerHTML = \'\';SendXMLRequest(this.form.subject_id.options[this.form.subject_id.selectedIndex].value,this.form.course_title.value);"></span>
+		<div id="courses_div"></div>';
 
 	echo '<div style="position:relative;">';
 
