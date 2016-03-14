@@ -183,7 +183,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 		$result1 = GetStuList($extra);
 
 		DrawHeader(ProgramTitle());
-	   
+
 		echo ErrorMessage( $error );
 
 		echo ErrorMessage( $note, 'note' );
@@ -226,7 +226,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 		//FJ css WPadmin
 		echo '<br />&nbsp;<br /><table class="widefat cellspacing-0 rt center">';
 		echo '<thead><tr><th class="column_heading"><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'deletecheck\');" /> &nbsp</th>';
-		//FJ add translation 
+		//FJ add translation
 		echo '<th>'._('Student').' ('.sprintf(_('%s ID'),Config('NAME')).')</th>';
 		echo '<th>'._('Course').' ('._('Course Period ID').')</th>';
 		echo '<th>'._('Course Start Date').'</th>';
@@ -336,14 +336,15 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 			//echo "$studentid | $courseid";
 		}
 
-		if ( $count == 0){
-			echo '<tr><td><b>'._('No Duplicates Found').'</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+		if ( $count == 0 )
+		{
+			echo '<tr><td colspan="6"><b>' . _( 'No Duplicates Found' ) . '</b></td></tr>';
 			echo '</tbody></table>';
 		}
 		else
 		{
 			echo '</tbody></table>';
-			echo '<br /><div class="center"><input type="submit" name="submit" value="'._('Delete').'" /></div>';
+			echo '<br /><div class="center">' . SubmitButton( _( 'Delete' ) ) . '</div>';
 		}
 
 		echo '</form>';
@@ -360,7 +361,7 @@ if (isset($_REQUEST['search_modfunc']) && $_REQUEST['search_modfunc']=='list' &&
 if ( !isset($_REQUEST['search_modfunc']) && $_REQUEST['delete']!='true')
 {
 	echo ErrorMessage( $error );
-			
+
 	DrawHeader(ProgramTitle());
 
 	$extra['new'] = true;
