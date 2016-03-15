@@ -162,7 +162,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 				'MAIL_ZIPCODE' => _( 'Mailing Zipcode' ),
 			);
 		}
-		
+
 		if ( $extra['field_names'] )
 			$fields_list += $extra['field_names'];
 
@@ -337,40 +337,54 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		{
 			$columns[ $field ] = ParseMLField( $fields_list[ $field ] );
 
-			if ( mb_substr( $field, 0, 7) == 'CUSTOM_' )
+			if ( mb_substr( $field, 0, 7 ) == 'CUSTOM_' )
 			{
-				if ( $custom_RET[ mb_substr( $field, 7 ) ][1]['TYPE'] == 'date'
+				$field_type = $custom_RET[ mb_substr( $field, 7 ) ][1]['TYPE'];
+
+				if ( $field_type == 'date'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'ProperDate';
 				}
-				elseif ( $custom_RET[ mb_substr( $field, 7 )][1]['TYPE'] == 'codeds'
+				elseif ( $field_type == 'codeds'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
 				}
-				elseif ( $custom_RET[ mb_substr( $field, 7 )][1]['TYPE'] == 'exports'
+				elseif ( $field_type == 'exports'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
+				}
+				elseif ( $field_type == 'radio'
+					&& ! $extra['functions'][ $field ] )
+				{
+					$extra['functions'][ $field ] = '_makeCheckbox';
 				}
 			}
 			elseif ( mb_substr( $field, 0, 8 ) == 'ADDRESS_' )
 			{
-				if ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'date'
+				$field_type = $address_RET[ mb_substr( $field, 8 ) ][1]['TYPE'];
+
+				if ( $field_type == 'date'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'ProperDate';
 				}
-				elseif ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'codeds'
+				elseif ( $field_type == 'codeds'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
 				}
-				elseif ( $address_RET[ mb_substr( $field, 8 )][1]['TYPE'] == 'exports'
+				elseif ( $field_type == 'exports'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
+				}
+				elseif ( $field_type == 'radio'
+					&& ! $extra['functions'][ $field ] )
+				{
+					$extra['functions'][ $field ] = '_makeCheckbox';
 				}
 			}
 		}
@@ -409,15 +423,16 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 		if ( !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
 			if ( ! $_REQUEST['address_group'] )
+			{
 				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => 'Y' ) ) . '">' .
 					_( 'Group by Family' ) . '</a>';
-
+			}
 			else
 				$header_left = '<a href="' . PreparePHP_SELF( $_REQUEST, array(), array( 'address_group' => '' ) ) . '">'.
 					_( 'Ungroup by Family' ) . '</a>';
-		}
 
-		DrawHeader( $header_left );
+			DrawHeader( $header_left );
+		}
 
 		DrawHeader( str_replace( '<br />', '<br /> &nbsp;', mb_substr( $_ROSARIO['SearchTerms'], 0, -6 ) ) );
 
@@ -483,7 +498,7 @@ else
 					'PHONE' => _( 'Home Phone' ),
 					'PARENTS' => _( 'Contacts' ),
 				);
-				
+
 			$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE
 				FROM ADDRESS_FIELD_CATEGORIES
 				ORDER BY SORT_ORDER,TITLE" ) );
@@ -606,7 +621,7 @@ else
 					</td>';
 			else
 				echo '<td>&nbsp;<input type="hidden" id="mailing" value="" /></td>';
-				
+
 			echo '</tr><tr>';
 
 			echo '<td>
@@ -701,4 +716,3 @@ else
 		echo '</td></tr></table>';
 	}
 }
-

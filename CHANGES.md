@@ -74,6 +74,7 @@ Changes in 2.9
 - Add Bottom.php|bottom_buttons hook in Actions.php & Bottom.php
 - Add optional functions.php file for non core modules in Warehouse.php
 - Update French & Spanish translations
+- Format custom checkbox fields: add _makeCheckbox() function in miscExport.fnc.php
 
 Changes in 2.8.11
 -----------------
