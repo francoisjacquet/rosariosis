@@ -31,7 +31,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 					foreach ( (array) $_REQUEST['student'] as $student_id => $yes)
 					{
-						if ( $current_RET[ $student_id ])
+						if ( $current_RET[ $student_id ]
+						 	&& empty( $schedule_deletion_pending ) )
 						{
 							DBQuery("UPDATE SCHEDULE SET END_DATE='".$drop_date."' WHERE STUDENT_ID='".$student_id."' AND COURSE_PERIOD_ID='".$_SESSION['MassDrops.php']['course_period_id']."'");
 
@@ -42,7 +43,8 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 							if (count($start_end_RET))
 							{
 								//if user clicked Cancel or OK or Display Prompt
-								if (DeletePrompt(_('Students\' Absences and Grades'), 'Delete', false))
+								if ( isset( $_REQUEST['delete_ok'] )
+								 	|| DeletePrompt(_('Students\' Absences and Grades'), 'Delete', false))
 								{
 									//if user clicked OK
 									if ( ! isset( $_REQUEST['delete_cancel'] ) )
