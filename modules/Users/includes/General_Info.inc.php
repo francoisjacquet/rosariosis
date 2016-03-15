@@ -253,7 +253,7 @@ if ( basename( $_SERVER['PHP_SELF'] ) != 'index.php' )
 				echo InputDivOnclick(
 					$id,
 					$schools_html . str_replace( '<br />', '', $title ),
-					implode( ', ', $school_titles ),
+					$school_titles ? implode( ', ', $school_titles ) : _( 'All Schools' ),
 					$title
 				);
 			}
