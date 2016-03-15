@@ -224,7 +224,8 @@ code{
 .widefat th a[href*="LO_direction=-1"]:hover:after{
 	content: "\25be";
 }
-.widefat th a[href*="LO_sort=CHECKBOX"]:after{
+/*empty header link (checkbox / checkAll)*/
+.widefat th a:empty:after{
 	content: "";
 	padding-left: 0;
 }
