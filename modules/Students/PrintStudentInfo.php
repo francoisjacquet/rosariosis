@@ -20,9 +20,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 
 		// get the address and contacts custom fields, create the select lists and expand select and codeds options
 		$address_categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.RESIDENCE,c.MAILING,c.BUS,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM ADDRESS_FIELD_CATEGORIES c,ADDRESS_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
-		
+
 		$people_categories_RET = DBGet(DBQuery("SELECT c.ID AS CATEGORY_ID,c.TITLE AS CATEGORY_TITLE,c.CUSTODY,c.EMERGENCY,f.ID,f.TITLE,f.TYPE,f.SELECT_OPTIONS,f.DEFAULT_SELECTION,f.REQUIRED FROM PEOPLE_FIELD_CATEGORIES c,PEOPLE_FIELDS f WHERE f.CATEGORY_ID=c.ID ORDER BY c.SORT_ORDER,c.TITLE,f.SORT_ORDER,f.TITLE"),array(),array('CATEGORY_ID'));
-		
+
 		explodeCustom($address_categories_RET, $address_custom, 'a');
 		explodeCustom($people_categories_RET, $people_custom, 'p');
 
@@ -41,7 +41,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			if (file_exists($logo_pic))
 				DrawHeader(_('Student Info'), '<img src="'.$logo_pic.'" height="100" />');
 			else
-				DrawHeader(_('Student Info'), '<div style="height:100px;">&nbsp;</div>');			
+				DrawHeader(_('Student Info'), '<div style="height:100px;">&nbsp;</div>');
 			DrawHeader($student['FULL_NAME'],SchoolInfo('TITLE'));
 			DrawHeader($student['STUDENT_ID'],GetGrade($student['GRADE_ID']));
 			DrawHeader(ProperDate(DBDate()));
@@ -60,20 +60,20 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['3'][1]['TITLE']));
 				echo '<br />';
-				$addresses_RET = DBGet(DBQuery("SELECT a.ADDRESS_ID,             sjp.STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,A.MAIL_ZIPCODE,  sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER".$address_custom." 
-				FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp 
-				WHERE a.ADDRESS_ID=sja.ADDRESS_ID 
-				AND sja.STUDENT_ID='".UserStudentID()."' 
-				AND a.ADDRESS_ID=sjp.ADDRESS_ID 
+				$addresses_RET = DBGet(DBQuery("SELECT a.ADDRESS_ID,             sjp.STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,A.MAIL_ZIPCODE,  sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER".$address_custom."
+				FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp
+				WHERE a.ADDRESS_ID=sja.ADDRESS_ID
+				AND sja.STUDENT_ID='".UserStudentID()."'
+				AND a.ADDRESS_ID=sjp.ADDRESS_ID
 				AND sjp.STUDENT_ID=sja.STUDENT_ID
-				UNION 
-				SELECT a.ADDRESS_ID,'No Contacts' AS STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,A.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER".$address_custom." 
-				FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja 
-				WHERE a.ADDRESS_ID=sja.ADDRESS_ID 
-				AND sja.STUDENT_ID='".UserStudentID()."' 
-				AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.STUDENT_ID=sja.STUDENT_ID AND sjp.ADDRESS_ID=a.ADDRESS_ID) 
+				UNION
+				SELECT a.ADDRESS_ID,'No Contacts' AS STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,A.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER".$address_custom."
+				FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja
+				WHERE a.ADDRESS_ID=sja.ADDRESS_ID
+				AND sja.STUDENT_ID='".UserStudentID()."'
+				AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.STUDENT_ID=sja.STUDENT_ID AND sjp.ADDRESS_ID=a.ADDRESS_ID)
 				ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION"));
-				
+
 				$address_previous = "x";
 				foreach ( (array) $addresses_RET as $address)
 				{
@@ -239,8 +239,8 @@ function explodeCustom(&$categories_RET, &$custom, $prefix)
 			$custom .= ','.$prefix.'.CUSTOM_'.$field['ID'];
 			if ( $field['TYPE']=='select' || $field['TYPE']=='codeds')
 			{
-				$select_options = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
-				$select_options = explode("\r",$select_options);
+				$select_options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS']));
+
 				$options = array();
 				foreach ( (array) $select_options as $option)
 				{

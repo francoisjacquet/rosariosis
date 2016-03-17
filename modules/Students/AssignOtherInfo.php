@@ -183,8 +183,9 @@ if (empty($_REQUEST['modfunc']))
 			foreach ( (array) $fields_RET['select'] as $field)
 			{
 				$select_options = array();
-				$field['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
-				$options = explode("\r",$field['SELECT_OPTIONS']);
+
+				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS']));
+
 				if (count($options))
 				{
 					foreach ( (array) $options as $option)
@@ -201,8 +202,8 @@ if (empty($_REQUEST['modfunc']))
 			foreach ( (array) $fields_RET['codeds'] as $field)
 			{
 				$select_options = array();
-				$field['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
-				$options = explode("\r",$field['SELECT_OPTIONS']);
+				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS']));
+
 				if (count($options))
 				{
 					foreach ( (array) $options as $option)
@@ -219,7 +220,7 @@ if (empty($_REQUEST['modfunc']))
 		// TODO: (see Search.fnc.php)
 		// merge select, autos, edits, exports & codeds
 		// (same or similar SELECT output)
-		foreach ( (array) $fields_RET['autos'] as $field )	
+		foreach ( (array) $fields_RET['autos'] as $field )
 		{
 			$select_options = array();
 
@@ -245,7 +246,7 @@ if (empty($_REQUEST['modfunc']))
 				AND s." . $field_name . " IS NOT NULL
 				AND s." . $field_name . " != ''
 				ORDER BY KEY" ) );
-			
+
 			foreach ( (array) $options_RET as $option )
 				if ( !in_array( $option[ $field_name ], $options ) )
 					$select_options[$option[ $field_name ]] = array(
@@ -261,8 +262,8 @@ if (empty($_REQUEST['modfunc']))
 			foreach ( (array) $fields_RET['edits'] as $field)
 			{
 				$select_options = array();
-				$field['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
-				$options = explode("\r",$field['SELECT_OPTIONS']);
+				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS']));
+
 				if (count($options))
 				{
 					foreach ( (array) $options as $option)
@@ -283,8 +284,8 @@ if (empty($_REQUEST['modfunc']))
 			foreach ( (array) $fields_RET['exports'] as $field)
 			{
 				$select_options = array();
-				$field['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$field['SELECT_OPTIONS']));
-				$options = explode("\r",$field['SELECT_OPTIONS']);
+				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS']));
+
 				if (count($options))
 				{
 					foreach ( (array) $options as $option)

@@ -55,7 +55,7 @@ if ( isset( $_POST['values'] )
 	&& count( $_POST['values'] ) )
 {
 	$sql = "INSERT INTO DISCIPLINE_REFERRALS ";
-	
+
 	$referral_id_RET = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'DISCIPLINE_REFERRALS_SEQ' ) . " AS ID;" ) );
 
 	$referral_id = $referral_id_RET[1]['ID'];
@@ -66,7 +66,7 @@ if ( isset( $_POST['values'] )
 	$go = 0;
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
-	
+
 	foreach ( (array) $_REQUEST['values'] as $column => $value)
 	{
 		if ( !empty($value) || $value=='0')
@@ -152,13 +152,13 @@ if (UserStudentID() && $_REQUEST['student_id'])
 {
 	//FJ teachers need AllowEdit (to edit the input fields)
 	$_ROSARIO['allow_edit'] = true;
-	
+
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
 	echo '<br />';
 	PopTable('header',ProgramTitle());
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"));
-	
+
 	echo '<table class="width-100p col1-align-right">';
 
 	echo '<tr class="st"><td><span class="legend-gray">'._('Student').'</span></td><td>';
@@ -224,30 +224,30 @@ if (UserStudentID() && $_REQUEST['student_id'])
 				echo TextInput('','values[CATEGORY_'.$category['ID'].']','','maxlength=255');
 				//echo '<input type="TEXT" name="values[CATEGORY_'.$category['ID'].']" maxlength="255" />';
 			break;
-	
+
 			case 'numeric':
 				echo TextInput('','values[CATEGORY_'.$category['ID'].']','','size=9 maxlength=18');
 				//echo '<input type="TEXT" name="values[CATEGORY_'.$category['ID'].']" size="4" maxlength="10" />';
 			break;
-	
+
 			case 'textarea':
 				echo TextAreaInput('','values[CATEGORY_'.$category['ID'].']','','maxlength=5000 rows=4 cols=30');
 				//echo '<textarea name="values[CATEGORY_'.$category['ID'].']" rows="4" cols="30"></textarea>';
 			break;
-	
+
 			case 'checkbox':
 				echo CheckboxInput('','values[CATEGORY_'.$category['ID'].']','','',true);
 				//echo '<input type="CHECKBOX" name="values[CATEGORY_'.$category['ID'].']" value="Y" />';
 			break;
-			
+
 			case 'date':
 				echo DateInput(DBDate(),'_values[CATEGORY_'.$category['ID'].']');
 				//echo PrepareDate(DBDate(),'_values[CATEGORY_'.$category['ID'].']');
 			break;
-			
+
 			case 'multiple_checkbox':
 				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS']) );
-				
+
 				echo '<table class="cellpadding-5"><tr class="st">';
 				$i = 0;
 				foreach ( (array) $options as $option )
@@ -259,11 +259,10 @@ if (UserStudentID() && $_REQUEST['student_id'])
 				}
 				echo '</tr></table>';
 			break;
-			
+
 			case 'multiple_radio':
-				$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
-				$options = explode("\r",$category['SELECT_OPTIONS']);
-				
+				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $category['SELECT_OPTIONS']));
+
 				echo '<table class="cellpadding-5"><tr class="st">';
 				$i = 0;
 				foreach ( (array) $options as $option)
