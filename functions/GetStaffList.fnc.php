@@ -13,7 +13,7 @@ function GetStaffList(& $extra)
 			if ( isset( $_REQUEST['advanced'] )
 				&& $_REQUEST['advanced'] === 'Y' )
 			{
-				StaffWidgets( 'all' );
+				StaffWidgets( 'all', $extra );
 			}
 
 			$extra['WHERE'] .= appendStaffSQL( '', $extra );
