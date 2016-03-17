@@ -3,7 +3,7 @@
 DrawHeader( ProgramTitle() );
 
 // bugfix recreate $menu on page reload
-if ( !isset( $menu ) )
+if ( ! isset( $menu ) )
 {
 	// include Menu.php for each active module
 	foreach ( (array) $RosarioModules as $module => $active )
@@ -110,7 +110,7 @@ if ( $_REQUEST['modfunc']=='update' && ! $_REQUEST['new_profile_title'] && Allow
 		$file = 'Users/User.php&category_id='.$category['ID'];
 		$tmp_menu['Users'][ $xprofile ][ $file ] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
-		
+
 	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
 	foreach ( (array) $tmp_menu['Users'] as $profile => $modname_array)
 	{
@@ -239,6 +239,12 @@ if ( $_REQUEST['modfunc']!='delete')
 		foreach ( (array) $menu as $modcat => $profiles )
 		{
 			$values = $profiles[ $xprofile ];
+
+			if ( empty( $values ) )
+			{
+				// Do not display empty module (no programs allowed).
+				continue;
+			}
 
 			if ( !in_array($modcat, $RosarioCoreModules))
 				$module_title = dgettext($modcat, str_replace('_',' ',$modcat));
