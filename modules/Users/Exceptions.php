@@ -61,7 +61,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 			if (mb_strpos($modname, 'TeacherPrograms') !== false)
 				unset ($tmp_menu['Users'][ $profile ][ $modname ]);
 	}
-	
+
 	foreach ( (array) $tmp_menu as $modcat => $profiles)
 	{
 		$values = $profiles[ $xprofile ];
@@ -124,6 +124,12 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 	foreach ( (array) $menu as $modcat => $profiles)
 	{
 		$values = $profiles[$staff_RET[1]['PROFILE']];
+
+		if ( empty( $values ) )
+		{
+			// Do not display empty module (no programs allowed).
+			continue;
+		}
 
 		if ( !in_array($modcat, $RosarioCoreModules))
 			$module_title = dgettext($modcat, str_replace('_',' ',$modcat));
@@ -202,7 +208,7 @@ if ( ! $staff_RET[1]['PROFILE_ID'])
 	}
 	echo '</table>';
 	PopTable('footer');
-	echo '<div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
+	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 
 	echo '</div>';
 	echo '</td></tr></table>';
