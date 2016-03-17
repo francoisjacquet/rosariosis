@@ -94,20 +94,3 @@ function _makeTeachers( $value, $column )
 
 	return implode( '<br />', (array) $teachers );
 }
-
-
-/**
- * Make Checkbox
- * Local function for `misc/Export.php` program
- *
- * DBGet() callback function
- *
- * @param  string $value  Checkbox value.
- * @param  string $column Column.
- *
- * @return string         'Yes' or 'No'.
- */
-function _makeCheckbox( $value, $column )
-{
-	return $value ? _( 'Yes' ) : _( 'No' );
-}

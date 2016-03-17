@@ -25,30 +25,46 @@ function GetStaffList(& $extra)
 				$select = ',LAST_LOGIN';
 				$extra['columns_after']['LAST_LOGIN'] = _('Last Login');
 				$functions['LAST_LOGIN'] = 'makeLogin';
-				
+
 				//FJ add failed login to expanded view
 				$select .= ',FAILED_LOGIN';
 				$extra['columns_after']['FAILED_LOGIN'] = _('Failed Login');
 				$functions['FAILED_LOGIN'] = 'makeLogin';
 
-				$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE 
-				FROM STAFF_FIELDS cf 
-				WHERE ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StaffFieldsView' AND USER_ID='".User('STAFF_ID')."')='Y'".($extra['staff_fields']['view']?" OR cf.ID IN (".$extra['staff_fields']['view'].")":'').") 
+				$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE
+				FROM STAFF_FIELDS cf
+				WHERE ((SELECT VALUE FROM PROGRAM_USER_CONFIG WHERE TITLE=cast(cf.ID AS TEXT) AND PROGRAM='StaffFieldsView' AND USER_ID='".User('STAFF_ID')."')='Y'".($extra['staff_fields']['view']?" OR cf.ID IN (".$extra['staff_fields']['view'].")":'').")
 				ORDER BY cf.SORT_ORDER,cf.TITLE"));
 
-				foreach ( (array) $view_fields_RET as $field)
+				foreach ( (array) $view_fields_RET as $field )
 				{
-					$extra['columns_after']['CUSTOM_'.$field['ID']] = $field['TITLE'];
-					if ( $field['TYPE']=='date')
-						$functions['CUSTOM_'.$field['ID']] = 'ProperDate';
-					elseif ( $field['TYPE']=='numeric')
-						$functions['CUSTOM_'.$field['ID']] = 'removeDot00';
-					elseif ( $field['TYPE']=='codeds')
-						$functions['CUSTOM_'.$field['ID']] = 'StaffDeCodeds';
-					elseif ( $field['TYPE']=='exports')
-						$functions['CUSTOM_'.$field['ID']] = 'StaffDeCodeds';
-					$select .= ',s.CUSTOM_'.$field['ID'];
+					$field_key = 'CUSTOM_' . $field['ID'];
+					$extra['columns_after'][ $field_key ] = $field['TITLE'];
+
+					if ( $field['TYPE'] === 'date' )
+					{
+						$functions[ $field_key ] = 'ProperDate';
+					}
+					elseif ( $field['TYPE'] === 'numeric' )
+					{
+						$functions[ $field_key ] = 'removeDot00';
+					}
+					elseif ( $field['TYPE'] === 'codeds' )
+					{
+						$functions[ $field_key ] = 'StaffDeCodeds';
+					}
+					elseif ( $field['TYPE'] === 'exports' )
+					{
+						$functions[ $field_key ] = 'StaffDeCodeds';
+					}
+					elseif ( $field['TYPE'] === 'radio' )
+					{
+						$functions[ $field_key ] = 'makeCheckbox';
+					}
+
+					$select .= ',s.' . $field_key;
 				}
+
 				$extra['SELECT'] .= $select;
 			}
 			else
@@ -59,19 +75,34 @@ function GetStaffList(& $extra)
 				if ( $extra['staff_fields']['view'])
 				{
 					$view_fields_RET = DBGet(DBQuery("SELECT cf.ID,cf.TYPE,cf.TITLE FROM STAFF_FIELDS cf WHERE cf.ID IN (".$extra['staff_fields']['view'].") ORDER BY cf.SORT_ORDER,cf.TITLE"));
-					foreach ( (array) $view_fields_RET as $field)
+
+					foreach ( (array) $view_fields_RET as $field )
 					{
-						$extra['columns_after']['CUSTOM_'.$field['ID']] = $field['TITLE'];
-						if ( $field['TYPE']=='date')
-							$functions['CUSTOM_'.$field['ID']] = 'ProperDate';
-						elseif ( $field['TYPE']=='numeric')
-							$functions['CUSTOM_'.$field['ID']] = 'removeDot00';
-						elseif ( $field['TYPE']=='codeds')
-							$functions['CUSTOM_'.$field['ID']] = 'StaffDeCodeds';
-						elseif ( $field['TYPE']=='exports')
-							$functions['CUSTOM_'.$field['ID']] = 'StaffDeCodeds';
-						$select .= ',s.CUSTOM_'.$field['ID'];
+						$field_key = 'CUSTOM_' . $field['ID'];
+						$extra['columns_after'][ $field_key ] = $field['TITLE'];
+
+						if ( $field['TYPE'] === 'date' )
+						{
+							$functions[ $field_key ] = 'ProperDate';
+						}
+						elseif ( $field['TYPE'] === 'numeric' )
+						{
+							$functions[ $field_key ] = 'removeDot00';
+						}
+						elseif ( $field['TYPE'] === 'codeds' )
+						{
+							$functions[ $field_key ] = 'StaffDeCodeds';
+						}
+						elseif ( $field['TYPE'] === 'exports' )
+						{
+							$functions[ $field_key ] = 'StaffDeCodeds';
+						}
+						elseif ( $field['TYPE'] === 'radio' )
+						{
+							$functions[ $field_key ] = 'makeCheckbox';
+						}
 					}
+
 					$extra['SELECT'] .= $select;
 				}
 			}
@@ -205,4 +236,21 @@ function makeLogin($value,$title='LAST_LOGIN')
 		else
 			return $value;
 	}
+}
+
+
+/**
+ * Staff DeCodeds
+ * Decode codeds / exports type (custom staff) fields values.
+ *
+ * DBGet() callback function
+ *
+ * @uses DeCodeds() function.
+ *
+ * @param string $value  Value.
+ * @param string $column Column.
+ */
+function StaffDeCodeds( $value, $column )
+{
+	return DeCodeds( $value, $column, 'STAFF' );
 }

@@ -88,8 +88,8 @@ function GetStuList( &$extra = array() )
 			$extra['columns_after'] = array();
 		}
 
-		$view_fields_RET = DBGet( DBQuery( "SELECT cf.ID,cf.TYPE,cf.TITLE 
-			FROM CUSTOM_FIELDS cf 
+		$view_fields_RET = DBGet( DBQuery( "SELECT cf.ID,cf.TYPE,cf.TITLE
+			FROM CUSTOM_FIELDS cf
 			WHERE ((SELECT VALUE
 				FROM PROGRAM_USER_CONFIG
 				WHERE TITLE=cast(cf.ID AS TEXT)
@@ -97,7 +97,7 @@ function GetStuList( &$extra = array() )
 				AND USER_ID='" . User( 'STAFF_ID' ) . "')='Y'" .
 				( $extra['student_fields']['view'] ?
 					" OR cf.ID IN (" . $extra['student_fields']['view'] . ")" :
-					'' ) . ") 
+					'' ) . ")
 			ORDER BY cf.SORT_ORDER,cf.TITLE" ) );
 
 		$view_address_RET = DBGet( DBQuery( "SELECT VALUE
@@ -151,7 +151,7 @@ function GetStuList( &$extra = array() )
 			$extra['columns_after'] = array(
 				'CONTACT_INFO' => button( 'down_phone' ) )
 				+ $extra['columns_after'];
-			
+
 			$select .= ',ssm.STUDENT_ID AS CONTACT_INFO,coalesce(a.MAIL_ADDRESS,a.ADDRESS) AS ADDRESS,
 				coalesce(a.MAIL_CITY,a.CITY) AS CITY,coalesce(a.MAIL_STATE,a.STATE) AS STATE,
 				coalesce(a.MAIL_ZIPCODE,a.ZIPCODE) AS ZIPCODE ';
@@ -276,6 +276,10 @@ function GetStuList( &$extra = array() )
 				{
 					$functions[ $field_key ] = 'DeCodeds';
 				}
+				elseif ( $field['TYPE'] === 'radio' )
+				{
+					$functions[ $field_key ] = 'makeCheckbox';
+				}
 
 				$select .= ',s.' . $field_key;
 			}
@@ -291,7 +295,7 @@ function GetStuList( &$extra = array() )
 					'CITY' => _( 'City' ),
 					'STATE' => _( 'State' ),
 					'ZIPCODE' => _( 'Zipcode' ) );
-		
+
 				if ( $view_address_RET != 'MAILING' )
 				{
 					$select .= ",a.ADDRESS_ID,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,
@@ -426,7 +430,7 @@ function GetStuList( &$extra = array() )
 			// Get Search All Schools option.
 			$is_search_all_schools = isset( $_REQUEST['_search_all_schools'] )
 				&& $_REQUEST['_search_all_schools'] == 'Y';
-			
+
 			// Normal SELECT.
 			if ( ! $is_select_only )
 			{
@@ -779,7 +783,7 @@ function makePhone( $phone, $column = '' )
  * @global $THIS_RET       current return row
  * @global $view_other_RET checks $view_other_RET['ALL_CONTACTS'][1]['VALUE']
  * @global $_ROSARIO       checks $_ROSARIO['makeParents']
- * 
+ *
  * @param  string $student_id Student ID.
  * @param  string $column     'PARENTS'.
  *
@@ -817,11 +821,11 @@ function makeParents( $student_id, $column )
 		$constraint .= " AND sjp.CUSTODY='Y'";
 	}
 
-	$people_RET = DBGet( DBQuery( "SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY 
-		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p 
+	$people_RET = DBGet( DBQuery( "SELECT p.PERSON_ID,p.FIRST_NAME,p.LAST_NAME,sjp.CUSTODY,sjp.EMERGENCY
+		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
 		WHERE sjp.PERSON_ID=p.PERSON_ID
 		AND sjp.STUDENT_ID='" . $student_id . "'
-		AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'" . $constraint . 
+		AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'" . $constraint .
 		" ORDER BY sjp.CUSTODY,sjp.STUDENT_RELATION,p.LAST_NAME,p.FIRST_NAME" ) );
 
 	if ( ! $people_RET )
@@ -843,7 +847,7 @@ function makeParents( $student_id, $column )
 		else
 			$img = '';
 
-		$parents .= '<div>' . ( !empty( $img ) ? button( $img ) .'&nbsp;' : '' );
+		$parents .= '<div>' . ( ! empty( $img ) ? button( $img ) .'&nbsp;' : '' );
 
 		if ( isset( $_REQUEST['_ROSARIO_PDF'] ) )
 		{
@@ -862,6 +866,118 @@ function makeParents( $student_id, $column )
 	}
 
 	return $parents;
+}
+
+
+/**
+ * DeCodeds
+ * Decode codeds / exports type (custom) fields values.
+ *
+ * DBGet() callback function
+ *
+ * @param string $value  Value.
+ * @param string $column Column.
+ * @param string $table  'auto'|'STAFF' (optional). Defaults to 'auto'.
+ */
+function DeCodeds( $value, $column, $table = 'auto' )
+{
+	static $decodeds = array();
+
+	$field = explode( '_', $column );
+
+	if ( $table === 'auto' )
+	{
+		$table = $field[0];
+	}
+
+	if ( ! isset( $decodeds[ $column ] ) )
+	{
+		$RET = DBGet( DBQuery( "SELECT TYPE,SELECT_OPTIONS
+			FROM " . $table . "_FIELDS
+			WHERE ID='" . $field[1] . "'" ) );
+
+		if ( $RET[1]['TYPE'] == 'codeds'
+			|| $RET[1]['TYPE'] == 'exports' )
+		{
+			$select_options = array();
+
+			$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $RET[1]['SELECT_OPTIONS'] ) );
+
+			foreach ( (array) $options as $option )
+			{
+				$option = explode( '|', $option );
+
+				if ( $option[0] != ''
+					&& $option[1] != '' )
+				{
+					$select_options[ $option[0] ] = $option[1];
+				}
+			}
+
+			$RET[1]['SELECT_OPTIONS'] = $select_options;
+
+			$decodeds[ $column ] = $RET[1];
+		}
+		else
+			$decodeds[ $column ] = true;
+	}
+
+	if ( $decodeds[ $column ]['TYPE'] == 'codeds' )
+	{
+		if ( $value == '' )
+		{
+			return '';
+		}
+
+		if ( $decodeds[ $column ]['SELECT_OPTIONS'][ $value ] != '' )
+		{
+			if ( $_REQUEST['_ROSARIO_PDF']
+				&& $_REQUEST['LO_save'] )
+			{
+				return $value;
+			}
+			else
+				return $decodeds[ $column ]['SELECT_OPTIONS'][ $value ];
+		}
+		else
+			return '<span style="color:red">' . $value . '</span>';
+	}
+	elseif ( $decodeds[ $column ]['TYPE'] == 'exports' )
+	{
+		if ( $value == '' )
+		{
+			return '';
+		}
+
+		if ( $decodeds[ $column ]['SELECT_OPTIONS'][ $value ] != '' )
+		{
+			if ( $_REQUEST['_ROSARIO_PDF']
+				&& $_REQUEST['LO_save'] )
+			{
+				return $decodeds[ $column ]['SELECT_OPTIONS'][ $value ];
+			}
+			else
+				return $value;
+		}
+		else
+			return '<span style="color:red">' . $value . '</span>';
+	}
+}
+
+
+/**
+ * Make Checkbox
+ *
+ * DBGet() callback function
+ *
+ * @param  string $value  Checkbox value.
+ * @param  string $column Column.
+ *
+ * @return string         'Yes' or 'No'.
+ */
+function makeCheckbox( $value, $column )
+{
+	return $value ? _( 'Yes' ) : _( 'No' );
 }
 
 

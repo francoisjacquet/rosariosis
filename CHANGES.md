@@ -74,7 +74,8 @@ Changes in 2.9
 - Add Bottom.php|bottom_buttons hook in Actions.php & Bottom.php
 - Add optional functions.php file for non core modules in Warehouse.php
 - Update French & Spanish translations
-- Format custom checkbox fields: add _makeCheckbox() function in miscExport.fnc.php
+- Format custom checkbox fields: add makeCheckbox() function in GetStuList.fnc.php
+- Add DeCodeds() & StaffDeCodeds() functions in GetStuList.fnc.php & GetStaffList.fnc.php
 
 Changes in 2.8.11
 -----------------

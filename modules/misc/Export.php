@@ -359,7 +359,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 				elseif ( $field_type == 'radio'
 					&& ! $extra['functions'][ $field ] )
 				{
-					$extra['functions'][ $field ] = '_makeCheckbox';
+					$extra['functions'][ $field ] = 'makeCheckbox';
 				}
 			}
 			elseif ( mb_substr( $field, 0, 8 ) == 'ADDRESS_' )
@@ -384,7 +384,7 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 				elseif ( $field_type == 'radio'
 					&& ! $extra['functions'][ $field ] )
 				{
-					$extra['functions'][ $field ] = '_makeCheckbox';
+					$extra['functions'][ $field ] = 'makeCheckbox';
 				}
 			}
 		}
