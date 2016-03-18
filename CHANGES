@@ -9,6 +9,7 @@ Changes in 2.8.27
 - Enable empty value when updating Food Service menu item in MenuItems.php
 - Order Report Cards by Course title in ReportCards.fnc.php
 - Fix SQL error when more than 1 Attendance Period Teacher in Export.php
+- Fix typo in INSTALL instructions + update instructions for Ubuntu 14.04
 
 Changes in 2.8.26
 -----------------

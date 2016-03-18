@@ -13,8 +13,8 @@ RosarioSIS to work you must first have your web server working, PHP working,
 postgres working. username/password authentication working.  Setting these
 up varies a lot with platform, operating system, and distribution so it is
 well beyond to scope of this brief install document. RosarioSIS was
-tested on a Windows 7 x64 with Apache 2.2.21, Postgres 9.1, and PHP 5.3.9 
-(EasyPHP 5.3.9) and on a Ubuntu Server 12.04 with Apache 2.2.22, Postgres 9.1, 
+tested on a Windows 7 x64 with Apache 2.2.21, Postgres 9.1, and PHP 5.3.9
+(EasyPHP 5.3.9) and on a Ubuntu Server 12.04 with Apache 2.2.22, Postgres 9.1,
 and PHP 5.3.10 and through Mozilla Firefox and BrowserStack for cross-browser
 compatibility.
 
@@ -27,7 +27,7 @@ Installing the Package
 ----------------------
 
 Unzip the RosarioSIS distribution to a directory that is accessible to your web
-browser. Edit the config.inc.sample.php file to set the configuration variables 
+browser. Edit the config.inc.sample.php file to set the configuration variables
 as appropriate for your installation. Rename the file to config.inc.php.
 
   $DatabaseServer is the host name or ip for the database server
@@ -36,16 +36,16 @@ as appropriate for your installation. Rename the file to config.inc.php.
   $DatabaseName is the database name
   $DatabasePort is the socket port number for accessing the database server
 
-  $RosarioPath is full path to RosarioSIS installation, you can define it 
-	statically for your installation or the runtime value derived from the 
+  $RosarioPath is full path to RosarioSIS installation, you can define it
+	statically for your installation or the runtime value derived from the
 	__FILE__ magic constant should work
   $pg_dumpPath is full path to the postgres database dump utility pg_dump
   $wkhtmltopdfPath full path to wkhtmltopdf for pdf 'printing'
-  
-  $DefaultSyear default school year, should be present in the database to 
+
+  $DefaultSyear default school year, should be present in the database to
 	be able to login
   $RosarioNotifyAddress is email address to send error and new administrator notifications
-  $RosarioLocales is a comma separated list of the locale names of the 
+  $RosarioLocales is a comma separated list of the locale names of the
 	translations (see locale/ folder for available locales)
 
   [Optional variables]
@@ -68,7 +68,7 @@ this package.
 
 	1) Open a command prompt window.
 	2) Login as the postgres user:
-		server$ su -i -u postgres
+		server$ sudo -i -u postgres
 	3) Get a PostgreSQL prompt:
 		server$ psql
 	4) Create the rosariosis database:
@@ -107,13 +107,13 @@ Installing wkhtmltopdf
 ----------------------
 
 http://wkhtmltopdf.org/
-Install instructions for Ubuntu 12.04 64bits:
+Install instructions for Ubuntu 14.04 64bits:
 
 	1) Download the latest executable (0.12.2.1 as of 2015.02.03) :
-	server$ wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-precise-amd64.deb
+	server$ wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
 
 	2) Install package :
-	server$ sudo dpkg --install wkhtmltox-0.12.2.1_linux-precise-amd64.deb
+	server$ sudo dpkg --install wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
 
 	3) Install the missing dependencies :
 	server$ sudo apt-get -f install
@@ -128,7 +128,7 @@ Install instructions for Ubuntu 12.04 64bits:
 Activate PHP mail() function
 ----------------------------
 
-Install instructions for Ubuntu 12.04 64bits:
+Install instructions for Ubuntu 14.04 64bits:
 	server$ sudo apt-get install sendmail
 
 
