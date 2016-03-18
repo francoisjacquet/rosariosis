@@ -39,7 +39,7 @@ Unzip the RosarioSIS distribution to a directory that is accessible to your web 
 
 - `$pg_dumpPath` is full path to the postgres database dump utility (pg_dump)
 - `$wkhtmltopdfPath` full path to wkhtmltopdf for PDF 'printing'
-  
+
 - `$DefaultSyear` default school year, should be present in the database to be able to login
 - `$RosarioNotifyAddress` is the email address to send error and new administrator notifications to
 - `$RosarioLocales` is a comma separated list of the locale names of the translations (see `locale/` folder for available locales)
@@ -63,7 +63,7 @@ Now, you're ready to setup the RosarioSIS database. If you have access to the co
 1. Open a command prompt window.
 
 2. Login as the postgres user:
-	`server$ su -i -u postgres`
+	`server$ sudo -i -u postgres`
 
 3. Get a PostgreSQL prompt:
 	`server$ psql`
@@ -78,7 +78,7 @@ Now, you're ready to setup the RosarioSIS database. If you have access to the co
 	`postgres=# GRANT ALL PRIVILEGES ON DATABASE rosariosis to rosariosis;`
 
 7. Logout of PostgreSQL:
-	`postgres=# \q` & 
+	`postgres=# \q` &
 	`server$ exit`
 
 8. Run the RosarioSIS SQL file:
@@ -100,11 +100,11 @@ To help you spot problems, point your browser to: `http://yourdomain.com/INSTALL
 Installing [wkhtmltopdf](http://wkhtmltopdf.org/)
 -------------------------------------------------
 
-Install instructions for Ubuntu 12.04 64bits:
+Install instructions for Ubuntu 14.04 64bits:
 
-1. Download the latest executable (0.12.2.1 as of 2015.02.03): `server$ wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-precise-amd64.deb`
+1. Download the latest executable (0.12.2.1 as of 2015.02.03): `server$ wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb`
 
-2. Install package: `server$ sudo dpkg --install wkhtmltox-0.12.2.1_linux-precise-amd64.deb`
+2. Install package: `server$ sudo dpkg --install wkhtmltox-0.12.2.1_linux-trusty-amd64.deb`
 
 3. Install the missing dependencies: `server$ sudo apt-get -f install`
 
@@ -116,7 +116,7 @@ Install instructions for Ubuntu 12.04 64bits:
 Activate PHP mail() function
 ----------------------------
 
-Install instructions for Ubuntu 12.04 64bits:
+Install instructions for Ubuntu 14.04 64bits:
 	`server$ sudo apt-get install sendmail`
 
 
