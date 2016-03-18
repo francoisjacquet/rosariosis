@@ -135,8 +135,8 @@ if($_REQUEST['search_modfunc']=='list')
 			'PHONE'=>_('Home Phone'),
 			'PARENTS'=>_('Contacts'),
 			'LAST_LOGIN'=>_('Last Login'));
-		
-		
+
+
 		if($extra['field_names'])
 			$fields_list += $extra['field_names'];
 
@@ -193,7 +193,7 @@ if($_REQUEST['search_modfunc']=='list')
 		AND cpsp.PERIOD_ID=p.PERIOD_ID
 		AND (\''.$date.'\' BETWEEN ss.START_DATE AND ss.END_DATE OR \''.$date.'\'>=ss.START_DATE AND ss.END_DATE IS NULL)
 		AND ss.MARKING_PERIOD_ID IN ('.GetAllMP('QTR',GetCurrentMP('QTR',$date)).')
-		AND p.ATTENDANCE=\'Y\') AS PERIOD_ATTENDANCE';
+		AND p.ATTENDANCE=\'Y\' LIMIT 1) AS PERIOD_ATTENDANCE';
 
 	foreach($periods_RET as $period)
 	{
@@ -328,7 +328,7 @@ if($_REQUEST['search_modfunc']=='list')
 					$header_left = '<A HREF="'.PreparePHP_SELF($_REQUEST,array(),array('address_group'=>'')).'">'._('Ungroup by Family').'</A>';
 			}
 		}
-        
+
 		DrawHeader($header_left);
 		DrawHeader(str_replace('<BR />','<BR /> &nbsp;',mb_substr($_ROSARIO['SearchTerms'],0,-6)));
 
@@ -383,7 +383,7 @@ else
 				'ZIPCODE'=>_('Zip Code'),
 				'PHONE'=>_('Home Phone'),
 				'PARENTS'=>_('Contacts'));
-				
+
 			$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM ADDRESS_FIELD_CATEGORIES ORDER BY SORT_ORDER,TITLE"));
 			$address_RET = DBGet(DBQuery("SELECT TITLE,ID,TYPE,CATEGORY_ID FROM ADDRESS_FIELDS ORDER BY SORT_ORDER,TITLE"),array(),array('CATEGORY_ID'));
 
@@ -456,7 +456,7 @@ else
 				echo '<TD><label><INPUT type="checkbox" id="mailing" value="Y" />&nbsp;'._('Mailing').'</label></TD>';
 			else
 				echo '<TD>&nbsp;<INPUT type="hidden" id="mailing" value="" /></TD>';
-				
+
 			echo '</TR><TR>';
 			echo '<TD><label><INPUT type="checkbox" id="bus_pickup" value="Y" />&nbsp;'._('Bus Pickup').'</label></TD>';
 			echo '<TD><label><INPUT type="checkbox" id="bus_dropoff" value="Y" />&nbsp;'._('Bus Dropoff').'</label></TD>';

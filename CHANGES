@@ -8,6 +8,7 @@ Changes in 2.8.27
 - Fix Food Service User balance widget in StaffWidgets.fnc.php
 - Enable empty value when updating Food Service menu item in MenuItems.php
 - Order Report Cards by Course title in ReportCards.fnc.php
+- Fix SQL error when more than 1 Attendance Period Teacher in Export.php
 
 Changes in 2.8.26
 -----------------
