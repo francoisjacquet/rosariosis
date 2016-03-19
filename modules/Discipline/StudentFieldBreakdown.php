@@ -159,11 +159,11 @@ if ( isset( $_REQUEST['field_id'] )
 			$chart['chart_data'][0][] = $option;
 
 			$chart['chart_data'][1][] = (int)$options_count[ $option ];
-		}		
+		}
 	}
 	elseif ( $fields_RET[1]['TYPE'] === 'radio' )
 	{
-		$extra['SELECT_ONLY'] = db_case( array( "s.CUSTOM_" . intval( $_REQUEST['field_id'] ),"'Y'", "'" . _( 'Yes' ) . "'", "'" . _( 'No' ) . "'" ) ) . " AS TITLE,COUNT(*) AS COUNT ";
+		$extra['SELECT_ONLY'] = "COALESCE(s.CUSTOM_" . intval( $_REQUEST['field_id'] ) . ",'N') AS TITLE,COUNT(*) AS COUNT ";
 
 		$extra['GROUP'] = 'CUSTOM_' . intval( $_REQUEST['field_id'] );
 
@@ -171,13 +171,13 @@ if ( isset( $_REQUEST['field_id'] )
 
 		$totals_RET = GetStuList( $extra );
 
-		$chart['chart_data'][0][0] = _( 'Yes' );
+		$chart['chart_data'][0][] = _( 'Yes' );
 
-		$chart['chart_data'][1][0] = (int)$totals_RET['Yes'][1]['COUNT'];
+		$chart['chart_data'][1][] = (int) $totals_RET['Y'][1]['COUNT'];
 
-		$chart['chart_data'][0][0] = _( 'No' );
+		$chart['chart_data'][0][] = _( 'No' );
 
-		$chart['chart_data'][1][0] = (int)$totals_RET['No'][1]['COUNT'];
+		$chart['chart_data'][1][] = (int) $totals_RET['N'][1]['COUNT'];
 	}
 	elseif ( $fields_RET[1]['TYPE'] === 'numeric' )
 	{
@@ -210,19 +210,19 @@ if ( isset( $_REQUEST['field_id'] )
 
 			//$chart['chart_data'][0][$i-1] = ($max_min_RET[1]['MIN'] + (ceil($diff/5)*($i-2))).'+';
 			$mins[ $i ] = ( ceil( $diff / 10 ) * ( $i - 1 ) );
-		} 
+		}
 		else //FJ transform column chart in line chart
-		{ 
+		{
 			$chartline = true;
 		}
-		
+
 		$extra['SELECT_ONLY'] = "CUSTOM_" . intval( $_REQUEST['field_id'] ) . " AS TITLE";
 
 		$extra['functions'] = array( 'TITLE' => 'makeNumeric' );
 
 		$referrals_RET = GetStuList( $extra );
 
-		if ( ! $referrals_RET ) //FJ bugfix no results for numeric fields chart 
+		if ( ! $referrals_RET ) //FJ bugfix no results for numeric fields chart
 			$chart['chart_data'][0][0] = $chart['chart_data'][1][0] = 0;
 	}
 }
@@ -230,7 +230,7 @@ if ( isset( $_REQUEST['field_id'] )
 if ( empty( $_REQUEST['modfunc'] ) )
 {
 	echo '<form action="' . PreparePHP_SELF( $_REQUEST ) . '" method="GET">';
-	
+
 	$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,SELECT_OPTIONS AS OPTIONS,CATEGORY_ID
 		FROM CUSTOM_FIELDS
 		WHERE TYPE NOT IN ('textarea','text','date','log','holder')
@@ -242,7 +242,7 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	$select = '<select name=field_id onchange="ajaxPostForm(this.form,true);">';
 
 	$select .= '<option value="">' . _( 'Please choose a student field' ) . '</option>';
-	
+
 	foreach ( (array) $fields_RET as $field_id => $fields )
 	{
 		$select .= '<optgroup label="' . ParseMLField( $categories_RET[ $field_id ][1]['TITLE'] ) . '">';
