@@ -67,8 +67,8 @@ if ( ! $_REQUEST['search_modfunc'])
 			echo '<label><input type="checkbox" name="include_inactive" value="Y">&nbsp;' .
 				_( 'Include Inactive Students' ) . '</label><br />';
 
-			echo '<br />' . Buttons( _( 'Submit' ), _( 'Reset' ) ) . '<br /><br /></div>';
-			
+			echo '<br />' . Buttons( _( 'Submit' ), _( 'Reset' ) ) . '</div><br />';
+
 			if ( $extra['search']
 				|| $extra['extra_search']
 				|| $extra['second_col'] )
@@ -84,7 +84,7 @@ if ( ! $_REQUEST['search_modfunc'])
 				if ( $extra['second_col'] )
 					echo $extra['second_col'];
 
-				echo '</table>';
+				echo '</table><br />';
 			}
 
 			if ( $_REQUEST['advanced'] === 'Y' )
@@ -299,7 +299,7 @@ else
 		}
 	}
 	else
-	{		
+	{
 		DrawHeader('',$extra['header_right']);
 
 		if ( $extra['extra_header_left']

@@ -1525,14 +1525,11 @@ function Widgets( $item, &$myextra = null )
 				&& $_REQUEST['day_enrolled_begin']
 				&& $_REQUEST['year_enrolled_begin'] )
 			{
-				$_REQUEST['enrolled_begin'] = $_REQUEST['day_enrolled_begin'] . '-' .
-					$_REQUEST['month_enrolled_begin'] . '-' .
-					$_REQUEST['year_enrolled_begin'];
-
-				if ( ! VerifyDate( $_REQUEST['enrolled_begin'] ) )
-				{
-					unset( $_REQUEST['enrolled_begin'] );
-				}
+				$_REQUEST['enrolled_begin'] = RequestedDate(
+					$_REQUEST['year_enrolled_begin'],
+					$_REQUEST['month_enrolled_begin'],
+					$_REQUEST['day_enrolled_begin']
+				);
 			}
 
 			// Verify enrolled end date.
@@ -1540,14 +1537,11 @@ function Widgets( $item, &$myextra = null )
 				&& $_REQUEST['day_enrolled_end']
 				&& $_REQUEST['year_enrolled_end'] )
 			{
-				$_REQUEST['enrolled_end'] = $_REQUEST['day_enrolled_end'] . '-' .
-					$_REQUEST['month_enrolled_end'] . '-' .
-					$_REQUEST['year_enrolled_end'];
-
-				if ( ! VerifyDate( $_REQUEST['enrolled_end'] ) )
-				{
-					unset( $_REQUEST['enrolled_end'] );
-				}
+				$_REQUEST['enrolled_end'] = RequestedDate(
+					$_REQUEST['year_enrolled_end'],
+					$_REQUEST['month_enrolled_end'],
+					$_REQUEST['day_enrolled_end']
+				);
 			}
 
 			if ( $_REQUEST['enrolled_begin']
