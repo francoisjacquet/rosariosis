@@ -55,7 +55,7 @@ if($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdi
 		$file = 'Users/User.php&category_id='.$category['ID'];
 		$tmp_menu['Users'][$xprofile][$file] = ' &nbsp; &nbsp; &rsaquo; '.$category['TITLE'];
 	}
-		
+
 	//FJ fix SQL bug TeacherPrograms inserted twice as in Users and other categories
 	foreach($tmp_menu['Users'] as $profile => $modname_array)
 	{
@@ -63,11 +63,11 @@ if($_REQUEST['modfunc']=='update' && !$_REQUEST['new_profile_title'] && AllowEdi
 			if (mb_strpos($modname, 'TeacherPrograms') !== false)
 				unset ($tmp_menu['Users'][$profile][$modname]);
 	}
-	
+
 	foreach($tmp_menu as $modcat=>$profiles)
 	{
 		$values = $profiles[$xprofile];
-		foreach($values as $modname=>$title)
+		foreach( (array) $values as $modname=>$title)
 		{
 			if(!is_numeric($modname) && $modname!='default')
 			{

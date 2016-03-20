@@ -44,13 +44,13 @@ if($_REQUEST['modfunc']=='update' && AllowEdit())
 			if (mb_strpos($modname, 'TeacherPrograms') !== false)
 				unset ($tmp_menu['Users'][$profile][$modname]);
 	}
-	
+
 	foreach($tmp_menu as $modcat=>$profiles)
 	{
 		$values = $profiles[$xprofile];
-		foreach($values as $modname=>$title)
+		foreach( (array) $values as $modname=>$title)
 		{
-			if(!is_numeric($modname))
+			if(!is_numeric($modname) && $modname!='default')
 			{
 				if(!count($exceptions_RET[$modname]) && ($_REQUEST['can_edit'][str_replace('.','_',$modname)] || $_REQUEST['can_use'][str_replace('.','_',$modname)]))
 					DBQuery("INSERT INTO STAFF_EXCEPTIONS (USER_ID,MODNAME) values('".$user_id."','".$modname."')");
@@ -118,7 +118,7 @@ if(!$staff_RET[1]['PROFILE_ID'])
 		{
 			foreach($values as $file=>$title)
 			{
-				if(!is_numeric($file))
+				if(!is_numeric($file) && $file!='default')
 				{
 					$can_use = $exceptions_RET[$file][1]['CAN_USE'];
 					$can_edit = $exceptions_RET[$file][1]['CAN_EDIT'];
@@ -169,7 +169,7 @@ if(!$staff_RET[1]['PROFILE_ID'])
 						}
 					}
 				}
-				else
+				elseif($file!='default')
 					echo '<TR><TD colspan="3" class="center"><b>- '.$title.' -</b></TD></TR>';
 
 			}
@@ -178,7 +178,7 @@ if(!$staff_RET[1]['PROFILE_ID'])
 	}
 	echo '</TABLE>';
 	PopTable('footer');
-	echo '<span class="center">'.SubmitButton(_('Save')).'</span>';
+	echo '<br /><span class="center">'.SubmitButton(_('Save')).'</span>';
 
 	echo '</DIV>';
 	echo '</TD></TR></TABLE>';
