@@ -2,7 +2,7 @@
 if(!defined('WAREHOUSE_PHP'))
 {
 	define("WAREHOUSE_PHP",1);
-	$RosarioVersion = '2.8.26';
+	$RosarioVersion = '2.8.27';
 
 	if (!file_exists ('config.inc.php'))
 		die ('config.inc.php not found. Please read the configuration guide.');
@@ -69,9 +69,9 @@ if(!defined('WAREHOUSE_PHP'))
 	array_rwalk($_REQUEST,'strip_tags');
 
 	// Internationalization
-	if (!empty($_GET['locale'])) 
+	if (!empty($_GET['locale']))
 		$_SESSION['locale'] = $_GET['locale'];
-	if (empty($_SESSION['locale'])) 
+	if (empty($_SESSION['locale']))
 		$_SESSION['locale'] = $RosarioLocales[0]; //english
 	$locale = $_SESSION['locale'];
 	putenv('LC_ALL='.$locale);
@@ -83,7 +83,7 @@ if(!defined('WAREHOUSE_PHP'))
 	bind_textdomain_codeset('rosariosis','UTF-8'); //ensures text returned is utf-8, quite often this is iso-8859-1 by default
 	textdomain('rosariosis'); //sets the domain name, this means gettext will be looking for a file called rosariosis.mo
 	mb_internal_encoding('UTF-8'); //FJ multibyte strings
-	
+
 	// Modules
 	// Core modules (packaged with RosarioSIS):
 	// Core modules cannot be deleted
@@ -102,9 +102,9 @@ if(!defined('WAREHOUSE_PHP'))
 		'Resources',
 		'Custom'
 	);
-	
+
 	$RosarioModules = unserialize(Config('MODULES'));
-	
+
 	// Plugins
 	// Core plugins (packaged with RosarioSIS):
 	// Core plugins cannot be deleted
@@ -113,7 +113,7 @@ if(!defined('WAREHOUSE_PHP'))
 	);
 
 	$RosarioPlugins = unserialize(Config('PLUGINS'));
-	
+
 	// Load plugins functions.
 	foreach($RosarioPlugins as $plugin=>$activated)
 	{
@@ -180,7 +180,7 @@ if(!defined('WAREHOUSE_PHP'))
 <div id="wrap">
 	<footer id="footer" class="mod">
 		<?php include('Bottom.php'); ?>
-	</footer>	
+	</footer>
 	<div id="menuback" class="mod"></div>
 	<aside id="menu" class="mod">
 		<?php include('Side.php'); ?>
@@ -192,13 +192,13 @@ if(!defined('WAREHOUSE_PHP'))
 <div id="body" tabindex="0" role="main" class="mod">
 <?php
 			break;
-			
+
 			case 'footer':
 ?>
 <BR />
 <script>
 var modname = "<?php echo $_ROSARIO['Program_loaded']; ?>";
-if (typeof menuStudentID !== 'undefined' && (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>" || menuCoursePeriod!="<?php echo UserCoursePeriod(); ?>")) { 
+if (typeof menuStudentID !== 'undefined' && (menuStudentID!="<?php echo UserStudentID(); ?>" || menuStaffID!="<?php echo UserStaffID(); ?>" || menuSchool!="<?php echo UserSchool(); ?>" || menuCoursePeriod!="<?php echo UserCoursePeriod(); ?>")) {
 	ajaxLink(menu_link);
 }
 <?php 				if (!empty($_ROSARIO['Program_loaded'])) : ?>
@@ -206,7 +206,7 @@ else
 	openMenu(modname);
 <?php				endif;
 
-				if (isset($_ROSARIO['PrepareDate'])): 
+				if (isset($_ROSARIO['PrepareDate'])):
 					for($i=1;$i<=$_ROSARIO['PrepareDate'];$i++) : ?>
 if (document.getElementById('trigger<?php echo $i; ?>'))
 	Calendar.setup({
@@ -223,7 +223,7 @@ if (document.getElementById('trigger<?php echo $i; ?>'))
 </script>
 <?php
 				$footer_plain = false;
-				
+
 				if ($_ROSARIO['is_popup']) : //popups
 					$footer_plain = true;
 ?>
@@ -237,7 +237,7 @@ if (document.getElementById('trigger<?php echo $i; ?>'))
 </div><!-- #wrap -->
 <?php
 				endif;
-				
+
 				if ($footer_plain) :
 ?>
 </BODY></HTML>
