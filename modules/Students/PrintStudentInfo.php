@@ -1,6 +1,7 @@
 <?php
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'save'
+	&& AllowEdit() )
 {
 	if (count($_REQUEST['st_arr']))
 	{
@@ -8,6 +9,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 	$extra['WHERE'] = " AND s.STUDENT_ID IN ($st_list)";
 
 	$extra['functions'] = array('GRADE_ID' => '_grade_id');
+
 	if ( $_REQUEST['mailing_labels']=='Y')
 		Widgets('mailing_labels');
 
@@ -27,8 +29,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 		explodeCustom($people_categories_RET, $people_custom, 'p');
 
 		unset($_REQUEST['modfunc']);
+
 		$handle = PDFStart();
-		foreach ( (array) $RET as $student)
+
+		foreach ( (array) $RET as $student )
 		{
 			SetUserStudentID($student['STUDENT_ID']);
 
@@ -49,18 +53,21 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			if ( $_REQUEST['mailing_labels']=='Y')
 				echo '<br /><br /><table class="width-100p"><tr><td style="width:50px;"> &nbsp; </td><td>'.$student['MAILING_LABEL'].'</td></tr></table><br />';
 
-			if ( $_REQUEST['category']['1'])
+			if ( $_REQUEST['category']['1'] )
 			{
-				require_once 'modules/Students/includes/General_Info.inc.php';
+				require 'modules/Students/includes/General_Info.inc.php';
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			if ( $_REQUEST['category']['3'])
+			if ( $_REQUEST['category']['3'] )
 			{
 				$_ROSARIO['DrawHeader'] = '';
-				DrawHeader(ParseMLField($categories_RET['3'][1]['TITLE']));
+
+				DrawHeader( ParseMLField( $categories_RET['3'][1]['TITLE'] ) );
+
 				echo '<br />';
-				$addresses_RET = DBGet(DBQuery("SELECT a.ADDRESS_ID,             sjp.STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,A.MAIL_ZIPCODE,  sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER".$address_custom."
+
+				$addresses_RET = DBGet(DBQuery("SELECT a.ADDRESS_ID,sjp.STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,A.MAIL_ZIPCODE,  sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER".$address_custom."
 				FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp
 				WHERE a.ADDRESS_ID=sja.ADDRESS_ID
 				AND sja.STUDENT_ID='".UserStudentID()."'
@@ -114,22 +121,24 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			if ( $_REQUEST['category']['2'])
+			if ( $_REQUEST['category']['2'] )
 			{
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['2'][1]['TITLE']));
 				echo '<br />';
-				require_once 'modules/Students/includes/Medical.inc.php';
+				require 'modules/Students/includes/Medical.inc.php';
 				echo '<div style="page-break-after: always;"></div>';
 			}
-			if ( $_REQUEST['category']['4'])
+
+			if ( $_REQUEST['category']['4'] )
 			{
 				$_ROSARIO['DrawHeader'] = '';
 				DrawHeader(ParseMLField($categories_RET['4'][1]['TITLE']));
 				echo '<br />';
-				require_once 'modules/Students/includes/Comments.inc.php';
+				require 'modules/Students/includes/Comments.inc.php';
 				echo '<div style="page-break-after: always;"></div>';
 			}
+
 			foreach ( (array) $categories_RET as $id => $category)
 			{
 				if ( $id!='1' && $id!='3' && $id!='2' && $id!='4' && $_REQUEST['category'][ $id ])
@@ -140,14 +149,14 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 					echo '<br />';
 					$separator = '';
 					if ( ! $category[1]['INCLUDE'])
-						require_once 'modules/Students/includes/Other_Info.inc.php';
+						require 'modules/Students/includes/Other_Info.inc.php';
 					elseif ( !mb_strpos($category[1]['INCLUDE'],'/'))
-						require_once 'modules/Students/includes/'.$category[1]['INCLUDE'].'.inc.php';
+						require 'modules/Students/includes/'.$category[1]['INCLUDE'].'.inc.php';
 					else
 					{
-						require_once 'modules/'.$category[1]['INCLUDE'].'.inc.php';
+						require 'modules/'.$category[1]['INCLUDE'].'.inc.php';
 						$separator = '<hr />';
-						require_once 'modules/Students/includes/Other_Info.inc.php';
+						require 'modules/Students/includes/Other_Info.inc.php';
 					}
 					echo '<div style="page-break-after: always;"></div>';
 				}
