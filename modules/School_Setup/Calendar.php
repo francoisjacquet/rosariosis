@@ -40,7 +40,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 	$fy = $fy_RET[1];
 
 	// Get Calendars Info.
-    $title_RET = DBGet( DBQuery( "SELECT ac.CALENDAR_ID,ac.TITLE,ac.DEFAULT_CALENDAR,ac.SCHOOL_ID,
+	$title_RET = DBGet( DBQuery( "SELECT ac.CALENDAR_ID,ac.TITLE,ac.DEFAULT_CALENDAR,ac.SCHOOL_ID,
 		(SELECT coalesce(SHORT_NAME,TITLE)
 			FROM SCHOOLS
 			WHERE SYEAR=ac.SYEAR
@@ -55,19 +55,20 @@ if ( $_REQUEST['modfunc'] === 'create'
 		WHERE ac.SYEAR='" . UserSyear() . "'
 		AND s.STAFF_ID='" . User( 'STAFF_ID' ) . "'
 		AND (s.SCHOOLS IS NULL OR position(','||ac.SCHOOL_ID||',' IN s.SCHOOLS)>0)
-		ORDER BY " . db_case( array( 'ac.SCHOOL_ID', "'" . UserSchool() . "'", 0, 'ac.SCHOOL_ID' ) ) . ",ac.DEFAULT_CALENDAR ASC,ac.TITLE" ) );
+		ORDER BY " . db_case( array( 'ac.SCHOOL_ID', "'" . UserSchool() . "'", 0, 'ac.SCHOOL_ID' ) ) . ",ac.DEFAULT_CALENDAR ASC,ac.TITLE" ), array(), array( 'CALENDAR_ID' ) );
 
 	// Prepare table for Copy Calendar & add ' (Default)' mention.
 	$copy_calendar_options = array();
 
 	foreach ( (array) $title_RET as $id => $title )
 	{
-		$copy_calendar_options[ $id ] = $title['TITLE'];
+		$copy_calendar_options[ $id ] = $title[1]['TITLE'];
 
 		if ( AllowEdit()
-			&& $title['DEFAULT_CALENDAR'] === 'Y' )
+			&& $title[1]['DEFAULT_CALENDAR'] === 'Y'
+			&& $title[1]['SCHOOL_ID'] === UserSchool() )
 		{
-			$default_id = $id;
+			$default_calendar = $title[1];
 
 			$copy_calendar_options[ $id ] .= ' (' . _( 'Default' ) . ')';
 		}
@@ -79,7 +80,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	// Title.
 	$message .= TextInput(
-		( $_REQUEST['calendar_id'] ? $title_RET[ $default_id ]['TITLE'] : '' ),
+		( $_REQUEST['calendar_id'] ? $default_calendar['TITLE'] : '' ),
 		'title',
 		'<span class="legend-red">' . _( 'Title' ) . '</span>',
 		'required',
@@ -88,9 +89,9 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	$message .= '</td><td>';
 
-	// default
+	// Default.
 	$message .= CheckboxInput(
-		$_REQUEST['calendar_id'] && $title_RET[ $default_id ]['DEFAULT_CALENDAR'] == 'Y',
+		$_REQUEST['calendar_id'] && $default_calendar['DEFAULT_CALENDAR'] == 'Y',
 		'default',
 		_( 'Default Calendar for this School' ),
 		'',
@@ -99,7 +100,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	$message .= '</td><td>';
 
-	// copy calendar
+	// Copy calendar.
 	$message .= SelectInput(
 		$_REQUEST['calendar_id'],
 		'copy_id',
@@ -112,31 +113,31 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 	$message .= '</td></tr></table>';
 
-	// from date
+	// From date.
 	$message .= '<table class="width-100p valign-top"><tr class="st"><td>' . _( 'From' ) . ' ';
 
 	$message .= DateInput(
-		$_REQUEST['calendar_id'] && $title_RET[ $default_id ]['START_DATE'] ?
-			$title_RET[ $default_id ]['START_DATE'] :
+		$_REQUEST['calendar_id'] && $default_calendar['START_DATE'] ?
+			$default_calendar['START_DATE'] :
 			$fy['START_DATE'],
 		'min',
 		'',
 		$div,
 		true,
-		!( $_REQUEST['calendar_id'] && $title_RET[ $default_id ]['START_DATE'] )
+		!( $_REQUEST['calendar_id'] && $default_calendar['START_DATE'] )
 	);
 
 	// to date
 	$message .= '</td><td>' . _( 'To' )  . ' ';
 	$message .= DateInput(
-		$_REQUEST['calendar_id'] && $title_RET[ $default_id ]['END_DATE'] ?
-			$title_RET[ $default_id ]['END_DATE'] :
+		$_REQUEST['calendar_id'] && $default_calendar['END_DATE'] ?
+			$default_calendar['END_DATE'] :
 			$fy['END_DATE'],
 		'max',
 		'',
 		$div,
 		true,
-		!( $_REQUEST['calendar_id'] && $title_RET[ $default_id ]['END_DATE'] )
+		!( $_REQUEST['calendar_id'] && $default_calendar['END_DATE'] )
 	);
 
 	$message .= '</td></tr></table>';
@@ -188,7 +189,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 	);
 
 	$message .= TextInput(
-		( $_REQUEST['calendar_id'] ? $title_RET[ $default_id ]['MINUTES'] : '' ),
+		'',
 		'minutes',
 		_( 'Minutes' ) .
 			'<div class="tooltip"><i>' . $minutes_tip_text . '</i></div>',
@@ -211,7 +212,9 @@ if ( $_REQUEST['modfunc'] === 'create'
 	{
 		// Set Calendar ID
 		if ( $_REQUEST['calendar_id'] )
+		{
 			$calendar_id = $_REQUEST['calendar_id'];
+		}
 		else
 		{
 			$calendar_id = DBGet( DBQuery( "SELECT " . db_seq_nextval( 'CALENDARS_SEQ' ) . " AS CALENDAR_ID " ) );
@@ -247,7 +250,9 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 		if ( isset( $_REQUEST['minutes'] )
 			&& intval( $_REQUEST['minutes'] ) > 0 )
+		{
 			$minutes = intval( $_REQUEST['minutes'] );
+		}
 
 		// Copy Calendar
 		if ( $_REQUEST['copy_id'] )
@@ -257,13 +262,21 @@ if ( $_REQUEST['modfunc'] === 'create'
 			if ( $_REQUEST['calendar_id']
 				&& $_REQUEST['calendar_id'] === $_REQUEST['copy_id'] )
 			{
-				$date_min = $_REQUEST['day_min'] . '-' . $_REQUEST['month_min'] . '-' . $_REQUEST['year_min'];
+				$date_min = RequestedDate(
+					$_REQUEST['year_min'],
+					$_REQUEST['month_min'],
+					$_REQUEST['day_min']
+				);
 
-				$date_max = $_REQUEST['day_max'].'-'.$_REQUEST['month_max'].'-'.$_REQUEST['year_max'];
+				$date_max = RequestedDate(
+					$_REQUEST['year_max'],
+					$_REQUEST['month_max'],
+					$_REQUEST['day_max']
+				);
 
 				DBQuery( "DELETE FROM ATTENDANCE_CALENDAR
 					WHERE CALENDAR_ID='" . $calendar_id . "'
-					AND (SCHOOL_DATE NOT BETWEEN '" . $date_min ."' AND '". $date_max ."'
+					AND (SCHOOL_DATE NOT BETWEEN '" . $date_min . "' AND '" . $date_max . "'
 						OR extract(DOW FROM SCHOOL_DATE) NOT IN (" . $weekdays_list . "))" );
 
 				if ( $minutes != '999' )
@@ -281,15 +294,15 @@ if ( $_REQUEST['modfunc'] === 'create'
 						WHERE CALENDAR_ID='" . $calendar_id . "'" );
 				}
 
-				// Insert Days
+				// Insert Days.
 				$create_calendar_sql = "INSERT INTO ATTENDANCE_CALENDAR
 					(SYEAR,SCHOOL_ID,SCHOOL_DATE,MINUTES,CALENDAR_ID)
 					(SELECT '" . UserSyear() . "','" . UserSchool() . "',SCHOOL_DATE," . $minutes . ",'" . $calendar_id . "'
 						FROM ATTENDANCE_CALENDAR
-						WHERE CALENDAR_ID='".$_REQUEST['copy_id']."'
+						WHERE CALENDAR_ID='" . $_REQUEST['copy_id'] . "'
 						AND extract(DOW FROM SCHOOL_DATE) IN (" . $weekdays_list . ")";
 
-				//FJ bugfix SQL bug empty school dates
+				// FJ bugfix SQL bug empty school dates.
 				if ( isset( $_REQUEST['day_min'] )
 					&& isset( $_REQUEST['month_min'] )
 					&& isset( $_REQUEST['year_min'] )
@@ -297,24 +310,24 @@ if ( $_REQUEST['modfunc'] === 'create'
 					&& isset( $_REQUEST['month_max'] )
 					&& isset( $_REQUEST['year_max'] ) )
 				{
-					$_REQUEST['date_min'] = RequestedDate(
+					$date_min = RequestedDate(
 						$_REQUEST['year_min'],
 						$_REQUEST['month_min'],
 						$_REQUEST['day_min']
 					);
 
-					$_REQUEST['date_max'] = RequestedDate(
+					$date_max = RequestedDate(
 						$_REQUEST['year_max'],
 						$_REQUEST['month_max'],
 						$_REQUEST['day_max']
 					);
 
-					if ( !empty( $_REQUEST['date_min'] )
-						&& !empty( $_REQUEST['date_max'] ) )
+					if ( ! empty( $date_min )
+						&& ! empty( $date_max ) )
 					{
 						$create_calendar_sql .= " AND SCHOOL_DATE
-							BETWEEN '" . $_REQUEST['date_min'] . "'
-							AND '" . $_REQUEST['date_max'] . "'";
+							BETWEEN '" . $date_min . "'
+							AND '" . $date_max . "'";
 					}
 				}
 
@@ -330,7 +343,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 
 			$end = mktime(0,0,0,$_REQUEST['month_max'],$_REQUEST['day_max']*1,$_REQUEST['year_max']) + 43200;
 
-			$weekday = date('w',$begin);
+			$weekday = date( 'w', $begin );
 
 			if ( $_REQUEST['calendar_id'] )
 			{
@@ -338,7 +351,7 @@ if ( $_REQUEST['modfunc'] === 'create'
 					WHERE CALENDAR_ID='" . $calendar_id . "'" );
 			}
 
-			// Insert Days
+			// Insert Days.
 			for ( $i = $begin; $i <= $end; $i += 86400 )
 			{
 				if ( $_REQUEST['weekdays'][ $weekday ] == 'Y' )
