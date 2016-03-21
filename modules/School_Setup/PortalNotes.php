@@ -12,9 +12,9 @@ if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] 
 		$_REQUEST['day_values']
 	);
 
-	$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );
+	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
 
-	$_POST['values'] = array_replace_recursive( $_POST['values'], $requested_dates );
+	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
 }
 
 $profiles_RET = DBGet(DBQuery("SELECT ID,TITLE FROM USER_PROFILES ORDER BY ID"));
@@ -138,16 +138,16 @@ if ( $_REQUEST['values'] && $_POST['values'] && AllowEdit())
 					'.pdf',
 					'.csv',
 				);
-				
+
 				if ( $columns['FILE_OR_EMBED'] == 'FILE')
 					$columns['FILE_ATTACHED'] = FileUpload('FILE_ATTACHED_FILE', $PortalNotesFilesPath, $file_attached_ext_white_list, 0, $error);
-					
+
 				elseif ( $columns['FILE_OR_EMBED'] == 'EMBED')
 					if (filter_var($columns['FILE_ATTACHED_EMBED'], FILTER_VALIDATE_URL) !== false)
 						$columns['FILE_ATTACHED'] = $columns['FILE_ATTACHED_EMBED'];
-						
+
 				unset($columns['FILE_ATTACHED_EMBED'], $columns['FILE_OR_EMBED']);
-				
+
 				$go = 0;
 				foreach ( (array) $columns as $column => $value)
 				{
@@ -191,7 +191,7 @@ if ( $_REQUEST['modfunc']=='remove' && AllowEdit())
 
 		//hook
 		do_action('School_Setup/PortalNotes.php|delete_portal_note');
-			
+
 		unset($_REQUEST['modfunc']);
 	}
 }
@@ -204,12 +204,12 @@ if ( $_REQUEST['modfunc']!='remove')
 {
 //FJ file attached to portal notes
 	$sql = "SELECT ID,SORT_ORDER,TITLE,CONTENT,START_DATE,END_DATE,PUBLISHED_PROFILES,FILE_ATTACHED,
-	CASE WHEN END_DATE IS NOT NULL AND END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED 
-	FROM PORTAL_NOTES 
-	WHERE SCHOOL_ID='".UserSchool()."' 
-	AND SYEAR='".UserSyear()."' 
+	CASE WHEN END_DATE IS NOT NULL AND END_DATE<CURRENT_DATE THEN 'Y' ELSE NULL END AS EXPIRED
+	FROM PORTAL_NOTES
+	WHERE SCHOOL_ID='".UserSchool()."'
+	AND SYEAR='".UserSyear()."'
 	ORDER BY EXPIRED DESC,SORT_ORDER,PUBLISHED_DATE DESC";
-	
+
 	$QI = DBQuery($sql);
 	$notes_RET = DBGet($QI,array('TITLE' => '_makeTextInput','CONTENT' => '_makeContentInput','SORT_ORDER' => '_makeTextInput','FILE_ATTACHED' => 'makeFileAttached','START_DATE' => 'makePublishing'));
 
@@ -264,6 +264,6 @@ function _makeContentInput($value,$name)
 	$return .= '<div id="divNoteContent' . $id . '" class="rt2colorBox">' .
 		TextAreaInput( $value, "values[" . $id . "][" . $name . "]", '', 'rows=5' ) .
 	'</div>';
-	
+
 	return $return;
 }

@@ -58,9 +58,9 @@ if ( isset( $_POST['day_tables'], $_POST['month_tables'], $_POST['year_tables'] 
 		$_REQUEST['day_tables']
 	);
 
-	$_POST['tables'] = array_replace_recursive( $_POST['tables'], $requested_dates);
+	$_POST['tables'] = array_replace_recursive( (array) $_POST['tables'], $requested_dates);
 
-	$_REQUEST['tables'] = array_replace_recursive( $_REQUEST['tables'], $requested_dates);
+	$_REQUEST['tables'] = array_replace_recursive( (array) $_REQUEST['tables'], $requested_dates);
 }
 
 if ( isset( $_POST['tables'] )
@@ -227,9 +227,9 @@ if ( isset( $_POST['tables'] )
 		}
 
 		// CHECK TO MAKE SURE ONLY ONE MP & ONE GRADING PERIOD IS OPEN AT ANY GIVEN TIME
-		$dates_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID 
-			FROM SCHOOL_MARKING_PERIODS 
-			WHERE MP='" . $_REQUEST['mp_term'] . "' 
+		$dates_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE MP='" . $_REQUEST['mp_term'] . "'
 			AND ( true=false" .
 			( $columns['START_DATE'] ? " OR '" . $columns['START_DATE'] .
 				"' BETWEEN START_DATE AND END_DATE" : '' ) .
@@ -237,16 +237,16 @@ if ( isset( $_POST['tables'] )
 				"' BETWEEN START_DATE AND END_DATE" : '' ) .
 			( $columns['START_DATE'] && $columns['END_DATE'] ?
 				" OR START_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" .
-				" OR END_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" : '') . ") 
-			AND SCHOOL_ID='" . UserSchool() . "' 
+				" OR END_DATE BETWEEN '" . $columns['START_DATE'] . "' AND '" . $columns['END_DATE'] . "'" : '') . ")
+			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" .
 			( $id !== 'new' ? " AND SCHOOL_ID='" . UserSchool() . "'
 				AND SYEAR='" . UserSyear() . "'
 				AND MARKING_PERIOD_ID!='" . $id . "'" : '' ) ) );
 
-		$posting_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID 
-			FROM SCHOOL_MARKING_PERIODS 
-			WHERE MP='" . $_REQUEST['mp_term'] . "' 
+		$posting_RET = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID
+			FROM SCHOOL_MARKING_PERIODS
+			WHERE MP='" . $_REQUEST['mp_term'] . "'
 			AND ( true=false" .
 			( $columns['POST_START_DATE'] ? " OR '" . $columns['POST_START_DATE'] .
 				"' BETWEEN POST_START_DATE AND POST_END_DATE" : '' ) .
@@ -254,14 +254,14 @@ if ( isset( $_POST['tables'] )
 				"' BETWEEN POST_START_DATE AND POST_END_DATE" : '' ) .
 			( $columns['POST_START_DATE'] && $columns['POST_END_DATE'] ?
 				" OR POST_START_DATE BETWEEN '" . $columns['POST_START_DATE'] . "' AND '" . $columns['POST_END_DATE'] . "'" .
-				" OR POST_END_DATE BETWEEN '" . $columns['POST_START_DATE'] . "' AND '" . $columns['POST_END_DATE'] . "'" : '' ) . ") 
-			AND SCHOOL_ID='" . UserSchool() . "' 
+				" OR POST_END_DATE BETWEEN '" . $columns['POST_START_DATE'] . "' AND '" . $columns['POST_END_DATE'] . "'" : '' ) . ")
+			AND SCHOOL_ID='" . UserSchool() . "'
 			AND SYEAR='" . UserSyear() . "'" .
 			( $id !== 'new' ? " AND MARKING_PERIOD_ID!='" . $id . "'" : '' ) ) );
 
 		if ( count( $dates_RET ) )
 		{
-			$error[] = sprintf( 
+			$error[] = sprintf(
 				_( 'The beginning and end dates you specified for this marking period overlap with those of "%s".' ),
 				GetMP( $dates_RET[1]['MARKING_PERIOD_ID'] )
 			) . ' ' .
@@ -690,4 +690,3 @@ if ( empty( $_REQUEST['modfunc'] ) )
 		}
 	}
 }
-

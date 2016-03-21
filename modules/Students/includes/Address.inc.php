@@ -13,9 +13,9 @@ if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] 
 		$_REQUEST['day_values']
 	);
 
-	$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );
+	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
 
-	$_POST['values'] = array_replace_recursive( $_POST['values'], $requested_dates );
+	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
 }
 
 if ( isset( $_POST['values'] )
@@ -48,7 +48,7 @@ if ( isset( $_POST['values'] )
 	}
 
 	if ( $_REQUEST['values']['ADDRESS'])
-	{		
+	{
 		// FJ other fields required.
 		$required_error = CheckRequiredCustomFields( 'ADDRESS_FIELDS', $_REQUEST['values']['ADDRESS'] );
 
@@ -62,7 +62,7 @@ if ( isset( $_POST['values'] )
 			$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM ADDRESS_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 
 			$go = 0;
-			
+
 			foreach ( (array) $_REQUEST['values']['ADDRESS'] as $column => $value)
 			{
 				if (1)//!empty($value) || $value=='0')
@@ -73,7 +73,7 @@ if ( isset( $_POST['values'] )
 						$error[] = _('Please enter valid Numeric data.');
 						continue;
 					}
-					
+
 					if ( !is_array($value))
 						$sql .= $column."='".$value."',";
 					else
@@ -93,7 +93,7 @@ if ( isset( $_POST['values'] )
 			if ( $go)
 			{
 				DBQuery($sql);
-			
+
 				//hook
 				do_action('Students/Student.php|update_student_address');
 			}
@@ -146,7 +146,7 @@ if ( isset( $_POST['values'] )
 			$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM PEOPLE_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 
 			$go = 0;
-			
+
 			foreach ( (array) $_REQUEST['values']['PEOPLE'] as $column => $value)
 			{
 				if (1)//!empty($value) || $value=='0')
@@ -157,7 +157,7 @@ if ( isset( $_POST['values'] )
 						$error[] = _('Please enter valid Numeric data.');
 						continue;
 					}
-					
+
 					$sql .= $column."='".$value."',";
 					$go = true;
 				}
@@ -318,18 +318,18 @@ echo ErrorMessage( $error );
 
 if (empty($_REQUEST['modfunc']))
 {
-	$addresses_RET = DBGet(DBQuery("SELECT a.ADDRESS_ID, sjp.STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,  sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER 
-	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp 
-	WHERE a.ADDRESS_ID=sja.ADDRESS_ID 
-	AND sja.STUDENT_ID='".UserStudentID()."' 
-	AND a.ADDRESS_ID=sjp.ADDRESS_ID 
+	$addresses_RET = DBGet(DBQuery("SELECT a.ADDRESS_ID, sjp.STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,  sjp.CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))."AS SORT_ORDER
+	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja,STUDENTS_JOIN_PEOPLE sjp
+	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
+	AND sja.STUDENT_ID='".UserStudentID()."'
+	AND a.ADDRESS_ID=sjp.ADDRESS_ID
 	AND sjp.STUDENT_ID=sja.STUDENT_ID
-	UNION 
-	SELECT a.ADDRESS_ID,'"._('No Contact')."' AS STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))." AS SORT_ORDER 
-	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja 
-	WHERE a.ADDRESS_ID=sja.ADDRESS_ID 
-	AND sja.STUDENT_ID='".UserStudentID()."' 
-	AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.STUDENT_ID=sja.STUDENT_ID AND sjp.ADDRESS_ID=a.ADDRESS_ID) 
+	UNION
+	SELECT a.ADDRESS_ID,'"._('No Contact')."' AS STUDENT_RELATION,a.ADDRESS,a.CITY,a.STATE,a.ZIPCODE,a.PHONE,a.MAIL_ADDRESS,a.MAIL_CITY,a.MAIL_STATE,a.MAIL_ZIPCODE,'' AS CUSTODY,sja.MAILING,sja.RESIDENCE,sja.BUS_PICKUP,sja.BUS_DROPOFF,".db_case(array('a.ADDRESS_ID',"'0'",'1','0'))." AS SORT_ORDER
+	FROM ADDRESS a,STUDENTS_JOIN_ADDRESS sja
+	WHERE a.ADDRESS_ID=sja.ADDRESS_ID
+	AND sja.STUDENT_ID='".UserStudentID()."'
+	AND NOT EXISTS (SELECT '' FROM STUDENTS_JOIN_PEOPLE sjp WHERE sjp.STUDENT_ID=sja.STUDENT_ID AND sjp.ADDRESS_ID=a.ADDRESS_ID)
 	ORDER BY SORT_ORDER,RESIDENCE,CUSTODY,STUDENT_RELATION"),array(),array('ADDRESS_ID'));
 	//echo '<pre>'; var_dump($addresses_RET); echo '</pre>';
 
@@ -778,7 +778,7 @@ if (empty($_REQUEST['modfunc']))
 					{
 						echo '<tr><td>
 						</td><td>
-						<span class="legend-gray">'._('Description').'</span> &nbsp; 
+						<span class="legend-gray">'._('Description').'</span> &nbsp;
 						</td><td>
 						<span class="legend-gray">'._('Value').'</span>
 						</td></tr>';
@@ -906,11 +906,11 @@ if (empty($_REQUEST['modfunc']))
 					echo '<tr><td colspan="3">'.SelectInput('','values[STUDENTS_JOIN_PEOPLE][STUDENT_RELATION]',_('Relation'),$relation_options,_('N/A')).'</td></tr>';
 
 					echo '<tr><td>'. button('gavel', '', '', 'bigger').' ';
-					
+
 					echo CheckboxInput('', 'values[STUDENTS_JOIN_PEOPLE][CUSTODY]', _('Custody'), '',true).'</td>';
-					
+
 					echo '<td colspan="2">'. button('emergency', '', '', 'bigger') .' ';
-					
+
 					echo CheckboxInput('', 'values[STUDENTS_JOIN_PEOPLE][EMERGENCY]', _('Emergency'), '',true).'</td></tr>';
 
 				}

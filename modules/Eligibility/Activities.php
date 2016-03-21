@@ -8,9 +8,9 @@ if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] 
 		$_REQUEST['day_values']
 	);
 
-	$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );
+	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
 
-	$_POST['values'] = array_replace_recursive( $_POST['values'], $requested_dates );
+	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
 }
 
 if ( isset( $_POST['values'] )
@@ -18,11 +18,11 @@ if ( isset( $_POST['values'] )
 	&& AllowEdit() )
 {
 	foreach ( (array) $_REQUEST['values'] as $id => $columns)
-	{	
+	{
 		if ( $id!='new')
 		{
 			$sql = "UPDATE ELIGIBILITY_ACTIVITIES SET ";
-							
+
 			foreach ( (array) $columns as $column => $value)
 			{
 				$sql .= $column."='".$value."',";
@@ -48,7 +48,7 @@ if ( isset( $_POST['values'] )
 				}
 			}
 			$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
-			
+
 			if ( $go)
 				DBQuery($sql);
 		}
@@ -71,12 +71,12 @@ if ( $_REQUEST['modfunc']!='remove')
 	$sql = "SELECT ID,TITLE,START_DATE,END_DATE FROM ELIGIBILITY_ACTIVITIES WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY TITLE";
 	$QI = DBQuery($sql);
 	$activities_RET = DBGet($QI,array('TITLE' => 'makeTextInput','START_DATE' => 'makeDateInput','END_DATE' => 'makeDateInput'));
-	
+
 	$columns = array('TITLE' => _('Title'),'START_DATE' => _('Begins'),'END_DATE' => _('Ends'));
 	$link['add']['html'] = array('TITLE'=>makeTextInput('','TITLE'),'START_DATE'=>makeDateInput('','START_DATE'),'END_DATE'=>makeDateInput('','END_DATE'));
 	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 	$link['remove']['variables'] = array('id' => 'ID');
-	
+
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
 	ListOutput($activities_RET,$columns,'Activity','Activities',$link);
@@ -86,23 +86,22 @@ if ( $_REQUEST['modfunc']!='remove')
 
 function makeTextInput($value,$name)
 {	global $THIS_RET;
-	
+
 	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
-	
+
 	return TextInput($value,'values['.$id.']['.$name.']');
 }
 
 function makeDateInput($value,$name)
 {	global $THIS_RET;
-	
+
 	if ( $THIS_RET['ID'])
 		$id = $THIS_RET['ID'];
 	else
 		$id = 'new';
-	
+
 	return DateInput($value,'values['.$id.']['.$name.']');
 }
-

@@ -10,9 +10,9 @@ if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] 
 		$_REQUEST['day_values']
 	);
 
-	$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );
+	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
 
-	$_POST['values'] = array_replace_recursive( $_POST['values'], $requested_dates );
+	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
 }
 
 if ( isset( $_POST['values'] )

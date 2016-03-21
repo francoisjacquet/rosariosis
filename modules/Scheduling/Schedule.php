@@ -62,9 +62,9 @@ if ( isset( $_POST['day_schedule'], $_POST['month_schedule'], $_POST['year_sched
 		$_REQUEST['day_schedule']
 	);
 
-	$_REQUEST['schedule'] = array_replace_recursive( $_REQUEST['schedule'], $requested_dates );
+	$_REQUEST['schedule'] = array_replace_recursive( (array) $_REQUEST['schedule'], $requested_dates );
 
-	$_POST['schedule'] = array_replace_recursive( $_POST['schedule'], $requested_dates );
+	$_POST['schedule'] = array_replace_recursive( (array) $_POST['schedule'], $requested_dates );
 
 	unset($_REQUEST['month_schedule']);
 	unset($_REQUEST['day_schedule']);
@@ -122,7 +122,7 @@ if ( isset( $_POST['schedule'] )
 				DBQuery("DELETE FROM ATTENDANCE_PERIOD WHERE STUDENT_ID='".UserStudentID()."' AND COURSE_PERIOD_ID='".$course_period_id."' AND (".($columns['START_DATE']?"SCHOOL_DATE<'".$columns['START_DATE']."'":'FALSE').' OR '.($columns['END_DATE']?"SCHOOL_DATE>'".$columns['END_DATE']."'":'FALSE').")");
 		}
 	}
-	
+
 	unset($_SESSION['_REQUEST_vars']['schedule']);
 	unset($_REQUEST['schedule']);
 }
@@ -139,7 +139,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 			' &nbsp;' . CheckBoxOnclick( 'include_seats', _( 'Show Available Seats' ) ) :
 			'' )
 	);
-	
+
 	//FJ add Horizontal format option
 	$printSchedulesLinkhref = 'Modules.php?modname=Scheduling/PrintSchedules.php&modfunc=save&st_arr[]='.UserStudentID().'&_ROSARIO_PDF=true&schedule_table=Yes';
 	?>
@@ -149,7 +149,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 			if (document.getElementById("horizontalFormat").checked==true)
 				document.getElementById("printSchedulesLink").href=document.getElementById("printSchedulesLink").href+'&horizontalFormat';
 			else
-				document.getElementById("printSchedulesLink").href=document.getElementById("printSchedulesLink").href.replace('&horizontalFormat','');		
+				document.getElementById("printSchedulesLink").href=document.getElementById("printSchedulesLink").href.replace('&horizontalFormat','');
 		}
 	</script>
 	<?php
@@ -161,12 +161,12 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 			if (document.getElementById("schedule_table").checked==true)
 				document.getElementById("printSchedulesLink").href=document.getElementById("printSchedulesLink").href.replace('Yes','No');
 			else
-				document.getElementById("printSchedulesLink").href=document.getElementById("printSchedulesLink").href.replace('No','Yes');		
+				document.getElementById("printSchedulesLink").href=document.getElementById("printSchedulesLink").href.replace('No','Yes');
 		}
 	</script>
 	<?php
 	DrawHeader((AllowUse('Scheduling/PrintSchedules.php') ? '<a href="'.$printSchedulesLinkhref.'" target="_blank" id="printSchedulesLink">' : '')._('Print Schedule').(AllowUse('Scheduling/PrintSchedules.php') ? '</a>' : '') . (AllowUse('Scheduling/PrintSchedules.php') ? ' &nbsp;<label><input type="checkbox" id="horizontalFormat" name="horizontalFormat" value="Y" onchange="horizontalFormatSwitch();" /> '._('Horizontal Format').'</label>'.' <label><input name="schedule_table" type="radio" value="Yes" checked onchange="timeTableSwitch();" />&nbsp;'._('Table').'</label> '.'<label><input name="schedule_table" id="schedule_table" type="radio" value="No" onchange="timeTableSwitch();" />&nbsp;'._('List').'</label>' : ''));
-	
+
 	// get the fy marking period id, there should be exactly one fy marking period
 	$fy_id = DBGet(DBQuery("SELECT MARKING_PERIOD_ID FROM SCHOOL_MARKING_PERIODS WHERE MP='FY' AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'"));
 	$fy_id = $fy_id[1]['MARKING_PERIOD_ID'];
@@ -193,7 +193,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 				extract(EPOCH FROM s.START_DATE) AS START_EPOCH,extract(EPOCH FROM s.END_DATE) AS END_EPOCH,cp.MARKING_PERIOD_ID AS COURSE_MARKING_PERIOD_ID,cp.MP,cp.CALENDAR_ID,cp.TOTAL_SEATS,
 				c.TITLE,cp.COURSE_PERIOD_ID AS PERIOD_PULLDOWN,
 				s.STUDENT_ID,ROOM,SCHEDULER_LOCK
-			FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp 
+			FROM SCHEDULE s,COURSES c,COURSE_PERIODS cp
 			WHERE
 				s.COURSE_ID = c.COURSE_ID AND s.COURSE_ID = cp.COURSE_ID
 				AND s.COURSE_PERIOD_ID = cp.COURSE_PERIOD_ID
@@ -228,7 +228,7 @@ if (UserStudentID() && $_REQUEST['modfunc']!='choose_course' && empty($schedule_
 	if (count($days_RET)==1)
 		unset($columns['DAYS']);
 
-	//FJ days display to locale						
+	//FJ days display to locale
 	$days_convert = array('U' => _('Sunday'),'M' => _('Monday'),'T' => _('Tuesday'),'W' => _('Wednesday'),'H' => _('Thursday'),'F' => _('Friday'),'S' => _('Saturday'));
 	//FJ days numbered
 	if (SchoolInfo('NUMBER_DAYS_ROTATION') !== null)
@@ -304,9 +304,9 @@ if ( $_REQUEST['modfunc']=='choose_course')
 	{
 		//FJ multiple school periods for a course period
 		$mp_RET = DBGet(DBQuery("SELECT cp.COURSE_PERIOD_ID,cp.MARKING_PERIOD_ID,cp.MP,
-			cpsp.DAYS,cpsp.PERIOD_ID,cp.MARKING_PERIOD_ID,cp.TOTAL_SEATS,cp.CALENDAR_ID 
-			FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID 
+			cpsp.DAYS,cpsp.PERIOD_ID,cp.MARKING_PERIOD_ID,cp.TOTAL_SEATS,cp.CALENDAR_ID
+			FROM COURSE_PERIODS cp,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+			WHERE cp.COURSE_PERIOD_ID=cpsp.COURSE_PERIOD_ID
 			AND cp.COURSE_PERIOD_ID='".$_REQUEST['course_period_id']."'"));
 
 		if ( $_REQUEST['course_marking_period_id'])
@@ -332,14 +332,14 @@ if ( $_REQUEST['modfunc']=='choose_course')
 		//FJ multiple school periods for a course period
 		//if marking periods overlap and same period and same day then not okay
 		//$period_RET = DBGet(DBQuery("SELECT cp.DAYS FROM SCHEDULE s,COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID AND s.STUDENT_ID='".UserStudentID()."' AND cp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."' AND s.MARKING_PERIOD_ID IN (".$mps.") AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)"));
-		$period_RET = DBGet(DBQuery("SELECT cpsp.DAYS 
-		FROM SCHEDULE s,COURSE_PERIOD_SCHOOL_PERIODS cpsp 
-		WHERE cpsp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID 
-		AND s.STUDENT_ID='".UserStudentID()."' 
-		AND cpsp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."' 
-		AND s.MARKING_PERIOD_ID IN (".$mps.") 
+		$period_RET = DBGet(DBQuery("SELECT cpsp.DAYS
+		FROM SCHEDULE s,COURSE_PERIOD_SCHOOL_PERIODS cpsp
+		WHERE cpsp.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID
+		AND s.STUDENT_ID='".UserStudentID()."'
+		AND cpsp.PERIOD_ID='".$mp_RET[1]['PERIOD_ID']."'
+		AND s.MARKING_PERIOD_ID IN (".$mps.")
 		AND (s.END_DATE IS NULL OR '".DBDate()."'<=s.END_DATE)"));
-		
+
 		$days_conflict = false;
 		foreach ( (array) $period_RET as $existing)
 		{

@@ -73,9 +73,9 @@ if ( $_REQUEST['modfunc'] === 'update'
 			$_REQUEST['day_students']
 		);
 
-		$_REQUEST['students'] = array_replace_recursive( $_REQUEST['students'], $requested_dates );
+		$_REQUEST['students'] = array_replace_recursive( (array) $_REQUEST['students'], $requested_dates );
 
-		$_POST['students'] = array_replace_recursive( $_POST['students'], $requested_dates );
+		$_POST['students'] = array_replace_recursive( (array) $_POST['students'], $requested_dates );
 	}
 
 	if ( ( isset( $_POST['students'] )
@@ -148,7 +148,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 							$error[] = _('Please enter valid Numeric data.');
 							continue;
 						}
-						
+
 						if ( !is_array($value))
 						{
 							//FJ add password encryption
@@ -186,7 +186,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 				if ( $go)
 				{
 					DBQuery($sql);
-					
+
 					//hook
 					do_action('Students/Student.php|update_student');
 				}
@@ -239,7 +239,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 							$error[] = _('Please enter valid Numeric data.');
 							continue;
 						}
-						
+
 						$fields .= $column.',';
 						if ( !is_array($value))
 						{
@@ -284,7 +284,7 @@ if ( $_REQUEST['modfunc'] === 'update'
 
 				//hook
 				do_action('Students/Student.php|create_student');
-			
+
 			}
 		}
 
@@ -379,10 +379,10 @@ if (UserStudentID() || $_REQUEST['student_id']=='new')
 		if ( $_REQUEST['student_id']!='new')
 		{
 			$sql = "SELECT s.STUDENT_ID,s.FIRST_NAME,s.LAST_NAME,s.MIDDLE_NAME,s.NAME_SUFFIX,s.USERNAME,s.PASSWORD,s.LAST_LOGIN,
-			(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND STUDENT_ID=s.STUDENT_ID ORDER BY START_DATE DESC,END_DATE DESC LIMIT 1) AS ENROLLMENT_ID 
-			FROM STUDENTS s 
+			(SELECT ID FROM STUDENT_ENROLLMENT WHERE SYEAR='".UserSyear()."' AND STUDENT_ID=s.STUDENT_ID ORDER BY START_DATE DESC,END_DATE DESC LIMIT 1) AS ENROLLMENT_ID
+			FROM STUDENTS s
 			WHERE s.STUDENT_ID='".UserStudentID()."'";
-			
+
 			$student = DBGet(DBQuery($sql));
 			$student = $student[1];
 			$school = DBGet(DBQuery("SELECT SCHOOL_ID,GRADE_ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND ('".DBDate()."' BETWEEN START_DATE AND END_DATE OR END_DATE IS NULL)"));

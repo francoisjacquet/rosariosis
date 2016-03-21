@@ -12,9 +12,9 @@ if ( isset( $_POST['day_values'], $_POST['month_values'], $_POST['year_values'] 
 		$_REQUEST['day_values']
 	);
 
-	$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );
+	$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
 
-	$_POST['values'] = array_replace_recursive( $_POST['values'], $requested_dates );
+	$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
 }
 
 if ( $_REQUEST['modfunc']=='update')
@@ -51,7 +51,7 @@ if ( $_REQUEST['modfunc']=='update')
 					$fields_RET = DBGet(DBQuery("SELECT ID,TYPE FROM SCHOOL_FIELDS ORDER BY SORT_ORDER"), array(), array('ID'));
 
 					$go = 0;
-				
+
 					foreach ( (array) $_REQUEST['values'] as $column => $value)
 					{
 						if (1)//!empty($value) || $value=='0')
@@ -62,7 +62,7 @@ if ( $_REQUEST['modfunc']=='update')
 								$error[] = _('Please enter valid Numeric data.');
 								continue;
 							}
-						
+
 							$sql .= $column."='".$value."',";
 							$go = true;
 						}
@@ -92,13 +92,13 @@ if ( $_REQUEST['modfunc']=='update')
 						$sql = "INSERT INTO SCHOOLS (ID,SYEAR$fields) values('".$id."','".UserSyear()."'$values)";
 						DBQuery($sql);
 						DBQuery("UPDATE STAFF SET SCHOOLS=rtrim(SCHOOLS,',')||',$id,' WHERE STAFF_ID='".User('STAFF_ID')."' AND SCHOOLS IS NOT NULL");
-				
+
 						//FJ copy School Configuration
 						$sql = "INSERT INTO CONFIG (SCHOOL_ID,CONFIG_VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,CONFIG_VALUE,TITLE FROM CONFIG WHERE SCHOOL_ID='".UserSchool()."';";
 						DBQuery($sql);
 						$sql = "INSERT INTO PROGRAM_CONFIG (SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE) SELECT '".$id."' AS SCHOOL_ID,SYEAR,PROGRAM,VALUE,TITLE FROM PROGRAM_CONFIG WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."';";
 						DBQuery($sql);
-					
+
 						unset($_REQUEST['new_school']);
 
 						//set new current school
@@ -108,7 +108,7 @@ if ( $_REQUEST['modfunc']=='update')
 				UpdateSchoolArray(UserSchool());
 			}
 		}
-		
+
 		unset($_REQUEST['modfunc']);
 		unset($_SESSION['_REQUEST_vars']['values']);
 		unset($_SESSION['_REQUEST_vars']['modfunc']);
@@ -158,12 +158,12 @@ if (empty($_REQUEST['modfunc']))
 		$school_name = _('Add a School');
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update&new_school='.$_REQUEST['new_school'].'" method="POST">';
-	
+
 	//FJ delete school only if more than one school
 	$delete_button = false;
 	if ( $_REQUEST['new_school']!='true' && $_SESSION['SchoolData']['SCHOOLS_NB'] > 1)
 		$delete_button = true;
-		
+
 	//FJ fix bug: no save button if no admin
 	if (User('PROFILE')=='admin' && AllowEdit())
 		DrawHeader('',SubmitButton(_('Save'), 'button').($delete_button?SubmitButton(_('Delete'), 'button'):''));
@@ -226,10 +226,10 @@ if (empty($_REQUEST['modfunc']))
 	//FJ add School Fields
 	$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,DEFAULT_SELECTION,REQUIRED FROM SCHOOL_FIELDS ORDER BY SORT_ORDER,TITLE"));
 	$fields_RET = ParseMLArray($fields_RET,'TITLE');
-	
+
 	if ( count( $fields_RET ) )
 		echo '<tr><td colspan="3"><hr /></td></tr>';
-		
+
 	foreach ( (array) $fields_RET as $field )
 	{
 		$value_custom = '';
@@ -251,11 +251,11 @@ if (empty($_REQUEST['modfunc']))
 
 			$div = false;
 		}
-		
+
 		$title_custom = AllowEdit() && ! $value_custom && $field['REQUIRED'] ?
 			'<span class="legend-red">' . $field['TITLE'] . '</span>' :
 			$field['TITLE'];
-		
+
 		echo '<tr><td colspan="3">';
 
 		switch ( $field['TYPE'] )
@@ -308,7 +308,7 @@ if (empty($_REQUEST['modfunc']))
 
 		echo '</td></tr>';
 	}
-	
+
 	echo '</table>';
 
 	PopTable( 'footer' );

@@ -8,7 +8,7 @@ if ( ! UserCoursePeriod() )
 {
 	echo ErrorMessage( array( _( 'No courses assigned to teacher.' ) ), 'fatal' );
 }
-	
+
 $course_id = DBGet(DBQuery("SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'"));
 $course_id = $course_id[1]['COURSE_ID'];
 
@@ -24,9 +24,9 @@ if ( isset( $_POST['day_tables'], $_POST['month_tables'], $_POST['year_tables'] 
 		$_REQUEST['day_tables']
 	);
 
-	$_REQUEST['tables'] = array_replace_recursive( $_REQUEST['tables'], $requested_dates );
+	$_REQUEST['tables'] = array_replace_recursive( (array) $_REQUEST['tables'], $requested_dates );
 
-	$_POST['tables'] = array_replace_recursive( $_POST['tables'], $requested_dates );
+	$_POST['tables'] = array_replace_recursive( (array) $_POST['tables'], $requested_dates );
 }
 
 if ( isset( $_POST['tables'] )
@@ -227,7 +227,7 @@ if ( isset( $_POST['tables'] )
 		if ( ! $error && $go)
 		{
 			DBQuery($sql);
-			
+
 			if ( $table=='GRADEBOOK_ASSIGNMENTS')
 			{
 				if ( $gradebook_assignment_update)
@@ -595,12 +595,12 @@ if (empty($_REQUEST['modfunc']))
 	// ASSIGNMENTS
 	if ( $_REQUEST['assignment_type_id'] && $_REQUEST['assignment_type_id']!='new' && count($types_RET))
 	{
-		$sql = "SELECT ASSIGNMENT_ID,TITLE,POINTS 
-		FROM GRADEBOOK_ASSIGNMENTS 
-		WHERE STAFF_ID='".User('STAFF_ID')."' 
-		AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."') 
-		AND ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."' 
-		AND MARKING_PERIOD_ID='".UserMP()."' 
+		$sql = "SELECT ASSIGNMENT_ID,TITLE,POINTS
+		FROM GRADEBOOK_ASSIGNMENTS
+		WHERE STAFF_ID='".User('STAFF_ID')."'
+		AND (COURSE_ID=(SELECT COURSE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."') OR COURSE_PERIOD_ID='".UserCoursePeriod()."')
+		AND ASSIGNMENT_TYPE_ID='".$_REQUEST['assignment_type_id']."'
+		AND MARKING_PERIOD_ID='".UserMP()."'
 		ORDER BY ".Preferences('ASSIGNMENT_SORTING','Gradebook')." DESC";
 		$QI = DBQuery($sql);
 		$assn_RET = DBGet($QI);

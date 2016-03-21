@@ -13,7 +13,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			$_REQUEST['day_values']
 		);
 
-		$_REQUEST['values'] = array_replace_recursive( $_REQUEST['values'], $requested_dates );
+		$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
+
+		$_POST['values'] = array_replace_recursive( (array) $_POST['values'], $requested_dates );
 	}
 
 	if ( count( $_POST['values'] )

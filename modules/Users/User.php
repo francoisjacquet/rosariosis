@@ -10,7 +10,7 @@ if (User('PROFILE')!='admin' && User('PROFILE')!='teacher' && $_REQUEST['staff_i
 		require_once 'ProgramFunctions/HackingLog.fnc.php';
 		HackingLog();
 	}
-		
+
 	exit;
 }
 
@@ -69,9 +69,9 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 			$_REQUEST['day_staff']
 		);
 
-		$_REQUEST['staff'] = array_replace_recursive( $_REQUEST['staff'], $requested_dates );
+		$_REQUEST['staff'] = array_replace_recursive( (array) $_REQUEST['staff'], $requested_dates );
 
-		$_POST['staff'] = array_replace_recursive( $_POST['staff'], $requested_dates );
+		$_POST['staff'] = array_replace_recursive( (array) $_POST['staff'], $requested_dates );
 	}
 
 	if ( isset( $_REQUEST['staff']['SCHOOLS'] ) )
@@ -176,7 +176,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 							$error[] = _('Please enter valid Numeric data.');
 							continue;
 						}
-						
+
 						//FJ add password encryption
 						if ( $column_name!=='PASSWORD')
 						{
@@ -196,12 +196,12 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 				if ( $go)
 				{
 					DBQuery($sql);
-					
+
 					//hook
 					do_action('Users/User.php|update_user');
 				}
 			}
-		
+
 		}
 		elseif ( ! $error ) //new user
 		{
@@ -242,7 +242,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 							$error[] = _('Please enter valid Numeric data.');
 							break;
 						}
-						
+
 						$fields .= $column.',';
 
 						//FJ add password encryption
@@ -258,7 +258,7 @@ if ( $_REQUEST['modfunc']=='update' && AllowEdit())
 				$sql .= '(' . mb_substr($fields,0,-1) . ') values(' . mb_substr($values,0,-1) . ')';
 
 				DBQuery($sql);
-				
+
 				SetUserStaffID($_REQUEST['staff_id'] = $staff_id);
 
 				//hook
@@ -350,7 +350,7 @@ else
 	exit;
 }
 
-	
+
 echo ErrorMessage( $error );
 
 if ( $_REQUEST['modfunc']=='delete' && basename($_SERVER['PHP_SELF'])!='index.php' && AllowEdit())
@@ -406,7 +406,7 @@ if ((UserStaffID() || $_REQUEST['staff_id']=='new') && $_REQUEST['modfunc']!='de
 		//FJ add translation
 		$titles_array = array('Mr' => _('Mr'),'Mrs' => _('Mrs'),'Ms' => _('Ms'),'Miss' => _('Miss'),'Dr' => _('Dr'));
 		$suffixes_array = array('Jr' => _('Jr'),'Sr' => _('Sr'),'II' => _('II'),'III' => _('III'),'IV' => _('IV'),'V' => _('V'));
-		
+
 		$name = $titles_array[$staff['TITLE']].' '.$staff['FIRST_NAME'].' '.$staff['MIDDLE_NAME'].' '.$staff['LAST_NAME'].' '.$suffixes_array[$staff['NAME_SUFFIX']].' - '.$staff['STAFF_ID'];
 	}
 
