@@ -11,6 +11,7 @@ Changes in 2.8.27
 - Fix SQL error when more than 1 Attendance Period Teacher in Export.php
 - Fix typo in INSTALL instructions + update instructions for Ubuntu 14.04
 - Fix Custom User Permissions: remove default program in Exceptions.php
+- Fix Portal Polls display for Teachers & Parents in Portal.php
 
 Changes in 2.8.26
 -----------------
