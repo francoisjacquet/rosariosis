@@ -361,7 +361,7 @@ function repeatListTHead( $lists )
 		return;
 
 	$lists.each(function( i, tbl ){
-		var trs = tbl.getElementsByTagName("tr"),
+		var trs = $(tbl).children("thead,tbody").children("tr"),
 			tr_num = trs.length,
 			tr_max = 20;
 
