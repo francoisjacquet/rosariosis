@@ -27,15 +27,15 @@ function PortalPollsVote($poll_id, $votes_array)
 
 	if ( ! $poll_RET || ! $poll_questions_RET)
 		return ErrorMessage(array('Poll does not exist'));//should never be displayed, so do not translate
-		
+
 	//add user to excluded users list (format = '|[profile_id]:[user_id]')
 	$profile_id = $_POST['profile_id'];
 	$user_id = $_POST['user_id'];
 	$excluded_user = '|'.$profile_id.':'.$user_id;
-	
+
 	if (mb_strpos($poll_RET[1]['EXCLUDED_USERS'].'|', $excluded_user.'|') !== false)
 		return ErrorMessage(array('User excluded from this poll'));//should never be displayed, so do not translate
-		
+
 	$excluded_users = $poll_RET[1]['EXCLUDED_USERS'].$excluded_user;
 
 	$poll_questions_updated = PortalPollsSaveVotes($poll_questions_RET, $votes_array);
@@ -45,7 +45,7 @@ function PortalPollsVote($poll_id, $votes_array)
 	SET EXCLUDED_USERS='".$excluded_users."',
 	VOTES_NUMBER=(SELECT CASE WHEN VOTES_NUMBER ISNULL THEN 1 ELSE VOTES_NUMBER+1 END FROM PORTAL_POLLS WHERE ID='".$poll_id."')
 	WHERE ID='".$poll_id."'");
-	
+
 	return PortalPollsVotesDisplay(
 		$poll_id,
 		$poll_RET[1]['DISPLAY_VOTES'],
@@ -99,14 +99,14 @@ function PortalPollsSaveVotes($poll_questions_RET, $votes_array)
 		}
 
 		$voted_array[$question['ID']] = implode('||', $voted_array[$question['ID']]);
-		
+
 		//submit query
 		DBQuery("UPDATE PORTAL_POLL_QUESTIONS SET VOTES='".$voted_array[$question['ID']]."' WHERE ID='".$question['ID']."'");
 
 		//update the $poll_questions_RET array with Votes
 		$poll_questions_RET[ $key ]['VOTES'] = $voted_array[$question['ID']];
 	}
-	
+
 	return $poll_questions_RET;
 }
 
@@ -128,7 +128,7 @@ function PortalPollsDisplay($value,$name)
 
 	if ( ! $poll_RET || ! $poll_questions_RET)
 		return ErrorMessage(array('Poll does not exist'));//should never be displayed, so do not translate
-	
+
 	//verify if user is in excluded users list (format = '|[profile_id]:[user_id]')
 	$profile_id = User('PROFILE_ID');
 
@@ -159,7 +159,7 @@ function PortalPollsDisplay($value,$name)
 function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
 {
 	$PollForm = '';
-	
+
 	//FJ responsive rt td too large
 	if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		$PollForm .= '<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">';
@@ -216,27 +216,27 @@ function PortalPollForm($poll_id, $profile_id, $user_id, $poll_questions_RET)
 
 function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, $votes_number, $js_included_is_voting = false)
 {
-	
+
 	if ( ! $display_votes)
 	{
 		$poll_completed_str = isset($_POST['poll_completed_string']) ? $_POST['poll_completed_string'] : _('Poll completed');
 
 		return ErrorMessage( array( button('check', '', '', 'bigger') .'&nbsp;'.$poll_completed_str, 'Note' ) );
 	}
-	
+
 	//FJ responsive rt td too large
 	if ( ! $js_included_is_voting)
 	{
 		$votes_display .= '<div id="divPortalPoll'.$poll_id.'" class="divPortalPoll rt2colorBox">'."\n";
 	}
-	
+
 	foreach ($poll_questions_RET as $question)
 	{
 		$total_votes = 0;
 		//question
 		$votes_display .= '<p><b>'.$question['QUESTION'].'</b></p>
 			<table class="cellspacing-0 widefat col1-align-right">'."\n";
-		
+
 		//votes
 		$votes_array = explode('||', $question['VOTES']);
 		foreach ($votes_array as $votes)
@@ -264,8 +264,8 @@ function PortalPollsVotesDisplay($poll_id, $display_votes, $poll_questions_RET, 
 	$votes_display .= '<p>'.$total_votes_str.': '.$votes_number.'</p>';
 
 	if ( ! $js_included_is_voting)
-		$votes_display .= '</div>'; 
-	
+		$votes_display .= '</div>';
+
 	return $votes_display;
 }
 
@@ -276,7 +276,7 @@ if (isset($_POST['votes']) && is_array($_POST['votes']))
 	if (empty($_SERVER['HTTP_X_REQUESTED_WITH'])
 		|| $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest')
 		die('Error: no AJAX');
-		
+
 	chdir('../');
 
 	require_once 'config.inc.php';
@@ -288,7 +288,7 @@ if (isset($_POST['votes']) && is_array($_POST['votes']))
 	{
 		require_once $function;
 	}
-	
+
 	foreach ($_POST['votes'] as $poll_id => $votes_array)
 	{
 		if ( !empty($votes_array))
@@ -337,7 +337,7 @@ function makePublishing($value,$name)
 
 	if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		$return .= '</div>';
-		
+
 	return $return;
 }
 
@@ -383,18 +383,19 @@ function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 		//FJ Portal Polls add students teacher
 		if ( $profile['ID'] === '0' && $_REQUEST['modname']=='School_Setup/PortalPolls.php') //student & verify this is not a Portal Note!
 		{
-			$visibleTo .= ': ' . SelectInput($THIS_RET['STUDENTS_TEACHER_ID'],
+			$visibleTo .= ': ' . SelectInput(
+				$THIS_RET['STUDENTS_TEACHER_ID'],
 				'values['.$id.'][STUDENTS_TEACHER_ID]',
 				_('Limit to Teacher'),
 				$teachers,
-				true,
+				'N/A',
 				'',
 				true
 			);
 		}
 
 		$visibleTo .= '</td>';
-			
+
 		if ( $i%2==0 && $i!=count($profiles))
 			$visibleTo .= '</tr><tr class="st">';
 	}
@@ -403,16 +404,16 @@ function makePublishingVisibleTo($profiles, $THIS_RET, $id)
 		$visibleTo .= '<td>&nbsp;</td>';
 
 	$visibleTo .= '</tr>';
-	
+
 	if ( $_REQUEST['modname']=='School_Setup/PortalNotes.php')
 	{
 		//hook
 		$args = $id;
 		do_action('School_Setup/PortalNotes.php|portal_note_field',$args);
 	}
-		
+
 	$visibleTo .= '</table>';
-	
+
 	return $visibleTo;
 }
 
@@ -424,16 +425,16 @@ function makeFileAttached($value,$name)
 
 	if ( $THIS_RET['ID'])
 	{
-		
+
 		$id = $THIS_RET['ID'];
 		if (empty($value))
 		{
 			$return = '&nbsp;';
-		}			
+		}
 		else
 		{
 			$filesAttachedCount ++;
-			
+
 			//FJ colorbox
 			$view_online = '<img src="assets/themes/'. Preferences('THEME') .'/btn/visualize.png" class="button bigger" /> '._('View Online').'';
 
@@ -452,7 +453,7 @@ function makeFileAttached($value,$name)
 	else
 	{
 		$id = 'new';
-		
+
 		$return .= '<div id="divFileAttached'.$id.'" class="rt2colorBox">';
 		$return .= '<div>
 			<label>
@@ -468,6 +469,6 @@ function makeFileAttached($value,$name)
 			</label>
 		</div></div>';
 	}
-		
+
 	return $return;
 }
