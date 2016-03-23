@@ -8,7 +8,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	{
 		//FJ bypass strip_tags on the $_REQUEST vars
 		$REQUEST_honor_roll_text = SanitizeHTML( $_POST['honor_roll_text'] );
-		
+
 		//FJ add Template
 		$template_update = DBGet(DBQuery("SELECT 1 FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'"));
 
@@ -16,7 +16,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('".$_REQUEST['modname']."', '".User('STAFF_ID')."', '".$REQUEST_honor_roll_text."')");
 		else
 			DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$REQUEST_honor_roll_text."' WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID = '".User('STAFF_ID')."'");
-		
+
 		$st_list = '\''.implode('\',\'',$_REQUEST['st_arr']).'\'';
 
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
@@ -51,27 +51,27 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		$_SESSION['orientation'] = 'landscape';
 
-		foreach ( (array) $RET as $student)
+		echo '<style type="text/css">
+			body {
+				margin:0;
+				padding:0;
+				width:100%;
+				height:100%;';
+
+		if ( $_REQUEST['frame'] )
 		{
-			echo '<style type="text/css">
-				body {
-					margin:0;
-					padding:0;
-					width:100%;
-					height:100%;';
+			echo 'background:url(assets/Frames/' . $_REQUEST['frame'] . ') no-repeat;
+				background-size:100% 100%;';
+		}
 
-			if ( isset( $_REQUEST['frame'] ) )
-			{
-				echo 'background:url(assets/Frames/' . $_REQUEST['frame'] . ') no-repeat;
-					background-size:100% 100%;';
-			}
+		echo '}</style>';
 
-			echo '}</style>';
-
+		foreach ( (array) $RET as $student )
+		{
 			echo '<table style="margin:auto auto;">';
-			
+
 			//FJ Bugfix wkhtmltopdf ContentOperationNotPermittedError
-			$clipart_html = (!empty($_REQUEST['clipart']) ? '<img src="assets/ClipArts/'.$_REQUEST['clipart'].'" height="200" />' : '');
+			$clipart_html = ( $_REQUEST['clipart'] ? '<img src="assets/ClipArts/'.$_REQUEST['clipart'].'" height="200" />' : '' );
 
 			$honor_roll_text = $REQUEST_honor_roll_text;
 
@@ -91,7 +91,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			$student['GRADE_ID'],
 			$school_info_RET[1]['TITLE'],
 			$_REQUEST['subject']),$honor_roll_text);
-				
+
 			echo '<tr><td>'.$honor_roll_text.'</td></tr></table>';
 
 			echo '<br /><table style="margin:auto auto; width:80%;">';
@@ -108,7 +108,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			echo '<div style="page-break-after: always;"></div>';
 		}
 
-		PDFStop($handle);
+		PDFStop( $handle );
 	}
 	else
 		BackPrompt(_('You must choose at least one student.'));
@@ -175,7 +175,7 @@ if (empty($_REQUEST['modfunc']))
 		}
 
 		$extra['extra_header_left'] .= '</tr></table></div></td></tr><tr><td colspan="2">&nbsp;</td></tr>';
-		
+
 		//FJ add clipart choice
 		$cliparts = array();
 		if (is_dir('assets/ClipArts/'))
@@ -221,7 +221,7 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $for_news_web)
 		$extra['student_fields'] = array('search'=>"'".$for_news_web."'",'view'=>"'".$for_news_web."'");
-		
+
 	Search('student_id',$extra);
 
 	if ( $_REQUEST['search_modfunc']=='list')

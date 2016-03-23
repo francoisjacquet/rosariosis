@@ -113,25 +113,25 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 			$_SESSION['orientation'] = 'landscape';
 
+			echo '<style type="text/css">
+				body {
+					margin:0;
+					padding:0;
+					width:100%;
+					height:100%;';
+
+			if ( $_REQUEST['frame'] )
+			{
+				echo 'background:url(assets/Frames/' . $_REQUEST['frame'] . ') no-repeat;
+					background-size:100% 100%;';
+			}
+
+			echo '}</style>';
+
 			foreach ( (array) $RET as $student)
 			{
-				echo '<style type="text/css">
-					body {
-						margin:0;
-						padding:0;
-						width:100%;
-						height:100%;';
-
-				if ( isset( $_REQUEST['frame'] ) )
-				{
-					echo 'background:url(assets/Frames/' . $_REQUEST['frame'] . ') no-repeat;
-						background-size:100% 100%;';
-				}
-
-				echo '}</style>';
-
 				echo '<table style="margin:auto auto;">';
-				
+
 				$honor_roll_text = $REQUEST_honor_roll_text;
 
 				$honor_roll_text = str_replace(array('__FULL_NAME__',
@@ -150,9 +150,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				$_REQUEST['subject']),$honor_roll_text);
 
 				$honor_roll_text = ($student['HIGH_HONOR']=='Y'? str_replace(_('Honor Roll'),_('High Honor Roll'),$honor_roll_text) : $honor_roll_text);
-				
+
 				echo '<tr><td>'.$honor_roll_text.'</td></tr></table>';
-				
+
 				echo '<br /><table style="margin:auto auto; width:80%;">';
 
 				echo '<tr><td><span style="font-size:x-large;">'.$student['TEACHER'].'</span><br /><span style="font-size:medium;">'._('Teacher').'</span></td>';
@@ -169,7 +169,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				echo '<div style="page-break-after: always;"></div>';
 			}
 
-			PDFStop($handle);
+			PDFStop( $handle );
 		}
 	}
 	else
@@ -268,7 +268,7 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $for_news_web)
 		$extra['student_fields'] = array('search'=>"'".$for_news_web."'",'view'=>"'".$for_news_web."'");
-				
+
 	Search('student_id',$extra);
 
 	if ( $_REQUEST['search_modfunc']=='list')
