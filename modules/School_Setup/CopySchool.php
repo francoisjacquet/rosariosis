@@ -8,7 +8,7 @@ $tables = array(
 	'REPORT_CARD_COMMENTS' => _( 'Report Card Comment Codes' ),
 	'ELIGIBILITY_ACTIVITIES' => _( 'Eligibility Activity Codes' ),
 	'ATTENDANCE_CODES' => _( 'Attendance Codes' ),
-	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' )
+	'SCHOOL_GRADELEVELS' => _( 'Grade Levels' ),
 );
 
 $table_list = '<table style="float: left">';
@@ -37,7 +37,10 @@ DrawHeader( ProgramTitle() );
 
 $go = Prompt(
 	_( 'Confirm Copy School' ),
-	sprintf( _( 'Are you sure you want to copy the data for %s to a new school?' ), SchoolInfo( 'TITLE' ) ),
+	sprintf(
+		_( 'Are you sure you want to copy the data for %s to a new school?' ),
+		SchoolInfo( 'TITLE' )
+	),
 	$table_list
 );
 
@@ -49,8 +52,9 @@ if ( $go
 
 	$id = $id[1]['ID'];
 
-	DBQuery( "INSERT INTO SCHOOLS (ID,SYEAR,TITLE)
-		values('" . $id . "','" . UserSyear() . "','" . $_REQUEST['title'] . "')" );
+	DBQuery( "INSERT INTO SCHOOLS (ID,SYEAR,TITLE,REPORTING_GP_SCALE)
+		values('" . $id . "','" . UserSyear() . "','" . $_REQUEST['title'] . "',
+		(SELECT REPORTING_GP_SCALE FROM SCHOOLS WHERE ID='" . UserSchool() . "'))" );
 
 	DBQuery( "UPDATE STAFF
 		SET SCHOOLS=rtrim(SCHOOLS,',')||'," . $id . ",'
