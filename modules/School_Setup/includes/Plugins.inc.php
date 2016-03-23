@@ -264,7 +264,7 @@ function _makeReadMe($plugin_title,$activated=null)
 	else
 		$plugin_title_echo = _(str_replace('_', ' ', $plugin_title));
 
-	$readme_path = 'plugins/' . $module_title . '/README';
+	$readme_path = 'plugins/' . $plugin_title . '/README';
 
 	//if README.md file, display in Colorbox
 	if ( !isset( $_REQUEST['_ROSARIO_PDF'] )
