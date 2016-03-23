@@ -185,8 +185,8 @@ function MLTextInput( $value, $name, $title = '', $extra = '', $div = true )
 			$nb_loc = mb_substr_count( $value, '|' ) + 1;
 
 			$extra .=  ' size="' .
-				( mb_strlen( $value ) - ( $nb_loc - 1 ) * ( mb_strlen( $RosarioLocales[0] ) + 2 ) )
-					/ $nb_loc . '"';
+				round( ( mb_strlen( $value ) - ( $nb_loc - 1 ) * ( mb_strlen( $RosarioLocales[0] ) + 2 ) )
+					/ $nb_loc ) . '"';
 		}
 
 		// Ng - foreach possible language.
@@ -318,7 +318,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 
 		$textarea =  ( $type === 'markdown' ? MarkDownInputPreview( $id ) : '' ) .
 			'<textarea id="' . $id . '" name="' . $name . '" ' . $extra . '>' .
-			$value . '</textarea>' . 
+			$value . '</textarea>' .
 			( $type !== 'text' ? str_replace( '<br />', '', $ftitle ) : $ftitle );
 
 		if ( $value == ''
@@ -350,7 +350,7 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
  * TinyMCE Input (HTML editor)
  *
  * Note: if you will pass additional CSS classes in the `$extra` paramenter
- * Do not forget the `tinymce` class required to trigger TinyMCE. 
+ * Do not forget the `tinymce` class required to trigger TinyMCE.
  *
  * @todo Fix <label>, see http://stackoverflow.com/questions/4258701/tinymce-accessibility-label-for
  * @todo Allow passing options to TinyMCE (plugins, ...)
@@ -541,7 +541,7 @@ function CheckboxInput( $value, $name, $title = '', $checked = '', $new = false,
 			$return = InputDivOnclick(
 				$id,
 				'<input type="hidden" name="' . $name . '" value="" />' . // Save unchecked value!
-				$checkbox, 
+				$checkbox,
 				( $value ?
 					( $yes === 'Yes' ? _( 'Yes' ) : $yes ) :
 					( $no === 'No' ? _( 'No' ) : $no ) ),
@@ -838,7 +838,7 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$table = '<table class="cellspacing-0 cellpadding-5" ' . $extra . '><tr class="center">';
-			
+
 		if ( $allow_na !== false )
 		{
 			$table .= '<td><label><input type="radio" name="' . $name . '" value=""' .
@@ -865,9 +865,9 @@ function RadioInput( $value, $name, $title = '', $options, $allow_na = 'N/A', $e
 		}
 
 		$table .= '</tr></table>';
-		
+
 		$table .= $ftitle;
-			
+
 		if ( $value != ''
 			&& $div )
 		{
@@ -1001,7 +1001,7 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
  * Simulate Input formatting for a non-editable Input / Value
  *
  * @example NoInput( $person[1]['PHONE'], _( 'Home Phone' ) )
- * 
+ *
  * @uses FormatInputTitle() to format title
  *
  * @param  string $value Input value

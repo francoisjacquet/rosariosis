@@ -33,8 +33,8 @@ function GetMP( $mp_id, $column = 'TITLE' )
 	if ( ! isset( $_ROSARIO['GetMP'] ) )
 	{
 		$_ROSARIO['GetMP'] = DBGet( DBQuery( "SELECT MARKING_PERIOD_ID,TITLE,POST_START_DATE,
-			POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS 
-			FROM SCHOOL_MARKING_PERIODS 
+			POST_END_DATE,MP,SORT_ORDER,SHORT_NAME,START_DATE,END_DATE,DOES_GRADES,DOES_COMMENTS
+			FROM SCHOOL_MARKING_PERIODS
 			WHERE SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'" ), array(), array( 'MARKING_PERIOD_ID' ) );
 	}
@@ -91,13 +91,13 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 
 		$fy = $fy_RET[1]['MARKING_PERIOD_ID'];
 
-		$sem_SQL = "SELECT MARKING_PERIOD_ID 
-			FROM SCHOOL_MARKING_PERIODS s 
+		$sem_SQL = "SELECT MARKING_PERIOD_ID
+			FROM SCHOOL_MARKING_PERIODS s
 			WHERE MP='SEM'
 			AND NOT EXISTS (SELECT ''
 				FROM SCHOOL_MARKING_PERIODS q
 				WHERE q.MP='QTR'
-				AND q.PARENT_ID=s.MARKING_PERIOD_ID) 
+				AND q.PARENT_ID=s.MARKING_PERIOD_ID)
 			AND SYEAR='" . UserSyear() . "'
 			AND SCHOOL_ID='" . UserSchool() . "'";
 
@@ -129,9 +129,12 @@ function GetAllMP( $mp, $marking_period_id = '0' )
 				{
 					$qtr_id = $qtr['MARKING_PERIOD_ID'];
 
-					$all_mp[ $mp ][ $qtr_id ] = "'" . $fy . "','" . $value['PARENT_ID'] . "','" . $qtr_id . "'";
+					$all_mp[ $mp ][ $qtr_id ] = "'" . $fy . "','" . $qtr['PARENT_ID'] . "','" . $qtr_id . "'";
 
-					$all_mp[ $mp ][ $qtr_id ] .= ',' . GetChildrenMP( $mp, $qtr_id );
+					if ( GetChildrenMP( $mp, $qtr_id ) )
+					{
+						$all_mp[ $mp ][ $qtr_id ] .= ',' . GetChildrenMP( $mp, $qtr_id );
+					}
 
 					/*if ( mb_substr( $all_mp[ $mp ][$value['MARKING_PERIOD_ID']], -1 ) === ',' )
 						$all_mp[ $mp ][$value['MARKING_PERIOD_ID']] = mb_substr( $all_mp[ $mp ][ $qtr_id ], 0, -1 );*/
