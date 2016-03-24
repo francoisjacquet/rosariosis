@@ -11,7 +11,7 @@ if ( !isset( $_REQUEST['mp'] )
 	$_REQUEST['mp'] = UserMP();
 }
 
-$chart_types = array( 'line', 'column', 'list' );
+$chart_types = array( 'line', 'list' );
 
 // set Chart Type
 if ( !isset( $_REQUEST['chart_type'] )
@@ -21,28 +21,28 @@ if ( !isset( $_REQUEST['chart_type'] )
 }
 
 // Get all the mp's associated with the current mp
-$mps_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER 
-	FROM SCHOOL_MARKING_PERIODS 
+$mps_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER
+	FROM SCHOOL_MARKING_PERIODS
 	WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID
 		FROM SCHOOL_MARKING_PERIODS
-		WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='" . UserMP() . "')) 
-	AND MP='FY' 
-	UNION 
-	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,1,SORT_ORDER 
-	FROM SCHOOL_MARKING_PERIODS 
+		WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='" . UserMP() . "'))
+	AND MP='FY'
+	UNION
+	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,1,SORT_ORDER
+	FROM SCHOOL_MARKING_PERIODS
 	WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID
 		FROM SCHOOL_MARKING_PERIODS
-		WHERE MARKING_PERIOD_ID='" . UserMP() . "') 
-	AND MP='SEM' 
-	UNION 
-	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,2,SORT_ORDER 
-	FROM SCHOOL_MARKING_PERIODS 
-	WHERE MARKING_PERIOD_ID='" . UserMP() . "' 
-	UNION 
-	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,3,SORT_ORDER 
-	FROM SCHOOL_MARKING_PERIODS 
-	WHERE PARENT_ID='" . UserMP() . "' 
-	AND MP='PRO' 
+		WHERE MARKING_PERIOD_ID='" . UserMP() . "')
+	AND MP='SEM'
+	UNION
+	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,2,SORT_ORDER
+	FROM SCHOOL_MARKING_PERIODS
+	WHERE MARKING_PERIOD_ID='" . UserMP() . "'
+	UNION
+	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,3,SORT_ORDER
+	FROM SCHOOL_MARKING_PERIODS
+	WHERE PARENT_ID='" . UserMP() . "'
+	AND MP='PRO'
 	ORDER BY 5,SORT_ORDER" ) );
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="GET">';
@@ -66,13 +66,13 @@ DrawHeader( $mp_select );
 
 echo '</form>';
 
-$grouped_SQL = "SELECT s.LAST_NAME||', '||s.FIRST_NAME as FULL_NAME,s.STAFF_ID,g.REPORT_CARD_GRADE_ID 
-	FROM STUDENT_REPORT_CARD_GRADES g,STAFF s,COURSE_PERIODS cp 
-	WHERE g.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID 
-	AND cp.TEACHER_ID=s.STAFF_ID 
-	AND cp.SYEAR=s.SYEAR 
-	AND cp.SYEAR=g.SYEAR 
-	AND cp.SYEAR='".UserSyear()."' 
+$grouped_SQL = "SELECT s.LAST_NAME||', '||s.FIRST_NAME as FULL_NAME,s.STAFF_ID,g.REPORT_CARD_GRADE_ID
+	FROM STUDENT_REPORT_CARD_GRADES g,STAFF s,COURSE_PERIODS cp
+	WHERE g.COURSE_PERIOD_ID=cp.COURSE_PERIOD_ID
+	AND cp.TEACHER_ID=s.STAFF_ID
+	AND cp.SYEAR=s.SYEAR
+	AND cp.SYEAR=g.SYEAR
+	AND cp.SYEAR='".UserSyear()."'
 	AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'";
 
 $grouped_RET = DBGet( DBQuery( $grouped_SQL ), array(), array( 'STAFF_ID', 'REPORT_CARD_GRADE_ID' ) );
@@ -114,7 +114,7 @@ if ( $grouped_RET )
 
 	PopTable( 'header', $tabs );
 
-	// List
+	// List.
 	if ( $_REQUEST['chart_type'] === 'list' )
 	{
 		$LO_columns = array( 'GRADES' => _( 'Grades' ) );
@@ -127,9 +127,11 @@ if ( $grouped_RET )
 
 			$teachers_RET[ $i ]['GRADES'] = $grade['TITLE'];
 		}
-			
+
 		foreach ( (array) $grouped_RET as $staff_id => $grades )
 		{
+			$j = 0;
+
 			$LO_columns[ $staff_id ] = $grades[key( $grades )][1]['FULL_NAME'];
 
 			foreach ( (array) $grades_RET as $grade )
@@ -152,7 +154,7 @@ if ( $grouped_RET )
 		{
 			$chartData = array();
 
-			$chartTitle = $grades[key($grades)][1]['FULL_NAME'] . ' - ' . $UserMPTitle . ' - ' . _( 'Grade Breakdown' ); 
+			$chartTitle = $grades[key($grades)][1]['FULL_NAME'] . ' - ' . $UserMPTitle . ' - ' . _( 'Grade Breakdown' );
 
 			foreach ( (array) $grades_RET as $grade )
 			{
