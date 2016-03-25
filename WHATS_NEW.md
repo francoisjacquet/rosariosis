@@ -9,6 +9,11 @@ Users
 - My Preferences
 	- Export Listings in XML format
 
+Grades
+
+-Student Assignments
+	- Submit Assignment
+
 Password Reset feature
 
 MarkDown support for Large text fields
@@ -209,11 +214,11 @@ Scheduling
 - Added master schedule report
 - Added possibility to add more than one period to a Course Period
 
-Discipline 
+Discipline
 
 - Added module adapted from Focus SIS v.2.3
 
-Student Billing 
+Student Billing
 
 - Added module adapted from Focus SIS v.2.3
 
