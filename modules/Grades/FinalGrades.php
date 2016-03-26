@@ -2,9 +2,9 @@
 
 require_once 'ProgramFunctions/TipMessage.fnc.php';
 
-DrawHeader(ProgramTitle());
+DrawHeader( ProgramTitle() );
 
-if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
+if ( $_REQUEST['modfunc'] === 'delete' && AllowEdit() )
 {
 	if ( DeletePrompt( _( 'Final Grade' ) ) )
 	{
@@ -19,12 +19,12 @@ if ( $_REQUEST['modfunc']=='delete' && AllowEdit())
 			AND STUDENT_ID='" . $_REQUEST['student_id'] . "'
 			AND COURSE_PERIOD_ID='" . $_REQUEST['course_period_id'] . "'
 			AND MARKING_PERIOD_ID='" . $_REQUEST['marking_period_id'] . "'" );
-	}
 
-	$_REQUEST['modfunc'] = 'save';
+		$_REQUEST['modfunc'] = 'save';
+	}
 }
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( $_REQUEST['modfunc'] === 'save' )
 {
 	if (count($_REQUEST['mp_arr']) && count($_REQUEST['st_arr']))
 	{
