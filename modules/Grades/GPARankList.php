@@ -1,9 +1,6 @@
 <?php
 DrawHeader(ProgramTitle());
-if ( ! $_REQUEST['LO_sort']) {
-    $_REQUEST['LO_sort']="CUM_RANK";
-    $_REQUEST['LO_direction']=1;
-}
+
 if ( $_REQUEST['search_modfunc'] == 'list')
 {
 //FJ changed MP list to GradeBreakdown.php style
@@ -16,7 +13,7 @@ if ( $_REQUEST['search_modfunc'] == 'list')
 		$_REQUEST['mp'] = GetParentMP('SEM',UserMP());
 
 	$sem = GetParentMP('SEM',UserMP());
-	
+
 //FJ add year to the list
 	$year = GetParentMP('FY',$sem);
 	$pro = GetChildrenMP('PRO',UserMP());
@@ -57,35 +54,35 @@ if ( $_REQUEST['search_modfunc'] == 'list')
 		$mps_select .= $pro_select;
 
 	$mps_select .= '</select>';*/
-	
+
 	if ( ! $_REQUEST['mp'])
 		$_REQUEST['mp'] = UserMP();
 
 	// Get all the mp's associated with the current mp
-	$mps_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER 
-	FROM SCHOOL_MARKING_PERIODS 
-	WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."')) 
-	AND MP='FY' 
-	UNION 
-	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,1,SORT_ORDER 
-	FROM SCHOOL_MARKING_PERIODS 
-	WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."') 
-	AND MP='SEM' 
-	UNION 
-	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,2,SORT_ORDER 
-	FROM SCHOOL_MARKING_PERIODS 
-	WHERE MARKING_PERIOD_ID='".UserMP()."' 
-	UNION 
-	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,3,SORT_ORDER 
-	FROM SCHOOL_MARKING_PERIODS 
-	WHERE PARENT_ID='".UserMP()."' 
-	AND MP='PRO' 
+	$mps_RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,0,SORT_ORDER
+	FROM SCHOOL_MARKING_PERIODS
+	WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."'))
+	AND MP='FY'
+	UNION
+	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,1,SORT_ORDER
+	FROM SCHOOL_MARKING_PERIODS
+	WHERE MARKING_PERIOD_ID=(SELECT PARENT_ID FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".UserMP()."')
+	AND MP='SEM'
+	UNION
+	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,2,SORT_ORDER
+	FROM SCHOOL_MARKING_PERIODS
+	WHERE MARKING_PERIOD_ID='".UserMP()."'
+	UNION
+	SELECT MARKING_PERIOD_ID,TITLE,DOES_GRADES,3,SORT_ORDER
+	FROM SCHOOL_MARKING_PERIODS
+	WHERE PARENT_ID='".UserMP()."'
+	AND MP='PRO'
 	ORDER BY 5,SORT_ORDER"));
- 
+
 	//bjj keeping search terms
     $PHP_tmp_SELF = PreparePHP_SELF();
 	echo '<form action="'.$PHP_tmp_SELF.'" method="POST">';
-	
+
 	$mp_select = '<select name="mp" onchange="ajaxPostForm(this.form,true);">';
 	foreach ( (array) $mps_RET as $mp)
 	{
@@ -93,14 +90,14 @@ if ( $_REQUEST['search_modfunc'] == 'list')
 			$mp_select .= '<option value="'.$mp['MARKING_PERIOD_ID'].'"'.($mp['MARKING_PERIOD_ID']==$_REQUEST['mp']?' selected':'').'>'.$mp['TITLE'].'</option>';
 	}
 	$mp_select .= "</select>";
-	
+
 	DrawHeader($mp_select);
 }
 
 Widgets('course');
 Widgets('gpa');
 Widgets('class_rank');
-Widgets('letter_grade'); 
+Widgets('letter_grade');
 
 //$extra['SELECT'] .= ',sgc.GPA,sgc.WEIGHTED_GPA,sgc.CLASS_RANK';
 $extra['SELECT'] .= ',sms.cum_weighted_factor, sms.cum_unweighted_factor, sms.cum_rank';
@@ -114,6 +111,7 @@ $extra['columns_after'] = array('CUM_UNWEIGHTED_FACTOR' => _('Unweighted GPA'),'
 $extra['link']['FULL_NAME'] = false;
 $extra['new'] = true;
 $extra['functions'] = array('CUM_UNWEIGHTED_FACTOR' => '_roundGPA','CUM_WEIGHTED_FACTOR' => '_roundGPA');
+$extra['ORDER_BY'] = 'GRADE_ID, CUM_RANK';
 
 if (User('PROFILE')=='parent' || User('PROFILE')=='student')
 	$_REQUEST['search_modfunc'] = 'list';
@@ -121,6 +119,8 @@ $SCHOOL_RET = DBGet(DBQuery("SELECT * from schools where ID = '".UserSchool()."'
 Search('student_id',$extra);
 
 function _roundGPA($gpa,$column)
-{   GLOBAL $SCHOOL_RET;
-	return round($gpa*$SCHOOL_RET[1]['REPORTING_GP_SCALE'],3);
+{
+	global $SCHOOL_RET;
+
+	return round( $gpa * $SCHOOL_RET[1]['REPORTING_GP_SCALE'], 2 );
 }
