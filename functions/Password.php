@@ -58,5 +58,7 @@ function match_password( $crypted, $plain )
 
 	//$salt = mb_substr($password, 0, 19);
 
-	return hash_equals( (string) $crypted, crypt( (string) $plain, (string) $crypted ) );
+	return function_exists( 'hash_equals' ) ? // PHP < 5.6 compat.
+		hash_equals( (string) $crypted, crypt( (string) $plain, (string) $crypted ) ) :
+		$crypted == crypt( (string) $plain, (string) $crypted );
 }
