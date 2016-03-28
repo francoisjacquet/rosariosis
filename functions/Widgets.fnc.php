@@ -726,7 +726,7 @@ function Widgets( $item, &$myextra = null )
 						_( 'With' ) ) .
 					' ' . _( 'Report Card Grade' ) . ': </b>';
 
-				$letter_grades_RET = DBGet( DBQuery( "SELECT ID,TITLE,GRADE
+				$letter_grades_RET = DBGet( DBQuery( "SELECT ID,TITLE
 					FROM REPORT_CARD_GRADES
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'"), array(), array( 'ID' ) );
@@ -764,7 +764,7 @@ function Widgets( $item, &$myextra = null )
 				GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) .
 			'</label> &nbsp;
 			<label class="nobr">
-				<input type="radio" name="letter_grade_term" value="' . UserMP() . '" />&nbsp;' .
+				<input type="radio" name="letter_grade_term" value="' . UserMP() . '" checked />&nbsp;' .
 				GetMP( UserMP(), 'SHORT_NAME' ) .
 			'</label>';
 
