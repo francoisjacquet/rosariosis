@@ -575,11 +575,8 @@ function Widgets( $item, &$myextra = null )
 						AND sms.MARKING_PERIOD_ID='" . $_REQUEST['gpa_term'] . "'";
 				}
 
-				$extra['WHERE'] .= " AND sms.CUM_" . ( ($_REQUEST['weighted'] == 'Y' ) ? '' : 'UN' ) . "WEIGHTED_FACTOR *
-					(SELECT GP_SCALE
-						FROM REPORT_CARD_GRADE_SCALES
-						WHERE SCHOOL_ID='" . UserSchool() . "'
-						AND SYEAR='" . UserSyear() . "')
+				$extra['WHERE'] .= " AND sms.CUM_" . ( ($_REQUEST['gpa_weighted'] == 'Y' ) ? '' : 'UN' ) . "WEIGHTED_FACTOR *
+					" . SchoolInfo( 'REPORTING_GP_SCALE' ) . "
 					BETWEEN '" . $_REQUEST['gpa_low'] . "' AND '" . $_REQUEST['gpa_high'] . "'";
 
 				if ( ! $extra['NoSearchTerms'] )
@@ -595,7 +592,7 @@ function Widgets( $item, &$myextra = null )
 
 			$extra['search'] .= '<tr class="st"><td>' . _( 'GPA' ) . '<br />
 			<label>
-				<input type="checkbox" name="weighted" value="Y">&nbsp;' . _( 'Weighted' ) .
+				<input type="checkbox" name="gpa_weighted" value="Y">&nbsp;' . _( 'Weighted' ) .
 			'</label>
 			<br />';
 
