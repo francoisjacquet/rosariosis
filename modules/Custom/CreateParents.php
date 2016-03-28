@@ -122,24 +122,34 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 			{
 				if ( $_REQUEST['contact'][ $student_id ])
 				{
-					//username = user part of the email
-					$tmp_username = $username = trim(mb_strpos($students[1]['EMAIL'],'@')!==false?mb_substr($students[1]['EMAIL'],0,mb_strpos($students[1]['EMAIL'],'@')):$students[1]['EMAIL']);
+					// Username = email.
+					$tmp_username = $username = mb_strtolower( trim( $students[1]['EMAIL'] ) );
+
+					$username_exists_sql = "SELECT STAFF_ID
+						FROM STAFF
+						WHERE upper(USERNAME)=upper('" . $username . "')
+						AND SYEAR='" . UserSyear() . "'";
 
 					$i = 1;
 
-					//if username already exists
-					while (DBGet(DBQuery("SELECT STAFF_ID FROM STAFF WHERE upper(USERNAME)=upper('".$username."') AND SYEAR='".UserSyear()."'")))
-						$username = $tmp_username.$i++;
+					// If username already exists.
+					while ( DBGet( DBQuery( $username_exists_sql ) ) )
+					{
+						$username = $tmp_username . $i++;
+					}
 
-					$user = DBGet(DBQuery("SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME FROM PEOPLE WHERE PERSON_ID='".$_REQUEST['contact'][ $student_id ]."'"));
+					$user = DBGet( DBQuery( "SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME
+						FROM PEOPLE
+						WHERE PERSON_ID='" . $_REQUEST['contact'][ $student_id ] . "'" ) );
+
 					$user = $user[1];
 
 					//FJ change parent password generation
 					//$password = $passwords[rand(0,count($passwords)-1)];
-					$password = $username . rand(100,999);
+					$password = $username . rand( 100, 999 );
 
 					//FJ Moodle integrator / password
-					$password = UCFirst($password). '*';
+					$password = UCFirst( $password ) . '*';
 
 					if ( ! $test_email)
 					{
@@ -198,12 +208,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save' && AllowEdit())
 				$msg = str_replace('__PARENT_NAME__',$staff['NAME'],$msg);
 				$msg = str_replace('__USERNAME__',$staff['USERNAME'],$msg);
 				$msg = str_replace('__PASSWORD__',$password,$msg);
-				
+
 				//FJ add SendEmail function
 				require_once 'ProgramFunctions/SendEmail.fnc.php';
-				
+
 				$to = empty($test_email) ? $students[1]['EMAIL'] : $test_email;
-				
+
 				//FJ send email from rosariosis@[domain]
 				$result = SendEmail($to, $subject[ $account ], $msg, null, $cc);
 
@@ -242,13 +252,13 @@ if (empty($_REQUEST['modfunc']) && !empty($email_column))
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Create Parent Accounts for Selected Students'));
-		
+
 		$extra['extra_header_left'] = '<table>';
 
 		//FJ add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		list($template_new, $template_old) = explode('__BLOCK2__', $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE']);
-		
+
 		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
 			'<textarea name="inputcreateparentstext_new" cols="100" rows="5">' .
 			$template_new . '</textarea>' .
@@ -256,7 +266,7 @@ if (empty($_REQUEST['modfunc']) && !empty($email_column))
 				_( 'New Parent Account' ) . ' - ' . _( 'Email Text' ),
 				'inputcreateparentstext_new'
 			) . '</td></tr>';
-		
+
 		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
 			'<textarea name="inputcreateparentstext_old" cols="100" rows="5">' .
 			$template_old . '</textarea>' .
@@ -264,7 +274,7 @@ if (empty($_REQUEST['modfunc']) && !empty($email_column))
 				_( 'Updated Parent Account' ) . ' - ' . _( 'Email Text' ),
 				'inputcreateparentstext_old'
 			) . '</td></tr>';
-		
+
 		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__PARENT_NAME__</td><td>= '._('Parent Name').'</td><td>&nbsp;</td>';
 		$extra['extra_header_left'] .= '<td>__ASSOCIATED_STUDENTS__</td><td>= '._('Associated Students').'</td>';
@@ -274,7 +284,7 @@ if (empty($_REQUEST['modfunc']) && !empty($email_column))
 		$extra['extra_header_left'] .= '</tr><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__SCHOOL_ID__</td><td>= '._('School').'</td><td colspan="3">&nbsp;</td>';
 		$extra['extra_header_left'] .= '</tr></table></td></tr>';
-		
+
 		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">' .
 			_( 'Test Mode' ) . ':' . '</td><td>' .
 			TextInput(
@@ -316,11 +326,11 @@ function _makeChooseCheckbox($value,$title)
 
 	if ( empty( $THIS_RET['STAFF_ID'] ) )
 	{
-		$has_parents = DBGet( DBQuery( "SELECT 1 
-			FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p 
-			WHERE p.PERSON_ID=sjp.PERSON_ID 
-			AND sjp.STUDENT_ID='" . $value . "' 
-			AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "' 
+		$has_parents = DBGet( DBQuery( "SELECT 1
+			FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
+			WHERE p.PERSON_ID=sjp.PERSON_ID
+			AND sjp.STUDENT_ID='" . $value . "'
+			AND sjp.ADDRESS_ID='" . $THIS_RET['ADDRESS_ID'] . "'
 			ORDER BY sjp.STUDENT_RELATION" ) );
 	}
 	else
@@ -337,11 +347,11 @@ function _makeContactSelect($value,$column)
 {	global $THIS_RET;
 
 	if ( ! $THIS_RET['STAFF_ID'])
-		$RET = DBGet(DBQuery("SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,p.FIRST_NAME||' '||p.LAST_NAME AS CONTACT 
-		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p 
-		WHERE p.PERSON_ID=sjp.PERSON_ID 
-		AND sjp.STUDENT_ID='".$value."' 
-		AND sjp.ADDRESS_ID='".$THIS_RET['ADDRESS_ID']."' 
+		$RET = DBGet(DBQuery("SELECT sjp.PERSON_ID,sjp.STUDENT_RELATION,p.FIRST_NAME||' '||p.LAST_NAME AS CONTACT
+		FROM STUDENTS_JOIN_PEOPLE sjp,PEOPLE p
+		WHERE p.PERSON_ID=sjp.PERSON_ID
+		AND sjp.STUDENT_ID='".$value."'
+		AND sjp.ADDRESS_ID='".$THIS_RET['ADDRESS_ID']."'
 		ORDER BY sjp.STUDENT_RELATION"));
 	else
 		$RET = DBGet(DBQuery("SELECT '' AS PERSON_ID,STAFF_ID AS STUDENT_RELATION,FIRST_NAME||' '||LAST_NAME AS CONTACT FROM STAFF WHERE STAFF_ID='".$THIS_RET['STAFF_ID']."'"));
