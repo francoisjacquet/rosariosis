@@ -471,7 +471,7 @@ function Widgets($item,&$myextra=null)
 				<label><INPUT type="checkbox" name="letter_grade_exclude" value="Y">&nbsp;'._('Did not receive').'</label>
 				<BR />
 				<label><span class="nobr"><INPUT type="radio" name="letter_grade_term" value="'.GetParentMP('SEM',UserMP()).'">&nbsp;'.GetMP(GetParentMP('SEM',UserMP()),'SHORT_NAME').'</span></label>&nbsp;
-				<label><span class="nobr"><INPUT type="radio" name="letter_grade_term" value="'.UserMP().'">&nbsp;'.GetMP(UserMP(),'SHORT_NAME').'</span></label>';
+				<label><span class="nobr"><INPUT type="radio" name="letter_grade_term" value="'.UserMP().'" checked />&nbsp;'.GetMP(UserMP(),'SHORT_NAME').'</span></label>';
 
 				if(mb_strlen($pros = GetChildrenMP('PRO',UserMP())))
 				{
@@ -494,15 +494,24 @@ function Widgets($item,&$myextra=null)
 					AND rg.GRADE_SCALE_ID=(SELECT GRADE_SCALE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\''.UserCoursePeriod().'\')':'')."
 					ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER"),array(),array('GRADE_SCALE_ID'));
 
-					foreach($letter_grades_RET as $grades)
+					$j = 0;
+
+					foreach ( (array) $letter_grades_RET as $grades )
 					{
 						$i = 0;
-						if(count($grades))
+
+						if ( $j++ > 0 )
 						{
-							foreach($grades as $grade)
+							$extra['search'] .= '<br /><br />';
+						}
+
+						foreach ( (array) $grades as $grade )
+						{
+							$extra['search'] .= '<label><INPUT type="checkbox" value="Y" name="letter_grade['.$grade['ID'].']">'.$grade['TITLE'].'</label>&nbsp; ';
+
+							if ( ++$i%6 === 0 )
 							{
-								$extra['search'] .= '<label><INPUT type="checkbox" value="Y" name="letter_grade['.$grade['ID'].']">'.$grade['TITLE'].'</label>&nbsp; ';
-								$i++;
+								$extra['search'] .= '<br /><br />';
 							}
 						}
 					}
