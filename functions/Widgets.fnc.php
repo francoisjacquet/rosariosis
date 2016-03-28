@@ -251,8 +251,8 @@ function Widgets($item,&$myextra=null)
 				$extra['search'] .= '<TR class="st"><TD>' .
 				_( 'Days Absent' ) .
 				'<BR />
-				<label><INPUT type="radio" name="absences_term" value="FY" checked />&nbsp;' . _( 'YTD' ) . '</label>&nbsp; 
-				<label><INPUT type="radio" name="absences_term" value="SEM" />&nbsp;' . GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) . '</label>&nbsp; 
+				<label><INPUT type="radio" name="absences_term" value="FY" checked />&nbsp;' . _( 'YTD' ) . '</label>&nbsp;
+				<label><INPUT type="radio" name="absences_term" value="SEM" />&nbsp;' . GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) . '</label>&nbsp;
 				<label><INPUT type="radio" name="absences_term" value="QTR" />&nbsp;' . GetMP( UserMP(), 'SHORT_NAME' ) . '</label>
 				</TD><TD>' .
 				_( 'Between' ) .
@@ -337,8 +337,8 @@ function Widgets($item,&$myextra=null)
 				'<span style="cursor: help;" title="' . _( 'Use the Choose link of the Course widget (under Scheduling) to select a Course Period.' ) . '">' .
 				_( 'Course Period Absences' ) . '*</span>' .
 				'<BR />
-				<label><INPUT type="radio" name="cp_absences_term" value="FY" checked />&nbsp;' . _( 'YTD' ) . '</label>&nbsp; 
-				<label><INPUT type="radio" name="cp_absences_term" value="SEM" />&nbsp;' . GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) . '</label>&nbsp; 
+				<label><INPUT type="radio" name="cp_absences_term" value="FY" checked />&nbsp;' . _( 'YTD' ) . '</label>&nbsp;
+				<label><INPUT type="radio" name="cp_absences_term" value="SEM" />&nbsp;' . GetMP( GetParentMP( 'SEM', UserMP() ), 'SHORT_NAME' ) . '</label>&nbsp;
 				<label><INPUT type="radio" name="cp_absences_term" value="QTR" />&nbsp;' . GetMP( UserMP(), 'SHORT_NAME' ) . '</label>
 				</TD><TD>' .
 				_( 'Between' ) .
@@ -373,7 +373,9 @@ function Widgets($item,&$myextra=null)
 						$extra['WHERE'] .= " AND sms.STUDENT_ID=s.STUDENT_ID AND sms.MARKING_PERIOD_ID='".$_REQUEST['gpa_term']."'";
 					}
 
-					$extra['WHERE'] .= " AND sms.CUM_".(($_REQUEST['weighted']=='Y')?'':'UN')."WEIGHTED_FACTOR*(SELECT GP_SCALE FROM REPORT_CARD_GRADE_SCALES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."') BETWEEN '".$_REQUEST['gpa_low']."' AND '".$_REQUEST['gpa_high']."'";
+					$extra['WHERE'] .= " AND sms.CUM_" . ( ( $_REQUEST['gpa_weighted'] == 'Y' ) ? '' : 'UN' ) . "WEIGHTED_FACTOR*
+						'" . SchoolInfo( 'REPORTING_GP_SCALE' ) . "'
+						BETWEEN '" . $_REQUEST['gpa_low'] . "' AND '" . $_REQUEST['gpa_high'] . "'";
 
 					if(!$extra['NoSearchTerms'])
 						$_ROSARIO['SearchTerms'] .= '<b>'.(($_REQUEST['gpa_weighted']=='Y')?_('Weighted GPA').' ':_('Unweighted GPA').' ')._('Between').': </b>'.$_REQUEST['gpa_low'].' &amp; '.$_REQUEST['gpa_high'].'<BR />';
@@ -382,7 +384,7 @@ function Widgets($item,&$myextra=null)
 				$extra['search'] .= '<TR class="st"><TD>
 				'._('GPA').'
 				<BR />
-				<label><INPUT type="checkbox" name="weighted" value="Y">&nbsp;'._('Weighted').'</label>
+				<label><INPUT type="checkbox" name="gpa_weighted" value="Y">&nbsp;'._('Weighted').'</label>
 				<BR />';
 
 				$extra['search'] .= (GetMP($MPfy = GetParentMP('FY',GetParentMP('SEM',UserMP())),'DOES_GRADES') == 'Y'?'<label><INPUT type="radio" name="gpa_term" value="'.$MPfy.'" checked />&nbsp;'.GetMP($MPfy,'SHORT_NAME').'</label>&nbsp; ':'')
@@ -484,12 +486,12 @@ function Widgets($item,&$myextra=null)
 				//FJ fix error Invalid argument supplied for foreach()
 				if(!$_REQUEST['search_modfunc'])
 				{
-					$letter_grades_RET = DBGet(DBQuery("SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID 
-					FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs 
-					WHERE rg.SCHOOL_ID='".UserSchool()."' 
-					AND rg.SYEAR='".UserSyear()."' 
-					AND rs.ID=rg.GRADE_SCALE_ID".(User('PROFILE')=='teacher'?' 
-					AND rg.GRADE_SCALE_ID=(SELECT GRADE_SCALE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\''.UserCoursePeriod().'\')':'')." 
+					$letter_grades_RET = DBGet(DBQuery("SELECT rg.ID,rg.TITLE,rg.GRADE_SCALE_ID
+					FROM REPORT_CARD_GRADES rg,REPORT_CARD_GRADE_SCALES rs
+					WHERE rg.SCHOOL_ID='".UserSchool()."'
+					AND rg.SYEAR='".UserSyear()."'
+					AND rs.ID=rg.GRADE_SCALE_ID".(User('PROFILE')=='teacher'?'
+					AND rg.GRADE_SCALE_ID=(SELECT GRADE_SCALE_ID FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID=\''.UserCoursePeriod().'\')':'')."
 					ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER"),array(),array('GRADE_SCALE_ID'));
 
 					foreach($letter_grades_RET as $grades)
@@ -643,7 +645,7 @@ function Widgets($item,&$myextra=null)
 					for ($i=0; $i<$size; $i++)
 						if (!($_REQUEST['discipline'][$key[$i]]))
 							unset($_REQUEST['discipline'][$key[$i]]);
-							
+
 					/*foreach($_REQUEST['discipline'] as $key=>$value)
 					{
 						if(!$value)
@@ -661,7 +663,7 @@ function Widgets($item,&$myextra=null)
 					for ($i=0; $i<$size; $i++)
 						if (!($_REQUEST['discipline_begin'][$key[$i]]) || !is_numeric($_REQUEST['discipline_begin'][$key[$i]]))
 							unset($_REQUEST['discipline_begin'][$key[$i]]);
-							
+
 					/*foreach($_REQUEST['discipline_begin'] as $key=>$value)
 					{
 						if(!$value)
@@ -678,7 +680,7 @@ function Widgets($item,&$myextra=null)
 					for ($i=0; $i<$size; $i++)
 						if (!($_REQUEST['discipline_end'][$key[$i]]) || !is_numeric($_REQUEST['discipline_end'][$key[$i]]))
 							unset($_REQUEST['discipline_end'][$key[$i]]);
-							
+
 					/*foreach($_REQUEST['discipline_end'] as $key=>$value)
 					{
 						if(!$value)
@@ -708,11 +710,11 @@ function Widgets($item,&$myextra=null)
 					$extra['FROM'] .= ',DISCIPLINE_REFERRALS dr ';
 				}
 
-				$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME 
-				FROM STAFF 
-				WHERE SYEAR='".UserSyear()."' 
-				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%,".UserSchool().",%') 
-				AND (PROFILE='admin' OR PROFILE='teacher') 
+				$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME
+				FROM STAFF
+				WHERE SYEAR='".UserSyear()."'
+				AND (SCHOOLS IS NULL OR SCHOOLS LIKE '%,".UserSchool().",%')
+				AND (PROFILE='admin' OR PROFILE='teacher')
 				ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"),array(),array('STAFF_ID'));
 
 				if($_REQUEST['discipline_reporter'])
@@ -738,7 +740,7 @@ function Widgets($item,&$myextra=null)
 
 				if (mb_strlen($_REQUEST['discipline_entry_begin']) > 10) //date = LAST_LOGIN = date + time
 					$discipline_entry_begin_for_ProperDate = mb_substr($_REQUEST['discipline_entry_begin'], 0, 10);
-					
+
 				if($_REQUEST['discipline_entry_begin'] && $_REQUEST['discipline_entry_end'])
 				{
 					$extra['WHERE'] .= " AND dr.ENTRY_DATE BETWEEN '".$_REQUEST['discipline_entry_begin']."' AND '".$_REQUEST['discipline_entry_end']."' ";
@@ -832,7 +834,7 @@ function Widgets($item,&$myextra=null)
 							case 'select':
 								$category['SELECT_OPTIONS'] = str_replace("\n","\r",str_replace("\r\n","\r",$category['SELECT_OPTIONS']));
 								$category['SELECT_OPTIONS'] = explode("\r",$category['SELECT_OPTIONS']);
-								
+
 								$extra['search'] .= '<SELECT name="discipline['.$category['ID'].']"><OPTION value="">'._('N/A').'</OPTION>';
 
 								foreach($category['SELECT_OPTIONS'] as $option)
