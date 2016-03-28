@@ -726,7 +726,7 @@ function Widgets( $item, &$myextra = null )
 						_( 'With' ) ) .
 					' ' . _( 'Report Card Grade' ) . ': </b>';
 
-				$letter_grades_RET = DBGet( DBQuery( "SELECT ID,TITLE
+				$letter_grades_RET = DBGet( DBQuery( "SELECT ID,TITLE,GRADE
 					FROM REPORT_CARD_GRADES
 					WHERE SCHOOL_ID='" . UserSchool() . "'
 					AND SYEAR='" . UserSyear() . "'"), array(), array( 'ID' ) );
@@ -800,9 +800,16 @@ function Widgets( $item, &$myextra = null )
 					" ORDER BY rs.SORT_ORDER,rs.ID,rg.BREAK_OFF IS NOT NULL DESC,rg.BREAK_OFF DESC,rg.SORT_ORDER" ),
 				array(), array( 'GRADE_SCALE_ID' ) );
 
+				$j = 0;
+
 				foreach ( (array) $letter_grades_RET as $grades )
 				{
 					$i = 0;
+
+					if ( $j++ > 0 )
+					{
+						$extra['search'] .= '<br /><br />';
+					}
 
 					foreach ( (array) $grades as $grade )
 					{
@@ -811,9 +818,7 @@ function Widgets( $item, &$myextra = null )
 								$grade['TITLE'] .
 							'</label> &nbsp; ';
 
-						$i++;
-
-						if ( $i%6 === 0 )
+						if ( ++$i%6 === 0 )
 						{
 							$extra['search'] .= '<br /><br />';
 						}
