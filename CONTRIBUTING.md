@@ -27,7 +27,7 @@ Please head to the offical [Contribute page](https://www.rosariosis.org/contribu
 
 ### Coding standards
 
-1. We roughly follow [Wordpress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/).
+1. We roughly follow the [Wordpress Coding Standards](https://make.wordpress.org/core/handbook/coding-standards/).
 
 2. [Comment your code](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/): we use PHPDoc.
 

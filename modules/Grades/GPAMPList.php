@@ -114,12 +114,10 @@ $extra['ORDER_BY'] = 'GRADE_ID, SUM_WEIGHTED_FACTOR DESC';
 
 if (User('PROFILE')=='parent' || User('PROFILE')=='student')
 	$_REQUEST['search_modfunc'] = 'list';
-$SCHOOL_RET = DBGet(DBQuery("SELECT * from schools where ID = '".UserSchool()."'"));
+
 Search('student_id',$extra);
 
 function _roundGPA( $gpa, $column )
 {
-	global $SCHOOL_RET;
-
-    return round( $gpa * $SCHOOL_RET[1]['REPORTING_GP_SCALE'], 2 );
+	return round( $gpa * SchoolInfo( 'REPORTING_GP_SCALE' ), 2 );
 }
