@@ -23,8 +23,6 @@
 	position:relative;
 	float:left;
 	overflow: visible;
-	left:0;
-	z-index:1;
 }
 #menushadow{
 	position:absolute;
@@ -34,11 +32,11 @@
 	width:6px;
 	/*z-index:20*/
 }
-#body,#menu{
+#body{
 	margin-bottom:38px;
 }
-#menu + #body{
-	margin-left: 206px;
+#menu{
+	padding-bottom:38px;
 }
 #footer{
 	clear:both;

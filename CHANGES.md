@@ -59,7 +59,7 @@ Changes in 2.9
 - Improved accessibility (a11y) in Side.php, index.php & Buttons.php
 - SendEmail() program function now uses PHPMailer and accepts attachments
 - Remove FROM_DUAL constant (not used by PostgreSQL) program wide
-- Add jQuery Pin Menu plugin in assets/js/jquery-pinmenu/
+- Add jQuery ScrollToFixed plugin in assets/js/jquery-scrolltofixed/
 - Add STUDENTS_EMAIL_FIELD to CONFIG table in rosariosis.sql & Configuration.php
 - Add Password Reset feature in PasswordReset.php
 - Update TinyMCE to version 4.3.6 in assets/js/tinymce/

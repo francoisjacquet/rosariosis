@@ -341,6 +341,15 @@ window.onload = function () {
 			ajaxLink(document.URL);
 		}, false);
 	}, 1);
+
+	// ScrollToFixed: Menu
+	$('#menu').scrollToFixed({
+		marginTop: function(){
+			var mTop = $(window).height() - $('#menu').outerHeight(true);
+			return mTop >= 0 ? 0 : mTop;
+		},
+		minWidth: 641
+	});
 };
 
 //ListOutput JS
