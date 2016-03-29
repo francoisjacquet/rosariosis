@@ -58,25 +58,25 @@ if ( $_REQUEST['modfunc']=='gradebook')
 	$grades_RET = DBGet(DBQuery("SELECT ID,TITLE,GPA_VALUE FROM REPORT_CARD_GRADES WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."'"),array(),array('ID'));
 
 	if ( $gradebook_config['WEIGHT']=='Y')
-		$points_RET = DBGet(DBQuery("SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT 
-		FROM STUDENTS s 
-		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='".$course_period_id."') 
-		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='".$course_id."' AND ga.STAFF_ID='".User('STAFF_ID')."') AND ga.MARKING_PERIOD_ID".($gradebook_config['ELIGIBILITY_CUMULITIVE']=='Y'?" IN (".GetChildrenMP('SEM',UserMP()).")":"='".UserMP()."'").") 
+		$points_RET = DBGet(DBQuery("SELECT DISTINCT ON (s.STUDENT_ID,gt.ASSIGNMENT_TYPE_ID) s.STUDENT_ID, gt.ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL, gt.FINAL_GRADE_PERCENT
+		FROM STUDENTS s
+		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='".$course_period_id."')
+		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='".$course_id."' AND ga.STAFF_ID='".User('STAFF_ID')."') AND ga.MARKING_PERIOD_ID".($gradebook_config['ELIGIBILITY_CUMULITIVE']=='Y'?" IN (".GetChildrenMP('SEM',UserMP()).")":"='".UserMP()."'").")
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID),
-		GRADEBOOK_ASSIGNMENT_TYPES gt 
-		WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID 
-		AND gt.COURSE_ID='".$course_id."' 
-		AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) 
-		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL) 
+		GRADEBOOK_ASSIGNMENT_TYPES gt
+		WHERE gt.ASSIGNMENT_TYPE_ID=ga.ASSIGNMENT_TYPE_ID
+		AND gt.COURSE_ID='".$course_id."'
+		AND ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
+		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL)
 		GROUP BY s.STUDENT_ID,ss.START_DATE,gt.ASSIGNMENT_TYPE_ID,gt.FINAL_GRADE_PERCENT"),array(),array('STUDENT_ID'));
 	else
-		$points_RET = DBGet(DBQuery("SELECT DISTINCT ON (s.STUDENT_ID) s.STUDENT_ID,'-1' AS ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL,'1' AS FINAL_GRADE_PERCENT 
-		FROM STUDENTS s 
-		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='".$course_period_id."') 
-		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='".$course_id."' AND ga.STAFF_ID='".User('STAFF_ID')."') AND ga.MARKING_PERIOD_ID".($gradebook_config['ELIGIBILITY_CUMULITIVE']=='Y'?" IN (".GetChildrenMP('SEM',UserMP()).")":"='".UserMP()."'").") 
+		$points_RET = DBGet(DBQuery("SELECT DISTINCT ON (s.STUDENT_ID) s.STUDENT_ID,'-1' AS ASSIGNMENT_TYPE_ID,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'gg.POINTS')).") AS PARTIAL_POINTS,sum(".db_case(array('gg.POINTS',"'-1'","'0'",'ga.POINTS')).") AS PARTIAL_TOTAL,'1' AS FINAL_GRADE_PERCENT
+		FROM STUDENTS s
+		JOIN SCHEDULE ss ON (ss.STUDENT_ID=s.STUDENT_ID AND ss.COURSE_PERIOD_ID='".$course_period_id."')
+		JOIN GRADEBOOK_ASSIGNMENTS ga ON ((ga.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID OR ga.COURSE_ID='".$course_id."' AND ga.STAFF_ID='".User('STAFF_ID')."') AND ga.MARKING_PERIOD_ID".($gradebook_config['ELIGIBILITY_CUMULITIVE']=='Y'?" IN (".GetChildrenMP('SEM',UserMP()).")":"='".UserMP()."'").")
 		LEFT OUTER JOIN GRADEBOOK_GRADES gg ON (gg.STUDENT_ID=s.STUDENT_ID AND gg.ASSIGNMENT_ID=ga.ASSIGNMENT_ID AND gg.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID)
-		WHERE ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE) 
-		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL) 
+		WHERE ((ga.ASSIGNED_DATE IS NULL OR CURRENT_DATE>=ga.ASSIGNED_DATE)
+		AND (ga.DUE_DATE IS NULL OR CURRENT_DATE>=ga.DUE_DATE) OR gg.POINTS IS NOT NULL)
 		GROUP BY s.STUDENT_ID,ss.START_DATE"),array(),array('STUDENT_ID'));
 
 	if (count($points_RET))
@@ -94,9 +94,10 @@ if ( $_REQUEST['modfunc']=='gradebook')
 				$total /= $total_percent;
 
 			$grade = $grades_RET[_makeLetterGrade($total,0,0,'ID')][1];
+
 			if ( $grade['GPA_VALUE']=='0' || ! $grade['GPA_VALUE'])
 				$code = 'FAILING';
-			elseif (mb_strpos($grade['TITLE'],'D')!==false || $grade['GPA_VALUE']<2)
+			elseif ( $grade['GPA_VALUE'] < ( SchoolInfo( 'REPORTING_GP_SCALE' ) / 2 ) )
 				$code = 'BORDERLINE';
 			else
 				$code = 'PASSING';
