@@ -63,6 +63,12 @@ if ( isset( $_POST['values'] )
 	$fields = "ID,SYEAR,SCHOOL_ID,STUDENT_ID,";
 	$values = $referral_id . ",'" . UserSyear() . "','" . UserSchool() . "','" . UserStudentID() . "',";
 
+	if ( User( 'PROFILE' ) === 'teacher' )
+	{
+		// Limit relator to Teacher.
+		$_REQUEST['values']['STAFF_ID'] = $_POST['values']['STAFF_ID'] = User( 'STAFF_ID' );
+	}
+
 	$go = 0;
 
 	$categories_RET = DBGet(DBQuery("SELECT df.ID,df.DATA_TYPE,du.TITLE,du.SELECT_OPTIONS FROM DISCIPLINE_FIELDS df,DISCIPLINE_FIELD_USAGE du WHERE du.SYEAR='".UserSyear()."' AND du.SCHOOL_ID='".UserSchool()."' AND du.DISCIPLINE_FIELD_ID=df.ID ORDER BY du.SORT_ORDER"), array(), array('ID'));
@@ -167,11 +173,39 @@ if (UserStudentID() && $_REQUEST['student_id'])
 	echo '</td></tr>';
 
 	echo '<tr class="st"><td><span class="legend-gray">'._('Reporter').'</span></td><td>';
-	$users_RET = DBGet(DBQuery("SELECT STAFF_ID,FIRST_NAME,LAST_NAME,MIDDLE_NAME,EMAIL,PROFILE FROM STAFF WHERE SYEAR='".UserSyear()."' AND SCHOOLS LIKE '%,".UserSchool().",%' AND PROFILE IN ('admin','teacher') ORDER BY LAST_NAME,FIRST_NAME,MIDDLE_NAME"));
-	echo '<select name="values[STAFF_ID]">';
-	foreach ( (array) $users_RET as $user)
-		echo '<option value="'.$user['STAFF_ID'].'"'.(User('STAFF_ID')==$user['STAFF_ID']?' selected':'').'>'.$user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'].'</option>';
-	echo '</select>';
+
+	$users_RET = DBGet( DBQuery( "SELECT STAFF_ID,FIRST_NAME||', '||LAST_NAME||coalesce(' '||MIDDLE_NAME,' ')AS FULL_NAME,EMAIL,PROFILE
+		FROM STAFF
+		WHERE SYEAR='" . UserSyear() . "'
+		AND SCHOOLS LIKE '%," . UserSchool() . ",%'
+		AND PROFILE IN ('admin','teacher')
+		ORDER BY FULL_NAME" ) );
+
+	$users_options = array();
+
+	foreach ( (array) $users_RET as $user )
+	{
+		$users_options[ $user['STAFF_ID'] ] = $user['FULL_NAME'];
+	}
+
+	if ( User( 'PROFILE' ) === 'teacher' )
+	{
+		// Limit reporter to Teacher.
+		echo NoInput( $users_options[ User( 'STAFF_ID' ) ] );
+	}
+	else
+	{
+		echo SelectInput(
+			User( 'STAFF_ID' ),
+			'values[STAFF_ID]',
+			'',
+			$users_options,
+			false,
+			'required',
+			false
+		);
+	}
+
 	echo '</td></tr>';
 
 	echo '<tr class="st"><td><span class="legend-gray">'._('Incident Date').'</span></td><td>';
@@ -187,11 +221,11 @@ if (UserStudentID() && $_REQUEST['student_id'])
 		{
 			if ( $user['PROFILE'] === 'admin' )
 			{
-				$emailadmin_options[$user['EMAIL']] = $user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'];
+				$emailadmin_options[ $user['EMAIL'] ] = $user['FULL_NAME'];
 			}
 			elseif ( $user['PROFILE'] === 'teacher' )
 			{
-				$emailteacher_options[$user['EMAIL']] = $user['LAST_NAME'].', '.$user['FIRST_NAME'].' '.$user['MIDDLE_NAME'];
+				$emailteacher_options[ $user['EMAIL'] ] = $user['FULL_NAME'];
 			}
 		}
 	}
