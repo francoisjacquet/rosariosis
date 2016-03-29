@@ -60,15 +60,6 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 
 	unset( $tmp_REQUEST['modname'] );
 
-	// Remove empty values.
-	$tmp_REQUEST = array_filter(
-		$tmp_REQUEST,
-		function( $value )
-		{
-			return $value !== '';
-		}
-	);
-
 	// Add other params.
 	foreach ( (array) $tmp_REQUEST as $key => $value )
 	{
@@ -84,25 +75,28 @@ function PreparePHP_SELF( $tmp_REQUEST = array(), $remove = array(), $add = arra
 						{
 							foreach ( (array) $value2 as $key3 => $value3 )
 							{
-								$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . '][' . $key2 . '][' . $key3 . ']=' .
-									_myURLEncode( $value3 );
+								if ( $value3 !== '' )
+								{
+									$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . '][' . $key2 . '][' . $key3 . ']=' .
+										_myURLEncode( $value3 );
+								}
 							}
 						}
-						else
+						elseif ( $value2 !== '' )
 						{
 							$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . '][' . $key2 . ']=' .
 								_myURLEncode( $value2 );
 						}
 					}
 				}
-				else
+				elseif ( $value1 !== '' )
 				{
 					$PHP_tmp_SELF .= '&' . $key . '[' . $key1 . ']=' .
 						_myURLEncode( $value1 );
 				}
 			}
 		}
-		else
+		elseif ( $value !== '' )
 		{
 			$PHP_tmp_SELF .= '&' . $key . "=" .
 				_myURLEncode( $value );
