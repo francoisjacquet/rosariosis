@@ -499,7 +499,7 @@ function RequestedDate( $year, $month, $day )
 		{
 			$day--;
 
-			$date = $day . '-' . $month . '-' . $year;
+			$date = $year . '-' . $month . '-' . $day;
 		}
 	}
 
@@ -632,7 +632,7 @@ function __mnwswitch_num2char( $month )
 	{
 		return $months_number[ $month ];
 	}
-	else 
+	else
 		return $month;
 }
 
@@ -670,6 +670,6 @@ function __mnwswitch_char2num( $month )
 	{
 		return $months_number[ $month ];
 	}
-	else 
+	else
 		return $month;
 }
