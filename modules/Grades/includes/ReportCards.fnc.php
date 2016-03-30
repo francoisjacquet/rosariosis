@@ -18,9 +18,9 @@ function ReportCardsIncludeForm()
 {
 	global $extra;
 
-	// Get Attendance Codes
+	// Get Other Attendance Codes
 	//FJ get the title instead of the attendance code short name
-	$attendance_codes = DBGet( DBQuery( "SELECT SHORT_NAME,ID,TITLE
+	$other_attendance_codes = DBGet( DBQuery( "SELECT SHORT_NAME,ID,TITLE
 		FROM ATTENDANCE_CODES
 		WHERE SYEAR='" . UserSyear() . "'
 		AND SCHOOL_ID='" . UserSchool() . "'
@@ -65,7 +65,7 @@ function ReportCardsIncludeForm()
 	$return .= '<TD><label><INPUT type="checkbox" name="elements[ytd_tardies]" value="Y" /> ' .
 		_( 'Other Attendance Year-to-date' ) . ':</label> <SELECT name="ytd_tardies_code">';
 
-	foreach ( (array) $attendance_codes as $code )
+	foreach ( (array) $other_attendance_codes as $code )
 	{
 		$return .= '<OPTION value="' . $code['ID'] . '">'.  $code['TITLE'] . '</OPTION>';
 	}
@@ -76,7 +76,7 @@ function ReportCardsIncludeForm()
 	$return .= '<TD><label><INPUT type="checkbox" name="elements[mp_tardies]" value="Y" /> ' .
 		_( 'Other Attendance this quarter' ) . ':</label> <SELECT name="mp_tardies_code">';
 
-	foreach ( (array) $attendance_codes as $code )
+	foreach ( (array) $other_attendance_codes as $code )
 	{
 		$return .= '<OPTION value="' . $code['ID'] . '">' . $code['TITLE'] . '</OPTION>';
 	}
@@ -311,7 +311,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			AND COURSE_ID='0'
 			ORDER BY SORT_ORDER,ID" ), array(), array( 'ID' ) );
 
-		//FJ get color for Course specific categories & get comment scale
+		// FJ get color for Course specific categories & get comment scale.
 		//$commentsA_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NOT NULL AND COURSE_ID!='0'"),array(),array('ID'));
 		$commentsA_RET = DBGet( DBQuery( "SELECT c.ID,c.TITLE,c.SORT_ORDER,cc.COLOR,
 				cs.TITLE AS SCALE_TITLE
@@ -335,11 +335,11 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			AND COURSE_ID IS NULL" ), array(), array( 'ID' ) );
 	}
 
-	// Other Attendance this quarter or Other Attendance Year-to-date
+	// Other Attendance this quarter or Other Attendance Year-to-date.
 	if ( $_REQUEST['elements']['mp_tardies'] === 'Y'
 		|| $_REQUEST['elements']['ytd_tardies'] === 'Y' )
 	{
-		// GET THE ATTENDANCE
+		// GET THE ATTENDANCE.
 		unset( $extra );
 
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
@@ -357,13 +357,21 @@ function ReportCardsGenerate( $student_array, $mp_array )
 		$extra['group'] = array( 'STUDENT_ID', 'ATTENDANCE_CODE', 'MARKING_PERIOD_ID' );
 
 		$attendance_RET = GetStuList( $extra );
+
+		// Get Other Attendance Codes.
+		$other_attendance_codes = DBGet( DBQuery( "SELECT SHORT_NAME,ID,TITLE
+			FROM ATTENDANCE_CODES
+			WHERE SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'
+			AND (DEFAULT_CODE!='Y' OR DEFAULT_CODE IS NULL)
+			AND TABLE_NAME='0'" ), array(), array( 'ID' ) );
 	}
 
-	// Daily Absences this quarter or Year-to-date Daily Absences
+	// Daily Absences this quarter or Year-to-date Daily Absences.
 	if ( $_REQUEST['elements']['mp_absences'] === 'Y'
 		|| $_REQUEST['elements']['ytd_absences'] === 'Y' )
 	{
-		// GET THE DAILY ATTENDANCE
+		// GET THE DAILY ATTENDANCE.
 		unset( $extra );
 
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
@@ -382,10 +390,10 @@ function ReportCardsGenerate( $student_array, $mp_array )
 		$attendance_day_RET = GetStuList( $extra );
 	}
 
-	// Mailing Labels
+	// Mailing Labels.
 	if ( $_REQUEST['mailing_labels'] === 'Y' )
 	{
-		// GET THE ADDRESSES
+		// GET THE ADDRESSES.
 		unset( $extra );
 
 		$extra['WHERE'] = " AND s.STUDENT_ID IN (" . $st_list . ")";
@@ -417,7 +425,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 			AND c.SCALE_ID IS NOT NULL)
 		ORDER BY cs.SORT_ORDER,cs.ID,cc.SORT_ORDER,cc.ID" ) );
 
-	// ListOutput columns
+	// ListOutput columns.
 	$LO_columns = array( 'COURSE_TITLE' => _( 'Course' ) );
 
 	if ( $_REQUEST['elements']['teacher'] === 'Y' )
@@ -452,12 +460,12 @@ function ReportCardsGenerate( $student_array, $mp_array )
 		$LO_columns['COMMENT'] = _( 'Comments' );
 	}
 
-	// Report Cards array
+	// Report Cards array.
 	$report_cards = array();
 
 	foreach ( (array) $student_RET as $student_id => $course_periods )
 	{
-		// Start buffer
+		// Start buffer.
 		ob_start();
 
 		$comments_arr = array();
@@ -468,7 +476,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 		$i = 0;
 
-		// Course Periods
+		// Course Periods.
 		foreach ( (array) $course_periods as $course_period_id => $mps )
 		{
 			$i++;
@@ -492,7 +500,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 					$grades_RET[ $i ][ $mp ] .= '&nbsp;' . $mps[ $mp ][1]['GRADE_PERCENT'] . '%';
 				}
 
-				// Comments
+				// Comments.
 				if ( $_REQUEST['elements']['comments'] === 'Y' )
 				{
 					$sep = '; ';
@@ -503,7 +511,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 					$temp_grades_COMMENTS = $grades_RET[ $i ]['COMMENT'];
 
-					//FJ fix error Invalid argument supplied for foreach()
+					// FJ fix error Invalid argument supplied for foreach().
 					foreach ( (array) $comments_RET[ $student_id ][ $course_period_id ][ $mp ] as $comment)
 					{
 						if ( $all_commentsA_RET[$comment['REPORT_CARD_COMMENT_ID']] )
@@ -578,7 +586,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 				$last_mp = $mp;
 			}
 
-			// Period-by-period absences
+			// Period-by-period absences.
 			if ( $_REQUEST['elements']['period_absences'] === 'Y' )
 			{
 				if ( $mps[ $last_mp ][1]['DOES_ATTENDANCE'] )
@@ -593,7 +601,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 		asort( $comments_arr, SORT_NUMERIC );
 
-		// Mailing Labels
+		// Mailing Labels.
 		if ( $_REQUEST['mailing_labels'] === 'Y' )
 		{
 			if ( isset( $addresses_RET[ $student_id ] )
@@ -622,7 +630,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 				echo '<BR /><BR /><BR />';
 			}
 
-			//FJ add school logo
+			// FJ add school logo.
 			$logo_pic =  'assets/school_logo_' . UserSchool() . '.jpg';
 
 			$picwidth = 120;
@@ -636,20 +644,22 @@ function ReportCardsGenerate( $student_array, $mp_array )
 					<TD class="width-100p">';
 			}
 
-			// Headers
+			// Headers.
 			DrawHeader( _( 'Report Card' ) );
 
 			DrawHeader($mps[key( $mps )][1]['FULL_NAME'], $mps[key( $mps )][1]['STUDENT_ID'] );
 
 			DrawHeader( $mps[key( $mps )][1]['GRADE_ID'], SchoolInfo( 'TITLE' ) );
 
-			//FJ add school year
+			// FJ add school year.
 			DrawHeader( _( 'School Year' ) . ': ' .
 				FormatSyear( UserSyear(), Config( 'SCHOOL_SYEAR_OVER_2_YEARS' ) ) );
 
 			$count_lines = 4;
 
-			// Marking Period-by-period absences
+			$mp_absences = '';
+
+			// Marking Period-by-period absences.
 			if ( $_REQUEST['elements']['mp_absences'] === 'Y' )
 			{
 				$count = 0;
@@ -663,7 +673,7 @@ function ReportCardsGenerate( $student_array, $mp_array )
 					$count;
 			}
 
-			// Year-to-date Daily Absences
+			// Year-to-date Daily Absences.
 			if ( $_REQUEST['elements']['ytd_absences'] === 'Y' )
 			{
 				$count = 0;
@@ -687,26 +697,30 @@ function ReportCardsGenerate( $student_array, $mp_array )
 				$count_lines++;
 			}
 
-			// Marking Period Tardies
+			$mp_tardies = '';
+
+			// Marking Period Tardies.
 			if ( $_REQUEST['elements']['mp_tardies'] === 'Y' )
 			{
 				$count = 0;
 
-				foreach ( (array) $attendance_RET[ $student_id ][$_REQUEST['mp_tardies_code']][ $last_mp ] as $abs )
+				foreach ( (array) $attendance_RET[ $student_id ][ $_REQUEST['mp_tardies_code'] ][ $last_mp ] as $abs )
 				{
 					$count++;
 				}
 
-				$mp_tardies = sprintf( _( 'Tardy in %s' ), GetMP( $last_mp, 'TITLE' ) ) . ': ' .
+				$tardies_code_title = $other_attendance_codes[ $_REQUEST['mp_tardies_code'] ][1]['TITLE'];
+
+				$mp_tardies = sprintf( _( '%s in %s' ), $tardies_code_title, GetMP( $last_mp, 'TITLE' ) ) . ': ' .
 					$count;
 			}
 
-			// Year to Date Tardies
+			// Year to Date Tardies.
 			if ( $_REQUEST['elements']['ytd_tardies'] === 'Y' )
 			{
 				$count = 0;
 
-				foreach ( (array) $attendance_RET[ $student_id ][$_REQUEST['ytd_tardies_code']] as $mp_abs )
+				foreach ( (array) $attendance_RET[ $student_id ][ $_REQUEST['ytd_tardies_code'] ] as $mp_abs )
 				{
 					foreach ( (array) $mp_abs as $abs )
 					{
@@ -714,7 +728,9 @@ function ReportCardsGenerate( $student_array, $mp_array )
 					}
 				}
 
-				DrawHeader( _( 'Tardy this year' ) . ': ' . $count, $mp_tardies );
+				$tardies_code_title = $other_attendance_codes[ $_REQUEST['ytd_tardies_code'] ][1]['TITLE'];
+
+				DrawHeader( sprintf( _( '%s this year' ), $tardies_code_title ) . ': ' . $count, $mp_tardies );
 
 				$count_lines++;
 			}

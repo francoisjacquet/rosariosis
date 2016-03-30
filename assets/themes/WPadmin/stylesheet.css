@@ -919,7 +919,7 @@ td.calendar-menu{
 		float:right
 	}
 	#menu{
-		margin-bottom:0
+		padding-bottom:0
 	}
 	.adminmenu a{
 		padding:2px 5px
