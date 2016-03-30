@@ -14,7 +14,7 @@ if ( ! $_REQUEST['mp'] || mb_strpos($str="'".UserMP()."','".$sem."','".$fy."',".
 
 $course_period_id = UserCoursePeriod();
 
-if (empty($course_period_id))                                  
+if (empty($course_period_id))
 	ErrorMessage(array(_('You cannot enter grades for this course period.')),'fatal');
 
 //FJ add CLASS_RANK
@@ -23,7 +23,7 @@ if (empty($course_period_id))
 //$course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit($course_period_id, '".$_REQUEST['mp']."') AS CREDITS, (SELECT ATTENDANCE FROM SCHOOL_PERIODS WHERE PERIOD_ID=cp.PERIOD_ID) AS ATTENDANCE FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
 $course_RET = DBGet(DBQuery("SELECT cp.COURSE_ID,c.TITLE as COURSE_NAME, cp.TITLE, cp.GRADE_SCALE_ID, credit(CAST(".$course_period_id." AS integer), CAST('".$_REQUEST['mp']."' AS character varying)) AS CREDITS, DOES_CLASS_RANK AS CLASS_RANK, c.CREDIT_HOURS FROM COURSE_PERIODS cp, COURSES c WHERE cp.COURSE_ID = c.COURSE_ID AND cp.COURSE_PERIOD_ID='".$course_period_id."'"));
 
-if ( ! $course_RET[1]['GRADE_SCALE_ID'])                                  
+if ( ! $course_RET[1]['GRADE_SCALE_ID'])
 	ErrorMessage(array(_('You cannot enter grades for this course period.')),'fatal');
 
 $course_title = $course_RET[1]['TITLE'];
@@ -36,15 +36,15 @@ $current_completed = count(DBGet(DBQuery("SELECT '' FROM GRADES_COMPLETED WHERE 
 
 $grades_RET = DBGet(DBQuery("SELECT rcg.ID,rcg.TITLE,rcg.GPA_VALUE AS WEIGHTED_GP, rcg.UNWEIGHTED_GP ,gs.GP_SCALE  FROM REPORT_CARD_GRADES rcg, REPORT_CARD_GRADE_SCALES gs WHERE rcg.grade_scale_id = gs.id AND rcg.SYEAR='".UserSyear()."' AND rcg.SCHOOL_ID='".UserSchool()."' AND rcg.GRADE_SCALE_ID='".$grade_scale_id."' ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER"),array(),array('ID'));
 
-$categories_RET = DBGet(DBQuery("SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER 
-FROM REPORT_CARD_COMMENT_CATEGORIES rc 
-WHERE rc.COURSE_ID='".$course_id."' 
+$categories_RET = DBGet(DBQuery("SELECT rc.ID,rc.TITLE,rc.COLOR,1,rc.SORT_ORDER
+FROM REPORT_CARD_COMMENT_CATEGORIES rc
+WHERE rc.COURSE_ID='".$course_id."'
 AND (SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE COURSE_ID=rc.COURSE_ID AND CATEGORY_ID=rc.ID)>0
-UNION 
-SELECT 0,'"._('All Courses')."',NULL,2,NULL 
+UNION
+SELECT 0,'"._('All Courses')."',NULL,2,NULL
 WHERE (SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID='0' AND SYEAR='".UserSyear()."')>0
-UNION 
-SELECT -1,'"._('General')."',NULL,3,NULL 
+UNION
+SELECT -1,'"._('General')."',NULL,3,NULL
 WHERE (SELECT count(1) FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND COURSE_ID IS NULL AND SYEAR='".UserSyear()."')>0
 ORDER BY 4,SORT_ORDER"),array(),array('ID'));
 
@@ -63,11 +63,11 @@ if ( $_REQUEST['tab_id']=='-1')
 {
 	$commentsB_RET = DBGet(DBQuery("SELECT ID,TITLE,SORT_ORDER FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID IS NULL ORDER BY SORT_ORDER"),array(),array('ID'));
 
-	$current_commentsB_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID 
-	FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp 
-	WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID 
-	AND cp.COURSE_PERIOD_ID='".$course_period_id."' 
-	AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."' 
+	$current_commentsB_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID
+	FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp
+	WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
+	AND cp.COURSE_PERIOD_ID='".$course_period_id."'
+	AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'
 	AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID IS NULL)"),array(),array('STUDENT_ID'));
 	$max_current_commentsB = 0;
 
@@ -79,22 +79,22 @@ elseif ( $_REQUEST['tab_id']=='0')
 {
 	$commentsA_RET = DBGet(DBQuery("SELECT ID,TITLE,SCALE_ID FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID='0' ORDER BY SORT_ORDER"));
 
-	$current_commentsA_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT 
-	FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp 
-	WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID 
-	AND cp.COURSE_PERIOD_ID='".$course_period_id."' 
-	AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."' 
+	$current_commentsA_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
+	FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp
+	WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
+	AND cp.COURSE_PERIOD_ID='".$course_period_id."'
+	AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'
 	AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE COURSE_ID='0')"),array(),array('STUDENT_ID','REPORT_CARD_COMMENT_ID'));
 }
 elseif ( $_REQUEST['tab_id'])
 {
 	$commentsA_RET = DBGet(DBQuery("SELECT ID,TITLE,SCALE_ID FROM REPORT_CARD_COMMENTS WHERE SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' AND COURSE_ID='".$course_id."' AND CATEGORY_ID='".$_REQUEST['tab_id']."' ORDER BY SORT_ORDER"));
 
-	$current_commentsA_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT 
-	FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp 
-	WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID 
-	AND cp.COURSE_PERIOD_ID='".$course_period_id."' 
-	AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."' 
+	$current_commentsA_RET = DBGet(DBQuery("SELECT g.STUDENT_ID,g.REPORT_CARD_COMMENT_ID,g.COMMENT
+	FROM STUDENT_REPORT_CARD_COMMENTS g,COURSE_PERIODS cp
+	WHERE cp.COURSE_PERIOD_ID=g.COURSE_PERIOD_ID
+	AND cp.COURSE_PERIOD_ID='".$course_period_id."'
+	AND g.MARKING_PERIOD_ID='".$_REQUEST['mp']."'
 	AND g.REPORT_CARD_COMMENT_ID IN (SELECT ID FROM REPORT_CARD_COMMENTS WHERE CATEGORY_ID='".$_REQUEST['tab_id']."')"),array(),array('STUDENT_ID','REPORT_CARD_COMMENT_ID'));
 }
 
@@ -109,7 +109,7 @@ $commentsB_select = array();
 if (0)
 	foreach ( (array) $commentsB_RET as $id => $comment)
 		$commentsB_select += array($id => array($comment[1]['SORT_ORDER'],$comment[1]['TITLE']));
-		
+
 elseif (is_array($commentsB_RET))
 	foreach ( (array) $commentsB_RET as $id => $comment)
 		$commentsB_select += array($id => array($comment[1]['SORT_ORDER'].' - '.(mb_strlen($comment[1]['TITLE']) > 99+3?mb_substr($comment[1]['TITLE'],0,99).'...':$comment[1]['TITLE']),$comment[1]['TITLE']));
@@ -164,34 +164,34 @@ if ( $_REQUEST['modfunc']=='gradebook')
 		{
 			if (GetMP($_REQUEST['mp'],'MP')=='SEM')
 			{
-				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,'Y' AS DOES_GRADES 
-				FROM SCHOOL_MARKING_PERIODS 
-				WHERE MP='QTR' 
-				AND PARENT_ID='".$_REQUEST['mp']."' 
-				UNION 
-				SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES 
-				FROM SCHOOL_MARKING_PERIODS 
-				WHERE MP='SEM' 
+				$RET = DBGet(DBQuery("SELECT MARKING_PERIOD_ID,'Y' AS DOES_GRADES
+				FROM SCHOOL_MARKING_PERIODS
+				WHERE MP='QTR'
+				AND PARENT_ID='".$_REQUEST['mp']."'
+				UNION
+				SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES
+				FROM SCHOOL_MARKING_PERIODS
+				WHERE MP='SEM'
 				AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'"));
 				$prefix = 'SEM-';
 			}
 			else
 			{
-				$RET = DBGet(DBQuery("SELECT q.MARKING_PERIOD_ID,'Y' AS DOES_GRADES 
-				FROM SCHOOL_MARKING_PERIODS q,SCHOOL_MARKING_PERIODS s 
-				WHERE q.MP='QTR' 
-				AND s.MP='SEM' 
-				AND q.PARENT_ID=s.MARKING_PERIOD_ID 
-				AND s.PARENT_ID='".$_REQUEST['mp']."' 
-				UNION 
-				SELECT MARKING_PERIOD_ID,DOES_GRADES 
-				FROM SCHOOL_MARKING_PERIODS 
-				WHERE MP='SEM' 
-				AND PARENT_ID='".$_REQUEST['mp']."' 
-				UNION 
-				SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES 
-				FROM SCHOOL_MARKING_PERIODS 
-				WHERE MP='FY' 
+				$RET = DBGet(DBQuery("SELECT q.MARKING_PERIOD_ID,'Y' AS DOES_GRADES
+				FROM SCHOOL_MARKING_PERIODS q,SCHOOL_MARKING_PERIODS s
+				WHERE q.MP='QTR'
+				AND s.MP='SEM'
+				AND q.PARENT_ID=s.MARKING_PERIOD_ID
+				AND s.PARENT_ID='".$_REQUEST['mp']."'
+				UNION
+				SELECT MARKING_PERIOD_ID,DOES_GRADES
+				FROM SCHOOL_MARKING_PERIODS
+				WHERE MP='SEM'
+				AND PARENT_ID='".$_REQUEST['mp']."'
+				UNION
+				SELECT MARKING_PERIOD_ID,NULL AS DOES_GRADES
+				FROM SCHOOL_MARKING_PERIODS
+				WHERE MP='FY'
 				AND MARKING_PERIOD_ID='".$_REQUEST['mp']."'"));
 				$prefix = 'FY-';
 			}
@@ -309,11 +309,11 @@ if ( $_REQUEST['values'] && $_POST['values'])
 	require_once 'ProgramFunctions/_makeLetterGrade.fnc.php';
 	require_once 'ProgramFunctions/_makePercentGrade.fnc.php';
 	$completed = true;
-	
+
 	//FJ add precision to year weighted GPA if not year course period
 	$course_period_mp = DBGet(DBQuery("SELECT MP FROM COURSE_PERIODS WHERE COURSE_PERIOD_ID='".$course_period_id."'"));
 	$course_period_mp = $course_period_mp[1]['MP'];
-	
+
 	foreach ( (array) $_REQUEST['values'] as $student_id => $columns)
 	{
 		$sql = $sep = '';
@@ -339,7 +339,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 					$letter = $grades_RET[ $grade ][1]['TITLE'];
 					$weighted = $grades_RET[ $grade ][1]['WEIGHTED_GP'];
 					$unweighted = $grades_RET[ $grade ][1]['UNWEIGHTED_GP'];
-					
+
 					//FJ add precision to year weighted GPA if not year course period
 					if (GetMP($_REQUEST['mp'],'MP')=='FY' && $course_period_mp!='FY')
 					{
@@ -410,7 +410,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 			{
 				//FJ bugfix SQL error invalid input syntax for type numeric
 				$percent = trim($columns['percent'],'%');
-				
+
 				if ( !is_numeric($percent))
 					$percent = (float)$percent;
 
@@ -426,7 +426,7 @@ if ( $_REQUEST['values'] && $_POST['values'])
 					$letter = $grades_RET[ $grade ][1]['TITLE'];
 					$weighted = $grades_RET[ $grade ][1]['WEIGHTED_GP'];
 					$unweighted = $grades_RET[ $grade ][1]['UNWEIGHTED_GP'];
-					
+
 					//FJ add precision to year weighted GPA if not year course period
 					if (GetMP($_REQUEST['mp'],'MP')=='FY' && $course_period_mp!='FY')
 					{
@@ -678,7 +678,7 @@ if ( $_REQUEST['mp'] == $sem
 if (GetMP($sem,'DOES_GRADES')=='Y')
 	$mps_select .= '<option value="'.$sem.'"'.(($sem==$_REQUEST['mp'])?' selected':'').">".GetMP($sem)."</option>";
 
-if ( $_REQUEST['mp'] == $fy 
+if ( $_REQUEST['mp'] == $fy
 	&& GetMP( $fy, 'POST_START_DATE' )
 	&& DBDate() >= GetMP( $fy, 'POST_START_DATE' )
 	&& DBDate() <= GetMP( $fy, 'POST_END_DATE' ) )
@@ -811,14 +811,14 @@ if ( !isset($_REQUEST['_ROSARIO_PDF']))
 		SubmitButton( _( 'Save' ) ),
 		CheckBoxOnclick( 'include_inactive', _( 'Include Inactive Students' ) )
 	);
-	
+
 	//FJ add grade posting dates
 	$grade_posting_dates = DBGet(DBQuery("SELECT POST_START_DATE,POST_END_DATE FROM SCHOOL_MARKING_PERIODS WHERE MARKING_PERIOD_ID='".$_REQUEST['mp']."' AND SCHOOL_ID='".UserSchool()."' AND SYEAR='".UserSyear()."' LIMIT 1"));
 	$grade_posting_dates_text = '';
 
 	if ( $grade_posting_dates)
 		$grade_posting_dates_text = ' '.sprintf(_('Grade Posting dates: %s - %s'),ProperDate($grade_posting_dates[1]['POST_START_DATE']),ProperDate($grade_posting_dates[1]['POST_END_DATE']));
-		
+
 	//FJ add translation
 	DrawHeader(($current_completed?'<span style="color:green">'._('These grades are complete.').'</span>':'<span style="color:red">'._('These grades are NOT complete.').'</span>').(AllowEdit()?' | <span style="color:green">'._('You can edit these grades.').$grade_posting_dates_text.'</span>':' | <span style="color:red">'._('You can not edit these grades.').$grade_posting_dates_text.'</span>'));
 
@@ -913,7 +913,7 @@ echo '</form>';
  * @uses MakeStudentPhotoTipMessage()
  *
  * @see ProgramFunctions/TipMessage.fnc.php
- * 
+ *
  * @global $THIS_RET, see DBGet()
  *
  * @param  string $full_name Student Full Name
@@ -981,7 +981,7 @@ function _makeLetterPercent($student_id,$column)
 					'size="5" tabindex="' . ( $tabindex += 100 ) . '"',
 					false
 				) . '</span>';
-				
+
 				$return = InputDivOnclick(
 					$id,
 					$select_html,
@@ -1067,17 +1067,31 @@ function _makeCommentsA($value,$column)
 	return $return;
 }
 
-function _makeCommentsB($value,$column)
-{	global $THIS_RET,$current_commentsB_RET,$import_commentsB_RET,$commentsB_RET,$max_current_commentsB,$commentsB_select,$tabindex;
+function _makeCommentsB( $value, $column )
+{
+	global $THIS_RET,
+		$current_commentsB_RET,
+		$import_commentsB_RET,
+		$commentsB_RET,
+		$max_current_commentsB,
+		$commentsB_select,
+		$tabindex;
 
-	if ( $import_commentsB_RET[$THIS_RET['STUDENT_ID']][ $value ])
+	if ( $import_commentsB_RET[ $THIS_RET['STUDENT_ID'] ][ $value ] )
 	{
 		$select = $import_commentsB_RET[$THIS_RET['STUDENT_ID']][ $value ]['REPORT_CARD_COMMENT_ID'];
+
 		$div = false;
 	}
 	else
 	{
-		$select = $current_commentsB_RET[$THIS_RET['STUDENT_ID']][ $value ]['REPORT_CARD_COMMENT_ID'];
+		$select = null;
+
+		if ( isset( $current_commentsB_RET[ $THIS_RET['STUDENT_ID'] ][ $value ]['REPORT_CARD_COMMENT_ID'] ) )
+		{
+			$select = $current_commentsB_RET[ $THIS_RET['STUDENT_ID'] ][ $value ]['REPORT_CARD_COMMENT_ID'];
+		}
+
 		$div = true;
 	}
 
