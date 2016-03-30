@@ -76,6 +76,7 @@ Changes in 2.9
 - Update French & Spanish translations
 - Format custom checkbox fields: add makeCheckbox() function in GetStuList.fnc.php
 - Add DeCodeds() & StaffDeCodeds() functions in GetStuList.fnc.php & GetStaffList.fnc.php
+- Move imported CSS files to css/ folder & minify stylesheet.css in WPadmin/
 
 Changes in 2.8.11
 -----------------
