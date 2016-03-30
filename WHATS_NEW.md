@@ -11,12 +11,19 @@ Users
 
 Grades
 
--Student Assignments
+- Student Assignments
 	- Submit Assignment
+
+Student Billing & Accounting
+
+- Daily Totals
 
 Password Reset feature
 
-MarkDown support for Large text fields
+[MarkDown](https://github.com/francoisjacquet/rosariosis/wiki/Markdown-Cheatsheet) support for Large text fields
+
+Automatic database upgrade
+
 
 New in 2.8
 -----------
@@ -36,7 +43,7 @@ Portal
 
 - Upcoming Assignments
 
-Menu enhanced
+Menu enhancement
 
 Security improved
 
