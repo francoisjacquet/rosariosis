@@ -38,7 +38,7 @@ function ReportCardsIncludeForm()
 	$return .= '<TD><label><INPUT type="checkbox" name="elements[teacher]" value="Y" checked /> ' .
 		_('Teacher' ) . '</label></TD>';
 
-	$return .= '<TD></TD></TR><TR>';
+	$return .= '<TD></TD></TR><TR class="st">';
 
 	// Comments
 	$return .= '<TD><label><INPUT type="checkbox" name="elements[comments]" value="Y" checked /> ' .
@@ -48,7 +48,7 @@ function ReportCardsIncludeForm()
 	$return .= '<TD><label><INPUT type="checkbox" name="elements[percents]" value="Y"> ' .
 		_( 'Percents' ) . '</label></TD>';
 
-	$return .= '</TR><TR>';
+	$return .= '</TR><TR class="st">';
 
 	// Year-to-date Daily Absences
 	$return .= '<TD><label><INPUT type="checkbox" name="elements[ytd_absences]" value="Y" checked /> ' .
@@ -59,7 +59,7 @@ function ReportCardsIncludeForm()
 		( GetMP( UserMP(), 'SORT_ORDER' ) != 1 ? ' checked' : '' ) . ' /> ' .
 		_( 'Daily Absences this quarter' ) . '</label></TD>';
 
-	$return .= '</TR><TR>';
+	$return .= '</TR><TR class="st">';
 
 	// Other Attendance Year-to-date
 	$return .= '<TD><label><INPUT type="checkbox" name="elements[ytd_tardies]" value="Y" /> ' .
@@ -81,7 +81,7 @@ function ReportCardsIncludeForm()
 		$return .= '<OPTION value="' . $code['ID'] . '">' . $code['TITLE'] . '</OPTION>';
 	}
 
-	$return .= '</SELECT></TD></TR><TR>';
+	$return .= '</SELECT></TD></TR><TR class="st">';
 
 	// Period-by-period absences
 	$return .= '<TD><label><INPUT type="checkbox" name="elements[period_absences]" value="Y" /> ' .
