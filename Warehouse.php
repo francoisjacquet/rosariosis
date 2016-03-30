@@ -375,7 +375,7 @@ function Warehouse( $mode )
 	<link rel="stylesheet" href="assets/themes/<?php echo Preferences( 'THEME' ); ?>/stylesheet.css?v=<?php echo ROSARIO_VERSION; ?>" />
 	<style>.highlight,.highlight-hover:hover{background-color:<?php echo Preferences( 'HIGHLIGHT' ); ?> !important;}</style>
 	<script src="assets/js/jquery.js"></script>
-	<script src="assets/js/plugins.min.js"></script>
+	<script src="assets/js/plugins.min.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/warehouse.js?v=<?php echo ROSARIO_VERSION; ?>"></script>
 	<script src="assets/js/jscalendar/lang/calendar-<?php echo file_exists( 'assets/js/jscalendar/lang/calendar-' . $lang_2_chars . '.js' ) ? $lang_2_chars : 'en'; ?>.js"></script>
 	<script>var scrollTop = "<?php echo Preferences( 'SCROLL_TOP' ); ?>";</script>
