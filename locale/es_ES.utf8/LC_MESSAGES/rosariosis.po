@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-30 11:01-0500\n"
-"PO-Revision-Date: 2016-03-30 11:02-0500\n"
+"PO-Revision-Date: 2016-03-30 18:43-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -4942,7 +4942,7 @@ msgstr "General"
 #: modules/Grades/InputFinalGrades.php:759 modules/Grades/Menu.php:31
 #: modules/Grades/Menu.php:62
 msgid "Report Card Comments"
-msgstr "Comentarios del Boletín de Calificaciones"
+msgstr "Comentarios del Boletín"
 
 #: modules/Grades/InputFinalGrades.php:820
 #, php-format
@@ -5015,7 +5015,7 @@ msgstr "Calificaciones de los Estudiantes"
 
 #: modules/Grades/Menu.php:27 modules/Grades/Menu.php:58
 msgid "GPA / Class Rank List"
-msgstr "Lista de Promedio / Puesto en la Clase"
+msgstr "Lista Promedio / Puesto en la Clase"
 
 #: modules/Grades/Menu.php:28
 msgid "GPA / MP List"
@@ -5041,7 +5041,7 @@ msgstr "Entrar Calificaciones Finales"
 #: modules/Grades/Menu.php:38 modules/Grades/Menu.php:69
 #: modules/Grades/Menu.php:81
 msgid "Gradebook Grades"
-msgstr "Calificaciones del Libro de Calificaciones"
+msgstr "Calificaciones del Libro"
 
 #: modules/Grades/Menu.php:39 modules/Grades/Menu.php:51
 #: modules/Grades/Menu.php:82
@@ -5680,7 +5680,7 @@ msgstr "Horarios Incompletos"
 
 #: modules/Scheduling/Menu.php:32 modules/Students/Menu.php:22
 msgid "Add / Drop Report"
-msgstr "Reporte de Añadidos / Retiros"
+msgstr "Reporte Añadidos / Retiros"
 
 #: modules/Scheduling/Menu.php:35
 msgid "Run Scheduler"
@@ -6882,7 +6882,7 @@ msgstr "Imprimir Etiquetas de Correo"
 
 #: modules/Students/Menu.php:27 modules/Students/Menu.php:43
 msgid "Print Student Labels"
-msgstr "Imprimir Etiquetas con el Estudiante"
+msgstr "Imprimir Etiquetas Estudiante"
 
 #: modules/Students/Menu.php:28
 msgid "Print Student Info"

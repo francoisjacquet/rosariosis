@@ -491,7 +491,7 @@ HTML;
 
 	$help['Students/AddDrop.php'] = <<<HTML
 <p>
-	<i>Reporte de Añadidos / Retiros</i> es un reporte que muestra un listado de todos los estudiantes matriculados o retirados durante el transcurso situado en la parte superior de la pantalla. Para consultar otros transcursos, cambie las fechas arriba y presione el botón "Ir" al lado derecho de la fecha de fin.
+	<i>Reporte Añadidos / Retiros</i> es un reporte que muestra un listado de todos los estudiantes matriculados o retirados durante el transcurso situado en la parte superior de la pantalla. Para consultar otros transcursos, cambie las fechas arriba y presione el botón "Ir" al lado derecho de la fecha de fin.
 </p>
 HTML;
 
@@ -509,7 +509,7 @@ HTML;
 
 	$help['Students/StudentLabels.php'] = <<<HTML
 <p>
-	<i>Imprimir Etiquetas con el Estudiante</i> le permite imprimir etiquetas para el archivo del estudiante.
+	<i>Imprimir Etiquetas Estudiante</i> le permite imprimir etiquetas para el archivo del estudiante.
 </p>
 <p>
 	Usted debe primero seleccionar un estudiante usando la pantalla de búsqueda «Encontrar un Estudiante».
@@ -857,7 +857,7 @@ HTML;
 
 	$help['Users/TeacherPrograms.php&include=Grades/Grades.php'] = <<<HTML
 <p>
-	<i>Programas Docente - Calificaciones del Libro de Calificaciones</i> le permite consultar y modificar cualquier calificación de los libros de calificaciones de los estudiantes. Se pueden seleccionar las clases del docente usando el menú desplegable de clases en la parte superior de la página. Las Calificaciones del Libro de Calificaciones de la clase seran mostradas. Como administrador, usted puede escoger un estudiante, o los totales de una categoría de tareas, o todos los estudiantes para una o todas las tareas. El menú desplegable "Todo" le permite seleccionar una categoría de tareas, o alternativamente se pueden usar las pestañas arriba del listado de calificaciones. El menú desplegable "Totales" le permite seleccionar una tearea en particular o el "total" de todas las tareas.
+	<i>Programas Docente - Calificaciones del Libro</i> le permite consultar y modificar cualquier calificación de los libros de calificaciones de los estudiantes. Se pueden seleccionar las clases del docente usando el menú desplegable de clases en la parte superior de la página. Las Calificaciones del Libro de Calificaciones de la clase seran mostradas. Como administrador, usted puede escoger un estudiante, o los totales de una categoría de tareas, o todos los estudiantes para una o todas las tareas. El menú desplegable "Todo" le permite seleccionar una categoría de tareas, o alternativamente se pueden usar las pestañas arriba del listado de calificaciones. El menú desplegable "Totales" le permite seleccionar una tearea en particular o el "total" de todas las tareas.
 </p>
 HTML;
 
@@ -1094,7 +1094,7 @@ HTML;
 
 	$help['Scheduling/AddDrop.php'] = <<<HTML
 <p>
-	<i>Reporte de Añadidos / Retiros</i> es un reporte de los estudiantes que han tenido clases añadidas a o retiradas de sus horarios durante el transcurso seleccionado. Usted puede seleccionar un transcurso distinto cambiando las fechas en la parte superior de la pantalla y presionando el botón "Ir". El reporte muestra los datos de los estudiantes junto con el Curso, la Clase, y las fechas de Añadido y Retiro. Se puede exportar el reporte como hoja de Excel usando el icono "Descargar".
+	<i>Reporte Añadidos / Retiros</i> es un reporte de los estudiantes que han tenido clases añadidas a o retiradas de sus horarios durante el transcurso seleccionado. Usted puede seleccionar un transcurso distinto cambiando las fechas en la parte superior de la pantalla y presionando el botón "Ir". El reporte muestra los datos de los estudiantes junto con el Curso, la Clase, y las fechas de Añadido y Retiro. Se puede exportar el reporte como hoja de Excel usando el icono "Descargar".
 </p>
 HTML;
 
@@ -1261,7 +1261,7 @@ HTML;
 
 	$help['Grades/GPARankList.php'] = <<<HTML
 <p>
-	<i>Lista de Promedio / Puesto en la Clase</i> es un reporte que muestra el promedio ponderado, no ponderado, y puesto en la clase de cada estudiante en su institución.
+	<i>Lista Promedio / Puesto en la Clase</i> es un reporte que muestra el promedio ponderado, no ponderado, y puesto en la clase de cada estudiante en su institución.
 </p>
 <p>
 	Como para cada lista en RosarioSIS, usted puede ordenar cualquier dato haciendo clic sobre el titulo de la columna en el encabezado. Por ejemplo, usted puede ordenar por grado haciendo clic sobre «Grado» en el encabezado.
@@ -1288,7 +1288,7 @@ HTML;
 
 	$help['Grades/ReportCardComments.php'] = <<<HTML
 <p>
-	<i>Comentarios del Boletín de Calificaciones</i> le permite configurar los comentarios del boletín de calificaciones de su institución, para cada curso o todos los cursos.
+	<i>Comentarios del Boletín</i> le permite configurar los comentarios del boletín de calificaciones de su institución, para cada curso o todos los cursos.
 </p>
 <p>
 	La pestaña "Todos los Cursos" es donde se crean Comentarios que aplican para Todos los Cursos, por ejemplo para calificar el comportamiento, o una cualidad de los estudiantes que todos los cursos comparten. La pestaña (+) es donde se crean los otros comentarios, específicamente las pestañas de comentarios y los comentarios propios a un curso.
@@ -1461,7 +1461,7 @@ HTML;
 
 	$help['Grades/StudentGrades.php'] = <<<HTML
 <p>
-	<i>Calificaciones del Libro de Calificaciones</i> le permite ver las calificaciones de su estudiante.
+	<i>Calificaciones del Libro</i> le permite ver las calificaciones de su estudiante.
 </p>
 <p>
 	Usted puede cambiar el periodo a calificar en el menú desplegable del marco izquierdo.
