@@ -11,6 +11,9 @@ textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type=
 code{
 	background:#eaeaea
 }
+hr{
+	background:#dfdfdf
+}
 input[readonly]{
 	background:#eee
 }

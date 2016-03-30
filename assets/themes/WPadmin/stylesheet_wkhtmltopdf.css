@@ -181,6 +181,11 @@ code{
 	margin:0 1px;
 	font-size:11px
 }
+hr {
+	height:2px;
+	border:0 none;
+	margin:14px 0
+}
 .widefat,div.updated,div.error,textarea,input[type=text],input[type=password],input[type=file],input[type=button],input[type=submit],input[type=reset],input[type=email],input[type=number],input[type=search],input[type=tel],input[type=url],select,.postbox{
 	border-radius:3px;
 	border-width:1px;
