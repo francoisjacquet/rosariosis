@@ -343,7 +343,7 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 	overflow: visible;
 	word-wrap: break-word;
 	min-height: 36px;
-	min-width: 205px;
+	min-width: 215px;
 	width: auto;
 }
 #selectedModuleLink + .wp-submenu{
@@ -354,7 +354,8 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 	position: relative;
 	margin-top: 0 !important;
 	border:0;
-	min-height:0
+	min-height:0;
+	min-width:205px
 }
 .menu-inter{
 	border-width:1px 0 0;
