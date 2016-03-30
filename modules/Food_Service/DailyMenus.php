@@ -42,7 +42,7 @@ if ( ! $_REQUEST['menu_id'])
 	else
 		$_REQUEST['menu_id'] = $_SESSION['FSA_menu_id'];
 else
-		$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
+	$_SESSION['FSA_menu_id'] = $_REQUEST['menu_id'];
 
 if ( $_REQUEST['submit']['save'] && $_REQUEST['food_service'] && $_POST['food_service'] && AllowEdit())
 {
@@ -225,8 +225,15 @@ else
 	echo '<br />';
 
 	$tabs = array();
-	foreach ( (array) $menus_RET as $id => $meal)
-		$tabs[] = array('title' => $meal[1]['TITLE'],'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&menu_id=$id&month='.$_REQUEST['month'].'&year='.$_REQUEST['year']);
+
+	foreach ( (array) $menus_RET as $id => $meal )
+	{
+		$tabs[] = array(
+			'title' => $meal[1]['TITLE'],
+			'link' => 'Modules.php?modname=' . $_REQUEST['modname'] .
+				'&menu_id=' . $id . '&month=' . $_REQUEST['month'] . '&year=' . $_REQUEST['year'],
+		);
+	}
 
 	$extra = array('save'=>false,'search'=>false,
 		'header'=>WrapTabs($tabs,'Modules.php?modname='.$_REQUEST['modname'].'&menu_id='.$_REQUEST['menu_id'].'&month='.$_REQUEST['month'].'&year='.$_REQUEST['year']));
