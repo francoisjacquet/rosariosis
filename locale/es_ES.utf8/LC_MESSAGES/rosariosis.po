@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-30 11:01-0500\n"
-"PO-Revision-Date: 2016-03-30 18:43-0500\n"
+"PO-Revision-Date: 2016-03-31 12:22-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -5193,7 +5193,7 @@ msgstr "Puntos / Posible"
 
 #: modules/Grades/StudentGrades.php:304
 msgid "No Grade"
-msgstr "No Calificación"
+msgstr "No Calificado"
 
 #: modules/Grades/StudentGrades.php:368
 msgid "Details"

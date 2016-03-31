@@ -47,11 +47,15 @@ if ( ! $_REQUEST['id'])
 
 	$LO_columns = array('TITLE' => _('Course Title'),'TEACHER' => _('Teacher'),'UNGRADED' => _('Ungraded'));
 
-	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
-		$LO_columns['GRADE'] = _('Letter');
+	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
+	{
+		$LO_columns['PERCENT'] = _( 'Percent' );
+	}
 
-	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
-		$LO_columns['PERCENT'] = _('Percent');
+	if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
+	{
+		$LO_columns['GRADE'] = _( 'Letter' );
+	}
 
 	if ( $do_stats && $_REQUEST['do_stats'])
 		$LO_columns += array('BAR1' => _('Grade Range'),'BAR2' => _('Class Rank'));
@@ -173,7 +177,22 @@ if ( ! $_REQUEST['id'])
 					break;
 				}
 
-				$LO_ret[] = array('ID' => $course_period_id,'TITLE' => $course['COURSE_TITLE'],'TEACHER'=>mb_substr($course_title,mb_strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2),'PERCENT'=>($percent!==false?number_format(100*$percent,1).'%':_('N/A')),'GRADE'=>($percent!==false?'<b>'._makeLetterGrade($percent,$course_period_id,$staff_id).'</b>':_('N/A')),'UNGRADED' => $ungraded)+($do_stats&&$_REQUEST['do_stats']?array('BAR1' => $bargraph1,'BAR2' => $bargraph2):array());
+				$LO_ret[] = array(
+					'ID' => $course_period_id,
+					'TITLE' => $course['COURSE_TITLE'],
+					'TEACHER' => mb_substr( $course_title, mb_strrpos( str_replace( ' - ', ' ^ ', $course_title ), '^' ) + 2 ),
+					'PERCENT' => ( $percent !== false ?
+						number_format( 100 * $percent, 1 ) . '%' :
+						_( 'N/A' ) ),
+					'GRADE' => $percent !== false ?
+						'<b>' . _makeLetterGrade( $percent, $course_period_id, $staff_id ) . '</b>' :
+						_( 'N/A' ),
+					'UNGRADED' => $ungraded,
+				)
+				+ ( $do_stats && $_REQUEST['do_stats'] ?
+					array( 'BAR1' => $bargraph1, 'BAR2' => $bargraph2 ) :
+					array()
+				);
 			}
 			//else
 				//$LO_ret[] = array('ID' => $course_period_id,'TITLE' => $course['COURSE_TITLE'],'TEACHER'=>mb_substr($course_title,mb_strrpos(str_replace(' - ',' ^ ',$course_title),'^')+2));
@@ -264,11 +283,19 @@ else
 			//echo '<pre>'; var_dump($all_RET); echo '</pre>';
 
 			$LO_columns = array('TITLE' => _('Title'),'CATEGORY' => _('Category'),'POINTS' => _('Points / Possible'));
-			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
-				$LO_columns['PERCENT'] = _('Percent');
-			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) < 0 )
-				if ( $gradebook_config[ $staff_id ]['LETTER_GRADE_ALL']!='Y')
-					$LO_columns['LETTER'] = _('Letter');
+
+			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) >= 0 )
+			{
+				$LO_columns['PERCENT'] = _( 'Percent' );
+			}
+
+			if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) <= 0 )
+			{
+				if ( $gradebook_config[ $staff_id ]['LETTER_GRADE_ALL'] != 'Y' )
+				{
+					$LO_columns['LETTER'] = _( 'Letter' );
+				}
+			}
 
 			$LO_columns += array('COMMENT' => _('Comment'));
 			if ( $do_stats && $_REQUEST['do_stats'])
@@ -301,7 +328,41 @@ else
 						$bargraph2 = bargraph2(false);
 					}
 				}
-				$LO_ret[] = array('TITLE' => $assignment['TITLE'],'CATEGORY' => $assignment['CATEGORY'],'POINTS'=>($assignment['POINTS']=='-1'?'*':($assignment['POINTS']==''?'<span style="color:red">0</span>':rtrim(rtrim($assignment['POINTS'],'0'),'.'))).' / '.$assignment['POINTS_POSSIBLE'],'PERCENT'=>($assignment['POINTS_POSSIBLE']=='0'?_('E/C'):($assignment['POINTS']=='-1'?'*':number_format(100*$assignment['POINTS']/$assignment['POINTS_POSSIBLE'],1).'%')),'LETTER'=>($gradebook_config[ $staff_id ]['LETTER_GRADE_ALL']=='Y'?'':($assignment['POINTS_POSSIBLE']=='0'?_('N/A'):($assignment['POINTS']=='-1'?_('N/A'):($assignment['POINTS_POSSIBLE']>=$gradebook_config[ $staff_id ]['LETTER_GRADE_MIN']?'<b>'._makeLetterGrade($assignment['POINTS']/$assignment['POINTS_POSSIBLE'],$course['COURSE_PERIOD_ID'],$staff_id).'</b>':'')))),'COMMENT' => $assignment['COMMENT'].($assignment['POINTS']==''?($assignment['COMMENT']?'<br />':'').'<span style="color:red">'._('No Grade').'</span>':''))+($do_stats&&$_REQUEST['do_stats']?array('BAR1' => $bargraph1,'BAR2' => $bargraph2):array());
+
+				$LO_ret[] = array(
+					'TITLE' => $assignment['TITLE'],
+					'CATEGORY' => $assignment['CATEGORY'],
+					'POINTS' => ( $assignment['POINTS'] == '-1' ?
+						'*' :
+						( $assignment['POINTS'] == '' ?
+							'<span style="color:red">0</span>' :
+							rtrim( rtrim( $assignment['POINTS'], '0' ), '.' ) ) )
+						. ' / ' . $assignment['POINTS_POSSIBLE'],
+					'PERCENT' => ( $assignment['POINTS_POSSIBLE'] == '0' ?
+						_( 'E/C' ) :
+						( $assignment['POINTS'] == '-1' ?
+							'*' :
+							number_format( 100 * $assignment['POINTS'] / $assignment['POINTS_POSSIBLE'], 1 ) . '%' ) ),
+					'LETTER' => ( $assignment['POINTS_POSSIBLE'] == '0' ?
+						_( 'N/A' ) :
+						( $assignment['POINTS'] == '-1' ?
+							_( 'N/A' ) :
+							( $assignment['POINTS_POSSIBLE'] >= $gradebook_config[ $staff_id ]['LETTER_GRADE_MIN'] ?
+								'<b>' . _makeLetterGrade(
+									$assignment['POINTS'] / $assignment['POINTS_POSSIBLE'],
+									$course['COURSE_PERIOD_ID'],
+									$staff_id
+								) . '</b>' :
+								'' ) ) ),
+					'COMMENT' => $assignment['COMMENT'] . ( $assignment['POINTS'] == '' ?
+						( $assignment['COMMENT'] ? '<br />' : '' ) .
+							'<span style="color:red">' . _( 'No Grade' ) . '</span>' :
+						'' ),
+				) +
+				( $do_stats && $_REQUEST['do_stats'] ?
+					array( 'BAR1' => $bargraph1, 'BAR2' => $bargraph2 ) :
+					array()
+				);
 			}
 			if ( $_REQUEST['id']=='all')
 			{
@@ -417,15 +478,13 @@ function bargraph1($x,$lo=0,$avg=0,$hi=0,$max=0)
 			$w4 = round(100*($hi-$avg)/$scale);
 
 			$correction = 2;
-			if ( $w1>0 && $w5>0)
-				$correction = 1;
 
 			return '<div style="float:left; width:150px; border: #333 1px solid;">' .
 				( $w1 > 0 ? '<div style="width:' . ( $w1 - $correction ) . '%;float:left; background-color:#fff;">&nbsp;</div>' : '' ) .
 				( $w2 > 0 ? '<div style="width:' . $w2 . '%; background-color:#00a000;float:left;">&nbsp;</div>' : '' ) .
-				'<div style="width:2%; background-color:#00a000;float:left;">&nbsp;</div>' .
-				( $w4 > 0 ? '<div style="width:' . ( $w4 - $correction ) . '%; background-color:#00a000;float:left;">&nbsp;</div>' : '' ) .
-				( $w5 > 0 ? '<div style="width:' . $w5 . '%;float:left;background-color:#fff;">&nbsp;</div>' : '' ) .
+				'<div style="width:2%; background-color:#00a000; float:left;">&nbsp;</div>' .
+				( $w4 > 0 ? '<div style="width:' . $w4 . '%; background-color:#00a000;float:left;">&nbsp;</div>' : '' ) .
+				( $w5 > 0 ? '<div style="width:' . ( $w5 - $correction ) . '%;float:left;background-color:#fff;">&nbsp;</div>' : '' ) .
 				'</div>';
 		}
 	}
