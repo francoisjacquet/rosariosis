@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-31 15:27-0500\n"
-"PO-Revision-Date: 2016-03-31 15:27-0500\n"
+"PO-Revision-Date: 2016-03-31 15:43-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -3441,7 +3441,7 @@ msgstr "Vous ne pouvez rentrer l'éligibilité que de %s %s à %s %s."
 
 #: modules/Eligibility/EnterEligibility.php:148
 msgid "Use Gradebook Grades"
-msgstr "Utiliser les Notes du Livret"
+msgstr "Utiliser les Notes du Carnet"
 
 #: modules/Eligibility/EntryTimes.php:78
 msgid "Allow Eligibility Posting"
@@ -4247,7 +4247,7 @@ msgstr "Cet utilisateur n'a pas de compte cantine."
 #: modules/Grades/Configuration.php:3 modules/Grades/Grades.php:11
 #: modules/Grades/Menu.php:47 modules/Grades/ProgressReports.php:132
 msgid "Gradebook"
-msgstr "Livret Scolaire"
+msgstr "Carnet de Notes"
 
 #: modules/Grades/AnomalousGrades.php:12
 msgid "Include All Courses"
@@ -4504,7 +4504,7 @@ msgstr "La Moyenne et le Classement de %s ont été calculés."
 
 #: modules/Grades/Configuration.php:11
 msgid "The gradebook configuration has been modified."
-msgstr "La configuration du livret scolaire a été modifiée."
+msgstr "La configuration du carnet de notes a été modifiée."
 
 #: modules/Grades/Configuration.php:36 modules/Grades/Menu.php:60
 #: modules/School_Setup/Configuration.php:9
@@ -4557,7 +4557,7 @@ msgstr "La Date d'Echéance est aujourd'hui par défaut."
 
 #: modules/Grades/Configuration.php:58
 msgid "Hide letter grades for all gradebook assignments"
-msgstr "Cacher la note lettrée pour tous les devoirs du bulletin de notes"
+msgstr "Cacher la note lettrée pour tous les devoirs du carnet de notes"
 
 #: modules/Grades/Configuration.php:59
 msgid "Minimum assignment points for letter grade"
@@ -4572,7 +4572,7 @@ msgid ""
 "Days until ungraded assignment grade appears in Parent/Student gradebook "
 "views"
 msgstr ""
-"Jours avant que les devoirs non notés apparaissent dans le bulletin de note "
+"Jours avant que les devoirs non notés apparaissent dans le carnet de notes "
 "Parent/Élève"
 
 #: modules/Grades/Configuration.php:70
@@ -4955,7 +4955,7 @@ msgstr "Vous ne pouvez pas modifier ces notes."
 
 #: modules/Grades/InputFinalGrades.php:827
 msgid "Get Gradebook Grades."
-msgstr "Obtenir les Notes du Livret."
+msgstr "Obtenir les Notes du Carnet."
 
 #: modules/Grades/InputFinalGrades.php:836
 #, php-format
