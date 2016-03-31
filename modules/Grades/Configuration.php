@@ -1,30 +1,38 @@
 <?php
 
-if ( $_REQUEST['values'])
+DrawHeader( _( 'Gradebook' ) . ' - ' . ProgramTitle() );
+
+if ( $_REQUEST['values'] )
 {
 	DBQuery("DELETE FROM PROGRAM_USER_CONFIG WHERE USER_ID='".User('STAFF_ID')."' AND PROGRAM='Gradebook'");
 	foreach ( (array) $_REQUEST['values'] as $title => $value)
 		DBQuery("INSERT INTO PROGRAM_USER_CONFIG (USER_ID,PROGRAM,TITLE,VALUE) values('".User('STAFF_ID')."','Gradebook','".$title."','".str_replace('%','',$value)."')");
+
+	$note[] = button( 'check' ) . '&nbsp;' . _( 'The gradebook configuration has been modified.' );
 }
+
+echo ErrorMessage( $note, 'note' );
 
 $gradebook_config = ProgramUserConfig( 'Gradebook' );
 
-$grades = DBGet(DBQuery("SELECT cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,cp.COURSE_PERIOD_ID,rcg.TITLE,rcg.ID 
-FROM REPORT_CARD_GRADES rcg,COURSE_PERIODS cp,COURSES c 
-WHERE cp.COURSE_ID=c.COURSE_ID 
-AND cp.TEACHER_ID='".User('STAFF_ID')."' 
-AND cp.SCHOOL_ID=rcg.SCHOOL_ID 
-AND cp.SYEAR=rcg.SYEAR 
-AND cp.SYEAR='".UserSyear()."' 
-AND rcg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID 
-AND cp.GRADE_SCALE_ID IS NOT NULL 
-AND DOES_BREAKOFF='Y' 
+$grades = DBGet(DBQuery("SELECT cp.TITLE AS CP_TITLE,c.TITLE AS COURSE_TITLE,cp.COURSE_PERIOD_ID,rcg.TITLE,rcg.ID
+FROM REPORT_CARD_GRADES rcg,COURSE_PERIODS cp,COURSES c
+WHERE cp.COURSE_ID=c.COURSE_ID
+AND cp.TEACHER_ID='".User('STAFF_ID')."'
+AND cp.SCHOOL_ID=rcg.SCHOOL_ID
+AND cp.SYEAR=rcg.SYEAR
+AND cp.SYEAR='".UserSyear()."'
+AND rcg.GRADE_SCALE_ID=cp.GRADE_SCALE_ID
+AND cp.GRADE_SCALE_ID IS NOT NULL
+AND DOES_BREAKOFF='Y'
 ORDER BY rcg.BREAK_OFF IS NOT NULL DESC,rcg.BREAK_OFF DESC,rcg.SORT_ORDER DESC"),array(),array('COURSE_PERIOD_ID'));
 
 echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'" method="POST">';
-DrawHeader(_('Gradebook').' - '.ProgramTitle());
-DrawHeader('','<input type="submit" value="'._('Save').'" />');
+
+DrawHeader( '', Buttons( _( 'Save' ) ) );
+
 echo '<br />';
+
 PopTable('header',_('Configuration'));
 
 echo '<fieldset>';
@@ -64,10 +72,10 @@ if ( $RosarioModules['Eligibility'])
 	echo '</fieldset><br />';
 }
 
-$comment_codes_RET = DBGet(DBQuery("SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE 
-FROM REPORT_CARD_COMMENT_CODE_SCALES rccs,REPORT_CARD_COMMENT_CODES rccc 
-WHERE rccs.SCHOOL_ID='".UserSchool()."' 
-AND rccc.SCALE_ID=rccs.ID 
+$comment_codes_RET = DBGet(DBQuery("SELECT rccs.ID,rccs.TITLE,rccc.TITLE AS CODE_TITLE
+FROM REPORT_CARD_COMMENT_CODE_SCALES rccs,REPORT_CARD_COMMENT_CODES rccc
+WHERE rccs.SCHOOL_ID='".UserSchool()."'
+AND rccc.SCALE_ID=rccs.ID
 ORDER BY rccc.SORT_ORDER,rccs.SORT_ORDER,rccs.ID,rccc.ID"),array(),array('ID'));
 
 if ( $comment_codes_RET)
@@ -188,5 +196,4 @@ echo '</fieldset>';
 
 PopTable('footer');
 
-echo '<br /><div class="center"><input type="submit" value="'._('Save').'" /></div>';
-echo '</form>';
+echo '<br /><div class="center">' . Buttons( _( 'Save' ) ) . '</div></form>';
