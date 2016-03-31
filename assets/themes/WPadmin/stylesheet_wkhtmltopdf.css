@@ -9,6 +9,10 @@
 #menuback,#menu{
 	width:205px
 }
+/*ScrollToFixed bug when menu hidden*/
+#menu.scroll-to-fixed-fixed.hide + div{
+	width:0!important
+}
 #menuback{
 	position:absolute;
 	top:0;
