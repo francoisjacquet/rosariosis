@@ -1370,6 +1370,9 @@ HTML;
 	To add an assignment type or an assignment, click on the Add icon (+) in the column corresponding to what you want to add. Then, fill in the information in the fields above the list of assignments / types and click the "Save" button.
 </p>
 <p>
+	If you enter 0 "Points", this will let you give Students Extra Credit.
+</p>
+<p>
 	If you check "Apply to all Periods for this Course", the assignment will be added for each period for which you teach a specific course, in the same way assignment types are added.
 </p>
 <p>

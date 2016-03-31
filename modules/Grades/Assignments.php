@@ -442,7 +442,10 @@ if (empty($_REQUEST['modfunc']))
 		$header .= '<td>' . TextInput(
 			$RET['POINTS'],
 			'tables[' . $_REQUEST['assignment_id'] . '][POINTS]',
-			_( 'Points' ),
+			_( 'Points' ) .
+				'<div class="tooltip"><i>' .
+					_( 'Enter 0 so you can give students extra credit' ) .
+				'</i></div>',
 			'required size=4 maxlength=4 min=0'
 		) . '</td>';
 

@@ -1380,6 +1380,9 @@ HTML;
 	Para agregar un tipo de tarea o una tarea, haga clic sobre el icono «+» en la columna deseada. Luego, llene los datos en los campos arriba de las listas y presione el botón «Guardar».
 </p>
 <p>
+	Si entra 0 "Puntos", podrá dar Puntos Extra a los Estudiantes.
+</p>
+<p>
 	Si marca la casilla «Aplicar a todas las Clases para este Curso», la tarea será asignada a cada clase del curso que usted tiene, de la misma manera que están agregados los tipos de tarea.
 </p>
 <p>

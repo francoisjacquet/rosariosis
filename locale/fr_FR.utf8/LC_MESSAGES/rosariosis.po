@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-31 15:27-0500\n"
-"PO-Revision-Date: 2016-03-31 15:43-0500\n"
+"POT-Creation-Date: 2016-03-31 16:28-0500\n"
+"PO-Revision-Date: 2016-03-31 16:39-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -301,7 +301,7 @@ msgstr "Effacer"
 #: modules/Food_Service/Users/Transactions.php:111
 #: modules/Grades/Assignments-new.php:283
 #: modules/Grades/Assignments-new.php:294 modules/Grades/Assignments.php:415
-#: modules/Grades/Assignments.php:513 modules/Grades/Configuration.php:32
+#: modules/Grades/Assignments.php:516 modules/Grades/Configuration.php:32
 #: modules/Grades/Configuration.php:199
 #: modules/Grades/EditHistoryMarkingPeriods.php:76
 #: modules/Grades/EditHistoryMarkingPeriods.php:111
@@ -488,7 +488,7 @@ msgstr "Obligatoire"
 #: modules/Food_Service/MenuItems.php:174
 #: modules/Food_Service/MenuItems.php:196 modules/Food_Service/Menus.php:144
 #: modules/Food_Service/Menus.php:160 modules/Grades/Assignments-new.php:259
-#: modules/Grades/Assignments.php:540
+#: modules/Grades/Assignments.php:543
 #: modules/Grades/ReportCardCommentCodes.php:126
 #: modules/Grades/ReportCardCommentCodes.php:148
 #: modules/Grades/ReportCardComments.php:208
@@ -508,7 +508,7 @@ msgstr "Ordre de Tri"
 #: modules/Attendance/AttendanceCodes.php:135 modules/Custom/MyReport.php:64
 #: modules/Discipline/DisciplineForm.php:161
 #: modules/Eligibility/Activities.php:75 modules/Grades/Assignments-new.php:218
-#: modules/Grades/Assignments.php:423 modules/Grades/Assignments.php:521
+#: modules/Grades/Assignments.php:423 modules/Grades/Assignments.php:524
 #: modules/Grades/GradebookBreakdown.php:282
 #: modules/Grades/ReportCardCommentCodes.php:126
 #: modules/Grades/ReportCardGrades.php:143 modules/Grades/StudentGrades.php:285
@@ -2339,7 +2339,7 @@ msgid "General Balance"
 msgstr "Solde Général"
 
 #: modules/Accounting/Incomes.php:77 modules/Accounting/Salaries.php:97
-#: modules/Grades/Assignments.php:483 modules/Grades/StudentGrades.php:415
+#: modules/Grades/Assignments.php:486 modules/Grades/StudentGrades.php:415
 #: modules/Student_Billing/StudentFees.php:115
 msgid "Assigned"
 msgstr "Attribué"
@@ -2372,7 +2372,7 @@ msgstr "Soldes du Personnel"
 msgid "Print Statements"
 msgstr "Imprimer Relevés"
 
-#: modules/Accounting/Salaries.php:97 modules/Grades/Assignments.php:485
+#: modules/Accounting/Salaries.php:97 modules/Grades/Assignments.php:488
 #: modules/Grades/StudentGrades.php:421
 #: modules/Student_Billing/StudentFees.php:115
 msgid "Due"
@@ -3676,7 +3676,7 @@ msgstr "ou sélectionner le repas précédent"
 #: modules/Food_Service/Users/Statements.php:66
 #: modules/Food_Service/Users/Statements.php:82
 #: modules/Food_Service/Users/Transactions.php:108
-#: modules/Grades/Assignments-new.php:225 modules/Grades/Assignments.php:467
+#: modules/Grades/Assignments-new.php:225 modules/Grades/Assignments.php:470
 #: modules/Grades/StudentGrades.php:409
 #: modules/Grades/includes/StudentAssignments.fnc.php:245
 #: modules/School_Setup/Calendar.php:781
@@ -4276,7 +4276,7 @@ msgstr "Excusé et Notes Négatives"
 #: modules/Grades/AnomalousGrades.php:23
 #, php-format
 msgid "Exceed %d%% and Extra Credit Grades"
-msgstr "Dépasse %d%% et les Notes avec Crédit Extra"
+msgstr "Dépasse %d%% et les Notes avec Points Bonus"
 
 #: modules/Grades/AnomalousGrades.php:100
 #: modules/Grades/AnomalousGrades.php:106
@@ -4297,7 +4297,7 @@ msgstr "Nom"
 #: modules/Grades/AnomalousGrades.php:116
 #: modules/Grades/Assignments-new.php:153
 #: modules/Grades/Assignments-new.php:290 modules/Grades/Assignments.php:255
-#: modules/Grades/Assignments.php:621 modules/Grades/Assignments.php:628
+#: modules/Grades/Assignments.php:624 modules/Grades/Assignments.php:631
 #: modules/Grades/Grades.php:192 modules/Grades/Grades.php:475
 #: modules/Grades/ProgressReports.php:23 modules/Grades/ProgressReports.php:117
 #: modules/Grades/StudentGrades.php:373
@@ -4332,7 +4332,7 @@ msgstr "Excusé"
 
 #: modules/Grades/AnomalousGrades.php:155
 msgid "Extra Credit"
-msgstr "Crédit Supplémentaire"
+msgstr "Points Bonus"
 
 #: modules/Grades/Assignments-new.php:143 modules/Grades/Assignments.php:225
 #: modules/Scheduling/Courses.php:441 modules/School_Setup/SchoolFields.php:83
@@ -4346,7 +4346,7 @@ msgstr "Merci de remplir les champs requis"
 
 #: modules/Grades/Assignments-new.php:153
 #: modules/Grades/Assignments-new.php:292 modules/Grades/Assignments.php:435
-#: modules/Grades/Assignments.php:584 modules/Grades/Assignments.php:591
+#: modules/Grades/Assignments.php:587 modules/Grades/Assignments.php:594
 #: modules/Grades/ProgressReports.php:115
 #: modules/Grades/includes/StudentAssignments.fnc.php:236
 msgid "Assignment Type"
@@ -4355,18 +4355,18 @@ msgstr[0] "Type de Devoir"
 msgstr[1] "Types de Devoir"
 
 #: modules/Grades/Assignments-new.php:219 modules/Grades/Assignments.php:445
-#: modules/Grades/Assignments.php:621 modules/Grades/Grades.php:193
+#: modules/Grades/Assignments.php:624 modules/Grades/Grades.php:193
 #: modules/Grades/Grades.php:330 modules/Grades/Grades.php:359
 #: modules/Grades/ProgressReports.php:32
 #: modules/Grades/includes/StudentAssignments.fnc.php:240
 msgid "Points"
 msgstr "Points"
 
-#: modules/Grades/Assignments-new.php:220 modules/Grades/Assignments.php:458
+#: modules/Grades/Assignments-new.php:220 modules/Grades/Assignments.php:461
 msgid "Default Points"
 msgstr "Points par Défaut"
 
-#: modules/Grades/Assignments-new.php:221 modules/Grades/Assignments.php:460
+#: modules/Grades/Assignments-new.php:221 modules/Grades/Assignments.php:463
 msgid "Enter an asterisk (*) to excuse student"
 msgstr "Entrer une astérisque (*) pour excuser l'Élève"
 
@@ -4399,12 +4399,12 @@ msgstr "Date d'Echéance"
 msgid "Percent"
 msgstr "Pourcentage"
 
-#: modules/Grades/Assignments-new.php:260 modules/Grades/Assignments.php:553
+#: modules/Grades/Assignments-new.php:260 modules/Grades/Assignments.php:556
 #: modules/Grades/ReportCardComments.php:209
 msgid "Color"
 msgstr "Couleur"
 
-#: modules/Grades/Assignments-new.php:331 modules/Grades/Assignments.php:496
+#: modules/Grades/Assignments-new.php:331 modules/Grades/Assignments.php:499
 msgid "Assigned date is after end of quarter!"
 msgstr "La date assignée n'est pas dans une période scolaire."
 
@@ -4412,11 +4412,11 @@ msgstr "La date assignée n'est pas dans une période scolaire."
 msgid "Assigned date is after due date!"
 msgstr "La date de début est après la date d'échéance !"
 
-#: modules/Grades/Assignments-new.php:343 modules/Grades/Assignments.php:501
+#: modules/Grades/Assignments-new.php:343 modules/Grades/Assignments.php:504
 msgid "Due date is after end of quarter!"
 msgstr "La date d'échéance est après la fin du trimestre !"
 
-#: modules/Grades/Assignments-new.php:344 modules/Grades/Assignments.php:491
+#: modules/Grades/Assignments-new.php:344 modules/Grades/Assignments.php:494
 msgid "Due date is before assigned date!"
 msgstr "La date d'échéance est avant la date de début !"
 
@@ -4440,23 +4440,27 @@ msgstr "Nouveau Devoir"
 msgid "New Assignment Type"
 msgstr "Nouveau Type de Devoir"
 
-#: modules/Grades/Assignments.php:471
+#: modules/Grades/Assignments.php:447
+msgid "Enter 0 so you can give students extra credit"
+msgstr "Entrer 0 pour pouvoir donner des points bonus aux élèves"
+
+#: modules/Grades/Assignments.php:474
 msgid "Apply to all Periods for this Course"
 msgstr "Appliquer à toutes les Périodes de ce Cours"
 
-#: modules/Grades/Assignments.php:476
+#: modules/Grades/Assignments.php:479
 msgid "Enable Assignment Submission"
 msgstr "Activer la Remise de Devoir"
 
-#: modules/Grades/Assignments.php:531
+#: modules/Grades/Assignments.php:534
 msgid "Percent of Final Grade"
 msgstr "Pourcentage de la Note Définitive"
 
-#: modules/Grades/Assignments.php:534
+#: modules/Grades/Assignments.php:537
 msgid "Percent Total"
 msgstr "Pourcentage du Total"
 
-#: modules/Grades/Assignments.php:584 modules/Grades/ReportCardGrades.php:147
+#: modules/Grades/Assignments.php:587 modules/Grades/ReportCardGrades.php:147
 msgid "Order"
 msgstr "Ordre"
 
@@ -4821,7 +4825,7 @@ msgstr "Le Devoir est Du"
 #: modules/Grades/Grades.php:763 modules/Grades/ProgressReports.php:228
 #: modules/Grades/ProgressReports.php:241 modules/Grades/StudentGrades.php:342
 msgid "E/C"
-msgstr "Crédit Extra"
+msgstr "Points Bonus"
 
 #: modules/Grades/HonorRoll.php:68
 #, php-format
@@ -5061,7 +5065,7 @@ msgstr "Créer les Bulletins Intermédiaires pour les Élèves Sélectionnés"
 # E/C = Extra Credit
 #: modules/Grades/ProgressReports.php:147
 msgid "Exclude Ungraded E/C Assignments"
-msgstr "Exclure les Devoirs avec Crédit Extra non Notés"
+msgstr "Exclure les Devoirs avec Points Bonus non Notés"
 
 #: modules/Grades/ProgressReports.php:155
 msgid "Exclude Ungraded Assignments Not Due"
