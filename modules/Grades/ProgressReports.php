@@ -201,14 +201,17 @@ function _makeExtra($value,$column)
 					$total_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] += $THIS_RET['TOTAL_POINTS'];
 					$percent_weights[$THIS_RET['ASSIGNMENT_TYPE_ID']] = $THIS_RET['FINAL_GRADE_PERCENT'];
 				}
-				return '<table class="cellspacing-0"><tr><td><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></td><td><span class="size-1">&nbsp;/&nbsp;</span></td><td><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></td></tr></table>';
+				return ( rtrim( rtrim( $value, '0' ), '.' ) + 0 ) .
+					'&nbsp;/&nbsp;' . $THIS_RET['TOTAL_POINTS'];
 			}
 			else
-				return '<table class="cellspacing-0"><tr><td><span class="size-1">'._('Excused').'</span></td><td></td><td></td></tr></table>';
+				return _( 'Excused' );
 		else
 		{
 			$student_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] += $value;
-			return '<table class="cellspacing-0"><tr><td><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></td><td><span class="size-1">&nbsp;/&nbsp;</span></td><td><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></td></tr></table>';
+
+			return ( rtrim( rtrim( $value, '0' ), '.' ) + 0 ) .
+				'&nbsp;/&nbsp;' . $THIS_RET['TOTAL_POINTS'];
 		}
 	}
 	elseif ( $column=='PERCENT_GRADE')
