@@ -61,6 +61,10 @@ function GetStaffList(& $extra)
 					{
 						$functions[ $field_key ] = 'makeCheckbox';
 					}
+					elseif ( $field['TYPE'] === 'textarea' )
+					{
+						$functions[ $field_key ] = 'makeTextarea';
+					}
 
 					$select .= ',s.' . $field_key;
 				}
@@ -100,6 +104,10 @@ function GetStaffList(& $extra)
 						elseif ( $field['TYPE'] === 'radio' )
 						{
 							$functions[ $field_key ] = 'makeCheckbox';
+						}
+						elseif ( $field['TYPE'] === 'textarea' )
+						{
+							$functions[ $field_key ] = 'makeTextarea';
 						}
 					}
 

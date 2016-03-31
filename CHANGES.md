@@ -75,6 +75,7 @@ Changes in 2.9
 - Add optional functions.php file for non core modules in Warehouse.php
 - Update French & Spanish translations
 - Format custom checkbox fields: add makeCheckbox() function in GetStuList.fnc.php
+- Format custom textarea fields: add makeTextarea() function in GetStuList.fnc.php
 - Add DeCodeds() & StaffDeCodeds() functions in GetStuList.fnc.php & GetStaffList.fnc.php
 - Move imported CSS files to css/ folder & minify stylesheet.css in WPadmin/
 

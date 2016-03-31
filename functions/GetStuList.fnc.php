@@ -23,6 +23,8 @@
  * @uses makeParents()     generate Parents info popup
  * @uses makePhone()       format Phone number
  * @uses makeContactInfo() generate Contact Info tooltip
+ * @uses makeCheckbox()    format Checkbox value
+ * @uses makeTextarea()    format Textarea value
  *
  * @global $contacts_RET   Student Contacts array
  * @global $view_other_RET Used by makeParents() (see below)
@@ -279,6 +281,10 @@ function GetStuList( &$extra = array() )
 				elseif ( $field['TYPE'] === 'radio' )
 				{
 					$functions[ $field_key ] = 'makeCheckbox';
+				}
+				elseif ( $field['TYPE'] === 'textarea' )
+				{
+					$functions[ $field_key ] = 'makeTextarea';
 				}
 
 				$select .= ',s.' . $field_key;
@@ -875,6 +881,8 @@ function makeParents( $student_id, $column )
  *
  * DBGet() callback function
  *
+ * @since 2.9
+ *
  * @param string $value  Value.
  * @param string $column Column.
  * @param string $table  'auto'|'STAFF' (optional). Defaults to 'auto'.
@@ -970,6 +978,8 @@ function DeCodeds( $value, $column, $table = 'auto' )
  *
  * DBGet() callback function
  *
+ * @since 2.9
+ *
  * @param  string $value  Checkbox value.
  * @param  string $column Column.
  *
@@ -978,6 +988,27 @@ function DeCodeds( $value, $column, $table = 'auto' )
 function makeCheckbox( $value, $column )
 {
 	return $value ? _( 'Yes' ) : _( 'No' );
+}
+
+
+/**
+ * Make Textarea
+ *
+ * DBGet() callback function
+ *
+ * @uses ShowDown jQuery plugin for MarkDown rendering called using the .markdown-to-html CSS class
+ * @uses ColorBox jQuery plugin to display various lines texts in ListOutput on mobiles called using the .rt2colorBox CSS class
+ *
+ * @since 2.9
+ *
+ * @param  string $value  Textarea value.
+ * @param  string $column Column.
+ *
+ * @return string         Markdown rendered text.
+ */
+function makeTextarea( $value, $column )
+{
+	return $value !== '' ? '<div class="markdown-to-html rt2colorBox">' . $value . '</div>' : '';
 }
 
 

@@ -185,8 +185,10 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 
 	foreach ( (array) $custom_RET as $id => $field )
 	{
-		if ( ! $fields_list['CUSTOM_' . $id] )
-			$fields_list['CUSTOM_' . $id] = $field[1]['TITLE'];
+		if ( ! $fields_list[ 'CUSTOM_' . $id ] )
+		{
+			$fields_list[ 'CUSTOM_' . $id ] = $field[1]['TITLE'];
+		}
 	}
 
 	$address_RET = DBGet( DBQuery( "SELECT TITLE,ID,TYPE
@@ -195,15 +197,12 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 
 	foreach ( (array) $address_RET as $id => $field )
 	{
-		if ( ! $fields_list['ADDRESS_' . $id ] )
-		{
-			$fields_list['ADDRESS_' . $id] = $field[1]['TITLE'];
+		$fields_list[ 'ADDRESS_' . $id ] = $field[1]['TITLE'];
 
-			if ( $_REQUEST['fields']['ADDRESS_' . $id] )
-			{
-				$extra['SELECT'] .= ',a.CUSTOM_' . $id . ' AS ADDRESS_' . $id;
-				$extra['addr'] = true;
-			}
+		if ( $_REQUEST['fields'][ 'ADDRESS_' . $id ] )
+		{
+			$extra['SELECT'] .= ',a.CUSTOM_' . $id . ' AS ADDRESS_' . $id;
+			$extra['addr'] = true;
 		}
 	}
 
@@ -343,50 +342,60 @@ if ( $_REQUEST['search_modfunc'] == 'list' )
 			{
 				$field_type = $custom_RET[ mb_substr( $field, 7 ) ][1]['TYPE'];
 
-				if ( $field_type == 'date'
+				if ( $field_type === 'date'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'ProperDate';
 				}
-				elseif ( $field_type == 'codeds'
+				elseif ( $field_type === 'codeds'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
 				}
-				elseif ( $field_type == 'exports'
+				elseif ( $field_type === 'exports'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
 				}
-				elseif ( $field_type == 'radio'
+				elseif ( $field_type === 'radio'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'makeCheckbox';
+				}
+				elseif ( $field_type === 'textarea'
+					&& ! $extra['functions'][ $field ] )
+				{
+					$extra['functions'][ $field ] = 'makeTextarea';
 				}
 			}
 			elseif ( mb_substr( $field, 0, 8 ) == 'ADDRESS_' )
 			{
 				$field_type = $address_RET[ mb_substr( $field, 8 ) ][1]['TYPE'];
 
-				if ( $field_type == 'date'
+				if ( $field_type === 'date'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'ProperDate';
 				}
-				elseif ( $field_type == 'codeds'
+				elseif ( $field_type === 'codeds'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
 				}
-				elseif ( $field_type == 'exports'
+				elseif ( $field_type === 'exports'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'DeCodeds';
 				}
-				elseif ( $field_type == 'radio'
+				elseif ( $field_type === 'radio'
 					&& ! $extra['functions'][ $field ] )
 				{
 					$extra['functions'][ $field ] = 'makeCheckbox';
+				}
+				elseif ( $field_type === 'textarea'
+					&& ! $extra['functions'][ $field ] )
+				{
+					$extra['functions'][ $field ] = 'makeTextarea';
 				}
 			}
 		}
