@@ -134,19 +134,37 @@ if (empty($_REQUEST['modfunc']))
 	if ( $_REQUEST['search_modfunc']=='list') // || UserStudentID())
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = '<input type="submit" value="'._('Create Progress Reports for Selected Students').'" />';
 
-		$extra['extra_header_left'] = '<table>';
-//FJ add <label> on checkbox
-		$extra['extra_header_left'] .= '<tr class="st"><td></td><td style="text-align:right;"><label>'._('Assigned Date').'&nbsp;<input type="checkbox" value="Y" name="assigned_date"></label></td>';
-		$extra['extra_header_left'] .= '<td style="text-align:right"><label>'._('Exclude Ungraded E/C Assignments').'&nbsp;<input type="checkbox" value="Y" name="exclude_ec" checked /></label></td></tr>';
+		$extra['header_right'] = Buttons( _( 'Create Progress Reports for Selected Students' ) );
 
-		$extra['extra_header_left'] .= '<tr class="st"><td></td><td style="text-align:right;"><label>'._('Due Date').'&nbsp;<input type="checkbox" value="Y" name="due_date" checked /></label></td>';
-		$extra['extra_header_left'] .= '<td style="text-align:right"><label>'._('Exclude Ungraded Assignments Not Due').'&nbsp;<input type="checkbox" value="Y" name="exclude_notdue"></label></td></tr>';
-		$extra['extra_header_left'] .= '<tr class="st"><td></td><td style="text-align:right"><label>'._('Group by Assignment Category').'&nbsp;<input type="checkbox" value="Y" name="by_category"></label></td>';
-		Widgets('mailing_labels');
-		$extra['extra_header_left'] .= str_ireplace('<td','<td colspan="2"',$extra['search']);
+		$extra['extra_header_left'] = '<table class="cellpadding-5 align-right">';
+
+		$extra['extra_header_left'] .= '<tr class="st"><td colspan="2">
+			<label>' . _( 'Assigned Date' ) .
+			'&nbsp;<input type="checkbox" value="Y" name="assigned_date" /></label></td>';
+
+		$extra['extra_header_left'] .= '<td>
+			<label>' . _( 'Exclude Ungraded E/C Assignments' ) .
+			'&nbsp;<input type="checkbox" value="Y" name="exclude_ec" checked /></label></td></tr>';
+
+		$extra['extra_header_left'] .= '<tr class="st"><td colspan="2">
+			<label>' . _( 'Due Date' ) .
+			'&nbsp;<input type="checkbox" value="Y" name="due_date" checked /></label></td>';
+
+		$extra['extra_header_left'] .= '<td>
+			<label>' . _( 'Exclude Ungraded Assignments Not Due' ) .
+			'&nbsp;<input type="checkbox" value="Y" name="exclude_notdue" /></label></td></tr>';
+
+		$extra['extra_header_left'] .= '<tr class="st"><td colspan="2">
+			<label>' . _( 'Group by Assignment Category' ) .
+			'&nbsp;<input type="checkbox" value="Y" name="by_category" /></label></td>';
+
+		Widgets( 'mailing_labels' );
+
+		$extra['extra_header_left'] .= $extra['search'];
+
 		$extra['search'] = '';
+
 		$extra['extra_header_left'] .= '</table>';
 		//$extra['old'] = true; // proceed to 'list' if UserStudentID()
 	}
@@ -163,8 +181,9 @@ if (empty($_REQUEST['modfunc']))
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center"><input type="submit" value="'._('Create Progress Reports for Selected Students').'" /></div>';
-		echo '</form>';
+		echo '<br /><div class="center">' .
+			Buttons( _( 'Create Progress Reports for Selected Students' ) ) .
+		'</div></form>';
 	}
 }
 
@@ -185,7 +204,7 @@ function _makeExtra($value,$column)
 				return '<table class="cellspacing-0"><tr><td><span class="size-1">'.(rtrim(rtrim($value,'0'),'.')+0).'</span></td><td><span class="size-1">&nbsp;/&nbsp;</span></td><td><span class="size-1">'.$THIS_RET['TOTAL_POINTS'].'</span></td></tr></table>';
 			}
 			else
-				return '<table class="cellspacing-0"><tr><td><span class="size-1">'._('Excluded').'</span></td><td></td><td></td></tr></table>';
+				return '<table class="cellspacing-0"><tr><td><span class="size-1">'._('Excused').'</span></td><td></td><td></td></tr></table>';
 		else
 		{
 			$student_points[$THIS_RET['ASSIGNMENT_TYPE_ID']] += $value;
