@@ -8,8 +8,11 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
 
 	if ( isset( $_REQUEST['day_include_active_date'] )
+		&& $_REQUEST['day_include_active_date']
 		&& isset( $_REQUEST['month_include_active_date'] )
-		&& isset( $_REQUEST['year_include_active_date'] ) )
+		&& $_REQUEST['month_include_active_date']
+		&& isset( $_REQUEST['year_include_active_date'] )
+		&& $_REQUEST['year_include_active_date'] )
 	{
 		$date = RequestedDate(
 			$_REQUEST['year_include_active_date'],
