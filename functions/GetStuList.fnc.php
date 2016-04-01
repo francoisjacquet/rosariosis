@@ -1008,7 +1008,12 @@ function makeCheckbox( $value, $column )
  */
 function makeTextarea( $value, $column )
 {
-	return $value !== '' ? '<div class="markdown-to-html rt2colorBox">' . $value . '</div>' : '';
+	static $i = 1;
+
+	return $value !== '' ?
+		'<div id="' . $column . $i++ . '" class="rt2colorBox"><div class="markdown-to-html">' .
+			$value . '</div></div>' :
+		'';
 }
 
 

@@ -767,7 +767,7 @@ if ( $_REQUEST['modfunc'] === 'list_events' )
 	);
 
 
-	$functions = array( 'SCHOOL_DATE' => 'ProperDate', 'DESCRIPTION' => '_formatDescription' );
+	$functions = array( 'SCHOOL_DATE' => 'ProperDate', 'DESCRIPTION' => 'makeTextarea' );
 
 	$events_RET = DBGet( DBQuery( "SELECT ID,SCHOOL_DATE,TITLE,DESCRIPTION
 		FROM CALENDAR_EVENTS
@@ -1260,21 +1260,4 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div>';
 	echo '<br /><br /></form>';
-}
-
-
-function _formatDescription( $value, $column )
-{
-	global $THIS_RET;
-
-	$id = $THIS_RET['ID'];
-
-	// convert MarkDown to HTML
-	if ( $value )
-		$return = '<div class="markdown-to-html">' . $value . '</div>';
-	else
-		return '';
-
-	//FJ responsive rt td too large
-	return '<div id="divEventDescription' . $id . '" class="rt2colorBox">' . $return . '</div>';
 }

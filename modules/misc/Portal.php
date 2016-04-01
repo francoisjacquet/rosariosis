@@ -110,7 +110,7 @@ switch ( User( 'PROFILE' ) )
 		AND (st.PROFILE_ID IS NULL AND position(',admin,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0)
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => '_formatContent', 'FILE_ATTACHED' => 'makeFileAttached'));
+		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE' => 'ProperDate', 'CONTENT' => 'makeTextarea', 'FILE_ATTACHED' => 'makeFileAttached'));
 
 		if (count($notes_RET))
 		{
@@ -144,7 +144,7 @@ switch ( User( 'PROFILE' ) )
 		AND (st.SCHOOLS IS NULL OR position(','||ce.SCHOOL_ID||',' IN st.SCHOOLS)>0)
 		AND s.ID=ce.SCHOOL_ID
 		AND s.SYEAR=ce.SYEAR
-		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE' => 'ProperDate', 'DAY' => '_eventDay', 'DESCRIPTION' => '_formatContent'),array('SCHOOL_DATE'));
+		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE' => 'ProperDate', 'DAY' => '_eventDay', 'DESCRIPTION' => 'makeTextarea'),array('SCHOOL_DATE'));
 
 		if (count($events_RET))
 		{
@@ -265,7 +265,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0)
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent','FILE_ATTACHED' => 'makeFileAttached'));
+		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => 'makeTextarea','FILE_ATTACHED' => 'makeFileAttached'));
 
 		if (count($notes_RET))
 		{
@@ -300,7 +300,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(','||ce.SCHOOL_ID||',' IN (SELECT SCHOOLS FROM STAFF WHERE STAFF_ID='".User('STAFF_ID')."'))>0
 		AND s.ID=ce.SCHOOL_ID
 		AND s.SYEAR=ce.SYEAR
-		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE' => 'ProperDate', 'DAY' => '_eventDay', 'DESCRIPTION' => '_formatContent'),array('SCHOOL_DATE'));
+		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE' => 'ProperDate', 'DAY' => '_eventDay', 'DESCRIPTION' => 'makeTextarea'),array('SCHOOL_DATE'));
 
 		if (count($events_RET))
 		{
@@ -322,7 +322,7 @@ switch ( User( 'PROFILE' ) )
 			'DUE_DATE' => 'ProperDate',
 			/*'DAY' => '_eventDay',*/
 			'ASSIGNED_DATE' => 'ProperDate',
-			/*'DESCRIPTION' => '_formatContent',*/
+			/*'DESCRIPTION' => 'makeTextarea',*/
 		) );
 
 		if ( count( $assignments_RET ) )
@@ -436,7 +436,7 @@ switch ( User( 'PROFILE' ) )
 		AND (st.PROFILE_ID IS NULL AND position(',parent,' IN pn.PUBLISHED_PROFILES)>0 OR st.PROFILE_ID IS NOT NULL AND position(','||st.PROFILE_ID||',' IN pn.PUBLISHED_PROFILES)>0)
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent','FILE_ATTACHED' => 'makeFileAttached'));
+		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => 'makeTextarea','FILE_ATTACHED' => 'makeFileAttached'));
 
 		if (count($notes_RET))
 		{
@@ -470,7 +470,7 @@ switch ( User( 'PROFILE' ) )
 		AND ce.SCHOOL_ID IN (SELECT DISTINCT SCHOOL_ID FROM STUDENTS_JOIN_USERS sju, STUDENT_ENROLLMENT se WHERE sju.STAFF_ID='".User('STAFF_ID')."' AND se.SYEAR=ce.SYEAR AND se.STUDENT_ID=sju.STUDENT_ID AND se.START_DATE<=CURRENT_DATE AND (se.END_DATE>=CURRENT_DATE OR se.END_DATE IS NULL))
 		AND s.ID=ce.SCHOOL_ID
 		AND s.SYEAR=ce.SYEAR
-		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE' => 'ProperDate', 'DAY' => '_eventDay', 'DESCRIPTION' => '_formatContent'),array('SCHOOL_DATE'));
+		ORDER BY ce.SCHOOL_DATE,s.TITLE"),array('SCHOOL_DATE' => 'ProperDate', 'DAY' => '_eventDay', 'DESCRIPTION' => 'makeTextarea'),array('SCHOOL_DATE'));
 
 		if (count($events_RET))
 		{
@@ -498,7 +498,7 @@ switch ( User( 'PROFILE' ) )
 		array(
 			'DUE_DATE' => 'MakeAssignmentDueDate',
 			/*'DAY' => '_eventDay',*/
-			/*'DESCRIPTION' => '_formatContent',*/
+			/*'DESCRIPTION' => 'makeTextarea',*/
 			'STAFF_ID' => 'GetTeacher',
 			'SUBMITTED' => 'MakeAssignmentSubmitted',
 			'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
@@ -571,7 +571,7 @@ switch ( User( 'PROFILE' ) )
 		AND position(',0,' IN pn.PUBLISHED_PROFILES)>0
 		AND s.ID=pn.SCHOOL_ID
 		AND s.SYEAR=pn.SYEAR
-		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => '_formatContent','FILE_ATTACHED' => 'makeFileAttached'));
+		ORDER BY pn.SORT_ORDER,pn.PUBLISHED_DATE DESC"),array('PUBLISHED_DATE' => 'ProperDate','CONTENT' => 'makeTextarea','FILE_ATTACHED' => 'makeFileAttached'));
 
 		if (count($notes_RET))
 		{
@@ -601,7 +601,7 @@ switch ( User( 'PROFILE' ) )
 		FROM CALENDAR_EVENTS
 		WHERE SCHOOL_DATE BETWEEN CURRENT_DATE AND CURRENT_DATE+11
 		AND SYEAR='".UserSyear()."'
-		AND SCHOOL_ID='".UserSchool()."'"),array('SCHOOL_DATE' => 'ProperDate', 'DAY' => '_eventDay', 'DESCRIPTION' => '_formatContent'),array('SCHOOL_DATE'));
+		AND SCHOOL_ID='".UserSchool()."'"),array('SCHOOL_DATE' => 'ProperDate', 'DAY' => '_eventDay', 'DESCRIPTION' => 'makeTextarea'),array('SCHOOL_DATE'));
 
 		if (count($events_RET))
 		{
@@ -629,7 +629,7 @@ switch ( User( 'PROFILE' ) )
 		array(
 			'DUE_DATE' => 'MakeAssignmentDueDate',
 			/*'DAY' => '_eventDay',*/
-			/*'DESCRIPTION' => '_formatContent',*/
+			/*'DESCRIPTION' => 'makeTextarea',*/
 			'STAFF_ID' => 'GetTeacher',
 			'SUBMITTED' => 'MakeAssignmentSubmitted',
 			'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
@@ -662,29 +662,6 @@ switch ( User( 'PROFILE' ) )
 	break;
 }
 
-function _formatContent($value,$column)
-{
-	global $THIS_RET;
-
-	$id = $THIS_RET['ID'];
-
-	if ( ! $value )
-		return '';
-
-	//FJ responsive rt td too large
-	//FJ Portal Assignments
-	if ( isset( $THIS_RET['COURSE'] ) )
-		$return = '<div id="divAssignmentContent' . $id . '" class="rt2colorBox">';
-	else
-		$return = '<div id="divNoteContent' . $id . '" class="rt2colorBox">';
-
-	// convert MarkDown to HTML
-	$return .= '<div class="markdown-to-html">' . $value . '</div>';
-
-	$return .= '</div>';
-
-	return $return;
-}
 
 function PHPCheck() {
 	$ret = array();
