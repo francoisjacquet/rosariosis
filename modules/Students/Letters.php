@@ -2,7 +2,13 @@
 
 require_once 'ProgramFunctions/MarkDownHTML.fnc.php';
 
-if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
+if ( User( 'PROFILE' ) === 'teacher' )
+{
+	$_ROSARIO['allow_edit'] = true;
+}
+
+if ( $_REQUEST['modfunc'] === 'save'
+	&& AllowEdit() )
 {
 	if (count($_REQUEST['st_arr']))
 	{
@@ -87,15 +93,15 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		BackPrompt(_('You must choose at least one student.'));
 }
 
-if (empty($_REQUEST['modfunc']))
-
+if ( ! $_REQUEST['modfunc'] )
 {
-	DrawHeader(ProgramTitle());
+	DrawHeader( ProgramTitle() );
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save&include_inactive='.$_REQUEST['include_inactive'].'&_search_all_schools='.$_REQUEST['_search_all_schools'].'&_ROSARIO_PDF=true" method="POST">';
-		$extra['header_right'] = '<input type="submit" value="'._('Print Letters for Selected Students').'" />';
+
+		$extra['header_right'] = SubmitButton( _('Print Letters for Selected Students' ) );
 
 		Widgets('mailing_labels');
 		$extra['extra_header_left'] = '<table>' . $extra['search'] . '</table>';
@@ -150,8 +156,8 @@ if (empty($_REQUEST['modfunc']))
 	Search('student_id',$extra);
 	if ( $_REQUEST['search_modfunc']=='list')
 	{
-		echo '<br /><div class="center"><input type="submit" value="'._('Print Letters for Selected Students').'" /></div>';
-		echo '</form>';
+		echo '<br /><div class="center">' .
+			SubmitButton( _('Print Letters for Selected Students' ) ) . '</div></form>';
 	}
 }
 
