@@ -939,7 +939,7 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
 	$color_rect = '<div style="background-color:' . $value . '; width:30px; height:20px;"></div>';
 
 	if ( AllowEdit()
-		&& !isset( $_REQUEST['_ROSARIO_PDF'] ) )
+		&& ! isset( $_REQUEST['_ROSARIO_PDF'] ) )
 	{
 		$js = '';
 
@@ -990,7 +990,7 @@ function ColorInput( $value, $name, $title = '', $type = 'hidden', $extra = '', 
 			$return = $js . $color;
 	}
 	else
-		$return = $color_rect;
+		$return = $color_rect . $ftitle;
 
 	return $return;
 }
