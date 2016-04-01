@@ -121,32 +121,98 @@ if (empty($_REQUEST['modfunc']))
 	DrawHeader( '', Buttons( _( 'Save' ) ) );
 	echo '<br />';
 
-	if (User('PROFILE')=='admin' || User('PROFILE')=='teacher')
+	if ( User( 'PROFILE' ) === 'admin'
+		|| User( 'PROFILE' ) === 'teacher' )
 	{
-		$tabs = array(array('title' => _('Display Options'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=display_options'),array('title' => _('Print Options'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=print_options'),array('title' => _('Student Listing'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=student_listing'),array('title' => _('Password'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=password'),array('title' => _('Student Fields'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=student_fields'),array('title' => _('Widgets'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=widgets'));
-		if (User('PROFILE')=='admin')
+		$_ROSARIO['allow_edit'] = true;
+
+		$tabs = array(
+			array(
+				'title' => _( 'Display Options' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=display_options',
+			),
+			array(
+				'title' => _( 'Print Options' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=print_options',
+			),
+			array(
+				'title' => _( 'Student Listing' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=student_listing'
+			),
+			array(
+				'title' => _( 'Password' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=password',
+			),
+			array(
+				'title' => _( 'Student Fields' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=student_fields',
+			),
+			array(
+				'title' => _( 'Widgets' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=widgets',
+			),
+		);
+
+		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			$tabs[] = array('title' => _('User Fields'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=staff_fields');
-			$tabs[] = array('title' => _('User Widgets'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=staff_widgets');
+			$tabs[] = array(
+				'title' => _( 'User Fields' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=staff_fields',
+			);
+
+			$tabs[] = array(
+				'title' => _( 'User Widgets' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] .'&amp;tab=staff_widgets',
+			);
 		}
 	}
-	elseif (User('PROFILE')=='parent')
+	elseif ( User( 'PROFILE' ) === 'parent' )
 	{
-		$tabs = array(array('title' => _('Display Options'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=display_options'),array('title' => _('Print Options'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=print_options'),array('title' => _('Password'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=password'),array('title' => _('Student Fields'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=student_fields'));
+		$_ROSARIO['allow_edit'] = true;
+
+		$tabs = array(
+			array(
+				'title' => _( 'Display Options' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=display_options',
+			),
+			array(
+				'title' => _( 'Print Options' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=print_options',
+			),
+			array(
+				'title' => _( 'Password' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=password',
+			),
+			array(
+				'title' => _( 'Student Fields' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=student_fields',
+			),
+		);
 	}
-	//FJ enable password change for students
+	// FJ enable password change for students.
 	else
 	{
-		$tabs = array(array('title' => _('Password'),'link' => 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab=password'));
+		$tabs = array(
+			array(
+				'title' => _( 'Password' ),
+				'link' => 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=password',
+			),
+		);
 	}
 
-	$_ROSARIO['selected_tab'] = 'Modules.php?modname='.$_REQUEST['modname'].'&amp;tab='.$_REQUEST['tab'];
-	if ( !in_array($_REQUEST['tab'], array('student_fields','staff_fields')))
-		PopTable('header',$tabs);
-	else //FJ Responsive student/staff fields preferences
-		$LO_options['header'] = WrapTabs($tabs,$_ROSARIO['selected_tab']);
+	$_ROSARIO['selected_tab'] = 'Modules.php?modname=' . $_REQUEST['modname'] . '&amp;tab=' . $_REQUEST['tab'];
 
-	// Inputs param defaults
+	if ( ! in_array( $_REQUEST['tab'], array( 'student_fields', 'staff_fields' ) ) )
+	{
+		PopTable( 'header', $tabs );
+	}
+	else
+	{
+		// FJ Responsive student/staff fields preferences.
+		$LO_options['header'] = WrapTabs( $tabs, $_ROSARIO['selected_tab'] );
+	}
+
+	// Inputs param defaults.
 	$allow_na = $div = false;
 
 	$new = true;
@@ -158,7 +224,7 @@ if (empty($_REQUEST['modfunc']))
 	{
 		echo '<table class="cellpadding-5"><tr><td>';
 
-		// Student Sorting
+		// Student Sorting.
 		echo SelectInput(
 			Preferences( 'SORT' ),
 			'values[Preferences][SORT]',
@@ -171,7 +237,7 @@ if (empty($_REQUEST['modfunc']))
 
 		echo '</td></tr><tr><td>';
 
-		// File Export Type
+		// File Export Type.
 		echo SelectInput(
 			Preferences( 'DELIMITER' ),
 			'values[Preferences][DELIMITER]',
@@ -188,7 +254,7 @@ if (empty($_REQUEST['modfunc']))
 
 		echo '</td></tr><tr><td>';
 
-		// Date Export Format
+		// Date Export Format.
 		echo SelectInput(
 			Preferences( 'E_DATE' ),
 			'values[Preferences][E_DATE]',
@@ -207,7 +273,7 @@ if (empty($_REQUEST['modfunc']))
 		if ( User( 'PROFILE' ) === 'admin'
 			|| User( 'PROFILE' ) === 'teacher' )
 		{
-			// Display student search screen
+			// Display student search screen.
 			echo '<tr><td>' . CheckboxInput(
 				Preferences( 'SEARCH' ),
 				'values[Preferences][SEARCH]',
@@ -219,7 +285,7 @@ if (empty($_REQUEST['modfunc']))
 
 		if ( User( 'PROFILE' ) === 'admin' )
 		{
-			// Group by family by default
+			// Group by family by default.
 			echo '<tr><td>' . CheckboxInput(
 				Preferences( 'DEFAULT_FAMILIES' ),
 				'values[Preferences][DEFAULT_FAMILIES]',
@@ -231,7 +297,7 @@ if (empty($_REQUEST['modfunc']))
 			//FJ if only one school, no Search All Schools option
 			if ( SchoolInfo( 'SCHOOLS_NB' ) > 1 )
 			{
-				// Search all schools by default
+				// Search all schools by default.
 				echo '<tr><td>' . CheckboxInput(
 					Preferences( 'DEFAULT_ALL_SCHOOLS' ),
 					'values[Preferences][DEFAULT_ALL_SCHOOLS]',
