@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-31 16:26-0500\n"
-"PO-Revision-Date: 2016-03-31 16:27-0500\n"
+"PO-Revision-Date: 2016-04-01 11:22-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -7279,7 +7279,7 @@ msgstr "Su nueva contraseña fue guardada."
 
 #: modules/Users/Preferences.php:95
 msgid "Your preferences were saved."
-msgstr "Su nueva contraseña fue guardada."
+msgstr "Sus preferencias han sido guardadas."
 
 #: modules/Users/Preferences.php:126 modules/Users/Preferences.php:135
 msgid "Display Options"
