@@ -45,7 +45,7 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			$skipRET = array();
 			for($i=($_REQUEST['start_row']-1)*$max_cols+$_REQUEST['start_col']; $i>1; $i--)
-				$skipRET[-$i] = array('LAST_NAME'=>' ');
+				$skipRET[-$i] = array('LAST_NAME'=>'&nbsp;');
 
 			$handle = PDFstart();
 			echo '<table style="height: 100%" class="width-100p cellspacing-0">';
@@ -58,20 +58,47 @@ if(isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					echo '<tr>';
 				echo '<td style="text-align:center; width:33%; vertical-align: middle;">';
 
-				if($_REQUEST['full_name']=='given')
-					$name = $student['LAST_NAME'].', '.$student['FIRST_NAME'].' '.$student['MIDDLE_NAME'];
-				elseif($_REQUEST['full_name']=='given_natural')
-					$name = $student['FIRST_NAME'].' '.$student['LAST_NAME'];
+				if ( $student['LAST_NAME'] === '&nbsp;' )
+				{
+					$name = $student['LAST_NAME'];
+				}
+				elseif ( $_REQUEST['full_name'] == 'given' )
+				{
+					$name = $student['LAST_NAME'] . ', ' .
+						$student['FIRST_NAME'] . ' ' . $student['MIDDLE_NAME'];
+				}
+				elseif ( $_REQUEST['full_name'] == 'given_natural' )
+				{
+					$name = $student['FIRST_NAME'] . ' ' . $student['LAST_NAME'];
+				}
 				else
 					$name = $student['FULL_NAME'];
 
-				echo '<B>'.$name.'</B>';
+				echo '<b>' . $name . '</b>';
 
-				if($_REQUEST['teacher'])
-					echo '<BR />'._('Teacher').':&nbsp;'.$student['TEACHER'];
-				if($_REQUEST['room'])
-					echo '<BR />'._('Room').':&nbsp;'.$student['ROOM'];
-				echo '</td>';
+				if ( $_REQUEST['teacher'] )
+				{
+					if ( $student['TEACHER'] )
+					{
+						echo '<br />' . _( 'Teacher' ) . ':&nbsp;' . $student['TEACHER'];
+					}
+					else
+					{
+						echo '<br />&nbsp;';
+					}
+				}
+
+				if ( $_REQUEST['room'] )
+				{
+					if ( $student['ROOM'] )
+					{
+						echo '<br />' . _( 'Room' ) . ':&nbsp;' . $student['ROOM'];
+					}
+					else
+					{
+						echo '<br />&nbsp;';
+					}
+				}
 
 				$cols++;
 

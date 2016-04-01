@@ -15,6 +15,7 @@ Changes in 2.8.27
 - Fix more than 1 row returned SQL error in GPA widget: use REPORTING_GP_SCALE in Widgets.fnc.php
 - Fix menu_id's $id var for Menus tabs in DailyMenus.php
 - Show Letter & Percent grades (= 0 case) in StudentGrades.php
+- Fix PDF when Teacher / Room combined with skip row / line in StudentLabels.php
 
 Changes in 2.8.26
 -----------------
