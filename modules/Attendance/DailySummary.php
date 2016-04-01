@@ -173,10 +173,18 @@ if ( $_REQUEST['student_id'] || User('PROFILE')=='parent')
 	$columns = array('TITLE' => _('Course'));
 	if (isset($col_period) && $col_period)
 		$columns['PERIOD'] = _('Period');
-	if (count($cal_RET))
+
+	foreach ( (array) $cal_RET as $value )
 	{
-		foreach ( (array) $cal_RET as $value)
-			$columns[$value['SHORT_DATE']] = (isset($_REQUEST['LO_save']) ? strip_tags(ProperDate($value['SCHOOL_DATE'],'short')) : ProperDate($value['SCHOOL_DATE'],'short'));
+		$school_date = ProperDate( $value['SCHOOL_DATE'], 'short' );
+
+		// 2 digits year to gain space.
+		$school_date = str_replace( date( 'Y' ), date( 'y' ), $school_date );
+
+		$columns[ $value['SHORT_DATE'] ] = ( isset( $_REQUEST['LO_save'] ) ?
+			strip_tags( $school_date ) :
+			$school_date
+		);
 	}
 
 	ListOutput($student_RET,$columns,'Course','Courses');
