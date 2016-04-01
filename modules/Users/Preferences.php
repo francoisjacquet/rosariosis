@@ -390,7 +390,6 @@ if (empty($_REQUEST['modfunc']))
 	if ( $_REQUEST['tab'] === 'password' )
 	{
 		//FJ password fields are required
-		//FJ Moodle integrator / password
 		echo '<table class="cellpadding-5"><tr><td>';
 
 		$id = GetInputID( 'values[current]' );
@@ -406,12 +405,7 @@ if (empty($_REQUEST['modfunc']))
 		// New Password
 		echo '<input type="password" name="values[new]" id="' . $id . '" required />' .
 			FormatInputTitle(
-				_( 'New Password' ) .
-				( $RosarioPlugins['Moodle'] ?
-					'<div class="tooltip"><i>' .
-						_( 'The password must have at least 8 characters, at least 1 digit, at least 1 lower case letter, at least 1 upper case letter, at least 1 non-alphanumeric character' ) .
-					'</i></div>' :
-					'' ),
+				_( 'New Password' ),
 				$id
 			);
 
