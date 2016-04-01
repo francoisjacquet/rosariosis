@@ -3,7 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.27
 -----------------
 - Correctly get Discipline Fields based on user school & year in EmailReferral.fnc.php
-- Update Portuguese translation in locale/pt_PT.utf8/
+- Update Portuguese translation in locale/pt_PT.utf8/ thanks to @adrianomarinho
 - Fix Food Service Students Accounts Account ID check + Translate Food Service Discount options
 - Fix Food Service User balance widget in StaffWidgets.fnc.php
 - Enable empty value when updating Food Service menu item in MenuItems.php
