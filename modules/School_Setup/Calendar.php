@@ -620,7 +620,8 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		elseif ( $_REQUEST['assignment_id'] )
 		{
 			//FJ add assigned date
-			$RET = DBGet( DBQuery( "SELECT a.TITLE,a.STAFF_ID,a.DUE_DATE AS SCHOOL_DATE,a.DESCRIPTION,a.ASSIGNED_DATE,c.TITLE AS COURSE
+			$RET = DBGet( DBQuery( "SELECT a.TITLE,a.STAFF_ID,a.DUE_DATE AS SCHOOL_DATE,
+				a.DESCRIPTION,a.ASSIGNED_DATE,c.TITLE AS COURSE,a.SUBMISSION
 				FROM GRADEBOOK_ASSIGNMENTS a,COURSES c
 				WHERE (a.COURSE_ID=c.COURSE_ID
 					OR c.COURSE_ID=(SELECT cp.COURSE_ID
@@ -640,10 +641,24 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 		echo '<table class="cellpadding-5 col1-align-right"><tr><td>' . _( 'Date' ) . '</td>' .
 			'<td>' . DateInput( $RET[1]['SCHOOL_DATE'], 'values[SCHOOL_DATE]', '', false ) . '</td></tr>';
 
-		//FJ add assigned date
+		// Add assigned date.
 		if ( $RET[1]['ASSIGNED_DATE'] )
+		{
 			echo '<tr><td>' . _( 'Assigned Date' ) . '</td>' .
-				'<td>' . DateInput( $RET[1]['ASSIGNED_DATE'], 'values[ASSIGNED_DATE]', '', false ) . '</td></tr>';
+				'<td>' . DateInput( $RET[1]['ASSIGNED_DATE'], 'values[ASSIGNED_DATE]', '', false ) .
+				'</td></tr>';
+		}
+
+		// Add submit Assignment link.
+		if ( $RET[1]['SUBMISSION']
+			&& AllowUse( 'Grades/StudentAssignments.php' ) )
+		{
+			echo '<tr><td>' . _( 'Submission' ) . '</td>' .
+				'<td><a href="Modules.php?modname=Grades/StudentAssignments.php&assignment_id=' .
+				$_REQUEST['assignment_id'] . '" onclick="window.opener.ajaxLink(this.href); window.close();">' .
+				_( 'Submit Assignment' ) .
+				'</td></tr>';
+		}
 
 		//FJ add event repeat
 		if ( $_REQUEST['event_id'] === 'new' )
