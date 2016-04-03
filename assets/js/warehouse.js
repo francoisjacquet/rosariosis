@@ -353,14 +353,20 @@ window.onload = function () {
 };
 
 //ListOutput JS
-function LOSearch( event, val, url ) {
+function LOSearch( event, val ) {
 
-	if ( val !== '' && ( !event || event.keyCode == 13 ) )
+	if ( !event || event.keyCode == 13 )
 	{
-		ajaxLink(document.URL + "&LO_search=" + val);
-	}
+		var link = document.URL;
+		val = encodeURIComponent(val);
 
-	return false;
+		if ( link.indexOf('LO_search=') != -1 ) {
+			link = link.replace(/(LO_search=)([^&]*)?(&)?/, '$1' + val + '$3');
+		} else {
+			link += '&LO_search=' + val;
+		}
+		return ajaxLink( link );
+	}
 }
 
 //Repeat long list table header
