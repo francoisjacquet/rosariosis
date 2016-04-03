@@ -1,5 +1,9 @@
 Rosario Student Information System - CHANGES
 
+Changes in 2.8.28
+-----------------
+- Do NOT use GetStuList() otherwise limited to UserStudentID() in PrintClassPictures.php
+
 Changes in 2.8.27
 -----------------
 - Correctly get Discipline Fields based on user school & year in EmailReferral.fnc.php
