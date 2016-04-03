@@ -32,15 +32,32 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				$extra = array('SELECT_ONLY' => 's.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME', 'ORDER_BY' => 's.LAST_NAME,s.FIRST_NAME,s.MIDDLE_NAME', 'MP' => $course_period['MARKING_PERIOD_ID'], 'MPTable' => $course_period['MP']);
 
-				//FJ prevent course period ID hacking
+
 				if (User('PROFILE')=='student' || User('PROFILE')=='parent')
 				{
+					// FJ prevent course period ID hacking.
 					$extra['WHERE'] .= " AND '".UserStudentID()."' IN
 					(SELECT STUDENT_ID
 					FROM SCHEDULE
 					WHERE COURSE_PERIOD_ID='".$course_period_id."'
 					AND '".DBDate()."'>=START_DATE
 					AND ('".DBDate()."'<=END_DATE OR END_DATE IS NULL))";
+
+					// Limit to UserCoursePeriod().
+					$extra['FROM'] = "JOIN SCHEDULE ss ON (ss.COURSE_PERIOD_ID='" . $course_period_id . "'
+						AND s.STUDENT_ID=ss.STUDENT_ID)";
+
+					// Do NOT use GetStuList() otherwise limited to UserStudentID().
+					$RET = DBGet( DBQuery( "SELECT s.STUDENT_ID,s.LAST_NAME,s.FIRST_NAME
+						FROM STUDENTS s
+						JOIN STUDENT_ENROLLMENT ssm ON (ssm.STUDENT_ID=s.STUDENT_ID
+							AND ssm.SYEAR='" . UserSyear() . "'
+							AND ssm.SCHOOL_ID='" . UserSchool() . "'
+							AND ('" . DBDate() . "'>=ssm.START_DATE
+								AND (ssm.END_DATE IS NULL OR '" . DBDate() . "'<=ssm.END_DATE)))" .
+						$extra['FROM'] .
+						"WHERE TRUE" . $extra['WHERE'] .
+						" ORDER BY " . $extra['ORDER_BY'] ) );
 				}
 				elseif (User('PROFILE')=='teacher')
 				{
@@ -56,7 +73,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					AND ('".DBDate()."'<=END_DATE OR END_DATE IS NULL))";
 				}
 
-				$RET = GetStuList($extra);
+				if ( ! isset( $RET ) )
+				{
+					$RET = GetStuList( $extra );
+				}
 				//echo '<pre>'; var_dump($RET); echo '</pre>';
 
 				if (count($RET))
@@ -274,7 +294,7 @@ function mySearch($type,$extra='')
 			//$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,sp.ATTENDANCE FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."' AND cp.TEACHER_ID='".User('STAFF_ID')."' AND sp.PERIOD_ID=cp.PERIOD_ID";
 			$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE FROM COURSE_PERIODS cp WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.SYEAR='".UserSyear()."' AND cp.TEACHER_ID='".User('STAFF_ID')."'";
 		}
-		else                       		
+		else
 		{
 			//FJ multiple school periods for a course period
 			//$sql = "SELECT cp.COURSE_PERIOD_ID,cp.TITLE,sp.ATTENDANCE FROM COURSE_PERIODS cp,SCHOOL_PERIODS sp,SCHEDULE ss WHERE cp.SCHOOL_ID='".UserSchool()."' AND cp.COURSE_PERIOD_ID=ss.COURSE_PERIOD_ID AND ss.SYEAR='".UserSyear()."' AND ss.STUDENT_ID='".UserStudentID()."' AND (CURRENT_DATE>=ss.START_DATE AND (ss.END_DATE IS NULL OR CURRENT_DATE<=ss.END_DATE)) AND sp.PERIOD_ID=cp.PERIOD_ID";
