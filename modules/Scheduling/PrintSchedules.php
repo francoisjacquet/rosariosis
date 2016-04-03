@@ -128,8 +128,23 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 			}
 
-	//FJ add schedule table
-		if ( $_REQUEST['schedule_table'] == 'Yes')
+		// FJ add schedule table.
+		if ( $_REQUEST['schedule_table'] == 'Yes' )
+		{
+			if ( ! $schedule_table_RET )
+			{
+				$error[] = sprintf( _( 'No %s were found.' ) , ngettext( 'Course Period', 'Course Periods', 0 ) );
+
+				echo ErrorMessage( $error );
+
+				$note[] = sprintf(
+					_( 'Only course periods with a length <= %d minutes (full school day in minutes divided by 2) are shown in the table schedule.' ),
+					Config( 'ATTENDANCE_FULL_DAY_MINUTES' ) / 2
+				);
+
+				echo ErrorMessage( $note, 'note' );
+			}
+
 			foreach ( (array) $schedule_table_RET as $student_id => $schedule_table)
 			{
 				/*foreach ( (array) $schedule_table as $period => $course_periods)
@@ -200,19 +215,18 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				echo '<div style="page-break-after: always;"></div>';
 			}
+		}
 
-
-		PDFStop($handle);
+		PDFStop( $handle );
 	}
 	else
-		BackPrompt(_('No Students were found.'));
+		BackPrompt( _( 'No Students were found.' ) );
 	}
 	else
-		BackPrompt(_('You must choose at least one student.'));
+		BackPrompt( _( 'You must choose at least one student.' ) );
 }
 
-if (empty($_REQUEST['modfunc']))
-
+if ( ! $_REQUEST['modfunc'] )
 {
 	DrawHeader(ProgramTitle());
 
