@@ -77,6 +77,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 		$extra['group'][] = 'COURSE_PERIOD_ID';
 		$extra['group'][] = 'MARKING_PERIOD_ID';
 
+		// Parent: associated students.
+		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
 		$RET = GetStuList($extra);
 
 		// GET THE COMMENTS
@@ -114,6 +117,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			//Widgets('class_rank');
 			//Widgets('letter_grade');
 
+			// Parent: associated students.
+			$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
 			$attendance_RET = GetStuList($extra);
 		}
 
@@ -133,6 +139,9 @@ if ( $_REQUEST['modfunc'] === 'save' )
 			//Widgets('gpa');
 			//Widgets('class_rank');
 			//Widgets('letter_grade');
+
+			// Parent: associated students.
+			$extra['ASSOCIATED'] = User( 'STAFF_ID' );
 
 			$attendance_day_RET = GetStuList($extra);
 		}
@@ -491,6 +500,9 @@ if (empty($_REQUEST['modfunc']))
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
 	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
+
+	// Parent: associated students.
+	$extra['ASSOCIATED'] = User( 'STAFF_ID' );
 
 	//Widgets('course');
 	//Widgets('gpa');

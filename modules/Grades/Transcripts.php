@@ -18,6 +18,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		{
 			$extra['WHERE'] = " AND s.STUDENT_ID IN (".$st_list.")";
 
+			// Parent: associated students.
+			$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
 			$RET = GetStuList($extra);
 		}
 
@@ -25,7 +28,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 		if (count($t_grades) && count($RET))
 		{
-			
+
 			$showStudentPic = $_REQUEST['showstudentpic'];
 			$showSAT = $_REQUEST['showsat'];
 			//FJ add Show Grades option
@@ -47,12 +50,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					DBQuery("INSERT INTO TEMPLATES (MODNAME, STAFF_ID, TEMPLATE) VALUES ('Grades/Transcripts.php', '".User('STAFF_ID')."', '".$_REQUEST['inputcertificatetext']."')");
 				else
 					DBQuery("UPDATE TEMPLATES SET TEMPLATE = '".$_REQUEST['inputcertificatetext']."' WHERE MODNAME = 'Grades/Transcripts.php' AND STAFF_ID = '".User('STAFF_ID')."'");
-				
+
 				$certificateText = explode('__BLOCK2__', $_REQUEST['inputcertificatetext']);
 			}
-			
+
 			$students_dataquery = "select
-			s.student_id 
+			s.student_id
 			, s.first_name
 			, s.last_name
 			, s.middle_name";
@@ -80,23 +83,23 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 			, (select start_date from student_enrollment where student_id = s.student_id order by syear, start_date limit 1) as init_enroll
 			, (select sgl.title from school_gradelevels sgl join student_enrollment se on (sgl.id = se.grade_id) where se.syear = ".$syear." and se.student_id = s.student_id and (se.end_date is null or se.start_date < se.end_date) order by se.start_date desc limit 1) as grade_level
 			, (select sgl2.title from school_gradelevels sgl2, school_gradelevels sgl join student_enrollment se on (sgl.id = se.grade_id) where se.syear = ".$syear." and se.student_id = s.student_id and (se.end_date is null or se.start_date < se.end_date) and sgl2.id = sgl.next_grade_id order by se.start_date desc limit 1) as next_grade_level
-			from 
-			students s  
+			from
+			students s
 			left outer join students_join_address sja on (sja.student_id = s.student_id)
-			left outer join address a on (a.address_id = sja.address_id) "; 
+			left outer join address a on (a.address_id = sja.address_id) ";
 
 			$students_data = DBGet(DBQuery($students_dataquery.' where s.student_id in ('.$st_list.') order by last_name, first_name'),array(),array('STUDENT_ID'));
 
-			
+
 			$handle = PDFStart();
 
 			echo '<style type="text/css"> * {font-size:large; line-height:1.2;} </style>';
-			
+
 			$columns = array('COURSE_TITLE' => _('Course'));
 
 			$school_info = DBGet(DBQuery('select * from schools where syear = '.UserSyear().' AND id = '.$school_id));
 			$school_info = $school_info[1];
-					
+
 			foreach ( (array) $t_grades as $student_id => $mps)
 			{
 				$student_data = $students_data[ $student_id ][1];
@@ -109,7 +112,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				if (file_exists($stu_pic) && $showStudentPic){
 					echo '<img src="'.$stu_pic.'" width="'.$picwidth.'" />';
-				} 
+				}
 				elseif (file_exists($stu_pic2) && $showStudentPic){
 					echo '<img src="'.$stu_pic2.'" width="'.$picwidth.'" />';
 				}
@@ -117,12 +120,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					echo '&nbsp;';
 
 				echo '</td><td>';
-				
+
 				//Student Info
 				echo '<span style="font-size:x-large;">'.$student_data['LAST_NAME'].', '.$student_data['FIRST_NAME'].'<br /></span>';
 				echo '<span>'.$student_data['ADDRESS'].'<br /></span>';
 				echo '<span>'.$student_data['CITY'].(!empty($student_data['STATE'])?', '.$student_data['STATE']:'').(!empty($student_data['ZIPCODE'])?'  '.$student_data['ZIPCODE']:'').'</span>';
-				
+
 				echo '<table class="cellspacing-0 cellpadding-5" style="margin-top:10px;"><tr>';
 
 				if ( $custom_fields_RET['200000004'] && $custom_fields_RET['200000004'][1]['TYPE'] == 'date')
@@ -153,7 +156,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				echo '<td class="center">'.$student_data['GRADE_LEVEL'].'</td>';
 				echo '</tr></table>';
-				
+
 				echo '</td>';
 
 				//School logo
@@ -181,10 +184,10 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				if ( $school_info['SCHOOL_NUMBER'])
 					echo '<span>'._('School Number').': '.$school_info['SCHOOL_NUMBER'].'<br /><br /></span>';
 
-				echo '<span>'.$school_info['PRINCIPAL'].'<br /></span>';				
-				
+				echo '<span>'.$school_info['PRINCIPAL'].'<br /></span>';
+
 				echo '</td></tr>';
-				
+
 				//Certificate Text block 1
 				if ( $showCertificate)
 				{
@@ -194,9 +197,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					echo '<span>'.nl2br(trim($certificateText[0])).'</span>';
 					echo '</td></tr>';
 				}
-				
+
 				echo '</table>';
-				
+
 				//generate ListOutput friendly array
 				$listOutput_RET = array();
 				$total_credit_earned = 0;
@@ -212,7 +215,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 						$i = $grade['COURSE_TITLE'];
 
 						$listOutput_RET[ $i ]['COURSE_TITLE'] = $grade['COURSE_TITLE'];
-						
+
 						if ( $showGrades)
 						{
 							if ( ProgramConfig( 'grades', 'GRADES_DOES_LETTER_PERCENT' ) > 0 )
@@ -255,7 +258,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				if ( $showMPcomments)
 					$columns['COMMENT'] = _('Comment');
-					
+
 				$listOutput_RET = array_values($listOutput_RET);
 				array_unshift($listOutput_RET,'start_array_to_1');
 				unset($listOutput_RET[0]);
@@ -263,12 +266,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 
 				echo '<br />';
 				ListOutput($listOutput_RET,$columns,'.','.',false);
-			
+
 				//School Year
 				echo '<table class="width-100p"><tr><td>';
 				echo '<span><br />'._('School Year').': '.FormatSyear($syear,Config('SCHOOL_SYEAR_OVER_2_YEARS')).'</span>';
 				echo '</td></tr>';
-				
+
 				//Class Rank
 				if ( $showGrades)
 					if ( $grade['MP_TYPE']!='quarter' && !empty($grade['CUM_WEIGHTED_GPA']) && !empty($grade['CUM_RANK']))
@@ -293,9 +296,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 					$certificateText[1] = str_replace(array('__SSECURITY__','__FULL_NAME__','__FIRST_NAME__','__LAST_NAME__','__MIDDLE_NAME__','__GRADE_ID__','__NEXT_GRADE_ID__','__YEAR__','__SCHOOL_ID__'),array($student_data['SSECURITY'],$student_data['FULL_NAME'],$student_data['FIRST_NAME'],$student_data['LAST_NAME'],$student_data['MIDDLE_NAME'],$student_data['GRADE_LEVEL'],$student_data['NEXT_GRADE_LEVEL'],$syear,$school_info['TITLE']),$certificateText[1]);
 					echo '<tr><td><br /><span>'.nl2br(trim($certificateText[1])).'</span></td></tr>';
 				}
-				
+
 				echo '</table>';
-				
+
 				//Signatures
 				echo '<br /><br /><br /><table class="width-100p" style="border-collapse:separate; border-spacing: 40px;"><tr><td style="width:50%;">';
 				echo '<table class="width-100p"><tr><td style="border-top:solid black 1px;" class="center"><span style="font-size:x-small;">'._('Signature').'<br /><br /><br /></span></td></tr>';
@@ -310,7 +313,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 				}
 
 				echo '</td></tr></table>';
-				
+
 				echo '<div style="page-break-after: always;"></div>';
 			}
 			PDFStop($handle);
@@ -368,7 +371,7 @@ if (empty($_REQUEST['modfunc']))
 		{
 			$extra['extra_header_left'] .= '<tr>';
 			//FJ add <label> on checkbox
-			$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="mp_type_arr[]" value="'.$mp_type['MP_TYPE'].'"> '.$marking_periods_locale[ucwords($mp_type['MP_TYPE'])].'</label></td>';              
+			$extra['extra_header_left'] .= '<td><label><input type="checkbox" name="mp_type_arr[]" value="'.$mp_type['MP_TYPE'].'"> '.$marking_periods_locale[ucwords($mp_type['MP_TYPE'])].'</label></td>';
 			$extra['extra_header_left'] .= '</tr>';
 		}
 
@@ -395,9 +398,9 @@ if (empty($_REQUEST['modfunc']))
 		{
 			//FJ add Show Studies Certificate option
 			$field_SSECURITY = ParseMLArray(DBGet(DBQuery("SELECT TITLE FROM CUSTOM_FIELDS WHERE ID = 200000003")),'TITLE');
-			
+
 			$extra['extra_header_left'] .= '<tr><td><label><input type="checkbox" name="showcertificate" value="1" onclick=\'javascript: document.getElementById("divcertificatetext").style.display="block"; document.getElementById("inputcertificatetext").focus();\'> '._('Studies Certificate').'</label></td></tr>';
-			
+
 			//FJ add Template
 			$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
 		}
@@ -449,6 +452,9 @@ if (empty($_REQUEST['modfunc']))
 	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
 	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.checked,\'st_arr\');" /><A>');
 	$extra['options']['search'] = false;
+
+	// Parent: associated students.
+	$extra['ASSOCIATED'] = User( 'STAFF_ID' );
 
 	Widgets('course');
 	Widgets('gpa');

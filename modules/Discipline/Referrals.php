@@ -114,17 +114,36 @@ $extra['link']['FULL_NAME']['variables'] = array('referral_id' => 'ID');
 $extra['link']['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
 $extra['link']['remove']['variables'] = array('id' => 'ID');
 
-if (empty($_REQUEST['modfunc']) && $_REQUEST['referral_id'])
+// Parent: associated students.
+$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
+if ( ! $_REQUEST['modfunc']
+	&& $_REQUEST['referral_id'] )
 {
 
-	//FJ prevent referral ID hacking
-	if (User('PROFILE')=='teacher')
+	// FJ prevent referral ID hacking.
+	if ( User( 'PROFILE' ) == 'parent' )
+	{
+		$where = " AND STUDENT_ID IN (SELECT STUDENT_ID
+			FROM STUDENTS_JOIN_USERS
+			WHERE STAFF_ID='" . User( 'STAFF_ID' ) . "')";
+	}
+	elseif ( User( 'PROFILE' ) == 'student' )
+	{
+		$where = " AND STUDENT_ID='" . UserStudentID() . "'";
+	}
+	elseif ( User( 'PROFILE' ) == 'teacher' )
+	{
 		$where = " AND STUDENT_ID IN (SELECT STUDENT_ID FROM SCHEDULE
 		WHERE COURSE_PERIOD_ID='".UserCoursePeriod()."'
 		AND '".DBDate()."'>=START_DATE
 		AND ('".DBDate()."'<=END_DATE OR END_DATE IS NULL))";
-	elseif (User('PROFILE')=='admin')
-		$where = " AND SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."'";
+	}
+	elseif ( User( 'PROFILE' ) == 'admin' )
+	{
+		$where = " AND SYEAR='" . UserSyear() . "'
+			AND SCHOOL_ID='" . UserSchool() . "'";
+	}
 
 	$RET = DBGet(DBQuery("SELECT * FROM DISCIPLINE_REFERRALS WHERE ID='".$_REQUEST['referral_id']."'" . $where));
 

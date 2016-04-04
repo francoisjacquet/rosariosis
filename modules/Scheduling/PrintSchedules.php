@@ -50,6 +50,9 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$extra['group'][] = 'ADDRESS_ID';
 	Widgets('mailing_labels');
 
+	// Parent: associated students.
+	$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
 	$RET = GetStuList($extra);
 
 //FJ add schedule table
@@ -269,6 +272,9 @@ if ( ! $_REQUEST['modfunc'] )
 	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" checked onclick="checkAll(this.form,this.checked,\'st_arr\');"><A>');
 	$extra['options']['search'] = false;
 	$extra['new'] = true;
+
+	// Parent: associated students.
+	$extra['ASSOCIATED'] = User( 'STAFF_ID' );
 
 	Widgets('request');
 	Widgets('course');

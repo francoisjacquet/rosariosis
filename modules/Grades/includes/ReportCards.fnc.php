@@ -264,6 +264,9 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 	$extra['group']	= array( 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' );
 
+	// Parent: associated students.
+	$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
 	$student_RET = GetStuList( $extra );
 
 	if ( empty( $student_RET ) )
@@ -298,6 +301,9 @@ function ReportCardsGenerate( $student_array, $mp_array )
 		$extra['ORDER_BY'] = 'SORT_ORDER,SORT_ORDER2';
 
 		$extra['group'] = array( 'STUDENT_ID', 'COURSE_PERIOD_ID', 'MARKING_PERIOD_ID' );
+
+		// Parent: associated students.
+		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
 
 		$comments_RET = GetStuList( $extra );
 
@@ -356,6 +362,9 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 		$extra['group'] = array( 'STUDENT_ID', 'ATTENDANCE_CODE', 'MARKING_PERIOD_ID' );
 
+		// Parent: associated students.
+		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
 		$attendance_RET = GetStuList( $extra );
 
 		// Get Other Attendance Codes.
@@ -387,6 +396,9 @@ function ReportCardsGenerate( $student_array, $mp_array )
 
 		$extra['group'] = array( 'STUDENT_ID', 'MARKING_PERIOD_ID' );
 
+		// Parent: associated students.
+		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
 		$attendance_day_RET = GetStuList( $extra );
 	}
 
@@ -407,6 +419,9 @@ function ReportCardsGenerate( $student_array, $mp_array )
 		$extra['SELECT'] = '';
 
 		$extra['group'] = array( 'STUDENT_ID', 'ADDRESS_ID' );
+
+		// Parent: associated students.
+		$extra['ASSOCIATED'] = User( 'STAFF_ID' );
 
 		$addresses_RET = GetStuList( $extra );
 	}

@@ -62,6 +62,9 @@ if ( empty( $_REQUEST['modfunc'] ) )
 
 	$extra['options']['search'] = false;
 
+	// Parent: associated students.
+	$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
 	Widgets( 'course' );
 
 	Search( 'student_id', $extra );

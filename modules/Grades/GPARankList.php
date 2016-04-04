@@ -113,6 +113,9 @@ $extra['new'] = true;
 $extra['functions'] = array('CUM_UNWEIGHTED_FACTOR' => '_roundGPA','CUM_WEIGHTED_FACTOR' => '_roundGPA');
 $extra['ORDER_BY'] = 'GRADE_ID, CUM_RANK';
 
+// Parent: associated students.
+$extra['ASSOCIATED'] = User( 'STAFF_ID' );
+
 if (User('PROFILE')=='parent' || User('PROFILE')=='student')
 	$_REQUEST['search_modfunc'] = 'list';
 
