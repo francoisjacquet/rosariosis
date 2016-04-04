@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-03 14:48-0500\n"
-"PO-Revision-Date: 2016-04-03 15:08-0500\n"
+"PO-Revision-Date: 2016-04-03 20:36-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -5371,7 +5371,7 @@ msgstr "Mensaje"
 
 #: modules/Grades/includes/StudentAssignments.fnc.php:297
 msgid "Submissions for this assignment are closed."
-msgstr "No es más posible entregar está tarea."
+msgstr "No es más posible entregar esta tarea."
 
 #: modules/Grades/includes/StudentAssignments.fnc.php:321
 #: modules/School_Setup/Calendar.php:659
