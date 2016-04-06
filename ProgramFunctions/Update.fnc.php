@@ -153,7 +153,7 @@ function _update29alpha()
 
 			foreach ( (array) $coms as $com )
 			{
-				if ( is_array( list( $date, $staff_id ) = explode( '|', $com ) ) 
+				if ( is_array( list( $date, $staff_id ) = explode( '|', $com ) )
 					&& (int) $staff_id > 0 )
 				{
 					$ser_coms[ $i ]['date'] = $date;
@@ -203,7 +203,8 @@ function _update29alpha()
 
 	/**
 	 * 6. Add STUDENT_ASSIGNMENTS table (& its composite primary key)
-	 * & add SUBMISSION column to GRADEBOOK_ASSIGNMENTS table.
+	 * & add SUBMISSION column to GRADEBOOK_ASSIGNMENTS table
+	 * & add StudentAssignments.php to PROFILE_EXCEPTIONS table.
 	 */
 	DBQuery( "CREATE TABLE IF NOT EXISTS student_assignments (
 		assignment_id numeric NOT NULL,
@@ -222,14 +223,25 @@ function _update29alpha()
 			ADD CONSTRAINT student_assignments_pkey PRIMARY KEY (assignment_id, student_id);" );
 	}
 
-	$submission_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute 
-		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'gradebook_assignments') 
+	$submission_column_exists = DBGet( DBQuery( "SELECT 1 FROM pg_attribute
+		WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = 'gradebook_assignments')
 		AND attname = 'submission';" ) );
 
 	if ( ! $submission_column_exists )
 	{
 		DBQuery( "ALTER TABLE ONLY gradebook_assignments
 			ADD COLUMN submission character varying(1);" );
+	}
+
+	$sa_exceptions_exists = DBGet( DBQuery( "SELECT 1
+		FROM profile_exceptions
+		WHERE profile_id IN (0,3)
+		AND modname='Grades/StudentAssignments.php'" ) );
+
+	if ( ! $sa_exceptions_exists )
+	{
+		DBQuery( "INSERT INTO profile_exceptions VALUES (0, 'Grades/StudentAssignments.php', 'Y', NULL);
+			INSERT INTO profile_exceptions VALUES (3, 'Grades/StudentAssignments.php', 'Y', NULL);" );
 	}
 
 	return $return;
