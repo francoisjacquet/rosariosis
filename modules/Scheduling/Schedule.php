@@ -74,8 +74,8 @@ if ( isset( $_POST['day_schedule'], $_POST['month_schedule'], $_POST['year_sched
 	unset($_SESSION['_REQUEST_vars']['year_schedule']);
 }
 
-if ( isset( $_POST['schedule'] )
-	&& count( $_POST['schedule'] )
+if ( isset( $_REQUEST['schedule'] )
+	&& count( $_REQUEST['schedule'] )
 	&& AllowEdit() )
 {
 	foreach ( (array) $_REQUEST['schedule'] as $course_period_id => $start_dates)
