@@ -81,6 +81,152 @@ Changes in 2.9
 - Remove Moodle password update via My Preferences in Moodle plugin
 - Add debug backtrace to db_show_error() email in database.inc.php
 
+Changes in 2.8.27
+-----------------
+- Correctly get Discipline Fields based on user school & year in EmailReferral.fnc.php
+- Update Portuguese translation in locale/pt_PT.utf8/
+- Fix Food Service Students Accounts Account ID check + Translate Food Service Discount options
+- Fix Food Service User balance widget in StaffWidgets.fnc.php
+- Enable empty value when updating Food Service menu item in MenuItems.php
+- Order Report Cards by Course title in ReportCards.fnc.php
+- Fix SQL error when more than 1 Attendance Period Teacher in Export.php
+- Fix typo in INSTALL instructions + update instructions for Ubuntu 14.04
+- Fix Custom User Permissions: remove default program in Exceptions.php
+- Fix Portal Polls display for Teachers & Parents in Portal.php
+- Fix more than 1 row returned SQL error in GPA widget: use REPORTING_GP_SCALE in Widgets.fnc.php
+- Fix menu_id's $id var for Menus tabs in DailyMenus.php
+- Show Letter & Percent grades (= 0 case) in StudentGrades.php
+- Fix PDF when Teacher / Room combined with skip row / line in StudentLabels.php
+
+Changes in 2.8.26
+-----------------
+- Fix SQL errors when Creating User Food Service account / barcode
+- Add Danish & Malaysian locale & flags files
+- Allow negative amounts in Student Billing & Accounting modules
+- Fix: Limit Accounting Expenses, Incomes, Salaries & Staff Payments to User School
+- Give Parents & Students access to the Discipline Referrals #77
+- Improve French translation
+
+Changes in 2.8.25
+-----------------
+- Fix JS error related to jqPlot loading: wrap JS code inside 500ms timeout in *Breakdown.php
+- Prepare for State Reports module: Save Report bottom button & modname exception
+- Remove State_Reports.zip orginal module archive
+- Remove State_Reports from core modules & rename to "Reports"
+- Update official site URLs: HTTPS on rosariosis.org
+- Fix Delete School Field in SchoolFields.php
+- Improve French & update French & Spanish translations
+
+Changes in 2.8.24
+-----------------
+- Fix SQL error when saving Parent Course Period in Courses.php
+- Improve French translations
+- Fix 1 option sub-menu height when mouse over Module in stylesheet.css
+- Correct English default Help text in Help_en.php
+- More explicit Assignment Type deletion Prompt message in Assignments.php
+- Fix _delTree() function name typo in Modules.inc.php & Plugins.inc.php
+- Create ReferralLog functions for reuse in Discipline/includes/ReferralLog.fnc.php
+- Update PDFStart() & PDFStop() functions to enable Save PDF mode in PDF.php
+- Add PHPMailer 5.2.14 class (email creation & (SMTP) transport) in classes/PHPMailer/
+- Zap programs which are not allowed in Help.php
+- Create ReportCards functions for reuse in Grades/includes/ReportCards.fnc.php
+- Fix SQL bug MENU_ITEM not null in MenuItems.php
+- PDF Save: unique filename in PDF.php
+
+Changes in 2.8.23
+-----------------
+- Go button display when no Edit Allowed in Calendar.php
+- Format Events List descriptions in Calendar.php
+- Unset REQUEST students var in session after update in Student.php
+- Various corrections for French translation
+- Use AJAX after browser history instead of reloading page in warehouse.js
+- Only show Block on Calendar Day to non admins if set
+
+Changes in 2.8.22
+-----------------
+- Fix PHP Warning division by 0 in GradebookBreakdown.php
+- Fix Default Points not required in Assignments.php
+
+Changes in 2.8.21
+-----------------
+- Add Grade Scale default value in EditReportCardGrades.php
+- Fix PHP error Invalid argument supplied for foreach() in Courses.php
+- Fix spinner image reference in Scheduler.php
+- Fixes: Dates not required & Points can be 0 in Assignments.php
+- Correct Students Contact query: only if Custody / Emergency checked in GetStuList.fnc.php
+- Limit School Years input to 5 past years in EditHistoryMarkingPeriods.php
+
+Changes in 2.8.20
+-----------------
+- Add Canadian English locale in locale/en_CA.utf8
+- Add return_megabytes() & FileUploadMaxSize() functions in FileUpload.fnc.php
+- Remove 10Mb limit for Portal Notes file uploads in PortalNotes.php
+- Send emails from programname instead of rosariosis in SendEmail.fnc.php
+- Bugfix photo name when assign student ID with leading 000 in Student.php
+- Add .odt, .ods & .odp (LibreOffice docs) to Portal Notes attached file in PortalNotes.php
+- Fix StudentGrades.php student Help text in Help_en.php
+- Fix Auto & Edit pull-downs options Advanced Search in Search.fnc.php
+- Remove empty option from select fields Advanced Search in Search.fnc.php
+- Add values found in current and previous year to Edit pull-downs in AssingOtherInfo.php
+- Correct Class Rank field type to checkbox in EditReportCardGrades.php
+- Fix Do not include students enrolled in previous school years in GetStuList.fnc.php
+- Limit Requests Course DIV height in stylesheet.css
+
+Changes in 2.8.19
+-----------------
+- Email Discipline Referral feature, sponsored by Hisham Abu Dawoud
+- Add 'Last Login' column label in Export.php
+- Bugfix do not pass prompt when Cancel in Prompts.php
+- Fix bug when email set without any contact + bug when current student in CreateParents.php
+- Fix propose to create user in Moodle in Moodle/functions.php
+- Add .no-touch CSS class in warehouse.js & stylesheet.css
+- Fix #115 SQL bug more than one row returned by a subquery in TakeAttendance.php
+
+Changes in 2.8.18
+-----------------
+- Bugfix include Edit Pull-Downs when generating options in StudentUsersInfo.fnc.php
+- Align inputs (same height) + add .checkbox-label CSS class in stylesheet.css & Inputs.php
+- Add .no-input-value CSS class in stylesheet.css & Inputs.php
+- Add .textarea CSS class in stylesheet.css & Inputs.php
+- Fix advanced search forms (student & user) URL > 2000 chars in warehouse.js
+- Better AJAX Courses Requests DIV display in Requests.php
+- Fix #114 PHP error Cannot redeclare SendEmail()
+
+Changes in 2.8.17
+-----------------
+- Fix $function_to_remove var name typo in Actions.php
+- Update "Display Options Format" string translation (ES & FR)
+- Adjust ProperDate() short month display according to Preferences in Date.php
+- Handle IS NOT NULL cases before executing SQL in database.inc.php
+- Bugfix SQL error value too long for type varchar(10) in MarkingPeriods.php
+- Bugfix force required school period if none in Courses.php
+
+Changes in 2.8.16
+-----------------
+- Fix SQL error invalid input syntax for type numeric in _makeLetterGrade.fnc.php
+
+Changes in 2.8.15
+-----------------
+- 2015-2016 School Year update in rosariosis.sql & config.inc.sample.php
+- Add Course Period Absences Widget in Widgets.fnc.php sponsored by Hisham Abu Dawoud
+- Add Balance field to Advanced Report in Export.php sponsored by LM Idiomes
+- Add focus to username field in index.php
+- Update french & spanish translations
+
+Changes in 2.8.14
+-----------------
+- Fix submenuOffset when Side.php reloaded in warehouse.js
+
+Changes in 2.8.13
+-----------------
+- Fix #106 Comments with quotes ' in Comments.inc.php
+- Fix #106 Other_Info category include in Student.php & User.php
+
+Changes in 2.8.12
+-----------------
+- Fix #102 error language "plpgsql" does not exist in rosariosis.sql
+- Fix Minutes when (re)create Calendar in Calendar.php
+
 Changes in 2.8.11
 -----------------
 - Fix right arrow on menu hover when module text too long in stylesheet.css
