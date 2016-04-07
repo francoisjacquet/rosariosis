@@ -175,9 +175,9 @@ function _update29alpha()
 				AND STUDENT_ID='" . $comment['STUDENT_ID'] . "';";
 		}
 
-		if ( $SQL_updt_coms !== '' )
+		if ( $SQL_updt_coms )
 		{
-			DBGet( DBQuery( $sql_updt_coms ) );
+			DBGet( DBQuery( $SQL_updt_coms ) );
 		}
 	}
 	else
