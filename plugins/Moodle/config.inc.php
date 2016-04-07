@@ -25,7 +25,7 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 					DBQuery($sql);
 					$note[] = button('check') .'&nbsp;'._('The plugin configuration has been modified.');
 				}
-				
+
 				unset( $_ROSARIO['ProgramConfig'] ); // update ProgramConfig var
 			}
 			else
@@ -41,13 +41,14 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 
 	if ( empty($_REQUEST['save']))
 	{
-		if ( !_validMoodleURLandToken() )
-			$error[] = _( 'The Moodle URL is not valid.' );
+		// TODO: use real values, not the CONSTANTS.
+		/*if ( !_validMoodleURLandToken() )
+			$error[] = _( 'The Moodle URL is not valid.' );*/
 
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&tab=plugins&modfunc=config&plugin=Moodle&save=true" method="POST">';
-	
+
 		DrawHeader('',SubmitButton(_('Save')));
-		
+
 		if (!empty($note))
 			echo ErrorMessage($note, 'note');
 
@@ -91,14 +92,14 @@ if ($_REQUEST['modname'] == 'School_Setup/Configuration.php' && $RosarioPlugins[
 			'maxlength=2 size=2 min=0 placeholder=10'
 		) . '</td></tr>';
 
-		// Students email Field ID	
+		// Students email Field ID
 		echo '<tr><td>' . TextInput(
 			ProgramConfig( 'moodle', 'ROSARIO_STUDENTS_EMAIL_FIELD_ID' ),
 			'values[PROGRAM_CONFIG][ROSARIO_STUDENTS_EMAIL_FIELD_ID]',
 			sprintf( _( '%s Student email field ID' ), Config( 'NAME' ) ),
 			'maxlength=2 size=2 min=0 placeholder=11'
 		) . '</td></tr>';
-	
+
 		echo '</table></fieldset>';
 
 		PopTable('footer');
@@ -119,7 +120,7 @@ else
  * Forms a valid URL
  * And that Moodle server responds to webservice test request
  *
- * @todo test
+ * @todo Finish Moodle core_user_get_users_by_field WS call.
  *
  * @return bool true if URL or Token not set or if URL and Token are OK, else false
  */
@@ -133,17 +134,19 @@ function _validMoodleURLandToken()
 	{
 		$serverurl = MOODLE_URL . '/webservice/xmlrpc/server.php?wstoken=' . MOODLE_TOKEN;
 
-		if ( filter_var( $serverurl, FILTER_VALIDATE_URL) === false )
+		if ( ! filter_var( $serverurl, FILTER_VALIDATE_URL ) )
 		{
 			$url_available = false;
 		}
 		else // Check URL is available with cURL
 		{
-			$functionname = 'core_user_create_users';
+			require_once 'plugins/Moodle/client.php';
 
-			$object = core_user_create_users_object();
+			/*$functionname = 'core_user_get_users_by_field';
 
-			moodle_xmlrpc_call( $functionname, $object );
+			$object = core_user_get_users_by_field_object();
+
+			moodle_xmlrpc_call( $functionname, $object );*/
 
 			// Leave $url_available = true as moodle_xmlrpc_call()
 			// will already add the error to the $error global var
@@ -154,29 +157,30 @@ function _validMoodleURLandToken()
 	return $url_available;
 }
 
-//core_user_get_users_by_id function
-//TODO write function!
-function core_user_get_users_by_id_object()
+//core_user_get_users_by_field function
+function core_user_get_users_by_field_object()
 {
 	//then, convert variables for the Moodle object:
 /*
-list of (
-	object {
-)
-*/
-	$idnumber = 1; // Default Admin
-
-	$users = array(
-		array(
-			'idnumber' => $idnumber,
+[field]  => string
+[values] =>
+	Array
+		(
+		[0] => string
 		)
+*/
+	$idnumber = '2'; // Default Admin
+
+	$idnumbers = array(
+		'field' => 'idnumber',
+		'values' => array( $idnumber ),
 	);
 
-	return array( $users );
+	return array( $idnumbers );
 }
 
 
-function core_user_get_users_by_id_response( $response )
+function core_user_get_users_by_field_response( $response )
 {
 	return null;
 }
