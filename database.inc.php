@@ -412,6 +412,8 @@ function db_show_error( $sql, $failnote, $additional = '' )
 		// FJ add SendEmail function.
 		require_once 'ProgramFunctions/SendEmail.fnc.php';
 
+		$debug_backtrace = debug_backtrace();
+
 		$message = 'System: ' . ParseMLField( Config( 'TITLE' ) ) . "\n";
 		$message .= 'Date: ' . date( 'm/d/Y h:i:s' ) . "\n";
 		$message .= 'Page: ' . $_SERVER['PHP_SELF'] . ' ' . ProgramTitle() . "\n\n";
@@ -420,6 +422,7 @@ function db_show_error( $sql, $failnote, $additional = '' )
 		$message .= "\n" . $sql . "\n";
 		$message .= "\n\n" . 'Request Array: ' . "\n" . print_r( $_REQUEST, true );
 		$message .= "\n\n" . 'Session Array: ' . "\n" . print_r( $_SESSION, true );
+		$message .= "\n\n" . 'Debug Backtrace: ' . "\n" . print_r( $debug_backtrace, true );
 
 		SendEmail( $RosarioNotifyAddress, 'Database Error', $message );
 	}

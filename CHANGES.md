@@ -79,6 +79,7 @@ Changes in 2.9
 - Add DeCodeds() & StaffDeCodeds() functions in GetStuList.fnc.php & GetStaffList.fnc.php
 - Move imported CSS files to css/ folder & minify stylesheet.css in WPadmin/
 - Remove Moodle password update via My Preferences in Moodle plugin
+- Add debug backtrace to db_show_error() email in database.inc.php
 
 Changes in 2.8.11
 -----------------
