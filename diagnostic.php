@@ -166,6 +166,12 @@ if ( ! extension_loaded( 'xmlrpc' ) )
 	$error[] = 'PHP extensions: RosarioSIS relies on the xmlrpc extension (only used to connect to Moodle). See the php.ini file to activate it.' . $inipath;
 }
 
+// Check for curl extension.
+if ( ! extension_loaded( 'curl' ) )
+{
+	$error[] = 'PHP extensions: RosarioSIS relies on the curl extension (only used to connect to Moodle). See the php.ini file to activate it.' . $inipath;
+}
+
 // Check session.auto_start.
 if ( (bool) ini_get( 'session.auto_start' ) )
 {
