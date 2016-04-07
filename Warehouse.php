@@ -197,6 +197,25 @@ mb_internal_encoding( 'UTF-8' );
 
 
 /**
+ * Update RosarioSIS
+ * Automatically runs after manual files update
+ * To apply eventual incremental DB updates
+ *
+ * @since 2.9
+ *
+ * @see ProgramFunctions/Update.fnc.php
+ */
+// Check if version in DB < ROSARIO_VERSION.
+if ( version_compare( Config( 'VERSION' ), ROSARIO_VERSION,	'<' ) )
+{
+	require_once 'ProgramFunctions/Update.fnc.php';
+
+	// Run Update() to apply updates if any.
+	Update();
+}
+
+
+/**
  * Modules
  *
  * Core modules (packaged with RosarioSIS):
@@ -313,25 +332,6 @@ function _LoadAddons( $addons, $folder )
 		// Ensures text returned is utf-8, quite often this is iso-8859-1 by default.
 		bind_textdomain_codeset( $addon, 'UTF-8' );
 	}
-}
-
-
-/**
- * Update RosarioSIS
- * Automatically runs after manual files update
- * To apply eventual incremental DB updates
- *
- * @since 2.9
- *
- * @see ProgramFunctions/Update.fnc.php
- */
-// Check if version in DB < ROSARIO_VERSION.
-if ( version_compare( Config( 'VERSION' ), ROSARIO_VERSION,	'<' ) )
-{
-	require_once 'ProgramFunctions/Update.fnc.php';
-
-	// Run Update() to apply updates if any.
-	Update();
 }
 
 
