@@ -3,6 +3,7 @@ Rosario Student Information System - CHANGES
 Changes in 2.8.28
 -----------------
 - Do NOT use GetStuList() otherwise limited to UserStudentID() in PrintClassPictures.php
+- curl PHP extension check in diagnostic.php
 
 Changes in 2.8.27
 -----------------

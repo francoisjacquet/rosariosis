@@ -19,7 +19,7 @@ if(!file_exists('./Warehouse.php'))
 else
 {
 	include './Warehouse.php';
-	
+
 	//FJ verify PHP extensions and php.ini
 	$inipath = php_ini_loaded_file();
 
@@ -30,13 +30,16 @@ else
 
 	//gettext
 	if (!extension_loaded('gettext'))
-		$error[] = 'PHP extensions: RosarioSIS relies on the gettext extensions. See the php.ini file to activate it.'.$inipath;
+		$error[] = 'PHP extensions: RosarioSIS relies on the gettext extension. See the php.ini file to activate it.'.$inipath;
 	//mbstring
 	if (!extension_loaded('mbstring'))
-		$error[] = 'PHP extensions: RosarioSIS relies on the mbstring extensions. See the php.ini file to activate it.'.$inipath;
+		$error[] = 'PHP extensions: RosarioSIS relies on the mbstring extension. See the php.ini file to activate it.'.$inipath;
 	//xmlrpc
 	if (!extension_loaded('xmlrpc'))
-		$error[] = 'PHP extensions: RosarioSIS relies on the xmlrpc extensions (only used to connect to Moodle). See the php.ini file to activate it.'.$inipath;
+		$error[] = 'PHP extensions: RosarioSIS relies on the xmlrpc extension (only used to connect to Moodle). See the php.ini file to activate it.'.$inipath;
+	//curl
+	if (!extension_loaded('curl'))
+		$error[] = 'PHP extensions: RosarioSIS relies on the curl extension (only used to connect to Moodle). See the php.ini file to activate it.'.$inipath;
 	//session.auto_start
 	if ((bool)ini_get('session.auto_start'))
 		$error[] = 'session.auto_start is set to On in your PHP configuration. See the php.ini file to deactivate it.'.$inipath;
@@ -71,7 +74,7 @@ else
 				$error[] = 'At least one of the tables does not exist.  Make sure you ran the rosariosis.sql file as described in the INSTALL file.';
 			elseif($errstring)
 				$error[] = $errstring;
-			
+
 			$result = @pg_exec($connection,"SELECT * FROM STAFF WHERE SYEAR='".$DefaultSyear."'");
 			if(!pg_fetch_all($result))
 				$error[] = 'The value for $DefaultSyear in config.inc.php is not correct.';
