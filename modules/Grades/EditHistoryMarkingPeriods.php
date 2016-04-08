@@ -4,15 +4,15 @@ DrawHeader(ProgramTitle());
 
 if ( $_REQUEST['modfunc']=='update')
 {
-	foreach ( (array) $_REQUEST['year_values'] as $id => $column)
+	if ( isset( $_REQUEST['day_values'], $_REQUEST['month_values'], $_REQUEST['year_values'] ) )
 	{
-		foreach ( (array) $column as $colname => $colvalue)
-		{
-			if ( $_REQUEST['day_values'][ $id ][ $colname ] && $_REQUEST['month_values'][ $id ][ $colname ] && $_REQUEST['year_values'][ $id ][ $colname ])
-				$_REQUEST['values'][ $id ][ $colname ] = $_REQUEST['day_values'][ $id ][ $colname ].'-'.
-					   $_REQUEST['month_values'][ $id ][ $colname ].'-'.
-					   $_REQUEST['year_values'][ $id ][ $colname ];
-		}
+		$requested_dates = RequestedDates(
+			$_REQUEST['year_values'],
+			$_REQUEST['month_values'],
+			$_REQUEST['day_values']
+		);
+
+		$_REQUEST['values'] = array_replace_recursive( (array) $_REQUEST['values'], $requested_dates );
 	}
 
 	foreach ( (array) $_REQUEST['values'] as $id => $columns)
@@ -67,7 +67,7 @@ if ( $_REQUEST['modfunc']=='remove')
 
 		$_REQUEST['modfunc'] = false;
 	}
-}  
+}
 
 if (empty($_REQUEST['modfunc']))
 {
@@ -119,14 +119,14 @@ function makeTextInput($value,$name)
         $id = $THIS_RET['MARKING_PERIOD_ID'];
     else
         $id = 'new';
-        
+
 //    if ( $name=='COURSE_TITLE')
 //        $extra = 'size=20 maxlength=25';
 //    elseif ( $name=='GRADE_PERCENT')
 //        $extra = 'size=6 maxlength=6';
 //    elseif ( $name=='GRADE_LETTER' || $name=='GP_VALUE' || $name=='UNWEIGHTED_GP_VALUE')
 //        $extra = 'size=5 maxlength=5';
-       
+
 //    else
 	if ( $name=='NAME')
 	{
