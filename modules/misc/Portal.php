@@ -478,53 +478,56 @@ switch ( User( 'PROFILE' ) )
 		}
 
 		// FJ Portal Assignments.
-		require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
-
-		$assignments_RET = DBGet( DBQuery( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
-			a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
-			c.TITLE AS COURSE,a.SUBMISSION,
-			(SELECT 1
-			FROM STUDENT_ASSIGNMENTS sa
-			WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
-			AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
-		FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
-		WHERE (a.COURSE_ID=c.COURSE_ID
-		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
-		AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
-		AND s.STUDENT_ID='" . UserStudentID() . "'
-		AND (s.END_DATE IS NULL OR s.END_DATE<=CURRENT_DATE)
-		AND s.START_DATE>=CURRENT_DATE
-		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
-		AND a.DUE_DATE>=CURRENT_DATE
-		ORDER BY a.DUE_DATE,a.TITLE" ),
-		array(
-			'DUE_DATE' => 'MakeAssignmentDueDate',
-			/*'DAY' => '_eventDay',*/
-			/*'DESCRIPTION' => 'makeTextarea',*/
-			'STAFF_ID' => 'GetTeacher',
-			'SUBMITTED' => 'MakeAssignmentSubmitted',
-			'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
-		) );
-
-		if ( count( $assignments_RET ) )
+		if ( AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
-			ListOutput(
-				$assignments_RET,
-				array(
-					/*'DAY' => _( 'Day' ),*/
-					'DUE_DATE' => _( 'Due Date' ),
-					'ASSIGNMENT_TITLE' => _( 'Assignment' ),
-					/*'DESCRIPTION' => _( 'Notes' ),*/
-					'COURSE' => _( 'Course' ),
-					'STAFF_ID' => _( 'Teacher' ),
-					'SUBMITTED' => _( 'Submitted' ),
-				),
-				'Upcoming Assignment',
-				'Upcoming Assignments',
-				array(),
-				array(),
-				array( 'save' => false, 'search' => false )
-			);
+			require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
+
+			$assignments_RET = DBGet( DBQuery( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
+				a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
+				c.TITLE AS COURSE,a.SUBMISSION,
+				(SELECT 1
+				FROM STUDENT_ASSIGNMENTS sa
+				WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
+				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
+			FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
+			WHERE (a.COURSE_ID=c.COURSE_ID
+			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
+			AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
+			AND s.STUDENT_ID='" . UserStudentID() . "'
+			AND (s.END_DATE IS NULL OR s.END_DATE<=CURRENT_DATE)
+			AND s.START_DATE>=CURRENT_DATE
+			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
+			AND a.DUE_DATE>=CURRENT_DATE
+			ORDER BY a.DUE_DATE,a.TITLE" ),
+			array(
+				'DUE_DATE' => 'MakeAssignmentDueDate',
+				/*'DAY' => '_eventDay',*/
+				/*'DESCRIPTION' => 'makeTextarea',*/
+				'STAFF_ID' => 'GetTeacher',
+				'SUBMITTED' => 'MakeAssignmentSubmitted',
+				'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
+			) );
+
+			if ( count( $assignments_RET ) )
+			{
+				ListOutput(
+					$assignments_RET,
+					array(
+						/*'DAY' => _( 'Day' ),*/
+						'DUE_DATE' => _( 'Due Date' ),
+						'ASSIGNMENT_TITLE' => _( 'Assignment' ),
+						/*'DESCRIPTION' => _( 'Notes' ),*/
+						'COURSE' => _( 'Course' ),
+						'STAFF_ID' => _( 'Teacher' ),
+						'SUBMITTED' => _( 'Submitted' ),
+					),
+					'Upcoming Assignment',
+					'Upcoming Assignments',
+					array(),
+					array(),
+					array( 'save' => false, 'search' => false )
+				);
+			}
 		}
 
         //RSSOutput(USER('PROFILE'));
@@ -611,53 +614,56 @@ switch ( User( 'PROFILE' ) )
 		}
 
 		// FJ Portal Assignments.
-		require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
-
-		$assignments_RET = DBGet( DBQuery( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
-			a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
-			c.TITLE AS COURSE,a.SUBMISSION,
-			(SELECT 1
-			FROM STUDENT_ASSIGNMENTS sa
-			WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
-			AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
-		FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
-		WHERE (a.COURSE_ID=c.COURSE_ID
-		OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
-		AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
-		AND s.STUDENT_ID='" . UserStudentID() . "'
-		AND (s.END_DATE IS NULL OR s.END_DATE<=CURRENT_DATE)
-		AND s.START_DATE>=CURRENT_DATE
-		AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
-		AND a.DUE_DATE>=CURRENT_DATE
-		ORDER BY a.DUE_DATE,a.TITLE" ),
-		array(
-			'DUE_DATE' => 'MakeAssignmentDueDate',
-			/*'DAY' => '_eventDay',*/
-			/*'DESCRIPTION' => 'makeTextarea',*/
-			'STAFF_ID' => 'GetTeacher',
-			'SUBMITTED' => 'MakeAssignmentSubmitted',
-			'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
-		) );
-
-		if ( count( $assignments_RET ) )
+		if ( AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
-			ListOutput(
-				$assignments_RET,
-				array(
-					/*'DAY' => _( 'Day' ),*/
-					'DUE_DATE' => _( 'Due Date' ),
-					'ASSIGNMENT_TITLE' => _( 'Assignment' ),
-					/*'DESCRIPTION' => _( 'Notes' ),*/
-					'COURSE' => _( 'Course' ),
-					'STAFF_ID' => _( 'Teacher' ),
-					'SUBMITTED' => _( 'Submitted' ),
-				),
-				'Upcoming Assignment',
-				'Upcoming Assignments',
-				array(),
-				array(),
-				array( 'save' => false, 'search' => false )
-			);
+			require_once 'modules/Grades/includes/StudentAssignments.fnc.php';
+
+			$assignments_RET = DBGet( DBQuery( "SELECT a.ASSIGNMENT_ID,a.TITLE AS ASSIGNMENT_TITLE,
+				a.DUE_DATE,to_char(a.DUE_DATE,'Day') AS DAY,a.ASSIGNED_DATE,a.DESCRIPTION,a.STAFF_ID,
+				c.TITLE AS COURSE,a.SUBMISSION,
+				(SELECT 1
+				FROM STUDENT_ASSIGNMENTS sa
+				WHERE a.ASSIGNMENT_ID=sa.ASSIGNMENT_ID
+				AND sa.STUDENT_ID=s.STUDENT_ID) AS SUBMITTED
+			FROM GRADEBOOK_ASSIGNMENTS a,SCHEDULE s,COURSES c
+			WHERE (a.COURSE_ID=c.COURSE_ID
+			OR c.COURSE_ID=(SELECT cp.COURSE_ID FROM COURSE_PERIODS cp WHERE cp.COURSE_PERIOD_ID=a.COURSE_PERIOD_ID))
+			AND (a.COURSE_PERIOD_ID=s.COURSE_PERIOD_ID OR a.COURSE_ID=s.COURSE_ID)
+			AND s.STUDENT_ID='" . UserStudentID() . "'
+			AND (s.END_DATE IS NULL OR s.END_DATE<=CURRENT_DATE)
+			AND s.START_DATE>=CURRENT_DATE
+			AND (a.ASSIGNED_DATE<=CURRENT_DATE OR a.ASSIGNED_DATE IS NULL)
+			AND a.DUE_DATE>=CURRENT_DATE
+			ORDER BY a.DUE_DATE,a.TITLE" ),
+			array(
+				'DUE_DATE' => 'MakeAssignmentDueDate',
+				/*'DAY' => '_eventDay',*/
+				/*'DESCRIPTION' => 'makeTextarea',*/
+				'STAFF_ID' => 'GetTeacher',
+				'SUBMITTED' => 'MakeAssignmentSubmitted',
+				'ASSIGNMENT_TITLE' => 'MakeAssignmentTitle',
+			) );
+
+			if ( count( $assignments_RET ) )
+			{
+				ListOutput(
+					$assignments_RET,
+					array(
+						/*'DAY' => _( 'Day' ),*/
+						'DUE_DATE' => _( 'Due Date' ),
+						'ASSIGNMENT_TITLE' => _( 'Assignment' ),
+						/*'DESCRIPTION' => _( 'Notes' ),*/
+						'COURSE' => _( 'Course' ),
+						'STAFF_ID' => _( 'Teacher' ),
+						'SUBMITTED' => _( 'Submitted' ),
+					),
+					'Upcoming Assignment',
+					'Upcoming Assignments',
+					array(),
+					array(),
+					array( 'save' => false, 'search' => false )
+				);
+			}
 		}
 
         //RSSOutput(USER('PROFILE'));
