@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * save student enrollment
  * create new enrollment when adding student
  */
@@ -22,14 +22,18 @@ function SaveEnrollment()
 			}
 			elseif (UserStudentID() && $stu_enrol_month['START_DATE'])
 			{
-				$date = $_REQUEST['day_values']['STUDENT_ENROLLMENT'][ $stu_enrol_id ]['START_DATE'].'-'.$_REQUEST['month_values']['STUDENT_ENROLLMENT'][ $stu_enrol_id ]['START_DATE'].'-'.$_REQUEST['year_values']['STUDENT_ENROLLMENT'][ $stu_enrol_id ]['START_DATE'];
+				$date = RequestedDate(
+					$_REQUEST['year_values']['STUDENT_ENROLLMENT'][ $stu_enrol_id ]['START_DATE'],
+					$_REQUEST['month_values']['STUDENT_ENROLLMENT'][ $stu_enrol_id ]['START_DATE'],
+					$_REQUEST['day_values']['STUDENT_ENROLLMENT'][ $stu_enrol_id ]['START_DATE']
+				);
 
 				$found_RET = 1;
 
-				if (VerifyDate($date))
+				if ( $date )
 					$found_RET = DBGet(DBQuery("SELECT ID FROM STUDENT_ENROLLMENT WHERE STUDENT_ID='".UserStudentID()."' AND SYEAR='".UserSyear()."' AND '".$date."' BETWEEN START_DATE AND END_DATE"));
 
-				if (count($found_RET))
+				if ( $found_RET )
 				{
 					unset($_REQUEST['values']['STUDENT_ENROLLMENT'][ $stu_enrol_id ]);
 					unset($_REQUEST['day_values']['STUDENT_ENROLLMENT'][ $stu_enrol_id ]);
