@@ -59,7 +59,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	// TODO: check if Student not dropped?
 
-	$files = array();
+	$files = $old_data['files'];
 
 	$timestamp = date( 'Y-m-d His' );
 
@@ -124,7 +124,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 		if ( $file )
 		{
-			$files[] = $file;
+			$files = array( $file );
 
 			if ( $old_submission )
 			{
@@ -155,7 +155,9 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 	{
 		// Update.
 		$assignment_submission_sql = "UPDATE STUDENT_ASSIGNMENTS
-			SET DATA='" . $data . "'";
+			SET DATA='" . $data . "'
+			WHERE STUDENT_ID='" . UserStudentID() . "'
+			AND ASSIGNMENT_ID='" . $assignment_id . "'";
 	}
 	else
 	{
@@ -383,15 +385,11 @@ function GetAssignment( $assignment_id )
 
 function GetAssignmentSubmission( $assignment_id, $student_id )
 {
-	// Check Assignment ID is int > 0.
+	// Check Assignment ID is int > 0 & Student ID.
 	if ( ! $assignment_id
 		|| (string) (int) $assignment_id !== $assignment_id
-		|| $assignment_id < 1 )
-	{
-		return false;
-	}
-
-	if ( ! $student_id )
+		|| $assignment_id < 1
+		|| ! $student_id )
 	{
 		return false;
 	}
@@ -403,14 +401,7 @@ function GetAssignmentSubmission( $assignment_id, $student_id )
 
 	$submission_RET = DBGet( DBQuery( $submission_sql ) );
 
-	if ( isset( $submission_RET[1] ) )
-	{
-		return $submission_RET[1];
-	}
-	else
-	{
-		return false;
-	}
+	return isset( $submission_RET[1] ) ? $submission_RET[1] : false;
 }
 
 
@@ -560,12 +551,12 @@ function MakeStudentAssignmentSubmissionView( $value, $column )
 
 		$date = ProperDateTime( $data['date'], 'short' );
 
-		$html = '<a class="colorboxinline" href="#submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . UserStudentID() . '">
+		$html = '<a class="colorboxinline" href="#submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . $student_id . '">
 		<img src="assets/themes/' . Preferences( 'THEME' ) . '/btn/visualize.png" class="button bigger" /> ' .
 		_( 'View Online' ) . '</a>';
 
 		$html .= '<div class="hide">
-			<div id="submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . UserStudentID(). '">' .
+			<div id="submission' . $THIS_RET['ASSIGNMENT_ID'] . '-' . $student_id. '">' .
 			NoInput( $date, _( 'Submission date' ) ) . '<br />' .
 			NoInput( GetAssignmentFileLink( $file ), _( 'File' ) ) .
 			$message . str_replace( '<br />', '', FormatInputTitle( _( 'Message' ) ) ) .
