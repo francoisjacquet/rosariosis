@@ -61,7 +61,7 @@ function StudentAssignmentSubmit( $assignment_id, &$error )
 
 	$files = array();
 
-	$timestamp = date( 'Y-m-d H:i:s' );
+	$timestamp = date( 'Y-m-d His' );
 
 	// Check if file submitted.
 	if ( isset( $_FILES[ 'submission_file' ] ) )
