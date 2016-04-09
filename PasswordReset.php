@@ -11,11 +11,8 @@ session_name( 'RosarioSIS' );
 
 session_start();
 
-$unset_username = false;
-
 if ( ! isset( $_SESSION['STAFF_ID'] ) )
 {
-	$unset_username = true;
 	$_SESSION['USERNAME'] = 'PasswordReset';
 	$_SESSION['STAFF_ID'] = '-1';
 }
@@ -64,10 +61,11 @@ if ( isset( $_POST['email'] )
 
 			if ( $custom_field )
 			{
-				$user_RET = DBGet( DBQuery( "SELECT STUDENT_ID AS ID, USERNAME, 'student' AS USER_TYPE,
-					" . $custom_field . " AS EMAIL
-					FROM STAFF
-					WHERE LOWER(" . $custom_field . ")=LOWER('" . $_REQUEST['email'] . "')
+				$user_RET = DBGet( DBQuery( "SELECT s.STUDENT_ID AS ID, s.USERNAME, 'student' AS USER_TYPE,
+					s." . $custom_field . " AS EMAIL
+					FROM STUDENTS s, STUDENT_ENROLLMENT ssm
+					WHERE LOWER(s." . $custom_field . ")=LOWER('" . $_REQUEST['email'] . "')
+					AND s.STUDENT_ID=ssm.STUDENT_ID
 					AND ssm.SYEAR='" . Config( 'SYEAR' ) . "'
 					AND ('" . DBDate() . "'>=ssm.START_DATE
 					AND (ssm.END_DATE IS NULL
@@ -117,14 +115,8 @@ if ( isset( $_POST['email'] )
 
 	if ( ! ROSARIO_DEBUG )
 	{
-		if ( $unset_username )
-		{
-			unset( $_SESSION['USERNAME'] );
-			unset( $_SESSION['STAFF_ID'] );
-		}
-
 		// Redirect to login page.
-		header( 'Location: index.php?reason=password_reset' );
+		header( 'Location: index.php?modfunc=logout&reason=password_reset' );
 
 		exit;
 	}
@@ -368,8 +360,9 @@ function _sendPasswordResetEmail( $user_id, $user_type = 'staff', $email )
 		// Get Student username, password, name.
 		$student_RET = DBGet( DBQuery( "SELECT USERNAME, PASSWORD,
 			LAST_NAME||', '||FIRST_NAME AS FULL_NAME
-			FROM STUDENTS, STUDENT
-			WHERE STUDENT_ID='" . $user_id . "'
+			FROM STUDENTS s, STUDENT_ENROLLMENT ssm,
+			WHERE s.STUDENT_ID='" . $user_id . "'
+			AND s.STUDENT_ID=ssm.STUDENT_ID
 			AND ssm.SYEAR='" . Config( 'SYEAR' ) . "'
 			AND ('" . DBDate() . "'>=ssm.START_DATE
 			AND (ssm.END_DATE IS NULL
@@ -468,7 +461,7 @@ function _passwordResetForm( $hash, $user_id )
 				<tr>
 					<td>
 						<label for="PASSWORD">
-							<b><?php echo _( 'Password' ); ?></b> 
+							<b><?php echo _( 'Password' ); ?></b>
 						</label>
 					</td>
 					<td>
@@ -478,7 +471,7 @@ function _passwordResetForm( $hash, $user_id )
 				<tr>
 					<td>
 						<label for="VERIFY">
-							<b><?php echo _( 'Verify New Password' ); ?></b> 
+							<b><?php echo _( 'Verify New Password' ); ?></b>
 						</label>
 					</td>
 					<td>
