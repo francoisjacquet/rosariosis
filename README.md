@@ -29,7 +29,7 @@ And yes, YOU NEED TO READ THE ABOVE DOCUMENTATION prior to attempting any instal
 About RosarioSIS
 ----------------
 
-![RosarioSIS screenshot](https://www.rosariosis.org/wp-content/uploads/2013/06/rosariosis_screenshot.png)
+![RosarioSIS screenshot](http://www.rosariosis.org/wp-content/uploads/2013/06/rosariosis_screenshot.png)
 
 RosarioSIS is a fork of Centre/SIS version 3.0.1.
 RosarioSIS has been designed to address the most important needs of administrators,
