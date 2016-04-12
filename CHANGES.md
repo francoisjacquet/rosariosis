@@ -8,7 +8,7 @@ Changes in 2.9
 - Add Parsedown 1.5.3 class (MarkDown parser) in classes/Parsedown.php
 - Add MarkDownToHTML() function to parse MarkDown text in ProgramFunctions/MarkDownHTML.fnc.php
 - Add showdown.js 1.3.0 (MarkDown to HTML) in assets/js/showdown/
-- Add MarkDownInputPreview() functions to preview <TEXTAREA> fields in functions/Inputs.php & warehouse.js
+- Add MarkDownInputPreview() functions to preview textarea fields in functions/Inputs.php & warehouse.js
 - Add MarkDownToHTML() functions to parse MarkDown text in warehouse.js & warehouse_wkhtmltopdf.js
 - Add MarkDown button image in assets/themes/WPadmin/btn/md_button.png
 - Add Security class in classes/Security.php
