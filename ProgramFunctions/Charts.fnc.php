@@ -359,7 +359,7 @@ function includejqPlotToColorBoxOnce()
 		$(function(){
 			window.setTimeout(function () {
 				jqplotToColorBox( <?php echo json_encode( _( 'Right Click to Save Image As...' ) ); ?> );
-			}, 500);
+			}, 800);
 		});
 	</script>
 
