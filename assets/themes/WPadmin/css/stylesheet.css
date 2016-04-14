@@ -309,7 +309,6 @@ label{
 	top: -1000em;
 	left: 0;
 	position: absolute;
-	min-height:0;
 	min-width:205px;
 	padding:0;
 	margin:0;
@@ -359,6 +358,7 @@ html[dir="RTL"].no-touch .menu-module:hover .menu-top:after{
 	position: relative;
 	margin-top: 0 !important;
 	border:0;
+	min-height:0;
 	min-width:205px
 }
 .menu-inter{
