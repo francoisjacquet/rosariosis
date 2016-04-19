@@ -78,8 +78,13 @@ if ( $_REQUEST['modfunc']!='remove')
 
 	$columns = array('TITLE' => _('Title'),'SHORT_NAME' => _('Short Name'),'SORT_ORDER' => _('Sort Order'),'LENGTH' => _('Length (minutes)'),'BLOCK' => _('Block'),'ATTENDANCE' => _('Used for Attendance')); //,'START_TIME' => _('Start Time'),'END_TIME' => _('End Time'));
 	$link['add']['html'] = array('TITLE'=>_makeTextInput('','TITLE'),'SHORT_NAME'=>_makeTextInput('','SHORT_NAME'),'LENGTH'=>_makeTextInput('','LENGTH'),'SORT_ORDER'=>_makeTextInput('','SORT_ORDER'),'BLOCK'=>_makeTextInput('','BLOCK'),'ATTENDANCE'=>_makeCheckboxInput('','ATTENDANCE')); //,'START_TIME'=>_makeTimeInput('','START_TIME'),'END_TIME'=>_makeTimeInput('','END_TIME')
-	$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
-	$link['remove']['variables'] = array('id' => 'PERIOD_ID');
+
+	// Do NOT delete last Period.
+	if ( count( $periods_RET ) > 1 )
+	{
+		$link['remove']['link'] = 'Modules.php?modname='.$_REQUEST['modname'].'&modfunc=remove';
+		$link['remove']['variables'] = array('id' => 'PERIOD_ID');
+	}
 
 	echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=update" method="POST">';
 	DrawHeader('',SubmitButton(_('Save')));
