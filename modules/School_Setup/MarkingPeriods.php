@@ -401,9 +401,29 @@ if ( empty( $_REQUEST['modfunc'] ) )
 	if ( AllowEdit()
 		&& $_REQUEST['marking_period_id'] !== 'new' )
 	{
-		$delete_URL = "'" . $mp_href . "&modfunc=delete'";
+		// Is Single Marking Period? Do NOT delete.
+		if ( $_REQUEST['mp_term'] !== 'FY'
+			&& $_REQUEST['mp_term'] !== 'PRO' )
+		{
+			$not_single_mp_RET = DBGet( DBQuery( "SELECT COUNT( MARKING_PERIOD_ID ) > 1 AS NOT_SINGLE_MP
+				FROM SCHOOL_MARKING_PERIODS
+				WHERE MP='" . $_REQUEST['mp_term'] . "'
+				AND SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'" ) );
 
-		$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+			$not_single_mp = $not_single_mp_RET[1]['NOT_SINGLE_MP'] !== 'f';
+		}
+		else
+		{
+			$not_single_mp = $_REQUEST['mp_term'] !== 'FY' || $_REQUEST['mp_term'] === 'PRO';
+		}
+
+		if ( $not_single_mp )
+		{
+			$delete_URL = "'" . $mp_href . "&modfunc=delete'";
+
+			$delete_button = '<input type="button" value="' . _( 'Delete' ) . '" onClick="javascript:ajaxLink(' . $delete_URL . ');" />';
+		}
 	}
 
 	echo '<form action="' . $mp_href . '" method="POST">';
