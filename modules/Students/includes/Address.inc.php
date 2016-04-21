@@ -898,10 +898,23 @@ if (empty($_REQUEST['modfunc']))
 				else
 				{
 					echo '<tr>
-					<td>'._makePeopleInput('','FIRST_NAME','<span class="legend-red">'._('First Name').'</span>').'</td>
-					<td>'._makePeopleInput('','MIDDLE_NAME',_('Middle Name')).'</td>
-					<td>'._makePeopleInput('','LAST_NAME','<span class="legend-red">'._('Last Name').'</span>').'</td>
-					</tr>';
+					<td colspan="2">' .
+					_makePeopleInput(
+						'',
+						'FIRST_NAME',
+						'<span class="legend-red">' . _( 'First Name' ) . '</span>'
+					) .
+					'<br />' .
+					_makePeopleInput(
+						'',
+						'MIDDLE_NAME',
+						_( 'Middle Name' )
+					) . '<br />' .
+					_makePeopleInput(
+						'',
+						'LAST_NAME',
+						'<span class="legend-red">' . _( 'Last Name' ) . '</span>'
+					) . '</tr>';
 
 					echo '<tr><td colspan="3">'.SelectInput('','values[STUDENTS_JOIN_PEOPLE][STUDENT_RELATION]',_('Relation'),$relation_options,_('N/A')).'</td></tr>';
 
