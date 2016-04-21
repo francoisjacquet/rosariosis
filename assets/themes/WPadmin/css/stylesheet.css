@@ -1139,5 +1139,8 @@ td.calendar-menu{
 		min-width:177px;
 		min-height:78px
 	}
+	input,select{
+		max-width:260px
+	}
 
 }
