@@ -638,33 +638,36 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 		PopTable( 'header', $title );
 
-		echo '<table class="cellpadding-5 col1-align-right"><tr><td>' . _( 'Date' ) . '</td>' .
-			'<td>' . DateInput( $RET[1]['SCHOOL_DATE'], 'values[SCHOOL_DATE]', '', false ) . '</td></tr>';
+		echo '<table class="cellpadding-5"><tr><td>' .
+			DateInput( $RET[1]['SCHOOL_DATE'], 'values[SCHOOL_DATE]', _( 'Date' ), false ) .
+		'</td></tr>';
 
 		// Add assigned date.
 		if ( $RET[1]['ASSIGNED_DATE'] )
 		{
-			echo '<tr><td>' . _( 'Assigned Date' ) . '</td>' .
-				'<td>' . DateInput( $RET[1]['ASSIGNED_DATE'], 'values[ASSIGNED_DATE]', '', false ) .
-				'</td></tr>';
+			echo '<tr><td>' .
+				DateInput( $RET[1]['ASSIGNED_DATE'], 'values[ASSIGNED_DATE]', _( 'Assigned Date' ), false ) .
+			'</td></tr>';
 		}
 
 		// Add submit Assignment link.
 		if ( $RET[1]['SUBMISSION']
 			&& AllowUse( 'Grades/StudentAssignments.php' ) )
 		{
-			echo '<tr><td>' . _( 'Submission' ) . '</td>' .
-				'<td><a href="Modules.php?modname=Grades/StudentAssignments.php&assignment_id=' .
-				$_REQUEST['assignment_id'] . '" onclick="window.opener.ajaxLink(this.href); window.close();">' .
+			echo '<tr><td>
+				<a href="Modules.php?modname=Grades/StudentAssignments.php&assignment_id=' .
+					$_REQUEST['assignment_id'] . '" onclick="window.opener.ajaxLink(this.href); window.close();">' .
 				_( 'Submit Assignment' ) .
-				'</td></tr>';
+			'</a></td></tr>';
 		}
 
 		//FJ add event repeat
 		if ( $_REQUEST['event_id'] === 'new' )
 		{
-			echo '<tr><td>' . _( 'Event Repeat' ) . '</td>' .
-				'<td><input name="REPEAT" value="0" maxlength="3" size="1" type="number" min="0" />&nbsp;' . _( 'Days' ) . '</td></tr>';
+			echo '<tr><td>
+				<input name="REPEAT" id="REPEAT" value="0" maxlength="3" size="1" type="number" min="0" />&nbsp;' . _( 'Days' ) .
+				FormatInputTitle( _( 'Event Repeat' ), 'REPEAT' ) .
+			'</td></tr>';
 		}
 
 		//hook
@@ -672,24 +675,28 @@ if ( $_REQUEST['modfunc'] === 'detail' )
 
 
 		// FJ bugfix SQL bug value too long for type character varying(50).
-		echo '<tr><td>' . _( 'Title' ) . '</td>' .
-			'<td>' . TextInput( $RET[1]['TITLE'], 'values[TITLE]', '', 'required maxlength="50"' ) . '</td></tr>';
+		echo '<tr><td>' .
+			TextInput( $RET[1]['TITLE'], 'values[TITLE]', _( 'Title' ), 'required maxlength="50"' ) .
+		'</td></tr>';
 
 		// FJ add course.
 		if ( $RET[1]['COURSE'] )
 		{
-			echo '<tr><td>' . _( 'Course' ) . '</td>' .
-				'<td>' . $RET[1]['COURSE'] . '</td></tr>';
+			echo '<tr><td>' .
+				NoInput( $RET[1]['COURSE'], _( 'Course' ) ) .
+			'</td></tr>';
 		}
 
 		if ( $RET[1]['STAFF_ID'] )
 		{
-			echo '<tr><td>' . _( 'Teacher' ) . '</td>' .
-				'<td>' . TextInput( $RET[1]['STAFF_ID'], 'values[STAFF_ID]' ) . '</td></tr>';
+			echo '<tr><td>' .
+				TextInput( $RET[1]['STAFF_ID'], 'values[STAFF_ID]', _( 'Teacher' ) ) .
+			'</td></tr>';
 		}
 
-		echo '<tr><td>' . _( 'Notes' ) . '</td>' .
-			'<td>' . TextAreaInput( $RET[1]['DESCRIPTION'], 'values[DESCRIPTION]' ) . '</td></tr>';
+		echo '<tr><td>' .
+			TextAreaInput( $RET[1]['DESCRIPTION'], 'values[DESCRIPTION]', _( 'Notes' ) ) .
+		'</td></tr>';
 
 		if ( AllowEdit() )
 		{
