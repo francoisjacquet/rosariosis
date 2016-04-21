@@ -354,19 +354,10 @@ window.onload = function () {
 };
 
 //ListOutput JS
-function LOSearch( event, val ) {
+function LOSearch( event, val, url ) {
 
-	if ( !event || event.keyCode == 13 )
-	{
-		var link = document.URL;
-		val = encodeURIComponent(val);
-
-		if ( link.indexOf('LO_search=') != -1 ) {
-			link = link.replace(/(LO_search=)([^&]*)?(&)?/, '$1' + val + '$3');
-		} else {
-			link += '&LO_search=' + val;
-		}
-		return ajaxLink( link );
+	if ( !event || event.keyCode == 13 ) {
+		return ajaxLink( url + '&LO_search=' + encodeURIComponent(val) );
 	}
 }
 

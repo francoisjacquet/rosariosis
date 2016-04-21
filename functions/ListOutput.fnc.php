@@ -522,12 +522,25 @@ function ListOutput( $result, $column_names, $singular = '.', $plural = '.', $li
 				echo '<a href="'.$PHP_tmp_SELF.'&amp;'.$extra.'&amp;LO_save='.$options['save'].'&amp;_ROSARIO_PDF=true" target="_blank"><img src="assets/themes/'. Preferences('THEME') .'/btn/download.png" class="alignImg" title="'._('Export list').'" /></a>';
 
 			echo '</td>';
+
 			$colspan = 1;
-			if ( !isset($_REQUEST['_ROSARIO_PDF']) && $options['search'])
+
+			if ( ! isset( $_REQUEST['_ROSARIO_PDF'] )
+				&& $options['search'] )
 			{
 				echo '<td class="align-right">';
 
-				echo '<input type="text" id="LO_search" name="LO_search" value="'.htmlspecialchars($_REQUEST['LO_search'],ENT_QUOTES).'" placeholder="'._('Search').'" onkeypress="LOSearch(event, this.value);" /><input type="button" value="'._('Go').'" onclick="LOSearch(false, document.getElementById(\'LO_search\').value);" /></td>';
+				// Do not remove search URL due to document.URL = 'index.php' in old IE browsers.
+				$search_URL = PreparePHP_SELF( $_REQUEST, array( 'LO_search' ) );
+
+				echo '<input type="text" id="LO_search" name="LO_search" value="' .
+					htmlspecialchars( $_REQUEST['LO_search'], ENT_QUOTES ) .
+					'" placeholder="' . _( 'Search' ) . '" onkeypress="LOSearch(event, this.value, \'' .
+						$search_URL . '\');" />
+					<input type="button" value="' . _( 'Go' ) .
+					'" onclick="LOSearch(false, $(\'#LO_search\').value, \'' .
+						$search_URL . '\');" /></td>';
+
 				$colspan++;
 			}
 
