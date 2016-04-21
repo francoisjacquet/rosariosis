@@ -11,11 +11,8 @@ session_name( 'RosarioSIS' );
 
 session_start();
 
-if ( ! isset( $_SESSION['STAFF_ID'] ) )
-{
-	$_SESSION['USERNAME'] = 'PasswordReset';
-	$_SESSION['STAFF_ID'] = '-1';
-}
+$_SESSION['USERNAME'] = 'PasswordReset';
+$_SESSION['STAFF_ID'] = '-1';
 
 require_once 'Warehouse.php';
 
@@ -318,11 +315,8 @@ _printPageHead( _( 'Forgot your password?' ) );
 </html>
 <?php
 
-if ( $unset_username )
-{
-	unset( $_SESSION['USERNAME'] );
-	unset( $_SESSION['STAFF_ID'] );
-}
+unset( $_SESSION['USERNAME'] );
+unset( $_SESSION['STAFF_ID'] );
 
 
 /**
