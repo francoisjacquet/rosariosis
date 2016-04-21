@@ -310,10 +310,9 @@ function TextAreaInput( $value, $name, $title = '', $extra = '', $div = true, $t
 			$cols = mb_substr( $extra, mb_strpos( $extra, 'cols' ) + 5, 2 ) *1;*/
 
 		// Rows.
-		if ( $type === 'text'
-			&& mb_strpos( $extra, 'rows' ) === false )
+		if ( mb_strpos( $extra, 'rows' ) === false )
 		{
-			$extra .= ' rows=5';
+			$extra .= ' rows=4';
 		}
 
 		$textarea =  ( $type === 'markdown' ? MarkDownInputPreview( $id ) : '' ) .
