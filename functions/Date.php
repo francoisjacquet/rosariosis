@@ -265,14 +265,7 @@ function PrepareDate( $date, $name_attr = '', $allow_na = true, $options = array
 		$extraY .= $e;
 	}
 
-	if ( $options['C'] )
-	{
-		$_ROSARIO['PrepareDate']++;
-	}
-	elseif ( ! isset( $_ROSARIO['PrepareDate'] ) )
-	{
-		$_ROSARIO['PrepareDate'] = null;
-	}
+	$_ROSARIO['PrepareDate']++;
 
 	// Required fields.
 	if ( $options['required'] )
