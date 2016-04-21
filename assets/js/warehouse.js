@@ -342,14 +342,15 @@ window.onload = function () {
 		}, false);
 	}, 1);
 
-	// ScrollToFixed: Menu
-	$('#menu').scrollToFixed({
-		marginTop: function(){
-			var mTop = $(window).height() - $('#menu').outerHeight(true);
-			return mTop >= 0 ? 0 : mTop;
-		},
-		minWidth: 641
-	});
+	if ( screen.width > 767 ) {
+		// ScrollToFixed: Menu
+		$('#menu').scrollToFixed({
+			marginTop: function(){
+				var mTop = $(window).height() - $('#menu').outerHeight(true);
+				return mTop >= 0 ? 0 : mTop;
+			}
+		});
+	}
 };
 
 //ListOutput JS
