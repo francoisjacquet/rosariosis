@@ -35,7 +35,7 @@ function DrawHeader( $left, $right = '', $center = '' )
 
 	echo '<table class="width-100p cellspacing-0"><tr class="st">';
 
-	if ( $left !== '' )
+	if ( $left )
 	{
 		// Add H2 + Module icon to Primary Header.
 		if ( $_ROSARIO['DrawHeader'] === 'header1' )
@@ -54,14 +54,14 @@ function DrawHeader( $left, $right = '', $center = '' )
 		'</td>';
 	}
 
-	if ( $center !== '' )
+	if ( $center )
 	{
 		echo '<td class="' . $_ROSARIO['DrawHeader'] . ' center">' .
 			$center .
 		'</td>';
 	}
 
-	if ( $right !== '' )
+	if ( $right )
 	{
 		echo '<td class="' . $_ROSARIO['DrawHeader'] . ' align-right">' .
 			$right .
