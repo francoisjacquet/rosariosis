@@ -95,7 +95,7 @@ function _update29alpha()
 	/**
 	 * 2. Add STUDENTS_EMAIL_FIELD to CONFIG table.
 	 */
-	$students_email_field_added = DBGet( DBQuery( "SELECT FROM CONFIG WHERE TITLE='STUDENTS_EMAIL_FIELD'" ) );
+	$students_email_field_added = DBGet( DBQuery( "SELECT 1 FROM CONFIG WHERE TITLE='STUDENTS_EMAIL_FIELD'" ) );
 
 	if ( ! $students_email_field_added )
 	{
