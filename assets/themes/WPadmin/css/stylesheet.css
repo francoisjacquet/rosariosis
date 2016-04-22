@@ -105,6 +105,9 @@ a{
 iframe,img{
 	border:0
 }
+img{
+	max-width: 100%;
+}
 td,textarea{
 	line-height:inherit
 }
