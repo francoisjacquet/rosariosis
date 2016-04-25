@@ -71,7 +71,8 @@ function User( $item )
 		}
 		// FJ create account, diagnostic, PasswordReset.
 		elseif ( basename( $_SERVER['PHP_SELF'] ) === 'index.php'
-			|| $_SESSION['STAFF_ID'] === '-1' )
+			|| ( isset( $_SESSION['STAFF_ID'] )
+				&& $_SESSION['STAFF_ID'] === '-1' ) )
 		{
 			return false;
 		}
