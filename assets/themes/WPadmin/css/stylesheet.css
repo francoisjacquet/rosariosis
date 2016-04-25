@@ -25,6 +25,7 @@
 	position:relative;
 	float:left;
 	overflow: visible;
+	z-index: auto !important;
 }
 #menushadow{
 	position:absolute;
