@@ -5,11 +5,11 @@
 Version 2.9-beta1
 -----------------
 
-NOTE: Before Installing RosarioSIS, you must read and agree to the included license.
+NOTE: Before Installing RosarioSIS, you must read and agree to the included [license](LICENSE).
 
 RosarioSIS is a web based application which relies on other facilities such as a web server, PHP server-side scripting, and PostgreSQL database server.
 
-For RosarioSIS to work you must first have your web server working, PHP working, PostgreSQL working. Setting these up varies a lot with platform, operating system, and distribution so it is well beyond to scope of this brief install document.
+For RosarioSIS to work you must first have your web server working, PostgreSQL working, PHP working (including the `pgsql`, `gettext` & `mbstring` extensions). Setting these up varies a lot with platform, operating system, and distribution so it is well beyond to scope of this brief install document.
 
 RosarioSIS was tested on:
 
