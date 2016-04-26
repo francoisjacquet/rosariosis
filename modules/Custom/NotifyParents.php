@@ -17,7 +17,7 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 		$cc = User('EMAIL');
 	elseif ( !filter_var($test_email, FILTER_VALIDATE_EMAIL))
 		ErrorMessage(array(_('You must set the <b>test mode email</b> or have a user email address to use this script.')),'fatal');
-		
+
 	$subject = _('New Parent Account');
 
 	//FJ add Template
@@ -48,15 +48,15 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	//FJ change parent password generation
 			$password = $staff['USERNAME'] . rand(1000,9999);
 	//FJ add password encryption
-			$password_encrypted = encrypt_password($password);		
+			$password_encrypted = encrypt_password($password);
 			DBQuery("UPDATE STAFF SET PASSWORD='".$password_encrypted."' WHERE STAFF_ID='".$staff_id."'");
-			
-			$students_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME 
-			FROM STUDENTS s,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju 
-			WHERE sju.STAFF_ID='".$staff_id."' 
-			AND s.STUDENT_ID=sju.STUDENT_ID 
-			AND sse.STUDENT_ID=sju.STUDENT_ID 
-			AND sse.SYEAR='".UserSyear()."' 
+
+			$students_RET = DBGet(DBQuery("SELECT s.FIRST_NAME||' '||s.LAST_NAME AS FULL_NAME
+			FROM STUDENTS s,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju
+			WHERE sju.STAFF_ID='".$staff_id."'
+			AND s.STUDENT_ID=sju.STUDENT_ID
+			AND sse.STUDENT_ID=sju.STUDENT_ID
+			AND sse.SYEAR='".UserSyear()."'
 			AND sse.END_DATE IS NULL"));
 			//echo '<pre>'; var_dump($students_RET); echo '</pre>';
 
@@ -71,12 +71,12 @@ if (isset($_REQUEST['modfunc']) && $_REQUEST['modfunc']=='save')
 	//FJ add password encryption
 	//		$msg = str_replace('__PASSWORD__',$staff['PASSWORD'],$msg);
 			$msg = str_replace('__PASSWORD__',$password,$msg);
-			
+
 			//FJ add SendEmail function
 			require_once 'ProgramFunctions/SendEmail.fnc.php';
-			
+
 			$to = empty($test_email)?$staff['EMAIL']:$test_email;
-			
+
 			//FJ send email from rosariosis@[domain]
 			$result = SendEmail($to, $subject, $msg, null, $cc);
 
@@ -103,12 +103,12 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 	{
 		echo '<form action="Modules.php?modname='.$_REQUEST['modname'].'&modfunc=save" method="POST">';
 		$extra['header_right'] = SubmitButton(_('Notify Selected Parents'));
-		
+
 		$extra['extra_header_left'] = '<table>';
 
 		//FJ add Template
 		$templates = DBGet(DBQuery("SELECT TEMPLATE, STAFF_ID FROM TEMPLATES WHERE MODNAME = '".$_REQUEST['modname']."' AND STAFF_ID IN (0,'".User('STAFF_ID')."')"), array(), array('STAFF_ID'));
-		
+
 		$template = $templates[(isset($templates[User('STAFF_ID')]) ? User('STAFF_ID') : 0)][1]['TEMPLATE'];
 
 		$extra['extra_header_left'] .= '<tr class="st"><td>&nbsp;</td><td>' .
@@ -118,7 +118,7 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 				_( 'New Parent Account' ) . ' - ' . _( 'Email Text' ),
 				'inputnotifyparentstext'
 			) . '</td></tr>';
-		
+
 		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">'._('Substitutions').':</td><td><table><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__PARENT_NAME__</td><td>= '._('Parent Name').'</td><td>&nbsp;</td>';
 		$extra['extra_header_left'] .= '<td>__ASSOCIATED_STUDENTS__</td><td>= '._('Associated Students').'</td>';
@@ -128,7 +128,7 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 		$extra['extra_header_left'] .= '</tr><tr class="st">';
 		$extra['extra_header_left'] .= '<td>__SCHOOL_ID__</td><td>= '._('School').'</td><td colspan="3">&nbsp;</td>';
 		$extra['extra_header_left'] .= '</tr></table></td></tr>';
-		
+
 		$extra['extra_header_left'] .= '<tr class="st"><td style="vertical-align: top;">' .
 			_( 'Test Mode' ) . ':' . '</td><td>' .
 			TextInput(
@@ -147,14 +147,26 @@ if (empty($_REQUEST['modfunc']) || $_REQUEST['search_modfunc']=='list')
 	$extra['SELECT'] .= ",(SELECT count(st.STUDENT_ID) FROM STUDENTS st,STUDENT_ENROLLMENT sse,STUDENTS_JOIN_USERS sju WHERE sju.STAFF_ID=s.STAFF_ID AND st.STUDENT_ID=sju.STUDENT_ID AND sse.STUDENT_ID=sju.STUDENT_ID AND sse.SYEAR='".UserSyear()."' AND sse.END_DATE IS NULL) AS ASSOCIATED";
 
 	$extra['WHERE'] = " AND s.LAST_LOGIN IS NULL";
-	$extra['functions'] = array('CHECKBOX' => '_makeChooseCheckbox');
-	$extra['columns_before'] = array('CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'staff\');" /><A>');
-	$extra['columns_after'] = array('ASSOCIATED' => _('Associated Students'),'USERNAME' => _('Username'),'EMAIL' => _('Email'));
-	$extra['link'] = array('FULL_NAME'=>false);
+
+	$extra['functions'] = array( 'CHECKBOX' => '_makeChooseCheckbox' );
+
+	$extra['columns_before'] = array( 'CHECKBOX' => '</a><input type="checkbox" value="Y" name="controller" onclick="checkAll(this.form,this.checked,\'staff\');" /><A>' );
+
+	$extra['columns_after'] = array(
+		'ASSOCIATED' => _( 'Associated Students' ),
+		'USERNAME' => _( 'Username' ),
+		'EMAIL' => _( 'Email' ),
+	);
+
+	$extra['link'] = array( 'FULL_NAME' => false );
+
 	$extra['profile'] = 'parent';
+
+	$extra['search_title'] = _( 'Find Parents who never logged in' );
+
 	$extra['new'] = true;
 
-	Search('staff_id',$extra);
+	Search( 'staff_id', $extra );
 
 	if ( $_REQUEST['search_modfunc']=='list')
 	{

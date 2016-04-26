@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RosarioSIS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-25 17:01-0500\n"
-"PO-Revision-Date: 2016-04-25 17:05-0500\n"
+"POT-Creation-Date: 2016-04-26 12:28-0500\n"
+"PO-Revision-Date: 2016-04-26 12:31-0500\n"
 "Last-Translator: François Jacquet <info@rosariosis.org>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -199,7 +199,7 @@ msgstr "Olvidó su contraseña?"
 #: PasswordReset.php:305 modules/Custom/CreateParents.php:233
 #: modules/Custom/CreateParents.php:293 modules/Custom/CreateParents.php:309
 #: modules/Custom/NotifyParents.php:87 modules/Custom/NotifyParents.php:137
-#: modules/Custom/NotifyParents.php:152
+#: modules/Custom/NotifyParents.php:158
 msgid "Email"
 msgstr "Email"
 
@@ -1109,7 +1109,7 @@ msgstr "Nombre comienza con"
 #: functions/GetStaffList.fnc.php:195 functions/StaffWidgets.fnc.php:163
 #: functions/StaffWidgets.fnc.php:171
 #: modules/Food_Service/Users/Reminders.php:139 modules/Users/Search.inc.php:62
-#: modules/Users/Search.inc.php:205
+#: modules/Users/Search.inc.php:229
 msgid "Profile"
 msgstr "Perfil"
 
@@ -1267,7 +1267,7 @@ msgstr "Información de Contacto"
 #: modules/Students/Search.inc.php:200
 #: modules/Students/includes/General_Info.inc.php:98
 #: modules/Students/includes/General_Info.inc.php:100
-#: modules/Users/Search.inc.php:201 modules/Users/Search.inc.php:205
+#: modules/Users/Search.inc.php:218 modules/Users/Search.inc.php:230
 #: modules/Users/includes/General_Info.inc.php:102 modules/misc/Export.php:135
 #: modules/misc/Export.php:471
 #, php-format
@@ -2080,7 +2080,7 @@ msgstr "Idioma"
 
 #: index.php:353 modules/Custom/CreateParents.php:233
 #: modules/Custom/CreateParents.php:282 modules/Custom/NotifyParents.php:87
-#: modules/Custom/NotifyParents.php:126 modules/Custom/NotifyParents.php:152
+#: modules/Custom/NotifyParents.php:126 modules/Custom/NotifyParents.php:157
 #: modules/School_Setup/Configuration.php:174
 #: modules/Students/includes/General_Info.inc.php:110
 #: modules/Users/Search.inc.php:37
@@ -3058,7 +3058,7 @@ msgid "Parent Name"
 msgstr "Nombre del Padre"
 
 #: modules/Custom/CreateParents.php:280 modules/Custom/NotifyParents.php:124
-#: modules/Custom/NotifyParents.php:152
+#: modules/Custom/NotifyParents.php:156
 msgid "Associated Students"
 msgstr "Estudiantes Asociados"
 
@@ -3156,9 +3156,13 @@ msgstr[1] "Resultados de Notificación"
 msgid "You must choose at least one user"
 msgstr "Debe escoger por lo menos un usuario"
 
-#: modules/Custom/NotifyParents.php:105 modules/Custom/NotifyParents.php:161
+#: modules/Custom/NotifyParents.php:105 modules/Custom/NotifyParents.php:173
 msgid "Notify Selected Parents"
 msgstr "Notificar los Padres Seleccionados"
+
+#: modules/Custom/NotifyParents.php:165
+msgid "Find Parents who never logged in"
+msgstr "Encontrar Padres que nunca han iniciado sesión"
 
 #: modules/Custom/Registration.php:161
 msgid ""
@@ -3532,8 +3536,7 @@ msgstr[1] "Docentes que no han entrado la elegibilidad"
 #: modules/Food_Service/Users/ActivityReport.php:65
 #: modules/Food_Service/Users/ActivityReport.php:79
 #: modules/Food_Service/Users/Statements.php:66
-#: modules/Users/Search.inc.php:205 modules/Users/Search.inc.php:253
-#: modules/Users/User.php:358
+#: modules/Users/Search.inc.php:228 modules/Users/User.php:358
 msgid "User"
 msgstr "Usuario"
 
@@ -3958,7 +3961,7 @@ msgstr "Vista Detallada"
 #: modules/Food_Service/Students/Statements.php:55
 #: modules/Food_Service/Users/ActivityReport.php:103
 #: modules/Food_Service/Users/Statements.php:30
-#: modules/Students/Search.inc.php:215 modules/Users/Search.inc.php:227
+#: modules/Students/Search.inc.php:215 modules/Users/Search.inc.php:253
 msgid "Original View"
 msgstr "Vista Original"
 
@@ -6994,7 +6997,7 @@ msgstr "Búsqueda Avanzada"
 
 #: modules/Students/Search.inc.php:213 modules/Users/Preferences.php:536
 #: modules/Users/Preferences.php:538 modules/Users/Preferences.php:602
-#: modules/Users/Search.inc.php:225
+#: modules/Users/Search.inc.php:251
 msgid "Expanded View"
 msgstr "Vista Ampliada"
 
@@ -7461,7 +7464,7 @@ msgstr "Incluir Padres de Estudiantes Inactivos"
 msgid "Choose A User"
 msgstr "Escoga un Usuario"
 
-#: modules/Users/Search.inc.php:305
+#: modules/Users/Search.inc.php:328
 msgid "No Users were found."
 msgstr "No Usuarios encontrados."
 

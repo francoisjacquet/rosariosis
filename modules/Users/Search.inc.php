@@ -44,7 +44,7 @@ if ( ! $_REQUEST['search_modfunc'])
 					'admin' => _( 'Administrator' ),
 					'teacher' => _( 'Teacher' ),
 					'parent' => _( 'Parent' ),
-					'none' => _( 'No Access' )
+					'none' => _( 'No Access' ),
 				);
 			}
 			else
@@ -52,7 +52,7 @@ if ( ! $_REQUEST['search_modfunc'])
 				$options = array(
 					'' => _( 'N/A' ),
 					'teacher' => _( 'Teacher' ),
-					'parent' => _( 'Parent' )
+					'parent' => _( 'Parent' ),
 				);
 			}
 
@@ -117,7 +117,7 @@ if ( ! $_REQUEST['search_modfunc'])
 
 				echo '</table>';
 			}
-				
+
 			//echo '<table><tr class="valign-top"><td>';
 
 			if ( $_REQUEST['advanced']=='Y')
@@ -192,17 +192,43 @@ else
 
 	$staff_RET = GetStaffList($extra);
 
-	if ( $extra['profile'])
+	if ( $extra['profile'] )
 	{
-		// DO NOT translate those strings since they will be passed to ListOutput ultimately
-		$options = array('admin' => 'Administrator','teacher' => 'Teacher','parent' => 'Parent','none' => 'No Access');
-		$singular = $options[$extra['profile']];
-		$plural = $singular.($options[$extra['profile']]=='none'?'':'s');
-		$columns = array('FULL_NAME' => $singular,'STAFF_ID'=>sprintf(_('%s ID'),Config('NAME')));
+		// DO NOT translate those strings since they will be passed to ListOutput ultimately.
+		$options = array(
+			'admin' => 'Administrator',
+			'teacher' => 'Teacher',
+			'parent' => 'Parent',
+			'none' => 'No Access',
+		);
+
+		$options_plural = array(
+			'admin' => 'Administrators',
+			'teacher' => 'Teachers',
+			'parent' => 'Parents',
+			'none' => 'No Access',
+		);
+
+		$singular = $options[ $extra['profile'] ];
+
+		$plural = $options_plural[ $extra['profile'] ];
+
+		$columns = array(
+			'FULL_NAME' => $singular,
+			'STAFF_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
+		);
 	}
 	else
 	{
-		$columns = array('FULL_NAME' => _('User'),'PROFILE' => _('Profile'),'STAFF_ID'=>sprintf(_('%s ID'),Config('NAME')));
+		$singular = 'User';
+
+		$plural = 'Users';
+
+		$columns = array(
+			'FULL_NAME' => _( 'User' ),
+			'PROFILE' => _( 'Profile' ),
+			'STAFF_ID' => sprintf( _( '%s ID' ), Config( 'NAME' ) ),
+		);
 	}
 
 	$name_link['FULL_NAME']['link'] = 'Modules.php?modname='.$_REQUEST['next_modname'];
@@ -247,10 +273,7 @@ else
 			echo '<script>ajaxLink("Bottom.php"); old_modname="";</script>';
 		}
 
-		if ( $extra['profile'])
-			ListOutput($staff_RET,$columns,$singular,$plural,$link,false,$extra['options']);
-		else
-			ListOutput($staff_RET,$columns,'User','Users',$link,false,$extra['options']);
+		ListOutput( $staff_RET, $columns, $singular, $plural, $link, false, $extra['options'] );
 	}
 	elseif (count($staff_RET)==1)
 	{
@@ -291,7 +314,7 @@ else
 		}
 	}
 	else
-	{		
+	{
 		DrawHeader('',$extra['header_right']);
 
 		if ( $extra['extra_header_left']
