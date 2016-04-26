@@ -1079,7 +1079,12 @@ function _makeCommentsB( $value, $column )
 
 	if ( $import_commentsB_RET[ $THIS_RET['STUDENT_ID'] ][ $value ] )
 	{
-		$select = $import_commentsB_RET[$THIS_RET['STUDENT_ID']][ $value ]['REPORT_CARD_COMMENT_ID'];
+		$select = null;
+
+		if ( isset( $import_commentsB_RET[ $THIS_RET['STUDENT_ID'] ][ $value ]['REPORT_CARD_COMMENT_ID'] ) )
+		{
+			$select = $import_commentsB_RET[$THIS_RET['STUDENT_ID']][ $value ]['REPORT_CARD_COMMENT_ID'];
+		}
 
 		$div = false;
 	}
