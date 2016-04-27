@@ -152,13 +152,17 @@ if ( isset( $_REQUEST['h'] )
 
 		if ( $custom_field )
 		{
-			// Select Students where last login > now.
-			$student_RET = DBGet( DBQuery( "SELECT STUDENT_ID AS ID, USERNAME, PASSWORD,
-				" . $custom_field . " AS EMAIL,
-				LAST_NAME||', '||FIRST_NAME AS FULL_NAME, LAST_LOGIN
-				FROM STUDENTS
-				WHERE LAST_LOGIN > CURRENT_TIMESTAMP
-				AND SYEAR='" . Config( 'SYEAR' ) . "'" ) );
+			// Select Students where last login > now & enrolled.
+			$student_RET = DBGet( DBQuery( "SELECT s.STUDENT_ID AS ID, s.USERNAME, s.PASSWORD,
+				s." . $custom_field . " AS EMAIL,
+				s.LAST_NAME||', '||s.FIRST_NAME AS FULL_NAME, s.LAST_LOGIN
+				FROM STUDENTS s, STUDENT_ENROLLMENT se
+				WHERE s.LAST_LOGIN > CURRENT_TIMESTAMP
+				AND se.SYEAR='" . Config( 'SYEAR' ) . "'
+				AND se.STUDENT_ID=s.STUDENT_ID
+				AND ('" . DBDate() . "'>=se.START_DATE
+					AND ('" . DBDate() . "'<=se.END_DATE
+						OR se.END_DATE IS NULL ) )" ) );
 		}
 	}
 
