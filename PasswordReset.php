@@ -251,11 +251,8 @@ if ( isset( $_REQUEST['h'] )
 						$_REQUEST['VERIFY']
 					);
 
-					if ( $unset_username )
-					{
-						unset( $_SESSION['USERNAME'] );
-						unset( $_SESSION['STAFF_ID'] );
-					}
+					unset( $_SESSION['USERNAME'] );
+					unset( $_SESSION['STAFF_ID'] );
 
 					// Redirect to login page.
 					header( 'Location: index.php' );
@@ -270,11 +267,8 @@ if ( isset( $_REQUEST['h'] )
 
 			_passwordResetForm( $_REQUEST['h'], $user_id );
 
-			if ( $unset_username )
-			{
-				unset( $_SESSION['USERNAME'] );
-				unset( $_SESSION['STAFF_ID'] );
-			}
+			unset( $_SESSION['USERNAME'] );
+			unset( $_SESSION['STAFF_ID'] );
 
 			exit;
 		}
