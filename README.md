@@ -6,16 +6,14 @@ RosarioSIS Student Information System
 License
 -------
 
-RosarioSIS is "free" software released under the GNU General Public License version 2.
-A copy of this license is included in the 'LICENSE' file part of this distribution, and
-can also be found online at http://www.gnu.org/licenses/old-licenses/gpl-2.0.html.
+RosarioSIS is "free" software released under the [GNU General Public License version 2](LICENSE).
 You MUST read and agree to the terms of this license prior to installing RosarioSIS.
 
 
 Documentation
 -------------
 
-For installation directions, please refer to the [INSTALL.md](https://github.com/francoisjacquet/rosariosis/blob/mobile/INSTALL.md) file part of this distribution.
+For installation directions, please refer to the [INSTALL.md](INSTALL.md) file part of this distribution.
 
 [Quick Setup Guide](https://github.com/francoisjacquet/rosariosis/wiki/Quick-Setup-Guide)
 
