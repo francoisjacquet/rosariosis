@@ -140,12 +140,20 @@ if (empty($_REQUEST['modfunc']))
 		DrawHeader('',SubmitButton(_('Save')));
 		echo '<br />';
 
-		if ( $_REQUEST['category_id'])
-			$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS WHERE CATEGORY_ID='".$_REQUEST['category_id']."'"),array(),array('TYPE'));
+		if ( $_REQUEST['category_id'] )
+		{
+			$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
+				FROM CUSTOM_FIELDS
+				WHERE CATEGORY_ID='" . $_REQUEST['category_id'] . "'" ), array(), array( 'TYPE' ) );
+		}
 		else
-			$fields_RET = DBGet(DBQuery("SELECT ID,TITLE,TYPE,SELECT_OPTIONS FROM CUSTOM_FIELDS"),array(),array('TYPE'));
+		{
+			$fields_RET = DBGet( DBQuery( "SELECT ID,TITLE,TYPE,SELECT_OPTIONS
+				FROM CUSTOM_FIELDS"), array(), array( 'TYPE' ) );
+		}
 
-		$categories_RET = DBGet(DBQuery("SELECT ID,TITLE FROM STUDENT_FIELD_CATEGORIES"));
+		$categories_RET = DBGet( DBQuery( "SELECT ID,TITLE
+			FROM STUDENT_FIELD_CATEGORIES" ) );
 
 		//FJ css WPadmin
 		echo '<div class="center">';
@@ -162,217 +170,201 @@ if (empty($_REQUEST['modfunc']))
 
 		echo '</div><table class="widefat cellspacing-0 center col1-align-right">';
 
-		if (count($fields_RET['text']))
+		if ( isset( $fields_RET['text'] ) )
 		{
-			foreach ( (array) $fields_RET['text'] as $field)
-				echo '<tr><td><b>'.ParseMLField($field['TITLE']).'</b></td><td>'._makeTextInput('CUSTOM_'.$field['ID']).'</td></tr>';
-		}
-
-		if (count($fields_RET['numeric']))
-		{
-			foreach ( (array) $fields_RET['numeric'] as $field)
-				echo '<tr><td><b>'.ParseMLField($field['TITLE']).'</b></td><td>'._makeTextInput('CUSTOM_'.$field['ID'],true).'</td></tr>';
-		}
-
-		if (count($fields_RET['date']))
-		{
-			foreach ( (array) $fields_RET['date'] as $field)
-				echo '<tr><td><b>'.ParseMLField($field['TITLE']).'</b></td><td>'._makeDateInput('CUSTOM_'.$field['ID']).'</td></tr>';
-		}
-
-		if (count($fields_RET['select']))
-		{
-			foreach ( (array) $fields_RET['select'] as $field)
+			foreach ( (array) $fields_RET['text'] as $field )
 			{
-				$select_options = array();
-
-				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS']));
-
-				if (count($options))
-				{
-					foreach ( (array) $options as $option)
-						if ( $option!='')
-							$select_options[ $option ] = $option;
-				}
-
-				echo '<tr><td><b>'.ParseMLField($field[TITLE]).'</b></td><td>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</td></tr>';
+				echo '<tr class="st"><td><b>' . ParseMLField( $field['TITLE'] ) .'</b></td>
+				<td>' . _makeTextInput( 'CUSTOM_' . $field['ID'] ) . '</td></tr>';
 			}
 		}
 
-		if (count($fields_RET['codeds']))
+		if ( isset( $fields_RET['numeric'] ) )
 		{
-			foreach ( (array) $fields_RET['codeds'] as $field)
+			foreach ( (array) $fields_RET['numeric'] as $field )
 			{
-				$select_options = array();
-				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS']));
-
-				if (count($options))
-				{
-					foreach ( (array) $options as $option)
-					{
-						$option = explode('|',$option);
-						if ( $option[0]!='' && $option[1]!='')
-							$select_options[$option[0]] = $option[1];
-					}
-				}
-				echo '<tr><td><b>'.ParseMLField($field[TITLE]).'</b></td><td>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</td></tr>';
+				echo '<tr class="st"><td><b>' . ParseMLField( $field['TITLE'] ) . '</b></td>
+				<td>' . _makeTextInput( 'CUSTOM_' . $field['ID'], true ) . '</td></tr>';
 			}
 		}
 
-		// TODO: (see Search.fnc.php)
-		// merge select, autos, edits, exports & codeds
-		// (same or similar SELECT output)
-		foreach ( (array) $fields_RET['autos'] as $field )
+		if ( isset( $fields_RET['date'] ) )
 		{
-			$select_options = array();
+			foreach ( (array) $fields_RET['date'] as $field )
+			{
+				echo '<tr class="st"><td><b>' . ParseMLField( $field['TITLE'] ) . '</b></td>
+				<td>' . _makeDateInput( 'CUSTOM_' . $field['ID'] ) . '</td></tr>';
+			}
+		}
 
-			$options = explode(
-				"\r",
-				str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] )
-			);
+		// Merge select, autos, edits, exports & codeds
+		// (same or similar SELECT output).
+		$fields_RET['select_autos_edits_exports_codeds'] = array_merge(
+			(array) $fields_RET['select'],
+			(array) $fields_RET['autos'],
+			(array) $fields_RET['edits'],
+			(array) $fields_RET['exports'],
+			(array) $fields_RET['codeds']
+		);
+
+		// Select.
+		foreach ( (array) $fields_RET['select_autos_edits_exports_codeds'] as $field )
+		{
+			$options = $select_options = array();
+
+			$col_name = 'CUSTOM_' . $field['ID'];
+
+			if ( $field['SELECT_OPTIONS'] )
+			{
+				$options = explode(
+					"\r",
+					str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS'] )
+				);
+			}
 
 			foreach ( (array) $options as $option )
-				if ( $option != '' )
-					$select_options[ $option ] = $option;
-
-			// add the 'new' option, is also the separator
-			$select_options['---'] = '-' . _( 'Edit' ) . '-';
-
-			$field_name = 'CUSTOM_' . $field['ID'];
-
-			// add values found in current and previous year
-			$options_RET = DBGet( DBQuery( "SELECT DISTINCT s." . $field_name . ",upper(s." . $field_name . ") AS KEY
-				FROM STUDENTS s,STUDENT_ENROLLMENT sse
-				WHERE sse.STUDENT_ID=s.STUDENT_ID
-				AND (sse.SYEAR='" . UserSyear() . "' OR sse.SYEAR='" . ( UserSyear() - 1 ) . "')
-				AND s." . $field_name . " IS NOT NULL
-				AND s." . $field_name . " != ''
-				ORDER BY KEY" ) );
-
-			foreach ( (array) $options_RET as $option )
-				if ( !in_array( $option[ $field_name ], $options ) )
-					$select_options[$option[ $field_name ]] = array(
-						$option[ $field_name ],
-						'<span style="color:blue">' . $option[ $field_name ] . '</span>'
-					);
-
-			echo '<tr><td><b>'.ParseMLField($field['TITLE']).'</b></td><td>'._makeSelectInput($field_name,$select_options).'</td></tr>';
-		}
-
-		if (count($fields_RET['edits']))
 			{
-			foreach ( (array) $fields_RET['edits'] as $field)
-			{
-				$select_options = array();
-				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS']));
+				$value = $option;
 
-				if (count($options))
+				// Exports specificities.
+				if ( $field['TYPE'] === 'exports' )
 				{
-					foreach ( (array) $options as $option)
-						if ( $option!='')
-							$select_options[ $option ] = $option;
+					$option = explode( '|', $option );
+
+					$option = $value = $option[0];
 				}
-				// add the 'new' option
-//FJ new option
-//				$select_options['---'] = '---';
-				$select_options['---'] = '-'. _('Edit') .'-';
-
-				echo '<tr><td><b>'.ParseMLField($field[TITLE]).'</b></td><td>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</td></tr>';
-			}
-		}
-
-		if (count($fields_RET['exports']))
-		{
-			foreach ( (array) $fields_RET['exports'] as $field)
-			{
-				$select_options = array();
-				$options = explode( "\r", str_replace( array( "\r\n", "\n" ), "\r", $field['SELECT_OPTIONS']));
-
-				if (count($options))
+				// Codeds specificities.
+				elseif ( $field['TYPE'] === 'codeds' )
 				{
-					foreach ( (array) $options as $option)
+					list( $value, $option ) = explode( '|', $option );
+				}
+
+				if ( $value !== ''
+					&& $option !== '' )
+				{
+					$select_options[ $value ] = $option;
+				}
+			}
+
+			// Get autos / edits pull-down edited options.
+			if ( $col['TYPE'] === 'autos'
+				|| $col['TYPE'] === 'edits' )
+			{
+				$sql_options = "SELECT DISTINCT s." . $col_name . ",upper(s." . $col_name . ") AS SORT_KEY
+					FROM STUDENTS s,STUDENT_ENROLLMENT sse
+					WHERE sse.STUDENT_ID=s.STUDENT_ID
+					AND (sse.SYEAR='" . UserSyear() . "' OR sse.SYEAR='" . ( UserSyear() - 1 ) . "')
+					AND s." . $col_name . " IS NOT NULL
+					AND s." . $col_name . " != ''
+					ORDER BY SORT_KEY";
+
+				$options_RET = DBGet( DBQuery( $sql_options ) );
+
+				// Add the 'new' option, is also the separator.
+				$select_options['---'] = '-' . _( 'Edit' ) . '-';
+
+				foreach ( (array) $options_RET as $option )
+				{
+					if ( ! in_array( $option[ $col_name ], $select_options ) )
 					{
-						$option = explode('|',$option);
-						if ( $option[0]!='')
-							$select_options[$option[0]] = $option[0];
+						$select_options[ $option[ $col_name ] ] = '<span style="color:blue">' . $option[ $col_name ] . '</span>';
 					}
 				}
-				echo '<tr><td><b>'.ParseMLField($field[TITLE]).'</b></td><td>'._makeSelectInput('CUSTOM_'.$field['ID'],$select_options).'</td></tr>';
 			}
+
+			echo '<tr class="st"><td><b>' . ParseMLField( $field['TITLE'] ) . '</b></td>
+			<td>' . _makeSelectInput( $col_name, $select_options ) . '</td></tr>';
 		}
 
-		if (count($fields_RET['textarea']))
+		if ( isset( $fields_RET['textarea'] ) )
 		{
-			foreach ( (array) $fields_RET['textarea'] as $field)
+			foreach ( (array) $fields_RET['textarea'] as $field )
 			{
-				echo '<tr><td><b>'.ParseMLField($field['TITLE']).'</b></td><td>';
-				echo _makeTextAreaInput('CUSTOM_'.$field['ID']);
-				echo '</td></tr>';
+				echo '<tr class="st"><td><b>' . ParseMLField( $field['TITLE'] ) . '</b></td>
+				<td>' . _makeTextAreaInput( 'CUSTOM_' . $field['ID'] ) . '</td></tr>';
 			}
 		}
 
 		if ( ! $_REQUEST['category_id'] || $_REQUEST['category_id']=='1')
 		{
-			echo '<tr><td><b>'._('Grade Level').'</b></td><td>';
-			$gradelevels_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOL_GRADELEVELS WHERE SCHOOL_ID='".UserSchool()."' ORDER BY SORT_ORDER"));
+			$gradelevels_RET = DBGet( DBQuery( "SELECT ID,TITLE
+				FROM SCHOOL_GRADELEVELS
+				WHERE SCHOOL_ID='" . UserSchool() . "'
+				ORDER BY SORT_ORDER" ) );
+
 			$options = array();
-			if (count($gradelevels_RET))
-			{
-				foreach ( (array) $gradelevels_RET as $gradelevel)
-					$options[$gradelevel['ID']] = $gradelevel['TITLE'];
-			}
-			echo _makeSelectInput('GRADE_ID',$options);
-			echo '</td></tr>';
 
-			echo '<tr><td><b>'._('Rolling / Retention Options').'</b></td><td>';
-			$schools_RET = DBGet(DBQuery("SELECT ID,TITLE FROM SCHOOLS WHERE ID!='".UserSchool()."' AND SYEAR='".UserSyear()."'"));
-			$options = array(UserSchool() => _('Next grade at current school'),'0' => _('Retain'),'-1' => _('Do not enroll after this school year'));
-			if (count($schools_RET))
+			foreach ( (array) $gradelevels_RET as $gradelevel )
 			{
-				foreach ( (array) $schools_RET as $school)
-					$options[$school['ID']] = $school['TITLE'];
+				$options[ $gradelevel['ID'] ] = $gradelevel['TITLE'];
 			}
-			echo _makeSelectInput('NEXT_SCHOOL',$options);
-			echo '</td></tr>';
 
-			echo '<tr><td><b>'._('Calendar').'</b></td><td>';
-			$calendars_RET = DBGet(DBQuery("SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE FROM ATTENDANCE_CALENDARS WHERE SYEAR='".UserSyear()."' AND SCHOOL_ID='".UserSchool()."' ORDER BY DEFAULT_CALENDAR ASC"));
+			echo '<tr class="st"><td><b>' . _( 'Grade Level' ) . '</b></td>
+			<td>' . _makeSelectInput( 'GRADE_ID', $options ) . '</td></tr>';
+
+			$schools_RET = DBGet( DBQuery( "SELECT ID,TITLE
+				FROM SCHOOLS
+				WHERE ID!='" . UserSchool() . "'
+				AND SYEAR='" . UserSyear() . "'" ) );
+
+			$options = array(
+				UserSchool() => _( 'Next grade at current school' ),
+				'0' => _( 'Retain' ),
+				'-1' => _( 'Do not enroll after this school year' ),
+			);
+
+			foreach ( (array) $schools_RET as $school )
+			{
+				$options[ $school['ID'] ] = $school['TITLE'];
+			}
+
+			echo '<tr class="st"><td><b>' . _( 'Rolling / Retention Options' ) . '</b></td>
+			<td>' . _makeSelectInput( 'NEXT_SCHOOL', $options ) . '</td></tr>';
+
+			$calendars_RET = DBGet( DBQuery( "SELECT CALENDAR_ID,DEFAULT_CALENDAR,TITLE
+				FROM ATTENDANCE_CALENDARS
+				WHERE SYEAR='" . UserSyear() . "'
+				AND SCHOOL_ID='" . UserSchool() . "'
+				ORDER BY DEFAULT_CALENDAR ASC" ) );
+
 			$options = array();
-			if (count($calendars_RET))
-			{
-				foreach ( (array) $calendars_RET as $calendar)
-					$options[$calendar['CALENDAR_ID']] = $calendar['TITLE'];
-			}
-			echo _makeSelectInput('CALENDAR_ID',$options);
-			echo '</td></tr>';
 
-			echo '<tr><td><b>'._('Attendance Start Date this School Year').'</b></td><td>';
-			$options_RET = DBGet(DBQuery("SELECT ID,TITLE AS TITLE FROM STUDENT_ENROLLMENT_CODES WHERE SYEAR='".UserSyear()."' AND TYPE='Add' ORDER BY SORT_ORDER"));
-			if ( $options_RET)
+			foreach ( (array) $calendars_RET as $calendar )
 			{
-				foreach ( (array) $options_RET as $option)
-					$add_codes[$option['ID']] = $option['TITLE'];
+				$options[ $calendar['CALENDAR_ID'] ] = $calendar['TITLE'];
 			}
-			echo '<div class="nobr">'._makeDateInput('START_DATE').' - '._makeSelectInput('ENROLLMENT_CODE',$add_codes).'</div>';
-			echo '</td></tr>';
+
+			echo '<tr class="st"><td><b>' . _( 'Calendar' ) . '</b></td>
+			<td>' . _makeSelectInput( 'CALENDAR_ID', $options ) . '</td></tr>';
+
+			$enrollment_codes_RET = DBGet( DBQuery( "SELECT ID,TITLE AS TITLE
+				FROM STUDENT_ENROLLMENT_CODES
+				WHERE SYEAR='" . UserSyear() . "'
+				AND TYPE='Add'
+				ORDER BY SORT_ORDER" ) );
+
+			$options = array();
+
+			foreach ( (array) $enrollment_codes_RET as $enrollment_code )
+			{
+				$options[ $enrollment_code['ID'] ] = $enrollment_code['TITLE'];
+			}
+
+			echo '<tr class="st"><td><b>' . _( 'Attendance Start Date this School Year' ) . '</b></td>
+			<td class="nobr">' . _makeDateInput( 'START_DATE' ) . ' - ' .
+				_makeSelectInput( 'ENROLLMENT_CODE', $options ) . '</td></tr>';
+		}
+
+		if ( isset( $fields_RET['radio'] ) )
+		{
+			foreach ( $fields_RET['radio'] as $field )
+			{
+				echo '<tr class="st"><td><b>' . ParseMLField( $field['TITLE'] ) . '</b></td>
+				<td>' . _makeCheckboxInput(	'CUSTOM_' . $field['ID'] ) . '</td></tr>';
+			}
 		}
 
 		echo '</table><br />';
-
-		$radio_count = count($fields_RET['radio']);
-		if ( $radio_count)
-		{
-			echo '<table class="widefat cellspacing-0 cellpadding-5 center"><tr>';
-			for ( $i=1;$i<=$radio_count;$i++)
-			{
-				echo '<td>'._makeCheckboxInput('CUSTOM_'.$fields_RET['radio'][ $i ]['ID'],'<b>'.ParseMLField($fields_RET['radio'][ $i ]['TITLE']).'</b>').'</td>';
-				if ( $i%5==0 && $i!=$radio_count)
-					echo '</tr><tr>';
-			}
-			echo '</tr></table>';
-		}
-
-		echo '<br />';
 	}
 
 	//Widgets('activity');
@@ -388,38 +380,44 @@ if (empty($_REQUEST['modfunc']))
 		echo '<br /><div class="center">' . SubmitButton( _( 'Save' ) ) . '</div></form>';
 }
 
-function _makeChooseCheckbox($value,$title='')
-{	global $THIS_RET;
 
-	return '<input type="checkbox" name="student['.$THIS_RET['STUDENT_ID'].']" value="Y">';
+function _makeChooseCheckbox( $value, $title = '' )
+{
+	global $THIS_RET;
+
+	return '<input type="checkbox" name="student[' . $THIS_RET['STUDENT_ID'] . ']" value="Y" />';
 }
 
-function _makeTextInput($column,$numeric=false)
+function _makeTextInput( $column, $numeric = false )
 {
-	if ( $numeric===true)
-		$options = 'size=3 maxlength=11';
+	if ( $numeric === true )
+	{
+		$options = 'size=10 maxlength=11';
+	}
 	else
+	{
 		$options = 'size=20';
+	}
 
-	return TextInput('','values['.$column.']','',$options);
+	return TextInput( '', 'values[' . $column . ']', '', $options );
 }
 
-function _makeTextAreaInput($column,$numeric=false)
+function _makeTextAreaInput( $column )
 {
-	return TextAreaInput('','values['.$column.']');
+	return TextAreaInput( '', 'values[' . $column . ']' );
 }
 
-function _makeDateInput($column)
+function _makeDateInput( $column )
 {
-	return DateInput('','values['.$column.']','');
+	return DateInput( '', 'values[' . $column . ']', '' );
 }
 
-function _makeSelectInput($column,$options)
+function _makeSelectInput( $column, $options )
 {
-	return SelectInput('','values['.$column.']','',$options,_('N/A'),"style='max-width:190px;'");
+	return SelectInput( '', 'values[' . $column . ']', '', $options, _( 'N/A' ), "style='max-width:190px;'" );
 }
 
-function _makeCheckboxInput($column,$name)
+function _makeCheckboxInput( $column )
 {
-	return CheckboxInput('','values['.$column.']',$name,'',true);
+	return CheckboxInput( '', 'values[' . $column . ']', '', '', true );
 }
